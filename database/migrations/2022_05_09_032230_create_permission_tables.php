@@ -136,6 +136,8 @@ return new class extends Migration
      * Reverse the migrations.
      *
      * @return void
+     *
+     * @throw Exception
      */
     public function down(): void
     {

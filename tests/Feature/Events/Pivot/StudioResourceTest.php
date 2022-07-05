@@ -10,6 +10,7 @@ use App\Events\Pivot\StudioResource\StudioResourceUpdated;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Studio;
 use App\Pivots\StudioResource;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
@@ -79,5 +80,37 @@ class StudioResourceTest extends TestCase
         $studioResource->save();
 
         Event::assertDispatched(StudioResourceUpdated::class);
+    }
+
+    /**
+     * The StudioResourceUpdated event shall contain embed fields.
+     *
+     * @return void
+     */
+    public function testStudioResourceUpdatedEventEmbedFields(): void
+    {
+        Event::fake();
+
+        $studio = Studio::factory()->createOne();
+        $resource = ExternalResource::factory()->createOne();
+
+        $studioResource = StudioResource::factory()
+            ->for($studio, 'studio')
+            ->for($resource, 'resource')
+            ->createOne();
+
+        $changes = StudioResource::factory()
+            ->for($studio, 'studio')
+            ->for($resource, 'resource')
+            ->makeOne();
+
+        $studioResource->fill($changes->getAttributes());
+        $studioResource->save();
+
+        Event::assertDispatched(StudioResourceUpdated::class, function (StudioResourceUpdated $event) {
+            $message = $event->getDiscordMessage();
+
+            return ! empty(Arr::get($message->embed, 'fields'));
+        });
     }
 }

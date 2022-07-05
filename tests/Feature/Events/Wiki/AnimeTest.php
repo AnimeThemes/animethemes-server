@@ -9,6 +9,7 @@ use App\Events\Wiki\Anime\AnimeDeleted;
 use App\Events\Wiki\Anime\AnimeRestored;
 use App\Events\Wiki\Anime\AnimeUpdated;
 use App\Models\Wiki\Anime;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
@@ -97,5 +98,27 @@ class AnimeTest extends TestCase
         $anime->save();
 
         Event::assertDispatched(AnimeUpdated::class);
+    }
+
+    /**
+     * The AnimeUpdated event shall contain embed fields.
+     *
+     * @return void
+     */
+    public function testAnimeUpdatedEventEmbedFields(): void
+    {
+        Event::fake();
+
+        $anime = Anime::factory()->createOne();
+        $changes = Anime::factory()->makeOne();
+
+        $anime->fill($changes->getAttributes());
+        $anime->save();
+
+        Event::assertDispatched(AnimeUpdated::class, function (AnimeUpdated $event) {
+            $message = $event->getDiscordMessage();
+
+            return ! empty(Arr::get($message->embed, 'fields'));
+        });
     }
 }

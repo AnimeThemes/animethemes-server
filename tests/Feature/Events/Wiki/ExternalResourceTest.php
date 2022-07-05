@@ -9,6 +9,7 @@ use App\Events\Wiki\ExternalResource\ExternalResourceDeleted;
 use App\Events\Wiki\ExternalResource\ExternalResourceRestored;
 use App\Events\Wiki\ExternalResource\ExternalResourceUpdated;
 use App\Models\Wiki\ExternalResource;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
@@ -97,5 +98,27 @@ class ExternalResourceTest extends TestCase
         $resource->save();
 
         Event::assertDispatched(ExternalResourceUpdated::class);
+    }
+
+    /**
+     * The ExternalResourceUpdated event shall contain embed fields.
+     *
+     * @return void
+     */
+    public function testExternalResourceUpdatedEventEmbedFields(): void
+    {
+        Event::fake();
+
+        $resource = ExternalResource::factory()->createOne();
+        $changes = ExternalResource::factory()->makeOne();
+
+        $resource->fill($changes->getAttributes());
+        $resource->save();
+
+        Event::assertDispatched(ExternalResourceUpdated::class, function (ExternalResourceUpdated $event) {
+            $message = $event->getDiscordMessage();
+
+            return ! empty(Arr::get($message->embed, 'fields'));
+        });
     }
 }

@@ -9,6 +9,7 @@ use App\Events\Pivot\ArtistMember\ArtistMemberDeleted;
 use App\Events\Pivot\ArtistMember\ArtistMemberUpdated;
 use App\Models\Wiki\Artist;
 use App\Pivots\ArtistMember;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
@@ -78,5 +79,37 @@ class ArtistMemberTest extends TestCase
         $artistMember->save();
 
         Event::assertDispatched(ArtistMemberUpdated::class);
+    }
+
+    /**
+     * The ArtistMemberUpdated event shall contain embed fields.
+     *
+     * @return void
+     */
+    public function testArtistMemberUpdatedEventEmbedFields(): void
+    {
+        Event::fake();
+
+        $artist = Artist::factory()->createOne();
+        $member = Artist::factory()->createOne();
+
+        $artistMember = ArtistMember::factory()
+            ->for($artist, 'artist')
+            ->for($member, 'member')
+            ->createOne();
+
+        $changes = ArtistMember::factory()
+            ->for($artist, 'artist')
+            ->for($member, 'member')
+            ->makeOne();
+
+        $artistMember->fill($changes->getAttributes());
+        $artistMember->save();
+
+        Event::assertDispatched(ArtistMemberUpdated::class, function (ArtistMemberUpdated $event) {
+            $message = $event->getDiscordMessage();
+
+            return ! empty(Arr::get($message->embed, 'fields'));
+        });
     }
 }

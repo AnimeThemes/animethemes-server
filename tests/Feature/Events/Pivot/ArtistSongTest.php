@@ -10,6 +10,7 @@ use App\Events\Pivot\ArtistSong\ArtistSongUpdated;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Song;
 use App\Pivots\ArtistSong;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
@@ -79,5 +80,37 @@ class ArtistSongTest extends TestCase
         $artistSong->save();
 
         Event::assertDispatched(ArtistSongUpdated::class);
+    }
+
+    /**
+     * The ArtistSongUpdated event shall contain embed fields.
+     *
+     * @return void
+     */
+    public function testArtistSongUpdatedEventEmbedFields(): void
+    {
+        Event::fake();
+
+        $artist = Artist::factory()->createOne();
+        $song = Song::factory()->createOne();
+
+        $artistSong = ArtistSong::factory()
+            ->for($artist, 'artist')
+            ->for($song, 'song')
+            ->createOne();
+
+        $changes = ArtistSong::factory()
+            ->for($artist, 'artist')
+            ->for($song, 'song')
+            ->makeOne();
+
+        $artistSong->fill($changes->getAttributes());
+        $artistSong->save();
+
+        Event::assertDispatched(ArtistSongUpdated::class, function (ArtistSongUpdated $event) {
+            $message = $event->getDiscordMessage();
+
+            return ! empty(Arr::get($message->embed, 'fields'));
+        });
     }
 }

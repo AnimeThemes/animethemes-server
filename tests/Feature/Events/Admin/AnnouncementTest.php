@@ -9,6 +9,7 @@ use App\Events\Admin\Announcement\AnnouncementDeleted;
 use App\Events\Admin\Announcement\AnnouncementRestored;
 use App\Events\Admin\Announcement\AnnouncementUpdated;
 use App\Models\Admin\Announcement;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
@@ -97,5 +98,27 @@ class AnnouncementTest extends TestCase
         $announcement->save();
 
         Event::assertDispatched(AnnouncementUpdated::class);
+    }
+
+    /**
+     * The AnnouncementUpdated event shall contain embed fields.
+     *
+     * @return void
+     */
+    public function testAnnouncementUpdatedEventEmbedFields(): void
+    {
+        Event::fake();
+
+        $announcement = Announcement::factory()->createOne();
+        $changes = Announcement::factory()->makeOne();
+
+        $announcement->fill($changes->getAttributes());
+        $announcement->save();
+
+        Event::assertDispatched(AnnouncementUpdated::class, function (AnnouncementUpdated $event) {
+            $message = $event->getDiscordMessage();
+
+            return ! empty(Arr::get($message->embed, 'fields'));
+        });
     }
 }

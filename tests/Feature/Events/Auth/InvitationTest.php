@@ -9,6 +9,7 @@ use App\Events\Auth\Invitation\InvitationDeleted;
 use App\Events\Auth\Invitation\InvitationRestored;
 use App\Events\Auth\Invitation\InvitationUpdated;
 use App\Models\Auth\Invitation;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
@@ -97,5 +98,27 @@ class InvitationTest extends TestCase
         $invitation->save();
 
         Event::assertDispatched(InvitationUpdated::class);
+    }
+
+    /**
+     * The InvitationUpdated event shall contain embed fields.
+     *
+     * @return void
+     */
+    public function testInvitationUpdatedEventEmbedFields(): void
+    {
+        Event::fake(InvitationUpdated::class);
+
+        $invitation = Invitation::factory()->createOne();
+        $changes = Invitation::factory()->makeOne();
+
+        $invitation->fill($changes->getAttributes());
+        $invitation->save();
+
+        Event::assertDispatched(InvitationUpdated::class, function (InvitationUpdated $event) {
+            $message = $event->getDiscordMessage();
+
+            return ! empty(Arr::get($message->embed, 'fields'));
+        });
     }
 }

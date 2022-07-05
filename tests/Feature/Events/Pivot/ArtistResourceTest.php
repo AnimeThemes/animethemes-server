@@ -10,6 +10,7 @@ use App\Events\Pivot\ArtistResource\ArtistResourceUpdated;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\ExternalResource;
 use App\Pivots\ArtistResource;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
@@ -79,5 +80,37 @@ class ArtistResourceTest extends TestCase
         $artistResource->save();
 
         Event::assertDispatched(ArtistResourceUpdated::class);
+    }
+
+    /**
+     * The ArtistResourceUpdated event shall contain embed fields.
+     *
+     * @return void
+     */
+    public function testArtistResourceUpdatedEventEmbedFields(): void
+    {
+        Event::fake();
+
+        $artist = Artist::factory()->createOne();
+        $resource = ExternalResource::factory()->createOne();
+
+        $artistResource = ArtistResource::factory()
+            ->for($artist, 'artist')
+            ->for($resource, 'resource')
+            ->createOne();
+
+        $changes = ArtistResource::factory()
+            ->for($artist, 'artist')
+            ->for($resource, 'resource')
+            ->makeOne();
+
+        $artistResource->fill($changes->getAttributes());
+        $artistResource->save();
+
+        Event::assertDispatched(ArtistResourceUpdated::class, function (ArtistResourceUpdated $event) {
+            $message = $event->getDiscordMessage();
+
+            return ! empty(Arr::get($message->embed, 'fields'));
+        });
     }
 }
