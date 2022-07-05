@@ -9,6 +9,7 @@ use App\Events\Billing\Transaction\TransactionDeleted;
 use App\Events\Billing\Transaction\TransactionRestored;
 use App\Events\Billing\Transaction\TransactionUpdated;
 use App\Models\Billing\Transaction;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
@@ -97,5 +98,27 @@ class TransactionTest extends TestCase
         $transaction->save();
 
         Event::assertDispatched(TransactionUpdated::class);
+    }
+
+    /**
+     * The TransactionUpdated event shall contain embed fields.
+     *
+     * @return void
+     */
+    public function testTransactionUpdatedEventEmbedFields(): void
+    {
+        Event::fake();
+
+        $transaction = Transaction::factory()->createOne();
+        $changes = Transaction::factory()->makeOne();
+
+        $transaction->fill($changes->getAttributes());
+        $transaction->save();
+
+        Event::assertDispatched(TransactionUpdated::class, function (TransactionUpdated $event) {
+            $message = $event->getDiscordMessage();
+
+            return ! empty(Arr::get($message->embed, 'fields'));
+        });
     }
 }

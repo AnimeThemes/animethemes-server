@@ -9,6 +9,7 @@ use App\Events\Wiki\Studio\StudioDeleted;
 use App\Events\Wiki\Studio\StudioRestored;
 use App\Events\Wiki\Studio\StudioUpdated;
 use App\Models\Wiki\Studio;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
@@ -97,5 +98,27 @@ class StudioTest extends TestCase
         $studio->save();
 
         Event::assertDispatched(StudioUpdated::class);
+    }
+
+    /**
+     * The StudioUpdated event shall contain embed fields.
+     *
+     * @return void
+     */
+    public function testStudioUpdatedEventEmbedFields(): void
+    {
+        Event::fake();
+
+        $anime = Studio::factory()->createOne();
+        $changes = Studio::factory()->makeOne();
+
+        $anime->fill($changes->getAttributes());
+        $anime->save();
+
+        Event::assertDispatched(StudioUpdated::class, function (StudioUpdated $event) {
+            $message = $event->getDiscordMessage();
+
+            return ! empty(Arr::get($message->embed, 'fields'));
+        });
     }
 }

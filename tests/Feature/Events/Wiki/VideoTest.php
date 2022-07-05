@@ -9,6 +9,7 @@ use App\Events\Wiki\Video\VideoDeleted;
 use App\Events\Wiki\Video\VideoRestored;
 use App\Events\Wiki\Video\VideoUpdated;
 use App\Models\Wiki\Video;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
@@ -97,5 +98,27 @@ class VideoTest extends TestCase
         $video->save();
 
         Event::assertDispatched(VideoUpdated::class);
+    }
+
+    /**
+     * The VideoUpdated event shall contain embed fields.
+     *
+     * @return void
+     */
+    public function testVideoUpdatedEventEmbedFields(): void
+    {
+        Event::fake();
+
+        $anime = Video::factory()->createOne();
+        $changes = Video::factory()->makeOne();
+
+        $anime->fill($changes->getAttributes());
+        $anime->save();
+
+        Event::assertDispatched(VideoUpdated::class, function (VideoUpdated $event) {
+            $message = $event->getDiscordMessage();
+
+            return ! empty(Arr::get($message->embed, 'fields'));
+        });
     }
 }

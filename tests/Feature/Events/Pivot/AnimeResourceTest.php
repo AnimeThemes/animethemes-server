@@ -10,6 +10,7 @@ use App\Events\Pivot\AnimeResource\AnimeResourceUpdated;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\ExternalResource;
 use App\Pivots\AnimeResource;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
@@ -79,5 +80,37 @@ class AnimeResourceTest extends TestCase
         $animeResource->save();
 
         Event::assertDispatched(AnimeResourceUpdated::class);
+    }
+
+    /**
+     * The AnimeResourceUpdated event shall contain embed fields.
+     *
+     * @return void
+     */
+    public function testAnimeResourceUpdatedEventEmbedFields(): void
+    {
+        Event::fake();
+
+        $anime = Anime::factory()->createOne();
+        $resource = ExternalResource::factory()->createOne();
+
+        $animeResource = AnimeResource::factory()
+            ->for($anime, 'anime')
+            ->for($resource, 'resource')
+            ->createOne();
+
+        $changes = AnimeResource::factory()
+            ->for($anime, 'anime')
+            ->for($resource, 'resource')
+            ->makeOne();
+
+        $animeResource->fill($changes->getAttributes());
+        $animeResource->save();
+
+        Event::assertDispatched(AnimeResourceUpdated::class, function (AnimeResourceUpdated $event) {
+            $message = $event->getDiscordMessage();
+
+            return ! empty(Arr::get($message->embed, 'fields'));
+        });
     }
 }

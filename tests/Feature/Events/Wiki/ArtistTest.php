@@ -9,6 +9,7 @@ use App\Events\Wiki\Artist\ArtistDeleted;
 use App\Events\Wiki\Artist\ArtistRestored;
 use App\Events\Wiki\Artist\ArtistUpdated;
 use App\Models\Wiki\Artist;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
@@ -97,5 +98,27 @@ class ArtistTest extends TestCase
         $artist->save();
 
         Event::assertDispatched(ArtistUpdated::class);
+    }
+
+    /**
+     * The ArtistUpdated event shall contain embed fields.
+     *
+     * @return void
+     */
+    public function testArtistUpdatedEventEmbedFields(): void
+    {
+        Event::fake();
+
+        $anime = Artist::factory()->createOne();
+        $changes = Artist::factory()->makeOne();
+
+        $anime->fill($changes->getAttributes());
+        $anime->save();
+
+        Event::assertDispatched(ArtistUpdated::class, function (ArtistUpdated $event) {
+            $message = $event->getDiscordMessage();
+
+            return ! empty(Arr::get($message->embed, 'fields'));
+        });
     }
 }

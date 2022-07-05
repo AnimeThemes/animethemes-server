@@ -9,6 +9,7 @@ use App\Events\Billing\Balance\BalanceDeleted;
 use App\Events\Billing\Balance\BalanceRestored;
 use App\Events\Billing\Balance\BalanceUpdated;
 use App\Models\Billing\Balance;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
@@ -97,5 +98,27 @@ class BalanceTest extends TestCase
         $balance->save();
 
         Event::assertDispatched(BalanceUpdated::class);
+    }
+
+    /**
+     * The BalanceUpdated event shall contain embed fields.
+     *
+     * @return void
+     */
+    public function testBalanceUpdatedEventEmbedFields(): void
+    {
+        Event::fake();
+
+        $transaction = Balance::factory()->createOne();
+        $changes = Balance::factory()->makeOne();
+
+        $transaction->fill($changes->getAttributes());
+        $transaction->save();
+
+        Event::assertDispatched(BalanceUpdated::class, function (BalanceUpdated $event) {
+            $message = $event->getDiscordMessage();
+
+            return ! empty(Arr::get($message->embed, 'fields'));
+        });
     }
 }

@@ -22,6 +22,7 @@ class TransactionUpdated extends AdminUpdatedEvent
     public function __construct(Transaction $transaction)
     {
         parent::__construct($transaction);
+        $this->initializeEmbedFields($transaction);
     }
 
     /**

@@ -9,6 +9,7 @@ use App\Events\Document\Page\PageDeleted;
 use App\Events\Document\Page\PageRestored;
 use App\Events\Document\Page\PageUpdated;
 use App\Models\Document\Page;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
@@ -97,5 +98,27 @@ class PageTest extends TestCase
         $page->save();
 
         Event::assertDispatched(PageUpdated::class);
+    }
+
+    /**
+     * The PageUpdated event shall contain embed fields.
+     *
+     * @return void
+     */
+    public function testPageUpdatedEventEmbedFields(): void
+    {
+        Event::fake();
+
+        $transaction = Page::factory()->createOne();
+        $changes = Page::factory()->makeOne();
+
+        $transaction->fill($changes->getAttributes());
+        $transaction->save();
+
+        Event::assertDispatched(PageUpdated::class, function (PageUpdated $event) {
+            $message = $event->getDiscordMessage();
+
+            return ! empty(Arr::get($message->embed, 'fields'));
+        });
     }
 }

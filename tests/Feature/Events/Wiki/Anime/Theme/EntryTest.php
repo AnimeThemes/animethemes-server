@@ -11,6 +11,7 @@ use App\Events\Wiki\Anime\Theme\Entry\EntryUpdated;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
@@ -112,5 +113,32 @@ class EntryTest extends TestCase
         $entry->save();
 
         Event::assertDispatched(EntryUpdated::class);
+    }
+
+    /**
+     * The EntryUpdated event shall contain embed fields.
+     *
+     * @return void
+     */
+    public function testEntryUpdatedEventEmbedFields(): void
+    {
+        Event::fake();
+
+        $entry = AnimeThemeEntry::factory()
+            ->for(AnimeTheme::factory()->for(Anime::factory()))
+            ->createOne();
+
+        $changes = AnimeThemeEntry::factory()
+            ->for(AnimeTheme::factory()->for(Anime::factory()))
+            ->makeOne();
+
+        $entry->fill($changes->getAttributes());
+        $entry->save();
+
+        Event::assertDispatched(EntryUpdated::class, function (EntryUpdated $event) {
+            $message = $event->getDiscordMessage();
+
+            return ! empty(Arr::get($message->embed, 'fields'));
+        });
     }
 }
