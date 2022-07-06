@@ -44,6 +44,8 @@ return [
     'as' => 'As',
     'attach_resource_action' => 'Attach :site Resource',
     'attach' => 'Attach',
+    'audio' => 'Audio',
+    'audios' => 'Audios',
     'auth' => 'Auth',
     'backfill' => 'Backfill',
     'backfill_anidb_resource_help' => 'Use the Manami Project Anime Offline Database hosted by yuna.moe to find an AniDB mapping from a MAL, Anilist or Kitsu Resource',
