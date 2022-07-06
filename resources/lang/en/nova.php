@@ -46,6 +46,8 @@ return [
     'artists' => 'Artists',
     'as_help' => 'Used in place of the Artist name if the performance is made as a character or group/unit member.',
     'as' => 'As',
+    'audio' => 'Audio',
+    'audios' => 'Audios',
     'auth' => 'Auth',
     'backfill' => 'Backfill',
     'backfill_anidb_resource_help' => 'Use the Manami Project Anime Offline Database hosted by yuna.moe to find an AniDB mapping from a MAL, Anilist or Kitsu Resource',
