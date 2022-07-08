@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Nova\Lenses\Video;
 
+use App\Enums\Http\Api\Filter\ComparisonOperator;
 use App\Models\Wiki\Video;
 use App\Nova\Lenses\BaseLens;
 use Illuminate\Database\Eloquent\Builder;
@@ -38,7 +39,8 @@ class VideoSourceLens extends BaseLens
      */
     public static function criteria(Builder $query): Builder
     {
-        return $query->whereNull(Video::ATTRIBUTE_SOURCE);
+        return $query->whereNull(Video::ATTRIBUTE_SOURCE)
+            ->where(Video::ATTRIBUTE_PATH, ComparisonOperator::NOTLIKE, 'misc%');
     }
 
     /**

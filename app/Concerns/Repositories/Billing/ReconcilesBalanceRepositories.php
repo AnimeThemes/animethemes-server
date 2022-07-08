@@ -52,6 +52,7 @@ trait ReconcilesBalanceRepositories
         return [
             Balance::ATTRIBUTE_BALANCE,
             Balance::ATTRIBUTE_DATE,
+            Balance::ATTRIBUTE_FREQUENCY,
             Balance::ATTRIBUTE_ID,
             Balance::ATTRIBUTE_SERVICE,
             Balance::ATTRIBUTE_USAGE,
