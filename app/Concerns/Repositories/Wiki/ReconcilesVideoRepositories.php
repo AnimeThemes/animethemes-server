@@ -49,7 +49,9 @@ trait ReconcilesVideoRepositories
     {
         return [
             Video::ATTRIBUTE_BASENAME,
+            Video::ATTRIBUTE_FILENAME,
             Video::ATTRIBUTE_ID,
+            Video::ATTRIBUTE_MIMETYPE,
             Video::ATTRIBUTE_PATH,
             Video::ATTRIBUTE_SIZE,
         ];
