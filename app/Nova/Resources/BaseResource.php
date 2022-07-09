@@ -28,27 +28,6 @@ abstract class BaseResource extends NovaResource
     public static $scoutSearchResults = 10;
 
     /**
-     * Indicates whether the resource should automatically poll for new resources.
-     *
-     * @var bool
-     */
-    public static $polling = true;
-
-    /**
-     * The interval at which Nova should poll for new resources.
-     *
-     * @var int
-     */
-    public static $pollingInterval = 60;
-
-    /**
-     * Indicates whether to show the polling toggle button inside Nova.
-     *
-     * @var bool
-     */
-    public static $showPollingToggle = true;
-
-    /**
      * The number of resources to show per page via relationships.
      *
      * @var int
