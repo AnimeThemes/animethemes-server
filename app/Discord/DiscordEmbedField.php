@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Discord;
 
+use App\Enums\Http\Api\Filter\AllowedDateFormat;
 use BenSampo\Enum\Enum;
+use Carbon\Carbon;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Str;
 use JsonSerializable;
@@ -73,6 +75,11 @@ class DiscordEmbedField implements Arrayable, JsonSerializable
         // Use description for enums
         if ($value instanceof Enum) {
             return $value->description;
+        }
+
+        // Use 'Y-m-d' format for dates
+        if ($value instanceof Carbon) {
+            return $value->format(AllowedDateFormat::YMD);
         }
 
         // Pretty print booleans
