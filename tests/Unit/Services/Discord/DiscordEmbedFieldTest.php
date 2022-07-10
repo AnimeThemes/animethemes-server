@@ -6,8 +6,10 @@ namespace Tests\Unit\Services\Discord;
 
 use App\Discord\DiscordEmbedField;
 use App\Enums\BaseEnum;
+use App\Enums\Http\Api\Filter\AllowedDateFormat;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Date;
 use stdClass;
 use Tests\TestCase;
 
@@ -35,6 +37,20 @@ class DiscordEmbedFieldTest extends TestCase
         $field = new DiscordEmbedField($this->faker->word(), $enum);
 
         static::assertEquals($enum->description, Arr::get($field->toArray(), 'value'));
+    }
+
+    /**
+     * Discord Embed Fields shall format a date value by the Y-m-d date format.
+     *
+     * @return void
+     */
+    public function testDiscordEmbedFormatDate(): void
+    {
+        $date = Date::now()->subDays($this->faker->randomDigitNotNull());
+
+        $field = new DiscordEmbedField($this->faker->word(), $date);
+
+        static::assertEquals($date->format(AllowedDateFormat::YMD), Arr::get($field->toArray(), 'value'));
     }
 
     /**
