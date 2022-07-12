@@ -2,26 +2,20 @@
 
 declare(strict_types=1);
 
-namespace App\Nova\Lenses\Anime;
+namespace App\Nova\Lenses\Anime\Studio;
 
-use App\Enums\Models\Wiki\AnimeSeason;
 use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
 use App\Nova\Actions\Wiki\Anime\BackfillAnimeAction;
-use App\Nova\Lenses\BaseLens;
-use BenSampo\Enum\Enum;
+use App\Nova\Lenses\Anime\AnimeLens;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
-use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\Number;
-use Laravel\Nova\Fields\Select;
-use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 /**
  * Class AnimeStudioLens.
  */
-class AnimeStudioLens extends BaseLens
+class AnimeStudioLens extends AnimeLens
 {
     /**
      * Get the displayable name of the lens.
@@ -44,37 +38,6 @@ class AnimeStudioLens extends BaseLens
     public static function criteria(Builder $query): Builder
     {
         return $query->whereDoesntHave(Anime::RELATION_STUDIOS);
-    }
-
-    /**
-     * Get the fields available to the lens.
-     *
-     * @param  NovaRequest  $request
-     * @return array
-     */
-    public function fields(NovaRequest $request): array
-    {
-        return [
-            ID::make(__('nova.id'), Anime::ATTRIBUTE_ID)
-                ->sortable(),
-
-            Text::make(__('nova.name'), Anime::ATTRIBUTE_NAME)
-                ->sortable()
-                ->filterable(),
-
-            Text::make(__('nova.slug'), Anime::ATTRIBUTE_SLUG)
-                ->sortable(),
-
-            Number::make(__('nova.year'), Anime::ATTRIBUTE_YEAR)
-                ->sortable()
-                ->filterable(),
-
-            Select::make(__('nova.season'), Anime::ATTRIBUTE_SEASON)
-                ->options(AnimeSeason::asSelectArray())
-                ->displayUsing(fn (?Enum $enum) => $enum?->description)
-                ->sortable()
-                ->filterable(),
-        ];
     }
 
     /**

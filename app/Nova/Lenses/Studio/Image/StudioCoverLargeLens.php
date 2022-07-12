@@ -2,22 +2,22 @@
 
 declare(strict_types=1);
 
-namespace App\Nova\Lenses\Artist;
+namespace App\Nova\Lenses\Studio\Image;
 
 use App\Enums\Models\Wiki\ImageFacet;
-use App\Models\Wiki\Anime;
-use App\Models\Wiki\Artist;
+use App\Models\Auth\User;
 use App\Models\Wiki\Image;
-use App\Nova\Lenses\BaseLens;
+use App\Models\Wiki\Studio;
+use App\Nova\Actions\Wiki\Studio\BackfillStudioAction;
+use App\Nova\Lenses\Studio\StudioLens;
 use Illuminate\Database\Eloquent\Builder;
-use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\Text;
+use Illuminate\Http\Request;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 /**
- * Class ArtistCoverLargeLens.
+ * Class StudioCoverLargeLens.
  */
-class ArtistCoverLargeLens extends BaseLens
+class StudioCoverLargeLens extends StudioLens
 {
     /**
      * Get the displayable name of the lens.
@@ -28,7 +28,7 @@ class ArtistCoverLargeLens extends BaseLens
      */
     public function name(): string
     {
-        return __('nova.artist_image_lens', ['facet' => ImageFacet::getDescription(ImageFacet::COVER_LARGE)]);
+        return __('nova.studio_image_lens', ['facet' => ImageFacet::getDescription(ImageFacet::COVER_LARGE)]);
     }
 
     /**
@@ -39,31 +39,9 @@ class ArtistCoverLargeLens extends BaseLens
      */
     public static function criteria(Builder $query): Builder
     {
-        return $query->whereDoesntHave(Anime::RELATION_IMAGES, function (Builder $imageQuery) {
+        return $query->whereDoesntHave(Studio::RELATION_IMAGES, function (Builder $imageQuery) {
             $imageQuery->where(Image::ATTRIBUTE_FACET, ImageFacet::COVER_LARGE);
         });
-    }
-
-    /**
-     * Get the fields available to the lens.
-     *
-     * @param  NovaRequest  $request
-     * @return array
-     */
-    public function fields(NovaRequest $request): array
-    {
-        return [
-            ID::make(__('nova.id'), Artist::ATTRIBUTE_ID)
-                ->sortable(),
-
-            Text::make(__('nova.name'), Artist::ATTRIBUTE_NAME)
-                ->sortable()
-                ->filterable(),
-
-            Text::make(__('nova.slug'), Artist::ATTRIBUTE_SLUG)
-                ->sortable()
-                ->filterable(),
-        ];
     }
 
     /**
@@ -76,7 +54,19 @@ class ArtistCoverLargeLens extends BaseLens
      */
     public function actions(NovaRequest $request): array
     {
-        return [];
+        return [
+            (new BackfillStudioAction($request->user()))
+                ->confirmButtonText(__('nova.backfill'))
+                ->cancelButtonText(__('nova.cancel'))
+                ->showOnIndex()
+                ->showOnDetail()
+                ->showInline()
+                ->canSee(function (Request $request) {
+                    $user = $request->user();
+
+                    return $user instanceof User && $user->can('update studio');
+                }),
+        ];
     }
 
     /**
@@ -88,6 +78,6 @@ class ArtistCoverLargeLens extends BaseLens
      */
     public function uriKey(): string
     {
-        return 'artist-cover-large-lens';
+        return 'studio-cover-large-lens';
     }
 }

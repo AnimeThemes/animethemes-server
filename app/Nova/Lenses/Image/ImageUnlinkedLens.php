@@ -5,13 +5,17 @@ declare(strict_types=1);
 namespace App\Nova\Lenses\Image;
 
 use App\Enums\Models\Wiki\ImageFacet;
+use App\Models\BaseModel;
 use App\Models\Wiki\Image;
 use App\Nova\Lenses\BaseLens;
 use BenSampo\Enum\Enum;
+use Exception;
 use Illuminate\Database\Eloquent\Builder;
+use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Image as NovaImage;
 use Laravel\Nova\Fields\Select;
+use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 /**
@@ -50,21 +54,38 @@ class ImageUnlinkedLens extends BaseLens
      *
      * @param  NovaRequest  $request
      * @return array
+     *
+     * @throws Exception
      */
     public function fields(NovaRequest $request): array
     {
         return [
             ID::make(__('nova.id'), Image::ATTRIBUTE_ID)
-                ->sortable(),
+                ->sortable()
+                ->showOnPreview(),
 
             Select::make(__('nova.facet'), Image::ATTRIBUTE_FACET)
                 ->options(ImageFacet::asSelectArray())
                 ->displayUsing(fn (?Enum $enum) => $enum?->description)
                 ->sortable()
+                ->showOnPreview()
                 ->filterable(),
 
-            NovaImage::make(__('nova.image'), Image::ATTRIBUTE_PATH)
-                ->disk('images'),
+            NovaImage::make(__('nova.image'), Image::ATTRIBUTE_PATH, 'images')
+                ->showOnPreview(),
+
+            Text::make(__('nova.path'), Image::ATTRIBUTE_PATH)
+                ->copyable()
+                ->onlyOnPreview(),
+
+            DateTime::make(__('nova.created_at'), BaseModel::ATTRIBUTE_CREATED_AT)
+                ->onlyOnPreview(),
+
+            DateTime::make(__('nova.updated_at'), BaseModel::ATTRIBUTE_UPDATED_AT)
+                ->onlyOnPreview(),
+
+            DateTime::make(__('nova.deleted_at'), BaseModel::ATTRIBUTE_DELETED_AT)
+                ->onlyOnPreview(),
         ];
     }
 

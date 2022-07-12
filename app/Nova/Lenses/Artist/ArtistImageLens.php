@@ -2,17 +2,26 @@
 
 declare(strict_types=1);
 
-namespace App\Nova\Lenses\Studio;
+namespace App\Nova\Lenses\Artist;
 
-use App\Models\Wiki\Studio;
+use App\Enums\Models\Wiki\ImageFacet;
+use App\Models\Wiki\Artist;
+use App\Models\Wiki\Image;
 use Illuminate\Database\Eloquent\Builder;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 /**
- * Class StudioUnlinkedLens.
+ * Class ArtistImageLens.
  */
-class StudioUnlinkedLens extends StudioLens
+abstract class ArtistImageLens extends ArtistLens
 {
+    /**
+     * The image facet.
+     *
+     * @return ImageFacet
+     */
+    abstract protected static function facet(): ImageFacet;
+
     /**
      * Get the displayable name of the lens.
      *
@@ -22,7 +31,7 @@ class StudioUnlinkedLens extends StudioLens
      */
     public function name(): string
     {
-        return __('nova.studio_unlinked_lens');
+        return __('nova.artist_image_lens', ['facet' => static::facet()->description]);
     }
 
     /**
@@ -33,7 +42,9 @@ class StudioUnlinkedLens extends StudioLens
      */
     public static function criteria(Builder $query): Builder
     {
-        return $query->whereDoesntHave(Studio::RELATION_ANIME);
+        return $query->whereDoesntHave(Artist::RELATION_IMAGES, function (Builder $imageQuery) {
+            $imageQuery->where(Image::ATTRIBUTE_FACET, static::facet()->value);
+        });
     }
 
     /**
@@ -47,17 +58,5 @@ class StudioUnlinkedLens extends StudioLens
     public function actions(NovaRequest $request): array
     {
         return [];
-    }
-
-    /**
-     * Get the URI key for the lens.
-     *
-     * @return string
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    public function uriKey(): string
-    {
-        return 'studio-unlinked-lens';
     }
 }
