@@ -2,19 +2,17 @@
 
 declare(strict_types=1);
 
-namespace App\Nova\Lenses\Artist;
+namespace App\Nova\Lenses\Artist\Song;
 
 use App\Models\Wiki\Artist;
-use App\Nova\Lenses\BaseLens;
+use App\Nova\Lenses\Artist\ArtistLens;
 use Illuminate\Database\Eloquent\Builder;
-use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 /**
  * Class ArtistSongLens.
  */
-class ArtistSongLens extends BaseLens
+class ArtistSongLens extends ArtistLens
 {
     /**
      * Get the displayable name of the lens.
@@ -37,28 +35,6 @@ class ArtistSongLens extends BaseLens
     public static function criteria(Builder $query): Builder
     {
         return $query->whereDoesntHave(Artist::RELATION_SONGS);
-    }
-
-    /**
-     * Get the fields available to the lens.
-     *
-     * @param  NovaRequest  $request
-     * @return array
-     */
-    public function fields(NovaRequest $request): array
-    {
-        return [
-            ID::make(__('nova.id'), Artist::ATTRIBUTE_ID)
-                ->sortable(),
-
-            Text::make(__('nova.name'), Artist::ATTRIBUTE_NAME)
-                ->sortable()
-                ->filterable(),
-
-            Text::make(__('nova.slug'), Artist::ATTRIBUTE_SLUG)
-                ->sortable()
-                ->filterable(),
-        ];
     }
 
     /**

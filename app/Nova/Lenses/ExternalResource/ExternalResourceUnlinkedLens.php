@@ -4,12 +4,17 @@ declare(strict_types=1);
 
 namespace App\Nova\Lenses\ExternalResource;
 
+use App\Enums\Models\Wiki\ResourceSite;
+use App\Models\BaseModel;
 use App\Models\Wiki\ExternalResource;
 use App\Nova\Lenses\BaseLens;
+use BenSampo\Enum\Enum;
 use Illuminate\Database\Eloquent\Builder;
+use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
-use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\Select;
+use Laravel\Nova\Fields\URL;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 /**
@@ -52,15 +57,34 @@ class ExternalResourceUnlinkedLens extends BaseLens
     {
         return [
             ID::make(__('nova.id'), ExternalResource::ATTRIBUTE_ID)
-                ->sortable(),
-
-            Text::make(__('nova.link'), ExternalResource::ATTRIBUTE_LINK)
                 ->sortable()
+                ->showOnPreview(),
+
+            Select::make(__('nova.site'), ExternalResource::ATTRIBUTE_SITE)
+                ->options(ResourceSite::asSelectArray())
+                ->displayUsing(fn (?Enum $enum) => $enum?->description)
+                ->sortable()
+                ->showOnPreview()
+                ->filterable(),
+
+            URL::make(__('nova.link'), ExternalResource::ATTRIBUTE_LINK)
+                ->sortable()
+                ->showOnPreview()
                 ->filterable(),
 
             Number::make(__('nova.external_id'), ExternalResource::ATTRIBUTE_EXTERNAL_ID)
                 ->sortable()
+                ->showOnPreview()
                 ->filterable(),
+
+            DateTime::make(__('nova.created_at'), BaseModel::ATTRIBUTE_CREATED_AT)
+                ->onlyOnPreview(),
+
+            DateTime::make(__('nova.updated_at'), BaseModel::ATTRIBUTE_UPDATED_AT)
+                ->onlyOnPreview(),
+
+            DateTime::make(__('nova.deleted_at'), BaseModel::ATTRIBUTE_DELETED_AT)
+                ->onlyOnPreview(),
         ];
     }
 

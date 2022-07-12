@@ -8,18 +8,22 @@ use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\ExternalResource;
 use App\Nova\Actions\Wiki\Artist\CreateExternalResourceSiteForArtistAction;
-use App\Nova\Lenses\BaseLens;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
-use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 /**
- * Class ArtistMalResourceLens.
+ * Class ArtistResourceLens.
  */
-class ArtistMalResourceLens extends BaseLens
+abstract class ArtistResourceLens extends ArtistLens
 {
+    /**
+     * The resource site.
+     *
+     * @return ResourceSite
+     */
+    abstract protected static function site(): ResourceSite;
+
     /**
      * Get the displayable name of the lens.
      *
@@ -29,7 +33,7 @@ class ArtistMalResourceLens extends BaseLens
      */
     public function name(): string
     {
-        return __('nova.artist_resource_lens', ['site' => ResourceSite::getDescription(ResourceSite::MAL)]);
+        return __('nova.artist_resource_lens', ['site' => static::site()->description]);
     }
 
     /**
@@ -41,30 +45,8 @@ class ArtistMalResourceLens extends BaseLens
     public static function criteria(Builder $query): Builder
     {
         return $query->whereDoesntHave(Artist::RELATION_RESOURCES, function (Builder $resourceQuery) {
-            $resourceQuery->where(ExternalResource::ATTRIBUTE_SITE, ResourceSite::MAL);
+            $resourceQuery->where(ExternalResource::ATTRIBUTE_SITE, static::site()->value);
         });
-    }
-
-    /**
-     * Get the fields available to the lens.
-     *
-     * @param  NovaRequest  $request
-     * @return array
-     */
-    public function fields(NovaRequest $request): array
-    {
-        return [
-            ID::make(__('nova.id'), Artist::ATTRIBUTE_ID)
-                ->sortable(),
-
-            Text::make(__('nova.name'), Artist::ATTRIBUTE_NAME)
-                ->sortable()
-                ->filterable(),
-
-            Text::make(__('nova.slug'), Artist::ATTRIBUTE_SLUG)
-                ->sortable()
-                ->filterable(),
-        ];
     }
 
     /**
@@ -78,23 +60,11 @@ class ArtistMalResourceLens extends BaseLens
     public function actions(NovaRequest $request): array
     {
         return [
-            (new CreateExternalResourceSiteForArtistAction(ResourceSite::MAL))->canSee(function (Request $request) {
+            (new CreateExternalResourceSiteForArtistAction(static::site()->value))->canSee(function (Request $request) {
                 $user = $request->user();
 
                 return $user->can('create external resource');
             }),
         ];
-    }
-
-    /**
-     * Get the URI key for the lens.
-     *
-     * @return string
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    public function uriKey(): string
-    {
-        return 'artist-mal-resource-lens';
     }
 }

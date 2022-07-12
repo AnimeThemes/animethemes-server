@@ -5,12 +5,18 @@ declare(strict_types=1);
 namespace App\Nova\Lenses\Video;
 
 use App\Enums\Http\Api\Filter\ComparisonOperator;
+use App\Enums\Models\Wiki\VideoOverlap;
+use App\Models\BaseModel;
 use App\Models\Wiki\Video;
 use App\Nova\Lenses\BaseLens;
+use BenSampo\Enum\Enum;
+use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Laravel\Nova\Fields\Boolean;
+use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
+use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
@@ -48,36 +54,60 @@ class VideoSourceLens extends BaseLens
      *
      * @param  NovaRequest  $request
      * @return array
+     *
+     * @throws Exception
      */
     public function fields(NovaRequest $request): array
     {
         return [
             ID::make(__('nova.id'), Video::ATTRIBUTE_ID)
-                ->sortable(),
+                ->sortable()
+                ->showOnPreview(),
 
             Text::make(__('nova.filename'), Video::ATTRIBUTE_FILENAME)
                 ->sortable()
+                ->copyable()
+                ->showOnPreview()
                 ->filterable(),
 
             Number::make(__('nova.resolution'), Video::ATTRIBUTE_RESOLUTION)
                 ->sortable()
+                ->showOnPreview()
                 ->filterable(),
 
             Boolean::make(__('nova.nc'), Video::ATTRIBUTE_NC)
                 ->sortable()
+                ->showOnPreview()
                 ->filterable(),
 
             Boolean::make(__('nova.subbed'), Video::ATTRIBUTE_SUBBED)
                 ->sortable()
+                ->showOnPreview()
                 ->filterable(),
 
             Boolean::make(__('nova.lyrics'), Video::ATTRIBUTE_LYRICS)
                 ->sortable()
+                ->showOnPreview()
                 ->filterable(),
 
             Boolean::make(__('nova.uncen'), Video::ATTRIBUTE_UNCEN)
                 ->sortable()
+                ->showOnPreview()
                 ->filterable(),
+
+            Select::make(__('nova.overlap'), Video::ATTRIBUTE_OVERLAP)
+                ->options(VideoOverlap::asSelectArray())
+                ->displayUsing(fn (?Enum $enum) => $enum?->description)
+                ->onlyOnPreview(),
+
+            DateTime::make(__('nova.created_at'), BaseModel::ATTRIBUTE_CREATED_AT)
+                ->onlyOnPreview(),
+
+            DateTime::make(__('nova.updated_at'), BaseModel::ATTRIBUTE_UPDATED_AT)
+                ->onlyOnPreview(),
+
+            DateTime::make(__('nova.deleted_at'), BaseModel::ATTRIBUTE_DELETED_AT)
+                ->onlyOnPreview(),
         ];
     }
 
