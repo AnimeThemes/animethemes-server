@@ -73,6 +73,19 @@ return [
             'throw' => false,
         ],
 
+        'audios' => [
+            'driver' => 's3',
+            'key' => env('AUDIO_ACCESS_KEY_ID'),
+            'secret' => env('AUDIO_SECRET_ACCESS_KEY'),
+            'region' => env('AUDIO_DEFAULT_REGION'),
+            'bucket' => env('AUDIO_BUCKET'),
+            'endpoint' => env('AUDIO_ENDPOINT'),
+            'stream_reads' => env('AUDIO_STREAM_READS'),
+            'disable_asserts' => env('AUDIO_DISABLE_ASSERTS'),
+            'visibility' => env('AUDIO_VISIBILITY'),
+            'throw' => false,
+        ],
+
         'db-dumps' => [
             'driver' => 'local',
             'root' => storage_path('db-dumps'),

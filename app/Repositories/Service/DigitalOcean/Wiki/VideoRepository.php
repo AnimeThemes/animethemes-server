@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Repositories\Service\DigitalOcean;
+namespace App\Repositories\Service\DigitalOcean\Wiki;
 
 use App\Contracts\Repositories\RepositoryInterface;
 use App\Models\Wiki\Video;
