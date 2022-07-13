@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Console\Commands\Wiki;
+namespace Console\Commands\Wiki\Video;
 
 use App\Console\Commands\Wiki\Video\VideoReconcileCommand;
 use App\Models\Wiki\Video;
-use App\Repositories\Service\DigitalOcean\VideoRepository;
+use App\Repositories\Service\DigitalOcean\Wiki\VideoRepository;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Support\Collection;

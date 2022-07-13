@@ -6,6 +6,7 @@ namespace App\Http;
 
 use App\Http\Middleware\Authenticate;
 use App\Http\Middleware\HasOpenInvitation;
+use App\Http\Middleware\IsAudioStreamingAllowed;
 use App\Http\Middleware\IsVideoStreamingAllowed;
 use App\Http\Middleware\LogRequest;
 use App\Http\Middleware\RecordView;
@@ -104,6 +105,7 @@ class Kernel extends HttpKernel
         'verified' => EnsureEmailIsVerified::class,
         'has_open_invitation' => HasOpenInvitation::class,
         'is_video_streaming_allowed' => IsVideoStreamingAllowed::class,
+        'is_audio_streaming_allowed' => IsAudioStreamingAllowed::class,
         'without_trashed' => WithoutTrashed::class,
         'record_view' => RecordView::class,
     ];
