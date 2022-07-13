@@ -4,21 +4,21 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
-use App\Concerns\Repositories\Wiki\ReconcilesVideoRepositories;
+use App\Concerns\Repositories\Wiki\ReconcilesAudioRepositories;
 use App\Models\BaseModel;
-use App\Repositories\Eloquent\Wiki\VideoRepository as VideoDestinationRepository;
-use App\Repositories\Service\DigitalOcean\Wiki\VideoRepository as VideoSourceRepository;
+use App\Repositories\Eloquent\Wiki\AudioRepository as AudioDestinationRepository;
+use App\Repositories\Service\DigitalOcean\Wiki\AudioRepository as AudioSourceRepository;
 use Exception;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Log;
 
 /**
- * Class VideoSeeder.
+ * Class AudioSeeder.
  */
-class VideoSeeder extends Seeder
+class AudioSeeder extends Seeder
 {
-    use ReconcilesVideoRepositories;
+    use ReconcilesAudioRepositories;
 
     /**
      * Run the database seeds.
@@ -27,9 +27,9 @@ class VideoSeeder extends Seeder
      */
     public function run(): void
     {
-        $sourceRepository = App::make(VideoSourceRepository::class);
+        $sourceRepository = App::make(AudioSourceRepository::class);
 
-        $destinationRepository = App::make(VideoDestinationRepository::class);
+        $destinationRepository = App::make(AudioDestinationRepository::class);
 
         $this->reconcileRepositories($sourceRepository, $destinationRepository);
     }
@@ -43,80 +43,80 @@ class VideoSeeder extends Seeder
     {
         if ($this->hasResults()) {
             if ($this->hasChanges()) {
-                Log::info("$this->created Videos created, $this->deleted Videos deleted, $this->updated Videos updated");
+                Log::info("$this->created Audios created, $this->deleted Audios deleted, $this->updated Audios updated");
             }
             if ($this->hasFailures()) {
-                Log::error("Failed to create $this->createdFailed Videos, delete $this->deletedFailed Videos, update $this->updatedFailed Videos");
+                Log::error("Failed to create $this->createdFailed Audios, delete $this->deletedFailed Audios, update $this->updatedFailed Audios");
             }
         } else {
-            Log::info('No Videos created or deleted or updated');
+            Log::info('No Audios created or deleted or updated');
         }
     }
 
     /**
-     * Handler for successful video creation.
+     * Handler for successful audio creation.
      *
      * @param  BaseModel  $model
      * @return void
      */
     protected function handleCreated(BaseModel $model): void
     {
-        Log::info("Video '{$model->getName()}' created");
+        Log::info("Audio '{$model->getName()}' created");
     }
 
     /**
-     * Handler for failed video creation.
+     * Handler for failed audio creation.
      *
      * @param  BaseModel  $model
      * @return void
      */
     protected function handleFailedCreation(BaseModel $model): void
     {
-        Log::error("Video '{$model->getName()}' was not created");
+        Log::error("Audio '{$model->getName()}' was not created");
     }
 
     /**
-     * Handler for successful video deletion.
+     * Handler for successful audio deletion.
      *
      * @param  BaseModel  $model
      * @return void
      */
     protected function handleDeleted(BaseModel $model): void
     {
-        Log::info("Video '{$model->getName()}' deleted");
+        Log::info("Audio '{$model->getName()}' deleted");
     }
 
     /**
-     * Handler for failed video deletion.
+     * Handler for failed audio deletion.
      *
      * @param  BaseModel  $model
      * @return void
      */
     protected function handleFailedDeletion(BaseModel $model): void
     {
-        Log::error("Video '{$model->getName()}' was not deleted");
+        Log::error("Audio '{$model->getName()}' was not deleted");
     }
 
     /**
-     * Handler for successful video update.
+     * Handler for successful audio update.
      *
      * @param  BaseModel  $model
      * @return void
      */
     protected function handleUpdated(BaseModel $model): void
     {
-        Log::info("Video '{$model->getName()}' updated");
+        Log::info("Audio '{$model->getName()}' updated");
     }
 
     /**
-     * Handler for failed video update.
+     * Handler for failed audio update.
      *
      * @param  BaseModel  $model
      * @return void
      */
     protected function handleFailedUpdate(BaseModel $model): void
     {
-        Log::error("Video '{$model->getName()}' was not updated");
+        Log::error("Audio '{$model->getName()}' was not updated");
     }
 
     /**

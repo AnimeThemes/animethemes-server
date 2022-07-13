@@ -9,7 +9,10 @@ use App\Events\Wiki\Audio\AudioDeleted;
 use App\Events\Wiki\Audio\AudioRestored;
 use App\Events\Wiki\Audio\AudioUpdated;
 use App\Models\BaseModel;
+use CyrildeWit\EloquentViewable\Contracts\Viewable;
+use CyrildeWit\EloquentViewable\InteractsWithViews;
 use Database\Factories\Wiki\AudioFactory;
+use Laravel\Nova\Actions\Actionable;
 
 /**
  * Class Audio.
@@ -23,8 +26,11 @@ use Database\Factories\Wiki\AudioFactory;
  *
  * @method static AudioFactory factory(...$parameters)
  */
-class Audio extends BaseModel
+class Audio extends BaseModel implements Viewable
 {
+    use Actionable;
+    use InteractsWithViews;
+
     final public const TABLE = 'audios';
 
     final public const ATTRIBUTE_BASENAME = 'basename';
@@ -93,7 +99,7 @@ class Audio extends BaseModel
      * @var array<string, string>
      */
     protected $casts = [
-        Video::ATTRIBUTE_SIZE => 'int',
+        Audio::ATTRIBUTE_SIZE => 'int',
     ];
 
     /**

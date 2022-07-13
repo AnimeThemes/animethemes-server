@@ -11,11 +11,24 @@ return [
     |
     | When video streams are allowed, requests to the video.show route will
     | stream video. If disabled, requests to the video.show route will
-    | redirect the user to the welcome page.
+    | raise a 403 Forbidden response.
     |
     */
 
     'allow_video_streams' => (bool) env('ALLOW_VIDEO_STREAMS', false),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Allow Audio Streams
+    |--------------------------------------------------------------------------
+    |
+    | When audio streams are allowed, requests to the audio.show route will
+    | stream audio. If disabled, requests to the audio.show route will
+    | raise a 403 Forbidden response.
+    |
+    */
+
+    'allow_audio_streams' => (bool) env('ALLOW_AUDIO_STREAMS', false),
 
     /*
     |--------------------------------------------------------------------------
