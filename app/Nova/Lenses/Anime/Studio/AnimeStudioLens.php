@@ -54,8 +54,6 @@ class AnimeStudioLens extends AnimeLens
             (new BackfillAnimeAction($request->user()))
                 ->confirmButtonText(__('nova.backfill'))
                 ->cancelButtonText(__('nova.cancel'))
-                ->showOnIndex()
-                ->showOnDetail()
                 ->showInline()
                 ->canSee(function (Request $request) {
                     $user = $request->user();

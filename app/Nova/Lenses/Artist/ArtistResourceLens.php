@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Nova\Lenses\Artist;
 
 use App\Enums\Models\Wiki\ResourceSite;
+use App\Models\Auth\User;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\ExternalResource;
 use App\Nova\Actions\Wiki\Artist\CreateExternalResourceSiteForArtistAction;
@@ -60,11 +61,15 @@ abstract class ArtistResourceLens extends ArtistLens
     public function actions(NovaRequest $request): array
     {
         return [
-            (new CreateExternalResourceSiteForArtistAction(static::site()->value))->canSee(function (Request $request) {
-                $user = $request->user();
+            (new CreateExternalResourceSiteForArtistAction(static::site()->value))
+                ->confirmButtonText(__('nova.create'))
+                ->cancelButtonText(__('nova.cancel'))
+                ->showInline()
+                ->canSee(function (Request $request) {
+                    $user = $request->user();
 
-                return $user->can('create external resource');
-            }),
+                    return $user instanceof User && $user->can('create external resource');
+                }),
         ];
     }
 }

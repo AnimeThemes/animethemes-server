@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Nova\Lenses\Studio;
 
 use App\Enums\Models\Wiki\ResourceSite;
+use App\Models\Auth\User;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Studio;
 use App\Nova\Actions\Wiki\Studio\CreateExternalResourceSiteForStudioAction;
@@ -59,11 +60,15 @@ abstract class StudioResourceLens extends StudioLens
     public function actions(Request $request): array
     {
         return [
-            (new CreateExternalResourceSiteForStudioAction(static::site()->value))->canSee(function (Request $request) {
-                $user = $request->user();
+            (new CreateExternalResourceSiteForStudioAction(static::site()->value))
+                ->confirmButtonText(__('nova.create'))
+                ->cancelButtonText(__('nova.cancel'))
+                ->showInline()
+                ->canSee(function (Request $request) {
+                    $user = $request->user();
 
-                return $user->can('create external resource');
-            }),
+                    return $user instanceof User && $user->can('create external resource');
+                }),
         ];
     }
 }
