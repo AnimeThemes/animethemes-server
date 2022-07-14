@@ -8,6 +8,7 @@ use App\Http\Api\Field\Base\IdField;
 use App\Http\Api\Field\Field;
 use App\Http\Api\Field\Wiki\Audio\AudioBasenameField;
 use App\Http\Api\Field\Wiki\Audio\AudioFilenameField;
+use App\Http\Api\Field\Wiki\Audio\AudioLinkField;
 use App\Http\Api\Field\Wiki\Audio\AudioMimeTypeField;
 use App\Http\Api\Field\Wiki\Audio\AudioPathField;
 use App\Http\Api\Field\Wiki\Audio\AudioSizeField;
@@ -67,6 +68,7 @@ class AudioSchema extends EloquentSchema
                 new AudioMimeTypeField(),
                 new AudioPathField(),
                 new AudioSizeField(),
+                new AudioLinkField(),
             ],
         );
     }
