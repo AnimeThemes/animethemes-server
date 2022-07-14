@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Nova\Lenses\Studio;
 
 use App\Models\BaseModel;
-use App\Models\Wiki\Artist;
+use App\Models\Wiki\Studio;
 use App\Nova\Lenses\BaseLens;
 use Exception;
 use Laravel\Nova\Fields\DateTime;
@@ -29,17 +29,17 @@ abstract class StudioLens extends BaseLens
     public function fields(NovaRequest $request): array
     {
         return [
-            ID::make(__('nova.id'), Artist::ATTRIBUTE_ID)
+            ID::make(__('nova.id'), Studio::ATTRIBUTE_ID)
                 ->sortable()
                 ->showOnPreview(),
 
-            Text::make(__('nova.name'), Artist::ATTRIBUTE_NAME)
+            Text::make(__('nova.name'), Studio::ATTRIBUTE_NAME)
                 ->sortable()
                 ->copyable()
                 ->showOnPreview()
                 ->filterable(),
 
-            Text::make(__('nova.slug'), Artist::ATTRIBUTE_SLUG)
+            Text::make(__('nova.slug'), Studio::ATTRIBUTE_SLUG)
                 ->sortable()
                 ->copyable()
                 ->showOnPreview(),
