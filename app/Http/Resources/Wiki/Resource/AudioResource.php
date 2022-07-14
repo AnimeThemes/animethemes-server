@@ -18,6 +18,8 @@ use Illuminate\Http\Resources\MissingValue;
  */
 class AudioResource extends BaseResource
 {
+    final public const ATTRIBUTE_LINK = 'link';
+
     /**
      * The "data" wrapper that should be applied.
      *
@@ -83,6 +85,10 @@ class AudioResource extends BaseResource
 
         if ($this->isAllowedField(BaseModel::ATTRIBUTE_DELETED_AT)) {
             $result[BaseModel::ATTRIBUTE_DELETED_AT] = $this->deleted_at;
+        }
+
+        if ($this->isAllowedField(AudioResource::ATTRIBUTE_LINK)) {
+            $result[AudioResource::ATTRIBUTE_LINK] = route('audio.show', $this);
         }
 
         return $result;
