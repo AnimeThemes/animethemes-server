@@ -86,6 +86,7 @@ return [
     'confirm_new_password' => 'Confirm New Password',
     'confirm' => 'Confirm',
     'content' => 'Content',
+    'create' => 'Create',
     'created_at_end' => 'Created At End',
     'created_at_start' => 'Created At Start',
     'created_at' => 'Created At',
