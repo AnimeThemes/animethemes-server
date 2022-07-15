@@ -62,7 +62,7 @@ abstract class AnimeResourceLens extends AnimeLens
     {
         return [
             (new AttachAnimeResourceAction(static::site()))
-                ->confirmButtonText(__('nova.create'))
+                ->confirmButtonText(__('nova.attach'))
                 ->cancelButtonText(__('nova.cancel'))
                 ->showInline()
                 ->canSee(function (Request $request) {

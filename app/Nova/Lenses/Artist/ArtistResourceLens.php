@@ -62,7 +62,7 @@ abstract class ArtistResourceLens extends ArtistLens
     {
         return [
             (new AttachArtistResourceAction(static::site()))
-                ->confirmButtonText(__('nova.create'))
+                ->confirmButtonText(__('nova.attach'))
                 ->cancelButtonText(__('nova.cancel'))
                 ->showInline()
                 ->canSee(function (Request $request) {
