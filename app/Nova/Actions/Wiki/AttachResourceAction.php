@@ -22,7 +22,7 @@ abstract class AttachResourceAction extends Action
     /**
      * Create a new action instance.
      *
-     * @param ResourceSite $site
+     * @param  ResourceSite  $site
      */
     public function __construct(protected ResourceSite $site)
     {
