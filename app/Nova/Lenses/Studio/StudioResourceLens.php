@@ -8,7 +8,7 @@ use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Auth\User;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Studio;
-use App\Nova\Actions\Wiki\Studio\CreateExternalResourceSiteForStudioAction;
+use App\Nova\Actions\Wiki\Studio\AttachStudioResourceAction;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
@@ -60,8 +60,8 @@ abstract class StudioResourceLens extends StudioLens
     public function actions(Request $request): array
     {
         return [
-            (new CreateExternalResourceSiteForStudioAction(static::site()->value))
-                ->confirmButtonText(__('nova.create'))
+            (new AttachStudioResourceAction(static::site()))
+                ->confirmButtonText(__('nova.attach'))
                 ->cancelButtonText(__('nova.cancel'))
                 ->showInline()
                 ->canSee(function (Request $request) {

@@ -8,7 +8,7 @@ use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\ExternalResource;
-use App\Nova\Actions\Wiki\Anime\CreateExternalResourceSiteForAnimeAction;
+use App\Nova\Actions\Wiki\Anime\AttachAnimeResourceAction;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -61,8 +61,8 @@ abstract class AnimeResourceLens extends AnimeLens
     public function actions(NovaRequest $request): array
     {
         return [
-            (new CreateExternalResourceSiteForAnimeAction(static::site()->value))
-                ->confirmButtonText(__('nova.create'))
+            (new AttachAnimeResourceAction(static::site()))
+                ->confirmButtonText(__('nova.attach'))
                 ->cancelButtonText(__('nova.cancel'))
                 ->showInline()
                 ->canSee(function (Request $request) {

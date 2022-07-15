@@ -8,7 +8,7 @@ use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Auth\User;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\ExternalResource;
-use App\Nova\Actions\Wiki\Artist\CreateExternalResourceSiteForArtistAction;
+use App\Nova\Actions\Wiki\Artist\AttachArtistResourceAction;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -61,8 +61,8 @@ abstract class ArtistResourceLens extends ArtistLens
     public function actions(NovaRequest $request): array
     {
         return [
-            (new CreateExternalResourceSiteForArtistAction(static::site()->value))
-                ->confirmButtonText(__('nova.create'))
+            (new AttachArtistResourceAction(static::site()))
+                ->confirmButtonText(__('nova.attach'))
                 ->cancelButtonText(__('nova.cancel'))
                 ->showInline()
                 ->canSee(function (Request $request) {
