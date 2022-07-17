@@ -11,8 +11,10 @@ use App\Http\Api\Criteria\Filter\TrashedCriteria;
 use App\Http\Api\Criteria\Paging\Criteria;
 use App\Http\Api\Criteria\Paging\OffsetCriteria;
 use App\Http\Api\Field\Field;
+use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Parser\FieldParser;
 use App\Http\Api\Parser\FilterParser;
+use App\Http\Api\Parser\IncludeParser;
 use App\Http\Api\Parser\PagingParser;
 use App\Http\Api\Parser\SortParser;
 use App\Http\Api\Query\Wiki\Audio\AudioReadQuery;
@@ -21,6 +23,7 @@ use App\Http\Resources\Wiki\Collection\AudioCollection;
 use App\Http\Resources\Wiki\Resource\AudioResource;
 use App\Models\BaseModel;
 use App\Models\Wiki\Audio;
+use App\Models\Wiki\Video;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
@@ -77,6 +80,46 @@ class AudioIndexTest extends TestCase
             'links',
             'meta',
         ]);
+    }
+
+    /**
+     * The Audio Index Endpoint shall allow inclusion of related resources.
+     *
+     * @return void
+     */
+    public function testAllowedIncludePaths(): void
+    {
+        $schema = new AudioSchema();
+
+        $allowedIncludes = collect($schema->allowedIncludes());
+
+        $selectedIncludes = $allowedIncludes->random($this->faker->numberBetween(1, $allowedIncludes->count()));
+
+        $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
+
+        $parameters = [
+            IncludeParser::param() => $includedPaths->join(','),
+        ];
+
+        Audio::factory()
+            ->count($this->faker->randomDigitNotNull())
+            ->has(Video::factory()->count($this->faker->randomDigitNotNull()))
+            ->create();
+
+        $audios = Audio::with($includedPaths->all())->get();
+
+        $response = $this->get(route('api.audio.index', $parameters));
+
+        $response->assertJson(
+            json_decode(
+                json_encode(
+                    (new AudioCollection($audios, new AudioReadQuery($parameters)))
+                        ->response()
+                        ->getData()
+                ),
+                true
+            )
+        );
     }
 
     /**

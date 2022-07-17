@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace Tests\Unit\Models\Wiki;
 
 use App\Models\Wiki\Audio;
+use App\Models\Wiki\Video;
 use CyrildeWit\EloquentViewable\View;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Config;
@@ -42,6 +44,24 @@ class AudioTest extends TestCase
         $audio = Audio::factory()->createOne();
 
         static::assertIsString($audio->getName());
+    }
+
+    /**
+     * Audio shall have a one-to-many relationship with the type Video.
+     *
+     * @return void
+     */
+    public function testVideos(): void
+    {
+        $videoCount = $this->faker->randomDigitNotNull();
+
+        $audio = Audio::factory()
+            ->has(Video::factory()->count($videoCount))
+            ->createOne();
+
+        static::assertInstanceOf(HasMany::class, $audio->videos());
+        static::assertEquals($videoCount, $audio->videos()->count());
+        static::assertInstanceOf(Video::class, $audio->videos()->first());
     }
 
     /**

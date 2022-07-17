@@ -12,7 +12,9 @@ use App\Models\BaseModel;
 use CyrildeWit\EloquentViewable\Contracts\Viewable;
 use CyrildeWit\EloquentViewable\InteractsWithViews;
 use Database\Factories\Wiki\AudioFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Laravel\Nova\Actions\Actionable;
+use Ramsey\Collection\Collection;
 
 /**
  * Class Audio.
@@ -23,6 +25,7 @@ use Laravel\Nova\Actions\Actionable;
  * @property string $mimetype
  * @property string $path
  * @property int $size
+ * @property Collection<int, Video> $videos
  *
  * @method static AudioFactory factory(...$parameters)
  */
@@ -39,6 +42,8 @@ class Audio extends BaseModel implements Viewable
     final public const ATTRIBUTE_MIMETYPE = 'mimetype';
     final public const ATTRIBUTE_PATH = 'path';
     final public const ATTRIBUTE_SIZE = 'size';
+
+    final public const RELATION_VIDEOS = 'videos';
 
     /**
      * The attributes that are mass assignable.
@@ -110,5 +115,15 @@ class Audio extends BaseModel implements Viewable
     public function getName(): string
     {
         return $this->basename;
+    }
+
+    /**
+     * Get the videos that use this audio.
+     *
+     * @return HasMany
+     */
+    public function videos(): HasMany
+    {
+        return $this->hasMany(Video::class, Video::ATTRIBUTE_AUDIO);
     }
 }
