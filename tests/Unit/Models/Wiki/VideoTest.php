@@ -9,9 +9,11 @@ use App\Enums\Models\Wiki\VideoSource;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
+use App\Models\Wiki\Audio;
 use App\Models\Wiki\Video;
 use App\Pivots\AnimeThemeEntryVideo;
 use CyrildeWit\EloquentViewable\View;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -287,5 +289,20 @@ class VideoTest extends TestCase
         static::assertEquals($entryCount, $video->animethemeentries()->count());
         static::assertInstanceOf(AnimeThemeEntry::class, $video->animethemeentries()->first());
         static::assertEquals(AnimeThemeEntryVideo::class, $video->animethemeentries()->getPivotClass());
+    }
+
+    /**
+     * Video shall belong to an Audio.
+     *
+     * @return void
+     */
+    public function testSong(): void
+    {
+        $video = Video::factory()
+            ->for(Audio::factory())
+            ->createOne();
+
+        static::assertInstanceOf(BelongsTo::class, $video->audio());
+        static::assertInstanceOf(Audio::class, $video->audio()->first());
     }
 }

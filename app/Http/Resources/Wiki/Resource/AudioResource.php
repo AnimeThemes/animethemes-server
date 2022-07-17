@@ -6,6 +6,7 @@ namespace App\Http\Resources\Wiki\Resource;
 
 use App\Http\Api\Query\ReadQuery;
 use App\Http\Resources\BaseResource;
+use App\Http\Resources\Wiki\Collection\VideoCollection;
 use App\Models\BaseModel;
 use App\Models\Wiki\Audio;
 use Illuminate\Http\Request;
@@ -90,6 +91,8 @@ class AudioResource extends BaseResource
         if ($this->isAllowedField(AudioResource::ATTRIBUTE_LINK)) {
             $result[AudioResource::ATTRIBUTE_LINK] = route('audio.show', $this);
         }
+
+        $result[Audio::RELATION_VIDEOS] = new VideoCollection($this->whenLoaded(Audio::RELATION_VIDEOS), $this->query);
 
         return $result;
     }

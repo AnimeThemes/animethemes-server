@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace App\Nova\Resources\Wiki;
 
 use App\Models\Wiki\Audio as AudioModel;
+use App\Nova\Lenses\Audio\AudioVideoLens;
 use App\Nova\Resources\BaseResource;
 use Exception;
+use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Text;
@@ -98,6 +100,8 @@ class Audio extends BaseResource
                 ->sortable()
                 ->showOnPreview(),
 
+            HasMany::make(__('nova.videos'), AudioModel::RELATION_VIDEOS, Video::class),
+
             Panel::make(__('nova.file_properties'), $this->fileProperties())
                 ->collapsable(),
 
@@ -155,5 +159,21 @@ class Audio extends BaseResource
                 ->showOnPreview()
                 ->filterable(),
         ];
+    }
+
+    /**
+     * Get the lenses available for the resource.
+     *
+     * @param  NovaRequest  $request
+     * @return array
+     */
+    public function lenses(NovaRequest $request): array
+    {
+        return array_merge(
+            parent::lenses($request),
+            [
+                new AudioVideoLens(),
+            ]
+        );
     }
 }
