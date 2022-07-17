@@ -5,11 +5,14 @@ declare(strict_types=1);
 namespace Tests\Feature\Http\Api\Wiki\Audio;
 
 use App\Http\Api\Field\Field;
+use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Parser\FieldParser;
+use App\Http\Api\Parser\IncludeParser;
 use App\Http\Api\Query\Wiki\Audio\AudioReadQuery;
 use App\Http\Api\Schema\Wiki\AudioSchema;
 use App\Http\Resources\Wiki\Resource\AudioResource;
 use App\Models\Wiki\Audio;
+use App\Models\Wiki\Video;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
@@ -62,6 +65,43 @@ class AudioShowTest extends TestCase
             json_decode(
                 json_encode(
                     (new AudioResource($audio, new AudioReadQuery()))
+                        ->response()
+                        ->getData()
+                ),
+                true
+            )
+        );
+    }
+
+    /**
+     * The Audio Show Endpoint shall allow inclusion of related resources.
+     *
+     * @return void
+     */
+    public function testAllowedIncludePaths(): void
+    {
+        $schema = new AudioSchema();
+
+        $allowedIncludes = collect($schema->allowedIncludes());
+
+        $selectedIncludes = $allowedIncludes->random($this->faker->numberBetween(1, $allowedIncludes->count()));
+
+        $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
+
+        $parameters = [
+            IncludeParser::param() => $includedPaths->join(','),
+        ];
+
+        $audio = Audio::factory()
+            ->has(Video::factory()->count($this->faker->randomDigitNotNull()))
+            ->create();
+
+        $response = $this->get(route('api.audio.show', ['audio' => $audio] + $parameters));
+
+        $response->assertJson(
+            json_decode(
+                json_encode(
+                    (new AudioResource($audio, new AudioReadQuery($parameters)))
                         ->response()
                         ->getData()
                 ),

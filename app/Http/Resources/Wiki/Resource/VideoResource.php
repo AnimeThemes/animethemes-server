@@ -125,6 +125,7 @@ class VideoResource extends BaseResource
         }
 
         $result[Video::RELATION_ANIMETHEMEENTRIES] = new EntryCollection($this->whenLoaded(Video::RELATION_ANIMETHEMEENTRIES), $this->query);
+        $result[Video::RELATION_AUDIO] = new AudioResource($this->whenLoaded(Video::RELATION_AUDIO), $this->query);
 
         return $result;
     }

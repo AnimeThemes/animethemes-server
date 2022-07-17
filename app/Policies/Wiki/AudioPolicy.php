@@ -90,4 +90,15 @@ class AudioPolicy
     {
         return $user->can('force delete audio');
     }
+
+    /**
+     * Determine whether the user can add a video to the audio.
+     *
+     * @param  User  $user
+     * @return bool
+     */
+    public function addVideo(User $user): bool
+    {
+        return $user->can('create video');
+    }
 }
