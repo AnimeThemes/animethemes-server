@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Wiki;
 use App\Http\Controllers\Controller;
 use App\Models\Wiki\Video;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
 
 /**
@@ -22,7 +23,7 @@ class VideoController extends Controller
      */
     public function show(Video $video): Response
     {
-        $fs = Storage::disk('videos');
+        $fs = Storage::disk(Config::get('video.disk'));
 
         // Generate temporary link for the object
         $temporaryURL = $fs->temporaryUrl($video->path, now()->addMinutes(5));

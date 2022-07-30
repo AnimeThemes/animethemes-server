@@ -73,6 +73,12 @@ return [
             'throw' => false,
         ],
 
+        'videos_local' => [
+            'driver' => 'local',
+            'root' => env('VIDEO_DISK_ROOT'),
+            'throw' => false,
+        ],
+
         'audios' => [
             'driver' => 's3',
             'key' => env('AUDIO_ACCESS_KEY_ID'),
@@ -83,6 +89,12 @@ return [
             'stream_reads' => env('AUDIO_STREAM_READS'),
             'disable_asserts' => env('AUDIO_DISABLE_ASSERTS'),
             'visibility' => env('AUDIO_VISIBILITY'),
+            'throw' => false,
+        ],
+
+        'audios_local' => [
+            'driver' => 'local',
+            'root' => env('AUDIO_DISK_ROOT'),
             'throw' => false,
         ],
 

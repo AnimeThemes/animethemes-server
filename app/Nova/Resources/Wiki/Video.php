@@ -6,7 +6,9 @@ namespace App\Nova\Resources\Wiki;
 
 use App\Enums\Models\Wiki\VideoOverlap;
 use App\Enums\Models\Wiki\VideoSource;
+use App\Models\Auth\User;
 use App\Models\Wiki\Video as VideoModel;
+use App\Nova\Actions\Wiki\Video\BackfillVideoAction;
 use App\Nova\Lenses\Video\VideoAudioLens;
 use App\Nova\Lenses\Video\VideoResolutionLens;
 use App\Nova\Lenses\Video\VideoSourceLens;
@@ -19,6 +21,7 @@ use App\Pivots\BasePivot;
 use BenSampo\Enum\Enum;
 use BenSampo\Enum\Rules\EnumValue;
 use Exception;
+use Illuminate\Http\Request;
 use Laravel\Nova\Card;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\BelongsToMany;
@@ -252,6 +255,32 @@ class Video extends BaseResource
                 ->showOnPreview()
                 ->filterable(),
         ];
+    }
+
+    /**
+     * Get the actions available for the resource.
+     *
+     * @param  NovaRequest  $request
+     * @return array
+     */
+    public function actions(NovaRequest $request): array
+    {
+        return array_merge(
+            parent::actions($request),
+            [
+                (new BackfillVideoAction($request->user()))
+                    ->confirmButtonText(__('nova.backfill'))
+                    ->cancelButtonText(__('nova.cancel'))
+                    ->showOnIndex()
+                    ->showOnDetail()
+                    ->showInline()
+                    ->canSee(function (Request $request) {
+                        $user = $request->user();
+
+                        return $user instanceof User && $user->can('update video');
+                    }),
+            ]
+        );
     }
 
     /**

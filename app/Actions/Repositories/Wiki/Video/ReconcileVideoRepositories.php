@@ -2,21 +2,22 @@
 
 declare(strict_types=1);
 
-namespace App\Concerns\Repositories\Wiki;
+namespace App\Actions\Repositories\Wiki\Video;
 
-use App\Concerns\Repositories\ReconcilesRepositories;
+use App\Actions\Repositories\ReconcileRepositories;
+use App\Actions\Repositories\ReconcileResults;
 use App\Models\Wiki\Video;
 use Closure;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 
 /**
- * Trait ReconcilesVideoRepositories.
+ * Class ReconcileVideoRepositories.
+ *
+ * @extends ReconcileRepositories<Video>
  */
-trait ReconcilesVideoRepositories
+class ReconcileVideoRepositories extends ReconcileRepositories
 {
-    use ReconcilesRepositories;
-
     /**
      * The columns used for create and delete set operations.
      *
@@ -80,5 +81,18 @@ trait ReconcilesVideoRepositories
             Video::ATTRIBUTE_BASENAME,
             $destinationModel->getAttribute(Video::ATTRIBUTE_BASENAME)
         );
+    }
+
+    /**
+     * Get reconciliation results.
+     *
+     * @param  Collection  $created
+     * @param  Collection  $deleted
+     * @param  Collection  $updated
+     * @return ReconcileResults
+     */
+    protected function getResults(Collection $created, Collection $deleted, Collection $updated): ReconcileResults
+    {
+        return new ReconcileVideoResults($created, $deleted, $updated);
     }
 }

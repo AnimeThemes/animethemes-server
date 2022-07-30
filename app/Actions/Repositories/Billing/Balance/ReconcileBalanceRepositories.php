@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Concerns\Repositories\Billing;
+namespace App\Actions\Repositories\Billing\Balance;
 
-use App\Concerns\Repositories\ReconcilesRepositories;
+use App\Actions\Repositories\ReconcileRepositories;
+use App\Actions\Repositories\ReconcileResults;
 use App\Enums\Http\Api\Filter\AllowedDateFormat;
 use App\Models\Billing\Balance;
 use Closure;
@@ -12,12 +13,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 
 /**
- * Trait ReconcilesBalanceRepositories.
+ * Class ReconcileBalanceRepositories.
+ *
+ * @extends ReconcileRepositories<Balance>
  */
-trait ReconcilesBalanceRepositories
+class ReconcileBalanceRepositories extends ReconcileRepositories
 {
-    use ReconcilesRepositories;
-
     /**
      * The columns used for create and delete set operations.
      *
@@ -84,5 +85,18 @@ trait ReconcilesBalanceRepositories
         return $sourceModels->first(
             fn (Balance $balance) => $balance->date->format(AllowedDateFormat::YM) === $formattedDestinationDate
         );
+    }
+
+    /**
+     * Get reconciliation results.
+     *
+     * @param  Collection  $created
+     * @param  Collection  $deleted
+     * @param  Collection  $updated
+     * @return ReconcileResults
+     */
+    protected function getResults(Collection $created, Collection $deleted, Collection $updated): ReconcileResults
+    {
+        return new ReconcileBalanceResults($created, $deleted, $updated);
     }
 }
