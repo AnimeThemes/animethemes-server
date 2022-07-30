@@ -178,17 +178,17 @@ class Video extends BaseModel implements Viewable
 
         // Videos that play over the episode will likely have compressed audio
         if (VideoOverlap::OVER()->is($this->overlap)) {
-           $priority -= 8;
+            $priority -= 8;
         }
 
         // Videos that transition to or from the episode may have compressed audio
         if (VideoOverlap::TRANS()->is($this->overlap)) {
-           $priority -= 5;
+            $priority -= 5;
         }
 
         // De-prioritize hardsubbed videos
         if ($this->lyrics || $this->subbed) {
-           $priority--;
+            $priority--;
         }
 
         return $priority;
