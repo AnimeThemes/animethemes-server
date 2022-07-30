@@ -99,7 +99,7 @@ abstract class ReconcileResults
     /**
      * Get the user-friendly label for the model class name.
      *
-     * @param int|array|Countable $models
+     * @param  int|array|Countable  $models
      * @return string
      */
     protected function label(int|array|Countable $models = 1): string
