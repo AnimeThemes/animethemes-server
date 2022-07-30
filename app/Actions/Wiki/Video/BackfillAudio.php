@@ -96,7 +96,7 @@ class BackfillAudio
     /**
      * Get the source video for the given video.
      *
-     * @param Video $video
+     * @param  Video  $video
      * @return Video|null
      */
     protected function getSourceVideo(Video $video): ?Video
@@ -117,7 +117,7 @@ class BackfillAudio
     /**
      * Get the adjacent videos for sourcing.
      *
-     * @param Video $video
+     * @param  Video  $video
      * @return Collection<int, Video>
      */
     protected function getAdjacentVideos(Video $video): Collection

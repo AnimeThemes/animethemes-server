@@ -325,7 +325,7 @@ class VideoTest extends TestCase
     }
 
     /**
-     * Provider for source priority testing
+     * Provider for source priority testing.
      *
      * @return array
      */

@@ -174,24 +174,24 @@ class Video extends BaseModel implements Viewable
      */
     public function getSourcePriority(): int
     {
-       $priority = VideoSource::getPriority($this->source?->value);
+        $priority = VideoSource::getPriority($this->source?->value);
 
-       // Videos that play over the episode will likely have compressed audio
-       if (VideoOverlap::OVER()->is($this->overlap)) {
+        // Videos that play over the episode will likely have compressed audio
+        if (VideoOverlap::OVER()->is($this->overlap)) {
            $priority -= 8;
-       }
+        }
 
-       // Videos that transition to or from the episode may have compressed audio
-       if (VideoOverlap::TRANS()->is($this->overlap)) {
+        // Videos that transition to or from the episode may have compressed audio
+        if (VideoOverlap::TRANS()->is($this->overlap)) {
            $priority -= 5;
-       }
+        }
 
-       // De-prioritize hardsubbed videos
-       if ($this->lyrics || $this->subbed) {
+        // De-prioritize hardsubbed videos
+        if ($this->lyrics || $this->subbed) {
            $priority--;
-       }
+        }
 
-       return $priority;
+        return $priority;
     }
 
     /**
