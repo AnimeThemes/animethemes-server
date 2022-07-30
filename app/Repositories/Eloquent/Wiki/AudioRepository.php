@@ -11,6 +11,8 @@ use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Class AudioRepository.
+ *
+ * @extends EloquentRepository<Audio>
  */
 class AudioRepository extends EloquentRepository
 {

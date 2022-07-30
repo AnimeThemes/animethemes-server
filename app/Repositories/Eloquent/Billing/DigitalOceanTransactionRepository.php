@@ -11,6 +11,8 @@ use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Class DigitalOceanTransactionRepository.
+ *
+ * @extends EloquentRepository<Transaction>
  */
 class DigitalOceanTransactionRepository extends EloquentRepository
 {

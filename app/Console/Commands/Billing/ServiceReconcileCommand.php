@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Console\Commands\Billing;
 
+use App\Actions\Repositories\ReconcileRepositories;
 use App\Contracts\Repositories\RepositoryInterface;
 use App\Enums\Models\Billing\Service;
 use Illuminate\Console\Command;
@@ -48,19 +49,22 @@ abstract class ServiceReconcileCommand extends Command
             return 1;
         }
 
-        $this->reconcileRepositories($sourceRepository, $destinationRepository);
+        $action = $this->getAction();
+
+        $results = $action->reconcileRepositories($sourceRepository, $destinationRepository);
+
+        $results->toLog();
+        $results->toConsole($this);
 
         return 0;
     }
 
     /**
-     * Perform set reconciliation between source and destination repositories.
+     * Get the reconciliation action.
      *
-     * @param  RepositoryInterface  $source
-     * @param  RepositoryInterface  $destination
-     * @return void
+     * @return ReconcileRepositories
      */
-    abstract public function reconcileRepositories(RepositoryInterface $source, RepositoryInterface $destination): void;
+    abstract protected function getAction(): ReconcileRepositories;
 
     /**
      * Get source repository for service.
