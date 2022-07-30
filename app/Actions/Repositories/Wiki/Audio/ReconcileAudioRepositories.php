@@ -2,21 +2,22 @@
 
 declare(strict_types=1);
 
-namespace App\Concerns\Repositories\Wiki;
+namespace App\Actions\Repositories\Wiki\Audio;
 
-use App\Concerns\Repositories\ReconcilesRepositories;
+use App\Actions\Repositories\ReconcileRepositories;
+use App\Actions\Repositories\ReconcileResults;
 use App\Models\Wiki\Audio;
 use Closure;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 
 /**
- * Trait ReconcilesAudioRepositories.
+ * Class ReconcileAudioRepositories.
+ *
+ * @extends ReconcileRepositories<Audio>
  */
-trait ReconcilesAudioRepositories
+class ReconcileAudioRepositories extends ReconcileRepositories
 {
-    use ReconcilesRepositories;
-
     /**
      * The columns used for create and delete set operations.
      *
@@ -78,5 +79,18 @@ trait ReconcilesAudioRepositories
             Audio::ATTRIBUTE_BASENAME,
             $destinationModel->getAttribute(Audio::ATTRIBUTE_BASENAME)
         );
+    }
+
+    /**
+     * Get reconciliation results.
+     *
+     * @param  Collection  $created
+     * @param  Collection  $deleted
+     * @param  Collection  $updated
+     * @return ReconcileResults
+     */
+    protected function getResults(Collection $created, Collection $deleted, Collection $updated): ReconcileResults
+    {
+        return new ReconcileAudioResults($created, $deleted, $updated);
     }
 }

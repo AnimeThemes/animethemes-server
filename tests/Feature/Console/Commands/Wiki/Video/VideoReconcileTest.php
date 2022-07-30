@@ -6,7 +6,7 @@ namespace Console\Commands\Wiki\Video;
 
 use App\Console\Commands\Wiki\Video\VideoReconcileCommand;
 use App\Models\Wiki\Video;
-use App\Repositories\Service\DigitalOcean\Wiki\VideoRepository;
+use App\Repositories\Storage\Wiki\VideoRepository;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Support\Collection;
@@ -28,6 +28,8 @@ class VideoReconcileTest extends TestCase
      */
     public function testNoResults(): void
     {
+        $this->baseRefreshDatabase(); // Cannot lazily refresh database within pending command
+
         $this->mock(VideoRepository::class, function (MockInterface $mock) {
             $mock->shouldReceive('get')->once()->andReturn(Collection::make());
         });
@@ -44,7 +46,7 @@ class VideoReconcileTest extends TestCase
     {
         $this->baseRefreshDatabase(); // Cannot lazily refresh database within pending command
 
-        $createdVideoCount = $this->faker->randomDigitNotNull();
+        $createdVideoCount = $this->faker->numberBetween(2, 9);
 
         $videos = Video::factory()->count($createdVideoCount)->make();
 
@@ -62,7 +64,7 @@ class VideoReconcileTest extends TestCase
      */
     public function testDeleted(): void
     {
-        $deletedVideoCount = $this->faker->randomDigitNotNull();
+        $deletedVideoCount = $this->faker->numberBetween(2, 9);
 
         Video::factory()->count($deletedVideoCount)->create();
 
@@ -80,7 +82,7 @@ class VideoReconcileTest extends TestCase
      */
     public function testUpdated(): void
     {
-        $updatedVideoCount = $this->faker->randomDigitNotNull();
+        $updatedVideoCount = $this->faker->numberBetween(2, 9);
 
         $basenames = collect($this->faker->words($updatedVideoCount));
 

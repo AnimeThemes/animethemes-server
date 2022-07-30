@@ -8,7 +8,7 @@ use App\Console\Commands\Billing\Balance\BalanceReconcileCommand;
 use App\Enums\Http\Api\Filter\AllowedDateFormat;
 use App\Enums\Models\Billing\Service;
 use App\Models\Billing\Balance;
-use App\Repositories\Service\DigitalOcean\Billing\DigitalOceanBalanceRepository;
+use App\Repositories\DigitalOcean\Billing\DigitalOceanBalanceRepository;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Support\Collection;
@@ -57,6 +57,8 @@ class BalanceReconcileTest extends TestCase
      */
     public function testNoResults(): void
     {
+        $this->baseRefreshDatabase(); // Cannot lazily refresh database within pending command
+
         $this->mock(DigitalOceanBalanceRepository::class, function (MockInterface $mock) {
             $mock->shouldReceive('get')->once()->andReturn(Collection::make());
         });
@@ -73,7 +75,7 @@ class BalanceReconcileTest extends TestCase
     {
         $this->baseRefreshDatabase(); // Cannot lazily refresh database within pending command
 
-        $createdBalanceCount = $this->faker->randomDigitNotNull();
+        $createdBalanceCount = $this->faker->numberBetween(2, 9);
 
         $balances = Balance::factory()
             ->count($createdBalanceCount)
@@ -96,7 +98,7 @@ class BalanceReconcileTest extends TestCase
      */
     public function testDeleted(): void
     {
-        $deletedBalanceCount = $this->faker->randomDigitNotNull();
+        $deletedBalanceCount = $this->faker->numberBetween(2, 9);
 
         Balance::factory()
             ->count($deletedBalanceCount)
@@ -135,6 +137,6 @@ class BalanceReconcileTest extends TestCase
             $mock->shouldReceive('get')->once()->andReturn(collect([$sourceBalances]));
         });
 
-        $this->artisan(BalanceReconcileCommand::class, ['service' => Service::DIGITALOCEAN()->key])->expectsOutput('0 Balances created, 0 Balances deleted, 1 Balances updated');
+        $this->artisan(BalanceReconcileCommand::class, ['service' => Service::DIGITALOCEAN()->key])->expectsOutput('0 Balances created, 0 Balances deleted, 1 Balance updated');
     }
 }

@@ -167,6 +167,34 @@ class Video extends BaseModel implements Viewable
     }
 
     /**
+     * Get the priority score for the video.
+     * Higher scores increase the likelihood of the video to be the source of an audio track.
+     *
+     * @return int
+     */
+    public function getSourcePriority(): int
+    {
+       $priority = VideoSource::getPriority($this->source?->value);
+
+       // Videos that play over the episode will likely have compressed audio
+       if (VideoOverlap::OVER()->is($this->overlap)) {
+           $priority -= 8;
+       }
+
+       // Videos that transition to or from the episode may have compressed audio
+       if (VideoOverlap::TRANS()->is($this->overlap)) {
+           $priority -= 5;
+       }
+
+       // De-prioritize hardsubbed videos
+       if ($this->lyrics || $this->subbed) {
+           $priority--;
+       }
+
+       return $priority;
+    }
+
+    /**
      * Modify the query used to retrieve models when making all of the models searchable.
      *
      * @param  Builder  $query

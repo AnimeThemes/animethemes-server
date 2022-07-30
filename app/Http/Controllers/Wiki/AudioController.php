@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Wiki;
 use App\Http\Controllers\Controller;
 use App\Models\Wiki\Audio;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
 
 /**
@@ -22,7 +23,7 @@ class AudioController extends Controller
      */
     public function show(Audio $audio): Response
     {
-        $fs = Storage::disk('audios');
+        $fs = Storage::disk(Config::get('audio.disk'));
 
         // Generate temporary link for the object
         $temporaryURL = $fs->temporaryUrl($audio->path, now()->addMinutes(5));
