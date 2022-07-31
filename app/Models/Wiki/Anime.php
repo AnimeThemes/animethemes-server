@@ -61,6 +61,7 @@ class Anime extends BaseModel
     final public const ATTRIBUTE_YEAR = 'year';
 
     final public const RELATION_ARTISTS = 'animethemes.song.artists';
+    final public const RELATION_AUDIO = 'animethemes.animethemeentries.videos.audio';
     final public const RELATION_ENTRIES = 'animethemes.animethemeentries';
     final public const RELATION_IMAGES = 'images';
     final public const RELATION_RESOURCES = 'resources';

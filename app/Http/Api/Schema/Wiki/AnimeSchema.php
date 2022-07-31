@@ -54,6 +54,7 @@ class AnimeSchema extends EloquentSchema
     {
         return [
             new AllowedInclude(new ArtistSchema(), Anime::RELATION_ARTISTS),
+            new AllowedInclude(new AudioSchema(), Anime::RELATION_AUDIO),
             new AllowedInclude(new EntrySchema(), Anime::RELATION_ENTRIES),
             new AllowedInclude(new ExternalResourceSchema(), Anime::RELATION_RESOURCES),
             new AllowedInclude(new ImageSchema(), Anime::RELATION_IMAGES),
