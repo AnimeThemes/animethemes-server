@@ -59,6 +59,11 @@ class RouteServiceProvider extends ServiceProvider
                 ->prefix(Config::get('video.path'))
                 ->group(base_path('routes/video.php'));
 
+            Route::middleware('web')
+                ->domain(Config::get('audio.url'))
+                ->prefix(Config::get('audio.path'))
+                ->group(base_path('routes/audio.php'));
+
             Route::middleware('api')
                 ->domain(Config::get('api.url'))
                 ->prefix(Config::get('api.path'))

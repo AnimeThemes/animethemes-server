@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Date;
 
 /**
  * Class DigitalOceanBalanceRepository.
+ *
+ * @extends EloquentRepository<Balance>
  */
 class DigitalOceanBalanceRepository extends EloquentRepository
 {

@@ -7,7 +7,7 @@ namespace Tests\Feature\Console\Commands\Billing;
 use App\Console\Commands\Billing\Transaction\TransactionReconcileCommand;
 use App\Enums\Models\Billing\Service;
 use App\Models\Billing\Transaction;
-use App\Repositories\Service\DigitalOcean\Billing\DigitalOceanTransactionRepository;
+use App\Repositories\DigitalOcean\Billing\DigitalOceanTransactionRepository;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Support\Collection;
@@ -55,6 +55,8 @@ class TransactionReconcileTest extends TestCase
      */
     public function testNoResults(): void
     {
+        $this->baseRefreshDatabase(); // Cannot lazily refresh database within pending command
+
         $this->mock(DigitalOceanTransactionRepository::class, function (MockInterface $mock) {
             $mock->shouldReceive('get')->once()->andReturn(Collection::make());
         });
@@ -71,7 +73,7 @@ class TransactionReconcileTest extends TestCase
     {
         $this->baseRefreshDatabase(); // Cannot lazily refresh database within pending command
 
-        $createdTransactionCount = $this->faker->randomDigitNotNull();
+        $createdTransactionCount = $this->faker->numberBetween(2, 9);
 
         $transactions = Transaction::factory()
             ->count($createdTransactionCount)
@@ -93,7 +95,7 @@ class TransactionReconcileTest extends TestCase
      */
     public function testDeleted(): void
     {
-        $deletedTransactionCount = $this->faker->randomDigitNotNull();
+        $deletedTransactionCount = $this->faker->numberBetween(2, 9);
 
         Transaction::factory()
             ->count($deletedTransactionCount)

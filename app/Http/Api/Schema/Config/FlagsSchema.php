@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Schema\Config;
 
+use App\Http\Api\Field\Config\Flags\FlagsAllowAudioStreamsField;
 use App\Http\Api\Field\Config\Flags\FlagsAllowDiscordNotificationsField;
 use App\Http\Api\Field\Config\Flags\FlagsAllowVideoStreamsField;
 use App\Http\Api\Field\Config\Flags\FlagsAllowViewRecordingField;
@@ -48,6 +49,7 @@ class FlagsSchema extends Schema
     {
         return [
             new FlagsAllowVideoStreamsField(),
+            new FlagsAllowAudioStreamsField(),
             new FlagsAllowDiscordNotificationsField(),
             new FlagsAllowViewRecordingField(),
         ];

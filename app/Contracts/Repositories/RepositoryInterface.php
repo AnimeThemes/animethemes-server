@@ -9,6 +9,8 @@ use Illuminate\Support\Collection;
 
 /**
  * Interface RepositoryInterface.
+ *
+ * @template TModel of \App\Models\BaseModel
  */
 interface RepositoryInterface
 {

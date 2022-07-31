@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Scout\Elasticsearch\Api\Schema\Wiki;
 
 use App\Http\Api\Include\AllowedInclude;
+use App\Http\Api\Schema\Wiki\AudioSchema;
 use App\Http\Resources\Wiki\Resource\VideoResource;
 use App\Models\Wiki\Video;
 use App\Scout\Elasticsearch\Api\Field\Base\IdField;
@@ -59,6 +60,7 @@ class VideoSchema extends Schema
     {
         return [
             new AllowedInclude(new AnimeSchema(), Video::RELATION_ANIME),
+            new AllowedInclude(new AudioSchema(), Video::RELATION_AUDIO),
             new AllowedInclude(new EntrySchema(), Video::RELATION_ANIMETHEMEENTRIES),
             new AllowedInclude(new ThemeSchema(), Video::RELATION_ANIMETHEME),
         ];
