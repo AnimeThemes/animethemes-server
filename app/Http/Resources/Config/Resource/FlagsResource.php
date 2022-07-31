@@ -49,6 +49,10 @@ class FlagsResource extends BaseResource
             $result[FlagConstants::ALLOW_VIDEO_STREAMS_FLAG] = config(FlagConstants::ALLOW_VIDEO_STREAMS_FLAG_QUALIFIED, false);
         }
 
+        if ($this->isAllowedField(FlagConstants::ALLOW_AUDIO_STREAMS_FLAG)) {
+            $result[FlagConstants::ALLOW_AUDIO_STREAMS_FLAG] = config(FlagConstants::ALLOW_AUDIO_STREAMS_FLAG_QUALIFIED, false);
+        }
+
         if ($this->isAllowedField(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG)) {
             $result[FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG] = config(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, false);
         }

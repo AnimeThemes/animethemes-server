@@ -9,9 +9,11 @@ use App\Enums\Models\Wiki\VideoSource;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
+use App\Models\Wiki\Audio;
 use App\Models\Wiki\Video;
 use App\Pivots\AnimeThemeEntryVideo;
 use CyrildeWit\EloquentViewable\View;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -271,6 +273,24 @@ class VideoTest extends TestCase
     }
 
     /**
+     * The video source shall be the primary criterion for scoring.
+     *
+     * @param  array  $a
+     * @param  array  $b
+     * @return void
+     *
+     * @dataProvider priorityProvider
+     */
+    public function testSourcePriority(array $a, array $b): void
+    {
+        $first = Video::factory()->createOne($a);
+
+        $second = Video::factory()->createOne($b);
+
+        static::assertGreaterThan($first->getSourcePriority(), $second->getSourcePriority());
+    }
+
+    /**
      * Videos shall have a many-to-many relationship with the type Entry.
      *
      * @return void
@@ -287,5 +307,95 @@ class VideoTest extends TestCase
         static::assertEquals($entryCount, $video->animethemeentries()->count());
         static::assertInstanceOf(AnimeThemeEntry::class, $video->animethemeentries()->first());
         static::assertEquals(AnimeThemeEntryVideo::class, $video->animethemeentries()->getPivotClass());
+    }
+
+    /**
+     * Video shall belong to an Audio.
+     *
+     * @return void
+     */
+    public function testAudio(): void
+    {
+        $video = Video::factory()
+            ->for(Audio::factory())
+            ->createOne();
+
+        static::assertInstanceOf(BelongsTo::class, $video->audio());
+        static::assertInstanceOf(Audio::class, $video->audio()->first());
+    }
+
+    /**
+     * Provider for source priority testing.
+     *
+     * @return array
+     */
+    public function priorityProvider(): array
+    {
+        return [
+            [
+                [
+                    Video::ATTRIBUTE_SOURCE => VideoSource::WEB,
+                ],
+                [
+                    Video::ATTRIBUTE_SOURCE => VideoSource::BD,
+                ],
+            ],
+            [
+                [
+                    Video::ATTRIBUTE_SOURCE => VideoSource::BD,
+                    Video::ATTRIBUTE_OVERLAP => VideoOverlap::OVER,
+                    Video::ATTRIBUTE_LYRICS => false,
+                    Video::ATTRIBUTE_SUBBED => false,
+                ],
+                [
+                    Video::ATTRIBUTE_SOURCE => VideoSource::BD,
+                    Video::ATTRIBUTE_OVERLAP => VideoOverlap::NONE,
+                    Video::ATTRIBUTE_LYRICS => false,
+                    Video::ATTRIBUTE_SUBBED => false,
+                ],
+            ],
+            [
+                [
+                    Video::ATTRIBUTE_SOURCE => VideoSource::BD,
+                    Video::ATTRIBUTE_OVERLAP => VideoOverlap::TRANS,
+                    Video::ATTRIBUTE_LYRICS => false,
+                    Video::ATTRIBUTE_SUBBED => false,
+                ],
+                [
+                    Video::ATTRIBUTE_SOURCE => VideoSource::BD,
+                    Video::ATTRIBUTE_OVERLAP => VideoOverlap::NONE,
+                    Video::ATTRIBUTE_LYRICS => false,
+                    Video::ATTRIBUTE_SUBBED => false,
+                ],
+            ],
+            [
+                [
+                    Video::ATTRIBUTE_SOURCE => VideoSource::BD,
+                    Video::ATTRIBUTE_OVERLAP => VideoOverlap::NONE,
+                    Video::ATTRIBUTE_LYRICS => true,
+                    Video::ATTRIBUTE_SUBBED => false,
+                ],
+                [
+                    Video::ATTRIBUTE_SOURCE => VideoSource::BD,
+                    Video::ATTRIBUTE_OVERLAP => VideoOverlap::NONE,
+                    Video::ATTRIBUTE_LYRICS => false,
+                    Video::ATTRIBUTE_SUBBED => false,
+                ],
+            ],
+            [
+                [
+                    Video::ATTRIBUTE_SOURCE => VideoSource::BD,
+                    Video::ATTRIBUTE_OVERLAP => VideoOverlap::NONE,
+                    Video::ATTRIBUTE_LYRICS => false,
+                    Video::ATTRIBUTE_SUBBED => true,
+                ],
+                [
+                    Video::ATTRIBUTE_SOURCE => VideoSource::BD,
+                    Video::ATTRIBUTE_OVERLAP => VideoOverlap::NONE,
+                    Video::ATTRIBUTE_LYRICS => false,
+                    Video::ATTRIBUTE_SUBBED => false,
+                ],
+            ],
+        ];
     }
 }

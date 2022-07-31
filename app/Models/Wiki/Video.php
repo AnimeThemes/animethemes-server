@@ -20,6 +20,7 @@ use CyrildeWit\EloquentViewable\InteractsWithViews;
 use Database\Factories\Wiki\VideoFactory;
 use ElasticScoutDriverPlus\Searchable;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Collection;
 use Laravel\Nova\Actions\Actionable;
@@ -28,6 +29,8 @@ use Laravel\Nova\Actions\Actionable;
  * Class Video.
  *
  * @property Collection<int, AnimeThemeEntry> $animethemeentries
+ * @property Audio|null $audio
+ * @property int|null $audio_id
  * @property string $basename
  * @property string $filename
  * @property bool $lyrics
@@ -53,6 +56,7 @@ class Video extends BaseModel implements Viewable
 
     final public const TABLE = 'videos';
 
+    final public const ATTRIBUTE_AUDIO = 'audio_id';
     final public const ATTRIBUTE_BASENAME = 'basename';
     final public const ATTRIBUTE_FILENAME = 'filename';
     final public const ATTRIBUTE_ID = 'video_id';
@@ -72,6 +76,7 @@ class Video extends BaseModel implements Viewable
     final public const RELATION_ANIMESYNONYMS = 'animethemeentries.animetheme.anime.animesynonyms';
     final public const RELATION_ANIMETHEME = 'animethemeentries.animetheme';
     final public const RELATION_ANIMETHEMEENTRIES = 'animethemeentries';
+    final public const RELATION_AUDIO = 'audio';
     final public const RELATION_SONG = 'animethemeentries.animetheme.song';
 
     /**
@@ -80,6 +85,7 @@ class Video extends BaseModel implements Viewable
      * @var string[]
      */
     protected $fillable = [
+        Video::ATTRIBUTE_AUDIO,
         Video::ATTRIBUTE_BASENAME,
         Video::ATTRIBUTE_FILENAME,
         Video::ATTRIBUTE_LYRICS,
@@ -161,6 +167,34 @@ class Video extends BaseModel implements Viewable
     }
 
     /**
+     * Get the priority score for the video.
+     * Higher scores increase the likelihood of the video to be the source of an audio track.
+     *
+     * @return int
+     */
+    public function getSourcePriority(): int
+    {
+        $priority = VideoSource::getPriority($this->source?->value);
+
+        // Videos that play over the episode will likely have compressed audio
+        if (VideoOverlap::OVER()->is($this->overlap)) {
+            $priority -= 8;
+        }
+
+        // Videos that transition to or from the episode may have compressed audio
+        if (VideoOverlap::TRANS()->is($this->overlap)) {
+            $priority -= 5;
+        }
+
+        // De-prioritize hardsubbed videos
+        if ($this->lyrics || $this->subbed) {
+            $priority--;
+        }
+
+        return $priority;
+    }
+
+    /**
      * Modify the query used to retrieve models when making all of the models searchable.
      *
      * @param  Builder  $query
@@ -237,5 +271,15 @@ class Video extends BaseModel implements Viewable
         return $this->belongsToMany(AnimeThemeEntry::class, AnimeThemeEntryVideo::TABLE, Video::ATTRIBUTE_ID, AnimeThemeEntry::ATTRIBUTE_ID)
             ->using(AnimeThemeEntryVideo::class)
             ->withTimestamps();
+    }
+
+    /**
+     * Gets the audio that the video uses.
+     *
+     * @return BelongsTo
+     */
+    public function audio(): BelongsTo
+    {
+        return $this->belongsTo(Audio::class, Video::ATTRIBUTE_AUDIO);
     }
 }

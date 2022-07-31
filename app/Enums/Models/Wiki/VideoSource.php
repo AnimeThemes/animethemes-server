@@ -17,4 +17,23 @@ final class VideoSource extends BaseEnum
     public const DVD = 3;
     public const VHS = 4;
     public const LD = 5;
+
+    /**
+     * Score sources to help prioritize videos.
+     *
+     * @param  int|null  $value
+     * @return int
+     */
+    public static function getPriority(?int $value): int
+    {
+        return match ($value) {
+            self::BD => 60,
+            self::DVD => 50,
+            self::LD => 40,
+            self::VHS => 30,
+            self::WEB => 20,
+            self::RAW => 10,
+            default => 0,
+        };
+    }
 }

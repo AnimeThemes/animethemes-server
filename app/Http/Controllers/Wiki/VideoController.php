@@ -7,9 +7,8 @@ namespace App\Http\Controllers\Wiki;
 use App\Http\Controllers\Controller;
 use App\Models\Wiki\Video;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
-use Spatie\RouteDiscovery\Attributes\DoNotDiscover;
-use Spatie\RouteDiscovery\Attributes\Route;
 
 /**
  * Class VideoController.
@@ -17,25 +16,14 @@ use Spatie\RouteDiscovery\Attributes\Route;
 class VideoController extends Controller
 {
     /**
-     * Create a new controller instance.
-     */
-    #[DoNotDiscover]
-    public function __construct()
-    {
-        // route discovery wants class strings
-        $this->middleware(['is_video_streaming_allowed', 'without_trashed:video', 'record_view:video'], ['only' => 'show']);
-    }
-
-    /**
      * Stream video through nginx internal redirect.
      *
      * @param  Video  $video
      * @return Response
      */
-    #[Route(fullUri: '/{video}', name: 'video.show')]
     public function show(Video $video): Response
     {
-        $fs = Storage::disk('videos');
+        $fs = Storage::disk(Config::get('video.disk'));
 
         // Generate temporary link for the object
         $temporaryURL = $fs->temporaryUrl($video->path, now()->addMinutes(5));

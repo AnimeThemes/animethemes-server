@@ -17,6 +17,7 @@ use App\Http\Resources\Wiki\Resource\VideoResource;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
+use App\Models\Wiki\Audio;
 use App\Models\Wiki\Video;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -101,6 +102,7 @@ class VideoShowTest extends TestCase
         ];
 
         $video = Video::factory()
+            ->for(Audio::factory())
             ->has(
                 AnimeThemeEntry::factory()
                     ->count($this->faker->randomDigitNotNull())

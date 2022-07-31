@@ -6,6 +6,7 @@ namespace App\Http\Api\Schema\Wiki;
 
 use App\Http\Api\Field\Base\IdField;
 use App\Http\Api\Field\Field;
+use App\Http\Api\Field\Wiki\Video\VideoAudioIdField;
 use App\Http\Api\Field\Wiki\Video\VideoBasenameField;
 use App\Http\Api\Field\Wiki\Video\VideoFilenameField;
 use App\Http\Api\Field\Wiki\Video\VideoLinkField;
@@ -61,6 +62,7 @@ class VideoSchema extends EloquentSchema
     {
         return [
             new AllowedInclude(new AnimeSchema(), Video::RELATION_ANIME),
+            new AllowedInclude(new AudioSchema(), Video::RELATION_AUDIO),
             new AllowedInclude(new EntrySchema(), Video::RELATION_ANIMETHEMEENTRIES),
             new AllowedInclude(new ThemeSchema(), Video::RELATION_ANIMETHEME),
         ];
@@ -77,6 +79,7 @@ class VideoSchema extends EloquentSchema
             parent::fields(),
             [
                 new IdField(Video::ATTRIBUTE_ID),
+                new VideoAudioIdField(),
                 new VideoBasenameField(),
                 new VideoFilenameField(),
                 new VideoLyricsField(),

@@ -21,5 +21,6 @@ class DatabaseSeeder extends Seeder
         $this->call(DigitalOceanTransactionSeeder::class);
         $this->call(PermissionSeeder::class);
         $this->call(VideoSeeder::class);
+        $this->call(AudioSeeder::class);
     }
 }

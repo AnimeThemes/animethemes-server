@@ -29,6 +29,7 @@ use App\Models\BaseModel;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
+use App\Models\Wiki\Audio;
 use App\Models\Wiki\Video;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Sequence;
@@ -112,6 +113,7 @@ class VideoIndexTest extends TestCase
 
         Video::factory()
             ->count($this->faker->randomDigitNotNull())
+            ->for(Audio::factory())
             ->has(
                 AnimeThemeEntry::factory()
                     ->count($this->faker->randomDigitNotNull())
