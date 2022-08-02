@@ -4,16 +4,19 @@ declare(strict_types=1);
 
 namespace App\Console\Commands\Wiki\Audio;
 
+use App\Actions\Repositories\ReconcileRepositories;
 use App\Actions\Repositories\Wiki\Audio\ReconcileAudioRepositories;
+use App\Console\Commands\Wiki\StorageReconcileCommand;
+use App\Contracts\Repositories\RepositoryInterface;
 use App\Repositories\Eloquent\Wiki\AudioRepository as AudioDestinationRepository;
 use App\Repositories\Storage\Wiki\AudioRepository as AudioSourceRepository;
-use Illuminate\Console\Command;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Config;
 
 /**
  * Class AudioReconcileCommand.
  */
-class AudioReconcileCommand extends Command
+class AudioReconcileCommand extends StorageReconcileCommand
 {
     /**
      * The name and signature of the console command.
@@ -31,35 +34,44 @@ class AudioReconcileCommand extends Command
     protected $description = 'Perform set reconciliation between object storage and audios database';
 
     /**
-     * Execute the console command.
+     * Get the name of the disk that represents the filesystem.
      *
-     * @return int
+     * @return string
      */
-    public function handle(): int
+    protected function disk(): string
     {
-        $sourceRepository = App::make(AudioSourceRepository::class);
+        return Config::get('audio.disk');
+    }
 
-        $destinationRepository = App::make(AudioDestinationRepository::class);
+    /**
+     * Get source repository for action.
+     *
+     * @param  array  $validated
+     * @return RepositoryInterface|null
+     */
+    protected function getSourceRepository(array $validated): ?RepositoryInterface
+    {
+        return App::make(AudioSourceRepository::class);
+    }
 
-        $path = $this->option('path');
-        if ($path !== null) {
-            if (! $sourceRepository->validateFilter('path', $path) || ! $destinationRepository->validateFilter('path', $path)) {
-                $this->error("Invalid path '$path'");
+    /**
+     * Get destination repository for action.
+     *
+     * @param  array  $validated
+     * @return RepositoryInterface|null
+     */
+    protected function getDestinationRepository(array $validated): ?RepositoryInterface
+    {
+        return App::make(AudioDestinationRepository::class);
+    }
 
-                return 1;
-            }
-
-            $sourceRepository->handleFilter('path', $path);
-            $destinationRepository->handleFilter('path', $path);
-        }
-
-        $action = new ReconcileAudioRepositories();
-
-        $results = $action->reconcileRepositories($sourceRepository, $destinationRepository);
-
-        $results->toLog();
-        $results->toConsole($this);
-
-        return 0;
+    /**
+     * Get the reconciliation action.
+     *
+     * @return ReconcileRepositories
+     */
+    protected function getAction(): ReconcileRepositories
+    {
+        return new ReconcileAudioRepositories();
     }
 }

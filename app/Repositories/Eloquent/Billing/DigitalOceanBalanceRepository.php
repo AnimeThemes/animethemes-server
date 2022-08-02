@@ -34,19 +34,6 @@ class DigitalOceanBalanceRepository extends EloquentRepository
     }
 
     /**
-     * Validate repository filter.
-     *
-     * @param  string  $filter
-     * @param  mixed  $value
-     * @return bool
-     */
-    public function validateFilter(string $filter, mixed $value = null): bool
-    {
-        // not supported
-        return false;
-    }
-
-    /**
      * Filter repository models.
      *
      * @param  string  $filter

@@ -2,20 +2,19 @@
 
 declare(strict_types=1);
 
-namespace App\Nova\Actions\Wiki;
+namespace App\Console\Commands\Wiki;
 
+use App\Console\Commands\ReconcileCommand;
 use App\Contracts\Repositories\RepositoryInterface;
-use App\Nova\Actions\ReconcileAction;
 use App\Rules\Wiki\StorageDirectoryExistsRule;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
-use Laravel\Nova\Fields\ActionFields;
-use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Http\Requests\NovaRequest;
 
 /**
- * Class ReconcileStorageAction.
+ * Class StorageReconcileCommand.
  */
-abstract class ReconcileStorageAction extends ReconcileAction
+abstract class StorageReconcileCommand extends ReconcileCommand
 {
     /**
      * Get the name of the disk that represents the filesystem.
@@ -27,17 +26,17 @@ abstract class ReconcileStorageAction extends ReconcileAction
     /**
      * Apply filters to repositories before reconciliation.
      *
-     * @param  ActionFields  $fields
+     * @param  array  $validated
      * @param  RepositoryInterface  $sourceRepository
      * @param  RepositoryInterface  $destinationRepository
      * @return void
      */
     protected function handleFilters(
-        ActionFields $fields,
+        array $validated,
         RepositoryInterface $sourceRepository,
         RepositoryInterface $destinationRepository
     ): void {
-        $path = $fields->get('path');
+        $path = Arr::get($validated, 'path');
         if ($path !== null) {
             $sourceRepository->handleFilter('path', $path);
             $destinationRepository->handleFilter('path', $path);
@@ -45,22 +44,16 @@ abstract class ReconcileStorageAction extends ReconcileAction
     }
 
     /**
-     * Get the fields available on the action.
+     * Get the validator for options.
      *
-     * @param  NovaRequest  $request
-     * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
+     * @return Validator
      */
-    public function fields(NovaRequest $request): array
+    protected function validator(): Validator
     {
         $fs = Storage::disk($this->disk());
 
-        return [
-            Text::make(__('nova.path'), 'path')
-                ->required()
-                ->rules(['required', 'string', 'regex:/^(?!\/)[\w|\/]+$/', new StorageDirectoryExistsRule($fs)])
-                ->help(__('nova.reconcile_video_path_help')),
-        ];
+        return \Illuminate\Support\Facades\Validator::make($this->options(), [
+            'path' => ['nullable', 'string', 'regex:/^(?!\/)[\w|\/]+$/', new StorageDirectoryExistsRule($fs)],
+        ]);
     }
 }

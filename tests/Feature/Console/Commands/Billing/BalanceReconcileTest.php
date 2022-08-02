@@ -47,7 +47,7 @@ class BalanceReconcileTest extends TestCase
     {
         $other = Service::OTHER()->key;
 
-        $this->artisan(BalanceReconcileCommand::class, ['service' => $other])->expectsOutput("No source repository implemented for Service '$other'");
+        $this->artisan(BalanceReconcileCommand::class, ['service' => $other])->expectsOutput('Could not find source repository');
     }
 
     /**

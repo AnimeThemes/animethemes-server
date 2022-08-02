@@ -10,7 +10,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 use League\Flysystem\FilesystemException;
 use League\Flysystem\FilesystemReader;
 use League\Flysystem\StorageAttributes;
@@ -106,24 +105,6 @@ abstract class StorageRepository implements RepositoryInterface
      * @return Closure(StorageAttributes): TModel
      */
     abstract protected function mapCallback(): Closure;
-
-    /**
-     * Validate repository filter.
-     *
-     * @param  string  $filter
-     * @param  mixed  $value
-     * @return bool
-     */
-    public function validateFilter(string $filter, mixed $value = null): bool
-    {
-        if ($filter === 'path') {
-            $fs = Storage::disk($this->disk());
-
-            return ! Str::startsWith($value, '/') && $fs->directoryExists($value);
-        }
-
-        return false;
-    }
 
     /**
      * Filter repository models.

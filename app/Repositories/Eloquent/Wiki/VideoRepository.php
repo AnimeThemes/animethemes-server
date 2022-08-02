@@ -27,23 +27,6 @@ class VideoRepository extends EloquentRepository
     }
 
     /**
-     * Validate repository filter.
-     *
-     * @param  string  $filter
-     * @param  mixed  $value
-     * @return bool
-     */
-    public function validateFilter(string $filter, mixed $value = null): bool
-    {
-        if ($filter === 'path') {
-            // Defer to source repository for validation
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
      * Filter repository models.
      *
      * @param  string  $filter

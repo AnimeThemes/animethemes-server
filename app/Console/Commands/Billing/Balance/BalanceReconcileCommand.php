@@ -11,6 +11,7 @@ use App\Contracts\Repositories\RepositoryInterface;
 use App\Enums\Models\Billing\Service;
 use App\Repositories\DigitalOcean\Billing\DigitalOceanBalanceRepository as DigitalOceanSourceRepository;
 use App\Repositories\Eloquent\Billing\DigitalOceanBalanceRepository as DigitalOceanDestinationRepository;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\App;
 
 /**
@@ -45,13 +46,13 @@ class BalanceReconcileCommand extends ServiceReconcileCommand
     /**
      * Get source repository for service.
      *
-     * @param  Service  $service
+     * @param  array  $validated
      * @return RepositoryInterface|null
      */
-    protected function getSourceRepository(Service $service): ?RepositoryInterface
+    protected function getSourceRepository(array $validated): ?RepositoryInterface
     {
-        return match ($service->value) {
-            Service::DIGITALOCEAN => App::make(DigitalOceanSourceRepository::class),
+        return match (Arr::get($validated, 'service')) {
+            Service::DIGITALOCEAN()->key => App::make(DigitalOceanSourceRepository::class),
             default => null,
         };
     }
@@ -59,13 +60,13 @@ class BalanceReconcileCommand extends ServiceReconcileCommand
     /**
      * Get destination repository for service.
      *
-     * @param  Service  $service
+     * @param  array  $validated
      * @return RepositoryInterface|null
      */
-    protected function getDestinationRepository(Service $service): ?RepositoryInterface
+    protected function getDestinationRepository(array $validated): ?RepositoryInterface
     {
-        return match ($service->value) {
-            Service::DIGITALOCEAN => App::make(DigitalOceanDestinationRepository::class),
+        return match (Arr::get($validated, 'service')) {
+            Service::DIGITALOCEAN()->key => App::make(DigitalOceanDestinationRepository::class),
             default => null,
         };
     }
