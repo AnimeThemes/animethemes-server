@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace App\Nova\Resources\Wiki;
 
+use App\Models\Auth\User;
 use App\Models\Wiki\Audio as AudioModel;
+use App\Nova\Actions\Wiki\Audio\ReconcileAudioAction;
 use App\Nova\Lenses\Audio\AudioVideoLens;
 use App\Nova\Resources\BaseResource;
 use Exception;
+use Illuminate\Http\Request;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
@@ -159,6 +162,31 @@ class Audio extends BaseResource
                 ->showOnPreview()
                 ->filterable(),
         ];
+    }
+
+    /**
+     * Get the actions available for the resource.
+     *
+     * @param  NovaRequest  $request
+     * @return array
+     */
+    public function actions(NovaRequest $request): array
+    {
+        return array_merge(
+            parent::actions($request),
+            [
+                (new ReconcileAudioAction())
+                    ->confirmButtonText(__('nova.reconcile'))
+                    ->cancelButtonText(__('nova.cancel'))
+                    ->onlyOnIndex()
+                    ->standalone()
+                    ->canSee(function (Request $request) {
+                        $user = $request->user();
+
+                        return $user instanceof User && $user->can('create audio');
+                    }),
+            ]
+        );
     }
 
     /**

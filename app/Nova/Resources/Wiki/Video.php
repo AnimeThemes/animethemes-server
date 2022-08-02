@@ -9,6 +9,7 @@ use App\Enums\Models\Wiki\VideoSource;
 use App\Models\Auth\User;
 use App\Models\Wiki\Video as VideoModel;
 use App\Nova\Actions\Wiki\Video\BackfillVideoAction;
+use App\Nova\Actions\Wiki\Video\ReconcileVideoAction;
 use App\Nova\Lenses\Video\VideoAudioLens;
 use App\Nova\Lenses\Video\VideoResolutionLens;
 use App\Nova\Lenses\Video\VideoSourceLens;
@@ -182,6 +183,7 @@ class Video extends BaseResource
                 ->filterable(),
 
             BelongsTo::make(__('nova.audio'), VideoModel::RELATION_AUDIO, Audio::class)
+                ->hideFromIndex()
                 ->sortable()
                 ->filterable()
                 ->searchable()
@@ -278,6 +280,17 @@ class Video extends BaseResource
                         $user = $request->user();
 
                         return $user instanceof User && $user->can('update video');
+                    }),
+
+                (new ReconcileVideoAction())
+                    ->confirmButtonText(__('nova.reconcile'))
+                    ->cancelButtonText(__('nova.cancel'))
+                    ->onlyOnIndex()
+                    ->standalone()
+                    ->canSee(function (Request $request) {
+                        $user = $request->user();
+
+                        return $user instanceof User && $user->can('create video');
                     }),
             ]
         );
