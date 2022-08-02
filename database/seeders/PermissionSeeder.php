@@ -20,13 +20,13 @@ class PermissionSeeder extends Seeder
      */
     public function run(): void
     {
-        /** @var Role */
+        /** @var Role $admin */
         $admin = Role::findOrCreate('Admin');
 
-        /** @var Role */
+        /** @var Role $wikiEditor */
         $wikiEditor = Role::findOrCreate('Wiki Editor');
 
-        /** @var Role */
+        /** @var Role $wikiViewer */
         $wikiViewer = Role::findOrCreate('Wiki Viewer');
 
         // Admin Resources

@@ -78,7 +78,8 @@ class TransparencyRequest extends FormRequest
 
         $transactionDates = Transaction::query()
             ->distinct(Transaction::ATTRIBUTE_DATE)
-            ->pluck(Transaction::ATTRIBUTE_DATE);
+            ->pluck(Transaction::ATTRIBUTE_DATE)
+            ->toArray();
 
         $validDates = $balanceDates->concat($transactionDates);
 

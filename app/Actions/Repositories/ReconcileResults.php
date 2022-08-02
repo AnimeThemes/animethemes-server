@@ -63,11 +63,7 @@ abstract class ReconcileResults
         $this->deleted->each(fn (BaseModel $model) => Log::info("{$this->label()} '{$model->getName()}' deleted"));
         $this->updated->each(fn (BaseModel $model) => Log::info("{$this->label()} '{$model->getName()}' updated"));
 
-        if ($this->hasChanges()) {
-            Log::info("{$this->created->count()} {$this->label($this->created)} created, {$this->deleted->count()} {$this->label($this->deleted)} deleted, {$this->updated->count()} {$this->label($this->updated)} updated");
-        } else {
-            Log::info("No {$this->label($this->created)} created or deleted or updated");
-        }
+        Log::info($this->summary());
     }
 
     /**
@@ -82,11 +78,21 @@ abstract class ReconcileResults
         $this->deleted->each(fn (BaseModel $model) => $command->info("{$this->label()} '{$model->getName()}' deleted"));
         $this->updated->each(fn (BaseModel $model) => $command->info("{$this->label()} '{$model->getName()}' updated"));
 
+        $command->info($this->summary());
+    }
+
+    /**
+     * Get the summary line.
+     *
+     * @return string
+     */
+    public function summary(): string
+    {
         if ($this->hasChanges()) {
-            $command->info("{$this->created->count()} {$this->label($this->created)} created, {$this->deleted->count()} {$this->label($this->deleted)} deleted, {$this->updated->count()} {$this->label($this->updated)} updated");
-        } else {
-            $command->info("No {$this->label($this->created)} created or deleted or updated");
+            return "{$this->created->count()} {$this->label($this->created)} created, {$this->deleted->count()} {$this->label($this->deleted)} deleted, {$this->updated->count()} {$this->label($this->updated)} updated";
         }
+
+        return "No {$this->label($this->created)} created or deleted or updated";
     }
 
     /**

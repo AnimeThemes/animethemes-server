@@ -58,9 +58,9 @@ class BackfillVideoAction extends Action implements ShouldQueue
      *
      * @param  ActionFields  $fields
      * @param  Collection<int, Video>  $models
-     * @return mixed
+     * @return Collection
      */
-    public function handle(ActionFields $fields, Collection $models): mixed
+    public function handle(ActionFields $fields, Collection $models): Collection
     {
         foreach ($models as $video) {
             $pipes = $this->getPipes($fields, $video);

@@ -49,7 +49,7 @@ class WikiResource extends BaseResource
         $result = [];
 
         if ($this->isAllowedField(WikiConstants::FEATURED_THEME_SETTING)) {
-            /** @var AnimeThemeEntryVideo|null */
+            /** @var AnimeThemeEntryVideo|null $pivot */
             $pivot = AnimeThemeEntryVideo::query()
                 ->where(AnimeThemeEntryVideo::ATTRIBUTE_ENTRY, Config::get('wiki.featured_entry'))
                 ->where(AnimeThemeEntryVideo::ATTRIBUTE_VIDEO, Config::get('wiki.featured_video'))

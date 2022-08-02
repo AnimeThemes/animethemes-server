@@ -76,9 +76,9 @@ class BackfillAnimeAction extends Action implements ShouldQueue
      *
      * @param  ActionFields  $fields
      * @param  Collection<int, Anime>  $models
-     * @return mixed
+     * @return Collection
      */
-    public function handle(ActionFields $fields, Collection $models): mixed
+    public function handle(ActionFields $fields, Collection $models): Collection
     {
         foreach ($models as $anime) {
             if ($anime->resources()->doesntExist()) {
