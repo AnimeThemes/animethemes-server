@@ -37,7 +37,7 @@ class TransactionReconcileTest extends TestCase
     }
 
     /**
-     * When service is Other, the Reconcile Transaction Command shall output "No source repository implemented for Service 'other'".
+     * When service is Other, the Reconcile Transaction Command shall output "Could not find source repository".
      *
      * @return void
      */
@@ -45,7 +45,7 @@ class TransactionReconcileTest extends TestCase
     {
         $other = Service::OTHER()->key;
 
-        $this->artisan(TransactionReconcileCommand::class, ['service' => $other])->expectsOutput("No source repository implemented for Service '$other'");
+        $this->artisan(TransactionReconcileCommand::class, ['service' => $other])->expectsOutput('Could not find source repository');
     }
 
     /**

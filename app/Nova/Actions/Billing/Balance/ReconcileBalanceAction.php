@@ -68,20 +68,4 @@ class ReconcileBalanceAction extends ReconcileServiceAction
     {
         return new ReconcileBalanceRepositories();
     }
-
-    /**
-     * Apply filters to repositories before reconciliation.
-     *
-     * @param  ActionFields  $fields
-     * @param  RepositoryInterface  $sourceRepository
-     * @param  RepositoryInterface  $destinationRepository
-     * @return void
-     */
-    protected function handleFilters(
-        ActionFields $fields,
-        RepositoryInterface $sourceRepository,
-        RepositoryInterface $destinationRepository
-    ): void {
-        // Not supported
-    }
 }

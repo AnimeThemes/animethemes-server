@@ -48,15 +48,6 @@ interface RepositoryInterface
     public function update(Model $model, array $attributes): bool;
 
     /**
-     * Validate repository filter.
-     *
-     * @param  string  $filter
-     * @param  mixed  $value
-     * @return bool
-     */
-    public function validateFilter(string $filter, mixed $value = null): bool;
-
-    /**
      * Filter repository models.
      *
      * @param  string  $filter

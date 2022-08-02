@@ -27,8 +27,14 @@ abstract class ReconcileAction extends Action
     public function handle(ActionFields $fields, Collection $models): array
     {
         $sourceRepository = $this->getSourceRepository($fields);
+        if ($sourceRepository === null) {
+            return Action::danger(__('nova.reconcile_source_error'));
+        }
 
         $destinationRepository = $this->getDestinationRepository($fields);
+        if ($destinationRepository === null) {
+            return Action::danger(__('nova.reconcile_destination_error'));
+        }
 
         $this->handleFilters($fields, $sourceRepository, $destinationRepository);
 
