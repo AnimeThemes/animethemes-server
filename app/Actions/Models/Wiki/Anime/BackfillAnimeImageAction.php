@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Facades\Log;
 
 /**
- * Class BackfillAnimeImageAction
+ * Class BackfillAnimeImageAction.
  *
  * @extends BackfillImageAction<Anime>
  */
