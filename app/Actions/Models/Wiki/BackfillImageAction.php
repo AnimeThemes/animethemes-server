@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Pipes\Wiki;
+namespace App\Actions\Models\Wiki;
 
+use App\Actions\Models\ActionResult;
+use App\Actions\Models\BaseAction;
+use App\Enums\Actions\ActionStatus;
 use App\Enums\Models\Wiki\ImageFacet;
-use App\Models\Auth\User;
 use App\Models\Wiki\Image;
-use App\Pipes\BasePipe;
-use Closure;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Http;
@@ -17,28 +17,26 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 /**
- * Class BackfillImage.
+ * Class BackfillImageAction.
  *
  * @template TModel of \App\Models\BaseModel
- * @extends BasePipe<TModel>
+ * @extends BaseAction<TModel>
  */
-abstract class BackfillImage extends BasePipe
+abstract class BackfillImageAction extends BaseAction
 {
     /**
-     * Handle an incoming request.
+     * Handle action.
      *
-     * @param  User  $user
-     * @param  Closure(User): mixed  $next
-     * @return mixed
+     * @return ActionResult
      *
      * @throws RequestException
      */
-    public function handle(User $user, Closure $next): mixed
+    public function handle(): ActionResult
     {
         if ($this->relation()->getQuery()->where(Image::ATTRIBUTE_FACET, $this->getFacet()->value)->exists()) {
             Log::info("{$this->label()} '{$this->getModel()->getName()}' already has Image of Facet '{$this->getFacet()->value}'.");
 
-            return $next($user);
+            return new ActionResult(ActionStatus::SKIPPED());
         }
 
         $image = $this->getImage();
@@ -48,13 +46,13 @@ abstract class BackfillImage extends BasePipe
         }
 
         if ($this->relation()->getQuery()->where(Image::ATTRIBUTE_FACET, $this->getFacet()->value)->doesntExist()) {
-            $this->sendNotification(
-                $user,
+            return new ActionResult(
+                ActionStatus::FAILED(),
                 "{$this->label()} '{$this->getModel()->getName()}' has no {$this->getFacet()->description} Image after backfilling. Please review."
             );
         }
 
-        return $next($user);
+        return new ActionResult(ActionStatus::PASSED());
     }
 
     /**

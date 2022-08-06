@@ -2,20 +2,20 @@
 
 declare(strict_types=1);
 
-namespace App\Pipes\Wiki\Anime\Resource;
+namespace App\Actions\Models\Wiki\Anime\Resource;
 
+use App\Actions\Models\Wiki\Anime\BackfillAnimeResourceAction;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Wiki\ExternalResource;
-use App\Pipes\Wiki\Anime\BackfillAnimeResource;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
 /**
- * Class BackfillAnilistResource.
+ * Class BackfillAnilistResourceAction.
  */
-class BackfillAnilistResource extends BackfillAnimeResource
+class BackfillAnilistResourceAction extends BackfillAnimeResourceAction
 {
     /**
      * Get the site to backfill.

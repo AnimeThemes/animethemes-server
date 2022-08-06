@@ -4,17 +4,16 @@ declare(strict_types=1);
 
 namespace App\Nova\Actions\Wiki\Studio;
 
+use App\Actions\Models\BaseAction;
+use App\Actions\Models\Wiki\Studio\Image\BackfillLargeCoverImageAction;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Models\Auth\User;
 use App\Models\Wiki\Image;
 use App\Models\Wiki\Studio;
-use App\Pipes\BasePipe;
-use App\Pipes\Wiki\Studio\Image\BackfillLargeCoverImage;
+use App\Nova\Resources\Wiki\Studio as StudioResource;
 use Exception;
 use Illuminate\Bus\Queueable;
-use Illuminate\Container\Container;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Pipeline\Pipeline;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
@@ -23,6 +22,7 @@ use Laravel\Nova\Fields\ActionFields;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\Heading;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Notifications\NovaNotification;
 
 /**
  * Class BackfillStudioAction.
@@ -64,20 +64,29 @@ class BackfillStudioAction extends Action implements ShouldQueue
      */
     public function handle(ActionFields $fields, Collection $models): Collection
     {
+        $uriKey = StudioResource::uriKey();
+
         foreach ($models as $studio) {
             if ($studio->resources()->doesntExist()) {
                 $this->markAsFailed($studio, 'At least one Resource is required to backfill Studio');
                 continue;
             }
 
-            $pipes = $this->getPipes($fields, $studio);
-
-            $pipeline = new Pipeline(Container::getInstance());
+            $actions = $this->getActions($fields, $studio);
 
             try {
-                $pipeline->send($this->user)
-                    ->through($pipes)
-                    ->then(fn () => $this->markAsFinished($studio));
+                foreach ($actions as $action) {
+                    $result = $action->handle();
+                    if ($result->hasFailed()) {
+                        $this->user->notify(
+                            NovaNotification::make()
+                                ->icon('flag')
+                                ->message($result->getMessage())
+                                ->type(NovaNotification::WARNING_TYPE)
+                                ->url("/resources/$uriKey/{$studio->getKey()}")
+                        );
+                    }
+                }
             } catch (Exception $e) {
                 $this->markAsFailed($studio, $e);
             } finally {
@@ -113,35 +122,35 @@ class BackfillStudioAction extends Action implements ShouldQueue
     }
 
     /**
-     * Get the selected pipes for backfilling studios.
+     * Get the selected actions for backfilling studios.
      *
      * @param  ActionFields  $fields
      * @param  Studio  $studio
-     * @return BasePipe[]
+     * @return BaseAction[]
      */
-    protected function getPipes(ActionFields $fields, Studio $studio): array
+    protected function getActions(ActionFields $fields, Studio $studio): array
     {
-        $pipes = [];
+        $actions = [];
 
-        foreach ($this->getPipeMapping($studio) as $field => $pipe) {
+        foreach ($this->getActionMapping($studio) as $field => $action) {
             if (Arr::get($fields, $field) === true) {
-                $pipes[] = $pipe;
+                $actions[] = $action;
             }
         }
 
-        return $pipes;
+        return $actions;
     }
 
     /**
-     * Get the mapping of studio pipes to their form fields.
+     * Get the mapping of actions to their form fields.
      *
      * @param  Studio  $studio
-     * @return array<string, BasePipe>
+     * @return array<string, BaseAction>
      */
-    protected function getPipeMapping(Studio $studio): array
+    protected function getActionMapping(Studio $studio): array
     {
         return [
-            self::BACKFILL_LARGE_COVER => new BackfillLargeCoverImage($studio),
+            self::BACKFILL_LARGE_COVER => new BackfillLargeCoverImageAction($studio),
         ];
     }
 }

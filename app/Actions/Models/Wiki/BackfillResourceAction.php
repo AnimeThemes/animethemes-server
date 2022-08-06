@@ -2,39 +2,37 @@
 
 declare(strict_types=1);
 
-namespace App\Pipes\Wiki;
+namespace App\Actions\Models\Wiki;
 
+use App\Actions\Models\ActionResult;
+use App\Actions\Models\BaseAction;
+use App\Enums\Actions\ActionStatus;
 use App\Enums\Models\Wiki\ResourceSite;
-use App\Models\Auth\User;
 use App\Models\Wiki\ExternalResource;
-use App\Pipes\BasePipe;
-use Closure;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\Log;
 
 /**
- * Class BackfillResource.
+ * Class BackfillResourceAction.
  *
  * @template TModel of \App\Models\BaseModel
- * @extends BasePipe<TModel>
+ * @extends BaseAction<TModel>
  */
-abstract class BackfillResource extends BasePipe
+abstract class BackfillResourceAction extends BaseAction
 {
     /**
-     * Handle an incoming request.
+     * Handle action.
      *
-     * @param  User  $user
-     * @param  Closure(User): mixed  $next
-     * @return mixed
+     * @return ActionResult
      *
      * @throws RequestException
      */
-    public function handle(User $user, Closure $next): mixed
+    public function handle(): ActionResult
     {
         if ($this->relation()->getQuery()->where(ExternalResource::ATTRIBUTE_SITE, $this->getSite()->value)->exists()) {
             Log::info("{$this->label()} '{$this->getModel()->getName()}' already has Resource of Site '{$this->getSite()->value}'.");
 
-            return $next($user);
+            return new ActionResult(ActionStatus::SKIPPED());
         }
 
         $resource = $this->getResource();
@@ -44,13 +42,13 @@ abstract class BackfillResource extends BasePipe
         }
 
         if ($this->relation()->getQuery()->where(ExternalResource::ATTRIBUTE_SITE, $this->getSite()->value)->doesntExist()) {
-            $this->sendNotification(
-                $user,
+            return new ActionResult(
+                ActionStatus::FAILED(),
                 "{$this->label()} '{$this->getModel()->getName()}' has no {$this->getSite()->description} Resource after backfilling. Please review."
             );
         }
 
-        return $next($user);
+        return new ActionResult(ActionStatus::PASSED());
     }
 
     /**
