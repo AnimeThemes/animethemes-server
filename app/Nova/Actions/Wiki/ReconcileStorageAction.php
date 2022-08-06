@@ -59,7 +59,7 @@ abstract class ReconcileStorageAction extends ReconcileAction
         return [
             Text::make(__('nova.path'), 'path')
                 ->required()
-                ->rules(['required', 'string', 'regex:/^(?!\/)[\w|\/]+$/', new StorageDirectoryExistsRule($fs)])
+                ->rules(['required', 'string', 'doesnt_start_with:/', new StorageDirectoryExistsRule($fs)])
                 ->help(__('nova.reconcile_video_path_help')),
         ];
     }

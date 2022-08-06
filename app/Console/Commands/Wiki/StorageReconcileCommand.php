@@ -53,7 +53,7 @@ abstract class StorageReconcileCommand extends ReconcileCommand
         $fs = Storage::disk($this->disk());
 
         return \Illuminate\Support\Facades\Validator::make($this->options(), [
-            'path' => ['nullable', 'string', 'regex:/^(?!\/)[\w|\/]+$/', new StorageDirectoryExistsRule($fs)],
+            'path' => ['nullable', 'string', 'doesnt_start_with:/', new StorageDirectoryExistsRule($fs)],
         ]);
     }
 }

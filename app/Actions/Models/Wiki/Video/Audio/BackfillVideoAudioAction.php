@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Actions\Wiki\Video;
+namespace App\Actions\Models\Wiki\Video\Audio;
 
+use App\Actions\Models\Wiki\BackfillAudioAction;
 use App\Actions\Repositories\ReconcileResults;
 use App\Actions\Repositories\Wiki\Audio\ReconcileAudioRepositories;
 use App\Models\Wiki\Anime;
@@ -18,6 +19,7 @@ use FFMpeg\Coordinate\TimeCode;
 use FFMpeg\Filters\Audio\AddMetadataFilter;
 use FFMpeg\Filters\Audio\AudioClipFilter;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
@@ -27,46 +29,51 @@ use Illuminate\Support\Str;
 use ProtoneMedia\LaravelFFMpeg\Support\FFMpeg;
 
 /**
- * Class BackfillAudio.
+ * Class BackfillVideoAudioAction.
+ *
+ * @extends BackfillAudioAction<Video>
  */
-class BackfillAudio
+class BackfillVideoAudioAction extends BackfillAudioAction
 {
     /**
-     * Backfill Audio.
+     * Create a new action instance.
      *
      * @param  Video  $video
-     * @return Video
      */
-    public function backfill(Video $video): Video
+    public function __construct(Video $video)
     {
-        if ($video->audio()->exists()) {
-            Log::info("Video '{$video->getName()}' already has Audio.");
-
-            return $video;
-        }
-
-        $audio = $this->getOrCreateAudio($video);
-
-        if ($audio !== null) {
-            Log::info("Associating Audio '{$audio->getName()}' with Video '{$video->getName()}'");
-
-            $video->audio()->associate($audio);
-            $video->save();
-        }
-
-        return $video;
+        parent::__construct($video);
     }
 
     /**
-     * Resolve audio from video.
+     * Get the model the action is handling.
      *
-     * @param  Video  $video
+     * @return Video
+     */
+    public function getModel(): Video
+    {
+        return $this->model;
+    }
+
+    /**
+     * Get the relation to audio.
+     *
+     * @return BelongsTo
+     */
+    protected function relation(): BelongsTo
+    {
+        return $this->getModel()->audio();
+    }
+
+    /**
+     * Get or Create Audio.
+     *
      * @return Audio|null
      */
-    protected function getOrCreateAudio(Video $video): ?Audio
+    protected function getAudio(): ?Audio
     {
         // It's possible that the video is not attached to any themes, exit early.
-        $sourceVideo = $this->getSourceVideo($video);
+        $sourceVideo = $this->getSourceVideo();
         if ($sourceVideo === null) {
             return null;
         }
@@ -96,14 +103,13 @@ class BackfillAudio
     /**
      * Get the source video for the given video.
      *
-     * @param  Video  $video
      * @return Video|null
      */
-    protected function getSourceVideo(Video $video): ?Video
+    protected function getSourceVideo(): ?Video
     {
         $source = null;
 
-        $sourceCandidates = $this->getAdjacentVideos($video);
+        $sourceCandidates = $this->getAdjacentVideos();
 
         foreach ($sourceCandidates as $sourceCandidate) {
             if (! $source instanceof Video || $sourceCandidate->getSourcePriority() > $source->getSourcePriority()) {
@@ -117,10 +123,9 @@ class BackfillAudio
     /**
      * Get the adjacent videos for sourcing.
      *
-     * @param  Video  $video
      * @return Collection<int, Video>
      */
-    protected function getAdjacentVideos(Video $video): Collection
+    protected function getAdjacentVideos(): Collection
     {
         $builder = AnimeTheme::query();
 
@@ -130,7 +135,7 @@ class BackfillAudio
         $orderBySeasonQuery = $sortRelation->getRelationExistenceQuery($sortRelation->getQuery(), $builder, [Anime::ATTRIBUTE_SEASON]);
         $orderByYearQuery = $sortRelation->getRelationExistenceQuery($sortRelation->getQuery(), $builder, [Anime::ATTRIBUTE_YEAR]);
 
-        return $builder->whereHas(AnimeTheme::RELATION_VIDEOS, fn (Builder $relationBuilder) => $relationBuilder->whereKey($video))
+        return $builder->whereHas(AnimeTheme::RELATION_VIDEOS, fn (Builder $relationBuilder) => $relationBuilder->whereKey($this->getModel()))
             ->orderBy($orderByYearQuery->toBase())
             ->orderBy($orderBySeasonQuery->toBase())
             ->orderBy($orderByNameQuery->toBase())
@@ -182,5 +187,17 @@ class BackfillAudio
         $destinationRepository = App::make(AudioDestinationRepository::class);
 
         return $action->reconcileRepositories($sourceRepository, $destinationRepository);
+    }
+
+    /**
+     * Attach Audio to model.
+     *
+     * @param  Audio  $audio
+     * @return void
+     */
+    protected function attachAudio(Audio $audio): void
+    {
+        Log::info("Associating Audio '{$audio->getName()}' with Video '{$this->getModel()->getName()}'");
+        $this->relation()->associate($audio)->save();
     }
 }

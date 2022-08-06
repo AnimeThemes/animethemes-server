@@ -4,15 +4,14 @@ declare(strict_types=1);
 
 namespace App\Nova\Actions\Wiki\Video;
 
+use App\Actions\Models\BaseAction;
+use App\Actions\Models\Wiki\Video\Audio\BackfillVideoAudioAction;
 use App\Models\Auth\User;
 use App\Models\Wiki\Video;
-use App\Pipes\BasePipe;
-use App\Pipes\Wiki\Video\BackfillAudio;
+use App\Nova\Resources\Wiki\Video as VideoResource;
 use Exception;
 use Illuminate\Bus\Queueable;
-use Illuminate\Container\Container;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Pipeline\Pipeline;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
@@ -21,6 +20,7 @@ use Laravel\Nova\Fields\ActionFields;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\Heading;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Notifications\NovaNotification;
 
 /**
  * Class BackfillVideoAction.
@@ -62,15 +62,24 @@ class BackfillVideoAction extends Action implements ShouldQueue
      */
     public function handle(ActionFields $fields, Collection $models): Collection
     {
-        foreach ($models as $video) {
-            $pipes = $this->getPipes($fields, $video);
+        $uriKey = VideoResource::uriKey();
 
-            $pipeline = new Pipeline(Container::getInstance());
+        foreach ($models as $video) {
+            $actions = $this->getActions($fields, $video);
 
             try {
-                $pipeline->send($this->user)
-                    ->through($pipes)
-                    ->then(fn () => $this->markAsFinished($video));
+                foreach ($actions as $action) {
+                    $result = $action->handle();
+                    if ($result->hasFailed()) {
+                        $this->user->notify(
+                            NovaNotification::make()
+                                ->icon('flag')
+                                ->message($result->getMessage())
+                                ->type(NovaNotification::WARNING_TYPE)
+                                ->url("/resources/$uriKey/{$video->getKey()}")
+                        );
+                    }
+                }
             } catch (Exception $e) {
                 $this->markAsFailed($video, $e);
             } finally {
@@ -106,35 +115,35 @@ class BackfillVideoAction extends Action implements ShouldQueue
     }
 
     /**
-     * Get the selected pipes for backfilling anime.
+     * Get the selected actions for backfilling video.
      *
      * @param  ActionFields  $fields
      * @param  Video  $video
-     * @return BasePipe[]
+     * @return BaseAction[]
      */
-    protected function getPipes(ActionFields $fields, Video $video): array
+    protected function getActions(ActionFields $fields, Video $video): array
     {
-        $pipes = [];
+        $actions = [];
 
-        foreach ($this->getPipeMapping($video) as $field => $pipe) {
+        foreach ($this->getActionMapping($video) as $field => $action) {
             if (Arr::get($fields, $field) === true) {
-                $pipes[] = $pipe;
+                $actions[] = $action;
             }
         }
 
-        return $pipes;
+        return $actions;
     }
 
     /**
-     * Get the mapping of anime pipes to their form fields.
+     * Get the mapping of actions to their form fields.
      *
      * @param  Video  $video
-     * @return array<string, BasePipe>
+     * @return array<string, BaseAction>
      */
-    protected function getPipeMapping(Video $video): array
+    protected function getActionMapping(Video $video): array
     {
         return [
-            self::BACKFILL_AUDIO => new BackfillAudio($video),
+            self::BACKFILL_AUDIO => new BackfillVideoAudioAction($video),
         ];
     }
 }

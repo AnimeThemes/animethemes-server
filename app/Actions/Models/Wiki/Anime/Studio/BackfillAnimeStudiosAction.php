@@ -2,15 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Pipes\Wiki\Anime\Studio;
+namespace App\Actions\Models\Wiki\Anime\Studio;
 
+use App\Actions\Models\Wiki\BackfillStudiosAction;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Studio;
-use App\Nova\Resources\BaseResource;
-use App\Nova\Resources\Wiki\Anime as AnimeResource;
-use App\Pipes\Wiki\BackfillStudios;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Arr;
@@ -18,17 +16,16 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Orchestra\Parser\Xml\Facade as XmlParser;
-use RuntimeException;
 
 /**
- * Class BackfillAnimeStudios.
+ * Class BackfillAnimeStudiosAction.
  *
- * @extends BackfillStudios<Anime>
+ * @extends BackfillStudiosAction<Anime>
  */
-class BackfillAnimeStudios extends BackfillStudios
+class BackfillAnimeStudiosAction extends BackfillStudiosAction
 {
     /**
-     * Create a new pipe instance.
+     * Create a new action instance.
      *
      * @param  Anime  $anime
      */
@@ -38,7 +35,7 @@ class BackfillAnimeStudios extends BackfillStudios
     }
 
     /**
-     * Get the model passed into the pipeline.
+     * Get the model the action is handling.
      *
      * @return Anime
      */
@@ -55,16 +52,6 @@ class BackfillAnimeStudios extends BackfillStudios
     protected function relation(): BelongsToMany
     {
         return $this->getModel()->studios();
-    }
-
-    /**
-     * Get the nova resource.
-     *
-     * @return class-string<BaseResource>
-     */
-    protected function resource(): string
-    {
-        return AnimeResource::class;
     }
 
     /**
@@ -120,12 +107,7 @@ class BackfillAnimeStudios extends BackfillStudios
     {
         $studios = [];
 
-        $malClientID = Config::get('services.mal.client');
-        if ($malClientID === null) {
-            throw new RuntimeException('MAL_CLIENT_ID must be configured in your env file.');
-        }
-
-        $response = Http::withHeaders(['X-MAL-CLIENT-ID' => $malClientID])
+        $response = Http::withHeaders(['X-MAL-CLIENT-ID' => Config::get('services.mal.client')])
             ->get("https://api.myanimelist.net/v2/anime/$malResource->external_id", [
                 'fields' => 'studios',
             ])

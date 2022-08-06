@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace App\Pipes\Wiki;
+namespace App\Actions\Models\Wiki;
 
+use App\Actions\Models\ActionResult;
+use App\Actions\Models\BaseAction;
+use App\Enums\Actions\ActionStatus;
 use App\Enums\Models\Wiki\ResourceSite;
-use App\Models\Auth\User;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Studio;
-use App\Pipes\BasePipe;
 use App\Pivots\StudioResource;
-use Closure;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\DB;
@@ -18,28 +18,26 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 /**
- * Class BackfillStudios.
+ * Class BackfillStudiosAction.
  *
  * @template TModel of \App\Models\BaseModel
- * @extends BasePipe<TModel>
+ * @extends BaseAction<TModel>
  */
-abstract class BackfillStudios extends BasePipe
+abstract class BackfillStudiosAction extends BaseAction
 {
     /**
-     * Handle an incoming request.
+     * Handle action.
      *
-     * @param  User  $user
-     * @param  Closure(User): mixed  $next
-     * @return mixed
+     * @return ActionResult
      *
      * @throws RequestException
      */
-    public function handle(User $user, Closure $next): mixed
+    public function handle(): ActionResult
     {
         if ($this->relation()->getQuery()->exists()) {
             Log::info("{$this->label()} '{$this->getModel()->getName()}' already has Studios.");
 
-            return $next($user);
+            return new ActionResult(ActionStatus::SKIPPED());
         }
 
         $studios = $this->getStudios();
@@ -49,10 +47,13 @@ abstract class BackfillStudios extends BasePipe
         }
 
         if ($this->relation()->getQuery()->doesntExist()) {
-            $this->sendNotification($user, "{$this->label()} '{$this->getModel()->getName()}' has no Studios after backfilling. Please review.");
+            return new ActionResult(
+                ActionStatus::FAILED(),
+                "{$this->label()} '{$this->getModel()->getName()}' has no Studios after backfilling. Please review."
+            );
         }
 
-        return $next($user);
+        return new ActionResult(ActionStatus::PASSED());
     }
 
     /**

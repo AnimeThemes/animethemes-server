@@ -2,25 +2,23 @@
 
 declare(strict_types=1);
 
-namespace App\Pipes\Wiki\Studio;
+namespace App\Actions\Models\Wiki\Studio;
 
+use App\Actions\Models\Wiki\BackfillImageAction;
 use App\Models\Wiki\Image;
 use App\Models\Wiki\Studio;
-use App\Nova\Resources\BaseResource;
-use App\Nova\Resources\Wiki\Studio as StudioResource;
-use App\Pipes\Wiki\BackfillImage;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Facades\Log;
 
 /**
- * Class BackfillAnimeImage.
+ * Class BackfillStudioImageAction.
  *
- * @extends BackfillImage<Studio>
+ * @extends BackfillImageAction<Studio>
  */
-abstract class BackfillStudioImage extends BackfillImage
+abstract class BackfillStudioImageAction extends BackfillImageAction
 {
     /**
-     * Create a new pipe instance.
+     * Create a new action instance.
      *
      * @param  Studio  $studio
      */
@@ -30,7 +28,7 @@ abstract class BackfillStudioImage extends BackfillImage
     }
 
     /**
-     * Get the model passed into the pipeline.
+     * Get the model the action is handling.
      *
      * @return Studio
      */
@@ -47,16 +45,6 @@ abstract class BackfillStudioImage extends BackfillImage
     protected function relation(): BelongsToMany
     {
         return $this->getModel()->images();
-    }
-
-    /**
-     * Get the nova resource.
-     *
-     * @return class-string<BaseResource>
-     */
-    protected function resource(): string
-    {
-        return StudioResource::class;
     }
 
     /**

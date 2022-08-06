@@ -2,21 +2,21 @@
 
 declare(strict_types=1);
 
-namespace App\Pipes\Wiki\Anime\Image;
+namespace App\Actions\Models\Wiki\Anime\Image;
 
+use App\Actions\Models\Wiki\Anime\BackfillAnimeImageAction;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Image;
-use App\Pipes\Wiki\Anime\BackfillAnimeImage;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
 
 /**
- * Class BackfillSmallCoverImage.
+ * Class BackfillLargeCoverImageAction.
  */
-class BackfillSmallCoverImage extends BackfillAnimeImage
+class BackfillLargeCoverImageAction extends BackfillAnimeImageAction
 {
     /**
      * Get the facet to backfill.
@@ -25,7 +25,7 @@ class BackfillSmallCoverImage extends BackfillAnimeImage
      */
     protected function getFacet(): ImageFacet
     {
-        return ImageFacet::COVER_SMALL();
+        return ImageFacet::COVER_LARGE();
     }
 
     /**
@@ -59,7 +59,7 @@ class BackfillSmallCoverImage extends BackfillAnimeImage
         query ($id: Int) {
             Media (id: $id, type: ANIME) {
                 coverImage {
-                    medium
+                    extraLarge
                 }
             }
         }
@@ -76,9 +76,9 @@ class BackfillSmallCoverImage extends BackfillAnimeImage
             ->throw()
             ->json();
 
-        $anilistCoverSmall = Arr::get($response, 'data.Media.coverImage.medium');
-        if ($anilistCoverSmall !== null) {
-            return $this->createImage($anilistCoverSmall);
+        $anilistCoverLarge = Arr::get($response, 'data.Media.coverImage.extraLarge');
+        if ($anilistCoverLarge !== null) {
+            return $this->createImage($anilistCoverLarge);
         }
 
         return null;

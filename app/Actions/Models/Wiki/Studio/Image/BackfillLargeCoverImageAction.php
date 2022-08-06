@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-namespace App\Pipes\Wiki\Studio\Image;
+namespace App\Actions\Models\Wiki\Studio\Image;
 
+use App\Actions\Models\Wiki\Studio\BackfillStudioImageAction;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Image;
-use App\Pipes\Wiki\Studio\BackfillStudioImage;
 use Illuminate\Http\Client\RequestException;
 
 /**
- * Class BackfillLargeCoverImage.
+ * Class BackfillLargeCoverImageAction.
  */
-class BackfillLargeCoverImage extends BackfillStudioImage
+class BackfillLargeCoverImageAction extends BackfillStudioImageAction
 {
     /**
      * Get the facet to backfill.

@@ -2,28 +2,26 @@
 
 declare(strict_types=1);
 
-namespace App\Pipes\Wiki\Anime;
+namespace App\Actions\Models\Wiki\Anime;
 
+use App\Actions\Models\Wiki\BackfillResourceAction;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\ExternalResource;
-use App\Nova\Resources\BaseResource;
-use App\Nova\Resources\Wiki\Anime as AnimeNovaResource;
-use App\Pipes\Wiki\BackfillResource;
 use App\Pivots\AnimeResource;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Facades\Log;
 
 /**
- * Class BackfillAnimeResource.
+ * Class BackfillAnimeResourceAction.
  *
- * @extends BackfillResource<Anime>
+ * @extends BackfillResourceAction<Anime>
  */
-abstract class BackfillAnimeResource extends BackfillResource
+abstract class BackfillAnimeResourceAction extends BackfillResourceAction
 {
     /**
-     * Create a new pipe instance.
+     * Create a new action instance.
      *
      * @param  Anime  $anime
      */
@@ -33,7 +31,7 @@ abstract class BackfillAnimeResource extends BackfillResource
     }
 
     /**
-     * Get the model passed into the pipeline.
+     * Get the model the action is handling.
      *
      * @return Anime
      */
@@ -50,16 +48,6 @@ abstract class BackfillAnimeResource extends BackfillResource
     protected function relation(): BelongsToMany
     {
         return $this->getModel()->resources();
-    }
-
-    /**
-     * Get the nova resource.
-     *
-     * @return class-string<BaseResource>
-     */
-    protected function resource(): string
-    {
-        return AnimeNovaResource::class;
     }
 
     /**
