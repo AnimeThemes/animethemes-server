@@ -36,7 +36,7 @@ class BackfillAnidbResourceActionTest extends TestCase
         ]);
 
         $anime = Anime::factory()
-            ->hasAttached($resource, [],Anime::RELATION_RESOURCES)
+            ->hasAttached($resource, [], Anime::RELATION_RESOURCES)
             ->createOne();
 
         $action = new BackfillAnidbResourceAction($anime);
@@ -88,7 +88,7 @@ class BackfillAnidbResourceActionTest extends TestCase
         ]);
 
         $anime = Anime::factory()
-            ->hasAttached($resource, [],Anime::RELATION_RESOURCES)
+            ->hasAttached($resource, [], Anime::RELATION_RESOURCES)
             ->createOne();
 
         $action = new BackfillAnidbResourceAction($anime);
@@ -124,7 +124,7 @@ class BackfillAnidbResourceActionTest extends TestCase
         ]);
 
         $anime = Anime::factory()
-            ->hasAttached($resource, [],Anime::RELATION_RESOURCES)
+            ->hasAttached($resource, [], Anime::RELATION_RESOURCES)
             ->createOne();
 
         $action = new BackfillAnidbResourceAction($anime);
@@ -160,7 +160,7 @@ class BackfillAnidbResourceActionTest extends TestCase
         ]);
 
         $anime = Anime::factory()
-            ->hasAttached($resource, [],Anime::RELATION_RESOURCES)
+            ->hasAttached($resource, [], Anime::RELATION_RESOURCES)
             ->createOne();
 
         $action = new BackfillAnidbResourceAction($anime);
@@ -205,7 +205,7 @@ class BackfillAnidbResourceActionTest extends TestCase
         ]);
 
         $anime = Anime::factory()
-            ->hasAttached($resource, [],Anime::RELATION_RESOURCES)
+            ->hasAttached($resource, [], Anime::RELATION_RESOURCES)
             ->createOne();
 
         $action = new BackfillAnidbResourceAction($anime);

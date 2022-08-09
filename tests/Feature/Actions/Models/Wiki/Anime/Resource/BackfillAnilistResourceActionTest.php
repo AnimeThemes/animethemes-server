@@ -35,7 +35,7 @@ class BackfillAnilistResourceActionTest extends TestCase
         ]);
 
         $anime = Anime::factory()
-            ->hasAttached($resource, [],Anime::RELATION_RESOURCES)
+            ->hasAttached($resource, [], Anime::RELATION_RESOURCES)
             ->createOne();
 
         $action = new BackfillAnilistResourceAction($anime);
@@ -74,7 +74,7 @@ class BackfillAnilistResourceActionTest extends TestCase
     {
         Http::fake([
             'https://graphql.anilist.co' => Http::response([
-                $this->faker->word() => $this->faker->word()
+                $this->faker->word() => $this->faker->word(),
             ]),
         ]);
 
@@ -83,7 +83,7 @@ class BackfillAnilistResourceActionTest extends TestCase
         ]);
 
         $anime = Anime::factory()
-            ->hasAttached($resource, [],Anime::RELATION_RESOURCES)
+            ->hasAttached($resource, [], Anime::RELATION_RESOURCES)
             ->createOne();
 
         $action = new BackfillAnilistResourceAction($anime);

@@ -101,7 +101,7 @@ class BackfillLargeCoverImageActionTest extends TestCase
         ]);
 
         $anime = Anime::factory()
-            ->hasAttached($resource, [],Anime::RELATION_RESOURCES)
+            ->hasAttached($resource, [], Anime::RELATION_RESOURCES)
             ->createOne();
 
         $action = new BackfillLargeCoverImageAction($anime);
@@ -126,7 +126,7 @@ class BackfillLargeCoverImageActionTest extends TestCase
 
         Http::fake([
             'https://graphql.anilist.co' => Http::response([
-                $this->faker->word() => $this->faker->word()
+                $this->faker->word() => $this->faker->word(),
             ]),
         ]);
 
@@ -135,7 +135,7 @@ class BackfillLargeCoverImageActionTest extends TestCase
         ]);
 
         $anime = Anime::factory()
-            ->hasAttached($resource, [],Anime::RELATION_RESOURCES)
+            ->hasAttached($resource, [], Anime::RELATION_RESOURCES)
             ->createOne();
 
         $action = new BackfillLargeCoverImageAction($anime);
