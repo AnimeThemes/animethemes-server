@@ -11,7 +11,6 @@ use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Studio;
 use App\Pivots\StudioResource;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -94,7 +93,7 @@ abstract class BackfillStudiosAction extends BaseAction
         $studioResource = ExternalResource::query()
             ->where(ExternalResource::ATTRIBUTE_SITE, $site->value)
             ->where(ExternalResource::ATTRIBUTE_EXTERNAL_ID, $id)
-            ->whereHas(ExternalResource::RELATION_STUDIOS, fn (Builder $studioQuery) => $studioQuery->whereKey($studio))
+            ->where(ExternalResource::ATTRIBUTE_LINK, ResourceSite::formatStudioResourceLink($site, $id))
             ->first();
 
         if (! $studioResource instanceof ExternalResource) {

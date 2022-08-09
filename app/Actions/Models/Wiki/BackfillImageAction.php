@@ -11,6 +11,7 @@ use App\Enums\Models\Wiki\ImageFacet;
 use App\Models\Wiki\Image;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\Testing\File;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -71,7 +72,7 @@ abstract class BackfillImageAction extends BaseAction
 
         $file = File::createWithContent(basename($url), $image);
 
-        $fs = Storage::disk('images');
+        $fs = Storage::disk(Config::get('image.disk'));
 
         $fsFile = $fs->putFile($this->path(), $file);
 

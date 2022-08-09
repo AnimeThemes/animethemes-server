@@ -9,7 +9,6 @@ use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\ExternalResource;
 use App\Pivots\AnimeResource;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Facades\Log;
 
@@ -62,7 +61,7 @@ abstract class BackfillAnimeResourceAction extends BackfillResourceAction
         $resource = ExternalResource::query()
             ->where(ExternalResource::ATTRIBUTE_SITE, $this->getSite()->value)
             ->where(ExternalResource::ATTRIBUTE_EXTERNAL_ID, $id)
-            ->whereHas(ExternalResource::RELATION_ANIME, fn (Builder $animeQuery) => $animeQuery->whereKey($this->getModel()))
+            ->where(ExternalResource::ATTRIBUTE_LINK, ResourceSite::formatAnimeResourceLink($this->getSite(), $id, $slug))
             ->first();
 
         if ($resource === null) {

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Http\Controllers\Wiki\AudioController;
+use App\Http\Controllers\Wiki\Audio\AudioController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/{audio}', [AudioController::class, 'show'])

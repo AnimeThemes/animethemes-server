@@ -33,4 +33,20 @@ return [
     'url' => env('VIDEO_URL'),
 
     'path' => env('VIDEO_PATH'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Video Streaming
+    |--------------------------------------------------------------------------
+    |
+    | These values represent the method by which video is streamed.
+    | The first supported method of streaming is through a streamed response ("response").
+    | The second supported method of streaming is through a Nginx internal redirect ("nginx").
+    | A Nginx internal redirect requires a URI to match the location block.
+    |
+    */
+
+    'streaming_method' => env('VIDEO_STREAMING_METHOD', 'response'),
+
+    'nginx_redirect' => env('VIDEO_NGINX_REDIRECT', '/video_redirect/'),
 ];

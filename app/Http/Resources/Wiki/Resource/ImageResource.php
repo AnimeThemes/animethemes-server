@@ -13,6 +13,7 @@ use App\Models\BaseModel;
 use App\Models\Wiki\Image;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\MissingValue;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
 
 /**
@@ -80,7 +81,7 @@ class ImageResource extends BaseResource
         }
 
         if ($this->isAllowedField(ImageResource::ATTRIBUTE_LINK)) {
-            $result[ImageResource::ATTRIBUTE_LINK] = Storage::disk('images')->url($this->path);
+            $result[ImageResource::ATTRIBUTE_LINK] = Storage::disk(Config::get('image.disk'))->url($this->path);
         }
 
         $result[Image::RELATION_ARTISTS] = new ArtistCollection($this->whenLoaded(Image::RELATION_ARTISTS), $this->query);

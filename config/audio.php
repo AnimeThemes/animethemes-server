@@ -33,4 +33,20 @@ return [
     'url' => env('AUDIO_URL'),
 
     'path' => env('AUDIO_PATH'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Audio Streaming
+    |--------------------------------------------------------------------------
+    |
+    | These values represent the method by which audio is streamed.
+    | The first supported method of streaming is through a streamed response ("response").
+    | The second supported method of streaming is through a Nginx internal redirect ("nginx").
+    | A Nginx internal redirect requires a URI to match the location block.
+    |
+    */
+
+    'streaming_method' => env('AUDIO_STREAMING_METHOD', 'response'),
+
+    'nginx_redirect' => env('AUDIO_NGINX_REDIRECT', '/audio_redirect/'),
 ];
