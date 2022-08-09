@@ -22,13 +22,13 @@ class ActionResult
     }
 
     /**
-     * Has the action failed?
+     * Get the action result status.
      *
-     * @return bool
+     * @return ActionStatus
      */
-    public function hasFailed(): bool
+    public function getStatus(): ActionStatus
     {
-        return ActionStatus::FAILED()->is($this->status);
+        return $this->status;
     }
 
     /**
@@ -39,5 +39,15 @@ class ActionResult
     public function getMessage(): ?string
     {
         return $this->message;
+    }
+
+    /**
+     * Has the action failed?
+     *
+     * @return bool
+     */
+    public function hasFailed(): bool
+    {
+        return ActionStatus::FAILED()->is($this->status);
     }
 }

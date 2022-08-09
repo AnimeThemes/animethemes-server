@@ -12,6 +12,7 @@ use App\Pivots\BasePivot;
 use BenSampo\Enum\Enum;
 use BenSampo\Enum\Rules\EnumValue;
 use Exception;
+use Illuminate\Support\Facades\Config;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\ID;
@@ -140,7 +141,7 @@ class Image extends BaseResource
                 ->showOnPreview()
                 ->filterable(),
 
-            NovaImage::make(__('nova.image'), ImageModel::ATTRIBUTE_PATH, 'images')
+            NovaImage::make(__('nova.image'), ImageModel::ATTRIBUTE_PATH, Config::get('image.disk'))
                 ->creationRules('required')
                 ->showOnPreview(),
 

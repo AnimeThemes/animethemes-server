@@ -50,7 +50,9 @@ class ReconcileAudioRepositories extends ReconcileRepositories
     {
         return [
             Audio::ATTRIBUTE_BASENAME,
+            Audio::ATTRIBUTE_FILENAME,
             Audio::ATTRIBUTE_ID,
+            Audio::ATTRIBUTE_MIMETYPE,
             Audio::ATTRIBUTE_PATH,
             Audio::ATTRIBUTE_SIZE,
         ];

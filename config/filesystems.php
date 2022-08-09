@@ -60,6 +60,14 @@ return [
             'throw' => false,
         ],
 
+        'images_local' => [
+            'driver' => 'local',
+            'root' => public_path('images'),
+            'url' => env('APP_URL').'/images',
+            'visibility' => 'public',
+            'throw' => false,
+        ],
+
         'videos' => [
             'driver' => 's3',
             'key' => env('VIDEO_ACCESS_KEY_ID'),
@@ -75,7 +83,9 @@ return [
 
         'videos_local' => [
             'driver' => 'local',
-            'root' => env('VIDEO_DISK_ROOT'),
+            'root' => public_path('videos'),
+            'url' => env('APP_URL').'/videos',
+            'visibility' => 'public',
             'throw' => false,
         ],
 
@@ -94,7 +104,9 @@ return [
 
         'audios_local' => [
             'driver' => 'local',
-            'root' => env('AUDIO_DISK_ROOT'),
+            'root' => public_path('audios'),
+            'url' => env('APP_URL').'/audios',
+            'visibility' => 'public',
             'throw' => false,
         ],
 
@@ -118,6 +130,9 @@ return [
 
     'links' => [
         public_path('storage') => storage_path('app/public'),
+        public_path('audios') => env('AUDIO_DISK_ROOT', storage_path('app/audios')),
+        public_path('images') => env('IMAGE_DISK_ROOT', storage_path('app/images')),
+        public_path('videos') => env('VIDEO_DISK_ROOT', storage_path('app/videos')),
     ],
 
 ];

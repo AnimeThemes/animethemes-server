@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models\Wiki;
 
+use App\Contracts\Models\Streamable;
 use App\Enums\Models\Wiki\VideoOverlap;
 use App\Enums\Models\Wiki\VideoSource;
 use App\Events\Wiki\Video\VideoCreated;
@@ -48,7 +49,7 @@ use Laravel\Nova\Actions\Actionable;
  *
  * @method static VideoFactory factory(...$parameters)
  */
-class Video extends BaseModel implements Viewable
+class Video extends BaseModel implements Streamable, Viewable
 {
     use Actionable;
     use Searchable;
@@ -259,6 +260,46 @@ class Video extends BaseModel implements Viewable
     public function getName(): string
     {
         return $this->basename;
+    }
+
+    /**
+     * Get the path of the streamable model in the filesystem.
+     *
+     * @return string
+     */
+    public function path(): string
+    {
+        return $this->path;
+    }
+
+    /**
+     * Get the basename of the streamable model.
+     *
+     * @return string
+     */
+    public function basename(): string
+    {
+        return $this->basename;
+    }
+
+    /**
+     * Get the MIME type / content type of the streamable model.
+     *
+     * @return string
+     */
+    public function mimetype(): string
+    {
+        return $this->mimetype;
+    }
+
+    /**
+     * Get the content length of the streamable model.
+     *
+     * @return int
+     */
+    public function size(): int
+    {
+        return $this->size;
     }
 
     /**

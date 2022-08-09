@@ -6,6 +6,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
@@ -36,6 +37,12 @@ class LogRequest
             'headers' => $request->headers->all(),
         ]);
 
-        return $next($request)->header('Request-Id', $requestId);
+        $response = $next($request);
+
+        if ($response instanceof Response) {
+            $response->header('Request-Id', $requestId);
+        }
+
+        return $response;
     }
 }
