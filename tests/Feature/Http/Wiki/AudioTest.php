@@ -10,6 +10,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 use Tests\TestCase;
 
 /**
@@ -106,5 +107,22 @@ class AudioTest extends TestCase
         });
 
         static::assertEquals(1, $audio->views()->count());
+    }
+
+    /**
+     * If the streaming method is set to 'response', the audio shall be streamed through a Symfony StreamedResponse.
+     *
+     * @return void
+     */
+    public function testStreamedThroughResponse(): void
+    {
+        Config::set(FlagConstants::ALLOW_AUDIO_STREAMS_FLAG_QUALIFIED, true);
+        Config::set('audio.streaming_method', 'response');
+
+        $audio = Audio::factory()->createOne();
+
+        $response = $this->get(route('audio.show', ['audio' => $audio]));
+
+        static::assertInstanceOf(StreamedResponse::class, $response->baseResponse);
     }
 }
