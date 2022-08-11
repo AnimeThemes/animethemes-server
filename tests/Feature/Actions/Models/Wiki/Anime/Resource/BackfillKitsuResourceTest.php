@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Actions\Models\Wiki\Anime\Resource;
 
-use App\Actions\Models\Wiki\Anime\Resource\BackfillAnidbResourceAction;
+use App\Actions\Models\Wiki\Anime\Resource\BackfillKitsuResourceAction;
 use App\Enums\Actions\ActionStatus;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Wiki\Anime;
@@ -16,14 +16,14 @@ use Illuminate\Support\Facades\Http;
 use Tests\TestCase;
 
 /**
- * Class BackfillAnidbResourceActionTest.
+ * Class BackfillKitsuResourceActionTest.
  */
-class BackfillAnidbResourceActionTest extends TestCase
+class BackfillKitsuResourceTest extends TestCase
 {
     use WithFaker;
 
     /**
-     * The Backfill AniDB Action shall skip the Anime if the relation already exists.
+     * The Backfill Kitsu Action shall skip the Anime if the relation already exists.
      *
      * @return void
      *
@@ -31,23 +31,27 @@ class BackfillAnidbResourceActionTest extends TestCase
      */
     public function testSkipped(): void
     {
+        Http::fake();
+
         $resource = ExternalResource::factory()->createOne([
-            ExternalResource::ATTRIBUTE_SITE => ResourceSite::ANIDB,
+            ExternalResource::ATTRIBUTE_SITE => ResourceSite::KITSU,
         ]);
 
         $anime = Anime::factory()
             ->hasAttached($resource, [], Anime::RELATION_RESOURCES)
             ->createOne();
 
-        $action = new BackfillAnidbResourceAction($anime);
+        $action = new BackfillKitsuResourceAction($anime);
 
         $result = $action->handle();
 
         static::assertTrue(ActionStatus::SKIPPED()->is($result->getStatus()));
+        static::assertDatabaseCount(ExternalResource::class, 1);
+        Http::assertNothingSent();
     }
 
     /**
-     * The Backfill AniDB Action shall fail if the Anime has no Resources.
+     * The Backfill Kitsu Action shall fail if the Anime has no Resources.
      *
      * @return void
      *
@@ -55,17 +59,22 @@ class BackfillAnidbResourceActionTest extends TestCase
      */
     public function testFailedWhenNoResource(): void
     {
+        Http::fake();
+
         $anime = Anime::factory()->createOne();
 
-        $action = new BackfillAnidbResourceAction($anime);
+        $action = new BackfillKitsuResourceAction($anime);
 
         $result = $action->handle();
 
         static::assertTrue($result->hasFailed());
+        static::assertDatabaseCount(ExternalResource::class, 0);
+
+        Http::assertNothingSent();
     }
 
     /**
-     * The Backfill AniDB Action shall fail if the Yuna API does not return a match.
+     * The Backfill Kitsu Action shall fail if the Kitsu API does not return a match.
      *
      * @return void
      *
@@ -74,13 +83,16 @@ class BackfillAnidbResourceActionTest extends TestCase
     public function testFailedWhenNoMatch(): void
     {
         Http::fake([
-            'https://relations.yuna.moe/api/ids*' => Http::response(),
+            'https://kitsu.io/api/graphql' => Http::response([
+                $this->faker->word() => $this->faker->word(),
+            ]),
         ]);
 
         $site = Arr::random([
             ResourceSite::MAL,
             ResourceSite::ANILIST,
-            ResourceSite::KITSU,
+            ResourceSite::ANIDB,
+            ResourceSite::ANN,
         ]);
 
         $resource = ExternalResource::factory()->createOne([
@@ -91,32 +103,40 @@ class BackfillAnidbResourceActionTest extends TestCase
             ->hasAttached($resource, [], Anime::RELATION_RESOURCES)
             ->createOne();
 
-        $action = new BackfillAnidbResourceAction($anime);
+        $action = new BackfillKitsuResourceAction($anime);
 
         $result = $action->handle();
 
         static::assertTrue($result->hasFailed());
+        static::assertDatabaseCount(ExternalResource::class, 1);
+        Http::assertSentCount(1);
     }
 
     /**
-     * The Backfill AniDB Action shall attach an AniDB resource to the Anime.
+     * The Backfill Kitsu Action shall pass if the Kitsu API returns a match.
      *
      * @return void
      *
      * @throws RequestException
      */
-    public function testAttachesAniDbResource(): void
+    public function testPassed(): void
     {
         Http::fake([
-            'https://relations.yuna.moe/api/ids*' => Http::response([
-                'anidb' => $this->faker->randomDigitNotNull(),
+            'https://kitsu.io/api/graphql' => Http::response([
+                'data' => [
+                    'lookupMapping' => [
+                        'id' => $this->faker->randomDigitNotNull(),
+                        'slug' => $this->faker->slug(),
+                    ],
+                ],
             ]),
         ]);
 
         $site = Arr::random([
             ResourceSite::MAL,
             ResourceSite::ANILIST,
-            ResourceSite::KITSU,
+            ResourceSite::ANIDB,
+            ResourceSite::ANN,
         ]);
 
         $resource = ExternalResource::factory()->createOne([
@@ -127,51 +147,18 @@ class BackfillAnidbResourceActionTest extends TestCase
             ->hasAttached($resource, [], Anime::RELATION_RESOURCES)
             ->createOne();
 
-        $action = new BackfillAnidbResourceAction($anime);
-
-        $action->handle();
-
-        static::assertTrue($anime->resources()->where(ExternalResource::ATTRIBUTE_SITE, ResourceSite::ANIDB)->exists());
-    }
-
-    /**
-     * The Backfill AniDB Action shall pass if the Yuna API returns a match.
-     *
-     * @return void
-     *
-     * @throws RequestException
-     */
-    public function testPassedWhenMatched(): void
-    {
-        Http::fake([
-            'https://relations.yuna.moe/api/ids*' => Http::response([
-                'anidb' => $this->faker->randomDigitNotNull(),
-            ]),
-        ]);
-
-        $site = Arr::random([
-            ResourceSite::MAL,
-            ResourceSite::ANILIST,
-            ResourceSite::KITSU,
-        ]);
-
-        $resource = ExternalResource::factory()->createOne([
-            ExternalResource::ATTRIBUTE_SITE => $site,
-        ]);
-
-        $anime = Anime::factory()
-            ->hasAttached($resource, [], Anime::RELATION_RESOURCES)
-            ->createOne();
-
-        $action = new BackfillAnidbResourceAction($anime);
+        $action = new BackfillKitsuResourceAction($anime);
 
         $result = $action->handle();
 
         static::assertTrue(ActionStatus::PASSED()->is($result->getStatus()));
+        static::assertDatabaseCount(ExternalResource::class, 2);
+        static::assertTrue($anime->resources()->where(ExternalResource::ATTRIBUTE_SITE, ResourceSite::KITSU)->exists());
+        Http::assertSentCount(1);
     }
 
     /**
-     * The Backfill AniDB Action shall get an existing resource if the site and id match.
+     * The Backfill Kitsu Action shall get an existing resource if the site and id match.
      *
      * @return void
      *
@@ -179,25 +166,32 @@ class BackfillAnidbResourceActionTest extends TestCase
      */
     public function testGetsExistingResource(): void
     {
-        $anidbId = $this->faker->randomDigitNotNull();
+        $kitsuId = $this->faker->randomDigitNotNull();
+        $kitsuSlug = $this->faker->slug();
 
         ExternalResource::factory()->createOne([
-            ExternalResource::ATTRIBUTE_SITE => ResourceSite::ANIDB,
-            ExternalResource::ATTRIBUTE_EXTERNAL_ID => $anidbId,
-            ExternalResource::ATTRIBUTE_LINK => ResourceSite::formatAnimeResourceLink(ResourceSite::ANIDB(), $anidbId),
+            ExternalResource::ATTRIBUTE_SITE => ResourceSite::KITSU,
+            ExternalResource::ATTRIBUTE_EXTERNAL_ID => $kitsuId,
+            ExternalResource::ATTRIBUTE_LINK => ResourceSite::formatAnimeResourceLink(ResourceSite::KITSU(), $kitsuId, $kitsuSlug),
 
         ]);
 
         Http::fake([
-            'https://relations.yuna.moe/api/ids*' => Http::response([
-                'anidb' => $anidbId,
+            'https://kitsu.io/api/graphql' => Http::response([
+                'data' => [
+                    'lookupMapping' => [
+                        'id' => $kitsuId,
+                        'slug' => $kitsuSlug,
+                    ],
+                ],
             ]),
         ]);
 
         $site = Arr::random([
             ResourceSite::MAL,
             ResourceSite::ANILIST,
-            ResourceSite::KITSU,
+            ResourceSite::ANIDB,
+            ResourceSite::ANN,
         ]);
 
         $resource = ExternalResource::factory()->createOne([
@@ -208,10 +202,13 @@ class BackfillAnidbResourceActionTest extends TestCase
             ->hasAttached($resource, [], Anime::RELATION_RESOURCES)
             ->createOne();
 
-        $action = new BackfillAnidbResourceAction($anime);
+        $action = new BackfillKitsuResourceAction($anime);
 
-        $action->handle();
+        $result = $action->handle();
 
+        static::assertTrue(ActionStatus::PASSED()->is($result->getStatus()));
         static::assertDatabaseCount(ExternalResource::class, 2);
+        static::assertTrue($anime->resources()->where(ExternalResource::ATTRIBUTE_SITE, ResourceSite::KITSU)->exists());
+        Http::assertSentCount(1);
     }
 }

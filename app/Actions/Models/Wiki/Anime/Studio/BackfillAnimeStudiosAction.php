@@ -15,7 +15,6 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
-use Orchestra\Parser\Xml\Facade as XmlParser;
 
 /**
  * Class BackfillAnimeStudiosAction.
@@ -81,15 +80,7 @@ class BackfillAnimeStudiosAction extends BackfillStudiosAction
 
         $kitsuResource = $this->getModel()->resources()->firstWhere(ExternalResource::ATTRIBUTE_SITE, ResourceSite::KITSU);
         if ($kitsuResource instanceof ExternalResource) {
-            $studios = $this->getKitsuAnimeStudios($kitsuResource);
-            if (! empty($studios)) {
-                return $studios;
-            }
-        }
-
-        $annResource = $this->getModel()->resources()->firstWhere(ExternalResource::ATTRIBUTE_SITE, ResourceSite::ANN);
-        if ($annResource instanceof ExternalResource) {
-            return $this->getAnnAnimeStudios($annResource);
+            return $this->getKitsuAnimeStudios($kitsuResource);
         }
 
         return [];
@@ -228,11 +219,11 @@ class BackfillAnimeStudiosAction extends BackfillStudiosAction
             ->throw()
             ->json();
 
-        $anilistStudios = Arr::get($response, 'data.findAnimeById.productions.nodes', []);
+        $kitsuStudios = Arr::get($response, 'data.findAnimeById.productions.nodes', []);
 
-        foreach ($anilistStudios as $anilistStudio) {
-            $role = Arr::get($anilistStudio, 'role');
-            $name = Arr::get($anilistStudio, 'company.name');
+        foreach ($kitsuStudios as $kitsuStudio) {
+            $role = Arr::get($kitsuStudio, 'role');
+            $name = Arr::get($kitsuStudio, 'company.name');
             if ($role !== 'STUDIO' || empty($name)) {
                 Log::info("Skipping production company of name '$name' and role '$role' for Anilist Resource '{$kitsuResource->getName()}'");
                 continue;
@@ -241,50 +232,6 @@ class BackfillAnimeStudiosAction extends BackfillStudiosAction
             $studio = $this->getOrCreateStudio($name);
 
             $studios[] = $studio;
-        }
-
-        return $studios;
-    }
-
-    /**
-     * Query ANN API for Anime Studios.
-     *
-     * @param  ExternalResource  $annResource
-     * @return Studio[]
-     *
-     * @throws RequestException
-     */
-    protected function getAnnAnimeStudios(ExternalResource $annResource): array
-    {
-        $studios = [];
-
-        $response = Http::get("https://cdn.animenewsnetwork.com/encyclopedia/api.xml?anime=$annResource->external_id")
-            ->throw()
-            ->body();
-
-        $xml = XmlParser::extract($response);
-
-        $annCredits = $xml->parse([
-            'credits' => [
-                'uses' => 'anime.credit[task,company>name,company::id>id]',
-            ],
-        ]);
-
-        $annStudios = Arr::get($annCredits, 'credits', []);
-        foreach ($annStudios as $annStudio) {
-            $task = Arr::get($annStudio, 'task');
-            $name = Arr::get($annStudio, 'name');
-            $id = Arr::get($annStudio, 'id');
-            if ($task !== 'Animation Production' || empty($name) || empty($id)) {
-                Log::info("Skipping production company of task '$task' and name '$name' and id '$id'");
-                continue;
-            }
-
-            $studio = $this->getOrCreateStudio($name);
-
-            $studios[] = $studio;
-
-            $this->ensureStudioHasResource($studio, ResourceSite::ANN(), intval($id));
         }
 
         return $studios;
