@@ -29,7 +29,6 @@ class BackfillVideoAudioTest extends TestCase
      * The Backfill Audio Action shall skip the Anime if the relation already exists.
      *
      * @return void
-     *
      */
     public function testSkipped(): void
     {
@@ -83,8 +82,8 @@ class BackfillVideoAudioTest extends TestCase
         $video = Video::factory()
             ->has(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
             ->createOne([
-            Video::ATTRIBUTE_PATH => $this->faker()->word().'.webm',
-        ]);
+                Video::ATTRIBUTE_PATH => $this->faker()->word().'.webm',
+            ]);
 
         Audio::factory()->createOne([
             Audio::ATTRIBUTE_PATH => Str::replace('webm', 'ogg', $video->path),
