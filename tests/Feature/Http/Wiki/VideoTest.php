@@ -10,6 +10,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 use Tests\TestCase;
 
 /**
@@ -106,5 +107,22 @@ class VideoTest extends TestCase
         });
 
         static::assertEquals(1, $video->views()->count());
+    }
+
+    /**
+     * If the streaming method is set to 'response', the video shall be streamed through a Symfony StreamedResponse.
+     *
+     * @return void
+     */
+    public function testStreamedThroughResponse(): void
+    {
+        Config::set(FlagConstants::ALLOW_VIDEO_STREAMS_FLAG, true);
+        Config::set('video.streaming_method', 'response');
+
+        $video = Video::factory()->createOne();
+
+        $response = $this->get(route('video.show', ['video' => $video]));
+
+        static::assertInstanceOf(StreamedResponse::class, $response->baseResponse);
     }
 }
