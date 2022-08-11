@@ -22,7 +22,7 @@ use Tests\TestCase;
 /**
  * Class BackfillSmallCoverImageActionTest.
  */
-class BackfillSmallCoverImageActionTest extends TestCase
+class BackfillSmallCoverImageTest extends TestCase
 {
     use WithFaker;
 
@@ -35,6 +35,8 @@ class BackfillSmallCoverImageActionTest extends TestCase
      */
     public function testSkipped(): void
     {
+        Http::fake();
+
         Storage::fake(Config::get('image.disk'));
 
         $image = Image::factory()->createOne([
@@ -52,6 +54,7 @@ class BackfillSmallCoverImageActionTest extends TestCase
         static::assertTrue(ActionStatus::SKIPPED()->is($result->getStatus()));
         static::assertDatabaseCount(Image::class, 1);
         static::assertEmpty(Storage::disk(Config::get('image.disk'))->allFiles());
+        Http::assertNothingSent();
     }
 
     /**
@@ -63,6 +66,8 @@ class BackfillSmallCoverImageActionTest extends TestCase
      */
     public function testFailedWhenNoResource(): void
     {
+        Http::fake();
+
         Storage::fake(Config::get('image.disk'));
 
         $anime = Anime::factory()->createOne();
@@ -74,6 +79,7 @@ class BackfillSmallCoverImageActionTest extends TestCase
         static::assertTrue($result->hasFailed());
         static::assertDatabaseCount(Image::class, 0);
         static::assertEmpty(Storage::disk(Config::get('image.disk'))->allFiles());
+        Http::assertNothingSent();
     }
 
     /**
@@ -85,6 +91,8 @@ class BackfillSmallCoverImageActionTest extends TestCase
      */
     public function testFailedWhenNoAnilistResource(): void
     {
+        Http::fake();
+
         Storage::fake(Config::get('image.disk'));
 
         $site = null;
@@ -111,6 +119,7 @@ class BackfillSmallCoverImageActionTest extends TestCase
         static::assertTrue($result->hasFailed());
         static::assertDatabaseCount(Image::class, 0);
         static::assertEmpty(Storage::disk(Config::get('image.disk'))->allFiles());
+        Http::assertNothingSent();
     }
 
     /**
@@ -145,6 +154,7 @@ class BackfillSmallCoverImageActionTest extends TestCase
         static::assertTrue($result->hasFailed());
         static::assertDatabaseCount(Image::class, 0);
         static::assertEmpty(Storage::disk(Config::get('image.disk'))->allFiles());
+        Http::assertSentCount(1);
     }
 
     /**
@@ -189,5 +199,6 @@ class BackfillSmallCoverImageActionTest extends TestCase
         static::assertDatabaseCount(Image::class, 1);
         static::assertTrue($anime->images()->where(Image::ATTRIBUTE_FACET, ImageFacet::COVER_SMALL)->exists());
         static::assertCount(1, Storage::disk(Config::get('image.disk'))->allFiles());
+        Http::assertSentCount(2);
     }
 }
