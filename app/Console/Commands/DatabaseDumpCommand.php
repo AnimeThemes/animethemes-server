@@ -249,7 +249,7 @@ abstract class DatabaseDumpCommand extends Command
      *
      * @return string
      */
-    public function getDumpFile(): string
+    protected function getDumpFile(): string
     {
         $filesystem = Storage::disk('db-dumps');
 

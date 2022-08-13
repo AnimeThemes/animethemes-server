@@ -116,7 +116,7 @@ class VideoTest extends TestCase
      */
     public function testStreamedThroughResponse(): void
     {
-        Config::set(FlagConstants::ALLOW_VIDEO_STREAMS_FLAG, true);
+        Config::set(FlagConstants::ALLOW_VIDEO_STREAMS_FLAG_QUALIFIED, true);
         Config::set('video.streaming_method', 'response');
 
         $video = Video::factory()->createOne();

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
-use App\Actions\Models\Wiki\Video\Audio\BackfillVideoAudioAction;
+use App\Actions\Models\Wiki\Video\Audio\BackfillAudioAction;
 use App\Models\Wiki\Video;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Collection;
@@ -24,7 +24,7 @@ class BackfillAudioSeeder extends Seeder
         Video::query()
             ->whereDoesntHave(Video::RELATION_AUDIO)
             ->chunkById(100, fn (Collection $videos) => $videos->each(function (Video $video) {
-                $action = new BackfillVideoAudioAction($video);
+                $action = new BackfillAudioAction($video);
 
                 $action->handle();
             }));

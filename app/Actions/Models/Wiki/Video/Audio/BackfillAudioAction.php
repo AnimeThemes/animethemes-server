@@ -4,9 +4,14 @@ declare(strict_types=1);
 
 namespace App\Actions\Models\Wiki\Video\Audio;
 
-use App\Actions\Models\Wiki\BackfillAudioAction;
+use App\Actions\Models\ActionResult;
+use App\Actions\Models\BaseAction;
 use App\Actions\Repositories\ReconcileResults;
 use App\Actions\Repositories\Wiki\Audio\ReconcileAudioRepositories;
+use App\Contracts\Repositories\RepositoryInterface;
+use App\Enums\Actions\ActionStatus;
+use App\Enums\Actions\Models\Wiki\Video\DeriveSourceVideo;
+use App\Enums\Actions\Models\Wiki\Video\OverwriteAudio;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
@@ -24,6 +29,7 @@ use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use ProtoneMedia\LaravelFFMpeg\Support\FFMpeg;
@@ -31,18 +37,52 @@ use ProtoneMedia\LaravelFFMpeg\Support\FFMpeg;
 /**
  * Class BackfillVideoAudioAction.
  *
- * @extends BackfillAudioAction<Video>
+ * @extends BaseAction<Video>
  */
-class BackfillVideoAudioAction extends BackfillAudioAction
+class BackfillAudioAction extends BaseAction
 {
     /**
      * Create a new action instance.
      *
      * @param  Video  $video
+     * @param  DeriveSourceVideo  $deriveSourceVideo
+     * @param  OverwriteAudio  $overwriteAudio
      */
-    public function __construct(Video $video)
-    {
+    public function __construct(
+        Video $video,
+        protected readonly DeriveSourceVideo $deriveSourceVideo = new DeriveSourceVideo(DeriveSourceVideo::YES),
+        protected readonly OverwriteAudio $overwriteAudio = new OverwriteAudio(OverwriteAudio::NO)
+    ) {
         parent::__construct($video);
+    }
+
+    /**
+     * Handle action.
+     *
+     * @return ActionResult
+     */
+    public function handle(): ActionResult
+    {
+        if ($this->relation()->getQuery()->exists() && ! $this->overwriteAudio()) {
+            Log::info("{$this->label()} '{$this->getModel()->getName()}' already has Audio'.");
+
+            return new ActionResult(ActionStatus::SKIPPED());
+        }
+
+        $audio = $this->getAudio();
+
+        if ($audio !== null) {
+            $this->attachAudio($audio);
+        }
+
+        if ($this->relation()->getQuery()->doesntExist()) {
+            return new ActionResult(
+                ActionStatus::FAILED(),
+                "{$this->label()} '{$this->getModel()->getName()}' has no Audio after backfilling. Please review."
+            );
+        }
+
+        return new ActionResult(ActionStatus::PASSED());
     }
 
     /**
@@ -50,7 +90,7 @@ class BackfillVideoAudioAction extends BackfillAudioAction
      *
      * @return Video
      */
-    public function getModel(): Video
+    protected function getModel(): Video
     {
         return $this->model;
     }
@@ -66,14 +106,38 @@ class BackfillVideoAudioAction extends BackfillAudioAction
     }
 
     /**
+     * Determine if the source video should be derived.
+     *
+     * @return bool
+     */
+    protected function deriveSourceVideo(): bool
+    {
+        return DeriveSourceVideo::YES()->is($this->deriveSourceVideo);
+    }
+
+    /**
+     * Determine if audio should be overwritten.
+     *
+     * @return bool
+     */
+    protected function overwriteAudio(): bool
+    {
+        return OverwriteAudio::YES()->is($this->overwriteAudio);
+    }
+
+    /**
      * Get or Create Audio.
      *
      * @return Audio|null
      */
     protected function getAudio(): ?Audio
     {
+        // Allow bypassing of source video derivation
+        $sourceVideo = $this->deriveSourceVideo()
+            ? $this->getSourceVideo()
+            : $this->getModel();
+
         // It's possible that the video is not attached to any themes, exit early.
-        $sourceVideo = $this->getSourceVideo();
         if ($sourceVideo === null) {
             return null;
         }
@@ -81,20 +145,27 @@ class BackfillVideoAudioAction extends BackfillAudioAction
         // First, attempt to set audio from the source video
         $audio = $sourceVideo->audio;
 
+        // Anticipate audio path for FFmpeg save file
+        $audioPath = $audio === null
+            ? Str::replace('webm', 'ogg', $sourceVideo->path)
+            : $audio->path;
+
         // Second, attempt to set audio from path
-        $audioPath = Str::replace('webm', 'ogg', $sourceVideo->path);
         if ($audio === null) {
             $audio = Audio::query()->firstWhere(Audio::ATTRIBUTE_PATH, $audioPath);
         }
 
         // Finally, extract audio from the source video
-        if ($audio === null) {
+        if ($audio === null || $this->overwriteAudio()) {
             Log::info("Extracting Audio from Video '{$sourceVideo->getName()}'");
 
             $this->extractAudio($sourceVideo, $audioPath);
-            $results = $this->reconcileAudio();
+            $results = $this->reconcileAudio($audioPath);
             $results->toLog();
-            $audio = $results->getCreated()->firstWhere(fn (Audio $audio) => $audio->path === $audioPath);
+
+            if ($audio === null) {
+                $audio = $results->getCreated()->firstWhere(fn (Audio $audio) => $audio->path === $audioPath);
+            }
         }
 
         return $audio;
@@ -176,15 +247,20 @@ class BackfillVideoAudioAction extends BackfillAudioAction
     /**
      * Reconcile audio repositories.
      *
+     * @param  string  $audioPath
      * @return ReconcileResults
      */
-    protected function reconcileAudio(): ReconcileResults
+    protected function reconcileAudio(string $audioPath): ReconcileResults
     {
         $action = new ReconcileAudioRepositories();
 
+        /** @var RepositoryInterface $sourceRepository */
         $sourceRepository = App::make(AudioSourceRepository::class);
+        $sourceRepository->handleFilter('path', File::dirname($audioPath));
 
+        /** @var RepositoryInterface $destinationRepository */
         $destinationRepository = App::make(AudioDestinationRepository::class);
+        $destinationRepository->handleFilter('path', File::dirname($audioPath));
 
         return $action->reconcileRepositories($sourceRepository, $destinationRepository);
     }
@@ -197,7 +273,9 @@ class BackfillVideoAudioAction extends BackfillAudioAction
      */
     protected function attachAudio(Audio $audio): void
     {
-        Log::info("Associating Audio '{$audio->getName()}' with Video '{$this->getModel()->getName()}'");
-        $this->relation()->associate($audio)->save();
+        if ($this->relation()->isNot($audio)) {
+            Log::info("Associating Audio '{$audio->getName()}' with Video '{$this->getModel()->getName()}'");
+            $this->relation()->associate($audio)->save();
+        }
     }
 }

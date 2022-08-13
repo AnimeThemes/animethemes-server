@@ -10,7 +10,7 @@ use App\Enums\Models\Wiki\VideoSource;
 use App\Models\Auth\User;
 use App\Models\BaseModel;
 use App\Models\Wiki\Video;
-use App\Nova\Actions\Wiki\Video\BackfillVideoAction;
+use App\Nova\Actions\Wiki\Video\BackfillAudioAction;
 use App\Nova\Lenses\BaseLens;
 use BenSampo\Enum\Enum;
 use Exception;
@@ -131,7 +131,7 @@ class VideoAudioLens extends BaseLens
     public function actions(NovaRequest $request): array
     {
         return [
-            (new BackfillVideoAction($request->user()))
+            (new BackfillAudioAction($request->user()))
                 ->confirmButtonText(__('nova.backfill'))
                 ->cancelButtonText(__('nova.cancel'))
                 ->showOnIndex()
