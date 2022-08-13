@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Actions\Models\Wiki\Video\Audio;
 
-use App\Actions\Models\Wiki\Video\Audio\BackfillVideoAudioAction;
+use App\Actions\Models\Wiki\Video\Audio\BackfillAudioAction;
 use App\Enums\Actions\ActionStatus;
 use App\Enums\Models\Wiki\VideoSource;
 use App\Models\Wiki\Anime;
@@ -39,7 +39,7 @@ class BackfillVideoAudioTest extends TestCase
             ->for(Audio::factory())
             ->createOne();
 
-        $action = new BackfillVideoAudioAction($video);
+        $action = new BackfillAudioAction($video);
 
         $result = $action->handle();
 
@@ -60,7 +60,7 @@ class BackfillVideoAudioTest extends TestCase
 
         $video = Video::factory()->createOne();
 
-        $action = new BackfillVideoAudioAction($video);
+        $action = new BackfillAudioAction($video);
 
         $result = $action->handle();
 
@@ -89,7 +89,7 @@ class BackfillVideoAudioTest extends TestCase
             Audio::ATTRIBUTE_PATH => Str::replace('webm', 'ogg', $video->path),
         ]);
 
-        $action = new BackfillVideoAudioAction($video);
+        $action = new BackfillAudioAction($video);
 
         $result = $action->handle();
 
@@ -124,7 +124,7 @@ class BackfillVideoAudioTest extends TestCase
                 Video::ATTRIBUTE_SOURCE => VideoSource::WEB,
             ]);
 
-        $action = new BackfillVideoAudioAction($video);
+        $action = new BackfillAudioAction($video);
 
         $result = $action->handle();
 
@@ -166,7 +166,7 @@ class BackfillVideoAudioTest extends TestCase
             ->has(AnimeThemeEntry::factory()->set(AnimeThemeEntry::ATTRIBUTE_VERSION, 3)->for($theme))
             ->createOne($videoAttributes);
 
-        $action = new BackfillVideoAudioAction($video);
+        $action = new BackfillAudioAction($video);
 
         $result = $action->handle();
 

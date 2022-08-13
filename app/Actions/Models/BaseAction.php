@@ -36,7 +36,7 @@ abstract class BaseAction
      *
      * @return TModel
      */
-    abstract public function getModel(): BaseModel;
+    abstract protected function getModel(): BaseModel;
 
     /**
      * Get the relation to resources.

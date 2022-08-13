@@ -32,7 +32,7 @@ abstract class BackfillStudioImageAction extends BackfillImageAction
      *
      * @return Studio
      */
-    public function getModel(): Studio
+    protected function getModel(): Studio
     {
         return $this->model;
     }

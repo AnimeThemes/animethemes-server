@@ -8,7 +8,7 @@ use App\Enums\Models\Wiki\VideoOverlap;
 use App\Enums\Models\Wiki\VideoSource;
 use App\Models\Auth\User;
 use App\Models\Wiki\Video as VideoModel;
-use App\Nova\Actions\Wiki\Video\BackfillVideoAction;
+use App\Nova\Actions\Wiki\Video\BackfillAudioAction;
 use App\Nova\Actions\Wiki\Video\ReconcileVideoAction;
 use App\Nova\Lenses\Video\VideoAudioLens;
 use App\Nova\Lenses\Video\VideoResolutionLens;
@@ -270,7 +270,7 @@ class Video extends BaseResource
         return array_merge(
             parent::actions($request),
             [
-                (new BackfillVideoAction($request->user()))
+                (new BackfillAudioAction($request->user()))
                     ->confirmButtonText(__('nova.backfill'))
                     ->cancelButtonText(__('nova.cancel'))
                     ->showOnIndex()

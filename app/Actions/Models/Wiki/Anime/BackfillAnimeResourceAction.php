@@ -34,7 +34,7 @@ abstract class BackfillAnimeResourceAction extends BackfillResourceAction
      *
      * @return Anime
      */
-    public function getModel(): Anime
+    protected function getModel(): Anime
     {
         return $this->model;
     }
