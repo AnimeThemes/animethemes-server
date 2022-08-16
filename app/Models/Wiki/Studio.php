@@ -14,7 +14,7 @@ use App\Pivots\BasePivot;
 use App\Pivots\StudioImage;
 use App\Pivots\StudioResource;
 use Database\Factories\Wiki\StudioFactory;
-use ElasticScoutDriverPlus\Searchable;
+use Elastic\ScoutDriverPlus\Searchable;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Collection;
 use Laravel\Nova\Actions\Actionable;

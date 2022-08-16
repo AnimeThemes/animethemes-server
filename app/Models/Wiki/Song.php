@@ -14,7 +14,7 @@ use App\Models\Wiki\Anime\AnimeTheme;
 use App\Pivots\ArtistSong;
 use App\Pivots\BasePivot;
 use Database\Factories\Wiki\SongFactory;
-use ElasticScoutDriverPlus\Searchable;
+use Elastic\ScoutDriverPlus\Searchable;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;

@@ -123,7 +123,7 @@ class UploadVideoAction extends Action
 
             Text::make(__('nova.path'), 'path')
                 ->required()
-                ->rules(['required', 'string', 'doesnt_start_with:/', new StorageDirectoryExistsRule($fs)])
+                ->rules(['required', 'string', 'doesnt_start_with:/', 'doesnt_end_with:/', new StorageDirectoryExistsRule($fs)])
                 ->help(__('nova.upload_video_path_help')),
         ];
     }

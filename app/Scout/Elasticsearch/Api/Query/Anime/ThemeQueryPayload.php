@@ -8,11 +8,11 @@ use App\Models\Wiki\Anime\AnimeTheme;
 use App\Scout\Elasticsearch\Api\Query\ElasticQueryPayload;
 use App\Scout\Elasticsearch\Api\Schema\Schema;
 use App\Scout\Elasticsearch\Api\Schema\Wiki\Anime\ThemeSchema;
-use ElasticScoutDriverPlus\Builders\MatchPhraseQueryBuilder;
-use ElasticScoutDriverPlus\Builders\MatchQueryBuilder;
-use ElasticScoutDriverPlus\Builders\NestedQueryBuilder;
-use ElasticScoutDriverPlus\Builders\SearchRequestBuilder;
-use ElasticScoutDriverPlus\Support\Query;
+use Elastic\ScoutDriverPlus\Builders\MatchPhraseQueryBuilder;
+use Elastic\ScoutDriverPlus\Builders\MatchQueryBuilder;
+use Elastic\ScoutDriverPlus\Builders\NestedQueryBuilder;
+use Elastic\ScoutDriverPlus\Builders\SearchParametersBuilder;
+use Elastic\ScoutDriverPlus\Support\Query;
 
 /**
  * Class ThemeQueryPayload.
@@ -42,9 +42,9 @@ class ThemeQueryPayload extends ElasticQueryPayload
     /**
      * Build Elasticsearch query.
      *
-     * @return SearchRequestBuilder
+     * @return SearchParametersBuilder
      */
-    public function buildQuery(): SearchRequestBuilder
+    public function buildQuery(): SearchParametersBuilder
     {
         $query = Query::bool()
             ->should(
