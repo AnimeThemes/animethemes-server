@@ -10,6 +10,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Tests\TestCase;
 
@@ -116,6 +117,8 @@ class VideoTest extends TestCase
      */
     public function testStreamedThroughResponse(): void
     {
+        Storage::fake(Config::get('video.disk'));
+
         Config::set(FlagConstants::ALLOW_VIDEO_STREAMS_FLAG_QUALIFIED, true);
         Config::set('video.streaming_method', 'response');
 

@@ -8,7 +8,7 @@ use App\Contracts\Http\Api\Field\CreatableField;
 use App\Contracts\Http\Api\Field\UpdatableField;
 use App\Http\Api\Field\StringField;
 use App\Models\Wiki\ExternalResource;
-use App\Rules\Wiki\ResourceLinkMatchesSiteRule;
+use App\Rules\Wiki\Resource\ResourceLinkMatchesSiteRule;
 use Illuminate\Http\Request;
 
 /**

@@ -10,6 +10,7 @@ use App\Models\Auth\User;
 use App\Models\Wiki\Video as VideoModel;
 use App\Nova\Actions\Wiki\Video\BackfillAudioAction;
 use App\Nova\Actions\Wiki\Video\ReconcileVideoAction;
+use App\Nova\Actions\Wiki\Video\UploadVideoAction;
 use App\Nova\Lenses\Video\VideoAudioLens;
 use App\Nova\Lenses\Video\VideoResolutionLens;
 use App\Nova\Lenses\Video\VideoSourceLens;
@@ -280,6 +281,17 @@ class Video extends BaseResource
                         $user = $request->user();
 
                         return $user instanceof User && $user->can('update video');
+                    }),
+
+                (new UploadVideoAction())
+                    ->confirmButtonText(__('nova.upload'))
+                    ->cancelButtonText(__('nova.cancel'))
+                    ->onlyOnIndex()
+                    ->standalone()
+                    ->canSee(function (Request $request) {
+                        $user = $request->user();
+
+                        return $user instanceof User && $user->can('create video');
                     }),
 
                 (new ReconcileVideoAction())

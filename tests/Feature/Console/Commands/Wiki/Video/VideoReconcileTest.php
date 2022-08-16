@@ -10,6 +10,8 @@ use App\Repositories\Storage\Wiki\VideoRepository;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Storage;
 use Mockery\MockInterface;
 use Tests\TestCase;
 
@@ -28,6 +30,8 @@ class VideoReconcileTest extends TestCase
      */
     public function testNoResults(): void
     {
+        Storage::fake(Config::get('video.disk'));
+
         $this->baseRefreshDatabase(); // Cannot lazily refresh database within pending command
 
         $this->mock(VideoRepository::class, function (MockInterface $mock) {
@@ -44,6 +48,8 @@ class VideoReconcileTest extends TestCase
      */
     public function testCreated(): void
     {
+        Storage::fake(Config::get('video.disk'));
+
         $this->baseRefreshDatabase(); // Cannot lazily refresh database within pending command
 
         $createdVideoCount = $this->faker->numberBetween(2, 9);
@@ -64,6 +70,8 @@ class VideoReconcileTest extends TestCase
      */
     public function testDeleted(): void
     {
+        Storage::fake(Config::get('video.disk'));
+
         $deletedVideoCount = $this->faker->numberBetween(2, 9);
 
         Video::factory()->count($deletedVideoCount)->create();
@@ -82,6 +90,8 @@ class VideoReconcileTest extends TestCase
      */
     public function testUpdated(): void
     {
+        Storage::fake(Config::get('video.disk'));
+
         $updatedVideoCount = $this->faker->numberBetween(2, 9);
 
         $basenames = collect($this->faker->words($updatedVideoCount));
