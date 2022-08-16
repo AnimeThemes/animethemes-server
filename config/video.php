@@ -49,4 +49,20 @@ return [
     'streaming_method' => env('VIDEO_STREAMING_METHOD', 'response'),
 
     'nginx_redirect' => env('VIDEO_NGINX_REDIRECT', '/video_redirect/'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Video Uploading
+    |--------------------------------------------------------------------------
+    |
+    | These values facilitate the validation and uploading of video in-system to object storage.
+    | For validation, we want to enforce that the latest FFmpeg version is used.
+    | We will use the libavformat version of the form "Lavf{major}.{minor}.{patch]".
+    | For uploading, we want to specify the target disks to upload the file.
+    |
+    */
+
+    'encoder_version' => env('VIDEO_ENCODER_VERSION'),
+
+    'upload_disks' => explode(',', env('VIDEO_UPLOAD_DISKS')),
 ];

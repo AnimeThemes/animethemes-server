@@ -2,23 +2,23 @@
 
 declare(strict_types=1);
 
-namespace App\Rules\Wiki;
+namespace App\Rules\Wiki\Resource;
 
 use App\Enums\Models\Wiki\ResourceSite;
 use Illuminate\Contracts\Validation\Rule;
 
 /**
- * Class ResourceLinkMatchesSiteRule.
+ * Class ResourceSiteMatchesLinkRule.
  */
-class ResourceLinkMatchesSiteRule implements Rule
+class ResourceSiteMatchesLinkRule implements Rule
 {
     /**
      * Create a new rule instance.
      *
-     * @param  int|null  $site
+     * @param  string  $link
      * @return void
      */
-    public function __construct(protected readonly ?int $site)
+    public function __construct(protected readonly string $link)
     {
     }
 
@@ -31,9 +31,9 @@ class ResourceLinkMatchesSiteRule implements Rule
      */
     public function passes($attribute, $value): bool
     {
-        $domain = ResourceSite::getDomain($this->site);
+        $domain = ResourceSite::getDomain($value);
 
-        return empty($domain) || $domain === parse_url($value, PHP_URL_HOST);
+        return empty($domain) || $domain === parse_url($this->link, PHP_URL_HOST);
     }
 
     /**

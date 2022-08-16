@@ -68,16 +68,29 @@ return [
             'throw' => false,
         ],
 
-        'videos' => [
+        'videos_nyc' => [
             'driver' => 's3',
-            'key' => env('VIDEO_ACCESS_KEY_ID'),
-            'secret' => env('VIDEO_SECRET_ACCESS_KEY'),
-            'region' => env('VIDEO_DEFAULT_REGION'),
-            'bucket' => env('VIDEO_BUCKET'),
-            'endpoint' => env('VIDEO_ENDPOINT'),
-            'stream_reads' => env('VIDEO_STREAM_READS'),
-            'disable_asserts' => env('VIDEO_DISABLE_ASSERTS'),
-            'visibility' => env('VIDEO_VISIBILITY'),
+            'key' => env('VIDEO_NYC_ACCESS_KEY_ID'),
+            'secret' => env('VIDEO_NYC_SECRET_ACCESS_KEY'),
+            'region' => env('VIDEO_NYC_DEFAULT_REGION'),
+            'bucket' => env('VIDEO_NYC_BUCKET'),
+            'endpoint' => env('VIDEO_NYC_ENDPOINT'),
+            'stream_reads' => env('VIDEO_NYC_STREAM_READS'),
+            'disable_asserts' => env('VIDEO_NYC_DISABLE_ASSERTS'),
+            'visibility' => env('VIDEO_NYC_VISIBILITY'),
+            'throw' => false,
+        ],
+
+        'videos_fra' => [
+            'driver' => 's3',
+            'key' => env('VIDEO_FRA_ACCESS_KEY_ID'),
+            'secret' => env('VIDEO_FRA_SECRET_ACCESS_KEY'),
+            'region' => env('VIDEO_FRA_DEFAULT_REGION'),
+            'bucket' => env('VIDEO_FRA_BUCKET'),
+            'endpoint' => env('VIDEO_FRA_ENDPOINT'),
+            'stream_reads' => env('VIDEO_FRA_STREAM_READS'),
+            'disable_asserts' => env('VIDEO_FRA_DISABLE_ASSERTS'),
+            'visibility' => env('VIDEO_FRA_VISIBILITY'),
             'throw' => false,
         ],
 

@@ -6,7 +6,7 @@ namespace App\Nova\Actions\Wiki;
 
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Wiki\ExternalResource;
-use App\Rules\Wiki\ResourceLinkMatchesSiteRule;
+use App\Rules\Wiki\Resource\ResourceLinkMatchesSiteRule;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Collection;
 use Laravel\Nova\Actions\Action;

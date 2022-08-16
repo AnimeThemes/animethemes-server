@@ -9,7 +9,7 @@ use App\Contracts\Http\Api\Field\UpdatableField;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Http\Api\Field\EnumField;
 use App\Models\Wiki\ExternalResource;
-use App\Rules\Wiki\ResourceSiteMatchesLinkRule;
+use App\Rules\Wiki\Resource\ResourceSiteMatchesLinkRule;
 use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Http\Request;
 
