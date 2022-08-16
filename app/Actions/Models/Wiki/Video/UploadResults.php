@@ -61,13 +61,13 @@ class UploadResults
         if ($failed->isNotEmpty()) {
             return new ActionResult(
                 ActionStatus::FAILED(),
-                "Failed to upload to disks {$failed->keys()->join(', ', '& ')}."
+                "Failed to upload to disks {$failed->keys()->join(', ', ' & ')}."
             );
         }
 
         return new ActionResult(
             ActionStatus::PASSED(),
-            "Uploaded '{$passed->values()->first()}' to disks {$passed->keys()->join(', ', '& ')}."
+            "Uploaded '{$passed->values()->first()}' to disks {$passed->keys()->join(', ', ' & ')}."
         );
     }
 }
