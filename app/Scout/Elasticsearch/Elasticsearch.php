@@ -13,7 +13,7 @@ use App\Scout\Elasticsearch\Api\Parser\PagingParser;
 use App\Scout\Elasticsearch\Api\Parser\SortParser;
 use App\Scout\Elasticsearch\Api\Query\ElasticQueryPayload;
 use App\Scout\Search;
-use Elastic\Client\ClientBuilder;
+use Elastic\Client\ClientBuilderInterface;
 use Elastic\ScoutDriverPlus\Builders\BoolQueryBuilder;
 use Elastic\ScoutDriverPlus\Exceptions\QueryBuilderValidationException;
 use Exception;
@@ -35,9 +35,9 @@ class Elasticsearch extends Search
     /**
      * Create a new search instance.
      *
-     * @param  ClientBuilder  $builder
+     * @param  ClientBuilderInterface  $builder
      */
-    public function __construct(ClientBuilder $builder)
+    public function __construct(ClientBuilderInterface $builder)
     {
         try {
             $this->alive = $builder->default()->ping()->asBool();
