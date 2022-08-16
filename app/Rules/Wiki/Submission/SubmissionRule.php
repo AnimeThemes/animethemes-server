@@ -89,7 +89,7 @@ abstract class SubmissionRule implements DataAwareRule, Rule, ValidatorAwareRule
             '-show_chapters',
         ];
 
-        $output = FFProbe::create()
+        $output = FFProbe::create(app('laravel-ffmpeg-configuration'))
             ->getFFProbeDriver()
             ->command($commands);
 
