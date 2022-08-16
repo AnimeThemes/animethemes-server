@@ -9,9 +9,9 @@ use App\Enums\Http\Api\Filter\ComparisonOperator;
 use App\Http\Api\Criteria\Filter\WhereCriteria as BaseCriteria;
 use App\Http\Api\Filter\Filter;
 use App\Http\Api\Query\ReadQuery;
-use ElasticScoutDriverPlus\Builders\BoolQueryBuilder;
-use ElasticScoutDriverPlus\Builders\QueryBuilderInterface;
-use ElasticScoutDriverPlus\Support\Query as ElasticQuery;
+use Elastic\ScoutDriverPlus\Builders\BoolQueryBuilder;
+use Elastic\ScoutDriverPlus\Builders\QueryBuilderInterface;
+use Elastic\ScoutDriverPlus\Support\Query as ElasticQuery;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 

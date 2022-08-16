@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Scout\Elasticsearch\Api\Criteria\Paging;
 
 use App\Http\Api\Criteria\Paging\LimitCriteria as BaseCriteria;
-use ElasticScoutDriverPlus\Builders\SearchRequestBuilder;
-use ElasticScoutDriverPlus\Paginator;
+use Elastic\ScoutDriverPlus\Builders\SearchParametersBuilder;
+use Elastic\ScoutDriverPlus\Paginator;
 use Illuminate\Support\Collection;
 
 /**
@@ -27,10 +27,10 @@ class LimitCriteria extends Criteria
     /**
      * Paginate the search query.
      *
-     * @param  SearchRequestBuilder  $builder
+     * @param  SearchParametersBuilder  $builder
      * @return Collection|Paginator
      */
-    public function paginate(SearchRequestBuilder $builder): Collection|Paginator
+    public function paginate(SearchParametersBuilder $builder): Collection|Paginator
     {
         return $builder
             ->size($this->criteria->getResultSize())

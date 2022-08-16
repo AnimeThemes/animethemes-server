@@ -45,6 +45,7 @@ return [
     'dimensions' => 'The :attribute has invalid image dimensions.',
     'directory_exists' => 'The directory does not exist in the filesystem.',
     'distinct' => 'The :attribute field has a duplicate value.',
+    'doesnt_end_with' => 'The :attribute may not end with one of the following: :values.',
     'doesnt_start_with' => 'The :attribute may not start with one of the following: :values.',
     'email' => 'The :attribute must be a valid email address.',
     'ends_with' => 'The :attribute must end with one of the following: :values.',

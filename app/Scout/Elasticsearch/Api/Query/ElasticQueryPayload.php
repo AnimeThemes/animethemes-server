@@ -6,7 +6,7 @@ namespace App\Scout\Elasticsearch\Api\Query;
 
 use App\Http\Api\Criteria\Search\Criteria;
 use App\Scout\Elasticsearch\Api\Schema\Schema;
-use ElasticScoutDriverPlus\Builders\SearchRequestBuilder;
+use Elastic\ScoutDriverPlus\Builders\SearchParametersBuilder;
 
 /**
  * Class ElasticQueryPayload.
@@ -39,7 +39,7 @@ abstract class ElasticQueryPayload
     /**
      * Build Elasticsearch query.
      *
-     * @return SearchRequestBuilder
+     * @return SearchParametersBuilder
      */
-    abstract public function buildQuery(): SearchRequestBuilder;
+    abstract public function buildQuery(): SearchParametersBuilder;
 }

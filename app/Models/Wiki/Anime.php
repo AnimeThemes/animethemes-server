@@ -20,7 +20,7 @@ use App\Pivots\AnimeStudio;
 use App\Pivots\BasePivot;
 use BenSampo\Enum\Enum;
 use Database\Factories\Wiki\AnimeFactory;
-use ElasticScoutDriverPlus\Searchable;
+use Elastic\ScoutDriverPlus\Searchable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;

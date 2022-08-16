@@ -320,7 +320,7 @@ class BackfillAnilistResourceTest extends TestCase
                 ],
             ]),
             'https://relations.yuna.moe/api/ids*' => Http::response([
-                'anilist' => $this->faker->randomDigitNotNull(),
+                'anilist' => $anilistId,
             ]),
         ]);
 
