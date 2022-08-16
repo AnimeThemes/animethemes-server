@@ -86,7 +86,7 @@ abstract class SubmissionRule implements DataAwareRule, Rule, ValidatorAwareRule
             'json',
             '-show_streams',
             '-show_format',
-            '-show_chapters'
+            '-show_chapters',
         ];
 
         $output = FFProbe::create()
