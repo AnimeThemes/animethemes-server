@@ -167,7 +167,7 @@ class AnimePlanetResourceSeeder extends Seeder
     /**
      * Attempt to retrieve Anime Planet ID from webpage.
      *
-     * @param string $animePlanetLink
+     * @param  string  $animePlanetLink
      * @return int|null
      */
     protected function getAnimePlanetExternalId(string $animePlanetLink): ?int
