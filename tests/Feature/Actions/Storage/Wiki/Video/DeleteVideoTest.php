@@ -69,7 +69,7 @@ class DeleteVideoTest extends TestCase
     }
 
     /**
-     * The Delete Video Action shall delete
+     * The Delete Video Action shall delete the file from the configured disks.
      *
      * @return void
      */
