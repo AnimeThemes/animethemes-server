@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Wiki\Video;
 
+use App\Constants\Config\VideoConstants;
 use App\Http\Controllers\Wiki\StreamableController;
 use App\Models\Wiki\Video;
 use Illuminate\Http\Response;
@@ -24,7 +25,7 @@ class VideoController extends StreamableController
      */
     public function show(Video $video): Response|StreamedResponse
     {
-        return match (Config::get('video.streaming_method')) {
+        return match (Config::get(VideoConstants::STREAMING_METHOD_QUALIFIED)) {
             'response' => $this->throughResponse($video),
             'nginx' => $this->throughNginx($video),
             default => throw new RuntimeException('VIDEO_STREAMING_METHOD must be specified in your .env file'),
@@ -38,7 +39,7 @@ class VideoController extends StreamableController
      */
     protected function disk(): string
     {
-        return Config::get('video.disk');
+        return Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED);
     }
 
     /**
@@ -48,6 +49,6 @@ class VideoController extends StreamableController
      */
     protected function nginxRedirect(): string
     {
-        return Config::get('video.nginx_redirect');
+        return Config::get(VideoConstants::NGINX_REDIRECT_QUALIFIED);
     }
 }

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Constants\Config\AudioConstants;
+use App\Constants\Config\VideoConstants;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
 use Illuminate\Database\Eloquent\Model;
@@ -33,14 +35,10 @@ class AppServiceProvider extends ServiceProvider
         });
 
         AboutCommand::add('Audios', [
-            'Disk' => fn () => Config::get('audio.disk'),
-            'Nginx Redirect' => fn () => Config::get('audio.nginx_redirect'),
-            'Streaming Method' => fn () => Config::get('audio.streaming_method'),
-        ]);
-
-        AboutCommand::add('FFmpeg', [
-            'FFmpeg Binary' => fn () => Config::get('laravel-ffmpeg.ffmpeg.binaries'),
-            'FFprobe Binary' => fn () => Config::get('laravel-ffmpeg.ffprobe.binaries'),
+            'Default Disk' => fn () => Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED),
+            'Disks' => fn () => implode(',', Config::get(AudioConstants::DISKS_QUALIFIED)),
+            'Nginx Redirect' => fn () => Config::get(AudioConstants::NGINX_REDIRECT_QUALIFIED),
+            'Streaming Method' => fn () => Config::get(AudioConstants::STREAMING_METHOD_QUALIFIED),
         ]);
 
         AboutCommand::add('Flags', [
@@ -55,11 +53,11 @@ class AppServiceProvider extends ServiceProvider
         ]);
 
         AboutCommand::add('Videos', [
-            'Disk' => fn () => Config::get('video.disk'),
-            'Encoder Version' => fn () => Config::get('video.encoder_version'),
-            'Nginx Redirect' => fn () => Config::get('video.nginx_redirect'),
-            'Streaming Method' => fn () => Config::get('video.streaming_method'),
-            'Upload Disks' => fn () => implode(',', Config::get('video.upload_disks')),
+            'Default Disk' => fn () => Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED),
+            'Disks' => fn () => implode(',', Config::get(VideoConstants::DISKS_QUALIFIED)),
+            'Encoder Version' => fn () => Config::get(VideoConstants::ENCODER_VERSION_QUALIFIED),
+            'Nginx Redirect' => fn () => Config::get(VideoConstants::NGINX_REDIRECT_QUALIFIED),
+            'Streaming Method' => fn () => Config::get(VideoConstants::STREAMING_METHOD_QUALIFIED),
         ]);
 
         AboutCommand::add('Wiki', [

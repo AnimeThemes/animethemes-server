@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repositories\Storage\Wiki;
 
+use App\Constants\Config\AudioConstants;
 use App\Models\Wiki\Audio;
 use App\Repositories\Storage\StorageRepository;
 use Closure;
@@ -26,7 +27,7 @@ class AudioRepository extends StorageRepository
      */
     protected function disk(): string
     {
-        return Config::get('audio.disk');
+        return Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED);
     }
 
     /**

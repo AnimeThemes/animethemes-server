@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Console\Commands\Wiki\Video;
 
 use App\Console\Commands\Wiki\Video\VideoReconcileCommand;
+use App\Constants\Config\VideoConstants;
 use App\Models\Wiki\Video;
 use App\Repositories\Storage\Wiki\VideoRepository;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -30,7 +31,7 @@ class VideoReconcileTest extends TestCase
      */
     public function testNoResults(): void
     {
-        Storage::fake(Config::get('video.disk'));
+        Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
 
         $this->baseRefreshDatabase(); // Cannot lazily refresh database within pending command
 
@@ -48,7 +49,7 @@ class VideoReconcileTest extends TestCase
      */
     public function testCreated(): void
     {
-        Storage::fake(Config::get('video.disk'));
+        Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
 
         $this->baseRefreshDatabase(); // Cannot lazily refresh database within pending command
 
@@ -70,7 +71,7 @@ class VideoReconcileTest extends TestCase
      */
     public function testDeleted(): void
     {
-        Storage::fake(Config::get('video.disk'));
+        Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
 
         $deletedVideoCount = $this->faker->numberBetween(2, 9);
 
@@ -90,7 +91,7 @@ class VideoReconcileTest extends TestCase
      */
     public function testUpdated(): void
     {
-        Storage::fake(Config::get('video.disk'));
+        Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
 
         $updatedVideoCount = $this->faker->numberBetween(2, 9);
 

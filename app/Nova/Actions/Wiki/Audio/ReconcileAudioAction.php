@@ -6,6 +6,7 @@ namespace App\Nova\Actions\Wiki\Audio;
 
 use App\Actions\Repositories\ReconcileRepositories;
 use App\Actions\Repositories\Wiki\Audio\ReconcileAudioRepositories;
+use App\Constants\Config\AudioConstants;
 use App\Contracts\Repositories\RepositoryInterface;
 use App\Nova\Actions\Wiki\ReconcileStorageAction;
 use App\Repositories\Eloquent\Wiki\AudioRepository as AudioDestinationRepository;
@@ -38,7 +39,7 @@ class ReconcileAudioAction extends ReconcileStorageAction
      */
     protected function disk(): string
     {
-        return Config::get('audio.disk');
+        return Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED);
     }
 
     /**

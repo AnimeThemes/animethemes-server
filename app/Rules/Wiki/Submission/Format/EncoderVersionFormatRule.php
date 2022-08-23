@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Rules\Wiki\Submission\Format;
 
+use App\Constants\Config\VideoConstants;
 use App\Rules\Wiki\Submission\SubmissionRule;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Arr;
@@ -31,7 +32,7 @@ class EncoderVersionFormatRule extends SubmissionRule
 
         $encoder = Arr::get($tags, 'encoder');
 
-        return version_compare($encoder, Config::get('video.encoder_version'), '>=');
+        return version_compare($encoder, Config::get(VideoConstants::ENCODER_VERSION_QUALIFIED), '>=');
     }
 
     /**

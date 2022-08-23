@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Actions\Models\Wiki;
+namespace Tests\Unit\Actions;
 
-use App\Actions\Models\ActionResult;
+use App\Actions\ActionResult;
 use App\Enums\Actions\ActionStatus;
 use Tests\TestCase;
 

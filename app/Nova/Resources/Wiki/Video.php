@@ -9,6 +9,7 @@ use App\Enums\Models\Wiki\VideoSource;
 use App\Models\Auth\User;
 use App\Models\Wiki\Video as VideoModel;
 use App\Nova\Actions\Wiki\Video\BackfillAudioAction;
+use App\Nova\Actions\Wiki\Video\DeleteVideoAction;
 use App\Nova\Actions\Wiki\Video\ReconcileVideoAction;
 use App\Nova\Actions\Wiki\Video\UploadVideoAction;
 use App\Nova\Lenses\Video\VideoAudioLens;
@@ -292,6 +293,17 @@ class Video extends BaseResource
                         $user = $request->user();
 
                         return $user instanceof User && $user->can('create video');
+                    }),
+
+                (new DeleteVideoAction())
+                    ->confirmText(__('nova.remove_video_text'))
+                    ->confirmButtonText(__('nova.remove'))
+                    ->cancelButtonText(__('nova.cancel'))
+                    ->exceptOnIndex()
+                    ->canSee(function (Request $request) {
+                        $user = $request->user();
+
+                        return $user instanceof User && $user->can('delete video');
                     }),
 
                 (new ReconcileVideoAction())

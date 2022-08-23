@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Actions\Models\Wiki\Video;
+namespace App\Actions\Storage\Base;
 
-use App\Actions\Models\ActionResult;
+use App\Actions\ActionResult;
+use App\Actions\Storage\StorageResults;
 use App\Enums\Actions\ActionStatus;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
@@ -12,7 +13,7 @@ use Illuminate\Support\Facades\Log;
 /**
  * Class UploadResults.
  */
-class UploadResults
+class UploadResults extends StorageResults
 {
     /**
      * Create a new action result instance.
@@ -50,7 +51,7 @@ class UploadResults
         if (empty($this->uploads)) {
             return new ActionResult(
                 ActionStatus::FAILED(),
-                'No uploads were attempted. Please check that upload disks are configured.'
+                'No uploads were attempted. Please check that disks are configured.'
             );
         }
 

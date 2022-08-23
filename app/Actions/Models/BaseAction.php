@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Actions\Models;
 
+use App\Actions\ActionResult;
 use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Str;

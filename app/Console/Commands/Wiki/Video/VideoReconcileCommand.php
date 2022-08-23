@@ -7,6 +7,7 @@ namespace App\Console\Commands\Wiki\Video;
 use App\Actions\Repositories\ReconcileRepositories;
 use App\Actions\Repositories\Wiki\Video\ReconcileVideoRepositories;
 use App\Console\Commands\Wiki\StorageReconcileCommand;
+use App\Constants\Config\VideoConstants;
 use App\Contracts\Repositories\RepositoryInterface;
 use App\Repositories\Eloquent\Wiki\VideoRepository as VideoDestinationRepository;
 use App\Repositories\Storage\Wiki\VideoRepository as VideoSourceRepository;
@@ -40,7 +41,7 @@ class VideoReconcileCommand extends StorageReconcileCommand
      */
     protected function disk(): string
     {
-        return Config::get('video.disk');
+        return Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED);
     }
 
     /**

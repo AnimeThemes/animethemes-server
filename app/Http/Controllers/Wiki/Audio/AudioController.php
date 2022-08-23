@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Wiki\Audio;
 
+use App\Constants\Config\AudioConstants;
 use App\Http\Controllers\Wiki\StreamableController;
 use App\Models\Wiki\Audio;
 use Illuminate\Http\Response;
@@ -26,7 +27,7 @@ class AudioController extends StreamableController
      */
     public function show(Audio $audio): Response|StreamedResponse
     {
-        return match (Config::get('audio.streaming_method')) {
+        return match (Config::get(AudioConstants::STREAMING_METHOD_QUALIFIED)) {
             'response' => $this->throughResponse($audio),
             'nginx' => $this->throughNginx($audio),
             default => throw new RuntimeException('AUDIO_STREAMING_METHOD must be specified in your .env file'),
@@ -40,7 +41,7 @@ class AudioController extends StreamableController
      */
     protected function disk(): string
     {
-        return Config::get('audio.disk');
+        return Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED);
     }
 
     /**
@@ -50,6 +51,6 @@ class AudioController extends StreamableController
      */
     protected function nginxRedirect(): string
     {
-        return Config::get('audio.nginx_redirect');
+        return Config::get(AudioConstants::NGINX_REDIRECT_QUALIFIED);
     }
 }

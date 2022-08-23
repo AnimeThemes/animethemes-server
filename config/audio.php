@@ -9,12 +9,14 @@ return [
     | Audio Disk
     |--------------------------------------------------------------------------
     |
-    | The filesystem disk where audios are hosted. By default, it is assumed
-    | that audios are hosted in an S3-like bucket.
+    | The filesystem disks where audios are hosted. By default, it is assumed
+    | that the default audio disk is an S3-like bucket.
     |
     */
 
-    'disk' => env('AUDIO_DISK', 'audios'),
+    'default_disk' => env('AUDIO_DISK_DEFAULT', 'audios'),
+
+    'disks' => explode(',', env('AUDIO_DISKS', [])),
 
     /*
     |--------------------------------------------------------------------------
