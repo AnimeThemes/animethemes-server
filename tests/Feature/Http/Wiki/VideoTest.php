@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature\Http\Wiki;
 
 use App\Constants\Config\FlagConstants;
+use App\Constants\Config\VideoConstants;
 use App\Models\Wiki\Video;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
@@ -117,10 +118,10 @@ class VideoTest extends TestCase
      */
     public function testStreamedThroughResponse(): void
     {
-        Storage::fake(Config::get('video.disk'));
+        Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
 
         Config::set(FlagConstants::ALLOW_VIDEO_STREAMS_FLAG_QUALIFIED, true);
-        Config::set('video.streaming_method', 'response');
+        Config::set(VideoConstants::STREAMING_METHOD_QUALIFIED, 'response');
 
         $video = Video::factory()->createOne();
 

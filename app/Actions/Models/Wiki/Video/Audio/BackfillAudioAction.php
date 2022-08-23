@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace App\Actions\Models\Wiki\Video\Audio;
 
-use App\Actions\Models\ActionResult;
+use App\Actions\ActionResult;
 use App\Actions\Models\BaseAction;
 use App\Actions\Repositories\ReconcileResults;
 use App\Actions\Repositories\Wiki\Audio\ReconcileAudioRepositories;
+use App\Constants\Config\AudioConstants;
+use App\Constants\Config\VideoConstants;
 use App\Contracts\Repositories\RepositoryInterface;
 use App\Enums\Actions\ActionStatus;
 use App\Enums\Actions\Models\Wiki\Video\DeriveSourceVideo;
@@ -230,12 +232,12 @@ class BackfillAudioAction extends BaseAction
     protected function extractAudio(Video $video, string $audioPath): void
     {
         try {
-            FFMpeg::fromDisk(Config::get('video.disk'))
+            FFMpeg::fromDisk(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED))
                 ->open($video->path)
                 ->addFilter(new AudioClipFilter(new TimeCode(0, 0, 0, 0)))
                 ->addFilter(new AddMetadataFilter())
                 ->export()
-                ->toDisk(Config::get('audio.disk'))
+                ->toDisk(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED))
                 ->save($audioPath);
         } catch (Exception $e) {
             Log::error($e->getMessage());

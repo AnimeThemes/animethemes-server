@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Actions\Models\Wiki;
 
-use App\Actions\Models\ActionResult;
+use App\Actions\ActionResult;
 use App\Actions\Models\BaseAction;
 use App\Enums\Actions\ActionStatus;
 use App\Enums\Models\Wiki\ResourceSite;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Actions\Models;
+namespace App\Actions;
 
 use App\Enums\Actions\ActionStatus;
 

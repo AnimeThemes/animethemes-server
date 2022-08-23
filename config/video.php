@@ -6,15 +6,17 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Video Disk
+    | Video Disks
     |--------------------------------------------------------------------------
     |
-    | The filesystem disk where videos are hosted. By default, it is assumed
-    | that videos are hosted in an S3-like bucket.
+    | The filesystem disks where videos are hosted. By default, it is assumed
+    | that the default video disk is an S3-like bucket.
     |
     */
 
-    'disk' => env('VIDEO_DISK', 'videos'),
+    'default_disk' => env('VIDEO_DISK_DEFAULT', 'videos'),
+
+    'disks' => explode(',', env('VIDEO_DISKS', [])),
 
     /*
     |--------------------------------------------------------------------------
@@ -58,11 +60,8 @@ return [
     | These values facilitate the validation and uploading of video in-system to object storage.
     | For validation, we want to enforce that the latest FFmpeg version is used.
     | We will use the libavformat version of the form "Lavf{major}.{minor}.{patch]".
-    | For uploading, we want to specify the target disks to upload the file.
     |
     */
 
     'encoder_version' => env('VIDEO_ENCODER_VERSION'),
-
-    'upload_disks' => explode(',', env('VIDEO_UPLOAD_DISKS')),
 ];

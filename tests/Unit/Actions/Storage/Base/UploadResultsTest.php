@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Actions\Models\Wiki\Video;
+namespace Tests\Unit\Actions\Storage\Base;
 
-use App\Actions\Models\Wiki\Video\UploadResults;
+use App\Actions\Storage\Base\UploadResults;
 use App\Enums\Actions\ActionStatus;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;

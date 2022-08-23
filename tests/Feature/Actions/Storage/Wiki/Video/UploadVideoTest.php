@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Actions\Models\Wiki\Video;
+namespace Tests\Feature\Actions\Storage\Wiki\Video;
 
-use App\Actions\Models\Wiki\Video\UploadVideoAction;
+use App\Actions\Storage\Wiki\Video\UploadVideoAction;
+use App\Constants\Config\VideoConstants;
 use App\Enums\Actions\ActionStatus;
 use App\Models\Wiki\Video;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -27,8 +28,8 @@ class UploadVideoTest extends TestCase
      */
     public function testDefault(): void
     {
-        Config::set('video.upload_disks', []);
-        Storage::fake(Config::get('video.disk'));
+        Config::set(VideoConstants::DISKS_QUALIFIED, []);
+        Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
 
         $file = File::fake()->create($this->faker->word().'.webm', $this->faker->randomDigitNotNull());
 
@@ -46,8 +47,8 @@ class UploadVideoTest extends TestCase
      */
     public function testPassed(): void
     {
-        Storage::fake(Config::get('video.disk'));
-        Config::set('video.upload_disks', [Config::get('video.disk')]);
+        Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
+        Config::set(VideoConstants::DISKS_QUALIFIED, [Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED)]);
 
         $file = File::fake()->create($this->faker->word().'.webm', $this->faker->randomDigitNotNull());
 
@@ -65,8 +66,8 @@ class UploadVideoTest extends TestCase
      */
     public function testUploadedToDisk(): void
     {
-        Storage::fake(Config::get('video.disk'));
-        Config::set('video.upload_disks', [Config::get('video.disk')]);
+        Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
+        Config::set(VideoConstants::DISKS_QUALIFIED, [Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED)]);
 
         $file = File::fake()->create($this->faker->word().'.webm', $this->faker->randomDigitNotNull());
 
@@ -74,7 +75,7 @@ class UploadVideoTest extends TestCase
 
         $action->handle();
 
-        static::assertCount(1, Storage::disk(Config::get('video.disk'))->allFiles());
+        static::assertCount(1, Storage::disk(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED))->allFiles());
     }
 
     /**
@@ -84,8 +85,8 @@ class UploadVideoTest extends TestCase
      */
     public function testCreatedVideo(): void
     {
-        Storage::fake(Config::get('video.disk'));
-        Config::set('video.upload_disks', [Config::get('video.disk')]);
+        Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
+        Config::set(VideoConstants::DISKS_QUALIFIED, [Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED)]);
 
         $file = File::fake()->create($this->faker->word().'.webm', $this->faker->randomDigitNotNull());
 

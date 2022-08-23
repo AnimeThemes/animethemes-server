@@ -6,6 +6,7 @@ namespace App\Nova\Actions\Wiki\Video;
 
 use App\Actions\Repositories\ReconcileRepositories;
 use App\Actions\Repositories\Wiki\Video\ReconcileVideoRepositories;
+use App\Constants\Config\VideoConstants;
 use App\Contracts\Repositories\RepositoryInterface;
 use App\Nova\Actions\Wiki\ReconcileStorageAction;
 use App\Repositories\Eloquent\Wiki\VideoRepository as VideoDestinationRepository;
@@ -38,7 +39,7 @@ class ReconcileVideoAction extends ReconcileStorageAction
      */
     protected function disk(): string
     {
-        return Config::get('video.disk');
+        return Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED);
     }
 
     /**

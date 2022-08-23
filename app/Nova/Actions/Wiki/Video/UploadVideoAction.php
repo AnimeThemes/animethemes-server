@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace App\Nova\Actions\Wiki\Video;
 
-use App\Actions\Models\Wiki\Video\UploadVideoAction as UploadVideo;
+use App\Actions\Storage\Wiki\Video\UploadVideoAction as UploadVideo;
+use App\Constants\Config\VideoConstants;
 use App\Rules\Wiki\StorageDirectoryExistsRule;
 use App\Rules\Wiki\Submission\Audio\AudioChannelLayoutStreamRule;
 use App\Rules\Wiki\Submission\Audio\AudioChannelsStreamRule;
@@ -90,7 +91,7 @@ class UploadVideoAction extends Action
      */
     public function fields(NovaRequest $request): array
     {
-        $fs = Storage::disk(Config::get('video.disk'));
+        $fs = Storage::disk(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
 
         return [
             File::make(__('nova.video'), 'video')

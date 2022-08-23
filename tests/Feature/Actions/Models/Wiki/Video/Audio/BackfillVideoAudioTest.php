@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Tests\Feature\Actions\Models\Wiki\Video\Audio;
 
 use App\Actions\Models\Wiki\Video\Audio\BackfillAudioAction;
+use App\Constants\Config\AudioConstants;
+use App\Constants\Config\VideoConstants;
 use App\Enums\Actions\ActionStatus;
 use App\Enums\Models\Wiki\VideoSource;
 use App\Models\Wiki\Anime;
@@ -32,8 +34,8 @@ class BackfillVideoAudioTest extends TestCase
      */
     public function testSkipped(): void
     {
-        Storage::fake(Config::get('video.disk'));
-        Storage::fake(Config::get('audio.disk'));
+        Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
+        Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
 
         $video = Video::factory()
             ->for(Audio::factory())
@@ -45,7 +47,7 @@ class BackfillVideoAudioTest extends TestCase
 
         static::assertTrue(ActionStatus::SKIPPED()->is($result->getStatus()));
         static::assertDatabaseCount(Audio::class, 1);
-        static::assertEmpty(Storage::disk(Config::get('audio.disk'))->allFiles());
+        static::assertEmpty(Storage::disk(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED))->allFiles());
     }
 
     /**
@@ -55,8 +57,8 @@ class BackfillVideoAudioTest extends TestCase
      */
     public function testFailedWhenNoEntries(): void
     {
-        Storage::fake(Config::get('video.disk'));
-        Storage::fake(Config::get('audio.disk'));
+        Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
+        Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
 
         $video = Video::factory()->createOne();
 
@@ -66,7 +68,7 @@ class BackfillVideoAudioTest extends TestCase
 
         static::assertTrue($result->hasFailed());
         static::assertDatabaseCount(Audio::class, 0);
-        static::assertEmpty(Storage::disk(Config::get('audio.disk'))->allFiles());
+        static::assertEmpty(Storage::disk(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED))->allFiles());
     }
 
     /**
@@ -76,8 +78,8 @@ class BackfillVideoAudioTest extends TestCase
      */
     public function testPassesSourceVideo(): void
     {
-        Storage::fake(Config::get('video.disk'));
-        Storage::fake(Config::get('audio.disk'));
+        Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
+        Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
 
         $video = Video::factory()
             ->has(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
@@ -96,7 +98,7 @@ class BackfillVideoAudioTest extends TestCase
         static::assertTrue(ActionStatus::PASSED()->is($result->getStatus()));
         static::assertDatabaseCount(Audio::class, 1);
         static::assertTrue($video->audio()->exists());
-        static::assertEmpty(Storage::disk(Config::get('audio.disk'))->allFiles());
+        static::assertEmpty(Storage::disk(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED))->allFiles());
     }
 
     /**
@@ -106,8 +108,8 @@ class BackfillVideoAudioTest extends TestCase
      */
     public function testPassesWithHigherPrioritySource(): void
     {
-        Storage::fake(Config::get('video.disk'));
-        Storage::fake(Config::get('audio.disk'));
+        Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
+        Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
 
         $entry = AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory()));
 
@@ -131,7 +133,7 @@ class BackfillVideoAudioTest extends TestCase
         static::assertTrue(ActionStatus::PASSED()->is($result->getStatus()));
         static::assertDatabaseCount(Audio::class, 1);
         static::assertTrue($video->audio()->exists());
-        static::assertEmpty(Storage::disk(Config::get('audio.disk'))->allFiles());
+        static::assertEmpty(Storage::disk(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED))->allFiles());
     }
 
     /**
@@ -141,8 +143,8 @@ class BackfillVideoAudioTest extends TestCase
      */
     public function testPassesWithPrimaryVersionSource(): void
     {
-        Storage::fake(Config::get('video.disk'));
-        Storage::fake(Config::get('audio.disk'));
+        Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
+        Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
 
         $theme = AnimeTheme::factory()
             ->for(Anime::factory())
@@ -173,6 +175,6 @@ class BackfillVideoAudioTest extends TestCase
         static::assertTrue(ActionStatus::PASSED()->is($result->getStatus()));
         static::assertDatabaseCount(Audio::class, 2);
         static::assertTrue($video->audio()->is($sourceAudio));
-        static::assertEmpty(Storage::disk(Config::get('audio.disk'))->allFiles());
+        static::assertEmpty(Storage::disk(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED))->allFiles());
     }
 }

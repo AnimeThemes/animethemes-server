@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repositories\Storage\Wiki;
 
+use App\Constants\Config\VideoConstants;
 use App\Models\Wiki\Video;
 use App\Repositories\Storage\StorageRepository;
 use Closure;
@@ -26,7 +27,7 @@ class VideoRepository extends StorageRepository
      */
     protected function disk(): string
     {
-        return Config::get('video.disk');
+        return Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED);
     }
 
     /**

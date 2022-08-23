@@ -7,6 +7,7 @@ namespace App\Console\Commands\Wiki\Audio;
 use App\Actions\Repositories\ReconcileRepositories;
 use App\Actions\Repositories\Wiki\Audio\ReconcileAudioRepositories;
 use App\Console\Commands\Wiki\StorageReconcileCommand;
+use App\Constants\Config\AudioConstants;
 use App\Contracts\Repositories\RepositoryInterface;
 use App\Repositories\Eloquent\Wiki\AudioRepository as AudioDestinationRepository;
 use App\Repositories\Storage\Wiki\AudioRepository as AudioSourceRepository;
@@ -40,7 +41,7 @@ class AudioReconcileCommand extends StorageReconcileCommand
      */
     protected function disk(): string
     {
-        return Config::get('audio.disk');
+        return Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED);
     }
 
     /**
