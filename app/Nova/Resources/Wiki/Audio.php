@@ -6,6 +6,7 @@ namespace App\Nova\Resources\Wiki;
 
 use App\Models\Auth\User;
 use App\Models\Wiki\Audio as AudioModel;
+use App\Nova\Actions\Wiki\Audio\DeleteAudioAction;
 use App\Nova\Actions\Wiki\Audio\ReconcileAudioAction;
 use App\Nova\Lenses\Audio\AudioVideoLens;
 use App\Nova\Resources\BaseResource;
@@ -175,6 +176,17 @@ class Audio extends BaseResource
         return array_merge(
             parent::actions($request),
             [
+                (new DeleteAudioAction())
+                    ->confirmText(__('nova.remove_audio_text'))
+                    ->confirmButtonText(__('nova.remove'))
+                    ->cancelButtonText(__('nova.cancel'))
+                    ->exceptOnIndex()
+                    ->canSee(function (Request $request) {
+                        $user = $request->user();
+
+                        return $user instanceof User && $user->can('delete audio');
+                    }),
+
                 (new ReconcileAudioAction())
                     ->confirmButtonText(__('nova.reconcile'))
                     ->cancelButtonText(__('nova.cancel'))

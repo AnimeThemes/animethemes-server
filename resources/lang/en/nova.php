@@ -153,6 +153,8 @@ return [
     'path' => 'Path',
     'permission' => 'Permission',
     'permissions' => 'Permissions',
+    'remove_audio_text' => 'Remove Audio from configured storage disks and from the database?',
+    'remove_audio' => 'Remove Audio from Storage',
     'remove_video_text' => 'Remove Video from configured storage disks and from the database?',
     'remove_video' => 'Remove Video from Storage',
     'remove' => 'Remove',
