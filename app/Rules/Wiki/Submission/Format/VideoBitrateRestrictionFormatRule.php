@@ -9,9 +9,9 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Arr;
 
 /**
- * Class BitrateRestrictionFormatRule.
+ * Class VideoBitrateRestrictionFormatRule.
  */
-class BitrateRestrictionFormatRule extends SubmissionRule
+class VideoBitrateRestrictionFormatRule extends SubmissionRule
 {
     /**
      * Determine if the validation rule passes.

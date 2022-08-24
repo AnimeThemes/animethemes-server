@@ -7,12 +7,11 @@ namespace App\Rules\Wiki\Submission\Format;
 use App\Rules\Wiki\Submission\SubmissionRule;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
 
 /**
- * Class EncoderNameFormatRule.
+ * Class AudioBitrateRestrictionFormatRule.
  */
-class EncoderNameFormatRule extends SubmissionRule
+class AudioBitrateRestrictionFormatRule extends SubmissionRule
 {
     /**
      * Determine if the validation rule passes.
@@ -23,11 +22,11 @@ class EncoderNameFormatRule extends SubmissionRule
      */
     public function passes($attribute, $value): bool
     {
-        $tags = $this->tags();
+        $format = $this->format()->all();
 
-        $encoder = Arr::get($tags, 'encoder');
+        $bitrate = intval(Arr::get($format, 'bit_rate'));
 
-        return Str::startsWith($encoder, 'Lavf');
+        return $bitrate > 128000 && $bitrate < 360000;
     }
 
     /**
@@ -37,6 +36,6 @@ class EncoderNameFormatRule extends SubmissionRule
      */
     public function message(): string|array
     {
-        return __('validation.submission.format_encoder_name');
+        return __('validation.submission.format_bitrate_restriction');
     }
 }

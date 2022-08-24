@@ -24,11 +24,7 @@ class EncoderVersionFormatRule extends SubmissionRule
      */
     public function passes($attribute, $value): bool
     {
-        $format = $this->format()->all();
-
-        $tags = Arr::get($format, 'tags');
-
-        $tags = array_change_key_case($tags);
+        $tags = $this->tags();
 
         $encoder = Arr::get($tags, 'encoder');
 

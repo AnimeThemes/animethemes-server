@@ -6,7 +6,6 @@ namespace App\Rules\Wiki\Submission\Format;
 
 use App\Rules\Wiki\Submission\SubmissionRule;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Arr;
 
 /**
  * Class ExtraneousMetadataFormatRule.
@@ -22,11 +21,7 @@ class ExtraneousMetadataFormatRule extends SubmissionRule
      */
     public function passes($attribute, $value): bool
     {
-        $format = $this->format()->all();
-
-        $tags = Arr::get($format, 'tags');
-
-        $tags = array_change_key_case($tags);
+        $tags = $this->tags();
 
         return collect($tags)->keys()->diff(['encoder', 'duration'])->isEmpty();
     }
