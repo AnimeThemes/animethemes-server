@@ -51,7 +51,7 @@ abstract class SubmissionRule implements DataAwareRule, Rule, ValidatorAwareRule
     public function setValidator($validator): self
     {
         /** @var UploadedFile|null $file */
-        $file = Arr::get($validator->getData(), 'video');
+        $file = Arr::get($validator->getData(), 'file');
 
         $ffprobeData = Arr::get($validator->getData(), 'ffprobeData');
         if ($ffprobeData === null && $file !== null) {
@@ -76,7 +76,7 @@ abstract class SubmissionRule implements DataAwareRule, Rule, ValidatorAwareRule
      * @param  UploadedFile  $file
      * @return array
      */
-    protected function getFFprobeData(UploadedFile $file): array
+    private function getFFprobeData(UploadedFile $file): array
     {
         $commands = [
             $file->path(),
@@ -102,7 +102,7 @@ abstract class SubmissionRule implements DataAwareRule, Rule, ValidatorAwareRule
      * @param  UploadedFile  $file
      * @return array
      */
-    protected function getLoudnessStats(UploadedFile $file): array
+    private function getLoudnessStats(UploadedFile $file): array
     {
         $filter = [
             '-hide_banner',
@@ -173,5 +173,30 @@ abstract class SubmissionRule implements DataAwareRule, Rule, ValidatorAwareRule
     protected function loudness(): array
     {
         return Arr::get($this->data, 'loudnessStats');
+    }
+
+    /**
+     * For WebMs, tags will be contained in the format object.
+     * For Audios, tags will be contained in the stream object.
+     *
+     * @return array
+     */
+    protected function tags(): array
+    {
+        $format = $this->format()->all();
+        if (Arr::has($format, 'tags')) {
+            $tags = Arr::get($format, 'tags');
+
+            return array_change_key_case($tags);
+        }
+
+        $audio = $this->streams()
+            ->audios()
+            ->first()
+            ->all();
+
+        $tags = Arr::get($audio, 'tags', []);
+
+        return array_change_key_case($tags);
     }
 }

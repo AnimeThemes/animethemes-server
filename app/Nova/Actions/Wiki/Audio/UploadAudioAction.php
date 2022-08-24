@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Nova\Actions\Wiki\Video;
+namespace App\Nova\Actions\Wiki\Audio;
 
-use App\Actions\Storage\Wiki\Video\UploadVideoAction as UploadVideo;
-use App\Constants\Config\VideoConstants;
+use App\Actions\Storage\Wiki\Audio\UploadAudioAction as UploadAudio;
+use App\Constants\Config\AudioConstants;
 use App\Rules\Wiki\StorageDirectoryExistsRule;
 use App\Rules\Wiki\Submission\Audio\AudioChannelLayoutStreamRule;
 use App\Rules\Wiki\Submission\Audio\AudioChannelsStreamRule;
@@ -14,19 +14,13 @@ use App\Rules\Wiki\Submission\Audio\AudioIndexStreamRule;
 use App\Rules\Wiki\Submission\Audio\AudioLoudnessIntegratedTargetStreamRule;
 use App\Rules\Wiki\Submission\Audio\AudioLoudnessTruePeakStreamRule;
 use App\Rules\Wiki\Submission\Audio\AudioSampleRateStreamRule;
+use App\Rules\Wiki\Submission\Format\AudioBitrateRestrictionFormatRule;
 use App\Rules\Wiki\Submission\Format\EncoderNameFormatRule;
 use App\Rules\Wiki\Submission\Format\EncoderVersionFormatRule;
 use App\Rules\Wiki\Submission\Format\ExtraneousChaptersFormatRule;
 use App\Rules\Wiki\Submission\Format\ExtraneousMetadataFormatRule;
 use App\Rules\Wiki\Submission\Format\FormatNameFormatRule;
 use App\Rules\Wiki\Submission\Format\TotalStreamsFormatRule;
-use App\Rules\Wiki\Submission\Format\VideoBitrateRestrictionFormatRule;
-use App\Rules\Wiki\Submission\Video\VideoCodecStreamRule;
-use App\Rules\Wiki\Submission\Video\VideoColorPrimariesStreamRule;
-use App\Rules\Wiki\Submission\Video\VideoColorSpaceStreamRule;
-use App\Rules\Wiki\Submission\Video\VideoColorTransferStreamRule;
-use App\Rules\Wiki\Submission\Video\VideoIndexStreamRule;
-use App\Rules\Wiki\Submission\Video\VideoPixelFormatStreamRule;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
@@ -39,9 +33,9 @@ use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 /**
- * Class UploadVideoAction.
+ * Class UploadAudioAction.
  */
-class UploadVideoAction extends Action
+class UploadAudioAction extends Action
 {
     /**
      * Get the displayable name of the action.
@@ -52,7 +46,7 @@ class UploadVideoAction extends Action
      */
     public function name(): string
     {
-        return __('nova.upload_video');
+        return __('nova.upload_audio');
     }
 
     /**
@@ -70,7 +64,7 @@ class UploadVideoAction extends Action
         $file = $fields->get('file');
         $path = $fields->get('path');
 
-        $action = new UploadVideo($file, $path);
+        $action = new UploadAudio($file, $path);
 
         $result = $action->handle();
 
@@ -91,41 +85,35 @@ class UploadVideoAction extends Action
      */
     public function fields(NovaRequest $request): array
     {
-        $fs = Storage::disk(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
+        $fs = Storage::disk(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
 
         return [
-            File::make(__('nova.video'), 'file')
+            File::make(__('nova.audio'), 'file')
                 ->required()
                 ->rules([
                     'required',
-                    FileRule::types('webm')->max(200 * 1024),
-                    new TotalStreamsFormatRule(2),
+                    FileRule::types('ogg')->max(200 * 1024),
+                    new TotalStreamsFormatRule(1),
                     new EncoderNameFormatRule(),
                     new EncoderVersionFormatRule(),
-                    new FormatNameFormatRule('matroska,webm'),
-                    new VideoBitrateRestrictionFormatRule(),
+                    new FormatNameFormatRule('ogg'),
+                    new AudioBitrateRestrictionFormatRule(),
                     new ExtraneousMetadataFormatRule(),
                     new ExtraneousChaptersFormatRule(),
-                    new AudioIndexStreamRule(1),
+                    new AudioIndexStreamRule(0),
                     new AudioCodecStreamRule(),
                     new AudioSampleRateStreamRule(),
                     new AudioChannelsStreamRule(),
                     new AudioChannelLayoutStreamRule(),
                     new AudioLoudnessTruePeakStreamRule(),
                     new AudioLoudnessIntegratedTargetStreamRule(),
-                    new VideoIndexStreamRule(),
-                    new VideoCodecStreamRule(),
-                    new VideoPixelFormatStreamRule(),
-                    new VideoColorSpaceStreamRule(),
-                    new VideoColorTransferStreamRule(),
-                    new VideoColorPrimariesStreamRule(),
                 ])
-                ->help(__('nova.upload_video_help')),
+                ->help(__('nova.upload_audio_help')),
 
             Text::make(__('nova.path'), 'path')
                 ->required()
                 ->rules(['required', 'string', 'doesnt_start_with:/', 'doesnt_end_with:/', new StorageDirectoryExistsRule($fs)])
-                ->help(__('nova.upload_video_path_help')),
+                ->help(__('nova.upload_audio_path_help')),
         ];
     }
 }

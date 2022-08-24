@@ -13,6 +13,15 @@ use Illuminate\Http\UploadedFile;
 class TotalStreamsFormatRule extends SubmissionRule
 {
     /**
+     * Create new rule instance.
+     *
+     * @param  int  $expected
+     */
+    public function __construct(protected readonly int $expected)
+    {
+    }
+
+    /**
      * Determine if the validation rule passes.
      *
      * @param  string  $attribute
@@ -23,7 +32,7 @@ class TotalStreamsFormatRule extends SubmissionRule
     {
         $streams = $this->streams();
 
-        return $streams->count() === 2;
+        return $streams->count() === $this->expected;
     }
 
     /**

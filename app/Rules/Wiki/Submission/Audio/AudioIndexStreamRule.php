@@ -14,6 +14,15 @@ use Illuminate\Http\UploadedFile;
 class AudioIndexStreamRule extends SubmissionRule
 {
     /**
+     * Create new rule instance.
+     *
+     * @param  int  $expected
+     */
+    public function __construct(protected readonly int $expected)
+    {
+    }
+
+    /**
      * Determine if the validation rule passes.
      *
      * @param  string  $attribute
@@ -24,7 +33,7 @@ class AudioIndexStreamRule extends SubmissionRule
     {
         $streams = $this->streams()->all();
 
-        return collect($streams)->contains(fn (Stream $stream) => $stream->isAudio() && $stream->get('index') === 1);
+        return collect($streams)->contains(fn (Stream $stream) => $stream->isAudio() && $stream->get('index') === $this->expected);
     }
 
     /**

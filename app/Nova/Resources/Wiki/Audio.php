@@ -8,6 +8,7 @@ use App\Models\Auth\User;
 use App\Models\Wiki\Audio as AudioModel;
 use App\Nova\Actions\Wiki\Audio\DeleteAudioAction;
 use App\Nova\Actions\Wiki\Audio\ReconcileAudioAction;
+use App\Nova\Actions\Wiki\Audio\UploadAudioAction;
 use App\Nova\Lenses\Audio\AudioVideoLens;
 use App\Nova\Resources\BaseResource;
 use Exception;
@@ -176,6 +177,17 @@ class Audio extends BaseResource
         return array_merge(
             parent::actions($request),
             [
+                (new UploadAudioAction())
+                    ->confirmButtonText(__('nova.upload'))
+                    ->cancelButtonText(__('nova.cancel'))
+                    ->onlyOnIndex()
+                    ->standalone()
+                    ->canSee(function (Request $request) {
+                        $user = $request->user();
+
+                        return $user instanceof User && $user->can('create audio');
+                    }),
+
                 (new DeleteAudioAction())
                     ->confirmText(__('nova.remove_audio_text'))
                     ->confirmButtonText(__('nova.remove'))

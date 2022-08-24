@@ -14,6 +14,15 @@ use Illuminate\Support\Arr;
 class FormatNameFormatRule extends SubmissionRule
 {
     /**
+     * Create new rule instance.
+     *
+     * @param  string  $expected
+     */
+    public function __construct(protected readonly string $expected)
+    {
+    }
+
+    /**
      * Determine if the validation rule passes.
      *
      * @param  string  $attribute
@@ -26,7 +35,7 @@ class FormatNameFormatRule extends SubmissionRule
 
         $formatName = Arr::get($format, 'format_name');
 
-        return $formatName === 'matroska,webm';
+        return $formatName === $this->expected;
     }
 
     /**
