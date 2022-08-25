@@ -6,7 +6,7 @@ namespace App\Console\Commands\Wiki;
 
 use App\Console\Commands\ReconcileCommand;
 use App\Contracts\Repositories\RepositoryInterface;
-use App\Rules\Wiki\StorageDirectoryExistsRule;
+use App\Rules\Storage\StorageDirectoryExistsRule;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;

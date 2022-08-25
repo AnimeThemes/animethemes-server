@@ -43,7 +43,11 @@ class DeleteAudioAction extends DestructiveAction
 
         $action = new DeleteAudio($audio);
 
-        $result = $action->handle();
+        $storageResults = $action->handle();
+
+        $storageResults->toLog();
+
+        $result = $storageResults->toActionResult();
 
         if ($result->hasFailed()) {
             return Action::danger($result->getMessage());

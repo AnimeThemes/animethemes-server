@@ -6,7 +6,7 @@ namespace App\Nova\Actions\Wiki;
 
 use App\Contracts\Repositories\RepositoryInterface;
 use App\Nova\Actions\ReconcileAction;
-use App\Rules\Wiki\StorageDirectoryExistsRule;
+use App\Rules\Storage\StorageDirectoryExistsRule;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Nova\Fields\ActionFields;
 use Laravel\Nova\Fields\Text;

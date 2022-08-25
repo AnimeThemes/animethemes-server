@@ -35,7 +35,9 @@ class UploadVideoTest extends TestCase
 
         $action = new UploadVideoAction($file, $this->faker->word());
 
-        $result = $action->handle();
+        $storageResults = $action->handle();
+
+        $result = $storageResults->toActionResult();
 
         static::assertTrue($result->hasFailed());
     }
@@ -54,7 +56,9 @@ class UploadVideoTest extends TestCase
 
         $action = new UploadVideoAction($file, $this->faker->word());
 
-        $result = $action->handle();
+        $storageResults = $action->handle();
+
+        $result = $storageResults->toActionResult();
 
         static::assertTrue(ActionStatus::PASSED()->is($result->getStatus()));
     }

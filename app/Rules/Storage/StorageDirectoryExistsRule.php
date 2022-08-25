@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Rules\Wiki;
+namespace App\Rules\Storage;
 
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Contracts\Validation\Rule;

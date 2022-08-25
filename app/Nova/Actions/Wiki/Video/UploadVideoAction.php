@@ -6,7 +6,7 @@ namespace App\Nova\Actions\Wiki\Video;
 
 use App\Actions\Storage\Wiki\Video\UploadVideoAction as UploadVideo;
 use App\Constants\Config\VideoConstants;
-use App\Rules\Wiki\StorageDirectoryExistsRule;
+use App\Rules\Storage\StorageDirectoryExistsRule;
 use App\Rules\Wiki\Submission\Audio\AudioChannelLayoutStreamRule;
 use App\Rules\Wiki\Submission\Audio\AudioChannelsStreamRule;
 use App\Rules\Wiki\Submission\Audio\AudioCodecStreamRule;
@@ -72,7 +72,11 @@ class UploadVideoAction extends Action
 
         $action = new UploadVideo($file, $path);
 
-        $result = $action->handle();
+        $storageResults = $action->handle();
+
+        $storageResults->toLog();
+
+        $result = $storageResults->toActionResult();
 
         if ($result->hasFailed()) {
             return Action::danger($result->getMessage());

@@ -43,7 +43,11 @@ class DeleteVideoAction extends DestructiveAction
 
         $action = new DeleteVideo($video);
 
-        $result = $action->handle();
+        $storageResults = $action->handle();
+
+        $storageResults->toLog();
+
+        $result = $storageResults->toActionResult();
 
         if ($result->hasFailed()) {
             return Action::danger($result->getMessage());

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Rules\Wiki;
+namespace Tests\Unit\Rules\Storage;
 
-use App\Rules\Wiki\StorageDirectoryExistsRule;
+use App\Rules\Storage\StorageDirectoryExistsRule;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
