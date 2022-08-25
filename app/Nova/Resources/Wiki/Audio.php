@@ -7,6 +7,7 @@ namespace App\Nova\Resources\Wiki;
 use App\Models\Auth\User;
 use App\Models\Wiki\Audio as AudioModel;
 use App\Nova\Actions\Wiki\Audio\DeleteAudioAction;
+use App\Nova\Actions\Wiki\Audio\MoveAudioAction;
 use App\Nova\Actions\Wiki\Audio\ReconcileAudioAction;
 use App\Nova\Actions\Wiki\Audio\UploadAudioAction;
 use App\Nova\Lenses\Audio\AudioVideoLens;
@@ -182,6 +183,16 @@ class Audio extends BaseResource
                     ->cancelButtonText(__('nova.cancel'))
                     ->onlyOnIndex()
                     ->standalone()
+                    ->canSee(function (Request $request) {
+                        $user = $request->user();
+
+                        return $user instanceof User && $user->can('create audio');
+                    }),
+
+                (new MoveAudioAction())
+                    ->confirmButtonText(__('nova.move'))
+                    ->cancelButtonText(__('nova.cancel'))
+                    ->exceptOnIndex()
                     ->canSee(function (Request $request) {
                         $user = $request->user();
 

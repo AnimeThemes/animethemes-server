@@ -4,27 +4,29 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Actions\Storage\Wiki\Audio;
 
-use App\Actions\Storage\Wiki\Audio\DeleteAudioAction;
+use App\Actions\Storage\Wiki\Audio\MoveAudioAction;
 use App\Constants\Config\AudioConstants;
 use App\Enums\Actions\ActionStatus;
 use App\Models\Wiki\Audio;
+use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Testing\File;
 use Illuminate\Http\Testing\MimeType;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\File as FileFacade;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Tests\TestCase;
 
 /**
- * Class DeleteAudioTest.
+ * Class MoveAudioTest.
  */
-class DeleteAudioTest extends TestCase
+class MoveAudioTest extends TestCase
 {
     use WithFaker;
 
     /**
-     * The Delete Audio Action shall fail if there are no deletions.
+     * The Move Audio Action shall fail if there are no moves.
      *
      * @return void
      */
@@ -35,7 +37,7 @@ class DeleteAudioTest extends TestCase
 
         $audio = Audio::factory()->createOne();
 
-        $action = new DeleteAudioAction($audio);
+        $action = new MoveAudioAction($audio, $this->faker->word());
 
         $storageResults = $action->handle();
 
@@ -45,25 +47,28 @@ class DeleteAudioTest extends TestCase
     }
 
     /**
-     * The Delete Audio Action shall pass if there are deletions.
+     * The Move Audio Action shall pass if there are moves.
      *
      * @return void
      */
     public function testPassed(): void
     {
+        /** @var FilesystemAdapter $fs */
+        $fs = Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
         Config::set(AudioConstants::DISKS_QUALIFIED, [Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED)]);
-        Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
 
         $file = File::fake()->create($this->faker->word().'.ogg', $this->faker->randomDigitNotNull());
+
+        $directory = $this->faker->word();
 
         $audio = Audio::factory()->createOne([
             Audio::ATTRIBUTE_BASENAME => FileFacade::basename($file->path()),
             Audio::ATTRIBUTE_FILENAME => FileFacade::name($file->path()),
             Audio::ATTRIBUTE_MIMETYPE => MimeType::from($file->path()),
-            Audio::ATTRIBUTE_PATH => $file->path(),
+            Audio::ATTRIBUTE_PATH => $fs->putFileAs($directory, $file, $file->getClientOriginalName()),
         ]);
 
-        $action = new DeleteAudioAction($audio);
+        $action = new MoveAudioAction($audio, Str::replace($directory, $this->faker->word(), $audio->path));
 
         $storageResults = $action->handle();
 
@@ -73,54 +78,66 @@ class DeleteAudioTest extends TestCase
     }
 
     /**
-     * The Delete Audio Action shall delete the file from the configured disks.
+     * The Move Audio Action shall move the file in the configured disks.
      *
      * @return void
      */
-    public function testDeletedFromDisk(): void
+    public function testMovedInDisk(): void
     {
+        /** @var FilesystemAdapter $fs */
+        $fs = Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
         Config::set(AudioConstants::DISKS_QUALIFIED, [Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED)]);
-        Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
 
         $file = File::fake()->create($this->faker->word().'.ogg', $this->faker->randomDigitNotNull());
+
+        $directory = $this->faker->word();
 
         $audio = Audio::factory()->createOne([
             Audio::ATTRIBUTE_BASENAME => FileFacade::basename($file->path()),
             Audio::ATTRIBUTE_FILENAME => FileFacade::name($file->path()),
             Audio::ATTRIBUTE_MIMETYPE => MimeType::from($file->path()),
-            Audio::ATTRIBUTE_PATH => $file->path(),
+            Audio::ATTRIBUTE_PATH => $fs->putFileAs($directory, $file, $file->getClientOriginalName()),
         ]);
 
-        $action = new DeleteAudioAction($audio);
+        $from = $audio->path();
+        $to = Str::replace($directory, $this->faker->word(), $audio->path);
+
+        $action = new MoveAudioAction($audio, $to);
 
         $action->handle();
 
-        static::assertEmpty(Storage::disk(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED))->allFiles());
+        $fs->assertMissing($from);
+        $fs->assertExists($to);
     }
 
     /**
-     * The Delete Audio Action shall delete the audio.
+     * The Move Audio Action shall move the audio.
      *
      * @return void
      */
     public function testAudioDeleted(): void
     {
+        /** @var FilesystemAdapter $fs */
+        $fs = Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
         Config::set(AudioConstants::DISKS_QUALIFIED, [Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED)]);
-        Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
 
         $file = File::fake()->create($this->faker->word().'.ogg', $this->faker->randomDigitNotNull());
+
+        $directory = $this->faker->word();
 
         $audio = Audio::factory()->createOne([
             Audio::ATTRIBUTE_BASENAME => FileFacade::basename($file->path()),
             Audio::ATTRIBUTE_FILENAME => FileFacade::name($file->path()),
             Audio::ATTRIBUTE_MIMETYPE => MimeType::from($file->path()),
-            Audio::ATTRIBUTE_PATH => $file->path(),
+            Audio::ATTRIBUTE_PATH => $fs->putFileAs($directory, $file, $file->getClientOriginalName()),
         ]);
 
-        $action = new DeleteAudioAction($audio);
+        $to = Str::replace($directory, $this->faker->word(), $audio->path);
+
+        $action = new MoveAudioAction($audio, $to);
 
         $action->handle();
 
-        static::assertSoftDeleted($audio);
+        static::assertDatabaseHas(Audio::class, [Audio::ATTRIBUTE_PATH => $to]);
     }
 }

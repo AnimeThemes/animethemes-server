@@ -6,7 +6,7 @@ namespace App\Nova\Actions\Wiki\Audio;
 
 use App\Actions\Storage\Wiki\Audio\UploadAudioAction as UploadAudio;
 use App\Constants\Config\AudioConstants;
-use App\Rules\Wiki\StorageDirectoryExistsRule;
+use App\Rules\Storage\StorageDirectoryExistsRule;
 use App\Rules\Wiki\Submission\Audio\AudioChannelLayoutStreamRule;
 use App\Rules\Wiki\Submission\Audio\AudioChannelsStreamRule;
 use App\Rules\Wiki\Submission\Audio\AudioCodecStreamRule;
@@ -66,7 +66,11 @@ class UploadAudioAction extends Action
 
         $action = new UploadAudio($file, $path);
 
-        $result = $action->handle();
+        $storageResults = $action->handle();
+
+        $storageResults->toLog();
+
+        $result = $storageResults->toActionResult();
 
         if ($result->hasFailed()) {
             return Action::danger($result->getMessage());

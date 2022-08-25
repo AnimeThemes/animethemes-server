@@ -50,21 +50,6 @@ class UploadVideoAction extends UploadAction
     }
 
     /**
-     * Apply filters to repositories before reconciliation.
-     *
-     * @param  RepositoryInterface  $sourceRepository
-     * @param  RepositoryInterface  $destinationRepository
-     * @return void
-     */
-    protected function handleFilters(
-        RepositoryInterface $sourceRepository,
-        RepositoryInterface $destinationRepository
-    ): void {
-        $sourceRepository->handleFilter('path', $this->path);
-        $destinationRepository->handleFilter('path', $this->path);
-    }
-
-    /**
      * Get the reconcile action.
      *
      * @return ReconcileRepositories

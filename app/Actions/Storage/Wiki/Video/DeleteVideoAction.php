@@ -14,7 +14,6 @@ use App\Repositories\Eloquent\Wiki\VideoRepository as VideoDestinationRepository
 use App\Repositories\Storage\Wiki\VideoRepository as VideoSourceRepository;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\File;
 
 /**
  * Class DeleteVideoAction.
@@ -61,21 +60,6 @@ class DeleteVideoAction extends DeleteAction
     protected function getDestinationRepository(): RepositoryInterface
     {
         return App::make(VideoDestinationRepository::class);
-    }
-
-    /**
-     * Apply filters to repositories before reconciliation.
-     *
-     * @param  RepositoryInterface  $sourceRepository
-     * @param  RepositoryInterface  $destinationRepository
-     * @return void
-     */
-    protected function handleFilters(
-        RepositoryInterface $sourceRepository,
-        RepositoryInterface $destinationRepository
-    ): void {
-        $sourceRepository->handleFilter('path', File::dirname($this->path()));
-        $destinationRepository->handleFilter('path', File::dirname($this->path()));
     }
 
     /**
