@@ -28,7 +28,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Repository::macro('bool', function (string $key, bool $default = false) : bool {
+        Repository::macro('bool', function (string $key, bool $default = false): bool {
             /** @var Repository $this */
             return filter_var($this->get($key, $default), FILTER_VALIDATE_BOOLEAN);
         });
