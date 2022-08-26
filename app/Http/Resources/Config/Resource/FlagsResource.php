@@ -9,6 +9,7 @@ use App\Http\Api\Query\ReadQuery;
 use App\Http\Resources\BaseResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\MissingValue;
+use Illuminate\Support\Facades\Config;
 
 /**
  * Class FlagsResource.
@@ -46,19 +47,19 @@ class FlagsResource extends BaseResource
         $result = [];
 
         if ($this->isAllowedField(FlagConstants::ALLOW_VIDEO_STREAMS_FLAG)) {
-            $result[FlagConstants::ALLOW_VIDEO_STREAMS_FLAG] = config(FlagConstants::ALLOW_VIDEO_STREAMS_FLAG_QUALIFIED, false);
+            $result[FlagConstants::ALLOW_VIDEO_STREAMS_FLAG] = Config::bool(FlagConstants::ALLOW_VIDEO_STREAMS_FLAG_QUALIFIED);
         }
 
         if ($this->isAllowedField(FlagConstants::ALLOW_AUDIO_STREAMS_FLAG)) {
-            $result[FlagConstants::ALLOW_AUDIO_STREAMS_FLAG] = config(FlagConstants::ALLOW_AUDIO_STREAMS_FLAG_QUALIFIED, false);
+            $result[FlagConstants::ALLOW_AUDIO_STREAMS_FLAG] = Config::bool(FlagConstants::ALLOW_AUDIO_STREAMS_FLAG_QUALIFIED);
         }
 
         if ($this->isAllowedField(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG)) {
-            $result[FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG] = config(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, false);
+            $result[FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG] = Config::bool(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED);
         }
 
         if ($this->isAllowedField(FlagConstants::ALLOW_VIEW_RECORDING_FLAG)) {
-            $result[FlagConstants::ALLOW_VIEW_RECORDING_FLAG] = config(FlagConstants::ALLOW_VIEW_RECORDING_FLAG_QUALIFIED, false);
+            $result[FlagConstants::ALLOW_VIEW_RECORDING_FLAG] = Config::bool(FlagConstants::ALLOW_VIEW_RECORDING_FLAG_QUALIFIED);
         }
 
         return $result;

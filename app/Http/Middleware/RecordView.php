@@ -8,6 +8,7 @@ use App\Constants\Config\FlagConstants;
 use Closure;
 use CyrildeWit\EloquentViewable\Contracts\Viewable;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
 use RuntimeException;
 
 /**
@@ -31,7 +32,7 @@ class RecordView
             throw new RuntimeException('record_view should only be configured for viewable models');
         }
 
-        if (config(FlagConstants::ALLOW_VIEW_RECORDING_FLAG_QUALIFIED, false)) {
+        if (Config::bool(FlagConstants::ALLOW_VIEW_RECORDING_FLAG_QUALIFIED)) {
             views($model)->cooldown(now()->addMinutes(5))->record();
         }
 

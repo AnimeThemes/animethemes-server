@@ -9,6 +9,7 @@ use App\Contracts\Events\DiscordMessageEvent;
 use App\Jobs\SendDiscordNotificationJob;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Facades\Config;
 
 /**
  * Class SendDiscordNotification.
@@ -25,7 +26,7 @@ class SendDiscordNotification implements ShouldQueue
      */
     public function handle(DiscordMessageEvent $event): void
     {
-        if (config(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, false)) {
+        if (Config::bool(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED)) {
             SendDiscordNotificationJob::dispatch($event);
         }
     }

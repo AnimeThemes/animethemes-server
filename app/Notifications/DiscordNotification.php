@@ -8,6 +8,7 @@ use App\Constants\Config\FlagConstants;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordChannel;
 use NotificationChannels\Discord\DiscordMessage;
 
@@ -59,12 +60,12 @@ class DiscordNotification extends Notification implements ShouldQueue
      *
      * @param  mixed  $notifiable
      * @param  string  $channel
-     * @return mixed
+     * @return bool
      *
      * @noinspection PhpUnusedParameterInspection
      */
-    public function shouldSend(mixed $notifiable, string $channel): mixed
+    public function shouldSend(mixed $notifiable, string $channel): bool
     {
-        return config(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, false);
+        return Config::bool(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED);
     }
 }
