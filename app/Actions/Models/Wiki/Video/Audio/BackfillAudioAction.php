@@ -232,13 +232,15 @@ class BackfillAudioAction extends BaseAction
     protected function extractAudio(Video $video, string $audioPath): void
     {
         try {
-            FFMpeg::fromDisk(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED))
-                ->open($video->path)
-                ->addFilter(new AudioClipFilter(new TimeCode(0, 0, 0, 0)))
-                ->addFilter(new AddMetadataFilter())
-                ->export()
-                ->toDisk(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED))
-                ->save($audioPath);
+            foreach (Config::get(AudioConstants::DISKS_QUALIFIED, []) as $audioDisk) {
+                FFMpeg::fromDisk(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED))
+                    ->open($video->path)
+                    ->addFilter(new AudioClipFilter(new TimeCode(0, 0, 0, 0)))
+                    ->addFilter(new AddMetadataFilter())
+                    ->export()
+                    ->toDisk($audioDisk)
+                    ->save($audioPath);
+            }
         } catch (Exception $e) {
             Log::error($e->getMessage());
         } finally {
