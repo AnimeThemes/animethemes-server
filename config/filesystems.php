@@ -102,16 +102,29 @@ return [
             'throw' => false,
         ],
 
-        'audios' => [
+        'audios_nyc' => [
             'driver' => 's3',
-            'key' => env('AUDIO_ACCESS_KEY_ID'),
-            'secret' => env('AUDIO_SECRET_ACCESS_KEY'),
-            'region' => env('AUDIO_DEFAULT_REGION'),
-            'bucket' => env('AUDIO_BUCKET'),
-            'endpoint' => env('AUDIO_ENDPOINT'),
-            'stream_reads' => env('AUDIO_STREAM_READS'),
-            'disable_asserts' => env('AUDIO_DISABLE_ASSERTS'),
-            'visibility' => env('AUDIO_VISIBILITY'),
+            'key' => env('AUDIO_NYC_ACCESS_KEY_ID'),
+            'secret' => env('AUDIO_NYC_SECRET_ACCESS_KEY'),
+            'region' => env('AUDIO_NYC_DEFAULT_REGION'),
+            'bucket' => env('AUDIO_NYC_BUCKET'),
+            'endpoint' => env('AUDIO_NYC_ENDPOINT'),
+            'stream_reads' => env('AUDIO_NYC_STREAM_READS'),
+            'disable_asserts' => env('AUDIO_NYC_DISABLE_ASSERTS'),
+            'visibility' => env('AUDIO_NYC_VISIBILITY'),
+            'throw' => false,
+        ],
+
+        'audios_fra' => [
+            'driver' => 's3',
+            'key' => env('AUDIO_FRA_ACCESS_KEY_ID'),
+            'secret' => env('AUDIO_FRA_SECRET_ACCESS_KEY'),
+            'region' => env('AUDIO_FRA_DEFAULT_REGION'),
+            'bucket' => env('AUDIO_FRA_BUCKET'),
+            'endpoint' => env('AUDIO_FRA_ENDPOINT'),
+            'stream_reads' => env('AUDIO_FRA_STREAM_READS'),
+            'disable_asserts' => env('AUDIO_FRA_DISABLE_ASSERTS'),
+            'visibility' => env('AUDIO_FRA_VISIBILITY'),
             'throw' => false,
         ],
 

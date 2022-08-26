@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace App\Nova\Lenses\Audio;
 
+use App\Models\Auth\User;
 use App\Models\BaseModel;
 use App\Models\Wiki\Audio;
+use App\Nova\Actions\Wiki\Audio\DeleteAudioAction;
 use App\Nova\Lenses\BaseLens;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\Request;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
@@ -97,7 +100,18 @@ class AudioVideoLens extends BaseLens
      */
     public function actions(NovaRequest $request): array
     {
-        return [];
+        return [
+            (new DeleteAudioAction())
+                ->confirmText(__('nova.remove_audio_text'))
+                ->confirmButtonText(__('nova.remove'))
+                ->cancelButtonText(__('nova.cancel'))
+                ->exceptOnIndex()
+                ->canSee(function (Request $request) {
+                    $user = $request->user();
+
+                    return $user instanceof User && $user->can('delete audio');
+                }),
+        ];
     }
 
     /**
