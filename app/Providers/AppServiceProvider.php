@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace App\Providers;
 
 use App\Constants\Config\AudioConstants;
+use App\Constants\Config\FlagConstants;
 use App\Constants\Config\VideoConstants;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
+use Illuminate\Config\Repository;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Console\AboutCommand;
 use Illuminate\Support\Facades\Config;
@@ -26,6 +28,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Repository::macro('bool', function (string $key, bool $default = false) : bool {
+            /** @var Repository $this */
+            return filter_var($this->get($key, $default), FILTER_VALIDATE_BOOLEAN);
+        });
+
         Model::preventLazyLoading();
 
         Model::handleLazyLoadingViolationUsing(function (Model $model, string $relation) {
@@ -42,10 +49,10 @@ class AppServiceProvider extends ServiceProvider
         ]);
 
         AboutCommand::add('Flags', [
-            'Allow Audio Streams' => fn () => Config::get('flags.allow_audio_streams') ? 'true' : 'false',
-            'Allow Discord Notifications' => fn () => Config::get('flags.allow_discord_notifications') ? 'true' : 'false',
-            'Allow Video Streams' => fn () => Config::get('flags.allow_video_streams') ? 'true' : 'false',
-            'Allow View Recording' => fn () => Config::get('flags.allow_view_recording') ? 'true' : 'false',
+            'Allow Audio Streams' => fn () => Config::bool(FlagConstants::ALLOW_AUDIO_STREAMS_FLAG_QUALIFIED) ? 'true' : 'false',
+            'Allow Discord Notifications' => fn () => Config::bool(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED) ? 'true' : 'false',
+            'Allow Video Streams' => fn () => Config::bool(FlagConstants::ALLOW_VIDEO_STREAMS_FLAG_QUALIFIED) ? 'true' : 'false',
+            'Allow View Recording' => fn () => Config::bool(FlagConstants::ALLOW_VIEW_RECORDING_FLAG_QUALIFIED) ? 'true' : 'false',
         ]);
 
         AboutCommand::add('Images', [

@@ -86,7 +86,7 @@ class Kernel extends ConsoleKernel
             ->storeOutput()
             ->daily();
 
-        if (Config::get('telescope.enabled', false)) {
+        if (Config::bool('telescope.enabled')) {
             $schedule->command(PruneTelescopeEntriesCommand::class)
                 ->withoutOverlapping()
                 ->runInBackground()

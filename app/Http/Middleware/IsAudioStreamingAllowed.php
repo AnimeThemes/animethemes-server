@@ -7,6 +7,7 @@ namespace App\Http\Middleware;
 use App\Constants\Config\FlagConstants;
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -27,7 +28,7 @@ class IsAudioStreamingAllowed
      */
     public function handle(Request $request, Closure $next): mixed
     {
-        if (! config(FlagConstants::ALLOW_AUDIO_STREAMS_FLAG_QUALIFIED, false)) {
+        if (! Config::bool(FlagConstants::ALLOW_AUDIO_STREAMS_FLAG_QUALIFIED)) {
             abort(403, 'Audio Streaming Disabled');
         }
 
