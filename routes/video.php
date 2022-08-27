@@ -2,6 +2,9 @@
 
 declare(strict_types=1);
 
-use Spatie\RouteDiscovery\Discovery\Discover;
+use App\Http\Controllers\Wiki\Video\VideoController;
+use Illuminate\Support\Facades\Route;
 
-Discover::controllers()->in(app_path('Http/Controllers/Wiki'));
+Route::get('/{video}', [VideoController::class, 'show'])
+    ->name('video.show')
+    ->middleware(['is_video_streaming_allowed', 'without_trashed:video', 'record_view:video']);

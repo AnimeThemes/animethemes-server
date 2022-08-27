@@ -9,6 +9,8 @@ use Illuminate\Support\Collection;
 
 /**
  * Interface RepositoryInterface.
+ *
+ * @template TModel of \App\Models\BaseModel
  */
 interface RepositoryInterface
 {
@@ -44,15 +46,6 @@ interface RepositoryInterface
      * @return bool
      */
     public function update(Model $model, array $attributes): bool;
-
-    /**
-     * Validate repository filter.
-     *
-     * @param  string  $filter
-     * @param  mixed  $value
-     * @return bool
-     */
-    public function validateFilter(string $filter, mixed $value = null): bool;
 
     /**
      * Filter repository models.

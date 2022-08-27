@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit\Rules\Wiki;
 
 use App\Enums\Models\Wiki\ResourceSite;
-use App\Rules\Wiki\ResourceSiteMatchesLinkRule;
+use App\Rules\Wiki\Resource\ResourceSiteMatchesLinkRule;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 

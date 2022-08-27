@@ -20,13 +20,13 @@ class PermissionSeeder extends Seeder
      */
     public function run(): void
     {
-        /** @var Role */
+        /** @var Role $admin */
         $admin = Role::findOrCreate('Admin');
 
-        /** @var Role */
+        /** @var Role $wikiEditor */
         $wikiEditor = Role::findOrCreate('Wiki Editor');
 
-        /** @var Role */
+        /** @var Role $wikiViewer */
         $wikiViewer = Role::findOrCreate('Wiki Viewer');
 
         // Admin Resources
@@ -35,6 +35,7 @@ class PermissionSeeder extends Seeder
         $this->configureAdminResourcePermissions($admin, 'invitation', true);
         $this->configureAdminResourcePermissions($admin, 'permission', false);
         $this->configureAdminResourcePermissions($admin, 'role', false);
+        $this->configureAdminResourcePermissions($admin, 'setting', false);
         $this->configureAdminResourcePermissions($admin, 'transaction', true);
         $this->configureAdminResourcePermissions($admin, 'user', true);
 
@@ -44,6 +45,7 @@ class PermissionSeeder extends Seeder
         $this->configureWikiResourcePermissions($admin, $wikiEditor, $wikiViewer, 'anime theme');
         $this->configureWikiResourcePermissions($admin, $wikiEditor, $wikiViewer, 'anime theme entry');
         $this->configureWikiResourcePermissions($admin, $wikiEditor, $wikiViewer, 'artist');
+        $this->configureWikiResourcePermissions($admin, $wikiEditor, $wikiViewer, 'audio');
         $this->configureWikiResourcePermissions($admin, $wikiEditor, $wikiViewer, 'external resource');
         $this->configureWikiResourcePermissions($admin, $wikiEditor, $wikiViewer, 'image');
         $this->configureWikiResourcePermissions($admin, $wikiEditor, $wikiViewer, 'page');
@@ -105,7 +107,7 @@ class PermissionSeeder extends Seeder
 
         $create = Permission::findOrCreate("create $wikiResource");
         $adminPermissions[] = $create;
-        if ($wikiResource !== 'video') {
+        if ($wikiResource !== 'video' && $wikiResource !== 'audio') {
             $editorPermissions[] = $create;
         }
 
@@ -115,13 +117,13 @@ class PermissionSeeder extends Seeder
 
         $delete = Permission::findOrCreate("delete $wikiResource");
         $adminPermissions[] = $delete;
-        if ($wikiResource !== 'video') {
+        if ($wikiResource !== 'video' && $wikiResource !== 'audio') {
             $editorPermissions[] = $delete;
         }
 
         $restore = Permission::findOrCreate("restore $wikiResource");
         $adminPermissions[] = $restore;
-        if ($wikiResource !== 'video') {
+        if ($wikiResource !== 'video' && $wikiResource !== 'audio') {
             $editorPermissions[] = $restore;
         }
 

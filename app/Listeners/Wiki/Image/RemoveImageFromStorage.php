@@ -7,6 +7,7 @@ namespace App\Listeners\Wiki\Image;
 use App\Events\Wiki\Image\ImageDeleting;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
 
 /**
@@ -27,7 +28,7 @@ class RemoveImageFromStorage implements ShouldQueue
         $image = $event->getModel();
 
         if ($image->isForceDeleting()) {
-            Storage::disk('images')->delete($image->path);
+            Storage::disk(Config::get('image.disk'))->delete($image->path);
         }
     }
 }

@@ -7,8 +7,8 @@ namespace App\Scout\Elasticsearch\Api\Query;
 use App\Models\Wiki\Anime;
 use App\Scout\Elasticsearch\Api\Schema\Schema;
 use App\Scout\Elasticsearch\Api\Schema\Wiki\AnimeSchema;
-use ElasticScoutDriverPlus\Builders\SearchRequestBuilder;
-use ElasticScoutDriverPlus\Support\Query;
+use Elastic\ScoutDriverPlus\Builders\SearchParametersBuilder;
+use Elastic\ScoutDriverPlus\Support\Query;
 
 /**
  * Class AnimeQueryPayload.
@@ -38,9 +38,9 @@ class AnimeQueryPayload extends ElasticQueryPayload
     /**
      * Build Elasticsearch query.
      *
-     * @return SearchRequestBuilder
+     * @return SearchParametersBuilder
      */
-    public function buildQuery(): SearchRequestBuilder
+    public function buildQuery(): SearchParametersBuilder
     {
         $query = Query::bool()
             ->mustRaw([

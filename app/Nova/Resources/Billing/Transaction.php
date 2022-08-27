@@ -5,11 +5,14 @@ declare(strict_types=1);
 namespace App\Nova\Resources\Billing;
 
 use App\Enums\Models\Billing\Service;
+use App\Models\Auth\User;
 use App\Models\Billing\Transaction as TransactionModel;
+use App\Nova\Actions\Billing\Transaction\ReconcileTransactionAction;
 use App\Nova\Resources\BaseResource;
 use BenSampo\Enum\Enum;
 use BenSampo\Enum\Rules\EnumValue;
 use Exception;
+use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\ID;
@@ -165,5 +168,30 @@ class Transaction extends BaseResource
             Panel::make(__('nova.timestamps'), $this->timestamps())
                 ->collapsable(),
         ];
+    }
+
+    /**
+     * Get the actions available for the resource.
+     *
+     * @param  NovaRequest  $request
+     * @return array
+     */
+    public function actions(NovaRequest $request): array
+    {
+        return array_merge(
+            parent::actions($request),
+            [
+                (new ReconcileTransactionAction())
+                    ->confirmButtonText(__('nova.reconcile'))
+                    ->cancelButtonText(__('nova.cancel'))
+                    ->onlyOnIndex()
+                    ->standalone()
+                    ->canSee(function (Request $request) {
+                        $user = $request->user();
+
+                        return $user instanceof User && $user->can('create transaction');
+                    }),
+            ]
+        );
     }
 }

@@ -16,7 +16,7 @@ use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Song;
 use BenSampo\Enum\Enum;
 use Database\Factories\Wiki\Anime\AnimeThemeFactory;
-use ElasticScoutDriverPlus\Searchable;
+use Elastic\ScoutDriverPlus\Searchable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -56,6 +56,7 @@ class AnimeTheme extends BaseModel
 
     final public const RELATION_ANIME = 'anime';
     final public const RELATION_ARTISTS = 'song.artists';
+    final public const RELATION_AUDIO = 'animethemeentries.videos.audio';
     final public const RELATION_ENTRIES = 'animethemeentries';
     final public const RELATION_IMAGES = 'anime.images';
     final public const RELATION_SONG = 'song';

@@ -6,6 +6,20 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Video Disks
+    |--------------------------------------------------------------------------
+    |
+    | The filesystem disks where videos are hosted. By default, it is assumed
+    | that the default video disk is an S3-like bucket.
+    |
+    */
+
+    'default_disk' => env('VIDEO_DISK_DEFAULT', 'videos'),
+
+    'disks' => explode(',', env('VIDEO_DISKS', [])),
+
+    /*
+    |--------------------------------------------------------------------------
     | Video Domain
     |--------------------------------------------------------------------------
     |
@@ -21,4 +35,33 @@ return [
     'url' => env('VIDEO_URL'),
 
     'path' => env('VIDEO_PATH'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Video Streaming
+    |--------------------------------------------------------------------------
+    |
+    | These values represent the method by which video is streamed.
+    | The first supported method of streaming is through a streamed response ("response").
+    | The second supported method of streaming is through a Nginx internal redirect ("nginx").
+    | A Nginx internal redirect requires a URI to match the location block.
+    |
+    */
+
+    'streaming_method' => env('VIDEO_STREAMING_METHOD', 'response'),
+
+    'nginx_redirect' => env('VIDEO_NGINX_REDIRECT', '/video_redirect/'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Video Uploading
+    |--------------------------------------------------------------------------
+    |
+    | These values facilitate the validation and uploading of video in-system to object storage.
+    | For validation, we want to enforce that the latest FFmpeg version is used.
+    | We will use the libavformat version of the form "Lavf{major}.{minor}.{patch]".
+    |
+    */
+
+    'encoder_version' => env('VIDEO_ENCODER_VERSION'),
 ];

@@ -15,7 +15,7 @@ use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Video;
 use App\Pivots\AnimeThemeEntryVideo;
 use Database\Factories\Wiki\Anime\Theme\AnimeThemeEntryFactory;
-use ElasticScoutDriverPlus\Searchable;
+use Elastic\ScoutDriverPlus\Searchable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;

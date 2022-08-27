@@ -11,6 +11,8 @@ use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Class DigitalOceanTransactionRepository.
+ *
+ * @extends EloquentRepository<Transaction>
  */
 class DigitalOceanTransactionRepository extends EloquentRepository
 {
@@ -22,19 +24,6 @@ class DigitalOceanTransactionRepository extends EloquentRepository
     protected function builder(): Builder
     {
         return Transaction::query()->where(Transaction::ATTRIBUTE_SERVICE, Service::DIGITALOCEAN);
-    }
-
-    /**
-     * Validate repository filter.
-     *
-     * @param  string  $filter
-     * @param  mixed  $value
-     * @return bool
-     */
-    public function validateFilter(string $filter, mixed $value = null): bool
-    {
-        // not supported
-        return false;
     }
 
     /**

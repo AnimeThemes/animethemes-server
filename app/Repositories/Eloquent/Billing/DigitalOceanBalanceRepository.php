@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Date;
 
 /**
  * Class DigitalOceanBalanceRepository.
+ *
+ * @extends EloquentRepository<Balance>
  */
 class DigitalOceanBalanceRepository extends EloquentRepository
 {
@@ -29,19 +31,6 @@ class DigitalOceanBalanceRepository extends EloquentRepository
             ->where(Balance::ATTRIBUTE_SERVICE, Service::DIGITALOCEAN)
             ->whereMonth(Balance::ATTRIBUTE_DATE, ComparisonOperator::EQ, $now)
             ->whereYear(Balance::ATTRIBUTE_DATE, ComparisonOperator::EQ, $now);
-    }
-
-    /**
-     * Validate repository filter.
-     *
-     * @param  string  $filter
-     * @param  mixed  $value
-     * @return bool
-     */
-    public function validateFilter(string $filter, mixed $value = null): bool
-    {
-        // not supported
-        return false;
     }
 
     /**

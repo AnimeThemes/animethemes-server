@@ -4,26 +4,25 @@ declare(strict_types=1);
 
 namespace App\Nova\Actions\Wiki\Anime;
 
+use App\Actions\Models\BaseAction;
+use App\Actions\Models\Wiki\Anime\Image\BackfillLargeCoverImageAction;
+use App\Actions\Models\Wiki\Anime\Image\BackfillSmallCoverImageAction;
+use App\Actions\Models\Wiki\Anime\Resource\BackfillAnidbResourceAction;
+use App\Actions\Models\Wiki\Anime\Resource\BackfillAnilistResourceAction;
+use App\Actions\Models\Wiki\Anime\Resource\BackfillAnnResourceAction;
+use App\Actions\Models\Wiki\Anime\Resource\BackfillKitsuResourceAction;
+use App\Actions\Models\Wiki\Anime\Resource\BackfillMalResourceAction;
+use App\Actions\Models\Wiki\Anime\Studio\BackfillAnimeStudiosAction;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Image;
-use App\Pipes\BasePipe;
-use App\Pipes\Wiki\Anime\Image\BackfillLargeCoverImage;
-use App\Pipes\Wiki\Anime\Image\BackfillSmallCoverImage;
-use App\Pipes\Wiki\Anime\Resource\BackfillAnidbResource;
-use App\Pipes\Wiki\Anime\Resource\BackfillAnilistResource;
-use App\Pipes\Wiki\Anime\Resource\BackfillAnnResource;
-use App\Pipes\Wiki\Anime\Resource\BackfillKitsuResource;
-use App\Pipes\Wiki\Anime\Resource\BackfillMalResource;
-use App\Pipes\Wiki\Anime\Studio\BackfillAnimeStudios;
+use App\Nova\Resources\Wiki\Anime as AnimeResource;
 use Exception;
 use Illuminate\Bus\Queueable;
-use Illuminate\Container\Container;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Pipeline\Pipeline;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
@@ -32,6 +31,7 @@ use Laravel\Nova\Fields\ActionFields;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\Heading;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Notifications\NovaNotification;
 
 /**
  * Class BackfillAnimeAction.
@@ -76,24 +76,33 @@ class BackfillAnimeAction extends Action implements ShouldQueue
      *
      * @param  ActionFields  $fields
      * @param  Collection<int, Anime>  $models
-     * @return mixed
+     * @return Collection
      */
-    public function handle(ActionFields $fields, Collection $models): mixed
+    public function handle(ActionFields $fields, Collection $models): Collection
     {
+        $uriKey = AnimeResource::uriKey();
+
         foreach ($models as $anime) {
             if ($anime->resources()->doesntExist()) {
                 $this->markAsFailed($anime, 'At least one Resource is required to backfill Anime');
                 continue;
             }
 
-            $pipes = $this->getPipes($fields, $anime);
-
-            $pipeline = new Pipeline(Container::getInstance());
+            $actions = $this->getActions($fields, $anime);
 
             try {
-                $pipeline->send($this->user)
-                    ->through($pipes)
-                    ->then(fn () => $this->markAsFinished($anime));
+                foreach ($actions as $action) {
+                    $result = $action->handle();
+                    if ($result->hasFailed()) {
+                        $this->user->notify(
+                            NovaNotification::make()
+                                ->icon('flag')
+                                ->message($result->getMessage())
+                                ->type(NovaNotification::WARNING_TYPE)
+                                ->url("/resources/$uriKey/{$anime->getKey()}")
+                        );
+                    }
+                }
             } catch (Exception $e) {
                 $this->markAsFailed($anime, $e);
             } finally {
@@ -161,42 +170,42 @@ class BackfillAnimeAction extends Action implements ShouldQueue
     }
 
     /**
-     * Get the selected pipes for backfilling anime.
+     * Get the selected actions for backfilling anime.
      *
      * @param  ActionFields  $fields
      * @param  Anime  $anime
-     * @return BasePipe[]
+     * @return BaseAction[]
      */
-    protected function getPipes(ActionFields $fields, Anime $anime): array
+    protected function getActions(ActionFields $fields, Anime $anime): array
     {
-        $pipes = [];
+        $actions = [];
 
-        foreach ($this->getPipeMapping($anime) as $field => $pipe) {
+        foreach ($this->getActionMapping($anime) as $field => $action) {
             if (Arr::get($fields, $field) === true) {
-                $pipes[] = $pipe;
+                $actions[] = $action;
             }
         }
 
-        return $pipes;
+        return $actions;
     }
 
     /**
-     * Get the mapping of anime pipes to their form fields.
+     * Get the mapping of actions to their form fields.
      *
      * @param  Anime  $anime
-     * @return array<string, BasePipe>
+     * @return array<string, BaseAction>
      */
-    protected function getPipeMapping(Anime $anime): array
+    protected function getActionMapping(Anime $anime): array
     {
         return [
-            self::BACKFILL_KITSU_RESOURCE => new BackfillKitsuResource($anime),
-            self::BACKFILL_ANILIST_RESOURCE => new BackfillAnilistResource($anime),
-            self::BACKFILL_MAL_RESOURCE => new BackfillMalResource($anime),
-            self::BACKFILL_ANIDB_RESOURCE => new BackfillAnidbResource($anime),
-            self::BACKFILL_ANN_RESOURCE => new BackfillAnnResource($anime),
-            self::BACKFILL_LARGE_COVER => new BackfillLargeCoverImage($anime),
-            self::BACKFILL_SMALL_COVER => new BackfillSmallCoverImage($anime),
-            self::BACKFILL_STUDIOS => new BackfillAnimeStudios($anime),
+            self::BACKFILL_KITSU_RESOURCE => new BackfillKitsuResourceAction($anime),
+            self::BACKFILL_ANILIST_RESOURCE => new BackfillAnilistResourceAction($anime),
+            self::BACKFILL_MAL_RESOURCE => new BackfillMalResourceAction($anime),
+            self::BACKFILL_ANIDB_RESOURCE => new BackfillAnidbResourceAction($anime),
+            self::BACKFILL_ANN_RESOURCE => new BackfillAnnResourceAction($anime),
+            self::BACKFILL_LARGE_COVER => new BackfillLargeCoverImageAction($anime),
+            self::BACKFILL_SMALL_COVER => new BackfillSmallCoverImageAction($anime),
+            self::BACKFILL_STUDIOS => new BackfillAnimeStudiosAction($anime),
         ];
     }
 }

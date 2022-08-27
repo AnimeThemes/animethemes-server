@@ -60,16 +60,79 @@ return [
             'throw' => false,
         ],
 
-        'videos' => [
+        'images_local' => [
+            'driver' => 'local',
+            'root' => public_path('images'),
+            'url' => env('APP_URL').'/images',
+            'visibility' => 'public',
+            'throw' => false,
+        ],
+
+        'videos_nyc' => [
             'driver' => 's3',
-            'key' => env('VIDEO_ACCESS_KEY_ID'),
-            'secret' => env('VIDEO_SECRET_ACCESS_KEY'),
-            'region' => env('VIDEO_DEFAULT_REGION'),
-            'bucket' => env('VIDEO_BUCKET'),
-            'endpoint' => env('VIDEO_ENDPOINT'),
-            'stream_reads' => env('VIDEO_STREAM_READS'),
-            'disable_asserts' => env('VIDEO_DISABLE_ASSERTS'),
-            'visibility' => env('VIDEO_VISIBILITY'),
+            'key' => env('VIDEO_NYC_ACCESS_KEY_ID'),
+            'secret' => env('VIDEO_NYC_SECRET_ACCESS_KEY'),
+            'region' => env('VIDEO_NYC_DEFAULT_REGION'),
+            'bucket' => env('VIDEO_NYC_BUCKET'),
+            'endpoint' => env('VIDEO_NYC_ENDPOINT'),
+            'stream_reads' => env('VIDEO_NYC_STREAM_READS'),
+            'disable_asserts' => env('VIDEO_NYC_DISABLE_ASSERTS'),
+            'visibility' => env('VIDEO_NYC_VISIBILITY'),
+            'throw' => false,
+        ],
+
+        'videos_fra' => [
+            'driver' => 's3',
+            'key' => env('VIDEO_FRA_ACCESS_KEY_ID'),
+            'secret' => env('VIDEO_FRA_SECRET_ACCESS_KEY'),
+            'region' => env('VIDEO_FRA_DEFAULT_REGION'),
+            'bucket' => env('VIDEO_FRA_BUCKET'),
+            'endpoint' => env('VIDEO_FRA_ENDPOINT'),
+            'stream_reads' => env('VIDEO_FRA_STREAM_READS'),
+            'disable_asserts' => env('VIDEO_FRA_DISABLE_ASSERTS'),
+            'visibility' => env('VIDEO_FRA_VISIBILITY'),
+            'throw' => false,
+        ],
+
+        'videos_local' => [
+            'driver' => 'local',
+            'root' => public_path('videos'),
+            'url' => env('APP_URL').'/videos',
+            'visibility' => 'public',
+            'throw' => false,
+        ],
+
+        'audios_nyc' => [
+            'driver' => 's3',
+            'key' => env('AUDIO_NYC_ACCESS_KEY_ID'),
+            'secret' => env('AUDIO_NYC_SECRET_ACCESS_KEY'),
+            'region' => env('AUDIO_NYC_DEFAULT_REGION'),
+            'bucket' => env('AUDIO_NYC_BUCKET'),
+            'endpoint' => env('AUDIO_NYC_ENDPOINT'),
+            'stream_reads' => env('AUDIO_NYC_STREAM_READS'),
+            'disable_asserts' => env('AUDIO_NYC_DISABLE_ASSERTS'),
+            'visibility' => env('AUDIO_NYC_VISIBILITY'),
+            'throw' => false,
+        ],
+
+        'audios_fra' => [
+            'driver' => 's3',
+            'key' => env('AUDIO_FRA_ACCESS_KEY_ID'),
+            'secret' => env('AUDIO_FRA_SECRET_ACCESS_KEY'),
+            'region' => env('AUDIO_FRA_DEFAULT_REGION'),
+            'bucket' => env('AUDIO_FRA_BUCKET'),
+            'endpoint' => env('AUDIO_FRA_ENDPOINT'),
+            'stream_reads' => env('AUDIO_FRA_STREAM_READS'),
+            'disable_asserts' => env('AUDIO_FRA_DISABLE_ASSERTS'),
+            'visibility' => env('AUDIO_FRA_VISIBILITY'),
+            'throw' => false,
+        ],
+
+        'audios_local' => [
+            'driver' => 'local',
+            'root' => public_path('audios'),
+            'url' => env('APP_URL').'/audios',
+            'visibility' => 'public',
             'throw' => false,
         ],
 
@@ -93,6 +156,9 @@ return [
 
     'links' => [
         public_path('storage') => storage_path('app/public'),
+        public_path('audios') => env('AUDIO_DISK_ROOT', storage_path('app/audios')),
+        public_path('images') => env('IMAGE_DISK_ROOT', storage_path('app/images')),
+        public_path('videos') => env('VIDEO_DISK_ROOT', storage_path('app/videos')),
     ],
 
 ];

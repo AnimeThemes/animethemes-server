@@ -11,6 +11,8 @@ use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Class VideoRepository.
+ *
+ * @extends EloquentRepository<Video>
  */
 class VideoRepository extends EloquentRepository
 {
@@ -22,23 +24,6 @@ class VideoRepository extends EloquentRepository
     protected function builder(): Builder
     {
         return Video::query();
-    }
-
-    /**
-     * Validate repository filter.
-     *
-     * @param  string  $filter
-     * @param  mixed  $value
-     * @return bool
-     */
-    public function validateFilter(string $filter, mixed $value = null): bool
-    {
-        if ($filter === 'path') {
-            // Defer to source repository for validation
-            return true;
-        }
-
-        return false;
     }
 
     /**

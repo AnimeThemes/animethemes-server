@@ -5,11 +5,14 @@ declare(strict_types=1);
 namespace Tests\Feature\Http\Wiki;
 
 use App\Constants\Config\FlagConstants;
+use App\Constants\Config\VideoConstants;
 use App\Models\Wiki\Video;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Storage;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 use Tests\TestCase;
 
 /**
@@ -106,5 +109,24 @@ class VideoTest extends TestCase
         });
 
         static::assertEquals(1, $video->views()->count());
+    }
+
+    /**
+     * If the streaming method is set to 'response', the video shall be streamed through a Symfony StreamedResponse.
+     *
+     * @return void
+     */
+    public function testStreamedThroughResponse(): void
+    {
+        Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
+
+        Config::set(FlagConstants::ALLOW_VIDEO_STREAMS_FLAG_QUALIFIED, true);
+        Config::set(VideoConstants::STREAMING_METHOD_QUALIFIED, 'response');
+
+        $video = Video::factory()->createOne();
+
+        $response = $this->get(route('video.show', ['video' => $video]));
+
+        static::assertInstanceOf(StreamedResponse::class, $response->baseResponse);
     }
 }

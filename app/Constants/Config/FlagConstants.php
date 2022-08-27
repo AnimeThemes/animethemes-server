@@ -13,6 +13,10 @@ class FlagConstants
 
     final public const ALLOW_VIDEO_STREAMS_FLAG_QUALIFIED = 'flags.allow_video_streams';
 
+    final public const ALLOW_AUDIO_STREAMS_FLAG = 'allow_audio_streams';
+
+    final public const ALLOW_AUDIO_STREAMS_FLAG_QUALIFIED = 'flags.allow_audio_streams';
+
     final public const ALLOW_DISCORD_NOTIFICATIONS_FLAG = 'allow_discord_notifications';
 
     final public const ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED = 'flags.allow_discord_notifications';

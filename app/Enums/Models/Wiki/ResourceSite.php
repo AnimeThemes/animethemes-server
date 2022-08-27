@@ -5,7 +5,10 @@ declare(strict_types=1);
 namespace App\Enums\Models\Wiki;
 
 use App\Enums\BaseEnum;
+use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 /**
@@ -50,7 +53,7 @@ final class ResourceSite extends BaseEnum
             self::TWITTER => 'twitter.com',
             self::ANIDB => 'anidb.net',
             self::ANILIST => 'anilist.co',
-            self::ANIME_PLANET => 'anime-planet.com',
+            self::ANIME_PLANET => 'www.anime-planet.com',
             self::ANN => 'www.animenewsnetwork.com',
             self::KITSU => 'kitsu.io',
             self::MAL => 'myanimelist.net',
@@ -90,8 +93,75 @@ final class ResourceSite extends BaseEnum
             ResourceSite::ANILIST,
             ResourceSite::ANN,
             ResourceSite::MAL => Str::match('/\d+/', $link),
+            ResourceSite::ANIME_PLANET => self::parseAnimePlanetIdFromLink($link),
+            ResourceSite::KITSU => self::parseKitsuIdFromLink($link),
             default => null,
         };
+    }
+
+    /**
+     * Attempt to parse Anime Planet ID from link.
+     *
+     * @param  string  $link
+     * @return string|null
+     */
+    protected static function parseAnimePlanetIdFromLink(string $link): ?string
+    {
+        // We only want to attempt to parse the ID for an anime resource
+        if (Str::match('/^https:\/\/www\.anime-planet\.com\/anime\/[a-zA-Z0-9-]+$/', $link) !== $link) {
+            return null;
+        }
+
+        try {
+            $response = Http::get($link)
+                ->throw()
+                ->body();
+
+            return Str::match(
+                '/["\']?ENTRY_INFO["\']? *: *{.*id["\']? *: *["\']?(\d+)["\']? *,/s',
+                $response
+            );
+        } catch (RequestException $e) {
+            Log::error($e->getMessage());
+        }
+
+        return null;
+    }
+
+    /**
+     * Attempt to parse Kitsu ID from link.
+     *
+     * @param  string  $link
+     * @return string|null
+     */
+    protected static function parseKitsuIdFromLink(string $link): ?string
+    {
+        try {
+            $query = '
+            query ($slug: String!) {
+                findAnimeBySlug(slug: $slug) {
+                    id
+                }
+            }
+            ';
+
+            $variables = [
+                'slug' => Str::afterLast($link, '/'),
+            ];
+
+            $response = Http::post('https://kitsu.io/api/graphql', [
+                'query' => $query,
+                'variables' => $variables,
+            ])
+                ->throw()
+                ->json();
+
+            return Arr::get($response, 'data.findAnimeBySlug.id');
+        } catch (RequestException $e) {
+            Log::error($e->getMessage());
+        }
+
+        return null;
     }
 
     /**
@@ -107,7 +177,7 @@ final class ResourceSite extends BaseEnum
         return match ($site->value) {
             ResourceSite::ANIDB => "https://anidb.net/anime/$id/",
             ResourceSite::ANILIST => "https://anilist.co/anime/$id/",
-            ResourceSite::ANIME_PLANET => "https://anime-planet.com/anime/$slug",
+            ResourceSite::ANIME_PLANET => "https://www.anime-planet.com/anime/$slug",
             ResourceSite::ANN => "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=$id",
             ResourceSite::KITSU => "https://kitsu.io/anime/$slug",
             ResourceSite::MAL => "https://myanimelist.net/anime/$id/",
@@ -128,7 +198,7 @@ final class ResourceSite extends BaseEnum
         return match ($site->value) {
             ResourceSite::ANIDB => "https://anidb.net/creator/$id/",
             ResourceSite::ANILIST => "https://anilist.co/studio/$id/",
-            ResourceSite::ANIME_PLANET => "https://anime-planet.com/anime/studios/$slug",
+            ResourceSite::ANIME_PLANET => "https://www.anime-planet.com/anime/studios/$slug",
             ResourceSite::ANN => "https://www.animenewsnetwork.com/encyclopedia/company.php?id=$id",
             ResourceSite::MAL => "https://myanimelist.net/anime/producer/$id/",
             default => null,

@@ -11,6 +11,7 @@ use App\Models\Wiki\Image;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
@@ -62,7 +63,7 @@ class ImageStoreTest extends TestCase
      */
     public function testCreate(): void
     {
-        Storage::fake('images');
+        Storage::fake(Config::get('image.disk'));
 
         $parameters = [Image::ATTRIBUTE_FACET => ImageFacet::getRandomInstance()->description];
 

@@ -12,7 +12,7 @@ use App\Pivots\AnimeResource;
 use App\Pivots\ArtistResource;
 use App\Pivots\BasePivot;
 use App\Pivots\StudioResource;
-use App\Rules\Wiki\ResourceLinkMatchesSiteRule;
+use App\Rules\Wiki\Resource\ResourceLinkMatchesSiteRule;
 use BenSampo\Enum\Enum;
 use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Validation\Rule;

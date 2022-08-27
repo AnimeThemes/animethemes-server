@@ -6,8 +6,8 @@ namespace App\Scout\Elasticsearch\Api\Criteria\Paging;
 
 use App\Http\Api\Criteria\Paging\OffsetCriteria as BaseCriteria;
 use App\Http\Api\Parser\PagingParser;
-use ElasticScoutDriverPlus\Builders\SearchRequestBuilder;
-use ElasticScoutDriverPlus\Paginator;
+use Elastic\ScoutDriverPlus\Builders\SearchParametersBuilder;
+use Elastic\ScoutDriverPlus\Paginator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Str;
@@ -30,10 +30,10 @@ class OffsetCriteria extends Criteria
     /**
      * Paginate the search query.
      *
-     * @param  SearchRequestBuilder  $builder
+     * @param  SearchParametersBuilder  $builder
      * @return Collection|Paginator
      */
-    public function paginate(SearchRequestBuilder $builder): Collection|Paginator
+    public function paginate(SearchParametersBuilder $builder): Collection|Paginator
     {
         $pageNameQuery = Str::of(PagingParser::param())
             ->append('.')

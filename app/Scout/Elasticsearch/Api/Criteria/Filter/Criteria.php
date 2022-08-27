@@ -7,7 +7,7 @@ namespace App\Scout\Elasticsearch\Api\Criteria\Filter;
 use App\Http\Api\Criteria\Filter\Criteria as BaseCriteria;
 use App\Http\Api\Filter\Filter;
 use App\Http\Api\Query\ReadQuery;
-use ElasticScoutDriverPlus\Builders\BoolQueryBuilder;
+use Elastic\ScoutDriverPlus\Builders\BoolQueryBuilder;
 
 /**
  * Class Criteria.

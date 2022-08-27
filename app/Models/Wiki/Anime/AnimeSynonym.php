@@ -11,7 +11,7 @@ use App\Events\Wiki\Anime\Synonym\SynonymUpdated;
 use App\Models\BaseModel;
 use App\Models\Wiki\Anime;
 use Database\Factories\Wiki\Anime\AnimeSynonymFactory;
-use ElasticScoutDriverPlus\Searchable;
+use Elastic\ScoutDriverPlus\Searchable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Laravel\Nova\Actions\Actionable;
 

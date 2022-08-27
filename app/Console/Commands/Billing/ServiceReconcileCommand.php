@@ -4,77 +4,42 @@ declare(strict_types=1);
 
 namespace App\Console\Commands\Billing;
 
+use App\Console\Commands\ReconcileCommand;
 use App\Contracts\Repositories\RepositoryInterface;
 use App\Enums\Models\Billing\Service;
-use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Str;
+use BenSampo\Enum\Rules\EnumKey;
+use Illuminate\Contracts\Validation\Validator;
 
 /**
  * Class ServiceReconcileCommand.
  */
-abstract class ServiceReconcileCommand extends Command
+abstract class ServiceReconcileCommand extends ReconcileCommand
 {
     /**
-     * Execute the console command.
+     * Get the validator for options.
      *
-     * @return int
+     * @return Validator
      */
-    public function handle(): int
+    protected function validator(): Validator
     {
-        $key = $this->argument('service');
-        $service = Service::coerce(Str::upper($key));
-
-        if ($service === null) {
-            Log::error("Invalid Service '$key'");
-            $this->error("Invalid Service '$key'");
-
-            return 1;
-        }
-
-        $sourceRepository = $this->getSourceRepository($service);
-        if ($sourceRepository === null) {
-            Log::error("No source repository implemented for Service '$key'");
-            $this->error("No source repository implemented for Service '$key'");
-
-            return 1;
-        }
-
-        $destinationRepository = $this->getDestinationRepository($service);
-        if ($destinationRepository === null) {
-            Log::error("No destination repository implemented for Service '$key'");
-            $this->error("No destination repository implemented for Service '$key'");
-
-            return 1;
-        }
-
-        $this->reconcileRepositories($sourceRepository, $destinationRepository);
-
-        return 0;
+        return \Illuminate\Support\Facades\Validator::make($this->arguments(), [
+            'service' => ['required', new EnumKey(Service::class)],
+        ]);
     }
 
     /**
-     * Perform set reconciliation between source and destination repositories.
+     * Apply filters to repositories before reconciliation.
      *
-     * @param  RepositoryInterface  $source
-     * @param  RepositoryInterface  $destination
+     * @param  array  $validated
+     * @param  RepositoryInterface  $sourceRepository
+     * @param  RepositoryInterface  $destinationRepository
      * @return void
      */
-    abstract public function reconcileRepositories(RepositoryInterface $source, RepositoryInterface $destination): void;
-
-    /**
-     * Get source repository for service.
-     *
-     * @param  Service  $service
-     * @return RepositoryInterface|null
-     */
-    abstract protected function getSourceRepository(Service $service): ?RepositoryInterface;
-
-    /**
-     * Get destination repository for service.
-     *
-     * @param  Service  $service
-     * @return RepositoryInterface|null
-     */
-    abstract protected function getDestinationRepository(Service $service): ?RepositoryInterface;
+    protected function handleFilters(
+        array $validated,
+        RepositoryInterface $sourceRepository,
+        RepositoryInterface $destinationRepository
+    ): void {
+        // Not supported
+    }
 }

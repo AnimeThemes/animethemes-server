@@ -13,9 +13,9 @@ use App\Scout\Elasticsearch\Api\Parser\PagingParser;
 use App\Scout\Elasticsearch\Api\Parser\SortParser;
 use App\Scout\Elasticsearch\Api\Query\ElasticQueryPayload;
 use App\Scout\Search;
-use ElasticScoutDriverPlus\Builders\BoolQueryBuilder;
-use ElasticScoutDriverPlus\Exceptions\QueryBuilderException;
-use Elasticsearch\Client;
+use Elastic\Client\ClientBuilderInterface;
+use Elastic\ScoutDriverPlus\Builders\BoolQueryBuilder;
+use Elastic\ScoutDriverPlus\Exceptions\QueryBuilderValidationException;
 use Exception;
 use Illuminate\Support\Facades\Log;
 use RuntimeException;
@@ -35,12 +35,12 @@ class Elasticsearch extends Search
     /**
      * Create a new search instance.
      *
-     * @param  Client  $client
+     * @param  ClientBuilderInterface  $builder
      */
-    public function __construct(Client $client)
+    public function __construct(ClientBuilderInterface $builder)
     {
         try {
-            $this->alive = $client->ping();
+            $this->alive = $builder->default()->ping()->asBool();
         } catch (Exception $exception) {
             Log::error($exception->getMessage());
             $this->alive = false;
@@ -109,7 +109,7 @@ class Elasticsearch extends Search
         }
         try {
             $builder->postFilter($filterBuilder);
-        } catch (QueryBuilderException) {
+        } catch (QueryBuilderValidationException) {
             // There doesn't appear to be a way to check if any filters have been set in the filter builder
         }
 

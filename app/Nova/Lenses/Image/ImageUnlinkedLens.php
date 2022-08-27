@@ -11,6 +11,7 @@ use App\Nova\Lenses\BaseLens;
 use BenSampo\Enum\Enum;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Config;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Image as NovaImage;
@@ -71,7 +72,7 @@ class ImageUnlinkedLens extends BaseLens
                 ->showOnPreview()
                 ->filterable(),
 
-            NovaImage::make(__('nova.image'), Image::ATTRIBUTE_PATH, 'images')
+            NovaImage::make(__('nova.image'), Image::ATTRIBUTE_PATH, Config::get('image.disk'))
                 ->showOnPreview(),
 
             Text::make(__('nova.path'), Image::ATTRIBUTE_PATH)

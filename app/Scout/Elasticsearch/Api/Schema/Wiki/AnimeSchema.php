@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Scout\Elasticsearch\Api\Schema\Wiki;
 
 use App\Http\Api\Include\AllowedInclude;
+use App\Http\Api\Schema\Wiki\AudioSchema;
 use App\Http\Api\Schema\Wiki\ExternalResourceSchema;
 use App\Http\Api\Schema\Wiki\ImageSchema;
 use App\Http\Resources\Wiki\Resource\AnimeResource;
@@ -55,6 +56,7 @@ class AnimeSchema extends Schema
     {
         return [
             new AllowedInclude(new ArtistSchema(), Anime::RELATION_ARTISTS),
+            new AllowedInclude(new AudioSchema(), Anime::RELATION_AUDIO),
             new AllowedInclude(new EntrySchema(), Anime::RELATION_ENTRIES),
             new AllowedInclude(new ExternalResourceSchema(), Anime::RELATION_RESOURCES),
             new AllowedInclude(new ImageSchema(), Anime::RELATION_IMAGES),

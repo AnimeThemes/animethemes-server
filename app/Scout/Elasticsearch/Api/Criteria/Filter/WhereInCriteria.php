@@ -8,8 +8,8 @@ use App\Enums\Http\Api\Filter\BinaryLogicalOperator;
 use App\Http\Api\Criteria\Filter\WhereInCriteria as BaseCriteria;
 use App\Http\Api\Filter\Filter;
 use App\Http\Api\Query\ReadQuery;
-use ElasticScoutDriverPlus\Builders\BoolQueryBuilder;
-use ElasticScoutDriverPlus\Support\Query as ElasticQuery;
+use Elastic\ScoutDriverPlus\Builders\BoolQueryBuilder;
+use Elastic\ScoutDriverPlus\Support\Query as ElasticQuery;
 
 /**
  * Class WhereInCriteria.

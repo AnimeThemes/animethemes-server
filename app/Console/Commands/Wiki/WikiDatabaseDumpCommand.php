@@ -10,6 +10,7 @@ use App\Models\Wiki\Anime\AnimeSynonym;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Artist;
+use App\Models\Wiki\Audio;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Image;
 use App\Models\Wiki\Series;
@@ -85,6 +86,7 @@ class WikiDatabaseDumpCommand extends DatabaseDumpCommand
             ArtistMember::TABLE,
             ArtistResource::TABLE,
             ArtistSong::TABLE,
+            Audio::TABLE,
             ExternalResource::TABLE,
             Image::TABLE,
             Series::TABLE,

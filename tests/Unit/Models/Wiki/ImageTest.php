@@ -130,7 +130,7 @@ class ImageTest extends TestCase
      */
     public function testImageStorageDeletion(): void
     {
-        $fs = Storage::fake('images');
+        $fs = Storage::fake(Config::get('image.disk'));
         $file = File::fake()->image($this->faker->word().'.jpg');
         $fsFile = $fs->putFile('', $file);
 
@@ -151,7 +151,7 @@ class ImageTest extends TestCase
      */
     public function testImageStorageForceDeletion(): void
     {
-        $fs = Storage::fake('images');
+        $fs = Storage::fake(Config::get('image.disk'));
         $file = File::fake()->image($this->faker->word().'.jpg');
         $fsFile = $fs->putFile('', $file);
 

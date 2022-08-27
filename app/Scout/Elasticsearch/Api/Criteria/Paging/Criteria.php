@@ -6,8 +6,8 @@ namespace App\Scout\Elasticsearch\Api\Criteria\Paging;
 
 use App\Enums\Http\Api\Paging\PaginationStrategy;
 use App\Http\Api\Criteria\Paging\Criteria as BaseCriteria;
-use ElasticScoutDriverPlus\Builders\SearchRequestBuilder;
-use ElasticScoutDriverPlus\Paginator;
+use Elastic\ScoutDriverPlus\Builders\SearchParametersBuilder;
+use Elastic\ScoutDriverPlus\Paginator;
 use Illuminate\Support\Collection;
 
 /**
@@ -37,8 +37,8 @@ abstract class Criteria
     /**
      * Paginate the search query.
      *
-     * @param  SearchRequestBuilder  $builder
+     * @param  SearchParametersBuilder  $builder
      * @return Collection|Paginator
      */
-    abstract public function paginate(SearchRequestBuilder $builder): Collection|Paginator;
+    abstract public function paginate(SearchParametersBuilder $builder): Collection|Paginator;
 }
