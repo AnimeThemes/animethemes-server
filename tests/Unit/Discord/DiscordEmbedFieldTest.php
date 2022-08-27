@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Services\Discord;
+namespace Tests\Unit\Discord;
 
 use App\Discord\DiscordEmbedField;
 use App\Enums\BaseEnum;
