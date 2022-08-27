@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Services\Elasticsearch\Api\Parser;
+namespace Tests\Unit\Scout\Elasticsearch\Api\Parser;
 
 use App\Http\Api\Criteria\Paging\LimitCriteria as BaseLimitCriteria;
 use App\Http\Api\Criteria\Paging\OffsetCriteria as BaseOffsetCriteria;
