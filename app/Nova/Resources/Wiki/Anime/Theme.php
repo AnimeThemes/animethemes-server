@@ -214,7 +214,7 @@ class Theme extends BaseResource
                     function (Text $field, NovaRequest $novaRequest, FormData $formData) {
                         $slug = Str::of('');
                         if ($formData->offsetExists(AnimeTheme::ATTRIBUTE_TYPE)) {
-                            $type = ThemeType::getKey($formData->offsetGet(AnimeTheme::ATTRIBUTE_TYPE));
+                            $type = ThemeType::getKey(intval($formData->offsetGet(AnimeTheme::ATTRIBUTE_TYPE)));
                             $slug = $slug->append($type);
                         }
                         if ($slug->isNotEmpty() && $formData->offsetExists(AnimeTheme::ATTRIBUTE_SEQUENCE)) {
