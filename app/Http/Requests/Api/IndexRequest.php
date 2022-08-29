@@ -164,12 +164,12 @@ abstract class IndexRequest extends ReadRequest
         $validator->sometimes(
             SortParser::param(),
             ['sometimes', 'required', new Delimited(Rule::in($this->formatAllowedSortValues($schema)))],
-            fn (Fluent $fluent) => is_string($fluent->get(SortParser::param()))
+            fn (Fluent $fluent) => Arr::has($fluent->toArray(), SortParser::param()) && ! is_array($fluent->get(SortParser::param()))
         );
 
         $validator->sometimes(
             SortParser::param(),
-            ['nullable', Str::of('array:')->append(implode(',', $types))->__toString()],
+            ['sometimes', 'required', Str::of('array:')->append(implode(',', $types))->__toString()],
             fn (Fluent $fluent) => is_array($fluent->get(SortParser::param()))
         );
     }
