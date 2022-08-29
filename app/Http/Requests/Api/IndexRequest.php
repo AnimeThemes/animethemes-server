@@ -164,7 +164,7 @@ abstract class IndexRequest extends ReadRequest
         $validator->sometimes(
             SortParser::param(),
             ['sometimes', 'required', new Delimited(Rule::in($this->formatAllowedSortValues($schema)))],
-            fn (Fluent $fluent) => Arr::has($fluent->toArray(), SortParser::param()) && ! Arr::accessible($fluent->get(SortParser::param()))
+            fn (Fluent $fluent) => Arr::has($fluent->toArray(), SortParser::param()) && ! is_array($fluent->get(SortParser::param()))
         );
 
         $validator->sometimes(
