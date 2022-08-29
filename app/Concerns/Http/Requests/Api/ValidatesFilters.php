@@ -113,7 +113,7 @@ trait ValidatesFilters
                     $validator->sometimes(
                         $formattedParameter,
                         $filter->getRules(),
-                        fn (Fluent $fluent) => is_string(Arr::get($fluent->toArray(), $formattedParameter)) && ! Str::of(Arr::get($fluent->toArray(), $formattedParameter))->contains(Criteria::VALUE_SEPARATOR)
+                        fn (Fluent $fluent) => Arr::has($fluent->toArray(), $formattedParameter) && ! Str::of(Arr::get($fluent->toArray(), $formattedParameter))->contains(Criteria::VALUE_SEPARATOR)
                     );
                 }
             }
@@ -131,7 +131,7 @@ trait ValidatesFilters
                     $validator->sometimes(
                         $formattedParameter,
                         $multiValueRules,
-                        fn (Fluent $fluent) => is_string(Arr::get($fluent->toArray(), $formattedParameter)) && Str::of(Arr::get($fluent->toArray(), $formattedParameter))->contains(Criteria::VALUE_SEPARATOR)
+                        fn (Fluent $fluent) => Arr::has($fluent->toArray(), $formattedParameter) && Str::of(Arr::get($fluent->toArray(), $formattedParameter))->contains(Criteria::VALUE_SEPARATOR)
                     );
                 }
             }
