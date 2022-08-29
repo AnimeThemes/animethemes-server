@@ -71,9 +71,7 @@ class MoveVideoAction extends Action
      */
     public function fields(NovaRequest $request): array
     {
-        $video = $request->resourceId !== null
-            ? $request->findModel()
-            : null;
+        $video = $request->findModelQuery()->first();
 
         $fs = Storage::disk(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
 

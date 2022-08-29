@@ -124,9 +124,7 @@ class BackfillAnimeAction extends Action implements ShouldQueue
      */
     public function fields(NovaRequest $request): array
     {
-        $anime = $request->resourceId !== null
-            ? $request->findModel()
-            : null;
+        $anime = $request->findModelQuery()->first();
 
         return [
             Heading::make(__('nova.backfill_resources')),
