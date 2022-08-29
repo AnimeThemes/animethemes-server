@@ -71,9 +71,7 @@ class MoveAudioAction extends Action
      */
     public function fields(NovaRequest $request): array
     {
-        $audio = $request->resourceId !== null
-            ? $request->findModel()
-            : null;
+        $audio = $request->findModelQuery()->first();
 
         $fs = Storage::disk(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
 

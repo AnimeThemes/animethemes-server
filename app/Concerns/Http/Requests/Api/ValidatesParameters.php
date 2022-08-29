@@ -30,7 +30,8 @@ trait ValidatesParameters
 
         return [
             $param => [
-                'nullable',
+                'sometimes',
+                'required',
                 "array:$types",
             ],
         ];

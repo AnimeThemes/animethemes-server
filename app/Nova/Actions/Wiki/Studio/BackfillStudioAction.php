@@ -108,9 +108,7 @@ class BackfillStudioAction extends Action implements ShouldQueue
      */
     public function fields(NovaRequest $request): array
     {
-        $studio = $request->resourceId !== null
-            ? $request->findModel()
-            : null;
+        $studio = $request->findModelQuery()->first();
 
         return [
             Heading::make(__('nova.backfill_images')),
