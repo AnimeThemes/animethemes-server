@@ -6,6 +6,8 @@ namespace App\Nova\Actions\Wiki\Anime;
 
 use App\Models\Wiki\ExternalResource;
 use App\Nova\Actions\Wiki\AttachResourceAction;
+use App\Rules\Wiki\Resource\AnimeResourceLinkFormatRule;
+use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
@@ -22,5 +24,15 @@ class AttachAnimeResourceAction extends AttachResourceAction
     protected function relation(ExternalResource $resource): BelongsToMany
     {
         return $resource->anime();
+    }
+
+    /**
+     * Get the format validation rule.
+     *
+     * @return Rule
+     */
+    protected function getFormatRule(): Rule
+    {
+        return new AnimeResourceLinkFormatRule($this->site);
     }
 }

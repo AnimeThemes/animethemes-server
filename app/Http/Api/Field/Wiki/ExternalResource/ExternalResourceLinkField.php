@@ -6,9 +6,10 @@ namespace App\Http\Api\Field\Wiki\ExternalResource;
 
 use App\Contracts\Http\Api\Field\CreatableField;
 use App\Contracts\Http\Api\Field\UpdatableField;
+use App\Enums\Models\Wiki\ResourceSite;
 use App\Http\Api\Field\StringField;
 use App\Models\Wiki\ExternalResource;
-use App\Rules\Wiki\Resource\ResourceLinkMatchesSiteRule;
+use App\Rules\Wiki\Resource\ResourceLinkFormatRule;
 use Illuminate\Http\Request;
 
 /**
@@ -37,7 +38,7 @@ class ExternalResourceLinkField extends StringField implements CreatableField, U
             'required',
             'max:192',
             'url',
-            new ResourceLinkMatchesSiteRule($this->resolveSite($request)),
+            new ResourceLinkFormatRule($this->resolveSite($request)),
         ];
     }
 
@@ -55,7 +56,7 @@ class ExternalResourceLinkField extends StringField implements CreatableField, U
             'required',
             'max:192',
             'url',
-            new ResourceLinkMatchesSiteRule($this->resolveSite($request)),
+            new ResourceLinkFormatRule($this->resolveSite($request)),
         ];
     }
 
@@ -63,19 +64,21 @@ class ExternalResourceLinkField extends StringField implements CreatableField, U
      * Resolve site field from request.
      *
      * @param  Request  $request
-     * @return int|null
+     * @return ResourceSite|null
      */
-    protected function resolveSite(Request $request): ?int
+    protected function resolveSite(Request $request): ?ResourceSite
     {
         if ($request->has(ExternalResource::ATTRIBUTE_SITE)) {
             $site = $request->input(ExternalResource::ATTRIBUTE_SITE);
 
-            return is_int($site) ? $site : null;
+            return is_numeric($site) && ResourceSite::hasValue(intval($site))
+                ? ResourceSite::fromValue(intval($site))
+                : null;
         }
 
         $resource = $request->route('resource');
         if ($resource instanceof ExternalResource) {
-            return $resource->site->value;
+            return $resource->site;
         }
 
         return null;

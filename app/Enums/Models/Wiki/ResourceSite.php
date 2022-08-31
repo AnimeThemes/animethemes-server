@@ -175,12 +175,34 @@ final class ResourceSite extends BaseEnum
     public static function formatAnimeResourceLink(ResourceSite $site, int $id, ?string $slug = null): ?string
     {
         return match ($site->value) {
-            ResourceSite::ANIDB => "https://anidb.net/anime/$id/",
-            ResourceSite::ANILIST => "https://anilist.co/anime/$id/",
+            ResourceSite::TWITTER => "https://twitter.com/$slug",
+            ResourceSite::ANIDB => "https://anidb.net/anime/$id",
+            ResourceSite::ANILIST => "https://anilist.co/anime/$id",
             ResourceSite::ANIME_PLANET => "https://www.anime-planet.com/anime/$slug",
             ResourceSite::ANN => "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=$id",
             ResourceSite::KITSU => "https://kitsu.io/anime/$slug",
-            ResourceSite::MAL => "https://myanimelist.net/anime/$id/",
+            ResourceSite::MAL => "https://myanimelist.net/anime/$id",
+            default => null,
+        };
+    }
+
+    /**
+     * Get the URL of the site for artist resources.
+     *
+     * @param  ResourceSite  $site
+     * @param  int  $id
+     * @param  string|null  $slug
+     * @return string|null
+     */
+    public static function formatArtistResourceLink(ResourceSite $site, int $id, ?string $slug = null): ?string
+    {
+        return match ($site->value) {
+            ResourceSite::TWITTER => "https://twitter.com/$slug",
+            ResourceSite::ANIDB => "https://anidb.net/creator/$id",
+            ResourceSite::ANILIST => "https://anilist.co/staff/$id",
+            ResourceSite::ANIME_PLANET => "https://www.anime-planet.com/people/$slug",
+            ResourceSite::ANN => "https://www.animenewsnetwork.com/encyclopedia/people.php?id=$id",
+            ResourceSite::MAL => "https://myanimelist.net/people/$id",
             default => null,
         };
     }
@@ -196,11 +218,12 @@ final class ResourceSite extends BaseEnum
     public static function formatStudioResourceLink(ResourceSite $site, int $id, ?string $slug = null): ?string
     {
         return match ($site->value) {
-            ResourceSite::ANIDB => "https://anidb.net/creator/$id/",
-            ResourceSite::ANILIST => "https://anilist.co/studio/$id/",
+            ResourceSite::TWITTER => "https://twitter.com/$slug",
+            ResourceSite::ANIDB => "https://anidb.net/creator/$id",
+            ResourceSite::ANILIST => "https://anilist.co/studio/$id",
             ResourceSite::ANIME_PLANET => "https://www.anime-planet.com/anime/studios/$slug",
             ResourceSite::ANN => "https://www.animenewsnetwork.com/encyclopedia/company.php?id=$id",
-            ResourceSite::MAL => "https://myanimelist.net/anime/producer/$id/",
+            ResourceSite::MAL => "https://myanimelist.net/anime/producer/$id",
             default => null,
         };
     }
