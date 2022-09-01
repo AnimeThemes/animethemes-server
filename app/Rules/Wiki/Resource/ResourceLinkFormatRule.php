@@ -55,7 +55,7 @@ class ResourceLinkFormatRule implements DataAwareRule, Rule
         }
 
         $site = Arr::get($this->data, 'site');
-        if (is_numeric($site)) {
+        if (is_numeric($site) && ResourceSite::hasValue(intval($site))) {
             return ResourceSite::fromValue(intval($site));
         }
 
