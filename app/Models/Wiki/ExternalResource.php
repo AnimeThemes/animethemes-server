@@ -14,7 +14,6 @@ use App\Pivots\AnimeResource;
 use App\Pivots\ArtistResource;
 use App\Pivots\BasePivot;
 use App\Pivots\StudioResource;
-use BenSampo\Enum\Enum;
 use Database\Factories\Wiki\ExternalResourceFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Collection;
@@ -29,7 +28,7 @@ use Laravel\Nova\Actions\Actionable;
  * @property string|null $link
  * @property BasePivot $pivot
  * @property int $resource_id
- * @property Enum|null $site
+ * @property ResourceSite|null $site
  *
  * @method static ExternalResourceFactory factory(...$parameters)
  */

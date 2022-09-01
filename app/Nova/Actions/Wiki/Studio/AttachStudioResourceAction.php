@@ -6,6 +6,8 @@ namespace App\Nova\Actions\Wiki\Studio;
 
 use App\Models\Wiki\ExternalResource;
 use App\Nova\Actions\Wiki\AttachResourceAction;
+use App\Rules\Wiki\Resource\StudioResourceLinkFormatRule;
+use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
@@ -22,5 +24,15 @@ class AttachStudioResourceAction extends AttachResourceAction
     protected function relation(ExternalResource $resource): BelongsToMany
     {
         return $resource->studios();
+    }
+
+    /**
+     * Get the format validation rule.
+     *
+     * @return Rule
+     */
+    protected function getFormatRule(): Rule
+    {
+        return new StudioResourceLinkFormatRule($this->site);
     }
 }
