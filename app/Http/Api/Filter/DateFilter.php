@@ -83,6 +83,7 @@ class DateFilter extends Filter
         $dateFormats = implode(',', AllowedDateFormat::getValues());
 
         return [
+            'required',
             "date_format:$dateFormats",
         ];
     }

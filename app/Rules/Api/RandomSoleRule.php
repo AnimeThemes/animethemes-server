@@ -34,6 +34,6 @@ class RandomSoleRule implements Rule
      */
     public function message(): string
     {
-        return __('validation.random_sole');
+        return __('validation.api.random_sole');
     }
 }

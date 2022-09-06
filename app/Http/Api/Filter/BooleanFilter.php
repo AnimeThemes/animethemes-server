@@ -63,6 +63,7 @@ class BooleanFilter extends Filter
     public function getRules(): array
     {
         return [
+            'required',
             new IsValidBoolean(),
         ];
     }

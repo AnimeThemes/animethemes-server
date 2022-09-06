@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Concerns\Http\Requests\Api;
 
+use App\Rules\Api\DelimitedRule;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Validation\Rule;
-use Spatie\ValidationRules\Rules\Delimited;
 
 /**
  * Trait ValidatesParameters.
@@ -49,7 +49,13 @@ trait ValidatesParameters
     {
         return [
             $param => array_merge(
-                ['bail', 'sometimes', 'required', 'string', new Delimited(Rule::in($values))],
+                [
+                    'bail',
+                    'sometimes',
+                    'required',
+                    'string',
+                    new DelimitedRule(['required', Rule::in($values)->__toString()]),
+                ],
                 $customRules,
             ),
         ];

@@ -61,6 +61,7 @@ class FloatFilter extends Filter
     public function getRules(): array
     {
         return [
+            'required',
             'numeric',
         ];
     }

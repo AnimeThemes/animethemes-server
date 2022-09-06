@@ -23,6 +23,10 @@ return [
     'alpha' => 'The :attribute must only contain letters.',
     'alpha_dash' => 'The :attribute must only contain letters, numbers, dashes and underscores.',
     'alpha_num' => 'The :attribute must only contain letters and numbers.',
+    'api' => [
+        'random_sole' => 'The :attribute field prohibits random unless it is the sole value.',
+        'unique' => 'You may not specify duplicates.',
+    ],
     'array' => 'The :attribute must be an array.',
     'before' => 'The :attribute must be a date before :date.',
     'before_or_equal' => 'The :attribute must be a date before or equal to :date.',
@@ -129,7 +133,6 @@ return [
     'required_without' => 'The :attribute field is required when :values is not present.',
     'required_without_all' => 'The :attribute field is required when none of :values are present.',
     'resource_link_site_mismatch' => 'The link does not match the site domain',
-    'random_sole' => 'The :attribute field prohibits random unless it is the sole value.',
     'same' => 'The :attribute and :other must match.',
     'size' => [
         'array' => 'The :attribute must contain :size items.',

@@ -71,7 +71,8 @@ class HasFilter extends Filter
         $paths = Arr::map($this->allowedIncludePaths, fn (AllowedInclude $allowedInclude) => $allowedInclude->path());
 
         return [
-            Rule::in($paths),
+            'required',
+            Rule::in($paths)->__toString(),
         ];
     }
 

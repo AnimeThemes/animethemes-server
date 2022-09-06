@@ -13,9 +13,7 @@ use App\Http\Api\Parser\SortParser;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Fluent;
 use Illuminate\Support\Str;
-use Illuminate\Validation\Rule;
 use Illuminate\Validation\Validator;
-use Spatie\ValidationRules\Rules\Delimited;
 
 /**
  * Class IndexRequest.
@@ -161,15 +159,21 @@ abstract class IndexRequest extends ReadRequest
             $types[] = $relationSchema->type();
         }
 
+        $rules = $this->restrictAllowedSortValues(SortParser::param(), $schema);
+
         $validator->sometimes(
             SortParser::param(),
-            ['sometimes', 'required', new Delimited(Rule::in($this->formatAllowedSortValues($schema)))],
+            Arr::get($rules, SortParser::param()),
             fn (Fluent $fluent) => Arr::has($fluent->toArray(), SortParser::param()) && ! is_array($fluent->get(SortParser::param()))
         );
 
         $validator->sometimes(
             SortParser::param(),
-            ['sometimes', 'required', Str::of('array:')->append(implode(',', $types))->__toString()],
+            [
+                'sometimes',
+                'required',
+                Str::of('array:')->append(implode(',', $types))->__toString(),
+            ],
             fn (Fluent $fluent) => is_array($fluent->get(SortParser::param()))
         );
     }
