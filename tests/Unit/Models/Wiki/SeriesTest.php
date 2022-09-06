@@ -9,7 +9,6 @@ use App\Models\Wiki\Series;
 use App\Pivots\AnimeSeries;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
 
 /**
@@ -41,20 +40,6 @@ class SeriesTest extends TestCase
         $series = Series::factory()->createOne();
 
         static::assertIsArray($series->toSearchableArray());
-    }
-
-    /**
-     * Series shall be auditable.
-     *
-     * @return void
-     */
-    public function testAuditable(): void
-    {
-        Config::set('audit.console', true);
-
-        $series = Series::factory()->createOne();
-
-        static::assertEquals(1, $series->audits()->count());
     }
 
     /**

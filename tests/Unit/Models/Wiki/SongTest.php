@@ -12,7 +12,6 @@ use App\Pivots\ArtistSong;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
 
 /**
@@ -44,20 +43,6 @@ class SongTest extends TestCase
         $song = Song::factory()->createOne();
 
         static::assertIsArray($song->toSearchableArray());
-    }
-
-    /**
-     * Songs shall be auditable.
-     *
-     * @return void
-     */
-    public function testAuditable(): void
-    {
-        Config::set('audit.console', true);
-
-        $song = Song::factory()->createOne();
-
-        static::assertEquals(1, $song->audits()->count());
     }
 
     /**

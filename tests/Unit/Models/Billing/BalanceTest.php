@@ -7,7 +7,6 @@ namespace Tests\Unit\Models\Billing;
 use App\Enums\Models\Billing\BalanceFrequency;
 use App\Enums\Models\Billing\Service;
 use App\Models\Billing\Balance;
-use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
 
 /**
@@ -41,20 +40,6 @@ class BalanceTest extends TestCase
         $frequency = $balance->frequency;
 
         static::assertInstanceOf(BalanceFrequency::class, $frequency);
-    }
-
-    /**
-     * Balance shall be auditable.
-     *
-     * @return void
-     */
-    public function testAuditable(): void
-    {
-        Config::set('audit.console', true);
-
-        $balance = Balance::factory()->createOne();
-
-        static::assertEquals(1, $balance->audits()->count());
     }
 
     /**

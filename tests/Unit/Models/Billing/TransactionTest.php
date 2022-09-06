@@ -6,7 +6,6 @@ namespace Tests\Unit\Models\Billing;
 
 use App\Enums\Models\Billing\Service;
 use App\Models\Billing\Transaction;
-use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
 
 /**
@@ -26,20 +25,6 @@ class TransactionTest extends TestCase
         $service = $transaction->service;
 
         static::assertInstanceOf(Service::class, $service);
-    }
-
-    /**
-     * Transaction shall be auditable.
-     *
-     * @return void
-     */
-    public function testAuditable(): void
-    {
-        Config::set('audit.console', true);
-
-        $transaction = Transaction::factory()->createOne();
-
-        static::assertEquals(1, $transaction->audits()->count());
     }
 
     /**

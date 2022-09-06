@@ -10,7 +10,6 @@ use CyrildeWit\EloquentViewable\View;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
 
 /**
@@ -19,20 +18,6 @@ use Tests\TestCase;
 class AudioTest extends TestCase
 {
     use WithFaker;
-
-    /**
-     * Audios shall be auditable.
-     *
-     * @return void
-     */
-    public function testAuditable(): void
-    {
-        Config::set('audit.console', true);
-
-        $audio = Audio::factory()->createOne();
-
-        static::assertEquals(1, $audio->audits()->count());
-    }
 
     /**
      * Audios shall be nameable.

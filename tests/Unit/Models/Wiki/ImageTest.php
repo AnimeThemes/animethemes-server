@@ -41,20 +41,6 @@ class ImageTest extends TestCase
     }
 
     /**
-     * Images shall be auditable.
-     *
-     * @return void
-     */
-    public function testAuditable(): void
-    {
-        Config::set('audit.console', true);
-
-        $image = Image::factory()->createOne();
-
-        static::assertEquals(1, $image->audits()->count());
-    }
-
-    /**
      * Images shall be nameable.
      *
      * @return void

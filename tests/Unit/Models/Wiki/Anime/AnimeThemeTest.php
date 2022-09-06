@@ -12,7 +12,6 @@ use App\Models\Wiki\Song;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
 
 /**
@@ -64,22 +63,6 @@ class AnimeThemeTest extends TestCase
             ->createOne();
 
         static::assertIsArray($theme->toSearchableArray());
-    }
-
-    /**
-     * Themes shall be auditable.
-     *
-     * @return void
-     */
-    public function testAuditable(): void
-    {
-        Config::set('audit.console', true);
-
-        $theme = AnimeTheme::factory()
-            ->for(Anime::factory())
-            ->createOne();
-
-        static::assertEquals(1, $theme->audits()->count());
     }
 
     /**

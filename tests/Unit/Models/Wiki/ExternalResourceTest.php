@@ -14,7 +14,6 @@ use App\Pivots\ArtistResource;
 use App\Pivots\StudioResource;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
 
 /**
@@ -36,20 +35,6 @@ class ExternalResourceTest extends TestCase
         $site = $resource->site;
 
         static::assertInstanceOf(ResourceSite::class, $site);
-    }
-
-    /**
-     * Resources shall be auditable.
-     *
-     * @return void
-     */
-    public function testAuditable(): void
-    {
-        Config::set('audit.console', true);
-
-        $resource = ExternalResource::factory()->createOne();
-
-        static::assertEquals(1, $resource->audits()->count());
     }
 
     /**
