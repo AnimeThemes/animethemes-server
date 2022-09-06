@@ -13,7 +13,6 @@ use App\Pivots\StudioImage;
 use App\Pivots\StudioResource;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
 
 /**
@@ -45,20 +44,6 @@ class StudioTest extends TestCase
         $studio = Studio::factory()->createOne();
 
         static::assertIsArray($studio->toSearchableArray());
-    }
-
-    /**
-     * Studio shall be auditable.
-     *
-     * @return void
-     */
-    public function testAuditable(): void
-    {
-        Config::set('audit.console', true);
-
-        $studio = Studio::factory()->createOne();
-
-        static::assertEquals(1, $studio->audits()->count());
     }
 
     /**

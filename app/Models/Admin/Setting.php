@@ -12,7 +12,6 @@ use Database\Factories\Admin\SettingFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Nova\Actions\Actionable;
-use OwenIt\Auditing\Contracts\Auditable;
 
 /**
  * Class Setting.
@@ -23,11 +22,10 @@ use OwenIt\Auditing\Contracts\Auditable;
  *
  * @method static SettingFactory factory(...$parameters)
  */
-class Setting extends Model implements Auditable, Nameable
+class Setting extends Model implements Nameable
 {
     use Actionable;
     use HasFactory;
-    use \OwenIt\Auditing\Auditable;
 
     final public const TABLE = 'settings';
 

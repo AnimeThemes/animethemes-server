@@ -13,7 +13,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Prunable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use OwenIt\Auditing\Contracts\Auditable;
 
 /**
  * Class BaseModel.
@@ -22,12 +21,11 @@ use OwenIt\Auditing\Contracts\Auditable;
  * @property Carbon $deleted_at
  * @property Carbon $updated_at
  */
-abstract class BaseModel extends Model implements Auditable, Nameable
+abstract class BaseModel extends Model implements Nameable
 {
     use HasFactory;
     use Prunable;
     use SoftDeletes;
-    use \OwenIt\Auditing\Auditable;
 
     /**
      * The storage format of the model's date columns.

@@ -7,7 +7,6 @@ namespace Tests\Unit\Models\Auth;
 use App\Enums\Models\Auth\InvitationStatus;
 use App\Mail\InvitationMail;
 use App\Models\Auth\Invitation;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
 
@@ -30,20 +29,6 @@ class InvitationTest extends TestCase
         $status = $invitation->status;
 
         static::assertInstanceOf(InvitationStatus::class, $status);
-    }
-
-    /**
-     * Invitations shall be auditable.
-     *
-     * @return void
-     */
-    public function testAuditable(): void
-    {
-        Config::set('audit.console', true);
-
-        $invitation = Invitation::factory()->createOne();
-
-        static::assertEquals(1, $invitation->audits()->count());
     }
 
     /**

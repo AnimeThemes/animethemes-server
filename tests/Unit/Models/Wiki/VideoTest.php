@@ -17,7 +17,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
 
 /**
@@ -77,20 +76,6 @@ class VideoTest extends TestCase
         $video = Video::factory()->createOne();
 
         static::assertIsArray($video->toSearchableArray());
-    }
-
-    /**
-     * Videos shall be auditable.
-     *
-     * @return void
-     */
-    public function testAuditable(): void
-    {
-        Config::set('audit.console', true);
-
-        $video = Video::factory()->createOne();
-
-        static::assertEquals(1, $video->audits()->count());
     }
 
     /**

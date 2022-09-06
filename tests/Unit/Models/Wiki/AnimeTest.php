@@ -19,7 +19,6 @@ use App\Pivots\AnimeStudio;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
 
 /**
@@ -65,20 +64,6 @@ class AnimeTest extends TestCase
         $anime = Anime::factory()->createOne();
 
         static::assertIsArray($anime->toSearchableArray());
-    }
-
-    /**
-     * Anime shall be auditable.
-     *
-     * @return void
-     */
-    public function testAuditable(): void
-    {
-        Config::set('audit.console', true);
-
-        $anime = Anime::factory()->createOne();
-
-        static::assertEquals(1, $anime->audits()->count());
     }
 
     /**

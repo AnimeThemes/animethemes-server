@@ -12,7 +12,6 @@ use App\Pivots\AnimeThemeEntryVideo;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
 use Znck\Eloquent\Relations\BelongsToThrough;
 
@@ -49,22 +48,6 @@ class AnimeThemeEntryTest extends TestCase
             ->createOne();
 
         static::assertIsArray($entry->toSearchableArray());
-    }
-
-    /**
-     * Entries shall be auditable.
-     *
-     * @return void
-     */
-    public function testAuditable(): void
-    {
-        Config::set('audit.console', true);
-
-        $entry = AnimeThemeEntry::factory()
-            ->for(AnimeTheme::factory()->for(Anime::factory()))
-            ->createOne();
-
-        static::assertEquals(1, $entry->audits()->count());
     }
 
     /**

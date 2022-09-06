@@ -8,7 +8,6 @@ use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeSynonym;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
 
 /**
@@ -44,22 +43,6 @@ class AnimeSynonymTest extends TestCase
             ->createOne();
 
         static::assertIsArray($synonym->toSearchableArray());
-    }
-
-    /**
-     * Synonyms shall be auditable.
-     *
-     * @return void
-     */
-    public function testAuditable(): void
-    {
-        Config::set('audit.console', true);
-
-        $synonym = AnimeSynonym::factory()
-            ->for(Anime::factory())
-            ->createOne();
-
-        static::assertEquals(1, $synonym->audits()->count());
     }
 
     /**
