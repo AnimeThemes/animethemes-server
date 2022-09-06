@@ -54,7 +54,7 @@ trait ValidatesParameters
                     'sometimes',
                     'required',
                     'string',
-                    new DelimitedRule(['required', Rule::in($values)->__toString()])
+                    new DelimitedRule(['required', Rule::in($values)->__toString()]),
                 ],
                 $customRules,
             ),

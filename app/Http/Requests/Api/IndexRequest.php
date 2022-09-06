@@ -172,7 +172,7 @@ abstract class IndexRequest extends ReadRequest
             [
                 'sometimes',
                 'required',
-                Str::of('array:')->append(implode(',', $types))->__toString()
+                Str::of('array:')->append(implode(',', $types))->__toString(),
             ],
             fn (Fluent $fluent) => is_array($fluent->get(SortParser::param()))
         );
