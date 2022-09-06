@@ -74,6 +74,7 @@ class EnumFilter extends Filter
     public function getRules(): array
     {
         return [
+            'required',
             new EnumDescriptionRule($this->enumClass),
         ];
     }

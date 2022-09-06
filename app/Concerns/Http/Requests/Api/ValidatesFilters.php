@@ -11,11 +11,11 @@ use App\Enums\Http\Api\Filter\UnaryLogicalOperator;
 use App\Http\Api\Criteria\Filter\Criteria;
 use App\Http\Api\Filter\Filter;
 use App\Http\Api\Parser\FilterParser;
+use App\Rules\Api\DelimitedRule;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Fluent;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Validator;
-use Spatie\ValidationRules\Rules\Delimited;
 
 /**
  * Trait ValidatesFilters.
@@ -121,7 +121,7 @@ trait ValidatesFilters
 
         $multiValueRules = [];
         foreach ($filter->getRules() as $rule) {
-            $multiValueRules[] = new Delimited($rule);
+            $multiValueRules[] = new DelimitedRule($rule);
         }
 
         $multiValueFilterFormats = $this->getFilterFormats($filter, UnaryLogicalOperator::getInstances());

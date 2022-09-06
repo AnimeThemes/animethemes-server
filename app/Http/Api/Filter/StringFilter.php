@@ -53,6 +53,7 @@ class StringFilter extends Filter
     public function getRules(): array
     {
         return [
+            'required',
             'string',
         ];
     }
