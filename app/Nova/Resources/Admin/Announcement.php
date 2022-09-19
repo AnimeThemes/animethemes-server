@@ -41,7 +41,7 @@ class Announcement extends BaseResource
      */
     public static function group(): string
     {
-        return __('nova.admin');
+        return __('nova.resources.group.admin');
     }
 
     /**
@@ -53,7 +53,7 @@ class Announcement extends BaseResource
      */
     public static function label(): string
     {
-        return __('nova.announcements');
+        return __('nova.resources.label.announcements');
     }
 
     /**
@@ -65,7 +65,7 @@ class Announcement extends BaseResource
      */
     public static function singularLabel(): string
     {
-        return __('nova.announcement');
+        return __('nova.resources.singularLabel.announcement');
     }
 
     /**
@@ -110,16 +110,16 @@ class Announcement extends BaseResource
     public function fields(NovaRequest $request): array
     {
         return [
-            ID::make(__('nova.id'), AnnouncementModel::ATTRIBUTE_ID)
+            ID::make(__('nova.fields.base.id'), AnnouncementModel::ATTRIBUTE_ID)
                 ->sortable()
                 ->showOnPreview(),
 
-            Code::make(__('nova.content'), AnnouncementModel::ATTRIBUTE_CONTENT)
+            Code::make(__('nova.fields.announcement.content'), AnnouncementModel::ATTRIBUTE_CONTENT)
                 ->rules(['required', 'max:65535'])
                 ->language('htmlmixed')
                 ->showOnPreview(),
 
-            Panel::make(__('nova.timestamps'), $this->timestamps()),
+            Panel::make(__('nova.fields.base.timestamps'), $this->timestamps()),
         ];
     }
 
@@ -134,15 +134,15 @@ class Announcement extends BaseResource
     public function fieldsForIndex(NovaRequest $request): array
     {
         return [
-            ID::make(__('nova.id'), AnnouncementModel::ATTRIBUTE_ID)
+            ID::make(__('nova.fields.base.id'), AnnouncementModel::ATTRIBUTE_ID)
                 ->sortable()
                 ->showOnPreview(),
 
-            Text::make(__('nova.content'), AnnouncementModel::ATTRIBUTE_CONTENT)
+            Text::make(__('nova.fields.announcement.content'), AnnouncementModel::ATTRIBUTE_CONTENT)
                 ->sortable()
                 ->showOnPreview(),
 
-            Panel::make(__('nova.timestamps'), $this->timestamps())
+            Panel::make(__('nova.fields.base.timestamps'), $this->timestamps())
                 ->collapsable(),
         ];
     }

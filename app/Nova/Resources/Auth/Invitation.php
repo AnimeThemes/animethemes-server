@@ -6,7 +6,7 @@ namespace App\Nova\Resources\Auth;
 
 use App\Enums\Models\Auth\InvitationStatus;
 use App\Models\Auth\Invitation as InvitationModel;
-use App\Nova\Actions\Auth\Invitation\ResendInvitationAction;
+use App\Nova\Actions\Models\Auth\Invitation\ResendInvitationAction;
 use App\Nova\Resources\BaseResource;
 use BenSampo\Enum\Enum;
 use BenSampo\Enum\Rules\EnumValue;
@@ -60,7 +60,7 @@ class Invitation extends BaseResource
      */
     public static function group(): string
     {
-        return __('nova.auth');
+        return __('nova.resources.group.auth');
     }
 
     /**
@@ -72,7 +72,7 @@ class Invitation extends BaseResource
      */
     public static function label(): string
     {
-        return __('nova.invitations');
+        return __('nova.resources.label.invitations');
     }
 
     /**
@@ -84,7 +84,7 @@ class Invitation extends BaseResource
      */
     public static function singularLabel(): string
     {
-        return __('nova.invitation');
+        return __('nova.resources.singularLabel.invitation');
     }
 
     /**
@@ -125,30 +125,30 @@ class Invitation extends BaseResource
     public function fields(NovaRequest $request): array
     {
         return [
-            ID::make(__('nova.id'), InvitationModel::ATTRIBUTE_ID)
+            ID::make(__('nova.fields.base.id'), InvitationModel::ATTRIBUTE_ID)
                 ->sortable()
                 ->showOnPreview(),
 
-            Text::make(__('nova.name'), InvitationModel::ATTRIBUTE_NAME)
+            Text::make(__('nova.fields.invitation.name'), InvitationModel::ATTRIBUTE_NAME)
                 ->sortable()
                 ->copyable()
-                ->rules(['required', 'max:192', 'alpha_dash'])
+                ->rules(['required', 'max:192'])
                 ->showOnPreview()
                 ->filterable(),
 
-            Email::make(__('nova.email'), InvitationModel::ATTRIBUTE_EMAIL)
+            Email::make(__('nova.fields.invitation.email'), InvitationModel::ATTRIBUTE_EMAIL)
                 ->sortable()
                 ->rules(['required', 'email', 'max:192'])
                 ->creationRules(Rule::unique(InvitationModel::TABLE)->__toString())
                 ->updateRules(
                     Rule::unique(InvitationModel::TABLE)
-                        ->ignore($request->get('resourceId'), InvitationModel::ATTRIBUTE_ID)
+                        ->ignore($request->route('resourceId'), InvitationModel::ATTRIBUTE_ID)
                         ->__toString()
                 )
                 ->showOnPreview()
                 ->filterable(),
 
-            Select::make(__('nova.status'), InvitationModel::ATTRIBUTE_STATUS)
+            Select::make(__('nova.fields.invitation.status'), InvitationModel::ATTRIBUTE_STATUS)
                 ->hideWhenCreating()
                 ->options(InvitationStatus::asSelectArray())
                 ->displayUsing(fn (?Enum $enum) => $enum?->description)
@@ -157,7 +157,7 @@ class Invitation extends BaseResource
                 ->showOnPreview()
                 ->filterable(),
 
-            Panel::make(__('nova.timestamps'), $this->timestamps())
+            Panel::make(__('nova.fields.base.timestamps'), $this->timestamps())
                 ->collapsable(),
         ];
     }
@@ -174,9 +174,12 @@ class Invitation extends BaseResource
             parent::actions($request),
             [
                 (new ResendInvitationAction())
-                    ->confirmText(__('nova.resend_invitation_confirm_message'))
-                    ->confirmButtonText(__('nova.resend'))
-                    ->cancelButtonText(__('nova.cancel')),
+                    ->confirmText(__('nova.actions.invitation.resend.confirmText'))
+                    ->confirmButtonText(__('nova.actions.invitation.resend.confirmButtonText'))
+                    ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
+                    ->showOnIndex()
+                    ->showOnDetail()
+                    ->showInline(),
             ]
         );
     }

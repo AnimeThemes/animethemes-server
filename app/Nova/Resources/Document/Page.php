@@ -56,7 +56,7 @@ class Page extends BaseResource
      */
     public static function group(): string
     {
-        return __('nova.document');
+        return __('nova.resources.group.document');
     }
 
     /**
@@ -68,7 +68,7 @@ class Page extends BaseResource
      */
     public static function label(): string
     {
-        return __('nova.pages');
+        return __('nova.resources.label.pages');
     }
 
     /**
@@ -80,7 +80,7 @@ class Page extends BaseResource
      */
     public static function singularLabel(): string
     {
-        return __('nova.page');
+        return __('nova.resources.singularLabel.page');
     }
 
     /**
@@ -121,19 +121,19 @@ class Page extends BaseResource
     public function fields(NovaRequest $request): array
     {
         return [
-            ID::make(__('nova.id'), PageModel::ATTRIBUTE_ID)
+            ID::make(__('nova.fields.base.id'), PageModel::ATTRIBUTE_ID)
                 ->sortable()
                 ->showOnPreview(),
 
-            Text::make(__('nova.name'), PageModel::ATTRIBUTE_NAME)
+            Text::make(__('nova.fields.page.name.name'), PageModel::ATTRIBUTE_NAME)
                 ->sortable()
                 ->copyable()
                 ->rules(['required', 'max:192'])
-                ->help(__('nova.page_name_help'))
+                ->help(__('nova.fields.page.name.help'))
                 ->showOnPreview()
                 ->filterable(),
 
-            Slug::make(__('nova.slug'), PageModel::ATTRIBUTE_SLUG)
+            Slug::make(__('nova.fields.page.slug.name'), PageModel::ATTRIBUTE_SLUG)
                 ->from(PageModel::ATTRIBUTE_NAME)
                 ->separator('_')
                 ->sortable()
@@ -144,14 +144,14 @@ class Page extends BaseResource
                         ->ignore($request->route('resourceId'), PageModel::ATTRIBUTE_ID)
                         ->__toString()
                 )
-                ->help(__('nova.page_slug_help'))
+                ->help(__('nova.fields.page.slug.help'))
                 ->showOnPreview(),
 
-            Markdown::make(__('nova.body'), PageModel::ATTRIBUTE_BODY)
+            Markdown::make(__('nova.fields.page.body.name'), PageModel::ATTRIBUTE_BODY)
                 ->rules(['required', 'max:16777215'])
-                ->help(__('nova.page_body_help')),
+                ->help(__('nova.fields.page.body.help')),
 
-            Panel::make(__('nova.timestamps'), $this->timestamps())
+            Panel::make(__('nova.fields.base.timestamps'), $this->timestamps())
                 ->collapsable(),
         ];
     }

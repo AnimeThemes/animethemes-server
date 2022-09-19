@@ -1,9 +1,9 @@
 @component('mail::message')
 
-@lang('nova.invitation_message')
+@lang('mail.invitation.message')
 
 @component('mail::button', ['url' => $url])
-@lang('nova.invitation_accept')
+@lang('mail.invitation.accept')
 @endcomponent
 
 @endcomponent

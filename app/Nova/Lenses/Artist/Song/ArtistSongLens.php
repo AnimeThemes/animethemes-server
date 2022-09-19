@@ -23,7 +23,7 @@ class ArtistSongLens extends ArtistLens
      */
     public function name(): string
     {
-        return __('nova.artist_song_lens');
+        return __('nova.lenses.artist.songs.name');
     }
 
     /**

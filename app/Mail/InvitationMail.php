@@ -41,7 +41,7 @@ class InvitationMail extends Mailable
             ['invitation' => $this->invitation]
         );
 
-        return $this->subject(__('nova.invitation_subject'))
+        return $this->subject(__('mail.invitation.subject'))
             ->markdown('mail.invitation')
             ->with('url', $url);
     }

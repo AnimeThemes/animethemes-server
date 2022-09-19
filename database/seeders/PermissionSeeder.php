@@ -32,6 +32,7 @@ class PermissionSeeder extends Seeder
         // Admin Resources
         $this->configureAdminResourcePermissions($admin, 'announcement', true);
         $this->configureAdminResourcePermissions($admin, 'balance', true);
+        $this->configureAdminResourcePermissions($admin, 'dump', true);
         $this->configureAdminResourcePermissions($admin, 'invitation', true);
         $this->configureAdminResourcePermissions($admin, 'permission', false);
         $this->configureAdminResourcePermissions($admin, 'role', false);

@@ -68,7 +68,7 @@ class ExternalResource extends BaseResource
      */
     public static function group(): string
     {
-        return __('nova.wiki');
+        return __('nova.resources.group.wiki');
     }
 
     /**
@@ -107,7 +107,7 @@ class ExternalResource extends BaseResource
      */
     public static function label(): string
     {
-        return __('nova.external_resources');
+        return __('nova.resources.label.external_resources');
     }
 
     /**
@@ -119,7 +119,7 @@ class ExternalResource extends BaseResource
      */
     public static function singularLabel(): string
     {
-        return __('nova.external_resource');
+        return __('nova.resources.singularLabel.external_resource');
     }
 
     /**
@@ -131,16 +131,16 @@ class ExternalResource extends BaseResource
     public function fields(NovaRequest $request): array
     {
         return [
-            ID::make(__('nova.id'), ExternalResourceModel::ATTRIBUTE_ID)
+            ID::make(__('nova.fields.base.id'), ExternalResourceModel::ATTRIBUTE_ID)
                 ->sortable()
                 ->showOnPreview(),
 
-            Select::make(__('nova.site'), ExternalResourceModel::ATTRIBUTE_SITE)
+            Select::make(__('nova.fields.external_resource.site.name'), ExternalResourceModel::ATTRIBUTE_SITE)
                 ->options(ResourceSite::asSelectArray())
                 ->displayUsing(fn (?Enum $enum) => $enum?->description)
                 ->sortable()
                 ->rules(['required', new EnumValue(ResourceSite::class, false)])
-                ->help(__('nova.resource_site_help'))
+                ->help(__('nova.fields.external_resource.site.help'))
                 ->showOnPreview()
                 ->filterable()
                 ->dependsOn(
@@ -154,7 +154,7 @@ class ExternalResource extends BaseResource
                     }
                 ),
 
-            URL::make(__('nova.link'), ExternalResourceModel::ATTRIBUTE_LINK)
+            URL::make(__('nova.fields.external_resource.link.name'), ExternalResourceModel::ATTRIBUTE_LINK)
                 ->sortable()
                 ->rules(['required', 'max:192', 'url', new ResourceLinkFormatRule()])
                 ->creationRules(Rule::unique(ExternalResourceModel::TABLE)->__toString())
@@ -164,15 +164,15 @@ class ExternalResource extends BaseResource
                         ->__toString()
                 )
                 ->displayUsing(fn (mixed $value, mixed $resource, string $attribute) => $value)
-                ->help(__('nova.resource_link_help'))
+                ->help(__('nova.fields.external_resource.link.help'))
                 ->showOnPreview()
                 ->filterable(),
 
-            Number::make(__('nova.external_id'), ExternalResourceModel::ATTRIBUTE_EXTERNAL_ID)
+            Number::make(__('nova.fields.external_resource.external_id.name'), ExternalResourceModel::ATTRIBUTE_EXTERNAL_ID)
                 ->nullable()
                 ->sortable()
                 ->rules(['nullable', 'integer'])
-                ->help(__('nova.resource_external_id_help'))
+                ->help(__('nova.fields.external_resource.external_id.help'))
                 ->showOnPreview()
                 ->filterable()
                 ->dependsOn(
@@ -185,72 +185,72 @@ class ExternalResource extends BaseResource
                     }
                 ),
 
-            BelongsToMany::make(__('nova.artists'), ExternalResourceModel::RELATION_ARTISTS, Artist::class)
+            BelongsToMany::make(__('nova.resources.label.artists'), ExternalResourceModel::RELATION_ARTISTS, Artist::class)
                 ->searchable()
                 ->filterable()
                 ->withSubtitles()
                 ->showCreateRelationButton()
                 ->fields(fn () => [
-                    Text::make(__('nova.as'), ArtistResource::ATTRIBUTE_AS)
+                    Text::make(__('nova.fields.artist.resources.as.name'), ArtistResource::ATTRIBUTE_AS)
                         ->nullable()
                         ->copyable()
                         ->rules(['nullable', 'max:192'])
-                        ->help(__('nova.resource_as_help')),
+                        ->help(__('nova.fields.artist.resources.as.help')),
 
-                    DateTime::make(__('nova.created_at'), BasePivot::ATTRIBUTE_CREATED_AT)
+                    DateTime::make(__('nova.fields.base.created_at'), BasePivot::ATTRIBUTE_CREATED_AT)
                         ->hideWhenCreating()
                         ->hideWhenUpdating(),
 
-                    DateTime::make(__('nova.updated_at'), BasePivot::ATTRIBUTE_UPDATED_AT)
+                    DateTime::make(__('nova.fields.base.updated_at'), BasePivot::ATTRIBUTE_UPDATED_AT)
                         ->hideWhenCreating()
                         ->hideWhenUpdating(),
                 ]),
 
-            BelongsToMany::make(__('nova.anime'), ExternalResourceModel::RELATION_ANIME, Anime::class)
+            BelongsToMany::make(__('nova.resources.label.anime'), ExternalResourceModel::RELATION_ANIME, Anime::class)
                 ->searchable()
                 ->filterable()
                 ->withSubtitles()
                 ->showCreateRelationButton()
                 ->fields(fn () => [
-                    Text::make(__('nova.as'), AnimeResource::ATTRIBUTE_AS)
+                    Text::make(__('nova.fields.anime.resources.as.name'), AnimeResource::ATTRIBUTE_AS)
                         ->nullable()
                         ->copyable()
                         ->rules(['nullable', 'max:192'])
-                        ->help(__('nova.resource_as_help')),
+                        ->help(__('nova.fields.anime.resources.as.help')),
 
-                    DateTime::make(__('nova.created_at'), BasePivot::ATTRIBUTE_CREATED_AT)
+                    DateTime::make(__('nova.fields.base.created_at'), BasePivot::ATTRIBUTE_CREATED_AT)
                         ->hideWhenCreating()
                         ->hideWhenUpdating(),
 
-                    DateTime::make(__('nova.updated_at'), BasePivot::ATTRIBUTE_UPDATED_AT)
+                    DateTime::make(__('nova.fields.base.updated_at'), BasePivot::ATTRIBUTE_UPDATED_AT)
                         ->hideWhenCreating()
                         ->hideWhenUpdating(),
                 ]),
 
-            BelongsToMany::make(__('nova.studios'), ExternalResourceModel::RELATION_STUDIOS, Studio::class)
+            BelongsToMany::make(__('nova.resources.label.studios'), ExternalResourceModel::RELATION_STUDIOS, Studio::class)
                 ->searchable()
                 ->filterable()
                 ->withSubtitles()
                 ->showCreateRelationButton()
                 ->fields(function () {
                     return [
-                        Text::make(__('nova.as'), StudioResource::ATTRIBUTE_AS)
+                        Text::make(__('nova.fields.studio.resources.as.name'), StudioResource::ATTRIBUTE_AS)
                             ->nullable()
                             ->copyable()
                             ->rules(['nullable', 'max:192'])
-                            ->help(__('nova.resource_as_help')),
+                            ->help(__('nova.fields.studio.resources.as.help')),
 
-                        DateTime::make(__('nova.created_at'), BasePivot::ATTRIBUTE_CREATED_AT)
+                        DateTime::make(__('nova.fields.base.created_at'), BasePivot::ATTRIBUTE_CREATED_AT)
                             ->hideWhenCreating()
                             ->hideWhenUpdating(),
 
-                        DateTime::make(__('nova.updated_at'), BasePivot::ATTRIBUTE_UPDATED_AT)
+                        DateTime::make(__('nova.fields.base.updated_at'), BasePivot::ATTRIBUTE_UPDATED_AT)
                             ->hideWhenCreating()
                             ->hideWhenUpdating(),
                     ];
                 }),
 
-            Panel::make(__('nova.timestamps'), $this->timestamps())
+            Panel::make(__('nova.fields.base.timestamps'), $this->timestamps())
                 ->collapsable(),
         ];
     }

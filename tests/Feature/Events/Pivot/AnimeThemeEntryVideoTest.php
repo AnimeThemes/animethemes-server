@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Events\Pivot;
 
-use App\Events\Pivot\AnimeThemeEntryVideo\AnimeThemeEntryAnimeThemeCreatedVideo;
-use App\Events\Pivot\AnimeThemeEntryVideo\AnimeThemeEntryAnimeThemeDeletedVideo;
+use App\Events\Pivot\AnimeThemeEntryVideo\AnimeThemeEntryVideoCreated;
+use App\Events\Pivot\AnimeThemeEntryVideo\AnimeThemeEntryVideoDeleted;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
@@ -25,7 +25,7 @@ class AnimeThemeEntryVideoTest extends TestCase
      */
     public function testAnimeThemeEntryVideoCreatedEventDispatched(): void
     {
-        Event::fake(AnimeThemeEntryAnimeThemeCreatedVideo::class);
+        Event::fake(AnimeThemeEntryVideoCreated::class);
 
         $video = Video::factory()->createOne();
         $entry = AnimeThemeEntry::factory()
@@ -34,7 +34,7 @@ class AnimeThemeEntryVideoTest extends TestCase
 
         $video->animethemeentries()->attach($entry);
 
-        Event::assertDispatched(AnimeThemeEntryAnimeThemeCreatedVideo::class);
+        Event::assertDispatched(AnimeThemeEntryVideoCreated::class);
     }
 
     /**
@@ -44,7 +44,7 @@ class AnimeThemeEntryVideoTest extends TestCase
      */
     public function testAnimeThemeEntryVideoDeletedEventDispatched(): void
     {
-        Event::fake(AnimeThemeEntryAnimeThemeDeletedVideo::class);
+        Event::fake(AnimeThemeEntryVideoDeleted::class);
 
         $video = Video::factory()->createOne();
         $entry = AnimeThemeEntry::factory()
@@ -54,6 +54,6 @@ class AnimeThemeEntryVideoTest extends TestCase
         $video->animethemeentries()->attach($entry);
         $video->animethemeentries()->detach($entry);
 
-        Event::assertDispatched(AnimeThemeEntryAnimeThemeDeletedVideo::class);
+        Event::assertDispatched(AnimeThemeEntryVideoDeleted::class);
     }
 }

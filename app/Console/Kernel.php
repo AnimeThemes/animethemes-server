@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Console;
 
-use App\Console\Commands\Billing\Balance\BalanceReconcileCommand;
-use App\Console\Commands\Billing\Transaction\TransactionReconcileCommand;
-use App\Console\Commands\Document\DocumentDatabaseDumpCommand;
-use App\Console\Commands\PruneDatabaseDumpsCommand;
-use App\Console\Commands\Wiki\WikiDatabaseDumpCommand;
+use App\Console\Commands\Repositories\Billing\Balance\BalanceReconcileCommand;
+use App\Console\Commands\Repositories\Billing\Transaction\TransactionReconcileCommand;
+use App\Console\Commands\Storage\Admin\DocumentDumpCommand;
+use App\Console\Commands\Storage\Admin\DumpPruneCommand;
+use App\Console\Commands\Storage\Admin\WikiDumpCommand;
 use App\Enums\Models\Billing\Service;
 use App\Models\BaseModel;
 use Illuminate\Console\Scheduling\Schedule;
@@ -41,28 +41,19 @@ class Kernel extends ConsoleKernel
             ->storeOutput()
             ->hourly();
 
-        // Managed database requires --single-transaction and --set-gtid-purged=OFF
-        $schedule->command(DocumentDatabaseDumpCommand::class, ['--single-transaction', '--set-gtid-purged' => 'OFF'])
+        $schedule->command(DocumentDumpCommand::class)
             ->withoutOverlapping()
             ->runInBackground()
             ->storeOutput()
             ->daily();
 
-        // Managed database requires --single-transaction and --set-gtid-purged=OFF
-        $schedule->command(WikiDatabaseDumpCommand::class, ['--single-transaction', '--set-gtid-purged' => 'OFF'])
+        $schedule->command(WikiDumpCommand::class)
             ->withoutOverlapping()
             ->runInBackground()
             ->storeOutput()
             ->daily();
 
-        // Managed database requires --single-transaction and --set-gtid-purged=OFF
-        $schedule->command(WikiDatabaseDumpCommand::class, ['--single-transaction', '--set-gtid-purged' => 'OFF', '--no-create-info'])
-            ->withoutOverlapping()
-            ->runInBackground()
-            ->storeOutput()
-            ->daily();
-
-        $schedule->command(PruneDatabaseDumpsCommand::class)
+        $schedule->command(DumpPruneCommand::class)
             ->withoutOverlapping()
             ->runInBackground()
             ->storeOutput()

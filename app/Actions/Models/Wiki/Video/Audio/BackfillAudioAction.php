@@ -7,7 +7,7 @@ namespace App\Actions\Models\Wiki\Video\Audio;
 use App\Actions\ActionResult;
 use App\Actions\Models\BaseAction;
 use App\Actions\Repositories\ReconcileResults;
-use App\Actions\Repositories\Wiki\Audio\ReconcileAudioRepositories;
+use App\Actions\Repositories\Wiki\Audio\ReconcileAudioRepositoriesAction;
 use App\Constants\Config\AudioConstants;
 use App\Constants\Config\VideoConstants;
 use App\Contracts\Repositories\RepositoryInterface;
@@ -256,7 +256,7 @@ class BackfillAudioAction extends BaseAction
      */
     protected function reconcileAudio(string $audioPath): ReconcileResults
     {
-        $action = new ReconcileAudioRepositories();
+        $action = new ReconcileAudioRepositoriesAction();
 
         /** @var RepositoryInterface $sourceRepository */
         $sourceRepository = App::make(AudioSourceRepository::class);

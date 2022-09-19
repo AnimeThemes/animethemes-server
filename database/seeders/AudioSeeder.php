@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
-use App\Actions\Repositories\Wiki\Audio\ReconcileAudioRepositories;
+use App\Actions\Repositories\Wiki\Audio\ReconcileAudioRepositoriesAction;
 use App\Repositories\Eloquent\Wiki\AudioRepository as AudioDestinationRepository;
 use App\Repositories\Storage\Wiki\AudioRepository as AudioSourceRepository;
 use Illuminate\Database\Seeder;
@@ -26,7 +26,7 @@ class AudioSeeder extends Seeder
 
         $destinationRepository = App::make(AudioDestinationRepository::class);
 
-        $action = new ReconcileAudioRepositories();
+        $action = new ReconcileAudioRepositoriesAction();
 
         $results = $action->reconcileRepositories($sourceRepository, $destinationRepository);
 

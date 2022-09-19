@@ -4,19 +4,18 @@ declare(strict_types=1);
 
 namespace App\Http;
 
-use App\Http\Middleware\Authenticate;
-use App\Http\Middleware\HasOpenInvitation;
-use App\Http\Middleware\IsAudioStreamingAllowed;
-use App\Http\Middleware\IsVideoStreamingAllowed;
+use App\Http\Middleware\Api\SetAcceptJsonHeader;
+use App\Http\Middleware\Auth\Authenticate;
+use App\Http\Middleware\Auth\HasOpenInvitation;
+use App\Http\Middleware\Auth\RedirectIfAuthenticated;
+use App\Http\Middleware\IsFeatureEnabled;
 use App\Http\Middleware\LogRequest;
-use App\Http\Middleware\RecordView;
-use App\Http\Middleware\RedirectIfAuthenticated;
-use App\Http\Middleware\SetAcceptJsonHeader;
+use App\Http\Middleware\Models\RecordView;
+use App\Http\Middleware\Models\WithoutTrashed;
 use App\Http\Middleware\ThrottleRequestsWithService;
 use App\Http\Middleware\TrimStrings;
 use App\Http\Middleware\TrustHosts;
 use App\Http\Middleware\TrustProxies;
-use App\Http\Middleware\WithoutTrashed;
 use Bepsvpt\SecureHeaders\SecureHeadersMiddleware;
 use Illuminate\Auth\Middleware\AuthenticateWithBasicAuth;
 use Illuminate\Auth\Middleware\Authorize;
@@ -99,14 +98,13 @@ class Kernel extends HttpKernel
         'cache.headers' => SetCacheHeaders::class,
         'can' => Authorize::class,
         'guest' => RedirectIfAuthenticated::class,
+        'has_open_invitation' => HasOpenInvitation::class,
+        'is_feature_enabled' => IsFeatureEnabled::class,
         'password.confirm' => RequirePassword::class,
+        'record_view' => RecordView::class,
         'signed' => ValidateSignature::class,
         'throttle' => ThrottleRequestsWithService::class,
         'verified' => EnsureEmailIsVerified::class,
-        'has_open_invitation' => HasOpenInvitation::class,
-        'is_video_streaming_allowed' => IsVideoStreamingAllowed::class,
-        'is_audio_streaming_allowed' => IsAudioStreamingAllowed::class,
         'without_trashed' => WithoutTrashed::class,
-        'record_view' => RecordView::class,
     ];
 }

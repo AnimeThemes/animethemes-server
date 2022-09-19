@@ -8,7 +8,7 @@ use App\Enums\Models\Wiki\ImageFacet;
 use App\Models\Auth\User;
 use App\Models\Wiki\Image;
 use App\Models\Wiki\Studio;
-use App\Nova\Actions\Wiki\Studio\BackfillStudioAction;
+use App\Nova\Actions\Models\Wiki\Studio\BackfillStudioAction;
 use App\Nova\Lenses\Studio\StudioLens;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -28,7 +28,7 @@ class StudioCoverLargeLens extends StudioLens
      */
     public function name(): string
     {
-        return __('nova.studio_image_lens', ['facet' => ImageFacet::getDescription(ImageFacet::COVER_LARGE)]);
+        return __('nova.lenses.studio.images.name', ['facet' => ImageFacet::getDescription(ImageFacet::COVER_LARGE)]);
     }
 
     /**
@@ -56,8 +56,8 @@ class StudioCoverLargeLens extends StudioLens
     {
         return [
             (new BackfillStudioAction($request->user()))
-                ->confirmButtonText(__('nova.backfill'))
-                ->cancelButtonText(__('nova.cancel'))
+                ->confirmButtonText(__('nova.actions.studio.backfill.confirmButtonText'))
+                ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
                 ->showInline()
                 ->canSee(function (Request $request) {
                     $user = $request->user();

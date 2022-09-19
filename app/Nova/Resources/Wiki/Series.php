@@ -61,7 +61,7 @@ class Series extends BaseResource
      */
     public static function group(): string
     {
-        return __('nova.wiki');
+        return __('nova.resources.group.wiki');
     }
 
     /**
@@ -73,7 +73,7 @@ class Series extends BaseResource
      */
     public static function label(): string
     {
-        return __('nova.series');
+        return __('nova.resources.label.series');
     }
 
     /**
@@ -85,7 +85,7 @@ class Series extends BaseResource
      */
     public static function singularLabel(): string
     {
-        return __('nova.series');
+        return __('nova.resources.singularLabel.series');
     }
 
     /**
@@ -114,19 +114,19 @@ class Series extends BaseResource
     public function fields(NovaRequest $request): array
     {
         return [
-            ID::make(__('nova.id'), SeriesModel::ATTRIBUTE_ID)
+            ID::make(__('nova.fields.base.id'), SeriesModel::ATTRIBUTE_ID)
                 ->sortable()
                 ->showOnPreview(),
 
-            Text::make(__('nova.name'), SeriesModel::ATTRIBUTE_NAME)
+            Text::make(__('nova.fields.series.name.name'), SeriesModel::ATTRIBUTE_NAME)
                 ->sortable()
                 ->copyable()
                 ->rules(['required', 'max:192'])
-                ->help(__('nova.series_name_help'))
+                ->help(__('nova.fields.series.name.help'))
                 ->showOnPreview()
                 ->filterable(),
 
-            Slug::make(__('nova.slug'), SeriesModel::ATTRIBUTE_SLUG)
+            Slug::make(__('nova.fields.series.slug.name'), SeriesModel::ATTRIBUTE_SLUG)
                 ->from(SeriesModel::ATTRIBUTE_NAME)
                 ->separator('_')
                 ->sortable()
@@ -136,23 +136,23 @@ class Series extends BaseResource
                         ->ignore($request->route('resourceId'), SeriesModel::ATTRIBUTE_ID)
                         ->__toString()
                 )
-                ->help(__('nova.series_slug_help'))
+                ->help(__('nova.fields.series.slug.help'))
                 ->showOnPreview(),
 
-            BelongsToMany::make(__('nova.anime'), SeriesModel::RELATION_ANIME, Anime::class)
+            BelongsToMany::make(__('nova.resources.label.anime'), SeriesModel::RELATION_ANIME, Anime::class)
                 ->searchable()
                 ->filterable()
                 ->withSubtitles()
                 ->showCreateRelationButton()
                 ->fields(fn () => [
-                    DateTime::make(__('nova.created_at'), BasePivot::ATTRIBUTE_CREATED_AT)
+                    DateTime::make(__('nova.fields.base.created_at'), BasePivot::ATTRIBUTE_CREATED_AT)
                         ->hideWhenCreating(),
 
-                    DateTime::make(__('nova.updated_at'), BasePivot::ATTRIBUTE_UPDATED_AT)
+                    DateTime::make(__('nova.fields.base.updated_at'), BasePivot::ATTRIBUTE_UPDATED_AT)
                         ->hideWhenCreating(),
                 ]),
 
-            Panel::make(__('nova.timestamps'), $this->timestamps())
+            Panel::make(__('nova.fields.base.timestamps'), $this->timestamps())
                 ->collapsable(),
         ];
     }

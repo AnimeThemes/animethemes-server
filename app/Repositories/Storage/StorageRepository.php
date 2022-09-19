@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Repositories\Storage;
 
 use App\Contracts\Repositories\RepositoryInterface;
+use App\Contracts\Storage\InteractsWithDisk;
 use Closure;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Filesystem\FilesystemAdapter;
@@ -20,7 +21,7 @@ use League\Flysystem\StorageAttributes;
  * @template TModel of \App\Models\BaseModel
  * @implements RepositoryInterface<TModel>
  */
-abstract class StorageRepository implements RepositoryInterface
+abstract class StorageRepository implements InteractsWithDisk, RepositoryInterface
 {
     /**
      * The base path of the filesystem to retrieve files from.
@@ -84,13 +85,6 @@ abstract class StorageRepository implements RepositoryInterface
         // Do not write serialized models to filesystem
         return false;
     }
-
-    /**
-     * Get the name of the disk that represents the filesystem.
-     *
-     * @return string
-     */
-    abstract protected function disk(): string;
 
     /**
      * Return the callback to filter filesystem contents.

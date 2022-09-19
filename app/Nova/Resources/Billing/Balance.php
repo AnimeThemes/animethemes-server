@@ -8,7 +8,7 @@ use App\Enums\Models\Billing\BalanceFrequency;
 use App\Enums\Models\Billing\Service;
 use App\Models\Auth\User;
 use App\Models\Billing\Balance as BalanceModel;
-use App\Nova\Actions\Billing\Balance\ReconcileBalanceAction;
+use App\Nova\Actions\Repositories\Billing\Balance\ReconcileBalanceAction;
 use App\Nova\Resources\BaseResource;
 use BenSampo\Enum\Enum;
 use BenSampo\Enum\Rules\EnumValue;
@@ -49,7 +49,7 @@ class Balance extends BaseResource
      */
     public static function group(): string
     {
-        return __('nova.billing');
+        return __('nova.resources.group.billing');
     }
 
     /**
@@ -61,7 +61,7 @@ class Balance extends BaseResource
      */
     public static function label(): string
     {
-        return __('nova.balances');
+        return __('nova.resources.label.balances');
     }
 
     /**
@@ -73,7 +73,7 @@ class Balance extends BaseResource
      */
     public static function singularLabel(): string
     {
-        return __('nova.balance');
+        return __('nova.resources.singularLabel.balance');
     }
 
     /**
@@ -118,50 +118,50 @@ class Balance extends BaseResource
     public function fields(NovaRequest $request): array
     {
         return [
-            ID::make(__('nova.id'), BalanceModel::ATTRIBUTE_ID)
+            ID::make(__('nova.fields.base.id'), BalanceModel::ATTRIBUTE_ID)
                 ->sortable()
                 ->showOnPreview(),
 
-            Date::make(__('nova.date'), BalanceModel::ATTRIBUTE_DATE)
+            Date::make(__('nova.fields.balance.date.name'), BalanceModel::ATTRIBUTE_DATE)
                 ->sortable()
                 ->rules('required')
-                ->help(__('nova.balance_date_help'))
+                ->help(__('nova.fields.balance.date.help'))
                 ->showOnPreview()
                 ->filterable(),
 
-            Select::make(__('nova.service'), BalanceModel::ATTRIBUTE_SERVICE)
+            Select::make(__('nova.fields.balance.service.name'), BalanceModel::ATTRIBUTE_SERVICE)
                 ->options(Service::asSelectArray())
                 ->displayUsing(fn (?Enum $enum) => $enum?->description)
                 ->sortable()
                 ->rules(['required', new EnumValue(Service::class, false)])
-                ->help(__('nova.billing_service_help'))
+                ->help(__('nova.fields.balance.service.help'))
                 ->showOnPreview()
                 ->filterable(),
 
-            Select::make(__('nova.frequency'), BalanceModel::ATTRIBUTE_FREQUENCY)
+            Select::make(__('nova.fields.balance.frequency.name'), BalanceModel::ATTRIBUTE_FREQUENCY)
                 ->options(BalanceFrequency::asSelectArray())
                 ->displayUsing(fn (?Enum $enum) => $enum?->description)
                 ->sortable()
                 ->rules(['required', new EnumValue(BalanceFrequency::class, false)])
-                ->help(__('nova.balance_frequency_help'))
+                ->help(__('nova.fields.balance.frequency.help'))
                 ->showOnPreview()
                 ->filterable(),
 
-            Currency::make(__('nova.usage'), BalanceModel::ATTRIBUTE_USAGE)
+            Currency::make(__('nova.fields.balance.usage.name'), BalanceModel::ATTRIBUTE_USAGE)
                 ->sortable()
                 ->rules('required')
-                ->help(__('nova.balance_usage_help'))
+                ->help(__('nova.fields.balance.usage.help'))
                 ->showOnPreview()
                 ->filterable(),
 
-            Currency::make(__('nova.balance'), BalanceModel::ATTRIBUTE_BALANCE)
+            Currency::make(__('nova.fields.balance.balance.name'), BalanceModel::ATTRIBUTE_BALANCE)
                 ->sortable()
                 ->rules('required')
-                ->help(__('nova.balance_balance_help'))
+                ->help(__('nova.fields.balance.balance.help'))
                 ->showOnPreview()
                 ->filterable(),
 
-            Panel::make(__('nova.timestamps'), $this->timestamps())
+            Panel::make(__('nova.fields.base.timestamps'), $this->timestamps())
                 ->collapsable(),
         ];
     }
@@ -178,8 +178,8 @@ class Balance extends BaseResource
             parent::actions($request),
             [
                 (new ReconcileBalanceAction())
-                    ->confirmButtonText(__('nova.reconcile'))
-                    ->cancelButtonText(__('nova.cancel'))
+                    ->confirmButtonText(__('nova.actions.repositories.confirmButtonText'))
+                    ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
                     ->onlyOnIndex()
                     ->standalone()
                     ->canSee(function (Request $request) {

@@ -28,7 +28,7 @@ class SongArtistLens extends BaseLens
      */
     public function name(): string
     {
-        return __('nova.song_artist_lens');
+        return __('nova.lenses.song.artist.name');
     }
 
     /**
@@ -53,23 +53,23 @@ class SongArtistLens extends BaseLens
     public function fields(NovaRequest $request): array
     {
         return [
-            ID::make(__('nova.id'), Song::ATTRIBUTE_ID)
+            ID::make(__('nova.fields.base.id'), Song::ATTRIBUTE_ID)
                 ->sortable()
                 ->showOnPreview(),
 
-            Text::make(__('nova.title'), Song::ATTRIBUTE_TITLE)
+            Text::make(__('nova.fields.song.title.name'), Song::ATTRIBUTE_TITLE)
                 ->sortable()
                 ->copyable()
                 ->showOnPreview()
                 ->filterable(),
 
-            DateTime::make(__('nova.created_at'), BaseModel::ATTRIBUTE_CREATED_AT)
+            DateTime::make(__('nova.fields.base.created_at'), BaseModel::ATTRIBUTE_CREATED_AT)
                 ->onlyOnPreview(),
 
-            DateTime::make(__('nova.updated_at'), BaseModel::ATTRIBUTE_UPDATED_AT)
+            DateTime::make(__('nova.fields.base.updated_at'), BaseModel::ATTRIBUTE_UPDATED_AT)
                 ->onlyOnPreview(),
 
-            DateTime::make(__('nova.deleted_at'), BaseModel::ATTRIBUTE_DELETED_AT)
+            DateTime::make(__('nova.fields.base.deleted_at'), BaseModel::ATTRIBUTE_DELETED_AT)
                 ->onlyOnPreview(),
         ];
     }

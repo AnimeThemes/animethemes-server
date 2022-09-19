@@ -31,7 +31,7 @@ abstract class PivotDeletedEvent extends BasePivotEvent
     {
         return DiscordMessage::create('', [
             'description' => $this->getDiscordMessageDescription(),
-            'color' => EmbedColor::GREEN,
+            'color' => EmbedColor::RED,
         ]);
     }
 }

@@ -31,7 +31,7 @@ class ExternalResourceUnlinkedLens extends BaseLens
      */
     public function name(): string
     {
-        return __('nova.resource_unlinked_lens');
+        return __('nova.lenses.external_resource.unlinked.name');
     }
 
     /**
@@ -56,34 +56,34 @@ class ExternalResourceUnlinkedLens extends BaseLens
     public function fields(NovaRequest $request): array
     {
         return [
-            ID::make(__('nova.id'), ExternalResource::ATTRIBUTE_ID)
+            ID::make(__('nova.fields.base.id'), ExternalResource::ATTRIBUTE_ID)
                 ->sortable()
                 ->showOnPreview(),
 
-            Select::make(__('nova.site'), ExternalResource::ATTRIBUTE_SITE)
+            Select::make(__('nova.fields.external_resource.site.name'), ExternalResource::ATTRIBUTE_SITE)
                 ->options(ResourceSite::asSelectArray())
                 ->displayUsing(fn (?Enum $enum) => $enum?->description)
                 ->sortable()
                 ->showOnPreview()
                 ->filterable(),
 
-            URL::make(__('nova.link'), ExternalResource::ATTRIBUTE_LINK)
+            URL::make(__('nova.fields.external_resource.link.name'), ExternalResource::ATTRIBUTE_LINK)
                 ->sortable()
                 ->showOnPreview()
                 ->filterable(),
 
-            Number::make(__('nova.external_id'), ExternalResource::ATTRIBUTE_EXTERNAL_ID)
+            Number::make(__('nova.fields.external_resource.external_id.name'), ExternalResource::ATTRIBUTE_EXTERNAL_ID)
                 ->sortable()
                 ->showOnPreview()
                 ->filterable(),
 
-            DateTime::make(__('nova.created_at'), BaseModel::ATTRIBUTE_CREATED_AT)
+            DateTime::make(__('nova.fields.base.created_at'), BaseModel::ATTRIBUTE_CREATED_AT)
                 ->onlyOnPreview(),
 
-            DateTime::make(__('nova.updated_at'), BaseModel::ATTRIBUTE_UPDATED_AT)
+            DateTime::make(__('nova.fields.base.updated_at'), BaseModel::ATTRIBUTE_UPDATED_AT)
                 ->onlyOnPreview(),
 
-            DateTime::make(__('nova.deleted_at'), BaseModel::ATTRIBUTE_DELETED_AT)
+            DateTime::make(__('nova.fields.base.deleted_at'), BaseModel::ATTRIBUTE_DELETED_AT)
                 ->onlyOnPreview(),
         ];
     }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Providers;
 
 use App\Constants\Config\AudioConstants;
+use App\Constants\Config\DumpConstants;
 use App\Constants\Config\VideoConstants;
 use App\Models\Auth\User;
 use App\Models\Wiki\Anime\AnimeSynonym;
@@ -65,6 +66,11 @@ class RouteServiceProvider extends ServiceProvider
                 ->domain(Config::get(AudioConstants::URL_QUALIFIED))
                 ->prefix(Config::get(AudioConstants::PATH_QUALIFIED))
                 ->group(base_path('routes/audio.php'));
+
+            Route::middleware('web')
+                ->domain(Config::get(DumpConstants::URL_QUALIFIED))
+                ->prefix(Config::get(DumpConstants::PATH_QUALIFIED))
+                ->group(base_path('routes/dump.php'));
 
             Route::middleware('api')
                 ->domain(Config::get('api.url'))

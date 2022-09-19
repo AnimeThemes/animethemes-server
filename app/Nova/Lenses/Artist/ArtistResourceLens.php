@@ -8,7 +8,7 @@ use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Auth\User;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\ExternalResource;
-use App\Nova\Actions\Wiki\Artist\AttachArtistResourceAction;
+use App\Nova\Actions\Models\Wiki\Artist\AttachArtistResourceAction;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -34,7 +34,7 @@ abstract class ArtistResourceLens extends ArtistLens
      */
     public function name(): string
     {
-        return __('nova.artist_resource_lens', ['site' => static::site()->description]);
+        return __('nova.lenses.artist.resources.name', ['site' => static::site()->description]);
     }
 
     /**
@@ -62,8 +62,8 @@ abstract class ArtistResourceLens extends ArtistLens
     {
         return [
             (new AttachArtistResourceAction(static::site()))
-                ->confirmButtonText(__('nova.attach'))
-                ->cancelButtonText(__('nova.cancel'))
+                ->confirmButtonText(__('nova.actions.models.wiki.attach_resource.confirmButtonText'))
+                ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
                 ->showInline()
                 ->canSee(function (Request $request) {
                     $user = $request->user();

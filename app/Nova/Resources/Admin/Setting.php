@@ -40,7 +40,7 @@ class Setting extends BaseResource
      */
     public static function group(): string
     {
-        return __('nova.admin');
+        return __('nova.resources.group.admin');
     }
 
     /**
@@ -52,7 +52,7 @@ class Setting extends BaseResource
      */
     public static function label(): string
     {
-        return __('nova.settings');
+        return __('nova.resources.label.settings');
     }
 
     /**
@@ -64,7 +64,7 @@ class Setting extends BaseResource
      */
     public static function singularLabel(): string
     {
-        return __('nova.setting');
+        return __('nova.resources.singularLabel.setting');
     }
 
     /**
@@ -111,18 +111,18 @@ class Setting extends BaseResource
     public function fields(NovaRequest $request): array
     {
         return [
-            ID::make(__('nova.id'), SettingModel::ATTRIBUTE_ID)
+            ID::make(__('nova.fields.base.id'), SettingModel::ATTRIBUTE_ID)
                 ->sortable()
                 ->showOnPreview(),
 
-            Text::make(__('nova.key'), SettingModel::ATTRIBUTE_KEY)
+            Text::make(__('nova.fields.setting.key'), SettingModel::ATTRIBUTE_KEY)
                 ->sortable()
                 ->copyable()
                 ->rules(['required', 'max:192'])
                 ->showOnPreview()
                 ->filterable(),
 
-            Text::make(__('nova.value'), SettingModel::ATTRIBUTE_VALUE)
+            Text::make(__('nova.fields.setting.value'), SettingModel::ATTRIBUTE_VALUE)
                 ->sortable()
                 ->copyable()
                 ->rules(['required', 'max:65535'])

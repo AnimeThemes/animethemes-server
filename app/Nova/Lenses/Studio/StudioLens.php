@@ -29,28 +29,28 @@ abstract class StudioLens extends BaseLens
     public function fields(NovaRequest $request): array
     {
         return [
-            ID::make(__('nova.id'), Studio::ATTRIBUTE_ID)
+            ID::make(__('nova.fields.base.id'), Studio::ATTRIBUTE_ID)
                 ->sortable()
                 ->showOnPreview(),
 
-            Text::make(__('nova.name'), Studio::ATTRIBUTE_NAME)
+            Text::make(__('nova.fields.studio.name.name'), Studio::ATTRIBUTE_NAME)
                 ->sortable()
                 ->copyable()
                 ->showOnPreview()
                 ->filterable(),
 
-            Text::make(__('nova.slug'), Studio::ATTRIBUTE_SLUG)
+            Text::make(__('nova.fields.studio.slug.name'), Studio::ATTRIBUTE_SLUG)
                 ->sortable()
                 ->copyable()
                 ->showOnPreview(),
 
-            DateTime::make(__('nova.created_at'), BaseModel::ATTRIBUTE_CREATED_AT)
+            DateTime::make(__('nova.fields.base.created_at'), BaseModel::ATTRIBUTE_CREATED_AT)
                 ->onlyOnPreview(),
 
-            DateTime::make(__('nova.updated_at'), BaseModel::ATTRIBUTE_UPDATED_AT)
+            DateTime::make(__('nova.fields.base.updated_at'), BaseModel::ATTRIBUTE_UPDATED_AT)
                 ->onlyOnPreview(),
 
-            DateTime::make(__('nova.deleted_at'), BaseModel::ATTRIBUTE_DELETED_AT)
+            DateTime::make(__('nova.fields.base.deleted_at'), BaseModel::ATTRIBUTE_DELETED_AT)
                 ->onlyOnPreview(),
         ];
     }

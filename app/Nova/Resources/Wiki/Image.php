@@ -63,7 +63,7 @@ class Image extends BaseResource
      */
     public static function group(): string
     {
-        return __('nova.wiki');
+        return __('nova.resources.group.wiki');
     }
 
     /**
@@ -102,7 +102,7 @@ class Image extends BaseResource
      */
     public static function label(): string
     {
-        return __('nova.images');
+        return __('nova.resources.label.images');
     }
 
     /**
@@ -114,7 +114,7 @@ class Image extends BaseResource
      */
     public static function singularLabel(): string
     {
-        return __('nova.image');
+        return __('nova.resources.singularLabel.image');
     }
 
     /**
@@ -128,66 +128,66 @@ class Image extends BaseResource
     public function fields(NovaRequest $request): array
     {
         return [
-            ID::make(__('nova.id'), ImageModel::ATTRIBUTE_ID)
+            ID::make(__('nova.fields.base.id'), ImageModel::ATTRIBUTE_ID)
                 ->sortable()
                 ->showOnPreview(),
 
-            Select::make(__('nova.facet'), ImageModel::ATTRIBUTE_FACET)
+            Select::make(__('nova.fields.image.facet.name'), ImageModel::ATTRIBUTE_FACET)
                 ->options(ImageFacet::asSelectArray())
                 ->displayUsing(fn (?Enum $enum) => $enum?->description)
                 ->sortable()
                 ->rules(['required', new EnumValue(ImageFacet::class, false)])
-                ->help(__('nova.image_facet_help'))
+                ->help(__('nova.fields.image.facet.help'))
                 ->showOnPreview()
                 ->filterable(),
 
-            NovaImage::make(__('nova.image'), ImageModel::ATTRIBUTE_PATH, Config::get('image.disk'))
+            NovaImage::make(__('nova.fields.image.image.name'), ImageModel::ATTRIBUTE_PATH, Config::get('image.disk'))
                 ->creationRules('required')
                 ->showOnPreview(),
 
-            BelongsToMany::make(__('nova.anime'), ImageModel::RELATION_ANIME, Anime::class)
+            BelongsToMany::make(__('nova.resources.label.anime'), ImageModel::RELATION_ANIME, Anime::class)
                 ->searchable()
                 ->filterable()
                 ->withSubtitles()
                 ->showCreateRelationButton()
                 ->fields(fn () => [
-                    DateTime::make(__('nova.created_at'), BasePivot::ATTRIBUTE_CREATED_AT)
+                    DateTime::make(__('nova.fields.base.created_at'), BasePivot::ATTRIBUTE_CREATED_AT)
                         ->hideWhenCreating(),
 
-                    DateTime::make(__('nova.updated_at'), BasePivot::ATTRIBUTE_UPDATED_AT)
+                    DateTime::make(__('nova.fields.base.updated_at'), BasePivot::ATTRIBUTE_UPDATED_AT)
                         ->hideWhenCreating(),
                 ]),
 
-            BelongsToMany::make(__('nova.artists'), ImageModel::RELATION_ARTISTS, Artist::class)
+            BelongsToMany::make(__('nova.resources.label.artists'), ImageModel::RELATION_ARTISTS, Artist::class)
                 ->searchable()
                 ->filterable()
                 ->withSubtitles()
                 ->showCreateRelationButton()
                 ->fields(fn () => [
-                    DateTime::make(__('nova.created_at'), BasePivot::ATTRIBUTE_CREATED_AT)
+                    DateTime::make(__('nova.fields.base.created_at'), BasePivot::ATTRIBUTE_CREATED_AT)
                         ->hideWhenCreating(),
 
-                    DateTime::make(__('nova.updated_at'), BasePivot::ATTRIBUTE_UPDATED_AT)
+                    DateTime::make(__('nova.fields.base.updated_at'), BasePivot::ATTRIBUTE_UPDATED_AT)
                         ->hideWhenCreating(),
                 ]),
 
-            BelongsToMany::make(__('nova.studios'), ImageModel::RELATION_STUDIOS, Studio::class)
+            BelongsToMany::make(__('nova.resources.label.studios'), ImageModel::RELATION_STUDIOS, Studio::class)
                 ->searchable()
                 ->filterable()
                 ->withSubtitles()
                 ->showCreateRelationButton()
                 ->fields(fn () => [
-                    DateTime::make(__('nova.created_at'), BasePivot::ATTRIBUTE_CREATED_AT)
+                    DateTime::make(__('nova.fields.base.created_at'), BasePivot::ATTRIBUTE_CREATED_AT)
                         ->hideWhenCreating(),
 
-                    DateTime::make(__('nova.updated_at'), BasePivot::ATTRIBUTE_UPDATED_AT)
+                    DateTime::make(__('nova.fields.base.updated_at'), BasePivot::ATTRIBUTE_UPDATED_AT)
                         ->hideWhenCreating(),
                 ]),
 
-            Panel::make(__('nova.file_properties'), $this->fileProperties())
+            Panel::make(__('nova.fields.base.file_properties'), $this->fileProperties())
                 ->collapsable(),
 
-            Panel::make(__('nova.timestamps'), $this->timestamps())
+            Panel::make(__('nova.fields.base.timestamps'), $this->timestamps())
                 ->collapsable(),
         ];
     }
@@ -200,7 +200,7 @@ class Image extends BaseResource
     protected function fileProperties(): array
     {
         return [
-            Text::make(__('nova.path'), ImageModel::ATTRIBUTE_PATH)
+            Text::make(__('nova.fields.image.path.name'), ImageModel::ATTRIBUTE_PATH)
                 ->copyable()
                 ->hideFromIndex()
                 ->hideWhenCreating()

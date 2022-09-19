@@ -49,21 +49,21 @@ abstract class BaseResource extends NovaResource
     protected function timestamps(): array
     {
         return [
-            DateTime::make(__('nova.created_at'), BaseModel::ATTRIBUTE_CREATED_AT)
+            DateTime::make(__('nova.fields.base.created_at'), BaseModel::ATTRIBUTE_CREATED_AT)
                 ->hideFromIndex()
                 ->hideWhenCreating()
                 ->hideWhenUpdating()
                 ->showOnPreview()
                 ->filterable(),
 
-            DateTime::make(__('nova.updated_at'), BaseModel::ATTRIBUTE_UPDATED_AT)
+            DateTime::make(__('nova.fields.base.updated_at'), BaseModel::ATTRIBUTE_UPDATED_AT)
                 ->hideFromIndex()
                 ->hideWhenCreating()
                 ->hideWhenUpdating()
                 ->showOnPreview()
                 ->filterable(),
 
-            DateTime::make(__('nova.deleted_at'), BaseModel::ATTRIBUTE_DELETED_AT)
+            DateTime::make(__('nova.fields.base.deleted_at'), BaseModel::ATTRIBUTE_DELETED_AT)
                 ->hideFromIndex()
                 ->hideWhenCreating()
                 ->hideWhenUpdating()

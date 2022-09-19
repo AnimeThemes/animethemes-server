@@ -59,7 +59,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                 }
             }
 
-            $lensSection = MenuSection::make(__('nova.lenses'), $lenses, 'video-camera')
+            $lensSection = MenuSection::make(__('nova.menu.main.section.lenses'), $lenses, 'video-camera')
                 ->collapsable();
 
             $menu->items[] = $lensSection;

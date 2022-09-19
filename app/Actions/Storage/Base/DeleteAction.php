@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Actions\Storage\Base;
 
-use App\Actions\Repositories\ReconcileRepositories;
-use App\Actions\Repositories\ReconcileResults;
-use App\Actions\Storage\StorageAction;
-use App\Actions\Storage\StorageResults;
+use App\Concerns\Repositories\ReconcilesRepositories;
+use App\Contracts\Actions\Storage\StorageAction;
+use App\Contracts\Actions\Storage\StorageResults;
 use App\Contracts\Repositories\RepositoryInterface;
+use App\Contracts\Storage\InteractsWithDisks;
 use App\Models\BaseModel;
 use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Support\Facades\File;
@@ -19,8 +19,10 @@ use Illuminate\Support\Facades\Storage;
  *
  * @template TModel of \App\Models\BaseModel
  */
-abstract class DeleteAction extends StorageAction
+abstract class DeleteAction implements InteractsWithDisks, StorageAction
 {
+    use ReconcilesRepositories;
+
     /**
      * Create a new action instance.
      *
@@ -56,57 +58,21 @@ abstract class DeleteAction extends StorageAction
     }
 
     /**
-     * Reconcile storage repositories.
-     *
-     * @return ReconcileResults
-     */
-    protected function reconcileRepositories(): ReconcileResults
-    {
-        $action = $this->action();
-
-        $sourceRepository = $this->getSourceRepository();
-        $destinationRepository = $this->getDestinationRepository();
-
-        $this->handleFilters($sourceRepository, $destinationRepository);
-
-        return $action->reconcileRepositories($sourceRepository, $destinationRepository);
-    }
-
-    /**
-     * Get source repository for action.
-     *
-     * @return RepositoryInterface
-     */
-    abstract protected function getSourceRepository(): RepositoryInterface;
-
-    /**
-     * Get destination repository for action.
-     *
-     * @return RepositoryInterface
-     */
-    abstract protected function getDestinationRepository(): RepositoryInterface;
-
-    /**
      * Apply filters to repositories before reconciliation.
      *
      * @param  RepositoryInterface  $sourceRepository
      * @param  RepositoryInterface  $destinationRepository
+     * @param  array  $data
      * @return void
      */
     protected function handleFilters(
         RepositoryInterface $sourceRepository,
-        RepositoryInterface $destinationRepository
+        RepositoryInterface $destinationRepository,
+        array $data = []
     ): void {
         $sourceRepository->handleFilter('path', File::dirname($this->path()));
         $destinationRepository->handleFilter('path', File::dirname($this->path()));
     }
-
-    /**
-     * Get the reconcile action.
-     *
-     * @return ReconcileRepositories
-     */
-    abstract protected function action(): ReconcileRepositories;
 
     /**
      * Get the path to delete.

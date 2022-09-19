@@ -29,11 +29,11 @@ class MoveAudioAction extends MoveAction
     }
 
     /**
-     * Get the disks to update.
+     * The list of disk names.
      *
      * @return array
      */
-    protected function disks(): array
+    public function disks(): array
     {
         return Config::get(AudioConstants::DISKS_QUALIFIED);
     }
