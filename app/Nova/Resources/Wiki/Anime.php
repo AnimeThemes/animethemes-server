@@ -7,7 +7,7 @@ namespace App\Nova\Resources\Wiki;
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Models\Auth\User;
 use App\Models\Wiki\Anime as AnimeModel;
-use App\Nova\Actions\Wiki\Anime\BackfillAnimeAction;
+use App\Nova\Actions\Models\Wiki\Anime\BackfillAnimeAction;
 use App\Nova\Lenses\Anime\Image\AnimeCoverLargeLens;
 use App\Nova\Lenses\Anime\Image\AnimeCoverSmallLens;
 use App\Nova\Lenses\Anime\Resource\AnimeAniDbResourceLens;
@@ -83,7 +83,7 @@ class Anime extends BaseResource
      */
     public static function group(): string
     {
-        return __('nova.wiki');
+        return __('nova.resources.group.wiki');
     }
 
     /**
@@ -95,7 +95,7 @@ class Anime extends BaseResource
      */
     public static function label(): string
     {
-        return __('nova.anime');
+        return __('nova.resources.label.anime');
     }
 
     /**
@@ -107,7 +107,7 @@ class Anime extends BaseResource
      */
     public static function singularLabel(): string
     {
-        return __('nova.anime');
+        return __('nova.resources.singularLabel.anime');
     }
 
     /**
@@ -147,19 +147,19 @@ class Anime extends BaseResource
     public function fields(NovaRequest $request): array
     {
         return [
-            ID::make(__('nova.id'), AnimeModel::ATTRIBUTE_ID)
+            ID::make(__('nova.fields.base.id'), AnimeModel::ATTRIBUTE_ID)
                 ->sortable()
                 ->showOnPreview(),
 
-            Text::make(__('nova.name'), AnimeModel::ATTRIBUTE_NAME)
+            Text::make(__('nova.fields.anime.name.name'), AnimeModel::ATTRIBUTE_NAME)
                 ->sortable()
                 ->copyable()
                 ->rules(['required', 'max:192'])
-                ->help(__('nova.anime_name_help'))
+                ->help(__('nova.fields.anime.name.help'))
                 ->showOnPreview()
                 ->filterable(),
 
-            Slug::make(__('nova.slug'), AnimeModel::ATTRIBUTE_SLUG)
+            Slug::make(__('nova.fields.anime.slug.name'), AnimeModel::ATTRIBUTE_SLUG)
                 ->from(AnimeModel::ATTRIBUTE_NAME)
                 ->separator('_')
                 ->sortable()
@@ -169,98 +169,98 @@ class Anime extends BaseResource
                         ->ignore($request->route('resourceId'), AnimeModel::ATTRIBUTE_ID)
                         ->__toString()
                 )
-                ->help(__('nova.anime_slug_help'))
+                ->help(__('nova.fields.anime.slug.help'))
                 ->showOnPreview(),
 
-            Number::make(__('nova.year'), AnimeModel::ATTRIBUTE_YEAR)
+            Number::make(__('nova.fields.anime.year.name'), AnimeModel::ATTRIBUTE_YEAR)
                 ->sortable()
                 ->min(1960)
                 ->max(intval(date('Y')) + 1)
                 ->rules(['required', 'digits:4', 'integer'])
-                ->help(__('nova.anime_year_help'))
+                ->help(__('nova.fields.anime.year.help'))
                 ->showOnPreview()
                 ->filterable(),
 
-            Select::make(__('nova.season'), AnimeModel::ATTRIBUTE_SEASON)
+            Select::make(__('nova.fields.anime.season.name'), AnimeModel::ATTRIBUTE_SEASON)
                 ->options(AnimeSeason::asSelectArray())
                 ->displayUsing(fn (?Enum $enum) => $enum?->description)
                 ->sortable()
                 ->rules(['required', new EnumValue(AnimeSeason::class, false)])
-                ->help(__('nova.anime_season_help'))
+                ->help(__('nova.fields.anime.season.help'))
                 ->showOnPreview()
                 ->filterable(),
 
-            Textarea::make(__('nova.synopsis'), AnimeModel::ATTRIBUTE_SYNOPSIS)
+            Textarea::make(__('nova.fields.anime.synopsis.name'), AnimeModel::ATTRIBUTE_SYNOPSIS)
                 ->rules('max:65535')
                 ->nullable()
-                ->help(__('nova.anime_synopsis_help'))
+                ->help(__('nova.fields.anime.synopsis.help'))
                 ->showOnPreview(),
 
-            HasMany::make(__('nova.anime_synonyms'), AnimeModel::RELATION_SYNONYMS, Synonym::class),
+            HasMany::make(__('nova.resources.label.anime_synonyms'), AnimeModel::RELATION_SYNONYMS, Synonym::class),
 
-            HasMany::make(__('nova.anime_themes'), AnimeModel::RELATION_THEMES, Theme::class),
+            HasMany::make(__('nova.resources.label.anime_themes'), AnimeModel::RELATION_THEMES, Theme::class),
 
-            BelongsToMany::make(__('nova.series'), AnimeModel::RELATION_SERIES, Series::class)
+            BelongsToMany::make(__('nova.resources.label.series'), AnimeModel::RELATION_SERIES, Series::class)
                 ->searchable()
                 ->filterable()
                 ->withSubtitles()
                 ->showCreateRelationButton()
                 ->fields(fn () => [
-                    DateTime::make(__('nova.created_at'), BasePivot::ATTRIBUTE_CREATED_AT)
+                    DateTime::make(__('nova.fields.base.created_at'), BasePivot::ATTRIBUTE_CREATED_AT)
                         ->hideWhenCreating(),
 
-                    DateTime::make(__('nova.updated_at'), BasePivot::ATTRIBUTE_UPDATED_AT)
+                    DateTime::make(__('nova.fields.base.updated_at'), BasePivot::ATTRIBUTE_UPDATED_AT)
                         ->hideWhenCreating(),
                 ]),
 
-            BelongsToMany::make(__('nova.external_resources'), AnimeModel::RELATION_RESOURCES, ExternalResource::class)
+            BelongsToMany::make(__('nova.resources.label.external_resources'), AnimeModel::RELATION_RESOURCES, ExternalResource::class)
                 ->searchable()
                 ->filterable()
                 ->withSubtitles()
                 ->showCreateRelationButton()
                 ->fields(fn () => [
-                    Text::make(__('nova.as'), AnimeResource::ATTRIBUTE_AS)
+                    Text::make(__('nova.fields.anime.resources.as.name'), AnimeResource::ATTRIBUTE_AS)
                         ->nullable()
                         ->copyable()
                         ->rules(['nullable', 'max:192'])
-                        ->help(__('nova.resource_as_help')),
+                        ->help(__('nova.fields.anime.resources.as.help')),
 
-                    DateTime::make(__('nova.created_at'), BasePivot::ATTRIBUTE_CREATED_AT)
+                    DateTime::make(__('nova.fields.base.created_at'), BasePivot::ATTRIBUTE_CREATED_AT)
                         ->hideWhenCreating()
                         ->hideWhenUpdating(),
 
-                    DateTime::make(__('nova.updated_at'), BasePivot::ATTRIBUTE_UPDATED_AT)
+                    DateTime::make(__('nova.fields.base.updated_at'), BasePivot::ATTRIBUTE_UPDATED_AT)
                         ->hideWhenCreating()
                         ->hideWhenUpdating(),
                 ]),
 
-            BelongsToMany::make(__('nova.images'), AnimeModel::RELATION_IMAGES, Image::class)
+            BelongsToMany::make(__('nova.resources.label.images'), AnimeModel::RELATION_IMAGES, Image::class)
                 ->searchable()
                 ->filterable()
                 ->withSubtitles()
                 ->showCreateRelationButton()
                 ->fields(fn () => [
-                    DateTime::make(__('nova.created_at'), BasePivot::ATTRIBUTE_CREATED_AT)
+                    DateTime::make(__('nova.fields.base.created_at'), BasePivot::ATTRIBUTE_CREATED_AT)
                         ->hideWhenCreating(),
 
-                    DateTime::make(__('nova.updated_at'), BasePivot::ATTRIBUTE_UPDATED_AT)
+                    DateTime::make(__('nova.fields.base.updated_at'), BasePivot::ATTRIBUTE_UPDATED_AT)
                         ->hideWhenCreating(),
                 ]),
 
-            BelongsToMany::make(__('nova.studios'), AnimeModel::RELATION_STUDIOS, Studio::class)
+            BelongsToMany::make(__('nova.resources.label.studios'), AnimeModel::RELATION_STUDIOS, Studio::class)
                 ->searchable()
                 ->filterable()
                 ->withSubtitles()
                 ->showCreateRelationButton()
                 ->fields(fn () => [
-                    DateTime::make(__('nova.created_at'), BasePivot::ATTRIBUTE_CREATED_AT)
+                    DateTime::make(__('nova.fields.base.created_at'), BasePivot::ATTRIBUTE_CREATED_AT)
                         ->hideWhenCreating(),
 
-                    DateTime::make(__('nova.updated_at'), BasePivot::ATTRIBUTE_UPDATED_AT)
+                    DateTime::make(__('nova.fields.base.updated_at'), BasePivot::ATTRIBUTE_UPDATED_AT)
                         ->hideWhenCreating(),
                 ]),
 
-            Panel::make(__('nova.timestamps'), $this->timestamps())
+            Panel::make(__('nova.fields.base.timestamps'), $this->timestamps())
                 ->collapsable(),
         ];
     }
@@ -277,8 +277,8 @@ class Anime extends BaseResource
             parent::actions($request),
             [
                 (new BackfillAnimeAction($request->user()))
-                    ->confirmButtonText(__('nova.backfill'))
-                    ->cancelButtonText(__('nova.cancel'))
+                    ->confirmButtonText(__('nova.actions.anime.backfill.confirmButtonText'))
+                    ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
                     ->showOnIndex()
                     ->showOnDetail()
                     ->showInline()

@@ -6,7 +6,7 @@ namespace Tests\Feature\Http\Api\Admin\Announcement;
 
 use App\Http\Api\Field\Field;
 use App\Http\Api\Parser\FieldParser;
-use App\Http\Api\Query\Admin\AnnouncementReadQuery;
+use App\Http\Api\Query\Admin\Announcement\AnnouncementReadQuery;
 use App\Http\Api\Schema\Admin\AnnouncementSchema;
 use App\Http\Resources\Admin\Resource\AnnouncementResource;
 use App\Models\Admin\Announcement;

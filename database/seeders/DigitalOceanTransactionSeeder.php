@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
-use App\Actions\Repositories\Billing\Transaction\ReconcileTransactionRepositories;
+use App\Actions\Repositories\Billing\Transaction\ReconcileTransactionRepositoriesAction;
 use App\Repositories\DigitalOcean\Billing\DigitalOceanTransactionRepository as DigitalOceanSourceRepository;
 use App\Repositories\Eloquent\Billing\DigitalOceanTransactionRepository as DigitalOceanDestinationRepository;
 use Illuminate\Database\Seeder;
@@ -26,7 +26,7 @@ class DigitalOceanTransactionSeeder extends Seeder
 
         $destinationRepository = App::make(DigitalOceanDestinationRepository::class);
 
-        $action = new ReconcileTransactionRepositories();
+        $action = new ReconcileTransactionRepositoriesAction();
 
         $results = $action->reconcileRepositories($sourceRepository, $destinationRepository);
 

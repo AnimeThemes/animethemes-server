@@ -81,7 +81,7 @@ class Entry extends BaseResource
      */
     public static function group(): string
     {
-        return __('nova.wiki');
+        return __('nova.resources.group.wiki');
     }
 
     /**
@@ -93,7 +93,7 @@ class Entry extends BaseResource
      */
     public static function label(): string
     {
-        return __('nova.anime_theme_entries');
+        return __('nova.resources.label.anime_theme_entries');
     }
 
     /**
@@ -105,7 +105,7 @@ class Entry extends BaseResource
      */
     public static function singularLabel(): string
     {
-        return __('nova.anime_theme_entry');
+        return __('nova.resources.singularLabel.anime_theme_entry');
     }
 
     /**
@@ -175,14 +175,14 @@ class Entry extends BaseResource
     public function fields(NovaRequest $request): array
     {
         return [
-            BelongsTo::make(__('nova.anime'), AnimeThemeEntry::RELATION_ANIME_SHALLOW, Anime::class)
+            BelongsTo::make(__('nova.resources.singularLabel.anime'), AnimeThemeEntry::RELATION_ANIME_SHALLOW, Anime::class)
                 ->sortable()
                 ->hideFromIndex(fn () => $request->viaResource() !== null && Video::class !== $request->viaResource())
                 ->hideWhenCreating()
                 ->readonly()
                 ->showOnPreview(),
 
-            BelongsTo::make(__('nova.anime_theme'), AnimeThemeEntry::RELATION_THEME, Theme::class)
+            BelongsTo::make(__('nova.resources.singularLabel.anime_theme'), AnimeThemeEntry::RELATION_THEME, Theme::class)
                 ->sortable()
                 ->filterable()
                 ->searchable(fn () => $request->viaResource() === null)
@@ -191,62 +191,62 @@ class Entry extends BaseResource
                 ->withSubtitles()
                 ->showOnPreview(),
 
-            ID::make(__('nova.id'), AnimeThemeEntry::ATTRIBUTE_ID)
+            ID::make(__('nova.fields.base.id'), AnimeThemeEntry::ATTRIBUTE_ID)
                 ->sortable()
                 ->showOnPreview(),
 
-            Number::make(__('nova.version'), AnimeThemeEntry::ATTRIBUTE_VERSION)
+            Number::make(__('nova.fields.anime_theme_entry.version.name'), AnimeThemeEntry::ATTRIBUTE_VERSION)
                 ->sortable()
                 ->nullable()
                 ->rules(['nullable', 'integer'])
-                ->help(__('nova.anime_theme_entry_version_help'))
+                ->help(__('nova.fields.anime_theme_entry.version.help'))
                 ->showOnPreview()
                 ->filterable(),
 
-            Text::make(__('nova.episodes'), AnimeThemeEntry::ATTRIBUTE_EPISODES)
+            Text::make(__('nova.fields.anime_theme_entry.episodes.name'), AnimeThemeEntry::ATTRIBUTE_EPISODES)
                 ->sortable()
                 ->nullable()
                 ->rules(['nullable', 'max:192'])
-                ->help(__('nova.anime_theme_entry_episodes_help'))
+                ->help(__('nova.fields.anime_theme_entry.episodes.help'))
                 ->showOnPreview()
                 ->filterable(),
 
-            Boolean::make(__('nova.nsfw'), AnimeThemeEntry::ATTRIBUTE_NSFW)
+            Boolean::make(__('nova.fields.anime_theme_entry.nsfw.name'), AnimeThemeEntry::ATTRIBUTE_NSFW)
                 ->sortable()
                 ->nullable()
                 ->rules(['nullable', 'boolean'])
-                ->help(__('nova.anime_theme_entry_nsfw_help'))
+                ->help(__('nova.fields.anime_theme_entry.nsfw.help'))
                 ->showOnPreview()
                 ->filterable(),
 
-            Boolean::make(__('nova.spoiler'), AnimeThemeEntry::ATTRIBUTE_SPOILER)
+            Boolean::make(__('nova.fields.anime_theme_entry.spoiler.name'), AnimeThemeEntry::ATTRIBUTE_SPOILER)
                 ->sortable()
                 ->nullable()
                 ->rules(['nullable', 'boolean'])
-                ->help(__('nova.anime_theme_entry_spoiler_help'))
+                ->help(__('nova.fields.anime_theme_entry.spoiler.help'))
                 ->showOnPreview()
                 ->filterable(),
 
-            Text::make(__('nova.notes'), AnimeThemeEntry::ATTRIBUTE_NOTES)
+            Text::make(__('nova.fields.anime_theme_entry.notes.name'), AnimeThemeEntry::ATTRIBUTE_NOTES)
                 ->sortable()
                 ->nullable()
                 ->rules(['nullable', 'max:192'])
-                ->help(__('nova.anime_theme_entry_notes_help'))
+                ->help(__('nova.fields.anime_theme_entry.notes.help'))
                 ->showOnPreview()
                 ->filterable(),
 
-            BelongsToMany::make(__('nova.videos'), AnimeThemeEntry::RELATION_VIDEOS, Video::class)
+            BelongsToMany::make(__('nova.resources.label.videos'), AnimeThemeEntry::RELATION_VIDEOS, Video::class)
                 ->searchable()
                 ->filterable()
                 ->fields(fn () => [
-                    DateTime::make(__('nova.created_at'), BasePivot::ATTRIBUTE_CREATED_AT)
+                    DateTime::make(__('nova.fields.base.created_at'), BasePivot::ATTRIBUTE_CREATED_AT)
                         ->hideWhenCreating(),
 
-                    DateTime::make(__('nova.updated_at'), BasePivot::ATTRIBUTE_UPDATED_AT)
+                    DateTime::make(__('nova.fields.base.updated_at'), BasePivot::ATTRIBUTE_UPDATED_AT)
                         ->hideWhenCreating(),
                 ]),
 
-            Panel::make(__('nova.timestamps'), $this->timestamps())
+            Panel::make(__('nova.fields.base.timestamps'), $this->timestamps())
                 ->collapsable(),
         ];
     }

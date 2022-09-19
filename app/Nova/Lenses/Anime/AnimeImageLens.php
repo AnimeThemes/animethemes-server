@@ -8,7 +8,7 @@ use App\Enums\Models\Wiki\ImageFacet;
 use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Image;
-use App\Nova\Actions\Wiki\Anime\BackfillAnimeAction;
+use App\Nova\Actions\Models\Wiki\Anime\BackfillAnimeAction;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -34,7 +34,7 @@ abstract class AnimeImageLens extends AnimeLens
      */
     public function name(): string
     {
-        return __('nova.anime_image_lens', ['facet' => static::facet()->description]);
+        return __('nova.lenses.anime.images.name', ['facet' => static::facet()->description]);
     }
 
     /**
@@ -62,8 +62,8 @@ abstract class AnimeImageLens extends AnimeLens
     {
         return [
             (new BackfillAnimeAction($request->user()))
-                ->confirmButtonText(__('nova.backfill'))
-                ->cancelButtonText(__('nova.cancel'))
+                ->confirmButtonText(__('nova.actions.anime.backfill.confirmButtonText'))
+                ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
                 ->showInline()
                 ->canSee(function (Request $request) {
                     $user = $request->user();

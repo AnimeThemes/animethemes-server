@@ -5,16 +5,17 @@ declare(strict_types=1);
 namespace App\Actions\Storage\Base;
 
 use App\Actions\ActionResult;
-use App\Actions\Storage\StorageResults;
+use App\Contracts\Actions\Storage\StorageResults;
 use App\Enums\Actions\ActionStatus;
 use App\Models\BaseModel;
+use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 
 /**
  * Class MoveResults.
  */
-class MoveResults extends StorageResults
+class MoveResults implements StorageResults
 {
     /**
      * Create a new action result instance.
@@ -46,6 +47,24 @@ class MoveResults extends StorageResults
             $result
                 ? Log::info("Moved '{$this->model->getName()}' from '$this->from' to '$this->to' in disk '$fs'")
                 : Log::error("Failed to move '{$this->model->getName()}' from '$this->from' to '$this->to' in disk '$fs'");
+        }
+    }
+
+    /**
+     * Write results to console output.
+     *
+     * @param  Command  $command
+     * @return void
+     */
+    public function toConsole(Command $command): void
+    {
+        if (empty($this->moves)) {
+            $command->error('No moves were attempted.');
+        }
+        foreach ($this->moves as $fs => $result) {
+            $result
+                ? $command->info("Moved '{$this->model->getName()}' from '$this->from' to '$this->to' in disk '$fs'")
+                : $command->error("Failed to move '{$this->model->getName()}' from '$this->from' to '$this->to' in disk '$fs'");
         }
     }
 

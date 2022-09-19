@@ -5,15 +5,16 @@ declare(strict_types=1);
 namespace App\Actions\Storage\Base;
 
 use App\Actions\ActionResult;
-use App\Actions\Storage\StorageResults;
+use App\Contracts\Actions\Storage\StorageResults;
 use App\Enums\Actions\ActionStatus;
+use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 
 /**
  * Class UploadResults.
  */
-class UploadResults extends StorageResults
+class UploadResults implements StorageResults
 {
     /**
      * Create a new action result instance.
@@ -38,6 +39,24 @@ class UploadResults extends StorageResults
             $result === false
                 ? Log::error("Failed to upload to disk '$fs'")
                 : Log::info("Uploaded '$result' to disk '$fs'");
+        }
+    }
+
+    /**
+     * Write results to console output.
+     *
+     * @param  Command  $command
+     * @return void
+     */
+    public function toConsole(Command $command): void
+    {
+        if (empty($this->uploads)) {
+            $command->error('No uploads were attempted.');
+        }
+        foreach ($this->uploads as $fs => $result) {
+            $result === false
+                ? $command->error("Failed to upload to disk '$fs'")
+                : $command->info("Uploaded '$result' to disk '$fs'");
         }
     }
 

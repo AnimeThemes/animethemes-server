@@ -56,4 +56,17 @@ return [
     */
 
     'allow_view_recording' => (bool) env('ALLOW_VIEW_RECORDING', false),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Allow Dump Downloading
+    |--------------------------------------------------------------------------
+    |
+    | When dump downloads are allowed, requests to the dump.show route will
+    | download dumps. If disabled, requests to the dump.show route will
+    | raise a 403 Forbidden response.
+    |
+    */
+
+    'allow_dump_downloading' => (bool) env('ALLOW_DUMP_DOWNLOADING', false),
 ];

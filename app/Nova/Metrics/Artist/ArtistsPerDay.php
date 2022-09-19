@@ -37,9 +37,9 @@ class ArtistsPerDay extends Trend
     public function ranges(): array
     {
         return [
-            30 => '30 Days',
-            60 => '60 Days',
-            90 => '90 Days',
+            30 => __('nova.metrics.ranges.trend.30'),
+            60 => __('nova.metrics.ranges.trend.60'),
+            90 => __('nova.metrics.ranges.trend.90'),
         ];
     }
 

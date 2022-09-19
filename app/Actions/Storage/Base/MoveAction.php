@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace App\Actions\Storage\Base;
 
-use App\Actions\Storage\StorageAction;
-use App\Actions\Storage\StorageResults;
+use App\Contracts\Actions\Storage\StorageAction;
+use App\Contracts\Actions\Storage\StorageResults;
+use App\Contracts\Storage\InteractsWithDisks;
 use App\Models\BaseModel;
 use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Support\Facades\Storage;
@@ -15,7 +16,7 @@ use Illuminate\Support\Facades\Storage;
  *
  * @template TModel of \App\Models\BaseModel
  */
-abstract class MoveAction extends StorageAction
+abstract class MoveAction implements InteractsWithDisks, StorageAction
 {
     /**
      * Create a new action instance.

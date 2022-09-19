@@ -37,14 +37,14 @@ class NewVideos extends Value
     public function ranges(): array
     {
         return [
-            30 => '30 Days',
-            60 => '60 Days',
-            365 => '365 Days',
-            'TODAY' => 'Today',
-            'YESTERDAY' => 'Yesterday',
-            'MTD' => 'Month To Date',
-            'QTD' => 'Quarter To Date',
-            'YTD' => 'Year To Date',
+            30 => __('nova.metrics.ranges.value.30'),
+            60 => __('nova.metrics.ranges.value.60'),
+            365 => __('nova.metrics.ranges.value.365'),
+            'TODAY' => __('nova.metrics.ranges.value.today'),
+            'YESTERDAY' => __('nova.metrics.ranges.value.yesterday'),
+            'MTD' => __('nova.metrics.ranges.value.mtd'),
+            'QTD' => __('nova.metrics.ranges.value.qtd'),
+            'YTD' => __('nova.metrics.ranges.value.ytd'),
         ];
     }
 

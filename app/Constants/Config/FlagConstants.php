@@ -24,4 +24,8 @@ class FlagConstants
     final public const ALLOW_VIEW_RECORDING_FLAG = 'allow_view_recording';
 
     final public const ALLOW_VIEW_RECORDING_FLAG_QUALIFIED = 'flags.allow_view_recording';
+
+    final public const ALLOW_DUMP_DOWNLOADING_FLAG = 'allow_dump_downloading';
+
+    final public const ALLOW_DUMP_DOWNLOADING_FLAG_QUALIFIED = 'flags.allow_dump_downloading';
 }

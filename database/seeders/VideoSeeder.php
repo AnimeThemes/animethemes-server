@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
-use App\Actions\Repositories\Wiki\Video\ReconcileVideoRepositories;
+use App\Actions\Repositories\Wiki\Video\ReconcileVideoRepositoriesAction;
 use App\Repositories\Eloquent\Wiki\VideoRepository as VideoDestinationRepository;
 use App\Repositories\Storage\Wiki\VideoRepository as VideoSourceRepository;
 use Illuminate\Database\Seeder;
@@ -26,7 +26,7 @@ class VideoSeeder extends Seeder
 
         $destinationRepository = App::make(VideoDestinationRepository::class);
 
-        $action = new ReconcileVideoRepositories();
+        $action = new ReconcileVideoRepositoriesAction();
 
         $results = $action->reconcileRepositories($sourceRepository, $destinationRepository);
 

@@ -7,7 +7,7 @@ namespace App\Nova\Lenses\Audio;
 use App\Models\Auth\User;
 use App\Models\BaseModel;
 use App\Models\Wiki\Audio;
-use App\Nova\Actions\Wiki\Audio\DeleteAudioAction;
+use App\Nova\Actions\Storage\Wiki\Audio\DeleteAudioAction;
 use App\Nova\Lenses\BaseLens;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
@@ -32,7 +32,7 @@ class AudioVideoLens extends BaseLens
      */
     public function name(): string
     {
-        return __('nova.audio_video_lens');
+        return __('nova.lenses.audio.video.name');
     }
 
     /**
@@ -57,35 +57,35 @@ class AudioVideoLens extends BaseLens
     public function fields(NovaRequest $request): array
     {
         return [
-            ID::make(__('nova.id'), Audio::ATTRIBUTE_ID)
+            ID::make(__('nova.fields.base.id'), Audio::ATTRIBUTE_ID)
                 ->sortable()
                 ->showOnPreview(),
 
-            Text::make(__('nova.basename'), Audio::ATTRIBUTE_BASENAME)
+            Text::make(__('nova.fields.audio.basename.name'), Audio::ATTRIBUTE_BASENAME)
                 ->onlyOnPreview(),
 
-            Text::make(__('nova.filename'), Audio::ATTRIBUTE_FILENAME)
+            Text::make(__('nova.fields.audio.filename.name'), Audio::ATTRIBUTE_FILENAME)
                 ->sortable()
                 ->copyable()
                 ->showOnPreview()
                 ->filterable(),
 
-            Text::make(__('nova.path'), Audio::ATTRIBUTE_PATH)
+            Text::make(__('nova.fields.audio.path.name'), Audio::ATTRIBUTE_PATH)
                 ->onlyOnPreview(),
 
-            Number::make(__('nova.size'), Audio::ATTRIBUTE_SIZE)
+            Number::make(__('nova.fields.audio.size.name'), Audio::ATTRIBUTE_SIZE)
                 ->onlyOnPreview(),
 
-            Text::make(__('nova.mimetype'), Audio::ATTRIBUTE_MIMETYPE)
+            Text::make(__('nova.fields.audio.mimetype.name'), Audio::ATTRIBUTE_MIMETYPE)
                 ->onlyOnPreview(),
 
-            DateTime::make(__('nova.created_at'), BaseModel::ATTRIBUTE_CREATED_AT)
+            DateTime::make(__('nova.fields.base.created_at'), BaseModel::ATTRIBUTE_CREATED_AT)
                 ->onlyOnPreview(),
 
-            DateTime::make(__('nova.updated_at'), BaseModel::ATTRIBUTE_UPDATED_AT)
+            DateTime::make(__('nova.fields.base.updated_at'), BaseModel::ATTRIBUTE_UPDATED_AT)
                 ->onlyOnPreview(),
 
-            DateTime::make(__('nova.deleted_at'), BaseModel::ATTRIBUTE_DELETED_AT)
+            DateTime::make(__('nova.fields.base.deleted_at'), BaseModel::ATTRIBUTE_DELETED_AT)
                 ->onlyOnPreview(),
         ];
     }
@@ -102,9 +102,9 @@ class AudioVideoLens extends BaseLens
     {
         return [
             (new DeleteAudioAction())
-                ->confirmText(__('nova.remove_audio_text'))
-                ->confirmButtonText(__('nova.remove'))
-                ->cancelButtonText(__('nova.cancel'))
+                ->confirmText(__('nova.actions.audio.delete.confirmText'))
+                ->confirmButtonText(__('nova.actions.audio.delete.confirmButtonText'))
+                ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
                 ->exceptOnIndex()
                 ->canSee(function (Request $request) {
                     $user = $request->user();

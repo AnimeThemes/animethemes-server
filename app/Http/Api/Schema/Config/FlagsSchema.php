@@ -6,6 +6,7 @@ namespace App\Http\Api\Schema\Config;
 
 use App\Http\Api\Field\Config\Flags\FlagsAllowAudioStreamsField;
 use App\Http\Api\Field\Config\Flags\FlagsAllowDiscordNotificationsField;
+use App\Http\Api\Field\Config\Flags\FlagsAllowDumpDownloadingField;
 use App\Http\Api\Field\Config\Flags\FlagsAllowVideoStreamsField;
 use App\Http\Api\Field\Config\Flags\FlagsAllowViewRecordingField;
 use App\Http\Api\Field\Field;
@@ -52,6 +53,7 @@ class FlagsSchema extends Schema
             new FlagsAllowAudioStreamsField(),
             new FlagsAllowDiscordNotificationsField(),
             new FlagsAllowViewRecordingField(),
+            new FlagsAllowDumpDownloadingField(),
         ];
     }
 }

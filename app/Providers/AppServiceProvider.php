@@ -53,6 +53,7 @@ class AppServiceProvider extends ServiceProvider
             'Allow Discord Notifications' => fn () => Config::bool(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED) ? 'true' : 'false',
             'Allow Video Streams' => fn () => Config::bool(FlagConstants::ALLOW_VIDEO_STREAMS_FLAG_QUALIFIED) ? 'true' : 'false',
             'Allow View Recording' => fn () => Config::bool(FlagConstants::ALLOW_VIEW_RECORDING_FLAG_QUALIFIED) ? 'true' : 'false',
+            'Allow Dump Downloading' => fn () => Config::bool(FlagConstants::ALLOW_DUMP_DOWNLOADING_FLAG_QUALIFIED) ? 'true' : 'false',
         ]);
 
         AboutCommand::add('Images', [

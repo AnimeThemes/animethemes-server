@@ -4,14 +4,9 @@ declare(strict_types=1);
 
 namespace App\Actions\Storage\Wiki\Audio;
 
-use App\Actions\Repositories\ReconcileRepositories;
-use App\Actions\Repositories\Wiki\Audio\ReconcileAudioRepositories;
 use App\Actions\Storage\Base\UploadAction;
+use App\Concerns\Repositories\Wiki\ReconcilesAudioRepositories;
 use App\Constants\Config\AudioConstants;
-use App\Contracts\Repositories\RepositoryInterface;
-use App\Repositories\Eloquent\Wiki\AudioRepository as AudioDestinationRepository;
-use App\Repositories\Storage\Wiki\AudioRepository as AudioSourceRepository;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Config;
 
 /**
@@ -19,43 +14,15 @@ use Illuminate\Support\Facades\Config;
  */
 class UploadAudioAction extends UploadAction
 {
+    use ReconcilesAudioRepositories;
+
     /**
-     * Get the disks to update.
+     * The list of disk names.
      *
      * @return array
      */
-    protected function disks(): array
+    public function disks(): array
     {
         return Config::get(AudioConstants::DISKS_QUALIFIED);
-    }
-
-    /**
-     * Get source repository for action.
-     *
-     * @return RepositoryInterface
-     */
-    protected function getSourceRepository(): RepositoryInterface
-    {
-        return App::make(AudioSourceRepository::class);
-    }
-
-    /**
-     * Get destination repository for action.
-     *
-     * @return RepositoryInterface
-     */
-    protected function getDestinationRepository(): RepositoryInterface
-    {
-        return App::make(AudioDestinationRepository::class);
-    }
-
-    /**
-     * Get the reconcile action.
-     *
-     * @return ReconcileRepositories
-     */
-    protected function action(): ReconcileRepositories
-    {
-        return new ReconcileAudioRepositories();
     }
 }

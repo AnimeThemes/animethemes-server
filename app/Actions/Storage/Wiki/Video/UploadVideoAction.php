@@ -4,14 +4,9 @@ declare(strict_types=1);
 
 namespace App\Actions\Storage\Wiki\Video;
 
-use App\Actions\Repositories\ReconcileRepositories;
-use App\Actions\Repositories\Wiki\Video\ReconcileVideoRepositories;
 use App\Actions\Storage\Base\UploadAction;
+use App\Concerns\Repositories\Wiki\ReconcilesVideoRepositories;
 use App\Constants\Config\VideoConstants;
-use App\Contracts\Repositories\RepositoryInterface;
-use App\Repositories\Eloquent\Wiki\VideoRepository as VideoDestinationRepository;
-use App\Repositories\Storage\Wiki\VideoRepository as VideoSourceRepository;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Config;
 
 /**
@@ -19,43 +14,15 @@ use Illuminate\Support\Facades\Config;
  */
 class UploadVideoAction extends UploadAction
 {
+    use ReconcilesVideoRepositories;
+
     /**
-     * Get the disks to update.
+     * The list of disk names.
      *
      * @return array
      */
-    protected function disks(): array
+    public function disks(): array
     {
         return Config::get(VideoConstants::DISKS_QUALIFIED);
-    }
-
-    /**
-     * Get source repository for action.
-     *
-     * @return RepositoryInterface
-     */
-    protected function getSourceRepository(): RepositoryInterface
-    {
-        return App::make(VideoSourceRepository::class);
-    }
-
-    /**
-     * Get destination repository for action.
-     *
-     * @return RepositoryInterface
-     */
-    protected function getDestinationRepository(): RepositoryInterface
-    {
-        return App::make(VideoDestinationRepository::class);
-    }
-
-    /**
-     * Get the reconcile action.
-     *
-     * @return ReconcileRepositories
-     */
-    protected function action(): ReconcileRepositories
-    {
-        return new ReconcileVideoRepositories();
     }
 }

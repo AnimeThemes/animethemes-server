@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Actions;
 
 use App\Enums\Actions\ActionStatus;
+use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Class ActionResult.
@@ -49,5 +51,30 @@ class ActionResult
     public function hasFailed(): bool
     {
         return ActionStatus::FAILED()->is($this->status);
+    }
+
+    /**
+     * Write results to log.
+     *
+     * @return void
+     */
+    public function toLog(): void
+    {
+        $this->hasFailed()
+            ? Log::error($this->getMessage())
+            : Log::info($this->getMessage());
+    }
+
+    /**
+     * Write results to console output.
+     *
+     * @param  Command  $command
+     * @return void
+     */
+    public function toConsole(Command $command): void
+    {
+        $this->hasFailed()
+            ? $command->error($this->getMessage())
+            : $command->info($this->getMessage());
     }
 }

@@ -8,7 +8,7 @@ use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Auth\User;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Studio;
-use App\Nova\Actions\Wiki\Studio\AttachStudioResourceAction;
+use App\Nova\Actions\Models\Wiki\Studio\AttachStudioResourceAction;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
@@ -33,7 +33,7 @@ abstract class StudioResourceLens extends StudioLens
      */
     public function name(): string
     {
-        return __('nova.studio_resource_lens', ['site' => static::site()->description]);
+        return __('nova.lenses.studio.resources.name', ['site' => static::site()->description]);
     }
 
     /**
@@ -61,8 +61,8 @@ abstract class StudioResourceLens extends StudioLens
     {
         return [
             (new AttachStudioResourceAction(static::site()))
-                ->confirmButtonText(__('nova.attach'))
-                ->cancelButtonText(__('nova.cancel'))
+                ->confirmButtonText(__('nova.actions.models.wiki.attach_resource.confirmButtonText'))
+                ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
                 ->showInline()
                 ->canSee(function (Request $request) {
                     $user = $request->user();

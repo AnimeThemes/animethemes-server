@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Pivots;
 
-use App\Events\Pivot\AnimeThemeEntryVideo\AnimeThemeEntryAnimeThemeCreatedVideo;
-use App\Events\Pivot\AnimeThemeEntryVideo\AnimeThemeEntryAnimeThemeDeletedVideo;
+use App\Events\Pivot\AnimeThemeEntryVideo\AnimeThemeEntryVideoCreated;
+use App\Events\Pivot\AnimeThemeEntryVideo\AnimeThemeEntryVideoDeleted;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
 use Database\Factories\Pivots\AnimeThemeEntryVideoFactory;
@@ -63,8 +63,8 @@ class AnimeThemeEntryVideo extends BasePivot
      * @var array
      */
     protected $dispatchesEvents = [
-        'created' => AnimeThemeEntryAnimeThemeCreatedVideo::class,
-        'deleted' => AnimeThemeEntryAnimeThemeDeletedVideo::class,
+        'created' => AnimeThemeEntryVideoCreated::class,
+        'deleted' => AnimeThemeEntryVideoDeleted::class,
     ];
 
     /**

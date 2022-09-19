@@ -43,7 +43,7 @@ class Synonym extends BaseResource
      */
     public static function group(): string
     {
-        return __('nova.wiki');
+        return __('nova.resources.group.wiki');
     }
 
     /**
@@ -55,7 +55,7 @@ class Synonym extends BaseResource
      */
     public static function label(): string
     {
-        return __('nova.anime_synonyms');
+        return __('nova.resources.label.anime_synonyms');
     }
 
     /**
@@ -67,7 +67,7 @@ class Synonym extends BaseResource
      */
     public static function singularLabel(): string
     {
-        return __('nova.anime_synonym');
+        return __('nova.resources.singularLabel.anime_synonym');
     }
 
     /**
@@ -121,7 +121,7 @@ class Synonym extends BaseResource
     public function fields(NovaRequest $request): array
     {
         return [
-            BelongsTo::make(__('nova.anime'), AnimeSynonym::RELATION_ANIME, Anime::class)
+            BelongsTo::make(__('nova.resources.singularLabel.anime'), AnimeSynonym::RELATION_ANIME, Anime::class)
                 ->sortable()
                 ->filterable()
                 ->searchable(fn () => $request->viaResource() === null)
@@ -131,18 +131,18 @@ class Synonym extends BaseResource
                 ->showCreateRelationButton(fn () => $request->viaResource() === null)
                 ->showOnPreview(),
 
-            ID::make(__('nova.id'), AnimeSynonym::ATTRIBUTE_ID)
+            ID::make(__('nova.fields.base.id'), AnimeSynonym::ATTRIBUTE_ID)
                 ->sortable()
                 ->showOnPreview(),
 
-            Text::make(__('nova.text'), AnimeSynonym::ATTRIBUTE_TEXT)
+            Text::make(__('nova.fields.anime_synonym.text.name'), AnimeSynonym::ATTRIBUTE_TEXT)
                 ->sortable()
                 ->rules(['required', 'max:192'])
-                ->help(__('nova.anime_synonym_text_help'))
+                ->help(__('nova.fields.anime_synonym.text.help'))
                 ->showOnPreview()
                 ->filterable(),
 
-            Panel::make(__('nova.timestamps'), $this->timestamps())
+            Panel::make(__('nova.fields.base.timestamps'), $this->timestamps())
                 ->collapsable(),
         ];
     }

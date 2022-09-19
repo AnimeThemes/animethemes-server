@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Wiki;
 
 use App\Contracts\Models\Streamable;
+use App\Contracts\Storage\InteractsWithDisk;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
@@ -13,7 +14,7 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 /**
  * Class StreamableController.
  */
-abstract class StreamableController extends Controller
+abstract class StreamableController extends Controller implements InteractsWithDisk
 {
     /**
      * Stream model through optimized framework streamed response.
@@ -78,13 +79,6 @@ abstract class StreamableController extends Controller
             'X-Accel-Redirect' => $link,
         ]);
     }
-
-    /**
-     * Get the filesystem disk that hosts the streamable model.
-     *
-     * @return string
-     */
-    abstract protected function disk(): string;
 
     /**
      * Get the location of the nginx internal redirect.

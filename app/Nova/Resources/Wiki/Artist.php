@@ -71,7 +71,7 @@ class Artist extends BaseResource
      */
     public static function group(): string
     {
-        return __('nova.wiki');
+        return __('nova.resources.group.wiki');
     }
 
     /**
@@ -83,7 +83,7 @@ class Artist extends BaseResource
      */
     public static function label(): string
     {
-        return __('nova.artists');
+        return __('nova.resources.label.artists');
     }
 
     /**
@@ -95,7 +95,7 @@ class Artist extends BaseResource
      */
     public static function singularLabel(): string
     {
-        return __('nova.artist');
+        return __('nova.resources.singularLabel.artist');
     }
 
     /**
@@ -124,19 +124,19 @@ class Artist extends BaseResource
     public function fields(NovaRequest $request): array
     {
         return [
-            ID::make(__('nova.id'), ArtistModel::ATTRIBUTE_ID)
+            ID::make(__('nova.fields.base.id'), ArtistModel::ATTRIBUTE_ID)
                 ->sortable()
                 ->showOnPreview(),
 
-            Text::make(__('nova.name'), ArtistModel::ATTRIBUTE_NAME)
+            Text::make(__('nova.fields.artist.name.name'), ArtistModel::ATTRIBUTE_NAME)
                 ->sortable()
                 ->copyable()
                 ->rules(['required', 'max:192'])
-                ->help(__('nova.artist_name_help'))
+                ->help(__('nova.fields.artist.name.help'))
                 ->showOnPreview()
                 ->filterable(),
 
-            Slug::make(__('nova.slug'), ArtistModel::ATTRIBUTE_SLUG)
+            Slug::make(__('nova.fields.artist.slug.name'), ArtistModel::ATTRIBUTE_SLUG)
                 ->from(ArtistModel::ATTRIBUTE_NAME)
                 ->separator('_')
                 ->sortable()
@@ -146,105 +146,105 @@ class Artist extends BaseResource
                         ->ignore($request->route('resourceId'), ArtistModel::ATTRIBUTE_ID)
                         ->__toString()
                 )
-                ->help(__('nova.artist_slug_help'))
+                ->help(__('nova.fields.artist.slug.help'))
                 ->showOnPreview(),
 
-            BelongsToMany::make(__('nova.songs'), ArtistModel::RELATION_SONGS, Song::class)
+            BelongsToMany::make(__('nova.resources.label.songs'), ArtistModel::RELATION_SONGS, Song::class)
                 ->searchable()
                 ->filterable()
                 ->withSubtitles()
                 ->showCreateRelationButton()
                 ->fields(fn () => [
-                    Text::make(__('nova.as'), ArtistSong::ATTRIBUTE_AS)
+                    Text::make(__('nova.fields.artist.songs.as.name'), ArtistSong::ATTRIBUTE_AS)
                         ->nullable()
                         ->copyable()
-                        ->rules(['nullable', 'max:192'])
-                        ->help(__('nova.resource_as_help')),
+                        ->rules(['nullable', 'max:nova.fields.artist.songs.as.help192'])
+                        ->help(__('')),
 
-                    DateTime::make(__('nova.created_at'), BasePivot::ATTRIBUTE_CREATED_AT)
+                    DateTime::make(__('nova.fields.base.created_at'), BasePivot::ATTRIBUTE_CREATED_AT)
                         ->hideWhenCreating()
                         ->hideWhenUpdating(),
 
-                    DateTime::make(__('nova.updated_at'), BasePivot::ATTRIBUTE_UPDATED_AT)
+                    DateTime::make(__('nova.fields.base.updated_at'), BasePivot::ATTRIBUTE_UPDATED_AT)
                         ->hideWhenCreating()
                         ->hideWhenUpdating(),
                 ]),
 
-            BelongsToMany::make(__('nova.external_resources'), ArtistModel::RELATION_RESOURCES, ExternalResource::class)
+            BelongsToMany::make(__('nova.resources.label.external_resources'), ArtistModel::RELATION_RESOURCES, ExternalResource::class)
                 ->searchable()
                 ->filterable()
                 ->withSubtitles()
                 ->showCreateRelationButton()
                 ->fields(fn () => [
-                    Text::make(__('nova.as'), ArtistResource::ATTRIBUTE_AS)
+                    Text::make(__('nova.fields.artist.resources.as.name'), ArtistResource::ATTRIBUTE_AS)
                         ->nullable()
                         ->copyable()
                         ->rules(['nullable', 'max:192'])
-                        ->help(__('nova.resource_as_help')),
+                        ->help(__('nova.fields.artist.resources.as.help')),
 
-                    DateTime::make(__('nova.created_at'), BasePivot::ATTRIBUTE_CREATED_AT)
+                    DateTime::make(__('nova.fields.base.created_at'), BasePivot::ATTRIBUTE_CREATED_AT)
                         ->hideWhenCreating()
                         ->hideWhenUpdating(),
 
-                    DateTime::make(__('nova.updated_at'), BasePivot::ATTRIBUTE_UPDATED_AT)
+                    DateTime::make(__('nova.fields.base.updated_at'), BasePivot::ATTRIBUTE_UPDATED_AT)
                         ->hideWhenCreating()
                         ->hideWhenUpdating(),
                 ]),
 
-            BelongsToMany::make(__('nova.members'), ArtistModel::RELATION_MEMBERS, Artist::class)
+            BelongsToMany::make(__('nova.resources.label.members'), ArtistModel::RELATION_MEMBERS, Artist::class)
                 ->searchable()
                 ->withSubtitles()
                 ->showCreateRelationButton()
                 ->fields(fn () => [
-                    Text::make(__('nova.as'), ArtistMember::ATTRIBUTE_AS)
+                    Text::make(__('nova.fields.artist.members.as.name'), ArtistMember::ATTRIBUTE_AS)
                         ->nullable()
                         ->copyable()
                         ->rules(['nullable', 'max:192'])
-                        ->help(__('nova.resource_as_help')),
+                        ->help(__('nova.fields.artist.members.as.help')),
 
-                    DateTime::make(__('nova.created_at'), BasePivot::ATTRIBUTE_CREATED_AT)
+                    DateTime::make(__('nova.fields.base.created_at'), BasePivot::ATTRIBUTE_CREATED_AT)
                         ->hideWhenCreating()
                         ->hideWhenUpdating(),
 
-                    DateTime::make(__('nova.updated_at'), BasePivot::ATTRIBUTE_UPDATED_AT)
+                    DateTime::make(__('nova.fields.base.updated_at'), BasePivot::ATTRIBUTE_UPDATED_AT)
                         ->hideWhenCreating()
                         ->hideWhenUpdating(),
                 ]),
 
-            BelongsToMany::make(__('nova.groups'), ArtistModel::RELATION_GROUPS, Artist::class)
+            BelongsToMany::make(__('nova.resources.label.groups'), ArtistModel::RELATION_GROUPS, Artist::class)
                 ->searchable()
                 ->withSubtitles()
                 ->showCreateRelationButton()
                 ->fields(fn () => [
-                    Text::make(__('nova.as'), ArtistMember::ATTRIBUTE_AS)
+                    Text::make(__('nova.fields.artist.groups.as.name'), ArtistMember::ATTRIBUTE_AS)
                         ->nullable()
                         ->copyable()
                         ->rules(['nullable', 'max:192'])
-                        ->help(__('nova.resource_as_help')),
+                        ->help(__('nova.fields.artist.groups.as.help')),
 
-                    DateTime::make(__('nova.created_at'), BasePivot::ATTRIBUTE_CREATED_AT)
+                    DateTime::make(__('nova.fields.base.created_at'), BasePivot::ATTRIBUTE_CREATED_AT)
                         ->hideWhenCreating()
                         ->hideWhenUpdating(),
 
-                    DateTime::make(__('nova.updated_at'), BasePivot::ATTRIBUTE_UPDATED_AT)
+                    DateTime::make(__('nova.fields.base.updated_at'), BasePivot::ATTRIBUTE_UPDATED_AT)
                         ->hideWhenCreating()
                         ->hideWhenUpdating(),
                 ]),
 
-            BelongsToMany::make(__('nova.images'), ArtistModel::RELATION_IMAGES, Image::class)
+            BelongsToMany::make(__('nova.resources.label.images'), ArtistModel::RELATION_IMAGES, Image::class)
                 ->searchable()
                 ->filterable()
                 ->withSubtitles()
                 ->showCreateRelationButton()
                 ->fields(fn () => [
-                    DateTime::make(__('nova.created_at'), BasePivot::ATTRIBUTE_CREATED_AT)
+                    DateTime::make(__('nova.fields.base.created_at'), BasePivot::ATTRIBUTE_CREATED_AT)
                         ->hideWhenCreating(),
 
-                    DateTime::make(__('nova.updated_at'), BasePivot::ATTRIBUTE_UPDATED_AT)
+                    DateTime::make(__('nova.fields.base.updated_at'), BasePivot::ATTRIBUTE_UPDATED_AT)
                         ->hideWhenCreating(),
                 ]),
 
-            Panel::make(__('nova.timestamps'), $this->timestamps())
+            Panel::make(__('nova.fields.base.timestamps'), $this->timestamps())
                 ->collapsable(),
         ];
     }

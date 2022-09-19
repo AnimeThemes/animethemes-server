@@ -136,9 +136,24 @@ return [
             'throw' => false,
         ],
 
-        'db-dumps' => [
+        'dumps' => [
+            'driver' => 's3',
+            'key' => env('DUMP_ACCESS_KEY_ID'),
+            'secret' => env('DUMP_SECRET_ACCESS_KEY'),
+            'region' => env('DUMP_DEFAULT_REGION'),
+            'bucket' => env('DUMP_BUCKET'),
+            'endpoint' => env('DUMP_ENDPOINT'),
+            'stream_reads' => env('DUMP_STREAM_READS'),
+            'disable_asserts' => env('DUMP_DISABLE_ASSERTS'),
+            'visibility' => env('DUMP_VISIBILITY'),
+            'throw' => false,
+        ],
+
+        'dumps_local' => [
             'driver' => 'local',
-            'root' => storage_path('db-dumps'),
+            'root' => public_path('dumps'),
+            'url' => env('APP_URL').'/dumps',
+            'visibility' => 'public',
             'throw' => false,
         ],
     ],
@@ -159,6 +174,7 @@ return [
         public_path('audios') => env('AUDIO_DISK_ROOT', storage_path('app/audios')),
         public_path('images') => env('IMAGE_DISK_ROOT', storage_path('app/images')),
         public_path('videos') => env('VIDEO_DISK_ROOT', storage_path('app/videos')),
+        public_path('dumps') => env('DUMP_DISK_ROOT', storage_path('app/dumps')),
     ],
 
 ];

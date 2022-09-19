@@ -10,7 +10,7 @@ use App\Enums\Models\Wiki\VideoSource;
 use App\Models\Auth\User;
 use App\Models\BaseModel;
 use App\Models\Wiki\Video;
-use App\Nova\Actions\Wiki\Video\BackfillAudioAction;
+use App\Nova\Actions\Models\Wiki\Video\BackfillAudioAction;
 use App\Nova\Lenses\BaseLens;
 use BenSampo\Enum\Enum;
 use Exception;
@@ -38,7 +38,7 @@ class VideoAudioLens extends BaseLens
      */
     public function name(): string
     {
-        return __('nova.video_audio_lens');
+        return __('nova.lenses.video.audio.name');
     }
 
     /**
@@ -64,58 +64,58 @@ class VideoAudioLens extends BaseLens
     public function fields(NovaRequest $request): array
     {
         return [
-            ID::make(__('nova.id'), Video::ATTRIBUTE_ID)
+            ID::make(__('nova.fields.base.id'), Video::ATTRIBUTE_ID)
                 ->sortable()
                 ->showOnPreview(),
 
-            Text::make(__('nova.filename'), Video::ATTRIBUTE_FILENAME)
+            Text::make(__('nova.fields.video.filename.name'), Video::ATTRIBUTE_FILENAME)
                 ->sortable()
                 ->copyable()
                 ->showOnPreview()
                 ->filterable(),
 
-            Number::make(__('nova.resolution'), Video::ATTRIBUTE_RESOLUTION)
+            Number::make(__('nova.fields.video.resolution.name'), Video::ATTRIBUTE_RESOLUTION)
                 ->sortable()
                 ->showOnPreview()
                 ->filterable(),
 
-            Boolean::make(__('nova.nc'), Video::ATTRIBUTE_NC)
+            Boolean::make(__('nova.fields.video.nc.name'), Video::ATTRIBUTE_NC)
                 ->sortable()
                 ->showOnPreview()
                 ->filterable(),
 
-            Boolean::make(__('nova.subbed'), Video::ATTRIBUTE_SUBBED)
+            Boolean::make(__('nova.fields.video.subbed.name'), Video::ATTRIBUTE_SUBBED)
                 ->sortable()
                 ->showOnPreview()
                 ->filterable(),
 
-            Boolean::make(__('nova.lyrics'), Video::ATTRIBUTE_LYRICS)
+            Boolean::make(__('nova.fields.video.lyrics.name'), Video::ATTRIBUTE_LYRICS)
                 ->sortable()
                 ->showOnPreview()
                 ->filterable(),
 
-            Boolean::make(__('nova.uncen'), Video::ATTRIBUTE_UNCEN)
+            Boolean::make(__('nova.fields.video.uncen.name'), Video::ATTRIBUTE_UNCEN)
                 ->sortable()
                 ->showOnPreview()
                 ->filterable(),
 
-            Select::make(__('nova.overlap'), Video::ATTRIBUTE_OVERLAP)
+            Select::make(__('nova.fields.video.overlap.name'), Video::ATTRIBUTE_OVERLAP)
                 ->options(VideoOverlap::asSelectArray())
                 ->displayUsing(fn (?Enum $enum) => $enum?->description)
                 ->onlyOnPreview(),
 
-            Select::make(__('nova.source'), Video::ATTRIBUTE_SOURCE)
+            Select::make(__('nova.fields.video.source.name'), Video::ATTRIBUTE_SOURCE)
                 ->options(VideoSource::asSelectArray())
                 ->displayUsing(fn (?Enum $enum) => $enum?->description)
                 ->onlyOnPreview(),
 
-            DateTime::make(__('nova.created_at'), BaseModel::ATTRIBUTE_CREATED_AT)
+            DateTime::make(__('nova.fields.base.created_at'), BaseModel::ATTRIBUTE_CREATED_AT)
                 ->onlyOnPreview(),
 
-            DateTime::make(__('nova.updated_at'), BaseModel::ATTRIBUTE_UPDATED_AT)
+            DateTime::make(__('nova.fields.base.updated_at'), BaseModel::ATTRIBUTE_UPDATED_AT)
                 ->onlyOnPreview(),
 
-            DateTime::make(__('nova.deleted_at'), BaseModel::ATTRIBUTE_DELETED_AT)
+            DateTime::make(__('nova.fields.base.deleted_at'), BaseModel::ATTRIBUTE_DELETED_AT)
                 ->onlyOnPreview(),
         ];
     }
@@ -132,8 +132,8 @@ class VideoAudioLens extends BaseLens
     {
         return [
             (new BackfillAudioAction($request->user()))
-                ->confirmButtonText(__('nova.backfill'))
-                ->cancelButtonText(__('nova.cancel'))
+                ->confirmButtonText(__('nova.actions.video.backfill.confirmButtonText'))
+                ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
                 ->showOnIndex()
                 ->showOnDetail()
                 ->showInline()

@@ -3,272 +3,787 @@
 declare(strict_types=1);
 
 return [
-    'admin' => 'Admin',
-    'amount' => 'Amount',
-    'anime_image_lens' => 'Anime Without :facet Image',
-    'anime_name_help' => 'The display title of the Anime. By default, we will use the same title as MAL. Ex: "Bakemonogatari", "Code Geass: Hangyaku no Lelouch", "Dungeon ni Deai wo Motomeru no wa Machigatteiru Darou ka".',
-    'anime_resource_lens' => 'Anime Without :site Resource',
-    'anime_season_help' => 'The Season in which the Anime premiered. By default, we will use the Premiered Field on the MAL page.',
-    'anime_slug_help' => 'Used as the URL Slug / Model Route Key. By default, this should be the Name lowercased and "_" replacing spaces. Shortenings/Abbreviations are also accepted. Ex: "monogatari", "code_geass", "danmachi".',
-    'anime_studio_lens' => 'Anime Without Studios',
-    'anime_synonym_text_help' => 'For alternative titles, licensed titles, common abbreviations and/or shortenings, ',
-    'anime_synonym' => 'Anime Synonym',
-    'anime_synonyms' => 'Anime Synonyms',
-    'anime_synopsis_help' => 'The brief description of the Anime',
-    'anime_theme_slug_help' => 'Used as the URL Slug / Model Route Key. By default, this should be the Type and Sequence lowercased and "_" replacing spaces. These should be unique within the scope of the anime. Ex: "OP", "ED1", "OP2-Dub".',
-    'anime_theme_type_help' => 'Is this an OP or an ED?',
-    'anime_theme_entries' => 'Anime Theme Entries',
-    'anime_theme_entry_episodes_help' => 'The range(s) of episodes that the theme entry is used. Can be left blank if used for all episodes or if there are not episodes as with movies. Ex: "1-", "1-11", "1-2, 10, 12".',
-    'anime_theme_entry_notes_help' => 'Any additional information not included in other fields that may be useful',
-    'anime_theme_entry_nsfw_help' => 'Does the entry include Not Safe For Work content? Set at your discretion. There will not be rigid guidelines to define when this property should be set.',
-    'anime_theme_entry_spoiler_help' => 'Does the entry include content that spoils the show? You may also include up to which episode is spoiled in Notes (Ex: Ep 6 spoilers).',
-    'anime_theme_entry_version_help' => 'The Version number of the Theme. Can be left blank if there is only one version. Version is only required if there exist at least 2 in the sequence.',
-    'anime_theme_entry' => 'Anime Theme Entry',
-    'anime_theme_group_help' => 'For separating sequences belonging to dubs, rebroadcasts, remasters, etc. By default, leave blank.',
-    'anime_theme_lens' => 'Anime Without Themes',
-    'anime_theme_sequence_help' => 'Numeric ordering of theme. If only one theme of this type exists for the show, this can be left blank.',
-    'anime_theme' => 'Anime Theme',
-    'anime_themes' => 'Anime Themes',
-    'anime_year_help' => 'The Year in which the Anime premiered. By default, we will use the Premiered Field on the MAL page.',
-    'anime' => 'Anime',
-    'announcement' => 'Announcement',
-    'announcements' => 'Announcements',
-    'artist_image_lens' => 'Artist Without :facet Image',
-    'artist_name_help' => 'The display title of the Artist. By default, we will use the same title as MAL, but we will prefer "[Given Name] [Family name]". Ex: "Aimer", "Yui Horie", "Fear, and Loathing in Las Vegas".',
-    'artist_resource_lens' => 'Artist Without :site Resource',
-    'artist_slug_help' => 'Used as the URL Slug / Model Route Key. By default, this should be the Name lowercased and "_" replacing spaces. Shortenings/Abbreviations are also accepted. Ex: "aimer", "yui_horie", "falilv"',
-    'artist_song_lens' => 'Artist Without Songs',
-    'artist' => 'Artist',
-    'artists' => 'Artists',
-    'as_help' => 'Used in place of the Artist name if the performance is made as a character or group/unit member.',
-    'as' => 'As',
-    'attach_resource_action' => 'Attach :site Resource',
-    'attach' => 'Attach',
-    'audio_video_lens' => 'Audio Without Video',
-    'audio' => 'Audio',
-    'audios' => 'Audios',
-    'auth' => 'Auth',
-    'backfill' => 'Backfill',
-    'backfill_anidb_resource_help' => 'Use the Manami Project Anime Offline Database hosted by yuna.moe to find an AniDB mapping from a MAL, Anilist or Kitsu Resource',
-    'backfill_anidb_resource' => 'Backfill AniDB Resource',
-    'backfill_anilist_resource_help' => 'Use the MAL, Kitsu or AniDB Resource to find an Anilist mapping',
-    'backfill_anilist_resource' => 'Backfill Anilist Resource',
-    'backfill_anime_studios_help' => 'Use the MAL, Anilist or Kitsu Resource to map Anime Studios',
-    'backfill_anime_studios' => 'Backfill Anime Studios',
-    'backfill_anime' => 'Backfill Anime',
-    'backfill_ann_resource_help' => 'Use the Kitsu resource to find an ANN mapping',
-    'backfill_ann_resource' => 'Backfill ANN Resource',
-    'backfill_audio_derive_source_help' => 'If Yes, use the source Video to backfill Audio. If No, use this Video to backfill Audio. Yes should be used in most cases. No is useful for outlier videos where we may want an additional Audio to represent the song like a second verse or an SFX version.',
-    'backfill_audio_derive_source' => 'Derive Source Video',
-    'backfill_audio_overwrite_help' => 'If Yes, the Audio will be extracted from the Video even if the Audio already exists. If No, the Audio will only be extracted from the Video if the Audio doesn\'t exist. No should be used in most cases. Yes is useful if we are replacing Audio for a Video.',
-    'backfill_audio_overwrite' => 'Overwrite Audio',
-    'backfill_audio' => 'Backfill Audio',
-    'backfill_kitsu_resource_help' => 'Use the Kitsu API to find a mapping from a MAL, Anilist, AniDB or ANN Resource',
-    'backfill_kitsu_resource' => 'Backfill Kitsu Resource',
-    'backfill_images' => 'Backfill Images',
-    'backfill_large_cover_help' => 'Use Anilist Resource to map Large Cover Image',
-    'backfill_large_cover' => 'Backfill Large Cover',
-    'backfill_mal_resource_help' => 'Use the Kitsu, Anilist or AniDB Resource to find a MAL mapping',
-    'backfill_mal_resource' => 'Backfill MyAnimeList Resource',
-    'backfill_resources' => 'Backfill Resources',
-    'backfill_small_cover_help' => 'Use Anilist Resource to map Small Cover Image',
-    'backfill_small_cover' => 'Backfill Small Cover',
-    'backfill_studio_large_cover_help' => 'Use MAL Resource to map Large Cover Image',
-    'backfill_studio' => 'Backfill Studio',
-    'backfill_studios' => 'Backfill Studios',
-    'balance_balance_help' => 'Current balance of the account with current usage',
-    'balance_date_help' => 'The month and year for the balance that we are tracking',
-    'balance_frequency_help' => 'The frequency that we are billed by the provider',
-    'balance_usage_help' => 'Amount used in the current billing period',
-    'balances' => 'Balances',
-    'balance' => 'Balance',
-    'basename' => 'Basename',
-    'billing_service_help' => 'The provider that is billing us',
-    'billing_service' => 'Billing Service',
-    'billing' => 'Billing',
-    'body' => 'Body',
-    'cancel' => 'Cancel',
-    'change' => 'Change',
-    'confirm_new_password' => 'Confirm New Password',
-    'confirm' => 'Confirm',
-    'content' => 'Content',
-    'create' => 'Create',
-    'created_at_end' => 'Created At End',
-    'created_at_start' => 'Created At Start',
-    'created_at' => 'Created At',
-    'current_password' => 'Current Password',
-    'date' => 'Date',
-    'deleted_at_end' => 'Deleted At End',
-    'deleted_at_start' => 'Deleted At Start',
-    'deleted_at' => 'Deleted At',
-    'description' => 'Description',
-    'disabled' => 'Disabled',
-    'disable' => 'Disable',
-    'document' => 'Document',
-    'email' => 'Email',
-    'enabled' => 'Enabled',
-    'enable' => 'Enable',
-    'episodes' => 'Episodes',
-    'external_id' => 'External ID',
-    'external_resource' => 'External Resource',
-    'external_resources' => 'External Resources',
-    'facet' => 'Facet',
-    'file_properties' => 'File Properties',
-    'filename' => 'Filename',
-    'frequency' => 'Frequency',
-    'generate' => 'Generate',
-    'give_permission' => 'Give Permission',
-    'give_role' => 'Give Role',
-    'groups' => 'Groups',
-    'group' => 'Group',
-    'id' => 'ID',
-    'image_facet_help' => 'The page component that the image is intended for. Example: Is this a small cover image or a large cover image?',
-    'image_unlinked_lens' => 'Image Without Anime or Artist',
-    'images' => 'Images',
-    'image' => 'Image',
-    'invitation_accept' => 'Accept Invitation',
-    'invitation_message' => 'You have been invited to join AnimeThemes!',
-    'invitation_subject' => 'AnimeThemes Invitation',
-    'invitations' => 'Invitations',
-    'invitation' => 'Invitation',
-    'key' => 'Key',
-    'lenses' => 'Lenses',
-    'link' => 'Link',
-    'lyrics' => 'Lyrics',
-    'members' => 'Members',
-    'mimetype' => 'MIME Type',
-    'misc' => 'Misc',
-    'move_audio_path_help' => 'The new location of the Audio. Ex: 2009/Summer/Bakemonogatari-OP1.ogg.',
-    'move_audio' => 'Move Audio',
-    'move_video_path_help' => 'The new location of the Video. Ex: 2009/Summer/Bakemonogatari-OP1.webm.',
-    'move_video' => 'Move Video',
-    'move' => 'Move',
-    'name' => 'Name',
-    'nc' => 'NC',
-    'new_password' => 'New Password',
-    'no' => 'No',
-    'notes' => 'Notes',
-    'nsfw' => 'NSFW',
-    'overlap' => 'Overlap',
-    'page_body_help' => 'The content of the Page.',
-    'page_name_help' => 'The display title of the Page.',
-    'page_slug_help' => 'Used as the URL Slug / Model Route Key. By default, this should be the Name lowercased and "_" replacing spaces.',
-    'page' => 'Page',
-    'pages' => 'Pages',
-    'password' => 'Password',
-    'path' => 'Path',
-    'permission' => 'Permission',
-    'permissions' => 'Permissions',
-    'remove_audio_text' => 'Remove Audio from configured storage disks and from the database?',
-    'remove_audio' => 'Remove Audio from Storage',
-    'remove_video_text' => 'Remove Video from configured storage disks and from the database?',
-    'remove_video' => 'Remove Video from Storage',
-    'remove' => 'Remove',
-    'resend_invitation_confirm_message' => 'Are you sure you wish to resend these invitations?',
-    'resend_invitation' => 'Resend Invitation',
-    'resend' => 'Resend',
-    'recently_created' => 'Recently Created',
-    'recently_updated' => 'Recently Updated',
-    'reconcile_audios' => 'Reconcile Audios',
-    'reconcile_balances' => 'Reconcile Balances',
-    'reconcile_destination_error' => 'Could not find destination repository',
-    'reconcile_source_error' => 'Could not find source repository',
-    'reconcile_transactions' => 'Reconcile Transactions',
-    'reconcile_video_path_help' => 'The directory of videos to reconcile. Ex: 2022/Spring/.',
-    'reconcile_videos' => 'Reconcile Videos',
-    'reconcile' => 'Reconcile',
-    'resent_invitations_for_none' => 'Invitation has not been resent for any selected user',
-    'resent_invitations_for_users' => 'Invitation has been resent for :users',
-    'resolution' => 'Resolution',
-    'resource_as_help' => 'Used to distinguish resources that map to the same artist or anime. For example, Aware! Meisaku-kun has one MAL page and many aniDB pages.',
-    'resource_external_id_help' => 'The identifier used by the external site.',
-    'resource_link_help' => 'The URL of the resource. Ex: https://myanimelist.net/people/8/, https://anidb.net/creator/3/, https://kaguya.love/',
-    'resource_site_help' => 'The site that we are linking to.',
-    'resource_unlinked_lens' => 'Resource Without Anime or Artist or Studio',
-    'revoke_permission' => 'Revoke Permission',
-    'revoke_role' => 'Revoke Role',
-    'role' => 'Role',
-    'roles' => 'Roles',
-    'season' => 'Season',
-    'sequence' => 'Sequence',
-    'series_name_help' => 'The display title of the Series. Ex: "Monogatari", "Code Geass", "Dungeon ni Deai wo Motomeru no wa Machigatteiru Darou ka".',
-    'series_slug_help' => 'Used as the URL Slug / Model Route Key. By default, this should be the Name lowercased and "_" replacing spaces. Shortenings/Abbreviations are also accepted. Ex: "monogatari", "code_geass", "danmachi".',
-    'series' => 'Series',
-    'service' => 'Service',
-    'setting' => 'Setting',
-    'settings' => 'Settings',
-    'site' => 'Site',
-    'size' => 'Size',
-    'slug' => 'Slug',
-    'song_artist_lens' => 'Songs Without Artists',
-    'song_by_subtitle' => 'By: :by',
-    'song_title_help' => 'The title of the song',
-    'song' => 'Song',
-    'songs' => 'Songs',
-    'source' => 'Source',
-    'spoiler' => 'Spoiler',
-    'status' => 'Status',
-    'studio_image_lens' => 'Studio Without :facet Image',
-    'studio_name_help' => 'The display title of the Studio',
-    'studio_resource_lens' => 'Studio Without :site Resource',
-    'studio_slug_help' => 'Used as the URL Slug / Model Route Key. By default, this should be the Name lowercased and "_" replacing spaces. Shortenings/Abbreviations are also accepted.',
-    'studio_unlinked_lens' => 'Studio Without Anime or Studio',
-    'studio' => 'Studio',
-    'studios' => 'Studios',
-    'subbed' => 'Subbed',
-    'synopsis' => 'Synopsis',
-    'text' => 'Text',
-    'theme_group_help' => 'For separating sequences belonging to dubs, rebroadcasts, remasters, etc. By default, leave blank.',
-    'theme_sequence_help' => 'Numeric ordering of theme. If only one theme of this type exists for the show, this can be left blank.',
-    'theme_slug_help' => 'Used as the URL Slug / Model Route Key. By default, this should be the Type and Sequence lowercased and "_" replacing spaces. These should be unique within the scope of the anime. Ex: "OP", "ED1", "OP2-Dub".',
-    'theme_type_help' => 'Is this an OP or an ED?',
-    'theme' => 'Theme',
-    'themes' => 'Themes',
-    'this_month' => 'This Month',
-    'this_week' => 'This Week',
-    'this_year' => 'This Year',
-    'timestamps' => 'Timestamps',
-    'title' => 'Title',
-    'today' => 'Today',
-    'transaction_amount_help' => 'How much are we being billed for or receiving?',
-    'transaction_date_help' => 'The date at which the transaction occurred',
-    'transaction_description_help' => 'What is this transaction for?',
-    'transaction_external_id_help' => 'The identifier used by the service for this transaction, if applicable',
-    'transactions' => 'Transactions',
-    'transaction' => 'Transaction',
-    'type' => 'Type',
-    'uncen' => 'Uncensored',
-    'updated_at_end' => 'Updated At End',
-    'updated_at_start' => 'Updated At Start',
-    'updated_at' => 'Updated At',
-    'upload_audio_help' => 'The Audio to upload. Audios will be uploaded to each configured storage disk.',
-    'upload_audio_path_help' => 'The directory the Audio will be uploaded to. Ex: 2022/Spring.',
-    'upload_audio' => 'Upload Audio',
-    'upload_video_help' => 'The WebM to upload. WebMs will be uploaded to each configured storage disk.',
-    'upload_video_path_help' => 'The directory the video will be uploaded to. Ex: 2022/Spring.',
-    'upload_video' => 'Upload Video',
-    'upload' => 'Upload',
-    'usage' => 'Usage',
-    'user' => 'User',
-    'users' => 'Users',
-    'value' => 'Value',
-    'verify' => 'Verify',
-    'version' => 'Version',
-    'video_audio_lens' => 'Video Without Audio',
-    'video_lyrics_help' => 'Set if this video has subtitles for song lyrics.',
-    'video_nc_help' => 'Set if this video is creditless.',
-    'video_overlap_help' => 'The degree to which the sequence and episode content overlap. None: No overlap. Transition: partial overlap. Over: full overlap.',
-    'video_resolution_help' => 'Frame height of the video',
-    'video_resolution_lens' => 'Video with Unset Resolution',
-    'video_source_help' => 'Where did this video come from?',
-    'video_subbed_help' => 'Set if this video has subtitles of dialogue.',
-    'video_uncen_help' => 'Set if this video is an uncensored version of a censored sequence.',
-    'video_unknown_source_lens' => 'Video with Unknown Source Type',
-    'video_unlinked_lens' => 'Video Without Entries',
-    'video' => 'Video',
-    'videos' => 'Videos',
-    'wiki' => 'Wiki',
-    'year' => 'Year',
-    'yes' => 'Yes',
-    'yesterday' => 'Yesterday',
+    'actions' => [
+        'anime' => [
+            'backfill' => [
+                'confirmButtonText' => 'Backfill',
+                'fields' => [
+                    'images' => [
+                        'large_cover' => [
+                            'help' => 'Use Anilist Resource to map Large Cover Image',
+                            'name' => 'Backfill Large Cover',
+                        ],
+                        'name' => 'Backfill Images',
+                        'small_cover' => [
+                            'help' => 'Use Anilist Resource to map Small Cover Image',
+                            'name' => 'Backfill Small Cover',
+                        ],
+                    ],
+                    'resources' => [
+                        'anidb' => [
+                            'help' => 'Use the Manami Project Anime Offline Database hosted by yuna.moe to find an AniDB mapping from a MAL, Anilist or Kitsu Resource',
+                            'name' => 'Backfill AniDB Resource',
+                        ],
+                        'anilist' => [
+                            'help' => 'Use the MAL, Kitsu or AniDB Resource to find an Anilist mapping',
+                            'name' => 'Backfill Anilist Resource',
+                        ],
+                        'ann' => [
+                            'help' => 'Use the Kitsu resource to find an ANN mapping',
+                            'name' => 'Backfill ANN Resource',
+                        ],
+                        'kitsu' => [
+                            'help' => 'Use the Kitsu API to find a mapping from a MAL, Anilist, AniDB or ANN Resource',
+                            'name' => 'Backfill Kitsu Resource',
+                        ],
+                        'mal' => [
+                            'help' => 'Use the Kitsu, Anilist or AniDB Resource to find a MAL mapping',
+                            'name' => 'Backfill MyAnimeList Resource',
+                        ],
+                        'name' => 'Backfill Resources',
+                    ],
+                    'studios' => [
+                        'anime' => [
+                            'help' => 'Use the MAL, Anilist or Kitsu Resource to map Anime Studios',
+                            'name' => 'Backfill Anime Studios',
+                        ],
+                        'name' => 'Backfill Studios',
+                    ],
+                ],
+                'message' => [
+                    'resource_required_failure' => 'At least one Resource is required to backfill Anime',
+                ],
+                'name' => 'Backfill Anime',
+            ],
+        ],
+        'audio' => [
+            'delete' => [
+                'confirmText' => 'Remove Audio from configured storage disks and from the database?',
+                'name' => 'Remove Audio',
+            ],
+            'move' => [
+                'name' => 'Move Audio',
+            ],
+            'upload' => [
+                'name' => 'Upload Audio',
+            ],
+        ],
+        'base' => [
+            'cancelButtonText' => 'Cancel',
+            'confirmButtonText' => 'Confirm',
+        ],
+        'dump' => [
+            'dump' => [
+                'confirmButtonText' => 'Dump',
+                'fields' => [
+                    'mysql' => [
+                        'comments' => [
+                            'help' => 'Add comments to dump file',
+                            'name' => 'Comments',
+                        ],
+                        'default_character_set' => [
+                            'help' => 'Specify default character set',
+                            'name' => 'Default Character Set',
+                        ],
+                        'extended_insert' => [
+                            'help' => 'Use multiple-row INSERT syntax',
+                            'name' => 'Extended Insert',
+                        ],
+                        'lock_tables' => [
+                            'help' => 'Lock all tables before dumping them',
+                            'name' => 'Lock Tables',
+                        ],
+                        'no_create_info' => [
+                            'help' => 'Do not write CREATE TABLE statements that re-create each dumped table',
+                            'name' => 'No Create Info',
+                        ],
+                        'quick' => [
+                            'help' => 'Retrieve rows for a table from the server a row at a time',
+                            'name' => 'Quick',
+                        ],
+                        'set_gtid_purged' => [
+                            'help' => 'Whether to add SET @@GLOBAL.GTID_PURGED to output',
+                            'name' => 'Set GTID Purged',
+                            'options' => [
+                                'auto' => 'AUTO',
+                                'off' => 'OFF',
+                                'on' => 'ON',
+                            ],
+                        ],
+                        'single_transaction' => [
+                            'help' => 'Issue a BEGIN SQL statement before dumping data from server',
+                            'name' => 'Single Transaction',
+                        ],
+                        'skip_column_statistics' => [
+                            'help' => 'Do not add analyze table statements to generate histogram statistics',
+                            'name' => 'Skip Column Statistics',
+                        ],
+                        'skip_comments' => [
+                            'help' => 'Do not add comments to dump file',
+                            'name' => 'Skip Comments',
+                        ],
+                        'skip_extended_insert' => [
+                            'help' => 'Turn off extended-insert',
+                            'name' => 'Skip Extended Insert',
+                        ],
+                        'skip_lock_tables' => [
+                            'help' => 'Do not lock tables before dumping them',
+                            'name' => 'Skip Lock Tables',
+                        ],
+                        'skip_quick' => [
+                            'help' => 'Do not retrieve rows for a table from the server a row at a time',
+                            'name' => 'Skip Quick',
+                        ],
+                    ],
+                    'postgresql' => [
+                        'data_only' => [
+                            'help' => 'Dump only the data, not the schema (data definitions).',
+                            'name' => 'Data Only',
+                        ],
+                        'inserts' => [
+                            'help' => 'Dump data as INSERT commands (rather than COPY).',
+                            'name' => 'Inserts',
+                        ],
+                    ],
+                ],
+                'name' => [
+                    'document' => 'Dump Document Tables',
+                    'wiki' => 'Dump Wiki Tables',
+                ],
+            ],
+            'prune' => [
+                'name' => 'Prune Dumps',
+            ],
+        ],
+        'invitation' => [
+            'resend' => [
+                'confirmButtonText' => 'Resend',
+                'confirmText' => 'Are you sure you wish to resend these invitations?',
+                'message' => [
+                    'failure' => 'Invitation has not been resent for any selected user',
+                    'success' => 'Invitation has been resent for :users',
+                ],
+                'name' => 'Resend Invitation',
+            ],
+        ],
+        'models' => [
+            'wiki' => [
+                'attach_resource' => [
+                    'confirmButtonText' => 'Attach',
+                    'fields' => [
+                        'link' => [
+                            'help' => 'The URL of the resource. Ex: https://myanimelist.net/people/8/, https://anidb.net/creator/3/, https://kaguya.love/',
+                            'name' => 'Link',
+                        ],
+                    ],
+                    'name' => 'Attach :site Resource',
+                ],
+            ],
+        ],
+        'permission' => [
+            'give_role' => [
+                'name' => 'Give Role',
+            ],
+            'revoke_role' => [
+                'name' => 'Revoke Role',
+            ],
+        ],
+        'repositories' => [
+            'confirmButtonText' => 'Reconcile',
+            'name' => 'Reconcile :label',
+            'service' => [
+                'fields' => [
+                    'service' => [
+                        'help' => 'The provider that is billing us',
+                        'name' => 'Service',
+                    ],
+                ],
+            ],
+            'storage' => [
+                'fields' => [
+                    'path' => [
+                        'help' => 'The directory to reconcile. Ex: 2022/Spring/.',
+                        'name' => 'Path',
+                    ],
+                ],
+            ],
+        ],
+        'role' => [
+            'give_permission' => [
+                'name' => 'Give Permission',
+            ],
+            'revoke_permission' => [
+                'name' => 'Revoke Permission',
+            ],
+        ],
+        'storage' => [
+            'delete' => [
+                'confirmButtonText' => 'Remove',
+            ],
+            'move' => [
+                'confirmButtonText' => 'Move',
+                'fields' => [
+                    'path' => [
+                        'help' => 'The new location of the Audio. Ex: 2009/Summer/Bakemonogatari-OP1.webm.',
+                        'name' => 'Path',
+                    ],
+                ],
+            ],
+            'prune' => [
+                'confirmButtonText' => 'Prune',
+                'fields' => [
+                    'hours' => [
+                        'help' => 'Files last modified before the specified time in hours before the present time will be deleted.',
+                        'name' => 'Hours',
+                    ],
+                ],
+            ],
+            'upload' => [
+                'confirmButtonText' => 'Upload',
+                'fields' => [
+                    'file' => [
+                        'help' => 'The file to upload. Files will be uploaded to each configured storage disk.',
+                        'name' => 'File',
+                    ],
+                    'path' => [
+                        'help' => 'The directory the file will be uploaded to. Ex: 2022/Spring.',
+                        'name' => 'Path',
+                    ],
+                ],
+            ],
+        ],
+        'studio' => [
+            'backfill' => [
+                'confirmButtonText' => 'Backfill',
+                'fields' => [
+                    'images' => [
+                        'large_cover' => [
+                            'help' => 'Use MAL Resource to map Large Cover Image',
+                            'name' => 'Backfill Large Cover',
+                        ],
+                        'name' => 'Backfill Images',
+                    ],
+                ],
+                'message' => [
+                    'resource_required_failure' => 'At least one Resource is required to backfill Studio',
+                ],
+                'name' => 'Backfill Studio',
+            ],
+        ],
+        'user' => [
+            'give_permission' => [
+                'name' => 'Give Permission',
+            ],
+            'give_role' => [
+                'name' => 'Give Role',
+            ],
+            'revoke_permission' => [
+                'name' => 'Revoke Permission',
+            ],
+            'revoke_role' => [
+                'name' => 'Revoke Role',
+            ],
+        ],
+        'video' => [
+            'backfill' => [
+                'confirmButtonText' => 'Backfill',
+                'fields' => [
+                    'derive_source' => [
+                        'help' => 'If Yes, use the source Video to backfill Audio. If No, use this Video to backfill Audio. Yes should be used in most cases. No is useful for outlier videos where we may want an additional Audio to represent the song like a second verse or an SFX version.',
+                        'name' => 'Derive Source Video',
+                    ],
+                    'overwrite' => [
+                        'help' => 'If Yes, the Audio will be extracted from the Video even if the Audio already exists. If No, the Audio will only be extracted from the Video if the Audio doesn\'t exist. No should be used in most cases. Yes is useful if we are replacing Audio for a Video.',
+                        'name' => 'Overwrite Audio',
+                    ],
+                ],
+                'name' => 'Backfill Audio',
+            ],
+            'delete' => [
+                'confirmText' => 'Remove Video from configured storage disks and from the database?',
+                'name' => 'Remove Video',
+            ],
+            'move' => [
+                'name' => 'Move Video',
+            ],
+            'upload' => [
+                'name' => 'Upload Video',
+            ],
+        ],
+    ],
+    'fields' => [
+        'anime_synonym' => [
+            'text' => [
+                'help' => 'For alternative titles, licensed titles, common abbreviations and/or shortenings',
+                'name' => 'Text',
+            ],
+        ],
+        'anime_theme_entry' => [
+            'episodes' => [
+                'help' => 'The range(s) of episodes that the theme entry is used. Can be left blank if used for all episodes or if there are not episodes as with movies. Ex: "1-", "1-11", "1-2, 10, 12".',
+                'name' => 'Episodes',
+            ],
+            'notes' => [
+                'help' => 'Any additional information not included in other fields that may be useful',
+                'name' => 'Notes',
+            ],
+            'nsfw' => [
+                'help' => 'Does the entry include Not Safe For Work content? Set at your discretion. There will not be rigid guidelines to define when this property should be set.',
+                'name' => 'NSFW',
+            ],
+            'spoiler' => [
+                'help' => 'Does the entry include content that spoils the show? You may also include up to which episode is spoiled in Notes (Ex: Ep 6 spoilers).',
+                'name' => 'Spoiler',
+            ],
+            'version' => [
+                'help' => 'The Version number of the Theme. Can be left blank if there is only one version. Version is only required if there exist at least 2 in the sequence.',
+                'name' => 'Version',
+            ],
+        ],
+        'anime_theme' => [
+            'group' => [
+                'help' => 'For separating sequences belonging to dubs, rebroadcasts, remasters, etc. By default, leave blank.',
+                'name' => 'Group',
+            ],
+            'sequence' => [
+                'help' => 'Numeric ordering of theme. If only one theme of this type exists for the show, this can be left blank.',
+                'name' => 'Sequence',
+            ],
+            'slug' => [
+                'help' => 'Used as the URL Slug / Model Route Key. By default, this should be the Type and Sequence lowercased and "_" replacing spaces. These should be unique within the scope of the anime. Ex: "OP", "ED1", "OP2-Dub".',
+                'name' => 'Slug',
+            ],
+            'type' => [
+                'help' => 'Is this an OP or an ED?',
+                'name' => 'Type',
+            ],
+        ],
+        'anime' => [
+            'name' => [
+                'help' => 'The display title of the Anime. By default, we will use the same title as MAL. Ex: "Bakemonogatari", "Code Geass: Hangyaku no Lelouch", "Dungeon ni Deai wo Motomeru no wa Machigatteiru Darou ka".',
+                'name' => 'Name',
+            ],
+            'season' => [
+                'help' => 'The Season in which the Anime premiered. By default, we will use the Premiered Field on the MAL page.',
+                'name' => 'Season',
+            ],
+            'slug' => [
+                'help' => 'Used as the URL Slug / Model Route Key. By default, this should be the Name lowercased and "_" replacing spaces. Shortenings/Abbreviations are also accepted. Ex: "monogatari", "code_geass", "danmachi".',
+                'name' => 'Slug',
+            ],
+            'synopsis' => [
+                'help' => 'The brief description of the Anime',
+                'name' => 'Synopsis',
+            ],
+            'year' => [
+                'help' => 'The Year in which the Anime premiered. By default, we will use the Premiered Field on the MAL page.',
+                'name' => 'Year',
+            ],
+            'resources' => [
+                'as' => [
+                    'help' => 'Used to distinguish resources that map to the same anime. For example, Aware! Meisaku-kun has one MAL page and many aniDB pages.',
+                    'name' => 'As',
+                ],
+            ],
+        ],
+        'artist' => [
+            'groups' => [
+                'as' => [
+                    'help' => 'Used in place of the Artist name if the performance is made as a character or group/unit member.',
+                    'name' => 'As',
+                ],
+            ],
+            'members' => [
+                'as' => [
+                    'help' => 'Used in place of the Artist name if the performance is made as a character or group/unit member',
+                    'name' => 'As',
+                ],
+            ],
+            'name' => [
+                'help' => 'The display title of the Artist. By default, we will use the same title as MAL, but we will prefer "[Given Name] [Family name]". Ex: "Aimer", "Yui Horie", "Fear, and Loathing in Las Vegas".',
+                'name' => 'Name',
+            ],
+            'resources' => [
+                'as' => [
+                    'help' => 'Used to distinguish resources that map to the same artist. For example, the OxT music unit has a dedicated AnidB page but ANN does not.',
+                    'name' => 'As',
+                ],
+            ],
+            'slug' => [
+                'help' => 'Used as the URL Slug / Model Route Key. By default, this should be the Name lowercased and "_" replacing spaces. Shortenings/Abbreviations are also accepted. Ex: "aimer", "yui_horie", "falilv"',
+                'name' => 'Slug',
+            ],
+            'songs' => [
+                'as' => [
+                    'help' => 'Used in place of the Artist name if the performance is made as a character or group/unit member.',
+                    'name' => 'As',
+                ],
+            ],
+        ],
+        'announcement' => [
+            'content' => 'Content',
+        ],
+        'audio' => [
+            'basename' => [
+                'name' => 'Basename',
+            ],
+            'filename' => [
+                'name' => 'Filename',
+            ],
+            'mimetype' => [
+                'name' => 'MIME Type',
+            ],
+            'path' => [
+                'name' => 'Path',
+            ],
+            'size' => [
+                'name' => 'Size',
+            ],
+        ],
+        'balance' => [
+            'balance' => [
+                'help' => 'Current balance of the account with current usage',
+                'name' => 'Balance',
+            ],
+            'date' => [
+                'help' => 'The month and year for the balance that we are tracking',
+                'name' => 'Date',
+            ],
+            'frequency' => [
+                'help' => 'The frequency that we are billed by the provider',
+                'name' => 'Frequency',
+            ],
+            'service' => [
+                'help' => 'The provider that is billing us',
+                'name' => 'Service',
+            ],
+            'usage' => [
+                'help' => 'Amount used in the current billing period',
+                'name' => 'Usage',
+            ],
+        ],
+        'base' => [
+            'created_at' => 'Created At',
+            'deleted_at' => 'Deleted At',
+            'file_properties' => 'File Properties',
+            'id' => 'ID',
+            'timestamps' => 'Timestamps',
+            'updated_at' => 'Updated At',
+        ],
+        'dump' => [
+            'path' => 'Path',
+        ],
+        'external_resource' => [
+            'external_id' => [
+                'help' => 'The identifier used by the external site.',
+                'name' => 'External ID',
+            ],
+            'link' => [
+                'help' => 'The URL of the resource. Ex: https://myanimelist.net/people/8/, https://anidb.net/creator/3/, https://kaguya.love/',
+                'name' => 'Link',
+            ],
+            'site' => [
+                'help' => 'The site that we are linking to.',
+                'name' => 'Site',
+            ],
+        ],
+        'image' => [
+            'facet' => [
+                'help' => 'The page component that the image is intended for. Example: Is this a small cover image or a large cover image?',
+                'name' => 'Facet',
+            ],
+            'image' => [
+                'name' => 'Image',
+            ],
+            'path' => [
+                'name' => 'Path',
+            ],
+        ],
+        'invitation' => [
+            'email' => 'Email',
+            'name' => 'Name',
+            'status' => 'Status',
+        ],
+        'page' => [
+            'body' => [
+                'help' => 'The content of the Page.',
+                'name' => 'Body',
+            ],
+            'name' => [
+                'help' => 'The display title of the Page.',
+                'name' => 'Name',
+            ],
+            'slug' => [
+                'help' => 'Used as the URL Slug / Model Route Key. By default, this should be the Name lowercased and "_" replacing spaces.',
+                'name' => 'Slug',
+            ],
+        ],
+        'permission' => [
+            'name' => 'Name',
+        ],
+        'role' => [
+            'name' => 'Name',
+        ],
+        'series' => [
+            'name' => [
+                'help' => 'The display title of the Series. Ex: "Monogatari", "Code Geass", "Dungeon ni Deai wo Motomeru no wa Machigatteiru Darou ka".',
+                'name' => 'Name',
+            ],
+            'slug' => [
+                'help' => 'Used as the URL Slug / Model Route Key. By default, this should be the Name lowercased and "_" replacing spaces. Shortenings/Abbreviations are also accepted. Ex: "monogatari", "code_geass", "danmachi".',
+                'name' => 'Slug',
+            ],
+        ],
+        'setting' => [
+            'key' => 'Key',
+            'value' => 'Value',
+        ],
+        'song' => [
+            'title' => [
+                'help' => 'The title of the song',
+                'name' => 'Title',
+            ],
+        ],
+        'studio' => [
+            'name' => [
+                'help' => 'The display title of the Studio',
+                'name' => 'Name',
+            ],
+            'resources' => [
+                'as' => [
+                    'help' => 'Used to distinguish resources that map to the same studio.',
+                    'name' => 'As',
+                ],
+            ],
+            'slug' => [
+                'help' => 'Used as the URL Slug / Model Route Key. By default, this should be the Name lowercased and "_" replacing spaces. Shortenings/Abbreviations are also accepted.',
+                'name' => 'Slug',
+            ],
+        ],
+        'transaction' => [
+            'amount' => [
+                'help' => 'How much are we being billed for or receiving?',
+                'name' => 'Amount',
+            ],
+            'date' => [
+                'help' => 'The date at which the transaction occurred',
+                'name' => 'Date',
+            ],
+            'description' => [
+                'help' => 'What is this transaction for?',
+                'name' => 'Description',
+            ],
+            'external_id' => [
+                'help' => 'The identifier used by the service for this transaction, if applicable',
+                'name' => 'External ID',
+            ],
+            'service' => [
+                'help' => 'The provider that is billing us',
+                'name' => 'Service',
+            ],
+        ],
+        'user' => [
+            'email' => 'Email',
+            'name' => 'Name',
+        ],
+        'video' => [
+            'basename' => [
+                'name' => 'Basename',
+            ],
+            'filename' => [
+                'name' => 'Filename',
+            ],
+            'lyrics' => [
+                'help' => 'Set if this video has subtitles for song lyrics.',
+                'name' => 'Lyrics',
+            ],
+            'mimetype' => [
+                'name' => 'MIME Type',
+            ],
+            'nc' => [
+                'help' => 'Set if this video is creditless.',
+                'name' => 'NC',
+            ],
+            'overlap' => [
+                'help' => 'The degree to which the sequence and episode content overlap. None: No overlap. Transition: partial overlap. Over: full overlap.',
+                'name' => 'Overlap',
+            ],
+            'path' => [
+                'name' => 'Path',
+            ],
+            'resolution' => [
+                'help' => 'Frame height of the video',
+                'name' => 'Resolution',
+            ],
+            'size' => [
+                'name' => 'Size',
+            ],
+            'source' => [
+                'help' => 'Where did this video come from?',
+                'name' => 'Source',
+            ],
+            'subbed' => [
+                'help' => 'Set if this video has subtitles of dialogue.',
+                'name' => 'Subbed',
+            ],
+            'uncen' => [
+                'help' => 'Set if this video is an uncensored version of a censored sequence.',
+                'name' => 'Uncensored',
+            ],
+        ],
+    ],
+    'lenses' => [
+        'anime' => [
+            'images' => [
+                'name' => 'Anime Without :facet Image',
+            ],
+            'resources' => [
+                'name' => 'Anime Without :site Resource',
+            ],
+            'studios' => [
+                'name' => 'Anime Without Studios',
+            ],
+        ],
+        'artist' => [
+            'images' => [
+                'name' => 'Artist Without :facet Image',
+            ],
+            'resources' => [
+                'name' => 'Artist Without :site Resource',
+            ],
+            'songs' => [
+                'name' => 'Artist Without Songs',
+            ],
+        ],
+        'audio' => [
+            'video' => [
+                'name' => 'Audio Without Video',
+            ],
+        ],
+        'external_resource' => [
+            'unlinked' => [
+                'name' => 'Resource Without Anime or Artist or Studio',
+            ],
+        ],
+        'image' => [
+            'unlinked' => [
+                'name' => 'Image Without Anime or Artist',
+            ],
+        ],
+        'song' => [
+            'artist' => [
+                'name' => 'Songs Without Artists',
+            ],
+        ],
+        'studio' => [
+            'images' => [
+                'name' => 'Studio Without :facet Image',
+            ],
+            'resources' => [
+                'name' => 'Studio Without :site Resource',
+            ],
+            'unlinked' => [
+                'name' => 'Studio Without Anime or Studio',
+            ],
+        ],
+        'video' => [
+            'audio' => [
+                'name' => 'Video Without Audio',
+            ],
+            'resolution' => [
+                'name' => 'Video with Unset Resolution',
+            ],
+            'source' => [
+                'name' => 'Video with Unknown Source Type',
+            ],
+            'unlinked' => [
+                'name' => 'Video Without Entries',
+            ],
+        ],
+    ],
+    'menu' => [
+        'main' => [
+            'section' => [
+                'lenses' => 'Lenses',
+            ],
+        ],
+    ],
+    'metrics' => [
+        'ranges' => [
+            'trend' => [
+                '30' => '30 Days',
+                '60' => '60 Days',
+                '90' => '90 Days',
+            ],
+            'value' => [
+                '30' => '30 Days',
+                '60' => '60 Days',
+                '365' => '365 Days',
+                'mtd' => 'Month To Date',
+                'qtd' => 'Quarter To Date',
+                'today' => 'Today',
+                'yesterday' => 'Yesterday',
+                'ytd' => 'Year To Date',
+            ],
+        ],
+    ],
+    'resources' => [
+        'group' => [
+            'admin' => 'Admin',
+            'auth' => 'Auth',
+            'billing' => 'Billing',
+            'document' => 'Document',
+            'wiki' => 'Wiki',
+        ],
+        'label' => [
+            'anime_synonyms' => 'Anime Synonyms',
+            'anime_theme_entries' => 'Anime Theme Entries',
+            'anime_themes' => 'Anime Themes',
+            'anime' => 'Anime',
+            'announcements' => 'Announcements',
+            'artists' => 'Artists',
+            'audios' => 'Audios',
+            'balances' => 'Balances',
+            'dumps' => 'Dumps',
+            'external_resources' => 'External Resources',
+            'groups' => 'Groups',
+            'images' => 'Images',
+            'invitations' => 'Invitations',
+            'members' => 'Members',
+            'pages' => 'Pages',
+            'permissions' => 'Permissions',
+            'roles' => 'Roles',
+            'series' => 'Series',
+            'settings' => 'Settings',
+            'songs' => 'Songs',
+            'studios' => 'Studios',
+            'transactions' => 'Transactions',
+            'users' => 'Users',
+            'videos' => 'Videos',
+        ],
+        'singularLabel' => [
+            'anime_synonym' => 'Anime Synonym',
+            'anime_theme_entry' => 'Anime Theme Entry',
+            'anime_theme' => 'Anime Theme',
+            'anime' => 'Anime',
+            'announcement' => 'Announcement',
+            'artist' => 'Artist',
+            'audio' => 'Audio',
+            'balance' => 'Balance',
+            'dump' => 'Dump',
+            'external_resource' => 'External Resource',
+            'image' => 'Image',
+            'invitation' => 'Invitation',
+            'page' => 'Page',
+            'permission' => 'Permission',
+            'role' => 'Role',
+            'series' => 'Series',
+            'setting' => 'Setting',
+            'song' => 'Song',
+            'studio' => 'Studio',
+            'transaction' => 'Transaction',
+            'user' => 'User',
+            'video' => 'Video',
+        ],
+    ],
 ];

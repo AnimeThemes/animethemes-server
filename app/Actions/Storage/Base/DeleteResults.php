@@ -5,16 +5,17 @@ declare(strict_types=1);
 namespace App\Actions\Storage\Base;
 
 use App\Actions\ActionResult;
-use App\Actions\Storage\StorageResults;
+use App\Contracts\Actions\Storage\StorageResults;
 use App\Enums\Actions\ActionStatus;
 use App\Models\BaseModel;
+use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 
 /**
  * Class DeleteResults.
  */
-class DeleteResults extends StorageResults
+class DeleteResults implements StorageResults
 {
     /**
      * Create a new action result instance.
@@ -40,6 +41,24 @@ class DeleteResults extends StorageResults
             $result
                 ? Log::info("Deleted '{$this->model->getName()}' from disk '$fs'")
                 : Log::error("Failed to delete '{$this->model->getName()}' from disk '$fs'");
+        }
+    }
+
+    /**
+     * Write results to console output.
+     *
+     * @param  Command  $command
+     * @return void
+     */
+    public function toConsole(Command $command): void
+    {
+        if (empty($this->deletions)) {
+           $command->error('No deletions were attempted.');
+        }
+        foreach ($this->deletions as $fs => $result) {
+            $result
+                ? $command->info("Deleted '{$this->model->getName()}' from disk '$fs'")
+                : $command->error("Failed to delete '{$this->model->getName()}' from disk '$fs'");
         }
     }
 

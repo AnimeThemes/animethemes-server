@@ -6,7 +6,7 @@ namespace App\Nova\Resources\Wiki;
 
 use App\Models\Auth\User;
 use App\Models\Wiki\Studio as StudioModel;
-use App\Nova\Actions\Wiki\Studio\BackfillStudioAction;
+use App\Nova\Actions\Models\Wiki\Studio\BackfillStudioAction;
 use App\Nova\Lenses\Studio\Image\StudioCoverLargeLens;
 use App\Nova\Lenses\Studio\Resource\StudioAniDbResourceLens;
 use App\Nova\Lenses\Studio\Resource\StudioAnilistResourceLens;
@@ -69,7 +69,7 @@ class Studio extends BaseResource
      */
     public static function group(): string
     {
-        return __('nova.wiki');
+        return __('nova.resources.group.wiki');
     }
 
     /**
@@ -81,7 +81,7 @@ class Studio extends BaseResource
      */
     public static function label(): string
     {
-        return __('nova.studios');
+        return __('nova.resources.label.studios');
     }
 
     /**
@@ -93,7 +93,7 @@ class Studio extends BaseResource
      */
     public static function singularLabel(): string
     {
-        return __('nova.studio');
+        return __('nova.resources.singularLabel.studio');
     }
 
     /**
@@ -122,19 +122,19 @@ class Studio extends BaseResource
     public function fields(NovaRequest $request): array
     {
         return [
-            ID::make(__('nova.id'), StudioModel::ATTRIBUTE_ID)
+            ID::make(__('nova.fields.base.id'), StudioModel::ATTRIBUTE_ID)
                 ->sortable()
                 ->showOnPreview(),
 
-            Text::make(__('nova.name'), StudioModel::ATTRIBUTE_NAME)
+            Text::make(__('nova.fields.studio.name.name'), StudioModel::ATTRIBUTE_NAME)
                 ->sortable()
                 ->copyable()
                 ->rules(['required', 'max:192'])
-                ->help(__('nova.studio_name_help'))
+                ->help(__('nova.fields.studio.name.help'))
                 ->showOnPreview()
                 ->filterable(),
 
-            Slug::make(__('nova.slug'), StudioModel::ATTRIBUTE_SLUG)
+            Slug::make(__('nova.fields.studio.slug.name'), StudioModel::ATTRIBUTE_SLUG)
                 ->from(StudioModel::ATTRIBUTE_NAME)
                 ->separator('_')
                 ->sortable()
@@ -144,56 +144,56 @@ class Studio extends BaseResource
                         ->ignore($request->route('resourceId'), StudioModel::ATTRIBUTE_ID)
                         ->__toString()
                 )
-                ->help(__('nova.studio_slug_help'))
+                ->help(__('nova.fields.studio.slug.help'))
                 ->showOnPreview(),
 
-            BelongsToMany::make(__('nova.anime'), StudioModel::RELATION_ANIME, Anime::class)
+            BelongsToMany::make(__('nova.resources.label.anime'), StudioModel::RELATION_ANIME, Anime::class)
                 ->searchable()
                 ->filterable()
                 ->withSubtitles()
                 ->showCreateRelationButton()
                 ->fields(fn () => [
-                    DateTime::make(__('nova.created_at'), BasePivot::ATTRIBUTE_CREATED_AT)
+                    DateTime::make(__('nova.fields.base.created_at'), BasePivot::ATTRIBUTE_CREATED_AT)
                         ->hideWhenCreating(),
 
-                    DateTime::make(__('nova.updated_at'), BasePivot::ATTRIBUTE_UPDATED_AT)
+                    DateTime::make(__('nova.fields.base.updated_at'), BasePivot::ATTRIBUTE_UPDATED_AT)
                         ->hideWhenCreating(),
                 ]),
 
-            BelongsToMany::make(__('nova.external_resources'), StudioModel::RELATION_RESOURCES, ExternalResource::class)
+            BelongsToMany::make(__('nova.resources.label.external_resources'), StudioModel::RELATION_RESOURCES, ExternalResource::class)
                 ->searchable()
                 ->filterable()
                 ->showCreateRelationButton()
                 ->fields(fn () => [
-                    Text::make(__('nova.as'), StudioResource::ATTRIBUTE_AS)
+                    Text::make(__('nova.fields.studio.resources.as.name'), StudioResource::ATTRIBUTE_AS)
                         ->nullable()
                         ->copyable()
                         ->rules(['nullable', 'max:192'])
-                        ->help(__('nova.resource_as_help')),
+                        ->help(__('nova.fields.studio.resources.as.help')),
 
-                    DateTime::make(__('nova.created_at'), BasePivot::ATTRIBUTE_CREATED_AT)
+                    DateTime::make(__('nova.fields.base.created_at'), BasePivot::ATTRIBUTE_CREATED_AT)
                         ->hideWhenCreating()
                         ->hideWhenUpdating(),
 
-                    DateTime::make(__('nova.updated_at'), BasePivot::ATTRIBUTE_UPDATED_AT)
+                    DateTime::make(__('nova.fields.base.updated_at'), BasePivot::ATTRIBUTE_UPDATED_AT)
                         ->hideWhenCreating()
                         ->hideWhenUpdating(),
                 ]),
 
-            BelongsToMany::make(__('nova.images'), StudioModel::RELATION_IMAGES, Image::class)
+            BelongsToMany::make(__('nova.resources.label.images'), StudioModel::RELATION_IMAGES, Image::class)
                 ->searchable()
                 ->filterable()
                 ->withSubtitles()
                 ->showCreateRelationButton()
                 ->fields(fn () => [
-                    DateTime::make(__('nova.created_at'), BasePivot::ATTRIBUTE_CREATED_AT)
+                    DateTime::make(__('nova.fields.base.created_at'), BasePivot::ATTRIBUTE_CREATED_AT)
                         ->hideWhenCreating(),
 
-                    DateTime::make(__('nova.updated_at'), BasePivot::ATTRIBUTE_UPDATED_AT)
+                    DateTime::make(__('nova.fields.base.updated_at'), BasePivot::ATTRIBUTE_UPDATED_AT)
                         ->hideWhenCreating(),
                 ]),
 
-            Panel::make(__('nova.timestamps'), $this->timestamps())
+            Panel::make(__('nova.fields.base.timestamps'), $this->timestamps())
                 ->collapsable(),
         ];
     }
@@ -210,8 +210,8 @@ class Studio extends BaseResource
             parent::actions($request),
             [
                 (new BackfillStudioAction($request->user()))
-                    ->confirmButtonText(__('nova.backfill'))
-                    ->cancelButtonText(__('nova.cancel'))
+                    ->confirmButtonText(__('nova.actions.studio.backfill.confirmButtonText'))
+                    ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
                     ->showOnIndex()
                     ->showOnDetail()
                     ->showInline()

@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Nova\Resources\Auth;
 
 use App\Models\Auth\Permission as PermissionModel;
-use App\Nova\Actions\Auth\Permission\GiveRoleAction;
-use App\Nova\Actions\Auth\Permission\RevokeRoleAction;
+use App\Nova\Actions\Models\Auth\Permission\GiveRoleAction;
+use App\Nova\Actions\Models\Auth\Permission\RevokeRoleAction;
 use App\Nova\Resources\BaseResource;
 use Exception;
 use Laravel\Nova\Fields\BelongsToMany;
@@ -43,7 +43,7 @@ class Permission extends BaseResource
      */
     public static function group(): string
     {
-        return __('nova.auth');
+        return __('nova.resources.group.auth');
     }
 
     /**
@@ -55,7 +55,7 @@ class Permission extends BaseResource
      */
     public static function label(): string
     {
-        return __('nova.permissions');
+        return __('nova.resources.label.permissions');
     }
 
     /**
@@ -67,7 +67,7 @@ class Permission extends BaseResource
      */
     public static function singularLabel(): string
     {
-        return __('nova.permission');
+        return __('nova.resources.singularLabel.permission');
     }
 
     /**
@@ -114,21 +114,21 @@ class Permission extends BaseResource
     public function fields(NovaRequest $request): array
     {
         return [
-            ID::make(__('nova.id'), PermissionModel::ATTRIBUTE_ID)
+            ID::make(__('nova.fields.base.id'), PermissionModel::ATTRIBUTE_ID)
                 ->sortable()
                 ->showOnPreview(),
 
-            Text::make(__('nova.name'), PermissionModel::ATTRIBUTE_NAME)
+            Text::make(__('nova.fields.permission.name'), PermissionModel::ATTRIBUTE_NAME)
                 ->sortable()
                 ->copyable()
                 ->rules(['required', 'max:192'])
                 ->showOnPreview()
                 ->filterable(),
 
-            BelongsToMany::make(__('nova.roles'), PermissionModel::RELATION_ROLES, Role::class)
+            BelongsToMany::make(__('nova.resources.label.roles'), PermissionModel::RELATION_ROLES, Role::class)
                 ->filterable(),
 
-            BelongsToMany::make(__('nova.users'), PermissionModel::RELATION_USERS, User::class)
+            BelongsToMany::make(__('nova.resources.label.users'), PermissionModel::RELATION_USERS, User::class)
                 ->filterable(),
         ];
     }
@@ -145,16 +145,16 @@ class Permission extends BaseResource
             parent::actions($request),
             [
                 (new GiveRoleAction())
-                    ->confirmButtonText(__('nova.confirm'))
-                    ->cancelButtonText(__('nova.cancel'))
+                    ->confirmButtonText(__('nova.actions.base.confirmButtonText'))
+                    ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
                     ->showOnIndex()
                     ->showOnDetail()
                     ->showInline()
                     ->canRun(fn (NovaRequest $novaRequest) => $novaRequest->user()->can('view permission')),
 
                 (new RevokeRoleAction())
-                    ->confirmButtonText(__('nova.confirm'))
-                    ->cancelButtonText(__('nova.cancel'))
+                    ->confirmButtonText(__('nova.actions.base.confirmButtonText'))
+                    ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
                     ->showOnIndex()
                     ->showOnDetail()
                     ->showInline()

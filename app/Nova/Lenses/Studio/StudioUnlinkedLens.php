@@ -22,7 +22,7 @@ class StudioUnlinkedLens extends StudioLens
      */
     public function name(): string
     {
-        return __('nova.studio_unlinked_lens');
+        return __('nova.lenses.studio.unlinked.name');
     }
 
     /**

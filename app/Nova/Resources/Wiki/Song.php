@@ -100,7 +100,7 @@ class Song extends BaseResource
      */
     public static function group(): string
     {
-        return __('nova.wiki');
+        return __('nova.resources.group.wiki');
     }
 
     /**
@@ -112,7 +112,7 @@ class Song extends BaseResource
      */
     public static function label(): string
     {
-        return __('nova.songs');
+        return __('nova.resources.label.songs');
     }
 
     /**
@@ -124,7 +124,7 @@ class Song extends BaseResource
      */
     public static function singularLabel(): string
     {
-        return __('nova.song');
+        return __('nova.resources.singularLabel.song');
     }
 
     /**
@@ -152,43 +152,43 @@ class Song extends BaseResource
     public function fields(NovaRequest $request): array
     {
         return [
-            ID::make(__('nova.id'), SongModel::ATTRIBUTE_ID)
+            ID::make(__('nova.fields.base.id'), SongModel::ATTRIBUTE_ID)
                 ->sortable()
                 ->showOnPreview(),
 
-            Text::make(__('nova.title'), SongModel::ATTRIBUTE_TITLE)
+            Text::make(__('nova.fields.song.title.name'), SongModel::ATTRIBUTE_TITLE)
                 ->sortable()
                 ->copyable()
                 ->nullable()
                 ->rules(['nullable', 'max:192'])
-                ->help(__('nova.song_title_help'))
+                ->help(__('nova.fields.song.title.help'))
                 ->showOnPreview()
                 ->filterable(),
 
-            BelongsToMany::make(__('nova.artists'), SongModel::RELATION_ARTISTS, Artist::class)
+            BelongsToMany::make(__('nova.resources.label.artists'), SongModel::RELATION_ARTISTS, Artist::class)
                 ->searchable()
                 ->filterable()
                 ->withSubtitles()
                 ->showCreateRelationButton()
                 ->fields(fn () => [
-                    Text::make(__('nova.as'), ArtistSong::ATTRIBUTE_AS)
+                    Text::make(__('nova.fields.artist.songs.as.name'), ArtistSong::ATTRIBUTE_AS)
                         ->nullable()
                         ->copyable()
                         ->rules(['nullable', 'max:192'])
-                        ->help(__('nova.resource_as_help')),
+                        ->help(__('nova.fields.artist.songs.as.help')),
 
-                    DateTime::make(__('nova.created_at'), BasePivot::ATTRIBUTE_CREATED_AT)
+                    DateTime::make(__('nova.fields.base.created_at'), BasePivot::ATTRIBUTE_CREATED_AT)
                         ->hideWhenCreating()
                         ->hideWhenUpdating(),
 
-                    DateTime::make(__('nova.updated_at'), BasePivot::ATTRIBUTE_UPDATED_AT)
+                    DateTime::make(__('nova.fields.base.updated_at'), BasePivot::ATTRIBUTE_UPDATED_AT)
                         ->hideWhenCreating()
                         ->hideWhenUpdating(),
                 ]),
 
-            HasMany::make(__('nova.anime_themes'), SongModel::RELATION_ANIMETHEMES, Theme::class),
+            HasMany::make(__('nova.resources.label.anime_themes'), SongModel::RELATION_ANIMETHEMES, Theme::class),
 
-            Panel::make(__('nova.timestamps'), $this->timestamps())
+            Panel::make(__('nova.fields.base.timestamps'), $this->timestamps())
                 ->collapsable(),
         ];
     }

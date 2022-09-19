@@ -8,11 +8,11 @@ use App\Enums\Models\Wiki\VideoOverlap;
 use App\Enums\Models\Wiki\VideoSource;
 use App\Models\Auth\User;
 use App\Models\Wiki\Video as VideoModel;
-use App\Nova\Actions\Wiki\Video\BackfillAudioAction;
-use App\Nova\Actions\Wiki\Video\DeleteVideoAction;
-use App\Nova\Actions\Wiki\Video\MoveVideoAction;
-use App\Nova\Actions\Wiki\Video\ReconcileVideoAction;
-use App\Nova\Actions\Wiki\Video\UploadVideoAction;
+use App\Nova\Actions\Models\Wiki\Video\BackfillAudioAction;
+use App\Nova\Actions\Repositories\Storage\Wiki\Video\ReconcileVideoAction;
+use App\Nova\Actions\Storage\Wiki\Video\DeleteVideoAction;
+use App\Nova\Actions\Storage\Wiki\Video\MoveVideoAction;
+use App\Nova\Actions\Storage\Wiki\Video\UploadVideoAction;
 use App\Nova\Lenses\Video\VideoAudioLens;
 use App\Nova\Lenses\Video\VideoResolutionLens;
 use App\Nova\Lenses\Video\VideoSourceLens;
@@ -67,7 +67,7 @@ class Video extends BaseResource
      */
     public static function group(): string
     {
-        return __('nova.wiki');
+        return __('nova.resources.group.wiki');
     }
 
     /**
@@ -79,7 +79,7 @@ class Video extends BaseResource
      */
     public static function label(): string
     {
-        return __('nova.videos');
+        return __('nova.resources.label.videos');
     }
 
     /**
@@ -91,7 +91,7 @@ class Video extends BaseResource
      */
     public static function singularLabel(): string
     {
-        return __('nova.video');
+        return __('nova.resources.singularLabel.video');
     }
 
     /**
@@ -119,73 +119,73 @@ class Video extends BaseResource
     public function fields(NovaRequest $request): array
     {
         return [
-            ID::make(__('nova.id'), VideoModel::ATTRIBUTE_ID)
+            ID::make(__('nova.fields.base.id'), VideoModel::ATTRIBUTE_ID)
                 ->sortable()
                 ->showOnPreview(),
 
-            Number::make(__('nova.resolution'), VideoModel::ATTRIBUTE_RESOLUTION)
+            Number::make(__('nova.fields.video.resolution.name'), VideoModel::ATTRIBUTE_RESOLUTION)
                 ->sortable()
                 ->min(360)
                 ->max(1080)
                 ->nullable()
                 ->rules(['nullable', 'integer'])
-                ->help(__('nova.video_resolution_help'))
+                ->help(__('nova.fields.video.resolution.help'))
                 ->showOnPreview()
                 ->filterable(),
 
-            Boolean::make(__('nova.nc'), VideoModel::ATTRIBUTE_NC)
+            Boolean::make(__('nova.fields.video.nc.name'), VideoModel::ATTRIBUTE_NC)
                 ->sortable()
                 ->nullable()
                 ->rules(['nullable', 'boolean'])
-                ->help(__('nova.video_nc_help'))
+                ->help(__('nova.fields.video.nc.help'))
                 ->showOnPreview()
                 ->filterable(),
 
-            Boolean::make(__('nova.subbed'), VideoModel::ATTRIBUTE_SUBBED)
+            Boolean::make(__('nova.fields.video.subbed.name'), VideoModel::ATTRIBUTE_SUBBED)
                 ->sortable()
                 ->nullable()
                 ->rules(['nullable', 'boolean'])
-                ->help(__('nova.video_subbed_help'))
+                ->help(__('nova.fields.video.subbed.help'))
                 ->showOnPreview()
                 ->filterable(),
 
-            Boolean::make(__('nova.lyrics'), VideoModel::ATTRIBUTE_LYRICS)
+            Boolean::make(__('nova.fields.video.lyrics.name'), VideoModel::ATTRIBUTE_LYRICS)
                 ->sortable()
                 ->nullable()
                 ->rules(['nullable', 'boolean'])
-                ->help(__('nova.video_lyrics_help'))
+                ->help(__('nova.fields.video.lyrics.help'))
                 ->showOnPreview()
                 ->filterable(),
 
-            Boolean::make(__('nova.uncen'), VideoModel::ATTRIBUTE_UNCEN)
+            Boolean::make(__('nova.fields.video.uncen.name'), VideoModel::ATTRIBUTE_UNCEN)
                 ->sortable()
                 ->nullable()
                 ->rules(['nullable', 'boolean'])
-                ->help(__('nova.video_uncen_help'))
+                ->help(__('nova.fields.video.uncen.help'))
                 ->showOnPreview()
                 ->filterable(),
 
-            Select::make(__('nova.overlap'), VideoModel::ATTRIBUTE_OVERLAP)
+            Select::make(__('nova.fields.video.overlap.name'), VideoModel::ATTRIBUTE_OVERLAP)
                 ->options(VideoOverlap::asSelectArray())
                 ->displayUsing(fn (?Enum $enum) => $enum?->description)
                 ->nullable()
                 ->sortable()
                 ->rules(['nullable', new EnumValue(VideoOverlap::class, false)])
-                ->help(__('nova.video_overlap_help'))
+                ->help(__('nova.fields.video.overlap.help'))
                 ->showOnPreview()
                 ->filterable(),
 
-            Select::make(__('nova.source'), VideoModel::ATTRIBUTE_SOURCE)
+            Select::make(__('nova.fields.video.source.name'), VideoModel::ATTRIBUTE_SOURCE)
                 ->options(VideoSource::asSelectArray())
                 ->displayUsing(fn (?Enum $enum) => $enum?->description)
                 ->nullable()
                 ->sortable()
                 ->rules(['nullable', new EnumValue(VideoSource::class, false)])
-                ->help(__('nova.video_source_help'))
+                ->help(__('nova.fields.video.source.help'))
                 ->showOnPreview()
                 ->filterable(),
 
-            BelongsTo::make(__('nova.audio'), VideoModel::RELATION_AUDIO, Audio::class)
+            BelongsTo::make(__('nova.resources.singularLabel.audio'), VideoModel::RELATION_AUDIO, Audio::class)
                 ->hideFromIndex()
                 ->sortable()
                 ->filterable()
@@ -193,22 +193,22 @@ class Video extends BaseResource
                 ->nullable()
                 ->showOnPreview(),
 
-            BelongsToMany::make(__('nova.anime_theme_entries'), VideoModel::RELATION_ANIMETHEMEENTRIES, Entry::class)
+            BelongsToMany::make(__('nova.resources.label.anime_theme_entries'), VideoModel::RELATION_ANIMETHEMEENTRIES, Entry::class)
                 ->searchable()
                 ->filterable()
                 ->withSubtitles()
                 ->fields(fn () => [
-                    DateTime::make(__('nova.created_at'), BasePivot::ATTRIBUTE_CREATED_AT)
+                    DateTime::make(__('nova.fields.base.created_at'), BasePivot::ATTRIBUTE_CREATED_AT)
                         ->hideWhenCreating(),
 
-                    DateTime::make(__('nova.updated_at'), BasePivot::ATTRIBUTE_UPDATED_AT)
+                    DateTime::make(__('nova.fields.base.updated_at'), BasePivot::ATTRIBUTE_UPDATED_AT)
                         ->hideWhenCreating(),
                 ]),
 
-            Panel::make(__('nova.file_properties'), $this->fileProperties())
+            Panel::make(__('nova.fields.base.file_properties'), $this->fileProperties())
                 ->collapsable(),
 
-            Panel::make(__('nova.timestamps'), $this->timestamps())
+            Panel::make(__('nova.fields.base.timestamps'), $this->timestamps())
                 ->collapsable(),
         ];
     }
@@ -221,7 +221,7 @@ class Video extends BaseResource
     protected function fileProperties(): array
     {
         return [
-            Text::make(__('nova.basename'), VideoModel::ATTRIBUTE_BASENAME)
+            Text::make(__('nova.fields.video.basename.name'), VideoModel::ATTRIBUTE_BASENAME)
                 ->copyable()
                 ->hideFromIndex()
                 ->hideWhenCreating()
@@ -229,7 +229,7 @@ class Video extends BaseResource
                 ->showOnPreview()
                 ->filterable(),
 
-            Text::make(__('nova.filename'), VideoModel::ATTRIBUTE_FILENAME)
+            Text::make(__('nova.fields.video.filename.name'), VideoModel::ATTRIBUTE_FILENAME)
                 ->sortable()
                 ->copyable()
                 ->hideWhenCreating()
@@ -237,7 +237,7 @@ class Video extends BaseResource
                 ->showOnPreview()
                 ->filterable(),
 
-            Text::make(__('nova.path'), VideoModel::ATTRIBUTE_PATH)
+            Text::make(__('nova.fields.video.path.name'), VideoModel::ATTRIBUTE_PATH)
                 ->copyable()
                 ->hideFromIndex()
                 ->hideWhenCreating()
@@ -245,14 +245,14 @@ class Video extends BaseResource
                 ->showOnPreview()
                 ->filterable(),
 
-            Number::make(__('nova.size'), VideoModel::ATTRIBUTE_SIZE)
+            Number::make(__('nova.fields.video.size.name'), VideoModel::ATTRIBUTE_SIZE)
                 ->hideFromIndex()
                 ->hideWhenCreating()
                 ->hideWhenUpdating()
                 ->showOnPreview()
                 ->filterable(),
 
-            Text::make(__('nova.mimetype'), VideoModel::ATTRIBUTE_MIMETYPE)
+            Text::make(__('nova.fields.video.mimetype.name'), VideoModel::ATTRIBUTE_MIMETYPE)
                 ->copyable()
                 ->hideFromIndex()
                 ->hideWhenCreating()
@@ -274,8 +274,8 @@ class Video extends BaseResource
             parent::actions($request),
             [
                 (new BackfillAudioAction($request->user()))
-                    ->confirmButtonText(__('nova.backfill'))
-                    ->cancelButtonText(__('nova.cancel'))
+                    ->confirmButtonText(__('nova.actions.video.backfill.confirmButtonText'))
+                    ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
                     ->showOnIndex()
                     ->showOnDetail()
                     ->showInline()
@@ -286,8 +286,8 @@ class Video extends BaseResource
                     }),
 
                 (new UploadVideoAction())
-                    ->confirmButtonText(__('nova.upload'))
-                    ->cancelButtonText(__('nova.cancel'))
+                    ->confirmButtonText(__('nova.actions.storage.upload.confirmButtonText'))
+                    ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
                     ->onlyOnIndex()
                     ->standalone()
                     ->canSee(function (Request $request) {
@@ -297,8 +297,8 @@ class Video extends BaseResource
                     }),
 
                 (new MoveVideoAction())
-                    ->confirmButtonText(__('nova.move'))
-                    ->cancelButtonText(__('nova.cancel'))
+                    ->confirmButtonText(__('nova.actions.storage.move.confirmButtonText'))
+                    ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
                     ->exceptOnIndex()
                     ->canSee(function (Request $request) {
                         $user = $request->user();
@@ -307,9 +307,9 @@ class Video extends BaseResource
                     }),
 
                 (new DeleteVideoAction())
-                    ->confirmText(__('nova.remove_video_text'))
-                    ->confirmButtonText(__('nova.remove'))
-                    ->cancelButtonText(__('nova.cancel'))
+                    ->confirmText(__('nova.actions.video.delete.confirmText'))
+                    ->confirmButtonText(__('nova.actions.storage.delete.confirmButtonText'))
+                    ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
                     ->exceptOnIndex()
                     ->canSee(function (Request $request) {
                         $user = $request->user();
@@ -318,8 +318,8 @@ class Video extends BaseResource
                     }),
 
                 (new ReconcileVideoAction())
-                    ->confirmButtonText(__('nova.reconcile'))
-                    ->cancelButtonText(__('nova.cancel'))
+                    ->confirmButtonText(__('nova.actions.repositories.confirmButtonText'))
+                    ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
                     ->onlyOnIndex()
                     ->standalone()
                     ->canSee(function (Request $request) {

@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Nova\Resources\Auth;
 
 use App\Models\Auth\User as UserModel;
-use App\Nova\Actions\Auth\User\GivePermissionAction;
-use App\Nova\Actions\Auth\User\GiveRoleAction;
-use App\Nova\Actions\Auth\User\RevokePermissionAction;
-use App\Nova\Actions\Auth\User\RevokeRoleAction;
+use App\Nova\Actions\Models\Auth\User\GivePermissionAction;
+use App\Nova\Actions\Models\Auth\User\GiveRoleAction;
+use App\Nova\Actions\Models\Auth\User\RevokePermissionAction;
+use App\Nova\Actions\Models\Auth\User\RevokeRoleAction;
 use App\Nova\Resources\BaseResource;
 use Exception;
 use Illuminate\Validation\Rule;
@@ -61,7 +61,7 @@ class User extends BaseResource
      */
     public static function group(): string
     {
-        return __('nova.auth');
+        return __('nova.resources.group.auth');
     }
 
     /**
@@ -73,7 +73,7 @@ class User extends BaseResource
      */
     public static function label(): string
     {
-        return __('nova.users');
+        return __('nova.resources.label.users');
     }
 
     /**
@@ -85,7 +85,7 @@ class User extends BaseResource
      */
     public static function singularLabel(): string
     {
-        return __('nova.user');
+        return __('nova.resources.singularLabel.user');
     }
 
     /**
@@ -126,21 +126,21 @@ class User extends BaseResource
     public function fields(NovaRequest $request): array
     {
         return [
-            ID::make(__('nova.id'), UserModel::ATTRIBUTE_ID)
+            ID::make(__('nova.fields.base.id'), UserModel::ATTRIBUTE_ID)
                 ->sortable()
                 ->showOnPreview(),
 
             Gravatar::make()->maxWidth(50)
                 ->showOnPreview(),
 
-            Text::make(__('nova.name'), UserModel::ATTRIBUTE_NAME)
+            Text::make(__('nova.fields.user.name'), UserModel::ATTRIBUTE_NAME)
                 ->sortable()
                 ->copyable()
                 ->rules(['required', 'max:192', 'alpha_dash'])
                 ->showOnPreview()
                 ->filterable(),
 
-            Email::make(__('nova.email'), UserModel::ATTRIBUTE_EMAIL)
+            Email::make(__('nova.fields.user.email'), UserModel::ATTRIBUTE_EMAIL)
                 ->sortable()
                 ->rules(['required', 'email', 'max:192'])
                 ->creationRules(Rule::unique(UserModel::TABLE)->__toString())
@@ -152,13 +152,13 @@ class User extends BaseResource
                 ->showOnPreview()
                 ->filterable(),
 
-            BelongsToMany::make(__('nova.roles'), UserModel::RELATION_ROLES, Role::class)
+            BelongsToMany::make(__('nova.resources.label.roles'), UserModel::RELATION_ROLES, Role::class)
                 ->filterable(),
 
-            BelongsToMany::make(__('nova.permissions'), UserModel::RELATION_PERMISSIONS, Permission::class)
+            BelongsToMany::make(__('nova.resources.label.permissions'), UserModel::RELATION_PERMISSIONS, Permission::class)
                 ->filterable(),
 
-            Panel::make(__('nova.timestamps'), $this->timestamps())
+            Panel::make(__('nova.fields.base.timestamps'), $this->timestamps())
                 ->collapsable(),
         ];
     }
@@ -175,29 +175,29 @@ class User extends BaseResource
             parent::actions($request),
             [
                 (new GivePermissionAction())
-                    ->confirmButtonText(__('nova.confirm'))
-                    ->cancelButtonText(__('nova.cancel'))
+                    ->confirmButtonText(__('nova.actions.base.confirmButtonText'))
+                    ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
                     ->showOnIndex()
                     ->showOnDetail()
                     ->showInline(),
 
                 (new GiveRoleAction())
-                    ->confirmButtonText(__('nova.confirm'))
-                    ->cancelButtonText(__('nova.cancel'))
+                    ->confirmButtonText(__('nova.actions.base.confirmButtonText'))
+                    ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
                     ->showOnIndex()
                     ->showOnDetail()
                     ->showInline(),
 
                 (new RevokePermissionAction())
-                    ->confirmButtonText(__('nova.confirm'))
-                    ->cancelButtonText(__('nova.cancel'))
+                    ->confirmButtonText(__('nova.actions.base.confirmButtonText'))
+                    ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
                     ->showOnIndex()
                     ->showOnDetail()
                     ->showInline(),
 
                 (new RevokeRoleAction())
-                    ->confirmButtonText(__('nova.confirm'))
-                    ->cancelButtonText(__('nova.cancel'))
+                    ->confirmButtonText(__('nova.actions.base.confirmButtonText'))
+                    ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
                     ->showOnIndex()
                     ->showOnDetail()
                     ->showInline(),

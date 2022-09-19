@@ -35,43 +35,43 @@ abstract class AnimeLens extends BaseLens
     public function fields(NovaRequest $request): array
     {
         return [
-            ID::make(__('nova.id'), Anime::ATTRIBUTE_ID)
+            ID::make(__('nova.fields.base.id'), Anime::ATTRIBUTE_ID)
                 ->sortable()
                 ->showOnPreview(),
 
-            Text::make(__('nova.name'), Anime::ATTRIBUTE_NAME)
+            Text::make(__('nova.fields.anime.name.name'), Anime::ATTRIBUTE_NAME)
                 ->sortable()
                 ->copyable()
                 ->showOnPreview()
                 ->filterable(),
 
-            Text::make(__('nova.slug'), Anime::ATTRIBUTE_SLUG)
+            Text::make(__('nova.fields.anime.slug.name'), Anime::ATTRIBUTE_SLUG)
                 ->sortable()
                 ->copyable()
                 ->showOnPreview(),
 
-            Number::make(__('nova.year'), Anime::ATTRIBUTE_YEAR)
+            Number::make(__('nova.fields.anime.year.name'), Anime::ATTRIBUTE_YEAR)
                 ->sortable()
                 ->showOnPreview()
                 ->filterable(),
 
-            Select::make(__('nova.season'), Anime::ATTRIBUTE_SEASON)
+            Select::make(__('nova.fields.anime.season.name'), Anime::ATTRIBUTE_SEASON)
                 ->options(AnimeSeason::asSelectArray())
                 ->displayUsing(fn (?Enum $enum) => $enum?->description)
                 ->sortable()
                 ->showOnPreview()
                 ->filterable(),
 
-            Textarea::make(__('nova.synopsis'), AnimeModel::ATTRIBUTE_SYNOPSIS)
+            Textarea::make(__('nova.fields.anime.synopsis.name'), AnimeModel::ATTRIBUTE_SYNOPSIS)
                 ->onlyOnPreview(),
 
-            DateTime::make(__('nova.created_at'), BaseModel::ATTRIBUTE_CREATED_AT)
+            DateTime::make(__('nova.fields.base.created_at'), BaseModel::ATTRIBUTE_CREATED_AT)
                 ->onlyOnPreview(),
 
-            DateTime::make(__('nova.updated_at'), BaseModel::ATTRIBUTE_UPDATED_AT)
+            DateTime::make(__('nova.fields.base.updated_at'), BaseModel::ATTRIBUTE_UPDATED_AT)
                 ->onlyOnPreview(),
 
-            DateTime::make(__('nova.deleted_at'), BaseModel::ATTRIBUTE_DELETED_AT)
+            DateTime::make(__('nova.fields.base.deleted_at'), BaseModel::ATTRIBUTE_DELETED_AT)
                 ->onlyOnPreview(),
         ];
     }

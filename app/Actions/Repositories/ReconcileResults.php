@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Actions\Repositories;
 
+use App\Actions\ActionResult;
+use App\Enums\Actions\ActionStatus;
 use App\Models\BaseModel;
 use Countable;
 use Illuminate\Console\Command;
@@ -16,7 +18,7 @@ use Illuminate\Support\Str;
  *
  * @template TModel of \App\Models\BaseModel
  */
-abstract class ReconcileResults
+abstract class ReconcileResults extends ActionResult
 {
     /**
      * Create a new results instance.
@@ -26,10 +28,11 @@ abstract class ReconcileResults
      * @param  Collection  $updated
      */
     public function __construct(
-        protected readonly Collection $created,
-        protected readonly Collection $deleted,
-        protected readonly Collection $updated
+        protected readonly Collection $created = new Collection(),
+        protected readonly Collection $deleted = new Collection(),
+        protected readonly Collection $updated = new Collection()
     ) {
+        parent::__construct(ActionStatus::PASSED());
     }
 
     /**
@@ -43,11 +46,31 @@ abstract class ReconcileResults
     }
 
     /**
+     * Get deleted models.
+     *
+     * @return Collection
+     */
+    public function getDeleted(): Collection
+    {
+        return $this->deleted;
+    }
+
+    /**
+     * Get updated models.
+     *
+     * @return Collection
+     */
+    public function getUpdated(): Collection
+    {
+        return $this->updated;
+    }
+
+    /**
      * Determines if any successful changes were made during reconciliation.
      *
      * @return bool
      */
-    protected function hasChanges(): bool
+    public function hasChanges(): bool
     {
         return $this->created->isNotEmpty() || $this->deleted->isNotEmpty() || $this->updated->isNotEmpty();
     }
@@ -56,6 +79,8 @@ abstract class ReconcileResults
      * Write reconcile results to log.
      *
      * @return void
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
     public function toLog(): void
     {
@@ -63,7 +88,7 @@ abstract class ReconcileResults
         $this->deleted->each(fn (BaseModel $model) => Log::info("{$this->label()} '{$model->getName()}' deleted"));
         $this->updated->each(fn (BaseModel $model) => Log::info("{$this->label()} '{$model->getName()}' updated"));
 
-        Log::info($this->summary());
+        Log::info($this->getMessage());
     }
 
     /**
@@ -71,6 +96,8 @@ abstract class ReconcileResults
      *
      * @param  Command  $command
      * @return void
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
     public function toConsole(Command $command): void
     {
@@ -78,15 +105,17 @@ abstract class ReconcileResults
         $this->deleted->each(fn (BaseModel $model) => $command->info("{$this->label()} '{$model->getName()}' deleted"));
         $this->updated->each(fn (BaseModel $model) => $command->info("{$this->label()} '{$model->getName()}' updated"));
 
-        $command->info($this->summary());
+        $command->info($this->getMessage());
     }
 
     /**
-     * Get the summary line.
+     * Get the action result message.
      *
-     * @return string
+     * @return string|null
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
-    public function summary(): string
+    public function getMessage(): ?string
     {
         if ($this->hasChanges()) {
             return "{$this->created->count()} {$this->label($this->created)} created, {$this->deleted->count()} {$this->label($this->deleted)} deleted, {$this->updated->count()} {$this->label($this->updated)} updated";

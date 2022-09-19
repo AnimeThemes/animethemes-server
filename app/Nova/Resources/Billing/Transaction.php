@@ -7,7 +7,7 @@ namespace App\Nova\Resources\Billing;
 use App\Enums\Models\Billing\Service;
 use App\Models\Auth\User;
 use App\Models\Billing\Transaction as TransactionModel;
-use App\Nova\Actions\Billing\Transaction\ReconcileTransactionAction;
+use App\Nova\Actions\Repositories\Billing\Transaction\ReconcileTransactionAction;
 use App\Nova\Resources\BaseResource;
 use BenSampo\Enum\Enum;
 use BenSampo\Enum\Rules\EnumValue;
@@ -50,7 +50,7 @@ class Transaction extends BaseResource
      */
     public static function group(): string
     {
-        return __('nova.billing');
+        return __('nova.resources.group.billing');
     }
 
     /**
@@ -62,7 +62,7 @@ class Transaction extends BaseResource
      */
     public static function label(): string
     {
-        return __('nova.transactions');
+        return __('nova.resources.label.transactions');
     }
 
     /**
@@ -74,7 +74,7 @@ class Transaction extends BaseResource
      */
     public static function singularLabel(): string
     {
-        return __('nova.transaction');
+        return __('nova.resources.singularLabel.transaction');
     }
 
     /**
@@ -121,51 +121,51 @@ class Transaction extends BaseResource
     public function fields(NovaRequest $request): array
     {
         return [
-            ID::make(__('nova.id'), TransactionModel::ATTRIBUTE_ID)
+            ID::make(__('nova.fields.base.id'), TransactionModel::ATTRIBUTE_ID)
                 ->sortable()
                 ->showOnPreview(),
 
-            Date::make(__('nova.date'), TransactionModel::ATTRIBUTE_DATE)
+            Date::make(__('nova.fields.transaction.date.name'), TransactionModel::ATTRIBUTE_DATE)
                 ->sortable()
                 ->rules('required')
-                ->help(__('nova.transaction_date_help'))
+                ->help(__('nova.fields.transaction.date.help'))
                 ->showOnPreview()
                 ->filterable(),
 
-            Select::make(__('nova.service'), TransactionModel::ATTRIBUTE_SERVICE)
+            Select::make(__('nova.fields.transaction.service.name'), TransactionModel::ATTRIBUTE_SERVICE)
                 ->options(Service::asSelectArray())
                 ->displayUsing(fn (?Enum $enum) => $enum?->description)
                 ->sortable()
                 ->rules(['required', new EnumValue(Service::class, false)])
-                ->help(__('nova.billing_service_help'))
+                ->help(__('nova.fields.transaction.service.help'))
                 ->showOnPreview()
                 ->filterable(),
 
-            Text::make(__('nova.description'), TransactionModel::ATTRIBUTE_DESCRIPTION)
+            Text::make(__('nova.fields.transaction.description.name'), TransactionModel::ATTRIBUTE_DESCRIPTION)
                 ->sortable()
                 ->copyable()
                 ->rules(['required', 'max:192'])
-                ->help(__('nova.transaction_description_help'))
+                ->help(__('nova.fields.transaction.description.help'))
                 ->showOnPreview()
                 ->filterable(),
 
-            Currency::make(__('nova.amount'), TransactionModel::ATTRIBUTE_AMOUNT)
+            Currency::make(__('nova.fields.transaction.amount.name'), TransactionModel::ATTRIBUTE_AMOUNT)
                 ->sortable()
                 ->rules('required')
-                ->help(__('nova.transaction_amount_help'))
+                ->help(__('nova.fields.transaction.amount.help'))
                 ->showOnPreview()
                 ->filterable(),
 
-            Text::make(__('nova.external_id'), TransactionModel::ATTRIBUTE_EXTERNAL_ID)
+            Text::make(__('nova.fields.transaction.external_id.name'), TransactionModel::ATTRIBUTE_EXTERNAL_ID)
                 ->nullable()
                 ->sortable()
                 ->copyable()
                 ->rules(['nullable', 'max:192'])
-                ->help(__('nova.transaction_external_id_help'))
+                ->help(__('nova.fields.transaction.external_id.help'))
                 ->showOnPreview()
                 ->filterable(),
 
-            Panel::make(__('nova.timestamps'), $this->timestamps())
+            Panel::make(__('nova.fields.base.timestamps'), $this->timestamps())
                 ->collapsable(),
         ];
     }
@@ -182,8 +182,8 @@ class Transaction extends BaseResource
             parent::actions($request),
             [
                 (new ReconcileTransactionAction())
-                    ->confirmButtonText(__('nova.reconcile'))
-                    ->cancelButtonText(__('nova.cancel'))
+                    ->confirmButtonText(__('nova.actions.repositories.confirmButtonText'))
+                    ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
                     ->onlyOnIndex()
                     ->standalone()
                     ->canSee(function (Request $request) {

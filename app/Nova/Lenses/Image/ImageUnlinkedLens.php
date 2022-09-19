@@ -33,7 +33,7 @@ class ImageUnlinkedLens extends BaseLens
      */
     public function name(): string
     {
-        return __('nova.image_unlinked_lens');
+        return __('nova.lenses.image.unlinked.name');
     }
 
     /**
@@ -61,31 +61,31 @@ class ImageUnlinkedLens extends BaseLens
     public function fields(NovaRequest $request): array
     {
         return [
-            ID::make(__('nova.id'), Image::ATTRIBUTE_ID)
+            ID::make(__('nova.fields.base.id'), Image::ATTRIBUTE_ID)
                 ->sortable()
                 ->showOnPreview(),
 
-            Select::make(__('nova.facet'), Image::ATTRIBUTE_FACET)
+            Select::make(__('nova.fields.image.facet.name'), Image::ATTRIBUTE_FACET)
                 ->options(ImageFacet::asSelectArray())
                 ->displayUsing(fn (?Enum $enum) => $enum?->description)
                 ->sortable()
                 ->showOnPreview()
                 ->filterable(),
 
-            NovaImage::make(__('nova.image'), Image::ATTRIBUTE_PATH, Config::get('image.disk'))
+            NovaImage::make(__('nova.fields.image.image.name'), Image::ATTRIBUTE_PATH, Config::get('image.disk'))
                 ->showOnPreview(),
 
-            Text::make(__('nova.path'), Image::ATTRIBUTE_PATH)
+            Text::make(__('nova.fields.image.path.name'), Image::ATTRIBUTE_PATH)
                 ->copyable()
                 ->onlyOnPreview(),
 
-            DateTime::make(__('nova.created_at'), BaseModel::ATTRIBUTE_CREATED_AT)
+            DateTime::make(__('nova.fields.base.created_at'), BaseModel::ATTRIBUTE_CREATED_AT)
                 ->onlyOnPreview(),
 
-            DateTime::make(__('nova.updated_at'), BaseModel::ATTRIBUTE_UPDATED_AT)
+            DateTime::make(__('nova.fields.base.updated_at'), BaseModel::ATTRIBUTE_UPDATED_AT)
                 ->onlyOnPreview(),
 
-            DateTime::make(__('nova.deleted_at'), BaseModel::ATTRIBUTE_DELETED_AT)
+            DateTime::make(__('nova.fields.base.deleted_at'), BaseModel::ATTRIBUTE_DELETED_AT)
                 ->onlyOnPreview(),
         ];
     }

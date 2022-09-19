@@ -33,11 +33,11 @@ class VideoController extends StreamableController
     }
 
     /**
-     * Get the filesystem disk that hosts the streamable model.
+     * The name of the disk.
      *
      * @return string
      */
-    protected function disk(): string
+    public function disk(): string
     {
         return Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED);
     }

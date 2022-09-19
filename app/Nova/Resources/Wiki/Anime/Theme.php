@@ -70,7 +70,7 @@ class Theme extends BaseResource
      */
     public static function label(): string
     {
-        return __('nova.anime_themes');
+        return __('nova.resources.label.anime_themes');
     }
 
     /**
@@ -82,7 +82,7 @@ class Theme extends BaseResource
      */
     public static function singularLabel(): string
     {
-        return __('nova.anime_theme');
+        return __('nova.resources.singularLabel.anime_theme');
     }
 
     /**
@@ -120,7 +120,7 @@ class Theme extends BaseResource
      */
     public static function group(): string
     {
-        return __('nova.wiki');
+        return __('nova.resources.group.wiki');
     }
 
     /**
@@ -164,11 +164,11 @@ class Theme extends BaseResource
     public function fields(NovaRequest $request): array
     {
         return [
-            ID::make(__('nova.id'), AnimeTheme::ATTRIBUTE_ID)
+            ID::make(__('nova.fields.base.id'), AnimeTheme::ATTRIBUTE_ID)
                 ->sortable()
                 ->showOnPreview(),
 
-            BelongsTo::make(__('nova.anime'), AnimeTheme::RELATION_ANIME, Anime::class)
+            BelongsTo::make(__('nova.resources.singularLabel.anime'), AnimeTheme::RELATION_ANIME, Anime::class)
                 ->sortable()
                 ->filterable()
                 ->searchable(fn () => $request->viaResource() === null || Song::class === $request->viaResource())
@@ -178,35 +178,35 @@ class Theme extends BaseResource
                 ->showCreateRelationButton(fn () => $request->viaResource() === null || Song::class === $request->viaResource())
                 ->showOnPreview(),
 
-            Select::make(__('nova.type'), AnimeTheme::ATTRIBUTE_TYPE)
+            Select::make(__('nova.fields.anime_theme.type.name'), AnimeTheme::ATTRIBUTE_TYPE)
                 ->options(ThemeType::asSelectArray())
                 ->displayUsing(fn (?Enum $enum) => $enum?->description)
                 ->sortable()
                 ->rules(['required', new EnumValue(ThemeType::class, false)])
-                ->help(__('nova.anime_theme_type_help'))
+                ->help(__('nova.fields.anime_theme.type.help'))
                 ->showOnPreview()
                 ->filterable(),
 
-            Number::make(__('nova.sequence'), AnimeTheme::ATTRIBUTE_SEQUENCE)
+            Number::make(__('nova.fields.anime_theme.sequence.name'), AnimeTheme::ATTRIBUTE_SEQUENCE)
                 ->sortable()
                 ->nullable()
                 ->rules(['nullable', 'integer'])
-                ->help(__('nova.anime_theme_sequence_help'))
+                ->help(__('nova.fields.anime_theme.sequence.help'))
                 ->showOnPreview()
                 ->filterable(),
 
-            Text::make(__('nova.group'), AnimeTheme::ATTRIBUTE_GROUP)
+            Text::make(__('nova.fields.anime_theme.group.name'), AnimeTheme::ATTRIBUTE_GROUP)
                 ->sortable()
                 ->nullable()
                 ->rules(['nullable', 'max:192'])
-                ->help(__('nova.anime_theme_group_help'))
+                ->help(__('nova.fields.anime_theme.group.help'))
                 ->showOnPreview()
                 ->filterable(),
 
-            Text::make(__('nova.slug'), AnimeTheme::ATTRIBUTE_SLUG)
+            Text::make(__('nova.fields.anime_theme.slug.name'), AnimeTheme::ATTRIBUTE_SLUG)
                 ->sortable()
                 ->rules(['required', 'max:192', 'alpha_dash'])
-                ->help(__('nova.anime_theme_slug_help'))
+                ->help(__('nova.fields.anime_theme.slug.help'))
                 ->showOnPreview()
                 ->filterable()
                 ->dependsOn(
@@ -224,7 +224,7 @@ class Theme extends BaseResource
                     }
                 ),
 
-            BelongsTo::make(__('nova.song'), AnimeTheme::RELATION_SONG, Song::class)
+            BelongsTo::make(__('nova.resources.singularLabel.song'), AnimeTheme::RELATION_SONG, Song::class)
                 ->sortable()
                 ->filterable()
                 ->searchable()
@@ -233,9 +233,9 @@ class Theme extends BaseResource
                 ->showCreateRelationButton()
                 ->showOnPreview(),
 
-            HasMany::make(__('nova.anime_theme_entries'), AnimeTheme::RELATION_ENTRIES, Entry::class),
+            HasMany::make(__('nova.resources.label.anime_theme_entries'), AnimeTheme::RELATION_ENTRIES, Entry::class),
 
-            Panel::make(__('nova.timestamps'), $this->timestamps())
+            Panel::make(__('nova.fields.base.timestamps'), $this->timestamps())
                 ->collapsable(),
         ];
     }

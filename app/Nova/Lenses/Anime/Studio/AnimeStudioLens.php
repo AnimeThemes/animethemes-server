@@ -6,7 +6,7 @@ namespace App\Nova\Lenses\Anime\Studio;
 
 use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
-use App\Nova\Actions\Wiki\Anime\BackfillAnimeAction;
+use App\Nova\Actions\Models\Wiki\Anime\BackfillAnimeAction;
 use App\Nova\Lenses\Anime\AnimeLens;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -26,7 +26,7 @@ class AnimeStudioLens extends AnimeLens
      */
     public function name(): string
     {
-        return __('nova.anime_studio_lens');
+        return __('nova.lenses.anime.studios.name');
     }
 
     /**
@@ -52,8 +52,8 @@ class AnimeStudioLens extends AnimeLens
     {
         return [
             (new BackfillAnimeAction($request->user()))
-                ->confirmButtonText(__('nova.backfill'))
-                ->cancelButtonText(__('nova.cancel'))
+                ->confirmButtonText(__('nova.actions.anime.backfill.confirmButtonText'))
+                ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
                 ->showInline()
                 ->canSee(function (Request $request) {
                     $user = $request->user();
