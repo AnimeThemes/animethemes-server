@@ -258,7 +258,7 @@ abstract class DumpAction
     /**
      * Determine if the string option is set.
      *
-     * @param string $key
+     * @param  string  $key
      * @return bool
      */
     protected function hasOption(string $key): bool

@@ -53,7 +53,7 @@ class DeleteResults implements StorageResults
     public function toConsole(Command $command): void
     {
         if (empty($this->deletions)) {
-           $command->error('No deletions were attempted.');
+            $command->error('No deletions were attempted.');
         }
         foreach ($this->deletions as $fs => $result) {
             $result
