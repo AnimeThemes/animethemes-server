@@ -67,7 +67,7 @@ class UploadVideoAction extends UploadAction
             parent::fields($request),
             [
                 Hidden::make(__('nova.resources.singularLabel.anime_theme_entry'), AnimeThemeEntry::ATTRIBUTE_ID)
-                    ->default(fn () => $parent instanceof AnimeThemeEntry ? $parent->getKey() : null)
+                    ->default(fn () => $parent instanceof AnimeThemeEntry ? $parent->getKey() : null),
             ],
         );
     }
