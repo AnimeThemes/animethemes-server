@@ -33,7 +33,7 @@ class StudioResourceLinkFormatRule implements Rule
     {
         $pattern = match ($this->site->value) {
             ResourceSite::TWITTER => '/^https:\/\/twitter\.com\/\w+$/',
-            ResourceSite::ANIDB => '/^https:\/\/anidb\.net\/creator\/\d+$/',
+            ResourceSite::ANIDB => '/^https:\/\/anidb\.net\/creator\/(?:virtual\/)?\d+$/',
             ResourceSite::ANILIST => '/^https:\/\/anilist\.co\/studio\/\d+$/',
             ResourceSite::ANIME_PLANET => '/^https:\/\/www\.anime-planet\.com\/anime\/studios\/[a-zA-Z0-9-]+$/',
             ResourceSite::ANN => '/^https:\/\/www\.animenewsnetwork\.com\/encyclopedia\/company\.php\?id=\d+$/',

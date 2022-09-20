@@ -6,6 +6,7 @@ namespace App\Nova\Actions\Storage\Wiki\Video;
 
 use App\Actions\Storage\Wiki\Video\UploadVideoAction as UploadVideo;
 use App\Constants\Config\VideoConstants;
+use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Nova\Actions\Storage\Base\UploadAction;
 use App\Rules\Wiki\Submission\Audio\AudioChannelLayoutStreamRule;
 use App\Rules\Wiki\Submission\Audio\AudioChannelsStreamRule;
@@ -32,6 +33,8 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Validation\Rules\File as FileRule;
 use Laravel\Nova\Fields\ActionFields;
+use Laravel\Nova\Fields\Hidden;
+use Laravel\Nova\Http\Requests\NovaRequest;
 
 /**
  * Class UploadVideoAction.
@@ -51,6 +54,25 @@ class UploadVideoAction extends UploadAction
     }
 
     /**
+     * Get the fields available on the action.
+     *
+     * @param  NovaRequest  $request
+     * @return array
+     */
+    public function fields(NovaRequest $request): array
+    {
+        $parent = $request->findParentModel();
+
+        return array_merge(
+            parent::fields($request),
+            [
+                Hidden::make(__('nova.resources.singularLabel.anime_theme_entry'), AnimeThemeEntry::ATTRIBUTE_ID)
+                    ->default(fn () => $parent instanceof AnimeThemeEntry ? $parent->getKey() : null),
+            ],
+        );
+    }
+
+    /**
      * Get the underlying storage action.
      *
      * @param  ActionFields  $fields
@@ -63,7 +85,10 @@ class UploadVideoAction extends UploadAction
         $file = $fields->get('file');
         $path = $fields->get('path');
 
-        return new UploadVideo($file, $path);
+        /** @var AnimeThemeEntry|null $entry */
+        $entry = AnimeThemeEntry::query()->find($fields->get(AnimeThemeEntry::ATTRIBUTE_ID));
+
+        return new UploadVideo($file, $path, $entry);
     }
 
     /**

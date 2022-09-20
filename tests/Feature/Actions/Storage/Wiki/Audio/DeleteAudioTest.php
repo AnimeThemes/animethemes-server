@@ -119,7 +119,9 @@ class DeleteAudioTest extends TestCase
 
         $action = new DeleteAudioAction($audio);
 
-        $action->handle();
+        $result = $action->handle();
+
+        $action->then($result);
 
         static::assertSoftDeleted($audio);
     }

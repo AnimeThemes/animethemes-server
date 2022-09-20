@@ -7,7 +7,11 @@ namespace Tests\Feature\Actions\Storage\Wiki\Video;
 use App\Actions\Storage\Wiki\Video\UploadVideoAction;
 use App\Constants\Config\VideoConstants;
 use App\Enums\Actions\ActionStatus;
+use App\Models\Wiki\Anime;
+use App\Models\Wiki\Anime\AnimeTheme;
+use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
+use App\Pivots\AnimeThemeEntryVideo;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Config;
@@ -96,8 +100,35 @@ class UploadVideoTest extends TestCase
 
         $action = new UploadVideoAction($file, $this->faker->word());
 
-        $action->handle();
+        $result = $action->handle();
+
+        $action->then($result);
 
         static::assertDatabaseCount(Video::class, 1);
+    }
+
+    /**
+     * The Upload Video Action shall attach the provided entry.
+     *
+     * @return void
+     */
+    public function testAttachesEntry(): void
+    {
+        Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
+        Config::set(VideoConstants::DISKS_QUALIFIED, [Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED)]);
+
+        $file = File::fake()->create($this->faker->word().'.webm', $this->faker->randomDigitNotNull());
+
+        $entry = AnimeThemeEntry::factory()
+            ->for(AnimeTheme::factory()->for(Anime::factory()))
+            ->createOne();
+
+        $action = new UploadVideoAction($file, $this->faker->word(), $entry);
+
+        $result = $action->handle();
+
+        $action->then($result);
+
+        static::assertDatabaseCount(AnimeThemeEntryVideo::class, 1);
     }
 }

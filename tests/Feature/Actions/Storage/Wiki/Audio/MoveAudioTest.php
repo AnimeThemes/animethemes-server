@@ -115,7 +115,7 @@ class MoveAudioTest extends TestCase
      *
      * @return void
      */
-    public function testAudioDeleted(): void
+    public function testAudioUpdated(): void
     {
         /** @var FilesystemAdapter $fs */
         $fs = Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
@@ -136,7 +136,9 @@ class MoveAudioTest extends TestCase
 
         $action = new MoveAudioAction($audio, $to);
 
-        $action->handle();
+        $result = $action->handle();
+
+        $action->then($result);
 
         static::assertDatabaseHas(Audio::class, [Audio::ATTRIBUTE_PATH => $to]);
     }

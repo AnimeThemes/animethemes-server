@@ -47,9 +47,18 @@ abstract class MoveAction implements InteractsWithDisks, StorageAction
             $results[$disk] = $result;
         }
 
-        $this->update();
-
         return new MoveResults($this->model, $from, $this->to, $results);
+    }
+
+    /**
+     * Processes to be completed after handling action.
+     *
+     * @param  StorageResults  $storageResults
+     * @return void
+     */
+    public function then(StorageResults $storageResults): void
+    {
+        $this->update();
     }
 
     /**

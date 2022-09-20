@@ -48,10 +48,19 @@ abstract class PruneAction implements InteractsWithDisk, StorageAction
             }
         }
 
+        return new PruneResults($this->disk(), $results);
+    }
+
+    /**
+     * Processes to be completed after handling action.
+     *
+     * @param  StorageResults  $storageResults
+     * @return void
+     */
+    public function then(StorageResults $storageResults): void
+    {
         $reconcileResults = $this->reconcileRepositories();
 
         $reconcileResults->toLog();
-
-        return new PruneResults($this->disk(), $results);
     }
 }
