@@ -48,10 +48,6 @@ abstract class UploadAction implements InteractsWithDisks, StorageAction
             $results[$disk] = $result;
         }
 
-        $reconcileResults = $this->reconcileRepositories();
-
-        $reconcileResults->toLog();
-
         return new UploadResults($results);
     }
 
@@ -70,5 +66,18 @@ abstract class UploadAction implements InteractsWithDisks, StorageAction
     ): void {
         $sourceRepository->handleFilter('path', $this->path);
         $destinationRepository->handleFilter('path', $this->path);
+    }
+
+    /**
+     * Processes to be completed after handling action.
+     *
+     * @param  StorageResults  $storageResults
+     * @return void
+     */
+    public function then(StorageResults $storageResults): void
+    {
+        $reconcileResults = $this->reconcileRepositories();
+
+        $reconcileResults->toLog();
     }
 }

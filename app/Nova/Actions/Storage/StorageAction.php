@@ -38,6 +38,8 @@ abstract class StorageAction extends Action
 
         $storageResults->toLog();
 
+        $action->then($storageResults);
+
         $actionResult = $storageResults->toActionResult();
 
         if ($actionResult->hasFailed()) {

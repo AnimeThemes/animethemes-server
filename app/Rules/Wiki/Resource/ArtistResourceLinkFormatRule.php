@@ -33,7 +33,7 @@ class ArtistResourceLinkFormatRule implements Rule
     {
         $pattern = match ($this->site->value) {
             ResourceSite::TWITTER => '/^https:\/\/twitter\.com\/\w+$/',
-            ResourceSite::ANIDB => '/^https:\/\/anidb\.net\/creator\/\d+$/',
+            ResourceSite::ANIDB => '/^https:\/\/anidb\.net\/creator\/(?:virtual\/)?\d+$/',
             ResourceSite::ANILIST => '/^https:\/\/anilist\.co\/staff\/\d+$/',
             ResourceSite::ANIME_PLANET => '/^https:\/\/www\.anime-planet\.com\/people\/[a-zA-Z0-9-]+$/',
             ResourceSite::ANN => '/^https:\/\/www\.animenewsnetwork\.com\/encyclopedia\/people\.php\?id=\d+$/',

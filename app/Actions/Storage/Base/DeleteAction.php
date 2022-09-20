@@ -50,10 +50,6 @@ abstract class DeleteAction implements InteractsWithDisks, StorageAction
             $results[$disk] = $result;
         }
 
-        $reconcileResults = $this->reconcileRepositories();
-
-        $reconcileResults->toLog();
-
         return new DeleteResults($this->model, $results);
     }
 
@@ -72,6 +68,19 @@ abstract class DeleteAction implements InteractsWithDisks, StorageAction
     ): void {
         $sourceRepository->handleFilter('path', File::dirname($this->path()));
         $destinationRepository->handleFilter('path', File::dirname($this->path()));
+    }
+
+    /**
+     * Processes to be completed after handling action.
+     *
+     * @param  StorageResults  $storageResults
+     * @return void
+     */
+    public function then(StorageResults $storageResults): void
+    {
+        $reconcileResults = $this->reconcileRepositories();
+
+        $reconcileResults->toLog();
     }
 
     /**

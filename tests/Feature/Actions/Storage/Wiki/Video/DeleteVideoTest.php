@@ -119,7 +119,9 @@ class DeleteVideoTest extends TestCase
 
         $action = new DeleteVideoAction($video);
 
-        $action->handle();
+        $result = $action->handle();
+
+        $action->then($result);
 
         static::assertSoftDeleted($video);
     }

@@ -96,7 +96,9 @@ class UploadAudioTest extends TestCase
 
         $action = new UploadAudioAction($file, $this->faker->word());
 
-        $action->handle();
+        $result = $action->handle();
+
+        $action->then($result);
 
         static::assertDatabaseCount(Audio::class, 1);
     }

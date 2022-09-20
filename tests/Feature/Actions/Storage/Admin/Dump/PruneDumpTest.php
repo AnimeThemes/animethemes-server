@@ -68,6 +68,8 @@ class PruneDumpTest extends TestCase
 
         $pruneResults = $action->handle();
 
+        $action->then($pruneResults);
+
         $result = $pruneResults->toActionResult();
 
         static::assertEmpty($fs->allFiles());

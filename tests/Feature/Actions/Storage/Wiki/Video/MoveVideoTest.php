@@ -115,7 +115,7 @@ class MoveVideoTest extends TestCase
      *
      * @return void
      */
-    public function testVideoDeleted(): void
+    public function testVideoUpdated(): void
     {
         /** @var FilesystemAdapter $fs */
         $fs = Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
@@ -136,7 +136,9 @@ class MoveVideoTest extends TestCase
 
         $action = new MoveVideoAction($video, $to);
 
-        $action->handle();
+        $result = $action->handle();
+
+        $action->then($result);
 
         static::assertDatabaseHas(Video::class, [Video::ATTRIBUTE_PATH => $to]);
     }

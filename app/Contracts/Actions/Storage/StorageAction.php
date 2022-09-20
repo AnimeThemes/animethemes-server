@@ -15,4 +15,12 @@ interface StorageAction
      * @return StorageResults
      */
     public function handle(): StorageResults;
+
+    /**
+     * Processes to be completed after handling action.
+     *
+     * @param  StorageResults  $storageResults
+     * @return void
+     */
+    public function then(StorageResults $storageResults): void;
 }
