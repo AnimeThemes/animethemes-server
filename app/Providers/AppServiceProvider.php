@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Providers;
 
 use App\Constants\Config\AudioConstants;
+use App\Constants\Config\DumpConstants;
 use App\Constants\Config\FlagConstants;
 use App\Constants\Config\VideoConstants;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
@@ -48,12 +49,17 @@ class AppServiceProvider extends ServiceProvider
             'Streaming Method' => fn () => Config::get(AudioConstants::STREAMING_METHOD_QUALIFIED),
         ]);
 
+        AboutCommand::add('Dumps', [
+            'Disk' => fn () => Config::get(DumpConstants::DISK_QUALIFIED),
+        ]);
+
         AboutCommand::add('Flags', [
             'Allow Audio Streams' => fn () => Config::bool(FlagConstants::ALLOW_AUDIO_STREAMS_FLAG_QUALIFIED) ? 'true' : 'false',
             'Allow Discord Notifications' => fn () => Config::bool(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED) ? 'true' : 'false',
             'Allow Video Streams' => fn () => Config::bool(FlagConstants::ALLOW_VIDEO_STREAMS_FLAG_QUALIFIED) ? 'true' : 'false',
             'Allow View Recording' => fn () => Config::bool(FlagConstants::ALLOW_VIEW_RECORDING_FLAG_QUALIFIED) ? 'true' : 'false',
             'Allow Dump Downloading' => fn () => Config::bool(FlagConstants::ALLOW_DUMP_DOWNLOADING_FLAG_QUALIFIED) ? 'true' : 'false',
+            'Allow Script Downloading' => fn () => Config::bool(FlagConstants::ALLOW_SCRIPT_DOWNLOADING_FLAG_QUALIFIED) ? 'true' : 'false',
         ]);
 
         AboutCommand::add('Images', [
@@ -65,6 +71,7 @@ class AppServiceProvider extends ServiceProvider
             'Disks' => fn () => implode(',', Config::get(VideoConstants::DISKS_QUALIFIED)),
             'Encoder Version' => fn () => Config::get(VideoConstants::ENCODER_VERSION_QUALIFIED),
             'Nginx Redirect' => fn () => Config::get(VideoConstants::NGINX_REDIRECT_QUALIFIED),
+            'Script Disk' => fn () => Config::get(VideoConstants::SCRIPT_DISK_QUALIFIED),
             'Streaming Method' => fn () => Config::get(VideoConstants::STREAMING_METHOD_QUALIFIED),
         ]);
 

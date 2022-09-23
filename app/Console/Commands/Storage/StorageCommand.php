@@ -39,6 +39,8 @@ abstract class StorageCommand extends Command
         $storageResults->toLog();
         $storageResults->toConsole($this);
 
+        $action->then($storageResults);
+
         $result = $storageResults->toActionResult();
 
         return $result->hasFailed() ? 1 : 0;

@@ -11,10 +11,12 @@ use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Audio;
 use App\Models\Wiki\Video;
+use App\Models\Wiki\Video\VideoScript;
 use App\Pivots\AnimeThemeEntryVideo;
 use CyrildeWit\EloquentViewable\View;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -307,6 +309,21 @@ class VideoTest extends TestCase
 
         static::assertInstanceOf(BelongsTo::class, $video->audio());
         static::assertInstanceOf(Audio::class, $video->audio()->first());
+    }
+
+    /**
+     * Video shall have a one-to-one relationship with the type Script.
+     *
+     * @return void
+     */
+    public function testScript(): void
+    {
+        $video = Video::factory()
+            ->has(VideoScript::factory(), 'videoscript')
+            ->createOne();
+
+        static::assertInstanceOf(HasOne::class, $video->videoscript());
+        static::assertInstanceOf(VideoScript::class, $video->videoscript()->first());
     }
 
     /**

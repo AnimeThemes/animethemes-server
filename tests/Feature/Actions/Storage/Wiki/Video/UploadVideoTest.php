@@ -11,6 +11,7 @@ use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
+use App\Models\Wiki\Video\VideoScript;
 use App\Pivots\AnimeThemeEntryVideo;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Testing\File;
@@ -130,5 +131,28 @@ class UploadVideoTest extends TestCase
         $action->then($result);
 
         static::assertDatabaseCount(AnimeThemeEntryVideo::class, 1);
+    }
+
+    /**
+     * The Upload Video Action shall attach the provided script.
+     *
+     * @return void
+     */
+    public function testAssociatesScript(): void
+    {
+        Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
+        Config::set(VideoConstants::DISKS_QUALIFIED, [Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED)]);
+        Storage::fake(Config::get(VideoConstants::SCRIPT_DISK_QUALIFIED));
+
+        $file = File::fake()->create($this->faker->word().'.webm', $this->faker->randomDigitNotNull());
+        $script = File::fake()->create($this->faker->word().'.txt', $this->faker->randomDigitNotNull());
+
+        $action = new UploadVideoAction($file, $this->faker->word(), null, $script);
+
+        $result = $action->handle();
+
+        $action->then($result);
+
+        static::assertDatabaseHas(VideoScript::class, [VideoScript::ATTRIBUTE_VIDEO => 1]);
     }
 }

@@ -33,6 +33,8 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Validation\Rules\File as FileRule;
 use Laravel\Nova\Fields\ActionFields;
+use Laravel\Nova\Fields\File;
+use Laravel\Nova\Fields\Heading;
 use Laravel\Nova\Fields\Hidden;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
@@ -64,10 +66,20 @@ class UploadVideoAction extends UploadAction
         $parent = $request->findParentModel();
 
         return array_merge(
+            [
+                Heading::make(__('nova.resources.singularLabel.video')),
+            ],
             parent::fields($request),
             [
                 Hidden::make(__('nova.resources.singularLabel.anime_theme_entry'), AnimeThemeEntry::ATTRIBUTE_ID)
                     ->default(fn () => $parent instanceof AnimeThemeEntry ? $parent->getKey() : null),
+
+                Heading::make(__('nova.resources.singularLabel.video_script')),
+
+                File::make(__('nova.resources.singularLabel.video_script'), 'script')
+                    ->nullable()
+                    ->rules(['nullable', FileRule::types('txt')->max(2 * 1024)])
+                    ->help(__('nova.actions.storage.upload.fields.file.help')),
             ],
         );
     }
@@ -81,14 +93,18 @@ class UploadVideoAction extends UploadAction
      */
     protected function action(ActionFields $fields, Collection $models): UploadVideo
     {
+        $path = $fields->get('path');
+
         /** @var UploadedFile $file */
         $file = $fields->get('file');
-        $path = $fields->get('path');
 
         /** @var AnimeThemeEntry|null $entry */
         $entry = AnimeThemeEntry::query()->find($fields->get(AnimeThemeEntry::ATTRIBUTE_ID));
 
-        return new UploadVideo($file, $path, $entry);
+        /** @var UploadedFile|null $script */
+        $script = $fields->get('script');
+
+        return new UploadVideo($file, $path, $entry, $script);
     }
 
     /**

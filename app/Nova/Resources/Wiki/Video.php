@@ -15,12 +15,14 @@ use App\Nova\Actions\Storage\Wiki\Video\MoveVideoAction;
 use App\Nova\Actions\Storage\Wiki\Video\UploadVideoAction;
 use App\Nova\Lenses\Video\VideoAudioLens;
 use App\Nova\Lenses\Video\VideoResolutionLens;
+use App\Nova\Lenses\Video\VideoScriptLens;
 use App\Nova\Lenses\Video\VideoSourceLens;
 use App\Nova\Lenses\Video\VideoUnlinkedLens;
 use App\Nova\Metrics\Video\NewVideos;
 use App\Nova\Metrics\Video\VideosPerDay;
 use App\Nova\Resources\BaseResource;
 use App\Nova\Resources\Wiki\Anime\Theme\Entry;
+use App\Nova\Resources\Wiki\Video\Script;
 use App\Pivots\BasePivot;
 use BenSampo\Enum\Enum;
 use BenSampo\Enum\Rules\EnumValue;
@@ -31,6 +33,7 @@ use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\DateTime;
+use Laravel\Nova\Fields\HasOne;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
@@ -205,6 +208,12 @@ class Video extends BaseResource
                         ->hideWhenCreating(),
                 ]),
 
+            HasOne::make(__('nova.resources.singularLabel.video_script'), VideoModel::RELATION_SCRIPT, Script::class)
+                ->hideFromIndex()
+                ->sortable()
+                ->nullable()
+                ->showOnPreview(),
+
             Panel::make(__('nova.fields.base.file_properties'), $this->fileProperties())
                 ->collapsable(),
 
@@ -363,7 +372,8 @@ class Video extends BaseResource
                 new VideoResolutionLens(),
                 new VideoSourceLens(),
                 new VideoUnlinkedLens(),
-            ]
+                new VideoScriptLens(),
+            ],
         );
     }
 }

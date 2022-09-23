@@ -75,6 +75,16 @@ class SettingSeeder extends Seeder
 
         Setting::query()->firstOrCreate(
             [
+                Setting::ATTRIBUTE_KEY => FlagConstants::ALLOW_SCRIPT_DOWNLOADING_FLAG,
+            ],
+            [
+                Setting::ATTRIBUTE_KEY => FlagConstants::ALLOW_SCRIPT_DOWNLOADING_FLAG,
+                Setting::ATTRIBUTE_VALUE => 'false',
+            ]
+        );
+
+        Setting::query()->firstOrCreate(
+            [
                 Setting::ATTRIBUTE_KEY => VideoConstants::ENCODER_VERSION,
             ],
             [

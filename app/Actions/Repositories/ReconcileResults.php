@@ -139,6 +139,6 @@ abstract class ReconcileResults extends ActionResult
      */
     protected function label(int|array|Countable $models = 1): string
     {
-        return Str::plural(class_basename($this->model()), $models);
+        return Str::plural(Str::headline(class_basename($this->model())), $models);
     }
 }

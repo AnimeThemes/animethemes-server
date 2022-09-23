@@ -66,6 +66,10 @@ class FlagsResource extends BaseResource
             $result[FlagConstants::ALLOW_DUMP_DOWNLOADING_FLAG] = Config::bool(FlagConstants::ALLOW_DUMP_DOWNLOADING_FLAG_QUALIFIED);
         }
 
+        if ($this->isAllowedField(FlagConstants::ALLOW_SCRIPT_DOWNLOADING_FLAG)) {
+            $result[FlagConstants::ALLOW_SCRIPT_DOWNLOADING_FLAG] = Config::bool(FlagConstants::ALLOW_SCRIPT_DOWNLOADING_FLAG_QUALIFIED);
+        }
+
         return $result;
     }
 }

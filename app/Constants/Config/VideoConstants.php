@@ -24,4 +24,10 @@ class VideoConstants
     final public const STREAMING_METHOD_QUALIFIED = 'video.streaming_method';
 
     final public const URL_QUALIFIED = 'video.url';
+
+    final public const SCRIPT_DISK_QUALIFIED = 'video.script.disk';
+
+    final public const SCRIPT_PATH_QUALIFIED = 'video.script.path';
+
+    final public const SCRIPT_URL_QUALIFIED = 'video.script.url';
 }
