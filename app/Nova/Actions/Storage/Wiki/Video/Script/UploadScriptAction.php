@@ -41,13 +41,13 @@ class UploadScriptAction extends UploadAction
      */
     public function fields(NovaRequest $request): array
     {
-        $parent = $request->findParentModel();
+        $model = $request->findModelQuery()->first();
 
         return array_merge(
             parent::fields($request),
             [
                 Hidden::make(__('nova.resources.singularLabel.video'), Video::ATTRIBUTE_ID)
-                    ->default(fn () => $parent instanceof Video ? $parent->getKey() : null),
+                    ->default(fn () => $model instanceof Video ? $model->getKey() : null),
             ],
         );
     }

@@ -12,6 +12,7 @@ use App\Nova\Actions\Models\Wiki\Video\BackfillAudioAction;
 use App\Nova\Actions\Repositories\Storage\Wiki\Video\ReconcileVideoAction;
 use App\Nova\Actions\Storage\Wiki\Video\DeleteVideoAction;
 use App\Nova\Actions\Storage\Wiki\Video\MoveVideoAction;
+use App\Nova\Actions\Storage\Wiki\Video\Script\UploadScriptAction;
 use App\Nova\Actions\Storage\Wiki\Video\UploadVideoAction;
 use App\Nova\Lenses\Video\VideoAudioLens;
 use App\Nova\Lenses\Video\VideoResolutionLens;
@@ -335,6 +336,16 @@ class Video extends BaseResource
                         $user = $request->user();
 
                         return $user instanceof User && $user->can('create video');
+                    }),
+
+                (new UploadScriptAction())
+                    ->confirmButtonText(__('nova.actions.storage.upload.confirmButtonText'))
+                    ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
+                    ->onlyOnDetail()
+                    ->canSee(function (Request $request) {
+                        $user = $request->user();
+
+                        return $user instanceof User && $user->can('create video script');
                     }),
             ]
         );

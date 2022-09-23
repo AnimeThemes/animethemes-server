@@ -6,9 +6,7 @@ namespace App\Http\Api\Field\Admin\Dump;
 
 use App\Contracts\Http\Api\Field\CreatableField;
 use App\Contracts\Http\Api\Field\UpdatableField;
-use App\Http\Api\Criteria\Field\Criteria;
 use App\Http\Api\Field\StringField;
-use App\Http\Resources\Admin\Resource\DumpResource;
 use App\Models\Admin\Dump;
 use Illuminate\Http\Request;
 
@@ -23,18 +21,6 @@ class DumpPathField extends StringField implements CreatableField, UpdatableFiel
     public function __construct()
     {
         parent::__construct(Dump::ATTRIBUTE_PATH);
-    }
-
-    /**
-     * Determine if the field should be included in the select clause of our query.
-     *
-     * @param  Criteria|null  $criteria
-     * @return bool
-     */
-    public function shouldSelect(?Criteria $criteria): bool
-    {
-        // The link field is dependent on this field to build the url.
-        return parent::shouldSelect($criteria) || $criteria->isAllowedField(DumpResource::ATTRIBUTE_LINK);
     }
 
     /**
