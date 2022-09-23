@@ -68,9 +68,7 @@ class UploadVideoAction extends UploadAction
      */
     protected function attachEntry(ReconcileResults $reconcileResults): void
     {
-        $video = $reconcileResults->getCreated()
-            ->concat($reconcileResults->getUpdated()->toArray())
-            ->firstWhere(Video::ATTRIBUTE_BASENAME, $this->file->getClientOriginalName());
+        $video = $reconcileResults->getCreated()->firstWhere(Video::ATTRIBUTE_BASENAME, $this->file->getClientOriginalName());
 
         if ($video instanceof Video && $this->entry !== null) {
             $video->animethemeentries()->attach($this->entry);
