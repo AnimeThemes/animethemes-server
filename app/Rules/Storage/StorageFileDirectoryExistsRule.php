@@ -7,7 +7,6 @@ namespace App\Rules\Storage;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Log;
 
 /**
  * Class StorageFileDirectoryExistsRule.
@@ -33,7 +32,6 @@ class StorageFileDirectoryExistsRule implements Rule
      */
     public function passes($attribute, $value): bool
     {
-        Log::info('StorageFileDirectoryExistsRule', ['value' => $value, 'dirname' => File::dirname($value)]);
         return $this->fs->directoryExists(File::dirname($value));
     }
 
