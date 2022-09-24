@@ -24,9 +24,9 @@ use App\Http\Resources\Wiki\Resource\AudioResource;
 use App\Models\BaseModel;
 use App\Models\Wiki\Audio;
 use App\Models\Wiki\Video;
-use Carbon\Carbon;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
+use Illuminate\Support\Carbon;
 use Tests\TestCase;
 
 /**

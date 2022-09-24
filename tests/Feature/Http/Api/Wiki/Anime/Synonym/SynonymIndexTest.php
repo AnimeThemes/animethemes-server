@@ -25,10 +25,10 @@ use App\Http\Resources\Wiki\Anime\Resource\SynonymResource;
 use App\Models\BaseModel;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeSynonym;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
+use Illuminate\Support\Carbon;
 use Tests\TestCase;
 
 /**

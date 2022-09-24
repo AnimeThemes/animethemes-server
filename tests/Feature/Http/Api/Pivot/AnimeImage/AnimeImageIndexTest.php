@@ -25,10 +25,10 @@ use App\Models\Wiki\Anime;
 use App\Models\Wiki\Image;
 use App\Pivots\AnimeImage;
 use App\Pivots\BasePivot;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Tests\TestCase;
 

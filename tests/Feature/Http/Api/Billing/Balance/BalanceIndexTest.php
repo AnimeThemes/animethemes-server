@@ -21,9 +21,9 @@ use App\Http\Resources\Billing\Collection\BalanceCollection;
 use App\Http\Resources\Billing\Resource\BalanceResource;
 use App\Models\BaseModel;
 use App\Models\Billing\Balance;
-use Carbon\Carbon;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
+use Illuminate\Support\Carbon;
 use Tests\TestCase;
 
 /**

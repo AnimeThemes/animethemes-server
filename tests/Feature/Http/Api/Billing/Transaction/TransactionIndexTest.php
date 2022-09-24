@@ -21,9 +21,9 @@ use App\Http\Resources\Billing\Collection\TransactionCollection;
 use App\Http\Resources\Billing\Resource\TransactionResource;
 use App\Models\BaseModel;
 use App\Models\Billing\Transaction;
-use Carbon\Carbon;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
+use Illuminate\Support\Carbon;
 use Tests\TestCase;
 
 /**

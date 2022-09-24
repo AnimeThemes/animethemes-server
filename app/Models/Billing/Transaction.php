@@ -12,7 +12,7 @@ use App\Events\Billing\Transaction\TransactionRestored;
 use App\Events\Billing\Transaction\TransactionUpdated;
 use App\Models\BaseModel;
 use BenSampo\Enum\Enum;
-use Carbon\Carbon;
+use Illuminate\Support\Carbon;
 use Database\Factories\Billing\TransactionFactory;
 use Illuminate\Support\Str;
 use Laravel\Nova\Actions\Actionable;
