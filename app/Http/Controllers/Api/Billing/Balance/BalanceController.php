@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controllers\Api\Billing;
+namespace App\Http\Controllers\Api\Billing\Balance;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Billing\Balance\BalanceDestroyRequest;

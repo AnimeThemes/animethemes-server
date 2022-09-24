@@ -14,8 +14,8 @@ use CyrildeWit\EloquentViewable\Contracts\Viewable;
 use CyrildeWit\EloquentViewable\InteractsWithViews;
 use Database\Factories\Wiki\AudioFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Collection;
 use Laravel\Nova\Actions\Actionable;
-use Ramsey\Collection\Collection;
 
 /**
  * Class Audio.
