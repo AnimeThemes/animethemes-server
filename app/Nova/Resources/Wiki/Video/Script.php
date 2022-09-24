@@ -134,7 +134,6 @@ class Script extends BaseResource
                 ->sortable()
                 ->filterable()
                 ->searchable()
-                ->withSubtitles()
                 ->nullable()
                 ->showOnPreview(),
 

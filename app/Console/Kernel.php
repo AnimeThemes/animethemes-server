@@ -12,8 +12,10 @@ use App\Console\Commands\Storage\Admin\WikiDumpCommand;
 use App\Enums\Models\Billing\Service;
 use App\Models\BaseModel;
 use Illuminate\Console\Scheduling\Schedule;
+use Illuminate\Database\Console\MonitorCommand as MonitorDatabaseCommand;
 use Illuminate\Database\Console\PruneCommand as PruneModelsCommand;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Illuminate\Queue\Console\MonitorCommand as MonitorQueueCommand;
 use Illuminate\Queue\Console\PruneFailedJobsCommand;
 use Illuminate\Support\Facades\Config;
 use Laravel\Horizon\Console\SnapshotCommand;
@@ -58,6 +60,18 @@ class Kernel extends ConsoleKernel
             ->runInBackground()
             ->storeOutput()
             ->dailyAt('00:15');
+
+        $schedule->command(MonitorDatabaseCommand::class, ['--max' => 100])
+            ->withoutOverlapping()
+            ->runInBackground()
+            ->storeOutput()
+            ->everyMinute();
+
+        $schedule->command(MonitorQueueCommand::class, ['queues' => 'default', '--max' => 100])
+            ->withoutOverlapping()
+            ->runInBackground()
+            ->storeOutput()
+            ->everyMinute();
 
         $schedule->command(PruneExpired::class)
             ->withoutOverlapping()

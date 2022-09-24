@@ -218,7 +218,7 @@ class RegistrationTest extends TestCase
 
         $response = $this->post($url);
 
-        $response->assertInvalid(['password' => 'Your password is not secure enough.']);
+        $response->assertInvalid(['password' => 'The password is not strong enough.']);
     }
 
     /**
