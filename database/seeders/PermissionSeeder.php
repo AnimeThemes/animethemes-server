@@ -54,6 +54,7 @@ class PermissionSeeder extends Seeder
         $this->configureWikiResourcePermissions($admin, $wikiEditor, $wikiViewer, 'song');
         $this->configureWikiResourcePermissions($admin, $wikiEditor, $wikiViewer, 'studio');
         $this->configureWikiResourcePermissions($admin, $wikiEditor, $wikiViewer, 'video');
+        $this->configureWikiResourcePermissions($admin, $wikiEditor, $wikiViewer, 'video script');
 
         // Special Permissions
         $this->configureSpecialPermissions($admin, $wikiEditor, $wikiViewer);
@@ -108,17 +109,19 @@ class PermissionSeeder extends Seeder
 
         $create = Permission::findOrCreate("create $wikiResource");
         $adminPermissions[] = $create;
-        if ($wikiResource !== 'video' && $wikiResource !== 'audio') {
+        if ($wikiResource !== 'video' && $wikiResource !== 'audio' && $wikiResource !== 'video script') {
             $editorPermissions[] = $create;
         }
 
         $update = Permission::findOrCreate("update $wikiResource");
         $adminPermissions[] = $update;
-        $editorPermissions[] = $update;
+        if ($wikiResource !== 'video script') {
+            $editorPermissions[] = $update;
+        }
 
         $delete = Permission::findOrCreate("delete $wikiResource");
         $adminPermissions[] = $delete;
-        if ($wikiResource !== 'video' && $wikiResource !== 'audio') {
+        if ($wikiResource !== 'video' && $wikiResource !== 'audio' && $wikiResource !== 'video script') {
             $editorPermissions[] = $delete;
         }
 

@@ -32,7 +32,7 @@ class DumpStoreTest extends TestCase
     }
 
     /**
-     * The Dump Store Endpoint shall require the content field.
+     * The Dump Store Endpoint shall require the path field.
      *
      * @return void
      */

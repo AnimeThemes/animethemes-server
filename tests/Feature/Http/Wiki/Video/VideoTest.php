@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Wiki;
+namespace Tests\Feature\Http\Wiki\Video;
 
 use App\Constants\Config\FlagConstants;
 use App\Constants\Config\VideoConstants;

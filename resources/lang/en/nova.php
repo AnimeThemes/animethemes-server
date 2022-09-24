@@ -224,7 +224,7 @@ return [
                 'confirmButtonText' => 'Move',
                 'fields' => [
                     'path' => [
-                        'help' => 'The new location of the Audio. Ex: 2009/Summer/Bakemonogatari-OP1.webm.',
+                        'help' => 'The new location of the file. Ex: 2009/Summer/Bakemonogatari-OP1.webm.',
                         'name' => 'Path',
                     ],
                 ],
@@ -282,6 +282,18 @@ return [
             ],
             'revoke_role' => [
                 'name' => 'Revoke Role',
+            ],
+        ],
+        'video_script' => [
+            'delete' => [
+                'confirmText' => 'Remove Video Script from configured storage disks and from the database?',
+                'name' => 'Remove Video Script',
+            ],
+            'move' => [
+                'name' => 'Move Video Script',
+            ],
+            'upload' => [
+                'name' => 'Upload Video Script',
             ],
         ],
         'video' => [
@@ -586,6 +598,9 @@ return [
             'email' => 'Email',
             'name' => 'Name',
         ],
+        'video_script' => [
+            'path' => 'Path',
+        ],
         'video' => [
             'basename' => [
                 'name' => 'Basename',
@@ -693,6 +708,9 @@ return [
             'resolution' => [
                 'name' => 'Video with Unset Resolution',
             ],
+            'script' => [
+                'name' => 'Video Without Script',
+            ],
             'source' => [
                 'name' => 'Video with Unknown Source Type',
             ],
@@ -759,6 +777,7 @@ return [
             'studios' => 'Studios',
             'transactions' => 'Transactions',
             'users' => 'Users',
+            'video_scripts' => 'Video Scripts',
             'videos' => 'Videos',
         ],
         'singularLabel' => [
@@ -783,6 +802,7 @@ return [
             'studio' => 'Studio',
             'transaction' => 'Transaction',
             'user' => 'User',
+            'video_script' => 'Video Script',
             'video' => 'Video',
         ],
     ],

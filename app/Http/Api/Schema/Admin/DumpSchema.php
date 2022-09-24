@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Schema\Admin;
 
+use App\Http\Api\Field\Admin\Dump\DumpLinkField;
 use App\Http\Api\Field\Admin\Dump\DumpPathField;
 use App\Http\Api\Field\Base\IdField;
 use App\Http\Api\Field\Field;
@@ -59,6 +60,7 @@ class DumpSchema extends EloquentSchema
             [
                 new IdField(Dump::ATTRIBUTE_ID),
                 new DumpPathField(),
+                new DumpLinkField(),
             ],
         );
     }

@@ -11,6 +11,7 @@ use App\Models\Auth\User;
 use App\Models\Wiki\Anime\AnimeSynonym;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
+use App\Models\Wiki\Video\VideoScript;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Http\Request;
@@ -51,6 +52,9 @@ class RouteServiceProvider extends ServiceProvider
         // Anime Theme Resources
         Route::model('animethemeentry', AnimeThemeEntry::class);
 
+        // Video Resources
+        Route::model('videoscript', VideoScript::class);
+
         $this->routes(function () {
             Route::middleware('web')
                 ->domain(Config::get('web.url'))
@@ -71,6 +75,11 @@ class RouteServiceProvider extends ServiceProvider
                 ->domain(Config::get(DumpConstants::URL_QUALIFIED))
                 ->prefix(Config::get(DumpConstants::PATH_QUALIFIED))
                 ->group(base_path('routes/dump.php'));
+
+            Route::middleware('web')
+                ->domain(Config::get(VideoConstants::SCRIPT_URL_QUALIFIED))
+                ->prefix(Config::get(VideoConstants::SCRIPT_PATH_QUALIFIED))
+                ->group(base_path('routes/script.php'));
 
             Route::middleware('api')
                 ->domain(Config::get('api.url'))

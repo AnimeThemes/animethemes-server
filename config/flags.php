@@ -69,4 +69,17 @@ return [
     */
 
     'allow_dump_downloading' => (bool) env('ALLOW_DUMP_DOWNLOADING', false),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Allow Script Downloading
+    |--------------------------------------------------------------------------
+    |
+    | When script downloads are allowed, requests to the videoscript.show route will
+    | download scripts. If disabled, requests to the videoscript.show route will
+    | raise a 403 Forbidden response.
+    |
+    */
+
+    'allow_script_downloading' => (bool) env('ALLOW_SCRIPT_DOWNLOADING', false),
 ];

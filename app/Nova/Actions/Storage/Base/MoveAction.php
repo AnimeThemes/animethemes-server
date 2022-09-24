@@ -9,7 +9,6 @@ use App\Contracts\Storage\InteractsWithDisk;
 use App\Nova\Actions\Storage\StorageAction;
 use App\Rules\Storage\StorageFileDirectoryExistsRule;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Nova\Fields\ActionFields;
 use Laravel\Nova\Fields\Text;
@@ -32,7 +31,7 @@ abstract class MoveAction extends StorageAction implements InteractsWithDisk
     {
         $defaultPath = $this->defaultPath($request);
 
-        $fs = Storage::disk(Config::get($this->disk()));
+        $fs = Storage::disk($this->disk());
 
         return [
             Text::make(__('nova.actions.storage.move.fields.path.name'), 'path')

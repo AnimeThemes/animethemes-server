@@ -156,6 +156,27 @@ return [
             'visibility' => 'public',
             'throw' => false,
         ],
+
+        'scripts' => [
+            'driver' => 's3',
+            'key' => env('SCRIPT_ACCESS_KEY_ID'),
+            'secret' => env('SCRIPT_SECRET_ACCESS_KEY'),
+            'region' => env('SCRIPT_DEFAULT_REGION'),
+            'bucket' => env('SCRIPT_BUCKET'),
+            'endpoint' => env('SCRIPT_ENDPOINT'),
+            'stream_reads' => env('SCRIPT_STREAM_READS'),
+            'disable_asserts' => env('SCRIPT_DISABLE_ASSERTS'),
+            'visibility' => env('SCRIPT_VISIBILITY'),
+            'throw' => false,
+        ],
+
+        'scripts_local' => [
+            'driver' => 'local',
+            'root' => public_path('scripts'),
+            'url' => env('APP_URL').'/scripts',
+            'visibility' => 'public',
+            'throw' => false,
+        ],
     ],
 
     /*
@@ -175,6 +196,7 @@ return [
         public_path('images') => env('IMAGE_DISK_ROOT', storage_path('app/images')),
         public_path('videos') => env('VIDEO_DISK_ROOT', storage_path('app/videos')),
         public_path('dumps') => env('DUMP_DISK_ROOT', storage_path('app/dumps')),
+        public_path('scripts') => env('SCRIPT_DISK_ROOT', storage_path('app/scripts')),
     ],
 
 ];

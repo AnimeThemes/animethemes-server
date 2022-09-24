@@ -14,6 +14,7 @@ use App\Events\Wiki\Video\VideoRestored;
 use App\Events\Wiki\Video\VideoUpdated;
 use App\Models\BaseModel;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
+use App\Models\Wiki\Video\VideoScript;
 use App\Pivots\AnimeThemeEntryVideo;
 use BenSampo\Enum\Enum;
 use CyrildeWit\EloquentViewable\Contracts\Viewable;
@@ -23,6 +24,7 @@ use Elastic\ScoutDriverPlus\Searchable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Collection;
 use Laravel\Nova\Actions\Actionable;
 
@@ -40,6 +42,7 @@ use Laravel\Nova\Actions\Actionable;
  * @property Enum $overlap
  * @property string $path
  * @property int|null $resolution
+ * @property VideoScript|null $script
  * @property int $size
  * @property Enum|null $source
  * @property bool $subbed
@@ -78,6 +81,7 @@ class Video extends BaseModel implements Streamable, Viewable
     final public const RELATION_ANIMETHEME = 'animethemeentries.animetheme';
     final public const RELATION_ANIMETHEMEENTRIES = 'animethemeentries';
     final public const RELATION_AUDIO = 'audio';
+    final public const RELATION_SCRIPT = 'videoscript';
     final public const RELATION_SONG = 'animethemeentries.animetheme.song';
 
     /**
@@ -322,5 +326,15 @@ class Video extends BaseModel implements Streamable, Viewable
     public function audio(): BelongsTo
     {
         return $this->belongsTo(Audio::class, Video::ATTRIBUTE_AUDIO);
+    }
+
+    /**
+     * Get the script that the video owns.
+     *
+     * @return HasOne
+     */
+    public function videoscript(): HasOne
+    {
+        return $this->hasOne(VideoScript::class, VideoScript::ATTRIBUTE_VIDEO);
     }
 }

@@ -28,4 +28,8 @@ class FlagConstants
     final public const ALLOW_DUMP_DOWNLOADING_FLAG = 'allow_dump_downloading';
 
     final public const ALLOW_DUMP_DOWNLOADING_FLAG_QUALIFIED = 'flags.allow_dump_downloading';
+
+    final public const ALLOW_SCRIPT_DOWNLOADING_FLAG = 'allow_script_downloading';
+
+    final public const ALLOW_SCRIPT_DOWNLOADING_FLAG_QUALIFIED = 'flags.allow_script_downloading';
 }

@@ -64,4 +64,48 @@ return [
     */
 
     'encoder_version' => env('VIDEO_ENCODER_VERSION'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Video Scripts
+    |--------------------------------------------------------------------------
+    |
+    | Scripts represent the encoding script used to produce a video.
+    | Generally, a script file will be a list of FFmpeg commands
+    | to be executed in a target runtime environment.
+    |
+    */
+
+    'script' => [
+
+        /*
+        |--------------------------------------------------------------------------
+        | Script Disk
+        |--------------------------------------------------------------------------
+        |
+        | The filesystem disk where video scripts are hosted. By default, it is assumed
+        | that video scripts are hosted in an S3-like bucket.
+        |
+        */
+
+        'disk' => env('SCRIPT_DISK', 'scripts'),
+
+        /*
+        |--------------------------------------------------------------------------
+        | Script Domain
+        |--------------------------------------------------------------------------
+        |
+        | These values represent the base URL that video scripts are downloaded from.
+        | It is most likely that only one of these values should be set.
+        | If scripts are downloaded from a subdomain, set SCRIPT_URL and leave SCRIPT_PATH null.
+        | Ex: script.animethemes.test
+        | If scripts are NOT downloaded from a subdomain, set SCRIPT_PATH and leave SCRIPT_URL null.
+        | Ex: animethemes.test/script
+        |
+        */
+
+        'url' => env('SCRIPT_URL'),
+
+        'path' => env('SCRIPT_PATH'),
+    ],
 ];

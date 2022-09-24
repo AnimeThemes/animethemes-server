@@ -25,6 +25,7 @@ use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Api\Schema\Wiki\Anime\Theme\EntrySchema;
 use App\Http\Api\Schema\Wiki\Anime\ThemeSchema;
+use App\Http\Api\Schema\Wiki\Video\ScriptSchema;
 use App\Http\Resources\Wiki\Resource\VideoResource;
 use App\Models\Wiki\Video;
 
@@ -64,6 +65,7 @@ class VideoSchema extends EloquentSchema
             new AllowedInclude(new AnimeSchema(), Video::RELATION_ANIME),
             new AllowedInclude(new AudioSchema(), Video::RELATION_AUDIO),
             new AllowedInclude(new EntrySchema(), Video::RELATION_ANIMETHEMEENTRIES),
+            new AllowedInclude(new ScriptSchema(), Video::RELATION_SCRIPT),
             new AllowedInclude(new ThemeSchema(), Video::RELATION_ANIMETHEME),
         ];
     }
