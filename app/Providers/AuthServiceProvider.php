@@ -10,6 +10,8 @@ use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvid
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\Password;
+use Olssonm\Zxcvbn\Rules\Zxcvbn;
+use Olssonm\Zxcvbn\Rules\ZxcvbnDictionary;
 
 /**
  * Class AuthServiceProvider.
@@ -32,7 +34,7 @@ class AuthServiceProvider extends ServiceProvider
                 ->letters()
                 ->numbers()
                 ->symbols()
-                ->rules(['confirmed', 'zxcvbn_min:3', 'zxcvbn_dictionary'])
+                ->rules(['confirmed', new Zxcvbn(3), new ZxcvbnDictionary()])
         );
 
         Gate::guessPolicyNamesUsing(
