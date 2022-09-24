@@ -6,13 +6,13 @@ namespace App\Models;
 
 use App\Contracts\Models\Nameable;
 use App\Enums\Http\Api\Filter\ComparisonOperator;
-use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Prunable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Carbon;
 
 /**
  * Class BaseModel.

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models\Auth;
 
-use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 use Laravel\Nova\Actions\Actionable;
 use Spatie\Permission\Models\Permission as BasePermission;
 
