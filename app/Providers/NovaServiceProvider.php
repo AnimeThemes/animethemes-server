@@ -30,13 +30,6 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     {
         parent::boot();
 
-        Nova::userMenu(function (Request $request, Menu $menu) {
-            $profile = MenuItem::externalLink(__('Profile'), route('profile.show'));
-            $menu->append($profile);
-
-            return $menu;
-        });
-
         Nova::mainMenu(function (Request $request, Menu $menu) {
             $novaRequest = NovaRequest::createFrom($request);
 
