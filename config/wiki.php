@@ -23,15 +23,14 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Footer Links
+    | Wiki Routes
     |--------------------------------------------------------------------------
     |
-    | We have footer links that direct the user to pages that are handled by animethemes-web.
-    | Because we want to decouple dependencies between projects, we should just register the URLs here.
+    | Some routes are handled by animethemes-web, so they need to be configurable for proper handling.
     |
     */
 
-    'donate' => env('WIKI_DONATE_URL'),
+    'login' => env('WIKI_LOGIN'),
 
-    'faq' => env('WIKI_FAQ_URL'),
+    'reset_password' => env('WIKI_RESET_PASSWORD'),
 ];

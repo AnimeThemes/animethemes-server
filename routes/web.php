@@ -2,9 +2,6 @@
 
 declare(strict_types=1);
 
-use Illuminate\Support\Facades\Route;
-use Spatie\RouteDiscovery\Discovery\Discover;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,10 +12,3 @@ use Spatie\RouteDiscovery\Discovery\Discover;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Discover::controllers()->in(app_path('Http/Controllers/Auth'));
-Discover::controllers()->in(app_path('Http/Controllers/Billing'));
-
-Route::middleware(['auth', 'verified'])->get('/dashboard', function () {
-    return view('dashboard');
-})->name('dashboard');

@@ -19,11 +19,8 @@ jobs:
         env:
           NOVA_USERNAME: ${{ secrets.NOVA_USERNAME }}
           NOVA_PASSWORD: ${{ secrets.NOVA_PASSWORD }}
-          ENLIGHTN_USERNAME: ${{ secrets.ENLIGHTN_USERNAME }}
-          ENLIGHTN_PASSWORD: ${{ secrets.ENLIGHTN_PASSWORD }}
         run: |
           composer config "http-basic.nova.laravel.com" "$NOVA_USERNAME" "$NOVA_PASSWORD"
-          composer config "http-basic.satis.laravel-enlightn.com" "$ENLIGHTN_USERNAME" "$ENLIGHTN_PASSWORD"
           composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
       - name: Generate key
         run: php artisan key:generate
