@@ -6,7 +6,9 @@ namespace App\Providers;
 
 use App\Models\Auth\User;
 use App\Pivots\BasePivot;
+use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\Password;
@@ -36,6 +38,10 @@ class AuthServiceProvider extends ServiceProvider
                 ->symbols()
                 ->rules(['confirmed', new Zxcvbn(3), new ZxcvbnDictionary()])
         );
+
+        ResetPassword::createUrlUsing(function (mixed $user, string $token) {
+            return url(Config::get('wiki.reset_password'), ['token' => $token]);
+        });
 
         Gate::guessPolicyNamesUsing(
             function (string $modelClass) {

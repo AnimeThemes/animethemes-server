@@ -76,8 +76,6 @@ class AppServiceProvider extends ServiceProvider
         ]);
 
         AboutCommand::add('Wiki', [
-            'Donate' => fn () => Config::get('wiki.donate'),
-            'FAQ' => fn () => Config::get('wiki.faq'),
             'Featured Entry' => function () {
                 /** @var AnimeThemeEntry|null $entry */
                 $entry = AnimeThemeEntry::query()->find(Config::get('wiki.featured_entry'));

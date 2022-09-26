@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-use App\Enums\Models\Auth\InvitationStatus;
 use App\Enums\Models\Billing\BalanceFrequency;
 use App\Enums\Models\Billing\Service;
 use App\Enums\Models\Wiki\AnimeSeason;
@@ -29,10 +28,6 @@ return [
     ImageFacet::class => [
         ImageFacet::COVER_SMALL => 'Small Cover',
         ImageFacet::COVER_LARGE => 'Large Cover',
-    ],
-    InvitationStatus::class => [
-        InvitationStatus::OPEN => 'Open',
-        InvitationStatus::CLOSED => 'Closed',
     ],
     ResourceSite::class => [
         ResourceSite::OFFICIAL_SITE => 'Official Website',

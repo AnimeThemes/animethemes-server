@@ -155,17 +155,6 @@ return [
                 'name' => 'Prune Dumps',
             ],
         ],
-        'invitation' => [
-            'resend' => [
-                'confirmButtonText' => 'Resend',
-                'confirmText' => 'Are you sure you wish to resend these invitations?',
-                'message' => [
-                    'failure' => 'Invitation has not been resent for any selected user',
-                    'success' => 'Invitation has been resent for :users',
-                ],
-                'name' => 'Resend Invitation',
-            ],
-        ],
         'models' => [
             'wiki' => [
                 'attach_resource' => [
@@ -511,11 +500,6 @@ return [
                 'name' => 'Path',
             ],
         ],
-        'invitation' => [
-            'email' => 'Email',
-            'name' => 'Name',
-            'status' => 'Status',
-        ],
         'page' => [
             'body' => [
                 'help' => 'The content of the Page.',
@@ -766,7 +750,6 @@ return [
             'external_resources' => 'External Resources',
             'groups' => 'Groups',
             'images' => 'Images',
-            'invitations' => 'Invitations',
             'members' => 'Members',
             'pages' => 'Pages',
             'permissions' => 'Permissions',
@@ -792,7 +775,6 @@ return [
             'dump' => 'Dump',
             'external_resource' => 'External Resource',
             'image' => 'Image',
-            'invitation' => 'Invitation',
             'page' => 'Page',
             'permission' => 'Permission',
             'role' => 'Role',

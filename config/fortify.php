@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-use App\Providers\RouteServiceProvider;
 use Laravel\Fortify\Features;
 
 return [
@@ -63,7 +62,7 @@ return [
     |
     */
 
-    'home' => RouteServiceProvider::HOME,
+    'home' => env('FORTIFY_HOME'),
 
     /*
     |--------------------------------------------------------------------------
@@ -122,7 +121,7 @@ return [
     |
     */
 
-    'views' => true,
+    'views' => false,
 
     'redirects' => [
         'login' => null,
@@ -145,6 +144,7 @@ return [
     */
 
     'features' => [
+        //Features::registration(),
         Features::resetPasswords(),
         Features::emailVerification(),
         Features::updateProfileInformation(),

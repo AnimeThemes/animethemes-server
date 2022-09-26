@@ -72,18 +72,6 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     }
 
     /**
-     * Register the Nova routes.
-     *
-     * @return void
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    protected function routes(): void
-    {
-        Nova::routes()->register();
-    }
-
-    /**
      * Register the Nova gate.
      *
      * This gate determines who can access Nova in non-local environments.

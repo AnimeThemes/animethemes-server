@@ -50,13 +50,6 @@ return [
 
     'domain' => env('NOVA_DOMAIN_NAME'),
 
-    'routes' => [
-        'login' => env('FORTIFY_URL').env('FORTIFY_PATH').'/login',
-        'logout' => false,
-        'forgot_password' => env('FORTIFY_URL').env('FORTIFY_PATH').'/forgot-password',
-        'reset_password' => env('FORTIFY_URL').env('FORTIFY_PATH').'/reset-password',
-    ],
-
     /*
     |--------------------------------------------------------------------------
     | Nova Path

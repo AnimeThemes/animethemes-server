@@ -6,7 +6,6 @@ namespace App\Http;
 
 use App\Http\Middleware\Api\SetAcceptJsonHeader;
 use App\Http\Middleware\Auth\Authenticate;
-use App\Http\Middleware\Auth\HasOpenInvitation;
 use App\Http\Middleware\Auth\RedirectIfAuthenticated;
 use App\Http\Middleware\IsFeatureEnabled;
 use App\Http\Middleware\LogRequest;
@@ -35,6 +34,7 @@ use Illuminate\Routing\Middleware\ValidateSignature;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful;
 
 /**
  * Class Kernel.
@@ -69,7 +69,6 @@ class Kernel extends HttpKernel
             EncryptCookies::class,
             AddQueuedCookiesToResponse::class,
             StartSession::class,
-            AuthenticateSession::class,
             ShareErrorsFromSession::class,
             VerifyCsrfToken::class,
             SubstituteBindings::class,
@@ -77,6 +76,7 @@ class Kernel extends HttpKernel
         ],
 
         'api' => [
+            EnsureFrontendRequestsAreStateful::class,
             SetAcceptJsonHeader::class,
             'throttle:api',
             SubstituteBindings::class,
@@ -98,7 +98,6 @@ class Kernel extends HttpKernel
         'cache.headers' => SetCacheHeaders::class,
         'can' => Authorize::class,
         'guest' => RedirectIfAuthenticated::class,
-        'has_open_invitation' => HasOpenInvitation::class,
         'is_feature_enabled' => IsFeatureEnabled::class,
         'password.confirm' => RequirePassword::class,
         'record_view' => RecordView::class,
