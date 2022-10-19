@@ -40,7 +40,7 @@ class TrackUpdateTest extends TestCase
             [PlaylistTrack::ATTRIBUTE_VIDEO => Video::factory()->createOne()->getKey()],
         );
 
-        $response = $this->put(route('api.playlist.playlisttrack.update',['playlist' => $playlist, 'playlisttrack' => $track] + $parameters));
+        $response = $this->put(route('api.playlist.playlisttrack.update', ['playlist' => $playlist, 'playlisttrack' => $track] + $parameters));
 
         $response->assertUnauthorized();
     }

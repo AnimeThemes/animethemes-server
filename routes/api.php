@@ -50,7 +50,8 @@ if (! function_exists('apiResource')) {
      * @param  string  $controller
      * @return void
      */
-    function apiResource(string $name, string $controller): void {
+    function apiResource(string $name, string $controller): void
+    {
         Route::apiResource($name, $controller)->withTrashed();
 
         Route::patch(apiResourceUri('restore', $name), [$controller, 'restore'])

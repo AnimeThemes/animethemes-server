@@ -65,7 +65,7 @@ class PlaylistStoreTest extends TestCase
 
         $response->assertJsonValidationErrors([
             Playlist::ATTRIBUTE_NAME,
-            Playlist::ATTRIBUTE_VISIBILITY
+            Playlist::ATTRIBUTE_VISIBILITY,
         ]);
     }
 
