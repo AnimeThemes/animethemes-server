@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Providers;
 
 use App\Models\Auth\User;
-use App\Pivots\BasePivot;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Config;
@@ -27,8 +26,6 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        $this->registerPolicies();
-
         Password::defaults(
             fn () => Password::min(8)
                 ->uncompromised()
@@ -44,19 +41,10 @@ class AuthServiceProvider extends ServiceProvider
         });
 
         Gate::guessPolicyNamesUsing(
-            function (string $modelClass) {
-                if (is_a($modelClass, BasePivot::class, true)) {
-                    return Str::of($modelClass)
-                        ->replace('Pivots', 'Policies\Pivot')
-                        ->append('Policy')
-                        ->__toString();
-                }
-
-                return Str::of($modelClass)
-                    ->replace('Models', 'Policies')
-                    ->append('Policy')
-                    ->__toString();
-            }
+            fn (string $modelClass) => Str::of($modelClass)
+                ->replace('Models', 'Policies')
+                ->append('Policy')
+                ->__toString()
         );
 
         Gate::define('viewNova', fn (User $user) => $user->can('view nova'));

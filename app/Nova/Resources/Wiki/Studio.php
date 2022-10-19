@@ -16,7 +16,7 @@ use App\Nova\Lenses\Studio\Resource\StudioMalResourceLens;
 use App\Nova\Lenses\Studio\StudioUnlinkedLens;
 use App\Nova\Resources\BaseResource;
 use App\Pivots\BasePivot;
-use App\Pivots\StudioResource;
+use App\Pivots\Wiki\StudioResource;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;

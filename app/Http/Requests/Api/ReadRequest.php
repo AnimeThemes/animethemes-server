@@ -12,6 +12,7 @@ use App\Concerns\Http\Requests\Api\ValidatesPaging;
 use App\Concerns\Http\Requests\Api\ValidatesSorts;
 use App\Http\Api\Parser\FieldParser;
 use App\Http\Api\Parser\IncludeParser;
+use App\Http\Api\Schema\Schema;
 use Illuminate\Support\Arr;
 
 /**
@@ -27,14 +28,11 @@ abstract class ReadRequest extends BaseRequest
     use ValidatesSorts;
 
     /**
-     * Determine if the user is authorized to make this request.
+     * Get the schema.
      *
-     * @return bool
+     * @return Schema
      */
-    public function authorize(): bool
-    {
-        return true;
-    }
+    abstract protected function schema(): Schema;
 
     /**
      * Get the validation rules that apply to the request.

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Image;
-use App\Pivots\AnimeImage;
+use App\Pivots\Wiki\AnimeImage;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;

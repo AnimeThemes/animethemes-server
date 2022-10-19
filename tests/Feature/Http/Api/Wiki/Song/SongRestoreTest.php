@@ -34,6 +34,26 @@ class SongRestoreTest extends TestCase
     }
 
     /**
+     * The Song Restore Endpoint shall forbid users without the restore song permission.
+     *
+     * @return void
+     */
+    public function testForbidden(): void
+    {
+        $song = Song::factory()->createOne();
+
+        $song->delete();
+
+        $user = User::factory()->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->patch(route('api.song.restore', ['song' => $song]));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Song Restore Endpoint shall restore the song.
      *
      * @return void

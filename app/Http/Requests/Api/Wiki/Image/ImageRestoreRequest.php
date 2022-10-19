@@ -6,8 +6,6 @@ namespace App\Http\Requests\Api\Wiki\Image;
 
 use App\Http\Api\Query\Base\EloquentWriteQuery;
 use App\Http\Api\Query\Wiki\Image\ImageWriteQuery;
-use App\Http\Api\Schema\EloquentSchema;
-use App\Http\Api\Schema\Wiki\ImageSchema;
 use App\Http\Requests\Api\Base\EloquentRestoreRequest;
 
 /**
@@ -15,16 +13,6 @@ use App\Http\Requests\Api\Base\EloquentRestoreRequest;
  */
 class ImageRestoreRequest extends EloquentRestoreRequest
 {
-    /**
-     * Get the schema.
-     *
-     * @return EloquentSchema
-     */
-    protected function schema(): EloquentSchema
-    {
-        return new ImageSchema();
-    }
-
     /**
      * Get the validation API Query.
      *

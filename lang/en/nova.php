@@ -517,6 +517,34 @@ return [
         'permission' => [
             'name' => 'Name',
         ],
+        'playlist_track' => [
+            'next' => [
+                'help' => 'The next Track in the Playlist',
+                'name' => 'Next Track',
+            ],
+            'previous' => [
+                'help' => 'The previous Track in the Playlist',
+                'name' => 'Previous Track',
+            ],
+        ],
+        'playlist' => [
+            'first' => [
+                'help' => 'The first Track of the Playlist',
+                'name' => 'First Track',
+            ],
+            'last' => [
+                'help' => 'The last Track of the Playlist',
+                'name' => 'Last Track',
+            ],
+            'name' => [
+                'help' => 'The display title of the Playlist',
+                'name' => 'Name',
+            ],
+            'visibility' => [
+                'help' => 'Who can view this playlist? Private: only the owner. Unlisted: anyone directly linked to the playlist. Public: anyone can search for the playlist.',
+                'name' => 'Visibility',
+            ],
+        ],
         'role' => [
             'name' => 'Name',
         ],
@@ -735,6 +763,7 @@ return [
             'auth' => 'Auth',
             'billing' => 'Billing',
             'document' => 'Document',
+            'list' => 'List',
             'wiki' => 'Wiki',
         ],
         'label' => [
@@ -753,6 +782,8 @@ return [
             'members' => 'Members',
             'pages' => 'Pages',
             'permissions' => 'Permissions',
+            'playlist_tracks' => 'Playlist Tracks',
+            'playlists' => 'Playlists',
             'roles' => 'Roles',
             'series' => 'Series',
             'settings' => 'Settings',
@@ -777,6 +808,8 @@ return [
             'image' => 'Image',
             'page' => 'Page',
             'permission' => 'Permission',
+            'playlist_track' => 'Playlist Track',
+            'playlist' => 'Playlist',
             'role' => 'Role',
             'series' => 'Series',
             'setting' => 'Setting',

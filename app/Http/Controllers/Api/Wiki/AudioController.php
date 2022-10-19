@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\Wiki;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\Api\BaseController;
 use App\Http\Requests\Api\Wiki\Audio\AudioDestroyRequest;
 use App\Http\Requests\Api\Wiki\Audio\AudioForceDeleteRequest;
 use App\Http\Requests\Api\Wiki\Audio\AudioIndexRequest;
@@ -14,20 +14,26 @@ use App\Http\Requests\Api\Wiki\Audio\AudioStoreRequest;
 use App\Http\Requests\Api\Wiki\Audio\AudioUpdateRequest;
 use App\Models\Wiki\Audio;
 use Illuminate\Http\JsonResponse;
-use Spatie\RouteDiscovery\Attributes\Route;
 
 /**
  * Class AudioController.
  */
-class AudioController extends Controller
+class AudioController extends BaseController
 {
+    /**
+     * Create a new controller instance.
+     */
+    public function __construct()
+    {
+        parent::__construct(Audio::class, 'audio');
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @param  AudioIndexRequest  $request
      * @return JsonResponse
      */
-    #[Route(fullUri: 'audio', name: 'audio.index')]
     public function index(AudioIndexRequest $request): JsonResponse
     {
         $query = $request->getQuery();
@@ -41,7 +47,6 @@ class AudioController extends Controller
      * @param  AudioStoreRequest  $request
      * @return JsonResponse
      */
-    #[Route(fullUri: 'audio', name: 'audio.store', middleware: 'auth:sanctum')]
     public function store(AudioStoreRequest $request): JsonResponse
     {
         $resource = $request->getQuery()->store();
@@ -56,7 +61,6 @@ class AudioController extends Controller
      * @param  Audio  $audio
      * @return JsonResponse
      */
-    #[Route(fullUri: 'audio/{audio}', name: 'audio.show')]
     public function show(AudioShowRequest $request, Audio $audio): JsonResponse
     {
         $resource = $request->getQuery()->show($audio);
@@ -71,7 +75,6 @@ class AudioController extends Controller
      * @param  Audio  $audio
      * @return JsonResponse
      */
-    #[Route(fullUri: 'audio/{audio}', name: 'audio.update', middleware: 'auth:sanctum')]
     public function update(AudioUpdateRequest $request, Audio $audio): JsonResponse
     {
         $resource = $request->getQuery()->update($audio);
@@ -86,7 +89,6 @@ class AudioController extends Controller
      * @param  Audio  $audio
      * @return JsonResponse
      */
-    #[Route(fullUri: 'audio/{audio}', name: 'audio.destroy', middleware: 'auth:sanctum')]
     public function destroy(AudioDestroyRequest $request, Audio $audio): JsonResponse
     {
         $resource = $request->getQuery()->destroy($audio);
@@ -101,7 +103,6 @@ class AudioController extends Controller
      * @param  Audio  $audio
      * @return JsonResponse
      */
-    #[Route(method: 'patch', fullUri: 'restore/audio/{audio}', name: 'audio.restore', middleware: 'auth:sanctum')]
     public function restore(AudioRestoreRequest $request, Audio $audio): JsonResponse
     {
         $resource = $request->getQuery()->restore($audio);
@@ -116,7 +117,6 @@ class AudioController extends Controller
      * @param  Audio  $audio
      * @return JsonResponse
      */
-    #[Route(method: 'delete', fullUri: 'forceDelete/audio/{audio}', name: 'audio.forceDelete', middleware: 'auth:sanctum')]
     public function forceDelete(AudioForceDeleteRequest $request, Audio $audio): JsonResponse
     {
         return $request->getQuery()->forceDelete($audio);

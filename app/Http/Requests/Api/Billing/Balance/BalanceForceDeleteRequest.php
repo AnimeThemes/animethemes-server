@@ -6,8 +6,6 @@ namespace App\Http\Requests\Api\Billing\Balance;
 
 use App\Http\Api\Query\Base\EloquentWriteQuery;
 use App\Http\Api\Query\Billing\Balance\BalanceWriteQuery;
-use App\Http\Api\Schema\Billing\BalanceSchema;
-use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Requests\Api\Base\EloquentForceDeleteRequest;
 
 /**
@@ -15,16 +13,6 @@ use App\Http\Requests\Api\Base\EloquentForceDeleteRequest;
  */
 class BalanceForceDeleteRequest extends EloquentForceDeleteRequest
 {
-    /**
-     * Get the schema.
-     *
-     * @return EloquentSchema
-     */
-    protected function schema(): EloquentSchema
-    {
-        return new BalanceSchema();
-    }
-
     /**
      * Get the validation API Query.
      *

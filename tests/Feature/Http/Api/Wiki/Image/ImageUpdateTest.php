@@ -38,6 +38,29 @@ class ImageUpdateTest extends TestCase
     }
 
     /**
+     * The Image Update Endpoint shall forbid users without the update image permission.
+     *
+     * @return void
+     */
+    public function testForbidden(): void
+    {
+        $image = Image::factory()->createOne();
+
+        $parameters = array_merge(
+            Image::factory()->raw(),
+            [Image::ATTRIBUTE_FACET => ImageFacet::getRandomInstance()->description],
+        );
+
+        $user = User::factory()->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->put(route('api.image.update', ['image' => $image] + $parameters));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Image Update Endpoint shall update an image.
      *
      * @return void

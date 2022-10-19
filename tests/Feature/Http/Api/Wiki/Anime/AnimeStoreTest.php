@@ -33,6 +33,24 @@ class AnimeStoreTest extends TestCase
     }
 
     /**
+     * The Anime Store Endpoint shall forbid users without the create anime permission.
+     *
+     * @return void
+     */
+    public function testForbidden(): void
+    {
+        $anime = Anime::factory()->makeOne();
+
+        $user = User::factory()->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->post(route('api.anime.store', $anime->toArray()));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Anime Store Endpoint shall require name, season, slug & year fields.
      *
      * @return void

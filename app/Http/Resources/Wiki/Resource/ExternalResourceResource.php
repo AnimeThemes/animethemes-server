@@ -11,9 +11,9 @@ use App\Http\Resources\Wiki\Collection\ArtistCollection;
 use App\Http\Resources\Wiki\Collection\StudioCollection;
 use App\Models\BaseModel;
 use App\Models\Wiki\ExternalResource;
-use App\Pivots\AnimeResource as AnimeResourcePivot;
-use App\Pivots\ArtistResource as ArtistResourcePivot;
-use App\Pivots\StudioResource as StudioResourcePivot;
+use App\Pivots\Wiki\AnimeResource as AnimeResourcePivot;
+use App\Pivots\Wiki\ArtistResource as ArtistResourcePivot;
+use App\Pivots\Wiki\StudioResource as StudioResourcePivot;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\MissingValue;
 

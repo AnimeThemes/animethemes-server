@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api\Wiki\Anime;
 
 use App\Enums\Http\Api\Paging\PaginationStrategy;
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\Api\BaseController;
 use App\Http\Requests\Api\Wiki\Anime\Synonym\SynonymDestroyRequest;
 use App\Http\Requests\Api\Wiki\Anime\Synonym\SynonymForceDeleteRequest;
 use App\Http\Requests\Api\Wiki\Anime\Synonym\SynonymIndexRequest;
@@ -15,20 +15,26 @@ use App\Http\Requests\Api\Wiki\Anime\Synonym\SynonymStoreRequest;
 use App\Http\Requests\Api\Wiki\Anime\Synonym\SynonymUpdateRequest;
 use App\Models\Wiki\Anime\AnimeSynonym;
 use Illuminate\Http\JsonResponse;
-use Spatie\RouteDiscovery\Attributes\Route;
 
 /**
  * Class SynonymController.
  */
-class SynonymController extends Controller
+class SynonymController extends BaseController
 {
+    /**
+     * Create a new controller instance.
+     */
+    public function __construct()
+    {
+        parent::__construct(AnimeSynonym::class, 'animesynonym');
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @param  SynonymIndexRequest  $request
      * @return JsonResponse
      */
-    #[Route(fullUri: 'animesynonym', name: 'animesynonym.index')]
     public function index(SynonymIndexRequest $request): JsonResponse
     {
         $query = $request->getQuery();
@@ -46,7 +52,6 @@ class SynonymController extends Controller
      * @param  SynonymStoreRequest  $request
      * @return JsonResponse
      */
-    #[Route(fullUri: 'animesynonym', name: 'animesynonym.store', middleware: 'auth:sanctum')]
     public function store(SynonymStoreRequest $request): JsonResponse
     {
         $resource = $request->getQuery()->store();
@@ -58,13 +63,12 @@ class SynonymController extends Controller
      * Display the specified resource.
      *
      * @param  SynonymShowRequest  $request
-     * @param  AnimeSynonym  $synonym
+     * @param  AnimeSynonym  $animesynonym
      * @return JsonResponse
      */
-    #[Route(fullUri: 'animesynonym/{animesynonym}', name: 'animesynonym.show')]
-    public function show(SynonymShowRequest $request, AnimeSynonym $synonym): JsonResponse
+    public function show(SynonymShowRequest $request, AnimeSynonym $animesynonym): JsonResponse
     {
-        $resource = $request->getQuery()->show($synonym);
+        $resource = $request->getQuery()->show($animesynonym);
 
         return $resource->toResponse($request);
     }
@@ -73,13 +77,12 @@ class SynonymController extends Controller
      * Update the specified resource.
      *
      * @param  SynonymUpdateRequest  $request
-     * @param  AnimeSynonym  $synonym
+     * @param  AnimeSynonym  $animesynonym
      * @return JsonResponse
      */
-    #[Route(fullUri: 'animesynonym/{animesynonym}', name: 'animesynonym.update', middleware: 'auth:sanctum')]
-    public function update(SynonymUpdateRequest $request, AnimeSynonym $synonym): JsonResponse
+    public function update(SynonymUpdateRequest $request, AnimeSynonym $animesynonym): JsonResponse
     {
-        $resource = $request->getQuery()->update($synonym);
+        $resource = $request->getQuery()->update($animesynonym);
 
         return $resource->toResponse($request);
     }
@@ -88,13 +91,12 @@ class SynonymController extends Controller
      * Remove the specified resource.
      *
      * @param  SynonymDestroyRequest  $request
-     * @param  AnimeSynonym  $synonym
+     * @param  AnimeSynonym  $animesynonym
      * @return JsonResponse
      */
-    #[Route(fullUri: 'animesynonym/{animesynonym}', name: 'animesynonym.destroy', middleware: 'auth:sanctum')]
-    public function destroy(SynonymDestroyRequest $request, AnimeSynonym $synonym): JsonResponse
+    public function destroy(SynonymDestroyRequest $request, AnimeSynonym $animesynonym): JsonResponse
     {
-        $resource = $request->getQuery()->destroy($synonym);
+        $resource = $request->getQuery()->destroy($animesynonym);
 
         return $resource->toResponse($request);
     }
@@ -103,13 +105,12 @@ class SynonymController extends Controller
      * Restore the specified resource.
      *
      * @param  SynonymRestoreRequest  $request
-     * @param  AnimeSynonym  $synonym
+     * @param  AnimeSynonym  $animesynonym
      * @return JsonResponse
      */
-    #[Route(method: 'patch', fullUri: 'restore/animesynonym/{animesynonym}', name: 'animesynonym.restore', middleware: 'auth:sanctum')]
-    public function restore(SynonymRestoreRequest $request, AnimeSynonym $synonym): JsonResponse
+    public function restore(SynonymRestoreRequest $request, AnimeSynonym $animesynonym): JsonResponse
     {
-        $resource = $request->getQuery()->restore($synonym);
+        $resource = $request->getQuery()->restore($animesynonym);
 
         return $resource->toResponse($request);
     }
@@ -118,12 +119,11 @@ class SynonymController extends Controller
      * Hard-delete the specified resource.
      *
      * @param  SynonymForceDeleteRequest  $request
-     * @param  AnimeSynonym  $synonym
+     * @param  AnimeSynonym  $animesynonym
      * @return JsonResponse
      */
-    #[Route(method: 'delete', fullUri: 'forceDelete/animesynonym/{animesynonym}', name: 'animesynonym.forceDelete', middleware: 'auth:sanctum')]
-    public function forceDelete(SynonymForceDeleteRequest $request, AnimeSynonym $synonym): JsonResponse
+    public function forceDelete(SynonymForceDeleteRequest $request, AnimeSynonym $animesynonym): JsonResponse
     {
-        return $request->getQuery()->forceDelete($synonym);
+        return $request->getQuery()->forceDelete($animesynonym);
     }
 }

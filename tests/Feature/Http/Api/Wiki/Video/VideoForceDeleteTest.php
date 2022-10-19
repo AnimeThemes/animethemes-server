@@ -18,7 +18,7 @@ class VideoForceDeleteTest extends TestCase
     use WithoutEvents;
 
     /**
-     * The Video Force Destroy Endpoint shall be protected by sanctum.
+     * The Video Force Delete Endpoint shall be protected by sanctum.
      *
      * @return void
      */
@@ -32,7 +32,25 @@ class VideoForceDeleteTest extends TestCase
     }
 
     /**
-     * The Video Force Destroy Endpoint shall force delete the video.
+     * The Video Force Delete Endpoint shall forbid users without the force delete video permission.
+     *
+     * @return void
+     */
+    public function testForbidden(): void
+    {
+        $video = Video::factory()->createOne();
+
+        $user = User::factory()->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->delete(route('api.video.forceDelete', ['video' => $video]));
+
+        $response->assertForbidden();
+    }
+
+    /**
+     * The Video Force Delete Endpoint shall force delete the video.
      *
      * @return void
      */

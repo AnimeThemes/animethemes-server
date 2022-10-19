@@ -18,7 +18,7 @@ class ScriptForceDeleteTest extends TestCase
     use WithoutEvents;
 
     /**
-     * The Script Force Destroy Endpoint shall be protected by sanctum.
+     * The Script Force Delete Endpoint shall be protected by sanctum.
      *
      * @return void
      */
@@ -32,7 +32,25 @@ class ScriptForceDeleteTest extends TestCase
     }
 
     /**
-     * The Script Force Destroy Endpoint shall force delete the script.
+     * The Script Force Delete Endpoint shall forbid users without the force delete video script permission.
+     *
+     * @return void
+     */
+    public function testForbidden(): void
+    {
+        $script = VideoScript::factory()->createOne();
+
+        $user = User::factory()->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->delete(route('api.videoscript.forceDelete', ['videoscript' => $script]));
+
+        $response->assertForbidden();
+    }
+
+    /**
+     * The Script Force Delete Endpoint shall force delete the script.
      *
      * @return void
      */

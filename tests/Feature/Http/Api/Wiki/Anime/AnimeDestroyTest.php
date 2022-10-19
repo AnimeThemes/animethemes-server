@@ -32,6 +32,24 @@ class AnimeDestroyTest extends TestCase
     }
 
     /**
+     * The Anime Destroy Endpoint shall forbid users without the delete anime permission.
+     *
+     * @return void
+     */
+    public function testForbidden(): void
+    {
+        $anime = Anime::factory()->createOne();
+
+        $user = User::factory()->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->delete(route('api.anime.destroy', ['anime' => $anime]));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Anime Destroy Endpoint shall delete the anime.
      *
      * @return void

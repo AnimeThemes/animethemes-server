@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace Tests\Unit\Models\Auth;
 
 use App\Models\Auth\User;
+use App\Models\List\Playlist;
 use Illuminate\Auth\Notifications\VerifyEmail;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
@@ -63,5 +65,23 @@ class UserTest extends TestCase
         $user = User::factory()->createOne();
 
         static::assertIsString($user->getName());
+    }
+
+    /**
+     * User shall have a one-to-many relationship with the type Playlist.
+     *
+     * @return void
+     */
+    public function testPlaylists(): void
+    {
+        $playlistCount = $this->faker->randomDigitNotNull();
+
+        $user = User::factory()
+            ->has(Playlist::factory()->count($playlistCount))
+            ->createOne();
+
+        static::assertInstanceOf(HasMany::class, $user->playlists());
+        static::assertEquals($playlistCount, $user->playlists()->count());
+        static::assertInstanceOf(Playlist::class, $user->playlists()->first());
     }
 }

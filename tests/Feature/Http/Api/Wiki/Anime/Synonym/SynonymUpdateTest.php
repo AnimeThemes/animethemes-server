@@ -35,6 +35,26 @@ class SynonymUpdateTest extends TestCase
     }
 
     /**
+     * The Synonym Update Endpoint shall forbid users without the update anime synonym permission.
+     *
+     * @return void
+     */
+    public function testForbidden(): void
+    {
+        $synonym = AnimeSynonym::factory()->for(Anime::factory())->createOne();
+
+        $parameters = AnimeSynonym::factory()->raw();
+
+        $user = User::factory()->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->put(route('api.animesynonym.update', ['animesynonym' => $synonym] + $parameters));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Synonym Update Endpoint shall update a synonym.
      *
      * @return void

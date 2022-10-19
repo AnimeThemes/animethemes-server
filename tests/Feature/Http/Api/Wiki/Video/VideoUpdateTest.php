@@ -42,6 +42,32 @@ class VideoUpdateTest extends TestCase
     }
 
     /**
+     * The Video Update Endpoint shall forbid users without the update video permission.
+     *
+     * @return void
+     */
+    public function testForbidden(): void
+    {
+        $video = Video::factory()->createOne();
+
+        $parameters = array_merge(
+            Video::factory()->raw(),
+            [
+                Video::ATTRIBUTE_OVERLAP => VideoOverlap::getRandomInstance()->description,
+                Video::ATTRIBUTE_SOURCE => VideoSource::getRandomInstance()->description,
+            ]
+        );
+
+        $user = User::factory()->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->put(route('api.video.update', ['video' => $video] + $parameters));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Video Update Endpoint shall update a video.
      *
      * @return void

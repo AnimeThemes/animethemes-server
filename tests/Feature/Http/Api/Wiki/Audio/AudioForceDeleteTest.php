@@ -18,7 +18,7 @@ class AudioForceDeleteTest extends TestCase
     use WithoutEvents;
 
     /**
-     * The Audio Force Destroy Endpoint shall be protected by sanctum.
+     * The Audio Force Delete Endpoint shall be protected by sanctum.
      *
      * @return void
      */
@@ -32,7 +32,25 @@ class AudioForceDeleteTest extends TestCase
     }
 
     /**
-     * The Audio Force Destroy Endpoint shall force delete the audio.
+     * The Audio Force Delete Endpoint shall forbid users without the force delete audio permission.
+     *
+     * @return void
+     */
+    public function testForbidden(): void
+    {
+        $audio = Audio::factory()->createOne();
+
+        $user = User::factory()->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->delete(route('api.audio.forceDelete', ['audio' => $audio]));
+
+        $response->assertForbidden();
+    }
+
+    /**
+     * The Audio Force Delete Endpoint shall force delete the audio.
      *
      * @return void
      */

@@ -32,6 +32,24 @@ class AnnouncementDestroyTest extends TestCase
     }
 
     /**
+     * The Announcement Destroy Endpoint shall forbid users without the delete announcement permission.
+     *
+     * @return void
+     */
+    public function testForbidden(): void
+    {
+        $announcement = Announcement::factory()->createOne();
+
+        $user = User::factory()->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->delete(route('api.announcement.destroy', ['announcement' => $announcement]));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Announcement Destroy Endpoint shall delete the announcement.
      *
      * @return void

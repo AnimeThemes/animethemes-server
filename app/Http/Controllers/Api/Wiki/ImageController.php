@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\Wiki;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\Api\BaseController;
 use App\Http\Requests\Api\Wiki\Image\ImageDestroyRequest;
 use App\Http\Requests\Api\Wiki\Image\ImageForceDeleteRequest;
 use App\Http\Requests\Api\Wiki\Image\ImageIndexRequest;
@@ -14,20 +14,26 @@ use App\Http\Requests\Api\Wiki\Image\ImageStoreRequest;
 use App\Http\Requests\Api\Wiki\Image\ImageUpdateRequest;
 use App\Models\Wiki\Image;
 use Illuminate\Http\JsonResponse;
-use Spatie\RouteDiscovery\Attributes\Route;
 
 /**
  * Class ImageController.
  */
-class ImageController extends Controller
+class ImageController extends BaseController
 {
+    /**
+     * Create a new controller instance.
+     */
+    public function __construct()
+    {
+        parent::__construct(Image::class, 'image');
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @param  ImageIndexRequest  $request
      * @return JsonResponse
      */
-    #[Route(fullUri: 'image', name: 'image.index')]
     public function index(ImageIndexRequest $request): JsonResponse
     {
         $images = $request->getQuery()->index();
@@ -41,7 +47,6 @@ class ImageController extends Controller
      * @param  ImageStoreRequest  $request
      * @return JsonResponse
      */
-    #[Route(fullUri: 'image', name: 'image.store', middleware: 'auth:sanctum')]
     public function store(ImageStoreRequest $request): JsonResponse
     {
         $resource = $request->getQuery()->store();
@@ -56,7 +61,6 @@ class ImageController extends Controller
      * @param  Image  $image
      * @return JsonResponse
      */
-    #[Route(fullUri: 'image/{image}', name: 'image.show')]
     public function show(ImageShowRequest $request, Image $image): JsonResponse
     {
         $resource = $request->getQuery()->show($image);
@@ -71,7 +75,6 @@ class ImageController extends Controller
      * @param  Image  $image
      * @return JsonResponse
      */
-    #[Route(fullUri: 'image/{image}', name: 'image.update', middleware: 'auth:sanctum')]
     public function update(ImageUpdateRequest $request, Image $image): JsonResponse
     {
         $resource = $request->getQuery()->update($image);
@@ -86,7 +89,6 @@ class ImageController extends Controller
      * @param  Image  $image
      * @return JsonResponse
      */
-    #[Route(fullUri: 'image/{image}', name: 'image.destroy', middleware: 'auth:sanctum')]
     public function destroy(ImageDestroyRequest $request, Image $image): JsonResponse
     {
         $resource = $request->getQuery()->destroy($image);
@@ -101,7 +103,6 @@ class ImageController extends Controller
      * @param  Image  $image
      * @return JsonResponse
      */
-    #[Route(method: 'patch', fullUri: 'restore/image/{image}', name: 'image.restore', middleware: 'auth:sanctum')]
     public function restore(ImageRestoreRequest $request, Image $image): JsonResponse
     {
         $resource = $request->getQuery()->restore($image);
@@ -116,7 +117,6 @@ class ImageController extends Controller
      * @param  Image  $image
      * @return JsonResponse
      */
-    #[Route(method: 'delete', fullUri: 'forceDelete/image/{image}', name: 'image.forceDelete', middleware: 'auth:sanctum')]
     public function forceDelete(ImageForceDeleteRequest $request, Image $image): JsonResponse
     {
         return $request->getQuery()->forceDelete($image);

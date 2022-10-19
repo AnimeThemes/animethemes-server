@@ -32,6 +32,24 @@ class PageStoreTest extends TestCase
     }
 
     /**
+     * The Page Store Endpoint shall forbid users without the create page permission.
+     *
+     * @return void
+     */
+    public function testForbidden(): void
+    {
+        $page = Page::factory()->makeOne();
+
+        $user = User::factory()->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->post(route('api.page.store', $page->toArray()));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Page Store Endpoint shall require body, name & slug fields.
      *
      * @return void

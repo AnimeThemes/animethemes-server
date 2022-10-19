@@ -32,6 +32,24 @@ class PageDestroyTest extends TestCase
     }
 
     /**
+     * The Page Destroy Endpoint shall forbid users without the delete page permission.
+     *
+     * @return void
+     */
+    public function testForbidden(): void
+    {
+        $page = Page::factory()->createOne();
+
+        $user = User::factory()->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->delete(route('api.page.destroy', ['page' => $page]));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Page Destroy Endpoint shall delete the page.
      *
      * @return void

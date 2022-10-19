@@ -34,6 +34,26 @@ class SeriesRestoreTest extends TestCase
     }
 
     /**
+     * The Series Restore Endpoint shall forbid users without the restore series permission.
+     *
+     * @return void
+     */
+    public function testForbidden(): void
+    {
+        $series = Series::factory()->createOne();
+
+        $series->delete();
+
+        $user = User::factory()->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->patch(route('api.series.restore', ['series' => $series]));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Series Restore Endpoint shall restore the series.
      *
      * @return void

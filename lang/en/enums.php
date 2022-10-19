@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Enums\Models\Billing\BalanceFrequency;
 use App\Enums\Models\Billing\Service;
+use App\Enums\Models\List\PlaylistVisibility;
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Enums\Models\Wiki\ResourceSite;
@@ -28,6 +29,11 @@ return [
     ImageFacet::class => [
         ImageFacet::COVER_SMALL => 'Small Cover',
         ImageFacet::COVER_LARGE => 'Large Cover',
+    ],
+    PlaylistVisibility::class => [
+        PlaylistVisibility::PUBLIC => 'Public',
+        PlaylistVisibility::PRIVATE => 'Private',
+        PlaylistVisibility::UNLISTED => 'Unlisted',
     ],
     ResourceSite::class => [
         ResourceSite::OFFICIAL_SITE => 'Official Website',

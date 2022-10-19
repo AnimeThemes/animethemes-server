@@ -19,7 +19,7 @@ class ExternalResourceStoreTest extends TestCase
     use WithoutEvents;
 
     /**
-     * The ExternalResource Store Endpoint shall be protected by sanctum.
+     * The External Resource Store Endpoint shall be protected by sanctum.
      *
      * @return void
      */
@@ -33,7 +33,25 @@ class ExternalResourceStoreTest extends TestCase
     }
 
     /**
-     * The ExternalResource Store Endpoint shall require link & site fields.
+     * The External Resource Store Endpoint shall forbid users without the create external resource permission.
+     *
+     * @return void
+     */
+    public function testForbidden(): void
+    {
+        $resource = ExternalResource::factory()->makeOne();
+
+        $user = User::factory()->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->post(route('api.resource.store', $resource->toArray()));
+
+        $response->assertForbidden();
+    }
+
+    /**
+     * The External Resource Store Endpoint shall require link & site fields.
      *
      * @return void
      */
@@ -52,7 +70,7 @@ class ExternalResourceStoreTest extends TestCase
     }
 
     /**
-     * The ExternalResource Store Endpoint shall create an resource.
+     * The External Resource Store Endpoint shall create an resource.
      *
      * @return void
      */

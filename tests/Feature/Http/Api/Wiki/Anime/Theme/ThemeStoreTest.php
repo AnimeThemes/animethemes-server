@@ -34,6 +34,24 @@ class ThemeStoreTest extends TestCase
     }
 
     /**
+     * The Theme Store Endpoint shall forbid users without the store anime theme permission.
+     *
+     * @return void
+     */
+    public function testForbidden(): void
+    {
+        $theme = AnimeTheme::factory()->for(Anime::factory())->makeOne();
+
+        $user = User::factory()->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->post(route('api.animetheme.store', $theme->toArray()));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Theme Store Endpoint shall require the anime_id & type field.
      *
      * @return void

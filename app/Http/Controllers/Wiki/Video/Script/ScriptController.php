@@ -20,14 +20,14 @@ class ScriptController extends Controller
     /**
      * Download dump.
      *
-     * @param  VideoScript  $script
+     * @param  VideoScript  $videoscript
      * @return StreamedResponse
      */
-    public function show(VideoScript $script): StreamedResponse
+    public function show(VideoScript $videoscript): StreamedResponse
     {
         /** @var FilesystemAdapter $fs */
         $fs = Storage::disk(Config::get(VideoConstants::SCRIPT_DISK_QUALIFIED));
 
-        return $fs->download($script->path);
+        return $fs->download($videoscript->path);
     }
 }

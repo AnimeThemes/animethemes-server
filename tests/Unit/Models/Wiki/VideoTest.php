@@ -6,16 +6,19 @@ namespace Tests\Unit\Models\Wiki;
 
 use App\Enums\Models\Wiki\VideoOverlap;
 use App\Enums\Models\Wiki\VideoSource;
+use App\Models\List\Playlist;
+use App\Models\List\Playlist\PlaylistTrack;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Audio;
 use App\Models\Wiki\Video;
 use App\Models\Wiki\Video\VideoScript;
-use App\Pivots\AnimeThemeEntryVideo;
+use App\Pivots\Wiki\AnimeThemeEntryVideo;
 use CyrildeWit\EloquentViewable\View;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -309,6 +312,28 @@ class VideoTest extends TestCase
 
         static::assertInstanceOf(BelongsTo::class, $video->audio());
         static::assertInstanceOf(Audio::class, $video->audio()->first());
+    }
+
+    /**
+     * Video shall have a one-to-many relationship with the type PlaylistTrack.
+     *
+     * @return void
+     */
+    public function testTracks(): void
+    {
+        $trackCount = $this->faker->randomDigitNotNull();
+
+        $video = Video::factory()
+            ->has(
+                PlaylistTrack::factory()
+                    ->for(Playlist::factory())
+                    ->count($trackCount)
+            )
+            ->createOne();
+
+        static::assertInstanceOf(HasMany::class, $video->playlisttracks());
+        static::assertEquals($trackCount, $video->playlisttracks()->count());
+        static::assertInstanceOf(PlaylistTrack::class, $video->playlisttracks()->first());
     }
 
     /**

@@ -34,6 +34,26 @@ class VideoRestoreTest extends TestCase
     }
 
     /**
+     * The Video Restore Endpoint shall forbid users without the restore video permission.
+     *
+     * @return void
+     */
+    public function testForbidden(): void
+    {
+        $video = Video::factory()->createOne();
+
+        $video->delete();
+
+        $user = User::factory()->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->patch(route('api.video.restore', ['video' => $video]));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Video Restore Endpoint shall restore the video.
      *
      * @return void

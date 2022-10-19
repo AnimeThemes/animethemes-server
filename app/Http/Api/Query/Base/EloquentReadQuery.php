@@ -50,7 +50,7 @@ abstract class EloquentReadQuery extends ReadQuery
         $schema = $this->schema();
 
         // initialize builder, returning early if not resolved
-        $builder = $this->builder();
+        $builder = $this->indexBuilder();
 
         // eager load relations with constraints
         $builder->with($this->constrainEagerLoads());
@@ -204,7 +204,7 @@ abstract class EloquentReadQuery extends ReadQuery
      *
      * @return Builder
      */
-    abstract public function builder(): Builder;
+    abstract public function indexBuilder(): Builder;
 
     /**
      * Get the json resource.

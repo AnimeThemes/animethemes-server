@@ -55,6 +55,10 @@ class PermissionSeeder extends Seeder
         $this->configureWikiResourcePermissions($admin, $wikiEditor, $wikiViewer, 'video');
         $this->configureWikiResourcePermissions($admin, $wikiEditor, $wikiViewer, 'video script');
 
+        // List Resources
+        $this->configureWikiResourcePermissions($admin, $wikiEditor, $wikiViewer, 'playlist');
+        $this->configureWikiResourcePermissions($admin, $wikiEditor, $wikiViewer, 'playlist track');
+
         // Special Permissions
         $this->configureSpecialPermissions($admin, $wikiEditor, $wikiViewer);
     }

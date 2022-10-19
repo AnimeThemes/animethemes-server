@@ -41,11 +41,11 @@ class VideoTest extends TestCase
     }
 
     /**
-     * If the video is soft-deleted, the user shall receive a forbidden exception.
+     * If the video is soft-deleted, the user shall receive a not found exception.
      *
      * @return void
      */
-    public function testSoftDeleteVideoStreamingForbidden(): void
+    public function testCannotStreamSoftDeletedVideo(): void
     {
         Config::set(FlagConstants::ALLOW_VIDEO_STREAMS_FLAG_QUALIFIED, true);
 
@@ -55,7 +55,7 @@ class VideoTest extends TestCase
 
         $response = $this->get(route('video.show', ['video' => $video]));
 
-        $response->assertForbidden();
+        $response->assertNotFound();
     }
 
     /**

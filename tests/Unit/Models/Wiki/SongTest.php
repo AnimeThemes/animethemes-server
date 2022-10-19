@@ -8,7 +8,7 @@ use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Song;
-use App\Pivots\ArtistSong;
+use App\Pivots\Wiki\ArtistSong;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Testing\WithFaker;

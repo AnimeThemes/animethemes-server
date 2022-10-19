@@ -34,6 +34,26 @@ class AnimeRestoreTest extends TestCase
     }
 
     /**
+     * The Anime Restore Endpoint shall forbid users without the restore anime permission.
+     *
+     * @return void
+     */
+    public function testForbidden(): void
+    {
+        $anime = Anime::factory()->createOne();
+
+        $anime->delete();
+
+        $user = User::factory()->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->patch(route('api.anime.restore', ['anime' => $anime]));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Anime Restore Endpoint shall restore the anime.
      *
      * @return void

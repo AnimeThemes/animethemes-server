@@ -34,6 +34,26 @@ class PageRestoreTest extends TestCase
     }
 
     /**
+     * The Page Restore Endpoint shall forbid users without the restore page permission.
+     *
+     * @return void
+     */
+    public function testForbidden(): void
+    {
+        $page = Page::factory()->createOne();
+
+        $page->delete();
+
+        $user = User::factory()->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->patch(route('api.page.restore', ['page' => $page]));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Page Restore Endpoint shall restore the page.
      *
      * @return void

@@ -39,6 +39,24 @@ class ImageStoreTest extends TestCase
     }
 
     /**
+     * The Image Store Endpoint shall forbid users without the create image permission.
+     *
+     * @return void
+     */
+    public function testForbidden(): void
+    {
+        $image = Image::factory()->makeOne();
+
+        $user = User::factory()->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->post(route('api.image.store', $image->toArray()));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Image Store Endpoint shall require the file field.
      *
      * @return void

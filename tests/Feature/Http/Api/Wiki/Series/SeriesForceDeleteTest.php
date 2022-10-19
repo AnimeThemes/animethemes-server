@@ -18,7 +18,7 @@ class SeriesForceDeleteTest extends TestCase
     use WithoutEvents;
 
     /**
-     * The Series Force Destroy Endpoint shall be protected by sanctum.
+     * The Series Force Delete Endpoint shall be protected by sanctum.
      *
      * @return void
      */
@@ -32,7 +32,25 @@ class SeriesForceDeleteTest extends TestCase
     }
 
     /**
-     * The Series Force Destroy Endpoint shall force delete the series.
+     * The Series Force Delete Endpoint shall forbid users without the force delete series permission.
+     *
+     * @return void
+     */
+    public function testForbidden(): void
+    {
+        $series = Series::factory()->createOne();
+
+        $user = User::factory()->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->delete(route('api.series.forceDelete', ['series' => $series]));
+
+        $response->assertForbidden();
+    }
+
+    /**
+     * The Series Force Delete Endpoint shall force delete the series.
      *
      * @return void
      */

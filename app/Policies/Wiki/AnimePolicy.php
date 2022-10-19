@@ -9,10 +9,11 @@ use App\Models\Wiki\Anime;
 use App\Models\Wiki\Image;
 use App\Models\Wiki\Series;
 use App\Models\Wiki\Studio;
-use App\Pivots\AnimeImage;
-use App\Pivots\AnimeSeries;
-use App\Pivots\AnimeStudio;
+use App\Pivots\Wiki\AnimeImage;
+use App\Pivots\Wiki\AnimeSeries;
+use App\Pivots\Wiki\AnimeStudio;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Laravel\Nova\Nova;
 
 /**
  * Class AnimePolicy.
@@ -24,23 +25,29 @@ class AnimePolicy
     /**
      * Determine whether the user can view any models.
      *
-     * @param  User  $user
+     * @param  User|null  $user
      * @return bool
      */
-    public function viewAny(User $user): bool
+    public function viewAny(?User $user): bool
     {
-        return $user->can('view anime');
+        return Nova::whenServing(
+            fn (): bool => $user !== null && $user->can('view anime'),
+            fn (): bool => true
+        );
     }
 
     /**
      * Determine whether the user can view the model.
      *
-     * @param  User  $user
+     * @param  User|null  $user
      * @return bool
      */
-    public function view(User $user): bool
+    public function view(?User $user): bool
     {
-        return $user->can('view anime');
+        return Nova::whenServing(
+            fn (): bool => $user !== null && $user->can('view anime'),
+            fn (): bool => true
+        );
     }
 
     /**

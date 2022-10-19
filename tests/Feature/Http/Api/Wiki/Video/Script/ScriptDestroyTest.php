@@ -32,6 +32,24 @@ class ScriptDestroyTest extends TestCase
     }
 
     /**
+     * The Script Destroy Endpoint shall forbid users without the delete video script permission.
+     *
+     * @return void
+     */
+    public function testForbidden(): void
+    {
+        $script = VideoScript::factory()->createOne();
+
+        $user = User::factory()->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->delete(route('api.videoscript.destroy', ['videoscript' => $script]));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Script Destroy Endpoint shall delete the script.
      *
      * @return void

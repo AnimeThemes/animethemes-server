@@ -32,6 +32,24 @@ class SeriesStoreTest extends TestCase
     }
 
     /**
+     * The Series Store Endpoint shall forbid users without the create series permission.
+     *
+     * @return void
+     */
+    public function testForbidden(): void
+    {
+        $series = Series::factory()->makeOne();
+
+        $user = User::factory()->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->post(route('api.series.store', $series->toArray()));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Series Store Endpoint shall require name & slug fields.
      *
      * @return void

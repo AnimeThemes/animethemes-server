@@ -20,7 +20,7 @@ class EntryForceDeleteTest extends TestCase
     use WithoutEvents;
 
     /**
-     * The Entry Force Destroy Endpoint shall be protected by sanctum.
+     * The Entry Force Delete Endpoint shall be protected by sanctum.
      *
      * @return void
      */
@@ -36,7 +36,27 @@ class EntryForceDeleteTest extends TestCase
     }
 
     /**
-     * The Entry Force Destroy Endpoint shall force delete the entry.
+     * The Entry Force Delete Endpoint shall forbid users without the force delete anime theme entry permission.
+     *
+     * @return void
+     */
+    public function testForbidden(): void
+    {
+        $entry = AnimeThemeEntry::factory()
+            ->for(AnimeTheme::factory()->for(Anime::factory()))
+            ->createOne();
+
+        $user = User::factory()->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->delete(route('api.animethemeentry.forceDelete', ['animethemeentry' => $entry]));
+
+        $response->assertForbidden();
+    }
+
+    /**
+     * The Entry Force Delete Endpoint shall force delete the entry.
      *
      * @return void
      */

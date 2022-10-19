@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\Admin;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\Api\BaseController;
 use App\Http\Requests\Api\Admin\Dump\DumpDestroyRequest;
 use App\Http\Requests\Api\Admin\Dump\DumpForceDeleteRequest;
 use App\Http\Requests\Api\Admin\Dump\DumpIndexRequest;
@@ -14,20 +14,26 @@ use App\Http\Requests\Api\Admin\Dump\DumpStoreRequest;
 use App\Http\Requests\Api\Admin\Dump\DumpUpdateRequest;
 use App\Models\Admin\Dump;
 use Illuminate\Http\JsonResponse;
-use Spatie\RouteDiscovery\Attributes\Route;
 
 /**
  * Class DumpController.
  */
-class DumpController extends Controller
+class DumpController extends BaseController
 {
+    /**
+     * Create a new controller instance.
+     */
+    public function __construct()
+    {
+        parent::__construct(Dump::class, 'dump');
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @param  DumpIndexRequest  $request
      * @return JsonResponse
      */
-    #[Route(fullUri: 'dump', name: 'dump.index')]
     public function index(DumpIndexRequest $request): JsonResponse
     {
         $dumps = $request->getQuery()->index();
@@ -41,7 +47,6 @@ class DumpController extends Controller
      * @param  DumpStoreRequest  $request
      * @return JsonResponse
      */
-    #[Route(fullUri: 'dump', name: 'dump.store', middleware: 'auth:sanctum')]
     public function store(DumpStoreRequest $request): JsonResponse
     {
         $resource = $request->getQuery()->store();
@@ -56,7 +61,6 @@ class DumpController extends Controller
      * @param  Dump  $dump
      * @return JsonResponse
      */
-    #[Route(fullUri: 'dump/{dump}', name: 'dump.show')]
     public function show(DumpShowRequest $request, Dump $dump): JsonResponse
     {
         $resource = $request->getQuery()->show($dump);
@@ -71,7 +75,6 @@ class DumpController extends Controller
      * @param  Dump  $dump
      * @return JsonResponse
      */
-    #[Route(fullUri: 'dump/{dump}', name: 'dump.update', middleware: 'auth:sanctum')]
     public function update(DumpUpdateRequest $request, Dump $dump): JsonResponse
     {
         $resource = $request->getQuery()->update($dump);
@@ -86,7 +89,6 @@ class DumpController extends Controller
      * @param  Dump  $dump
      * @return JsonResponse
      */
-    #[Route(fullUri: 'dump/{dump}', name: 'dump.destroy', middleware: 'auth:sanctum')]
     public function destroy(DumpDestroyRequest $request, Dump $dump): JsonResponse
     {
         $resource = $request->getQuery()->destroy($dump);
@@ -101,7 +103,6 @@ class DumpController extends Controller
      * @param  Dump  $dump
      * @return JsonResponse
      */
-    #[Route(method: 'patch', fullUri: 'restore/dump/{dump}', name: 'dump.restore', middleware: 'auth:sanctum')]
     public function restore(DumpRestoreRequest $request, Dump $dump): JsonResponse
     {
         $resource = $request->getQuery()->restore($dump);
@@ -116,7 +117,6 @@ class DumpController extends Controller
      * @param  Dump  $dump
      * @return JsonResponse
      */
-    #[Route(method: 'delete', fullUri: 'forceDelete/dump/{dump}', name: 'dump.forceDelete', middleware: 'auth:sanctum')]
     public function forceDelete(DumpForceDeleteRequest $request, Dump $dump): JsonResponse
     {
         return $request->getQuery()->forceDelete($dump);

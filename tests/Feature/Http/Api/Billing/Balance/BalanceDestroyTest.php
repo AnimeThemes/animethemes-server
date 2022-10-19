@@ -32,6 +32,24 @@ class BalanceDestroyTest extends TestCase
     }
 
     /**
+     * The Balance Destroy Endpoint shall forbid users without the delete balance permission.
+     *
+     * @return void
+     */
+    public function testForbidden(): void
+    {
+        $balance = Balance::factory()->createOne();
+
+        $user = User::factory()->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->delete(route('api.balance.destroy', ['balance' => $balance]));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Balance Destroy Endpoint shall delete the balance.
      *
      * @return void

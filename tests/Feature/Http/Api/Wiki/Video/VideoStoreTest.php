@@ -34,6 +34,24 @@ class VideoStoreTest extends TestCase
     }
 
     /**
+     * The Video Store Endpoint shall forbid users without the create video permission.
+     *
+     * @return void
+     */
+    public function testForbidden(): void
+    {
+        $video = Video::factory()->makeOne();
+
+        $user = User::factory()->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->post(route('api.video.store', $video->toArray()));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Video Store Endpoint shall require basename, filename, mimetype, path & size fields.
      *
      * @return void

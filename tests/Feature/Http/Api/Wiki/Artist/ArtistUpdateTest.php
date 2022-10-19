@@ -34,6 +34,26 @@ class ArtistUpdateTest extends TestCase
     }
 
     /**
+     * The Artist Update Endpoint shall forbid users without the update artist permission.
+     *
+     * @return void
+     */
+    public function testForbidden(): void
+    {
+        $artist = Artist::factory()->createOne();
+
+        $parameters = Artist::factory()->raw();
+
+        $user = User::factory()->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->put(route('api.artist.update', ['artist' => $artist] + $parameters));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Artist Update Endpoint shall update an artist.
      *
      * @return void

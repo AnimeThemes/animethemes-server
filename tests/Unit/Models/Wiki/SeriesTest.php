@@ -6,7 +6,7 @@ namespace Tests\Unit\Models\Wiki;
 
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Series;
-use App\Pivots\AnimeSeries;
+use App\Pivots\Wiki\AnimeSeries;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;

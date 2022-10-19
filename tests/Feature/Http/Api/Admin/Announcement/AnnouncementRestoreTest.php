@@ -34,6 +34,26 @@ class AnnouncementRestoreTest extends TestCase
     }
 
     /**
+     * The Announcement Restore Endpoint shall forbid users without the restore announcement permission.
+     *
+     * @return void
+     */
+    public function testForbidden(): void
+    {
+        $announcement = Announcement::factory()->createOne();
+
+        $announcement->delete();
+
+        $user = User::factory()->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->patch(route('api.announcement.restore', ['announcement' => $announcement]));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Announcement Restore Endpoint shall restore the announcement.
      *
      * @return void

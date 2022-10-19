@@ -34,7 +34,7 @@ class StudioReadQuery extends EloquentReadQuery
      *
      * @return Builder
      */
-    public function builder(): Builder
+    public function indexBuilder(): Builder
     {
         return Studio::query();
     }

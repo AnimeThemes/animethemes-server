@@ -34,7 +34,7 @@ class AudioReadQuery extends EloquentReadQuery
      *
      * @return Builder
      */
-    public function builder(): Builder
+    public function indexBuilder(): Builder
     {
         return Audio::query();
     }

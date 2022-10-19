@@ -7,18 +7,8 @@ namespace App\Http\Requests\Api;
 /**
  * Class DestroyRequest.
  */
-abstract class DestroyRequest extends WriteRequest
+abstract class DestroyRequest extends BaseRequest
 {
-    /**
-     * The policy ability to authorize.
-     *
-     * @return string
-     */
-    protected function ability(): string
-    {
-        return 'delete';
-    }
-
     /**
      * Get the validation rules that apply to the request.
      *

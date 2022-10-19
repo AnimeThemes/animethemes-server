@@ -12,7 +12,7 @@ use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
 use App\Models\Wiki\Video\VideoScript;
-use App\Pivots\AnimeThemeEntryVideo;
+use App\Pivots\Wiki\AnimeThemeEntryVideo;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Config;

@@ -34,6 +34,26 @@ class BalanceRestoreTest extends TestCase
     }
 
     /**
+     * The Balance Restore Endpoint shall forbid users without the restore balance permission.
+     *
+     * @return void
+     */
+    public function testForbidden(): void
+    {
+        $balance = Balance::factory()->createOne();
+
+        $balance->delete();
+
+        $user = User::factory()->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->patch(route('api.balance.restore', ['balance' => $balance]));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Balance Restore Endpoint shall restore the balance.
      *
      * @return void

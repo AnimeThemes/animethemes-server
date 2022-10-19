@@ -32,6 +32,24 @@ class VideoDestroyTest extends TestCase
     }
 
     /**
+     * The Video Destroy Endpoint shall forbid users without the delete video permission.
+     *
+     * @return void
+     */
+    public function testForbidden(): void
+    {
+        $video = Video::factory()->createOne();
+
+        $user = User::factory()->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->delete(route('api.video.destroy', ['video' => $video]));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Video Destroy Endpoint shall delete the video.
      *
      * @return void

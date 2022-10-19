@@ -14,16 +14,6 @@ use Illuminate\Support\Arr;
 abstract class StoreRequest extends WriteRequest
 {
     /**
-     * The policy ability to authorize.
-     *
-     * @return string
-     */
-    protected function ability(): string
-    {
-        return 'create';
-    }
-
-    /**
      * Get the validation rules that apply to the request.
      *
      * @return array

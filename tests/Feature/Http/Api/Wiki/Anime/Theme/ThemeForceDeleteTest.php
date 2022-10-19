@@ -19,7 +19,7 @@ class ThemeForceDeleteTest extends TestCase
     use WithoutEvents;
 
     /**
-     * The Theme Force Destroy Endpoint shall be protected by sanctum.
+     * The Theme Force Delete Endpoint shall be protected by sanctum.
      *
      * @return void
      */
@@ -33,7 +33,25 @@ class ThemeForceDeleteTest extends TestCase
     }
 
     /**
-     * The Theme Force Destroy Endpoint shall force delete the theme.
+     * The Theme Force Delete Endpoint shall forbid users without the force delete anime theme permission.
+     *
+     * @return void
+     */
+    public function testForbidden(): void
+    {
+        $theme = AnimeTheme::factory()->for(Anime::factory())->createOne();
+
+        $user = User::factory()->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->delete(route('api.animetheme.forceDelete', ['animetheme' => $theme]));
+
+        $response->assertForbidden();
+    }
+
+    /**
+     * The Theme Force Delete Endpoint shall force delete the theme.
      *
      * @return void
      */

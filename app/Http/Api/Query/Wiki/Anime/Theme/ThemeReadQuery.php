@@ -34,7 +34,7 @@ class ThemeReadQuery extends EloquentReadQuery
      *
      * @return Builder
      */
-    public function builder(): Builder
+    public function indexBuilder(): Builder
     {
         return AnimeTheme::query();
     }

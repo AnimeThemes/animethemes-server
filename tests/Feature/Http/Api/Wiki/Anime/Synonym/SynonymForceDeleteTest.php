@@ -19,7 +19,7 @@ class SynonymForceDeleteTest extends TestCase
     use WithoutEvents;
 
     /**
-     * The Synonym Force Destroy Endpoint shall be protected by sanctum.
+     * The Synonym Force Delete Endpoint shall be protected by sanctum.
      *
      * @return void
      */
@@ -33,7 +33,25 @@ class SynonymForceDeleteTest extends TestCase
     }
 
     /**
-     * The Synonym Force Destroy Endpoint shall force delete the synonym.
+     * The Synonym Force Delete Endpoint shall forbid users without the force delete anime synonym permission.
+     *
+     * @return void
+     */
+    public function testForbidden(): void
+    {
+        $synonym = AnimeSynonym::factory()->for(Anime::factory())->createOne();
+
+        $user = User::factory()->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->delete(route('api.animesynonym.forceDelete', ['animesynonym' => $synonym]));
+
+        $response->assertForbidden();
+    }
+
+    /**
+     * The Synonym Force Delete Endpoint shall force delete the synonym.
      *
      * @return void
      */

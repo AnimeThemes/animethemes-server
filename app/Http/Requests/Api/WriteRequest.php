@@ -8,7 +8,7 @@ use App\Enums\BaseEnum;
 use App\Http\Api\Field\BooleanField;
 use App\Http\Api\Field\EnumField;
 use App\Http\Api\Field\Field;
-use App\Models\Auth\User;
+use App\Http\Api\Schema\Schema;
 
 /**
  * Class WriteRequest.
@@ -16,30 +16,11 @@ use App\Models\Auth\User;
 abstract class WriteRequest extends BaseRequest
 {
     /**
-     * Determine if the user is authorized to make this request.
+     * Get the schema.
      *
-     * @return bool
+     * @return Schema
      */
-    public function authorize(): bool
-    {
-        $user = $this->user('sanctum');
-
-        return $user instanceof User && $user->can($this->ability(), $this->arguments());
-    }
-
-    /**
-     * The policy ability to authorize.
-     *
-     * @return string
-     */
-    abstract protected function ability(): string;
-
-    /**
-     * The arguments for the policy ability to authorize.
-     *
-     * @return mixed
-     */
-    abstract protected function arguments(): mixed;
+    abstract protected function schema(): Schema;
 
     /**
      * Prepare the data for validation.

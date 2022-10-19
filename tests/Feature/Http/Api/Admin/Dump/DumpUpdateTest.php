@@ -34,6 +34,26 @@ class DumpUpdateTest extends TestCase
     }
 
     /**
+     * The Dump Update Endpoint shall forbid users without the update dump permission.
+     *
+     * @return void
+     */
+    public function testForbidden(): void
+    {
+        $dump = Dump::factory()->createOne();
+
+        $parameters = Dump::factory()->raw();
+
+        $user = User::factory()->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->put(route('api.dump.update', ['dump' => $dump] + $parameters));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Dump Update Endpoint shall update a dump.
      *
      * @return void

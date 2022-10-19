@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Query;
 
-use App\Contracts\Http\Api\Query\QueryInterface;
 use App\Enums\Http\Api\Paging\PaginationStrategy;
 use App\Http\Api\Criteria\Field\Criteria as FieldCriteria;
 use App\Http\Api\Criteria\Filter\Criteria as FilterCriteria;
@@ -19,12 +18,13 @@ use App\Http\Api\Parser\IncludeParser;
 use App\Http\Api\Parser\PagingParser;
 use App\Http\Api\Parser\SearchParser;
 use App\Http\Api\Parser\SortParser;
+use App\Http\Api\Schema\Schema;
 use Illuminate\Support\Arr;
 
 /**
  * Class ReadQuery.
  */
-abstract class ReadQuery implements QueryInterface
+abstract class ReadQuery
 {
     /**
      * The list of sparse fieldset criteria to apply to the query.
@@ -177,4 +177,11 @@ abstract class ReadQuery implements QueryInterface
             fn (PagingCriteria $criteria) => $strategy->is($criteria->getStrategy())
         );
     }
+
+    /**
+     * Get the resource schema.
+     *
+     * @return Schema
+     */
+    abstract public function schema(): Schema;
 }

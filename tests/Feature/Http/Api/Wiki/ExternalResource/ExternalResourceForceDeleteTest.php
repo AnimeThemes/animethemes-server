@@ -18,7 +18,7 @@ class ExternalResourceForceDeleteTest extends TestCase
     use WithoutEvents;
 
     /**
-     * The ExternalResource Force Destroy Endpoint shall be protected by sanctum.
+     * The External Resource Force Delete Endpoint shall be protected by sanctum.
      *
      * @return void
      */
@@ -32,7 +32,25 @@ class ExternalResourceForceDeleteTest extends TestCase
     }
 
     /**
-     * The ExternalResource Force Destroy Endpoint shall force delete the resource.
+     * The External Resource Force Delete Endpoint shall forbid users without the force delete external resource permission.
+     *
+     * @return void
+     */
+    public function testForbidden(): void
+    {
+        $resource = ExternalResource::factory()->createOne();
+
+        $user = User::factory()->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->delete(route('api.resource.forceDelete', ['resource' => $resource]));
+
+        $response->assertForbidden();
+    }
+
+    /**
+     * The External Resource Force Delete Endpoint shall force delete the resource.
      *
      * @return void
      */

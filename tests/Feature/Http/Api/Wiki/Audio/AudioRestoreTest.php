@@ -34,6 +34,26 @@ class AudioRestoreTest extends TestCase
     }
 
     /**
+     * The Audio Restore Endpoint shall forbid users without the restore audio permission.
+     *
+     * @return void
+     */
+    public function testForbidden(): void
+    {
+        $audio = Audio::factory()->createOne();
+
+        $audio->delete();
+
+        $user = User::factory()->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->patch(route('api.audio.restore', ['audio' => $audio]));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Audio Restore Endpoint shall restore the audio.
      *
      * @return void

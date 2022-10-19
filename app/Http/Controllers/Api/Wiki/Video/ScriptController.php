@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\Wiki\Video;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\Api\BaseController;
 use App\Http\Requests\Api\Wiki\Video\Script\ScriptDestroyRequest;
 use App\Http\Requests\Api\Wiki\Video\Script\ScriptForceDeleteRequest;
 use App\Http\Requests\Api\Wiki\Video\Script\ScriptIndexRequest;
@@ -14,20 +14,26 @@ use App\Http\Requests\Api\Wiki\Video\Script\ScriptStoreRequest;
 use App\Http\Requests\Api\Wiki\Video\Script\ScriptUpdateRequest;
 use App\Models\Wiki\Video\VideoScript;
 use Illuminate\Http\JsonResponse;
-use Spatie\RouteDiscovery\Attributes\Route;
 
 /**
  * Class ScriptController.
  */
-class ScriptController extends Controller
+class ScriptController extends BaseController
 {
+    /**
+     * Create a new controller instance.
+     */
+    public function __construct()
+    {
+        parent::__construct(VideoScript::class, 'videoscript');
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @param  ScriptIndexRequest  $request
      * @return JsonResponse
      */
-    #[Route(fullUri: 'videoscript', name: 'videoscript.index')]
     public function index(ScriptIndexRequest $request): JsonResponse
     {
         $query = $request->getQuery();
@@ -41,7 +47,6 @@ class ScriptController extends Controller
      * @param  ScriptStoreRequest  $request
      * @return JsonResponse
      */
-    #[Route(fullUri: 'videoscript', name: 'videoscript.store', middleware: 'auth:sanctum')]
     public function store(ScriptStoreRequest $request): JsonResponse
     {
         $resource = $request->getQuery()->store();
@@ -53,13 +58,12 @@ class ScriptController extends Controller
      * Display the specified resource.
      *
      * @param  ScriptShowRequest  $request
-     * @param  VideoScript  $script
+     * @param  VideoScript  $videoscript
      * @return JsonResponse
      */
-    #[Route(fullUri: 'videoscript/{videoscript}', name: 'videoscript.show')]
-    public function show(ScriptShowRequest $request, VideoScript $script): JsonResponse
+    public function show(ScriptShowRequest $request, VideoScript $videoscript): JsonResponse
     {
-        $resource = $request->getQuery()->show($script);
+        $resource = $request->getQuery()->show($videoscript);
 
         return $resource->toResponse($request);
     }
@@ -68,13 +72,12 @@ class ScriptController extends Controller
      * Update the specified resource.
      *
      * @param  ScriptUpdateRequest  $request
-     * @param  VideoScript  $script
+     * @param  VideoScript  $videoscript
      * @return JsonResponse
      */
-    #[Route(fullUri: 'videoscript/{videoscript}', name: 'videoscript.update', middleware: 'auth:sanctum')]
-    public function update(ScriptUpdateRequest $request, VideoScript $script): JsonResponse
+    public function update(ScriptUpdateRequest $request, VideoScript $videoscript): JsonResponse
     {
-        $resource = $request->getQuery()->update($script);
+        $resource = $request->getQuery()->update($videoscript);
 
         return $resource->toResponse($request);
     }
@@ -83,13 +86,12 @@ class ScriptController extends Controller
      * Remove the specified resource.
      *
      * @param  ScriptDestroyRequest  $request
-     * @param  VideoScript  $script
+     * @param  VideoScript  $videoscript
      * @return JsonResponse
      */
-    #[Route(fullUri: 'videoscript/{videoscript}', name: 'videoscript.destroy', middleware: 'auth:sanctum')]
-    public function destroy(ScriptDestroyRequest $request, VideoScript $script): JsonResponse
+    public function destroy(ScriptDestroyRequest $request, VideoScript $videoscript): JsonResponse
     {
-        $resource = $request->getQuery()->destroy($script);
+        $resource = $request->getQuery()->destroy($videoscript);
 
         return $resource->toResponse($request);
     }
@@ -98,13 +100,12 @@ class ScriptController extends Controller
      * Restore the specified resource.
      *
      * @param  ScriptRestoreRequest  $request
-     * @param  VideoScript  $script
+     * @param  VideoScript  $videoscript
      * @return JsonResponse
      */
-    #[Route(method: 'patch', fullUri: 'restore/videoscript/{videoscript}', name: 'videoscript.restore', middleware: 'auth:sanctum')]
-    public function restore(ScriptRestoreRequest $request, VideoScript $script): JsonResponse
+    public function restore(ScriptRestoreRequest $request, VideoScript $videoscript): JsonResponse
     {
-        $resource = $request->getQuery()->restore($script);
+        $resource = $request->getQuery()->restore($videoscript);
 
         return $resource->toResponse($request);
     }
@@ -113,12 +114,11 @@ class ScriptController extends Controller
      * Hard-delete the specified resource.
      *
      * @param  ScriptForceDeleteRequest  $request
-     * @param  VideoScript  $script
+     * @param  VideoScript  $videoscript
      * @return JsonResponse
      */
-    #[Route(method: 'delete', fullUri: 'forceDelete/videoscript/{videoscript}', name: 'videoscript.forceDelete', middleware: 'auth:sanctum')]
-    public function forceDelete(ScriptForceDeleteRequest $request, VideoScript $script): JsonResponse
+    public function forceDelete(ScriptForceDeleteRequest $request, VideoScript $videoscript): JsonResponse
     {
-        return $request->getQuery()->forceDelete($script);
+        return $request->getQuery()->forceDelete($videoscript);
     }
 }

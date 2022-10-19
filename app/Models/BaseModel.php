@@ -11,7 +11,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Prunable;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Carbon;
 
 /**
@@ -37,22 +36,6 @@ abstract class BaseModel extends Model implements Nameable
     final public const ATTRIBUTE_CREATED_AT = Model::CREATED_AT;
     final public const ATTRIBUTE_DELETED_AT = 'deleted_at';
     final public const ATTRIBUTE_UPDATED_AT = Model::UPDATED_AT;
-
-    /**
-     * Retrieve the model for a bound value.
-     *
-     * @param  mixed  $value
-     * @param  string|null  $field
-     * @return Model|null
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    public function resolveRouteBinding($value, $field = null): ?Model
-    {
-        return $this->newQuery()->where($field ?? $this->getRouteKeyName(), $value)
-            ->withoutGlobalScope(SoftDeletingScope::class)
-            ->first();
-    }
 
     /**
      * Restore a soft-deleted model instance.

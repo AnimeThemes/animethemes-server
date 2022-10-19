@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use App\Models\Wiki\Image;
 use App\Models\Wiki\Studio;
-use App\Pivots\StudioImage;
+use App\Pivots\Wiki\StudioImage;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;

@@ -8,9 +8,10 @@ use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Image;
 use App\Models\Wiki\Studio;
-use App\Pivots\AnimeStudio;
-use App\Pivots\StudioImage;
+use App\Pivots\Wiki\AnimeStudio;
+use App\Pivots\Wiki\StudioImage;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Laravel\Nova\Nova;
 
 /**
  * Class StudioPolicy.
@@ -22,23 +23,29 @@ class StudioPolicy
     /**
      * Determine whether the user can view any models.
      *
-     * @param  User  $user
+     * @param  User|null  $user
      * @return bool
      */
-    public function viewAny(User $user): bool
+    public function viewAny(?User $user): bool
     {
-        return $user->can('view studio');
+        return Nova::whenServing(
+            fn (): bool => $user !== null && $user->can('view studio'),
+            fn (): bool => true
+        );
     }
 
     /**
      * Determine whether the user can view the model.
      *
-     * @param  User  $user
+     * @param  User|null  $user
      * @return bool
      */
-    public function view(User $user): bool
+    public function view(?User $user): bool
     {
-        return $user->can('view studio');
+        return Nova::whenServing(
+            fn (): bool => $user !== null && $user->can('view studio'),
+            fn (): bool => true
+        );
     }
 
     /**

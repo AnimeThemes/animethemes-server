@@ -38,6 +38,29 @@ class TransactionUpdateTest extends TestCase
     }
 
     /**
+     * The Transaction Update Endpoint shall forbid users without the update transaction permission.
+     *
+     * @return void
+     */
+    public function testForbidden(): void
+    {
+        $transaction = Transaction::factory()->createOne();
+
+        $parameters = array_merge(
+            Transaction::factory()->raw(),
+            [Transaction::ATTRIBUTE_SERVICE => Service::getRandomInstance()->description]
+        );
+
+        $user = User::factory()->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->put(route('api.transaction.update', ['transaction' => $transaction] + $parameters));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Transaction Update Endpoint shall update a transaction.
      *
      * @return void

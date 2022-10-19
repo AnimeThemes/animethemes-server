@@ -6,8 +6,6 @@ namespace App\Http\Requests\Api\Wiki\Studio;
 
 use App\Http\Api\Query\Base\EloquentWriteQuery;
 use App\Http\Api\Query\Wiki\Studio\StudioWriteQuery;
-use App\Http\Api\Schema\EloquentSchema;
-use App\Http\Api\Schema\Wiki\StudioSchema;
 use App\Http\Requests\Api\Base\EloquentDestroyRequest;
 
 /**
@@ -15,16 +13,6 @@ use App\Http\Requests\Api\Base\EloquentDestroyRequest;
  */
 class StudioDestroyRequest extends EloquentDestroyRequest
 {
-    /**
-     * Get the schema.
-     *
-     * @return EloquentSchema
-     */
-    protected function schema(): EloquentSchema
-    {
-        return new StudioSchema();
-    }
-
     /**
      * Get the validation API Query.
      *

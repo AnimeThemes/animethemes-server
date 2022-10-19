@@ -9,9 +9,11 @@ use App\Events\Auth\User\UserCreated;
 use App\Events\Auth\User\UserDeleted;
 use App\Events\Auth\User\UserRestored;
 use App\Events\Auth\User\UserUpdated;
+use App\Models\List\Playlist;
 use Database\Factories\Auth\UserFactory;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -28,11 +30,13 @@ use Spatie\Permission\Traits\HasRoles;
  * Class User.
  *
  * @property Carbon $created_at
+ * @property Carbon $deleted_at
  * @property string $email
  * @property Carbon|null $email_verified_at
  * @property int $id
  * @property string $name
  * @property string $password
+ * @property Collection<int, Playlist> $playlists
  * @property string $remember_token
  * @property Collection<int, PersonalAccessToken> $tokens
  * @property string|null $two_factor_recovery_codes
@@ -65,6 +69,7 @@ class User extends Authenticatable implements MustVerifyEmail, Nameable
     final public const ATTRIBUTE_TWO_FACTOR_SECRET = 'two_factor_secret';
 
     final public const RELATION_PERMISSIONS = 'permissions';
+    final public const RELATION_PLAYLISTS = 'playlists';
     final public const RELATION_ROLES = 'roles';
 
     /**
@@ -164,5 +169,15 @@ class User extends Authenticatable implements MustVerifyEmail, Nameable
         $this->fireModelEvent('restored', false);
 
         return $result;
+    }
+
+    /**
+     * Get the playlists that belong to the user.
+     *
+     * @return HasMany
+     */
+    public function playlists(): HasMany
+    {
+        return $this->hasMany(Playlist::class, Playlist::ATTRIBUTE_USER);
     }
 }

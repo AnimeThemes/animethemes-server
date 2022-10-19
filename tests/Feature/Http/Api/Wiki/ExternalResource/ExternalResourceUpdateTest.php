@@ -19,7 +19,7 @@ class ExternalResourceUpdateTest extends TestCase
     use WithoutEvents;
 
     /**
-     * The ExternalResource Update Endpoint shall be protected by sanctum.
+     * The External Resource Update Endpoint shall be protected by sanctum.
      *
      * @return void
      */
@@ -38,7 +38,30 @@ class ExternalResourceUpdateTest extends TestCase
     }
 
     /**
-     * The ExternalResource Update Endpoint shall update a resource.
+     * The External Resource Update Endpoint shall forbid users without the update external resource permission.
+     *
+     * @return void
+     */
+    public function testForbidden(): void
+    {
+        $resource = ExternalResource::factory()->createOne();
+
+        $parameters = array_merge(
+            ExternalResource::factory()->raw(),
+            [ExternalResource::ATTRIBUTE_SITE => ResourceSite::getDescription(ResourceSite::OFFICIAL_SITE)]
+        );
+
+        $user = User::factory()->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->put(route('api.resource.update', ['resource' => $resource] + $parameters));
+
+        $response->assertForbidden();
+    }
+
+    /**
+     * The External Resource Update Endpoint shall update a resource.
      *
      * @return void
      */

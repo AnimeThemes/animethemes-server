@@ -38,6 +38,28 @@ class EntryRestoreTest extends TestCase
     }
 
     /**
+     * The Entry Restore Endpoint shall forbid users without the restore anime theme entry permission.
+     *
+     * @return void
+     */
+    public function testForbidden(): void
+    {
+        $entry = AnimeThemeEntry::factory()
+            ->for(AnimeTheme::factory()->for(Anime::factory()))
+            ->createOne();
+
+        $entry->delete();
+
+        $user = User::factory()->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->patch(route('api.animethemeentry.restore', ['animethemeentry' => $entry]));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Entry Restore Endpoint shall restore the entry.
      *
      * @return void

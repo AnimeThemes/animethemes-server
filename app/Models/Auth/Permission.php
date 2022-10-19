@@ -13,10 +13,10 @@ use Spatie\Permission\Models\Permission as BasePermission;
  * Class Permission.
  *
  * @property Carbon $created_at
- * @property Carbon $deleted_at
  * @property string $guard_name
  * @property int $id
  * @property string $name
+ * @property Carbon $updated_at
  */
 class Permission extends BasePermission
 {

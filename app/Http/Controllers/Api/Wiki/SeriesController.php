@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api\Wiki;
 
 use App\Enums\Http\Api\Paging\PaginationStrategy;
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\Api\BaseController;
 use App\Http\Requests\Api\Wiki\Series\SeriesDestroyRequest;
 use App\Http\Requests\Api\Wiki\Series\SeriesForceDeleteRequest;
 use App\Http\Requests\Api\Wiki\Series\SeriesIndexRequest;
@@ -15,20 +15,26 @@ use App\Http\Requests\Api\Wiki\Series\SeriesStoreRequest;
 use App\Http\Requests\Api\Wiki\Series\SeriesUpdateRequest;
 use App\Models\Wiki\Series;
 use Illuminate\Http\JsonResponse;
-use Spatie\RouteDiscovery\Attributes\Route;
 
 /**
  * Class SeriesController.
  */
-class SeriesController extends Controller
+class SeriesController extends BaseController
 {
+    /**
+     * Create a new controller instance.
+     */
+    public function __construct()
+    {
+        parent::__construct(Series::class, 'series');
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @param  SeriesIndexRequest  $request
      * @return JsonResponse
      */
-    #[Route(fullUri: 'series', name: 'series.index')]
     public function index(SeriesIndexRequest $request): JsonResponse
     {
         $query = $request->getQuery();
@@ -46,7 +52,6 @@ class SeriesController extends Controller
      * @param  SeriesStoreRequest  $request
      * @return JsonResponse
      */
-    #[Route(fullUri: 'series', name: 'series.store', middleware: 'auth:sanctum')]
     public function store(SeriesStoreRequest $request): JsonResponse
     {
         $resource = $request->getQuery()->store();
@@ -61,7 +66,6 @@ class SeriesController extends Controller
      * @param  Series  $series
      * @return JsonResponse
      */
-    #[Route(fullUri: 'series/{series}', name: 'series.show')]
     public function show(SeriesShowRequest $request, Series $series): JsonResponse
     {
         $resource = $request->getQuery()->show($series);
@@ -76,7 +80,6 @@ class SeriesController extends Controller
      * @param  Series  $series
      * @return JsonResponse
      */
-    #[Route(fullUri: 'series/{series}', name: 'series.update', middleware: 'auth:sanctum')]
     public function update(SeriesUpdateRequest $request, Series $series): JsonResponse
     {
         $resource = $request->getQuery()->update($series);
@@ -91,7 +94,6 @@ class SeriesController extends Controller
      * @param  Series  $series
      * @return JsonResponse
      */
-    #[Route(fullUri: 'series/{series}', name: 'series.destroy', middleware: 'auth:sanctum')]
     public function destroy(SeriesDestroyRequest $request, Series $series): JsonResponse
     {
         $resource = $request->getQuery()->destroy($series);
@@ -106,7 +108,6 @@ class SeriesController extends Controller
      * @param  Series  $series
      * @return JsonResponse
      */
-    #[Route(method: 'patch', fullUri: 'restore/series/{series}', name: 'series.restore', middleware: 'auth:sanctum')]
     public function restore(SeriesRestoreRequest $request, Series $series): JsonResponse
     {
         $resource = $request->getQuery()->restore($series);
@@ -121,7 +122,6 @@ class SeriesController extends Controller
      * @param  Series  $series
      * @return JsonResponse
      */
-    #[Route(method: 'delete', fullUri: 'forceDelete/series/{series}', name: 'series.forceDelete', middleware: 'auth:sanctum')]
     public function forceDelete(SeriesForceDeleteRequest $request, Series $series): JsonResponse
     {
         return $request->getQuery()->forceDelete($series);

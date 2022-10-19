@@ -32,6 +32,24 @@ class StudioStoreTest extends TestCase
     }
 
     /**
+     * The Studio Store Endpoint shall forbid users without the create studio permission.
+     *
+     * @return void
+     */
+    public function testForbidden(): void
+    {
+        $studio = Studio::factory()->makeOne();
+
+        $user = User::factory()->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->post(route('api.studio.store', $studio->toArray()));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Studio Store Endpoint shall require name & slug fields.
      *
      * @return void

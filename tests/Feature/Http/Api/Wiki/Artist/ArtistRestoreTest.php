@@ -34,6 +34,26 @@ class ArtistRestoreTest extends TestCase
     }
 
     /**
+     * The Artist Restore Endpoint shall forbid users without the restore artist permission.
+     *
+     * @return void
+     */
+    public function testForbidden(): void
+    {
+        $artist = Artist::factory()->createOne();
+
+        $artist->delete();
+
+        $user = User::factory()->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->patch(route('api.artist.restore', ['artist' => $artist]));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Artist Restore Endpoint shall restore the artist.
      *
      * @return void

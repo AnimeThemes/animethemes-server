@@ -38,6 +38,28 @@ class EntryUpdateTest extends TestCase
     }
 
     /**
+     * The Entry Update Endpoint shall forbid users without the update anime theme entry permission.
+     *
+     * @return void
+     */
+    public function testForbidden(): void
+    {
+        $entry = AnimeThemeEntry::factory()
+            ->for(AnimeTheme::factory()->for(Anime::factory()))
+            ->createOne();
+
+        $parameters = AnimeThemeEntry::factory()->raw();
+
+        $user = User::factory()->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->put(route('api.animethemeentry.update', ['animethemeentry' => $entry] + $parameters));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Entry Update Endpoint shall update an entry.
      *
      * @return void

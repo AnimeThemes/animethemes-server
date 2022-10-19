@@ -18,7 +18,7 @@ class ArtistForceDeleteTest extends TestCase
     use WithoutEvents;
 
     /**
-     * The Artist Force Destroy Endpoint shall be protected by sanctum.
+     * The Artist Force Delete Endpoint shall be protected by sanctum.
      *
      * @return void
      */
@@ -32,7 +32,25 @@ class ArtistForceDeleteTest extends TestCase
     }
 
     /**
-     * The Artist Force Destroy Endpoint shall force delete the artist.
+     * The Artist Force Delete Endpoint shall forbid users without the force delete artist permission.
+     *
+     * @return void
+     */
+    public function testForbidden(): void
+    {
+        $artist = Artist::factory()->createOne();
+
+        $user = User::factory()->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->delete(route('api.artist.forceDelete', ['artist' => $artist]));
+
+        $response->assertForbidden();
+    }
+
+    /**
+     * The Artist Force Delete Endpoint shall force delete the artist.
      *
      * @return void
      */

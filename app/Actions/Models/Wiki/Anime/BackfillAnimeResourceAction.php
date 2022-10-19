@@ -8,7 +8,7 @@ use App\Actions\Models\Wiki\BackfillResourceAction;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\ExternalResource;
-use App\Pivots\AnimeResource;
+use App\Pivots\Wiki\AnimeResource;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Facades\Log;
 
