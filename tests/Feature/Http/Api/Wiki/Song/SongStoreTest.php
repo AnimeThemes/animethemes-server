@@ -32,6 +32,24 @@ class SongStoreTest extends TestCase
     }
 
     /**
+     * The Song Store Endpoint shall forbid users without the create song permission.
+     *
+     * @return void
+     */
+    public function testForbidden(): void
+    {
+        $song = Song::factory()->makeOne();
+
+        $user = User::factory()->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->post(route('api.song.store', $song->toArray()));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Song Store Endpoint shall create a song.
      *
      * @return void

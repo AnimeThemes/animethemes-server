@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\Billing\Balance;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\Api\BaseController;
 use App\Http\Requests\Api\Billing\Balance\BalanceDestroyRequest;
 use App\Http\Requests\Api\Billing\Balance\BalanceForceDeleteRequest;
 use App\Http\Requests\Api\Billing\Balance\BalanceIndexRequest;
@@ -14,20 +14,26 @@ use App\Http\Requests\Api\Billing\Balance\BalanceStoreRequest;
 use App\Http\Requests\Api\Billing\Balance\BalanceUpdateRequest;
 use App\Models\Billing\Balance;
 use Illuminate\Http\JsonResponse;
-use Spatie\RouteDiscovery\Attributes\Route;
 
 /**
  * Class BalanceController.
  */
-class BalanceController extends Controller
+class BalanceController extends BaseController
 {
+    /**
+     * Create a new controller instance.
+     */
+    public function __construct()
+    {
+        parent::__construct(Balance::class, 'balance');
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @param  BalanceIndexRequest  $request
      * @return JsonResponse
      */
-    #[Route(fullUri: 'balance', name: 'balance.index')]
     public function index(BalanceIndexRequest $request): JsonResponse
     {
         $balances = $request->getQuery()->index();
@@ -41,7 +47,6 @@ class BalanceController extends Controller
      * @param  BalanceStoreRequest  $request
      * @return JsonResponse
      */
-    #[Route(fullUri: 'balance', name: 'balance.store', middleware: 'auth:sanctum')]
     public function store(BalanceStoreRequest $request): JsonResponse
     {
         $resource = $request->getQuery()->store();
@@ -56,7 +61,6 @@ class BalanceController extends Controller
      * @param  Balance  $balance
      * @return JsonResponse
      */
-    #[Route(fullUri: 'balance/{balance}', name: 'balance.show')]
     public function show(BalanceShowRequest $request, Balance $balance): JsonResponse
     {
         $resource = $request->getQuery()->show($balance);
@@ -71,7 +75,6 @@ class BalanceController extends Controller
      * @param  Balance  $balance
      * @return JsonResponse
      */
-    #[Route(fullUri: 'balance/{balance}', name: 'balance.update', middleware: 'auth:sanctum')]
     public function update(BalanceUpdateRequest $request, Balance $balance): JsonResponse
     {
         $resource = $request->getQuery()->update($balance);
@@ -86,7 +89,6 @@ class BalanceController extends Controller
      * @param  Balance  $balance
      * @return JsonResponse
      */
-    #[Route(fullUri: 'balance/{balance}', name: 'balance.destroy', middleware: 'auth:sanctum')]
     public function destroy(BalanceDestroyRequest $request, Balance $balance): JsonResponse
     {
         $resource = $request->getQuery()->destroy($balance);
@@ -101,7 +103,6 @@ class BalanceController extends Controller
      * @param  Balance  $balance
      * @return JsonResponse
      */
-    #[Route(method: 'patch', fullUri: 'restore/balance/{balance}', name: 'balance.restore', middleware: 'auth:sanctum')]
     public function restore(BalanceRestoreRequest $request, Balance $balance): JsonResponse
     {
         $resource = $request->getQuery()->restore($balance);
@@ -116,7 +117,6 @@ class BalanceController extends Controller
      * @param  Balance  $balance
      * @return JsonResponse
      */
-    #[Route(method: 'delete', fullUri: 'forceDelete/balance/{balance}', name: 'balance.forceDelete', middleware: 'auth:sanctum')]
     public function forceDelete(BalanceForceDeleteRequest $request, Balance $balance): JsonResponse
     {
         return $request->getQuery()->forceDelete($balance);

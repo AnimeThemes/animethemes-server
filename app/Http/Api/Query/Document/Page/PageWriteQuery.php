@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace App\Http\Api\Query\Document\Page;
 
 use App\Http\Api\Query\Base\EloquentWriteQuery;
-use App\Http\Api\Schema\Document\PageSchema;
-use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Resources\BaseResource;
 use App\Http\Resources\Document\Resource\PageResource;
 use App\Models\Document\Page;
@@ -18,21 +16,11 @@ use Illuminate\Database\Eloquent\Builder;
 class PageWriteQuery extends EloquentWriteQuery
 {
     /**
-     * Get the resource schema.
-     *
-     * @return EloquentSchema
-     */
-    public function schema(): EloquentSchema
-    {
-        return new PageSchema();
-    }
-
-    /**
      * Get the query builder of the resource.
      *
      * @return Builder
      */
-    public function builder(): Builder
+    public function createBuilder(): Builder
     {
         return Page::query();
     }

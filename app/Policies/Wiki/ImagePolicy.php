@@ -5,14 +5,17 @@ declare(strict_types=1);
 namespace App\Policies\Wiki;
 
 use App\Models\Auth\User;
+use App\Models\List\Playlist;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Image;
 use App\Models\Wiki\Studio;
-use App\Pivots\AnimeImage;
-use App\Pivots\ArtistImage;
-use App\Pivots\StudioImage;
+use App\Pivots\List\PlaylistImage;
+use App\Pivots\Wiki\AnimeImage;
+use App\Pivots\Wiki\ArtistImage;
+use App\Pivots\Wiki\StudioImage;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Laravel\Nova\Nova;
 
 /**
  * Class ImagePolicy.
@@ -24,23 +27,29 @@ class ImagePolicy
     /**
      * Determine whether the user can view any models.
      *
-     * @param  User  $user
+     * @param  User|null  $user
      * @return bool
      */
-    public function viewAny(User $user): bool
+    public function viewAny(?User $user): bool
     {
-        return $user->can('view image');
+        return Nova::whenServing(
+            fn (): bool => $user !== null && $user->can('view image'),
+            fn (): bool => true
+        );
     }
 
     /**
      * Determine whether the user can view the model.
      *
-     * @param  User  $user
+     * @param  User|null  $user
      * @return bool
      */
-    public function view(User $user): bool
+    public function view(?User $user): bool
     {
-        return $user->can('view image');
+        return Nova::whenServing(
+            fn (): bool => $user !== null && $user->can('view image'),
+            fn (): bool => true
+        );
     }
 
     /**
@@ -216,5 +225,45 @@ class ImagePolicy
     public function detachStudio(User $user): bool
     {
         return $user->can('update image');
+    }
+
+    /**
+     * Determine whether the user can attach any playlist to the image.
+     *
+     * @param  User  $user
+     * @return bool
+     */
+    public function attachAnyPlaylist(User $user): bool
+    {
+        return $user->hasRole('Admin');
+    }
+
+    /**
+     * Determine whether the user can attach a studio to the image.
+     *
+     * @param  User  $user
+     * @param  Image  $image
+     * @param  Playlist  $playlist
+     * @return bool
+     */
+    public function attachPlaylist(User $user, Image $image, Playlist $playlist): bool
+    {
+        $attached = PlaylistImage::query()
+            ->where($image->getKeyName(), $image->getKey())
+            ->where($playlist->getKeyName(), $playlist->getKey())
+            ->exists();
+
+        return ! $attached && $user->hasRole('Admin');
+    }
+
+    /**
+     * Determine whether the user can detach a playlist from the image.
+     *
+     * @param  User  $user
+     * @return bool
+     */
+    public function detachPlaylist(User $user): bool
+    {
+        return $user->hasRole('Admin');
     }
 }

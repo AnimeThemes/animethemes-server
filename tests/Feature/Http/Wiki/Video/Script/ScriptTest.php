@@ -41,13 +41,13 @@ class ScriptTest extends TestCase
     }
 
     /**
-     * If the script is soft-deleted, the user shall receive a forbidden exception.
+     * If the script is soft-deleted, the user shall receive a not found exception.
      *
      * @return void
      */
-    public function testSoftDeleteScriptDownloadingForbidden(): void
+    public function testCannotStreamSoftDeletedVideo(): void
     {
-        Config::set(FlagConstants::ALLOW_SCRIPT_DOWNLOADING_FLAG_QUALIFIED, false);
+        Config::set(FlagConstants::ALLOW_SCRIPT_DOWNLOADING_FLAG_QUALIFIED, true);
 
         $script = VideoScript::factory()->createOne();
 
@@ -55,7 +55,7 @@ class ScriptTest extends TestCase
 
         $response = $this->get(route('videoscript.show', ['videoscript' => $script]));
 
-        $response->assertForbidden();
+        $response->assertNotFound();
     }
 
     /**

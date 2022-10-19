@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Http\Api\Query\Base;
 
 use App\Http\Api\Query\WriteQuery;
-use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Resources\BaseResource;
 use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Builder;
@@ -25,7 +24,7 @@ abstract class EloquentWriteQuery extends WriteQuery
      */
     public function store(): BaseResource
     {
-        $model = $this->builder()->create($this->parameters);
+        $model = $this->createBuilder()->create($this->parameters);
 
         // Scout will load relations to refresh related search indices.
         $model->unsetRelations();
@@ -106,18 +105,11 @@ abstract class EloquentWriteQuery extends WriteQuery
     }
 
     /**
-     * Get the resource schema.
-     *
-     * @return EloquentSchema
-     */
-    abstract public function schema(): EloquentSchema;
-
-    /**
      * Get the query builder of the resource.
      *
      * @return Builder
      */
-    abstract public function builder(): Builder;
+    abstract public function createBuilder(): Builder;
 
     /**
      * Get the json resource.

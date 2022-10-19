@@ -22,6 +22,7 @@ use App\Nova\Lenses\Video\VideoUnlinkedLens;
 use App\Nova\Metrics\Video\NewVideos;
 use App\Nova\Metrics\Video\VideosPerDay;
 use App\Nova\Resources\BaseResource;
+use App\Nova\Resources\List\Playlist\Track;
 use App\Nova\Resources\Wiki\Anime\Theme\Entry;
 use App\Nova\Resources\Wiki\Video\Script;
 use App\Pivots\BasePivot;
@@ -34,6 +35,7 @@ use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\DateTime;
+use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\HasOne;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
@@ -214,6 +216,8 @@ class Video extends BaseResource
                 ->sortable()
                 ->nullable()
                 ->showOnPreview(),
+
+            HasMany::make(__('nova.resources.label.playlist_tracks'), VideoModel::RELATION_TRACKS, Track::class),
 
             Panel::make(__('nova.fields.base.file_properties'), $this->fileProperties())
                 ->collapsable(),

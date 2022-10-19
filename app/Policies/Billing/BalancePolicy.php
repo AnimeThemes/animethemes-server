@@ -6,6 +6,7 @@ namespace App\Policies\Billing;
 
 use App\Models\Auth\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Laravel\Nova\Nova;
 
 /**
  * Class BalancePolicy.
@@ -17,23 +18,29 @@ class BalancePolicy
     /**
      * Determine whether the user can view any models.
      *
-     * @param  User  $user
+     * @param  User|null  $user
      * @return bool
      */
-    public function viewAny(User $user): bool
+    public function viewAny(?User $user): bool
     {
-        return $user->can('view balance');
+        return Nova::whenServing(
+            fn (): bool => $user !== null && $user->can('view balance'),
+            fn (): bool => true
+        );
     }
 
     /**
      * Determine whether the user can view the model.
      *
-     * @param  User  $user
+     * @param  User|null  $user
      * @return bool
      */
-    public function view(User $user): bool
+    public function view(?User $user): bool
     {
-        return $user->can('view balance');
+        return Nova::whenServing(
+            fn (): bool => $user !== null && $user->can('view balance'),
+            fn (): bool => true
+        );
     }
 
     /**

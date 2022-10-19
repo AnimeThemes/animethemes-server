@@ -33,6 +33,24 @@ class ThemeDestroyTest extends TestCase
     }
 
     /**
+     * The Theme Destroy Endpoint shall forbid users without the delete anime theme permission.
+     *
+     * @return void
+     */
+    public function testForbidden(): void
+    {
+        $theme = AnimeTheme::factory()->for(Anime::factory())->createOne();
+
+        $user = User::factory()->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->delete(route('api.animetheme.destroy', ['animetheme' => $theme]));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Theme Destroy Endpoint shall delete the theme.
      *
      * @return void

@@ -4,12 +4,10 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Query;
 
-use App\Contracts\Http\Api\Query\QueryInterface;
-
 /**
  * Class WriteQuery.
  */
-abstract class WriteQuery implements QueryInterface
+abstract class WriteQuery
 {
     /**
      * Create a new query instance.

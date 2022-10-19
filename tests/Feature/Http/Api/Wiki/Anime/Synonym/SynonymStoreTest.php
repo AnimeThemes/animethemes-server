@@ -33,6 +33,24 @@ class SynonymStoreTest extends TestCase
     }
 
     /**
+     * The Synonym Store Endpoint shall forbid users without the create anime synonym permission.
+     *
+     * @return void
+     */
+    public function testForbidden(): void
+    {
+        $synonym = AnimeSynonym::factory()->for(Anime::factory())->makeOne();
+
+        $user = User::factory()->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->post(route('api.animesynonym.store', $synonym->toArray()));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Synonym Store Endpoint shall require the text field.
      *
      * @return void

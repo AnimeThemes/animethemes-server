@@ -39,6 +39,29 @@ class ThemeUpdateTest extends TestCase
     }
 
     /**
+     * The Theme Update Endpoint shall forbid users without the update anime theme permission.
+     *
+     * @return void
+     */
+    public function testForbidden(): void
+    {
+        $theme = AnimeTheme::factory()->for(Anime::factory())->createOne();
+
+        $parameters = array_merge(
+            AnimeTheme::factory()->raw(),
+            [AnimeTheme::ATTRIBUTE_TYPE => ThemeType::getRandomInstance()->description],
+        );
+
+        $user = User::factory()->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->put(route('api.animetheme.update', ['animetheme' => $theme] + $parameters));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Theme Update Endpoint shall update a theme.
      *
      * @return void

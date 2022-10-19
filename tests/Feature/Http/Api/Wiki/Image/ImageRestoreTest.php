@@ -34,6 +34,26 @@ class ImageRestoreTest extends TestCase
     }
 
     /**
+     * The Image Restore Endpoint shall forbid users without the restore image permission.
+     *
+     * @return void
+     */
+    public function testForbidden(): void
+    {
+        $image = Image::factory()->createOne();
+
+        $image->delete();
+
+        $user = User::factory()->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->patch(route('api.image.restore', ['image' => $image]));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Image Restore Endpoint shall restore the image.
      *
      * @return void

@@ -6,6 +6,7 @@ namespace App\Policies\Document;
 
 use App\Models\Auth\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Laravel\Nova\Nova;
 
 /**
  * Class PagePolicy.
@@ -17,23 +18,29 @@ class PagePolicy
     /**
      * Determine whether the user can view any models.
      *
-     * @param  User  $user
+     * @param  User|null  $user
      * @return bool
      */
-    public function viewAny(User $user): bool
+    public function viewAny(?User $user): bool
     {
-        return $user->can('view page');
+        return Nova::whenServing(
+            fn (): bool => $user !== null && $user->can('view page'),
+            fn (): bool => true
+        );
     }
 
     /**
      * Determine whether the user can view the model.
      *
-     * @param  User  $user
+     * @param  User|null  $user
      * @return bool
      */
-    public function view(User $user): bool
+    public function view(?User $user): bool
     {
-        return $user->can('view page');
+        return Nova::whenServing(
+            fn (): bool => $user !== null && $user->can('view page'),
+            fn (): bool => true
+        );
     }
 
     /**

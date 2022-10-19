@@ -13,9 +13,10 @@ use App\Events\Wiki\Video\VideoDeleted;
 use App\Events\Wiki\Video\VideoRestored;
 use App\Events\Wiki\Video\VideoUpdated;
 use App\Models\BaseModel;
+use App\Models\List\Playlist\PlaylistTrack;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video\VideoScript;
-use App\Pivots\AnimeThemeEntryVideo;
+use App\Pivots\Wiki\AnimeThemeEntryVideo;
 use BenSampo\Enum\Enum;
 use CyrildeWit\EloquentViewable\Contracts\Viewable;
 use CyrildeWit\EloquentViewable\InteractsWithViews;
@@ -24,6 +25,7 @@ use Elastic\ScoutDriverPlus\Searchable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Collection;
 use Laravel\Nova\Actions\Actionable;
@@ -41,6 +43,7 @@ use Laravel\Nova\Actions\Actionable;
  * @property bool $nc
  * @property Enum $overlap
  * @property string $path
+ * @property Collection<int, PlaylistTrack> $playlisttracks
  * @property int|null $resolution
  * @property VideoScript|null $script
  * @property int $size
@@ -83,6 +86,7 @@ class Video extends BaseModel implements Streamable, Viewable
     final public const RELATION_AUDIO = 'audio';
     final public const RELATION_SCRIPT = 'videoscript';
     final public const RELATION_SONG = 'animethemeentries.animetheme.song';
+    final public const RELATION_TRACKS = 'playlisttracks';
 
     /**
      * The attributes that are mass assignable.
@@ -336,5 +340,15 @@ class Video extends BaseModel implements Streamable, Viewable
     public function videoscript(): HasOne
     {
         return $this->hasOne(VideoScript::class, VideoScript::ATTRIBUTE_VIDEO);
+    }
+
+    /**
+     * Get the tracks that use this video.
+     *
+     * @return HasMany
+     */
+    public function playlisttracks(): HasMany
+    {
+        return $this->hasMany(PlaylistTrack::class, PlaylistTrack::ATTRIBUTE_VIDEO);
     }
 }

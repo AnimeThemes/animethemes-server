@@ -6,8 +6,6 @@ namespace App\Http\Api\Query\Wiki\Image;
 
 use App\Http\Api\Field\Wiki\Image\ImageFileField;
 use App\Http\Api\Query\Base\EloquentWriteQuery;
-use App\Http\Api\Schema\EloquentSchema;
-use App\Http\Api\Schema\Wiki\ImageSchema;
 use App\Http\Resources\BaseResource;
 use App\Http\Resources\Wiki\Resource\ImageResource;
 use App\Models\Wiki\Image;
@@ -36,7 +34,7 @@ class ImageWriteQuery extends EloquentWriteQuery
             Arr::set($imageParameters, Image::ATTRIBUTE_PATH, $file->store('', 'images'));
         }
 
-        $model = $this->builder()->create($imageParameters);
+        $model = $this->createBuilder()->create($imageParameters);
 
         // Scout will load relations to refresh related search indices.
         $model->unsetRelations();
@@ -48,21 +46,11 @@ class ImageWriteQuery extends EloquentWriteQuery
     }
 
     /**
-     * Get the resource schema.
-     *
-     * @return EloquentSchema
-     */
-    public function schema(): EloquentSchema
-    {
-        return new ImageSchema();
-    }
-
-    /**
      * Get the query builder of the resource.
      *
      * @return Builder
      */
-    public function builder(): Builder
+    public function createBuilder(): Builder
     {
         return Image::query();
     }

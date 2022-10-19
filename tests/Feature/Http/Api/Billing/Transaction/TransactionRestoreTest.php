@@ -34,6 +34,26 @@ class TransactionRestoreTest extends TestCase
     }
 
     /**
+     * The Transaction Restore Endpoint shall forbid users without the restore transaction permission.
+     *
+     * @return void
+     */
+    public function testForbidden(): void
+    {
+        $transaction = Transaction::factory()->createOne();
+
+        $transaction->delete();
+
+        $user = User::factory()->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->patch(route('api.transaction.restore', ['transaction' => $transaction]));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Transaction Restore Endpoint shall restore the transaction.
      *
      * @return void

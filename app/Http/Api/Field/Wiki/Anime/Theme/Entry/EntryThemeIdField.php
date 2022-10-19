@@ -6,7 +6,6 @@ namespace App\Http\Api\Field\Wiki\Anime\Theme\Entry;
 
 use App\Contracts\Http\Api\Field\CreatableField;
 use App\Contracts\Http\Api\Field\SelectableField;
-use App\Contracts\Http\Api\Field\UpdatableField;
 use App\Http\Api\Criteria\Field\Criteria;
 use App\Http\Api\Field\Field;
 use App\Models\Wiki\Anime\AnimeTheme;
@@ -17,7 +16,7 @@ use Illuminate\Validation\Rule;
 /**
  * Class EntryThemeIdField.
  */
-class EntryThemeIdField extends Field implements CreatableField, SelectableField, UpdatableField
+class EntryThemeIdField extends Field implements CreatableField, SelectableField
 {
     /**
      * Create a new field instance.
@@ -52,21 +51,5 @@ class EntryThemeIdField extends Field implements CreatableField, SelectableField
     {
         // Needed to match theme relation.
         return true;
-    }
-
-    /**
-     * Set the update validation rules for the field.
-     *
-     * @param  Request  $request
-     * @return array
-     */
-    public function getUpdateRules(Request $request): array
-    {
-        return [
-            'sometimes',
-            'required',
-            'integer',
-            Rule::exists(AnimeTheme::TABLE, AnimeTheme::ATTRIBUTE_ID),
-        ];
     }
 }

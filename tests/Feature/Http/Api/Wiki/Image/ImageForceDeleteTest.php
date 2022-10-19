@@ -18,7 +18,7 @@ class ImageForceDeleteTest extends TestCase
     use WithoutEvents;
 
     /**
-     * The Image Force Destroy Endpoint shall be protected by sanctum.
+     * The Image Force Delete Endpoint shall be protected by sanctum.
      *
      * @return void
      */
@@ -32,7 +32,25 @@ class ImageForceDeleteTest extends TestCase
     }
 
     /**
-     * The Image Force Destroy Endpoint shall force delete the image.
+     * The Image Force Delete Endpoint shall forbid users without the force delete image permission.
+     *
+     * @return void
+     */
+    public function testForbidden(): void
+    {
+        $image = Image::factory()->createOne();
+
+        $user = User::factory()->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->delete(route('api.image.forceDelete', ['image' => $image]));
+
+        $response->assertForbidden();
+    }
+
+    /**
+     * The Image Force Delete Endpoint shall force delete the image.
      *
      * @return void
      */

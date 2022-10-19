@@ -6,7 +6,6 @@ namespace App\Http\Api\Field\Wiki\Anime\Synonym;
 
 use App\Contracts\Http\Api\Field\CreatableField;
 use App\Contracts\Http\Api\Field\SelectableField;
-use App\Contracts\Http\Api\Field\UpdatableField;
 use App\Http\Api\Criteria\Field\Criteria;
 use App\Http\Api\Field\Field;
 use App\Models\Wiki\Anime;
@@ -17,7 +16,7 @@ use Illuminate\Validation\Rule;
 /**
  * Class SynonymAnimeIdField.
  */
-class SynonymAnimeIdField extends Field implements CreatableField, SelectableField, UpdatableField
+class SynonymAnimeIdField extends Field implements CreatableField, SelectableField
 {
     /**
      * Create a new field instance.
@@ -52,21 +51,5 @@ class SynonymAnimeIdField extends Field implements CreatableField, SelectableFie
     {
         // Needed to match anime relation.
         return true;
-    }
-
-    /**
-     * Set the update validation rules for the field.
-     *
-     * @param  Request  $request
-     * @return array
-     */
-    public function getUpdateRules(Request $request): array
-    {
-        return [
-            'sometimes',
-            'required',
-            'integer',
-            Rule::exists(Anime::TABLE, Anime::ATTRIBUTE_ID),
-        ];
     }
 }

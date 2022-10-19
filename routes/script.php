@@ -14,4 +14,4 @@ $isScriptDownloadingAllowed = Str::of('is_feature_enabled:')
 
 Route::get('/{videoscript}', [ScriptController::class, 'show'])
     ->name('videoscript.show')
-    ->middleware([$isScriptDownloadingAllowed, 'without_trashed:videoscript']);
+    ->middleware($isScriptDownloadingAllowed);

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Api\Field\Wiki\Artist;
 
 use App\Http\Api\Field\Field;
-use App\Pivots\ArtistResource;
+use App\Pivots\Wiki\ArtistResource;
 
 /**
  * Class ArtistAsField.

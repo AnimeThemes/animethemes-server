@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Api\Field\Wiki\ExternalResource;
 
 use App\Http\Api\Field\Field;
-use App\Pivots\AnimeResource;
+use App\Pivots\Wiki\AnimeResource;
 
 /**
  * Class ExternalResourceAsField.

@@ -18,7 +18,7 @@ class BalanceForceDeleteTest extends TestCase
     use WithoutEvents;
 
     /**
-     * The Balance Force Destroy Endpoint shall be protected by sanctum.
+     * The Balance Force Delete Endpoint shall be protected by sanctum.
      *
      * @return void
      */
@@ -32,7 +32,25 @@ class BalanceForceDeleteTest extends TestCase
     }
 
     /**
-     * The Balance Force Destroy Endpoint shall force delete the balance.
+     * The Balance Force Delete Endpoint shall forbid users without the force delete balance permission.
+     *
+     * @return void
+     */
+    public function testForbidden(): void
+    {
+        $balance = Balance::factory()->createOne();
+
+        $user = User::factory()->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->delete(route('api.balance.forceDelete', ['balance' => $balance]));
+
+        $response->assertForbidden();
+    }
+
+    /**
+     * The Balance Force Delete Endpoint shall force delete the balance.
      *
      * @return void
      */

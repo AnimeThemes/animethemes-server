@@ -32,6 +32,24 @@ class AudioStoreTest extends TestCase
     }
 
     /**
+     * The Audio Store Endpoint shall forbid users without the create audio permission.
+     *
+     * @return void
+     */
+    public function testForbidden(): void
+    {
+        $audio = Audio::factory()->makeOne();
+
+        $user = User::factory()->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->post(route('api.audio.store', $audio->toArray()));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Audio Store Endpoint shall require basename, filename, mimetype, path & size fields.
      *
      * @return void

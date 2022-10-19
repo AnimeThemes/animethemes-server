@@ -18,7 +18,7 @@ class DumpForceDeleteTest extends TestCase
     use WithoutEvents;
 
     /**
-     * The Dump Force Destroy Endpoint shall be protected by sanctum.
+     * The Dump Force Delete Endpoint shall be protected by sanctum.
      *
      * @return void
      */
@@ -32,7 +32,25 @@ class DumpForceDeleteTest extends TestCase
     }
 
     /**
-     * The Dump Force Destroy Endpoint shall force delete the dump.
+     * The Dump Force Delete Endpoint shall forbid users without the force delete dump permission.
+     *
+     * @return void
+     */
+    public function testForbidden(): void
+    {
+        $dump = Dump::factory()->createOne();
+
+        $user = User::factory()->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->delete(route('api.dump.forceDelete', ['dump' => $dump]));
+
+        $response->assertForbidden();
+    }
+
+    /**
+     * The Dump Force Delete Endpoint shall force delete the dump.
      *
      * @return void
      */

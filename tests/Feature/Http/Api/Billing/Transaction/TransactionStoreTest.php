@@ -33,6 +33,24 @@ class TransactionStoreTest extends TestCase
     }
 
     /**
+     * The Transaction Store Endpoint shall forbid users without the create transaction permission.
+     *
+     * @return void
+     */
+    public function testForbidden(): void
+    {
+        $transaction = Transaction::factory()->makeOne();
+
+        $user = User::factory()->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->post(route('api.transaction.store', $transaction->toArray()));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Transaction Store Endpoint shall require amount, date, description & service fields.
      *
      * @return void

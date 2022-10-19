@@ -34,6 +34,26 @@ class SeriesUpdateTest extends TestCase
     }
 
     /**
+     * The Series Update Endpoint shall forbid users without the update series permission.
+     *
+     * @return void
+     */
+    public function testForbidden(): void
+    {
+        $series = Series::factory()->createOne();
+
+        $parameters = Series::factory()->raw();
+
+        $user = User::factory()->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->put(route('api.series.update', ['series' => $series] + $parameters));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Series Update Endpoint shall update a series.
      *
      * @return void

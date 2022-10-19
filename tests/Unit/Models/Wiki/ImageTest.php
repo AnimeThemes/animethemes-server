@@ -5,13 +5,14 @@ declare(strict_types=1);
 namespace Tests\Unit\Models\Wiki;
 
 use App\Enums\Models\Wiki\ImageFacet;
+use App\Models\List\Playlist;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Image;
 use App\Models\Wiki\Studio;
-use App\Pivots\AnimeImage;
-use App\Pivots\ArtistImage;
-use App\Pivots\StudioImage;
+use App\Pivots\Wiki\AnimeImage;
+use App\Pivots\Wiki\ArtistImage;
+use App\Pivots\Wiki\StudioImage;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Testing\File;
@@ -107,6 +108,24 @@ class ImageTest extends TestCase
         static::assertEquals($studioCount, $image->studios()->count());
         static::assertInstanceOf(Studio::class, $image->studios()->first());
         static::assertEquals(StudioImage::class, $image->studios()->getPivotClass());
+    }
+
+    /**
+     * Image shall have a many-to-many relationship with the type Playlist.
+     *
+     * @return void
+     */
+    public function testPlaylists(): void
+    {
+        $playlistCount = $this->faker->randomDigitNotNull();
+
+        $image = Image::factory()
+            ->has(Playlist::factory()->count($playlistCount))
+            ->createOne();
+
+        static::assertInstanceOf(BelongsToMany::class, $image->playlists());
+        static::assertEquals($playlistCount, $image->playlists()->count());
+        static::assertInstanceOf(Playlist::class, $image->playlists()->first());
     }
 
     /**

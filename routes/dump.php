@@ -14,4 +14,4 @@ $isDumpDownloadingAllowed = Str::of('is_feature_enabled:')
 
 Route::get('/{dump}', [DumpController::class, 'show'])
     ->name('dump.show')
-    ->middleware([$isDumpDownloadingAllowed, 'without_trashed:dump']);
+    ->middleware($isDumpDownloadingAllowed);

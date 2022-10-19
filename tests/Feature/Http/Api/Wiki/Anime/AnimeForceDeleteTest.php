@@ -18,11 +18,11 @@ class AnimeForceDeleteTest extends TestCase
     use WithoutEvents;
 
     /**
-     * The Anime Force Destroy Endpoint shall be protected by sanctum.
+     * The Anime Force Delete Endpoint shall require authorization.
      *
      * @return void
      */
-    public function testProtected(): void
+    public function testAuthorized(): void
     {
         $anime = Anime::factory()->createOne();
 
@@ -32,7 +32,25 @@ class AnimeForceDeleteTest extends TestCase
     }
 
     /**
-     * The Anime Force Destroy Endpoint shall force delete the anime.
+     * The Anime Force Delete Endpoint shall forbid users without the force delete anime permission.
+     *
+     * @return void
+     */
+    public function testForbidden(): void
+    {
+        $anime = Anime::factory()->createOne();
+
+        $user = User::factory()->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->delete(route('api.anime.forceDelete', ['anime' => $anime]));
+
+        $response->assertForbidden();
+    }
+
+    /**
+     * The Anime Force Delete Endpoint shall force delete the anime.
      *
      * @return void
      */

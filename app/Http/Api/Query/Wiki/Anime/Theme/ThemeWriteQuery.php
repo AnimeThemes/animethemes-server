@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace App\Http\Api\Query\Wiki\Anime\Theme;
 
 use App\Http\Api\Query\Base\EloquentWriteQuery;
-use App\Http\Api\Schema\EloquentSchema;
-use App\Http\Api\Schema\Wiki\Anime\ThemeSchema;
 use App\Http\Resources\BaseResource;
 use App\Http\Resources\Wiki\Anime\Resource\ThemeResource;
 use App\Models\Wiki\Anime\AnimeTheme;
@@ -18,21 +16,11 @@ use Illuminate\Database\Eloquent\Builder;
 class ThemeWriteQuery extends EloquentWriteQuery
 {
     /**
-     * Get the resource schema.
-     *
-     * @return EloquentSchema
-     */
-    public function schema(): EloquentSchema
-    {
-        return new ThemeSchema();
-    }
-
-    /**
      * Get the query builder of the resource.
      *
      * @return Builder
      */
-    public function builder(): Builder
+    public function createBuilder(): Builder
     {
         return AnimeTheme::query();
     }

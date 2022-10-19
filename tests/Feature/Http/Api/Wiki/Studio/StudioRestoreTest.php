@@ -34,6 +34,26 @@ class StudioRestoreTest extends TestCase
     }
 
     /**
+     * The Studio Restore Endpoint shall forbid users without the restore studio permission.
+     *
+     * @return void
+     */
+    public function testForbidden(): void
+    {
+        $studio = Studio::factory()->createOne();
+
+        $studio->delete();
+
+        $user = User::factory()->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->patch(route('api.studio.restore', ['studio' => $studio]));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Studio Restore Endpoint shall restore the studio.
      *
      * @return void

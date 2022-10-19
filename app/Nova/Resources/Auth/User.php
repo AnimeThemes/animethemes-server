@@ -10,11 +10,13 @@ use App\Nova\Actions\Models\Auth\User\GiveRoleAction;
 use App\Nova\Actions\Models\Auth\User\RevokePermissionAction;
 use App\Nova\Actions\Models\Auth\User\RevokeRoleAction;
 use App\Nova\Resources\BaseResource;
+use App\Nova\Resources\List\Playlist;
 use Exception;
 use Illuminate\Validation\Rule;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\Email;
 use Laravel\Nova\Fields\Gravatar;
+use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -157,6 +159,8 @@ class User extends BaseResource
 
             BelongsToMany::make(__('nova.resources.label.permissions'), UserModel::RELATION_PERMISSIONS, Permission::class)
                 ->filterable(),
+
+            HasMany::make(__('nova.resources.label.playlists'), UserModel::RELATION_PLAYLISTS, Playlist::class),
 
             Panel::make(__('nova.fields.base.timestamps'), $this->timestamps())
                 ->collapsable(),

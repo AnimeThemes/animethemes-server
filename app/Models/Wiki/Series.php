@@ -9,7 +9,7 @@ use App\Events\Wiki\Series\SeriesDeleted;
 use App\Events\Wiki\Series\SeriesRestored;
 use App\Events\Wiki\Series\SeriesUpdated;
 use App\Models\BaseModel;
-use App\Pivots\AnimeSeries;
+use App\Pivots\Wiki\AnimeSeries;
 use Database\Factories\Wiki\SeriesFactory;
 use Elastic\ScoutDriverPlus\Searchable;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;

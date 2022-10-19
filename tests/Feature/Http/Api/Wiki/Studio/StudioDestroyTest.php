@@ -32,6 +32,24 @@ class StudioDestroyTest extends TestCase
     }
 
     /**
+     * The Studio Destroy Endpoint shall forbid users without the delete studio permission.
+     *
+     * @return void
+     */
+    public function testForbidden(): void
+    {
+        $studio = Studio::factory()->createOne();
+
+        $user = User::factory()->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->delete(route('api.studio.destroy', ['studio' => $studio]));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Studio Destroy Endpoint shall delete the studio.
      *
      * @return void

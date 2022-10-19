@@ -34,6 +34,26 @@ class DumpRestoreTest extends TestCase
     }
 
     /**
+     * The Dump Restore Endpoint shall forbid users without the restore dump permission.
+     *
+     * @return void
+     */
+    public function testForbidden(): void
+    {
+        $dump = Dump::factory()->createOne();
+
+        $dump->delete();
+
+        $user = User::factory()->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->patch(route('api.dump.restore', ['dump' => $dump]));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Dump Restore Endpoint shall restore the dump.
      *
      * @return void

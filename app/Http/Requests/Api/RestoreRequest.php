@@ -7,18 +7,8 @@ namespace App\Http\Requests\Api;
 /**
  * Class RestoreRequest.
  */
-abstract class RestoreRequest extends WriteRequest
+abstract class RestoreRequest extends BaseRequest
 {
-    /**
-     * The policy ability to authorize.
-     *
-     * @return string
-     */
-    protected function ability(): string
-    {
-        return 'restore';
-    }
-
     /**
      * Get the validation rules that apply to the request.
      *

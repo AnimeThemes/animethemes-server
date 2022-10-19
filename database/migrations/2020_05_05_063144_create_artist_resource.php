@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\ExternalResource;
-use App\Pivots\ArtistResource;
+use App\Pivots\Wiki\ArtistResource;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;

@@ -32,6 +32,24 @@ class DumpDestroyTest extends TestCase
     }
 
     /**
+     * The Dump Destroy Endpoint shall forbid users without the delete dump permission.
+     *
+     * @return void
+     */
+    public function testForbidden(): void
+    {
+        $dump = Dump::factory()->createOne();
+
+        $user = User::factory()->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->delete(route('api.dump.destroy', ['dump' => $dump]));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Dump Destroy Endpoint shall delete the dump.
      *
      * @return void

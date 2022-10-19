@@ -34,6 +34,26 @@ class AnnouncementUpdateTest extends TestCase
     }
 
     /**
+     * The Announcement Update Endpoint shall forbid users without the update announcement permission.
+     *
+     * @return void
+     */
+    public function testForbidden(): void
+    {
+        $announcement = Announcement::factory()->createOne();
+
+        $parameters = Announcement::factory()->raw();
+
+        $user = User::factory()->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->put(route('api.announcement.update', ['announcement' => $announcement] + $parameters));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Announcement Update Endpoint shall update an announcement.
      *
      * @return void

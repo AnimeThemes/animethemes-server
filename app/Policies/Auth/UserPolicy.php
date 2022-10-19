@@ -150,4 +150,15 @@ class UserPolicy
     {
         return false;
     }
+
+    /**
+     * Determine whether the user can add a playlist to the user.
+     *
+     * @param  User  $user
+     * @return bool
+     */
+    public function addPlaylist(User $user): bool
+    {
+        return $user->hasRole('Admin');
+    }
 }

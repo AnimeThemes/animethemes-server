@@ -32,6 +32,24 @@ class AnnouncementStoreTest extends TestCase
     }
 
     /**
+     * The Announcement Store Endpoint shall forbid users without the create announcement permission.
+     *
+     * @return void
+     */
+    public function testForbidden(): void
+    {
+        $announcement = Announcement::factory()->makeOne();
+
+        $user = User::factory()->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->post(route('api.announcement.store', $announcement->toArray()));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Announcement Store Endpoint shall require the content field.
      *
      * @return void

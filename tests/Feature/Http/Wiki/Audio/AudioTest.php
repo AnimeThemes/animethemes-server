@@ -39,11 +39,11 @@ class AudioTest extends TestCase
     }
 
     /**
-     * If the audio is soft-deleted, the user shall receive a forbidden exception.
+     * If the audio is soft-deleted, the user shall receive a not found exception.
      *
      * @return void
      */
-    public function testSoftDeleteAudioStreamingForbidden(): void
+    public function testCannotStreamSoftDeletedAudio(): void
     {
         Config::set(FlagConstants::ALLOW_AUDIO_STREAMS_FLAG_QUALIFIED, true);
 
@@ -53,7 +53,7 @@ class AudioTest extends TestCase
 
         $response = $this->get(route('audio.show', ['audio' => $audio]));
 
-        $response->assertForbidden();
+        $response->assertNotFound();
     }
 
     /**

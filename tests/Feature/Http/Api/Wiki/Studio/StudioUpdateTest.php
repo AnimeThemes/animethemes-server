@@ -34,6 +34,26 @@ class StudioUpdateTest extends TestCase
     }
 
     /**
+     * The Studio Update Endpoint shall forbid users without the update studio permission.
+     *
+     * @return void
+     */
+    public function testForbidden(): void
+    {
+        $studio = Studio::factory()->createOne();
+
+        $parameters = Studio::factory()->raw();
+
+        $user = User::factory()->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->put(route('api.studio.update', ['studio' => $studio] + $parameters));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Studio Update Endpoint shall update a studio.
      *
      * @return void

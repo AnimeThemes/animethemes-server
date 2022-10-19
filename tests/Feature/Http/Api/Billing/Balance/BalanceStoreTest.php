@@ -34,6 +34,24 @@ class BalanceStoreTest extends TestCase
     }
 
     /**
+     * The Balance Store Endpoint shall forbid users without the create balance permission.
+     *
+     * @return void
+     */
+    public function testForbidden(): void
+    {
+        $balance = Balance::factory()->makeOne();
+
+        $user = User::factory()->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->post(route('api.balance.store', $balance->toArray()));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Balance Store Endpoint shall require date, service, frequency, usage & balance fields.
      *
      * @return void

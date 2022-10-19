@@ -32,6 +32,24 @@ class SongDestroyTest extends TestCase
     }
 
     /**
+     * The Song Destroy Endpoint shall forbid users without the delete song permission.
+     *
+     * @return void
+     */
+    public function testForbidden(): void
+    {
+        $song = Song::factory()->createOne();
+
+        $user = User::factory()->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->delete(route('api.song.destroy', ['song' => $song]));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Song Destroy Endpoint shall delete the song.
      *
      * @return void

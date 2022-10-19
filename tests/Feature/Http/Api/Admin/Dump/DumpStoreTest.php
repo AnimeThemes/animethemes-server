@@ -32,6 +32,24 @@ class DumpStoreTest extends TestCase
     }
 
     /**
+     * The Dump Store Endpoint shall forbid users without the create dump permission.
+     *
+     * @return void
+     */
+    public function testForbidden(): void
+    {
+        $dump = Dump::factory()->makeOne();
+
+        $user = User::factory()->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->post(route('api.dump.store', $dump->toArray()));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Dump Store Endpoint shall require the path field.
      *
      * @return void

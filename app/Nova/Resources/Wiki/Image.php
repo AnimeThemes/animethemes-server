@@ -8,6 +8,7 @@ use App\Enums\Models\Wiki\ImageFacet;
 use App\Models\Wiki\Image as ImageModel;
 use App\Nova\Lenses\Image\ImageUnlinkedLens;
 use App\Nova\Resources\BaseResource;
+use App\Nova\Resources\List\Playlist;
 use App\Pivots\BasePivot;
 use BenSampo\Enum\Enum;
 use BenSampo\Enum\Rules\EnumValue;
@@ -172,6 +173,19 @@ class Image extends BaseResource
                 ]),
 
             BelongsToMany::make(__('nova.resources.label.studios'), ImageModel::RELATION_STUDIOS, Studio::class)
+                ->searchable()
+                ->filterable()
+                ->withSubtitles()
+                ->showCreateRelationButton()
+                ->fields(fn () => [
+                    DateTime::make(__('nova.fields.base.created_at'), BasePivot::ATTRIBUTE_CREATED_AT)
+                        ->hideWhenCreating(),
+
+                    DateTime::make(__('nova.fields.base.updated_at'), BasePivot::ATTRIBUTE_UPDATED_AT)
+                        ->hideWhenCreating(),
+                ]),
+
+            BelongsToMany::make(__('nova.resources.label.playlists'), ImageModel::RELATION_PLAYLISTS, Playlist::class)
                 ->searchable()
                 ->filterable()
                 ->withSubtitles()

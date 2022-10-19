@@ -6,6 +6,7 @@ namespace App\Policies\Wiki;
 
 use App\Models\Auth\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Laravel\Nova\Nova;
 
 /**
  * Class VideoPolicy.
@@ -17,23 +18,29 @@ class VideoPolicy
     /**
      * Determine whether the user can view any models.
      *
-     * @param  User  $user
+     * @param  User|null  $user
      * @return bool
      */
-    public function viewAny(User $user): bool
+    public function viewAny(?User $user): bool
     {
-        return $user->can('view video');
+        return Nova::whenServing(
+            fn (): bool => $user !== null && $user->can('view video'),
+            fn (): bool => true
+        );
     }
 
     /**
      * Determine whether the user can view the model.
      *
-     * @param  User  $user
+     * @param  User|null  $user
      * @return bool
      */
-    public function view(User $user): bool
+    public function view(?User $user): bool
     {
-        return $user->can('view video');
+        return Nova::whenServing(
+            fn (): bool => $user !== null && $user->can('view video'),
+            fn (): bool => true
+        );
     }
 
     /**
@@ -122,5 +129,16 @@ class VideoPolicy
     public function detachAnimeThemeEntry(User $user): bool
     {
         return $user->can('update video');
+    }
+
+    /**
+     * Determine whether the user can add a track to the video.
+     *
+     * @param  User  $user
+     * @return bool
+     */
+    public function addTrack(User $user): bool
+    {
+        return $user->hasRole('Admin');
     }
 }

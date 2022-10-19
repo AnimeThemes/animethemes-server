@@ -14,7 +14,7 @@ use App\Http\Resources\Wiki\Collection\SeriesCollection;
 use App\Http\Resources\Wiki\Collection\StudioCollection;
 use App\Models\BaseModel;
 use App\Models\Wiki\Anime;
-use App\Pivots\AnimeResource as AnimeResourcePivot;
+use App\Pivots\Wiki\AnimeResource as AnimeResourcePivot;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\MissingValue;
 

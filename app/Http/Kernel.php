@@ -10,7 +10,6 @@ use App\Http\Middleware\Auth\RedirectIfAuthenticated;
 use App\Http\Middleware\IsFeatureEnabled;
 use App\Http\Middleware\LogRequest;
 use App\Http\Middleware\Models\RecordView;
-use App\Http\Middleware\Models\WithoutTrashed;
 use App\Http\Middleware\ThrottleRequestsWithService;
 use App\Http\Middleware\TrimStrings;
 use App\Http\Middleware\TrustHosts;
@@ -104,6 +103,5 @@ class Kernel extends HttpKernel
         'signed' => ValidateSignature::class,
         'throttle' => ThrottleRequestsWithService::class,
         'verified' => EnsureEmailIsVerified::class,
-        'without_trashed' => WithoutTrashed::class,
     ];
 }

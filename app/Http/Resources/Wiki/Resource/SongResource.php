@@ -10,7 +10,7 @@ use App\Http\Resources\Wiki\Anime\Collection\ThemeCollection;
 use App\Http\Resources\Wiki\Collection\ArtistCollection;
 use App\Models\BaseModel;
 use App\Models\Wiki\Song;
-use App\Pivots\ArtistSong;
+use App\Pivots\Wiki\ArtistSong;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\MissingValue;
 

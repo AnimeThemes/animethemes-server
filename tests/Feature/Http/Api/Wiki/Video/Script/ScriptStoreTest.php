@@ -32,6 +32,24 @@ class ScriptStoreTest extends TestCase
     }
 
     /**
+     * The Script Store Endpoint shall forbid users without the create video script permission.
+     *
+     * @return void
+     */
+    public function testForbidden(): void
+    {
+        $script = VideoScript::factory()->makeOne();
+
+        $user = User::factory()->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->post(route('api.videoscript.store', $script->toArray()));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Script Store Endpoint shall require the path field.
      *
      * @return void

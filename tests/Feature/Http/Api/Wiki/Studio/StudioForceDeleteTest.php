@@ -18,7 +18,7 @@ class StudioForceDeleteTest extends TestCase
     use WithoutEvents;
 
     /**
-     * The Studio Force Destroy Endpoint shall be protected by sanctum.
+     * The Studio Force Delete Endpoint shall be protected by sanctum.
      *
      * @return void
      */
@@ -32,7 +32,25 @@ class StudioForceDeleteTest extends TestCase
     }
 
     /**
-     * The Studio Force Destroy Endpoint shall force delete the studio.
+     * The Studio Force Delete Endpoint shall forbid users without the force delete studio permission.
+     *
+     * @return void
+     */
+    public function testForbidden(): void
+    {
+        $studio = Studio::factory()->createOne();
+
+        $user = User::factory()->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->delete(route('api.studio.forceDelete', ['studio' => $studio]));
+
+        $response->assertForbidden();
+    }
+
+    /**
+     * The Studio Force Delete Endpoint shall force delete the studio.
      *
      * @return void
      */

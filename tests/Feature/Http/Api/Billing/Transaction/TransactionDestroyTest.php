@@ -32,6 +32,24 @@ class TransactionDestroyTest extends TestCase
     }
 
     /**
+     * The Transaction Destroy Endpoint shall forbid users without the delete transaction permission.
+     *
+     * @return void
+     */
+    public function testForbidden(): void
+    {
+        $transaction = Transaction::factory()->createOne();
+
+        $user = User::factory()->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->delete(route('api.transaction.destroy', ['transaction' => $transaction]));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Transaction Destroy Endpoint shall delete the transaction.
      *
      * @return void

@@ -42,6 +42,32 @@ class BalanceUpdateTest extends TestCase
     }
 
     /**
+     * The Balance Update Endpoint shall forbid users without the update balance permission.
+     *
+     * @return void
+     */
+    public function testForbidden(): void
+    {
+        $balance = Balance::factory()->createOne();
+
+        $parameters = array_merge(
+            Balance::factory()->raw(),
+            [
+                Balance::ATTRIBUTE_FREQUENCY => BalanceFrequency::getRandomInstance()->description,
+                Balance::ATTRIBUTE_SERVICE => Service::getRandomInstance()->description,
+            ]
+        );
+
+        $user = User::factory()->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->put(route('api.balance.update', ['balance' => $balance] + $parameters));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Balance Update Endpoint shall update a balance.
      *
      * @return void

@@ -34,7 +34,7 @@ class ExternalResourceReadQuery extends EloquentReadQuery
      *
      * @return Builder
      */
-    public function builder(): Builder
+    public function indexBuilder(): Builder
     {
         return ExternalResource::query();
     }

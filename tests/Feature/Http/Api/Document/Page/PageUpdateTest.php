@@ -34,6 +34,26 @@ class PageUpdateTest extends TestCase
     }
 
     /**
+     * The Page Update Endpoint shall forbid users without the update page permission.
+     *
+     * @return void
+     */
+    public function testForbidden(): void
+    {
+        $page = Page::factory()->createOne();
+
+        $parameters = Page::factory()->raw();
+
+        $user = User::factory()->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->put(route('api.page.update', ['page' => $page] + $parameters));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Page Update Endpoint shall update an page.
      *
      * @return void

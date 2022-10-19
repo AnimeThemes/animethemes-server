@@ -26,14 +26,4 @@ abstract class EloquentStoreRequest extends StoreRequest
      * @return EloquentWriteQuery
      */
     abstract public function getQuery(): EloquentWriteQuery;
-
-    /**
-     * The arguments for the policy ability to authorize.
-     *
-     * @return string
-     */
-    protected function arguments(): string
-    {
-        return $this->schema()->model();
-    }
 }

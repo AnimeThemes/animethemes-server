@@ -7,18 +7,8 @@ namespace App\Http\Requests\Api;
 /**
  * Class ForceDeleteRequest.
  */
-abstract class ForceDeleteRequest extends WriteRequest
+abstract class ForceDeleteRequest extends BaseRequest
 {
-    /**
-     * The policy ability to authorize.
-     *
-     * @return string
-     */
-    protected function ability(): string
-    {
-        return 'forceDelete';
-    }
-
     /**
      * Get the validation rules that apply to the request.
      *

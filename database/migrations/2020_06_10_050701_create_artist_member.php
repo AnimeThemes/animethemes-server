@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 use App\Models\Wiki\Artist;
-use App\Pivots\ArtistMember;
+use App\Pivots\Wiki\ArtistMember;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;

@@ -10,7 +10,7 @@ use App\Enums\Actions\ActionStatus;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Studio;
-use App\Pivots\StudioResource;
+use App\Pivots\Wiki\StudioResource;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;

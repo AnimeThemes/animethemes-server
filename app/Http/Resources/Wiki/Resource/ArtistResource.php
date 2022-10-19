@@ -12,9 +12,9 @@ use App\Http\Resources\Wiki\Collection\ImageCollection;
 use App\Http\Resources\Wiki\Collection\SongCollection;
 use App\Models\BaseModel;
 use App\Models\Wiki\Artist;
-use App\Pivots\ArtistMember;
-use App\Pivots\ArtistResource as ArtistResourcePivot;
-use App\Pivots\ArtistSong;
+use App\Pivots\Wiki\ArtistMember;
+use App\Pivots\Wiki\ArtistResource as ArtistResourcePivot;
+use App\Pivots\Wiki\ArtistSong;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\MissingValue;
 

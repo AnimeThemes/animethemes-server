@@ -11,9 +11,11 @@ use App\Events\Wiki\Image\ImageDeleting;
 use App\Events\Wiki\Image\ImageRestored;
 use App\Events\Wiki\Image\ImageUpdated;
 use App\Models\BaseModel;
-use App\Pivots\AnimeImage;
-use App\Pivots\ArtistImage;
-use App\Pivots\StudioImage;
+use App\Models\List\Playlist;
+use App\Pivots\List\PlaylistImage;
+use App\Pivots\Wiki\AnimeImage;
+use App\Pivots\Wiki\ArtistImage;
+use App\Pivots\Wiki\StudioImage;
 use BenSampo\Enum\Enum;
 use Database\Factories\Wiki\ImageFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -29,6 +31,7 @@ use Laravel\Nova\Actions\Actionable;
  * @property int $image_id
  * @property string $mimetype
  * @property string $path
+ * @property Collection<int, Playlist> $playlists
  * @property int $size
  * @property Collection<int, Studio> $studios
  *
@@ -46,6 +49,7 @@ class Image extends BaseModel
 
     final public const RELATION_ANIME = 'anime';
     final public const RELATION_ARTISTS = 'artists';
+    final public const RELATION_PLAYLISTS = 'playlists';
     final public const RELATION_STUDIOS = 'studios';
 
     /**
@@ -139,6 +143,18 @@ class Image extends BaseModel
     {
         return $this->belongsToMany(Studio::class, StudioImage::TABLE, Image::ATTRIBUTE_ID, Studio::ATTRIBUTE_ID)
             ->using(StudioImage::class)
+            ->withTimestamps();
+    }
+
+    /**
+     * Get the playlists that use this image.
+     *
+     * @return BelongsToMany
+     */
+    public function playlists(): BelongsToMany
+    {
+        return $this->belongsToMany(Playlist::class, PlaylistImage::TABLE, Image::ATTRIBUTE_ID, Playlist::ATTRIBUTE_ID)
+            ->using(PlaylistImage::class)
             ->withTimestamps();
     }
 }

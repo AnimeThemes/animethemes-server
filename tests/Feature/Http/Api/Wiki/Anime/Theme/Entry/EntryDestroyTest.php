@@ -36,6 +36,26 @@ class EntryDestroyTest extends TestCase
     }
 
     /**
+     * The Entry Destroy Endpoint shall forbid users without the delete anime theme entry permission.
+     *
+     * @return void
+     */
+    public function testForbidden(): void
+    {
+        $entry = AnimeThemeEntry::factory()
+            ->for(AnimeTheme::factory()->for(Anime::factory()))
+            ->createOne();
+
+        $user = User::factory()->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->delete(route('api.animethemeentry.destroy', ['animethemeentry' => $entry]));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Entry Destroy Endpoint shall delete the entry.
      *
      * @return void

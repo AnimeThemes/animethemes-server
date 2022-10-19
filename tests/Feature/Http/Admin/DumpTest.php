@@ -41,11 +41,11 @@ class DumpTest extends TestCase
     }
 
     /**
-     * If the dump is soft-deleted, the user shall receive a forbidden exception.
+     * If the dump is soft-deleted, the user shall receive a not found exception.
      *
      * @return void
      */
-    public function testSoftDeleteDumpDownloadingForbidden(): void
+    public function testCannotDownloadSoftDeletedDump(): void
     {
         Config::set(FlagConstants::ALLOW_DUMP_DOWNLOADING_FLAG_QUALIFIED, true);
 
@@ -55,7 +55,7 @@ class DumpTest extends TestCase
 
         $response = $this->get(route('dump.show', ['dump' => $dump]));
 
-        $response->assertForbidden();
+        $response->assertNotFound();
     }
 
     /**

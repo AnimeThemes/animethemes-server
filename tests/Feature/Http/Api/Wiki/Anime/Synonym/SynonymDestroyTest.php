@@ -33,6 +33,24 @@ class SynonymDestroyTest extends TestCase
     }
 
     /**
+     * The Synonym Destroy Endpoint shall forbid users without the delete anime synonym permission.
+     *
+     * @return void
+     */
+    public function testForbidden(): void
+    {
+        $synonym = AnimeSynonym::factory()->for(Anime::factory())->createOne();
+
+        $user = User::factory()->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->delete(route('api.animesynonym.destroy', ['animesynonym' => $synonym]));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Synonym Destroy Endpoint shall delete the synonym.
      *
      * @return void

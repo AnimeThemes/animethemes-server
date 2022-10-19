@@ -32,6 +32,24 @@ class ImageDestroyTest extends TestCase
     }
 
     /**
+     * The Image Destroy Endpoint shall forbid users without the delete image permission.
+     *
+     * @return void
+     */
+    public function testForbidden(): void
+    {
+        $image = Image::factory()->createOne();
+
+        $user = User::factory()->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->delete(route('api.image.destroy', ['image' => $image]));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Image Destroy Endpoint shall delete the image.
      *
      * @return void

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Api\Field\Wiki\Studio;
 
 use App\Http\Api\Field\Field;
-use App\Pivots\StudioResource;
+use App\Pivots\Wiki\StudioResource;
 
 /**
  * Class StudioAsField.

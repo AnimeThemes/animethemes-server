@@ -32,6 +32,24 @@ class AudioDestroyTest extends TestCase
     }
 
     /**
+     * The Audio Destroy Endpoint shall forbid users without the delete audio permission.
+     *
+     * @return void
+     */
+    public function testForbidden(): void
+    {
+        $audio = Audio::factory()->createOne();
+
+        $user = User::factory()->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->delete(route('api.audio.destroy', ['audio' => $audio]));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Audio Destroy Endpoint shall delete the audio.
      *
      * @return void

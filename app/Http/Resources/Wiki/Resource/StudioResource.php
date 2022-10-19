@@ -11,7 +11,7 @@ use App\Http\Resources\Wiki\Collection\ExternalResourceCollection;
 use App\Http\Resources\Wiki\Collection\ImageCollection;
 use App\Models\BaseModel;
 use App\Models\Wiki\Studio;
-use App\Pivots\StudioResource as StudioResourcePivot;
+use App\Pivots\Wiki\StudioResource as StudioResourcePivot;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\MissingValue;
 

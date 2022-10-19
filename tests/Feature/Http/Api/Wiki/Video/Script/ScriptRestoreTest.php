@@ -34,6 +34,26 @@ class ScriptRestoreTest extends TestCase
     }
 
     /**
+     * The Script Restore Endpoint shall forbid users without the restore video script permission.
+     *
+     * @return void
+     */
+    public function testForbidden(): void
+    {
+        $script = VideoScript::factory()->createOne();
+
+        $script->delete();
+
+        $user = User::factory()->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->patch(route('api.videoscript.restore', ['videoscript' => $script]));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Script Restore Endpoint shall restore the script.
      *
      * @return void

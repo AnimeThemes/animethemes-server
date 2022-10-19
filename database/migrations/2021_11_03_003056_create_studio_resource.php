@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Studio;
-use App\Pivots\StudioResource;
+use App\Pivots\Wiki\StudioResource;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
