@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace App\Nova\Resources\List\Playlist;
 
 use App\Models\List\Playlist\PlaylistTrack;
-use App\Models\Wiki\Video;
+use App\Models\Wiki\Video as VideoModel;
 use App\Nova\Resources\BaseResource;
 use App\Nova\Resources\List\Playlist;
+use App\Nova\Resources\Wiki\Video;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Laravel\Nova\Fields\BelongsTo;
@@ -44,7 +45,10 @@ class Track extends BaseResource
     {
         $track = $this->model();
         if ($track instanceof PlaylistTrack) {
-            return $track->video->getName();
+            $video = $track->video;
+            if ($video instanceof VideoModel) {
+                return $video->getName();
+            }
         }
 
         return parent::title();
@@ -113,7 +117,7 @@ class Track extends BaseResource
     public static function searchableColumns(): array
     {
         return [
-            new SearchableRelation(PlaylistTrack::RELATION_VIDEO, Video::ATTRIBUTE_FILENAME),
+            new SearchableRelation(PlaylistTrack::RELATION_VIDEO, VideoModel::ATTRIBUTE_FILENAME),
         ];
     }
 
@@ -146,7 +150,6 @@ class Track extends BaseResource
      */
     public static function relatableQuery(NovaRequest $request, $query): Builder
     {
-        // TODO restrict to tracks within the same playlist
         return $query->with([PlaylistTrack::RELATION_PLAYLIST, PlaylistTrack::RELATION_VIDEO]);
     }
 

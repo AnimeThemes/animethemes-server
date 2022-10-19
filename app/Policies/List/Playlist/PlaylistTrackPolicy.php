@@ -38,18 +38,22 @@ class PlaylistTrackPolicy
      *
      * @param  User|null  $user
      * @param  PlaylistTrack  $track
-     * @param  Playlist  $playlist
      * @return bool
      *
      * @noinspection PhpUnusedParameterInspection
      */
-    public function view(?User $user, PlaylistTrack $track, Playlist $playlist): bool
+    public function view(?User $user, PlaylistTrack $track): bool
     {
         return Nova::whenServing(
             fn (): bool => $user !== null && $user->hasRole('Admin'),
-            fn (): bool => $user !== null
-                ? $user->can('view playlist track') && ($user->getKey() === $playlist->user_id || PlaylistVisibility::PRIVATE()->isNot($playlist->visibility))
-                : PlaylistVisibility::PRIVATE()->isNot($playlist->visibility)
+            function (Request $request) use ($user): bool {
+                /** @var Playlist|null $playlist */
+                $playlist = $request->route('playlist');
+
+                return $user !== null
+                    ? $user->can('view playlist track') && ($user->getKey() === $playlist?->user_id || PlaylistVisibility::PRIVATE()->isNot($playlist?->visibility))
+                    : PlaylistVisibility::PRIVATE()->isNot($playlist?->visibility);
+            }
         );
     }
 
@@ -67,7 +71,7 @@ class PlaylistTrackPolicy
                 /** @var Playlist|null $playlist */
                 $playlist = $request->route('playlist');
 
-                return $user->getKey() === $playlist->user_id;
+                return $user->getKey() === $playlist?->user_id;
             }
         );
     }
@@ -77,16 +81,20 @@ class PlaylistTrackPolicy
      *
      * @param  User  $user
      * @param  PlaylistTrack  $track
-     * @param  Playlist  $playlist
      * @return bool
      *
      * @noinspection PhpUnusedParameterInspection
      */
-    public function update(User $user, PlaylistTrack $track, Playlist $playlist): bool
+    public function update(User $user, PlaylistTrack $track): bool
     {
         return Nova::whenServing(
             fn (): bool => $user->hasRole('Admin'),
-            fn (): bool => $user->can('update playlist track') && $user->getKey() === $playlist->user_id
+            function (Request $request) use ($user): bool {
+                /** @var Playlist|null $playlist */
+                $playlist = $request->route('playlist');
+
+                return $user->can('update playlist track') && $user->getKey() === $playlist?->user_id;
+            }
         );
     }
 
@@ -95,16 +103,20 @@ class PlaylistTrackPolicy
      *
      * @param  User  $user
      * @param  PlaylistTrack  $track
-     * @param  Playlist  $playlist
      * @return bool
      *
      * @noinspection PhpUnusedParameterInspection
      */
-    public function delete(User $user, PlaylistTrack $track, Playlist $playlist): bool
+    public function delete(User $user, PlaylistTrack $track): bool
     {
         return Nova::whenServing(
             fn (): bool => $user->hasRole('Admin'),
-            fn (): bool => $user->can('delete playlist track') && $user->getKey() === $playlist->user_id
+            function (Request $request) use ($user): bool {
+                /** @var Playlist|null $playlist */
+                $playlist = $request->route('playlist');
+
+                return $user->can('delete playlist track') && $user->getKey() === $playlist?->user_id;
+            }
         );
     }
 
@@ -113,16 +125,20 @@ class PlaylistTrackPolicy
      *
      * @param  User  $user
      * @param  PlaylistTrack  $track
-     * @param  Playlist  $playlist
      * @return bool
      *
      * @noinspection PhpUnusedParameterInspection
      */
-    public function restore(User $user, PlaylistTrack $track, Playlist $playlist): bool
+    public function restore(User $user, PlaylistTrack $track): bool
     {
         return Nova::whenServing(
             fn (): bool => $user->hasRole('Admin'),
-            fn (): bool => $user->can('restore playlist track') && $user->getKey() === $playlist->user_id
+            function (Request $request) use ($user): bool {
+                /** @var Playlist|null $playlist */
+                $playlist = $request->route('playlist');
+
+                return $user->can('restore playlist track') && $user->getKey() === $playlist?->user_id;
+            }
         );
     }
 
