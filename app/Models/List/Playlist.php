@@ -17,12 +17,12 @@ use App\Pivots\List\PlaylistImage;
 use CyrildeWit\EloquentViewable\Contracts\Viewable;
 use CyrildeWit\EloquentViewable\InteractsWithViews;
 use Database\Factories\List\PlaylistFactory;
+use Elastic\ScoutDriverPlus\Searchable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
 use Laravel\Nova\Actions\Actionable;
-use Laravel\Scout\Searchable;
 
 /**
  * Class Playlist.
