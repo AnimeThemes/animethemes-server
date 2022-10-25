@@ -2,20 +2,21 @@
 
 declare(strict_types=1);
 
-namespace App\Scout\Elasticsearch\Api\Query;
+namespace App\Scout\Elasticsearch\Api\Query\Wiki;
 
-use App\Models\Wiki\Series;
+use App\Models\Wiki\Studio;
+use App\Scout\Elasticsearch\Api\Query\ElasticQueryPayload;
 use App\Scout\Elasticsearch\Api\Schema\Schema;
-use App\Scout\Elasticsearch\Api\Schema\Wiki\SeriesSchema;
+use App\Scout\Elasticsearch\Api\Schema\Wiki\StudioSchema;
 use Elastic\ScoutDriverPlus\Builders\MatchPhraseQueryBuilder;
 use Elastic\ScoutDriverPlus\Builders\MatchQueryBuilder;
 use Elastic\ScoutDriverPlus\Builders\SearchParametersBuilder;
 use Elastic\ScoutDriverPlus\Support\Query;
 
 /**
- * Class SeriesQueryPayload.
+ * Class StudioQueryPayload.
  */
-class SeriesQueryPayload extends ElasticQueryPayload
+class StudioQueryPayload extends ElasticQueryPayload
 {
     /**
      * The model this payload is searching.
@@ -24,7 +25,7 @@ class SeriesQueryPayload extends ElasticQueryPayload
      */
     public static function model(): string
     {
-        return Series::class;
+        return Studio::class;
     }
 
     /**
@@ -34,7 +35,7 @@ class SeriesQueryPayload extends ElasticQueryPayload
      */
     public function schema(): Schema
     {
-        return new SeriesSchema();
+        return new StudioSchema();
     }
 
     /**
@@ -47,25 +48,25 @@ class SeriesQueryPayload extends ElasticQueryPayload
         $query = Query::bool()
             ->should(
                 (new MatchPhraseQueryBuilder())
-                ->field('name')
-                ->query($this->criteria->getTerm())
+                    ->field('name')
+                    ->query($this->criteria->getTerm())
             )
             ->should(
                 (new MatchQueryBuilder())
-                ->field('name')
-                ->query($this->criteria->getTerm())
-                ->operator('AND')
+                    ->field('name')
+                    ->query($this->criteria->getTerm())
+                    ->operator('AND')
             )
             ->should(
                 (new MatchQueryBuilder())
-                ->field('name')
-                ->query($this->criteria->getTerm())
-                ->operator('AND')
-                ->lenient(true)
-                ->fuzziness('AUTO')
+                    ->field('name')
+                    ->query($this->criteria->getTerm())
+                    ->operator('AND')
+                    ->lenient(true)
+                    ->fuzziness('AUTO')
             )
             ->minimumShouldMatch(1);
 
-        return Series::searchQuery($query);
+        return Studio::searchQuery($query);
     }
 }
