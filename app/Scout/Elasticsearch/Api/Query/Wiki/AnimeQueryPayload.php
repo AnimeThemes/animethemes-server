@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Scout\Elasticsearch\Api\Query;
+namespace App\Scout\Elasticsearch\Api\Query\Wiki;
 
 use App\Models\Wiki\Anime;
+use App\Scout\Elasticsearch\Api\Query\ElasticQueryPayload;
 use App\Scout\Elasticsearch\Api\Schema\Schema;
 use App\Scout\Elasticsearch\Api\Schema\Wiki\AnimeSchema;
 use Elastic\ScoutDriverPlus\Builders\SearchParametersBuilder;

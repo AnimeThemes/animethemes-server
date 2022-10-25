@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Scout\Elasticsearch\Api\Query\Anime;
+namespace App\Scout\Elasticsearch\Api\Query\Wiki\Anime;
 
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Scout\Elasticsearch\Api\Query\ElasticQueryPayload;

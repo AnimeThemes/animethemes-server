@@ -2,20 +2,21 @@
 
 declare(strict_types=1);
 
-namespace App\Scout\Elasticsearch\Api\Query;
+namespace App\Scout\Elasticsearch\Api\Query\Wiki;
 
-use App\Models\Wiki\Song;
+use App\Models\Wiki\Series;
+use App\Scout\Elasticsearch\Api\Query\ElasticQueryPayload;
 use App\Scout\Elasticsearch\Api\Schema\Schema;
-use App\Scout\Elasticsearch\Api\Schema\Wiki\SongSchema;
+use App\Scout\Elasticsearch\Api\Schema\Wiki\SeriesSchema;
 use Elastic\ScoutDriverPlus\Builders\MatchPhraseQueryBuilder;
 use Elastic\ScoutDriverPlus\Builders\MatchQueryBuilder;
 use Elastic\ScoutDriverPlus\Builders\SearchParametersBuilder;
 use Elastic\ScoutDriverPlus\Support\Query;
 
 /**
- * Class SongQueryPayload.
+ * Class SeriesQueryPayload.
  */
-class SongQueryPayload extends ElasticQueryPayload
+class SeriesQueryPayload extends ElasticQueryPayload
 {
     /**
      * The model this payload is searching.
@@ -24,7 +25,7 @@ class SongQueryPayload extends ElasticQueryPayload
      */
     public static function model(): string
     {
-        return Song::class;
+        return Series::class;
     }
 
     /**
@@ -34,7 +35,7 @@ class SongQueryPayload extends ElasticQueryPayload
      */
     public function schema(): Schema
     {
-        return new SongSchema();
+        return new SeriesSchema();
     }
 
     /**
@@ -47,18 +48,18 @@ class SongQueryPayload extends ElasticQueryPayload
         $query = Query::bool()
             ->should(
                 (new MatchPhraseQueryBuilder())
-                ->field('title')
+                ->field('name')
                 ->query($this->criteria->getTerm())
             )
             ->should(
                 (new MatchQueryBuilder())
-                ->field('title')
+                ->field('name')
                 ->query($this->criteria->getTerm())
                 ->operator('AND')
             )
             ->should(
                 (new MatchQueryBuilder())
-                ->field('title')
+                ->field('name')
                 ->query($this->criteria->getTerm())
                 ->operator('AND')
                 ->lenient(true)
@@ -66,6 +67,6 @@ class SongQueryPayload extends ElasticQueryPayload
             )
             ->minimumShouldMatch(1);
 
-        return Song::searchQuery($query);
+        return Series::searchQuery($query);
     }
 }
