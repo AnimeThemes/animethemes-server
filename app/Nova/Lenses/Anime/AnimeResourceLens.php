@@ -5,12 +5,10 @@ declare(strict_types=1);
 namespace App\Nova\Lenses\Anime;
 
 use App\Enums\Models\Wiki\ResourceSite;
-use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\ExternalResource;
 use App\Nova\Actions\Models\Wiki\Anime\AttachAnimeResourceAction;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Http\Request;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 /**
@@ -65,11 +63,7 @@ abstract class AnimeResourceLens extends AnimeLens
                 ->confirmButtonText(__('nova.actions.models.wiki.attach_resource.confirmButtonText'))
                 ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
                 ->showInline()
-                ->canSee(function (Request $request) {
-                    $user = $request->user();
-
-                    return $user instanceof User && $user->can('create external resource');
-                }),
+                ->canSeeWhen('create', ExternalResource::class),
         ];
     }
 }

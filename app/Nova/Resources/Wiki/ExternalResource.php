@@ -133,7 +133,8 @@ class ExternalResource extends BaseResource
         return [
             ID::make(__('nova.fields.base.id'), ExternalResourceModel::ATTRIBUTE_ID)
                 ->sortable()
-                ->showOnPreview(),
+                ->showOnPreview()
+                ->showWhenPeeking(),
 
             Select::make(__('nova.fields.external_resource.site.name'), ExternalResourceModel::ATTRIBUTE_SITE)
                 ->options(ResourceSite::asSelectArray())
@@ -143,6 +144,7 @@ class ExternalResource extends BaseResource
                 ->help(__('nova.fields.external_resource.site.help'))
                 ->showOnPreview()
                 ->filterable()
+                ->showWhenPeeking()
                 ->dependsOn(
                     [ExternalResourceModel::ATTRIBUTE_LINK],
                     function (Select $field, NovaRequest $novaRequest, FormData $formData) {
@@ -166,6 +168,7 @@ class ExternalResource extends BaseResource
                 ->displayUsing(fn (mixed $value, mixed $resource, string $attribute) => $value)
                 ->help(__('nova.fields.external_resource.link.help'))
                 ->showOnPreview()
+                ->showWhenPeeking()
                 ->filterable(),
 
             Number::make(__('nova.fields.external_resource.external_id.name'), ExternalResourceModel::ATTRIBUTE_EXTERNAL_ID)
@@ -175,6 +178,7 @@ class ExternalResource extends BaseResource
                 ->help(__('nova.fields.external_resource.external_id.help'))
                 ->showOnPreview()
                 ->filterable()
+                ->showWhenPeeking()
                 ->dependsOn(
                     [ExternalResourceModel::ATTRIBUTE_LINK],
                     function (Text $field, NovaRequest $novaRequest, FormData $formData) {

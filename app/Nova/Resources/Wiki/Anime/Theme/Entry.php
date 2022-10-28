@@ -193,7 +193,8 @@ class Entry extends BaseResource
 
             ID::make(__('nova.fields.base.id'), AnimeThemeEntry::ATTRIBUTE_ID)
                 ->sortable()
-                ->showOnPreview(),
+                ->showOnPreview()
+                ->showWhenPeeking(),
 
             Number::make(__('nova.fields.anime_theme_entry.version.name'), AnimeThemeEntry::ATTRIBUTE_VERSION)
                 ->sortable()
@@ -201,7 +202,8 @@ class Entry extends BaseResource
                 ->rules(['nullable', 'integer'])
                 ->help(__('nova.fields.anime_theme_entry.version.help'))
                 ->showOnPreview()
-                ->filterable(),
+                ->filterable()
+                ->showWhenPeeking(),
 
             Text::make(__('nova.fields.anime_theme_entry.episodes.name'), AnimeThemeEntry::ATTRIBUTE_EPISODES)
                 ->sortable()
@@ -209,7 +211,9 @@ class Entry extends BaseResource
                 ->rules(['nullable', 'max:192'])
                 ->help(__('nova.fields.anime_theme_entry.episodes.help'))
                 ->showOnPreview()
-                ->filterable(),
+                ->filterable()
+                ->maxlength(192)
+                ->showWhenPeeking(),
 
             Boolean::make(__('nova.fields.anime_theme_entry.nsfw.name'), AnimeThemeEntry::ATTRIBUTE_NSFW)
                 ->sortable()
@@ -217,7 +221,8 @@ class Entry extends BaseResource
                 ->rules(['nullable', 'boolean'])
                 ->help(__('nova.fields.anime_theme_entry.nsfw.help'))
                 ->showOnPreview()
-                ->filterable(),
+                ->filterable()
+                ->showWhenPeeking(),
 
             Boolean::make(__('nova.fields.anime_theme_entry.spoiler.name'), AnimeThemeEntry::ATTRIBUTE_SPOILER)
                 ->sortable()
@@ -225,7 +230,8 @@ class Entry extends BaseResource
                 ->rules(['nullable', 'boolean'])
                 ->help(__('nova.fields.anime_theme_entry.spoiler.help'))
                 ->showOnPreview()
-                ->filterable(),
+                ->filterable()
+                ->showWhenPeeking(),
 
             Text::make(__('nova.fields.anime_theme_entry.notes.name'), AnimeThemeEntry::ATTRIBUTE_NOTES)
                 ->sortable()
@@ -233,7 +239,9 @@ class Entry extends BaseResource
                 ->rules(['nullable', 'max:192'])
                 ->help(__('nova.fields.anime_theme_entry.notes.help'))
                 ->showOnPreview()
-                ->filterable(),
+                ->filterable()
+                ->maxlength(192)
+                ->showWhenPeeking(),
 
             BelongsToMany::make(__('nova.resources.label.videos'), AnimeThemeEntry::RELATION_VIDEOS, Video::class)
                 ->searchable()

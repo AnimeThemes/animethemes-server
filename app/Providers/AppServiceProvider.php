@@ -39,7 +39,15 @@ class AppServiceProvider extends ServiceProvider
         Model::handleLazyLoadingViolationUsing(function (Model $model, string $relation) {
             $class = get_class($model);
 
-            Log::info("Attempted to lazy load [$relation] on model [$class]");
+            Log::error("Attempted to lazy load [$relation] on model [$class]");
+        });
+
+        Model::preventsAccessingMissingAttributes();
+
+        Model::handleMissingAttributeViolationUsing(function (Model $model, string $key) {
+            $class = get_class($model);
+
+            Log::error("Attribute $key does not exist or was not retrieved for model [$class]");
         });
 
         AboutCommand::add('Audios', [

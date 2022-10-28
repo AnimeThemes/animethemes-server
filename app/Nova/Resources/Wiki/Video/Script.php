@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Nova\Resources\Wiki\Video;
 
-use App\Models\Auth\User;
 use App\Models\Wiki\Video\VideoScript;
 use App\Nova\Actions\Repositories\Storage\Wiki\Video\Script\ReconcileScriptAction;
 use App\Nova\Actions\Storage\Wiki\Video\Script\DeleteScriptAction;
@@ -14,7 +13,6 @@ use App\Nova\Resources\BaseResource;
 use App\Nova\Resources\Wiki\Video;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
@@ -139,12 +137,15 @@ class Script extends BaseResource
 
             ID::make(__('nova.fields.base.id'), VideoScript::ATTRIBUTE_ID)
                 ->sortable()
-                ->showOnPreview(),
+                ->showOnPreview()
+                ->showWhenPeeking(),
 
             Text::make(__('nova.fields.video_script.path'), VideoScript::ATTRIBUTE_PATH)
                 ->copyable()
                 ->showOnPreview()
-                ->filterable(),
+                ->filterable()
+                ->maxlength(192)
+                ->showWhenPeeking(),
 
             Panel::make(__('nova.fields.base.timestamps'), $this->timestamps()),
         ];
@@ -166,43 +167,27 @@ class Script extends BaseResource
                     ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
                     ->onlyOnIndex()
                     ->standalone()
-                    ->canSee(function (Request $request) {
-                        $user = $request->user();
-
-                        return $user instanceof User && $user->can('create video script');
-                    }),
+                    ->canSeeWhen('create', VideoScript::class),
 
                 (new MoveScriptAction())
                     ->confirmButtonText(__('nova.actions.storage.move.confirmButtonText'))
                     ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
                     ->exceptOnIndex()
-                    ->canSee(function (Request $request) {
-                        $user = $request->user();
-
-                        return $user instanceof User && $user->can('create video script');
-                    }),
+                    ->canSeeWhen('create', VideoScript::class),
 
                 (new DeleteScriptAction())
                     ->confirmText(__('nova.actions.video_script.delete.confirmText'))
                     ->confirmButtonText(__('nova.actions.storage.delete.confirmButtonText'))
                     ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
                     ->exceptOnIndex()
-                    ->canSee(function (Request $request) {
-                        $user = $request->user();
-
-                        return $user instanceof User && $user->can('delete video script');
-                    }),
+                    ->canSeeWhen('delete', VideoScript::class),
 
                 (new ReconcileScriptAction())
                     ->confirmButtonText(__('nova.actions.repositories.confirmButtonText'))
                     ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
                     ->onlyOnIndex()
                     ->standalone()
-                    ->canSee(function (Request $request) {
-                        $user = $request->user();
-
-                        return $user instanceof User && $user->can('create video script');
-                    }),
+                    ->canSeeWhen('create', VideoScript::class),
             ],
         );
     }

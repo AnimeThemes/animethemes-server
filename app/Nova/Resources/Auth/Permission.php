@@ -116,14 +116,17 @@ class Permission extends BaseResource
         return [
             ID::make(__('nova.fields.base.id'), PermissionModel::ATTRIBUTE_ID)
                 ->sortable()
-                ->showOnPreview(),
+                ->showOnPreview()
+                ->showWhenPeeking(),
 
             Text::make(__('nova.fields.permission.name'), PermissionModel::ATTRIBUTE_NAME)
                 ->sortable()
                 ->copyable()
                 ->rules(['required', 'max:192'])
                 ->showOnPreview()
-                ->filterable(),
+                ->filterable()
+                ->maxlength(192)
+                ->showWhenPeeking(),
 
             BelongsToMany::make(__('nova.resources.label.roles'), PermissionModel::RELATION_ROLES, Role::class)
                 ->filterable(),
@@ -149,16 +152,14 @@ class Permission extends BaseResource
                     ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
                     ->showOnIndex()
                     ->showOnDetail()
-                    ->showInline()
-                    ->canRun(fn (NovaRequest $novaRequest) => $novaRequest->user()->can('view permission')),
+                    ->showInline(),
 
                 (new RevokeRoleAction())
                     ->confirmButtonText(__('nova.actions.base.confirmButtonText'))
                     ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
                     ->showOnIndex()
                     ->showOnDetail()
-                    ->showInline()
-                    ->canRun(fn (NovaRequest $novaRequest) => $novaRequest->user()->can('view permission')),
+                    ->showInline(),
             ]
         );
     }

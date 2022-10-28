@@ -166,7 +166,8 @@ class Theme extends BaseResource
         return [
             ID::make(__('nova.fields.base.id'), AnimeTheme::ATTRIBUTE_ID)
                 ->sortable()
-                ->showOnPreview(),
+                ->showOnPreview()
+                ->showWhenPeeking(),
 
             BelongsTo::make(__('nova.resources.singularLabel.anime'), AnimeTheme::RELATION_ANIME, Anime::class)
                 ->sortable()
@@ -185,7 +186,8 @@ class Theme extends BaseResource
                 ->rules(['required', new EnumValue(ThemeType::class, false)])
                 ->help(__('nova.fields.anime_theme.type.help'))
                 ->showOnPreview()
-                ->filterable(),
+                ->filterable()
+                ->showWhenPeeking(),
 
             Number::make(__('nova.fields.anime_theme.sequence.name'), AnimeTheme::ATTRIBUTE_SEQUENCE)
                 ->sortable()
@@ -193,7 +195,8 @@ class Theme extends BaseResource
                 ->rules(['nullable', 'integer'])
                 ->help(__('nova.fields.anime_theme.sequence.help'))
                 ->showOnPreview()
-                ->filterable(),
+                ->filterable()
+                ->showWhenPeeking(),
 
             Text::make(__('nova.fields.anime_theme.group.name'), AnimeTheme::ATTRIBUTE_GROUP)
                 ->sortable()
@@ -201,7 +204,9 @@ class Theme extends BaseResource
                 ->rules(['nullable', 'max:192'])
                 ->help(__('nova.fields.anime_theme.group.help'))
                 ->showOnPreview()
-                ->filterable(),
+                ->filterable()
+                ->maxlength(192)
+                ->showWhenPeeking(),
 
             Text::make(__('nova.fields.anime_theme.slug.name'), AnimeTheme::ATTRIBUTE_SLUG)
                 ->sortable()
@@ -209,6 +214,8 @@ class Theme extends BaseResource
                 ->help(__('nova.fields.anime_theme.slug.help'))
                 ->showOnPreview()
                 ->filterable()
+                ->maxlength(192)
+                ->showWhenPeeking()
                 ->dependsOn(
                     [AnimeTheme::ATTRIBUTE_TYPE, AnimeTheme::ATTRIBUTE_SEQUENCE],
                     function (Text $field, NovaRequest $novaRequest, FormData $formData) {

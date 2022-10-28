@@ -116,7 +116,8 @@ class Series extends BaseResource
         return [
             ID::make(__('nova.fields.base.id'), SeriesModel::ATTRIBUTE_ID)
                 ->sortable()
-                ->showOnPreview(),
+                ->showOnPreview()
+                ->showWhenPeeking(),
 
             Text::make(__('nova.fields.series.name.name'), SeriesModel::ATTRIBUTE_NAME)
                 ->sortable()
@@ -124,7 +125,9 @@ class Series extends BaseResource
                 ->rules(['required', 'max:192'])
                 ->help(__('nova.fields.series.name.help'))
                 ->showOnPreview()
-                ->filterable(),
+                ->filterable()
+                ->maxlength(192)
+                ->showWhenPeeking(),
 
             Slug::make(__('nova.fields.series.slug.name'), SeriesModel::ATTRIBUTE_SLUG)
                 ->from(SeriesModel::ATTRIBUTE_NAME)
@@ -137,7 +140,8 @@ class Series extends BaseResource
                         ->__toString()
                 )
                 ->help(__('nova.fields.series.slug.help'))
-                ->showOnPreview(),
+                ->showOnPreview()
+                ->showWhenPeeking(),
 
             BelongsToMany::make(__('nova.resources.label.anime'), SeriesModel::RELATION_ANIME, Anime::class)
                 ->searchable()

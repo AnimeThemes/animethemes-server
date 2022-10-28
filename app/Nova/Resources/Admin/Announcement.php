@@ -112,7 +112,8 @@ class Announcement extends BaseResource
         return [
             ID::make(__('nova.fields.base.id'), AnnouncementModel::ATTRIBUTE_ID)
                 ->sortable()
-                ->showOnPreview(),
+                ->showOnPreview()
+                ->showWhenPeeking(),
 
             Code::make(__('nova.fields.announcement.content'), AnnouncementModel::ATTRIBUTE_CONTENT)
                 ->rules(['required', 'max:65535'])

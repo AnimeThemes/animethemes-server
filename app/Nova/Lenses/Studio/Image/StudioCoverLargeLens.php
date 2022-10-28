@@ -5,13 +5,11 @@ declare(strict_types=1);
 namespace App\Nova\Lenses\Studio\Image;
 
 use App\Enums\Models\Wiki\ImageFacet;
-use App\Models\Auth\User;
 use App\Models\Wiki\Image;
 use App\Models\Wiki\Studio;
 use App\Nova\Actions\Models\Wiki\Studio\BackfillStudioAction;
 use App\Nova\Lenses\Studio\StudioLens;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Http\Request;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 /**
@@ -59,11 +57,7 @@ class StudioCoverLargeLens extends StudioLens
                 ->confirmButtonText(__('nova.actions.studio.backfill.confirmButtonText'))
                 ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
                 ->showInline()
-                ->canSee(function (Request $request) {
-                    $user = $request->user();
-
-                    return $user instanceof User && $user->can('update studio');
-                }),
+                ->canSeeWhen('update', Studio::class),
         ];
     }
 

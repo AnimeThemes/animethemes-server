@@ -6,13 +6,11 @@ namespace App\Nova\Resources\Billing;
 
 use App\Enums\Models\Billing\BalanceFrequency;
 use App\Enums\Models\Billing\Service;
-use App\Models\Auth\User;
 use App\Models\Billing\Balance as BalanceModel;
 use App\Nova\Actions\Repositories\Billing\Balance\ReconcileBalanceAction;
 use App\Nova\Resources\BaseResource;
 use BenSampo\Enum\Enum;
 use BenSampo\Enum\Rules\EnumValue;
-use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\ID;
@@ -120,14 +118,16 @@ class Balance extends BaseResource
         return [
             ID::make(__('nova.fields.base.id'), BalanceModel::ATTRIBUTE_ID)
                 ->sortable()
-                ->showOnPreview(),
+                ->showOnPreview()
+                ->showWhenPeeking(),
 
             Date::make(__('nova.fields.balance.date.name'), BalanceModel::ATTRIBUTE_DATE)
                 ->sortable()
                 ->rules('required')
                 ->help(__('nova.fields.balance.date.help'))
                 ->showOnPreview()
-                ->filterable(),
+                ->filterable()
+                ->showWhenPeeking(),
 
             Select::make(__('nova.fields.balance.service.name'), BalanceModel::ATTRIBUTE_SERVICE)
                 ->options(Service::asSelectArray())
@@ -136,7 +136,8 @@ class Balance extends BaseResource
                 ->rules(['required', new EnumValue(Service::class, false)])
                 ->help(__('nova.fields.balance.service.help'))
                 ->showOnPreview()
-                ->filterable(),
+                ->filterable()
+                ->showWhenPeeking(),
 
             Select::make(__('nova.fields.balance.frequency.name'), BalanceModel::ATTRIBUTE_FREQUENCY)
                 ->options(BalanceFrequency::asSelectArray())
@@ -145,21 +146,24 @@ class Balance extends BaseResource
                 ->rules(['required', new EnumValue(BalanceFrequency::class, false)])
                 ->help(__('nova.fields.balance.frequency.help'))
                 ->showOnPreview()
-                ->filterable(),
+                ->filterable()
+                ->showWhenPeeking(),
 
             Currency::make(__('nova.fields.balance.usage.name'), BalanceModel::ATTRIBUTE_USAGE)
                 ->sortable()
                 ->rules('required')
                 ->help(__('nova.fields.balance.usage.help'))
                 ->showOnPreview()
-                ->filterable(),
+                ->filterable()
+                ->showWhenPeeking(),
 
             Currency::make(__('nova.fields.balance.balance.name'), BalanceModel::ATTRIBUTE_BALANCE)
                 ->sortable()
                 ->rules('required')
                 ->help(__('nova.fields.balance.balance.help'))
                 ->showOnPreview()
-                ->filterable(),
+                ->filterable()
+                ->showWhenPeeking(),
 
             Panel::make(__('nova.fields.base.timestamps'), $this->timestamps())
                 ->collapsable(),
@@ -182,11 +186,7 @@ class Balance extends BaseResource
                     ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
                     ->onlyOnIndex()
                     ->standalone()
-                    ->canSee(function (Request $request) {
-                        $user = $request->user();
-
-                        return $user instanceof User && $user->can('create balance');
-                    }),
+                    ->canSeeWhen('create', BalanceModel::class),
             ]
         );
     }
