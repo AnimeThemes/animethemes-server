@@ -130,17 +130,21 @@ class User extends BaseResource
         return [
             ID::make(__('nova.fields.base.id'), UserModel::ATTRIBUTE_ID)
                 ->sortable()
-                ->showOnPreview(),
+                ->showOnPreview()
+                ->showWhenPeeking(),
 
             Gravatar::make()->maxWidth(50)
-                ->showOnPreview(),
+                ->showOnPreview()
+                ->showWhenPeeking(),
 
             Text::make(__('nova.fields.user.name'), UserModel::ATTRIBUTE_NAME)
                 ->sortable()
                 ->copyable()
                 ->rules(['required', 'max:192', 'alpha_dash'])
                 ->showOnPreview()
-                ->filterable(),
+                ->filterable()
+                ->maxlength(192)
+                ->showWhenPeeking(),
 
             Email::make(__('nova.fields.user.email'), UserModel::ATTRIBUTE_EMAIL)
                 ->sortable()
@@ -152,7 +156,8 @@ class User extends BaseResource
                         ->__toString()
                 )
                 ->showOnPreview()
-                ->filterable(),
+                ->filterable()
+                ->showWhenPeeking(),
 
             BelongsToMany::make(__('nova.resources.label.roles'), UserModel::RELATION_ROLES, Role::class)
                 ->filterable(),

@@ -22,7 +22,6 @@ parameters:
         - '#Strict comparison using === between class-string<Laravel\\Nova\\Resource> and null will always evaluate to false.#'
         - '#Call to an undefined method ProtoneMedia\\LaravelFFMpeg\\Drivers\\PHPFFMpeg::export\(\).#'
         - '#Call to an undefined method ProtoneMedia\\LaravelFFMpeg\\Drivers\\PHPFFMpeg::getProcessOutput\(\).#'
-        - '#Call to an undefined static method Illuminate\\Support\\Facades\\Config::bool\(\).#'
         -
             message: '#Unreachable statement - code above always terminates.#'
             path: app/Http/Middleware/ThrottleRequestsWithService.php

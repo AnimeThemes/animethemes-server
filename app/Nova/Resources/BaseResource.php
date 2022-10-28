@@ -54,21 +54,24 @@ abstract class BaseResource extends NovaResource
                 ->hideWhenCreating()
                 ->hideWhenUpdating()
                 ->showOnPreview()
-                ->filterable(),
+                ->filterable()
+                ->showWhenPeeking(),
 
             DateTime::make(__('nova.fields.base.updated_at'), BaseModel::ATTRIBUTE_UPDATED_AT)
                 ->hideFromIndex()
                 ->hideWhenCreating()
                 ->hideWhenUpdating()
                 ->showOnPreview()
-                ->filterable(),
+                ->filterable()
+                ->showWhenPeeking(),
 
             DateTime::make(__('nova.fields.base.deleted_at'), BaseModel::ATTRIBUTE_DELETED_AT)
                 ->hideFromIndex()
                 ->hideWhenCreating()
                 ->hideWhenUpdating()
                 ->showOnPreview()
-                ->filterable(),
+                ->filterable()
+                ->showWhenPeeking(),
         ];
     }
 }

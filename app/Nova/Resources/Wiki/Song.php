@@ -154,7 +154,8 @@ class Song extends BaseResource
         return [
             ID::make(__('nova.fields.base.id'), SongModel::ATTRIBUTE_ID)
                 ->sortable()
-                ->showOnPreview(),
+                ->showOnPreview()
+                ->showWhenPeeking(),
 
             Text::make(__('nova.fields.song.title.name'), SongModel::ATTRIBUTE_TITLE)
                 ->sortable()
@@ -163,7 +164,9 @@ class Song extends BaseResource
                 ->rules(['nullable', 'max:192'])
                 ->help(__('nova.fields.song.title.help'))
                 ->showOnPreview()
-                ->filterable(),
+                ->filterable()
+                ->maxlength(192)
+                ->showWhenPeeking(),
 
             BelongsToMany::make(__('nova.resources.label.artists'), SongModel::RELATION_ARTISTS, Artist::class)
                 ->searchable()

@@ -189,7 +189,8 @@ class Track extends BaseResource
 
             ID::make(__('nova.fields.base.id'), PlaylistTrack::ATTRIBUTE_ID)
                 ->sortable()
-                ->showOnPreview(),
+                ->showOnPreview()
+                ->showWhenPeeking(),
 
             BelongsTo::make(__('nova.fields.playlist_track.previous.name'), PlaylistTrack::RELATION_PREVIOUS, Track::class)
                 ->hideFromIndex()

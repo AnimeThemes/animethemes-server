@@ -113,21 +113,26 @@ class Setting extends BaseResource
         return [
             ID::make(__('nova.fields.base.id'), SettingModel::ATTRIBUTE_ID)
                 ->sortable()
-                ->showOnPreview(),
+                ->showOnPreview()
+                ->showWhenPeeking(),
 
             Text::make(__('nova.fields.setting.key'), SettingModel::ATTRIBUTE_KEY)
                 ->sortable()
                 ->copyable()
                 ->rules(['required', 'max:192'])
                 ->showOnPreview()
-                ->filterable(),
+                ->filterable()
+                ->maxlength(192)
+                ->showWhenPeeking(),
 
             Text::make(__('nova.fields.setting.value'), SettingModel::ATTRIBUTE_VALUE)
                 ->sortable()
                 ->copyable()
                 ->rules(['required', 'max:65535'])
                 ->showOnPreview()
-                ->filterable(),
+                ->filterable()
+                ->maxlength(65535)
+                ->showWhenPeeking(),
         ];
     }
 }

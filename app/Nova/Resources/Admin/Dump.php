@@ -5,14 +5,12 @@ declare(strict_types=1);
 namespace App\Nova\Resources\Admin;
 
 use App\Models\Admin\Dump as DumpModel;
-use App\Models\Auth\User;
 use App\Nova\Actions\Repositories\Storage\Admin\Dump\ReconcileDumpAction;
 use App\Nova\Actions\Storage\Admin\DumpDocumentAction;
 use App\Nova\Actions\Storage\Admin\DumpWikiAction;
 use App\Nova\Actions\Storage\Admin\PruneDumpAction;
 use App\Nova\Resources\BaseResource;
 use Exception;
-use Illuminate\Http\Request;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -120,12 +118,15 @@ class Dump extends BaseResource
         return [
             ID::make(__('nova.fields.base.id'), DumpModel::ATTRIBUTE_ID)
                 ->sortable()
-                ->showOnPreview(),
+                ->showOnPreview()
+                ->showWhenPeeking(),
 
             Text::make(__('nova.fields.dump.path'), DumpModel::ATTRIBUTE_PATH)
                 ->copyable()
                 ->showOnPreview()
-                ->filterable(),
+                ->filterable()
+                ->maxlength(192)
+                ->showWhenPeeking(),
 
             Panel::make(__('nova.fields.base.timestamps'), $this->timestamps()),
         ];
@@ -147,44 +148,28 @@ class Dump extends BaseResource
                     ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
                     ->onlyOnIndex()
                     ->standalone()
-                    ->canSee(function (Request $request) {
-                        $user = $request->user();
-
-                        return $user instanceof User && $user->can('create dump');
-                    }),
+                    ->canSeeWhen('create', DumpModel::class),
 
                 (new DumpDocumentAction())
                     ->confirmButtonText(__('nova.actions.dump.dump.confirmButtonText'))
                     ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
                     ->onlyOnIndex()
                     ->standalone()
-                    ->canSee(function (Request $request) {
-                        $user = $request->user();
-
-                        return $user instanceof User && $user->can('create dump');
-                    }),
+                    ->canSeeWhen('create', DumpModel::class),
 
                 (new PruneDumpAction())
                     ->confirmButtonText(__('nova.actions.storage.prune.confirmButtonText'))
                     ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
                     ->onlyOnIndex()
                     ->standalone()
-                    ->canSee(function (Request $request) {
-                        $user = $request->user();
-
-                        return $user instanceof User && $user->can('delete dump');
-                    }),
+                    ->canSeeWhen('delete', DumpModel::class),
 
                 (new ReconcileDumpAction())
                     ->confirmButtonText(__('nova.actions.repositories.confirmButtonText'))
                     ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
                     ->onlyOnIndex()
                     ->standalone()
-                    ->canSee(function (Request $request) {
-                        $user = $request->user();
-
-                        return $user instanceof User && $user->can('create dump');
-                    }),
+                    ->canSeeWhen('create', DumpModel::class),
             ]
         );
     }

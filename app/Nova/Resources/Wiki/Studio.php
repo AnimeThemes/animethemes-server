@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Nova\Resources\Wiki;
 
-use App\Models\Auth\User;
 use App\Models\Wiki\Studio as StudioModel;
 use App\Nova\Actions\Models\Wiki\Studio\BackfillStudioAction;
 use App\Nova\Lenses\Studio\Image\StudioCoverLargeLens;
@@ -18,7 +17,6 @@ use App\Nova\Resources\BaseResource;
 use App\Pivots\BasePivot;
 use App\Pivots\Wiki\StudioResource;
 use Exception;
-use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\DateTime;
@@ -124,7 +122,8 @@ class Studio extends BaseResource
         return [
             ID::make(__('nova.fields.base.id'), StudioModel::ATTRIBUTE_ID)
                 ->sortable()
-                ->showOnPreview(),
+                ->showOnPreview()
+                ->showWhenPeeking(),
 
             Text::make(__('nova.fields.studio.name.name'), StudioModel::ATTRIBUTE_NAME)
                 ->sortable()
@@ -132,7 +131,9 @@ class Studio extends BaseResource
                 ->rules(['required', 'max:192'])
                 ->help(__('nova.fields.studio.name.help'))
                 ->showOnPreview()
-                ->filterable(),
+                ->filterable()
+                ->maxlength(192)
+                ->showWhenPeeking(),
 
             Slug::make(__('nova.fields.studio.slug.name'), StudioModel::ATTRIBUTE_SLUG)
                 ->from(StudioModel::ATTRIBUTE_NAME)
@@ -145,7 +146,8 @@ class Studio extends BaseResource
                         ->__toString()
                 )
                 ->help(__('nova.fields.studio.slug.help'))
-                ->showOnPreview(),
+                ->showOnPreview()
+                ->showWhenPeeking(),
 
             BelongsToMany::make(__('nova.resources.label.anime'), StudioModel::RELATION_ANIME, Anime::class)
                 ->searchable()
@@ -215,11 +217,7 @@ class Studio extends BaseResource
                     ->showOnIndex()
                     ->showOnDetail()
                     ->showInline()
-                    ->canSee(function (Request $request) {
-                        $user = $request->user();
-
-                        return $user instanceof User && $user->can('update studio');
-                    }),
+                    ->canSeeWhen('update', StudioModel::class),
             ]
         );
     }

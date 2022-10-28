@@ -5,14 +5,12 @@ declare(strict_types=1);
 namespace App\Nova\Resources\Billing;
 
 use App\Enums\Models\Billing\Service;
-use App\Models\Auth\User;
 use App\Models\Billing\Transaction as TransactionModel;
 use App\Nova\Actions\Repositories\Billing\Transaction\ReconcileTransactionAction;
 use App\Nova\Resources\BaseResource;
 use BenSampo\Enum\Enum;
 use BenSampo\Enum\Rules\EnumValue;
 use Exception;
-use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\ID;
@@ -123,14 +121,16 @@ class Transaction extends BaseResource
         return [
             ID::make(__('nova.fields.base.id'), TransactionModel::ATTRIBUTE_ID)
                 ->sortable()
-                ->showOnPreview(),
+                ->showOnPreview()
+                ->showWhenPeeking(),
 
             Date::make(__('nova.fields.transaction.date.name'), TransactionModel::ATTRIBUTE_DATE)
                 ->sortable()
                 ->rules('required')
                 ->help(__('nova.fields.transaction.date.help'))
                 ->showOnPreview()
-                ->filterable(),
+                ->filterable()
+                ->showWhenPeeking(),
 
             Select::make(__('nova.fields.transaction.service.name'), TransactionModel::ATTRIBUTE_SERVICE)
                 ->options(Service::asSelectArray())
@@ -139,7 +139,8 @@ class Transaction extends BaseResource
                 ->rules(['required', new EnumValue(Service::class, false)])
                 ->help(__('nova.fields.transaction.service.help'))
                 ->showOnPreview()
-                ->filterable(),
+                ->filterable()
+                ->showWhenPeeking(),
 
             Text::make(__('nova.fields.transaction.description.name'), TransactionModel::ATTRIBUTE_DESCRIPTION)
                 ->sortable()
@@ -147,14 +148,17 @@ class Transaction extends BaseResource
                 ->rules(['required', 'max:192'])
                 ->help(__('nova.fields.transaction.description.help'))
                 ->showOnPreview()
-                ->filterable(),
+                ->filterable()
+                ->maxlength(192)
+                ->showWhenPeeking(),
 
             Currency::make(__('nova.fields.transaction.amount.name'), TransactionModel::ATTRIBUTE_AMOUNT)
                 ->sortable()
                 ->rules('required')
                 ->help(__('nova.fields.transaction.amount.help'))
                 ->showOnPreview()
-                ->filterable(),
+                ->filterable()
+                ->showWhenPeeking(),
 
             Text::make(__('nova.fields.transaction.external_id.name'), TransactionModel::ATTRIBUTE_EXTERNAL_ID)
                 ->nullable()
@@ -163,7 +167,9 @@ class Transaction extends BaseResource
                 ->rules(['nullable', 'max:192'])
                 ->help(__('nova.fields.transaction.external_id.help'))
                 ->showOnPreview()
-                ->filterable(),
+                ->filterable()
+                ->maxlength(192)
+                ->showWhenPeeking(),
 
             Panel::make(__('nova.fields.base.timestamps'), $this->timestamps())
                 ->collapsable(),
@@ -186,11 +192,7 @@ class Transaction extends BaseResource
                     ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
                     ->onlyOnIndex()
                     ->standalone()
-                    ->canSee(function (Request $request) {
-                        $user = $request->user();
-
-                        return $user instanceof User && $user->can('create transaction');
-                    }),
+                    ->canSeeWhen('create', TransactionModel::class),
             ]
         );
     }

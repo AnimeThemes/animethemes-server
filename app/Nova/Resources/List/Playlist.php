@@ -172,7 +172,8 @@ class Playlist extends BaseResource
 
             ID::make(__('nova.fields.base.id'), PlaylistModel::ATTRIBUTE_ID)
                 ->sortable()
-                ->showOnPreview(),
+                ->showOnPreview()
+                ->showWhenPeeking(),
 
             Text::make(__('nova.fields.playlist.name.name'), PlaylistModel::ATTRIBUTE_NAME)
                 ->sortable()
@@ -180,7 +181,9 @@ class Playlist extends BaseResource
                 ->rules(['required', 'max:192'])
                 ->help(__('nova.fields.playlist.name.help'))
                 ->showOnPreview()
-                ->filterable(),
+                ->filterable()
+                ->maxlength(192)
+                ->showWhenPeeking(),
 
             Select::make(__('nova.fields.playlist.visibility.name'), PlaylistModel::ATTRIBUTE_VISIBILITY)
                 ->options(PlaylistVisibility::asSelectArray())
@@ -189,7 +192,8 @@ class Playlist extends BaseResource
                 ->rules(['required', new EnumValue(PlaylistVisibility::class, false)])
                 ->help(__('nova.fields.playlist.visibility.help'))
                 ->showOnPreview()
-                ->filterable(),
+                ->filterable()
+                ->showWhenPeeking(),
 
             BelongsTo::make(__('nova.fields.playlist.first.name'), PlaylistModel::RELATION_FIRST, Track::class)
                 ->hideFromIndex()
