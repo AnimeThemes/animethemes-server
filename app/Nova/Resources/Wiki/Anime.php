@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Nova\Resources\Wiki;
 
 use App\Enums\Models\Wiki\AnimeSeason;
-use App\Models\Auth\User;
 use App\Models\Wiki\Anime as AnimeModel;
 use App\Nova\Actions\Models\Wiki\Anime\BackfillAnimeAction;
 use App\Nova\Lenses\Anime\Image\AnimeCoverLargeLens;
@@ -27,7 +26,6 @@ use App\Pivots\Wiki\AnimeResource;
 use BenSampo\Enum\Enum;
 use BenSampo\Enum\Rules\EnumValue;
 use Exception;
-use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Laravel\Nova\Card;
 use Laravel\Nova\Fields\BelongsToMany;
@@ -149,7 +147,8 @@ class Anime extends BaseResource
         return [
             ID::make(__('nova.fields.base.id'), AnimeModel::ATTRIBUTE_ID)
                 ->sortable()
-                ->showOnPreview(),
+                ->showOnPreview()
+                ->showWhenPeeking(),
 
             Text::make(__('nova.fields.anime.name.name'), AnimeModel::ATTRIBUTE_NAME)
                 ->sortable()
@@ -157,7 +156,9 @@ class Anime extends BaseResource
                 ->rules(['required', 'max:192'])
                 ->help(__('nova.fields.anime.name.help'))
                 ->showOnPreview()
-                ->filterable(),
+                ->filterable()
+                ->maxlength(192)
+                ->showWhenPeeking(),
 
             Slug::make(__('nova.fields.anime.slug.name'), AnimeModel::ATTRIBUTE_SLUG)
                 ->from(AnimeModel::ATTRIBUTE_NAME)
@@ -170,7 +171,8 @@ class Anime extends BaseResource
                         ->__toString()
                 )
                 ->help(__('nova.fields.anime.slug.help'))
-                ->showOnPreview(),
+                ->showOnPreview()
+                ->showWhenPeeking(),
 
             Number::make(__('nova.fields.anime.year.name'), AnimeModel::ATTRIBUTE_YEAR)
                 ->sortable()
@@ -179,7 +181,8 @@ class Anime extends BaseResource
                 ->rules(['required', 'digits:4', 'integer'])
                 ->help(__('nova.fields.anime.year.help'))
                 ->showOnPreview()
-                ->filterable(),
+                ->filterable()
+                ->showWhenPeeking(),
 
             Select::make(__('nova.fields.anime.season.name'), AnimeModel::ATTRIBUTE_SEASON)
                 ->options(AnimeSeason::asSelectArray())
@@ -188,13 +191,16 @@ class Anime extends BaseResource
                 ->rules(['required', new EnumValue(AnimeSeason::class, false)])
                 ->help(__('nova.fields.anime.season.help'))
                 ->showOnPreview()
-                ->filterable(),
+                ->filterable()
+                ->showWhenPeeking(),
 
             Textarea::make(__('nova.fields.anime.synopsis.name'), AnimeModel::ATTRIBUTE_SYNOPSIS)
                 ->rules('max:65535')
                 ->nullable()
                 ->help(__('nova.fields.anime.synopsis.help'))
-                ->showOnPreview(),
+                ->showOnPreview()
+                ->maxlength(65535)
+                ->showWhenPeeking(),
 
             HasMany::make(__('nova.resources.label.anime_synonyms'), AnimeModel::RELATION_SYNONYMS, Synonym::class),
 
@@ -282,11 +288,7 @@ class Anime extends BaseResource
                     ->showOnIndex()
                     ->showOnDetail()
                     ->showInline()
-                    ->canSee(function (Request $request) {
-                        $user = $request->user();
-
-                        return $user instanceof User && $user->can('update anime');
-                    }),
+                    ->canSeeWhen('update', AnimeModel::class),
             ]
         );
     }

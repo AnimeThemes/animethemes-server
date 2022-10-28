@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Nova\Resources\Wiki;
 
-use App\Models\Auth\User;
 use App\Models\Wiki\Audio as AudioModel;
 use App\Nova\Actions\Repositories\Storage\Wiki\Audio\ReconcileAudioAction;
 use App\Nova\Actions\Storage\Wiki\Audio\DeleteAudioAction;
@@ -13,7 +12,6 @@ use App\Nova\Actions\Storage\Wiki\Audio\UploadAudioAction;
 use App\Nova\Lenses\Audio\AudioVideoLens;
 use App\Nova\Resources\BaseResource;
 use Exception;
-use Illuminate\Http\Request;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
@@ -104,7 +102,8 @@ class Audio extends BaseResource
         return [
             ID::make(__('nova.fields.base.id'), AudioModel::ATTRIBUTE_ID)
                 ->sortable()
-                ->showOnPreview(),
+                ->showOnPreview()
+                ->showWhenPeeking(),
 
             HasMany::make(__('nova.resources.label.videos'), AudioModel::RELATION_VIDEOS, Video::class),
 
@@ -132,7 +131,8 @@ class Audio extends BaseResource
                 ->hideWhenCreating()
                 ->hideWhenUpdating()
                 ->showOnPreview()
-                ->filterable(),
+                ->filterable()
+                ->showWhenPeeking(),
 
             Text::make(__('nova.fields.audio.filename.name'), AudioModel::ATTRIBUTE_FILENAME)
                 ->sortable()
@@ -140,7 +140,8 @@ class Audio extends BaseResource
                 ->hideWhenCreating()
                 ->hideWhenUpdating()
                 ->showOnPreview()
-                ->filterable(),
+                ->filterable()
+                ->showWhenPeeking(),
 
             Text::make(__('nova.fields.audio.path.name'), AudioModel::ATTRIBUTE_PATH)
                 ->copyable()
@@ -148,14 +149,16 @@ class Audio extends BaseResource
                 ->hideWhenCreating()
                 ->hideWhenUpdating()
                 ->showOnPreview()
-                ->filterable(),
+                ->filterable()
+                ->showWhenPeeking(),
 
             Number::make(__('nova.fields.audio.size.name'), AudioModel::ATTRIBUTE_SIZE)
                 ->hideFromIndex()
                 ->hideWhenCreating()
                 ->hideWhenUpdating()
                 ->showOnPreview()
-                ->filterable(),
+                ->filterable()
+                ->showWhenPeeking(),
 
             Text::make(__('nova.fields.audio.mimetype.name'), AudioModel::ATTRIBUTE_MIMETYPE)
                 ->copyable()
@@ -163,7 +166,8 @@ class Audio extends BaseResource
                 ->hideWhenCreating()
                 ->hideWhenUpdating()
                 ->showOnPreview()
-                ->filterable(),
+                ->filterable()
+                ->showWhenPeeking(),
         ];
     }
 
@@ -183,43 +187,27 @@ class Audio extends BaseResource
                     ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
                     ->onlyOnIndex()
                     ->standalone()
-                    ->canSee(function (Request $request) {
-                        $user = $request->user();
-
-                        return $user instanceof User && $user->can('create audio');
-                    }),
+                    ->canSeeWhen('create', AudioModel::class),
 
                 (new MoveAudioAction())
                     ->confirmButtonText(__('nova.actions.storage.move.confirmButtonText'))
                     ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
                     ->exceptOnIndex()
-                    ->canSee(function (Request $request) {
-                        $user = $request->user();
-
-                        return $user instanceof User && $user->can('create audio');
-                    }),
+                    ->canSeeWhen('create', AudioModel::class),
 
                 (new DeleteAudioAction())
                     ->confirmText(__('nova.actions.audio.delete.confirmText'))
                     ->confirmButtonText(__('nova.actions.storage.delete.confirmButtonText'))
                     ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
                     ->exceptOnIndex()
-                    ->canSee(function (Request $request) {
-                        $user = $request->user();
-
-                        return $user instanceof User && $user->can('delete audio');
-                    }),
+                    ->canSeeWhen('delete', AudioModel::class),
 
                 (new ReconcileAudioAction())
                     ->confirmButtonText(__('nova.actions.repositories.confirmButtonText'))
                     ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
                     ->onlyOnIndex()
                     ->standalone()
-                    ->canSee(function (Request $request) {
-                        $user = $request->user();
-
-                        return $user instanceof User && $user->can('create audio');
-                    }),
+                    ->canSeeWhen('create', AudioModel::class),
             ]
         );
     }

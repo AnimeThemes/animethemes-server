@@ -133,14 +133,17 @@ class Synonym extends BaseResource
 
             ID::make(__('nova.fields.base.id'), AnimeSynonym::ATTRIBUTE_ID)
                 ->sortable()
-                ->showOnPreview(),
+                ->showOnPreview()
+                ->showWhenPeeking(),
 
             Text::make(__('nova.fields.anime_synonym.text.name'), AnimeSynonym::ATTRIBUTE_TEXT)
                 ->sortable()
                 ->rules(['required', 'max:192'])
                 ->help(__('nova.fields.anime_synonym.text.help'))
                 ->showOnPreview()
-                ->filterable(),
+                ->filterable()
+                ->maxlength(192)
+                ->showWhenPeeking(),
 
             Panel::make(__('nova.fields.base.timestamps'), $this->timestamps())
                 ->collapsable(),

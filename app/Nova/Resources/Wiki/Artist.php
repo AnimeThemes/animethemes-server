@@ -126,7 +126,8 @@ class Artist extends BaseResource
         return [
             ID::make(__('nova.fields.base.id'), ArtistModel::ATTRIBUTE_ID)
                 ->sortable()
-                ->showOnPreview(),
+                ->showOnPreview()
+                ->showWhenPeeking(),
 
             Text::make(__('nova.fields.artist.name.name'), ArtistModel::ATTRIBUTE_NAME)
                 ->sortable()
@@ -134,7 +135,9 @@ class Artist extends BaseResource
                 ->rules(['required', 'max:192'])
                 ->help(__('nova.fields.artist.name.help'))
                 ->showOnPreview()
-                ->filterable(),
+                ->maxlength(192)
+                ->filterable()
+                ->showWhenPeeking(),
 
             Slug::make(__('nova.fields.artist.slug.name'), ArtistModel::ATTRIBUTE_SLUG)
                 ->from(ArtistModel::ATTRIBUTE_NAME)
@@ -147,7 +150,8 @@ class Artist extends BaseResource
                         ->__toString()
                 )
                 ->help(__('nova.fields.artist.slug.help'))
-                ->showOnPreview(),
+                ->showOnPreview()
+                ->showWhenPeeking(),
 
             BelongsToMany::make(__('nova.resources.label.songs'), ArtistModel::RELATION_SONGS, Song::class)
                 ->searchable()

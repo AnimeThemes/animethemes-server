@@ -131,7 +131,8 @@ class Image extends BaseResource
         return [
             ID::make(__('nova.fields.base.id'), ImageModel::ATTRIBUTE_ID)
                 ->sortable()
-                ->showOnPreview(),
+                ->showOnPreview()
+                ->showWhenPeeking(),
 
             Select::make(__('nova.fields.image.facet.name'), ImageModel::ATTRIBUTE_FACET)
                 ->options(ImageFacet::asSelectArray())
@@ -140,11 +141,13 @@ class Image extends BaseResource
                 ->rules(['required', new EnumValue(ImageFacet::class, false)])
                 ->help(__('nova.fields.image.facet.help'))
                 ->showOnPreview()
-                ->filterable(),
+                ->filterable()
+                ->showWhenPeeking(),
 
             NovaImage::make(__('nova.fields.image.image.name'), ImageModel::ATTRIBUTE_PATH, Config::get('image.disk'))
                 ->creationRules('required')
-                ->showOnPreview(),
+                ->showOnPreview()
+                ->showWhenPeeking(),
 
             BelongsToMany::make(__('nova.resources.label.anime'), ImageModel::RELATION_ANIME, Anime::class)
                 ->searchable()
@@ -220,7 +223,8 @@ class Image extends BaseResource
                 ->hideWhenCreating()
                 ->hideWhenUpdating()
                 ->showOnPreview()
-                ->filterable(),
+                ->filterable()
+                ->showWhenPeeking(),
         ];
     }
 

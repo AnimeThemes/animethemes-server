@@ -123,7 +123,8 @@ class Page extends BaseResource
         return [
             ID::make(__('nova.fields.base.id'), PageModel::ATTRIBUTE_ID)
                 ->sortable()
-                ->showOnPreview(),
+                ->showOnPreview()
+                ->showWhenPeeking(),
 
             Text::make(__('nova.fields.page.name.name'), PageModel::ATTRIBUTE_NAME)
                 ->sortable()
@@ -131,7 +132,9 @@ class Page extends BaseResource
                 ->rules(['required', 'max:192'])
                 ->help(__('nova.fields.page.name.help'))
                 ->showOnPreview()
-                ->filterable(),
+                ->filterable()
+                ->maxlength(192)
+                ->showWhenPeeking(),
 
             Slug::make(__('nova.fields.page.slug.name'), PageModel::ATTRIBUTE_SLUG)
                 ->from(PageModel::ATTRIBUTE_NAME)
@@ -145,7 +148,8 @@ class Page extends BaseResource
                         ->__toString()
                 )
                 ->help(__('nova.fields.page.slug.help'))
-                ->showOnPreview(),
+                ->showOnPreview()
+                ->showWhenPeeking(),
 
             Markdown::make(__('nova.fields.page.body.name'), PageModel::ATTRIBUTE_BODY)
                 ->rules(['required', 'max:16777215'])

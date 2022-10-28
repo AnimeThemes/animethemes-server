@@ -7,7 +7,6 @@ namespace App\Nova\Lenses\Video;
 use App\Enums\Http\Api\Filter\ComparisonOperator;
 use App\Enums\Models\Wiki\VideoOverlap;
 use App\Enums\Models\Wiki\VideoSource;
-use App\Models\Auth\User;
 use App\Models\BaseModel;
 use App\Models\Wiki\Video;
 use App\Nova\Actions\Models\Wiki\Video\BackfillAudioAction;
@@ -15,7 +14,6 @@ use App\Nova\Lenses\BaseLens;
 use BenSampo\Enum\Enum;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\ID;
@@ -137,11 +135,7 @@ class VideoAudioLens extends BaseLens
                 ->showOnIndex()
                 ->showOnDetail()
                 ->showInline()
-                ->canSee(function (Request $request) {
-                    $user = $request->user();
-
-                    return $user instanceof User && $user->can('update video');
-                }),
+                ->canSeeWhen('update', Video::class),
         ];
     }
 

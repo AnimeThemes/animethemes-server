@@ -116,14 +116,17 @@ class Role extends BaseResource
         return [
             ID::make(__('nova.fields.base.id'), RoleModel::ATTRIBUTE_ID)
                 ->sortable()
-                ->showOnPreview(),
+                ->showOnPreview()
+                ->showWhenPeeking(),
 
             Text::make(__('nova.fields.role.name'), RoleModel::ATTRIBUTE_NAME)
                 ->sortable()
                 ->copyable()
                 ->rules(['required', 'max:192'])
                 ->showOnPreview()
-                ->filterable(),
+                ->filterable()
+                ->maxlength(192)
+                ->showWhenPeeking(),
 
             BelongsToMany::make(__('nova.resources.label.permissions'), RoleModel::RELATION_PERMISSIONS, Permission::class)
                 ->filterable(),

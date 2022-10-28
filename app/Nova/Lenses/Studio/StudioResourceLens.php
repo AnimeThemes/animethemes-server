@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Nova\Lenses\Studio;
 
 use App\Enums\Models\Wiki\ResourceSite;
-use App\Models\Auth\User;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Studio;
 use App\Nova\Actions\Models\Wiki\Studio\AttachStudioResourceAction;
@@ -64,11 +63,7 @@ abstract class StudioResourceLens extends StudioLens
                 ->confirmButtonText(__('nova.actions.models.wiki.attach_resource.confirmButtonText'))
                 ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
                 ->showInline()
-                ->canSee(function (Request $request) {
-                    $user = $request->user();
-
-                    return $user instanceof User && $user->can('create external resource');
-                }),
+                ->canSeeWhen('create', ExternalResource::class),
         ];
     }
 }
