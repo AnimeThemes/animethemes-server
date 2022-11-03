@@ -54,6 +54,24 @@ class AnnouncementRestoreTest extends TestCase
     }
 
     /**
+     * The Announcement Restore Endpoint shall forbid users from restoring an announcement that isn't trashed.
+     *
+     * @return void
+     */
+    public function testTrashed(): void
+    {
+        $announcement = Announcement::factory()->createOne();
+
+        $user = User::factory()->withPermission('restore announcement')->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->patch(route('api.announcement.restore', ['announcement' => $announcement]));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Announcement Restore Endpoint shall restore the announcement.
      *
      * @return void

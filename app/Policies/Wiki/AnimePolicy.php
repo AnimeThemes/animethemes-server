@@ -87,11 +87,12 @@ class AnimePolicy
      * Determine whether the user can restore the model.
      *
      * @param  User  $user
+     * @param  Anime  $anime
      * @return bool
      */
-    public function restore(User $user): bool
+    public function restore(User $user, Anime $anime): bool
     {
-        return $user->can('restore anime');
+        return $anime->trashed() && $user->can('restore anime');
     }
 
     /**

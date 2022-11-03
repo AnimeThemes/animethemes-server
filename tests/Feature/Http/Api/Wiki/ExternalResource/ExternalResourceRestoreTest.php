@@ -54,6 +54,24 @@ class ExternalResourceRestoreTest extends TestCase
     }
 
     /**
+     * The External Resource Restore Endpoint shall forbid users from restoring a resource that isn't trashed.
+     *
+     * @return void
+     */
+    public function testTrashed(): void
+    {
+        $resource = ExternalResource::factory()->createOne();
+
+        $user = User::factory()->withPermission('restore external resource')->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->patch(route('api.resource.restore', ['resource' => $resource]));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The External Resource Restore Endpoint shall restore the resource.
      *
      * @return void

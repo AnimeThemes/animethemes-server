@@ -85,11 +85,12 @@ class StudioPolicy
      * Determine whether the user can restore the model.
      *
      * @param  User  $user
+     * @param  Studio  $studio
      * @return bool
      */
-    public function restore(User $user): bool
+    public function restore(User $user, Studio $studio): bool
     {
-        return $user->can('restore studio');
+        return $studio->trashed() && $user->can('restore studio');
     }
 
     /**

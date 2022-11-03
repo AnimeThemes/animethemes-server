@@ -70,6 +70,26 @@ class PlaylistRestoreTest extends TestCase
     }
 
     /**
+     * The Playlist Restore Endpoint shall forbid users from restoring a playlist that isn't trashed.
+     *
+     * @return void
+     */
+    public function testTrashed(): void
+    {
+        $user = User::factory()->withPermission('restore playlist')->createOne();
+
+        $playlist = Playlist::factory()
+            ->for($user)
+            ->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->patch(route('api.playlist.restore', ['playlist' => $playlist]));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Playlist Restore Endpoint shall restore the playlist.
      *
      * @return void

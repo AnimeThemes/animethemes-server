@@ -89,11 +89,12 @@ class ImagePolicy
      * Determine whether the user can restore the model.
      *
      * @param  User  $user
+     * @param  Image  $image
      * @return bool
      */
-    public function restore(User $user): bool
+    public function restore(User $user, Image $image): bool
     {
-        return $user->can('restore image');
+        return $image->trashed() && $user->can('restore image');
     }
 
     /**

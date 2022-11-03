@@ -54,6 +54,24 @@ class TransactionRestoreTest extends TestCase
     }
 
     /**
+     * The Transaction Restore Endpoint shall forbid users from restoring a transaction that isn't trashed.
+     *
+     * @return void
+     */
+    public function testTrashed(): void
+    {
+        $transaction = Transaction::factory()->createOne();
+
+        $user = User::factory()->withPermission('restore transaction')->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->patch(route('api.transaction.restore', ['transaction' => $transaction]));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Transaction Restore Endpoint shall restore the transaction.
      *
      * @return void

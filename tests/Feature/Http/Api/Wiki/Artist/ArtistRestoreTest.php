@@ -54,6 +54,24 @@ class ArtistRestoreTest extends TestCase
     }
 
     /**
+     * The Artist Restore Endpoint shall forbid users from restoring an artist that isn't trashed.
+     *
+     * @return void
+     */
+    public function testTrashed(): void
+    {
+        $artist = Artist::factory()->createOne();
+
+        $user = User::factory()->withPermission('restore artist')->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->patch(route('api.artist.restore', ['artist' => $artist]));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Artist Restore Endpoint shall restore the artist.
      *
      * @return void

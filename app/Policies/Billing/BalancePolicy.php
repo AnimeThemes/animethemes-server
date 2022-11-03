@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Policies\Billing;
 
 use App\Models\Auth\User;
+use App\Models\Billing\Balance;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Laravel\Nova\Nova;
 
@@ -80,11 +81,12 @@ class BalancePolicy
      * Determine whether the user can restore the model.
      *
      * @param  User  $user
+     * @param  Balance  $balance
      * @return bool
      */
-    public function restore(User $user): bool
+    public function restore(User $user, Balance $balance): bool
     {
-        return $user->can('restore balance');
+        return $balance->trashed() && $user->can('restore balance');
     }
 
     /**

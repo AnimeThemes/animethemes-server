@@ -105,6 +105,26 @@ class TrackRestoreTest extends TestCase
     }
 
     /**
+     * The Track Restore Endpoint shall forbid users from restoring a playlist track that isn't trashed.
+     *
+     * @return void
+     */
+    public function testTrashed(): void
+    {
+        $user = User::factory()->withPermission('restore playlist track')->createOne();
+
+        $track = PlaylistTrack::factory()
+            ->for(Playlist::factory()->for($user))
+            ->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->patch(route('api.playlist.playlisttrack.restore', ['playlist' => $track->playlist, 'playlisttrack' => $track]));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Track Restore Endpoint shall restore the playlist track.
      *
      * @return void

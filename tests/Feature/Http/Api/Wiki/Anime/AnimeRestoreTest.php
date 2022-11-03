@@ -54,6 +54,24 @@ class AnimeRestoreTest extends TestCase
     }
 
     /**
+     * The Anime Restore Endpoint shall forbid users from restoring an anime that isn't trashed.
+     *
+     * @return void
+     */
+    public function testTrashed(): void
+    {
+        $anime = Anime::factory()->createOne();
+
+        $user = User::factory()->withPermission('restore anime')->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->patch(route('api.anime.restore', ['anime' => $anime]));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Anime Restore Endpoint shall restore the anime.
      *
      * @return void

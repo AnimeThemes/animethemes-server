@@ -105,7 +105,7 @@ class PlaylistPolicy
     {
         return Nova::whenServing(
             fn (): bool => $user->hasRole('Admin'),
-            fn (): bool => $user->can('restore playlist') && $user->getKey() === $playlist->user_id
+            fn (): bool => $playlist->trashed() && $user->getKey() === $playlist->user_id && $user->can('restore playlist')
         );
     }
 

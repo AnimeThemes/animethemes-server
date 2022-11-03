@@ -54,6 +54,24 @@ class ScriptRestoreTest extends TestCase
     }
 
     /**
+     * The Script Restore Endpoint shall forbid users from restoring a script that isn't trashed.
+     *
+     * @return void
+     */
+    public function testTrashed(): void
+    {
+        $script = VideoScript::factory()->createOne();
+
+        $user = User::factory()->withPermission('restore video script')->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->patch(route('api.videoscript.restore', ['videoscript' => $script]));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Script Restore Endpoint shall restore the script.
      *
      * @return void

@@ -83,11 +83,12 @@ class SeriesPolicy
      * Determine whether the user can restore the model.
      *
      * @param  User  $user
+     * @param  Series  $series
      * @return bool
      */
-    public function restore(User $user): bool
+    public function restore(User $user, Series $series): bool
     {
-        return $user->can('restore series');
+        return $series->trashed() && $user->can('restore series');
     }
 
     /**

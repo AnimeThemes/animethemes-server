@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Policies\Wiki;
 
 use App\Models\Auth\User;
+use App\Models\Wiki\Audio;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Laravel\Nova\Nova;
 
@@ -80,11 +81,12 @@ class AudioPolicy
      * Determine whether the user can restore the model.
      *
      * @param  User  $user
+     * @param  Audio  $audio
      * @return bool
      */
-    public function restore(User $user): bool
+    public function restore(User $user, Audio $audio): bool
     {
-        return $user->can('restore audio');
+        return $audio->trashed() && $user->can('restore audio');
     }
 
     /**

@@ -54,6 +54,24 @@ class PageRestoreTest extends TestCase
     }
 
     /**
+     * The Page Restore Endpoint shall forbid users from restoring a page that isn't trashed.
+     *
+     * @return void
+     */
+    public function testTrashed(): void
+    {
+        $page = Page::factory()->createOne();
+
+        $user = User::factory()->withPermission('restore page')->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->patch(route('api.page.restore', ['page' => $page]));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Page Restore Endpoint shall restore the page.
      *
      * @return void
