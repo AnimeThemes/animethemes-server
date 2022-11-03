@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Policies\Wiki\Video;
 
 use App\Models\Auth\User;
+use App\Models\Wiki\Video\VideoScript;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Laravel\Nova\Nova;
 
@@ -80,11 +81,12 @@ class VideoScriptPolicy
      * Determine whether the user can restore the model.
      *
      * @param  User  $user
+     * @param  VideoScript  $videoscript
      * @return bool
      */
-    public function restore(User $user): bool
+    public function restore(User $user, VideoScript $videoscript): bool
     {
-        return $user->can('restore video script');
+        return $videoscript->trashed() && $user->can('restore video script');
     }
 
     /**

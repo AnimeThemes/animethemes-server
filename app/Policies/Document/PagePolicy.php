@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Policies\Document;
 
 use App\Models\Auth\User;
+use App\Models\Document\Page;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Laravel\Nova\Nova;
 
@@ -80,11 +81,12 @@ class PagePolicy
      * Determine whether the user can restore the model.
      *
      * @param  User  $user
+     * @param  Page  $page
      * @return bool
      */
-    public function restore(User $user): bool
+    public function restore(User $user, Page $page): bool
     {
-        return $user->can('restore page');
+        return $page->trashed() && $user->can('restore page');
     }
 
     /**

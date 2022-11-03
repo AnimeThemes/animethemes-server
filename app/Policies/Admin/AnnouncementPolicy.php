@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Policies\Admin;
 
+use App\Models\Admin\Announcement;
 use App\Models\Auth\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Laravel\Nova\Nova;
@@ -80,11 +81,12 @@ class AnnouncementPolicy
      * Determine whether the user can restore the model.
      *
      * @param  User  $user
+     * @param  Announcement  $announcement
      * @return bool
      */
-    public function restore(User $user): bool
+    public function restore(User $user, Announcement $announcement): bool
     {
-        return $user->can('restore announcement');
+        return $announcement->trashed() && $user->can('restore announcement');
     }
 
     /**

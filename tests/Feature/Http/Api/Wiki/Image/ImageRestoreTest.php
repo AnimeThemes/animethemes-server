@@ -54,6 +54,24 @@ class ImageRestoreTest extends TestCase
     }
 
     /**
+     * The Image Restore Endpoint shall forbid users from restoring an image that isn't trashed.
+     *
+     * @return void
+     */
+    public function testTrashed(): void
+    {
+        $image = Image::factory()->createOne();
+
+        $user = User::factory()->withPermission('restore image')->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->patch(route('api.image.restore', ['image' => $image]));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Image Restore Endpoint shall restore the image.
      *
      * @return void

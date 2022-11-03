@@ -55,6 +55,24 @@ class SynonymRestoreTest extends TestCase
     }
 
     /**
+     * The Synonym Restore Endpoint shall forbid users from restoring an anime synonym that isn't trashed.
+     *
+     * @return void
+     */
+    public function testTrashed(): void
+    {
+        $synonym = AnimeSynonym::factory()->for(Anime::factory())->createOne();
+
+        $user = User::factory()->withPermission('restore anime synonym')->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->patch(route('api.animesynonym.restore', ['animesynonym' => $synonym]));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Synonym Restore Endpoint shall restore the synonym.
      *
      * @return void

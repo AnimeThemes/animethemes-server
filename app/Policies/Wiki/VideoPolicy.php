@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Policies\Wiki;
 
 use App\Models\Auth\User;
+use App\Models\Wiki\Video;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Laravel\Nova\Nova;
 
@@ -80,11 +81,12 @@ class VideoPolicy
      * Determine whether the user can restore the model.
      *
      * @param  User  $user
+     * @param  Video  $video
      * @return bool
      */
-    public function restore(User $user): bool
+    public function restore(User $user, Video $video): bool
     {
-        return $user->can('restore video');
+        return $video->trashed() && $user->can('restore video');
     }
 
     /**

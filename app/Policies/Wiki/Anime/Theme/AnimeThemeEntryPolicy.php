@@ -83,11 +83,12 @@ class AnimeThemeEntryPolicy
      * Determine whether the user can restore the model.
      *
      * @param  User  $user
+     * @param  AnimeThemeEntry  $animethemeentry
      * @return bool
      */
-    public function restore(User $user): bool
+    public function restore(User $user, AnimeThemeEntry $animethemeentry): bool
     {
-        return $user->can('restore anime theme entry');
+        return $animethemeentry->trashed() && $user->can('restore anime theme entry');
     }
 
     /**

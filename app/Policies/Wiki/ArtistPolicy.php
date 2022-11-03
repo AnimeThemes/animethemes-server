@@ -83,11 +83,12 @@ class ArtistPolicy
      * Determine whether the user can restore the model.
      *
      * @param  User  $user
+     * @param  Artist  $artist
      * @return bool
      */
-    public function restore(User $user): bool
+    public function restore(User $user, Artist $artist): bool
     {
-        return $user->can('restore artist');
+        return $artist->trashed() && $user->can('restore artist');
     }
 
     /**

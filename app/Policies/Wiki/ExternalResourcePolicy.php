@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Policies\Wiki;
 
 use App\Models\Auth\User;
+use App\Models\Wiki\ExternalResource;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Laravel\Nova\Nova;
 
@@ -80,11 +81,12 @@ class ExternalResourcePolicy
      * Determine whether the user can restore the model.
      *
      * @param  User  $user
+     * @param  ExternalResource  $resource
      * @return bool
      */
-    public function restore(User $user): bool
+    public function restore(User $user, ExternalResource $resource): bool
     {
-        return $user->can('restore external resource');
+        return $resource->trashed() && $user->can('restore external resource');
     }
 
     /**

@@ -54,6 +54,24 @@ class SongRestoreTest extends TestCase
     }
 
     /**
+     * The Song Restore Endpoint shall forbid users from restoring a song that isn't trashed.
+     *
+     * @return void
+     */
+    public function testTrashed(): void
+    {
+        $song = Song::factory()->createOne();
+
+        $user = User::factory()->withPermission('restore song')->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->patch(route('api.song.restore', ['song' => $song]));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Song Restore Endpoint shall restore the song.
      *
      * @return void

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Policies\Wiki;
 
 use App\Models\Auth\User;
+use App\Models\Wiki\Song;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Laravel\Nova\Nova;
 
@@ -80,11 +81,12 @@ class SongPolicy
      * Determine whether the user can restore the model.
      *
      * @param  User  $user
+     * @param  Song  $song
      * @return bool
      */
-    public function restore(User $user): bool
+    public function restore(User $user, Song $song): bool
     {
-        return $user->can('restore song');
+        return $song->trashed() && $user->can('restore song');
     }
 
     /**

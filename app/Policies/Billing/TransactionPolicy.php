@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Policies\Billing;
 
 use App\Models\Auth\User;
+use App\Models\Billing\Transaction;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Laravel\Nova\Nova;
 
@@ -80,11 +81,12 @@ class TransactionPolicy
      * Determine whether the user can restore the model.
      *
      * @param  User  $user
+     * @param  Transaction  $transaction
      * @return bool
      */
-    public function restore(User $user): bool
+    public function restore(User $user, Transaction $transaction): bool
     {
-        return $user->can('restore transaction');
+        return $transaction->trashed() && $user->can('restore transaction');
     }
 
     /**

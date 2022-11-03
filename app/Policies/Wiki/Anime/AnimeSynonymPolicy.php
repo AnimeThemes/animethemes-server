@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Policies\Wiki\Anime;
 
 use App\Models\Auth\User;
+use App\Models\Wiki\Anime\AnimeSynonym;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Laravel\Nova\Nova;
 
@@ -80,11 +81,12 @@ class AnimeSynonymPolicy
      * Determine whether the user can restore the model.
      *
      * @param  User  $user
+     * @param  AnimeSynonym  $animesynonym
      * @return bool
      */
-    public function restore(User $user): bool
+    public function restore(User $user, AnimeSynonym $animesynonym): bool
     {
-        return $user->can('restore anime synonym');
+        return $animesynonym->trashed() && $user->can('restore anime synonym');
     }
 
     /**

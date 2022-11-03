@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Policies\Wiki\Anime;
 
 use App\Models\Auth\User;
+use App\Models\Wiki\Anime\AnimeTheme;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Laravel\Nova\Nova;
 
@@ -80,11 +81,12 @@ class AnimeThemePolicy
      * Determine whether the user can restore the model.
      *
      * @param  User  $user
+     * @param  AnimeTheme  $animetheme
      * @return bool
      */
-    public function restore(User $user): bool
+    public function restore(User $user, AnimeTheme $animetheme): bool
     {
-        return $user->can('restore anime theme');
+        return $animetheme->trashed() && $user->can('restore anime theme');
     }
 
     /**

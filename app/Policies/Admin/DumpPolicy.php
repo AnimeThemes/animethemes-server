@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Policies\Admin;
 
+use App\Models\Admin\Dump;
 use App\Models\Auth\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Laravel\Nova\Nova;
@@ -80,11 +81,12 @@ class DumpPolicy
      * Determine whether the user can restore the model.
      *
      * @param  User  $user
+     * @param  Dump  $dump
      * @return bool
      */
-    public function restore(User $user): bool
+    public function restore(User $user, Dump $dump): bool
     {
-        return $user->can('restore dump');
+        return $dump->trashed() && $user->can('restore dump');
     }
 
     /**

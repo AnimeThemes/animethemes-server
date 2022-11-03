@@ -54,6 +54,24 @@ class DumpRestoreTest extends TestCase
     }
 
     /**
+     * The Dump Restore Endpoint shall forbid users from restoring a dump that isn't trashed.
+     *
+     * @return void
+     */
+    public function testTrashed(): void
+    {
+        $dump = Dump::factory()->createOne();
+
+        $user = User::factory()->withPermission('restore dump')->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->patch(route('api.dump.restore', ['dump' => $dump]));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Dump Restore Endpoint shall restore the dump.
      *
      * @return void

@@ -54,6 +54,24 @@ class StudioRestoreTest extends TestCase
     }
 
     /**
+     * The Studio Restore Endpoint shall forbid users from restoring a studio that isn't trashed.
+     *
+     * @return void
+     */
+    public function testTrashed(): void
+    {
+        $studio = Studio::factory()->createOne();
+
+        $user = User::factory()->withPermission('restore studio')->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->patch(route('api.studio.restore', ['studio' => $studio]));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Studio Restore Endpoint shall restore the studio.
      *
      * @return void

@@ -54,6 +54,24 @@ class SeriesRestoreTest extends TestCase
     }
 
     /**
+     * The Series Restore Endpoint shall forbid users from restoring a series that isn't trashed.
+     *
+     * @return void
+     */
+    public function testTrashed(): void
+    {
+        $series = Series::factory()->createOne();
+
+        $user = User::factory()->withPermission('restore series')->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->patch(route('api.series.restore', ['series' => $series]));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Series Restore Endpoint shall restore the series.
      *
      * @return void

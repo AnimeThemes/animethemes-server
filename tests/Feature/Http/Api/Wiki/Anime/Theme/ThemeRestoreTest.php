@@ -55,6 +55,24 @@ class ThemeRestoreTest extends TestCase
     }
 
     /**
+     * The Theme Restore Endpoint shall forbid users from restoring an anime theme that isn't trashed.
+     *
+     * @return void
+     */
+    public function testTrashed(): void
+    {
+        $theme = AnimeTheme::factory()->for(Anime::factory())->createOne();
+
+        $user = User::factory()->withPermission('restore anime theme')->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->patch(route('api.animetheme.restore', ['animetheme' => $theme]));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Theme Restore Endpoint shall restore the theme.
      *
      * @return void
