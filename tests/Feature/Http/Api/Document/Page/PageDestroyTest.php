@@ -50,6 +50,26 @@ class PageDestroyTest extends TestCase
     }
 
     /**
+     * The Page Destroy Endpoint shall forbid users from updating a page that is trashed.
+     *
+     * @return void
+     */
+    public function testTrashed(): void
+    {
+        $page = Page::factory()->createOne();
+
+        $page->delete();
+
+        $user = User::factory()->withPermission('delete page')->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->delete(route('api.page.destroy', ['page' => $page]));
+
+        $response->assertNotFound();
+    }
+
+    /**
      * The Page Destroy Endpoint shall delete the page.
      *
      * @return void

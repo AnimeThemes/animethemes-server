@@ -54,6 +54,28 @@ class ArtistUpdateTest extends TestCase
     }
 
     /**
+     * The Artist Update Endpoint shall forbid users from updating an artist that is trashed.
+     *
+     * @return void
+     */
+    public function testTrashed(): void
+    {
+        $artist = Artist::factory()->createOne();
+
+        $artist->delete();
+
+        $parameters = Artist::factory()->raw();
+
+        $user = User::factory()->withPermission('update artist')->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->put(route('api.artist.update', ['artist' => $artist] + $parameters));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Artist Update Endpoint shall update an artist.
      *
      * @return void

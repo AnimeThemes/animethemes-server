@@ -89,11 +89,11 @@ class PlaylistTrackPolicy
     {
         return Nova::whenServing(
             fn (): bool => $user->hasRole('Admin'),
-            function (Request $request) use ($user): bool {
+            function (Request $request) use ($user, $track): bool {
                 /** @var Playlist|null $playlist */
                 $playlist = $request->route('playlist');
 
-                return $user->can('update playlist track') && $user->getKey() === $playlist?->user_id;
+                return ! $track->trashed() && $user->getKey() === $playlist?->user_id && $user->can('update playlist track');
             }
         );
     }
@@ -111,11 +111,11 @@ class PlaylistTrackPolicy
     {
         return Nova::whenServing(
             fn (): bool => $user->hasRole('Admin'),
-            function (Request $request) use ($user): bool {
+            function (Request $request) use ($user, $track): bool {
                 /** @var Playlist|null $playlist */
                 $playlist = $request->route('playlist');
 
-                return $user->can('delete playlist track') && $user->getKey() === $playlist?->user_id;
+                return ! $track->trashed() && $user->getKey() === $playlist?->user_id && $user->can('delete playlist track');
             }
         );
     }

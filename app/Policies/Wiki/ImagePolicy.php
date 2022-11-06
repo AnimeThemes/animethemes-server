@@ -67,22 +67,24 @@ class ImagePolicy
      * Determine whether the user can update the model.
      *
      * @param  User  $user
+     * @param  Image  $image
      * @return bool
      */
-    public function update(User $user): bool
+    public function update(User $user, Image $image): bool
     {
-        return $user->can('update image');
+        return ! $image->trashed() && $user->can('update image');
     }
 
     /**
      * Determine whether the user can delete the model.
      *
      * @param  User  $user
+     * @param  Image  $image
      * @return bool
      */
-    public function delete(User $user): bool
+    public function delete(User $user, Image $image): bool
     {
-        return $user->can('delete image');
+        return ! $image->trashed() && $user->can('delete image');
     }
 
     /**

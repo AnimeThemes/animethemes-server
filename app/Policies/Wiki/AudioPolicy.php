@@ -59,22 +59,24 @@ class AudioPolicy
      * Determine whether the user can update the model.
      *
      * @param  User  $user
+     * @param  Audio  $audio
      * @return bool
      */
-    public function update(User $user): bool
+    public function update(User $user, Audio $audio): bool
     {
-        return $user->can('update audio');
+        return ! $audio->trashed() && $user->can('update audio');
     }
 
     /**
      * Determine whether the user can delete the model.
      *
      * @param  User  $user
+     * @param  Audio  $audio
      * @return bool
      */
-    public function delete(User $user): bool
+    public function delete(User $user, Audio $audio): bool
     {
-        return $user->can('delete audio');
+        return ! $audio->trashed() && $user->can('delete audio');
     }
 
     /**

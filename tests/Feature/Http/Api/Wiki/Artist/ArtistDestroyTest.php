@@ -50,6 +50,26 @@ class ArtistDestroyTest extends TestCase
     }
 
     /**
+     * The Artist Destroy Endpoint shall forbid users from updating an artist that is trashed.
+     *
+     * @return void
+     */
+    public function testTrashed(): void
+    {
+        $artist = Artist::factory()->createOne();
+
+        $artist->delete();
+
+        $user = User::factory()->withPermission('delete artist')->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->delete(route('api.artist.destroy', ['artist' => $artist]));
+
+        $response->assertNotFound();
+    }
+
+    /**
      * The Artist Destroy Endpoint shall delete the artist.
      *
      * @return void

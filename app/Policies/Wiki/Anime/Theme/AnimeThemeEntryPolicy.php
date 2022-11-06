@@ -61,22 +61,24 @@ class AnimeThemeEntryPolicy
      * Determine whether the user can update the model.
      *
      * @param  User  $user
+     * @param  AnimeThemeEntry  $animethemeentry
      * @return bool
      */
-    public function update(User $user): bool
+    public function update(User $user, AnimeThemeEntry $animethemeentry): bool
     {
-        return $user->can('update anime theme entry');
+        return ! $animethemeentry->trashed() && $user->can('update anime theme entry');
     }
 
     /**
      * Determine whether the user can delete the model.
      *
      * @param  User  $user
+     * @param  AnimeThemeEntry  $animethemeentry
      * @return bool
      */
-    public function delete(User $user): bool
+    public function delete(User $user, AnimeThemeEntry $animethemeentry): bool
     {
-        return $user->can('delete anime theme entry');
+        return ! $animethemeentry->trashed() && $user->can('delete anime theme entry');
     }
 
     /**

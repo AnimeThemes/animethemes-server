@@ -50,6 +50,26 @@ class VideoDestroyTest extends TestCase
     }
 
     /**
+     * The Video Destroy Endpoint shall forbid users from updating a video that is trashed.
+     *
+     * @return void
+     */
+    public function testTrashed(): void
+    {
+        $video = Video::factory()->createOne();
+
+        $video->delete();
+
+        $user = User::factory()->withPermission('delete video')->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->delete(route('api.video.destroy', ['video' => $video]));
+
+        $response->assertNotFound();
+    }
+
+    /**
      * The Video Destroy Endpoint shall delete the video.
      *
      * @return void

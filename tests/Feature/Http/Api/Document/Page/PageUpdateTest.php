@@ -54,6 +54,28 @@ class PageUpdateTest extends TestCase
     }
 
     /**
+     * The Page Update Endpoint shall forbid users from updating a page that is trashed.
+     *
+     * @return void
+     */
+    public function testTrashed(): void
+    {
+        $page = Page::factory()->createOne();
+
+        $page->delete();
+
+        $parameters = Page::factory()->raw();
+
+        $user = User::factory()->withPermission('update page')->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->put(route('api.page.update', ['page' => $page] + $parameters));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Page Update Endpoint shall update an page.
      *
      * @return void

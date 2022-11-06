@@ -59,22 +59,24 @@ class TransactionPolicy
      * Determine whether the user can update the model.
      *
      * @param  User  $user
+     * @param  Transaction  $transaction
      * @return bool
      */
-    public function update(User $user): bool
+    public function update(User $user, Transaction $transaction): bool
     {
-        return $user->can('update transaction');
+        return ! $transaction->trashed() && $user->can('update transaction');
     }
 
     /**
      * Determine whether the user can delete the model.
      *
      * @param  User  $user
+     * @param  Transaction  $transaction
      * @return bool
      */
-    public function delete(User $user): bool
+    public function delete(User $user, Transaction $transaction): bool
     {
-        return $user->can('delete transaction');
+        return ! $transaction->trashed() && $user->can('delete transaction');
     }
 
     /**

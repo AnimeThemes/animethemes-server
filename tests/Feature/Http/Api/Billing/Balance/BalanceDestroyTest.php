@@ -50,6 +50,26 @@ class BalanceDestroyTest extends TestCase
     }
 
     /**
+     * The Balance Destroy Endpoint shall forbid users from updating a balance that is trashed.
+     *
+     * @return void
+     */
+    public function testTrashed(): void
+    {
+        $balance = Balance::factory()->createOne();
+
+        $balance->delete();
+
+        $user = User::factory()->withPermission('delete balance')->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->delete(route('api.balance.destroy', ['balance' => $balance]));
+
+        $response->assertNotFound();
+    }
+
+    /**
      * The Balance Destroy Endpoint shall delete the balance.
      *
      * @return void

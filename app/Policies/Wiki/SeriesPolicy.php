@@ -61,22 +61,24 @@ class SeriesPolicy
      * Determine whether the user can update the model.
      *
      * @param  User  $user
+     * @param  Series  $series
      * @return bool
      */
-    public function update(User $user): bool
+    public function update(User $user, Series $series): bool
     {
-        return $user->can('update series');
+        return ! $series->trashed() && $user->can('update series');
     }
 
     /**
      * Determine whether the user can delete the model.
      *
      * @param  User  $user
+     * @param  Series  $series
      * @return bool
      */
-    public function delete(User $user): bool
+    public function delete(User $user, Series $series): bool
     {
-        return $user->can('delete series');
+        return ! $series->trashed() && $user->can('delete series');
     }
 
     /**

@@ -61,6 +61,33 @@ class ExternalResourceUpdateTest extends TestCase
     }
 
     /**
+     * The External Resource Update Endpoint shall forbid users from updating a resource that is trashed.
+     *
+     * @return void
+     */
+    public function testTrashed(): void
+    {
+        $resource = ExternalResource::factory()->createOne([
+            ExternalResource::ATTRIBUTE_SITE => ResourceSite::OFFICIAL_SITE,
+        ]);
+
+        $resource->delete();
+
+        $parameters = array_merge(
+            ExternalResource::factory()->raw(),
+            [ExternalResource::ATTRIBUTE_SITE => ResourceSite::getDescription(ResourceSite::OFFICIAL_SITE)]
+        );
+
+        $user = User::factory()->withPermission('update external resource')->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->put(route('api.resource.update', ['resource' => $resource] + $parameters));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The External Resource Update Endpoint shall update a resource.
      *
      * @return void

@@ -59,22 +59,24 @@ class AnnouncementPolicy
      * Determine whether the user can update the model.
      *
      * @param  User  $user
+     * @param  Announcement  $announcement
      * @return bool
      */
-    public function update(User $user): bool
+    public function update(User $user, Announcement $announcement): bool
     {
-        return $user->can('update announcement');
+        return ! $announcement->trashed() && $user->can('update announcement');
     }
 
     /**
      * Determine whether the user can delete the model.
      *
      * @param  User  $user
+     * @param  Announcement  $announcement
      * @return bool
      */
-    public function delete(User $user): bool
+    public function delete(User $user, Announcement $announcement): bool
     {
-        return $user->can('delete announcement');
+        return ! $announcement->trashed() && $user->can('delete announcement');
     }
 
     /**

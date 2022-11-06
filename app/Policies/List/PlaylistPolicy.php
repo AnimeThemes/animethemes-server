@@ -75,7 +75,7 @@ class PlaylistPolicy
     {
         return Nova::whenServing(
             fn (): bool => $user->hasRole('Admin'),
-            fn (): bool => $user->can('update playlist') && $user->getKey() === $playlist->user_id
+            fn (): bool => ! $playlist->trashed() && $user->getKey() === $playlist->user_id && $user->can('update playlist')
         );
     }
 
@@ -90,7 +90,7 @@ class PlaylistPolicy
     {
         return Nova::whenServing(
             fn (): bool => $user->hasRole('Admin'),
-            fn (): bool => $user->can('delete playlist') && $user->getKey() === $playlist->user_id
+            fn (): bool => ! $playlist->trashed() && $user->getKey() === $playlist->user_id && $user->can('delete playlist')
         );
     }
 

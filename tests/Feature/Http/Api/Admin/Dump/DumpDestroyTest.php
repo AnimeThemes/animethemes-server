@@ -50,6 +50,26 @@ class DumpDestroyTest extends TestCase
     }
 
     /**
+     * The Dump Destroy Endpoint shall forbid users from updating a dump that is trashed.
+     *
+     * @return void
+     */
+    public function testTrashed(): void
+    {
+        $dump = Dump::factory()->createOne();
+
+        $dump->delete();
+
+        $user = User::factory()->withPermission('delete dump')->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->delete(route('api.dump.destroy', ['dump' => $dump]));
+
+        $response->assertNotFound();
+    }
+
+    /**
      * The Dump Destroy Endpoint shall delete the dump.
      *
      * @return void

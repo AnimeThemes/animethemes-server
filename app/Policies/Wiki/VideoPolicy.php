@@ -59,22 +59,24 @@ class VideoPolicy
      * Determine whether the user can update the model.
      *
      * @param  User  $user
+     * @param  Video  $video
      * @return bool
      */
-    public function update(User $user): bool
+    public function update(User $user, Video $video): bool
     {
-        return $user->can('update video');
+        return ! $video->trashed() && $user->can('update video');
     }
 
     /**
      * Determine whether the user can delete the model.
      *
      * @param  User  $user
+     * @param  Video  $video
      * @return bool
      */
-    public function delete(User $user): bool
+    public function delete(User $user, Video $video): bool
     {
-        return $user->can('delete video');
+        return ! $video->trashed() && $user->can('delete video');
     }
 
     /**

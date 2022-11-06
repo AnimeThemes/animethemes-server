@@ -54,6 +54,28 @@ class SeriesUpdateTest extends TestCase
     }
 
     /**
+     * The Series Update Endpoint shall forbid users from updating a series that is trashed.
+     *
+     * @return void
+     */
+    public function testTrashed(): void
+    {
+        $series = Series::factory()->createOne();
+
+        $series->delete();
+
+        $parameters = Series::factory()->raw();
+
+        $user = User::factory()->withPermission('update series')->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->put(route('api.series.update', ['series' => $series] + $parameters));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Series Update Endpoint shall update a series.
      *
      * @return void

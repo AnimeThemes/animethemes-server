@@ -63,22 +63,24 @@ class StudioPolicy
      * Determine whether the user can update the model.
      *
      * @param  User  $user
+     * @param  Studio  $studio
      * @return bool
      */
-    public function update(User $user): bool
+    public function update(User $user, Studio $studio): bool
     {
-        return $user->can('update studio');
+        return ! $studio->trashed() && $user->can('update studio');
     }
 
     /**
      * Determine whether the user can delete the model.
      *
      * @param  User  $user
+     * @param  Studio  $studio
      * @return bool
      */
-    public function delete(User $user): bool
+    public function delete(User $user, Studio $studio): bool
     {
-        return $user->can('delete studio');
+        return ! $studio->trashed() && $user->can('delete studio');
     }
 
     /**

@@ -72,7 +72,7 @@ class AudioStoreTest extends TestCase
     }
 
     /**
-     * The Audio Store Endpoint shall create a audio.
+     * The Audio Store Endpoint shall create an audio.
      *
      * @return void
      */

@@ -54,6 +54,28 @@ class StudioUpdateTest extends TestCase
     }
 
     /**
+     * The Studio Update Endpoint shall forbid users from updating a studio that is trashed.
+     *
+     * @return void
+     */
+    public function testTrashed(): void
+    {
+        $studio = Studio::factory()->createOne();
+
+        $studio->delete();
+
+        $parameters = Studio::factory()->raw();
+
+        $user = User::factory()->withPermission('update studio')->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->put(route('api.studio.update', ['studio' => $studio] + $parameters));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Studio Update Endpoint shall update a studio.
      *
      * @return void

@@ -61,22 +61,24 @@ class ArtistPolicy
      * Determine whether the user can update the model.
      *
      * @param  User  $user
+     * @param  Artist  $artist
      * @return bool
      */
-    public function update(User $user): bool
+    public function update(User $user, Artist $artist): bool
     {
-        return $user->can('update artist');
+        return ! $artist->trashed() && $user->can('update artist');
     }
 
     /**
      * Determine whether the user can delete the model.
      *
      * @param  User  $user
+     * @param  Artist  $artist
      * @return bool
      */
-    public function delete(User $user): bool
+    public function delete(User $user, Artist $artist): bool
     {
-        return $user->can('delete artist');
+        return ! $artist->trashed() && $user->can('delete artist');
     }
 
     /**

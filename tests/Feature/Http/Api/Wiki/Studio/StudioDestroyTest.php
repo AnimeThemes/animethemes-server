@@ -50,6 +50,26 @@ class StudioDestroyTest extends TestCase
     }
 
     /**
+     * The Studio Destroy Endpoint shall forbid users from updating a studio that is trashed.
+     *
+     * @return void
+     */
+    public function testTrashed(): void
+    {
+        $studio = Studio::factory()->createOne();
+
+        $studio->delete();
+
+        $user = User::factory()->withPermission('delete studio')->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->delete(route('api.studio.destroy', ['studio' => $studio]));
+
+        $response->assertNotFound();
+    }
+
+    /**
      * The Studio Destroy Endpoint shall delete the studio.
      *
      * @return void

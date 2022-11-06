@@ -50,6 +50,26 @@ class ExternalResourceDestroyTest extends TestCase
     }
 
     /**
+     * The External Resource Destroy Endpoint shall forbid users from updating a resource that is trashed.
+     *
+     * @return void
+     */
+    public function testTrashed(): void
+    {
+        $resource = ExternalResource::factory()->createOne();
+
+        $resource->delete();
+
+        $user = User::factory()->withPermission('delete external resource')->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->delete(route('api.resource.destroy', ['resource' => $resource]));
+
+        $response->assertNotFound();
+    }
+
+    /**
      * The External Resource Destroy Endpoint shall delete the resource.
      *
      * @return void

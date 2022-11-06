@@ -56,6 +56,28 @@ class EntryDestroyTest extends TestCase
     }
 
     /**
+     * The Entry Destroy Endpoint shall forbid users from updating an anime theme entry that is trashed.
+     *
+     * @return void
+     */
+    public function testTrashed(): void
+    {
+        $entry = AnimeThemeEntry::factory()
+            ->for(AnimeTheme::factory()->for(Anime::factory()))
+            ->createOne();
+
+        $entry->delete();
+
+        $user = User::factory()->withPermission('delete anime theme entry')->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->delete(route('api.animethemeentry.destroy', ['animethemeentry' => $entry]));
+
+        $response->assertNotFound();
+    }
+
+    /**
      * The Entry Destroy Endpoint shall delete the entry.
      *
      * @return void

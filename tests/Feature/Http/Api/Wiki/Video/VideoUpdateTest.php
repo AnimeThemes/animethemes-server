@@ -68,6 +68,34 @@ class VideoUpdateTest extends TestCase
     }
 
     /**
+     * The Video Update Endpoint shall forbid users from updating a video that is trashed.
+     *
+     * @return void
+     */
+    public function testTrashed(): void
+    {
+        $video = Video::factory()->createOne();
+
+        $video->delete();
+
+        $parameters = array_merge(
+            Video::factory()->raw(),
+            [
+                Video::ATTRIBUTE_OVERLAP => VideoOverlap::getRandomInstance()->description,
+                Video::ATTRIBUTE_SOURCE => VideoSource::getRandomInstance()->description,
+            ]
+        );
+
+        $user = User::factory()->withPermission('update video')->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->put(route('api.video.update', ['video' => $video] + $parameters));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Video Update Endpoint shall update a video.
      *
      * @return void

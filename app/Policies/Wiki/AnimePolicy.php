@@ -65,22 +65,24 @@ class AnimePolicy
      * Determine whether the user can update the model.
      *
      * @param  User  $user
+     * @param  Anime  $anime
      * @return bool
      */
-    public function update(User $user): bool
+    public function update(User $user, Anime $anime): bool
     {
-        return $user->can('update anime');
+        return ! $anime->trashed() && $user->can('update anime');
     }
 
     /**
      * Determine whether the user can delete the model.
      *
      * @param  User  $user
+     * @param  Anime  $anime
      * @return bool
      */
-    public function delete(User $user): bool
+    public function delete(User $user, Anime $anime): bool
     {
-        return $user->can('delete anime');
+        return ! $anime->trashed() && $user->can('delete anime');
     }
 
     /**

@@ -70,6 +70,28 @@ class PlaylistDestroyTest extends TestCase
     }
 
     /**
+     * The Playlist Destroy Endpoint shall forbid users from updating a playlist that is trashed.
+     *
+     * @return void
+     */
+    public function testTrashed(): void
+    {
+        $user = User::factory()->withPermission('delete playlist')->createOne();
+
+        $playlist = Playlist::factory()
+            ->for($user)
+            ->createOne();
+
+        $playlist->delete();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->delete(route('api.playlist.destroy', ['playlist' => $playlist]));
+
+        $response->assertNotFound();
+    }
+
+    /**
      * The Playlist Destroy Endpoint shall delete the playlist.
      *
      * @return void

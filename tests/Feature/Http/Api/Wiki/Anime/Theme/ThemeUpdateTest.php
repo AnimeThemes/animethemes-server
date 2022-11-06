@@ -62,6 +62,31 @@ class ThemeUpdateTest extends TestCase
     }
 
     /**
+     * The Theme Update Endpoint shall forbid users from updating an anime theme that is trashed.
+     *
+     * @return void
+     */
+    public function testTrashed(): void
+    {
+        $theme = AnimeTheme::factory()->for(Anime::factory())->createOne();
+
+        $theme->delete();
+
+        $parameters = array_merge(
+            AnimeTheme::factory()->raw(),
+            [AnimeTheme::ATTRIBUTE_TYPE => ThemeType::getRandomInstance()->description],
+        );
+
+        $user = User::factory()->withPermission('update anime theme')->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->put(route('api.animetheme.update', ['animetheme' => $theme] + $parameters));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Theme Update Endpoint shall update a theme.
      *
      * @return void

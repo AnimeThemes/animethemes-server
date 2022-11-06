@@ -50,6 +50,26 @@ class SongDestroyTest extends TestCase
     }
 
     /**
+     * The Song Destroy Endpoint shall forbid users from updating a song that is trashed.
+     *
+     * @return void
+     */
+    public function testTrashed(): void
+    {
+        $song = Song::factory()->createOne();
+
+        $song->delete();
+
+        $user = User::factory()->withPermission('delete song')->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->delete(route('api.song.destroy', ['song' => $song]));
+
+        $response->assertNotFound();
+    }
+
+    /**
      * The Song Destroy Endpoint shall delete the song.
      *
      * @return void

@@ -50,6 +50,26 @@ class AnimeDestroyTest extends TestCase
     }
 
     /**
+     * The Anime Destroy Endpoint shall forbid users from updating an anime that is trashed.
+     *
+     * @return void
+     */
+    public function testTrashed(): void
+    {
+        $anime = Anime::factory()->createOne();
+
+        $anime->delete();
+
+        $user = User::factory()->withPermission('delete anime')->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->delete(route('api.anime.destroy', ['anime' => $anime]));
+
+        $response->assertNotFound();
+    }
+
+    /**
      * The Anime Destroy Endpoint shall delete the anime.
      *
      * @return void
