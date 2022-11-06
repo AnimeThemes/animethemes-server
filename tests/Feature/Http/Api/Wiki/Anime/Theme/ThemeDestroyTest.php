@@ -51,6 +51,26 @@ class ThemeDestroyTest extends TestCase
     }
 
     /**
+     * The Theme Destroy Endpoint shall forbid users from updating an anime theme that is trashed.
+     *
+     * @return void
+     */
+    public function testTrashed(): void
+    {
+        $theme = AnimeTheme::factory()->for(Anime::factory())->createOne();
+
+        $theme->delete();
+
+        $user = User::factory()->withPermission('delete anime theme')->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->delete(route('api.animetheme.destroy', ['animetheme' => $theme]));
+
+        $response->assertNotFound();
+    }
+
+    /**
      * The Theme Destroy Endpoint shall delete the theme.
      *
      * @return void

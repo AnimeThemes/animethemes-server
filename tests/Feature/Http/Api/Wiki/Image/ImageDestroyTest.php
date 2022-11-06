@@ -50,6 +50,26 @@ class ImageDestroyTest extends TestCase
     }
 
     /**
+     * The Image Destroy Endpoint shall forbid users from deleting an image that is trashed.
+     *
+     * @return void
+     */
+    public function testTrashed(): void
+    {
+        $image = Image::factory()->createOne();
+
+        $image->delete();
+
+        $user = User::factory()->withPermission('delete image')->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->delete(route('api.image.destroy', ['image' => $image]));
+
+        $response->assertNotFound();
+    }
+
+    /**
      * The Image Destroy Endpoint shall delete the image.
      *
      * @return void

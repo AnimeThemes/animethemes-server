@@ -50,6 +50,26 @@ class AnnouncementDestroyTest extends TestCase
     }
 
     /**
+     * The Announcement Destroy Endpoint shall forbid users from updating an announcement that is trashed.
+     *
+     * @return void
+     */
+    public function testTrashed(): void
+    {
+        $announcement = Announcement::factory()->createOne();
+
+        $announcement->delete();
+
+        $user = User::factory()->withPermission('delete announcement')->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->delete(route('api.announcement.destroy', ['announcement' => $announcement]));
+
+        $response->assertNotFound();
+    }
+
+    /**
      * The Announcement Destroy Endpoint shall delete the announcement.
      *
      * @return void

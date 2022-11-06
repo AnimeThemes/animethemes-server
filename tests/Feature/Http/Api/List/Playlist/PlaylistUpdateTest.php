@@ -155,6 +155,45 @@ class PlaylistUpdateTest extends TestCase
     }
 
     /**
+     * The Playlist Update Endpoint shall forbid users from updating a playlist that is trashed.
+     *
+     * @return void
+     */
+    public function testTrashed(): void
+    {
+        $user = User::factory()->withPermission('update playlist')->createOne();
+
+        $playlist = Playlist::factory()
+            ->for($user)
+            ->createOne();
+
+        $first = PlaylistTrack::factory()
+            ->for($playlist)
+            ->createOne();
+
+        $last = PlaylistTrack::factory()
+            ->for($playlist)
+            ->createOne();
+
+        $playlist->delete();
+
+        $parameters = array_merge(
+            Playlist::factory()->raw(),
+            [
+                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::getRandomInstance()->description,
+                Playlist::ATTRIBUTE_FIRST => $first->getKey(),
+                Playlist::ATTRIBUTE_LAST => $last->getKey(),
+            ],
+        );
+
+        Sanctum::actingAs($user);
+
+        $response = $this->put(route('api.playlist.update', ['playlist' => $playlist] + $parameters));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Playlist Update Endpoint shall update a playlist.
      *
      * @return void

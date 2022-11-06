@@ -54,6 +54,28 @@ class AnnouncementUpdateTest extends TestCase
     }
 
     /**
+     * The Announcement Update Endpoint shall forbid users from updating an announcement that is trashed.
+     *
+     * @return void
+     */
+    public function testTrashed(): void
+    {
+        $announcement = Announcement::factory()->createOne();
+
+        $announcement->delete();
+
+        $parameters = Announcement::factory()->raw();
+
+        $user = User::factory()->withPermission('update announcement')->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->put(route('api.announcement.update', ['announcement' => $announcement] + $parameters));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Announcement Update Endpoint shall update an announcement.
      *
      * @return void

@@ -59,22 +59,24 @@ class AnimeSynonymPolicy
      * Determine whether the user can update the model.
      *
      * @param  User  $user
+     * @param  AnimeSynonym  $animesynonym
      * @return bool
      */
-    public function update(User $user): bool
+    public function update(User $user, AnimeSynonym $animesynonym): bool
     {
-        return $user->can('update anime synonym');
+        return ! $animesynonym->trashed() && $user->can('update anime synonym');
     }
 
     /**
      * Determine whether the user can delete the model.
      *
      * @param  User  $user
+     * @param  AnimeSynonym  $animesynonym
      * @return bool
      */
-    public function delete(User $user): bool
+    public function delete(User $user, AnimeSynonym $animesynonym): bool
     {
-        return $user->can('delete anime synonym');
+        return ! $animesynonym->trashed() && $user->can('delete anime synonym');
     }
 
     /**

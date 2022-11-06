@@ -59,22 +59,24 @@ class PagePolicy
      * Determine whether the user can update the model.
      *
      * @param  User  $user
+     * @param  Page  $page
      * @return bool
      */
-    public function update(User $user): bool
+    public function update(User $user, Page $page): bool
     {
-        return $user->can('update page');
+        return ! $page->trashed() && $user->can('update page');
     }
 
     /**
      * Determine whether the user can delete the model.
      *
      * @param  User  $user
+     * @param  Page  $page
      * @return bool
      */
-    public function delete(User $user): bool
+    public function delete(User $user, Page $page): bool
     {
-        return $user->can('delete page');
+        return ! $page->trashed() && $user->can('delete page');
     }
 
     /**

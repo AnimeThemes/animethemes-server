@@ -54,6 +54,28 @@ class ScriptUpdateTest extends TestCase
     }
 
     /**
+     * The Script Update Endpoint shall forbid users from updating a script that is trashed.
+     *
+     * @return void
+     */
+    public function testTrashed(): void
+    {
+        $script = VideoScript::factory()->createOne();
+
+        $script->delete();
+
+        $parameters = VideoScript::factory()->raw();
+
+        $user = User::factory()->withPermission('update video script')->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->put(route('api.videoscript.update', ['videoscript' => $script] + $parameters));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Script Update Endpoint shall update a script.
      *
      * @return void

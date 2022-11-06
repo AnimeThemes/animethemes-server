@@ -59,22 +59,24 @@ class DumpPolicy
      * Determine whether the user can update the model.
      *
      * @param  User  $user
+     * @param  Dump  $dump
      * @return bool
      */
-    public function update(User $user): bool
+    public function update(User $user, Dump $dump): bool
     {
-        return $user->can('update dump');
+        return ! $dump->trashed() && $user->can('update dump');
     }
 
     /**
      * Determine whether the user can delete the model.
      *
      * @param  User  $user
+     * @param  Dump  $dump
      * @return bool
      */
-    public function delete(User $user): bool
+    public function delete(User $user, Dump $dump): bool
     {
-        return $user->can('delete dump');
+        return ! $dump->trashed() && $user->can('delete dump');
     }
 
     /**

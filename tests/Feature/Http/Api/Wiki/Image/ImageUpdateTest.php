@@ -61,6 +61,31 @@ class ImageUpdateTest extends TestCase
     }
 
     /**
+     * The Image Update Endpoint shall forbid users from updating an image that is trashed.
+     *
+     * @return void
+     */
+    public function testTrashed(): void
+    {
+        $image = Image::factory()->createOne();
+
+        $image->delete();
+
+        $parameters = array_merge(
+            Image::factory()->raw(),
+            [Image::ATTRIBUTE_FACET => ImageFacet::getRandomInstance()->description],
+        );
+
+        $user = User::factory()->withPermission('update image')->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->put(route('api.image.update', ['image' => $image] + $parameters));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Image Update Endpoint shall update an image.
      *
      * @return void

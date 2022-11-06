@@ -61,6 +61,31 @@ class AnimeUpdateTest extends TestCase
     }
 
     /**
+     * The Anime Update Endpoint shall forbid users from updating an anime that is trashed.
+     *
+     * @return void
+     */
+    public function testTrashed(): void
+    {
+        $anime = Anime::factory()->createOne();
+
+        $anime->delete();
+
+        $parameters = array_merge(
+            Anime::factory()->raw(),
+            [Anime::ATTRIBUTE_SEASON => AnimeSeason::getRandomInstance()->description],
+        );
+
+        $user = User::factory()->withPermission('update anime')->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->put(route('api.anime.update', ['anime' => $anime] + $parameters));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Anime Update Endpoint shall update an anime.
      *
      * @return void

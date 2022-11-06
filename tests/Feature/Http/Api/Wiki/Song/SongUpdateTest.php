@@ -54,6 +54,28 @@ class SongUpdateTest extends TestCase
     }
 
     /**
+     * The Song Update Endpoint shall forbid users from updating a song that is trashed.
+     *
+     * @return void
+     */
+    public function testTrashed(): void
+    {
+        $song = Song::factory()->createOne();
+
+        $song->delete();
+
+        $parameters = Song::factory()->raw();
+
+        $user = User::factory()->withPermission('update song')->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->put(route('api.song.update', ['song' => $song] + $parameters));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Song Update Endpoint shall update a song.
      *
      * @return void

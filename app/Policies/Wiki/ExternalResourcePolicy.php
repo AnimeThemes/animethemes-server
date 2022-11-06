@@ -59,22 +59,24 @@ class ExternalResourcePolicy
      * Determine whether the user can update the model.
      *
      * @param  User  $user
+     * @param  ExternalResource  $resource
      * @return bool
      */
-    public function update(User $user): bool
+    public function update(User $user, ExternalResource $resource): bool
     {
-        return $user->can('update external resource');
+        return ! $resource->trashed() && $user->can('update external resource');
     }
 
     /**
      * Determine whether the user can delete the model.
      *
      * @param  User  $user
+     * @param  ExternalResource  $resource
      * @return bool
      */
-    public function delete(User $user): bool
+    public function delete(User $user, ExternalResource $resource): bool
     {
-        return $user->can('delete external resource');
+        return ! $resource->trashed() && $user->can('delete external resource');
     }
 
     /**

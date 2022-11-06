@@ -50,6 +50,26 @@ class AudioDestroyTest extends TestCase
     }
 
     /**
+     * The Audio Destroy Endpoint shall forbid users from updating an audio that is trashed.
+     *
+     * @return void
+     */
+    public function testTrashed(): void
+    {
+        $audio = Audio::factory()->createOne();
+
+        $audio->delete();
+
+        $user = User::factory()->withPermission('delete audio')->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->delete(route('api.audio.destroy', ['audio' => $audio]));
+
+        $response->assertNotFound();
+    }
+
+    /**
      * The Audio Destroy Endpoint shall delete the audio.
      *
      * @return void

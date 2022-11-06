@@ -55,6 +55,28 @@ class SynonymUpdateTest extends TestCase
     }
 
     /**
+     * The Synonym Update Endpoint shall forbid users from updating an anime synonym that is trashed.
+     *
+     * @return void
+     */
+    public function testTrashed(): void
+    {
+        $synonym = AnimeSynonym::factory()->for(Anime::factory())->createOne();
+
+        $synonym->delete();
+
+        $parameters = AnimeSynonym::factory()->raw();
+
+        $user = User::factory()->withPermission('update anime synonym')->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->put(route('api.animesynonym.update', ['animesynonym' => $synonym] + $parameters));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Synonym Update Endpoint shall update a synonym.
      *
      * @return void

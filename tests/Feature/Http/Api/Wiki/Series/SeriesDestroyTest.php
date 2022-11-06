@@ -50,6 +50,26 @@ class SeriesDestroyTest extends TestCase
     }
 
     /**
+     * The Series Destroy Endpoint shall forbid users from updating a series that is trashed.
+     *
+     * @return void
+     */
+    public function testTrashed(): void
+    {
+        $series = Series::factory()->createOne();
+
+        $series->delete();
+
+        $user = User::factory()->withPermission('delete series')->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->delete(route('api.series.destroy', ['series' => $series]));
+
+        $response->assertNotFound();
+    }
+
+    /**
      * The Series Destroy Endpoint shall delete the series.
      *
      * @return void

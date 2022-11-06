@@ -59,22 +59,24 @@ class SongPolicy
      * Determine whether the user can update the model.
      *
      * @param  User  $user
+     * @param  Song  $song
      * @return bool
      */
-    public function update(User $user): bool
+    public function update(User $user, Song $song): bool
     {
-        return $user->can('update song');
+        return ! $song->trashed() && $user->can('update song');
     }
 
     /**
      * Determine whether the user can delete the model.
      *
      * @param  User  $user
+     * @param  Song  $song
      * @return bool
      */
-    public function delete(User $user): bool
+    public function delete(User $user, Song $song): bool
     {
-        return $user->can('delete song');
+        return ! $song->trashed() && $user->can('delete song');
     }
 
     /**

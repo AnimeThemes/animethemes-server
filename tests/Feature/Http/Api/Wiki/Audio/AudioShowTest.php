@@ -26,7 +26,7 @@ class AudioShowTest extends TestCase
     use WithoutEvents;
 
     /**
-     * By default, the Audio Show Endpoint shall return a Audio Resource.
+     * By default, the Audio Show Endpoint shall return an Audio Resource.
      *
      * @return void
      */
@@ -49,7 +49,7 @@ class AudioShowTest extends TestCase
     }
 
     /**
-     * The Audio Show Endpoint shall return a Audio Resource for soft deleted audios.
+     * The Audio Show Endpoint shall return an Audio Resource for soft deleted audios.
      *
      * @return void
      */

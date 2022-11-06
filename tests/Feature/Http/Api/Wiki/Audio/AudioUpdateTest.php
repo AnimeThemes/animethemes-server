@@ -54,7 +54,29 @@ class AudioUpdateTest extends TestCase
     }
 
     /**
-     * The Audio Update Endpoint shall update a audio.
+     * The Audio Update Endpoint shall forbid users from updating an audio that is trashed.
+     *
+     * @return void
+     */
+    public function testTrashed(): void
+    {
+        $audio = Audio::factory()->createOne();
+
+        $audio->delete();
+
+        $parameters = Audio::factory()->raw();
+
+        $user = User::factory()->withPermission('update audio')->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->put(route('api.audio.update', ['audio' => $audio] + $parameters));
+
+        $response->assertForbidden();
+    }
+
+    /**
+     * The Audio Update Endpoint shall update an audio.
      *
      * @return void
      */

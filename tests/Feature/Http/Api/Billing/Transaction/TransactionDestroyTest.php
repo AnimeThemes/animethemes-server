@@ -50,6 +50,26 @@ class TransactionDestroyTest extends TestCase
     }
 
     /**
+     * The Transaction Destroy Endpoint shall forbid users from updating a transaction that is trashed.
+     *
+     * @return void
+     */
+    public function testTrashed(): void
+    {
+        $transaction = Transaction::factory()->createOne();
+
+        $transaction->delete();
+
+        $user = User::factory()->withPermission('delete transaction')->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->delete(route('api.transaction.destroy', ['transaction' => $transaction]));
+
+        $response->assertNotFound();
+    }
+
+    /**
      * The Transaction Destroy Endpoint shall delete the transaction.
      *
      * @return void

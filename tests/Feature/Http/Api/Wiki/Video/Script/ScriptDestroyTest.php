@@ -50,6 +50,26 @@ class ScriptDestroyTest extends TestCase
     }
 
     /**
+     * The Script Destroy Endpoint shall forbid users from updating a script that is trashed.
+     *
+     * @return void
+     */
+    public function testTrashed(): void
+    {
+        $script = VideoScript::factory()->createOne();
+
+        $script->delete();
+
+        $user = User::factory()->withPermission('delete video script')->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->delete(route('api.videoscript.destroy', ['videoscript' => $script]));
+
+        $response->assertNotFound();
+    }
+
+    /**
      * The Script Destroy Endpoint shall delete the script.
      *
      * @return void

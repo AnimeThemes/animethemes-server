@@ -51,6 +51,26 @@ class SynonymDestroyTest extends TestCase
     }
 
     /**
+     * The Synonym Destroy Endpoint shall forbid users from updating an anime synonym that is trashed.
+     *
+     * @return void
+     */
+    public function testTrashed(): void
+    {
+        $synonym = AnimeSynonym::factory()->for(Anime::factory())->createOne();
+
+        $synonym->delete();
+
+        $user = User::factory()->withPermission('delete anime synonym')->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->delete(route('api.animesynonym.destroy', ['animesynonym' => $synonym]));
+
+        $response->assertNotFound();
+    }
+
+    /**
      * The Synonym Destroy Endpoint shall delete the synonym.
      *
      * @return void

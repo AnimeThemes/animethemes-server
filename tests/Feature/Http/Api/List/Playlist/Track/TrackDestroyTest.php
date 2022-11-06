@@ -105,6 +105,28 @@ class TrackDestroyTest extends TestCase
     }
 
     /**
+     * The Track Destroy Endpoint shall forbid users from updating a track that is trashed.
+     *
+     * @return void
+     */
+    public function testTrashed(): void
+    {
+        $user = User::factory()->withPermission('delete playlist track')->createOne();
+
+        $track = PlaylistTrack::factory()
+            ->for(Playlist::factory()->for($user))
+            ->createOne();
+
+        $track->delete();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->delete(route('api.playlist.playlisttrack.destroy', ['playlist' => $track->playlist, 'playlisttrack' => $track]));
+
+        $response->assertNotFound();
+    }
+
+    /**
      * The Track Destroy Endpoint shall delete the track.
      *
      * @return void

@@ -61,6 +61,31 @@ class TransactionUpdateTest extends TestCase
     }
 
     /**
+     * The Transaction Update Endpoint shall forbid users from updating a transaction that is trashed.
+     *
+     * @return void
+     */
+    public function testTrashed(): void
+    {
+        $transaction = Transaction::factory()->createOne();
+
+        $transaction->delete();
+
+        $parameters = array_merge(
+            Transaction::factory()->raw(),
+            [Transaction::ATTRIBUTE_SERVICE => Service::getRandomInstance()->description]
+        );
+
+        $user = User::factory()->withPermission('update transaction')->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->put(route('api.transaction.update', ['transaction' => $transaction] + $parameters));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Transaction Update Endpoint shall update a transaction.
      *
      * @return void

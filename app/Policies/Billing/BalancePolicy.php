@@ -59,22 +59,24 @@ class BalancePolicy
      * Determine whether the user can update the model.
      *
      * @param  User  $user
+     * @param  Balance  $balance
      * @return bool
      */
-    public function update(User $user): bool
+    public function update(User $user, Balance $balance): bool
     {
-        return $user->can('update balance');
+        return ! $balance->trashed() && $user->can('update balance');
     }
 
     /**
      * Determine whether the user can delete the model.
      *
      * @param  User  $user
+     * @param  Balance  $balance
      * @return bool
      */
-    public function delete(User $user): bool
+    public function delete(User $user, Balance $balance): bool
     {
-        return $user->can('delete balance');
+        return ! $balance->trashed() && $user->can('delete balance');
     }
 
     /**

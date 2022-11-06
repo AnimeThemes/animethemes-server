@@ -60,6 +60,30 @@ class EntryUpdateTest extends TestCase
     }
 
     /**
+     * The Entry Update Endpoint shall forbid users from updating an anime theme entry that is trashed.
+     *
+     * @return void
+     */
+    public function testTrashed(): void
+    {
+        $entry = AnimeThemeEntry::factory()
+            ->for(AnimeTheme::factory()->for(Anime::factory()))
+            ->createOne();
+
+        $entry->delete();
+
+        $parameters = AnimeThemeEntry::factory()->raw();
+
+        $user = User::factory()->withPermission('update anime theme entry')->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->put(route('api.animethemeentry.update', ['animethemeentry' => $entry] + $parameters));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Entry Update Endpoint shall update an entry.
      *
      * @return void
