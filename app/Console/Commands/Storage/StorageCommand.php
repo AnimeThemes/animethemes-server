@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace App\Console\Commands\Storage;
 
+use App\Console\Commands\BaseCommand;
 use App\Contracts\Actions\Storage\StorageAction;
-use Illuminate\Console\Command;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Support\Facades\Log;
 
 /**
  * Class StorageCommand.
  */
-abstract class StorageCommand extends Command
+abstract class StorageCommand extends BaseCommand
 {
     /**
      * Execute the console command.

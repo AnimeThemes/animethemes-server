@@ -100,7 +100,7 @@ return [
         | If scripts are downloaded from a subdomain, set SCRIPT_URL and leave SCRIPT_PATH null.
         | Ex: script.animethemes.test
         | If scripts are NOT downloaded from a subdomain, set SCRIPT_PATH and leave SCRIPT_URL null.
-        | Ex: animethemes.test/script
+        | Ex: animethemes.test/videoscript
         |
         */
 
