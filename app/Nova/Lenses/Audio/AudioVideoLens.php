@@ -104,7 +104,7 @@ class AudioVideoLens extends BaseLens
                 ->confirmButtonText(__('nova.actions.audio.delete.confirmButtonText'))
                 ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
                 ->exceptOnIndex()
-                ->canSeeWhen('delete',  $this->resource),
+                ->canSeeWhen('delete', $this->resource),
         ];
     }
 
