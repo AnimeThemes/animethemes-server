@@ -309,7 +309,7 @@ class Video extends BaseResource
                     ->showOnIndex()
                     ->showOnDetail()
                     ->showInline()
-                    ->canSeeWhen('update', VideoModel::class),
+                    ->canSeeWhen('update', $this),
 
                 (new UploadVideoAction())
                     ->confirmButtonText(__('nova.actions.storage.upload.confirmButtonText'))
@@ -329,7 +329,7 @@ class Video extends BaseResource
                     ->confirmButtonText(__('nova.actions.storage.delete.confirmButtonText'))
                     ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
                     ->exceptOnIndex()
-                    ->canSeeWhen('delete', VideoModel::class),
+                    ->canSeeWhen('delete', $this),
 
                 (new ReconcileVideoAction())
                     ->confirmButtonText(__('nova.actions.repositories.confirmButtonText'))

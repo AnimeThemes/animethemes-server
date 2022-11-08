@@ -135,7 +135,7 @@ class VideoAudioLens extends BaseLens
                 ->showOnIndex()
                 ->showOnDetail()
                 ->showInline()
-                ->canSeeWhen('update', Video::class),
+                ->canSeeWhen('update', $this->resource),
         ];
     }
 

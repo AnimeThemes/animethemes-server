@@ -200,7 +200,7 @@ class Audio extends BaseResource
                     ->confirmButtonText(__('nova.actions.storage.delete.confirmButtonText'))
                     ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
                     ->exceptOnIndex()
-                    ->canSeeWhen('delete', AudioModel::class),
+                    ->canSeeWhen('delete', $this),
 
                 (new ReconcileAudioAction())
                     ->confirmButtonText(__('nova.actions.repositories.confirmButtonText'))

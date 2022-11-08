@@ -217,7 +217,7 @@ class Studio extends BaseResource
                     ->showOnIndex()
                     ->showOnDetail()
                     ->showInline()
-                    ->canSeeWhen('update', StudioModel::class),
+                    ->canSeeWhen('update', $this),
             ]
         );
     }

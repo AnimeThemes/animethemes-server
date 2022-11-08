@@ -57,7 +57,7 @@ class StudioCoverLargeLens extends StudioLens
                 ->confirmButtonText(__('nova.actions.studio.backfill.confirmButtonText'))
                 ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
                 ->showInline()
-                ->canSeeWhen('update', Studio::class),
+                ->canSeeWhen('update', $this->resource),
         ];
     }
 
