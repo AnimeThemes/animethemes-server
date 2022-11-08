@@ -288,7 +288,7 @@ class Anime extends BaseResource
                     ->showOnIndex()
                     ->showOnDetail()
                     ->showInline()
-                    ->canSeeWhen('update', AnimeModel::class),
+                    ->canSeeWhen('update', $this),
             ]
         );
     }

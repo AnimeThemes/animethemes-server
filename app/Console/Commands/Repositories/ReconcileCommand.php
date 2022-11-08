@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace App\Console\Commands\Repositories;
 
 use App\Concerns\Repositories\ReconcilesRepositories;
-use Illuminate\Console\Command;
+use App\Console\Commands\BaseCommand;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Validation\ValidationException;
 
 /**
  * Class ReconcileCommand.
  */
-abstract class ReconcileCommand extends Command
+abstract class ReconcileCommand extends BaseCommand
 {
     use ReconcilesRepositories;
 

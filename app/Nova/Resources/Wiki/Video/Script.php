@@ -180,7 +180,7 @@ class Script extends BaseResource
                     ->confirmButtonText(__('nova.actions.storage.delete.confirmButtonText'))
                     ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
                     ->exceptOnIndex()
-                    ->canSeeWhen('delete', VideoScript::class),
+                    ->canSeeWhen('delete', $this),
 
                 (new ReconcileScriptAction())
                     ->confirmButtonText(__('nova.actions.repositories.confirmButtonText'))

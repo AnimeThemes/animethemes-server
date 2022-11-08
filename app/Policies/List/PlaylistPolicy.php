@@ -45,7 +45,7 @@ class PlaylistPolicy
         return Nova::whenServing(
             fn (): bool => $user !== null && $user->hasRole('Admin'),
             fn (): bool => $user !== null
-                    ? $user->can('view playlist') && ($user->getKey() === $playlist->user_id || PlaylistVisibility::PRIVATE()->isNot($playlist->visibility))
+                    ? ($user->getKey() === $playlist->user_id || PlaylistVisibility::PRIVATE()->isNot($playlist->visibility)) && $user->can('view playlist')
                     : PlaylistVisibility::PRIVATE()->isNot($playlist->visibility)
         );
     }

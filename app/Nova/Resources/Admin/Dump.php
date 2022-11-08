@@ -162,7 +162,7 @@ class Dump extends BaseResource
                     ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
                     ->onlyOnIndex()
                     ->standalone()
-                    ->canSeeWhen('delete', DumpModel::class),
+                    ->canSeeWhen('delete', $this),
 
                 (new ReconcileDumpAction())
                     ->confirmButtonText(__('nova.actions.repositories.confirmButtonText'))

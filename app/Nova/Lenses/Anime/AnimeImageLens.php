@@ -63,7 +63,7 @@ abstract class AnimeImageLens extends AnimeLens
                 ->confirmButtonText(__('nova.actions.anime.backfill.confirmButtonText'))
                 ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
                 ->showInline()
-                ->canSeeWhen('update', Anime::class),
+                ->canSeeWhen('update', $this->resource),
         ];
     }
 }

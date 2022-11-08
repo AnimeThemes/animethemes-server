@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Console\Commands\Storage\Admin;
 
 use App\Actions\Storage\Admin\Dump\DumpAction;
-use Illuminate\Console\Command;
+use App\Console\Commands\BaseCommand;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator as ValidatorFacade;
@@ -14,7 +14,7 @@ use Illuminate\Validation\Rule;
 /**
  * Class DatabaseDumpCommand.
  */
-abstract class DumpCommand extends Command
+abstract class DumpCommand extends BaseCommand
 {
     /**
      * Execute the console command.

@@ -51,7 +51,7 @@ class PlaylistTrackPolicy
                 $playlist = $request->route('playlist');
 
                 return $user !== null
-                    ? $user->can('view playlist track') && ($user->getKey() === $playlist?->user_id || PlaylistVisibility::PRIVATE()->isNot($playlist?->visibility))
+                    ? ($user->getKey() === $playlist?->user_id || PlaylistVisibility::PRIVATE()->isNot($playlist?->visibility)) && $user->can('view playlist track')
                     : PlaylistVisibility::PRIVATE()->isNot($playlist?->visibility);
             }
         );

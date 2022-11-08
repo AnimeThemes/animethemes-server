@@ -17,6 +17,7 @@ use App\Models\Wiki\Series;
 use App\Models\Wiki\Song;
 use App\Models\Wiki\Studio;
 use App\Models\Wiki\Video;
+use App\Models\Wiki\Video\VideoScript;
 use App\Pivots\Wiki\AnimeImage;
 use App\Pivots\Wiki\AnimeResource;
 use App\Pivots\Wiki\AnimeSeries;
@@ -70,6 +71,7 @@ class DumpWikiAction extends DumpAction
             StudioImage::TABLE,
             StudioResource::TABLE,
             Video::TABLE,
+            VideoScript::TABLE,
         ];
     }
 
