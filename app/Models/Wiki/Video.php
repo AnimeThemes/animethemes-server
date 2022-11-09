@@ -43,7 +43,7 @@ use Laravel\Nova\Actions\Actionable;
  * @property bool $nc
  * @property Enum $overlap
  * @property string $path
- * @property Collection<int, PlaylistTrack> $playlisttracks
+ * @property Collection<int, PlaylistTrack> $tracks
  * @property int|null $resolution
  * @property VideoScript|null $script
  * @property int $size
@@ -86,7 +86,7 @@ class Video extends BaseModel implements Streamable, Viewable
     final public const RELATION_AUDIO = 'audio';
     final public const RELATION_SCRIPT = 'videoscript';
     final public const RELATION_SONG = 'animethemeentries.animetheme.song';
-    final public const RELATION_TRACKS = 'playlisttracks';
+    final public const RELATION_TRACKS = 'tracks';
 
     /**
      * The attributes that are mass assignable.
@@ -347,7 +347,7 @@ class Video extends BaseModel implements Streamable, Viewable
      *
      * @return HasMany
      */
-    public function playlisttracks(): HasMany
+    public function tracks(): HasMany
     {
         return $this->hasMany(PlaylistTrack::class, PlaylistTrack::ATTRIBUTE_VIDEO);
     }

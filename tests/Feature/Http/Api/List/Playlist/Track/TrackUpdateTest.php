@@ -40,7 +40,7 @@ class TrackUpdateTest extends TestCase
             [PlaylistTrack::ATTRIBUTE_VIDEO => Video::factory()->createOne()->getKey()],
         );
 
-        $response = $this->put(route('api.playlist.playlisttrack.update', ['playlist' => $playlist, 'playlisttrack' => $track] + $parameters));
+        $response = $this->put(route('api.playlist.track.update', ['playlist' => $playlist, 'track' => $track] + $parameters));
 
         $response->assertUnauthorized();
     }
@@ -67,7 +67,7 @@ class TrackUpdateTest extends TestCase
 
         Sanctum::actingAs($user);
 
-        $response = $this->put(route('api.playlist.playlisttrack.update', ['playlist' => $playlist, 'playlisttrack' => $track] + $parameters));
+        $response = $this->put(route('api.playlist.track.update', ['playlist' => $playlist, 'track' => $track] + $parameters));
 
         $response->assertForbidden();
     }
@@ -96,7 +96,7 @@ class TrackUpdateTest extends TestCase
 
         Sanctum::actingAs($user);
 
-        $response = $this->put(route('api.playlist.playlisttrack.update', ['playlist' => $playlist, 'playlisttrack' => $track] + $parameters));
+        $response = $this->put(route('api.playlist.track.update', ['playlist' => $playlist, 'track' => $track] + $parameters));
 
         $response->assertForbidden();
     }
@@ -112,7 +112,7 @@ class TrackUpdateTest extends TestCase
 
         $playlist = Playlist::factory()
             ->for($user)
-            ->has(PlaylistTrack::factory()->count($this->faker->randomDigitNotNull()))
+            ->has(PlaylistTrack::factory()->count($this->faker->randomDigitNotNull()), Playlist::RELATION_TRACKS)
             ->createOne([
                 Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
             ]);
@@ -128,7 +128,7 @@ class TrackUpdateTest extends TestCase
 
         Sanctum::actingAs($user);
 
-        $response = $this->put(route('api.playlist.playlisttrack.update', ['playlist' => $playlist, 'playlisttrack' => $track] + $parameters));
+        $response = $this->put(route('api.playlist.track.update', ['playlist' => $playlist, 'track' => $track] + $parameters));
 
         $response->assertNotFound();
     }
@@ -164,7 +164,7 @@ class TrackUpdateTest extends TestCase
 
         Sanctum::actingAs($user);
 
-        $response = $this->put(route('api.playlist.playlisttrack.update', ['playlist' => $playlist, 'playlisttrack' => $track] + $parameters));
+        $response = $this->put(route('api.playlist.track.update', ['playlist' => $playlist, 'track' => $track] + $parameters));
 
         $response->assertJsonValidationErrors([
             PlaylistTrack::ATTRIBUTE_PREVIOUS,
@@ -202,7 +202,7 @@ class TrackUpdateTest extends TestCase
 
         Sanctum::actingAs($user);
 
-        $response = $this->put(route('api.playlist.playlisttrack.update', ['playlist' => $playlist, 'playlisttrack' => $track] + $parameters));
+        $response = $this->put(route('api.playlist.track.update', ['playlist' => $playlist, 'track' => $track] + $parameters));
 
         $response->assertJsonValidationErrors([
             PlaylistTrack::ATTRIBUTE_NEXT,
@@ -247,7 +247,7 @@ class TrackUpdateTest extends TestCase
 
         Sanctum::actingAs($user);
 
-        $response = $this->put(route('api.playlist.playlisttrack.update', ['playlist' => $playlist, 'playlisttrack' => $track] + $parameters));
+        $response = $this->put(route('api.playlist.track.update', ['playlist' => $playlist, 'track' => $track] + $parameters));
 
         $response->assertForbidden();
     }
@@ -288,7 +288,7 @@ class TrackUpdateTest extends TestCase
 
         Sanctum::actingAs($user);
 
-        $response = $this->put(route('api.playlist.playlisttrack.update', ['playlist' => $playlist, 'playlisttrack' => $track] + $parameters));
+        $response = $this->put(route('api.playlist.track.update', ['playlist' => $playlist, 'track' => $track] + $parameters));
 
         $response->assertOk();
     }

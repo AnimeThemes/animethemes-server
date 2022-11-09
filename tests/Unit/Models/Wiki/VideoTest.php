@@ -324,16 +324,12 @@ class VideoTest extends TestCase
         $trackCount = $this->faker->randomDigitNotNull();
 
         $video = Video::factory()
-            ->has(
-                PlaylistTrack::factory()
-                    ->for(Playlist::factory())
-                    ->count($trackCount)
-            )
+            ->has(PlaylistTrack::factory()->for(Playlist::factory())->count($trackCount), Video::RELATION_TRACKS)
             ->createOne();
 
-        static::assertInstanceOf(HasMany::class, $video->playlisttracks());
-        static::assertEquals($trackCount, $video->playlisttracks()->count());
-        static::assertInstanceOf(PlaylistTrack::class, $video->playlisttracks()->first());
+        static::assertInstanceOf(HasMany::class, $video->tracks());
+        static::assertEquals($trackCount, $video->tracks()->count());
+        static::assertInstanceOf(PlaylistTrack::class, $video->tracks()->first());
     }
 
     /**

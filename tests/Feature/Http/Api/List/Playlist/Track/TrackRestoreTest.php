@@ -32,7 +32,7 @@ class TrackRestoreTest extends TestCase
             ->for(Playlist::factory())
             ->createOne();
 
-        $response = $this->patch(route('api.playlist.playlisttrack.restore', ['playlist' => $track->playlist, 'playlisttrack' => $track]));
+        $response = $this->patch(route('api.playlist.track.restore', ['playlist' => $track->playlist, 'track' => $track]));
 
         $response->assertUnauthorized();
     }
@@ -52,7 +52,7 @@ class TrackRestoreTest extends TestCase
 
         Sanctum::actingAs($user);
 
-        $response = $this->patch(route('api.playlist.playlisttrack.restore', ['playlist' => $track->playlist, 'playlisttrack' => $track]));
+        $response = $this->patch(route('api.playlist.track.restore', ['playlist' => $track->playlist, 'track' => $track]));
 
         $response->assertForbidden();
     }
@@ -72,7 +72,7 @@ class TrackRestoreTest extends TestCase
 
         Sanctum::actingAs($user);
 
-        $response = $this->patch(route('api.playlist.playlisttrack.restore', ['playlist' => $track->playlist, 'playlisttrack' => $track]));
+        $response = $this->patch(route('api.playlist.track.restore', ['playlist' => $track->playlist, 'track' => $track]));
 
         $response->assertForbidden();
     }
@@ -88,7 +88,7 @@ class TrackRestoreTest extends TestCase
 
         $playlist = Playlist::factory()
             ->for($user)
-            ->has(PlaylistTrack::factory()->count($this->faker->randomDigitNotNull()))
+            ->has(PlaylistTrack::factory()->count($this->faker->randomDigitNotNull()), Playlist::RELATION_TRACKS)
             ->createOne([
                 Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
             ]);
@@ -99,7 +99,7 @@ class TrackRestoreTest extends TestCase
 
         Sanctum::actingAs($user);
 
-        $response = $this->patch(route('api.playlist.playlisttrack.restore', ['playlist' => $playlist, 'playlisttrack' => $track]));
+        $response = $this->patch(route('api.playlist.track.restore', ['playlist' => $playlist, 'track' => $track]));
 
         $response->assertNotFound();
     }
@@ -119,7 +119,7 @@ class TrackRestoreTest extends TestCase
 
         Sanctum::actingAs($user);
 
-        $response = $this->patch(route('api.playlist.playlisttrack.restore', ['playlist' => $track->playlist, 'playlisttrack' => $track]));
+        $response = $this->patch(route('api.playlist.track.restore', ['playlist' => $track->playlist, 'track' => $track]));
 
         $response->assertForbidden();
     }
@@ -141,7 +141,7 @@ class TrackRestoreTest extends TestCase
 
         Sanctum::actingAs($user);
 
-        $response = $this->patch(route('api.playlist.playlisttrack.restore', ['playlist' => $track->playlist, 'playlisttrack' => $track]));
+        $response = $this->patch(route('api.playlist.track.restore', ['playlist' => $track->playlist, 'track' => $track]));
 
         $response->assertOk();
         static::assertNotSoftDeleted($track);

@@ -32,7 +32,7 @@ class TrackDestroyTest extends TestCase
             ->for(Playlist::factory())
             ->createOne();
 
-        $response = $this->delete(route('api.playlist.playlisttrack.destroy', ['playlist' => $track->playlist, 'playlisttrack' => $track]));
+        $response = $this->delete(route('api.playlist.track.destroy', ['playlist' => $track->playlist, 'track' => $track]));
 
         $response->assertUnauthorized();
     }
@@ -52,7 +52,7 @@ class TrackDestroyTest extends TestCase
 
         Sanctum::actingAs($user);
 
-        $response = $this->delete(route('api.playlist.playlisttrack.destroy', ['playlist' => $track->playlist, 'playlisttrack' => $track]));
+        $response = $this->delete(route('api.playlist.track.destroy', ['playlist' => $track->playlist, 'track' => $track]));
 
         $response->assertForbidden();
     }
@@ -72,7 +72,7 @@ class TrackDestroyTest extends TestCase
 
         Sanctum::actingAs($user);
 
-        $response = $this->delete(route('api.playlist.playlisttrack.destroy', ['playlist' => $track->playlist, 'playlisttrack' => $track]));
+        $response = $this->delete(route('api.playlist.track.destroy', ['playlist' => $track->playlist, 'track' => $track]));
 
         $response->assertForbidden();
     }
@@ -88,7 +88,7 @@ class TrackDestroyTest extends TestCase
 
         $playlist = Playlist::factory()
             ->for($user)
-            ->has(PlaylistTrack::factory()->count($this->faker->randomDigitNotNull()))
+            ->has(PlaylistTrack::factory()->count($this->faker->randomDigitNotNull()), Playlist::RELATION_TRACKS)
             ->createOne([
                 Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
             ]);
@@ -99,7 +99,7 @@ class TrackDestroyTest extends TestCase
 
         Sanctum::actingAs($user);
 
-        $response = $this->delete(route('api.playlist.playlisttrack.destroy', ['playlist' => $playlist, 'playlisttrack' => $track]));
+        $response = $this->delete(route('api.playlist.track.destroy', ['playlist' => $playlist, 'track' => $track]));
 
         $response->assertNotFound();
     }
@@ -121,7 +121,7 @@ class TrackDestroyTest extends TestCase
 
         Sanctum::actingAs($user);
 
-        $response = $this->delete(route('api.playlist.playlisttrack.destroy', ['playlist' => $track->playlist, 'playlisttrack' => $track]));
+        $response = $this->delete(route('api.playlist.track.destroy', ['playlist' => $track->playlist, 'track' => $track]));
 
         $response->assertNotFound();
     }
@@ -141,7 +141,7 @@ class TrackDestroyTest extends TestCase
 
         Sanctum::actingAs($user);
 
-        $response = $this->delete(route('api.playlist.playlisttrack.destroy', ['playlist' => $track->playlist, 'playlisttrack' => $track]));
+        $response = $this->delete(route('api.playlist.track.destroy', ['playlist' => $track->playlist, 'track' => $track]));
 
         $response->assertOk();
         static::assertSoftDeleted($track);

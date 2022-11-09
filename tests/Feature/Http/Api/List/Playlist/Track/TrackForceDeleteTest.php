@@ -32,7 +32,7 @@ class TrackForceDeleteTest extends TestCase
             ->for(Playlist::factory())
             ->createOne();
 
-        $response = $this->delete(route('api.playlist.playlisttrack.forceDelete', ['playlist' => $track->playlist, 'playlisttrack' => $track]));
+        $response = $this->delete(route('api.playlist.track.forceDelete', ['playlist' => $track->playlist, 'track' => $track]));
 
         $response->assertUnauthorized();
     }
@@ -52,7 +52,7 @@ class TrackForceDeleteTest extends TestCase
 
         Sanctum::actingAs($user);
 
-        $response = $this->delete(route('api.playlist.playlisttrack.forceDelete', ['playlist' => $track->playlist, 'playlisttrack' => $track]));
+        $response = $this->delete(route('api.playlist.track.forceDelete', ['playlist' => $track->playlist, 'track' => $track]));
 
         $response->assertForbidden();
     }
@@ -68,7 +68,7 @@ class TrackForceDeleteTest extends TestCase
 
         $playlist = Playlist::factory()
             ->for($user)
-            ->has(PlaylistTrack::factory()->count($this->faker->randomDigitNotNull()))
+            ->has(PlaylistTrack::factory()->count($this->faker->randomDigitNotNull()), Playlist::RELATION_TRACKS)
             ->createOne([
                 Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
             ]);
@@ -79,7 +79,7 @@ class TrackForceDeleteTest extends TestCase
 
         Sanctum::actingAs($user);
 
-        $response = $this->delete(route('api.playlist.playlisttrack.forceDelete', ['playlist' => $playlist, 'playlisttrack' => $track]));
+        $response = $this->delete(route('api.playlist.track.forceDelete', ['playlist' => $playlist, 'track' => $track]));
 
         $response->assertNotFound();
     }
@@ -99,7 +99,7 @@ class TrackForceDeleteTest extends TestCase
 
         Sanctum::actingAs($user);
 
-        $response = $this->delete(route('api.playlist.playlisttrack.forceDelete', ['playlist' => $track->playlist, 'playlisttrack' => $track]));
+        $response = $this->delete(route('api.playlist.track.forceDelete', ['playlist' => $track->playlist, 'track' => $track]));
 
         $response->assertOk();
         static::assertModelMissing($track);

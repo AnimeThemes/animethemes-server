@@ -203,7 +203,7 @@ apiResourceWhere('page', PageController::class, ['page' => '[\pL\pM\pN\/_-]+']);
 
 // List Routes
 apiResource('playlist', PlaylistController::class);
-apiScopedResource('playlist.playlisttrack', TrackController::class);
+apiScopedResource('playlist.track', TrackController::class);
 
 // Pivot Routes
 apiPivotResource('animeimage', 'anime', 'image', AnimeImageController::class);

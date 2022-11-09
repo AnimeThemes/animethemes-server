@@ -25,7 +25,7 @@ class TrackResource extends BaseResource
      *
      * @var string|null
      */
-    public static $wrap = 'playlisttrack';
+    public static $wrap = 'track';
 
     /**
      * Create a new resource instance.

@@ -50,7 +50,7 @@ class TrackIndexTest extends TestCase
         $trackCount = $this->faker->randomDigitNotNull();
 
         $playlist = Playlist::factory()
-            ->has(PlaylistTrack::factory()->count($trackCount))
+            ->has(PlaylistTrack::factory()->count($trackCount), Playlist::RELATION_TRACKS)
             ->createOne([
                 Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
             ]);
@@ -58,20 +58,20 @@ class TrackIndexTest extends TestCase
         Collection::times(
             $this->faker->randomDigitNotNull(),
             fn () => Playlist::factory()
-                ->has(PlaylistTrack::factory()->count($trackCount))
+                ->has(PlaylistTrack::factory()->count($trackCount), Playlist::RELATION_TRACKS)
                 ->createOne([
                     Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
                 ])
         );
 
-        $response = $this->get(route('api.playlist.playlisttrack.index', ['playlist' => $playlist]));
+        $response = $this->get(route('api.playlist.track.index', ['playlist' => $playlist]));
 
         $response->assertJsonCount($trackCount, TrackCollection::$wrap);
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new TrackCollection($playlist->playlisttracks, new TrackReadQuery($playlist)))
+                    (new TrackCollection($playlist->tracks, new TrackReadQuery($playlist)))
                         ->response()
                         ->getData()
                 ),
@@ -88,12 +88,12 @@ class TrackIndexTest extends TestCase
     public function testPaginated(): void
     {
         $playlist = Playlist::factory()
-            ->has(PlaylistTrack::factory()->count($this->faker->randomDigitNotNull()))
+            ->has(PlaylistTrack::factory()->count($this->faker->randomDigitNotNull()), Playlist::RELATION_TRACKS)
             ->createOne([
                 Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
             ]);
 
-        $response = $this->get(route('api.playlist.playlisttrack.index', ['playlist' => $playlist]));
+        $response = $this->get(route('api.playlist.track.index', ['playlist' => $playlist]));
 
         $response->assertJsonStructure([
             TrackCollection::$wrap,
@@ -137,7 +137,7 @@ class TrackIndexTest extends TestCase
             ->count($this->faker->randomDigitNotNull())
             ->create();
 
-        $response = $this->get(route('api.playlist.playlisttrack.index', ['playlist' => $playlist] + $parameters));
+        $response = $this->get(route('api.playlist.track.index', ['playlist' => $playlist] + $parameters));
 
         $tracks = PlaylistTrack::with($includedPaths->all())->get();
 
@@ -173,17 +173,17 @@ class TrackIndexTest extends TestCase
         ];
 
         $playlist = Playlist::factory()
-            ->has(PlaylistTrack::factory()->count($this->faker->randomDigitNotNull()))
+            ->has(PlaylistTrack::factory()->count($this->faker->randomDigitNotNull()), Playlist::RELATION_TRACKS)
             ->createOne([
                 Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
             ]);
 
-        $response = $this->get(route('api.playlist.playlisttrack.index', ['playlist' => $playlist] + $parameters));
+        $response = $this->get(route('api.playlist.track.index', ['playlist' => $playlist] + $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new TrackCollection($playlist->playlisttracks, new TrackReadQuery($playlist, $parameters)))
+                    (new TrackCollection($playlist->tracks, new TrackReadQuery($playlist, $parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -211,14 +211,14 @@ class TrackIndexTest extends TestCase
         ];
 
         $playlist = Playlist::factory()
-            ->has(PlaylistTrack::factory()->count($this->faker->randomDigitNotNull()))
+            ->has(PlaylistTrack::factory()->count($this->faker->randomDigitNotNull()), Playlist::RELATION_TRACKS)
             ->createOne([
                 Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
             ]);
 
         $query = new TrackReadQuery($playlist, $parameters);
 
-        $response = $this->get(route('api.playlist.playlisttrack.index', ['playlist' => $playlist] + $parameters));
+        $response = $this->get(route('api.playlist.track.index', ['playlist' => $playlist] + $parameters));
 
         $response->assertJson(
             json_decode(
@@ -274,7 +274,7 @@ class TrackIndexTest extends TestCase
 
         $tracks = PlaylistTrack::query()->where(BaseModel::ATTRIBUTE_CREATED_AT, $createdFilter)->get();
 
-        $response = $this->get(route('api.playlist.playlisttrack.index', ['playlist' => $playlist] + $parameters));
+        $response = $this->get(route('api.playlist.track.index', ['playlist' => $playlist] + $parameters));
 
         $response->assertJson(
             json_decode(
@@ -330,7 +330,7 @@ class TrackIndexTest extends TestCase
 
         $tracks = PlaylistTrack::query()->where(BaseModel::ATTRIBUTE_UPDATED_AT, $updatedFilter)->get();
 
-        $response = $this->get(route('api.playlist.playlisttrack.index', ['playlist' => $playlist] + $parameters));
+        $response = $this->get(route('api.playlist.track.index', ['playlist' => $playlist] + $parameters));
 
         $response->assertJson(
             json_decode(
@@ -376,7 +376,7 @@ class TrackIndexTest extends TestCase
 
         $tracks = PlaylistTrack::withoutTrashed()->get();
 
-        $response = $this->get(route('api.playlist.playlisttrack.index', ['playlist' => $playlist] + $parameters));
+        $response = $this->get(route('api.playlist.track.index', ['playlist' => $playlist] + $parameters));
 
         $response->assertJson(
             json_decode(
@@ -422,7 +422,7 @@ class TrackIndexTest extends TestCase
 
         $tracks = PlaylistTrack::withTrashed()->get();
 
-        $response = $this->get(route('api.playlist.playlisttrack.index', ['playlist' => $playlist] + $parameters));
+        $response = $this->get(route('api.playlist.track.index', ['playlist' => $playlist] + $parameters));
 
         $response->assertJson(
             json_decode(
@@ -468,7 +468,7 @@ class TrackIndexTest extends TestCase
 
         $tracks = PlaylistTrack::onlyTrashed()->get();
 
-        $response = $this->get(route('api.playlist.playlisttrack.index', ['playlist' => $playlist] + $parameters));
+        $response = $this->get(route('api.playlist.track.index', ['playlist' => $playlist] + $parameters));
 
         $response->assertJson(
             json_decode(
@@ -531,7 +531,7 @@ class TrackIndexTest extends TestCase
 
         $tracks = PlaylistTrack::withTrashed()->where(BaseModel::ATTRIBUTE_DELETED_AT, $deletedFilter)->get();
 
-        $response = $this->get(route('api.playlist.playlisttrack.index', ['playlist' => $playlist] + $parameters));
+        $response = $this->get(route('api.playlist.track.index', ['playlist' => $playlist] + $parameters));
 
         $response->assertJson(
             json_decode(

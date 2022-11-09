@@ -46,7 +46,7 @@ class TrackShowTest extends TestCase
             ->for($playlist)
             ->createOne();
 
-        $response = $this->get(route('api.playlist.playlisttrack.show', ['playlist' => $playlist, 'playlisttrack' => $track]));
+        $response = $this->get(route('api.playlist.track.show', ['playlist' => $playlist, 'track' => $track]));
 
         $response->assertForbidden();
     }
@@ -72,7 +72,7 @@ class TrackShowTest extends TestCase
 
         Sanctum::actingAs($user);
 
-        $response = $this->get(route('api.playlist.playlisttrack.show', ['playlist' => $playlist, 'playlisttrack' => $track]));
+        $response = $this->get(route('api.playlist.track.show', ['playlist' => $playlist, 'track' => $track]));
 
         $response->assertForbidden();
     }
@@ -98,7 +98,7 @@ class TrackShowTest extends TestCase
 
         Sanctum::actingAs($user);
 
-        $response = $this->get(route('api.playlist.playlisttrack.show', ['playlist' => $playlist, 'playlisttrack' => $track]));
+        $response = $this->get(route('api.playlist.track.show', ['playlist' => $playlist, 'track' => $track]));
 
         $response->assertOk();
     }
@@ -120,7 +120,7 @@ class TrackShowTest extends TestCase
             ->for($playlist)
             ->createOne();
 
-        $response = $this->get(route('api.playlist.playlisttrack.show', ['playlist' => $playlist, 'playlisttrack' => $track]));
+        $response = $this->get(route('api.playlist.track.show', ['playlist' => $playlist, 'track' => $track]));
 
         $response->assertOk();
     }
@@ -142,7 +142,7 @@ class TrackShowTest extends TestCase
             ->for($playlist)
             ->createOne();
 
-        $response = $this->get(route('api.playlist.playlisttrack.show', ['playlist' => $playlist, 'playlisttrack' => $track]));
+        $response = $this->get(route('api.playlist.track.show', ['playlist' => $playlist, 'track' => $track]));
 
         $response->assertOk();
     }
@@ -158,7 +158,7 @@ class TrackShowTest extends TestCase
 
         $playlist = Playlist::factory()
             ->for($user)
-            ->has(PlaylistTrack::factory()->count($this->faker->randomDigitNotNull()))
+            ->has(PlaylistTrack::factory()->count($this->faker->randomDigitNotNull()), Playlist::RELATION_TRACKS)
             ->createOne([
                 Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
             ]);
@@ -167,7 +167,7 @@ class TrackShowTest extends TestCase
             ->for(Playlist::factory()->for(User::factory()))
             ->createOne();
 
-        $response = $this->get(route('api.playlist.playlisttrack.show', ['playlist' => $playlist, 'playlisttrack' => $track]));
+        $response = $this->get(route('api.playlist.track.show', ['playlist' => $playlist, 'track' => $track]));
 
         $response->assertNotFound();
     }
@@ -188,7 +188,7 @@ class TrackShowTest extends TestCase
             ->for($playlist)
             ->createOne();
 
-        $response = $this->get(route('api.playlist.playlisttrack.show', ['playlist' => $playlist, 'playlisttrack' => $track]));
+        $response = $this->get(route('api.playlist.track.show', ['playlist' => $playlist, 'track' => $track]));
 
         $track->unsetRelations();
 
@@ -222,7 +222,7 @@ class TrackShowTest extends TestCase
 
         $track->delete();
 
-        $response = $this->get(route('api.playlist.playlisttrack.show', ['playlist' => $playlist, 'playlisttrack' => $track]));
+        $response = $this->get(route('api.playlist.track.show', ['playlist' => $playlist, 'track' => $track]));
 
         $track->unsetRelations();
 
@@ -269,7 +269,7 @@ class TrackShowTest extends TestCase
             ->for(PlaylistTrack::factory()->for($playlist), PlaylistTrack::RELATION_NEXT)
             ->createOne();
 
-        $response = $this->get(route('api.playlist.playlisttrack.show', ['playlist' => $playlist, 'playlisttrack' => $track] + $parameters));
+        $response = $this->get(route('api.playlist.track.show', ['playlist' => $playlist, 'track' => $track] + $parameters));
 
         $track->unsetRelations()->load($includedPaths->all());
 
@@ -313,7 +313,7 @@ class TrackShowTest extends TestCase
             ->for($playlist)
             ->createOne();
 
-        $response = $this->get(route('api.playlist.playlisttrack.show', ['playlist' => $playlist, 'playlisttrack' => $track] + $parameters));
+        $response = $this->get(route('api.playlist.track.show', ['playlist' => $playlist, 'track' => $track] + $parameters));
 
         $track->unsetRelations();
 
