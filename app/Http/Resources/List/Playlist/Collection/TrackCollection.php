@@ -19,7 +19,7 @@ class TrackCollection extends BaseCollection
      *
      * @var string|null
      */
-    public static $wrap = 'playlisttracks';
+    public static $wrap = 'tracks';
 
     /**
      * Transform the resource into a JSON array.

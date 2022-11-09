@@ -32,7 +32,7 @@ class TrackStoreTest extends TestCase
             ->for($playlist)
             ->makeOne();
 
-        $response = $this->post(route('api.playlist.playlisttrack.store', ['playlist' => $playlist] + $track->toArray()));
+        $response = $this->post(route('api.playlist.track.store', ['playlist' => $playlist] + $track->toArray()));
 
         $response->assertUnauthorized();
     }
@@ -54,7 +54,7 @@ class TrackStoreTest extends TestCase
 
         Sanctum::actingAs($user);
 
-        $response = $this->post(route('api.playlist.playlisttrack.store', ['playlist' => $playlist] + $track->toArray()));
+        $response = $this->post(route('api.playlist.track.store', ['playlist' => $playlist] + $track->toArray()));
 
         $response->assertForbidden();
     }
@@ -78,7 +78,7 @@ class TrackStoreTest extends TestCase
 
         Sanctum::actingAs($user);
 
-        $response = $this->post(route('api.playlist.playlisttrack.store', ['playlist' => $playlist] + $track->toArray()));
+        $response = $this->post(route('api.playlist.track.store', ['playlist' => $playlist] + $track->toArray()));
 
         $response->assertForbidden();
     }
@@ -98,7 +98,7 @@ class TrackStoreTest extends TestCase
 
         Sanctum::actingAs($user);
 
-        $response = $this->post(route('api.playlist.playlisttrack.store', ['playlist' => $playlist]));
+        $response = $this->post(route('api.playlist.track.store', ['playlist' => $playlist]));
 
         $response->assertJsonValidationErrors([
             PlaylistTrack::ATTRIBUTE_VIDEO,
@@ -131,7 +131,7 @@ class TrackStoreTest extends TestCase
 
         Sanctum::actingAs($user);
 
-        $response = $this->post(route('api.playlist.playlisttrack.store', ['playlist' => $playlist] + $track->toArray()));
+        $response = $this->post(route('api.playlist.track.store', ['playlist' => $playlist] + $track->toArray()));
 
         $response->assertJsonValidationErrors([
             PlaylistTrack::ATTRIBUTE_NEXT,
@@ -164,7 +164,7 @@ class TrackStoreTest extends TestCase
 
         Sanctum::actingAs($user);
 
-        $response = $this->post(route('api.playlist.playlisttrack.store', ['playlist' => $playlist] + $track->toArray()));
+        $response = $this->post(route('api.playlist.track.store', ['playlist' => $playlist] + $track->toArray()));
 
         $response->assertJsonValidationErrors([
             PlaylistTrack::ATTRIBUTE_PREVIOUS,
@@ -202,7 +202,7 @@ class TrackStoreTest extends TestCase
 
         Sanctum::actingAs($user);
 
-        $response = $this->post(route('api.playlist.playlisttrack.store', ['playlist' => $playlist] + $track->toArray()));
+        $response = $this->post(route('api.playlist.track.store', ['playlist' => $playlist] + $track->toArray()));
 
         $response->assertCreated();
         static::assertDatabaseCount(PlaylistTrack::TABLE, 3);

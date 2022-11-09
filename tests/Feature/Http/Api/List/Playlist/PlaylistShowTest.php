@@ -209,7 +209,7 @@ class PlaylistShowTest extends TestCase
             ->for(User::factory())
             ->has(PlaylistTrack::factory(), Playlist::RELATION_FIRST)
             ->has(PlaylistTrack::factory(), Playlist::RELATION_LAST)
-            ->has(PlaylistTrack::factory()->count($this->faker->randomDigitNotNull()))
+            ->has(PlaylistTrack::factory()->count($this->faker->randomDigitNotNull()), Playlist::RELATION_TRACKS)
             ->has(Image::factory()->count($this->faker->randomDigitNotNull()))
             ->createOne([
                 Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,

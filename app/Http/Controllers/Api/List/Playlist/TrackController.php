@@ -26,7 +26,7 @@ class TrackController extends BaseController
      */
     public function __construct()
     {
-        parent::__construct(PlaylistTrack::class, 'playlisttrack,playlist');
+        parent::__construct(PlaylistTrack::class, 'track,playlist');
     }
 
     /**
@@ -66,14 +66,14 @@ class TrackController extends BaseController
      *
      * @param  TrackShowRequest  $request
      * @param  Playlist  $playlist
-     * @param  PlaylistTrack  $playlisttrack
+     * @param  PlaylistTrack  $track
      * @return JsonResponse
      *
      * @noinspection PhpUnusedParameterInspection
      */
-    public function show(TrackShowRequest $request, Playlist $playlist, PlaylistTrack $playlisttrack): JsonResponse
+    public function show(TrackShowRequest $request, Playlist $playlist, PlaylistTrack $track): JsonResponse
     {
-        $resource = $request->getQuery()->show($playlisttrack);
+        $resource = $request->getQuery()->show($track);
 
         return $resource->toResponse($request);
     }
@@ -83,14 +83,14 @@ class TrackController extends BaseController
      *
      * @param  TrackUpdateRequest  $request
      * @param  Playlist  $playlist
-     * @param  PlaylistTrack  $playlisttrack
+     * @param  PlaylistTrack  $track
      * @return JsonResponse
      *
      * @noinspection PhpUnusedParameterInspection
      */
-    public function update(TrackUpdateRequest $request, Playlist $playlist, PlaylistTrack $playlisttrack): JsonResponse
+    public function update(TrackUpdateRequest $request, Playlist $playlist, PlaylistTrack $track): JsonResponse
     {
-        $resource = $request->getQuery()->update($playlisttrack);
+        $resource = $request->getQuery()->update($track);
 
         return $resource->toResponse($request);
     }
@@ -100,14 +100,14 @@ class TrackController extends BaseController
      *
      * @param  TrackDestroyRequest  $request
      * @param  Playlist  $playlist
-     * @param  PlaylistTrack  $playlisttrack
+     * @param  PlaylistTrack  $track
      * @return JsonResponse
      *
      * @noinspection PhpUnusedParameterInspection
      */
-    public function destroy(TrackDestroyRequest $request, Playlist $playlist, PlaylistTrack $playlisttrack): JsonResponse
+    public function destroy(TrackDestroyRequest $request, Playlist $playlist, PlaylistTrack $track): JsonResponse
     {
-        $resource = $request->getQuery()->destroy($playlisttrack);
+        $resource = $request->getQuery()->destroy($track);
 
         return $resource->toResponse($request);
     }
@@ -117,14 +117,14 @@ class TrackController extends BaseController
      *
      * @param  TrackRestoreRequest  $request
      * @param  Playlist  $playlist
-     * @param  PlaylistTrack  $playlisttrack
+     * @param  PlaylistTrack  $track
      * @return JsonResponse
      *
      * @noinspection PhpUnusedParameterInspection
      */
-    public function restore(TrackRestoreRequest $request, Playlist $playlist, PlaylistTrack $playlisttrack): JsonResponse
+    public function restore(TrackRestoreRequest $request, Playlist $playlist, PlaylistTrack $track): JsonResponse
     {
-        $resource = $request->getQuery()->restore($playlisttrack);
+        $resource = $request->getQuery()->restore($track);
 
         return $resource->toResponse($request);
     }
@@ -134,13 +134,13 @@ class TrackController extends BaseController
      *
      * @param  TrackForceDeleteRequest  $request
      * @param  Playlist  $playlist
-     * @param  PlaylistTrack  $playlisttrack
+     * @param  PlaylistTrack  $track
      * @return JsonResponse
      *
      * @noinspection PhpUnusedParameterInspection
      */
-    public function forceDelete(TrackForceDeleteRequest $request, Playlist $playlist, PlaylistTrack $playlisttrack): JsonResponse
+    public function forceDelete(TrackForceDeleteRequest $request, Playlist $playlist, PlaylistTrack $track): JsonResponse
     {
-        return $request->getQuery()->forceDelete($playlisttrack);
+        return $request->getQuery()->forceDelete($track);
     }
 }

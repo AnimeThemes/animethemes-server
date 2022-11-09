@@ -33,7 +33,7 @@ use Laravel\Nova\Actions\Actionable;
  * @property PlaylistTrack|null $last
  * @property int $last_id
  * @property int $playlist_id
- * @property Collection<int, PlaylistTrack> $playlisttracks
+ * @property Collection<int, PlaylistTrack> $tracks
  * @property string $name
  * @property User|null $user
  * @property int $user_id
@@ -59,7 +59,7 @@ class Playlist extends BaseModel implements Viewable
     final public const RELATION_FIRST = 'first';
     final public const RELATION_IMAGES = 'images';
     final public const RELATION_LAST = 'last';
-    final public const RELATION_TRACKS = 'playlisttracks';
+    final public const RELATION_TRACKS = 'tracks';
     final public const RELATION_USER = 'user';
 
     /**
@@ -179,7 +179,7 @@ class Playlist extends BaseModel implements Viewable
      *
      * @return HasMany
      */
-    public function playlisttracks(): HasMany
+    public function tracks(): HasMany
     {
         return $this->hasMany(PlaylistTrack::class, PlaylistTrack::ATTRIBUTE_PLAYLIST);
     }

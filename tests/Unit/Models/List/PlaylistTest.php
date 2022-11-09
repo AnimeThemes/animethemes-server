@@ -203,8 +203,8 @@ class PlaylistTest extends TestCase
             ->count($trackCount)
             ->create();
 
-        static::assertInstanceOf(HasMany::class, $playlist->playlisttracks());
-        static::assertEquals($trackCount, $playlist->playlisttracks()->count());
-        static::assertInstanceOf(PlaylistTrack::class, $playlist->playlisttracks()->first());
+        static::assertInstanceOf(HasMany::class, $playlist->tracks());
+        static::assertEquals($trackCount, $playlist->tracks()->count());
+        static::assertInstanceOf(PlaylistTrack::class, $playlist->tracks()->first());
     }
 }
