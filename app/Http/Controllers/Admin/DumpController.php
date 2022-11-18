@@ -4,12 +4,9 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Admin;
 
-use App\Constants\Config\DumpConstants;
+use App\Actions\Http\Admin\Dump\DumpDownloadAction;
 use App\Http\Controllers\Controller;
 use App\Models\Admin\Dump;
-use Illuminate\Filesystem\FilesystemAdapter;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 /**
@@ -25,9 +22,8 @@ class DumpController extends Controller
      */
     public function show(Dump $dump): StreamedResponse
     {
-        /** @var FilesystemAdapter $fs */
-        $fs = Storage::disk(Config::get(DumpConstants::DISK_QUALIFIED));
+        $action = new DumpDownloadAction($dump);
 
-        return $fs->download($dump->path);
+        return $action->download();
     }
 }
