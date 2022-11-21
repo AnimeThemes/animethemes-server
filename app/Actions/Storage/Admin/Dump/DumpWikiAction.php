@@ -40,6 +40,8 @@ class DumpWikiAction extends DumpAction
 {
     use ReconcilesDumpRepositories;
 
+    final public const FILENAME_PREFIX = 'animethemes-db-dump-wiki-';
+
     /**
      * The list of tables to include in the dump.
      *
@@ -87,7 +89,7 @@ class DumpWikiAction extends DumpAction
         $filesystem = Storage::disk('local');
 
         return Str::of($filesystem->path(''))
-            ->append('animethemes-db-dump-wiki-')
+            ->append(DumpWikiAction::FILENAME_PREFIX)
             ->append(intval(Date::now()->valueOf()))
             ->append('.sql')
             ->__toString();

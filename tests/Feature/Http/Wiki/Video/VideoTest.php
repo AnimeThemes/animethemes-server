@@ -6,6 +6,7 @@ namespace Tests\Feature\Http\Wiki\Video;
 
 use App\Constants\Config\FlagConstants;
 use App\Constants\Config\VideoConstants;
+use App\Enums\Http\StreamingMethod;
 use App\Models\Wiki\Video;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
@@ -31,6 +32,8 @@ class VideoTest extends TestCase
      */
     public function testVideoStreamingNotAllowedForbidden(): void
     {
+        Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
+
         Config::set(FlagConstants::ALLOW_VIDEO_STREAMS_FLAG_QUALIFIED, false);
 
         $video = Video::factory()->createOne();
@@ -47,6 +50,8 @@ class VideoTest extends TestCase
      */
     public function testSoftDeleteVideoStreamingForbidden(): void
     {
+        Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
+
         Config::set(FlagConstants::ALLOW_VIDEO_STREAMS_FLAG_QUALIFIED, true);
 
         $video = Video::factory()->createOne();
@@ -65,6 +70,8 @@ class VideoTest extends TestCase
      */
     public function testViewRecordingNotAllowed(): void
     {
+        Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
+
         Config::set(FlagConstants::ALLOW_VIDEO_STREAMS_FLAG_QUALIFIED, true);
         Config::set(FlagConstants::ALLOW_VIEW_RECORDING_FLAG_QUALIFIED, false);
 
@@ -82,6 +89,8 @@ class VideoTest extends TestCase
      */
     public function testViewRecordingIsAllowed(): void
     {
+        Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
+
         Config::set(FlagConstants::ALLOW_VIDEO_STREAMS_FLAG_QUALIFIED, true);
         Config::set(FlagConstants::ALLOW_VIEW_RECORDING_FLAG_QUALIFIED, true);
 
@@ -99,6 +108,8 @@ class VideoTest extends TestCase
      */
     public function testViewRecordingCooldown(): void
     {
+        Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
+
         Config::set(FlagConstants::ALLOW_VIDEO_STREAMS_FLAG_QUALIFIED, true);
         Config::set(FlagConstants::ALLOW_VIEW_RECORDING_FLAG_QUALIFIED, true);
 
@@ -112,6 +123,25 @@ class VideoTest extends TestCase
     }
 
     /**
+     * If the streaming method is set to an unexpected value, the user shall receive an error.
+     *
+     * @return void
+     */
+    public function testInvalidStreamingMethodError(): void
+    {
+        Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
+
+        Config::set(FlagConstants::ALLOW_VIDEO_STREAMS_FLAG_QUALIFIED, true);
+        Config::set(VideoConstants::STREAMING_METHOD_QUALIFIED, $this->faker->word());
+
+        $video = Video::factory()->createOne();
+
+        $response = $this->get(route('video.show', ['video' => $video]));
+
+        $response->assertServerError();
+    }
+
+    /**
      * If the streaming method is set to 'response', the video shall be streamed through a Symfony StreamedResponse.
      *
      * @return void
@@ -121,12 +151,31 @@ class VideoTest extends TestCase
         Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
 
         Config::set(FlagConstants::ALLOW_VIDEO_STREAMS_FLAG_QUALIFIED, true);
-        Config::set(VideoConstants::STREAMING_METHOD_QUALIFIED, 'response');
+        Config::set(VideoConstants::STREAMING_METHOD_QUALIFIED, StreamingMethod::RESPONSE);
 
         $video = Video::factory()->createOne();
 
         $response = $this->get(route('video.show', ['video' => $video]));
 
         static::assertInstanceOf(StreamedResponse::class, $response->baseResponse);
+    }
+
+    /**
+     * If the streaming method is set to 'nginx', the video shall be streamed through a nginx internal redirect.
+     *
+     * @return void
+     */
+    public function testStreamedThroughNginxRedirect(): void
+    {
+        Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
+
+        Config::set(FlagConstants::ALLOW_VIDEO_STREAMS_FLAG_QUALIFIED, true);
+        Config::set(VideoConstants::STREAMING_METHOD_QUALIFIED, StreamingMethod::NGINX);
+
+        $video = Video::factory()->createOne();
+
+        $response = $this->get(route('video.show', ['video' => $video]));
+
+        $response->assertHeader('X-Accel-Redirect');
     }
 }

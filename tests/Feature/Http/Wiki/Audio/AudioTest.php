@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Wiki\Audio;
 
+use App\Constants\Config\AudioConstants;
 use App\Constants\Config\FlagConstants;
+use App\Enums\Http\StreamingMethod;
 use App\Models\Wiki\Audio;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Tests\TestCase;
 
@@ -29,6 +32,8 @@ class AudioTest extends TestCase
      */
     public function testAudioStreamingNotAllowedForbidden(): void
     {
+        Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
+
         Config::set(FlagConstants::ALLOW_AUDIO_STREAMS_FLAG_QUALIFIED, false);
 
         $audio = Audio::factory()->createOne();
@@ -45,6 +50,8 @@ class AudioTest extends TestCase
      */
     public function testSoftDeleteAudioStreamingForbidden(): void
     {
+        Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
+
         Config::set(FlagConstants::ALLOW_AUDIO_STREAMS_FLAG_QUALIFIED, true);
 
         $audio = Audio::factory()->createOne();
@@ -63,6 +70,8 @@ class AudioTest extends TestCase
      */
     public function testViewRecordingNotAllowed(): void
     {
+        Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
+
         Config::set(FlagConstants::ALLOW_AUDIO_STREAMS_FLAG_QUALIFIED, true);
         Config::set(FlagConstants::ALLOW_VIEW_RECORDING_FLAG_QUALIFIED, false);
 
@@ -80,6 +89,8 @@ class AudioTest extends TestCase
      */
     public function testViewRecordingIsAllowed(): void
     {
+        Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
+
         Config::set(FlagConstants::ALLOW_AUDIO_STREAMS_FLAG_QUALIFIED, true);
         Config::set(FlagConstants::ALLOW_VIEW_RECORDING_FLAG_QUALIFIED, true);
 
@@ -97,6 +108,8 @@ class AudioTest extends TestCase
      */
     public function testViewRecordingCooldown(): void
     {
+        Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
+
         Config::set(FlagConstants::ALLOW_AUDIO_STREAMS_FLAG_QUALIFIED, true);
         Config::set(FlagConstants::ALLOW_VIEW_RECORDING_FLAG_QUALIFIED, true);
 
@@ -110,19 +123,59 @@ class AudioTest extends TestCase
     }
 
     /**
+     * If the streaming method is set to an unexpected value, the user shall receive an error.
+     *
+     * @return void
+     */
+    public function testInvalidStreamingMethodError(): void
+    {
+        Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
+
+        Config::set(FlagConstants::ALLOW_AUDIO_STREAMS_FLAG_QUALIFIED, true);
+        Config::set(AudioConstants::STREAMING_METHOD_QUALIFIED, $this->faker->word());
+
+        $audio = Audio::factory()->createOne();
+
+        $response = $this->get(route('audio.show', ['audio' => $audio]));
+
+        $response->assertServerError();
+    }
+
+    /**
      * If the streaming method is set to 'response', the audio shall be streamed through a Symfony StreamedResponse.
      *
      * @return void
      */
     public function testStreamedThroughResponse(): void
     {
+        Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
+
         Config::set(FlagConstants::ALLOW_AUDIO_STREAMS_FLAG_QUALIFIED, true);
-        Config::set('audio.streaming_method', 'response');
+        Config::set(AudioConstants::STREAMING_METHOD_QUALIFIED, StreamingMethod::RESPONSE);
 
         $audio = Audio::factory()->createOne();
 
         $response = $this->get(route('audio.show', ['audio' => $audio]));
 
         static::assertInstanceOf(StreamedResponse::class, $response->baseResponse);
+    }
+
+    /**
+     * If the streaming method is set to 'nginx', the audio shall be streamed through a nginx internal redirect.
+     *
+     * @return void
+     */
+    public function testStreamedThroughNginxRedirect(): void
+    {
+        Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
+
+        Config::set(FlagConstants::ALLOW_AUDIO_STREAMS_FLAG_QUALIFIED, true);
+        Config::set(AudioConstants::STREAMING_METHOD_QUALIFIED, StreamingMethod::NGINX);
+
+        $audio = Audio::factory()->createOne();
+
+        $response = $this->get(route('audio.show', ['audio' => $audio]));
+
+        $response->assertHeader('X-Accel-Redirect');
     }
 }

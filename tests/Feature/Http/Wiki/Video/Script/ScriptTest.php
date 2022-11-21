@@ -12,7 +12,6 @@ use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
-use Symfony\Component\HttpFoundation\StreamedResponse;
 use Tests\TestCase;
 
 /**
@@ -77,6 +76,6 @@ class ScriptTest extends TestCase
 
         $response = $this->get(route('videoscript.show', ['videoscript' => $script]));
 
-        static::assertInstanceOf(StreamedResponse::class, $response->baseResponse);
+        $response->assertDownload($script->path);
     }
 }

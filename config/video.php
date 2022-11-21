@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use App\Enums\Http\StreamingMethod;
+
 return [
 
     /*
@@ -48,7 +50,7 @@ return [
     |
     */
 
-    'streaming_method' => env('VIDEO_STREAMING_METHOD', 'response'),
+    'streaming_method' => env('VIDEO_STREAMING_METHOD', StreamingMethod::RESPONSE),
 
     'nginx_redirect' => env('VIDEO_NGINX_REDIRECT', '/video_redirect/'),
 

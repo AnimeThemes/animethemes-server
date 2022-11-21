@@ -4,53 +4,39 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Wiki\Audio;
 
+use App\Actions\Http\StreamAction;
+use App\Actions\Http\Wiki\Audio\AudioNginxStreamAction;
+use App\Actions\Http\Wiki\Audio\AudioResponseStreamAction;
 use App\Constants\Config\AudioConstants;
-use App\Http\Controllers\Wiki\StreamableController;
+use App\Enums\Http\StreamingMethod;
+use App\Http\Controllers\Controller;
 use App\Models\Wiki\Audio;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Config;
 use RuntimeException;
-use Symfony\Component\HttpFoundation\StreamedResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class AudioController.
  */
-class AudioController extends StreamableController
+class AudioController extends Controller
 {
     /**
      * Stream audio through configured streaming method.
      *
      * @param  Audio  $audio
-     * @return Response|StreamedResponse
+     * @return Response
      *
      * @throws RuntimeException
      */
-    public function show(Audio $audio): Response|StreamedResponse
+    public function show(Audio $audio): Response
     {
-        return match (Config::get(AudioConstants::STREAMING_METHOD_QUALIFIED)) {
-            'response' => $this->throughResponse($audio),
-            'nginx' => $this->throughNginx($audio),
+        /** @var StreamAction $action */
+        $action = match (Config::get(AudioConstants::STREAMING_METHOD_QUALIFIED)) {
+            StreamingMethod::RESPONSE => new AudioResponseStreamAction($audio),
+            StreamingMethod::NGINX => new AudioNginxStreamAction($audio),
             default => throw new RuntimeException('AUDIO_STREAMING_METHOD must be specified in your .env file'),
         };
-    }
 
-    /**
-     * The name of the disk.
-     *
-     * @return string
-     */
-    public function disk(): string
-    {
-        return Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED);
-    }
-
-    /**
-     * Get the location of the nginx internal redirect.
-     *
-     * @return string
-     */
-    protected function nginxRedirect(): string
-    {
-        return Config::get(AudioConstants::NGINX_REDIRECT_QUALIFIED);
+        return $action->stream();
     }
 }
