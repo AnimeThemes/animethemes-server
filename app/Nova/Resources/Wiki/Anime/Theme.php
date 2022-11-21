@@ -206,6 +206,7 @@ class Theme extends BaseResource
                 ->showOnPreview()
                 ->filterable()
                 ->maxlength(192)
+                ->enforceMaxlength()
                 ->showWhenPeeking(),
 
             Text::make(__('nova.fields.anime_theme.slug.name'), AnimeTheme::ATTRIBUTE_SLUG)
@@ -215,6 +216,7 @@ class Theme extends BaseResource
                 ->showOnPreview()
                 ->filterable()
                 ->maxlength(192)
+                ->enforceMaxlength()
                 ->showWhenPeeking()
                 ->dependsOn(
                     [AnimeTheme::ATTRIBUTE_TYPE, AnimeTheme::ATTRIBUTE_SEQUENCE],

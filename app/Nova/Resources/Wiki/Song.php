@@ -166,6 +166,7 @@ class Song extends BaseResource
                 ->showOnPreview()
                 ->filterable()
                 ->maxlength(192)
+                ->enforceMaxlength()
                 ->showWhenPeeking(),
 
             BelongsToMany::make(__('nova.resources.label.artists'), SongModel::RELATION_ARTISTS, Artist::class)

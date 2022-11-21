@@ -134,6 +134,7 @@ class Page extends BaseResource
                 ->showOnPreview()
                 ->filterable()
                 ->maxlength(192)
+                ->enforceMaxlength()
                 ->showWhenPeeking(),
 
             Slug::make(__('nova.fields.page.slug.name'), PageModel::ATTRIBUTE_SLUG)

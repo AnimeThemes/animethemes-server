@@ -127,6 +127,7 @@ class Series extends BaseResource
                 ->showOnPreview()
                 ->filterable()
                 ->maxlength(192)
+                ->enforceMaxlength()
                 ->showWhenPeeking(),
 
             Slug::make(__('nova.fields.series.slug.name'), SeriesModel::ATTRIBUTE_SLUG)

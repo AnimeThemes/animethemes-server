@@ -158,6 +158,7 @@ class Anime extends BaseResource
                 ->showOnPreview()
                 ->filterable()
                 ->maxlength(192)
+                ->enforceMaxlength()
                 ->showWhenPeeking(),
 
             Slug::make(__('nova.fields.anime.slug.name'), AnimeModel::ATTRIBUTE_SLUG)
@@ -200,6 +201,7 @@ class Anime extends BaseResource
                 ->help(__('nova.fields.anime.synopsis.help'))
                 ->showOnPreview()
                 ->maxlength(65535)
+                ->enforceMaxlength()
                 ->showWhenPeeking(),
 
             HasMany::make(__('nova.resources.label.anime_synonyms'), AnimeModel::RELATION_SYNONYMS, Synonym::class),

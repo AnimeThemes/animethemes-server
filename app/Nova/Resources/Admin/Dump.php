@@ -126,6 +126,7 @@ class Dump extends BaseResource
                 ->showOnPreview()
                 ->filterable()
                 ->maxlength(192)
+                ->enforceMaxlength()
                 ->showWhenPeeking(),
 
             Panel::make(__('nova.fields.base.timestamps'), $this->timestamps()),

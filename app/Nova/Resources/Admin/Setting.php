@@ -123,6 +123,7 @@ class Setting extends BaseResource
                 ->showOnPreview()
                 ->filterable()
                 ->maxlength(192)
+                ->enforceMaxlength()
                 ->showWhenPeeking(),
 
             Text::make(__('nova.fields.setting.value'), SettingModel::ATTRIBUTE_VALUE)
@@ -132,6 +133,7 @@ class Setting extends BaseResource
                 ->showOnPreview()
                 ->filterable()
                 ->maxlength(65535)
+                ->enforceMaxlength()
                 ->showWhenPeeking(),
         ];
     }
