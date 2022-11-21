@@ -17,6 +17,8 @@ class DumpDocumentAction extends DumpAction
 {
     use ReconcilesDumpRepositories;
 
+    final public const FILENAME_PREFIX = 'animethemes-db-dump-document-';
+
     /**
      * The list of tables to include in the dump.
      *
@@ -41,7 +43,7 @@ class DumpDocumentAction extends DumpAction
         $filesystem = Storage::disk('local');
 
         return Str::of($filesystem->path(''))
-            ->append('animethemes-db-dump-document-')
+            ->append(DumpDocumentAction::FILENAME_PREFIX)
             ->append(intval(Date::now()->valueOf()))
             ->append('.sql')
             ->__toString();

@@ -4,51 +4,39 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Wiki\Video;
 
+use App\Actions\Http\StreamAction;
+use App\Actions\Http\Wiki\Video\VideoNginxStreamAction;
+use App\Actions\Http\Wiki\Video\VideoResponseStreamAction;
 use App\Constants\Config\VideoConstants;
-use App\Http\Controllers\Wiki\StreamableController;
+use App\Enums\Http\StreamingMethod;
+use App\Http\Controllers\Controller;
 use App\Models\Wiki\Video;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Config;
 use RuntimeException;
-use Symfony\Component\HttpFoundation\StreamedResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class VideoController.
  */
-class VideoController extends StreamableController
+class VideoController extends Controller
 {
     /**
      * Stream video through configured streaming method.
      *
      * @param  Video  $video
-     * @return Response|StreamedResponse
+     * @return Response
+     *
+     * @throws RuntimeException
      */
-    public function show(Video $video): Response|StreamedResponse
+    public function show(Video $video): Response
     {
-        return match (Config::get(VideoConstants::STREAMING_METHOD_QUALIFIED)) {
-            'response' => $this->throughResponse($video),
-            'nginx' => $this->throughNginx($video),
+        /** @var StreamAction $action */
+        $action = match (Config::get(VideoConstants::STREAMING_METHOD_QUALIFIED)) {
+            StreamingMethod::RESPONSE => new VideoResponseStreamAction($video),
+            StreamingMethod::NGINX => new VideoNginxStreamAction($video),
             default => throw new RuntimeException('VIDEO_STREAMING_METHOD must be specified in your .env file'),
         };
-    }
 
-    /**
-     * The name of the disk.
-     *
-     * @return string
-     */
-    public function disk(): string
-    {
-        return Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED);
-    }
-
-    /**
-     * Get the location of the nginx internal redirect.
-     *
-     * @return string
-     */
-    protected function nginxRedirect(): string
-    {
-        return Config::get(VideoConstants::NGINX_REDIRECT_QUALIFIED);
+        return $action->stream();
     }
 }

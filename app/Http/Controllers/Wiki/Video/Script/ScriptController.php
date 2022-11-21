@@ -4,12 +4,9 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Wiki\Video\Script;
 
-use App\Constants\Config\VideoConstants;
+use App\Actions\Http\Wiki\Video\Script\ScriptDownloadAction;
 use App\Http\Controllers\Controller;
 use App\Models\Wiki\Video\VideoScript;
-use Illuminate\Filesystem\FilesystemAdapter;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 /**
@@ -25,9 +22,8 @@ class ScriptController extends Controller
      */
     public function show(VideoScript $videoscript): StreamedResponse
     {
-        /** @var FilesystemAdapter $fs */
-        $fs = Storage::disk(Config::get(VideoConstants::SCRIPT_DISK_QUALIFIED));
+        $action = new ScriptDownloadAction($videoscript);
 
-        return $fs->download($videoscript->path);
+        return $action->download();
     }
 }
