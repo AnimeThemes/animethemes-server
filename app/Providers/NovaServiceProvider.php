@@ -67,6 +67,9 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
             return $menu;
         });
 
+        // Enable breadcrumbs
+        Nova::withBreadcrumbs();
+
         // Disable the footer
         Nova::footer(fn () => '');
     }

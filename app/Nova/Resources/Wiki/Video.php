@@ -246,6 +246,7 @@ class Video extends BaseResource
                 ->showOnPreview()
                 ->filterable()
                 ->maxlength(192)
+                ->enforceMaxlength()
                 ->showWhenPeeking(),
 
             Text::make(__('nova.fields.video.filename.name'), VideoModel::ATTRIBUTE_FILENAME)
@@ -256,6 +257,7 @@ class Video extends BaseResource
                 ->showOnPreview()
                 ->filterable()
                 ->maxlength(192)
+                ->enforceMaxlength()
                 ->showWhenPeeking(),
 
             Text::make(__('nova.fields.video.path.name'), VideoModel::ATTRIBUTE_PATH)
@@ -266,6 +268,7 @@ class Video extends BaseResource
                 ->showOnPreview()
                 ->filterable()
                 ->maxlength(192)
+                ->enforceMaxlength()
                 ->showWhenPeeking(),
 
             Number::make(__('nova.fields.video.size.name'), VideoModel::ATTRIBUTE_SIZE)
@@ -284,6 +287,7 @@ class Video extends BaseResource
                 ->showOnPreview()
                 ->filterable()
                 ->maxlength(192)
+                ->enforceMaxlength()
                 ->showWhenPeeking(),
         ];
     }

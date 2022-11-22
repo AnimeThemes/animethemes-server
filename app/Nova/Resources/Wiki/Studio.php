@@ -133,6 +133,7 @@ class Studio extends BaseResource
                 ->showOnPreview()
                 ->filterable()
                 ->maxlength(192)
+                ->enforceMaxlength()
                 ->showWhenPeeking(),
 
             Slug::make(__('nova.fields.studio.slug.name'), StudioModel::ATTRIBUTE_SLUG)

@@ -136,6 +136,7 @@ class Artist extends BaseResource
                 ->help(__('nova.fields.artist.name.help'))
                 ->showOnPreview()
                 ->maxlength(192)
+                ->enforceMaxlength()
                 ->filterable()
                 ->showWhenPeeking(),
 

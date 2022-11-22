@@ -213,6 +213,7 @@ class Entry extends BaseResource
                 ->showOnPreview()
                 ->filterable()
                 ->maxlength(192)
+                ->enforceMaxlength()
                 ->showWhenPeeking(),
 
             Boolean::make(__('nova.fields.anime_theme_entry.nsfw.name'), AnimeThemeEntry::ATTRIBUTE_NSFW)
@@ -241,6 +242,7 @@ class Entry extends BaseResource
                 ->showOnPreview()
                 ->filterable()
                 ->maxlength(192)
+                ->enforceMaxlength()
                 ->showWhenPeeking(),
 
             BelongsToMany::make(__('nova.resources.label.videos'), AnimeThemeEntry::RELATION_VIDEOS, Video::class)

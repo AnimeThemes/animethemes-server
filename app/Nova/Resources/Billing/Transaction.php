@@ -150,6 +150,7 @@ class Transaction extends BaseResource
                 ->showOnPreview()
                 ->filterable()
                 ->maxlength(192)
+                ->enforceMaxlength()
                 ->showWhenPeeking(),
 
             Currency::make(__('nova.fields.transaction.amount.name'), TransactionModel::ATTRIBUTE_AMOUNT)
@@ -169,6 +170,7 @@ class Transaction extends BaseResource
                 ->showOnPreview()
                 ->filterable()
                 ->maxlength(192)
+                ->enforceMaxlength()
                 ->showWhenPeeking(),
 
             Panel::make(__('nova.fields.base.timestamps'), $this->timestamps())

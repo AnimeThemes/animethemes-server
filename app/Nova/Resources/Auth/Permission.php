@@ -126,6 +126,7 @@ class Permission extends BaseResource
                 ->showOnPreview()
                 ->filterable()
                 ->maxlength(192)
+                ->enforceMaxlength()
                 ->showWhenPeeking(),
 
             BelongsToMany::make(__('nova.resources.label.roles'), PermissionModel::RELATION_ROLES, Role::class)

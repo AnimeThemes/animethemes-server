@@ -142,6 +142,7 @@ class User extends BaseResource
                 ->showOnPreview()
                 ->filterable()
                 ->maxlength(192)
+                ->enforceMaxlength()
                 ->showWhenPeeking(),
 
             Email::make(__('nova.fields.user.email'), UserModel::ATTRIBUTE_EMAIL)
