@@ -183,6 +183,7 @@ class Playlist extends BaseResource
                 ->showOnPreview()
                 ->filterable()
                 ->maxlength(192)
+                ->enforceMaxlength()
                 ->showWhenPeeking(),
 
             Select::make(__('nova.fields.playlist.visibility.name'), PlaylistModel::ATTRIBUTE_VISIBILITY)
