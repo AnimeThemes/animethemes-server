@@ -102,12 +102,19 @@ abstract class DumpAction
      */
     protected function getDumper(Connection $connection): ?DbDumper
     {
-        return match (get_class($connection)) {
-            SQLiteConnection::class => $this->prepareSqliteDumper($connection),
-            MySqlConnection::class => $this->prepareMySqlDumper($connection),
-            PostgresConnection::class => $this->preparePostgreSqlDumper($connection),
-            default => null,
-        };
+        if ($connection instanceof SQLiteConnection) {
+            return $this->prepareSqliteDumper($connection);
+        }
+
+        if ($connection instanceof MySqlConnection) {
+            return $this->prepareMySqlDumper($connection);
+        }
+
+        if ($connection instanceof PostgresConnection) {
+            return $this->preparePostgreSqlDumper($connection);
+        }
+
+        return null;
     }
 
     /**

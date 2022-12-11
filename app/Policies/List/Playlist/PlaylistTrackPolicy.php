@@ -29,7 +29,14 @@ class PlaylistTrackPolicy
     {
         return Nova::whenServing(
             fn (): bool => $user !== null && $user->hasRole('Admin'),
-            fn (): bool => $user === null || $user->can('view playlist track')
+            function (Request $request) use ($user): bool {
+                /** @var Playlist|null $playlist */
+                $playlist = $request->route('playlist');
+
+                return $user !== null
+                    ? ($user->getKey() === $playlist?->user_id || PlaylistVisibility::PRIVATE()->isNot($playlist?->visibility)) && $user->can('view playlist track')
+                    : PlaylistVisibility::PRIVATE()->isNot($playlist?->visibility);
+            }
         );
     }
 

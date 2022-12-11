@@ -22,6 +22,7 @@ use App\Http\Api\Query\List\Playlist\Track\TrackReadQuery;
 use App\Http\Api\Schema\List\Playlist\TrackSchema;
 use App\Http\Resources\List\Playlist\Collection\TrackCollection;
 use App\Http\Resources\List\Playlist\Resource\TrackResource;
+use App\Models\Auth\User;
 use App\Models\BaseModel;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
@@ -30,6 +31,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
+use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
 /**
@@ -39,6 +41,109 @@ class TrackIndexTest extends TestCase
 {
     use WithFaker;
     use WithoutEvents;
+
+    /**
+     * The Track Index Endpoint shall forbid a private playlist from being publicly viewed.
+     *
+     * @return void
+     */
+    public function testPrivatePlaylistTrackCannotBePubliclyViewed(): void
+    {
+        $playlist = Playlist::factory()
+            ->for(User::factory())
+            ->tracks($this->faker->numberBetween(2, 9))
+            ->createOne([
+                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PRIVATE,
+            ]);
+
+        $response = $this->get(route('api.playlist.track.index', ['playlist' => $playlist]));
+
+        $response->assertForbidden();
+    }
+
+    /**
+     * The Track Index Endpoint shall forbid the user from viewing private playlist tracks if not owned.
+     *
+     * @return void
+     */
+    public function testPrivatePlaylistTrackCannotBePubliclyViewedIfNotOwned(): void
+    {
+        $playlist = Playlist::factory()
+            ->for(User::factory())
+            ->tracks($this->faker->numberBetween(2, 9))
+            ->createOne([
+                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PRIVATE,
+            ]);
+
+        $user = User::factory()->withPermission('view playlist track')->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->get(route('api.playlist.track.index', ['playlist' => $playlist]));
+
+        $response->assertForbidden();
+    }
+
+    /**
+     * The Track Index Endpoint shall allow private playlist tracks to be viewed by the owner.
+     *
+     * @return void
+     */
+    public function testPrivatePlaylistTrackCanBeViewedByOwner(): void
+    {
+        $user = User::factory()->withPermission('view playlist track')->createOne();
+
+        $playlist = Playlist::factory()
+            ->for($user)
+            ->tracks($this->faker->numberBetween(2, 9))
+            ->createOne([
+                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PRIVATE,
+            ]);
+
+        Sanctum::actingAs($user);
+
+        $response = $this->get(route('api.playlist.track.index', ['playlist' => $playlist]));
+
+        $response->assertOk();
+    }
+
+    /**
+     * The Track Index Endpoint shall allow unlisted playlist tracks to be viewed.
+     *
+     * @return void
+     */
+    public function testUnlistedPlaylistTrackCanBeViewed(): void
+    {
+        $playlist = Playlist::factory()
+            ->for(User::factory())
+            ->tracks($this->faker->numberBetween(2, 9))
+            ->createOne([
+                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::UNLISTED,
+            ]);
+
+        $response = $this->get(route('api.playlist.track.index', ['playlist' => $playlist]));
+
+        $response->assertOk();
+    }
+
+    /**
+     * The Track Index Endpoint shall allow public playlist tracks to be viewed.
+     *
+     * @return void
+     */
+    public function testPublicPlaylistTrackCanBeViewed(): void
+    {
+        $playlist = Playlist::factory()
+            ->for(User::factory())
+            ->tracks($this->faker->numberBetween(2, 9))
+            ->createOne([
+                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
+            ]);
+
+        $response = $this->get(route('api.playlist.track.index', ['playlist' => $playlist]));
+
+        $response->assertOk();
+    }
 
     /**
      * By default, the Track Index Endpoint shall return a collection of Track Resources that belong to the Playlist.
