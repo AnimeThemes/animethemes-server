@@ -10,6 +10,8 @@ use App\Http\Controllers\Api\Billing\TransparencyController;
 use App\Http\Controllers\Api\Config\FlagsController;
 use App\Http\Controllers\Api\Config\WikiController;
 use App\Http\Controllers\Api\Document\PageController;
+use App\Http\Controllers\Api\List\Playlist\BackwardTrackController;
+use App\Http\Controllers\Api\List\Playlist\ForwardTrackController;
 use App\Http\Controllers\Api\List\Playlist\TrackController;
 use App\Http\Controllers\Api\List\PlaylistController;
 use App\Http\Controllers\Api\Pivot\Wiki\AnimeImageController;
@@ -204,6 +206,8 @@ apiResourceWhere('page', PageController::class, ['page' => '[\pL\pM\pN\/_-]+']);
 // List Routes
 apiResource('playlist', PlaylistController::class);
 apiScopedResource('playlist.track', TrackController::class);
+Route::get('playlist/{playlist}/forward', [ForwardTrackController::class, 'index'])->name('playlist.forward');
+Route::get('playlist/{playlist}/backward', [BackwardTrackController::class, 'index'])->name('playlist.backward');
 
 // Pivot Routes
 apiPivotResource('animeimage', 'anime', 'image', AnimeImageController::class);

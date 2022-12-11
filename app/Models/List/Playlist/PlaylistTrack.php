@@ -14,6 +14,7 @@ use App\Models\Wiki\Video;
 use Database\Factories\List\Playlist\PlaylistTrackFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Laravel\Nova\Actions\Actionable;
+use Staudenmeir\LaravelAdjacencyList\Eloquent\HasRecursiveRelationships;
 
 /**
  * Class PlaylistTrack.
@@ -33,6 +34,7 @@ use Laravel\Nova\Actions\Actionable;
 class PlaylistTrack extends BaseModel
 {
     use Actionable;
+    use HasRecursiveRelationships;
 
     final public const TABLE = 'playlist_tracks';
 
