@@ -53,6 +53,6 @@ class BackfillLargeCoverImageAction extends BackfillStudioImageAction
      */
     protected function getMalImage(ExternalResource $malResource): ?Image
     {
-        return $this->createImage("https://cdn.myanimelist.net/img/common/companies/$malResource->external_id.png");
+        return $this->createImage("https://cdn.myanimelist.net/images/company/$malResource->external_id.png");
     }
 }

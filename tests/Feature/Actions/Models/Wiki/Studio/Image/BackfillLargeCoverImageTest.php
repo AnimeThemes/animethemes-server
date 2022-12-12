@@ -136,7 +136,7 @@ class BackfillLargeCoverImageTest extends TestCase
         $file = File::fake()->image($this->faker->word().'.jpg');
 
         Http::fake([
-            'https://cdn.myanimelist.net/img/common/companies/*' => Http::response($file->getContent()),
+            'https://cdn.myanimelist.net/images/company/*' => Http::response($file->getContent()),
         ]);
 
         $resource = ExternalResource::factory()->createOne([
