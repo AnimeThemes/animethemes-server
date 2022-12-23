@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace App\Nova\Resources\Wiki;
 
+use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Wiki\Artist as ArtistModel;
+use App\Models\Wiki\ExternalResource as ExternalResourceModel;
+use App\Nova\Actions\Models\Wiki\Artist\AttachArtistResourceAction;
 use App\Nova\Lenses\Artist\Image\ArtistCoverLargeLens;
 use App\Nova\Lenses\Artist\Image\ArtistCoverSmallLens;
 use App\Nova\Lenses\Artist\Resource\ArtistAniDbResourceLens;
@@ -252,6 +255,44 @@ class Artist extends BaseResource
             Panel::make(__('nova.fields.base.timestamps'), $this->timestamps())
                 ->collapsable(),
         ];
+    }
+
+    /**
+     * Get the actions available for the resource.
+     *
+     * @param  NovaRequest  $request
+     * @return array
+     */
+    public function actions(NovaRequest $request): array
+    {
+        return array_merge(
+            parent::actions($request),
+            [
+                (new AttachArtistResourceAction(ResourceSite::ANIDB()))
+                    ->confirmButtonText(__('nova.actions.models.wiki.attach_resource.confirmButtonText'))
+                    ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
+                    ->exceptOnIndex()
+                    ->canSeeWhen('create', ExternalResourceModel::class),
+
+                (new AttachArtistResourceAction(ResourceSite::ANILIST()))
+                    ->confirmButtonText(__('nova.actions.models.wiki.attach_resource.confirmButtonText'))
+                    ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
+                    ->exceptOnIndex()
+                    ->canSeeWhen('create', ExternalResourceModel::class),
+
+                (new AttachArtistResourceAction(ResourceSite::ANN()))
+                    ->confirmButtonText(__('nova.actions.models.wiki.attach_resource.confirmButtonText'))
+                    ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
+                    ->exceptOnIndex()
+                    ->canSeeWhen('create', ExternalResourceModel::class),
+
+                (new AttachArtistResourceAction(ResourceSite::MAL()))
+                    ->confirmButtonText(__('nova.actions.models.wiki.attach_resource.confirmButtonText'))
+                    ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
+                    ->exceptOnIndex()
+                    ->canSeeWhen('create', ExternalResourceModel::class),
+            ]
+        );
     }
 
     /**

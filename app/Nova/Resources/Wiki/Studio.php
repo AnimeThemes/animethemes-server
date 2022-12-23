@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace App\Nova\Resources\Wiki;
 
+use App\Enums\Models\Wiki\ResourceSite;
+use App\Models\Wiki\ExternalResource as ExternalResourceModel;
 use App\Models\Wiki\Studio as StudioModel;
+use App\Nova\Actions\Models\Wiki\Studio\AttachStudioResourceAction;
 use App\Nova\Actions\Models\Wiki\Studio\BackfillStudioAction;
 use App\Nova\Lenses\Studio\Image\StudioCoverLargeLens;
 use App\Nova\Lenses\Studio\Resource\StudioAniDbResourceLens;
@@ -219,6 +222,36 @@ class Studio extends BaseResource
                     ->showOnDetail()
                     ->showInline()
                     ->canSeeWhen('update', $this),
+
+                (new AttachStudioResourceAction(ResourceSite::ANIDB()))
+                    ->confirmButtonText(__('nova.actions.models.wiki.attach_resource.confirmButtonText'))
+                    ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
+                    ->exceptOnIndex()
+                    ->canSeeWhen('create', ExternalResourceModel::class),
+
+                (new AttachStudioResourceAction(ResourceSite::ANILIST()))
+                    ->confirmButtonText(__('nova.actions.models.wiki.attach_resource.confirmButtonText'))
+                    ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
+                    ->exceptOnIndex()
+                    ->canSeeWhen('create', ExternalResourceModel::class),
+
+                (new AttachStudioResourceAction(ResourceSite::ANIME_PLANET()))
+                    ->confirmButtonText(__('nova.actions.models.wiki.attach_resource.confirmButtonText'))
+                    ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
+                    ->exceptOnIndex()
+                    ->canSeeWhen('create', ExternalResourceModel::class),
+
+                (new AttachStudioResourceAction(ResourceSite::ANN()))
+                    ->confirmButtonText(__('nova.actions.models.wiki.attach_resource.confirmButtonText'))
+                    ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
+                    ->exceptOnIndex()
+                    ->canSeeWhen('create', ExternalResourceModel::class),
+
+                (new AttachStudioResourceAction(ResourceSite::MAL()))
+                    ->confirmButtonText(__('nova.actions.models.wiki.attach_resource.confirmButtonText'))
+                    ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
+                    ->exceptOnIndex()
+                    ->canSeeWhen('create', ExternalResourceModel::class),
             ]
         );
     }
