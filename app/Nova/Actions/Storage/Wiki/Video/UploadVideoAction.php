@@ -6,7 +6,10 @@ namespace App\Nova\Actions\Storage\Wiki\Video;
 
 use App\Actions\Storage\Wiki\Video\UploadVideoAction as UploadVideo;
 use App\Constants\Config\VideoConstants;
+use App\Enums\Models\Wiki\VideoOverlap;
+use App\Enums\Models\Wiki\VideoSource;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
+use App\Models\Wiki\Video;
 use App\Nova\Actions\Storage\Base\UploadAction;
 use App\Rules\Wiki\Submission\Audio\AudioChannelLayoutStreamRule;
 use App\Rules\Wiki\Submission\Audio\AudioChannelsStreamRule;
@@ -28,14 +31,19 @@ use App\Rules\Wiki\Submission\Video\VideoColorSpaceStreamRule;
 use App\Rules\Wiki\Submission\Video\VideoColorTransferStreamRule;
 use App\Rules\Wiki\Submission\Video\VideoIndexStreamRule;
 use App\Rules\Wiki\Submission\Video\VideoPixelFormatStreamRule;
+use BenSampo\Enum\Enum;
+use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Validation\Rules\File as FileRule;
 use Laravel\Nova\Fields\ActionFields;
+use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\File;
 use Laravel\Nova\Fields\Heading;
 use Laravel\Nova\Fields\Hidden;
+use Laravel\Nova\Fields\Number;
+use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 /**
@@ -74,6 +82,47 @@ class UploadVideoAction extends UploadAction
                 Hidden::make(__('nova.resources.singularLabel.anime_theme_entry'), AnimeThemeEntry::ATTRIBUTE_ID)
                     ->default(fn () => $parent instanceof AnimeThemeEntry ? $parent->getKey() : null),
 
+                Number::make(__('nova.fields.video.resolution.name'), Video::ATTRIBUTE_RESOLUTION)
+                    ->min(360)
+                    ->max(1080)
+                    ->nullable()
+                    ->rules(['nullable', 'integer'])
+                    ->help(__('nova.fields.video.resolution.help')),
+
+                Boolean::make(__('nova.fields.video.nc.name'), Video::ATTRIBUTE_NC)
+                    ->nullable()
+                    ->rules(['nullable', 'boolean'])
+                    ->help(__('nova.fields.video.nc.help')),
+
+                Boolean::make(__('nova.fields.video.subbed.name'), Video::ATTRIBUTE_SUBBED)
+                    ->nullable()
+                    ->rules(['nullable', 'boolean'])
+                    ->help(__('nova.fields.video.subbed.help')),
+
+                Boolean::make(__('nova.fields.video.lyrics.name'), Video::ATTRIBUTE_LYRICS)
+                    ->nullable()
+                    ->rules(['nullable', 'boolean'])
+                    ->help(__('nova.fields.video.lyrics.help')),
+
+                Boolean::make(__('nova.fields.video.uncen.name'), Video::ATTRIBUTE_UNCEN)
+                    ->nullable()
+                    ->rules(['nullable', 'boolean'])
+                    ->help(__('nova.fields.video.uncen.help')),
+
+                Select::make(__('nova.fields.video.overlap.name'), Video::ATTRIBUTE_OVERLAP)
+                    ->options(VideoOverlap::asSelectArray())
+                    ->displayUsing(fn (?Enum $enum) => $enum?->description)
+                    ->nullable()
+                    ->rules(['nullable', new EnumValue(VideoOverlap::class, false)])
+                    ->help(__('nova.fields.video.overlap.help')),
+
+                Select::make(__('nova.fields.video.source.name'), Video::ATTRIBUTE_SOURCE)
+                    ->options(VideoSource::asSelectArray())
+                    ->displayUsing(fn (?Enum $enum) => $enum?->description)
+                    ->nullable()
+                    ->rules(['nullable', new EnumValue(VideoSource::class, false)])
+                    ->help(__('nova.fields.video.source.help')),
+
                 Heading::make(__('nova.resources.singularLabel.video_script')),
 
                 File::make(__('nova.resources.singularLabel.video_script'), 'script')
@@ -93,6 +142,7 @@ class UploadVideoAction extends UploadAction
      */
     protected function action(ActionFields $fields, Collection $models): UploadVideo
     {
+        /** @var string $path */
         $path = $fields->get('path');
 
         /** @var UploadedFile $file */
@@ -104,7 +154,17 @@ class UploadVideoAction extends UploadAction
         /** @var UploadedFile|null $script */
         $script = $fields->get('script');
 
-        return new UploadVideo($file, $path, $entry, $script);
+        $attributes = [
+            Video::ATTRIBUTE_RESOLUTION => $fields->get(Video::ATTRIBUTE_RESOLUTION),
+            Video::ATTRIBUTE_NC => $fields->get(Video::ATTRIBUTE_NC),
+            Video::ATTRIBUTE_SUBBED => $fields->get(Video::ATTRIBUTE_SUBBED),
+            Video::ATTRIBUTE_LYRICS => $fields->get(Video::ATTRIBUTE_LYRICS),
+            Video::ATTRIBUTE_UNCEN => $fields->get(Video::ATTRIBUTE_UNCEN),
+            Video::ATTRIBUTE_OVERLAP => $fields->get(Video::ATTRIBUTE_OVERLAP),
+            Video::ATTRIBUTE_SOURCE => $fields->get(Video::ATTRIBUTE_SOURCE),
+        ];
+
+        return new UploadVideo($file, $path, $attributes, $entry, $script);
     }
 
     /**

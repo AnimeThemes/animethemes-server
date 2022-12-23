@@ -7,6 +7,8 @@ namespace Tests\Feature\Actions\Storage\Wiki\Video;
 use App\Actions\Storage\Wiki\Video\UploadVideoAction;
 use App\Constants\Config\VideoConstants;
 use App\Enums\Actions\ActionStatus;
+use App\Enums\Models\Wiki\VideoOverlap;
+use App\Enums\Models\Wiki\VideoSource;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
@@ -109,6 +111,37 @@ class UploadVideoTest extends TestCase
     }
 
     /**
+     * The Upload Video Action shall set additional video attributes.
+     *
+     * @return void
+     */
+    public function testSetsAttributes(): void
+    {
+        Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
+        Config::set(VideoConstants::DISKS_QUALIFIED, [Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED)]);
+
+        $file = File::fake()->create($this->faker->word().'.webm', $this->faker->randomDigitNotNull());
+
+        $attributes = [
+            Video::ATTRIBUTE_RESOLUTION => $this->faker->numberBetween(360, 1080),
+            Video::ATTRIBUTE_NC => $this->faker->boolean(),
+            Video::ATTRIBUTE_SUBBED => $this->faker->boolean(),
+            Video::ATTRIBUTE_LYRICS => $this->faker->boolean(),
+            Video::ATTRIBUTE_UNCEN => $this->faker->boolean(),
+            Video::ATTRIBUTE_OVERLAP => VideoOverlap::getRandomValue(),
+            Video::ATTRIBUTE_SOURCE => VideoSource::getRandomValue(),
+        ];
+
+        $action = new UploadVideoAction($file, $this->faker->word(), $attributes);
+
+        $result = $action->handle();
+
+        $action->then($result);
+
+        static::assertDatabaseHas(Video::class, $attributes);
+    }
+
+    /**
      * The Upload Video Action shall attach the provided entry.
      *
      * @return void
@@ -124,7 +157,7 @@ class UploadVideoTest extends TestCase
             ->for(AnimeTheme::factory()->for(Anime::factory()))
             ->createOne();
 
-        $action = new UploadVideoAction($file, $this->faker->word(), $entry);
+        $action = new UploadVideoAction(file: $file, path: $this->faker->word(), entry: $entry);
 
         $result = $action->handle();
 
@@ -147,7 +180,7 @@ class UploadVideoTest extends TestCase
         $file = File::fake()->create($this->faker->word().'.webm', $this->faker->randomDigitNotNull());
         $script = File::fake()->create($this->faker->word().'.txt', $this->faker->randomDigitNotNull());
 
-        $action = new UploadVideoAction($file, $this->faker->word(), null, $script);
+        $action = new UploadVideoAction(file: $file, path: $this->faker->word(), script: $script);
 
         $result = $action->handle();
 
