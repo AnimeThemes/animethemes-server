@@ -8,7 +8,6 @@ use App\Contracts\Models\Streamable;
 use App\Enums\Models\Wiki\VideoOverlap;
 use App\Enums\Models\Wiki\VideoSource;
 use App\Events\Wiki\Video\VideoCreated;
-use App\Events\Wiki\Video\VideoCreating;
 use App\Events\Wiki\Video\VideoDeleted;
 use App\Events\Wiki\Video\VideoRestored;
 use App\Events\Wiki\Video\VideoUpdated;
@@ -118,7 +117,6 @@ class Video extends BaseModel implements Streamable, Viewable
      */
     protected $dispatchesEvents = [
         'created' => VideoCreated::class,
-        'creating' => VideoCreating::class,
         'deleted' => VideoDeleted::class,
         'restored' => VideoRestored::class,
         'updated' => VideoUpdated::class,
