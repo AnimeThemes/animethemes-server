@@ -5,7 +5,10 @@ declare(strict_types=1);
 namespace App\Nova\Resources\Wiki;
 
 use App\Enums\Models\Wiki\AnimeSeason;
+use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Wiki\Anime as AnimeModel;
+use App\Models\Wiki\ExternalResource as ExternalResourceModel;
+use App\Nova\Actions\Models\Wiki\Anime\AttachAnimeResourceAction;
 use App\Nova\Actions\Models\Wiki\Anime\BackfillAnimeAction;
 use App\Nova\Lenses\Anime\Image\AnimeCoverLargeLens;
 use App\Nova\Lenses\Anime\Image\AnimeCoverSmallLens;
@@ -291,6 +294,42 @@ class Anime extends BaseResource
                     ->showOnDetail()
                     ->showInline()
                     ->canSeeWhen('update', $this),
+
+                (new AttachAnimeResourceAction(ResourceSite::ANIDB()))
+                    ->confirmButtonText(__('nova.actions.models.wiki.attach_resource.confirmButtonText'))
+                    ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
+                    ->exceptOnIndex()
+                    ->canSeeWhen('create', ExternalResourceModel::class),
+
+                (new AttachAnimeResourceAction(ResourceSite::ANILIST()))
+                    ->confirmButtonText(__('nova.actions.models.wiki.attach_resource.confirmButtonText'))
+                    ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
+                    ->exceptOnIndex()
+                    ->canSeeWhen('create', ExternalResourceModel::class),
+
+                (new AttachAnimeResourceAction(ResourceSite::ANIME_PLANET()))
+                    ->confirmButtonText(__('nova.actions.models.wiki.attach_resource.confirmButtonText'))
+                    ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
+                    ->exceptOnIndex()
+                    ->canSeeWhen('create', ExternalResourceModel::class),
+
+                (new AttachAnimeResourceAction(ResourceSite::ANN()))
+                    ->confirmButtonText(__('nova.actions.models.wiki.attach_resource.confirmButtonText'))
+                    ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
+                    ->exceptOnIndex()
+                    ->canSeeWhen('create', ExternalResourceModel::class),
+
+                (new AttachAnimeResourceAction(ResourceSite::KITSU()))
+                    ->confirmButtonText(__('nova.actions.models.wiki.attach_resource.confirmButtonText'))
+                    ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
+                    ->exceptOnIndex()
+                    ->canSeeWhen('create', ExternalResourceModel::class),
+
+                (new AttachAnimeResourceAction(ResourceSite::MAL()))
+                    ->confirmButtonText(__('nova.actions.models.wiki.attach_resource.confirmButtonText'))
+                    ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
+                    ->exceptOnIndex()
+                    ->canSeeWhen('create', ExternalResourceModel::class),
             ]
         );
     }
