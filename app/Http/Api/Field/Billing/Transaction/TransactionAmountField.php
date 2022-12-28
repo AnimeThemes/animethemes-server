@@ -33,7 +33,7 @@ class TransactionAmountField extends FloatField implements CreatableField, Updat
     {
         return [
             'required',
-            'regex:/^\-?\d+(\.\d{1,2})?$/',
+            'decimal:0,2',
         ];
     }
 
@@ -48,7 +48,7 @@ class TransactionAmountField extends FloatField implements CreatableField, Updat
         return [
             'sometimes',
             'required',
-            'regex:/^\-?\d+(\.\d{1,2})?$/',
+            'decimal:0,2',
         ];
     }
 }

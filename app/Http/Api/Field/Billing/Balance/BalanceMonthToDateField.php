@@ -34,7 +34,7 @@ class BalanceMonthToDateField extends FloatField implements CreatableField, Upda
     {
         return [
             'required',
-            'regex:/^\-?\d+(\.\d{1,2})?$/',
+            'decimal:0,2',
         ];
     }
 
@@ -49,7 +49,7 @@ class BalanceMonthToDateField extends FloatField implements CreatableField, Upda
         return [
             'sometimes',
             'required',
-            'regex:/^\-?\d+(\.\d{1,2})?$/',
+            'decimal:0,2',
         ];
     }
 }
