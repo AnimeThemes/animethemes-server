@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature\Actions\Jetstream;
 
 use App\Models\Auth\User;
+use Laravel\Fortify\Features;
 use Laravel\Jetstream\Http\Livewire\TwoFactorAuthenticationForm;
 use Livewire\Livewire;
 use Tests\TestCase;
@@ -21,6 +22,10 @@ class TwoFactorAuthenticationSettingsTest extends TestCase
      */
     public function testTwoFactorAuthenticationCanBeEnabled(): void
     {
+        if (! Features::canManageTwoFactorAuthentication()) {
+            $this->markTestSkipped('Two factor authentication is not enabled.');
+        }
+
         $this->actingAs($user = User::factory()->createOne());
 
         $this->withSession(['auth.password_confirmed_at' => time()]);
@@ -41,6 +46,10 @@ class TwoFactorAuthenticationSettingsTest extends TestCase
      */
     public function testRecoveryCodesCanBeRegenerated(): void
     {
+        if (! Features::canManageTwoFactorAuthentication()) {
+            $this->markTestSkipped('Two factor authentication is not enabled.');
+        }
+
         $this->actingAs($user = User::factory()->createOne());
 
         $this->withSession(['auth.password_confirmed_at' => time()]);
@@ -64,6 +73,10 @@ class TwoFactorAuthenticationSettingsTest extends TestCase
      */
     public function testTwoFactorAuthenticationCanBeDisabled(): void
     {
+        if (! Features::canManageTwoFactorAuthentication()) {
+            $this->markTestSkipped('Two factor authentication is not enabled.');
+        }
+
         $this->actingAs($user = User::factory()->createOne());
 
         $this->withSession(['auth.password_confirmed_at' => time()]);
