@@ -33,7 +33,7 @@ class BalanceUsageField extends FloatField implements CreatableField, UpdatableF
     {
         return [
             'required',
-            'regex:/^\-?\d+(\.\d{1,2})?$/',
+            'decimal:0,2',
         ];
     }
 
@@ -48,7 +48,7 @@ class BalanceUsageField extends FloatField implements CreatableField, UpdatableF
         return [
             'sometimes',
             'required',
-            'regex:/^\-?\d+(\.\d{1,2})?$/',
+            'decimal:0,2',
         ];
     }
 }
