@@ -8,6 +8,7 @@ use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\Wiki\AudioSchema;
 use App\Http\Api\Schema\Wiki\ExternalResourceSchema;
 use App\Http\Api\Schema\Wiki\ImageSchema;
+use App\Http\Api\Schema\Wiki\Video\ScriptSchema;
 use App\Http\Resources\Wiki\Resource\AnimeResource;
 use App\Models\Wiki\Anime;
 use App\Scout\Elasticsearch\Api\Field\Base\IdField;
@@ -60,6 +61,7 @@ class AnimeSchema extends Schema
             new AllowedInclude(new EntrySchema(), Anime::RELATION_ENTRIES),
             new AllowedInclude(new ExternalResourceSchema(), Anime::RELATION_RESOURCES),
             new AllowedInclude(new ImageSchema(), Anime::RELATION_IMAGES),
+            new AllowedInclude(new ScriptSchema(), Anime::RELATION_SCRIPTS),
             new AllowedInclude(new SeriesSchema(), Anime::RELATION_SERIES),
             new AllowedInclude(new SongSchema(), Anime::RELATION_SONG),
             new AllowedInclude(new StudioSchema(), Anime::RELATION_STUDIOS),
