@@ -6,14 +6,15 @@
     },
     "devDependencies": {
         "@tailwindcss/forms": "^0.5.3",
-        "@tailwindcss/typography": "^0.5.7",
-        "alpinejs": "^3.10.3",
-        "autoprefixer": "^10.4.12",
-        "axios": "^0.27.2",
-        "laravel-vite-plugin": "^0.6.1",
+        "@tailwindcss/typography": "^0.5.8",
+        "alpinejs": "^3.10.5",
+        "@alpinejs/focus": "^3.10.5",
+        "autoprefixer": "^10.4.13",
+        "axios": "^1.2.1",
+        "laravel-vite-plugin": "^0.7.3",
         "lodash": "^4.17.21",
-        "postcss": "8.4.16",
-        "tailwindcss": "^3.1.8",
-        "vite": "^3.1.3"
+        "postcss": "8.4.20",
+        "tailwindcss": "^3.2.4",
+        "vite": "^4.0.3"
     }
 }
