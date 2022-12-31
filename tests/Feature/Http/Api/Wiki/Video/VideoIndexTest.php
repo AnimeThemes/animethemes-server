@@ -115,7 +115,7 @@ class VideoIndexTest extends TestCase
         Video::factory()
             ->count($this->faker->randomDigitNotNull())
             ->for(Audio::factory())
-            ->has(VideoScript::factory(), 'videoscript')
+            ->has(VideoScript::factory(), Video::RELATION_SCRIPT)
             ->has(
                 AnimeThemeEntry::factory()
                     ->count($this->faker->randomDigitNotNull())

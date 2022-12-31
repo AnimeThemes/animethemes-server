@@ -340,7 +340,7 @@ class VideoTest extends TestCase
     public function testScript(): void
     {
         $video = Video::factory()
-            ->has(VideoScript::factory(), 'videoscript')
+            ->has(VideoScript::factory(), Video::RELATION_SCRIPT)
             ->createOne();
 
         static::assertInstanceOf(HasOne::class, $video->videoscript());
