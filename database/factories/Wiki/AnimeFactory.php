@@ -14,6 +14,7 @@ use App\Models\Wiki\Image;
 use App\Models\Wiki\Series;
 use App\Models\Wiki\Song;
 use App\Models\Wiki\Video;
+use App\Models\Wiki\Video\VideoScript;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -70,7 +71,9 @@ class AnimeFactory extends Factory
                     ->has(
                         AnimeThemeEntry::factory()
                             ->count(fake()->numberBetween(1, 3))
-                            ->has(Video::factory()->count(fake()->numberBetween(1, 3)))
+                            ->has(Video::factory()->count(fake()->numberBetween(1, 3))
+                                ->has(VideoScript::factory(), Video::RELATION_SCRIPT)
+                            )
                     )
                     ->count(fake()->numberBetween(1, 3))
                     ->create();
