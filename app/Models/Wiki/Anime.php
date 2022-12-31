@@ -65,6 +65,7 @@ class Anime extends BaseModel
     final public const RELATION_ENTRIES = 'animethemes.animethemeentries';
     final public const RELATION_IMAGES = 'images';
     final public const RELATION_RESOURCES = 'resources';
+    final public const RELATION_SCRIPTS = 'animethemes.animethemeentries.videos.videoscripts';
     final public const RELATION_SERIES = 'series';
     final public const RELATION_SONG = 'animethemes.song';
     final public const RELATION_STUDIOS = 'studios';
