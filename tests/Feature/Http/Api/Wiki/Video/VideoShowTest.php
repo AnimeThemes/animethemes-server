@@ -104,7 +104,7 @@ class VideoShowTest extends TestCase
 
         $video = Video::factory()
             ->for(Audio::factory())
-            ->has(VideoScript::factory(), 'videoscript')
+            ->has(VideoScript::factory(), Video::RELATION_SCRIPT)
             ->has(
                 AnimeThemeEntry::factory()
                     ->count($this->faker->randomDigitNotNull())
