@@ -9,7 +9,6 @@ use Closure;
 use CyrildeWit\EloquentViewable\Contracts\Viewable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
-use RuntimeException;
 
 /**
  * Class RecordView.
@@ -31,7 +30,7 @@ abstract class RecordView
     /**
      * Perform any final actions for the request lifecycle.
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return void
      */
     public function terminate(Request $request): void
