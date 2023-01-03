@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Constants\Config\FlagConstants;
 use App\Http\Controllers\Wiki\Video\VideoController;
+use App\Http\Middleware\Models\Wiki\RecordVideoView;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 
@@ -14,4 +15,4 @@ $isVideoStreamingAllowed = Str::of('is_feature_enabled:')
 
 Route::get('/{video}', [VideoController::class, 'show'])
     ->name('video.show')
-    ->middleware([$isVideoStreamingAllowed, 'record_view:video']);
+    ->middleware([$isVideoStreamingAllowed, RecordVideoView::class]);

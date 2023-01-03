@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Constants\Config\FlagConstants;
 use App\Http\Controllers\Wiki\Audio\AudioController;
+use App\Http\Middleware\Models\Wiki\RecordAudioView;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 
@@ -14,4 +15,4 @@ $isAudioStreamingAllowed = Str::of('is_feature_enabled:')
 
 Route::get('/{audio}', [AudioController::class, 'show'])
     ->name('audio.show')
-    ->middleware([$isAudioStreamingAllowed, 'record_view:audio']);
+    ->middleware([$isAudioStreamingAllowed, RecordAudioView::class]);
