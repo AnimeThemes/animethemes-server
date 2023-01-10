@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Sort;
 
+use App\Enums\Http\Api\QualifyColumn;
 use App\Enums\Http\Api\Sort\Direction;
 
 /**
@@ -16,9 +17,13 @@ class Sort
      *
      * @param  string  $key
      * @param  string|null  $column
+     * @param  QualifyColumn  $qualifyColumn
      */
-    public function __construct(protected readonly string $key, protected readonly ?string $column = null)
-    {
+    public function __construct(
+        protected readonly string $key,
+        protected readonly ?string $column = null,
+        protected readonly QualifyColumn $qualifyColumn = new QualifyColumn(QualifyColumn::YES)
+    ) {
     }
 
     /**
@@ -39,6 +44,16 @@ class Sort
     public function getColumn(): string
     {
         return $this->column ?? $this->key;
+    }
+
+    /**
+     * Determine if the column should be qualified for the sort.
+     *
+     * @return bool
+     */
+    public function shouldQualifyColumn(): bool
+    {
+        return QualifyColumn::YES()->is($this->qualifyColumn);
     }
 
     /**

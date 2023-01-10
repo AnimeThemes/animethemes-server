@@ -86,6 +86,7 @@ class Video extends BaseModel implements Streamable, Viewable
     final public const RELATION_SCRIPT = 'videoscript';
     final public const RELATION_SONG = 'animethemeentries.animetheme.song';
     final public const RELATION_TRACKS = 'tracks';
+    final public const RELATION_VIEWS = 'views';
 
     /**
      * The attributes that are mass assignable.

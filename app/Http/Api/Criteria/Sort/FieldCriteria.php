@@ -45,6 +45,10 @@ class FieldCriteria extends Criteria
      */
     public function sort(Builder $builder, Sort $sort): Builder
     {
-        return $builder->orderBy($builder->qualifyColumn($sort->getColumn()), $this->direction->value);
+        $column = $sort->shouldQualifyColumn()
+            ? $builder->qualifyColumn($sort->getColumn())
+            : $sort->getColumn();
+
+        return $builder->orderBy($column, $this->direction->value);
     }
 }

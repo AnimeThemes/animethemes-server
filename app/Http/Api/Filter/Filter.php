@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Filter;
 
+use App\Enums\Http\Api\Filter\Clause;
 use App\Enums\Http\Api\Filter\ComparisonOperator;
 use App\Enums\Http\Api\Filter\LogicalOperator;
+use App\Enums\Http\Api\QualifyColumn;
 use App\Http\Api\Criteria\Filter\Criteria;
 use Illuminate\Support\Str;
 
@@ -19,9 +21,15 @@ abstract class Filter
      *
      * @param  string  $key
      * @param  string|null  $column
+     * @param  QualifyColumn  $qualifyColumn
+     * @param  Clause  $clause
      */
-    public function __construct(protected readonly string $key, protected readonly ?string $column = null)
-    {
+    public function __construct(
+        protected readonly string $key,
+        protected readonly ?string $column = null,
+        protected readonly QualifyColumn $qualifyColumn = new QualifyColumn(QualifyColumn::YES),
+        protected readonly Clause $clause = new Clause(Clause::WHERE)
+    ) {
     }
 
     /**
@@ -42,6 +50,26 @@ abstract class Filter
     public function getColumn(): string
     {
         return $this->column ?? $this->key;
+    }
+
+    /**
+     * Determine if the column should be qualified for the filter.
+     *
+     * @return bool
+     */
+    public function shouldQualifyColumn(): bool
+    {
+        return QualifyColumn::YES()->is($this->qualifyColumn);
+    }
+
+    /**
+     * Get filter clause.
+     *
+     * @return Clause
+     */
+    public function clause(): Clause
+    {
+        return $this->clause;
     }
 
     /**

@@ -30,12 +30,15 @@ abstract class BaseResource extends JsonResource
      * Determine if field should be included in the response for this resource.
      *
      * @param  string  $field
+     * @param  bool  $default
      * @return bool
      */
-    protected function isAllowedField(string $field): bool
+    protected function isAllowedField(string $field, bool $default = true): bool
     {
         $criteria = $this->query->getFieldCriteria(static::$wrap);
 
-        return $criteria === null || $criteria->isAllowedField($field);
+        return $criteria === null
+            ? $default
+            : $criteria->isAllowedField($field);
     }
 }
