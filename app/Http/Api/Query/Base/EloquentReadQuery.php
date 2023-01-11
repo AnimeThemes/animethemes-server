@@ -6,6 +6,7 @@ namespace App\Http\Api\Query\Base;
 
 use App\Contracts\Http\Api\Field\SelectableField;
 use App\Enums\Http\Api\Paging\PaginationStrategy;
+use App\Http\Api\Field\AggregateField;
 use App\Http\Api\Field\Field;
 use App\Http\Api\Filter\HasFilter;
 use App\Http\Api\Query\ReadQuery;
@@ -35,9 +36,18 @@ abstract class EloquentReadQuery extends ReadQuery
      */
     public function show(Model $model): BaseResource
     {
-        $constrainedEagerLoads = $this->constrainEagerLoads();
+        $schema = $this->schema();
 
-        return $this->resource($model->load($constrainedEagerLoads));
+        // eager load relations with constraints
+        $model->load($this->constrainEagerLoads());
+
+        // Load aggregate relation values
+        $fieldCriteria = $this->getFieldCriteria($schema->type());
+        collect($schema->fields())
+            ->filter(fn (Field $field) => $field instanceof AggregateField && $field->shouldAggregate($fieldCriteria))
+            ->each(fn (AggregateField $selectedAggregate) => $selectedAggregate->load($model));
+
+        return $this->resource($model);
     }
 
     /**
@@ -61,6 +71,11 @@ abstract class EloquentReadQuery extends ReadQuery
             ->filter(fn (Field $field) => $field instanceof SelectableField && $field->shouldSelect($fieldCriteria))
             ->map(fn (Field $field) => $field->getColumn());
         $builder->select($builder->qualifyColumns($selectedFields->all()));
+
+        // Load aggregate relation values
+        collect($schema->fields())
+            ->filter(fn (Field $field) => $field instanceof AggregateField && $field->shouldAggregate($fieldCriteria))
+            ->each(fn (AggregateField $selectedAggregate) => $selectedAggregate->with($builder));
 
         // apply filters
         $scope = ScopeParser::parse($schema->type());
@@ -133,6 +148,11 @@ abstract class EloquentReadQuery extends ReadQuery
                     ->filter(fn (Field $field) => $field instanceof SelectableField && $field->shouldSelect($fieldCriteria))
                     ->map(fn (Field $field) => $field->getColumn());
                 $relationBuilder->select($relationBuilder->qualifyColumns($selectedFields->all()));
+
+                // Load aggregate relation values
+                collect($relationSchema->fields())
+                    ->filter(fn (Field $field) => $field instanceof AggregateField && $field->shouldAggregate($fieldCriteria))
+                    ->each(fn (AggregateField $selectedAggregate) => $selectedAggregate->with($relationBuilder));
 
                 // apply filters
                 foreach ($this->getFilterCriteria() as $criteria) {

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Api\Criteria\Filter;
 
 use App\Enums\Http\Api\Filter\BinaryLogicalOperator;
+use App\Enums\Http\Api\Filter\Clause;
 use App\Enums\Http\Api\Filter\UnaryLogicalOperator;
 use App\Http\Api\Filter\Filter;
 use App\Http\Api\Query\ReadQuery;
@@ -13,6 +14,7 @@ use BenSampo\Enum\Exceptions\InvalidEnumKeyException;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+use RuntimeException;
 
 /**
  * Class WhereInCriteria.
@@ -106,11 +108,19 @@ class WhereInCriteria extends Criteria
      */
     public function filter(Builder $builder, Filter $filter, ReadQuery $query): Builder
     {
-        return $builder->whereIn(
-            $builder->qualifyColumn($filter->getColumn()),
-            $filter->getFilterValues($this->getFilterValues()),
-            $this->getLogicalOperator()->value,
-            $this->not()
-        );
+        $column = $filter->shouldQualifyColumn()
+            ? $builder->qualifyColumn($filter->getColumn())
+            : $filter->getColumn();
+
+        return match ($filter->clause()->value) {
+            Clause::WHERE => $builder->whereIn(
+                $column,
+                $filter->getFilterValues($this->getFilterValues()),
+                $this->getLogicalOperator()->value,
+                $this->not()
+            ),
+            Clause::HAVING => throw new RuntimeException('IN operator is not supported in HAVING clause'),
+            default => $builder
+        };
     }
 }

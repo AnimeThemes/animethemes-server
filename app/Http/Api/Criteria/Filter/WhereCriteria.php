@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace App\Http\Api\Criteria\Filter;
 
 use App\Enums\Http\Api\Filter\BinaryLogicalOperator;
+use App\Enums\Http\Api\Filter\Clause;
 use App\Enums\Http\Api\Filter\ComparisonOperator;
 use App\Http\Api\Filter\Filter;
 use App\Http\Api\Query\ReadQuery;
 use App\Http\Api\Scope\Scope;
 use BenSampo\Enum\Exceptions\InvalidEnumKeyException;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
@@ -97,11 +99,24 @@ class WhereCriteria extends Criteria
      */
     public function filter(Builder $builder, Filter $filter, ReadQuery $query): Builder
     {
-        return $builder->where(
-            $builder->qualifyColumn($filter->getColumn()),
-            $this->getComparisonOperator()?->value,
-            $filter->getFilterValues($this->getFilterValues()),
-            $this->getLogicalOperator()->value
-        );
+        $column = $filter->shouldQualifyColumn()
+            ? $builder->qualifyColumn($filter->getColumn())
+            : $filter->getColumn();
+
+        return match ($filter->clause()->value) {
+            Clause::WHERE => $builder->where(
+                $column,
+                $this->getComparisonOperator()?->value,
+                Arr::first($filter->getFilterValues($this->getFilterValues())),
+                $this->getLogicalOperator()->value
+            ),
+            Clause::HAVING => $builder->having(
+                $column,
+                $this->getComparisonOperator()?->value,
+                Arr::first($filter->getFilterValues($this->getFilterValues())),
+                $this->getLogicalOperator()->value
+            ),
+            default => $builder,
+        };
     }
 }

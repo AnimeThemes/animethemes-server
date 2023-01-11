@@ -21,6 +21,7 @@ use App\Http\Api\Field\Wiki\Video\VideoSourceField;
 use App\Http\Api\Field\Wiki\Video\VideoSubbedField;
 use App\Http\Api\Field\Wiki\Video\VideoTagsField;
 use App\Http\Api\Field\Wiki\Video\VideoUncenField;
+use App\Http\Api\Field\Wiki\Video\VideoViewCountField;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Api\Schema\Wiki\Anime\Theme\EntrySchema;
@@ -96,6 +97,7 @@ class VideoSchema extends EloquentSchema
                 new VideoUncenField(),
                 new VideoTagsField(),
                 new VideoLinkField(),
+                new VideoViewCountField(),
             ],
         );
     }

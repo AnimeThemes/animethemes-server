@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Wiki\Resource;
 
+use App\Http\Api\Field\CountField;
 use App\Http\Api\Query\ReadQuery;
 use App\Http\Resources\BaseResource;
 use App\Http\Resources\Wiki\Anime\Theme\Collection\EntryCollection;
@@ -123,6 +124,10 @@ class VideoResource extends BaseResource
 
         if ($this->isAllowedField(VideoResource::ATTRIBUTE_LINK)) {
             $result[VideoResource::ATTRIBUTE_LINK] = route('video.show', $this);
+        }
+
+        if ($this->isAllowedField(Video::RELATION_VIEWS, false)) {
+            $result[Video::RELATION_VIEWS] = $this->getAttribute(CountField::format(Video::RELATION_VIEWS));
         }
 
         $result[Video::RELATION_ANIMETHEMEENTRIES] = new EntryCollection($this->whenLoaded(Video::RELATION_ANIMETHEMEENTRIES), $this->query);

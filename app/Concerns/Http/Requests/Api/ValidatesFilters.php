@@ -6,6 +6,7 @@ namespace App\Concerns\Http\Requests\Api;
 
 use App\Contracts\Http\Api\Schema\SchemaInterface;
 use App\Enums\Http\Api\Filter\BinaryLogicalOperator;
+use App\Enums\Http\Api\Filter\Clause;
 use App\Enums\Http\Api\Filter\LogicalOperator;
 use App\Enums\Http\Api\Filter\UnaryLogicalOperator;
 use App\Http\Api\Criteria\Filter\Criteria;
@@ -119,6 +120,25 @@ trait ValidatesFilters
             }
         }
 
+        if (Clause::WHERE()->is($filter->clause())) {
+            $this->validateMultiValueFilterForWhereClause($validator, $schema, $filter);
+        }
+
+        if (Clause::HAVING()->is($filter->clause())) {
+            $this->prohibitMultiValueFilterForHavingClause($validator, $schema, $filter);
+        }
+    }
+
+    /**
+     * Restrict where in clause based on allowed formats and provided values.
+     *
+     * @param  Validator  $validator
+     * @param  SchemaInterface  $schema
+     * @param  Filter  $filter
+     * @return void
+     */
+    protected function validateMultiValueFilterForWhereClause(Validator $validator, SchemaInterface $schema, Filter $filter): void
+    {
         $multiValueRules = [];
         foreach ($filter->getRules() as $rule) {
             $multiValueRules[] = new DelimitedRule($rule);
@@ -131,6 +151,30 @@ trait ValidatesFilters
                     $validator->sometimes(
                         $formattedParameter,
                         $multiValueRules,
+                        fn (Fluent $fluent) => Arr::has($fluent->toArray(), $formattedParameter) && Str::of(Arr::get($fluent->toArray(), $formattedParameter))->contains(Criteria::VALUE_SEPARATOR)
+                    );
+                }
+            }
+        }
+    }
+
+    /**
+     * Prohibit multi value filter in having clause which is not supported in the SQL standard.
+     *
+     * @param  Validator  $validator
+     * @param  SchemaInterface  $schema
+     * @param  Filter  $filter
+     * @return void
+     */
+    protected function prohibitMultiValueFilterForHavingClause(Validator $validator, SchemaInterface $schema, Filter $filter): void
+    {
+        $multiValueFilterFormats = $this->getFilterFormats($filter, UnaryLogicalOperator::getInstances());
+        foreach ($multiValueFilterFormats as $multiValueFilterFormat) {
+            foreach ($this->getFormattedParameters($schema, $multiValueFilterFormat) as $formattedParameter) {
+                if (collect($validator->getRules())->keys()->doesntContain($formattedParameter)) {
+                    $validator->sometimes(
+                        $formattedParameter,
+                        ['prohibited'],
                         fn (Fluent $fluent) => Arr::has($fluent->toArray(), $formattedParameter) && Str::of(Arr::get($fluent->toArray(), $formattedParameter))->contains(Criteria::VALUE_SEPARATOR)
                     );
                 }
