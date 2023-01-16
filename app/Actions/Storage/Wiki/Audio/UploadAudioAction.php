@@ -34,7 +34,7 @@ class UploadAudioAction extends UploadAction
     }
 
     /**
-     * Get existing or create new video for file upload.
+     * Get existing or create new audio for file upload.
      *
      * @return Audio
      */
