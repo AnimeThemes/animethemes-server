@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace App\Actions\Storage\Wiki\Video\Script;
 
-use App\Actions\Repositories\ReconcileResults;
 use App\Actions\Storage\Base\UploadAction;
-use App\Concerns\Repositories\Wiki\Video\ReconcilesScriptRepositories;
 use App\Constants\Config\VideoConstants;
 use App\Contracts\Actions\Storage\StorageResults;
 use App\Models\Wiki\Video;
@@ -21,8 +19,6 @@ use Illuminate\Support\Str;
  */
 class UploadScriptAction extends UploadAction
 {
-    use ReconcilesScriptRepositories;
-
     /**
      * Create a new action instance.
      *
@@ -40,39 +36,42 @@ class UploadScriptAction extends UploadAction
      *
      * @param  StorageResults  $storageResults
      * @return void
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public function then(StorageResults $storageResults): void
     {
-        $reconcileResults = $this->reconcileRepositories();
-
-        $reconcileResults->toLog();
-
-        // The script was successfully uploaded and reconciled into the database, so we can attempt further actions
-        if ($reconcileResults instanceof ReconcileResults) {
-            $this->attachVideo($reconcileResults);
+        if ($storageResults->toActionResult()->hasFailed()) {
+            return;
         }
+
+        $this->getOrCreateScript();
     }
 
     /**
-     * Attach video if uploaded from Upload Video Action.
+     * Get existing or create new script for file upload.
      *
-     * @param  ReconcileResults  $reconcileResults
-     * @return void
+     * @return VideoScript
      */
-    protected function attachVideo(ReconcileResults $reconcileResults): void
+    protected function getOrCreateScript(): VideoScript
     {
         $path = Str::of($this->path)
-            ->finish('/')
+            ->finish(DIRECTORY_SEPARATOR)
             ->append($this->file->getClientOriginalName())
             ->__toString();
 
-        $script = $reconcileResults->getCreated()->firstWhere(VideoScript::ATTRIBUTE_PATH, $path);
+        $attributes = [
+            VideoScript::ATTRIBUTE_PATH => $path,
+        ];
 
-        if ($script instanceof VideoScript && $this->video !== null) {
-            $script->video()->associate($this->video)->save();
+        if ($this->video !== null) {
+            $attributes[VideoScript::ATTRIBUTE_VIDEO] = $this->video->getKey();
         }
+
+        return VideoScript::updateOrCreate(
+            [
+                VideoScript::ATTRIBUTE_PATH => $path,
+            ],
+            $attributes
+        );
     }
 
     /**
