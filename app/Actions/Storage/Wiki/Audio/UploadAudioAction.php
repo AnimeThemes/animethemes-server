@@ -8,7 +8,6 @@ use App\Actions\Storage\Base\UploadAction;
 use App\Constants\Config\AudioConstants;
 use App\Contracts\Actions\Storage\StorageResults;
 use App\Models\Wiki\Audio;
-use App\Models\Wiki\Video;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
@@ -46,10 +45,10 @@ class UploadAudioAction extends UploadAction
             ->__toString();
 
         $attributes = [
-            Video::ATTRIBUTE_FILENAME => File::name($this->file->getClientOriginalName()),
-            Video::ATTRIBUTE_MIMETYPE => $this->file->getMimeType(),
-            Video::ATTRIBUTE_PATH => $path,
-            Video::ATTRIBUTE_SIZE => $this->file->getSize(),
+            Audio::ATTRIBUTE_FILENAME => File::name($this->file->getClientOriginalName()),
+            Audio::ATTRIBUTE_MIMETYPE => $this->file->getMimeType(),
+            Audio::ATTRIBUTE_PATH => $path,
+            Audio::ATTRIBUTE_SIZE => $this->file->getSize(),
         ];
 
         return Audio::updateOrCreate(
