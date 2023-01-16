@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace App\Actions\Storage\Base;
 
-use App\Concerns\Repositories\ReconcilesRepositories;
 use App\Contracts\Actions\Storage\StorageAction;
 use App\Contracts\Actions\Storage\StorageResults;
-use App\Contracts\Repositories\RepositoryInterface;
 use App\Contracts\Storage\InteractsWithDisks;
 use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Http\UploadedFile;
@@ -18,8 +16,6 @@ use Illuminate\Support\Facades\Storage;
  */
 abstract class UploadAction implements InteractsWithDisks, StorageAction
 {
-    use ReconcilesRepositories;
-
     /**
      * Create a new action instance.
      *
@@ -49,35 +45,5 @@ abstract class UploadAction implements InteractsWithDisks, StorageAction
         }
 
         return new UploadResults($results);
-    }
-
-    /**
-     * Apply filters to repositories before reconciliation.
-     *
-     * @param  RepositoryInterface  $sourceRepository
-     * @param  RepositoryInterface  $destinationRepository
-     * @param  array  $data
-     * @return void
-     */
-    protected function handleFilters(
-        RepositoryInterface $sourceRepository,
-        RepositoryInterface $destinationRepository,
-        array $data = []
-    ): void {
-        $sourceRepository->handleFilter('path', $this->path);
-        $destinationRepository->handleFilter('path', $this->path);
-    }
-
-    /**
-     * Processes to be completed after handling action.
-     *
-     * @param  StorageResults  $storageResults
-     * @return void
-     */
-    public function then(StorageResults $storageResults): void
-    {
-        $reconcileResults = $this->reconcileRepositories();
-
-        $reconcileResults->toLog();
     }
 }

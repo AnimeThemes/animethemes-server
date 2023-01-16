@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace App\Actions\Storage\Wiki\Video;
 
-use App\Actions\Repositories\ReconcileResults;
 use App\Actions\Storage\Base\UploadAction;
 use App\Actions\Storage\Wiki\Video\Script\UploadScriptAction;
-use App\Concerns\Repositories\Wiki\ReconcilesVideoRepositories;
 use App\Constants\Config\VideoConstants;
 use App\Contracts\Actions\Storage\StorageResults;
 use App\Enums\Models\Wiki\VideoOverlap;
@@ -17,14 +15,14 @@ use App\Models\Wiki\Video;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
 
 /**
  * Class UploadVideoAction.
  */
 class UploadVideoAction extends UploadAction
 {
-    use ReconcilesVideoRepositories;
-
     /**
      * Create a new action instance.
      *
@@ -49,80 +47,81 @@ class UploadVideoAction extends UploadAction
      *
      * @param  StorageResults  $storageResults
      * @return void
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public function then(StorageResults $storageResults): void
     {
-        $reconcileResults = $this->reconcileRepositories();
-
-        $reconcileResults->toLog();
-
-        // The video was successfully uploaded and reconciled into the database, so we can attempt further actions
-        if ($reconcileResults instanceof ReconcileResults) {
-            $this->setAttributes($reconcileResults);
-            $this->attachEntry($reconcileResults);
-            $this->uploadScript($reconcileResults);
+        if ($storageResults->toActionResult()->hasFailed()) {
+            return;
         }
+
+        $video = $this->getOrCreateVideo();
+
+        $this->attachEntry($video);
+
+        $this->uploadScript($video);
     }
 
     /**
-     * Set additional video attributes not provided by reconciliation.
+     * Get existing or create new video for file upload.
      *
-     * @param  ReconcileResults  $reconcileResults
-     * @return void
+     * @return Video
      */
-    protected function setAttributes(ReconcileResults $reconcileResults): void
+    protected function getOrCreateVideo(): Video
     {
-        $video = $reconcileResults->getCreated()->firstWhere(Video::ATTRIBUTE_BASENAME, $this->file->getClientOriginalName());
+        $path = Str::of($this->path)
+            ->finish(DIRECTORY_SEPARATOR)
+            ->append($this->file->getClientOriginalName())
+            ->__toString();
 
-        if ($video === null) {
-            $video = $reconcileResults->getUpdated()->firstWhere(Video::ATTRIBUTE_BASENAME, $this->file->getClientOriginalName());
+        $attributes = [
+            Video::ATTRIBUTE_FILENAME => File::name($this->file->getClientOriginalName()),
+            Video::ATTRIBUTE_MIMETYPE => $this->file->getMimeType(),
+            Video::ATTRIBUTE_PATH => $path,
+            Video::ATTRIBUTE_SIZE => $this->file->getSize(),
+        ];
+
+        if (Arr::has($this->attributes, Video::ATTRIBUTE_RESOLUTION)) {
+            $attributes[Video::ATTRIBUTE_RESOLUTION] = Arr::get($this->attributes, Video::ATTRIBUTE_RESOLUTION);
         }
-
-        if ($video instanceof Video && ! empty($this->attributes)) {
-            if (Arr::has($this->attributes, Video::ATTRIBUTE_RESOLUTION)) {
-                $video->resolution = Arr::get($this->attributes, Video::ATTRIBUTE_RESOLUTION);
-            }
-            if (Arr::has($this->attributes, Video::ATTRIBUTE_NC)) {
-                $video->nc = Arr::get($this->attributes, Video::ATTRIBUTE_NC);
-            }
-            if (Arr::has($this->attributes, Video::ATTRIBUTE_SUBBED)) {
-                $video->subbed = Arr::get($this->attributes, Video::ATTRIBUTE_SUBBED);
-            }
-            if (Arr::has($this->attributes, Video::ATTRIBUTE_LYRICS)) {
-                $video->lyrics = Arr::get($this->attributes, Video::ATTRIBUTE_LYRICS);
-            }
-            if (Arr::has($this->attributes, Video::ATTRIBUTE_UNCEN)) {
-                $video->uncen = Arr::get($this->attributes, Video::ATTRIBUTE_UNCEN);
-            }
-            if (Arr::has($this->attributes, Video::ATTRIBUTE_UNCEN)) {
-                $overlap = VideoOverlap::unstrictCoerce(Arr::get($this->attributes, Video::ATTRIBUTE_OVERLAP));
-                if ($overlap !== null) {
-                    $video->overlap = $overlap;
-                }
-            }
-            if (Arr::has($this->attributes, Video::ATTRIBUTE_SOURCE)) {
-                $video->source = VideoSource::unstrictCoerce(Arr::get($this->attributes, Video::ATTRIBUTE_SOURCE));
-            }
-
-            if ($video->isDirty()) {
-                $video->save();
+        if (Arr::has($this->attributes, Video::ATTRIBUTE_NC)) {
+            $attributes[Video::ATTRIBUTE_NC] = Arr::get($this->attributes, Video::ATTRIBUTE_NC);
+        }
+        if (Arr::has($this->attributes, Video::ATTRIBUTE_SUBBED)) {
+            $attributes[Video::ATTRIBUTE_SUBBED] = Arr::get($this->attributes, Video::ATTRIBUTE_SUBBED);
+        }
+        if (Arr::has($this->attributes, Video::ATTRIBUTE_LYRICS)) {
+            $attributes[Video::ATTRIBUTE_LYRICS] = Arr::get($this->attributes, Video::ATTRIBUTE_LYRICS);
+        }
+        if (Arr::has($this->attributes, Video::ATTRIBUTE_UNCEN)) {
+            $attributes[Video::ATTRIBUTE_UNCEN] = Arr::get($this->attributes, Video::ATTRIBUTE_UNCEN);
+        }
+        if (Arr::has($this->attributes, Video::ATTRIBUTE_UNCEN)) {
+            $overlap = VideoOverlap::unstrictCoerce(Arr::get($this->attributes, Video::ATTRIBUTE_OVERLAP));
+            if ($overlap !== null) {
+                $attributes[Video::ATTRIBUTE_OVERLAP] = $overlap;
             }
         }
+        if (Arr::has($this->attributes, Video::ATTRIBUTE_SOURCE)) {
+            $attributes[Video::ATTRIBUTE_SOURCE] = VideoSource::unstrictCoerce(Arr::get($this->attributes, Video::ATTRIBUTE_SOURCE));
+        }
+
+        return Video::updateOrCreate(
+            [
+                Video::ATTRIBUTE_BASENAME => $this->file->getClientOriginalName(),
+            ],
+            $attributes
+        );
     }
 
     /**
      * Attach entry to created video if uploaded from entry detail screen.
      *
-     * @param  ReconcileResults  $reconcileResults
+     * @param  Video  $video
      * @return void
      */
-    protected function attachEntry(ReconcileResults $reconcileResults): void
+    protected function attachEntry(Video $video): void
     {
-        $video = $reconcileResults->getCreated()->firstWhere(Video::ATTRIBUTE_BASENAME, $this->file->getClientOriginalName());
-
-        if ($video instanceof Video && $this->entry !== null) {
+        if ($this->entry !== null && $video->wasRecentlyCreated) {
             $video->animethemeentries()->attach($this->entry);
         }
     }
@@ -130,18 +129,12 @@ class UploadVideoAction extends UploadAction
     /**
      * Upload & Associate Script if video upload was successful.
      *
-     * @param  ReconcileResults  $reconcileResults
+     * @param  Video  $video
      * @return void
      */
-    protected function uploadScript(ReconcileResults $reconcileResults): void
+    protected function uploadScript(Video $video): void
     {
-        $video = $reconcileResults->getCreated()->firstWhere(Video::ATTRIBUTE_BASENAME, $this->file->getClientOriginalName());
-
-        if ($video === null) {
-            $video = $reconcileResults->getUpdated()->firstWhere(Video::ATTRIBUTE_BASENAME, $this->file->getClientOriginalName());
-        }
-
-        if ($video instanceof Video && $this->script !== null) {
+        if ($this->script !== null) {
             $uploadScript = new UploadScriptAction($this->script, $this->path, $video);
 
             $scriptResult = $uploadScript->handle();

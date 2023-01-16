@@ -43,6 +43,7 @@ class VideoScript extends BaseModel
      */
     protected $fillable = [
         VideoScript::ATTRIBUTE_PATH,
+        VideoScript::ATTRIBUTE_VIDEO,
     ];
 
     /**
