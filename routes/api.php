@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Http\Controllers\Api\Admin\AnnouncementController;
 use App\Http\Controllers\Api\Admin\DumpController;
+use App\Http\Controllers\Api\Auth\User\Me\List\MyPlaylistController;
 use App\Http\Controllers\Api\Billing\Balance\BalanceController;
 use App\Http\Controllers\Api\Billing\Transaction\TransactionController;
 use App\Http\Controllers\Api\Billing\TransparencyController;
@@ -190,6 +191,9 @@ if (! function_exists('apiPivotResourceUri')) {
 // Admin Routes
 apiResource('announcement', AnnouncementController::class);
 apiResource('dump', DumpController::class);
+
+// Auth Routes
+Route::get('/me/playlist', [MyPlaylistController::class, 'index'])->name('me.playlist.index');
 
 // Billing Routes
 apiResource('balance', BalanceController::class);
