@@ -29,9 +29,8 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
     public function update(mixed $user, array $input): void
     {
         Validator::make($input, [
-            'name' => ['required', 'string', 'max:255'],
+            'name' => ['required', 'string', 'max:255', Rule::unique(User::TABLE)->ignore($user->id)],
             'email' => ['required', 'email', 'max:255', Rule::unique(User::TABLE)->ignore($user->id)],
-            'photo' => ['nullable', 'mimes:jpg,jpeg,png', 'max:1024'],
         ])->validateWithBag('updateProfileInformation');
 
         if (isset($input['photo'])) {
