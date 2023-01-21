@@ -141,6 +141,12 @@ class User extends BaseResource
                 ->sortable()
                 ->copyable()
                 ->rules(['required', 'max:192', 'alpha_dash'])
+                ->creationRules(Rule::unique(UserModel::TABLE)->__toString())
+                ->updateRules(
+                    Rule::unique(UserModel::TABLE)
+                        ->ignore($request->get('resourceId'), UserModel::ATTRIBUTE_ID)
+                        ->__toString()
+                )
                 ->showOnPreview()
                 ->filterable()
                 ->maxlength(192)
