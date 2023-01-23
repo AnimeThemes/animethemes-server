@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Database\Seeders;
+namespace Database\Seeders\Wiki\Video;
 
 use App\Actions\Repositories\Wiki\Video\ReconcileVideoRepositoriesAction;
 use App\Repositories\Eloquent\Wiki\VideoRepository as VideoDestinationRepository;

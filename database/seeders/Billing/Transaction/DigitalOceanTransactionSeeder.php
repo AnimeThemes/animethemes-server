@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Database\Seeders;
+namespace Database\Seeders\Billing\Transaction;
 
 use App\Actions\Repositories\Billing\Transaction\ReconcileTransactionRepositoriesAction;
 use App\Repositories\DigitalOcean\Billing\DigitalOceanTransactionRepository as DigitalOceanSourceRepository;

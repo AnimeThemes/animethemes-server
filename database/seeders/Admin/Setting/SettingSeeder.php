@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Database\Seeders;
+namespace Database\Seeders\Admin\Setting;
 
 use App\Constants\Config\FlagConstants;
 use App\Constants\Config\VideoConstants;

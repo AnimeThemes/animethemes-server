@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Database\Seeders;
+namespace Database\Seeders\Wiki\Audio;
 
 use App\Actions\Repositories\Wiki\Audio\ReconcileAudioRepositoriesAction;
 use App\Repositories\Eloquent\Wiki\AudioRepository as AudioDestinationRepository;
