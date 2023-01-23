@@ -546,6 +546,10 @@ return [
             ],
         ],
         'role' => [
+            'default' => [
+                'help' => 'Should this role be assigned to new users upon email verification?',
+                'name' => 'Default',
+            ],
             'name' => 'Name',
         ],
         'series' => [

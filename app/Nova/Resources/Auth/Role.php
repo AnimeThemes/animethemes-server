@@ -10,6 +10,7 @@ use App\Nova\Actions\Models\Auth\Role\RevokePermissionAction;
 use App\Nova\Resources\BaseResource;
 use Exception;
 use Laravel\Nova\Fields\BelongsToMany;
+use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -127,6 +128,15 @@ class Role extends BaseResource
                 ->filterable()
                 ->maxlength(192)
                 ->enforceMaxlength()
+                ->showWhenPeeking(),
+
+            Boolean::make(__('nova.fields.role.default.name'), RoleModel::ATTRIBUTE_DEFAULT)
+                ->sortable()
+                ->nullable()
+                ->rules(['nullable', 'boolean'])
+                ->help(__('nova.fields.role.default.help'))
+                ->showOnPreview()
+                ->filterable()
                 ->showWhenPeeking(),
 
             BelongsToMany::make(__('nova.resources.label.permissions'), RoleModel::RELATION_PERMISSIONS, Permission::class)
