@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
+use Database\Seeders\Auth\Permission\PermissionSeeder;
 use Database\Seeders\Auth\Role\RoleSeeder;
 use Database\Seeders\Billing\Transaction\DigitalOceanTransactionSeeder;
 use Database\Seeders\Wiki\Audio\AudioSeeder;
@@ -23,6 +24,7 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call(DigitalOceanTransactionSeeder::class);
+        $this->call(PermissionSeeder::class);
         $this->call(RoleSeeder::class);
         $this->call(VideoSeeder::class);
         $this->call(AudioSeeder::class);
