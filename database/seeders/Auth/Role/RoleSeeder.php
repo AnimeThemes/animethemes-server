@@ -37,7 +37,7 @@ class RoleSeeder extends Seeder
      */
     protected function configureResource(Role $role, string $resource, array $abilities): void
     {
-        $permissions = Arr::map($abilities, fn (string $ability) => Permission::findOrCreate("$ability $resource"));
+        $permissions = Arr::map($abilities, fn (string $ability) => Permission::findByName("$ability $resource"));
 
         $role->givePermissionTo($permissions);
     }
@@ -51,7 +51,7 @@ class RoleSeeder extends Seeder
      */
     protected function configureAbilities(Role $role, array $abilities): void
     {
-        $permissions = Arr::map($abilities, fn (string $ability) => Permission::findOrCreate($ability));
+        $permissions = Arr::map($abilities, fn (string $ability) => Permission::findByName($ability));
 
         $role->givePermissionTo($permissions);
     }
