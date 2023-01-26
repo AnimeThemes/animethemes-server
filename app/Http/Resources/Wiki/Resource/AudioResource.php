@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Wiki\Resource;
 
+use App\Http\Api\Field\CountField;
 use App\Http\Api\Query\ReadQuery;
 use App\Http\Resources\BaseResource;
 use App\Http\Resources\Wiki\Collection\VideoCollection;
@@ -90,6 +91,10 @@ class AudioResource extends BaseResource
 
         if ($this->isAllowedField(AudioResource::ATTRIBUTE_LINK)) {
             $result[AudioResource::ATTRIBUTE_LINK] = route('audio.show', $this);
+        }
+
+        if ($this->isAllowedField(Audio::RELATION_VIEWS, false)) {
+            $result[Audio::RELATION_VIEWS] = $this->getAttribute(CountField::format(Audio::RELATION_VIEWS));
         }
 
         $result[Audio::RELATION_VIDEOS] = new VideoCollection($this->whenLoaded(Audio::RELATION_VIDEOS), $this->query);

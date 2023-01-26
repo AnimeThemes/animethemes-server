@@ -45,6 +45,7 @@ class Audio extends BaseModel implements Streamable, Viewable
     final public const ATTRIBUTE_SIZE = 'size';
 
     final public const RELATION_VIDEOS = 'videos';
+    final public const RELATION_VIEWS = 'views';
 
     /**
      * The attributes that are mass assignable.
