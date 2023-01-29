@@ -61,6 +61,7 @@ class Playlist extends BaseModel implements Viewable
     final public const RELATION_LAST = 'last';
     final public const RELATION_TRACKS = 'tracks';
     final public const RELATION_USER = 'user';
+    final public const RELATION_VIEWS = 'views';
 
     /**
      * The attributes that are mass assignable.
