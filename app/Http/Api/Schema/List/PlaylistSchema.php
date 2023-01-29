@@ -10,6 +10,7 @@ use App\Http\Api\Field\List\Playlist\PlaylistFirstIdField;
 use App\Http\Api\Field\List\Playlist\PlaylistLastIdField;
 use App\Http\Api\Field\List\Playlist\PlaylistNameField;
 use App\Http\Api\Field\List\Playlist\PlaylistUserIdField;
+use App\Http\Api\Field\List\Playlist\PlaylistViewCountField;
 use App\Http\Api\Field\List\Playlist\PlaylistVisibilityField;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\Auth\UserSchema;
@@ -76,6 +77,7 @@ class PlaylistSchema extends EloquentSchema
                 new PlaylistNameField(),
                 new PlaylistUserIdField(),
                 new PlaylistVisibilityField(),
+                new PlaylistViewCountField(),
             ],
         );
     }

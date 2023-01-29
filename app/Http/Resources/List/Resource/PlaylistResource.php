@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\List\Resource;
 
+use App\Http\Api\Field\CountField;
 use App\Http\Api\Query\ReadQuery;
 use App\Http\Resources\Auth\Resource\UserResource;
 use App\Http\Resources\BaseResource;
@@ -75,6 +76,10 @@ class PlaylistResource extends BaseResource
 
         if ($this->isAllowedField(BaseModel::ATTRIBUTE_DELETED_AT)) {
             $result[BaseModel::ATTRIBUTE_DELETED_AT] = $this->deleted_at;
+        }
+
+        if ($this->isAllowedField(Playlist::RELATION_VIEWS, false)) {
+            $result[Playlist::RELATION_VIEWS] = $this->getAttribute(CountField::format(Playlist::RELATION_VIEWS));
         }
 
         $result[Playlist::RELATION_USER] = new UserResource($this->whenLoaded(Playlist::RELATION_USER), $this->query);
