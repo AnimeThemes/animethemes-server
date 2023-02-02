@@ -67,11 +67,11 @@ class TrackSchema extends EloquentSchema
         return array_merge(
             parent::fields(),
             [
-                new IdField(PlaylistTrack::ATTRIBUTE_ID),
-                new TrackNextIdField(),
-                new TrackPlaylistIdField(),
-                new TrackPreviousIdField(),
-                new TrackVideoIdField(),
+                new IdField($this, PlaylistTrack::ATTRIBUTE_ID),
+                new TrackNextIdField($this),
+                new TrackPlaylistIdField($this),
+                new TrackPreviousIdField($this),
+                new TrackVideoIdField($this),
             ],
         );
     }

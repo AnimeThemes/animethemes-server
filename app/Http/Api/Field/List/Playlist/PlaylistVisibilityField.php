@@ -8,6 +8,7 @@ use App\Contracts\Http\Api\Field\CreatableField;
 use App\Contracts\Http\Api\Field\UpdatableField;
 use App\Enums\Models\List\PlaylistVisibility;
 use App\Http\Api\Field\EnumField;
+use App\Http\Api\Schema\Schema;
 use App\Models\List\Playlist;
 use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Http\Request;
@@ -19,10 +20,12 @@ class PlaylistVisibilityField extends EnumField implements CreatableField, Updat
 {
     /**
      * Create a new field instance.
+	 *
+	 * @param  Schema  $schema
      */
-    public function __construct()
+    public function __construct(Schema $schema)
     {
-        parent::__construct(Playlist::ATTRIBUTE_VISIBILITY, PlaylistVisibility::class);
+        parent::__construct($schema, Playlist::ATTRIBUTE_VISIBILITY, PlaylistVisibility::class);
     }
 
     /**

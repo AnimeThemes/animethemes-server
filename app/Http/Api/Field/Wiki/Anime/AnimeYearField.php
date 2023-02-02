@@ -7,6 +7,7 @@ namespace App\Http\Api\Field\Wiki\Anime;
 use App\Contracts\Http\Api\Field\CreatableField;
 use App\Contracts\Http\Api\Field\UpdatableField;
 use App\Http\Api\Field\IntField;
+use App\Http\Api\Schema\Schema;
 use App\Models\Wiki\Anime;
 use Illuminate\Http\Request;
 
@@ -17,10 +18,12 @@ class AnimeYearField extends IntField implements CreatableField, UpdatableField
 {
     /**
      * Create a new field instance.
+	 *
+	 * @param  Schema  $schema
      */
-    public function __construct()
+    public function __construct(Schema $schema)
     {
-        parent::__construct(Anime::ATTRIBUTE_YEAR);
+        parent::__construct($schema, Anime::ATTRIBUTE_YEAR);
     }
 
     /**

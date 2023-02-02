@@ -7,6 +7,7 @@ namespace App\Http\Api\Field\Wiki\Video;
 use App\Contracts\Http\Api\Field\CreatableField;
 use App\Contracts\Http\Api\Field\UpdatableField;
 use App\Http\Api\Field\BooleanField;
+use App\Http\Api\Schema\Schema;
 use App\Models\Wiki\Video;
 use Illuminate\Http\Request;
 
@@ -17,10 +18,12 @@ class VideoUncenField extends BooleanField implements CreatableField, UpdatableF
 {
     /**
      * Create a new field instance.
+	 *
+	 * @param  Schema  $schema
      */
-    public function __construct()
+    public function __construct(Schema $schema)
     {
-        parent::__construct(Video::ATTRIBUTE_UNCEN);
+        parent::__construct($schema, Video::ATTRIBUTE_UNCEN);
     }
 
     /**

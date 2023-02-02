@@ -45,7 +45,7 @@ class WikiSchema extends Schema
     public function fields(): array
     {
         return [
-            new WikiFeaturedThemeField(),
+            new WikiFeaturedThemeField($this),
         ];
     }
 }

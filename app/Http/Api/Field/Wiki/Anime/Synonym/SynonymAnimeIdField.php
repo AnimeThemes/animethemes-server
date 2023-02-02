@@ -6,8 +6,9 @@ namespace App\Http\Api\Field\Wiki\Anime\Synonym;
 
 use App\Contracts\Http\Api\Field\CreatableField;
 use App\Contracts\Http\Api\Field\SelectableField;
-use App\Http\Api\Criteria\Field\Criteria;
 use App\Http\Api\Field\Field;
+use App\Http\Api\Query\ReadQuery;
+use App\Http\Api\Schema\Schema;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeSynonym;
 use Illuminate\Http\Request;
@@ -20,10 +21,12 @@ class SynonymAnimeIdField extends Field implements CreatableField, SelectableFie
 {
     /**
      * Create a new field instance.
+	 *
+	 * @param  Schema  $schema
      */
-    public function __construct()
+    public function __construct(Schema $schema)
     {
-        parent::__construct(AnimeSynonym::ATTRIBUTE_ANIME);
+        parent::__construct($schema, AnimeSynonym::ATTRIBUTE_ANIME);
     }
 
     /**
@@ -44,10 +47,10 @@ class SynonymAnimeIdField extends Field implements CreatableField, SelectableFie
     /**
      * Determine if the field should be included in the select clause of our query.
      *
-     * @param  Criteria|null  $criteria
+     * @param  ReadQuery  $query
      * @return bool
      */
-    public function shouldSelect(?Criteria $criteria): bool
+    public function shouldSelect(ReadQuery $query): bool
     {
         // Needed to match anime relation.
         return true;

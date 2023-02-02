@@ -62,10 +62,10 @@ class ScriptSchema extends EloquentSchema
         return array_merge(
             parent::fields(),
             [
-                new IdField(VideoScript::ATTRIBUTE_ID),
-                new ScriptPathField(),
-                new ScriptLinkField(),
-                new ScriptVideoIdField(),
+                new IdField($this, VideoScript::ATTRIBUTE_ID),
+                new ScriptPathField($this),
+                new ScriptLinkField($this),
+                new ScriptVideoIdField($this),
             ],
         );
     }

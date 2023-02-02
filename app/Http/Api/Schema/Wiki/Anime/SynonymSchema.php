@@ -61,9 +61,9 @@ class SynonymSchema extends EloquentSchema
         return array_merge(
             parent::fields(),
             [
-                new IdField(AnimeSynonym::ATTRIBUTE_ID),
-                new SynonymTextField(),
-                new SynonymAnimeIdField(),
+                new IdField($this, AnimeSynonym::ATTRIBUTE_ID),
+                new SynonymTextField($this),
+                new SynonymAnimeIdField($this),
             ],
         );
     }

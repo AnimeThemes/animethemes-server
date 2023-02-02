@@ -60,13 +60,13 @@ class SearchSchema extends Schema
     public function fields(): array
     {
         return [
-            new SearchAnimeField(),
-            new SearchThemeField(),
-            new SearchArtistField(),
-            new SearchSeriesField(),
-            new SearchSongField(),
-            new SearchStudioField(),
-            new SearchVideoField(),
+            new SearchAnimeField($this),
+            new SearchThemeField($this),
+            new SearchArtistField($this),
+            new SearchSeriesField($this),
+            new SearchSongField($this),
+            new SearchStudioField($this),
+            new SearchVideoField($this),
         ];
     }
 }

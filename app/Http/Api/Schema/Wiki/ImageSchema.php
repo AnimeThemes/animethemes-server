@@ -64,11 +64,11 @@ class ImageSchema extends EloquentSchema
         return array_merge(
             parent::fields(),
             [
-                new IdField(Image::ATTRIBUTE_ID),
-                new ImageFacetField(),
-                new ImagePathField(),
-                new ImageLinkField(),
-                new ImageFileField(),
+                new IdField($this, Image::ATTRIBUTE_ID),
+                new ImageFacetField($this),
+                new ImagePathField($this),
+                new ImageLinkField($this),
+                new ImageFileField($this),
             ],
         );
     }

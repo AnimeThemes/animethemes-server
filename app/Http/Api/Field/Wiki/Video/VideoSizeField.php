@@ -6,6 +6,7 @@ namespace App\Http\Api\Field\Wiki\Video;
 
 use App\Contracts\Http\Api\Field\CreatableField;
 use App\Http\Api\Field\IntField;
+use App\Http\Api\Schema\Schema;
 use App\Models\Wiki\Video;
 use Illuminate\Http\Request;
 
@@ -16,10 +17,12 @@ class VideoSizeField extends IntField implements CreatableField
 {
     /**
      * Create a new field instance.
+	 *
+	 * @param  Schema  $schema
      */
-    public function __construct()
+    public function __construct(Schema $schema)
     {
-        parent::__construct(Video::ATTRIBUTE_SIZE);
+        parent::__construct($schema, Video::ATTRIBUTE_SIZE);
     }
 
     /**

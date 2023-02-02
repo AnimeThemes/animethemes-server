@@ -7,6 +7,7 @@ namespace App\Http\Api\Field\Wiki\Song;
 use App\Contracts\Http\Api\Field\CreatableField;
 use App\Contracts\Http\Api\Field\UpdatableField;
 use App\Http\Api\Field\StringField;
+use App\Http\Api\Schema\Schema;
 use App\Models\Wiki\Song;
 use Illuminate\Http\Request;
 
@@ -17,10 +18,12 @@ class SongTitleField extends StringField implements CreatableField, UpdatableFie
 {
     /**
      * Create a new field instance.
+	 *
+	 * @param  Schema  $schema
      */
-    public function __construct()
+    public function __construct(Schema $schema)
     {
-        parent::__construct(Song::ATTRIBUTE_TITLE);
+        parent::__construct($schema, Song::ATTRIBUTE_TITLE);
     }
 
     /**

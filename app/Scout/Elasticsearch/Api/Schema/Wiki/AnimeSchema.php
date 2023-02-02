@@ -81,12 +81,12 @@ class AnimeSchema extends Schema
         return array_merge(
             parent::fields(),
             [
-                new IdField(Anime::ATTRIBUTE_ID),
-                new AnimeNameField(),
-                new AnimeSeasonField(),
-                new AnimeSlugField(),
-                new AnimeSynopsisField(),
-                new AnimeYearField(),
+                new IdField($this, Anime::ATTRIBUTE_ID),
+                new AnimeNameField($this),
+                new AnimeSeasonField($this),
+                new AnimeSlugField($this),
+                new AnimeSynopsisField($this),
+                new AnimeYearField($this),
             ],
         );
     }

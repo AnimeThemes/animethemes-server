@@ -61,12 +61,12 @@ class BalanceSchema extends EloquentSchema
         return array_merge(
             parent::fields(),
             [
-                new IdField(Balance::ATTRIBUTE_ID),
-                new BalanceMonthToDateField(),
-                new BalanceDateField(),
-                new BalanceFrequencyField(),
-                new BalanceServiceField(),
-                new BalanceUsageField(),
+                new IdField($this, Balance::ATTRIBUTE_ID),
+                new BalanceMonthToDateField($this),
+                new BalanceDateField($this),
+                new BalanceFrequencyField($this),
+                new BalanceServiceField($this),
+                new BalanceUsageField($this),
             ],
         );
     }

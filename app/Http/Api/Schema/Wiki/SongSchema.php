@@ -63,9 +63,9 @@ class SongSchema extends EloquentSchema
         return array_merge(
             parent::fields(),
             [
-                new IdField(Song::ATTRIBUTE_ID),
-                new SongTitleField(),
-                new SongAsField(),
+                new IdField($this, Song::ATTRIBUTE_ID),
+                new SongTitleField($this),
+                new SongAsField($this),
             ],
         );
     }

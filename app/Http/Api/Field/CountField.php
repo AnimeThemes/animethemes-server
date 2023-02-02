@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Field;
 
-use App\Contracts\Http\Api\Field\FilterableField;
 use App\Enums\Http\Api\Filter\Clause;
 use App\Enums\Http\Api\QualifyColumn;
 use App\Http\Api\Filter\Filter;
 use App\Http\Api\Filter\IntFilter;
+use App\Http\Api\Schema\Schema;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
@@ -16,16 +16,17 @@ use Illuminate\Support\Str;
 /**
  * Class CountField.
  */
-abstract class CountField extends AggregateField implements FilterableField
+abstract class CountField extends AggregateField
 {
     /**
      * Create a new field instance.
      *
+     * @param  Schema  $schema
      * @param  string  $key
      */
-    public function __construct(string $key)
+    public function __construct(Schema $schema, string $key)
     {
-        parent::__construct($key);
+        parent::__construct($schema, $key);
     }
 
     /**

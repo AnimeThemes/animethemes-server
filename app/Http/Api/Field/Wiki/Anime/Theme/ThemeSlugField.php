@@ -7,6 +7,7 @@ namespace App\Http\Api\Field\Wiki\Anime\Theme;
 use App\Contracts\Http\Api\Field\CreatableField;
 use App\Contracts\Http\Api\Field\UpdatableField;
 use App\Http\Api\Field\StringField;
+use App\Http\Api\Schema\Schema;
 use App\Models\Wiki\Anime\AnimeTheme;
 use Illuminate\Http\Request;
 
@@ -17,10 +18,12 @@ class ThemeSlugField extends StringField implements CreatableField, UpdatableFie
 {
     /**
      * Create a new field instance.
+	 *
+	 * @param  Schema  $schema
      */
-    public function __construct()
+    public function __construct(Schema $schema)
     {
-        parent::__construct(AnimeTheme::ATTRIBUTE_SLUG);
+        parent::__construct($schema, AnimeTheme::ATTRIBUTE_SLUG);
     }
 
     /**

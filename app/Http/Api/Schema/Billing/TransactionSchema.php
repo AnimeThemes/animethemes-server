@@ -61,12 +61,12 @@ class TransactionSchema extends EloquentSchema
         return array_merge(
             parent::fields(),
             [
-                new IdField(Transaction::ATTRIBUTE_ID),
-                new TransactionDateField(),
-                new TransactionServiceField(),
-                new TransactionDescriptionField(),
-                new TransactionAmountField(),
-                new TransactionExternalIdField(),
+                new IdField($this, Transaction::ATTRIBUTE_ID),
+                new TransactionDateField($this),
+                new TransactionServiceField($this),
+                new TransactionDescriptionField($this),
+                new TransactionAmountField($this),
+                new TransactionExternalIdField($this),
             ],
         );
     }

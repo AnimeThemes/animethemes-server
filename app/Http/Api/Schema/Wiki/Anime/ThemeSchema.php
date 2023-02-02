@@ -82,13 +82,13 @@ class ThemeSchema extends EloquentSchema
         return array_merge(
             parent::fields(),
             [
-                new IdField(AnimeTheme::ATTRIBUTE_ID),
-                new ThemeGroupField(),
-                new ThemeSequenceField(),
-                new ThemeSlugField(),
-                new ThemeTypeField(),
-                new ThemeAnimeIdField(),
-                new ThemeSongIdField(),
+                new IdField($this, AnimeTheme::ATTRIBUTE_ID),
+                new ThemeGroupField($this),
+                new ThemeSequenceField($this),
+                new ThemeSlugField($this),
+                new ThemeTypeField($this),
+                new ThemeAnimeIdField($this),
+                new ThemeSongIdField($this),
             ],
         );
     }

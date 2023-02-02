@@ -58,9 +58,9 @@ class DumpSchema extends EloquentSchema
         return array_merge(
             parent::fields(),
             [
-                new IdField(Dump::ATTRIBUTE_ID),
-                new DumpPathField(),
-                new DumpLinkField(),
+                new IdField($this, Dump::ATTRIBUTE_ID),
+                new DumpPathField($this),
+                new DumpLinkField($this),
             ],
         );
     }

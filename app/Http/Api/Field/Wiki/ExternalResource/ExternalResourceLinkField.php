@@ -8,6 +8,7 @@ use App\Contracts\Http\Api\Field\CreatableField;
 use App\Contracts\Http\Api\Field\UpdatableField;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Http\Api\Field\StringField;
+use App\Http\Api\Schema\Schema;
 use App\Models\Wiki\ExternalResource;
 use App\Rules\Wiki\Resource\ResourceLinkFormatRule;
 use Illuminate\Http\Request;
@@ -19,10 +20,12 @@ class ExternalResourceLinkField extends StringField implements CreatableField, U
 {
     /**
      * Create a new field instance.
+	 *
+	 * @param  Schema  $schema
      */
-    public function __construct()
+    public function __construct(Schema $schema)
     {
-        parent::__construct(ExternalResource::ATTRIBUTE_LINK);
+        parent::__construct($schema, ExternalResource::ATTRIBUTE_LINK);
     }
 
     /**

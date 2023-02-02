@@ -8,6 +8,7 @@ use App\Contracts\Http\Api\Field\CreatableField;
 use App\Contracts\Http\Api\Field\UpdatableField;
 use App\Enums\Models\Wiki\ThemeType;
 use App\Http\Api\Field\EnumField;
+use App\Http\Api\Schema\Schema;
 use App\Models\Wiki\Anime\AnimeTheme;
 use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Http\Request;
@@ -19,10 +20,12 @@ class ThemeTypeField extends EnumField implements CreatableField, UpdatableField
 {
     /**
      * Create a new field instance.
+	 *
+	 * @param  Schema  $schema
      */
-    public function __construct()
+    public function __construct(Schema $schema)
     {
-        parent::__construct(AnimeTheme::ATTRIBUTE_TYPE, ThemeType::class);
+        parent::__construct($schema, AnimeTheme::ATTRIBUTE_TYPE, ThemeType::class);
     }
 
     /**

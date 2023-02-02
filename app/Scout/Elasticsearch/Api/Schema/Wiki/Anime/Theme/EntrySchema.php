@@ -68,12 +68,12 @@ class EntrySchema extends Schema
         return array_merge(
             parent::fields(),
             [
-                new IdField(AnimeThemeEntry::ATTRIBUTE_ID),
-                new EntryEpisodesField(),
-                new EntryNotesField(),
-                new EntryNsfwField(),
-                new EntrySpoilerField(),
-                new EntryVersionField(),
+                new IdField($this, AnimeThemeEntry::ATTRIBUTE_ID),
+                new EntryEpisodesField($this),
+                new EntryNotesField($this),
+                new EntryNsfwField($this),
+                new EntrySpoilerField($this),
+                new EntryVersionField($this),
             ],
         );
     }

@@ -62,8 +62,8 @@ class SongSchema extends Schema
         return array_merge(
             parent::fields(),
             [
-                new IdField(Song::ATTRIBUTE_ID),
-                new SongTitleField(),
+                new IdField($this, Song::ATTRIBUTE_ID),
+                new SongTitleField($this),
             ],
         );
     }

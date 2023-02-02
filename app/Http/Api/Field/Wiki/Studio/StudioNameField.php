@@ -7,6 +7,7 @@ namespace App\Http\Api\Field\Wiki\Studio;
 use App\Contracts\Http\Api\Field\CreatableField;
 use App\Contracts\Http\Api\Field\UpdatableField;
 use App\Http\Api\Field\StringField;
+use App\Http\Api\Schema\Schema;
 use App\Models\Wiki\Studio;
 use Illuminate\Http\Request;
 
@@ -17,10 +18,12 @@ class StudioNameField extends StringField implements CreatableField, UpdatableFi
 {
     /**
      * Create a new field instance.
+	 *
+	 * @param  Schema  $schema
      */
-    public function __construct()
+    public function __construct(Schema $schema)
     {
-        parent::__construct(Studio::ATTRIBUTE_NAME);
+        parent::__construct($schema, Studio::ATTRIBUTE_NAME);
     }
 
     /**

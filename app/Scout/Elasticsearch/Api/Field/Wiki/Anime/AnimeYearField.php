@@ -6,6 +6,7 @@ namespace App\Scout\Elasticsearch\Api\Field\Wiki\Anime;
 
 use App\Models\Wiki\Anime;
 use App\Scout\Elasticsearch\Api\Field\IntField;
+use App\Scout\Elasticsearch\Api\Schema\Schema;
 
 /**
  * Class AnimeYearField.
@@ -14,9 +15,11 @@ class AnimeYearField extends IntField
 {
     /**
      * Create a new field instance.
+	 *
+	 * @param  Schema  $schema
      */
-    public function __construct()
+    public function __construct(Schema $schema)
     {
-        parent::__construct(Anime::ATTRIBUTE_YEAR);
+        parent::__construct($schema, Anime::ATTRIBUTE_YEAR);
     }
 }

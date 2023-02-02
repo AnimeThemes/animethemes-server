@@ -7,6 +7,7 @@ namespace App\Http\Api\Field\Billing\Transaction;
 use App\Contracts\Http\Api\Field\CreatableField;
 use App\Contracts\Http\Api\Field\UpdatableField;
 use App\Http\Api\Field\FloatField;
+use App\Http\Api\Schema\Schema;
 use App\Models\Billing\Transaction;
 use Illuminate\Http\Request;
 
@@ -17,10 +18,12 @@ class TransactionAmountField extends FloatField implements CreatableField, Updat
 {
     /**
      * Create a new field instance.
+     *
+     * @param  Schema  $schema
      */
-    public function __construct()
+    public function __construct(Schema $schema)
     {
-        parent::__construct(Transaction::ATTRIBUTE_AMOUNT);
+        parent::__construct($schema,Transaction::ATTRIBUTE_AMOUNT);
     }
 
     /**

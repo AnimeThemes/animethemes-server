@@ -6,6 +6,7 @@ namespace App\Http\Api\Field\Wiki\Audio;
 
 use App\Contracts\Http\Api\Field\CreatableField;
 use App\Http\Api\Field\StringField;
+use App\Http\Api\Schema\Schema;
 use App\Models\Wiki\Audio;
 use Illuminate\Http\Request;
 
@@ -16,10 +17,12 @@ class AudioPathField extends StringField implements CreatableField
 {
     /**
      * Create a new field instance.
+	 *
+	 * @param  Schema  $schema
      */
-    public function __construct()
+    public function __construct(Schema $schema)
     {
-        parent::__construct(Audio::ATTRIBUTE_PATH);
+        parent::__construct($schema, Audio::ATTRIBUTE_PATH);
     }
 
     /**

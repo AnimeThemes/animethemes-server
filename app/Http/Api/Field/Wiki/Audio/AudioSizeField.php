@@ -6,6 +6,7 @@ namespace App\Http\Api\Field\Wiki\Audio;
 
 use App\Contracts\Http\Api\Field\CreatableField;
 use App\Http\Api\Field\IntField;
+use App\Http\Api\Schema\Schema;
 use App\Models\Wiki\Audio;
 use Illuminate\Http\Request;
 
@@ -16,10 +17,12 @@ class AudioSizeField extends IntField implements CreatableField
 {
     /**
      * Create a new field instance.
+	 *
+	 * @param  Schema  $schema
      */
-    public function __construct()
+    public function __construct(Schema $schema)
     {
-        parent::__construct(Audio::ATTRIBUTE_SIZE);
+        parent::__construct($schema, Audio::ATTRIBUTE_SIZE);
     }
 
     /**

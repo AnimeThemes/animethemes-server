@@ -7,6 +7,7 @@ namespace App\Http\Api\Field\Wiki\ExternalResource;
 use App\Contracts\Http\Api\Field\CreatableField;
 use App\Contracts\Http\Api\Field\UpdatableField;
 use App\Http\Api\Field\IntField;
+use App\Http\Api\Schema\Schema;
 use App\Models\Wiki\ExternalResource;
 use Illuminate\Http\Request;
 
@@ -17,10 +18,12 @@ class ExternalResourceIdField extends IntField implements CreatableField, Updata
 {
     /**
      * Create a new field instance.
+	 *
+	 * @param  Schema  $schema
      */
-    public function __construct()
+    public function __construct(Schema $schema)
     {
-        parent::__construct(ExternalResource::ATTRIBUTE_EXTERNAL_ID);
+        parent::__construct($schema, ExternalResource::ATTRIBUTE_EXTERNAL_ID);
     }
 
     /**

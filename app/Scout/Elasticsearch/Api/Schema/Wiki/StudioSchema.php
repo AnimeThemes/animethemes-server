@@ -64,9 +64,9 @@ class StudioSchema extends Schema
         return array_merge(
             parent::fields(),
             [
-                new IdField(Studio::ATTRIBUTE_ID),
-                new StudioNameField(),
-                new StudioSlugField(),
+                new IdField($this, Studio::ATTRIBUTE_ID),
+                new StudioNameField($this),
+                new StudioSlugField($this),
             ],
         );
     }

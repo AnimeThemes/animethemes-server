@@ -6,8 +6,9 @@ namespace App\Http\Api\Field\Wiki\Anime\Theme\Entry;
 
 use App\Contracts\Http\Api\Field\CreatableField;
 use App\Contracts\Http\Api\Field\SelectableField;
-use App\Http\Api\Criteria\Field\Criteria;
 use App\Http\Api\Field\Field;
+use App\Http\Api\Query\ReadQuery;
+use App\Http\Api\Schema\Schema;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use Illuminate\Http\Request;
@@ -20,10 +21,12 @@ class EntryThemeIdField extends Field implements CreatableField, SelectableField
 {
     /**
      * Create a new field instance.
+	 *
+	 * @param  Schema  $schema
      */
-    public function __construct()
+    public function __construct(Schema $schema)
     {
-        parent::__construct(AnimeThemeEntry::ATTRIBUTE_THEME);
+        parent::__construct($schema, AnimeThemeEntry::ATTRIBUTE_THEME);
     }
 
     /**
@@ -44,10 +47,10 @@ class EntryThemeIdField extends Field implements CreatableField, SelectableField
     /**
      * Determine if the field should be included in the select clause of our query.
      *
-     * @param  Criteria|null  $criteria
+     * @param  ReadQuery  $query
      * @return bool
      */
-    public function shouldSelect(?Criteria $criteria): bool
+    public function shouldSelect(ReadQuery $query): bool
     {
         // Needed to match theme relation.
         return true;

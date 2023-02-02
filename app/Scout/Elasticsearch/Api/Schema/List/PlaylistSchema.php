@@ -67,9 +67,9 @@ class PlaylistSchema extends Schema
         return array_merge(
             parent::fields(),
             [
-                new IdField(Playlist::ATTRIBUTE_ID),
-                new PlaylistNameField(),
-                new PlaylistVisibilityField(),
+                new IdField($this, Playlist::ATTRIBUTE_ID),
+                new PlaylistNameField($this),
+                new PlaylistVisibilityField($this),
             ],
         );
     }

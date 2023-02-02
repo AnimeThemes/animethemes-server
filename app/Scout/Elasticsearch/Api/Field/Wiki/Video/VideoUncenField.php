@@ -6,6 +6,7 @@ namespace App\Scout\Elasticsearch\Api\Field\Wiki\Video;
 
 use App\Models\Wiki\Video;
 use App\Scout\Elasticsearch\Api\Field\BooleanField;
+use App\Scout\Elasticsearch\Api\Schema\Schema;
 
 /**
  * Class VideoUncenField.
@@ -14,9 +15,11 @@ class VideoUncenField extends BooleanField
 {
     /**
      * Create a new field instance.
+	 *
+	 * @param  Schema  $schema
      */
-    public function __construct()
+    public function __construct(Schema $schema)
     {
-        parent::__construct(Video::ATTRIBUTE_UNCEN);
+        parent::__construct($schema, Video::ATTRIBUTE_UNCEN);
     }
 }

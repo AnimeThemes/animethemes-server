@@ -9,6 +9,7 @@ use App\Contracts\Http\Api\Field\SortableField;
 use App\Http\Api\Filter\Filter;
 use App\Http\Api\Filter\StringFilter;
 use App\Http\Api\Sort\Sort;
+use App\Scout\Elasticsearch\Api\Schema\Schema;
 
 /**
  * Class StringField.
@@ -18,16 +19,19 @@ abstract class StringField extends Field implements FilterableField, SortableFie
     /**
      * Create a new field instance.
      *
+     * @param  Schema  $schema
      * @param  string  $key
      * @param  string|null  $searchField
      * @param  string|null  $sortField
      */
     public function __construct(
+        Schema $schema,
         string $key,
         ?string $searchField = null,
         ?string $sortField = null,
     ) {
         parent::__construct(
+            $schema,
             $key,
             // Strings fields are parsed into tokens which may produce unexpected results when filtering.
             // By default, we expect an unanalyzed keyword field 'keyword' for filtering.

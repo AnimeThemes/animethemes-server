@@ -44,7 +44,7 @@ abstract class EloquentReadQuery extends ReadQuery
         // Load aggregate relation values
         $fieldCriteria = $this->getFieldCriteria($schema->type());
         collect($schema->fields())
-            ->filter(fn (Field $field) => $field instanceof AggregateField && $field->shouldAggregate($fieldCriteria))
+            ->filter(fn (Field $field) => $field instanceof AggregateField && $field->shouldAggregate($this))
             ->each(fn (AggregateField $selectedAggregate) => $selectedAggregate->load($model));
 
         return $this->resource($model);
@@ -68,13 +68,13 @@ abstract class EloquentReadQuery extends ReadQuery
         // select fields
         $fieldCriteria = $this->getFieldCriteria($schema->type());
         $selectedFields = collect($schema->fields())
-            ->filter(fn (Field $field) => $field instanceof SelectableField && $field->shouldSelect($fieldCriteria))
+            ->filter(fn (Field $field) => $field instanceof SelectableField && $field->shouldSelect($this))
             ->map(fn (Field $field) => $field->getColumn());
         $builder->select($builder->qualifyColumns($selectedFields->all()));
 
         // Load aggregate relation values
         collect($schema->fields())
-            ->filter(fn (Field $field) => $field instanceof AggregateField && $field->shouldAggregate($fieldCriteria))
+            ->filter(fn (Field $field) => $field instanceof AggregateField && $field->shouldAggregate($this))
             ->each(fn (AggregateField $selectedAggregate) => $selectedAggregate->with($builder));
 
         // apply filters
@@ -145,13 +145,13 @@ abstract class EloquentReadQuery extends ReadQuery
                 // select fields
                 $fieldCriteria = $this->getFieldCriteria($relationSchema->type());
                 $selectedFields = collect($relationSchema->fields())
-                    ->filter(fn (Field $field) => $field instanceof SelectableField && $field->shouldSelect($fieldCriteria))
+                    ->filter(fn (Field $field) => $field instanceof SelectableField && $field->shouldSelect($this))
                     ->map(fn (Field $field) => $field->getColumn());
                 $relationBuilder->select($relationBuilder->qualifyColumns($selectedFields->all()));
 
                 // Load aggregate relation values
                 collect($relationSchema->fields())
-                    ->filter(fn (Field $field) => $field instanceof AggregateField && $field->shouldAggregate($fieldCriteria))
+                    ->filter(fn (Field $field) => $field instanceof AggregateField && $field->shouldAggregate($this))
                     ->each(fn (AggregateField $selectedAggregate) => $selectedAggregate->with($relationBuilder));
 
                 // apply filters

@@ -7,6 +7,7 @@ namespace App\Http\Api\Field\Document\Page;
 use App\Contracts\Http\Api\Field\CreatableField;
 use App\Contracts\Http\Api\Field\UpdatableField;
 use App\Http\Api\Field\StringField;
+use App\Http\Api\Schema\Schema;
 use App\Models\Document\Page;
 use Illuminate\Http\Request;
 
@@ -17,10 +18,12 @@ class PageNameField extends StringField implements CreatableField, UpdatableFiel
 {
     /**
      * Create a new field instance.
+	 *
+	 * @param  Schema  $schema
      */
-    public function __construct()
+    public function __construct(Schema $schema)
     {
-        parent::__construct(Page::ATTRIBUTE_NAME);
+        parent::__construct($schema, Page::ATTRIBUTE_NAME);
     }
 
     /**

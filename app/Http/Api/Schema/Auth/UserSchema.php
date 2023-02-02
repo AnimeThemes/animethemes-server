@@ -60,8 +60,8 @@ class UserSchema extends EloquentSchema
         return array_merge(
             parent::fields(),
             [
-                new IdField(User::ATTRIBUTE_ID),
-                new UserNameField(),
+                new IdField($this, User::ATTRIBUTE_ID),
+                new UserNameField($this),
             ],
         );
     }
