@@ -22,7 +22,7 @@ class IdField extends IntField
      */
     public function __construct(Schema $schema, string $column)
     {
-        parent::__construct($schema,BaseResource::ATTRIBUTE_ID, $column);
+        parent::__construct($schema, BaseResource::ATTRIBUTE_ID, $column);
     }
 
     /**

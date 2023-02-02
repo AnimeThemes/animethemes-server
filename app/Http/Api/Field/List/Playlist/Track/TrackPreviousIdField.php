@@ -22,8 +22,8 @@ class TrackPreviousIdField extends Field implements CreatableField, SelectableFi
 {
     /**
      * Create a new field instance.
-	 *
-	 * @param  Schema  $schema
+     *
+     * @param  Schema  $schema
      */
     public function __construct(Schema $schema)
     {

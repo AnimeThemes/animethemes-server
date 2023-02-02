@@ -25,7 +25,7 @@ class TransactionServiceField extends EnumField implements CreatableField, Updat
      */
     public function __construct(Schema $schema)
     {
-        parent::__construct($schema,Transaction::ATTRIBUTE_SERVICE, Service::class);
+        parent::__construct($schema, Transaction::ATTRIBUTE_SERVICE, Service::class);
     }
 
     /**

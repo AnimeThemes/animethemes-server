@@ -20,8 +20,8 @@ class PlaylistVisibilityField extends EnumField implements CreatableField, Updat
 {
     /**
      * Create a new field instance.
-	 *
-	 * @param  Schema  $schema
+     *
+     * @param  Schema  $schema
      */
     public function __construct(Schema $schema)
     {

@@ -21,11 +21,11 @@ class TransactionDateField extends DateField implements CreatableField, Updatabl
     /**
      * Create a new field instance.
      *
-     * @param  Schema $schema
+     * @param  Schema  $schema
      */
     public function __construct(Schema $schema)
     {
-        parent::__construct($schema,Transaction::ATTRIBUTE_DATE);
+        parent::__construct($schema, Transaction::ATTRIBUTE_DATE);
     }
 
     /**

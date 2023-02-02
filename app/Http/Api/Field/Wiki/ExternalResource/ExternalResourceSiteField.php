@@ -21,8 +21,8 @@ class ExternalResourceSiteField extends EnumField implements CreatableField, Upd
 {
     /**
      * Create a new field instance.
-	 *
-	 * @param  Schema  $schema
+     *
+     * @param  Schema  $schema
      */
     public function __construct(Schema $schema)
     {

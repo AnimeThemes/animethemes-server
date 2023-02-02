@@ -17,8 +17,8 @@ class VideoMimeTypeField extends StringField implements CreatableField
 {
     /**
      * Create a new field instance.
-	 *
-	 * @param  Schema  $schema
+     *
+     * @param  Schema  $schema
      */
     public function __construct(Schema $schema)
     {

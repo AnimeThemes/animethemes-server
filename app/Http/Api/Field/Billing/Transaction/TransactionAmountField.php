@@ -23,7 +23,7 @@ class TransactionAmountField extends FloatField implements CreatableField, Updat
      */
     public function __construct(Schema $schema)
     {
-        parent::__construct($schema,Transaction::ATTRIBUTE_AMOUNT);
+        parent::__construct($schema, Transaction::ATTRIBUTE_AMOUNT);
     }
 
     /**

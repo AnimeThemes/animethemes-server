@@ -19,8 +19,8 @@ class VideoResolutionField extends IntField implements CreatableField, Updatable
 {
     /**
      * Create a new field instance.
-	 *
-	 * @param  Schema  $schema
+     *
+     * @param  Schema  $schema
      */
     public function __construct(Schema $schema)
     {

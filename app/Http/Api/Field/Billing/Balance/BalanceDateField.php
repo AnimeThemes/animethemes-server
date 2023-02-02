@@ -25,7 +25,7 @@ class BalanceDateField extends DateField implements CreatableField, UpdatableFie
      */
     public function __construct(Schema $schema)
     {
-        parent::__construct($schema,Balance::ATTRIBUTE_DATE);
+        parent::__construct($schema, Balance::ATTRIBUTE_DATE);
     }
 
     /**

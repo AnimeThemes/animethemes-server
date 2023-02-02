@@ -23,7 +23,7 @@ class TransactionDescriptionField extends StringField implements CreatableField,
      */
     public function __construct(Schema $schema)
     {
-        parent::__construct($schema,Transaction::ATTRIBUTE_DESCRIPTION);
+        parent::__construct($schema, Transaction::ATTRIBUTE_DESCRIPTION);
     }
 
     /**

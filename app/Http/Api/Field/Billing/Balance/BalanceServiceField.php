@@ -25,7 +25,7 @@ class BalanceServiceField extends EnumField implements CreatableField, Updatable
      */
     public function __construct(Schema $schema)
     {
-        parent::__construct($schema,Balance::ATTRIBUTE_SERVICE, Service::class);
+        parent::__construct($schema, Balance::ATTRIBUTE_SERVICE, Service::class);
     }
 
     /**

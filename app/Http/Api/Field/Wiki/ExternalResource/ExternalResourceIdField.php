@@ -18,8 +18,8 @@ class ExternalResourceIdField extends IntField implements CreatableField, Updata
 {
     /**
      * Create a new field instance.
-	 *
-	 * @param  Schema  $schema
+     *
+     * @param  Schema  $schema
      */
     public function __construct(Schema $schema)
     {

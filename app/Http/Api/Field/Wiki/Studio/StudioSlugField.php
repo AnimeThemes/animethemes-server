@@ -19,8 +19,8 @@ class StudioSlugField extends StringField implements CreatableField, UpdatableFi
 {
     /**
      * Create a new field instance.
-	 *
-	 * @param  Schema  $schema
+     *
+     * @param  Schema  $schema
      */
     public function __construct(Schema $schema)
     {

@@ -20,6 +20,6 @@ class DumpLinkField extends Field
      */
     public function __construct(Schema $schema)
     {
-        parent::__construct($schema,DumpResource::ATTRIBUTE_LINK);
+        parent::__construct($schema, DumpResource::ATTRIBUTE_LINK);
     }
 }

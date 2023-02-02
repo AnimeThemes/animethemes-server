@@ -23,7 +23,7 @@ class BalanceUsageField extends FloatField implements CreatableField, UpdatableF
      */
     public function __construct(Schema $schema)
     {
-        parent::__construct($schema,Balance::ATTRIBUTE_USAGE);
+        parent::__construct($schema, Balance::ATTRIBUTE_USAGE);
     }
 
     /**

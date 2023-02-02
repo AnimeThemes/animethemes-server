@@ -24,7 +24,7 @@ class BalanceMonthToDateField extends FloatField implements CreatableField, Upda
      */
     public function __construct(Schema $schema)
     {
-        parent::__construct($schema,BalanceResource::ATTRIBUTE_BALANCE, Balance::ATTRIBUTE_BALANCE);
+        parent::__construct($schema, BalanceResource::ATTRIBUTE_BALANCE, Balance::ATTRIBUTE_BALANCE);
     }
 
     /**

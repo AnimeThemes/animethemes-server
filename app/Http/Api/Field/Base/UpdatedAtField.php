@@ -20,6 +20,6 @@ class UpdatedAtField extends DateField
      */
     public function __construct(Schema $schema)
     {
-        parent::__construct($schema,BaseModel::ATTRIBUTE_UPDATED_AT);
+        parent::__construct($schema, BaseModel::ATTRIBUTE_UPDATED_AT);
     }
 }
