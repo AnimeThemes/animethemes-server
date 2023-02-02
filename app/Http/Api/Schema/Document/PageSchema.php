@@ -59,10 +59,10 @@ class PageSchema extends EloquentSchema
         return array_merge(
             parent::fields(),
             [
-                new IdField(Page::ATTRIBUTE_ID),
-                new PageNameField(),
-                new PageSlugField(),
-                new PageBodyField(),
+                new IdField($this, Page::ATTRIBUTE_ID),
+                new PageNameField($this),
+                new PageSlugField($this),
+                new PageBodyField($this),
             ],
         );
     }

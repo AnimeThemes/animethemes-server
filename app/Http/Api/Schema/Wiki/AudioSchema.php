@@ -65,14 +65,14 @@ class AudioSchema extends EloquentSchema
         return array_merge(
             parent::fields(),
             [
-                new IdField(Audio::ATTRIBUTE_ID),
-                new AudioBasenameField(),
-                new AudioFilenameField(),
-                new AudioMimeTypeField(),
-                new AudioPathField(),
-                new AudioSizeField(),
-                new AudioLinkField(),
-                new AudioViewCountField(),
+                new IdField($this, Audio::ATTRIBUTE_ID),
+                new AudioBasenameField($this),
+                new AudioFilenameField($this),
+                new AudioMimeTypeField($this),
+                new AudioPathField($this),
+                new AudioSizeField($this),
+                new AudioLinkField($this),
+                new AudioViewCountField($this),
             ],
         );
     }

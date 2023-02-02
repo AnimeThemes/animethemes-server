@@ -7,6 +7,7 @@ namespace App\Http\Api\Field\Billing\Balance;
 use App\Contracts\Http\Api\Field\CreatableField;
 use App\Contracts\Http\Api\Field\UpdatableField;
 use App\Http\Api\Field\FloatField;
+use App\Http\Api\Schema\Schema;
 use App\Models\Billing\Balance;
 use Illuminate\Http\Request;
 
@@ -17,10 +18,12 @@ class BalanceUsageField extends FloatField implements CreatableField, UpdatableF
 {
     /**
      * Create a new field instance.
+     *
+     * @param  Schema  $schema
      */
-    public function __construct()
+    public function __construct(Schema $schema)
     {
-        parent::__construct(Balance::ATTRIBUTE_USAGE);
+        parent::__construct($schema, Balance::ATTRIBUTE_USAGE);
     }
 
     /**

@@ -50,12 +50,12 @@ class FlagsSchema extends Schema
     public function fields(): array
     {
         return [
-            new FlagsAllowVideoStreamsField(),
-            new FlagsAllowAudioStreamsField(),
-            new FlagsAllowDiscordNotificationsField(),
-            new FlagsAllowViewRecordingField(),
-            new FlagsAllowDumpDownloadingField(),
-            new FlagsAllowScriptDownloadingField(),
+            new FlagsAllowVideoStreamsField($this),
+            new FlagsAllowAudioStreamsField($this),
+            new FlagsAllowDiscordNotificationsField($this),
+            new FlagsAllowViewRecordingField($this),
+            new FlagsAllowDumpDownloadingField($this),
+            new FlagsAllowScriptDownloadingField($this),
         ];
     }
 }

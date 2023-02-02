@@ -7,6 +7,7 @@ namespace App\Http\Api\Field\List\Playlist;
 use App\Contracts\Http\Api\Field\CreatableField;
 use App\Contracts\Http\Api\Field\UpdatableField;
 use App\Http\Api\Field\StringField;
+use App\Http\Api\Schema\Schema;
 use App\Models\List\Playlist;
 use Illuminate\Http\Request;
 
@@ -17,10 +18,12 @@ class PlaylistNameField extends StringField implements CreatableField, Updatable
 {
     /**
      * Create a new field instance.
+     *
+     * @param  Schema  $schema
      */
-    public function __construct()
+    public function __construct(Schema $schema)
     {
-        parent::__construct(Playlist::ATTRIBUTE_NAME);
+        parent::__construct($schema, Playlist::ATTRIBUTE_NAME);
     }
 
     /**

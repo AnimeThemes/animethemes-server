@@ -77,10 +77,10 @@ class ArtistSchema extends EloquentSchema
         return array_merge(
             parent::fields(),
             [
-                new IdField(Artist::ATTRIBUTE_ID),
-                new ArtistNameField(),
-                new ArtistSlugField(),
-                new ArtistAsField(),
+                new IdField($this, Artist::ATTRIBUTE_ID),
+                new ArtistNameField($this),
+                new ArtistSlugField($this),
+                new ArtistAsField($this),
             ],
         );
     }

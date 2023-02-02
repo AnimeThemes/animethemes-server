@@ -69,9 +69,9 @@ class ArtistSchema extends Schema
         return array_merge(
             parent::fields(),
             [
-                new IdField(Artist::ATTRIBUTE_ID),
-                new ArtistNameField(),
-                new ArtistSlugField(),
+                new IdField($this, Artist::ATTRIBUTE_ID),
+                new ArtistNameField($this),
+                new ArtistSlugField($this),
             ],
         );
     }

@@ -10,6 +10,7 @@ use App\Enums\BaseEnum;
 use App\Http\Api\Filter\EnumFilter;
 use App\Http\Api\Filter\Filter;
 use App\Http\Api\Sort\Sort;
+use App\Scout\Elasticsearch\Api\Schema\Schema;
 
 /**
  * Class EnumField.
@@ -19,16 +20,18 @@ abstract class EnumField extends Field implements FilterableField, SortableField
     /**
      * Create a new field instance.
      *
+     * @param  Schema  $schema
      * @param  string  $key
      * @param  class-string<BaseEnum>  $enumClass
      * @param  string|null  $column
      */
     public function __construct(
+        Schema $schema,
         string $key,
         protected readonly string $enumClass,
         ?string $column = null
     ) {
-        parent::__construct($key, $column);
+        parent::__construct($schema, $key, $column);
     }
 
     /**

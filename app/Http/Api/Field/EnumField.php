@@ -8,9 +8,10 @@ use App\Contracts\Http\Api\Field\FilterableField;
 use App\Contracts\Http\Api\Field\SelectableField;
 use App\Contracts\Http\Api\Field\SortableField;
 use App\Enums\BaseEnum;
-use App\Http\Api\Criteria\Field\Criteria;
 use App\Http\Api\Filter\EnumFilter;
 use App\Http\Api\Filter\Filter;
+use App\Http\Api\Query\ReadQuery;
+use App\Http\Api\Schema\Schema;
 use App\Http\Api\Sort\Sort;
 
 /**
@@ -21,16 +22,18 @@ abstract class EnumField extends Field implements FilterableField, SelectableFie
     /**
      * Create a new field instance.
      *
+     * @param  Schema  $schema
      * @param  string  $key
      * @param  class-string<BaseEnum>  $enumClass
      * @param  string|null  $column
      */
     public function __construct(
+        Schema $schema,
         string $key,
         protected readonly string $enumClass,
         ?string $column = null
     ) {
-        parent::__construct($key, $column);
+        parent::__construct($schema, $key, $column);
     }
 
     /**
@@ -56,11 +59,13 @@ abstract class EnumField extends Field implements FilterableField, SelectableFie
     /**
      * Determine if the field should be included in the select clause of our query.
      *
-     * @param  Criteria|null  $criteria
+     * @param  ReadQuery  $query
      * @return bool
      */
-    public function shouldSelect(?Criteria $criteria): bool
+    public function shouldSelect(ReadQuery $query): bool
     {
+        $criteria = $query->getFieldCriteria($this->schema->type());
+
         return $criteria === null || $criteria->isAllowedField($this->getKey());
     }
 

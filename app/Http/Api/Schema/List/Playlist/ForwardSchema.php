@@ -60,8 +60,8 @@ class ForwardSchema extends EloquentSchema
         return array_merge(
             parent::fields(),
             [
-                new IdField(PlaylistTrack::ATTRIBUTE_ID),
-                new TrackVideoIdField(),
+                new IdField($this, PlaylistTrack::ATTRIBUTE_ID),
+                new TrackVideoIdField($this),
             ],
         );
     }

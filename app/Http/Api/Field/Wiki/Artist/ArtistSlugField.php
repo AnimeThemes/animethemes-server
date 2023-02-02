@@ -7,6 +7,7 @@ namespace App\Http\Api\Field\Wiki\Artist;
 use App\Contracts\Http\Api\Field\CreatableField;
 use App\Contracts\Http\Api\Field\UpdatableField;
 use App\Http\Api\Field\StringField;
+use App\Http\Api\Schema\Schema;
 use App\Models\Wiki\Artist;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -18,10 +19,12 @@ class ArtistSlugField extends StringField implements CreatableField, UpdatableFi
 {
     /**
      * Create a new field instance.
+     *
+     * @param  Schema  $schema
      */
-    public function __construct()
+    public function __construct(Schema $schema)
     {
-        parent::__construct(Artist::ATTRIBUTE_SLUG);
+        parent::__construct($schema, Artist::ATTRIBUTE_SLUG);
     }
 
     /**

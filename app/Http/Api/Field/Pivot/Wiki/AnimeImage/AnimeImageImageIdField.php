@@ -6,8 +6,9 @@ namespace App\Http\Api\Field\Pivot\Wiki\AnimeImage;
 
 use App\Contracts\Http\Api\Field\CreatableField;
 use App\Contracts\Http\Api\Field\SelectableField;
-use App\Http\Api\Criteria\Field\Criteria;
 use App\Http\Api\Field\Field;
+use App\Http\Api\Query\ReadQuery;
+use App\Http\Api\Schema\Schema;
 use App\Models\Wiki\Image;
 use App\Pivots\Wiki\AnimeImage;
 use Illuminate\Http\Request;
@@ -20,10 +21,12 @@ class AnimeImageImageIdField extends Field implements CreatableField, Selectable
 {
     /**
      * Create a new field instance.
+     *
+     * @param  Schema  $schema
      */
-    public function __construct()
+    public function __construct(Schema $schema)
     {
-        parent::__construct(AnimeImage::ATTRIBUTE_IMAGE);
+        parent::__construct($schema, AnimeImage::ATTRIBUTE_IMAGE);
     }
 
     /**
@@ -44,10 +47,10 @@ class AnimeImageImageIdField extends Field implements CreatableField, Selectable
     /**
      * Determine if the field should be included in the select clause of our query.
      *
-     * @param  Criteria|null  $criteria
+     * @param  ReadQuery  $query
      * @return bool
      */
-    public function shouldSelect(?Criteria $criteria): bool
+    public function shouldSelect(ReadQuery $query): bool
     {
         // Needed to match image relation.
         return true;

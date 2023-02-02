@@ -7,6 +7,7 @@ namespace App\Scout\Elasticsearch\Api\Field\Wiki\Anime\Theme;
 use App\Enums\Models\Wiki\ThemeType;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Scout\Elasticsearch\Api\Field\EnumField;
+use App\Scout\Elasticsearch\Api\Schema\Schema;
 
 /**
  * Class ThemeTypeField.
@@ -15,9 +16,11 @@ class ThemeTypeField extends EnumField
 {
     /**
      * Create a new field instance.
+     *
+     * @param  Schema  $schema
      */
-    public function __construct()
+    public function __construct(Schema $schema)
     {
-        parent::__construct(AnimeTheme::ATTRIBUTE_TYPE, ThemeType::class);
+        parent::__construct($schema, AnimeTheme::ATTRIBUTE_TYPE, ThemeType::class);
     }
 }

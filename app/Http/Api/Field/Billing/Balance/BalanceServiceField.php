@@ -8,6 +8,7 @@ use App\Contracts\Http\Api\Field\CreatableField;
 use App\Contracts\Http\Api\Field\UpdatableField;
 use App\Enums\Models\Billing\Service;
 use App\Http\Api\Field\EnumField;
+use App\Http\Api\Schema\Schema;
 use App\Models\Billing\Balance;
 use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Http\Request;
@@ -19,10 +20,12 @@ class BalanceServiceField extends EnumField implements CreatableField, Updatable
 {
     /**
      * Create a new field instance.
+     *
+     * @param  Schema  $schema
      */
-    public function __construct()
+    public function __construct(Schema $schema)
     {
-        parent::__construct(Balance::ATTRIBUTE_SERVICE, Service::class);
+        parent::__construct($schema, Balance::ATTRIBUTE_SERVICE, Service::class);
     }
 
     /**

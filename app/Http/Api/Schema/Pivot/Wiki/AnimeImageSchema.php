@@ -64,10 +64,10 @@ class AnimeImageSchema extends EloquentSchema
     public function fields(): array
     {
         return [
-            new CreatedAtField(),
-            new UpdatedAtField(),
-            new AnimeImageAnimeIdField(),
-            new AnimeImageImageIdField(),
+            new CreatedAtField($this),
+            new UpdatedAtField($this),
+            new AnimeImageAnimeIdField($this),
+            new AnimeImageImageIdField($this),
         ];
     }
 }

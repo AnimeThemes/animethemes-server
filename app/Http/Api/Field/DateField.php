@@ -7,9 +7,9 @@ namespace App\Http\Api\Field;
 use App\Contracts\Http\Api\Field\FilterableField;
 use App\Contracts\Http\Api\Field\SelectableField;
 use App\Contracts\Http\Api\Field\SortableField;
-use App\Http\Api\Criteria\Field\Criteria;
 use App\Http\Api\Filter\DateFilter;
 use App\Http\Api\Filter\Filter;
+use App\Http\Api\Query\ReadQuery;
 use App\Http\Api\Sort\Sort;
 
 /**
@@ -30,11 +30,13 @@ abstract class DateField extends Field implements FilterableField, SelectableFie
     /**
      * Determine if the field should be included in the select clause of our query.
      *
-     * @param  Criteria|null  $criteria
+     * @param  ReadQuery  $query
      * @return bool
      */
-    public function shouldSelect(?Criteria $criteria): bool
+    public function shouldSelect(ReadQuery $query): bool
     {
+        $criteria = $query->getFieldCriteria($this->schema->type());
+
         return $criteria === null || $criteria->isAllowedField($this->getKey());
     }
 

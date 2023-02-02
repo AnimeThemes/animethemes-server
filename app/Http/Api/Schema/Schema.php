@@ -31,9 +31,9 @@ abstract class Schema implements SchemaInterface
     public function fields(): array
     {
         return [
-            new CreatedAtField(),
-            new UpdatedAtField(),
-            new DeletedAtField(),
+            new CreatedAtField($this),
+            new UpdatedAtField($this),
+            new DeletedAtField($this),
         ];
     }
 

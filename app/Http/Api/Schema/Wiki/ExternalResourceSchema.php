@@ -64,11 +64,11 @@ class ExternalResourceSchema extends EloquentSchema
         return array_merge(
             parent::fields(),
             [
-                new IdField(ExternalResource::ATTRIBUTE_ID),
-                new ExternalResourceIdField(),
-                new ExternalResourceLinkField(),
-                new ExternalResourceSiteField(),
-                new ExternalResourceAsField(),
+                new IdField($this, ExternalResource::ATTRIBUTE_ID),
+                new ExternalResourceIdField($this),
+                new ExternalResourceLinkField($this),
+                new ExternalResourceSiteField($this),
+                new ExternalResourceAsField($this),
             ],
         );
     }

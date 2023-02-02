@@ -8,6 +8,7 @@ use App\Contracts\Http\Api\Field\CreatableField;
 use App\Contracts\Http\Api\Field\UpdatableField;
 use App\Enums\Http\Api\Filter\AllowedDateFormat;
 use App\Http\Api\Field\DateField;
+use App\Http\Api\Schema\Schema;
 use App\Models\Billing\Balance;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -19,10 +20,12 @@ class BalanceDateField extends DateField implements CreatableField, UpdatableFie
 {
     /**
      * Create a new field instance.
+     *
+     * @param  Schema  $schema
      */
-    public function __construct()
+    public function __construct(Schema $schema)
     {
-        parent::__construct(Balance::ATTRIBUTE_DATE);
+        parent::__construct($schema, Balance::ATTRIBUTE_DATE);
     }
 
     /**

@@ -8,6 +8,7 @@ use App\Contracts\Http\Api\Field\CreatableField;
 use App\Contracts\Http\Api\Field\UpdatableField;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Http\Api\Field\EnumField;
+use App\Http\Api\Schema\Schema;
 use App\Models\Wiki\ExternalResource;
 use App\Rules\Wiki\Resource\ResourceSiteMatchesLinkRule;
 use BenSampo\Enum\Rules\EnumValue;
@@ -20,10 +21,12 @@ class ExternalResourceSiteField extends EnumField implements CreatableField, Upd
 {
     /**
      * Create a new field instance.
+     *
+     * @param  Schema  $schema
      */
-    public function __construct()
+    public function __construct(Schema $schema)
     {
-        parent::__construct(ExternalResource::ATTRIBUTE_SITE, ResourceSite::class);
+        parent::__construct($schema, ExternalResource::ATTRIBUTE_SITE, ResourceSite::class);
     }
 
     /**

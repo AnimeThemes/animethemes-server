@@ -57,8 +57,8 @@ class AnnouncementSchema extends EloquentSchema
         return array_merge(
             parent::fields(),
             [
-                new IdField(Announcement::ATTRIBUTE_ID),
-                new AnnouncementContentField(),
+                new IdField($this, Announcement::ATTRIBUTE_ID),
+                new AnnouncementContentField($this),
             ],
         );
     }

@@ -68,10 +68,10 @@ class StudioSchema extends EloquentSchema
         return array_merge(
             parent::fields(),
             [
-                new IdField(Studio::ATTRIBUTE_ID),
-                new StudioNameField(),
-                new StudioSlugField(),
-                new StudioAsField(),
+                new IdField($this, Studio::ATTRIBUTE_ID),
+                new StudioNameField($this),
+                new StudioSlugField($this),
+                new StudioAsField($this),
             ],
         );
     }

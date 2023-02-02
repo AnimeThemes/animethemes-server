@@ -8,6 +8,7 @@ use App\Contracts\Http\Api\Field\CreatableField;
 use App\Contracts\Http\Api\Field\UpdatableField;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Http\Api\Field\EnumField;
+use App\Http\Api\Schema\Schema;
 use App\Models\Wiki\Image;
 use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Http\Request;
@@ -19,10 +20,12 @@ class ImageFacetField extends EnumField implements CreatableField, UpdatableFiel
 {
     /**
      * Create a new field instance.
+     *
+     * @param  Schema  $schema
      */
-    public function __construct()
+    public function __construct(Schema $schema)
     {
-        parent::__construct(Image::ATTRIBUTE_FACET, ImageFacet::class);
+        parent::__construct($schema, Image::ATTRIBUTE_FACET, ImageFacet::class);
     }
 
     /**

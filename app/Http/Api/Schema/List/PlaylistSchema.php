@@ -71,13 +71,13 @@ class PlaylistSchema extends EloquentSchema
         return array_merge(
             parent::fields(),
             [
-                new IdField(Playlist::ATTRIBUTE_ID),
-                new PlaylistFirstIdField(),
-                new PlaylistLastIdField(),
-                new PlaylistNameField(),
-                new PlaylistUserIdField(),
-                new PlaylistVisibilityField(),
-                new PlaylistViewCountField(),
+                new IdField($this, Playlist::ATTRIBUTE_ID),
+                new PlaylistFirstIdField($this),
+                new PlaylistLastIdField($this),
+                new PlaylistNameField($this),
+                new PlaylistUserIdField($this),
+                new PlaylistVisibilityField($this),
+                new PlaylistViewCountField($this),
             ],
         );
     }

@@ -6,8 +6,9 @@ namespace App\Http\Api\Field\Wiki\Video;
 
 use App\Contracts\Http\Api\Field\CreatableField;
 use App\Contracts\Http\Api\Field\UpdatableField;
-use App\Http\Api\Criteria\Field\Criteria;
 use App\Http\Api\Field\BooleanField;
+use App\Http\Api\Query\ReadQuery;
+use App\Http\Api\Schema\Schema;
 use App\Models\Wiki\Video;
 use Illuminate\Http\Request;
 
@@ -18,10 +19,12 @@ class VideoNcField extends BooleanField implements CreatableField, UpdatableFiel
 {
     /**
      * Create a new field instance.
+     *
+     * @param  Schema  $schema
      */
-    public function __construct()
+    public function __construct(Schema $schema)
     {
-        parent::__construct(Video::ATTRIBUTE_NC);
+        parent::__construct($schema, Video::ATTRIBUTE_NC);
     }
 
     /**
@@ -42,13 +45,15 @@ class VideoNcField extends BooleanField implements CreatableField, UpdatableFiel
     /**
      * Determine if the field should be included in the select clause of our query.
      *
-     * @param  Criteria|null  $criteria
+     * @param  ReadQuery  $query
      * @return bool
      */
-    public function shouldSelect(?Criteria $criteria): bool
+    public function shouldSelect(ReadQuery $query): bool
     {
+        $criteria = $query->getFieldCriteria($this->schema->type());
+
         // The tags attribute is dependent on this field.
-        return parent::shouldSelect($criteria) || $criteria->isAllowedField(Video::ATTRIBUTE_TAGS);
+        return parent::shouldSelect($query) || $criteria->isAllowedField(Video::ATTRIBUTE_TAGS);
     }
 
     /**

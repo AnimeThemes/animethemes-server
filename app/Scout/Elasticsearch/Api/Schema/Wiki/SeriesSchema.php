@@ -60,9 +60,9 @@ class SeriesSchema extends Schema
         return array_merge(
             parent::fields(),
             [
-                new IdField(Series::ATTRIBUTE_ID),
-                new SeriesNameField(),
-                new SeriesSlugField(),
+                new IdField($this, Series::ATTRIBUTE_ID),
+                new SeriesNameField($this),
+                new SeriesSlugField($this),
             ],
         );
     }

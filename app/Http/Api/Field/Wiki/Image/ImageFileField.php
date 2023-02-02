@@ -6,6 +6,7 @@ namespace App\Http\Api\Field\Wiki\Image;
 
 use App\Contracts\Http\Api\Field\CreatableField;
 use App\Http\Api\Field\Field;
+use App\Http\Api\Schema\Schema;
 use Illuminate\Http\Request;
 
 /**
@@ -17,10 +18,12 @@ class ImageFileField extends Field implements CreatableField
 
     /**
      * Create a new field instance.
+     *
+     * @param  Schema  $schema
      */
-    public function __construct()
+    public function __construct(Schema $schema)
     {
-        parent::__construct(ImageFileField::ATTRIBUTE_FILE);
+        parent::__construct($schema, ImageFileField::ATTRIBUTE_FILE);
     }
 
     /**

@@ -7,8 +7,9 @@ namespace App\Http\Api\Field\List\Playlist\Track;
 use App\Contracts\Http\Api\Field\CreatableField;
 use App\Contracts\Http\Api\Field\SelectableField;
 use App\Contracts\Http\Api\Field\UpdatableField;
-use App\Http\Api\Criteria\Field\Criteria;
 use App\Http\Api\Field\Field;
+use App\Http\Api\Query\ReadQuery;
+use App\Http\Api\Schema\Schema;
 use App\Models\List\Playlist\PlaylistTrack;
 use App\Models\Wiki\Video;
 use Illuminate\Http\Request;
@@ -21,10 +22,12 @@ class TrackVideoIdField extends Field implements CreatableField, SelectableField
 {
     /**
      * Create a new field instance.
+     *
+     * @param  Schema  $schema
      */
-    public function __construct()
+    public function __construct(Schema $schema)
     {
-        parent::__construct(PlaylistTrack::ATTRIBUTE_VIDEO);
+        parent::__construct($schema, PlaylistTrack::ATTRIBUTE_VIDEO);
     }
 
     /**
@@ -45,10 +48,10 @@ class TrackVideoIdField extends Field implements CreatableField, SelectableField
     /**
      * Determine if the field should be included in the select clause of our query.
      *
-     * @param  Criteria|null  $criteria
+     * @param  ReadQuery  $query
      * @return bool
      */
-    public function shouldSelect(?Criteria $criteria): bool
+    public function shouldSelect(ReadQuery $query): bool
     {
         // Needed to match video relation.
         return true;

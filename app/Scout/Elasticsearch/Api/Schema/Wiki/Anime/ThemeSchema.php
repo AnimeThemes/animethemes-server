@@ -82,11 +82,11 @@ class ThemeSchema extends Schema
         return array_merge(
             parent::fields(),
             [
-                new IdField(AnimeTheme::ATTRIBUTE_ID),
-                new ThemeGroupField(),
-                new ThemeSequenceField(),
-                new ThemeSlugField(),
-                new ThemeTypeField(),
+                new IdField($this, AnimeTheme::ATTRIBUTE_ID),
+                new ThemeGroupField($this),
+                new ThemeSequenceField($this),
+                new ThemeSlugField($this),
+                new ThemeTypeField($this),
             ],
         );
     }

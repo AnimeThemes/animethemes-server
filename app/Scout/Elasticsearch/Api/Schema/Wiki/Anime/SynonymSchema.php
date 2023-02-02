@@ -60,8 +60,8 @@ class SynonymSchema extends Schema
         return array_merge(
             parent::fields(),
             [
-                new IdField(AnimeSynonym::ATTRIBUTE_ID),
-                new SynonymTextField(),
+                new IdField($this, AnimeSynonym::ATTRIBUTE_ID),
+                new SynonymTextField($this),
             ],
         );
     }
