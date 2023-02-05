@@ -93,7 +93,7 @@ class PageShowTest extends TestCase
 
         $page = Page::factory()->create();
 
-        $response = $this->get(route('api.page.show', ['page' => $page]));
+        $response = $this->get(route('api.page.show', ['page' => $page] + $parameters));
 
         $response->assertJson(
             json_decode(

@@ -210,7 +210,7 @@ class YearShowTest extends TestCase
 
         $fallResources = new AnimeCollection($fallAnime->sortBy(Anime::ATTRIBUTE_NAME)->values(), new AnimeReadQuery($parameters));
 
-        $response = $this->get(route('api.animeyear.show', [Anime::ATTRIBUTE_YEAR => $year]));
+        $response = $this->get(route('api.animeyear.show', [Anime::ATTRIBUTE_YEAR => $year] + $parameters));
 
         $response->assertJson([
             Str::lower(AnimeSeason::getDescription(AnimeSeason::WINTER)) => json_decode(json_encode($winterResources->response()->getData()->anime), true),

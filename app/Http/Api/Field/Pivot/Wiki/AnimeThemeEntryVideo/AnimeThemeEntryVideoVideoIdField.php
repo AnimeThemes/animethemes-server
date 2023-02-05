@@ -2,20 +2,22 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Api\Field\Wiki\Video;
+namespace App\Http\Api\Field\Pivot\Wiki\AnimeThemeEntryVideo;
 
 use App\Contracts\Http\Api\Field\CreatableField;
-use App\Contracts\Http\Api\Field\UpdatableField;
-use App\Http\Api\Field\BooleanField;
+use App\Contracts\Http\Api\Field\SelectableField;
+use App\Http\Api\Field\Field;
 use App\Http\Api\Query\ReadQuery;
 use App\Http\Api\Schema\Schema;
 use App\Models\Wiki\Video;
+use App\Pivots\Wiki\AnimeThemeEntryVideo;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 /**
- * Class VideoLyricsField.
+ * Class AnimeThemeEntryVideoVideoIdField.
  */
-class VideoLyricsField extends BooleanField implements CreatableField, UpdatableField
+class AnimeThemeEntryVideoVideoIdField extends Field implements CreatableField, SelectableField
 {
     /**
      * Create a new field instance.
@@ -24,7 +26,7 @@ class VideoLyricsField extends BooleanField implements CreatableField, Updatable
      */
     public function __construct(Schema $schema)
     {
-        parent::__construct($schema, Video::ATTRIBUTE_LYRICS);
+        parent::__construct($schema, AnimeThemeEntryVideo::ATTRIBUTE_VIDEO);
     }
 
     /**
@@ -36,9 +38,9 @@ class VideoLyricsField extends BooleanField implements CreatableField, Updatable
     public function getCreationRules(Request $request): array
     {
         return [
-            'sometimes',
             'required',
-            'boolean',
+            'integer',
+            Rule::exists(Video::TABLE, Video::ATTRIBUTE_ID),
         ];
     }
 
@@ -50,24 +52,7 @@ class VideoLyricsField extends BooleanField implements CreatableField, Updatable
      */
     public function shouldSelect(ReadQuery $query): bool
     {
-        $tagsField = new VideoTagsField($this->schema);
-
-        // The tags attribute is dependent on this field.
-        return parent::shouldSelect($query) || $tagsField->shouldRender($query);
-    }
-
-    /**
-     * Set the update validation rules for the field.
-     *
-     * @param  Request  $request
-     * @return array
-     */
-    public function getUpdateRules(Request $request): array
-    {
-        return [
-            'sometimes',
-            'required',
-            'boolean',
-        ];
+        // Needed to match entry relation.
+        return true;
     }
 }

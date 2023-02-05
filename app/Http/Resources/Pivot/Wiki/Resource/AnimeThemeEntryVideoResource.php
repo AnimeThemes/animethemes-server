@@ -5,18 +5,17 @@ declare(strict_types=1);
 namespace App\Http\Resources\Pivot\Wiki\Resource;
 
 use App\Http\Api\Query\ReadQuery;
+use App\Http\Api\Schema\Pivot\Wiki\AnimeThemeEntryVideoSchema;
+use App\Http\Api\Schema\Schema;
 use App\Http\Resources\BaseResource;
 use App\Http\Resources\Wiki\Anime\Theme\Resource\EntryResource;
 use App\Http\Resources\Wiki\Resource\VideoResource;
-use App\Pivots\BasePivot;
 use App\Pivots\Wiki\AnimeThemeEntryVideo;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\MissingValue;
 
 /**
  * Class AnimeThemeEntryVideoResource.
- *
- * @mixin AnimeThemeEntryVideo
  */
 class AnimeThemeEntryVideoResource extends BaseResource
 {
@@ -44,24 +43,24 @@ class AnimeThemeEntryVideoResource extends BaseResource
      *
      * @param  Request  $request
      * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public function toArray($request): array
     {
-        $result = [];
-
-        if ($this->isAllowedField(BasePivot::ATTRIBUTE_CREATED_AT)) {
-            $result[BasePivot::ATTRIBUTE_CREATED_AT] = $this->created_at;
-        }
-
-        if ($this->isAllowedField(BasePivot::ATTRIBUTE_UPDATED_AT)) {
-            $result[BasePivot::ATTRIBUTE_UPDATED_AT] = $this->updated_at;
-        }
+        $result = parent::toArray($request);
 
         $result[AnimeThemeEntryVideo::RELATION_ENTRY] = new EntryResource($this->whenLoaded(AnimeThemeEntryVideo::RELATION_ENTRY), $this->query);
         $result[AnimeThemeEntryVideo::RELATION_VIDEO] = new VideoResource($this->whenLoaded(AnimeThemeEntryVideo::RELATION_VIDEO), $this->query);
 
         return $result;
+    }
+
+    /**
+     * Get the resource schema.
+     *
+     * @return Schema
+     */
+    protected function schema(): Schema
+    {
+        return new AnimeThemeEntryVideoSchema();
     }
 }

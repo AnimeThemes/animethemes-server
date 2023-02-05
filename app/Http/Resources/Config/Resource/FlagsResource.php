@@ -6,6 +6,8 @@ namespace App\Http\Resources\Config\Resource;
 
 use App\Constants\Config\FlagConstants;
 use App\Http\Api\Query\ReadQuery;
+use App\Http\Api\Schema\Config\FlagsSchema;
+use App\Http\Api\Schema\Schema;
 use App\Http\Resources\BaseResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\MissingValue;
@@ -71,5 +73,15 @@ class FlagsResource extends BaseResource
         }
 
         return $result;
+    }
+
+    /**
+     * Get the resource schema.
+     *
+     * @return Schema
+     */
+    protected function schema(): Schema
+    {
+        return new FlagsSchema();
     }
 }

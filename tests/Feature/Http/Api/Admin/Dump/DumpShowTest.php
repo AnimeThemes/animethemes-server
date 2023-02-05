@@ -93,7 +93,7 @@ class DumpShowTest extends TestCase
 
         $dump = Dump::factory()->create();
 
-        $response = $this->get(route('api.dump.show', ['dump' => $dump]));
+        $response = $this->get(route('api.dump.show', ['dump' => $dump] + $parameters));
 
         $response->assertJson(
             json_decode(

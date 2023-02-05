@@ -2,19 +2,22 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Api\Field\Wiki\Video;
+namespace App\Http\Api\Field\Pivot\Wiki\AnimeThemeEntryVideo;
 
 use App\Contracts\Http\Api\Field\CreatableField;
-use App\Http\Api\Field\StringField;
+use App\Contracts\Http\Api\Field\SelectableField;
+use App\Http\Api\Field\Field;
 use App\Http\Api\Query\ReadQuery;
 use App\Http\Api\Schema\Schema;
-use App\Models\Wiki\Video;
+use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
+use App\Pivots\Wiki\AnimeThemeEntryVideo;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 /**
- * Class VideoBasenameField.
+ * Class AnimeThemeEntryVideoEntryIdField.
  */
-class VideoBasenameField extends StringField implements CreatableField
+class AnimeThemeEntryVideoEntryIdField extends Field implements CreatableField, SelectableField
 {
     /**
      * Create a new field instance.
@@ -23,7 +26,7 @@ class VideoBasenameField extends StringField implements CreatableField
      */
     public function __construct(Schema $schema)
     {
-        parent::__construct($schema, Video::ATTRIBUTE_BASENAME);
+        parent::__construct($schema, AnimeThemeEntryVideo::ATTRIBUTE_ENTRY);
     }
 
     /**
@@ -36,8 +39,8 @@ class VideoBasenameField extends StringField implements CreatableField
     {
         return [
             'required',
-            'string',
-            'max:192',
+            'integer',
+            Rule::exists(AnimeThemeEntry::TABLE, AnimeThemeEntry::ATTRIBUTE_ID),
         ];
     }
 
@@ -49,9 +52,7 @@ class VideoBasenameField extends StringField implements CreatableField
      */
     public function shouldSelect(ReadQuery $query): bool
     {
-        $linkField = new VideoLinkField($this->schema);
-
-        // The link field is dependent on this field to build the route.
-        return parent::shouldSelect($query) || $linkField->shouldRender($query);
+        // Needed to match entry relation.
+        return true;
     }
 }

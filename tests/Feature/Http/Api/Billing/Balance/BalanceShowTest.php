@@ -93,7 +93,7 @@ class BalanceShowTest extends TestCase
 
         $balance = Balance::factory()->create();
 
-        $response = $this->get(route('api.balance.show', ['balance' => $balance]));
+        $response = $this->get(route('api.balance.show', ['balance' => $balance] + $parameters));
 
         $response->assertJson(
             json_decode(

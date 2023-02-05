@@ -93,7 +93,7 @@ class TransactionShowTest extends TestCase
 
         $transaction = Transaction::factory()->create();
 
-        $response = $this->get(route('api.transaction.show', ['transaction' => $transaction]));
+        $response = $this->get(route('api.transaction.show', ['transaction' => $transaction] + $parameters));
 
         $response->assertJson(
             json_decode(

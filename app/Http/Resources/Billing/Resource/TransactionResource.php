@@ -5,16 +5,14 @@ declare(strict_types=1);
 namespace App\Http\Resources\Billing\Resource;
 
 use App\Http\Api\Query\ReadQuery;
+use App\Http\Api\Schema\Billing\TransactionSchema;
+use App\Http\Api\Schema\Schema;
 use App\Http\Resources\BaseResource;
-use App\Models\BaseModel;
 use App\Models\Billing\Transaction;
-use Illuminate\Http\Request;
 use Illuminate\Http\Resources\MissingValue;
 
 /**
  * Class TransactionResource.
- *
- * @mixin Transaction
  */
 class TransactionResource extends BaseResource
 {
@@ -38,53 +36,12 @@ class TransactionResource extends BaseResource
     }
 
     /**
-     * Transform the resource into an array.
+     * Get the resource schema.
      *
-     * @param  Request  $request
-     * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
+     * @return Schema
      */
-    public function toArray($request): array
+    protected function schema(): Schema
     {
-        $result = [];
-
-        if ($this->isAllowedField(BaseResource::ATTRIBUTE_ID)) {
-            $result[BaseResource::ATTRIBUTE_ID] = $this->getKey();
-        }
-
-        if ($this->isAllowedField(Transaction::ATTRIBUTE_DATE)) {
-            $result[Transaction::ATTRIBUTE_DATE] = $this->date;
-        }
-
-        if ($this->isAllowedField(Transaction::ATTRIBUTE_SERVICE)) {
-            $result[Transaction::ATTRIBUTE_SERVICE] = $this->service->description;
-        }
-
-        if ($this->isAllowedField(Transaction::ATTRIBUTE_DESCRIPTION)) {
-            $result[Transaction::ATTRIBUTE_DESCRIPTION] = $this->description;
-        }
-
-        if ($this->isAllowedField(Transaction::ATTRIBUTE_AMOUNT)) {
-            $result[Transaction::ATTRIBUTE_AMOUNT] = $this->amount;
-        }
-
-        if ($this->isAllowedField(Transaction::ATTRIBUTE_EXTERNAL_ID)) {
-            $result[Transaction::ATTRIBUTE_EXTERNAL_ID] = $this->external_id;
-        }
-
-        if ($this->isAllowedField(BaseModel::ATTRIBUTE_CREATED_AT)) {
-            $result[BaseModel::ATTRIBUTE_CREATED_AT] = $this->created_at;
-        }
-
-        if ($this->isAllowedField(BaseModel::ATTRIBUTE_UPDATED_AT)) {
-            $result[BaseModel::ATTRIBUTE_UPDATED_AT] = $this->updated_at;
-        }
-
-        if ($this->isAllowedField(BaseModel::ATTRIBUTE_DELETED_AT)) {
-            $result[BaseModel::ATTRIBUTE_DELETED_AT] = $this->deleted_at;
-        }
-
-        return $result;
+        return new TransactionSchema();
     }
 }

@@ -5,18 +5,17 @@ declare(strict_types=1);
 namespace App\Http\Resources\Pivot\Wiki\Resource;
 
 use App\Http\Api\Query\ReadQuery;
+use App\Http\Api\Schema\Pivot\Wiki\AnimeImageSchema;
+use App\Http\Api\Schema\Schema;
 use App\Http\Resources\BaseResource;
 use App\Http\Resources\Wiki\Resource\AnimeResource;
 use App\Http\Resources\Wiki\Resource\ImageResource;
-use App\Pivots\BasePivot;
 use App\Pivots\Wiki\AnimeImage;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\MissingValue;
 
 /**
  * Class AnimeImageResource.
- *
- * @mixin AnimeImage
  */
 class AnimeImageResource extends BaseResource
 {
@@ -44,24 +43,24 @@ class AnimeImageResource extends BaseResource
      *
      * @param  Request  $request
      * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public function toArray($request): array
     {
-        $result = [];
-
-        if ($this->isAllowedField(BasePivot::ATTRIBUTE_CREATED_AT)) {
-            $result[BasePivot::ATTRIBUTE_CREATED_AT] = $this->created_at;
-        }
-
-        if ($this->isAllowedField(BasePivot::ATTRIBUTE_UPDATED_AT)) {
-            $result[BasePivot::ATTRIBUTE_UPDATED_AT] = $this->updated_at;
-        }
+        $result = parent::toArray($request);
 
         $result[AnimeImage::RELATION_ANIME] = new AnimeResource($this->whenLoaded(AnimeImage::RELATION_ANIME), $this->query);
         $result[AnimeImage::RELATION_IMAGE] = new ImageResource($this->whenLoaded(AnimeImage::RELATION_IMAGE), $this->query);
 
         return $result;
+    }
+
+    /**
+     * Get the resource schema.
+     *
+     * @return Schema
+     */
+    protected function schema(): Schema
+    {
+        return new AnimeImageSchema();
     }
 }

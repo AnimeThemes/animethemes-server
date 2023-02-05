@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Api\Field;
 
 use App\Contracts\Http\Api\Field\FilterableField;
+use App\Contracts\Http\Api\Field\RenderableField;
 use App\Contracts\Http\Api\Field\SelectableField;
 use App\Contracts\Http\Api\Field\SortableField;
 use App\Enums\BaseEnum;
@@ -13,11 +14,13 @@ use App\Http\Api\Filter\Filter;
 use App\Http\Api\Query\ReadQuery;
 use App\Http\Api\Schema\Schema;
 use App\Http\Api\Sort\Sort;
+use BenSampo\Enum\Enum;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class EnumField.
  */
-abstract class EnumField extends Field implements FilterableField, SelectableField, SortableField
+abstract class EnumField extends Field implements FilterableField, RenderableField, SelectableField, SortableField
 {
     /**
      * Create a new field instance.
@@ -54,6 +57,33 @@ abstract class EnumField extends Field implements FilterableField, SelectableFie
     public function getFilter(): Filter
     {
         return new EnumFilter($this->getKey(), $this->enumClass, $this->getColumn());
+    }
+
+    /**
+     * Determine if the field should be displayed to the user.
+     *
+     * @param  ReadQuery  $query
+     * @return bool
+     */
+    public function shouldRender(ReadQuery $query): bool
+    {
+        $criteria = $query->getFieldCriteria($this->schema->type());
+
+        return $criteria === null || $criteria->isAllowedField($this->getKey());
+    }
+
+    /**
+     * Get the value to display to the user.
+     *
+     * @param  Model  $model
+     * @return string|null
+     */
+    public function render(Model $model): ?string
+    {
+        /** @var Enum|null $enum */
+        $enum = $model->getAttribute($this->getColumn());
+
+        return $enum?->description;
     }
 
     /**

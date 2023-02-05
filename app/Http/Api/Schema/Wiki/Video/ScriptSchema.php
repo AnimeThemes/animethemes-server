@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Schema\Wiki\Video;
 
-use App\Http\Api\Field\Base\IdField;
 use App\Http\Api\Field\Field;
+use App\Http\Api\Field\Wiki\Video\Script\ScriptIdField;
 use App\Http\Api\Field\Wiki\Video\Script\ScriptLinkField;
 use App\Http\Api\Field\Wiki\Video\Script\ScriptPathField;
 use App\Http\Api\Field\Wiki\Video\Script\ScriptVideoIdField;
@@ -62,7 +62,7 @@ class ScriptSchema extends EloquentSchema
         return array_merge(
             parent::fields(),
             [
-                new IdField($this, VideoScript::ATTRIBUTE_ID),
+                new ScriptIdField($this),
                 new ScriptPathField($this),
                 new ScriptLinkField($this),
                 new ScriptVideoIdField($this),

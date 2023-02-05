@@ -6,6 +6,8 @@ namespace App\Http\Resources\Config\Resource;
 
 use App\Constants\Config\WikiConstants;
 use App\Http\Api\Query\ReadQuery;
+use App\Http\Api\Schema\Config\WikiSchema;
+use App\Http\Api\Schema\Schema;
 use App\Http\Resources\BaseResource;
 use App\Http\Resources\Pivot\Wiki\Resource\AnimeThemeEntryVideoResource;
 use App\Pivots\Wiki\AnimeThemeEntryVideo;
@@ -66,5 +68,15 @@ class WikiResource extends BaseResource
         }
 
         return $result;
+    }
+
+    /**
+     * Get the resource schema.
+     *
+     * @return Schema
+     */
+    protected function schema(): Schema
+    {
+        return new WikiSchema();
     }
 }

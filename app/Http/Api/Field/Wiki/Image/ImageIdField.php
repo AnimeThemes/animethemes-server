@@ -2,27 +2,26 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Api\Field\Base;
+namespace App\Http\Api\Field\Wiki\Image;
 
-use App\Http\Api\Field\IntField;
+use App\Http\Api\Field\Base\IdField;
 use App\Http\Api\Query\ReadQuery;
 use App\Http\Api\Schema\Schema;
-use App\Http\Resources\BaseResource;
+use App\Models\Wiki\Image;
 
 /**
- * Class IdField.
+ * Class ImageIdField.
  */
-class IdField extends IntField
+class ImageIdField extends IdField
 {
     /**
      * Create a new field instance.
      *
      * @param  Schema  $schema
-     * @param  string  $column
      */
-    public function __construct(Schema $schema, string $column)
+    public function __construct(Schema $schema)
     {
-        parent::__construct($schema, BaseResource::ATTRIBUTE_ID, $column);
+        parent::__construct($schema, Image::ATTRIBUTE_ID);
     }
 
     /**
@@ -33,13 +32,13 @@ class IdField extends IntField
      */
     public function shouldSelect(ReadQuery $query): bool
     {
-        // We can only exclude ID fields for top-level models that are not including related resources.
         $includeCriteria = $query->getIncludeCriteria($this->schema->type());
+        $linkField = new ImageLinkField($this->schema);
         if (
             $this->schema->type() === $query->schema()->type()
             && ($includeCriteria === null || $includeCriteria->getPaths()->isEmpty())
         ) {
-            return parent::shouldSelect($query);
+            return parent::shouldSelect($query) || $linkField->shouldRender($query);
         }
 
         return true;

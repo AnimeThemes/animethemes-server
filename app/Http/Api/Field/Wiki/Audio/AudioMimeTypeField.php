@@ -6,6 +6,7 @@ namespace App\Http\Api\Field\Wiki\Audio;
 
 use App\Contracts\Http\Api\Field\CreatableField;
 use App\Http\Api\Field\StringField;
+use App\Http\Api\Query\ReadQuery;
 use App\Http\Api\Schema\Schema;
 use App\Models\Wiki\Audio;
 use Illuminate\Http\Request;
@@ -38,5 +39,31 @@ class AudioMimeTypeField extends StringField implements CreatableField
             'string',
             'max:192',
         ];
+    }
+
+    /**
+     * Determine if the field should be displayed to the user.
+     *
+     * @param  ReadQuery  $query
+     * @return bool
+     */
+    public function shouldRender(ReadQuery $query): bool
+    {
+        $criteria = $query->getFieldCriteria($this->schema->type());
+
+        return $criteria !== null && $criteria->isAllowedField($this->getKey());
+    }
+
+    /**
+     * Determine if the field should be included in the select clause of our query.
+     *
+     * @param  ReadQuery  $query
+     * @return bool
+     */
+    public function shouldSelect(ReadQuery $query): bool
+    {
+        $criteria = $query->getFieldCriteria($this->schema->type());
+
+        return $criteria !== null && $criteria->isAllowedField($this->getKey());
     }
 }
