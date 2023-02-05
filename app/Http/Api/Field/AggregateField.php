@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Api\Field;
 
 use App\Contracts\Http\Api\Field\FilterableField;
+use App\Contracts\Http\Api\Field\RenderableField;
 use App\Contracts\Http\Api\Field\SortableField;
 use App\Enums\Http\Api\QualifyColumn;
 use App\Http\Api\Query\ReadQuery;
@@ -17,7 +18,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * Class AggregateField.
  */
-abstract class AggregateField extends Field implements FilterableField, SortableField
+abstract class AggregateField extends Field implements FilterableField, RenderableField, SortableField
 {
     /**
      * Create a new field instance.
@@ -28,6 +29,30 @@ abstract class AggregateField extends Field implements FilterableField, Sortable
     public function __construct(Schema $schema, string $key)
     {
         parent::__construct($schema, $key);
+    }
+
+    /**
+     * Determine if the field should be displayed to the user.
+     *
+     * @param  ReadQuery  $query
+     * @return bool
+     */
+    public function shouldRender(ReadQuery $query): bool
+    {
+        $criteria = $query->getFieldCriteria($this->schema->type());
+
+        return $criteria !== null && $criteria->isAllowedField($this->getKey());
+    }
+
+    /**
+     * Get the value to display to the user.
+     *
+     * @param  Model  $model
+     * @return mixed
+     */
+    public function render(Model $model): mixed
+    {
+        return $model->getAttribute(static::format($this->getColumn()));
     }
 
     /**

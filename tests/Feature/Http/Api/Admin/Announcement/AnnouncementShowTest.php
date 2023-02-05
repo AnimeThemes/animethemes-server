@@ -93,7 +93,7 @@ class AnnouncementShowTest extends TestCase
 
         $announcement = Announcement::factory()->create();
 
-        $response = $this->get(route('api.announcement.show', ['announcement' => $announcement]));
+        $response = $this->get(route('api.announcement.show', ['announcement' => $announcement] + $parameters));
 
         $response->assertJson(
             json_decode(

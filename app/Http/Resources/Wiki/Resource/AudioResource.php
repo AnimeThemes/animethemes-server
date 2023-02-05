@@ -4,19 +4,17 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Wiki\Resource;
 
-use App\Http\Api\Field\CountField;
 use App\Http\Api\Query\ReadQuery;
+use App\Http\Api\Schema\Schema;
+use App\Http\Api\Schema\Wiki\AudioSchema;
 use App\Http\Resources\BaseResource;
 use App\Http\Resources\Wiki\Collection\VideoCollection;
-use App\Models\BaseModel;
 use App\Models\Wiki\Audio;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\MissingValue;
 
 /**
  * Class AudioResource.
- *
- * @mixin Audio
  */
 class AudioResource extends BaseResource
 {
@@ -46,59 +44,23 @@ class AudioResource extends BaseResource
      *
      * @param  Request  $request
      * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public function toArray($request): array
     {
-        $result = [];
-
-        if ($this->isAllowedField(BaseResource::ATTRIBUTE_ID)) {
-            $result[BaseResource::ATTRIBUTE_ID] = $this->getKey();
-        }
-
-        if ($this->isAllowedField(Audio::ATTRIBUTE_BASENAME)) {
-            $result[Audio::ATTRIBUTE_BASENAME] = $this->basename;
-        }
-
-        if ($this->isAllowedField(Audio::ATTRIBUTE_FILENAME)) {
-            $result[Audio::ATTRIBUTE_FILENAME] = $this->filename;
-        }
-
-        if ($this->isAllowedField(Audio::ATTRIBUTE_PATH)) {
-            $result[Audio::ATTRIBUTE_PATH] = $this->path;
-        }
-
-        if ($this->isAllowedField(Audio::ATTRIBUTE_SIZE)) {
-            $result[Audio::ATTRIBUTE_SIZE] = $this->size;
-        }
-
-        if ($this->isAllowedField(Audio::ATTRIBUTE_MIMETYPE)) {
-            $result[Audio::ATTRIBUTE_MIMETYPE] = $this->mimetype;
-        }
-
-        if ($this->isAllowedField(BaseModel::ATTRIBUTE_CREATED_AT)) {
-            $result[BaseModel::ATTRIBUTE_CREATED_AT] = $this->created_at;
-        }
-
-        if ($this->isAllowedField(BaseModel::ATTRIBUTE_UPDATED_AT)) {
-            $result[BaseModel::ATTRIBUTE_UPDATED_AT] = $this->updated_at;
-        }
-
-        if ($this->isAllowedField(BaseModel::ATTRIBUTE_DELETED_AT)) {
-            $result[BaseModel::ATTRIBUTE_DELETED_AT] = $this->deleted_at;
-        }
-
-        if ($this->isAllowedField(AudioResource::ATTRIBUTE_LINK)) {
-            $result[AudioResource::ATTRIBUTE_LINK] = route('audio.show', $this);
-        }
-
-        if ($this->isAllowedField(Audio::RELATION_VIEWS, false)) {
-            $result[Audio::RELATION_VIEWS] = $this->getAttribute(CountField::format(Audio::RELATION_VIEWS));
-        }
+        $result = parent::toArray($request);
 
         $result[Audio::RELATION_VIDEOS] = new VideoCollection($this->whenLoaded(Audio::RELATION_VIDEOS), $this->query);
 
         return $result;
+    }
+
+    /**
+     * Get the resource schema.
+     *
+     * @return Schema
+     */
+    protected function schema(): Schema
+    {
+        return new AudioSchema();
     }
 }

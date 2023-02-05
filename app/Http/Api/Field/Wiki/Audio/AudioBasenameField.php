@@ -8,7 +8,6 @@ use App\Contracts\Http\Api\Field\CreatableField;
 use App\Http\Api\Field\StringField;
 use App\Http\Api\Query\ReadQuery;
 use App\Http\Api\Schema\Schema;
-use App\Http\Resources\Wiki\Resource\AudioResource;
 use App\Models\Wiki\Audio;
 use Illuminate\Http\Request;
 
@@ -50,9 +49,9 @@ class AudioBasenameField extends StringField implements CreatableField
      */
     public function shouldSelect(ReadQuery $query): bool
     {
-        $criteria = $query->getFieldCriteria($this->schema->type());
+        $linkField = new AudioLinkField($this->schema);
 
         // The link field is dependent on this field to build the route.
-        return parent::shouldSelect($query) || $criteria->isAllowedField(AudioResource::ATTRIBUTE_LINK);
+        return parent::shouldSelect($query) || $linkField->shouldRender($query);
     }
 }

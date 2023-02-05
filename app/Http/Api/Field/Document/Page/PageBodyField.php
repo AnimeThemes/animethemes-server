@@ -5,18 +5,20 @@ declare(strict_types=1);
 namespace App\Http\Api\Field\Document\Page;
 
 use App\Contracts\Http\Api\Field\CreatableField;
+use App\Contracts\Http\Api\Field\RenderableField;
 use App\Contracts\Http\Api\Field\SelectableField;
 use App\Contracts\Http\Api\Field\UpdatableField;
 use App\Http\Api\Field\Field;
 use App\Http\Api\Query\ReadQuery;
 use App\Http\Api\Schema\Schema;
 use App\Models\Document\Page;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
 /**
  * Class PageBodyField.
  */
-class PageBodyField extends Field implements CreatableField, SelectableField, UpdatableField
+class PageBodyField extends Field implements CreatableField, RenderableField, SelectableField, UpdatableField
 {
     /**
      * Create a new field instance.
@@ -44,6 +46,30 @@ class PageBodyField extends Field implements CreatableField, SelectableField, Up
     }
 
     /**
+     * Determine if the field should be displayed to the user.
+     *
+     * @param  ReadQuery  $query
+     * @return bool
+     */
+    public function shouldRender(ReadQuery $query): bool
+    {
+        $criteria = $query->getFieldCriteria($this->schema->type());
+
+        return $criteria !== null && $criteria->isAllowedField($this->getKey());
+    }
+
+    /**
+     * Get the value to display to the user.
+     *
+     * @param  Model  $model
+     * @return mixed
+     */
+    public function render(Model $model): mixed
+    {
+        return $model->getAttribute($this->getColumn());
+    }
+
+    /**
      * Determine if the field should be included in the select clause of our query.
      *
      * @param  ReadQuery  $query
@@ -53,8 +79,7 @@ class PageBodyField extends Field implements CreatableField, SelectableField, Up
     {
         $criteria = $query->getFieldCriteria($this->schema->type());
 
-        // TODO: Only return this attribute if specified due to potential size.
-        return $criteria === null || $criteria->isAllowedField($this->getKey());
+        return $criteria !== null && $criteria->isAllowedField($this->getKey());
     }
 
     /**

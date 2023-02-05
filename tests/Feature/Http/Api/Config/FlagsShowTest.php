@@ -71,7 +71,7 @@ class FlagsShowTest extends TestCase
             ],
         ];
 
-        $response = $this->get(route('api.config.flags.show'));
+        $response = $this->get(route('api.config.flags.show', $parameters));
 
         $response->assertJson(
             json_decode(

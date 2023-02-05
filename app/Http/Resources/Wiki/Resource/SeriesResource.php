@@ -5,17 +5,16 @@ declare(strict_types=1);
 namespace App\Http\Resources\Wiki\Resource;
 
 use App\Http\Api\Query\ReadQuery;
+use App\Http\Api\Schema\Schema;
+use App\Http\Api\Schema\Wiki\SeriesSchema;
 use App\Http\Resources\BaseResource;
 use App\Http\Resources\Wiki\Collection\AnimeCollection;
-use App\Models\BaseModel;
 use App\Models\Wiki\Series;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\MissingValue;
 
 /**
  * Class SeriesResource.
- *
- * @mixin Series
  */
 class SeriesResource extends BaseResource
 {
@@ -43,39 +42,23 @@ class SeriesResource extends BaseResource
      *
      * @param  Request  $request
      * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public function toArray($request): array
     {
-        $result = [];
-
-        if ($this->isAllowedField(BaseResource::ATTRIBUTE_ID)) {
-            $result[BaseResource::ATTRIBUTE_ID] = $this->getKey();
-        }
-
-        if ($this->isAllowedField(Series::ATTRIBUTE_NAME)) {
-            $result[Series::ATTRIBUTE_NAME] = $this->name;
-        }
-
-        if ($this->isAllowedField(Series::ATTRIBUTE_SLUG)) {
-            $result[Series::ATTRIBUTE_SLUG] = $this->slug;
-        }
-
-        if ($this->isAllowedField(BaseModel::ATTRIBUTE_CREATED_AT)) {
-            $result[BaseModel::ATTRIBUTE_CREATED_AT] = $this->created_at;
-        }
-
-        if ($this->isAllowedField(BaseModel::ATTRIBUTE_UPDATED_AT)) {
-            $result[BaseModel::ATTRIBUTE_UPDATED_AT] = $this->updated_at;
-        }
-
-        if ($this->isAllowedField(BaseModel::ATTRIBUTE_DELETED_AT)) {
-            $result[BaseModel::ATTRIBUTE_DELETED_AT] = $this->deleted_at;
-        }
+        $result = parent::toArray($request);
 
         $result[Series::RELATION_ANIME] = new AnimeCollection($this->whenLoaded(Series::RELATION_ANIME), $this->query);
 
         return $result;
+    }
+
+    /**
+     * Get the resource schema.
+     *
+     * @return Schema
+     */
+    protected function schema(): Schema
+    {
+        return new SeriesSchema();
     }
 }

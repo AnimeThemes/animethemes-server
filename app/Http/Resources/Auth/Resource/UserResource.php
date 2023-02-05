@@ -5,16 +5,14 @@ declare(strict_types=1);
 namespace App\Http\Resources\Auth\Resource;
 
 use App\Http\Api\Query\ReadQuery;
+use App\Http\Api\Schema\Auth\UserSchema;
+use App\Http\Api\Schema\Schema;
 use App\Http\Resources\BaseResource;
 use App\Models\Auth\User;
-use App\Models\BaseModel;
-use Illuminate\Http\Request;
 use Illuminate\Http\Resources\MissingValue;
 
 /**
  * Class UserResource.
- *
- * @mixin User
  */
 class UserResource extends BaseResource
 {
@@ -38,37 +36,12 @@ class UserResource extends BaseResource
     }
 
     /**
-     * Transform the resource into an array.
+     * Get the resource schema.
      *
-     * @param  Request  $request
-     * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
+     * @return Schema
      */
-    public function toArray($request): array
+    protected function schema(): Schema
     {
-        $result = [];
-
-        if ($this->isAllowedField(BaseResource::ATTRIBUTE_ID)) {
-            $result[BaseResource::ATTRIBUTE_ID] = $this->getKey();
-        }
-
-        if ($this->isAllowedField(User::ATTRIBUTE_NAME)) {
-            $result[User::ATTRIBUTE_NAME] = $this->name;
-        }
-
-        if ($this->isAllowedField(BaseModel::ATTRIBUTE_CREATED_AT)) {
-            $result[BaseModel::ATTRIBUTE_CREATED_AT] = $this->created_at;
-        }
-
-        if ($this->isAllowedField(BaseModel::ATTRIBUTE_UPDATED_AT)) {
-            $result[BaseModel::ATTRIBUTE_UPDATED_AT] = $this->updated_at;
-        }
-
-        if ($this->isAllowedField(BaseModel::ATTRIBUTE_DELETED_AT)) {
-            $result[BaseModel::ATTRIBUTE_DELETED_AT] = $this->deleted_at;
-        }
-
-        return $result;
+        return new UserSchema();
     }
 }

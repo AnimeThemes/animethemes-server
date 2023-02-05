@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace App\Http\Resources\Wiki\Resource;
 
 use App\Http\Api\Query\ReadQuery;
+use App\Http\Api\Schema\Schema;
+use App\Http\Api\Schema\Wiki\ArtistSchema;
 use App\Http\Resources\BaseResource;
 use App\Http\Resources\Wiki\Collection\ArtistCollection;
 use App\Http\Resources\Wiki\Collection\ExternalResourceCollection;
 use App\Http\Resources\Wiki\Collection\ImageCollection;
 use App\Http\Resources\Wiki\Collection\SongCollection;
-use App\Models\BaseModel;
 use App\Models\Wiki\Artist;
 use App\Pivots\Wiki\ArtistMember;
 use App\Pivots\Wiki\ArtistResource as ArtistResourcePivot;
@@ -49,24 +50,10 @@ class ArtistResource extends BaseResource
      *
      * @param  Request  $request
      * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public function toArray($request): array
     {
-        $result = [];
-
-        if ($this->isAllowedField(BaseResource::ATTRIBUTE_ID)) {
-            $result[BaseResource::ATTRIBUTE_ID] = $this->getKey();
-        }
-
-        if ($this->isAllowedField(Artist::ATTRIBUTE_NAME)) {
-            $result[Artist::ATTRIBUTE_NAME] = $this->name;
-        }
-
-        if ($this->isAllowedField(Artist::ATTRIBUTE_SLUG)) {
-            $result[Artist::ATTRIBUTE_SLUG] = $this->slug;
-        }
+        $result = parent::toArray($request);
 
         if ($this->isAllowedField(ArtistSong::ATTRIBUTE_AS)) {
             $result[ArtistSong::ATTRIBUTE_AS] = $this->whenPivotLoaded(
@@ -83,18 +70,6 @@ class ArtistResource extends BaseResource
             );
         }
 
-        if ($this->isAllowedField(BaseModel::ATTRIBUTE_CREATED_AT)) {
-            $result[BaseModel::ATTRIBUTE_CREATED_AT] = $this->created_at;
-        }
-
-        if ($this->isAllowedField(BaseModel::ATTRIBUTE_UPDATED_AT)) {
-            $result[BaseModel::ATTRIBUTE_UPDATED_AT] = $this->updated_at;
-        }
-
-        if ($this->isAllowedField(BaseModel::ATTRIBUTE_DELETED_AT)) {
-            $result[BaseModel::ATTRIBUTE_DELETED_AT] = $this->deleted_at;
-        }
-
         $result[Artist::RELATION_SONGS] = new SongCollection($this->whenLoaded(Artist::RELATION_SONGS), $this->query);
         $result[Artist::RELATION_MEMBERS] = new ArtistCollection($this->whenLoaded(Artist::RELATION_MEMBERS), $this->query);
         $result[Artist::RELATION_GROUPS] = new ArtistCollection($this->whenLoaded(Artist::RELATION_GROUPS), $this->query);
@@ -102,5 +77,15 @@ class ArtistResource extends BaseResource
         $result[Artist::RELATION_IMAGES] = new ImageCollection($this->whenLoaded(Artist::RELATION_IMAGES), $this->query);
 
         return $result;
+    }
+
+    /**
+     * Get the resource schema.
+     *
+     * @return Schema
+     */
+    protected function schema(): Schema
+    {
+        return new ArtistSchema();
     }
 }

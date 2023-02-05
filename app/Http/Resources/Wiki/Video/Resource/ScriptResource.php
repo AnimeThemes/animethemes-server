@@ -5,17 +5,16 @@ declare(strict_types=1);
 namespace App\Http\Resources\Wiki\Video\Resource;
 
 use App\Http\Api\Query\ReadQuery;
+use App\Http\Api\Schema\Schema;
+use App\Http\Api\Schema\Wiki\Video\ScriptSchema;
 use App\Http\Resources\BaseResource;
 use App\Http\Resources\Wiki\Resource\VideoResource;
-use App\Models\BaseModel;
 use App\Models\Wiki\Video\VideoScript;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\MissingValue;
 
 /**
  * Class ScriptResource.
- *
- * @mixin VideoScript
  */
 class ScriptResource extends BaseResource
 {
@@ -45,39 +44,23 @@ class ScriptResource extends BaseResource
      *
      * @param  Request  $request
      * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public function toArray($request): array
     {
-        $result = [];
-
-        if ($this->isAllowedField(BaseResource::ATTRIBUTE_ID)) {
-            $result[BaseResource::ATTRIBUTE_ID] = $this->getKey();
-        }
-
-        if ($this->isAllowedField(VideoScript::ATTRIBUTE_PATH)) {
-            $result[VideoScript::ATTRIBUTE_PATH] = $this->path;
-        }
-
-        if ($this->isAllowedField(BaseModel::ATTRIBUTE_CREATED_AT)) {
-            $result[BaseModel::ATTRIBUTE_CREATED_AT] = $this->created_at;
-        }
-
-        if ($this->isAllowedField(BaseModel::ATTRIBUTE_UPDATED_AT)) {
-            $result[BaseModel::ATTRIBUTE_UPDATED_AT] = $this->updated_at;
-        }
-
-        if ($this->isAllowedField(BaseModel::ATTRIBUTE_DELETED_AT)) {
-            $result[BaseModel::ATTRIBUTE_DELETED_AT] = $this->deleted_at;
-        }
-
-        if ($this->isAllowedField(ScriptResource::ATTRIBUTE_LINK)) {
-            $result[ScriptResource::ATTRIBUTE_LINK] = route('videoscript.show', $this);
-        }
+        $result = parent::toArray($request);
 
         $result[VideoScript::RELATION_VIDEO] = new VideoResource($this->whenLoaded(VideoScript::RELATION_VIDEO), $this->query);
 
         return $result;
+    }
+
+    /**
+     * Get the resource schema.
+     *
+     * @return Schema
+     */
+    protected function schema(): Schema
+    {
+        return new ScriptSchema();
     }
 }

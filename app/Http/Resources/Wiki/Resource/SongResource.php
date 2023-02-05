@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace App\Http\Resources\Wiki\Resource;
 
 use App\Http\Api\Query\ReadQuery;
+use App\Http\Api\Schema\Schema;
+use App\Http\Api\Schema\Wiki\SongSchema;
 use App\Http\Resources\BaseResource;
 use App\Http\Resources\Wiki\Anime\Collection\ThemeCollection;
 use App\Http\Resources\Wiki\Collection\ArtistCollection;
-use App\Models\BaseModel;
 use App\Models\Wiki\Song;
 use App\Pivots\Wiki\ArtistSong;
 use Illuminate\Http\Request;
@@ -45,40 +46,28 @@ class SongResource extends BaseResource
      *
      * @param  Request  $request
      * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public function toArray($request): array
     {
-        $result = [];
-
-        if ($this->isAllowedField(BaseResource::ATTRIBUTE_ID)) {
-            $result[BaseResource::ATTRIBUTE_ID] = $this->getKey();
-        }
-
-        if ($this->isAllowedField(Song::ATTRIBUTE_TITLE)) {
-            $result[Song::ATTRIBUTE_TITLE] = $this->title;
-        }
+        $result = parent::toArray($request);
 
         if ($this->isAllowedField(ArtistSong::ATTRIBUTE_AS)) {
             $result[ArtistSong::ATTRIBUTE_AS] = $this->whenPivotLoaded(ArtistSong::TABLE, fn () => $this->pivot->getAttribute(ArtistSong::ATTRIBUTE_AS));
-        }
-
-        if ($this->isAllowedField(BaseModel::ATTRIBUTE_CREATED_AT)) {
-            $result[BaseModel::ATTRIBUTE_CREATED_AT] = $this->created_at;
-        }
-
-        if ($this->isAllowedField(BaseModel::ATTRIBUTE_UPDATED_AT)) {
-            $result[BaseModel::ATTRIBUTE_UPDATED_AT] = $this->updated_at;
-        }
-
-        if ($this->isAllowedField(BaseModel::ATTRIBUTE_DELETED_AT)) {
-            $result[BaseModel::ATTRIBUTE_DELETED_AT] = $this->deleted_at;
         }
 
         $result[Song::RELATION_ANIMETHEMES] = new ThemeCollection($this->whenLoaded(Song::RELATION_ANIMETHEMES), $this->query);
         $result[Song::RELATION_ARTISTS] = new ArtistCollection($this->whenLoaded(Song::RELATION_ARTISTS), $this->query);
 
         return $result;
+    }
+
+    /**
+     * Get the resource schema.
+     *
+     * @return Schema
+     */
+    protected function schema(): Schema
+    {
+        return new SongSchema();
     }
 }

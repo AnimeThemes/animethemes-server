@@ -42,7 +42,6 @@ abstract class EloquentReadQuery extends ReadQuery
         $model->load($this->constrainEagerLoads());
 
         // Load aggregate relation values
-        $fieldCriteria = $this->getFieldCriteria($schema->type());
         collect($schema->fields())
             ->filter(fn (Field $field) => $field instanceof AggregateField && $field->shouldAggregate($this))
             ->each(fn (AggregateField $selectedAggregate) => $selectedAggregate->load($model));
@@ -66,7 +65,6 @@ abstract class EloquentReadQuery extends ReadQuery
         $builder->with($this->constrainEagerLoads());
 
         // select fields
-        $fieldCriteria = $this->getFieldCriteria($schema->type());
         $selectedFields = collect($schema->fields())
             ->filter(fn (Field $field) => $field instanceof SelectableField && $field->shouldSelect($this))
             ->map(fn (Field $field) => $field->getColumn());
@@ -143,7 +141,6 @@ abstract class EloquentReadQuery extends ReadQuery
                 $relationBuilder = $relation->getQuery();
 
                 // select fields
-                $fieldCriteria = $this->getFieldCriteria($relationSchema->type());
                 $selectedFields = collect($relationSchema->fields())
                     ->filter(fn (Field $field) => $field instanceof SelectableField && $field->shouldSelect($this))
                     ->map(fn (Field $field) => $field->getColumn());

@@ -4,7 +4,11 @@ declare(strict_types=1);
 
 namespace App\Http\Resources;
 
+use App\Contracts\Http\Api\Field\RenderableField;
 use App\Http\Api\Query\ReadQuery;
+use App\Http\Api\Schema\Schema;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
@@ -27,6 +31,29 @@ abstract class BaseResource extends JsonResource
     }
 
     /**
+     * Transform the resource into an array.
+     *
+     * @param  Request  $request
+     * @return array
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public function toArray($request): array
+    {
+        $result = [];
+
+        if ($this->resource instanceof Model) {
+            foreach ($this->schema()->fields() as $field) {
+                if ($field instanceof RenderableField && $field->shouldRender($this->query)) {
+                    $result[$field->getKey()] = $field->render($this->resource);
+                }
+            }
+        }
+
+        return $result;
+    }
+
+    /**
      * Determine if field should be included in the response for this resource.
      *
      * @param  string  $field
@@ -41,4 +68,11 @@ abstract class BaseResource extends JsonResource
             ? $default
             : $criteria->isAllowedField($field);
     }
+
+    /**
+     * Get the resource schema.
+     *
+     * @return Schema
+     */
+    abstract protected function schema(): Schema;
 }

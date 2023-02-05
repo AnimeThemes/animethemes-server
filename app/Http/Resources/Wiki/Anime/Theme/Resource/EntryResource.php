@@ -5,18 +5,17 @@ declare(strict_types=1);
 namespace App\Http\Resources\Wiki\Anime\Theme\Resource;
 
 use App\Http\Api\Query\ReadQuery;
+use App\Http\Api\Schema\Schema;
+use App\Http\Api\Schema\Wiki\Anime\Theme\EntrySchema;
 use App\Http\Resources\BaseResource;
 use App\Http\Resources\Wiki\Anime\Resource\ThemeResource;
 use App\Http\Resources\Wiki\Collection\VideoCollection;
-use App\Models\BaseModel;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\MissingValue;
 
 /**
  * Class EntryResource.
- *
- * @mixin AnimeThemeEntry
  */
 class EntryResource extends BaseResource
 {
@@ -44,52 +43,24 @@ class EntryResource extends BaseResource
      *
      * @param  Request  $request
      * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public function toArray($request): array
     {
-        $result = [];
-
-        if ($this->isAllowedField(BaseResource::ATTRIBUTE_ID)) {
-            $result[BaseResource::ATTRIBUTE_ID] = $this->getKey();
-        }
-
-        if ($this->isAllowedField(AnimeThemeEntry::ATTRIBUTE_VERSION)) {
-            $result[AnimeThemeEntry::ATTRIBUTE_VERSION] = $this->version;
-        }
-
-        if ($this->isAllowedField(AnimeThemeEntry::ATTRIBUTE_EPISODES)) {
-            $result[AnimeThemeEntry::ATTRIBUTE_EPISODES] = $this->episodes;
-        }
-
-        if ($this->isAllowedField(AnimeThemeEntry::ATTRIBUTE_NSFW)) {
-            $result[AnimeThemeEntry::ATTRIBUTE_NSFW] = $this->nsfw;
-        }
-
-        if ($this->isAllowedField(AnimeThemeEntry::ATTRIBUTE_SPOILER)) {
-            $result[AnimeThemeEntry::ATTRIBUTE_SPOILER] = $this->spoiler;
-        }
-
-        if ($this->isAllowedField(AnimeThemeEntry::ATTRIBUTE_NOTES)) {
-            $result[AnimeThemeEntry::ATTRIBUTE_NOTES] = $this->notes;
-        }
-
-        if ($this->isAllowedField(BaseModel::ATTRIBUTE_CREATED_AT)) {
-            $result[BaseModel::ATTRIBUTE_CREATED_AT] = $this->created_at;
-        }
-
-        if ($this->isAllowedField(BaseModel::ATTRIBUTE_UPDATED_AT)) {
-            $result[BaseModel::ATTRIBUTE_UPDATED_AT] = $this->updated_at;
-        }
-
-        if ($this->isAllowedField(BaseModel::ATTRIBUTE_DELETED_AT)) {
-            $result[BaseModel::ATTRIBUTE_DELETED_AT] = $this->deleted_at;
-        }
+        $result = parent::toArray($request);
 
         $result[AnimeThemeEntry::RELATION_THEME] = new ThemeResource($this->whenLoaded(AnimeThemeEntry::RELATION_THEME), $this->query);
         $result[AnimeThemeEntry::RELATION_VIDEOS] = new VideoCollection($this->whenLoaded(AnimeThemeEntry::RELATION_VIDEOS), $this->query);
 
         return $result;
+    }
+
+    /**
+     * Get the resource schema.
+     *
+     * @return Schema
+     */
+    protected function schema(): Schema
+    {
+        return new EntrySchema();
     }
 }

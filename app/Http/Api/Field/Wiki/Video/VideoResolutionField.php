@@ -52,10 +52,10 @@ class VideoResolutionField extends IntField implements CreatableField, Updatable
      */
     public function shouldSelect(ReadQuery $query): bool
     {
-        $criteria = $query->getFieldCriteria($this->schema->type());
+        $tagsField = new VideoTagsField($this->schema);
 
         // The tags attribute is dependent on this field.
-        return parent::shouldSelect($query) || $criteria->isAllowedField(Video::ATTRIBUTE_TAGS);
+        return parent::shouldSelect($query) || $tagsField->shouldRender($query);
     }
 
     /**

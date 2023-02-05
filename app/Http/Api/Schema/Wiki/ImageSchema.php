@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Schema\Wiki;
 
-use App\Http\Api\Field\Base\IdField;
 use App\Http\Api\Field\Field;
 use App\Http\Api\Field\Wiki\Image\ImageFacetField;
 use App\Http\Api\Field\Wiki\Image\ImageFileField;
+use App\Http\Api\Field\Wiki\Image\ImageIdField;
 use App\Http\Api\Field\Wiki\Image\ImageLinkField;
 use App\Http\Api\Field\Wiki\Image\ImagePathField;
 use App\Http\Api\Include\AllowedInclude;
@@ -64,7 +64,7 @@ class ImageSchema extends EloquentSchema
         return array_merge(
             parent::fields(),
             [
-                new IdField($this, Image::ATTRIBUTE_ID),
+                new ImageIdField($this),
                 new ImageFacetField($this),
                 new ImagePathField($this),
                 new ImageLinkField($this),
