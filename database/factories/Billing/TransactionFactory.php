@@ -33,7 +33,7 @@ class TransactionFactory extends Factory
     public function definition(): array
     {
         return [
-            Transaction::ATTRIBUTE_AMOUNT => fake()->randomFloat(2),
+            Transaction::ATTRIBUTE_AMOUNT => fake()->randomFloat(nbMaxDecimals: 2, max: 999999.99),
             Transaction::ATTRIBUTE_DATE => fake()->date(),
             Transaction::ATTRIBUTE_DESCRIPTION => fake()->sentence(),
             Transaction::ATTRIBUTE_EXTERNAL_ID => fake()->uuid(),

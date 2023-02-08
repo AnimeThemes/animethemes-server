@@ -118,7 +118,7 @@ class BackfillAnimeStudiosTest extends TestCase
 
         $studios = Collection::times(
             $studioCount,
-            fn (int $time) => ['id' => $time, 'name' => $this->faker->word()]
+            fn (int $time) => ['id' => $time, 'name' => $this->faker->unique()->word()]
         );
 
         Http::fake([
@@ -190,7 +190,7 @@ class BackfillAnimeStudiosTest extends TestCase
 
         $studios = Collection::times(
             $studioCount,
-            fn (int $time) => ['id' => $time, 'name' => $this->faker->word()]
+            fn (int $time) => ['id' => $time, 'name' => $this->faker->unique()->word()]
         );
 
         Http::fake([
@@ -271,7 +271,7 @@ class BackfillAnimeStudiosTest extends TestCase
             fn () => [
                 'role' => 'STUDIO',
                 'company' => [
-                    'name' => $this->faker->word(),
+                    'name' => $this->faker->unique()->word(),
                 ],
             ],
         );
@@ -319,7 +319,7 @@ class BackfillAnimeStudiosTest extends TestCase
 
         $studios = Collection::times(
             $studioCount,
-            fn (int $time) => ['id' => $time, 'name' => $this->faker->word()]
+            fn (int $time) => ['id' => $time, 'name' => $this->faker->unique()->word()]
         );
 
         Http::fake([
@@ -372,7 +372,7 @@ class BackfillAnimeStudiosTest extends TestCase
 
         $studios = Collection::times(
             $studioCount,
-            fn (int $time) => ['id' => $time, 'name' => $this->faker->word()]
+            fn (int $time) => ['id' => $time, 'name' => $this->faker->unique()->word()]
         );
 
         Http::fake([
