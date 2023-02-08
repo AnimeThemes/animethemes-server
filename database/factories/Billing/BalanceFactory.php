@@ -34,11 +34,11 @@ class BalanceFactory extends Factory
     public function definition(): array
     {
         return [
-            Balance::ATTRIBUTE_BALANCE => fake()->randomFloat(2),
+            Balance::ATTRIBUTE_BALANCE => fake()->randomFloat(nbMaxDecimals: 2, max: 999999.99),
             Balance::ATTRIBUTE_FREQUENCY => BalanceFrequency::getRandomValue(),
             Balance::ATTRIBUTE_DATE => fake()->date(),
             Balance::ATTRIBUTE_SERVICE => Service::getRandomValue(),
-            Balance::ATTRIBUTE_USAGE => fake()->randomFloat(2),
+            Balance::ATTRIBUTE_USAGE => fake()->randomFloat(nbMaxDecimals: 2, max: 999999.99),
         ];
     }
 }
