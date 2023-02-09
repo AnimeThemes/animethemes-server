@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 use App\Http\Controllers\Api\Admin\AnnouncementController;
 use App\Http\Controllers\Api\Admin\DumpController;
-use App\Http\Controllers\Api\Auth\User\Me\MyController;
 use App\Http\Controllers\Api\Auth\User\Me\List\MyPlaylistController;
+use App\Http\Controllers\Api\Auth\User\Me\MyController;
 use App\Http\Controllers\Api\Billing\Balance\BalanceController;
 use App\Http\Controllers\Api\Billing\Transaction\TransactionController;
 use App\Http\Controllers\Api\Billing\TransparencyController;
