@@ -43,10 +43,12 @@ class VideoTagsField extends Field implements RenderableField
      * Get the value to display to the user.
      *
      * @param  Model  $model
-     * @return mixed
+     * @return string
      */
-    public function render(Model $model): mixed
+    public function render(Model $model): string
     {
-        return $model->getAttribute($this->getColumn());
+        $tags = $model->getAttribute($this->getColumn());
+
+        return implode('', $tags);
     }
 }
