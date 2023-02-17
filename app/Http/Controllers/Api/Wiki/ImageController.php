@@ -4,16 +4,24 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\Wiki;
 
+use App\Actions\Http\Api\DestroyAction;
+use App\Actions\Http\Api\ForceDeleteAction;
+use App\Actions\Http\Api\IndexAction;
+use App\Actions\Http\Api\RestoreAction;
+use App\Actions\Http\Api\ShowAction;
+use App\Actions\Http\Api\UpdateAction;
+use App\Actions\Http\Api\Wiki\Image\StoreImageAction;
+use App\Http\Api\Query\Query;
 use App\Http\Controllers\Api\BaseController;
-use App\Http\Requests\Api\Wiki\Image\ImageDestroyRequest;
-use App\Http\Requests\Api\Wiki\Image\ImageForceDeleteRequest;
-use App\Http\Requests\Api\Wiki\Image\ImageIndexRequest;
-use App\Http\Requests\Api\Wiki\Image\ImageRestoreRequest;
-use App\Http\Requests\Api\Wiki\Image\ImageShowRequest;
-use App\Http\Requests\Api\Wiki\Image\ImageStoreRequest;
-use App\Http\Requests\Api\Wiki\Image\ImageUpdateRequest;
+use App\Http\Requests\Api\IndexRequest;
+use App\Http\Requests\Api\ShowRequest;
+use App\Http\Requests\Api\StoreRequest;
+use App\Http\Requests\Api\UpdateRequest;
+use App\Http\Resources\Wiki\Collection\ImageCollection;
+use App\Http\Resources\Wiki\Resource\ImageResource;
 use App\Models\Wiki\Image;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 /**
  * Class ImageController.
@@ -31,25 +39,33 @@ class ImageController extends BaseController
     /**
      * Display a listing of the resource.
      *
-     * @param  ImageIndexRequest  $request
+     * @param  IndexRequest  $request
+     * @param  IndexAction  $action
      * @return JsonResponse
      */
-    public function index(ImageIndexRequest $request): JsonResponse
+    public function index(IndexRequest $request, IndexAction $action): JsonResponse
     {
-        $images = $request->getQuery()->index();
+        $query = new Query($request->validated());
 
-        return $images->toResponse($request);
+        $images = $action->index(Image::query(), $query, $request->schema());
+
+        $collection = new ImageCollection($images, $query);
+
+        return $collection->toResponse($request);
     }
 
     /**
      * Store a newly created resource.
      *
-     * @param  ImageStoreRequest  $request
+     * @param  StoreRequest  $request
+     * @param  StoreImageAction  $action
      * @return JsonResponse
      */
-    public function store(ImageStoreRequest $request): JsonResponse
+    public function store(StoreRequest $request, StoreImageAction $action): JsonResponse
     {
-        $resource = $request->getQuery()->store();
+        $image = $action->store(Image::query(), $request->validated());
+
+        $resource = new ImageResource($image, new Query());
 
         return $resource->toResponse($request);
     }
@@ -57,13 +73,18 @@ class ImageController extends BaseController
     /**
      * Display the specified resource.
      *
-     * @param  ImageShowRequest  $request
+     * @param  ShowRequest  $request
      * @param  Image  $image
+     * @param  ShowAction  $action
      * @return JsonResponse
      */
-    public function show(ImageShowRequest $request, Image $image): JsonResponse
+    public function show(ShowRequest $request, Image $image, ShowAction $action): JsonResponse
     {
-        $resource = $request->getQuery()->show($image);
+        $query = new Query($request->validated());
+
+        $show = $action->show($image, $query, $request->schema());
+
+        $resource = new ImageResource($show, $query);
 
         return $resource->toResponse($request);
     }
@@ -71,13 +92,16 @@ class ImageController extends BaseController
     /**
      * Update the specified resource.
      *
-     * @param  ImageUpdateRequest  $request
+     * @param  UpdateRequest  $request
      * @param  Image  $image
+     * @param  UpdateAction  $action
      * @return JsonResponse
      */
-    public function update(ImageUpdateRequest $request, Image $image): JsonResponse
+    public function update(UpdateRequest $request, Image $image, UpdateAction $action): JsonResponse
     {
-        $resource = $request->getQuery()->update($image);
+        $updated = $action->update($image, $request->validated());
+
+        $resource = new ImageResource($updated, new Query());
 
         return $resource->toResponse($request);
     }
@@ -85,13 +109,16 @@ class ImageController extends BaseController
     /**
      * Remove the specified resource.
      *
-     * @param  ImageDestroyRequest  $request
+     * @param  Request  $request
      * @param  Image  $image
+     * @param  DestroyAction  $action
      * @return JsonResponse
      */
-    public function destroy(ImageDestroyRequest $request, Image $image): JsonResponse
+    public function destroy(Request $request, Image $image, DestroyAction $action): JsonResponse
     {
-        $resource = $request->getQuery()->destroy($image);
+        $deleted = $action->destroy($image);
+
+        $resource = new ImageResource($deleted, new Query());
 
         return $resource->toResponse($request);
     }
@@ -99,13 +126,16 @@ class ImageController extends BaseController
     /**
      * Restore the specified resource.
      *
-     * @param  ImageRestoreRequest  $request
+     * @param  Request  $request
      * @param  Image  $image
+     * @param  RestoreAction  $action
      * @return JsonResponse
      */
-    public function restore(ImageRestoreRequest $request, Image $image): JsonResponse
+    public function restore(Request $request, Image $image, RestoreAction $action): JsonResponse
     {
-        $resource = $request->getQuery()->restore($image);
+        $restored = $action->restore($image);
+
+        $resource = new ImageResource($restored, new Query());
 
         return $resource->toResponse($request);
     }
@@ -113,12 +143,16 @@ class ImageController extends BaseController
     /**
      * Hard-delete the specified resource.
      *
-     * @param  ImageForceDeleteRequest  $request
      * @param  Image  $image
+     * @param  ForceDeleteAction  $action
      * @return JsonResponse
      */
-    public function forceDelete(ImageForceDeleteRequest $request, Image $image): JsonResponse
+    public function forceDelete(Image $image, ForceDeleteAction $action): JsonResponse
     {
-        return $request->getQuery()->forceDelete($image);
+        $message = $action->forceDelete($image);
+
+        return new JsonResponse([
+            'message' => $message,
+        ]);
     }
 }

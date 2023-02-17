@@ -12,7 +12,7 @@ use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Parser\FieldParser;
 use App\Http\Api\Parser\FilterParser;
 use App\Http\Api\Parser\IncludeParser;
-use App\Http\Api\Query\Wiki\Studio\StudioReadQuery;
+use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Wiki\StudioSchema;
 use App\Http\Resources\Wiki\Resource\StudioResource;
 use App\Models\Wiki\Anime;
@@ -47,7 +47,7 @@ class StudioShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new StudioResource($studio, new StudioReadQuery()))
+                    (new StudioResource($studio, new Query()))
                         ->response()
                         ->getData()
                 ),
@@ -74,7 +74,7 @@ class StudioShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new StudioResource($studio, new StudioReadQuery()))
+                    (new StudioResource($studio, new Query()))
                         ->response()
                         ->getData()
                 ),
@@ -111,7 +111,7 @@ class StudioShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new StudioResource($studio, new StudioReadQuery($parameters)))
+                    (new StudioResource($studio, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -146,7 +146,7 @@ class StudioShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new StudioResource($studio, new StudioReadQuery($parameters)))
+                    (new StudioResource($studio, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -186,7 +186,7 @@ class StudioShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new StudioResource($studio, new StudioReadQuery($parameters)))
+                    (new StudioResource($studio, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -234,7 +234,7 @@ class StudioShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new StudioResource($studio, new StudioReadQuery($parameters)))
+                    (new StudioResource($studio, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -274,7 +274,7 @@ class StudioShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new StudioResource($studio, new StudioReadQuery($parameters)))
+                    (new StudioResource($studio, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -314,7 +314,7 @@ class StudioShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new StudioResource($studio, new StudioReadQuery($parameters)))
+                    (new StudioResource($studio, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),

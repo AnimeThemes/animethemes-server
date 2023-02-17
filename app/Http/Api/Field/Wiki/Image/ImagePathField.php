@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Api\Field\Wiki\Image;
 
 use App\Http\Api\Field\StringField;
-use App\Http\Api\Query\ReadQuery;
+use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Schema;
 use App\Http\Resources\Wiki\Resource\ImageResource;
 use App\Models\Wiki\Image;
@@ -28,14 +28,15 @@ class ImagePathField extends StringField
     /**
      * Determine if the field should be included in the select clause of our query.
      *
-     * @param  ReadQuery  $query
+     * @param  Query  $query
+     * @param  Schema  $schema
      * @return bool
      */
-    public function shouldSelect(ReadQuery $query): bool
+    public function shouldSelect(Query $query, Schema $schema): bool
     {
         $criteria = $query->getFieldCriteria($this->schema->type());
 
         // The link field is dependent on this field to build the url.
-        return parent::shouldSelect($query) || $criteria->isAllowedField(ImageResource::ATTRIBUTE_LINK);
+        return parent::shouldSelect($query, $schema) || $criteria->isAllowedField(ImageResource::ATTRIBUTE_LINK);
     }
 }

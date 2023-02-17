@@ -4,11 +4,17 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\Pivot\Wiki;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\Pivot\Wiki\AnimeImage\AnimeImageDestroyRequest;
-use App\Http\Requests\Api\Pivot\Wiki\AnimeImage\AnimeImageIndexRequest;
-use App\Http\Requests\Api\Pivot\Wiki\AnimeImage\AnimeImageShowRequest;
-use App\Http\Requests\Api\Pivot\Wiki\AnimeImage\AnimeImageStoreRequest;
+use App\Actions\Http\Api\DestroyAction;
+use App\Actions\Http\Api\IndexAction;
+use App\Actions\Http\Api\ShowAction;
+use App\Actions\Http\Api\StoreAction;
+use App\Http\Api\Query\Query;
+use App\Http\Controllers\Api\Pivot\PivotController;
+use App\Http\Requests\Api\IndexRequest;
+use App\Http\Requests\Api\ShowRequest;
+use App\Http\Requests\Api\StoreRequest;
+use App\Http\Resources\Pivot\Wiki\Collection\AnimeImageCollection;
+use App\Http\Resources\Pivot\Wiki\Resource\AnimeImageResource;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Image;
 use App\Pivots\Wiki\AnimeImage;
@@ -17,40 +23,46 @@ use Illuminate\Http\JsonResponse;
 /**
  * Class AnimeImageController.
  */
-class AnimeImageController extends Controller
+class AnimeImageController extends PivotController
 {
     /**
      * Create a new controller instance.
      */
     public function __construct()
     {
-        $this->authorizeResource(Anime::class, 'anime');
-        $this->authorizeResource(Image::class, 'image');
-        $this->middleware('auth:sanctum')->except(['index', 'show']);
+        parent::__construct(Anime::class, 'anime', Image::class, 'image');
     }
 
     /**
      * Display a listing of the resource.
      *
-     * @param  AnimeImageIndexRequest  $request
+     * @param  IndexRequest  $request
+     * @param  IndexAction  $action
      * @return JsonResponse
      */
-    public function index(AnimeImageIndexRequest $request): JsonResponse
+    public function index(IndexRequest $request, IndexAction $action): JsonResponse
     {
-        $query = $request->getQuery();
+        $query = new Query($request->validated());
 
-        return $query->index()->toResponse($request);
+        $resources = $action->index(AnimeImage::query(), $query, $request->schema());
+
+        $collection = new AnimeImageCollection($resources, $query);
+
+        return $collection->toResponse($request);
     }
 
     /**
      * Store a newly created resource.
      *
-     * @param  AnimeImageStoreRequest  $request
+     * @param  StoreRequest  $request
+     * @param  StoreAction  $action
      * @return JsonResponse
      */
-    public function store(AnimeImageStoreRequest $request): JsonResponse
+    public function store(StoreRequest $request, StoreAction $action): JsonResponse
     {
-        $resource = $request->getQuery()->store();
+        $animeImage = $action->store(AnimeImage::query(), $request->validated());
+
+        $resource = new AnimeImageResource($animeImage, new Query());
 
         return $resource->toResponse($request);
     }
@@ -58,19 +70,24 @@ class AnimeImageController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  AnimeImageShowRequest  $request
+     * @param  ShowRequest  $request
      * @param  Anime  $anime
      * @param  Image  $image
+     * @param  ShowAction  $action
      * @return JsonResponse
      */
-    public function show(AnimeImageShowRequest $request, Anime $anime, Image $image): JsonResponse
+    public function show(ShowRequest $request, Anime $anime, Image $image, ShowAction $action): JsonResponse
     {
         $animeImage = AnimeImage::query()
             ->where(AnimeImage::ATTRIBUTE_ANIME, $anime->getKey())
             ->where(AnimeImage::ATTRIBUTE_IMAGE, $image->getKey())
             ->firstOrFail();
 
-        $resource = $request->getQuery()->show($animeImage);
+        $query = new Query($request->validated());
+
+        $show = $action->show($animeImage, $query, $request->schema());
+
+        $resource = new AnimeImageResource($show, $query);
 
         return $resource->toResponse($request);
     }
@@ -78,20 +95,22 @@ class AnimeImageController extends Controller
     /**
      * Remove the specified resource.
      *
-     * @param  AnimeImageDestroyRequest  $request
      * @param  Anime  $anime
      * @param  Image  $image
+     * @param  DestroyAction  $action
      * @return JsonResponse
      */
-    public function destroy(AnimeImageDestroyRequest $request, Anime $anime, Image $image): JsonResponse
+    public function destroy(Anime $anime, Image $image, DestroyAction $action): JsonResponse
     {
         $animeImage = AnimeImage::query()
             ->where(AnimeImage::ATTRIBUTE_ANIME, $anime->getKey())
             ->where(AnimeImage::ATTRIBUTE_IMAGE, $image->getKey())
             ->firstOrFail();
 
-        $resource = $request->getQuery()->destroy($animeImage);
+        $action->destroy($animeImage);
 
-        return $resource->toResponse($request);
+        return new JsonResponse([
+            'message' => "Image '**{$image->getName()}**' has been detached from Anime '**{$anime->getName()}**'.",
+        ]);
     }
 }

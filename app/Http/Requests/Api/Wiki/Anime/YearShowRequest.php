@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Api\Wiki\Anime;
 
-use App\Http\Api\Query\ReadQuery;
-use App\Http\Api\Query\Wiki\Anime\AnimeReadQuery;
-use App\Http\Api\Schema\EloquentSchema;
-use App\Http\Api\Schema\Wiki\AnimeSchema;
+use App\Http\Api\Parser\FilterParser;
+use App\Http\Api\Parser\SortParser;
 use App\Http\Requests\Api\ShowRequest;
 
 /**
@@ -16,22 +14,22 @@ use App\Http\Requests\Api\ShowRequest;
 class YearShowRequest extends ShowRequest
 {
     /**
-     * Get the schema.
+     * Get the filter validation rules.
      *
-     * @return EloquentSchema
+     * @return array
      */
-    protected function schema(): EloquentSchema
+    protected function getFilterRules(): array
     {
-        return new AnimeSchema();
+        return $this->prohibit(FilterParser::param());
     }
 
     /**
-     * Get the validation API Query.
+     * Get the sort validation rules.
      *
-     * @return ReadQuery
+     * @return array
      */
-    public function getQuery(): ReadQuery
+    protected function getSortRules(): array
     {
-        return new AnimeReadQuery($this->validated());
+        return $this->prohibit(SortParser::param());
     }
 }

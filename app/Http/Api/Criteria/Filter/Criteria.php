@@ -7,7 +7,8 @@ namespace App\Http\Api\Criteria\Filter;
 use App\Enums\Http\Api\Filter\BinaryLogicalOperator;
 use App\Enums\Http\Api\Filter\ComparisonOperator;
 use App\Http\Api\Filter\Filter;
-use App\Http\Api\Query\ReadQuery;
+use App\Http\Api\Query\Query;
+use App\Http\Api\Schema\Schema;
 use App\Http\Api\Scope\Scope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
@@ -122,10 +123,11 @@ abstract class Criteria
      *
      * @param  Builder  $builder
      * @param  Filter  $filter
-     * @param  ReadQuery  $query
+     * @param  Query  $query
+     * @param  Schema  $schema
      * @return Builder
      */
-    abstract public function filter(Builder $builder, Filter $filter, ReadQuery $query): Builder;
+    abstract public function filter(Builder $builder, Filter $filter, Query $query, Schema $schema): Builder;
 
     /**
      * Create a new criteria instance from query string.

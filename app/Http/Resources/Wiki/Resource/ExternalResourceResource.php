@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Wiki\Resource;
 
-use App\Http\Api\Query\ReadQuery;
 use App\Http\Api\Schema\Schema;
 use App\Http\Api\Schema\Wiki\ExternalResourceSchema;
 use App\Http\Resources\BaseResource;
@@ -16,7 +15,6 @@ use App\Pivots\Wiki\AnimeResource as AnimeResourcePivot;
 use App\Pivots\Wiki\ArtistResource as ArtistResourcePivot;
 use App\Pivots\Wiki\StudioResource as StudioResourcePivot;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\MissingValue;
 
 /**
  * Class ExternalResourceResource.
@@ -31,18 +29,6 @@ class ExternalResourceResource extends BaseResource
      * @var string|null
      */
     public static $wrap = 'resource';
-
-    /**
-     * Create a new resource instance.
-     *
-     * @param  ExternalResource | MissingValue | null  $resource
-     * @param  ReadQuery  $query
-     * @return void
-     */
-    public function __construct(ExternalResource|MissingValue|null $resource, ReadQuery $query)
-    {
-        parent::__construct($resource, $query);
-    }
 
     /**
      * Transform the resource into an array.

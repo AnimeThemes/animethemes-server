@@ -11,7 +11,7 @@ use App\Contracts\Http\Api\Field\SortableField;
 use App\Enums\BaseEnum;
 use App\Http\Api\Filter\EnumFilter;
 use App\Http\Api\Filter\Filter;
-use App\Http\Api\Query\ReadQuery;
+use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Schema;
 use App\Http\Api\Sort\Sort;
 use BenSampo\Enum\Enum;
@@ -62,10 +62,10 @@ abstract class EnumField extends Field implements FilterableField, RenderableFie
     /**
      * Determine if the field should be displayed to the user.
      *
-     * @param  ReadQuery  $query
+     * @param  Query  $query
      * @return bool
      */
-    public function shouldRender(ReadQuery $query): bool
+    public function shouldRender(Query $query): bool
     {
         $criteria = $query->getFieldCriteria($this->schema->type());
 
@@ -89,10 +89,11 @@ abstract class EnumField extends Field implements FilterableField, RenderableFie
     /**
      * Determine if the field should be included in the select clause of our query.
      *
-     * @param  ReadQuery  $query
+     * @param  Query  $query
+     * @param  Schema  $schema
      * @return bool
      */
-    public function shouldSelect(ReadQuery $query): bool
+    public function shouldSelect(Query $query, Schema $schema): bool
     {
         $criteria = $query->getFieldCriteria($this->schema->type());
 

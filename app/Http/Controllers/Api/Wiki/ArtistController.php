@@ -4,17 +4,24 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\Wiki;
 
-use App\Enums\Http\Api\Paging\PaginationStrategy;
+use App\Actions\Http\Api\DestroyAction;
+use App\Actions\Http\Api\ForceDeleteAction;
+use App\Actions\Http\Api\IndexAction;
+use App\Actions\Http\Api\RestoreAction;
+use App\Actions\Http\Api\ShowAction;
+use App\Actions\Http\Api\StoreAction;
+use App\Actions\Http\Api\UpdateAction;
+use App\Http\Api\Query\Query;
 use App\Http\Controllers\Api\BaseController;
-use App\Http\Requests\Api\Wiki\Artist\ArtistDestroyRequest;
-use App\Http\Requests\Api\Wiki\Artist\ArtistForceDeleteRequest;
-use App\Http\Requests\Api\Wiki\Artist\ArtistIndexRequest;
-use App\Http\Requests\Api\Wiki\Artist\ArtistRestoreRequest;
-use App\Http\Requests\Api\Wiki\Artist\ArtistShowRequest;
-use App\Http\Requests\Api\Wiki\Artist\ArtistStoreRequest;
-use App\Http\Requests\Api\Wiki\Artist\ArtistUpdateRequest;
+use App\Http\Requests\Api\IndexRequest;
+use App\Http\Requests\Api\ShowRequest;
+use App\Http\Requests\Api\StoreRequest;
+use App\Http\Requests\Api\UpdateRequest;
+use App\Http\Resources\Wiki\Collection\ArtistCollection;
+use App\Http\Resources\Wiki\Resource\ArtistResource;
 use App\Models\Wiki\Artist;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 /**
  * Class ArtistController.
@@ -32,29 +39,35 @@ class ArtistController extends BaseController
     /**
      * Display a listing of the resource.
      *
-     * @param  ArtistIndexRequest  $request
+     * @param  IndexRequest  $request
+     * @param  IndexAction  $action
      * @return JsonResponse
      */
-    public function index(ArtistIndexRequest $request): JsonResponse
+    public function index(IndexRequest $request, IndexAction $action): JsonResponse
     {
-        $query = $request->getQuery();
+        $query = new Query($request->validated());
 
-        if ($query->hasSearchCriteria()) {
-            return $query->search(PaginationStrategy::OFFSET())->toResponse($request);
-        }
+        $artists = $query->hasSearchCriteria()
+            ? $action->search($query, $request->schema())
+            : $action->index(Artist::query(), $query, $request->schema());
 
-        return $query->index()->toResponse($request);
+        $collection = new ArtistCollection($artists, $query);
+
+        return $collection->toResponse($request);
     }
 
     /**
      * Store a newly created resource.
      *
-     * @param  ArtistStoreRequest  $request
+     * @param  StoreRequest  $request
+     * @param  StoreAction  $action
      * @return JsonResponse
      */
-    public function store(ArtistStoreRequest $request): JsonResponse
+    public function store(StoreRequest $request, StoreAction $action): JsonResponse
     {
-        $resource = $request->getQuery()->store();
+        $artist = $action->store(Artist::query(), $request->validated());
+
+        $resource = new ArtistResource($artist, new Query());
 
         return $resource->toResponse($request);
     }
@@ -62,13 +75,18 @@ class ArtistController extends BaseController
     /**
      * Display the specified resource.
      *
-     * @param  ArtistShowRequest  $request
+     * @param  ShowRequest  $request
      * @param  Artist  $artist
+     * @param  ShowAction  $action
      * @return JsonResponse
      */
-    public function show(ArtistShowRequest $request, Artist $artist): JsonResponse
+    public function show(ShowRequest $request, Artist $artist, ShowAction $action): JsonResponse
     {
-        $resource = $request->getQuery()->show($artist);
+        $query = new Query($request->validated());
+
+        $show = $action->show($artist, $query, $request->schema());
+
+        $resource = new ArtistResource($show, $query);
 
         return $resource->toResponse($request);
     }
@@ -76,13 +94,16 @@ class ArtistController extends BaseController
     /**
      * Update the specified resource.
      *
-     * @param  ArtistUpdateRequest  $request
+     * @param  UpdateRequest  $request
      * @param  Artist  $artist
+     * @param  UpdateAction  $action
      * @return JsonResponse
      */
-    public function update(ArtistUpdateRequest $request, Artist $artist): JsonResponse
+    public function update(UpdateRequest $request, Artist $artist, UpdateAction $action): JsonResponse
     {
-        $resource = $request->getQuery()->update($artist);
+        $updated = $action->update($artist, $request->validated());
+
+        $resource = new ArtistResource($updated, new Query());
 
         return $resource->toResponse($request);
     }
@@ -90,13 +111,16 @@ class ArtistController extends BaseController
     /**
      * Remove the specified resource.
      *
-     * @param  ArtistDestroyRequest  $request
+     * @param  Request  $request
      * @param  Artist  $artist
+     * @param  DestroyAction  $action
      * @return JsonResponse
      */
-    public function destroy(ArtistDestroyRequest $request, Artist $artist): JsonResponse
+    public function destroy(Request $request, Artist $artist, DestroyAction $action): JsonResponse
     {
-        $resource = $request->getQuery()->destroy($artist);
+        $deleted = $action->destroy($artist);
+
+        $resource = new ArtistResource($deleted, new Query());
 
         return $resource->toResponse($request);
     }
@@ -104,13 +128,16 @@ class ArtistController extends BaseController
     /**
      * Restore the specified resource.
      *
-     * @param  ArtistRestoreRequest  $request
+     * @param  Request  $request
      * @param  Artist  $artist
+     * @param  RestoreAction  $action
      * @return JsonResponse
      */
-    public function restore(ArtistRestoreRequest $request, Artist $artist): JsonResponse
+    public function restore(Request $request, Artist $artist, RestoreAction $action): JsonResponse
     {
-        $resource = $request->getQuery()->restore($artist);
+        $restored = $action->restore($artist);
+
+        $resource = new ArtistResource($restored, new Query());
 
         return $resource->toResponse($request);
     }
@@ -118,12 +145,16 @@ class ArtistController extends BaseController
     /**
      * Hard-delete the specified resource.
      *
-     * @param  ArtistForceDeleteRequest  $request
      * @param  Artist  $artist
+     * @param  ForceDeleteAction  $action
      * @return JsonResponse
      */
-    public function forceDelete(ArtistForceDeleteRequest $request, Artist $artist): JsonResponse
+    public function forceDelete(Artist $artist, ForceDeleteAction $action): JsonResponse
     {
-        return $request->getQuery()->forceDelete($artist);
+        $message = $action->forceDelete($artist);
+
+        return new JsonResponse([
+            'message' => $message,
+        ]);
     }
 }

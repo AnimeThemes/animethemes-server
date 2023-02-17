@@ -9,7 +9,7 @@ use App\Http\Api\Field\Field;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Parser\FieldParser;
 use App\Http\Api\Parser\IncludeParser;
-use App\Http\Api\Query\List\Playlist\Track\TrackReadQuery;
+use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\List\Playlist\TrackSchema;
 use App\Http\Resources\List\Playlist\Resource\TrackResource;
 use App\Models\Auth\User;
@@ -195,7 +195,7 @@ class TrackShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new TrackResource($track, new TrackReadQuery($playlist)))
+                    (new TrackResource($track, new Query()))
                         ->response()
                         ->getData()
                 ),
@@ -229,7 +229,7 @@ class TrackShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new TrackResource($track, new TrackReadQuery($playlist)))
+                    (new TrackResource($track, new Query()))
                         ->response()
                         ->getData()
                 ),
@@ -276,7 +276,7 @@ class TrackShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new TrackResource($track, new TrackReadQuery($playlist, $parameters)))
+                    (new TrackResource($track, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -320,7 +320,7 @@ class TrackShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new TrackResource($track, new TrackReadQuery($playlist, $parameters)))
+                    (new TrackResource($track, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),

@@ -8,7 +8,7 @@ use App\Contracts\Http\Api\Field\FilterableField;
 use App\Contracts\Http\Api\Field\RenderableField;
 use App\Contracts\Http\Api\Field\SortableField;
 use App\Enums\Http\Api\QualifyColumn;
-use App\Http\Api\Query\ReadQuery;
+use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Schema;
 use App\Http\Api\Scope\ScopeParser;
 use App\Http\Api\Sort\Sort;
@@ -34,10 +34,10 @@ abstract class AggregateField extends Field implements FilterableField, Renderab
     /**
      * Determine if the field should be displayed to the user.
      *
-     * @param  ReadQuery  $query
+     * @param  Query  $query
      * @return bool
      */
-    public function shouldRender(ReadQuery $query): bool
+    public function shouldRender(Query $query): bool
     {
         $criteria = $query->getFieldCriteria($this->schema->type());
 
@@ -68,10 +68,10 @@ abstract class AggregateField extends Field implements FilterableField, Renderab
     /**
      * Determine if the aggregate value should be included in the select clause of our query.
      *
-     * @param  ReadQuery  $query
+     * @param  Query  $query
      * @return bool
      */
-    public function shouldAggregate(ReadQuery $query): bool
+    public function shouldAggregate(Query $query): bool
     {
         // Select aggregate if explicitly included in sparse fieldsets
         $fieldCriteria = $query->getFieldCriteria($this->schema->type());

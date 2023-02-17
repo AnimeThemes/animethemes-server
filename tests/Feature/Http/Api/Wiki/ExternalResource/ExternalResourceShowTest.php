@@ -10,7 +10,7 @@ use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Parser\FieldParser;
 use App\Http\Api\Parser\FilterParser;
 use App\Http\Api\Parser\IncludeParser;
-use App\Http\Api\Query\Wiki\ExternalResource\ExternalResourceReadQuery;
+use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Wiki\ExternalResourceSchema;
 use App\Http\Resources\Wiki\Resource\ExternalResourceResource;
 use App\Models\Wiki\Anime;
@@ -43,7 +43,7 @@ class ExternalResourceShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ExternalResourceResource($resource, new ExternalResourceReadQuery()))
+                    (new ExternalResourceResource($resource, new Query()))
                         ->response()
                         ->getData()
                 ),
@@ -70,7 +70,7 @@ class ExternalResourceShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ExternalResourceResource($resource, new ExternalResourceReadQuery()))
+                    (new ExternalResourceResource($resource, new Query()))
                         ->response()
                         ->getData()
                 ),
@@ -108,7 +108,7 @@ class ExternalResourceShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ExternalResourceResource($resource, new ExternalResourceReadQuery($parameters)))
+                    (new ExternalResourceResource($resource, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -143,7 +143,7 @@ class ExternalResourceShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ExternalResourceResource($resource, new ExternalResourceReadQuery($parameters)))
+                    (new ExternalResourceResource($resource, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -183,7 +183,7 @@ class ExternalResourceShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ExternalResourceResource($resource, new ExternalResourceReadQuery($parameters)))
+                    (new ExternalResourceResource($resource, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -230,7 +230,7 @@ class ExternalResourceShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ExternalResourceResource($resource, new ExternalResourceReadQuery($parameters)))
+                    (new ExternalResourceResource($resource, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),

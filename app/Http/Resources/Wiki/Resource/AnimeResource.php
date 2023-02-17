@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Wiki\Resource;
 
-use App\Http\Api\Query\ReadQuery;
 use App\Http\Api\Schema\Schema;
 use App\Http\Api\Schema\Wiki\AnimeSchema;
 use App\Http\Resources\BaseResource;
@@ -17,7 +16,6 @@ use App\Http\Resources\Wiki\Collection\StudioCollection;
 use App\Models\Wiki\Anime;
 use App\Pivots\Wiki\AnimeResource as AnimeResourcePivot;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\MissingValue;
 
 /**
  * Class AnimeResource.
@@ -32,18 +30,6 @@ class AnimeResource extends BaseResource
      * @var string|null
      */
     public static $wrap = 'anime';
-
-    /**
-     * Create a new resource instance.
-     *
-     * @param  Anime | MissingValue | null  $anime
-     * @param  ReadQuery  $query
-     * @return void
-     */
-    public function __construct(Anime|MissingValue|null $anime, ReadQuery $query)
-    {
-        parent::__construct($anime, $query);
-    }
 
     /**
      * Transform the resource into an array.

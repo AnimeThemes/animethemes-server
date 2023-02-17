@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Pivot\Wiki\Resource;
 
-use App\Http\Api\Query\ReadQuery;
 use App\Http\Api\Schema\Pivot\Wiki\AnimeImageSchema;
 use App\Http\Api\Schema\Schema;
 use App\Http\Resources\BaseResource;
@@ -12,7 +11,6 @@ use App\Http\Resources\Wiki\Resource\AnimeResource;
 use App\Http\Resources\Wiki\Resource\ImageResource;
 use App\Pivots\Wiki\AnimeImage;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\MissingValue;
 
 /**
  * Class AnimeImageResource.
@@ -25,18 +23,6 @@ class AnimeImageResource extends BaseResource
      * @var string|null
      */
     public static $wrap = 'animeimage';
-
-    /**
-     * Create a new resource instance.
-     *
-     * @param  AnimeImage | MissingValue | null  $pivot
-     * @param  ReadQuery  $query
-     * @return void
-     */
-    public function __construct(AnimeImage|MissingValue|null $pivot, ReadQuery $query)
-    {
-        parent::__construct($pivot, $query);
-    }
 
     /**
      * Transform the resource into an array.

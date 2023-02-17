@@ -9,7 +9,7 @@ use App\Contracts\Http\Api\Field\RenderableField;
 use App\Contracts\Http\Api\Field\SelectableField;
 use App\Contracts\Http\Api\Field\UpdatableField;
 use App\Http\Api\Field\Field;
-use App\Http\Api\Query\ReadQuery;
+use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Schema;
 use App\Models\Document\Page;
 use Illuminate\Database\Eloquent\Model;
@@ -48,10 +48,10 @@ class PageBodyField extends Field implements CreatableField, RenderableField, Se
     /**
      * Determine if the field should be displayed to the user.
      *
-     * @param  ReadQuery  $query
+     * @param  Query  $query
      * @return bool
      */
-    public function shouldRender(ReadQuery $query): bool
+    public function shouldRender(Query $query): bool
     {
         $criteria = $query->getFieldCriteria($this->schema->type());
 
@@ -72,10 +72,11 @@ class PageBodyField extends Field implements CreatableField, RenderableField, Se
     /**
      * Determine if the field should be included in the select clause of our query.
      *
-     * @param  ReadQuery  $query
+     * @param  Query  $query
+     * @param  Schema  $schema
      * @return bool
      */
-    public function shouldSelect(ReadQuery $query): bool
+    public function shouldSelect(Query $query, Schema $schema): bool
     {
         $criteria = $query->getFieldCriteria($this->schema->type());
 

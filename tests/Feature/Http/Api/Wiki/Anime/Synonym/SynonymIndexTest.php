@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Wiki\Anime\Synonym;
 
+use App\Concerns\Actions\Http\Api\SortsModels;
 use App\Contracts\Http\Api\Field\SortableField;
 use App\Enums\Http\Api\Filter\TrashedStatus;
 use App\Enums\Http\Api\Sort\Direction;
@@ -18,7 +19,7 @@ use App\Http\Api\Parser\FilterParser;
 use App\Http\Api\Parser\IncludeParser;
 use App\Http\Api\Parser\PagingParser;
 use App\Http\Api\Parser\SortParser;
-use App\Http\Api\Query\Wiki\Anime\Synonym\SynonymReadQuery;
+use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Wiki\Anime\SynonymSchema;
 use App\Http\Resources\Wiki\Anime\Collection\SynonymCollection;
 use App\Http\Resources\Wiki\Anime\Resource\SynonymResource;
@@ -36,6 +37,7 @@ use Tests\TestCase;
  */
 class SynonymIndexTest extends TestCase
 {
+    use SortsModels;
     use WithFaker;
     use WithoutEvents;
 
@@ -58,7 +60,7 @@ class SynonymIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new SynonymCollection($synonyms, new SynonymReadQuery()))
+                    (new SynonymCollection($synonyms, new Query()))
                         ->response()
                         ->getData()
                 ),
@@ -119,7 +121,7 @@ class SynonymIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new SynonymCollection($synonyms, new SynonymReadQuery($parameters)))
+                    (new SynonymCollection($synonyms, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -159,7 +161,7 @@ class SynonymIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new SynonymCollection($synonyms, new SynonymReadQuery($parameters)))
+                    (new SynonymCollection($synonyms, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -186,7 +188,7 @@ class SynonymIndexTest extends TestCase
             SortParser::param() => $sort->format(Direction::getRandomInstance()),
         ];
 
-        $query = new SynonymReadQuery($parameters);
+        $query = new Query($parameters);
 
         AnimeSynonym::factory()
             ->for(Anime::factory())
@@ -195,10 +197,12 @@ class SynonymIndexTest extends TestCase
 
         $response = $this->get(route('api.animesynonym.index', $parameters));
 
+        $synonyms = $this->sort(AnimeSynonym::query(), $query, $schema)->get();
+
         $response->assertJson(
             json_decode(
                 json_encode(
-                    $query->collection($query->index())
+                    (new SynonymCollection($synonyms, $query))
                         ->response()
                         ->getData()
                 ),
@@ -247,7 +251,7 @@ class SynonymIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new SynonymCollection($synonym, new SynonymReadQuery($parameters)))
+                    (new SynonymCollection($synonym, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -296,7 +300,7 @@ class SynonymIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new SynonymCollection($synonym, new SynonymReadQuery($parameters)))
+                    (new SynonymCollection($synonym, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -342,7 +346,7 @@ class SynonymIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new SynonymCollection($synonym, new SynonymReadQuery($parameters)))
+                    (new SynonymCollection($synonym, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -388,7 +392,7 @@ class SynonymIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new SynonymCollection($synonym, new SynonymReadQuery($parameters)))
+                    (new SynonymCollection($synonym, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -434,7 +438,7 @@ class SynonymIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new SynonymCollection($synonym, new SynonymReadQuery($parameters)))
+                    (new SynonymCollection($synonym, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -484,7 +488,7 @@ class SynonymIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new SynonymCollection($synonym, new SynonymReadQuery($parameters)))
+                    (new SynonymCollection($synonym, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -526,7 +530,7 @@ class SynonymIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new SynonymCollection($synonyms, new SynonymReadQuery($parameters)))
+                    (new SynonymCollection($synonyms, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -574,7 +578,7 @@ class SynonymIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new SynonymCollection($synonyms, new SynonymReadQuery($parameters)))
+                    (new SynonymCollection($synonyms, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),

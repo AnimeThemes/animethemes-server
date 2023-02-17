@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Http\Api\Pivot\Wiki\AnimeImage;
 
+use App\Concerns\Actions\Http\Api\SortsModels;
 use App\Contracts\Http\Api\Field\SortableField;
 use App\Enums\Http\Api\Sort\Direction;
 use App\Enums\Models\Wiki\AnimeSeason;
@@ -17,7 +18,7 @@ use App\Http\Api\Parser\FilterParser;
 use App\Http\Api\Parser\IncludeParser;
 use App\Http\Api\Parser\PagingParser;
 use App\Http\Api\Parser\SortParser;
-use App\Http\Api\Query\Pivot\Wiki\AnimeImage\AnimeImageReadQuery;
+use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Pivot\Wiki\AnimeImageSchema;
 use App\Http\Resources\Pivot\Wiki\Collection\AnimeImageCollection;
 use App\Http\Resources\Pivot\Wiki\Resource\AnimeImageResource;
@@ -37,6 +38,7 @@ use Tests\TestCase;
  */
 class AnimeImageIndexTest extends TestCase
 {
+    use SortsModels;
     use WithFaker;
     use WithoutEvents;
 
@@ -61,7 +63,7 @@ class AnimeImageIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AnimeImageCollection($animeImages, new AnimeImageReadQuery()))
+                    (new AnimeImageCollection($animeImages, new Query()))
                         ->response()
                         ->getData()
                 ),
@@ -126,7 +128,7 @@ class AnimeImageIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AnimeImageCollection($animeImages, new AnimeImageReadQuery($parameters)))
+                    (new AnimeImageCollection($animeImages, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -168,7 +170,7 @@ class AnimeImageIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AnimeImageCollection($animeImages, new AnimeImageReadQuery($parameters)))
+                    (new AnimeImageCollection($animeImages, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -195,7 +197,7 @@ class AnimeImageIndexTest extends TestCase
             SortParser::param() => $sort->format(Direction::getRandomInstance()),
         ];
 
-        $query = new AnimeImageReadQuery($parameters);
+        $query = new Query($parameters);
 
         Collection::times($this->faker->randomDigitNotNull(), function () {
             AnimeImage::factory()
@@ -206,10 +208,12 @@ class AnimeImageIndexTest extends TestCase
 
         $response = $this->get(route('api.animeimage.index', $parameters));
 
+        $animeImages = $this->sort(AnimeImage::query(), $query, $schema)->get();
+
         $response->assertJson(
             json_decode(
                 json_encode(
-                    $query->collection($query->index())
+                    (new AnimeImageCollection($animeImages, $query))
                         ->response()
                         ->getData()
                 ),
@@ -262,7 +266,7 @@ class AnimeImageIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AnimeImageCollection($animeImages, new AnimeImageReadQuery($parameters)))
+                    (new AnimeImageCollection($animeImages, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -315,7 +319,7 @@ class AnimeImageIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AnimeImageCollection($animeImages, new AnimeImageReadQuery($parameters)))
+                    (new AnimeImageCollection($animeImages, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -359,7 +363,7 @@ class AnimeImageIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AnimeImageCollection($animeImages, new AnimeImageReadQuery($parameters)))
+                    (new AnimeImageCollection($animeImages, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -403,7 +407,7 @@ class AnimeImageIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AnimeImageCollection($animeImages, new AnimeImageReadQuery($parameters)))
+                    (new AnimeImageCollection($animeImages, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -453,7 +457,7 @@ class AnimeImageIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AnimeImageCollection($animeImages, new AnimeImageReadQuery($parameters)))
+                    (new AnimeImageCollection($animeImages, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),

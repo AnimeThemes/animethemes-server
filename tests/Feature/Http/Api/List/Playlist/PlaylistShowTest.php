@@ -11,7 +11,7 @@ use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Parser\FieldParser;
 use App\Http\Api\Parser\FilterParser;
 use App\Http\Api\Parser\IncludeParser;
-use App\Http\Api\Query\List\Playlist\PlaylistReadQuery;
+use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\List\PlaylistSchema;
 use App\Http\Resources\List\Resource\PlaylistResource;
 use App\Models\Auth\User;
@@ -147,7 +147,7 @@ class PlaylistShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new PlaylistResource($playlist, new PlaylistReadQuery()))
+                    (new PlaylistResource($playlist, new Query()))
                         ->response()
                         ->getData()
                 ),
@@ -177,7 +177,7 @@ class PlaylistShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new PlaylistResource($playlist, new PlaylistReadQuery()))
+                    (new PlaylistResource($playlist, new Query()))
                         ->response()
                         ->getData()
                 ),
@@ -220,7 +220,7 @@ class PlaylistShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new PlaylistResource($playlist, new PlaylistReadQuery($parameters)))
+                    (new PlaylistResource($playlist, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -258,7 +258,7 @@ class PlaylistShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new PlaylistResource($playlist, new PlaylistReadQuery($parameters)))
+                    (new PlaylistResource($playlist, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -300,7 +300,7 @@ class PlaylistShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new PlaylistResource($playlist, new PlaylistReadQuery($parameters)))
+                    (new PlaylistResource($playlist, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),

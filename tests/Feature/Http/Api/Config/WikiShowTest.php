@@ -7,7 +7,7 @@ namespace Tests\Feature\Http\Api\Config;
 use App\Constants\Config\WikiConstants;
 use App\Http\Api\Field\Field;
 use App\Http\Api\Parser\FieldParser;
-use App\Http\Api\Query\Config\WikiReadQuery;
+use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Config\WikiSchema;
 use App\Http\Resources\Config\Resource\WikiResource;
 use App\Models\Wiki\Anime;
@@ -48,7 +48,7 @@ class WikiShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new WikiResource(new WikiReadQuery()))
+                    (new WikiResource(new Query()))
                         ->response()
                         ->getData()
                 ),
@@ -89,7 +89,7 @@ class WikiShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new WikiResource(new WikiReadQuery($parameters)))
+                    (new WikiResource(new Query($parameters)))
                         ->response()
                         ->getData()
                 ),

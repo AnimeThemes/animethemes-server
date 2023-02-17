@@ -5,20 +5,18 @@ declare(strict_types=1);
 namespace App\Http\Resources\Config\Resource;
 
 use App\Constants\Config\WikiConstants;
-use App\Http\Api\Query\ReadQuery;
-use App\Http\Api\Schema\Config\WikiSchema;
-use App\Http\Api\Schema\Schema;
-use App\Http\Resources\BaseResource;
+use App\Http\Api\Query\Query;
 use App\Http\Resources\Pivot\Wiki\Resource\AnimeThemeEntryVideoResource;
 use App\Pivots\Wiki\AnimeThemeEntryVideo;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Resources\MissingValue;
 use Illuminate\Support\Facades\Config;
 
 /**
  * Class WikiResource.
  */
-class WikiResource extends BaseResource
+class WikiResource extends JsonResource
 {
     /**
      * The "data" wrapper that should be applied.
@@ -30,12 +28,12 @@ class WikiResource extends BaseResource
     /**
      * Create a new resource instance.
      *
-     * @param  ReadQuery  $query
+     * @param  Query  $query
      * @return void
      */
-    public function __construct(ReadQuery $query)
+    public function __construct(protected readonly Query $query)
     {
-        parent::__construct(new MissingValue(), $query);
+        parent::__construct(new MissingValue());
     }
 
     /**
@@ -50,7 +48,9 @@ class WikiResource extends BaseResource
     {
         $result = [];
 
-        if ($this->isAllowedField(WikiConstants::FEATURED_THEME_SETTING)) {
+        $criteria = $this->query->getFieldCriteria(static::$wrap);
+
+        if ($criteria === null || $criteria->isAllowedField(WikiConstants::FEATURED_THEME_SETTING)) {
             /** @var AnimeThemeEntryVideo|null $pivot */
             $pivot = AnimeThemeEntryVideo::query()
                 ->where(AnimeThemeEntryVideo::ATTRIBUTE_ENTRY, Config::get('wiki.featured_entry'))
@@ -68,15 +68,5 @@ class WikiResource extends BaseResource
         }
 
         return $result;
-    }
-
-    /**
-     * Get the resource schema.
-     *
-     * @return Schema
-     */
-    protected function schema(): Schema
-    {
-        return new WikiSchema();
     }
 }

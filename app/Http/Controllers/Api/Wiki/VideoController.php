@@ -4,17 +4,24 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\Wiki;
 
-use App\Enums\Http\Api\Paging\PaginationStrategy;
+use App\Actions\Http\Api\DestroyAction;
+use App\Actions\Http\Api\ForceDeleteAction;
+use App\Actions\Http\Api\IndexAction;
+use App\Actions\Http\Api\RestoreAction;
+use App\Actions\Http\Api\ShowAction;
+use App\Actions\Http\Api\StoreAction;
+use App\Actions\Http\Api\UpdateAction;
+use App\Http\Api\Query\Query;
 use App\Http\Controllers\Api\BaseController;
-use App\Http\Requests\Api\Wiki\Video\VideoDestroyRequest;
-use App\Http\Requests\Api\Wiki\Video\VideoForceDeleteRequest;
-use App\Http\Requests\Api\Wiki\Video\VideoIndexRequest;
-use App\Http\Requests\Api\Wiki\Video\VideoRestoreRequest;
-use App\Http\Requests\Api\Wiki\Video\VideoShowRequest;
-use App\Http\Requests\Api\Wiki\Video\VideoStoreRequest;
-use App\Http\Requests\Api\Wiki\Video\VideoUpdateRequest;
+use App\Http\Requests\Api\IndexRequest;
+use App\Http\Requests\Api\ShowRequest;
+use App\Http\Requests\Api\StoreRequest;
+use App\Http\Requests\Api\UpdateRequest;
+use App\Http\Resources\Wiki\Collection\VideoCollection;
+use App\Http\Resources\Wiki\Resource\VideoResource;
 use App\Models\Wiki\Video;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 /**
  * Class VideoController.
@@ -32,29 +39,35 @@ class VideoController extends BaseController
     /**
      * Display a listing of the resource.
      *
-     * @param  VideoIndexRequest  $request
+     * @param  IndexRequest  $request
+     * @param  IndexAction  $action
      * @return JsonResponse
      */
-    public function index(VideoIndexRequest $request): JsonResponse
+    public function index(IndexRequest $request, IndexAction $action): JsonResponse
     {
-        $query = $request->getQuery();
+        $query = new Query($request->validated());
 
-        if ($query->hasSearchCriteria()) {
-            return $query->search(PaginationStrategy::OFFSET())->toResponse($request);
-        }
+        $videos = $query->hasSearchCriteria()
+            ? $action->search($query, $request->schema())
+            : $action->index(Video::query(), $query, $request->schema());
 
-        return $query->index()->toResponse($request);
+        $collection = new VideoCollection($videos, $query);
+
+        return $collection->toResponse($request);
     }
 
     /**
      * Store a newly created resource.
      *
-     * @param  VideoStoreRequest  $request
+     * @param  StoreRequest  $request
+     * @param  StoreAction  $action
      * @return JsonResponse
      */
-    public function store(VideoStoreRequest $request): JsonResponse
+    public function store(StoreRequest $request, StoreAction $action): JsonResponse
     {
-        $resource = $request->getQuery()->store();
+        $video = $action->store(Video::query(), $request->validated());
+
+        $resource = new VideoResource($video, new Query());
 
         return $resource->toResponse($request);
     }
@@ -62,13 +75,18 @@ class VideoController extends BaseController
     /**
      * Display the specified resource.
      *
-     * @param  VideoShowRequest  $request
+     * @param  ShowRequest  $request
      * @param  Video  $video
+     * @param  ShowAction  $action
      * @return JsonResponse
      */
-    public function show(VideoShowRequest $request, Video $video): JsonResponse
+    public function show(ShowRequest $request, Video $video, ShowAction $action): JsonResponse
     {
-        $resource = $request->getQuery()->show($video);
+        $query = new Query($request->validated());
+
+        $show = $action->show($video, $query, $request->schema());
+
+        $resource = new VideoResource($show, $query);
 
         return $resource->toResponse($request);
     }
@@ -76,13 +94,16 @@ class VideoController extends BaseController
     /**
      * Update the specified resource.
      *
-     * @param  VideoUpdateRequest  $request
+     * @param  UpdateRequest  $request
      * @param  Video  $video
+     * @param  UpdateAction  $action
      * @return JsonResponse
      */
-    public function update(VideoUpdateRequest $request, Video $video): JsonResponse
+    public function update(UpdateRequest $request, Video $video, UpdateAction $action): JsonResponse
     {
-        $resource = $request->getQuery()->update($video);
+        $updated = $action->update($video, $request->validated());
+
+        $resource = new VideoResource($updated, new Query());
 
         return $resource->toResponse($request);
     }
@@ -90,13 +111,16 @@ class VideoController extends BaseController
     /**
      * Remove the specified resource.
      *
-     * @param  VideoDestroyRequest  $request
+     * @param  Request  $request
      * @param  Video  $video
+     * @param  DestroyAction  $action
      * @return JsonResponse
      */
-    public function destroy(VideoDestroyRequest $request, Video $video): JsonResponse
+    public function destroy(Request $request, Video $video, DestroyAction $action): JsonResponse
     {
-        $resource = $request->getQuery()->destroy($video);
+        $deleted = $action->destroy($video);
+
+        $resource = new VideoResource($deleted, new Query());
 
         return $resource->toResponse($request);
     }
@@ -104,13 +128,16 @@ class VideoController extends BaseController
     /**
      * Restore the specified resource.
      *
-     * @param  VideoRestoreRequest  $request
+     * @param  Request  $request
      * @param  Video  $video
+     * @param  RestoreAction  $action
      * @return JsonResponse
      */
-    public function restore(VideoRestoreRequest $request, Video $video): JsonResponse
+    public function restore(Request $request, Video $video, RestoreAction $action): JsonResponse
     {
-        $resource = $request->getQuery()->restore($video);
+        $restored = $action->restore($video);
+
+        $resource = new VideoResource($restored, new Query());
 
         return $resource->toResponse($request);
     }
@@ -118,12 +145,16 @@ class VideoController extends BaseController
     /**
      * Hard-delete the specified resource.
      *
-     * @param  VideoForceDeleteRequest  $request
      * @param  Video  $video
+     * @param  ForceDeleteAction  $action
      * @return JsonResponse
      */
-    public function forceDelete(VideoForceDeleteRequest $request, Video $video): JsonResponse
+    public function forceDelete(Video $video, ForceDeleteAction $action): JsonResponse
     {
-        return $request->getQuery()->forceDelete($video);
+        $message = $action->forceDelete($video);
+
+        return new JsonResponse([
+            'message' => $message,
+        ]);
     }
 }

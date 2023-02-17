@@ -59,7 +59,7 @@ class MoveVideoTest extends TestCase
 
         $file = File::fake()->create($this->faker->word().'.webm', $this->faker->randomDigitNotNull());
 
-        $directory = $this->faker->word();
+        $directory = $this->faker->unique()->word();
 
         $video = Video::factory()->createOne([
             Video::ATTRIBUTE_BASENAME => FileFacade::basename($file->path()),
@@ -68,7 +68,7 @@ class MoveVideoTest extends TestCase
             Video::ATTRIBUTE_PATH => $fs->putFileAs($directory, $file, $file->getClientOriginalName()),
         ]);
 
-        $action = new MoveVideoAction($video, Str::replace($directory, $this->faker->word(), $video->path));
+        $action = new MoveVideoAction($video, Str::replace($directory, $this->faker->unique()->word(), $video->path));
 
         $storageResults = $action->handle();
 
@@ -90,7 +90,7 @@ class MoveVideoTest extends TestCase
 
         $file = File::fake()->create($this->faker->word().'.webm', $this->faker->randomDigitNotNull());
 
-        $directory = $this->faker->word();
+        $directory = $this->faker->unique()->word();
 
         $video = Video::factory()->createOne([
             Video::ATTRIBUTE_BASENAME => FileFacade::basename($file->path()),
@@ -100,7 +100,7 @@ class MoveVideoTest extends TestCase
         ]);
 
         $from = $video->path();
-        $to = Str::replace($directory, $this->faker->word(), $video->path);
+        $to = Str::replace($directory, $this->faker->unique()->word(), $video->path);
 
         $action = new MoveVideoAction($video, $to);
 
@@ -123,7 +123,7 @@ class MoveVideoTest extends TestCase
 
         $file = File::fake()->create($this->faker->word().'.webm', $this->faker->randomDigitNotNull());
 
-        $directory = $this->faker->word();
+        $directory = $this->faker->unique()->word();
 
         $video = Video::factory()->createOne([
             Video::ATTRIBUTE_BASENAME => FileFacade::basename($file->path()),
@@ -132,7 +132,7 @@ class MoveVideoTest extends TestCase
             Video::ATTRIBUTE_PATH => $fs->putFileAs($directory, $file, $file->getClientOriginalName()),
         ]);
 
-        $to = Str::replace($directory, $this->faker->word(), $video->path);
+        $to = Str::replace($directory, $this->faker->unique()->word(), $video->path);
 
         $action = new MoveVideoAction($video, $to);
 

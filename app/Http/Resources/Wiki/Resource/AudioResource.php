@@ -4,14 +4,12 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Wiki\Resource;
 
-use App\Http\Api\Query\ReadQuery;
 use App\Http\Api\Schema\Schema;
 use App\Http\Api\Schema\Wiki\AudioSchema;
 use App\Http\Resources\BaseResource;
 use App\Http\Resources\Wiki\Collection\VideoCollection;
 use App\Models\Wiki\Audio;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\MissingValue;
 
 /**
  * Class AudioResource.
@@ -26,18 +24,6 @@ class AudioResource extends BaseResource
      * @var string|null
      */
     public static $wrap = 'audio';
-
-    /**
-     * Create a new resource instance.
-     *
-     * @param  Audio | MissingValue | null  $audio
-     * @param  ReadQuery  $query
-     * @return void
-     */
-    public function __construct(Audio|MissingValue|null $audio, ReadQuery $query)
-    {
-        parent::__construct($audio, $query);
-    }
 
     /**
      * Transform the resource into an array.

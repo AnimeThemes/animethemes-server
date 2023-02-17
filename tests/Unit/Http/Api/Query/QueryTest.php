@@ -43,7 +43,7 @@ class QueryTest extends TestCase
             ],
         ];
 
-        $query = new FakeReadQuery($parameters);
+        $query = new FakeQuery($parameters);
 
         static::assertInstanceOf(FieldCriteria::class, $query->getFieldCriteria($type));
     }
@@ -59,7 +59,7 @@ class QueryTest extends TestCase
             IncludeParser::param() => $this->faker->word(),
         ];
 
-        $query = new FakeReadQuery($parameters);
+        $query = new FakeQuery($parameters);
 
         static::assertInstanceOf(IncludeCriteria::class, $query->getIncludeCriteria($this->faker->word()));
     }
@@ -79,7 +79,7 @@ class QueryTest extends TestCase
             ],
         ];
 
-        $query = new FakeReadQuery($parameters);
+        $query = new FakeQuery($parameters);
 
         static::assertInstanceOf(ResourceCriteria::class, $query->getIncludeCriteria($type));
     }
@@ -97,7 +97,7 @@ class QueryTest extends TestCase
             SortParser::param() => $fields->join(','),
         ];
 
-        $query = new FakeReadQuery($parameters);
+        $query = new FakeQuery($parameters);
 
         static::assertCount($fields->count(), $query->getSortCriteria());
     }
@@ -116,7 +116,7 @@ class QueryTest extends TestCase
             ->undot()
             ->all();
 
-        $query = new FakeReadQuery($parameters);
+        $query = new FakeQuery($parameters);
 
         static::assertCount($filterCount, $query->getFilterCriteria());
     }
@@ -130,7 +130,7 @@ class QueryTest extends TestCase
     {
         $parameters = [];
 
-        $query = new FakeReadQuery($parameters);
+        $query = new FakeQuery($parameters);
 
         static::assertFalse($query->hasSearchCriteria());
     }
@@ -146,7 +146,7 @@ class QueryTest extends TestCase
             SearchParser::param() => $this->faker->word(),
         ];
 
-        $query = new FakeReadQuery($parameters);
+        $query = new FakeQuery($parameters);
 
         static::assertTrue($query->hasSearchCriteria());
     }
@@ -160,7 +160,7 @@ class QueryTest extends TestCase
     {
         $parameters = [];
 
-        $query = new FakeReadQuery($parameters);
+        $query = new FakeQuery($parameters);
 
         static::assertNull($query->getSearchCriteria());
     }
@@ -176,7 +176,7 @@ class QueryTest extends TestCase
             SearchParser::param() => $this->faker->word(),
         ];
 
-        $query = new FakeReadQuery($parameters);
+        $query = new FakeQuery($parameters);
 
         static::assertInstanceOf(SearchCriteria::class, $query->getSearchCriteria());
     }
@@ -190,7 +190,7 @@ class QueryTest extends TestCase
     {
         $parameters = [];
 
-        $query = new FakeReadQuery($parameters);
+        $query = new FakeQuery($parameters);
 
         static::assertInstanceOf(LimitCriteria::class, $query->getPagingCriteria(PaginationStrategy::LIMIT()));
     }
@@ -204,7 +204,7 @@ class QueryTest extends TestCase
     {
         $parameters = [];
 
-        $query = new FakeReadQuery($parameters);
+        $query = new FakeQuery($parameters);
 
         static::assertInstanceOf(OffsetCriteria::class, $query->getPagingCriteria(PaginationStrategy::OFFSET()));
     }

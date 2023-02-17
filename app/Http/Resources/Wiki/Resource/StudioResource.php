@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Wiki\Resource;
 
-use App\Http\Api\Query\ReadQuery;
 use App\Http\Api\Schema\Schema;
 use App\Http\Api\Schema\Wiki\StudioSchema;
 use App\Http\Resources\BaseResource;
@@ -14,7 +13,6 @@ use App\Http\Resources\Wiki\Collection\ImageCollection;
 use App\Models\Wiki\Studio;
 use App\Pivots\Wiki\StudioResource as StudioResourcePivot;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\MissingValue;
 
 /**
  * Class StudioResource.
@@ -29,18 +27,6 @@ class StudioResource extends BaseResource
      * @var string|null
      */
     public static $wrap = 'studio';
-
-    /**
-     * Create a new resource instance.
-     *
-     * @param  Studio | MissingValue | null  $studio
-     * @param  ReadQuery  $query
-     * @return void
-     */
-    public function __construct(Studio|MissingValue|null $studio, ReadQuery $query)
-    {
-        parent::__construct($studio, $query);
-    }
 
     /**
      * Transform the resource into an array.

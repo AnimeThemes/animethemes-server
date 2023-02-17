@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Schema\Wiki;
 
+use App\Contracts\Http\Api\Schema\SearchableSchema;
 use App\Http\Api\Field\Base\IdField;
 use App\Http\Api\Field\Field;
 use App\Http\Api\Field\Wiki\Video\VideoAudioIdField;
@@ -33,7 +34,7 @@ use App\Models\Wiki\Video;
 /**
  * Class VideoSchema.
  */
-class VideoSchema extends EloquentSchema
+class VideoSchema extends EloquentSchema implements SearchableSchema
 {
     /**
      * The model this schema represents.

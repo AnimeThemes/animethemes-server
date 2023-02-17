@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Actions\Models\Wiki;
 
 use App\Actions\ActionResult;
-use App\Actions\Models\BaseAction;
+use App\Actions\Models\BackfillAction;
 use App\Enums\Actions\ActionStatus;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Models\Wiki\Image;
@@ -21,9 +21,9 @@ use Illuminate\Support\Str;
  * Class BackfillImageAction.
  *
  * @template TModel of \App\Models\BaseModel
- * @extends BaseAction<TModel>
+ * @extends BackfillAction<TModel>
  */
-abstract class BackfillImageAction extends BaseAction
+abstract class BackfillImageAction extends BackfillAction
 {
     /**
      * Handle action.

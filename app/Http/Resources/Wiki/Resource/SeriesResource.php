@@ -4,14 +4,12 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Wiki\Resource;
 
-use App\Http\Api\Query\ReadQuery;
 use App\Http\Api\Schema\Schema;
 use App\Http\Api\Schema\Wiki\SeriesSchema;
 use App\Http\Resources\BaseResource;
 use App\Http\Resources\Wiki\Collection\AnimeCollection;
 use App\Models\Wiki\Series;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\MissingValue;
 
 /**
  * Class SeriesResource.
@@ -24,18 +22,6 @@ class SeriesResource extends BaseResource
      * @var string|null
      */
     public static $wrap = 'series';
-
-    /**
-     * Create a new resource instance.
-     *
-     * @param  Series | MissingValue | null  $series
-     * @param  ReadQuery  $query
-     * @return void
-     */
-    public function __construct(Series|MissingValue|null $series, ReadQuery $query)
-    {
-        parent::__construct($series, $query);
-    }
 
     /**
      * Transform the resource into an array.

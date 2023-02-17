@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Wiki\Audio;
 
+use App\Concerns\Actions\Http\Api\SortsModels;
 use App\Contracts\Http\Api\Field\SortableField;
 use App\Enums\Http\Api\Filter\TrashedStatus;
 use App\Enums\Http\Api\Sort\Direction;
@@ -17,7 +18,7 @@ use App\Http\Api\Parser\FilterParser;
 use App\Http\Api\Parser\IncludeParser;
 use App\Http\Api\Parser\PagingParser;
 use App\Http\Api\Parser\SortParser;
-use App\Http\Api\Query\Wiki\Audio\AudioReadQuery;
+use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Wiki\AudioSchema;
 use App\Http\Resources\Wiki\Collection\AudioCollection;
 use App\Http\Resources\Wiki\Resource\AudioResource;
@@ -34,6 +35,7 @@ use Tests\TestCase;
  */
 class AudioIndexTest extends TestCase
 {
+    use SortsModels;
     use WithFaker;
     use WithoutEvents;
 
@@ -53,7 +55,7 @@ class AudioIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AudioCollection($audios, new AudioReadQuery()))
+                    (new AudioCollection($audios, new Query()))
                         ->response()
                         ->getData()
                 ),
@@ -113,7 +115,7 @@ class AudioIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AudioCollection($audios, new AudioReadQuery($parameters)))
+                    (new AudioCollection($audios, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -150,7 +152,7 @@ class AudioIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AudioCollection($audios, new AudioReadQuery($parameters)))
+                    (new AudioCollection($audios, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -177,7 +179,7 @@ class AudioIndexTest extends TestCase
             SortParser::param() => $sort->format(Direction::getRandomInstance()),
         ];
 
-        $query = new AudioReadQuery($parameters);
+        $query = new Query($parameters);
 
         Audio::factory()
             ->count($this->faker->randomDigitNotNull())
@@ -185,10 +187,12 @@ class AudioIndexTest extends TestCase
 
         $response = $this->get(route('api.audio.index', $parameters));
 
+        $audios = $this->sort(Audio::query(), $query, $schema)->get();
+
         $response->assertJson(
             json_decode(
                 json_encode(
-                    $query->collection($query->index())
+                    (new AudioCollection($audios, $query))
                         ->response()
                         ->getData()
                 ),
@@ -231,7 +235,7 @@ class AudioIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AudioCollection($audio, new AudioReadQuery($parameters)))
+                    (new AudioCollection($audio, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -274,7 +278,7 @@ class AudioIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AudioCollection($audio, new AudioReadQuery($parameters)))
+                    (new AudioCollection($audio, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -313,7 +317,7 @@ class AudioIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AudioCollection($audio, new AudioReadQuery($parameters)))
+                    (new AudioCollection($audio, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -352,7 +356,7 @@ class AudioIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AudioCollection($audio, new AudioReadQuery($parameters)))
+                    (new AudioCollection($audio, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -391,7 +395,7 @@ class AudioIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AudioCollection($audio, new AudioReadQuery($parameters)))
+                    (new AudioCollection($audio, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -441,7 +445,7 @@ class AudioIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AudioCollection($audio, new AudioReadQuery($parameters)))
+                    (new AudioCollection($audio, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),

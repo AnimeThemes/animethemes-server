@@ -6,7 +6,7 @@ namespace App\Http\Api\Field\List\Playlist\Track;
 
 use App\Contracts\Http\Api\Field\SelectableField;
 use App\Http\Api\Field\Field;
-use App\Http\Api\Query\ReadQuery;
+use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Schema;
 use App\Models\List\Playlist\PlaylistTrack;
 
@@ -28,10 +28,11 @@ class TrackPlaylistIdField extends Field implements SelectableField
     /**
      * Determine if the field should be included in the select clause of our query.
      *
-     * @param  ReadQuery  $query
+     * @param  Query  $query
+     * @param  Schema  $schema
      * @return bool
      */
-    public function shouldSelect(ReadQuery $query): bool
+    public function shouldSelect(Query $query, Schema $schema): bool
     {
         // Needed to match playlist relation.
         return true;

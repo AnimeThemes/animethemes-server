@@ -6,14 +6,14 @@ use App\Http\Controllers\Api\Admin\AnnouncementController;
 use App\Http\Controllers\Api\Admin\DumpController;
 use App\Http\Controllers\Api\Auth\User\Me\List\MyPlaylistController;
 use App\Http\Controllers\Api\Auth\User\Me\MyController;
-use App\Http\Controllers\Api\Billing\Balance\BalanceController;
-use App\Http\Controllers\Api\Billing\Transaction\TransactionController;
+use App\Http\Controllers\Api\Billing\BalanceController;
+use App\Http\Controllers\Api\Billing\TransactionController;
 use App\Http\Controllers\Api\Billing\TransparencyController;
 use App\Http\Controllers\Api\Config\FlagsController;
 use App\Http\Controllers\Api\Config\WikiController;
 use App\Http\Controllers\Api\Document\PageController;
-use App\Http\Controllers\Api\List\Playlist\BackwardTrackController;
-use App\Http\Controllers\Api\List\Playlist\ForwardTrackController;
+use App\Http\Controllers\Api\List\Playlist\BackwardController;
+use App\Http\Controllers\Api\List\Playlist\ForwardController;
 use App\Http\Controllers\Api\List\Playlist\TrackController;
 use App\Http\Controllers\Api\List\PlaylistController;
 use App\Http\Controllers\Api\Pivot\Wiki\AnimeImageController;
@@ -212,8 +212,8 @@ apiResourceWhere('page', PageController::class, ['page' => '[\pL\pM\pN\/_-]+']);
 // List Routes
 apiResource('playlist', PlaylistController::class);
 apiScopedResource('playlist.track', TrackController::class);
-Route::get('playlist/{playlist}/forward', [ForwardTrackController::class, 'index'])->name('playlist.forward');
-Route::get('playlist/{playlist}/backward', [BackwardTrackController::class, 'index'])->name('playlist.backward');
+Route::get('playlist/{playlist}/forward', [ForwardController::class, 'index'])->name('playlist.forward');
+Route::get('playlist/{playlist}/backward', [BackwardController::class, 'index'])->name('playlist.backward');
 
 // Pivot Routes
 apiPivotResource('animeimage', 'anime', 'image', AnimeImageController::class);

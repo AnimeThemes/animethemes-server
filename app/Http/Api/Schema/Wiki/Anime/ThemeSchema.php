@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Schema\Wiki\Anime;
 
+use App\Contracts\Http\Api\Schema\SearchableSchema;
 use App\Http\Api\Field\Base\IdField;
 use App\Http\Api\Field\Field;
 use App\Http\Api\Field\Wiki\Anime\Theme\ThemeAnimeIdField;
@@ -27,7 +28,7 @@ use App\Models\Wiki\Anime\AnimeTheme;
 /**
  * Class ThemeSchema.
  */
-class ThemeSchema extends EloquentSchema
+class ThemeSchema extends EloquentSchema implements SearchableSchema
 {
     final public const SORT_SEASON = 'anime.season';
 

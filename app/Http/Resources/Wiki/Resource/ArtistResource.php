@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Wiki\Resource;
 
-use App\Http\Api\Query\ReadQuery;
 use App\Http\Api\Schema\Schema;
 use App\Http\Api\Schema\Wiki\ArtistSchema;
 use App\Http\Resources\BaseResource;
@@ -17,7 +16,6 @@ use App\Pivots\Wiki\ArtistMember;
 use App\Pivots\Wiki\ArtistResource as ArtistResourcePivot;
 use App\Pivots\Wiki\ArtistSong;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\MissingValue;
 
 /**
  * Class ArtistResource.
@@ -32,18 +30,6 @@ class ArtistResource extends BaseResource
      * @var string|null
      */
     public static $wrap = 'artist';
-
-    /**
-     * Create a new resource instance.
-     *
-     * @param  Artist | MissingValue | null  $artist
-     * @param  ReadQuery  $query
-     * @return void
-     */
-    public function __construct(Artist|MissingValue|null $artist, ReadQuery $query)
-    {
-        parent::__construct($artist, $query);
-    }
 
     /**
      * Transform the resource into an array.

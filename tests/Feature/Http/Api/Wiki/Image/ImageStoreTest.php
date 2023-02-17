@@ -81,7 +81,7 @@ class ImageStoreTest extends TestCase
      */
     public function testCreate(): void
     {
-        Storage::fake(Config::get('image.disk'));
+        $fs = Storage::fake(Config::get('image.disk'));
 
         $parameters = [Image::ATTRIBUTE_FACET => ImageFacet::getRandomInstance()->description];
 
@@ -94,6 +94,7 @@ class ImageStoreTest extends TestCase
         ]);
 
         $response->assertCreated();
+        static::assertCount(1, $fs->allFiles());
         static::assertDatabaseCount(Image::TABLE, 1);
     }
 }

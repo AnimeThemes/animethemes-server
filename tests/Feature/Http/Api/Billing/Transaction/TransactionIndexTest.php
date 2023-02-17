@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Billing\Transaction;
 
+use App\Concerns\Actions\Http\Api\SortsModels;
 use App\Contracts\Http\Api\Field\SortableField;
 use App\Enums\Http\Api\Filter\TrashedStatus;
 use App\Enums\Http\Api\Sort\Direction;
@@ -15,7 +16,7 @@ use App\Http\Api\Parser\FieldParser;
 use App\Http\Api\Parser\FilterParser;
 use App\Http\Api\Parser\PagingParser;
 use App\Http\Api\Parser\SortParser;
-use App\Http\Api\Query\Billing\Transaction\TransactionReadQuery;
+use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Billing\TransactionSchema;
 use App\Http\Resources\Billing\Collection\TransactionCollection;
 use App\Http\Resources\Billing\Resource\TransactionResource;
@@ -31,6 +32,7 @@ use Tests\TestCase;
  */
 class TransactionIndexTest extends TestCase
 {
+    use SortsModels;
     use WithFaker;
     use WithoutEvents;
 
@@ -48,7 +50,7 @@ class TransactionIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new TransactionCollection($transactions, new TransactionReadQuery()))
+                    (new TransactionCollection($transactions, new Query()))
                         ->response()
                         ->getData()
                 ),
@@ -101,7 +103,7 @@ class TransactionIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new TransactionCollection($transactions, new TransactionReadQuery($parameters)))
+                    (new TransactionCollection($transactions, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -128,16 +130,18 @@ class TransactionIndexTest extends TestCase
             SortParser::param() => $sort->format(Direction::getRandomInstance()),
         ];
 
-        $query = new TransactionReadQuery($parameters);
+        $query = new Query($parameters);
 
         Transaction::factory()->count($this->faker->randomDigitNotNull())->create();
 
         $response = $this->get(route('api.transaction.index', $parameters));
 
+        $transactions = $this->sort(Transaction::query(), $query, $schema)->get();
+
         $response->assertJson(
             json_decode(
                 json_encode(
-                    $query->collection($query->index())
+                    (new TransactionCollection($transactions, $query))
                         ->response()
                         ->getData()
                 ),
@@ -180,7 +184,7 @@ class TransactionIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new TransactionCollection($transaction, new TransactionReadQuery($parameters)))
+                    (new TransactionCollection($transaction, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -223,7 +227,7 @@ class TransactionIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new TransactionCollection($transaction, new TransactionReadQuery($parameters)))
+                    (new TransactionCollection($transaction, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -262,7 +266,7 @@ class TransactionIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new TransactionCollection($transaction, new TransactionReadQuery($parameters)))
+                    (new TransactionCollection($transaction, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -301,7 +305,7 @@ class TransactionIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new TransactionCollection($transaction, new TransactionReadQuery($parameters)))
+                    (new TransactionCollection($transaction, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -340,7 +344,7 @@ class TransactionIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new TransactionCollection($transaction, new TransactionReadQuery($parameters)))
+                    (new TransactionCollection($transaction, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -390,7 +394,7 @@ class TransactionIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new TransactionCollection($transaction, new TransactionReadQuery($parameters)))
+                    (new TransactionCollection($transaction, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),

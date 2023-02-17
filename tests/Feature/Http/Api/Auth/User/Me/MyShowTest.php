@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Auth\User\Me;
 
-use App\Http\Api\Query\Auth\User\UserReadQuery;
+use App\Http\Api\Query\Query;
 use App\Http\Resources\Auth\Resource\UserResource;
 use App\Models\Auth\User;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -48,7 +48,7 @@ class MyShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new UserResource($user, new UserReadQuery()))
+                    (new UserResource($user, new Query()))
                         ->response()
                         ->getData()
                 ),

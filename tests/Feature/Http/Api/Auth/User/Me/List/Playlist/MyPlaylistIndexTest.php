@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Auth\User\Me\List\Playlist;
 
-use App\Http\Api\Query\Auth\User\Me\List\Playlist\MyPlaylistReadQuery;
+use App\Http\Api\Query\Query;
 use App\Http\Resources\List\Collection\PlaylistCollection;
 use App\Models\Auth\User;
 use App\Models\List\Playlist;
@@ -83,7 +83,7 @@ class MyPlaylistIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new PlaylistCollection($playlists, new MyPlaylistReadQuery($user)))
+                    (new PlaylistCollection($playlists, new Query()))
                         ->response()
                         ->getData()
                 ),

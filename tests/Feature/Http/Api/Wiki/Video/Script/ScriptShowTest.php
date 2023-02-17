@@ -11,7 +11,7 @@ use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Parser\FieldParser;
 use App\Http\Api\Parser\FilterParser;
 use App\Http\Api\Parser\IncludeParser;
-use App\Http\Api\Query\Wiki\Video\Script\ScriptReadQuery;
+use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Wiki\Video\ScriptSchema;
 use App\Http\Resources\Wiki\Video\Resource\ScriptResource;
 use App\Models\Wiki\Video;
@@ -43,7 +43,7 @@ class ScriptShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ScriptResource($script, new ScriptReadQuery()))
+                    (new ScriptResource($script, new Query()))
                         ->response()
                         ->getData()
                 ),
@@ -68,7 +68,7 @@ class ScriptShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ScriptResource($script, new ScriptReadQuery()))
+                    (new ScriptResource($script, new Query()))
                         ->response()
                         ->getData()
                 ),
@@ -105,7 +105,7 @@ class ScriptShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ScriptResource($script, new ScriptReadQuery($parameters)))
+                    (new ScriptResource($script, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -140,7 +140,7 @@ class ScriptShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ScriptResource($script, new ScriptReadQuery($parameters)))
+                    (new ScriptResource($script, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -180,7 +180,7 @@ class ScriptShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ScriptResource($script, new ScriptReadQuery($parameters)))
+                    (new ScriptResource($script, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -220,7 +220,7 @@ class ScriptShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ScriptResource($script, new ScriptReadQuery($parameters)))
+                    (new ScriptResource($script, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -260,7 +260,7 @@ class ScriptShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ScriptResource($script, new ScriptReadQuery($parameters)))
+                    (new ScriptResource($script, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -305,7 +305,7 @@ class ScriptShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ScriptResource($script, new ScriptReadQuery($parameters)))
+                    (new ScriptResource($script, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -345,7 +345,7 @@ class ScriptShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ScriptResource($script, new ScriptReadQuery($parameters)))
+                    (new ScriptResource($script, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -385,7 +385,7 @@ class ScriptShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ScriptResource($script, new ScriptReadQuery($parameters)))
+                    (new ScriptResource($script, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -425,7 +425,7 @@ class ScriptShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ScriptResource($script, new ScriptReadQuery($parameters)))
+                    (new ScriptResource($script, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),

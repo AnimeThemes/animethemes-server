@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Resources;
 
 use App\Contracts\Http\Api\Field\RenderableField;
-use App\Http\Api\Query\ReadQuery;
+use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Schema;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
@@ -22,10 +22,10 @@ abstract class BaseResource extends JsonResource
      * Create a new resource instance.
      *
      * @param  mixed  $resource
-     * @param  ReadQuery  $query
+     * @param  Query  $query
      * @return void
      */
-    public function __construct(mixed $resource, protected readonly ReadQuery $query)
+    public function __construct(mixed $resource, protected readonly Query $query)
     {
         parent::__construct($resource);
     }

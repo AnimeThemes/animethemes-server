@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\Auth\User\Me;
 
-use App\Http\Api\Query\Auth\User\UserReadQuery;
+use App\Http\Api\Query\Query;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Auth\Resource\UserResource;
 use App\Models\Auth\User;
@@ -36,7 +36,7 @@ class MyController extends Controller
         /** @var User $user */
         $user = Auth::user();
 
-        $resource = new UserResource($user, new UserReadQuery());
+        $resource = new UserResource($user, new Query());
 
         return $resource->toResponse($request);
     }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Nova\Actions\Models\Wiki\Studio;
 
-use App\Actions\Models\BaseAction;
+use App\Actions\Models\BackfillAction;
 use App\Actions\Models\Wiki\Studio\Image\BackfillLargeCoverImageAction;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Models\Auth\User;
@@ -124,7 +124,7 @@ class BackfillStudioAction extends Action implements ShouldQueue
      *
      * @param  ActionFields  $fields
      * @param  Studio  $studio
-     * @return BaseAction[]
+     * @return BackfillAction[]
      */
     protected function getActions(ActionFields $fields, Studio $studio): array
     {
@@ -143,7 +143,7 @@ class BackfillStudioAction extends Action implements ShouldQueue
      * Get the mapping of actions to their form fields.
      *
      * @param  Studio  $studio
-     * @return array<string, BaseAction>
+     * @return array<string, BackfillAction>
      */
     protected function getActionMapping(Studio $studio): array
     {

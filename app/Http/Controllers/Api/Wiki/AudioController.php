@@ -4,16 +4,24 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\Wiki;
 
+use App\Actions\Http\Api\DestroyAction;
+use App\Actions\Http\Api\ForceDeleteAction;
+use App\Actions\Http\Api\IndexAction;
+use App\Actions\Http\Api\RestoreAction;
+use App\Actions\Http\Api\ShowAction;
+use App\Actions\Http\Api\StoreAction;
+use App\Actions\Http\Api\UpdateAction;
+use App\Http\Api\Query\Query;
 use App\Http\Controllers\Api\BaseController;
-use App\Http\Requests\Api\Wiki\Audio\AudioDestroyRequest;
-use App\Http\Requests\Api\Wiki\Audio\AudioForceDeleteRequest;
-use App\Http\Requests\Api\Wiki\Audio\AudioIndexRequest;
-use App\Http\Requests\Api\Wiki\Audio\AudioRestoreRequest;
-use App\Http\Requests\Api\Wiki\Audio\AudioShowRequest;
-use App\Http\Requests\Api\Wiki\Audio\AudioStoreRequest;
-use App\Http\Requests\Api\Wiki\Audio\AudioUpdateRequest;
+use App\Http\Requests\Api\IndexRequest;
+use App\Http\Requests\Api\ShowRequest;
+use App\Http\Requests\Api\StoreRequest;
+use App\Http\Requests\Api\UpdateRequest;
+use App\Http\Resources\Wiki\Collection\AudioCollection;
+use App\Http\Resources\Wiki\Resource\AudioResource;
 use App\Models\Wiki\Audio;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 /**
  * Class AudioController.
@@ -31,25 +39,33 @@ class AudioController extends BaseController
     /**
      * Display a listing of the resource.
      *
-     * @param  AudioIndexRequest  $request
+     * @param  IndexRequest  $request
+     * @param  IndexAction  $action
      * @return JsonResponse
      */
-    public function index(AudioIndexRequest $request): JsonResponse
+    public function index(IndexRequest $request, IndexAction $action): JsonResponse
     {
-        $query = $request->getQuery();
+        $query = new Query($request->validated());
 
-        return $query->index()->toResponse($request);
+        $audios = $action->index(Audio::query(), $query, $request->schema());
+
+        $collection = new AudioCollection($audios, $query);
+
+        return $collection->toResponse($request);
     }
 
     /**
      * Store a newly created resource.
      *
-     * @param  AudioStoreRequest  $request
+     * @param  StoreRequest  $request
+     * @param  StoreAction  $action
      * @return JsonResponse
      */
-    public function store(AudioStoreRequest $request): JsonResponse
+    public function store(StoreRequest $request, StoreAction $action): JsonResponse
     {
-        $resource = $request->getQuery()->store();
+        $audio = $action->store(Audio::query(), $request->validated());
+
+        $resource = new AudioResource($audio, new Query());
 
         return $resource->toResponse($request);
     }
@@ -57,13 +73,18 @@ class AudioController extends BaseController
     /**
      * Display the specified resource.
      *
-     * @param  AudioShowRequest  $request
+     * @param  ShowRequest  $request
      * @param  Audio  $audio
+     * @param  ShowAction  $action
      * @return JsonResponse
      */
-    public function show(AudioShowRequest $request, Audio $audio): JsonResponse
+    public function show(ShowRequest $request, Audio $audio, ShowAction $action): JsonResponse
     {
-        $resource = $request->getQuery()->show($audio);
+        $query = new Query($request->validated());
+
+        $show = $action->show($audio, $query, $request->schema());
+
+        $resource = new AudioResource($show, $query);
 
         return $resource->toResponse($request);
     }
@@ -71,13 +92,16 @@ class AudioController extends BaseController
     /**
      * Update the specified resource.
      *
-     * @param  AudioUpdateRequest  $request
+     * @param  UpdateRequest  $request
      * @param  Audio  $audio
+     * @param  UpdateAction  $action
      * @return JsonResponse
      */
-    public function update(AudioUpdateRequest $request, Audio $audio): JsonResponse
+    public function update(UpdateRequest $request, Audio $audio, UpdateAction $action): JsonResponse
     {
-        $resource = $request->getQuery()->update($audio);
+        $updated = $action->update($audio, $request->validated());
+
+        $resource = new AudioResource($updated, new Query());
 
         return $resource->toResponse($request);
     }
@@ -85,13 +109,16 @@ class AudioController extends BaseController
     /**
      * Remove the specified resource.
      *
-     * @param  AudioDestroyRequest  $request
+     * @param  Request  $request
      * @param  Audio  $audio
+     * @param  DestroyAction  $action
      * @return JsonResponse
      */
-    public function destroy(AudioDestroyRequest $request, Audio $audio): JsonResponse
+    public function destroy(Request $request, Audio $audio, DestroyAction $action): JsonResponse
     {
-        $resource = $request->getQuery()->destroy($audio);
+        $deleted = $action->destroy($audio);
+
+        $resource = new AudioResource($deleted, new Query());
 
         return $resource->toResponse($request);
     }
@@ -99,13 +126,16 @@ class AudioController extends BaseController
     /**
      * Restore the specified resource.
      *
-     * @param  AudioRestoreRequest  $request
+     * @param  Request  $request
      * @param  Audio  $audio
+     * @param  RestoreAction  $action
      * @return JsonResponse
      */
-    public function restore(AudioRestoreRequest $request, Audio $audio): JsonResponse
+    public function restore(Request $request, Audio $audio, RestoreAction $action): JsonResponse
     {
-        $resource = $request->getQuery()->restore($audio);
+        $restored = $action->restore($audio);
+
+        $resource = new AudioResource($restored, new Query());
 
         return $resource->toResponse($request);
     }
@@ -113,12 +143,16 @@ class AudioController extends BaseController
     /**
      * Hard-delete the specified resource.
      *
-     * @param  AudioForceDeleteRequest  $request
      * @param  Audio  $audio
+     * @param  ForceDeleteAction  $action
      * @return JsonResponse
      */
-    public function forceDelete(AudioForceDeleteRequest $request, Audio $audio): JsonResponse
+    public function forceDelete(Audio $audio, ForceDeleteAction $action): JsonResponse
     {
-        return $request->getQuery()->forceDelete($audio);
+        $message = $action->forceDelete($audio);
+
+        return new JsonResponse([
+            'message' => $message,
+        ]);
     }
 }

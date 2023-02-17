@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Wiki\ExternalResource;
 
+use App\Concerns\Actions\Http\Api\SortsModels;
 use App\Contracts\Http\Api\Field\SortableField;
 use App\Enums\Http\Api\Filter\TrashedStatus;
 use App\Enums\Http\Api\Sort\Direction;
@@ -19,7 +20,7 @@ use App\Http\Api\Parser\FilterParser;
 use App\Http\Api\Parser\IncludeParser;
 use App\Http\Api\Parser\PagingParser;
 use App\Http\Api\Parser\SortParser;
-use App\Http\Api\Query\Wiki\ExternalResource\ExternalResourceReadQuery;
+use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Wiki\ExternalResourceSchema;
 use App\Http\Resources\Wiki\Collection\ExternalResourceCollection;
 use App\Http\Resources\Wiki\Resource\ExternalResourceResource;
@@ -38,6 +39,7 @@ use Tests\TestCase;
  */
 class ExternalResourceIndexTest extends TestCase
 {
+    use SortsModels;
     use WithFaker;
     use WithoutEvents;
 
@@ -57,7 +59,7 @@ class ExternalResourceIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ExternalResourceCollection($resources, new ExternalResourceReadQuery()))
+                    (new ExternalResourceCollection($resources, new Query()))
                         ->response()
                         ->getData()
                 ),
@@ -116,7 +118,7 @@ class ExternalResourceIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ExternalResourceCollection($resources, new ExternalResourceReadQuery($parameters)))
+                    (new ExternalResourceCollection($resources, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -153,7 +155,7 @@ class ExternalResourceIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ExternalResourceCollection($resources, new ExternalResourceReadQuery($parameters)))
+                    (new ExternalResourceCollection($resources, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -180,16 +182,18 @@ class ExternalResourceIndexTest extends TestCase
             SortParser::param() => $sort->format(Direction::getRandomInstance()),
         ];
 
-        $query = new ExternalResourceReadQuery($parameters);
+        $query = new Query($parameters);
 
         ExternalResource::factory()->count($this->faker->randomDigitNotNull())->create();
 
         $response = $this->get(route('api.resource.index', $parameters));
 
+        $resources = $this->sort(ExternalResource::query(), $query, $schema)->get();
+
         $response->assertJson(
             json_decode(
                 json_encode(
-                    $query->collection($query->index())
+                    (new ExternalResourceCollection($resources, $query))
                         ->response()
                         ->getData()
                 ),
@@ -232,7 +236,7 @@ class ExternalResourceIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ExternalResourceCollection($resource, new ExternalResourceReadQuery($parameters)))
+                    (new ExternalResourceCollection($resource, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -275,7 +279,7 @@ class ExternalResourceIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ExternalResourceCollection($resource, new ExternalResourceReadQuery($parameters)))
+                    (new ExternalResourceCollection($resource, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -314,7 +318,7 @@ class ExternalResourceIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ExternalResourceCollection($resource, new ExternalResourceReadQuery($parameters)))
+                    (new ExternalResourceCollection($resource, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -353,7 +357,7 @@ class ExternalResourceIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ExternalResourceCollection($resource, new ExternalResourceReadQuery($parameters)))
+                    (new ExternalResourceCollection($resource, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -392,7 +396,7 @@ class ExternalResourceIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ExternalResourceCollection($resource, new ExternalResourceReadQuery($parameters)))
+                    (new ExternalResourceCollection($resource, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -442,7 +446,7 @@ class ExternalResourceIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ExternalResourceCollection($resource, new ExternalResourceReadQuery($parameters)))
+                    (new ExternalResourceCollection($resource, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -477,7 +481,7 @@ class ExternalResourceIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ExternalResourceCollection($resources, new ExternalResourceReadQuery($parameters)))
+                    (new ExternalResourceCollection($resources, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -519,7 +523,7 @@ class ExternalResourceIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ExternalResourceCollection($resources, new ExternalResourceReadQuery($parameters)))
+                    (new ExternalResourceCollection($resources, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -568,7 +572,7 @@ class ExternalResourceIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ExternalResourceCollection($resources, new ExternalResourceReadQuery($parameters)))
+                    (new ExternalResourceCollection($resources, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),

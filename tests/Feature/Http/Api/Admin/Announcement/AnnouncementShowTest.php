@@ -6,7 +6,7 @@ namespace Tests\Feature\Http\Api\Admin\Announcement;
 
 use App\Http\Api\Field\Field;
 use App\Http\Api\Parser\FieldParser;
-use App\Http\Api\Query\Admin\Announcement\AnnouncementReadQuery;
+use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Admin\AnnouncementSchema;
 use App\Http\Resources\Admin\Resource\AnnouncementResource;
 use App\Models\Admin\Announcement;
@@ -36,7 +36,7 @@ class AnnouncementShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AnnouncementResource($announcement, new AnnouncementReadQuery()))
+                    (new AnnouncementResource($announcement, new Query()))
                         ->response()
                         ->getData()
                 ),
@@ -63,7 +63,7 @@ class AnnouncementShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AnnouncementResource($announcement, new AnnouncementReadQuery()))
+                    (new AnnouncementResource($announcement, new Query()))
                         ->response()
                         ->getData()
                 ),
@@ -98,7 +98,7 @@ class AnnouncementShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AnnouncementResource($announcement, new AnnouncementReadQuery($parameters)))
+                    (new AnnouncementResource($announcement, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),

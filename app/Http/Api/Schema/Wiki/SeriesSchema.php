@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Schema\Wiki;
 
+use App\Contracts\Http\Api\Schema\SearchableSchema;
 use App\Http\Api\Field\Base\IdField;
 use App\Http\Api\Field\Field;
 use App\Http\Api\Field\Wiki\Series\SeriesNameField;
@@ -16,7 +17,7 @@ use App\Models\Wiki\Series;
 /**
  * Class SeriesSchema.
  */
-class SeriesSchema extends EloquentSchema
+class SeriesSchema extends EloquentSchema implements SearchableSchema
 {
     /**
      * The model this schema represents.

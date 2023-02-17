@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Schema\Wiki;
 
+use App\Contracts\Http\Api\Schema\SearchableSchema;
 use App\Http\Api\Field\Base\IdField;
 use App\Http\Api\Field\Field;
 use App\Http\Api\Field\Wiki\Song\SongAsField;
@@ -17,7 +18,7 @@ use App\Models\Wiki\Song;
 /**
  * Class SongSchema.
  */
-class SongSchema extends EloquentSchema
+class SongSchema extends EloquentSchema implements SearchableSchema
 {
     /**
      * The model this schema represents.

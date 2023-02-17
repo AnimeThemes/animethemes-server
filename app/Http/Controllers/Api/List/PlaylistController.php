@@ -4,17 +4,26 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\List;
 
-use App\Enums\Http\Api\Paging\PaginationStrategy;
+use App\Actions\Http\Api\DestroyAction;
+use App\Actions\Http\Api\ForceDeleteAction;
+use App\Actions\Http\Api\IndexAction;
+use App\Actions\Http\Api\RestoreAction;
+use App\Actions\Http\Api\ShowAction;
+use App\Actions\Http\Api\StoreAction;
+use App\Actions\Http\Api\UpdateAction;
+use App\Enums\Models\List\PlaylistVisibility;
+use App\Http\Api\Query\Query;
 use App\Http\Controllers\Api\BaseController;
-use App\Http\Requests\Api\List\Playlist\PlaylistDestroyRequest;
-use App\Http\Requests\Api\List\Playlist\PlaylistForceDeleteRequest;
-use App\Http\Requests\Api\List\Playlist\PlaylistIndexRequest;
-use App\Http\Requests\Api\List\Playlist\PlaylistRestoreRequest;
-use App\Http\Requests\Api\List\Playlist\PlaylistShowRequest;
-use App\Http\Requests\Api\List\Playlist\PlaylistStoreRequest;
-use App\Http\Requests\Api\List\Playlist\PlaylistUpdateRequest;
+use App\Http\Requests\Api\IndexRequest;
+use App\Http\Requests\Api\ShowRequest;
+use App\Http\Requests\Api\StoreRequest;
+use App\Http\Requests\Api\UpdateRequest;
+use App\Http\Resources\List\Collection\PlaylistCollection;
+use App\Http\Resources\List\Resource\PlaylistResource;
 use App\Models\List\Playlist;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Class PlaylistController.
@@ -32,29 +41,42 @@ class PlaylistController extends BaseController
     /**
      * Display a listing of the resource.
      *
-     * @param  PlaylistIndexRequest  $request
+     * @param  IndexRequest  $request
+     * @param  IndexAction  $action
      * @return JsonResponse
      */
-    public function index(PlaylistIndexRequest $request): JsonResponse
+    public function index(IndexRequest $request, IndexAction $action): JsonResponse
     {
-        $query = $request->getQuery();
+        $query = new Query($request->validated());
 
-        if ($query->hasSearchCriteria()) {
-            return $query->search(PaginationStrategy::OFFSET())->toResponse($request);
-        }
+        $builder = Playlist::query()->where(Playlist::ATTRIBUTE_VISIBILITY, PlaylistVisibility::PUBLIC);
 
-        return $query->index()->toResponse($request);
+        $playlists = $query->hasSearchCriteria()
+            ? $action->search($query, $request->schema())
+            : $action->index($builder, $query, $request->schema());
+
+        $collection = new PlaylistCollection($playlists, $query);
+
+        return $collection->toResponse($request);
     }
 
     /**
      * Store a newly created resource.
      *
-     * @param  PlaylistStoreRequest  $request
+     * @param  StoreRequest  $request
+     * @param  StoreAction  $action
      * @return JsonResponse
      */
-    public function store(PlaylistStoreRequest $request): JsonResponse
+    public function store(StoreRequest $request, StoreAction $action): JsonResponse
     {
-        $resource = $request->getQuery()->store();
+        $validated = array_merge(
+            $request->validated(),
+            [Playlist::ATTRIBUTE_USER => Auth::id()]
+        );
+
+        $playlist = $action->store(Playlist::query(), $validated);
+
+        $resource = new PlaylistResource($playlist, new Query());
 
         return $resource->toResponse($request);
     }
@@ -62,13 +84,18 @@ class PlaylistController extends BaseController
     /**
      * Display the specified resource.
      *
-     * @param  PlaylistShowRequest  $request
+     * @param  ShowRequest  $request
      * @param  Playlist  $playlist
+     * @param  ShowAction  $action
      * @return JsonResponse
      */
-    public function show(PlaylistShowRequest $request, Playlist $playlist): JsonResponse
+    public function show(ShowRequest $request, Playlist $playlist, ShowAction $action): JsonResponse
     {
-        $resource = $request->getQuery()->show($playlist);
+        $query = new Query($request->validated());
+
+        $show = $action->show($playlist, $query, $request->schema());
+
+        $resource = new PlaylistResource($show, $query);
 
         return $resource->toResponse($request);
     }
@@ -76,13 +103,16 @@ class PlaylistController extends BaseController
     /**
      * Update the specified resource.
      *
-     * @param  PlaylistUpdateRequest  $request
+     * @param  UpdateRequest  $request
      * @param  Playlist  $playlist
+     * @param  UpdateAction  $action
      * @return JsonResponse
      */
-    public function update(PlaylistUpdateRequest $request, Playlist $playlist): JsonResponse
+    public function update(UpdateRequest $request, Playlist $playlist, UpdateAction $action): JsonResponse
     {
-        $resource = $request->getQuery()->update($playlist);
+        $updated = $action->update($playlist, $request->validated());
+
+        $resource = new PlaylistResource($updated, new Query());
 
         return $resource->toResponse($request);
     }
@@ -90,13 +120,16 @@ class PlaylistController extends BaseController
     /**
      * Remove the specified resource.
      *
-     * @param  PlaylistDestroyRequest  $request
+     * @param  Request  $request
      * @param  Playlist  $playlist
+     * @param  DestroyAction  $action
      * @return JsonResponse
      */
-    public function destroy(PlaylistDestroyRequest $request, Playlist $playlist): JsonResponse
+    public function destroy(Request $request, Playlist $playlist, DestroyAction $action): JsonResponse
     {
-        $resource = $request->getQuery()->destroy($playlist);
+        $deleted = $action->destroy($playlist);
+
+        $resource = new PlaylistResource($deleted, new Query());
 
         return $resource->toResponse($request);
     }
@@ -104,13 +137,16 @@ class PlaylistController extends BaseController
     /**
      * Restore the specified resource.
      *
-     * @param  PlaylistRestoreRequest  $request
+     * @param  Request  $request
      * @param  Playlist  $playlist
+     * @param  RestoreAction  $action
      * @return JsonResponse
      */
-    public function restore(PlaylistRestoreRequest $request, Playlist $playlist): JsonResponse
+    public function restore(Request $request, Playlist $playlist, RestoreAction $action): JsonResponse
     {
-        $resource = $request->getQuery()->restore($playlist);
+        $restored = $action->restore($playlist);
+
+        $resource = new PlaylistResource($restored, new Query());
 
         return $resource->toResponse($request);
     }
@@ -118,12 +154,16 @@ class PlaylistController extends BaseController
     /**
      * Hard-delete the specified resource.
      *
-     * @param  PlaylistForceDeleteRequest  $request
      * @param  Playlist  $playlist
+     * @param  ForceDeleteAction  $action
      * @return JsonResponse
      */
-    public function forceDelete(PlaylistForceDeleteRequest $request, Playlist $playlist): JsonResponse
+    public function forceDelete(Playlist $playlist, ForceDeleteAction $action): JsonResponse
     {
-        return $request->getQuery()->forceDelete($playlist);
+        $message = $action->forceDelete($playlist);
+
+        return new JsonResponse([
+            'message' => $message,
+        ]);
     }
 }

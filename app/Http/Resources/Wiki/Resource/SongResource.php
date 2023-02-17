@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Wiki\Resource;
 
-use App\Http\Api\Query\ReadQuery;
 use App\Http\Api\Schema\Schema;
 use App\Http\Api\Schema\Wiki\SongSchema;
 use App\Http\Resources\BaseResource;
@@ -13,7 +12,6 @@ use App\Http\Resources\Wiki\Collection\ArtistCollection;
 use App\Models\Wiki\Song;
 use App\Pivots\Wiki\ArtistSong;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\MissingValue;
 
 /**
  * Class SongResource.
@@ -28,18 +26,6 @@ class SongResource extends BaseResource
      * @var string|null
      */
     public static $wrap = 'song';
-
-    /**
-     * Create a new resource instance.
-     *
-     * @param  Song | MissingValue | null  $song
-     * @param  ReadQuery  $query
-     * @return void
-     */
-    public function __construct(Song|MissingValue|null $song, ReadQuery $query)
-    {
-        parent::__construct($song, $query);
-    }
 
     /**
      * Transform the resource into an array.

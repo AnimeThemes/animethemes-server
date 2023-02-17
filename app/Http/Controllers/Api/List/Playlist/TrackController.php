@@ -4,17 +4,25 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\List\Playlist;
 
+use App\Actions\Http\Api\DestroyAction;
+use App\Actions\Http\Api\ForceDeleteAction;
+use App\Actions\Http\Api\IndexAction;
+use App\Actions\Http\Api\RestoreAction;
+use App\Actions\Http\Api\ShowAction;
+use App\Actions\Http\Api\StoreAction;
+use App\Actions\Http\Api\UpdateAction;
+use App\Http\Api\Query\Query;
 use App\Http\Controllers\Api\BaseController;
-use App\Http\Requests\Api\List\Playlist\Track\TrackDestroyRequest;
-use App\Http\Requests\Api\List\Playlist\Track\TrackForceDeleteRequest;
-use App\Http\Requests\Api\List\Playlist\Track\TrackIndexRequest;
-use App\Http\Requests\Api\List\Playlist\Track\TrackRestoreRequest;
-use App\Http\Requests\Api\List\Playlist\Track\TrackShowRequest;
-use App\Http\Requests\Api\List\Playlist\Track\TrackStoreRequest;
-use App\Http\Requests\Api\List\Playlist\Track\TrackUpdateRequest;
+use App\Http\Requests\Api\IndexRequest;
+use App\Http\Requests\Api\ShowRequest;
+use App\Http\Requests\Api\StoreRequest;
+use App\Http\Requests\Api\UpdateRequest;
+use App\Http\Resources\List\Playlist\Collection\TrackCollection;
+use App\Http\Resources\List\Playlist\Resource\TrackResource;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 /**
  * Class TrackController.
@@ -32,31 +40,42 @@ class TrackController extends BaseController
     /**
      * Display a listing of the resource.
      *
-     * @param  TrackIndexRequest  $request
+     * @param  IndexRequest  $request
      * @param  Playlist  $playlist
+     * @param  IndexAction  $action
      * @return JsonResponse
-     *
-     * @noinspection PhpUnusedParameterInspection
      */
-    public function index(TrackIndexRequest $request, Playlist $playlist): JsonResponse
+    public function index(IndexRequest $request, Playlist $playlist, IndexAction $action): JsonResponse
     {
-        $query = $request->getQuery();
+        $query = new Query($request->validated());
 
-        return $query->index()->toResponse($request);
+        $builder = PlaylistTrack::query()->where(PlaylistTrack::ATTRIBUTE_PLAYLIST, $playlist->getKey());
+
+        $resources = $action->index($builder, $query, $request->schema());
+
+        $collection = new TrackCollection($resources, $query);
+
+        return $collection->toResponse($request);
     }
 
     /**
      * Store a newly created resource.
      *
-     * @param  TrackStoreRequest  $request
+     * @param  StoreRequest  $request
      * @param  Playlist  $playlist
+     * @param  StoreAction  $action
      * @return JsonResponse
-     *
-     * @noinspection PhpUnusedParameterInspection
      */
-    public function store(TrackStoreRequest $request, Playlist $playlist): JsonResponse
+    public function store(StoreRequest $request, Playlist $playlist, StoreAction $action): JsonResponse
     {
-        $resource = $request->getQuery()->store();
+        $validated = array_merge(
+            $request->validated(),
+            [PlaylistTrack::ATTRIBUTE_PLAYLIST => $playlist->getKey()]
+        );
+
+        $track = $action->store(PlaylistTrack::query(), $validated);
+
+        $resource = new TrackResource($track, new Query());
 
         return $resource->toResponse($request);
     }
@@ -64,16 +83,21 @@ class TrackController extends BaseController
     /**
      * Display the specified resource.
      *
-     * @param  TrackShowRequest  $request
+     * @param  ShowRequest  $request
      * @param  Playlist  $playlist
      * @param  PlaylistTrack  $track
+     * @param  ShowAction  $action
      * @return JsonResponse
      *
      * @noinspection PhpUnusedParameterInspection
      */
-    public function show(TrackShowRequest $request, Playlist $playlist, PlaylistTrack $track): JsonResponse
+    public function show(ShowRequest $request, Playlist $playlist, PlaylistTrack $track, ShowAction $action): JsonResponse
     {
-        $resource = $request->getQuery()->show($track);
+        $query = new Query($request->validated());
+
+        $show = $action->show($track, $query, $request->schema());
+
+        $resource = new TrackResource($show, $query);
 
         return $resource->toResponse($request);
     }
@@ -81,16 +105,19 @@ class TrackController extends BaseController
     /**
      * Update the specified resource.
      *
-     * @param  TrackUpdateRequest  $request
+     * @param  UpdateRequest  $request
      * @param  Playlist  $playlist
      * @param  PlaylistTrack  $track
+     * @param  UpdateAction  $action
      * @return JsonResponse
      *
      * @noinspection PhpUnusedParameterInspection
      */
-    public function update(TrackUpdateRequest $request, Playlist $playlist, PlaylistTrack $track): JsonResponse
+    public function update(UpdateRequest $request, Playlist $playlist, PlaylistTrack $track, UpdateAction $action): JsonResponse
     {
-        $resource = $request->getQuery()->update($track);
+        $updated = $action->update($track, $request->validated());
+
+        $resource = new TrackResource($updated, new Query());
 
         return $resource->toResponse($request);
     }
@@ -98,16 +125,19 @@ class TrackController extends BaseController
     /**
      * Remove the specified resource.
      *
-     * @param  TrackDestroyRequest  $request
+     * @param  Request  $request
      * @param  Playlist  $playlist
      * @param  PlaylistTrack  $track
+     * @param  DestroyAction  $action
      * @return JsonResponse
      *
      * @noinspection PhpUnusedParameterInspection
      */
-    public function destroy(TrackDestroyRequest $request, Playlist $playlist, PlaylistTrack $track): JsonResponse
+    public function destroy(Request $request, Playlist $playlist, PlaylistTrack $track, DestroyAction $action): JsonResponse
     {
-        $resource = $request->getQuery()->destroy($track);
+        $deleted = $action->destroy($track);
+
+        $resource = new TrackResource($deleted, new Query());
 
         return $resource->toResponse($request);
     }
@@ -115,16 +145,19 @@ class TrackController extends BaseController
     /**
      * Restore the specified resource.
      *
-     * @param  TrackRestoreRequest  $request
+     * @param  Request  $request
      * @param  Playlist  $playlist
      * @param  PlaylistTrack  $track
+     * @param  RestoreAction  $action
      * @return JsonResponse
      *
      * @noinspection PhpUnusedParameterInspection
      */
-    public function restore(TrackRestoreRequest $request, Playlist $playlist, PlaylistTrack $track): JsonResponse
+    public function restore(Request $request, Playlist $playlist, PlaylistTrack $track, RestoreAction $action): JsonResponse
     {
-        $resource = $request->getQuery()->restore($track);
+        $restored = $action->restore($track);
+
+        $resource = new TrackResource($restored, new Query());
 
         return $resource->toResponse($request);
     }
@@ -132,15 +165,19 @@ class TrackController extends BaseController
     /**
      * Hard-delete the specified resource.
      *
-     * @param  TrackForceDeleteRequest  $request
      * @param  Playlist  $playlist
      * @param  PlaylistTrack  $track
+     * @param  ForceDeleteAction  $action
      * @return JsonResponse
      *
      * @noinspection PhpUnusedParameterInspection
      */
-    public function forceDelete(TrackForceDeleteRequest $request, Playlist $playlist, PlaylistTrack $track): JsonResponse
+    public function forceDelete(Playlist $playlist, PlaylistTrack $track, ForceDeleteAction $action): JsonResponse
     {
-        return $request->getQuery()->forceDelete($track);
+        $message = $action->forceDelete($track);
+
+        return new JsonResponse([
+            'message' => $message,
+        ]);
     }
 }

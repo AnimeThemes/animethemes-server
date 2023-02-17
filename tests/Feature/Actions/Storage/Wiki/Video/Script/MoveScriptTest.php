@@ -56,13 +56,13 @@ class MoveScriptTest extends TestCase
 
         $file = File::fake()->create($this->faker->word().'.txt', $this->faker->randomDigitNotNull());
 
-        $directory = $this->faker->word();
+        $directory = $this->faker->unique()->word();
 
         $script = VideoScript::factory()->createOne([
             VideoScript::ATTRIBUTE_PATH => $fs->putFileAs($directory, $file, $file->getClientOriginalName()),
         ]);
 
-        $action = new MoveScriptAction($script, Str::replace($directory, $this->faker->word(), $script->path));
+        $action = new MoveScriptAction($script, Str::replace($directory, $this->faker->unique()->word(), $script->path));
 
         $storageResults = $action->handle();
 
@@ -83,14 +83,14 @@ class MoveScriptTest extends TestCase
 
         $file = File::fake()->create($this->faker->word().'.txt', $this->faker->randomDigitNotNull());
 
-        $directory = $this->faker->word();
+        $directory = $this->faker->unique()->word();
 
         $script = VideoScript::factory()->createOne([
             VideoScript::ATTRIBUTE_PATH => $fs->putFileAs($directory, $file, $file->getClientOriginalName()),
         ]);
 
         $from = $script->path;
-        $to = Str::replace($directory, $this->faker->word(), $script->path);
+        $to = Str::replace($directory, $this->faker->unique()->word(), $script->path);
 
         $action = new MoveScriptAction($script, $to);
 
@@ -112,13 +112,13 @@ class MoveScriptTest extends TestCase
 
         $file = File::fake()->create($this->faker->word().'.txt', $this->faker->randomDigitNotNull());
 
-        $directory = $this->faker->word();
+        $directory = $this->faker->unique()->word();
 
         $script = VideoScript::factory()->createOne([
             VideoScript::ATTRIBUTE_PATH => $fs->putFileAs($directory, $file, $file->getClientOriginalName()),
         ]);
 
-        $to = Str::replace($directory, $this->faker->word(), $script->path);
+        $to = Str::replace($directory, $this->faker->unique()->word(), $script->path);
 
         $action = new MoveScriptAction($script, $to);
 

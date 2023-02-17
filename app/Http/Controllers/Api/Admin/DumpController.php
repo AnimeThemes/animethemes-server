@@ -4,16 +4,24 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\Admin;
 
+use App\Actions\Http\Api\DestroyAction;
+use App\Actions\Http\Api\ForceDeleteAction;
+use App\Actions\Http\Api\IndexAction;
+use App\Actions\Http\Api\RestoreAction;
+use App\Actions\Http\Api\ShowAction;
+use App\Actions\Http\Api\StoreAction;
+use App\Actions\Http\Api\UpdateAction;
+use App\Http\Api\Query\Query;
 use App\Http\Controllers\Api\BaseController;
-use App\Http\Requests\Api\Admin\Dump\DumpDestroyRequest;
-use App\Http\Requests\Api\Admin\Dump\DumpForceDeleteRequest;
-use App\Http\Requests\Api\Admin\Dump\DumpIndexRequest;
-use App\Http\Requests\Api\Admin\Dump\DumpRestoreRequest;
-use App\Http\Requests\Api\Admin\Dump\DumpShowRequest;
-use App\Http\Requests\Api\Admin\Dump\DumpStoreRequest;
-use App\Http\Requests\Api\Admin\Dump\DumpUpdateRequest;
+use App\Http\Requests\Api\IndexRequest;
+use App\Http\Requests\Api\ShowRequest;
+use App\Http\Requests\Api\StoreRequest;
+use App\Http\Requests\Api\UpdateRequest;
+use App\Http\Resources\Admin\Collection\DumpCollection;
+use App\Http\Resources\Admin\Resource\DumpResource;
 use App\Models\Admin\Dump;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 /**
  * Class DumpController.
@@ -31,25 +39,33 @@ class DumpController extends BaseController
     /**
      * Display a listing of the resource.
      *
-     * @param  DumpIndexRequest  $request
+     * @param  IndexRequest  $request
+     * @param  IndexAction  $action
      * @return JsonResponse
      */
-    public function index(DumpIndexRequest $request): JsonResponse
+    public function index(IndexRequest $request, IndexAction $action): JsonResponse
     {
-        $dumps = $request->getQuery()->index();
+        $query = new Query($request->validated());
 
-        return $dumps->toResponse($request);
+        $dumps = $action->index(Dump::query(), $query, $request->schema());
+
+        $collection = new DumpCollection($dumps, $query);
+
+        return $collection->toResponse($request);
     }
 
     /**
      * Store a newly created resource.
      *
-     * @param  DumpStoreRequest  $request
+     * @param  StoreRequest  $request
+     * @param  StoreAction  $action
      * @return JsonResponse
      */
-    public function store(DumpStoreRequest $request): JsonResponse
+    public function store(StoreRequest $request, StoreAction $action): JsonResponse
     {
-        $resource = $request->getQuery()->store();
+        $dump = $action->store(Dump::query(), $request->validated());
+
+        $resource = new DumpResource($dump, new Query());
 
         return $resource->toResponse($request);
     }
@@ -57,13 +73,18 @@ class DumpController extends BaseController
     /**
      * Display the specified resource.
      *
-     * @param  DumpShowRequest  $request
+     * @param  ShowRequest  $request
      * @param  Dump  $dump
+     * @param  ShowAction  $action
      * @return JsonResponse
      */
-    public function show(DumpShowRequest $request, Dump $dump): JsonResponse
+    public function show(ShowRequest $request, Dump $dump, ShowAction $action): JsonResponse
     {
-        $resource = $request->getQuery()->show($dump);
+        $query = new Query($request->validated());
+
+        $show = $action->show($dump, $query, $request->schema());
+
+        $resource = new DumpResource($show, $query);
 
         return $resource->toResponse($request);
     }
@@ -71,13 +92,16 @@ class DumpController extends BaseController
     /**
      * Update the specified resource.
      *
-     * @param  DumpUpdateRequest  $request
+     * @param  UpdateRequest  $request
      * @param  Dump  $dump
+     * @param  UpdateAction  $action
      * @return JsonResponse
      */
-    public function update(DumpUpdateRequest $request, Dump $dump): JsonResponse
+    public function update(UpdateRequest $request, Dump $dump, UpdateAction $action): JsonResponse
     {
-        $resource = $request->getQuery()->update($dump);
+        $updated = $action->update($dump, $request->validated());
+
+        $resource = new DumpResource($updated, new Query());
 
         return $resource->toResponse($request);
     }
@@ -85,13 +109,16 @@ class DumpController extends BaseController
     /**
      * Remove the specified resource.
      *
-     * @param  DumpDestroyRequest  $request
+     * @param  Request  $request
      * @param  Dump  $dump
+     * @param  DestroyAction  $action
      * @return JsonResponse
      */
-    public function destroy(DumpDestroyRequest $request, Dump $dump): JsonResponse
+    public function destroy(Request $request, Dump $dump, DestroyAction $action): JsonResponse
     {
-        $resource = $request->getQuery()->destroy($dump);
+        $deleted = $action->destroy($dump);
+
+        $resource = new DumpResource($deleted, new Query());
 
         return $resource->toResponse($request);
     }
@@ -99,13 +126,16 @@ class DumpController extends BaseController
     /**
      * Restore the specified resource.
      *
-     * @param  DumpRestoreRequest  $request
+     * @param  Request  $request
      * @param  Dump  $dump
+     * @param  RestoreAction  $action
      * @return JsonResponse
      */
-    public function restore(DumpRestoreRequest $request, Dump $dump): JsonResponse
+    public function restore(Request $request, Dump $dump, RestoreAction $action): JsonResponse
     {
-        $resource = $request->getQuery()->restore($dump);
+        $restored = $action->restore($dump);
+
+        $resource = new DumpResource($restored, new Query());
 
         return $resource->toResponse($request);
     }
@@ -113,12 +143,16 @@ class DumpController extends BaseController
     /**
      * Hard-delete the specified resource.
      *
-     * @param  DumpForceDeleteRequest  $request
      * @param  Dump  $dump
+     * @param  ForceDeleteAction  $action
      * @return JsonResponse
      */
-    public function forceDelete(DumpForceDeleteRequest $request, Dump $dump): JsonResponse
+    public function forceDelete(Dump $dump, ForceDeleteAction $action): JsonResponse
     {
-        return $request->getQuery()->forceDelete($dump);
+        $message = $action->forceDelete($dump);
+
+        return new JsonResponse([
+            'message' => $message,
+        ]);
     }
 }

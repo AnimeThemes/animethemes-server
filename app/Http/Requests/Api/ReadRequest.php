@@ -12,7 +12,6 @@ use App\Concerns\Http\Requests\Api\ValidatesPaging;
 use App\Concerns\Http\Requests\Api\ValidatesSorts;
 use App\Http\Api\Parser\FieldParser;
 use App\Http\Api\Parser\IncludeParser;
-use App\Http\Api\Schema\Schema;
 use Illuminate\Support\Arr;
 
 /**
@@ -26,13 +25,6 @@ abstract class ReadRequest extends BaseRequest
     use ValidatesIncludes;
     use ValidatesPaging;
     use ValidatesSorts;
-
-    /**
-     * Get the schema.
-     *
-     * @return Schema
-     */
-    abstract protected function schema(): Schema;
 
     /**
      * Get the validation rules that apply to the request.

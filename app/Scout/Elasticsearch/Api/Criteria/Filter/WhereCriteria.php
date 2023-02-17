@@ -8,7 +8,7 @@ use App\Enums\Http\Api\Filter\BinaryLogicalOperator;
 use App\Enums\Http\Api\Filter\ComparisonOperator;
 use App\Http\Api\Criteria\Filter\WhereCriteria as BaseCriteria;
 use App\Http\Api\Filter\Filter;
-use App\Http\Api\Query\ReadQuery;
+use App\Http\Api\Query\Query;
 use Elastic\ScoutDriverPlus\Builders\BoolQueryBuilder;
 use Elastic\ScoutDriverPlus\Builders\QueryBuilderInterface;
 use Elastic\ScoutDriverPlus\Support\Query as ElasticQuery;
@@ -35,10 +35,10 @@ class WhereCriteria extends Criteria
      *
      * @param  BoolQueryBuilder  $builder
      * @param  Filter  $filter
-     * @param  ReadQuery  $query
+     * @param  Query  $query
      * @return BoolQueryBuilder
      */
-    public function filter(BoolQueryBuilder $builder, Filter $filter, ReadQuery $query): BoolQueryBuilder
+    public function filter(BoolQueryBuilder $builder, Filter $filter, Query $query): BoolQueryBuilder
     {
         $clause = $this->getElasticsearchClause($filter);
 

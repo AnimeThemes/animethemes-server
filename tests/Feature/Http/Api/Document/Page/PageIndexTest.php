@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Document\Page;
 
+use App\Concerns\Actions\Http\Api\SortsModels;
 use App\Contracts\Http\Api\Field\SortableField;
 use App\Enums\Http\Api\Filter\TrashedStatus;
 use App\Enums\Http\Api\Sort\Direction;
@@ -15,7 +16,7 @@ use App\Http\Api\Parser\FieldParser;
 use App\Http\Api\Parser\FilterParser;
 use App\Http\Api\Parser\PagingParser;
 use App\Http\Api\Parser\SortParser;
-use App\Http\Api\Query\Document\Page\PageReadQuery;
+use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Document\PageSchema;
 use App\Http\Resources\Document\Collection\PageCollection;
 use App\Http\Resources\Document\Resource\PageResource;
@@ -31,6 +32,7 @@ use Tests\TestCase;
  */
 class PageIndexTest extends TestCase
 {
+    use SortsModels;
     use WithFaker;
     use WithoutEvents;
 
@@ -48,7 +50,7 @@ class PageIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new PageCollection($pages, new PageReadQuery()))
+                    (new PageCollection($pages, new Query()))
                         ->response()
                         ->getData()
                 ),
@@ -101,7 +103,7 @@ class PageIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new PageCollection($pages, new PageReadQuery($parameters)))
+                    (new PageCollection($pages, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -128,16 +130,18 @@ class PageIndexTest extends TestCase
             SortParser::param() => $sort->format(Direction::getRandomInstance()),
         ];
 
-        $query = new PageReadQuery($parameters);
+        $query = new Query($parameters);
 
         Page::factory()->count($this->faker->randomDigitNotNull())->create();
 
         $response = $this->get(route('api.page.index', $parameters));
 
+        $pages = $this->sort(Page::query(), $query, $schema)->get();
+
         $response->assertJson(
             json_decode(
                 json_encode(
-                    $query->collection($query->index())
+                    (new PageCollection($pages, $query))
                         ->response()
                         ->getData()
                 ),
@@ -180,7 +184,7 @@ class PageIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new PageCollection($page, new PageReadQuery($parameters)))
+                    (new PageCollection($page, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -223,7 +227,7 @@ class PageIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new PageCollection($page, new PageReadQuery($parameters)))
+                    (new PageCollection($page, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -262,7 +266,7 @@ class PageIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new PageCollection($page, new PageReadQuery($parameters)))
+                    (new PageCollection($page, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -301,7 +305,7 @@ class PageIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new PageCollection($page, new PageReadQuery($parameters)))
+                    (new PageCollection($page, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -340,7 +344,7 @@ class PageIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new PageCollection($page, new PageReadQuery($parameters)))
+                    (new PageCollection($page, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -390,7 +394,7 @@ class PageIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new PageCollection($page, new PageReadQuery($parameters)))
+                    (new PageCollection($page, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
