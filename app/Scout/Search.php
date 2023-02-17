@@ -33,7 +33,7 @@ abstract class Search
      */
     abstract public function search(
         Query $query,
-        EloquentSchema  $schema,
+        EloquentSchema $schema,
         PaginationStrategy $paginationStrategy
     ): Collection|Paginator;
 }

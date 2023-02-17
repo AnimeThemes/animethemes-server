@@ -60,6 +60,7 @@ class IndexAction
 
         // paginate
         $paginationCriteria = $query->getPagingCriteria(PaginationStrategy::OFFSET());
+
         return $paginationCriteria !== null
             ? $paginationCriteria->paginate($builder)
             : $builder->get();

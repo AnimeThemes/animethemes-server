@@ -12,7 +12,6 @@ use App\Concerns\Http\Requests\Api\ValidatesPaging;
 use App\Concerns\Http\Requests\Api\ValidatesSorts;
 use App\Http\Api\Parser\FieldParser;
 use App\Http\Api\Parser\IncludeParser;
-use App\Http\Api\Schema\Schema;
 use Illuminate\Support\Arr;
 
 /**
