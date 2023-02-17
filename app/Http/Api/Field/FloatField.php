@@ -10,7 +10,8 @@ use App\Contracts\Http\Api\Field\SelectableField;
 use App\Contracts\Http\Api\Field\SortableField;
 use App\Http\Api\Filter\Filter;
 use App\Http\Api\Filter\FloatFilter;
-use App\Http\Api\Query\ReadQuery;
+use App\Http\Api\Query\Query;
+use App\Http\Api\Schema\Schema;
 use App\Http\Api\Sort\Sort;
 use Illuminate\Database\Eloquent\Model;
 
@@ -32,10 +33,10 @@ abstract class FloatField extends Field implements FilterableField, RenderableFi
     /**
      * Determine if the field should be displayed to the user.
      *
-     * @param  ReadQuery  $query
+     * @param  Query  $query
      * @return bool
      */
-    public function shouldRender(ReadQuery $query): bool
+    public function shouldRender(Query $query): bool
     {
         $criteria = $query->getFieldCriteria($this->schema->type());
 
@@ -56,10 +57,11 @@ abstract class FloatField extends Field implements FilterableField, RenderableFi
     /**
      * Determine if the field should be included in the select clause of our query.
      *
-     * @param  ReadQuery  $query
+     * @param  Query  $query
+     * @param  Schema  $schema
      * @return bool
      */
-    public function shouldSelect(ReadQuery $query): bool
+    public function shouldSelect(Query $query, Schema $schema): bool
     {
         $criteria = $query->getFieldCriteria($this->schema->type());
 

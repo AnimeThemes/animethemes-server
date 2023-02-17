@@ -7,7 +7,7 @@ namespace Tests\Feature\Http\Api\Config;
 use App\Constants\Config\FlagConstants;
 use App\Http\Api\Field\Field;
 use App\Http\Api\Parser\FieldParser;
-use App\Http\Api\Query\Config\FlagsReadQuery;
+use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Config\FlagsSchema;
 use App\Http\Resources\Config\Resource\FlagsResource;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -39,7 +39,7 @@ class FlagsShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new FlagsResource(new FlagsReadQuery()))
+                    (new FlagsResource(new Query()))
                         ->response()
                         ->getData()
                 ),
@@ -76,7 +76,7 @@ class FlagsShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new FlagsResource(new FlagsReadQuery($parameters)))
+                    (new FlagsResource(new Query($parameters)))
                         ->response()
                         ->getData()
                 ),

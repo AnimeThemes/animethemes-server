@@ -8,7 +8,7 @@ use App\Http\Api\Field\Field;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Parser\FieldParser;
 use App\Http\Api\Parser\IncludeParser;
-use App\Http\Api\Query\Wiki\Audio\AudioReadQuery;
+use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Wiki\AudioSchema;
 use App\Http\Resources\Wiki\Resource\AudioResource;
 use App\Models\Wiki\Audio;
@@ -39,7 +39,7 @@ class AudioShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AudioResource($audio, new AudioReadQuery()))
+                    (new AudioResource($audio, new Query()))
                         ->response()
                         ->getData()
                 ),
@@ -64,7 +64,7 @@ class AudioShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AudioResource($audio, new AudioReadQuery()))
+                    (new AudioResource($audio, new Query()))
                         ->response()
                         ->getData()
                 ),
@@ -101,7 +101,7 @@ class AudioShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AudioResource($audio, new AudioReadQuery($parameters)))
+                    (new AudioResource($audio, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -136,7 +136,7 @@ class AudioShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AudioResource($audio, new AudioReadQuery($parameters)))
+                    (new AudioResource($audio, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),

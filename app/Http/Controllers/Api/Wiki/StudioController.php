@@ -4,17 +4,24 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\Wiki;
 
-use App\Enums\Http\Api\Paging\PaginationStrategy;
+use App\Actions\Http\Api\DestroyAction;
+use App\Actions\Http\Api\ForceDeleteAction;
+use App\Actions\Http\Api\IndexAction;
+use App\Actions\Http\Api\RestoreAction;
+use App\Actions\Http\Api\ShowAction;
+use App\Actions\Http\Api\StoreAction;
+use App\Actions\Http\Api\UpdateAction;
+use App\Http\Api\Query\Query;
 use App\Http\Controllers\Api\BaseController;
-use App\Http\Requests\Api\Wiki\Studio\StudioDestroyRequest;
-use App\Http\Requests\Api\Wiki\Studio\StudioForceDeleteRequest;
-use App\Http\Requests\Api\Wiki\Studio\StudioIndexRequest;
-use App\Http\Requests\Api\Wiki\Studio\StudioRestoreRequest;
-use App\Http\Requests\Api\Wiki\Studio\StudioShowRequest;
-use App\Http\Requests\Api\Wiki\Studio\StudioStoreRequest;
-use App\Http\Requests\Api\Wiki\Studio\StudioUpdateRequest;
+use App\Http\Requests\Api\IndexRequest;
+use App\Http\Requests\Api\ShowRequest;
+use App\Http\Requests\Api\StoreRequest;
+use App\Http\Requests\Api\UpdateRequest;
+use App\Http\Resources\Wiki\Collection\StudioCollection;
+use App\Http\Resources\Wiki\Resource\StudioResource;
 use App\Models\Wiki\Studio;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 /**
  * Class StudioController.
@@ -32,29 +39,35 @@ class StudioController extends BaseController
     /**
      * Display a listing of the resource.
      *
-     * @param  StudioIndexRequest  $request
+     * @param  IndexRequest  $request
+     * @param  IndexAction  $action
      * @return JsonResponse
      */
-    public function index(StudioIndexRequest $request): JsonResponse
+    public function index(IndexRequest $request, IndexAction $action): JsonResponse
     {
-        $query = $request->getQuery();
+        $query = new Query($request->validated());
 
-        if ($query->hasSearchCriteria()) {
-            return $query->search(PaginationStrategy::OFFSET())->toResponse($request);
-        }
+        $studios = $query->hasSearchCriteria()
+            ? $action->search($query, $request->schema())
+            : $action->index(Studio::query(), $query, $request->schema());
 
-        return $query->index()->toResponse($request);
+        $collection = new StudioCollection($studios, $query);
+
+        return $collection->toResponse($request);
     }
 
     /**
      * Store a newly created resource.
      *
-     * @param  StudioStoreRequest  $request
+     * @param  StoreRequest  $request
+     * @param  StoreAction  $action
      * @return JsonResponse
      */
-    public function store(StudioStoreRequest $request): JsonResponse
+    public function store(StoreRequest $request, StoreAction $action): JsonResponse
     {
-        $resource = $request->getQuery()->store();
+        $studio = $action->store(Studio::query(), $request->validated());
+
+        $resource = new StudioResource($studio, new Query());
 
         return $resource->toResponse($request);
     }
@@ -62,13 +75,18 @@ class StudioController extends BaseController
     /**
      * Display the specified resource.
      *
-     * @param  StudioShowRequest  $request
+     * @param  ShowRequest  $request
      * @param  Studio  $studio
+     * @param  ShowAction  $action
      * @return JsonResponse
      */
-    public function show(StudioShowRequest $request, Studio $studio): JsonResponse
+    public function show(ShowRequest $request, Studio $studio, ShowAction $action): JsonResponse
     {
-        $resource = $request->getQuery()->show($studio);
+        $query = new Query($request->validated());
+
+        $show = $action->show($studio, $query, $request->schema());
+
+        $resource = new StudioResource($show, $query);
 
         return $resource->toResponse($request);
     }
@@ -76,13 +94,16 @@ class StudioController extends BaseController
     /**
      * Update the specified resource.
      *
-     * @param  StudioUpdateRequest  $request
+     * @param  UpdateRequest  $request
      * @param  Studio  $studio
+     * @param  UpdateAction  $action
      * @return JsonResponse
      */
-    public function update(StudioUpdateRequest $request, Studio $studio): JsonResponse
+    public function update(UpdateRequest $request, Studio $studio, UpdateAction $action): JsonResponse
     {
-        $resource = $request->getQuery()->update($studio);
+        $updated = $action->update($studio, $request->validated());
+
+        $resource = new StudioResource($updated, new Query());
 
         return $resource->toResponse($request);
     }
@@ -90,13 +111,16 @@ class StudioController extends BaseController
     /**
      * Remove the specified resource.
      *
-     * @param  StudioDestroyRequest  $request
+     * @param  Request  $request
      * @param  Studio  $studio
+     * @param  DestroyAction  $action
      * @return JsonResponse
      */
-    public function destroy(StudioDestroyRequest $request, Studio $studio): JsonResponse
+    public function destroy(Request $request, Studio $studio, DestroyAction $action): JsonResponse
     {
-        $resource = $request->getQuery()->destroy($studio);
+        $deleted = $action->destroy($studio);
+
+        $resource = new StudioResource($deleted, new Query());
 
         return $resource->toResponse($request);
     }
@@ -104,13 +128,16 @@ class StudioController extends BaseController
     /**
      * Restore the specified resource.
      *
-     * @param  StudioRestoreRequest  $request
+     * @param  Request  $request
      * @param  Studio  $studio
+     * @param  RestoreAction  $action
      * @return JsonResponse
      */
-    public function restore(StudioRestoreRequest $request, Studio $studio): JsonResponse
+    public function restore(Request $request, Studio $studio, RestoreAction $action): JsonResponse
     {
-        $resource = $request->getQuery()->restore($studio);
+        $restored = $action->restore($studio);
+
+        $resource = new StudioResource($restored, new Query());
 
         return $resource->toResponse($request);
     }
@@ -118,12 +145,16 @@ class StudioController extends BaseController
     /**
      * Hard-delete the specified resource.
      *
-     * @param  StudioForceDeleteRequest  $request
      * @param  Studio  $studio
+     * @param  ForceDeleteAction  $action
      * @return JsonResponse
      */
-    public function forceDelete(StudioForceDeleteRequest $request, Studio $studio): JsonResponse
+    public function forceDelete(Studio $studio, ForceDeleteAction $action): JsonResponse
     {
-        return $request->getQuery()->forceDelete($studio);
+        $message = $action->forceDelete($studio);
+
+        return new JsonResponse([
+            'message' => $message,
+        ]);
     }
 }

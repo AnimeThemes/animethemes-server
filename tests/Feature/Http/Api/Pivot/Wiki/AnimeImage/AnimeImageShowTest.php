@@ -11,7 +11,7 @@ use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Parser\FieldParser;
 use App\Http\Api\Parser\FilterParser;
 use App\Http\Api\Parser\IncludeParser;
-use App\Http\Api\Query\Pivot\Wiki\AnimeImage\AnimeImageReadQuery;
+use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Pivot\Wiki\AnimeImageSchema;
 use App\Http\Resources\Pivot\Wiki\Resource\AnimeImageResource;
 use App\Models\Wiki\Anime;
@@ -64,7 +64,7 @@ class AnimeImageShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AnimeImageResource($animeImage, new AnimeImageReadQuery()))
+                    (new AnimeImageResource($animeImage, new Query()))
                         ->response()
                         ->getData()
                 ),
@@ -104,7 +104,7 @@ class AnimeImageShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AnimeImageResource($animeImage, new AnimeImageReadQuery($parameters)))
+                    (new AnimeImageResource($animeImage, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -144,7 +144,7 @@ class AnimeImageShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AnimeImageResource($animeImage, new AnimeImageReadQuery($parameters)))
+                    (new AnimeImageResource($animeImage, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -185,7 +185,7 @@ class AnimeImageShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AnimeImageResource($animeImage, new AnimeImageReadQuery($parameters)))
+                    (new AnimeImageResource($animeImage, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -226,7 +226,7 @@ class AnimeImageShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AnimeImageResource($animeImage, new AnimeImageReadQuery($parameters)))
+                    (new AnimeImageResource($animeImage, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -273,7 +273,7 @@ class AnimeImageShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AnimeImageResource($animeImage, new AnimeImageReadQuery($parameters)))
+                    (new AnimeImageResource($animeImage, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),

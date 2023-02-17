@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Api;
 
-use App\Contracts\Http\Requests\Api\SearchableRequest;
+use App\Contracts\Http\Api\Schema\SearchableSchema;
 use App\Enums\Http\Api\Filter\BinaryLogicalOperator;
 use App\Http\Api\Filter\HasFilter;
 use App\Http\Api\Parser\FilterParser;
@@ -18,7 +18,7 @@ use Illuminate\Validation\Validator;
 /**
  * Class IndexRequest.
  */
-abstract class IndexRequest extends ReadRequest
+class IndexRequest extends ReadRequest
 {
     /**
      * Get the filter validation rules.
@@ -71,7 +71,9 @@ abstract class IndexRequest extends ReadRequest
      */
     protected function getSearchRules(): array
     {
-        if ($this instanceof SearchableRequest) {
+        $schema = $this->schema();
+
+        if ($schema instanceof SearchableSchema) {
             return $this->optional(SearchParser::param());
         }
 

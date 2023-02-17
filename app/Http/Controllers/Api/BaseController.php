@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
+use App\Contracts\Http\Api\InteractsWithSchema;
+use App\Http\Api\Schema\Schema;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Str;
 
 /**
  * Class BaseController.
  */
-abstract class BaseController extends Controller
+abstract class BaseController extends Controller implements InteractsWithSchema
 {
     /**
      * Create a new controller instance.
@@ -23,5 +26,20 @@ abstract class BaseController extends Controller
         $this->middleware('auth:sanctum')->except(['index', 'show']);
         $this->middleware("can:restore,$parameter")->only('restore');
         $this->middleware("can:forceDelete,$parameter")->only('forceDelete');
+    }
+
+    /**
+     * Get the underlying schema.
+     *
+     * @return Schema
+     */
+    public function schema(): Schema
+    {
+        $schemaClass = Str::of(get_class($this))
+            ->replace('Controllers\\Api', 'Api\\Schema')
+            ->replace('Controller', 'Schema')
+            ->__toString();
+
+        return new $schemaClass();
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\List\Playlist;
 
+use App\Concerns\Actions\Http\Api\SortsModels;
 use App\Contracts\Http\Api\Field\SortableField;
 use App\Enums\Http\Api\Filter\TrashedStatus;
 use App\Enums\Http\Api\Sort\Direction;
@@ -19,7 +20,7 @@ use App\Http\Api\Parser\FilterParser;
 use App\Http\Api\Parser\IncludeParser;
 use App\Http\Api\Parser\PagingParser;
 use App\Http\Api\Parser\SortParser;
-use App\Http\Api\Query\List\Playlist\PlaylistReadQuery;
+use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\List\PlaylistSchema;
 use App\Http\Resources\List\Collection\PlaylistCollection;
 use App\Http\Resources\List\Resource\PlaylistResource;
@@ -39,6 +40,7 @@ use Tests\TestCase;
  */
 class PlaylistIndexTest extends TestCase
 {
+    use SortsModels;
     use WithFaker;
     use WithoutEvents;
 
@@ -74,7 +76,7 @@ class PlaylistIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new PlaylistCollection($playlists, new PlaylistReadQuery()))
+                    (new PlaylistCollection($playlists, new Query()))
                         ->response()
                         ->getData()
                 ),
@@ -140,7 +142,7 @@ class PlaylistIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new PlaylistCollection($playlists, new PlaylistReadQuery($parameters)))
+                    (new PlaylistCollection($playlists, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -177,7 +179,7 @@ class PlaylistIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new PlaylistCollection($playlists, new PlaylistReadQuery($parameters)))
+                    (new PlaylistCollection($playlists, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -204,7 +206,7 @@ class PlaylistIndexTest extends TestCase
             SortParser::param() => $sort->format(Direction::getRandomInstance()),
         ];
 
-        $query = new PlaylistReadQuery($parameters);
+        $query = new Query($parameters);
 
         Playlist::factory()
             ->count($this->faker->randomDigitNotNull())
@@ -212,10 +214,12 @@ class PlaylistIndexTest extends TestCase
 
         $response = $this->get(route('api.playlist.index', $parameters));
 
+        $playlists = $this->sort(Playlist::query(), $query, $schema)->get();
+
         $response->assertJson(
             json_decode(
                 json_encode(
-                    $query->collection($query->index())
+                    (new PlaylistCollection($playlists, $query))
                         ->response()
                         ->getData()
                 ),
@@ -262,7 +266,7 @@ class PlaylistIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new PlaylistCollection($playlists, new PlaylistReadQuery($parameters)))
+                    (new PlaylistCollection($playlists, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -309,7 +313,7 @@ class PlaylistIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new PlaylistCollection($playlists, new PlaylistReadQuery($parameters)))
+                    (new PlaylistCollection($playlists, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -353,7 +357,7 @@ class PlaylistIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new PlaylistCollection($playlists, new PlaylistReadQuery($parameters)))
+                    (new PlaylistCollection($playlists, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -397,7 +401,7 @@ class PlaylistIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new PlaylistCollection($playlists, new PlaylistReadQuery($parameters)))
+                    (new PlaylistCollection($playlists, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -441,7 +445,7 @@ class PlaylistIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new PlaylistCollection($playlists, new PlaylistReadQuery($parameters)))
+                    (new PlaylistCollection($playlists, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -497,7 +501,7 @@ class PlaylistIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new PlaylistCollection($playlists, new PlaylistReadQuery($parameters)))
+                    (new PlaylistCollection($playlists, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -541,7 +545,7 @@ class PlaylistIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new PlaylistCollection($playlists, new PlaylistReadQuery($parameters)))
+                    (new PlaylistCollection($playlists, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),

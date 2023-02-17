@@ -4,17 +4,24 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\Wiki\Anime;
 
-use App\Enums\Http\Api\Paging\PaginationStrategy;
+use App\Actions\Http\Api\DestroyAction;
+use App\Actions\Http\Api\ForceDeleteAction;
+use App\Actions\Http\Api\IndexAction;
+use App\Actions\Http\Api\RestoreAction;
+use App\Actions\Http\Api\ShowAction;
+use App\Actions\Http\Api\StoreAction;
+use App\Actions\Http\Api\UpdateAction;
+use App\Http\Api\Query\Query;
 use App\Http\Controllers\Api\BaseController;
-use App\Http\Requests\Api\Wiki\Anime\Theme\ThemeDestroyRequest;
-use App\Http\Requests\Api\Wiki\Anime\Theme\ThemeForceDeleteRequest;
-use App\Http\Requests\Api\Wiki\Anime\Theme\ThemeIndexRequest;
-use App\Http\Requests\Api\Wiki\Anime\Theme\ThemeRestoreRequest;
-use App\Http\Requests\Api\Wiki\Anime\Theme\ThemeShowRequest;
-use App\Http\Requests\Api\Wiki\Anime\Theme\ThemeStoreRequest;
-use App\Http\Requests\Api\Wiki\Anime\Theme\ThemeUpdateRequest;
+use App\Http\Requests\Api\IndexRequest;
+use App\Http\Requests\Api\ShowRequest;
+use App\Http\Requests\Api\StoreRequest;
+use App\Http\Requests\Api\UpdateRequest;
+use App\Http\Resources\Wiki\Anime\Collection\ThemeCollection;
+use App\Http\Resources\Wiki\Anime\Resource\ThemeResource;
 use App\Models\Wiki\Anime\AnimeTheme;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 /**
  * Class ThemeController.
@@ -32,29 +39,35 @@ class ThemeController extends BaseController
     /**
      * Display a listing of the resource.
      *
-     * @param  ThemeIndexRequest  $request
+     * @param  IndexRequest  $request
+     * @param  IndexAction  $action
      * @return JsonResponse
      */
-    public function index(ThemeIndexRequest $request): JsonResponse
+    public function index(IndexRequest $request, IndexAction $action): JsonResponse
     {
-        $query = $request->getQuery();
+        $query = new Query($request->validated());
 
-        if ($query->hasSearchCriteria()) {
-            return $query->search(PaginationStrategy::OFFSET())->toResponse($request);
-        }
+        $videos = $query->hasSearchCriteria()
+            ? $action->search($query, $request->schema())
+            : $action->index(AnimeTheme::query(), $query, $request->schema());
 
-        return $query->index()->toResponse($request);
+        $collection = new ThemeCollection($videos, $query);
+
+        return $collection->toResponse($request);
     }
 
     /**
      * Store a newly created resource.
      *
-     * @param  ThemeStoreRequest  $request
+     * @param  StoreRequest  $request
+     * @param  StoreAction  $action
      * @return JsonResponse
      */
-    public function store(ThemeStoreRequest $request): JsonResponse
+    public function store(StoreRequest $request, StoreAction $action): JsonResponse
     {
-        $resource = $request->getQuery()->store();
+        $theme = $action->store(AnimeTheme::query(), $request->validated());
+
+        $resource = new ThemeResource($theme, new Query());
 
         return $resource->toResponse($request);
     }
@@ -62,13 +75,18 @@ class ThemeController extends BaseController
     /**
      * Display the specified resource.
      *
-     * @param  ThemeShowRequest  $request
+     * @param  ShowRequest  $request
      * @param  AnimeTheme  $animetheme
+     * @param  ShowAction  $action
      * @return JsonResponse
      */
-    public function show(ThemeShowRequest $request, AnimeTheme $animetheme): JsonResponse
+    public function show(ShowRequest $request, AnimeTheme $animetheme, ShowAction $action): JsonResponse
     {
-        $resource = $request->getQuery()->show($animetheme);
+        $query = new Query($request->validated());
+
+        $show = $action->show($animetheme, $query, $request->schema());
+
+        $resource = new ThemeResource($show, $query);
 
         return $resource->toResponse($request);
     }
@@ -76,13 +94,16 @@ class ThemeController extends BaseController
     /**
      * Update the specified resource.
      *
-     * @param  ThemeUpdateRequest  $request
+     * @param  UpdateRequest  $request
      * @param  AnimeTheme  $animetheme
+     * @param  UpdateAction  $action
      * @return JsonResponse
      */
-    public function update(ThemeUpdateRequest $request, AnimeTheme $animetheme): JsonResponse
+    public function update(UpdateRequest $request, AnimeTheme $animetheme, UpdateAction $action): JsonResponse
     {
-        $resource = $request->getQuery()->update($animetheme);
+        $updated = $action->update($animetheme, $request->validated());
+
+        $resource = new ThemeResource($updated, new Query());
 
         return $resource->toResponse($request);
     }
@@ -90,13 +111,16 @@ class ThemeController extends BaseController
     /**
      * Remove the specified resource.
      *
-     * @param  ThemeDestroyRequest  $request
+     * @param  Request  $request
      * @param  AnimeTheme  $animetheme
+     * @param  DestroyAction  $action
      * @return JsonResponse
      */
-    public function destroy(ThemeDestroyRequest $request, AnimeTheme $animetheme): JsonResponse
+    public function destroy(Request $request, AnimeTheme $animetheme, DestroyAction $action): JsonResponse
     {
-        $resource = $request->getQuery()->destroy($animetheme);
+        $deleted = $action->destroy($animetheme);
+
+        $resource = new ThemeResource($deleted, new Query());
 
         return $resource->toResponse($request);
     }
@@ -104,13 +128,16 @@ class ThemeController extends BaseController
     /**
      * Restore the specified resource.
      *
-     * @param  ThemeRestoreRequest  $request
+     * @param  Request  $request
      * @param  AnimeTheme  $animetheme
+     * @param  RestoreAction  $action
      * @return JsonResponse
      */
-    public function restore(ThemeRestoreRequest $request, AnimeTheme $animetheme): JsonResponse
+    public function restore(Request $request, AnimeTheme $animetheme, RestoreAction $action): JsonResponse
     {
-        $resource = $request->getQuery()->restore($animetheme);
+        $restored = $action->restore($animetheme);
+
+        $resource = new ThemeResource($restored, new Query());
 
         return $resource->toResponse($request);
     }
@@ -118,12 +145,16 @@ class ThemeController extends BaseController
     /**
      * Hard-delete the specified resource.
      *
-     * @param  ThemeForceDeleteRequest  $request
      * @param  AnimeTheme  $animetheme
+     * @param  ForceDeleteAction  $action
      * @return JsonResponse
      */
-    public function forceDelete(ThemeForceDeleteRequest $request, AnimeTheme $animetheme): JsonResponse
+    public function forceDelete(AnimeTheme $animetheme, ForceDeleteAction $action): JsonResponse
     {
-        return $request->getQuery()->forceDelete($animetheme);
+        $message = $action->forceDelete($animetheme);
+
+        return new JsonResponse([
+            'message' => $message,
+        ]);
     }
 }

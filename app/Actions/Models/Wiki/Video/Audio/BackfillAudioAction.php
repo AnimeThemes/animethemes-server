@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Actions\Models\Wiki\Video\Audio;
 
 use App\Actions\ActionResult;
-use App\Actions\Models\BaseAction;
+use App\Actions\Models\BackfillAction;
 use App\Actions\Repositories\ReconcileResults;
 use App\Actions\Repositories\Wiki\Audio\ReconcileAudioRepositoriesAction;
 use App\Constants\Config\AudioConstants;
@@ -39,9 +39,9 @@ use ProtoneMedia\LaravelFFMpeg\Support\FFMpeg;
 /**
  * Class BackfillVideoAudioAction.
  *
- * @extends BaseAction<Video>
+ * @extends BackfillAction<Video>
  */
-class BackfillAudioAction extends BaseAction
+class BackfillAudioAction extends BackfillAction
 {
     /**
      * Create a new action instance.

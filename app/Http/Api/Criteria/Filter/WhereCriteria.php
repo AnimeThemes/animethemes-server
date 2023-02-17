@@ -8,7 +8,8 @@ use App\Enums\Http\Api\Filter\BinaryLogicalOperator;
 use App\Enums\Http\Api\Filter\Clause;
 use App\Enums\Http\Api\Filter\ComparisonOperator;
 use App\Http\Api\Filter\Filter;
-use App\Http\Api\Query\ReadQuery;
+use App\Http\Api\Query\Query;
+use App\Http\Api\Schema\Schema;
 use App\Http\Api\Scope\Scope;
 use BenSampo\Enum\Exceptions\InvalidEnumKeyException;
 use Illuminate\Database\Eloquent\Builder;
@@ -94,10 +95,11 @@ class WhereCriteria extends Criteria
      *
      * @param  Builder  $builder
      * @param  Filter  $filter
-     * @param  ReadQuery  $query
+     * @param  Query  $query
+     * @param  Schema  $schema
      * @return Builder
      */
-    public function filter(Builder $builder, Filter $filter, ReadQuery $query): Builder
+    public function filter(Builder $builder, Filter $filter, Query $query, Schema $schema): Builder
     {
         $column = $filter->shouldQualifyColumn()
             ? $builder->qualifyColumn($filter->getColumn())

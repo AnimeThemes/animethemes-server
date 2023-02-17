@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Wiki\Anime\Resource;
 
-use App\Http\Api\Query\ReadQuery;
 use App\Http\Api\Schema\Schema;
 use App\Http\Api\Schema\Wiki\Anime\ThemeSchema;
 use App\Http\Resources\BaseResource;
@@ -13,7 +12,6 @@ use App\Http\Resources\Wiki\Resource\AnimeResource;
 use App\Http\Resources\Wiki\Resource\SongResource;
 use App\Models\Wiki\Anime\AnimeTheme;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\MissingValue;
 
 /**
  * Class ThemeResource.
@@ -26,18 +24,6 @@ class ThemeResource extends BaseResource
      * @var string|null
      */
     public static $wrap = 'animetheme';
-
-    /**
-     * Create a new resource instance.
-     *
-     * @param  AnimeTheme | MissingValue | null  $theme
-     * @param  ReadQuery  $query
-     * @return void
-     */
-    public function __construct(AnimeTheme|MissingValue|null $theme, ReadQuery $query)
-    {
-        parent::__construct($theme, $query);
-    }
 
     /**
      * Transform the resource into an array.

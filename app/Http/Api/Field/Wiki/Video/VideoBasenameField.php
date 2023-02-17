@@ -6,7 +6,7 @@ namespace App\Http\Api\Field\Wiki\Video;
 
 use App\Contracts\Http\Api\Field\CreatableField;
 use App\Http\Api\Field\StringField;
-use App\Http\Api\Query\ReadQuery;
+use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Schema;
 use App\Models\Wiki\Video;
 use Illuminate\Http\Request;
@@ -44,14 +44,15 @@ class VideoBasenameField extends StringField implements CreatableField
     /**
      * Determine if the field should be included in the select clause of our query.
      *
-     * @param  ReadQuery  $query
+     * @param  Query  $query
+     * @param  Schema  $schema
      * @return bool
      */
-    public function shouldSelect(ReadQuery $query): bool
+    public function shouldSelect(Query $query, Schema $schema): bool
     {
         $linkField = new VideoLinkField($this->schema);
 
         // The link field is dependent on this field to build the route.
-        return parent::shouldSelect($query) || $linkField->shouldRender($query);
+        return parent::shouldSelect($query, $schema) || $linkField->shouldRender($query);
     }
 }

@@ -8,20 +8,12 @@ use App\Enums\BaseEnum;
 use App\Http\Api\Field\BooleanField;
 use App\Http\Api\Field\EnumField;
 use App\Http\Api\Field\Field;
-use App\Http\Api\Schema\Schema;
 
 /**
  * Class WriteRequest.
  */
 abstract class WriteRequest extends BaseRequest
 {
-    /**
-     * Get the schema.
-     *
-     * @return Schema
-     */
-    abstract protected function schema(): Schema;
-
     /**
      * Prepare the data for validation.
      *

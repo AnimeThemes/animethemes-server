@@ -4,16 +4,24 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\Document;
 
+use App\Actions\Http\Api\DestroyAction;
+use App\Actions\Http\Api\ForceDeleteAction;
+use App\Actions\Http\Api\IndexAction;
+use App\Actions\Http\Api\RestoreAction;
+use App\Actions\Http\Api\ShowAction;
+use App\Actions\Http\Api\StoreAction;
+use App\Actions\Http\Api\UpdateAction;
+use App\Http\Api\Query\Query;
 use App\Http\Controllers\Api\BaseController;
-use App\Http\Requests\Api\Document\Page\PageDestroyRequest;
-use App\Http\Requests\Api\Document\Page\PageForceDeleteRequest;
-use App\Http\Requests\Api\Document\Page\PageIndexRequest;
-use App\Http\Requests\Api\Document\Page\PageRestoreRequest;
-use App\Http\Requests\Api\Document\Page\PageShowRequest;
-use App\Http\Requests\Api\Document\Page\PageStoreRequest;
-use App\Http\Requests\Api\Document\Page\PageUpdateRequest;
+use App\Http\Requests\Api\IndexRequest;
+use App\Http\Requests\Api\ShowRequest;
+use App\Http\Requests\Api\StoreRequest;
+use App\Http\Requests\Api\UpdateRequest;
+use App\Http\Resources\Document\Collection\PageCollection;
+use App\Http\Resources\Document\Resource\PageResource;
 use App\Models\Document\Page;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 /**
  * Class PageController.
@@ -31,25 +39,33 @@ class PageController extends BaseController
     /**
      * Display a listing of the resource.
      *
-     * @param  PageIndexRequest  $request
+     * @param  IndexRequest  $request
+     * @param  IndexAction  $action
      * @return JsonResponse
      */
-    public function index(PageIndexRequest $request): JsonResponse
+    public function index(IndexRequest $request, IndexAction $action): JsonResponse
     {
-        $pages = $request->getQuery()->index();
+        $query = new Query($request->validated());
 
-        return $pages->toResponse($request);
+        $pages = $action->index(Page::query(), $query, $request->schema());
+
+        $collection = new PageCollection($pages, $query);
+
+        return $collection->toResponse($request);
     }
 
     /**
      * Store a newly created resource.
      *
-     * @param  PageStoreRequest  $request
+     * @param  StoreRequest  $request
+     * @param  StoreAction  $action
      * @return JsonResponse
      */
-    public function store(PageStoreRequest $request): JsonResponse
+    public function store(StoreRequest $request, StoreAction $action): JsonResponse
     {
-        $resource = $request->getQuery()->store();
+        $page = $action->store(Page::query(), $request->validated());
+
+        $resource = new PageResource($page, new Query());
 
         return $resource->toResponse($request);
     }
@@ -57,13 +73,18 @@ class PageController extends BaseController
     /**
      * Display the specified resource.
      *
-     * @param  PageShowRequest  $request
+     * @param  ShowRequest  $request
      * @param  Page  $page
+     * @param  ShowAction  $action
      * @return JsonResponse
      */
-    public function show(PageShowRequest $request, Page $page): JsonResponse
+    public function show(ShowRequest $request, Page $page, ShowAction $action): JsonResponse
     {
-        $resource = $request->getQuery()->show($page);
+        $query = new Query($request->validated());
+
+        $show = $action->show($page, $query, $request->schema());
+
+        $resource = new PageResource($show, $query);
 
         return $resource->toResponse($request);
     }
@@ -71,13 +92,16 @@ class PageController extends BaseController
     /**
      * Update the specified resource.
      *
-     * @param  PageUpdateRequest  $request
+     * @param  UpdateRequest  $request
      * @param  Page  $page
+     * @param  UpdateAction  $action
      * @return JsonResponse
      */
-    public function update(PageUpdateRequest $request, Page $page): JsonResponse
+    public function update(UpdateRequest $request, Page $page, UpdateAction $action): JsonResponse
     {
-        $resource = $request->getQuery()->update($page);
+        $updated = $action->update($page, $request->validated());
+
+        $resource = new PageResource($updated, new Query());
 
         return $resource->toResponse($request);
     }
@@ -85,13 +109,16 @@ class PageController extends BaseController
     /**
      * Remove the specified resource.
      *
-     * @param  PageDestroyRequest  $request
+     * @param  Request  $request
      * @param  Page  $page
+     * @param  DestroyAction  $action
      * @return JsonResponse
      */
-    public function destroy(PageDestroyRequest $request, Page $page): JsonResponse
+    public function destroy(Request $request, Page $page, DestroyAction $action): JsonResponse
     {
-        $resource = $request->getQuery()->destroy($page);
+        $deleted = $action->destroy($page);
+
+        $resource = new PageResource($deleted, new Query());
 
         return $resource->toResponse($request);
     }
@@ -99,13 +126,16 @@ class PageController extends BaseController
     /**
      * Restore the specified resource.
      *
-     * @param  PageRestoreRequest  $request
+     * @param  Request  $request
      * @param  Page  $page
+     * @param  RestoreAction  $action
      * @return JsonResponse
      */
-    public function restore(PageRestoreRequest $request, Page $page): JsonResponse
+    public function restore(Request $request, Page $page, RestoreAction $action): JsonResponse
     {
-        $resource = $request->getQuery()->restore($page);
+        $restored = $action->restore($page);
+
+        $resource = new PageResource($restored, new Query());
 
         return $resource->toResponse($request);
     }
@@ -113,12 +143,16 @@ class PageController extends BaseController
     /**
      * Hard-delete the specified resource.
      *
-     * @param  PageForceDeleteRequest  $request
      * @param  Page  $page
+     * @param  ForceDeleteAction  $action
      * @return JsonResponse
      */
-    public function forceDelete(PageForceDeleteRequest $request, Page $page): JsonResponse
+    public function forceDelete(Page $page, ForceDeleteAction $action): JsonResponse
     {
-        return $request->getQuery()->forceDelete($page);
+        $message = $action->forceDelete($page);
+
+        return new JsonResponse([
+            'message' => $message,
+        ]);
     }
 }

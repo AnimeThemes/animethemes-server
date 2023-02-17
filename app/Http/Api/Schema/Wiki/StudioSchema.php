@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Schema\Wiki;
 
+use App\Contracts\Http\Api\Schema\SearchableSchema;
 use App\Http\Api\Field\Base\IdField;
 use App\Http\Api\Field\Field;
 use App\Http\Api\Field\Wiki\Studio\StudioAsField;
@@ -17,7 +18,7 @@ use App\Models\Wiki\Studio;
 /**
  * Class StudioSchema.
  */
-class StudioSchema extends EloquentSchema
+class StudioSchema extends EloquentSchema implements SearchableSchema
 {
     /**
      * The model this schema represents.

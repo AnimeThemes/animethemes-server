@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Nova\Actions\Models\Wiki\Anime;
 
-use App\Actions\Models\BaseAction;
+use App\Actions\Models\BackfillAction;
 use App\Actions\Models\Wiki\Anime\Image\BackfillLargeCoverImageAction;
 use App\Actions\Models\Wiki\Anime\Image\BackfillSmallCoverImageAction;
 use App\Actions\Models\Wiki\Anime\Resource\BackfillAnidbResourceAction;
@@ -172,7 +172,7 @@ class BackfillAnimeAction extends Action implements ShouldQueue
      *
      * @param  ActionFields  $fields
      * @param  Anime  $anime
-     * @return BaseAction[]
+     * @return BackfillAction[]
      */
     protected function getActions(ActionFields $fields, Anime $anime): array
     {
@@ -191,7 +191,7 @@ class BackfillAnimeAction extends Action implements ShouldQueue
      * Get the mapping of actions to their form fields.
      *
      * @param  Anime  $anime
-     * @return array<string, BaseAction>
+     * @return array<string, BackfillAction>
      */
     protected function getActionMapping(Anime $anime): array
     {

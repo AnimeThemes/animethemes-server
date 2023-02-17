@@ -4,17 +4,24 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\Wiki;
 
-use App\Enums\Http\Api\Paging\PaginationStrategy;
+use App\Actions\Http\Api\DestroyAction;
+use App\Actions\Http\Api\ForceDeleteAction;
+use App\Actions\Http\Api\IndexAction;
+use App\Actions\Http\Api\RestoreAction;
+use App\Actions\Http\Api\ShowAction;
+use App\Actions\Http\Api\StoreAction;
+use App\Actions\Http\Api\UpdateAction;
+use App\Http\Api\Query\Query;
 use App\Http\Controllers\Api\BaseController;
-use App\Http\Requests\Api\Wiki\Anime\AnimeDestroyRequest;
-use App\Http\Requests\Api\Wiki\Anime\AnimeForceDeleteRequest;
-use App\Http\Requests\Api\Wiki\Anime\AnimeIndexRequest;
-use App\Http\Requests\Api\Wiki\Anime\AnimeRestoreRequest;
-use App\Http\Requests\Api\Wiki\Anime\AnimeShowRequest;
-use App\Http\Requests\Api\Wiki\Anime\AnimeStoreRequest;
-use App\Http\Requests\Api\Wiki\Anime\AnimeUpdateRequest;
+use App\Http\Requests\Api\IndexRequest;
+use App\Http\Requests\Api\ShowRequest;
+use App\Http\Requests\Api\StoreRequest;
+use App\Http\Requests\Api\UpdateRequest;
+use App\Http\Resources\Wiki\Collection\AnimeCollection;
+use App\Http\Resources\Wiki\Resource\AnimeResource;
 use App\Models\Wiki\Anime;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 /**
  * Class AnimeController.
@@ -32,29 +39,35 @@ class AnimeController extends BaseController
     /**
      * Display a listing of the resource.
      *
-     * @param  AnimeIndexRequest  $request
+     * @param  IndexRequest  $request
+     * @param  IndexAction  $action
      * @return JsonResponse
      */
-    public function index(AnimeIndexRequest $request): JsonResponse
+    public function index(IndexRequest $request, IndexAction $action): JsonResponse
     {
-        $query = $request->getQuery();
+        $query = new Query($request->validated());
 
-        if ($query->hasSearchCriteria()) {
-            return $query->search(PaginationStrategy::OFFSET())->toResponse($request);
-        }
+        $anime = $query->hasSearchCriteria()
+            ? $action->search($query, $request->schema())
+            : $action->index(Anime::query(), $query, $request->schema());
 
-        return $query->index()->toResponse($request);
+        $collection = new AnimeCollection($anime, $query);
+
+        return $collection->toResponse($request);
     }
 
     /**
      * Store a newly created resource.
      *
-     * @param  AnimeStoreRequest  $request
+     * @param  StoreRequest  $request
+     * @param  StoreAction  $action
      * @return JsonResponse
      */
-    public function store(AnimeStoreRequest $request): JsonResponse
+    public function store(StoreRequest $request, StoreAction $action): JsonResponse
     {
-        $resource = $request->getQuery()->store();
+        $anime = $action->store(Anime::query(), $request->validated());
+
+        $resource = new AnimeResource($anime, new Query());
 
         return $resource->toResponse($request);
     }
@@ -62,13 +75,18 @@ class AnimeController extends BaseController
     /**
      * Display the specified resource.
      *
-     * @param  AnimeShowRequest  $request
+     * @param  ShowRequest  $request
      * @param  Anime  $anime
+     * @param  ShowAction  $action
      * @return JsonResponse
      */
-    public function show(AnimeShowRequest $request, Anime $anime): JsonResponse
+    public function show(ShowRequest $request, Anime $anime, ShowAction $action): JsonResponse
     {
-        $resource = $request->getQuery()->show($anime);
+        $query = new Query($request->validated());
+
+        $show = $action->show($anime, $query, $request->schema());
+
+        $resource = new AnimeResource($show, $query);
 
         return $resource->toResponse($request);
     }
@@ -76,13 +94,16 @@ class AnimeController extends BaseController
     /**
      * Update the specified resource.
      *
-     * @param  AnimeUpdateRequest  $request
+     * @param  UpdateRequest  $request
      * @param  Anime  $anime
+     * @param  UpdateAction  $action
      * @return JsonResponse
      */
-    public function update(AnimeUpdateRequest $request, Anime $anime): JsonResponse
+    public function update(UpdateRequest $request, Anime $anime, UpdateAction $action): JsonResponse
     {
-        $resource = $request->getQuery()->update($anime);
+        $updated = $action->update($anime, $request->validated());
+
+        $resource = new AnimeResource($updated, new Query());
 
         return $resource->toResponse($request);
     }
@@ -90,13 +111,16 @@ class AnimeController extends BaseController
     /**
      * Remove the specified resource.
      *
-     * @param  AnimeDestroyRequest  $request
+     * @param  Request  $request
      * @param  Anime  $anime
+     * @param  DestroyAction  $action
      * @return JsonResponse
      */
-    public function destroy(AnimeDestroyRequest $request, Anime $anime): JsonResponse
+    public function destroy(Request $request, Anime $anime, DestroyAction $action): JsonResponse
     {
-        $resource = $request->getQuery()->destroy($anime);
+        $deleted = $action->destroy($anime);
+
+        $resource = new AnimeResource($deleted, new Query());
 
         return $resource->toResponse($request);
     }
@@ -104,13 +128,16 @@ class AnimeController extends BaseController
     /**
      * Restore the specified resource.
      *
-     * @param  AnimeRestoreRequest  $request
+     * @param  Request  $request
      * @param  Anime  $anime
+     * @param  RestoreAction  $action
      * @return JsonResponse
      */
-    public function restore(AnimeRestoreRequest $request, Anime $anime): JsonResponse
+    public function restore(Request $request, Anime $anime, RestoreAction $action): JsonResponse
     {
-        $resource = $request->getQuery()->restore($anime);
+        $restored = $action->restore($anime);
+
+        $resource = new AnimeResource($restored, new Query());
 
         return $resource->toResponse($request);
     }
@@ -118,12 +145,16 @@ class AnimeController extends BaseController
     /**
      * Hard-delete the specified resource.
      *
-     * @param  AnimeForceDeleteRequest  $request
      * @param  Anime  $anime
+     * @param  ForceDeleteAction  $action
      * @return JsonResponse
      */
-    public function forceDelete(AnimeForceDeleteRequest $request, Anime $anime): JsonResponse
+    public function forceDelete(Anime $anime, ForceDeleteAction $action): JsonResponse
     {
-        return $request->getQuery()->forceDelete($anime);
+        $message = $action->forceDelete($anime);
+
+        return new JsonResponse([
+            'message' => $message,
+        ]);
     }
 }

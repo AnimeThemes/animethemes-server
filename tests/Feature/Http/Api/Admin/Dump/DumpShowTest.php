@@ -6,7 +6,7 @@ namespace Tests\Feature\Http\Api\Admin\Dump;
 
 use App\Http\Api\Field\Field;
 use App\Http\Api\Parser\FieldParser;
-use App\Http\Api\Query\Admin\Dump\DumpReadQuery;
+use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Admin\DumpSchema;
 use App\Http\Resources\Admin\Resource\DumpResource;
 use App\Models\Admin\Dump;
@@ -36,7 +36,7 @@ class DumpShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new DumpResource($dump, new DumpReadQuery()))
+                    (new DumpResource($dump, new Query()))
                         ->response()
                         ->getData()
                 ),
@@ -63,7 +63,7 @@ class DumpShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new DumpResource($dump, new DumpReadQuery()))
+                    (new DumpResource($dump, new Query()))
                         ->response()
                         ->getData()
                 ),
@@ -98,7 +98,7 @@ class DumpShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new DumpResource($dump, new DumpReadQuery($parameters)))
+                    (new DumpResource($dump, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),

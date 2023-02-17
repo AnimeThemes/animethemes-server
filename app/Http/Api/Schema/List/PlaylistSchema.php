@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Schema\List;
 
+use App\Contracts\Http\Api\Schema\SearchableSchema;
 use App\Http\Api\Field\Base\IdField;
 use App\Http\Api\Field\Field;
 use App\Http\Api\Field\List\Playlist\PlaylistFirstIdField;
@@ -23,7 +24,7 @@ use App\Models\List\Playlist;
 /**
  * Class PlaylistSchema.
  */
-class PlaylistSchema extends EloquentSchema
+class PlaylistSchema extends EloquentSchema implements SearchableSchema
 {
     /**
      * The model this schema represents.

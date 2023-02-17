@@ -6,7 +6,7 @@ namespace App\Http\Api\Field\Wiki\Video\Script;
 
 use App\Contracts\Http\Api\Field\RenderableField;
 use App\Http\Api\Field\Field;
-use App\Http\Api\Query\ReadQuery;
+use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Schema;
 use App\Http\Resources\Wiki\Video\Resource\ScriptResource;
 use Illuminate\Database\Eloquent\Model;
@@ -29,10 +29,10 @@ class ScriptLinkField extends Field implements RenderableField
     /**
      * Determine if the field should be displayed to the user.
      *
-     * @param  ReadQuery  $query
+     * @param  Query  $query
      * @return bool
      */
-    public function shouldRender(ReadQuery $query): bool
+    public function shouldRender(Query $query): bool
     {
         $criteria = $query->getFieldCriteria($this->schema->type());
 

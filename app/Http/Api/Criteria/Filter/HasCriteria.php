@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Criteria\Filter;
 
+use App\Concerns\Actions\Http\Api\FiltersModels;
 use App\Enums\Http\Api\Filter\BinaryLogicalOperator;
 use App\Enums\Http\Api\Filter\ComparisonOperator;
 use App\Http\Api\Filter\Filter;
-use App\Http\Api\Query\ReadQuery;
+use App\Http\Api\Query\Query;
+use App\Http\Api\Schema\Schema;
 use App\Http\Api\Scope\Scope;
 use App\Http\Api\Scope\ScopeParser;
 use BenSampo\Enum\Exceptions\InvalidEnumKeyException;
@@ -20,6 +22,10 @@ use Illuminate\Support\Str;
  */
 class HasCriteria extends Criteria
 {
+    use FiltersModels {
+        filter as filterModels;
+    }
+
     final public const PARAM_VALUE = 'has';
 
     /**
@@ -118,12 +124,12 @@ class HasCriteria extends Criteria
      *
      * @param  Builder  $builder
      * @param  Filter  $filter
-     * @param  ReadQuery  $query
+     * @param  Query  $query
+     * @param  Schema  $schema
      * @return Builder
      */
-    public function filter(Builder $builder, Filter $filter, ReadQuery $query): Builder
+    public function filter(Builder $builder, Filter $filter, Query $query, Schema $schema): Builder
     {
-        $schema = $query->schema();
         $filterValues = $filter->getFilterValues($this->getFilterValues());
 
         foreach ($filterValues as $filterValue) {
@@ -137,13 +143,7 @@ class HasCriteria extends Criteria
                 $this->getLogicalOperator()->value,
                 function (Builder $relationBuilder) use ($scope, $query, $relationSchema) {
                     if ($relationSchema !== null) {
-                        foreach ($query->getFilterCriteria() as $criteria) {
-                            foreach ($relationSchema->filters() as $filter) {
-                                if ($criteria->shouldFilter($filter, $scope)) {
-                                    $criteria->filter($relationBuilder, $filter, $query);
-                                }
-                            }
-                        }
+                        $this->filterModels($relationBuilder, $query, $relationSchema, $scope);
                     }
                 }
             );

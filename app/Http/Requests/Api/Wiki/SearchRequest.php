@@ -9,9 +9,6 @@ use App\Http\Api\Parser\FilterParser;
 use App\Http\Api\Parser\IncludeParser;
 use App\Http\Api\Parser\SearchParser;
 use App\Http\Api\Parser\SortParser;
-use App\Http\Api\Query\Wiki\SearchReadQuery;
-use App\Http\Api\Schema\Schema;
-use App\Http\Api\Schema\Wiki\SearchSchema;
 use App\Http\Requests\Api\ReadRequest;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
@@ -170,26 +167,6 @@ class SearchRequest extends ReadRequest
         }
 
         return $rules + $this->restrictAllowedTypes(SortParser::param(), $types);
-    }
-
-    /**
-     * Get the validation API Query.
-     *
-     * @return SearchReadQuery
-     */
-    public function getQuery(): SearchReadQuery
-    {
-        return new SearchReadQuery($this->validated());
-    }
-
-    /**
-     * Get the schema.
-     *
-     * @return Schema
-     */
-    protected function schema(): Schema
-    {
-        return new SearchSchema();
     }
 
     /**

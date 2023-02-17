@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Wiki\Video\Script;
 
+use App\Concerns\Actions\Http\Api\SortsModels;
 use App\Contracts\Http\Api\Field\SortableField;
 use App\Enums\Http\Api\Filter\TrashedStatus;
 use App\Enums\Http\Api\Sort\Direction;
@@ -19,7 +20,7 @@ use App\Http\Api\Parser\FilterParser;
 use App\Http\Api\Parser\IncludeParser;
 use App\Http\Api\Parser\PagingParser;
 use App\Http\Api\Parser\SortParser;
-use App\Http\Api\Query\Wiki\Video\Script\ScriptReadQuery;
+use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Wiki\Video\ScriptSchema;
 use App\Http\Resources\Wiki\Video\Collection\ScriptCollection;
 use App\Http\Resources\Wiki\Video\Resource\ScriptResource;
@@ -37,6 +38,7 @@ use Tests\TestCase;
  */
 class ScriptIndexTest extends TestCase
 {
+    use SortsModels;
     use WithFaker;
     use WithoutEvents;
 
@@ -56,7 +58,7 @@ class ScriptIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ScriptCollection($scripts, new ScriptReadQuery()))
+                    (new ScriptCollection($scripts, new Query()))
                         ->response()
                         ->getData()
                 ),
@@ -116,7 +118,7 @@ class ScriptIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ScriptCollection($scripts, new ScriptReadQuery($parameters)))
+                    (new ScriptCollection($scripts, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -153,7 +155,7 @@ class ScriptIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ScriptCollection($scripts, new ScriptReadQuery($parameters)))
+                    (new ScriptCollection($scripts, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -180,7 +182,7 @@ class ScriptIndexTest extends TestCase
             SortParser::param() => $sort->format(Direction::getRandomInstance()),
         ];
 
-        $query = new ScriptReadQuery($parameters);
+        $query = new Query($parameters);
 
         VideoScript::factory()
             ->count($this->faker->randomDigitNotNull())
@@ -188,10 +190,12 @@ class ScriptIndexTest extends TestCase
 
         $response = $this->get(route('api.videoscript.index', $parameters));
 
+        $scripts = $this->sort(VideoScript::query(), $query, $schema)->get();
+
         $response->assertJson(
             json_decode(
                 json_encode(
-                    $query->collection($query->index())
+                    (new ScriptCollection($scripts, $query))
                         ->response()
                         ->getData()
                 ),
@@ -234,7 +238,7 @@ class ScriptIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ScriptCollection($script, new ScriptReadQuery($parameters)))
+                    (new ScriptCollection($script, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -277,7 +281,7 @@ class ScriptIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ScriptCollection($script, new ScriptReadQuery($parameters)))
+                    (new ScriptCollection($script, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -316,7 +320,7 @@ class ScriptIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ScriptCollection($script, new ScriptReadQuery($parameters)))
+                    (new ScriptCollection($script, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -355,7 +359,7 @@ class ScriptIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ScriptCollection($script, new ScriptReadQuery($parameters)))
+                    (new ScriptCollection($script, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -394,7 +398,7 @@ class ScriptIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ScriptCollection($script, new ScriptReadQuery($parameters)))
+                    (new ScriptCollection($script, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -444,7 +448,7 @@ class ScriptIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ScriptCollection($script, new ScriptReadQuery($parameters)))
+                    (new ScriptCollection($script, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -486,7 +490,7 @@ class ScriptIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ScriptCollection($scripts, new ScriptReadQuery($parameters)))
+                    (new ScriptCollection($scripts, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -528,7 +532,7 @@ class ScriptIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ScriptCollection($scripts, new ScriptReadQuery($parameters)))
+                    (new ScriptCollection($scripts, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -570,7 +574,7 @@ class ScriptIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ScriptCollection($scripts, new ScriptReadQuery($parameters)))
+                    (new ScriptCollection($scripts, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -617,7 +621,7 @@ class ScriptIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ScriptCollection($scripts, new ScriptReadQuery($parameters)))
+                    (new ScriptCollection($scripts, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -659,7 +663,7 @@ class ScriptIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ScriptCollection($scripts, new ScriptReadQuery($parameters)))
+                    (new ScriptCollection($scripts, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -701,7 +705,7 @@ class ScriptIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ScriptCollection($scripts, new ScriptReadQuery($parameters)))
+                    (new ScriptCollection($scripts, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -743,7 +747,7 @@ class ScriptIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ScriptCollection($scripts, new ScriptReadQuery($parameters)))
+                    (new ScriptCollection($scripts, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),

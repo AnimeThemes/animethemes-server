@@ -28,13 +28,6 @@ abstract class ReadRequest extends BaseRequest
     use ValidatesSorts;
 
     /**
-     * Get the schema.
-     *
-     * @return Schema
-     */
-    abstract protected function schema(): Schema;
-
-    /**
      * Get the validation rules that apply to the request.
      *
      * @return array

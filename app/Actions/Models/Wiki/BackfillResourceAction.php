@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Actions\Models\Wiki;
 
 use App\Actions\ActionResult;
-use App\Actions\Models\BaseAction;
+use App\Actions\Models\BackfillAction;
 use App\Enums\Actions\ActionStatus;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Wiki\ExternalResource;
@@ -16,9 +16,9 @@ use Illuminate\Support\Facades\Log;
  * Class BackfillResourceAction.
  *
  * @template TModel of \App\Models\BaseModel
- * @extends BaseAction<TModel>
+ * @extends BackfillAction<TModel>
  */
-abstract class BackfillResourceAction extends BaseAction
+abstract class BackfillResourceAction extends BackfillAction
 {
     /**
      * Handle action.

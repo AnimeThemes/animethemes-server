@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\List\Playlist\Resource;
 
-use App\Http\Api\Query\ReadQuery;
 use App\Http\Api\Schema\List\Playlist\TrackSchema;
 use App\Http\Api\Schema\Schema;
 use App\Http\Resources\BaseResource;
@@ -12,7 +11,6 @@ use App\Http\Resources\List\Resource\PlaylistResource;
 use App\Http\Resources\Wiki\Resource\VideoResource;
 use App\Models\List\Playlist\PlaylistTrack;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\MissingValue;
 
 /**
  * Class TrackResource.
@@ -25,18 +23,6 @@ class TrackResource extends BaseResource
      * @var string|null
      */
     public static $wrap = 'track';
-
-    /**
-     * Create a new resource instance.
-     *
-     * @param  PlaylistTrack | MissingValue | null  $track
-     * @param  ReadQuery  $query
-     * @return void
-     */
-    public function __construct(PlaylistTrack|MissingValue|null $track, ReadQuery $query)
-    {
-        parent::__construct($track, $query);
-    }
 
     /**
      * Transform the resource into an array.

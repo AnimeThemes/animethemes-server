@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Schema\Wiki\Anime;
 
+use App\Contracts\Http\Api\Schema\SearchableSchema;
 use App\Http\Api\Field\Base\IdField;
 use App\Http\Api\Field\Field;
 use App\Http\Api\Field\Wiki\Anime\Synonym\SynonymAnimeIdField;
@@ -17,7 +18,7 @@ use App\Models\Wiki\Anime\AnimeSynonym;
 /**
  * Class SynonymSchema.
  */
-class SynonymSchema extends EloquentSchema
+class SynonymSchema extends EloquentSchema implements SearchableSchema
 {
     /**
      * The model this schema represents.

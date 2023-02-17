@@ -11,7 +11,7 @@ use Illuminate\Support\Arr;
 /**
  * Class UpdateRequest.
  */
-abstract class UpdateRequest extends WriteRequest
+class UpdateRequest extends WriteRequest
 {
     /**
      * Get the validation rules that apply to the request.

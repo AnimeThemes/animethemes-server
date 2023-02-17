@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Wiki\Anime\Theme\Entry;
 
+use App\Concerns\Actions\Http\Api\SortsModels;
 use App\Contracts\Http\Api\Field\SortableField;
 use App\Enums\Http\Api\Filter\TrashedStatus;
 use App\Enums\Http\Api\Sort\Direction;
@@ -19,7 +20,7 @@ use App\Http\Api\Parser\FilterParser;
 use App\Http\Api\Parser\IncludeParser;
 use App\Http\Api\Parser\PagingParser;
 use App\Http\Api\Parser\SortParser;
-use App\Http\Api\Query\Wiki\Anime\Theme\Entry\EntryReadQuery;
+use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Wiki\Anime\Theme\EntrySchema;
 use App\Http\Resources\Wiki\Anime\Theme\Collection\EntryCollection;
 use App\Http\Resources\Wiki\Anime\Theme\Resource\EntryResource;
@@ -40,6 +41,7 @@ use Tests\TestCase;
  */
 class EntryIndexTest extends TestCase
 {
+    use SortsModels;
     use WithFaker;
     use WithoutEvents;
 
@@ -60,7 +62,7 @@ class EntryIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new EntryCollection($entries, new EntryReadQuery()))
+                    (new EntryCollection($entries, new Query()))
                         ->response()
                         ->getData()
                 ),
@@ -122,7 +124,7 @@ class EntryIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new EntryCollection($entries, new EntryReadQuery($parameters)))
+                    (new EntryCollection($entries, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -160,7 +162,7 @@ class EntryIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new EntryCollection($entries, new EntryReadQuery($parameters)))
+                    (new EntryCollection($entries, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -187,7 +189,7 @@ class EntryIndexTest extends TestCase
             SortParser::param() => $sort->format(Direction::getRandomInstance()),
         ];
 
-        $query = new EntryReadQuery($parameters);
+        $query = new Query($parameters);
 
         AnimeThemeEntry::factory()
             ->for(AnimeTheme::factory()->for(Anime::factory()))
@@ -196,10 +198,12 @@ class EntryIndexTest extends TestCase
 
         $response = $this->get(route('api.animethemeentry.index', $parameters));
 
+        $entries = $this->sort(AnimeThemeEntry::query(), $query, $schema)->get();
+
         $response->assertJson(
             json_decode(
                 json_encode(
-                    $query->collection($query->index())
+                    (new EntryCollection($entries, $query))
                         ->response()
                         ->getData()
                 ),
@@ -248,7 +252,7 @@ class EntryIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new EntryCollection($entry, new EntryReadQuery($parameters)))
+                    (new EntryCollection($entry, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -297,7 +301,7 @@ class EntryIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new EntryCollection($entry, new EntryReadQuery($parameters)))
+                    (new EntryCollection($entry, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -343,7 +347,7 @@ class EntryIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new EntryCollection($entry, new EntryReadQuery($parameters)))
+                    (new EntryCollection($entry, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -389,7 +393,7 @@ class EntryIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new EntryCollection($entry, new EntryReadQuery($parameters)))
+                    (new EntryCollection($entry, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -435,7 +439,7 @@ class EntryIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new EntryCollection($entry, new EntryReadQuery($parameters)))
+                    (new EntryCollection($entry, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -493,7 +497,7 @@ class EntryIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new EntryCollection($entry, new EntryReadQuery($parameters)))
+                    (new EntryCollection($entry, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -529,7 +533,7 @@ class EntryIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new EntryCollection($entries, new EntryReadQuery($parameters)))
+                    (new EntryCollection($entries, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -565,7 +569,7 @@ class EntryIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new EntryCollection($entries, new EntryReadQuery($parameters)))
+                    (new EntryCollection($entries, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -606,7 +610,7 @@ class EntryIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new EntryCollection($entries, new EntryReadQuery($parameters)))
+                    (new EntryCollection($entries, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -648,7 +652,7 @@ class EntryIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new EntryCollection($entries, new EntryReadQuery($parameters)))
+                    (new EntryCollection($entries, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -698,7 +702,7 @@ class EntryIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new EntryCollection($entries, new EntryReadQuery($parameters)))
+                    (new EntryCollection($entries, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -747,7 +751,7 @@ class EntryIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new EntryCollection($entries, new EntryReadQuery($parameters)))
+                    (new EntryCollection($entries, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -796,7 +800,7 @@ class EntryIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new EntryCollection($entries, new EntryReadQuery($parameters)))
+                    (new EntryCollection($entries, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -838,7 +842,7 @@ class EntryIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new EntryCollection($entries, new EntryReadQuery($parameters)))
+                    (new EntryCollection($entries, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),

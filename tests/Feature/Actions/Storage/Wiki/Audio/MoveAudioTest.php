@@ -59,7 +59,7 @@ class MoveAudioTest extends TestCase
 
         $file = File::fake()->create($this->faker->word().'.ogg', $this->faker->randomDigitNotNull());
 
-        $directory = $this->faker->word();
+        $directory = $this->faker->unique()->word();
 
         $audio = Audio::factory()->createOne([
             Audio::ATTRIBUTE_BASENAME => FileFacade::basename($file->path()),
@@ -68,7 +68,7 @@ class MoveAudioTest extends TestCase
             Audio::ATTRIBUTE_PATH => $fs->putFileAs($directory, $file, $file->getClientOriginalName()),
         ]);
 
-        $action = new MoveAudioAction($audio, Str::replace($directory, $this->faker->word(), $audio->path));
+        $action = new MoveAudioAction($audio, Str::replace($directory, $this->faker->unique()->word(), $audio->path));
 
         $storageResults = $action->handle();
 
@@ -90,7 +90,7 @@ class MoveAudioTest extends TestCase
 
         $file = File::fake()->create($this->faker->word().'.ogg', $this->faker->randomDigitNotNull());
 
-        $directory = $this->faker->word();
+        $directory = $this->faker->unique()->word();
 
         $audio = Audio::factory()->createOne([
             Audio::ATTRIBUTE_BASENAME => FileFacade::basename($file->path()),
@@ -100,7 +100,7 @@ class MoveAudioTest extends TestCase
         ]);
 
         $from = $audio->path();
-        $to = Str::replace($directory, $this->faker->word(), $audio->path);
+        $to = Str::replace($directory, $this->faker->unique()->word(), $audio->path);
 
         $action = new MoveAudioAction($audio, $to);
 
@@ -123,7 +123,7 @@ class MoveAudioTest extends TestCase
 
         $file = File::fake()->create($this->faker->word().'.ogg', $this->faker->randomDigitNotNull());
 
-        $directory = $this->faker->word();
+        $directory = $this->faker->unique()->word();
 
         $audio = Audio::factory()->createOne([
             Audio::ATTRIBUTE_BASENAME => FileFacade::basename($file->path()),
@@ -132,7 +132,7 @@ class MoveAudioTest extends TestCase
             Audio::ATTRIBUTE_PATH => $fs->putFileAs($directory, $file, $file->getClientOriginalName()),
         ]);
 
-        $to = Str::replace($directory, $this->faker->word(), $audio->path);
+        $to = Str::replace($directory, $this->faker->unique()->word(), $audio->path);
 
         $action = new MoveAudioAction($audio, $to);
 

@@ -11,7 +11,7 @@ use Illuminate\Support\Arr;
 /**
  * Class StoreRequest.
  */
-abstract class StoreRequest extends WriteRequest
+class StoreRequest extends WriteRequest
 {
     /**
      * Get the validation rules that apply to the request.

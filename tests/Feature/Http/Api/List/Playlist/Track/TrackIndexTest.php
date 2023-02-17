@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\List\Playlist\Track;
 
+use App\Concerns\Actions\Http\Api\SortsModels;
 use App\Contracts\Http\Api\Field\SortableField;
 use App\Enums\Http\Api\Filter\TrashedStatus;
 use App\Enums\Http\Api\Sort\Direction;
@@ -18,7 +19,7 @@ use App\Http\Api\Parser\FilterParser;
 use App\Http\Api\Parser\IncludeParser;
 use App\Http\Api\Parser\PagingParser;
 use App\Http\Api\Parser\SortParser;
-use App\Http\Api\Query\List\Playlist\Track\TrackReadQuery;
+use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\List\Playlist\TrackSchema;
 use App\Http\Resources\List\Playlist\Collection\TrackCollection;
 use App\Http\Resources\List\Playlist\Resource\TrackResource;
@@ -39,6 +40,7 @@ use Tests\TestCase;
  */
 class TrackIndexTest extends TestCase
 {
+    use SortsModels;
     use WithFaker;
     use WithoutEvents;
 
@@ -176,7 +178,7 @@ class TrackIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new TrackCollection($playlist->tracks, new TrackReadQuery($playlist)))
+                    (new TrackCollection($playlist->tracks, new Query()))
                         ->response()
                         ->getData()
                 ),
@@ -249,7 +251,7 @@ class TrackIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new TrackCollection($tracks, new TrackReadQuery($playlist, $parameters)))
+                    (new TrackCollection($tracks, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -288,7 +290,7 @@ class TrackIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new TrackCollection($playlist->tracks, new TrackReadQuery($playlist, $parameters)))
+                    (new TrackCollection($playlist->tracks, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -321,14 +323,16 @@ class TrackIndexTest extends TestCase
                 Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
             ]);
 
-        $query = new TrackReadQuery($playlist, $parameters);
+        $query = new Query($parameters);
 
         $response = $this->get(route('api.playlist.track.index', ['playlist' => $playlist] + $parameters));
+
+        $tracks = $this->sort(PlaylistTrack::query(), $query, $schema)->get();
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    $query->collection($query->index())
+                    (new TrackCollection($tracks, $query))
                         ->response()
                         ->getData()
                 ),
@@ -384,7 +388,7 @@ class TrackIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new TrackCollection($tracks, new TrackReadQuery($playlist, $parameters)))
+                    (new TrackCollection($tracks, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -440,7 +444,7 @@ class TrackIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new TrackCollection($tracks, new TrackReadQuery($playlist, $parameters)))
+                    (new TrackCollection($tracks, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -486,7 +490,7 @@ class TrackIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new TrackCollection($tracks, new TrackReadQuery($playlist, $parameters)))
+                    (new TrackCollection($tracks, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -532,7 +536,7 @@ class TrackIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new TrackCollection($tracks, new TrackReadQuery($playlist, $parameters)))
+                    (new TrackCollection($tracks, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -578,7 +582,7 @@ class TrackIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new TrackCollection($tracks, new TrackReadQuery($playlist, $parameters)))
+                    (new TrackCollection($tracks, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -641,7 +645,7 @@ class TrackIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new TrackCollection($tracks, new TrackReadQuery($playlist, $parameters)))
+                    (new TrackCollection($tracks, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),

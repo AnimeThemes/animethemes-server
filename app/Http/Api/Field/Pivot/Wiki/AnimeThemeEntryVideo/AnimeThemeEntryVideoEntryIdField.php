@@ -7,7 +7,7 @@ namespace App\Http\Api\Field\Pivot\Wiki\AnimeThemeEntryVideo;
 use App\Contracts\Http\Api\Field\CreatableField;
 use App\Contracts\Http\Api\Field\SelectableField;
 use App\Http\Api\Field\Field;
-use App\Http\Api\Query\ReadQuery;
+use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Schema;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Pivots\Wiki\AnimeThemeEntryVideo;
@@ -47,10 +47,11 @@ class AnimeThemeEntryVideoEntryIdField extends Field implements CreatableField, 
     /**
      * Determine if the field should be included in the select clause of our query.
      *
-     * @param  ReadQuery  $query
+     * @param  Query  $query
+     * @param  Schema  $schema
      * @return bool
      */
-    public function shouldSelect(ReadQuery $query): bool
+    public function shouldSelect(Query $query, Schema $schema): bool
     {
         // Needed to match entry relation.
         return true;
