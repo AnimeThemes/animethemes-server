@@ -9,6 +9,9 @@ use App\Http\Api\Field\Field;
 use App\Http\Api\Field\List\Playlist\Track\TrackVideoIdField;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\EloquentSchema;
+use App\Http\Api\Schema\Wiki\ArtistSchema;
+use App\Http\Api\Schema\Wiki\AudioSchema;
+use App\Http\Api\Schema\Wiki\ImageSchema;
 use App\Http\Api\Schema\Wiki\VideoSchema;
 use App\Http\Resources\List\Playlist\Resource\TrackResource;
 use App\Models\List\Playlist\PlaylistTrack;
@@ -46,6 +49,9 @@ class ForwardSchema extends EloquentSchema
     public function allowedIncludes(): array
     {
         return [
+            new AllowedInclude(new ArtistSchema(), PlaylistTrack::RELATION_ARTISTS),
+            new AllowedInclude(new AudioSchema(), PlaylistTrack::RELATION_AUDIO),
+            new AllowedInclude(new ImageSchema(), PlaylistTrack::RELATION_IMAGES),
             new AllowedInclude(new VideoSchema(), PlaylistTrack::RELATION_VIDEO),
         ];
     }

@@ -44,6 +44,9 @@ class PlaylistTrack extends BaseModel
     final public const ATTRIBUTE_PREVIOUS = 'previous_id';
     final public const ATTRIBUTE_VIDEO = 'video_id';
 
+    final public const RELATION_ARTISTS = 'video.animethemeentries.animetheme.song.artists';
+    final public const RELATION_AUDIO = 'video.audio';
+    final public const RELATION_IMAGES = 'video.animethemeentries.animetheme.anime.images';
     final public const RELATION_NEXT = 'next';
     final public const RELATION_PLAYLIST = 'playlist';
     final public const RELATION_PREVIOUS = 'previous';
