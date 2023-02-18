@@ -32,7 +32,7 @@ class AnimeResourceController extends PivotController
      */
     public function __construct()
     {
-        parent::__construct(Anime::class, 'resource', ExternalResource::class, 'resource');
+        parent::__construct(Anime::class, 'anime', ExternalResource::class, 'resource');
     }
 
     /**

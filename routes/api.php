@@ -170,7 +170,7 @@ if (! function_exists('apiPivotResource')) {
 
 if (! function_exists('apiEditablePivotResource')) {
     /**
-     * API pivot resource route registration.
+     * API pivot resource route registration with update action.
      *
      * @param  string  $name
      * @param  string  $related
