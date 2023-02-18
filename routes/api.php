@@ -17,6 +17,7 @@ use App\Http\Controllers\Api\List\Playlist\ForwardController;
 use App\Http\Controllers\Api\List\Playlist\TrackController;
 use App\Http\Controllers\Api\List\PlaylistController;
 use App\Http\Controllers\Api\Pivot\Wiki\AnimeImageController;
+use App\Http\Controllers\Api\Pivot\Wiki\AnimeResourceController;
 use App\Http\Controllers\Api\Wiki\Anime\SynonymController;
 use App\Http\Controllers\Api\Wiki\Anime\Theme\EntryController;
 use App\Http\Controllers\Api\Wiki\Anime\ThemeController;
@@ -167,6 +168,23 @@ if (! function_exists('apiPivotResource')) {
     }
 }
 
+if (! function_exists('apiEditablePivotResource')) {
+    /**
+     * API pivot resource route registration with update action.
+     *
+     * @param  string  $name
+     * @param  string  $related
+     * @param  string  $foreign
+     * @param  string  $controller
+     * @return void
+     */
+    function apiEditablePivotResource(string $name, string $related, string $foreign, string $controller): void
+    {
+        apiPivotResource($name, $related, $foreign, $controller);
+        Route::match(['put', 'patch'], apiPivotResourceUri($name, $related, $foreign), [$controller, 'update'])->name("$name.update");
+    }
+}
+
 if (! function_exists('apiPivotResourceUri')) {
     /**
      * Uri for ability.
@@ -217,6 +235,7 @@ Route::get('playlist/{playlist}/backward', [BackwardController::class, 'index'])
 
 // Pivot Routes
 apiPivotResource('animeimage', 'anime', 'image', AnimeImageController::class);
+apiEditablePivotResource('animeresource', 'anime', 'resource', AnimeResourceController::class);
 
 // Wiki Routes
 apiResource('anime', AnimeController::class);
