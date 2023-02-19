@@ -7,7 +7,7 @@ namespace App\Http\Controllers\Api\List\Playlist;
 use App\Actions\Http\Api\DestroyAction;
 use App\Actions\Http\Api\ForceDeleteAction;
 use App\Actions\Http\Api\IndexAction;
-use App\Actions\Http\Api\List\Playlist\StoreTrackAction;
+use App\Actions\Http\Api\List\Playlist\Track\StoreTrackAction;
 use App\Actions\Http\Api\RestoreAction;
 use App\Actions\Http\Api\ShowAction;
 use App\Actions\Http\Api\UpdateAction;

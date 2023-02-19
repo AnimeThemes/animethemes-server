@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Actions\Http\Api\List\Playlist;
+namespace App\Actions\Http\Api\List\Playlist\Track;
 
 use App\Actions\Http\Api\StoreAction;
 use App\Models\List\Playlist;
@@ -34,7 +34,7 @@ class StoreTrackAction
 
         $track = $storeAction->store($builder, $trackParameters);
 
-        if ($playlist->first()->doesntExist()) {
+        if ($playlist->tracks()->count() === 1 && $playlist->first()->doesntExist()) {
             $playlist->first()->associate($track)->save();
         }
 
