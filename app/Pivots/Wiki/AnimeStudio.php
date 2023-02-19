@@ -16,7 +16,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * Class AnimeStudio.
  *
  * @property Anime $anime
+ * @property int $anime_id
  * @property Studio $studio
+ * @property int $studio_id
  *
  * @method static AnimeStudioFactory factory(...$parameters)
  */
@@ -26,6 +28,9 @@ class AnimeStudio extends BasePivot
 
     final public const ATTRIBUTE_ANIME = 'anime_id';
     final public const ATTRIBUTE_STUDIO = 'studio_id';
+
+    final public const RELATION_ANIME = 'anime';
+    final public const RELATION_STUDIO = 'studio';
 
     /**
      * The table associated with the model.
@@ -46,6 +51,16 @@ class AnimeStudio extends BasePivot
             AnimeStudio::ATTRIBUTE_STUDIO,
         ];
     }
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var string[]
+     */
+    protected $fillable = [
+        AnimeStudio::ATTRIBUTE_ANIME,
+        AnimeStudio::ATTRIBUTE_STUDIO,
+    ];
 
     /**
      * The event map for the model.

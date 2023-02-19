@@ -19,6 +19,7 @@ use App\Http\Controllers\Api\List\PlaylistController;
 use App\Http\Controllers\Api\Pivot\Wiki\AnimeImageController;
 use App\Http\Controllers\Api\Pivot\Wiki\AnimeResourceController;
 use App\Http\Controllers\Api\Pivot\Wiki\AnimeSeriesController;
+use App\Http\Controllers\Api\Pivot\Wiki\AnimeStudioController;
 use App\Http\Controllers\Api\Wiki\Anime\SynonymController;
 use App\Http\Controllers\Api\Wiki\Anime\Theme\EntryController;
 use App\Http\Controllers\Api\Wiki\Anime\ThemeController;
@@ -238,6 +239,7 @@ Route::get('playlist/{playlist}/backward', [BackwardController::class, 'index'])
 apiPivotResource('animeimage', 'anime', 'image', AnimeImageController::class);
 apiEditablePivotResource('animeresource', 'anime', 'resource', AnimeResourceController::class);
 apiPivotResource('animeseries', 'anime', 'series', AnimeSeriesController::class);
+apiPivotResource('animestudio', 'anime', 'studio', AnimeStudioController::class);
 
 // Wiki Routes
 apiResource('anime', AnimeController::class);
