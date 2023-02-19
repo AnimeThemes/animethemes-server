@@ -9,6 +9,7 @@ use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
 use App\Models\Wiki\Video;
 use Illuminate\Foundation\Testing\WithoutEvents;
+use Illuminate\Support\Arr;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
@@ -207,5 +208,30 @@ class TrackStoreTest extends TestCase
         $response->assertCreated();
         static::assertDatabaseCount(PlaylistTrack::TABLE, 3);
         static::assertDatabaseHas(PlaylistTrack::TABLE, [PlaylistTrack::ATTRIBUTE_PLAYLIST => $playlist->getKey()]);
+    }
+
+    /**
+     * The Track Store Endpoint shall set the first track for an empty playlist.
+     *
+     * @return void
+     */
+    public function testFirst(): void
+    {
+        $user = User::factory()->withPermission('create playlist track')->createOne();
+
+        $playlist = Playlist::factory()
+            ->for($user)
+            ->createOne();
+
+        $track = PlaylistTrack::factory()
+            ->for($playlist)
+            ->for(Video::factory())
+            ->makeOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->post(route('api.playlist.track.store', ['playlist' => $playlist] + $track->toArray()));
+
+        static::assertDatabaseHas(Playlist::TABLE, [Playlist::ATTRIBUTE_FIRST => Arr::get($response->json(), 'track.id')]);
     }
 }

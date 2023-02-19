@@ -7,9 +7,9 @@ namespace App\Http\Controllers\Api\List\Playlist;
 use App\Actions\Http\Api\DestroyAction;
 use App\Actions\Http\Api\ForceDeleteAction;
 use App\Actions\Http\Api\IndexAction;
+use App\Actions\Http\Api\List\Playlist\Track\StoreTrackAction;
 use App\Actions\Http\Api\RestoreAction;
 use App\Actions\Http\Api\ShowAction;
-use App\Actions\Http\Api\StoreAction;
 use App\Actions\Http\Api\UpdateAction;
 use App\Http\Api\Query\Query;
 use App\Http\Controllers\Api\BaseController;
@@ -63,17 +63,12 @@ class TrackController extends BaseController
      *
      * @param  StoreRequest  $request
      * @param  Playlist  $playlist
-     * @param  StoreAction  $action
+     * @param  StoreTrackAction  $action
      * @return JsonResponse
      */
-    public function store(StoreRequest $request, Playlist $playlist, StoreAction $action): JsonResponse
+    public function store(StoreRequest $request, Playlist $playlist, StoreTrackAction $action): JsonResponse
     {
-        $validated = array_merge(
-            $request->validated(),
-            [PlaylistTrack::ATTRIBUTE_PLAYLIST => $playlist->getKey()]
-        );
-
-        $track = $action->store(PlaylistTrack::query(), $validated);
+        $track = $action->store($playlist, PlaylistTrack::query(), $request->validated());
 
         $resource = new TrackResource($track, new Query());
 
