@@ -8,8 +8,8 @@ use App\Models\Auth\User;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
 use App\Models\Wiki\Video;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
-use Illuminate\Support\Arr;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
@@ -18,6 +18,7 @@ use Tests\TestCase;
  */
 class TrackStoreTest extends TestCase
 {
+    use WithFaker;
     use WithoutEvents;
 
     /**
@@ -107,6 +108,45 @@ class TrackStoreTest extends TestCase
     }
 
     /**
+     * The Track Store Endpoint shall prohibit the next and previous fields from both being present.
+     *
+     * @return void
+     */
+    public function testProhibitsNextAndPrevious(): void
+    {
+        $user = User::factory()->withPermission('create playlist track')->createOne();
+
+        $playlist = Playlist::factory()
+            ->for($user)
+            ->createOne();
+
+        $previous = PlaylistTrack::factory()
+            ->for($playlist)
+            ->createOne();
+
+        $next = PlaylistTrack::factory()
+            ->for($playlist)
+            ->createOne();
+
+        $track = PlaylistTrack::factory()
+            ->for($playlist)
+            ->for(Video::factory())
+            ->makeOne([
+                PlaylistTrack::ATTRIBUTE_PREVIOUS => $previous->getKey(),
+                PlaylistTrack::ATTRIBUTE_NEXT => $next->getKey(),
+            ]);
+
+        Sanctum::actingAs($user);
+
+        $response = $this->post(route('api.playlist.track.store', ['playlist' => $playlist] + $track->toArray()));
+
+        $response->assertJsonValidationErrors([
+            PlaylistTrack::ATTRIBUTE_NEXT,
+            PlaylistTrack::ATTRIBUTE_PREVIOUS,
+        ]);
+    }
+
+    /**
      * The Track Store Endpoint shall restrict the next track to a track within the playlist.
      *
      * @return void
@@ -185,44 +225,6 @@ class TrackStoreTest extends TestCase
             ->for($user)
             ->createOne();
 
-        $previous = PlaylistTrack::factory()
-            ->for($playlist)
-            ->createOne();
-
-        $next = PlaylistTrack::factory()
-            ->for($playlist)
-            ->createOne();
-
-        $track = PlaylistTrack::factory()
-            ->for($playlist)
-            ->for(Video::factory())
-            ->makeOne([
-                PlaylistTrack::ATTRIBUTE_PREVIOUS => $previous->getKey(),
-                PlaylistTrack::ATTRIBUTE_NEXT => $next->getKey(),
-            ]);
-
-        Sanctum::actingAs($user);
-
-        $response = $this->post(route('api.playlist.track.store', ['playlist' => $playlist] + $track->toArray()));
-
-        $response->assertCreated();
-        static::assertDatabaseCount(PlaylistTrack::TABLE, 3);
-        static::assertDatabaseHas(PlaylistTrack::TABLE, [PlaylistTrack::ATTRIBUTE_PLAYLIST => $playlist->getKey()]);
-    }
-
-    /**
-     * The Track Store Endpoint shall set the first track for an empty playlist.
-     *
-     * @return void
-     */
-    public function testFirst(): void
-    {
-        $user = User::factory()->withPermission('create playlist track')->createOne();
-
-        $playlist = Playlist::factory()
-            ->for($user)
-            ->createOne();
-
         $track = PlaylistTrack::factory()
             ->for($playlist)
             ->for(Video::factory())
@@ -232,6 +234,198 @@ class TrackStoreTest extends TestCase
 
         $response = $this->post(route('api.playlist.track.store', ['playlist' => $playlist] + $track->toArray()));
 
-        static::assertDatabaseHas(Playlist::TABLE, [Playlist::ATTRIBUTE_FIRST => Arr::get($response->json(), 'track.id')]);
+        $response->assertCreated();
+
+        $track = PlaylistTrack::query()->first();
+        $playlist->refresh();
+
+        static::assertDatabaseCount(PlaylistTrack::TABLE, 1);
+
+        static::assertTrue($playlist->first()->is($track));
+        static::assertTrue($playlist->last()->is($track));
+    }
+
+    /**
+     * The Track Store Endpoint shall allow inserting after tracks including the last track.
+     *
+     * @return void
+     */
+    public function testCreateAfterLastTrack(): void
+    {
+        $user = User::factory()->withPermission('create playlist track')->createOne();
+
+        $trackCount = $this->faker->numberBetween(2, 9);
+
+        $playlist = Playlist::factory()
+            ->for($user)
+            ->tracks($trackCount)
+            ->createOne();
+
+        $last = $playlist->last;
+
+        $track = PlaylistTrack::factory()
+            ->for($playlist)
+            ->for(Video::factory())
+            ->makeOne([
+                PlaylistTrack::ATTRIBUTE_PREVIOUS => $last->getKey(),
+            ]);
+
+        Sanctum::actingAs($user);
+
+        $response = $this->post(route('api.playlist.track.store', ['playlist' => $playlist] + $track->toArray()));
+
+        $response->assertCreated();
+
+        /** @var PlaylistTrack $track */
+        $track = PlaylistTrack::query()->latest()->first();
+        $playlist->refresh();
+        $last->refresh();
+
+        static::assertDatabaseCount(PlaylistTrack::TABLE, $trackCount + 1);
+
+        static::assertTrue($playlist->last()->is($track));
+
+        static::assertTrue($last->next()->is($track));
+
+        static::assertTrue($track->previous()->is($last));
+        static::assertTrue($track->next()->doesntExist());
+    }
+
+    /**
+     * The Track Store Endpoint shall allow inserting after tracks including the first track.
+     *
+     * @return void
+     */
+    public function testCreateAfterFirstTrack(): void
+    {
+        $user = User::factory()->withPermission('create playlist track')->createOne();
+
+        $trackCount = $this->faker->numberBetween(2, 9);
+
+        $playlist = Playlist::factory()
+            ->for($user)
+            ->tracks($trackCount)
+            ->createOne();
+
+        $first = $playlist->first;
+        $next = $first->next;
+
+        $track = PlaylistTrack::factory()
+            ->for($playlist)
+            ->for(Video::factory())
+            ->makeOne([
+                PlaylistTrack::ATTRIBUTE_PREVIOUS => $first->getKey(),
+            ]);
+
+        Sanctum::actingAs($user);
+
+        $response = $this->post(route('api.playlist.track.store', ['playlist' => $playlist] + $track->toArray()));
+
+        $response->assertCreated();
+
+        /** @var PlaylistTrack $track */
+        $track = PlaylistTrack::query()->latest()->first();
+        $playlist->refresh();
+        $first->refresh();
+
+        static::assertDatabaseCount(PlaylistTrack::TABLE, $trackCount + 1);
+
+        static::assertTrue($playlist->first()->is($first));
+
+        static::assertTrue($first->next()->is($track));
+
+        static::assertTrue($track->previous()->is($first));
+        static::assertTrue($track->next()->is($next));
+    }
+
+    /**
+     * The Track Store Endpoint shall allow inserting before tracks including the last track.
+     *
+     * @return void
+     */
+    public function testCreateBeforeLastTrack(): void
+    {
+        $user = User::factory()->withPermission('create playlist track')->createOne();
+
+        $trackCount = $this->faker->numberBetween(2, 9);
+
+        $playlist = Playlist::factory()
+            ->for($user)
+            ->tracks($trackCount)
+            ->createOne();
+
+        $last = $playlist->last;
+        $previous = $last->previous;
+
+        $track = PlaylistTrack::factory()
+            ->for($playlist)
+            ->for(Video::factory())
+            ->makeOne([
+                PlaylistTrack::ATTRIBUTE_NEXT => $last->getKey(),
+            ]);
+
+        Sanctum::actingAs($user);
+
+        $response = $this->post(route('api.playlist.track.store', ['playlist' => $playlist] + $track->toArray()));
+
+        $response->assertCreated();
+
+        /** @var PlaylistTrack $track */
+        $track = PlaylistTrack::query()->latest()->first();
+        $playlist->refresh();
+        $last->refresh();
+
+        static::assertDatabaseCount(PlaylistTrack::TABLE, $trackCount + 1);
+
+        static::assertTrue($playlist->last()->is($last));
+
+        static::assertTrue($last->previous()->is($track));
+
+        static::assertTrue($track->previous()->is($previous));
+        static::assertTrue($track->next()->is($last));
+    }
+
+    /**
+     * The Track Store Endpoint shall allow inserting before tracks including the first track.
+     *
+     * @return void
+     */
+    public function testCreateBeforeFirstTrack(): void
+    {
+        $user = User::factory()->withPermission('create playlist track')->createOne();
+
+        $trackCount = $this->faker->numberBetween(2, 9);
+
+        $playlist = Playlist::factory()
+            ->for($user)
+            ->tracks($trackCount)
+            ->createOne();
+
+        $first = $playlist->first;
+
+        $track = PlaylistTrack::factory()
+            ->for($playlist)
+            ->for(Video::factory())
+            ->makeOne([
+                PlaylistTrack::ATTRIBUTE_NEXT => $first->getKey(),
+            ]);
+
+        Sanctum::actingAs($user);
+
+        $response = $this->post(route('api.playlist.track.store', ['playlist' => $playlist] + $track->toArray()));
+
+        $response->assertCreated();
+
+        /** @var PlaylistTrack $track */
+        $track = PlaylistTrack::query()->latest()->first();
+        $playlist->refresh();
+        $first->refresh();
+
+        static::assertDatabaseCount(PlaylistTrack::TABLE, $trackCount + 1);
+
+        static::assertTrue($playlist->first()->is($track));
+
+        static::assertTrue($track->previous()->doesntExist());
+        static::assertTrue($track->next()->is($first));
     }
 }

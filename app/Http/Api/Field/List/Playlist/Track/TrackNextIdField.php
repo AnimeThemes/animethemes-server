@@ -13,6 +13,7 @@ use App\Http\Api\Schema\Schema;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
 /**
@@ -45,6 +46,7 @@ class TrackNextIdField extends Field implements CreatableField, SelectableField,
             'sometimes',
             'required',
             'integer',
+            Str::of('prohibits:')->append(PlaylistTrack::ATTRIBUTE_PREVIOUS)->__toString(),
             Rule::exists(PlaylistTrack::TABLE, PlaylistTrack::ATTRIBUTE_ID)
                 ->where(PlaylistTrack::ATTRIBUTE_PLAYLIST, $playlist?->getKey()),
         ];
@@ -74,12 +76,17 @@ class TrackNextIdField extends Field implements CreatableField, SelectableField,
         /** @var Playlist|null $playlist */
         $playlist = $request->route('playlist');
 
+        /** @var PlaylistTrack $track */
+        $track = $request->route('track');
+
         return [
             'sometimes',
             'required',
             'integer',
+            Str::of('prohibits:')->append(PlaylistTrack::ATTRIBUTE_PREVIOUS)->__toString(),
             Rule::exists(PlaylistTrack::TABLE, PlaylistTrack::ATTRIBUTE_ID)
-                ->where(PlaylistTrack::ATTRIBUTE_PLAYLIST, $playlist?->getKey()),
+                ->where(PlaylistTrack::ATTRIBUTE_PLAYLIST, $playlist?->getKey())
+                ->whereNot(PlaylistTrack::ATTRIBUTE_ID, $track->getKey()),
         ];
     }
 }
