@@ -13,7 +13,7 @@ use App\Models\List\Playlist\PlaylistTrack;
 class InsertTrackAction
 {
     /**
-     * Insert new track before next track.
+     * Append track to playlist.
      *
      * @param  Playlist  $playlist
      * @param  PlaylistTrack  $track
