@@ -269,20 +269,10 @@ class TrackUpdateTest extends TestCase
             ->for($playlist)
             ->createOne();
 
-        $previous = PlaylistTrack::factory()
-            ->for($playlist)
-            ->createOne();
-
-        $next = PlaylistTrack::factory()
-            ->for($playlist)
-            ->createOne();
-
         $parameters = array_merge(
             PlaylistTrack::factory()->raw(),
             [
                 PlaylistTrack::ATTRIBUTE_VIDEO => Video::factory()->createOne()->getKey(),
-                PlaylistTrack::ATTRIBUTE_PREVIOUS => $previous->getKey(),
-                PlaylistTrack::ATTRIBUTE_NEXT => $next->getKey(),
             ],
         );
 
