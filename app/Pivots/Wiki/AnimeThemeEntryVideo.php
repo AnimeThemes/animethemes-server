@@ -57,6 +57,16 @@ class AnimeThemeEntryVideo extends BasePivot
     }
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var string[]
+     */
+    protected $fillable = [
+        AnimeThemeEntryVideo::ATTRIBUTE_ENTRY,
+        AnimeThemeEntryVideo::ATTRIBUTE_VIDEO,
+    ];
+
+    /**
      * The event map for the model.
      *
      * Allows for object-based events for native Eloquent events.
