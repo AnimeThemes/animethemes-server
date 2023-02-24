@@ -16,7 +16,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * Class ArtistImage.
  *
  * @property Artist $artist
+ * @property int $artist_id
  * @property Image $image
+ * @property int $image_id
  *
  * @method static ArtistImageFactory factory(...$parameters)
  */
@@ -26,6 +28,9 @@ class ArtistImage extends BasePivot
 
     final public const ATTRIBUTE_ARTIST = 'artist_id';
     final public const ATTRIBUTE_IMAGE = 'image_id';
+
+    final public const RELATION_ARTIST = 'artist';
+    final public const RELATION_IMAGE = 'image';
 
     /**
      * The table associated with the model.
@@ -46,6 +51,16 @@ class ArtistImage extends BasePivot
             ArtistImage::ATTRIBUTE_IMAGE,
         ];
     }
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var string[]
+     */
+    protected $fillable = [
+        ArtistImage::ATTRIBUTE_ARTIST,
+        ArtistImage::ATTRIBUTE_IMAGE,
+    ];
 
     /**
      * The event map for the model.
