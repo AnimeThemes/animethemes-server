@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\List\Playlist;
 
-use App\Actions\Http\Api\DestroyAction;
 use App\Actions\Http\Api\ForceDeleteAction;
 use App\Actions\Http\Api\IndexAction;
+use App\Actions\Http\Api\List\Playlist\Track\DestroyTrackAction;
 use App\Actions\Http\Api\List\Playlist\Track\StoreTrackAction;
 use App\Actions\Http\Api\RestoreAction;
 use App\Actions\Http\Api\ShowAction;
@@ -123,14 +123,14 @@ class TrackController extends BaseController
      * @param  Request  $request
      * @param  Playlist  $playlist
      * @param  PlaylistTrack  $track
-     * @param  DestroyAction  $action
+     * @param  DestroyTrackAction  $action
      * @return JsonResponse
      *
      * @noinspection PhpUnusedParameterInspection
      */
-    public function destroy(Request $request, Playlist $playlist, PlaylistTrack $track, DestroyAction $action): JsonResponse
+    public function destroy(Request $request, Playlist $playlist, PlaylistTrack $track, DestroyTrackAction $action): JsonResponse
     {
-        $deleted = $action->destroy($track);
+        $deleted = $action->destroy($playlist, $track);
 
         $resource = new TrackResource($deleted, new Query());
 
