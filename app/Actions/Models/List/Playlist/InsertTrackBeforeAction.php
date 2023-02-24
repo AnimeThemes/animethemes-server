@@ -22,14 +22,13 @@ class InsertTrackBeforeAction
      */
     public function insertBefore(Playlist $playlist, PlaylistTrack $track, PlaylistTrack $next): void
     {
-        $previous = $next->previous;
-
-        if ($previous === null) {
+        if ($playlist->first()->is($next)) {
             $playlist->first()->associate($track)->save();
-        } else {
-            $previous->next()->associate($track)->save();
-            $track->previous()->associate($previous);
         }
+
+        $previous = $next->previous;
+        $previous?->next()?->associate($track)?->save();
+        $track->previous()->associate($previous);
 
         $next->previous()->associate($track)->save();
         $track->next()->associate($next)->save();

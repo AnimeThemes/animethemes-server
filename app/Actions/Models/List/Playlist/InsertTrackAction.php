@@ -26,10 +26,13 @@ class InsertTrackAction
         }
 
         $last = $playlist->last;
+        $last?->next()?->associate($track)?->save();
+        $track->previous()->associate($last);
 
-        if ($last !== null) {
-            $last->next()->associate($track)->save();
-            $track->previous()->associate($last)->save();
+        $track->next()->disassociate();
+
+        if ($track->isDirty()) {
+            $track->save();
         }
 
         $playlist->last()->associate($track)->save();
