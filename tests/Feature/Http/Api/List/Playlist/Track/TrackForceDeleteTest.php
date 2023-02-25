@@ -85,23 +85,139 @@ class TrackForceDeleteTest extends TestCase
     }
 
     /**
-     * The Track Force Delete Endpoint shall force delete the playlist track.
+     * The Track Force Delete Endpoint shall force delete the sole playlist track.
      *
      * @return void
      */
     public function testDeleted(): void
     {
-        $track = PlaylistTrack::factory()
-            ->for(Playlist::factory())
+        $user = User::factory()->withPermission('force delete playlist track')->createOne();
+
+        $playlist = Playlist::factory()
+            ->for($user)
             ->createOne();
 
-        $user = User::factory()->withPermission('force delete playlist track')->createOne();
+        $track = PlaylistTrack::factory()
+            ->for($playlist)
+            ->createOne();
 
         Sanctum::actingAs($user);
 
-        $response = $this->delete(route('api.playlist.track.forceDelete', ['playlist' => $track->playlist, 'track' => $track]));
+        $response = $this->delete(route('api.playlist.track.forceDelete', ['playlist' => $playlist, 'track' => $track]));
 
         $response->assertOk();
+
         static::assertModelMissing($track);
+
+        $playlist->refresh();
+
+        static::assertTrue($playlist->first()->doesntExist());
+        static::assertTrue($playlist->last()->doesntExist());
+    }
+
+    /**
+     * The Track Force Delete Endpoint shall delete the first track.
+     *
+     * @return void
+     */
+    public function testForceDeleteFirst(): void
+    {
+        $user = User::factory()->withPermission('force delete playlist track')->createOne();
+
+        $playlist = Playlist::factory()
+            ->for($user)
+            ->tracks($this->faker->numberBetween(3, 9))
+            ->createOne();
+
+        $first = $playlist->first;
+        $second = $first->next;
+
+        Sanctum::actingAs($user);
+
+        $response = $this->delete(route('api.playlist.track.forceDelete', ['playlist' => $playlist, 'track' => $first]));
+
+        $response->assertOk();
+
+        static::assertModelMissing($first);
+
+        $playlist->refresh();
+        $second->refresh();
+
+        static::assertTrue($playlist->first()->is($second));
+
+        static::assertTrue($second->previous()->doesntExist());
+    }
+
+    /**
+     * The Track Force Delete Endpoint shall delete the last track.
+     *
+     * @return void
+     */
+    public function testForceDeleteLast(): void
+    {
+        $user = User::factory()->withPermission('force delete playlist track')->createOne();
+
+        $playlist = Playlist::factory()
+            ->for($user)
+            ->tracks($this->faker->numberBetween(3, 9))
+            ->createOne();
+
+        $last = $playlist->last;
+        $previous = $last->previous;
+
+        Sanctum::actingAs($user);
+
+        $response = $this->delete(route('api.playlist.track.forceDelete', ['playlist' => $playlist, 'track' => $last]));
+
+        $response->assertOk();
+
+        static::assertModelMissing($last);
+
+        $playlist->refresh();
+        $previous->refresh();
+
+        static::assertTrue($playlist->last()->is($previous));
+
+        static::assertTrue($previous->next()->doesntExist());
+    }
+
+    /**
+     * The Track Force Delete Endpoint shall delete the second track.
+     *
+     * @return void
+     */
+    public function testForceDeleteSecond(): void
+    {
+        $user = User::factory()->withPermission('force delete playlist track')->createOne();
+
+        $playlist = Playlist::factory()
+            ->for($user)
+            ->tracks(3)
+            ->createOne();
+
+        $first = $playlist->first;
+        $second = $first->next;
+        $third = $playlist->last;
+
+        Sanctum::actingAs($user);
+
+        $response = $this->delete(route('api.playlist.track.forceDelete', ['playlist' => $playlist, 'track' => $second]));
+
+        $response->assertOk();
+
+        static::assertModelMissing($second);
+
+        $playlist->refresh();
+        $first->refresh();
+        $third->refresh();
+
+        static::assertTrue($playlist->first()->is($first));
+        static::assertTrue($playlist->last()->is($third));
+
+        static::assertTrue($first->previous()->doesntExist());
+        static::assertTrue($first->next()->is($third));
+
+        static::assertTrue($third->previous()->is($first));
+        static::assertTrue($third->next()->doesntExist());
     }
 }
