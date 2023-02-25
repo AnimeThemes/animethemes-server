@@ -127,7 +127,7 @@ class TrackDestroyTest extends TestCase
     }
 
     /**
-     * The Track Destroy Endpoint shall delete the track.
+     * The Track Destroy Endpoint shall delete the sole track.
      *
      * @return void
      */
@@ -199,7 +199,7 @@ class TrackDestroyTest extends TestCase
     }
 
     /**
-     * The Track Destroy Endpoint shall delete the first track.
+     * The Track Destroy Endpoint shall delete the last track.
      *
      * @return void
      */
@@ -236,7 +236,7 @@ class TrackDestroyTest extends TestCase
     }
 
     /**
-     * The Track Destroy Endpoint shall delete the first track.
+     * The Track Destroy Endpoint shall delete the second track.
      *
      * @return void
      */

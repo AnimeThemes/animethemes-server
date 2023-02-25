@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\List\Playlist;
 
-use App\Actions\Http\Api\ForceDeleteAction;
 use App\Actions\Http\Api\IndexAction;
 use App\Actions\Http\Api\List\Playlist\Track\DestroyTrackAction;
+use App\Actions\Http\Api\List\Playlist\Track\ForceDeleteTrackAction;
 use App\Actions\Http\Api\List\Playlist\Track\StoreTrackAction;
 use App\Actions\Http\Api\RestoreAction;
 use App\Actions\Http\Api\ShowAction;
@@ -125,8 +125,6 @@ class TrackController extends BaseController
      * @param  PlaylistTrack  $track
      * @param  DestroyTrackAction  $action
      * @return JsonResponse
-     *
-     * @noinspection PhpUnusedParameterInspection
      */
     public function destroy(Request $request, Playlist $playlist, PlaylistTrack $track, DestroyTrackAction $action): JsonResponse
     {
@@ -162,14 +160,12 @@ class TrackController extends BaseController
      *
      * @param  Playlist  $playlist
      * @param  PlaylistTrack  $track
-     * @param  ForceDeleteAction  $action
+     * @param  ForceDeleteTrackAction  $action
      * @return JsonResponse
-     *
-     * @noinspection PhpUnusedParameterInspection
      */
-    public function forceDelete(Playlist $playlist, PlaylistTrack $track, ForceDeleteAction $action): JsonResponse
+    public function forceDelete(Playlist $playlist, PlaylistTrack $track, ForceDeleteTrackAction $action): JsonResponse
     {
-        $message = $action->forceDelete($track);
+        $message = $action->forceDelete($playlist, $track);
 
         return new JsonResponse([
             'message' => $message,
