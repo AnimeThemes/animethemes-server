@@ -7,19 +7,20 @@ namespace App\Http\Api\Schema\Pivot\Wiki;
 use App\Http\Api\Field\Base\CreatedAtField;
 use App\Http\Api\Field\Base\UpdatedAtField;
 use App\Http\Api\Field\Field;
-use App\Http\Api\Field\Pivot\Wiki\StudioImage\StudioImageImageIdField;
-use App\Http\Api\Field\Pivot\Wiki\StudioImage\StudioImageStudioIdField;
+use App\Http\Api\Field\Pivot\Wiki\StudioResource\StudioResourceStudioIdField;
+use App\Http\Api\Field\Pivot\Wiki\StudioResource\StudioResourceAsField;
+use App\Http\Api\Field\Pivot\Wiki\StudioResource\StudioResourceResourceIdField;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\EloquentSchema;
-use App\Http\Api\Schema\Wiki\ImageSchema;
 use App\Http\Api\Schema\Wiki\StudioSchema;
-use App\Http\Resources\Pivot\Wiki\Resource\StudioImageResource;
-use App\Pivots\Wiki\StudioImage;
+use App\Http\Api\Schema\Wiki\ExternalResourceSchema;
+use App\Http\Resources\Pivot\Wiki\Resource\StudioResourceResource;
+use App\Pivots\Wiki\StudioResource;
 
 /**
- * Class StudioImageSchema.
+ * Class StudioResourceSchema.
  */
-class StudioImageSchema extends EloquentSchema
+class StudioResourceSchema extends EloquentSchema
 {
     /**
      * The model this schema represents.
@@ -28,7 +29,7 @@ class StudioImageSchema extends EloquentSchema
      */
     public function model(): string
     {
-        return StudioImage::class;
+        return StudioResource::class;
     }
 
     /**
@@ -38,7 +39,7 @@ class StudioImageSchema extends EloquentSchema
      */
     public function type(): string
     {
-        return StudioImageResource::$wrap;
+        return StudioResourceResource::$wrap;
     }
 
     /**
@@ -49,8 +50,8 @@ class StudioImageSchema extends EloquentSchema
     public function allowedIncludes(): array
     {
         return [
-            new AllowedInclude(new ImageSchema(), StudioImage::RELATION_IMAGE),
-            new AllowedInclude(new StudioSchema(), StudioImage::RELATION_STUDIO),
+            new AllowedInclude(new ExternalResourceSchema(), StudioResource::RELATION_RESOURCE),
+            new AllowedInclude(new StudioSchema(), StudioResource::RELATION_STUDIO),
         ];
     }
 
@@ -66,8 +67,9 @@ class StudioImageSchema extends EloquentSchema
         return [
             new CreatedAtField($this),
             new UpdatedAtField($this),
-            new StudioImageStudioIdField($this),
-            new StudioImageImageIdField($this),
+            new StudioResourceStudioIdField($this),
+            new StudioResourceResourceIdField($this),
+            new StudioResourceAsField($this),
         ];
     }
 }
