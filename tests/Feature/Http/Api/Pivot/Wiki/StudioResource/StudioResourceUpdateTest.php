@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Http\Api\Pivot\Wiki\StudioResource;
 
 use App\Models\Auth\User;
-use App\Models\Wiki\Studio;
 use App\Models\Wiki\ExternalResource;
+use App\Models\Wiki\Studio;
 use App\Pivots\Wiki\StudioResource;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use Laravel\Sanctum\Sanctum;

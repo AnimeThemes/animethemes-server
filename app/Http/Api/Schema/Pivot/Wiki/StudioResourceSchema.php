@@ -7,13 +7,13 @@ namespace App\Http\Api\Schema\Pivot\Wiki;
 use App\Http\Api\Field\Base\CreatedAtField;
 use App\Http\Api\Field\Base\UpdatedAtField;
 use App\Http\Api\Field\Field;
-use App\Http\Api\Field\Pivot\Wiki\StudioResource\StudioResourceStudioIdField;
 use App\Http\Api\Field\Pivot\Wiki\StudioResource\StudioResourceAsField;
 use App\Http\Api\Field\Pivot\Wiki\StudioResource\StudioResourceResourceIdField;
+use App\Http\Api\Field\Pivot\Wiki\StudioResource\StudioResourceStudioIdField;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\EloquentSchema;
-use App\Http\Api\Schema\Wiki\StudioSchema;
 use App\Http\Api\Schema\Wiki\ExternalResourceSchema;
+use App\Http\Api\Schema\Wiki\StudioSchema;
 use App\Http\Resources\Pivot\Wiki\Resource\StudioResourceResource;
 use App\Pivots\Wiki\StudioResource;
 

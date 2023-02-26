@@ -17,8 +17,8 @@ use App\Http\Requests\Api\StoreRequest;
 use App\Http\Requests\Api\UpdateRequest;
 use App\Http\Resources\Pivot\Wiki\Collection\StudioResourceCollection;
 use App\Http\Resources\Pivot\Wiki\Resource\StudioResourceResource;
-use App\Models\Wiki\Studio;
 use App\Models\Wiki\ExternalResource;
+use App\Models\Wiki\Studio;
 use App\Pivots\Wiki\StudioResource;
 use Illuminate\Http\JsonResponse;
 
