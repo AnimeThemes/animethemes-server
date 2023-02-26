@@ -7,8 +7,8 @@ namespace App\Http\Resources\Pivot\Wiki\Resource;
 use App\Http\Api\Schema\Pivot\Wiki\StudioImageSchema;
 use App\Http\Api\Schema\Schema;
 use App\Http\Resources\BaseResource;
-use App\Http\Resources\Wiki\Resource\StudioResource;
 use App\Http\Resources\Wiki\Resource\ImageResource;
+use App\Http\Resources\Wiki\Resource\StudioResource;
 use App\Pivots\Wiki\StudioImage;
 use Illuminate\Http\Request;
 

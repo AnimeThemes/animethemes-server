@@ -7,12 +7,12 @@ namespace App\Http\Api\Schema\Pivot\Wiki;
 use App\Http\Api\Field\Base\CreatedAtField;
 use App\Http\Api\Field\Base\UpdatedAtField;
 use App\Http\Api\Field\Field;
-use App\Http\Api\Field\Pivot\Wiki\StudioImage\StudioImageStudioIdField;
 use App\Http\Api\Field\Pivot\Wiki\StudioImage\StudioImageImageIdField;
+use App\Http\Api\Field\Pivot\Wiki\StudioImage\StudioImageStudioIdField;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\EloquentSchema;
-use App\Http\Api\Schema\Wiki\StudioSchema;
 use App\Http\Api\Schema\Wiki\ImageSchema;
+use App\Http\Api\Schema\Wiki\StudioSchema;
 use App\Http\Resources\Pivot\Wiki\Resource\StudioImageResource;
 use App\Pivots\Wiki\StudioImage;
 
