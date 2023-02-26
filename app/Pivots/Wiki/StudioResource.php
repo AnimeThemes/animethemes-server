@@ -16,9 +16,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 /**
  * Class StudioResource.
  *
- * @property Studio $studio
  * @property string $as
  * @property ExternalResource $resource
+ * @property int $resource_id
+ * @property Studio $studio
+ * @property int $studio_id
  *
  * @method static StudioResourceFactory factory(...$parameters)
  */
@@ -30,6 +32,9 @@ class StudioResource extends BasePivot
     final public const ATTRIBUTE_STUDIO = 'studio_id';
     final public const ATTRIBUTE_RESOURCE = 'resource_id';
 
+    final public const RELATION_RESOURCE = 'resource';
+    final public const RELATION_STUDIO = 'studio';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -37,6 +42,8 @@ class StudioResource extends BasePivot
      */
     protected $fillable = [
         StudioResource::ATTRIBUTE_AS,
+        StudioResource::ATTRIBUTE_RESOURCE,
+        StudioResource::ATTRIBUTE_STUDIO,
     ];
 
     /**
