@@ -9,8 +9,8 @@ use App\Actions\Http\Api\List\Playlist\Track\DestroyTrackAction;
 use App\Actions\Http\Api\List\Playlist\Track\ForceDeleteTrackAction;
 use App\Actions\Http\Api\List\Playlist\Track\RestoreTrackAction;
 use App\Actions\Http\Api\List\Playlist\Track\StoreTrackAction;
+use App\Actions\Http\Api\List\Playlist\Track\UpdateTrackAction;
 use App\Actions\Http\Api\ShowAction;
-use App\Actions\Http\Api\UpdateAction;
 use App\Http\Api\Query\Query;
 use App\Http\Controllers\Api\BaseController;
 use App\Http\Requests\Api\IndexRequest;
@@ -103,14 +103,12 @@ class TrackController extends BaseController
      * @param  UpdateRequest  $request
      * @param  Playlist  $playlist
      * @param  PlaylistTrack  $track
-     * @param  UpdateAction  $action
+     * @param  UpdateTrackAction  $action
      * @return JsonResponse
-     *
-     * @noinspection PhpUnusedParameterInspection
      */
-    public function update(UpdateRequest $request, Playlist $playlist, PlaylistTrack $track, UpdateAction $action): JsonResponse
+    public function update(UpdateRequest $request, Playlist $playlist, PlaylistTrack $track, UpdateTrackAction $action): JsonResponse
     {
-        $updated = $action->update($track, $request->validated());
+        $updated = $action->update($playlist, $track, $request->validated());
 
         $resource = new TrackResource($updated, new Query());
 

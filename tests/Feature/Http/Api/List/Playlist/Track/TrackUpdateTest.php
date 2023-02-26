@@ -172,6 +172,40 @@ class TrackUpdateTest extends TestCase
     }
 
     /**
+     * The Track Update Endpoint shall forbid the previous track to be itself.
+     *
+     * @return void
+     */
+    public function testPreviousIsNotSelf(): void
+    {
+        $user = User::factory()->withPermission('update playlist track')->createOne();
+
+        $playlist = Playlist::factory()
+            ->for($user)
+            ->createOne();
+
+        $track = PlaylistTrack::factory()
+            ->for($playlist)
+            ->createOne();
+
+        $parameters = array_merge(
+            PlaylistTrack::factory()->raw(),
+            [
+                PlaylistTrack::ATTRIBUTE_VIDEO => Video::factory()->createOne()->getKey(),
+                PlaylistTrack::ATTRIBUTE_PREVIOUS => $track->getKey(),
+            ],
+        );
+
+        Sanctum::actingAs($user);
+
+        $response = $this->put(route('api.playlist.track.update', ['playlist' => $playlist, 'track' => $track] + $parameters));
+
+        $response->assertJsonValidationErrors([
+            PlaylistTrack::ATTRIBUTE_PREVIOUS,
+        ]);
+    }
+
+    /**
      * The Track Update Endpoint shall restrict the next track to a track within the playlist.
      *
      * @return void
@@ -206,6 +240,84 @@ class TrackUpdateTest extends TestCase
 
         $response->assertJsonValidationErrors([
             PlaylistTrack::ATTRIBUTE_NEXT,
+        ]);
+    }
+
+    /**
+     * The Track Update Endpoint shall forbid the next track to be itself.
+     *
+     * @return void
+     */
+    public function testNextIsNotSelf(): void
+    {
+        $user = User::factory()->withPermission('update playlist track')->createOne();
+
+        $playlist = Playlist::factory()
+            ->for($user)
+            ->createOne();
+
+        $track = PlaylistTrack::factory()
+            ->for($playlist)
+            ->createOne();
+
+        $parameters = array_merge(
+            PlaylistTrack::factory()->raw(),
+            [
+                PlaylistTrack::ATTRIBUTE_VIDEO => Video::factory()->createOne()->getKey(),
+                PlaylistTrack::ATTRIBUTE_NEXT => $track->getKey(),
+            ],
+        );
+
+        Sanctum::actingAs($user);
+
+        $response = $this->put(route('api.playlist.track.update', ['playlist' => $playlist, 'track' => $track] + $parameters));
+
+        $response->assertJsonValidationErrors([
+            PlaylistTrack::ATTRIBUTE_NEXT,
+        ]);
+    }
+
+    /**
+     * The Track Store Endpoint shall prohibit the next and previous fields from both being present.
+     *
+     * @return void
+     */
+    public function testProhibitsNextAndPrevious(): void
+    {
+        $user = User::factory()->withPermission('update playlist track')->createOne();
+
+        $playlist = Playlist::factory()
+            ->for($user)
+            ->createOne();
+
+        $previous = PlaylistTrack::factory()
+            ->for($playlist)
+            ->createOne();
+
+        $next = PlaylistTrack::factory()
+            ->for($playlist)
+            ->createOne();
+
+        $track = PlaylistTrack::factory()
+            ->for($playlist)
+            ->for(Video::factory())
+            ->createOne();
+
+        $parameters = array_merge(
+            PlaylistTrack::factory()->raw(),
+            [
+                PlaylistTrack::ATTRIBUTE_NEXT => $next->getKey(),
+                PlaylistTrack::ATTRIBUTE_PREVIOUS => $previous->getKey(),
+            ],
+        );
+
+        Sanctum::actingAs($user);
+
+        $response = $this->put(route('api.playlist.track.update', ['playlist' => $playlist, 'track' => $track] + $parameters));
+
+        $response->assertJsonValidationErrors([
+            PlaylistTrack::ATTRIBUTE_NEXT,
+            PlaylistTrack::ATTRIBUTE_PREVIOUS,
         ]);
     }
 
@@ -281,5 +393,373 @@ class TrackUpdateTest extends TestCase
         $response = $this->put(route('api.playlist.track.update', ['playlist' => $playlist, 'track' => $track] + $parameters));
 
         $response->assertOk();
+    }
+
+    /**
+     * The Track Update Endpoint shall insert the first track after the second track.
+     *
+     * @return void
+     */
+    public function testInsertFirstAfterSecond(): void
+    {
+        $user = User::factory()->withPermission('update playlist track')->createOne();
+
+        $playlist = Playlist::factory()
+            ->for($user)
+            ->tracks(3)
+            ->createOne();
+
+        $first = $playlist->first;
+        $second = $first->next;
+        $third = $playlist->last;
+
+        $parameters = [
+            PlaylistTrack::ATTRIBUTE_PREVIOUS => $second->getKey(),
+        ];
+
+        Sanctum::actingAs($user);
+
+        $response = $this->put(route('api.playlist.track.update', ['playlist' => $playlist, 'track' => $first] + $parameters));
+
+        $response->assertOk();
+
+        $playlist->refresh();
+        $first->refresh();
+        $second->refresh();
+        $third->refresh();
+
+        static::assertTrue($playlist->first()->is($second));
+        static::assertTrue($playlist->last()->is($third));
+
+        static::assertTrue($first->previous()->is($second));
+        static::assertTrue($first->next()->is($third));
+
+        static::assertTrue($second->previous()->doesntExist());
+        static::assertTrue($second->next()->is($first));
+
+        static::assertTrue($third->previous()->is($first));
+        static::assertTrue($third->next()->doesntExist());
+    }
+
+    /**
+     * The Track Update Endpoint shall insert the first track after the third track.
+     *
+     * @return void
+     */
+    public function testInsertFirstAfterThird(): void
+    {
+        $user = User::factory()->withPermission('update playlist track')->createOne();
+
+        $playlist = Playlist::factory()
+            ->for($user)
+            ->tracks(3)
+            ->createOne();
+
+        $first = $playlist->first;
+        $second = $first->next;
+        $third = $playlist->last;
+
+        $parameters = [
+            PlaylistTrack::ATTRIBUTE_PREVIOUS => $third->getKey(),
+        ];
+
+        Sanctum::actingAs($user);
+
+        $response = $this->put(route('api.playlist.track.update', ['playlist' => $playlist, 'track' => $first] + $parameters));
+
+        $response->assertOk();
+
+        $playlist->refresh();
+        $first->refresh();
+        $second->refresh();
+        $third->refresh();
+
+        static::assertTrue($playlist->first()->is($second));
+        static::assertTrue($playlist->last()->is($first));
+
+        static::assertTrue($first->previous()->is($third));
+        static::assertTrue($first->next()->doesntExist());
+
+        static::assertTrue($second->previous()->doesntExist());
+        static::assertTrue($second->next()->is($third));
+
+        static::assertTrue($third->previous()->is($second));
+        static::assertTrue($third->next()->is($first));
+    }
+
+    /**
+     * The Track Update Endpoint shall insert the first track before the third track.
+     *
+     * @return void
+     */
+    public function testInsertFirstBeforeThird(): void
+    {
+        $user = User::factory()->withPermission('update playlist track')->createOne();
+
+        $playlist = Playlist::factory()
+            ->for($user)
+            ->tracks(3)
+            ->createOne();
+
+        $first = $playlist->first;
+        $second = $first->next;
+        $third = $playlist->last;
+
+        $parameters = [
+            PlaylistTrack::ATTRIBUTE_NEXT => $third->getKey(),
+        ];
+
+        Sanctum::actingAs($user);
+
+        $response = $this->put(route('api.playlist.track.update', ['playlist' => $playlist, 'track' => $first] + $parameters));
+
+        $response->assertOk();
+
+        $playlist->refresh();
+        $first->refresh();
+        $second->refresh();
+        $third->refresh();
+
+        static::assertTrue($playlist->first()->is($second));
+        static::assertTrue($playlist->last()->is($third));
+
+        static::assertTrue($first->previous()->is($second));
+        static::assertTrue($first->next()->is($third));
+
+        static::assertTrue($second->previous()->doesntExist());
+        static::assertTrue($second->next()->is($first));
+
+        static::assertTrue($third->previous()->is($first));
+        static::assertTrue($third->next()->doesntExist());
+    }
+
+    /**
+     * The Track Update Endpoint shall insert the second track after the third track.
+     *
+     * @return void
+     */
+    public function testInsertSecondAfterThird(): void
+    {
+        $user = User::factory()->withPermission('update playlist track')->createOne();
+
+        $playlist = Playlist::factory()
+            ->for($user)
+            ->tracks(3)
+            ->createOne();
+
+        $first = $playlist->first;
+        $second = $first->next;
+        $third = $playlist->last;
+
+        $parameters = [
+            PlaylistTrack::ATTRIBUTE_PREVIOUS => $third->getKey(),
+        ];
+
+        Sanctum::actingAs($user);
+
+        $response = $this->put(route('api.playlist.track.update', ['playlist' => $playlist, 'track' => $second] + $parameters));
+
+        $response->assertOk();
+
+        $playlist->refresh();
+        $first->refresh();
+        $second->refresh();
+        $third->refresh();
+
+        static::assertTrue($playlist->first()->is($first));
+        static::assertTrue($playlist->last()->is($second));
+
+        static::assertTrue($first->previous()->doesntExist());
+        static::assertTrue($first->next()->is($third));
+
+        static::assertTrue($second->previous()->is($third));
+        static::assertTrue($second->next()->doesntExist());
+
+        static::assertTrue($third->previous()->is($first));
+        static::assertTrue($third->next()->is($second));
+    }
+
+    /**
+     * The Track Update Endpoint shall insert the second track before the first track.
+     *
+     * @return void
+     */
+    public function testInsertSecondBeforeFirst(): void
+    {
+        $user = User::factory()->withPermission('update playlist track')->createOne();
+
+        $playlist = Playlist::factory()
+            ->for($user)
+            ->tracks(3)
+            ->createOne();
+
+        $first = $playlist->first;
+        $second = $first->next;
+        $third = $playlist->last;
+
+        $parameters = [
+            PlaylistTrack::ATTRIBUTE_NEXT => $first->getKey(),
+        ];
+
+        Sanctum::actingAs($user);
+
+        $response = $this->put(route('api.playlist.track.update', ['playlist' => $playlist, 'track' => $second] + $parameters));
+
+        $response->assertOk();
+
+        $playlist->refresh();
+        $first->refresh();
+        $second->refresh();
+        $third->refresh();
+
+        static::assertTrue($playlist->first()->is($second));
+        static::assertTrue($playlist->last()->is($third));
+
+        static::assertTrue($first->previous()->is($second));
+        static::assertTrue($first->next()->is($third));
+
+        static::assertTrue($second->previous()->doesntExist());
+        static::assertTrue($second->next()->is($first));
+
+        static::assertTrue($third->previous()->is($first));
+        static::assertTrue($third->next()->doesntExist());
+    }
+
+    /**
+     * The Track Update Endpoint shall insert the third track after the first track.
+     *
+     * @return void
+     */
+    public function testInsertThirdAfterFirst(): void
+    {
+        $user = User::factory()->withPermission('update playlist track')->createOne();
+
+        $playlist = Playlist::factory()
+            ->for($user)
+            ->tracks(3)
+            ->createOne();
+
+        $first = $playlist->first;
+        $second = $first->next;
+        $third = $playlist->last;
+
+        $parameters = [
+            PlaylistTrack::ATTRIBUTE_PREVIOUS => $first->getKey(),
+        ];
+
+        Sanctum::actingAs($user);
+
+        $response = $this->put(route('api.playlist.track.update', ['playlist' => $playlist, 'track' => $third] + $parameters));
+
+        $response->assertOk();
+
+        $playlist->refresh();
+        $first->refresh();
+        $second->refresh();
+        $third->refresh();
+
+        static::assertTrue($playlist->first()->is($first));
+        static::assertTrue($playlist->last()->is($second));
+
+        static::assertTrue($first->previous()->doesntExist());
+        static::assertTrue($first->next()->is($third));
+
+        static::assertTrue($second->previous()->is($third));
+        static::assertTrue($second->next()->doesntExist());
+
+        static::assertTrue($third->previous()->is($first));
+        static::assertTrue($third->next()->is($second));
+    }
+
+    /**
+     * The Track Update Endpoint shall insert the third track before the second track.
+     *
+     * @return void
+     */
+    public function testInsertThirdBeforeSecond(): void
+    {
+        $user = User::factory()->withPermission('update playlist track')->createOne();
+
+        $playlist = Playlist::factory()
+            ->for($user)
+            ->tracks(3)
+            ->createOne();
+
+        $first = $playlist->first;
+        $second = $first->next;
+        $third = $playlist->last;
+
+        $parameters = [
+            PlaylistTrack::ATTRIBUTE_NEXT => $second->getKey(),
+        ];
+
+        Sanctum::actingAs($user);
+
+        $response = $this->put(route('api.playlist.track.update', ['playlist' => $playlist, 'track' => $third] + $parameters));
+
+        $response->assertOk();
+
+        $playlist->refresh();
+        $first->refresh();
+        $second->refresh();
+        $third->refresh();
+
+        static::assertTrue($playlist->first()->is($first));
+        static::assertTrue($playlist->last()->is($second));
+
+        static::assertTrue($first->previous()->doesntExist());
+        static::assertTrue($first->next()->is($third));
+
+        static::assertTrue($second->previous()->is($third));
+        static::assertTrue($second->next()->doesntExist());
+
+        static::assertTrue($third->previous()->is($first));
+        static::assertTrue($third->next()->is($second));
+    }
+
+    /**
+     * The Track Update Endpoint shall insert the third track before the first track.
+     *
+     * @return void
+     */
+    public function testInsertThirdBeforeFirst(): void
+    {
+        $user = User::factory()->withPermission('update playlist track')->createOne();
+
+        $playlist = Playlist::factory()
+            ->for($user)
+            ->tracks(3)
+            ->createOne();
+
+        $first = $playlist->first;
+        $second = $first->next;
+        $third = $playlist->last;
+
+        $parameters = [
+            PlaylistTrack::ATTRIBUTE_NEXT => $first->getKey(),
+        ];
+
+        Sanctum::actingAs($user);
+
+        $response = $this->put(route('api.playlist.track.update', ['playlist' => $playlist, 'track' => $third] + $parameters));
+
+        $response->assertOk();
+
+        $playlist->refresh();
+        $first->refresh();
+        $second->refresh();
+        $third->refresh();
+
+        static::assertTrue($playlist->first()->is($third));
+        static::assertTrue($playlist->last()->is($second));
+
+        static::assertTrue($first->previous()->is($third));
+        static::assertTrue($first->next()->is($second));
+
+        static::assertTrue($second->previous()->is($first));
+        static::assertTrue($second->next()->doesntExist());
+
+        static::assertTrue($third->previous()->doesntExist());
+        static::assertTrue($third->next()->is($first));
     }
 }
