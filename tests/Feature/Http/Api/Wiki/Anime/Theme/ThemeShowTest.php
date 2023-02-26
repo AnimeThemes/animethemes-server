@@ -123,6 +123,8 @@ class ThemeShowTest extends TestCase
             )
             ->createOne();
 
+        $theme->unsetRelations()->load($includedPaths->all());
+
         $response = $this->get(route('api.animetheme.show', ['animetheme' => $theme] + $parameters));
 
         $response->assertJson(
