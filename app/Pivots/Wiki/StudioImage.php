@@ -15,8 +15,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 /**
  * Class StudioImage.
  *
- * @property Studio $studio
  * @property Image $image
+ * @property int $image_id
+ * @property Studio $studio
+ * @property int $studio_id
  *
  * @method static StudioImageFactory factory(...$parameters)
  */
@@ -24,8 +26,11 @@ class StudioImage extends BasePivot
 {
     final public const TABLE = 'studio_image';
 
-    final public const ATTRIBUTE_STUDIO = 'studio_id';
     final public const ATTRIBUTE_IMAGE = 'image_id';
+    final public const ATTRIBUTE_STUDIO = 'studio_id';
+
+    final public const RELATION_IMAGE = 'image';
+    final public const RELATION_STUDIO = 'studio';
 
     /**
      * The table associated with the model.
@@ -46,6 +51,16 @@ class StudioImage extends BasePivot
             StudioImage::ATTRIBUTE_IMAGE,
         ];
     }
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var string[]
+     */
+    protected $fillable = [
+        StudioImage::ATTRIBUTE_IMAGE,
+        StudioImage::ATTRIBUTE_STUDIO,
+    ];
 
     /**
      * The event map for the model.
