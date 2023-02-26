@@ -21,6 +21,17 @@ class RestoreAction
     {
         $model->restore();
 
+        return $this->cleanup($model);
+    }
+
+    /**
+     * Perform model cleanup for presentation.
+     *
+     * @param  BaseModel  $model
+     * @return BaseModel
+     */
+    public function cleanup(BaseModel $model): BaseModel
+    {
         // Scout will load relations to refresh related search indices.
         $model->unsetRelations();
 
