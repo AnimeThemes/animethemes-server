@@ -22,6 +22,17 @@ class UpdateAction
     {
         $model->update($parameters);
 
+        return $this->cleanup($model);
+    }
+
+    /**
+     * Perform model cleanup for presentation.
+     *
+     * @param  Model  $model
+     * @return Model
+     */
+    public function cleanup(Model $model): Model
+    {
         // Scout will load relations to refresh related search indices.
         $model->unsetRelations();
 
