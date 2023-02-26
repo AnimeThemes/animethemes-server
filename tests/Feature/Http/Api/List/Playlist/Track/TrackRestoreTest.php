@@ -125,25 +125,168 @@ class TrackRestoreTest extends TestCase
     }
 
     /**
-     * The Track Restore Endpoint shall restore the playlist track.
+     * The Track Restore Endpoint shall restore the sole playlist track.
      *
      * @return void
      */
     public function testRestored(): void
     {
-        $user = User::factory()->withPermission('restore playlist track')->createOne();
+        $user = User::factory()->withPermissions(['delete playlist track', 'restore playlist track'])->createOne();
 
-        $track = PlaylistTrack::factory()
-            ->for(Playlist::factory()->for($user))
+        $playlist = Playlist::factory()
+            ->for($user)
             ->createOne();
 
-        $track->delete();
+        $track = PlaylistTrack::factory()
+            ->for($playlist)
+            ->createOne();
 
         Sanctum::actingAs($user);
 
-        $response = $this->patch(route('api.playlist.track.restore', ['playlist' => $track->playlist, 'track' => $track]));
+        $this->delete(route('api.playlist.track.destroy', ['playlist' => $playlist, 'track' => $track]));
+
+        $response = $this->patch(route('api.playlist.track.restore', ['playlist' => $playlist, 'track' => $track]));
 
         $response->assertOk();
+
         static::assertNotSoftDeleted($track);
+
+        $playlist->refresh();
+        $track->refresh();
+
+        static::assertTrue($playlist->first()->is($track));
+        static::assertTrue($playlist->last()->is($track));
+
+        static::assertTrue($track->previous()->doesntExist());
+        static::assertTrue($track->next()->doesntExist());
+    }
+
+    /**
+     * The Track Restore Endpoint shall restore the first playlist track.
+     *
+     * @return void
+     */
+    public function testRestoreFirst(): void
+    {
+        $user = User::factory()->withPermissions(['delete playlist track', 'restore playlist track'])->createOne();
+
+        $playlist = Playlist::factory()
+            ->for($user)
+            ->tracks($this->faker->numberBetween(3, 9))
+            ->createOne();
+
+        $first = $playlist->first;
+        $second = $first->next;
+        $last = $playlist->last;
+
+        Sanctum::actingAs($user);
+
+        $this->delete(route('api.playlist.track.destroy', ['playlist' => $playlist, 'track' => $first]));
+
+        $response = $this->patch(route('api.playlist.track.restore', ['playlist' => $playlist, 'track' => $first]));
+
+        $response->assertOk();
+
+        static::assertNotSoftDeleted($first);
+
+        $playlist->refresh();
+        $first->refresh();
+        $second->refresh();
+        $last->refresh();
+
+        static::assertTrue($playlist->first()->is($second));
+        static::assertTrue($playlist->last()->is($first));
+
+        static::assertTrue($first->next()->doesntExist());
+        static::assertTrue($first->previous()->is($last));
+
+        static::assertTrue($second->previous()->doesntExist());
+
+        static::assertTrue($last->next()->is($first));
+    }
+
+    /**
+     * The Track Restore Endpoint shall restore the last playlist track.
+     *
+     * @return void
+     */
+    public function testRestoreLast(): void
+    {
+        $user = User::factory()->withPermissions(['delete playlist track', 'restore playlist track'])->createOne();
+
+        $playlist = Playlist::factory()
+            ->for($user)
+            ->tracks($this->faker->numberBetween(3, 9))
+            ->createOne();
+
+        $last = $playlist->last;
+        $previous = $last->previous;
+
+        Sanctum::actingAs($user);
+
+        $this->delete(route('api.playlist.track.destroy', ['playlist' => $playlist, 'track' => $last]));
+
+        $response = $this->patch(route('api.playlist.track.restore', ['playlist' => $playlist, 'track' => $last]));
+
+        $response->assertOk();
+
+        static::assertNotSoftDeleted($last);
+
+        $playlist->refresh();
+        $last->refresh();
+        $previous->refresh();
+
+        static::assertTrue($playlist->last()->is($last));
+
+        static::assertTrue($last->next()->doesntExist());
+        static::assertTrue($last->previous()->is($previous));
+
+        static::assertTrue($previous->next()->is($last));
+    }
+
+    /**
+     * The Track Restore Endpoint shall restore the second playlist track.
+     *
+     * @return void
+     */
+    public function testRestoreSecond(): void
+    {
+        $user = User::factory()->withPermissions(['delete playlist track', 'restore playlist track'])->createOne();
+
+        $playlist = Playlist::factory()
+            ->for($user)
+            ->tracks(3)
+            ->createOne();
+
+        $first = $playlist->first;
+        $second = $first->next;
+        $third = $playlist->last;
+
+        Sanctum::actingAs($user);
+
+        $this->delete(route('api.playlist.track.destroy', ['playlist' => $playlist, 'track' => $second]));
+
+        $response = $this->patch(route('api.playlist.track.restore', ['playlist' => $playlist, 'track' => $second]));
+
+        $response->assertOk();
+
+        static::assertNotSoftDeleted($second);
+
+        $playlist->refresh();
+        $first->refresh();
+        $second->refresh();
+        $third->refresh();
+
+        static::assertTrue($playlist->first()->is($first));
+        static::assertTrue($playlist->last()->is($second));
+
+        static::assertTrue($first->previous()->doesntExist());
+        static::assertTrue($first->next()->is($third));
+
+        static::assertTrue($second->previous()->is($third));
+        static::assertTrue($second->next()->doesntExist());
+
+        static::assertTrue($third->previous()->is($first));
+        static::assertTrue($third->next()->is($second));
     }
 }

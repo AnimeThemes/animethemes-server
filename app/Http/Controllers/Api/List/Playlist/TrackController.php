@@ -7,8 +7,8 @@ namespace App\Http\Controllers\Api\List\Playlist;
 use App\Actions\Http\Api\IndexAction;
 use App\Actions\Http\Api\List\Playlist\Track\DestroyTrackAction;
 use App\Actions\Http\Api\List\Playlist\Track\ForceDeleteTrackAction;
+use App\Actions\Http\Api\List\Playlist\Track\RestoreTrackAction;
 use App\Actions\Http\Api\List\Playlist\Track\StoreTrackAction;
-use App\Actions\Http\Api\RestoreAction;
 use App\Actions\Http\Api\ShowAction;
 use App\Actions\Http\Api\UpdateAction;
 use App\Http\Api\Query\Query;
@@ -141,14 +141,12 @@ class TrackController extends BaseController
      * @param  Request  $request
      * @param  Playlist  $playlist
      * @param  PlaylistTrack  $track
-     * @param  RestoreAction  $action
+     * @param  RestoreTrackAction  $action
      * @return JsonResponse
-     *
-     * @noinspection PhpUnusedParameterInspection
      */
-    public function restore(Request $request, Playlist $playlist, PlaylistTrack $track, RestoreAction $action): JsonResponse
+    public function restore(Request $request, Playlist $playlist, PlaylistTrack $track, RestoreTrackAction $action): JsonResponse
     {
-        $restored = $action->restore($track);
+        $restored = $action->restore($playlist, $track);
 
         $resource = new TrackResource($restored, new Query());
 
