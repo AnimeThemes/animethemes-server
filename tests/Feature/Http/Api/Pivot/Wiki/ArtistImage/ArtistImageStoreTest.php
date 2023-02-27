@@ -20,7 +20,7 @@ class ArtistImageStoreTest extends TestCase
     use WithoutEvents;
 
     /**
-     * The Artist Image Store Destroy Endpoint shall be protected by sanctum.
+     * The Artist Image Store Endpoint shall be protected by sanctum.
      *
      * @return void
      */

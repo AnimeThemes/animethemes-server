@@ -17,8 +17,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * Class ArtistSong.
  *
  * @property Artist $artist
+ * @property int $artist_id
  * @property string $as
  * @property Song $song
+ * @property int $song_id
  *
  * @method static ArtistSongFactory factory(...$parameters)
  */
@@ -30,13 +32,18 @@ class ArtistSong extends BasePivot
     final public const ATTRIBUTE_ARTIST = 'artist_id';
     final public const ATTRIBUTE_SONG = 'song_id';
 
+    final public const RELATION_ARTIST = 'artist';
+    final public const RELATION_SONG = 'song';
+
     /**
      * The attributes that are mass assignable.
      *
      * @var string[]
      */
     protected $fillable = [
+        ArtistSong::ATTRIBUTE_ARTIST,
         ArtistSong::ATTRIBUTE_AS,
+        ArtistSong::ATTRIBUTE_SONG,
     ];
 
     /**
