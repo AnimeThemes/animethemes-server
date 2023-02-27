@@ -5,19 +5,15 @@ declare(strict_types=1);
 namespace App\Http\Api\Field\List\Playlist;
 
 use App\Contracts\Http\Api\Field\SelectableField;
-use App\Contracts\Http\Api\Field\UpdatableField;
 use App\Http\Api\Field\Field;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Schema;
 use App\Models\List\Playlist;
-use App\Models\List\Playlist\PlaylistTrack;
-use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 
 /**
  * Class PlaylistLastIdField.
  */
-class PlaylistLastIdField extends Field implements SelectableField, UpdatableField
+class PlaylistLastIdField extends Field implements SelectableField
 {
     /**
      * Create a new field instance.
@@ -40,25 +36,5 @@ class PlaylistLastIdField extends Field implements SelectableField, UpdatableFie
     {
         // Needed to match last track relation.
         return true;
-    }
-
-    /**
-     * Set the update validation rules for the field.
-     *
-     * @param  Request  $request
-     * @return array
-     */
-    public function getUpdateRules(Request $request): array
-    {
-        /** @var Playlist|null $playlist */
-        $playlist = $request->route('playlist');
-
-        return [
-            'sometimes',
-            'required',
-            'integer',
-            Rule::exists(PlaylistTrack::TABLE, PlaylistTrack::ATTRIBUTE_ID)
-                ->where(PlaylistTrack::ATTRIBUTE_PLAYLIST, $playlist?->getKey()),
-        ];
     }
 }
