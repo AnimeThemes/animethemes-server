@@ -22,7 +22,7 @@ class AnimeThemeEntryVideoStoreTest extends TestCase
     use WithoutEvents;
 
     /**
-     * The Anime Theme Entry Video Store Destroy Endpoint shall be protected by sanctum.
+     * The Anime Theme Entry Video Store Endpoint shall be protected by sanctum.
      *
      * @return void
      */

@@ -23,6 +23,7 @@ use App\Http\Controllers\Api\Pivot\Wiki\AnimeStudioController;
 use App\Http\Controllers\Api\Pivot\Wiki\AnimeThemeEntryVideoController;
 use App\Http\Controllers\Api\Pivot\Wiki\ArtistImageController;
 use App\Http\Controllers\Api\Pivot\Wiki\ArtistResourceController;
+use App\Http\Controllers\Api\Pivot\Wiki\ArtistSongController;
 use App\Http\Controllers\Api\Pivot\Wiki\StudioImageController;
 use App\Http\Controllers\Api\Pivot\Wiki\StudioResourceController;
 use App\Http\Controllers\Api\Wiki\Anime\SynonymController;
@@ -250,6 +251,7 @@ apiPivotResource('artistimage', 'artist', 'image', ArtistImageController::class)
 apiEditablePivotResource('artistresource', 'artist', 'resource', ArtistResourceController::class);
 apiPivotResource('studioimage', 'studio', 'image', StudioImageController::class);
 apiEditablePivotResource('studioresource', 'studio', 'resource', StudioResourceController::class);
+apiEditablePivotResource('artistsong', 'artist', 'song', ArtistSongController::class);
 
 // Wiki Routes
 apiResource('anime', AnimeController::class);

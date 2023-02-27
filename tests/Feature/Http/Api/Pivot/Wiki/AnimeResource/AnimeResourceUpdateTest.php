@@ -20,7 +20,7 @@ class AnimeResourceUpdateTest extends TestCase
     use WithoutEvents;
 
     /**
-     * The Anime Resource Update Destroy Endpoint shall be protected by sanctum.
+     * The Anime Resource Update Endpoint shall be protected by sanctum.
      *
      * @return void
      */

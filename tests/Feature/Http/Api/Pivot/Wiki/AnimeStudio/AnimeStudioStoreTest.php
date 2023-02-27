@@ -20,7 +20,7 @@ class AnimeStudioStoreTest extends TestCase
     use WithoutEvents;
 
     /**
-     * The Anime Studio Store Destroy Endpoint shall be protected by sanctum.
+     * The Anime Studio Store Endpoint shall be protected by sanctum.
      *
      * @return void
      */

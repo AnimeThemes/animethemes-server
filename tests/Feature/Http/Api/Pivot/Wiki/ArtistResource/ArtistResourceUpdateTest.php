@@ -20,7 +20,7 @@ class ArtistResourceUpdateTest extends TestCase
     use WithoutEvents;
 
     /**
-     * The Artist Resource Update Destroy Endpoint shall be protected by sanctum.
+     * The Artist Resource Update Endpoint shall be protected by sanctum.
      *
      * @return void
      */

@@ -20,7 +20,7 @@ class StudioResourceStoreTest extends TestCase
     use WithoutEvents;
 
     /**
-     * The Studio Resource Store Destroy Endpoint shall be protected by sanctum.
+     * The Studio Resource Store Endpoint shall be protected by sanctum.
      *
      * @return void
      */

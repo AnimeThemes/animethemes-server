@@ -20,7 +20,7 @@ class StudioImageStoreTest extends TestCase
     use WithoutEvents;
 
     /**
-     * The Studio Image Store Destroy Endpoint shall be protected by sanctum.
+     * The Studio Image Store Endpoint shall be protected by sanctum.
      *
      * @return void
      */
