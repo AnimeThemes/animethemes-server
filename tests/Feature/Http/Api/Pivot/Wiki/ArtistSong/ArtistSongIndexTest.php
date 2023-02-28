@@ -70,7 +70,7 @@ class ArtistSongIndexTest extends TestCase
     }
 
     /**
-     * The Theme Index Endpoint shall be paginated.
+     * The Artist Song Index Endpoint shall be paginated.
      *
      * @return void
      */

@@ -72,7 +72,7 @@ class StudioImageIndexTest extends TestCase
     }
 
     /**
-     * The Theme Index Endpoint shall be paginated.
+     * The Studio Image Index Endpoint shall be paginated.
      *
      * @return void
      */

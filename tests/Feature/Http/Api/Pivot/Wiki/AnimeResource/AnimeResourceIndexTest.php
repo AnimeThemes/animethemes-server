@@ -73,7 +73,7 @@ class AnimeResourceIndexTest extends TestCase
     }
 
     /**
-     * The Theme Index Endpoint shall be paginated.
+     * Anime Resource Index Endpoint shall be paginated.
      *
      * @return void
      */
