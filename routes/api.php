@@ -22,6 +22,7 @@ use App\Http\Controllers\Api\Pivot\Wiki\AnimeSeriesController;
 use App\Http\Controllers\Api\Pivot\Wiki\AnimeStudioController;
 use App\Http\Controllers\Api\Pivot\Wiki\AnimeThemeEntryVideoController;
 use App\Http\Controllers\Api\Pivot\Wiki\ArtistImageController;
+use App\Http\Controllers\Api\Pivot\Wiki\ArtistMemberController;
 use App\Http\Controllers\Api\Pivot\Wiki\ArtistResourceController;
 use App\Http\Controllers\Api\Pivot\Wiki\ArtistSongController;
 use App\Http\Controllers\Api\Pivot\Wiki\StudioImageController;
@@ -248,6 +249,7 @@ apiPivotResource('animeseries', 'anime', 'series', AnimeSeriesController::class)
 apiPivotResource('animestudio', 'anime', 'studio', AnimeStudioController::class);
 apiPivotResource('animethemeentryvideo', 'animethemeentry', 'video', AnimeThemeEntryVideoController::class);
 apiPivotResource('artistimage', 'artist', 'image', ArtistImageController::class);
+apiEditablePivotResource('artistmember', 'artist', 'member', ArtistMemberController::class);
 apiEditablePivotResource('artistresource', 'artist', 'resource', ArtistResourceController::class);
 apiPivotResource('studioimage', 'studio', 'image', StudioImageController::class);
 apiEditablePivotResource('studioresource', 'studio', 'resource', StudioResourceController::class);

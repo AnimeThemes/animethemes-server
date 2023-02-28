@@ -2,12 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Http\Api\Pivot\Wiki\StudioResource;
+namespace Http\Api\Pivot\Wiki\ArtistMember;
 
 use App\Concerns\Actions\Http\Api\SortsModels;
 use App\Contracts\Http\Api\Field\SortableField;
 use App\Enums\Http\Api\Sort\Direction;
-use App\Enums\Models\Wiki\ResourceSite;
 use App\Http\Api\Criteria\Paging\Criteria;
 use App\Http\Api\Criteria\Paging\OffsetCriteria;
 use App\Http\Api\Field\Field;
@@ -18,14 +17,12 @@ use App\Http\Api\Parser\IncludeParser;
 use App\Http\Api\Parser\PagingParser;
 use App\Http\Api\Parser\SortParser;
 use App\Http\Api\Query\Query;
-use App\Http\Api\Schema\Pivot\Wiki\StudioResourceSchema;
-use App\Http\Resources\Pivot\Wiki\Collection\StudioResourceCollection;
-use App\Http\Resources\Pivot\Wiki\Resource\StudioResourceResource;
-use App\Models\Wiki\ExternalResource;
-use App\Models\Wiki\Studio;
+use App\Http\Api\Schema\Pivot\Wiki\ArtistMemberSchema;
+use App\Http\Resources\Pivot\Wiki\Collection\ArtistMemberCollection;
+use App\Http\Resources\Pivot\Wiki\Resource\ArtistMemberResource;
+use App\Models\Wiki\Artist;
 use App\Pivots\BasePivot;
-use App\Pivots\Wiki\StudioResource;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use App\Pivots\Wiki\ArtistMember;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Support\Carbon;
@@ -33,36 +30,36 @@ use Illuminate\Support\Collection;
 use Tests\TestCase;
 
 /**
- * Class StudioResourceIndexTest.
+ * Class ArtistMemberIndexTest.
  */
-class StudioResourceIndexTest extends TestCase
+class ArtistMemberIndexTest extends TestCase
 {
     use SortsModels;
     use WithFaker;
     use WithoutEvents;
 
     /**
-     * By default, the Studio Resource Index Endpoint shall return a collection of Studio Resource Resources.
+     * By default, the Artist Member Index Endpoint shall return a collection of Artist Member Resources.
      *
      * @return void
      */
     public function testDefault(): void
     {
         Collection::times($this->faker->randomDigitNotNull(), function () {
-            StudioResource::factory()
-                ->for(Studio::factory())
-                ->for(ExternalResource::factory(), StudioResource::RELATION_RESOURCE)
+            ArtistMember::factory()
+                ->for(Artist::factory(), ArtistMember::RELATION_ARTIST)
+                ->for(Artist::factory(), ArtistMember::RELATION_MEMBER)
                 ->create();
         });
 
-        $studioResources = StudioResource::all();
+        $artistMembers = ArtistMember::all();
 
-        $response = $this->get(route('api.studioresource.index'));
+        $response = $this->get(route('api.artistmember.index'));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new StudioResourceCollection($studioResources, new Query()))
+                    (new ArtistMemberCollection($artistMembers, new Query()))
                         ->response()
                         ->getData()
                 ),
@@ -72,36 +69,36 @@ class StudioResourceIndexTest extends TestCase
     }
 
     /**
-     * The Studio Resource Index Endpoint shall be paginated.
+     * The Artist Member Index Endpoint shall be paginated.
      *
      * @return void
      */
     public function testPaginated(): void
     {
         Collection::times($this->faker->randomDigitNotNull(), function () {
-            StudioResource::factory()
-                ->for(Studio::factory())
-                ->for(ExternalResource::factory(), StudioResource::RELATION_RESOURCE)
+            ArtistMember::factory()
+                ->for(Artist::factory(), ArtistMember::RELATION_ARTIST)
+                ->for(Artist::factory(), ArtistMember::RELATION_MEMBER)
                 ->create();
         });
 
-        $response = $this->get(route('api.studioresource.index'));
+        $response = $this->get(route('api.artistmember.index'));
 
         $response->assertJsonStructure([
-            StudioResourceCollection::$wrap,
+            ArtistMemberCollection::$wrap,
             'links',
             'meta',
         ]);
     }
 
     /**
-     * The Studio Resource Index Endpoint shall allow inclusion of related resources.
+     * The Artist Member Index Endpoint shall allow inclusion of related resources.
      *
      * @return void
      */
     public function testAllowedIncludePaths(): void
     {
-        $schema = new StudioResourceSchema();
+        $schema = new ArtistMemberSchema();
 
         $allowedIncludes = collect($schema->allowedIncludes());
 
@@ -114,20 +111,20 @@ class StudioResourceIndexTest extends TestCase
         ];
 
         Collection::times($this->faker->randomDigitNotNull(), function () {
-            StudioResource::factory()
-                ->for(Studio::factory())
-                ->for(ExternalResource::factory(), StudioResource::RELATION_RESOURCE)
+            ArtistMember::factory()
+                ->for(Artist::factory(), ArtistMember::RELATION_ARTIST)
+                ->for(Artist::factory(), ArtistMember::RELATION_MEMBER)
                 ->create();
         });
 
-        $response = $this->get(route('api.studioresource.index', $parameters));
+        $response = $this->get(route('api.artistmember.index', $parameters));
 
-        $studioResources = StudioResource::with($includedPaths->all())->get();
+        $artistMembers = ArtistMember::with($includedPaths->all())->get();
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new StudioResourceCollection($studioResources, new Query($parameters)))
+                    (new ArtistMemberCollection($artistMembers, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -137,13 +134,13 @@ class StudioResourceIndexTest extends TestCase
     }
 
     /**
-     * The Studio Resource Index Endpoint shall implement sparse fieldsets.
+     * The Artist Member Index Endpoint shall implement sparse fieldsets.
      *
      * @return void
      */
     public function testSparseFieldsets(): void
     {
-        $schema = new StudioResourceSchema();
+        $schema = new ArtistMemberSchema();
 
         $fields = collect($schema->fields());
 
@@ -151,25 +148,25 @@ class StudioResourceIndexTest extends TestCase
 
         $parameters = [
             FieldParser::param() => [
-                StudioResourceResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+                ArtistMemberResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
             ],
         ];
 
         Collection::times($this->faker->randomDigitNotNull(), function () {
-            StudioResource::factory()
-                ->for(Studio::factory())
-                ->for(ExternalResource::factory(), StudioResource::RELATION_RESOURCE)
+            ArtistMember::factory()
+                ->for(Artist::factory(), ArtistMember::RELATION_ARTIST)
+                ->for(Artist::factory(), ArtistMember::RELATION_MEMBER)
                 ->create();
         });
 
-        $response = $this->get(route('api.studioresource.index', $parameters));
+        $response = $this->get(route('api.artistmember.index', $parameters));
 
-        $studioResources = StudioResource::all();
+        $artistMembers = ArtistMember::all();
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new StudioResourceCollection($studioResources, new Query($parameters)))
+                    (new ArtistMemberCollection($artistMembers, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -179,13 +176,13 @@ class StudioResourceIndexTest extends TestCase
     }
 
     /**
-     * The Studio Resource Index Endpoint shall support sorting resources.
+     * The Artist Member Index Endpoint shall support sorting resources.
      *
      * @return void
      */
     public function testSorts(): void
     {
-        $schema = new StudioResourceSchema();
+        $schema = new ArtistMemberSchema();
 
         $sort = collect($schema->fields())
             ->filter(fn (Field $field) => $field instanceof SortableField)
@@ -199,20 +196,20 @@ class StudioResourceIndexTest extends TestCase
         $query = new Query($parameters);
 
         Collection::times($this->faker->randomDigitNotNull(), function () {
-            StudioResource::factory()
-                ->for(Studio::factory())
-                ->for(ExternalResource::factory(), StudioResource::RELATION_RESOURCE)
+            ArtistMember::factory()
+                ->for(Artist::factory(), ArtistMember::RELATION_ARTIST)
+                ->for(Artist::factory(), ArtistMember::RELATION_MEMBER)
                 ->create();
         });
 
-        $response = $this->get(route('api.studioresource.index', $parameters));
+        $response = $this->get(route('api.artistmember.index', $parameters));
 
-        $studioResources = $this->sort(StudioResource::query(), $query, $schema)->get();
+        $artistMembers = $this->sort(ArtistMember::query(), $query, $schema)->get();
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new StudioResourceCollection($studioResources, $query))
+                    (new ArtistMemberCollection($artistMembers, $query))
                         ->response()
                         ->getData()
                 ),
@@ -222,7 +219,7 @@ class StudioResourceIndexTest extends TestCase
     }
 
     /**
-     * The Studio Resource Index Endpoint shall support filtering by created_at.
+     * The Artist Member Index Endpoint shall support filtering by created_at.
      *
      * @return void
      */
@@ -242,30 +239,30 @@ class StudioResourceIndexTest extends TestCase
 
         Carbon::withTestNow($createdFilter, function () {
             Collection::times($this->faker->randomDigitNotNull(), function () {
-                StudioResource::factory()
-                    ->for(Studio::factory())
-                    ->for(ExternalResource::factory(), StudioResource::RELATION_RESOURCE)
+                ArtistMember::factory()
+                    ->for(Artist::factory(), ArtistMember::RELATION_ARTIST)
+                    ->for(Artist::factory(), ArtistMember::RELATION_MEMBER)
                     ->create();
             });
         });
 
         Carbon::withTestNow($excludedDate, function () {
             Collection::times($this->faker->randomDigitNotNull(), function () {
-                StudioResource::factory()
-                    ->for(Studio::factory())
-                    ->for(ExternalResource::factory(), StudioResource::RELATION_RESOURCE)
+                ArtistMember::factory()
+                    ->for(Artist::factory(), ArtistMember::RELATION_ARTIST)
+                    ->for(Artist::factory(), ArtistMember::RELATION_MEMBER)
                     ->create();
             });
         });
 
-        $studioResources = StudioResource::query()->where(BasePivot::ATTRIBUTE_CREATED_AT, $createdFilter)->get();
+        $artistMembers = ArtistMember::query()->where(BasePivot::ATTRIBUTE_CREATED_AT, $createdFilter)->get();
 
-        $response = $this->get(route('api.studioresource.index', $parameters));
+        $response = $this->get(route('api.artistmember.index', $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new StudioResourceCollection($studioResources, new Query($parameters)))
+                    (new ArtistMemberCollection($artistMembers, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -275,7 +272,7 @@ class StudioResourceIndexTest extends TestCase
     }
 
     /**
-     * The Studio Resource Index Endpoint shall support filtering by updated_at.
+     * The Artist Member Index Endpoint shall support filtering by updated_at.
      *
      * @return void
      */
@@ -295,74 +292,30 @@ class StudioResourceIndexTest extends TestCase
 
         Carbon::withTestNow($updatedFilter, function () {
             Collection::times($this->faker->randomDigitNotNull(), function () {
-                StudioResource::factory()
-                    ->for(Studio::factory())
-                    ->for(ExternalResource::factory(), StudioResource::RELATION_RESOURCE)
+                ArtistMember::factory()
+                    ->for(Artist::factory(), ArtistMember::RELATION_ARTIST)
+                    ->for(Artist::factory(), ArtistMember::RELATION_MEMBER)
                     ->create();
             });
         });
 
         Carbon::withTestNow($excludedDate, function () {
             Collection::times($this->faker->randomDigitNotNull(), function () {
-                StudioResource::factory()
-                    ->for(Studio::factory())
-                    ->for(ExternalResource::factory(), StudioResource::RELATION_RESOURCE)
+                ArtistMember::factory()
+                    ->for(Artist::factory(), ArtistMember::RELATION_ARTIST)
+                    ->for(Artist::factory(), ArtistMember::RELATION_MEMBER)
                     ->create();
             });
         });
 
-        $studioResources = StudioResource::query()->where(BasePivot::ATTRIBUTE_UPDATED_AT, $updatedFilter)->get();
+        $artistMembers = ArtistMember::query()->where(BasePivot::ATTRIBUTE_UPDATED_AT, $updatedFilter)->get();
 
-        $response = $this->get(route('api.studioresource.index', $parameters));
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    (new StudioResourceCollection($studioResources, new Query($parameters)))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
-     * The Studio Resource Index Endpoint shall support constrained eager loading of resources by site.
-     *
-     * @return void
-     */
-    public function testResourcesBySite(): void
-    {
-        $siteFilter = ResourceSite::getRandomInstance();
-
-        $parameters = [
-            FilterParser::param() => [
-                ExternalResource::ATTRIBUTE_SITE => $siteFilter->description,
-            ],
-            IncludeParser::param() => StudioResource::RELATION_RESOURCE,
-        ];
-
-        Collection::times($this->faker->randomDigitNotNull(), function () {
-            StudioResource::factory()
-                ->for(Studio::factory())
-                ->for(ExternalResource::factory(), StudioResource::RELATION_RESOURCE)
-                ->create();
-        });
-
-        $response = $this->get(route('api.studioresource.index', $parameters));
-
-        $studioResources = StudioResource::with([
-            StudioResource::RELATION_RESOURCE => function (BelongsTo $query) use ($siteFilter) {
-                $query->where(ExternalResource::ATTRIBUTE_SITE, $siteFilter->value);
-            },
-        ])
-            ->get();
+        $response = $this->get(route('api.artistmember.index', $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new StudioResourceCollection($studioResources, new Query($parameters)))
+                    (new ArtistMemberCollection($artistMembers, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),

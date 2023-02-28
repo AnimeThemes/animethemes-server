@@ -72,7 +72,7 @@ class AnimeSeriesIndexTest extends TestCase
     }
 
     /**
-     * The Theme Index Endpoint shall be paginated.
+     * The Anime Series Index Endpoint shall be paginated.
      *
      * @return void
      */
