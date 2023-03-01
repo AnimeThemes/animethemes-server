@@ -21,6 +21,8 @@ class VideoConstants
 
     final public const PATH_QUALIFIED = 'video.path';
 
+    final public const RATE_LIMITER_QUALIFIED = 'video.rate_limiter';
+
     final public const STREAMING_METHOD_QUALIFIED = 'video.streaming_method';
 
     final public const URL_QUALIFIED = 'video.url';
