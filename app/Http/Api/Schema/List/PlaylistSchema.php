@@ -10,6 +10,7 @@ use App\Http\Api\Field\Field;
 use App\Http\Api\Field\List\Playlist\PlaylistFirstIdField;
 use App\Http\Api\Field\List\Playlist\PlaylistLastIdField;
 use App\Http\Api\Field\List\Playlist\PlaylistNameField;
+use App\Http\Api\Field\List\Playlist\PlaylistTrackExistsField;
 use App\Http\Api\Field\List\Playlist\PlaylistUserIdField;
 use App\Http\Api\Field\List\Playlist\PlaylistViewCountField;
 use App\Http\Api\Field\List\Playlist\PlaylistVisibilityField;
@@ -79,6 +80,7 @@ class PlaylistSchema extends EloquentSchema implements SearchableSchema
                 new PlaylistUserIdField($this),
                 new PlaylistVisibilityField($this),
                 new PlaylistViewCountField($this),
+                new PlaylistTrackExistsField($this),
             ],
         );
     }

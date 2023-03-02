@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Concerns\Actions\Http\Api;
 
-use App\Http\Api\Field\AggregateField;
+use App\Http\Api\Field\Aggregate\AggregateField;
 use App\Http\Api\Field\Field;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Schema;
@@ -28,7 +28,7 @@ trait AggregatesFields
     {
         collect($schema->fields())
             ->filter(fn (Field $field) => $field instanceof AggregateField && $field->shouldAggregate($query))
-            ->each(fn (AggregateField $selectedAggregate) => $selectedAggregate->with($builder));
+            ->each(fn (AggregateField $selectedAggregate) => $selectedAggregate->with($query, $builder));
 
         return $builder;
     }
@@ -45,7 +45,7 @@ trait AggregatesFields
     {
         collect($schema->fields())
             ->filter(fn (Field $field) => $field instanceof AggregateField && $field->shouldAggregate($query))
-            ->each(fn (AggregateField $selectedAggregate) => $selectedAggregate->load($model));
+            ->each(fn (AggregateField $selectedAggregate) => $selectedAggregate->load($query, $model));
 
         return $model;
     }

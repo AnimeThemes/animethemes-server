@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Field\Wiki\Video;
 
-use App\Http\Api\Field\CountField;
+use App\Http\Api\Field\Aggregate\CountField;
 use App\Http\Api\Schema\Schema;
 use App\Models\Wiki\Video;
 
