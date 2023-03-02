@@ -5,9 +5,12 @@ declare(strict_types=1);
 namespace App\Http\Api\Field\List\Playlist\Track;
 
 use App\Contracts\Http\Api\Field\CreatableField;
+use App\Contracts\Http\Api\Field\FilterableField;
 use App\Contracts\Http\Api\Field\SelectableField;
 use App\Contracts\Http\Api\Field\UpdatableField;
 use App\Http\Api\Field\Field;
+use App\Http\Api\Filter\Filter;
+use App\Http\Api\Filter\IntFilter;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Schema;
 use App\Models\List\Playlist\PlaylistTrack;
@@ -18,7 +21,7 @@ use Illuminate\Validation\Rule;
 /**
  * Class TrackVideoIdField.
  */
-class TrackVideoIdField extends Field implements CreatableField, SelectableField, UpdatableField
+class TrackVideoIdField extends Field implements CreatableField, FilterableField, SelectableField, UpdatableField
 {
     /**
      * Create a new field instance.
@@ -43,6 +46,16 @@ class TrackVideoIdField extends Field implements CreatableField, SelectableField
             'integer',
             Rule::exists(Video::TABLE, Video::ATTRIBUTE_ID),
         ];
+    }
+
+    /**
+     * Get the filter that can be applied to the field.
+     *
+     * @return Filter
+     */
+    public function getFilter(): Filter
+    {
+        return new IntFilter($this->getKey(), $this->getColumn());
     }
 
     /**

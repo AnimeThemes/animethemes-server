@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Field\List\Playlist;
 
-use App\Http\Api\Field\Aggregate\CountField;
+use App\Http\Api\Field\Aggregate\ExistsField;
 use App\Http\Api\Schema\Schema;
 use App\Models\List\Playlist;
 
 /**
- * Class PlaylistViewCountField.
+ * Class PlaylistTrackExistsField.
  */
-class PlaylistViewCountField extends CountField
+class PlaylistTrackExistsField extends ExistsField
 {
     /**
      * Create a new field instance.
@@ -20,6 +20,6 @@ class PlaylistViewCountField extends CountField
      */
     public function __construct(Schema $schema)
     {
-        parent::__construct($schema, Playlist::RELATION_VIEWS);
+        parent::__construct($schema, Playlist::RELATION_TRACKS);
     }
 }

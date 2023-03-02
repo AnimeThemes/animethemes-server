@@ -2,33 +2,45 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Api\Field;
+namespace App\Http\Api\Field\Aggregate;
 
+use App\Concerns\Actions\Http\Api\FiltersModels;
 use App\Contracts\Http\Api\Field\FilterableField;
 use App\Contracts\Http\Api\Field\RenderableField;
 use App\Contracts\Http\Api\Field\SortableField;
+use App\Enums\Http\Api\Field\AggregateFunction;
 use App\Enums\Http\Api\QualifyColumn;
+use App\Http\Api\Field\Field;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Schema;
 use App\Http\Api\Scope\ScopeParser;
 use App\Http\Api\Sort\Sort;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 /**
  * Class AggregateField.
  */
 abstract class AggregateField extends Field implements FilterableField, RenderableField, SortableField
 {
+    use FiltersModels;
+
     /**
      * Create a new field instance.
      *
      * @param  Schema  $schema
-     * @param  string  $key
+     * @param  string  $relation
+     * @param  AggregateFunction  $function
+     * @param  string  $aggregateColumn
      */
-    public function __construct(Schema $schema, string $key)
-    {
-        parent::__construct($schema, $key);
+    public function __construct(
+        Schema $schema,
+        protected readonly string $relation,
+        protected readonly AggregateFunction $function,
+        protected readonly string $aggregateColumn
+    ) {
+        parent::__construct($schema, $this->alias());
     }
 
     /**
@@ -52,7 +64,7 @@ abstract class AggregateField extends Field implements FilterableField, Renderab
      */
     public function render(Model $model): mixed
     {
-        return $model->getAttribute(static::format($this->getColumn()));
+        return $model->getAttribute($this->alias());
     }
 
     /**
@@ -62,7 +74,7 @@ abstract class AggregateField extends Field implements FilterableField, Renderab
      */
     public function getSort(): Sort
     {
-        return new Sort($this->getKey(), static::format($this->getKey()), QualifyColumn::NO());
+        return new Sort(key: $this->alias(), qualifyColumn: QualifyColumn::NO());
     }
 
     /**
@@ -103,24 +115,59 @@ abstract class AggregateField extends Field implements FilterableField, Renderab
     /**
      * Load the aggregate field value for the model.
      *
+     * @param  Query  $query
      * @param  Model  $model
      * @return Model
      */
-    abstract public function load(Model $model): Model;
+    public function load(Query $query, Model $model): Model
+    {
+        $constrainedRelation = [];
+
+        $relationSchema = $this->schema->relation($this->relation);
+        $constrainedRelation[$this->relation] = function (Builder $relationBuilder) use ($query, $relationSchema) {
+            if ($relationSchema !== null) {
+                // TODO: distinguish scope from type
+                $scope = ScopeParser::parse($this->relation);
+                $this->filter($relationBuilder, $query, $relationSchema, $scope);
+            }
+        };
+
+        return $model->loadAggregate($constrainedRelation, $this->aggregateColumn, $this->function->value);
+    }
 
     /**
      * Eager load the aggregate value for the query builder.
      *
+     * @param  Query  $query
      * @param  Builder  $builder
      * @return Builder
      */
-    abstract public function with(Builder $builder): Builder;
+    public function with(Query $query, Builder $builder): Builder
+    {
+        $constrainedRelation = [];
+
+        $relationSchema = $this->schema->relation($this->relation);
+        $constrainedRelation[$this->relation] = function (Builder $relationBuilder) use ($query, $relationSchema) {
+            if ($relationSchema !== null) {
+                // TODO: distinguish scope from type
+                $scope = ScopeParser::parse($this->relation);
+                $this->filter($relationBuilder, $query, $relationSchema, $scope);
+            }
+        };
+
+        return $builder->withAggregate($constrainedRelation, $this->aggregateColumn, $this->function->value);
+    }
 
     /**
      * Format the aggregate value to its sub-select alias / model attribute.
      *
-     * @param  string  $key
      * @return string
      */
-    abstract public static function format(string $key): string;
+    public function alias(): string
+    {
+        return Str::of($this->relation)
+            ->append('_')
+            ->append($this->function->value)
+            ->__toString();
+    }
 }
