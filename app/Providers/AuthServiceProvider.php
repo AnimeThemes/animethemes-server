@@ -11,8 +11,6 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\Password;
-use Olssonm\Zxcvbn\Rules\Zxcvbn;
-use Olssonm\Zxcvbn\Rules\ZxcvbnDictionary;
 
 /**
  * Class AuthServiceProvider.
@@ -33,7 +31,7 @@ class AuthServiceProvider extends ServiceProvider
                 ->letters()
                 ->numbers()
                 ->symbols()
-                ->rules(['confirmed', new Zxcvbn(3), new ZxcvbnDictionary()])
+                ->rules('confirmed')
         );
 
         ResetPassword::createUrlUsing(function (mixed $user, string $token) {

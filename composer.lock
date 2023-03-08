@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "300b6ab90441d06a759fba0685ddf073",
+    "content-hash": "1430fbf3517fb2f55c897531ae0dbcb7",
     "packages": [
         {
             "name": "akaunting/laravel-setting",
@@ -797,61 +797,6 @@
                 }
             ],
             "time": "2022-11-20T03:20:37+00:00"
-        },
-        {
-            "name": "bjeavons/zxcvbn-php",
-            "version": "1.3.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/bjeavons/zxcvbn-php.git",
-                "reference": "994928ae5b17ecff8baa2406832d37bdf01116c0"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/bjeavons/zxcvbn-php/zipball/994928ae5b17ecff8baa2406832d37bdf01116c0",
-                "reference": "994928ae5b17ecff8baa2406832d37bdf01116c0",
-                "shasum": ""
-            },
-            "require": {
-                "ext-json": "*",
-                "php": "^7.2 | ^8.0 | ^8.1",
-                "symfony/polyfill-mbstring": ">=1.3.1"
-            },
-            "require-dev": {
-                "php-coveralls/php-coveralls": "*",
-                "phpunit/phpunit": "^8.5",
-                "squizlabs/php_codesniffer": "3.*"
-            },
-            "suggest": {
-                "ext-gmp": "Required for optimized binomial calculations (also requires PHP >= 7.3)"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "ZxcvbnPhp\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "See contributors",
-                    "homepage": "https://github.com/bjeavons/zxcvbn-php"
-                }
-            ],
-            "description": "Realistic password strength estimation PHP library based on Zxcvbn JS",
-            "homepage": "https://github.com/bjeavons/zxcvbn-php",
-            "keywords": [
-                "password",
-                "zxcvbn"
-            ],
-            "support": {
-                "issues": "https://github.com/bjeavons/zxcvbn-php/issues",
-                "source": "https://github.com/bjeavons/zxcvbn-php/tree/1.3.1"
-            },
-            "time": "2021-12-21T18:37:02+00:00"
         },
         {
             "name": "brick/math",
@@ -4668,85 +4613,6 @@
                 }
             ],
             "time": "2022-12-20T19:00:15+00:00"
-        },
-        {
-            "name": "olssonm/l5-zxcvbn",
-            "version": "v5.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/olssonm/laravel-zxcvbn.git",
-                "reference": "3d6e0448e45f7396b5dfda683dd61b03397f936c"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/olssonm/laravel-zxcvbn/zipball/3d6e0448e45f7396b5dfda683dd61b03397f936c",
-                "reference": "3d6e0448e45f7396b5dfda683dd61b03397f936c",
-                "shasum": ""
-            },
-            "require": {
-                "bjeavons/zxcvbn-php": "^1.2",
-                "illuminate/support": "^7.0|^8.0|^9.0",
-                "php": "^7.4|^8.0"
-            },
-            "require-dev": {
-                "orchestra/testbench": ">=4.0",
-                "pestphp/pest": "^1.22",
-                "phpunit/phpunit": "^8.0|^9.0",
-                "squizlabs/php_codesniffer": "^3.7"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "5.x-dev"
-                },
-                "laravel": {
-                    "providers": [
-                        "Olssonm\\Zxcvbn\\ZxcvbnServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Olssonm\\Zxcvbn\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Marcus Olsson",
-                    "email": "contact@marcusolsson.me",
-                    "homepage": "https://marcusolsson.me"
-                }
-            ],
-            "description": "Implementation of the zxcvbn project by @dropbox for Laravel. Uses zxcvbn-php by @bjeavons.",
-            "homepage": "https://github.com/olssonm/laravel-zxcvbn",
-            "keywords": [
-                "laravel",
-                "olssonm",
-                "passwords",
-                "security",
-                "staple horse battery",
-                "validation",
-                "zxcvbn"
-            ],
-            "support": {
-                "issues": "https://github.com/olssonm/laravel-zxcvbn/issues",
-                "source": "https://github.com/olssonm/laravel-zxcvbn/tree/v5.0"
-            },
-            "funding": [
-                {
-                    "url": "https://marcusolsson.me/kontakta",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/olssonm",
-                    "type": "github"
-                }
-            ],
-            "time": "2022-09-08T12:17:02+00:00"
         },
         {
             "name": "openspout/openspout",
