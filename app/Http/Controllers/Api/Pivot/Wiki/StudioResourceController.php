@@ -137,7 +137,7 @@ class StudioResourceController extends PivotController
         $action->destroy($studioResource);
 
         return new JsonResponse([
-            'message' => "Resource '**{$resource->getName()}**' has been detached from Studio '**{$studio->getName()}**'.",
+            'message' => "Resource '{$resource->getName()}' has been detached from Studio '{$studio->getName()}'.",
         ]);
     }
 }

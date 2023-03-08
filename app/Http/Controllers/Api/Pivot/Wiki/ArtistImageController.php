@@ -110,7 +110,7 @@ class ArtistImageController extends PivotController
         $action->destroy($artistImage);
 
         return new JsonResponse([
-            'message' => "Image '**{$image->getName()}**' has been detached from Artist '**{$artist->getName()}**'.",
+            'message' => "Image '{$image->getName()}' has been detached from Artist '{$artist->getName()}'.",
         ]);
     }
 }

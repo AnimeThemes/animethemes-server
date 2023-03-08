@@ -136,7 +136,7 @@ class ArtistMemberController extends PivotController
         $action->destroy($artistMember);
 
         return new JsonResponse([
-            'message' => "Member '**{$member->getName()}**' has been detached from Artist '**{$artist->getName()}**'.",
+            'message' => "Member '{$member->getName()}' has been detached from Artist '{$artist->getName()}'.",
         ]);
     }
 }

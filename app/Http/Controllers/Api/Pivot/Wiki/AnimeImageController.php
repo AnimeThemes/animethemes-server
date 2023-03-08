@@ -110,7 +110,7 @@ class AnimeImageController extends PivotController
         $action->destroy($animeImage);
 
         return new JsonResponse([
-            'message' => "Image '**{$image->getName()}**' has been detached from Anime '**{$anime->getName()}**'.",
+            'message' => "Image '{$image->getName()}' has been detached from Anime '{$anime->getName()}'.",
         ]);
     }
 }

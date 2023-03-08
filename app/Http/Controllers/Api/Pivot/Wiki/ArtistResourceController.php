@@ -137,7 +137,7 @@ class ArtistResourceController extends PivotController
         $action->destroy($artistResource);
 
         return new JsonResponse([
-            'message' => "Resource '**{$resource->getName()}**' has been detached from Artist '**{$artist->getName()}**'.",
+            'message' => "Resource '{$resource->getName()}' has been detached from Artist '{$artist->getName()}'.",
         ]);
     }
 }

@@ -137,7 +137,7 @@ class AnimeResourceController extends PivotController
         $action->destroy($animeResource);
 
         return new JsonResponse([
-            'message' => "Resource '**{$resource->getName()}**' has been detached from Anime '**{$anime->getName()}**'.",
+            'message' => "Resource '{$resource->getName()}' has been detached from Anime '{$anime->getName()}'.",
         ]);
     }
 }

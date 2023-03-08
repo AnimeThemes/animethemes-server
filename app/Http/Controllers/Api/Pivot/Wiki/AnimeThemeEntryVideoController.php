@@ -110,7 +110,7 @@ class AnimeThemeEntryVideoController extends PivotController
         $action->destroy($entryVideo);
 
         return new JsonResponse([
-            'message' => "Video '**{$video->getName()}**' has been detached from Entry '**{$animethemeentry->getName()}**'.",
+            'message' => "Video '{$video->getName()}' has been detached from Entry '{$animethemeentry->getName()}'.",
         ]);
     }
 }

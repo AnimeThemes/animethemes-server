@@ -110,7 +110,7 @@ class AnimeStudioController extends PivotController
         $action->destroy($animeStudio);
 
         return new JsonResponse([
-            'message' => "Anime '**{$studio->getName()}**' has been detached from Studio '**{$anime->getName()}**'.",
+            'message' => "Anime '{$studio->getName()}' has been detached from Studio '{$anime->getName()}'.",
         ]);
     }
 }
