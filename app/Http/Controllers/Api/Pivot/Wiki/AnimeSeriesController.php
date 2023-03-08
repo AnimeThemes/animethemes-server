@@ -110,7 +110,7 @@ class AnimeSeriesController extends PivotController
         $action->destroy($animeSeries);
 
         return new JsonResponse([
-            'message' => "Anime '**{$series->getName()}**' has been detached from Series '**{$anime->getName()}**'.",
+            'message' => "Anime '{$series->getName()}' has been detached from Series '{$anime->getName()}'.",
         ]);
     }
 }

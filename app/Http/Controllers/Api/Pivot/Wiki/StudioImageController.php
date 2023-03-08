@@ -110,7 +110,7 @@ class StudioImageController extends PivotController
         $action->destroy($studioImage);
 
         return new JsonResponse([
-            'message' => "Image '**{$image->getName()}**' has been detached from Studio '**{$studio->getName()}**'.",
+            'message' => "Image '{$image->getName()}' has been detached from Studio '{$studio->getName()}'.",
         ]);
     }
 }
