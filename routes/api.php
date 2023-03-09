@@ -16,6 +16,7 @@ use App\Http\Controllers\Api\List\Playlist\BackwardController;
 use App\Http\Controllers\Api\List\Playlist\ForwardController;
 use App\Http\Controllers\Api\List\Playlist\TrackController;
 use App\Http\Controllers\Api\List\PlaylistController;
+use App\Http\Controllers\Api\Pivot\List\PlaylistImageController;
 use App\Http\Controllers\Api\Pivot\Wiki\AnimeImageController;
 use App\Http\Controllers\Api\Pivot\Wiki\AnimeResourceController;
 use App\Http\Controllers\Api\Pivot\Wiki\AnimeSeriesController;
@@ -251,6 +252,7 @@ apiPivotResource('animethemeentryvideo', 'animethemeentry', 'video', AnimeThemeE
 apiPivotResource('artistimage', 'artist', 'image', ArtistImageController::class);
 apiEditablePivotResource('artistmember', 'artist', 'member', ArtistMemberController::class);
 apiEditablePivotResource('artistresource', 'artist', 'resource', ArtistResourceController::class);
+apiPivotResource('playlistimage', 'playlist', 'image', PlaylistImageController::class);
 apiPivotResource('studioimage', 'studio', 'image', StudioImageController::class);
 apiEditablePivotResource('studioresource', 'studio', 'resource', StudioResourceController::class);
 apiEditablePivotResource('artistsong', 'artist', 'song', ArtistSongController::class);
