@@ -29,6 +29,9 @@ class PlaylistImage extends BasePivot
     final public const ATTRIBUTE_IMAGE = 'image_id';
     final public const ATTRIBUTE_PLAYLIST = 'playlist_id';
 
+    final public const RELATION_IMAGE = 'image';
+    final public const RELATION_PLAYLIST = 'playlist';
+
     /**
      * The table associated with the model.
      *
