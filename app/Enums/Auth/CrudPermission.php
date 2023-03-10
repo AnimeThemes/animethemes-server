@@ -28,7 +28,7 @@ class CrudPermission extends BaseEnum
     /**
      * Format permission name for model.
      *
-     * @param string $modelClass
+     * @param  string  $modelClass
      * @return string
      */
     public function format(string $modelClass): string
