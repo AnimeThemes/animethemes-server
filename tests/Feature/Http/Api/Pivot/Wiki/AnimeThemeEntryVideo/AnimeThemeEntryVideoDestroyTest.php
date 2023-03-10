@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Http\Api\Pivot\Wiki\AnimeThemeEntryVideo;
 
+use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
@@ -72,7 +73,7 @@ class AnimeThemeEntryVideoDestroyTest extends TestCase
 
         $video = Video::factory()->createOne();
 
-        $user = User::factory()->withPermissions(['delete anime theme entry', 'delete video'])->createOne();
+        $user = User::factory()->withPermissions([CrudPermission::DELETE()->format(AnimeThemeEntry::class), CrudPermission::DELETE()->format(Video::class)])->createOne();
 
         Sanctum::actingAs($user);
 
@@ -93,7 +94,7 @@ class AnimeThemeEntryVideoDestroyTest extends TestCase
             ->for(Video::factory())
             ->createOne();
 
-        $user = User::factory()->withPermissions(['delete anime theme entry', 'delete video'])->createOne();
+        $user = User::factory()->withPermissions([CrudPermission::DELETE()->format(AnimeThemeEntry::class), CrudPermission::DELETE()->format(Video::class)])->createOne();
 
         Sanctum::actingAs($user);
 

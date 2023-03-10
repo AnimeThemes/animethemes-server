@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Policies\List\Playlist;
 
+use App\Enums\Auth\CrudPermission;
+use App\Enums\Auth\ExtendedCrudPermission;
 use App\Enums\Models\List\PlaylistVisibility;
 use App\Models\Auth\User;
 use App\Models\List\Playlist;
@@ -34,7 +36,7 @@ class PlaylistTrackPolicy
                 $playlist = $request->route('playlist');
 
                 return $user !== null
-                    ? ($user->getKey() === $playlist?->user_id || PlaylistVisibility::PRIVATE()->isNot($playlist?->visibility)) && $user->can('view playlist track')
+                    ? ($user->getKey() === $playlist?->user_id || PlaylistVisibility::PRIVATE()->isNot($playlist?->visibility)) && $user->can(CrudPermission::VIEW()->format(PlaylistTrack::class))
                     : PlaylistVisibility::PRIVATE()->isNot($playlist?->visibility);
             }
         );
@@ -58,7 +60,7 @@ class PlaylistTrackPolicy
                 $playlist = $request->route('playlist');
 
                 return $user !== null
-                    ? ($user->getKey() === $playlist?->user_id || PlaylistVisibility::PRIVATE()->isNot($playlist?->visibility)) && $user->can('view playlist track')
+                    ? ($user->getKey() === $playlist?->user_id || PlaylistVisibility::PRIVATE()->isNot($playlist?->visibility)) && $user->can(CrudPermission::VIEW()->format(PlaylistTrack::class))
                     : PlaylistVisibility::PRIVATE()->isNot($playlist?->visibility);
             }
         );
@@ -100,7 +102,7 @@ class PlaylistTrackPolicy
                 /** @var Playlist|null $playlist */
                 $playlist = $request->route('playlist');
 
-                return ! $track->trashed() && $user->getKey() === $playlist?->user_id && $user->can('update playlist track');
+                return ! $track->trashed() && $user->getKey() === $playlist?->user_id && $user->can(CrudPermission::UPDATE()->format(PlaylistTrack::class));
             }
         );
     }
@@ -122,7 +124,7 @@ class PlaylistTrackPolicy
                 /** @var Playlist|null $playlist */
                 $playlist = $request->route('playlist');
 
-                return ! $track->trashed() && $user->getKey() === $playlist?->user_id && $user->can('delete playlist track');
+                return ! $track->trashed() && $user->getKey() === $playlist?->user_id && $user->can(CrudPermission::DELETE()->format(PlaylistTrack::class));
             }
         );
     }
@@ -144,7 +146,7 @@ class PlaylistTrackPolicy
                 /** @var Playlist|null $playlist */
                 $playlist = $request->route('playlist');
 
-                return $track->trashed() && $user->getKey() === $playlist?->user_id && $user->can('restore playlist track');
+                return $track->trashed() && $user->getKey() === $playlist?->user_id && $user->can(ExtendedCrudPermission::RESTORE()->format(PlaylistTrack::class));
             }
         );
     }
@@ -157,6 +159,6 @@ class PlaylistTrackPolicy
      */
     public function forceDelete(User $user): bool
     {
-        return $user->can('force delete playlist track');
+        return $user->can(ExtendedCrudPermission::FORCE_DELETE()->format(PlaylistTrack::class));
     }
 }

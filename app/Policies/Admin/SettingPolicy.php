@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Policies\Admin;
 
+use App\Enums\Auth\CrudPermission;
+use App\Models\Admin\Setting;
 use App\Models\Auth\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
@@ -22,7 +24,7 @@ class SettingPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->can('view setting');
+        return $user->can(CrudPermission::VIEW()->format(Setting::class));
     }
 
     /**
@@ -33,7 +35,7 @@ class SettingPolicy
      */
     public function view(User $user): bool
     {
-        return $user->can('view setting');
+        return $user->can(CrudPermission::VIEW()->format(Setting::class));
     }
 
     /**
@@ -44,7 +46,7 @@ class SettingPolicy
      */
     public function create(User $user): bool
     {
-        return $user->can('create setting');
+        return $user->can(CrudPermission::CREATE()->format(Setting::class));
     }
 
     /**
@@ -55,7 +57,7 @@ class SettingPolicy
      */
     public function update(User $user): bool
     {
-        return $user->can('update setting');
+        return $user->can(CrudPermission::UPDATE()->format(Setting::class));
     }
 
     /**
@@ -66,6 +68,6 @@ class SettingPolicy
      */
     public function delete(User $user): bool
     {
-        return $user->can('delete setting');
+        return $user->can(CrudPermission::DELETE()->format(Setting::class));
     }
 }

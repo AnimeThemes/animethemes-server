@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Http\Api\Pivot\Wiki\StudioResource;
 
+use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Studio;
@@ -64,7 +65,7 @@ class StudioResourceStoreTest extends TestCase
      */
     public function testRequiredFields(): void
     {
-        $user = User::factory()->withPermissions(['create studio', 'create external resource'])->createOne();
+        $user = User::factory()->withPermissions([CrudPermission::CREATE()->format(Studio::class), CrudPermission::CREATE()->format(ExternalResource::class)])->createOne();
 
         Sanctum::actingAs($user);
 
@@ -89,7 +90,7 @@ class StudioResourceStoreTest extends TestCase
             [StudioResource::ATTRIBUTE_RESOURCE => ExternalResource::factory()->createOne()->getKey()],
         );
 
-        $user = User::factory()->withPermissions(['create studio', 'create external resource'])->createOne();
+        $user = User::factory()->withPermissions([CrudPermission::CREATE()->format(Studio::class), CrudPermission::CREATE()->format(ExternalResource::class)])->createOne();
 
         Sanctum::actingAs($user);
 

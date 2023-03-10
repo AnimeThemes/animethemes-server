@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Http\Api\Pivot\Wiki\StudioResource;
 
+use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Studio;
@@ -67,7 +68,7 @@ class StudioResourceDestroyTest extends TestCase
         $studio = Studio::factory()->createOne();
         $resource = ExternalResource::factory()->createOne();
 
-        $user = User::factory()->withPermissions(['delete studio', 'delete external resource'])->createOne();
+        $user = User::factory()->withPermissions([CrudPermission::DELETE()->format(Studio::class), CrudPermission::DELETE()->format(ExternalResource::class)])->createOne();
 
         Sanctum::actingAs($user);
 
@@ -88,7 +89,7 @@ class StudioResourceDestroyTest extends TestCase
             ->for(ExternalResource::factory(), StudioResource::RELATION_RESOURCE)
             ->createOne();
 
-        $user = User::factory()->withPermissions(['delete studio', 'delete external resource'])->createOne();
+        $user = User::factory()->withPermissions([CrudPermission::DELETE()->format(Studio::class), CrudPermission::DELETE()->format(ExternalResource::class)])->createOne();
 
         Sanctum::actingAs($user);
 

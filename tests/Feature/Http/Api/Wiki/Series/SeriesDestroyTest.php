@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Wiki\Series;
 
+use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Series;
 use Illuminate\Foundation\Testing\WithoutEvents;
@@ -60,7 +61,7 @@ class SeriesDestroyTest extends TestCase
 
         $series->delete();
 
-        $user = User::factory()->withPermission('delete series')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::DELETE()->format(Series::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -78,7 +79,7 @@ class SeriesDestroyTest extends TestCase
     {
         $series = Series::factory()->createOne();
 
-        $user = User::factory()->withPermission('delete series')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::DELETE()->format(Series::class))->createOne();
 
         Sanctum::actingAs($user);
 

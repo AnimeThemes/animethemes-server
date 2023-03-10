@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Middleware;
 
+use App\Enums\Auth\SpecialPermission;
+use App\Models\Auth\User;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
@@ -29,7 +31,10 @@ class IsFeatureEnabled
      */
     public function handle(Request $request, Closure $next, string $flag, string $message): mixed
     {
-        if (! Config::bool($flag)) {
+        /** @var User|null $user */
+        $user = $request->user('sanctum');
+
+        if (! Config::bool($flag) && empty($user?->can(SpecialPermission::BYPASS_FEATURE_FLAGS))) {
             abort(403, $message);
         }
 

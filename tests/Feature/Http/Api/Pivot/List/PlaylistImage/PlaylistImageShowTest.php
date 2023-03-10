@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Http\Api\Pivot\List\PlaylistImage;
 
+use App\Enums\Auth\CrudPermission;
 use App\Enums\Models\List\PlaylistVisibility;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Http\Api\Field\Field;
@@ -92,7 +93,7 @@ class PlaylistImageShowTest extends TestCase
             ->for(Image::factory())
             ->createOne();
 
-        $user = User::factory()->withPermission('view playlist')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::VIEW()->format(Playlist::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -108,7 +109,7 @@ class PlaylistImageShowTest extends TestCase
      */
     public function testPrivatePlaylistImageCanBeViewedByOwner(): void
     {
-        $user = User::factory()->withPermission('view playlist')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::VIEW()->format(Playlist::class))->createOne();
 
         $playlistImage = PlaylistImage::factory()
             ->for(

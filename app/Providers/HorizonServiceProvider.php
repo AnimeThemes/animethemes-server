@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Enums\Auth\SpecialPermission;
 use App\Models\Auth\User;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Gate;
@@ -40,6 +41,6 @@ class HorizonServiceProvider extends HorizonApplicationServiceProvider
      */
     protected function gate(): void
     {
-        Gate::define('viewHorizon', fn (User $user) => $user->can('view horizon'));
+        Gate::define('viewHorizon', fn (User $user) => $user->can(SpecialPermission::VIEW_HORIZON));
     }
 }

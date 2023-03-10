@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Wiki\Studio;
 
+use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Studio;
 use Illuminate\Foundation\Testing\WithoutEvents;
@@ -56,7 +57,7 @@ class StudioStoreTest extends TestCase
      */
     public function testRequiredFields(): void
     {
-        $user = User::factory()->withPermission('create studio')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::CREATE()->format(Studio::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -77,7 +78,7 @@ class StudioStoreTest extends TestCase
     {
         $parameters = Studio::factory()->raw();
 
-        $user = User::factory()->withPermission('create studio')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::CREATE()->format(Studio::class))->createOne();
 
         Sanctum::actingAs($user);
 

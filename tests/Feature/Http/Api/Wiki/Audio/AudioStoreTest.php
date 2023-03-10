@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Wiki\Audio;
 
+use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Audio;
 use Illuminate\Foundation\Testing\WithoutEvents;
@@ -56,7 +57,7 @@ class AudioStoreTest extends TestCase
      */
     public function testRequiredFields(): void
     {
-        $user = User::factory()->withPermission('create audio')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::CREATE()->format(Audio::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -80,7 +81,7 @@ class AudioStoreTest extends TestCase
     {
         $parameters = Audio::factory()->raw();
 
-        $user = User::factory()->withPermission('create audio')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::CREATE()->format(Audio::class))->createOne();
 
         Sanctum::actingAs($user);
 

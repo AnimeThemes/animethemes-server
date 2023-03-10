@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\List\Playlist\Track;
 
+use App\Enums\Auth\CrudPermission;
+use App\Enums\Auth\ExtendedCrudPermission;
 use App\Enums\Models\List\PlaylistVisibility;
 use App\Models\Auth\User;
 use App\Models\List\Playlist;
@@ -68,7 +70,7 @@ class TrackRestoreTest extends TestCase
             ->for(Playlist::factory()->for(User::factory()))
             ->createOne();
 
-        $user = User::factory()->withPermission('restore playlist track')->createOne();
+        $user = User::factory()->withPermission(ExtendedCrudPermission::RESTORE()->format(PlaylistTrack::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -84,7 +86,7 @@ class TrackRestoreTest extends TestCase
      */
     public function testScoped(): void
     {
-        $user = User::factory()->withPermission('restore playlist track')->createOne();
+        $user = User::factory()->withPermission(ExtendedCrudPermission::RESTORE()->format(PlaylistTrack::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)
@@ -111,7 +113,7 @@ class TrackRestoreTest extends TestCase
      */
     public function testTrashed(): void
     {
-        $user = User::factory()->withPermission('restore playlist track')->createOne();
+        $user = User::factory()->withPermission(ExtendedCrudPermission::RESTORE()->format(PlaylistTrack::class))->createOne();
 
         $track = PlaylistTrack::factory()
             ->for(Playlist::factory()->for($user))
@@ -131,7 +133,7 @@ class TrackRestoreTest extends TestCase
      */
     public function testRestored(): void
     {
-        $user = User::factory()->withPermissions(['delete playlist track', 'restore playlist track'])->createOne();
+        $user = User::factory()->withPermissions([CrudPermission::DELETE()->format(PlaylistTrack::class), ExtendedCrudPermission::RESTORE()->format(PlaylistTrack::class)])->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)
@@ -168,7 +170,7 @@ class TrackRestoreTest extends TestCase
      */
     public function testRestoreFirst(): void
     {
-        $user = User::factory()->withPermissions(['delete playlist track', 'restore playlist track'])->createOne();
+        $user = User::factory()->withPermissions([CrudPermission::DELETE()->format(PlaylistTrack::class), ExtendedCrudPermission::RESTORE()->format(PlaylistTrack::class)])->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)
@@ -212,7 +214,7 @@ class TrackRestoreTest extends TestCase
      */
     public function testRestoreLast(): void
     {
-        $user = User::factory()->withPermissions(['delete playlist track', 'restore playlist track'])->createOne();
+        $user = User::factory()->withPermissions([CrudPermission::DELETE()->format(PlaylistTrack::class), ExtendedCrudPermission::RESTORE()->format(PlaylistTrack::class)])->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)
@@ -251,7 +253,7 @@ class TrackRestoreTest extends TestCase
      */
     public function testRestoreSecond(): void
     {
-        $user = User::factory()->withPermissions(['delete playlist track', 'restore playlist track'])->createOne();
+        $user = User::factory()->withPermissions([CrudPermission::DELETE()->format(PlaylistTrack::class), ExtendedCrudPermission::RESTORE()->format(PlaylistTrack::class)])->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Admin\Dump;
 
+use App\Enums\Auth\CrudPermission;
 use App\Models\Admin\Dump;
 use App\Models\Auth\User;
 use Illuminate\Foundation\Testing\WithoutEvents;
@@ -66,7 +67,7 @@ class DumpUpdateTest extends TestCase
 
         $parameters = Dump::factory()->raw();
 
-        $user = User::factory()->withPermission('update dump')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::UPDATE()->format(Dump::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -86,7 +87,7 @@ class DumpUpdateTest extends TestCase
 
         $parameters = Dump::factory()->raw();
 
-        $user = User::factory()->withPermission('update dump')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::UPDATE()->format(Dump::class))->createOne();
 
         Sanctum::actingAs($user);
 

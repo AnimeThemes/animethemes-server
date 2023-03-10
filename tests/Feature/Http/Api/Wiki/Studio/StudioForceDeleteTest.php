@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Wiki\Studio;
 
+use App\Enums\Auth\ExtendedCrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Studio;
 use Illuminate\Foundation\Testing\WithoutEvents;
@@ -58,7 +59,7 @@ class StudioForceDeleteTest extends TestCase
     {
         $studio = Studio::factory()->createOne();
 
-        $user = User::factory()->withPermission('force delete studio')->createOne();
+        $user = User::factory()->withPermission(ExtendedCrudPermission::FORCE_DELETE()->format(Studio::class))->createOne();
 
         Sanctum::actingAs($user);
 

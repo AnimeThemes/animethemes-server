@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Policies\Admin;
 
+use App\Enums\Auth\CrudPermission;
+use App\Enums\Auth\ExtendedCrudPermission;
 use App\Models\Admin\Announcement;
 use App\Models\Auth\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
@@ -25,7 +27,7 @@ class AnnouncementPolicy
     public function viewAny(?User $user): bool
     {
         return Nova::whenServing(
-            fn (): bool => $user !== null && $user->can('view announcement'),
+            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW()->format(Announcement::class)),
             fn (): bool => true
         );
     }
@@ -39,7 +41,7 @@ class AnnouncementPolicy
     public function view(?User $user): bool
     {
         return Nova::whenServing(
-            fn (): bool => $user !== null && $user->can('view announcement'),
+            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW()->format(Announcement::class)),
             fn (): bool => true
         );
     }
@@ -52,7 +54,7 @@ class AnnouncementPolicy
      */
     public function create(User $user): bool
     {
-        return $user->can('create announcement');
+        return $user->can(CrudPermission::CREATE()->format(Announcement::class));
     }
 
     /**
@@ -64,7 +66,7 @@ class AnnouncementPolicy
      */
     public function update(User $user, Announcement $announcement): bool
     {
-        return ! $announcement->trashed() && $user->can('update announcement');
+        return ! $announcement->trashed() && $user->can(CrudPermission::UPDATE()->format(Announcement::class));
     }
 
     /**
@@ -76,7 +78,7 @@ class AnnouncementPolicy
      */
     public function delete(User $user, Announcement $announcement): bool
     {
-        return ! $announcement->trashed() && $user->can('delete announcement');
+        return ! $announcement->trashed() && $user->can(CrudPermission::DELETE()->format(Announcement::class));
     }
 
     /**
@@ -88,7 +90,7 @@ class AnnouncementPolicy
      */
     public function restore(User $user, Announcement $announcement): bool
     {
-        return $announcement->trashed() && $user->can('restore announcement');
+        return $announcement->trashed() && $user->can(ExtendedCrudPermission::RESTORE()->format(Announcement::class));
     }
 
     /**
@@ -99,6 +101,6 @@ class AnnouncementPolicy
      */
     public function forceDelete(User $user): bool
     {
-        return $user->can('force delete announcement');
+        return $user->can(ExtendedCrudPermission::FORCE_DELETE()->format(Announcement::class));
     }
 }

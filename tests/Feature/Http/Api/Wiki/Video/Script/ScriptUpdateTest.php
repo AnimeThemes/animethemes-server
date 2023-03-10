@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Wiki\Video\Script;
 
+use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Video\VideoScript;
 use Illuminate\Foundation\Testing\WithoutEvents;
@@ -66,7 +67,7 @@ class ScriptUpdateTest extends TestCase
 
         $parameters = VideoScript::factory()->raw();
 
-        $user = User::factory()->withPermission('update video script')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::UPDATE()->format(VideoScript::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -86,7 +87,7 @@ class ScriptUpdateTest extends TestCase
 
         $parameters = VideoScript::factory()->raw();
 
-        $user = User::factory()->withPermission('update video script')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::UPDATE()->format(VideoScript::class))->createOne();
 
         Sanctum::actingAs($user);
 

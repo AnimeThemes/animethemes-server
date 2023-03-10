@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Http\Api\Pivot\Wiki\ArtistMember;
 
+use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Artist;
 use App\Pivots\Wiki\ArtistMember;
@@ -63,7 +64,7 @@ class ArtistMemberStoreTest extends TestCase
      */
     public function testRequiredFields(): void
     {
-        $user = User::factory()->withPermission('create artist')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::CREATE()->format(Artist::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -88,7 +89,7 @@ class ArtistMemberStoreTest extends TestCase
             [ArtistMember::ATTRIBUTE_MEMBER => Artist::factory()->createOne()->getKey()],
         );
 
-        $user = User::factory()->withPermission('create artist')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::CREATE()->format(Artist::class))->createOne();
 
         Sanctum::actingAs($user);
 

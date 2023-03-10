@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Http\Api\Pivot\Wiki\ArtistSong;
 
+use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Song;
@@ -75,7 +76,7 @@ class ArtistSongUpdateTest extends TestCase
 
         $parameters = ArtistSong::factory()->raw();
 
-        $user = User::factory()->withPermissions(['update artist', 'update song'])->createOne();
+        $user = User::factory()->withPermissions([CrudPermission::UPDATE()->format(Artist::class), CrudPermission::UPDATE()->format(Song::class)])->createOne();
 
         Sanctum::actingAs($user);
 

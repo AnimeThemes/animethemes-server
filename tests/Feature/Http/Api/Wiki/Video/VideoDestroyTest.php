@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Wiki\Video;
 
+use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Video;
 use Illuminate\Foundation\Testing\WithoutEvents;
@@ -60,7 +61,7 @@ class VideoDestroyTest extends TestCase
 
         $video->delete();
 
-        $user = User::factory()->withPermission('delete video')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::DELETE()->format(Video::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -78,7 +79,7 @@ class VideoDestroyTest extends TestCase
     {
         $video = Video::factory()->createOne();
 
-        $user = User::factory()->withPermission('delete video')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::DELETE()->format(Video::class))->createOne();
 
         Sanctum::actingAs($user);
 

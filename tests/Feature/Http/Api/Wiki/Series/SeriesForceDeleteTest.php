@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Wiki\Series;
 
+use App\Enums\Auth\ExtendedCrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Series;
 use Illuminate\Foundation\Testing\WithoutEvents;
@@ -58,7 +59,7 @@ class SeriesForceDeleteTest extends TestCase
     {
         $series = Series::factory()->createOne();
 
-        $user = User::factory()->withPermission('force delete series')->createOne();
+        $user = User::factory()->withPermission(ExtendedCrudPermission::FORCE_DELETE()->format(Series::class))->createOne();
 
         Sanctum::actingAs($user);
 

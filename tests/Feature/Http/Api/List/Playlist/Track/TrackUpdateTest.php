@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\List\Playlist\Track;
 
+use App\Enums\Auth\CrudPermission;
 use App\Enums\Models\List\PlaylistVisibility;
 use App\Models\Auth\User;
 use App\Models\List\Playlist;
@@ -92,7 +93,7 @@ class TrackUpdateTest extends TestCase
             [PlaylistTrack::ATTRIBUTE_VIDEO => Video::factory()->createOne()->getKey()],
         );
 
-        $user = User::factory()->withPermission('update playlist track')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::UPDATE()->format(PlaylistTrack::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -108,7 +109,7 @@ class TrackUpdateTest extends TestCase
      */
     public function testScoped(): void
     {
-        $user = User::factory()->withPermission('update playlist track')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::UPDATE()->format(PlaylistTrack::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)
@@ -140,7 +141,7 @@ class TrackUpdateTest extends TestCase
      */
     public function testScopePrevious(): void
     {
-        $user = User::factory()->withPermission('update playlist track')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::UPDATE()->format(PlaylistTrack::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)
@@ -178,7 +179,7 @@ class TrackUpdateTest extends TestCase
      */
     public function testPreviousIsNotSelf(): void
     {
-        $user = User::factory()->withPermission('update playlist track')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::UPDATE()->format(PlaylistTrack::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)
@@ -212,7 +213,7 @@ class TrackUpdateTest extends TestCase
      */
     public function testScopeNext(): void
     {
-        $user = User::factory()->withPermission('update playlist track')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::UPDATE()->format(PlaylistTrack::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)
@@ -250,7 +251,7 @@ class TrackUpdateTest extends TestCase
      */
     public function testNextIsNotSelf(): void
     {
-        $user = User::factory()->withPermission('update playlist track')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::UPDATE()->format(PlaylistTrack::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)
@@ -284,7 +285,7 @@ class TrackUpdateTest extends TestCase
      */
     public function testProhibitsNextAndPrevious(): void
     {
-        $user = User::factory()->withPermission('update playlist track')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::UPDATE()->format(PlaylistTrack::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)
@@ -328,7 +329,7 @@ class TrackUpdateTest extends TestCase
      */
     public function testTrashed(): void
     {
-        $user = User::factory()->withPermission('update playlist track')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::UPDATE()->format(PlaylistTrack::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)
@@ -371,7 +372,7 @@ class TrackUpdateTest extends TestCase
      */
     public function testUpdate(): void
     {
-        $user = User::factory()->withPermission('update playlist track')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::UPDATE()->format(PlaylistTrack::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)
@@ -402,7 +403,7 @@ class TrackUpdateTest extends TestCase
      */
     public function testInsertFirstAfterSecond(): void
     {
-        $user = User::factory()->withPermission('update playlist track')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::UPDATE()->format(PlaylistTrack::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)
@@ -448,7 +449,7 @@ class TrackUpdateTest extends TestCase
      */
     public function testInsertFirstAfterThird(): void
     {
-        $user = User::factory()->withPermission('update playlist track')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::UPDATE()->format(PlaylistTrack::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)
@@ -494,7 +495,7 @@ class TrackUpdateTest extends TestCase
      */
     public function testInsertFirstBeforeThird(): void
     {
-        $user = User::factory()->withPermission('update playlist track')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::UPDATE()->format(PlaylistTrack::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)
@@ -540,7 +541,7 @@ class TrackUpdateTest extends TestCase
      */
     public function testInsertSecondAfterThird(): void
     {
-        $user = User::factory()->withPermission('update playlist track')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::UPDATE()->format(PlaylistTrack::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)
@@ -586,7 +587,7 @@ class TrackUpdateTest extends TestCase
      */
     public function testInsertSecondBeforeFirst(): void
     {
-        $user = User::factory()->withPermission('update playlist track')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::UPDATE()->format(PlaylistTrack::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)
@@ -632,7 +633,7 @@ class TrackUpdateTest extends TestCase
      */
     public function testInsertThirdAfterFirst(): void
     {
-        $user = User::factory()->withPermission('update playlist track')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::UPDATE()->format(PlaylistTrack::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)
@@ -678,7 +679,7 @@ class TrackUpdateTest extends TestCase
      */
     public function testInsertThirdBeforeSecond(): void
     {
-        $user = User::factory()->withPermission('update playlist track')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::UPDATE()->format(PlaylistTrack::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)
@@ -724,7 +725,7 @@ class TrackUpdateTest extends TestCase
      */
     public function testInsertThirdBeforeFirst(): void
     {
-        $user = User::factory()->withPermission('update playlist track')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::UPDATE()->format(PlaylistTrack::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)

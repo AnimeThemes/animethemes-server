@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Http\Api\Pivot\Wiki\StudioResource;
 
+use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Studio;
@@ -75,7 +76,7 @@ class StudioResourceUpdateTest extends TestCase
 
         $parameters = StudioResource::factory()->raw();
 
-        $user = User::factory()->withPermissions(['update studio', 'update external resource'])->createOne();
+        $user = User::factory()->withPermissions([CrudPermission::UPDATE()->format(Studio::class), CrudPermission::UPDATE()->format(ExternalResource::class)])->createOne();
 
         Sanctum::actingAs($user);
 

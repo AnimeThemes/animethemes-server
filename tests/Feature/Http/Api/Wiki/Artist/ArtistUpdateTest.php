@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Wiki\Artist;
 
+use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Artist;
 use Illuminate\Foundation\Testing\WithoutEvents;
@@ -66,7 +67,7 @@ class ArtistUpdateTest extends TestCase
 
         $parameters = Artist::factory()->raw();
 
-        $user = User::factory()->withPermission('update artist')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::UPDATE()->format(Artist::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -86,7 +87,7 @@ class ArtistUpdateTest extends TestCase
 
         $parameters = Artist::factory()->raw();
 
-        $user = User::factory()->withPermission('update artist')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::UPDATE()->format(Artist::class))->createOne();
 
         Sanctum::actingAs($user);
 

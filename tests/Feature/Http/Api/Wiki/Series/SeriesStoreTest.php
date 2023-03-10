@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Wiki\Series;
 
+use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Series;
 use Illuminate\Foundation\Testing\WithoutEvents;
@@ -56,7 +57,7 @@ class SeriesStoreTest extends TestCase
      */
     public function testRequiredFields(): void
     {
-        $user = User::factory()->withPermission('create series')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::CREATE()->format(Series::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -77,7 +78,7 @@ class SeriesStoreTest extends TestCase
     {
         $parameters = Series::factory()->raw();
 
-        $user = User::factory()->withPermission('create series')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::CREATE()->format(Series::class))->createOne();
 
         Sanctum::actingAs($user);
 

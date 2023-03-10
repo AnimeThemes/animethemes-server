@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Admin\Announcement;
 
+use App\Enums\Auth\ExtendedCrudPermission;
 use App\Models\Admin\Announcement;
 use App\Models\Auth\User;
 use Illuminate\Foundation\Testing\WithoutEvents;
@@ -58,7 +59,7 @@ class AnnouncementForceDeleteTest extends TestCase
     {
         $announcement = Announcement::factory()->createOne();
 
-        $user = User::factory()->withPermission('force delete announcement')->createOne();
+        $user = User::factory()->withPermission(ExtendedCrudPermission::FORCE_DELETE()->format(Announcement::class))->createOne();
 
         Sanctum::actingAs($user);
 

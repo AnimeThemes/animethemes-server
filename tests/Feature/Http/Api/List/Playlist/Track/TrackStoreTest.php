@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\List\Playlist\Track;
 
+use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
@@ -76,7 +77,7 @@ class TrackStoreTest extends TestCase
             ->for($playlist)
             ->makeOne();
 
-        $user = User::factory()->withPermission('create playlist track')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::CREATE()->format(PlaylistTrack::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -92,7 +93,7 @@ class TrackStoreTest extends TestCase
      */
     public function testRequiredFields(): void
     {
-        $user = User::factory()->withPermission('create playlist track')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::CREATE()->format(PlaylistTrack::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)
@@ -114,7 +115,7 @@ class TrackStoreTest extends TestCase
      */
     public function testProhibitsNextAndPrevious(): void
     {
-        $user = User::factory()->withPermission('create playlist track')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::CREATE()->format(PlaylistTrack::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)
@@ -153,7 +154,7 @@ class TrackStoreTest extends TestCase
      */
     public function testScopeNext(): void
     {
-        $user = User::factory()->withPermission('create playlist track')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::CREATE()->format(PlaylistTrack::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)
@@ -186,7 +187,7 @@ class TrackStoreTest extends TestCase
      */
     public function testScopePrevious(): void
     {
-        $user = User::factory()->withPermission('create playlist track')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::CREATE()->format(PlaylistTrack::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)
@@ -219,7 +220,7 @@ class TrackStoreTest extends TestCase
      */
     public function testCreate(): void
     {
-        $user = User::factory()->withPermission('create playlist track')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::CREATE()->format(PlaylistTrack::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)
@@ -252,7 +253,7 @@ class TrackStoreTest extends TestCase
      */
     public function testCreateAfterLastTrack(): void
     {
-        $user = User::factory()->withPermission('create playlist track')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::CREATE()->format(PlaylistTrack::class))->createOne();
 
         $trackCount = $this->faker->numberBetween(2, 9);
 
@@ -298,7 +299,7 @@ class TrackStoreTest extends TestCase
      */
     public function testCreateAfterFirstTrack(): void
     {
-        $user = User::factory()->withPermission('create playlist track')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::CREATE()->format(PlaylistTrack::class))->createOne();
 
         $trackCount = $this->faker->numberBetween(2, 9);
 
@@ -345,7 +346,7 @@ class TrackStoreTest extends TestCase
      */
     public function testCreateBeforeLastTrack(): void
     {
-        $user = User::factory()->withPermission('create playlist track')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::CREATE()->format(PlaylistTrack::class))->createOne();
 
         $trackCount = $this->faker->numberBetween(2, 9);
 
@@ -392,7 +393,7 @@ class TrackStoreTest extends TestCase
      */
     public function testCreateBeforeFirstTrack(): void
     {
-        $user = User::factory()->withPermission('create playlist track')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::CREATE()->format(PlaylistTrack::class))->createOne();
 
         $trackCount = $this->faker->numberBetween(2, 9);
 

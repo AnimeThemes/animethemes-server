@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Document\Page;
 
+use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Document\Page;
 use Illuminate\Foundation\Testing\WithoutEvents;
@@ -56,7 +57,7 @@ class PageStoreTest extends TestCase
      */
     public function testRequiredFields(): void
     {
-        $user = User::factory()->withPermission('create page')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::CREATE()->format(Page::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -78,7 +79,7 @@ class PageStoreTest extends TestCase
     {
         $parameters = Page::factory()->raw();
 
-        $user = User::factory()->withPermission('create page')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::CREATE()->format(Page::class))->createOne();
 
         Sanctum::actingAs($user);
 

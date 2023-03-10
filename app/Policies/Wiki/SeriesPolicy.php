@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Policies\Wiki;
 
+use App\Enums\Auth\CrudPermission;
+use App\Enums\Auth\ExtendedCrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Series;
@@ -27,7 +29,7 @@ class SeriesPolicy
     public function viewAny(?User $user): bool
     {
         return Nova::whenServing(
-            fn (): bool => $user !== null && $user->can('view series'),
+            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW()->format(Series::class)),
             fn (): bool => true
         );
     }
@@ -41,7 +43,7 @@ class SeriesPolicy
     public function view(?User $user): bool
     {
         return Nova::whenServing(
-            fn (): bool => $user !== null && $user->can('view series'),
+            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW()->format(Series::class)),
             fn (): bool => true
         );
     }
@@ -54,7 +56,7 @@ class SeriesPolicy
      */
     public function create(User $user): bool
     {
-        return $user->can('create series');
+        return $user->can(CrudPermission::CREATE()->format(Series::class));
     }
 
     /**
@@ -66,7 +68,7 @@ class SeriesPolicy
      */
     public function update(User $user, Series $series): bool
     {
-        return ! $series->trashed() && $user->can('update series');
+        return ! $series->trashed() && $user->can(CrudPermission::UPDATE()->format(Series::class));
     }
 
     /**
@@ -78,7 +80,7 @@ class SeriesPolicy
      */
     public function delete(User $user, Series $series): bool
     {
-        return ! $series->trashed() && $user->can('delete series');
+        return ! $series->trashed() && $user->can(CrudPermission::DELETE()->format(Series::class));
     }
 
     /**
@@ -90,7 +92,7 @@ class SeriesPolicy
      */
     public function restore(User $user, Series $series): bool
     {
-        return $series->trashed() && $user->can('restore series');
+        return $series->trashed() && $user->can(ExtendedCrudPermission::RESTORE()->format(Series::class));
     }
 
     /**
@@ -101,7 +103,7 @@ class SeriesPolicy
      */
     public function forceDelete(User $user): bool
     {
-        return $user->can('force delete series');
+        return $user->can(ExtendedCrudPermission::FORCE_DELETE()->format(Series::class));
     }
 
     /**
@@ -112,7 +114,7 @@ class SeriesPolicy
      */
     public function attachAnyAnime(User $user): bool
     {
-        return $user->can('update series');
+        return $user->can(CrudPermission::UPDATE()->format(Series::class));
     }
 
     /**
@@ -130,7 +132,7 @@ class SeriesPolicy
             ->where($series->getKeyName(), $series->getKey())
             ->exists();
 
-        return ! $attached && $user->can('update series');
+        return ! $attached && $user->can(CrudPermission::UPDATE()->format(Series::class));
     }
 
     /**
@@ -141,6 +143,6 @@ class SeriesPolicy
      */
     public function detachAnime(User $user): bool
     {
-        return $user->can('update series');
+        return $user->can(CrudPermission::UPDATE()->format(Series::class));
     }
 }

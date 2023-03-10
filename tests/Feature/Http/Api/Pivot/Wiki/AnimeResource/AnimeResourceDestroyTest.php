@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Http\Api\Pivot\Wiki\AnimeResource;
 
+use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\ExternalResource;
@@ -67,7 +68,7 @@ class AnimeResourceDestroyTest extends TestCase
         $anime = Anime::factory()->createOne();
         $resource = ExternalResource::factory()->createOne();
 
-        $user = User::factory()->withPermissions(['delete anime', 'delete external resource'])->createOne();
+        $user = User::factory()->withPermissions([CrudPermission::DELETE()->format(Anime::class), CrudPermission::DELETE()->format(ExternalResource::class)])->createOne();
 
         Sanctum::actingAs($user);
 
@@ -88,7 +89,7 @@ class AnimeResourceDestroyTest extends TestCase
             ->for(ExternalResource::factory(), AnimeResource::RELATION_RESOURCE)
             ->createOne();
 
-        $user = User::factory()->withPermissions(['delete anime', 'delete external resource'])->createOne();
+        $user = User::factory()->withPermissions([CrudPermission::DELETE()->format(Anime::class), CrudPermission::DELETE()->format(ExternalResource::class)])->createOne();
 
         Sanctum::actingAs($user);
 

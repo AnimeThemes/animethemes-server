@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Billing\Transaction;
 
+use App\Enums\Auth\CrudPermission;
 use App\Enums\Models\Billing\Service;
 use App\Models\Auth\User;
 use App\Models\Billing\Transaction;
@@ -57,7 +58,7 @@ class TransactionStoreTest extends TestCase
      */
     public function testRequiredFields(): void
     {
-        $user = User::factory()->withPermission('create transaction')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::CREATE()->format(Transaction::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -83,7 +84,7 @@ class TransactionStoreTest extends TestCase
             [Transaction::ATTRIBUTE_SERVICE => Service::getRandomInstance()->description]
         );
 
-        $user = User::factory()->withPermission('create transaction')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::CREATE()->format(Transaction::class))->createOne();
 
         Sanctum::actingAs($user);
 

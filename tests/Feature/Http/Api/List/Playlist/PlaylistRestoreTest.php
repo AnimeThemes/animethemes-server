@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\List\Playlist;
 
+use App\Enums\Auth\ExtendedCrudPermission;
 use App\Models\Auth\User;
 use App\Models\List\Playlist;
 use Illuminate\Foundation\Testing\WithoutEvents;
@@ -60,7 +61,7 @@ class PlaylistRestoreTest extends TestCase
             ->for(User::factory())
             ->createOne();
 
-        $user = User::factory()->withPermission('restore playlist')->createOne();
+        $user = User::factory()->withPermission(ExtendedCrudPermission::RESTORE()->format(Playlist::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -76,7 +77,7 @@ class PlaylistRestoreTest extends TestCase
      */
     public function testTrashed(): void
     {
-        $user = User::factory()->withPermission('restore playlist')->createOne();
+        $user = User::factory()->withPermission(ExtendedCrudPermission::RESTORE()->format(Playlist::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)
@@ -96,7 +97,7 @@ class PlaylistRestoreTest extends TestCase
      */
     public function testRestored(): void
     {
-        $user = User::factory()->withPermission('restore playlist')->createOne();
+        $user = User::factory()->withPermission(ExtendedCrudPermission::RESTORE()->format(Playlist::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)

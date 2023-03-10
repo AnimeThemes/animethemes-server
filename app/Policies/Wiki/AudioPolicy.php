@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Policies\Wiki;
 
+use App\Enums\Auth\CrudPermission;
+use App\Enums\Auth\ExtendedCrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Audio;
 use Illuminate\Auth\Access\HandlesAuthorization;
@@ -25,7 +27,7 @@ class AudioPolicy
     public function viewAny(?User $user): bool
     {
         return Nova::whenServing(
-            fn (): bool => $user !== null && $user->can('view audio'),
+            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW()->format(Audio::class)),
             fn (): bool => true
         );
     }
@@ -39,7 +41,7 @@ class AudioPolicy
     public function view(?User $user): bool
     {
         return Nova::whenServing(
-            fn (): bool => $user !== null && $user->can('view audio'),
+            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW()->format(Audio::class)),
             fn (): bool => true
         );
     }
@@ -52,7 +54,7 @@ class AudioPolicy
      */
     public function create(User $user): bool
     {
-        return $user->can('create audio');
+        return $user->can(CrudPermission::CREATE()->format(Audio::class));
     }
 
     /**
@@ -64,7 +66,7 @@ class AudioPolicy
      */
     public function update(User $user, Audio $audio): bool
     {
-        return ! $audio->trashed() && $user->can('update audio');
+        return ! $audio->trashed() && $user->can(CrudPermission::UPDATE()->format(Audio::class));
     }
 
     /**
@@ -76,7 +78,7 @@ class AudioPolicy
      */
     public function delete(User $user, Audio $audio): bool
     {
-        return ! $audio->trashed() && $user->can('delete audio');
+        return ! $audio->trashed() && $user->can(CrudPermission::DELETE()->format(Audio::class));
     }
 
     /**
@@ -88,7 +90,7 @@ class AudioPolicy
      */
     public function restore(User $user, Audio $audio): bool
     {
-        return $audio->trashed() && $user->can('restore audio');
+        return $audio->trashed() && $user->can(ExtendedCrudPermission::RESTORE()->format(Audio::class));
     }
 
     /**
@@ -99,7 +101,7 @@ class AudioPolicy
      */
     public function forceDelete(User $user): bool
     {
-        return $user->can('force delete audio');
+        return $user->can(ExtendedCrudPermission::FORCE_DELETE()->format(Audio::class));
     }
 
     /**
@@ -110,6 +112,6 @@ class AudioPolicy
      */
     public function addVideo(User $user): bool
     {
-        return $user->can('create video');
+        return $user->can(CrudPermission::CREATE()->format(Audio::class));
     }
 }

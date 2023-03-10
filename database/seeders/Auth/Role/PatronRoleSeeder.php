@@ -26,9 +26,9 @@ use App\Models\Wiki\Video;
 use App\Models\Wiki\Video\VideoScript;
 
 /**
- * Class WikiViewerRoleSeeder.
+ * Class PatronRoleSeeder.
  */
-class WikiViewerRoleSeeder extends RoleSeeder
+class PatronRoleSeeder extends RoleSeeder
 {
     /**
      * Run the database seeds.
@@ -38,7 +38,7 @@ class WikiViewerRoleSeeder extends RoleSeeder
     public function run(): void
     {
         /** @var Role $role */
-        $role = Role::findOrCreate('Wiki Viewer');
+        $role = Role::findOrCreate('Patron');
 
         // List Resources
         $this->configureResource($role, Playlist::class, ExtendedCrudPermission::getInstances());
@@ -61,6 +61,12 @@ class WikiViewerRoleSeeder extends RoleSeeder
         $this->configureResource($role, VideoScript::class, [CrudPermission::VIEW()]);
 
         // Special Permissions
-        $this->configureAbilities($role, [SpecialPermission::VIEW_NOVA]);
+        $this->configureAbilities(
+            $role,
+            [
+                SpecialPermission::BYPASS_FEATURE_FLAGS,
+                SpecialPermission::VIEW_NOVA,
+            ]
+        );
     }
 }

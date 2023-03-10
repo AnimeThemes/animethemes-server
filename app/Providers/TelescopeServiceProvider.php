@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Enums\Auth\SpecialPermission;
 use App\Models\Auth\User;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Telescope\IncomingEntry;
@@ -72,6 +73,6 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
      */
     protected function gate(): void
     {
-        Gate::define('viewTelescope', fn (User $user) => $user->can('view telescope'));
+        Gate::define('viewTelescope', fn (User $user) => $user->can(SpecialPermission::VIEW_TELESCOPE));
     }
 }

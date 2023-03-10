@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Http\Api\Pivot\Wiki\ArtistSong;
 
+use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Song;
@@ -67,7 +68,7 @@ class ArtistSongDestroyTest extends TestCase
         $artist = Artist::factory()->createOne();
         $song = Song::factory()->createOne();
 
-        $user = User::factory()->withPermissions(['delete artist', 'delete song'])->createOne();
+        $user = User::factory()->withPermissions([CrudPermission::DELETE()->format(Artist::class), CrudPermission::DELETE()->format(Song::class)])->createOne();
 
         Sanctum::actingAs($user);
 
@@ -88,7 +89,7 @@ class ArtistSongDestroyTest extends TestCase
             ->for(Song::factory())
             ->createOne();
 
-        $user = User::factory()->withPermissions(['delete artist', 'delete song'])->createOne();
+        $user = User::factory()->withPermissions([CrudPermission::DELETE()->format(Artist::class), CrudPermission::DELETE()->format(Song::class)])->createOne();
 
         Sanctum::actingAs($user);
 

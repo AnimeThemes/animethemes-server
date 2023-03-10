@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Wiki\Image;
 
+use App\Enums\Auth\CrudPermission;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Http\Api\Field\Wiki\Image\ImageFileField;
 use App\Models\Auth\User;
@@ -63,7 +64,7 @@ class ImageStoreTest extends TestCase
      */
     public function testRequiredFields(): void
     {
-        $user = User::factory()->withPermission('create image')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::CREATE()->format(Image::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -85,7 +86,7 @@ class ImageStoreTest extends TestCase
 
         $parameters = [Image::ATTRIBUTE_FACET => ImageFacet::getRandomInstance()->description];
 
-        $user = User::factory()->withPermission('create image')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::CREATE()->format(Image::class))->createOne();
 
         Sanctum::actingAs($user);
 

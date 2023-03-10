@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Wiki\Anime\Theme;
 
+use App\Enums\Auth\ExtendedCrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
@@ -63,7 +64,7 @@ class ThemeRestoreTest extends TestCase
     {
         $theme = AnimeTheme::factory()->for(Anime::factory())->createOne();
 
-        $user = User::factory()->withPermission('restore anime theme')->createOne();
+        $user = User::factory()->withPermission(ExtendedCrudPermission::RESTORE()->format(AnimeTheme::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -83,7 +84,7 @@ class ThemeRestoreTest extends TestCase
 
         $theme->delete();
 
-        $user = User::factory()->withPermission('restore anime theme')->createOne();
+        $user = User::factory()->withPermission(ExtendedCrudPermission::RESTORE()->format(AnimeTheme::class))->createOne();
 
         Sanctum::actingAs($user);
 

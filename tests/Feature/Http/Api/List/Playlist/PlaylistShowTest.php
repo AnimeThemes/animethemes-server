@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\List\Playlist;
 
+use App\Enums\Auth\CrudPermission;
 use App\Enums\Models\List\PlaylistVisibility;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Http\Api\Field\Field;
@@ -63,7 +64,7 @@ class PlaylistShowTest extends TestCase
                 Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PRIVATE,
             ]);
 
-        $user = User::factory()->withPermission('view playlist')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::VIEW()->format(Playlist::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -79,7 +80,7 @@ class PlaylistShowTest extends TestCase
      */
     public function testPrivatePlaylistCanBeViewedByOwner(): void
     {
-        $user = User::factory()->withPermission('view playlist')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::VIEW()->format(Playlist::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)

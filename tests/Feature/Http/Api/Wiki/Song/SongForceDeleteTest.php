@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Wiki\Song;
 
+use App\Enums\Auth\ExtendedCrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Song;
 use Illuminate\Foundation\Testing\WithoutEvents;
@@ -58,7 +59,7 @@ class SongForceDeleteTest extends TestCase
     {
         $song = Song::factory()->createOne();
 
-        $user = User::factory()->withPermission('force delete song')->createOne();
+        $user = User::factory()->withPermission(ExtendedCrudPermission::FORCE_DELETE()->format(Song::class))->createOne();
 
         Sanctum::actingAs($user);
 

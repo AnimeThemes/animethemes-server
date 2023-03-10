@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Billing\Balance;
 
+use App\Enums\Auth\ExtendedCrudPermission;
 use App\Models\Auth\User;
 use App\Models\Billing\Balance;
 use Illuminate\Foundation\Testing\WithoutEvents;
@@ -62,7 +63,7 @@ class BalanceRestoreTest extends TestCase
     {
         $balance = Balance::factory()->createOne();
 
-        $user = User::factory()->withPermission('restore balance')->createOne();
+        $user = User::factory()->withPermission(ExtendedCrudPermission::RESTORE()->format(Balance::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -82,7 +83,7 @@ class BalanceRestoreTest extends TestCase
 
         $balance->delete();
 
-        $user = User::factory()->withPermission('restore balance')->createOne();
+        $user = User::factory()->withPermission(ExtendedCrudPermission::RESTORE()->format(Balance::class))->createOne();
 
         Sanctum::actingAs($user);
 

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Admin\Dump;
 
+use App\Enums\Auth\ExtendedCrudPermission;
 use App\Models\Admin\Dump;
 use App\Models\Auth\User;
 use Illuminate\Foundation\Testing\WithoutEvents;
@@ -62,7 +63,7 @@ class DumpRestoreTest extends TestCase
     {
         $dump = Dump::factory()->createOne();
 
-        $user = User::factory()->withPermission('restore dump')->createOne();
+        $user = User::factory()->withPermission(ExtendedCrudPermission::RESTORE()->format(Dump::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -82,7 +83,7 @@ class DumpRestoreTest extends TestCase
 
         $dump->delete();
 
-        $user = User::factory()->withPermission('restore dump')->createOne();
+        $user = User::factory()->withPermission(ExtendedCrudPermission::RESTORE()->format(Dump::class))->createOne();
 
         Sanctum::actingAs($user);
 

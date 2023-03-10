@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Wiki\Audio;
 
+use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Audio;
 use Illuminate\Foundation\Testing\WithoutEvents;
@@ -60,7 +61,7 @@ class AudioDestroyTest extends TestCase
 
         $audio->delete();
 
-        $user = User::factory()->withPermission('delete audio')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::DELETE()->format(Audio::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -78,7 +79,7 @@ class AudioDestroyTest extends TestCase
     {
         $audio = Audio::factory()->createOne();
 
-        $user = User::factory()->withPermission('delete audio')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::DELETE()->format(Audio::class))->createOne();
 
         Sanctum::actingAs($user);
 

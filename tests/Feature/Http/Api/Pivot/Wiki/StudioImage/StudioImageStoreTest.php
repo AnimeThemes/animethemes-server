@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Http\Api\Pivot\Wiki\StudioImage;
 
+use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Image;
 use App\Models\Wiki\Studio;
@@ -64,7 +65,7 @@ class StudioImageStoreTest extends TestCase
      */
     public function testRequiredFields(): void
     {
-        $user = User::factory()->withPermissions(['create studio', 'create image'])->createOne();
+        $user = User::factory()->withPermissions([CrudPermission::CREATE()->format(Studio::class), CrudPermission::CREATE()->format(Image::class)])->createOne();
 
         Sanctum::actingAs($user);
 
@@ -88,7 +89,7 @@ class StudioImageStoreTest extends TestCase
             StudioImage::ATTRIBUTE_IMAGE => Image::factory()->createOne()->getKey(),
         ];
 
-        $user = User::factory()->withPermissions(['create studio', 'create image'])->createOne();
+        $user = User::factory()->withPermissions([CrudPermission::CREATE()->format(Studio::class), CrudPermission::CREATE()->format(Image::class)])->createOne();
 
         Sanctum::actingAs($user);
 

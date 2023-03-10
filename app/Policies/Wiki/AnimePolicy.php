@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Policies\Wiki;
 
+use App\Enums\Auth\CrudPermission;
+use App\Enums\Auth\ExtendedCrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Image;
@@ -31,7 +33,7 @@ class AnimePolicy
     public function viewAny(?User $user): bool
     {
         return Nova::whenServing(
-            fn (): bool => $user !== null && $user->can('view anime'),
+            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW()->format(Anime::class)),
             fn (): bool => true
         );
     }
@@ -45,7 +47,7 @@ class AnimePolicy
     public function view(?User $user): bool
     {
         return Nova::whenServing(
-            fn (): bool => $user !== null && $user->can('view anime'),
+            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW()->format(Anime::class)),
             fn (): bool => true
         );
     }
@@ -58,7 +60,7 @@ class AnimePolicy
      */
     public function create(User $user): bool
     {
-        return $user->can('create anime');
+        return $user->can(CrudPermission::CREATE()->format(Anime::class));
     }
 
     /**
@@ -70,7 +72,7 @@ class AnimePolicy
      */
     public function update(User $user, Anime $anime): bool
     {
-        return ! $anime->trashed() && $user->can('update anime');
+        return ! $anime->trashed() && $user->can(CrudPermission::UPDATE()->format(Anime::class));
     }
 
     /**
@@ -82,7 +84,7 @@ class AnimePolicy
      */
     public function delete(User $user, Anime $anime): bool
     {
-        return ! $anime->trashed() && $user->can('delete anime');
+        return ! $anime->trashed() && $user->can(CrudPermission::DELETE()->format(Anime::class));
     }
 
     /**
@@ -94,7 +96,7 @@ class AnimePolicy
      */
     public function restore(User $user, Anime $anime): bool
     {
-        return $anime->trashed() && $user->can('restore anime');
+        return $anime->trashed() && $user->can(ExtendedCrudPermission::RESTORE()->format(Anime::class));
     }
 
     /**
@@ -105,7 +107,7 @@ class AnimePolicy
      */
     public function forceDelete(User $user): bool
     {
-        return $user->can('force delete anime');
+        return $user->can(ExtendedCrudPermission::FORCE_DELETE()->format(Anime::class));
     }
 
     /**
@@ -116,7 +118,7 @@ class AnimePolicy
      */
     public function attachAnySeries(User $user): bool
     {
-        return $user->can('update anime');
+        return $user->can(CrudPermission::UPDATE()->format(Anime::class));
     }
 
     /**
@@ -134,7 +136,7 @@ class AnimePolicy
             ->where($series->getKeyName(), $series->getKey())
             ->exists();
 
-        return ! $attached && $user->can('update anime');
+        return ! $attached && $user->can(CrudPermission::UPDATE()->format(Anime::class));
     }
 
     /**
@@ -145,7 +147,7 @@ class AnimePolicy
      */
     public function detachSeries(User $user): bool
     {
-        return $user->can('update anime');
+        return $user->can(CrudPermission::UPDATE()->format(Anime::class));
     }
 
     /**
@@ -156,7 +158,7 @@ class AnimePolicy
      */
     public function attachAnyExternalResource(User $user): bool
     {
-        return $user->can('update anime');
+        return $user->can(CrudPermission::UPDATE()->format(Anime::class));
     }
 
     /**
@@ -167,7 +169,7 @@ class AnimePolicy
      */
     public function attachExternalResource(User $user): bool
     {
-        return $user->can('update anime');
+        return $user->can(CrudPermission::UPDATE()->format(Anime::class));
     }
 
     /**
@@ -178,7 +180,7 @@ class AnimePolicy
      */
     public function detachExternalResource(User $user): bool
     {
-        return $user->can('update anime');
+        return $user->can(CrudPermission::UPDATE()->format(Anime::class));
     }
 
     /**
@@ -189,7 +191,7 @@ class AnimePolicy
      */
     public function attachAnyImage(User $user): bool
     {
-        return $user->can('update anime');
+        return $user->can(CrudPermission::UPDATE()->format(Anime::class));
     }
 
     /**
@@ -207,7 +209,7 @@ class AnimePolicy
             ->where($image->getKeyName(), $image->getKey())
             ->exists();
 
-        return ! $attached && $user->can('update anime');
+        return ! $attached && $user->can(CrudPermission::UPDATE()->format(Anime::class));
     }
 
     /**
@@ -218,7 +220,7 @@ class AnimePolicy
      */
     public function detachImage(User $user): bool
     {
-        return $user->can('update anime');
+        return $user->can(CrudPermission::UPDATE()->format(Anime::class));
     }
 
     /**
@@ -229,7 +231,7 @@ class AnimePolicy
      */
     public function attachAnyStudio(User $user): bool
     {
-        return $user->can('update anime');
+        return $user->can(CrudPermission::UPDATE()->format(Anime::class));
     }
 
     /**
@@ -247,7 +249,7 @@ class AnimePolicy
             ->where($studio->getKeyName(), $studio->getKey())
             ->exists();
 
-        return ! $attached && $user->can('update anime');
+        return ! $attached && $user->can(CrudPermission::UPDATE()->format(Anime::class));
     }
 
     /**
@@ -258,6 +260,6 @@ class AnimePolicy
      */
     public function detachStudio(User $user): bool
     {
-        return $user->can('update anime');
+        return $user->can(CrudPermission::UPDATE()->format(Anime::class));
     }
 }

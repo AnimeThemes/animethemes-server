@@ -6,13 +6,16 @@ namespace Tests\Feature\Http\Wiki\Audio;
 
 use App\Constants\Config\AudioConstants;
 use App\Constants\Config\FlagConstants;
+use App\Enums\Auth\SpecialPermission;
 use App\Enums\Http\StreamingMethod;
+use App\Models\Auth\User;
 use App\Models\Wiki\Audio;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
+use Laravel\Sanctum\Sanctum;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Tests\TestCase;
 
@@ -41,6 +44,30 @@ class AudioTest extends TestCase
         $response = $this->get(route('audio.show', ['audio' => $audio]));
 
         $response->assertForbidden();
+    }
+
+    /**
+     * Users with the bypass feature flag permission shall be permitted to stream audio
+     * even if the 'flags.allow_audio_streams' property is disabled.
+     *
+     * @return void
+     */
+    public function testAudioStreamingPermittedForBypass(): void
+    {
+        Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
+
+        Config::set(FlagConstants::ALLOW_AUDIO_STREAMS_FLAG_QUALIFIED, $this->faker->boolean());
+        Config::set(AudioConstants::STREAMING_METHOD_QUALIFIED, StreamingMethod::getRandomValue());
+
+        $audio = Audio::factory()->createOne();
+
+        $user = User::factory()->withPermission(SpecialPermission::BYPASS_FEATURE_FLAGS)->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->get(route('audio.show', ['audio' => $audio]));
+
+        $response->assertSuccessful();
     }
 
     /**

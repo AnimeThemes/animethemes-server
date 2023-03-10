@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Http\Api\Pivot\Wiki\ArtistResource;
 
+use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\ExternalResource;
@@ -75,7 +76,7 @@ class ArtistResourceUpdateTest extends TestCase
 
         $parameters = ArtistResource::factory()->raw();
 
-        $user = User::factory()->withPermissions(['update artist', 'update external resource'])->createOne();
+        $user = User::factory()->withPermissions([CrudPermission::UPDATE()->format(Artist::class), CrudPermission::UPDATE()->format(ExternalResource::class)])->createOne();
 
         Sanctum::actingAs($user);
 

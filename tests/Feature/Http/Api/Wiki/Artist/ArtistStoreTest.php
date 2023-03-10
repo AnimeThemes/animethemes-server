@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Wiki\Artist;
 
+use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Artist;
 use Illuminate\Foundation\Testing\WithoutEvents;
@@ -56,7 +57,7 @@ class ArtistStoreTest extends TestCase
      */
     public function testRequiredFields(): void
     {
-        $user = User::factory()->withPermission('create artist')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::CREATE()->format(Artist::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -77,7 +78,7 @@ class ArtistStoreTest extends TestCase
     {
         $parameters = Artist::factory()->raw();
 
-        $user = User::factory()->withPermission('create artist')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::CREATE()->format(Artist::class))->createOne();
 
         Sanctum::actingAs($user);
 

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Policies\Document;
 
+use App\Enums\Auth\CrudPermission;
+use App\Enums\Auth\ExtendedCrudPermission;
 use App\Models\Auth\User;
 use App\Models\Document\Page;
 use Illuminate\Auth\Access\HandlesAuthorization;
@@ -25,7 +27,7 @@ class PagePolicy
     public function viewAny(?User $user): bool
     {
         return Nova::whenServing(
-            fn (): bool => $user !== null && $user->can('view page'),
+            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW()->format(Page::class)),
             fn (): bool => true
         );
     }
@@ -39,7 +41,7 @@ class PagePolicy
     public function view(?User $user): bool
     {
         return Nova::whenServing(
-            fn (): bool => $user !== null && $user->can('view page'),
+            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW()->format(Page::class)),
             fn (): bool => true
         );
     }
@@ -52,7 +54,7 @@ class PagePolicy
      */
     public function create(User $user): bool
     {
-        return $user->can('create page');
+        return $user->can(CrudPermission::CREATE()->format(Page::class));
     }
 
     /**
@@ -64,7 +66,7 @@ class PagePolicy
      */
     public function update(User $user, Page $page): bool
     {
-        return ! $page->trashed() && $user->can('update page');
+        return ! $page->trashed() && $user->can(CrudPermission::UPDATE()->format(Page::class));
     }
 
     /**
@@ -76,7 +78,7 @@ class PagePolicy
      */
     public function delete(User $user, Page $page): bool
     {
-        return ! $page->trashed() && $user->can('delete page');
+        return ! $page->trashed() && $user->can(CrudPermission::DELETE()->format(Page::class));
     }
 
     /**
@@ -88,7 +90,7 @@ class PagePolicy
      */
     public function restore(User $user, Page $page): bool
     {
-        return $page->trashed() && $user->can('restore page');
+        return $page->trashed() && $user->can(ExtendedCrudPermission::RESTORE()->format(Page::class));
     }
 
     /**
@@ -99,6 +101,6 @@ class PagePolicy
      */
     public function forceDelete(User $user): bool
     {
-        return $user->can('force delete page');
+        return $user->can(ExtendedCrudPermission::FORCE_DELETE()->format(Page::class));
     }
 }

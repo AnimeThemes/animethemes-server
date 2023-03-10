@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Policies\Wiki;
 
+use App\Enums\Auth\CrudPermission;
+use App\Enums\Auth\ExtendedCrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\ExternalResource;
 use Illuminate\Auth\Access\HandlesAuthorization;
@@ -25,7 +27,7 @@ class ExternalResourcePolicy
     public function viewAny(?User $user): bool
     {
         return Nova::whenServing(
-            fn (): bool => $user !== null && $user->can('view external resource'),
+            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW()->format(ExternalResource::class)),
             fn (): bool => true
         );
     }
@@ -39,7 +41,7 @@ class ExternalResourcePolicy
     public function view(?User $user): bool
     {
         return Nova::whenServing(
-            fn (): bool => $user !== null && $user->can('view external resource'),
+            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW()->format(ExternalResource::class)),
             fn (): bool => true
         );
     }
@@ -52,7 +54,7 @@ class ExternalResourcePolicy
      */
     public function create(User $user): bool
     {
-        return $user->can('create external resource');
+        return $user->can(CrudPermission::CREATE()->format(ExternalResource::class));
     }
 
     /**
@@ -64,7 +66,7 @@ class ExternalResourcePolicy
      */
     public function update(User $user, ExternalResource $resource): bool
     {
-        return ! $resource->trashed() && $user->can('update external resource');
+        return ! $resource->trashed() && $user->can(CrudPermission::UPDATE()->format(ExternalResource::class));
     }
 
     /**
@@ -76,7 +78,7 @@ class ExternalResourcePolicy
      */
     public function delete(User $user, ExternalResource $resource): bool
     {
-        return ! $resource->trashed() && $user->can('delete external resource');
+        return ! $resource->trashed() && $user->can(CrudPermission::DELETE()->format(ExternalResource::class));
     }
 
     /**
@@ -88,7 +90,7 @@ class ExternalResourcePolicy
      */
     public function restore(User $user, ExternalResource $resource): bool
     {
-        return $resource->trashed() && $user->can('restore external resource');
+        return $resource->trashed() && $user->can(ExtendedCrudPermission::RESTORE()->format(ExternalResource::class));
     }
 
     /**
@@ -99,7 +101,7 @@ class ExternalResourcePolicy
      */
     public function forceDelete(User $user): bool
     {
-        return $user->can('force delete external resource');
+        return $user->can(ExtendedCrudPermission::FORCE_DELETE()->format(ExternalResource::class));
     }
 
     /**
@@ -110,7 +112,7 @@ class ExternalResourcePolicy
      */
     public function attachAnyArtist(User $user): bool
     {
-        return $user->can('update external resource');
+        return $user->can(CrudPermission::UPDATE()->format(ExternalResource::class));
     }
 
     /**
@@ -121,7 +123,7 @@ class ExternalResourcePolicy
      */
     public function attachArtist(User $user): bool
     {
-        return $user->can('update external resource');
+        return $user->can(CrudPermission::UPDATE()->format(ExternalResource::class));
     }
 
     /**
@@ -132,7 +134,7 @@ class ExternalResourcePolicy
      */
     public function detachArtist(User $user): bool
     {
-        return $user->can('update external resource');
+        return $user->can(CrudPermission::UPDATE()->format(ExternalResource::class));
     }
 
     /**
@@ -143,7 +145,7 @@ class ExternalResourcePolicy
      */
     public function attachAnyAnime(User $user): bool
     {
-        return $user->can('update external resource');
+        return $user->can(CrudPermission::UPDATE()->format(ExternalResource::class));
     }
 
     /**
@@ -154,7 +156,7 @@ class ExternalResourcePolicy
      */
     public function attachAnime(User $user): bool
     {
-        return $user->can('update external resource');
+        return $user->can(CrudPermission::UPDATE()->format(ExternalResource::class));
     }
 
     /**
@@ -165,7 +167,7 @@ class ExternalResourcePolicy
      */
     public function detachAnime(User $user): bool
     {
-        return $user->can('update external resource');
+        return $user->can(CrudPermission::UPDATE()->format(ExternalResource::class));
     }
 
     /**
@@ -176,7 +178,7 @@ class ExternalResourcePolicy
      */
     public function attachAnyStudio(User $user): bool
     {
-        return $user->can('update external resource');
+        return $user->can(CrudPermission::UPDATE()->format(ExternalResource::class));
     }
 
     /**
@@ -187,7 +189,7 @@ class ExternalResourcePolicy
      */
     public function attachStudio(User $user): bool
     {
-        return $user->can('update external resource');
+        return $user->can(CrudPermission::UPDATE()->format(ExternalResource::class));
     }
 
     /**
@@ -198,6 +200,6 @@ class ExternalResourcePolicy
      */
     public function detachStudio(User $user): bool
     {
-        return $user->can('update external resource');
+        return $user->can(CrudPermission::UPDATE()->format(ExternalResource::class));
     }
 }

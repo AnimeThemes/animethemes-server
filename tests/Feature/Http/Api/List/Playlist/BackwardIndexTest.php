@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Http\Api\List\Playlist;
 
 use App\Contracts\Http\Api\Field\SortableField;
+use App\Enums\Auth\CrudPermission;
 use App\Enums\Http\Api\Sort\Direction;
 use App\Enums\Models\List\PlaylistVisibility;
 use App\Http\Api\Criteria\Paging\Criteria;
@@ -71,7 +72,7 @@ class BackwardIndexTest extends TestCase
                 Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PRIVATE,
             ]);
 
-        $user = User::factory()->withPermission('view playlist track')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::VIEW()->format(PlaylistTrack::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -87,7 +88,7 @@ class BackwardIndexTest extends TestCase
      */
     public function testPrivatePlaylistTrackCanBeViewedByOwner(): void
     {
-        $user = User::factory()->withPermission('view playlist track')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::VIEW()->format(PlaylistTrack::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)

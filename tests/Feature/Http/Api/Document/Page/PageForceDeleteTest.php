@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Document\Page;
 
+use App\Enums\Auth\ExtendedCrudPermission;
 use App\Models\Auth\User;
 use App\Models\Document\Page;
 use Illuminate\Foundation\Testing\WithoutEvents;
@@ -58,7 +59,7 @@ class PageForceDeleteTest extends TestCase
     {
         $page = Page::factory()->createOne();
 
-        $user = User::factory()->withPermission('force delete page')->createOne();
+        $user = User::factory()->withPermission(ExtendedCrudPermission::FORCE_DELETE()->format(Page::class))->createOne();
 
         Sanctum::actingAs($user);
 

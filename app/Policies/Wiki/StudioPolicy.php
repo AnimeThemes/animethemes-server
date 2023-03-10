@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Policies\Wiki;
 
+use App\Enums\Auth\CrudPermission;
+use App\Enums\Auth\ExtendedCrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Image;
@@ -29,7 +31,7 @@ class StudioPolicy
     public function viewAny(?User $user): bool
     {
         return Nova::whenServing(
-            fn (): bool => $user !== null && $user->can('view studio'),
+            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW()->format(Studio::class)),
             fn (): bool => true
         );
     }
@@ -43,7 +45,7 @@ class StudioPolicy
     public function view(?User $user): bool
     {
         return Nova::whenServing(
-            fn (): bool => $user !== null && $user->can('view studio'),
+            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW()->format(Studio::class)),
             fn (): bool => true
         );
     }
@@ -56,7 +58,7 @@ class StudioPolicy
      */
     public function create(User $user): bool
     {
-        return $user->can('create studio');
+        return $user->can(CrudPermission::CREATE()->format(Studio::class));
     }
 
     /**
@@ -68,7 +70,7 @@ class StudioPolicy
      */
     public function update(User $user, Studio $studio): bool
     {
-        return ! $studio->trashed() && $user->can('update studio');
+        return ! $studio->trashed() && $user->can(CrudPermission::UPDATE()->format(Studio::class));
     }
 
     /**
@@ -80,7 +82,7 @@ class StudioPolicy
      */
     public function delete(User $user, Studio $studio): bool
     {
-        return ! $studio->trashed() && $user->can('delete studio');
+        return ! $studio->trashed() && $user->can(CrudPermission::DELETE()->format(Studio::class));
     }
 
     /**
@@ -92,7 +94,7 @@ class StudioPolicy
      */
     public function restore(User $user, Studio $studio): bool
     {
-        return $studio->trashed() && $user->can('restore studio');
+        return $studio->trashed() && $user->can(ExtendedCrudPermission::RESTORE()->format(Studio::class));
     }
 
     /**
@@ -103,7 +105,7 @@ class StudioPolicy
      */
     public function forceDelete(User $user): bool
     {
-        return $user->can('force delete studio');
+        return $user->can(ExtendedCrudPermission::FORCE_DELETE()->format(Studio::class));
     }
 
     /**
@@ -114,7 +116,7 @@ class StudioPolicy
      */
     public function attachAnyAnime(User $user): bool
     {
-        return $user->can('update studio');
+        return $user->can(CrudPermission::UPDATE()->format(Studio::class));
     }
 
     /**
@@ -132,7 +134,7 @@ class StudioPolicy
             ->where($studio->getKeyName(), $studio->getKey())
             ->exists();
 
-        return ! $attached && $user->can('update studio');
+        return ! $attached && $user->can(CrudPermission::UPDATE()->format(Studio::class));
     }
 
     /**
@@ -143,7 +145,7 @@ class StudioPolicy
      */
     public function detachAnime(User $user): bool
     {
-        return $user->can('update studio');
+        return $user->can(CrudPermission::UPDATE()->format(Studio::class));
     }
 
     /**
@@ -154,7 +156,7 @@ class StudioPolicy
      */
     public function attachAnyExternalResource(User $user): bool
     {
-        return $user->can('update studio');
+        return $user->can(CrudPermission::UPDATE()->format(Studio::class));
     }
 
     /**
@@ -165,7 +167,7 @@ class StudioPolicy
      */
     public function attachExternalResource(User $user): bool
     {
-        return $user->can('update studio');
+        return $user->can(CrudPermission::UPDATE()->format(Studio::class));
     }
 
     /**
@@ -176,7 +178,7 @@ class StudioPolicy
      */
     public function detachExternalResource(User $user): bool
     {
-        return $user->can('update studio');
+        return $user->can(CrudPermission::UPDATE()->format(Studio::class));
     }
 
     /**
@@ -187,7 +189,7 @@ class StudioPolicy
      */
     public function attachAnyImage(User $user): bool
     {
-        return $user->can('update studio');
+        return $user->can(CrudPermission::UPDATE()->format(Studio::class));
     }
 
     /**
@@ -205,7 +207,7 @@ class StudioPolicy
             ->where($image->getKeyName(), $image->getKey())
             ->exists();
 
-        return ! $attached && $user->can('update studio');
+        return ! $attached && $user->can(CrudPermission::UPDATE()->format(Studio::class));
     }
 
     /**
@@ -216,6 +218,6 @@ class StudioPolicy
      */
     public function detachImage(User $user): bool
     {
-        return $user->can('update studio');
+        return $user->can(CrudPermission::UPDATE()->format(Studio::class));
     }
 }

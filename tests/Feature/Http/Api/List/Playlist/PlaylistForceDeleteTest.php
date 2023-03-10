@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\List\Playlist;
 
+use App\Enums\Auth\ExtendedCrudPermission;
 use App\Models\Auth\User;
 use App\Models\List\Playlist;
 use Illuminate\Foundation\Testing\WithoutEvents;
@@ -58,7 +59,7 @@ class PlaylistForceDeleteTest extends TestCase
     {
         $playlist = Playlist::factory()->createOne();
 
-        $user = User::factory()->withPermission('force delete playlist')->createOne();
+        $user = User::factory()->withPermission(ExtendedCrudPermission::FORCE_DELETE()->format(Playlist::class))->createOne();
 
         Sanctum::actingAs($user);
 

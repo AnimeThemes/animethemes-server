@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\List\Playlist;
 
+use App\Enums\Auth\CrudPermission;
 use App\Enums\Models\List\PlaylistVisibility;
 use App\Models\Auth\User;
 use App\Models\List\Playlist;
@@ -77,7 +78,7 @@ class PlaylistUpdateTest extends TestCase
             [Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::getRandomInstance()->description],
         );
 
-        $user = User::factory()->withPermission('update playlist')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::UPDATE()->format(Playlist::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -93,7 +94,7 @@ class PlaylistUpdateTest extends TestCase
      */
     public function testTrashed(): void
     {
-        $user = User::factory()->withPermission('update playlist')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::UPDATE()->format(Playlist::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)
@@ -132,7 +133,7 @@ class PlaylistUpdateTest extends TestCase
      */
     public function testUpdate(): void
     {
-        $user = User::factory()->withPermission('update playlist')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::UPDATE()->format(Playlist::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)

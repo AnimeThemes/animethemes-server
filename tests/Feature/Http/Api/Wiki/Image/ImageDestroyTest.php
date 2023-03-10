@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Wiki\Image;
 
+use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Image;
 use Illuminate\Foundation\Testing\WithoutEvents;
@@ -60,7 +61,7 @@ class ImageDestroyTest extends TestCase
 
         $image->delete();
 
-        $user = User::factory()->withPermission('delete image')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::DELETE()->format(Image::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -78,7 +79,7 @@ class ImageDestroyTest extends TestCase
     {
         $image = Image::factory()->createOne();
 
-        $user = User::factory()->withPermission('delete image')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::DELETE()->format(Image::class))->createOne();
 
         Sanctum::actingAs($user);
 

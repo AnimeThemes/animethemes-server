@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Wiki\Anime\Theme;
 
+use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
@@ -61,7 +62,7 @@ class ThemeDestroyTest extends TestCase
 
         $theme->delete();
 
-        $user = User::factory()->withPermission('delete anime theme')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::DELETE()->format(AnimeTheme::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -79,7 +80,7 @@ class ThemeDestroyTest extends TestCase
     {
         $theme = AnimeTheme::factory()->for(Anime::factory())->createOne();
 
-        $user = User::factory()->withPermission('delete anime theme')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::DELETE()->format(AnimeTheme::class))->createOne();
 
         Sanctum::actingAs($user);
 

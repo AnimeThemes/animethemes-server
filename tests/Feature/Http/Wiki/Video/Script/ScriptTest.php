@@ -6,12 +6,15 @@ namespace Tests\Feature\Http\Wiki\Video\Script;
 
 use App\Constants\Config\FlagConstants;
 use App\Constants\Config\VideoConstants;
+use App\Enums\Auth\SpecialPermission;
+use App\Models\Auth\User;
 use App\Models\Wiki\Video\VideoScript;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
+use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
 /**
@@ -37,6 +40,33 @@ class ScriptTest extends TestCase
         $response = $this->get(route('videoscript.show', ['videoscript' => $script]));
 
         $response->assertForbidden();
+    }
+
+    /**
+     * Users with the bypass feature flag permission shall be permitted to download scripts
+     * even if the 'flags.allow_script_downloading' property is disabled.
+     *
+     * @return void
+     */
+    public function testVideoStreamingPermittedForBypass(): void
+    {
+        Config::set(FlagConstants::ALLOW_SCRIPT_DOWNLOADING_FLAG_QUALIFIED, $this->faker->boolean());
+
+        $fs = Storage::fake(Config::get(VideoConstants::SCRIPT_DISK_QUALIFIED));
+        $file = File::fake()->create($this->faker->word().'.txt');
+        $fsFile = $fs->putFile('', $file);
+
+        $script = VideoScript::factory()->createOne([
+            VideoScript::ATTRIBUTE_PATH => $fsFile,
+        ]);
+
+        $user = User::factory()->withPermission(SpecialPermission::BYPASS_FEATURE_FLAGS)->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->get(route('videoscript.show', ['videoscript' => $script]));
+
+        $response->assertDownload($script->path);
     }
 
     /**

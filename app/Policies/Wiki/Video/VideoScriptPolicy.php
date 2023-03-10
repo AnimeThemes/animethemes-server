@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Policies\Wiki\Video;
 
+use App\Enums\Auth\CrudPermission;
+use App\Enums\Auth\ExtendedCrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Video\VideoScript;
 use Illuminate\Auth\Access\HandlesAuthorization;
@@ -25,7 +27,7 @@ class VideoScriptPolicy
     public function viewAny(?User $user): bool
     {
         return Nova::whenServing(
-            fn (): bool => $user !== null && $user->can('view video script'),
+            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW()->format(VideoScript::class)),
             fn (): bool => true
         );
     }
@@ -39,7 +41,7 @@ class VideoScriptPolicy
     public function view(?User $user): bool
     {
         return Nova::whenServing(
-            fn (): bool => $user !== null && $user->can('view video script'),
+            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW()->format(VideoScript::class)),
             fn (): bool => true
         );
     }
@@ -52,7 +54,7 @@ class VideoScriptPolicy
      */
     public function create(User $user): bool
     {
-        return $user->can('create video script');
+        return $user->can(CrudPermission::CREATE()->format(VideoScript::class));
     }
 
     /**
@@ -64,7 +66,7 @@ class VideoScriptPolicy
      */
     public function update(User $user, VideoScript $videoscript): bool
     {
-        return ! $videoscript->trashed() && $user->can('update video script');
+        return ! $videoscript->trashed() && $user->can(CrudPermission::UPDATE()->format(VideoScript::class));
     }
 
     /**
@@ -76,7 +78,7 @@ class VideoScriptPolicy
      */
     public function delete(User $user, VideoScript $videoscript): bool
     {
-        return ! $videoscript->trashed() && $user->can('delete video script');
+        return ! $videoscript->trashed() && $user->can(CrudPermission::DELETE()->format(VideoScript::class));
     }
 
     /**
@@ -88,7 +90,7 @@ class VideoScriptPolicy
      */
     public function restore(User $user, VideoScript $videoscript): bool
     {
-        return $videoscript->trashed() && $user->can('restore video script');
+        return $videoscript->trashed() && $user->can(ExtendedCrudPermission::RESTORE()->format(VideoScript::class));
     }
 
     /**
@@ -99,6 +101,6 @@ class VideoScriptPolicy
      */
     public function forceDelete(User $user): bool
     {
-        return $user->can('force delete video script');
+        return $user->can(ExtendedCrudPermission::FORCE_DELETE()->format(VideoScript::class));
     }
 }

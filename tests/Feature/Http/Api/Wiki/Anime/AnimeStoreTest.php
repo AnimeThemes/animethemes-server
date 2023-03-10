@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Wiki\Anime;
 
+use App\Enums\Auth\CrudPermission;
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
@@ -57,7 +58,7 @@ class AnimeStoreTest extends TestCase
      */
     public function testRequiredFields(): void
     {
-        $user = User::factory()->withPermission('create anime')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::CREATE()->format(Anime::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -83,7 +84,7 @@ class AnimeStoreTest extends TestCase
             [Anime::ATTRIBUTE_SEASON => AnimeSeason::getRandomInstance()->description],
         );
 
-        $user = User::factory()->withPermission('create anime')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::CREATE()->format(Anime::class))->createOne();
 
         Sanctum::actingAs($user);
 

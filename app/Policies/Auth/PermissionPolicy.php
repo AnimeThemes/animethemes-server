@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Policies\Auth;
 
+use App\Enums\Auth\CrudPermission;
+use App\Enums\Auth\ExtendedCrudPermission;
+use App\Models\Auth\Permission;
 use App\Models\Auth\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
@@ -22,7 +25,7 @@ class PermissionPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->can('view permission');
+        return $user->can(CrudPermission::VIEW()->format(Permission::class));
     }
 
     /**
@@ -33,7 +36,7 @@ class PermissionPolicy
      */
     public function view(User $user): bool
     {
-        return $user->can('view permission');
+        return $user->can(CrudPermission::VIEW()->format(Permission::class));
     }
 
     /**
@@ -44,7 +47,7 @@ class PermissionPolicy
      */
     public function create(User $user): bool
     {
-        return $user->can('create permission');
+        return $user->can(CrudPermission::CREATE()->format(Permission::class));
     }
 
     /**
@@ -55,7 +58,7 @@ class PermissionPolicy
      */
     public function update(User $user): bool
     {
-        return $user->can('update permission');
+        return $user->can(CrudPermission::UPDATE()->format(Permission::class));
     }
 
     /**
@@ -66,7 +69,7 @@ class PermissionPolicy
      */
     public function delete(User $user): bool
     {
-        return $user->can('delete permission');
+        return $user->can(CrudPermission::DELETE()->format(Permission::class));
     }
 
     /**
@@ -77,7 +80,7 @@ class PermissionPolicy
      */
     public function restore(User $user): bool
     {
-        return $user->can('restore permission');
+        return $user->can(ExtendedCrudPermission::RESTORE()->format(Permission::class));
     }
 
     /**
@@ -88,7 +91,7 @@ class PermissionPolicy
      */
     public function forceDelete(User $user): bool
     {
-        return $user->can('force delete permission');
+        return $user->can(ExtendedCrudPermission::FORCE_DELETE()->format(Permission::class));
     }
 
     /**

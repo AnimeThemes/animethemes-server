@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Wiki\Anime\Theme;
 
+use App\Enums\Auth\CrudPermission;
 use App\Enums\Models\Wiki\ThemeType;
 use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
@@ -58,7 +59,7 @@ class ThemeStoreTest extends TestCase
      */
     public function testRequiredFields(): void
     {
-        $user = User::factory()->withPermission('create anime theme')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::CREATE()->format(AnimeTheme::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -86,7 +87,7 @@ class ThemeStoreTest extends TestCase
             [AnimeTheme::ATTRIBUTE_ANIME => $anime->getKey()],
         );
 
-        $user = User::factory()->withPermission('create anime theme')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::CREATE()->format(AnimeTheme::class))->createOne();
 
         Sanctum::actingAs($user);
 

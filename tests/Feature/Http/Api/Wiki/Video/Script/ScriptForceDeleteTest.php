@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Wiki\Video\Script;
 
+use App\Enums\Auth\ExtendedCrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Video\VideoScript;
 use Illuminate\Foundation\Testing\WithoutEvents;
@@ -58,7 +59,7 @@ class ScriptForceDeleteTest extends TestCase
     {
         $script = VideoScript::factory()->createOne();
 
-        $user = User::factory()->withPermission('force delete video script')->createOne();
+        $user = User::factory()->withPermission(ExtendedCrudPermission::FORCE_DELETE()->format(VideoScript::class))->createOne();
 
         Sanctum::actingAs($user);
 

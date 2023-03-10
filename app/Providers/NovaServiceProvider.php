@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Enums\Auth\SpecialPermission;
 use App\Models\Auth\User;
 use App\Nova\Dashboards\Main;
 use Illuminate\Http\Request;
@@ -78,7 +79,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
      */
     protected function gate(): void
     {
-        Gate::define('viewNova', fn (User $user) => $user->can('view nova'));
+        Gate::define('viewNova', fn (User $user) => $user->can(SpecialPermission::VIEW_NOVA));
     }
 
     /**

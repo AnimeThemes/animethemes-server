@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Wiki\Video;
 
+use App\Enums\Auth\CrudPermission;
 use App\Enums\Models\Wiki\VideoOverlap;
 use App\Enums\Models\Wiki\VideoSource;
 use App\Models\Auth\User;
@@ -58,7 +59,7 @@ class VideoStoreTest extends TestCase
      */
     public function testRequiredFields(): void
     {
-        $user = User::factory()->withPermission('create video')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::CREATE()->format(Video::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -88,7 +89,7 @@ class VideoStoreTest extends TestCase
             ]
         );
 
-        $user = User::factory()->withPermission('create video')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::CREATE()->format(Video::class))->createOne();
 
         Sanctum::actingAs($user);
 

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Wiki\Artist;
 
+use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Artist;
 use Illuminate\Foundation\Testing\WithoutEvents;
@@ -60,7 +61,7 @@ class ArtistDestroyTest extends TestCase
 
         $artist->delete();
 
-        $user = User::factory()->withPermission('delete artist')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::DELETE()->format(Artist::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -78,7 +79,7 @@ class ArtistDestroyTest extends TestCase
     {
         $artist = Artist::factory()->createOne();
 
-        $user = User::factory()->withPermission('delete artist')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::DELETE()->format(Artist::class))->createOne();
 
         Sanctum::actingAs($user);
 
