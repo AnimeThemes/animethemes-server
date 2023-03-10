@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Http\Api\Pivot\Wiki\AnimeStudio;
 
+use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Studio;
@@ -64,7 +65,7 @@ class AnimeStudioStoreTest extends TestCase
      */
     public function testRequiredFields(): void
     {
-        $user = User::factory()->withPermissions(['create anime', 'create studio'])->createOne();
+        $user = User::factory()->withPermissions([CrudPermission::CREATE()->format(Anime::class), CrudPermission::CREATE()->format(Studio::class)])->createOne();
 
         Sanctum::actingAs($user);
 
@@ -88,7 +89,7 @@ class AnimeStudioStoreTest extends TestCase
             AnimeStudio::ATTRIBUTE_STUDIO => Studio::factory()->createOne()->getKey(),
         ];
 
-        $user = User::factory()->withPermissions(['create anime', 'create studio'])->createOne();
+        $user = User::factory()->withPermissions([CrudPermission::CREATE()->format(Anime::class), CrudPermission::CREATE()->format(Studio::class)])->createOne();
 
         Sanctum::actingAs($user);
 

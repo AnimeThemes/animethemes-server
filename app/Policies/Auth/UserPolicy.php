@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Policies\Auth;
 
+use App\Enums\Auth\CrudPermission;
+use App\Enums\Auth\ExtendedCrudPermission;
 use App\Models\Auth\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
@@ -22,7 +24,7 @@ class UserPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->can('view user');
+        return $user->can(CrudPermission::VIEW()->format(User::class));
     }
 
     /**
@@ -33,7 +35,7 @@ class UserPolicy
      */
     public function view(User $user): bool
     {
-        return $user->can('view user');
+        return $user->can(CrudPermission::VIEW()->format(User::class));
     }
 
     /**
@@ -44,7 +46,7 @@ class UserPolicy
      */
     public function create(User $user): bool
     {
-        return $user->can('create user');
+        return $user->can(CrudPermission::CREATE()->format(User::class));
     }
 
     /**
@@ -55,7 +57,7 @@ class UserPolicy
      */
     public function update(User $user): bool
     {
-        return $user->can('update user');
+        return $user->can(CrudPermission::UPDATE()->format(User::class));
     }
 
     /**
@@ -66,7 +68,7 @@ class UserPolicy
      */
     public function delete(User $user): bool
     {
-        return $user->can('delete user');
+        return $user->can(CrudPermission::DELETE()->format(User::class));
     }
 
     /**
@@ -77,7 +79,7 @@ class UserPolicy
      */
     public function restore(User $user): bool
     {
-        return $user->can('restore user');
+        return $user->can(ExtendedCrudPermission::RESTORE()->format(User::class));
     }
 
     /**
@@ -88,7 +90,7 @@ class UserPolicy
      */
     public function forceDelete(User $user): bool
     {
-        return $user->can('force delete user');
+        return $user->can(ExtendedCrudPermission::FORCE_DELETE()->format(User::class));
     }
 
     /**

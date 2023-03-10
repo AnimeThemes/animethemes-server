@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Policies\Billing;
 
+use App\Enums\Auth\CrudPermission;
+use App\Enums\Auth\ExtendedCrudPermission;
 use App\Models\Auth\User;
 use App\Models\Billing\Balance;
 use Illuminate\Auth\Access\HandlesAuthorization;
@@ -25,7 +27,7 @@ class BalancePolicy
     public function viewAny(?User $user): bool
     {
         return Nova::whenServing(
-            fn (): bool => $user !== null && $user->can('view balance'),
+            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW()->format(Balance::class)),
             fn (): bool => true
         );
     }
@@ -39,7 +41,7 @@ class BalancePolicy
     public function view(?User $user): bool
     {
         return Nova::whenServing(
-            fn (): bool => $user !== null && $user->can('view balance'),
+            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW()->format(Balance::class)),
             fn (): bool => true
         );
     }
@@ -52,7 +54,7 @@ class BalancePolicy
      */
     public function create(User $user): bool
     {
-        return $user->can('create balance');
+        return $user->can(CrudPermission::CREATE()->format(Balance::class));
     }
 
     /**
@@ -64,7 +66,7 @@ class BalancePolicy
      */
     public function update(User $user, Balance $balance): bool
     {
-        return ! $balance->trashed() && $user->can('update balance');
+        return ! $balance->trashed() && $user->can(CrudPermission::UPDATE()->format(Balance::class));
     }
 
     /**
@@ -76,7 +78,7 @@ class BalancePolicy
      */
     public function delete(User $user, Balance $balance): bool
     {
-        return ! $balance->trashed() && $user->can('delete balance');
+        return ! $balance->trashed() && $user->can(CrudPermission::DELETE()->format(Balance::class));
     }
 
     /**
@@ -88,7 +90,7 @@ class BalancePolicy
      */
     public function restore(User $user, Balance $balance): bool
     {
-        return $balance->trashed() && $user->can('restore balance');
+        return $balance->trashed() && $user->can(ExtendedCrudPermission::RESTORE()->format(Balance::class));
     }
 
     /**
@@ -99,6 +101,6 @@ class BalancePolicy
      */
     public function forceDelete(User $user): bool
     {
-        return $user->can('force delete balance');
+        return $user->can(ExtendedCrudPermission::FORCE_DELETE()->format(Balance::class));
     }
 }

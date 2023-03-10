@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Policies\Wiki;
 
+use App\Enums\Auth\CrudPermission;
+use App\Enums\Auth\ExtendedCrudPermission;
 use App\Models\Auth\User;
 use App\Models\List\Playlist;
 use App\Models\Wiki\Anime;
@@ -33,7 +35,7 @@ class ImagePolicy
     public function viewAny(?User $user): bool
     {
         return Nova::whenServing(
-            fn (): bool => $user !== null && $user->can('view image'),
+            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW()->format(Image::class)),
             fn (): bool => true
         );
     }
@@ -47,7 +49,7 @@ class ImagePolicy
     public function view(?User $user): bool
     {
         return Nova::whenServing(
-            fn (): bool => $user !== null && $user->can('view image'),
+            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW()->format(Image::class)),
             fn (): bool => true
         );
     }
@@ -60,7 +62,7 @@ class ImagePolicy
      */
     public function create(User $user): bool
     {
-        return $user->can('create image');
+        return $user->can(CrudPermission::CREATE()->format(Image::class));
     }
 
     /**
@@ -72,7 +74,7 @@ class ImagePolicy
      */
     public function update(User $user, Image $image): bool
     {
-        return ! $image->trashed() && $user->can('update image');
+        return ! $image->trashed() && $user->can(CrudPermission::UPDATE()->format(Image::class));
     }
 
     /**
@@ -84,7 +86,7 @@ class ImagePolicy
      */
     public function delete(User $user, Image $image): bool
     {
-        return ! $image->trashed() && $user->can('delete image');
+        return ! $image->trashed() && $user->can(CrudPermission::DELETE()->format(Image::class));
     }
 
     /**
@@ -96,7 +98,7 @@ class ImagePolicy
      */
     public function restore(User $user, Image $image): bool
     {
-        return $image->trashed() && $user->can('restore image');
+        return $image->trashed() && $user->can(ExtendedCrudPermission::RESTORE()->format(Image::class));
     }
 
     /**
@@ -107,7 +109,7 @@ class ImagePolicy
      */
     public function forceDelete(User $user): bool
     {
-        return $user->can('force delete image');
+        return $user->can(ExtendedCrudPermission::FORCE_DELETE()->format(Image::class));
     }
 
     /**
@@ -118,7 +120,7 @@ class ImagePolicy
      */
     public function attachAnyArtist(User $user): bool
     {
-        return $user->can('update image');
+        return $user->can(CrudPermission::UPDATE()->format(Image::class));
     }
 
     /**
@@ -136,7 +138,7 @@ class ImagePolicy
             ->where($image->getKeyName(), $image->getKey())
             ->exists();
 
-        return ! $attached && $user->can('update image');
+        return ! $attached && $user->can(CrudPermission::UPDATE()->format(Image::class));
     }
 
     /**
@@ -147,7 +149,7 @@ class ImagePolicy
      */
     public function detachArtist(User $user): bool
     {
-        return $user->can('update image');
+        return $user->can(CrudPermission::UPDATE()->format(Image::class));
     }
 
     /**
@@ -158,7 +160,7 @@ class ImagePolicy
      */
     public function attachAnyAnime(User $user): bool
     {
-        return $user->can('update image');
+        return $user->can(CrudPermission::UPDATE()->format(Image::class));
     }
 
     /**
@@ -176,7 +178,7 @@ class ImagePolicy
             ->where($image->getKeyName(), $image->getKey())
             ->exists();
 
-        return ! $attached && $user->can('update image');
+        return ! $attached && $user->can(CrudPermission::UPDATE()->format(Image::class));
     }
 
     /**
@@ -187,7 +189,7 @@ class ImagePolicy
      */
     public function detachAnime(User $user): bool
     {
-        return $user->can('update image');
+        return $user->can(CrudPermission::UPDATE()->format(Image::class));
     }
 
     /**
@@ -198,7 +200,7 @@ class ImagePolicy
      */
     public function attachAnyStudio(User $user): bool
     {
-        return $user->can('update image');
+        return $user->can(CrudPermission::UPDATE()->format(Image::class));
     }
 
     /**
@@ -216,7 +218,7 @@ class ImagePolicy
             ->where($studio->getKeyName(), $studio->getKey())
             ->exists();
 
-        return ! $attached && $user->can('update image');
+        return ! $attached && $user->can(CrudPermission::UPDATE()->format(Image::class));
     }
 
     /**
@@ -227,7 +229,7 @@ class ImagePolicy
      */
     public function detachStudio(User $user): bool
     {
-        return $user->can('update image');
+        return $user->can(CrudPermission::UPDATE()->format(Image::class));
     }
 
     /**

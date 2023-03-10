@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Wiki\Image;
 
+use App\Enums\Auth\ExtendedCrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Image;
 use Illuminate\Foundation\Testing\WithoutEvents;
@@ -62,7 +63,7 @@ class ImageRestoreTest extends TestCase
     {
         $image = Image::factory()->createOne();
 
-        $user = User::factory()->withPermission('restore image')->createOne();
+        $user = User::factory()->withPermission(ExtendedCrudPermission::RESTORE()->format(Image::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -82,7 +83,7 @@ class ImageRestoreTest extends TestCase
 
         $image->delete();
 
-        $user = User::factory()->withPermission('restore image')->createOne();
+        $user = User::factory()->withPermission(ExtendedCrudPermission::RESTORE()->format(Image::class))->createOne();
 
         Sanctum::actingAs($user);
 

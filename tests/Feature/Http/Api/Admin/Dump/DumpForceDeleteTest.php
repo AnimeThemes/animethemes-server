@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Admin\Dump;
 
+use App\Enums\Auth\ExtendedCrudPermission;
 use App\Models\Admin\Dump;
 use App\Models\Auth\User;
 use Illuminate\Foundation\Testing\WithoutEvents;
@@ -58,7 +59,7 @@ class DumpForceDeleteTest extends TestCase
     {
         $dump = Dump::factory()->createOne();
 
-        $user = User::factory()->withPermission('force delete dump')->createOne();
+        $user = User::factory()->withPermission(ExtendedCrudPermission::FORCE_DELETE()->format(Dump::class))->createOne();
 
         Sanctum::actingAs($user);
 

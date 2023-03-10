@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Document\Page;
 
+use App\Enums\Auth\ExtendedCrudPermission;
 use App\Models\Auth\User;
 use App\Models\Document\Page;
 use Illuminate\Foundation\Testing\WithoutEvents;
@@ -62,7 +63,7 @@ class PageRestoreTest extends TestCase
     {
         $page = Page::factory()->createOne();
 
-        $user = User::factory()->withPermission('restore page')->createOne();
+        $user = User::factory()->withPermission(ExtendedCrudPermission::RESTORE()->format(Page::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -82,7 +83,7 @@ class PageRestoreTest extends TestCase
 
         $page->delete();
 
-        $user = User::factory()->withPermission('restore page')->createOne();
+        $user = User::factory()->withPermission(ExtendedCrudPermission::RESTORE()->format(Page::class))->createOne();
 
         Sanctum::actingAs($user);
 

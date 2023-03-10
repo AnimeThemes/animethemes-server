@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\List\Playlist;
 
+use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\List\Playlist;
 use Illuminate\Foundation\Testing\WithoutEvents;
@@ -60,7 +61,7 @@ class PlaylistDestroyTest extends TestCase
             ->for(User::factory())
             ->createOne();
 
-        $user = User::factory()->withPermission('delete playlist')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::DELETE()->format(Playlist::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -76,7 +77,7 @@ class PlaylistDestroyTest extends TestCase
      */
     public function testTrashed(): void
     {
-        $user = User::factory()->withPermission('delete playlist')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::DELETE()->format(Playlist::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)
@@ -98,7 +99,7 @@ class PlaylistDestroyTest extends TestCase
      */
     public function testDeleted(): void
     {
-        $user = User::factory()->withPermission('delete playlist')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::DELETE()->format(Playlist::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)

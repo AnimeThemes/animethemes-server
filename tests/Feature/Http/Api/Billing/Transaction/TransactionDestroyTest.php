@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Billing\Transaction;
 
+use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Billing\Transaction;
 use Illuminate\Foundation\Testing\WithoutEvents;
@@ -60,7 +61,7 @@ class TransactionDestroyTest extends TestCase
 
         $transaction->delete();
 
-        $user = User::factory()->withPermission('delete transaction')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::DELETE()->format(Transaction::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -78,7 +79,7 @@ class TransactionDestroyTest extends TestCase
     {
         $transaction = Transaction::factory()->createOne();
 
-        $user = User::factory()->withPermission('delete transaction')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::DELETE()->format(Transaction::class))->createOne();
 
         Sanctum::actingAs($user);
 

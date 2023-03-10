@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Wiki\Image;
 
+use App\Enums\Auth\CrudPermission;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Models\Auth\User;
 use App\Models\Wiki\Image;
@@ -76,7 +77,7 @@ class ImageUpdateTest extends TestCase
             [Image::ATTRIBUTE_FACET => ImageFacet::getRandomInstance()->description],
         );
 
-        $user = User::factory()->withPermission('update image')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::UPDATE()->format(Image::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -99,7 +100,7 @@ class ImageUpdateTest extends TestCase
             [Image::ATTRIBUTE_FACET => ImageFacet::getRandomInstance()->description],
         );
 
-        $user = User::factory()->withPermission('update image')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::UPDATE()->format(Image::class))->createOne();
 
         Sanctum::actingAs($user);
 

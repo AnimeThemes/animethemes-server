@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Billing\Balance;
 
+use App\Enums\Auth\CrudPermission;
 use App\Enums\Models\Billing\BalanceFrequency;
 use App\Enums\Models\Billing\Service;
 use App\Models\Auth\User;
@@ -58,7 +59,7 @@ class BalanceStoreTest extends TestCase
      */
     public function testRequiredFields(): void
     {
-        $user = User::factory()->withPermission('create balance')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::CREATE()->format(Balance::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -88,7 +89,7 @@ class BalanceStoreTest extends TestCase
             ]
         );
 
-        $user = User::factory()->withPermission('create balance')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::CREATE()->format(Balance::class))->createOne();
 
         Sanctum::actingAs($user);
 

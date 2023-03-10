@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Admin\Announcement;
 
+use App\Enums\Auth\CrudPermission;
 use App\Models\Admin\Announcement;
 use App\Models\Auth\User;
 use Illuminate\Foundation\Testing\WithoutEvents;
@@ -66,7 +67,7 @@ class AnnouncementUpdateTest extends TestCase
 
         $parameters = Announcement::factory()->raw();
 
-        $user = User::factory()->withPermission('update announcement')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::UPDATE()->format(Announcement::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -86,7 +87,7 @@ class AnnouncementUpdateTest extends TestCase
 
         $parameters = Announcement::factory()->raw();
 
-        $user = User::factory()->withPermission('update announcement')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::UPDATE()->format(Announcement::class))->createOne();
 
         Sanctum::actingAs($user);
 

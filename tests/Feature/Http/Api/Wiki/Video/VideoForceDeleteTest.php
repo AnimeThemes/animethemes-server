@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Wiki\Video;
 
+use App\Enums\Auth\ExtendedCrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Video;
 use Illuminate\Foundation\Testing\WithoutEvents;
@@ -58,7 +59,7 @@ class VideoForceDeleteTest extends TestCase
     {
         $video = Video::factory()->createOne();
 
-        $user = User::factory()->withPermission('force delete video')->createOne();
+        $user = User::factory()->withPermission(ExtendedCrudPermission::FORCE_DELETE()->format(Video::class))->createOne();
 
         Sanctum::actingAs($user);
 

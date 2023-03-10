@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Document\Page;
 
+use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Document\Page;
 use Illuminate\Foundation\Testing\WithoutEvents;
@@ -60,7 +61,7 @@ class PageDestroyTest extends TestCase
 
         $page->delete();
 
-        $user = User::factory()->withPermission('delete page')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::DELETE()->format(Page::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -78,7 +79,7 @@ class PageDestroyTest extends TestCase
     {
         $page = Page::factory()->createOne();
 
-        $user = User::factory()->withPermission('delete page')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::DELETE()->format(Page::class))->createOne();
 
         Sanctum::actingAs($user);
 

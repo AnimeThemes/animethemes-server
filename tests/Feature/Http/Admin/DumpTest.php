@@ -6,12 +6,15 @@ namespace Tests\Feature\Http\Admin;
 
 use App\Constants\Config\DumpConstants;
 use App\Constants\Config\FlagConstants;
+use App\Enums\Auth\SpecialPermission;
 use App\Models\Admin\Dump;
+use App\Models\Auth\User;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
+use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
 /**
@@ -37,6 +40,33 @@ class DumpTest extends TestCase
         $response = $this->get(route('dump.show', ['dump' => $dump]));
 
         $response->assertForbidden();
+    }
+
+    /**
+     * Users with the bypass feature flag permission shall be permitted to download dumps
+     * even if the 'flags.allow_dump_downloading' property is disabled.
+     *
+     * @return void
+     */
+    public function testVideoStreamingPermittedForBypass(): void
+    {
+        Config::set(FlagConstants::ALLOW_DUMP_DOWNLOADING_FLAG_QUALIFIED, $this->faker->boolean());
+
+        $fs = Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));
+        $file = File::fake()->create($this->faker->word().'.sql');
+        $fsFile = $fs->putFile('', $file);
+
+        $dump = Dump::factory()->createOne([
+            Dump::ATTRIBUTE_PATH => $fsFile,
+        ]);
+
+        $user = User::factory()->withPermission(SpecialPermission::BYPASS_FEATURE_FLAGS)->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->get(route('dump.show', ['dump' => $dump]));
+
+        $response->assertDownload($dump->path);
     }
 
     /**

@@ -6,6 +6,7 @@ namespace Tests\Feature\Http\Api\List\Playlist\Track;
 
 use App\Concerns\Actions\Http\Api\SortsModels;
 use App\Contracts\Http\Api\Field\SortableField;
+use App\Enums\Auth\CrudPermission;
 use App\Enums\Http\Api\Filter\TrashedStatus;
 use App\Enums\Http\Api\Sort\Direction;
 use App\Enums\Models\List\PlaylistVisibility;
@@ -77,7 +78,7 @@ class TrackIndexTest extends TestCase
                 Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PRIVATE,
             ]);
 
-        $user = User::factory()->withPermission('view playlist track')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::VIEW()->format(PlaylistTrack::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -93,7 +94,7 @@ class TrackIndexTest extends TestCase
      */
     public function testPrivatePlaylistTrackCanBeViewedByOwner(): void
     {
-        $user = User::factory()->withPermission('view playlist track')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::VIEW()->format(PlaylistTrack::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)

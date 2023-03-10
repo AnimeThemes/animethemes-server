@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Wiki\Anime\Synonym;
 
+use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeSynonym;
@@ -61,7 +62,7 @@ class SynonymDestroyTest extends TestCase
 
         $synonym->delete();
 
-        $user = User::factory()->withPermission('delete anime synonym')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::DELETE()->format(AnimeSynonym::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -79,7 +80,7 @@ class SynonymDestroyTest extends TestCase
     {
         $synonym = AnimeSynonym::factory()->for(Anime::factory())->createOne();
 
-        $user = User::factory()->withPermission('delete anime synonym')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::DELETE()->format(AnimeSynonym::class))->createOne();
 
         Sanctum::actingAs($user);
 

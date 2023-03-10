@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api;
 
+use App\Enums\Auth\SpecialPermission;
 use App\Models\Auth\User;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
@@ -33,7 +34,7 @@ class ThrottleTest extends TestCase
      */
     public function testClientNotRateLimited(): void
     {
-        $user = User::factory()->withPermission('bypass api rate limiter')->createOne();
+        $user = User::factory()->withPermission(SpecialPermission::BYPASS_API_RATE_LIMITER)->createOne();
 
         Sanctum::actingAs($user);
 

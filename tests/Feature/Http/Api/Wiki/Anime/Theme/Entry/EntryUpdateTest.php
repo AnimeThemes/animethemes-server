@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Wiki\Anime\Theme\Entry;
 
+use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
@@ -74,7 +75,7 @@ class EntryUpdateTest extends TestCase
 
         $parameters = AnimeThemeEntry::factory()->raw();
 
-        $user = User::factory()->withPermission('update anime theme entry')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::UPDATE()->format(AnimeThemeEntry::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -96,7 +97,7 @@ class EntryUpdateTest extends TestCase
 
         $parameters = AnimeThemeEntry::factory()->raw();
 
-        $user = User::factory()->withPermission('update anime theme entry')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::UPDATE()->format(AnimeThemeEntry::class))->createOne();
 
         Sanctum::actingAs($user);
 

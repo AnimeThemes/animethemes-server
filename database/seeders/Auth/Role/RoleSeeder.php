@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Seeders\Auth\Role;
 
+use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\Permission;
 use App\Models\Auth\Role;
 use Illuminate\Database\Seeder;
@@ -25,6 +26,7 @@ class RoleSeeder extends Seeder
         $this->call(WikiEditorRoleSeeder::class);
         $this->call(WikiViewerRoleSeeder::class);
         $this->call(PlaylistUserRoleSeeder::class);
+        $this->call(PatronRoleSeeder::class);
     }
 
     /**
@@ -32,12 +34,12 @@ class RoleSeeder extends Seeder
      *
      * @param  Role  $role
      * @param  string  $resource
-     * @param  array<int, string>  $abilities
+     * @param  CrudPermission[]  $abilities
      * @return void
      */
     protected function configureResource(Role $role, string $resource, array $abilities): void
     {
-        $permissions = Arr::map($abilities, fn (string $ability) => Permission::findByName("$ability $resource"));
+        $permissions = Arr::map($abilities, fn (CrudPermission $ability) => Permission::findByName($ability->format($resource)));
 
         $role->givePermissionTo($permissions);
     }
@@ -54,35 +56,5 @@ class RoleSeeder extends Seeder
         $permissions = Arr::map($abilities, fn (string $ability) => Permission::findByName($ability));
 
         $role->givePermissionTo($permissions);
-    }
-
-    /**
-     * Get CRUD abilities for resource.
-     *
-     * @return array<int, string>
-     */
-    protected function crudAbilities(): array
-    {
-        return [
-            'view',
-            'create',
-            'update',
-            'delete',
-        ];
-    }
-
-    /**
-     * Get extended CRUD abilities for soft-delete resource.
-     *
-     * @return array<int, string>
-     */
-    protected function extendedCrudAbilities(): array
-    {
-        return array_merge(
-            $this->crudAbilities(),
-            [
-                'restore',
-            ],
-        );
     }
 }

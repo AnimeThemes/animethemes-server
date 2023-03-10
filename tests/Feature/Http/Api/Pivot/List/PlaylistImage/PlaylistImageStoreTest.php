@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Http\Api\Pivot\List\PlaylistImage;
 
+use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\List\Playlist;
 use App\Models\Wiki\Image;
@@ -64,7 +65,7 @@ class PlaylistImageStoreTest extends TestCase
      */
     public function testRequiredFields(): void
     {
-        $user = User::factory()->withPermissions(['create playlist', 'create image'])->createOne();
+        $user = User::factory()->withPermissions([CrudPermission::CREATE()->format(Playlist::class), CrudPermission::CREATE()->format(Image::class)])->createOne();
 
         Sanctum::actingAs($user);
 
@@ -88,7 +89,7 @@ class PlaylistImageStoreTest extends TestCase
             PlaylistImage::ATTRIBUTE_IMAGE => Image::factory()->createOne()->getKey(),
         ];
 
-        $user = User::factory()->withPermissions(['create playlist', 'create image'])->createOne();
+        $user = User::factory()->withPermissions([CrudPermission::CREATE()->format(Playlist::class), CrudPermission::CREATE()->format(Image::class)])->createOne();
 
         Sanctum::actingAs($user);
 

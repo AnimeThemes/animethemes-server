@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Http\Api\Pivot\Wiki\ArtistResource;
 
+use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\ExternalResource;
@@ -64,7 +65,7 @@ class ArtistResourceStoreTest extends TestCase
      */
     public function testRequiredFields(): void
     {
-        $user = User::factory()->withPermissions(['create artist', 'create external resource'])->createOne();
+        $user = User::factory()->withPermissions([CrudPermission::CREATE()->format(Artist::class), CrudPermission::CREATE()->format(ExternalResource::class)])->createOne();
 
         Sanctum::actingAs($user);
 
@@ -89,7 +90,7 @@ class ArtistResourceStoreTest extends TestCase
             [ArtistResource::ATTRIBUTE_RESOURCE => ExternalResource::factory()->createOne()->getKey()],
         );
 
-        $user = User::factory()->withPermissions(['create artist', 'create external resource'])->createOne();
+        $user = User::factory()->withPermissions([CrudPermission::CREATE()->format(Artist::class), CrudPermission::CREATE()->format(ExternalResource::class)])->createOne();
 
         Sanctum::actingAs($user);
 

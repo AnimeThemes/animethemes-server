@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Admin\Dump;
 
+use App\Enums\Auth\CrudPermission;
 use App\Models\Admin\Dump;
 use App\Models\Auth\User;
 use Illuminate\Foundation\Testing\WithoutEvents;
@@ -60,7 +61,7 @@ class DumpDestroyTest extends TestCase
 
         $dump->delete();
 
-        $user = User::factory()->withPermission('delete dump')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::DELETE()->format(Dump::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -78,7 +79,7 @@ class DumpDestroyTest extends TestCase
     {
         $dump = Dump::factory()->createOne();
 
-        $user = User::factory()->withPermission('delete dump')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::DELETE()->format(Dump::class))->createOne();
 
         Sanctum::actingAs($user);
 

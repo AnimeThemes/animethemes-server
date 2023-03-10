@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Wiki\Song;
 
+use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Song;
 use Illuminate\Foundation\Testing\WithoutEvents;
@@ -60,7 +61,7 @@ class SongDestroyTest extends TestCase
 
         $song->delete();
 
-        $user = User::factory()->withPermission('delete song')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::DELETE()->format(Song::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -78,7 +79,7 @@ class SongDestroyTest extends TestCase
     {
         $song = Song::factory()->createOne();
 
-        $user = User::factory()->withPermission('delete song')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::DELETE()->format(Song::class))->createOne();
 
         Sanctum::actingAs($user);
 

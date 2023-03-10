@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Wiki\Anime;
 
+use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
 use Illuminate\Foundation\Testing\WithoutEvents;
@@ -60,7 +61,7 @@ class AnimeDestroyTest extends TestCase
 
         $anime->delete();
 
-        $user = User::factory()->withPermission('delete anime')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::DELETE()->format(Anime::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -78,7 +79,7 @@ class AnimeDestroyTest extends TestCase
     {
         $anime = Anime::factory()->createOne();
 
-        $user = User::factory()->withPermission('delete anime')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::DELETE()->format(Anime::class))->createOne();
 
         Sanctum::actingAs($user);
 

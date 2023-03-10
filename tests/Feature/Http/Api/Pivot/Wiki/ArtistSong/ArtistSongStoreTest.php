@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Http\Api\Pivot\Wiki\ArtistSong;
 
+use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Song;
@@ -64,7 +65,7 @@ class ArtistSongStoreTest extends TestCase
      */
     public function testRequiredFields(): void
     {
-        $user = User::factory()->withPermissions(['create artist', 'create song'])->createOne();
+        $user = User::factory()->withPermissions([CrudPermission::CREATE()->format(Artist::class), CrudPermission::CREATE()->format(Song::class)])->createOne();
 
         Sanctum::actingAs($user);
 
@@ -89,7 +90,7 @@ class ArtistSongStoreTest extends TestCase
             [ArtistSong::ATTRIBUTE_SONG => Song::factory()->createOne()->getKey()],
         );
 
-        $user = User::factory()->withPermissions(['create artist', 'create song'])->createOne();
+        $user = User::factory()->withPermissions([CrudPermission::CREATE()->format(Artist::class), CrudPermission::CREATE()->format(Song::class)])->createOne();
 
         Sanctum::actingAs($user);
 

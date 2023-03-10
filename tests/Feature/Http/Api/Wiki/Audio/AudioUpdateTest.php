@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Wiki\Audio;
 
+use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Audio;
 use Illuminate\Foundation\Testing\WithoutEvents;
@@ -66,7 +67,7 @@ class AudioUpdateTest extends TestCase
 
         $parameters = Audio::factory()->raw();
 
-        $user = User::factory()->withPermission('update audio')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::UPDATE()->format(Audio::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -86,7 +87,7 @@ class AudioUpdateTest extends TestCase
 
         $parameters = Audio::factory()->raw();
 
-        $user = User::factory()->withPermission('update audio')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::UPDATE()->format(Audio::class))->createOne();
 
         Sanctum::actingAs($user);
 

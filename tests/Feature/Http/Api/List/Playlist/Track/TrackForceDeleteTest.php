@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\List\Playlist\Track;
 
+use App\Enums\Auth\ExtendedCrudPermission;
 use App\Enums\Models\List\PlaylistVisibility;
 use App\Models\Auth\User;
 use App\Models\List\Playlist;
@@ -64,7 +65,7 @@ class TrackForceDeleteTest extends TestCase
      */
     public function testScoped(): void
     {
-        $user = User::factory()->withPermission('force delete playlist track')->createOne();
+        $user = User::factory()->withPermission(ExtendedCrudPermission::FORCE_DELETE()->format(PlaylistTrack::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)
@@ -91,7 +92,7 @@ class TrackForceDeleteTest extends TestCase
      */
     public function testDeleted(): void
     {
-        $user = User::factory()->withPermission('force delete playlist track')->createOne();
+        $user = User::factory()->withPermission(ExtendedCrudPermission::FORCE_DELETE()->format(PlaylistTrack::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)
@@ -122,7 +123,7 @@ class TrackForceDeleteTest extends TestCase
      */
     public function testForceDeleteFirst(): void
     {
-        $user = User::factory()->withPermission('force delete playlist track')->createOne();
+        $user = User::factory()->withPermission(ExtendedCrudPermission::FORCE_DELETE()->format(PlaylistTrack::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)
@@ -155,7 +156,7 @@ class TrackForceDeleteTest extends TestCase
      */
     public function testForceDeleteLast(): void
     {
-        $user = User::factory()->withPermission('force delete playlist track')->createOne();
+        $user = User::factory()->withPermission(ExtendedCrudPermission::FORCE_DELETE()->format(PlaylistTrack::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)
@@ -188,7 +189,7 @@ class TrackForceDeleteTest extends TestCase
      */
     public function testForceDeleteSecond(): void
     {
-        $user = User::factory()->withPermission('force delete playlist track')->createOne();
+        $user = User::factory()->withPermission(ExtendedCrudPermission::FORCE_DELETE()->format(PlaylistTrack::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)

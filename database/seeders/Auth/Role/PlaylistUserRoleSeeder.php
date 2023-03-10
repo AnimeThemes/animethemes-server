@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace Database\Seeders\Auth\Role;
 
+use App\Enums\Auth\ExtendedCrudPermission;
 use App\Models\Auth\Role;
+use App\Models\List\Playlist;
+use App\Models\List\Playlist\PlaylistTrack;
 
 /**
  * Class PlaylistUserRoleSeeder.
@@ -22,8 +25,8 @@ class PlaylistUserRoleSeeder extends RoleSeeder
         $role = Role::findOrCreate('Playlist User');
 
         // List Resources
-        $this->configureResource($role, 'playlist', $this->extendedCrudAbilities());
-        $this->configureResource($role, 'playlist track', $this->extendedCrudAbilities());
+        $this->configureResource($role, Playlist::class, ExtendedCrudPermission::getInstances());
+        $this->configureResource($role, PlaylistTrack::class, ExtendedCrudPermission::getInstances());
 
         $role->default = true;
         if ($role->isDirty()) {

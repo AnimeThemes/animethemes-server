@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Policies\Wiki;
 
+use App\Enums\Auth\CrudPermission;
+use App\Enums\Auth\ExtendedCrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Image;
@@ -27,7 +29,7 @@ class ArtistPolicy
     public function viewAny(?User $user): bool
     {
         return Nova::whenServing(
-            fn (): bool => $user !== null && $user->can('view artist'),
+            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW()->format(Artist::class)),
             fn (): bool => true
         );
     }
@@ -41,7 +43,7 @@ class ArtistPolicy
     public function view(?User $user): bool
     {
         return Nova::whenServing(
-            fn (): bool => $user !== null && $user->can('view artist'),
+            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW()->format(Artist::class)),
             fn (): bool => true
         );
     }
@@ -54,7 +56,7 @@ class ArtistPolicy
      */
     public function create(User $user): bool
     {
-        return $user->can('create artist');
+        return $user->can(CrudPermission::CREATE()->format(Artist::class));
     }
 
     /**
@@ -66,7 +68,7 @@ class ArtistPolicy
      */
     public function update(User $user, Artist $artist): bool
     {
-        return ! $artist->trashed() && $user->can('update artist');
+        return ! $artist->trashed() && $user->can(CrudPermission::UPDATE()->format(Artist::class));
     }
 
     /**
@@ -78,7 +80,7 @@ class ArtistPolicy
      */
     public function delete(User $user, Artist $artist): bool
     {
-        return ! $artist->trashed() && $user->can('delete artist');
+        return ! $artist->trashed() && $user->can(CrudPermission::DELETE()->format(Artist::class));
     }
 
     /**
@@ -90,7 +92,7 @@ class ArtistPolicy
      */
     public function restore(User $user, Artist $artist): bool
     {
-        return $artist->trashed() && $user->can('restore artist');
+        return $artist->trashed() && $user->can(ExtendedCrudPermission::RESTORE()->format(Artist::class));
     }
 
     /**
@@ -101,7 +103,7 @@ class ArtistPolicy
      */
     public function forceDelete(User $user): bool
     {
-        return $user->can('force delete artist');
+        return $user->can(ExtendedCrudPermission::FORCE_DELETE()->format(Artist::class));
     }
 
     /**
@@ -112,7 +114,7 @@ class ArtistPolicy
      */
     public function attachAnyExternalResource(User $user): bool
     {
-        return $user->can('update artist');
+        return $user->can(CrudPermission::UPDATE()->format(Artist::class));
     }
 
     /**
@@ -123,7 +125,7 @@ class ArtistPolicy
      */
     public function attachExternalResource(User $user): bool
     {
-        return $user->can('update artist');
+        return $user->can(CrudPermission::UPDATE()->format(Artist::class));
     }
 
     /**
@@ -134,7 +136,7 @@ class ArtistPolicy
      */
     public function detachExternalResource(User $user): bool
     {
-        return $user->can('update artist');
+        return $user->can(CrudPermission::UPDATE()->format(Artist::class));
     }
 
     /**
@@ -145,7 +147,7 @@ class ArtistPolicy
      */
     public function attachAnySong(User $user): bool
     {
-        return $user->can('update artist');
+        return $user->can(CrudPermission::UPDATE()->format(Artist::class));
     }
 
     /**
@@ -156,7 +158,7 @@ class ArtistPolicy
      */
     public function attachSong(User $user): bool
     {
-        return $user->can('update artist');
+        return $user->can(CrudPermission::UPDATE()->format(Artist::class));
     }
 
     /**
@@ -167,7 +169,7 @@ class ArtistPolicy
      */
     public function detachSong(User $user): bool
     {
-        return $user->can('update artist');
+        return $user->can(CrudPermission::UPDATE()->format(Artist::class));
     }
 
     /**
@@ -178,7 +180,7 @@ class ArtistPolicy
      */
     public function attachAnyArtist(User $user): bool
     {
-        return $user->can('update artist');
+        return $user->can(CrudPermission::UPDATE()->format(Artist::class));
     }
 
     /**
@@ -189,7 +191,7 @@ class ArtistPolicy
      */
     public function attachArtist(User $user): bool
     {
-        return $user->can('update artist');
+        return $user->can(CrudPermission::UPDATE()->format(Artist::class));
     }
 
     /**
@@ -200,7 +202,7 @@ class ArtistPolicy
      */
     public function detachArtist(User $user): bool
     {
-        return $user->can('update artist');
+        return $user->can(CrudPermission::UPDATE()->format(Artist::class));
     }
 
     /**
@@ -211,7 +213,7 @@ class ArtistPolicy
      */
     public function attachAnyImage(User $user): bool
     {
-        return $user->can('update artist');
+        return $user->can(CrudPermission::UPDATE()->format(Artist::class));
     }
 
     /**
@@ -229,7 +231,7 @@ class ArtistPolicy
             ->where($image->getKeyName(), $image->getKey())
             ->exists();
 
-        return ! $attached && $user->can('update artist');
+        return ! $attached && $user->can(CrudPermission::UPDATE()->format(Artist::class));
     }
 
     /**
@@ -240,6 +242,6 @@ class ArtistPolicy
      */
     public function detachImage(User $user): bool
     {
-        return $user->can('update artist');
+        return $user->can(CrudPermission::UPDATE()->format(Artist::class));
     }
 }

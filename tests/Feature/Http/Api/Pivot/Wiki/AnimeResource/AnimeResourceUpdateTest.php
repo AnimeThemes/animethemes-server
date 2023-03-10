@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Http\Api\Pivot\Wiki\AnimeResource;
 
+use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\ExternalResource;
@@ -75,7 +76,7 @@ class AnimeResourceUpdateTest extends TestCase
 
         $parameters = AnimeResource::factory()->raw();
 
-        $user = User::factory()->withPermissions(['update anime', 'update external resource'])->createOne();
+        $user = User::factory()->withPermissions([CrudPermission::UPDATE()->format(Anime::class), CrudPermission::UPDATE()->format(ExternalResource::class)])->createOne();
 
         Sanctum::actingAs($user);
 

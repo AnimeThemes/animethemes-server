@@ -7,6 +7,7 @@ namespace App\Providers;
 use App\Constants\Config\AudioConstants;
 use App\Constants\Config\DumpConstants;
 use App\Constants\Config\VideoConstants;
+use App\Enums\Auth\SpecialPermission;
 use App\Models\Auth\User;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
@@ -76,7 +77,7 @@ class RouteServiceProvider extends ServiceProvider
         RateLimiter::for('api', function (Request $request) {
             // Allow the client to bypass API rate limiting
             $user = $request->user('sanctum');
-            if ($user instanceof User && $user->can('bypass api rate limiter')) {
+            if ($user instanceof User && $user->can(SpecialPermission::BYPASS_API_RATE_LIMITER)) {
                 return Limit::none();
             }
 

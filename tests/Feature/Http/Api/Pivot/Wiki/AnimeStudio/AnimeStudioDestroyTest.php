@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Http\Api\Pivot\Wiki\AnimeStudio;
 
+use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Studio;
@@ -67,7 +68,7 @@ class AnimeStudioDestroyTest extends TestCase
         $anime = Anime::factory()->createOne();
         $studio = Studio::factory()->createOne();
 
-        $user = User::factory()->withPermissions(['delete anime', 'delete studio'])->createOne();
+        $user = User::factory()->withPermissions([CrudPermission::DELETE()->format(Anime::class), CrudPermission::DELETE()->format(Studio::class)])->createOne();
 
         Sanctum::actingAs($user);
 
@@ -88,7 +89,7 @@ class AnimeStudioDestroyTest extends TestCase
             ->for(Studio::factory())
             ->createOne();
 
-        $user = User::factory()->withPermissions(['delete anime', 'delete studio'])->createOne();
+        $user = User::factory()->withPermissions([CrudPermission::DELETE()->format(Anime::class), CrudPermission::DELETE()->format(Studio::class)])->createOne();
 
         Sanctum::actingAs($user);
 

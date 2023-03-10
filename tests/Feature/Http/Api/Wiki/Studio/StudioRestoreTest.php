@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Wiki\Studio;
 
+use App\Enums\Auth\ExtendedCrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Studio;
 use Illuminate\Foundation\Testing\WithoutEvents;
@@ -62,7 +63,7 @@ class StudioRestoreTest extends TestCase
     {
         $studio = Studio::factory()->createOne();
 
-        $user = User::factory()->withPermission('restore studio')->createOne();
+        $user = User::factory()->withPermission(ExtendedCrudPermission::RESTORE()->format(Studio::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -82,7 +83,7 @@ class StudioRestoreTest extends TestCase
 
         $studio->delete();
 
-        $user = User::factory()->withPermission('restore studio')->createOne();
+        $user = User::factory()->withPermission(ExtendedCrudPermission::RESTORE()->format(Studio::class))->createOne();
 
         Sanctum::actingAs($user);
 

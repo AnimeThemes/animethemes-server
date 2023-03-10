@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Http\Api\Pivot\Wiki\AnimeSeries;
 
+use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Series;
@@ -64,7 +65,7 @@ class AnimeSeriesStoreTest extends TestCase
      */
     public function testRequiredFields(): void
     {
-        $user = User::factory()->withPermissions(['create anime', 'create series'])->createOne();
+        $user = User::factory()->withPermissions([CrudPermission::CREATE()->format(Anime::class), CrudPermission::CREATE()->format(Series::class)])->createOne();
 
         Sanctum::actingAs($user);
 
@@ -88,7 +89,7 @@ class AnimeSeriesStoreTest extends TestCase
             AnimeSeries::ATTRIBUTE_SERIES => Series::factory()->createOne()->getKey(),
         ];
 
-        $user = User::factory()->withPermissions(['create anime', 'create series'])->createOne();
+        $user = User::factory()->withPermissions([CrudPermission::CREATE()->format(Anime::class), CrudPermission::CREATE()->format(Series::class)])->createOne();
 
         Sanctum::actingAs($user);
 

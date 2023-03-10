@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Policies\Wiki;
 
+use App\Enums\Auth\CrudPermission;
+use App\Enums\Auth\ExtendedCrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Video;
 use Illuminate\Auth\Access\HandlesAuthorization;
@@ -25,7 +27,7 @@ class VideoPolicy
     public function viewAny(?User $user): bool
     {
         return Nova::whenServing(
-            fn (): bool => $user !== null && $user->can('view video'),
+            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW()->format(Video::class)),
             fn (): bool => true
         );
     }
@@ -39,7 +41,7 @@ class VideoPolicy
     public function view(?User $user): bool
     {
         return Nova::whenServing(
-            fn (): bool => $user !== null && $user->can('view video'),
+            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW()->format(Video::class)),
             fn (): bool => true
         );
     }
@@ -52,7 +54,7 @@ class VideoPolicy
      */
     public function create(User $user): bool
     {
-        return $user->can('create video');
+        return $user->can(CrudPermission::CREATE()->format(Video::class));
     }
 
     /**
@@ -64,7 +66,7 @@ class VideoPolicy
      */
     public function update(User $user, Video $video): bool
     {
-        return ! $video->trashed() && $user->can('update video');
+        return ! $video->trashed() && $user->can(CrudPermission::UPDATE()->format(Video::class));
     }
 
     /**
@@ -76,7 +78,7 @@ class VideoPolicy
      */
     public function delete(User $user, Video $video): bool
     {
-        return ! $video->trashed() && $user->can('delete video');
+        return ! $video->trashed() && $user->can(CrudPermission::DELETE()->format(Video::class));
     }
 
     /**
@@ -88,7 +90,7 @@ class VideoPolicy
      */
     public function restore(User $user, Video $video): bool
     {
-        return $video->trashed() && $user->can('restore video');
+        return $video->trashed() && $user->can(ExtendedCrudPermission::RESTORE()->format(Video::class));
     }
 
     /**
@@ -99,7 +101,7 @@ class VideoPolicy
      */
     public function forceDelete(User $user): bool
     {
-        return $user->can('force delete video');
+        return $user->can(ExtendedCrudPermission::FORCE_DELETE()->format(Video::class));
     }
 
     /**
@@ -110,7 +112,7 @@ class VideoPolicy
      */
     public function attachAnyAnimeThemeEntry(User $user): bool
     {
-        return $user->can('update video');
+        return $user->can(CrudPermission::UPDATE()->format(Video::class));
     }
 
     /**
@@ -121,7 +123,7 @@ class VideoPolicy
      */
     public function attachAnimeThemeEntry(User $user): bool
     {
-        return $user->can('update video');
+        return $user->can(CrudPermission::UPDATE()->format(Video::class));
     }
 
     /**
@@ -132,7 +134,7 @@ class VideoPolicy
      */
     public function detachAnimeThemeEntry(User $user): bool
     {
-        return $user->can('update video');
+        return $user->can(CrudPermission::UPDATE()->format(Video::class));
     }
 
     /**

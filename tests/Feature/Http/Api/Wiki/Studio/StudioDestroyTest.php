@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Wiki\Studio;
 
+use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Studio;
 use Illuminate\Foundation\Testing\WithoutEvents;
@@ -60,7 +61,7 @@ class StudioDestroyTest extends TestCase
 
         $studio->delete();
 
-        $user = User::factory()->withPermission('delete studio')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::DELETE()->format(Studio::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -78,7 +79,7 @@ class StudioDestroyTest extends TestCase
     {
         $studio = Studio::factory()->createOne();
 
-        $user = User::factory()->withPermission('delete studio')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::DELETE()->format(Studio::class))->createOne();
 
         Sanctum::actingAs($user);
 

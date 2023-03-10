@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Wiki\ExternalResource;
 
+use App\Enums\Auth\CrudPermission;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Auth\User;
 use App\Models\Wiki\ExternalResource;
@@ -78,7 +79,7 @@ class ExternalResourceUpdateTest extends TestCase
             [ExternalResource::ATTRIBUTE_SITE => ResourceSite::getDescription(ResourceSite::OFFICIAL_SITE)]
         );
 
-        $user = User::factory()->withPermission('update external resource')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::UPDATE()->format(ExternalResource::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -103,7 +104,7 @@ class ExternalResourceUpdateTest extends TestCase
             [ExternalResource::ATTRIBUTE_SITE => ResourceSite::getDescription(ResourceSite::OFFICIAL_SITE)]
         );
 
-        $user = User::factory()->withPermission('update external resource')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::UPDATE()->format(ExternalResource::class))->createOne();
 
         Sanctum::actingAs($user);
 

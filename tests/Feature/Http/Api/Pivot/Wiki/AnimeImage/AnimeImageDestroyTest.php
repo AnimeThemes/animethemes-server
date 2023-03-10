@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Http\Api\Pivot\Wiki\AnimeImage;
 
+use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Image;
@@ -67,7 +68,7 @@ class AnimeImageDestroyTest extends TestCase
         $anime = Anime::factory()->createOne();
         $image = Image::factory()->createOne();
 
-        $user = User::factory()->withPermissions(['delete anime', 'delete image'])->createOne();
+        $user = User::factory()->withPermissions([CrudPermission::DELETE()->format(Anime::class), CrudPermission::DELETE()->format(Image::class)])->createOne();
 
         Sanctum::actingAs($user);
 
@@ -88,7 +89,7 @@ class AnimeImageDestroyTest extends TestCase
             ->for(Image::factory())
             ->createOne();
 
-        $user = User::factory()->withPermissions(['delete anime', 'delete image'])->createOne();
+        $user = User::factory()->withPermissions([CrudPermission::DELETE()->format(Anime::class), CrudPermission::DELETE()->format(Image::class)])->createOne();
 
         Sanctum::actingAs($user);
 

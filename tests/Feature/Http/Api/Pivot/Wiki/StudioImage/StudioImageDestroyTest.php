@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Http\Api\Pivot\Wiki\StudioImage;
 
+use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Image;
 use App\Models\Wiki\Studio;
@@ -67,7 +68,7 @@ class StudioImageDestroyTest extends TestCase
         $studio = Studio::factory()->createOne();
         $image = Image::factory()->createOne();
 
-        $user = User::factory()->withPermissions(['delete studio', 'delete image'])->createOne();
+        $user = User::factory()->withPermissions([CrudPermission::DELETE()->format(Studio::class), CrudPermission::DELETE()->format(Image::class)])->createOne();
 
         Sanctum::actingAs($user);
 
@@ -88,7 +89,7 @@ class StudioImageDestroyTest extends TestCase
             ->for(Image::factory())
             ->createOne();
 
-        $user = User::factory()->withPermissions(['delete studio', 'delete image'])->createOne();
+        $user = User::factory()->withPermissions([CrudPermission::DELETE()->format(Studio::class), CrudPermission::DELETE()->format(Image::class)])->createOne();
 
         Sanctum::actingAs($user);
 

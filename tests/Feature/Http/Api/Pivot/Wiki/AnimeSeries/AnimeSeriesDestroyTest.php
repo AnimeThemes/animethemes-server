@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Http\Api\Pivot\Wiki\AnimeSeries;
 
+use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Series;
@@ -67,7 +68,7 @@ class AnimeSeriesDestroyTest extends TestCase
         $anime = Anime::factory()->createOne();
         $series = Series::factory()->createOne();
 
-        $user = User::factory()->withPermissions(['delete anime', 'delete series'])->createOne();
+        $user = User::factory()->withPermissions([CrudPermission::DELETE()->format(Anime::class), CrudPermission::DELETE()->format(Series::class)])->createOne();
 
         Sanctum::actingAs($user);
 
@@ -88,7 +89,7 @@ class AnimeSeriesDestroyTest extends TestCase
             ->for(Series::factory())
             ->createOne();
 
-        $user = User::factory()->withPermissions(['delete anime', 'delete series'])->createOne();
+        $user = User::factory()->withPermissions([CrudPermission::DELETE()->format(Anime::class), CrudPermission::DELETE()->format(Series::class)])->createOne();
 
         Sanctum::actingAs($user);
 

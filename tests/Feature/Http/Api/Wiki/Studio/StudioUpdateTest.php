@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Wiki\Studio;
 
+use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Studio;
 use Illuminate\Foundation\Testing\WithoutEvents;
@@ -66,7 +67,7 @@ class StudioUpdateTest extends TestCase
 
         $parameters = Studio::factory()->raw();
 
-        $user = User::factory()->withPermission('update studio')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::UPDATE()->format(Studio::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -86,7 +87,7 @@ class StudioUpdateTest extends TestCase
 
         $parameters = Studio::factory()->raw();
 
-        $user = User::factory()->withPermission('update studio')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::UPDATE()->format(Studio::class))->createOne();
 
         Sanctum::actingAs($user);
 

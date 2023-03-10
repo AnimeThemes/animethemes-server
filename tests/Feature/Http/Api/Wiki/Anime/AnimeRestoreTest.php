@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Wiki\Anime;
 
+use App\Enums\Auth\ExtendedCrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
 use Illuminate\Foundation\Testing\WithoutEvents;
@@ -62,7 +63,7 @@ class AnimeRestoreTest extends TestCase
     {
         $anime = Anime::factory()->createOne();
 
-        $user = User::factory()->withPermission('restore anime')->createOne();
+        $user = User::factory()->withPermission(ExtendedCrudPermission::RESTORE()->format(Anime::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -82,7 +83,7 @@ class AnimeRestoreTest extends TestCase
 
         $anime->delete();
 
-        $user = User::factory()->withPermission('restore anime')->createOne();
+        $user = User::factory()->withPermission(ExtendedCrudPermission::RESTORE()->format(Anime::class))->createOne();
 
         Sanctum::actingAs($user);
 

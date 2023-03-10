@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Wiki\Audio;
 
+use App\Enums\Auth\ExtendedCrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Audio;
 use Illuminate\Foundation\Testing\WithoutEvents;
@@ -62,7 +63,7 @@ class AudioRestoreTest extends TestCase
     {
         $audio = Audio::factory()->createOne();
 
-        $user = User::factory()->withPermission('restore audio')->createOne();
+        $user = User::factory()->withPermission(ExtendedCrudPermission::RESTORE()->format(Audio::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -82,7 +83,7 @@ class AudioRestoreTest extends TestCase
 
         $audio->delete();
 
-        $user = User::factory()->withPermission('restore audio')->createOne();
+        $user = User::factory()->withPermission(ExtendedCrudPermission::RESTORE()->format(Audio::class))->createOne();
 
         Sanctum::actingAs($user);
 

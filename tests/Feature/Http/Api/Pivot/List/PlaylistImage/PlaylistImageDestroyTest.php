@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Http\Api\Pivot\List\PlaylistImage;
 
+use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\List\Playlist;
 use App\Models\Wiki\Image;
@@ -69,7 +70,7 @@ class PlaylistImageDestroyTest extends TestCase
             ->for(Image::factory())
             ->createOne();
 
-        $user = User::factory()->withPermissions(['delete playlist', 'delete image'])->createOne();
+        $user = User::factory()->withPermissions([CrudPermission::DELETE()->format(Playlist::class), CrudPermission::DELETE()->format(Image::class)])->createOne();
 
         Sanctum::actingAs($user);
 
@@ -85,7 +86,7 @@ class PlaylistImageDestroyTest extends TestCase
      */
     public function testNotFound(): void
     {
-        $user = User::factory()->withPermissions(['delete playlist', 'delete image'])->createOne();
+        $user = User::factory()->withPermissions([CrudPermission::DELETE()->format(Playlist::class), CrudPermission::DELETE()->format(Image::class)])->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)
@@ -106,7 +107,7 @@ class PlaylistImageDestroyTest extends TestCase
      */
     public function testDeleted(): void
     {
-        $user = User::factory()->withPermissions(['delete playlist', 'delete image'])->createOne();
+        $user = User::factory()->withPermissions([CrudPermission::DELETE()->format(Playlist::class), CrudPermission::DELETE()->format(Image::class)])->createOne();
 
         $playlistImage = PlaylistImage::factory()
             ->for(Playlist::factory()->for($user))

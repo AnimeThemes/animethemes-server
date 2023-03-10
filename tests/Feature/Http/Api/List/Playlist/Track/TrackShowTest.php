@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\List\Playlist\Track;
 
+use App\Enums\Auth\CrudPermission;
 use App\Enums\Models\List\PlaylistVisibility;
 use App\Http\Api\Field\Field;
 use App\Http\Api\Include\AllowedInclude;
@@ -68,7 +69,7 @@ class TrackShowTest extends TestCase
             ->for($playlist)
             ->createOne();
 
-        $user = User::factory()->withPermission('view playlist track')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::VIEW()->format(PlaylistTrack::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -84,7 +85,7 @@ class TrackShowTest extends TestCase
      */
     public function testPrivatePlaylistTrackCanBeViewedByOwner(): void
     {
-        $user = User::factory()->withPermission('view playlist track')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::VIEW()->format(PlaylistTrack::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)
@@ -154,7 +155,7 @@ class TrackShowTest extends TestCase
      */
     public function testScoped(): void
     {
-        $user = User::factory()->withPermission('view playlist track')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::VIEW()->format(PlaylistTrack::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)

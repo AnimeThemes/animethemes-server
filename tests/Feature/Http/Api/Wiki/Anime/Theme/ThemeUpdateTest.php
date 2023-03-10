@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Wiki\Anime\Theme;
 
+use App\Enums\Auth\CrudPermission;
 use App\Enums\Models\Wiki\ThemeType;
 use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
@@ -77,7 +78,7 @@ class ThemeUpdateTest extends TestCase
             [AnimeTheme::ATTRIBUTE_TYPE => ThemeType::getRandomInstance()->description],
         );
 
-        $user = User::factory()->withPermission('update anime theme')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::UPDATE()->format(AnimeTheme::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -100,7 +101,7 @@ class ThemeUpdateTest extends TestCase
             [AnimeTheme::ATTRIBUTE_TYPE => ThemeType::getRandomInstance()->description],
         );
 
-        $user = User::factory()->withPermission('update anime theme')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::UPDATE()->format(AnimeTheme::class))->createOne();
 
         Sanctum::actingAs($user);
 

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Document\Page;
 
+use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Document\Page;
 use Illuminate\Foundation\Testing\WithoutEvents;
@@ -66,7 +67,7 @@ class PageUpdateTest extends TestCase
 
         $parameters = Page::factory()->raw();
 
-        $user = User::factory()->withPermission('update page')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::UPDATE()->format(Page::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -86,7 +87,7 @@ class PageUpdateTest extends TestCase
 
         $parameters = Page::factory()->raw();
 
-        $user = User::factory()->withPermission('update page')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::UPDATE()->format(Page::class))->createOne();
 
         Sanctum::actingAs($user);
 

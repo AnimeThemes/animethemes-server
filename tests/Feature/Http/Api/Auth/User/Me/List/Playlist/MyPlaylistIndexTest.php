@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Auth\User\Me\List\Playlist;
 
+use App\Enums\Auth\CrudPermission;
 use App\Http\Api\Query\Query;
 use App\Http\Resources\List\Collection\PlaylistCollection;
 use App\Models\Auth\User;
@@ -65,7 +66,7 @@ class MyPlaylistIndexTest extends TestCase
             ->count($this->faker->randomDigitNotNull())
             ->create();
 
-        $user = User::factory()->withPermission('view playlist')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::VIEW()->format(Playlist::class))->createOne();
 
         $playlistCount = $this->faker->randomDigitNotNull();
 

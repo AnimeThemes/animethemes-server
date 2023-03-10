@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Wiki\Song;
 
+use App\Enums\Auth\ExtendedCrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Song;
 use Illuminate\Foundation\Testing\WithoutEvents;
@@ -62,7 +63,7 @@ class SongRestoreTest extends TestCase
     {
         $song = Song::factory()->createOne();
 
-        $user = User::factory()->withPermission('restore song')->createOne();
+        $user = User::factory()->withPermission(ExtendedCrudPermission::RESTORE()->format(Song::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -82,7 +83,7 @@ class SongRestoreTest extends TestCase
 
         $song->delete();
 
-        $user = User::factory()->withPermission('restore song')->createOne();
+        $user = User::factory()->withPermission(ExtendedCrudPermission::RESTORE()->format(Song::class))->createOne();
 
         Sanctum::actingAs($user);
 

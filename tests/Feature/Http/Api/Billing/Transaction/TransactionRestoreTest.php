@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Billing\Transaction;
 
+use App\Enums\Auth\ExtendedCrudPermission;
 use App\Models\Auth\User;
 use App\Models\Billing\Transaction;
 use Illuminate\Foundation\Testing\WithoutEvents;
@@ -62,7 +63,7 @@ class TransactionRestoreTest extends TestCase
     {
         $transaction = Transaction::factory()->createOne();
 
-        $user = User::factory()->withPermission('restore transaction')->createOne();
+        $user = User::factory()->withPermission(ExtendedCrudPermission::RESTORE()->format(Transaction::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -82,7 +83,7 @@ class TransactionRestoreTest extends TestCase
 
         $transaction->delete();
 
-        $user = User::factory()->withPermission('restore transaction')->createOne();
+        $user = User::factory()->withPermission(ExtendedCrudPermission::RESTORE()->format(Transaction::class))->createOne();
 
         Sanctum::actingAs($user);
 

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Wiki\Anime\Synonym;
 
+use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeSynonym;
@@ -57,7 +58,7 @@ class SynonymStoreTest extends TestCase
      */
     public function testRequiredFields(): void
     {
-        $user = User::factory()->withPermission('create anime synonym')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::CREATE()->format(AnimeSynonym::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -82,7 +83,7 @@ class SynonymStoreTest extends TestCase
             [AnimeSynonym::ATTRIBUTE_ANIME => $anime->getKey()],
         );
 
-        $user = User::factory()->withPermission('create anime synonym')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::CREATE()->format(AnimeSynonym::class))->createOne();
 
         Sanctum::actingAs($user);
 

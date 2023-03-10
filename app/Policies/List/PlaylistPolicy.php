@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Policies\List;
 
+use App\Enums\Auth\CrudPermission;
+use App\Enums\Auth\ExtendedCrudPermission;
 use App\Enums\Models\List\PlaylistVisibility;
 use App\Models\Auth\User;
 use App\Models\List\Playlist;
@@ -29,7 +31,7 @@ class PlaylistPolicy
     {
         return Nova::whenServing(
             fn (): bool => $user !== null && $user->hasRole('Admin'),
-            fn (): bool => $user === null || $user->can('view playlist')
+            fn (): bool => $user === null || $user->can(CrudPermission::VIEW()->format(Playlist::class))
         );
     }
 
@@ -45,7 +47,7 @@ class PlaylistPolicy
         return Nova::whenServing(
             fn (): bool => $user !== null && $user->hasRole('Admin'),
             fn (): bool => $user !== null
-                    ? ($user->getKey() === $playlist->user_id || PlaylistVisibility::PRIVATE()->isNot($playlist->visibility)) && $user->can('view playlist')
+                    ? ($user->getKey() === $playlist->user_id || PlaylistVisibility::PRIVATE()->isNot($playlist->visibility)) && $user->can(CrudPermission::VIEW()->format(Playlist::class))
                     : PlaylistVisibility::PRIVATE()->isNot($playlist->visibility)
         );
     }
@@ -60,7 +62,7 @@ class PlaylistPolicy
     {
         return Nova::whenServing(
             fn (): bool => $user->hasRole('Admin'),
-            fn (): bool => $user->can('create playlist')
+            fn (): bool => $user->can(CrudPermission::CREATE()->format(Playlist::class))
         );
     }
 
@@ -75,7 +77,7 @@ class PlaylistPolicy
     {
         return Nova::whenServing(
             fn (): bool => $user->hasRole('Admin'),
-            fn (): bool => ! $playlist->trashed() && $user->getKey() === $playlist->user_id && $user->can('update playlist')
+            fn (): bool => ! $playlist->trashed() && $user->getKey() === $playlist->user_id && $user->can(CrudPermission::UPDATE()->format(Playlist::class))
         );
     }
 
@@ -90,7 +92,7 @@ class PlaylistPolicy
     {
         return Nova::whenServing(
             fn (): bool => $user->hasRole('Admin'),
-            fn (): bool => ! $playlist->trashed() && $user->getKey() === $playlist->user_id && $user->can('delete playlist')
+            fn (): bool => ! $playlist->trashed() && $user->getKey() === $playlist->user_id && $user->can(CrudPermission::DELETE()->format(Playlist::class))
         );
     }
 
@@ -105,7 +107,7 @@ class PlaylistPolicy
     {
         return Nova::whenServing(
             fn (): bool => $user->hasRole('Admin'),
-            fn (): bool => $playlist->trashed() && $user->getKey() === $playlist->user_id && $user->can('restore playlist')
+            fn (): bool => $playlist->trashed() && $user->getKey() === $playlist->user_id && $user->can(ExtendedCrudPermission::RESTORE()->format(Playlist::class))
         );
     }
 
@@ -117,7 +119,7 @@ class PlaylistPolicy
      */
     public function forceDelete(User $user): bool
     {
-        return $user->can('force delete playlist');
+        return $user->can(ExtendedCrudPermission::FORCE_DELETE()->format(Playlist::class));
     }
 
     /**

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Wiki\ExternalResource;
 
+use App\Enums\Auth\ExtendedCrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\ExternalResource;
 use Illuminate\Foundation\Testing\WithoutEvents;
@@ -58,7 +59,7 @@ class ExternalResourceForceDeleteTest extends TestCase
     {
         $resource = ExternalResource::factory()->createOne();
 
-        $user = User::factory()->withPermission('force delete external resource')->createOne();
+        $user = User::factory()->withPermission(ExtendedCrudPermission::FORCE_DELETE()->format(ExternalResource::class))->createOne();
 
         Sanctum::actingAs($user);
 

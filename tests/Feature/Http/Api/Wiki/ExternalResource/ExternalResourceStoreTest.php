@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Wiki\ExternalResource;
 
+use App\Enums\Auth\CrudPermission;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Auth\User;
 use App\Models\Wiki\ExternalResource;
@@ -57,7 +58,7 @@ class ExternalResourceStoreTest extends TestCase
      */
     public function testRequiredFields(): void
     {
-        $user = User::factory()->withPermission('create external resource')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::CREATE()->format(ExternalResource::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -81,7 +82,7 @@ class ExternalResourceStoreTest extends TestCase
             [ExternalResource::ATTRIBUTE_SITE => ResourceSite::getDescription(ResourceSite::OFFICIAL_SITE)],
         );
 
-        $user = User::factory()->withPermission('create external resource')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::CREATE()->format(ExternalResource::class))->createOne();
 
         Sanctum::actingAs($user);
 

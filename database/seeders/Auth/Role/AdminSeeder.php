@@ -4,7 +4,33 @@ declare(strict_types=1);
 
 namespace Database\Seeders\Auth\Role;
 
+use App\Enums\Auth\CrudPermission;
+use App\Enums\Auth\ExtendedCrudPermission;
+use App\Enums\Auth\SpecialPermission;
+use App\Models\Admin\Announcement;
+use App\Models\Admin\Dump;
+use App\Models\Admin\Setting;
+use App\Models\Auth\Permission;
 use App\Models\Auth\Role;
+use App\Models\Auth\User;
+use App\Models\Billing\Balance;
+use App\Models\Billing\Transaction;
+use App\Models\Document\Page;
+use App\Models\List\Playlist;
+use App\Models\List\Playlist\PlaylistTrack;
+use App\Models\Wiki\Anime;
+use App\Models\Wiki\Anime\AnimeSynonym;
+use App\Models\Wiki\Anime\AnimeTheme;
+use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
+use App\Models\Wiki\Artist;
+use App\Models\Wiki\Audio;
+use App\Models\Wiki\ExternalResource;
+use App\Models\Wiki\Image;
+use App\Models\Wiki\Series;
+use App\Models\Wiki\Song;
+use App\Models\Wiki\Studio;
+use App\Models\Wiki\Video;
+use App\Models\Wiki\Video\VideoScript;
 
 /**
  * Class AdminSeeder.
@@ -22,56 +48,40 @@ class AdminSeeder extends RoleSeeder
         $role = Role::findOrCreate('Admin');
 
         // Admin Resources
-        $this->configureResource($role, 'announcement', $this->extendedCrudAbilities());
-        $this->configureResource($role, 'dump', $this->extendedCrudAbilities());
-        $this->configureResource($role, 'setting', $this->crudAbilities());
+        $this->configureResource($role, Announcement::class, ExtendedCrudPermission::getInstances());
+        $this->configureResource($role, Dump::class, ExtendedCrudPermission::getInstances());
+        $this->configureResource($role, Setting::class, CrudPermission::getInstances());
 
         // Auth Resources
-        $this->configureResource($role, 'permission', ['view']);
-        $this->configureResource($role, 'role', $this->crudAbilities());
-        $this->configureResource($role, 'user', $this->extendedCrudAbilities());
+        $this->configureResource($role, Permission::class, [CrudPermission::VIEW()]);
+        $this->configureResource($role, Role::class, CrudPermission::getInstances());
+        $this->configureResource($role, User::class, ExtendedCrudPermission::getInstances());
 
         // Billing Resources
-        $this->configureResource($role, 'balance', $this->extendedCrudAbilities());
-        $this->configureResource($role, 'transaction', $this->extendedCrudAbilities());
+        $this->configureResource($role, Balance::class, ExtendedCrudPermission::getInstances());
+        $this->configureResource($role, Transaction::class, ExtendedCrudPermission::getInstances());
 
         // List Resources
-        $this->configureResource($role, 'playlist', $this->extendedCrudAbilities());
-        $this->configureResource($role, 'playlist track', $this->extendedCrudAbilities());
+        $this->configureResource($role, Playlist::class, ExtendedCrudPermission::getInstances());
+        $this->configureResource($role, PlaylistTrack::class, ExtendedCrudPermission::getInstances());
 
         // Wiki Resources
-        $this->configureResource($role, 'anime', $this->extendedCrudAbilities());
-        $this->configureResource($role, 'anime synonym', $this->extendedCrudAbilities());
-        $this->configureResource($role, 'anime theme', $this->extendedCrudAbilities());
-        $this->configureResource($role, 'anime theme entry', $this->extendedCrudAbilities());
-        $this->configureResource($role, 'artist', $this->extendedCrudAbilities());
-        $this->configureResource($role, 'audio', $this->extendedCrudAbilities());
-        $this->configureResource($role, 'external resource', $this->extendedCrudAbilities());
-        $this->configureResource($role, 'image', $this->extendedCrudAbilities());
-        $this->configureResource($role, 'page', $this->extendedCrudAbilities());
-        $this->configureResource($role, 'series', $this->extendedCrudAbilities());
-        $this->configureResource($role, 'song', $this->extendedCrudAbilities());
-        $this->configureResource($role, 'studio', $this->extendedCrudAbilities());
-        $this->configureResource($role, 'video', $this->extendedCrudAbilities());
-        $this->configureResource($role, 'video script', $this->extendedCrudAbilities());
+        $this->configureResource($role, Anime::class, ExtendedCrudPermission::getInstances());
+        $this->configureResource($role, AnimeSynonym::class, ExtendedCrudPermission::getInstances());
+        $this->configureResource($role, AnimeTheme::class, ExtendedCrudPermission::getInstances());
+        $this->configureResource($role, AnimeThemeEntry::class, ExtendedCrudPermission::getInstances());
+        $this->configureResource($role, Artist::class, ExtendedCrudPermission::getInstances());
+        $this->configureResource($role, Audio::class, ExtendedCrudPermission::getInstances());
+        $this->configureResource($role, ExternalResource::class, ExtendedCrudPermission::getInstances());
+        $this->configureResource($role, Image::class, ExtendedCrudPermission::getInstances());
+        $this->configureResource($role, Page::class, ExtendedCrudPermission::getInstances());
+        $this->configureResource($role, Series::class, ExtendedCrudPermission::getInstances());
+        $this->configureResource($role, Song::class, ExtendedCrudPermission::getInstances());
+        $this->configureResource($role, Studio::class, ExtendedCrudPermission::getInstances());
+        $this->configureResource($role, Video::class, ExtendedCrudPermission::getInstances());
+        $this->configureResource($role, VideoScript::class, ExtendedCrudPermission::getInstances());
 
         // Special Permissions
-        $this->configureAbilities($role, ['view nova', 'view telescope', 'view horizon', 'bypass api rate limiter']);
-    }
-
-    /**
-     * Get extended CRUD abilities for soft-delete resource.
-     *
-     * @return array<int, string>
-     */
-    protected function extendedCrudAbilities(): array
-    {
-        return array_merge(
-            $this->crudAbilities(),
-            [
-                'restore',
-                'force delete',
-            ],
-        );
+        $this->configureAbilities($role, SpecialPermission::getValues());
     }
 }

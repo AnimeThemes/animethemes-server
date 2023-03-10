@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Billing\Balance;
 
+use App\Enums\Auth\ExtendedCrudPermission;
 use App\Models\Auth\User;
 use App\Models\Billing\Balance;
 use Illuminate\Foundation\Testing\WithoutEvents;
@@ -58,7 +59,7 @@ class BalanceForceDeleteTest extends TestCase
     {
         $balance = Balance::factory()->createOne();
 
-        $user = User::factory()->withPermission('force delete balance')->createOne();
+        $user = User::factory()->withPermission(ExtendedCrudPermission::FORCE_DELETE()->format(Balance::class))->createOne();
 
         Sanctum::actingAs($user);
 

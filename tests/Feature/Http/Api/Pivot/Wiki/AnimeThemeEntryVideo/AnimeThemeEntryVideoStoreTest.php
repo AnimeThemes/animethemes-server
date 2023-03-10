@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Http\Api\Pivot\Wiki\AnimeThemeEntryVideo;
 
+use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
@@ -66,7 +67,7 @@ class AnimeThemeEntryVideoStoreTest extends TestCase
      */
     public function testRequiredFields(): void
     {
-        $user = User::factory()->withPermissions(['create anime theme entry', 'create video'])->createOne();
+        $user = User::factory()->withPermissions([CrudPermission::CREATE()->format(AnimeThemeEntry::class), CrudPermission::CREATE()->format(Video::class)])->createOne();
 
         Sanctum::actingAs($user);
 
@@ -94,7 +95,7 @@ class AnimeThemeEntryVideoStoreTest extends TestCase
             AnimeThemeEntryVideo::ATTRIBUTE_VIDEO => Video::factory()->createOne()->getKey(),
         ];
 
-        $user = User::factory()->withPermissions(['create anime theme entry', 'create video'])->createOne();
+        $user = User::factory()->withPermissions([CrudPermission::CREATE()->format(AnimeThemeEntry::class), CrudPermission::CREATE()->format(Video::class)])->createOne();
 
         Sanctum::actingAs($user);
 

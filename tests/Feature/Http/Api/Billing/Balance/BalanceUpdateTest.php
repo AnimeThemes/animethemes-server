@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Billing\Balance;
 
+use App\Enums\Auth\CrudPermission;
 use App\Enums\Models\Billing\BalanceFrequency;
 use App\Enums\Models\Billing\Service;
 use App\Models\Auth\User;
@@ -86,7 +87,7 @@ class BalanceUpdateTest extends TestCase
             ]
         );
 
-        $user = User::factory()->withPermission('update balance')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::UPDATE()->format(Balance::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -112,7 +113,7 @@ class BalanceUpdateTest extends TestCase
             ]
         );
 
-        $user = User::factory()->withPermission('update balance')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::UPDATE()->format(Balance::class))->createOne();
 
         Sanctum::actingAs($user);
 

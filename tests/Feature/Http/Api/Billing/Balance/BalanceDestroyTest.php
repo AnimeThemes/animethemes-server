@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Billing\Balance;
 
+use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Billing\Balance;
 use Illuminate\Foundation\Testing\WithoutEvents;
@@ -60,7 +61,7 @@ class BalanceDestroyTest extends TestCase
 
         $balance->delete();
 
-        $user = User::factory()->withPermission('delete balance')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::DELETE()->format(Balance::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -78,7 +79,7 @@ class BalanceDestroyTest extends TestCase
     {
         $balance = Balance::factory()->createOne();
 
-        $user = User::factory()->withPermission('delete balance')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::DELETE()->format(Balance::class))->createOne();
 
         Sanctum::actingAs($user);
 

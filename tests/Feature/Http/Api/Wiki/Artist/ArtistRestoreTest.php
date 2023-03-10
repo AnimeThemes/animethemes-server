@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Wiki\Artist;
 
+use App\Enums\Auth\ExtendedCrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Artist;
 use Illuminate\Foundation\Testing\WithoutEvents;
@@ -62,7 +63,7 @@ class ArtistRestoreTest extends TestCase
     {
         $artist = Artist::factory()->createOne();
 
-        $user = User::factory()->withPermission('restore artist')->createOne();
+        $user = User::factory()->withPermission(ExtendedCrudPermission::RESTORE()->format(Artist::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -82,7 +83,7 @@ class ArtistRestoreTest extends TestCase
 
         $artist->delete();
 
-        $user = User::factory()->withPermission('restore artist')->createOne();
+        $user = User::factory()->withPermission(ExtendedCrudPermission::RESTORE()->format(Artist::class))->createOne();
 
         Sanctum::actingAs($user);
 

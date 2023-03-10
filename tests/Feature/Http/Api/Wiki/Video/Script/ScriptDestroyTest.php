@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Wiki\Video\Script;
 
+use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Video\VideoScript;
 use Illuminate\Foundation\Testing\WithoutEvents;
@@ -60,7 +61,7 @@ class ScriptDestroyTest extends TestCase
 
         $script->delete();
 
-        $user = User::factory()->withPermission('delete video script')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::DELETE()->format(VideoScript::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -78,7 +79,7 @@ class ScriptDestroyTest extends TestCase
     {
         $script = VideoScript::factory()->createOne();
 
-        $user = User::factory()->withPermission('delete video script')->createOne();
+        $user = User::factory()->withPermission(CrudPermission::DELETE()->format(VideoScript::class))->createOne();
 
         Sanctum::actingAs($user);
 
