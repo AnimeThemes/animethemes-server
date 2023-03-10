@@ -24,6 +24,7 @@ use App\Models\Wiki\Song;
 use App\Models\Wiki\Studio;
 use App\Models\Wiki\Video;
 use App\Models\Wiki\Video\VideoScript;
+use Illuminate\Support\Arr;
 
 /**
  * Class WikiEditorRoleSeeder.
@@ -40,23 +41,27 @@ class WikiEditorRoleSeeder extends RoleSeeder
         /** @var Role $role */
         $role = Role::findOrCreate('Wiki Editor');
 
+        $extendedCrudPermissions = ExtendedCrudPermission::getInstances();
+
         // List Resources
-        $this->configureResource($role, Playlist::class, ExtendedCrudPermission::getInstances());
-        $this->configureResource($role, PlaylistTrack::class, ExtendedCrudPermission::getInstances());
+        $this->configureResource($role, Playlist::class, $extendedCrudPermissions);
+        $this->configureResource($role, PlaylistTrack::class, $extendedCrudPermissions);
+
+        Arr::forget($extendedCrudPermissions, ExtendedCrudPermission::FORCE_DELETE()->key);
 
         // Wiki Resources
-        $this->configureResource($role, Anime::class, ExtendedCrudPermission::getInstances());
-        $this->configureResource($role, AnimeSynonym::class, ExtendedCrudPermission::getInstances());
-        $this->configureResource($role, AnimeTheme::class, ExtendedCrudPermission::getInstances());
-        $this->configureResource($role, AnimeThemeEntry::class, ExtendedCrudPermission::getInstances());
-        $this->configureResource($role, Artist::class, ExtendedCrudPermission::getInstances());
+        $this->configureResource($role, Anime::class, $extendedCrudPermissions);
+        $this->configureResource($role, AnimeSynonym::class, $extendedCrudPermissions);
+        $this->configureResource($role, AnimeTheme::class, $extendedCrudPermissions);
+        $this->configureResource($role, AnimeThemeEntry::class, $extendedCrudPermissions);
+        $this->configureResource($role, Artist::class, $extendedCrudPermissions);
         $this->configureResource($role, Audio::class, [CrudPermission::VIEW(), CrudPermission::UPDATE()]);
-        $this->configureResource($role, ExternalResource::class, ExtendedCrudPermission::getInstances());
-        $this->configureResource($role, Image::class, ExtendedCrudPermission::getInstances());
-        $this->configureResource($role, Page::class, ExtendedCrudPermission::getInstances());
-        $this->configureResource($role, Series::class, ExtendedCrudPermission::getInstances());
-        $this->configureResource($role, Song::class, ExtendedCrudPermission::getInstances());
-        $this->configureResource($role, Studio::class, ExtendedCrudPermission::getInstances());
+        $this->configureResource($role, ExternalResource::class, $extendedCrudPermissions);
+        $this->configureResource($role, Image::class, $extendedCrudPermissions);
+        $this->configureResource($role, Page::class, $extendedCrudPermissions);
+        $this->configureResource($role, Series::class, $extendedCrudPermissions);
+        $this->configureResource($role, Song::class, $extendedCrudPermissions);
+        $this->configureResource($role, Studio::class, $extendedCrudPermissions);
         $this->configureResource($role, Video::class, [CrudPermission::VIEW(), CrudPermission::UPDATE()]);
         $this->configureResource($role, VideoScript::class, [CrudPermission::VIEW()]);
 
