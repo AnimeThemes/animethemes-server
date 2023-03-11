@@ -240,8 +240,12 @@ apiResourceWhere('page', PageController::class, ['page' => '[\pL\pM\pN\/_-]+']);
 // List Routes
 apiResource('playlist', PlaylistController::class);
 apiScopedResource('playlist.track', TrackController::class);
-Route::get('playlist/{playlist}/forward', [ForwardController::class, 'index'])->name('playlist.forward');
-Route::get('playlist/{playlist}/backward', [BackwardController::class, 'index'])->name('playlist.backward');
+Route::get('playlist/{playlist}/forward', [ForwardController::class, 'index'])
+    ->withTrashed()
+    ->name('playlist.forward');
+Route::get('playlist/{playlist}/backward', [BackwardController::class, 'index'])
+    ->withTrashed()
+    ->name('playlist.backward');
 
 // Pivot Routes
 apiPivotResource('animeimage', 'anime', 'image', AnimeImageController::class);
