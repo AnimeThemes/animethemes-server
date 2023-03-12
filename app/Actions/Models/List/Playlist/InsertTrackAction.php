@@ -6,6 +6,9 @@ namespace App\Actions\Models\List\Playlist;
 
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Throwable;
 
 /**
  * Class InsertTrackAction.
@@ -21,20 +24,40 @@ class InsertTrackAction
      */
     public function insert(Playlist $playlist, PlaylistTrack $track): void
     {
-        if ($playlist->first()->doesntExist()) {
-            $playlist->first()->associate($track);
+        try {
+            DB::beginTransaction();
+
+            Log::debug('Begin Transaction');
+
+            if ($playlist->first()->doesntExist()) {
+                $playlist->first()->associate($track);
+            }
+
+            Log::debug('First Playlist Track');
+
+            $last = $playlist->last;
+            $last?->next()?->associate($track)?->save();
+            $track->previous()->associate($last);
+
+            Log::debug('Track Last Relation');
+
+            $track->next()->disassociate();
+
+            Log::debug('Track Next Relation');
+
+            if ($track->isDirty()) {
+                $track->save();
+            }
+
+            Log::debug('Track Saved');
+
+            $playlist->last()->associate($track)->save();
+
+            Log::debug('Playlist last relation');
+
+            DB::commit();
+        } catch (Throwable $e) {
+            DB::rollBack();
         }
-
-        $last = $playlist->last;
-        $last?->next()?->associate($track)?->save();
-        $track->previous()->associate($last);
-
-        $track->next()->disassociate();
-
-        if ($track->isDirty()) {
-            $track->save();
-        }
-
-        $playlist->last()->associate($track)->save();
     }
 }

@@ -88,7 +88,7 @@ class TrackController extends BaseController
 
         $resource = new TrackResource($track, new Query());
 
-        Log::debug('Resource', $resource->toArray($request));
+        Log::debug('Resource Created');
 
         return $resource->toResponse($request);
     }
