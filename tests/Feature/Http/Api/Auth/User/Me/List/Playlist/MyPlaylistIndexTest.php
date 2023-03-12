@@ -66,7 +66,7 @@ class MyPlaylistIndexTest extends TestCase
             ->count($this->faker->randomDigitNotNull())
             ->create();
 
-        $user = User::factory()->withPermission(CrudPermission::VIEW()->format(Playlist::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::VIEW()->format(Playlist::class))->createOne();
 
         $playlistCount = $this->faker->randomDigitNotNull();
 

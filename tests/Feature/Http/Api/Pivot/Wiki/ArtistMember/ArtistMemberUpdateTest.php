@@ -75,7 +75,7 @@ class ArtistMemberUpdateTest extends TestCase
 
         $parameters = ArtistMember::factory()->raw();
 
-        $user = User::factory()->withPermission(CrudPermission::UPDATE()->format(Artist::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(Artist::class))->createOne();
 
         Sanctum::actingAs($user);
 

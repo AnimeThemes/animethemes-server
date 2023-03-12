@@ -79,17 +79,17 @@ class AnimeFactory extends Factory
                     ->create();
 
                 Series::factory()
-                    ->hasAttached($anime, [], 'anime')
+                    ->hasAttached($anime, [], Series::RELATION_ANIME)
                     ->count(fake()->numberBetween(1, 3))
                     ->create();
 
                 ExternalResource::factory()
-                    ->hasAttached($anime, [], 'anime')
+                    ->hasAttached($anime, [], ExternalResource::RELATION_ANIME)
                     ->count(fake()->numberBetween(1, 3))
                     ->create();
 
                 Image::factory()
-                    ->hasAttached($anime, [], 'anime')
+                    ->hasAttached($anime, [], Image::RELATION_ANIME)
                     ->count(fake()->numberBetween(1, 3))
                     ->create();
             }

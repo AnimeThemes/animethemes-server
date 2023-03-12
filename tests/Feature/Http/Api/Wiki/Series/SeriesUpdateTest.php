@@ -67,7 +67,7 @@ class SeriesUpdateTest extends TestCase
 
         $parameters = Series::factory()->raw();
 
-        $user = User::factory()->withPermission(CrudPermission::UPDATE()->format(Series::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(Series::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -87,7 +87,7 @@ class SeriesUpdateTest extends TestCase
 
         $parameters = Series::factory()->raw();
 
-        $user = User::factory()->withPermission(CrudPermission::UPDATE()->format(Series::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(Series::class))->createOne();
 
         Sanctum::actingAs($user);
 

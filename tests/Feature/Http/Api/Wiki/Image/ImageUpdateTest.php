@@ -77,7 +77,7 @@ class ImageUpdateTest extends TestCase
             [Image::ATTRIBUTE_FACET => ImageFacet::getRandomInstance()->description],
         );
 
-        $user = User::factory()->withPermission(CrudPermission::UPDATE()->format(Image::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(Image::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -100,7 +100,7 @@ class ImageUpdateTest extends TestCase
             [Image::ATTRIBUTE_FACET => ImageFacet::getRandomInstance()->description],
         );
 
-        $user = User::factory()->withPermission(CrudPermission::UPDATE()->format(Image::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(Image::class))->createOne();
 
         Sanctum::actingAs($user);
 

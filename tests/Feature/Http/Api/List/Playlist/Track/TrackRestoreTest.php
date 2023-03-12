@@ -4,14 +4,17 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\List\Playlist\Track;
 
+use App\Constants\Config\FlagConstants;
 use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\ExtendedCrudPermission;
+use App\Enums\Auth\SpecialPermission;
 use App\Enums\Models\List\PlaylistVisibility;
 use App\Models\Auth\User;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
+use Illuminate\Support\Facades\Config;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
@@ -30,6 +33,8 @@ class TrackRestoreTest extends TestCase
      */
     public function testProtected(): void
     {
+        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
+
         $track = PlaylistTrack::factory()
             ->for(Playlist::factory())
             ->createOne();
@@ -46,6 +51,8 @@ class TrackRestoreTest extends TestCase
      */
     public function testForbiddenIfMissingPermission(): void
     {
+        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
+
         $track = PlaylistTrack::factory()
             ->for(Playlist::factory())
             ->createOne();
@@ -66,11 +73,13 @@ class TrackRestoreTest extends TestCase
      */
     public function testForbiddenIfNotOwnPlaylist(): void
     {
+        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
+
         $track = PlaylistTrack::factory()
             ->for(Playlist::factory()->for(User::factory()))
             ->createOne();
 
-        $user = User::factory()->withPermission(ExtendedCrudPermission::RESTORE()->format(PlaylistTrack::class))->createOne();
+        $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE()->format(PlaylistTrack::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -86,7 +95,9 @@ class TrackRestoreTest extends TestCase
      */
     public function testScoped(): void
     {
-        $user = User::factory()->withPermission(ExtendedCrudPermission::RESTORE()->format(PlaylistTrack::class))->createOne();
+        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
+
+        $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE()->format(PlaylistTrack::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)
@@ -113,7 +124,9 @@ class TrackRestoreTest extends TestCase
      */
     public function testTrashed(): void
     {
-        $user = User::factory()->withPermission(ExtendedCrudPermission::RESTORE()->format(PlaylistTrack::class))->createOne();
+        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
+
+        $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE()->format(PlaylistTrack::class))->createOne();
 
         $track = PlaylistTrack::factory()
             ->for(Playlist::factory()->for($user))
@@ -127,13 +140,53 @@ class TrackRestoreTest extends TestCase
     }
 
     /**
+     * The Playlist Restore Endpoint shall forbid users from restoring playlists
+     * if the 'flags.allow_playlist_management' property is disabled.
+     *
+     * @return void
+     */
+    public function testForbiddenIfFlagDisabled(): void
+    {
+        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, false);
+
+        $user = User::factory()
+            ->withPermissions(
+                CrudPermission::DELETE()->format(PlaylistTrack::class),
+                ExtendedCrudPermission::RESTORE()->format(PlaylistTrack::class)
+            )
+            ->createOne();
+
+        $playlist = Playlist::factory()
+            ->for($user)
+            ->createOne();
+
+        $track = PlaylistTrack::factory()
+            ->for($playlist)
+            ->createOne();
+
+        Sanctum::actingAs($user);
+
+        $this->delete(route('api.playlist.track.destroy', ['playlist' => $playlist, 'track' => $track]));
+
+        $response = $this->patch(route('api.playlist.track.restore', ['playlist' => $playlist, 'track' => $track]));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Track Restore Endpoint shall restore the sole playlist track.
      *
      * @return void
      */
     public function testRestored(): void
     {
-        $user = User::factory()->withPermissions([CrudPermission::DELETE()->format(PlaylistTrack::class), ExtendedCrudPermission::RESTORE()->format(PlaylistTrack::class)])->createOne();
+        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
+
+        $user = User::factory()
+            ->withPermissions(
+                CrudPermission::DELETE()->format(PlaylistTrack::class),
+                ExtendedCrudPermission::RESTORE()->format(PlaylistTrack::class))
+            ->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)
@@ -170,7 +223,14 @@ class TrackRestoreTest extends TestCase
      */
     public function testRestoreFirst(): void
     {
-        $user = User::factory()->withPermissions([CrudPermission::DELETE()->format(PlaylistTrack::class), ExtendedCrudPermission::RESTORE()->format(PlaylistTrack::class)])->createOne();
+        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
+
+        $user = User::factory()
+            ->withPermissions(
+                CrudPermission::DELETE()->format(PlaylistTrack::class),
+                ExtendedCrudPermission::RESTORE()->format(PlaylistTrack::class)
+            )
+            ->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)
@@ -214,7 +274,14 @@ class TrackRestoreTest extends TestCase
      */
     public function testRestoreLast(): void
     {
-        $user = User::factory()->withPermissions([CrudPermission::DELETE()->format(PlaylistTrack::class), ExtendedCrudPermission::RESTORE()->format(PlaylistTrack::class)])->createOne();
+        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
+
+        $user = User::factory()
+            ->withPermissions(
+                CrudPermission::DELETE()->format(PlaylistTrack::class),
+                ExtendedCrudPermission::RESTORE()->format(PlaylistTrack::class)
+            )
+            ->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)
@@ -253,7 +320,14 @@ class TrackRestoreTest extends TestCase
      */
     public function testRestoreSecond(): void
     {
-        $user = User::factory()->withPermissions([CrudPermission::DELETE()->format(PlaylistTrack::class), ExtendedCrudPermission::RESTORE()->format(PlaylistTrack::class)])->createOne();
+        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
+
+        $user = User::factory()
+            ->withPermissions(
+                CrudPermission::DELETE()->format(PlaylistTrack::class),
+                ExtendedCrudPermission::RESTORE()->format(PlaylistTrack::class)
+            )
+            ->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)
@@ -290,5 +364,40 @@ class TrackRestoreTest extends TestCase
 
         static::assertTrue($third->previous()->is($first));
         static::assertTrue($third->next()->is($second));
+    }
+
+    /**
+     * Users with the bypass feature flag permission shall be permitted to force delete playlist tracks
+     * even if the 'flags.allow_playlist_management' property is disabled.
+     *
+     * @return void
+     */
+    public function testDeletePermittedForBypass(): void
+    {
+        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, $this->faker->boolean());
+
+        $user = User::factory()
+            ->withPermissions(
+                CrudPermission::DELETE()->format(PlaylistTrack::class),
+                ExtendedCrudPermission::RESTORE()->format(PlaylistTrack::class),
+                SpecialPermission::BYPASS_FEATURE_FLAGS
+            )
+            ->createOne();
+
+        $playlist = Playlist::factory()
+            ->for($user)
+            ->createOne();
+
+        $track = PlaylistTrack::factory()
+            ->for($playlist)
+            ->createOne();
+
+        Sanctum::actingAs($user);
+
+        $this->delete(route('api.playlist.track.destroy', ['playlist' => $playlist, 'track' => $track]));
+
+        $response = $this->patch(route('api.playlist.track.restore', ['playlist' => $playlist, 'track' => $track]));
+
+        $response->assertOk();
     }
 }

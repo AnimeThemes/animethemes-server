@@ -61,7 +61,7 @@ class StudioDestroyTest extends TestCase
 
         $studio->delete();
 
-        $user = User::factory()->withPermission(CrudPermission::DELETE()->format(Studio::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::DELETE()->format(Studio::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -79,7 +79,7 @@ class StudioDestroyTest extends TestCase
     {
         $studio = Studio::factory()->createOne();
 
-        $user = User::factory()->withPermission(CrudPermission::DELETE()->format(Studio::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::DELETE()->format(Studio::class))->createOne();
 
         Sanctum::actingAs($user);
 

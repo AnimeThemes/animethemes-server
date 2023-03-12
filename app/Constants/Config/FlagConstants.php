@@ -32,4 +32,8 @@ class FlagConstants
     final public const ALLOW_SCRIPT_DOWNLOADING_FLAG = 'allow_script_downloading';
 
     final public const ALLOW_SCRIPT_DOWNLOADING_FLAG_QUALIFIED = 'flags.allow_script_downloading';
+
+    final public const ALLOW_PLAYLIST_MANAGEMENT = 'allow_playlist_management';
+
+    final public const ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED = 'flags.allow_playlist_management';
 }

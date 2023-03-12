@@ -48,29 +48,10 @@ class UserFactory extends Factory
     /**
      * Create and assign permission to user.
      *
-     * @param  string  $ability
+     * @param  string  ...$abilities
      * @return static
      */
-    public function withPermission(string $ability): static
-    {
-        return $this->afterCreating(
-            function (User $user) use ($ability) {
-                $permission = Permission::findOrCreate($ability);
-
-                App::make(PermissionRegistrar::class)->forgetCachedPermissions();
-
-                $user->givePermissionTo($permission);
-            }
-        );
-    }
-
-    /**
-     * Create and assign permission to user.
-     *
-     * @param  string[]  $abilities
-     * @return static
-     */
-    public function withPermissions(array $abilities): static
+    public function withPermissions(string ...$abilities): static
     {
         return $this->afterCreating(
             function (User $user) use ($abilities) {

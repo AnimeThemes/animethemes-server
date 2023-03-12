@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\List\Playlist;
 
+use App\Constants\Config\FlagConstants;
 use App\Enums\Auth\CrudPermission;
+use App\Enums\Auth\SpecialPermission;
 use App\Enums\Models\List\PlaylistVisibility;
 use App\Models\Auth\User;
 use App\Models\List\Playlist;
-use App\Models\List\Playlist\PlaylistTrack;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
+use Illuminate\Support\Facades\Config;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
@@ -18,6 +21,7 @@ use Tests\TestCase;
  */
 class PlaylistUpdateTest extends TestCase
 {
+    use WithFaker;
     use WithoutEvents;
 
     /**
@@ -27,6 +31,8 @@ class PlaylistUpdateTest extends TestCase
      */
     public function testProtected(): void
     {
+        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
+
         $playlist = Playlist::factory()->createOne();
 
         $parameters = array_merge(
@@ -46,6 +52,8 @@ class PlaylistUpdateTest extends TestCase
      */
     public function testForbiddenIfMissingPermission(): void
     {
+        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
+
         $playlist = Playlist::factory()->createOne();
 
         $parameters = array_merge(
@@ -69,6 +77,8 @@ class PlaylistUpdateTest extends TestCase
      */
     public function testForbiddenIfNotOwnPlaylist(): void
     {
+        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
+
         $playlist = Playlist::factory()
             ->for(User::factory())
             ->createOne();
@@ -78,7 +88,37 @@ class PlaylistUpdateTest extends TestCase
             [Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::getRandomInstance()->description],
         );
 
-        $user = User::factory()->withPermission(CrudPermission::UPDATE()->format(Playlist::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(Playlist::class))->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->put(route('api.playlist.update', ['playlist' => $playlist] + $parameters));
+
+        $response->assertForbidden();
+    }
+
+    /**
+     * The Playlist Update Endpoint shall forbid users from updating playlists
+     * if the 'flags.allow_playlist_management' property is disabled.
+     *
+     * @return void
+     */
+    public function testForbiddenIfFlagDisabled(): void
+    {
+        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, false);
+
+        $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(Playlist::class))->createOne();
+
+        $playlist = Playlist::factory()
+            ->for($user)
+            ->createOne();
+
+        $parameters = array_merge(
+            Playlist::factory()->raw(),
+            [
+                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::getRandomInstance()->description,
+            ],
+        );
 
         Sanctum::actingAs($user);
 
@@ -94,18 +134,12 @@ class PlaylistUpdateTest extends TestCase
      */
     public function testTrashed(): void
     {
-        $user = User::factory()->withPermission(CrudPermission::UPDATE()->format(Playlist::class))->createOne();
+        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
+
+        $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(Playlist::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)
-            ->createOne();
-
-        $first = PlaylistTrack::factory()
-            ->for($playlist)
-            ->createOne();
-
-        $last = PlaylistTrack::factory()
-            ->for($playlist)
             ->createOne();
 
         $playlist->delete();
@@ -114,8 +148,6 @@ class PlaylistUpdateTest extends TestCase
             Playlist::factory()->raw(),
             [
                 Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::getRandomInstance()->description,
-                Playlist::ATTRIBUTE_FIRST => $first->getKey(),
-                Playlist::ATTRIBUTE_LAST => $last->getKey(),
             ],
         );
 
@@ -133,26 +165,53 @@ class PlaylistUpdateTest extends TestCase
      */
     public function testUpdate(): void
     {
-        $user = User::factory()->withPermission(CrudPermission::UPDATE()->format(Playlist::class))->createOne();
+        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
+
+        $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(Playlist::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)
-            ->createOne();
-
-        $first = PlaylistTrack::factory()
-            ->for($playlist)
-            ->createOne();
-
-        $last = PlaylistTrack::factory()
-            ->for($playlist)
             ->createOne();
 
         $parameters = array_merge(
             Playlist::factory()->raw(),
             [
                 Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::getRandomInstance()->description,
-                Playlist::ATTRIBUTE_FIRST => $first->getKey(),
-                Playlist::ATTRIBUTE_LAST => $last->getKey(),
+            ],
+        );
+
+        Sanctum::actingAs($user);
+
+        $response = $this->put(route('api.playlist.update', ['playlist' => $playlist] + $parameters));
+
+        $response->assertOk();
+    }
+
+    /**
+     * Users with the bypass feature flag permission shall be permitted to update playlists
+     * even if the 'flags.allow_playlist_management' property is disabled.
+     *
+     * @return void
+     */
+    public function testUpdatePermittedForBypass(): void
+    {
+        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, $this->faker->boolean());
+
+        $user = User::factory()
+            ->withPermissions(
+                CrudPermission::UPDATE()->format(Playlist::class),
+                SpecialPermission::BYPASS_FEATURE_FLAGS
+            )
+            ->createOne();
+
+        $playlist = Playlist::factory()
+            ->for($user)
+            ->createOne();
+
+        $parameters = array_merge(
+            Playlist::factory()->raw(),
+            [
+                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::getRandomInstance()->description,
             ],
         );
 

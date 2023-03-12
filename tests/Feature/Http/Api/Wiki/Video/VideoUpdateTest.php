@@ -87,7 +87,7 @@ class VideoUpdateTest extends TestCase
             ]
         );
 
-        $user = User::factory()->withPermission(CrudPermission::UPDATE()->format(Video::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(Video::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -113,7 +113,7 @@ class VideoUpdateTest extends TestCase
             ]
         );
 
-        $user = User::factory()->withPermission(CrudPermission::UPDATE()->format(Video::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(Video::class))->createOne();
 
         Sanctum::actingAs($user);
 

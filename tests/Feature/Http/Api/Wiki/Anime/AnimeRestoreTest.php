@@ -63,7 +63,7 @@ class AnimeRestoreTest extends TestCase
     {
         $anime = Anime::factory()->createOne();
 
-        $user = User::factory()->withPermission(ExtendedCrudPermission::RESTORE()->format(Anime::class))->createOne();
+        $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE()->format(Anime::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -83,7 +83,7 @@ class AnimeRestoreTest extends TestCase
 
         $anime->delete();
 
-        $user = User::factory()->withPermission(ExtendedCrudPermission::RESTORE()->format(Anime::class))->createOne();
+        $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE()->format(Anime::class))->createOne();
 
         Sanctum::actingAs($user);
 

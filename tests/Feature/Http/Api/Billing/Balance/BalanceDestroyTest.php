@@ -61,7 +61,7 @@ class BalanceDestroyTest extends TestCase
 
         $balance->delete();
 
-        $user = User::factory()->withPermission(CrudPermission::DELETE()->format(Balance::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::DELETE()->format(Balance::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -79,7 +79,7 @@ class BalanceDestroyTest extends TestCase
     {
         $balance = Balance::factory()->createOne();
 
-        $user = User::factory()->withPermission(CrudPermission::DELETE()->format(Balance::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::DELETE()->format(Balance::class))->createOne();
 
         Sanctum::actingAs($user);
 

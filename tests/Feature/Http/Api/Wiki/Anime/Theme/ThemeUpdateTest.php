@@ -78,7 +78,7 @@ class ThemeUpdateTest extends TestCase
             [AnimeTheme::ATTRIBUTE_TYPE => ThemeType::getRandomInstance()->description],
         );
 
-        $user = User::factory()->withPermission(CrudPermission::UPDATE()->format(AnimeTheme::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(AnimeTheme::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -101,7 +101,7 @@ class ThemeUpdateTest extends TestCase
             [AnimeTheme::ATTRIBUTE_TYPE => ThemeType::getRandomInstance()->description],
         );
 
-        $user = User::factory()->withPermission(CrudPermission::UPDATE()->format(AnimeTheme::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(AnimeTheme::class))->createOne();
 
         Sanctum::actingAs($user);
 

@@ -11,6 +11,7 @@ use App\Actions\Http\Api\RestoreAction;
 use App\Actions\Http\Api\ShowAction;
 use App\Actions\Http\Api\StoreAction;
 use App\Actions\Http\Api\UpdateAction;
+use App\Constants\Config\FlagConstants;
 use App\Enums\Models\List\PlaylistVisibility;
 use App\Http\Api\Query\Query;
 use App\Http\Controllers\Api\BaseController;
@@ -24,6 +25,7 @@ use App\Models\List\Playlist;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 /**
  * Class PlaylistController.
@@ -36,6 +38,13 @@ class PlaylistController extends BaseController
     public function __construct()
     {
         parent::__construct(Playlist::class, 'playlist');
+
+        $isPlaylistManagementAllowed = Str::of('is_feature_enabled:')
+            ->append(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED)
+            ->append(',Playlist Management Disabled')
+            ->__toString();
+
+        $this->middleware($isPlaylistManagementAllowed)->except(['index', 'show']);
     }
 
     /**

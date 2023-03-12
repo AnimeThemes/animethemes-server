@@ -63,7 +63,7 @@ class SeriesRestoreTest extends TestCase
     {
         $series = Series::factory()->createOne();
 
-        $user = User::factory()->withPermission(ExtendedCrudPermission::RESTORE()->format(Series::class))->createOne();
+        $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE()->format(Series::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -83,7 +83,7 @@ class SeriesRestoreTest extends TestCase
 
         $series->delete();
 
-        $user = User::factory()->withPermission(ExtendedCrudPermission::RESTORE()->format(Series::class))->createOne();
+        $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE()->format(Series::class))->createOne();
 
         Sanctum::actingAs($user);
 

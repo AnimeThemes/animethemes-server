@@ -68,7 +68,12 @@ class AnimeImageDestroyTest extends TestCase
         $anime = Anime::factory()->createOne();
         $image = Image::factory()->createOne();
 
-        $user = User::factory()->withPermissions([CrudPermission::DELETE()->format(Anime::class), CrudPermission::DELETE()->format(Image::class)])->createOne();
+        $user = User::factory()
+            ->withPermissions(
+                CrudPermission::DELETE()->format(Anime::class),
+                CrudPermission::DELETE()->format(Image::class)
+            )
+            ->createOne();
 
         Sanctum::actingAs($user);
 
@@ -89,7 +94,12 @@ class AnimeImageDestroyTest extends TestCase
             ->for(Image::factory())
             ->createOne();
 
-        $user = User::factory()->withPermissions([CrudPermission::DELETE()->format(Anime::class), CrudPermission::DELETE()->format(Image::class)])->createOne();
+        $user = User::factory()
+            ->withPermissions(
+                CrudPermission::DELETE()->format(Anime::class),
+                CrudPermission::DELETE()->format(Image::class)
+            )
+            ->createOne();
 
         Sanctum::actingAs($user);
 

@@ -65,7 +65,12 @@ class AnimeStudioStoreTest extends TestCase
      */
     public function testRequiredFields(): void
     {
-        $user = User::factory()->withPermissions([CrudPermission::CREATE()->format(Anime::class), CrudPermission::CREATE()->format(Studio::class)])->createOne();
+        $user = User::factory()
+            ->withPermissions(
+                CrudPermission::CREATE()->format(Anime::class),
+                CrudPermission::CREATE()->format(Studio::class)
+            )
+            ->createOne();
 
         Sanctum::actingAs($user);
 
@@ -89,7 +94,12 @@ class AnimeStudioStoreTest extends TestCase
             AnimeStudio::ATTRIBUTE_STUDIO => Studio::factory()->createOne()->getKey(),
         ];
 
-        $user = User::factory()->withPermissions([CrudPermission::CREATE()->format(Anime::class), CrudPermission::CREATE()->format(Studio::class)])->createOne();
+        $user = User::factory()
+            ->withPermissions(
+                CrudPermission::CREATE()->format(Anime::class),
+                CrudPermission::CREATE()->format(Studio::class)
+            )
+            ->createOne();
 
         Sanctum::actingAs($user);
 

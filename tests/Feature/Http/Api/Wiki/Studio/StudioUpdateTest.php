@@ -67,7 +67,7 @@ class StudioUpdateTest extends TestCase
 
         $parameters = Studio::factory()->raw();
 
-        $user = User::factory()->withPermission(CrudPermission::UPDATE()->format(Studio::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(Studio::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -87,7 +87,7 @@ class StudioUpdateTest extends TestCase
 
         $parameters = Studio::factory()->raw();
 
-        $user = User::factory()->withPermission(CrudPermission::UPDATE()->format(Studio::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(Studio::class))->createOne();
 
         Sanctum::actingAs($user);
 

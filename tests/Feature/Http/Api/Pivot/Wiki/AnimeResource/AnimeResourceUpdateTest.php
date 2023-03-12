@@ -76,7 +76,12 @@ class AnimeResourceUpdateTest extends TestCase
 
         $parameters = AnimeResource::factory()->raw();
 
-        $user = User::factory()->withPermissions([CrudPermission::UPDATE()->format(Anime::class), CrudPermission::UPDATE()->format(ExternalResource::class)])->createOne();
+        $user = User::factory()
+            ->withPermissions(
+                CrudPermission::UPDATE()->format(Anime::class),
+                CrudPermission::UPDATE()->format(ExternalResource::class)
+            )
+            ->createOne();
 
         Sanctum::actingAs($user);
 

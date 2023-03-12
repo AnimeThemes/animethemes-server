@@ -112,5 +112,15 @@ class SettingSeeder extends Seeder
                 Setting::ATTRIBUTE_VALUE => Config::get(WikiConstants::FEATURED_VIDEO_SETTING_QUALIFIED, ''),
             ]
         );
+
+        Setting::query()->firstOrCreate(
+            [
+                Setting::ATTRIBUTE_KEY => FlagConstants::ALLOW_PLAYLIST_MANAGEMENT,
+            ],
+            [
+                Setting::ATTRIBUTE_KEY => FlagConstants::ALLOW_PLAYLIST_MANAGEMENT,
+                Setting::ATTRIBUTE_VALUE => 'false',
+            ]
+        );
     }
 }

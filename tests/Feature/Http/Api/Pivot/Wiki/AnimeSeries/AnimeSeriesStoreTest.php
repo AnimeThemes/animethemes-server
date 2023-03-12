@@ -65,7 +65,12 @@ class AnimeSeriesStoreTest extends TestCase
      */
     public function testRequiredFields(): void
     {
-        $user = User::factory()->withPermissions([CrudPermission::CREATE()->format(Anime::class), CrudPermission::CREATE()->format(Series::class)])->createOne();
+        $user = User::factory()
+            ->withPermissions(
+                CrudPermission::CREATE()->format(Anime::class),
+                CrudPermission::CREATE()->format(Series::class)
+            )
+            ->createOne();
 
         Sanctum::actingAs($user);
 
@@ -89,7 +94,12 @@ class AnimeSeriesStoreTest extends TestCase
             AnimeSeries::ATTRIBUTE_SERIES => Series::factory()->createOne()->getKey(),
         ];
 
-        $user = User::factory()->withPermissions([CrudPermission::CREATE()->format(Anime::class), CrudPermission::CREATE()->format(Series::class)])->createOne();
+        $user = User::factory()
+            ->withPermissions(
+                CrudPermission::CREATE()->format(Anime::class),
+                CrudPermission::CREATE()->format(Series::class)
+            )
+            ->createOne();
 
         Sanctum::actingAs($user);
 

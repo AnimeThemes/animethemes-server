@@ -59,7 +59,7 @@ class TransactionForceDeleteTest extends TestCase
     {
         $transaction = Transaction::factory()->createOne();
 
-        $user = User::factory()->withPermission(ExtendedCrudPermission::FORCE_DELETE()->format(Transaction::class))->createOne();
+        $user = User::factory()->withPermissions(ExtendedCrudPermission::FORCE_DELETE()->format(Transaction::class))->createOne();
 
         Sanctum::actingAs($user);
 

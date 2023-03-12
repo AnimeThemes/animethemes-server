@@ -58,7 +58,7 @@ class TransactionStoreTest extends TestCase
      */
     public function testRequiredFields(): void
     {
-        $user = User::factory()->withPermission(CrudPermission::CREATE()->format(Transaction::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::CREATE()->format(Transaction::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -84,7 +84,7 @@ class TransactionStoreTest extends TestCase
             [Transaction::ATTRIBUTE_SERVICE => Service::getRandomInstance()->description]
         );
 
-        $user = User::factory()->withPermission(CrudPermission::CREATE()->format(Transaction::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::CREATE()->format(Transaction::class))->createOne();
 
         Sanctum::actingAs($user);
 

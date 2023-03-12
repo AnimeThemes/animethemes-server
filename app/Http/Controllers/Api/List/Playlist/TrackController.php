@@ -11,6 +11,7 @@ use App\Actions\Http\Api\List\Playlist\Track\RestoreTrackAction;
 use App\Actions\Http\Api\List\Playlist\Track\StoreTrackAction;
 use App\Actions\Http\Api\List\Playlist\Track\UpdateTrackAction;
 use App\Actions\Http\Api\ShowAction;
+use App\Constants\Config\FlagConstants;
 use App\Http\Api\Query\Query;
 use App\Http\Controllers\Api\BaseController;
 use App\Http\Requests\Api\IndexRequest;
@@ -23,6 +24,7 @@ use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 /**
  * Class TrackController.
@@ -35,6 +37,13 @@ class TrackController extends BaseController
     public function __construct()
     {
         parent::__construct(PlaylistTrack::class, 'track,playlist');
+
+        $isPlaylistManagementAllowed = Str::of('is_feature_enabled:')
+            ->append(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED)
+            ->append(',Playlist Management Disabled')
+            ->__toString();
+
+        $this->middleware($isPlaylistManagementAllowed)->except(['index', 'show']);
     }
 
     /**

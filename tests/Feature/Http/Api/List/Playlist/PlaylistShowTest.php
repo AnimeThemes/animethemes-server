@@ -64,7 +64,7 @@ class PlaylistShowTest extends TestCase
                 Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PRIVATE,
             ]);
 
-        $user = User::factory()->withPermission(CrudPermission::VIEW()->format(Playlist::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::VIEW()->format(Playlist::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -80,7 +80,7 @@ class PlaylistShowTest extends TestCase
      */
     public function testPrivatePlaylistCanBeViewedByOwner(): void
     {
-        $user = User::factory()->withPermission(CrudPermission::VIEW()->format(Playlist::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::VIEW()->format(Playlist::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)

@@ -63,7 +63,7 @@ class VideoRestoreTest extends TestCase
     {
         $video = Video::factory()->createOne();
 
-        $user = User::factory()->withPermission(ExtendedCrudPermission::RESTORE()->format(Video::class))->createOne();
+        $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE()->format(Video::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -83,7 +83,7 @@ class VideoRestoreTest extends TestCase
 
         $video->delete();
 
-        $user = User::factory()->withPermission(ExtendedCrudPermission::RESTORE()->format(Video::class))->createOne();
+        $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE()->format(Video::class))->createOne();
 
         Sanctum::actingAs($user);
 

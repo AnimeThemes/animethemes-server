@@ -72,7 +72,7 @@ class BackwardIndexTest extends TestCase
                 Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PRIVATE,
             ]);
 
-        $user = User::factory()->withPermission(CrudPermission::VIEW()->format(PlaylistTrack::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::VIEW()->format(PlaylistTrack::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -88,7 +88,7 @@ class BackwardIndexTest extends TestCase
      */
     public function testPrivatePlaylistTrackCanBeViewedByOwner(): void
     {
-        $user = User::factory()->withPermission(CrudPermission::VIEW()->format(PlaylistTrack::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::VIEW()->format(PlaylistTrack::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)

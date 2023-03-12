@@ -59,7 +59,7 @@ class BalanceStoreTest extends TestCase
      */
     public function testRequiredFields(): void
     {
-        $user = User::factory()->withPermission(CrudPermission::CREATE()->format(Balance::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::CREATE()->format(Balance::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -89,7 +89,7 @@ class BalanceStoreTest extends TestCase
             ]
         );
 
-        $user = User::factory()->withPermission(CrudPermission::CREATE()->format(Balance::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::CREATE()->format(Balance::class))->createOne();
 
         Sanctum::actingAs($user);
 

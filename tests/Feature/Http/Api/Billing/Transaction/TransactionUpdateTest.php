@@ -77,7 +77,7 @@ class TransactionUpdateTest extends TestCase
             [Transaction::ATTRIBUTE_SERVICE => Service::getRandomInstance()->description]
         );
 
-        $user = User::factory()->withPermission(CrudPermission::UPDATE()->format(Transaction::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(Transaction::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -100,7 +100,7 @@ class TransactionUpdateTest extends TestCase
             [Transaction::ATTRIBUTE_SERVICE => Service::getRandomInstance()->description]
         );
 
-        $user = User::factory()->withPermission(CrudPermission::UPDATE()->format(Transaction::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(Transaction::class))->createOne();
 
         Sanctum::actingAs($user);
 

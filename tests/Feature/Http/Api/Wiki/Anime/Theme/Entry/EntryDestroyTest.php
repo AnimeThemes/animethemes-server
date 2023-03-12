@@ -69,7 +69,7 @@ class EntryDestroyTest extends TestCase
 
         $entry->delete();
 
-        $user = User::factory()->withPermission(CrudPermission::DELETE()->format(AnimeThemeEntry::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::DELETE()->format(AnimeThemeEntry::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -89,7 +89,7 @@ class EntryDestroyTest extends TestCase
             ->for(AnimeTheme::factory()->for(Anime::factory()))
             ->createOne();
 
-        $user = User::factory()->withPermission(CrudPermission::DELETE()->format(AnimeThemeEntry::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::DELETE()->format(AnimeThemeEntry::class))->createOne();
 
         Sanctum::actingAs($user);
 

@@ -63,7 +63,7 @@ class PageRestoreTest extends TestCase
     {
         $page = Page::factory()->createOne();
 
-        $user = User::factory()->withPermission(ExtendedCrudPermission::RESTORE()->format(Page::class))->createOne();
+        $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE()->format(Page::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -83,7 +83,7 @@ class PageRestoreTest extends TestCase
 
         $page->delete();
 
-        $user = User::factory()->withPermission(ExtendedCrudPermission::RESTORE()->format(Page::class))->createOne();
+        $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE()->format(Page::class))->createOne();
 
         Sanctum::actingAs($user);
 

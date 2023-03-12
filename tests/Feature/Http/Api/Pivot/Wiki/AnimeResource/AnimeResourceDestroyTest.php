@@ -68,7 +68,12 @@ class AnimeResourceDestroyTest extends TestCase
         $anime = Anime::factory()->createOne();
         $resource = ExternalResource::factory()->createOne();
 
-        $user = User::factory()->withPermissions([CrudPermission::DELETE()->format(Anime::class), CrudPermission::DELETE()->format(ExternalResource::class)])->createOne();
+        $user = User::factory()
+            ->withPermissions(
+                CrudPermission::DELETE()->format(Anime::class),
+                CrudPermission::DELETE()->format(ExternalResource::class)
+            )
+            ->createOne();
 
         Sanctum::actingAs($user);
 
@@ -89,7 +94,12 @@ class AnimeResourceDestroyTest extends TestCase
             ->for(ExternalResource::factory(), AnimeResource::RELATION_RESOURCE)
             ->createOne();
 
-        $user = User::factory()->withPermissions([CrudPermission::DELETE()->format(Anime::class), CrudPermission::DELETE()->format(ExternalResource::class)])->createOne();
+        $user = User::factory()
+            ->withPermissions(
+                CrudPermission::DELETE()->format(Anime::class),
+                CrudPermission::DELETE()->format(ExternalResource::class)
+            )
+            ->createOne();
 
         Sanctum::actingAs($user);
 

@@ -61,7 +61,7 @@ class VideoDestroyTest extends TestCase
 
         $video->delete();
 
-        $user = User::factory()->withPermission(CrudPermission::DELETE()->format(Video::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::DELETE()->format(Video::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -79,7 +79,7 @@ class VideoDestroyTest extends TestCase
     {
         $video = Video::factory()->createOne();
 
-        $user = User::factory()->withPermission(CrudPermission::DELETE()->format(Video::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::DELETE()->format(Video::class))->createOne();
 
         Sanctum::actingAs($user);
 

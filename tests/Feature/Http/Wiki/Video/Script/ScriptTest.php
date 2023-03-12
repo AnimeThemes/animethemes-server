@@ -60,7 +60,7 @@ class ScriptTest extends TestCase
             VideoScript::ATTRIBUTE_PATH => $fsFile,
         ]);
 
-        $user = User::factory()->withPermission(SpecialPermission::BYPASS_FEATURE_FLAGS)->createOne();
+        $user = User::factory()->withPermissions(SpecialPermission::BYPASS_FEATURE_FLAGS)->createOne();
 
         Sanctum::actingAs($user);
 

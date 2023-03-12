@@ -64,7 +64,7 @@ class SynonymRestoreTest extends TestCase
     {
         $synonym = AnimeSynonym::factory()->for(Anime::factory())->createOne();
 
-        $user = User::factory()->withPermission(ExtendedCrudPermission::RESTORE()->format(AnimeSynonym::class))->createOne();
+        $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE()->format(AnimeSynonym::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -84,7 +84,7 @@ class SynonymRestoreTest extends TestCase
 
         $synonym->delete();
 
-        $user = User::factory()->withPermission(ExtendedCrudPermission::RESTORE()->format(AnimeSynonym::class))->createOne();
+        $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE()->format(AnimeSynonym::class))->createOne();
 
         Sanctum::actingAs($user);
 

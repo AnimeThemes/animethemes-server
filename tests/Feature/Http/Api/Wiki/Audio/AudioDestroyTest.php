@@ -61,7 +61,7 @@ class AudioDestroyTest extends TestCase
 
         $audio->delete();
 
-        $user = User::factory()->withPermission(CrudPermission::DELETE()->format(Audio::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::DELETE()->format(Audio::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -79,7 +79,7 @@ class AudioDestroyTest extends TestCase
     {
         $audio = Audio::factory()->createOne();
 
-        $user = User::factory()->withPermission(CrudPermission::DELETE()->format(Audio::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::DELETE()->format(Audio::class))->createOne();
 
         Sanctum::actingAs($user);
 
