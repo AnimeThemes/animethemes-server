@@ -14,6 +14,7 @@ use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 /**
@@ -42,49 +43,65 @@ class StoreTrackAction
 
         Log::debug('Track Parameters', $trackParameters);
 
-        $storeAction = new StoreAction();
+        try {
+            DB::beginTransaction();
 
-        /** @var PlaylistTrack $track */
-        $track = $storeAction->store($builder, $trackParameters);
+            Log::debug('Begin Store Transaction');
 
-        if (! empty($nextId) && empty($previousId)) {
-            /** @var PlaylistTrack $next */
-            $next = PlaylistTrack::query()
-                ->with(PlaylistTrack::RELATION_PREVIOUS)
-                ->findOrFail($nextId);
+            $storeAction = new StoreAction();
 
-            Log::debug('Next Track', $next->toArray());
+            /** @var PlaylistTrack $track */
+            $track = $storeAction->store($builder, $trackParameters);
 
-            $insertAction = new InsertTrackBeforeAction();
+            if (! empty($nextId) && empty($previousId)) {
+                /** @var PlaylistTrack $next */
+                $next = PlaylistTrack::query()
+                    ->with(PlaylistTrack::RELATION_PREVIOUS)
+                    ->findOrFail($nextId);
 
-            $insertAction->insertBefore($playlist, $track, $next);
+                Log::debug('Next Track', $next->toArray());
 
-            Log::debug('Insert Before Completed');
+                $insertAction = new InsertTrackBeforeAction();
+
+                $insertAction->insertBefore($playlist, $track, $next);
+
+                Log::debug('Insert Before Completed');
+            }
+
+            if (! empty($previousId) && empty($nextId)) {
+                /** @var PlaylistTrack $previous */
+                $previous = PlaylistTrack::query()
+                    ->with(PlaylistTrack::RELATION_NEXT)
+                    ->findOrFail($previousId);
+
+                Log::debug('Previous Track', $previous->toArray());
+
+                $insertAction = new InsertTrackAfterAction();
+
+                $insertAction->insertAfter($playlist, $track, $previous);
+
+                Log::debug('Insert After Completed');
+            }
+
+            if (empty($nextId) && empty($previousId)) {
+                $insertAction = new InsertTrackAction();
+
+                $insertAction->insert($playlist, $track);
+
+                Log::debug('Insert Completed');
+            }
+
+            DB::commit();
+
+            Log::debug('End Store Transaction');
+
+            return $storeAction->cleanup($track);
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+
+            DB::rollBack();
+
+            throw $e;
         }
-
-        if (! empty($previousId) && empty($nextId)) {
-            /** @var PlaylistTrack $previous */
-            $previous = PlaylistTrack::query()
-                ->with(PlaylistTrack::RELATION_NEXT)
-                ->findOrFail($previousId);
-
-            Log::debug('Previous Track', $previous->toArray());
-
-            $insertAction = new InsertTrackAfterAction();
-
-            $insertAction->insertAfter($playlist, $track, $previous);
-
-            Log::debug('Insert After Completed');
-        }
-
-        if (empty($nextId) && empty($previousId)) {
-            $insertAction = new InsertTrackAction();
-
-            $insertAction->insert($playlist, $track);
-
-            Log::debug('Insert Completed');
-        }
-
-        return $storeAction->cleanup($track);
     }
 }
