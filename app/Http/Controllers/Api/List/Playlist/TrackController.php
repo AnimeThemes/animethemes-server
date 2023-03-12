@@ -23,6 +23,7 @@ use App\Http\Resources\List\Playlist\Collection\TrackCollection;
 use App\Http\Resources\List\Playlist\Resource\TrackResource;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
+use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -77,6 +78,8 @@ class TrackController extends BaseController
      * @param  Playlist  $playlist
      * @param  StoreTrackAction  $action
      * @return JsonResponse
+     *
+     * @throws Exception
      */
     public function store(StoreRequest $request, Playlist $playlist, StoreTrackAction $action): JsonResponse
     {
@@ -159,6 +162,8 @@ class TrackController extends BaseController
      * @param  PlaylistTrack  $track
      * @param  RestoreTrackAction  $action
      * @return JsonResponse
+     *
+     * @throws Exception
      */
     public function restore(Request $request, Playlist $playlist, PlaylistTrack $track, RestoreTrackAction $action): JsonResponse
     {

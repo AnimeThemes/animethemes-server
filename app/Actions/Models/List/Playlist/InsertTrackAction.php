@@ -6,9 +6,9 @@ namespace App\Actions\Models\List\Playlist;
 
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
+use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Throwable;
 
 /**
  * Class InsertTrackAction.
@@ -21,12 +21,14 @@ class InsertTrackAction
      * @param  Playlist  $playlist
      * @param  PlaylistTrack  $track
      * @return void
+     *
+     * @throws Exception
      */
     public function insert(Playlist $playlist, PlaylistTrack $track): void
     {
         try {
             DB::beginTransaction();
-
+            
             Log::debug('Begin Transaction');
 
             if ($playlist->first()->doesntExist()) {
@@ -60,8 +62,12 @@ class InsertTrackAction
             Log::debug('Associate last track');
 
             DB::commit();
-        } catch (Throwable $e) {
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+
             DB::rollBack();
+
+            throw $e;
         }
     }
 }
