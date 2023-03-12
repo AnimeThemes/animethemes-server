@@ -62,7 +62,7 @@ class SynonymDestroyTest extends TestCase
 
         $synonym->delete();
 
-        $user = User::factory()->withPermission(CrudPermission::DELETE()->format(AnimeSynonym::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::DELETE()->format(AnimeSynonym::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -80,7 +80,7 @@ class SynonymDestroyTest extends TestCase
     {
         $synonym = AnimeSynonym::factory()->for(Anime::factory())->createOne();
 
-        $user = User::factory()->withPermission(CrudPermission::DELETE()->format(AnimeSynonym::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::DELETE()->format(AnimeSynonym::class))->createOne();
 
         Sanctum::actingAs($user);
 

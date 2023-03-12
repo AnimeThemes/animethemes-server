@@ -82,4 +82,17 @@ return [
     */
 
     'allow_script_downloading' => (bool) env('ALLOW_SCRIPT_DOWNLOADING', false),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Allow Playlist Management
+    |--------------------------------------------------------------------------
+    |
+    | When playlist management is allowed, requests to write routes for playlist resources
+    | permit authorized users. If disabled, requests to write routes for playlist resources
+    | will raise a 403 Forbidden response.
+    |
+    */
+
+    'allow_playlist_management' => (bool) env('ALLOW_PLAYLIST_MANAGEMENT', false),
 ];

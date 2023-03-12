@@ -76,7 +76,12 @@ class StudioResourceUpdateTest extends TestCase
 
         $parameters = StudioResource::factory()->raw();
 
-        $user = User::factory()->withPermissions([CrudPermission::UPDATE()->format(Studio::class), CrudPermission::UPDATE()->format(ExternalResource::class)])->createOne();
+        $user = User::factory()
+            ->withPermissions(
+                CrudPermission::UPDATE()->format(Studio::class),
+                CrudPermission::UPDATE()->format(ExternalResource::class)
+            )
+            ->createOne();
 
         Sanctum::actingAs($user);
 

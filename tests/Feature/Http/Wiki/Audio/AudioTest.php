@@ -61,7 +61,7 @@ class AudioTest extends TestCase
 
         $audio = Audio::factory()->createOne();
 
-        $user = User::factory()->withPermission(SpecialPermission::BYPASS_FEATURE_FLAGS)->createOne();
+        $user = User::factory()->withPermissions(SpecialPermission::BYPASS_FEATURE_FLAGS)->createOne();
 
         Sanctum::actingAs($user);
 

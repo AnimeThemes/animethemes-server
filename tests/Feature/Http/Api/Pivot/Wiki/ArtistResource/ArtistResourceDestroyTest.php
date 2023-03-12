@@ -68,7 +68,12 @@ class ArtistResourceDestroyTest extends TestCase
         $artist = Artist::factory()->createOne();
         $resource = ExternalResource::factory()->createOne();
 
-        $user = User::factory()->withPermissions([CrudPermission::DELETE()->format(Artist::class), CrudPermission::DELETE()->format(ExternalResource::class)])->createOne();
+        $user = User::factory()
+            ->withPermissions(
+                CrudPermission::DELETE()->format(Artist::class),
+                CrudPermission::DELETE()->format(ExternalResource::class)
+            )
+            ->createOne();
 
         Sanctum::actingAs($user);
 
@@ -89,7 +94,12 @@ class ArtistResourceDestroyTest extends TestCase
             ->for(ExternalResource::factory(), ArtistResource::RELATION_RESOURCE)
             ->createOne();
 
-        $user = User::factory()->withPermissions([CrudPermission::DELETE()->format(Artist::class), CrudPermission::DELETE()->format(ExternalResource::class)])->createOne();
+        $user = User::factory()
+            ->withPermissions(
+                CrudPermission::DELETE()->format(Artist::class),
+                CrudPermission::DELETE()->format(ExternalResource::class)
+            )
+            ->createOne();
 
         Sanctum::actingAs($user);
 

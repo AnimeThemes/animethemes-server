@@ -68,7 +68,12 @@ class StudioResourceDestroyTest extends TestCase
         $studio = Studio::factory()->createOne();
         $resource = ExternalResource::factory()->createOne();
 
-        $user = User::factory()->withPermissions([CrudPermission::DELETE()->format(Studio::class), CrudPermission::DELETE()->format(ExternalResource::class)])->createOne();
+        $user = User::factory()
+            ->withPermissions(
+                CrudPermission::DELETE()->format(Studio::class),
+                CrudPermission::DELETE()->format(ExternalResource::class)
+            )
+            ->createOne();
 
         Sanctum::actingAs($user);
 
@@ -89,7 +94,12 @@ class StudioResourceDestroyTest extends TestCase
             ->for(ExternalResource::factory(), StudioResource::RELATION_RESOURCE)
             ->createOne();
 
-        $user = User::factory()->withPermissions([CrudPermission::DELETE()->format(Studio::class), CrudPermission::DELETE()->format(ExternalResource::class)])->createOne();
+        $user = User::factory()
+            ->withPermissions(
+                CrudPermission::DELETE()->format(Studio::class),
+                CrudPermission::DELETE()->format(ExternalResource::class)
+            )
+            ->createOne();
 
         Sanctum::actingAs($user);
 

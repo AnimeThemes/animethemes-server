@@ -73,7 +73,12 @@ class AnimeThemeEntryVideoDestroyTest extends TestCase
 
         $video = Video::factory()->createOne();
 
-        $user = User::factory()->withPermissions([CrudPermission::DELETE()->format(AnimeThemeEntry::class), CrudPermission::DELETE()->format(Video::class)])->createOne();
+        $user = User::factory()
+            ->withPermissions(
+                CrudPermission::DELETE()->format(AnimeThemeEntry::class),
+                CrudPermission::DELETE()->format(Video::class)
+            )
+            ->createOne();
 
         Sanctum::actingAs($user);
 
@@ -94,7 +99,12 @@ class AnimeThemeEntryVideoDestroyTest extends TestCase
             ->for(Video::factory())
             ->createOne();
 
-        $user = User::factory()->withPermissions([CrudPermission::DELETE()->format(AnimeThemeEntry::class), CrudPermission::DELETE()->format(Video::class)])->createOne();
+        $user = User::factory()
+            ->withPermissions(
+                CrudPermission::DELETE()->format(AnimeThemeEntry::class),
+                CrudPermission::DELETE()->format(Video::class)
+            )
+            ->createOne();
 
         Sanctum::actingAs($user);
 

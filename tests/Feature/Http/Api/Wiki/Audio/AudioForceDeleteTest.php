@@ -59,7 +59,7 @@ class AudioForceDeleteTest extends TestCase
     {
         $audio = Audio::factory()->createOne();
 
-        $user = User::factory()->withPermission(ExtendedCrudPermission::FORCE_DELETE()->format(Audio::class))->createOne();
+        $user = User::factory()->withPermissions(ExtendedCrudPermission::FORCE_DELETE()->format(Audio::class))->createOne();
 
         Sanctum::actingAs($user);
 

@@ -4,13 +4,16 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\List\Playlist\Track;
 
+use App\Constants\Config\FlagConstants;
 use App\Enums\Auth\ExtendedCrudPermission;
+use App\Enums\Auth\SpecialPermission;
 use App\Enums\Models\List\PlaylistVisibility;
 use App\Models\Auth\User;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
+use Illuminate\Support\Facades\Config;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
@@ -29,6 +32,8 @@ class TrackForceDeleteTest extends TestCase
      */
     public function testAuthorized(): void
     {
+        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
+
         $track = PlaylistTrack::factory()
             ->for(Playlist::factory())
             ->createOne();
@@ -43,8 +48,10 @@ class TrackForceDeleteTest extends TestCase
      *
      * @return void
      */
-    public function testForbidden(): void
+    public function testForbiddenIfMissingPermission(): void
     {
+        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
+
         $track = PlaylistTrack::factory()
             ->for(Playlist::factory())
             ->createOne();
@@ -65,7 +72,9 @@ class TrackForceDeleteTest extends TestCase
      */
     public function testScoped(): void
     {
-        $user = User::factory()->withPermission(ExtendedCrudPermission::FORCE_DELETE()->format(PlaylistTrack::class))->createOne();
+        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
+
+        $user = User::factory()->withPermissions(ExtendedCrudPermission::FORCE_DELETE()->format(PlaylistTrack::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)
@@ -86,13 +95,42 @@ class TrackForceDeleteTest extends TestCase
     }
 
     /**
+     * The Track Force Delete Endpoint shall forbid users from force deleting playlist tracks
+     * if the 'flags.allow_playlist_management' property is disabled.
+     *
+     * @return void
+     */
+    public function testForbiddenIfFlagDisabled(): void
+    {
+        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, false);
+
+        $user = User::factory()->withPermissions(ExtendedCrudPermission::FORCE_DELETE()->format(PlaylistTrack::class))->createOne();
+
+        $playlist = Playlist::factory()
+            ->for($user)
+            ->createOne();
+
+        $track = PlaylistTrack::factory()
+            ->for($playlist)
+            ->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->delete(route('api.playlist.track.forceDelete', ['playlist' => $playlist, 'track' => $track]));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Track Force Delete Endpoint shall force delete the sole playlist track.
      *
      * @return void
      */
     public function testDeleted(): void
     {
-        $user = User::factory()->withPermission(ExtendedCrudPermission::FORCE_DELETE()->format(PlaylistTrack::class))->createOne();
+        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
+
+        $user = User::factory()->withPermissions(ExtendedCrudPermission::FORCE_DELETE()->format(PlaylistTrack::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)
@@ -117,13 +155,47 @@ class TrackForceDeleteTest extends TestCase
     }
 
     /**
+     * Users with the bypass feature flag permission shall be permitted to force delete playlist tracks
+     * even if the 'flags.allow_playlist_management' property is disabled.
+     *
+     * @return void
+     */
+    public function testDeletePermittedForBypass(): void
+    {
+        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, $this->faker->boolean());
+
+        $user = User::factory()
+            ->withPermissions(
+                ExtendedCrudPermission::FORCE_DELETE()->format(PlaylistTrack::class),
+                SpecialPermission::BYPASS_FEATURE_FLAGS
+            )
+            ->createOne();
+
+        $playlist = Playlist::factory()
+            ->for($user)
+            ->createOne();
+
+        $track = PlaylistTrack::factory()
+            ->for($playlist)
+            ->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->delete(route('api.playlist.track.forceDelete', ['playlist' => $playlist, 'track' => $track]));
+
+        $response->assertOk();
+    }
+
+    /**
      * The Track Force Delete Endpoint shall delete the first track.
      *
      * @return void
      */
     public function testForceDeleteFirst(): void
     {
-        $user = User::factory()->withPermission(ExtendedCrudPermission::FORCE_DELETE()->format(PlaylistTrack::class))->createOne();
+        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
+
+        $user = User::factory()->withPermissions(ExtendedCrudPermission::FORCE_DELETE()->format(PlaylistTrack::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)
@@ -156,7 +228,9 @@ class TrackForceDeleteTest extends TestCase
      */
     public function testForceDeleteLast(): void
     {
-        $user = User::factory()->withPermission(ExtendedCrudPermission::FORCE_DELETE()->format(PlaylistTrack::class))->createOne();
+        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
+
+        $user = User::factory()->withPermissions(ExtendedCrudPermission::FORCE_DELETE()->format(PlaylistTrack::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)
@@ -189,7 +263,9 @@ class TrackForceDeleteTest extends TestCase
      */
     public function testForceDeleteSecond(): void
     {
-        $user = User::factory()->withPermission(ExtendedCrudPermission::FORCE_DELETE()->format(PlaylistTrack::class))->createOne();
+        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
+
+        $user = User::factory()->withPermissions(ExtendedCrudPermission::FORCE_DELETE()->format(PlaylistTrack::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)

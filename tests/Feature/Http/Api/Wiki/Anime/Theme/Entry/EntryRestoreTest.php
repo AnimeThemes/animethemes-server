@@ -71,7 +71,7 @@ class EntryRestoreTest extends TestCase
             ->for(AnimeTheme::factory()->for(Anime::factory()))
             ->createOne();
 
-        $user = User::factory()->withPermission(ExtendedCrudPermission::RESTORE()->format(AnimeThemeEntry::class))->createOne();
+        $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE()->format(AnimeThemeEntry::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -93,7 +93,7 @@ class EntryRestoreTest extends TestCase
 
         $entry->delete();
 
-        $user = User::factory()->withPermission(ExtendedCrudPermission::RESTORE()->format(AnimeThemeEntry::class))->createOne();
+        $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE()->format(AnimeThemeEntry::class))->createOne();
 
         Sanctum::actingAs($user);
 

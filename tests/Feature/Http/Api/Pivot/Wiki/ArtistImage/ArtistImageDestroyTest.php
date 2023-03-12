@@ -68,7 +68,12 @@ class ArtistImageDestroyTest extends TestCase
         $artist = Artist::factory()->createOne();
         $image = Image::factory()->createOne();
 
-        $user = User::factory()->withPermissions([CrudPermission::DELETE()->format(Artist::class), CrudPermission::DELETE()->format(Image::class)])->createOne();
+        $user = User::factory()
+            ->withPermissions(
+                CrudPermission::DELETE()->format(Artist::class),
+                CrudPermission::DELETE()->format(Image::class)
+            )
+            ->createOne();
 
         Sanctum::actingAs($user);
 
@@ -89,7 +94,12 @@ class ArtistImageDestroyTest extends TestCase
             ->for(Image::factory())
             ->createOne();
 
-        $user = User::factory()->withPermissions([CrudPermission::DELETE()->format(Artist::class), CrudPermission::DELETE()->format(Image::class)])->createOne();
+        $user = User::factory()
+            ->withPermissions(
+                CrudPermission::DELETE()->format(Artist::class),
+                CrudPermission::DELETE()->format(Image::class)
+            )
+            ->createOne();
 
         Sanctum::actingAs($user);
 

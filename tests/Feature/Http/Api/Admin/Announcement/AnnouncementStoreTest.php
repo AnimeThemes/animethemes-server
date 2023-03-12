@@ -57,7 +57,7 @@ class AnnouncementStoreTest extends TestCase
      */
     public function testRequiredFields(): void
     {
-        $user = User::factory()->withPermission(CrudPermission::CREATE()->format(Announcement::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::CREATE()->format(Announcement::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -77,7 +77,7 @@ class AnnouncementStoreTest extends TestCase
     {
         $parameters = Announcement::factory()->raw();
 
-        $user = User::factory()->withPermission(CrudPermission::CREATE()->format(Announcement::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::CREATE()->format(Announcement::class))->createOne();
 
         Sanctum::actingAs($user);
 

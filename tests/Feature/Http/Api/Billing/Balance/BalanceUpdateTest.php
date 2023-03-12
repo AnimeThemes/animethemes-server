@@ -87,7 +87,7 @@ class BalanceUpdateTest extends TestCase
             ]
         );
 
-        $user = User::factory()->withPermission(CrudPermission::UPDATE()->format(Balance::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(Balance::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -113,7 +113,7 @@ class BalanceUpdateTest extends TestCase
             ]
         );
 
-        $user = User::factory()->withPermission(CrudPermission::UPDATE()->format(Balance::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(Balance::class))->createOne();
 
         Sanctum::actingAs($user);
 

@@ -67,7 +67,12 @@ class AnimeThemeEntryVideoStoreTest extends TestCase
      */
     public function testRequiredFields(): void
     {
-        $user = User::factory()->withPermissions([CrudPermission::CREATE()->format(AnimeThemeEntry::class), CrudPermission::CREATE()->format(Video::class)])->createOne();
+        $user = User::factory()
+            ->withPermissions(
+                CrudPermission::CREATE()->format(AnimeThemeEntry::class),
+                CrudPermission::CREATE()->format(Video::class)
+            )
+            ->createOne();
 
         Sanctum::actingAs($user);
 
@@ -95,7 +100,12 @@ class AnimeThemeEntryVideoStoreTest extends TestCase
             AnimeThemeEntryVideo::ATTRIBUTE_VIDEO => Video::factory()->createOne()->getKey(),
         ];
 
-        $user = User::factory()->withPermissions([CrudPermission::CREATE()->format(AnimeThemeEntry::class), CrudPermission::CREATE()->format(Video::class)])->createOne();
+        $user = User::factory()
+            ->withPermissions(
+                CrudPermission::CREATE()->format(AnimeThemeEntry::class),
+                CrudPermission::CREATE()->format(Video::class)
+            )
+            ->createOne();
 
         Sanctum::actingAs($user);
 

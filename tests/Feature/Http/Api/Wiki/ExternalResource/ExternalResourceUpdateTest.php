@@ -79,7 +79,7 @@ class ExternalResourceUpdateTest extends TestCase
             [ExternalResource::ATTRIBUTE_SITE => ResourceSite::getDescription(ResourceSite::OFFICIAL_SITE)]
         );
 
-        $user = User::factory()->withPermission(CrudPermission::UPDATE()->format(ExternalResource::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(ExternalResource::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -104,7 +104,7 @@ class ExternalResourceUpdateTest extends TestCase
             [ExternalResource::ATTRIBUTE_SITE => ResourceSite::getDescription(ResourceSite::OFFICIAL_SITE)]
         );
 
-        $user = User::factory()->withPermission(CrudPermission::UPDATE()->format(ExternalResource::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(ExternalResource::class))->createOne();
 
         Sanctum::actingAs($user);
 

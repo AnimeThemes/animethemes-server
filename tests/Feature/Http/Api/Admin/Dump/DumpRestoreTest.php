@@ -63,7 +63,7 @@ class DumpRestoreTest extends TestCase
     {
         $dump = Dump::factory()->createOne();
 
-        $user = User::factory()->withPermission(ExtendedCrudPermission::RESTORE()->format(Dump::class))->createOne();
+        $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE()->format(Dump::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -83,7 +83,7 @@ class DumpRestoreTest extends TestCase
 
         $dump->delete();
 
-        $user = User::factory()->withPermission(ExtendedCrudPermission::RESTORE()->format(Dump::class))->createOne();
+        $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE()->format(Dump::class))->createOne();
 
         Sanctum::actingAs($user);
 

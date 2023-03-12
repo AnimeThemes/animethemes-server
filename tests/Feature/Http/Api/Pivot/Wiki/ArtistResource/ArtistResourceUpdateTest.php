@@ -76,7 +76,12 @@ class ArtistResourceUpdateTest extends TestCase
 
         $parameters = ArtistResource::factory()->raw();
 
-        $user = User::factory()->withPermissions([CrudPermission::UPDATE()->format(Artist::class), CrudPermission::UPDATE()->format(ExternalResource::class)])->createOne();
+        $user = User::factory()
+            ->withPermissions(
+                CrudPermission::UPDATE()->format(Artist::class),
+                CrudPermission::UPDATE()->format(ExternalResource::class)
+            )
+            ->createOne();
 
         Sanctum::actingAs($user);
 

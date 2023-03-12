@@ -59,7 +59,7 @@ class PageForceDeleteTest extends TestCase
     {
         $page = Page::factory()->createOne();
 
-        $user = User::factory()->withPermission(ExtendedCrudPermission::FORCE_DELETE()->format(Page::class))->createOne();
+        $user = User::factory()->withPermissions(ExtendedCrudPermission::FORCE_DELETE()->format(Page::class))->createOne();
 
         Sanctum::actingAs($user);
 

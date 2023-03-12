@@ -57,7 +57,7 @@ class AudioStoreTest extends TestCase
      */
     public function testRequiredFields(): void
     {
-        $user = User::factory()->withPermission(CrudPermission::CREATE()->format(Audio::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::CREATE()->format(Audio::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -81,7 +81,7 @@ class AudioStoreTest extends TestCase
     {
         $parameters = Audio::factory()->raw();
 
-        $user = User::factory()->withPermission(CrudPermission::CREATE()->format(Audio::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::CREATE()->format(Audio::class))->createOne();
 
         Sanctum::actingAs($user);
 

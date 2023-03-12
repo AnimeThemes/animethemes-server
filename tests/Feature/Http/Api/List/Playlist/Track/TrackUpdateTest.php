@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\List\Playlist\Track;
 
+use App\Constants\Config\FlagConstants;
 use App\Enums\Auth\CrudPermission;
+use App\Enums\Auth\SpecialPermission;
 use App\Enums\Models\List\PlaylistVisibility;
 use App\Models\Auth\User;
 use App\Models\List\Playlist;
@@ -12,6 +14,7 @@ use App\Models\List\Playlist\PlaylistTrack;
 use App\Models\Wiki\Video;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
+use Illuminate\Support\Facades\Config;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
@@ -30,6 +33,8 @@ class TrackUpdateTest extends TestCase
      */
     public function testProtected(): void
     {
+        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
+
         $playlist = Playlist::factory()->createOne();
 
         $track = PlaylistTrack::factory()
@@ -53,6 +58,8 @@ class TrackUpdateTest extends TestCase
      */
     public function testForbiddenIfMissingPermission(): void
     {
+        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
+
         $playlist = Playlist::factory()->createOne();
 
         $track = PlaylistTrack::factory()
@@ -80,6 +87,8 @@ class TrackUpdateTest extends TestCase
      */
     public function testForbiddenIfNotOwnPlaylist(): void
     {
+        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
+
         $playlist = Playlist::factory()
             ->for(User::factory())
             ->createOne();
@@ -93,7 +102,7 @@ class TrackUpdateTest extends TestCase
             [PlaylistTrack::ATTRIBUTE_VIDEO => Video::factory()->createOne()->getKey()],
         );
 
-        $user = User::factory()->withPermission(CrudPermission::UPDATE()->format(PlaylistTrack::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(PlaylistTrack::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -109,7 +118,9 @@ class TrackUpdateTest extends TestCase
      */
     public function testScoped(): void
     {
-        $user = User::factory()->withPermission(CrudPermission::UPDATE()->format(PlaylistTrack::class))->createOne();
+        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
+
+        $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(PlaylistTrack::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)
@@ -141,7 +152,9 @@ class TrackUpdateTest extends TestCase
      */
     public function testScopePrevious(): void
     {
-        $user = User::factory()->withPermission(CrudPermission::UPDATE()->format(PlaylistTrack::class))->createOne();
+        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
+
+        $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(PlaylistTrack::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)
@@ -179,7 +192,9 @@ class TrackUpdateTest extends TestCase
      */
     public function testPreviousIsNotSelf(): void
     {
-        $user = User::factory()->withPermission(CrudPermission::UPDATE()->format(PlaylistTrack::class))->createOne();
+        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
+
+        $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(PlaylistTrack::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)
@@ -213,7 +228,9 @@ class TrackUpdateTest extends TestCase
      */
     public function testScopeNext(): void
     {
-        $user = User::factory()->withPermission(CrudPermission::UPDATE()->format(PlaylistTrack::class))->createOne();
+        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
+
+        $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(PlaylistTrack::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)
@@ -251,7 +268,9 @@ class TrackUpdateTest extends TestCase
      */
     public function testNextIsNotSelf(): void
     {
-        $user = User::factory()->withPermission(CrudPermission::UPDATE()->format(PlaylistTrack::class))->createOne();
+        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
+
+        $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(PlaylistTrack::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)
@@ -285,7 +304,9 @@ class TrackUpdateTest extends TestCase
      */
     public function testProhibitsNextAndPrevious(): void
     {
-        $user = User::factory()->withPermission(CrudPermission::UPDATE()->format(PlaylistTrack::class))->createOne();
+        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
+
+        $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(PlaylistTrack::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)
@@ -323,13 +344,49 @@ class TrackUpdateTest extends TestCase
     }
 
     /**
+     * The Playlist Update Endpoint shall forbid users from updating playlists
+     * if the 'flags.allow_playlist_management' property is disabled.
+     *
+     * @return void
+     */
+    public function testForbiddenIfFlagDisabled(): void
+    {
+        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, false);
+
+        $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(PlaylistTrack::class))->createOne();
+
+        $playlist = Playlist::factory()
+            ->for($user)
+            ->createOne();
+
+        $track = PlaylistTrack::factory()
+            ->for($playlist)
+            ->createOne();
+
+        $parameters = array_merge(
+            PlaylistTrack::factory()->raw(),
+            [
+                PlaylistTrack::ATTRIBUTE_VIDEO => Video::factory()->createOne()->getKey(),
+            ],
+        );
+
+        Sanctum::actingAs($user);
+
+        $response = $this->put(route('api.playlist.track.update', ['playlist' => $playlist, 'track' => $track] + $parameters));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Track Update Endpoint shall forbid users from updating a track that is trashed.
      *
      * @return void
      */
     public function testTrashed(): void
     {
-        $user = User::factory()->withPermission(CrudPermission::UPDATE()->format(PlaylistTrack::class))->createOne();
+        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
+
+        $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(PlaylistTrack::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)
@@ -372,7 +429,9 @@ class TrackUpdateTest extends TestCase
      */
     public function testUpdate(): void
     {
-        $user = User::factory()->withPermission(CrudPermission::UPDATE()->format(PlaylistTrack::class))->createOne();
+        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
+
+        $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(PlaylistTrack::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)
@@ -403,7 +462,9 @@ class TrackUpdateTest extends TestCase
      */
     public function testInsertFirstAfterSecond(): void
     {
-        $user = User::factory()->withPermission(CrudPermission::UPDATE()->format(PlaylistTrack::class))->createOne();
+        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
+
+        $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(PlaylistTrack::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)
@@ -449,7 +510,9 @@ class TrackUpdateTest extends TestCase
      */
     public function testInsertFirstAfterThird(): void
     {
-        $user = User::factory()->withPermission(CrudPermission::UPDATE()->format(PlaylistTrack::class))->createOne();
+        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
+
+        $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(PlaylistTrack::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)
@@ -495,7 +558,9 @@ class TrackUpdateTest extends TestCase
      */
     public function testInsertFirstBeforeThird(): void
     {
-        $user = User::factory()->withPermission(CrudPermission::UPDATE()->format(PlaylistTrack::class))->createOne();
+        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
+
+        $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(PlaylistTrack::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)
@@ -541,7 +606,9 @@ class TrackUpdateTest extends TestCase
      */
     public function testInsertSecondAfterThird(): void
     {
-        $user = User::factory()->withPermission(CrudPermission::UPDATE()->format(PlaylistTrack::class))->createOne();
+        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
+
+        $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(PlaylistTrack::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)
@@ -587,7 +654,9 @@ class TrackUpdateTest extends TestCase
      */
     public function testInsertSecondBeforeFirst(): void
     {
-        $user = User::factory()->withPermission(CrudPermission::UPDATE()->format(PlaylistTrack::class))->createOne();
+        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
+
+        $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(PlaylistTrack::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)
@@ -633,7 +702,9 @@ class TrackUpdateTest extends TestCase
      */
     public function testInsertThirdAfterFirst(): void
     {
-        $user = User::factory()->withPermission(CrudPermission::UPDATE()->format(PlaylistTrack::class))->createOne();
+        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
+
+        $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(PlaylistTrack::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)
@@ -679,7 +750,9 @@ class TrackUpdateTest extends TestCase
      */
     public function testInsertThirdBeforeSecond(): void
     {
-        $user = User::factory()->withPermission(CrudPermission::UPDATE()->format(PlaylistTrack::class))->createOne();
+        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
+
+        $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(PlaylistTrack::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)
@@ -725,7 +798,9 @@ class TrackUpdateTest extends TestCase
      */
     public function testInsertThirdBeforeFirst(): void
     {
-        $user = User::factory()->withPermission(CrudPermission::UPDATE()->format(PlaylistTrack::class))->createOne();
+        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
+
+        $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(PlaylistTrack::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)
@@ -762,5 +837,44 @@ class TrackUpdateTest extends TestCase
 
         static::assertTrue($third->previous()->doesntExist());
         static::assertTrue($third->next()->is($first));
+    }
+
+    /**
+     * Users with the bypass feature flag permission shall be permitted to update playlist tracks
+     * even if the 'flags.allow_playlist_management' property is disabled.
+     *
+     * @return void
+     */
+    public function testUpdatePermittedForBypass(): void
+    {
+        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, $this->faker->boolean());
+
+        $user = User::factory()
+            ->withPermissions(
+                CrudPermission::UPDATE()->format(PlaylistTrack::class),
+                SpecialPermission::BYPASS_FEATURE_FLAGS
+            )
+            ->createOne();
+
+        $playlist = Playlist::factory()
+            ->for($user)
+            ->createOne();
+
+        $track = PlaylistTrack::factory()
+            ->for($playlist)
+            ->createOne();
+
+        $parameters = array_merge(
+            PlaylistTrack::factory()->raw(),
+            [
+                PlaylistTrack::ATTRIBUTE_VIDEO => Video::factory()->createOne()->getKey(),
+            ],
+        );
+
+        Sanctum::actingAs($user);
+
+        $response = $this->put(route('api.playlist.track.update', ['playlist' => $playlist, 'track' => $track] + $parameters));
+
+        $response->assertOk();
     }
 }

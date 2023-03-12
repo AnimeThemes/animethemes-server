@@ -68,7 +68,12 @@ class ArtistSongDestroyTest extends TestCase
         $artist = Artist::factory()->createOne();
         $song = Song::factory()->createOne();
 
-        $user = User::factory()->withPermissions([CrudPermission::DELETE()->format(Artist::class), CrudPermission::DELETE()->format(Song::class)])->createOne();
+        $user = User::factory()
+            ->withPermissions(
+                CrudPermission::DELETE()->format(Artist::class),
+                CrudPermission::DELETE()->format(Song::class)
+            )
+            ->createOne();
 
         Sanctum::actingAs($user);
 
@@ -89,7 +94,12 @@ class ArtistSongDestroyTest extends TestCase
             ->for(Song::factory())
             ->createOne();
 
-        $user = User::factory()->withPermissions([CrudPermission::DELETE()->format(Artist::class), CrudPermission::DELETE()->format(Song::class)])->createOne();
+        $user = User::factory()
+            ->withPermissions(
+                CrudPermission::DELETE()->format(Artist::class),
+                CrudPermission::DELETE()->format(Song::class)
+            )
+            ->createOne();
 
         Sanctum::actingAs($user);
 

@@ -77,7 +77,7 @@ class AnimeUpdateTest extends TestCase
             [Anime::ATTRIBUTE_SEASON => AnimeSeason::getRandomInstance()->description],
         );
 
-        $user = User::factory()->withPermission(CrudPermission::UPDATE()->format(Anime::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(Anime::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -100,7 +100,7 @@ class AnimeUpdateTest extends TestCase
             [Anime::ATTRIBUTE_SEASON => AnimeSeason::getRandomInstance()->description],
         );
 
-        $user = User::factory()->withPermission(CrudPermission::UPDATE()->format(Anime::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(Anime::class))->createOne();
 
         Sanctum::actingAs($user);
 

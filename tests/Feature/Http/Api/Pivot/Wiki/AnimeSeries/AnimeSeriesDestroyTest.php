@@ -68,7 +68,12 @@ class AnimeSeriesDestroyTest extends TestCase
         $anime = Anime::factory()->createOne();
         $series = Series::factory()->createOne();
 
-        $user = User::factory()->withPermissions([CrudPermission::DELETE()->format(Anime::class), CrudPermission::DELETE()->format(Series::class)])->createOne();
+        $user = User::factory()
+            ->withPermissions(
+                CrudPermission::DELETE()->format(Anime::class),
+                CrudPermission::DELETE()->format(Series::class)
+            )
+            ->createOne();
 
         Sanctum::actingAs($user);
 
@@ -89,7 +94,12 @@ class AnimeSeriesDestroyTest extends TestCase
             ->for(Series::factory())
             ->createOne();
 
-        $user = User::factory()->withPermissions([CrudPermission::DELETE()->format(Anime::class), CrudPermission::DELETE()->format(Series::class)])->createOne();
+        $user = User::factory()
+            ->withPermissions(
+                CrudPermission::DELETE()->format(Anime::class),
+                CrudPermission::DELETE()->format(Series::class)
+            )
+            ->createOne();
 
         Sanctum::actingAs($user);
 

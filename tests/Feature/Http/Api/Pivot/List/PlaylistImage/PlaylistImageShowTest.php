@@ -93,7 +93,7 @@ class PlaylistImageShowTest extends TestCase
             ->for(Image::factory())
             ->createOne();
 
-        $user = User::factory()->withPermission(CrudPermission::VIEW()->format(Playlist::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::VIEW()->format(Playlist::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -109,7 +109,7 @@ class PlaylistImageShowTest extends TestCase
      */
     public function testPrivatePlaylistImageCanBeViewedByOwner(): void
     {
-        $user = User::factory()->withPermission(CrudPermission::VIEW()->format(Playlist::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::VIEW()->format(Playlist::class))->createOne();
 
         $playlistImage = PlaylistImage::factory()
             ->for(

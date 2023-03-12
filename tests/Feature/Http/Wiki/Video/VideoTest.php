@@ -100,7 +100,7 @@ class VideoTest extends TestCase
 
         $video = Video::factory()->createOne();
 
-        $user = User::factory()->withPermission(SpecialPermission::BYPASS_FEATURE_FLAGS)->createOne();
+        $user = User::factory()->withPermissions(SpecialPermission::BYPASS_FEATURE_FLAGS)->createOne();
 
         Sanctum::actingAs($user);
 

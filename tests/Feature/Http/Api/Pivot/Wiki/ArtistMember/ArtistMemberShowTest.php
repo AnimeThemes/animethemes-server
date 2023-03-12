@@ -12,7 +12,6 @@ use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Pivot\Wiki\ArtistMemberSchema;
 use App\Http\Resources\Pivot\Wiki\Resource\ArtistMemberResource;
 use App\Models\Wiki\Artist;
-use App\Models\Wiki\Member;
 use App\Pivots\Wiki\ArtistMember;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;

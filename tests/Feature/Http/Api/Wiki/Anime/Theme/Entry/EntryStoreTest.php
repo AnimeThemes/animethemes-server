@@ -63,7 +63,7 @@ class EntryStoreTest extends TestCase
      */
     public function testRequiredFields(): void
     {
-        $user = User::factory()->withPermission(CrudPermission::CREATE()->format(AnimeThemeEntry::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::CREATE()->format(AnimeThemeEntry::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -88,7 +88,7 @@ class EntryStoreTest extends TestCase
             [AnimeThemeEntry::ATTRIBUTE_THEME => $theme->getKey()],
         );
 
-        $user = User::factory()->withPermission(CrudPermission::CREATE()->format(AnimeThemeEntry::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::CREATE()->format(AnimeThemeEntry::class))->createOne();
 
         Sanctum::actingAs($user);
 

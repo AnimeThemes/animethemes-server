@@ -65,7 +65,12 @@ class ArtistImageStoreTest extends TestCase
      */
     public function testRequiredFields(): void
     {
-        $user = User::factory()->withPermissions([CrudPermission::CREATE()->format(Artist::class), CrudPermission::CREATE()->format(Image::class)])->createOne();
+        $user = User::factory()
+            ->withPermissions(
+                CrudPermission::CREATE()->format(Artist::class),
+                CrudPermission::CREATE()->format(Image::class)
+            )
+            ->createOne();
 
         Sanctum::actingAs($user);
 
@@ -89,7 +94,12 @@ class ArtistImageStoreTest extends TestCase
             ArtistImage::ATTRIBUTE_IMAGE => Image::factory()->createOne()->getKey(),
         ];
 
-        $user = User::factory()->withPermissions([CrudPermission::CREATE()->format(Artist::class), CrudPermission::CREATE()->format(Image::class)])->createOne();
+        $user = User::factory()
+            ->withPermissions(
+                CrudPermission::CREATE()->format(Artist::class),
+                CrudPermission::CREATE()->format(Image::class)
+            )
+            ->createOne();
 
         Sanctum::actingAs($user);
 

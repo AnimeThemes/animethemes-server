@@ -4,12 +4,16 @@ declare(strict_types=1);
 
 namespace Http\Api\Pivot\List\PlaylistImage;
 
+use App\Constants\Config\FlagConstants;
 use App\Enums\Auth\CrudPermission;
+use App\Enums\Auth\SpecialPermission;
 use App\Models\Auth\User;
 use App\Models\List\Playlist;
 use App\Models\Wiki\Image;
 use App\Pivots\List\PlaylistImage;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
+use Illuminate\Support\Facades\Config;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
@@ -18,6 +22,7 @@ use Tests\TestCase;
  */
 class PlaylistImageDestroyTest extends TestCase
 {
+    use WithFaker;
     use WithoutEvents;
 
     /**
@@ -27,6 +32,8 @@ class PlaylistImageDestroyTest extends TestCase
      */
     public function testProtected(): void
     {
+        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
+
         $playlistImage = PlaylistImage::factory()
             ->for(Playlist::factory())
             ->for(Image::factory())
@@ -44,6 +51,8 @@ class PlaylistImageDestroyTest extends TestCase
      */
     public function testForbiddenIfMissingPermission(): void
     {
+        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
+
         $playlistImage = PlaylistImage::factory()
             ->for(Playlist::factory())
             ->for(Image::factory())
@@ -65,12 +74,46 @@ class PlaylistImageDestroyTest extends TestCase
      */
     public function testForbiddenIfNotOwnPlaylist(): void
     {
+        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
+
         $playlistImage = PlaylistImage::factory()
             ->for(Playlist::factory()->for(User::factory()))
             ->for(Image::factory())
             ->createOne();
 
-        $user = User::factory()->withPermissions([CrudPermission::DELETE()->format(Playlist::class), CrudPermission::DELETE()->format(Image::class)])->createOne();
+        $user = User::factory()
+            ->withPermissions(
+                CrudPermission::DELETE()->format(Playlist::class),
+                CrudPermission::DELETE()->format(Image::class))
+            ->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->delete(route('api.playlistimage.destroy', ['playlist' => $playlistImage->playlist, 'image' => $playlistImage->image]));
+
+        $response->assertForbidden();
+    }
+
+    /**
+     * The Playlist Image Destroy Endpoint shall forbid users from destroying playlist images
+     * if the 'flags.allow_playlist_management' property is disabled.
+     *
+     * @return void
+     */
+    public function testForbiddenIfFlagDisabled(): void
+    {
+        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, false);
+
+        $user = User::factory()
+            ->withPermissions(
+                CrudPermission::DELETE()->format(Playlist::class),
+                CrudPermission::DELETE()->format(Image::class))
+            ->createOne();
+
+        $playlistImage = PlaylistImage::factory()
+            ->for(Playlist::factory()->for($user))
+            ->for(Image::factory())
+            ->createOne();
 
         Sanctum::actingAs($user);
 
@@ -86,7 +129,14 @@ class PlaylistImageDestroyTest extends TestCase
      */
     public function testNotFound(): void
     {
-        $user = User::factory()->withPermissions([CrudPermission::DELETE()->format(Playlist::class), CrudPermission::DELETE()->format(Image::class)])->createOne();
+        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
+
+        $user = User::factory()
+            ->withPermissions(
+                CrudPermission::DELETE()->format(Playlist::class),
+                CrudPermission::DELETE()->format(Image::class)
+            )
+            ->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)
@@ -107,7 +157,14 @@ class PlaylistImageDestroyTest extends TestCase
      */
     public function testDeleted(): void
     {
-        $user = User::factory()->withPermissions([CrudPermission::DELETE()->format(Playlist::class), CrudPermission::DELETE()->format(Image::class)])->createOne();
+        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
+
+        $user = User::factory()
+            ->withPermissions(
+                CrudPermission::DELETE()->format(Playlist::class),
+                CrudPermission::DELETE()->format(Image::class)
+            )
+            ->createOne();
 
         $playlistImage = PlaylistImage::factory()
             ->for(Playlist::factory()->for($user))
@@ -120,5 +177,35 @@ class PlaylistImageDestroyTest extends TestCase
 
         $response->assertOk();
         static::assertModelMissing($playlistImage);
+    }
+
+    /**
+     * Users with the bypass feature flag permission shall be permitted to destroy playlist images
+     * even if the 'flags.allow_playlist_management' property is disabled.
+     *
+     * @return void
+     */
+    public function testDestroyPermittedForBypass(): void
+    {
+        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, $this->faker->boolean());
+
+        $user = User::factory()
+            ->withPermissions(
+                CrudPermission::DELETE()->format(Playlist::class),
+                CrudPermission::DELETE()->format(Image::class),
+                SpecialPermission::BYPASS_FEATURE_FLAGS
+            )
+            ->createOne();
+
+        $playlistImage = PlaylistImage::factory()
+            ->for(Playlist::factory()->for($user))
+            ->for(Image::factory())
+            ->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->delete(route('api.playlistimage.destroy', ['playlist' => $playlistImage->playlist, 'image' => $playlistImage->image]));
+
+        $response->assertOk();
     }
 }

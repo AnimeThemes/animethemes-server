@@ -4,13 +4,16 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\List\Playlist\Track;
 
+use App\Constants\Config\FlagConstants;
 use App\Enums\Auth\CrudPermission;
+use App\Enums\Auth\SpecialPermission;
 use App\Models\Auth\User;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
 use App\Models\Wiki\Video;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
+use Illuminate\Support\Facades\Config;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
@@ -29,6 +32,8 @@ class TrackStoreTest extends TestCase
      */
     public function testProtected(): void
     {
+        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
+
         $playlist = Playlist::factory()->createOne();
 
         $track = PlaylistTrack::factory()
@@ -47,6 +52,8 @@ class TrackStoreTest extends TestCase
      */
     public function testForbiddenIfMissingPermission(): void
     {
+        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
+
         $playlist = Playlist::factory()->createOne();
 
         $track = PlaylistTrack::factory()
@@ -69,6 +76,8 @@ class TrackStoreTest extends TestCase
      */
     public function testForbiddenIfNotOwnPlaylist(): void
     {
+        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
+
         $playlist = Playlist::factory()
             ->for(User::factory())
             ->createOne();
@@ -77,7 +86,35 @@ class TrackStoreTest extends TestCase
             ->for($playlist)
             ->makeOne();
 
-        $user = User::factory()->withPermission(CrudPermission::CREATE()->format(PlaylistTrack::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::CREATE()->format(PlaylistTrack::class))->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->post(route('api.playlist.track.store', ['playlist' => $playlist] + $track->toArray()));
+
+        $response->assertForbidden();
+    }
+
+    /**
+     * The Track Store Endpoint shall forbid users from creating playlist tracks
+     * if the 'flags.allow_playlist_management' property is disabled.
+     *
+     * @return void
+     */
+    public function testForbiddenIfFlagDisabled(): void
+    {
+        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, false);
+
+        $user = User::factory()->withPermissions(CrudPermission::CREATE()->format(PlaylistTrack::class))->createOne();
+
+        $playlist = Playlist::factory()
+            ->for($user)
+            ->createOne();
+
+        $track = PlaylistTrack::factory()
+            ->for($playlist)
+            ->for(Video::factory())
+            ->makeOne();
 
         Sanctum::actingAs($user);
 
@@ -93,7 +130,9 @@ class TrackStoreTest extends TestCase
      */
     public function testRequiredFields(): void
     {
-        $user = User::factory()->withPermission(CrudPermission::CREATE()->format(PlaylistTrack::class))->createOne();
+        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
+
+        $user = User::factory()->withPermissions(CrudPermission::CREATE()->format(PlaylistTrack::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)
@@ -115,7 +154,9 @@ class TrackStoreTest extends TestCase
      */
     public function testProhibitsNextAndPrevious(): void
     {
-        $user = User::factory()->withPermission(CrudPermission::CREATE()->format(PlaylistTrack::class))->createOne();
+        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
+
+        $user = User::factory()->withPermissions(CrudPermission::CREATE()->format(PlaylistTrack::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)
@@ -154,7 +195,9 @@ class TrackStoreTest extends TestCase
      */
     public function testScopeNext(): void
     {
-        $user = User::factory()->withPermission(CrudPermission::CREATE()->format(PlaylistTrack::class))->createOne();
+        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
+
+        $user = User::factory()->withPermissions(CrudPermission::CREATE()->format(PlaylistTrack::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)
@@ -187,7 +230,9 @@ class TrackStoreTest extends TestCase
      */
     public function testScopePrevious(): void
     {
-        $user = User::factory()->withPermission(CrudPermission::CREATE()->format(PlaylistTrack::class))->createOne();
+        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
+
+        $user = User::factory()->withPermissions(CrudPermission::CREATE()->format(PlaylistTrack::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)
@@ -220,7 +265,9 @@ class TrackStoreTest extends TestCase
      */
     public function testCreate(): void
     {
-        $user = User::factory()->withPermission(CrudPermission::CREATE()->format(PlaylistTrack::class))->createOne();
+        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
+
+        $user = User::factory()->withPermissions(CrudPermission::CREATE()->format(PlaylistTrack::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)
@@ -253,7 +300,9 @@ class TrackStoreTest extends TestCase
      */
     public function testCreateAfterLastTrack(): void
     {
-        $user = User::factory()->withPermission(CrudPermission::CREATE()->format(PlaylistTrack::class))->createOne();
+        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
+
+        $user = User::factory()->withPermissions(CrudPermission::CREATE()->format(PlaylistTrack::class))->createOne();
 
         $trackCount = $this->faker->numberBetween(2, 9);
 
@@ -299,7 +348,9 @@ class TrackStoreTest extends TestCase
      */
     public function testCreateAfterFirstTrack(): void
     {
-        $user = User::factory()->withPermission(CrudPermission::CREATE()->format(PlaylistTrack::class))->createOne();
+        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
+
+        $user = User::factory()->withPermissions(CrudPermission::CREATE()->format(PlaylistTrack::class))->createOne();
 
         $trackCount = $this->faker->numberBetween(2, 9);
 
@@ -346,7 +397,9 @@ class TrackStoreTest extends TestCase
      */
     public function testCreateBeforeLastTrack(): void
     {
-        $user = User::factory()->withPermission(CrudPermission::CREATE()->format(PlaylistTrack::class))->createOne();
+        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
+
+        $user = User::factory()->withPermissions(CrudPermission::CREATE()->format(PlaylistTrack::class))->createOne();
 
         $trackCount = $this->faker->numberBetween(2, 9);
 
@@ -393,7 +446,9 @@ class TrackStoreTest extends TestCase
      */
     public function testCreateBeforeFirstTrack(): void
     {
-        $user = User::factory()->withPermission(CrudPermission::CREATE()->format(PlaylistTrack::class))->createOne();
+        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
+
+        $user = User::factory()->withPermissions(CrudPermission::CREATE()->format(PlaylistTrack::class))->createOne();
 
         $trackCount = $this->faker->numberBetween(2, 9);
 
@@ -428,5 +483,38 @@ class TrackStoreTest extends TestCase
 
         static::assertTrue($track->previous()->doesntExist());
         static::assertTrue($track->next()->is($first));
+    }
+
+    /**
+     * Users with the bypass feature flag permission shall be permitted to create playlist tracks
+     * even if the 'flags.allow_playlist_management' property is disabled.
+     *
+     * @return void
+     */
+    public function testCreatePermittedForBypass(): void
+    {
+        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, $this->faker->boolean());
+
+        $user = User::factory()
+            ->withPermissions(
+                CrudPermission::CREATE()->format(PlaylistTrack::class),
+                SpecialPermission::BYPASS_FEATURE_FLAGS
+            )
+            ->createOne();
+
+        $playlist = Playlist::factory()
+            ->for($user)
+            ->createOne();
+
+        $track = PlaylistTrack::factory()
+            ->for($playlist)
+            ->for(Video::factory())
+            ->makeOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->post(route('api.playlist.track.store', ['playlist' => $playlist] + $track->toArray()));
+
+        $response->assertCreated();
     }
 }

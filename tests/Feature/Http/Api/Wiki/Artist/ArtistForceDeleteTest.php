@@ -59,7 +59,7 @@ class ArtistForceDeleteTest extends TestCase
     {
         $artist = Artist::factory()->createOne();
 
-        $user = User::factory()->withPermission(ExtendedCrudPermission::FORCE_DELETE()->format(Artist::class))->createOne();
+        $user = User::factory()->withPermissions(ExtendedCrudPermission::FORCE_DELETE()->format(Artist::class))->createOne();
 
         Sanctum::actingAs($user);
 

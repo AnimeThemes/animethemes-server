@@ -64,7 +64,7 @@ class ImageStoreTest extends TestCase
      */
     public function testRequiredFields(): void
     {
-        $user = User::factory()->withPermission(CrudPermission::CREATE()->format(Image::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::CREATE()->format(Image::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -86,7 +86,7 @@ class ImageStoreTest extends TestCase
 
         $parameters = [Image::ATTRIBUTE_FACET => ImageFacet::getRandomInstance()->description];
 
-        $user = User::factory()->withPermission(CrudPermission::CREATE()->format(Image::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::CREATE()->format(Image::class))->createOne();
 
         Sanctum::actingAs($user);
 

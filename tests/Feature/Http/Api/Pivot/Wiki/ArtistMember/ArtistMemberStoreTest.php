@@ -64,7 +64,7 @@ class ArtistMemberStoreTest extends TestCase
      */
     public function testRequiredFields(): void
     {
-        $user = User::factory()->withPermission(CrudPermission::CREATE()->format(Artist::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::CREATE()->format(Artist::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -89,7 +89,7 @@ class ArtistMemberStoreTest extends TestCase
             [ArtistMember::ATTRIBUTE_MEMBER => Artist::factory()->createOne()->getKey()],
         );
 
-        $user = User::factory()->withPermission(CrudPermission::CREATE()->format(Artist::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::CREATE()->format(Artist::class))->createOne();
 
         Sanctum::actingAs($user);
 

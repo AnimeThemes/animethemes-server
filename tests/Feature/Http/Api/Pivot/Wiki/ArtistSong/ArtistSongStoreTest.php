@@ -65,7 +65,12 @@ class ArtistSongStoreTest extends TestCase
      */
     public function testRequiredFields(): void
     {
-        $user = User::factory()->withPermissions([CrudPermission::CREATE()->format(Artist::class), CrudPermission::CREATE()->format(Song::class)])->createOne();
+        $user = User::factory()
+            ->withPermissions(
+                CrudPermission::CREATE()->format(Artist::class),
+                CrudPermission::CREATE()->format(Song::class)
+            )
+            ->createOne();
 
         Sanctum::actingAs($user);
 
@@ -90,7 +95,12 @@ class ArtistSongStoreTest extends TestCase
             [ArtistSong::ATTRIBUTE_SONG => Song::factory()->createOne()->getKey()],
         );
 
-        $user = User::factory()->withPermissions([CrudPermission::CREATE()->format(Artist::class), CrudPermission::CREATE()->format(Song::class)])->createOne();
+        $user = User::factory()
+            ->withPermissions(
+                CrudPermission::CREATE()->format(Artist::class),
+                CrudPermission::CREATE()->format(Song::class)
+            )
+            ->createOne();
 
         Sanctum::actingAs($user);
 

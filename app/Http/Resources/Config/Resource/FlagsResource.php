@@ -72,6 +72,10 @@ class FlagsResource extends JsonResource
             $result[FlagConstants::ALLOW_SCRIPT_DOWNLOADING_FLAG] = Config::bool(FlagConstants::ALLOW_SCRIPT_DOWNLOADING_FLAG_QUALIFIED);
         }
 
+        if ($criteria === null || $criteria->isAllowedField(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT)) {
+            $result[FlagConstants::ALLOW_PLAYLIST_MANAGEMENT] = Config::bool(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED);
+        }
+
         return $result;
     }
 }

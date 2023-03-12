@@ -67,7 +67,7 @@ class AnnouncementUpdateTest extends TestCase
 
         $parameters = Announcement::factory()->raw();
 
-        $user = User::factory()->withPermission(CrudPermission::UPDATE()->format(Announcement::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(Announcement::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -87,7 +87,7 @@ class AnnouncementUpdateTest extends TestCase
 
         $parameters = Announcement::factory()->raw();
 
-        $user = User::factory()->withPermission(CrudPermission::UPDATE()->format(Announcement::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(Announcement::class))->createOne();
 
         Sanctum::actingAs($user);
 

@@ -59,12 +59,12 @@ class ArtistFactory extends Factory
                     ->create();
 
                 Artist::factory()
-                    ->hasAttached($artist, [], 'members')
+                    ->hasAttached($artist, [], Artist::RELATION_MEMBERS)
                     ->count(fake()->randomDigitNotNull())
                     ->create();
 
                 Artist::factory()
-                    ->hasAttached($artist, [], 'groups')
+                    ->hasAttached($artist, [], Artist::RELATION_GROUPS)
                     ->count(fake()->randomDigitNotNull())
                     ->create();
 

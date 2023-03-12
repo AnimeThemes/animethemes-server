@@ -64,10 +64,11 @@ class AppServiceProvider extends ServiceProvider
         AboutCommand::add('Flags', [
             'Allow Audio Streams' => fn () => Config::bool(FlagConstants::ALLOW_AUDIO_STREAMS_FLAG_QUALIFIED) ? 'true' : 'false',
             'Allow Discord Notifications' => fn () => Config::bool(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED) ? 'true' : 'false',
+            'Allow Dump Downloading' => fn () => Config::bool(FlagConstants::ALLOW_DUMP_DOWNLOADING_FLAG_QUALIFIED) ? 'true' : 'false',
+            'Allow Playlist Management' => fn () => Config::bool(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED) ? 'true' : 'false',
+            'Allow Script Downloading' => fn () => Config::bool(FlagConstants::ALLOW_SCRIPT_DOWNLOADING_FLAG_QUALIFIED) ? 'true' : 'false',
             'Allow Video Streams' => fn () => Config::bool(FlagConstants::ALLOW_VIDEO_STREAMS_FLAG_QUALIFIED) ? 'true' : 'false',
             'Allow View Recording' => fn () => Config::bool(FlagConstants::ALLOW_VIEW_RECORDING_FLAG_QUALIFIED) ? 'true' : 'false',
-            'Allow Dump Downloading' => fn () => Config::bool(FlagConstants::ALLOW_DUMP_DOWNLOADING_FLAG_QUALIFIED) ? 'true' : 'false',
-            'Allow Script Downloading' => fn () => Config::bool(FlagConstants::ALLOW_SCRIPT_DOWNLOADING_FLAG_QUALIFIED) ? 'true' : 'false',
         ]);
 
         AboutCommand::add('Images', [

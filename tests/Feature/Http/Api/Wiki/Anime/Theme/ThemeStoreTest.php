@@ -59,7 +59,7 @@ class ThemeStoreTest extends TestCase
      */
     public function testRequiredFields(): void
     {
-        $user = User::factory()->withPermission(CrudPermission::CREATE()->format(AnimeTheme::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::CREATE()->format(AnimeTheme::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -87,7 +87,7 @@ class ThemeStoreTest extends TestCase
             [AnimeTheme::ATTRIBUTE_ANIME => $anime->getKey()],
         );
 
-        $user = User::factory()->withPermission(CrudPermission::CREATE()->format(AnimeTheme::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::CREATE()->format(AnimeTheme::class))->createOne();
 
         Sanctum::actingAs($user);
 

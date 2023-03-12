@@ -61,7 +61,7 @@ class ImageDestroyTest extends TestCase
 
         $image->delete();
 
-        $user = User::factory()->withPermission(CrudPermission::DELETE()->format(Image::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::DELETE()->format(Image::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -79,7 +79,7 @@ class ImageDestroyTest extends TestCase
     {
         $image = Image::factory()->createOne();
 
-        $user = User::factory()->withPermission(CrudPermission::DELETE()->format(Image::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::DELETE()->format(Image::class))->createOne();
 
         Sanctum::actingAs($user);
 
