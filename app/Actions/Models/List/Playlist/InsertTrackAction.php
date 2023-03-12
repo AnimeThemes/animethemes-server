@@ -28,7 +28,7 @@ class InsertTrackAction
     {
         try {
             DB::beginTransaction();
-            
+
             Log::debug('Begin Transaction');
 
             if ($playlist->first()->doesntExist()) {
@@ -57,9 +57,17 @@ class InsertTrackAction
 
             Log::debug('Dissociate last track');
 
-            $playlist->last()->associate($track)->save();
+            $lastBuilder = $playlist->last();
+
+            Log::debug('Last Track builder');
+
+            $modifiedPlaylist = $lastBuilder->associate($track);
 
             Log::debug('Associate last track');
+
+            $modifiedPlaylist->save();
+
+            Log::debug('Save Playlist');
 
             DB::commit();
         } catch (Exception $e) {
