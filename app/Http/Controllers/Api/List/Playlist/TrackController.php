@@ -25,6 +25,7 @@ use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 /**
@@ -79,9 +80,15 @@ class TrackController extends BaseController
      */
     public function store(StoreRequest $request, Playlist $playlist, StoreTrackAction $action): JsonResponse
     {
+        Log::debug('Validated Request', $request->validated());
+
         $track = $action->store($playlist, PlaylistTrack::query(), $request->validated());
 
+        Log::debug('New Track', $track->toArray());
+
         $resource = new TrackResource($track, new Query());
+
+        Log::debug('Resource', $resource->toArray($request));
 
         return $resource->toResponse($request);
     }
