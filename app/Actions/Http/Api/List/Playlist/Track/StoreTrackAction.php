@@ -13,6 +13,7 @@ use App\Models\List\Playlist\PlaylistTrack;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Class StoreTrackAction.
@@ -36,6 +37,8 @@ class StoreTrackAction
 
         $trackParameters = $trackParameters + [PlaylistTrack::ATTRIBUTE_PLAYLIST => $playlist->getKey()];
 
+        Log::debug('Track Parameters', $trackParameters);
+
         $storeAction = new StoreAction();
 
         /** @var PlaylistTrack $track */
@@ -47,9 +50,13 @@ class StoreTrackAction
                 ->with(PlaylistTrack::RELATION_PREVIOUS)
                 ->findOrFail($nextId);
 
+            Log::debug('Next Track', $next->toArray());
+
             $insertAction = new InsertTrackBeforeAction();
 
             $insertAction->insertBefore($playlist, $track, $next);
+
+            Log::debug('Insert Before Completed');
         }
 
         if (! empty($previousId) && empty($nextId)) {
@@ -58,15 +65,21 @@ class StoreTrackAction
                 ->with(PlaylistTrack::RELATION_NEXT)
                 ->findOrFail($previousId);
 
+            Log::debug('Previous Track', $previous->toArray());
+
             $insertAction = new InsertTrackAfterAction();
 
             $insertAction->insertAfter($playlist, $track, $previous);
+
+            Log::debug('Insert After Completed');
         }
 
         if (empty($nextId) && empty($previousId)) {
             $insertAction = new InsertTrackAction();
 
             $insertAction->insert($playlist, $track);
+
+            Log::debug('Insert Completed');
         }
 
         return $storeAction->cleanup($track);
