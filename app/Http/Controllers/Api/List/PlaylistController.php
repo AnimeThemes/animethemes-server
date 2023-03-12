@@ -15,6 +15,7 @@ use App\Constants\Config\FlagConstants;
 use App\Enums\Models\List\PlaylistVisibility;
 use App\Http\Api\Query\Query;
 use App\Http\Controllers\Api\BaseController;
+use App\Http\Middleware\Models\List\UserExceedsPlaylistLimit;
 use App\Http\Requests\Api\IndexRequest;
 use App\Http\Requests\Api\ShowRequest;
 use App\Http\Requests\Api\StoreRequest;
@@ -45,6 +46,7 @@ class PlaylistController extends BaseController
             ->__toString();
 
         $this->middleware($isPlaylistManagementAllowed)->except(['index', 'show']);
+        $this->middleware(UserExceedsPlaylistLimit::class)->only(['store', 'restore']);
     }
 
     /**

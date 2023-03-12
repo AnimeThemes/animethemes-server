@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature\Http\Api\List\Playlist\Track;
 
 use App\Constants\Config\FlagConstants;
+use App\Constants\Config\PlaylistConstants;
 use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\ExtendedCrudPermission;
 use App\Enums\Auth\SpecialPermission;
@@ -385,6 +386,82 @@ class TrackRestoreTest extends TestCase
             ->createOne();
 
         $playlist = Playlist::factory()
+            ->for($user)
+            ->createOne();
+
+        $track = PlaylistTrack::factory()
+            ->for($playlist)
+            ->createOne();
+
+        Sanctum::actingAs($user);
+
+        $this->delete(route('api.playlist.track.destroy', ['playlist' => $playlist, 'track' => $track]));
+
+        $response = $this->patch(route('api.playlist.track.restore', ['playlist' => $playlist, 'track' => $track]));
+
+        $response->assertOk();
+    }
+
+    /**
+     * The Track Restore Endpoint shall forbid users from restoring playlist tracks that exceed the max track limit.
+     *
+     * @return void
+     */
+    public function testMaxTrackLimit(): void
+    {
+        $trackLimit = $this->faker->randomDigitNotNull();
+
+        Config::set(PlaylistConstants::MAX_TRACKS_QUALIFIED, $trackLimit);
+        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
+
+        $user = User::factory()
+            ->withPermissions(
+                CrudPermission::DELETE()->format(PlaylistTrack::class),
+                ExtendedCrudPermission::RESTORE()->format(PlaylistTrack::class)
+            )
+            ->createOne();
+
+        $playlist = Playlist::factory()
+            ->tracks($trackLimit)
+            ->for($user)
+            ->createOne();
+
+        $track = PlaylistTrack::factory()
+            ->for($playlist)
+            ->createOne();
+
+        Sanctum::actingAs($user);
+
+        $this->delete(route('api.playlist.track.destroy', ['playlist' => $playlist, 'track' => $track]));
+
+        $response = $this->patch(route('api.playlist.track.restore', ['playlist' => $playlist, 'track' => $track]));
+
+        $response->assertForbidden();
+    }
+
+    /**
+     * The Track Restore Endpoint shall permit users with bypass feature flag permission
+     * to restore playlist tracks that exceed the max track limit.
+     *
+     * @return void
+     */
+    public function testMaxTrackLimitPermittedForBypass(): void
+    {
+        $trackLimit = $this->faker->randomDigitNotNull();
+
+        Config::set(PlaylistConstants::MAX_TRACKS_QUALIFIED, $trackLimit);
+        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
+
+        $user = User::factory()
+            ->withPermissions(
+                CrudPermission::DELETE()->format(PlaylistTrack::class),
+                ExtendedCrudPermission::RESTORE()->format(PlaylistTrack::class),
+                SpecialPermission::BYPASS_FEATURE_FLAGS
+            )
+            ->createOne();
+
+        $playlist = Playlist::factory()
+            ->tracks($trackLimit)
             ->for($user)
             ->createOne();
 

@@ -14,6 +14,7 @@ use App\Actions\Http\Api\ShowAction;
 use App\Constants\Config\FlagConstants;
 use App\Http\Api\Query\Query;
 use App\Http\Controllers\Api\BaseController;
+use App\Http\Middleware\Models\List\PlaylistExceedsTrackLimit;
 use App\Http\Requests\Api\IndexRequest;
 use App\Http\Requests\Api\ShowRequest;
 use App\Http\Requests\Api\StoreRequest;
@@ -44,6 +45,7 @@ class TrackController extends BaseController
             ->__toString();
 
         $this->middleware($isPlaylistManagementAllowed)->except(['index', 'show']);
+        $this->middleware(PlaylistExceedsTrackLimit::class)->only(['store', 'restore']);
     }
 
     /**

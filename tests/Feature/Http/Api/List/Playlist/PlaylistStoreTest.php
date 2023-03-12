@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature\Http\Api\List\Playlist;
 
 use App\Constants\Config\FlagConstants;
+use App\Constants\Config\PlaylistConstants;
 use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\SpecialPermission;
 use App\Enums\Models\List\PlaylistVisibility;
@@ -146,6 +147,68 @@ class PlaylistStoreTest extends TestCase
         );
 
         $user = User::factory()
+            ->withPermissions(
+                CrudPermission::CREATE()->format(Playlist::class),
+                SpecialPermission::BYPASS_FEATURE_FLAGS
+            )
+            ->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->post(route('api.playlist.store', $parameters));
+
+        $response->assertCreated();
+    }
+
+    /**
+     * The Playlist Store Endpoint shall forbid users from creating playlists that exceed the user playlist limit.
+     *
+     * @return void
+     */
+    public function testMaxTrackLimit(): void
+    {
+        $playlistLimit = $this->faker->randomDigitNotNull();
+
+        Config::set(PlaylistConstants::MAX_PLAYLISTS_QUALIFIED, $playlistLimit);
+        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
+
+        $parameters = array_merge(
+            Playlist::factory()->raw(),
+            [Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::getRandomInstance()->description],
+        );
+
+        $user = User::factory()
+            ->has(Playlist::factory()->count($playlistLimit))
+            ->withPermissions(CrudPermission::CREATE()->format(Playlist::class))
+            ->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->post(route('api.playlist.store', $parameters));
+
+        $response->assertForbidden();
+    }
+
+    /**
+     * The Playlist Store Endpoint shall permit users with bypass feature flag permission
+     * to create playlists that exceed the user playlist limit.
+     *
+     * @return void
+     */
+    public function testMaxTrackLimitPermittedForBypass(): void
+    {
+        $playlistLimit = $this->faker->randomDigitNotNull();
+
+        Config::set(PlaylistConstants::MAX_PLAYLISTS_QUALIFIED, $playlistLimit);
+        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
+
+        $parameters = array_merge(
+            Playlist::factory()->raw(),
+            [Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::getRandomInstance()->description],
+        );
+
+        $user = User::factory()
+            ->has(Playlist::factory()->count($playlistLimit))
             ->withPermissions(
                 CrudPermission::CREATE()->format(Playlist::class),
                 SpecialPermission::BYPASS_FEATURE_FLAGS

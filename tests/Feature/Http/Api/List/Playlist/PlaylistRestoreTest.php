@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature\Http\Api\List\Playlist;
 
 use App\Constants\Config\FlagConstants;
+use App\Constants\Config\PlaylistConstants;
 use App\Enums\Auth\ExtendedCrudPermission;
 use App\Enums\Auth\SpecialPermission;
 use App\Models\Auth\User;
@@ -182,5 +183,69 @@ class PlaylistRestoreTest extends TestCase
 
         $response->assertOk();
         static::assertNotSoftDeleted($playlist);
+    }
+
+    /**
+     * The Playlist Restore Endpoint shall forbid users from restoring playlists that exceed the user playlist limit.
+     *
+     * @return void
+     */
+    public function testMaxTrackLimit(): void
+    {
+        $playlistLimit = $this->faker->randomDigitNotNull();
+
+        Config::set(PlaylistConstants::MAX_PLAYLISTS_QUALIFIED, $playlistLimit);
+        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
+
+        $user = User::factory()
+            ->has(Playlist::factory()->count($playlistLimit))
+            ->withPermissions(ExtendedCrudPermission::RESTORE()->format(Playlist::class))
+            ->createOne();
+
+        $playlist = Playlist::factory()
+            ->for($user)
+            ->createOne();
+
+        $playlist->delete();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->patch(route('api.playlist.restore', ['playlist' => $playlist]));
+
+        $response->assertForbidden();
+    }
+
+    /**
+     * The Playlist Restore Endpoint shall permit users with bypass feature flag permission
+     * to restore playlists that exceed the user playlist limit.
+     *
+     * @return void
+     */
+    public function testMaxTrackLimitPermittedForBypass(): void
+    {
+        $playlistLimit = $this->faker->randomDigitNotNull();
+
+        Config::set(PlaylistConstants::MAX_PLAYLISTS_QUALIFIED, $playlistLimit);
+        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
+
+        $user = User::factory()
+            ->has(Playlist::factory()->count($playlistLimit))
+            ->withPermissions(
+                ExtendedCrudPermission::RESTORE()->format(Playlist::class),
+                SpecialPermission::BYPASS_FEATURE_FLAGS
+            )
+            ->createOne();
+
+        $playlist = Playlist::factory()
+            ->for($user)
+            ->createOne();
+
+        $playlist->delete();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->patch(route('api.playlist.restore', ['playlist' => $playlist]));
+
+        $response->assertOk();
     }
 }
