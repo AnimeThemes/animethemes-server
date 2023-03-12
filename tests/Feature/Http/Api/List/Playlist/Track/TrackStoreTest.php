@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature\Http\Api\List\Playlist\Track;
 
 use App\Constants\Config\FlagConstants;
+use App\Constants\Config\PlaylistConstants;
 use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\SpecialPermission;
 use App\Models\Auth\User;
@@ -503,6 +504,74 @@ class TrackStoreTest extends TestCase
             ->createOne();
 
         $playlist = Playlist::factory()
+            ->for($user)
+            ->createOne();
+
+        $track = PlaylistTrack::factory()
+            ->for($playlist)
+            ->for(Video::factory())
+            ->makeOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->post(route('api.playlist.track.store', ['playlist' => $playlist] + $track->toArray()));
+
+        $response->assertCreated();
+    }
+
+    /**
+     * The Track Store Endpoint shall forbid users from creating playlists that exceed the max track limit.
+     *
+     * @return void
+     */
+    public function testMaxTrackLimit(): void
+    {
+        $trackLimit = $this->faker->randomDigitNotNull();
+
+        Config::set(PlaylistConstants::MAX_TRACKS_QUALIFIED, $trackLimit);
+        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
+
+        $user = User::factory()->withPermissions(CrudPermission::CREATE()->format(PlaylistTrack::class))->createOne();
+
+        $playlist = Playlist::factory()
+            ->tracks($trackLimit)
+            ->for($user)
+            ->createOne();
+
+        $track = PlaylistTrack::factory()
+            ->for($playlist)
+            ->for(Video::factory())
+            ->makeOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->post(route('api.playlist.track.store', ['playlist' => $playlist] + $track->toArray()));
+
+        $response->assertForbidden();
+    }
+
+    /**
+     * The Track Store Endpoint shall permit users with bypass feature flag permission
+     * to create playlists that exceed the max track limit.
+     *
+     * @return void
+     */
+    public function testMaxTrackLimitPermittedForBypass(): void
+    {
+        $trackLimit = $this->faker->randomDigitNotNull();
+
+        Config::set(PlaylistConstants::MAX_TRACKS_QUALIFIED, $trackLimit);
+        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
+
+        $user = User::factory()
+            ->withPermissions(
+                CrudPermission::CREATE()->format(PlaylistTrack::class),
+                SpecialPermission::BYPASS_FEATURE_FLAGS
+            )
+            ->createOne();
+
+        $playlist = Playlist::factory()
+            ->tracks($trackLimit)
             ->for($user)
             ->createOne();
 
