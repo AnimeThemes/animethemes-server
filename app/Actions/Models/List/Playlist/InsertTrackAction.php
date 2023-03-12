@@ -51,9 +51,13 @@ class InsertTrackAction
 
             Log::debug('Track Saved');
 
+            $playlist->last()->dissociate();
+
+            Log::debug('Dissociate last track');
+
             $playlist->last()->associate($track)->save();
 
-            Log::debug('Playlist last relation');
+            Log::debug('Associate last track');
 
             DB::commit();
         } catch (Throwable $e) {
