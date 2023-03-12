@@ -8,6 +8,7 @@ use App\Actions\Http\Api\RestoreAction;
 use App\Actions\Models\List\Playlist\InsertTrackAction;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
+use Exception;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -21,6 +22,8 @@ class RestoreTrackAction
      * @param  Playlist  $playlist
      * @param  PlaylistTrack  $track
      * @return Model
+     *
+     * @throws Exception
      */
     public function restore(Playlist $playlist, PlaylistTrack $track): Model
     {

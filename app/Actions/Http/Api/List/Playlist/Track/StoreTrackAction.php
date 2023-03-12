@@ -10,6 +10,7 @@ use App\Actions\Models\List\Playlist\InsertTrackAfterAction;
 use App\Actions\Models\List\Playlist\InsertTrackBeforeAction;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
+use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
@@ -27,6 +28,8 @@ class StoreTrackAction
      * @param  Builder  $builder
      * @param  array  $parameters
      * @return Model
+     *
+     * @throws Exception
      */
     public function store(Playlist $playlist, Builder $builder, array $parameters): Model
     {
