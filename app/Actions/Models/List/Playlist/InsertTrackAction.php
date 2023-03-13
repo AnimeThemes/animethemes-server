@@ -33,37 +33,10 @@ class InsertTrackAction
                 $playlist->first()->associate($track)->save();
             }
 
-            $this->insertTrack($playlist, $track);
-
-            $playlist->refresh();
+            $last = $playlist->last;
 
             $playlist->last()->associate($track)->save();
 
-            DB::commit();
-        } catch (Exception $e) {
-            Log::error($e->getMessage());
-
-            DB::rollBack();
-
-            throw $e;
-        }
-    }
-
-    /**
-     * Set Track Relation with nested transaction.
-     *
-     * @param  Playlist  $playlist
-     * @param  PlaylistTrack  $track
-     * @return void
-     *
-     * @throws Exception
-     */
-    private function insertTrack(Playlist $playlist, PlaylistTrack $track): void
-    {
-        try {
-            DB::beginTransaction();
-
-            $last = $playlist->last;
             $last?->next()?->associate($track)?->save();
             $track->previous()->associate($last);
 
