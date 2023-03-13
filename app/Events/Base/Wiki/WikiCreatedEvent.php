@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Config;
  * Class WikiCreatedEvent.
  *
  * @template TModel of \App\Models\BaseModel
+ *
  * @extends BaseCreatedEvent<TModel>
  */
 abstract class WikiCreatedEvent extends BaseCreatedEvent

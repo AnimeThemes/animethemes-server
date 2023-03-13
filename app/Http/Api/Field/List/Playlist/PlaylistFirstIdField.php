@@ -34,7 +34,6 @@ class PlaylistFirstIdField extends Field implements SelectableField
      */
     public function shouldSelect(Query $query, Schema $schema): bool
     {
-
         // Needed to match first track relation.
         return true;
     }

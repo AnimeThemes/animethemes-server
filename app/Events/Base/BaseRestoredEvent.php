@@ -15,6 +15,7 @@ use NotificationChannels\Discord\DiscordMessage;
  * Class BaseRestoredEvent.
  *
  * @template TModel of \App\Models\BaseModel
+ *
  * @extends BaseEvent<TModel>
  */
 abstract class BaseRestoredEvent extends BaseEvent implements DiscordMessageEvent

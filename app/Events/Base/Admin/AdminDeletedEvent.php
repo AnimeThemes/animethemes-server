@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Config;
  * Class AdminDeletedEvent.
  *
  * @template TModel of \App\Models\BaseModel
+ *
  * @extends BaseDeletedEvent<TModel>
  */
 abstract class AdminDeletedEvent extends BaseDeletedEvent

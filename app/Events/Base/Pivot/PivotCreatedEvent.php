@@ -15,6 +15,7 @@ use NotificationChannels\Discord\DiscordMessage;
  *
  * @template TModelRelated of \App\Models\BaseModel
  * @template TModelForeign of \App\Models\BaseModel
+ *
  * @extends BasePivotEvent<TModelRelated, TModelForeign>
  */
 abstract class PivotCreatedEvent extends BasePivotEvent

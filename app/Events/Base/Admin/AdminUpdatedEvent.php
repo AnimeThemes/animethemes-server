@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Config;
  * Class AdminUpdatedEvent.
  *
  * @template TModel of \App\Models\BaseModel
+ *
  * @extends BaseUpdatedEvent<TModel>
  */
 abstract class AdminUpdatedEvent extends BaseUpdatedEvent

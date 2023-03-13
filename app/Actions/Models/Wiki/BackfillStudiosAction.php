@@ -20,6 +20,7 @@ use Illuminate\Support\Str;
  * Class BackfillStudiosAction.
  *
  * @template TModel of \App\Models\BaseModel
+ *
  * @extends BackfillAction<TModel>
  */
 abstract class BackfillStudiosAction extends BackfillAction

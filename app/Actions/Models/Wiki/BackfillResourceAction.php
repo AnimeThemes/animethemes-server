@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Log;
  * Class BackfillResourceAction.
  *
  * @template TModel of \App\Models\BaseModel
+ *
  * @extends BackfillAction<TModel>
  */
 abstract class BackfillResourceAction extends BackfillAction
