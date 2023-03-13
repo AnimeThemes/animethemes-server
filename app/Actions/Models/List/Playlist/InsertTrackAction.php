@@ -29,25 +29,17 @@ class InsertTrackAction
         try {
             DB::beginTransaction();
 
-            Log::debug('Begin Playlist Transaction');
-
             if ($playlist->first()->doesntExist()) {
-                $playlist->first()->associate($track);
+                $playlist->first()->associate($track)->save();
             }
-
-            Log::debug('First Playlist Track Set');
 
             $this->insertTrack($playlist, $track);
 
-            Log::debug('Insert Track Completed');
+            $playlist->refresh();
 
             $playlist->last()->associate($track)->save();
 
-            Log::debug('First Playlist Track Set');
-
             DB::commit();
-
-            Log::debug('End Playlist Transaction');
         } catch (Exception $e) {
             Log::error($e->getMessage());
 
@@ -71,27 +63,17 @@ class InsertTrackAction
         try {
             DB::beginTransaction();
 
-            Log::debug('Begin Track Transaction');
-
             $last = $playlist->last;
             $last?->next()?->associate($track)?->save();
             $track->previous()->associate($last);
 
-            Log::debug('Set Previous Track Relation');
-
             $track->next()->disassociate();
-
-            Log::debug('Set Next Track Relation');
 
             if ($track->isDirty()) {
                 $track->save();
             }
 
-            Log::debug('Track Saved');
-
             DB::commit();
-
-            Log::debug('End Track Transaction');
         } catch (Exception $e) {
             Log::error($e->getMessage());
 

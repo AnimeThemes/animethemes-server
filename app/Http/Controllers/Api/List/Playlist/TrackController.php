@@ -126,6 +126,8 @@ class TrackController extends BaseController
      * @param  PlaylistTrack  $track
      * @param  UpdateTrackAction  $action
      * @return JsonResponse
+     *
+     * @throws Exception
      */
     public function update(UpdateRequest $request, Playlist $playlist, PlaylistTrack $track, UpdateTrackAction $action): JsonResponse
     {
@@ -144,6 +146,8 @@ class TrackController extends BaseController
      * @param  PlaylistTrack  $track
      * @param  DestroyTrackAction  $action
      * @return JsonResponse
+     *
+     * @throws Exception
      */
     public function destroy(Request $request, Playlist $playlist, PlaylistTrack $track, DestroyTrackAction $action): JsonResponse
     {
@@ -181,6 +185,8 @@ class TrackController extends BaseController
      * @param  PlaylistTrack  $track
      * @param  ForceDeleteTrackAction  $action
      * @return JsonResponse
+     *
+     * @throws Exception
      */
     public function forceDelete(Playlist $playlist, PlaylistTrack $track, ForceDeleteTrackAction $action): JsonResponse
     {
