@@ -25,6 +25,7 @@ class Permission extends BasePermission
     final public const TABLE = 'permissions';
 
     final public const ATTRIBUTE_CREATED_AT = Model::CREATED_AT;
+    final public const ATTRIBUTE_GUARD_NAME = 'guard_name';
     final public const ATTRIBUTE_ID = 'id';
     final public const ATTRIBUTE_NAME = 'name';
     final public const ATTRIBUTE_UPDATED_AT = Model::UPDATED_AT;

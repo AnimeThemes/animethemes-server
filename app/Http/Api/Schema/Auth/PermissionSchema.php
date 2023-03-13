@@ -4,19 +4,21 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Schema\Auth;
 
-use App\Http\Api\Field\Auth\User\UserIdField;
-use App\Http\Api\Field\Auth\User\UserNameField;
+use App\Http\Api\Field\Auth\Permission\PermissionGuardNameField;
+use App\Http\Api\Field\Auth\Permission\PermissionNameField;
+use App\Http\Api\Field\Base\CreatedAtField;
+use App\Http\Api\Field\Base\IdField;
+use App\Http\Api\Field\Base\UpdatedAtField;
 use App\Http\Api\Field\Field;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\EloquentSchema;
-use App\Http\Api\Schema\List\PlaylistSchema;
-use App\Http\Resources\Auth\Resource\UserResource;
-use App\Models\Auth\User;
+use App\Http\Resources\Auth\Resource\PermissionResource;
+use App\Models\Auth\Permission;
 
 /**
- * Class UserSchema.
+ * Class PermissionSchema.
  */
-class UserSchema extends EloquentSchema
+class PermissionSchema extends EloquentSchema
 {
     /**
      * The model this schema represents.
@@ -25,7 +27,7 @@ class UserSchema extends EloquentSchema
      */
     public function model(): string
     {
-        return User::class;
+        return Permission::class;
     }
 
     /**
@@ -35,7 +37,7 @@ class UserSchema extends EloquentSchema
      */
     public function type(): string
     {
-        return UserResource::$wrap;
+        return PermissionResource::$wrap;
     }
 
     /**
@@ -45,9 +47,7 @@ class UserSchema extends EloquentSchema
      */
     public function allowedIncludes(): array
     {
-        return [
-            new AllowedInclude(new PlaylistSchema(), User::RELATION_PLAYLISTS),
-        ];
+        return [];
     }
 
     /**
@@ -58,8 +58,11 @@ class UserSchema extends EloquentSchema
     public function fields(): array
     {
         return [
-            new UserIdField($this),
-            new UserNameField($this),
+            new CreatedAtField($this),
+            new UpdatedAtField($this),
+            new IdField($this, Permission::ATTRIBUTE_ID),
+            new PermissionNameField($this),
+            new PermissionGuardNameField($this),
         ];
     }
 }
