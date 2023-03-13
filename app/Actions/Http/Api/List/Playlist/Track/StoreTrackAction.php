@@ -41,12 +41,8 @@ class StoreTrackAction
 
         $trackParameters = $trackParameters + [PlaylistTrack::ATTRIBUTE_PLAYLIST => $playlist->getKey()];
 
-        Log::debug('Track Parameters', $trackParameters);
-
         try {
             DB::beginTransaction();
-
-            Log::debug('Begin Store Transaction');
 
             $storeAction = new StoreAction();
 
@@ -59,13 +55,9 @@ class StoreTrackAction
                     ->with(PlaylistTrack::RELATION_PREVIOUS)
                     ->findOrFail($nextId);
 
-                Log::debug('Next Track', $next->toArray());
-
                 $insertAction = new InsertTrackBeforeAction();
 
                 $insertAction->insertBefore($playlist, $track, $next);
-
-                Log::debug('Insert Before Completed');
             }
 
             if (! empty($previousId) && empty($nextId)) {
@@ -74,26 +66,18 @@ class StoreTrackAction
                     ->with(PlaylistTrack::RELATION_NEXT)
                     ->findOrFail($previousId);
 
-                Log::debug('Previous Track', $previous->toArray());
-
                 $insertAction = new InsertTrackAfterAction();
 
                 $insertAction->insertAfter($playlist, $track, $previous);
-
-                Log::debug('Insert After Completed');
             }
 
             if (empty($nextId) && empty($previousId)) {
                 $insertAction = new InsertTrackAction();
 
                 $insertAction->insert($playlist, $track);
-
-                Log::debug('Insert Completed');
             }
 
             DB::commit();
-
-            Log::debug('End Store Transaction');
 
             return $storeAction->cleanup($track);
         } catch (Exception $e) {

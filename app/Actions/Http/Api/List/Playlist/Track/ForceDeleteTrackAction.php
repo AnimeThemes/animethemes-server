@@ -8,6 +8,9 @@ use App\Actions\Http\Api\ForceDeleteAction;
 use App\Actions\Models\List\Playlist\RemoveTrackAction;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
+use Exception;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class ForceDeleteTrackAction
 {
@@ -17,15 +20,31 @@ class ForceDeleteTrackAction
      * @param  Playlist  $playlist
      * @param  PlaylistTrack  $track
      * @return string
+     *
+     * @throws Exception
      */
     public function forceDelete(Playlist $playlist, PlaylistTrack $track): string
     {
-        $removeAction = new RemoveTrackAction();
+        try {
+            DB::beginTransaction();
 
-        $removeAction->remove($playlist, $track);
+            $removeAction = new RemoveTrackAction();
 
-        $forceDeleteAction = new ForceDeleteAction();
+            $removeAction->remove($playlist, $track);
 
-        return $forceDeleteAction->forceDelete($track);
+            $forceDeleteAction = new ForceDeleteAction();
+
+            $message = $forceDeleteAction->forceDelete($track);
+
+            DB::commit();
+
+            return $message;
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+
+            DB::rollBack();
+
+            throw $e;
+        }
     }
 }

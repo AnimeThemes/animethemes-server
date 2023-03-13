@@ -10,6 +10,8 @@ use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Class RestoreTrackAction.
@@ -27,14 +29,28 @@ class RestoreTrackAction
      */
     public function restore(Playlist $playlist, PlaylistTrack $track): Model
     {
-        $restoreAction = new RestoreAction();
+        try {
+            DB::beginTransaction();
 
-        $restoreAction->restore($track);
+            $restoreAction = new RestoreAction();
 
-        $insertAction = new InsertTrackAction();
+            $restoreAction->restore($track);
 
-        $insertAction->insert($playlist, $track);
+            $insertAction = new InsertTrackAction();
 
-        return $restoreAction->cleanup($track);
+            $insertAction->insert($playlist, $track);
+
+            $restored = $restoreAction->cleanup($track);
+
+            DB::commit();
+
+            return $restored;
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+
+            DB::rollBack();
+
+            throw $e;
+        }
     }
 }
