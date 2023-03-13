@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Api\Field\List\Playlist;
+namespace App\Http\Api\Field\Auth\User;
 
 use App\Contracts\Http\Api\Field\SelectableField;
 use App\Http\Api\Field\Field;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Schema;
-use App\Models\List\Playlist;
+use App\Models\Auth\User;
 
 /**
- * Class PlaylistFirstIdField.
+ * Class UserIdField.
  */
-class PlaylistFirstIdField extends Field implements SelectableField
+class UserIdField extends Field implements SelectableField
 {
     /**
      * Create a new field instance.
@@ -22,7 +22,7 @@ class PlaylistFirstIdField extends Field implements SelectableField
      */
     public function __construct(Schema $schema)
     {
-        parent::__construct($schema, Playlist::ATTRIBUTE_FIRST);
+        parent::__construct($schema, User::ATTRIBUTE_ID);
     }
 
     /**
@@ -34,7 +34,7 @@ class PlaylistFirstIdField extends Field implements SelectableField
      */
     public function shouldSelect(Query $query, Schema $schema): bool
     {
-        // Needed to match first track relation.
+        // Needed to match user relation for playlist endpoints
         return true;
     }
 }

@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Config;
  * Class AdminRestoredEvent.
  *
  * @template TModel of \App\Models\BaseModel
+ *
  * @extends BaseRestoredEvent<TModel>
  */
 abstract class AdminRestoredEvent extends BaseRestoredEvent

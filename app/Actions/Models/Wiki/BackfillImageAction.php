@@ -21,6 +21,7 @@ use Illuminate\Support\Str;
  * Class BackfillImageAction.
  *
  * @template TModel of \App\Models\BaseModel
+ *
  * @extends BackfillAction<TModel>
  */
 abstract class BackfillImageAction extends BackfillAction

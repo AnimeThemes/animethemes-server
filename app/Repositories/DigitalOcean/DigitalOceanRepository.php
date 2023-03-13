@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
  * Class DigitalOceanRepository.
  *
  * @template TModel of \App\Models\BaseModel
+ *
  * @implements RepositoryInterface<TModel>
  */
 abstract class DigitalOceanRepository implements RepositoryInterface

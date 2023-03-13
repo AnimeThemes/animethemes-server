@@ -17,6 +17,7 @@ use Laravel\Nova\Notifications\NovaNotification;
  * Class WikiDeletedEvent.
  *
  * @template TModel of \App\Models\BaseModel
+ *
  * @extends BaseDeletedEvent<TModel>
  */
 abstract class WikiDeletedEvent extends BaseDeletedEvent implements NovaNotificationEvent

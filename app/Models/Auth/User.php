@@ -39,6 +39,7 @@ use Spatie\Permission\Traits\HasRoles;
  * @property Collection<int, Playlist> $playlists
  * @property string $remember_token
  * @property Collection<int, PersonalAccessToken> $tokens
+ * @property Carbon|null $two_factor_confirmed_at
  * @property string|null $two_factor_recovery_codes
  * @property string|null $two_factor_secret
  * @property Carbon $updated_at
@@ -65,6 +66,7 @@ class User extends Authenticatable implements MustVerifyEmail, Nameable
     final public const ATTRIBUTE_NAME = 'name';
     final public const ATTRIBUTE_PASSWORD = 'password';
     final public const ATTRIBUTE_REMEMBER_TOKEN = 'remember_token';
+    final public const ATTRIBUTE_TWO_FACTOR_CONFIRMED_AT = 'two_factor_confirmed_at';
     final public const ATTRIBUTE_TWO_FACTOR_RECOVERY_CODES = 'two_factor_recovery_codes';
     final public const ATTRIBUTE_TWO_FACTOR_SECRET = 'two_factor_secret';
 

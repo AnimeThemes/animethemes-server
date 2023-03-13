@@ -14,6 +14,7 @@ use NotificationChannels\Discord\DiscordMessage;
  * Class BaseDeletedEvent.
  *
  * @template TModel of \App\Models\BaseModel
+ *
  * @extends BaseEvent<TModel>
  */
 abstract class BaseDeletedEvent extends BaseEvent implements DiscordMessageEvent
