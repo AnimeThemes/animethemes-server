@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Api\Field\Wiki\Search;
+namespace App\Http\Api\Field\Search;
 
 use App\Http\Api\Field\Field;
 use App\Http\Api\Schema\Schema;
-use App\Http\Resources\Wiki\Collection\SeriesCollection;
+use App\Http\Resources\List\Collection\PlaylistCollection;
 
 /**
- * Class SearchSeriesField.
+ * Class SearchPlaylistField.
  */
-class SearchSeriesField extends Field
+class SearchPlaylistField extends Field
 {
     /**
      * Create a new field instance.
@@ -20,6 +20,6 @@ class SearchSeriesField extends Field
      */
     public function __construct(Schema $schema)
     {
-        parent::__construct($schema, SeriesCollection::$wrap);
+        parent::__construct($schema, PlaylistCollection::$wrap);
     }
 }

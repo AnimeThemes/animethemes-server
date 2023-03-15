@@ -2,11 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Resources\Wiki\Resource;
+namespace App\Http\Resources;
 
 use App\Actions\Http\Api\IndexAction;
 use App\Enums\Http\Api\Paging\PaginationStrategy;
 use App\Http\Api\Query\Query;
+use App\Http\Api\Schema\List\PlaylistSchema;
 use App\Http\Api\Schema\Wiki\Anime\ThemeSchema;
 use App\Http\Api\Schema\Wiki\AnimeSchema;
 use App\Http\Api\Schema\Wiki\ArtistSchema;
@@ -14,6 +15,7 @@ use App\Http\Api\Schema\Wiki\SeriesSchema;
 use App\Http\Api\Schema\Wiki\SongSchema;
 use App\Http\Api\Schema\Wiki\StudioSchema;
 use App\Http\Api\Schema\Wiki\VideoSchema;
+use App\Http\Resources\List\Collection\PlaylistCollection;
 use App\Http\Resources\Wiki\Anime\Collection\ThemeCollection;
 use App\Http\Resources\Wiki\Collection\AnimeCollection;
 use App\Http\Resources\Wiki\Collection\ArtistCollection;
@@ -81,6 +83,11 @@ class SearchResource extends JsonResource
         if ($criteria->isAllowedField(ArtistCollection::$wrap)) {
             $artists = $action->search($this->query, new ArtistSchema(), PaginationStrategy::LIMIT());
             $result[ArtistCollection::$wrap] = new ArtistCollection($artists, $this->query);
+        }
+
+        if ($criteria->isAllowedField(PlaylistCollection::$wrap)) {
+            $series = $action->search($this->query, new PlaylistSchema(), PaginationStrategy::LIMIT());
+            $result[PlaylistCollection::$wrap] = new PlaylistCollection($series, $this->query);
         }
 
         if ($criteria->isAllowedField(SeriesCollection::$wrap)) {
