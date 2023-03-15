@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Api\Field\Wiki\Search;
+namespace App\Http\Api\Field\Search;
 
 use App\Http\Api\Field\Field;
 use App\Http\Api\Schema\Schema;
-use App\Http\Resources\Wiki\Collection\StudioCollection;
+use App\Http\Resources\Wiki\Collection\VideoCollection;
 
 /**
- * Class SearchStudioField.
+ * Class SearchVideoField.
  */
-class SearchStudioField extends Field
+class SearchVideoField extends Field
 {
     /**
      * Create a new field instance.
@@ -20,6 +20,6 @@ class SearchStudioField extends Field
      */
     public function __construct(Schema $schema)
     {
-        parent::__construct($schema, StudioCollection::$wrap);
+        parent::__construct($schema, VideoCollection::$wrap);
     }
 }

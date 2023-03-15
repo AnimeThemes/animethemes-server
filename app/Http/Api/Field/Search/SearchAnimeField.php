@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Api\Field\Wiki\Search;
+namespace App\Http\Api\Field\Search;
 
 use App\Http\Api\Field\Field;
 use App\Http\Api\Schema\Schema;

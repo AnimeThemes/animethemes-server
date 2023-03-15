@@ -2,10 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Wiki;
+namespace Http\Api;
 
 use App\Http\Api\Parser\FieldParser;
 use App\Http\Api\Parser\SearchParser;
+use App\Http\Resources\List\Collection\PlaylistCollection;
+use App\Http\Resources\SearchResource;
 use App\Http\Resources\Wiki\Anime\Collection\ThemeCollection;
 use App\Http\Resources\Wiki\Collection\AnimeCollection;
 use App\Http\Resources\Wiki\Collection\ArtistCollection;
@@ -13,7 +15,6 @@ use App\Http\Resources\Wiki\Collection\SeriesCollection;
 use App\Http\Resources\Wiki\Collection\SongCollection;
 use App\Http\Resources\Wiki\Collection\StudioCollection;
 use App\Http\Resources\Wiki\Collection\VideoCollection;
-use App\Http\Resources\Wiki\Resource\SearchResource;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
@@ -63,6 +64,7 @@ class SearchTest extends TestCase
                 AnimeCollection::$wrap => [],
                 ThemeCollection::$wrap => [],
                 ArtistCollection::$wrap => [],
+                PlaylistCollection::$wrap => [],
                 SeriesCollection::$wrap => [],
                 SongCollection::$wrap => [],
                 StudioCollection::$wrap => [],
@@ -87,6 +89,7 @@ class SearchTest extends TestCase
             AnimeCollection::$wrap,
             ThemeCollection::$wrap,
             ArtistCollection::$wrap,
+            PlaylistCollection::$wrap,
             SeriesCollection::$wrap,
             SongCollection::$wrap,
             StudioCollection::$wrap,

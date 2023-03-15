@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controllers\Api\Wiki;
+namespace App\Http\Controllers\Api;
 
 use App\Contracts\Http\Api\InteractsWithSchema;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Schema;
-use App\Http\Api\Schema\Wiki\SearchSchema;
+use App\Http\Api\Schema\SearchSchema;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\Wiki\SearchRequest;
-use App\Http\Resources\Wiki\Resource\SearchResource;
+use App\Http\Requests\Api\SearchRequest;
+use App\Http\Resources\SearchResource;
 use Illuminate\Http\JsonResponse;
 
 /**

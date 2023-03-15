@@ -2,14 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Requests\Api\Wiki;
+namespace App\Http\Requests\Api;
 
 use App\Http\Api\Parser\FieldParser;
 use App\Http\Api\Parser\FilterParser;
 use App\Http\Api\Parser\IncludeParser;
 use App\Http\Api\Parser\SearchParser;
 use App\Http\Api\Parser\SortParser;
-use App\Http\Requests\Api\ReadRequest;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Validator;
