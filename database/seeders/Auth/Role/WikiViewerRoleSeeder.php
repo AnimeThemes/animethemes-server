@@ -62,5 +62,11 @@ class WikiViewerRoleSeeder extends RoleSeeder
 
         // Special Permissions
         $this->configureAbilities($role, [SpecialPermission::VIEW_NOVA]);
+
+        $role->color = '#2596D1';
+        $role->priority = 25000;
+        if ($role->isDirty()) {
+            $role->save();
+        }
     }
 }
