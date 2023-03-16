@@ -83,5 +83,11 @@ class AdminSeeder extends RoleSeeder
 
         // Special Permissions
         $this->configureAbilities($role, SpecialPermission::getValues());
+
+        $role->color = '#1F8B4C';
+        $role->priority = 250000;
+        if ($role->isDirty()) {
+            $role->save();
+        }
     }
 }

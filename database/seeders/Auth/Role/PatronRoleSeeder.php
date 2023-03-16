@@ -68,5 +68,11 @@ class PatronRoleSeeder extends RoleSeeder
                 SpecialPermission::VIEW_NOVA,
             ]
         );
+
+        $role->color = '#E74C3C';
+        $role->priority = 50000;
+        if ($role->isDirty()) {
+            $role->save();
+        }
     }
 }

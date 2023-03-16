@@ -11,7 +11,9 @@ use App\Nova\Resources\BaseResource;
 use Exception;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\Boolean;
+use Laravel\Nova\Fields\Color;
 use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Query\Search\Column;
@@ -135,6 +137,23 @@ class Role extends BaseResource
                 ->nullable()
                 ->rules(['nullable', 'boolean'])
                 ->help(__('nova.fields.role.default.help'))
+                ->showOnPreview()
+                ->filterable()
+                ->showWhenPeeking(),
+
+            Color::make(__('nova.fields.role.color.name'), RoleModel::ATTRIBUTE_COLOR)
+                ->sortable()
+                ->nullable()
+                ->help(__('nova.fields.role.color.help'))
+                ->showOnPreview()
+                ->showWhenPeeking(),
+
+            Number::make(__('nova.fields.role.priority.name'), RoleModel::ATTRIBUTE_PRIORITY)
+                ->sortable()
+                ->min(1)
+                ->nullable()
+                ->rules(['nullable', 'integer', 'min:1'])
+                ->help(__('nova.fields.role.priority.help'))
                 ->showOnPreview()
                 ->filterable()
                 ->showWhenPeeking(),

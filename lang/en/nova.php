@@ -546,11 +546,19 @@ return [
             ],
         ],
         'role' => [
+            'color' => [
+                'help' => 'The color that will be used on the profile screen to designate the user.',
+                'name' => 'Color',
+            ],
             'default' => [
                 'help' => 'Should this role be assigned to new users upon email verification?',
                 'name' => 'Default',
             ],
             'name' => 'Name',
+            'priority' => [
+                'help' => 'The weight assigned to a role. Higher numbers are higher priority.',
+                'name' => 'Priority',
+            ],
         ],
         'series' => [
             'name' => [
