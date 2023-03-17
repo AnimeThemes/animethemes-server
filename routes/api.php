@@ -12,7 +12,6 @@ use App\Http\Controllers\Api\Billing\TransparencyController;
 use App\Http\Controllers\Api\Config\FlagsController;
 use App\Http\Controllers\Api\Config\WikiController;
 use App\Http\Controllers\Api\Document\PageController;
-use App\Http\Controllers\Api\List\Playlist\ForwardController;
 use App\Http\Controllers\Api\List\Playlist\TrackBackwardController;
 use App\Http\Controllers\Api\List\Playlist\TrackController;
 use App\Http\Controllers\Api\List\Playlist\TrackForwardController;
