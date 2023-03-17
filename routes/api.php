@@ -12,10 +12,13 @@ use App\Http\Controllers\Api\Billing\TransparencyController;
 use App\Http\Controllers\Api\Config\FlagsController;
 use App\Http\Controllers\Api\Config\WikiController;
 use App\Http\Controllers\Api\Document\PageController;
-use App\Http\Controllers\Api\List\Playlist\BackwardController;
 use App\Http\Controllers\Api\List\Playlist\ForwardController;
+use App\Http\Controllers\Api\List\Playlist\TrackBackwardController;
 use App\Http\Controllers\Api\List\Playlist\TrackController;
+use App\Http\Controllers\Api\List\Playlist\TrackForwardController;
+use App\Http\Controllers\Api\List\PlaylistBackwardController;
 use App\Http\Controllers\Api\List\PlaylistController;
+use App\Http\Controllers\Api\List\PlaylistForwardController;
 use App\Http\Controllers\Api\Pivot\List\PlaylistImageController;
 use App\Http\Controllers\Api\Pivot\Wiki\AnimeImageController;
 use App\Http\Controllers\Api\Pivot\Wiki\AnimeResourceController;
@@ -240,12 +243,22 @@ apiResourceWhere('page', PageController::class, ['page' => '[\pL\pM\pN\/_-]+']);
 // List Routes
 apiResource('playlist', PlaylistController::class);
 apiScopedResource('playlist.track', TrackController::class);
-Route::get('playlist/{playlist}/forward', [ForwardController::class, 'index'])
+
+Route::get('playlist/{playlist}/forward', [PlaylistForwardController::class, 'index'])
     ->withTrashed()
     ->name('playlist.forward');
-Route::get('playlist/{playlist}/backward', [BackwardController::class, 'index'])
+
+Route::get('playlist/{playlist}/track/{track}/forward', [TrackForwardController::class, 'index'])
+    ->withTrashed()
+    ->name('playlist.track.forward');
+
+Route::get('playlist/{playlist}/backward', [PlaylistBackwardController::class, 'index'])
     ->withTrashed()
     ->name('playlist.backward');
+
+Route::get('playlist/{playlist}/track/{track}/backward', [TrackBackwardController::class, 'index'])
+    ->withTrashed()
+    ->name('playlist.track.backward');
 
 // Pivot Routes
 apiPivotResource('animeimage', 'anime', 'image', AnimeImageController::class);

@@ -6,19 +6,20 @@ namespace App\Http\Controllers\Api\List\Playlist;
 
 use App\Actions\Http\Api\IndexAction;
 use App\Http\Api\Query\Query;
+use App\Http\Api\Schema\List\Playlist\ForwardBackwardSchema;
+use App\Http\Api\Schema\Schema;
 use App\Http\Controllers\Api\BaseController;
-use App\Http\Requests\Api\List\Playlist\BackwardIndexRequest;
+use App\Http\Requests\Api\List\Playlist\ForwardBackwardIndexRequest;
 use App\Http\Resources\List\Playlist\Collection\TrackCollection;
 use App\Models\List\Playlist;
-use App\Models\List\Playlist\BackwardPlaylistTrack;
+use App\Models\List\Playlist\ForwardPlaylistTrack;
 use App\Models\List\Playlist\PlaylistTrack;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 
 /**
- * Class BackwardController.
+ * Class TrackForwardController.
  */
-class BackwardController extends BaseController
+class TrackForwardController extends BaseController
 {
     /**
      * Create a new controller instance.
@@ -29,27 +30,36 @@ class BackwardController extends BaseController
     }
 
     /**
-     * Display a listing of the resource.
+     * Display the specified resource.
      *
-     * @param  BackwardIndexRequest  $request
+     * @param  ForwardBackwardIndexRequest  $request
      * @param  Playlist  $playlist
+     * @param  ForwardPlaylistTrack  $track
      * @param  IndexAction  $action
      * @return JsonResponse
+     *
+     * @noinspection PhpUnusedParameterInspection
      */
-    public function index(BackwardIndexRequest $request, Playlist $playlist, IndexAction $action): JsonResponse
+    public function index(ForwardBackwardIndexRequest $request, Playlist $playlist, ForwardPlaylistTrack $track, IndexAction $action): JsonResponse
     {
         $query = new Query($request->validated());
 
-        $constraint = function (Builder $query) use ($playlist) {
-            $query->where(PlaylistTrack::ATTRIBUTE_ID, $playlist->last_id);
-        };
-
-        $builder = BackwardPlaylistTrack::query()->treeOf($constraint);
+        $builder = $track->descendants()->getQuery();
 
         $resources = $action->index($builder, $query, $request->schema());
 
         $collection = new TrackCollection($resources, $query);
 
         return $collection->toResponse($request);
+    }
+
+    /**
+     * Get the underlying schema.
+     *
+     * @return Schema
+     */
+    public function schema(): Schema
+    {
+        return new ForwardBackwardSchema();
     }
 }

@@ -1,0 +1,369 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Http\Api\List\Playlist\Track;
+
+use App\Contracts\Http\Api\Field\SortableField;
+use App\Enums\Auth\CrudPermission;
+use App\Enums\Http\Api\Sort\Direction;
+use App\Enums\Models\List\PlaylistVisibility;
+use App\Http\Api\Criteria\Paging\Criteria;
+use App\Http\Api\Criteria\Paging\OffsetCriteria;
+use App\Http\Api\Field\Field;
+use App\Http\Api\Include\AllowedInclude;
+use App\Http\Api\Parser\FieldParser;
+use App\Http\Api\Parser\FilterParser;
+use App\Http\Api\Parser\IncludeParser;
+use App\Http\Api\Parser\PagingParser;
+use App\Http\Api\Parser\SortParser;
+use App\Http\Api\Query\Query;
+use App\Http\Api\Schema\List\Playlist\ForwardBackwardSchema;
+use App\Http\Resources\List\Playlist\Collection\TrackCollection;
+use App\Http\Resources\List\Playlist\Resource\TrackResource;
+use App\Models\Auth\User;
+use App\Models\BaseModel;
+use App\Models\List\Playlist;
+use App\Models\List\Playlist\BackwardPlaylistTrack;
+use App\Models\List\Playlist\PlaylistTrack;
+use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\WithoutEvents;
+use Laravel\Sanctum\Sanctum;
+use Tests\TestCase;
+
+/**
+ * Class TrackBackwardIndexTest.
+ */
+class TrackBackwardIndexTest extends TestCase
+{
+    use WithFaker;
+    use WithoutEvents;
+
+    /**
+     * The Track Backward Index Endpoint shall forbid a private playlist from being publicly viewed.
+     *
+     * @return void
+     */
+    public function testPrivatePlaylistCannotBePubliclyViewed(): void
+    {
+        $playlist = Playlist::factory()
+            ->for(User::factory())
+            ->tracks($this->faker->numberBetween(2, 9))
+            ->createOne([
+                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PRIVATE,
+            ]);
+
+        $track = PlaylistTrack::query()->inRandomOrder()->first();
+
+        $response = $this->get(route('api.playlist.track.backward', ['playlist' => $playlist, 'track' => $track]));
+
+        $response->assertForbidden();
+    }
+
+    /**
+     * The Track Backward Index Endpoint shall forbid the user from viewing private playlist tracks if not owned.
+     *
+     * @return void
+     */
+    public function testPrivatePlaylistTrackCannotBePubliclyViewedIfNotOwned(): void
+    {
+        $playlist = Playlist::factory()
+            ->for(User::factory())
+            ->tracks($this->faker->numberBetween(2, 9))
+            ->createOne([
+                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PRIVATE,
+            ]);
+
+        $track = PlaylistTrack::query()->inRandomOrder()->first();
+
+        $user = User::factory()->withPermissions(CrudPermission::VIEW()->format(PlaylistTrack::class))->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->get(route('api.playlist.track.backward', ['playlist' => $playlist, 'track' => $track]));
+
+        $response->assertForbidden();
+    }
+
+    /**
+     * The Track Backward Index Endpoint shall allow private playlist tracks to be viewed by the owner.
+     *
+     * @return void
+     */
+    public function testPrivatePlaylistTrackCanBeViewedByOwner(): void
+    {
+        $user = User::factory()->withPermissions(CrudPermission::VIEW()->format(PlaylistTrack::class))->createOne();
+
+        $playlist = Playlist::factory()
+            ->for($user)
+            ->tracks($this->faker->numberBetween(2, 9))
+            ->createOne([
+                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PRIVATE,
+            ]);
+
+        $track = PlaylistTrack::query()->inRandomOrder()->first();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->get(route('api.playlist.track.backward', ['playlist' => $playlist, 'track' => $track]));
+
+        $response->assertOk();
+    }
+
+    /**
+     * The Track Backward Index Endpoint shall allow unlisted playlist tracks to be viewed.
+     *
+     * @return void
+     */
+    public function testUnlistedPlaylistTrackCanBeViewed(): void
+    {
+        $playlist = Playlist::factory()
+            ->for(User::factory())
+            ->tracks($this->faker->numberBetween(2, 9))
+            ->createOne([
+                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::UNLISTED,
+            ]);
+
+        $track = PlaylistTrack::query()->inRandomOrder()->first();
+
+        $response = $this->get(route('api.playlist.track.backward', ['playlist' => $playlist, 'track' => $track]));
+
+        $response->assertOk();
+    }
+
+    /**
+     * The Track Backward Index Endpoint shall allow public playlist tracks to be viewed.
+     *
+     * @return void
+     */
+    public function testPublicPlaylistTrackCanBeViewed(): void
+    {
+        $playlist = Playlist::factory()
+            ->for(User::factory())
+            ->tracks($this->faker->numberBetween(2, 9))
+            ->createOne([
+                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
+            ]);
+
+        $track = PlaylistTrack::query()->inRandomOrder()->first();
+
+        $response = $this->get(route('api.playlist.track.backward', ['playlist' => $playlist, 'track' => $track]));
+
+        $response->assertOk();
+    }
+
+    /**
+     * By default, the Track Backward Index Endpoint shall return a collection of Track Resources that belong to the Playlist.
+     *
+     * @return void
+     */
+    public function testDefault(): void
+    {
+        $trackCount = $this->faker->numberBetween(2, 9);
+
+        $playlist = Playlist::factory()
+            ->tracks($trackCount)
+            ->createOne([
+                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
+            ]);
+
+        /** @var BackwardPlaylistTrack $track */
+        $track = BackwardPlaylistTrack::query()->inRandomOrder()->first();
+
+        $response = $this->get(route('api.playlist.track.backward', ['playlist' => $playlist, 'track' => $track]));
+
+        $tracks = $track->descendants()->get();
+
+        $response->assertJsonCount($tracks->count(), TrackCollection::$wrap);
+
+        $response->assertJson(
+            json_decode(
+                json_encode(
+                    (new TrackCollection($tracks, new Query()))
+                        ->response()
+                        ->getData()
+                ),
+                true
+            )
+        );
+    }
+
+    /**
+     * The Track Backward Index Endpoint shall be paginated.
+     *
+     * @return void
+     */
+    public function testPaginated(): void
+    {
+        $playlist = Playlist::factory()
+            ->tracks($this->faker->numberBetween(2, 9))
+            ->createOne([
+                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
+            ]);
+
+        $track = PlaylistTrack::query()->inRandomOrder()->first();
+
+        $response = $this->get(route('api.playlist.track.backward', ['playlist' => $playlist, 'track' => $track]));
+
+        $response->assertJsonStructure([
+            TrackCollection::$wrap,
+            'links',
+            'meta',
+        ]);
+    }
+
+    /**
+     * The Track Backward Index Endpoint shall allow inclusion of related resources.
+     *
+     * @return void
+     */
+    public function testAllowedIncludePaths(): void
+    {
+        $schema = new ForwardBackwardSchema();
+
+        $allowedIncludes = collect($schema->allowedIncludes());
+
+        $selectedIncludes = $allowedIncludes->random($this->faker->numberBetween(1, $allowedIncludes->count()));
+
+        $includedPaths = $selectedIncludes->map(fn (AllowedInclude $include) => $include->path());
+
+        $parameters = [
+            IncludeParser::param() => $includedPaths->join(','),
+            PagingParser::param() => [
+                OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
+            ],
+        ];
+
+        $playlist = Playlist::factory()
+            ->tracks($this->faker->numberBetween(2, 9))
+            ->createOne([
+                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
+            ]);
+
+        /** @var BackwardPlaylistTrack $track */
+        $track = BackwardPlaylistTrack::query()->inRandomOrder()->first();
+
+        $response = $this->get(route('api.playlist.track.backward', ['playlist' => $playlist, 'track' => $track] + $parameters));
+
+        $tracks = $track->descendants()
+            ->get()
+            ->load($includedPaths->all());
+
+        $response->assertJson(
+            json_decode(
+                json_encode(
+                    (new TrackCollection($tracks, new Query($parameters)))
+                        ->response()
+                        ->getData()
+                ),
+                true
+            )
+        );
+    }
+
+    /**
+     * The Track Backward Index Endpoint shall implement sparse fieldsets.
+     *
+     * @return void
+     */
+    public function testSparseFieldsets(): void
+    {
+        $schema = new ForwardBackwardSchema();
+
+        $fields = collect($schema->fields());
+
+        $includedFields = $fields->random($this->faker->numberBetween(1, $fields->count()));
+
+        $parameters = [
+            FieldParser::param() => [
+                TrackResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+            ],
+        ];
+
+        $playlist = Playlist::factory()
+            ->tracks($this->faker->numberBetween(2, 9))
+            ->createOne([
+                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
+            ]);
+
+        /** @var BackwardPlaylistTrack $track */
+        $track = BackwardPlaylistTrack::query()->inRandomOrder()->first();
+
+        $response = $this->get(route('api.playlist.track.backward', ['playlist' => $playlist, 'track' => $track] + $parameters));
+
+        $response->assertJson(
+            json_decode(
+                json_encode(
+                    (new TrackCollection($track->descendants()->get(), new Query($parameters)))
+                        ->response()
+                        ->getData()
+                ),
+                true
+            )
+        );
+    }
+
+    /**
+     * The Track Backward Index Endpoint shall forbid sorting resources.
+     *
+     * @return void
+     */
+    public function testSorts(): void
+    {
+        $schema = new ForwardBackwardSchema();
+
+        $sort = collect($schema->fields())
+            ->filter(fn (Field $field) => $field instanceof SortableField)
+            ->map(fn (SortableField $field) => $field->getSort())
+            ->random();
+
+        $parameters = [
+            SortParser::param() => $sort->format(Direction::getRandomInstance()),
+        ];
+
+        $playlist = Playlist::factory()
+            ->tracks($this->faker->numberBetween(2, 9))
+            ->createOne([
+                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
+            ]);
+
+        $track = PlaylistTrack::query()->inRandomOrder()->first();
+
+        $response = $this->get(route('api.playlist.track.backward', ['playlist' => $playlist, 'track' => $track] + $parameters));
+
+        $response->assertJsonValidationErrors([
+            SortParser::param(),
+        ]);
+    }
+
+    /**
+     * The Track Backward Index Endpoint shall forbid filter resources.
+     *
+     * @return void
+     */
+    public function testFilters(): void
+    {
+        $parameters = [
+            FilterParser::param() => [
+                BaseModel::ATTRIBUTE_CREATED_AT => $this->faker->date(),
+            ],
+            PagingParser::param() => [
+                OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
+            ],
+        ];
+
+        $playlist = Playlist::factory()
+            ->tracks($this->faker->numberBetween(2, 9))
+            ->createOne([
+                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
+            ]);
+
+        $track = PlaylistTrack::query()->inRandomOrder()->first();
+
+        $response = $this->get(route('api.playlist.track.backward', ['playlist' => $playlist, 'track' => $track] + $parameters));
+
+        $response->assertJsonValidationErrors([
+            FilterParser::param(),
+        ]);
+    }
+}

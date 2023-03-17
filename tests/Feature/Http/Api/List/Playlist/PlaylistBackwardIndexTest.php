@@ -18,7 +18,7 @@ use App\Http\Api\Parser\IncludeParser;
 use App\Http\Api\Parser\PagingParser;
 use App\Http\Api\Parser\SortParser;
 use App\Http\Api\Query\Query;
-use App\Http\Api\Schema\List\Playlist\BackwardSchema;
+use App\Http\Api\Schema\List\Playlist\ForwardBackwardSchema;
 use App\Http\Resources\List\Playlist\Collection\TrackCollection;
 use App\Http\Resources\List\Playlist\Resource\TrackResource;
 use App\Models\Auth\User;
@@ -32,15 +32,15 @@ use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
 /**
- * Class BackwardIndexTest.
+ * Class PlaylistBackwardIndexTest.
  */
-class BackwardIndexTest extends TestCase
+class PlaylistBackwardIndexTest extends TestCase
 {
     use WithFaker;
     use WithoutEvents;
 
     /**
-     * The Backward Index Endpoint shall forbid a private playlist from being publicly viewed.
+     * The Playlist Backward Index Endpoint shall forbid a private playlist from being publicly viewed.
      *
      * @return void
      */
@@ -59,7 +59,7 @@ class BackwardIndexTest extends TestCase
     }
 
     /**
-     * The Backward Index Endpoint shall forbid the user from viewing private playlist tracks if not owned.
+     * The Playlist Backward Index Endpoint shall forbid the user from viewing private playlist tracks if not owned.
      *
      * @return void
      */
@@ -82,7 +82,7 @@ class BackwardIndexTest extends TestCase
     }
 
     /**
-     * The Backward Index Endpoint shall allow private playlist tracks to be viewed by the owner.
+     * The Playlist Backward Index Endpoint shall allow private playlist tracks to be viewed by the owner.
      *
      * @return void
      */
@@ -105,7 +105,7 @@ class BackwardIndexTest extends TestCase
     }
 
     /**
-     * The Backward Index Endpoint shall allow unlisted playlist tracks to be viewed.
+     * The Playlist Backward Index Endpoint shall allow unlisted playlist tracks to be viewed.
      *
      * @return void
      */
@@ -124,7 +124,7 @@ class BackwardIndexTest extends TestCase
     }
 
     /**
-     * The Backward Index Endpoint shall allow public playlist tracks to be viewed.
+     * The Playlist Backward Index Endpoint shall allow public playlist tracks to be viewed.
      *
      * @return void
      */
@@ -183,7 +183,7 @@ class BackwardIndexTest extends TestCase
     }
 
     /**
-     * The Backward Index Endpoint shall be paginated.
+     * The Playlist Backward Index Endpoint shall be paginated.
      *
      * @return void
      */
@@ -205,13 +205,13 @@ class BackwardIndexTest extends TestCase
     }
 
     /**
-     * The Backward Index Endpoint shall allow inclusion of related resources.
+     * The Playlist Backward Index Endpoint shall allow inclusion of related resources.
      *
      * @return void
      */
     public function testAllowedIncludePaths(): void
     {
-        $schema = new BackwardSchema();
+        $schema = new ForwardBackwardSchema();
 
         $allowedIncludes = collect($schema->allowedIncludes());
 
@@ -249,13 +249,13 @@ class BackwardIndexTest extends TestCase
     }
 
     /**
-     * The Backward Index Endpoint shall implement sparse fieldsets.
+     * The Playlist Backward Index Endpoint shall implement sparse fieldsets.
      *
      * @return void
      */
     public function testSparseFieldsets(): void
     {
-        $schema = new BackwardSchema();
+        $schema = new ForwardBackwardSchema();
 
         $fields = collect($schema->fields());
 
@@ -288,13 +288,13 @@ class BackwardIndexTest extends TestCase
     }
 
     /**
-     * The Backward Index Endpoint shall forbid sorting resources.
+     * The Playlist Backward Index Endpoint shall forbid sorting resources.
      *
      * @return void
      */
     public function testSorts(): void
     {
-        $schema = new BackwardSchema();
+        $schema = new ForwardBackwardSchema();
 
         $sort = collect($schema->fields())
             ->filter(fn (Field $field) => $field instanceof SortableField)
@@ -319,7 +319,7 @@ class BackwardIndexTest extends TestCase
     }
 
     /**
-     * The Backward Index Endpoint shall forbid filter resources.
+     * The Playlist Backward Index Endpoint shall forbid filter resources.
      *
      * @return void
      */
