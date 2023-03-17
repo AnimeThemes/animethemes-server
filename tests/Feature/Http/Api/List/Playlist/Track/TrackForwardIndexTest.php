@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Http\Api\List\Playlist;
+namespace Http\Api\List\Playlist\Track;
 
 use App\Contracts\Http\Api\Field\SortableField;
 use App\Enums\Auth\CrudPermission;
@@ -18,29 +18,29 @@ use App\Http\Api\Parser\IncludeParser;
 use App\Http\Api\Parser\PagingParser;
 use App\Http\Api\Parser\SortParser;
 use App\Http\Api\Query\Query;
-use App\Http\Api\Schema\List\Playlist\ForwardSchema;
+use App\Http\Api\Schema\List\Playlist\ForwardBackwardSchema;
 use App\Http\Resources\List\Playlist\Collection\TrackCollection;
 use App\Http\Resources\List\Playlist\Resource\TrackResource;
 use App\Models\Auth\User;
 use App\Models\BaseModel;
 use App\Models\List\Playlist;
+use App\Models\List\Playlist\ForwardPlaylistTrack;
 use App\Models\List\Playlist\PlaylistTrack;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
-use Illuminate\Support\Collection;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
 /**
- * Class ForwardIndexTest.
+ * Class TrackForwardIndexTest.
  */
-class ForwardIndexTest extends TestCase
+class TrackForwardIndexTest extends TestCase
 {
     use WithFaker;
     use WithoutEvents;
 
     /**
-     * The Forward Index Endpoint shall forbid a private playlist from being publicly viewed.
+     * The Track Forward Index Endpoint shall forbid a private playlist from being publicly viewed.
      *
      * @return void
      */
@@ -53,13 +53,15 @@ class ForwardIndexTest extends TestCase
                 Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PRIVATE,
             ]);
 
-        $response = $this->get(route('api.playlist.forward', ['playlist' => $playlist]));
+        $track = PlaylistTrack::query()->inRandomOrder()->first();
+
+        $response = $this->get(route('api.playlist.track.forward', ['playlist' => $playlist, 'track' => $track]));
 
         $response->assertForbidden();
     }
 
     /**
-     * The Forward Index Endpoint shall forbid the user from viewing private playlist tracks if not owned.
+     * The Track Forward Index Endpoint shall forbid the user from viewing private playlist tracks if not owned.
      *
      * @return void
      */
@@ -72,17 +74,19 @@ class ForwardIndexTest extends TestCase
                 Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PRIVATE,
             ]);
 
+        $track = PlaylistTrack::query()->inRandomOrder()->first();
+
         $user = User::factory()->withPermissions(CrudPermission::VIEW()->format(PlaylistTrack::class))->createOne();
 
         Sanctum::actingAs($user);
 
-        $response = $this->get(route('api.playlist.forward', ['playlist' => $playlist]));
+        $response = $this->get(route('api.playlist.track.forward', ['playlist' => $playlist, 'track' => $track]));
 
         $response->assertForbidden();
     }
 
     /**
-     * The Forward Index Endpoint shall allow private playlist tracks to be viewed by the owner.
+     * The Track Forward Index Endpoint shall allow private playlist tracks to be viewed by the owner.
      *
      * @return void
      */
@@ -97,15 +101,17 @@ class ForwardIndexTest extends TestCase
                 Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PRIVATE,
             ]);
 
+        $track = PlaylistTrack::query()->inRandomOrder()->first();
+
         Sanctum::actingAs($user);
 
-        $response = $this->get(route('api.playlist.forward', ['playlist' => $playlist]));
+        $response = $this->get(route('api.playlist.track.forward', ['playlist' => $playlist, 'track' => $track]));
 
         $response->assertOk();
     }
 
     /**
-     * The Forward Index Endpoint shall allow unlisted playlist tracks to be viewed.
+     * The Track Forward Index Endpoint shall allow unlisted playlist tracks to be viewed.
      *
      * @return void
      */
@@ -118,13 +124,15 @@ class ForwardIndexTest extends TestCase
                 Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::UNLISTED,
             ]);
 
-        $response = $this->get(route('api.playlist.forward', ['playlist' => $playlist]));
+        $track = PlaylistTrack::query()->inRandomOrder()->first();
+
+        $response = $this->get(route('api.playlist.track.forward', ['playlist' => $playlist, 'track' => $track]));
 
         $response->assertOk();
     }
 
     /**
-     * The Forward Index Endpoint shall allow public playlist tracks to be viewed.
+     * The Track Forward Index Endpoint shall allow public playlist tracks to be viewed.
      *
      * @return void
      */
@@ -137,13 +145,15 @@ class ForwardIndexTest extends TestCase
                 Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
             ]);
 
-        $response = $this->get(route('api.playlist.forward', ['playlist' => $playlist]));
+        $track = PlaylistTrack::query()->inRandomOrder()->first();
+
+        $response = $this->get(route('api.playlist.track.forward', ['playlist' => $playlist, 'track' => $track]));
 
         $response->assertOk();
     }
 
     /**
-     * By default, the Forward Index Endpoint shall return a collection of Track Resources that belong to the Playlist.
+     * By default, the Track Forward Index Endpoint shall return a collection of Track Resources that belong to the Playlist.
      *
      * @return void
      */
@@ -157,23 +167,19 @@ class ForwardIndexTest extends TestCase
                 Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
             ]);
 
-        Collection::times(
-            $this->faker->randomDigitNotNull(),
-            fn () => Playlist::factory()
-                ->has(PlaylistTrack::factory()->count($trackCount), Playlist::RELATION_TRACKS)
-                ->createOne([
-                    Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
-                ])
-        );
+        /** @var ForwardPlaylistTrack $track */
+        $track = ForwardPlaylistTrack::query()->inRandomOrder()->first();
 
-        $response = $this->get(route('api.playlist.forward', ['playlist' => $playlist]));
+        $response = $this->get(route('api.playlist.track.forward', ['playlist' => $playlist, 'track' => $track]));
 
-        $response->assertJsonCount($trackCount, TrackCollection::$wrap);
+        $tracks = $track->descendants()->get();
+
+        $response->assertJsonCount($tracks->count(), TrackCollection::$wrap);
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new TrackCollection($playlist->tracks, new Query()))
+                    (new TrackCollection($tracks, new Query()))
                         ->response()
                         ->getData()
                 ),
@@ -183,7 +189,7 @@ class ForwardIndexTest extends TestCase
     }
 
     /**
-     * The Forward Index Endpoint shall be paginated.
+     * The Track Forward Index Endpoint shall be paginated.
      *
      * @return void
      */
@@ -195,7 +201,9 @@ class ForwardIndexTest extends TestCase
                 Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
             ]);
 
-        $response = $this->get(route('api.playlist.forward', ['playlist' => $playlist]));
+        $track = PlaylistTrack::query()->inRandomOrder()->first();
+
+        $response = $this->get(route('api.playlist.track.forward', ['playlist' => $playlist, 'track' => $track]));
 
         $response->assertJsonStructure([
             TrackCollection::$wrap,
@@ -205,13 +213,13 @@ class ForwardIndexTest extends TestCase
     }
 
     /**
-     * The Forward Index Endpoint shall allow inclusion of related resources.
+     * The Track Forward Index Endpoint shall allow inclusion of related resources.
      *
      * @return void
      */
     public function testAllowedIncludePaths(): void
     {
-        $schema = new ForwardSchema();
+        $schema = new ForwardBackwardSchema();
 
         $allowedIncludes = collect($schema->allowedIncludes());
 
@@ -232,9 +240,14 @@ class ForwardIndexTest extends TestCase
                 Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
             ]);
 
-        $response = $this->get(route('api.playlist.forward', ['playlist' => $playlist] + $parameters));
+        /** @var ForwardPlaylistTrack $track */
+        $track = ForwardPlaylistTrack::query()->inRandomOrder()->first();
 
-        $tracks = PlaylistTrack::with($includedPaths->all())->get();
+        $response = $this->get(route('api.playlist.track.forward', ['playlist' => $playlist, 'track' => $track] + $parameters));
+
+        $tracks = $track->descendants()
+            ->get()
+            ->load($includedPaths->all());
 
         $response->assertJson(
             json_decode(
@@ -249,13 +262,13 @@ class ForwardIndexTest extends TestCase
     }
 
     /**
-     * The Forward Index Endpoint shall implement sparse fieldsets.
+     * The Track Forward Index Endpoint shall implement sparse fieldsets.
      *
      * @return void
      */
     public function testSparseFieldsets(): void
     {
-        $schema = new ForwardSchema();
+        $schema = new ForwardBackwardSchema();
 
         $fields = collect($schema->fields());
 
@@ -273,12 +286,15 @@ class ForwardIndexTest extends TestCase
                 Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
             ]);
 
-        $response = $this->get(route('api.playlist.forward', ['playlist' => $playlist] + $parameters));
+        /** @var ForwardPlaylistTrack $track */
+        $track = ForwardPlaylistTrack::query()->inRandomOrder()->first();
+
+        $response = $this->get(route('api.playlist.track.forward', ['playlist' => $playlist, 'track' => $track] + $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new TrackCollection($playlist->tracks, new Query($parameters)))
+                    (new TrackCollection($track->descendants()->get(), new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -288,13 +304,13 @@ class ForwardIndexTest extends TestCase
     }
 
     /**
-     * The Forward Index Endpoint shall forbid sorting resources.
+     * The Track Forward Index Endpoint shall forbid sorting resources.
      *
      * @return void
      */
     public function testSorts(): void
     {
-        $schema = new ForwardSchema();
+        $schema = new ForwardBackwardSchema();
 
         $sort = collect($schema->fields())
             ->filter(fn (Field $field) => $field instanceof SortableField)
@@ -311,7 +327,9 @@ class ForwardIndexTest extends TestCase
                 Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
             ]);
 
-        $response = $this->get(route('api.playlist.forward', ['playlist' => $playlist] + $parameters));
+        $track = PlaylistTrack::query()->inRandomOrder()->first();
+
+        $response = $this->get(route('api.playlist.track.forward', ['playlist' => $playlist, 'track' => $track] + $parameters));
 
         $response->assertJsonValidationErrors([
             SortParser::param(),
@@ -319,7 +337,7 @@ class ForwardIndexTest extends TestCase
     }
 
     /**
-     * The Forward Index Endpoint shall forbid filter resources.
+     * The Track Forward Index Endpoint shall forbid filter resources.
      *
      * @return void
      */
@@ -340,7 +358,9 @@ class ForwardIndexTest extends TestCase
                 Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
             ]);
 
-        $response = $this->get(route('api.playlist.forward', ['playlist' => $playlist] + $parameters));
+        $track = PlaylistTrack::query()->inRandomOrder()->first();
+
+        $response = $this->get(route('api.playlist.track.forward', ['playlist' => $playlist, 'track' => $track] + $parameters));
 
         $response->assertJsonValidationErrors([
             FilterParser::param(),

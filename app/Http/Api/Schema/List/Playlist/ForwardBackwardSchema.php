@@ -17,9 +17,9 @@ use App\Http\Resources\List\Playlist\Resource\TrackResource;
 use App\Models\List\Playlist\PlaylistTrack;
 
 /**
- * Class ForwardSchema.
+ * Class ForwardBackwardSchema.
  */
-class ForwardSchema extends EloquentSchema
+class ForwardBackwardSchema extends EloquentSchema
 {
     /**
      * The model this schema represents.

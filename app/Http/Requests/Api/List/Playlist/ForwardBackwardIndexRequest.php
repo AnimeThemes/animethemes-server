@@ -9,9 +9,9 @@ use App\Http\Api\Parser\SortParser;
 use App\Http\Requests\Api\IndexRequest;
 
 /**
- * Class BackwardIndexRequest.
+ * Class ForwardBackwardIndexRequest.
  */
-class BackwardIndexRequest extends IndexRequest
+class ForwardBackwardIndexRequest extends IndexRequest
 {
     /**
      * Get the filter validation rules.
