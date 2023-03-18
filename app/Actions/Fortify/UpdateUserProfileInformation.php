@@ -28,40 +28,20 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
      */
     public function update(mixed $user, array $input): void
     {
-        Validator::make($input, [
-            'name' => ['required', 'string', 'max:255', 'alpha_dash', Rule::unique(User::TABLE)->ignore($user->id)],
-            'email' => ['required', 'string', 'email', 'max:255', Rule::unique(User::TABLE)->ignore($user->id)],
-        ])->validateWithBag('updateProfileInformation');
+        $validated = Validator::make($input, [
+            User::ATTRIBUTE_NAME => ['sometimes', 'required', 'string', 'max:255', 'alpha_dash', Rule::unique(User::TABLE)->ignore($user->id)],
+            User::ATTRIBUTE_EMAIL => ['sometimes', 'required', 'string', 'email', 'max:255', Rule::unique(User::TABLE)->ignore($user->id)],
+        ])->validate();
 
-        if (isset($input['photo'])) {
-            $user->updateProfilePhoto($input['photo']);
-        }
+        $email = Arr::get($validated, User::ATTRIBUTE_EMAIL);
+        if ($email !== $user->email && $user instanceof MustVerifyEmail) {
+            $validated = $validated + [User::ATTRIBUTE_EMAIL_VERIFIED_AT => null];
 
-        if ($input['email'] !== $user->email && $user instanceof MustVerifyEmail) {
-            $this->updateVerifiedUser($user, $input);
+            $user->update($validated);
+
+            $user->sendEmailVerificationNotification();
         } else {
-            $user->forceFill([
-                User::ATTRIBUTE_NAME => Arr::get($input, 'name'),
-                User::ATTRIBUTE_EMAIL => Arr::get($input, 'email'),
-            ])->save();
+            $user->update($validated);
         }
-    }
-
-    /**
-     * Update the given verified user's profile information.
-     *
-     * @param  mixed  $user
-     * @param  array  $input
-     * @return void
-     */
-    protected function updateVerifiedUser(mixed $user, array $input): void
-    {
-        $user->forceFill([
-            User::ATTRIBUTE_NAME => Arr::get($input, 'name'),
-            User::ATTRIBUTE_EMAIL => Arr::get($input, 'email'),
-            User::ATTRIBUTE_EMAIL_VERIFIED_AT => null,
-        ])->save();
-
-        $user->sendEmailVerificationNotification();
     }
 }

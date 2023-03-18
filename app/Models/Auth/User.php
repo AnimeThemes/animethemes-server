@@ -83,6 +83,7 @@ class User extends Authenticatable implements MustVerifyEmail, Nameable
         User::ATTRIBUTE_EMAIL,
         User::ATTRIBUTE_NAME,
         User::ATTRIBUTE_PASSWORD,
+        User::ATTRIBUTE_EMAIL_VERIFIED_AT,
     ];
 
     /**
