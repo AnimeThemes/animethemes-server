@@ -18,6 +18,7 @@ use App\Http\Api\Parser\PagingParser;
 use App\Http\Api\Parser\SortParser;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Billing\BalanceSchema;
+use App\Http\Api\Sort\Sort;
 use App\Http\Resources\Billing\Collection\BalanceCollection;
 use App\Http\Resources\Billing\Resource\BalanceResource;
 use App\Models\BaseModel;
@@ -121,6 +122,7 @@ class BalanceIndexTest extends TestCase
     {
         $schema = new BalanceSchema();
 
+        /** @var Sort $sort */
         $sort = collect($schema->fields())
             ->filter(fn (Field $field) => $field instanceof SortableField)
             ->map(fn (SortableField $field) => $field->getSort())

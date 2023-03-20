@@ -195,4 +195,19 @@ return [
         'resource' => ActionResource::class,
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Nova Impersonation Redirection URLs
+    |--------------------------------------------------------------------------
+    |
+    | This configuration option allows you to specify a URL where Nova should
+    | redirect an administrator after impersonating another user and a URL
+    | to redirect the administrator after stopping impersonating a user.
+    |
+    */
+
+    'impersonation' => [
+        'started' => '/',
+        'stopped' => '/',
+    ],
 ];

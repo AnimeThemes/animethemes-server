@@ -81,7 +81,7 @@ class HasCriteriaTest extends TestCase
     {
         $count = $this->faker->randomDigitNotNull();
 
-        $filterParam = Str::of(HasCriteria::PARAM_VALUE)->append(Criteria::PARAM_SEPARATOR)->append($count)->__toString();
+        $filterParam = Str::of(HasCriteria::PARAM_VALUE)->append(Criteria::PARAM_SEPARATOR)->append(strval($count))->__toString();
 
         $criteria = HasCriteria::make(new GlobalScope(), $filterParam, $this->faker->word());
 

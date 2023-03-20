@@ -22,6 +22,7 @@ use App\Http\Api\Parser\PagingParser;
 use App\Http\Api\Parser\SortParser;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Wiki\Anime\Theme\EntrySchema;
+use App\Http\Api\Sort\Sort;
 use App\Http\Resources\Wiki\Anime\Theme\Collection\EntryCollection;
 use App\Http\Resources\Wiki\Anime\Theme\Resource\EntryResource;
 use App\Models\BaseModel;
@@ -180,6 +181,7 @@ class EntryIndexTest extends TestCase
     {
         $schema = new EntrySchema();
 
+        /** @var Sort $sort */
         $sort = collect($schema->fields())
             ->filter(fn (Field $field) => $field instanceof SortableField)
             ->map(fn (SortableField $field) => $field->getSort())

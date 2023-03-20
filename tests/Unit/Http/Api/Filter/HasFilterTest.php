@@ -124,7 +124,10 @@ class HasFilterTest extends TestCase
             fn () => new AllowedInclude($schema, $this->faker->word())
         );
 
-        $criteria = FakeCriteria::make(new GlobalScope(), HasCriteria::PARAM_VALUE, $allowedIncludes->random()->path());
+        /** @var AllowedInclude $selectedInclude */
+        $selectedInclude = $allowedIncludes->random();
+
+        $criteria = FakeCriteria::make(new GlobalScope(), HasCriteria::PARAM_VALUE, $selectedInclude->path());
 
         $filter = new HasFilter($allowedIncludes->all());
 

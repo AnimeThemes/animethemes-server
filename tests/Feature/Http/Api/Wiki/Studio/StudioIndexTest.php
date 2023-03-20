@@ -23,6 +23,7 @@ use App\Http\Api\Parser\PagingParser;
 use App\Http\Api\Parser\SortParser;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Wiki\StudioSchema;
+use App\Http\Api\Sort\Sort;
 use App\Http\Resources\Wiki\Collection\StudioCollection;
 use App\Http\Resources\Wiki\Resource\StudioResource;
 use App\Models\BaseModel;
@@ -171,6 +172,7 @@ class StudioIndexTest extends TestCase
     {
         $schema = new StudioSchema();
 
+        /** @var Sort $sort */
         $sort = collect($schema->fields())
             ->filter(fn (Field $field) => $field instanceof SortableField)
             ->map(fn (SortableField $field) => $field->getSort())

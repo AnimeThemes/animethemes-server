@@ -13,7 +13,7 @@ return [
     | using Laravel Scout. This connection is used when syncing all models
     | to the search service. You should adjust this based on your needs.
     |
-    | Supported: "algolia", "null"
+    | Supported: "algolia", "meilisearch", "database", "collection", "null"
     |
     */
 
@@ -56,7 +56,7 @@ return [
     |
     */
 
-    'after_commit' => false,
+    'after_commit' => true,
 
     /*
     |--------------------------------------------------------------------------
@@ -116,6 +116,29 @@ return [
     'algolia' => [
         'id' => env('ALGOLIA_APP_ID', ''),
         'secret' => env('ALGOLIA_SECRET', ''),
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Meilisearch Configuration
+    |--------------------------------------------------------------------------
+    |
+    | Here you may configure your Meilisearch settings. Meilisearch is an open
+    | source search engine with minimal configuration. Below, you can state
+    | the host and key information for your own Meilisearch installation.
+    |
+    | See: https://docs.meilisearch.com/guides/advanced_guides/configuration.html
+    |
+    */
+
+    'meilisearch' => [
+        'host' => env('MEILISEARCH_HOST', 'http://localhost:7700'),
+        'key' => env('MEILISEARCH_KEY'),
+        'index-settings' => [
+            // 'users' => [
+            //     'filterableAttributes'=> ['id', 'name', 'email'],
+            // ],
+        ],
     ],
 
 ];

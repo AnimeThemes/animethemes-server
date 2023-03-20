@@ -18,6 +18,7 @@ use App\Http\Api\Parser\PagingParser;
 use App\Http\Api\Parser\SortParser;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Admin\DumpSchema;
+use App\Http\Api\Sort\Sort;
 use App\Http\Resources\Admin\Collection\DumpCollection;
 use App\Http\Resources\Admin\Resource\DumpResource;
 use App\Models\Admin\Dump;
@@ -121,6 +122,7 @@ class DumpIndexTest extends TestCase
     {
         $schema = new DumpSchema();
 
+        /** @var Sort $sort */
         $sort = collect($schema->fields())
             ->filter(fn (Field $field) => $field instanceof SortableField)
             ->map(fn (SortableField $field) => $field->getSort())

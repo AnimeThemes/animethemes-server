@@ -22,6 +22,7 @@ use App\Http\Api\Parser\PagingParser;
 use App\Http\Api\Parser\SortParser;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Wiki\ExternalResourceSchema;
+use App\Http\Api\Sort\Sort;
 use App\Http\Resources\Wiki\Collection\ExternalResourceCollection;
 use App\Http\Resources\Wiki\Resource\ExternalResourceResource;
 use App\Models\BaseModel;
@@ -173,6 +174,7 @@ class ExternalResourceIndexTest extends TestCase
     {
         $schema = new ExternalResourceSchema();
 
+        /** @var Sort $sort */
         $sort = collect($schema->fields())
             ->filter(fn (Field $field) => $field instanceof SortableField)
             ->map(fn (SortableField $field) => $field->getSort())

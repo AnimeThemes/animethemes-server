@@ -21,13 +21,13 @@ class UpdateUserPassword implements UpdatesUserPasswords
     /**
      * Validate and update the user's password.
      *
-     * @param  mixed  $user
-     * @param  array  $input
+     * @param  User  $user
+     * @param  array<string, string>  $input
      * @return void
      *
      * @throws ValidationException
      */
-    public function update($user, array $input): void
+    public function update(User $user, array $input): void
     {
         Validator::make($input, [
             'current_password' => ['required', 'string'],

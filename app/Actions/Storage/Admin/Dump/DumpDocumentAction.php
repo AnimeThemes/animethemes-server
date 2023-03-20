@@ -44,7 +44,7 @@ class DumpDocumentAction extends DumpAction
 
         return Str::of($filesystem->path(''))
             ->append(DumpDocumentAction::FILENAME_PREFIX)
-            ->append(intval(Date::now()->valueOf()))
+            ->append(strval(Date::now()->valueOf()))
             ->append('.sql')
             ->__toString();
     }

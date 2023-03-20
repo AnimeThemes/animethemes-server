@@ -18,6 +18,7 @@ use App\Http\Api\Parser\PagingParser;
 use App\Http\Api\Parser\SortParser;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Admin\AnnouncementSchema;
+use App\Http\Api\Sort\Sort;
 use App\Http\Resources\Admin\Collection\AnnouncementCollection;
 use App\Http\Resources\Admin\Resource\AnnouncementResource;
 use App\Models\Admin\Announcement;
@@ -121,6 +122,7 @@ class AnnouncementIndexTest extends TestCase
     {
         $schema = new AnnouncementSchema();
 
+        /** @var Sort $sort */
         $sort = collect($schema->fields())
             ->filter(fn (Field $field) => $field instanceof SortableField)
             ->map(fn (SortableField $field) => $field->getSort())

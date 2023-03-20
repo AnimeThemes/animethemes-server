@@ -19,6 +19,7 @@ use App\Http\Api\Parser\PagingParser;
 use App\Http\Api\Parser\SortParser;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Pivot\Wiki\AnimeSeriesSchema;
+use App\Http\Api\Sort\Sort;
 use App\Http\Resources\Pivot\Wiki\Collection\AnimeSeriesCollection;
 use App\Http\Resources\Pivot\Wiki\Resource\AnimeSeriesResource;
 use App\Models\Wiki\Anime;
@@ -187,6 +188,7 @@ class AnimeSeriesIndexTest extends TestCase
     {
         $schema = new AnimeSeriesSchema();
 
+        /** @var Sort $sort */
         $sort = collect($schema->fields())
             ->filter(fn (Field $field) => $field instanceof SortableField)
             ->map(fn (SortableField $field) => $field->getSort())

@@ -20,6 +20,7 @@ use App\Http\Api\Parser\PagingParser;
 use App\Http\Api\Parser\SortParser;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Pivot\List\PlaylistImageSchema;
+use App\Http\Api\Sort\Sort;
 use App\Http\Resources\Pivot\List\Collection\PlaylistImageCollection;
 use App\Http\Resources\Pivot\List\Resource\PlaylistImageResource;
 use App\Models\Auth\User;
@@ -248,6 +249,7 @@ class PlaylistImageIndexTest extends TestCase
     {
         $schema = new PlaylistImageSchema();
 
+        /** @var Sort $sort */
         $sort = collect($schema->fields())
             ->filter(fn (Field $field) => $field instanceof SortableField)
             ->map(fn (SortableField $field) => $field->getSort())

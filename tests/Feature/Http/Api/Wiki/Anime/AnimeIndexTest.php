@@ -26,6 +26,7 @@ use App\Http\Api\Parser\PagingParser;
 use App\Http\Api\Parser\SortParser;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Wiki\AnimeSchema;
+use App\Http\Api\Sort\Sort;
 use App\Http\Resources\Wiki\Collection\AnimeCollection;
 use App\Http\Resources\Wiki\Resource\AnimeResource;
 use App\Models\BaseModel;
@@ -173,6 +174,7 @@ class AnimeIndexTest extends TestCase
     {
         $schema = new AnimeSchema();
 
+        /** @var Sort $sort */
         $sort = collect($schema->fields())
             ->filter(fn (Field $field) => $field instanceof SortableField)
             ->map(fn (SortableField $field) => $field->getSort())
