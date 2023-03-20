@@ -29,16 +29,16 @@ class CreateNewUser implements CreatesNewUsers
     public function create(array $input): User
     {
         Validator::make($input, [
-            'name' => ['required', 'string', 'max:255', 'alpha_dash', Rule::unique(User::TABLE)],
-            'email' => ['required', 'string', 'email', 'max:255', Rule::unique(User::TABLE)],
-            'password' => Password::required(),
+            User::ATTRIBUTE_NAME => ['required', 'string', 'max:255', 'alpha_dash', Rule::unique(User::TABLE)],
+            User::ATTRIBUTE_EMAIL => ['required', 'string', 'email', 'max:255', 'indisposable', Rule::unique(User::TABLE)],
+            User::ATTRIBUTE_PASSWORD => Password::required(),
             'terms' => ['required'],
         ])->validate();
 
         $user = new User([
-            User::ATTRIBUTE_NAME => Arr::get($input, 'name'),
-            User::ATTRIBUTE_EMAIL => Arr::get($input, 'email'),
-            User::ATTRIBUTE_PASSWORD => Hash::make(Arr::get($input, 'password')),
+            User::ATTRIBUTE_NAME => Arr::get($input, User::ATTRIBUTE_NAME),
+            User::ATTRIBUTE_EMAIL => Arr::get($input, User::ATTRIBUTE_EMAIL),
+            User::ATTRIBUTE_PASSWORD => Hash::make(Arr::get($input, User::ATTRIBUTE_PASSWORD)),
         ]);
 
         $user->save();

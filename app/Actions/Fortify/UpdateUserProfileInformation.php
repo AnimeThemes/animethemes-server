@@ -29,7 +29,7 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
     {
         $validated = Validator::make($input, [
             User::ATTRIBUTE_NAME => ['sometimes', 'required', 'string', 'max:255', 'alpha_dash', Rule::unique(User::TABLE)->ignore($user->id)],
-            User::ATTRIBUTE_EMAIL => ['sometimes', 'required', 'string', 'email', 'max:255', Rule::unique(User::TABLE)->ignore($user->id)],
+            User::ATTRIBUTE_EMAIL => ['sometimes', 'required', 'string', 'email', 'max:255', 'indisposable', Rule::unique(User::TABLE)->ignore($user->id)],
         ])->validate();
 
         $email = Arr::get($validated, User::ATTRIBUTE_EMAIL);

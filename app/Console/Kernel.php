@@ -21,6 +21,7 @@ use Illuminate\Support\Facades\Config;
 use Laravel\Horizon\Console\SnapshotCommand;
 use Laravel\Sanctum\Console\Commands\PruneExpired;
 use Laravel\Telescope\Console\PruneCommand as PruneTelescopeEntriesCommand;
+use Propaganistas\LaravelDisposableEmail\Console\UpdateDisposableDomainsCommand;
 
 /**
  * Class Kernel.
@@ -110,6 +111,12 @@ class Kernel extends ConsoleKernel
             ->runInBackground()
             ->storeOutput()
             ->hourly();
+
+        $schedule->command(UpdateDisposableDomainsCommand::class)
+            ->withoutOverlapping()
+            ->runInBackground()
+            ->storeOutput()
+            ->weekly();
     }
 
     /**
