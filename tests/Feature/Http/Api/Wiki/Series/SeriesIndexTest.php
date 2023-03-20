@@ -21,6 +21,7 @@ use App\Http\Api\Parser\PagingParser;
 use App\Http\Api\Parser\SortParser;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Wiki\SeriesSchema;
+use App\Http\Api\Sort\Sort;
 use App\Http\Resources\Wiki\Collection\SeriesCollection;
 use App\Http\Resources\Wiki\Resource\SeriesResource;
 use App\Models\BaseModel;
@@ -167,6 +168,7 @@ class SeriesIndexTest extends TestCase
     {
         $schema = new SeriesSchema();
 
+        /** @var Sort $sort */
         $sort = collect($schema->fields())
             ->filter(fn (Field $field) => $field instanceof SortableField)
             ->map(fn (SortableField $field) => $field->getSort())

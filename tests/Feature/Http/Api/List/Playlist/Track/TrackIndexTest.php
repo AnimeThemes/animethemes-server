@@ -22,6 +22,7 @@ use App\Http\Api\Parser\PagingParser;
 use App\Http\Api\Parser\SortParser;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\List\Playlist\TrackSchema;
+use App\Http\Api\Sort\Sort;
 use App\Http\Resources\List\Playlist\Collection\TrackCollection;
 use App\Http\Resources\List\Playlist\Resource\TrackResource;
 use App\Models\Auth\User;
@@ -309,6 +310,7 @@ class TrackIndexTest extends TestCase
     {
         $schema = new TrackSchema();
 
+        /** @var Sort $sort */
         $sort = collect($schema->fields())
             ->filter(fn (Field $field) => $field instanceof SortableField)
             ->map(fn (SortableField $field) => $field->getSort())

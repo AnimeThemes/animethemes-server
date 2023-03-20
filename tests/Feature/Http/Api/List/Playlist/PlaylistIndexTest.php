@@ -22,6 +22,7 @@ use App\Http\Api\Parser\PagingParser;
 use App\Http\Api\Parser\SortParser;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\List\PlaylistSchema;
+use App\Http\Api\Sort\Sort;
 use App\Http\Resources\List\Collection\PlaylistCollection;
 use App\Http\Resources\List\Resource\PlaylistResource;
 use App\Models\Auth\User;
@@ -197,6 +198,7 @@ class PlaylistIndexTest extends TestCase
     {
         $schema = new PlaylistSchema();
 
+        /** @var Sort $sort */
         $sort = collect($schema->fields())
             ->filter(fn (Field $field) => $field instanceof SortableField)
             ->map(fn (SortableField $field) => $field->getSort())

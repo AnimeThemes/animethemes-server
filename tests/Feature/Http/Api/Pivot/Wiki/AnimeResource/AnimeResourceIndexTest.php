@@ -20,6 +20,7 @@ use App\Http\Api\Parser\PagingParser;
 use App\Http\Api\Parser\SortParser;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Pivot\Wiki\AnimeResourceSchema;
+use App\Http\Api\Sort\Sort;
 use App\Http\Resources\Pivot\Wiki\Collection\AnimeResourceCollection;
 use App\Http\Resources\Pivot\Wiki\Resource\AnimeResourceResource;
 use App\Models\Wiki\Anime;
@@ -188,6 +189,7 @@ class AnimeResourceIndexTest extends TestCase
     {
         $schema = new AnimeResourceSchema();
 
+        /** @var Sort $sort */
         $sort = collect($schema->fields())
             ->filter(fn (Field $field) => $field instanceof SortableField)
             ->map(fn (SortableField $field) => $field->getSort())

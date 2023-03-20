@@ -90,7 +90,7 @@ class DumpWikiAction extends DumpAction
 
         return Str::of($filesystem->path(''))
             ->append(DumpWikiAction::FILENAME_PREFIX)
-            ->append(intval(Date::now()->valueOf()))
+            ->append(strval(Date::now()->valueOf()))
             ->append('.sql')
             ->__toString();
     }

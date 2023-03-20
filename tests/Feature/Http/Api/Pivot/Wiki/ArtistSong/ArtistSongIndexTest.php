@@ -18,6 +18,7 @@ use App\Http\Api\Parser\PagingParser;
 use App\Http\Api\Parser\SortParser;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Pivot\Wiki\ArtistSongSchema;
+use App\Http\Api\Sort\Sort;
 use App\Http\Resources\Pivot\Wiki\Collection\ArtistSongCollection;
 use App\Http\Resources\Pivot\Wiki\Resource\ArtistSongResource;
 use App\Models\Wiki\Artist;
@@ -185,6 +186,7 @@ class ArtistSongIndexTest extends TestCase
     {
         $schema = new ArtistSongSchema();
 
+        /** @var Sort $sort */
         $sort = collect($schema->fields())
             ->filter(fn (Field $field) => $field instanceof SortableField)
             ->map(fn (SortableField $field) => $field->getSort())

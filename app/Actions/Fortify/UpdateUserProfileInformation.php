@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Actions\Fortify;
 
 use App\Models\Auth\User;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -20,13 +19,13 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
     /**
      * Validate and update the given user's profile information.
      *
-     * @param  mixed  $user
-     * @param  array  $input
+     * @param  User  $user
+     * @param  array<string, string>  $input
      * @return void
      *
      * @throws ValidationException
      */
-    public function update(mixed $user, array $input): void
+    public function update(User $user, array $input): void
     {
         $validated = Validator::make($input, [
             User::ATTRIBUTE_NAME => ['sometimes', 'required', 'string', 'max:255', 'alpha_dash', Rule::unique(User::TABLE)->ignore($user->id)],
@@ -34,7 +33,7 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
         ])->validate();
 
         $email = Arr::get($validated, User::ATTRIBUTE_EMAIL);
-        if ($email !== $user->email && $user instanceof MustVerifyEmail) {
+        if ($email !== $user->email) {
             $validated = $validated + [User::ATTRIBUTE_EMAIL_VERIFIED_AT => null];
 
             $user->update($validated);

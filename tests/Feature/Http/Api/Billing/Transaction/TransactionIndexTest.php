@@ -18,6 +18,7 @@ use App\Http\Api\Parser\PagingParser;
 use App\Http\Api\Parser\SortParser;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Billing\TransactionSchema;
+use App\Http\Api\Sort\Sort;
 use App\Http\Resources\Billing\Collection\TransactionCollection;
 use App\Http\Resources\Billing\Resource\TransactionResource;
 use App\Models\BaseModel;
@@ -121,6 +122,7 @@ class TransactionIndexTest extends TestCase
     {
         $schema = new TransactionSchema();
 
+        /** @var Sort $sort */
         $sort = collect($schema->fields())
             ->filter(fn (Field $field) => $field instanceof SortableField)
             ->map(fn (SortableField $field) => $field->getSort())
