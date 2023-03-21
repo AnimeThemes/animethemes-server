@@ -6,14 +6,17 @@ namespace Tests\Feature\Http\Api\List\Playlist;
 
 use App\Constants\Config\FlagConstants;
 use App\Constants\Config\PlaylistConstants;
+use App\Constants\Config\ValidationConstants;
 use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\SpecialPermission;
 use App\Enums\Models\List\PlaylistVisibility;
+use App\Enums\Rules\ModerationService;
 use App\Models\Auth\User;
 use App\Models\List\Playlist;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Http;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
@@ -220,5 +223,103 @@ class PlaylistStoreTest extends TestCase
         $response = $this->post(route('api.playlist.store', $parameters));
 
         $response->assertCreated();
+    }
+
+    /**
+     * The Playlist Store Endpoint shall create a playlist if the name is not flagged by OpenAI.
+     *
+     * @return void
+     */
+    public function testCreatedIfNotFlaggedByOpenAI(): void
+    {
+        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
+        Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI);
+
+        Http::fake([
+            'https://api.openai.com/v1/moderations' => Http::response([
+                'results' => [
+                    0 => [
+                        'flagged' => false,
+                    ],
+                ],
+            ]),
+        ]);
+
+        $parameters = array_merge(
+            Playlist::factory()->raw(),
+            [Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::getRandomInstance()->description],
+        );
+
+        $user = User::factory()->withPermissions(CrudPermission::CREATE()->format(Playlist::class))->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->post(route('api.playlist.store', $parameters));
+
+        $response->assertCreated();
+    }
+
+    /**
+     * The Playlist Store Endpoint shall create a playlist if the moderation service returns some error.
+     *
+     * @return void
+     */
+    public function testCreatedIfOpenAIFails(): void
+    {
+        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
+        Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI);
+
+        Http::fake([
+            'https://api.openai.com/v1/moderations' => Http::response(status: 404),
+        ]);
+
+        $parameters = array_merge(
+            Playlist::factory()->raw(),
+            [Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::getRandomInstance()->description],
+        );
+
+        $user = User::factory()->withPermissions(CrudPermission::CREATE()->format(Playlist::class))->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->post(route('api.playlist.store', $parameters));
+
+        $response->assertCreated();
+    }
+
+    /**
+     * The Playlist Store Endpoint shall prohibit users from creating playlists with names flagged by OpenAI.
+     *
+     * @return void
+     */
+    public function testValidationErrorWhenFlaggedByOpenAI(): void
+    {
+        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
+        Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI);
+
+        Http::fake([
+            'https://api.openai.com/v1/moderations' => Http::response([
+                'results' => [
+                    0 => [
+                        'flagged' => true,
+                    ],
+                ],
+            ]),
+        ]);
+
+        $parameters = array_merge(
+            Playlist::factory()->raw(),
+            [Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::getRandomInstance()->description],
+        );
+
+        $user = User::factory()->withPermissions(CrudPermission::CREATE()->format(Playlist::class))->createOne();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->post(route('api.playlist.store', $parameters));
+
+        $response->assertJsonValidationErrors([
+            Playlist::ATTRIBUTE_NAME,
+        ]);
     }
 }
