@@ -34,10 +34,10 @@ class ModerationRule implements InvokableRule
      */
     public function __invoke($attribute, $value, $fail): void
     {
-         match (Config::get(ValidationConstants::MODERATION_SERVICE_QUALIFIED)) {
-             ModerationService::NONE => null,
-             ModerationService::OPENAI => $this->invokeForOpenAI($attribute, $value, $fail),
-             default => throw new RuntimeException('Invalid moderation service config value'),
+        match (Config::get(ValidationConstants::MODERATION_SERVICE_QUALIFIED)) {
+            ModerationService::NONE => null,
+            ModerationService::OPENAI => $this->invokeForOpenAI($attribute, $value, $fail),
+            default => throw new RuntimeException('Invalid moderation service config value'),
         };
     }
 

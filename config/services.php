@@ -49,5 +49,5 @@ return [
 
     'openai' => [
         'token' => env('OPENAI_BEARER_TOKEN'),
-    ]
+    ],
 ];
