@@ -9,6 +9,7 @@ use App\Contracts\Http\Api\Field\UpdatableField;
 use App\Http\Api\Field\StringField;
 use App\Http\Api\Schema\Schema;
 use App\Models\List\Playlist;
+use App\Rules\ModerationRule;
 use Illuminate\Http\Request;
 
 /**
@@ -38,6 +39,7 @@ class PlaylistNameField extends StringField implements CreatableField, Updatable
             'required',
             'string',
             'max:192',
+            new ModerationRule(),
         ];
     }
 
@@ -54,6 +56,7 @@ class PlaylistNameField extends StringField implements CreatableField, Updatable
             'required',
             'string',
             'max:192',
+            new ModerationRule(),
         ];
     }
 }

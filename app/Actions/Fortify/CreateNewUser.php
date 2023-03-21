@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Actions\Fortify;
 
 use App\Models\Auth\User;
+use App\Rules\ModerationRule;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -29,7 +30,7 @@ class CreateNewUser implements CreatesNewUsers
     public function create(array $input): User
     {
         Validator::make($input, [
-            User::ATTRIBUTE_NAME => ['required', 'string', 'max:255', 'alpha_dash', Rule::unique(User::TABLE)],
+            User::ATTRIBUTE_NAME => ['required', 'string', 'max:255', 'alpha_dash', Rule::unique(User::TABLE), new ModerationRule()],
             User::ATTRIBUTE_EMAIL => ['required', 'string', 'email', 'max:255', 'indisposable', Rule::unique(User::TABLE)],
             User::ATTRIBUTE_PASSWORD => Password::required(),
             'terms' => ['required'],

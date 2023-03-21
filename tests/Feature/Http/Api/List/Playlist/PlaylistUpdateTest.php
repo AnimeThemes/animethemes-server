@@ -5,14 +5,17 @@ declare(strict_types=1);
 namespace Tests\Feature\Http\Api\List\Playlist;
 
 use App\Constants\Config\FlagConstants;
+use App\Constants\Config\ValidationConstants;
 use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\SpecialPermission;
 use App\Enums\Models\List\PlaylistVisibility;
+use App\Enums\Rules\ModerationService;
 use App\Models\Auth\User;
 use App\Models\List\Playlist;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Http;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
@@ -220,5 +223,121 @@ class PlaylistUpdateTest extends TestCase
         $response = $this->put(route('api.playlist.update', ['playlist' => $playlist] + $parameters));
 
         $response->assertOk();
+    }
+
+    /**
+     * The Playlist Update Endpoint shall update a playlist if the name is not flagged by OpenAI.
+     *
+     * @return void
+     */
+    public function testUpdatedIfNotFlaggedByOpenAI(): void
+    {
+        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
+        Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI);
+
+        Http::fake([
+            'https://api.openai.com/v1/moderations' => Http::response([
+                'results' => [
+                    0 => [
+                        'flagged' => false,
+                    ],
+                ],
+            ]),
+        ]);
+
+        $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(Playlist::class))->createOne();
+
+        $playlist = Playlist::factory()
+            ->for($user)
+            ->createOne();
+
+        $parameters = array_merge(
+            Playlist::factory()->raw(),
+            [
+                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::getRandomInstance()->description,
+            ],
+        );
+
+        Sanctum::actingAs($user);
+
+        $response = $this->put(route('api.playlist.update', ['playlist' => $playlist] + $parameters));
+
+        $response->assertOk();
+    }
+
+    /**
+     * The Playlist Update Endpoint shall update a playlist if the moderation service returns some error.
+     *
+     * @return void
+     */
+    public function testUpdatedIfOpenAIFails(): void
+    {
+        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
+        Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI);
+
+        Http::fake([
+            'https://api.openai.com/v1/moderations' => Http::response(status: 404),
+        ]);
+
+        $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(Playlist::class))->createOne();
+
+        $playlist = Playlist::factory()
+            ->for($user)
+            ->createOne();
+
+        $parameters = array_merge(
+            Playlist::factory()->raw(),
+            [
+                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::getRandomInstance()->description,
+            ],
+        );
+
+        Sanctum::actingAs($user);
+
+        $response = $this->put(route('api.playlist.update', ['playlist' => $playlist] + $parameters));
+
+        $response->assertOk();
+    }
+
+    /**
+     * The Playlist Update Endpoint shall prohibit users from updating playlists with names flagged by OpenAI.
+     *
+     * @return void
+     */
+    public function testValidationErrorWhenFlaggedByOpenAI(): void
+    {
+        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
+        Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI);
+
+        Http::fake([
+            'https://api.openai.com/v1/moderations' => Http::response([
+                'results' => [
+                    0 => [
+                        'flagged' => true,
+                    ],
+                ],
+            ]),
+        ]);
+
+        $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(Playlist::class))->createOne();
+
+        $playlist = Playlist::factory()
+            ->for($user)
+            ->createOne();
+
+        $parameters = array_merge(
+            Playlist::factory()->raw(),
+            [
+                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::getRandomInstance()->description,
+            ],
+        );
+
+        Sanctum::actingAs($user);
+
+        $response = $this->put(route('api.playlist.update', ['playlist' => $playlist] + $parameters));
+
+        $response->assertJsonValidationErrors([
+            Playlist::ATTRIBUTE_NAME,
+        ]);
     }
 }

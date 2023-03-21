@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Actions\Fortify;
 
 use App\Models\Auth\User;
+use App\Rules\ModerationRule;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -28,12 +29,12 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
     public function update(User $user, array $input): void
     {
         $validated = Validator::make($input, [
-            User::ATTRIBUTE_NAME => ['sometimes', 'required', 'string', 'max:255', 'alpha_dash', Rule::unique(User::TABLE)->ignore($user->id)],
-            User::ATTRIBUTE_EMAIL => ['sometimes', 'required', 'string', 'email', 'max:255', 'indisposable', Rule::unique(User::TABLE)->ignore($user->id)],
+            User::ATTRIBUTE_NAME => ['required_without:'.User::ATTRIBUTE_EMAIL, 'string', 'max:255', 'alpha_dash', Rule::unique(User::TABLE)->ignore($user->id), new ModerationRule()],
+            User::ATTRIBUTE_EMAIL => ['required_without:'.User::ATTRIBUTE_NAME, 'string', 'email', 'max:255', 'indisposable', Rule::unique(User::TABLE)->ignore($user->id)],
         ])->validate();
 
         $email = Arr::get($validated, User::ATTRIBUTE_EMAIL);
-        if ($email !== $user->email) {
+        if (Arr::has($validated, User::ATTRIBUTE_EMAIL) && $email !== $user->email) {
             $validated = $validated + [User::ATTRIBUTE_EMAIL_VERIFIED_AT => null];
 
             $user->update($validated);

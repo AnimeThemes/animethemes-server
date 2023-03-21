@@ -46,4 +46,8 @@ return [
     'do' => [
         'token' => env('DO_BEARER_TOKEN'),
     ],
+
+    'openai' => [
+        'token' => env('OPENAI_BEARER_TOKEN'),
+    ],
 ];
