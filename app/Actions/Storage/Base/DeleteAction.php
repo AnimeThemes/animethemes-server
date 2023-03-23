@@ -10,6 +10,7 @@ use App\Contracts\Actions\Storage\StorageResults;
 use App\Contracts\Repositories\RepositoryInterface;
 use App\Contracts\Storage\InteractsWithDisks;
 use App\Models\BaseModel;
+use Exception;
 use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
@@ -75,6 +76,8 @@ abstract class DeleteAction implements InteractsWithDisks, StorageAction
      *
      * @param  StorageResults  $storageResults
      * @return void
+     *
+     * @throws Exception
      */
     public function then(StorageResults $storageResults): void
     {

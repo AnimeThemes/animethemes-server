@@ -31,6 +31,7 @@ use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
@@ -62,26 +63,40 @@ class BackfillAudioAction extends BackfillAction
      * Handle action.
      *
      * @return ActionResult
+     *
+     * @throws Exception
      */
     public function handle(): ActionResult
     {
-        if ($this->relation()->getQuery()->exists() && ! $this->overwriteAudio()) {
-            Log::info("{$this->label()} '{$this->getModel()->getName()}' already has Audio'.");
+        try {
+            DB::beginTransaction();
 
-            return new ActionResult(ActionStatus::SKIPPED());
-        }
+            if ($this->relation()->getQuery()->exists() && ! $this->overwriteAudio()) {
+                Log::info("{$this->label()} '{$this->getModel()->getName()}' already has Audio'.");
 
-        $audio = $this->getAudio();
+                return new ActionResult(ActionStatus::SKIPPED());
+            }
 
-        if ($audio !== null) {
-            $this->attachAudio($audio);
-        }
+            $audio = $this->getAudio();
 
-        if ($this->relation()->getQuery()->doesntExist()) {
-            return new ActionResult(
-                ActionStatus::FAILED(),
-                "{$this->label()} '{$this->getModel()->getName()}' has no Audio after backfilling. Please review."
-            );
+            if ($audio !== null) {
+                $this->attachAudio($audio);
+            }
+
+            if ($this->relation()->getQuery()->doesntExist()) {
+                return new ActionResult(
+                    ActionStatus::FAILED(),
+                    "{$this->label()} '{$this->getModel()->getName()}' has no Audio after backfilling. Please review."
+                );
+            }
+
+            DB::commit();
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+
+            DB::rollBack();
+
+            throw $e;
         }
 
         return new ActionResult(ActionStatus::PASSED());
@@ -131,6 +146,8 @@ class BackfillAudioAction extends BackfillAction
      * Get or Create Audio.
      *
      * @return Audio|null
+     *
+     * @throws Exception
      */
     protected function getAudio(): ?Audio
     {
@@ -253,6 +270,8 @@ class BackfillAudioAction extends BackfillAction
      *
      * @param  string  $audioPath
      * @return ReconcileResults
+     *
+     * @throws Exception
      */
     protected function reconcileAudio(string $audioPath): ReconcileResults
     {

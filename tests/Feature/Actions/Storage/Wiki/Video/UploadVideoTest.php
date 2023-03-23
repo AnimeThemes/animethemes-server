@@ -15,6 +15,7 @@ use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
 use App\Models\Wiki\Video\VideoScript;
 use App\Pivots\Wiki\AnimeThemeEntryVideo;
+use Exception;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Config;
@@ -93,6 +94,8 @@ class UploadVideoTest extends TestCase
      * The Upload Video Action shall upload the file to the configured disk.
      *
      * @return void
+     *
+     * @throws Exception
      */
     public function testCreatedVideo(): void
     {
@@ -114,6 +117,8 @@ class UploadVideoTest extends TestCase
      * The Upload Video Action shall set additional video attributes.
      *
      * @return void
+     *
+     * @throws Exception
      */
     public function testSetsAttributes(): void
     {
@@ -145,6 +150,8 @@ class UploadVideoTest extends TestCase
      * The Upload Video Action shall attach the provided entry.
      *
      * @return void
+     *
+     * @throws Exception
      */
     public function testAttachesEntry(): void
     {
@@ -170,6 +177,8 @@ class UploadVideoTest extends TestCase
      * The Upload Video Action shall attach the provided script.
      *
      * @return void
+     *
+     * @throws Exception
      */
     public function testAssociatesScript(): void
     {

@@ -8,6 +8,7 @@ use App\Concerns\Repositories\ReconcilesRepositories;
 use App\Contracts\Actions\Storage\StorageAction;
 use App\Contracts\Actions\Storage\StorageResults;
 use App\Contracts\Storage\InteractsWithDisk;
+use Exception;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Storage;
 
@@ -56,6 +57,8 @@ abstract class PruneAction implements InteractsWithDisk, StorageAction
      *
      * @param  StorageResults  $storageResults
      * @return void
+     *
+     * @throws Exception
      */
     public function then(StorageResults $storageResults): void
     {

@@ -11,6 +11,7 @@ use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Studio;
 use App\Pivots\Wiki\StudioResource;
+use Exception;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -30,27 +31,39 @@ abstract class BackfillStudiosAction extends BackfillAction
      *
      * @return ActionResult
      *
-     * @throws RequestException
+     * @throws Exception
      */
     public function handle(): ActionResult
     {
-        if ($this->relation()->getQuery()->exists()) {
-            Log::info("{$this->label()} '{$this->getModel()->getName()}' already has Studios.");
+        try {
+            DB::beginTransaction();
 
-            return new ActionResult(ActionStatus::SKIPPED());
-        }
+            if ($this->relation()->getQuery()->exists()) {
+                Log::info("{$this->label()} '{$this->getModel()->getName()}' already has Studios.");
 
-        $studios = $this->getStudios();
+                return new ActionResult(ActionStatus::SKIPPED());
+            }
 
-        if (! empty($studios)) {
-            $this->attachStudios($studios);
-        }
+            $studios = $this->getStudios();
 
-        if ($this->relation()->getQuery()->doesntExist()) {
-            return new ActionResult(
-                ActionStatus::FAILED(),
-                "{$this->label()} '{$this->getModel()->getName()}' has no Studios after backfilling. Please review."
-            );
+            if (! empty($studios)) {
+                $this->attachStudios($studios);
+            }
+
+            if ($this->relation()->getQuery()->doesntExist()) {
+                return new ActionResult(
+                    ActionStatus::FAILED(),
+                    "{$this->label()} '{$this->getModel()->getName()}' has no Studios after backfilling. Please review."
+                );
+            }
+
+            DB::commit();
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+
+            DB::rollBack();
+
+            throw $e;
         }
 
         return new ActionResult(ActionStatus::PASSED());

@@ -6,8 +6,11 @@ namespace App\Actions\Repositories;
 
 use App\Contracts\Repositories\RepositoryInterface;
 use Closure;
+use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Class ReconcileRepositories.
@@ -22,22 +25,36 @@ abstract class ReconcileRepositoriesAction
      * @param  RepositoryInterface<TModel>  $source
      * @param  RepositoryInterface<TModel>  $destination
      * @return ReconcileResults
+     *
+     * @throws Exception
      */
     public function reconcileRepositories(RepositoryInterface $source, RepositoryInterface $destination): ReconcileResults
     {
-        $sourceModels = $source->get();
+        try {
+            DB::beginTransaction();
 
-        $destinationModels = $destination->get($this->columnsForCreateDelete());
+            $sourceModels = $source->get();
 
-        $created = $this->createModelsFromSource($destination, $sourceModels, $destinationModels);
+            $destinationModels = $destination->get($this->columnsForCreateDelete());
 
-        $deleted = $this->deleteModelsFromDestination($destination, $sourceModels, $destinationModels);
+            $created = $this->createModelsFromSource($destination, $sourceModels, $destinationModels);
 
-        $destinationModels = $destination->get($this->columnsForUpdate());
+            $deleted = $this->deleteModelsFromDestination($destination, $sourceModels, $destinationModels);
 
-        $updated = $this->updateDestinationModels($destination, $sourceModels, $destinationModels);
+            $destinationModels = $destination->get($this->columnsForUpdate());
 
-        return $this->getResults($created, $deleted, $updated);
+            $updated = $this->updateDestinationModels($destination, $sourceModels, $destinationModels);
+
+            DB::commit();
+
+            return $this->getResults($created, $deleted, $updated);
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+
+            DB::rollBack();
+
+            throw $e;
+        }
     }
 
     /**

@@ -10,6 +10,7 @@ use App\Models\Wiki\Audio;
 use App\Repositories\Eloquent\Wiki\AudioRepository as AudioDestinationRepository;
 use App\Repositories\Storage\Wiki\AudioRepository;
 use App\Repositories\Storage\Wiki\AudioRepository as AudioSourceRepository;
+use Exception;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
@@ -27,6 +28,8 @@ class ReconcileAudioRepositoriesTest extends TestCase
      * If no changes are needed, the Reconcile Audio Repository Action shall indicate no changes were made.
      *
      * @return void
+     *
+     * @throws Exception
      */
     public function testNoResults(): void
     {
@@ -50,6 +53,8 @@ class ReconcileAudioRepositoriesTest extends TestCase
      * If audios are created, the Reconcile Audio Repository Action shall return created audios.
      *
      * @return void
+     *
+     * @throws Exception
      */
     public function testCreated(): void
     {
@@ -78,6 +83,8 @@ class ReconcileAudioRepositoriesTest extends TestCase
      * If audios are deleted, the Reconcile Audio Repository Action shall return deleted audios.
      *
      * @return void
+     *
+     * @throws Exception
      */
     public function testDeleted(): void
     {
@@ -110,6 +117,8 @@ class ReconcileAudioRepositoriesTest extends TestCase
      * If audios are updated, the Reconcile Audio Repository Action shall return updated audios.
      *
      * @return void
+     *
+     * @throws Exception
      */
     public function testUpdated(): void
     {

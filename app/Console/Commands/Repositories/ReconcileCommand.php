@@ -6,8 +6,8 @@ namespace App\Console\Commands\Repositories;
 
 use App\Concerns\Repositories\ReconcilesRepositories;
 use App\Console\Commands\BaseCommand;
+use Exception;
 use Illuminate\Contracts\Validation\Validator;
-use Illuminate\Validation\ValidationException;
 
 /**
  * Class ReconcileCommand.
@@ -21,7 +21,7 @@ abstract class ReconcileCommand extends BaseCommand
      *
      * @return int
      *
-     * @throws ValidationException
+     * @throws Exception
      */
     public function handle(): int
     {

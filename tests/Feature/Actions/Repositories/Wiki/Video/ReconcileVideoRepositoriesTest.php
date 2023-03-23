@@ -10,6 +10,7 @@ use App\Models\Wiki\Video;
 use App\Repositories\Eloquent\Wiki\VideoRepository as VideoDestinationRepository;
 use App\Repositories\Storage\Wiki\VideoRepository;
 use App\Repositories\Storage\Wiki\VideoRepository as VideoSourceRepository;
+use Exception;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
@@ -27,6 +28,8 @@ class ReconcileVideoRepositoriesTest extends TestCase
      * If no changes are needed, the Reconcile Video Repository Action shall indicate no changes were made.
      *
      * @return void
+     *
+     * @throws Exception
      */
     public function testNoResults(): void
     {
@@ -50,6 +53,8 @@ class ReconcileVideoRepositoriesTest extends TestCase
      * If videos are created, the Reconcile Video Repository Action shall return created videos.
      *
      * @return void
+     *
+     * @throws Exception
      */
     public function testCreated(): void
     {
@@ -78,6 +83,8 @@ class ReconcileVideoRepositoriesTest extends TestCase
      * If videos are deleted, the Reconcile Video Repository Action shall return deleted videos.
      *
      * @return void
+     *
+     * @throws Exception
      */
     public function testDeleted(): void
     {
@@ -110,6 +117,8 @@ class ReconcileVideoRepositoriesTest extends TestCase
      * If videos are updated, the Reconcile Video Repository Action shall return updated videos.
      *
      * @return void
+     *
+     * @throws Exception
      */
     public function testUpdated(): void
     {

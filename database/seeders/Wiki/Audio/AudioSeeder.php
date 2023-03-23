@@ -7,6 +7,7 @@ namespace Database\Seeders\Wiki\Audio;
 use App\Actions\Repositories\Wiki\Audio\ReconcileAudioRepositoriesAction;
 use App\Repositories\Eloquent\Wiki\AudioRepository as AudioDestinationRepository;
 use App\Repositories\Storage\Wiki\AudioRepository as AudioSourceRepository;
+use Exception;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\App;
 
@@ -19,6 +20,8 @@ class AudioSeeder extends Seeder
      * Run the database seeds.
      *
      * @return void
+     *
+     * @throws Exception
      */
     public function run(): void
     {
