@@ -7,6 +7,7 @@ namespace Database\Seeders\Billing\Transaction;
 use App\Actions\Repositories\Billing\Transaction\ReconcileTransactionRepositoriesAction;
 use App\Repositories\DigitalOcean\Billing\DigitalOceanTransactionRepository as DigitalOceanSourceRepository;
 use App\Repositories\Eloquent\Billing\DigitalOceanTransactionRepository as DigitalOceanDestinationRepository;
+use Exception;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\App;
 
@@ -19,6 +20,8 @@ class DigitalOceanTransactionSeeder extends Seeder
      * Run the database seeds.
      *
      * @return void
+     *
+     * @throws Exception
      */
     public function run(): void
     {

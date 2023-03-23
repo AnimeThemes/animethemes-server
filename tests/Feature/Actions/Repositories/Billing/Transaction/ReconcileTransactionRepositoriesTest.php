@@ -11,6 +11,7 @@ use App\Enums\Models\Billing\Service;
 use App\Models\Billing\Transaction;
 use App\Repositories\DigitalOcean\Billing\DigitalOceanTransactionRepository as DigitalOceanSourceRepository;
 use App\Repositories\Eloquent\Billing\DigitalOceanTransactionRepository as DigitalOceanDestinationRepository;
+use Exception;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
@@ -29,6 +30,8 @@ class ReconcileTransactionRepositoriesTest extends TestCase
      * If no changes are needed, the Reconcile Transaction Repository Action shall indicate no changes were made.
      *
      * @return void
+     *
+     * @throws Exception
      */
     public function testNoResults(): void
     {
@@ -52,6 +55,8 @@ class ReconcileTransactionRepositoriesTest extends TestCase
      * If transactions are created, the Reconcile Transaction Repository Action shall return created transactions.
      *
      * @return void
+     *
+     * @throws Exception
      */
     public function testCreated(): void
     {
@@ -85,6 +90,8 @@ class ReconcileTransactionRepositoriesTest extends TestCase
      * If transactions are deleted, the Reconcile Transaction Repository Action shall return deleted transactions.
      *
      * @return void
+     *
+     * @throws Exception
      */
     public function testDeleted(): void
     {

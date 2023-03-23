@@ -7,6 +7,7 @@ namespace Database\Seeders\Wiki\Video;
 use App\Actions\Repositories\Wiki\Video\ReconcileVideoRepositoriesAction;
 use App\Repositories\Eloquent\Wiki\VideoRepository as VideoDestinationRepository;
 use App\Repositories\Storage\Wiki\VideoRepository as VideoSourceRepository;
+use Exception;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\App;
 
@@ -19,6 +20,8 @@ class VideoSeeder extends Seeder
      * Run the database seeds.
      *
      * @return void
+     *
+     * @throws Exception
      */
     public function run(): void
     {

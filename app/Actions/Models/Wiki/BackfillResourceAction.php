@@ -9,7 +9,9 @@ use App\Actions\Models\BackfillAction;
 use App\Enums\Actions\ActionStatus;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Wiki\ExternalResource;
+use Exception;
 use Illuminate\Http\Client\RequestException;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 /**
@@ -26,27 +28,39 @@ abstract class BackfillResourceAction extends BackfillAction
      *
      * @return ActionResult
      *
-     * @throws RequestException
+     * @throws Exception
      */
     public function handle(): ActionResult
     {
-        if ($this->relation()->getQuery()->where(ExternalResource::ATTRIBUTE_SITE, $this->getSite()->value)->exists()) {
-            Log::info("{$this->label()} '{$this->getModel()->getName()}' already has Resource of Site '{$this->getSite()->value}'.");
+        try {
+            DB::beginTransaction();
 
-            return new ActionResult(ActionStatus::SKIPPED());
-        }
+            if ($this->relation()->getQuery()->where(ExternalResource::ATTRIBUTE_SITE, $this->getSite()->value)->exists()) {
+                Log::info("{$this->label()} '{$this->getModel()->getName()}' already has Resource of Site '{$this->getSite()->value}'.");
 
-        $resource = $this->getResource();
+                return new ActionResult(ActionStatus::SKIPPED());
+            }
 
-        if ($resource !== null) {
-            $this->attachResource($resource);
-        }
+            $resource = $this->getResource();
 
-        if ($this->relation()->getQuery()->where(ExternalResource::ATTRIBUTE_SITE, $this->getSite()->value)->doesntExist()) {
-            return new ActionResult(
-                ActionStatus::FAILED(),
-                "{$this->label()} '{$this->getModel()->getName()}' has no {$this->getSite()->description} Resource after backfilling. Please review."
-            );
+            if ($resource !== null) {
+                $this->attachResource($resource);
+            }
+
+            if ($this->relation()->getQuery()->where(ExternalResource::ATTRIBUTE_SITE, $this->getSite()->value)->doesntExist()) {
+                return new ActionResult(
+                    ActionStatus::FAILED(),
+                    "{$this->label()} '{$this->getModel()->getName()}' has no {$this->getSite()->description} Resource after backfilling. Please review."
+                );
+            }
+
+            DB::commit();
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+
+            DB::rollBack();
+
+            throw $e;
         }
 
         return new ActionResult(ActionStatus::PASSED());

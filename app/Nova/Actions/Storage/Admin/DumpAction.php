@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Nova\Actions\Storage\Admin;
 
 use App\Actions\Storage\Admin\Dump\DumpAction as DumpDatabase;
+use Exception;
 use Illuminate\Database\MySqlConnection;
 use Illuminate\Database\PostgresConnection;
 use Illuminate\Support\Collection;
@@ -28,6 +29,8 @@ abstract class DumpAction extends Action
      * @param  ActionFields  $fields
      * @param  Collection  $models
      * @return array
+     *
+     * @throws Exception
      *
      * @noinspection PhpUnusedParameterInspection
      */

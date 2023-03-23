@@ -9,9 +9,11 @@ use App\Actions\Models\BackfillAction;
 use App\Enums\Actions\ActionStatus;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Models\Wiki\Image;
+use Exception;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -31,27 +33,39 @@ abstract class BackfillImageAction extends BackfillAction
      *
      * @return ActionResult
      *
-     * @throws RequestException
+     * @throws Exception
      */
     public function handle(): ActionResult
     {
-        if ($this->relation()->getQuery()->where(Image::ATTRIBUTE_FACET, $this->getFacet()->value)->exists()) {
-            Log::info("{$this->label()} '{$this->getModel()->getName()}' already has Image of Facet '{$this->getFacet()->value}'.");
+        try {
+            DB::beginTransaction();
 
-            return new ActionResult(ActionStatus::SKIPPED());
-        }
+            if ($this->relation()->getQuery()->where(Image::ATTRIBUTE_FACET, $this->getFacet()->value)->exists()) {
+                Log::info("{$this->label()} '{$this->getModel()->getName()}' already has Image of Facet '{$this->getFacet()->value}'.");
 
-        $image = $this->getImage();
+                return new ActionResult(ActionStatus::SKIPPED());
+            }
 
-        if ($image !== null) {
-            $this->attachImage($image);
-        }
+            $image = $this->getImage();
 
-        if ($this->relation()->getQuery()->where(Image::ATTRIBUTE_FACET, $this->getFacet()->value)->doesntExist()) {
-            return new ActionResult(
-                ActionStatus::FAILED(),
-                "{$this->label()} '{$this->getModel()->getName()}' has no {$this->getFacet()->description} Image after backfilling. Please review."
-            );
+            if ($image !== null) {
+                $this->attachImage($image);
+            }
+
+            if ($this->relation()->getQuery()->where(Image::ATTRIBUTE_FACET, $this->getFacet()->value)->doesntExist()) {
+                return new ActionResult(
+                    ActionStatus::FAILED(),
+                    "{$this->label()} '{$this->getModel()->getName()}' has no {$this->getFacet()->description} Image after backfilling. Please review."
+                );
+            }
+
+            DB::commit();
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+
+            DB::rollBack();
+
+            throw $e;
         }
 
         return new ActionResult(ActionStatus::PASSED());

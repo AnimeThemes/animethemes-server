@@ -8,6 +8,7 @@ use App\Actions\ActionResult;
 use App\Actions\Repositories\ReconcileRepositoriesAction;
 use App\Contracts\Repositories\RepositoryInterface;
 use App\Enums\Actions\ActionStatus;
+use Exception;
 
 /**
  * Trait ReconcilesRepositories.
@@ -19,6 +20,8 @@ trait ReconcilesRepositories
      *
      * @param  array  $data
      * @return ActionResult
+     *
+     * @throws Exception
      */
     protected function reconcileRepositories(array $data = []): ActionResult
     {

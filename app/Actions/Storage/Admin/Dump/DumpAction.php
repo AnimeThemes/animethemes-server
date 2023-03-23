@@ -47,6 +47,8 @@ abstract class DumpAction
      * Handle action.
      *
      * @return ActionResult
+     *
+     * @throws Exception
      */
     public function handle(): ActionResult
     {

@@ -12,10 +12,13 @@ use App\Enums\Models\Wiki\VideoOverlap;
 use App\Enums\Models\Wiki\VideoSource;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
+use Exception;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 /**
@@ -47,6 +50,8 @@ class UploadVideoAction extends UploadAction
      *
      * @param  StorageResults  $storageResults
      * @return void
+     *
+     * @throws Exception
      */
     public function then(StorageResults $storageResults): void
     {
@@ -54,11 +59,23 @@ class UploadVideoAction extends UploadAction
             return;
         }
 
-        $video = $this->getOrCreateVideo();
+        try {
+            DB::beginTransaction();
 
-        $this->attachEntry($video);
+            $video = $this->getOrCreateVideo();
 
-        $this->uploadScript($video);
+            $this->attachEntry($video);
+
+            $this->uploadScript($video);
+
+            DB::commit();
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+
+            DB::rollBack();
+
+            throw $e;
+        }
     }
 
     /**

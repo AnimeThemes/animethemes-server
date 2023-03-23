@@ -11,6 +11,7 @@ use App\Enums\Models\Billing\Service;
 use App\Models\Billing\Balance;
 use App\Repositories\DigitalOcean\Billing\DigitalOceanBalanceRepository as DigitalOceanSourceRepository;
 use App\Repositories\Eloquent\Billing\DigitalOceanBalanceRepository as DigitalOceanDestinationRepository;
+use Exception;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
@@ -29,6 +30,8 @@ class ReconcileBalanceRepositoriesTest extends TestCase
      * If no changes are needed, the Reconcile Balance Repository Action shall indicate no changes were made.
      *
      * @return void
+     *
+     * @throws Exception
      */
     public function testNoResults(): void
     {
@@ -52,6 +55,8 @@ class ReconcileBalanceRepositoriesTest extends TestCase
      * If balances are created, the Reconcile Balance Repository Action shall return created balances.
      *
      * @return void
+     *
+     * @throws Exception
      */
     public function testCreated(): void
     {
@@ -85,6 +90,8 @@ class ReconcileBalanceRepositoriesTest extends TestCase
      * If balances are deleted, the Reconcile Balance Repository Action shall return deleted balances.
      *
      * @return void
+     *
+     * @throws Exception
      */
     public function testDeleted(): void
     {
@@ -122,6 +129,8 @@ class ReconcileBalanceRepositoriesTest extends TestCase
      * If balances are updated, the Reconcile Balance Repository Action shall return updated balances.
      *
      * @return void
+     *
+     * @throws Exception
      */
     public function testUpdated(): void
     {

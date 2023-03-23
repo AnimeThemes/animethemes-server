@@ -9,6 +9,7 @@ use App\Enums\Actions\ActionStatus;
 use App\Models\Wiki\Video\VideoScript;
 use App\Repositories\Eloquent\Wiki\Video\ScriptRepository as ScriptDestinationRepository;
 use App\Repositories\Storage\Wiki\Video\ScriptRepository as ScriptSourceRepository;
+use Exception;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
@@ -26,6 +27,8 @@ class ReconcileScriptRepositoriesTest extends TestCase
      * If no changes are needed, the Reconcile Script Repository Action shall indicate no changes were made.
      *
      * @return void
+     *
+     * @throws Exception
      */
     public function testNoResults(): void
     {
@@ -49,6 +52,8 @@ class ReconcileScriptRepositoriesTest extends TestCase
      * If video scripts are created, the Reconcile Script Repository Action shall return created video scripts.
      *
      * @return void
+     *
+     * @throws Exception
      */
     public function testCreated(): void
     {
@@ -77,6 +82,8 @@ class ReconcileScriptRepositoriesTest extends TestCase
      * If video scripts are deleted, the Reconcile Script Repository Action shall return deleted video scripts.
      *
      * @return void
+     *
+     * @throws Exception
      */
     public function testDeleted(): void
     {

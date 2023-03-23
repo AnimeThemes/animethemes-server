@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Nova\Actions\Repositories;
 
 use App\Concerns\Repositories\ReconcilesRepositories;
+use Exception;
 use Illuminate\Support\Collection;
 use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
@@ -22,6 +23,8 @@ abstract class ReconcileAction extends Action
      * @param  ActionFields  $fields
      * @param  Collection  $models
      * @return array
+     *
+     * @throws Exception
      *
      * @noinspection PhpUnusedParameterInspection
      */

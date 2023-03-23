@@ -10,6 +10,7 @@ use App\Enums\Actions\ActionStatus;
 use App\Models\Admin\Dump;
 use App\Repositories\Eloquent\Admin\DumpRepository as DumpDestinationRepository;
 use App\Repositories\Storage\Admin\DumpRepository as DumpSourceRepository;
+use Exception;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
@@ -29,6 +30,8 @@ class ReconcileDumpRepositoriesTest extends TestCase
      * If no changes are needed, the Reconcile Dump Repository Action shall indicate no changes were made.
      *
      * @return void
+     *
+     * @throws Exception
      */
     public function testNoResults(): void
     {
@@ -54,6 +57,8 @@ class ReconcileDumpRepositoriesTest extends TestCase
      * If dumps are created, the Reconcile Dump Repository Action shall return created dumps.
      *
      * @return void
+     *
+     * @throws Exception
      */
     public function testCreated(): void
     {
@@ -84,6 +89,8 @@ class ReconcileDumpRepositoriesTest extends TestCase
      * If dumps are deleted, the Reconcile Dump Repository Action shall return deleted dumps.
      *
      * @return void
+     *
+     * @throws Exception
      */
     public function testDeleted(): void
     {
