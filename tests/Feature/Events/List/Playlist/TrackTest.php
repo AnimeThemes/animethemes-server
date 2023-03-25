@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Events\List\Playlist;
 
+use App\Contracts\Models\HasHashids;
 use App\Events\List\Playlist\Track\TrackCreated;
 use App\Events\List\Playlist\Track\TrackDeleted;
 use App\Events\List\Playlist\Track\TrackRestored;
@@ -139,5 +140,21 @@ class TrackTest extends TestCase
 
             return ! empty(Arr::get($message->embed, 'fields'));
         });
+    }
+
+    /**
+     * The Track Created event shall assign hashids to the track.
+     *
+     * @return void
+     */
+    public function testPlaylistCreatedAssignsNullableUserHashids(): void
+    {
+        Event::fakeExcept(TrackCreated::class);
+
+        PlaylistTrack::factory()
+            ->for(Playlist::factory())
+            ->createOne();
+
+        static::assertDatabaseMissing(PlaylistTrack::class, [HasHashids::ATTRIBUTE_HASHID => null]);
     }
 }

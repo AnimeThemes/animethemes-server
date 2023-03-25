@@ -156,6 +156,10 @@ return [
             ],
         ],
         'models' => [
+            'assign_hashids' => [
+                'name' => 'Assign Hashids',
+                'confirmButtonText' => 'Assign',
+            ],
             'wiki' => [
                 'attach_resource' => [
                     'confirmButtonText' => 'Attach',
@@ -518,6 +522,10 @@ return [
             'name' => 'Name',
         ],
         'playlist_track' => [
+            'hashid' => [
+                'help' => 'The short, unique, non-sequential id derived from model identifiers.',
+                'name' => 'Hashid',
+            ],
             'next' => [
                 'help' => 'The next Track in the Playlist',
                 'name' => 'Next Track',
@@ -531,6 +539,10 @@ return [
             'first' => [
                 'help' => 'The first Track of the Playlist',
                 'name' => 'First Track',
+            ],
+            'hashid' => [
+                'help' => 'The short, unique, non-sequential id derived from model identifiers.',
+                'name' => 'Hashid',
             ],
             'last' => [
                 'help' => 'The last Track of the Playlist',

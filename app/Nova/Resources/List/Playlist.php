@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Nova\Resources\List;
 
+use App\Contracts\Models\HasHashids;
 use App\Enums\Models\List\PlaylistVisibility;
 use App\Models\List\Playlist as PlaylistModel;
+use App\Nova\Actions\Models\AssignHashidsAction;
 use App\Nova\Resources\Auth\User;
 use App\Nova\Resources\BaseResource;
 use App\Nova\Resources\List\Playlist\Track;
@@ -196,6 +198,15 @@ class Playlist extends BaseResource
                 ->filterable()
                 ->showWhenPeeking(),
 
+            Text::make(__('nova.fields.playlist.hashid.name'), HasHashids::ATTRIBUTE_HASHID)
+                ->readonly()
+                ->sortable()
+                ->copyable()
+                ->help(__('nova.fields.playlist.hashid.help'))
+                ->showOnPreview()
+                ->filterable()
+                ->showWhenPeeking(),
+
             BelongsTo::make(__('nova.fields.playlist.first.name'), PlaylistModel::RELATION_FIRST, Track::class)
                 ->hideFromIndex()
                 ->sortable()
@@ -230,5 +241,27 @@ class Playlist extends BaseResource
             Panel::make(__('nova.fields.base.timestamps'), $this->timestamps())
                 ->collapsable(),
         ];
+    }
+
+    /**
+     * Get the actions available for the resource.
+     *
+     * @param  NovaRequest  $request
+     * @return array
+     */
+    public function actions(NovaRequest $request): array
+    {
+        return array_merge(
+            parent::actions($request),
+            [
+                (new AssignHashidsAction('playlists'))
+                    ->confirmButtonText(__('nova.actions.models.assign_hashids.confirmButtonText'))
+                    ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
+                    ->showOnIndex()
+                    ->showOnDetail()
+                    ->showInline()
+                    ->canSeeWhen('update', $this),
+            ]
+        );
     }
 }

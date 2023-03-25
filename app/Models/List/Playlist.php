@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models\List;
 
+use App\Contracts\Models\HasHashids;
 use App\Enums\Models\List\PlaylistVisibility;
 use App\Events\List\Playlist\PlaylistCreated;
 use App\Events\List\Playlist\PlaylistDeleted;
@@ -36,12 +37,12 @@ use Laravel\Nova\Actions\Actionable;
  * @property Collection<int, PlaylistTrack> $tracks
  * @property string $name
  * @property User|null $user
- * @property int $user_id
+ * @property int|null $user_id
  * @property PlaylistVisibility $visibility
  *
  * @method static PlaylistFactory factory(...$parameters)
  */
-class Playlist extends BaseModel implements Viewable
+class Playlist extends BaseModel implements HasHashids, Viewable
 {
     use Actionable;
     use Searchable;
@@ -49,8 +50,8 @@ class Playlist extends BaseModel implements Viewable
 
     final public const TABLE = 'playlists';
 
-    final public const ATTRIBUTE_ID = 'playlist_id';
     final public const ATTRIBUTE_FIRST = 'first_id';
+    final public const ATTRIBUTE_ID = 'playlist_id';
     final public const ATTRIBUTE_LAST = 'last_id';
     final public const ATTRIBUTE_NAME = 'name';
     final public const ATTRIBUTE_USER = 'user_id';
@@ -105,6 +106,18 @@ class Playlist extends BaseModel implements Viewable
     protected $primaryKey = Playlist::ATTRIBUTE_ID;
 
     /**
+     * Get the route key for the model.
+     *
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public function getRouteKeyName(): string
+    {
+        return Playlist::ATTRIBUTE_ID; //TODO change to Hashids
+    }
+
+    /**
      * The attributes that should be cast.
      *
      * @var array<string, string>
@@ -112,6 +125,19 @@ class Playlist extends BaseModel implements Viewable
     protected $casts = [
         Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::class,
     ];
+
+    /**
+     * Get the numbers used to encode the model's hashids.
+     *
+     * @return array
+     */
+    public function hashids(): array
+    {
+        return array_filter([
+            $this->user_id,
+            $this->playlist_id,
+        ]);
+    }
 
     /**
      * Get name.

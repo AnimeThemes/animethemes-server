@@ -40,11 +40,7 @@ class InsertTrackAction
             $last?->next()?->associate($track)?->save();
             $track->previous()->associate($last);
 
-            $track->next()->disassociate();
-
-            if ($track->isDirty()) {
-                $track->save();
-            }
+            $track->next()->disassociate()->save();
 
             DB::commit();
         } catch (Exception $e) {
