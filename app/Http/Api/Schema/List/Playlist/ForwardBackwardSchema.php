@@ -6,6 +6,7 @@ namespace App\Http\Api\Schema\List\Playlist;
 
 use App\Http\Api\Field\Base\IdField;
 use App\Http\Api\Field\Field;
+use App\Http\Api\Field\List\Playlist\Track\TrackHashidsField;
 use App\Http\Api\Field\List\Playlist\Track\TrackVideoIdField;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\EloquentSchema;
@@ -66,8 +67,9 @@ class ForwardBackwardSchema extends EloquentSchema
         return array_merge(
             parent::fields(),
             [
-                new IdField($this, PlaylistTrack::ATTRIBUTE_ID),
+                new IdField($this, PlaylistTrack::ATTRIBUTE_ID), // TODO custom id field to prevent rendering
                 new TrackVideoIdField($this),
+                new TrackHashidsField($this),
             ],
         );
     }

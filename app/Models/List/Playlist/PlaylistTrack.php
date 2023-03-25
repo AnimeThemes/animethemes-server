@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models\List\Playlist;
 
+use App\Contracts\Models\HasHashids;
 use App\Events\List\Playlist\Track\TrackCreated;
 use App\Events\List\Playlist\Track\TrackDeleted;
 use App\Events\List\Playlist\Track\TrackRestored;
@@ -31,7 +32,7 @@ use Staudenmeir\LaravelAdjacencyList\Eloquent\HasRecursiveRelationships;
  *
  * @method static PlaylistTrackFactory factory(...$parameters)
  */
-class PlaylistTrack extends BaseModel
+class PlaylistTrack extends BaseModel implements HasHashids
 {
     use Actionable;
     use HasRecursiveRelationships;
@@ -91,6 +92,31 @@ class PlaylistTrack extends BaseModel
      * @var string
      */
     protected $primaryKey = PlaylistTrack::ATTRIBUTE_ID;
+
+    /**
+     * Get the route key for the model.
+     *
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public function getRouteKeyName(): string
+    {
+        return PlaylistTrack::ATTRIBUTE_ID; //TODO change to hashids
+    }
+
+    /**
+     * Get the numbers used to encode the model's hashids.
+     *
+     * @return array
+     */
+    public function hashids(): array
+    {
+        return [
+            $this->playlist_id,
+            $this->track_id,
+        ];
+    }
 
     /**
      * Get name.

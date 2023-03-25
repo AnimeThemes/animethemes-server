@@ -30,6 +30,23 @@ class TrackTest extends TestCase
     }
 
     /**
+     * Playlists shall include playlist and track ids for hashids encoding.
+     *
+     * @return void
+     */
+    public function testHashids(): void
+    {
+        $playlist = Playlist::factory()->createOne();
+
+        $track = PlaylistTrack::factory()
+            ->for($playlist)
+            ->createOne();
+
+        static::assertEmpty(array_diff([$playlist->playlist_id, $track->track_id], $track->hashids()));
+        static::assertEmpty(array_diff($track->hashids(), [$playlist->playlist_id, $track->track_id]));
+    }
+
+    /**
      * Playlist Tracks shall belong to a Playlist.
      *
      * @return void

@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Events\List;
 
+use App\Contracts\Models\HasHashids;
 use App\Events\List\Playlist\PlaylistCreated;
 use App\Events\List\Playlist\PlaylistDeleted;
 use App\Events\List\Playlist\PlaylistRestored;
 use App\Events\List\Playlist\PlaylistUpdated;
+use App\Models\Auth\User;
 use App\Models\List\Playlist;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
@@ -120,5 +122,35 @@ class PlaylistTest extends TestCase
 
             return ! empty(Arr::get($message->embed, 'fields'));
         });
+    }
+
+    /**
+     * The Playlist Created event shall assign hashids to the playlist without an owner.
+     *
+     * @return void
+     */
+    public function testPlaylistCreatedAssignsNullableUserHashids(): void
+    {
+        Event::fakeExcept(PlaylistCreated::class);
+
+        Playlist::factory()->createOne();
+
+        static::assertDatabaseMissing(Playlist::class, [HasHashids::ATTRIBUTE_HASHID => null]);
+    }
+
+    /**
+     * The Playlist Created event shall assign hashids to the playlist with an owner.
+     *
+     * @return void
+     */
+    public function testPlaylistCreatedAssignsNonNullUserHashids(): void
+    {
+        Event::fakeExcept(PlaylistCreated::class);
+
+        Playlist::factory()
+            ->for(User::factory())
+            ->createOne();
+
+        static::assertDatabaseMissing(Playlist::class, [HasHashids::ATTRIBUTE_HASHID => null]);
     }
 }

@@ -91,6 +91,36 @@ class PlaylistTest extends TestCase
     }
 
     /**
+     * Playlists shall filter null user_id values from hashids.
+     *
+     * @return void
+     */
+    public function testHashidsNullableUser(): void
+    {
+        $playlist = Playlist::factory()->createOne();
+
+        static::assertEmpty(array_diff([$playlist->playlist_id], $playlist->hashids()));
+        static::assertEmpty(array_diff($playlist->hashids(), [$playlist->playlist_id]));
+    }
+
+    /**
+     * Playlists shall include nonnull user_id values from hashids.
+     *
+     * @return void
+     */
+    public function testHashidsNonNullUser(): void
+    {
+        $user = User::factory()->createOne();
+
+        $playlist = Playlist::factory()
+            ->for($user)
+            ->createOne();
+
+        static::assertEmpty(array_diff([$user->id, $playlist->playlist_id], $playlist->hashids()));
+        static::assertEmpty(array_diff($playlist->hashids(), [$user->id, $playlist->playlist_id]));
+    }
+
+    /**
      * Playlists shall have a one-to-many polymorphic relationship to View.
      *
      * @return void

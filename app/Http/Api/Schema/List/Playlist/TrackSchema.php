@@ -6,6 +6,7 @@ namespace App\Http\Api\Schema\List\Playlist;
 
 use App\Http\Api\Field\Base\IdField;
 use App\Http\Api\Field\Field;
+use App\Http\Api\Field\List\Playlist\Track\TrackHashidsField;
 use App\Http\Api\Field\List\Playlist\Track\TrackNextIdField;
 use App\Http\Api\Field\List\Playlist\Track\TrackPlaylistIdField;
 use App\Http\Api\Field\List\Playlist\Track\TrackPreviousIdField;
@@ -73,11 +74,12 @@ class TrackSchema extends EloquentSchema
         return array_merge(
             parent::fields(),
             [
-                new IdField($this, PlaylistTrack::ATTRIBUTE_ID),
+                new IdField($this, PlaylistTrack::ATTRIBUTE_ID), // TODO custom id field to prevent rendering
                 new TrackNextIdField($this),
                 new TrackPlaylistIdField($this),
                 new TrackPreviousIdField($this),
                 new TrackVideoIdField($this),
+                new TrackHashidsField($this),
             ],
         );
     }

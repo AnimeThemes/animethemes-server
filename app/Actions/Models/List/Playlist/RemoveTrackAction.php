@@ -38,9 +38,7 @@ class RemoveTrackAction
             if ($playlist->last()->is($track)) {
                 $playlist->last()->associate($previous);
             }
-            if ($playlist->isDirty()) {
-                $playlist->save();
-            }
+            $playlist->save();
 
             $previous?->next()?->associate($next)?->save();
             $next?->previous()?->associate($previous)?->save();

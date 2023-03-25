@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Contracts\Models\HasHashids;
 use App\Models\Auth\User;
 use App\Models\BaseModel;
 use App\Models\List\Playlist;
@@ -23,6 +24,7 @@ return new class extends Migration
                 $table->id(Playlist::ATTRIBUTE_ID);
                 $table->timestamps(6);
                 $table->softDeletes(BaseModel::ATTRIBUTE_DELETED_AT, 6);
+                $table->string(HasHashids::ATTRIBUTE_HASHID)->nullable();
                 $table->string(Playlist::ATTRIBUTE_NAME);
                 $table->integer(Playlist::ATTRIBUTE_VISIBILITY);
 

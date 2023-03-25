@@ -28,5 +28,6 @@ class DatabaseSeeder extends Seeder
         $this->call(RoleSeeder::class);
         $this->call(VideoSeeder::class);
         $this->call(AudioSeeder::class);
+        $this->call(HashidsSeeder::class);
     }
 }

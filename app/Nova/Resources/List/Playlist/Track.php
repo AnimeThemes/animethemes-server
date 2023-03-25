@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Nova\Resources\List\Playlist;
 
+use App\Contracts\Models\HasHashids;
 use App\Models\List\Playlist\PlaylistTrack;
 use App\Models\Wiki\Video as VideoModel;
+use App\Nova\Actions\Models\AssignHashidsAction;
 use App\Nova\Resources\BaseResource;
 use App\Nova\Resources\List\Playlist;
 use App\Nova\Resources\Wiki\Video;
@@ -13,6 +15,7 @@ use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
 use Laravel\Nova\Query\Search\SearchableRelation;
@@ -192,6 +195,15 @@ class Track extends BaseResource
                 ->showOnPreview()
                 ->showWhenPeeking(),
 
+            Text::make(__('nova.fields.playlist_track.hashid.name'), HasHashids::ATTRIBUTE_HASHID)
+                ->readonly()
+                ->sortable()
+                ->copyable()
+                ->help(__('nova.fields.playlist_track.hashid.help'))
+                ->showOnPreview()
+                ->filterable()
+                ->showWhenPeeking(),
+
             BelongsTo::make(__('nova.fields.playlist_track.previous.name'), PlaylistTrack::RELATION_PREVIOUS, Track::class)
                 ->hideFromIndex()
                 ->sortable()
@@ -213,5 +225,27 @@ class Track extends BaseResource
             Panel::make(__('nova.fields.base.timestamps'), $this->timestamps())
                 ->collapsable(),
         ];
+    }
+
+    /**
+     * Get the actions available for the resource.
+     *
+     * @param  NovaRequest  $request
+     * @return array
+     */
+    public function actions(NovaRequest $request): array
+    {
+        return array_merge(
+            parent::actions($request),
+            [
+                (new AssignHashidsAction('playlists'))
+                    ->confirmButtonText(__('nova.actions.models.assign_hashids.confirmButtonText'))
+                    ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
+                    ->showOnIndex()
+                    ->showOnDetail()
+                    ->showInline()
+                    ->canSeeWhen('update', $this),
+            ]
+        );
     }
 }

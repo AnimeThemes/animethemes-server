@@ -53,7 +53,8 @@
         "staudenmeir/belongs-to-through": "^2.12",
         "staudenmeir/laravel-adjacency-list": "^1.12",
         "symfony/http-client": "^6.0",
-        "symfony/mailgun-mailer": "^6.0"
+        "symfony/mailgun-mailer": "^6.0",
+        "vinkla/hashids": "^10.0"
     },
     "require-dev": {
         "brianium/paratest": "^6.7",
