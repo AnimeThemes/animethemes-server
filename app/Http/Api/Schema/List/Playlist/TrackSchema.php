@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Schema\List\Playlist;
 
-use App\Http\Api\Field\Base\IdField;
 use App\Http\Api\Field\Field;
 use App\Http\Api\Field\List\Playlist\Track\TrackHashidsField;
+use App\Http\Api\Field\List\Playlist\Track\TrackIdField;
+use App\Http\Api\Field\List\Playlist\Track\TrackNextHashidsField;
 use App\Http\Api\Field\List\Playlist\Track\TrackNextIdField;
 use App\Http\Api\Field\List\Playlist\Track\TrackPlaylistIdField;
+use App\Http\Api\Field\List\Playlist\Track\TrackPreviousHashidsField;
 use App\Http\Api\Field\List\Playlist\Track\TrackPreviousIdField;
 use App\Http\Api\Field\List\Playlist\Track\TrackVideoIdField;
 use App\Http\Api\Include\AllowedInclude;
@@ -74,12 +76,14 @@ class TrackSchema extends EloquentSchema
         return array_merge(
             parent::fields(),
             [
-                new IdField($this, PlaylistTrack::ATTRIBUTE_ID), // TODO custom id field to prevent rendering
+                new TrackIdField($this),
+                new TrackHashidsField($this),
                 new TrackNextIdField($this),
+                new TrackNextHashidsField($this),
                 new TrackPlaylistIdField($this),
                 new TrackPreviousIdField($this),
+                new TrackPreviousHashidsField($this),
                 new TrackVideoIdField($this),
-                new TrackHashidsField($this),
             ],
         );
     }

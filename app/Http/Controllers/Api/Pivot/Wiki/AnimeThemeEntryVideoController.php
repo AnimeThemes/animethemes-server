@@ -55,12 +55,22 @@ class AnimeThemeEntryVideoController extends PivotController
      * Store a newly created resource.
      *
      * @param  StoreRequest  $request
+     * @param  AnimeThemeEntry  $animethemeentry
+     * @param  Video  $video
      * @param  StoreAction  $action
      * @return JsonResponse
      */
-    public function store(StoreRequest $request, StoreAction $action): JsonResponse
+    public function store(StoreRequest $request, AnimeThemeEntry $animethemeentry, Video $video, StoreAction $action): JsonResponse
     {
-        $entryVideo = $action->store(AnimeThemeEntryVideo::query(), $request->validated());
+        $validated = array_merge(
+            $request->validated(),
+            [
+                AnimeThemeEntryVideo::ATTRIBUTE_ENTRY => $animethemeentry->getKey(),
+                AnimeThemeEntryVideo::ATTRIBUTE_VIDEO => $video->getKey(),
+            ]
+        );
+
+        $entryVideo = $action->store(AnimeThemeEntryVideo::query(), $validated);
 
         $resource = new AnimeThemeEntryVideoResource($entryVideo, new Query());
 

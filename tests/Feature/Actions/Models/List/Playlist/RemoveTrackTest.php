@@ -6,6 +6,7 @@ namespace Tests\Feature\Actions\Models\List\Playlist;
 
 use App\Actions\Models\List\Playlist\RemoveTrackAction;
 use App\Models\List\Playlist;
+use Exception;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
@@ -22,6 +23,8 @@ class RemoveTrackTest extends TestCase
      * The Remove Track Action shall remove the sole track.
      *
      * @return void
+     *
+     * @throws Exception
      */
     public function testRemoveSole(): void
     {
@@ -46,6 +49,8 @@ class RemoveTrackTest extends TestCase
      * The Remove Track Action shall remove the first track and set the second track as first.
      *
      * @return void
+     *
+     * @throws Exception
      */
     public function testRemoveFirst(): void
     {
@@ -72,6 +77,8 @@ class RemoveTrackTest extends TestCase
      * The Remove Track Action shall remove the last track and set the penultimate track as last.
      *
      * @return void
+     *
+     * @throws Exception
      */
     public function testRemoveLast(): void
     {
@@ -98,6 +105,8 @@ class RemoveTrackTest extends TestCase
      * The Remove Track Action shall remove the second track and fill next and previous relations.
      *
      * @return void
+     *
+     * @throws Exception
      */
     public function testRemoveSecond(): void
     {

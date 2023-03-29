@@ -8,13 +8,15 @@ use App\Constants\Config\FlagConstants;
 use App\Constants\Config\PlaylistConstants;
 use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\SpecialPermission;
+use App\Events\List\Playlist\PlaylistCreated;
+use App\Events\List\Playlist\Track\TrackCreated;
 use App\Models\Auth\User;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
 use App\Models\Wiki\Video;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Event;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
@@ -24,7 +26,6 @@ use Tests\TestCase;
 class TrackStoreTest extends TestCase
 {
     use WithFaker;
-    use WithoutEvents;
 
     /**
      * The Track Destroy Endpoint shall be protected by sanctum.
@@ -33,6 +34,8 @@ class TrackStoreTest extends TestCase
      */
     public function testProtected(): void
     {
+        Event::fakeExcept(PlaylistCreated::class);
+
         Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
 
         $playlist = Playlist::factory()->createOne();
@@ -53,6 +56,8 @@ class TrackStoreTest extends TestCase
      */
     public function testForbiddenIfMissingPermission(): void
     {
+        Event::fakeExcept(PlaylistCreated::class);
+
         Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
 
         $playlist = Playlist::factory()->createOne();
@@ -77,6 +82,8 @@ class TrackStoreTest extends TestCase
      */
     public function testForbiddenIfNotOwnPlaylist(): void
     {
+        Event::fakeExcept(PlaylistCreated::class);
+
         Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
 
         $playlist = Playlist::factory()
@@ -104,6 +111,8 @@ class TrackStoreTest extends TestCase
      */
     public function testForbiddenIfFlagDisabled(): void
     {
+        Event::fakeExcept(PlaylistCreated::class);
+
         Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, false);
 
         $user = User::factory()->withPermissions(CrudPermission::CREATE()->format(PlaylistTrack::class))->createOne();
@@ -131,6 +140,8 @@ class TrackStoreTest extends TestCase
      */
     public function testRequiredFields(): void
     {
+        Event::fakeExcept(PlaylistCreated::class);
+
         Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
 
         $user = User::factory()->withPermissions(CrudPermission::CREATE()->format(PlaylistTrack::class))->createOne();
@@ -155,6 +166,8 @@ class TrackStoreTest extends TestCase
      */
     public function testProhibitsNextAndPrevious(): void
     {
+        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+
         Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
 
         $user = User::factory()->withPermissions(CrudPermission::CREATE()->format(PlaylistTrack::class))->createOne();
@@ -175,8 +188,8 @@ class TrackStoreTest extends TestCase
             ->for($playlist)
             ->for(Video::factory())
             ->makeOne([
-                PlaylistTrack::ATTRIBUTE_PREVIOUS => $previous->getKey(),
-                PlaylistTrack::ATTRIBUTE_NEXT => $next->getKey(),
+                PlaylistTrack::RELATION_PREVIOUS => $previous->getRouteKey(),
+                PlaylistTrack::RELATION_NEXT => $next->getRouteKey(),
             ]);
 
         Sanctum::actingAs($user);
@@ -184,8 +197,8 @@ class TrackStoreTest extends TestCase
         $response = $this->post(route('api.playlist.track.store', ['playlist' => $playlist] + $track->toArray()));
 
         $response->assertJsonValidationErrors([
-            PlaylistTrack::ATTRIBUTE_NEXT,
-            PlaylistTrack::ATTRIBUTE_PREVIOUS,
+            PlaylistTrack::RELATION_NEXT,
+            PlaylistTrack::RELATION_PREVIOUS,
         ]);
     }
 
@@ -196,6 +209,8 @@ class TrackStoreTest extends TestCase
      */
     public function testScopeNext(): void
     {
+        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+
         Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
 
         $user = User::factory()->withPermissions(CrudPermission::CREATE()->format(PlaylistTrack::class))->createOne();
@@ -212,7 +227,7 @@ class TrackStoreTest extends TestCase
             ->for($playlist)
             ->makeOne([
                 PlaylistTrack::ATTRIBUTE_VIDEO => Video::factory()->createOne()->getKey(),
-                PlaylistTrack::ATTRIBUTE_NEXT => $next->getKey(),
+                PlaylistTrack::RELATION_NEXT => $next->getRouteKey(),
             ]);
 
         Sanctum::actingAs($user);
@@ -220,7 +235,7 @@ class TrackStoreTest extends TestCase
         $response = $this->post(route('api.playlist.track.store', ['playlist' => $playlist] + $track->toArray()));
 
         $response->assertJsonValidationErrors([
-            PlaylistTrack::ATTRIBUTE_NEXT,
+            PlaylistTrack::RELATION_NEXT,
         ]);
     }
 
@@ -231,6 +246,8 @@ class TrackStoreTest extends TestCase
      */
     public function testScopePrevious(): void
     {
+        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+
         Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
 
         $user = User::factory()->withPermissions(CrudPermission::CREATE()->format(PlaylistTrack::class))->createOne();
@@ -247,7 +264,7 @@ class TrackStoreTest extends TestCase
             ->for($playlist)
             ->makeOne([
                 PlaylistTrack::ATTRIBUTE_VIDEO => Video::factory()->createOne()->getKey(),
-                PlaylistTrack::ATTRIBUTE_PREVIOUS => $previous->getKey(),
+                PlaylistTrack::RELATION_PREVIOUS => $previous->getRouteKey(),
             ]);
 
         Sanctum::actingAs($user);
@@ -255,7 +272,7 @@ class TrackStoreTest extends TestCase
         $response = $this->post(route('api.playlist.track.store', ['playlist' => $playlist] + $track->toArray()));
 
         $response->assertJsonValidationErrors([
-            PlaylistTrack::ATTRIBUTE_PREVIOUS,
+            PlaylistTrack::RELATION_PREVIOUS,
         ]);
     }
 
@@ -266,6 +283,8 @@ class TrackStoreTest extends TestCase
      */
     public function testCreate(): void
     {
+        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+
         Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
 
         $user = User::factory()->withPermissions(CrudPermission::CREATE()->format(PlaylistTrack::class))->createOne();
@@ -301,6 +320,8 @@ class TrackStoreTest extends TestCase
      */
     public function testCreateAfterLastTrack(): void
     {
+        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+
         Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
 
         $user = User::factory()->withPermissions(CrudPermission::CREATE()->format(PlaylistTrack::class))->createOne();
@@ -318,7 +339,7 @@ class TrackStoreTest extends TestCase
             ->for($playlist)
             ->for(Video::factory())
             ->makeOne([
-                PlaylistTrack::ATTRIBUTE_PREVIOUS => $last->getKey(),
+                PlaylistTrack::RELATION_PREVIOUS => $last->getRouteKey(),
             ]);
 
         Sanctum::actingAs($user);
@@ -349,6 +370,8 @@ class TrackStoreTest extends TestCase
      */
     public function testCreateAfterFirstTrack(): void
     {
+        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+
         Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
 
         $user = User::factory()->withPermissions(CrudPermission::CREATE()->format(PlaylistTrack::class))->createOne();
@@ -367,7 +390,7 @@ class TrackStoreTest extends TestCase
             ->for($playlist)
             ->for(Video::factory())
             ->makeOne([
-                PlaylistTrack::ATTRIBUTE_PREVIOUS => $first->getKey(),
+                PlaylistTrack::RELATION_PREVIOUS => $first->getRouteKey(),
             ]);
 
         Sanctum::actingAs($user);
@@ -398,6 +421,8 @@ class TrackStoreTest extends TestCase
      */
     public function testCreateBeforeLastTrack(): void
     {
+        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+
         Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
 
         $user = User::factory()->withPermissions(CrudPermission::CREATE()->format(PlaylistTrack::class))->createOne();
@@ -416,7 +441,7 @@ class TrackStoreTest extends TestCase
             ->for($playlist)
             ->for(Video::factory())
             ->makeOne([
-                PlaylistTrack::ATTRIBUTE_NEXT => $last->getKey(),
+                PlaylistTrack::RELATION_NEXT => $last->getRouteKey(),
             ]);
 
         Sanctum::actingAs($user);
@@ -447,6 +472,8 @@ class TrackStoreTest extends TestCase
      */
     public function testCreateBeforeFirstTrack(): void
     {
+        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+
         Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
 
         $user = User::factory()->withPermissions(CrudPermission::CREATE()->format(PlaylistTrack::class))->createOne();
@@ -464,7 +491,7 @@ class TrackStoreTest extends TestCase
             ->for($playlist)
             ->for(Video::factory())
             ->makeOne([
-                PlaylistTrack::ATTRIBUTE_NEXT => $first->getKey(),
+                PlaylistTrack::RELATION_NEXT => $first->getRouteKey(),
             ]);
 
         Sanctum::actingAs($user);
@@ -494,6 +521,8 @@ class TrackStoreTest extends TestCase
      */
     public function testCreatePermittedForBypass(): void
     {
+        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+
         Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, $this->faker->boolean());
 
         $user = User::factory()
@@ -526,6 +555,8 @@ class TrackStoreTest extends TestCase
      */
     public function testMaxTrackLimit(): void
     {
+        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+
         $trackLimit = $this->faker->randomDigitNotNull();
 
         Config::set(PlaylistConstants::MAX_TRACKS_QUALIFIED, $trackLimit);
@@ -558,6 +589,8 @@ class TrackStoreTest extends TestCase
      */
     public function testMaxTrackLimitPermittedForBypass(): void
     {
+        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+
         $trackLimit = $this->faker->randomDigitNotNull();
 
         Config::set(PlaylistConstants::MAX_TRACKS_QUALIFIED, $trackLimit);

@@ -165,11 +165,7 @@ class PlaylistTest extends TestCase
             ->for($playlist)
             ->createOne();
 
-        $playlist->fill([
-            Playlist::ATTRIBUTE_FIRST => $first->getKey(),
-        ]);
-
-        $playlist->save();
+        $playlist->first()->associate($first)->save();
 
         static::assertInstanceOf(BelongsTo::class, $playlist->first());
         static::assertInstanceOf(PlaylistTrack::class, $playlist->first()->first());
@@ -188,11 +184,7 @@ class PlaylistTest extends TestCase
             ->for($playlist)
             ->createOne();
 
-        $playlist->fill([
-            Playlist::ATTRIBUTE_LAST => $last->getKey(),
-        ]);
-
-        $playlist->save();
+        $playlist->last()->associate($last)->save();
 
         static::assertInstanceOf(BelongsTo::class, $playlist->last());
         static::assertInstanceOf(PlaylistTrack::class, $playlist->last()->first());

@@ -11,9 +11,9 @@ use App\Http\Api\Schema\Schema;
 use App\Models\List\Playlist\PlaylistTrack;
 
 /**
- * Class TrackNextIdField.
+ * Class TrackIdField.
  */
-class TrackNextIdField extends Field implements SelectableField
+class TrackIdField extends Field implements SelectableField
 {
     /**
      * Create a new field instance.
@@ -22,7 +22,7 @@ class TrackNextIdField extends Field implements SelectableField
      */
     public function __construct(Schema $schema)
     {
-        parent::__construct($schema, PlaylistTrack::ATTRIBUTE_NEXT);
+        parent::__construct($schema, PlaylistTrack::ATTRIBUTE_ID);
     }
 
     /**
@@ -34,7 +34,17 @@ class TrackNextIdField extends Field implements SelectableField
      */
     public function shouldSelect(Query $query, Schema $schema): bool
     {
-        // Needed to match next track relation.
+        // We can only exclude ID fields for top-level models that are not including related resources.
+        $includeCriteria = $query->getIncludeCriteria($this->schema->type());
+        if (
+            $this->schema->type() === $schema->type()
+            && ($includeCriteria === null || $includeCriteria->getPaths()->isEmpty())
+        ) {
+            $criteria = $query->getFieldCriteria($this->schema->type());
+
+            return $criteria === null || $criteria->isAllowedField($this->getKey());
+        }
+
         return true;
     }
 }

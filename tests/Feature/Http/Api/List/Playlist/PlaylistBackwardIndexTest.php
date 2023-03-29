@@ -8,6 +8,7 @@ use App\Contracts\Http\Api\Field\SortableField;
 use App\Enums\Auth\CrudPermission;
 use App\Enums\Http\Api\Sort\Direction;
 use App\Enums\Models\List\PlaylistVisibility;
+use App\Events\List\Playlist\PlaylistCreated;
 use App\Http\Api\Criteria\Paging\Criteria;
 use App\Http\Api\Criteria\Paging\OffsetCriteria;
 use App\Http\Api\Field\Field;
@@ -27,8 +28,8 @@ use App\Models\BaseModel;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Event;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
@@ -38,7 +39,6 @@ use Tests\TestCase;
 class PlaylistBackwardIndexTest extends TestCase
 {
     use WithFaker;
-    use WithoutEvents;
 
     /**
      * The Playlist Backward Index Endpoint shall forbid a private playlist from being publicly viewed.
@@ -47,6 +47,8 @@ class PlaylistBackwardIndexTest extends TestCase
      */
     public function testPrivatePlaylistCannotBePubliclyViewed(): void
     {
+        Event::fakeExcept(PlaylistCreated::class);
+
         $playlist = Playlist::factory()
             ->for(User::factory())
             ->tracks($this->faker->numberBetween(2, 9))
@@ -66,6 +68,8 @@ class PlaylistBackwardIndexTest extends TestCase
      */
     public function testPrivatePlaylistTrackCannotBePubliclyViewedIfNotOwned(): void
     {
+        Event::fakeExcept(PlaylistCreated::class);
+
         $playlist = Playlist::factory()
             ->for(User::factory())
             ->tracks($this->faker->numberBetween(2, 9))
@@ -89,6 +93,8 @@ class PlaylistBackwardIndexTest extends TestCase
      */
     public function testPrivatePlaylistTrackCanBeViewedByOwner(): void
     {
+        Event::fakeExcept(PlaylistCreated::class);
+
         $user = User::factory()->withPermissions(CrudPermission::VIEW()->format(PlaylistTrack::class))->createOne();
 
         $playlist = Playlist::factory()
@@ -112,6 +118,8 @@ class PlaylistBackwardIndexTest extends TestCase
      */
     public function testUnlistedPlaylistTrackCanBeViewed(): void
     {
+        Event::fakeExcept(PlaylistCreated::class);
+
         $playlist = Playlist::factory()
             ->for(User::factory())
             ->tracks($this->faker->numberBetween(2, 9))
@@ -131,6 +139,8 @@ class PlaylistBackwardIndexTest extends TestCase
      */
     public function testPublicPlaylistTrackCanBeViewed(): void
     {
+        Event::fakeExcept(PlaylistCreated::class);
+
         $playlist = Playlist::factory()
             ->for(User::factory())
             ->tracks($this->faker->numberBetween(2, 9))
@@ -150,6 +160,8 @@ class PlaylistBackwardIndexTest extends TestCase
      */
     public function testDefault(): void
     {
+        Event::fakeExcept(PlaylistCreated::class);
+
         $trackCount = $this->faker->numberBetween(2, 9);
 
         $playlist = Playlist::factory()
@@ -190,6 +202,8 @@ class PlaylistBackwardIndexTest extends TestCase
      */
     public function testPaginated(): void
     {
+        Event::fakeExcept(PlaylistCreated::class);
+
         $playlist = Playlist::factory()
             ->tracks($this->faker->numberBetween(2, 9))
             ->createOne([
@@ -212,6 +226,8 @@ class PlaylistBackwardIndexTest extends TestCase
      */
     public function testAllowedIncludePaths(): void
     {
+        Event::fakeExcept(PlaylistCreated::class);
+
         $schema = new ForwardBackwardSchema();
 
         $allowedIncludes = collect($schema->allowedIncludes());
@@ -256,6 +272,8 @@ class PlaylistBackwardIndexTest extends TestCase
      */
     public function testSparseFieldsets(): void
     {
+        Event::fakeExcept(PlaylistCreated::class);
+
         $schema = new ForwardBackwardSchema();
 
         $fields = collect($schema->fields());
@@ -295,6 +313,8 @@ class PlaylistBackwardIndexTest extends TestCase
      */
     public function testSorts(): void
     {
+        Event::fakeExcept(PlaylistCreated::class);
+
         $schema = new ForwardBackwardSchema();
 
         /** @var Sort $sort */
@@ -327,6 +347,8 @@ class PlaylistBackwardIndexTest extends TestCase
      */
     public function testFilters(): void
     {
+        Event::fakeExcept(PlaylistCreated::class);
+
         $parameters = [
             FilterParser::param() => [
                 BaseModel::ATTRIBUTE_CREATED_AT => $this->faker->date(),

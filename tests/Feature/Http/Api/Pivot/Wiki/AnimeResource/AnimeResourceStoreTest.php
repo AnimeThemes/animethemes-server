@@ -27,12 +27,12 @@ class AnimeResourceStoreTest extends TestCase
      */
     public function testProtected(): void
     {
-        $animeResource = AnimeResource::factory()
-            ->for(Anime::factory())
-            ->for(ExternalResource::factory(), AnimeResource::RELATION_RESOURCE)
-            ->makeOne();
+        $anime = Anime::factory()->createOne();
+        $resource = ExternalResource::factory()->createOne();
 
-        $response = $this->post(route('api.animeresource.store', $animeResource->toArray()));
+        $parameters = AnimeResource::factory()->raw();
+
+        $response = $this->post(route('api.animeresource.store', ['anime' => $anime, 'resource' => $resource] + $parameters));
 
         $response->assertUnauthorized();
     }
@@ -44,42 +44,18 @@ class AnimeResourceStoreTest extends TestCase
      */
     public function testForbidden(): void
     {
-        $animeResource = AnimeResource::factory()
-            ->for(Anime::factory())
-            ->for(ExternalResource::factory(), AnimeResource::RELATION_RESOURCE)
-            ->makeOne();
+        $anime = Anime::factory()->createOne();
+        $resource = ExternalResource::factory()->createOne();
+
+        $parameters = AnimeResource::factory()->raw();
 
         $user = User::factory()->createOne();
 
         Sanctum::actingAs($user);
 
-        $response = $this->post(route('api.animeresource.store', $animeResource->toArray()));
+        $response = $this->post(route('api.animeresource.store', ['anime' => $anime, 'resource' => $resource] + $parameters));
 
         $response->assertForbidden();
-    }
-
-    /**
-     * The Anime Resource Store Endpoint shall require anime and resource fields.
-     *
-     * @return void
-     */
-    public function testRequiredFields(): void
-    {
-        $user = User::factory()
-            ->withPermissions(
-                CrudPermission::CREATE()->format(Anime::class),
-                CrudPermission::CREATE()->format(ExternalResource::class)
-            )
-            ->createOne();
-
-        Sanctum::actingAs($user);
-
-        $response = $this->post(route('api.animeresource.store'));
-
-        $response->assertJsonValidationErrors([
-            AnimeResource::ATTRIBUTE_ANIME,
-            AnimeResource::ATTRIBUTE_RESOURCE,
-        ]);
     }
 
     /**
@@ -89,11 +65,10 @@ class AnimeResourceStoreTest extends TestCase
      */
     public function testCreate(): void
     {
-        $parameters = array_merge(
-            AnimeResource::factory()->raw(),
-            [AnimeResource::ATTRIBUTE_ANIME => Anime::factory()->createOne()->getKey()],
-            [AnimeResource::ATTRIBUTE_RESOURCE => ExternalResource::factory()->createOne()->getKey()],
-        );
+        $anime = Anime::factory()->createOne();
+        $resource = ExternalResource::factory()->createOne();
+
+        $parameters = AnimeResource::factory()->raw();
 
         $user = User::factory()
             ->withPermissions(
@@ -104,7 +79,7 @@ class AnimeResourceStoreTest extends TestCase
 
         Sanctum::actingAs($user);
 
-        $response = $this->post(route('api.animeresource.store', $parameters));
+        $response = $this->post(route('api.animeresource.store', ['anime' => $anime, 'resource' => $resource] + $parameters));
 
         $response->assertCreated();
         static::assertDatabaseCount(AnimeResource::TABLE, 1);

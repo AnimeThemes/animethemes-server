@@ -78,11 +78,7 @@ class TrackTest extends TestCase
             ->for($playlist)
             ->createOne();
 
-        $track->fill([
-            PlaylistTrack::ATTRIBUTE_PREVIOUS => $previous->getKey(),
-        ]);
-
-        $track->save();
+        $track->previous()->associate($previous)->save();
 
         static::assertInstanceOf(BelongsTo::class, $track->previous());
         static::assertInstanceOf(PlaylistTrack::class, $track->previous()->first());
@@ -105,11 +101,7 @@ class TrackTest extends TestCase
             ->for($playlist)
             ->createOne();
 
-        $track->fill([
-            PlaylistTrack::ATTRIBUTE_NEXT => $next->getKey(),
-        ]);
-
-        $track->save();
+        $track->next()->associate($next)->save();
 
         static::assertInstanceOf(BelongsTo::class, $track->next());
         static::assertInstanceOf(PlaylistTrack::class, $track->next()->first());

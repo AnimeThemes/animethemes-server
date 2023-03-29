@@ -4,20 +4,16 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Field\Pivot\Wiki\ArtistMember;
 
-use App\Contracts\Http\Api\Field\CreatableField;
 use App\Contracts\Http\Api\Field\SelectableField;
 use App\Http\Api\Field\Field;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Schema;
-use App\Models\Wiki\Artist;
 use App\Pivots\Wiki\ArtistMember;
-use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 
 /**
  * Class ArtistMemberArtistIdField.
  */
-class ArtistMemberArtistIdField extends Field implements CreatableField, SelectableField
+class ArtistMemberArtistIdField extends Field implements SelectableField
 {
     /**
      * Create a new field instance.
@@ -27,21 +23,6 @@ class ArtistMemberArtistIdField extends Field implements CreatableField, Selecta
     public function __construct(Schema $schema)
     {
         parent::__construct($schema, ArtistMember::ATTRIBUTE_ARTIST);
-    }
-
-    /**
-     * Set the creation validation rules for the field.
-     *
-     * @param  Request  $request
-     * @return array
-     */
-    public function getCreationRules(Request $request): array
-    {
-        return [
-            'required',
-            'integer',
-            Rule::exists(Artist::TABLE, Artist::ATTRIBUTE_ID),
-        ];
     }
 
     /**

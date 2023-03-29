@@ -57,12 +57,22 @@ class StudioResourceController extends PivotController
      * Store a newly created resource.
      *
      * @param  StoreRequest  $request
+     * @param  Studio  $studio
+     * @param  ExternalResource  $resource
      * @param  StoreAction  $action
      * @return JsonResponse
      */
-    public function store(StoreRequest $request, StoreAction $action): JsonResponse
+    public function store(StoreRequest $request, Studio $studio, ExternalResource $resource, StoreAction $action): JsonResponse
     {
-        $studioResource = $action->store(StudioResource::query(), $request->validated());
+        $validated = array_merge(
+            $request->validated(),
+            [
+                StudioResource::ATTRIBUTE_STUDIO => $studio->getKey(),
+                StudioResource::ATTRIBUTE_RESOURCE => $resource->getKey(),
+            ]
+        );
+
+        $studioResource = $action->store(StudioResource::query(), $validated);
 
         $resource = new StudioResourceResource($studioResource, new Query());
 

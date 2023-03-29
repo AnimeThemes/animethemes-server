@@ -27,12 +27,10 @@ class AnimeImageStoreTest extends TestCase
      */
     public function testProtected(): void
     {
-        $animeImage = AnimeImage::factory()
-            ->for(Anime::factory())
-            ->for(Image::factory())
-            ->makeOne();
+        $anime = Anime::factory()->createOne();
+        $image = Image::factory()->createOne();
 
-        $response = $this->post(route('api.animeimage.store', $animeImage->toArray()));
+        $response = $this->post(route('api.animeimage.store', ['anime' => $anime, 'image' => $image]));
 
         $response->assertUnauthorized();
     }
@@ -44,41 +42,16 @@ class AnimeImageStoreTest extends TestCase
      */
     public function testForbidden(): void
     {
-        $animeImage = AnimeImage::factory()
-            ->for(Anime::factory())
-            ->for(Image::factory())
-            ->makeOne();
+        $anime = Anime::factory()->createOne();
+        $image = Image::factory()->createOne();
 
         $user = User::factory()->createOne();
 
         Sanctum::actingAs($user);
 
-        $response = $this->post(route('api.animeimage.store', $animeImage->toArray()));
+        $response = $this->post(route('api.animeimage.store', ['anime' => $anime, 'image' => $image]));
 
         $response->assertForbidden();
-    }
-
-    /**
-     * The Anime Image Store Endpoint shall require anime and image fields.
-     *
-     * @return void
-     */
-    public function testRequiredFields(): void
-    {
-        $user = User::factory()
-            ->withPermissions(
-                CrudPermission::CREATE()->format(Anime::class),
-                CrudPermission::CREATE()->format(Image::class))
-            ->createOne();
-
-        Sanctum::actingAs($user);
-
-        $response = $this->post(route('api.animeimage.store'));
-
-        $response->assertJsonValidationErrors([
-            AnimeImage::ATTRIBUTE_ANIME,
-            AnimeImage::ATTRIBUTE_IMAGE,
-        ]);
     }
 
     /**
@@ -88,10 +61,8 @@ class AnimeImageStoreTest extends TestCase
      */
     public function testCreate(): void
     {
-        $parameters = [
-            AnimeImage::ATTRIBUTE_ANIME => Anime::factory()->createOne()->getKey(),
-            AnimeImage::ATTRIBUTE_IMAGE => Image::factory()->createOne()->getKey(),
-        ];
+        $anime = Anime::factory()->createOne();
+        $image = Image::factory()->createOne();
 
         $user = User::factory()
             ->withPermissions(
@@ -101,7 +72,7 @@ class AnimeImageStoreTest extends TestCase
 
         Sanctum::actingAs($user);
 
-        $response = $this->post(route('api.animeimage.store', $parameters));
+        $response = $this->post(route('api.animeimage.store', ['anime' => $anime, 'image' => $image]));
 
         $response->assertCreated();
         static::assertDatabaseCount(AnimeImage::TABLE, 1);

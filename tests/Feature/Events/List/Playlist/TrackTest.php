@@ -147,7 +147,7 @@ class TrackTest extends TestCase
      *
      * @return void
      */
-    public function testPlaylistCreatedAssignsNullableUserHashids(): void
+    public function testPlaylistCreatedAssignsHashids(): void
     {
         Event::fakeExcept(TrackCreated::class);
 

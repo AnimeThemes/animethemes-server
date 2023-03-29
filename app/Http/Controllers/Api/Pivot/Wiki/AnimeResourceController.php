@@ -57,12 +57,22 @@ class AnimeResourceController extends PivotController
      * Store a newly created resource.
      *
      * @param  StoreRequest  $request
+     * @param  Anime  $anime
+     * @param  ExternalResource  $resource
      * @param  StoreAction  $action
      * @return JsonResponse
      */
-    public function store(StoreRequest $request, StoreAction $action): JsonResponse
+    public function store(StoreRequest $request, Anime $anime, ExternalResource $resource, StoreAction $action): JsonResponse
     {
-        $animeResource = $action->store(AnimeResource::query(), $request->validated());
+        $validated = array_merge(
+            $request->validated(),
+            [
+                AnimeResource::ATTRIBUTE_ANIME => $anime->getKey(),
+                AnimeResource::ATTRIBUTE_RESOURCE => $resource->getKey(),
+            ]
+        );
+
+        $animeResource = $action->store(AnimeResource::query(), $validated);
 
         $resource = new AnimeResourceResource($animeResource, new Query());
 

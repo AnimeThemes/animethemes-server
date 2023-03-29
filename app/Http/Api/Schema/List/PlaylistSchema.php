@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Http\Api\Schema\List;
 
 use App\Contracts\Http\Api\Schema\SearchableSchema;
-use App\Http\Api\Field\Base\IdField;
 use App\Http\Api\Field\Field;
 use App\Http\Api\Field\List\Playlist\PlaylistFirstIdField;
 use App\Http\Api\Field\List\Playlist\PlaylistHashidsField;
+use App\Http\Api\Field\List\Playlist\PlaylistIdField;
 use App\Http\Api\Field\List\Playlist\PlaylistLastIdField;
 use App\Http\Api\Field\List\Playlist\PlaylistNameField;
 use App\Http\Api\Field\List\Playlist\PlaylistTrackCountField;
@@ -75,7 +75,8 @@ class PlaylistSchema extends EloquentSchema implements SearchableSchema
         return array_merge(
             parent::fields(),
             [
-                new IdField($this, Playlist::ATTRIBUTE_ID), // TODO custom id field to prevent rendering
+                new PlaylistIdField($this),
+                new PlaylistHashidsField($this),
                 new PlaylistFirstIdField($this),
                 new PlaylistLastIdField($this),
                 new PlaylistNameField($this),
@@ -84,7 +85,6 @@ class PlaylistSchema extends EloquentSchema implements SearchableSchema
                 new PlaylistViewCountField($this),
                 new PlaylistTrackExistsField($this),
                 new PlaylistTrackCountField($this),
-                new PlaylistHashidsField($this),
             ],
         );
     }

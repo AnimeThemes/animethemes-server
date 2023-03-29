@@ -19,6 +19,13 @@ final class CreatePlaylistIndex implements MigrationInterface
         Index::createIfNotExists('playlists', function (Mapping $mapping) {
             $mapping->long('playlist_id');
             $mapping->date('created_at');
+            $mapping->text('hashids', [
+                'fields' => [
+                    'keyword' => [
+                        'type' => 'keyword',
+                    ],
+                ],
+            ]);
             $mapping->text('name', [
                 'fields' => [
                     'keyword' => [

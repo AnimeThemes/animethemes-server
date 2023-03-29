@@ -27,12 +27,10 @@ class AnimeStudioStoreTest extends TestCase
      */
     public function testProtected(): void
     {
-        $animeStudio = AnimeStudio::factory()
-            ->for(Anime::factory())
-            ->for(Studio::factory())
-            ->makeOne();
+        $anime = Anime::factory()->createOne();
+        $studio = Studio::factory()->createOne();
 
-        $response = $this->post(route('api.animestudio.store', $animeStudio->toArray()));
+        $response = $this->post(route('api.animestudio.store', ['anime' => $anime, 'studio' => $studio]));
 
         $response->assertUnauthorized();
     }
@@ -44,42 +42,16 @@ class AnimeStudioStoreTest extends TestCase
      */
     public function testForbidden(): void
     {
-        $animeStudio = AnimeStudio::factory()
-            ->for(Anime::factory())
-            ->for(Studio::factory())
-            ->makeOne();
+        $anime = Anime::factory()->createOne();
+        $studio = Studio::factory()->createOne();
 
         $user = User::factory()->createOne();
 
         Sanctum::actingAs($user);
 
-        $response = $this->post(route('api.animestudio.store', $animeStudio->toArray()));
+        $response = $this->post(route('api.animestudio.store', ['anime' => $anime, 'studio' => $studio]));
 
         $response->assertForbidden();
-    }
-
-    /**
-     * The Anime Studio Store Endpoint shall require anime and studio fields.
-     *
-     * @return void
-     */
-    public function testRequiredFields(): void
-    {
-        $user = User::factory()
-            ->withPermissions(
-                CrudPermission::CREATE()->format(Anime::class),
-                CrudPermission::CREATE()->format(Studio::class)
-            )
-            ->createOne();
-
-        Sanctum::actingAs($user);
-
-        $response = $this->post(route('api.animestudio.store'));
-
-        $response->assertJsonValidationErrors([
-            AnimeStudio::ATTRIBUTE_ANIME,
-            AnimeStudio::ATTRIBUTE_STUDIO,
-        ]);
     }
 
     /**
@@ -89,10 +61,8 @@ class AnimeStudioStoreTest extends TestCase
      */
     public function testCreate(): void
     {
-        $parameters = [
-            AnimeStudio::ATTRIBUTE_ANIME => Anime::factory()->createOne()->getKey(),
-            AnimeStudio::ATTRIBUTE_STUDIO => Studio::factory()->createOne()->getKey(),
-        ];
+        $anime = Anime::factory()->createOne();
+        $studio = Studio::factory()->createOne();
 
         $user = User::factory()
             ->withPermissions(
@@ -103,7 +73,7 @@ class AnimeStudioStoreTest extends TestCase
 
         Sanctum::actingAs($user);
 
-        $response = $this->post(route('api.animestudio.store', $parameters));
+        $response = $this->post(route('api.animestudio.store', ['anime' => $anime, 'studio' => $studio]));
 
         $response->assertCreated();
         static::assertDatabaseCount(AnimeStudio::TABLE, 1);

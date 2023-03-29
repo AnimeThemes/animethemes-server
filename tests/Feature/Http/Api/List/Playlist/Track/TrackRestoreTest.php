@@ -10,12 +10,14 @@ use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\ExtendedCrudPermission;
 use App\Enums\Auth\SpecialPermission;
 use App\Enums\Models\List\PlaylistVisibility;
+use App\Events\List\Playlist\PlaylistCreated;
+use App\Events\List\Playlist\Track\TrackCreated;
 use App\Models\Auth\User;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Event;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
@@ -25,7 +27,6 @@ use Tests\TestCase;
 class TrackRestoreTest extends TestCase
 {
     use WithFaker;
-    use WithoutEvents;
 
     /**
      * The Track Restore Endpoint shall be protected by sanctum.
@@ -34,6 +35,8 @@ class TrackRestoreTest extends TestCase
      */
     public function testProtected(): void
     {
+        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+
         Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
 
         $track = PlaylistTrack::factory()
@@ -52,6 +55,8 @@ class TrackRestoreTest extends TestCase
      */
     public function testForbiddenIfMissingPermission(): void
     {
+        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+
         Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
 
         $track = PlaylistTrack::factory()
@@ -74,6 +79,8 @@ class TrackRestoreTest extends TestCase
      */
     public function testForbiddenIfNotOwnPlaylist(): void
     {
+        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+
         Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
 
         $track = PlaylistTrack::factory()
@@ -96,6 +103,8 @@ class TrackRestoreTest extends TestCase
      */
     public function testScoped(): void
     {
+        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+
         Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
 
         $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE()->format(PlaylistTrack::class))->createOne();
@@ -125,6 +134,8 @@ class TrackRestoreTest extends TestCase
      */
     public function testTrashed(): void
     {
+        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+
         Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
 
         $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE()->format(PlaylistTrack::class))->createOne();
@@ -148,6 +159,8 @@ class TrackRestoreTest extends TestCase
      */
     public function testForbiddenIfFlagDisabled(): void
     {
+        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+
         Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, false);
 
         $user = User::factory()
@@ -181,6 +194,8 @@ class TrackRestoreTest extends TestCase
      */
     public function testRestored(): void
     {
+        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+
         Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
 
         $user = User::factory()
@@ -224,6 +239,8 @@ class TrackRestoreTest extends TestCase
      */
     public function testRestoreFirst(): void
     {
+        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+
         Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
 
         $user = User::factory()
@@ -275,6 +292,8 @@ class TrackRestoreTest extends TestCase
      */
     public function testRestoreLast(): void
     {
+        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+
         Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
 
         $user = User::factory()
@@ -321,6 +340,8 @@ class TrackRestoreTest extends TestCase
      */
     public function testRestoreSecond(): void
     {
+        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+
         Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
 
         $user = User::factory()
@@ -375,6 +396,8 @@ class TrackRestoreTest extends TestCase
      */
     public function testDeletePermittedForBypass(): void
     {
+        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+
         Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, $this->faker->boolean());
 
         $user = User::factory()
@@ -409,6 +432,8 @@ class TrackRestoreTest extends TestCase
      */
     public function testMaxTrackLimit(): void
     {
+        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+
         $trackLimit = $this->faker->randomDigitNotNull();
 
         Config::set(PlaylistConstants::MAX_TRACKS_QUALIFIED, $trackLimit);
@@ -447,6 +472,8 @@ class TrackRestoreTest extends TestCase
      */
     public function testMaxTrackLimitPermittedForBypass(): void
     {
+        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+
         $trackLimit = $this->faker->randomDigitNotNull();
 
         Config::set(PlaylistConstants::MAX_TRACKS_QUALIFIED, $trackLimit);

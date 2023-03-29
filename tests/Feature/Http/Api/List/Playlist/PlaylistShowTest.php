@@ -7,6 +7,7 @@ namespace Tests\Feature\Http\Api\List\Playlist;
 use App\Enums\Auth\CrudPermission;
 use App\Enums\Models\List\PlaylistVisibility;
 use App\Enums\Models\Wiki\ImageFacet;
+use App\Events\List\Playlist\PlaylistCreated;
 use App\Http\Api\Field\Field;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Parser\FieldParser;
@@ -21,7 +22,7 @@ use App\Models\List\Playlist\PlaylistTrack;
 use App\Models\Wiki\Image;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\WithoutEvents;
+use Illuminate\Support\Facades\Event;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
@@ -31,7 +32,6 @@ use Tests\TestCase;
 class PlaylistShowTest extends TestCase
 {
     use WithFaker;
-    use WithoutEvents;
 
     /**
      * The Playlist Show Endpoint shall forbid a private playlist from being publicly viewed.
@@ -40,6 +40,8 @@ class PlaylistShowTest extends TestCase
      */
     public function testPrivatePlaylistCannotBePubliclyViewed(): void
     {
+        Event::fakeExcept(PlaylistCreated::class);
+
         $playlist = Playlist::factory()
             ->for(User::factory())
             ->createOne([
@@ -58,6 +60,8 @@ class PlaylistShowTest extends TestCase
      */
     public function testPrivatePlaylistCannotBePubliclyIfNotOwned(): void
     {
+        Event::fakeExcept(PlaylistCreated::class);
+
         $playlist = Playlist::factory()
             ->for(User::factory())
             ->createOne([
@@ -80,6 +84,8 @@ class PlaylistShowTest extends TestCase
      */
     public function testPrivatePlaylistCanBeViewedByOwner(): void
     {
+        Event::fakeExcept(PlaylistCreated::class);
+
         $user = User::factory()->withPermissions(CrudPermission::VIEW()->format(Playlist::class))->createOne();
 
         $playlist = Playlist::factory()
@@ -102,6 +108,8 @@ class PlaylistShowTest extends TestCase
      */
     public function testUnlistedPlaylistCanBeViewed(): void
     {
+        Event::fakeExcept(PlaylistCreated::class);
+
         $playlist = Playlist::factory()
             ->for(User::factory())
             ->createOne([
@@ -120,6 +128,8 @@ class PlaylistShowTest extends TestCase
      */
     public function testPublicPlaylistCanBeViewed(): void
     {
+        Event::fakeExcept(PlaylistCreated::class);
+
         $playlist = Playlist::factory()
             ->for(User::factory())
             ->createOne([
@@ -138,6 +148,8 @@ class PlaylistShowTest extends TestCase
      */
     public function testDefault(): void
     {
+        Event::fakeExcept(PlaylistCreated::class);
+
         $playlist = Playlist::factory()
             ->createOne([
                 Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
@@ -164,6 +176,8 @@ class PlaylistShowTest extends TestCase
      */
     public function testSoftDelete(): void
     {
+        Event::fakeExcept(PlaylistCreated::class);
+
         $playlist = Playlist::factory()
             ->createOne([
                 Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
@@ -194,6 +208,8 @@ class PlaylistShowTest extends TestCase
      */
     public function testAllowedIncludePaths(): void
     {
+        Event::fakeExcept(PlaylistCreated::class);
+
         $schema = new PlaylistSchema();
 
         $allowedIncludes = collect($schema->allowedIncludes());
@@ -237,6 +253,8 @@ class PlaylistShowTest extends TestCase
      */
     public function testSparseFieldsets(): void
     {
+        Event::fakeExcept(PlaylistCreated::class);
+
         $schema = new PlaylistSchema();
 
         $fields = collect($schema->fields());
@@ -275,6 +293,8 @@ class PlaylistShowTest extends TestCase
      */
     public function testImagesByFacet(): void
     {
+        Event::fakeExcept(PlaylistCreated::class);
+
         $facetFilter = ImageFacet::getRandomInstance();
 
         $parameters = [

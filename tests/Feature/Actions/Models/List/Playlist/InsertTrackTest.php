@@ -8,6 +8,7 @@ use App\Actions\Models\List\Playlist\InsertTrackAction;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
 use App\Models\Wiki\Video;
+use Exception;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
 
@@ -22,6 +23,8 @@ class InsertTrackTest extends TestCase
      * The Insert Track Action shall set the first inserted track as first and last.
      *
      * @return void
+     *
+     * @throws Exception
      */
     public function testFirstTrack(): void
     {
@@ -44,6 +47,8 @@ class InsertTrackTest extends TestCase
      * The Insert Track Action shall set the second track as the first's next track and the playlist's last track.
      *
      * @return void
+     *
+     * @throws Exception
      */
     public function testSecondTrack(): void
     {
@@ -78,6 +83,8 @@ class InsertTrackTest extends TestCase
      * The Insert Track Action shall set the third track as the second's next track and the playlist's last track.
      *
      * @return void
+     *
+     * @throws Exception
      */
     public function testThirdTrack(): void
     {

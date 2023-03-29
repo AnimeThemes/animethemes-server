@@ -27,12 +27,12 @@ class ArtistResourceStoreTest extends TestCase
      */
     public function testProtected(): void
     {
-        $artistResource = ArtistResource::factory()
-            ->for(Artist::factory())
-            ->for(ExternalResource::factory(), ArtistResource::RELATION_RESOURCE)
-            ->makeOne();
+        $artist = Artist::factory()->createOne();
+        $resource = ExternalResource::factory()->createOne();
 
-        $response = $this->post(route('api.artistresource.store', $artistResource->toArray()));
+        $parameters = ArtistResource::factory()->raw();
+
+        $response = $this->post(route('api.artistresource.store', ['artist' => $artist, 'resource' => $resource] + $parameters));
 
         $response->assertUnauthorized();
     }
@@ -44,42 +44,18 @@ class ArtistResourceStoreTest extends TestCase
      */
     public function testForbidden(): void
     {
-        $artistResource = ArtistResource::factory()
-            ->for(Artist::factory())
-            ->for(ExternalResource::factory(), ArtistResource::RELATION_RESOURCE)
-            ->makeOne();
+        $artist = Artist::factory()->createOne();
+        $resource = ExternalResource::factory()->createOne();
+
+        $parameters = ArtistResource::factory()->raw();
 
         $user = User::factory()->createOne();
 
         Sanctum::actingAs($user);
 
-        $response = $this->post(route('api.artistresource.store', $artistResource->toArray()));
+        $response = $this->post(route('api.artistresource.store', ['artist' => $artist, 'resource' => $resource] + $parameters));
 
         $response->assertForbidden();
-    }
-
-    /**
-     * The Artist Resource Store Endpoint shall require artist and resource fields.
-     *
-     * @return void
-     */
-    public function testRequiredFields(): void
-    {
-        $user = User::factory()
-            ->withPermissions(
-                CrudPermission::CREATE()->format(Artist::class),
-                CrudPermission::CREATE()->format(ExternalResource::class)
-            )
-            ->createOne();
-
-        Sanctum::actingAs($user);
-
-        $response = $this->post(route('api.artistresource.store'));
-
-        $response->assertJsonValidationErrors([
-            ArtistResource::ATTRIBUTE_ARTIST,
-            ArtistResource::ATTRIBUTE_RESOURCE,
-        ]);
     }
 
     /**
@@ -89,11 +65,10 @@ class ArtistResourceStoreTest extends TestCase
      */
     public function testCreate(): void
     {
-        $parameters = array_merge(
-            ArtistResource::factory()->raw(),
-            [ArtistResource::ATTRIBUTE_ARTIST => Artist::factory()->createOne()->getKey()],
-            [ArtistResource::ATTRIBUTE_RESOURCE => ExternalResource::factory()->createOne()->getKey()],
-        );
+        $artist = Artist::factory()->createOne();
+        $resource = ExternalResource::factory()->createOne();
+
+        $parameters = ArtistResource::factory()->raw();
 
         $user = User::factory()
             ->withPermissions(
@@ -104,7 +79,7 @@ class ArtistResourceStoreTest extends TestCase
 
         Sanctum::actingAs($user);
 
-        $response = $this->post(route('api.artistresource.store', $parameters));
+        $response = $this->post(route('api.artistresource.store', ['artist' => $artist, 'resource' => $resource] + $parameters));
 
         $response->assertCreated();
         static::assertDatabaseCount(ArtistResource::TABLE, 1);

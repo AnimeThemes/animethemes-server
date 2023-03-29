@@ -4,20 +4,16 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Field\Pivot\Wiki\AnimeResource;
 
-use App\Contracts\Http\Api\Field\CreatableField;
 use App\Contracts\Http\Api\Field\SelectableField;
 use App\Http\Api\Field\Field;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Schema;
-use App\Models\Wiki\ExternalResource;
 use App\Pivots\Wiki\AnimeResource;
-use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 
 /**
  * Class AnimeResourceResourceIdField.
  */
-class AnimeResourceResourceIdField extends Field implements CreatableField, SelectableField
+class AnimeResourceResourceIdField extends Field implements SelectableField
 {
     /**
      * Create a new field instance.
@@ -27,21 +23,6 @@ class AnimeResourceResourceIdField extends Field implements CreatableField, Sele
     public function __construct(Schema $schema)
     {
         parent::__construct($schema, AnimeResource::ATTRIBUTE_RESOURCE);
-    }
-
-    /**
-     * Set the creation validation rules for the field.
-     *
-     * @param  Request  $request
-     * @return array
-     */
-    public function getCreationRules(Request $request): array
-    {
-        return [
-            'required',
-            'integer',
-            Rule::exists(ExternalResource::TABLE, ExternalResource::ATTRIBUTE_ID),
-        ];
     }
 
     /**

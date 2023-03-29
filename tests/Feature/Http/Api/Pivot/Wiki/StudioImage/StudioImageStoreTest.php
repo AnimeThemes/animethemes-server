@@ -27,12 +27,10 @@ class StudioImageStoreTest extends TestCase
      */
     public function testProtected(): void
     {
-        $studioImage = StudioImage::factory()
-            ->for(Studio::factory())
-            ->for(Image::factory())
-            ->makeOne();
+        $studio = Studio::factory()->createOne();
+        $image = Image::factory()->createOne();
 
-        $response = $this->post(route('api.studioimage.store', $studioImage->toArray()));
+        $response = $this->post(route('api.studioimage.store', ['studio' => $studio, 'image' => $image]));
 
         $response->assertUnauthorized();
     }
@@ -44,42 +42,16 @@ class StudioImageStoreTest extends TestCase
      */
     public function testForbidden(): void
     {
-        $studioImage = StudioImage::factory()
-            ->for(Studio::factory())
-            ->for(Image::factory())
-            ->makeOne();
+        $studio = Studio::factory()->createOne();
+        $image = Image::factory()->createOne();
 
         $user = User::factory()->createOne();
 
         Sanctum::actingAs($user);
 
-        $response = $this->post(route('api.studioimage.store', $studioImage->toArray()));
+        $response = $this->post(route('api.studioimage.store', ['studio' => $studio, 'image' => $image]));
 
         $response->assertForbidden();
-    }
-
-    /**
-     * The Studio Image Store Endpoint shall require studio and image fields.
-     *
-     * @return void
-     */
-    public function testRequiredFields(): void
-    {
-        $user = User::factory()
-            ->withPermissions(
-                CrudPermission::CREATE()->format(Studio::class),
-                CrudPermission::CREATE()->format(Image::class)
-            )
-            ->createOne();
-
-        Sanctum::actingAs($user);
-
-        $response = $this->post(route('api.studioimage.store'));
-
-        $response->assertJsonValidationErrors([
-            StudioImage::ATTRIBUTE_STUDIO,
-            StudioImage::ATTRIBUTE_IMAGE,
-        ]);
     }
 
     /**
@@ -89,10 +61,8 @@ class StudioImageStoreTest extends TestCase
      */
     public function testCreate(): void
     {
-        $parameters = [
-            StudioImage::ATTRIBUTE_STUDIO => Studio::factory()->createOne()->getKey(),
-            StudioImage::ATTRIBUTE_IMAGE => Image::factory()->createOne()->getKey(),
-        ];
+        $studio = Studio::factory()->createOne();
+        $image = Image::factory()->createOne();
 
         $user = User::factory()
             ->withPermissions(
@@ -103,7 +73,7 @@ class StudioImageStoreTest extends TestCase
 
         Sanctum::actingAs($user);
 
-        $response = $this->post(route('api.studioimage.store', $parameters));
+        $response = $this->post(route('api.studioimage.store', ['studio' => $studio, 'image' => $image]));
 
         $response->assertCreated();
         static::assertDatabaseCount(StudioImage::TABLE, 1);

@@ -57,12 +57,22 @@ class ArtistSongController extends PivotController
      * Store a newly created resource.
      *
      * @param  StoreRequest  $request
+     * @param  Artist  $artist
+     * @param  Song  $song
      * @param  StoreAction  $action
      * @return JsonResponse
      */
-    public function store(StoreRequest $request, StoreAction $action): JsonResponse
+    public function store(StoreRequest $request, Artist $artist, Song $song, StoreAction $action): JsonResponse
     {
-        $artistSong = $action->store(ArtistSong::query(), $request->validated());
+        $validated = array_merge(
+            $request->validated(),
+            [
+                ArtistSong::ATTRIBUTE_ARTIST => $artist->getKey(),
+                ArtistSong::ATTRIBUTE_SONG => $song->getKey(),
+            ]
+        );
+
+        $artistSong = $action->store(ArtistSong::query(), $validated);
 
         $resource = new ArtistSongResource($artistSong, new Query());
 
