@@ -71,12 +71,22 @@ class PlaylistImageController extends PivotController
      * Store a newly created resource.
      *
      * @param  StoreRequest  $request
+     * @param  Playlist  $playlist
+     * @param  Image  $image
      * @param  StoreAction  $action
      * @return JsonResponse
      */
-    public function store(StoreRequest $request, StoreAction $action): JsonResponse
+    public function store(StoreRequest $request, Playlist $playlist, Image $image, StoreAction $action): JsonResponse
     {
-        $playlistImage = $action->store(PlaylistImage::query(), $request->validated());
+        $validated = array_merge(
+            $request->validated(),
+            [
+                PlaylistImage::ATTRIBUTE_IMAGE => $image->getKey(),
+                PlaylistImage::ATTRIBUTE_PLAYLIST => $playlist->getKey(),
+            ]
+        );
+
+        $playlistImage = $action->store(PlaylistImage::query(), $validated);
 
         $resource = new PlaylistImageResource($playlistImage, new Query());
 

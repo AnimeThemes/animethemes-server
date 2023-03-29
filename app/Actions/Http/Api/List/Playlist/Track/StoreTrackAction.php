@@ -8,6 +8,7 @@ use App\Actions\Http\Api\StoreAction;
 use App\Actions\Models\List\Playlist\InsertTrackAction;
 use App\Actions\Models\List\Playlist\InsertTrackAfterAction;
 use App\Actions\Models\List\Playlist\InsertTrackBeforeAction;
+use App\Contracts\Models\HasHashids;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
 use Exception;
@@ -36,8 +37,8 @@ class StoreTrackAction
     {
         $trackParameters = $parameters;
 
-        $previousId = Arr::pull($trackParameters, PlaylistTrack::ATTRIBUTE_PREVIOUS);
-        $nextId = Arr::pull($trackParameters, PlaylistTrack::ATTRIBUTE_NEXT);
+        $previousHashid = Arr::pull($trackParameters, PlaylistTrack::RELATION_PREVIOUS);
+        $nextHashid = Arr::pull($trackParameters, PlaylistTrack::RELATION_NEXT);
 
         $trackParameters = $trackParameters + [PlaylistTrack::ATTRIBUTE_PLAYLIST => $playlist->getKey()];
 
@@ -49,29 +50,33 @@ class StoreTrackAction
             /** @var PlaylistTrack $track */
             $track = $storeAction->store($builder, $trackParameters);
 
-            if (! empty($nextId) && empty($previousId)) {
+            if (! empty($nextHashid) && empty($previousHashid)) {
                 /** @var PlaylistTrack $next */
                 $next = PlaylistTrack::query()
                     ->with(PlaylistTrack::RELATION_PREVIOUS)
-                    ->findOrFail($nextId);
+                    ->where(PlaylistTrack::ATTRIBUTE_PLAYLIST, $playlist->getKey())
+                    ->where(HasHashids::ATTRIBUTE_HASHID, $nextHashid)
+                    ->firstOrFail();
 
                 $insertAction = new InsertTrackBeforeAction();
 
                 $insertAction->insertBefore($playlist, $track, $next);
             }
 
-            if (! empty($previousId) && empty($nextId)) {
+            if (! empty($previousHashid) && empty($nextHashid)) {
                 /** @var PlaylistTrack $previous */
                 $previous = PlaylistTrack::query()
                     ->with(PlaylistTrack::RELATION_NEXT)
-                    ->findOrFail($previousId);
+                    ->where(PlaylistTrack::ATTRIBUTE_PLAYLIST, $playlist->getKey())
+                    ->where(HasHashids::ATTRIBUTE_HASHID, $previousHashid)
+                    ->firstOrFail();
 
                 $insertAction = new InsertTrackAfterAction();
 
                 $insertAction->insertAfter($playlist, $track, $previous);
             }
 
-            if (empty($nextId) && empty($previousId)) {
+            if (empty($nextHashid) && empty($previousHashid)) {
                 $insertAction = new InsertTrackAction();
 
                 $insertAction->insert($playlist, $track);

@@ -8,13 +8,15 @@ use App\Constants\Config\FlagConstants;
 use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\SpecialPermission;
 use App\Enums\Models\List\PlaylistVisibility;
+use App\Events\List\Playlist\PlaylistCreated;
+use App\Events\List\Playlist\Track\TrackCreated;
 use App\Models\Auth\User;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
 use App\Models\Wiki\Video;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Event;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
@@ -24,7 +26,6 @@ use Tests\TestCase;
 class TrackUpdateTest extends TestCase
 {
     use WithFaker;
-    use WithoutEvents;
 
     /**
      * The Track Destroy Endpoint shall be protected by sanctum.
@@ -33,6 +34,8 @@ class TrackUpdateTest extends TestCase
      */
     public function testProtected(): void
     {
+        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+
         Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
 
         $playlist = Playlist::factory()->createOne();
@@ -58,6 +61,8 @@ class TrackUpdateTest extends TestCase
      */
     public function testForbiddenIfMissingPermission(): void
     {
+        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+
         Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
 
         $playlist = Playlist::factory()->createOne();
@@ -87,6 +92,8 @@ class TrackUpdateTest extends TestCase
      */
     public function testForbiddenIfNotOwnPlaylist(): void
     {
+        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+
         Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
 
         $playlist = Playlist::factory()
@@ -118,6 +125,8 @@ class TrackUpdateTest extends TestCase
      */
     public function testScoped(): void
     {
+        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+
         Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
 
         $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(PlaylistTrack::class))->createOne();
@@ -152,6 +161,8 @@ class TrackUpdateTest extends TestCase
      */
     public function testScopePrevious(): void
     {
+        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+
         Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
 
         $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(PlaylistTrack::class))->createOne();
@@ -172,7 +183,7 @@ class TrackUpdateTest extends TestCase
             PlaylistTrack::factory()->raw(),
             [
                 PlaylistTrack::ATTRIBUTE_VIDEO => Video::factory()->createOne()->getKey(),
-                PlaylistTrack::ATTRIBUTE_PREVIOUS => $previous->getKey(),
+                PlaylistTrack::RELATION_PREVIOUS => $previous->getRouteKey(),
             ],
         );
 
@@ -181,7 +192,7 @@ class TrackUpdateTest extends TestCase
         $response = $this->put(route('api.playlist.track.update', ['playlist' => $playlist, 'track' => $track] + $parameters));
 
         $response->assertJsonValidationErrors([
-            PlaylistTrack::ATTRIBUTE_PREVIOUS,
+            PlaylistTrack::RELATION_PREVIOUS,
         ]);
     }
 
@@ -192,6 +203,8 @@ class TrackUpdateTest extends TestCase
      */
     public function testPreviousIsNotSelf(): void
     {
+        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+
         Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
 
         $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(PlaylistTrack::class))->createOne();
@@ -208,7 +221,7 @@ class TrackUpdateTest extends TestCase
             PlaylistTrack::factory()->raw(),
             [
                 PlaylistTrack::ATTRIBUTE_VIDEO => Video::factory()->createOne()->getKey(),
-                PlaylistTrack::ATTRIBUTE_PREVIOUS => $track->getKey(),
+                PlaylistTrack::RELATION_PREVIOUS => $track->getRouteKey(),
             ],
         );
 
@@ -217,7 +230,7 @@ class TrackUpdateTest extends TestCase
         $response = $this->put(route('api.playlist.track.update', ['playlist' => $playlist, 'track' => $track] + $parameters));
 
         $response->assertJsonValidationErrors([
-            PlaylistTrack::ATTRIBUTE_PREVIOUS,
+            PlaylistTrack::RELATION_PREVIOUS,
         ]);
     }
 
@@ -228,6 +241,8 @@ class TrackUpdateTest extends TestCase
      */
     public function testScopeNext(): void
     {
+        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+
         Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
 
         $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(PlaylistTrack::class))->createOne();
@@ -248,7 +263,7 @@ class TrackUpdateTest extends TestCase
             PlaylistTrack::factory()->raw(),
             [
                 PlaylistTrack::ATTRIBUTE_VIDEO => Video::factory()->createOne()->getKey(),
-                PlaylistTrack::ATTRIBUTE_NEXT => $next->getKey(),
+                PlaylistTrack::RELATION_NEXT => $next->getRouteKey(),
             ],
         );
 
@@ -257,7 +272,7 @@ class TrackUpdateTest extends TestCase
         $response = $this->put(route('api.playlist.track.update', ['playlist' => $playlist, 'track' => $track] + $parameters));
 
         $response->assertJsonValidationErrors([
-            PlaylistTrack::ATTRIBUTE_NEXT,
+            PlaylistTrack::RELATION_NEXT,
         ]);
     }
 
@@ -268,6 +283,8 @@ class TrackUpdateTest extends TestCase
      */
     public function testNextIsNotSelf(): void
     {
+        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+
         Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
 
         $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(PlaylistTrack::class))->createOne();
@@ -284,7 +301,7 @@ class TrackUpdateTest extends TestCase
             PlaylistTrack::factory()->raw(),
             [
                 PlaylistTrack::ATTRIBUTE_VIDEO => Video::factory()->createOne()->getKey(),
-                PlaylistTrack::ATTRIBUTE_NEXT => $track->getKey(),
+                PlaylistTrack::RELATION_NEXT => $track->getRouteKey(),
             ],
         );
 
@@ -293,7 +310,7 @@ class TrackUpdateTest extends TestCase
         $response = $this->put(route('api.playlist.track.update', ['playlist' => $playlist, 'track' => $track] + $parameters));
 
         $response->assertJsonValidationErrors([
-            PlaylistTrack::ATTRIBUTE_NEXT,
+            PlaylistTrack::RELATION_NEXT,
         ]);
     }
 
@@ -304,6 +321,8 @@ class TrackUpdateTest extends TestCase
      */
     public function testProhibitsNextAndPrevious(): void
     {
+        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+
         Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
 
         $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(PlaylistTrack::class))->createOne();
@@ -328,8 +347,8 @@ class TrackUpdateTest extends TestCase
         $parameters = array_merge(
             PlaylistTrack::factory()->raw(),
             [
-                PlaylistTrack::ATTRIBUTE_NEXT => $next->getKey(),
-                PlaylistTrack::ATTRIBUTE_PREVIOUS => $previous->getKey(),
+                PlaylistTrack::RELATION_NEXT => $next->getRouteKey(),
+                PlaylistTrack::RELATION_PREVIOUS => $previous->getRouteKey(),
             ],
         );
 
@@ -338,8 +357,8 @@ class TrackUpdateTest extends TestCase
         $response = $this->put(route('api.playlist.track.update', ['playlist' => $playlist, 'track' => $track] + $parameters));
 
         $response->assertJsonValidationErrors([
-            PlaylistTrack::ATTRIBUTE_NEXT,
-            PlaylistTrack::ATTRIBUTE_PREVIOUS,
+            PlaylistTrack::RELATION_NEXT,
+            PlaylistTrack::RELATION_PREVIOUS,
         ]);
     }
 
@@ -351,6 +370,8 @@ class TrackUpdateTest extends TestCase
      */
     public function testForbiddenIfFlagDisabled(): void
     {
+        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+
         Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, false);
 
         $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(PlaylistTrack::class))->createOne();
@@ -384,6 +405,8 @@ class TrackUpdateTest extends TestCase
      */
     public function testTrashed(): void
     {
+        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+
         Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
 
         $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(PlaylistTrack::class))->createOne();
@@ -410,8 +433,8 @@ class TrackUpdateTest extends TestCase
             PlaylistTrack::factory()->raw(),
             [
                 PlaylistTrack::ATTRIBUTE_VIDEO => Video::factory()->createOne()->getKey(),
-                PlaylistTrack::ATTRIBUTE_PREVIOUS => $previous->getKey(),
-                PlaylistTrack::ATTRIBUTE_NEXT => $next->getKey(),
+                PlaylistTrack::RELATION_PREVIOUS => $previous->getRouteKey(),
+                PlaylistTrack::RELATION_NEXT => $next->getRouteKey(),
             ],
         );
 
@@ -429,6 +452,8 @@ class TrackUpdateTest extends TestCase
      */
     public function testUpdate(): void
     {
+        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+
         Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
 
         $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(PlaylistTrack::class))->createOne();
@@ -462,6 +487,8 @@ class TrackUpdateTest extends TestCase
      */
     public function testInsertFirstAfterSecond(): void
     {
+        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+
         Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
 
         $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(PlaylistTrack::class))->createOne();
@@ -476,7 +503,7 @@ class TrackUpdateTest extends TestCase
         $third = $playlist->last;
 
         $parameters = [
-            PlaylistTrack::ATTRIBUTE_PREVIOUS => $second->getKey(),
+            PlaylistTrack::RELATION_PREVIOUS => $second->getRouteKey(),
         ];
 
         Sanctum::actingAs($user);
@@ -510,6 +537,8 @@ class TrackUpdateTest extends TestCase
      */
     public function testInsertFirstAfterThird(): void
     {
+        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+
         Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
 
         $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(PlaylistTrack::class))->createOne();
@@ -524,7 +553,7 @@ class TrackUpdateTest extends TestCase
         $third = $playlist->last;
 
         $parameters = [
-            PlaylistTrack::ATTRIBUTE_PREVIOUS => $third->getKey(),
+            PlaylistTrack::RELATION_PREVIOUS => $third->getRouteKey(),
         ];
 
         Sanctum::actingAs($user);
@@ -558,6 +587,8 @@ class TrackUpdateTest extends TestCase
      */
     public function testInsertFirstBeforeThird(): void
     {
+        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+
         Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
 
         $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(PlaylistTrack::class))->createOne();
@@ -572,7 +603,7 @@ class TrackUpdateTest extends TestCase
         $third = $playlist->last;
 
         $parameters = [
-            PlaylistTrack::ATTRIBUTE_NEXT => $third->getKey(),
+            PlaylistTrack::RELATION_NEXT => $third->getRouteKey(),
         ];
 
         Sanctum::actingAs($user);
@@ -606,6 +637,8 @@ class TrackUpdateTest extends TestCase
      */
     public function testInsertSecondAfterThird(): void
     {
+        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+
         Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
 
         $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(PlaylistTrack::class))->createOne();
@@ -620,7 +653,7 @@ class TrackUpdateTest extends TestCase
         $third = $playlist->last;
 
         $parameters = [
-            PlaylistTrack::ATTRIBUTE_PREVIOUS => $third->getKey(),
+            PlaylistTrack::RELATION_PREVIOUS => $third->getRouteKey(),
         ];
 
         Sanctum::actingAs($user);
@@ -654,6 +687,8 @@ class TrackUpdateTest extends TestCase
      */
     public function testInsertSecondBeforeFirst(): void
     {
+        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+
         Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
 
         $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(PlaylistTrack::class))->createOne();
@@ -668,7 +703,7 @@ class TrackUpdateTest extends TestCase
         $third = $playlist->last;
 
         $parameters = [
-            PlaylistTrack::ATTRIBUTE_NEXT => $first->getKey(),
+            PlaylistTrack::RELATION_NEXT => $first->getRouteKey(),
         ];
 
         Sanctum::actingAs($user);
@@ -702,6 +737,8 @@ class TrackUpdateTest extends TestCase
      */
     public function testInsertThirdAfterFirst(): void
     {
+        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+
         Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
 
         $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(PlaylistTrack::class))->createOne();
@@ -716,7 +753,7 @@ class TrackUpdateTest extends TestCase
         $third = $playlist->last;
 
         $parameters = [
-            PlaylistTrack::ATTRIBUTE_PREVIOUS => $first->getKey(),
+            PlaylistTrack::RELATION_PREVIOUS => $first->getRouteKey(),
         ];
 
         Sanctum::actingAs($user);
@@ -750,6 +787,8 @@ class TrackUpdateTest extends TestCase
      */
     public function testInsertThirdBeforeSecond(): void
     {
+        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+
         Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
 
         $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(PlaylistTrack::class))->createOne();
@@ -764,7 +803,7 @@ class TrackUpdateTest extends TestCase
         $third = $playlist->last;
 
         $parameters = [
-            PlaylistTrack::ATTRIBUTE_NEXT => $second->getKey(),
+            PlaylistTrack::RELATION_NEXT => $second->getRouteKey(),
         ];
 
         Sanctum::actingAs($user);
@@ -798,6 +837,8 @@ class TrackUpdateTest extends TestCase
      */
     public function testInsertThirdBeforeFirst(): void
     {
+        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+
         Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
 
         $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(PlaylistTrack::class))->createOne();
@@ -812,7 +853,7 @@ class TrackUpdateTest extends TestCase
         $third = $playlist->last;
 
         $parameters = [
-            PlaylistTrack::ATTRIBUTE_NEXT => $first->getKey(),
+            PlaylistTrack::RELATION_NEXT => $first->getRouteKey(),
         ];
 
         Sanctum::actingAs($user);
@@ -847,6 +888,8 @@ class TrackUpdateTest extends TestCase
      */
     public function testUpdatePermittedForBypass(): void
     {
+        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+
         Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, $this->faker->boolean());
 
         $user = User::factory()

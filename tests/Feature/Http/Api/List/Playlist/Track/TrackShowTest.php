@@ -6,6 +6,8 @@ namespace Tests\Feature\Http\Api\List\Playlist\Track;
 
 use App\Enums\Auth\CrudPermission;
 use App\Enums\Models\List\PlaylistVisibility;
+use App\Events\List\Playlist\PlaylistCreated;
+use App\Events\List\Playlist\Track\TrackCreated;
 use App\Http\Api\Field\Field;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Parser\FieldParser;
@@ -18,7 +20,7 @@ use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
 use App\Models\Wiki\Video;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\WithoutEvents;
+use Illuminate\Support\Facades\Event;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
@@ -28,7 +30,6 @@ use Tests\TestCase;
 class TrackShowTest extends TestCase
 {
     use WithFaker;
-    use WithoutEvents;
 
     /**
      * The Track Show Endpoint shall forbid a private playlist from being publicly viewed.
@@ -37,6 +38,8 @@ class TrackShowTest extends TestCase
      */
     public function testPrivatePlaylistTrackCannotBePubliclyViewed(): void
     {
+        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+
         $playlist = Playlist::factory()
             ->for(User::factory())
             ->createOne([
@@ -59,6 +62,8 @@ class TrackShowTest extends TestCase
      */
     public function testPrivatePlaylistTrackCannotBePubliclyViewedIfNotOwned(): void
     {
+        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+
         $playlist = Playlist::factory()
             ->for(User::factory())
             ->createOne([
@@ -85,6 +90,8 @@ class TrackShowTest extends TestCase
      */
     public function testPrivatePlaylistTrackCanBeViewedByOwner(): void
     {
+        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+
         $user = User::factory()->withPermissions(CrudPermission::VIEW()->format(PlaylistTrack::class))->createOne();
 
         $playlist = Playlist::factory()
@@ -111,6 +118,8 @@ class TrackShowTest extends TestCase
      */
     public function testUnlistedPlaylistTrackCanBeViewed(): void
     {
+        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+
         $playlist = Playlist::factory()
             ->for(User::factory())
             ->createOne([
@@ -133,6 +142,8 @@ class TrackShowTest extends TestCase
      */
     public function testPublicPlaylistTrackCanBeViewed(): void
     {
+        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+
         $playlist = Playlist::factory()
             ->for(User::factory())
             ->createOne([
@@ -155,6 +166,8 @@ class TrackShowTest extends TestCase
      */
     public function testScoped(): void
     {
+        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+
         $user = User::factory()->withPermissions(CrudPermission::VIEW()->format(PlaylistTrack::class))->createOne();
 
         $playlist = Playlist::factory()
@@ -180,6 +193,8 @@ class TrackShowTest extends TestCase
      */
     public function testDefault(): void
     {
+        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+
         $playlist = Playlist::factory()
             ->createOne([
                 Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
@@ -212,6 +227,8 @@ class TrackShowTest extends TestCase
      */
     public function testSoftDelete(): void
     {
+        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+
         $playlist = Playlist::factory()
             ->createOne([
                 Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
@@ -246,6 +263,8 @@ class TrackShowTest extends TestCase
      */
     public function testAllowedIncludePaths(): void
     {
+        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+
         $schema = new TrackSchema();
 
         $allowedIncludes = collect($schema->allowedIncludes());
@@ -293,6 +312,8 @@ class TrackShowTest extends TestCase
      */
     public function testSparseFieldsets(): void
     {
+        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+
         $schema = new TrackSchema();
 
         $fields = collect($schema->fields());

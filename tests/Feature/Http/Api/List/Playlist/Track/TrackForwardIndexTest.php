@@ -8,6 +8,8 @@ use App\Contracts\Http\Api\Field\SortableField;
 use App\Enums\Auth\CrudPermission;
 use App\Enums\Http\Api\Sort\Direction;
 use App\Enums\Models\List\PlaylistVisibility;
+use App\Events\List\Playlist\PlaylistCreated;
+use App\Events\List\Playlist\Track\TrackCreated;
 use App\Http\Api\Criteria\Paging\Criteria;
 use App\Http\Api\Criteria\Paging\OffsetCriteria;
 use App\Http\Api\Field\Field;
@@ -28,7 +30,7 @@ use App\Models\List\Playlist;
 use App\Models\List\Playlist\ForwardPlaylistTrack;
 use App\Models\List\Playlist\PlaylistTrack;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\WithoutEvents;
+use Illuminate\Support\Facades\Event;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
@@ -38,7 +40,6 @@ use Tests\TestCase;
 class TrackForwardIndexTest extends TestCase
 {
     use WithFaker;
-    use WithoutEvents;
 
     /**
      * The Track Forward Index Endpoint shall forbid a private playlist from being publicly viewed.
@@ -47,6 +48,8 @@ class TrackForwardIndexTest extends TestCase
      */
     public function testPrivatePlaylistCannotBePubliclyViewed(): void
     {
+        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+
         $playlist = Playlist::factory()
             ->for(User::factory())
             ->tracks($this->faker->numberBetween(2, 9))
@@ -68,6 +71,8 @@ class TrackForwardIndexTest extends TestCase
      */
     public function testPrivatePlaylistTrackCannotBePubliclyViewedIfNotOwned(): void
     {
+        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+
         $playlist = Playlist::factory()
             ->for(User::factory())
             ->tracks($this->faker->numberBetween(2, 9))
@@ -93,6 +98,8 @@ class TrackForwardIndexTest extends TestCase
      */
     public function testPrivatePlaylistTrackCanBeViewedByOwner(): void
     {
+        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+
         $user = User::factory()->withPermissions(CrudPermission::VIEW()->format(PlaylistTrack::class))->createOne();
 
         $playlist = Playlist::factory()
@@ -118,6 +125,8 @@ class TrackForwardIndexTest extends TestCase
      */
     public function testUnlistedPlaylistTrackCanBeViewed(): void
     {
+        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+
         $playlist = Playlist::factory()
             ->for(User::factory())
             ->tracks($this->faker->numberBetween(2, 9))
@@ -139,6 +148,8 @@ class TrackForwardIndexTest extends TestCase
      */
     public function testPublicPlaylistTrackCanBeViewed(): void
     {
+        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+
         $playlist = Playlist::factory()
             ->for(User::factory())
             ->tracks($this->faker->numberBetween(2, 9))
@@ -160,6 +171,8 @@ class TrackForwardIndexTest extends TestCase
      */
     public function testDefault(): void
     {
+        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+
         $trackCount = $this->faker->numberBetween(2, 9);
 
         $playlist = Playlist::factory()
@@ -196,6 +209,8 @@ class TrackForwardIndexTest extends TestCase
      */
     public function testPaginated(): void
     {
+        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+
         $playlist = Playlist::factory()
             ->tracks($this->faker->numberBetween(2, 9))
             ->createOne([
@@ -220,6 +235,8 @@ class TrackForwardIndexTest extends TestCase
      */
     public function testAllowedIncludePaths(): void
     {
+        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+
         $schema = new ForwardBackwardSchema();
 
         $allowedIncludes = collect($schema->allowedIncludes());
@@ -269,6 +286,8 @@ class TrackForwardIndexTest extends TestCase
      */
     public function testSparseFieldsets(): void
     {
+        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+
         $schema = new ForwardBackwardSchema();
 
         $fields = collect($schema->fields());
@@ -311,6 +330,8 @@ class TrackForwardIndexTest extends TestCase
      */
     public function testSorts(): void
     {
+        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+
         $schema = new ForwardBackwardSchema();
 
         /** @var Sort $sort */
@@ -345,6 +366,8 @@ class TrackForwardIndexTest extends TestCase
      */
     public function testFilters(): void
     {
+        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+
         $parameters = [
             FilterParser::param() => [
                 BaseModel::ATTRIBUTE_CREATED_AT => $this->faker->date(),

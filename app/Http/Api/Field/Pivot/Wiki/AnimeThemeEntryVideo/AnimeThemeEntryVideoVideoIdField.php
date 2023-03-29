@@ -4,20 +4,16 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Field\Pivot\Wiki\AnimeThemeEntryVideo;
 
-use App\Contracts\Http\Api\Field\CreatableField;
 use App\Contracts\Http\Api\Field\SelectableField;
 use App\Http\Api\Field\Field;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Schema;
-use App\Models\Wiki\Video;
 use App\Pivots\Wiki\AnimeThemeEntryVideo;
-use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 
 /**
  * Class AnimeThemeEntryVideoVideoIdField.
  */
-class AnimeThemeEntryVideoVideoIdField extends Field implements CreatableField, SelectableField
+class AnimeThemeEntryVideoVideoIdField extends Field implements SelectableField
 {
     /**
      * Create a new field instance.
@@ -27,21 +23,6 @@ class AnimeThemeEntryVideoVideoIdField extends Field implements CreatableField, 
     public function __construct(Schema $schema)
     {
         parent::__construct($schema, AnimeThemeEntryVideo::ATTRIBUTE_VIDEO);
-    }
-
-    /**
-     * Set the creation validation rules for the field.
-     *
-     * @param  Request  $request
-     * @return array
-     */
-    public function getCreationRules(Request $request): array
-    {
-        return [
-            'required',
-            'integer',
-            Rule::exists(Video::TABLE, Video::ATTRIBUTE_ID),
-        ];
     }
 
     /**

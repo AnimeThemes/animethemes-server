@@ -27,12 +27,12 @@ class ArtistSongStoreTest extends TestCase
      */
     public function testProtected(): void
     {
-        $artistSong = ArtistSong::factory()
-            ->for(Artist::factory())
-            ->for(Song::factory())
-            ->makeOne();
+        $artist = Artist::factory()->createOne();
+        $song = Song::factory()->createOne();
 
-        $response = $this->post(route('api.artistsong.store', $artistSong->toArray()));
+        $parameters = ArtistSong::factory()->raw();
+
+        $response = $this->post(route('api.artistsong.store', ['artist' => $artist, 'song' => $song] + $parameters));
 
         $response->assertUnauthorized();
     }
@@ -44,42 +44,18 @@ class ArtistSongStoreTest extends TestCase
      */
     public function testForbidden(): void
     {
-        $artistSong = ArtistSong::factory()
-            ->for(Artist::factory())
-            ->for(Song::factory())
-            ->makeOne();
+        $artist = Artist::factory()->createOne();
+        $song = Song::factory()->createOne();
+
+        $parameters = ArtistSong::factory()->raw();
 
         $user = User::factory()->createOne();
 
         Sanctum::actingAs($user);
 
-        $response = $this->post(route('api.artistsong.store', $artistSong->toArray()));
+        $response = $this->post(route('api.artistsong.store', ['artist' => $artist, 'song' => $song] + $parameters));
 
         $response->assertForbidden();
-    }
-
-    /**
-     * The Artist Song Store Endpoint shall require artist and song fields.
-     *
-     * @return void
-     */
-    public function testRequiredFields(): void
-    {
-        $user = User::factory()
-            ->withPermissions(
-                CrudPermission::CREATE()->format(Artist::class),
-                CrudPermission::CREATE()->format(Song::class)
-            )
-            ->createOne();
-
-        Sanctum::actingAs($user);
-
-        $response = $this->post(route('api.artistsong.store'));
-
-        $response->assertJsonValidationErrors([
-            ArtistSong::ATTRIBUTE_ARTIST,
-            ArtistSong::ATTRIBUTE_SONG,
-        ]);
     }
 
     /**
@@ -89,11 +65,10 @@ class ArtistSongStoreTest extends TestCase
      */
     public function testCreate(): void
     {
-        $parameters = array_merge(
-            ArtistSong::factory()->raw(),
-            [ArtistSong::ATTRIBUTE_ARTIST => Artist::factory()->createOne()->getKey()],
-            [ArtistSong::ATTRIBUTE_SONG => Song::factory()->createOne()->getKey()],
-        );
+        $artist = Artist::factory()->createOne();
+        $song = Song::factory()->createOne();
+
+        $parameters = ArtistSong::factory()->raw();
 
         $user = User::factory()
             ->withPermissions(
@@ -104,7 +79,7 @@ class ArtistSongStoreTest extends TestCase
 
         Sanctum::actingAs($user);
 
-        $response = $this->post(route('api.artistsong.store', $parameters));
+        $response = $this->post(route('api.artistsong.store', ['artist' => $artist, 'song' => $song] + $parameters));
 
         $response->assertCreated();
         static::assertDatabaseCount(ArtistSong::TABLE, 1);

@@ -26,12 +26,12 @@ class ArtistMemberStoreTest extends TestCase
      */
     public function testProtected(): void
     {
-        $artistMember = ArtistMember::factory()
-            ->for(Artist::factory(), ArtistMember::RELATION_ARTIST)
-            ->for(Artist::factory(), ArtistMember::RELATION_MEMBER)
-            ->makeOne();
+        $artist = Artist::factory()->createOne();
+        $member = Artist::factory()->createOne();
 
-        $response = $this->post(route('api.artistmember.store', $artistMember->toArray()));
+        $parameters = ArtistMember::factory()->raw();
+
+        $response = $this->post(route('api.artistmember.store', ['artist' => $artist, 'member' => $member] + $parameters));
 
         $response->assertUnauthorized();
     }
@@ -43,37 +43,18 @@ class ArtistMemberStoreTest extends TestCase
      */
     public function testForbidden(): void
     {
-        $artistMember = ArtistMember::factory()
-            ->for(Artist::factory(), ArtistMember::RELATION_ARTIST)
-            ->for(Artist::factory(), ArtistMember::RELATION_MEMBER)
-            ->makeOne();
+        $artist = Artist::factory()->createOne();
+        $member = Artist::factory()->createOne();
+
+        $parameters = ArtistMember::factory()->raw();
 
         $user = User::factory()->createOne();
 
         Sanctum::actingAs($user);
 
-        $response = $this->post(route('api.artistmember.store', $artistMember->toArray()));
+        $response = $this->post(route('api.artistmember.store', ['artist' => $artist, 'member' => $member] + $parameters));
 
         $response->assertForbidden();
-    }
-
-    /**
-     * The Artist Member Store Endpoint shall require artist and member fields.
-     *
-     * @return void
-     */
-    public function testRequiredFields(): void
-    {
-        $user = User::factory()->withPermissions(CrudPermission::CREATE()->format(Artist::class))->createOne();
-
-        Sanctum::actingAs($user);
-
-        $response = $this->post(route('api.artistmember.store'));
-
-        $response->assertJsonValidationErrors([
-            ArtistMember::ATTRIBUTE_ARTIST,
-            ArtistMember::ATTRIBUTE_MEMBER,
-        ]);
     }
 
     /**
@@ -83,17 +64,16 @@ class ArtistMemberStoreTest extends TestCase
      */
     public function testCreate(): void
     {
-        $parameters = array_merge(
-            ArtistMember::factory()->raw(),
-            [ArtistMember::ATTRIBUTE_ARTIST => Artist::factory()->createOne()->getKey()],
-            [ArtistMember::ATTRIBUTE_MEMBER => Artist::factory()->createOne()->getKey()],
-        );
+        $artist = Artist::factory()->createOne();
+        $member = Artist::factory()->createOne();
+
+        $parameters = ArtistMember::factory()->raw();
 
         $user = User::factory()->withPermissions(CrudPermission::CREATE()->format(Artist::class))->createOne();
 
         Sanctum::actingAs($user);
 
-        $response = $this->post(route('api.artistmember.store', $parameters));
+        $response = $this->post(route('api.artistmember.store', ['artist' => $artist, 'member' => $member] + $parameters));
 
         $response->assertCreated();
         static::assertDatabaseCount(ArtistMember::TABLE, 1);

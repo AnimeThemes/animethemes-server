@@ -10,11 +10,12 @@ use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\SpecialPermission;
 use App\Enums\Models\List\PlaylistVisibility;
 use App\Enums\Rules\ModerationService;
+use App\Events\List\Playlist\PlaylistCreated;
 use App\Models\Auth\User;
 use App\Models\List\Playlist;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Http;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
@@ -25,7 +26,6 @@ use Tests\TestCase;
 class PlaylistUpdateTest extends TestCase
 {
     use WithFaker;
-    use WithoutEvents;
 
     /**
      * The Playlist Update Endpoint shall be protected by sanctum.
@@ -34,6 +34,8 @@ class PlaylistUpdateTest extends TestCase
      */
     public function testProtected(): void
     {
+        Event::fakeExcept(PlaylistCreated::class);
+
         Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
 
         $playlist = Playlist::factory()->createOne();
@@ -55,6 +57,8 @@ class PlaylistUpdateTest extends TestCase
      */
     public function testForbiddenIfMissingPermission(): void
     {
+        Event::fakeExcept(PlaylistCreated::class);
+
         Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
 
         $playlist = Playlist::factory()->createOne();
@@ -80,6 +84,8 @@ class PlaylistUpdateTest extends TestCase
      */
     public function testForbiddenIfNotOwnPlaylist(): void
     {
+        Event::fakeExcept(PlaylistCreated::class);
+
         Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
 
         $playlist = Playlist::factory()
@@ -108,6 +114,8 @@ class PlaylistUpdateTest extends TestCase
      */
     public function testForbiddenIfFlagDisabled(): void
     {
+        Event::fakeExcept(PlaylistCreated::class);
+
         Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, false);
 
         $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(Playlist::class))->createOne();
@@ -137,6 +145,8 @@ class PlaylistUpdateTest extends TestCase
      */
     public function testTrashed(): void
     {
+        Event::fakeExcept(PlaylistCreated::class);
+
         Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
 
         $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(Playlist::class))->createOne();
@@ -168,6 +178,8 @@ class PlaylistUpdateTest extends TestCase
      */
     public function testUpdate(): void
     {
+        Event::fakeExcept(PlaylistCreated::class);
+
         Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
 
         $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(Playlist::class))->createOne();
@@ -198,6 +210,8 @@ class PlaylistUpdateTest extends TestCase
      */
     public function testUpdatePermittedForBypass(): void
     {
+        Event::fakeExcept(PlaylistCreated::class);
+
         Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, $this->faker->boolean());
 
         $user = User::factory()
@@ -232,6 +246,8 @@ class PlaylistUpdateTest extends TestCase
      */
     public function testUpdatedIfNotFlaggedByOpenAI(): void
     {
+        Event::fakeExcept(PlaylistCreated::class);
+
         Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
         Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI);
 
@@ -272,6 +288,8 @@ class PlaylistUpdateTest extends TestCase
      */
     public function testUpdatedIfOpenAIFails(): void
     {
+        Event::fakeExcept(PlaylistCreated::class);
+
         Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
         Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI);
 
@@ -306,6 +324,8 @@ class PlaylistUpdateTest extends TestCase
      */
     public function testValidationErrorWhenFlaggedByOpenAI(): void
     {
+        Event::fakeExcept(PlaylistCreated::class);
+
         Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
         Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI);
 

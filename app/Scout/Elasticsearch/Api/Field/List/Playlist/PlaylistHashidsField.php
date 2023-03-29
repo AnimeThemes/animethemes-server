@@ -2,12 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Api\Field\List\Playlist;
+namespace App\Scout\Elasticsearch\Api\Field\List\Playlist;
 
 use App\Contracts\Models\HasHashids;
-use App\Http\Api\Field\StringField;
-use App\Http\Api\Schema\Schema;
-use App\Http\Resources\BaseResource;
+use App\Scout\Elasticsearch\Api\Field\StringField;
+use App\Scout\Elasticsearch\Api\Schema\Schema;
 
 /**
  * Class PlaylistHashidsField.
@@ -21,6 +20,6 @@ class PlaylistHashidsField extends StringField
      */
     public function __construct(Schema $schema)
     {
-        parent::__construct($schema, BaseResource::ATTRIBUTE_ID, HasHashids::ATTRIBUTE_HASHID);
+        parent::__construct($schema, HasHashids::ATTRIBUTE_HASHID);
     }
 }

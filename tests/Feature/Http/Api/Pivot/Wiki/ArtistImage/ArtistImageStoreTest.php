@@ -27,12 +27,10 @@ class ArtistImageStoreTest extends TestCase
      */
     public function testProtected(): void
     {
-        $artistImage = ArtistImage::factory()
-            ->for(Artist::factory())
-            ->for(Image::factory())
-            ->makeOne();
+        $artist = Artist::factory()->createOne();
+        $image = Image::factory()->createOne();
 
-        $response = $this->post(route('api.artistimage.store', $artistImage->toArray()));
+        $response = $this->post(route('api.artistimage.store', ['artist' => $artist, 'image' => $image]));
 
         $response->assertUnauthorized();
     }
@@ -44,42 +42,16 @@ class ArtistImageStoreTest extends TestCase
      */
     public function testForbidden(): void
     {
-        $artistImage = ArtistImage::factory()
-            ->for(Artist::factory())
-            ->for(Image::factory())
-            ->makeOne();
+        $artist = Artist::factory()->createOne();
+        $image = Image::factory()->createOne();
 
         $user = User::factory()->createOne();
 
         Sanctum::actingAs($user);
 
-        $response = $this->post(route('api.artistimage.store', $artistImage->toArray()));
+        $response = $this->post(route('api.artistimage.store', ['artist' => $artist, 'image' => $image]));
 
         $response->assertForbidden();
-    }
-
-    /**
-     * The Artist Image Store Endpoint shall require artist and image fields.
-     *
-     * @return void
-     */
-    public function testRequiredFields(): void
-    {
-        $user = User::factory()
-            ->withPermissions(
-                CrudPermission::CREATE()->format(Artist::class),
-                CrudPermission::CREATE()->format(Image::class)
-            )
-            ->createOne();
-
-        Sanctum::actingAs($user);
-
-        $response = $this->post(route('api.artistimage.store'));
-
-        $response->assertJsonValidationErrors([
-            ArtistImage::ATTRIBUTE_ARTIST,
-            ArtistImage::ATTRIBUTE_IMAGE,
-        ]);
     }
 
     /**
@@ -89,10 +61,8 @@ class ArtistImageStoreTest extends TestCase
      */
     public function testCreate(): void
     {
-        $parameters = [
-            ArtistImage::ATTRIBUTE_ARTIST => Artist::factory()->createOne()->getKey(),
-            ArtistImage::ATTRIBUTE_IMAGE => Image::factory()->createOne()->getKey(),
-        ];
+        $artist = Artist::factory()->createOne();
+        $image = Image::factory()->createOne();
 
         $user = User::factory()
             ->withPermissions(
@@ -103,7 +73,7 @@ class ArtistImageStoreTest extends TestCase
 
         Sanctum::actingAs($user);
 
-        $response = $this->post(route('api.artistimage.store', $parameters));
+        $response = $this->post(route('api.artistimage.store', ['artist' => $artist, 'image' => $image]));
 
         $response->assertCreated();
         static::assertDatabaseCount(ArtistImage::TABLE, 1);

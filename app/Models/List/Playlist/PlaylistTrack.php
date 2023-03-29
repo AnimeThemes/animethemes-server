@@ -59,9 +59,7 @@ class PlaylistTrack extends BaseModel implements HasHashids
      * @var string[]
      */
     protected $fillable = [
-        PlaylistTrack::ATTRIBUTE_NEXT,
         PlaylistTrack::ATTRIBUTE_PLAYLIST,
-        PlaylistTrack::ATTRIBUTE_PREVIOUS,
         PlaylistTrack::ATTRIBUTE_VIDEO,
     ];
 
@@ -102,7 +100,7 @@ class PlaylistTrack extends BaseModel implements HasHashids
      */
     public function getRouteKeyName(): string
     {
-        return PlaylistTrack::ATTRIBUTE_ID; //TODO change to hashids
+        return HasHashids::ATTRIBUTE_HASHID;
     }
 
     /**

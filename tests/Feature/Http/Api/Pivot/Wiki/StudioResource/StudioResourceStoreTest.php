@@ -27,12 +27,12 @@ class StudioResourceStoreTest extends TestCase
      */
     public function testProtected(): void
     {
-        $studioResource = StudioResource::factory()
-            ->for(Studio::factory())
-            ->for(ExternalResource::factory(), StudioResource::RELATION_RESOURCE)
-            ->makeOne();
+        $studio = Studio::factory()->createOne();
+        $resource = ExternalResource::factory()->createOne();
 
-        $response = $this->post(route('api.studioresource.store', $studioResource->toArray()));
+        $parameters = StudioResource::factory()->raw();
+
+        $response = $this->post(route('api.studioresource.store', ['studio' => $studio, 'resource' => $resource] + $parameters));
 
         $response->assertUnauthorized();
     }
@@ -44,42 +44,18 @@ class StudioResourceStoreTest extends TestCase
      */
     public function testForbidden(): void
     {
-        $studioResource = StudioResource::factory()
-            ->for(Studio::factory())
-            ->for(ExternalResource::factory(), StudioResource::RELATION_RESOURCE)
-            ->makeOne();
+        $studio = Studio::factory()->createOne();
+        $resource = ExternalResource::factory()->createOne();
+
+        $parameters = StudioResource::factory()->raw();
 
         $user = User::factory()->createOne();
 
         Sanctum::actingAs($user);
 
-        $response = $this->post(route('api.studioresource.store', $studioResource->toArray()));
+        $response = $this->post(route('api.studioresource.store', ['studio' => $studio, 'resource' => $resource] + $parameters));
 
         $response->assertForbidden();
-    }
-
-    /**
-     * The Studio Resource Store Endpoint shall require studio and resource fields.
-     *
-     * @return void
-     */
-    public function testRequiredFields(): void
-    {
-        $user = User::factory()
-            ->withPermissions(
-                CrudPermission::CREATE()->format(Studio::class),
-                CrudPermission::CREATE()->format(ExternalResource::class)
-            )
-            ->createOne();
-
-        Sanctum::actingAs($user);
-
-        $response = $this->post(route('api.studioresource.store'));
-
-        $response->assertJsonValidationErrors([
-            StudioResource::ATTRIBUTE_STUDIO,
-            StudioResource::ATTRIBUTE_RESOURCE,
-        ]);
     }
 
     /**
@@ -89,11 +65,10 @@ class StudioResourceStoreTest extends TestCase
      */
     public function testCreate(): void
     {
-        $parameters = array_merge(
-            StudioResource::factory()->raw(),
-            [StudioResource::ATTRIBUTE_STUDIO => Studio::factory()->createOne()->getKey()],
-            [StudioResource::ATTRIBUTE_RESOURCE => ExternalResource::factory()->createOne()->getKey()],
-        );
+        $studio = Studio::factory()->createOne();
+        $resource = ExternalResource::factory()->createOne();
+
+        $parameters = StudioResource::factory()->raw();
 
         $user = User::factory()
             ->withPermissions(
@@ -104,7 +79,7 @@ class StudioResourceStoreTest extends TestCase
 
         Sanctum::actingAs($user);
 
-        $response = $this->post(route('api.studioresource.store', $parameters));
+        $response = $this->post(route('api.studioresource.store', ['studio' => $studio, 'resource' => $resource] + $parameters));
 
         $response->assertCreated();
         static::assertDatabaseCount(StudioResource::TABLE, 1);

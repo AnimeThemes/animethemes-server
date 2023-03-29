@@ -55,12 +55,22 @@ class StudioImageController extends PivotController
      * Store a newly created resource.
      *
      * @param  StoreRequest  $request
+     * @param  Studio  $studio
+     * @param  Image  $image
      * @param  StoreAction  $action
      * @return JsonResponse
      */
-    public function store(StoreRequest $request, StoreAction $action): JsonResponse
+    public function store(StoreRequest $request, Studio $studio, Image $image, StoreAction $action): JsonResponse
     {
-        $studioImage = $action->store(StudioImage::query(), $request->validated());
+        $validated = array_merge(
+            $request->validated(),
+            [
+                StudioImage::ATTRIBUTE_STUDIO => $studio->getKey(),
+                StudioImage::ATTRIBUTE_IMAGE => $image->getKey(),
+            ]
+        );
+
+        $studioImage = $action->store(StudioImage::query(), $validated);
 
         $resource = new StudioImageResource($studioImage, new Query());
 

@@ -57,12 +57,22 @@ class ArtistResourceController extends PivotController
      * Store a newly created resource.
      *
      * @param  StoreRequest  $request
+     * @param  Artist  $artist
+     * @param  ExternalResource  $resource
      * @param  StoreAction  $action
      * @return JsonResponse
      */
-    public function store(StoreRequest $request, StoreAction $action): JsonResponse
+    public function store(StoreRequest $request, Artist $artist, ExternalResource $resource, StoreAction $action): JsonResponse
     {
-        $artistResource = $action->store(ArtistResource::query(), $request->validated());
+        $validated = array_merge(
+            $request->validated(),
+            [
+                ArtistResource::ATTRIBUTE_ARTIST => $artist->getKey(),
+                ArtistResource::ATTRIBUTE_RESOURCE => $resource->getKey(),
+            ]
+        );
+
+        $artistResource = $action->store(ArtistResource::query(), $validated);
 
         $resource = new ArtistResourceResource($artistResource, new Query());
 

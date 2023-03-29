@@ -7,13 +7,14 @@ namespace Http\Api\Pivot\List\PlaylistImage;
 use App\Constants\Config\FlagConstants;
 use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\SpecialPermission;
+use App\Events\List\Playlist\PlaylistCreated;
 use App\Models\Auth\User;
 use App\Models\List\Playlist;
 use App\Models\Wiki\Image;
 use App\Pivots\List\PlaylistImage;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Event;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
@@ -23,7 +24,6 @@ use Tests\TestCase;
 class PlaylistImageStoreTest extends TestCase
 {
     use WithFaker;
-    use WithoutEvents;
 
     /**
      * The Playlist Image Store Endpoint shall be protected by sanctum.
@@ -32,14 +32,14 @@ class PlaylistImageStoreTest extends TestCase
      */
     public function testProtected(): void
     {
+        Event::fakeExcept(PlaylistCreated::class);
+
         Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
 
-        $playlistImage = PlaylistImage::factory()
-            ->for(Playlist::factory())
-            ->for(Image::factory())
-            ->makeOne();
+        $playlist = Playlist::factory()->createOne();
+        $image = Image::factory()->createOne();
 
-        $response = $this->post(route('api.playlistimage.store', $playlistImage->toArray()));
+        $response = $this->post(route('api.playlistimage.store', ['playlist' => $playlist, 'image' => $image]));
 
         $response->assertUnauthorized();
     }
@@ -51,18 +51,18 @@ class PlaylistImageStoreTest extends TestCase
      */
     public function testForbiddenIfMissingPermission(): void
     {
+        Event::fakeExcept(PlaylistCreated::class);
+
         Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
 
-        $playlistImage = PlaylistImage::factory()
-            ->for(Playlist::factory())
-            ->for(Image::factory())
-            ->makeOne();
+        $playlist = Playlist::factory()->createOne();
+        $image = Image::factory()->createOne();
 
         $user = User::factory()->createOne();
 
         Sanctum::actingAs($user);
 
-        $response = $this->post(route('api.playlistimage.store', $playlistImage->toArray()));
+        $response = $this->post(route('api.playlistimage.store', ['playlist' => $playlist, 'image' => $image]));
 
         $response->assertForbidden();
     }
@@ -75,12 +75,12 @@ class PlaylistImageStoreTest extends TestCase
      */
     public function testForbiddenIfFlagDisabled(): void
     {
+        Event::fakeExcept(PlaylistCreated::class);
+
         Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, false);
 
-        $parameters = [
-            PlaylistImage::ATTRIBUTE_PLAYLIST => Playlist::factory()->createOne()->getKey(),
-            PlaylistImage::ATTRIBUTE_IMAGE => Image::factory()->createOne()->getKey(),
-        ];
+        $playlist = Playlist::factory()->createOne();
+        $image = Image::factory()->createOne();
 
         $user = User::factory()
             ->withPermissions(
@@ -91,35 +91,9 @@ class PlaylistImageStoreTest extends TestCase
 
         Sanctum::actingAs($user);
 
-        $response = $this->post(route('api.playlistimage.store', $parameters));
+        $response = $this->post(route('api.playlistimage.store', ['playlist' => $playlist, 'image' => $image]));
 
         $response->assertForbidden();
-    }
-
-    /**
-     * The Playlist Image Store Endpoint shall require playlist and image fields.
-     *
-     * @return void
-     */
-    public function testRequiredFields(): void
-    {
-        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
-
-        $user = User::factory()
-            ->withPermissions(
-                CrudPermission::CREATE()->format(Playlist::class),
-                CrudPermission::CREATE()->format(Image::class)
-            )
-            ->createOne();
-
-        Sanctum::actingAs($user);
-
-        $response = $this->post(route('api.playlistimage.store'));
-
-        $response->assertJsonValidationErrors([
-            PlaylistImage::ATTRIBUTE_PLAYLIST,
-            PlaylistImage::ATTRIBUTE_IMAGE,
-        ]);
     }
 
     /**
@@ -129,12 +103,12 @@ class PlaylistImageStoreTest extends TestCase
      */
     public function testCreate(): void
     {
+        Event::fakeExcept(PlaylistCreated::class);
+
         Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
 
-        $parameters = [
-            PlaylistImage::ATTRIBUTE_PLAYLIST => Playlist::factory()->createOne()->getKey(),
-            PlaylistImage::ATTRIBUTE_IMAGE => Image::factory()->createOne()->getKey(),
-        ];
+        $playlist = Playlist::factory()->createOne();
+        $image = Image::factory()->createOne();
 
         $user = User::factory()
             ->withPermissions(
@@ -145,7 +119,7 @@ class PlaylistImageStoreTest extends TestCase
 
         Sanctum::actingAs($user);
 
-        $response = $this->post(route('api.playlistimage.store', $parameters));
+        $response = $this->post(route('api.playlistimage.store', ['playlist' => $playlist, 'image' => $image]));
 
         $response->assertCreated();
         static::assertDatabaseCount(PlaylistImage::TABLE, 1);
@@ -159,12 +133,12 @@ class PlaylistImageStoreTest extends TestCase
      */
     public function testCreatePermittedForBypass(): void
     {
+        Event::fakeExcept(PlaylistCreated::class);
+
         Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, $this->faker->boolean());
 
-        $parameters = [
-            PlaylistImage::ATTRIBUTE_PLAYLIST => Playlist::factory()->createOne()->getKey(),
-            PlaylistImage::ATTRIBUTE_IMAGE => Image::factory()->createOne()->getKey(),
-        ];
+        $playlist = Playlist::factory()->createOne();
+        $image = Image::factory()->createOne();
 
         $user = User::factory()
             ->withPermissions(
@@ -176,7 +150,7 @@ class PlaylistImageStoreTest extends TestCase
 
         Sanctum::actingAs($user);
 
-        $response = $this->post(route('api.playlistimage.store', $parameters));
+        $response = $this->post(route('api.playlistimage.store', ['playlist' => $playlist, 'image' => $image]));
 
         $response->assertCreated();
     }

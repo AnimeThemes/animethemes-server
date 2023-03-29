@@ -55,12 +55,22 @@ class AnimeImageController extends PivotController
      * Store a newly created resource.
      *
      * @param  StoreRequest  $request
+     * @param  Anime  $anime
+     * @param  Image  $image
      * @param  StoreAction  $action
      * @return JsonResponse
      */
-    public function store(StoreRequest $request, StoreAction $action): JsonResponse
+    public function store(StoreRequest $request, Anime $anime, Image $image, StoreAction $action): JsonResponse
     {
-        $animeImage = $action->store(AnimeImage::query(), $request->validated());
+        $validated = array_merge(
+            $request->validated(),
+            [
+                AnimeImage::ATTRIBUTE_ANIME => $anime->getKey(),
+                AnimeImage::ATTRIBUTE_IMAGE => $image->getKey(),
+            ]
+        );
+
+        $animeImage = $action->store(AnimeImage::query(), $validated);
 
         $resource = new AnimeImageResource($animeImage, new Query());
 

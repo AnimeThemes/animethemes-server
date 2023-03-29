@@ -174,7 +174,7 @@ if (! function_exists('apiPivotResource')) {
     function apiPivotResource(string $name, string $related, string $foreign, string $controller): void
     {
         Route::get($name, [$controller, 'index'])->name("$name.index");
-        Route::post($name, [$controller, 'store'])->name("$name.store");
+        Route::post(apiPivotResourceUri($name, $related, $foreign), [$controller, 'store'])->name("$name.store");
         Route::get(apiPivotResourceUri($name, $related, $foreign), [$controller, 'show'])->name("$name.show");
         Route::delete(apiPivotResourceUri($name, $related, $foreign), [$controller, 'destroy'])->name("$name.destroy");
     }

@@ -10,6 +10,7 @@ use App\Enums\Auth\CrudPermission;
 use App\Enums\Http\Api\Filter\TrashedStatus;
 use App\Enums\Http\Api\Sort\Direction;
 use App\Enums\Models\List\PlaylistVisibility;
+use App\Events\List\Playlist\PlaylistCreated;
 use App\Http\Api\Criteria\Filter\TrashedCriteria;
 use App\Http\Api\Criteria\Paging\Criteria;
 use App\Http\Api\Criteria\Paging\OffsetCriteria;
@@ -31,9 +32,9 @@ use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
 use App\Models\Wiki\Video;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Event;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
@@ -44,7 +45,6 @@ class TrackIndexTest extends TestCase
 {
     use SortsModels;
     use WithFaker;
-    use WithoutEvents;
 
     /**
      * The Track Index Endpoint shall forbid a private playlist from being publicly viewed.
@@ -53,6 +53,8 @@ class TrackIndexTest extends TestCase
      */
     public function testPrivatePlaylistTrackCannotBePubliclyViewed(): void
     {
+        Event::fakeExcept(PlaylistCreated::class);
+
         $playlist = Playlist::factory()
             ->for(User::factory())
             ->tracks($this->faker->numberBetween(2, 9))
@@ -72,6 +74,8 @@ class TrackIndexTest extends TestCase
      */
     public function testPrivatePlaylistTrackCannotBePubliclyViewedIfNotOwned(): void
     {
+        Event::fakeExcept(PlaylistCreated::class);
+
         $playlist = Playlist::factory()
             ->for(User::factory())
             ->tracks($this->faker->numberBetween(2, 9))
@@ -95,6 +99,8 @@ class TrackIndexTest extends TestCase
      */
     public function testPrivatePlaylistTrackCanBeViewedByOwner(): void
     {
+        Event::fakeExcept(PlaylistCreated::class);
+
         $user = User::factory()->withPermissions(CrudPermission::VIEW()->format(PlaylistTrack::class))->createOne();
 
         $playlist = Playlist::factory()
@@ -118,6 +124,8 @@ class TrackIndexTest extends TestCase
      */
     public function testUnlistedPlaylistTrackCanBeViewed(): void
     {
+        Event::fakeExcept(PlaylistCreated::class);
+
         $playlist = Playlist::factory()
             ->for(User::factory())
             ->tracks($this->faker->numberBetween(2, 9))
@@ -137,6 +145,8 @@ class TrackIndexTest extends TestCase
      */
     public function testPublicPlaylistTrackCanBeViewed(): void
     {
+        Event::fakeExcept(PlaylistCreated::class);
+
         $playlist = Playlist::factory()
             ->for(User::factory())
             ->tracks($this->faker->numberBetween(2, 9))
@@ -156,6 +166,8 @@ class TrackIndexTest extends TestCase
      */
     public function testDefault(): void
     {
+        Event::fakeExcept(PlaylistCreated::class);
+
         $trackCount = $this->faker->randomDigitNotNull();
 
         $playlist = Playlist::factory()
@@ -196,6 +208,8 @@ class TrackIndexTest extends TestCase
      */
     public function testPaginated(): void
     {
+        Event::fakeExcept(PlaylistCreated::class);
+
         $playlist = Playlist::factory()
             ->has(PlaylistTrack::factory()->count($this->faker->randomDigitNotNull()), Playlist::RELATION_TRACKS)
             ->createOne([
@@ -218,6 +232,8 @@ class TrackIndexTest extends TestCase
      */
     public function testAllowedIncludePaths(): void
     {
+        Event::fakeExcept(PlaylistCreated::class);
+
         $schema = new TrackSchema();
 
         $allowedIncludes = collect($schema->allowedIncludes());
@@ -269,6 +285,8 @@ class TrackIndexTest extends TestCase
      */
     public function testSparseFieldsets(): void
     {
+        Event::fakeExcept(PlaylistCreated::class);
+
         $schema = new TrackSchema();
 
         $fields = collect($schema->fields());
@@ -308,6 +326,8 @@ class TrackIndexTest extends TestCase
      */
     public function testSorts(): void
     {
+        Event::fakeExcept(PlaylistCreated::class);
+
         $schema = new TrackSchema();
 
         /** @var Sort $sort */
@@ -351,6 +371,8 @@ class TrackIndexTest extends TestCase
      */
     public function testCreatedAtFilter(): void
     {
+        Event::fakeExcept(PlaylistCreated::class);
+
         $createdFilter = $this->faker->date();
         $excludedDate = $this->faker->date();
 
@@ -407,6 +429,8 @@ class TrackIndexTest extends TestCase
      */
     public function testUpdatedAtFilter(): void
     {
+        Event::fakeExcept(PlaylistCreated::class);
+
         $updatedFilter = $this->faker->date();
         $excludedDate = $this->faker->date();
 
@@ -463,6 +487,8 @@ class TrackIndexTest extends TestCase
      */
     public function testWithoutTrashedFilter(): void
     {
+        Event::fakeExcept(PlaylistCreated::class);
+
         $parameters = [
             FilterParser::param() => [
                 TrashedCriteria::PARAM_VALUE => TrashedStatus::WITHOUT,
@@ -509,6 +535,8 @@ class TrackIndexTest extends TestCase
      */
     public function testWithTrashedFilter(): void
     {
+        Event::fakeExcept(PlaylistCreated::class);
+
         $parameters = [
             FilterParser::param() => [
                 TrashedCriteria::PARAM_VALUE => TrashedStatus::WITH,
@@ -555,6 +583,8 @@ class TrackIndexTest extends TestCase
      */
     public function testOnlyTrashedFilter(): void
     {
+        Event::fakeExcept(PlaylistCreated::class);
+
         $parameters = [
             FilterParser::param() => [
                 TrashedCriteria::PARAM_VALUE => TrashedStatus::ONLY,
@@ -601,6 +631,8 @@ class TrackIndexTest extends TestCase
      */
     public function testDeletedAtFilter(): void
     {
+        Event::fakeExcept(PlaylistCreated::class);
+
         $deletedFilter = $this->faker->date();
         $excludedDate = $this->faker->date();
 

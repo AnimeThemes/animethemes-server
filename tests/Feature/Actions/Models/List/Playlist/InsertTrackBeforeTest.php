@@ -8,6 +8,7 @@ use App\Actions\Models\List\Playlist\InsertTrackBeforeAction;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
 use App\Models\Wiki\Video;
+use Exception;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
@@ -24,6 +25,8 @@ class InsertTrackBeforeTest extends TestCase
      * The Insert Track Before Action shall set the track as the playlist's first track if inserting before the first track.
      *
      * @return void
+     *
+     * @throws Exception
      */
     public function testFirstTrack(): void
     {
@@ -54,6 +57,8 @@ class InsertTrackBeforeTest extends TestCase
      * The Insert Track Before Action shall set the track as the last track's previous track if inserting before it.
      *
      * @return void
+     *
+     * @throws Exception
      */
     public function testLastTrack(): void
     {

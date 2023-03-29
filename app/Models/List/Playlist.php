@@ -70,8 +70,6 @@ class Playlist extends BaseModel implements HasHashids, Viewable
      * @var string[]
      */
     protected $fillable = [
-        Playlist::ATTRIBUTE_FIRST,
-        Playlist::ATTRIBUTE_LAST,
         Playlist::ATTRIBUTE_NAME,
         Playlist::ATTRIBUTE_USER,
         Playlist::ATTRIBUTE_VISIBILITY,
@@ -114,7 +112,7 @@ class Playlist extends BaseModel implements HasHashids, Viewable
      */
     public function getRouteKeyName(): string
     {
-        return Playlist::ATTRIBUTE_ID; //TODO change to Hashids
+        return HasHashids::ATTRIBUTE_HASHID;
     }
 
     /**
