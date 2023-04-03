@@ -23,16 +23,6 @@ use App\Pivots\Wiki\ArtistSong;
 class ArtistSongSchema extends EloquentSchema
 {
     /**
-     * The model this schema represents.
-     *
-     * @return string
-     */
-    public function model(): string
-    {
-        return ArtistSong::class;
-    }
-
-    /**
      * Get the type of the resource.
      *
      * @return string

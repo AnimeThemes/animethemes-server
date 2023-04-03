@@ -30,16 +30,6 @@ use App\Models\List\Playlist;
 class PlaylistSchema extends EloquentSchema implements SearchableSchema
 {
     /**
-     * The model this schema represents.
-     *
-     * @return string
-     */
-    public function model(): string
-    {
-        return Playlist::class;
-    }
-
-    /**
      * Get the type of the resource.
      *
      * @return string

@@ -11,23 +11,12 @@ use App\Http\Api\Field\Field;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Resources\Admin\Resource\DumpResource;
-use App\Models\Admin\Dump;
 
 /**
  * Class DumpSchema.
  */
 class DumpSchema extends EloquentSchema
 {
-    /**
-     * The model this schema represents.
-     *
-     * @return string
-     */
-    public function model(): string
-    {
-        return Dump::class;
-    }
-
     /**
      * Get the type of the resource.
      *

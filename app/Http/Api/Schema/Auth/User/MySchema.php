@@ -24,16 +24,6 @@ use App\Models\Auth\User;
 class MySchema extends EloquentSchema
 {
     /**
-     * The model this schema represents.
-     *
-     * @return string
-     */
-    public function model(): string
-    {
-        return User::class;
-    }
-
-    /**
      * Get the type of the resource.
      *
      * @return string

@@ -4,44 +4,24 @@ declare(strict_types=1);
 
 namespace App\Scout\Elasticsearch\Api\Query\Wiki;
 
+use App\Http\Api\Criteria\Search\Criteria;
 use App\Models\Wiki\Anime;
-use App\Scout\Elasticsearch\Api\Query\ElasticQueryPayload;
-use App\Scout\Elasticsearch\Api\Schema\Schema;
-use App\Scout\Elasticsearch\Api\Schema\Wiki\AnimeSchema;
+use App\Scout\Elasticsearch\Api\Query\ElasticQuery;
 use Elastic\ScoutDriverPlus\Builders\SearchParametersBuilder;
 use Elastic\ScoutDriverPlus\Support\Query;
 
 /**
- * Class AnimeQueryPayload.
+ * Class AnimeQuery.
  */
-class AnimeQueryPayload extends ElasticQueryPayload
+class AnimeQuery extends ElasticQuery
 {
-    /**
-     * The model this payload is searching.
-     *
-     * @return string
-     */
-    public static function model(): string
-    {
-        return Anime::class;
-    }
-
-    /**
-     * The schema this payload is searching.
-     *
-     * @return Schema
-     */
-    public function schema(): Schema
-    {
-        return new AnimeSchema();
-    }
-
     /**
      * Build Elasticsearch query.
      *
+     * @param  Criteria  $criteria
      * @return SearchParametersBuilder
      */
-    public function buildQuery(): SearchParametersBuilder
+    public function build(Criteria $criteria): SearchParametersBuilder
     {
         $query = Query::bool()
             ->mustRaw([
@@ -55,14 +35,14 @@ class AnimeQueryPayload extends ElasticQueryPayload
                                     [
                                         'match_phrase' => [
                                             'name' => [
-                                                'query' => $this->criteria->getTerm(),
+                                                'query' => $criteria->getTerm(),
                                             ],
                                         ],
                                     ],
                                     [
                                         'match' => [
                                             'name' => [
-                                                'query' => $this->criteria->getTerm(),
+                                                'query' => $criteria->getTerm(),
                                                 'operator' => 'AND',
                                             ],
                                         ],
@@ -70,7 +50,7 @@ class AnimeQueryPayload extends ElasticQueryPayload
                                     [
                                         'match' => [
                                             'name' => [
-                                                'query' => $this->criteria->getTerm(),
+                                                'query' => $criteria->getTerm(),
                                                 'boost' => 0.6,
                                             ],
                                         ],
@@ -78,7 +58,7 @@ class AnimeQueryPayload extends ElasticQueryPayload
                                     [
                                         'fuzzy' => [
                                             'name' => [
-                                                'value' => $this->criteria->getTerm(),
+                                                'value' => $criteria->getTerm(),
                                                 'boost' => 0.4,
                                             ],
                                         ],
@@ -96,7 +76,7 @@ class AnimeQueryPayload extends ElasticQueryPayload
                                             'query' => [
                                                 'match_phrase' => [
                                                     'synonyms.text' => [
-                                                        'query' => $this->criteria->getTerm(),
+                                                        'query' => $criteria->getTerm(),
                                                     ],
                                                 ],
                                             ],
@@ -108,7 +88,7 @@ class AnimeQueryPayload extends ElasticQueryPayload
                                             'query' => [
                                                 'match' => [
                                                     'synonyms.text' => [
-                                                        'query' => $this->criteria->getTerm(),
+                                                        'query' => $criteria->getTerm(),
                                                         'operator' => 'AND',
                                                     ],
                                                 ],
@@ -121,7 +101,7 @@ class AnimeQueryPayload extends ElasticQueryPayload
                                             'query' => [
                                                 'match' => [
                                                     'synonyms.text' => [
-                                                        'query' => $this->criteria->getTerm(),
+                                                        'query' => $criteria->getTerm(),
                                                         'boost' => 0.6,
                                                     ],
                                                 ],
@@ -134,7 +114,7 @@ class AnimeQueryPayload extends ElasticQueryPayload
                                             'query' => [
                                                 'fuzzy' => [
                                                     'synonyms.text' => [
-                                                        'value' => $this->criteria->getTerm(),
+                                                        'value' => $criteria->getTerm(),
                                                         'boost' => 0.4,
                                                     ],
                                                 ],

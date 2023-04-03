@@ -22,16 +22,6 @@ use App\Models\Billing\Transaction;
 class TransactionSchema extends EloquentSchema
 {
     /**
-     * The model this schema represents.
-     *
-     * @return string
-     */
-    public function model(): string
-    {
-        return Transaction::class;
-    }
-
-    /**
      * Get the type of the resource.
      *
      * @return string

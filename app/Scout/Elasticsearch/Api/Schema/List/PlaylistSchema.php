@@ -14,6 +14,8 @@ use App\Scout\Elasticsearch\Api\Field\Field;
 use App\Scout\Elasticsearch\Api\Field\List\Playlist\PlaylistHashidsField;
 use App\Scout\Elasticsearch\Api\Field\List\Playlist\PlaylistNameField;
 use App\Scout\Elasticsearch\Api\Field\List\Playlist\PlaylistVisibilityField;
+use App\Scout\Elasticsearch\Api\Query\ElasticQuery;
+use App\Scout\Elasticsearch\Api\Query\List\PlaylistQuery;
 use App\Scout\Elasticsearch\Api\Schema\Schema;
 
 /**
@@ -24,11 +26,11 @@ class PlaylistSchema extends Schema
     /**
      * The model this schema represents.
      *
-     * @return string
+     * @return ElasticQuery
      */
-    public function model(): string
+    public function query(): ElasticQuery
     {
-        return Playlist::class;
+        return new PlaylistQuery();
     }
 
     /**

@@ -7,9 +7,6 @@ namespace App\Http\Resources\Wiki\Resource;
 use App\Http\Api\Schema\Schema;
 use App\Http\Api\Schema\Wiki\ExternalResourceSchema;
 use App\Http\Resources\BaseResource;
-use App\Http\Resources\Wiki\Collection\AnimeCollection;
-use App\Http\Resources\Wiki\Collection\ArtistCollection;
-use App\Http\Resources\Wiki\Collection\StudioCollection;
 use App\Models\Wiki\ExternalResource;
 use App\Pivots\Wiki\AnimeResource as AnimeResourcePivot;
 use App\Pivots\Wiki\ArtistResource as ArtistResourcePivot;
@@ -54,10 +51,6 @@ class ExternalResourceResource extends BaseResource
                 )
             );
         }
-
-        $result[ExternalResource::RELATION_ARTISTS] = new ArtistCollection($this->whenLoaded(ExternalResource::RELATION_ARTISTS), $this->query);
-        $result[ExternalResource::RELATION_ANIME] = new AnimeCollection($this->whenLoaded(ExternalResource::RELATION_ANIME), $this->query);
-        $result[ExternalResource::RELATION_STUDIOS] = new StudioCollection($this->whenLoaded(ExternalResource::RELATION_STUDIOS), $this->query);
 
         return $result;
     }

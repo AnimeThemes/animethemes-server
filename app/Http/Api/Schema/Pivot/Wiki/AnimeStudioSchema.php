@@ -22,16 +22,6 @@ use App\Pivots\Wiki\AnimeStudio;
 class AnimeStudioSchema extends EloquentSchema
 {
     /**
-     * The model this schema represents.
-     *
-     * @return string
-     */
-    public function model(): string
-    {
-        return AnimeStudio::class;
-    }
-
-    /**
      * Get the type of the resource.
      *
      * @return string

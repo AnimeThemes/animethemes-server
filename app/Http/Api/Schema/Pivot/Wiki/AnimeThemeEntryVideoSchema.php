@@ -22,16 +22,6 @@ use App\Pivots\Wiki\AnimeThemeEntryVideo;
 class AnimeThemeEntryVideoSchema extends EloquentSchema
 {
     /**
-     * The model this schema represents.
-     *
-     * @return string
-     */
-    public function model(): string
-    {
-        return AnimeThemeEntryVideoResource::class;
-    }
-
-    /**
      * Get the type of the resource.
      *
      * @return string

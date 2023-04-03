@@ -4,44 +4,24 @@ declare(strict_types=1);
 
 namespace App\Scout\Elasticsearch\Api\Query\List;
 
+use App\Http\Api\Criteria\Search\Criteria;
 use App\Models\List\Playlist;
-use App\Scout\Elasticsearch\Api\Query\ElasticQueryPayload;
-use App\Scout\Elasticsearch\Api\Schema\List\PlaylistSchema;
-use App\Scout\Elasticsearch\Api\Schema\Schema;
+use App\Scout\Elasticsearch\Api\Query\ElasticQuery;
 use Elastic\ScoutDriverPlus\Builders\SearchParametersBuilder;
 use Elastic\ScoutDriverPlus\Support\Query;
 
 /**
- * Class PlaylistQueryPayload.
+ * Class PlaylistQuery.
  */
-class PlaylistQueryPayload extends ElasticQueryPayload
+class PlaylistQuery extends ElasticQuery
 {
-    /**
-     * The model this payload is searching.
-     *
-     * @return string
-     */
-    public static function model(): string
-    {
-        return Playlist::class;
-    }
-
-    /**
-     * The schema this payload is searching.
-     *
-     * @return Schema
-     */
-    public function schema(): Schema
-    {
-        return new PlaylistSchema();
-    }
-
     /**
      * Build Elasticsearch query.
      *
+     * @param  Criteria  $criteria
      * @return SearchParametersBuilder
      */
-    public function buildQuery(): SearchParametersBuilder
+    public function build(Criteria $criteria): SearchParametersBuilder
     {
         $query = Query::bool()
             ->mustRaw([
@@ -55,14 +35,14 @@ class PlaylistQueryPayload extends ElasticQueryPayload
                                     [
                                         'match_phrase' => [
                                             'name' => [
-                                                'query' => $this->criteria->getTerm(),
+                                                'query' => $criteria->getTerm(),
                                             ],
                                         ],
                                     ],
                                     [
                                         'match' => [
                                             'name' => [
-                                                'query' => $this->criteria->getTerm(),
+                                                'query' => $criteria->getTerm(),
                                                 'operator' => 'AND',
                                             ],
                                         ],
@@ -70,7 +50,7 @@ class PlaylistQueryPayload extends ElasticQueryPayload
                                     [
                                         'match' => [
                                             'name' => [
-                                                'query' => $this->criteria->getTerm(),
+                                                'query' => $criteria->getTerm(),
                                                 'boost' => 0.6,
                                             ],
                                         ],
@@ -78,7 +58,7 @@ class PlaylistQueryPayload extends ElasticQueryPayload
                                     [
                                         'fuzzy' => [
                                             'name' => [
-                                                'value' => $this->criteria->getTerm(),
+                                                'value' => $criteria->getTerm(),
                                                 'boost' => 0.4,
                                             ],
                                         ],

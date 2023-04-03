@@ -7,10 +7,6 @@ namespace App\Http\Resources\Wiki\Resource;
 use App\Http\Api\Schema\Schema;
 use App\Http\Api\Schema\Wiki\VideoSchema;
 use App\Http\Resources\BaseResource;
-use App\Http\Resources\Wiki\Anime\Theme\Collection\EntryCollection;
-use App\Http\Resources\Wiki\Video\Resource\ScriptResource;
-use App\Models\Wiki\Video;
-use Illuminate\Http\Request;
 
 /**
  * Class VideoResource.
@@ -25,23 +21,6 @@ class VideoResource extends BaseResource
      * @var string|null
      */
     public static $wrap = 'video';
-
-    /**
-     * Transform the resource into an array.
-     *
-     * @param  Request  $request
-     * @return array
-     */
-    public function toArray($request): array
-    {
-        $result = parent::toArray($request);
-
-        $result[Video::RELATION_ANIMETHEMEENTRIES] = new EntryCollection($this->whenLoaded(Video::RELATION_ANIMETHEMEENTRIES), $this->query);
-        $result[Video::RELATION_AUDIO] = new AudioResource($this->whenLoaded(Video::RELATION_AUDIO), $this->query);
-        $result[Video::RELATION_SCRIPT] = new ScriptResource($this->whenLoaded(Video::RELATION_SCRIPT), $this->query);
-
-        return $result;
-    }
 
     /**
      * Get the resource schema.

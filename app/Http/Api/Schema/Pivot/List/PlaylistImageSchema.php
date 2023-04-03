@@ -22,16 +22,6 @@ use App\Pivots\List\PlaylistImage;
 class PlaylistImageSchema extends EloquentSchema
 {
     /**
-     * The model this schema represents.
-     *
-     * @return string
-     */
-    public function model(): string
-    {
-        return PlaylistImage::class;
-    }
-
-    /**
      * Get the type of the resource.
      *
      * @return string

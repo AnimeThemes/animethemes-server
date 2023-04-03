@@ -22,16 +22,6 @@ use App\Pivots\Wiki\ArtistMember;
 class ArtistMemberSchema extends EloquentSchema
 {
     /**
-     * The model this schema represents.
-     *
-     * @return string
-     */
-    public function model(): string
-    {
-        return ArtistMember::class;
-    }
-
-    /**
      * Get the type of the resource.
      *
      * @return string

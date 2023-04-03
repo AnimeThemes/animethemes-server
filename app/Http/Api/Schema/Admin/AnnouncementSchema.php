@@ -18,16 +18,6 @@ use App\Models\Admin\Announcement;
 class AnnouncementSchema extends EloquentSchema
 {
     /**
-     * The model this schema represents.
-     *
-     * @return string
-     */
-    public function model(): string
-    {
-        return Announcement::class;
-    }
-
-    /**
      * Get the type of the resource.
      *
      * @return string

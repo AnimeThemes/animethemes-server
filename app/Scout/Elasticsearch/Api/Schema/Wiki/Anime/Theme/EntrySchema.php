@@ -14,6 +14,8 @@ use App\Scout\Elasticsearch\Api\Field\Wiki\Anime\Theme\Entry\EntryNotesField;
 use App\Scout\Elasticsearch\Api\Field\Wiki\Anime\Theme\Entry\EntryNsfwField;
 use App\Scout\Elasticsearch\Api\Field\Wiki\Anime\Theme\Entry\EntrySpoilerField;
 use App\Scout\Elasticsearch\Api\Field\Wiki\Anime\Theme\Entry\EntryVersionField;
+use App\Scout\Elasticsearch\Api\Query\ElasticQuery;
+use App\Scout\Elasticsearch\Api\Query\Wiki\Anime\Theme\EntryQuery;
 use App\Scout\Elasticsearch\Api\Schema\Schema;
 use App\Scout\Elasticsearch\Api\Schema\Wiki\Anime\ThemeSchema;
 use App\Scout\Elasticsearch\Api\Schema\Wiki\AnimeSchema;
@@ -27,11 +29,11 @@ class EntrySchema extends Schema
     /**
      * The model this schema represents.
      *
-     * @return string
+     * @return ElasticQuery
      */
-    public function model(): string
+    public function query(): ElasticQuery
     {
-        return AnimeThemeEntry::class;
+        return new EntryQuery();
     }
 
     /**

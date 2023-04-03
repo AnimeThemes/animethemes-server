@@ -23,16 +23,6 @@ use App\Pivots\Wiki\StudioResource;
 class StudioResourceSchema extends EloquentSchema
 {
     /**
-     * The model this schema represents.
-     *
-     * @return string
-     */
-    public function model(): string
-    {
-        return StudioResource::class;
-    }
-
-    /**
      * Get the type of the resource.
      *
      * @return string

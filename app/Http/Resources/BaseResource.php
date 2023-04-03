@@ -6,10 +6,12 @@ namespace App\Http\Resources;
 
 use App\Contracts\Http\Api\Field\RenderableField;
 use App\Http\Api\Query\Query;
+use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Api\Schema\Schema;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Collection;
 
 /**
  * Class BaseResource.
@@ -40,17 +42,53 @@ abstract class BaseResource extends JsonResource
      */
     public function toArray($request): array
     {
-        $result = [];
+        return array_merge(
+            $this->getRenderableFields(),
+            $this->getDirectRelations(),
+        );
+    }
+
+    /**
+     * Get the renderable fields for the resource.
+     *
+     * @return array<string, mixed>
+     */
+    protected function getRenderableFields(): array
+    {
+        $fields = [];
 
         if ($this->resource instanceof Model) {
             foreach ($this->schema()->fields() as $field) {
                 if ($field instanceof RenderableField && $field->shouldRender($this->query)) {
-                    $result[$field->getKey()] = $field->render($this->resource);
+                    $fields[$field->getKey()] = $field->render($this->resource);
                 }
             }
         }
 
-        return $result;
+        return $fields;
+    }
+
+    /**
+     * Get the direct relations for the resource.
+     *
+     * @return array<string, mixed>
+     */
+    protected function getDirectRelations(): array
+    {
+        $relations = [];
+
+        foreach ($this->schema()->allowedIncludes() as $allowedInclude) {
+            $relationSchema = $allowedInclude->schema();
+            if ($allowedInclude->isDirectRelation() && $relationSchema instanceof EloquentSchema) {
+                $relation = $this->whenLoaded($allowedInclude->path());
+
+                $relations[$allowedInclude->path()] = $relation instanceof Collection
+                    ? $relationSchema->collection($relation, $this->query)
+                    : $relationSchema->resource($relation, $this->query);
+            }
+        }
+
+        return $relations;
     }
 
     /**

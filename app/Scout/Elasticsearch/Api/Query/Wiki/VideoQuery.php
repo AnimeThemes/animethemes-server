@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace App\Scout\Elasticsearch\Api\Query\Wiki;
 
+use App\Http\Api\Criteria\Search\Criteria;
 use App\Models\Wiki\Video;
-use App\Scout\Elasticsearch\Api\Query\ElasticQueryPayload;
-use App\Scout\Elasticsearch\Api\Schema\Schema;
-use App\Scout\Elasticsearch\Api\Schema\Wiki\VideoSchema;
+use App\Scout\Elasticsearch\Api\Query\ElasticQuery;
 use Elastic\ScoutDriverPlus\Builders\MatchPhraseQueryBuilder;
 use Elastic\ScoutDriverPlus\Builders\MatchQueryBuilder;
 use Elastic\ScoutDriverPlus\Builders\NestedQueryBuilder;
@@ -15,53 +14,34 @@ use Elastic\ScoutDriverPlus\Builders\SearchParametersBuilder;
 use Elastic\ScoutDriverPlus\Support\Query;
 
 /**
- * Class VideoQueryPayload.
+ * Class VideoQuery.
  */
-class VideoQueryPayload extends ElasticQueryPayload
+class VideoQuery extends ElasticQuery
 {
-    /**
-     * The model this payload is searching.
-     *
-     * @return string
-     */
-    public static function model(): string
-    {
-        return Video::class;
-    }
-
-    /**
-     * The schema this payload is searching.
-     *
-     * @return Schema
-     */
-    public function schema(): Schema
-    {
-        return new VideoSchema();
-    }
-
     /**
      * Build Elasticsearch query.
      *
+     * @param  Criteria  $criteria
      * @return SearchParametersBuilder
      */
-    public function buildQuery(): SearchParametersBuilder
+    public function build(Criteria $criteria): SearchParametersBuilder
     {
         $query = Query::bool()
             ->should(
                 (new MatchPhraseQueryBuilder())
                 ->field('filename')
-                ->query($this->criteria->getTerm())
+                ->query($criteria->getTerm())
             )
             ->should(
                 (new MatchQueryBuilder())
                 ->field('filename')
-                ->query($this->criteria->getTerm())
+                ->query($criteria->getTerm())
                 ->operator('AND')
             )
             ->should(
                 (new MatchQueryBuilder())
                 ->field('filename')
-                ->query($this->criteria->getTerm())
+                ->query($criteria->getTerm())
                 ->operator('AND')
                 ->lenient(true)
                 ->fuzziness('AUTO')
@@ -69,18 +49,18 @@ class VideoQueryPayload extends ElasticQueryPayload
             ->should(
                 (new MatchPhraseQueryBuilder())
                 ->field('tags')
-                ->query($this->criteria->getTerm())
+                ->query($criteria->getTerm())
             )
             ->should(
                 (new MatchQueryBuilder())
                 ->field('tags')
-                ->query($this->criteria->getTerm())
+                ->query($criteria->getTerm())
                 ->operator('AND')
             )
             ->should(
                 (new MatchQueryBuilder())
                 ->field('tags')
-                ->query($this->criteria->getTerm())
+                ->query($criteria->getTerm())
                 ->operator('AND')
                 ->lenient(true)
                 ->fuzziness('AUTO')
@@ -88,18 +68,18 @@ class VideoQueryPayload extends ElasticQueryPayload
             ->should(
                 (new MatchPhraseQueryBuilder())
                 ->field('tags_slug')
-                ->query($this->criteria->getTerm())
+                ->query($criteria->getTerm())
             )
             ->should(
                 (new MatchQueryBuilder())
                 ->field('tags_slug')
-                ->query($this->criteria->getTerm())
+                ->query($criteria->getTerm())
                 ->operator('AND')
             )
             ->should(
                 (new MatchQueryBuilder())
                 ->field('tags_slug')
-                ->query($this->criteria->getTerm())
+                ->query($criteria->getTerm())
                 ->operator('AND')
                 ->lenient(true)
                 ->fuzziness('AUTO')
@@ -107,18 +87,18 @@ class VideoQueryPayload extends ElasticQueryPayload
             ->should(
                 (new MatchPhraseQueryBuilder())
                 ->field('version_slug')
-                ->query($this->criteria->getTerm())
+                ->query($criteria->getTerm())
             )
             ->should(
                 (new MatchQueryBuilder())
                 ->field('version_slug')
-                ->query($this->criteria->getTerm())
+                ->query($criteria->getTerm())
                 ->operator('AND')
             )
             ->should(
                 (new MatchQueryBuilder())
                 ->field('version_slug')
-                ->query($this->criteria->getTerm())
+                ->query($criteria->getTerm())
                 ->operator('AND')
                 ->lenient(true)
                 ->fuzziness('AUTO')
@@ -126,18 +106,18 @@ class VideoQueryPayload extends ElasticQueryPayload
             ->should(
                 (new MatchPhraseQueryBuilder())
                 ->field('anime_slug')
-                ->query($this->criteria->getTerm())
+                ->query($criteria->getTerm())
             )
             ->should(
                 (new MatchQueryBuilder())
                 ->field('anime_slug')
-                ->query($this->criteria->getTerm())
+                ->query($criteria->getTerm())
                 ->operator('AND')
             )
             ->should(
                 (new MatchQueryBuilder())
                 ->field('anime_slug')
-                ->query($this->criteria->getTerm())
+                ->query($criteria->getTerm())
                 ->operator('AND')
                 ->lenient(true)
                 ->fuzziness('AUTO')
@@ -145,18 +125,18 @@ class VideoQueryPayload extends ElasticQueryPayload
             ->should(
                 (new MatchPhraseQueryBuilder())
                 ->field('synonym_slug')
-                ->query($this->criteria->getTerm())
+                ->query($criteria->getTerm())
             )
             ->should(
                 (new MatchQueryBuilder())
                 ->field('synonym_slug')
-                ->query($this->criteria->getTerm())
+                ->query($criteria->getTerm())
                 ->operator('AND')
             )
             ->should(
                 (new MatchQueryBuilder())
                 ->field('synonym_slug')
-                ->query($this->criteria->getTerm())
+                ->query($criteria->getTerm())
                 ->operator('AND')
                 ->lenient(true)
                 ->fuzziness('AUTO')
@@ -173,7 +153,7 @@ class VideoQueryPayload extends ElasticQueryPayload
                         ->query(
                             (new MatchPhraseQueryBuilder())
                             ->field('entries.theme.anime.name')
-                            ->query($this->criteria->getTerm())
+                            ->query($criteria->getTerm())
                         )
                     )
                 )
@@ -190,7 +170,7 @@ class VideoQueryPayload extends ElasticQueryPayload
                         ->query(
                             (new MatchQueryBuilder())
                             ->field('entries.theme.anime.name')
-                            ->query($this->criteria->getTerm())
+                            ->query($criteria->getTerm())
                             ->operator('AND')
                         )
                     )
@@ -208,7 +188,7 @@ class VideoQueryPayload extends ElasticQueryPayload
                         ->query(
                             (new MatchQueryBuilder())
                             ->field('entries.theme.anime.name')
-                            ->query($this->criteria->getTerm())
+                            ->query($criteria->getTerm())
                             ->operator('AND')
                             ->lenient(true)
                             ->fuzziness('AUTO')
@@ -231,7 +211,7 @@ class VideoQueryPayload extends ElasticQueryPayload
                             ->query(
                                 (new MatchPhraseQueryBuilder())
                                 ->field('entries.theme.anime.synonyms.text')
-                                ->query($this->criteria->getTerm())
+                                ->query($criteria->getTerm())
                             )
                         )
                     )
@@ -252,7 +232,7 @@ class VideoQueryPayload extends ElasticQueryPayload
                             ->query(
                                 (new MatchQueryBuilder())
                                 ->field('entries.theme.anime.synonyms.text')
-                                ->query($this->criteria->getTerm())
+                                ->query($criteria->getTerm())
                                 ->operator('AND')
                             )
                         )
@@ -274,7 +254,7 @@ class VideoQueryPayload extends ElasticQueryPayload
                             ->query(
                                 (new MatchQueryBuilder())
                                 ->field('entries.theme.anime.synonyms.text')
-                                ->query($this->criteria->getTerm())
+                                ->query($criteria->getTerm())
                                 ->operator('AND')
                                 ->lenient(true)
                                 ->fuzziness('AUTO')
@@ -295,7 +275,7 @@ class VideoQueryPayload extends ElasticQueryPayload
                         ->query(
                             (new MatchPhraseQueryBuilder())
                             ->field('entries.theme.song.title')
-                            ->query($this->criteria->getTerm())
+                            ->query($criteria->getTerm())
                         )
                     )
                 )
@@ -312,7 +292,7 @@ class VideoQueryPayload extends ElasticQueryPayload
                         ->query(
                             (new MatchQueryBuilder())
                             ->field('entries.theme.song.title')
-                            ->query($this->criteria->getTerm())
+                            ->query($criteria->getTerm())
                             ->operator('AND')
                         )
                     )
@@ -330,7 +310,7 @@ class VideoQueryPayload extends ElasticQueryPayload
                         ->query(
                             (new MatchQueryBuilder())
                             ->field('entries.theme.song.title')
-                            ->query($this->criteria->getTerm())
+                            ->query($criteria->getTerm())
                             ->operator('AND')
                             ->lenient(true)
                             ->fuzziness('AUTO')

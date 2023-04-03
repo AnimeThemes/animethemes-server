@@ -24,16 +24,6 @@ use App\Models\Auth\Role;
 class RoleSchema extends EloquentSchema
 {
     /**
-     * The model this schema represents.
-     *
-     * @return string
-     */
-    public function model(): string
-    {
-        return Role::class;
-    }
-
-    /**
      * Get the type of the resource.
      *
      * @return string
