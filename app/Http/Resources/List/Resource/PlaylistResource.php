@@ -6,13 +6,7 @@ namespace App\Http\Resources\List\Resource;
 
 use App\Http\Api\Schema\List\PlaylistSchema;
 use App\Http\Api\Schema\Schema;
-use App\Http\Resources\Auth\Resource\UserResource;
 use App\Http\Resources\BaseResource;
-use App\Http\Resources\List\Playlist\Collection\TrackCollection;
-use App\Http\Resources\List\Playlist\Resource\TrackResource;
-use App\Http\Resources\Wiki\Collection\ImageCollection;
-use App\Models\List\Playlist;
-use Illuminate\Http\Request;
 
 /**
  * Class PlaylistResource.
@@ -25,25 +19,6 @@ class PlaylistResource extends BaseResource
      * @var string|null
      */
     public static $wrap = 'playlist';
-
-    /**
-     * Transform the resource into an array.
-     *
-     * @param  Request  $request
-     * @return array
-     */
-    public function toArray($request): array
-    {
-        $result = parent::toArray($request);
-
-        $result[Playlist::RELATION_USER] = new UserResource($this->whenLoaded(Playlist::RELATION_USER), $this->query);
-        $result[Playlist::RELATION_FIRST] = new TrackResource($this->whenLoaded(Playlist::RELATION_FIRST), $this->query);
-        $result[Playlist::RELATION_LAST] = new TrackResource($this->whenLoaded(Playlist::RELATION_LAST), $this->query);
-        $result[Playlist::RELATION_IMAGES] = new ImageCollection($this->whenLoaded(Playlist::RELATION_IMAGES), $this->query);
-        $result[Playlist::RELATION_TRACKS] = new TrackCollection($this->whenLoaded(Playlist::RELATION_TRACKS), $this->query);
-
-        return $result;
-    }
 
     /**
      * Get the resource schema.

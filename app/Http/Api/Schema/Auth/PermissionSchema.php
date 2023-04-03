@@ -21,16 +21,6 @@ use App\Models\Auth\Permission;
 class PermissionSchema extends EloquentSchema
 {
     /**
-     * The model this schema represents.
-     *
-     * @return string
-     */
-    public function model(): string
-    {
-        return Permission::class;
-    }
-
-    /**
      * Get the type of the resource.
      *
      * @return string

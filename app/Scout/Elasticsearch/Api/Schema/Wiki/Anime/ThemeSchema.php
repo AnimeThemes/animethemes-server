@@ -15,6 +15,8 @@ use App\Scout\Elasticsearch\Api\Field\Wiki\Anime\Theme\ThemeGroupField;
 use App\Scout\Elasticsearch\Api\Field\Wiki\Anime\Theme\ThemeSequenceField;
 use App\Scout\Elasticsearch\Api\Field\Wiki\Anime\Theme\ThemeSlugField;
 use App\Scout\Elasticsearch\Api\Field\Wiki\Anime\Theme\ThemeTypeField;
+use App\Scout\Elasticsearch\Api\Query\ElasticQuery;
+use App\Scout\Elasticsearch\Api\Query\Wiki\Anime\ThemeQuery;
 use App\Scout\Elasticsearch\Api\Schema\Schema;
 use App\Scout\Elasticsearch\Api\Schema\Wiki\Anime\Theme\EntrySchema;
 use App\Scout\Elasticsearch\Api\Schema\Wiki\AnimeSchema;
@@ -38,11 +40,11 @@ class ThemeSchema extends Schema
     /**
      * The model this schema represents.
      *
-     * @return string
+     * @return ElasticQuery
      */
-    public function model(): string
+    public function query(): ElasticQuery
     {
-        return AnimeTheme::class;
+        return new ThemeQuery();
     }
 
     /**

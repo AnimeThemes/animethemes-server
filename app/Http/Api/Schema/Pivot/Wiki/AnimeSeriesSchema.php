@@ -22,16 +22,6 @@ use App\Pivots\Wiki\AnimeSeries;
 class AnimeSeriesSchema extends EloquentSchema
 {
     /**
-     * The model this schema represents.
-     *
-     * @return string
-     */
-    public function model(): string
-    {
-        return AnimeSeries::class;
-    }
-
-    /**
      * Get the type of the resource.
      *
      * @return string

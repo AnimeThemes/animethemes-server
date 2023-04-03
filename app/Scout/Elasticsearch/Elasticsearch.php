@@ -12,7 +12,7 @@ use App\Http\Api\Scope\ScopeParser;
 use App\Scout\Elasticsearch\Api\Parser\FilterParser;
 use App\Scout\Elasticsearch\Api\Parser\PagingParser;
 use App\Scout\Elasticsearch\Api\Parser\SortParser;
-use App\Scout\Elasticsearch\Api\Query\ElasticQueryPayload;
+use App\Scout\Elasticsearch\Api\Schema\Schema;
 use App\Scout\Search;
 use Elastic\Client\ClientBuilderInterface;
 use Elastic\ScoutDriverPlus\Builders\BoolQueryBuilder;
@@ -21,7 +21,7 @@ use Exception;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
-use RuntimeException;
+use Illuminate\Support\Str;
 
 /**
  * Class Elasticsearch.
@@ -86,16 +86,12 @@ class Elasticsearch extends Search
         EloquentSchema $schema,
         PaginationStrategy $paginationStrategy
     ): Collection|Paginator {
-        $elasticQueryPayload = $this->elasticQueryPayload($query, $schema);
-        if ($elasticQueryPayload === null) {
-            $model = $schema->model();
-            throw new RuntimeException("ElasticQueryPayload not configured for model '$model'");
-        }
+        $elasticSchema = $this->elasticSchema($schema);
 
-        $elasticSchema = $elasticQueryPayload->schema();
+        $elasticQuery = $elasticSchema->query();
 
-        // initialize builder with payload for matches
-        $builder = $elasticQueryPayload->buildQuery();
+        // initialize builder for matches
+        $builder = $elasticQuery->build($query->getSearchCriteria());
 
         // eager load relations with constraints
         $builder = $builder->load($this->constrainEagerLoads($query, $schema));
@@ -145,20 +141,17 @@ class Elasticsearch extends Search
     }
 
     /**
-     * Resolve Elasticsearch query builder from schema.
+     * Resolve Elasticsearch schema from Eloquent schema.
      *
-     * @param  Query  $query
      * @param  EloquentSchema  $schema
-     * @return ElasticQueryPayload|null
+     * @return Schema
      */
-    protected function elasticQueryPayload(Query $query, EloquentSchema $schema): ?ElasticQueryPayload
+    private function elasticSchema(EloquentSchema $schema): Schema
     {
-        $elasticQueryPayload = DiscoverElasticQueryPayload::byModelClass($schema->model());
+        $elasticSchemaClass = Str::of(get_class($schema))
+            ->replace('Http', 'Scout\\Elasticsearch')
+            ->__toString();
 
-        if ($elasticQueryPayload !== null) {
-            return new $elasticQueryPayload($query->getSearchCriteria());
-        }
-
-        return null;
+        return new $elasticSchemaClass();
     }
 }

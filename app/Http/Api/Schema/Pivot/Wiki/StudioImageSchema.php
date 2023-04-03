@@ -22,16 +22,6 @@ use App\Pivots\Wiki\StudioImage;
 class StudioImageSchema extends EloquentSchema
 {
     /**
-     * The model this schema represents.
-     *
-     * @return string
-     */
-    public function model(): string
-    {
-        return StudioImage::class;
-    }
-
-    /**
      * Get the type of the resource.
      *
      * @return string

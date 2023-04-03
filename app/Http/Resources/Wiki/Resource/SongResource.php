@@ -7,8 +7,6 @@ namespace App\Http\Resources\Wiki\Resource;
 use App\Http\Api\Schema\Schema;
 use App\Http\Api\Schema\Wiki\SongSchema;
 use App\Http\Resources\BaseResource;
-use App\Http\Resources\Wiki\Anime\Collection\ThemeCollection;
-use App\Http\Resources\Wiki\Collection\ArtistCollection;
 use App\Models\Wiki\Song;
 use App\Pivots\Wiki\ArtistSong;
 use Illuminate\Http\Request;
@@ -40,9 +38,6 @@ class SongResource extends BaseResource
         if ($this->isAllowedField(ArtistSong::ATTRIBUTE_AS)) {
             $result[ArtistSong::ATTRIBUTE_AS] = $this->whenPivotLoaded(ArtistSong::TABLE, fn () => $this->pivot->getAttribute(ArtistSong::ATTRIBUTE_AS));
         }
-
-        $result[Song::RELATION_ANIMETHEMES] = new ThemeCollection($this->whenLoaded(Song::RELATION_ANIMETHEMES), $this->query);
-        $result[Song::RELATION_ARTISTS] = new ArtistCollection($this->whenLoaded(Song::RELATION_ARTISTS), $this->query);
 
         return $result;
     }

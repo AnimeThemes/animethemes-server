@@ -29,16 +29,6 @@ use App\Models\List\Playlist\PlaylistTrack;
 class TrackSchema extends EloquentSchema
 {
     /**
-     * The model this schema represents.
-     *
-     * @return string
-     */
-    public function model(): string
-    {
-        return PlaylistTrack::class;
-    }
-
-    /**
      * Get the type of the resource.
      *
      * @return string

@@ -7,11 +7,6 @@ namespace App\Http\Resources\Wiki\Resource;
 use App\Http\Api\Schema\Schema;
 use App\Http\Api\Schema\Wiki\ImageSchema;
 use App\Http\Resources\BaseResource;
-use App\Http\Resources\Wiki\Collection\AnimeCollection;
-use App\Http\Resources\Wiki\Collection\ArtistCollection;
-use App\Http\Resources\Wiki\Collection\StudioCollection;
-use App\Models\Wiki\Image;
-use Illuminate\Http\Request;
 
 /**
  * Class ImageResource.
@@ -26,23 +21,6 @@ class ImageResource extends BaseResource
      * @var string|null
      */
     public static $wrap = 'image';
-
-    /**
-     * Transform the resource into an array.
-     *
-     * @param  Request  $request
-     * @return array
-     */
-    public function toArray($request): array
-    {
-        $result = parent::toArray($request);
-
-        $result[Image::RELATION_ARTISTS] = new ArtistCollection($this->whenLoaded(Image::RELATION_ARTISTS), $this->query);
-        $result[Image::RELATION_ANIME] = new AnimeCollection($this->whenLoaded(Image::RELATION_ANIME), $this->query);
-        $result[Image::RELATION_STUDIOS] = new StudioCollection($this->whenLoaded(Image::RELATION_STUDIOS), $this->query);
-
-        return $result;
-    }
 
     /**
      * Get the resource schema.

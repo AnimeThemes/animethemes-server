@@ -4,63 +4,43 @@ declare(strict_types=1);
 
 namespace App\Scout\Elasticsearch\Api\Query\Wiki\Anime;
 
+use App\Http\Api\Criteria\Search\Criteria;
 use App\Models\Wiki\Anime\AnimeSynonym;
-use App\Scout\Elasticsearch\Api\Query\ElasticQueryPayload;
-use App\Scout\Elasticsearch\Api\Schema\Schema;
-use App\Scout\Elasticsearch\Api\Schema\Wiki\Anime\SynonymSchema;
+use App\Scout\Elasticsearch\Api\Query\ElasticQuery;
 use Elastic\ScoutDriverPlus\Builders\MatchPhraseQueryBuilder;
 use Elastic\ScoutDriverPlus\Builders\MatchQueryBuilder;
 use Elastic\ScoutDriverPlus\Builders\SearchParametersBuilder;
 use Elastic\ScoutDriverPlus\Support\Query;
 
 /**
- * Class SynonymQueryPayload.
+ * Class SynonymQuery.
  */
-class SynonymQueryPayload extends ElasticQueryPayload
+class SynonymQuery extends ElasticQuery
 {
-    /**
-     * The model this payload is searching.
-     *
-     * @return string
-     */
-    public static function model(): string
-    {
-        return AnimeSynonym::class;
-    }
-
-    /**
-     * The schema this payload is searching.
-     *
-     * @return Schema
-     */
-    public function schema(): Schema
-    {
-        return new SynonymSchema();
-    }
-
     /**
      * Build Elasticsearch query.
      *
+     * @param  Criteria  $criteria
      * @return SearchParametersBuilder
      */
-    public function buildQuery(): SearchParametersBuilder
+    public function build(Criteria $criteria): SearchParametersBuilder
     {
         $query = Query::bool()
             ->should(
                 (new MatchPhraseQueryBuilder())
                 ->field('text')
-                ->query($this->criteria->getTerm())
+                ->query($criteria->getTerm())
             )
             ->should(
                 (new MatchQueryBuilder())
                 ->field('text')
-                ->query($this->criteria->getTerm())
+                ->query($criteria->getTerm())
                 ->operator('AND')
             )
             ->should(
                 (new MatchQueryBuilder())
                 ->field('text')
-                ->query($this->criteria->getTerm())
+                ->query($criteria->getTerm())
                 ->operator('AND')
                 ->lenient(true)
                 ->fuzziness('AUTO')

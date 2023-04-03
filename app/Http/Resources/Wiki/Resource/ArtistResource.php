@@ -7,10 +7,6 @@ namespace App\Http\Resources\Wiki\Resource;
 use App\Http\Api\Schema\Schema;
 use App\Http\Api\Schema\Wiki\ArtistSchema;
 use App\Http\Resources\BaseResource;
-use App\Http\Resources\Wiki\Collection\ArtistCollection;
-use App\Http\Resources\Wiki\Collection\ExternalResourceCollection;
-use App\Http\Resources\Wiki\Collection\ImageCollection;
-use App\Http\Resources\Wiki\Collection\SongCollection;
 use App\Models\Wiki\Artist;
 use App\Pivots\Wiki\ArtistMember;
 use App\Pivots\Wiki\ArtistResource as ArtistResourcePivot;
@@ -55,12 +51,6 @@ class ArtistResource extends BaseResource
                 )
             );
         }
-
-        $result[Artist::RELATION_SONGS] = new SongCollection($this->whenLoaded(Artist::RELATION_SONGS), $this->query);
-        $result[Artist::RELATION_MEMBERS] = new ArtistCollection($this->whenLoaded(Artist::RELATION_MEMBERS), $this->query);
-        $result[Artist::RELATION_GROUPS] = new ArtistCollection($this->whenLoaded(Artist::RELATION_GROUPS), $this->query);
-        $result[Artist::RELATION_RESOURCES] = new ExternalResourceCollection($this->whenLoaded(Artist::RELATION_RESOURCES), $this->query);
-        $result[Artist::RELATION_IMAGES] = new ImageCollection($this->whenLoaded(Artist::RELATION_IMAGES), $this->query);
 
         return $result;
     }
