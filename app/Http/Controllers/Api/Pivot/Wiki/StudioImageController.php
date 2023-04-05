@@ -38,17 +38,15 @@ class StudioImageController extends PivotController
      *
      * @param  IndexRequest  $request
      * @param  IndexAction  $action
-     * @return JsonResponse
+     * @return StudioImageCollection
      */
-    public function index(IndexRequest $request, IndexAction $action): JsonResponse
+    public function index(IndexRequest $request, IndexAction $action): StudioImageCollection
     {
         $query = new Query($request->validated());
 
         $resources = $action->index(StudioImage::query(), $query, $request->schema());
 
-        $collection = new StudioImageCollection($resources, $query);
-
-        return $collection->toResponse($request);
+        return new StudioImageCollection($resources, $query);
     }
 
     /**
@@ -58,9 +56,9 @@ class StudioImageController extends PivotController
      * @param  Studio  $studio
      * @param  Image  $image
      * @param  StoreAction  $action
-     * @return JsonResponse
+     * @return StudioImageResource
      */
-    public function store(StoreRequest $request, Studio $studio, Image $image, StoreAction $action): JsonResponse
+    public function store(StoreRequest $request, Studio $studio, Image $image, StoreAction $action): StudioImageResource
     {
         $validated = array_merge(
             $request->validated(),
@@ -72,9 +70,7 @@ class StudioImageController extends PivotController
 
         $studioImage = $action->store(StudioImage::query(), $validated);
 
-        $resource = new StudioImageResource($studioImage, new Query());
-
-        return $resource->toResponse($request);
+        return new StudioImageResource($studioImage, new Query());
     }
 
     /**
@@ -84,9 +80,9 @@ class StudioImageController extends PivotController
      * @param  Studio  $studio
      * @param  Image  $image
      * @param  ShowAction  $action
-     * @return JsonResponse
+     * @return StudioImageResource
      */
-    public function show(ShowRequest $request, Studio $studio, Image $image, ShowAction $action): JsonResponse
+    public function show(ShowRequest $request, Studio $studio, Image $image, ShowAction $action): StudioImageResource
     {
         $studioImage = StudioImage::query()
             ->where(StudioImage::ATTRIBUTE_STUDIO, $studio->getKey())
@@ -97,9 +93,7 @@ class StudioImageController extends PivotController
 
         $show = $action->show($studioImage, $query, $request->schema());
 
-        $resource = new StudioImageResource($show, $query);
-
-        return $resource->toResponse($request);
+        return new StudioImageResource($show, $query);
     }
 
     /**

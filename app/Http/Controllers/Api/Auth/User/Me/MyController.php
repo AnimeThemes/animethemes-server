@@ -12,7 +12,6 @@ use App\Http\Controllers\Api\BaseController;
 use App\Http\Requests\Api\ShowRequest;
 use App\Http\Resources\Auth\User\Resource\MyResource;
 use App\Models\Auth\User;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 
 /**
@@ -35,9 +34,9 @@ class MyController extends BaseController
      *
      * @param  ShowRequest  $request
      * @param  ShowAction  $action
-     * @return JsonResponse
+     * @return MyResource
      */
-    public function show(ShowRequest $request, ShowAction $action): JsonResponse
+    public function show(ShowRequest $request, ShowAction $action): MyResource
     {
         $query = new Query($request->validated());
 
@@ -46,9 +45,7 @@ class MyController extends BaseController
 
         $show = $action->show($user, $query, $request->schema());
 
-        $resource = new MyResource($show, $query);
-
-        return $resource->toResponse($request);
+        return new MyResource($show, $query);
     }
 
     /**

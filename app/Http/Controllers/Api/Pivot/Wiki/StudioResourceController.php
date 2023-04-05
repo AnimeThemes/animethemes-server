@@ -40,17 +40,15 @@ class StudioResourceController extends PivotController
      *
      * @param  IndexRequest  $request
      * @param  IndexAction  $action
-     * @return JsonResponse
+     * @return StudioResourceCollection
      */
-    public function index(IndexRequest $request, IndexAction $action): JsonResponse
+    public function index(IndexRequest $request, IndexAction $action): StudioResourceCollection
     {
         $query = new Query($request->validated());
 
         $resources = $action->index(StudioResource::query(), $query, $request->schema());
 
-        $collection = new StudioResourceCollection($resources, $query);
-
-        return $collection->toResponse($request);
+        return new StudioResourceCollection($resources, $query);
     }
 
     /**
@@ -60,9 +58,9 @@ class StudioResourceController extends PivotController
      * @param  Studio  $studio
      * @param  ExternalResource  $resource
      * @param  StoreAction  $action
-     * @return JsonResponse
+     * @return StudioResourceResource
      */
-    public function store(StoreRequest $request, Studio $studio, ExternalResource $resource, StoreAction $action): JsonResponse
+    public function store(StoreRequest $request, Studio $studio, ExternalResource $resource, StoreAction $action): StudioResourceResource
     {
         $validated = array_merge(
             $request->validated(),
@@ -74,9 +72,7 @@ class StudioResourceController extends PivotController
 
         $studioResource = $action->store(StudioResource::query(), $validated);
 
-        $resource = new StudioResourceResource($studioResource, new Query());
-
-        return $resource->toResponse($request);
+        return new StudioResourceResource($studioResource, new Query());
     }
 
     /**
@@ -86,9 +82,9 @@ class StudioResourceController extends PivotController
      * @param  Studio  $studio
      * @param  ExternalResource  $resource
      * @param  ShowAction  $action
-     * @return JsonResponse
+     * @return StudioResourceResource
      */
-    public function show(ShowRequest $request, Studio $studio, ExternalResource $resource, ShowAction $action): JsonResponse
+    public function show(ShowRequest $request, Studio $studio, ExternalResource $resource, ShowAction $action): StudioResourceResource
     {
         $studioResource = StudioResource::query()
             ->where(StudioResource::ATTRIBUTE_STUDIO, $studio->getKey())
@@ -99,9 +95,7 @@ class StudioResourceController extends PivotController
 
         $show = $action->show($studioResource, $query, $request->schema());
 
-        $apiResource = new StudioResourceResource($show, $query);
-
-        return $apiResource->toResponse($request);
+        return new StudioResourceResource($show, $query);
     }
 
     /**
@@ -111,9 +105,9 @@ class StudioResourceController extends PivotController
      * @param  Studio  $studio
      * @param  ExternalResource  $resource
      * @param  UpdateAction  $action
-     * @return JsonResponse
+     * @return StudioResourceResource
      */
-    public function update(UpdateRequest $request, Studio $studio, ExternalResource $resource, UpdateAction $action): JsonResponse
+    public function update(UpdateRequest $request, Studio $studio, ExternalResource $resource, UpdateAction $action): StudioResourceResource
     {
         $studioResource = StudioResource::query()
             ->where(StudioResource::ATTRIBUTE_STUDIO, $studio->getKey())
@@ -124,9 +118,7 @@ class StudioResourceController extends PivotController
 
         $updated = $action->update($studioResource, $request->validated());
 
-        $apiResource = new StudioResourceResource($updated, $query);
-
-        return $apiResource->toResponse($request);
+        return new StudioResourceResource($updated, $query);
     }
 
     /**

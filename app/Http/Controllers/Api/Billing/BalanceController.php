@@ -21,7 +21,6 @@ use App\Http\Resources\Billing\Collection\BalanceCollection;
 use App\Http\Resources\Billing\Resource\BalanceResource;
 use App\Models\Billing\Balance;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 /**
  * Class BalanceController.
@@ -41,17 +40,15 @@ class BalanceController extends BaseController
      *
      * @param  IndexRequest  $request
      * @param  IndexAction  $action
-     * @return JsonResponse
+     * @return BalanceCollection
      */
-    public function index(IndexRequest $request, IndexAction $action): JsonResponse
+    public function index(IndexRequest $request, IndexAction $action): BalanceCollection
     {
         $query = new Query($request->validated());
 
         $resources = $action->index(Balance::query(), $query, $request->schema());
 
-        $collection = new BalanceCollection($resources, $query);
-
-        return $collection->toResponse($request);
+        return new BalanceCollection($resources, $query);
     }
 
     /**
@@ -59,15 +56,13 @@ class BalanceController extends BaseController
      *
      * @param  StoreRequest  $request
      * @param  StoreAction  $action
-     * @return JsonResponse
+     * @return BalanceResource
      */
-    public function store(StoreRequest $request, StoreAction $action): JsonResponse
+    public function store(StoreRequest $request, StoreAction $action): BalanceResource
     {
         $balance = $action->store(Balance::query(), $request->validated());
 
-        $resource = new BalanceResource($balance, new Query());
-
-        return $resource->toResponse($request);
+        return new BalanceResource($balance, new Query());
     }
 
     /**
@@ -76,17 +71,15 @@ class BalanceController extends BaseController
      * @param  ShowRequest  $request
      * @param  Balance  $balance
      * @param  ShowAction  $action
-     * @return JsonResponse
+     * @return BalanceResource
      */
-    public function show(ShowRequest $request, Balance $balance, ShowAction $action): JsonResponse
+    public function show(ShowRequest $request, Balance $balance, ShowAction $action): BalanceResource
     {
         $query = new Query($request->validated());
 
         $show = $action->show($balance, $query, $request->schema());
 
-        $resource = new BalanceResource($show, $query);
-
-        return $resource->toResponse($request);
+        return new BalanceResource($show, $query);
     }
 
     /**
@@ -95,49 +88,41 @@ class BalanceController extends BaseController
      * @param  UpdateRequest  $request
      * @param  Balance  $balance
      * @param  UpdateAction  $action
-     * @return JsonResponse
+     * @return BalanceResource
      */
-    public function update(UpdateRequest $request, Balance $balance, UpdateAction $action): JsonResponse
+    public function update(UpdateRequest $request, Balance $balance, UpdateAction $action): BalanceResource
     {
         $updated = $action->update($balance, $request->validated());
 
-        $resource = new BalanceResource($updated, new Query());
-
-        return $resource->toResponse($request);
+        return new BalanceResource($updated, new Query());
     }
 
     /**
      * Remove the specified resource.
      *
-     * @param  Request  $request
      * @param  Balance  $balance
      * @param  DestroyAction  $action
-     * @return JsonResponse
+     * @return BalanceResource
      */
-    public function destroy(Request $request, Balance $balance, DestroyAction $action): JsonResponse
+    public function destroy(Balance $balance, DestroyAction $action): BalanceResource
     {
         $deleted = $action->destroy($balance);
 
-        $resource = new BalanceResource($deleted, new Query());
-
-        return $resource->toResponse($request);
+        return new BalanceResource($deleted, new Query());
     }
 
     /**
      * Restore the specified resource.
      *
-     * @param  Request  $request
      * @param  Balance  $balance
      * @param  RestoreAction  $action
-     * @return JsonResponse
+     * @return BalanceResource
      */
-    public function restore(Request $request, Balance $balance, RestoreAction $action): JsonResponse
+    public function restore(Balance $balance, RestoreAction $action): BalanceResource
     {
         $restored = $action->restore($balance);
 
-        $resource = new BalanceResource($restored, new Query());
-
-        return $resource->toResponse($request);
+        return new BalanceResource($restored, new Query());
     }
 
     /**

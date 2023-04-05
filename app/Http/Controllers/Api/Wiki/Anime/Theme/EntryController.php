@@ -21,7 +21,6 @@ use App\Http\Resources\Wiki\Anime\Theme\Collection\EntryCollection;
 use App\Http\Resources\Wiki\Anime\Theme\Resource\EntryResource;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 /**
  * Class EntryController.
@@ -41,9 +40,9 @@ class EntryController extends BaseController
      *
      * @param  IndexRequest  $request
      * @param  IndexAction  $action
-     * @return JsonResponse
+     * @return EntryCollection
      */
-    public function index(IndexRequest $request, IndexAction $action): JsonResponse
+    public function index(IndexRequest $request, IndexAction $action): EntryCollection
     {
         $query = new Query($request->validated());
 
@@ -51,9 +50,7 @@ class EntryController extends BaseController
             ? $action->search($query, $request->schema())
             : $action->index(AnimeThemeEntry::query(), $query, $request->schema());
 
-        $collection = new EntryCollection($videos, $query);
-
-        return $collection->toResponse($request);
+        return new EntryCollection($videos, $query);
     }
 
     /**
@@ -61,15 +58,13 @@ class EntryController extends BaseController
      *
      * @param  StoreRequest  $request
      * @param  StoreAction  $action
-     * @return JsonResponse
+     * @return EntryResource
      */
-    public function store(StoreRequest $request, StoreAction $action): JsonResponse
+    public function store(StoreRequest $request, StoreAction $action): EntryResource
     {
         $entry = $action->store(AnimeThemeEntry::query(), $request->validated());
 
-        $resource = new EntryResource($entry, new Query());
-
-        return $resource->toResponse($request);
+        return new EntryResource($entry, new Query());
     }
 
     /**
@@ -78,17 +73,15 @@ class EntryController extends BaseController
      * @param  ShowRequest  $request
      * @param  AnimeThemeEntry  $animethemeentry
      * @param  ShowAction  $action
-     * @return JsonResponse
+     * @return EntryResource
      */
-    public function show(ShowRequest $request, AnimeThemeEntry $animethemeentry, ShowAction $action): JsonResponse
+    public function show(ShowRequest $request, AnimeThemeEntry $animethemeentry, ShowAction $action): EntryResource
     {
         $query = new Query($request->validated());
 
         $show = $action->show($animethemeentry, $query, $request->schema());
 
-        $resource = new EntryResource($show, $query);
-
-        return $resource->toResponse($request);
+        return new EntryResource($show, $query);
     }
 
     /**
@@ -97,49 +90,41 @@ class EntryController extends BaseController
      * @param  UpdateRequest  $request
      * @param  AnimeThemeEntry  $animethemeentry
      * @param  UpdateAction  $action
-     * @return JsonResponse
+     * @return EntryResource
      */
-    public function update(UpdateRequest $request, AnimeThemeEntry $animethemeentry, UpdateAction $action): JsonResponse
+    public function update(UpdateRequest $request, AnimeThemeEntry $animethemeentry, UpdateAction $action): EntryResource
     {
         $updated = $action->update($animethemeentry, $request->validated());
 
-        $resource = new EntryResource($updated, new Query());
-
-        return $resource->toResponse($request);
+        return new EntryResource($updated, new Query());
     }
 
     /**
      * Remove the specified resource.
      *
-     * @param  Request  $request
      * @param  AnimeThemeEntry  $animethemeentry
      * @param  DestroyAction  $action
-     * @return JsonResponse
+     * @return EntryResource
      */
-    public function destroy(Request $request, AnimeThemeEntry $animethemeentry, DestroyAction $action): JsonResponse
+    public function destroy(AnimeThemeEntry $animethemeentry, DestroyAction $action): EntryResource
     {
         $deleted = $action->destroy($animethemeentry);
 
-        $resource = new EntryResource($deleted, new Query());
-
-        return $resource->toResponse($request);
+        return new EntryResource($deleted, new Query());
     }
 
     /**
      * Restore the specified resource.
      *
-     * @param  Request  $request
      * @param  AnimeThemeEntry  $animethemeentry
      * @param  RestoreAction  $action
-     * @return JsonResponse
+     * @return EntryResource
      */
-    public function restore(Request $request, AnimeThemeEntry $animethemeentry, RestoreAction $action): JsonResponse
+    public function restore(AnimeThemeEntry $animethemeentry, RestoreAction $action): EntryResource
     {
         $restored = $action->restore($animethemeentry);
 
-        $resource = new EntryResource($restored, new Query());
-
-        return $resource->toResponse($request);
+        return new EntryResource($restored, new Query());
     }
 
     /**

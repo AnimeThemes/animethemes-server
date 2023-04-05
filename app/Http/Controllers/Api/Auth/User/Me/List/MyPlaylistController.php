@@ -13,7 +13,6 @@ use App\Http\Requests\Api\IndexRequest;
 use App\Http\Resources\List\Collection\PlaylistCollection;
 use App\Models\Auth\User;
 use App\Models\List\Playlist;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 
 /**
@@ -35,9 +34,9 @@ class MyPlaylistController extends BaseController
      *
      * @param  IndexRequest  $request
      * @param  IndexAction  $action
-     * @return JsonResponse
+     * @return PlaylistCollection
      */
-    public function index(IndexRequest $request, IndexAction $action): JsonResponse
+    public function index(IndexRequest $request, IndexAction $action): PlaylistCollection
     {
         $query = new Query($request->validated());
 
@@ -48,9 +47,7 @@ class MyPlaylistController extends BaseController
 
         $playlists = $action->index($builder, $query, $request->schema());
 
-        $collection = new PlaylistCollection($playlists, $query);
-
-        return $collection->toResponse($request);
+        return new PlaylistCollection($playlists, $query);
     }
 
     /**

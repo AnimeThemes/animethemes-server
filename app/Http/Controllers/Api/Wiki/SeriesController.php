@@ -21,7 +21,6 @@ use App\Http\Resources\Wiki\Collection\SeriesCollection;
 use App\Http\Resources\Wiki\Resource\SeriesResource;
 use App\Models\Wiki\Series;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 /**
  * Class SeriesController.
@@ -41,9 +40,9 @@ class SeriesController extends BaseController
      *
      * @param  IndexRequest  $request
      * @param  IndexAction  $action
-     * @return JsonResponse
+     * @return SeriesCollection
      */
-    public function index(IndexRequest $request, IndexAction $action): JsonResponse
+    public function index(IndexRequest $request, IndexAction $action): SeriesCollection
     {
         $query = new Query($request->validated());
 
@@ -51,9 +50,7 @@ class SeriesController extends BaseController
             ? $action->search($query, $request->schema())
             : $action->index(Series::query(), $query, $request->schema());
 
-        $collection = new SeriesCollection($series, $query);
-
-        return $collection->toResponse($request);
+        return new SeriesCollection($series, $query);
     }
 
     /**
@@ -61,15 +58,13 @@ class SeriesController extends BaseController
      *
      * @param  StoreRequest  $request
      * @param  StoreAction  $action
-     * @return JsonResponse
+     * @return SeriesResource
      */
-    public function store(StoreRequest $request, StoreAction $action): JsonResponse
+    public function store(StoreRequest $request, StoreAction $action): SeriesResource
     {
         $series = $action->store(Series::query(), $request->validated());
 
-        $resource = new SeriesResource($series, new Query());
-
-        return $resource->toResponse($request);
+        return new SeriesResource($series, new Query());
     }
 
     /**
@@ -78,17 +73,15 @@ class SeriesController extends BaseController
      * @param  ShowRequest  $request
      * @param  Series  $series
      * @param  ShowAction  $action
-     * @return JsonResponse
+     * @return SeriesResource
      */
-    public function show(ShowRequest $request, Series $series, ShowAction $action): JsonResponse
+    public function show(ShowRequest $request, Series $series, ShowAction $action): SeriesResource
     {
         $query = new Query($request->validated());
 
         $show = $action->show($series, $query, $request->schema());
 
-        $resource = new SeriesResource($show, $query);
-
-        return $resource->toResponse($request);
+        return new SeriesResource($show, $query);
     }
 
     /**
@@ -97,49 +90,41 @@ class SeriesController extends BaseController
      * @param  UpdateRequest  $request
      * @param  Series  $series
      * @param  UpdateAction  $action
-     * @return JsonResponse
+     * @return SeriesResource
      */
-    public function update(UpdateRequest $request, Series $series, UpdateAction $action): JsonResponse
+    public function update(UpdateRequest $request, Series $series, UpdateAction $action): SeriesResource
     {
         $updated = $action->update($series, $request->validated());
 
-        $resource = new SeriesResource($updated, new Query());
-
-        return $resource->toResponse($request);
+        return new SeriesResource($updated, new Query());
     }
 
     /**
      * Remove the specified resource.
      *
-     * @param  Request  $request
      * @param  Series  $series
      * @param  DestroyAction  $action
-     * @return JsonResponse
+     * @return SeriesResource
      */
-    public function destroy(Request $request, Series $series, DestroyAction $action): JsonResponse
+    public function destroy(Series $series, DestroyAction $action): SeriesResource
     {
         $deleted = $action->destroy($series);
 
-        $resource = new SeriesResource($deleted, new Query());
-
-        return $resource->toResponse($request);
+        return new SeriesResource($deleted, new Query());
     }
 
     /**
      * Restore the specified resource.
      *
-     * @param  Request  $request
      * @param  Series  $series
      * @param  RestoreAction  $action
-     * @return JsonResponse
+     * @return SeriesResource
      */
-    public function restore(Request $request, Series $series, RestoreAction $action): JsonResponse
+    public function restore(Series $series, RestoreAction $action): SeriesResource
     {
         $restored = $action->restore($series);
 
-        $resource = new SeriesResource($restored, new Query());
-
-        return $resource->toResponse($request);
+        return new SeriesResource($restored, new Query());
     }
 
     /**

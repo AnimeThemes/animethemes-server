@@ -21,7 +21,6 @@ use App\Http\Resources\Wiki\Collection\ArtistCollection;
 use App\Http\Resources\Wiki\Resource\ArtistResource;
 use App\Models\Wiki\Artist;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 /**
  * Class ArtistController.
@@ -41,9 +40,9 @@ class ArtistController extends BaseController
      *
      * @param  IndexRequest  $request
      * @param  IndexAction  $action
-     * @return JsonResponse
+     * @return ArtistCollection
      */
-    public function index(IndexRequest $request, IndexAction $action): JsonResponse
+    public function index(IndexRequest $request, IndexAction $action): ArtistCollection
     {
         $query = new Query($request->validated());
 
@@ -51,9 +50,7 @@ class ArtistController extends BaseController
             ? $action->search($query, $request->schema())
             : $action->index(Artist::query(), $query, $request->schema());
 
-        $collection = new ArtistCollection($artists, $query);
-
-        return $collection->toResponse($request);
+        return new ArtistCollection($artists, $query);
     }
 
     /**
@@ -61,15 +58,13 @@ class ArtistController extends BaseController
      *
      * @param  StoreRequest  $request
      * @param  StoreAction  $action
-     * @return JsonResponse
+     * @return ArtistResource
      */
-    public function store(StoreRequest $request, StoreAction $action): JsonResponse
+    public function store(StoreRequest $request, StoreAction $action): ArtistResource
     {
         $artist = $action->store(Artist::query(), $request->validated());
 
-        $resource = new ArtistResource($artist, new Query());
-
-        return $resource->toResponse($request);
+        return new ArtistResource($artist, new Query());
     }
 
     /**
@@ -78,17 +73,15 @@ class ArtistController extends BaseController
      * @param  ShowRequest  $request
      * @param  Artist  $artist
      * @param  ShowAction  $action
-     * @return JsonResponse
+     * @return ArtistResource
      */
-    public function show(ShowRequest $request, Artist $artist, ShowAction $action): JsonResponse
+    public function show(ShowRequest $request, Artist $artist, ShowAction $action): ArtistResource
     {
         $query = new Query($request->validated());
 
         $show = $action->show($artist, $query, $request->schema());
 
-        $resource = new ArtistResource($show, $query);
-
-        return $resource->toResponse($request);
+        return new ArtistResource($show, $query);
     }
 
     /**
@@ -97,49 +90,41 @@ class ArtistController extends BaseController
      * @param  UpdateRequest  $request
      * @param  Artist  $artist
      * @param  UpdateAction  $action
-     * @return JsonResponse
+     * @return ArtistResource
      */
-    public function update(UpdateRequest $request, Artist $artist, UpdateAction $action): JsonResponse
+    public function update(UpdateRequest $request, Artist $artist, UpdateAction $action): ArtistResource
     {
         $updated = $action->update($artist, $request->validated());
 
-        $resource = new ArtistResource($updated, new Query());
-
-        return $resource->toResponse($request);
+        return new ArtistResource($updated, new Query());
     }
 
     /**
      * Remove the specified resource.
      *
-     * @param  Request  $request
      * @param  Artist  $artist
      * @param  DestroyAction  $action
-     * @return JsonResponse
+     * @return ArtistResource
      */
-    public function destroy(Request $request, Artist $artist, DestroyAction $action): JsonResponse
+    public function destroy(Artist $artist, DestroyAction $action): ArtistResource
     {
         $deleted = $action->destroy($artist);
 
-        $resource = new ArtistResource($deleted, new Query());
-
-        return $resource->toResponse($request);
+        return new ArtistResource($deleted, new Query());
     }
 
     /**
      * Restore the specified resource.
      *
-     * @param  Request  $request
      * @param  Artist  $artist
      * @param  RestoreAction  $action
-     * @return JsonResponse
+     * @return ArtistResource
      */
-    public function restore(Request $request, Artist $artist, RestoreAction $action): JsonResponse
+    public function restore(Artist $artist, RestoreAction $action): ArtistResource
     {
         $restored = $action->restore($artist);
 
-        $resource = new ArtistResource($restored, new Query());
-
-        return $resource->toResponse($request);
+        return new ArtistResource($restored, new Query());
     }
 
     /**

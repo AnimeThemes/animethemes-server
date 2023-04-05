@@ -21,7 +21,6 @@ use App\Http\Resources\Admin\Collection\AnnouncementCollection;
 use App\Http\Resources\Admin\Resource\AnnouncementResource;
 use App\Models\Admin\Announcement;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 /**
  * Class AnnouncementController.
@@ -41,17 +40,15 @@ class AnnouncementController extends BaseController
      *
      * @param  IndexRequest  $request
      * @param  IndexAction  $action
-     * @return JsonResponse
+     * @return AnnouncementCollection
      */
-    public function index(IndexRequest $request, IndexAction $action): JsonResponse
+    public function index(IndexRequest $request, IndexAction $action): AnnouncementCollection
     {
         $query = new Query($request->validated());
 
         $announcements = $action->index(Announcement::query(), $query, $request->schema());
 
-        $collection = new AnnouncementCollection($announcements, $query);
-
-        return $collection->toResponse($request);
+        return new AnnouncementCollection($announcements, $query);
     }
 
     /**
@@ -59,15 +56,13 @@ class AnnouncementController extends BaseController
      *
      * @param  StoreRequest  $request
      * @param  StoreAction  $action
-     * @return JsonResponse
+     * @return AnnouncementResource
      */
-    public function store(StoreRequest $request, StoreAction $action): JsonResponse
+    public function store(StoreRequest $request, StoreAction $action): AnnouncementResource
     {
         $announcement = $action->store(Announcement::query(), $request->validated());
 
-        $resource = new AnnouncementResource($announcement, new Query());
-
-        return $resource->toResponse($request);
+        return new AnnouncementResource($announcement, new Query());
     }
 
     /**
@@ -76,17 +71,15 @@ class AnnouncementController extends BaseController
      * @param  ShowRequest  $request
      * @param  Announcement  $announcement
      * @param  ShowAction  $action
-     * @return JsonResponse
+     * @return AnnouncementResource
      */
-    public function show(ShowRequest $request, Announcement $announcement, ShowAction $action): JsonResponse
+    public function show(ShowRequest $request, Announcement $announcement, ShowAction $action): AnnouncementResource
     {
         $query = new Query($request->validated());
 
         $show = $action->show($announcement, $query, $request->schema());
 
-        $resource = new AnnouncementResource($show, $query);
-
-        return $resource->toResponse($request);
+        return new AnnouncementResource($show, $query);
     }
 
     /**
@@ -95,49 +88,41 @@ class AnnouncementController extends BaseController
      * @param  UpdateRequest  $request
      * @param  Announcement  $announcement
      * @param  UpdateAction  $action
-     * @return JsonResponse
+     * @return AnnouncementResource
      */
-    public function update(UpdateRequest $request, Announcement $announcement, UpdateAction $action): JsonResponse
+    public function update(UpdateRequest $request, Announcement $announcement, UpdateAction $action): AnnouncementResource
     {
         $updated = $action->update($announcement, $request->validated());
 
-        $resource = new AnnouncementResource($updated, new Query());
-
-        return $resource->toResponse($request);
+        return new AnnouncementResource($updated, new Query());
     }
 
     /**
      * Remove the specified resource.
      *
-     * @param  Request  $request
      * @param  Announcement  $announcement
      * @param  DestroyAction  $action
-     * @return JsonResponse
+     * @return AnnouncementResource
      */
-    public function destroy(Request $request, Announcement $announcement, DestroyAction $action): JsonResponse
+    public function destroy(Announcement $announcement, DestroyAction $action): AnnouncementResource
     {
         $deleted = $action->destroy($announcement);
 
-        $resource = new AnnouncementResource($deleted, new Query());
-
-        return $resource->toResponse($request);
+        return new AnnouncementResource($deleted, new Query());
     }
 
     /**
      * Restore the specified resource.
      *
-     * @param  Request  $request
      * @param  Announcement  $announcement
      * @param  RestoreAction  $action
-     * @return JsonResponse
+     * @return AnnouncementResource
      */
-    public function restore(Request $request, Announcement $announcement, RestoreAction $action): JsonResponse
+    public function restore(Announcement $announcement, RestoreAction $action): AnnouncementResource
     {
         $restored = $action->restore($announcement);
 
-        $resource = new AnnouncementResource($restored, new Query());
-
-        return $resource->toResponse($request);
+        return new AnnouncementResource($restored, new Query());
     }
 
     /**

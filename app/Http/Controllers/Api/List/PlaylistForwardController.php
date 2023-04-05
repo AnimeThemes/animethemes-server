@@ -15,7 +15,6 @@ use App\Models\List\Playlist;
 use App\Models\List\Playlist\ForwardPlaylistTrack;
 use App\Models\List\Playlist\PlaylistTrack;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Http\JsonResponse;
 
 /**
  * Class PlaylistForwardController.
@@ -36,9 +35,9 @@ class PlaylistForwardController extends BaseController
      * @param  ForwardBackwardIndexRequest  $request
      * @param  Playlist  $playlist
      * @param  IndexAction  $action
-     * @return JsonResponse
+     * @return TrackCollection
      */
-    public function index(ForwardBackwardIndexRequest $request, Playlist $playlist, IndexAction $action): JsonResponse
+    public function index(ForwardBackwardIndexRequest $request, Playlist $playlist, IndexAction $action): TrackCollection
     {
         $query = new Query($request->validated());
 
@@ -50,9 +49,7 @@ class PlaylistForwardController extends BaseController
 
         $resources = $action->index($builder, $query, $request->schema());
 
-        $collection = new TrackCollection($resources, $query);
-
-        return $collection->toResponse($request);
+        return new TrackCollection($resources, $query);
     }
 
     /**

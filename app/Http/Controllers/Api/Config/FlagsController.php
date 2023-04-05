@@ -11,7 +11,6 @@ use App\Http\Api\Schema\Schema;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\ShowRequest;
 use App\Http\Resources\Config\Resource\FlagsResource;
-use Illuminate\Http\JsonResponse;
 
 /**
  * Class FlagsController.
@@ -22,15 +21,13 @@ class FlagsController extends Controller implements InteractsWithSchema
      * Flags resource.
      *
      * @param  ShowRequest  $request
-     * @return JsonResponse
+     * @return FlagsResource
      */
-    public function show(ShowRequest $request): JsonResponse
+    public function show(ShowRequest $request): FlagsResource
     {
         $query = new Query($request->validated());
 
-        $resource = new FlagsResource($query);
-
-        return $resource->toResponse($request);
+        return new FlagsResource($query);
     }
 
     /**

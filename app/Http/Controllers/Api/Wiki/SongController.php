@@ -21,7 +21,6 @@ use App\Http\Resources\Wiki\Collection\SongCollection;
 use App\Http\Resources\Wiki\Resource\SongResource;
 use App\Models\Wiki\Song;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 /**
  * Class SongController.
@@ -41,9 +40,9 @@ class SongController extends BaseController
      *
      * @param  IndexRequest  $request
      * @param  IndexAction  $action
-     * @return JsonResponse
+     * @return SongCollection
      */
-    public function index(IndexRequest $request, IndexAction $action): JsonResponse
+    public function index(IndexRequest $request, IndexAction $action): SongCollection
     {
         $query = new Query($request->validated());
 
@@ -51,9 +50,7 @@ class SongController extends BaseController
             ? $action->search($query, $request->schema())
             : $action->index(Song::query(), $query, $request->schema());
 
-        $collection = new SongCollection($songs, $query);
-
-        return $collection->toResponse($request);
+        return new SongCollection($songs, $query);
     }
 
     /**
@@ -61,15 +58,13 @@ class SongController extends BaseController
      *
      * @param  StoreRequest  $request
      * @param  StoreAction  $action
-     * @return JsonResponse
+     * @return SongResource
      */
-    public function store(StoreRequest $request, StoreAction $action): JsonResponse
+    public function store(StoreRequest $request, StoreAction $action): SongResource
     {
         $song = $action->store(Song::query(), $request->validated());
 
-        $resource = new SongResource($song, new Query());
-
-        return $resource->toResponse($request);
+        return new SongResource($song, new Query());
     }
 
     /**
@@ -78,17 +73,15 @@ class SongController extends BaseController
      * @param  ShowRequest  $request
      * @param  Song  $song
      * @param  ShowAction  $action
-     * @return JsonResponse
+     * @return SongResource
      */
-    public function show(ShowRequest $request, Song $song, ShowAction $action): JsonResponse
+    public function show(ShowRequest $request, Song $song, ShowAction $action): SongResource
     {
         $query = new Query($request->validated());
 
         $show = $action->show($song, $query, $request->schema());
 
-        $resource = new SongResource($show, $query);
-
-        return $resource->toResponse($request);
+        return new SongResource($show, $query);
     }
 
     /**
@@ -97,49 +90,41 @@ class SongController extends BaseController
      * @param  UpdateRequest  $request
      * @param  Song  $song
      * @param  UpdateAction  $action
-     * @return JsonResponse
+     * @return SongResource
      */
-    public function update(UpdateRequest $request, Song $song, UpdateAction $action): JsonResponse
+    public function update(UpdateRequest $request, Song $song, UpdateAction $action): SongResource
     {
         $updated = $action->update($song, $request->validated());
 
-        $resource = new SongResource($updated, new Query());
-
-        return $resource->toResponse($request);
+        return new SongResource($updated, new Query());
     }
 
     /**
      * Remove the specified resource.
      *
-     * @param  Request  $request
      * @param  Song  $song
      * @param  DestroyAction  $action
-     * @return JsonResponse
+     * @return SongResource
      */
-    public function destroy(Request $request, Song $song, DestroyAction $action): JsonResponse
+    public function destroy(Song $song, DestroyAction $action): SongResource
     {
         $deleted = $action->destroy($song);
 
-        $resource = new SongResource($deleted, new Query());
-
-        return $resource->toResponse($request);
+        return new SongResource($deleted, new Query());
     }
 
     /**
      * Restore the specified resource.
      *
-     * @param  Request  $request
      * @param  Song  $song
      * @param  RestoreAction  $action
-     * @return JsonResponse
+     * @return SongResource
      */
-    public function restore(Request $request, Song $song, RestoreAction $action): JsonResponse
+    public function restore(Song $song, RestoreAction $action): SongResource
     {
         $restored = $action->restore($song);
 
-        $resource = new SongResource($restored, new Query());
-
-        return $resource->toResponse($request);
+        return new SongResource($restored, new Query());
     }
 
     /**

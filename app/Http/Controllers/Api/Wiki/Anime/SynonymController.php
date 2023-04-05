@@ -21,7 +21,6 @@ use App\Http\Resources\Wiki\Anime\Collection\SynonymCollection;
 use App\Http\Resources\Wiki\Anime\Resource\SynonymResource;
 use App\Models\Wiki\Anime\AnimeSynonym;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 /**
  * Class SynonymController.
@@ -41,9 +40,9 @@ class SynonymController extends BaseController
      *
      * @param  IndexRequest  $request
      * @param  IndexAction  $action
-     * @return JsonResponse
+     * @return SynonymCollection
      */
-    public function index(IndexRequest $request, IndexAction $action): JsonResponse
+    public function index(IndexRequest $request, IndexAction $action): SynonymCollection
     {
         $query = new Query($request->validated());
 
@@ -51,9 +50,7 @@ class SynonymController extends BaseController
             ? $action->search($query, $request->schema())
             : $action->index(AnimeSynonym::query(), $query, $request->schema());
 
-        $collection = new SynonymCollection($videos, $query);
-
-        return $collection->toResponse($request);
+        return new SynonymCollection($videos, $query);
     }
 
     /**
@@ -61,15 +58,13 @@ class SynonymController extends BaseController
      *
      * @param  StoreRequest  $request
      * @param  StoreAction  $action
-     * @return JsonResponse
+     * @return SynonymResource
      */
-    public function store(StoreRequest $request, StoreAction $action): JsonResponse
+    public function store(StoreRequest $request, StoreAction $action): SynonymResource
     {
         $synonym = $action->store(AnimeSynonym::query(), $request->validated());
 
-        $resource = new SynonymResource($synonym, new Query());
-
-        return $resource->toResponse($request);
+        return new SynonymResource($synonym, new Query());
     }
 
     /**
@@ -78,17 +73,15 @@ class SynonymController extends BaseController
      * @param  ShowRequest  $request
      * @param  AnimeSynonym  $animesynonym
      * @param  ShowAction  $action
-     * @return JsonResponse
+     * @return SynonymResource
      */
-    public function show(ShowRequest $request, AnimeSynonym $animesynonym, ShowAction $action): JsonResponse
+    public function show(ShowRequest $request, AnimeSynonym $animesynonym, ShowAction $action): SynonymResource
     {
         $query = new Query($request->validated());
 
         $show = $action->show($animesynonym, $query, $request->schema());
 
-        $resource = new SynonymResource($show, $query);
-
-        return $resource->toResponse($request);
+        return new SynonymResource($show, $query);
     }
 
     /**
@@ -97,49 +90,41 @@ class SynonymController extends BaseController
      * @param  UpdateRequest  $request
      * @param  AnimeSynonym  $animesynonym
      * @param  UpdateAction  $action
-     * @return JsonResponse
+     * @return SynonymResource
      */
-    public function update(UpdateRequest $request, AnimeSynonym $animesynonym, UpdateAction $action): JsonResponse
+    public function update(UpdateRequest $request, AnimeSynonym $animesynonym, UpdateAction $action): SynonymResource
     {
         $updated = $action->update($animesynonym, $request->validated());
 
-        $resource = new SynonymResource($updated, new Query());
-
-        return $resource->toResponse($request);
+        return new SynonymResource($updated, new Query());
     }
 
     /**
      * Remove the specified resource.
      *
-     * @param  Request  $request
      * @param  AnimeSynonym  $animesynonym
      * @param  DestroyAction  $action
-     * @return JsonResponse
+     * @return SynonymResource
      */
-    public function destroy(Request $request, AnimeSynonym $animesynonym, DestroyAction $action): JsonResponse
+    public function destroy(AnimeSynonym $animesynonym, DestroyAction $action): SynonymResource
     {
         $deleted = $action->destroy($animesynonym);
 
-        $resource = new SynonymResource($deleted, new Query());
-
-        return $resource->toResponse($request);
+        return new SynonymResource($deleted, new Query());
     }
 
     /**
      * Restore the specified resource.
      *
-     * @param  Request  $request
      * @param  AnimeSynonym  $animesynonym
      * @param  RestoreAction  $action
-     * @return JsonResponse
+     * @return SynonymResource
      */
-    public function restore(Request $request, AnimeSynonym $animesynonym, RestoreAction $action): JsonResponse
+    public function restore(AnimeSynonym $animesynonym, RestoreAction $action): SynonymResource
     {
         $restored = $action->restore($animesynonym);
 
-        $resource = new SynonymResource($restored, new Query());
-
-        return $resource->toResponse($request);
+        return new SynonymResource($restored, new Query());
     }
 
     /**

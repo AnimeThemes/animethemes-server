@@ -21,7 +21,6 @@ use App\Http\Resources\Document\Collection\PageCollection;
 use App\Http\Resources\Document\Resource\PageResource;
 use App\Models\Document\Page;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 /**
  * Class PageController.
@@ -41,17 +40,15 @@ class PageController extends BaseController
      *
      * @param  IndexRequest  $request
      * @param  IndexAction  $action
-     * @return JsonResponse
+     * @return PageCollection
      */
-    public function index(IndexRequest $request, IndexAction $action): JsonResponse
+    public function index(IndexRequest $request, IndexAction $action): PageCollection
     {
         $query = new Query($request->validated());
 
         $pages = $action->index(Page::query(), $query, $request->schema());
 
-        $collection = new PageCollection($pages, $query);
-
-        return $collection->toResponse($request);
+        return new PageCollection($pages, $query);
     }
 
     /**
@@ -59,15 +56,13 @@ class PageController extends BaseController
      *
      * @param  StoreRequest  $request
      * @param  StoreAction  $action
-     * @return JsonResponse
+     * @return PageResource
      */
-    public function store(StoreRequest $request, StoreAction $action): JsonResponse
+    public function store(StoreRequest $request, StoreAction $action): PageResource
     {
         $page = $action->store(Page::query(), $request->validated());
 
-        $resource = new PageResource($page, new Query());
-
-        return $resource->toResponse($request);
+        return new PageResource($page, new Query());
     }
 
     /**
@@ -76,17 +71,15 @@ class PageController extends BaseController
      * @param  ShowRequest  $request
      * @param  Page  $page
      * @param  ShowAction  $action
-     * @return JsonResponse
+     * @return PageResource
      */
-    public function show(ShowRequest $request, Page $page, ShowAction $action): JsonResponse
+    public function show(ShowRequest $request, Page $page, ShowAction $action): PageResource
     {
         $query = new Query($request->validated());
 
         $show = $action->show($page, $query, $request->schema());
 
-        $resource = new PageResource($show, $query);
-
-        return $resource->toResponse($request);
+        return new PageResource($show, $query);
     }
 
     /**
@@ -95,49 +88,41 @@ class PageController extends BaseController
      * @param  UpdateRequest  $request
      * @param  Page  $page
      * @param  UpdateAction  $action
-     * @return JsonResponse
+     * @return PageResource
      */
-    public function update(UpdateRequest $request, Page $page, UpdateAction $action): JsonResponse
+    public function update(UpdateRequest $request, Page $page, UpdateAction $action): PageResource
     {
         $updated = $action->update($page, $request->validated());
 
-        $resource = new PageResource($updated, new Query());
-
-        return $resource->toResponse($request);
+        return new PageResource($updated, new Query());
     }
 
     /**
      * Remove the specified resource.
      *
-     * @param  Request  $request
      * @param  Page  $page
      * @param  DestroyAction  $action
-     * @return JsonResponse
+     * @return PageResource
      */
-    public function destroy(Request $request, Page $page, DestroyAction $action): JsonResponse
+    public function destroy(Page $page, DestroyAction $action): PageResource
     {
         $deleted = $action->destroy($page);
 
-        $resource = new PageResource($deleted, new Query());
-
-        return $resource->toResponse($request);
+        return new PageResource($deleted, new Query());
     }
 
     /**
      * Restore the specified resource.
      *
-     * @param  Request  $request
      * @param  Page  $page
      * @param  RestoreAction  $action
-     * @return JsonResponse
+     * @return PageResource
      */
-    public function restore(Request $request, Page $page, RestoreAction $action): JsonResponse
+    public function restore(Page $page, RestoreAction $action): PageResource
     {
         $restored = $action->restore($page);
 
-        $resource = new PageResource($restored, new Query());
-
-        return $resource->toResponse($request);
+        return new PageResource($restored, new Query());
     }
 
     /**

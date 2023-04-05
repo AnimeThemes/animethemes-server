@@ -38,17 +38,15 @@ class AnimeThemeEntryVideoController extends PivotController
      *
      * @param  IndexRequest  $request
      * @param  IndexAction  $action
-     * @return JsonResponse
+     * @return AnimeThemeEntryVideoCollection
      */
-    public function index(IndexRequest $request, IndexAction $action): JsonResponse
+    public function index(IndexRequest $request, IndexAction $action): AnimeThemeEntryVideoCollection
     {
         $query = new Query($request->validated());
 
         $resources = $action->index(AnimeThemeEntryVideo::query(), $query, $request->schema());
 
-        $collection = new AnimeThemeEntryVideoCollection($resources, $query);
-
-        return $collection->toResponse($request);
+        return new AnimeThemeEntryVideoCollection($resources, $query);
     }
 
     /**
@@ -58,9 +56,9 @@ class AnimeThemeEntryVideoController extends PivotController
      * @param  AnimeThemeEntry  $animethemeentry
      * @param  Video  $video
      * @param  StoreAction  $action
-     * @return JsonResponse
+     * @return AnimeThemeEntryVideoResource
      */
-    public function store(StoreRequest $request, AnimeThemeEntry $animethemeentry, Video $video, StoreAction $action): JsonResponse
+    public function store(StoreRequest $request, AnimeThemeEntry $animethemeentry, Video $video, StoreAction $action): AnimeThemeEntryVideoResource
     {
         $validated = array_merge(
             $request->validated(),
@@ -72,9 +70,7 @@ class AnimeThemeEntryVideoController extends PivotController
 
         $entryVideo = $action->store(AnimeThemeEntryVideo::query(), $validated);
 
-        $resource = new AnimeThemeEntryVideoResource($entryVideo, new Query());
-
-        return $resource->toResponse($request);
+        return new AnimeThemeEntryVideoResource($entryVideo, new Query());
     }
 
     /**
@@ -84,9 +80,9 @@ class AnimeThemeEntryVideoController extends PivotController
      * @param  AnimeThemeEntry  $animethemeentry
      * @param  Video  $video
      * @param  ShowAction  $action
-     * @return JsonResponse
+     * @return AnimeThemeEntryVideoResource
      */
-    public function show(ShowRequest $request, AnimeThemeEntry $animethemeentry, Video $video, ShowAction $action): JsonResponse
+    public function show(ShowRequest $request, AnimeThemeEntry $animethemeentry, Video $video, ShowAction $action): AnimeThemeEntryVideoResource
     {
         $entryVideo = AnimeThemeEntryVideo::query()
             ->where(AnimeThemeEntryVideo::ATTRIBUTE_ENTRY, $animethemeentry->getKey())
@@ -97,9 +93,7 @@ class AnimeThemeEntryVideoController extends PivotController
 
         $show = $action->show($entryVideo, $query, $request->schema());
 
-        $resource = new AnimeThemeEntryVideoResource($show, $query);
-
-        return $resource->toResponse($request);
+        return new AnimeThemeEntryVideoResource($show, $query);
     }
 
     /**

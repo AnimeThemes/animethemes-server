@@ -40,17 +40,15 @@ class ArtistSongController extends PivotController
      *
      * @param  IndexRequest  $request
      * @param  IndexAction  $action
-     * @return JsonResponse
+     * @return ArtistSongCollection
      */
-    public function index(IndexRequest $request, IndexAction $action): JsonResponse
+    public function index(IndexRequest $request, IndexAction $action): ArtistSongCollection
     {
         $query = new Query($request->validated());
 
         $resources = $action->index(ArtistSong::query(), $query, $request->schema());
 
-        $collection = new ArtistSongCollection($resources, $query);
-
-        return $collection->toResponse($request);
+        return new ArtistSongCollection($resources, $query);
     }
 
     /**
@@ -60,9 +58,9 @@ class ArtistSongController extends PivotController
      * @param  Artist  $artist
      * @param  Song  $song
      * @param  StoreAction  $action
-     * @return JsonResponse
+     * @return ArtistSongResource
      */
-    public function store(StoreRequest $request, Artist $artist, Song $song, StoreAction $action): JsonResponse
+    public function store(StoreRequest $request, Artist $artist, Song $song, StoreAction $action): ArtistSongResource
     {
         $validated = array_merge(
             $request->validated(),
@@ -74,9 +72,7 @@ class ArtistSongController extends PivotController
 
         $artistSong = $action->store(ArtistSong::query(), $validated);
 
-        $resource = new ArtistSongResource($artistSong, new Query());
-
-        return $resource->toResponse($request);
+        return new ArtistSongResource($artistSong, new Query());
     }
 
     /**
@@ -86,9 +82,9 @@ class ArtistSongController extends PivotController
      * @param  Artist  $artist
      * @param  Song  $song
      * @param  ShowAction  $action
-     * @return JsonResponse
+     * @return ArtistSongResource
      */
-    public function show(ShowRequest $request, Artist $artist, Song $song, ShowAction $action): JsonResponse
+    public function show(ShowRequest $request, Artist $artist, Song $song, ShowAction $action): ArtistSongResource
     {
         $artistSong = ArtistSong::query()
             ->where(ArtistSong::ATTRIBUTE_ARTIST, $artist->getKey())
@@ -99,9 +95,7 @@ class ArtistSongController extends PivotController
 
         $show = $action->show($artistSong, $query, $request->schema());
 
-        $resource = new ArtistSongResource($show, $query);
-
-        return $resource->toResponse($request);
+        return new ArtistSongResource($show, $query);
     }
 
     /**
@@ -111,9 +105,9 @@ class ArtistSongController extends PivotController
      * @param  Artist  $artist
      * @param  Song  $song
      * @param  UpdateAction  $action
-     * @return JsonResponse
+     * @return ArtistSongResource
      */
-    public function update(UpdateRequest $request, Artist $artist, Song $song, UpdateAction $action): JsonResponse
+    public function update(UpdateRequest $request, Artist $artist, Song $song, UpdateAction $action): ArtistSongResource
     {
         $artistSong = ArtistSong::query()
             ->where(ArtistSong::ATTRIBUTE_ARTIST, $artist->getKey())
@@ -124,9 +118,7 @@ class ArtistSongController extends PivotController
 
         $updated = $action->update($artistSong, $request->validated());
 
-        $apiResource = new ArtistSongResource($updated, $query);
-
-        return $apiResource->toResponse($request);
+        return new ArtistSongResource($updated, $query);
     }
 
     /**

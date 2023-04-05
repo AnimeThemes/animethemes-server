@@ -21,7 +21,6 @@ use App\Http\Resources\Wiki\Collection\VideoCollection;
 use App\Http\Resources\Wiki\Resource\VideoResource;
 use App\Models\Wiki\Video;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 /**
  * Class VideoController.
@@ -41,9 +40,9 @@ class VideoController extends BaseController
      *
      * @param  IndexRequest  $request
      * @param  IndexAction  $action
-     * @return JsonResponse
+     * @return VideoCollection
      */
-    public function index(IndexRequest $request, IndexAction $action): JsonResponse
+    public function index(IndexRequest $request, IndexAction $action): VideoCollection
     {
         $query = new Query($request->validated());
 
@@ -51,9 +50,7 @@ class VideoController extends BaseController
             ? $action->search($query, $request->schema())
             : $action->index(Video::query(), $query, $request->schema());
 
-        $collection = new VideoCollection($videos, $query);
-
-        return $collection->toResponse($request);
+        return new VideoCollection($videos, $query);
     }
 
     /**
@@ -61,15 +58,13 @@ class VideoController extends BaseController
      *
      * @param  StoreRequest  $request
      * @param  StoreAction  $action
-     * @return JsonResponse
+     * @return VideoResource
      */
-    public function store(StoreRequest $request, StoreAction $action): JsonResponse
+    public function store(StoreRequest $request, StoreAction $action): VideoResource
     {
         $video = $action->store(Video::query(), $request->validated());
 
-        $resource = new VideoResource($video, new Query());
-
-        return $resource->toResponse($request);
+        return new VideoResource($video, new Query());
     }
 
     /**
@@ -78,17 +73,15 @@ class VideoController extends BaseController
      * @param  ShowRequest  $request
      * @param  Video  $video
      * @param  ShowAction  $action
-     * @return JsonResponse
+     * @return VideoResource
      */
-    public function show(ShowRequest $request, Video $video, ShowAction $action): JsonResponse
+    public function show(ShowRequest $request, Video $video, ShowAction $action): VideoResource
     {
         $query = new Query($request->validated());
 
         $show = $action->show($video, $query, $request->schema());
 
-        $resource = new VideoResource($show, $query);
-
-        return $resource->toResponse($request);
+        return new VideoResource($show, $query);
     }
 
     /**
@@ -97,49 +90,41 @@ class VideoController extends BaseController
      * @param  UpdateRequest  $request
      * @param  Video  $video
      * @param  UpdateAction  $action
-     * @return JsonResponse
+     * @return VideoResource
      */
-    public function update(UpdateRequest $request, Video $video, UpdateAction $action): JsonResponse
+    public function update(UpdateRequest $request, Video $video, UpdateAction $action): VideoResource
     {
         $updated = $action->update($video, $request->validated());
 
-        $resource = new VideoResource($updated, new Query());
-
-        return $resource->toResponse($request);
+        return new VideoResource($updated, new Query());
     }
 
     /**
      * Remove the specified resource.
      *
-     * @param  Request  $request
      * @param  Video  $video
      * @param  DestroyAction  $action
-     * @return JsonResponse
+     * @return VideoResource
      */
-    public function destroy(Request $request, Video $video, DestroyAction $action): JsonResponse
+    public function destroy(Video $video, DestroyAction $action): VideoResource
     {
         $deleted = $action->destroy($video);
 
-        $resource = new VideoResource($deleted, new Query());
-
-        return $resource->toResponse($request);
+        return new VideoResource($deleted, new Query());
     }
 
     /**
      * Restore the specified resource.
      *
-     * @param  Request  $request
      * @param  Video  $video
      * @param  RestoreAction  $action
-     * @return JsonResponse
+     * @return VideoResource
      */
-    public function restore(Request $request, Video $video, RestoreAction $action): JsonResponse
+    public function restore(Video $video, RestoreAction $action): VideoResource
     {
         $restored = $action->restore($video);
 
-        $resource = new VideoResource($restored, new Query());
-
-        return $resource->toResponse($request);
+        return new VideoResource($restored, new Query());
     }
 
     /**

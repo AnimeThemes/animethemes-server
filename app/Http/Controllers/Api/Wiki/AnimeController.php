@@ -21,7 +21,6 @@ use App\Http\Resources\Wiki\Collection\AnimeCollection;
 use App\Http\Resources\Wiki\Resource\AnimeResource;
 use App\Models\Wiki\Anime;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 /**
  * Class AnimeController.
@@ -41,9 +40,9 @@ class AnimeController extends BaseController
      *
      * @param  IndexRequest  $request
      * @param  IndexAction  $action
-     * @return JsonResponse
+     * @return AnimeCollection
      */
-    public function index(IndexRequest $request, IndexAction $action): JsonResponse
+    public function index(IndexRequest $request, IndexAction $action): AnimeCollection
     {
         $query = new Query($request->validated());
 
@@ -51,9 +50,7 @@ class AnimeController extends BaseController
             ? $action->search($query, $request->schema())
             : $action->index(Anime::query(), $query, $request->schema());
 
-        $collection = new AnimeCollection($anime, $query);
-
-        return $collection->toResponse($request);
+        return new AnimeCollection($anime, $query);
     }
 
     /**
@@ -61,15 +58,13 @@ class AnimeController extends BaseController
      *
      * @param  StoreRequest  $request
      * @param  StoreAction  $action
-     * @return JsonResponse
+     * @return AnimeResource
      */
-    public function store(StoreRequest $request, StoreAction $action): JsonResponse
+    public function store(StoreRequest $request, StoreAction $action): AnimeResource
     {
         $anime = $action->store(Anime::query(), $request->validated());
 
-        $resource = new AnimeResource($anime, new Query());
-
-        return $resource->toResponse($request);
+        return new AnimeResource($anime, new Query());
     }
 
     /**
@@ -78,17 +73,15 @@ class AnimeController extends BaseController
      * @param  ShowRequest  $request
      * @param  Anime  $anime
      * @param  ShowAction  $action
-     * @return JsonResponse
+     * @return AnimeResource
      */
-    public function show(ShowRequest $request, Anime $anime, ShowAction $action): JsonResponse
+    public function show(ShowRequest $request, Anime $anime, ShowAction $action): AnimeResource
     {
         $query = new Query($request->validated());
 
         $show = $action->show($anime, $query, $request->schema());
 
-        $resource = new AnimeResource($show, $query);
-
-        return $resource->toResponse($request);
+        return new AnimeResource($show, $query);
     }
 
     /**
@@ -97,49 +90,41 @@ class AnimeController extends BaseController
      * @param  UpdateRequest  $request
      * @param  Anime  $anime
      * @param  UpdateAction  $action
-     * @return JsonResponse
+     * @return AnimeResource
      */
-    public function update(UpdateRequest $request, Anime $anime, UpdateAction $action): JsonResponse
+    public function update(UpdateRequest $request, Anime $anime, UpdateAction $action): AnimeResource
     {
         $updated = $action->update($anime, $request->validated());
 
-        $resource = new AnimeResource($updated, new Query());
-
-        return $resource->toResponse($request);
+        return new AnimeResource($updated, new Query());
     }
 
     /**
      * Remove the specified resource.
      *
-     * @param  Request  $request
      * @param  Anime  $anime
      * @param  DestroyAction  $action
-     * @return JsonResponse
+     * @return AnimeResource
      */
-    public function destroy(Request $request, Anime $anime, DestroyAction $action): JsonResponse
+    public function destroy(Anime $anime, DestroyAction $action): AnimeResource
     {
         $deleted = $action->destroy($anime);
 
-        $resource = new AnimeResource($deleted, new Query());
-
-        return $resource->toResponse($request);
+        return new AnimeResource($deleted, new Query());
     }
 
     /**
      * Restore the specified resource.
      *
-     * @param  Request  $request
      * @param  Anime  $anime
      * @param  RestoreAction  $action
-     * @return JsonResponse
+     * @return AnimeResource
      */
-    public function restore(Request $request, Anime $anime, RestoreAction $action): JsonResponse
+    public function restore(Anime $anime, RestoreAction $action): AnimeResource
     {
         $restored = $action->restore($anime);
 
-        $resource = new AnimeResource($restored, new Query());
-
-        return $resource->toResponse($request);
+        return new AnimeResource($restored, new Query());
     }
 
     /**
