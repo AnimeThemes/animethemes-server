@@ -21,7 +21,6 @@ use App\Http\Resources\Wiki\Video\Collection\ScriptCollection;
 use App\Http\Resources\Wiki\Video\Resource\ScriptResource;
 use App\Models\Wiki\Video\VideoScript;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 /**
  * Class ScriptController.
@@ -41,17 +40,15 @@ class ScriptController extends BaseController
      *
      * @param  IndexRequest  $request
      * @param  IndexAction  $action
-     * @return JsonResponse
+     * @return ScriptCollection
      */
-    public function index(IndexRequest $request, IndexAction $action): JsonResponse
+    public function index(IndexRequest $request, IndexAction $action): ScriptCollection
     {
         $query = new Query($request->validated());
 
         $resources = $action->index(VideoScript::query(), $query, $request->schema());
 
-        $collection = new ScriptCollection($resources, $query);
-
-        return $collection->toResponse($request);
+        return new ScriptCollection($resources, $query);
     }
 
     /**
@@ -59,15 +56,13 @@ class ScriptController extends BaseController
      *
      * @param  StoreRequest  $request
      * @param  StoreAction  $action
-     * @return JsonResponse
+     * @return ScriptResource
      */
-    public function store(StoreRequest $request, StoreAction $action): JsonResponse
+    public function store(StoreRequest $request, StoreAction $action): ScriptResource
     {
         $script = $action->store(VideoScript::query(), $request->validated());
 
-        $resource = new ScriptResource($script, new Query());
-
-        return $resource->toResponse($request);
+        return new ScriptResource($script, new Query());
     }
 
     /**
@@ -76,17 +71,15 @@ class ScriptController extends BaseController
      * @param  ShowRequest  $request
      * @param  VideoScript  $videoscript
      * @param  ShowAction  $action
-     * @return JsonResponse
+     * @return ScriptResource
      */
-    public function show(ShowRequest $request, VideoScript $videoscript, ShowAction $action): JsonResponse
+    public function show(ShowRequest $request, VideoScript $videoscript, ShowAction $action): ScriptResource
     {
         $query = new Query($request->validated());
 
         $show = $action->show($videoscript, $query, $request->schema());
 
-        $resource = new ScriptResource($show, $query);
-
-        return $resource->toResponse($request);
+        return new ScriptResource($show, $query);
     }
 
     /**
@@ -95,49 +88,41 @@ class ScriptController extends BaseController
      * @param  UpdateRequest  $request
      * @param  VideoScript  $videoscript
      * @param  UpdateAction  $action
-     * @return JsonResponse
+     * @return ScriptResource
      */
-    public function update(UpdateRequest $request, VideoScript $videoscript, UpdateAction $action): JsonResponse
+    public function update(UpdateRequest $request, VideoScript $videoscript, UpdateAction $action): ScriptResource
     {
         $updated = $action->update($videoscript, $request->validated());
 
-        $resource = new ScriptResource($updated, new Query());
-
-        return $resource->toResponse($request);
+        return new ScriptResource($updated, new Query());
     }
 
     /**
      * Remove the specified resource.
      *
-     * @param  Request  $request
      * @param  VideoScript  $videoscript
      * @param  DestroyAction  $action
-     * @return JsonResponse
+     * @return ScriptResource
      */
-    public function destroy(Request $request, VideoScript $videoscript, DestroyAction $action): JsonResponse
+    public function destroy(VideoScript $videoscript, DestroyAction $action): ScriptResource
     {
         $deleted = $action->destroy($videoscript);
 
-        $resource = new ScriptResource($deleted, new Query());
-
-        return $resource->toResponse($request);
+        return new ScriptResource($deleted, new Query());
     }
 
     /**
      * Restore the specified resource.
      *
-     * @param  Request  $request
      * @param  VideoScript  $videoscript
      * @param  RestoreAction  $action
-     * @return JsonResponse
+     * @return ScriptResource
      */
-    public function restore(Request $request, VideoScript $videoscript, RestoreAction $action): JsonResponse
+    public function restore(VideoScript $videoscript, RestoreAction $action): ScriptResource
     {
         $restored = $action->restore($videoscript);
 
-        $resource = new ScriptResource($restored, new Query());
-
-        return $resource->toResponse($request);
+        return new ScriptResource($restored, new Query());
     }
 
     /**

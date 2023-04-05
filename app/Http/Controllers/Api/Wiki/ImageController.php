@@ -21,7 +21,6 @@ use App\Http\Resources\Wiki\Collection\ImageCollection;
 use App\Http\Resources\Wiki\Resource\ImageResource;
 use App\Models\Wiki\Image;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 /**
  * Class ImageController.
@@ -41,17 +40,15 @@ class ImageController extends BaseController
      *
      * @param  IndexRequest  $request
      * @param  IndexAction  $action
-     * @return JsonResponse
+     * @return ImageCollection
      */
-    public function index(IndexRequest $request, IndexAction $action): JsonResponse
+    public function index(IndexRequest $request, IndexAction $action): ImageCollection
     {
         $query = new Query($request->validated());
 
         $images = $action->index(Image::query(), $query, $request->schema());
 
-        $collection = new ImageCollection($images, $query);
-
-        return $collection->toResponse($request);
+        return new ImageCollection($images, $query);
     }
 
     /**
@@ -59,15 +56,13 @@ class ImageController extends BaseController
      *
      * @param  StoreRequest  $request
      * @param  StoreImageAction  $action
-     * @return JsonResponse
+     * @return ImageResource
      */
-    public function store(StoreRequest $request, StoreImageAction $action): JsonResponse
+    public function store(StoreRequest $request, StoreImageAction $action): ImageResource
     {
         $image = $action->store(Image::query(), $request->validated());
 
-        $resource = new ImageResource($image, new Query());
-
-        return $resource->toResponse($request);
+        return new ImageResource($image, new Query());
     }
 
     /**
@@ -76,17 +71,15 @@ class ImageController extends BaseController
      * @param  ShowRequest  $request
      * @param  Image  $image
      * @param  ShowAction  $action
-     * @return JsonResponse
+     * @return ImageResource
      */
-    public function show(ShowRequest $request, Image $image, ShowAction $action): JsonResponse
+    public function show(ShowRequest $request, Image $image, ShowAction $action): ImageResource
     {
         $query = new Query($request->validated());
 
         $show = $action->show($image, $query, $request->schema());
 
-        $resource = new ImageResource($show, $query);
-
-        return $resource->toResponse($request);
+        return new ImageResource($show, $query);
     }
 
     /**
@@ -95,49 +88,41 @@ class ImageController extends BaseController
      * @param  UpdateRequest  $request
      * @param  Image  $image
      * @param  UpdateAction  $action
-     * @return JsonResponse
+     * @return ImageResource
      */
-    public function update(UpdateRequest $request, Image $image, UpdateAction $action): JsonResponse
+    public function update(UpdateRequest $request, Image $image, UpdateAction $action): ImageResource
     {
         $updated = $action->update($image, $request->validated());
 
-        $resource = new ImageResource($updated, new Query());
-
-        return $resource->toResponse($request);
+        return new ImageResource($updated, new Query());
     }
 
     /**
      * Remove the specified resource.
      *
-     * @param  Request  $request
      * @param  Image  $image
      * @param  DestroyAction  $action
-     * @return JsonResponse
+     * @return ImageResource
      */
-    public function destroy(Request $request, Image $image, DestroyAction $action): JsonResponse
+    public function destroy(Image $image, DestroyAction $action): ImageResource
     {
         $deleted = $action->destroy($image);
 
-        $resource = new ImageResource($deleted, new Query());
-
-        return $resource->toResponse($request);
+        return new ImageResource($deleted, new Query());
     }
 
     /**
      * Restore the specified resource.
      *
-     * @param  Request  $request
      * @param  Image  $image
      * @param  RestoreAction  $action
-     * @return JsonResponse
+     * @return ImageResource
      */
-    public function restore(Request $request, Image $image, RestoreAction $action): JsonResponse
+    public function restore(Image $image, RestoreAction $action): ImageResource
     {
         $restored = $action->restore($image);
 
-        $resource = new ImageResource($restored, new Query());
-
-        return $resource->toResponse($request);
+        return new ImageResource($restored, new Query());
     }
 
     /**

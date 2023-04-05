@@ -11,7 +11,6 @@ use App\Http\Api\Schema\SearchSchema;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\SearchRequest;
 use App\Http\Resources\SearchResource;
-use Illuminate\Http\JsonResponse;
 
 /**
  * Class SearchController.
@@ -22,15 +21,13 @@ class SearchController extends Controller implements InteractsWithSchema
      * Search resource.
      *
      * @param  SearchRequest  $request
-     * @return JsonResponse
+     * @return SearchResource
      */
-    public function show(SearchRequest $request): JsonResponse
+    public function show(SearchRequest $request): SearchResource
     {
         $query = new Query($request->validated());
 
-        $resource = new SearchResource($query);
-
-        return $resource->toResponse($request);
+        return new SearchResource($query);
     }
 
     /**

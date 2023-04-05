@@ -21,7 +21,6 @@ use App\Http\Resources\Wiki\Collection\AudioCollection;
 use App\Http\Resources\Wiki\Resource\AudioResource;
 use App\Models\Wiki\Audio;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 /**
  * Class AudioController.
@@ -41,17 +40,15 @@ class AudioController extends BaseController
      *
      * @param  IndexRequest  $request
      * @param  IndexAction  $action
-     * @return JsonResponse
+     * @return AudioCollection
      */
-    public function index(IndexRequest $request, IndexAction $action): JsonResponse
+    public function index(IndexRequest $request, IndexAction $action): AudioCollection
     {
         $query = new Query($request->validated());
 
         $audios = $action->index(Audio::query(), $query, $request->schema());
 
-        $collection = new AudioCollection($audios, $query);
-
-        return $collection->toResponse($request);
+        return new AudioCollection($audios, $query);
     }
 
     /**
@@ -59,15 +56,13 @@ class AudioController extends BaseController
      *
      * @param  StoreRequest  $request
      * @param  StoreAction  $action
-     * @return JsonResponse
+     * @return AudioResource
      */
-    public function store(StoreRequest $request, StoreAction $action): JsonResponse
+    public function store(StoreRequest $request, StoreAction $action): AudioResource
     {
         $audio = $action->store(Audio::query(), $request->validated());
 
-        $resource = new AudioResource($audio, new Query());
-
-        return $resource->toResponse($request);
+        return new AudioResource($audio, new Query());
     }
 
     /**
@@ -76,17 +71,15 @@ class AudioController extends BaseController
      * @param  ShowRequest  $request
      * @param  Audio  $audio
      * @param  ShowAction  $action
-     * @return JsonResponse
+     * @return AudioResource
      */
-    public function show(ShowRequest $request, Audio $audio, ShowAction $action): JsonResponse
+    public function show(ShowRequest $request, Audio $audio, ShowAction $action): AudioResource
     {
         $query = new Query($request->validated());
 
         $show = $action->show($audio, $query, $request->schema());
 
-        $resource = new AudioResource($show, $query);
-
-        return $resource->toResponse($request);
+        return new AudioResource($show, $query);
     }
 
     /**
@@ -95,49 +88,41 @@ class AudioController extends BaseController
      * @param  UpdateRequest  $request
      * @param  Audio  $audio
      * @param  UpdateAction  $action
-     * @return JsonResponse
+     * @return AudioResource
      */
-    public function update(UpdateRequest $request, Audio $audio, UpdateAction $action): JsonResponse
+    public function update(UpdateRequest $request, Audio $audio, UpdateAction $action): AudioResource
     {
         $updated = $action->update($audio, $request->validated());
 
-        $resource = new AudioResource($updated, new Query());
-
-        return $resource->toResponse($request);
+        return new AudioResource($updated, new Query());
     }
 
     /**
      * Remove the specified resource.
      *
-     * @param  Request  $request
      * @param  Audio  $audio
      * @param  DestroyAction  $action
-     * @return JsonResponse
+     * @return AudioResource
      */
-    public function destroy(Request $request, Audio $audio, DestroyAction $action): JsonResponse
+    public function destroy(Audio $audio, DestroyAction $action): AudioResource
     {
         $deleted = $action->destroy($audio);
 
-        $resource = new AudioResource($deleted, new Query());
-
-        return $resource->toResponse($request);
+        return new AudioResource($deleted, new Query());
     }
 
     /**
      * Restore the specified resource.
      *
-     * @param  Request  $request
      * @param  Audio  $audio
      * @param  RestoreAction  $action
-     * @return JsonResponse
+     * @return AudioResource
      */
-    public function restore(Request $request, Audio $audio, RestoreAction $action): JsonResponse
+    public function restore(Audio $audio, RestoreAction $action): AudioResource
     {
         $restored = $action->restore($audio);
 
-        $resource = new AudioResource($restored, new Query());
-
-        return $resource->toResponse($request);
+        return new AudioResource($restored, new Query());
     }
 
     /**

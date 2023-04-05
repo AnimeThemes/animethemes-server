@@ -40,17 +40,15 @@ class AnimeResourceController extends PivotController
      *
      * @param  IndexRequest  $request
      * @param  IndexAction  $action
-     * @return JsonResponse
+     * @return AnimeResourceCollection
      */
-    public function index(IndexRequest $request, IndexAction $action): JsonResponse
+    public function index(IndexRequest $request, IndexAction $action): AnimeResourceCollection
     {
         $query = new Query($request->validated());
 
         $resources = $action->index(AnimeResource::query(), $query, $request->schema());
 
-        $collection = new AnimeResourceCollection($resources, $query);
-
-        return $collection->toResponse($request);
+        return new AnimeResourceCollection($resources, $query);
     }
 
     /**
@@ -60,9 +58,9 @@ class AnimeResourceController extends PivotController
      * @param  Anime  $anime
      * @param  ExternalResource  $resource
      * @param  StoreAction  $action
-     * @return JsonResponse
+     * @return AnimeResourceResource
      */
-    public function store(StoreRequest $request, Anime $anime, ExternalResource $resource, StoreAction $action): JsonResponse
+    public function store(StoreRequest $request, Anime $anime, ExternalResource $resource, StoreAction $action): AnimeResourceResource
     {
         $validated = array_merge(
             $request->validated(),
@@ -74,9 +72,7 @@ class AnimeResourceController extends PivotController
 
         $animeResource = $action->store(AnimeResource::query(), $validated);
 
-        $resource = new AnimeResourceResource($animeResource, new Query());
-
-        return $resource->toResponse($request);
+        return new AnimeResourceResource($animeResource, new Query());
     }
 
     /**
@@ -86,9 +82,9 @@ class AnimeResourceController extends PivotController
      * @param  Anime  $anime
      * @param  ExternalResource  $resource
      * @param  ShowAction  $action
-     * @return JsonResponse
+     * @return AnimeResourceResource
      */
-    public function show(ShowRequest $request, Anime $anime, ExternalResource $resource, ShowAction $action): JsonResponse
+    public function show(ShowRequest $request, Anime $anime, ExternalResource $resource, ShowAction $action): AnimeResourceResource
     {
         $animeResource = AnimeResource::query()
             ->where(AnimeResource::ATTRIBUTE_ANIME, $anime->getKey())
@@ -99,9 +95,7 @@ class AnimeResourceController extends PivotController
 
         $show = $action->show($animeResource, $query, $request->schema());
 
-        $apiResource = new AnimeResourceResource($show, $query);
-
-        return $apiResource->toResponse($request);
+        return new AnimeResourceResource($show, $query);
     }
 
     /**
@@ -111,9 +105,9 @@ class AnimeResourceController extends PivotController
      * @param  Anime  $anime
      * @param  ExternalResource  $resource
      * @param  UpdateAction  $action
-     * @return JsonResponse
+     * @return AnimeResourceResource
      */
-    public function update(UpdateRequest $request, Anime $anime, ExternalResource $resource, UpdateAction $action): JsonResponse
+    public function update(UpdateRequest $request, Anime $anime, ExternalResource $resource, UpdateAction $action): AnimeResourceResource
     {
         $animeResource = AnimeResource::query()
             ->where(AnimeResource::ATTRIBUTE_ANIME, $anime->getKey())
@@ -124,9 +118,7 @@ class AnimeResourceController extends PivotController
 
         $updated = $action->update($animeResource, $request->validated());
 
-        $apiResource = new AnimeResourceResource($updated, $query);
-
-        return $apiResource->toResponse($request);
+        return new AnimeResourceResource($updated, $query);
     }
 
     /**

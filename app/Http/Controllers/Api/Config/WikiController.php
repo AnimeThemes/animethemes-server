@@ -11,7 +11,6 @@ use App\Http\Api\Schema\Schema;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\ShowRequest;
 use App\Http\Resources\Config\Resource\WikiResource;
-use Illuminate\Http\JsonResponse;
 
 /**
  * Class WikiController.
@@ -22,15 +21,13 @@ class WikiController extends Controller implements InteractsWithSchema
      * Wiki resource.
      *
      * @param  ShowRequest  $request
-     * @return JsonResponse
+     * @return WikiResource
      */
-    public function show(ShowRequest $request): JsonResponse
+    public function show(ShowRequest $request): WikiResource
     {
         $query = new Query($request->validated());
 
-        $resource = new WikiResource($query);
-
-        return $resource->toResponse($request);
+        return new WikiResource($query);
     }
 
     /**

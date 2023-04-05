@@ -49,9 +49,9 @@ class PlaylistImageController extends PivotController
      *
      * @param  IndexRequest  $request
      * @param  IndexAction  $action
-     * @return JsonResponse
+     * @return PlaylistImageCollection
      */
-    public function index(IndexRequest $request, IndexAction $action): JsonResponse
+    public function index(IndexRequest $request, IndexAction $action): PlaylistImageCollection
     {
         $query = new Query($request->validated());
 
@@ -62,9 +62,7 @@ class PlaylistImageController extends PivotController
 
         $resources = $action->index($builder, $query, $request->schema());
 
-        $collection = new PlaylistImageCollection($resources, $query);
-
-        return $collection->toResponse($request);
+        return new PlaylistImageCollection($resources, $query);
     }
 
     /**
@@ -74,9 +72,9 @@ class PlaylistImageController extends PivotController
      * @param  Playlist  $playlist
      * @param  Image  $image
      * @param  StoreAction  $action
-     * @return JsonResponse
+     * @return PlaylistImageResource
      */
-    public function store(StoreRequest $request, Playlist $playlist, Image $image, StoreAction $action): JsonResponse
+    public function store(StoreRequest $request, Playlist $playlist, Image $image, StoreAction $action): PlaylistImageResource
     {
         $validated = array_merge(
             $request->validated(),
@@ -88,9 +86,7 @@ class PlaylistImageController extends PivotController
 
         $playlistImage = $action->store(PlaylistImage::query(), $validated);
 
-        $resource = new PlaylistImageResource($playlistImage, new Query());
-
-        return $resource->toResponse($request);
+        return new PlaylistImageResource($playlistImage, new Query());
     }
 
     /**
@@ -100,9 +96,9 @@ class PlaylistImageController extends PivotController
      * @param  Playlist  $playlist
      * @param  Image  $image
      * @param  ShowAction  $action
-     * @return JsonResponse
+     * @return PlaylistImageResource
      */
-    public function show(ShowRequest $request, Playlist $playlist, Image $image, ShowAction $action): JsonResponse
+    public function show(ShowRequest $request, Playlist $playlist, Image $image, ShowAction $action): PlaylistImageResource
     {
         $playlistImage = PlaylistImage::query()
             ->where(PlaylistImage::ATTRIBUTE_PLAYLIST, $playlist->getKey())
@@ -113,9 +109,7 @@ class PlaylistImageController extends PivotController
 
         $show = $action->show($playlistImage, $query, $request->schema());
 
-        $resource = new PlaylistImageResource($show, $query);
-
-        return $resource->toResponse($request);
+        return new PlaylistImageResource($show, $query);
     }
 
     /**

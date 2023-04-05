@@ -14,7 +14,6 @@ use App\Http\Resources\List\Playlist\Collection\TrackCollection;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\BackwardPlaylistTrack;
 use App\Models\List\Playlist\PlaylistTrack;
-use Illuminate\Http\JsonResponse;
 
 /**
  * Class TrackBackwardController.
@@ -36,11 +35,11 @@ class TrackBackwardController extends BaseController
      * @param  Playlist  $playlist
      * @param  BackwardPlaylistTrack  $track
      * @param  IndexAction  $action
-     * @return JsonResponse
+     * @return TrackCollection
      *
      * @noinspection PhpUnusedParameterInspection
      */
-    public function index(ForwardBackwardIndexRequest $request, Playlist $playlist, BackwardPlaylistTrack $track, IndexAction $action): JsonResponse
+    public function index(ForwardBackwardIndexRequest $request, Playlist $playlist, BackwardPlaylistTrack $track, IndexAction $action): TrackCollection
     {
         $query = new Query($request->validated());
 
@@ -48,9 +47,7 @@ class TrackBackwardController extends BaseController
 
         $resources = $action->index($builder, $query, $request->schema());
 
-        $collection = new TrackCollection($resources, $query);
-
-        return $collection->toResponse($request);
+        return new TrackCollection($resources, $query);
     }
 
     /**

@@ -21,7 +21,6 @@ use App\Http\Resources\Wiki\Anime\Collection\ThemeCollection;
 use App\Http\Resources\Wiki\Anime\Resource\ThemeResource;
 use App\Models\Wiki\Anime\AnimeTheme;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 /**
  * Class ThemeController.
@@ -41,9 +40,9 @@ class ThemeController extends BaseController
      *
      * @param  IndexRequest  $request
      * @param  IndexAction  $action
-     * @return JsonResponse
+     * @return ThemeCollection
      */
-    public function index(IndexRequest $request, IndexAction $action): JsonResponse
+    public function index(IndexRequest $request, IndexAction $action): ThemeCollection
     {
         $query = new Query($request->validated());
 
@@ -51,9 +50,7 @@ class ThemeController extends BaseController
             ? $action->search($query, $request->schema())
             : $action->index(AnimeTheme::query(), $query, $request->schema());
 
-        $collection = new ThemeCollection($videos, $query);
-
-        return $collection->toResponse($request);
+        return new ThemeCollection($videos, $query);
     }
 
     /**
@@ -61,15 +58,13 @@ class ThemeController extends BaseController
      *
      * @param  StoreRequest  $request
      * @param  StoreAction  $action
-     * @return JsonResponse
+     * @return ThemeResource
      */
-    public function store(StoreRequest $request, StoreAction $action): JsonResponse
+    public function store(StoreRequest $request, StoreAction $action): ThemeResource
     {
         $theme = $action->store(AnimeTheme::query(), $request->validated());
 
-        $resource = new ThemeResource($theme, new Query());
-
-        return $resource->toResponse($request);
+        return new ThemeResource($theme, new Query());
     }
 
     /**
@@ -78,17 +73,15 @@ class ThemeController extends BaseController
      * @param  ShowRequest  $request
      * @param  AnimeTheme  $animetheme
      * @param  ShowAction  $action
-     * @return JsonResponse
+     * @return ThemeResource
      */
-    public function show(ShowRequest $request, AnimeTheme $animetheme, ShowAction $action): JsonResponse
+    public function show(ShowRequest $request, AnimeTheme $animetheme, ShowAction $action): ThemeResource
     {
         $query = new Query($request->validated());
 
         $show = $action->show($animetheme, $query, $request->schema());
 
-        $resource = new ThemeResource($show, $query);
-
-        return $resource->toResponse($request);
+        return new ThemeResource($show, $query);
     }
 
     /**
@@ -97,49 +90,41 @@ class ThemeController extends BaseController
      * @param  UpdateRequest  $request
      * @param  AnimeTheme  $animetheme
      * @param  UpdateAction  $action
-     * @return JsonResponse
+     * @return ThemeResource
      */
-    public function update(UpdateRequest $request, AnimeTheme $animetheme, UpdateAction $action): JsonResponse
+    public function update(UpdateRequest $request, AnimeTheme $animetheme, UpdateAction $action): ThemeResource
     {
         $updated = $action->update($animetheme, $request->validated());
 
-        $resource = new ThemeResource($updated, new Query());
-
-        return $resource->toResponse($request);
+        return new ThemeResource($updated, new Query());
     }
 
     /**
      * Remove the specified resource.
      *
-     * @param  Request  $request
      * @param  AnimeTheme  $animetheme
      * @param  DestroyAction  $action
-     * @return JsonResponse
+     * @return ThemeResource
      */
-    public function destroy(Request $request, AnimeTheme $animetheme, DestroyAction $action): JsonResponse
+    public function destroy(AnimeTheme $animetheme, DestroyAction $action): ThemeResource
     {
         $deleted = $action->destroy($animetheme);
 
-        $resource = new ThemeResource($deleted, new Query());
-
-        return $resource->toResponse($request);
+        return new ThemeResource($deleted, new Query());
     }
 
     /**
      * Restore the specified resource.
      *
-     * @param  Request  $request
      * @param  AnimeTheme  $animetheme
      * @param  RestoreAction  $action
-     * @return JsonResponse
+     * @return ThemeResource
      */
-    public function restore(Request $request, AnimeTheme $animetheme, RestoreAction $action): JsonResponse
+    public function restore(AnimeTheme $animetheme, RestoreAction $action): ThemeResource
     {
         $restored = $action->restore($animetheme);
 
-        $resource = new ThemeResource($restored, new Query());
-
-        return $resource->toResponse($request);
+        return new ThemeResource($restored, new Query());
     }
 
     /**

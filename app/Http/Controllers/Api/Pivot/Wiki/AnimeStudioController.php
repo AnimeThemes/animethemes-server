@@ -38,17 +38,15 @@ class AnimeStudioController extends PivotController
      *
      * @param  IndexRequest  $request
      * @param  IndexAction  $action
-     * @return JsonResponse
+     * @return AnimeStudioCollection
      */
-    public function index(IndexRequest $request, IndexAction $action): JsonResponse
+    public function index(IndexRequest $request, IndexAction $action): AnimeStudioCollection
     {
         $query = new Query($request->validated());
 
         $resources = $action->index(AnimeStudio::query(), $query, $request->schema());
 
-        $collection = new AnimeStudioCollection($resources, $query);
-
-        return $collection->toResponse($request);
+        return new AnimeStudioCollection($resources, $query);
     }
 
     /**
@@ -58,9 +56,9 @@ class AnimeStudioController extends PivotController
      * @param  Anime  $anime
      * @param  Studio  $studio
      * @param  StoreAction  $action
-     * @return JsonResponse
+     * @return AnimeStudioResource
      */
-    public function store(StoreRequest $request, Anime $anime, Studio $studio, StoreAction $action): JsonResponse
+    public function store(StoreRequest $request, Anime $anime, Studio $studio, StoreAction $action): AnimeStudioResource
     {
         $validated = array_merge(
             $request->validated(),
@@ -72,9 +70,7 @@ class AnimeStudioController extends PivotController
 
         $animeStudio = $action->store(AnimeStudio::query(), $validated);
 
-        $resource = new AnimeStudioResource($animeStudio, new Query());
-
-        return $resource->toResponse($request);
+        return new AnimeStudioResource($animeStudio, new Query());
     }
 
     /**
@@ -84,9 +80,9 @@ class AnimeStudioController extends PivotController
      * @param  Anime  $anime
      * @param  Studio  $studio
      * @param  ShowAction  $action
-     * @return JsonResponse
+     * @return AnimeStudioResource
      */
-    public function show(ShowRequest $request, Anime $anime, Studio $studio, ShowAction $action): JsonResponse
+    public function show(ShowRequest $request, Anime $anime, Studio $studio, ShowAction $action): AnimeStudioResource
     {
         $animeStudio = AnimeStudio::query()
             ->where(AnimeStudio::ATTRIBUTE_ANIME, $anime->getKey())
@@ -97,9 +93,7 @@ class AnimeStudioController extends PivotController
 
         $show = $action->show($animeStudio, $query, $request->schema());
 
-        $resource = new AnimeStudioResource($show, $query);
-
-        return $resource->toResponse($request);
+        return new AnimeStudioResource($show, $query);
     }
 
     /**

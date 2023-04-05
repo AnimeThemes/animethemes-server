@@ -41,9 +41,9 @@ class StudioController extends BaseController
      *
      * @param  IndexRequest  $request
      * @param  IndexAction  $action
-     * @return JsonResponse
+     * @return StudioCollection
      */
-    public function index(IndexRequest $request, IndexAction $action): JsonResponse
+    public function index(IndexRequest $request, IndexAction $action): StudioCollection
     {
         $query = new Query($request->validated());
 
@@ -51,9 +51,7 @@ class StudioController extends BaseController
             ? $action->search($query, $request->schema())
             : $action->index(Studio::query(), $query, $request->schema());
 
-        $collection = new StudioCollection($studios, $query);
-
-        return $collection->toResponse($request);
+        return new StudioCollection($studios, $query);
     }
 
     /**
@@ -61,15 +59,13 @@ class StudioController extends BaseController
      *
      * @param  StoreRequest  $request
      * @param  StoreAction  $action
-     * @return JsonResponse
+     * @return StudioResource
      */
-    public function store(StoreRequest $request, StoreAction $action): JsonResponse
+    public function store(StoreRequest $request, StoreAction $action): StudioResource
     {
         $studio = $action->store(Studio::query(), $request->validated());
 
-        $resource = new StudioResource($studio, new Query());
-
-        return $resource->toResponse($request);
+        return new StudioResource($studio, new Query());
     }
 
     /**
@@ -78,17 +74,15 @@ class StudioController extends BaseController
      * @param  ShowRequest  $request
      * @param  Studio  $studio
      * @param  ShowAction  $action
-     * @return JsonResponse
+     * @return StudioResource
      */
-    public function show(ShowRequest $request, Studio $studio, ShowAction $action): JsonResponse
+    public function show(ShowRequest $request, Studio $studio, ShowAction $action): StudioResource
     {
         $query = new Query($request->validated());
 
         $show = $action->show($studio, $query, $request->schema());
 
-        $resource = new StudioResource($show, $query);
-
-        return $resource->toResponse($request);
+        return new StudioResource($show, $query);
     }
 
     /**
@@ -97,49 +91,41 @@ class StudioController extends BaseController
      * @param  UpdateRequest  $request
      * @param  Studio  $studio
      * @param  UpdateAction  $action
-     * @return JsonResponse
+     * @return StudioResource
      */
-    public function update(UpdateRequest $request, Studio $studio, UpdateAction $action): JsonResponse
+    public function update(UpdateRequest $request, Studio $studio, UpdateAction $action): StudioResource
     {
         $updated = $action->update($studio, $request->validated());
 
-        $resource = new StudioResource($updated, new Query());
-
-        return $resource->toResponse($request);
+        return new StudioResource($updated, new Query());
     }
 
     /**
      * Remove the specified resource.
      *
-     * @param  Request  $request
      * @param  Studio  $studio
      * @param  DestroyAction  $action
-     * @return JsonResponse
+     * @return StudioResource
      */
-    public function destroy(Request $request, Studio $studio, DestroyAction $action): JsonResponse
+    public function destroy(Studio $studio, DestroyAction $action): StudioResource
     {
         $deleted = $action->destroy($studio);
 
-        $resource = new StudioResource($deleted, new Query());
-
-        return $resource->toResponse($request);
+        return new StudioResource($deleted, new Query());
     }
 
     /**
      * Restore the specified resource.
      *
-     * @param  Request  $request
      * @param  Studio  $studio
      * @param  RestoreAction  $action
-     * @return JsonResponse
+     * @return StudioResource
      */
-    public function restore(Request $request, Studio $studio, RestoreAction $action): JsonResponse
+    public function restore(Studio $studio, RestoreAction $action): StudioResource
     {
         $restored = $action->restore($studio);
 
-        $resource = new StudioResource($restored, new Query());
-
-        return $resource->toResponse($request);
+        return new StudioResource($restored, new Query());
     }
 
     /**

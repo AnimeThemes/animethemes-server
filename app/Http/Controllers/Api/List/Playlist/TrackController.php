@@ -25,7 +25,6 @@ use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
 use Exception;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 /**
@@ -55,9 +54,9 @@ class TrackController extends BaseController
      * @param  IndexRequest  $request
      * @param  Playlist  $playlist
      * @param  IndexAction  $action
-     * @return JsonResponse
+     * @return TrackCollection
      */
-    public function index(IndexRequest $request, Playlist $playlist, IndexAction $action): JsonResponse
+    public function index(IndexRequest $request, Playlist $playlist, IndexAction $action): TrackCollection
     {
         $query = new Query($request->validated());
 
@@ -65,9 +64,7 @@ class TrackController extends BaseController
 
         $resources = $action->index($builder, $query, $request->schema());
 
-        $collection = new TrackCollection($resources, $query);
-
-        return $collection->toResponse($request);
+        return new TrackCollection($resources, $query);
     }
 
     /**
@@ -76,17 +73,15 @@ class TrackController extends BaseController
      * @param  StoreRequest  $request
      * @param  Playlist  $playlist
      * @param  StoreTrackAction  $action
-     * @return JsonResponse
+     * @return TrackResource
      *
      * @throws Exception
      */
-    public function store(StoreRequest $request, Playlist $playlist, StoreTrackAction $action): JsonResponse
+    public function store(StoreRequest $request, Playlist $playlist, StoreTrackAction $action): TrackResource
     {
         $track = $action->store($playlist, PlaylistTrack::query(), $request->validated());
 
-        $resource = new TrackResource($track, new Query());
-
-        return $resource->toResponse($request);
+        return new TrackResource($track, new Query());
     }
 
     /**
@@ -96,19 +91,17 @@ class TrackController extends BaseController
      * @param  Playlist  $playlist
      * @param  PlaylistTrack  $track
      * @param  ShowAction  $action
-     * @return JsonResponse
+     * @return TrackResource
      *
      * @noinspection PhpUnusedParameterInspection
      */
-    public function show(ShowRequest $request, Playlist $playlist, PlaylistTrack $track, ShowAction $action): JsonResponse
+    public function show(ShowRequest $request, Playlist $playlist, PlaylistTrack $track, ShowAction $action): TrackResource
     {
         $query = new Query($request->validated());
 
         $show = $action->show($track, $query, $request->schema());
 
-        $resource = new TrackResource($show, $query);
-
-        return $resource->toResponse($request);
+        return new TrackResource($show, $query);
     }
 
     /**
@@ -118,57 +111,49 @@ class TrackController extends BaseController
      * @param  Playlist  $playlist
      * @param  PlaylistTrack  $track
      * @param  UpdateTrackAction  $action
-     * @return JsonResponse
+     * @return TrackResource
      *
      * @throws Exception
      */
-    public function update(UpdateRequest $request, Playlist $playlist, PlaylistTrack $track, UpdateTrackAction $action): JsonResponse
+    public function update(UpdateRequest $request, Playlist $playlist, PlaylistTrack $track, UpdateTrackAction $action): TrackResource
     {
         $updated = $action->update($playlist, $track, $request->validated());
 
-        $resource = new TrackResource($updated, new Query());
-
-        return $resource->toResponse($request);
+        return new TrackResource($updated, new Query());
     }
 
     /**
      * Remove the specified resource.
      *
-     * @param  Request  $request
      * @param  Playlist  $playlist
      * @param  PlaylistTrack  $track
      * @param  DestroyTrackAction  $action
-     * @return JsonResponse
+     * @return TrackResource
      *
      * @throws Exception
      */
-    public function destroy(Request $request, Playlist $playlist, PlaylistTrack $track, DestroyTrackAction $action): JsonResponse
+    public function destroy(Playlist $playlist, PlaylistTrack $track, DestroyTrackAction $action): TrackResource
     {
         $deleted = $action->destroy($playlist, $track);
 
-        $resource = new TrackResource($deleted, new Query());
-
-        return $resource->toResponse($request);
+        return new TrackResource($deleted, new Query());
     }
 
     /**
      * Restore the specified resource.
      *
-     * @param  Request  $request
      * @param  Playlist  $playlist
      * @param  PlaylistTrack  $track
      * @param  RestoreTrackAction  $action
-     * @return JsonResponse
+     * @return TrackResource
      *
      * @throws Exception
      */
-    public function restore(Request $request, Playlist $playlist, PlaylistTrack $track, RestoreTrackAction $action): JsonResponse
+    public function restore(Playlist $playlist, PlaylistTrack $track, RestoreTrackAction $action): TrackResource
     {
         $restored = $action->restore($playlist, $track);
 
-        $resource = new TrackResource($restored, new Query());
-
-        return $resource->toResponse($request);
+        return new TrackResource($restored, new Query());
     }
 
     /**

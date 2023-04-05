@@ -38,17 +38,15 @@ class ArtistImageController extends PivotController
      *
      * @param  IndexRequest  $request
      * @param  IndexAction  $action
-     * @return JsonResponse
+     * @return ArtistImageCollection
      */
-    public function index(IndexRequest $request, IndexAction $action): JsonResponse
+    public function index(IndexRequest $request, IndexAction $action): ArtistImageCollection
     {
         $query = new Query($request->validated());
 
         $resources = $action->index(ArtistImage::query(), $query, $request->schema());
 
-        $collection = new ArtistImageCollection($resources, $query);
-
-        return $collection->toResponse($request);
+        return new ArtistImageCollection($resources, $query);
     }
 
     /**
@@ -58,9 +56,9 @@ class ArtistImageController extends PivotController
      * @param  Artist  $artist
      * @param  Image  $image
      * @param  StoreAction  $action
-     * @return JsonResponse
+     * @return ArtistImageResource
      */
-    public function store(StoreRequest $request, Artist $artist, Image $image, StoreAction $action): JsonResponse
+    public function store(StoreRequest $request, Artist $artist, Image $image, StoreAction $action): ArtistImageResource
     {
         $validated = array_merge(
             $request->validated(),
@@ -72,9 +70,7 @@ class ArtistImageController extends PivotController
 
         $artistImage = $action->store(ArtistImage::query(), $validated);
 
-        $resource = new ArtistImageResource($artistImage, new Query());
-
-        return $resource->toResponse($request);
+        return new ArtistImageResource($artistImage, new Query());
     }
 
     /**
@@ -84,9 +80,9 @@ class ArtistImageController extends PivotController
      * @param  Artist  $artist
      * @param  Image  $image
      * @param  ShowAction  $action
-     * @return JsonResponse
+     * @return ArtistImageResource
      */
-    public function show(ShowRequest $request, Artist $artist, Image $image, ShowAction $action): JsonResponse
+    public function show(ShowRequest $request, Artist $artist, Image $image, ShowAction $action): ArtistImageResource
     {
         $artistImage = ArtistImage::query()
             ->where(ArtistImage::ATTRIBUTE_ARTIST, $artist->getKey())
@@ -97,9 +93,7 @@ class ArtistImageController extends PivotController
 
         $show = $action->show($artistImage, $query, $request->schema());
 
-        $resource = new ArtistImageResource($show, $query);
-
-        return $resource->toResponse($request);
+        return new ArtistImageResource($show, $query);
     }
 
     /**

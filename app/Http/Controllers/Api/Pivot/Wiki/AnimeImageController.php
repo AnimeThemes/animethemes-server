@@ -38,17 +38,15 @@ class AnimeImageController extends PivotController
      *
      * @param  IndexRequest  $request
      * @param  IndexAction  $action
-     * @return JsonResponse
+     * @return AnimeImageCollection
      */
-    public function index(IndexRequest $request, IndexAction $action): JsonResponse
+    public function index(IndexRequest $request, IndexAction $action): AnimeImageCollection
     {
         $query = new Query($request->validated());
 
         $resources = $action->index(AnimeImage::query(), $query, $request->schema());
 
-        $collection = new AnimeImageCollection($resources, $query);
-
-        return $collection->toResponse($request);
+        return new AnimeImageCollection($resources, $query);
     }
 
     /**
@@ -58,9 +56,9 @@ class AnimeImageController extends PivotController
      * @param  Anime  $anime
      * @param  Image  $image
      * @param  StoreAction  $action
-     * @return JsonResponse
+     * @return AnimeImageResource
      */
-    public function store(StoreRequest $request, Anime $anime, Image $image, StoreAction $action): JsonResponse
+    public function store(StoreRequest $request, Anime $anime, Image $image, StoreAction $action): AnimeImageResource
     {
         $validated = array_merge(
             $request->validated(),
@@ -72,9 +70,7 @@ class AnimeImageController extends PivotController
 
         $animeImage = $action->store(AnimeImage::query(), $validated);
 
-        $resource = new AnimeImageResource($animeImage, new Query());
-
-        return $resource->toResponse($request);
+        return new AnimeImageResource($animeImage, new Query());
     }
 
     /**
@@ -84,9 +80,9 @@ class AnimeImageController extends PivotController
      * @param  Anime  $anime
      * @param  Image  $image
      * @param  ShowAction  $action
-     * @return JsonResponse
+     * @return AnimeImageResource
      */
-    public function show(ShowRequest $request, Anime $anime, Image $image, ShowAction $action): JsonResponse
+    public function show(ShowRequest $request, Anime $anime, Image $image, ShowAction $action): AnimeImageResource
     {
         $animeImage = AnimeImage::query()
             ->where(AnimeImage::ATTRIBUTE_ANIME, $anime->getKey())
@@ -97,9 +93,7 @@ class AnimeImageController extends PivotController
 
         $show = $action->show($animeImage, $query, $request->schema());
 
-        $resource = new AnimeImageResource($show, $query);
-
-        return $resource->toResponse($request);
+        return new AnimeImageResource($show, $query);
     }
 
     /**
