@@ -21,7 +21,6 @@ use App\Http\Resources\Wiki\Collection\StudioCollection;
 use App\Http\Resources\Wiki\Resource\StudioResource;
 use App\Models\Wiki\Studio;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 /**
  * Class StudioController.
