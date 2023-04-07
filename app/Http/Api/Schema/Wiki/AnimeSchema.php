@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Schema\Wiki;
 
+use App\Contracts\Http\Api\Schema\InteractsWithPivots;
 use App\Contracts\Http\Api\Schema\SearchableSchema;
 use App\Http\Api\Field\Base\IdField;
 use App\Http\Api\Field\Field;
-use App\Http\Api\Field\Wiki\Anime\AnimeAsField;
 use App\Http\Api\Field\Wiki\Anime\AnimeNameField;
 use App\Http\Api\Field\Wiki\Anime\AnimeSeasonField;
 use App\Http\Api\Field\Wiki\Anime\AnimeSlugField;
@@ -15,26 +15,30 @@ use App\Http\Api\Field\Wiki\Anime\AnimeSynopsisField;
 use App\Http\Api\Field\Wiki\Anime\AnimeYearField;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\EloquentSchema;
+use App\Http\Api\Schema\Pivot\Wiki\AnimeResourceSchema;
 use App\Http\Api\Schema\Wiki\Anime\SynonymSchema;
 use App\Http\Api\Schema\Wiki\Anime\Theme\EntrySchema;
 use App\Http\Api\Schema\Wiki\Anime\ThemeSchema;
 use App\Http\Api\Schema\Wiki\Video\ScriptSchema;
+use App\Http\Resources\Pivot\Wiki\Resource\AnimeResourceResource;
 use App\Http\Resources\Wiki\Resource\AnimeResource;
 use App\Models\Wiki\Anime;
 
 /**
  * Class AnimeSchema.
  */
-class AnimeSchema extends EloquentSchema implements SearchableSchema
+class AnimeSchema extends EloquentSchema implements InteractsWithPivots, SearchableSchema
 {
     /**
-     * The model this schema represents.
+     * Get the allowed pivots of the schema.
      *
-     * @return string
+     * @return AllowedInclude[]
      */
-    public function model(): string
+    public function allowedPivots(): array
     {
-        return Anime::class;
+        return [
+            new AllowedInclude(new AnimeResourceSchema(), AnimeResourceResource::$wrap),
+        ];
     }
 
     /**
@@ -93,7 +97,6 @@ class AnimeSchema extends EloquentSchema implements SearchableSchema
                 new AnimeSlugField($this),
                 new AnimeSynopsisField($this),
                 new AnimeYearField($this),
-                new AnimeAsField($this),
             ],
         );
     }

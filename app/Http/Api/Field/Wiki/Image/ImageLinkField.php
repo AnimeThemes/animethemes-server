@@ -8,7 +8,6 @@ use App\Contracts\Http\Api\Field\RenderableField;
 use App\Http\Api\Field\Field;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Schema;
-use App\Http\Resources\Wiki\Resource\ImageResource;
 use App\Models\Wiki\Image;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Config;
@@ -26,7 +25,7 @@ class ImageLinkField extends Field implements RenderableField
      */
     public function __construct(Schema $schema)
     {
-        parent::__construct($schema, ImageResource::ATTRIBUTE_LINK);
+        parent::__construct($schema, 'link');
     }
 
     /**

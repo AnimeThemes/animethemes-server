@@ -37,16 +37,6 @@ class ThemeSchema extends EloquentSchema implements SearchableSchema
     final public const SORT_YEAR = 'anime.year';
 
     /**
-     * The model this schema represents.
-     *
-     * @return string
-     */
-    public function model(): string
-    {
-        return AnimeTheme::class;
-    }
-
-    /**
      * Get the type of the resource.
      *
      * @return string

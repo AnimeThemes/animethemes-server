@@ -21,16 +21,6 @@ use App\Models\Wiki\Anime\AnimeSynonym;
 class SynonymSchema extends EloquentSchema implements SearchableSchema
 {
     /**
-     * The model this schema represents.
-     *
-     * @return string
-     */
-    public function model(): string
-    {
-        return AnimeSynonym::class;
-    }
-
-    /**
      * Get the type of the resource.
      *
      * @return string

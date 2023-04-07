@@ -8,6 +8,7 @@ use App\Events\Wiki\Series\SeriesCreated;
 use App\Events\Wiki\Series\SeriesDeleted;
 use App\Events\Wiki\Series\SeriesRestored;
 use App\Events\Wiki\Series\SeriesUpdated;
+use App\Http\Resources\Pivot\Wiki\Resource\AnimeSeriesResource;
 use App\Models\BaseModel;
 use App\Pivots\Wiki\AnimeSeries;
 use Database\Factories\Wiki\SeriesFactory;
@@ -108,6 +109,7 @@ class Series extends BaseModel
     {
         return $this->belongsToMany(Anime::class, AnimeSeries::TABLE, Series::ATTRIBUTE_ID, Anime::ATTRIBUTE_ID)
             ->using(AnimeSeries::class)
+            ->as(AnimeSeriesResource::$wrap)
             ->withTimestamps();
     }
 }

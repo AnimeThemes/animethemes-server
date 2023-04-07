@@ -27,16 +27,6 @@ use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 class EntrySchema extends EloquentSchema implements SearchableSchema
 {
     /**
-     * The model this schema represents.
-     *
-     * @return string
-     */
-    public function model(): string
-    {
-        return AnimeThemeEntry::class;
-    }
-
-    /**
      * Get the type of the resource.
      *
      * @return string

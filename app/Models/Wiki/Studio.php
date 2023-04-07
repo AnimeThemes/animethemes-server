@@ -8,8 +8,10 @@ use App\Events\Wiki\Studio\StudioCreated;
 use App\Events\Wiki\Studio\StudioDeleted;
 use App\Events\Wiki\Studio\StudioRestored;
 use App\Events\Wiki\Studio\StudioUpdated;
+use App\Http\Resources\Pivot\Wiki\Resource\AnimeStudioResource;
+use App\Http\Resources\Pivot\Wiki\Resource\StudioImageResource;
+use App\Http\Resources\Pivot\Wiki\Resource\StudioResourceResource;
 use App\Models\BaseModel;
-use App\Pivots\BasePivot;
 use App\Pivots\Wiki\AnimeStudio;
 use App\Pivots\Wiki\StudioImage;
 use App\Pivots\Wiki\StudioResource;
@@ -27,7 +29,6 @@ use Laravel\Nova\Actions\Actionable;
  * @property string $name
  * @property string $slug
  * @property int $studio_id
- * @property BasePivot $pivot
  *
  * @method static StudioFactory factory(...$parameters)
  */
@@ -115,6 +116,7 @@ class Studio extends BaseModel
     {
         return $this->belongsToMany(Anime::class, AnimeStudio::TABLE, Studio::ATTRIBUTE_ID, Anime::ATTRIBUTE_ID)
             ->using(AnimeStudio::class)
+            ->as(AnimeStudioResource::$wrap)
             ->withTimestamps();
     }
 
@@ -126,9 +128,10 @@ class Studio extends BaseModel
     public function resources(): BelongsToMany
     {
         return $this->belongsToMany(ExternalResource::class, StudioResource::TABLE, Studio::ATTRIBUTE_ID, ExternalResource::ATTRIBUTE_ID)
-        ->using(StudioResource::class)
-        ->withPivot(StudioResource::ATTRIBUTE_AS)
-        ->withTimestamps();
+            ->using(StudioResource::class)
+            ->withPivot(StudioResource::ATTRIBUTE_AS)
+            ->as(StudioResourceResource::$wrap)
+            ->withTimestamps();
     }
 
     /**
@@ -140,6 +143,7 @@ class Studio extends BaseModel
     {
         return $this->belongsToMany(Image::class, StudioImage::TABLE, Studio::ATTRIBUTE_ID, Image::ATTRIBUTE_ID)
             ->using(StudioImage::class)
+            ->as(StudioImageResource::$wrap)
             ->withTimestamps();
     }
 }

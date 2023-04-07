@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Resources;
 
 use App\Contracts\Http\Api\Field\RenderableField;
+use App\Contracts\Http\Api\Schema\InteractsWithPivots;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Api\Schema\Schema;
@@ -45,6 +46,7 @@ abstract class BaseResource extends JsonResource
         return array_merge(
             $this->getRenderableFields(),
             $this->getDirectRelations(),
+            $this->getAllowedPivots(),
         );
     }
 
@@ -92,19 +94,27 @@ abstract class BaseResource extends JsonResource
     }
 
     /**
-     * Determine if field should be included in the response for this resource.
+     * Get the allowed pivots for the resource.
      *
-     * @param  string  $field
-     * @param  bool  $default
-     * @return bool
+     * @return array
      */
-    protected function isAllowedField(string $field, bool $default = true): bool
+    protected function getAllowedPivots(): array
     {
-        $criteria = $this->query->getFieldCriteria(static::$wrap);
+        $pivots = [];
 
-        return $criteria === null
-            ? $default
-            : $criteria->isAllowedField($field);
+        $schema = $this->schema();
+        if ($schema instanceof InteractsWithPivots) {
+            foreach ($schema->allowedPivots() as $allowedPivot) {
+                /** @var EloquentSchema $pivotSchema */
+                $pivotSchema = $allowedPivot->schema();
+
+                $pivot = $this->whenLoaded($allowedPivot->path());
+
+                $pivots[$allowedPivot->path()] = $pivotSchema->resource($pivot, $this->query);
+            }
+        }
+
+        return $pivots;
     }
 
     /**

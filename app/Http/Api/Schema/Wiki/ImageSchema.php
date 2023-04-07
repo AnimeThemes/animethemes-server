@@ -21,16 +21,6 @@ use App\Models\Wiki\Image;
 class ImageSchema extends EloquentSchema
 {
     /**
-     * The model this schema represents.
-     *
-     * @return string
-     */
-    public function model(): string
-    {
-        return Image::class;
-    }
-
-    /**
      * Get the type of the resource.
      *
      * @return string

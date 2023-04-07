@@ -9,8 +9,10 @@ use App\Events\Wiki\ExternalResource\ExternalResourceCreated;
 use App\Events\Wiki\ExternalResource\ExternalResourceDeleted;
 use App\Events\Wiki\ExternalResource\ExternalResourceRestored;
 use App\Events\Wiki\ExternalResource\ExternalResourceUpdated;
+use App\Http\Resources\Pivot\Wiki\Resource\AnimeResourceResource;
+use App\Http\Resources\Pivot\Wiki\Resource\AnimeStudioResource;
+use App\Http\Resources\Pivot\Wiki\Resource\ArtistResourceResource;
 use App\Models\BaseModel;
-use App\Pivots\BasePivot;
 use App\Pivots\Wiki\AnimeResource;
 use App\Pivots\Wiki\ArtistResource;
 use App\Pivots\Wiki\StudioResource;
@@ -26,7 +28,6 @@ use Laravel\Nova\Actions\Actionable;
  * @property Collection<int, Artist> $artists
  * @property int|null $external_id
  * @property string|null $link
- * @property BasePivot $pivot
  * @property int $resource_id
  * @property ResourceSite|null $site
  *
@@ -116,6 +117,7 @@ class ExternalResource extends BaseModel
         return $this->belongsToMany(Anime::class, AnimeResource::TABLE, ExternalResource::ATTRIBUTE_ID, Anime::ATTRIBUTE_ID)
             ->using(AnimeResource::class)
             ->withPivot(AnimeResource::ATTRIBUTE_AS)
+            ->as(AnimeResourceResource::$wrap)
             ->withTimestamps();
     }
 
@@ -129,6 +131,7 @@ class ExternalResource extends BaseModel
         return $this->belongsToMany(Artist::class, ArtistResource::TABLE, ExternalResource::ATTRIBUTE_ID, Artist::ATTRIBUTE_ID)
             ->using(ArtistResource::class)
             ->withPivot(ArtistResource::ATTRIBUTE_AS)
+            ->as(ArtistResourceResource::$wrap)
             ->withTimestamps();
     }
 
@@ -140,8 +143,9 @@ class ExternalResource extends BaseModel
     public function studios(): BelongsToMany
     {
         return $this->belongsToMany(Studio::class, StudioResource::TABLE, ExternalResource::ATTRIBUTE_ID, Studio::ATTRIBUTE_ID)
-        ->using(StudioResource::class)
-        ->withPivot(StudioResource::ATTRIBUTE_AS)
-        ->withTimestamps();
-    }
+            ->using(StudioResource::class)
+            ->withPivot(StudioResource::ATTRIBUTE_AS)
+            ->as(AnimeStudioResource::$wrap)
+            ->withTimestamps();
+        }
 }

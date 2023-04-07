@@ -21,16 +21,6 @@ use App\Models\Wiki\Video\VideoScript;
 class ScriptSchema extends EloquentSchema
 {
     /**
-     * The model this schema represents.
-     *
-     * @return string
-     */
-    public function model(): string
-    {
-        return VideoScript::class;
-    }
-
-    /**
      * Get the type of the resource.
      *
      * @return string

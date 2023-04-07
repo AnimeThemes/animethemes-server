@@ -4,30 +4,34 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Schema\Wiki;
 
+use App\Contracts\Http\Api\Schema\InteractsWithPivots;
 use App\Contracts\Http\Api\Schema\SearchableSchema;
 use App\Http\Api\Field\Base\IdField;
 use App\Http\Api\Field\Field;
-use App\Http\Api\Field\Wiki\Song\SongAsField;
 use App\Http\Api\Field\Wiki\Song\SongTitleField;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\EloquentSchema;
+use App\Http\Api\Schema\Pivot\Wiki\ArtistSongSchema;
 use App\Http\Api\Schema\Wiki\Anime\ThemeSchema;
+use App\Http\Resources\Pivot\Wiki\Resource\ArtistSongResource;
 use App\Http\Resources\Wiki\Resource\SongResource;
 use App\Models\Wiki\Song;
 
 /**
  * Class SongSchema.
  */
-class SongSchema extends EloquentSchema implements SearchableSchema
+class SongSchema extends EloquentSchema implements InteractsWithPivots, SearchableSchema
 {
     /**
-     * The model this schema represents.
+     * Get the allowed pivots of the schema.
      *
-     * @return string
+     * @return AllowedInclude[]
      */
-    public function model(): string
+    public function allowedPivots(): array
     {
-        return Song::class;
+        return [
+            new AllowedInclude(new ArtistSongSchema(), ArtistSongResource::$wrap),
+        ];
     }
 
     /**
@@ -66,7 +70,6 @@ class SongSchema extends EloquentSchema implements SearchableSchema
             [
                 new IdField($this, Song::ATTRIBUTE_ID),
                 new SongTitleField($this),
-                new SongAsField($this),
             ],
         );
     }

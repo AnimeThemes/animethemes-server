@@ -11,6 +11,7 @@ use App\Events\Wiki\Video\VideoCreated;
 use App\Events\Wiki\Video\VideoDeleted;
 use App\Events\Wiki\Video\VideoRestored;
 use App\Events\Wiki\Video\VideoUpdated;
+use App\Http\Resources\Pivot\Wiki\Resource\AnimeThemeEntryVideoResource;
 use App\Models\BaseModel;
 use App\Models\List\Playlist\PlaylistTrack;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
@@ -318,6 +319,7 @@ class Video extends BaseModel implements Streamable, Viewable
     {
         return $this->belongsToMany(AnimeThemeEntry::class, AnimeThemeEntryVideo::TABLE, Video::ATTRIBUTE_ID, AnimeThemeEntry::ATTRIBUTE_ID)
             ->using(AnimeThemeEntryVideo::class)
+            ->as(AnimeThemeEntryVideoResource::$wrap)
             ->withTimestamps();
     }
 
