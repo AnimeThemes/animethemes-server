@@ -147,5 +147,5 @@ class ExternalResource extends BaseModel
             ->withPivot(StudioResource::ATTRIBUTE_AS)
             ->as(AnimeStudioResource::$wrap)
             ->withTimestamps();
-        }
+    }
 }
