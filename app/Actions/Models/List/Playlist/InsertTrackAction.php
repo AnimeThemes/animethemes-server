@@ -29,21 +29,35 @@ class InsertTrackAction
         try {
             DB::beginTransaction();
 
+            Log::info('InsertTrackAction start');
+
             if ($playlist->first()->doesntExist()) {
+                Log::info('InsertTrackAction playlist first');
+
                 $playlist->first()->associate($track)->save();
             }
 
             $last = $playlist->last;
 
+            Log::info('InsertTrackAction playlist last');
+
             $playlist->last()->associate($track)->save();
+
+            Log::info('InsertTrackAction track previous');
 
             $last?->next()?->associate($track)?->save();
             $track->previous()->associate($last);
 
+            Log::info('InsertTrackAction track next');
+
             $track->next()->disassociate()->save();
 
             DB::commit();
+
+            Log::info('InsertTrackAction committed');
         } catch (Exception $e) {
+            Log::error('InsertTrackAction exception caught');
+
             Log::error($e->getMessage());
 
             DB::rollBack();
