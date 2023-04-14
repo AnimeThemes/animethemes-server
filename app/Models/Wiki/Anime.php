@@ -10,10 +10,13 @@ use App\Events\Wiki\Anime\AnimeDeleted;
 use App\Events\Wiki\Anime\AnimeDeleting;
 use App\Events\Wiki\Anime\AnimeRestored;
 use App\Events\Wiki\Anime\AnimeUpdated;
+use App\Http\Resources\Pivot\Wiki\Resource\AnimeImageResource;
+use App\Http\Resources\Pivot\Wiki\Resource\AnimeResourceResource;
+use App\Http\Resources\Pivot\Wiki\Resource\AnimeSeriesResource;
+use App\Http\Resources\Pivot\Wiki\Resource\AnimeStudioResource;
 use App\Models\BaseModel;
 use App\Models\Wiki\Anime\AnimeSynonym;
 use App\Models\Wiki\Anime\AnimeTheme;
-use App\Pivots\BasePivot;
 use App\Pivots\Wiki\AnimeImage;
 use App\Pivots\Wiki\AnimeResource;
 use App\Pivots\Wiki\AnimeSeries;
@@ -35,7 +38,6 @@ use Laravel\Nova\Actions\Actionable;
  * @property Collection<int, AnimeTheme> $animethemes
  * @property Collection<int, Image> $images
  * @property string $name
- * @property BasePivot $pivot
  * @property Collection<int, ExternalResource> $resources
  * @property Enum|null $season
  * @property Collection<int, Series> $series
@@ -190,6 +192,7 @@ class Anime extends BaseModel
     {
         return $this->belongsToMany(Series::class, AnimeSeries::TABLE, Anime::ATTRIBUTE_ID, Series::ATTRIBUTE_ID)
             ->using(AnimeSeries::class)
+            ->as(AnimeSeriesResource::$wrap)
             ->withTimestamps();
     }
 
@@ -213,6 +216,7 @@ class Anime extends BaseModel
         return $this->belongsToMany(ExternalResource::class, AnimeResource::TABLE, Anime::ATTRIBUTE_ID, ExternalResource::ATTRIBUTE_ID)
             ->using(AnimeResource::class)
             ->withPivot(AnimeResource::ATTRIBUTE_AS)
+            ->as(AnimeResourceResource::$wrap)
             ->withTimestamps();
     }
 
@@ -225,6 +229,7 @@ class Anime extends BaseModel
     {
         return $this->belongsToMany(Image::class, AnimeImage::TABLE, Anime::ATTRIBUTE_ID, Image::ATTRIBUTE_ID)
             ->using(AnimeImage::class)
+            ->as(AnimeImageResource::$wrap)
             ->withTimestamps();
     }
 
@@ -237,6 +242,7 @@ class Anime extends BaseModel
     {
         return $this->belongsToMany(Studio::class, AnimeStudio::TABLE, Anime::ATTRIBUTE_ID, Studio::ATTRIBUTE_ID)
             ->using(AnimeStudio::class)
+            ->as(AnimeStudioResource::$wrap)
             ->withTimestamps();
     }
 }

@@ -7,7 +7,6 @@ namespace App\Http\Api\Field\Wiki\Image;
 use App\Http\Api\Field\StringField;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Schema;
-use App\Http\Resources\Wiki\Resource\ImageResource;
 use App\Models\Wiki\Image;
 
 /**
@@ -37,6 +36,6 @@ class ImagePathField extends StringField
         $criteria = $query->getFieldCriteria($this->schema->type());
 
         // The link field is dependent on this field to build the url.
-        return parent::shouldSelect($query, $schema) || $criteria->isAllowedField(ImageResource::ATTRIBUTE_LINK);
+        return parent::shouldSelect($query, $schema) || $criteria->isAllowedField('link');
     }
 }

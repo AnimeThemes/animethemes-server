@@ -8,8 +8,11 @@ use App\Events\Wiki\Artist\ArtistCreated;
 use App\Events\Wiki\Artist\ArtistDeleted;
 use App\Events\Wiki\Artist\ArtistRestored;
 use App\Events\Wiki\Artist\ArtistUpdated;
+use App\Http\Resources\Pivot\Wiki\Resource\ArtistImageResource;
+use App\Http\Resources\Pivot\Wiki\Resource\ArtistMemberResource;
+use App\Http\Resources\Pivot\Wiki\Resource\ArtistResourceResource;
+use App\Http\Resources\Pivot\Wiki\Resource\ArtistSongResource;
 use App\Models\BaseModel;
-use App\Pivots\BasePivot;
 use App\Pivots\Wiki\ArtistImage;
 use App\Pivots\Wiki\ArtistMember;
 use App\Pivots\Wiki\ArtistResource;
@@ -29,7 +32,6 @@ use Laravel\Nova\Actions\Actionable;
  * @property Collection<int, Image> $images
  * @property Collection<int, Artist> $members
  * @property string $name
- * @property BasePivot $pivot
  * @property Collection<int, ExternalResource> $resources
  * @property string $slug
  * @property Collection<int, Song> $songs
@@ -149,6 +151,7 @@ class Artist extends BaseModel
         return $this->belongsToMany(Song::class, ArtistSong::TABLE, Artist::ATTRIBUTE_ID, Song::ATTRIBUTE_ID)
             ->using(ArtistSong::class)
             ->withPivot(ArtistSong::ATTRIBUTE_AS)
+            ->as(ArtistSongResource::$wrap)
             ->withTimestamps();
     }
 
@@ -162,6 +165,7 @@ class Artist extends BaseModel
         return $this->belongsToMany(ExternalResource::class, ArtistResource::TABLE, Artist::ATTRIBUTE_ID, ExternalResource::ATTRIBUTE_ID)
             ->using(ArtistResource::class)
             ->withPivot(ArtistResource::ATTRIBUTE_AS)
+            ->as(ArtistResourceResource::$wrap)
             ->withTimestamps();
     }
 
@@ -175,6 +179,7 @@ class Artist extends BaseModel
         return $this->belongsToMany(Artist::class, ArtistMember::TABLE, Artist::ATTRIBUTE_ID, 'member_id')
             ->using(ArtistMember::class)
             ->withPivot(ArtistMember::ATTRIBUTE_AS)
+            ->as(ArtistMemberResource::$wrap)
             ->withTimestamps();
     }
 
@@ -188,6 +193,7 @@ class Artist extends BaseModel
         return $this->belongsToMany(Artist::class, ArtistMember::TABLE, 'member_id', Artist::ATTRIBUTE_ID)
             ->using(ArtistMember::class)
             ->withPivot(ArtistMember::ATTRIBUTE_AS)
+            ->as(ArtistMemberResource::$wrap)
             ->withTimestamps();
     }
 
@@ -200,6 +206,7 @@ class Artist extends BaseModel
     {
         return $this->belongsToMany(Image::class, ArtistImage::TABLE, Artist::ATTRIBUTE_ID, Image::ATTRIBUTE_ID)
             ->using(ArtistImage::class)
+            ->as(ArtistImageResource::$wrap)
             ->withTimestamps();
     }
 }

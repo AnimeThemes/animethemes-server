@@ -10,6 +10,7 @@ use App\Events\List\Playlist\PlaylistCreated;
 use App\Events\List\Playlist\PlaylistDeleted;
 use App\Events\List\Playlist\PlaylistRestored;
 use App\Events\List\Playlist\PlaylistUpdated;
+use App\Http\Resources\Pivot\List\Resource\PlaylistImageResource;
 use App\Models\Auth\User;
 use App\Models\BaseModel;
 use App\Models\List\Playlist\PlaylistTrack;
@@ -196,6 +197,7 @@ class Playlist extends BaseModel implements HasHashids, Viewable
     {
         return $this->belongsToMany(Image::class, PlaylistImage::class, Playlist::ATTRIBUTE_ID, Image::ATTRIBUTE_ID)
             ->using(PlaylistImage::class)
+            ->as(PlaylistImageResource::$wrap)
             ->withTimestamps();
     }
 

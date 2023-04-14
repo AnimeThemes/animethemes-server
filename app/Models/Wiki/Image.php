@@ -10,6 +10,10 @@ use App\Events\Wiki\Image\ImageDeleted;
 use App\Events\Wiki\Image\ImageDeleting;
 use App\Events\Wiki\Image\ImageRestored;
 use App\Events\Wiki\Image\ImageUpdated;
+use App\Http\Resources\Pivot\List\Resource\PlaylistImageResource;
+use App\Http\Resources\Pivot\Wiki\Resource\AnimeImageResource;
+use App\Http\Resources\Pivot\Wiki\Resource\ArtistImageResource;
+use App\Http\Resources\Pivot\Wiki\Resource\StudioImageResource;
 use App\Models\BaseModel;
 use App\Models\List\Playlist;
 use App\Pivots\List\PlaylistImage;
@@ -119,6 +123,7 @@ class Image extends BaseModel
     {
         return $this->belongsToMany(Anime::class, AnimeImage::TABLE, Image::ATTRIBUTE_ID, Anime::ATTRIBUTE_ID)
             ->using(AnimeImage::class)
+            ->as(AnimeImageResource::$wrap)
             ->withTimestamps();
     }
 
@@ -131,6 +136,7 @@ class Image extends BaseModel
     {
         return $this->belongsToMany(Artist::class, ArtistImage::TABLE, Image::ATTRIBUTE_ID, Artist::ATTRIBUTE_ID)
             ->using(ArtistImage::class)
+            ->as(ArtistImageResource::$wrap)
             ->withTimestamps();
     }
 
@@ -143,6 +149,7 @@ class Image extends BaseModel
     {
         return $this->belongsToMany(Studio::class, StudioImage::TABLE, Image::ATTRIBUTE_ID, Studio::ATTRIBUTE_ID)
             ->using(StudioImage::class)
+            ->as(StudioImageResource::$wrap)
             ->withTimestamps();
     }
 
@@ -155,6 +162,7 @@ class Image extends BaseModel
     {
         return $this->belongsToMany(Playlist::class, PlaylistImage::TABLE, Image::ATTRIBUTE_ID, Playlist::ATTRIBUTE_ID)
             ->using(PlaylistImage::class)
+            ->as(PlaylistImageResource::$wrap)
             ->withTimestamps();
     }
 }

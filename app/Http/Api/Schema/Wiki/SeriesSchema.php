@@ -20,16 +20,6 @@ use App\Models\Wiki\Series;
 class SeriesSchema extends EloquentSchema implements SearchableSchema
 {
     /**
-     * The model this schema represents.
-     *
-     * @return string
-     */
-    public function model(): string
-    {
-        return Series::class;
-    }
-
-    /**
      * Get the type of the resource.
      *
      * @return string

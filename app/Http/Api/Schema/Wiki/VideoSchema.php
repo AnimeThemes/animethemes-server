@@ -37,16 +37,6 @@ use App\Models\Wiki\Video;
 class VideoSchema extends EloquentSchema implements SearchableSchema
 {
     /**
-     * The model this schema represents.
-     *
-     * @return string
-     */
-    public function model(): string
-    {
-        return Video::class;
-    }
-
-    /**
      * Get the type of the resource.
      *
      * @return string

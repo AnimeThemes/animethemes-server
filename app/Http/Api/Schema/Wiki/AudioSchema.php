@@ -24,16 +24,6 @@ use App\Models\Wiki\Audio;
 class AudioSchema extends EloquentSchema
 {
     /**
-     * The model this schema represents.
-     *
-     * @return string
-     */
-    public function model(): string
-    {
-        return Audio::class;
-    }
-
-    /**
      * Get the type of the resource.
      *
      * @return string

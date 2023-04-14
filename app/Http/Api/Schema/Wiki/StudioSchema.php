@@ -4,30 +4,34 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Schema\Wiki;
 
+use App\Contracts\Http\Api\Schema\InteractsWithPivots;
 use App\Contracts\Http\Api\Schema\SearchableSchema;
 use App\Http\Api\Field\Base\IdField;
 use App\Http\Api\Field\Field;
-use App\Http\Api\Field\Wiki\Studio\StudioAsField;
 use App\Http\Api\Field\Wiki\Studio\StudioNameField;
 use App\Http\Api\Field\Wiki\Studio\StudioSlugField;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\EloquentSchema;
+use App\Http\Api\Schema\Pivot\Wiki\StudioResourceSchema;
+use App\Http\Resources\Pivot\Wiki\Resource\StudioResourceResource;
 use App\Http\Resources\Wiki\Resource\StudioResource;
 use App\Models\Wiki\Studio;
 
 /**
  * Class StudioSchema.
  */
-class StudioSchema extends EloquentSchema implements SearchableSchema
+class StudioSchema extends EloquentSchema implements InteractsWithPivots, SearchableSchema
 {
     /**
-     * The model this schema represents.
+     * Get the allowed pivots of the schema.
      *
-     * @return string
+     * @return AllowedInclude[]
      */
-    public function model(): string
+    public function allowedPivots(): array
     {
-        return Studio::class;
+        return [
+            new AllowedInclude(new StudioResourceSchema(), StudioResourceResource::$wrap),
+        ];
     }
 
     /**
@@ -72,7 +76,6 @@ class StudioSchema extends EloquentSchema implements SearchableSchema
                 new IdField($this, Studio::ATTRIBUTE_ID),
                 new StudioNameField($this),
                 new StudioSlugField($this),
-                new StudioAsField($this),
             ],
         );
     }

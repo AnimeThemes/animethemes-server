@@ -7,14 +7,9 @@ namespace App\Http\Resources\Wiki\Resource;
 use App\Http\Api\Schema\Schema;
 use App\Http\Api\Schema\Wiki\StudioSchema;
 use App\Http\Resources\BaseResource;
-use App\Models\Wiki\Studio;
-use App\Pivots\Wiki\StudioResource as StudioResourcePivot;
-use Illuminate\Http\Request;
 
 /**
  * Class StudioResource.
- *
- * @mixin Studio
  */
 class StudioResource extends BaseResource
 {
@@ -24,23 +19,6 @@ class StudioResource extends BaseResource
      * @var string|null
      */
     public static $wrap = 'studio';
-
-    /**
-     * Transform the resource into an array.
-     *
-     * @param  Request  $request
-     * @return array
-     */
-    public function toArray($request): array
-    {
-        $result = parent::toArray($request);
-
-        if ($this->isAllowedField(StudioResourcePivot::ATTRIBUTE_AS)) {
-            $result[StudioResourcePivot::ATTRIBUTE_AS] = $this->whenPivotLoaded(StudioResourcePivot::TABLE, fn () => $this->pivot->getAttribute(StudioResourcePivot::ATTRIBUTE_AS));
-        }
-
-        return $result;
-    }
 
     /**
      * Get the resource schema.

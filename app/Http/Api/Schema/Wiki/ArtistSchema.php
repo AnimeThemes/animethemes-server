@@ -4,32 +4,42 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Schema\Wiki;
 
+use App\Contracts\Http\Api\Schema\InteractsWithPivots;
 use App\Contracts\Http\Api\Schema\SearchableSchema;
 use App\Http\Api\Field\Base\IdField;
 use App\Http\Api\Field\Field;
-use App\Http\Api\Field\Wiki\Artist\ArtistAsField;
 use App\Http\Api\Field\Wiki\Artist\ArtistNameField;
 use App\Http\Api\Field\Wiki\Artist\ArtistSlugField;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\EloquentSchema;
+use App\Http\Api\Schema\Pivot\Wiki\ArtistMemberSchema;
+use App\Http\Api\Schema\Pivot\Wiki\ArtistResourceSchema;
+use App\Http\Api\Schema\Pivot\Wiki\ArtistSongSchema;
 use App\Http\Api\Schema\Wiki\Anime\Theme\EntrySchema;
 use App\Http\Api\Schema\Wiki\Anime\ThemeSchema;
+use App\Http\Resources\Pivot\Wiki\Resource\ArtistMemberResource;
+use App\Http\Resources\Pivot\Wiki\Resource\ArtistResourceResource;
+use App\Http\Resources\Pivot\Wiki\Resource\ArtistSongResource;
 use App\Http\Resources\Wiki\Resource\ArtistResource;
 use App\Models\Wiki\Artist;
 
 /**
  * Class ArtistSchema.
  */
-class ArtistSchema extends EloquentSchema implements SearchableSchema
+class ArtistSchema extends EloquentSchema implements InteractsWithPivots, SearchableSchema
 {
     /**
-     * The model this schema represents.
+     * Get the allowed pivots of the schema.
      *
-     * @return string
+     * @return AllowedInclude[]
      */
-    public function model(): string
+    public function allowedPivots(): array
     {
-        return Artist::class;
+        return [
+            new AllowedInclude(new ArtistMemberSchema(), ArtistMemberResource::$wrap),
+            new AllowedInclude(new ArtistResourceSchema(), ArtistResourceResource::$wrap),
+            new AllowedInclude(new ArtistSongSchema(), ArtistSongResource::$wrap),
+        ];
     }
 
     /**
@@ -82,7 +92,6 @@ class ArtistSchema extends EloquentSchema implements SearchableSchema
                 new IdField($this, Artist::ATTRIBUTE_ID),
                 new ArtistNameField($this),
                 new ArtistSlugField($this),
-                new ArtistAsField($this),
             ],
         );
     }

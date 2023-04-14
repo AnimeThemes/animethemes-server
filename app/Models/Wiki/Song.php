@@ -9,9 +9,9 @@ use App\Events\Wiki\Song\SongDeleted;
 use App\Events\Wiki\Song\SongDeleting;
 use App\Events\Wiki\Song\SongRestored;
 use App\Events\Wiki\Song\SongUpdated;
+use App\Http\Resources\Pivot\Wiki\Resource\ArtistSongResource;
 use App\Models\BaseModel;
 use App\Models\Wiki\Anime\AnimeTheme;
-use App\Pivots\BasePivot;
 use App\Pivots\Wiki\ArtistSong;
 use Database\Factories\Wiki\SongFactory;
 use Elastic\ScoutDriverPlus\Searchable;
@@ -25,7 +25,6 @@ use Laravel\Nova\Actions\Actionable;
  *
  * @property Collection<int, AnimeTheme> $animethemes
  * @property Collection<int, Artist> $artists
- * @property BasePivot $pivot
  * @property int $song_id
  * @property string|null $title
  *
@@ -118,6 +117,7 @@ class Song extends BaseModel
         return $this->belongsToMany(Artist::class, ArtistSong::TABLE, Song::ATTRIBUTE_ID, Artist::ATTRIBUTE_ID)
             ->using(ArtistSong::class)
             ->withPivot(ArtistSong::ATTRIBUTE_AS)
+            ->as(ArtistSongResource::$wrap)
             ->withTimestamps();
     }
 }

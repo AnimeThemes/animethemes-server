@@ -4,30 +4,40 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Schema\Wiki;
 
+use App\Contracts\Http\Api\Schema\InteractsWithPivots;
 use App\Http\Api\Field\Base\IdField;
 use App\Http\Api\Field\Field;
-use App\Http\Api\Field\Wiki\ExternalResource\ExternalResourceAsField;
 use App\Http\Api\Field\Wiki\ExternalResource\ExternalResourceIdField;
 use App\Http\Api\Field\Wiki\ExternalResource\ExternalResourceLinkField;
 use App\Http\Api\Field\Wiki\ExternalResource\ExternalResourceSiteField;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\EloquentSchema;
+use App\Http\Api\Schema\Pivot\Wiki\AnimeResourceSchema;
+use App\Http\Api\Schema\Pivot\Wiki\ArtistResourceSchema;
+use App\Http\Api\Schema\Pivot\Wiki\StudioResourceSchema;
+use App\Http\Resources\Pivot\Wiki\Resource\AnimeResourceResource;
+use App\Http\Resources\Pivot\Wiki\Resource\ArtistResourceResource;
+use App\Http\Resources\Pivot\Wiki\Resource\StudioResourceResource;
 use App\Http\Resources\Wiki\Resource\ExternalResourceResource;
 use App\Models\Wiki\ExternalResource;
 
 /**
  * Class ExternalResourceSchema.
  */
-class ExternalResourceSchema extends EloquentSchema
+class ExternalResourceSchema extends EloquentSchema implements InteractsWithPivots
 {
     /**
-     * The model this schema represents.
+     * Get the allowed pivots of the schema.
      *
-     * @return string
+     * @return AllowedInclude[]
      */
-    public function model(): string
+    public function allowedPivots(): array
     {
-        return ExternalResource::class;
+        return [
+            new AllowedInclude(new AnimeResourceSchema(), AnimeResourceResource::$wrap),
+            new AllowedInclude(new ArtistResourceSchema(), ArtistResourceResource::$wrap),
+            new AllowedInclude(new StudioResourceSchema(), StudioResourceResource::$wrap),
+        ];
     }
 
     /**
@@ -68,7 +78,6 @@ class ExternalResourceSchema extends EloquentSchema
                 new ExternalResourceIdField($this),
                 new ExternalResourceLinkField($this),
                 new ExternalResourceSiteField($this),
-                new ExternalResourceAsField($this),
             ],
         );
     }
