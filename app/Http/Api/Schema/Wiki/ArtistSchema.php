@@ -65,6 +65,7 @@ class ArtistSchema extends EloquentSchema implements SearchableSchema
             new AllowedInclude(new ImageSchema(), 'songs.animethemes.anime.images'),
             new AllowedInclude(new EntrySchema(), 'songs.animethemes.animethemeentries'),
             new AllowedInclude(new VideoSchema(), 'songs.animethemes.animethemeentries.videos'),
+            new AllowedInclude(new AudioSchema(), 'songs.animethemes.animethemeentries.videos.audio'),
         ];
     }
 

@@ -18,6 +18,7 @@ use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Api\Schema\Wiki\Anime\Theme\EntrySchema;
 use App\Http\Api\Schema\Wiki\AnimeSchema;
 use App\Http\Api\Schema\Wiki\ArtistSchema;
+use App\Http\Api\Schema\Wiki\AudioSchema;
 use App\Http\Api\Schema\Wiki\ImageSchema;
 use App\Http\Api\Schema\Wiki\SongSchema;
 use App\Http\Api\Schema\Wiki\VideoSchema;
@@ -70,6 +71,9 @@ class ThemeSchema extends EloquentSchema implements SearchableSchema
             new AllowedInclude(new ImageSchema(), AnimeTheme::RELATION_IMAGES),
             new AllowedInclude(new SongSchema(), AnimeTheme::RELATION_SONG),
             new AllowedInclude(new VideoSchema(), AnimeTheme::RELATION_VIDEOS),
+
+            // Undocumented paths needed for client builds
+            new AllowedInclude(new AudioSchema(), 'animethemeentries.videos.audio'),
         ];
     }
 
