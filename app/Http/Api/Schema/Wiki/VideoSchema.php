@@ -69,6 +69,11 @@ class VideoSchema extends EloquentSchema implements SearchableSchema
             new AllowedInclude(new EntrySchema(), Video::RELATION_ANIMETHEMEENTRIES),
             new AllowedInclude(new ScriptSchema(), Video::RELATION_SCRIPT),
             new AllowedInclude(new ThemeSchema(), Video::RELATION_ANIMETHEME),
+
+            // Undocumented paths needed for client builds
+            new AllowedInclude(new SongSchema(), 'animethemeentries.animetheme.song'),
+            new AllowedInclude(new ArtistSchema(), 'animethemeentries.animetheme.song.artists'),
+            new AllowedInclude(new ImageSchema(), 'animethemeentries.animetheme.anime.images'),
         ];
     }
 
