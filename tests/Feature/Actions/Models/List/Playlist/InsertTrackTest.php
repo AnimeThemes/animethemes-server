@@ -9,7 +9,6 @@ use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
 use App\Models\Wiki\Video;
 use Exception;
-use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
 
 /**
@@ -17,8 +16,6 @@ use Tests\TestCase;
  */
 class InsertTrackTest extends TestCase
 {
-    use WithoutEvents;
-
     /**
      * The Insert Track Action shall set the first inserted track as first and last.
      *

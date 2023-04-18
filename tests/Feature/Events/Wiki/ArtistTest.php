@@ -25,8 +25,6 @@ class ArtistTest extends TestCase
      */
     public function testArtistCreatedEventDispatched(): void
     {
-        Event::fake();
-
         Artist::factory()->createOne();
 
         Event::assertDispatched(ArtistCreated::class);
@@ -39,8 +37,6 @@ class ArtistTest extends TestCase
      */
     public function testArtistDeletedEventDispatched(): void
     {
-        Event::fake();
-
         $artist = Artist::factory()->createOne();
 
         $artist->delete();
@@ -55,8 +51,6 @@ class ArtistTest extends TestCase
      */
     public function testArtistRestoredEventDispatched(): void
     {
-        Event::fake();
-
         $artist = Artist::factory()->createOne();
 
         $artist->restore();
@@ -73,8 +67,6 @@ class ArtistTest extends TestCase
      */
     public function testArtistRestoresQuietly(): void
     {
-        Event::fake();
-
         $artist = Artist::factory()->createOne();
 
         $artist->restore();
@@ -89,8 +81,6 @@ class ArtistTest extends TestCase
      */
     public function testArtistUpdatedEventDispatched(): void
     {
-        Event::fake();
-
         $artist = Artist::factory()->createOne();
         $changes = Artist::factory()->makeOne();
 
@@ -107,8 +97,6 @@ class ArtistTest extends TestCase
      */
     public function testArtistUpdatedEventEmbedFields(): void
     {
-        Event::fake();
-
         $artist = Artist::factory()->createOne();
         $changes = Artist::factory()->makeOne();
 

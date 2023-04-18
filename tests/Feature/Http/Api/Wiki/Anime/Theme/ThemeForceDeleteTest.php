@@ -8,7 +8,6 @@ use App\Enums\Auth\ExtendedCrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
-use Illuminate\Foundation\Testing\WithoutEvents;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
@@ -17,8 +16,6 @@ use Tests\TestCase;
  */
 class ThemeForceDeleteTest extends TestCase
 {
-    use WithoutEvents;
-
     /**
      * The Theme Force Delete Endpoint shall be protected by sanctum.
      *

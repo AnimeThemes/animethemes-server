@@ -25,8 +25,6 @@ class DumpTest extends TestCase
      */
     public function testDumpCreatedEventDispatched(): void
     {
-        Event::fake();
-
         Dump::factory()->create();
 
         Event::assertDispatched(DumpCreated::class);
@@ -39,8 +37,6 @@ class DumpTest extends TestCase
      */
     public function testDumpDeletedEventDispatched(): void
     {
-        Event::fake();
-
         $dump = Dump::factory()->create();
 
         $dump->delete();
@@ -55,8 +51,6 @@ class DumpTest extends TestCase
      */
     public function testDumpRestoredEventDispatched(): void
     {
-        Event::fake();
-
         $dump = Dump::factory()->createOne();
 
         $dump->restore();
@@ -73,8 +67,6 @@ class DumpTest extends TestCase
      */
     public function testDumpRestoresQuietly(): void
     {
-        Event::fake();
-
         $dump = Dump::factory()->createOne();
 
         $dump->restore();
@@ -89,8 +81,6 @@ class DumpTest extends TestCase
      */
     public function testDumpUpdatedEventDispatched(): void
     {
-        Event::fake();
-
         $dump = Dump::factory()->createOne();
         $changes = Dump::factory()->makeOne();
 
@@ -107,8 +97,6 @@ class DumpTest extends TestCase
      */
     public function testDumpUpdatedEventEmbedFields(): void
     {
-        Event::fake();
-
         $dump = Dump::factory()->createOne();
         $changes = Dump::factory()->makeOne();
 

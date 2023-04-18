@@ -27,8 +27,6 @@ class TrackTest extends TestCase
      */
     public function testTrackCreatedEventDispatched(): void
     {
-        Event::fake();
-
         PlaylistTrack::factory()
             ->for(Playlist::factory())
             ->createOne();
@@ -43,8 +41,6 @@ class TrackTest extends TestCase
      */
     public function testTrackDeletedEventDispatched(): void
     {
-        Event::fake();
-
         $track = PlaylistTrack::factory()
             ->for(Playlist::factory())
             ->createOne();
@@ -61,8 +57,6 @@ class TrackTest extends TestCase
      */
     public function testTrackRestoredEventDispatched(): void
     {
-        Event::fake();
-
         $track = PlaylistTrack::factory()
             ->for(Playlist::factory())
             ->createOne();
@@ -81,8 +75,6 @@ class TrackTest extends TestCase
      */
     public function testTrackRestoresQuietly(): void
     {
-        Event::fake();
-
         $track = PlaylistTrack::factory()
             ->for(Playlist::factory())
             ->createOne();
@@ -99,8 +91,6 @@ class TrackTest extends TestCase
      */
     public function testTrackUpdatedEventDispatched(): void
     {
-        Event::fake();
-
         $track = PlaylistTrack::factory()
             ->for(Playlist::factory())
             ->createOne();
@@ -122,8 +112,6 @@ class TrackTest extends TestCase
      */
     public function testPlaylistUpdatedEventEmbedFields(): void
     {
-        Event::fake();
-
         $track = PlaylistTrack::factory()
             ->for(Playlist::factory())
             ->createOne();

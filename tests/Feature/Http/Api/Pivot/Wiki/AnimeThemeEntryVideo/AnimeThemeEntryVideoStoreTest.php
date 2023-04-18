@@ -11,7 +11,6 @@ use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
 use App\Pivots\Wiki\AnimeThemeEntryVideo;
-use Illuminate\Foundation\Testing\WithoutEvents;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
@@ -20,8 +19,6 @@ use Tests\TestCase;
  */
 class AnimeThemeEntryVideoStoreTest extends TestCase
 {
-    use WithoutEvents;
-
     /**
      * The Anime Theme Entry Video Store Endpoint shall be protected by sanctum.
      *

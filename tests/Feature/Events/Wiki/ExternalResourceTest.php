@@ -25,8 +25,6 @@ class ExternalResourceTest extends TestCase
      */
     public function testExternalResourceCreatedEventDispatched(): void
     {
-        Event::fake();
-
         ExternalResource::factory()->createOne();
 
         Event::assertDispatched(ExternalResourceCreated::class);
@@ -39,8 +37,6 @@ class ExternalResourceTest extends TestCase
      */
     public function testExternalResourceDeletedEventDispatched(): void
     {
-        Event::fake();
-
         $resource = ExternalResource::factory()->createOne();
 
         $resource->delete();
@@ -55,8 +51,6 @@ class ExternalResourceTest extends TestCase
      */
     public function testExternalResourceRestoredEventDispatched(): void
     {
-        Event::fake();
-
         $resource = ExternalResource::factory()->createOne();
 
         $resource->restore();
@@ -73,8 +67,6 @@ class ExternalResourceTest extends TestCase
      */
     public function testExternalResourceRestoresQuietly(): void
     {
-        Event::fake();
-
         $resource = ExternalResource::factory()->createOne();
 
         $resource->restore();
@@ -89,8 +81,6 @@ class ExternalResourceTest extends TestCase
      */
     public function testExternalResourceUpdatedEventDispatched(): void
     {
-        Event::fake();
-
         $resource = ExternalResource::factory()->createOne();
         $changes = ExternalResource::factory()->makeOne();
 
@@ -107,8 +97,6 @@ class ExternalResourceTest extends TestCase
      */
     public function testExternalResourceUpdatedEventEmbedFields(): void
     {
-        Event::fake();
-
         $resource = ExternalResource::factory()->createOne();
         $changes = ExternalResource::factory()->makeOne();
 

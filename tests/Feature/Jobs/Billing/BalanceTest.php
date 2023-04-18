@@ -5,10 +5,15 @@ declare(strict_types=1);
 namespace Tests\Feature\Jobs\Billing;
 
 use App\Constants\Config\FlagConstants;
+use App\Events\Billing\Balance\BalanceCreated;
+use App\Events\Billing\Balance\BalanceDeleted;
+use App\Events\Billing\Balance\BalanceRestored;
+use App\Events\Billing\Balance\BalanceUpdated;
 use App\Jobs\SendDiscordNotificationJob;
 use App\Models\Billing\Balance;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
 /**
@@ -25,6 +30,7 @@ class BalanceTest extends TestCase
     {
         Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
         Bus::fake(SendDiscordNotificationJob::class);
+        Event::fakeExcept(BalanceCreated::class);
 
         Balance::factory()->createOne();
 
@@ -42,6 +48,7 @@ class BalanceTest extends TestCase
 
         Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
         Bus::fake(SendDiscordNotificationJob::class);
+        Event::fakeExcept(BalanceDeleted::class);
 
         $balance->delete();
 
@@ -59,6 +66,7 @@ class BalanceTest extends TestCase
 
         Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
         Bus::fake(SendDiscordNotificationJob::class);
+        Event::fakeExcept(BalanceRestored::class);
 
         $balance->restore();
 
@@ -76,6 +84,7 @@ class BalanceTest extends TestCase
 
         Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
         Bus::fake(SendDiscordNotificationJob::class);
+        Event::fakeExcept(BalanceUpdated::class);
 
         $changes = Balance::factory()->makeOne();
 

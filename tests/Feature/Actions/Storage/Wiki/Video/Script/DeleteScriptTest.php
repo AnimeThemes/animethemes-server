@@ -8,6 +8,7 @@ use App\Actions\Storage\Wiki\Video\Script\DeleteScriptAction;
 use App\Constants\Config\VideoConstants;
 use App\Enums\Actions\ActionStatus;
 use App\Models\Wiki\Video\VideoScript;
+use Exception;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Config;
@@ -92,6 +93,8 @@ class DeleteScriptTest extends TestCase
      * The Delete Video Action shall delete the script.
      *
      * @return void
+     *
+     * @throws Exception
      */
     public function testVideoDeleted(): void
     {

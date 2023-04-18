@@ -9,7 +9,6 @@ use App\Constants\Config\VideoConstants;
 use App\Models\Wiki\Video;
 use App\Repositories\Storage\Wiki\VideoRepository;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
@@ -22,7 +21,6 @@ use Tests\TestCase;
 class VideoReconcileTest extends TestCase
 {
     use WithFaker;
-    use WithoutEvents;
 
     /**
      * If no changes are needed, the Reconcile Video Command shall output 'No Videos created or deleted or updated'.

@@ -25,8 +25,6 @@ class AnimeThemeEntryVideoTest extends TestCase
      */
     public function testAnimeThemeEntryVideoCreatedEventDispatched(): void
     {
-        Event::fake(AnimeThemeEntryVideoCreated::class);
-
         $video = Video::factory()->createOne();
         $entry = AnimeThemeEntry::factory()
             ->for(AnimeTheme::factory()->for(Anime::factory()))
@@ -44,8 +42,6 @@ class AnimeThemeEntryVideoTest extends TestCase
      */
     public function testAnimeThemeEntryVideoDeletedEventDispatched(): void
     {
-        Event::fake(AnimeThemeEntryVideoDeleted::class);
-
         $video = Video::factory()->createOne();
         $entry = AnimeThemeEntry::factory()
             ->for(AnimeTheme::factory()->for(Anime::factory()))

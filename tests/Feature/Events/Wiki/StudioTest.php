@@ -25,8 +25,6 @@ class StudioTest extends TestCase
      */
     public function testStudioCreatedEventDispatched(): void
     {
-        Event::fake();
-
         Studio::factory()->createOne();
 
         Event::assertDispatched(StudioCreated::class);
@@ -39,8 +37,6 @@ class StudioTest extends TestCase
      */
     public function testStudioDeletedEventDispatched(): void
     {
-        Event::fake();
-
         $studio = Studio::factory()->createOne();
 
         $studio->delete();
@@ -55,8 +51,6 @@ class StudioTest extends TestCase
      */
     public function testStudioRestoredEventDispatched(): void
     {
-        Event::fake();
-
         $studio = Studio::factory()->createOne();
 
         $studio->restore();
@@ -73,8 +67,6 @@ class StudioTest extends TestCase
      */
     public function testStudioRestoresQuietly(): void
     {
-        Event::fake();
-
         $studio = Studio::factory()->createOne();
 
         $studio->restore();
@@ -89,8 +81,6 @@ class StudioTest extends TestCase
      */
     public function testStudioUpdatedEventDispatched(): void
     {
-        Event::fake();
-
         $studio = Studio::factory()->createOne();
         $changes = Studio::factory()->makeOne();
 
@@ -107,8 +97,6 @@ class StudioTest extends TestCase
      */
     public function testStudioUpdatedEventEmbedFields(): void
     {
-        Event::fake();
-
         $studio = Studio::factory()->createOne();
         $changes = Studio::factory()->makeOne();
 

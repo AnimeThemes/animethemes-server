@@ -21,8 +21,6 @@ class UpdateRelatedIndicesTest extends TestCase
      */
     public function testListening(): void
     {
-        $fake = Event::fake();
-
-        $fake->assertListening(UpdateRelatedIndicesEvent::class, UpdateRelatedIndices::class);
+        Event::assertListening(UpdateRelatedIndicesEvent::class, UpdateRelatedIndices::class);
     }
 }

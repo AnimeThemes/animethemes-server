@@ -7,7 +7,6 @@ namespace Tests\Feature\Http\Api\Wiki\Series;
 use App\Enums\Auth\ExtendedCrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Series;
-use Illuminate\Foundation\Testing\WithoutEvents;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
@@ -16,8 +15,6 @@ use Tests\TestCase;
  */
 class SeriesForceDeleteTest extends TestCase
 {
-    use WithoutEvents;
-
     /**
      * The Series Force Delete Endpoint shall be protected by sanctum.
      *

@@ -7,7 +7,6 @@ namespace Tests\Feature\Http\Api\Billing\Balance;
 use App\Enums\Auth\ExtendedCrudPermission;
 use App\Models\Auth\User;
 use App\Models\Billing\Balance;
-use Illuminate\Foundation\Testing\WithoutEvents;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
@@ -16,8 +15,6 @@ use Tests\TestCase;
  */
 class BalanceForceDeleteTest extends TestCase
 {
-    use WithoutEvents;
-
     /**
      * The Balance Force Delete Endpoint shall be protected by sanctum.
      *

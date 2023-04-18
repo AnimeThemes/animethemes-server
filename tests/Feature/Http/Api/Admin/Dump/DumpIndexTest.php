@@ -24,7 +24,6 @@ use App\Http\Resources\Admin\Resource\DumpResource;
 use App\Models\Admin\Dump;
 use App\Models\BaseModel;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Support\Carbon;
 use Tests\TestCase;
 
@@ -35,7 +34,6 @@ class DumpIndexTest extends TestCase
 {
     use SortsModels;
     use WithFaker;
-    use WithoutEvents;
 
     /**
      * By default, the Dump Index Endpoint shall return a collection of Dump Resources.

@@ -26,7 +26,6 @@ use App\Models\Wiki\Song;
 use App\Pivots\BasePivot;
 use App\Pivots\Wiki\ArtistSong;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Tests\TestCase;
@@ -38,7 +37,6 @@ class ArtistSongIndexTest extends TestCase
 {
     use SortsModels;
     use WithFaker;
-    use WithoutEvents;
 
     /**
      * By default, the Artist Song Index Endpoint shall return a collection of Artist Song Resources.

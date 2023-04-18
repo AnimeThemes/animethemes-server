@@ -9,6 +9,7 @@ use App\Actions\Storage\Admin\Dump\PruneDumpAction;
 use App\Constants\Config\DumpConstants;
 use App\Enums\Actions\ActionStatus;
 use App\Models\Admin\Dump;
+use Exception;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
@@ -27,6 +28,8 @@ class PruneDumpTest extends TestCase
      * If no changes are needed, the Prune Dumps Action shall fail.
      *
      * @return void
+     *
+     * @throws Exception
      */
     public function testNoResults(): void
     {
@@ -47,6 +50,8 @@ class PruneDumpTest extends TestCase
      * The Prune Dumps Action shall prune dumps before the specified date by hours from the present time.
      *
      * @return void
+     *
+     * @throws Exception
      */
     public function testPruned(): void
     {

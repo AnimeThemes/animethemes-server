@@ -5,10 +5,15 @@ declare(strict_types=1);
 namespace Tests\Feature\Jobs\Wiki;
 
 use App\Constants\Config\FlagConstants;
+use App\Events\Wiki\Anime\AnimeCreated;
+use App\Events\Wiki\Anime\AnimeDeleted;
+use App\Events\Wiki\Anime\AnimeRestored;
+use App\Events\Wiki\Anime\AnimeUpdated;
 use App\Jobs\SendDiscordNotificationJob;
 use App\Models\Wiki\Anime;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
 /**
@@ -25,6 +30,7 @@ class AnimeTest extends TestCase
     {
         Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
         Bus::fake(SendDiscordNotificationJob::class);
+        Event::fakeExcept(AnimeCreated::class);
 
         Anime::factory()->createOne();
 
@@ -42,6 +48,7 @@ class AnimeTest extends TestCase
 
         Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
         Bus::fake(SendDiscordNotificationJob::class);
+        Event::fakeExcept(AnimeDeleted::class);
 
         $anime->delete();
 
@@ -59,6 +66,7 @@ class AnimeTest extends TestCase
 
         Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
         Bus::fake(SendDiscordNotificationJob::class);
+        Event::fakeExcept(AnimeRestored::class);
 
         $anime->restore();
 
@@ -76,6 +84,7 @@ class AnimeTest extends TestCase
 
         Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
         Bus::fake(SendDiscordNotificationJob::class);
+        Event::fakeExcept(AnimeUpdated::class);
 
         $changes = Anime::factory()->makeOne();
 

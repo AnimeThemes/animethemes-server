@@ -23,8 +23,5 @@ parameters:
         - '#Call to an undefined method ProtoneMedia\\LaravelFFMpeg\\Drivers\\PHPFFMpeg::export\(\).#'
         - '#Call to an undefined method ProtoneMedia\\LaravelFFMpeg\\Drivers\\PHPFFMpeg::getProcessOutput\(\).#'
         -
-            message: '#Unreachable statement - code above always terminates.#'
-            path: app/Http/Middleware/ThrottleRequestsWithService.php
-        -
             message: '#Method App\\Rules\\Wiki\\Submission\\SubmissionRule::#'
             path: app/Rules/Wiki/Submission/SubmissionRule.php

@@ -21,12 +21,10 @@ class Authenticate extends Middleware
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    protected function redirectTo($request): ?string
+    protected function redirectTo(Request $request): ?string
     {
-        if (! $request->expectsJson()) {
-            return url(Config::get('wiki.login'));
-        }
-
-        return null;
+        return $request->expectsJson()
+            ? null
+            : url(Config::get('wiki.login'));
     }
 }

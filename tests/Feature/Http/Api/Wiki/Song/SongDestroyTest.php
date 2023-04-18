@@ -7,7 +7,6 @@ namespace Tests\Feature\Http\Api\Wiki\Song;
 use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Song;
-use Illuminate\Foundation\Testing\WithoutEvents;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
@@ -16,8 +15,6 @@ use Tests\TestCase;
  */
 class SongDestroyTest extends TestCase
 {
-    use WithoutEvents;
-
     /**
      * The Song Destroy Endpoint shall be protected by sanctum.
      *

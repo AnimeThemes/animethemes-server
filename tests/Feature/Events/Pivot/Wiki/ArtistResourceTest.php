@@ -26,8 +26,6 @@ class ArtistResourceTest extends TestCase
      */
     public function testArtistResourceCreatedEventDispatched(): void
     {
-        Event::fake();
-
         $artist = Artist::factory()->createOne();
         $resource = ExternalResource::factory()->createOne();
 
@@ -43,8 +41,6 @@ class ArtistResourceTest extends TestCase
      */
     public function testArtistResourceDeletedEventDispatched(): void
     {
-        Event::fake();
-
         $artist = Artist::factory()->createOne();
         $resource = ExternalResource::factory()->createOne();
 
@@ -61,8 +57,6 @@ class ArtistResourceTest extends TestCase
      */
     public function testArtistResourceUpdatedEventDispatched(): void
     {
-        Event::fake();
-
         $artist = Artist::factory()->createOne();
         $resource = ExternalResource::factory()->createOne();
 
@@ -89,8 +83,6 @@ class ArtistResourceTest extends TestCase
      */
     public function testArtistResourceUpdatedEventEmbedFields(): void
     {
-        Event::fake();
-
         $artist = Artist::factory()->createOne();
         $resource = ExternalResource::factory()->createOne();
 

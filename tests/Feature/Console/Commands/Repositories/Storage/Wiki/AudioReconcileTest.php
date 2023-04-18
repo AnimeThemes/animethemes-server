@@ -8,7 +8,6 @@ use App\Console\Commands\Repositories\Storage\Wiki\AudioReconcileCommand;
 use App\Models\Wiki\Audio;
 use App\Repositories\Storage\Wiki\AudioRepository;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Support\Collection;
 use Mockery\MockInterface;
 use Tests\TestCase;
@@ -19,7 +18,6 @@ use Tests\TestCase;
 class AudioReconcileTest extends TestCase
 {
     use WithFaker;
-    use WithoutEvents;
 
     /**
      * If no changes are needed, the Reconcile Audio Command shall output 'No Audio created or deleted or updated'.

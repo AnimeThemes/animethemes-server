@@ -24,7 +24,6 @@ use App\Http\Resources\Billing\Resource\TransactionResource;
 use App\Models\BaseModel;
 use App\Models\Billing\Transaction;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Support\Carbon;
 use Tests\TestCase;
 
@@ -35,7 +34,6 @@ class TransactionIndexTest extends TestCase
 {
     use SortsModels;
     use WithFaker;
-    use WithoutEvents;
 
     /**
      * By default, the Transaction Index Endpoint shall return a collection of Transaction Resources.

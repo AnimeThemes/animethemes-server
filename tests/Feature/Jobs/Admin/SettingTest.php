@@ -5,10 +5,14 @@ declare(strict_types=1);
 namespace Tests\Feature\Jobs\Admin;
 
 use App\Constants\Config\FlagConstants;
+use App\Events\Admin\Setting\SettingCreated;
+use App\Events\Admin\Setting\SettingDeleted;
+use App\Events\Admin\Setting\SettingUpdated;
 use App\Jobs\SendDiscordNotificationJob;
 use App\Models\Admin\Setting;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
 /**
@@ -25,6 +29,7 @@ class SettingTest extends TestCase
     {
         Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
         Bus::fake(SendDiscordNotificationJob::class);
+        Event::fakeExcept(SettingCreated::class);
 
         Setting::factory()->createOne();
 
@@ -42,6 +47,7 @@ class SettingTest extends TestCase
 
         Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
         Bus::fake(SendDiscordNotificationJob::class);
+        Event::fakeExcept(SettingDeleted::class);
 
         $setting->delete();
 
@@ -59,6 +65,7 @@ class SettingTest extends TestCase
 
         Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
         Bus::fake(SendDiscordNotificationJob::class);
+        Event::fakeExcept(SettingUpdated::class);
 
         $changes = Setting::factory()->makeOne();
 

@@ -7,7 +7,6 @@ namespace Tests\Unit\Pivots\Wiki;
 use App\Models\Wiki\Artist;
 use App\Pivots\Wiki\ArtistMember;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
 
 /**
@@ -15,8 +14,6 @@ use Tests\TestCase;
  */
 class ArtistMemberTest extends TestCase
 {
-    use WithoutEvents;
-
     /**
      * An ArtistMember shall belong to an Artist.
      *

@@ -11,8 +11,8 @@ use App\Constants\Config\FlagConstants;
 use App\Enums\Auth\SpecialPermission;
 use App\Models\Admin\Dump;
 use App\Models\Auth\User;
+use Exception;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
@@ -27,13 +27,14 @@ use Tests\TestCase;
 class LatestDocumentDumpTest extends TestCase
 {
     use WithFaker;
-    use WithoutEvents;
 
     /**
      * If dump downloading is disabled through the 'flags.allow_dump_downloading' property,
      * the user shall receive a forbidden exception.
      *
      * @return void
+     *
+     * @throws Exception
      */
     public function testDumpDownloadingNotAllowedForbidden(): void
     {

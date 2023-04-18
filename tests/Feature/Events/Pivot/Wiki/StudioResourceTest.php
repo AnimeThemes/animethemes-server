@@ -26,8 +26,6 @@ class StudioResourceTest extends TestCase
      */
     public function testStudioResourceCreatedEventDispatched(): void
     {
-        Event::fake();
-
         $studio = Studio::factory()->createOne();
         $resource = ExternalResource::factory()->createOne();
 
@@ -43,8 +41,6 @@ class StudioResourceTest extends TestCase
      */
     public function testStudioResourceDeletedEventDispatched(): void
     {
-        Event::fake();
-
         $studio = Studio::factory()->createOne();
         $resource = ExternalResource::factory()->createOne();
 
@@ -61,8 +57,6 @@ class StudioResourceTest extends TestCase
      */
     public function testStudioResourceUpdatedEventDispatched(): void
     {
-        Event::fake();
-
         $studio = Studio::factory()->createOne();
         $resource = ExternalResource::factory()->createOne();
 
@@ -89,8 +83,6 @@ class StudioResourceTest extends TestCase
      */
     public function testStudioResourceUpdatedEventEmbedFields(): void
     {
-        Event::fake();
-
         $studio = Studio::factory()->createOne();
         $resource = ExternalResource::factory()->createOne();
 

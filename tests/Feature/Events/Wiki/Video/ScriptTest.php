@@ -25,8 +25,6 @@ class ScriptTest extends TestCase
      */
     public function testVideoScriptCreatedEventDispatched(): void
     {
-        Event::fake();
-
         VideoScript::factory()->createOne();
 
         Event::assertDispatched(VideoScriptCreated::class);
@@ -39,8 +37,6 @@ class ScriptTest extends TestCase
      */
     public function testVideoScriptDeletedEventDispatched(): void
     {
-        Event::fake();
-
         $script = VideoScript::factory()->createOne();
 
         $script->delete();
@@ -55,8 +51,6 @@ class ScriptTest extends TestCase
      */
     public function testVideoScriptRestoredEventDispatched(): void
     {
-        Event::fake();
-
         $script = VideoScript::factory()->createOne();
 
         $script->restore();
@@ -73,8 +67,6 @@ class ScriptTest extends TestCase
      */
     public function testVideoScriptRestoresQuietly(): void
     {
-        Event::fake();
-
         $script = VideoScript::factory()->createOne();
 
         $script->restore();
@@ -89,8 +81,6 @@ class ScriptTest extends TestCase
      */
     public function testVideoScriptUpdatedEventDispatched(): void
     {
-        Event::fake();
-
         $script = VideoScript::factory()->createOne();
         $changes = VideoScript::factory()->makeOne();
 
@@ -107,8 +97,6 @@ class ScriptTest extends TestCase
      */
     public function testVideoScriptUpdatedEventEmbedFields(): void
     {
-        Event::fake();
-
         $script = VideoScript::factory()->createOne();
         $changes = VideoScript::factory()->makeOne();
 

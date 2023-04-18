@@ -5,12 +5,17 @@ declare(strict_types=1);
 namespace Tests\Feature\Jobs\List\Playlist;
 
 use App\Constants\Config\FlagConstants;
+use App\Events\List\Playlist\Track\TrackCreated;
+use App\Events\List\Playlist\Track\TrackDeleted;
+use App\Events\List\Playlist\Track\TrackRestored;
+use App\Events\List\Playlist\Track\TrackUpdated;
 use App\Jobs\SendDiscordNotificationJob;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
 use App\Models\Wiki\Video;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
 /**
@@ -29,6 +34,7 @@ class TrackTest extends TestCase
 
         Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
         Bus::fake(SendDiscordNotificationJob::class);
+        Event::fakeExcept(TrackCreated::class);
 
         PlaylistTrack::factory()
             ->for($playlist)
@@ -52,6 +58,7 @@ class TrackTest extends TestCase
 
         Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
         Bus::fake(SendDiscordNotificationJob::class);
+        Event::fakeExcept(TrackDeleted::class);
 
         $track->delete();
 
@@ -73,6 +80,7 @@ class TrackTest extends TestCase
 
         Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
         Bus::fake(SendDiscordNotificationJob::class);
+        Event::fakeExcept(TrackRestored::class);
 
         $track->restore();
 
@@ -94,6 +102,7 @@ class TrackTest extends TestCase
 
         Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
         Bus::fake(SendDiscordNotificationJob::class);
+        Event::fakeExcept(TrackUpdated::class);
 
         $changes = array_merge(
             PlaylistTrack::factory()->raw(),

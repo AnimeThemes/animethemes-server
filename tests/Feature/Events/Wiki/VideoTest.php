@@ -25,8 +25,6 @@ class VideoTest extends TestCase
      */
     public function testVideoCreatedEventDispatched(): void
     {
-        Event::fake();
-
         Video::factory()->createOne();
 
         Event::assertDispatched(VideoCreated::class);
@@ -39,8 +37,6 @@ class VideoTest extends TestCase
      */
     public function testVideoDeletedEventDispatched(): void
     {
-        Event::fake();
-
         $video = Video::factory()->createOne();
 
         $video->delete();
@@ -55,8 +51,6 @@ class VideoTest extends TestCase
      */
     public function testVideoRestoredEventDispatched(): void
     {
-        Event::fake();
-
         $video = Video::factory()->createOne();
 
         $video->restore();
@@ -73,8 +67,6 @@ class VideoTest extends TestCase
      */
     public function testVideoRestoresQuietly(): void
     {
-        Event::fake();
-
         $video = Video::factory()->createOne();
 
         $video->restore();
@@ -89,8 +81,6 @@ class VideoTest extends TestCase
      */
     public function testVideoUpdatedEventDispatched(): void
     {
-        Event::fake();
-
         $video = Video::factory()->createOne();
         $changes = Video::factory()->makeOne();
 
@@ -107,8 +97,6 @@ class VideoTest extends TestCase
      */
     public function testVideoUpdatedEventEmbedFields(): void
     {
-        Event::fake();
-
         $video = Video::factory()->createOne();
         $changes = Video::factory()->makeOne();
 

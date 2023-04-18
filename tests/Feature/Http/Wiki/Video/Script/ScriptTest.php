@@ -10,7 +10,6 @@ use App\Enums\Auth\SpecialPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Video\VideoScript;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
@@ -23,7 +22,6 @@ use Tests\TestCase;
 class ScriptTest extends TestCase
 {
     use WithFaker;
-    use WithoutEvents;
 
     /**
      * If script downloading is disabled through the 'flags.allow_script_downloading' property,

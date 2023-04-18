@@ -25,8 +25,6 @@ class BalanceTest extends TestCase
      */
     public function testBalanceCreatedEventDispatched(): void
     {
-        Event::fake();
-
         Balance::factory()->createOne();
 
         Event::assertDispatched(BalanceCreated::class);
@@ -39,8 +37,6 @@ class BalanceTest extends TestCase
      */
     public function testBalanceDeletedEventDispatched(): void
     {
-        Event::fake();
-
         $balance = Balance::factory()->createOne();
 
         $balance->delete();
@@ -55,8 +51,6 @@ class BalanceTest extends TestCase
      */
     public function testBalanceRestoredEventDispatched(): void
     {
-        Event::fake();
-
         $balance = Balance::factory()->createOne();
 
         $balance->restore();
@@ -73,8 +67,6 @@ class BalanceTest extends TestCase
      */
     public function testBalanceRestoresQuietly(): void
     {
-        Event::fake();
-
         $balance = Balance::factory()->createOne();
 
         $balance->restore();
@@ -89,8 +81,6 @@ class BalanceTest extends TestCase
      */
     public function testBalanceUpdatedEventDispatched(): void
     {
-        Event::fake();
-
         $balance = Balance::factory()->createOne();
         $changes = Balance::factory()->makeOne();
 
@@ -107,8 +97,6 @@ class BalanceTest extends TestCase
      */
     public function testBalanceUpdatedEventEmbedFields(): void
     {
-        Event::fake();
-
         $balance = Balance::factory()->createOne();
         $changes = Balance::factory()->makeOne();
 

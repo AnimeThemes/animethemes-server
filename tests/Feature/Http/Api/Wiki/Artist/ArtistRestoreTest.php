@@ -7,7 +7,6 @@ namespace Tests\Feature\Http\Api\Wiki\Artist;
 use App\Enums\Auth\ExtendedCrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Artist;
-use Illuminate\Foundation\Testing\WithoutEvents;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
@@ -16,8 +15,6 @@ use Tests\TestCase;
  */
 class ArtistRestoreTest extends TestCase
 {
-    use WithoutEvents;
-
     /**
      * The Artist Restore Endpoint shall be protected by sanctum.
      *

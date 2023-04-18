@@ -7,7 +7,6 @@ namespace Tests\Feature\Http\Api\Wiki\Audio;
 use App\Enums\Auth\ExtendedCrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Audio;
-use Illuminate\Foundation\Testing\WithoutEvents;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
@@ -16,8 +15,6 @@ use Tests\TestCase;
  */
 class AudioForceDeleteTest extends TestCase
 {
-    use WithoutEvents;
-
     /**
      * The Audio Force Delete Endpoint shall be protected by sanctum.
      *

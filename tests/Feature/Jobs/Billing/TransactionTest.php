@@ -5,10 +5,15 @@ declare(strict_types=1);
 namespace Tests\Feature\Jobs\Billing;
 
 use App\Constants\Config\FlagConstants;
+use App\Events\Billing\Transaction\TransactionCreated;
+use App\Events\Billing\Transaction\TransactionDeleted;
+use App\Events\Billing\Transaction\TransactionRestored;
+use App\Events\Billing\Transaction\TransactionUpdated;
 use App\Jobs\SendDiscordNotificationJob;
 use App\Models\Billing\Transaction;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
 /**
@@ -25,6 +30,7 @@ class TransactionTest extends TestCase
     {
         Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
         Bus::fake(SendDiscordNotificationJob::class);
+        Event::fakeExcept(TransactionCreated::class);
 
         Transaction::factory()->createOne();
 
@@ -42,6 +48,7 @@ class TransactionTest extends TestCase
 
         Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
         Bus::fake(SendDiscordNotificationJob::class);
+        Event::fakeExcept(TransactionDeleted::class);
 
         $transaction->delete();
 
@@ -59,6 +66,7 @@ class TransactionTest extends TestCase
 
         Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
         Bus::fake(SendDiscordNotificationJob::class);
+        Event::fakeExcept(TransactionRestored::class);
 
         $transaction->restore();
 
@@ -76,6 +84,7 @@ class TransactionTest extends TestCase
 
         Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
         Bus::fake(SendDiscordNotificationJob::class);
+        Event::fakeExcept(TransactionUpdated::class);
 
         $changes = Transaction::factory()->makeOne();
 

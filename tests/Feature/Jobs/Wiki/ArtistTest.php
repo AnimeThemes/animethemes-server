@@ -5,10 +5,15 @@ declare(strict_types=1);
 namespace Tests\Feature\Jobs\Wiki;
 
 use App\Constants\Config\FlagConstants;
+use App\Events\Wiki\Artist\ArtistCreated;
+use App\Events\Wiki\Artist\ArtistDeleted;
+use App\Events\Wiki\Artist\ArtistRestored;
+use App\Events\Wiki\Artist\ArtistUpdated;
 use App\Jobs\SendDiscordNotificationJob;
 use App\Models\Wiki\Artist;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
 /**
@@ -25,6 +30,7 @@ class ArtistTest extends TestCase
     {
         Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
         Bus::fake(SendDiscordNotificationJob::class);
+        Event::fakeExcept(ArtistCreated::class);
 
         Artist::factory()->createOne();
 
@@ -42,6 +48,7 @@ class ArtistTest extends TestCase
 
         Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
         Bus::fake(SendDiscordNotificationJob::class);
+        Event::fakeExcept(ArtistDeleted::class);
 
         $artist->delete();
 
@@ -59,6 +66,7 @@ class ArtistTest extends TestCase
 
         Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
         Bus::fake(SendDiscordNotificationJob::class);
+        Event::fakeExcept(ArtistRestored::class);
 
         $artist->restore();
 
@@ -76,6 +84,7 @@ class ArtistTest extends TestCase
 
         Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
         Bus::fake(SendDiscordNotificationJob::class);
+        Event::fakeExcept(ArtistUpdated::class);
 
         $changes = Artist::factory()->makeOne();
 

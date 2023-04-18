@@ -9,7 +9,6 @@ use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Image;
 use App\Pivots\Wiki\AnimeImage;
-use Illuminate\Foundation\Testing\WithoutEvents;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
@@ -18,8 +17,6 @@ use Tests\TestCase;
  */
 class AnimeImageDestroyTest extends TestCase
 {
-    use WithoutEvents;
-
     /**
      * The Anime Image Destroy Endpoint shall be protected by sanctum.
      *

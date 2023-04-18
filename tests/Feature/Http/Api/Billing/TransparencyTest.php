@@ -8,7 +8,6 @@ use App\Enums\Http\Api\Filter\AllowedDateFormat;
 use App\Models\Billing\Balance;
 use App\Models\Billing\Transaction;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Support\Facades\Date;
 use Tests\TestCase;
 
@@ -18,7 +17,6 @@ use Tests\TestCase;
 class TransparencyTest extends TestCase
 {
     use WithFaker;
-    use WithoutEvents;
 
     /**
      * The transparency show endpoint shall contain the nullable rule on the date field.

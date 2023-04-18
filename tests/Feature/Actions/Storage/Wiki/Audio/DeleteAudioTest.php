@@ -8,6 +8,7 @@ use App\Actions\Storage\Wiki\Audio\DeleteAudioAction;
 use App\Constants\Config\AudioConstants;
 use App\Enums\Actions\ActionStatus;
 use App\Models\Wiki\Audio;
+use Exception;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Testing\File;
 use Illuminate\Http\Testing\MimeType;
@@ -102,6 +103,8 @@ class DeleteAudioTest extends TestCase
      * The Delete Audio Action shall delete the audio.
      *
      * @return void
+     *
+     * @throws Exception
      */
     public function testAudioDeleted(): void
     {

@@ -7,7 +7,6 @@ namespace Tests\Feature\Http\Api\Billing\Transaction;
 use App\Enums\Auth\ExtendedCrudPermission;
 use App\Models\Auth\User;
 use App\Models\Billing\Transaction;
-use Illuminate\Foundation\Testing\WithoutEvents;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
@@ -16,8 +15,6 @@ use Tests\TestCase;
  */
 class TransactionForceDeleteTest extends TestCase
 {
-    use WithoutEvents;
-
     /**
      * The Transaction Force Delete Endpoint shall be protected by sanctum.
      *

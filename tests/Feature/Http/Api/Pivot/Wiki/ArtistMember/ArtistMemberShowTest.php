@@ -14,7 +14,6 @@ use App\Http\Resources\Pivot\Wiki\Resource\ArtistMemberResource;
 use App\Models\Wiki\Artist;
 use App\Pivots\Wiki\ArtistMember;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
 
 /**
@@ -23,7 +22,6 @@ use Tests\TestCase;
 class ArtistMemberShowTest extends TestCase
 {
     use WithFaker;
-    use WithoutEvents;
 
     /**
      * The Artist Member Show Endpoint shall return an error if the artist member does not exist.

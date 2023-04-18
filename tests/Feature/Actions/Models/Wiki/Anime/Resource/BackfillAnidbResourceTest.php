@@ -9,8 +9,8 @@ use App\Enums\Actions\ActionStatus;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\ExternalResource;
+use Exception;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
 use Tests\TestCase;
@@ -27,12 +27,10 @@ class BackfillAnidbResourceTest extends TestCase
      *
      * @return void
      *
-     * @throws RequestException
+     * @throws Exception
      */
     public function testSkipped(): void
     {
-        Http::fake();
-
         $resource = ExternalResource::factory()->createOne([
             ExternalResource::ATTRIBUTE_SITE => ResourceSite::ANIDB,
         ]);
@@ -55,12 +53,10 @@ class BackfillAnidbResourceTest extends TestCase
      *
      * @return void
      *
-     * @throws RequestException
+     * @throws Exception
      */
     public function testFailedWhenNoResource(): void
     {
-        Http::fake();
-
         $anime = Anime::factory()->createOne();
 
         $action = new BackfillAnidbResourceAction($anime);
@@ -77,7 +73,7 @@ class BackfillAnidbResourceTest extends TestCase
      *
      * @return void
      *
-     * @throws RequestException
+     * @throws Exception
      */
     public function testFailedWhenNoMatch(): void
     {
@@ -113,7 +109,7 @@ class BackfillAnidbResourceTest extends TestCase
      *
      * @return void
      *
-     * @throws RequestException
+     * @throws Exception
      */
     public function testPassed(): void
     {
@@ -152,7 +148,7 @@ class BackfillAnidbResourceTest extends TestCase
      *
      * @return void
      *
-     * @throws RequestException
+     * @throws Exception
      */
     public function testGetsExistingResource(): void
     {

@@ -8,7 +8,6 @@ use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Artist;
 use App\Pivots\Wiki\ArtistMember;
-use Illuminate\Foundation\Testing\WithoutEvents;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
@@ -17,8 +16,6 @@ use Tests\TestCase;
  */
 class ArtistMemberStoreTest extends TestCase
 {
-    use WithoutEvents;
-
     /**
      * The Artist Member Store Endpoint shall be protected by sanctum.
      *

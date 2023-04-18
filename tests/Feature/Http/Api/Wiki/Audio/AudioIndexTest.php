@@ -27,7 +27,6 @@ use App\Models\BaseModel;
 use App\Models\Wiki\Audio;
 use App\Models\Wiki\Video;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Support\Carbon;
 use Tests\TestCase;
 
@@ -38,7 +37,6 @@ class AudioIndexTest extends TestCase
 {
     use SortsModels;
     use WithFaker;
-    use WithoutEvents;
 
     /**
      * By default, the Audio Index Endpoint shall return a collection of Audio Resources.

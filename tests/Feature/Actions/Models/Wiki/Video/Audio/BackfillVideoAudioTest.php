@@ -14,6 +14,7 @@ use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Audio;
 use App\Models\Wiki\Video;
+use Exception;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
@@ -31,6 +32,8 @@ class BackfillVideoAudioTest extends TestCase
      * The Backfill Audio Action shall skip the Anime if the relation already exists.
      *
      * @return void
+     *
+     * @throws Exception
      */
     public function testSkipped(): void
     {
@@ -54,6 +57,8 @@ class BackfillVideoAudioTest extends TestCase
      * The Backfill Audio Action shall fail if the Video is not attached to any Entries.
      *
      * @return void
+     *
+     * @throws Exception
      */
     public function testFailedWhenNoEntries(): void
     {
@@ -75,6 +80,8 @@ class BackfillVideoAudioTest extends TestCase
      * The Backfill Audio Action shall pass if the Video is a source.
      *
      * @return void
+     *
+     * @throws Exception
      */
     public function testPassesSourceVideo(): void
     {
@@ -105,6 +112,8 @@ class BackfillVideoAudioTest extends TestCase
      * The Backfill Audio Action shall pass if the Video has a higher priority source.
      *
      * @return void
+     *
+     * @throws Exception
      */
     public function testPassesWithHigherPrioritySource(): void
     {
@@ -140,6 +149,8 @@ class BackfillVideoAudioTest extends TestCase
      * The Backfill Audio Action shall pass if the Video has a primary version source.
      *
      * @return void
+     *
+     * @throws Exception
      */
     public function testPassesWithPrimaryVersionSource(): void
     {

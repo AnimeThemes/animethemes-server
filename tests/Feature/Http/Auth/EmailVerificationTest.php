@@ -6,9 +6,11 @@ namespace Tests\Feature\Http\Auth;
 
 use App\Models\Auth\Role;
 use App\Models\Auth\User;
+use Illuminate\Auth\Events\Verified;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
 use Spatie\Permission\PermissionRegistrar;
@@ -28,6 +30,8 @@ class EmailVerificationTest extends TestCase
      */
     public function testAssignsDefaultRoles(): void
     {
+        Event::fakeExcept(Verified::class);
+
         Collection::times($this->faker->randomDigitNotNull, function () {
             Role::findOrCreate(Str::random());
         });

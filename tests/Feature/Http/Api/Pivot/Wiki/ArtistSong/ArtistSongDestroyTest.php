@@ -9,7 +9,6 @@ use App\Models\Auth\User;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Song;
 use App\Pivots\Wiki\ArtistSong;
-use Illuminate\Foundation\Testing\WithoutEvents;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
@@ -18,8 +17,6 @@ use Tests\TestCase;
  */
 class ArtistSongDestroyTest extends TestCase
 {
-    use WithoutEvents;
-
     /**
      * The Artist Song Destroy Endpoint shall be protected by sanctum.
      *

@@ -23,8 +23,6 @@ class StudioImageTest extends TestCase
      */
     public function testStudioImageCreatedEventDispatched(): void
     {
-        Event::fake();
-
         $studio = Studio::factory()->createOne();
         $image = Image::factory()->createOne();
 
@@ -40,8 +38,6 @@ class StudioImageTest extends TestCase
      */
     public function testStudioImageDeletedEventDispatched(): void
     {
-        Event::fake();
-
         $studio = Studio::factory()->createOne();
         $image = Image::factory()->createOne();
 

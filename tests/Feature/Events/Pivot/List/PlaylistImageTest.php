@@ -23,8 +23,6 @@ class PlaylistImageTest extends TestCase
      */
     public function testPlaylistImageCreatedEventDispatched(): void
     {
-        Event::fake();
-
         $playlist = Playlist::factory()->createOne();
         $image = Image::factory()->createOne();
 
@@ -40,8 +38,6 @@ class PlaylistImageTest extends TestCase
      */
     public function testPlaylistImageDeletedEventDispatched(): void
     {
-        Event::fake();
-
         $playlist = Playlist::factory()->createOne();
         $image = Image::factory()->createOne();
 

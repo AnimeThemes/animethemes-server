@@ -25,8 +25,6 @@ class ImageTest extends TestCase
      */
     public function testImageCreatedEventDispatched(): void
     {
-        Event::fake();
-
         Image::factory()->createOne();
 
         Event::assertDispatched(ImageCreated::class);
@@ -39,8 +37,6 @@ class ImageTest extends TestCase
      */
     public function testImageDeletedEventDispatched(): void
     {
-        Event::fake();
-
         $image = Image::factory()->createOne();
 
         $image->delete();
@@ -55,8 +51,6 @@ class ImageTest extends TestCase
      */
     public function testImageRestoredEventDispatched(): void
     {
-        Event::fake();
-
         $image = Image::factory()->createOne();
 
         $image->restore();
@@ -73,8 +67,6 @@ class ImageTest extends TestCase
      */
     public function testImageRestoresQuietly(): void
     {
-        Event::fake();
-
         $image = Image::factory()->createOne();
 
         $image->restore();
@@ -89,8 +81,6 @@ class ImageTest extends TestCase
      */
     public function testImageUpdatedEventDispatched(): void
     {
-        Event::fake();
-
         $image = Image::factory()->createOne();
         $changes = Image::factory()->makeOne();
 
@@ -107,8 +97,6 @@ class ImageTest extends TestCase
      */
     public function testImageUpdatedEventEmbedFields(): void
     {
-        Event::fake();
-
         $image = Image::factory()->createOne();
         $changes = Image::factory()->makeOne();
 

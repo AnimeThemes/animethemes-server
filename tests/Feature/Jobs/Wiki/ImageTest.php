@@ -5,10 +5,15 @@ declare(strict_types=1);
 namespace Tests\Feature\Jobs\Wiki;
 
 use App\Constants\Config\FlagConstants;
+use App\Events\Wiki\Image\ImageCreated;
+use App\Events\Wiki\Image\ImageDeleted;
+use App\Events\Wiki\Image\ImageRestored;
+use App\Events\Wiki\Image\ImageUpdated;
 use App\Jobs\SendDiscordNotificationJob;
 use App\Models\Wiki\Image;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
 /**
@@ -25,6 +30,7 @@ class ImageTest extends TestCase
     {
         Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
         Bus::fake(SendDiscordNotificationJob::class);
+        Event::fakeExcept(ImageCreated::class);
 
         Image::factory()->createOne();
 
@@ -42,6 +48,7 @@ class ImageTest extends TestCase
 
         Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
         Bus::fake(SendDiscordNotificationJob::class);
+        Event::fakeExcept(ImageDeleted::class);
 
         $image->delete();
 
@@ -59,6 +66,7 @@ class ImageTest extends TestCase
 
         Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
         Bus::fake(SendDiscordNotificationJob::class);
+        Event::fakeExcept(ImageRestored::class);
 
         $image->restore();
 
@@ -76,6 +84,7 @@ class ImageTest extends TestCase
 
         Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
         Bus::fake(SendDiscordNotificationJob::class);
+        Event::fakeExcept(ImageUpdated::class);
 
         $changes = Image::factory()->makeOne();
 

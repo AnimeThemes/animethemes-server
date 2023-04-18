@@ -14,7 +14,6 @@ use App\Enums\Rules\ModerationService;
 use App\Models\Auth\User;
 use App\Models\List\Playlist;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
 use Laravel\Sanctum\Sanctum;
@@ -26,7 +25,6 @@ use Tests\TestCase;
 class PlaylistStoreTest extends TestCase
 {
     use WithFaker;
-    use WithoutEvents;
 
     /**
      * The Playlist Store Endpoint shall be protected by sanctum.

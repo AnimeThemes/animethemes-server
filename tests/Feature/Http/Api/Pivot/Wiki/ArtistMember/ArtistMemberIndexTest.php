@@ -25,7 +25,6 @@ use App\Models\Wiki\Artist;
 use App\Pivots\BasePivot;
 use App\Pivots\Wiki\ArtistMember;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Tests\TestCase;
@@ -37,7 +36,6 @@ class ArtistMemberIndexTest extends TestCase
 {
     use SortsModels;
     use WithFaker;
-    use WithoutEvents;
 
     /**
      * By default, the Artist Member Index Endpoint shall return a collection of Artist Member Resources.

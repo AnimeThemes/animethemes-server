@@ -25,8 +25,6 @@ class AnnouncementTest extends TestCase
      */
     public function testAnnouncementCreatedEventDispatched(): void
     {
-        Event::fake();
-
         Announcement::factory()->create();
 
         Event::assertDispatched(AnnouncementCreated::class);
@@ -39,8 +37,6 @@ class AnnouncementTest extends TestCase
      */
     public function testAnnouncementDeletedEventDispatched(): void
     {
-        Event::fake();
-
         $announcement = Announcement::factory()->create();
 
         $announcement->delete();
@@ -55,8 +51,6 @@ class AnnouncementTest extends TestCase
      */
     public function testAnnouncementRestoredEventDispatched(): void
     {
-        Event::fake();
-
         $announcement = Announcement::factory()->createOne();
 
         $announcement->restore();
@@ -73,8 +67,6 @@ class AnnouncementTest extends TestCase
      */
     public function testAnnouncementRestoresQuietly(): void
     {
-        Event::fake();
-
         $announcement = Announcement::factory()->createOne();
 
         $announcement->restore();
@@ -89,8 +81,6 @@ class AnnouncementTest extends TestCase
      */
     public function testAnnouncementUpdatedEventDispatched(): void
     {
-        Event::fake();
-
         $announcement = Announcement::factory()->createOne();
         $changes = Announcement::factory()->makeOne();
 
@@ -107,8 +97,6 @@ class AnnouncementTest extends TestCase
      */
     public function testAnnouncementUpdatedEventEmbedFields(): void
     {
-        Event::fake();
-
         $announcement = Announcement::factory()->createOne();
         $changes = Announcement::factory()->makeOne();
 

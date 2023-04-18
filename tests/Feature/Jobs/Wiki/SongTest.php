@@ -5,10 +5,15 @@ declare(strict_types=1);
 namespace Tests\Feature\Jobs\Wiki;
 
 use App\Constants\Config\FlagConstants;
+use App\Events\Wiki\Song\SongCreated;
+use App\Events\Wiki\Song\SongDeleted;
+use App\Events\Wiki\Song\SongRestored;
+use App\Events\Wiki\Song\SongUpdated;
 use App\Jobs\SendDiscordNotificationJob;
 use App\Models\Wiki\Song;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
 /**
@@ -25,6 +30,7 @@ class SongTest extends TestCase
     {
         Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
         Bus::fake(SendDiscordNotificationJob::class);
+        Event::fakeExcept(SongCreated::class);
 
         Song::factory()->createOne();
 
@@ -42,6 +48,7 @@ class SongTest extends TestCase
 
         Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
         Bus::fake(SendDiscordNotificationJob::class);
+        Event::fakeExcept(SongDeleted::class);
 
         $song->delete();
 
@@ -59,6 +66,7 @@ class SongTest extends TestCase
 
         Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
         Bus::fake(SendDiscordNotificationJob::class);
+        Event::fakeExcept(SongRestored::class);
 
         $song->restore();
 
@@ -76,6 +84,7 @@ class SongTest extends TestCase
 
         Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
         Bus::fake(SendDiscordNotificationJob::class);
+        Event::fakeExcept(SongUpdated::class);
 
         $changes = Song::factory()->makeOne();
 
