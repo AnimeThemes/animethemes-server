@@ -8,6 +8,7 @@ use App\Actions\Storage\Admin\Dump\DumpWikiAction;
 use App\Constants\Config\DumpConstants;
 use App\Enums\Actions\ActionStatus;
 use App\Models\Admin\Dump;
+use Exception;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Date;
@@ -25,6 +26,8 @@ class DumpWikiTest extends TestCase
      * The Database Dump Command shall output "Database dump '{dumpFile}' has been created".
      *
      * @return void
+     *
+     * @throws Exception
      */
     public function testDataBaseDumpOutput(): void
     {

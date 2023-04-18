@@ -25,8 +25,6 @@ class TransactionTest extends TestCase
      */
     public function testTransactionCreatedEventDispatched(): void
     {
-        Event::fake();
-
         Transaction::factory()->createOne();
 
         Event::assertDispatched(TransactionCreated::class);
@@ -39,8 +37,6 @@ class TransactionTest extends TestCase
      */
     public function testTransactionDeletedEventDispatched(): void
     {
-        Event::fake();
-
         $transaction = Transaction::factory()->createOne();
 
         $transaction->delete();
@@ -55,8 +51,6 @@ class TransactionTest extends TestCase
      */
     public function testTransactionRestoredEventDispatched(): void
     {
-        Event::fake();
-
         $transaction = Transaction::factory()->createOne();
 
         $transaction->restore();
@@ -73,8 +67,6 @@ class TransactionTest extends TestCase
      */
     public function testTransactionRestoresQuietly(): void
     {
-        Event::fake();
-
         $transaction = Transaction::factory()->createOne();
 
         $transaction->restore();
@@ -89,8 +81,6 @@ class TransactionTest extends TestCase
      */
     public function testTransactionUpdatedEventDispatched(): void
     {
-        Event::fake();
-
         $transaction = Transaction::factory()->createOne();
         $changes = Transaction::factory()->makeOne();
 
@@ -107,8 +97,6 @@ class TransactionTest extends TestCase
      */
     public function testTransactionUpdatedEventEmbedFields(): void
     {
-        Event::fake();
-
         $transaction = Transaction::factory()->createOne();
         $changes = Transaction::factory()->makeOne();
 

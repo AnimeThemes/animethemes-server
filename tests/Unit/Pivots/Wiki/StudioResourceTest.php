@@ -8,7 +8,6 @@ use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Studio;
 use App\Pivots\Wiki\StudioResource;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
 
 /**
@@ -16,8 +15,6 @@ use Tests\TestCase;
  */
 class StudioResourceTest extends TestCase
 {
-    use WithoutEvents;
-
     /**
      * A StudioResource shall belong to a Studio.
      *

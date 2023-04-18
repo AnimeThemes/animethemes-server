@@ -23,8 +23,6 @@ class AnimeImageTest extends TestCase
      */
     public function testAnimeImageCreatedEventDispatched(): void
     {
-        Event::fake();
-
         $anime = Anime::factory()->createOne();
         $image = Image::factory()->createOne();
 
@@ -40,8 +38,6 @@ class AnimeImageTest extends TestCase
      */
     public function testAnimeImageDeletedEventDispatched(): void
     {
-        Event::fake();
-
         $anime = Anime::factory()->createOne();
         $image = Image::factory()->createOne();
 

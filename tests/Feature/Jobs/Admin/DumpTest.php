@@ -5,10 +5,15 @@ declare(strict_types=1);
 namespace Tests\Feature\Jobs\Admin;
 
 use App\Constants\Config\FlagConstants;
+use App\Events\Admin\Dump\DumpCreated;
+use App\Events\Admin\Dump\DumpDeleted;
+use App\Events\Admin\Dump\DumpRestored;
+use App\Events\Admin\Dump\DumpUpdated;
 use App\Jobs\SendDiscordNotificationJob;
 use App\Models\Admin\Dump;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
 /**
@@ -25,6 +30,7 @@ class DumpTest extends TestCase
     {
         Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
         Bus::fake(SendDiscordNotificationJob::class);
+        Event::fakeExcept(DumpCreated::class);
 
         Dump::factory()->createOne();
 
@@ -42,6 +48,7 @@ class DumpTest extends TestCase
 
         Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
         Bus::fake(SendDiscordNotificationJob::class);
+        Event::fakeExcept(DumpDeleted::class);
 
         $dump->delete();
 
@@ -59,6 +66,7 @@ class DumpTest extends TestCase
 
         Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
         Bus::fake(SendDiscordNotificationJob::class);
+        Event::fakeExcept(DumpRestored::class);
 
         $dump->restore();
 
@@ -76,6 +84,7 @@ class DumpTest extends TestCase
 
         Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
         Bus::fake(SendDiscordNotificationJob::class);
+        Event::fakeExcept(DumpUpdated::class);
 
         $changes = Dump::factory()->makeOne();
 

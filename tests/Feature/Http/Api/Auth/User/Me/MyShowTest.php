@@ -8,7 +8,6 @@ use App\Http\Api\Query\Query;
 use App\Http\Resources\Auth\Resource\UserResource;
 use App\Models\Auth\User;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\WithoutEvents;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
@@ -18,7 +17,6 @@ use Tests\TestCase;
 class MyShowTest extends TestCase
 {
     use WithFaker;
-    use WithoutEvents;
 
     /**
      * The My Show Endpoint shall be protected by sanctum.

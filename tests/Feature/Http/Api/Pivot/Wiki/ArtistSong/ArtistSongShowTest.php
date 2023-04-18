@@ -15,7 +15,6 @@ use App\Models\Wiki\Artist;
 use App\Models\Wiki\Song;
 use App\Pivots\Wiki\ArtistSong;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
 
 /**
@@ -24,7 +23,6 @@ use Tests\TestCase;
 class ArtistSongShowTest extends TestCase
 {
     use WithFaker;
-    use WithoutEvents;
 
     /**
      * The Artist Song Show Endpoint shall return an error if the artist song does not exist.

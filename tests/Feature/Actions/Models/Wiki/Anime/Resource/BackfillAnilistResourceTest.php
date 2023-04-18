@@ -9,8 +9,8 @@ use App\Enums\Actions\ActionStatus;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\ExternalResource;
+use Exception;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
 use Tests\TestCase;
@@ -27,12 +27,10 @@ class BackfillAnilistResourceTest extends TestCase
      *
      * @return void
      *
-     * @throws RequestException
+     * @throws Exception
      */
     public function testSkipped(): void
     {
-        Http::fake();
-
         $resource = ExternalResource::factory()->createOne([
             ExternalResource::ATTRIBUTE_SITE => ResourceSite::ANILIST,
         ]);
@@ -55,12 +53,10 @@ class BackfillAnilistResourceTest extends TestCase
      *
      * @return void
      *
-     * @throws RequestException
+     * @throws Exception
      */
     public function testFailedWhenNoResource(): void
     {
-        Http::fake();
-
         $anime = Anime::factory()->createOne();
 
         $action = new BackfillAnilistResourceAction($anime);
@@ -77,7 +73,7 @@ class BackfillAnilistResourceTest extends TestCase
      *
      * @return void
      *
-     * @throws RequestException
+     * @throws Exception
      */
     public function testFailedWhenNoMalMatch(): void
     {
@@ -109,7 +105,7 @@ class BackfillAnilistResourceTest extends TestCase
      *
      * @return void
      *
-     * @throws RequestException
+     * @throws Exception
      */
     public function testMalPassed(): void
     {
@@ -146,7 +142,7 @@ class BackfillAnilistResourceTest extends TestCase
      *
      * @return void
      *
-     * @throws RequestException
+     * @throws Exception
      */
     public function testFailedWhenNoKitsuMatch(): void
     {
@@ -178,7 +174,7 @@ class BackfillAnilistResourceTest extends TestCase
      *
      * @return void
      *
-     * @throws RequestException
+     * @throws Exception
      */
     public function testKitsuPassed(): void
     {
@@ -222,7 +218,7 @@ class BackfillAnilistResourceTest extends TestCase
      *
      * @return void
      *
-     * @throws RequestException
+     * @throws Exception
      */
     public function testFailedWhenNoAnidbMatch(): void
     {
@@ -252,7 +248,7 @@ class BackfillAnilistResourceTest extends TestCase
      *
      * @return void
      *
-     * @throws RequestException
+     * @throws Exception
      */
     public function testAnidbPassed(): void
     {
@@ -285,7 +281,7 @@ class BackfillAnilistResourceTest extends TestCase
      *
      * @return void
      *
-     * @throws RequestException
+     * @throws Exception
      */
     public function testGetsExistingResource(): void
     {

@@ -25,8 +25,6 @@ class SeriesTest extends TestCase
      */
     public function testSeriesCreatedEventDispatched(): void
     {
-        Event::fake();
-
         Series::factory()->createOne();
 
         Event::assertDispatched(SeriesCreated::class);
@@ -39,8 +37,6 @@ class SeriesTest extends TestCase
      */
     public function testSeriesDeletedEventDispatched(): void
     {
-        Event::fake();
-
         $series = Series::factory()->createOne();
 
         $series->delete();
@@ -55,8 +51,6 @@ class SeriesTest extends TestCase
      */
     public function testSeriesRestoredEventDispatched(): void
     {
-        Event::fake();
-
         $series = Series::factory()->createOne();
 
         $series->restore();
@@ -73,8 +67,6 @@ class SeriesTest extends TestCase
      */
     public function testSeriesRestoresQuietly(): void
     {
-        Event::fake();
-
         $series = Series::factory()->createOne();
 
         $series->restore();
@@ -89,8 +81,6 @@ class SeriesTest extends TestCase
      */
     public function testSeriesUpdatedEventDispatched(): void
     {
-        Event::fake();
-
         $series = Series::factory()->createOne();
         $changes = Series::factory()->makeOne();
 
@@ -107,8 +97,6 @@ class SeriesTest extends TestCase
      */
     public function testSeriesUpdatedEventEmbedFields(): void
     {
-        Event::fake();
-
         $series = Series::factory()->createOne();
         $changes = Series::factory()->makeOne();
 

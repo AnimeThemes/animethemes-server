@@ -32,7 +32,6 @@ use App\Models\List\Playlist\PlaylistTrack;
 use App\Models\Wiki\Image;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Support\Carbon;
 use Tests\TestCase;
 
@@ -43,7 +42,6 @@ class PlaylistIndexTest extends TestCase
 {
     use SortsModels;
     use WithFaker;
-    use WithoutEvents;
 
     /**
      * By default, the Playlist Index Endpoint shall return a collection of Playlist Resources with public visibility.

@@ -18,7 +18,6 @@ use App\Models\Wiki\Artist;
 use App\Models\Wiki\ExternalResource;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
 
 /**
@@ -27,7 +26,6 @@ use Tests\TestCase;
 class ExternalResourceShowTest extends TestCase
 {
     use WithFaker;
-    use WithoutEvents;
 
     /**
      * By default, the Resource Show Endpoint shall return an ExternalResource Resource.

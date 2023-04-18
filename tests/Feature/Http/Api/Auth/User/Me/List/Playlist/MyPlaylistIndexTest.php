@@ -10,7 +10,6 @@ use App\Http\Resources\List\Collection\PlaylistCollection;
 use App\Models\Auth\User;
 use App\Models\List\Playlist;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\WithoutEvents;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
@@ -20,7 +19,6 @@ use Tests\TestCase;
 class MyPlaylistIndexTest extends TestCase
 {
     use WithFaker;
-    use WithoutEvents;
 
     /**
      * The My Playlist Index Endpoint shall be protected by sanctum.

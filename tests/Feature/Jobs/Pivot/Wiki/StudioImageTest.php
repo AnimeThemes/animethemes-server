@@ -5,11 +5,14 @@ declare(strict_types=1);
 namespace Tests\Feature\Jobs\Pivot\Wiki;
 
 use App\Constants\Config\FlagConstants;
+use App\Events\Pivot\Wiki\StudioImage\StudioImageCreated;
+use App\Events\Pivot\Wiki\StudioImage\StudioImageDeleted;
 use App\Jobs\SendDiscordNotificationJob;
 use App\Models\Wiki\Image;
 use App\Models\Wiki\Studio;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
 /**
@@ -29,6 +32,7 @@ class StudioImageTest extends TestCase
 
         Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
         Bus::fake(SendDiscordNotificationJob::class);
+        Event::fakeExcept(StudioImageCreated::class);
 
         $studio->images()->attach($image);
 
@@ -49,6 +53,7 @@ class StudioImageTest extends TestCase
 
         Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
         Bus::fake(SendDiscordNotificationJob::class);
+        Event::fakeExcept(StudioImageDeleted::class);
 
         $studio->images()->detach($image);
 

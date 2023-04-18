@@ -18,7 +18,6 @@ use App\Models\Wiki\Video;
 use App\Models\Wiki\Video\VideoScript;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
 
 /**
@@ -27,7 +26,6 @@ use Tests\TestCase;
 class ScriptShowTest extends TestCase
 {
     use WithFaker;
-    use WithoutEvents;
 
     /**
      * By default, the Script Show Endpoint shall return a Script Resource.

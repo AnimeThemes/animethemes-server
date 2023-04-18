@@ -7,7 +7,6 @@ namespace Tests\Feature\Http\Api\Wiki\Anime;
 use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
-use Illuminate\Foundation\Testing\WithoutEvents;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
@@ -16,8 +15,6 @@ use Tests\TestCase;
  */
 class AnimeDestroyTest extends TestCase
 {
-    use WithoutEvents;
-
     /**
      * The Anime Destroy Endpoint shall be protected by sanctum.
      *

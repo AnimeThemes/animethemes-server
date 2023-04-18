@@ -31,7 +31,6 @@ use App\Pivots\BasePivot;
 use App\Pivots\Wiki\AnimeThemeEntryVideo;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Tests\TestCase;
@@ -43,7 +42,6 @@ class AnimeThemeEntryVideoIndexTest extends TestCase
 {
     use SortsModels;
     use WithFaker;
-    use WithoutEvents;
 
     /**
      * By default, the Anime Theme Entry Video Index Endpoint shall return a collection of Anime Theme Entry Video Resources.

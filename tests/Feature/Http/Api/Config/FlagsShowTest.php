@@ -11,7 +11,6 @@ use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Config\FlagsSchema;
 use App\Http\Resources\Config\Resource\FlagsResource;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
 
@@ -21,7 +20,6 @@ use Tests\TestCase;
 class FlagsShowTest extends TestCase
 {
     use WithFaker;
-    use WithoutEvents;
 
     /**
      * By default, the Flags Show Endpoint shall return a Flags Resource.

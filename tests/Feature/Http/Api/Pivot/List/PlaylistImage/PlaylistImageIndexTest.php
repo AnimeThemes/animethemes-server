@@ -31,7 +31,6 @@ use App\Pivots\List\PlaylistImage;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Tests\TestCase;
@@ -43,7 +42,6 @@ class PlaylistImageIndexTest extends TestCase
 {
     use SortsModels;
     use WithFaker;
-    use WithoutEvents;
 
     /**
      * By default, the Playlist Image Index Endpoint shall return a collection of Playlist Image Resources.

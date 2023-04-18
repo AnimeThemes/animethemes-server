@@ -8,7 +8,6 @@ use App\Actions\Models\List\Playlist\RemoveTrackAction;
 use App\Models\List\Playlist;
 use Exception;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
 
 /**
@@ -17,7 +16,6 @@ use Tests\TestCase;
 class RemoveTrackTest extends TestCase
 {
     use WithFaker;
-    use WithoutEvents;
 
     /**
      * The Remove Track Action shall remove the sole track.

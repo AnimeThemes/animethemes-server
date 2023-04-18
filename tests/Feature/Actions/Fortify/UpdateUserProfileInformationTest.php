@@ -10,7 +10,6 @@ use App\Enums\Rules\ModerationService;
 use App\Models\Auth\User;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Notification;
@@ -25,7 +24,6 @@ use Tests\TestCase;
 class UpdateUserProfileInformationTest extends TestCase
 {
     use WithFaker;
-    use WithoutEvents;
 
     /**
      * The Update User Profile Information Action shall require the name, email, password & terms fields.

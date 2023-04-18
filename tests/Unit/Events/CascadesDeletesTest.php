@@ -21,8 +21,6 @@ class CascadesDeletesTest extends TestCase
      */
     public function testListening(): void
     {
-        $fake = Event::fake();
-
-        $fake->assertListening(CascadesDeletesEvent::class, CascadesDeletes::class);
+        Event::assertListening(CascadesDeletesEvent::class, CascadesDeletes::class);
     }
 }

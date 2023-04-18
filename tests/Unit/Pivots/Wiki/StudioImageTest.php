@@ -8,7 +8,6 @@ use App\Models\Wiki\Image;
 use App\Models\Wiki\Studio;
 use App\Pivots\Wiki\StudioImage;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
 
 /**
@@ -16,8 +15,6 @@ use Tests\TestCase;
  */
 class StudioImageTest extends TestCase
 {
-    use WithoutEvents;
-
     /**
      * An StudioImage shall belong to a Studio.
      *

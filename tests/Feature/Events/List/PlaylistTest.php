@@ -27,8 +27,6 @@ class PlaylistTest extends TestCase
      */
     public function testPlaylistCreatedEventDispatched(): void
     {
-        Event::fake();
-
         Playlist::factory()->createOne();
 
         Event::assertDispatched(PlaylistCreated::class);
@@ -41,8 +39,6 @@ class PlaylistTest extends TestCase
      */
     public function testPlaylistDeletedEventDispatched(): void
     {
-        Event::fake();
-
         $playlist = Playlist::factory()->createOne();
 
         $playlist->delete();
@@ -57,8 +53,6 @@ class PlaylistTest extends TestCase
      */
     public function testPlaylistRestoredEventDispatched(): void
     {
-        Event::fake();
-
         $playlist = Playlist::factory()->createOne();
 
         $playlist->restore();
@@ -75,8 +69,6 @@ class PlaylistTest extends TestCase
      */
     public function testPlaylistRestoresQuietly(): void
     {
-        Event::fake();
-
         $playlist = Playlist::factory()->createOne();
 
         $playlist->restore();
@@ -91,8 +83,6 @@ class PlaylistTest extends TestCase
      */
     public function testPlaylistUpdatedEventDispatched(): void
     {
-        Event::fake();
-
         $playlist = Playlist::factory()->createOne();
         $changes = Playlist::factory()->makeOne();
 
@@ -109,8 +99,6 @@ class PlaylistTest extends TestCase
      */
     public function testPlaylistUpdatedEventEmbedFields(): void
     {
-        Event::fake();
-
         $playlist = Playlist::factory()->createOne();
         $changes = Playlist::factory()->makeOne();
 

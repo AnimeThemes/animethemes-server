@@ -9,7 +9,6 @@ use App\Models\Auth\User;
 use App\Models\Wiki\Image;
 use App\Models\Wiki\Studio;
 use App\Pivots\Wiki\StudioImage;
-use Illuminate\Foundation\Testing\WithoutEvents;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
@@ -18,8 +17,6 @@ use Tests\TestCase;
  */
 class StudioImageDestroyTest extends TestCase
 {
-    use WithoutEvents;
-
     /**
      * The Studio Image Destroy Endpoint shall be protected by sanctum.
      *

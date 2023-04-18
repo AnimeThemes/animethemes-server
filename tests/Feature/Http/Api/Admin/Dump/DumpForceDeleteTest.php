@@ -7,7 +7,6 @@ namespace Tests\Feature\Http\Api\Admin\Dump;
 use App\Enums\Auth\ExtendedCrudPermission;
 use App\Models\Admin\Dump;
 use App\Models\Auth\User;
-use Illuminate\Foundation\Testing\WithoutEvents;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
@@ -16,8 +15,6 @@ use Tests\TestCase;
  */
 class DumpForceDeleteTest extends TestCase
 {
-    use WithoutEvents;
-
     /**
      * The Dump Force Delete Endpoint shall be protected by sanctum.
      *

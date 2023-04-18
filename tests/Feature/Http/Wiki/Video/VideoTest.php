@@ -11,7 +11,6 @@ use App\Enums\Http\StreamingMethod;
 use App\Models\Auth\User;
 use App\Models\Wiki\Video;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
@@ -25,7 +24,6 @@ use Tests\TestCase;
 class VideoTest extends TestCase
 {
     use WithFaker;
-    use WithoutEvents;
 
     /**
      * If video streaming is disabled through the 'flags.allow_video_streams' property,

@@ -5,10 +5,15 @@ declare(strict_types=1);
 namespace Tests\Feature\Jobs\List;
 
 use App\Constants\Config\FlagConstants;
+use App\Events\List\Playlist\PlaylistCreated;
+use App\Events\List\Playlist\PlaylistDeleted;
+use App\Events\List\Playlist\PlaylistRestored;
+use App\Events\List\Playlist\PlaylistUpdated;
 use App\Jobs\SendDiscordNotificationJob;
 use App\Models\List\Playlist;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
 /**
@@ -25,6 +30,7 @@ class PlaylistTest extends TestCase
     {
         Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
         Bus::fake(SendDiscordNotificationJob::class);
+        Event::fakeExcept(PlaylistCreated::class);
 
         Playlist::factory()->createOne();
 
@@ -42,6 +48,7 @@ class PlaylistTest extends TestCase
 
         Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
         Bus::fake(SendDiscordNotificationJob::class);
+        Event::fakeExcept(PlaylistDeleted::class);
 
         $playlist->delete();
 
@@ -59,6 +66,7 @@ class PlaylistTest extends TestCase
 
         Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
         Bus::fake(SendDiscordNotificationJob::class);
+        Event::fakeExcept(PlaylistRestored::class);
 
         $playlist->restore();
 
@@ -76,6 +84,7 @@ class PlaylistTest extends TestCase
 
         Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
         Bus::fake(SendDiscordNotificationJob::class);
+        Event::fakeExcept(PlaylistUpdated::class);
 
         $changes = Playlist::factory()->makeOne();
 

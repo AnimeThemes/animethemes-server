@@ -11,7 +11,6 @@ use App\Enums\Http\StreamingMethod;
 use App\Models\Auth\User;
 use App\Models\Wiki\Audio;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
@@ -25,7 +24,6 @@ use Tests\TestCase;
 class AudioTest extends TestCase
 {
     use WithFaker;
-    use WithoutEvents;
 
     /**
      * If audio streaming is disabled through the 'flags.allow_audio_streams' property,

@@ -8,7 +8,6 @@ use App\Models\Wiki\Artist;
 use App\Models\Wiki\Song;
 use App\Pivots\Wiki\ArtistSong;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
 
 /**
@@ -16,8 +15,6 @@ use Tests\TestCase;
  */
 class ArtistSongTest extends TestCase
 {
-    use WithoutEvents;
-
     /**
      * An ArtistSong shall belong to an Artist.
      *

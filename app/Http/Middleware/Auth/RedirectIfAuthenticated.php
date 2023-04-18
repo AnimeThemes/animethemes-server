@@ -25,7 +25,7 @@ class RedirectIfAuthenticated
      * @param  string|null  ...$guards
      * @return JsonResponse|Response|RedirectResponse
      */
-    public function handle(Request $request, Closure $next, ...$guards): JsonResponse|Response|RedirectResponse
+    public function handle(Request $request, Closure $next, ?string ...$guards): JsonResponse|Response|RedirectResponse
     {
         $guards = empty($guards) ? [null] : $guards;
 

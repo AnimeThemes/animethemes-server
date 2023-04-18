@@ -10,7 +10,6 @@ use App\Enums\Auth\SpecialPermission;
 use App\Models\Admin\Dump;
 use App\Models\Auth\User;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
@@ -23,7 +22,6 @@ use Tests\TestCase;
 class DumpTest extends TestCase
 {
     use WithFaker;
-    use WithoutEvents;
 
     /**
      * If dump downloading is disabled through the 'flags.allow_dump_downloading' property,

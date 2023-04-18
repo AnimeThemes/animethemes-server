@@ -18,7 +18,6 @@ use App\Models\Wiki\ExternalResource;
 use App\Pivots\Wiki\ArtistResource;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
 
 /**
@@ -27,7 +26,6 @@ use Tests\TestCase;
 class ArtistResourceShowTest extends TestCase
 {
     use WithFaker;
-    use WithoutEvents;
 
     /**
      * The Artist Resource Show Endpoint shall return an error if the artist resource does not exist.

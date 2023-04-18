@@ -10,8 +10,8 @@ use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Studio;
+use Exception;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
@@ -30,12 +30,10 @@ class BackfillAnimeStudiosTest extends TestCase
      *
      * @return void
      *
-     * @throws RequestException
+     * @throws Exception
      */
     public function testSkipped(): void
     {
-        Http::fake();
-
         $studiosCount = $this->faker->randomDigitNotNull();
 
         $anime = Anime::factory()
@@ -56,12 +54,10 @@ class BackfillAnimeStudiosTest extends TestCase
      *
      * @return void
      *
-     * @throws RequestException
+     * @throws Exception
      */
     public function testFailedWhenNoResource(): void
     {
-        Http::fake();
-
         $anime = Anime::factory()->createOne();
 
         $action = new BackfillAnimeStudiosAction($anime);
@@ -78,7 +74,7 @@ class BackfillAnimeStudiosTest extends TestCase
      *
      * @return void
      *
-     * @throws RequestException
+     * @throws Exception
      */
     public function testFailedWhenNoMalMatch(): void
     {
@@ -110,7 +106,7 @@ class BackfillAnimeStudiosTest extends TestCase
      *
      * @return void
      *
-     * @throws RequestException
+     * @throws Exception
      */
     public function testMalPassed(): void
     {
@@ -150,7 +146,7 @@ class BackfillAnimeStudiosTest extends TestCase
      *
      * @return void
      *
-     * @throws RequestException
+     * @throws Exception
      */
     public function testFailedWhenNoAnilistMatch(): void
     {
@@ -182,7 +178,7 @@ class BackfillAnimeStudiosTest extends TestCase
      *
      * @return void
      *
-     * @throws RequestException
+     * @throws Exception
      */
     public function testAnilistPassed(): void
     {
@@ -228,7 +224,7 @@ class BackfillAnimeStudiosTest extends TestCase
      *
      * @return void
      *
-     * @throws RequestException
+     * @throws Exception
      */
     public function testFailedWhenNoKitsuMatch(): void
     {
@@ -260,7 +256,7 @@ class BackfillAnimeStudiosTest extends TestCase
      *
      * @return void
      *
-     * @throws RequestException
+     * @throws Exception
      */
     public function testKitsuPassed(): void
     {
@@ -311,7 +307,7 @@ class BackfillAnimeStudiosTest extends TestCase
      *
      * @return void
      *
-     * @throws RequestException
+     * @throws Exception
      */
     public function testCreatesStudioResource(): void
     {
@@ -364,7 +360,7 @@ class BackfillAnimeStudiosTest extends TestCase
      *
      * @return void
      *
-     * @throws RequestException
+     * @throws Exception
      */
     public function testGetsExistingResource(): void
     {

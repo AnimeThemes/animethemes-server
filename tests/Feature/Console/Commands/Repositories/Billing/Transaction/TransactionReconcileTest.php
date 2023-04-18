@@ -9,7 +9,6 @@ use App\Enums\Models\Billing\Service;
 use App\Models\Billing\Transaction;
 use App\Repositories\DigitalOcean\Billing\DigitalOceanTransactionRepository;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Support\Collection;
 use Mockery\MockInterface;
 use Symfony\Component\Console\Exception\RuntimeException;
@@ -21,7 +20,6 @@ use Tests\TestCase;
 class TransactionReconcileTest extends TestCase
 {
     use WithFaker;
-    use WithoutEvents;
 
     /**
      * The Reconcile Transaction Command shall require a 'service' argument.

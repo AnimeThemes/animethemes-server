@@ -24,7 +24,6 @@ use App\Http\Resources\Document\Resource\PageResource;
 use App\Models\BaseModel;
 use App\Models\Document\Page;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Support\Carbon;
 use Tests\TestCase;
 
@@ -35,7 +34,6 @@ class PageIndexTest extends TestCase
 {
     use SortsModels;
     use WithFaker;
-    use WithoutEvents;
 
     /**
      * By default, the Page Index Endpoint shall return a collection of Page Resources.

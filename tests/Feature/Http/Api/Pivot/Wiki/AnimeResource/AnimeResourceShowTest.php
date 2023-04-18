@@ -19,7 +19,6 @@ use App\Models\Wiki\ExternalResource;
 use App\Pivots\Wiki\AnimeResource;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
 
 /**
@@ -28,7 +27,6 @@ use Tests\TestCase;
 class AnimeResourceShowTest extends TestCase
 {
     use WithFaker;
-    use WithoutEvents;
 
     /**
      * The Anime Resource Show Endpoint shall return an error if the anime resource does not exist.

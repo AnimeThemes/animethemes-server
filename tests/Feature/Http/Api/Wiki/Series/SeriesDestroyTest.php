@@ -7,7 +7,6 @@ namespace Tests\Feature\Http\Api\Wiki\Series;
 use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Series;
-use Illuminate\Foundation\Testing\WithoutEvents;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
@@ -16,8 +15,6 @@ use Tests\TestCase;
  */
 class SeriesDestroyTest extends TestCase
 {
-    use WithoutEvents;
-
     /**
      * The Series Destroy Endpoint shall be protected by sanctum.
      *

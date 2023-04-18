@@ -10,7 +10,6 @@ use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Support\Facades\Notification;
 use Laravel\Sanctum\PersonalAccessToken;
 use Tests\TestCase;
@@ -21,7 +20,6 @@ use Tests\TestCase;
 class UserTest extends TestCase
 {
     use WithFaker;
-    use WithoutEvents;
 
     /**
      * Users shall have a one-to-many polymorphic relationship to PersonalAccessToken.
@@ -46,8 +44,6 @@ class UserTest extends TestCase
      */
     public function testVerificationEmailNotification(): void
     {
-        Notification::fake();
-
         $user = User::factory()->createOne();
 
         $user->sendEmailVerificationNotification();

@@ -19,7 +19,6 @@ use App\Models\Wiki\Image;
 use App\Pivots\Wiki\AnimeImage;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
 
 /**
@@ -28,7 +27,6 @@ use Tests\TestCase;
 class AnimeImageShowTest extends TestCase
 {
     use WithFaker;
-    use WithoutEvents;
 
     /**
      * The Anime Image Show Endpoint shall return an error if the anime image does not exist.

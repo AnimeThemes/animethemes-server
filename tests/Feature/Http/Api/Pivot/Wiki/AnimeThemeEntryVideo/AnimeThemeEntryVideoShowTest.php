@@ -21,7 +21,6 @@ use App\Models\Wiki\Video;
 use App\Pivots\Wiki\AnimeThemeEntryVideo;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
 
 /**
@@ -30,7 +29,6 @@ use Tests\TestCase;
 class AnimeThemeEntryVideoShowTest extends TestCase
 {
     use WithFaker;
-    use WithoutEvents;
 
     /**
      * The Anime Theme Entry Video Show Endpoint shall return an error if the anime video does not exist.

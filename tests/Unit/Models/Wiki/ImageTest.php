@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit\Models\Wiki;
 
 use App\Enums\Models\Wiki\ImageFacet;
+use App\Events\Wiki\Image\ImageDeleting;
 use App\Models\List\Playlist;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Artist;
@@ -17,6 +18,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
@@ -156,6 +158,8 @@ class ImageTest extends TestCase
      */
     public function testImageStorageForceDeletion(): void
     {
+        Event::fakeExcept(ImageDeleting::class);
+
         $fs = Storage::fake(Config::get('image.disk'));
         $file = File::fake()->image($this->faker->word().'.jpg');
         $fsFile = $fs->putFile('', $file);

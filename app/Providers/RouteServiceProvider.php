@@ -31,7 +31,15 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        $this->configureRateLimiting();
+        RateLimiter::for('api', function (Request $request) {
+            // Allow the client to bypass API rate limiting
+            $user = $request->user('sanctum');
+            if ($user instanceof User && $user->can(SpecialPermission::BYPASS_API_RATE_LIMITER)) {
+                return Limit::none();
+            }
+
+            return Limit::perMinute(90)->by(Auth::check() ? Auth::id() : $request->ip());
+        });
 
         $this->routes(function () {
             Route::middleware('web')
@@ -64,24 +72,6 @@ class RouteServiceProvider extends ServiceProvider
                 ->prefix(Config::get('api.path'))
                 ->as('api.')
                 ->group(base_path('routes/api.php'));
-        });
-    }
-
-    /**
-     * Configure the rate limiters for the application.
-     *
-     * @return void
-     */
-    protected function configureRateLimiting(): void
-    {
-        RateLimiter::for('api', function (Request $request) {
-            // Allow the client to bypass API rate limiting
-            $user = $request->user('sanctum');
-            if ($user instanceof User && $user->can(SpecialPermission::BYPASS_API_RATE_LIMITER)) {
-                return Limit::none();
-            }
-
-            return Limit::perMinute(90)->by(Auth::check() ? Auth::id() : $request->ip());
         });
     }
 }

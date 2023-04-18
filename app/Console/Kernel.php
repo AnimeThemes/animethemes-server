@@ -11,6 +11,7 @@ use App\Console\Commands\Storage\Admin\DumpPruneCommand;
 use App\Console\Commands\Storage\Admin\WikiDumpCommand;
 use App\Enums\Models\Billing\Service;
 use App\Models\BaseModel;
+use Illuminate\Cache\Console\PruneStaleTagsCommand;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Database\Console\MonitorCommand as MonitorDatabaseCommand;
 use Illuminate\Database\Console\PruneCommand as PruneModelsCommand;
@@ -91,6 +92,12 @@ class Kernel extends ConsoleKernel
             ->runInBackground()
             ->storeOutput()
             ->daily();
+
+        $schedule->command(PruneStaleTagsCommand::class)
+            ->withoutOverlapping()
+            ->runInBackground()
+            ->storeOutput()
+            ->hourly();
 
         if (Config::bool('telescope.enabled')) {
             $schedule->command(PruneTelescopeEntriesCommand::class)

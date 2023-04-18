@@ -9,7 +9,6 @@ use App\Enums\Models\Wiki\VideoOverlap;
 use App\Enums\Models\Wiki\VideoSource;
 use App\Models\Auth\User;
 use App\Models\Wiki\Video;
-use Illuminate\Foundation\Testing\WithoutEvents;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
@@ -18,8 +17,6 @@ use Tests\TestCase;
  */
 class VideoStoreTest extends TestCase
 {
-    use WithoutEvents;
-
     /**
      * The Video Store Endpoint shall be protected by sanctum.
      *

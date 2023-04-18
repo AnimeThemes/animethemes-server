@@ -26,8 +26,6 @@ class ArtistSongTest extends TestCase
      */
     public function testArtistSongCreatedEventDispatched(): void
     {
-        Event::fake();
-
         $artist = Artist::factory()->createOne();
         $song = Song::factory()->createOne();
 
@@ -43,8 +41,6 @@ class ArtistSongTest extends TestCase
      */
     public function testArtistSongDeletedEventDispatched(): void
     {
-        Event::fake();
-
         $artist = Artist::factory()->createOne();
         $song = Song::factory()->createOne();
 
@@ -61,8 +57,6 @@ class ArtistSongTest extends TestCase
      */
     public function testArtistSongUpdatedEventDispatched(): void
     {
-        Event::fake();
-
         $artist = Artist::factory()->createOne();
         $song = Song::factory()->createOne();
 
@@ -89,8 +83,6 @@ class ArtistSongTest extends TestCase
      */
     public function testArtistSongUpdatedEventEmbedFields(): void
     {
-        Event::fake();
-
         $artist = Artist::factory()->createOne();
         $song = Song::factory()->createOne();
 

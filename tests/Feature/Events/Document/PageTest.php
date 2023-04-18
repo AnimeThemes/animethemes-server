@@ -25,8 +25,6 @@ class PageTest extends TestCase
      */
     public function testPageCreatedEventDispatched(): void
     {
-        Event::fake();
-
         Page::factory()->createOne();
 
         Event::assertDispatched(PageCreated::class);
@@ -39,8 +37,6 @@ class PageTest extends TestCase
      */
     public function testPageDeletedEventDispatched(): void
     {
-        Event::fake();
-
         $page = Page::factory()->createOne();
 
         $page->delete();
@@ -55,8 +51,6 @@ class PageTest extends TestCase
      */
     public function testPageRestoredEventDispatched(): void
     {
-        Event::fake();
-
         $page = Page::factory()->createOne();
 
         $page->restore();
@@ -73,8 +67,6 @@ class PageTest extends TestCase
      */
     public function testPageRestoresQuietly(): void
     {
-        Event::fake();
-
         $page = Page::factory()->createOne();
 
         $page->restore();
@@ -89,8 +81,6 @@ class PageTest extends TestCase
      */
     public function testPageUpdatedEventDispatched(): void
     {
-        Event::fake();
-
         $page = Page::factory()->createOne();
         $changes = Page::factory()->makeOne();
 
@@ -107,8 +97,6 @@ class PageTest extends TestCase
      */
     public function testPageUpdatedEventEmbedFields(): void
     {
-        Event::fake();
-
         $page = Page::factory()->createOne();
         $changes = Page::factory()->makeOne();
 

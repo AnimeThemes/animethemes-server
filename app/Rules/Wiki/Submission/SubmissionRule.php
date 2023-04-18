@@ -55,16 +55,12 @@ abstract class SubmissionRule implements DataAwareRule, Rule, ValidatorAwareRule
 
         $ffprobeData = Arr::get($validator->getData(), 'ffprobeData');
         if ($ffprobeData === null && $file !== null) {
-            $data = array_merge($validator->getData(), ['ffprobeData' => $this->getFFprobeData($file)]);
-
-            $validator->setData($data);
+            $validator->setValue('ffprobeData', $this->getFFprobeData($file));
         }
 
         $loudnessStats = Arr::get($validator->getData(), 'loudnessStats');
         if ($loudnessStats === null && $file !== null) {
-            $data = array_merge($validator->getData(), ['loudnessStats' => $this->getLoudnessStats($file)]);
-
-            $validator->setData($data);
+            $validator->setValue('loudnessStats', $this->getLoudnessStats($file));
         }
 
         return $this;

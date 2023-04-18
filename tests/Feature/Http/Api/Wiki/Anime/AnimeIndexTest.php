@@ -40,7 +40,6 @@ use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Support\Carbon;
 use Tests\TestCase;
 
@@ -51,7 +50,6 @@ class AnimeIndexTest extends TestCase
 {
     use SortsModels;
     use WithFaker;
-    use WithoutEvents;
 
     /**
      * By default, the Anime Index Endpoint shall return a collection of Anime Resources.

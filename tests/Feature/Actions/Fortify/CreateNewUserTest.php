@@ -9,7 +9,6 @@ use App\Constants\Config\ValidationConstants;
 use App\Enums\Rules\ModerationService;
 use App\Models\Auth\User;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Validation\ValidationException;
@@ -23,7 +22,6 @@ use Tests\TestCase;
 class CreateNewUserTest extends TestCase
 {
     use WithFaker;
-    use WithoutEvents;
 
     /**
      * The Create New User Action shall require the name, email, password & terms fields.

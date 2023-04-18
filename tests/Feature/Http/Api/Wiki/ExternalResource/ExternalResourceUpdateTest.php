@@ -8,7 +8,6 @@ use App\Enums\Auth\CrudPermission;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Auth\User;
 use App\Models\Wiki\ExternalResource;
-use Illuminate\Foundation\Testing\WithoutEvents;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
@@ -17,8 +16,6 @@ use Tests\TestCase;
  */
 class ExternalResourceUpdateTest extends TestCase
 {
-    use WithoutEvents;
-
     /**
      * The External Resource Update Endpoint shall be protected by sanctum.
      *

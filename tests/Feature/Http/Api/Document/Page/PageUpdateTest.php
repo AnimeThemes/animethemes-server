@@ -7,7 +7,6 @@ namespace Tests\Feature\Http\Api\Document\Page;
 use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Document\Page;
-use Illuminate\Foundation\Testing\WithoutEvents;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
@@ -16,8 +15,6 @@ use Tests\TestCase;
  */
 class PageUpdateTest extends TestCase
 {
-    use WithoutEvents;
-
     /**
      * The Page Update Endpoint shall be protected by sanctum.
      *

@@ -7,7 +7,6 @@ namespace Tests\Feature\Http\Api\Admin\Announcement;
 use App\Enums\Auth\CrudPermission;
 use App\Models\Admin\Announcement;
 use App\Models\Auth\User;
-use Illuminate\Foundation\Testing\WithoutEvents;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
@@ -16,8 +15,6 @@ use Tests\TestCase;
  */
 class AnnouncementStoreTest extends TestCase
 {
-    use WithoutEvents;
-
     /**
      * The Announcement Store Endpoint shall be protected by sanctum.
      *

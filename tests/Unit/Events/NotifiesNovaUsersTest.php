@@ -21,8 +21,6 @@ class NotifiesNovaUsersTest extends TestCase
      */
     public function testListening(): void
     {
-        $fake = Event::fake();
-
-        $fake->assertListening(NovaNotificationEvent::class, NotifiesNovaUsers::class);
+        Event::assertListening(NovaNotificationEvent::class, NotifiesNovaUsers::class);
     }
 }

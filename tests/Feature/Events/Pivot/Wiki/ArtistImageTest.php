@@ -23,8 +23,6 @@ class ArtistImageTest extends TestCase
      */
     public function testArtistImageCreatedEventDispatched(): void
     {
-        Event::fake();
-
         $artist = Artist::factory()->createOne();
         $image = Image::factory()->createOne();
 
@@ -40,8 +38,6 @@ class ArtistImageTest extends TestCase
      */
     public function testArtistImageDeletedEventDispatched(): void
     {
-        Event::fake();
-
         $artist = Artist::factory()->createOne();
         $image = Image::factory()->createOne();
 

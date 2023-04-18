@@ -9,7 +9,6 @@ use App\Enums\Models\Wiki\ThemeType;
 use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
-use Illuminate\Foundation\Testing\WithoutEvents;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
@@ -18,8 +17,6 @@ use Tests\TestCase;
  */
 class ThemeStoreTest extends TestCase
 {
-    use WithoutEvents;
-
     /**
      * The Theme Store Endpoint shall be protected by sanctum.
      *

@@ -26,8 +26,6 @@ class SynonymTest extends TestCase
      */
     public function testSynonymCreatedEventDispatched(): void
     {
-        Event::fake();
-
         AnimeSynonym::factory()
             ->for(Anime::factory())
             ->createOne();
@@ -42,8 +40,6 @@ class SynonymTest extends TestCase
      */
     public function testSynonymDeletedEventDispatched(): void
     {
-        Event::fake();
-
         $synonym = AnimeSynonym::factory()
             ->for(Anime::factory())
             ->createOne();
@@ -60,8 +56,6 @@ class SynonymTest extends TestCase
      */
     public function testSynonymRestoredEventDispatched(): void
     {
-        Event::fake();
-
         $synonym = AnimeSynonym::factory()
             ->for(Anime::factory())
             ->createOne();
@@ -80,8 +74,6 @@ class SynonymTest extends TestCase
      */
     public function testSynonymRestoresQuietly(): void
     {
-        Event::fake();
-
         $synonym = AnimeSynonym::factory()
             ->for(Anime::factory())
             ->createOne();
@@ -98,8 +90,6 @@ class SynonymTest extends TestCase
      */
     public function testSynonymUpdatedEventDispatched(): void
     {
-        Event::fake();
-
         $synonym = AnimeSynonym::factory()
             ->for(Anime::factory())
             ->createOne();
@@ -121,8 +111,6 @@ class SynonymTest extends TestCase
      */
     public function testSynonymUpdatedEventEmbedFields(): void
     {
-        Event::fake();
-
         $synonym = AnimeSynonym::factory()
             ->for(Anime::factory())
             ->createOne();

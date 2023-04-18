@@ -25,8 +25,6 @@ class ArtistMemberTest extends TestCase
      */
     public function testArtistMemberCreatedEventDispatched(): void
     {
-        Event::fake();
-
         $artist = Artist::factory()->createOne();
         $member = Artist::factory()->createOne();
 
@@ -42,8 +40,6 @@ class ArtistMemberTest extends TestCase
      */
     public function testArtistMemberDeletedEventDispatched(): void
     {
-        Event::fake();
-
         $artist = Artist::factory()->createOne();
         $member = Artist::factory()->createOne();
 
@@ -60,8 +56,6 @@ class ArtistMemberTest extends TestCase
      */
     public function testArtistMemberUpdatedEventDispatched(): void
     {
-        Event::fake();
-
         $artist = Artist::factory()->createOne();
         $member = Artist::factory()->createOne();
 
@@ -88,8 +82,6 @@ class ArtistMemberTest extends TestCase
      */
     public function testArtistMemberUpdatedEventEmbedFields(): void
     {
-        Event::fake();
-
         $artist = Artist::factory()->createOne();
         $member = Artist::factory()->createOne();
 

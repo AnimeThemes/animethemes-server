@@ -10,7 +10,6 @@ use App\Models\List\Playlist\PlaylistTrack;
 use App\Models\Wiki\Video;
 use Exception;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
 
 /**
@@ -19,7 +18,6 @@ use Tests\TestCase;
 class InsertTrackAfterTest extends TestCase
 {
     use WithFaker;
-    use WithoutEvents;
 
     /**
      * The Insert Track After Action shall set the track as the playlist's last track if inserting after the last track.

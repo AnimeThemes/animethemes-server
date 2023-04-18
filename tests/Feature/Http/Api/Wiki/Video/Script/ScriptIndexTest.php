@@ -31,7 +31,6 @@ use App\Models\Wiki\Video\VideoScript;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
 
 /**
@@ -41,7 +40,6 @@ class ScriptIndexTest extends TestCase
 {
     use SortsModels;
     use WithFaker;
-    use WithoutEvents;
 
     /**
      * By default, the Script Index Endpoint shall return a collection of Script Resources.

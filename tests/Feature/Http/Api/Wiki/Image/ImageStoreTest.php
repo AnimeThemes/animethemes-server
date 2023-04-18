@@ -10,7 +10,6 @@ use App\Http\Api\Field\Wiki\Image\ImageFileField;
 use App\Models\Auth\User;
 use App\Models\Wiki\Image;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
@@ -22,7 +21,6 @@ use Tests\TestCase;
  */
 class ImageStoreTest extends TestCase
 {
-    use WithoutEvents;
     use WithFaker;
 
     /**

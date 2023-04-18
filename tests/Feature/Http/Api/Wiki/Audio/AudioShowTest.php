@@ -14,7 +14,6 @@ use App\Http\Resources\Wiki\Resource\AudioResource;
 use App\Models\Wiki\Audio;
 use App\Models\Wiki\Video;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
 
 /**
@@ -23,7 +22,6 @@ use Tests\TestCase;
 class AudioShowTest extends TestCase
 {
     use WithFaker;
-    use WithoutEvents;
 
     /**
      * By default, the Audio Show Endpoint shall return an Audio Resource.

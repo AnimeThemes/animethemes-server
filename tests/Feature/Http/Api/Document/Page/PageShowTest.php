@@ -11,7 +11,6 @@ use App\Http\Api\Schema\Document\PageSchema;
 use App\Http\Resources\Document\Resource\PageResource;
 use App\Models\Document\Page;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
 
 /**
@@ -20,7 +19,6 @@ use Tests\TestCase;
 class PageShowTest extends TestCase
 {
     use WithFaker;
-    use WithoutEvents;
 
     /**
      * By default, the Page Show Endpoint shall return a Page Resource.

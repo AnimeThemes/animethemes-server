@@ -7,7 +7,6 @@ namespace Tests\Feature\Http\Api\Wiki\Image;
 use App\Enums\Auth\ExtendedCrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Image;
-use Illuminate\Foundation\Testing\WithoutEvents;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
@@ -16,8 +15,6 @@ use Tests\TestCase;
  */
 class ImageForceDeleteTest extends TestCase
 {
-    use WithoutEvents;
-
     /**
      * The Image Force Delete Endpoint shall be protected by sanctum.
      *

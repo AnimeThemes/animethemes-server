@@ -5,10 +5,15 @@ declare(strict_types=1);
 namespace Tests\Feature\Jobs\Wiki\Video;
 
 use App\Constants\Config\FlagConstants;
+use App\Events\Wiki\Video\Script\VideoScriptCreated;
+use App\Events\Wiki\Video\Script\VideoScriptDeleted;
+use App\Events\Wiki\Video\Script\VideoScriptRestored;
+use App\Events\Wiki\Video\Script\VideoScriptUpdated;
 use App\Jobs\SendDiscordNotificationJob;
 use App\Models\Wiki\Video\VideoScript;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
 /**
@@ -25,6 +30,7 @@ class ScriptTest extends TestCase
     {
         Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
         Bus::fake(SendDiscordNotificationJob::class);
+        Event::fakeExcept(VideoScriptCreated::class);
 
         VideoScript::factory()->createOne();
 
@@ -42,6 +48,7 @@ class ScriptTest extends TestCase
 
         Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
         Bus::fake(SendDiscordNotificationJob::class);
+        Event::fakeExcept(VideoScriptDeleted::class);
 
         $script->delete();
 
@@ -59,6 +66,7 @@ class ScriptTest extends TestCase
 
         Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
         Bus::fake(SendDiscordNotificationJob::class);
+        Event::fakeExcept(VideoScriptRestored::class);
 
         $script->restore();
 
@@ -76,6 +84,7 @@ class ScriptTest extends TestCase
 
         Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
         Bus::fake(SendDiscordNotificationJob::class);
+        Event::fakeExcept(VideoScriptUpdated::class);
 
         $changes = VideoScript::factory()->makeOne();
 

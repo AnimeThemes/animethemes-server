@@ -8,7 +8,6 @@ use App\Models\Wiki\Anime;
 use App\Models\Wiki\Studio;
 use App\Pivots\Wiki\AnimeStudio;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
 
 /**
@@ -16,8 +15,6 @@ use Tests\TestCase;
  */
 class AnimeStudioTest extends TestCase
 {
-    use WithoutEvents;
-
     /**
      * An AnimeStudio shall belong to an Anime.
      *

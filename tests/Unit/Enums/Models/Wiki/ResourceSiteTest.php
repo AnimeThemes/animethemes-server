@@ -66,8 +66,6 @@ class ResourceSiteTest extends TestCase
      */
     public function testFailParseAnimePlanetIdFromStudioResource(): void
     {
-        Http::fake();
-
         $link = ResourceSite::formatStudioResourceLink(
             ResourceSite::ANIME_PLANET(),
             $this->faker->randomDigitNotNull(),

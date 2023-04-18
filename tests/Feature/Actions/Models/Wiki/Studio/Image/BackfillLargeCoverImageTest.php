@@ -11,8 +11,8 @@ use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Image;
 use App\Models\Wiki\Studio;
+use Exception;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
@@ -31,12 +31,10 @@ class BackfillLargeCoverImageTest extends TestCase
      *
      * @return void
      *
-     * @throws RequestException
+     * @throws Exception
      */
     public function testSkipped(): void
     {
-        Http::fake();
-
         Storage::fake(Config::get('image.disk'));
 
         $image = Image::factory()->createOne([
@@ -62,12 +60,10 @@ class BackfillLargeCoverImageTest extends TestCase
      *
      * @return void
      *
-     * @throws RequestException
+     * @throws Exception
      */
     public function testFailedWhenNoResource(): void
     {
-        Http::fake();
-
         Storage::fake(Config::get('image.disk'));
 
         $studio = Studio::factory()->createOne();
@@ -87,12 +83,10 @@ class BackfillLargeCoverImageTest extends TestCase
      *
      * @return void
      *
-     * @throws RequestException
+     * @throws Exception
      */
     public function testFailedWhenNoMalResource(): void
     {
-        Http::fake();
-
         Storage::fake(Config::get('image.disk'));
 
         $site = null;
@@ -127,7 +121,7 @@ class BackfillLargeCoverImageTest extends TestCase
      *
      * @return void
      *
-     * @throws RequestException
+     * @throws Exception
      */
     public function testPassed(): void
     {

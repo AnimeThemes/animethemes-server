@@ -8,7 +8,6 @@ use App\Models\List\Playlist;
 use App\Models\Wiki\Image;
 use App\Pivots\List\PlaylistImage;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
 
 /**
@@ -16,8 +15,6 @@ use Tests\TestCase;
  */
 class PlaylistImageTest extends TestCase
 {
-    use WithoutEvents;
-
     /**
      * An PlaylistImage shall belong to a Playlist.
      *

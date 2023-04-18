@@ -10,7 +10,6 @@ use App\Enums\Models\Billing\Service;
 use App\Models\Billing\Balance;
 use App\Repositories\DigitalOcean\Billing\DigitalOceanBalanceRepository;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Date;
 use Mockery\MockInterface;
@@ -23,7 +22,6 @@ use Tests\TestCase;
 class BalanceReconcileTest extends TestCase
 {
     use WithFaker;
-    use WithoutEvents;
 
     /**
      * The Reconcile Balance Command shall require a 'service' argument.

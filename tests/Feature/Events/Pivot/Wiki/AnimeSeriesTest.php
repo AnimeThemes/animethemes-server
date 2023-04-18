@@ -23,8 +23,6 @@ class AnimeSeriesTest extends TestCase
      */
     public function testAnimeSeriesCreatedEventDispatched(): void
     {
-        Event::fake();
-
         $anime = Anime::factory()->createOne();
         $series = Series::factory()->createOne();
 
@@ -40,8 +38,6 @@ class AnimeSeriesTest extends TestCase
      */
     public function testAnimeSeriesDeletedEventDispatched(): void
     {
-        Event::fake();
-
         $anime = Anime::factory()->createOne();
         $series = Series::factory()->createOne();
 

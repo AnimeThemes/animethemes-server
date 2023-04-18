@@ -21,8 +21,6 @@ class CascadesRestoresTest extends TestCase
      */
     public function testListening(): void
     {
-        $fake = Event::fake();
-
-        $fake->assertListening(CascadesRestoresEvent::class, CascadesRestores::class);
+        Event::assertListening(CascadesRestoresEvent::class, CascadesRestores::class);
     }
 }

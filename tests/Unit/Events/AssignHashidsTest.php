@@ -21,8 +21,6 @@ class AssignHashidsTest extends TestCase
      */
     public function testListening(): void
     {
-        $fake = Event::fake();
-
-        $fake->assertListening(AssignHashidsEvent::class, AssignHashids::class);
+        Event::assertListening(AssignHashidsEvent::class, AssignHashids::class);
     }
 }

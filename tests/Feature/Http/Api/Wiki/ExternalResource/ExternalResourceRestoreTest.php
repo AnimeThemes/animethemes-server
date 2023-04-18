@@ -7,7 +7,6 @@ namespace Tests\Feature\Http\Api\Wiki\ExternalResource;
 use App\Enums\Auth\ExtendedCrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\ExternalResource;
-use Illuminate\Foundation\Testing\WithoutEvents;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
@@ -16,8 +15,6 @@ use Tests\TestCase;
  */
 class ExternalResourceRestoreTest extends TestCase
 {
-    use WithoutEvents;
-
     /**
      * The External Resource Restore Endpoint shall be protected by sanctum.
      *

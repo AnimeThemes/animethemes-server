@@ -27,8 +27,6 @@ class EntryTest extends TestCase
      */
     public function testEntryCreatedEventDispatched(): void
     {
-        Event::fake();
-
         AnimeThemeEntry::factory()
             ->for(AnimeTheme::factory()->for(Anime::factory()))
             ->createOne();
@@ -43,8 +41,6 @@ class EntryTest extends TestCase
      */
     public function testEntryDeletedEventDispatched(): void
     {
-        Event::fake();
-
         $entry = AnimeThemeEntry::factory()
             ->for(AnimeTheme::factory()->for(Anime::factory()))
             ->createOne();
@@ -61,8 +57,6 @@ class EntryTest extends TestCase
      */
     public function testEntryRestoredEventDispatched(): void
     {
-        Event::fake();
-
         $entry = AnimeThemeEntry::factory()
             ->for(AnimeTheme::factory()->for(Anime::factory()))
             ->createOne();
@@ -81,8 +75,6 @@ class EntryTest extends TestCase
      */
     public function testEntryRestoresQuietly(): void
     {
-        Event::fake();
-
         $entry = AnimeThemeEntry::factory()
             ->for(AnimeTheme::factory()->for(Anime::factory()))
             ->createOne();
@@ -99,8 +91,6 @@ class EntryTest extends TestCase
      */
     public function testEntryUpdatedEventDispatched(): void
     {
-        Event::fake();
-
         $entry = AnimeThemeEntry::factory()
             ->for(AnimeTheme::factory()->for(Anime::factory()))
             ->createOne();
@@ -122,8 +112,6 @@ class EntryTest extends TestCase
      */
     public function testEntryUpdatedEventEmbedFields(): void
     {
-        Event::fake();
-
         $entry = AnimeThemeEntry::factory()
             ->for(AnimeTheme::factory()->for(Anime::factory()))
             ->createOne();

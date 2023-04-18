@@ -24,8 +24,6 @@ class SettingTest extends TestCase
      */
     public function testSettingCreatedEventDispatched(): void
     {
-        Event::fake();
-
         Setting::factory()->create();
 
         Event::assertDispatched(SettingCreated::class);
@@ -38,8 +36,6 @@ class SettingTest extends TestCase
      */
     public function testSettingDeletedEventDispatched(): void
     {
-        Event::fake();
-
         $setting = Setting::factory()->create();
 
         $setting->delete();
@@ -54,8 +50,6 @@ class SettingTest extends TestCase
      */
     public function testSettingUpdatedEventDispatched(): void
     {
-        Event::fake();
-
         $setting = Setting::factory()->createOne();
         $changes = Setting::factory()->makeOne();
 
@@ -72,8 +66,6 @@ class SettingTest extends TestCase
      */
     public function testSettingUpdatedEventEmbedFields(): void
     {
-        Event::fake();
-
         $setting = Setting::factory()->createOne();
         $changes = Setting::factory()->makeOne();
 

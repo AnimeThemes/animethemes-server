@@ -8,7 +8,6 @@ use App\Models\Wiki\Artist;
 use App\Models\Wiki\ExternalResource;
 use App\Pivots\Wiki\ArtistResource;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Foundation\Testing\WithoutEvents;
 use Tests\TestCase;
 
 /**
@@ -16,8 +15,6 @@ use Tests\TestCase;
  */
 class ArtistResourceTest extends TestCase
 {
-    use WithoutEvents;
-
     /**
      * An ArtistResource shall belong to an Artist.
      *
