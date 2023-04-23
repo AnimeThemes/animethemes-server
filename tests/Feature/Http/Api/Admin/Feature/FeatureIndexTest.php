@@ -23,6 +23,7 @@ use App\Models\Admin\Feature;
 use App\Models\BaseModel;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
 use Tests\TestCase;
 
 /**
@@ -43,6 +44,41 @@ class FeatureIndexTest extends TestCase
         $features = Feature::factory()->count($this->faker->randomDigitNotNull())->create();
 
         $response = $this->get(route('api.feature.index'));
+
+        $response->assertJson(
+            json_decode(
+                json_encode(
+                    (new FeatureCollection($features, new Query()))
+                        ->response()
+                        ->getData()
+                ),
+                true
+            )
+        );
+    }
+
+    /**
+     * The Feature Show Endpoint shall list features of nonnull scope.
+     *
+     * @return void
+     */
+    public function testNonNullForbidden(): void
+    {
+        $nullScopeCount = $this->faker->randomDigitNotNull();
+
+        $features = Feature::factory()
+            ->count($nullScopeCount)
+            ->create();
+
+        Collection::times($this->faker->randomDigitNotNull(), function () {
+            Feature::factory()->create([
+                Feature::ATTRIBUTE_SCOPE => $this->faker->word(),
+            ]);
+        });
+
+        $response = $this->get(route('api.feature.index'));
+
+        $response->assertJsonCount($nullScopeCount, FeatureCollection::$wrap);
 
         $response->assertJson(
             json_decode(

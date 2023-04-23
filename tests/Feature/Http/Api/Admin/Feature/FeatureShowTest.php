@@ -44,6 +44,22 @@ class FeatureShowTest extends TestCase
     }
 
     /**
+     * The Feature Show Endpoint shall forbid showing features of nonnull scope.
+     *
+     * @return void
+     */
+    public function testNonNullForbidden(): void
+    {
+        $feature = Feature::factory()->create([
+            Feature::ATTRIBUTE_SCOPE => $this->faker->word(),
+        ]);
+
+        $response = $this->get(route('api.feature.show', ['feature' => $feature]));
+
+        $response->assertForbidden();
+    }
+
+    /**
      * The Feature Show Endpoint shall implement sparse fieldsets.
      *
      * @return void

@@ -125,7 +125,7 @@ class Feature extends BaseResource
                 ->filterable()
                 ->showWhenPeeking(),
 
-            Text::make(__('nova.fields.setting.value.name'), FeatureModel::ATTRIBUTE_VALUE)
+            Text::make(__('nova.fields.feature.value.name'), FeatureModel::ATTRIBUTE_VALUE)
                 ->sortable()
                 ->copyable()
                 ->rules(['required', 'max:192'])

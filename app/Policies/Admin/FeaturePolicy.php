@@ -20,7 +20,7 @@ class FeaturePolicy
     /**
      * Determine whether the user can view any models.
      *
-     * @param  User  $user
+     * @param  User|null  $user
      * @return bool
      */
     public function viewAny(?User $user): bool
@@ -34,14 +34,15 @@ class FeaturePolicy
     /**
      * Determine whether the user can view the model.
      *
-     * @param  User  $user
+     * @param  User|null  $user
+     * @param
      * @return bool
      */
-    public function view(?User $user): bool
+    public function view(?User $user, Feature $feature): bool
     {
         return Nova::whenServing(
             fn (): bool => $user !== null && $user->can(CrudPermission::VIEW()->format(Feature::class)),
-            fn (): bool => true
+            fn (): bool => $feature->isNullScope()
         );
     }
 
