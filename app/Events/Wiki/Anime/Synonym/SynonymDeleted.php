@@ -73,7 +73,7 @@ class SynonymDeleted extends WikiDeletedEvent implements UpdateRelatedIndicesEve
      *
      * @return string
      */
-    protected function getNotificationUrl(): string
+    protected function getNovaNotificationUrl(): string
     {
         $uriKey = SynonymResource::uriKey();
 

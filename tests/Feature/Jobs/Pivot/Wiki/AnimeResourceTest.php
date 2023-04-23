@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Jobs\Pivot\Wiki;
 
-use App\Constants\Config\FlagConstants;
+use App\Constants\FeatureConstants;
 use App\Events\Pivot\Wiki\AnimeResource\AnimeResourceCreated;
 use App\Events\Pivot\Wiki\AnimeResource\AnimeResourceDeleted;
 use App\Events\Pivot\Wiki\AnimeResource\AnimeResourceUpdated;
@@ -13,8 +13,8 @@ use App\Models\Wiki\Anime;
 use App\Models\Wiki\ExternalResource;
 use App\Pivots\Wiki\AnimeResource;
 use Illuminate\Support\Facades\Bus;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Event;
+use Laravel\Pennant\Feature;
 use Tests\TestCase;
 
 /**
@@ -32,7 +32,7 @@ class AnimeResourceTest extends TestCase
         $anime = Anime::factory()->createOne();
         $resource = ExternalResource::factory()->createOne();
 
-        Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
+        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
         Bus::fake(SendDiscordNotificationJob::class);
         Event::fakeExcept(AnimeResourceCreated::class);
 
@@ -53,7 +53,7 @@ class AnimeResourceTest extends TestCase
 
         $anime->resources()->attach($resource);
 
-        Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
+        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
         Bus::fake(SendDiscordNotificationJob::class);
         Event::fakeExcept(AnimeResourceDeleted::class);
 
@@ -82,7 +82,7 @@ class AnimeResourceTest extends TestCase
             ->for($resource, 'resource')
             ->makeOne();
 
-        Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
+        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
         Bus::fake(SendDiscordNotificationJob::class);
         Event::fakeExcept(AnimeResourceUpdated::class);
 

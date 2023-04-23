@@ -24,4 +24,11 @@ interface DiscordMessageEvent
      * @return string
      */
     public function getDiscordChannel(): string;
+
+    /**
+     * Determine if the message should be sent.
+     *
+     * @return bool
+     */
+    public function shouldSendDiscordMessage(): bool;
 }

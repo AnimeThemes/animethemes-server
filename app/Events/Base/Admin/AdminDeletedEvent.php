@@ -26,4 +26,14 @@ abstract class AdminDeletedEvent extends BaseDeletedEvent
     {
         return Config::get(ServiceConstants::ADMIN_DISCORD_CHANNEL_QUALIFIED);
     }
+
+    /**
+     * Determine if the message should be sent.
+     *
+     * @return bool
+     */
+    public function shouldSendDiscordMessage(): bool
+    {
+        return true;
+    }
 }

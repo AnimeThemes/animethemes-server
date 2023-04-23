@@ -4,17 +4,14 @@ declare(strict_types=1);
 
 namespace App\Events\Admin\Setting;
 
-use App\Constants\Config\ServiceConstants;
-use App\Contracts\Events\DiscordMessageEvent;
 use App\Enums\Discord\EmbedColor;
 use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
 
 /**
  * Class SettingDeleted.
  */
-class SettingDeleted extends SettingEvent implements DiscordMessageEvent
+class SettingDeleted extends SettingEvent
 {
     use Dispatchable;
 
@@ -31,15 +28,5 @@ class SettingDeleted extends SettingEvent implements DiscordMessageEvent
             'description' => "Setting '**{$setting->getName()}**' has been deleted.",
             'color' => EmbedColor::RED,
         ]);
-    }
-
-    /**
-     * Get Discord channel the message will be sent to.
-     *
-     * @return string
-     */
-    public function getDiscordChannel(): string
-    {
-        return Config::get(ServiceConstants::ADMIN_DISCORD_CHANNEL_QUALIFIED);
     }
 }

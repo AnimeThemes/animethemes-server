@@ -492,6 +492,16 @@ return [
                 'name' => 'Site',
             ],
         ],
+        'feature' => [
+            'key' => [
+                'help' => 'The name of the feature. Class strings label features that require business logic to resolve. Otherwise, this is global value.',
+                'name' => 'Key',
+            ],
+            'value' => [
+                'help' => 'Binary state features should be true or false. Rich Feature values can be any string.',
+                'name' => 'Value',
+            ],
+        ],
         'image' => [
             'facet' => [
                 'help' => 'The page component that the image is intended for. Example: Is this a small cover image or a large cover image?',
@@ -801,6 +811,7 @@ return [
             'balances' => 'Balances',
             'dumps' => 'Dumps',
             'external_resources' => 'External Resources',
+            'features' => 'Features',
             'groups' => 'Groups',
             'images' => 'Images',
             'members' => 'Members',
@@ -829,6 +840,7 @@ return [
             'balance' => 'Balance',
             'dump' => 'Dump',
             'external_resource' => 'External Resource',
+            'feature' => 'Feature',
             'image' => 'Image',
             'page' => 'Page',
             'permission' => 'Permission',

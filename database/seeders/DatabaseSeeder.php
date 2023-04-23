@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
+use Database\Seeders\Admin\Feature\FeatureSeeder;
 use Database\Seeders\Auth\Permission\PermissionSeeder;
 use Database\Seeders\Auth\Role\RoleSeeder;
 use Database\Seeders\Billing\Transaction\DigitalOceanTransactionSeeder;
@@ -29,5 +30,6 @@ class DatabaseSeeder extends Seeder
         $this->call(VideoSeeder::class);
         $this->call(AudioSeeder::class);
         $this->call(HashidsSeeder::class);
+        $this->call(FeatureSeeder::class);
     }
 }

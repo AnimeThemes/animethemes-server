@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Notifications;
 
-use App\Constants\Config\FlagConstants;
+use App\Constants\FeatureConstants;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Notification;
-use Illuminate\Support\Facades\Config;
+use Laravel\Pennant\Feature;
 use NotificationChannels\Discord\DiscordChannel;
 use NotificationChannels\Discord\DiscordMessage;
 
@@ -66,6 +66,6 @@ class DiscordNotification extends Notification implements ShouldQueue
      */
     public function shouldSend(mixed $notifiable, string $channel): bool
     {
-        return Config::bool(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED);
+        return Feature::active(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
     }
 }

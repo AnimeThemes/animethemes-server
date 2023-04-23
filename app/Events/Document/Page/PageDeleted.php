@@ -60,7 +60,7 @@ class PageDeleted extends WikiDeletedEvent
      *
      * @return string
      */
-    protected function getNotificationUrl(): string
+    protected function getNovaNotificationUrl(): string
     {
         $uriKey = PageResource::uriKey();
 

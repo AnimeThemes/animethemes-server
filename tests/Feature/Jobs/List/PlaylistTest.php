@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Jobs\List;
 
-use App\Constants\Config\FlagConstants;
+use App\Constants\FeatureConstants;
 use App\Events\List\Playlist\PlaylistCreated;
 use App\Events\List\Playlist\PlaylistDeleted;
 use App\Events\List\Playlist\PlaylistRestored;
@@ -12,8 +12,8 @@ use App\Events\List\Playlist\PlaylistUpdated;
 use App\Jobs\SendDiscordNotificationJob;
 use App\Models\List\Playlist;
 use Illuminate\Support\Facades\Bus;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Event;
+use Laravel\Pennant\Feature;
 use Tests\TestCase;
 
 /**
@@ -28,7 +28,7 @@ class PlaylistTest extends TestCase
      */
     public function testPlaylistCreatedSendsDiscordNotification(): void
     {
-        Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
+        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
         Bus::fake(SendDiscordNotificationJob::class);
         Event::fakeExcept(PlaylistCreated::class);
 
@@ -46,7 +46,7 @@ class PlaylistTest extends TestCase
     {
         $playlist = Playlist::factory()->createOne();
 
-        Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
+        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
         Bus::fake(SendDiscordNotificationJob::class);
         Event::fakeExcept(PlaylistDeleted::class);
 
@@ -64,7 +64,7 @@ class PlaylistTest extends TestCase
     {
         $playlist = Playlist::factory()->createOne();
 
-        Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
+        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
         Bus::fake(SendDiscordNotificationJob::class);
         Event::fakeExcept(PlaylistRestored::class);
 
@@ -82,7 +82,7 @@ class PlaylistTest extends TestCase
     {
         $playlist = Playlist::factory()->createOne();
 
-        Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
+        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
         Bus::fake(SendDiscordNotificationJob::class);
         Event::fakeExcept(PlaylistUpdated::class);
 

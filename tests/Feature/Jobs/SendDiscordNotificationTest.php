@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Jobs;
 
-use App\Constants\Config\FlagConstants;
+use App\Constants\FeatureConstants;
 use App\Contracts\Events\DiscordMessageEvent;
 use App\Jobs\Middleware\RateLimited;
 use App\Jobs\SendDiscordNotificationJob;
 use App\Notifications\DiscordNotification;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Notifications\AnonymousNotifiable;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Notification;
+use Laravel\Pennant\Feature;
 use NotificationChannels\Discord\DiscordMessage;
 use Tests\TestCase;
 
@@ -28,7 +28,7 @@ class SendDiscordNotificationTest extends TestCase
      */
     public function testSendDiscordNotificationJobSendsNotification(): void
     {
-        Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
+        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
         Notification::fake();
 
         $event = new class implements DiscordMessageEvent
@@ -53,6 +53,16 @@ class SendDiscordNotificationTest extends TestCase
             public function getDiscordChannel(): string
             {
                 return '';
+            }
+
+            /**
+             * Determine if the message should be sent.
+             *
+             * @return bool
+             */
+            public function shouldSendDiscordMessage(): bool
+            {
+                return true;
             }
         };
 
@@ -95,6 +105,16 @@ class SendDiscordNotificationTest extends TestCase
             public function getDiscordChannel(): string
             {
                 return '';
+            }
+
+            /**
+             * Determine if the message should be sent.
+             *
+             * @return bool
+             */
+            public function shouldSendDiscordMessage(): bool
+            {
+                return true;
             }
         };
 

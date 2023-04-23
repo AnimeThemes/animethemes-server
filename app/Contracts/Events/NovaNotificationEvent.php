@@ -17,19 +17,19 @@ interface NovaNotificationEvent
      *
      * @return bool
      */
-    public function shouldSend(): bool;
+    public function shouldSendNovaNotification(): bool;
 
     /**
      * Get the nova notification.
      *
      * @return NovaNotification
      */
-    public function getNotification(): NovaNotification;
+    public function getNovaNotification(): NovaNotification;
 
     /**
      * Get the users to notify.
      *
      * @return Collection
      */
-    public function getUsers(): Collection;
+    public function getNovaNotificationRecipients(): Collection;
 }

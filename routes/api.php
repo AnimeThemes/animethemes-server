@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 use App\Http\Controllers\Api\Admin\AnnouncementController;
 use App\Http\Controllers\Api\Admin\DumpController;
+use App\Http\Controllers\Api\Admin\FeatureController;
 use App\Http\Controllers\Api\Auth\User\Me\List\MyPlaylistController;
 use App\Http\Controllers\Api\Auth\User\Me\MyController;
 use App\Http\Controllers\Api\Billing\BalanceController;
 use App\Http\Controllers\Api\Billing\TransactionController;
 use App\Http\Controllers\Api\Billing\TransparencyController;
-use App\Http\Controllers\Api\Config\FlagsController;
 use App\Http\Controllers\Api\Config\WikiController;
 use App\Http\Controllers\Api\Document\PageController;
 use App\Http\Controllers\Api\List\Playlist\TrackBackwardController;
@@ -222,6 +222,8 @@ if (! function_exists('apiPivotResourceUri')) {
 // Admin Routes
 apiResource('announcement', AnnouncementController::class);
 apiResource('dump', DumpController::class);
+Route::apiResource('feature', FeatureController::class)
+    ->only(['index', 'show', 'update']);
 
 // Auth Routes
 Route::get('/me', [MyController::class, 'show'])->name('me.show');
@@ -233,7 +235,6 @@ apiResource('transaction', TransactionController::class);
 Route::get('transparency', [TransparencyController::class, 'show'])->name('transparency.show');
 
 // Config Routes
-Route::get('config/flags', [FlagsController::class, 'show'])->name('config.flags.show');
 Route::get('config/wiki', [WikiController::class, 'show'])->name('config.wiki.show');
 
 // Document Routes

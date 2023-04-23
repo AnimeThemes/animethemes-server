@@ -37,7 +37,7 @@ abstract class WikiDeletedEvent extends BaseDeletedEvent implements NovaNotifica
      *
      * @return bool
      */
-    public function shouldSend(): bool
+    public function shouldSendNovaNotification(): bool
     {
         $model = $this->getModel();
 
@@ -49,13 +49,13 @@ abstract class WikiDeletedEvent extends BaseDeletedEvent implements NovaNotifica
      *
      * @return NovaNotification
      */
-    public function getNotification(): NovaNotification
+    public function getNovaNotification(): NovaNotification
     {
         return NovaNotification::make()
             ->icon('flag')
             ->message($this->getNotificationMessage())
             ->type(NovaNotification::INFO_TYPE)
-            ->url($this->getNotificationUrl());
+            ->url($this->getNovaNotificationUrl());
     }
 
     /**
@@ -63,7 +63,7 @@ abstract class WikiDeletedEvent extends BaseDeletedEvent implements NovaNotifica
      *
      * @return Collection
      */
-    public function getUsers(): Collection
+    public function getNovaNotificationRecipients(): Collection
     {
         return User::query()
             ->whereRelation(User::RELATION_ROLES, Role::ATTRIBUTE_NAME, 'Admin')
@@ -82,5 +82,5 @@ abstract class WikiDeletedEvent extends BaseDeletedEvent implements NovaNotifica
      *
      * @return string
      */
-    abstract protected function getNotificationUrl(): string;
+    abstract protected function getNovaNotificationUrl(): string;
 }

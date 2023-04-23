@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Jobs\Pivot\Wiki;
 
-use App\Constants\Config\FlagConstants;
+use App\Constants\FeatureConstants;
 use App\Events\Pivot\Wiki\ArtistResource\ArtistResourceCreated;
 use App\Events\Pivot\Wiki\ArtistResource\ArtistResourceDeleted;
 use App\Events\Pivot\Wiki\ArtistResource\ArtistResourceUpdated;
@@ -13,8 +13,8 @@ use App\Models\Wiki\Artist;
 use App\Models\Wiki\ExternalResource;
 use App\Pivots\Wiki\ArtistResource;
 use Illuminate\Support\Facades\Bus;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Event;
+use Laravel\Pennant\Feature;
 use Tests\TestCase;
 
 /**
@@ -32,7 +32,7 @@ class ArtistResourceTest extends TestCase
         $artist = Artist::factory()->createOne();
         $resource = ExternalResource::factory()->createOne();
 
-        Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
+        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
         Bus::fake(SendDiscordNotificationJob::class);
         Event::fakeExcept(ArtistResourceCreated::class);
 
@@ -53,7 +53,7 @@ class ArtistResourceTest extends TestCase
 
         $artist->resources()->attach($resource);
 
-        Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
+        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
         Bus::fake(SendDiscordNotificationJob::class);
         Event::fakeExcept(ArtistResourceDeleted::class);
 
@@ -82,7 +82,7 @@ class ArtistResourceTest extends TestCase
             ->for($resource, 'resource')
             ->makeOne();
 
-        Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
+        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
         Bus::fake(SendDiscordNotificationJob::class);
         Event::fakeExcept(ArtistResourceUpdated::class);
 

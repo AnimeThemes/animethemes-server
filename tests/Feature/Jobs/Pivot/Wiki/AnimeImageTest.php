@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Jobs\Pivot\Wiki;
 
-use App\Constants\Config\FlagConstants;
+use App\Constants\FeatureConstants;
 use App\Events\Pivot\Wiki\AnimeImage\AnimeImageCreated;
 use App\Events\Pivot\Wiki\AnimeImage\AnimeImageDeleted;
 use App\Jobs\SendDiscordNotificationJob;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Image;
 use Illuminate\Support\Facades\Bus;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Event;
+use Laravel\Pennant\Feature;
 use Tests\TestCase;
 
 /**
@@ -30,7 +30,7 @@ class AnimeImageTest extends TestCase
         $anime = Anime::factory()->createOne();
         $image = Image::factory()->createOne();
 
-        Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
+        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
         Bus::fake(SendDiscordNotificationJob::class);
         Event::fakeExcept(AnimeImageCreated::class);
 
@@ -51,7 +51,7 @@ class AnimeImageTest extends TestCase
 
         $anime->images()->attach($image);
 
-        Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
+        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
         Bus::fake(SendDiscordNotificationJob::class);
         Event::fakeExcept(AnimeImageDeleted::class);
 

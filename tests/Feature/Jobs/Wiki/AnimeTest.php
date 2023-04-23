@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Jobs\Wiki;
 
-use App\Constants\Config\FlagConstants;
+use App\Constants\FeatureConstants;
 use App\Events\Wiki\Anime\AnimeCreated;
 use App\Events\Wiki\Anime\AnimeDeleted;
 use App\Events\Wiki\Anime\AnimeRestored;
@@ -12,8 +12,8 @@ use App\Events\Wiki\Anime\AnimeUpdated;
 use App\Jobs\SendDiscordNotificationJob;
 use App\Models\Wiki\Anime;
 use Illuminate\Support\Facades\Bus;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Event;
+use Laravel\Pennant\Feature;
 use Tests\TestCase;
 
 /**
@@ -28,7 +28,7 @@ class AnimeTest extends TestCase
      */
     public function testAnimeCreatedSendsDiscordNotification(): void
     {
-        Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
+        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
         Bus::fake(SendDiscordNotificationJob::class);
         Event::fakeExcept(AnimeCreated::class);
 
@@ -46,7 +46,7 @@ class AnimeTest extends TestCase
     {
         $anime = Anime::factory()->createOne();
 
-        Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
+        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
         Bus::fake(SendDiscordNotificationJob::class);
         Event::fakeExcept(AnimeDeleted::class);
 
@@ -64,7 +64,7 @@ class AnimeTest extends TestCase
     {
         $anime = Anime::factory()->createOne();
 
-        Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
+        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
         Bus::fake(SendDiscordNotificationJob::class);
         Event::fakeExcept(AnimeRestored::class);
 
@@ -82,7 +82,7 @@ class AnimeTest extends TestCase
     {
         $anime = Anime::factory()->createOne();
 
-        Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
+        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
         Bus::fake(SendDiscordNotificationJob::class);
         Event::fakeExcept(AnimeUpdated::class);
 

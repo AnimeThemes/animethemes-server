@@ -2,14 +2,15 @@
 
 declare(strict_types=1);
 
-use App\Constants\Config\FlagConstants;
+use App\Features\AllowVideoStreams;
 use App\Http\Controllers\Wiki\Video\VideoController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
+use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
 
-$isVideoStreamingAllowed = Str::of('is_feature_enabled:')
-    ->append(FlagConstants::ALLOW_VIDEO_STREAMS_FLAG_QUALIFIED)
-    ->append(',Video Streaming Disabled')
+$isVideoStreamingAllowed = Str::of(EnsureFeaturesAreActive::class)
+    ->append(':')
+    ->append(AllowVideoStreams::class)
     ->__toString();
 
 Route::get('/{video}', [VideoController::class, 'show'])

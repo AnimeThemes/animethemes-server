@@ -7,7 +7,6 @@ namespace App\Http;
 use App\Http\Middleware\Api\SetAcceptJsonHeader;
 use App\Http\Middleware\Auth\Authenticate;
 use App\Http\Middleware\Auth\RedirectIfAuthenticated;
-use App\Http\Middleware\IsFeatureEnabled;
 use App\Http\Middleware\LogRequest;
 use App\Http\Middleware\Models\RecordView;
 use App\Http\Middleware\ThrottleRequestsWithService;
@@ -97,7 +96,6 @@ class Kernel extends HttpKernel
         'cache.headers' => SetCacheHeaders::class,
         'can' => Authorize::class,
         'guest' => RedirectIfAuthenticated::class,
-        'is_feature_enabled' => IsFeatureEnabled::class,
         'password.confirm' => RequirePassword::class,
         'record_view' => RecordView::class,
         'signed' => ValidateSignature::class,

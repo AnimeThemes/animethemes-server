@@ -4,16 +4,18 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Wiki\Video;
 
-use App\Constants\Config\FlagConstants;
 use App\Constants\Config\VideoConstants;
+use App\Constants\FeatureConstants;
 use App\Enums\Auth\SpecialPermission;
 use App\Enums\Http\StreamingMethod;
+use App\Features\AllowVideoStreams;
 use App\Models\Auth\User;
 use App\Models\Wiki\Video;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
+use Laravel\Pennant\Feature;
 use Laravel\Sanctum\Sanctum;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Tests\TestCase;
@@ -26,7 +28,7 @@ class VideoTest extends TestCase
     use WithFaker;
 
     /**
-     * If video streaming is disabled through the 'flags.allow_video_streams' property,
+     * If video streaming is disabled through the Allow Video Streams feature,
      * the user shall receive a forbidden exception.
      *
      * @return void
@@ -35,7 +37,7 @@ class VideoTest extends TestCase
     {
         Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
 
-        Config::set(FlagConstants::ALLOW_VIDEO_STREAMS_FLAG_QUALIFIED, false);
+        Feature::deactivate(AllowVideoStreams::class);
 
         $video = Video::factory()->createOne();
 
@@ -53,7 +55,7 @@ class VideoTest extends TestCase
     {
         Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
 
-        Config::set(FlagConstants::ALLOW_VIDEO_STREAMS_FLAG_QUALIFIED, true);
+        Feature::activate(AllowVideoStreams::class);
 
         $video = Video::factory()->createOne();
 
@@ -73,8 +75,8 @@ class VideoTest extends TestCase
     {
         Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
 
-        Config::set(FlagConstants::ALLOW_VIDEO_STREAMS_FLAG_QUALIFIED, true);
-        Config::set(FlagConstants::ALLOW_VIEW_RECORDING_FLAG_QUALIFIED, false);
+        Feature::activate(AllowVideoStreams::class);
+        Feature::deactivate(FeatureConstants::ALLOW_VIEW_RECORDING);
 
         $video = Video::factory()->createOne();
 
@@ -85,7 +87,7 @@ class VideoTest extends TestCase
 
     /**
      * Users with the bypass feature flag permission shall be permitted to stream video
-     * even if the 'flags.allow_video_streams' property is disabled.
+     * even if the Allow Video Streams feature is disabled.
      *
      * @return void
      */
@@ -93,7 +95,7 @@ class VideoTest extends TestCase
     {
         Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
 
-        Config::set(FlagConstants::ALLOW_VIDEO_STREAMS_FLAG_QUALIFIED, $this->faker->boolean());
+        Feature::activate(AllowVideoStreams::class, $this->faker->boolean());
         Config::set(VideoConstants::STREAMING_METHOD_QUALIFIED, StreamingMethod::getRandomValue());
 
         $video = Video::factory()->createOne();
@@ -116,8 +118,8 @@ class VideoTest extends TestCase
     {
         Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
 
-        Config::set(FlagConstants::ALLOW_VIDEO_STREAMS_FLAG_QUALIFIED, true);
-        Config::set(FlagConstants::ALLOW_VIEW_RECORDING_FLAG_QUALIFIED, true);
+        Feature::activate(AllowVideoStreams::class);
+        Feature::activate(FeatureConstants::ALLOW_VIEW_RECORDING);
 
         $video = Video::factory()->createOne();
 
@@ -135,8 +137,8 @@ class VideoTest extends TestCase
     {
         Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
 
-        Config::set(FlagConstants::ALLOW_VIDEO_STREAMS_FLAG_QUALIFIED, true);
-        Config::set(FlagConstants::ALLOW_VIEW_RECORDING_FLAG_QUALIFIED, true);
+        Feature::activate(AllowVideoStreams::class);
+        Feature::activate(FeatureConstants::ALLOW_VIEW_RECORDING);
 
         $video = Video::factory()->createOne();
 
@@ -156,7 +158,7 @@ class VideoTest extends TestCase
     {
         Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
 
-        Config::set(FlagConstants::ALLOW_VIDEO_STREAMS_FLAG_QUALIFIED, true);
+        Feature::activate(AllowVideoStreams::class);
         Config::set(VideoConstants::STREAMING_METHOD_QUALIFIED, $this->faker->word());
 
         $video = Video::factory()->createOne();
@@ -175,7 +177,7 @@ class VideoTest extends TestCase
     {
         Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
 
-        Config::set(FlagConstants::ALLOW_VIDEO_STREAMS_FLAG_QUALIFIED, true);
+        Feature::activate(AllowVideoStreams::class);
         Config::set(VideoConstants::STREAMING_METHOD_QUALIFIED, StreamingMethod::RESPONSE);
 
         $video = Video::factory()->createOne();
@@ -194,7 +196,7 @@ class VideoTest extends TestCase
     {
         Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
 
-        Config::set(FlagConstants::ALLOW_VIDEO_STREAMS_FLAG_QUALIFIED, true);
+        Feature::activate(AllowVideoStreams::class);
         Config::set(VideoConstants::STREAMING_METHOD_QUALIFIED, StreamingMethod::NGINX);
 
         $video = Video::factory()->createOne();

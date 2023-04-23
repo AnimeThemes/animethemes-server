@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Jobs\Billing;
 
-use App\Constants\Config\FlagConstants;
+use App\Constants\FeatureConstants;
 use App\Events\Billing\Transaction\TransactionCreated;
 use App\Events\Billing\Transaction\TransactionDeleted;
 use App\Events\Billing\Transaction\TransactionRestored;
@@ -12,8 +12,8 @@ use App\Events\Billing\Transaction\TransactionUpdated;
 use App\Jobs\SendDiscordNotificationJob;
 use App\Models\Billing\Transaction;
 use Illuminate\Support\Facades\Bus;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Event;
+use Laravel\Pennant\Feature;
 use Tests\TestCase;
 
 /**
@@ -28,7 +28,7 @@ class TransactionTest extends TestCase
      */
     public function testTransactionCreatedSendsDiscordNotification(): void
     {
-        Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
+        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
         Bus::fake(SendDiscordNotificationJob::class);
         Event::fakeExcept(TransactionCreated::class);
 
@@ -46,7 +46,7 @@ class TransactionTest extends TestCase
     {
         $transaction = Transaction::factory()->createOne();
 
-        Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
+        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
         Bus::fake(SendDiscordNotificationJob::class);
         Event::fakeExcept(TransactionDeleted::class);
 
@@ -64,7 +64,7 @@ class TransactionTest extends TestCase
     {
         $transaction = Transaction::factory()->createOne();
 
-        Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
+        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
         Bus::fake(SendDiscordNotificationJob::class);
         Event::fakeExcept(TransactionRestored::class);
 
@@ -82,7 +82,7 @@ class TransactionTest extends TestCase
     {
         $transaction = Transaction::factory()->createOne();
 
-        Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
+        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
         Bus::fake(SendDiscordNotificationJob::class);
         Event::fakeExcept(TransactionUpdated::class);
 

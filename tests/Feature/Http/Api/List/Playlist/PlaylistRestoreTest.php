@@ -4,16 +4,17 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\List\Playlist;
 
-use App\Constants\Config\FlagConstants;
 use App\Constants\Config\PlaylistConstants;
 use App\Enums\Auth\ExtendedCrudPermission;
 use App\Enums\Auth\SpecialPermission;
 use App\Events\List\Playlist\PlaylistCreated;
+use App\Features\AllowPlaylistManagement;
 use App\Models\Auth\User;
 use App\Models\List\Playlist;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Event;
+use Laravel\Pennant\Feature;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
@@ -33,7 +34,7 @@ class PlaylistRestoreTest extends TestCase
     {
         Event::fakeExcept(PlaylistCreated::class);
 
-        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
+        Feature::activate(AllowPlaylistManagement::class);
 
         $playlist = Playlist::factory()->createOne();
 
@@ -51,7 +52,7 @@ class PlaylistRestoreTest extends TestCase
     {
         Event::fakeExcept(PlaylistCreated::class);
 
-        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
+        Feature::activate(AllowPlaylistManagement::class);
 
         $playlist = Playlist::factory()->createOne();
 
@@ -73,7 +74,7 @@ class PlaylistRestoreTest extends TestCase
     {
         Event::fakeExcept(PlaylistCreated::class);
 
-        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
+        Feature::activate(AllowPlaylistManagement::class);
 
         $playlist = Playlist::factory()
             ->for(User::factory())
@@ -90,7 +91,7 @@ class PlaylistRestoreTest extends TestCase
 
     /**
      * The Playlist Restore Endpoint shall forbid users from restoring playlists
-     * if the 'flags.allow_playlist_management' property is disabled.
+     * if the Allow Playlist Management feature is inactive.
      *
      * @return void
      */
@@ -98,7 +99,7 @@ class PlaylistRestoreTest extends TestCase
     {
         Event::fakeExcept(PlaylistCreated::class);
 
-        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, false);
+        Feature::deactivate(AllowPlaylistManagement::class);
 
         $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE()->format(Playlist::class))->createOne();
 
@@ -124,7 +125,7 @@ class PlaylistRestoreTest extends TestCase
     {
         Event::fakeExcept(PlaylistCreated::class);
 
-        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
+        Feature::activate(AllowPlaylistManagement::class);
 
         $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE()->format(Playlist::class))->createOne();
 
@@ -148,7 +149,7 @@ class PlaylistRestoreTest extends TestCase
     {
         Event::fakeExcept(PlaylistCreated::class);
 
-        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
+        Feature::activate(AllowPlaylistManagement::class);
 
         $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE()->format(Playlist::class))->createOne();
 
@@ -168,7 +169,7 @@ class PlaylistRestoreTest extends TestCase
 
     /**
      * Users with the bypass feature flag permission shall be permitted to restore playlists
-     * even if the 'flags.allow_playlist_management' property is disabled.
+     * even if the Allow Playlist Management feature is inactive.
      *
      * @return void
      */
@@ -176,7 +177,7 @@ class PlaylistRestoreTest extends TestCase
     {
         Event::fakeExcept(PlaylistCreated::class);
 
-        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, $this->faker->boolean());
+        Feature::activate(AllowPlaylistManagement::class, $this->faker->boolean());
 
         $user = User::factory()
             ->withPermissions(
@@ -211,7 +212,7 @@ class PlaylistRestoreTest extends TestCase
         $playlistLimit = $this->faker->randomDigitNotNull();
 
         Config::set(PlaylistConstants::MAX_PLAYLISTS_QUALIFIED, $playlistLimit);
-        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
+        Feature::activate(AllowPlaylistManagement::class);
 
         $user = User::factory()
             ->has(Playlist::factory()->count($playlistLimit))
@@ -244,7 +245,7 @@ class PlaylistRestoreTest extends TestCase
         $playlistLimit = $this->faker->randomDigitNotNull();
 
         Config::set(PlaylistConstants::MAX_PLAYLISTS_QUALIFIED, $playlistLimit);
-        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
+        Feature::activate(AllowPlaylistManagement::class);
 
         $user = User::factory()
             ->has(Playlist::factory()->count($playlistLimit))

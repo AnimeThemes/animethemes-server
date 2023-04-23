@@ -13,10 +13,6 @@ class VideoConstants
 
     final public const DISKS_QUALIFIED = 'video.disks';
 
-    final public const ENCODER_VERSION = 'encoder_version';
-
-    final public const ENCODER_VERSION_QUALIFIED = 'video.encoder_version';
-
     final public const NGINX_REDIRECT_QUALIFIED = 'video.nginx_redirect';
 
     final public const PATH_QUALIFIED = 'video.path';

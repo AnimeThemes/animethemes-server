@@ -65,7 +65,7 @@ class SongDeleted extends WikiDeletedEvent implements UpdateRelatedIndicesEvent
      *
      * @return string
      */
-    protected function getNotificationUrl(): string
+    protected function getNovaNotificationUrl(): string
     {
         $uriKey = SongResource::uriKey();
 

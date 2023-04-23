@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Jobs\Pivot\Wiki;
 
-use App\Constants\Config\FlagConstants;
+use App\Constants\FeatureConstants;
 use App\Events\Pivot\Wiki\AnimeSeries\AnimeSeriesCreated;
 use App\Events\Pivot\Wiki\AnimeSeries\AnimeSeriesDeleted;
 use App\Jobs\SendDiscordNotificationJob;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Series;
 use Illuminate\Support\Facades\Bus;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Event;
+use Laravel\Pennant\Feature;
 use Tests\TestCase;
 
 /**
@@ -30,7 +30,7 @@ class AnimeSeriesTest extends TestCase
         $anime = Anime::factory()->createOne();
         $series = Series::factory()->createOne();
 
-        Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
+        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
         Bus::fake(SendDiscordNotificationJob::class);
         Event::fakeExcept(AnimeSeriesCreated::class);
 
@@ -51,7 +51,7 @@ class AnimeSeriesTest extends TestCase
 
         $anime->series()->attach($series);
 
-        Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
+        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
         Bus::fake(SendDiscordNotificationJob::class);
         Event::fakeExcept(AnimeSeriesDeleted::class);
 
