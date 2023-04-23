@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Database\Seeders\Admin\Setting;
 
-use App\Constants\Config\VideoConstants;
 use App\Constants\Config\WikiConstants;
 use App\Models\Admin\Setting;
 use Illuminate\Database\Seeder;
