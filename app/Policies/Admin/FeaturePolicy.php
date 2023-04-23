@@ -35,7 +35,7 @@ class FeaturePolicy
      * Determine whether the user can view the model.
      *
      * @param  User|null  $user
-     * @param
+     * @param  Feature  $feature
      * @return bool
      */
     public function view(?User $user, Feature $feature): bool
