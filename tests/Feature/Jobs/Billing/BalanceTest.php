@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Jobs\Billing;
 
-use App\Constants\Config\FlagConstants;
+use App\Constants\FeatureConstants;
 use App\Events\Billing\Balance\BalanceCreated;
 use App\Events\Billing\Balance\BalanceDeleted;
 use App\Events\Billing\Balance\BalanceRestored;
@@ -12,8 +12,8 @@ use App\Events\Billing\Balance\BalanceUpdated;
 use App\Jobs\SendDiscordNotificationJob;
 use App\Models\Billing\Balance;
 use Illuminate\Support\Facades\Bus;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Event;
+use Laravel\Pennant\Feature;
 use Tests\TestCase;
 
 /**
@@ -28,7 +28,7 @@ class BalanceTest extends TestCase
      */
     public function testBalanceCreatedSendsDiscordNotification(): void
     {
-        Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
+        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
         Bus::fake(SendDiscordNotificationJob::class);
         Event::fakeExcept(BalanceCreated::class);
 
@@ -46,7 +46,7 @@ class BalanceTest extends TestCase
     {
         $balance = Balance::factory()->createOne();
 
-        Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
+        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
         Bus::fake(SendDiscordNotificationJob::class);
         Event::fakeExcept(BalanceDeleted::class);
 
@@ -64,7 +64,7 @@ class BalanceTest extends TestCase
     {
         $balance = Balance::factory()->createOne();
 
-        Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
+        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
         Bus::fake(SendDiscordNotificationJob::class);
         Event::fakeExcept(BalanceRestored::class);
 
@@ -82,7 +82,7 @@ class BalanceTest extends TestCase
     {
         $balance = Balance::factory()->createOne();
 
-        Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
+        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
         Bus::fake(SendDiscordNotificationJob::class);
         Event::fakeExcept(BalanceUpdated::class);
 

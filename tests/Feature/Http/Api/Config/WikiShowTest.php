@@ -27,7 +27,7 @@ class WikiShowTest extends TestCase
     use WithFaker;
 
     /**
-     * By default, the Wiki Show Endpoint shall return a Flags Resource.
+     * By default, the Wiki Show Endpoint shall return a Wiki Resource.
      *
      * @return void
      */

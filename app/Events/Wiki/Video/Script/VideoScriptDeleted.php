@@ -60,7 +60,7 @@ class VideoScriptDeleted extends WikiDeletedEvent
      *
      * @return string
      */
-    protected function getNotificationUrl(): string
+    protected function getNovaNotificationUrl(): string
     {
         $uriKey = Script::uriKey();
 

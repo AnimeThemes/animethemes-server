@@ -2,16 +2,17 @@
 
 declare(strict_types=1);
 
-use App\Constants\Config\FlagConstants;
+use App\Features\AllowDumpDownloading;
 use App\Http\Controllers\Admin\DumpController;
 use App\Http\Controllers\Admin\LatestDocumentDumpController;
 use App\Http\Controllers\Admin\LatestWikiDumpController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
+use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
 
-$isDumpDownloadingAllowed = Str::of('is_feature_enabled:')
-    ->append(FlagConstants::ALLOW_DUMP_DOWNLOADING_FLAG_QUALIFIED)
-    ->append(',Dump Downloading Disabled')
+$isDumpDownloadingAllowed = Str::of(EnsureFeaturesAreActive::class)
+    ->append(':')
+    ->append(AllowDumpDownloading::class)
     ->__toString();
 
 Route::get('/latest/document', [LatestDocumentDumpController::class, 'show'])

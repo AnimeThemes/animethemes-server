@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-use App\Constants\Config\FlagConstants;
-use App\Constants\Config\VideoConstants;
 use App\Constants\Config\WikiConstants;
 use App\Models\Admin\Setting;
 
@@ -87,13 +85,6 @@ return [
     |
     */
     'override' => [
-        FlagConstants::ALLOW_AUDIO_STREAMS_FLAG_QUALIFIED => FlagConstants::ALLOW_AUDIO_STREAMS_FLAG,
-        FlagConstants::ALLOW_VIDEO_STREAMS_FLAG_QUALIFIED => FlagConstants::ALLOW_VIDEO_STREAMS_FLAG,
-        FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED => FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG,
-        FlagConstants::ALLOW_VIEW_RECORDING_FLAG_QUALIFIED => FlagConstants::ALLOW_VIEW_RECORDING_FLAG,
-        FlagConstants::ALLOW_DUMP_DOWNLOADING_FLAG_QUALIFIED => FlagConstants::ALLOW_DUMP_DOWNLOADING_FLAG,
-        FlagConstants::ALLOW_SCRIPT_DOWNLOADING_FLAG_QUALIFIED => FlagConstants::ALLOW_SCRIPT_DOWNLOADING_FLAG,
-        VideoConstants::ENCODER_VERSION_QUALIFIED => VideoConstants::ENCODER_VERSION,
         WikiConstants::FEATURED_ENTRY_SETTING_QUALIFIED => WikiConstants::FEATURED_ENTRY_SETTING,
         WikiConstants::FEATURED_VIDEO_SETTING_QUALIFIED => WikiConstants::FEATURED_VIDEO_SETTING,
     ],

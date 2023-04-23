@@ -11,7 +11,7 @@ use App\Actions\Http\Api\List\Playlist\Track\RestoreTrackAction;
 use App\Actions\Http\Api\List\Playlist\Track\StoreTrackAction;
 use App\Actions\Http\Api\List\Playlist\Track\UpdateTrackAction;
 use App\Actions\Http\Api\ShowAction;
-use App\Constants\Config\FlagConstants;
+use App\Features\AllowPlaylistManagement;
 use App\Http\Api\Query\Query;
 use App\Http\Controllers\Api\BaseController;
 use App\Http\Middleware\Models\List\PlaylistExceedsTrackLimit;
@@ -26,6 +26,7 @@ use App\Models\List\Playlist\PlaylistTrack;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Str;
+use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
 
 /**
  * Class TrackController.
@@ -39,9 +40,9 @@ class TrackController extends BaseController
     {
         parent::__construct(PlaylistTrack::class, 'track,playlist');
 
-        $isPlaylistManagementAllowed = Str::of('is_feature_enabled:')
-            ->append(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED)
-            ->append(',Playlist Management Disabled')
+        $isPlaylistManagementAllowed = Str::of(EnsureFeaturesAreActive::class)
+            ->append(':')
+            ->append(AllowPlaylistManagement::class)
             ->__toString();
 
         $this->middleware($isPlaylistManagementAllowed)->except(['index', 'show']);

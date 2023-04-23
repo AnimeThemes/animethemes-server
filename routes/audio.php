@@ -2,14 +2,15 @@
 
 declare(strict_types=1);
 
-use App\Constants\Config\FlagConstants;
+use App\Features\AllowAudioStreams;
 use App\Http\Controllers\Wiki\Audio\AudioController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
+use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
 
-$isAudioStreamingAllowed = Str::of('is_feature_enabled:')
-    ->append(FlagConstants::ALLOW_AUDIO_STREAMS_FLAG_QUALIFIED)
-    ->append(',Audio Streaming Disabled')
+$isAudioStreamingAllowed = Str::of(EnsureFeaturesAreActive::class)
+    ->append(':')
+    ->append(AllowAudioStreams::class)
     ->__toString();
 
 Route::get('/{audio}', [AudioController::class, 'show'])

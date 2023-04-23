@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Jobs\Wiki;
 
-use App\Constants\Config\FlagConstants;
+use App\Constants\FeatureConstants;
 use App\Events\Wiki\ExternalResource\ExternalResourceCreated;
 use App\Events\Wiki\ExternalResource\ExternalResourceDeleted;
 use App\Events\Wiki\ExternalResource\ExternalResourceRestored;
@@ -12,8 +12,8 @@ use App\Events\Wiki\ExternalResource\ExternalResourceUpdated;
 use App\Jobs\SendDiscordNotificationJob;
 use App\Models\Wiki\ExternalResource;
 use Illuminate\Support\Facades\Bus;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Event;
+use Laravel\Pennant\Feature;
 use Tests\TestCase;
 
 /**
@@ -28,7 +28,7 @@ class ExternalResourceTest extends TestCase
      */
     public function testResourceCreatedSendsDiscordNotification(): void
     {
-        Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
+        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
         Bus::fake(SendDiscordNotificationJob::class);
         Event::fakeExcept(ExternalResourceCreated::class);
 
@@ -46,7 +46,7 @@ class ExternalResourceTest extends TestCase
     {
         $resource = ExternalResource::factory()->createOne();
 
-        Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
+        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
         Bus::fake(SendDiscordNotificationJob::class);
         Event::fakeExcept(ExternalResourceDeleted::class);
 
@@ -64,7 +64,7 @@ class ExternalResourceTest extends TestCase
     {
         $resource = ExternalResource::factory()->createOne();
 
-        Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
+        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
         Bus::fake(SendDiscordNotificationJob::class);
         Event::fakeExcept(ExternalResourceRestored::class);
 
@@ -82,7 +82,7 @@ class ExternalResourceTest extends TestCase
     {
         $resource = ExternalResource::factory()->createOne();
 
-        Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
+        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
         Bus::fake(SendDiscordNotificationJob::class);
         Event::fakeExcept(ExternalResourceUpdated::class);
 

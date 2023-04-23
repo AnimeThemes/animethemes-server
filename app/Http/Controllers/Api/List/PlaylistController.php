@@ -11,8 +11,8 @@ use App\Actions\Http\Api\RestoreAction;
 use App\Actions\Http\Api\ShowAction;
 use App\Actions\Http\Api\StoreAction;
 use App\Actions\Http\Api\UpdateAction;
-use App\Constants\Config\FlagConstants;
 use App\Enums\Models\List\PlaylistVisibility;
+use App\Features\AllowPlaylistManagement;
 use App\Http\Api\Query\Query;
 use App\Http\Controllers\Api\BaseController;
 use App\Http\Middleware\Models\List\UserExceedsPlaylistLimit;
@@ -26,6 +26,7 @@ use App\Models\List\Playlist;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
 
 /**
  * Class PlaylistController.
@@ -39,9 +40,9 @@ class PlaylistController extends BaseController
     {
         parent::__construct(Playlist::class, 'playlist');
 
-        $isPlaylistManagementAllowed = Str::of('is_feature_enabled:')
-            ->append(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED)
-            ->append(',Playlist Management Disabled')
+        $isPlaylistManagementAllowed = Str::of(EnsureFeaturesAreActive::class)
+            ->append(':')
+            ->append(AllowPlaylistManagement::class)
             ->__toString();
 
         $this->middleware($isPlaylistManagementAllowed)->except(['index', 'show']);

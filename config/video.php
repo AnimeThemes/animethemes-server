@@ -56,19 +56,6 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Video Uploading
-    |--------------------------------------------------------------------------
-    |
-    | These values facilitate the validation and uploading of video in-system to object storage.
-    | For validation, we want to enforce that the latest FFmpeg version is used.
-    | We will use the libavformat version of the form "Lavf{major}.{minor}.{patch]".
-    |
-    */
-
-    'encoder_version' => env('VIDEO_ENCODER_VERSION'),
-
-    /*
-    |--------------------------------------------------------------------------
     | Video Scripts
     |--------------------------------------------------------------------------
     |

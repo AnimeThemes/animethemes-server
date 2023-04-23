@@ -5,18 +5,15 @@ declare(strict_types=1);
 namespace App\Events\Auth\User;
 
 use App\Concerns\Discord\HasAttributeUpdateEmbedFields;
-use App\Constants\Config\ServiceConstants;
-use App\Contracts\Events\DiscordMessageEvent;
 use App\Enums\Discord\EmbedColor;
 use App\Models\Auth\User;
 use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Support\Facades\Config;
 use NotificationChannels\Discord\DiscordMessage;
 
 /**
  * Class UserUpdated.
  */
-class UserUpdated extends UserEvent implements DiscordMessageEvent
+class UserUpdated extends UserEvent
 {
     use Dispatchable;
     use HasAttributeUpdateEmbedFields;
@@ -47,15 +44,5 @@ class UserUpdated extends UserEvent implements DiscordMessageEvent
             'fields' => $this->getEmbedFields(),
             'color' => EmbedColor::YELLOW,
         ]);
-    }
-
-    /**
-     * Get Discord channel the message will be sent to.
-     *
-     * @return string
-     */
-    public function getDiscordChannel(): string
-    {
-        return Config::get(ServiceConstants::ADMIN_DISCORD_CHANNEL_QUALIFIED);
     }
 }

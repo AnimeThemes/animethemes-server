@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Jobs\Admin;
 
-use App\Constants\Config\FlagConstants;
+use App\Constants\FeatureConstants;
 use App\Events\Admin\Dump\DumpCreated;
 use App\Events\Admin\Dump\DumpDeleted;
 use App\Events\Admin\Dump\DumpRestored;
@@ -12,8 +12,8 @@ use App\Events\Admin\Dump\DumpUpdated;
 use App\Jobs\SendDiscordNotificationJob;
 use App\Models\Admin\Dump;
 use Illuminate\Support\Facades\Bus;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Event;
+use Laravel\Pennant\Feature;
 use Tests\TestCase;
 
 /**
@@ -28,7 +28,7 @@ class DumpTest extends TestCase
      */
     public function testDumpCreatedSendsDiscordNotification(): void
     {
-        Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
+        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
         Bus::fake(SendDiscordNotificationJob::class);
         Event::fakeExcept(DumpCreated::class);
 
@@ -46,7 +46,7 @@ class DumpTest extends TestCase
     {
         $dump = Dump::factory()->createOne();
 
-        Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
+        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
         Bus::fake(SendDiscordNotificationJob::class);
         Event::fakeExcept(DumpDeleted::class);
 
@@ -64,7 +64,7 @@ class DumpTest extends TestCase
     {
         $dump = Dump::factory()->createOne();
 
-        Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
+        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
         Bus::fake(SendDiscordNotificationJob::class);
         Event::fakeExcept(DumpRestored::class);
 
@@ -82,7 +82,7 @@ class DumpTest extends TestCase
     {
         $dump = Dump::factory()->createOne();
 
-        Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
+        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
         Bus::fake(SendDiscordNotificationJob::class);
         Event::fakeExcept(DumpUpdated::class);
 

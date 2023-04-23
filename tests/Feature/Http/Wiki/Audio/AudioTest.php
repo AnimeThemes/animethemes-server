@@ -5,15 +5,17 @@ declare(strict_types=1);
 namespace Tests\Feature\Http\Wiki\Audio;
 
 use App\Constants\Config\AudioConstants;
-use App\Constants\Config\FlagConstants;
+use App\Constants\FeatureConstants;
 use App\Enums\Auth\SpecialPermission;
 use App\Enums\Http\StreamingMethod;
+use App\Features\AllowAudioStreams;
 use App\Models\Auth\User;
 use App\Models\Wiki\Audio;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
+use Laravel\Pennant\Feature;
 use Laravel\Sanctum\Sanctum;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Tests\TestCase;
@@ -26,7 +28,7 @@ class AudioTest extends TestCase
     use WithFaker;
 
     /**
-     * If audio streaming is disabled through the 'flags.allow_audio_streams' property,
+     * If audio streaming is disabled through the Allow Audio Streams feature,
      * the user shall receive a forbidden exception.
      *
      * @return void
@@ -35,7 +37,7 @@ class AudioTest extends TestCase
     {
         Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
 
-        Config::set(FlagConstants::ALLOW_AUDIO_STREAMS_FLAG_QUALIFIED, false);
+        Feature::deactivate(AllowAudioStreams::class);
 
         $audio = Audio::factory()->createOne();
 
@@ -46,7 +48,7 @@ class AudioTest extends TestCase
 
     /**
      * Users with the bypass feature flag permission shall be permitted to stream audio
-     * even if the 'flags.allow_audio_streams' property is disabled.
+     * even if the Allow Audio Streams feature is disabled.
      *
      * @return void
      */
@@ -54,7 +56,7 @@ class AudioTest extends TestCase
     {
         Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
 
-        Config::set(FlagConstants::ALLOW_AUDIO_STREAMS_FLAG_QUALIFIED, $this->faker->boolean());
+        Feature::activate(AllowAudioStreams::class, $this->faker->boolean());
         Config::set(AudioConstants::STREAMING_METHOD_QUALIFIED, StreamingMethod::getRandomValue());
 
         $audio = Audio::factory()->createOne();
@@ -77,7 +79,7 @@ class AudioTest extends TestCase
     {
         Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
 
-        Config::set(FlagConstants::ALLOW_AUDIO_STREAMS_FLAG_QUALIFIED, true);
+        Feature::activate(AllowAudioStreams::class);
 
         $audio = Audio::factory()->createOne();
 
@@ -97,8 +99,8 @@ class AudioTest extends TestCase
     {
         Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
 
-        Config::set(FlagConstants::ALLOW_AUDIO_STREAMS_FLAG_QUALIFIED, true);
-        Config::set(FlagConstants::ALLOW_VIEW_RECORDING_FLAG_QUALIFIED, false);
+        Feature::activate(AllowAudioStreams::class);
+        Feature::deactivate(FeatureConstants::ALLOW_VIEW_RECORDING);
 
         $audio = Audio::factory()->createOne();
 
@@ -116,8 +118,8 @@ class AudioTest extends TestCase
     {
         Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
 
-        Config::set(FlagConstants::ALLOW_AUDIO_STREAMS_FLAG_QUALIFIED, true);
-        Config::set(FlagConstants::ALLOW_VIEW_RECORDING_FLAG_QUALIFIED, true);
+        Feature::activate(AllowAudioStreams::class);
+        Feature::activate(FeatureConstants::ALLOW_VIEW_RECORDING);
 
         $audio = Audio::factory()->createOne();
 
@@ -135,8 +137,8 @@ class AudioTest extends TestCase
     {
         Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
 
-        Config::set(FlagConstants::ALLOW_AUDIO_STREAMS_FLAG_QUALIFIED, true);
-        Config::set(FlagConstants::ALLOW_VIEW_RECORDING_FLAG_QUALIFIED, true);
+        Feature::activate(AllowAudioStreams::class);
+        Feature::activate(FeatureConstants::ALLOW_VIEW_RECORDING);
 
         $audio = Audio::factory()->createOne();
 
@@ -156,7 +158,7 @@ class AudioTest extends TestCase
     {
         Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
 
-        Config::set(FlagConstants::ALLOW_AUDIO_STREAMS_FLAG_QUALIFIED, true);
+        Feature::activate(AllowAudioStreams::class);
         Config::set(AudioConstants::STREAMING_METHOD_QUALIFIED, $this->faker->word());
 
         $audio = Audio::factory()->createOne();
@@ -175,7 +177,7 @@ class AudioTest extends TestCase
     {
         Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
 
-        Config::set(FlagConstants::ALLOW_AUDIO_STREAMS_FLAG_QUALIFIED, true);
+        Feature::activate(AllowAudioStreams::class);
         Config::set(AudioConstants::STREAMING_METHOD_QUALIFIED, StreamingMethod::RESPONSE);
 
         $audio = Audio::factory()->createOne();
@@ -194,7 +196,7 @@ class AudioTest extends TestCase
     {
         Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
 
-        Config::set(FlagConstants::ALLOW_AUDIO_STREAMS_FLAG_QUALIFIED, true);
+        Feature::activate(AllowAudioStreams::class);
         Config::set(AudioConstants::STREAMING_METHOD_QUALIFIED, StreamingMethod::NGINX);
 
         $audio = Audio::factory()->createOne();

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Jobs\Pivot\Wiki;
 
-use App\Constants\Config\FlagConstants;
+use App\Constants\FeatureConstants;
 use App\Events\Pivot\Wiki\ArtistMember\ArtistMemberCreated;
 use App\Events\Pivot\Wiki\ArtistMember\ArtistMemberDeleted;
 use App\Events\Pivot\Wiki\ArtistMember\ArtistMemberUpdated;
@@ -12,8 +12,8 @@ use App\Jobs\SendDiscordNotificationJob;
 use App\Models\Wiki\Artist;
 use App\Pivots\Wiki\ArtistMember;
 use Illuminate\Support\Facades\Bus;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Event;
+use Laravel\Pennant\Feature;
 use Tests\TestCase;
 
 /**
@@ -31,7 +31,7 @@ class ArtistMemberTest extends TestCase
         $artist = Artist::factory()->createOne();
         $member = Artist::factory()->createOne();
 
-        Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
+        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
         Bus::fake(SendDiscordNotificationJob::class);
         Event::fakeExcept(ArtistMemberCreated::class);
 
@@ -52,7 +52,7 @@ class ArtistMemberTest extends TestCase
 
         $artist->members()->attach($member);
 
-        Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
+        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
         Bus::fake(SendDiscordNotificationJob::class);
         Event::fakeExcept(ArtistMemberDeleted::class);
 
@@ -81,7 +81,7 @@ class ArtistMemberTest extends TestCase
             ->for($member, 'member')
             ->makeOne();
 
-        Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
+        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
         Bus::fake(SendDiscordNotificationJob::class);
         Event::fakeExcept(ArtistMemberUpdated::class);
 

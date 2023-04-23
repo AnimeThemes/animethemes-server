@@ -4,18 +4,19 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\List\Playlist;
 
-use App\Constants\Config\FlagConstants;
 use App\Constants\Config\PlaylistConstants;
 use App\Constants\Config\ValidationConstants;
 use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\SpecialPermission;
 use App\Enums\Models\List\PlaylistVisibility;
 use App\Enums\Rules\ModerationService;
+use App\Features\AllowPlaylistManagement;
 use App\Models\Auth\User;
 use App\Models\List\Playlist;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
+use Laravel\Pennant\Feature;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
@@ -33,7 +34,7 @@ class PlaylistStoreTest extends TestCase
      */
     public function testProtected(): void
     {
-        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
+        Feature::activate(AllowPlaylistManagement::class);
 
         $playlist = Playlist::factory()->makeOne();
 
@@ -49,7 +50,7 @@ class PlaylistStoreTest extends TestCase
      */
     public function testForbiddenIfMissingPermission(): void
     {
-        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
+        Feature::activate(AllowPlaylistManagement::class);
 
         $playlist = Playlist::factory()->makeOne();
 
@@ -64,13 +65,13 @@ class PlaylistStoreTest extends TestCase
 
     /**
      * The Playlist Store Endpoint shall forbid users from creating playlists
-     * if the 'flags.allow_playlist_management' property is disabled.
+     * if the Allow Playlist Management feature is inactive.
      *
      * @return void
      */
     public function testForbiddenIfFlagDisabled(): void
     {
-        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, false);
+        Feature::deactivate(AllowPlaylistManagement::class);
 
         $parameters = array_merge(
             Playlist::factory()->raw(),
@@ -93,7 +94,7 @@ class PlaylistStoreTest extends TestCase
      */
     public function testRequiredFields(): void
     {
-        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
+        Feature::activate(AllowPlaylistManagement::class);
 
         $user = User::factory()->withPermissions(CrudPermission::CREATE()->format(Playlist::class))->createOne();
 
@@ -114,7 +115,7 @@ class PlaylistStoreTest extends TestCase
      */
     public function testCreate(): void
     {
-        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
+        Feature::activate(AllowPlaylistManagement::class);
 
         $parameters = array_merge(
             Playlist::factory()->raw(),
@@ -134,13 +135,13 @@ class PlaylistStoreTest extends TestCase
 
     /**
      * Users with the bypass feature flag permission shall be permitted to create playlists
-     * even if the 'flags.allow_playlist_management' property is disabled.
+     * even if the Allow Playlist Management feature is inactive.
      *
      * @return void
      */
     public function testCreatePermittedForBypass(): void
     {
-        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, $this->faker->boolean());
+        Feature::activate(AllowPlaylistManagement::class, $this->faker->boolean());
 
         $parameters = array_merge(
             Playlist::factory()->raw(),
@@ -171,7 +172,7 @@ class PlaylistStoreTest extends TestCase
         $playlistLimit = $this->faker->randomDigitNotNull();
 
         Config::set(PlaylistConstants::MAX_PLAYLISTS_QUALIFIED, $playlistLimit);
-        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
+        Feature::activate(AllowPlaylistManagement::class);
 
         $parameters = array_merge(
             Playlist::factory()->raw(),
@@ -201,7 +202,7 @@ class PlaylistStoreTest extends TestCase
         $playlistLimit = $this->faker->randomDigitNotNull();
 
         Config::set(PlaylistConstants::MAX_PLAYLISTS_QUALIFIED, $playlistLimit);
-        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
+        Feature::activate(AllowPlaylistManagement::class);
 
         $parameters = array_merge(
             Playlist::factory()->raw(),
@@ -230,7 +231,7 @@ class PlaylistStoreTest extends TestCase
      */
     public function testCreatedIfNotFlaggedByOpenAI(): void
     {
-        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
+        Feature::activate(AllowPlaylistManagement::class);
         Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI);
 
         Http::fake([
@@ -264,7 +265,7 @@ class PlaylistStoreTest extends TestCase
      */
     public function testCreatedIfOpenAIFails(): void
     {
-        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
+        Feature::activate(AllowPlaylistManagement::class);
         Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI);
 
         Http::fake([
@@ -292,7 +293,7 @@ class PlaylistStoreTest extends TestCase
      */
     public function testValidationErrorWhenFlaggedByOpenAI(): void
     {
-        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
+        Feature::activate(AllowPlaylistManagement::class);
         Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI);
 
         Http::fake([

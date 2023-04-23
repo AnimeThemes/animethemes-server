@@ -4,15 +4,16 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Wiki\Video\Script;
 
-use App\Constants\Config\FlagConstants;
 use App\Constants\Config\VideoConstants;
 use App\Enums\Auth\SpecialPermission;
+use App\Features\AllowScriptDownloading;
 use App\Models\Auth\User;
 use App\Models\Wiki\Video\VideoScript;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
+use Laravel\Pennant\Feature;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
@@ -24,14 +25,14 @@ class ScriptTest extends TestCase
     use WithFaker;
 
     /**
-     * If script downloading is disabled through the 'flags.allow_script_downloading' property,
+     * If script downloading is disabled through the Allow Script Downloading feature,
      * the user shall receive a forbidden exception.
      *
      * @return void
      */
     public function testScriptDownloadingNotAllowedForbidden(): void
     {
-        Config::set(FlagConstants::ALLOW_SCRIPT_DOWNLOADING_FLAG_QUALIFIED, false);
+        Feature::deactivate(AllowScriptDownloading::class);
 
         $script = VideoScript::factory()->createOne();
 
@@ -42,13 +43,13 @@ class ScriptTest extends TestCase
 
     /**
      * Users with the bypass feature flag permission shall be permitted to download scripts
-     * even if the 'flags.allow_script_downloading' property is disabled.
+     * even if the Allow Script Downloading feature is disabled.
      *
      * @return void
      */
     public function testVideoStreamingPermittedForBypass(): void
     {
-        Config::set(FlagConstants::ALLOW_SCRIPT_DOWNLOADING_FLAG_QUALIFIED, $this->faker->boolean());
+        Feature::activate(AllowScriptDownloading::class, $this->faker->boolean());
 
         $fs = Storage::fake(Config::get(VideoConstants::SCRIPT_DISK_QUALIFIED));
         $file = File::fake()->create($this->faker->word().'.txt');
@@ -74,7 +75,7 @@ class ScriptTest extends TestCase
      */
     public function testCannotStreamSoftDeletedVideo(): void
     {
-        Config::set(FlagConstants::ALLOW_SCRIPT_DOWNLOADING_FLAG_QUALIFIED, true);
+        Feature::activate(AllowScriptDownloading::class);
 
         $script = VideoScript::factory()->createOne();
 
@@ -92,7 +93,7 @@ class ScriptTest extends TestCase
      */
     public function testDownloadedThroughResponse(): void
     {
-        Config::set(FlagConstants::ALLOW_SCRIPT_DOWNLOADING_FLAG_QUALIFIED, true);
+        Feature::activate(AllowScriptDownloading::class);
 
         $fs = Storage::fake(Config::get(VideoConstants::SCRIPT_DISK_QUALIFIED));
         $file = File::fake()->create($this->faker->word().'.txt');

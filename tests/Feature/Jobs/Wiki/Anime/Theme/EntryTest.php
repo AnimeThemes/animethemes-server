@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Jobs\Wiki\Anime\Theme;
 
-use App\Constants\Config\FlagConstants;
+use App\Constants\FeatureConstants;
 use App\Events\Wiki\Anime\Theme\Entry\EntryCreated;
 use App\Events\Wiki\Anime\Theme\Entry\EntryDeleted;
 use App\Events\Wiki\Anime\Theme\Entry\EntryRestored;
@@ -14,8 +14,8 @@ use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use Illuminate\Support\Facades\Bus;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Event;
+use Laravel\Pennant\Feature;
 use Tests\TestCase;
 
 /**
@@ -34,7 +34,7 @@ class EntryTest extends TestCase
             ->for(Anime::factory())
             ->createOne();
 
-        Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
+        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
         Bus::fake(SendDiscordNotificationJob::class);
         Event::fakeExcept(EntryCreated::class);
 
@@ -54,7 +54,7 @@ class EntryTest extends TestCase
             ->for(AnimeTheme::factory()->for(Anime::factory()))
             ->createOne();
 
-        Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
+        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
         Bus::fake(SendDiscordNotificationJob::class);
         Event::fakeExcept(EntryDeleted::class);
 
@@ -74,7 +74,7 @@ class EntryTest extends TestCase
             ->for(AnimeTheme::factory()->for(Anime::factory()))
             ->createOne();
 
-        Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
+        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
         Bus::fake(SendDiscordNotificationJob::class);
         Event::fakeExcept(EntryRestored::class);
 
@@ -98,7 +98,7 @@ class EntryTest extends TestCase
             ->for(AnimeTheme::factory()->for(Anime::factory()))
             ->makeOne();
 
-        Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
+        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
         Bus::fake(SendDiscordNotificationJob::class);
         Event::fakeExcept(EntryUpdated::class);
 

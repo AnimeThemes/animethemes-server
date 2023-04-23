@@ -5,14 +5,15 @@ declare(strict_types=1);
 namespace Tests\Feature\Http\Admin;
 
 use App\Constants\Config\DumpConstants;
-use App\Constants\Config\FlagConstants;
 use App\Enums\Auth\SpecialPermission;
+use App\Features\AllowDumpDownloading;
 use App\Models\Admin\Dump;
 use App\Models\Auth\User;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
+use Laravel\Pennant\Feature;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
@@ -24,14 +25,14 @@ class DumpTest extends TestCase
     use WithFaker;
 
     /**
-     * If dump downloading is disabled through the 'flags.allow_dump_downloading' property,
+     * If dump downloading is disabled through the Allow Dump Downloading feature,
      * the user shall receive a forbidden exception.
      *
      * @return void
      */
     public function testDumpDownloadingNotAllowedForbidden(): void
     {
-        Config::set(FlagConstants::ALLOW_DUMP_DOWNLOADING_FLAG_QUALIFIED, false);
+        Feature::deactivate(AllowDumpDownloading::class);
 
         $dump = Dump::factory()->createOne();
 
@@ -42,13 +43,13 @@ class DumpTest extends TestCase
 
     /**
      * Users with the bypass feature flag permission shall be permitted to download dumps
-     * even if the 'flags.allow_dump_downloading' property is disabled.
+     * even if the Allow Dump Downloading feature is disabled.
      *
      * @return void
      */
     public function testVideoStreamingPermittedForBypass(): void
     {
-        Config::set(FlagConstants::ALLOW_DUMP_DOWNLOADING_FLAG_QUALIFIED, $this->faker->boolean());
+        Feature::activate(AllowDumpDownloading::class, $this->faker->boolean());
 
         $fs = Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));
         $file = File::fake()->create($this->faker->word().'.sql');
@@ -74,7 +75,7 @@ class DumpTest extends TestCase
      */
     public function testCannotDownloadSoftDeletedDump(): void
     {
-        Config::set(FlagConstants::ALLOW_DUMP_DOWNLOADING_FLAG_QUALIFIED, true);
+        Feature::activate(AllowDumpDownloading::class);
 
         $dump = Dump::factory()->createOne();
 
@@ -92,7 +93,7 @@ class DumpTest extends TestCase
      */
     public function testDownloadedThroughResponse(): void
     {
-        Config::set(FlagConstants::ALLOW_DUMP_DOWNLOADING_FLAG_QUALIFIED, true);
+        Feature::activate(AllowDumpDownloading::class);
 
         $fs = Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));
         $file = File::fake()->create($this->faker->word().'.sql');

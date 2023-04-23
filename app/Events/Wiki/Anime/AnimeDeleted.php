@@ -60,7 +60,7 @@ class AnimeDeleted extends WikiDeletedEvent
      *
      * @return string
      */
-    protected function getNotificationUrl(): string
+    protected function getNovaNotificationUrl(): string
     {
         $uriKey = AnimeResource::uriKey();
 

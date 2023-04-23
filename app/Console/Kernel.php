@@ -18,7 +18,6 @@ use Illuminate\Database\Console\PruneCommand as PruneModelsCommand;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Illuminate\Queue\Console\MonitorCommand as MonitorQueueCommand;
 use Illuminate\Queue\Console\PruneFailedJobsCommand;
-use Illuminate\Support\Facades\Config;
 use Laravel\Horizon\Console\SnapshotCommand;
 use Laravel\Sanctum\Console\Commands\PruneExpired;
 use Laravel\Telescope\Console\PruneCommand as PruneTelescopeEntriesCommand;
@@ -99,7 +98,7 @@ class Kernel extends ConsoleKernel
             ->storeOutput()
             ->hourly();
 
-        if (Config::bool('telescope.enabled')) {
+        if (config('telescope.enabled') === true) {
             $schedule->command(PruneTelescopeEntriesCommand::class)
                 ->withoutOverlapping()
                 ->runInBackground()

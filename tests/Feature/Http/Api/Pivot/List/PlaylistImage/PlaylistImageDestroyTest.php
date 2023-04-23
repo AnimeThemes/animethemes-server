@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace Http\Api\Pivot\List\PlaylistImage;
 
-use App\Constants\Config\FlagConstants;
 use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\SpecialPermission;
 use App\Events\List\Playlist\PlaylistCreated;
+use App\Features\AllowPlaylistManagement;
 use App\Models\Auth\User;
 use App\Models\List\Playlist;
 use App\Models\Wiki\Image;
 use App\Pivots\List\PlaylistImage;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Event;
+use Laravel\Pennant\Feature;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
@@ -34,7 +34,7 @@ class PlaylistImageDestroyTest extends TestCase
     {
         Event::fakeExcept(PlaylistCreated::class);
 
-        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
+        Feature::activate(AllowPlaylistManagement::class);
 
         $playlistImage = PlaylistImage::factory()
             ->for(Playlist::factory())
@@ -55,7 +55,7 @@ class PlaylistImageDestroyTest extends TestCase
     {
         Event::fakeExcept(PlaylistCreated::class);
 
-        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
+        Feature::activate(AllowPlaylistManagement::class);
 
         $playlistImage = PlaylistImage::factory()
             ->for(Playlist::factory())
@@ -80,7 +80,7 @@ class PlaylistImageDestroyTest extends TestCase
     {
         Event::fakeExcept(PlaylistCreated::class);
 
-        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
+        Feature::activate(AllowPlaylistManagement::class);
 
         $playlistImage = PlaylistImage::factory()
             ->for(Playlist::factory()->for(User::factory()))
@@ -102,7 +102,7 @@ class PlaylistImageDestroyTest extends TestCase
 
     /**
      * The Playlist Image Destroy Endpoint shall forbid users from destroying playlist images
-     * if the 'flags.allow_playlist_management' property is disabled.
+     * if the Allow Playlist Management feature is inactive.
      *
      * @return void
      */
@@ -110,7 +110,7 @@ class PlaylistImageDestroyTest extends TestCase
     {
         Event::fakeExcept(PlaylistCreated::class);
 
-        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, false);
+        Feature::deactivate(AllowPlaylistManagement::class);
 
         $user = User::factory()
             ->withPermissions(
@@ -139,7 +139,7 @@ class PlaylistImageDestroyTest extends TestCase
     {
         Event::fakeExcept(PlaylistCreated::class);
 
-        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
+        Feature::activate(AllowPlaylistManagement::class);
 
         $user = User::factory()
             ->withPermissions(
@@ -169,7 +169,7 @@ class PlaylistImageDestroyTest extends TestCase
     {
         Event::fakeExcept(PlaylistCreated::class);
 
-        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, true);
+        Feature::activate(AllowPlaylistManagement::class);
 
         $user = User::factory()
             ->withPermissions(
@@ -193,7 +193,7 @@ class PlaylistImageDestroyTest extends TestCase
 
     /**
      * Users with the bypass feature flag permission shall be permitted to destroy playlist images
-     * even if the 'flags.allow_playlist_management' property is disabled.
+     * even if the Allow Playlist Management feature is inactive.
      *
      * @return void
      */
@@ -201,7 +201,7 @@ class PlaylistImageDestroyTest extends TestCase
     {
         Event::fakeExcept(PlaylistCreated::class);
 
-        Config::set(FlagConstants::ALLOW_PLAYLIST_MANAGEMENT_QUALIFIED, $this->faker->boolean());
+        Feature::activate(AllowPlaylistManagement::class, $this->faker->boolean());
 
         $user = User::factory()
             ->withPermissions(

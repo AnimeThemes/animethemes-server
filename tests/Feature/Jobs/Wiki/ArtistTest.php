@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Jobs\Wiki;
 
-use App\Constants\Config\FlagConstants;
+use App\Constants\FeatureConstants;
 use App\Events\Wiki\Artist\ArtistCreated;
 use App\Events\Wiki\Artist\ArtistDeleted;
 use App\Events\Wiki\Artist\ArtistRestored;
@@ -12,8 +12,8 @@ use App\Events\Wiki\Artist\ArtistUpdated;
 use App\Jobs\SendDiscordNotificationJob;
 use App\Models\Wiki\Artist;
 use Illuminate\Support\Facades\Bus;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Event;
+use Laravel\Pennant\Feature;
 use Tests\TestCase;
 
 /**
@@ -28,7 +28,7 @@ class ArtistTest extends TestCase
      */
     public function testArtistCreatedSendsDiscordNotification(): void
     {
-        Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
+        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
         Bus::fake(SendDiscordNotificationJob::class);
         Event::fakeExcept(ArtistCreated::class);
 
@@ -46,7 +46,7 @@ class ArtistTest extends TestCase
     {
         $artist = Artist::factory()->createOne();
 
-        Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
+        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
         Bus::fake(SendDiscordNotificationJob::class);
         Event::fakeExcept(ArtistDeleted::class);
 
@@ -64,7 +64,7 @@ class ArtistTest extends TestCase
     {
         $artist = Artist::factory()->createOne();
 
-        Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
+        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
         Bus::fake(SendDiscordNotificationJob::class);
         Event::fakeExcept(ArtistRestored::class);
 
@@ -82,7 +82,7 @@ class ArtistTest extends TestCase
     {
         $artist = Artist::factory()->createOne();
 
-        Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
+        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
         Bus::fake(SendDiscordNotificationJob::class);
         Event::fakeExcept(ArtistUpdated::class);
 

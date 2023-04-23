@@ -23,9 +23,9 @@ class NotifiesNovaUsers implements ShouldQueue
      */
     public function handle(NovaNotificationEvent $event): void
     {
-        if ($event->shouldSend()) {
-            $notification = $event->getNotification();
-            foreach ($event->getUsers() as $user) {
+        if ($event->shouldSendNovaNotification()) {
+            $notification = $event->getNovaNotification();
+            foreach ($event->getNovaNotificationRecipients() as $user) {
                 $user->notify($notification);
             }
         }

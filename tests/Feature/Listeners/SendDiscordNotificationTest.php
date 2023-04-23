@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Listeners;
 
-use App\Constants\Config\FlagConstants;
+use App\Constants\FeatureConstants;
 use App\Contracts\Events\DiscordMessageEvent;
 use App\Jobs\SendDiscordNotificationJob;
 use App\Listeners\SendDiscordNotification;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Support\Facades\Bus;
-use Illuminate\Support\Facades\Config;
+use Laravel\Pennant\Feature;
 use NotificationChannels\Discord\DiscordMessage;
 use Tests\TestCase;
 
@@ -20,14 +20,14 @@ use Tests\TestCase;
 class SendDiscordNotificationTest extends TestCase
 {
     /**
-     * If discord notifications are disabled through the 'flags.allow_discord_notifications' property,
+     * If discord notifications are disabled through the Allow Discord Notifications feature,
      * discord notification jobs shall not be dispatched.
      *
      * @return void
      */
     public function testDiscordNotificationsNotAllowed(): void
     {
-        Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, false);
+        Feature::deactivate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
         Bus::fake(SendDiscordNotificationJob::class);
 
         $event = new class implements DiscordMessageEvent
@@ -52,6 +52,16 @@ class SendDiscordNotificationTest extends TestCase
             public function getDiscordChannel(): string
             {
                 return '';
+            }
+
+            /**
+             * Determine if the message should be sent.
+             *
+             * @return bool
+             */
+            public function shouldSendDiscordMessage(): bool
+            {
+                return true;
             }
         };
 
@@ -63,14 +73,14 @@ class SendDiscordNotificationTest extends TestCase
     }
 
     /**
-     * If discord notifications are enabled through the 'flags.allow_discord_notifications' property,
+     * If discord notifications are enabled through the Allow Discord Notifications feature,
      * discord notification jobs shall be dispatched.
      *
      * @return void
      */
     public function testDiscordNotificationsAllowed(): void
     {
-        Config::set(FlagConstants::ALLOW_DISCORD_NOTIFICATIONS_FLAG_QUALIFIED, true);
+        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
         Bus::fake(SendDiscordNotificationJob::class);
 
         $event = new class implements DiscordMessageEvent
@@ -95,6 +105,16 @@ class SendDiscordNotificationTest extends TestCase
             public function getDiscordChannel(): string
             {
                 return '';
+            }
+
+            /**
+             * Determine if the message should be sent.
+             *
+             * @return bool
+             */
+            public function shouldSendDiscordMessage(): bool
+            {
+                return true;
             }
         };
 

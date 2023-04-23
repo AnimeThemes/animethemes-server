@@ -7,8 +7,8 @@ namespace Tests\Feature\Http\Admin;
 use App\Actions\Storage\Admin\Dump\DumpDocumentAction;
 use App\Actions\Storage\Admin\Dump\DumpWikiAction;
 use App\Constants\Config\DumpConstants;
-use App\Constants\Config\FlagConstants;
 use App\Enums\Auth\SpecialPermission;
+use App\Features\AllowDumpDownloading;
 use App\Models\Admin\Dump;
 use App\Models\Auth\User;
 use Exception;
@@ -18,6 +18,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Laravel\Pennant\Feature;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
@@ -29,7 +30,7 @@ class LatestWikiDumpTest extends TestCase
     use WithFaker;
 
     /**
-     * If dump downloading is disabled through the 'flags.allow_dump_downloading' property,
+     * If dump downloading is disabled through the Allow Dump Downloading feature,
      * the user shall receive a forbidden exception.
      *
      * @return void
@@ -41,7 +42,7 @@ class LatestWikiDumpTest extends TestCase
         Storage::fake('local');
         Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));
 
-        Config::set(FlagConstants::ALLOW_DUMP_DOWNLOADING_FLAG_QUALIFIED, false);
+        Feature::deactivate(AllowDumpDownloading::class);
 
         $action = new DumpWikiAction();
 
@@ -54,7 +55,7 @@ class LatestWikiDumpTest extends TestCase
 
     /**
      * Users with the bypass feature flag permission shall be permitted to download the latest wiki dump
-     * even if the 'flags.allow_dump_downloading' property is disabled.
+     * even if the Allow Dump Downloading feature is disabled.
      *
      * @return void
      */
@@ -63,7 +64,7 @@ class LatestWikiDumpTest extends TestCase
         Storage::fake('local');
         $fs = Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));
 
-        Config::set(FlagConstants::ALLOW_DUMP_DOWNLOADING_FLAG_QUALIFIED, $this->faker->boolean());
+        Feature::activate(AllowDumpDownloading::class, $this->faker->boolean());
 
         Collection::times($this->faker->randomDigitNotNull(), function () {
             $action = new DumpDocumentAction();
@@ -108,7 +109,7 @@ class LatestWikiDumpTest extends TestCase
         Storage::fake('local');
         Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));
 
-        Config::set(FlagConstants::ALLOW_DUMP_DOWNLOADING_FLAG_QUALIFIED, true);
+        Feature::activate(AllowDumpDownloading::class);
 
         $response = $this->get(route('dump.latest.wiki.show'));
 
@@ -125,7 +126,7 @@ class LatestWikiDumpTest extends TestCase
         Storage::fake('local');
         Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));
 
-        Config::set(FlagConstants::ALLOW_DUMP_DOWNLOADING_FLAG_QUALIFIED, true);
+        Feature::activate(AllowDumpDownloading::class);
 
         Collection::times($this->faker->randomDigitNotNull(), function () {
             $action = new DumpDocumentAction();
@@ -148,7 +149,7 @@ class LatestWikiDumpTest extends TestCase
         Storage::fake('local');
         $fs = Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));
 
-        Config::set(FlagConstants::ALLOW_DUMP_DOWNLOADING_FLAG_QUALIFIED, true);
+        Feature::activate(AllowDumpDownloading::class);
 
         Collection::times($this->faker->randomDigitNotNull(), function () {
             $action = new DumpDocumentAction();
