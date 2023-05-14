@@ -10,6 +10,7 @@ use App\Enums\Auth\SpecialPermission;
 use App\Models\Admin\Announcement;
 use App\Models\Admin\Dump;
 use App\Models\Admin\Feature;
+use App\Models\Admin\FeaturedTheme;
 use App\Models\Admin\Setting;
 use App\Models\Auth\Permission;
 use App\Models\Auth\Role;
@@ -51,6 +52,7 @@ class PermissionSeeder extends Seeder
         $this->registerResource(Dump::class, ExtendedCrudPermission::getInstances());
         $this->registerResource(Setting::class, CrudPermission::getInstances());
         $this->registerResource(Feature::class, CrudPermission::getInstances());
+        $this->registerResource(FeaturedTheme::class, ExtendedCrudPermission::getInstances());
 
         // Auth Resources
         $this->registerResource(Permission::class, [CrudPermission::VIEW()]);

@@ -10,6 +10,7 @@ use App\Enums\Auth\SpecialPermission;
 use App\Models\Admin\Announcement;
 use App\Models\Admin\Dump;
 use App\Models\Admin\Feature;
+use App\Models\Admin\FeaturedTheme;
 use App\Models\Admin\Setting;
 use App\Models\Auth\Permission;
 use App\Models\Auth\Role;
@@ -53,6 +54,7 @@ class AdminSeeder extends RoleSeeder
         $this->configureResource($role, Dump::class, ExtendedCrudPermission::getInstances());
         $this->configureResource($role, Feature::class, [CrudPermission::VIEW(), CrudPermission::UPDATE()]);
         $this->configureResource($role, Setting::class, CrudPermission::getInstances());
+        $this->configureResource($role, FeaturedTheme::class, ExtendedCrudPermission::getInstances());
 
         // Auth Resources
         $this->configureResource($role, Permission::class, [CrudPermission::VIEW()]);
