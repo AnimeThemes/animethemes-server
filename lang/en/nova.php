@@ -502,6 +502,16 @@ return [
                 'name' => 'Value',
             ],
         ],
+        'featured_theme' => [
+            'end_at' => [
+                'help' => 'The datetime that the featured theme should stop being featured.',
+                'name' => 'End At',
+            ],
+            'start_at' => [
+                'help' => 'The datetime that the featured theme should start being featured.',
+                'name' => 'Start At',
+            ],
+        ],
         'image' => [
             'facet' => [
                 'help' => 'The page component that the image is intended for. Example: Is this a small cover image or a large cover image?',
@@ -812,6 +822,7 @@ return [
             'dumps' => 'Dumps',
             'external_resources' => 'External Resources',
             'features' => 'Features',
+            'featured_themes' => 'Featured Themes',
             'groups' => 'Groups',
             'images' => 'Images',
             'members' => 'Members',
@@ -841,6 +852,7 @@ return [
             'dump' => 'Dump',
             'external_resource' => 'External Resource',
             'feature' => 'Feature',
+            'featured_theme' => 'Featured Theme',
             'image' => 'Image',
             'page' => 'Page',
             'permission' => 'Permission',

@@ -1,0 +1,40 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Database\Factories\Admin;
+
+use App\Enums\Http\Api\Filter\AllowedDateFormat;
+use App\Models\Admin\FeaturedTheme;
+use Illuminate\Database\Eloquent\Factories\Factory;
+
+/**
+ * Class FeaturedThemeFactory.
+ *
+ * @method FeaturedTheme createOne($attributes = [])
+ * @method FeaturedTheme makeOne($attributes = [])
+ *
+ * @extends Factory<FeaturedTheme>
+ */
+class FeaturedThemeFactory extends Factory
+{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var class-string<FeaturedTheme>
+     */
+    protected $model = FeaturedTheme::class;
+
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition(): array
+    {
+        return [
+            FeaturedTheme::ATTRIBUTE_START_AT => fake()->dateTimeBetween()->format(AllowedDateFormat::YMDHISU),
+            FeaturedTheme::ATTRIBUTE_END_AT => fake()->dateTimeBetween('+1 day', '+30 years')->format(AllowedDateFormat::YMDHISU),
+        ];
+    }
+}
