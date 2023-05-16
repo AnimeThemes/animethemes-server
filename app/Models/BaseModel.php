@@ -12,6 +12,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Prunable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Str;
 
 /**
  * Class BaseModel.
@@ -36,6 +38,24 @@ abstract class BaseModel extends Model implements Nameable
     final public const ATTRIBUTE_CREATED_AT = Model::CREATED_AT;
     final public const ATTRIBUTE_DELETED_AT = 'deleted_at';
     final public const ATTRIBUTE_UPDATED_AT = Model::UPDATED_AT;
+
+    /**
+     * Create a new Eloquent model instance.
+     *
+     * @param  array  $attributes
+     */
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+
+        $connectionKey = Str::of('database.models.')
+            ->append(static::class)
+            ->__toString();
+
+        if (Config::has($connectionKey)) {
+            $this->setConnection(Config::get($connectionKey));
+        }
+    }
 
     /**
      * Restore a soft-deleted model instance.
