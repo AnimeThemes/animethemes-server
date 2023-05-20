@@ -84,6 +84,6 @@ class AnimeThemeEntryVideoStoreTest extends TestCase
         $response = $this->post(route('api.animethemeentryvideo.store', ['animethemeentry' => $entry, 'video' => $video]));
 
         $response->assertCreated();
-        static::assertDatabaseCount(AnimeThemeEntryVideo::TABLE, 1);
+        static::assertDatabaseCount(AnimeThemeEntryVideo::class, 1);
     }
 }

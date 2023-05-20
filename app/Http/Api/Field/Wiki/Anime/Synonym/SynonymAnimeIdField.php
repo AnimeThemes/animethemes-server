@@ -40,7 +40,7 @@ class SynonymAnimeIdField extends Field implements CreatableField, SelectableFie
         return [
             'required',
             'integer',
-            Rule::exists(Anime::TABLE, Anime::ATTRIBUTE_ID),
+            Rule::exists(Anime::class, Anime::ATTRIBUTE_ID),
         ];
     }
 

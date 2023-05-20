@@ -122,7 +122,7 @@ class PlaylistImageStoreTest extends TestCase
         $response = $this->post(route('api.playlistimage.store', ['playlist' => $playlist, 'image' => $image]));
 
         $response->assertCreated();
-        static::assertDatabaseCount(PlaylistImage::TABLE, 1);
+        static::assertDatabaseCount(PlaylistImage::class, 1);
     }
 
     /**

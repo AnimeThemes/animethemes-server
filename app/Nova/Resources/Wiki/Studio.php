@@ -145,7 +145,7 @@ class Studio extends BaseResource
                 ->sortable()
                 ->rules(['required', 'max:192', 'alpha_dash'])
                 ->updateRules(
-                    Rule::unique(StudioModel::TABLE)
+                    Rule::unique(StudioModel::class)
                         ->ignore($request->route('resourceId'), StudioModel::ATTRIBUTE_ID)
                         ->__toString()
                 )

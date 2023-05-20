@@ -39,7 +39,7 @@ class PageSlugField extends StringField implements CreatableField, UpdatableFiel
             'required',
             'max:192',
             'regex:/^[\pL\pM\pN\/_-]+$/u',
-            Rule::unique(Page::TABLE),
+            Rule::unique(Page::class),
         ];
     }
 
@@ -56,7 +56,7 @@ class PageSlugField extends StringField implements CreatableField, UpdatableFiel
             'required',
             'max:192',
             'regex:/^[\pL\pM\pN\/_-]+$/u',
-            Rule::unique(Page::TABLE)->ignore($request->route('page'), Page::ATTRIBUTE_ID),
+            Rule::unique(Page::class)->ignore($request->route('page'), Page::ATTRIBUTE_ID),
         ];
     }
 }

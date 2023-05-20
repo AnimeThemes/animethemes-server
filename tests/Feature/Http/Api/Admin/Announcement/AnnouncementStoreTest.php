@@ -81,6 +81,6 @@ class AnnouncementStoreTest extends TestCase
         $response = $this->post(route('api.announcement.store', $parameters));
 
         $response->assertCreated();
-        static::assertDatabaseCount(Announcement::TABLE, 1);
+        static::assertDatabaseCount(Announcement::class, 1);
     }
 }

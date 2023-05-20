@@ -93,6 +93,6 @@ class VideoStoreTest extends TestCase
         $response = $this->post(route('api.video.store', $parameters));
 
         $response->assertCreated();
-        static::assertDatabaseCount(Video::TABLE, 1);
+        static::assertDatabaseCount(Video::class, 1);
     }
 }

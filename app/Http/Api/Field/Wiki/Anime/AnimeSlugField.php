@@ -39,7 +39,7 @@ class AnimeSlugField extends StringField implements CreatableField, UpdatableFie
             'required',
             'max:192',
             'alpha_dash',
-            Rule::unique(Anime::TABLE),
+            Rule::unique(Anime::class),
         ];
     }
 
@@ -56,7 +56,7 @@ class AnimeSlugField extends StringField implements CreatableField, UpdatableFie
             'required',
             'max:192',
             'alpha_dash',
-            Rule::unique(Anime::TABLE)->ignore($request->route('anime'), Anime::ATTRIBUTE_ID),
+            Rule::unique(Anime::class)->ignore($request->route('anime'), Anime::ATTRIBUTE_ID),
         ];
     }
 }

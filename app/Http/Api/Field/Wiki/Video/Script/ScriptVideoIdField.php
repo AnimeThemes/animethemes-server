@@ -42,7 +42,7 @@ class ScriptVideoIdField extends Field implements CreatableField, SelectableFiel
             'sometimes',
             'required',
             'integer',
-            Rule::exists(Video::TABLE, Video::ATTRIBUTE_ID),
+            Rule::exists(Video::class, Video::ATTRIBUTE_ID),
         ];
     }
 
@@ -71,7 +71,7 @@ class ScriptVideoIdField extends Field implements CreatableField, SelectableFiel
             'sometimes',
             'required',
             'integer',
-            Rule::exists(Video::TABLE, Video::ATTRIBUTE_ID),
+            Rule::exists(Video::class, Video::ATTRIBUTE_ID),
         ];
     }
 }

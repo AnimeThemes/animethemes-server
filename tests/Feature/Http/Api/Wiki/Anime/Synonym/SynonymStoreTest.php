@@ -87,6 +87,6 @@ class SynonymStoreTest extends TestCase
         $response = $this->post(route('api.animesynonym.store', $parameters));
 
         $response->assertCreated();
-        static::assertDatabaseCount(AnimeSynonym::TABLE, 1);
+        static::assertDatabaseCount(AnimeSynonym::class, 1);
     }
 }

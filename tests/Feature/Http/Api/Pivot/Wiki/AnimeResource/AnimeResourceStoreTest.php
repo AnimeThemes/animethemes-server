@@ -79,6 +79,6 @@ class AnimeResourceStoreTest extends TestCase
         $response = $this->post(route('api.animeresource.store', ['anime' => $anime, 'resource' => $resource] + $parameters));
 
         $response->assertCreated();
-        static::assertDatabaseCount(AnimeResource::TABLE, 1);
+        static::assertDatabaseCount(AnimeResource::class, 1);
     }
 }

@@ -81,6 +81,6 @@ class DumpStoreTest extends TestCase
         $response = $this->post(route('api.dump.store', $parameters));
 
         $response->assertCreated();
-        static::assertDatabaseCount(Dump::TABLE, 1);
+        static::assertDatabaseCount(Dump::class, 1);
     }
 }

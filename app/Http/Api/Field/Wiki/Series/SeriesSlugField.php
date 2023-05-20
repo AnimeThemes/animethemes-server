@@ -39,7 +39,7 @@ class SeriesSlugField extends StringField implements CreatableField, UpdatableFi
             'required',
             'max:192',
             'alpha_dash',
-            Rule::unique(Series::TABLE),
+            Rule::unique(Series::class),
         ];
     }
 
@@ -56,7 +56,7 @@ class SeriesSlugField extends StringField implements CreatableField, UpdatableFi
             'required',
             'max:192',
             'alpha_dash',
-            Rule::unique(Series::TABLE)->ignore($request->route('series'), Series::ATTRIBUTE_ID),
+            Rule::unique(Series::class)->ignore($request->route('series'), Series::ATTRIBUTE_ID),
         ];
     }
 }

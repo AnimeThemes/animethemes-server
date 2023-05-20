@@ -83,6 +83,6 @@ class PageStoreTest extends TestCase
         $response = $this->post(route('api.page.store', $parameters));
 
         $response->assertCreated();
-        static::assertDatabaseCount(Page::TABLE, 1);
+        static::assertDatabaseCount(Page::class, 1);
     }
 }

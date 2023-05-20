@@ -91,6 +91,6 @@ class ThemeStoreTest extends TestCase
         $response = $this->post(route('api.animetheme.store', $parameters));
 
         $response->assertCreated();
-        static::assertDatabaseCount(AnimeTheme::TABLE, 1);
+        static::assertDatabaseCount(AnimeTheme::class, 1);
     }
 }

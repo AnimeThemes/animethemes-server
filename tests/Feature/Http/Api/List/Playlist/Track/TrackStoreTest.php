@@ -308,7 +308,7 @@ class TrackStoreTest extends TestCase
         $track = PlaylistTrack::query()->first();
         $playlist->refresh();
 
-        static::assertDatabaseCount(PlaylistTrack::TABLE, 1);
+        static::assertDatabaseCount(PlaylistTrack::class, 1);
 
         static::assertTrue($playlist->first()->is($track));
         static::assertTrue($playlist->last()->is($track));
@@ -354,7 +354,7 @@ class TrackStoreTest extends TestCase
         $playlist->refresh();
         $last->refresh();
 
-        static::assertDatabaseCount(PlaylistTrack::TABLE, $trackCount + 1);
+        static::assertDatabaseCount(PlaylistTrack::class, $trackCount + 1);
 
         static::assertTrue($playlist->last()->is($track));
 
@@ -405,7 +405,7 @@ class TrackStoreTest extends TestCase
         $playlist->refresh();
         $first->refresh();
 
-        static::assertDatabaseCount(PlaylistTrack::TABLE, $trackCount + 1);
+        static::assertDatabaseCount(PlaylistTrack::class, $trackCount + 1);
 
         static::assertTrue($playlist->first()->is($first));
 
@@ -456,7 +456,7 @@ class TrackStoreTest extends TestCase
         $playlist->refresh();
         $last->refresh();
 
-        static::assertDatabaseCount(PlaylistTrack::TABLE, $trackCount + 1);
+        static::assertDatabaseCount(PlaylistTrack::class, $trackCount + 1);
 
         static::assertTrue($playlist->last()->is($last));
 
@@ -506,7 +506,7 @@ class TrackStoreTest extends TestCase
         $playlist->refresh();
         $first->refresh();
 
-        static::assertDatabaseCount(PlaylistTrack::TABLE, $trackCount + 1);
+        static::assertDatabaseCount(PlaylistTrack::class, $trackCount + 1);
 
         static::assertTrue($playlist->first()->is($track));
 

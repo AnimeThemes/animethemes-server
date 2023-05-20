@@ -81,6 +81,6 @@ class ScriptStoreTest extends TestCase
         $response = $this->post(route('api.videoscript.store', $parameters));
 
         $response->assertCreated();
-        static::assertDatabaseCount(VideoScript::TABLE, 1);
+        static::assertDatabaseCount(VideoScript::class, 1);
     }
 }

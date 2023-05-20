@@ -29,8 +29,8 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
     public function update(User $user, array $input): void
     {
         $validated = Validator::make($input, [
-            User::ATTRIBUTE_NAME => ['required_without:'.User::ATTRIBUTE_EMAIL, 'string', 'max:255', 'alpha_dash', Rule::unique(User::TABLE)->ignore($user->id), new ModerationRule()],
-            User::ATTRIBUTE_EMAIL => ['required_without:'.User::ATTRIBUTE_NAME, 'string', 'email', 'max:255', 'indisposable', Rule::unique(User::TABLE)->ignore($user->id)],
+            User::ATTRIBUTE_NAME => ['required_without:'.User::ATTRIBUTE_EMAIL, 'string', 'max:255', 'alpha_dash', Rule::unique(User::class)->ignore($user->id), new ModerationRule()],
+            User::ATTRIBUTE_EMAIL => ['required_without:'.User::ATTRIBUTE_NAME, 'string', 'email', 'max:255', 'indisposable', Rule::unique(User::class)->ignore($user->id)],
         ])->validate();
 
         $email = Arr::get($validated, User::ATTRIBUTE_EMAIL);

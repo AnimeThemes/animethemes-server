@@ -142,9 +142,9 @@ class Page extends BaseResource
                 ->separator('_')
                 ->sortable()
                 ->rules(['required', 'max:192', 'regex:/^[\pL\pM\pN\/_-]+$/u'])
-                ->creationRules(Rule::unique(PageModel::TABLE)->__toString())
+                ->creationRules(Rule::unique(PageModel::class)->__toString())
                 ->updateRules(
-                    Rule::unique(PageModel::TABLE)
+                    Rule::unique(PageModel::class)
                         ->ignore($request->route('resourceId'), PageModel::ATTRIBUTE_ID)
                         ->__toString()
                 )
