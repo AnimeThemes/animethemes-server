@@ -23,9 +23,10 @@ class ThemeRestoreTest extends TestCase
      */
     public function testProtected(): void
     {
-        $theme = AnimeTheme::factory()->for(Anime::factory())->createOne();
-
-        $theme->delete();
+        $theme = AnimeTheme::factory()
+            ->trashed()
+            ->for(Anime::factory())
+            ->createOne();
 
         $response = $this->patch(route('api.animetheme.restore', ['animetheme' => $theme]));
 
@@ -39,9 +40,10 @@ class ThemeRestoreTest extends TestCase
      */
     public function testForbidden(): void
     {
-        $theme = AnimeTheme::factory()->for(Anime::factory())->createOne();
-
-        $theme->delete();
+        $theme = AnimeTheme::factory()
+            ->trashed()
+            ->for(Anime::factory())
+            ->createOne();
 
         $user = User::factory()->createOne();
 
@@ -77,9 +79,10 @@ class ThemeRestoreTest extends TestCase
      */
     public function testRestored(): void
     {
-        $theme = AnimeTheme::factory()->for(Anime::factory())->createOne();
-
-        $theme->delete();
+        $theme = AnimeTheme::factory()
+            ->trashed()
+            ->for(Anime::factory())
+            ->createOne();
 
         $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE()->format(AnimeTheme::class))->createOne();
 

@@ -62,10 +62,9 @@ class EntryShowTest extends TestCase
     public function testSoftDelete(): void
     {
         $entry = AnimeThemeEntry::factory()
+            ->trashed()
             ->for(AnimeTheme::factory()->for(Anime::factory()))
             ->createOne();
-
-        $entry->delete();
 
         $entry->unsetRelations();
 

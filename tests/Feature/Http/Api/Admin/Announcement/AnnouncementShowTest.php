@@ -50,9 +50,7 @@ class AnnouncementShowTest extends TestCase
      */
     public function testSoftDelete(): void
     {
-        $announcement = Announcement::factory()->createOne();
-
-        $announcement->delete();
+        $announcement = Announcement::factory()->trashed()->createOne();
 
         $announcement->unsetRelations();
 

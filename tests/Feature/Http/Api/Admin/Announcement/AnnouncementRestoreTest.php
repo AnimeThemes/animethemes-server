@@ -22,9 +22,7 @@ class AnnouncementRestoreTest extends TestCase
      */
     public function testProtected(): void
     {
-        $announcement = Announcement::factory()->createOne();
-
-        $announcement->delete();
+        $announcement = Announcement::factory()->trashed()->createOne();
 
         $response = $this->patch(route('api.announcement.restore', ['announcement' => $announcement]));
 
@@ -38,9 +36,7 @@ class AnnouncementRestoreTest extends TestCase
      */
     public function testForbidden(): void
     {
-        $announcement = Announcement::factory()->createOne();
-
-        $announcement->delete();
+        $announcement = Announcement::factory()->trashed()->createOne();
 
         $user = User::factory()->createOne();
 
@@ -76,9 +72,7 @@ class AnnouncementRestoreTest extends TestCase
      */
     public function testRestored(): void
     {
-        $announcement = Announcement::factory()->createOne();
-
-        $announcement->delete();
+        $announcement = Announcement::factory()->trashed()->createOne();
 
         $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE()->format(Announcement::class))->createOne();
 

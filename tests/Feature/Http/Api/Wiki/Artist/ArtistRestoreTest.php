@@ -22,9 +22,7 @@ class ArtistRestoreTest extends TestCase
      */
     public function testProtected(): void
     {
-        $artist = Artist::factory()->createOne();
-
-        $artist->delete();
+        $artist = Artist::factory()->trashed()->createOne();
 
         $response = $this->patch(route('api.artist.restore', ['artist' => $artist]));
 
@@ -38,9 +36,7 @@ class ArtistRestoreTest extends TestCase
      */
     public function testForbidden(): void
     {
-        $artist = Artist::factory()->createOne();
-
-        $artist->delete();
+        $artist = Artist::factory()->trashed()->createOne();
 
         $user = User::factory()->createOne();
 
@@ -76,9 +72,7 @@ class ArtistRestoreTest extends TestCase
      */
     public function testRestored(): void
     {
-        $artist = Artist::factory()->createOne();
-
-        $artist->delete();
+        $artist = Artist::factory()->trashed()->createOne();
 
         $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE()->format(Artist::class))->createOne();
 

@@ -348,14 +348,11 @@ class ThemeIndexTest extends TestCase
             ->count($this->faker->randomDigitNotNull())
             ->create();
 
-        $deleteTheme = AnimeTheme::factory()
+        AnimeTheme::factory()
+            ->trashed()
             ->for(Anime::factory())
             ->count($this->faker->randomDigitNotNull())
             ->create();
-
-        $deleteTheme->each(function (AnimeTheme $theme) {
-            $theme->delete();
-        });
 
         $theme = AnimeTheme::withoutTrashed()->get();
 
@@ -394,14 +391,11 @@ class ThemeIndexTest extends TestCase
             ->count($this->faker->randomDigitNotNull())
             ->create();
 
-        $deleteTheme = AnimeTheme::factory()
+        AnimeTheme::factory()
+            ->trashed()
             ->for(Anime::factory())
             ->count($this->faker->randomDigitNotNull())
             ->create();
-
-        $deleteTheme->each(function (AnimeTheme $theme) {
-            $theme->delete();
-        });
 
         $theme = AnimeTheme::withTrashed()->get();
 
@@ -440,14 +434,11 @@ class ThemeIndexTest extends TestCase
             ->count($this->faker->randomDigitNotNull())
             ->create();
 
-        $deleteTheme = AnimeTheme::factory()
+        AnimeTheme::factory()
+            ->trashed()
             ->for(Anime::factory())
             ->count($this->faker->randomDigitNotNull())
             ->create();
-
-        $deleteTheme->each(function (AnimeTheme $theme) {
-            $theme->delete();
-        });
 
         $theme = AnimeTheme::onlyTrashed()->get();
 

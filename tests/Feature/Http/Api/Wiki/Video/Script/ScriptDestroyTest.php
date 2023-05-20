@@ -54,9 +54,7 @@ class ScriptDestroyTest extends TestCase
      */
     public function testTrashed(): void
     {
-        $script = VideoScript::factory()->createOne();
-
-        $script->delete();
+        $script = VideoScript::factory()->trashed()->createOne();
 
         $user = User::factory()->withPermissions(CrudPermission::DELETE()->format(VideoScript::class))->createOne();
 

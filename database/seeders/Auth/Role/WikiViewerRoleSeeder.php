@@ -65,8 +65,7 @@ class WikiViewerRoleSeeder extends RoleSeeder
 
         $role->color = '#2596D1';
         $role->priority = 25000;
-        if ($role->isDirty()) {
-            $role->save();
-        }
+
+        $role->save();
     }
 }

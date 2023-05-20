@@ -66,9 +66,10 @@ class ThemeUpdateTest extends TestCase
      */
     public function testTrashed(): void
     {
-        $theme = AnimeTheme::factory()->for(Anime::factory())->createOne();
-
-        $theme->delete();
+        $theme = AnimeTheme::factory()
+            ->trashed()
+            ->for(Anime::factory())
+            ->createOne();
 
         $parameters = array_merge(
             AnimeTheme::factory()->raw(),

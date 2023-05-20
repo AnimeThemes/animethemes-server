@@ -55,9 +55,10 @@ class ThemeDestroyTest extends TestCase
      */
     public function testTrashed(): void
     {
-        $theme = AnimeTheme::factory()->for(Anime::factory())->createOne();
-
-        $theme->delete();
+        $theme = AnimeTheme::factory()
+            ->trashed()
+            ->for(Anime::factory())
+            ->createOne();
 
         $user = User::factory()->withPermissions(CrudPermission::DELETE()->format(AnimeTheme::class))->createOne();
 

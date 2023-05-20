@@ -57,9 +57,7 @@ class VideoTest extends TestCase
 
         Feature::activate(AllowVideoStreams::class);
 
-        $video = Video::factory()->createOne();
-
-        $video->delete();
+        $video = Video::factory()->trashed()->createOne();
 
         $response = $this->get(route('video.show', ['video' => $video]));
 

@@ -55,9 +55,10 @@ class SynonymDestroyTest extends TestCase
      */
     public function testTrashed(): void
     {
-        $synonym = AnimeSynonym::factory()->for(Anime::factory())->createOne();
-
-        $synonym->delete();
+        $synonym = AnimeSynonym::factory()
+            ->trashed()
+            ->for(Anime::factory())
+            ->createOne();
 
         $user = User::factory()->withPermissions(CrudPermission::DELETE()->format(AnimeSynonym::class))->createOne();
 

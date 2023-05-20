@@ -305,10 +305,7 @@ class AudioIndexTest extends TestCase
 
         Audio::factory()->count($this->faker->randomDigitNotNull())->create();
 
-        $deleteAudio = Audio::factory()->count($this->faker->randomDigitNotNull())->create();
-        $deleteAudio->each(function (Audio $audio) {
-            $audio->delete();
-        });
+        Audio::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
 
         $audio = Audio::withoutTrashed()->get();
 
@@ -344,10 +341,7 @@ class AudioIndexTest extends TestCase
 
         Audio::factory()->count($this->faker->randomDigitNotNull())->create();
 
-        $deleteAudio = Audio::factory()->count($this->faker->randomDigitNotNull())->create();
-        $deleteAudio->each(function (Audio $audio) {
-            $audio->delete();
-        });
+        Audio::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
 
         $audio = Audio::withTrashed()->get();
 
@@ -383,10 +377,7 @@ class AudioIndexTest extends TestCase
 
         Audio::factory()->count($this->faker->randomDigitNotNull())->create();
 
-        $deleteAudio = Audio::factory()->count($this->faker->randomDigitNotNull())->create();
-        $deleteAudio->each(function (Audio $audio) {
-            $audio->delete();
-        });
+        Audio::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
 
         $audio = Audio::onlyTrashed()->get();
 
@@ -425,17 +416,11 @@ class AudioIndexTest extends TestCase
         ];
 
         Carbon::withTestNow($deletedFilter, function () {
-            $audios = Audio::factory()->count($this->faker->randomDigitNotNull())->create();
-            $audios->each(function (Audio $audio) {
-                $audio->delete();
-            });
+            Audio::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
         });
 
         Carbon::withTestNow($excludedDate, function () {
-            $audios = Audio::factory()->count($this->faker->randomDigitNotNull())->create();
-            $audios->each(function (Audio $audio) {
-                $audio->delete();
-            });
+            Audio::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
         });
 
         $audio = Audio::withTrashed()->where(BaseModel::ATTRIBUTE_DELETED_AT, $deletedFilter)->get();

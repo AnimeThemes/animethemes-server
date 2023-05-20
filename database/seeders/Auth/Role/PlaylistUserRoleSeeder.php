@@ -29,8 +29,7 @@ class PlaylistUserRoleSeeder extends RoleSeeder
         $this->configureResource($role, PlaylistTrack::class, ExtendedCrudPermission::getInstances());
 
         $role->default = true;
-        if ($role->isDirty()) {
-            $role->save();
-        }
+
+        $role->save();
     }
 }

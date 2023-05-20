@@ -65,9 +65,7 @@ class ImageUpdateTest extends TestCase
      */
     public function testTrashed(): void
     {
-        $image = Image::factory()->createOne();
-
-        $image->delete();
+        $image = Image::factory()->trashed()->createOne();
 
         $parameters = array_merge(
             Image::factory()->raw(),

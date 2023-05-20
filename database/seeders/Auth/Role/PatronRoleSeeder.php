@@ -71,8 +71,7 @@ class PatronRoleSeeder extends RoleSeeder
 
         $role->color = '#E74C3C';
         $role->priority = 50000;
-        if ($role->isDirty()) {
-            $role->save();
-        }
+
+        $role->save();
     }
 }

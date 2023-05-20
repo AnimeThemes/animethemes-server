@@ -54,9 +54,7 @@ class SongDestroyTest extends TestCase
      */
     public function testTrashed(): void
     {
-        $song = Song::factory()->createOne();
-
-        $song->delete();
+        $song = Song::factory()->trashed()->createOne();
 
         $user = User::factory()->withPermissions(CrudPermission::DELETE()->format(Song::class))->createOne();
 

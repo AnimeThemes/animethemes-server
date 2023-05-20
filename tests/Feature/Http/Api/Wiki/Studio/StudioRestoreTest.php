@@ -22,9 +22,7 @@ class StudioRestoreTest extends TestCase
      */
     public function testProtected(): void
     {
-        $studio = Studio::factory()->createOne();
-
-        $studio->delete();
+        $studio = Studio::factory()->trashed()->createOne();
 
         $response = $this->patch(route('api.studio.restore', ['studio' => $studio]));
 
@@ -38,9 +36,7 @@ class StudioRestoreTest extends TestCase
      */
     public function testForbidden(): void
     {
-        $studio = Studio::factory()->createOne();
-
-        $studio->delete();
+        $studio = Studio::factory()->trashed()->createOne();
 
         $user = User::factory()->createOne();
 
@@ -76,9 +72,7 @@ class StudioRestoreTest extends TestCase
      */
     public function testRestored(): void
     {
-        $studio = Studio::factory()->createOne();
-
-        $studio->delete();
+        $studio = Studio::factory()->trashed()->createOne();
 
         $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE()->format(Studio::class))->createOne();
 

@@ -58,9 +58,7 @@ class SeriesUpdateTest extends TestCase
      */
     public function testTrashed(): void
     {
-        $series = Series::factory()->createOne();
-
-        $series->delete();
+        $series = Series::factory()->trashed()->createOne();
 
         $parameters = Series::factory()->raw();
 

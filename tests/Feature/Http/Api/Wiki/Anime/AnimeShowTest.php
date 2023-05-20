@@ -66,9 +66,7 @@ class AnimeShowTest extends TestCase
      */
     public function testSoftDelete(): void
     {
-        $anime = Anime::factory()->createOne();
-
-        $anime->delete();
+        $anime = Anime::factory()->trashed()->createOne();
 
         $anime->unsetRelations();
 

@@ -76,9 +76,7 @@ class FeaturedThemeShowTest extends TestCase
      */
     public function testSoftDelete(): void
     {
-        $featuredTheme = FeaturedTheme::factory()->createOne();
-
-        $featuredTheme->delete();
+        $featuredTheme = FeaturedTheme::factory()->trashed()->createOne();
 
         $featuredTheme->unsetRelations();
 

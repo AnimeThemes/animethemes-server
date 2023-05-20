@@ -63,9 +63,7 @@ class VideoShowTest extends TestCase
      */
     public function testSoftDelete(): void
     {
-        $video = Video::factory()->createOne();
-
-        $video->delete();
+        $video = Video::factory()->trashed()->createOne();
 
         $response = $this->get(route('api.video.show', ['video' => $video]));
 

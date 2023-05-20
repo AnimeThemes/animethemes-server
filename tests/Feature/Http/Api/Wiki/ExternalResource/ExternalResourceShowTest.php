@@ -57,9 +57,7 @@ class ExternalResourceShowTest extends TestCase
      */
     public function testSoftDelete(): void
     {
-        $resource = ExternalResource::factory()->createOne();
-
-        $resource->delete();
+        $resource = ExternalResource::factory()->trashed()->createOne();
 
         $resource->unsetRelations();
 

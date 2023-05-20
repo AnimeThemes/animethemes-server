@@ -65,9 +65,7 @@ class TransactionUpdateTest extends TestCase
      */
     public function testTrashed(): void
     {
-        $transaction = Transaction::factory()->createOne();
-
-        $transaction->delete();
+        $transaction = Transaction::factory()->trashed()->createOne();
 
         $parameters = array_merge(
             Transaction::factory()->raw(),

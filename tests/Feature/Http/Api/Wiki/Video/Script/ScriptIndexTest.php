@@ -308,10 +308,7 @@ class ScriptIndexTest extends TestCase
 
         VideoScript::factory()->count($this->faker->randomDigitNotNull())->create();
 
-        $deleteVideo = VideoScript::factory()->count($this->faker->randomDigitNotNull())->create();
-        $deleteVideo->each(function (VideoScript $script) {
-            $script->delete();
-        });
+        VideoScript::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
 
         $script = VideoScript::withoutTrashed()->get();
 
@@ -347,10 +344,7 @@ class ScriptIndexTest extends TestCase
 
         VideoScript::factory()->count($this->faker->randomDigitNotNull())->create();
 
-        $deleteVideo = VideoScript::factory()->count($this->faker->randomDigitNotNull())->create();
-        $deleteVideo->each(function (VideoScript $script) {
-            $script->delete();
-        });
+        VideoScript::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
 
         $script = VideoScript::withTrashed()->get();
 
@@ -386,10 +380,7 @@ class ScriptIndexTest extends TestCase
 
         VideoScript::factory()->count($this->faker->randomDigitNotNull())->create();
 
-        $deleteVideo = VideoScript::factory()->count($this->faker->randomDigitNotNull())->create();
-        $deleteVideo->each(function (VideoScript $script) {
-            $script->delete();
-        });
+        VideoScript::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
 
         $script = VideoScript::onlyTrashed()->get();
 
@@ -428,17 +419,11 @@ class ScriptIndexTest extends TestCase
         ];
 
         Carbon::withTestNow($deletedFilter, function () {
-            $scripts = VideoScript::factory()->count($this->faker->randomDigitNotNull())->create();
-            $scripts->each(function (VideoScript $script) {
-                $script->delete();
-            });
+            VideoScript::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
         });
 
         Carbon::withTestNow($excludedDate, function () {
-            $scripts = VideoScript::factory()->count($this->faker->randomDigitNotNull())->create();
-            $scripts->each(function (VideoScript $script) {
-                $script->delete();
-            });
+            VideoScript::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
         });
 
         $script = VideoScript::withTrashed()->where(BaseModel::ATTRIBUTE_DELETED_AT, $deletedFilter)->get();

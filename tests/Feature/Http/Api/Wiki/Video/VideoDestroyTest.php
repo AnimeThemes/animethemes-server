@@ -54,9 +54,7 @@ class VideoDestroyTest extends TestCase
      */
     public function testTrashed(): void
     {
-        $video = Video::factory()->createOne();
-
-        $video->delete();
+        $video = Video::factory()->trashed()->createOne();
 
         $user = User::factory()->withPermissions(CrudPermission::DELETE()->format(Video::class))->createOne();
 

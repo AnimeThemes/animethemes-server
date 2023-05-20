@@ -254,10 +254,7 @@ class BalanceIndexTest extends TestCase
 
         Balance::factory()->count($this->faker->randomDigitNotNull())->create();
 
-        $deleteBalance = Balance::factory()->count($this->faker->randomDigitNotNull())->create();
-        $deleteBalance->each(function (Balance $balance) {
-            $balance->delete();
-        });
+        Balance::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
 
         $balance = Balance::withoutTrashed()->get();
 
@@ -293,10 +290,7 @@ class BalanceIndexTest extends TestCase
 
         Balance::factory()->count($this->faker->randomDigitNotNull())->create();
 
-        $deleteBalance = Balance::factory()->count($this->faker->randomDigitNotNull())->create();
-        $deleteBalance->each(function (Balance $balance) {
-            $balance->delete();
-        });
+        Balance::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
 
         $balance = Balance::withTrashed()->get();
 
@@ -332,10 +326,7 @@ class BalanceIndexTest extends TestCase
 
         Balance::factory()->count($this->faker->randomDigitNotNull())->create();
 
-        $deleteBalance = Balance::factory()->count($this->faker->randomDigitNotNull())->create();
-        $deleteBalance->each(function (Balance $balance) {
-            $balance->delete();
-        });
+        Balance::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
 
         $balance = Balance::onlyTrashed()->get();
 
@@ -374,17 +365,11 @@ class BalanceIndexTest extends TestCase
         ];
 
         Carbon::withTestNow($deletedFilter, function () {
-            $balances = Balance::factory()->count($this->faker->randomDigitNotNull())->create();
-            $balances->each(function (Balance $balance) {
-                $balance->delete();
-            });
+            Balance::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
         });
 
         Carbon::withTestNow($excludedDate, function () {
-            $balances = Balance::factory()->count($this->faker->randomDigitNotNull())->create();
-            $balances->each(function (Balance $balance) {
-                $balance->delete();
-            });
+            Balance::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
         });
 
         $balance = Balance::withTrashed()->where(BaseModel::ATTRIBUTE_DELETED_AT, $deletedFilter)->get();

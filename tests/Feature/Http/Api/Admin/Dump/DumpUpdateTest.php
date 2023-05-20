@@ -58,9 +58,7 @@ class DumpUpdateTest extends TestCase
      */
     public function testTrashed(): void
     {
-        $dump = Dump::factory()->createOne();
-
-        $dump->delete();
+        $dump = Dump::factory()->trashed()->createOne();
 
         $parameters = Dump::factory()->raw();
 

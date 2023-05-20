@@ -65,9 +65,7 @@ class AnimeUpdateTest extends TestCase
      */
     public function testTrashed(): void
     {
-        $anime = Anime::factory()->createOne();
-
-        $anime->delete();
+        $anime = Anime::factory()->trashed()->createOne();
 
         $parameters = array_merge(
             Anime::factory()->raw(),

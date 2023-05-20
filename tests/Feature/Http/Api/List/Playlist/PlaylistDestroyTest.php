@@ -126,10 +126,9 @@ class PlaylistDestroyTest extends TestCase
         $user = User::factory()->withPermissions(CrudPermission::DELETE()->format(Playlist::class))->createOne();
 
         $playlist = Playlist::factory()
+            ->trashed()
             ->for($user)
             ->createOne();
-
-        $playlist->delete();
 
         Sanctum::actingAs($user);
 

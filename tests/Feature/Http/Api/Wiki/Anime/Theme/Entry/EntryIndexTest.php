@@ -331,14 +331,11 @@ class EntryIndexTest extends TestCase
             ->count($this->faker->randomDigitNotNull())
             ->create();
 
-        $deleteEntry = AnimeThemeEntry::factory()
+        AnimeThemeEntry::factory()
+            ->trashed()
             ->for(AnimeTheme::factory()->for(Anime::factory()))
             ->count($this->faker->randomDigitNotNull())
             ->create();
-
-        $deleteEntry->each(function (AnimeThemeEntry $entry) {
-            $entry->delete();
-        });
 
         $entry = AnimeThemeEntry::withoutTrashed()->get();
 
@@ -377,14 +374,11 @@ class EntryIndexTest extends TestCase
             ->count($this->faker->randomDigitNotNull())
             ->create();
 
-        $deleteEntry = AnimeThemeEntry::factory()
+        AnimeThemeEntry::factory()
+            ->trashed()
             ->for(AnimeTheme::factory()->for(Anime::factory()))
             ->count($this->faker->randomDigitNotNull())
             ->create();
-
-        $deleteEntry->each(function (AnimeThemeEntry $entry) {
-            $entry->delete();
-        });
 
         $entry = AnimeThemeEntry::withTrashed()->get();
 
@@ -424,13 +418,10 @@ class EntryIndexTest extends TestCase
             ->create();
 
         $deleteEntry = AnimeThemeEntry::factory()
+            ->trashed()
             ->for(AnimeTheme::factory()->for(Anime::factory()))
             ->count($this->faker->randomDigitNotNull())
             ->create();
-
-        $deleteEntry->each(function (AnimeThemeEntry $entry) {
-            $entry->delete();
-        });
 
         $entry = AnimeThemeEntry::onlyTrashed()->get();
 
@@ -469,25 +460,19 @@ class EntryIndexTest extends TestCase
         ];
 
         Carbon::withTestNow($deletedFilter, function () {
-            $entries = AnimeThemeEntry::factory()
+            AnimeThemeEntry::factory()
+                ->trashed()
                 ->for(AnimeTheme::factory()->for(Anime::factory()))
                 ->count($this->faker->randomDigitNotNull())
                 ->create();
-
-            $entries->each(function (AnimeThemeEntry $entry) {
-                $entry->delete();
-            });
         });
 
         Carbon::withTestNow($excludedDate, function () {
-            $entries = AnimeThemeEntry::factory()
+            AnimeThemeEntry::factory()
+                ->trashed()
                 ->for(AnimeTheme::factory()->for(Anime::factory()))
                 ->count($this->faker->randomDigitNotNull())
                 ->create();
-
-            $entries->each(function (AnimeThemeEntry $entry) {
-                $entry->delete();
-            });
         });
 
         $entry = AnimeThemeEntry::withTrashed()->where(BaseModel::ATTRIBUTE_DELETED_AT, $deletedFilter)->get();

@@ -57,9 +57,7 @@ class SeriesShowTest extends TestCase
      */
     public function testSoftDelete(): void
     {
-        $series = Series::factory()->createOne();
-
-        $series->delete();
+        $series = Series::factory()->trashed()->createOne();
 
         $series->unsetRelations();
 

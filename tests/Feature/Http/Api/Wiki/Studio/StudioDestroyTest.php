@@ -54,9 +54,7 @@ class StudioDestroyTest extends TestCase
      */
     public function testTrashed(): void
     {
-        $studio = Studio::factory()->createOne();
-
-        $studio->delete();
+        $studio = Studio::factory()->trashed()->createOne();
 
         $user = User::factory()->withPermissions(CrudPermission::DELETE()->format(Studio::class))->createOne();
 

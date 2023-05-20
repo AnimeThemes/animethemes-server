@@ -306,10 +306,7 @@ class ImageIndexTest extends TestCase
 
         Image::factory()->count($this->faker->randomDigitNotNull())->create();
 
-        $deleteImage = Image::factory()->count($this->faker->randomDigitNotNull())->create();
-        $deleteImage->each(function (Image $image) {
-            $image->delete();
-        });
+        Image::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
 
         $image = Image::withoutTrashed()->get();
 
@@ -345,10 +342,7 @@ class ImageIndexTest extends TestCase
 
         Image::factory()->count($this->faker->randomDigitNotNull())->create();
 
-        $deleteImage = Image::factory()->count($this->faker->randomDigitNotNull())->create();
-        $deleteImage->each(function (Image $image) {
-            $image->delete();
-        });
+        Image::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
 
         $image = Image::withTrashed()->get();
 
@@ -384,10 +378,7 @@ class ImageIndexTest extends TestCase
 
         Image::factory()->count($this->faker->randomDigitNotNull())->create();
 
-        $deleteImage = Image::factory()->count($this->faker->randomDigitNotNull())->create();
-        $deleteImage->each(function (Image $image) {
-            $image->delete();
-        });
+        Image::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
 
         $image = Image::onlyTrashed()->get();
 
@@ -426,17 +417,11 @@ class ImageIndexTest extends TestCase
         ];
 
         Carbon::withTestNow($deletedFilter, function () {
-            $images = Image::factory()->count($this->faker->randomDigitNotNull())->create();
-            $images->each(function (Image $image) {
-                $image->delete();
-            });
+            Image::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
         });
 
         Carbon::withTestNow($excludedDate, function () {
-            $images = Image::factory()->count($this->faker->randomDigitNotNull())->create();
-            $images->each(function (Image $image) {
-                $image->delete();
-            });
+            Image::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
         });
 
         $image = Image::withTrashed()->where(BaseModel::ATTRIBUTE_DELETED_AT, $deletedFilter)->get();

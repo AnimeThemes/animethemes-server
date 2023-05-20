@@ -58,9 +58,7 @@ class SongUpdateTest extends TestCase
      */
     public function testTrashed(): void
     {
-        $song = Song::factory()->createOne();
-
-        $song->delete();
+        $song = Song::factory()->trashed()->createOne();
 
         $parameters = Song::factory()->raw();
 

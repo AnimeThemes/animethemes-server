@@ -50,9 +50,7 @@ class BalanceShowTest extends TestCase
      */
     public function testSoftDelete(): void
     {
-        $balance = Balance::factory()->createOne();
-
-        $balance->delete();
+        $balance = Balance::factory()->trashed()->createOne();
 
         $balance->unsetRelations();
 

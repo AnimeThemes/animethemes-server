@@ -153,10 +153,9 @@ class PlaylistUpdateTest extends TestCase
         $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(Playlist::class))->createOne();
 
         $playlist = Playlist::factory()
+            ->trashed()
             ->for($user)
             ->createOne();
-
-        $playlist->delete();
 
         $parameters = array_merge(
             Playlist::factory()->raw(),

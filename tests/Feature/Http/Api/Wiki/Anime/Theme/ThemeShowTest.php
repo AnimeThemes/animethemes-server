@@ -71,10 +71,9 @@ class ThemeShowTest extends TestCase
     public function testSoftDelete(): void
     {
         $theme = AnimeTheme::factory()
+            ->trashed()
             ->for(Anime::factory())
             ->createOne();
-
-        $theme->delete();
 
         $theme->unsetRelations();
 

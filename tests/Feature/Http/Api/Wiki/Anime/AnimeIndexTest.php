@@ -378,10 +378,7 @@ class AnimeIndexTest extends TestCase
 
         Anime::factory()->count($this->faker->randomDigitNotNull())->create();
 
-        $deleteAnime = Anime::factory()->count($this->faker->randomDigitNotNull())->create();
-        $deleteAnime->each(function (Anime $anime) {
-            $anime->delete();
-        });
+        Anime::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
 
         $anime = Anime::withoutTrashed()->get();
 
@@ -417,10 +414,7 @@ class AnimeIndexTest extends TestCase
 
         Anime::factory()->count($this->faker->randomDigitNotNull())->create();
 
-        $deleteAnime = Anime::factory()->count($this->faker->randomDigitNotNull())->create();
-        $deleteAnime->each(function (Anime $anime) {
-            $anime->delete();
-        });
+        Anime::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
 
         $anime = Anime::withTrashed()->get();
 
@@ -456,10 +450,7 @@ class AnimeIndexTest extends TestCase
 
         Anime::factory()->count($this->faker->randomDigitNotNull())->create();
 
-        $deleteAnime = Anime::factory()->count($this->faker->randomDigitNotNull())->create();
-        $deleteAnime->each(function (Anime $anime) {
-            $anime->delete();
-        });
+        Anime::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
 
         $anime = Anime::onlyTrashed()->get();
 
@@ -498,17 +489,11 @@ class AnimeIndexTest extends TestCase
         ];
 
         Carbon::withTestNow($deletedFilter, function () {
-            $anime = Anime::factory()->count($this->faker->randomDigitNotNull())->create();
-            $anime->each(function (Anime $item) {
-                $item->delete();
-            });
+            Anime::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
         });
 
         Carbon::withTestNow($excludedDate, function () {
-            $anime = Anime::factory()->count($this->faker->randomDigitNotNull())->create();
-            $anime->each(function (Anime $item) {
-                $item->delete();
-            });
+            Anime::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
         });
 
         $anime = Anime::withTrashed()->where(BaseModel::ATTRIBUTE_DELETED_AT, $deletedFilter)->get();

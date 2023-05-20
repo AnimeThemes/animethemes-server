@@ -65,10 +65,9 @@ class EntryUpdateTest extends TestCase
     public function testTrashed(): void
     {
         $entry = AnimeThemeEntry::factory()
+            ->trashed()
             ->for(AnimeTheme::factory()->for(Anime::factory()))
             ->createOne();
-
-        $entry->delete();
 
         $parameters = AnimeThemeEntry::factory()->raw();
 

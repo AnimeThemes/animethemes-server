@@ -22,9 +22,7 @@ class ScriptRestoreTest extends TestCase
      */
     public function testProtected(): void
     {
-        $script = VideoScript::factory()->createOne();
-
-        $script->delete();
+        $script = VideoScript::factory()->trashed()->createOne();
 
         $response = $this->patch(route('api.videoscript.restore', ['videoscript' => $script]));
 
@@ -38,9 +36,7 @@ class ScriptRestoreTest extends TestCase
      */
     public function testForbidden(): void
     {
-        $script = VideoScript::factory()->createOne();
-
-        $script->delete();
+        $script = VideoScript::factory()->trashed()->createOne();
 
         $user = User::factory()->createOne();
 
@@ -76,9 +72,7 @@ class ScriptRestoreTest extends TestCase
      */
     public function testRestored(): void
     {
-        $script = VideoScript::factory()->createOne();
-
-        $script->delete();
+        $script = VideoScript::factory()->trashed()->createOne();
 
         $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE()->format(VideoScript::class))->createOne();
 

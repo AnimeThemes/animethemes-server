@@ -90,8 +90,7 @@ class AdminSeeder extends RoleSeeder
 
         $role->color = '#1F8B4C';
         $role->priority = 250000;
-        if ($role->isDirty()) {
-            $role->save();
-        }
+
+        $role->save();
     }
 }

@@ -54,9 +54,7 @@ class PageDestroyTest extends TestCase
      */
     public function testTrashed(): void
     {
-        $page = Page::factory()->createOne();
-
-        $page->delete();
+        $page = Page::factory()->trashed()->createOne();
 
         $user = User::factory()->withPermissions(CrudPermission::DELETE()->format(Page::class))->createOne();
 

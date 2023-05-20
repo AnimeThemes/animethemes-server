@@ -104,10 +104,9 @@ class PlaylistRestoreTest extends TestCase
         $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE()->format(Playlist::class))->createOne();
 
         $playlist = Playlist::factory()
+            ->trashed()
             ->for($user)
             ->createOne();
-
-        $playlist->delete();
 
         Sanctum::actingAs($user);
 
@@ -154,10 +153,9 @@ class PlaylistRestoreTest extends TestCase
         $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE()->format(Playlist::class))->createOne();
 
         $playlist = Playlist::factory()
+            ->trashed()
             ->for($user)
             ->createOne();
-
-        $playlist->delete();
 
         Sanctum::actingAs($user);
 
@@ -187,10 +185,9 @@ class PlaylistRestoreTest extends TestCase
             ->createOne();
 
         $playlist = Playlist::factory()
+            ->trashed()
             ->for($user)
             ->createOne();
-
-        $playlist->delete();
 
         Sanctum::actingAs($user);
 
@@ -220,10 +217,9 @@ class PlaylistRestoreTest extends TestCase
             ->createOne();
 
         $playlist = Playlist::factory()
+            ->trashed()
             ->for($user)
             ->createOne();
-
-        $playlist->delete();
 
         Sanctum::actingAs($user);
 
@@ -256,10 +252,9 @@ class PlaylistRestoreTest extends TestCase
             ->createOne();
 
         $playlist = Playlist::factory()
+            ->trashed()
             ->for($user)
             ->createOne();
-
-        $playlist->delete();
 
         Sanctum::actingAs($user);
 

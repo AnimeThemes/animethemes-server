@@ -54,9 +54,7 @@ class AnnouncementDestroyTest extends TestCase
      */
     public function testTrashed(): void
     {
-        $announcement = Announcement::factory()->createOne();
-
-        $announcement->delete();
+        $announcement = Announcement::factory()->trashed()->createOne();
 
         $user = User::factory()->withPermissions(CrudPermission::DELETE()->format(Announcement::class))->createOne();
 

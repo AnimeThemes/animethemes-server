@@ -22,9 +22,7 @@ class VideoRestoreTest extends TestCase
      */
     public function testProtected(): void
     {
-        $video = Video::factory()->createOne();
-
-        $video->delete();
+        $video = Video::factory()->trashed()->createOne();
 
         $response = $this->patch(route('api.video.restore', ['video' => $video]));
 
@@ -38,9 +36,7 @@ class VideoRestoreTest extends TestCase
      */
     public function testForbidden(): void
     {
-        $video = Video::factory()->createOne();
-
-        $video->delete();
+        $video = Video::factory()->trashed()->createOne();
 
         $user = User::factory()->createOne();
 
@@ -76,9 +72,7 @@ class VideoRestoreTest extends TestCase
      */
     public function testRestored(): void
     {
-        $video = Video::factory()->createOne();
-
-        $video->delete();
+        $video = Video::factory()->trashed()->createOne();
 
         $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE()->format(Video::class))->createOne();
 

@@ -179,11 +179,10 @@ class PlaylistShowTest extends TestCase
         Event::fakeExcept(PlaylistCreated::class);
 
         $playlist = Playlist::factory()
+            ->trashed()
             ->createOne([
                 Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
             ]);
-
-        $playlist->delete();
 
         $playlist->unsetRelations();
 

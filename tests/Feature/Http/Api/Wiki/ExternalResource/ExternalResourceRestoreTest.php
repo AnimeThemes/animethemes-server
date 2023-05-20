@@ -22,9 +22,7 @@ class ExternalResourceRestoreTest extends TestCase
      */
     public function testProtected(): void
     {
-        $resource = ExternalResource::factory()->createOne();
-
-        $resource->delete();
+        $resource = ExternalResource::factory()->trashed()->createOne();
 
         $response = $this->patch(route('api.resource.restore', ['resource' => $resource]));
 
@@ -38,9 +36,7 @@ class ExternalResourceRestoreTest extends TestCase
      */
     public function testForbidden(): void
     {
-        $resource = ExternalResource::factory()->createOne();
-
-        $resource->delete();
+        $resource = ExternalResource::factory()->trashed()->createOne();
 
         $user = User::factory()->createOne();
 
@@ -76,9 +72,7 @@ class ExternalResourceRestoreTest extends TestCase
      */
     public function testRestored(): void
     {
-        $resource = ExternalResource::factory()->createOne();
-
-        $resource->delete();
+        $resource = ExternalResource::factory()->trashed()->createOne();
 
         $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE()->format(ExternalResource::class))->createOne();
 

@@ -54,9 +54,7 @@ class ExternalResourceDestroyTest extends TestCase
      */
     public function testTrashed(): void
     {
-        $resource = ExternalResource::factory()->createOne();
-
-        $resource->delete();
+        $resource = ExternalResource::factory()->trashed()->createOne();
 
         $user = User::factory()->withPermissions(CrudPermission::DELETE()->format(ExternalResource::class))->createOne();
 

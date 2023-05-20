@@ -305,10 +305,7 @@ class SongIndexTest extends TestCase
 
         Song::factory()->count($this->faker->randomDigitNotNull())->create();
 
-        $deleteSong = Song::factory()->count($this->faker->randomDigitNotNull())->create();
-        $deleteSong->each(function (Song $song) {
-            $song->delete();
-        });
+        Song::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
 
         $song = Song::withoutTrashed()->get();
 
@@ -344,10 +341,7 @@ class SongIndexTest extends TestCase
 
         Song::factory()->count($this->faker->randomDigitNotNull())->create();
 
-        $deleteSong = Song::factory()->count($this->faker->randomDigitNotNull())->create();
-        $deleteSong->each(function (Song $song) {
-            $song->delete();
-        });
+        Song::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
 
         $song = Song::withTrashed()->get();
 
@@ -383,10 +377,7 @@ class SongIndexTest extends TestCase
 
         Song::factory()->count($this->faker->randomDigitNotNull())->create();
 
-        $deleteSong = Song::factory()->count($this->faker->randomDigitNotNull())->create();
-        $deleteSong->each(function (Song $song) {
-            $song->delete();
-        });
+        Song::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
 
         $song = Song::onlyTrashed()->get();
 
@@ -425,17 +416,11 @@ class SongIndexTest extends TestCase
         ];
 
         Carbon::withTestNow($deletedFilter, function () {
-            $songs = Song::factory()->count($this->faker->randomDigitNotNull())->create();
-            $songs->each(function (Song $song) {
-                $song->delete();
-            });
+            Song::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
         });
 
         Carbon::withTestNow($excludedDate, function () {
-            $songs = Song::factory()->count($this->faker->randomDigitNotNull())->create();
-            $songs->each(function (Song $song) {
-                $song->delete();
-            });
+            Song::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
         });
 
         $songs = Song::withTrashed()->where(BaseModel::ATTRIBUTE_DELETED_AT, $deletedFilter)->get();

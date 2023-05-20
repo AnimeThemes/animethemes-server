@@ -54,9 +54,7 @@ class TransactionDestroyTest extends TestCase
      */
     public function testTrashed(): void
     {
-        $transaction = Transaction::factory()->createOne();
-
-        $transaction->delete();
+        $transaction = Transaction::factory()->trashed()->createOne();
 
         $user = User::factory()->withPermissions(CrudPermission::DELETE()->format(Transaction::class))->createOne();
 

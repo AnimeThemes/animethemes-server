@@ -54,9 +54,7 @@ class AnimeDestroyTest extends TestCase
      */
     public function testTrashed(): void
     {
-        $anime = Anime::factory()->createOne();
-
-        $anime->delete();
+        $anime = Anime::factory()->trashed()->createOne();
 
         $user = User::factory()->withPermissions(CrudPermission::DELETE()->format(Anime::class))->createOne();
 

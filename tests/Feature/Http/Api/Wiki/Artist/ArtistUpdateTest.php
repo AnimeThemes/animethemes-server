@@ -58,9 +58,7 @@ class ArtistUpdateTest extends TestCase
      */
     public function testTrashed(): void
     {
-        $artist = Artist::factory()->createOne();
-
-        $artist->delete();
+        $artist = Artist::factory()->trashed()->createOne();
 
         $parameters = Artist::factory()->raw();
 

@@ -50,9 +50,7 @@ class TransactionShowTest extends TestCase
      */
     public function testSoftDelete(): void
     {
-        $transaction = Transaction::factory()->createOne();
-
-        $transaction->delete();
+        $transaction = Transaction::factory()->trashed()->createOne();
 
         $transaction->unsetRelations();
 

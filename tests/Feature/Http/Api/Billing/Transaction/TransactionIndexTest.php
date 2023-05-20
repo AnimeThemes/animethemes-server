@@ -254,10 +254,7 @@ class TransactionIndexTest extends TestCase
 
         Transaction::factory()->count($this->faker->randomDigitNotNull())->create();
 
-        $deleteTransaction = Transaction::factory()->count($this->faker->randomDigitNotNull())->create();
-        $deleteTransaction->each(function (Transaction $transaction) {
-            $transaction->delete();
-        });
+        Transaction::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
 
         $transaction = Transaction::withoutTrashed()->get();
 
@@ -293,10 +290,7 @@ class TransactionIndexTest extends TestCase
 
         Transaction::factory()->count($this->faker->randomDigitNotNull())->create();
 
-        $deleteTransaction = Transaction::factory()->count($this->faker->randomDigitNotNull())->create();
-        $deleteTransaction->each(function (Transaction $transaction) {
-            $transaction->delete();
-        });
+        Transaction::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
 
         $transaction = Transaction::withTrashed()->get();
 
@@ -332,10 +326,7 @@ class TransactionIndexTest extends TestCase
 
         Transaction::factory()->count($this->faker->randomDigitNotNull())->create();
 
-        $deleteTransaction = Transaction::factory()->count($this->faker->randomDigitNotNull())->create();
-        $deleteTransaction->each(function (Transaction $transaction) {
-            $transaction->delete();
-        });
+        Transaction::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
 
         $transaction = Transaction::onlyTrashed()->get();
 
@@ -374,17 +365,11 @@ class TransactionIndexTest extends TestCase
         ];
 
         Carbon::withTestNow($deletedFilter, function () {
-            $transactions = Transaction::factory()->count($this->faker->randomDigitNotNull())->create();
-            $transactions->each(function (Transaction $transaction) {
-                $transaction->delete();
-            });
+            Transaction::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
         });
 
         Carbon::withTestNow($excludedDate, function () {
-            $transactions = Transaction::factory()->count($this->faker->randomDigitNotNull())->create();
-            $transactions->each(function (Transaction $transaction) {
-                $transaction->delete();
-            });
+            Transaction::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
         });
 
         $transaction = Transaction::withTrashed()->where(BaseModel::ATTRIBUTE_DELETED_AT, $deletedFilter)->get();

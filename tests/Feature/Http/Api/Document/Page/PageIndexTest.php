@@ -254,10 +254,7 @@ class PageIndexTest extends TestCase
 
         Page::factory()->count($this->faker->randomDigitNotNull())->create();
 
-        $deletePage = Page::factory()->count($this->faker->randomDigitNotNull())->create();
-        $deletePage->each(function (Page $page) {
-            $page->delete();
-        });
+        Page::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
 
         $page = Page::withoutTrashed()->get();
 
@@ -293,10 +290,7 @@ class PageIndexTest extends TestCase
 
         Page::factory()->count($this->faker->randomDigitNotNull())->create();
 
-        $deletePage = Page::factory()->count($this->faker->randomDigitNotNull())->create();
-        $deletePage->each(function (Page $page) {
-            $page->delete();
-        });
+        Page::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
 
         $page = Page::withTrashed()->get();
 
@@ -332,10 +326,7 @@ class PageIndexTest extends TestCase
 
         Page::factory()->count($this->faker->randomDigitNotNull())->create();
 
-        $deletePage = Page::factory()->count($this->faker->randomDigitNotNull())->create();
-        $deletePage->each(function (Page $page) {
-            $page->delete();
-        });
+        Page::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
 
         $page = Page::onlyTrashed()->get();
 
@@ -374,17 +365,11 @@ class PageIndexTest extends TestCase
         ];
 
         Carbon::withTestNow($deletedFilter, function () {
-            $pages = Page::factory()->count($this->faker->randomDigitNotNull())->create();
-            $pages->each(function (Page $page) {
-                $page->delete();
-            });
+            Page::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
         });
 
         Carbon::withTestNow($excludedDate, function () {
-            $pages = Page::factory()->count($this->faker->randomDigitNotNull())->create();
-            $pages->each(function (Page $page) {
-                $page->delete();
-            });
+            Page::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
         });
 
         $page = Page::withTrashed()->where(BaseModel::ATTRIBUTE_DELETED_AT, $deletedFilter)->get();
