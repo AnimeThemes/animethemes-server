@@ -79,6 +79,6 @@ class ArtistSongStoreTest extends TestCase
         $response = $this->post(route('api.artistsong.store', ['artist' => $artist, 'song' => $song] + $parameters));
 
         $response->assertCreated();
-        static::assertDatabaseCount(ArtistSong::TABLE, 1);
+        static::assertDatabaseCount(ArtistSong::class, 1);
     }
 }

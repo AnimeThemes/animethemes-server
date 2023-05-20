@@ -73,6 +73,6 @@ class StudioImageStoreTest extends TestCase
         $response = $this->post(route('api.studioimage.store', ['studio' => $studio, 'image' => $image]));
 
         $response->assertCreated();
-        static::assertDatabaseCount(StudioImage::TABLE, 1);
+        static::assertDatabaseCount(StudioImage::class, 1);
     }
 }

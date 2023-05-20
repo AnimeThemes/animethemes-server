@@ -47,7 +47,7 @@ class TrackPreviousHashidsField extends Field implements CreatableField, Updatab
             'required',
             'string',
             Str::of('prohibits:')->append(PlaylistTrack::RELATION_NEXT)->__toString(),
-            Rule::exists(PlaylistTrack::TABLE, HasHashids::ATTRIBUTE_HASHID)
+            Rule::exists(PlaylistTrack::class, HasHashids::ATTRIBUTE_HASHID)
                 ->where(PlaylistTrack::ATTRIBUTE_PLAYLIST, $playlist?->getKey()),
         ];
     }
@@ -84,7 +84,7 @@ class TrackPreviousHashidsField extends Field implements CreatableField, Updatab
             'required',
             'string',
             Str::of('prohibits:')->append(PlaylistTrack::RELATION_NEXT)->__toString(),
-            Rule::exists(PlaylistTrack::TABLE, HasHashids::ATTRIBUTE_HASHID)
+            Rule::exists(PlaylistTrack::class, HasHashids::ATTRIBUTE_HASHID)
                 ->where(PlaylistTrack::ATTRIBUTE_PLAYLIST, $playlist?->getKey())
                 ->whereNot(PlaylistTrack::ATTRIBUTE_ID, $track?->getKey()),
         ];

@@ -45,11 +45,11 @@ class FeaturedThemeEntryIdField extends Field implements CreatableField, Selecta
             'sometimes',
             'required',
             'integer',
-            Rule::exists(AnimeThemeEntry::TABLE, AnimeThemeEntry::ATTRIBUTE_ID),
+            Rule::exists(AnimeThemeEntry::class, AnimeThemeEntry::ATTRIBUTE_ID),
             Rule::when(
                 ! empty($videoId),
                 [
-                    Rule::exists(AnimeThemeEntryVideo::TABLE, AnimeThemeEntryVideo::ATTRIBUTE_ENTRY)
+                    Rule::exists(AnimeThemeEntryVideo::class, AnimeThemeEntryVideo::ATTRIBUTE_ENTRY)
                         ->where(AnimeThemeEntryVideo::ATTRIBUTE_VIDEO, $this->resolveVideoId($request)),
                 ]
             ),
@@ -83,11 +83,11 @@ class FeaturedThemeEntryIdField extends Field implements CreatableField, Selecta
             'sometimes',
             'required',
             'integer',
-            Rule::exists(AnimeThemeEntry::TABLE, AnimeThemeEntry::ATTRIBUTE_ID),
+            Rule::exists(AnimeThemeEntry::class, AnimeThemeEntry::ATTRIBUTE_ID),
             Rule::when(
                 ! empty($videoId),
                 [
-                    Rule::exists(AnimeThemeEntryVideo::TABLE, AnimeThemeEntryVideo::ATTRIBUTE_ENTRY)
+                    Rule::exists(AnimeThemeEntryVideo::class, AnimeThemeEntryVideo::ATTRIBUTE_ENTRY)
                         ->where(AnimeThemeEntryVideo::ATTRIBUTE_VIDEO, $this->resolveVideoId($request)),
                 ]
             ),

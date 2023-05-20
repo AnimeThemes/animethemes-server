@@ -82,6 +82,6 @@ class SeriesStoreTest extends TestCase
         $response = $this->post(route('api.series.store', $parameters));
 
         $response->assertCreated();
-        static::assertDatabaseCount(Series::TABLE, 1);
+        static::assertDatabaseCount(Series::class, 1);
     }
 }

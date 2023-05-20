@@ -79,6 +79,6 @@ class StudioResourceStoreTest extends TestCase
         $response = $this->post(route('api.studioresource.store', ['studio' => $studio, 'resource' => $resource] + $parameters));
 
         $response->assertCreated();
-        static::assertDatabaseCount(StudioResource::TABLE, 1);
+        static::assertDatabaseCount(StudioResource::class, 1);
     }
 }

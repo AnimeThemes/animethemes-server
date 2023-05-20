@@ -159,9 +159,9 @@ class ExternalResource extends BaseResource
             URL::make(__('nova.fields.external_resource.link.name'), ExternalResourceModel::ATTRIBUTE_LINK)
                 ->sortable()
                 ->rules(['required', 'max:192', 'url', new ResourceLinkFormatRule()])
-                ->creationRules(Rule::unique(ExternalResourceModel::TABLE)->__toString())
+                ->creationRules(Rule::unique(ExternalResourceModel::class)->__toString())
                 ->updateRules(
-                    Rule::unique(ExternalResourceModel::TABLE)
+                    Rule::unique(ExternalResourceModel::class)
                         ->ignore($request->route('resourceId'), ExternalResourceModel::ATTRIBUTE_ID)
                         ->__toString()
                 )

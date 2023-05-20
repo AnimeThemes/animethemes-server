@@ -73,6 +73,6 @@ class ArtistMemberStoreTest extends TestCase
         $response = $this->post(route('api.artistmember.store', ['artist' => $artist, 'member' => $member] + $parameters));
 
         $response->assertCreated();
-        static::assertDatabaseCount(ArtistMember::TABLE, 1);
+        static::assertDatabaseCount(ArtistMember::class, 1);
     }
 }

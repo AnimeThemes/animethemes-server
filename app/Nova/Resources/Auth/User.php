@@ -141,9 +141,9 @@ class User extends BaseResource
                 ->sortable()
                 ->copyable()
                 ->rules(['required', 'max:192', 'alpha_dash'])
-                ->creationRules(Rule::unique(UserModel::TABLE)->__toString())
+                ->creationRules(Rule::unique(UserModel::class)->__toString())
                 ->updateRules(
-                    Rule::unique(UserModel::TABLE)
+                    Rule::unique(UserModel::class)
                         ->ignore($request->get('resourceId'), UserModel::ATTRIBUTE_ID)
                         ->__toString()
                 )
@@ -156,9 +156,9 @@ class User extends BaseResource
             Email::make(__('nova.fields.user.email'), UserModel::ATTRIBUTE_EMAIL)
                 ->sortable()
                 ->rules(['required', 'email', 'max:192'])
-                ->creationRules(Rule::unique(UserModel::TABLE)->__toString())
+                ->creationRules(Rule::unique(UserModel::class)->__toString())
                 ->updateRules(
-                    Rule::unique(UserModel::TABLE)
+                    Rule::unique(UserModel::class)
                         ->ignore($request->get('resourceId'), UserModel::ATTRIBUTE_ID)
                         ->__toString()
                 )

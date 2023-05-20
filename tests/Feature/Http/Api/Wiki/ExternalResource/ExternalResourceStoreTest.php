@@ -86,6 +86,6 @@ class ExternalResourceStoreTest extends TestCase
         $response = $this->post(route('api.resource.store', $parameters));
 
         $response->assertCreated();
-        static::assertDatabaseCount(ExternalResource::TABLE, 1);
+        static::assertDatabaseCount(ExternalResource::class, 1);
     }
 }

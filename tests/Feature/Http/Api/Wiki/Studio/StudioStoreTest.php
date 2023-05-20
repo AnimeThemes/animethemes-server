@@ -82,6 +82,6 @@ class StudioStoreTest extends TestCase
         $response = $this->post(route('api.studio.store', $parameters));
 
         $response->assertCreated();
-        static::assertDatabaseCount(Studio::TABLE, 1);
+        static::assertDatabaseCount(Studio::class, 1);
     }
 }

@@ -92,6 +92,6 @@ class EntryStoreTest extends TestCase
         $response = $this->post(route('api.animethemeentry.store', $parameters));
 
         $response->assertCreated();
-        static::assertDatabaseCount(AnimeThemeEntry::TABLE, 1);
+        static::assertDatabaseCount(AnimeThemeEntry::class, 1);
     }
 }

@@ -39,7 +39,7 @@ class ArtistSlugField extends StringField implements CreatableField, UpdatableFi
             'required',
             'max:192',
             'alpha_dash',
-            Rule::unique(Artist::TABLE),
+            Rule::unique(Artist::class),
         ];
     }
 
@@ -56,7 +56,7 @@ class ArtistSlugField extends StringField implements CreatableField, UpdatableFi
             'required',
             'max:192',
             'alpha_dash',
-            Rule::unique(Artist::TABLE)->ignore($request->route('artist'), Artist::ATTRIBUTE_ID),
+            Rule::unique(Artist::class)->ignore($request->route('artist'), Artist::ATTRIBUTE_ID),
         ];
     }
 }

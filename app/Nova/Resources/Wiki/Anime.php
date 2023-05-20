@@ -170,7 +170,7 @@ class Anime extends BaseResource
                 ->sortable()
                 ->rules(['required', 'max:192', 'alpha_dash'])
                 ->updateRules(
-                    Rule::unique(AnimeModel::TABLE)
+                    Rule::unique(AnimeModel::class)
                         ->ignore($request->route('resourceId'), AnimeModel::ATTRIBUTE_ID)
                         ->__toString()
                 )

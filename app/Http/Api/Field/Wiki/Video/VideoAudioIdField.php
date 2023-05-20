@@ -42,7 +42,7 @@ class VideoAudioIdField extends Field implements CreatableField, SelectableField
             'sometimes',
             'required',
             'integer',
-            Rule::exists(Audio::TABLE, Audio::ATTRIBUTE_ID),
+            Rule::exists(Audio::class, Audio::ATTRIBUTE_ID),
         ];
     }
 
@@ -71,7 +71,7 @@ class VideoAudioIdField extends Field implements CreatableField, SelectableField
             'sometimes',
             'required',
             'integer',
-            Rule::exists(Audio::TABLE, Audio::ATTRIBUTE_ID),
+            Rule::exists(Audio::class, Audio::ATTRIBUTE_ID),
         ];
     }
 }

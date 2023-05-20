@@ -88,6 +88,6 @@ class TransactionStoreTest extends TestCase
         $response = $this->post(route('api.transaction.store', $parameters));
 
         $response->assertCreated();
-        static::assertDatabaseCount(Transaction::TABLE, 1);
+        static::assertDatabaseCount(Transaction::class, 1);
     }
 }

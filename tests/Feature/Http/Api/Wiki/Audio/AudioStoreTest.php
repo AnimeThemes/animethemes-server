@@ -85,6 +85,6 @@ class AudioStoreTest extends TestCase
         $response = $this->post(route('api.audio.store', $parameters));
 
         $response->assertCreated();
-        static::assertDatabaseCount(Audio::TABLE, 1);
+        static::assertDatabaseCount(Audio::class, 1);
     }
 }

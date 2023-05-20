@@ -73,6 +73,6 @@ class AnimeSeriesStoreTest extends TestCase
         $response = $this->post(route('api.animeseries.store', ['anime' => $anime, 'series' => $series]));
 
         $response->assertCreated();
-        static::assertDatabaseCount(AnimeSeries::TABLE, 1);
+        static::assertDatabaseCount(AnimeSeries::class, 1);
     }
 }

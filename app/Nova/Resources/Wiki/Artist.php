@@ -149,7 +149,7 @@ class Artist extends BaseResource
                 ->sortable()
                 ->rules(['required', 'max:192', 'alpha_dash'])
                 ->updateRules(
-                    Rule::unique(ArtistModel::TABLE)
+                    Rule::unique(ArtistModel::class)
                         ->ignore($request->route('resourceId'), ArtistModel::ATTRIBUTE_ID)
                         ->__toString()
                 )

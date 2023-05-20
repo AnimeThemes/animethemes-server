@@ -79,6 +79,6 @@ class ArtistResourceStoreTest extends TestCase
         $response = $this->post(route('api.artistresource.store', ['artist' => $artist, 'resource' => $resource] + $parameters));
 
         $response->assertCreated();
-        static::assertDatabaseCount(ArtistResource::TABLE, 1);
+        static::assertDatabaseCount(ArtistResource::class, 1);
     }
 }

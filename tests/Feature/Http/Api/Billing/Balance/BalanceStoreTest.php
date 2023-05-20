@@ -93,6 +93,6 @@ class BalanceStoreTest extends TestCase
         $response = $this->post(route('api.balance.store', $parameters));
 
         $response->assertCreated();
-        static::assertDatabaseCount(Balance::TABLE, 1);
+        static::assertDatabaseCount(Balance::class, 1);
     }
 }

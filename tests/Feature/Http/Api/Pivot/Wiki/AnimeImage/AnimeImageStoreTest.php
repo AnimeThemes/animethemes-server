@@ -72,6 +72,6 @@ class AnimeImageStoreTest extends TestCase
         $response = $this->post(route('api.animeimage.store', ['anime' => $anime, 'image' => $image]));
 
         $response->assertCreated();
-        static::assertDatabaseCount(AnimeImage::TABLE, 1);
+        static::assertDatabaseCount(AnimeImage::class, 1);
     }
 }

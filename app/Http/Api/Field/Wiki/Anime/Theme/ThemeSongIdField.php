@@ -42,7 +42,7 @@ class ThemeSongIdField extends Field implements CreatableField, SelectableField,
             'sometimes',
             'required',
             'integer',
-            Rule::exists(Song::TABLE, Song::ATTRIBUTE_ID),
+            Rule::exists(Song::class, Song::ATTRIBUTE_ID),
         ];
     }
 
@@ -71,7 +71,7 @@ class ThemeSongIdField extends Field implements CreatableField, SelectableField,
             'sometimes',
             'required',
             'integer',
-            Rule::exists(Song::TABLE, Song::ATTRIBUTE_ID),
+            Rule::exists(Song::class, Song::ATTRIBUTE_ID),
         ];
     }
 }

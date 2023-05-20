@@ -42,7 +42,7 @@ class FeaturedThemeUserIdField extends Field implements CreatableField, Selectab
             'sometimes',
             'required',
             'integer',
-            Rule::exists(User::TABLE, User::ATTRIBUTE_ID),
+            Rule::exists(User::class, User::ATTRIBUTE_ID),
         ];
     }
 
@@ -71,7 +71,7 @@ class FeaturedThemeUserIdField extends Field implements CreatableField, Selectab
             'sometimes',
             'required',
             'integer',
-            Rule::exists(User::TABLE, User::ATTRIBUTE_ID),
+            Rule::exists(User::class, User::ATTRIBUTE_ID),
         ];
     }
 }

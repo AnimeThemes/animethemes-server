@@ -39,7 +39,7 @@ class StudioSlugField extends StringField implements CreatableField, UpdatableFi
             'required',
             'max:192',
             'alpha_dash',
-            Rule::unique(Studio::TABLE),
+            Rule::unique(Studio::class),
         ];
     }
 
@@ -56,7 +56,7 @@ class StudioSlugField extends StringField implements CreatableField, UpdatableFi
             'required',
             'max:192',
             'alpha_dash',
-            Rule::unique(Studio::TABLE)->ignore($request->route('studio'), Studio::ATTRIBUTE_ID),
+            Rule::unique(Studio::class)->ignore($request->route('studio'), Studio::ATTRIBUTE_ID),
         ];
     }
 }

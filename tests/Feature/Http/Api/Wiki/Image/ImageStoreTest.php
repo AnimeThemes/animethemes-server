@@ -94,6 +94,6 @@ class ImageStoreTest extends TestCase
 
         $response->assertCreated();
         static::assertCount(1, $fs->allFiles());
-        static::assertDatabaseCount(Image::TABLE, 1);
+        static::assertDatabaseCount(Image::class, 1);
     }
 }

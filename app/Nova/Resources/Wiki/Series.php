@@ -136,7 +136,7 @@ class Series extends BaseResource
                 ->sortable()
                 ->rules(['required', 'max:192', 'alpha_dash'])
                 ->updateRules(
-                    Rule::unique(SeriesModel::TABLE)
+                    Rule::unique(SeriesModel::class)
                         ->ignore($request->route('resourceId'), SeriesModel::ATTRIBUTE_ID)
                         ->__toString()
                 )

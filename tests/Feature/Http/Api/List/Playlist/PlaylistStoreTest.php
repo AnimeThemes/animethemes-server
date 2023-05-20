@@ -129,8 +129,8 @@ class PlaylistStoreTest extends TestCase
         $response = $this->post(route('api.playlist.store', $parameters));
 
         $response->assertCreated();
-        static::assertDatabaseCount(Playlist::TABLE, 1);
-        static::assertDatabaseHas(Playlist::TABLE, [Playlist::ATTRIBUTE_USER => $user->getKey()]);
+        static::assertDatabaseCount(Playlist::class, 1);
+        static::assertDatabaseHas(Playlist::class, [Playlist::ATTRIBUTE_USER => $user->getKey()]);
     }
 
     /**

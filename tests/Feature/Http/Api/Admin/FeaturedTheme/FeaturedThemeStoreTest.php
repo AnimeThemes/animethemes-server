@@ -153,6 +153,6 @@ class FeaturedThemeStoreTest extends TestCase
         $response = $this->post(route('api.featuredtheme.store', $parameters));
 
         $response->assertCreated();
-        static::assertDatabaseCount(FeaturedTheme::TABLE, 1);
+        static::assertDatabaseCount(FeaturedTheme::class, 1);
     }
 }

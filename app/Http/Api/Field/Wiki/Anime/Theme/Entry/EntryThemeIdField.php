@@ -40,7 +40,7 @@ class EntryThemeIdField extends Field implements CreatableField, SelectableField
         return [
             'required',
             'integer',
-            Rule::exists(AnimeTheme::TABLE, AnimeTheme::ATTRIBUTE_ID),
+            Rule::exists(AnimeTheme::class, AnimeTheme::ATTRIBUTE_ID),
         ];
     }
 

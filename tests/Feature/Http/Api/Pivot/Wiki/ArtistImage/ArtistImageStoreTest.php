@@ -73,6 +73,6 @@ class ArtistImageStoreTest extends TestCase
         $response = $this->post(route('api.artistimage.store', ['artist' => $artist, 'image' => $image]));
 
         $response->assertCreated();
-        static::assertDatabaseCount(ArtistImage::TABLE, 1);
+        static::assertDatabaseCount(ArtistImage::class, 1);
     }
 }

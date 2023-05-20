@@ -73,6 +73,6 @@ class AnimeStudioStoreTest extends TestCase
         $response = $this->post(route('api.animestudio.store', ['anime' => $anime, 'studio' => $studio]));
 
         $response->assertCreated();
-        static::assertDatabaseCount(AnimeStudio::TABLE, 1);
+        static::assertDatabaseCount(AnimeStudio::class, 1);
     }
 }
