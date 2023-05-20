@@ -68,8 +68,8 @@ class ExternalResourceUpdateTest extends TestCase
         $resource = ExternalResource::factory()
             ->trashed()
             ->createOne([
-            ExternalResource::ATTRIBUTE_SITE => ResourceSite::OFFICIAL_SITE,
-        ]);
+                ExternalResource::ATTRIBUTE_SITE => ResourceSite::OFFICIAL_SITE,
+            ]);
 
         $parameters = array_merge(
             ExternalResource::factory()->raw(),
