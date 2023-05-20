@@ -168,10 +168,9 @@ class TrackDestroyTest extends TestCase
         $user = User::factory()->withPermissions(CrudPermission::DELETE()->format(PlaylistTrack::class))->createOne();
 
         $track = PlaylistTrack::factory()
+            ->trashed()
             ->for(Playlist::factory()->for($user))
             ->createOne();
-
-        $track->delete();
 
         Sanctum::actingAs($user);
 

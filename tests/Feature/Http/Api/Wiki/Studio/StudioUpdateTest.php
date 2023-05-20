@@ -58,9 +58,7 @@ class StudioUpdateTest extends TestCase
      */
     public function testTrashed(): void
     {
-        $studio = Studio::factory()->createOne();
-
-        $studio->delete();
+        $studio = Studio::factory()->trashed()->createOne();
 
         $parameters = Studio::factory()->raw();
 

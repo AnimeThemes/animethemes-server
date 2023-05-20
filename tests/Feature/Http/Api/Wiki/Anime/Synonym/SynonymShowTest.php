@@ -58,9 +58,10 @@ class SynonymShowTest extends TestCase
      */
     public function testSoftDelete(): void
     {
-        $synonym = AnimeSynonym::factory()->for(Anime::factory())->createOne();
-
-        $synonym->delete();
+        $synonym = AnimeSynonym::factory()
+            ->trashed()
+            ->for(Anime::factory())
+            ->createOne();
 
         $synonym->unsetRelations();
 

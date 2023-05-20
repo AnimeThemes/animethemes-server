@@ -57,9 +57,7 @@ class ImageShowTest extends TestCase
      */
     public function testSoftDelete(): void
     {
-        $image = Image::factory()->createOne();
-
-        $image->delete();
+        $image = Image::factory()->trashed()->createOne();
 
         $image->unsetRelations();
 

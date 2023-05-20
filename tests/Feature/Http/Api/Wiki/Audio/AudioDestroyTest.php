@@ -54,9 +54,7 @@ class AudioDestroyTest extends TestCase
      */
     public function testTrashed(): void
     {
-        $audio = Audio::factory()->createOne();
-
-        $audio->delete();
+        $audio = Audio::factory()->trashed()->createOne();
 
         $user = User::factory()->withPermissions(CrudPermission::DELETE()->format(Audio::class))->createOne();
 

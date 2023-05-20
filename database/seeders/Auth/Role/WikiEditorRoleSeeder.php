@@ -70,8 +70,7 @@ class WikiEditorRoleSeeder extends RoleSeeder
 
         $role->color = '#2E5A88';
         $role->priority = 100000;
-        if ($role->isDirty()) {
-            $role->save();
-        }
+
+        $role->save();
     }
 }

@@ -53,9 +53,7 @@ class AudioShowTest extends TestCase
      */
     public function testSoftDelete(): void
     {
-        $audio = Audio::factory()->createOne();
-
-        $audio->delete();
+        $audio = Audio::factory()->trashed()->createOne();
 
         $response = $this->get(route('api.audio.show', ['audio' => $audio]));
 

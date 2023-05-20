@@ -254,10 +254,7 @@ class DumpIndexTest extends TestCase
 
         Dump::factory()->count($this->faker->randomDigitNotNull())->create();
 
-        $deleteDump = Dump::factory()->count($this->faker->randomDigitNotNull())->create();
-        $deleteDump->each(function (Dump $dump) {
-            $dump->delete();
-        });
+        Dump::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
 
         $dump = Dump::withoutTrashed()->get();
 
@@ -293,10 +290,7 @@ class DumpIndexTest extends TestCase
 
         Dump::factory()->count($this->faker->randomDigitNotNull())->create();
 
-        $deleteDump = Dump::factory()->count($this->faker->randomDigitNotNull())->create();
-        $deleteDump->each(function (Dump $dump) {
-            $dump->delete();
-        });
+        Dump::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
 
         $dump = Dump::withTrashed()->get();
 
@@ -332,10 +326,7 @@ class DumpIndexTest extends TestCase
 
         Dump::factory()->count($this->faker->randomDigitNotNull())->create();
 
-        $deleteDump = Dump::factory()->count($this->faker->randomDigitNotNull())->create();
-        $deleteDump->each(function (Dump $dump) {
-            $dump->delete();
-        });
+        Dump::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
 
         $dump = Dump::onlyTrashed()->get();
 
@@ -374,17 +365,11 @@ class DumpIndexTest extends TestCase
         ];
 
         Carbon::withTestNow($deletedFilter, function () {
-            $dumps = Dump::factory()->count($this->faker->randomDigitNotNull())->create();
-            $dumps->each(function (Dump $dump) {
-                $dump->delete();
-            });
+            Dump::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
         });
 
         Carbon::withTestNow($excludedDate, function () {
-            $dumps = Dump::factory()->count($this->faker->randomDigitNotNull())->create();
-            $dumps->each(function (Dump $dump) {
-                $dump->delete();
-            });
+            Dump::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
         });
 
         $dump = Dump::withTrashed()->where(BaseModel::ATTRIBUTE_DELETED_AT, $deletedFilter)->get();

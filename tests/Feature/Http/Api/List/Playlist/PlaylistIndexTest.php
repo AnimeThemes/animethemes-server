@@ -342,13 +342,10 @@ class PlaylistIndexTest extends TestCase
             ->count($this->faker->randomDigitNotNull())
             ->create([Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC]);
 
-        $deletePlaylist = Playlist::factory()
+        Playlist::factory()
+            ->trashed()
             ->count($this->faker->randomDigitNotNull())
             ->create([Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC]);
-
-        $deletePlaylist->each(function (Playlist $playlist) {
-            $playlist->delete();
-        });
 
         $playlists = Playlist::withoutTrashed()->get();
 
@@ -386,13 +383,10 @@ class PlaylistIndexTest extends TestCase
             ->count($this->faker->randomDigitNotNull())
             ->create([Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC]);
 
-        $deletePlaylist = Playlist::factory()
+        Playlist::factory()
+            ->trashed()
             ->count($this->faker->randomDigitNotNull())
             ->create([Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC]);
-
-        $deletePlaylist->each(function (Playlist $playlist) {
-            $playlist->delete();
-        });
 
         $playlists = Playlist::withTrashed()->get();
 
@@ -430,13 +424,10 @@ class PlaylistIndexTest extends TestCase
             ->count($this->faker->randomDigitNotNull())
             ->create([Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC]);
 
-        $deletePlaylist = Playlist::factory()
+        Playlist::factory()
+            ->trashed()
             ->count($this->faker->randomDigitNotNull())
             ->create([Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC]);
-
-        $deletePlaylist->each(function (Playlist $playlist) {
-            $playlist->delete();
-        });
 
         $playlists = Playlist::onlyTrashed()->get();
 
@@ -475,23 +466,17 @@ class PlaylistIndexTest extends TestCase
         ];
 
         Carbon::withTestNow($deletedFilter, function () {
-            $playlists = Playlist::factory()
+            Playlist::factory()
+                ->trashed()
                 ->count($this->faker->randomDigitNotNull())
                 ->create([Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC]);
-
-            $playlists->each(function (Playlist $item) {
-                $item->delete();
-            });
         });
 
         Carbon::withTestNow($excludedDate, function () {
-            $playlists = Playlist::factory()
+            Playlist::factory()
+                ->trashed()
                 ->count($this->faker->randomDigitNotNull())
                 ->create([Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC]);
-
-            $playlists->each(function (Playlist $item) {
-                $item->delete();
-            });
         });
 
         $playlists = Playlist::withTrashed()->where(BaseModel::ATTRIBUTE_DELETED_AT, $deletedFilter)->get();

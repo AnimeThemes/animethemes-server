@@ -22,9 +22,7 @@ class AudioRestoreTest extends TestCase
      */
     public function testProtected(): void
     {
-        $audio = Audio::factory()->createOne();
-
-        $audio->delete();
+        $audio = Audio::factory()->trashed()->createOne();
 
         $response = $this->patch(route('api.audio.restore', ['audio' => $audio]));
 
@@ -38,9 +36,7 @@ class AudioRestoreTest extends TestCase
      */
     public function testForbidden(): void
     {
-        $audio = Audio::factory()->createOne();
-
-        $audio->delete();
+        $audio = Audio::factory()->trashed()->createOne();
 
         $user = User::factory()->createOne();
 
@@ -76,9 +72,7 @@ class AudioRestoreTest extends TestCase
      */
     public function testRestored(): void
     {
-        $audio = Audio::factory()->createOne();
-
-        $audio->delete();
+        $audio = Audio::factory()->trashed()->createOne();
 
         $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE()->format(Audio::class))->createOne();
 

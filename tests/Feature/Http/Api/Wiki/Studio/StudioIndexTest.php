@@ -304,10 +304,7 @@ class StudioIndexTest extends TestCase
 
         Studio::factory()->count($this->faker->randomDigitNotNull())->create();
 
-        $deleteStudio = Studio::factory()->count($this->faker->randomDigitNotNull())->create();
-        $deleteStudio->each(function (Studio $studio) {
-            $studio->delete();
-        });
+        Studio::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
 
         $studio = Studio::withoutTrashed()->get();
 
@@ -343,10 +340,7 @@ class StudioIndexTest extends TestCase
 
         Studio::factory()->count($this->faker->randomDigitNotNull())->create();
 
-        $deleteStudio = Studio::factory()->count($this->faker->randomDigitNotNull())->create();
-        $deleteStudio->each(function (Studio $studio) {
-            $studio->delete();
-        });
+        Studio::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
 
         $studio = Studio::withTrashed()->get();
 
@@ -382,10 +376,7 @@ class StudioIndexTest extends TestCase
 
         Studio::factory()->count($this->faker->randomDigitNotNull())->create();
 
-        $deleteStudio = Studio::factory()->count($this->faker->randomDigitNotNull())->create();
-        $deleteStudio->each(function (Studio $studio) {
-            $studio->delete();
-        });
+        Studio::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
 
         $studio = Studio::onlyTrashed()->get();
 
@@ -424,17 +415,11 @@ class StudioIndexTest extends TestCase
         ];
 
         Carbon::withTestNow($deletedFilter, function () {
-            $studio = Studio::factory()->count($this->faker->randomDigitNotNull())->create();
-            $studio->each(function (Studio $item) {
-                $item->delete();
-            });
+            Studio::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
         });
 
         Carbon::withTestNow($excludedDate, function () {
-            $studio = Studio::factory()->count($this->faker->randomDigitNotNull())->create();
-            $studio->each(function (Studio $item) {
-                $item->delete();
-            });
+            Studio::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
         });
 
         $studio = Studio::withTrashed()->where(BaseModel::ATTRIBUTE_DELETED_AT, $deletedFilter)->get();

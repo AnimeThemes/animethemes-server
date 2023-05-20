@@ -66,9 +66,7 @@ class ArtistShowTest extends TestCase
      */
     public function testSoftDelete(): void
     {
-        $artist = Artist::factory()->createOne();
-
-        $artist->delete();
+        $artist = Artist::factory()->trashed()->createOne();
 
         $artist->unsetRelations();
 

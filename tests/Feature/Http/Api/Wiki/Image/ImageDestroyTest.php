@@ -54,9 +54,7 @@ class ImageDestroyTest extends TestCase
      */
     public function testTrashed(): void
     {
-        $image = Image::factory()->createOne();
-
-        $image->delete();
+        $image = Image::factory()->trashed()->createOne();
 
         $user = User::factory()->withPermissions(CrudPermission::DELETE()->format(Image::class))->createOne();
 

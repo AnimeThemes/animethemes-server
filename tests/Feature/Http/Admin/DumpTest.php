@@ -77,9 +77,7 @@ class DumpTest extends TestCase
     {
         Feature::activate(AllowDumpDownloading::class);
 
-        $dump = Dump::factory()->createOne();
-
-        $dump->delete();
+        $dump = Dump::factory()->trashed()->createOne();
 
         $response = $this->get(route('dump.show', ['dump' => $dump]));
 

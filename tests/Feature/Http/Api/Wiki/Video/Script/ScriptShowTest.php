@@ -57,9 +57,7 @@ class ScriptShowTest extends TestCase
      */
     public function testSoftDelete(): void
     {
-        $script = VideoScript::factory()->createOne();
-
-        $script->delete();
+        $script = VideoScript::factory()->trashed()->createOne();
 
         $response = $this->get(route('api.videoscript.show', ['videoscript' => $script]));
 

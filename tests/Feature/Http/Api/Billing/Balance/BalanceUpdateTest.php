@@ -72,9 +72,7 @@ class BalanceUpdateTest extends TestCase
      */
     public function testTrashed(): void
     {
-        $balance = Balance::factory()->createOne();
-
-        $balance->delete();
+        $balance = Balance::factory()->trashed()->createOne();
 
         $parameters = array_merge(
             Balance::factory()->raw(),

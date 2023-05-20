@@ -81,9 +81,7 @@ class AudioTest extends TestCase
 
         Feature::activate(AllowAudioStreams::class);
 
-        $audio = Audio::factory()->createOne();
-
-        $audio->delete();
+        $audio = Audio::factory()->trashed()->createOne();
 
         $response = $this->get(route('audio.show', ['audio' => $audio]));
 

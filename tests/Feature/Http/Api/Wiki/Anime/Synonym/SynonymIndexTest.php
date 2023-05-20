@@ -330,14 +330,11 @@ class SynonymIndexTest extends TestCase
             ->count($this->faker->randomDigitNotNull())
             ->create();
 
-        $deleteSynonym = AnimeSynonym::factory()
+        AnimeSynonym::factory()
+            ->trashed()
             ->for(Anime::factory())
             ->count($this->faker->randomDigitNotNull())
             ->create();
-
-        $deleteSynonym->each(function (AnimeSynonym $synonym) {
-            $synonym->delete();
-        });
 
         $synonym = AnimeSynonym::withoutTrashed()->get();
 
@@ -376,14 +373,11 @@ class SynonymIndexTest extends TestCase
             ->count($this->faker->randomDigitNotNull())
             ->create();
 
-        $deleteSynonym = AnimeSynonym::factory()
+        AnimeSynonym::factory()
+            ->trashed()
             ->for(Anime::factory())
             ->count($this->faker->randomDigitNotNull())
             ->create();
-
-        $deleteSynonym->each(function (AnimeSynonym $synonym) {
-            $synonym->delete();
-        });
 
         $synonym = AnimeSynonym::withTrashed()->get();
 
@@ -422,14 +416,11 @@ class SynonymIndexTest extends TestCase
             ->count($this->faker->randomDigitNotNull())
             ->create();
 
-        $deleteSynonym = AnimeSynonym::factory()
+        AnimeSynonym::factory()
+            ->trashed()
             ->for(Anime::factory())
             ->count($this->faker->randomDigitNotNull())
             ->create();
-
-        $deleteSynonym->each(function (AnimeSynonym $synonym) {
-            $synonym->delete();
-        });
 
         $synonym = AnimeSynonym::onlyTrashed()->get();
 

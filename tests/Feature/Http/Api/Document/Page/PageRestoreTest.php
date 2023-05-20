@@ -22,9 +22,7 @@ class PageRestoreTest extends TestCase
      */
     public function testProtected(): void
     {
-        $page = Page::factory()->createOne();
-
-        $page->delete();
+        $page = Page::factory()->trashed()->createOne();
 
         $response = $this->patch(route('api.page.restore', ['page' => $page]));
 
@@ -38,9 +36,7 @@ class PageRestoreTest extends TestCase
      */
     public function testForbidden(): void
     {
-        $page = Page::factory()->createOne();
-
-        $page->delete();
+        $page = Page::factory()->trashed()->createOne();
 
         $user = User::factory()->createOne();
 
@@ -76,9 +72,7 @@ class PageRestoreTest extends TestCase
      */
     public function testRestored(): void
     {
-        $page = Page::factory()->createOne();
-
-        $page->delete();
+        $page = Page::factory()->trashed()->createOne();
 
         $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE()->format(Page::class))->createOne();
 

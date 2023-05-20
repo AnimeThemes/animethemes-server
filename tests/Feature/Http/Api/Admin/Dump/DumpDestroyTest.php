@@ -54,9 +54,7 @@ class DumpDestroyTest extends TestCase
      */
     public function testTrashed(): void
     {
-        $dump = Dump::factory()->createOne();
-
-        $dump->delete();
+        $dump = Dump::factory()->trashed()->createOne();
 
         $user = User::factory()->withPermissions(CrudPermission::DELETE()->format(Dump::class))->createOne();
 

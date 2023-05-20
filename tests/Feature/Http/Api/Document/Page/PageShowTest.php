@@ -50,9 +50,7 @@ class PageShowTest extends TestCase
      */
     public function testSoftDelete(): void
     {
-        $page = Page::factory()->createOne();
-
-        $page->delete();
+        $page = Page::factory()->trashed()->createOne();
 
         $page->unsetRelations();
 

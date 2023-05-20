@@ -54,9 +54,7 @@ class ArtistDestroyTest extends TestCase
      */
     public function testTrashed(): void
     {
-        $artist = Artist::factory()->createOne();
-
-        $artist->delete();
+        $artist = Artist::factory()->trashed()->createOne();
 
         $user = User::factory()->withPermissions(CrudPermission::DELETE()->format(Artist::class))->createOne();
 

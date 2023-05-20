@@ -23,9 +23,10 @@ class SynonymRestoreTest extends TestCase
      */
     public function testProtected(): void
     {
-        $synonym = AnimeSynonym::factory()->for(Anime::factory())->createOne();
-
-        $synonym->delete();
+        $synonym = AnimeSynonym::factory()
+            ->trashed()
+            ->for(Anime::factory())
+            ->createOne();
 
         $response = $this->patch(route('api.animesynonym.restore', ['animesynonym' => $synonym]));
 
@@ -39,9 +40,10 @@ class SynonymRestoreTest extends TestCase
      */
     public function testForbidden(): void
     {
-        $synonym = AnimeSynonym::factory()->for(Anime::factory())->createOne();
-
-        $synonym->delete();
+        $synonym = AnimeSynonym::factory()
+            ->trashed()
+            ->for(Anime::factory())
+            ->createOne();
 
         $user = User::factory()->createOne();
 
@@ -77,9 +79,10 @@ class SynonymRestoreTest extends TestCase
      */
     public function testRestored(): void
     {
-        $synonym = AnimeSynonym::factory()->for(Anime::factory())->createOne();
-
-        $synonym->delete();
+        $synonym = AnimeSynonym::factory()
+            ->trashed()
+            ->for(Anime::factory())
+            ->createOne();
 
         $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE()->format(AnimeSynonym::class))->createOne();
 

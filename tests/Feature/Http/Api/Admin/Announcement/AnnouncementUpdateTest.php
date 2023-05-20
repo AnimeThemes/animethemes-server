@@ -58,9 +58,7 @@ class AnnouncementUpdateTest extends TestCase
      */
     public function testTrashed(): void
     {
-        $announcement = Announcement::factory()->createOne();
-
-        $announcement->delete();
+        $announcement = Announcement::factory()->trashed()->createOne();
 
         $parameters = Announcement::factory()->raw();
 

@@ -254,10 +254,7 @@ class AnnouncementIndexTest extends TestCase
 
         Announcement::factory()->count($this->faker->randomDigitNotNull())->create();
 
-        $deleteAnnouncement = Announcement::factory()->count($this->faker->randomDigitNotNull())->create();
-        $deleteAnnouncement->each(function (Announcement $announcement) {
-            $announcement->delete();
-        });
+        Announcement::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
 
         $announcement = Announcement::withoutTrashed()->get();
 
@@ -293,10 +290,7 @@ class AnnouncementIndexTest extends TestCase
 
         Announcement::factory()->count($this->faker->randomDigitNotNull())->create();
 
-        $deleteAnnouncement = Announcement::factory()->count($this->faker->randomDigitNotNull())->create();
-        $deleteAnnouncement->each(function (Announcement $announcement) {
-            $announcement->delete();
-        });
+        Announcement::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
 
         $announcement = Announcement::withTrashed()->get();
 
@@ -332,10 +326,7 @@ class AnnouncementIndexTest extends TestCase
 
         Announcement::factory()->count($this->faker->randomDigitNotNull())->create();
 
-        $deleteAnnouncement = Announcement::factory()->count($this->faker->randomDigitNotNull())->create();
-        $deleteAnnouncement->each(function (Announcement $announcement) {
-            $announcement->delete();
-        });
+        Announcement::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
 
         $announcement = Announcement::onlyTrashed()->get();
 
@@ -374,17 +365,11 @@ class AnnouncementIndexTest extends TestCase
         ];
 
         Carbon::withTestNow($deletedFilter, function () {
-            $announcements = Announcement::factory()->count($this->faker->randomDigitNotNull())->create();
-            $announcements->each(function (Announcement $announcement) {
-                $announcement->delete();
-            });
+            Announcement::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
         });
 
         Carbon::withTestNow($excludedDate, function () {
-            $announcements = Announcement::factory()->count($this->faker->randomDigitNotNull())->create();
-            $announcements->each(function (Announcement $announcement) {
-                $announcement->delete();
-            });
+            Announcement::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
         });
 
         $announcement = Announcement::withTrashed()->where(BaseModel::ATTRIBUTE_DELETED_AT, $deletedFilter)->get();

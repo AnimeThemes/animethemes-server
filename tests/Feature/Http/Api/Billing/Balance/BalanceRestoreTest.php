@@ -22,9 +22,7 @@ class BalanceRestoreTest extends TestCase
      */
     public function testProtected(): void
     {
-        $balance = Balance::factory()->createOne();
-
-        $balance->delete();
+        $balance = Balance::factory()->trashed()->createOne();
 
         $response = $this->patch(route('api.balance.restore', ['balance' => $balance]));
 
@@ -38,9 +36,7 @@ class BalanceRestoreTest extends TestCase
      */
     public function testForbidden(): void
     {
-        $balance = Balance::factory()->createOne();
-
-        $balance->delete();
+        $balance = Balance::factory()->trashed()->createOne();
 
         $user = User::factory()->createOne();
 
@@ -76,9 +72,7 @@ class BalanceRestoreTest extends TestCase
      */
     public function testRestored(): void
     {
-        $balance = Balance::factory()->createOne();
-
-        $balance->delete();
+        $balance = Balance::factory()->trashed()->createOne();
 
         $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE()->format(Balance::class))->createOne();
 

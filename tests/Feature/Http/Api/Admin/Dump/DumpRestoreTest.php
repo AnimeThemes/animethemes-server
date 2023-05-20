@@ -22,9 +22,7 @@ class DumpRestoreTest extends TestCase
      */
     public function testProtected(): void
     {
-        $dump = Dump::factory()->createOne();
-
-        $dump->delete();
+        $dump = Dump::factory()->trashed()->createOne();
 
         $response = $this->patch(route('api.dump.restore', ['dump' => $dump]));
 
@@ -38,9 +36,7 @@ class DumpRestoreTest extends TestCase
      */
     public function testForbidden(): void
     {
-        $dump = Dump::factory()->createOne();
-
-        $dump->delete();
+        $dump = Dump::factory()->trashed()->createOne();
 
         $user = User::factory()->createOne();
 
@@ -76,9 +72,7 @@ class DumpRestoreTest extends TestCase
      */
     public function testRestored(): void
     {
-        $dump = Dump::factory()->createOne();
-
-        $dump->delete();
+        $dump = Dump::factory()->trashed()->createOne();
 
         $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE()->format(Dump::class))->createOne();
 

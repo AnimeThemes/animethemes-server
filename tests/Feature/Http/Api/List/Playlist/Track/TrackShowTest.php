@@ -235,10 +235,9 @@ class TrackShowTest extends TestCase
             ]);
 
         $track = PlaylistTrack::factory()
+            ->trashed()
             ->for($playlist)
             ->createOne();
-
-        $track->delete();
 
         $response = $this->get(route('api.playlist.track.show', ['playlist' => $playlist, 'track' => $track]));
 

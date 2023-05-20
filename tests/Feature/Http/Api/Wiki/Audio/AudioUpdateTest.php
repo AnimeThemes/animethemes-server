@@ -58,9 +58,7 @@ class AudioUpdateTest extends TestCase
      */
     public function testTrashed(): void
     {
-        $audio = Audio::factory()->createOne();
-
-        $audio->delete();
+        $audio = Audio::factory()->trashed()->createOne();
 
         $parameters = Audio::factory()->raw();
 

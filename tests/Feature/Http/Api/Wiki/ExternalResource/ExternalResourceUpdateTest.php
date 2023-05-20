@@ -65,11 +65,11 @@ class ExternalResourceUpdateTest extends TestCase
      */
     public function testTrashed(): void
     {
-        $resource = ExternalResource::factory()->createOne([
-            ExternalResource::ATTRIBUTE_SITE => ResourceSite::OFFICIAL_SITE,
-        ]);
-
-        $resource->delete();
+        $resource = ExternalResource::factory()
+            ->trashed()
+            ->createOne([
+                ExternalResource::ATTRIBUTE_SITE => ResourceSite::OFFICIAL_SITE,
+            ]);
 
         $parameters = array_merge(
             ExternalResource::factory()->raw(),

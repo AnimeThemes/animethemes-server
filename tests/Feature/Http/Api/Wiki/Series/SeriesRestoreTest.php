@@ -22,9 +22,7 @@ class SeriesRestoreTest extends TestCase
      */
     public function testProtected(): void
     {
-        $series = Series::factory()->createOne();
-
-        $series->delete();
+        $series = Series::factory()->trashed()->createOne();
 
         $response = $this->patch(route('api.series.restore', ['series' => $series]));
 
@@ -38,9 +36,7 @@ class SeriesRestoreTest extends TestCase
      */
     public function testForbidden(): void
     {
-        $series = Series::factory()->createOne();
-
-        $series->delete();
+        $series = Series::factory()->trashed()->createOne();
 
         $user = User::factory()->createOne();
 
@@ -76,9 +72,7 @@ class SeriesRestoreTest extends TestCase
      */
     public function testRestored(): void
     {
-        $series = Series::factory()->createOne();
-
-        $series->delete();
+        $series = Series::factory()->trashed()->createOne();
 
         $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE()->format(Series::class))->createOne();
 

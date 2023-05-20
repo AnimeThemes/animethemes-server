@@ -306,10 +306,7 @@ class ExternalResourceIndexTest extends TestCase
 
         ExternalResource::factory()->count($this->faker->randomDigitNotNull())->create();
 
-        $deleteResource = ExternalResource::factory()->count($this->faker->randomDigitNotNull())->create();
-        $deleteResource->each(function (ExternalResource $resource) {
-            $resource->delete();
-        });
+        ExternalResource::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
 
         $resource = ExternalResource::withoutTrashed()->get();
 
@@ -345,10 +342,7 @@ class ExternalResourceIndexTest extends TestCase
 
         ExternalResource::factory()->count($this->faker->randomDigitNotNull())->create();
 
-        $deleteResource = ExternalResource::factory()->count($this->faker->randomDigitNotNull())->create();
-        $deleteResource->each(function (ExternalResource $resource) {
-            $resource->delete();
-        });
+        ExternalResource::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
 
         $resource = ExternalResource::withTrashed()->get();
 
@@ -384,10 +378,7 @@ class ExternalResourceIndexTest extends TestCase
 
         ExternalResource::factory()->count($this->faker->randomDigitNotNull())->create();
 
-        $deleteResource = ExternalResource::factory()->count($this->faker->randomDigitNotNull())->create();
-        $deleteResource->each(function (ExternalResource $resource) {
-            $resource->delete();
-        });
+        ExternalResource::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
 
         $resource = ExternalResource::onlyTrashed()->get();
 
@@ -426,17 +417,11 @@ class ExternalResourceIndexTest extends TestCase
         ];
 
         Carbon::withTestNow($deletedFilter, function () {
-            $resources = ExternalResource::factory()->count($this->faker->randomDigitNotNull())->create();
-            $resources->each(function (ExternalResource $resource) {
-                $resource->delete();
-            });
+            ExternalResource::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
         });
 
         Carbon::withTestNow($excludedDate, function () {
-            $resources = ExternalResource::factory()->count($this->faker->randomDigitNotNull())->create();
-            $resources->each(function (ExternalResource $resource) {
-                $resource->delete();
-            });
+            ExternalResource::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
         });
 
         $resource = ExternalResource::withTrashed()->where(BaseModel::ATTRIBUTE_DELETED_AT, $deletedFilter)->get();

@@ -50,9 +50,7 @@ class DumpShowTest extends TestCase
      */
     public function testSoftDelete(): void
     {
-        $dump = Dump::factory()->createOne();
-
-        $dump->delete();
+        $dump = Dump::factory()->trashed()->createOne();
 
         $dump->unsetRelations();
 

@@ -300,10 +300,7 @@ class SeriesIndexTest extends TestCase
 
         Series::factory()->count($this->faker->randomDigitNotNull())->create();
 
-        $deleteSeries = Series::factory()->count($this->faker->randomDigitNotNull())->create();
-        $deleteSeries->each(function (Series $series) {
-            $series->delete();
-        });
+        Series::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
 
         $series = Series::withoutTrashed()->get();
 
@@ -339,10 +336,7 @@ class SeriesIndexTest extends TestCase
 
         Series::factory()->count($this->faker->randomDigitNotNull())->create();
 
-        $deleteSeries = Series::factory()->count($this->faker->randomDigitNotNull())->create();
-        $deleteSeries->each(function (Series $series) {
-            $series->delete();
-        });
+        Series::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
 
         $series = Series::withTrashed()->get();
 
@@ -378,10 +372,7 @@ class SeriesIndexTest extends TestCase
 
         Series::factory()->count($this->faker->randomDigitNotNull())->create();
 
-        $deleteSeries = Series::factory()->count($this->faker->randomDigitNotNull())->create();
-        $deleteSeries->each(function (Series $series) {
-            $series->delete();
-        });
+        Series::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
 
         $series = Series::onlyTrashed()->get();
 
@@ -420,17 +411,11 @@ class SeriesIndexTest extends TestCase
         ];
 
         Carbon::withTestNow($deletedFilter, function () {
-            $series = Series::factory()->count($this->faker->randomDigitNotNull())->create();
-            $series->each(function (Series $item) {
-                $item->delete();
-            });
+            Series::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
         });
 
         Carbon::withTestNow($excludedDate, function () {
-            $series = Series::factory()->count($this->faker->randomDigitNotNull())->create();
-            $series->each(function (Series $item) {
-                $item->delete();
-            });
+            Series::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
         });
 
         $series = Series::withTrashed()->where(BaseModel::ATTRIBUTE_DELETED_AT, $deletedFilter)->get();

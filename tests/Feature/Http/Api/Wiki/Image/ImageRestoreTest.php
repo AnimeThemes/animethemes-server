@@ -22,9 +22,7 @@ class ImageRestoreTest extends TestCase
      */
     public function testProtected(): void
     {
-        $image = Image::factory()->createOne();
-
-        $image->delete();
+        $image = Image::factory()->trashed()->createOne();
 
         $response = $this->patch(route('api.image.restore', ['image' => $image]));
 
@@ -38,9 +36,7 @@ class ImageRestoreTest extends TestCase
      */
     public function testForbidden(): void
     {
-        $image = Image::factory()->createOne();
-
-        $image->delete();
+        $image = Image::factory()->trashed()->createOne();
 
         $user = User::factory()->createOne();
 
@@ -76,9 +72,7 @@ class ImageRestoreTest extends TestCase
      */
     public function testRestored(): void
     {
-        $image = Image::factory()->createOne();
-
-        $image->delete();
+        $image = Image::factory()->trashed()->createOne();
 
         $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE()->format(Image::class))->createOne();
 

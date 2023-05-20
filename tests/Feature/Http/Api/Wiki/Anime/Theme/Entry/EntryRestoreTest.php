@@ -25,10 +25,9 @@ class EntryRestoreTest extends TestCase
     public function testProtected(): void
     {
         $entry = AnimeThemeEntry::factory()
+            ->trashed()
             ->for(AnimeTheme::factory()->for(Anime::factory()))
             ->createOne();
-
-        $entry->delete();
 
         $response = $this->patch(route('api.animethemeentry.restore', ['animethemeentry' => $entry]));
 
@@ -43,10 +42,9 @@ class EntryRestoreTest extends TestCase
     public function testForbidden(): void
     {
         $entry = AnimeThemeEntry::factory()
+            ->trashed()
             ->for(AnimeTheme::factory()->for(Anime::factory()))
             ->createOne();
-
-        $entry->delete();
 
         $user = User::factory()->createOne();
 
@@ -85,10 +83,9 @@ class EntryRestoreTest extends TestCase
     public function testRestored(): void
     {
         $entry = AnimeThemeEntry::factory()
+            ->trashed()
             ->for(AnimeTheme::factory()->for(Anime::factory()))
             ->createOne();
-
-        $entry->delete();
 
         $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE()->format(AnimeThemeEntry::class))->createOne();
 

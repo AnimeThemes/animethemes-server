@@ -61,9 +61,7 @@ class SongShowTest extends TestCase
      */
     public function testSoftDelete(): void
     {
-        $song = Song::factory()->createOne();
-
-        $song->delete();
+        $song = Song::factory()->trashed()->createOne();
 
         $song->unsetRelations();
 

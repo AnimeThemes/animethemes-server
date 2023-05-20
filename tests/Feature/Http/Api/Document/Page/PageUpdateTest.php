@@ -58,9 +58,7 @@ class PageUpdateTest extends TestCase
      */
     public function testTrashed(): void
     {
-        $page = Page::factory()->createOne();
-
-        $page->delete();
+        $page = Page::factory()->trashed()->createOne();
 
         $parameters = Page::factory()->raw();
 

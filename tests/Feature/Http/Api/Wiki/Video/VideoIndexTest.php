@@ -322,10 +322,7 @@ class VideoIndexTest extends TestCase
 
         Video::factory()->count($this->faker->randomDigitNotNull())->create();
 
-        $deleteVideo = Video::factory()->count($this->faker->randomDigitNotNull())->create();
-        $deleteVideo->each(function (Video $video) {
-            $video->delete();
-        });
+        Video::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
 
         $video = Video::withoutTrashed()->get();
 
@@ -361,10 +358,7 @@ class VideoIndexTest extends TestCase
 
         Video::factory()->count($this->faker->randomDigitNotNull())->create();
 
-        $deleteVideo = Video::factory()->count($this->faker->randomDigitNotNull())->create();
-        $deleteVideo->each(function (Video $video) {
-            $video->delete();
-        });
+        Video::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
 
         $video = Video::withTrashed()->get();
 
@@ -400,10 +394,7 @@ class VideoIndexTest extends TestCase
 
         Video::factory()->count($this->faker->randomDigitNotNull())->create();
 
-        $deleteVideo = Video::factory()->count($this->faker->randomDigitNotNull())->create();
-        $deleteVideo->each(function (Video $video) {
-            $video->delete();
-        });
+        Video::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
 
         $video = Video::onlyTrashed()->get();
 
@@ -442,17 +433,11 @@ class VideoIndexTest extends TestCase
         ];
 
         Carbon::withTestNow($deletedFilter, function () {
-            $videos = Video::factory()->count($this->faker->randomDigitNotNull())->create();
-            $videos->each(function (Video $video) {
-                $video->delete();
-            });
+            Video::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
         });
 
         Carbon::withTestNow($excludedDate, function () {
-            $videos = Video::factory()->count($this->faker->randomDigitNotNull())->create();
-            $videos->each(function (Video $video) {
-                $video->delete();
-            });
+            Video::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
         });
 
         $video = Video::withTrashed()->where(BaseModel::ATTRIBUTE_DELETED_AT, $deletedFilter)->get();

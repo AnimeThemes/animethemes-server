@@ -22,9 +22,7 @@ class TransactionRestoreTest extends TestCase
      */
     public function testProtected(): void
     {
-        $transaction = Transaction::factory()->createOne();
-
-        $transaction->delete();
+        $transaction = Transaction::factory()->trashed()->createOne();
 
         $response = $this->patch(route('api.transaction.restore', ['transaction' => $transaction]));
 
@@ -38,9 +36,7 @@ class TransactionRestoreTest extends TestCase
      */
     public function testForbidden(): void
     {
-        $transaction = Transaction::factory()->createOne();
-
-        $transaction->delete();
+        $transaction = Transaction::factory()->trashed()->createOne();
 
         $user = User::factory()->createOne();
 
@@ -76,9 +72,7 @@ class TransactionRestoreTest extends TestCase
      */
     public function testRestored(): void
     {
-        $transaction = Transaction::factory()->createOne();
-
-        $transaction->delete();
+        $transaction = Transaction::factory()->trashed()->createOne();
 
         $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE()->format(Transaction::class))->createOne();
 

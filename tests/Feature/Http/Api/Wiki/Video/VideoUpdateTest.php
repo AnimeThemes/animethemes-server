@@ -72,9 +72,7 @@ class VideoUpdateTest extends TestCase
      */
     public function testTrashed(): void
     {
-        $video = Video::factory()->createOne();
-
-        $video->delete();
+        $video = Video::factory()->trashed()->createOne();
 
         $parameters = array_merge(
             Video::factory()->raw(),

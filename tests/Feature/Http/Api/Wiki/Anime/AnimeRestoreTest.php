@@ -22,9 +22,7 @@ class AnimeRestoreTest extends TestCase
      */
     public function testProtected(): void
     {
-        $anime = Anime::factory()->createOne();
-
-        $anime->delete();
+        $anime = Anime::factory()->trashed()->createOne();
 
         $response = $this->patch(route('api.anime.restore', ['anime' => $anime]));
 
@@ -38,9 +36,7 @@ class AnimeRestoreTest extends TestCase
      */
     public function testForbidden(): void
     {
-        $anime = Anime::factory()->createOne();
-
-        $anime->delete();
+        $anime = Anime::factory()->trashed()->createOne();
 
         $user = User::factory()->createOne();
 
@@ -76,9 +72,7 @@ class AnimeRestoreTest extends TestCase
      */
     public function testRestored(): void
     {
-        $anime = Anime::factory()->createOne();
-
-        $anime->delete();
+        $anime = Anime::factory()->trashed()->createOne();
 
         $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE()->format(Anime::class))->createOne();
 

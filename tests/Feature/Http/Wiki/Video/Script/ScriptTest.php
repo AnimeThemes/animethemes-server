@@ -77,9 +77,7 @@ class ScriptTest extends TestCase
     {
         Feature::activate(AllowScriptDownloading::class);
 
-        $script = VideoScript::factory()->createOne();
-
-        $script->delete();
+        $script = VideoScript::factory()->trashed()->createOne();
 
         $response = $this->get(route('videoscript.show', ['videoscript' => $script]));
 

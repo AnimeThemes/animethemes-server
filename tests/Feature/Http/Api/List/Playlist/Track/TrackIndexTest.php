@@ -503,14 +503,11 @@ class TrackIndexTest extends TestCase
                 Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
             ]);
 
-        $deleteTracks = PlaylistTrack::factory()
+        PlaylistTrack::factory()
+            ->trashed()
             ->for($playlist)
             ->count($this->faker->randomDigitNotNull())
             ->create();
-
-        $deleteTracks->each(function (PlaylistTrack $track) {
-            $track->delete();
-        });
 
         $tracks = PlaylistTrack::withoutTrashed()->get();
 
@@ -551,14 +548,11 @@ class TrackIndexTest extends TestCase
                 Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
             ]);
 
-        $deleteTracks = PlaylistTrack::factory()
+        PlaylistTrack::factory()
+            ->trashed()
             ->for($playlist)
             ->count($this->faker->randomDigitNotNull())
             ->create();
-
-        $deleteTracks->each(function (PlaylistTrack $track) {
-            $track->delete();
-        });
 
         $tracks = PlaylistTrack::withTrashed()->get();
 
@@ -599,14 +593,11 @@ class TrackIndexTest extends TestCase
                 Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
             ]);
 
-        $deleteTracks = PlaylistTrack::factory()
+        PlaylistTrack::factory()
+            ->trashed()
             ->for($playlist)
             ->count($this->faker->randomDigitNotNull())
             ->create();
-
-        $deleteTracks->each(function (PlaylistTrack $track) {
-            $track->delete();
-        });
 
         $tracks = PlaylistTrack::onlyTrashed()->get();
 
@@ -652,25 +643,19 @@ class TrackIndexTest extends TestCase
             ]);
 
         Carbon::withTestNow($deletedFilter, function () use ($playlist) {
-            $tracks = PlaylistTrack::factory()
+            PlaylistTrack::factory()
+                ->trashed()
                 ->for($playlist)
                 ->count($this->faker->randomDigitNotNull())
                 ->create();
-
-            $tracks->each(function (PlaylistTrack $track) {
-                $track->delete();
-            });
         });
 
         Carbon::withTestNow($excludedDate, function () use ($playlist) {
-            $tracks = PlaylistTrack::factory()
+            PlaylistTrack::factory()
+                ->trashed()
                 ->for($playlist)
                 ->count($this->faker->randomDigitNotNull())
                 ->create();
-
-            $tracks->each(function (PlaylistTrack $track) {
-                $track->delete();
-            });
         });
 
         $tracks = PlaylistTrack::withTrashed()->where(BaseModel::ATTRIBUTE_DELETED_AT, $deletedFilter)->get();

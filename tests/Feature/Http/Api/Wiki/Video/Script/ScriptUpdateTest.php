@@ -58,9 +58,7 @@ class ScriptUpdateTest extends TestCase
      */
     public function testTrashed(): void
     {
-        $script = VideoScript::factory()->createOne();
-
-        $script->delete();
+        $script = VideoScript::factory()->trashed()->createOne();
 
         $parameters = VideoScript::factory()->raw();
 

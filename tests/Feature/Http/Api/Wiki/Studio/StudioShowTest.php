@@ -61,9 +61,7 @@ class StudioShowTest extends TestCase
      */
     public function testSoftDelete(): void
     {
-        $studio = Studio::factory()->createOne();
-
-        $studio->delete();
+        $studio = Studio::factory()->trashed()->createOne();
 
         $studio->unsetRelations();
 

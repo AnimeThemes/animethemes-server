@@ -54,9 +54,7 @@ class SeriesDestroyTest extends TestCase
      */
     public function testTrashed(): void
     {
-        $series = Series::factory()->createOne();
-
-        $series->delete();
+        $series = Series::factory()->trashed()->createOne();
 
         $user = User::factory()->withPermissions(CrudPermission::DELETE()->format(Series::class))->createOne();
 

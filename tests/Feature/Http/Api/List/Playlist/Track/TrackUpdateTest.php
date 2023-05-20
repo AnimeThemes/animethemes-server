@@ -416,10 +416,9 @@ class TrackUpdateTest extends TestCase
             ->createOne();
 
         $track = PlaylistTrack::factory()
+            ->trashed()
             ->for($playlist)
             ->createOne();
-
-        $track->delete();
 
         $previous = PlaylistTrack::factory()
             ->for($playlist)

@@ -22,9 +22,7 @@ class SongRestoreTest extends TestCase
      */
     public function testProtected(): void
     {
-        $song = Song::factory()->createOne();
-
-        $song->delete();
+        $song = Song::factory()->trashed()->createOne();
 
         $response = $this->patch(route('api.song.restore', ['song' => $song]));
 
@@ -38,9 +36,7 @@ class SongRestoreTest extends TestCase
      */
     public function testForbidden(): void
     {
-        $song = Song::factory()->createOne();
-
-        $song->delete();
+        $song = Song::factory()->trashed()->createOne();
 
         $user = User::factory()->createOne();
 
@@ -76,9 +72,7 @@ class SongRestoreTest extends TestCase
      */
     public function testRestored(): void
     {
-        $song = Song::factory()->createOne();
-
-        $song->delete();
+        $song = Song::factory()->trashed()->createOne();
 
         $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE()->format(Song::class))->createOne();
 

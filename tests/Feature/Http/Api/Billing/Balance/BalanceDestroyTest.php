@@ -54,9 +54,7 @@ class BalanceDestroyTest extends TestCase
      */
     public function testTrashed(): void
     {
-        $balance = Balance::factory()->createOne();
-
-        $balance->delete();
+        $balance = Balance::factory()->trashed()->createOne();
 
         $user = User::factory()->withPermissions(CrudPermission::DELETE()->format(Balance::class))->createOne();
 

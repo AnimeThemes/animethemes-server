@@ -308,10 +308,7 @@ class ArtistIndexTest extends TestCase
 
         Artist::factory()->count($this->faker->randomDigitNotNull())->create();
 
-        $deleteArtist = Artist::factory()->count($this->faker->randomDigitNotNull())->create();
-        $deleteArtist->each(function (Artist $artist) {
-            $artist->delete();
-        });
+        Artist::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
 
         $artist = Artist::withoutTrashed()->get();
 
@@ -347,10 +344,7 @@ class ArtistIndexTest extends TestCase
 
         Artist::factory()->count($this->faker->randomDigitNotNull())->create();
 
-        $deleteArtist = Artist::factory()->count($this->faker->randomDigitNotNull())->create();
-        $deleteArtist->each(function (Artist $artist) {
-            $artist->delete();
-        });
+        Artist::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
 
         $artist = Artist::withTrashed()->get();
 
@@ -386,10 +380,7 @@ class ArtistIndexTest extends TestCase
 
         Artist::factory()->count($this->faker->randomDigitNotNull())->create();
 
-        $deleteArtist = Artist::factory()->count($this->faker->randomDigitNotNull())->create();
-        $deleteArtist->each(function (Artist $artist) {
-            $artist->delete();
-        });
+        Artist::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
 
         $artist = Artist::onlyTrashed()->get();
 
@@ -428,17 +419,11 @@ class ArtistIndexTest extends TestCase
         ];
 
         Carbon::withTestNow($deletedFilter, function () {
-            $artists = Artist::factory()->count($this->faker->randomDigitNotNull())->create();
-            $artists->each(function (Artist $artist) {
-                $artist->delete();
-            });
+            Artist::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
         });
 
         Carbon::withTestNow($excludedDate, function () {
-            $artists = Artist::factory()->count($this->faker->randomDigitNotNull())->create();
-            $artists->each(function (Artist $artist) {
-                $artist->delete();
-            });
+            Artist::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
         });
 
         $artist = Artist::withTrashed()->where(BaseModel::ATTRIBUTE_DELETED_AT, $deletedFilter)->get();
