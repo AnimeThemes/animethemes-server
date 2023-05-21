@@ -34,7 +34,7 @@ class AuthServiceProvider extends ServiceProvider
         );
 
         ResetPassword::createUrlUsing(function (mixed $user, string $token) {
-            return url(Config::get('wiki.reset_password'), ['token' => $token]);
+            return url(Config::get('wiki.reset_password'))."?token=$token";
         });
 
         Gate::guessPolicyNamesUsing(
