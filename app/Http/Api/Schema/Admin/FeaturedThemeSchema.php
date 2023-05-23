@@ -15,6 +15,7 @@ use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\Auth\UserSchema;
 use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Api\Schema\Wiki\Anime\Theme\EntrySchema;
+use App\Http\Api\Schema\Wiki\Anime\ThemeSchema;
 use App\Http\Api\Schema\Wiki\AnimeSchema;
 use App\Http\Api\Schema\Wiki\ArtistSchema;
 use App\Http\Api\Schema\Wiki\ImageSchema;
@@ -51,6 +52,7 @@ class FeaturedThemeSchema extends EloquentSchema
             new AllowedInclude(new EntrySchema(), FeaturedTheme::RELATION_ENTRY),
             new AllowedInclude(new ImageSchema(), FeaturedTheme::RELATION_IMAGES),
             new AllowedInclude(new SongSchema(), FeaturedTheme::RELATION_SONG),
+            new AllowedInclude(new ThemeSchema(), FeaturedTheme::RELATION_THEME),
             new AllowedInclude(new UserSchema(), FeaturedTheme::RELATION_USER),
             new AllowedInclude(new VideoSchema(), FeaturedTheme::RELATION_VIDEO),
         ];
