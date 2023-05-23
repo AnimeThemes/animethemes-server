@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace App\Nova\Resources\Admin;
 
+use App\Constants\FeatureConstants;
 use App\Models\Admin\Feature as FeatureModel;
 use App\Nova\Resources\BaseResource;
 use Exception;
+use Illuminate\Database\Eloquent\Builder;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -98,6 +100,20 @@ class Feature extends BaseResource
     public static function usesScout(): bool
     {
         return false;
+    }
+
+    /**
+     * Build an "index" query for the given resource.
+     *
+     * @param  NovaRequest  $request
+     * @param  Builder  $query
+     * @return Builder
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function indexQuery(NovaRequest $request, $query): Builder
+    {
+        return $query->where(FeatureModel::ATTRIBUTE_SCOPE, FeatureConstants::NULL_SCOPE);
     }
 
     /**
