@@ -6,18 +6,18 @@ namespace App\Nova\Resources\Admin;
 
 use App\Enums\Http\Api\Filter\AllowedDateFormat;
 use App\Models\Admin\FeaturedTheme as FeaturedThemeModel;
-use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video as VideoModel;
 use App\Nova\Resources\Auth\User;
 use App\Nova\Resources\BaseResource;
 use App\Nova\Resources\Wiki\Anime\Theme\Entry;
 use App\Nova\Resources\Wiki\Video;
+use App\Pivots\Wiki\AnimeThemeEntryVideo;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
-use Laravel\Nova\Fields\FormData;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
@@ -194,42 +194,33 @@ class FeaturedTheme extends BaseResource
                 ->filterable()
                 ->searchable()
                 ->nullable()
-                ->showOnPreview()
-                ->dependsOn(
-                    [FeaturedThemeModel::RELATION_ENTRY],
-                    function (BelongsTo $field, NovaRequest $novaRequest, FormData $formData) {
-                        if ($formData->offsetExists(FeaturedThemeModel::RELATION_ENTRY)) {
-                            $field->relatableQueryUsing(function (NovaRequest $relatableRequest, Builder $query) use ($formData) {
-                                return $query->whereHas(VideoModel::RELATION_ANIMETHEMEENTRIES, function (Builder $relationBuilder) use ($formData) {
-                                    $relationBuilder->where(AnimeThemeEntry::ATTRIBUTE_ID, $formData->offsetGet(FeaturedThemeModel::RELATION_ENTRY));
-                                });
-                            });
-                        } else {
-                            $field->relatableQueryUsing(null);
-                        }
-                    }
-                ),
+                ->rules(fn (NovaRequest $request) => [
+                    Rule::when(
+                        ! empty($request->get(FeaturedThemeModel::RELATION_ENTRY)) && ! empty($request->get(FeaturedThemeModel::RELATION_VIDEO)),
+                        [
+                            Rule::exists(AnimeThemeEntryVideo::class, AnimeThemeEntryVideo::ATTRIBUTE_VIDEO)
+                                ->where(AnimeThemeEntryVideo::ATTRIBUTE_ENTRY, $request->get(FeaturedThemeModel::RELATION_ENTRY)),
+                        ]
+                    ),
+                ])
+                ->showOnPreview(),
 
             BelongsTo::make(__('nova.resources.singularLabel.anime_theme_entry'), FeaturedThemeModel::RELATION_ENTRY, Entry::class)
                 ->sortable()
                 ->filterable()
                 ->searchable()
+                ->withSubtitles()
                 ->nullable()
-                ->showOnPreview()
-                ->dependsOn(
-                    [FeaturedThemeModel::RELATION_VIDEO],
-                    function (BelongsTo $field, NovaRequest $novaRequest, FormData $formData) {
-                        if ($formData->offsetExists(FeaturedThemeModel::RELATION_VIDEO)) {
-                            $field->relatableQueryUsing(function (NovaRequest $relatableRequest, Builder $query) use ($formData) {
-                                return $query->whereHas(AnimeThemeEntry::RELATION_VIDEOS, function (Builder $relationBuilder) use ($formData) {
-                                    $relationBuilder->where(VideoModel::ATTRIBUTE_ID, $formData->offsetGet(FeaturedThemeModel::RELATION_VIDEO));
-                                });
-                            });
-                        } else {
-                            $field->relatableQueryUsing(null);
-                        }
-                    }
-                ),
+                ->rules(fn (NovaRequest $request) => [
+                    Rule::when(
+                        ! empty($request->get(FeaturedThemeModel::RELATION_ENTRY)) && ! empty($request->get(FeaturedThemeModel::RELATION_VIDEO)),
+                        [
+                            Rule::exists(AnimeThemeEntryVideo::class, AnimeThemeEntryVideo::ATTRIBUTE_ENTRY)
+                                ->where(AnimeThemeEntryVideo::ATTRIBUTE_VIDEO, $request->get(FeaturedThemeModel::RELATION_VIDEO)),
+                        ]
+                    ),
+                ])
+                ->showOnPreview(),
 
             BelongsTo::make(__('nova.resources.singularLabel.user'), FeaturedThemeModel::RELATION_USER, User::class)
                 ->sortable()
