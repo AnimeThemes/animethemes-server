@@ -31,7 +31,7 @@ class FormatNameFormatRule extends SubmissionRule
      */
     public function passes($attribute, $value): bool
     {
-        $format = $this->format()->all();
+        $format = $this->format();
 
         $formatName = Arr::get($format, 'format_name');
 

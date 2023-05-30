@@ -32,7 +32,7 @@ class TotalStreamsFormatRule extends SubmissionRule
     {
         $streams = $this->streams();
 
-        return $streams->count() === $this->expected;
+        return count($streams) === $this->expected;
     }
 
     /**

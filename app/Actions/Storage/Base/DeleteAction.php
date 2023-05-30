@@ -4,15 +4,11 @@ declare(strict_types=1);
 
 namespace App\Actions\Storage\Base;
 
-use App\Concerns\Repositories\ReconcilesRepositories;
 use App\Contracts\Actions\Storage\StorageAction;
 use App\Contracts\Actions\Storage\StorageResults;
-use App\Contracts\Repositories\RepositoryInterface;
 use App\Contracts\Storage\InteractsWithDisks;
 use App\Models\BaseModel;
-use Exception;
 use Illuminate\Filesystem\FilesystemAdapter;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 
 /**
@@ -22,14 +18,12 @@ use Illuminate\Support\Facades\Storage;
  */
 abstract class DeleteAction implements InteractsWithDisks, StorageAction
 {
-    use ReconcilesRepositories;
-
     /**
      * Create a new action instance.
      *
      * @param  TModel  $model
      */
-    public function __construct(protected readonly BaseModel $model)
+    public function __construct(protected BaseModel $model)
     {
     }
 
@@ -55,35 +49,16 @@ abstract class DeleteAction implements InteractsWithDisks, StorageAction
     }
 
     /**
-     * Apply filters to repositories before reconciliation.
-     *
-     * @param  RepositoryInterface  $sourceRepository
-     * @param  RepositoryInterface  $destinationRepository
-     * @param  array  $data
-     * @return void
-     */
-    protected function handleFilters(
-        RepositoryInterface $sourceRepository,
-        RepositoryInterface $destinationRepository,
-        array $data = []
-    ): void {
-        $sourceRepository->handleFilter('path', File::dirname($this->path()));
-        $destinationRepository->handleFilter('path', File::dirname($this->path()));
-    }
-
-    /**
      * Processes to be completed after handling action.
      *
      * @param  StorageResults  $storageResults
-     * @return void
-     *
-     * @throws Exception
+     * @return TModel
      */
-    public function then(StorageResults $storageResults): void
+    public function then(StorageResults $storageResults): BaseModel
     {
-        $reconcileResults = $this->reconcileRepositories();
+        $this->model->delete();
 
-        $reconcileResults->toLog();
+        return $this->model;
     }
 
     /**

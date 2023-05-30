@@ -54,11 +54,11 @@ abstract class MoveAction implements InteractsWithDisks, StorageAction
      * Processes to be completed after handling action.
      *
      * @param  StorageResults  $storageResults
-     * @return void
+     * @return TModel
      */
-    public function then(StorageResults $storageResults): void
+    public function then(StorageResults $storageResults): BaseModel
     {
-        $this->update();
+        return $this->update();
     }
 
     /**
@@ -73,7 +73,7 @@ abstract class MoveAction implements InteractsWithDisks, StorageAction
      * We want to apply these updates through Eloquent to preserve relations when renaming.
      * Otherwise, reconciliation would destroy the old model and create a new model for the new name.
      *
-     * @return void
+     * @return TModel
      */
-    abstract protected function update(): void;
+    abstract protected function update(): BaseModel;
 }

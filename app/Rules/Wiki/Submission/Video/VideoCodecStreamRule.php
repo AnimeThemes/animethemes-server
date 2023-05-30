@@ -6,6 +6,7 @@ namespace App\Rules\Wiki\Submission\Video;
 
 use App\Rules\Wiki\Submission\SubmissionRule;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Arr;
 
 /**
  * Class VideoCodecStreamRule.
@@ -21,11 +22,12 @@ class VideoCodecStreamRule extends SubmissionRule
      */
     public function passes($attribute, $value): bool
     {
-        $video = $this->streams()
-            ->videos()
-            ->first();
+        $video = Arr::first(
+            $this->streams(),
+            fn (array $stream) => Arr::get($stream, 'codec_type') === 'video'
+        );
 
-        return $video !== null && $video->get('codec_name') === 'vp9';
+        return Arr::get($video, 'codec_name') === 'vp9';
     }
 
     /**

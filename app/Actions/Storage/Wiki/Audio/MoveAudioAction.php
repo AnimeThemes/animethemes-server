@@ -53,14 +53,16 @@ class MoveAudioAction extends MoveAction
      * We want to apply these updates through Eloquent to preserve relations when renaming.
      * Otherwise, reconciliation would destroy the old model and create a new model for the new name.
      *
-     * @return void
+     * @return Audio
      */
-    protected function update(): void
+    protected function update(): Audio
     {
         $this->model->update([
             Audio::ATTRIBUTE_BASENAME => File::basename($this->to),
             Audio::ATTRIBUTE_FILENAME => File::name($this->to),
             Audio::ATTRIBUTE_PATH => $this->to,
         ]);
+
+        return $this->model;
     }
 }

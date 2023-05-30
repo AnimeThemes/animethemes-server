@@ -22,7 +22,7 @@ class AudioBitrateRestrictionFormatRule extends SubmissionRule
      */
     public function passes($attribute, $value): bool
     {
-        $format = $this->format()->all();
+        $format = $this->format();
 
         $bitrate = intval(Arr::get($format, 'bit_rate'));
 

@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Rules\Wiki\Submission\Video;
 
 use App\Rules\Wiki\Submission\SubmissionRule;
-use FFMpeg\FFProbe\DataMapping\Stream;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Arr;
 
 /**
  * Class VideoIndexStreamRule.
@@ -22,9 +22,12 @@ class VideoIndexStreamRule extends SubmissionRule
      */
     public function passes($attribute, $value): bool
     {
-        $streams = $this->streams()->all();
+        $stream = Arr::first(
+            $this->streams(),
+            fn (array $stream) => Arr::get($stream, 'codec_type') === 'video' && Arr::get($stream, 'index') === 0
+        );
 
-        return collect($streams)->contains(fn (Stream $stream) => $stream->isVideo() && $stream->get('index') === 0);
+        return $stream !== null;
     }
 
     /**

@@ -28,7 +28,7 @@ class EncoderVersionFormatRule extends SubmissionRule
 
         $encoder = Arr::get($tags, 'encoder');
 
-        return version_compare($encoder, Feature::value(FeatureConstants::REQUIRED_ENCODER_VERSION), '>=');
+        return version_compare($encoder, Feature::for(null)->value(FeatureConstants::REQUIRED_ENCODER_VERSION), '>=');
     }
 
     /**

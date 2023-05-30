@@ -6,6 +6,7 @@ namespace App\Rules\Wiki\Submission\Audio;
 
 use App\Rules\Wiki\Submission\SubmissionRule;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Arr;
 
 /**
  * Class AudioCodecStreamRule.
@@ -21,11 +22,12 @@ class AudioCodecStreamRule extends SubmissionRule
      */
     public function passes($attribute, $value): bool
     {
-        $audio = $this->streams()
-            ->audios()
-            ->first();
+        $audio = Arr::first(
+            $this->streams(),
+            fn (array $stream) => Arr::get($stream, 'codec_type') === 'audio'
+        );
 
-        return $audio !== null && $audio->get('codec_name') === 'opus';
+        return Arr::get($audio, 'codec_name') === 'opus';
     }
 
     /**

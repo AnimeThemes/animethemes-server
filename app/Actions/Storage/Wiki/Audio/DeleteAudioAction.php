@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Actions\Storage\Wiki\Audio;
 
 use App\Actions\Storage\Base\DeleteAction;
-use App\Concerns\Repositories\Wiki\ReconcilesAudioRepositories;
 use App\Constants\Config\AudioConstants;
 use App\Models\Wiki\Audio;
 use Illuminate\Support\Facades\Config;
@@ -17,8 +16,6 @@ use Illuminate\Support\Facades\Config;
  */
 class DeleteAudioAction extends DeleteAction
 {
-    use ReconcilesAudioRepositories;
-
     /**
      * Create a new action instance.
      *

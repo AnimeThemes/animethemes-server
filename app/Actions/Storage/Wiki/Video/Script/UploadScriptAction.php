@@ -35,15 +35,15 @@ class UploadScriptAction extends UploadAction
      * Processes to be completed after handling action.
      *
      * @param  StorageResults  $storageResults
-     * @return void
+     * @return VideoScript|null
      */
-    public function then(StorageResults $storageResults): void
+    public function then(StorageResults $storageResults): ?VideoScript
     {
         if ($storageResults->toActionResult()->hasFailed()) {
-            return;
+            return null;
         }
 
-        $this->getOrCreateScript();
+        return $this->getOrCreateScript();
     }
 
     /**

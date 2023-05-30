@@ -53,12 +53,14 @@ class MoveScriptAction extends MoveAction
      * We want to apply these updates through Eloquent to preserve relations when renaming.
      * Otherwise, reconciliation would destroy the old model and create a new model for the new name.
      *
-     * @return void
+     * @return VideoScript
      */
-    protected function update(): void
+    protected function update(): VideoScript
     {
         $this->model->update([
             VideoScript::ATTRIBUTE_PATH => $this->to,
         ]);
+
+        return $this->model;
     }
 }

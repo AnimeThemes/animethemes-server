@@ -53,14 +53,16 @@ class MoveVideoAction extends MoveAction
      * We want to apply these updates through Eloquent to preserve relations when renaming.
      * Otherwise, reconciliation would destroy the old model and create a new model for the new name.
      *
-     * @return void
+     * @return Video
      */
-    protected function update(): void
+    protected function update(): Video
     {
         $this->model->update([
             Video::ATTRIBUTE_BASENAME => File::basename($this->to),
             Video::ATTRIBUTE_FILENAME => File::name($this->to),
             Video::ATTRIBUTE_PATH => $this->to,
         ]);
+
+        return $this->model;
     }
 }

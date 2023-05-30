@@ -21,15 +21,15 @@ class UploadAudioAction extends UploadAction
      * Processes to be completed after handling action.
      *
      * @param  StorageResults  $storageResults
-     * @return void
+     * @return Audio|null
      */
-    public function then(StorageResults $storageResults): void
+    public function then(StorageResults $storageResults): ?Audio
     {
         if ($storageResults->toActionResult()->hasFailed()) {
-            return;
+            return null;
         }
 
-        $this->getOrCreateAudio();
+        return $this->getOrCreateAudio();
     }
 
     /**
