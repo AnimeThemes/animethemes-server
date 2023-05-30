@@ -45,7 +45,7 @@ class ExtraneousChaptersFormatTest extends TestCase
                 'chapters' => [
                     $this->faker->word() => $this->faker->word(),
                 ],
-            ]))
+            ])),
         ]);
 
         $validator = Validator::make(
@@ -82,7 +82,7 @@ class ExtraneousChaptersFormatTest extends TestCase
             ])),
             SubmissionRule::formatFfprobeCommand($file) => Process::result(json_encode([
                 'chapters' => [],
-            ]))
+            ])),
         ]);
 
         $validator = Validator::make(

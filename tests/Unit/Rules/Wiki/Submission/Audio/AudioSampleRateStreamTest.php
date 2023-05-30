@@ -48,7 +48,7 @@ class AudioSampleRateStreamTest extends TestCase
                         'sample_rate' => $this->faker->randomDigitNotNull(),
                     ],
                 ],
-            ]))
+            ])),
         ]);
 
         $validator = Validator::make(
@@ -92,7 +92,7 @@ class AudioSampleRateStreamTest extends TestCase
                         'sample_rate' => '48000',
                     ],
                 ],
-            ]))
+            ])),
         ]);
 
         $validator = Validator::make(

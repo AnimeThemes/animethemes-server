@@ -51,7 +51,7 @@ class EncoderVersionFormatTest extends TestCase
                         'ENCODER' => 'Lavf58.76.100',
                     ],
                 ],
-            ]))
+            ])),
         ]);
 
         $validator = Validator::make(
@@ -94,7 +94,7 @@ class EncoderVersionFormatTest extends TestCase
                         'ENCODER' => 'Lavf59.27.100',
                     ],
                 ],
-            ]))
+            ])),
         ]);
 
         $validator = Validator::make(

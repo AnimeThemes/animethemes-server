@@ -47,7 +47,7 @@ class AudioLoudnessIntegratedTargetStreamTest extends TestCase
                         'codec_type' => 'audio',
                     ],
                 ],
-            ]))
+            ])),
         ]);
 
         $validator = Validator::make(
@@ -88,7 +88,7 @@ class AudioLoudnessIntegratedTargetStreamTest extends TestCase
                         'codec_type' => 'audio',
                     ],
                 ],
-            ]))
+            ])),
         ]);
 
         $validator = Validator::make(

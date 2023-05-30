@@ -47,7 +47,7 @@ class EncoderNameFormatTest extends TestCase
                         'ENCODER' => $this->faker->word(),
                     ],
                 ],
-            ]))
+            ])),
         ]);
 
         $validator = Validator::make(
@@ -88,7 +88,7 @@ class EncoderNameFormatTest extends TestCase
                         'ENCODER' => "Lavf{$this->faker->numberBetween()}",
                     ],
                 ],
-            ]))
+            ])),
         ]);
 
         $validator = Validator::make(

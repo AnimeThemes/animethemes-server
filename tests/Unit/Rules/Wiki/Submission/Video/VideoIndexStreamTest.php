@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Rules\Wiki\Submission\Video;
 
-use App\Rules\Wiki\Submission\Video\VideoIndexStreamRule;
 use App\Rules\Wiki\Submission\SubmissionRule;
+use App\Rules\Wiki\Submission\Video\VideoIndexStreamRule;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Process;
@@ -48,7 +48,7 @@ class VideoIndexStreamTest extends TestCase
                         'index' => $this->faker->randomDigitNotNull(),
                     ],
                 ],
-            ]))
+            ])),
         ]);
 
         $validator = Validator::make(
@@ -90,7 +90,7 @@ class VideoIndexStreamTest extends TestCase
                         'index' => 0,
                     ],
                 ],
-            ]))
+            ])),
         ]);
 
         $validator = Validator::make(

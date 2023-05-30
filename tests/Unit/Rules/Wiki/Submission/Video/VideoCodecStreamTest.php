@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Rules\Wiki\Submission\Video;
 
-use App\Rules\Wiki\Submission\Video\VideoCodecStreamRule;
 use App\Rules\Wiki\Submission\SubmissionRule;
+use App\Rules\Wiki\Submission\Video\VideoCodecStreamRule;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Process;
@@ -48,7 +48,7 @@ class VideoCodecStreamTest extends TestCase
                         'codec_name' => $this->faker->randomDigitNot(2),
                     ],
                 ],
-            ]))
+            ])),
         ]);
 
         $validator = Validator::make(
@@ -90,7 +90,7 @@ class VideoCodecStreamTest extends TestCase
                         'codec_name' => 'vp9',
                     ],
                 ],
-            ]))
+            ])),
         ]);
 
         $validator = Validator::make(

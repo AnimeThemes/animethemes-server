@@ -257,7 +257,7 @@ class BackfillAudioAction extends BackfillAction
                 '-f',
                 'ogg',
                 '-y',
-                $audioPath
+                $audioPath,
             ])
             ->throw();
 

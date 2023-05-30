@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Rules\Wiki\Submission\Video;
 
-use App\Rules\Wiki\Submission\Video\VideoColorSpaceStreamRule;
 use App\Rules\Wiki\Submission\SubmissionRule;
+use App\Rules\Wiki\Submission\Video\VideoColorSpaceStreamRule;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Arr;
@@ -49,7 +49,7 @@ class VideoColorSpaceStreamTest extends TestCase
                         'color_space' => $this->faker->word(),
                     ],
                 ],
-            ]))
+            ])),
         ]);
 
         $validator = Validator::make(
@@ -91,7 +91,7 @@ class VideoColorSpaceStreamTest extends TestCase
                         'color_space' => Arr::random(['bt709', 'smpte170m', 'bt470bg']),
                     ],
                 ],
-            ]))
+            ])),
         ]);
 
         $validator = Validator::make(

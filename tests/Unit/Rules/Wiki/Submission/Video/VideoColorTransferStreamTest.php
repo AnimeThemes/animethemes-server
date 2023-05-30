@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Rules\Wiki\Submission\Video;
 
-use App\Rules\Wiki\Submission\Video\VideoColorTransferStreamRule;
 use App\Rules\Wiki\Submission\SubmissionRule;
+use App\Rules\Wiki\Submission\Video\VideoColorTransferStreamRule;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Arr;
@@ -49,7 +49,7 @@ class VideoColorTransferStreamTest extends TestCase
                         'color_transfer' => $this->faker->word(),
                     ],
                 ],
-            ]))
+            ])),
         ]);
 
         $validator = Validator::make(
@@ -91,7 +91,7 @@ class VideoColorTransferStreamTest extends TestCase
                         'color_transfer' => Arr::random(['bt709', 'smpte170m', 'bt470bg']),
                     ],
                 ],
-            ]))
+            ])),
         ]);
 
         $validator = Validator::make(

@@ -47,7 +47,7 @@ class TotalStreamsFormatTest extends TestCase
                         'index' => 0,
                     ],
                 ],
-            ]))
+            ])),
         ]);
 
         $validator = Validator::make(
@@ -89,9 +89,9 @@ class TotalStreamsFormatTest extends TestCase
                     ],
                     1 => [
                         'index' => 1,
-                    ]
+                    ],
                 ],
-            ]))
+            ])),
         ]);
 
         $validator = Validator::make(

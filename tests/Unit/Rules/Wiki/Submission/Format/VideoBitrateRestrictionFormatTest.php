@@ -54,7 +54,7 @@ class VideoBitrateRestrictionFormatTest extends TestCase
                         'height' => $height,
                     ],
                 ],
-            ]))
+            ])),
         ]);
 
         $validator = Validator::make(
@@ -102,7 +102,7 @@ class VideoBitrateRestrictionFormatTest extends TestCase
                         'height' => $height,
                     ],
                 ],
-            ]))
+            ])),
         ]);
 
         $validator = Validator::make(

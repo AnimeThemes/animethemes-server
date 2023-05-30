@@ -45,7 +45,7 @@ class AudioBitrateRestrictionFormatTest extends TestCase
                 'format' => [
                     'bit_rate' => $this->faker->numberBetween(0, 127999),
                 ],
-            ]))
+            ])),
         ]);
 
         $validator = Validator::make(
@@ -84,7 +84,7 @@ class AudioBitrateRestrictionFormatTest extends TestCase
                 'format' => [
                     'bit_rate' => $this->faker->numberBetween(128001, 359999),
                 ],
-            ]))
+            ])),
         ]);
 
         $validator = Validator::make(

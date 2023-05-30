@@ -203,7 +203,7 @@ abstract class SubmissionRule implements DataAwareRule, Rule, ValidatorAwareRule
             'loudnorm=I=-16:LRA=20:TP=-1:dual_mono=true:linear=true:print_format=json',
             '-f',
             'null',
-            '/dev/null'
+            '/dev/null',
         ];
 
         return Arr::join($arguments, ' ');

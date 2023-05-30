@@ -48,7 +48,7 @@ class AudioCodecStreamTest extends TestCase
                         'codec_name' => $this->faker->randomDigitNot(2),
                     ],
                 ],
-            ]))
+            ])),
         ]);
 
         $validator = Validator::make(
@@ -90,7 +90,7 @@ class AudioCodecStreamTest extends TestCase
                         'codec_name' => 'opus',
                     ],
                 ],
-            ]))
+            ])),
         ]);
 
         $validator = Validator::make(

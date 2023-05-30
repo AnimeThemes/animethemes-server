@@ -48,7 +48,7 @@ class AudioChannelsStreamTest extends TestCase
                         'channels' => $this->faker->randomDigitNot(2),
                     ],
                 ],
-            ]))
+            ])),
         ]);
 
         $validator = Validator::make(
@@ -90,7 +90,7 @@ class AudioChannelsStreamTest extends TestCase
                         'channels' => 2,
                     ],
                 ],
-            ]))
+            ])),
         ]);
 
         $validator = Validator::make(

@@ -49,7 +49,7 @@ class ExtraneousMetadataFormatTest extends TestCase
                         $this->faker->word() => $this->faker->word(),
                     ],
                 ],
-            ]))
+            ])),
         ]);
 
         $validator = Validator::make(
@@ -91,7 +91,7 @@ class ExtraneousMetadataFormatTest extends TestCase
                         'DURATION' => '00:01:30.098000000',
                     ],
                 ],
-            ]))
+            ])),
         ]);
 
         $validator = Validator::make(

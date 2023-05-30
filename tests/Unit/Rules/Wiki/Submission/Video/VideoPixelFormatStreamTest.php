@@ -48,7 +48,7 @@ class VideoPixelFormatStreamTest extends TestCase
                         'pix_fmt' => $this->faker->randomDigitNot(2),
                     ],
                 ],
-            ]))
+            ])),
         ]);
 
         $validator = Validator::make(
@@ -90,7 +90,7 @@ class VideoPixelFormatStreamTest extends TestCase
                         'pix_fmt' => 'yuv420p',
                     ],
                 ],
-            ]))
+            ])),
         ]);
 
         $validator = Validator::make(

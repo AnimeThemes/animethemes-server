@@ -45,10 +45,10 @@ class AudioIndexStreamTest extends TestCase
                 'streams' => [
                     0 => [
                         'codec_type' => 'audio',
-                        'index' => $this->faker->unique()->randomDigitNotNull()
+                        'index' => $this->faker->unique()->randomDigitNotNull(),
                     ],
                 ],
-            ]))
+            ])),
         ]);
 
         $validator = Validator::make(
@@ -89,10 +89,10 @@ class AudioIndexStreamTest extends TestCase
                 'streams' => [
                     0 => [
                         'codec_type' => 'audio',
-                        'index' => $index
+                        'index' => $index,
                     ],
                 ],
-            ]))
+            ])),
         ]);
 
         $validator = Validator::make(

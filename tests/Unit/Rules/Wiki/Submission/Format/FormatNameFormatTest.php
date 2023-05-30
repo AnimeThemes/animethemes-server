@@ -45,7 +45,7 @@ class FormatNameFormatTest extends TestCase
                 'format' => [
                     'format_name' => $this->faker->unique()->word(),
                 ],
-            ]))
+            ])),
         ]);
 
         $validator = Validator::make(
@@ -86,7 +86,7 @@ class FormatNameFormatTest extends TestCase
                 'format' => [
                     'format_name' => $formatName,
                 ],
-            ]))
+            ])),
         ]);
 
         $validator = Validator::make(

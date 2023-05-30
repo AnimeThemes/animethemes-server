@@ -48,7 +48,7 @@ class AudioChannelLayoutStreamTest extends TestCase
                         'channel_layout' => $this->faker->word(),
                     ],
                 ],
-            ]))
+            ])),
         ]);
 
         $validator = Validator::make(
@@ -90,7 +90,7 @@ class AudioChannelLayoutStreamTest extends TestCase
                         'channel_layout' => 'stereo',
                     ],
                 ],
-            ]))
+            ])),
         ]);
 
         $validator = Validator::make(

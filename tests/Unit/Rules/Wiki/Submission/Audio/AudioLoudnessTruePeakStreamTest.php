@@ -47,7 +47,7 @@ class AudioLoudnessTruePeakStreamTest extends TestCase
                         'codec_type' => 'audio',
                     ],
                 ],
-            ]))
+            ])),
         ]);
 
         $validator = Validator::make(
@@ -88,7 +88,7 @@ class AudioLoudnessTruePeakStreamTest extends TestCase
                         'codec_type' => 'audio',
                     ],
                 ],
-            ]))
+            ])),
         ]);
 
         $validator = Validator::make(
