@@ -20,7 +20,7 @@ interface StorageAction
      * Processes to be completed after handling action.
      *
      * @param  StorageResults  $storageResults
-     * @return void
+     * @return mixed
      */
-    public function then(StorageResults $storageResults): void;
+    public function then(StorageResults $storageResults): mixed;
 }

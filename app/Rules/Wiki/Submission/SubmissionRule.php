@@ -4,18 +4,14 @@ declare(strict_types=1);
 
 namespace App\Rules\Wiki\Submission;
 
-use FFMpeg\FFProbe\DataMapping\Format;
-use FFMpeg\FFProbe\DataMapping\StreamCollection;
-use FFMpeg\FFProbe\Mapper;
 use Illuminate\Contracts\Validation\DataAwareRule;
 use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Contracts\Validation\ValidatorAwareRule;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Process;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Validator;
-use ProtoneMedia\LaravelFFMpeg\FFMpeg\FFProbe;
-use ProtoneMedia\LaravelFFMpeg\Support\FFMpeg;
 
 /**
  * Class SubmissionRule.
@@ -35,7 +31,7 @@ abstract class SubmissionRule implements DataAwareRule, Rule, ValidatorAwareRule
      * @param  array  $data
      * @return $this
      */
-    public function setData($data): self
+    public function setData(array $data): self
     {
         $this->data = $data;
 
@@ -48,7 +44,7 @@ abstract class SubmissionRule implements DataAwareRule, Rule, ValidatorAwareRule
      * @param  Validator  $validator
      * @return $this
      */
-    public function setValidator($validator): self
+    public function setValidator(Validator $validator): self
     {
         /** @var UploadedFile|null $file */
         $file = Arr::get($validator->getData(), 'file');
@@ -74,22 +70,11 @@ abstract class SubmissionRule implements DataAwareRule, Rule, ValidatorAwareRule
      */
     private function getFFprobeData(UploadedFile $file): array
     {
-        $commands = [
-            $file->path(),
-            '-v',
-            'quiet',
-            '-print_format',
-            'json',
-            '-show_streams',
-            '-show_format',
-            '-show_chapters',
-        ];
+        $command = static::formatFfprobeCommand($file);
 
-        $output = FFProbe::create(app('laravel-ffmpeg-configuration'))
-            ->getFFProbeDriver()
-            ->command($commands);
+        $result = Process::run($command)->throw();
 
-        return json_decode($output, true);
+        return json_decode($result->output(), true);
     }
 
     /**
@@ -100,25 +85,11 @@ abstract class SubmissionRule implements DataAwareRule, Rule, ValidatorAwareRule
      */
     private function getLoudnessStats(UploadedFile $file): array
     {
-        $filter = [
-            '-hide_banner',
-            '-nostats',
-            '-vn',
-            '-sn',
-            '-dn',
-            '-filter:a',
-            'loudnorm=I=-16:LRA=20:TP=-1:dual_mono=true:linear=true:print_format=json',
-            '-f',
-            'null',
-        ];
+        $command = static::formatLoudnessCommand($file);
 
-        $output = FFMpeg::open($file)
-            ->export()
-            ->addFilter($filter)
-            ->getProcessOutput();
+        $result = Process::run($command)->throw();
 
-        $output = Arr::join($output->all(), '');
-        $loudness = Str::match('/{[^}]*}/m', $output);
+        $loudness = Str::match('/{[^}]*}/m', $result->errorOutput());
 
         return json_decode($loudness, true);
     }
@@ -126,29 +97,21 @@ abstract class SubmissionRule implements DataAwareRule, Rule, ValidatorAwareRule
     /**
      * Get submission streams.
      *
-     * @return StreamCollection
+     * @return array
      */
-    protected function streams(): StreamCollection
+    protected function streams(): array
     {
-        $ffprobeData = Arr::get($this->data, 'ffprobeData');
-
-        $mapper = new Mapper();
-
-        return $mapper->map('streams', $ffprobeData);
+        return Arr::get($this->data, 'ffprobeData.streams', []);
     }
 
     /**
      * Get submission format.
      *
-     * @return Format
+     * @return array
      */
-    protected function format(): Format
+    protected function format(): array
     {
-        $ffprobeData = Arr::get($this->data, 'ffprobeData');
-
-        $mapper = new Mapper();
-
-        return $mapper->map('format', $ffprobeData);
+        return Arr::get($this->data, 'ffprobeData.format', []);
     }
 
     /**
@@ -158,7 +121,7 @@ abstract class SubmissionRule implements DataAwareRule, Rule, ValidatorAwareRule
      */
     protected function chapters(): array
     {
-        return Arr::get($this->data, 'ffprobeData.chapters');
+        return Arr::get($this->data, 'ffprobeData.chapters', []);
     }
 
     /**
@@ -168,7 +131,7 @@ abstract class SubmissionRule implements DataAwareRule, Rule, ValidatorAwareRule
      */
     protected function loudness(): array
     {
-        return Arr::get($this->data, 'loudnessStats');
+        return Arr::get($this->data, 'loudnessStats', []);
     }
 
     /**
@@ -179,20 +142,70 @@ abstract class SubmissionRule implements DataAwareRule, Rule, ValidatorAwareRule
      */
     protected function tags(): array
     {
-        $format = $this->format()->all();
+        $format = $this->format();
         if (Arr::has($format, 'tags')) {
             $tags = Arr::get($format, 'tags');
 
             return array_change_key_case($tags);
         }
 
-        $audio = $this->streams()
-            ->audios()
-            ->first()
-            ->all();
+        $audio = Arr::first(
+            $this->streams(),
+            fn (array $stream) => Arr::get($stream, 'codec_type') === 'audio'
+        );
 
         $tags = Arr::get($audio, 'tags', []);
 
         return array_change_key_case($tags);
+    }
+
+    /**
+     * Format FFprobe command.
+     *
+     * @param  UploadedFile  $file
+     * @return string
+     */
+    public static function formatFfprobeCommand(UploadedFile $file): string
+    {
+        $arguments = [
+            'ffprobe',
+            '-v',
+            'quiet',
+            '-print_format',
+            'json',
+            '-show_streams',
+            '-show_format',
+            '-show_chapters',
+            $file->path(),
+        ];
+
+        return Arr::join($arguments, ' ');
+    }
+
+    /**
+     * Format loudness command.
+     *
+     * @param  UploadedFile  $file
+     * @return string
+     */
+    public static function formatLoudnessCommand(UploadedFile $file): string
+    {
+        $arguments = [
+            'ffmpeg',
+            '-i',
+            $file->path(),
+            '-hide_banner',
+            '-nostats',
+            '-vn',
+            '-sn',
+            '-dn',
+            '-filter:a',
+            'loudnorm=I=-16:LRA=20:TP=-1:dual_mono=true:linear=true:print_format=json',
+            '-f',
+            'null',
+            '/dev/null',
+        ];
+
+        return Arr::join($arguments, ' ');
     }
 }

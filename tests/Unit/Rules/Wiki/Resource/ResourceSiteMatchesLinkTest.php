@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Rules\Wiki;
+namespace Tests\Unit\Rules\Wiki\Resource;
 
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Rules\Wiki\Resource\ResourceSiteMatchesLinkRule;

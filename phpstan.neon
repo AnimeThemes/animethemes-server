@@ -20,9 +20,4 @@ parameters:
     ignoreErrors:
         - '#Call to an undefined method Mockery\\ExpectationInterface|Mockery\\HigherOrderMessage::once\(\).#'
         - '#Strict comparison using === between class-string<Laravel\\Nova\\Resource> and null will always evaluate to false.#'
-        - '#Call to an undefined method ProtoneMedia\\LaravelFFMpeg\\Drivers\\PHPFFMpeg::export\(\).#'
-        - '#Call to an undefined method ProtoneMedia\\LaravelFFMpeg\\Drivers\\PHPFFMpeg::getProcessOutput\(\).#'
         - '#Call to an undefined method Database\\Factories.*::trashed\(\).#'
-        -
-            message: '#Method App\\Rules\\Wiki\\Submission\\SubmissionRule::#'
-            path: app/Rules/Wiki/Submission/SubmissionRule.php

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Actions\Storage\Wiki\Video;
 
 use App\Actions\Storage\Base\DeleteAction;
-use App\Concerns\Repositories\Wiki\ReconcilesVideoRepositories;
 use App\Constants\Config\VideoConstants;
 use App\Models\Wiki\Video;
 use Illuminate\Support\Facades\Config;
@@ -17,8 +16,6 @@ use Illuminate\Support\Facades\Config;
  */
 class DeleteVideoAction extends DeleteAction
 {
-    use ReconcilesVideoRepositories;
-
     /**
      * Create a new action instance.
      *

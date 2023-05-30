@@ -6,11 +6,8 @@ namespace App\Actions\Models\Wiki\Video\Audio;
 
 use App\Actions\ActionResult;
 use App\Actions\Models\BackfillAction;
-use App\Actions\Repositories\ReconcileResults;
-use App\Actions\Repositories\Wiki\Audio\ReconcileAudioRepositoriesAction;
-use App\Constants\Config\AudioConstants;
+use App\Actions\Storage\Wiki\Audio\UploadAudioAction;
 use App\Constants\Config\VideoConstants;
-use App\Contracts\Repositories\RepositoryInterface;
 use App\Enums\Actions\ActionStatus;
 use App\Enums\Actions\Models\Wiki\Video\DeriveSourceVideo;
 use App\Enums\Actions\Models\Wiki\Video\OverwriteAudio;
@@ -19,23 +16,19 @@ use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Audio;
 use App\Models\Wiki\Video;
-use App\Repositories\Eloquent\Wiki\AudioRepository as AudioDestinationRepository;
-use App\Repositories\Storage\Wiki\AudioRepository as AudioSourceRepository;
 use Exception;
-use FFMpeg\Coordinate\TimeCode;
-use FFMpeg\Filters\Audio\AddMetadataFilter;
-use FFMpeg\Filters\Audio\AudioClipFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Process;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use ProtoneMedia\LaravelFFMpeg\Support\FFMpeg;
 
 /**
  * Class BackfillVideoAudioAction.
@@ -158,6 +151,8 @@ class BackfillAudioAction extends BackfillAction
 
         // It's possible that the video is not attached to any themes, exit early.
         if ($sourceVideo === null) {
+            Log::error('Could not derive source video');
+
             return null;
         }
 
@@ -178,13 +173,7 @@ class BackfillAudioAction extends BackfillAction
         if ($audio === null || $this->overwriteAudio()) {
             Log::info("Extracting Audio from Video '{$sourceVideo->getName()}'");
 
-            $this->extractAudio($sourceVideo, $audioPath);
-            $results = $this->reconcileAudio($audioPath);
-            $results->toLog();
-
-            if ($audio === null) {
-                $audio = $results->getCreated()->firstWhere(fn (Audio $audio) => $audio->path === $audioPath);
-            }
+            return $this->extractAudio($sourceVideo);
         }
 
         return $audio;
@@ -243,49 +232,50 @@ class BackfillAudioAction extends BackfillAction
      * Extract audio stream from video and store in filesystem.
      *
      * @param  Video  $video
-     * @param  string  $audioPath
-     * @return void
+     * @return Audio|null
      */
-    protected function extractAudio(Video $video, string $audioPath): void
+    protected function extractAudio(Video $video): ?Audio
     {
+        $audioBasename = Str::replace('webm', 'ogg', $video->basename);
+        $audioPath = Storage::disk('local')->path($audioBasename);
+
         try {
-            foreach (Config::get(AudioConstants::DISKS_QUALIFIED, []) as $audioDisk) {
-                FFMpeg::fromDisk(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED))
-                    ->open($video->path)
-                    ->addFilter(new AudioClipFilter(new TimeCode(0, 0, 0, 0)))
-                    ->addFilter(new AddMetadataFilter())
-                    ->export()
-                    ->toDisk($audioDisk)
-                    ->save($audioPath);
-            }
+            Storage::disk('local')->put(
+                $video->basename,
+                Storage::disk(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED))->get($video->path)
+            );
+
+            Process::run([
+                'ffmpeg',
+                '-v',
+                'quiet',
+                '-i',
+                Storage::disk('local')->path($video->basename),
+                '-vn',
+                '-acodec',
+                'copy',
+                '-f',
+                'ogg',
+                '-y',
+                $audioPath,
+            ])
+            ->throw();
+
+            $uploadAudio = new UploadAudioAction(
+                new UploadedFile($audioPath, $audioBasename),
+                File::dirname($video->path)
+            );
+
+            $storageResults = $uploadAudio->handle();
+
+            return $uploadAudio->then($storageResults);
         } catch (Exception $e) {
             Log::error($e->getMessage());
         } finally {
-            FFMpeg::cleanupTemporaryFiles();
+            Storage::disk('local')->delete([$video->basename, $audioBasename]);
         }
-    }
 
-    /**
-     * Reconcile audio repositories.
-     *
-     * @param  string  $audioPath
-     * @return ReconcileResults
-     *
-     * @throws Exception
-     */
-    protected function reconcileAudio(string $audioPath): ReconcileResults
-    {
-        $action = new ReconcileAudioRepositoriesAction();
-
-        /** @var RepositoryInterface $sourceRepository */
-        $sourceRepository = App::make(AudioSourceRepository::class);
-        $sourceRepository->handleFilter('path', File::dirname($audioPath));
-
-        /** @var RepositoryInterface $destinationRepository */
-        $destinationRepository = App::make(AudioDestinationRepository::class);
-        $destinationRepository->handleFilter('path', File::dirname($audioPath));
-
-        return $action->reconcileRepositories($sourceRepository, $destinationRepository);
+        return null;
     }
 
     /**

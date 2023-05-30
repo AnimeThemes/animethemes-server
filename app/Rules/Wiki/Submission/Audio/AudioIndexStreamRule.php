@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Rules\Wiki\Submission\Audio;
 
 use App\Rules\Wiki\Submission\SubmissionRule;
-use FFMpeg\FFProbe\DataMapping\Stream;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Arr;
 
 /**
  * Class AudioIndexStreamRule.
@@ -31,9 +31,12 @@ class AudioIndexStreamRule extends SubmissionRule
      */
     public function passes($attribute, $value): bool
     {
-        $streams = $this->streams()->all();
+        $stream = Arr::first(
+            $this->streams(),
+            fn (array $stream) => Arr::get($stream, 'codec_type') === 'audio' && Arr::get($stream, 'index') === $this->expected
+        );
 
-        return collect($streams)->contains(fn (Stream $stream) => $stream->isAudio() && $stream->get('index') === $this->expected);
+        return $stream !== null;
     }
 
     /**

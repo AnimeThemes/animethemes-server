@@ -6,6 +6,7 @@ namespace App\Rules\Wiki\Submission\Video;
 
 use App\Rules\Wiki\Submission\SubmissionRule;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Arr;
 
 /**
  * Class VideoColorSpaceStreamRule.
@@ -21,13 +22,15 @@ class VideoColorSpaceStreamRule extends SubmissionRule
      */
     public function passes($attribute, $value): bool
     {
-        $video = $this->streams()
-            ->videos()
-            ->first();
+        $video = Arr::first(
+            $this->streams(),
+            fn (array $stream) => Arr::get($stream, 'codec_type') === 'video'
+        );
 
-        $colorSpaces = ['bt709', 'smpte170m', 'bt470bg'];
-
-        return $video !== null && in_array($video->get('color_space'), $colorSpaces);
+        return in_array(
+            Arr::get($video, 'color_space'),
+            ['bt709', 'smpte170m', 'bt470bg']
+        );
     }
 
     /**

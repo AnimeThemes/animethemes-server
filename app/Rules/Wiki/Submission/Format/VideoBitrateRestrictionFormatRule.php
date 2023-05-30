@@ -22,14 +22,15 @@ class VideoBitrateRestrictionFormatRule extends SubmissionRule
      */
     public function passes($attribute, $value): bool
     {
-        $format = $this->format()->all();
+        $format = $this->format();
 
-        $video = $this->streams()
-            ->videos()
-            ->first();
+        $video = Arr::first(
+            $this->streams(),
+            fn (array $stream) => Arr::get($stream, 'codec_type') === 'video'
+        );
 
         $bitrate = intval(Arr::get($format, 'bit_rate'));
-        $height = $video->getDimensions()->getHeight();
+        $height = intval(Arr::get($video, 'height'));
 
         // Linear approximation of egregious bitrate by resolution
         return $bitrate < $height * 7100 + 475000;

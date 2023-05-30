@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Actions\Storage\Wiki\Video\Script;
 
 use App\Actions\Storage\Base\DeleteAction;
-use App\Concerns\Repositories\Wiki\Video\ReconcilesScriptRepositories;
 use App\Constants\Config\VideoConstants;
 use App\Models\Wiki\Video\VideoScript;
 use Illuminate\Support\Arr;
@@ -18,8 +17,6 @@ use Illuminate\Support\Facades\Config;
  */
 class DeleteScriptAction extends DeleteAction
 {
-    use ReconcilesScriptRepositories;
-
     /**
      * Create a new action instance.
      *

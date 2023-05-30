@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Rules\Wiki\Submission\Format;
 
-use Alchemy\BinaryDriver\Exception\ExecutionFailureException;
 use App\Rules\Wiki\Submission\SubmissionRule;
 use Illuminate\Http\UploadedFile;
 
@@ -19,8 +18,6 @@ class ExtraneousChaptersFormatRule extends SubmissionRule
      * @param  string  $attribute
      * @param  UploadedFile  $value
      * @return bool
-     *
-     * @throws ExecutionFailureException
      */
     public function passes($attribute, $value): bool
     {
