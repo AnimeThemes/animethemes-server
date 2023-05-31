@@ -39,6 +39,7 @@ class MoveVideoAction extends MoveAction
      */
     protected function action(ActionFields $fields, Collection $models): MoveVideo
     {
+        /** @var string $path */
         $path = $fields->get('path');
 
         $video = $models->first();

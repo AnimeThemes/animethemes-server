@@ -157,7 +157,7 @@ class BackfillAnnResourceTest extends TestCase
         ExternalResource::factory()->createOne([
             ExternalResource::ATTRIBUTE_SITE => ResourceSite::ANN,
             ExternalResource::ATTRIBUTE_EXTERNAL_ID => $annId,
-            ExternalResource::ATTRIBUTE_LINK => ResourceSite::formatAnimeResourceLink(ResourceSite::ANN(), $annId),
+            ExternalResource::ATTRIBUTE_LINK => ResourceSite::ANN()->formatAnimeResourceLink($annId),
         ]);
 
         Http::fake([

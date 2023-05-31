@@ -9,6 +9,7 @@ use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\List\PlaylistSchema;
 use App\Http\Api\Schema\Schema;
 use App\Http\Controllers\Api\BaseController;
+use App\Http\Middleware\Auth\Authenticate;
 use App\Http\Requests\Api\IndexRequest;
 use App\Http\Resources\List\Collection\PlaylistCollection;
 use App\Models\Auth\User;
@@ -25,7 +26,7 @@ class MyPlaylistController extends BaseController
      */
     public function __construct()
     {
-        $this->middleware('auth:sanctum');
+        $this->middleware(Authenticate::using('sanctum'));
         parent::__construct(Playlist::class, 'playlist');
     }
 
@@ -54,6 +55,8 @@ class MyPlaylistController extends BaseController
      * Get the underlying schema.
      *
      * @return Schema
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
     public function schema(): Schema
     {

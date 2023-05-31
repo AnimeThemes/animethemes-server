@@ -34,6 +34,8 @@ class PatronRoleSeeder extends RoleSeeder
      * Run the database seeds.
      *
      * @return void
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
     public function run(): void
     {

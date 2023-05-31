@@ -29,7 +29,7 @@ class SeriesCollection extends BaseCollection
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public function toArray($request): array
+    public function toArray(Request $request): array
     {
         return $this->collection->map(fn (Series $series) => new SeriesResource($series, $this->query))->all();
     }

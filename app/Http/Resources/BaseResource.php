@@ -41,7 +41,7 @@ abstract class BaseResource extends JsonResource
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public function toArray($request): array
+    public function toArray(Request $request): array
     {
         return array_merge(
             $this->getRenderableFields(),

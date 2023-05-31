@@ -54,6 +54,8 @@ class TrackBackwardController extends BaseController
      * Get the underlying schema.
      *
      * @return Schema
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
     public function schema(): Schema
     {

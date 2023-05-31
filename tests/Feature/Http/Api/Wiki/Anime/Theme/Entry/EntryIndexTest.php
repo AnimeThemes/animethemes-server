@@ -417,7 +417,7 @@ class EntryIndexTest extends TestCase
             ->count($this->faker->randomDigitNotNull())
             ->create();
 
-        $deleteEntry = AnimeThemeEntry::factory()
+        AnimeThemeEntry::factory()
             ->trashed()
             ->for(AnimeTheme::factory()->for(Anime::factory()))
             ->count($this->faker->randomDigitNotNull())

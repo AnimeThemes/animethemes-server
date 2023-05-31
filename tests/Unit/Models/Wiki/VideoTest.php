@@ -22,6 +22,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Foundation\Testing\WithFaker;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
 
 /**
@@ -268,9 +269,8 @@ class VideoTest extends TestCase
      * @param  array  $a
      * @param  array  $b
      * @return void
-     *
-     * @dataProvider priorityProvider
      */
+    #[DataProvider('priorityProvider')]
     public function testSourcePriority(array $a, array $b): void
     {
         $first = Video::factory()->createOne($a);
@@ -352,7 +352,7 @@ class VideoTest extends TestCase
      *
      * @return array
      */
-    public function priorityProvider(): array
+    public static function priorityProvider(): array
     {
         return [
             [

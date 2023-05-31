@@ -29,7 +29,7 @@ class AudioCollection extends BaseCollection
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public function toArray($request): array
+    public function toArray(Request $request): array
     {
         return $this->collection->map(fn (Audio $audio) => new AudioResource($audio, $this->query))->all();
     }

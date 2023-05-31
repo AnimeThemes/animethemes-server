@@ -16,10 +16,6 @@
         {
             "type": "patreon",
             "url": "https://www.patreon.com/AnimeThemes"
-        },
-        {
-            "type": "ko-fi",
-            "url": "https://ko-fi.com/animethemes"
         }
     ],
     "require": {
@@ -38,7 +34,7 @@
         "guzzlehttp/guzzle": "^7.5",
         "laravel-notification-channels/discord": "^1.4",
         "laravel/fortify": "^1.16",
-        "laravel/framework": "^10.7",
+        "laravel/framework": "^10.10",
         "laravel/horizon": "^5.12",
         "laravel/nova": "^4.22.2",
         "laravel/pennant": "^1.2",

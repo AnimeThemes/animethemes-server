@@ -167,14 +167,13 @@ final class ResourceSite extends BaseEnum
     /**
      * Get the URL of the site for anime resources.
      *
-     * @param  ResourceSite  $site
      * @param  int  $id
      * @param  string|null  $slug
      * @return string|null
      */
-    public static function formatAnimeResourceLink(ResourceSite $site, int $id, ?string $slug = null): ?string
+    public function formatAnimeResourceLink(int $id, ?string $slug = null): ?string
     {
-        return match ($site->value) {
+        return match ($this->value) {
             ResourceSite::TWITTER => "https://twitter.com/$slug",
             ResourceSite::ANIDB => "https://anidb.net/anime/$id",
             ResourceSite::ANILIST => "https://anilist.co/anime/$id",
@@ -189,14 +188,13 @@ final class ResourceSite extends BaseEnum
     /**
      * Get the URL of the site for artist resources.
      *
-     * @param  ResourceSite  $site
      * @param  int  $id
      * @param  string|null  $slug
      * @return string|null
      */
-    public static function formatArtistResourceLink(ResourceSite $site, int $id, ?string $slug = null): ?string
+    public function formatArtistResourceLink(int $id, ?string $slug = null): ?string
     {
-        return match ($site->value) {
+        return match ($this->value) {
             ResourceSite::TWITTER => "https://twitter.com/$slug",
             ResourceSite::ANIDB => "https://anidb.net/creator/$id",
             ResourceSite::ANILIST => "https://anilist.co/staff/$id",
@@ -210,14 +208,13 @@ final class ResourceSite extends BaseEnum
     /**
      * Get the URL of the site for studio resources.
      *
-     * @param  ResourceSite  $site
      * @param  int  $id
      * @param  string|null  $slug
      * @return string|null
      */
-    public static function formatStudioResourceLink(ResourceSite $site, int $id, ?string $slug = null): ?string
+    public function formatStudioResourceLink(int $id, ?string $slug = null): ?string
     {
-        return match ($site->value) {
+        return match ($this->value) {
             ResourceSite::TWITTER => "https://twitter.com/$slug",
             ResourceSite::ANIDB => "https://anidb.net/creator/$id",
             ResourceSite::ANILIST => "https://anilist.co/studio/$id",

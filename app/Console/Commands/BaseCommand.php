@@ -8,13 +8,19 @@ use Illuminate\Console\Command;
 use Illuminate\Contracts\Console\Isolatable;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Validation\ValidationException;
-use Symfony\Component\Console\Input\InputOption;
 
 /**
  * Class BaseCommand.
  */
 abstract class BaseCommand extends Command implements Isolatable
 {
+    /**
+     * Indicates whether only one instance of the command can run at any given time.
+     *
+     * @var bool
+     */
+    protected $isolated = true;
+
     /**
      * Execute the console command.
      *
@@ -30,23 +36,4 @@ abstract class BaseCommand extends Command implements Isolatable
      * @return Validator
      */
     abstract protected function validator(): Validator;
-
-    /**
-     * Configure the console command for isolation.
-     * Note: Overrides default framework behavior which disables isolation by default.
-     *
-     * @return void
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    protected function configureIsolation(): void
-    {
-        $this->getDefinition()->addOption(new InputOption(
-            'isolated',
-            null,
-            InputOption::VALUE_OPTIONAL,
-            'Do not run the command if another instance of the command is already running',
-            true
-        ));
-    }
 }

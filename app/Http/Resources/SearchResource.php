@@ -58,7 +58,7 @@ class SearchResource extends JsonResource
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public function toArray($request): array
+    public function toArray(Request $request): array
     {
         // Every search may raise a query on another machine, so we will proactively check sparse fieldsets.
         $result = [];

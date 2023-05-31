@@ -26,8 +26,6 @@ class HorizonServiceProvider extends HorizonApplicationServiceProvider
         parent::boot();
 
         Horizon::routeMailNotificationsTo(Config::get('mail.from.address'));
-
-        Horizon::night();
     }
 
     /**

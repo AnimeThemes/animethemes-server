@@ -133,6 +133,7 @@ class User extends Authenticatable implements MustVerifyEmail, Nameable
      */
     protected $casts = [
         User::ATTRIBUTE_EMAIL_VERIFIED_AT => 'datetime',
+        User::ATTRIBUTE_PASSWORD => 'hashed',
     ];
 
     /**

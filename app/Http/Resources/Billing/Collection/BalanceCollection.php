@@ -29,7 +29,7 @@ class BalanceCollection extends BaseCollection
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public function toArray($request): array
+    public function toArray(Request $request): array
     {
         return $this->collection->map(fn (Balance $balance) => new BalanceResource($balance, $this->query))->all();
     }

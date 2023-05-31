@@ -8,6 +8,7 @@ use App\Concerns\Repositories\ReconcilesRepositories;
 use Exception;
 use Illuminate\Support\Collection;
 use Laravel\Nova\Actions\Action;
+use Laravel\Nova\Actions\ActionResponse;
 use Laravel\Nova\Fields\ActionFields;
 
 /**
@@ -22,13 +23,13 @@ abstract class ReconcileAction extends Action
      *
      * @param  ActionFields  $fields
      * @param  Collection  $models
-     * @return array
+     * @return ActionResponse
      *
      * @throws Exception
      *
      * @noinspection PhpUnusedParameterInspection
      */
-    public function handle(ActionFields $fields, Collection $models): array
+    public function handle(ActionFields $fields, Collection $models): ActionResponse
     {
         $result = $this->reconcileRepositories($fields->toArray());
 

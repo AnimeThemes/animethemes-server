@@ -17,6 +17,8 @@ class YearShowRequest extends ShowRequest
      * Get the filter validation rules.
      *
      * @return array
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
     protected function getFilterRules(): array
     {
@@ -27,6 +29,8 @@ class YearShowRequest extends ShowRequest
      * Get the sort validation rules.
      *
      * @return array
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
     protected function getSortRules(): array
     {

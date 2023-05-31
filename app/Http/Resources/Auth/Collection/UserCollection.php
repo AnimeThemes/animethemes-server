@@ -29,7 +29,7 @@ class UserCollection extends BaseCollection
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public function toArray($request): array
+    public function toArray(Request $request): array
     {
         return $this->collection->map(fn (User $user) => new UserResource($user, $this->query))->all();
     }

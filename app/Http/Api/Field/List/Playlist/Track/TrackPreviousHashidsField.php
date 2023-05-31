@@ -58,6 +58,8 @@ class TrackPreviousHashidsField extends Field implements CreatableField, Updatab
      * @param  Query  $query
      * @param  Schema  $schema
      * @return bool
+     *
+     * @noinspection PhpUnusedParameterInspection
      */
     public function shouldSelect(Query $query, Schema $schema): bool
     {

@@ -27,7 +27,7 @@ class ResourceLinkFormatRule implements DataAwareRule, Rule
      * @param  array  $data
      * @return $this
      */
-    public function setData($data): self
+    public function setData(array $data): self
     {
         $this->data = $data;
 

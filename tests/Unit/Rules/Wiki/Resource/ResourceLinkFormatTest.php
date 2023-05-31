@@ -49,6 +49,7 @@ class ResourceLinkFormatTest extends TestCase
      */
     public function testPassesForAnimeResource(): void
     {
+        /** @var ResourceSite $site */
         $site = Arr::random([
             ResourceSite::TWITTER(),
             ResourceSite::ANIDB(),
@@ -59,7 +60,7 @@ class ResourceLinkFormatTest extends TestCase
             ResourceSite::MAL(),
         ]);
 
-        $url = ResourceSite::formatAnimeResourceLink($site, $this->faker->randomDigitNotNull(), $this->faker->word());
+        $url = $site->formatAnimeResourceLink($this->faker->randomDigitNotNull(), $this->faker->word());
 
         $rule = new ResourceLinkFormatRule($site);
 
@@ -73,6 +74,7 @@ class ResourceLinkFormatTest extends TestCase
      */
     public function testPassesForArtistResource(): void
     {
+        /** @var ResourceSite $site */
         $site = Arr::random([
             ResourceSite::TWITTER(),
             ResourceSite::ANIDB(),
@@ -82,7 +84,7 @@ class ResourceLinkFormatTest extends TestCase
             ResourceSite::MAL(),
         ]);
 
-        $url = ResourceSite::formatArtistResourceLink($site, $this->faker->randomDigitNotNull(), $this->faker->word());
+        $url = $site->formatArtistResourceLink($this->faker->randomDigitNotNull(), $this->faker->word());
 
         $rule = new ResourceLinkFormatRule($site);
 
@@ -96,6 +98,7 @@ class ResourceLinkFormatTest extends TestCase
      */
     public function testPassesForStudioResource(): void
     {
+        /** @var ResourceSite $site */
         $site = Arr::random([
             ResourceSite::TWITTER(),
             ResourceSite::ANIDB(),
@@ -105,7 +108,7 @@ class ResourceLinkFormatTest extends TestCase
             ResourceSite::MAL(),
         ]);
 
-        $url = ResourceSite::formatStudioResourceLink($site, $this->faker->randomDigitNotNull(), $this->faker->word());
+        $url = $site->formatStudioResourceLink($this->faker->randomDigitNotNull(), $this->faker->word());
 
         $rule = new ResourceLinkFormatRule($site);
 
@@ -129,7 +132,7 @@ class ResourceLinkFormatTest extends TestCase
             ResourceSite::MAL(),
         ]);
 
-        $url = ResourceSite::formatAnimeResourceLink($site, $this->faker->randomDigitNotNull(), $this->faker->word());
+        $url = $site->formatAnimeResourceLink($this->faker->randomDigitNotNull(), $this->faker->word());
 
         $url = Str::of($url)
             ->append('/')

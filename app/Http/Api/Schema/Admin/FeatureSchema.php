@@ -44,6 +44,8 @@ class FeatureSchema extends EloquentSchema
      * Get the direct fields of the resource.
      *
      * @return Field[]
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
     public function fields(): array
     {

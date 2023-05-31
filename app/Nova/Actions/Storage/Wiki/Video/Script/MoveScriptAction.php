@@ -39,6 +39,7 @@ class MoveScriptAction extends MoveAction
      */
     protected function action(ActionFields $fields, Collection $models): MoveScript
     {
+        /** @var string $path */
         $path = $fields->get('path');
 
         $script = $models->first();

@@ -26,6 +26,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Sleep;
 use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
 use Laravel\Nova\Fields\Boolean;
@@ -107,7 +108,7 @@ class BackfillAnimeAction extends Action implements ShouldQueue
                 $this->markAsFailed($anime, $e);
             } finally {
                 // Try not to upset third-party APIs
-                sleep(rand(3, 5));
+                Sleep::for(rand(3, 5))->second();
             }
         }
 

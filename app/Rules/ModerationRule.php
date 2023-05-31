@@ -32,7 +32,7 @@ class ModerationRule implements InvokableRule
      *
      * @throws RuntimeException
      */
-    public function __invoke($attribute, $value, $fail): void
+    public function __invoke(string $attribute, mixed $value, Closure $fail): void
     {
         match (Config::get(ValidationConstants::MODERATION_SERVICE_QUALIFIED)) {
             ModerationService::NONE => null,

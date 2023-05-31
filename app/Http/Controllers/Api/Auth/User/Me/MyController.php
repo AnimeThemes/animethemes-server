@@ -9,6 +9,7 @@ use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Auth\User\MySchema;
 use App\Http\Api\Schema\Schema;
 use App\Http\Controllers\Api\BaseController;
+use App\Http\Middleware\Auth\Authenticate;
 use App\Http\Requests\Api\ShowRequest;
 use App\Http\Resources\Auth\User\Resource\MyResource;
 use App\Models\Auth\User;
@@ -26,7 +27,7 @@ class MyController extends BaseController
      */
     public function __construct()
     {
-        $this->middleware('auth:sanctum');
+        $this->middleware(Authenticate::using('sanctum'));
     }
 
     /**
@@ -52,6 +53,8 @@ class MyController extends BaseController
      * Get the underlying schema.
      *
      * @return Schema
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
     public function schema(): Schema
     {

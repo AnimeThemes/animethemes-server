@@ -26,6 +26,7 @@ class ResourceSiteTest extends TestCase
     {
         $animeId = $this->faker->randomDigitNotNull();
 
+        /** @var ResourceSite $site */
         $site = Arr::random([
             ResourceSite::ANIDB(),
             ResourceSite::ANILIST(),
@@ -33,7 +34,7 @@ class ResourceSiteTest extends TestCase
             ResourceSite::MAL(),
         ]);
 
-        $link = ResourceSite::formatAnimeResourceLink($site, $animeId);
+        $link = $site->formatAnimeResourceLink($animeId);
 
         static::assertEquals(strval($animeId), ResourceSite::parseIdFromLink($link));
     }
@@ -47,6 +48,7 @@ class ResourceSiteTest extends TestCase
     {
         $studioId = $this->faker->randomDigitNotNull();
 
+        /** @var ResourceSite $site */
         $site = Arr::random([
             ResourceSite::ANIDB(),
             ResourceSite::ANILIST(),
@@ -54,7 +56,7 @@ class ResourceSiteTest extends TestCase
             ResourceSite::MAL(),
         ]);
 
-        $link = ResourceSite::formatStudioResourceLink($site, $studioId);
+        $link = $site->formatStudioResourceLink($studioId);
 
         static::assertEquals(strval($studioId), ResourceSite::parseIdFromLink($link));
     }
@@ -66,8 +68,7 @@ class ResourceSiteTest extends TestCase
      */
     public function testFailParseAnimePlanetIdFromStudioResource(): void
     {
-        $link = ResourceSite::formatStudioResourceLink(
-            ResourceSite::ANIME_PLANET(),
+        $link = ResourceSite::ANIME_PLANET()->formatStudioResourceLink(
             $this->faker->randomDigitNotNull(),
             $this->faker->slug()
         );
@@ -89,8 +90,7 @@ class ResourceSiteTest extends TestCase
             ]),
         ]);
 
-        $link = ResourceSite::formatAnimeResourceLink(
-            ResourceSite::ANIME_PLANET(),
+        $link = ResourceSite::ANIME_PLANET()->formatAnimeResourceLink(
             $this->faker->randomDigitNotNull(),
             $this->faker->slug()
         );
@@ -124,8 +124,7 @@ class ResourceSiteTest extends TestCase
             ),
         ]);
 
-        $link = ResourceSite::formatAnimeResourceLink(
-            ResourceSite::ANIME_PLANET(),
+        $link = ResourceSite::ANIME_PLANET()->formatAnimeResourceLink(
             $id,
             $this->faker->slug()
         );
@@ -147,8 +146,7 @@ class ResourceSiteTest extends TestCase
             ]),
         ]);
 
-        $link = ResourceSite::formatAnimeResourceLink(
-            ResourceSite::KITSU(),
+        $link = ResourceSite::KITSU()->formatAnimeResourceLink(
             $this->faker->randomDigitNotNull(),
             $this->faker->slug()
         );
@@ -176,8 +174,7 @@ class ResourceSiteTest extends TestCase
             ]),
         ]);
 
-        $link = ResourceSite::formatAnimeResourceLink(
-            ResourceSite::KITSU(),
+        $link = ResourceSite::KITSU()->formatAnimeResourceLink(
             $id,
             $this->faker->slug()
         );

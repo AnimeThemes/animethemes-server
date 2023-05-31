@@ -6,6 +6,7 @@ namespace App\Console\Commands\Storage\Admin;
 
 use App\Actions\Storage\Admin\Dump\DumpAction;
 use App\Console\Commands\BaseCommand;
+use Exception;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator as ValidatorFacade;
@@ -20,6 +21,8 @@ abstract class DumpCommand extends BaseCommand
      * Execute the console command.
      *
      * @return int
+     *
+     * @throws Exception
      */
     public function handle(): int
     {

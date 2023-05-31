@@ -29,7 +29,7 @@ class StudioCollection extends BaseCollection
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public function toArray($request): array
+    public function toArray(Request $request): array
     {
         return $this->collection->map(fn (Studio $studio) => new StudioResource($studio, $this->query))->all();
     }

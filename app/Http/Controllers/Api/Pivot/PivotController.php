@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Api\Pivot;
 use App\Contracts\Http\Api\InteractsWithSchema;
 use App\Http\Api\Schema\Schema;
 use App\Http\Controllers\Controller;
+use App\Http\Middleware\Auth\Authenticate;
 use Illuminate\Support\Str;
 
 /**
@@ -26,7 +27,7 @@ abstract class PivotController extends Controller implements InteractsWithSchema
     {
         $this->authorizeResource($foreignModel, $foreignParameter);
         $this->authorizeResource($relatedModel, $relatedParameter);
-        $this->middleware('auth:sanctum')->except(['index', 'show']);
+        $this->middleware(Authenticate::using('sanctum'))->except(['index', 'show']);
     }
 
     /**

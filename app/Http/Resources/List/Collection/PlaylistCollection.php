@@ -29,7 +29,7 @@ class PlaylistCollection extends BaseCollection
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public function toArray($request): array
+    public function toArray(Request $request): array
     {
         return $this->collection->map(fn (Playlist $playlist) => new PlaylistResource($playlist, $this->query))->all();
     }
