@@ -29,7 +29,7 @@ class PlaylistImageCollection extends BaseCollection
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public function toArray($request): array
+    public function toArray(Request $request): array
     {
         return $this->collection->map(fn (PlaylistImage $playlistImage) => new PlaylistImageResource($playlistImage, $this->query))->all();
     }

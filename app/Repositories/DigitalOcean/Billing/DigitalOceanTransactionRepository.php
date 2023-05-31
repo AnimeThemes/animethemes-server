@@ -15,6 +15,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Sleep;
 
 /**
  * Class DigitalOceanTransactionRepository.
@@ -40,7 +41,7 @@ class DigitalOceanTransactionRepository extends DigitalOceanRepository
         $nextBillingHistory = 'https://api.digitalocean.com/v2/customers/my/billing_history?per_page=200';
         while (! empty($nextBillingHistory)) {
             // Try not to upset DO
-            sleep(rand(2, 5));
+            Sleep::for(rand(2, 5))->second();
 
             $response = $request->get($nextBillingHistory)->throw()->json();
 

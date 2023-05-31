@@ -44,7 +44,7 @@ class WikiResource extends JsonResource
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public function toArray($request): array
+    public function toArray(Request $request): array
     {
         $result = [];
 

@@ -29,7 +29,7 @@ class StudioImageCollection extends BaseCollection
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public function toArray($request): array
+    public function toArray(Request $request): array
     {
         return $this->collection->map(fn (StudioImage $studioImage) => new StudioImageResource($studioImage, $this->query))->all();
     }

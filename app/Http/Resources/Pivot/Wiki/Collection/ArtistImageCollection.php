@@ -29,7 +29,7 @@ class ArtistImageCollection extends BaseCollection
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public function toArray($request): array
+    public function toArray(Request $request): array
     {
         return $this->collection->map(fn (ArtistImage $artistImage) => new ArtistImageResource($artistImage, $this->query))->all();
     }

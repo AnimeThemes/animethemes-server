@@ -12,6 +12,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use Laravel\Nova\Actions\Action;
+use Laravel\Nova\Actions\ActionResponse;
 use Laravel\Nova\Fields\ActionFields;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\Select;
@@ -28,13 +29,13 @@ abstract class DumpAction extends Action
      *
      * @param  ActionFields  $fields
      * @param  Collection  $models
-     * @return array
+     * @return ActionResponse
      *
      * @throws Exception
      *
      * @noinspection PhpUnusedParameterInspection
      */
-    public function handle(ActionFields $fields, Collection $models): array
+    public function handle(ActionFields $fields, Collection $models): ActionResponse
     {
         $action = $this->action($fields);
 

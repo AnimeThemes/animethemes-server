@@ -7,6 +7,7 @@ namespace App\Nova\Actions\Storage;
 use App\Contracts\Actions\Storage\StorageAction as BaseStorageAction;
 use Illuminate\Support\Collection;
 use Laravel\Nova\Actions\Action;
+use Laravel\Nova\Actions\ActionResponse;
 use Laravel\Nova\Fields\ActionFields;
 
 /**
@@ -28,9 +29,9 @@ abstract class StorageAction extends Action
      *
      * @param  ActionFields  $fields
      * @param  Collection  $models
-     * @return array
+     * @return ActionResponse
      */
-    public function handle(ActionFields $fields, Collection $models): array
+    public function handle(ActionFields $fields, Collection $models): ActionResponse
     {
         $action = $this->action($fields, $models);
 

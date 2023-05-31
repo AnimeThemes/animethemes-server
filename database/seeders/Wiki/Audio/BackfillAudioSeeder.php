@@ -6,6 +6,7 @@ namespace Database\Seeders\Wiki\Audio;
 
 use App\Actions\Models\Wiki\Video\Audio\BackfillAudioAction;
 use App\Models\Wiki\Video;
+use Exception;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Collection;
 
@@ -18,6 +19,8 @@ class BackfillAudioSeeder extends Seeder
      * Run the database seeds.
      *
      * @return void
+     *
+     * @throws Exception
      */
     public function run(): void
     {

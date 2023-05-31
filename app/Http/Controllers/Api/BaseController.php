@@ -7,6 +7,8 @@ namespace App\Http\Controllers\Api;
 use App\Contracts\Http\Api\InteractsWithSchema;
 use App\Http\Api\Schema\Schema;
 use App\Http\Controllers\Controller;
+use App\Http\Middleware\Auth\Authenticate;
+use Illuminate\Auth\Middleware\Authorize;
 use Illuminate\Support\Str;
 
 /**
@@ -23,9 +25,9 @@ abstract class BaseController extends Controller implements InteractsWithSchema
     public function __construct(string $model, string $parameter)
     {
         $this->authorizeResource($model, $parameter);
-        $this->middleware('auth:sanctum')->except(['index', 'show']);
-        $this->middleware("can:restore,$parameter")->only('restore');
-        $this->middleware("can:forceDelete,$parameter")->only('forceDelete');
+        $this->middleware(Authenticate::using('sanctum'))->except(['index', 'show']);
+        $this->middleware(Authorize::using('restore', $parameter))->only('restore');
+        $this->middleware(Authorize::using('forceDelete', $parameter))->only('forceDelete');
     }
 
     /**

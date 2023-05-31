@@ -55,7 +55,6 @@ abstract class DumpAction
         $dumpFile = $this->getDumpFile();
 
         try {
-            /** @var Connection $connection */
             $connection = DB::connection();
 
             $dumper = $this->getDumper($connection);

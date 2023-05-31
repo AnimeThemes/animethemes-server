@@ -68,8 +68,6 @@ class AudioSampleRateStreamTest extends TestCase
      */
     public function testPassesWhenSampleRateIsExpected(): void
     {
-        $index = $this->faker->randomDigitNotNull();
-
         $file = UploadedFile::fake()->create($this->faker->word().'.webm', $this->faker->randomDigitNotNull());
 
         Process::fake([

@@ -31,6 +31,8 @@ abstract class AdminCreatedEvent extends BaseCreatedEvent
      * Determine if the message should be sent.
      *
      * @return bool
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
     public function shouldSendDiscordMessage(): bool
     {

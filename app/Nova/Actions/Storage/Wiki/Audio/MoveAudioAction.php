@@ -39,6 +39,7 @@ class MoveAudioAction extends MoveAction
      */
     protected function action(ActionFields $fields, Collection $models): MoveAudio
     {
+        /** @var string $path */
         $path = $fields->get('path');
 
         $audio = $models->first();

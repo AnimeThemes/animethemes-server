@@ -157,7 +157,7 @@ class BackfillAnidbResourceTest extends TestCase
         ExternalResource::factory()->createOne([
             ExternalResource::ATTRIBUTE_SITE => ResourceSite::ANIDB,
             ExternalResource::ATTRIBUTE_EXTERNAL_ID => $anidbId,
-            ExternalResource::ATTRIBUTE_LINK => ResourceSite::formatAnimeResourceLink(ResourceSite::ANIDB(), $anidbId),
+            ExternalResource::ATTRIBUTE_LINK => ResourceSite::ANIDB()->formatAnimeResourceLink($anidbId),
 
         ]);
 

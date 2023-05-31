@@ -29,7 +29,7 @@ class VideoCollection extends BaseCollection
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public function toArray($request): array
+    public function toArray(Request $request): array
     {
         return $this->collection->map(fn (Video $video) => new VideoResource($video, $this->query))->all();
     }

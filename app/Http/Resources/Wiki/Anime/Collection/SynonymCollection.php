@@ -29,7 +29,7 @@ class SynonymCollection extends BaseCollection
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public function toArray($request): array
+    public function toArray(Request $request): array
     {
         return $this->collection->map(
             fn (AnimeSynonym $synonym) => new SynonymResource($synonym, $this->query)

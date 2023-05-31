@@ -66,6 +66,7 @@ abstract class AttachResourceAction extends Action
      */
     protected function getOrCreateResource(ActionFields $fields): ExternalResource
     {
+        /** @var string $link */
         $link = $fields->get('link');
 
         $resource = ExternalResource::query()

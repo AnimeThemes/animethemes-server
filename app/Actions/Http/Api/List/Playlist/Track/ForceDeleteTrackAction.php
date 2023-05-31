@@ -12,6 +12,9 @@ use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
+/**
+ * Class ForceDeleteTrackAction.
+ */
 class ForceDeleteTrackAction
 {
     /**

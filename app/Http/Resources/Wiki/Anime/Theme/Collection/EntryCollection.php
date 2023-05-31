@@ -29,7 +29,7 @@ class EntryCollection extends BaseCollection
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public function toArray($request): array
+    public function toArray(Request $request): array
     {
         return $this->collection->map(fn (AnimeThemeEntry $entry) => new EntryResource($entry, $this->query))->all();
     }

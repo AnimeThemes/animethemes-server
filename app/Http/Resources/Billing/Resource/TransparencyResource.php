@@ -50,7 +50,7 @@ class TransparencyResource extends JsonResource
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public function toArray($request): array
+    public function toArray(Request $request): array
     {
         return [
             'selectedDate' => $this->selectedDate,

@@ -63,6 +63,8 @@ class UploadScriptAction extends UploadAction
     {
         /** @var UploadedFile $file */
         $file = $fields->get('file');
+
+        /** @var string $path */
         $path = $fields->get('path');
 
         /** @var Video|null $video */

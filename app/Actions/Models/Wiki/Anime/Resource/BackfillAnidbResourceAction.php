@@ -10,6 +10,7 @@ use App\Models\Wiki\ExternalResource;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Sleep;
 
 /**
  * Class BackfillAnidbResourceAction.
@@ -45,7 +46,7 @@ class BackfillAnidbResourceAction extends BackfillAnimeResourceAction
             }
 
             // failed mapping, sleep before re-attempting
-            sleep(rand(1, 3));
+            Sleep::for(rand(1, 3))->second();
         }
 
         $anilistResource = $this->getModel()->resources()->firstWhere(ExternalResource::ATTRIBUTE_SITE, ResourceSite::ANILIST);
@@ -56,7 +57,7 @@ class BackfillAnidbResourceAction extends BackfillAnimeResourceAction
             }
 
             // failed mapping, sleep before re-attempting
-            sleep(rand(1, 3));
+            Sleep::for(rand(1, 3))->second();
         }
 
         $kitsuResource = $this->getModel()->resources()->firstWhere(ExternalResource::ATTRIBUTE_SITE, ResourceSite::KITSU);

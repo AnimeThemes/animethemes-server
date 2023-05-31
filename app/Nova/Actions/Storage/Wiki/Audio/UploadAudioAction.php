@@ -55,6 +55,8 @@ class UploadAudioAction extends UploadAction
     {
         /** @var UploadedFile $file */
         $file = $fields->get('file');
+
+        /** @var string $path */
         $path = $fields->get('path');
 
         return new UploadAudio($file, $path);

@@ -33,7 +33,7 @@ class DelimitedRule implements InvokableRule
      * @param  Closure(string): PotentiallyTranslatedString  $fail
      * @return void
      */
-    public function __invoke($attribute, $value, $fail): void
+    public function __invoke(string $attribute, mixed $value, Closure $fail): void
     {
         $key = Str::of($attribute)->explode('.')->last();
         $items = Str::of($value)->explode(',');

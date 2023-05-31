@@ -29,7 +29,7 @@ class AnimeResourceCollection extends BaseCollection
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public function toArray($request): array
+    public function toArray(Request $request): array
     {
         return $this->collection->map(fn (AnimeResource $animeResource) => new AnimeResourceResource($animeResource, $this->query))->all();
     }

@@ -46,6 +46,8 @@ class AudioMimeTypeField extends StringField implements CreatableField
      *
      * @param  Query  $query
      * @return bool
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
     public function shouldRender(Query $query): bool
     {
@@ -60,6 +62,8 @@ class AudioMimeTypeField extends StringField implements CreatableField
      * @param  Query  $query
      * @param  Schema  $schema
      * @return bool
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
     public function shouldSelect(Query $query, Schema $schema): bool
     {

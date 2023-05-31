@@ -29,7 +29,7 @@ class PermissionCollection extends BaseCollection
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public function toArray($request): array
+    public function toArray(Request $request): array
     {
         return $this->collection->map(fn (Permission $permission) => new PermissionResource($permission, $this->query))->all();
     }

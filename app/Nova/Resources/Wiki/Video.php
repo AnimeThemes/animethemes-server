@@ -221,8 +221,7 @@ class Video extends BaseResource
             HasOne::make(__('nova.resources.singularLabel.video_script'), VideoModel::RELATION_SCRIPT, Script::class)
                 ->hideFromIndex()
                 ->sortable()
-                ->nullable()
-                ->showOnPreview(),
+                ->nullable(),
 
             HasMany::make(__('nova.resources.label.playlist_tracks'), VideoModel::RELATION_TRACKS, Track::class),
 

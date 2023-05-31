@@ -29,7 +29,7 @@ class TransactionCollection extends BaseCollection
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public function toArray($request): array
+    public function toArray(Request $request): array
     {
         return $this->collection->map(
             fn (Transaction $transaction) => new TransactionResource($transaction, $this->query)

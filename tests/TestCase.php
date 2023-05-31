@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Process;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Sleep;
 
 /**
  * Class TestCase.
@@ -33,6 +34,7 @@ abstract class TestCase extends BaseTestCase
         Event::fake();
         Mail::fake();
         Notification::fake();
+        Sleep::fake();
         Storage::fake();
 
         Http::preventStrayRequests();
