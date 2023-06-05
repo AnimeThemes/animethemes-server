@@ -4,13 +4,15 @@ declare(strict_types=1);
 
 namespace App\Rules\Storage;
 
+use Closure;
 use Illuminate\Contracts\Filesystem\Filesystem;
-use Illuminate\Contracts\Validation\Rule;
+use Illuminate\Contracts\Validation\ValidationRule;
+use Illuminate\Translation\PotentiallyTranslatedString;
 
 /**
  * Class StorageDirectoryExistsRule.
  */
-class StorageDirectoryExistsRule implements Rule
+readonly class StorageDirectoryExistsRule implements ValidationRule
 {
     /**
      * Create a new rule instance.
@@ -18,29 +20,22 @@ class StorageDirectoryExistsRule implements Rule
      * @param  Filesystem  $fs
      * @return void
      */
-    public function __construct(protected readonly Filesystem $fs)
+    public function __construct(protected Filesystem $fs)
     {
     }
 
     /**
-     * Determine if the validation rule passes.
+     * Run the validation rule.
      *
      * @param  string  $attribute
      * @param  mixed  $value
-     * @return bool
+     * @param  Closure(string): PotentiallyTranslatedString  $fail
+     * @return void
      */
-    public function passes($attribute, $value): bool
+    public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        return $this->fs->directoryExists($value);
-    }
-
-    /**
-     * Get the validation error message.
-     *
-     * @return string|array
-     */
-    public function message(): string|array
-    {
-        return __('validation.directory_exists');
+        if (! $this->fs->directoryExists($value)) {
+            $fail(__('validation.directory_exists'));
+        }
     }
 }

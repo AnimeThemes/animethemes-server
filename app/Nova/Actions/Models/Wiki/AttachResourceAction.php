@@ -6,7 +6,7 @@ namespace App\Nova\Actions\Models\Wiki;
 
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Wiki\ExternalResource;
-use Illuminate\Contracts\Validation\Rule;
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Collection;
 use Laravel\Nova\Actions\Action;
@@ -114,7 +114,7 @@ abstract class AttachResourceAction extends Action
     /**
      * Get the format validation rule.
      *
-     * @return Rule
+     * @return ValidationRule
      */
-    abstract protected function getFormatRule(): Rule;
+    abstract protected function getFormatRule(): ValidationRule;
 }

@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Log;
 /**
  * Class PruneResults.
  */
-class PruneResults implements StorageResults
+readonly class PruneResults implements StorageResults
 {
     /**
      * Create a new action result instance.
@@ -22,7 +22,7 @@ class PruneResults implements StorageResults
      * @param  string  $fs
      * @param  array<string, bool>  $prunings
      */
-    public function __construct(protected readonly string $fs, protected readonly array $prunings = [])
+    public function __construct(protected string $fs, protected array $prunings = [])
     {
     }
 

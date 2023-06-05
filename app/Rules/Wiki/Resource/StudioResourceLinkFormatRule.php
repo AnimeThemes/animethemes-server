@@ -5,31 +5,34 @@ declare(strict_types=1);
 namespace App\Rules\Wiki\Resource;
 
 use App\Enums\Models\Wiki\ResourceSite;
-use Illuminate\Contracts\Validation\Rule;
+use Closure;
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Support\Str;
+use Illuminate\Translation\PotentiallyTranslatedString;
 
 /**
  * Class StudioResourceLinkFormatRule.
  */
-class StudioResourceLinkFormatRule implements Rule
+readonly class StudioResourceLinkFormatRule implements ValidationRule
 {
     /**
      * Create a new rule instance.
      *
      * @param  ResourceSite  $site
      */
-    public function __construct(protected readonly ResourceSite $site)
+    public function __construct(protected ResourceSite $site)
     {
     }
 
     /**
-     * Determine if the validation rule passes.
+     * Run the validation rule.
      *
      * @param  string  $attribute
      * @param  mixed  $value
-     * @return bool
+     * @param  Closure(string): PotentiallyTranslatedString  $fail
+     * @return void
      */
-    public function passes($attribute, $value): bool
+    public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         $pattern = match ($this->site->value) {
             ResourceSite::TWITTER => '/^https:\/\/twitter\.com\/\w+$/',
@@ -42,16 +45,8 @@ class StudioResourceLinkFormatRule implements Rule
             default => null,
         };
 
-        return $pattern === null || Str::match($pattern, $value) === $value;
-    }
-
-    /**
-     * Get the validation error message.
-     *
-     * @return string|array
-     */
-    public function message(): string|array
-    {
-        return __('validation.regex');
+        if ($pattern !== null && Str::match($pattern, $value) !== $value) {
+            $fail(__('validation.regex'));
+        }
     }
 }

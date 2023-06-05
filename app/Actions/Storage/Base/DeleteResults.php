@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Log;
 /**
  * Class DeleteResults.
  */
-class DeleteResults implements StorageResults
+readonly class DeleteResults implements StorageResults
 {
     /**
      * Create a new action result instance.
@@ -23,7 +23,7 @@ class DeleteResults implements StorageResults
      * @param  BaseModel  $model
      * @param  array<string, bool>  $deletions
      */
-    public function __construct(protected readonly BaseModel $model, protected readonly array $deletions = [])
+    public function __construct(protected BaseModel $model, protected array $deletions = [])
     {
     }
 

@@ -14,14 +14,14 @@ use Illuminate\Support\Facades\Log;
 /**
  * Class UploadResults.
  */
-class UploadResults implements StorageResults
+readonly class UploadResults implements StorageResults
 {
     /**
      * Create a new action result instance.
      *
      * @param  array<string, string|false>  $uploads
      */
-    public function __construct(protected readonly array $uploads = [])
+    public function __construct(protected array $uploads = [])
     {
     }
 

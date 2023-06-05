@@ -7,6 +7,7 @@ namespace Tests\Unit\Rules\Api;
 use App\Enums\BaseEnum;
 use App\Rules\Api\EnumDescriptionRule;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
@@ -31,9 +32,14 @@ class EnumDescriptionTest extends TestCase
             public const TWO = 2;
         };
 
-        $rule = new EnumDescriptionRule(get_class($enum));
+        $attribute = $this->faker->word();
 
-        static::assertTrue($rule->passes($this->faker->word(), $enum->description));
+        $validator = Validator::make(
+            [$attribute => $enum->description],
+            [$attribute => new EnumDescriptionRule(get_class($enum))]
+        );
+
+        static::assertTrue($validator->passes());
     }
 
     /**
@@ -50,9 +56,14 @@ class EnumDescriptionTest extends TestCase
             public const TWO = 2;
         };
 
-        $rule = new EnumDescriptionRule(get_class($enum));
+        $attribute = $this->faker->word();
 
-        static::assertFalse($rule->passes($this->faker->word(), $enum->value));
+        $validator = Validator::make(
+            [$attribute => $enum->value],
+            [$attribute => new EnumDescriptionRule(get_class($enum))]
+        );
+
+        static::assertFalse($validator->passes());
     }
 
     /**
@@ -69,8 +80,13 @@ class EnumDescriptionTest extends TestCase
             public const TWO = 2;
         };
 
-        $rule = new EnumDescriptionRule(get_class($enum));
+        $attribute = $this->faker->word();
 
-        static::assertFalse($rule->passes($this->faker->word(), Str::random()));
+        $validator = Validator::make(
+            [$attribute => Str::random()],
+            [$attribute => new EnumDescriptionRule(get_class($enum))]
+        );
+
+        static::assertFalse($validator->passes());
     }
 }

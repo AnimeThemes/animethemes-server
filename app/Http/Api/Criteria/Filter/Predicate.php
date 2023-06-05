@@ -9,7 +9,7 @@ use App\Enums\Http\Api\Filter\ComparisonOperator;
 /**
  * Class Predicate.
  */
-class Predicate
+readonly class Predicate
 {
     /**
      * Create a new predicate.
@@ -19,9 +19,9 @@ class Predicate
      * @param  Expression  $expression
      */
     public function __construct(
-        protected readonly string $column,
-        protected readonly ?ComparisonOperator $operator,
-        protected readonly Expression $expression
+        protected string $column,
+        protected ?ComparisonOperator $operator,
+        protected Expression $expression
     ) {
     }
 

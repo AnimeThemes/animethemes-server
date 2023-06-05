@@ -5,8 +5,7 @@ declare(strict_types=1);
 namespace App\Rules\Api;
 
 use Closure;
-use Illuminate\Contracts\Validation\InvokableRule;
-use Illuminate\Contracts\Validation\Rule;
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Translation\PotentiallyTranslatedString;
@@ -14,14 +13,14 @@ use Illuminate\Translation\PotentiallyTranslatedString;
 /**
  * Class DelimitedRule.
  */
-class DelimitedRule implements InvokableRule
+readonly class DelimitedRule implements ValidationRule
 {
     /**
      * Create a new rule instance.
      *
-     * @param  string|array|Rule  $rule
+     * @param  string|array|ValidationRule  $rule
      */
-    public function __construct(protected readonly string|array|Rule $rule)
+    public function __construct(protected string|array|ValidationRule $rule)
     {
     }
 
@@ -33,7 +32,7 @@ class DelimitedRule implements InvokableRule
      * @param  Closure(string): PotentiallyTranslatedString  $fail
      * @return void
      */
-    public function __invoke(string $attribute, mixed $value, Closure $fail): void
+    public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         $key = Str::of($attribute)->explode('.')->last();
         $items = Str::of($value)->explode(',');

@@ -5,14 +5,18 @@ declare(strict_types=1);
 namespace App\Rules\Wiki\Resource;
 
 use App\Enums\Models\Wiki\ResourceSite;
+use Closure;
 use Illuminate\Contracts\Validation\DataAwareRule;
-use Illuminate\Contracts\Validation\Rule;
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
+use Illuminate\Translation\PotentiallyTranslatedString;
 
 /**
  * Class ResourceLinkFormatRule.
  */
-class ResourceLinkFormatRule implements DataAwareRule, Rule
+class ResourceLinkFormatRule implements DataAwareRule, ValidationRule
 {
     /**
      * The data under validation.
@@ -63,35 +67,39 @@ class ResourceLinkFormatRule implements DataAwareRule, Rule
     }
 
     /**
-     * Determine if the validation rule passes.
+     * Run the validation rule.
      *
      * @param  string  $attribute
      * @param  mixed  $value
-     * @return bool
+     * @param  Closure(string): PotentiallyTranslatedString  $fail
+     * @return void
      */
-    public function passes($attribute, $value): bool
+    public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         $site = $this->site();
         if ($site === null) {
-            return true;
+            return;
         }
 
-        $anime = new AnimeResourceLinkFormatRule($site);
-        $artist = new ArtistResourceLinkFormatRule($site);
-        $studio = new StudioResourceLinkFormatRule($site);
+        $key = Str::of($attribute)->explode('.')->last();
 
-        return $anime->passes($attribute, $value)
-            || $artist->passes($attribute, $value)
-            || $studio->passes($attribute, $value);
-    }
+        $rules = [
+            new AnimeResourceLinkFormatRule($site),
+            new ArtistResourceLinkFormatRule($site),
+            new StudioResourceLinkFormatRule($site),
+        ];
 
-    /**
-     * Get the validation error message.
-     *
-     * @return string|array
-     */
-    public function message(): string|array
-    {
-        return __('validation.regex');
+        foreach ($rules as $rule) {
+            $validator = Validator::make(
+                [$key => $value],
+                [$key => $rule]
+            );
+
+            if ($validator->passes()) {
+                return;
+            }
+        }
+
+        $fail(__('validation.regex'));
     }
 }

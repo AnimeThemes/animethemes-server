@@ -7,14 +7,14 @@ namespace App\Http\Api\Criteria\Search;
 /**
  * Class Criteria.
  */
-class Criteria
+readonly class Criteria
 {
     /**
      * Create a new criteria instance.
      *
      * @param  string  $term
      */
-    public function __construct(protected readonly string $term)
+    public function __construct(protected string $term)
     {
     }
 

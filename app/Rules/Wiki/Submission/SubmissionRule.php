@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace App\Rules\Wiki\Submission;
 
-use Illuminate\Contracts\Validation\DataAwareRule;
-use Illuminate\Contracts\Validation\Rule;
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Contracts\Validation\ValidatorAwareRule;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Arr;
@@ -16,27 +15,21 @@ use Illuminate\Validation\Validator;
 /**
  * Class SubmissionRule.
  */
-abstract class SubmissionRule implements DataAwareRule, Rule, ValidatorAwareRule
+abstract class SubmissionRule implements ValidationRule, ValidatorAwareRule
 {
     /**
-     * The data under validation.
+     * The stream, chapter and format data as inspected by ffprobe.
      *
      * @var array
      */
-    protected array $data = [];
+    protected array $ffprobeData;
 
     /**
-     * Set the data under validation.
+     * The loudness stats of the input file as parsed by the ffmpeg audio filter.
      *
-     * @param  array  $data
-     * @return $this
+     * @var array
      */
-    public function setData(array $data): self
-    {
-        $this->data = $data;
-
-        return $this;
-    }
+    protected array $loudnessStats;
 
     /**
      * Set the current validator.
@@ -51,13 +44,17 @@ abstract class SubmissionRule implements DataAwareRule, Rule, ValidatorAwareRule
 
         $ffprobeData = Arr::get($validator->getData(), 'ffprobeData');
         if ($ffprobeData === null && $file !== null) {
-            $validator->setValue('ffprobeData', $this->getFFprobeData($file));
+            $ffprobeData = $this->getFFprobeData($file);
+            $validator->setValue('ffprobeData', $ffprobeData);
         }
+        $this->ffprobeData = $ffprobeData;
 
         $loudnessStats = Arr::get($validator->getData(), 'loudnessStats');
         if ($loudnessStats === null && $file !== null) {
-            $validator->setValue('loudnessStats', $this->getLoudnessStats($file));
+            $loudnessStats = $this->getLoudnessStats($file);
+            $validator->setValue('loudnessStats', $loudnessStats);
         }
+        $this->loudnessStats = $loudnessStats;
 
         return $this;
     }
@@ -101,7 +98,7 @@ abstract class SubmissionRule implements DataAwareRule, Rule, ValidatorAwareRule
      */
     protected function streams(): array
     {
-        return Arr::get($this->data, 'ffprobeData.streams', []);
+        return Arr::get($this->ffprobeData, 'streams', []);
     }
 
     /**
@@ -111,7 +108,7 @@ abstract class SubmissionRule implements DataAwareRule, Rule, ValidatorAwareRule
      */
     protected function format(): array
     {
-        return Arr::get($this->data, 'ffprobeData.format', []);
+        return Arr::get($this->ffprobeData, 'format', []);
     }
 
     /**
@@ -121,7 +118,7 @@ abstract class SubmissionRule implements DataAwareRule, Rule, ValidatorAwareRule
      */
     protected function chapters(): array
     {
-        return Arr::get($this->data, 'ffprobeData.chapters', []);
+        return Arr::get($this->ffprobeData, 'chapters', []);
     }
 
     /**
@@ -131,7 +128,7 @@ abstract class SubmissionRule implements DataAwareRule, Rule, ValidatorAwareRule
      */
     protected function loudness(): array
     {
-        return Arr::get($this->data, 'loudnessStats', []);
+        return $this->loudnessStats;
     }
 
     /**

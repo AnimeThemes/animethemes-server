@@ -10,7 +10,7 @@ use Illuminate\Support\Str;
 /**
  * Class AllowedInclude.
  */
-class AllowedInclude
+readonly class AllowedInclude
 {
     /**
      * Create a new AllowedIncludePath instance.
@@ -18,7 +18,7 @@ class AllowedInclude
      * @param  SchemaInterface  $schema
      * @param  string  $path
      */
-    final public function __construct(protected readonly SchemaInterface $schema, protected readonly string $path)
+    final public function __construct(protected SchemaInterface $schema, protected string $path)
     {
     }
 

@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Log;
 /**
  * Class MoveResults.
  */
-class MoveResults implements StorageResults
+readonly class MoveResults implements StorageResults
 {
     /**
      * Create a new action result instance.
@@ -26,10 +26,10 @@ class MoveResults implements StorageResults
      * @param  array<string, bool>  $moves
      */
     public function __construct(
-        protected readonly BaseModel $model,
-        protected readonly string $from,
-        protected readonly string $to,
-        protected readonly array $moves = []
+        protected BaseModel $model,
+        protected string $from,
+        protected string $to,
+        protected array $moves = []
     ) {
     }
 

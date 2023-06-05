@@ -7,6 +7,7 @@ namespace Tests\Unit\Rules\Storage;
 use App\Rules\Storage\StorageDirectoryExistsRule;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 use Tests\TestCase;
 
 /**
@@ -29,9 +30,14 @@ class StorageDirectoryExistsTest extends TestCase
 
         $fs->makeDirectory($directory);
 
-        $rule = new StorageDirectoryExistsRule($fs);
+        $attribute = $this->faker->word();
 
-        static::assertTrue($rule->passes($this->faker->word(), $directory));
+        $validator = Validator::make(
+            [$attribute => $directory],
+            [$attribute => new StorageDirectoryExistsRule($fs)]
+        );
+
+        static::assertTrue($validator->passes());
     }
 
     /**
@@ -43,8 +49,13 @@ class StorageDirectoryExistsTest extends TestCase
     {
         $fs = Storage::fake($this->faker->word());
 
-        $rule = new StorageDirectoryExistsRule($fs);
+        $attribute = $this->faker->word();
 
-        static::assertFalse($rule->passes($this->faker->word(), $this->faker->word()));
+        $validator = Validator::make(
+            [$attribute => $this->faker->word()],
+            [$attribute => new StorageDirectoryExistsRule($fs)]
+        );
+
+        static::assertFalse($validator->passes());
     }
 }
