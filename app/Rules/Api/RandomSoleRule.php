@@ -5,35 +5,30 @@ declare(strict_types=1);
 namespace App\Rules\Api;
 
 use App\Http\Api\Criteria\Sort\RandomCriteria;
-use Illuminate\Contracts\Validation\Rule;
+use Closure;
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Support\Str;
+use Illuminate\Translation\PotentiallyTranslatedString;
 
 /**
  * Class RandomSoleRule.
  */
-class RandomSoleRule implements Rule
+class RandomSoleRule implements ValidationRule
 {
     /**
-     * Determine if the validation rule passes.
+     * Run the validation rule.
      *
      * @param  string  $attribute
      * @param  mixed  $value
-     * @return bool
+     * @param  Closure(string): PotentiallyTranslatedString  $fail
+     * @return void
      */
-    public function passes($attribute, $value): bool
+    public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         $values = Str::of($value)->explode(',');
 
-        return ! $values->contains(RandomCriteria::PARAM_VALUE) || $values->containsOneItem();
-    }
-
-    /**
-     * Get the validation error message.
-     *
-     * @return string
-     */
-    public function message(): string
-    {
-        return __('validation.api.random_sole');
+        if ($values->contains(RandomCriteria::PARAM_VALUE) && ! $values->containsOneItem()) {
+            $fail(__('validation.api.random_sole'));
+        }
     }
 }

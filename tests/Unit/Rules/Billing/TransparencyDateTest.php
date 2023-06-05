@@ -9,6 +9,7 @@ use App\Rules\Billing\TransparencyDateRule;
 use DateTimeInterface;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Date;
+use Illuminate\Support\Facades\Validator;
 use Tests\TestCase;
 
 /**
@@ -27,9 +28,14 @@ class TransparencyDateTest extends TestCase
     {
         $validDates = collect([Date::now()]);
 
-        $rule = new TransparencyDateRule($validDates);
+        $attribute = $this->faker->word();
 
-        static::assertFalse($rule->passes($this->faker->word(), $this->faker->word()));
+        $validator = Validator::make(
+            [$attribute => $this->faker->word()],
+            [$attribute => new TransparencyDateRule($validDates)]
+        );
+
+        static::assertFalse($validator->passes());
     }
 
     /**
@@ -41,9 +47,14 @@ class TransparencyDateTest extends TestCase
     {
         $validDates = collect([Date::now()]);
 
-        $rule = new TransparencyDateRule($validDates);
+        $attribute = $this->faker->word();
 
-        static::assertFalse($rule->passes($this->faker->word(), $this->faker->numberBetween()));
+        $validator = Validator::make(
+            [$attribute => $this->faker->numberBetween()],
+            [$attribute => new TransparencyDateRule($validDates)]
+        );
+
+        static::assertFalse($validator->passes());
     }
 
     /**
@@ -55,11 +66,16 @@ class TransparencyDateTest extends TestCase
     {
         $validDates = collect([Date::now()]);
 
-        $rule = new TransparencyDateRule($validDates);
-
         $formattedDate = Date::now()->format(DateTimeInterface::RFC822);
 
-        static::assertFalse($rule->passes($this->faker->word(), $formattedDate));
+        $attribute = $this->faker->word();
+
+        $validator = Validator::make(
+            [$attribute => $formattedDate],
+            [$attribute => new TransparencyDateRule($validDates)]
+        );
+
+        static::assertFalse($validator->passes());
     }
 
     /**
@@ -71,11 +87,16 @@ class TransparencyDateTest extends TestCase
     {
         $validDates = collect([Date::now()]);
 
-        $rule = new TransparencyDateRule($validDates);
-
         $formattedDate = Date::now()->subMonths($this->faker->randomDigitNotNull())->format(AllowedDateFormat::YM);
 
-        static::assertFalse($rule->passes($this->faker->word(), $formattedDate));
+        $attribute = $this->faker->word();
+
+        $validator = Validator::make(
+            [$attribute => $formattedDate],
+            [$attribute => new TransparencyDateRule($validDates)]
+        );
+
+        static::assertFalse($validator->passes());
     }
 
     /**
@@ -87,10 +108,15 @@ class TransparencyDateTest extends TestCase
     {
         $validDates = collect([Date::now()]);
 
-        $rule = new TransparencyDateRule($validDates);
-
         $formattedDate = Date::now()->format(AllowedDateFormat::YM);
 
-        static::assertTrue($rule->passes($this->faker->word(), $formattedDate));
+        $attribute = $this->faker->word();
+
+        $validator = Validator::make(
+            [$attribute => $formattedDate],
+            [$attribute => new TransparencyDateRule($validDates)]
+        );
+
+        static::assertTrue($validator->passes());
     }
 }

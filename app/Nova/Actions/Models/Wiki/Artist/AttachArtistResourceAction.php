@@ -7,7 +7,7 @@ namespace App\Nova\Actions\Models\Wiki\Artist;
 use App\Models\Wiki\ExternalResource;
 use App\Nova\Actions\Models\Wiki\AttachResourceAction;
 use App\Rules\Wiki\Resource\ArtistResourceLinkFormatRule;
-use Illuminate\Contracts\Validation\Rule;
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
@@ -29,9 +29,9 @@ class AttachArtistResourceAction extends AttachResourceAction
     /**
      * Get the format validation rule.
      *
-     * @return Rule
+     * @return ValidationRule
      */
-    protected function getFormatRule(): Rule
+    protected function getFormatRule(): ValidationRule
     {
         return new ArtistResourceLinkFormatRule($this->site);
     }

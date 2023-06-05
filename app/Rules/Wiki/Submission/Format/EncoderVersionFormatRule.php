@@ -6,8 +6,9 @@ namespace App\Rules\Wiki\Submission\Format;
 
 use App\Constants\FeatureConstants;
 use App\Rules\Wiki\Submission\SubmissionRule;
-use Illuminate\Http\UploadedFile;
+use Closure;
 use Illuminate\Support\Arr;
+use Illuminate\Translation\PotentiallyTranslatedString;
 use Laravel\Pennant\Feature;
 
 /**
@@ -16,28 +17,21 @@ use Laravel\Pennant\Feature;
 class EncoderVersionFormatRule extends SubmissionRule
 {
     /**
-     * Determine if the validation rule passes.
+     * Run the validation rule.
      *
      * @param  string  $attribute
-     * @param  UploadedFile  $value
-     * @return bool
+     * @param  mixed  $value
+     * @param  Closure(string): PotentiallyTranslatedString  $fail
+     * @return void
      */
-    public function passes($attribute, $value): bool
+    public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         $tags = $this->tags();
 
         $encoder = Arr::get($tags, 'encoder');
 
-        return version_compare($encoder, Feature::for(null)->value(FeatureConstants::REQUIRED_ENCODER_VERSION), '>=');
-    }
-
-    /**
-     * Get the validation error message.
-     *
-     * @return string|array
-     */
-    public function message(): string|array
-    {
-        return __('validation.submission.format_encoder_version');
+        if (version_compare($encoder, Feature::for(null)->value(FeatureConstants::REQUIRED_ENCODER_VERSION), '<')) {
+            $fail(__('validation.submission.format_encoder_version'));
+        }
     }
 }

@@ -7,14 +7,14 @@ namespace App\Http\Api\Criteria\Filter;
 /**
  * Class Expression.
  */
-class Expression
+readonly class Expression
 {
     /**
      * Create a new expression.
      *
      * @param  mixed  $value
      */
-    public function __construct(protected readonly mixed $value)
+    public function __construct(protected mixed $value)
     {
     }
 

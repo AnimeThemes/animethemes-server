@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace App\Rules\Wiki\Submission\Format;
 
 use App\Rules\Wiki\Submission\SubmissionRule;
-use Illuminate\Http\UploadedFile;
+use Closure;
+use Illuminate\Translation\PotentiallyTranslatedString;
 
 /**
  * Class TotalStreamsFormatRule.
@@ -22,26 +23,19 @@ class TotalStreamsFormatRule extends SubmissionRule
     }
 
     /**
-     * Determine if the validation rule passes.
+     * Run the validation rule.
      *
      * @param  string  $attribute
-     * @param  UploadedFile  $value
-     * @return bool
+     * @param  mixed  $value
+     * @param  Closure(string): PotentiallyTranslatedString  $fail
+     * @return void
      */
-    public function passes($attribute, $value): bool
+    public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         $streams = $this->streams();
 
-        return count($streams) === $this->expected;
-    }
-
-    /**
-     * Get the validation error message.
-     *
-     * @return string|array
-     */
-    public function message(): string|array
-    {
-        return __('validation.submission.format_total_streams');
+        if (count($streams) !== $this->expected) {
+            $fail(__('validation.submission.format_total_streams'));
+        }
     }
 }

@@ -7,6 +7,7 @@ namespace Tests\Unit\Rules\Wiki\Resource;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Rules\Wiki\Resource\ResourceSiteMatchesLinkRule;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Validator;
 use Tests\TestCase;
 
 /**
@@ -38,9 +39,14 @@ class ResourceSiteMatchesLinkTest extends TestCase
             $url = 'https://'.$domain;
         }
 
-        $rule = new ResourceSiteMatchesLinkRule($url);
+        $attribute = $this->faker->word();
 
-        static::assertTrue($rule->passes($this->faker->word(), $site->value));
+        $validator = Validator::make(
+            [$attribute => $site->value],
+            [$attribute => new ResourceSiteMatchesLinkRule($url)],
+        );
+
+        static::assertTrue($validator->passes());
     }
 
     /**
@@ -50,9 +56,14 @@ class ResourceSiteMatchesLinkTest extends TestCase
      */
     public function testResourceSiteDomainRuleOfficialPasses(): void
     {
-        $rule = new ResourceSiteMatchesLinkRule($this->faker->url());
+        $attribute = $this->faker->word();
 
-        static::assertTrue($rule->passes($this->faker->word(), ResourceSite::OFFICIAL_SITE));
+        $validator = Validator::make(
+            [$attribute => ResourceSite::OFFICIAL_SITE],
+            [$attribute => new ResourceSiteMatchesLinkRule($this->faker->url())],
+        );
+
+        static::assertTrue($validator->passes());
     }
 
     /**
@@ -71,8 +82,13 @@ class ResourceSiteMatchesLinkTest extends TestCase
             }
         }
 
-        $rule = new ResourceSiteMatchesLinkRule($this->faker->url());
+        $attribute = $this->faker->word();
 
-        static::assertFalse($rule->passes($this->faker->word(), $site->value));
+        $validator = Validator::make(
+            [$attribute => $site->value],
+            [$attribute => new ResourceSiteMatchesLinkRule($this->faker->url())],
+        );
+
+        static::assertFalse($validator->passes());
     }
 }

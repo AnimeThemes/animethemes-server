@@ -5,14 +5,16 @@ declare(strict_types=1);
 namespace App\Rules\Billing;
 
 use App\Enums\Http\Api\Filter\AllowedDateFormat;
-use Illuminate\Contracts\Validation\Rule;
+use Closure;
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
+use Illuminate\Translation\PotentiallyTranslatedString;
 
 /**
  * Class TransparencyDateRule.
  */
-class TransparencyDateRule implements Rule
+readonly class TransparencyDateRule implements ValidationRule
 {
     /**
      * Create a new rule instance.
@@ -20,31 +22,22 @@ class TransparencyDateRule implements Rule
      * @param  Collection<int, Carbon>  $validDates
      * @return void
      */
-    public function __construct(protected readonly Collection $validDates)
+    public function __construct(protected Collection $validDates)
     {
     }
 
     /**
-     * Determine if the validation rule passes.
+     * Run the validation rule.
      *
      * @param  string  $attribute
      * @param  mixed  $value
-     * @return bool
+     * @param  Closure(string): PotentiallyTranslatedString  $fail
+     * @return void
      */
-    public function passes($attribute, $value): bool
+    public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        return $this->validDates->contains(
-            fn (Carbon $validDate) => $validDate->format(AllowedDateFormat::YM) === $value
-        );
-    }
-
-    /**
-     * Get the validation error message.
-     *
-     * @return string
-     */
-    public function message(): string
-    {
-        return __('The selected month is not valid.');
+        if (! $this->validDates->contains(fn (Carbon $validDate) => $validDate->format(AllowedDateFormat::YM) === $value)) {
+            $fail(__('The selected month is not valid.'));
+        }
     }
 }

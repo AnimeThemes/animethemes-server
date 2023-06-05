@@ -8,6 +8,7 @@ use App\Enums\Models\Wiki\ResourceSite;
 use App\Rules\Wiki\Resource\ArtistResourceLinkFormatRule;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
@@ -25,9 +26,14 @@ class ArtistResourceLinkFormatTest extends TestCase
      */
     public function testPassesForNoPattern(): void
     {
-        $rule = new ArtistResourceLinkFormatRule(ResourceSite::OFFICIAL_SITE());
+        $attribute = $this->faker->word();
 
-        static::assertTrue($rule->passes($this->faker->word(), $this->faker->url()));
+        $validator = Validator::make(
+            [$attribute => $this->faker->url()],
+            [$attribute => new ArtistResourceLinkFormatRule(ResourceSite::OFFICIAL_SITE())],
+        );
+
+        static::assertTrue($validator->passes());
     }
 
     /**
@@ -49,9 +55,14 @@ class ArtistResourceLinkFormatTest extends TestCase
 
         $url = $site->formatArtistResourceLink($this->faker->randomDigitNotNull(), $this->faker->word());
 
-        $rule = new ArtistResourceLinkFormatRule($site);
+        $attribute = $this->faker->word();
 
-        static::assertTrue($rule->passes($this->faker->word(), $url));
+        $validator = Validator::make(
+            [$attribute => $url],
+            [$attribute => new ArtistResourceLinkFormatRule($site)],
+        );
+
+        static::assertTrue($validator->passes());
     }
 
     /**
@@ -63,9 +74,14 @@ class ArtistResourceLinkFormatTest extends TestCase
     {
         $url = ResourceSite::KITSU()->formatAnimeResourceLink($this->faker->randomDigitNotNull(), $this->faker->word());
 
-        $rule = new ArtistResourceLinkFormatRule(ResourceSite::KITSU());
+        $attribute = $this->faker->word();
 
-        static::assertFalse($rule->passes($this->faker->word(), $url));
+        $validator = Validator::make(
+            [$attribute => $url],
+            [$attribute => new ArtistResourceLinkFormatRule(ResourceSite::KITSU())],
+        );
+
+        static::assertFalse($validator->passes());
     }
 
     /**
@@ -91,9 +107,14 @@ class ArtistResourceLinkFormatTest extends TestCase
             ->append('/')
             ->__toString();
 
-        $rule = new ArtistResourceLinkFormatRule($site);
+        $attribute = $this->faker->word();
 
-        static::assertFalse($rule->passes($this->faker->word(), $url));
+        $validator = Validator::make(
+            [$attribute => $url],
+            [$attribute => new ArtistResourceLinkFormatRule($site)],
+        );
+
+        static::assertFalse($validator->passes());
     }
 
     /**
@@ -116,9 +137,14 @@ class ArtistResourceLinkFormatTest extends TestCase
             ->append($this->faker->word())
             ->__toString();
 
-        $rule = new ArtistResourceLinkFormatRule($site);
+        $attribute = $this->faker->word();
 
-        static::assertFalse($rule->passes($this->faker->word(), $url));
+        $validator = Validator::make(
+            [$attribute => $url],
+            [$attribute => new ArtistResourceLinkFormatRule($site)],
+        );
+
+        static::assertFalse($validator->passes());
     }
 
     /**
@@ -139,9 +165,14 @@ class ArtistResourceLinkFormatTest extends TestCase
 
         $url = $site->formatAnimeResourceLink($this->faker->randomDigitNotNull(), $this->faker->word());
 
-        $rule = new ArtistResourceLinkFormatRule($site);
+        $attribute = $this->faker->word();
 
-        static::assertFalse($rule->passes($this->faker->word(), $url));
+        $validator = Validator::make(
+            [$attribute => $url],
+            [$attribute => new ArtistResourceLinkFormatRule($site)],
+        );
+
+        static::assertFalse($validator->passes());
     }
 
     /**
@@ -161,8 +192,13 @@ class ArtistResourceLinkFormatTest extends TestCase
 
         $url = $site->formatStudioResourceLink($this->faker->randomDigitNotNull(), $this->faker->word());
 
-        $rule = new ArtistResourceLinkFormatRule($site);
+        $attribute = $this->faker->word();
 
-        static::assertFalse($rule->passes($this->faker->word(), $url));
+        $validator = Validator::make(
+            [$attribute => $url],
+            [$attribute => new ArtistResourceLinkFormatRule($site)],
+        );
+
+        static::assertFalse($validator->passes());
     }
 }

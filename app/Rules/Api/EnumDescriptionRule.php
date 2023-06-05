@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace App\Rules\Api;
 
 use App\Enums\BaseEnum;
-use Illuminate\Contracts\Validation\Rule;
+use Closure;
+use Illuminate\Contracts\Validation\ValidationRule;
+use Illuminate\Translation\PotentiallyTranslatedString;
 
 /**
  * Class EnumDescriptionRule.
  */
-class EnumDescriptionRule implements Rule
+readonly class EnumDescriptionRule implements ValidationRule
 {
     /**
      * Create a new rule instance.
@@ -18,29 +20,22 @@ class EnumDescriptionRule implements Rule
      * @param  class-string<BaseEnum>  $enumClass
      * @return void
      */
-    public function __construct(protected readonly string $enumClass)
+    public function __construct(protected string $enumClass)
     {
     }
 
     /**
-     * Determine if the validation rule passes.
+     * Run the validation rule.
      *
      * @param  string  $attribute
      * @param  mixed  $value
-     * @return bool
+     * @param  Closure(string): PotentiallyTranslatedString  $fail
+     * @return void
      */
-    public function passes($attribute, $value): bool
+    public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        return is_string($value) && $this->enumClass::fromDescription($value) !== null;
-    }
-
-    /**
-     * Get the validation error message.
-     *
-     * @return string
-     */
-    public function message(): string
-    {
-        return __('validation.enum');
+        if (! is_string($value) || $this->enumClass::fromDescription($value) === null) {
+            $fail(__('validation.enum'));
+        }
     }
 }

@@ -8,6 +8,7 @@ use App\Enums\Models\Wiki\ResourceSite;
 use App\Rules\Wiki\Resource\ResourceLinkFormatRule;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
@@ -25,9 +26,14 @@ class ResourceLinkFormatTest extends TestCase
      */
     public function testPassesForNoSite(): void
     {
-        $rule = new ResourceLinkFormatRule();
+        $attribute = $this->faker->word();
 
-        static::assertTrue($rule->passes($this->faker->word(), $this->faker->url()));
+        $validator = Validator::make(
+            [$attribute => $this->faker->url()],
+            [$attribute => new ResourceLinkFormatRule()],
+        );
+
+        static::assertTrue($validator->passes());
     }
 
     /**
@@ -37,9 +43,14 @@ class ResourceLinkFormatTest extends TestCase
      */
     public function testPassesForNoPattern(): void
     {
-        $rule = new ResourceLinkFormatRule(ResourceSite::OFFICIAL_SITE());
+        $attribute = $this->faker->word();
 
-        static::assertTrue($rule->passes($this->faker->word(), $this->faker->url()));
+        $validator = Validator::make(
+            [$attribute => $this->faker->url()],
+            [$attribute => new ResourceLinkFormatRule(ResourceSite::OFFICIAL_SITE())],
+        );
+
+        static::assertTrue($validator->passes());
     }
 
     /**
@@ -62,9 +73,14 @@ class ResourceLinkFormatTest extends TestCase
 
         $url = $site->formatAnimeResourceLink($this->faker->randomDigitNotNull(), $this->faker->word());
 
-        $rule = new ResourceLinkFormatRule($site);
+        $attribute = $this->faker->word();
 
-        static::assertTrue($rule->passes($this->faker->word(), $url));
+        $validator = Validator::make(
+            [$attribute => $url],
+            [$attribute => new ResourceLinkFormatRule($site)],
+        );
+
+        static::assertTrue($validator->passes());
     }
 
     /**
@@ -86,9 +102,14 @@ class ResourceLinkFormatTest extends TestCase
 
         $url = $site->formatArtistResourceLink($this->faker->randomDigitNotNull(), $this->faker->word());
 
-        $rule = new ResourceLinkFormatRule($site);
+        $attribute = $this->faker->word();
 
-        static::assertTrue($rule->passes($this->faker->word(), $url));
+        $validator = Validator::make(
+            [$attribute => $url],
+            [$attribute => new ResourceLinkFormatRule($site)],
+        );
+
+        static::assertTrue($validator->passes());
     }
 
     /**
@@ -110,9 +131,14 @@ class ResourceLinkFormatTest extends TestCase
 
         $url = $site->formatStudioResourceLink($this->faker->randomDigitNotNull(), $this->faker->word());
 
-        $rule = new ResourceLinkFormatRule($site);
+        $attribute = $this->faker->word();
 
-        static::assertTrue($rule->passes($this->faker->word(), $url));
+        $validator = Validator::make(
+            [$attribute => $url],
+            [$attribute => new ResourceLinkFormatRule($site)],
+        );
+
+        static::assertTrue($validator->passes());
     }
 
     /**
@@ -138,8 +164,13 @@ class ResourceLinkFormatTest extends TestCase
             ->append('/')
             ->__toString();
 
-        $rule = new ResourceLinkFormatRule($site);
+        $attribute = $this->faker->word();
 
-        static::assertFalse($rule->passes($this->faker->word(), $url));
+        $validator = Validator::make(
+            [$attribute => $url],
+            [$attribute => new ResourceLinkFormatRule($site)],
+        );
+
+        static::assertFalse($validator->passes());
     }
 }

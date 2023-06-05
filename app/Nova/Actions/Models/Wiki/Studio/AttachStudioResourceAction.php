@@ -7,7 +7,7 @@ namespace App\Nova\Actions\Models\Wiki\Studio;
 use App\Models\Wiki\ExternalResource;
 use App\Nova\Actions\Models\Wiki\AttachResourceAction;
 use App\Rules\Wiki\Resource\StudioResourceLinkFormatRule;
-use Illuminate\Contracts\Validation\Rule;
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
@@ -29,9 +29,9 @@ class AttachStudioResourceAction extends AttachResourceAction
     /**
      * Get the format validation rule.
      *
-     * @return Rule
+     * @return ValidationRule
      */
-    protected function getFormatRule(): Rule
+    protected function getFormatRule(): ValidationRule
     {
         return new StudioResourceLinkFormatRule($this->site);
     }

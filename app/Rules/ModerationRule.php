@@ -9,7 +9,7 @@ use App\Constants\Config\ValidationConstants;
 use App\Enums\Rules\ModerationService;
 use Closure;
 use Exception;
-use Illuminate\Contracts\Validation\InvokableRule;
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
@@ -20,7 +20,7 @@ use RuntimeException;
 /**
  * Class ModerationRule.
  */
-class ModerationRule implements InvokableRule
+class ModerationRule implements ValidationRule
 {
     /**
      * Run the validation rule.
@@ -32,11 +32,11 @@ class ModerationRule implements InvokableRule
      *
      * @throws RuntimeException
      */
-    public function __invoke(string $attribute, mixed $value, Closure $fail): void
+    public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         match (Config::get(ValidationConstants::MODERATION_SERVICE_QUALIFIED)) {
             ModerationService::NONE => null,
-            ModerationService::OPENAI => $this->invokeForOpenAI($attribute, $value, $fail),
+            ModerationService::OPENAI => $this->validateForOpenAI($attribute, $value, $fail),
             default => throw new RuntimeException('Invalid moderation service config value'),
         };
     }
@@ -49,7 +49,7 @@ class ModerationRule implements InvokableRule
      * @param  Closure(string): PotentiallyTranslatedString  $fail
      * @return void
      */
-    private function invokeForOpenAI(string $attribute, mixed $value, Closure $fail): void
+    private function validateForOpenAI(string $attribute, mixed $value, Closure $fail): void
     {
         try {
             $response = Http::acceptJson()

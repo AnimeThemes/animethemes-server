@@ -7,6 +7,7 @@ namespace Tests\Unit\Rules\Api;
 use App\Http\Api\Criteria\Sort\RandomCriteria;
 use App\Rules\Api\RandomSoleRule;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Validator;
 use Tests\TestCase;
 
 /**
@@ -27,9 +28,14 @@ class RandomSoleTest extends TestCase
 
         $sorts[] = RandomCriteria::PARAM_VALUE;
 
-        $rule = new RandomSoleRule();
+        $attribute = $this->faker->word();
 
-        static::assertFalse($rule->passes($this->faker->word(), implode(',', $sorts)));
+        $validator = Validator::make(
+            [$attribute => implode(',', $sorts)],
+            [$attribute => new RandomSoleRule()]
+        );
+
+        static::assertFalse($validator->passes());
     }
 
     /**
@@ -41,9 +47,14 @@ class RandomSoleTest extends TestCase
     {
         $sorts = $this->faker->words($this->faker->randomDigitNotNull());
 
-        $rule = new RandomSoleRule();
+        $attribute = $this->faker->word();
 
-        static::assertTrue($rule->passes($this->faker->word(), implode(',', $sorts)));
+        $validator = Validator::make(
+            [$attribute => implode(',', $sorts)],
+            [$attribute => new RandomSoleRule()]
+        );
+
+        static::assertTrue($validator->passes());
     }
 
     /**
@@ -53,8 +64,13 @@ class RandomSoleTest extends TestCase
      */
     public function testPassesIfRandomIsSoleSort(): void
     {
-        $rule = new RandomSoleRule();
+        $attribute = $this->faker->word();
 
-        static::assertTrue($rule->passes($this->faker->word(), RandomCriteria::PARAM_VALUE));
+        $validator = Validator::make(
+            [$attribute => RandomCriteria::PARAM_VALUE],
+            [$attribute => new RandomSoleRule()]
+        );
+
+        static::assertTrue($validator->passes());
     }
 }

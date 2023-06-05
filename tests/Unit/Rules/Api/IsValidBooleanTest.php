@@ -6,7 +6,7 @@ namespace Tests\Unit\Rules\Api;
 
 use App\Rules\Api\IsValidBoolean;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Validator;
 use Tests\TestCase;
 
 /**
@@ -23,11 +23,14 @@ class IsValidBooleanTest extends TestCase
      */
     public function testPassesIfBoolean(): void
     {
-        $boolean = $this->faker->boolean();
+        $attribute = $this->faker->word();
 
-        $rule = new IsValidBoolean();
+        $validator = Validator::make(
+            [$attribute => $this->faker->boolean()],
+            [$attribute => new IsValidBoolean()]
+        );
 
-        static::assertTrue($rule->passes($this->faker->word(), $boolean));
+        static::assertTrue($validator->passes());
     }
 
     /**
@@ -39,9 +42,14 @@ class IsValidBooleanTest extends TestCase
     {
         $booleanString = $this->faker->boolean() ? 'true' : 'false';
 
-        $rule = new IsValidBoolean();
+        $attribute = $this->faker->word();
 
-        static::assertTrue($rule->passes($this->faker->word(), $booleanString));
+        $validator = Validator::make(
+            [$attribute => $booleanString],
+            [$attribute => new IsValidBoolean()]
+        );
+
+        static::assertTrue($validator->passes());
     }
 
     /**
@@ -53,9 +61,14 @@ class IsValidBooleanTest extends TestCase
     {
         $booleanInteger = $this->faker->boolean() ? 1 : 0;
 
-        $rule = new IsValidBoolean();
+        $attribute = $this->faker->word();
 
-        static::assertTrue($rule->passes($this->faker->word(), $booleanInteger));
+        $validator = Validator::make(
+            [$attribute => $booleanInteger],
+            [$attribute => new IsValidBoolean()]
+        );
+
+        static::assertTrue($validator->passes());
     }
 
     /**
@@ -67,9 +80,14 @@ class IsValidBooleanTest extends TestCase
     {
         $booleanCheckbox = $this->faker->boolean() ? 'on' : 'off';
 
-        $rule = new IsValidBoolean();
+        $attribute = $this->faker->word();
 
-        static::assertTrue($rule->passes($this->faker->word(), $booleanCheckbox));
+        $validator = Validator::make(
+            [$attribute => $booleanCheckbox],
+            [$attribute => new IsValidBoolean()]
+        );
+
+        static::assertTrue($validator->passes());
     }
 
     /**
@@ -79,9 +97,14 @@ class IsValidBooleanTest extends TestCase
      */
     public function testFailsIfString(): void
     {
-        $rule = new IsValidBoolean();
+        $attribute = $this->faker->word();
 
-        static::assertFalse($rule->passes($this->faker->word(), Str::random()));
+        $validator = Validator::make(
+            [$attribute => $this->faker->word()],
+            [$attribute => new IsValidBoolean()]
+        );
+
+        static::assertFalse($validator->passes());
     }
 
     /**
@@ -91,10 +114,13 @@ class IsValidBooleanTest extends TestCase
      */
     public function testFailsIfNumber(): void
     {
-        $number = $this->faker->numberBetween(2, 9);
+        $attribute = $this->faker->word();
 
-        $rule = new IsValidBoolean();
+        $validator = Validator::make(
+            [$attribute => $this->faker->numberBetween(2, 9)],
+            [$attribute => new IsValidBoolean()]
+        );
 
-        static::assertFalse($rule->passes($this->faker->word(), $number));
+        static::assertFalse($validator->passes());
     }
 }

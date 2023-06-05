@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace App\Rules\Wiki\Submission\Format;
 
 use App\Rules\Wiki\Submission\SubmissionRule;
-use Illuminate\Http\UploadedFile;
+use Closure;
 use Illuminate\Support\Arr;
+use Illuminate\Translation\PotentiallyTranslatedString;
 
 /**
  * Class VideoBitrateRestrictionFormatRule.
@@ -14,13 +15,14 @@ use Illuminate\Support\Arr;
 class VideoBitrateRestrictionFormatRule extends SubmissionRule
 {
     /**
-     * Determine if the validation rule passes.
+     * Run the validation rule.
      *
      * @param  string  $attribute
-     * @param  UploadedFile  $value
-     * @return bool
+     * @param  mixed  $value
+     * @param  Closure(string): PotentiallyTranslatedString  $fail
+     * @return void
      */
-    public function passes($attribute, $value): bool
+    public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         $format = $this->format();
 
@@ -33,16 +35,8 @@ class VideoBitrateRestrictionFormatRule extends SubmissionRule
         $height = intval(Arr::get($video, 'height'));
 
         // Linear approximation of egregious bitrate by resolution
-        return $bitrate < $height * 7100 + 475000;
-    }
-
-    /**
-     * Get the validation error message.
-     *
-     * @return string|array
-     */
-    public function message(): string|array
-    {
-        return __('validation.submission.format_bitrate_restriction');
+        if ($bitrate > $height * 7100 + 475000) {
+            $fail(__('validation.submission.format_bitrate_restriction'));
+        }
     }
 }

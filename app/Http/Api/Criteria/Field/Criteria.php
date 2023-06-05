@@ -9,7 +9,7 @@ use Illuminate\Support\Collection;
 /**
  * Class Criteria.
  */
-class Criteria
+readonly class Criteria
 {
     /**
      * Create a new criteria instance.
@@ -17,7 +17,7 @@ class Criteria
      * @param  string  $type
      * @param  Collection<int, string>  $fields
      */
-    public function __construct(protected readonly string $type, protected readonly Collection $fields)
+    public function __construct(protected string $type, protected Collection $fields)
     {
     }
 

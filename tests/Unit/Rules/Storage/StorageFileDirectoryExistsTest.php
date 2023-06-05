@@ -9,6 +9,7 @@ use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 use Tests\TestCase;
 
 /**
@@ -32,9 +33,14 @@ class StorageFileDirectoryExistsTest extends TestCase
 
         $path = $fs->putFile($this->faker->word(), $file);
 
-        $rule = new StorageFileDirectoryExistsRule($fs);
+        $attribute = $this->faker->word();
 
-        static::assertTrue($rule->passes($this->faker->word(), $path));
+        $validator = Validator::make(
+            [$attribute => $path],
+            [$attribute => new StorageFileDirectoryExistsRule($fs)]
+        );
+
+        static::assertTrue($validator->passes());
     }
 
     /**
@@ -46,8 +52,13 @@ class StorageFileDirectoryExistsTest extends TestCase
     {
         $fs = Storage::fake($this->faker->word());
 
-        $rule = new StorageFileDirectoryExistsRule($fs);
+        $attribute = $this->faker->word();
 
-        static::assertFalse($rule->passes($this->faker->word(), $this->faker->filePath()));
+        $validator = Validator::make(
+            [$attribute => $this->faker->filePath()],
+            [$attribute => new StorageFileDirectoryExistsRule($fs)]
+        );
+
+        static::assertFalse($validator->passes());
     }
 }
