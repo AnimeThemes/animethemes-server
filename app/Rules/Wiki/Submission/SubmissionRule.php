@@ -31,7 +31,6 @@ abstract class SubmissionRule implements ValidationRule, ValidatorAwareRule
      */
     protected array $loudnessStats;
 
-
     /**
      * Set the current validator.
      *

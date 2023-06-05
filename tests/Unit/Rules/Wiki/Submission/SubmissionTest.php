@@ -76,7 +76,7 @@ class SubmissionTest extends TestCase
                     'tags' => [
                         'ENCODER' => 'Lavf59.27.100',
                         'DURATION' => '00:01:30.098000000',
-                    ]
+                    ],
                 ],
                 'streams' => [
                     0 => [
