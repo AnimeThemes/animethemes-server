@@ -36,10 +36,12 @@ class FeaturedThemeEndAtField extends DateField implements CreatableField, Updat
      */
     public function getCreationRules(Request $request): array
     {
+        $allowedDateFormats = array_column(AllowedDateFormat::cases(), 'value');
+
         return [
             'required',
             Str::of('date_format:')
-                ->append(implode(',', AllowedDateFormat::getValues()))
+                ->append(implode(',', $allowedDateFormats))
                 ->__toString(),
             Str::of('after:')
                 ->append($this->resolveStartAt($request))
@@ -55,11 +57,13 @@ class FeaturedThemeEndAtField extends DateField implements CreatableField, Updat
      */
     public function getUpdateRules(Request $request): array
     {
+        $allowedDateFormats = array_column(AllowedDateFormat::cases(), 'value');
+
         return [
             'sometimes',
             'required',
             Str::of('date_format:')
-                ->append(implode(',', AllowedDateFormat::getValues()))
+                ->append(implode(',', $allowedDateFormats))
                 ->__toString(),
             Str::of('after:')
                 ->append($this->resolveStartAt($request))
@@ -82,6 +86,6 @@ class FeaturedThemeEndAtField extends DateField implements CreatableField, Updat
         /** @var FeaturedTheme|null $featuredTheme */
         $featuredTheme = $request->route('featuredtheme');
 
-        return $featuredTheme?->start_at?->format(AllowedDateFormat::YMDHISU);
+        return $featuredTheme?->start_at?->format(AllowedDateFormat::YMDHISU->value);
     }
 }

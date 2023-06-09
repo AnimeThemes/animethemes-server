@@ -31,6 +31,7 @@ use App\Pivots\BasePivot;
 use App\Pivots\Wiki\AnimeThemeEntryVideo;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Tests\TestCase;
@@ -196,7 +197,7 @@ class AnimeThemeEntryVideoIndexTest extends TestCase
             ->random();
 
         $parameters = [
-            SortParser::param() => $sort->format(Direction::getRandomInstance()),
+            SortParser::param() => $sort->format(Arr::random(Direction::cases())),
         ];
 
         $query = new Query($parameters);
@@ -557,11 +558,11 @@ class AnimeThemeEntryVideoIndexTest extends TestCase
      */
     public function testVideosByOverlap(): void
     {
-        $overlapFilter = VideoOverlap::getRandomInstance();
+        $overlapFilter = Arr::random(VideoOverlap::cases());
 
         $parameters = [
             FilterParser::param() => [
-                Video::ATTRIBUTE_OVERLAP => $overlapFilter->description,
+                Video::ATTRIBUTE_OVERLAP => $overlapFilter->localize(),
             ],
             IncludeParser::param() => AnimeThemeEntryVideo::RELATION_VIDEO,
         ];
@@ -645,11 +646,11 @@ class AnimeThemeEntryVideoIndexTest extends TestCase
      */
     public function testVideosBySource(): void
     {
-        $sourceFilter = VideoSource::getRandomInstance();
+        $sourceFilter = Arr::random(VideoSource::cases());
 
         $parameters = [
             FilterParser::param() => [
-                Video::ATTRIBUTE_SOURCE => $sourceFilter->description,
+                Video::ATTRIBUTE_SOURCE => $sourceFilter->localize(),
             ],
             IncludeParser::param() => AnimeThemeEntryVideo::RELATION_VIDEO,
         ];

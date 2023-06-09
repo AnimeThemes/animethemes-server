@@ -56,7 +56,7 @@ class AnnouncementForceDeleteTest extends TestCase
     {
         $announcement = Announcement::factory()->createOne();
 
-        $user = User::factory()->withPermissions(ExtendedCrudPermission::FORCE_DELETE()->format(Announcement::class))->createOne();
+        $user = User::factory()->withPermissions(ExtendedCrudPermission::FORCE_DELETE->format(Announcement::class))->createOne();
 
         Sanctum::actingAs($user);
 

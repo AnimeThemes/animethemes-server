@@ -38,7 +38,7 @@ class BalanceDateField extends DateField implements CreatableField, UpdatableFie
     {
         return [
             'required',
-            Str::of('date_format:')->append(AllowedDateFormat::YMD)->__toString(),
+            Str::of('date_format:')->append(AllowedDateFormat::YMD->value)->__toString(),
         ];
     }
 
@@ -53,7 +53,7 @@ class BalanceDateField extends DateField implements CreatableField, UpdatableFie
         return [
             'sometimes',
             'required',
-            Str::of('date_format:')->append(AllowedDateFormat::YMD)->__toString(),
+            Str::of('date_format:')->append(AllowedDateFormat::YMD->value)->__toString(),
         ];
     }
 }

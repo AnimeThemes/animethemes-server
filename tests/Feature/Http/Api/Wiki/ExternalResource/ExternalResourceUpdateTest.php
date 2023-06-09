@@ -27,7 +27,7 @@ class ExternalResourceUpdateTest extends TestCase
 
         $parameters = array_merge(
             ExternalResource::factory()->raw(),
-            [ExternalResource::ATTRIBUTE_SITE => ResourceSite::getDescription(ResourceSite::OFFICIAL_SITE)]
+            [ExternalResource::ATTRIBUTE_SITE => ResourceSite::OFFICIAL_SITE->localize()]
         );
 
         $response = $this->put(route('api.resource.update', ['resource' => $resource] + $parameters));
@@ -46,7 +46,7 @@ class ExternalResourceUpdateTest extends TestCase
 
         $parameters = array_merge(
             ExternalResource::factory()->raw(),
-            [ExternalResource::ATTRIBUTE_SITE => ResourceSite::getDescription(ResourceSite::OFFICIAL_SITE)]
+            [ExternalResource::ATTRIBUTE_SITE => ResourceSite::OFFICIAL_SITE->localize()]
         );
 
         $user = User::factory()->createOne();
@@ -73,10 +73,10 @@ class ExternalResourceUpdateTest extends TestCase
 
         $parameters = array_merge(
             ExternalResource::factory()->raw(),
-            [ExternalResource::ATTRIBUTE_SITE => ResourceSite::getDescription(ResourceSite::OFFICIAL_SITE)]
+            [ExternalResource::ATTRIBUTE_SITE => ResourceSite::OFFICIAL_SITE->localize()]
         );
 
-        $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(ExternalResource::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(ExternalResource::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -98,10 +98,10 @@ class ExternalResourceUpdateTest extends TestCase
 
         $parameters = array_merge(
             ExternalResource::factory()->raw(),
-            [ExternalResource::ATTRIBUTE_SITE => ResourceSite::getDescription(ResourceSite::OFFICIAL_SITE)]
+            [ExternalResource::ATTRIBUTE_SITE => ResourceSite::OFFICIAL_SITE->localize()]
         );
 
-        $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(ExternalResource::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(ExternalResource::class))->createOne();
 
         Sanctum::actingAs($user);
 

@@ -12,7 +12,6 @@ use App\Events\Billing\Balance\BalanceDeleted;
 use App\Events\Billing\Balance\BalanceRestored;
 use App\Events\Billing\Balance\BalanceUpdated;
 use App\Models\BaseModel;
-use BenSampo\Enum\Enum;
 use Database\Factories\Billing\BalanceFactory;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
@@ -24,8 +23,8 @@ use Laravel\Nova\Actions\Actionable;
  * @property float $balance
  * @property int $balance_id
  * @property Carbon $date
- * @property Enum $frequency
- * @property Enum $service
+ * @property BalanceFrequency $frequency
+ * @property Service $service
  * @property float $usage
  *
  * @method static BalanceFactory factory(...$parameters)
@@ -104,9 +103,9 @@ class Balance extends BaseModel
      */
     public function getName(): string
     {
-        return Str::of($this->service->description)
+        return Str::of($this->service->localize())
             ->append(' ')
-            ->append($this->date->format(AllowedDateFormat::YM))
+            ->append($this->date->format(AllowedDateFormat::YM->value))
             ->__toString();
     }
 }

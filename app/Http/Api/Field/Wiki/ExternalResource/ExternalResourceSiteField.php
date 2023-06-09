@@ -11,8 +11,8 @@ use App\Http\Api\Field\EnumField;
 use App\Http\Api\Schema\Schema;
 use App\Models\Wiki\ExternalResource;
 use App\Rules\Wiki\Resource\ResourceSiteMatchesLinkRule;
-use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rules\Enum;
 
 /**
  * Class ExternalResourceSiteField.
@@ -40,7 +40,7 @@ class ExternalResourceSiteField extends EnumField implements CreatableField, Upd
         return [
             'bail',
             'required',
-            new EnumValue(ResourceSite::class),
+            new Enum(ResourceSite::class),
             new ResourceSiteMatchesLinkRule($this->resolveLink($request)),
         ];
     }
@@ -57,7 +57,7 @@ class ExternalResourceSiteField extends EnumField implements CreatableField, Upd
             'bail',
             'sometimes',
             'required',
-            new EnumValue(ResourceSite::class),
+            new Enum(ResourceSite::class),
             new ResourceSiteMatchesLinkRule($this->resolveLink($request)),
         ];
     }

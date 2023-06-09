@@ -56,7 +56,7 @@ class ScriptForceDeleteTest extends TestCase
     {
         $script = VideoScript::factory()->createOne();
 
-        $user = User::factory()->withPermissions(ExtendedCrudPermission::FORCE_DELETE()->format(VideoScript::class))->createOne();
+        $user = User::factory()->withPermissions(ExtendedCrudPermission::FORCE_DELETE->format(VideoScript::class))->createOne();
 
         Sanctum::actingAs($user);
 

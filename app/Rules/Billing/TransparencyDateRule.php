@@ -36,7 +36,7 @@ readonly class TransparencyDateRule implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        if (! $this->validDates->contains(fn (Carbon $validDate) => $validDate->format(AllowedDateFormat::YM) === $value)) {
+        if (! $this->validDates->contains(fn (Carbon $validDate) => $validDate->format(AllowedDateFormat::YM->value) === $value)) {
             $fail(__('The selected month is not valid.'));
         }
     }

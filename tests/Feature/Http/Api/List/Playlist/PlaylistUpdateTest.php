@@ -14,6 +14,7 @@ use App\Features\AllowPlaylistManagement;
 use App\Models\Auth\User;
 use App\Models\List\Playlist;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Http;
@@ -41,9 +42,11 @@ class PlaylistUpdateTest extends TestCase
 
         $playlist = Playlist::factory()->createOne();
 
+        $visibility = Arr::random(PlaylistVisibility::cases());
+
         $parameters = array_merge(
             Playlist::factory()->raw(),
-            [Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::getRandomInstance()->description],
+            [Playlist::ATTRIBUTE_VISIBILITY => $visibility->localize()],
         );
 
         $response = $this->put(route('api.playlist.update', ['playlist' => $playlist] + $parameters));
@@ -64,9 +67,11 @@ class PlaylistUpdateTest extends TestCase
 
         $playlist = Playlist::factory()->createOne();
 
+        $visibility = Arr::random(PlaylistVisibility::cases());
+
         $parameters = array_merge(
             Playlist::factory()->raw(),
-            [Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::getRandomInstance()->description],
+            [Playlist::ATTRIBUTE_VISIBILITY => $visibility->localize()],
         );
 
         $user = User::factory()->createOne();
@@ -93,12 +98,14 @@ class PlaylistUpdateTest extends TestCase
             ->for(User::factory())
             ->createOne();
 
+        $visibility = Arr::random(PlaylistVisibility::cases());
+
         $parameters = array_merge(
             Playlist::factory()->raw(),
-            [Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::getRandomInstance()->description],
+            [Playlist::ATTRIBUTE_VISIBILITY => $visibility->localize()],
         );
 
-        $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(Playlist::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(Playlist::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -119,16 +126,18 @@ class PlaylistUpdateTest extends TestCase
 
         Feature::deactivate(AllowPlaylistManagement::class);
 
-        $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(Playlist::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(Playlist::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)
             ->createOne();
 
+        $visibility = Arr::random(PlaylistVisibility::cases());
+
         $parameters = array_merge(
             Playlist::factory()->raw(),
             [
-                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::getRandomInstance()->description,
+                Playlist::ATTRIBUTE_VISIBILITY => $visibility->localize(),
             ],
         );
 
@@ -150,17 +159,19 @@ class PlaylistUpdateTest extends TestCase
 
         Feature::activate(AllowPlaylistManagement::class);
 
-        $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(Playlist::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(Playlist::class))->createOne();
 
         $playlist = Playlist::factory()
             ->trashed()
             ->for($user)
             ->createOne();
 
+        $visibility = Arr::random(PlaylistVisibility::cases());
+
         $parameters = array_merge(
             Playlist::factory()->raw(),
             [
-                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::getRandomInstance()->description,
+                Playlist::ATTRIBUTE_VISIBILITY => $visibility->localize(),
             ],
         );
 
@@ -182,16 +193,18 @@ class PlaylistUpdateTest extends TestCase
 
         Feature::activate(AllowPlaylistManagement::class);
 
-        $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(Playlist::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(Playlist::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)
             ->createOne();
 
+        $visibility = Arr::random(PlaylistVisibility::cases());
+
         $parameters = array_merge(
             Playlist::factory()->raw(),
             [
-                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::getRandomInstance()->description,
+                Playlist::ATTRIBUTE_VISIBILITY => $visibility->localize(),
             ],
         );
 
@@ -216,8 +229,8 @@ class PlaylistUpdateTest extends TestCase
 
         $user = User::factory()
             ->withPermissions(
-                CrudPermission::UPDATE()->format(Playlist::class),
-                SpecialPermission::BYPASS_FEATURE_FLAGS
+                CrudPermission::UPDATE->format(Playlist::class),
+                SpecialPermission::BYPASS_FEATURE_FLAGS->value
             )
             ->createOne();
 
@@ -225,10 +238,12 @@ class PlaylistUpdateTest extends TestCase
             ->for($user)
             ->createOne();
 
+        $visibility = Arr::random(PlaylistVisibility::cases());
+
         $parameters = array_merge(
             Playlist::factory()->raw(),
             [
-                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::getRandomInstance()->description,
+                Playlist::ATTRIBUTE_VISIBILITY => $visibility->localize(),
             ],
         );
 
@@ -249,7 +264,7 @@ class PlaylistUpdateTest extends TestCase
         Event::fakeExcept(PlaylistCreated::class);
 
         Feature::activate(AllowPlaylistManagement::class);
-        Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI);
+        Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI->value);
 
         Http::fake([
             'https://api.openai.com/v1/moderations' => Http::response([
@@ -261,16 +276,18 @@ class PlaylistUpdateTest extends TestCase
             ]),
         ]);
 
-        $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(Playlist::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(Playlist::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)
             ->createOne();
 
+        $visibility = Arr::random(PlaylistVisibility::cases());
+
         $parameters = array_merge(
             Playlist::factory()->raw(),
             [
-                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::getRandomInstance()->description,
+                Playlist::ATTRIBUTE_VISIBILITY => $visibility->localize(),
             ],
         );
 
@@ -291,22 +308,24 @@ class PlaylistUpdateTest extends TestCase
         Event::fakeExcept(PlaylistCreated::class);
 
         Feature::activate(AllowPlaylistManagement::class);
-        Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI);
+        Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI->value);
 
         Http::fake([
             'https://api.openai.com/v1/moderations' => Http::response(status: 404),
         ]);
 
-        $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(Playlist::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(Playlist::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)
             ->createOne();
 
+        $visibility = Arr::random(PlaylistVisibility::cases());
+
         $parameters = array_merge(
             Playlist::factory()->raw(),
             [
-                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::getRandomInstance()->description,
+                Playlist::ATTRIBUTE_VISIBILITY => $visibility->localize(),
             ],
         );
 
@@ -327,7 +346,7 @@ class PlaylistUpdateTest extends TestCase
         Event::fakeExcept(PlaylistCreated::class);
 
         Feature::activate(AllowPlaylistManagement::class);
-        Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI);
+        Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI->value);
 
         Http::fake([
             'https://api.openai.com/v1/moderations' => Http::response([
@@ -339,16 +358,18 @@ class PlaylistUpdateTest extends TestCase
             ]),
         ]);
 
-        $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(Playlist::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(Playlist::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)
             ->createOne();
 
+        $visibility = Arr::random(PlaylistVisibility::cases());
+
         $parameters = array_merge(
             Playlist::factory()->raw(),
             [
-                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::getRandomInstance()->description,
+                Playlist::ATTRIBUTE_VISIBILITY => $visibility->localize(),
             ],
         );
 

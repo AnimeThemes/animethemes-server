@@ -24,7 +24,7 @@ class BackfillAnnResourceAction extends BackfillAnimeResourceAction
      */
     protected function getSite(): ResourceSite
     {
-        return ResourceSite::ANN();
+        return ResourceSite::ANN;
     }
 
     /**
@@ -36,7 +36,7 @@ class BackfillAnnResourceAction extends BackfillAnimeResourceAction
      */
     protected function getResource(): ?ExternalResource
     {
-        $kitsuResource = $this->getModel()->resources()->firstWhere(ExternalResource::ATTRIBUTE_SITE, ResourceSite::KITSU);
+        $kitsuResource = $this->getModel()->resources()->firstWhere(ExternalResource::ATTRIBUTE_SITE, ResourceSite::KITSU->value);
         if ($kitsuResource instanceof ExternalResource) {
             return $this->getKitsuAnnMapping($kitsuResource);
         }

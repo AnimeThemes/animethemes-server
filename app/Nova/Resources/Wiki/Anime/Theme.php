@@ -10,10 +10,9 @@ use App\Nova\Resources\BaseResource;
 use App\Nova\Resources\Wiki\Anime;
 use App\Nova\Resources\Wiki\Anime\Theme\Entry;
 use App\Nova\Resources\Wiki\Song;
-use BenSampo\Enum\Enum;
-use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rules\Enum;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\FormData;
 use Laravel\Nova\Fields\HasMany;
@@ -181,9 +180,9 @@ class Theme extends BaseResource
 
             Select::make(__('nova.fields.anime_theme.type.name'), AnimeTheme::ATTRIBUTE_TYPE)
                 ->options(ThemeType::asSelectArray())
-                ->displayUsing(fn (?Enum $enum) => $enum?->description)
+                ->displayUsing(fn (?int $enumValue) => ThemeType::tryFrom($enumValue)?->localize())
                 ->sortable()
-                ->rules(['required', new EnumValue(ThemeType::class, false)])
+                ->rules(['required', new Enum(ThemeType::class)])
                 ->help(__('nova.fields.anime_theme.type.help'))
                 ->showOnPreview()
                 ->filterable()
@@ -223,8 +222,8 @@ class Theme extends BaseResource
                     function (Text $field, NovaRequest $novaRequest, FormData $formData) {
                         $slug = Str::of('');
                         if ($formData->offsetExists(AnimeTheme::ATTRIBUTE_TYPE)) {
-                            $type = ThemeType::getKey(intval($formData->offsetGet(AnimeTheme::ATTRIBUTE_TYPE)));
-                            $slug = $slug->append($type);
+                            $type = ThemeType::tryFrom(intval($formData->offsetGet(AnimeTheme::ATTRIBUTE_TYPE)));
+                            $slug = $slug->append($type->name);
                         }
                         if ($slug->isNotEmpty() && $formData->offsetExists(AnimeTheme::ATTRIBUTE_SEQUENCE)) {
                             $slug = $slug->append($formData->offsetGet(AnimeTheme::ATTRIBUTE_SEQUENCE));

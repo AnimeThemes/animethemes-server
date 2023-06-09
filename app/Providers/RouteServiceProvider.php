@@ -34,7 +34,7 @@ class RouteServiceProvider extends ServiceProvider
         RateLimiter::for('api', function (Request $request) {
             // Allow the client to bypass API rate limiting
             $user = $request->user('sanctum');
-            if ($user instanceof User && $user->can(SpecialPermission::BYPASS_API_RATE_LIMITER)) {
+            if ($user instanceof User && $user->can(SpecialPermission::BYPASS_API_RATE_LIMITER->value)) {
                 return Limit::none();
             }
 

@@ -70,7 +70,7 @@ readonly class PruneResults implements StorageResults
     {
         if (empty($this->prunings)) {
             return new ActionResult(
-                ActionStatus::FAILED(),
+                ActionStatus::FAILED,
                 'No prunings were attempted.'
             );
         }
@@ -81,13 +81,13 @@ readonly class PruneResults implements StorageResults
 
         if ($failed->isNotEmpty()) {
             return new ActionResult(
-                ActionStatus::FAILED(),
+                ActionStatus::FAILED,
                 "Failed to prune {$failed->keys()->join(', ', ' & ')} from disk '$this->fs'."
             );
         }
 
         return new ActionResult(
-            ActionStatus::PASSED(),
+            ActionStatus::PASSED,
             "Pruned {$passed->keys()->join(', ', ' & ')} from disk '$this->fs'."
         );
     }

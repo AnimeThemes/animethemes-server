@@ -8,6 +8,7 @@ use App\Enums\Auth\CrudPermission;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Models\Auth\User;
 use App\Models\Wiki\Image;
+use Illuminate\Support\Arr;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
@@ -25,9 +26,11 @@ class ImageUpdateTest extends TestCase
     {
         $image = Image::factory()->createOne();
 
+        $facet = Arr::random(ImageFacet::cases());
+
         $parameters = array_merge(
             Image::factory()->raw(),
-            [Image::ATTRIBUTE_FACET => ImageFacet::getRandomInstance()->description],
+            [Image::ATTRIBUTE_FACET => $facet->localize()],
         );
 
         $response = $this->put(route('api.image.update', ['image' => $image] + $parameters));
@@ -44,9 +47,11 @@ class ImageUpdateTest extends TestCase
     {
         $image = Image::factory()->createOne();
 
+        $facet = Arr::random(ImageFacet::cases());
+
         $parameters = array_merge(
             Image::factory()->raw(),
-            [Image::ATTRIBUTE_FACET => ImageFacet::getRandomInstance()->description],
+            [Image::ATTRIBUTE_FACET => $facet->localize()],
         );
 
         $user = User::factory()->createOne();
@@ -67,12 +72,14 @@ class ImageUpdateTest extends TestCase
     {
         $image = Image::factory()->trashed()->createOne();
 
+        $facet = Arr::random(ImageFacet::cases());
+
         $parameters = array_merge(
             Image::factory()->raw(),
-            [Image::ATTRIBUTE_FACET => ImageFacet::getRandomInstance()->description],
+            [Image::ATTRIBUTE_FACET => $facet->localize()],
         );
 
-        $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(Image::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(Image::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -90,12 +97,14 @@ class ImageUpdateTest extends TestCase
     {
         $image = Image::factory()->createOne();
 
+        $facet = Arr::random(ImageFacet::cases());
+
         $parameters = array_merge(
             Image::factory()->raw(),
-            [Image::ATTRIBUTE_FACET => ImageFacet::getRandomInstance()->description],
+            [Image::ATTRIBUTE_FACET => $facet->localize()],
         );
 
-        $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(Image::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(Image::class))->createOne();
 
         Sanctum::actingAs($user);
 

@@ -19,7 +19,7 @@ class AnimeKitsuResourceLens extends AnimeResourceLens
      */
     protected static function site(): ResourceSite
     {
-        return ResourceSite::KITSU();
+        return ResourceSite::KITSU;
     }
 
     /**

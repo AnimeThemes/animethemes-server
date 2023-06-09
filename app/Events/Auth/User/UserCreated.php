@@ -28,7 +28,7 @@ class UserCreated extends UserEvent
 
         return DiscordMessage::create('', [
             'description' => "User '**{$user->getName()}**' has been created.",
-            'color' => EmbedColor::GREEN,
+            'color' => EmbedColor::GREEN->value,
         ]);
     }
 }

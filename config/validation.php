@@ -17,5 +17,5 @@ return [
     |
     */
 
-    'moderation_service' => env('MODERATION_SERVICE', ModerationService::NONE),
+    'moderation_service' => env('MODERATION_SERVICE', ModerationService::NONE->value),
 ];

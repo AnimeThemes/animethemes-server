@@ -40,7 +40,7 @@ class DumpDocumentTest extends TestCase
 
         $result = $action->handle();
 
-        static::assertTrue(ActionStatus::PASSED()->is($result->getStatus()));
+        static::assertTrue(ActionStatus::PASSED === $result->getStatus());
         static::assertEmpty($local->allFiles());
         static::assertCount(1, $fs->allFiles());
         static::assertDatabaseCount(Dump::class, 1);

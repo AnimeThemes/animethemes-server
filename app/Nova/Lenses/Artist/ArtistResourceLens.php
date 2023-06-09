@@ -32,7 +32,7 @@ abstract class ArtistResourceLens extends ArtistLens
      */
     public function name(): string
     {
-        return __('nova.lenses.artist.resources.name', ['site' => static::site()->description]);
+        return __('nova.lenses.artist.resources.name', ['site' => static::site()->localize()]);
     }
 
     /**

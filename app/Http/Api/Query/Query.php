@@ -173,7 +173,7 @@ class Query
     {
         return Arr::first(
             $this->pagingCriteria,
-            fn (PagingCriteria $criteria) => $strategy->is($criteria->getStrategy())
+            fn (PagingCriteria $criteria) => $strategy === $criteria->getStrategy()
         );
     }
 }

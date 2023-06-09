@@ -28,7 +28,7 @@ class LatestDocumentDumpController extends Controller
     {
         /** @var Dump $dump */
         $dump = Dump::query()
-            ->where(Dump::ATTRIBUTE_PATH, ComparisonOperator::LIKE, DumpDocumentAction::FILENAME_PREFIX.'%')
+            ->where(Dump::ATTRIBUTE_PATH, ComparisonOperator::LIKE->value, DumpDocumentAction::FILENAME_PREFIX.'%')
             ->latest()
             ->firstOrFail();
 

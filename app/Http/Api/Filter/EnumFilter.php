@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Filter;
 
-use App\Enums\BaseEnum;
 use App\Enums\Http\Api\Filter\ComparisonOperator;
-use App\Rules\Api\EnumDescriptionRule;
+use App\Rules\Api\EnumLocalizedNameRule;
 
 /**
  * Class EnumFilter.
@@ -18,7 +17,7 @@ class EnumFilter extends Filter
      *
      * @param  string  $key
      * @param  string|null  $column
-     * @param  class-string<BaseEnum>  $enumClass
+     * @param  class-string  $enumClass
      */
     public function __construct(string $key, protected readonly string $enumClass, ?string $column = null)
     {
@@ -34,7 +33,7 @@ class EnumFilter extends Filter
     protected function convertFilterValues(array $filterValues): array
     {
         return array_map(
-            fn (string $filterValue) => $this->enumClass::fromDescription($filterValue)?->value,
+            fn (string $filterValue) => $this->enumClass::fromLocalizedName($filterValue)?->value,
             $filterValues
         );
     }
@@ -50,7 +49,7 @@ class EnumFilter extends Filter
         return array_values(
             array_filter(
                 $filterValues,
-                fn (string $filterValue) => $this->enumClass::fromDescription($filterValue) !== null
+                fn (string $filterValue) => $this->enumClass::fromLocalizedName($filterValue) !== null
             )
         );
     }
@@ -63,7 +62,7 @@ class EnumFilter extends Filter
      */
     public function isAllFilterValues(array $filterValues): bool
     {
-        return count($filterValues) === count($this->enumClass::getInstances());
+        return count($filterValues) === count($this->enumClass::cases());
     }
 
     /**
@@ -75,7 +74,7 @@ class EnumFilter extends Filter
     {
         return [
             'required',
-            new EnumDescriptionRule($this->enumClass),
+            new EnumLocalizedNameRule($this->enumClass),
         ];
     }
 
@@ -87,8 +86,8 @@ class EnumFilter extends Filter
     public function getAllowedComparisonOperators(): array
     {
         return [
-            ComparisonOperator::EQ(),
-            ComparisonOperator::NE(),
+            ComparisonOperator::EQ,
+            ComparisonOperator::NE,
         ];
     }
 }

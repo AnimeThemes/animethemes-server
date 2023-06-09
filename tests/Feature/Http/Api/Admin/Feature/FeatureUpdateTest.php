@@ -68,7 +68,7 @@ class FeatureUpdateTest extends TestCase
             Feature::ATTRIBUTE_VALUE => ! $feature->value,
         ];
 
-        $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(Feature::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(Feature::class))->createOne();
 
         Sanctum::actingAs($user);
 

@@ -31,6 +31,7 @@ use App\Pivots\List\PlaylistImage;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Tests\TestCase;
@@ -58,7 +59,7 @@ class PlaylistImageIndexTest extends TestCase
                     Playlist::factory()
                         ->for(User::factory())
                         ->state([
-                            Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
+                            Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
                         ])
                 )
                 ->for(Image::factory())
@@ -71,7 +72,7 @@ class PlaylistImageIndexTest extends TestCase
                     Playlist::factory()
                         ->for(User::factory())
                         ->state([
-                            Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::UNLISTED,
+                            Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::UNLISTED->value,
                         ])
                 )
                 ->for(Image::factory())
@@ -84,7 +85,7 @@ class PlaylistImageIndexTest extends TestCase
                     Playlist::factory()
                         ->for(User::factory())
                         ->state([
-                            Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PRIVATE,
+                            Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PRIVATE->value,
                         ])
                 )
                 ->for(Image::factory())
@@ -93,7 +94,7 @@ class PlaylistImageIndexTest extends TestCase
 
         $playlistImages = PlaylistImage::query()
             ->whereHas(PlaylistImage::RELATION_PLAYLIST, function (Builder $relationBuilder) {
-                $relationBuilder->where(Playlist::ATTRIBUTE_VISIBILITY, PlaylistVisibility::PUBLIC);
+                $relationBuilder->where(Playlist::ATTRIBUTE_VISIBILITY, PlaylistVisibility::PUBLIC->value);
             })
             ->get();
 
@@ -126,7 +127,7 @@ class PlaylistImageIndexTest extends TestCase
                     Playlist::factory()
                         ->for(User::factory())
                         ->state([
-                            Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
+                            Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
                         ])
                 )
                 ->for(Image::factory())
@@ -167,7 +168,7 @@ class PlaylistImageIndexTest extends TestCase
                     Playlist::factory()
                         ->for(User::factory())
                         ->state([
-                            Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
+                            Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
                         ])
                 )
                 ->for(Image::factory())
@@ -215,7 +216,7 @@ class PlaylistImageIndexTest extends TestCase
                     Playlist::factory()
                         ->for(User::factory())
                         ->state([
-                            Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
+                            Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
                         ])
                 )
                 ->for(Image::factory())
@@ -254,7 +255,7 @@ class PlaylistImageIndexTest extends TestCase
             ->random();
 
         $parameters = [
-            SortParser::param() => $sort->format(Direction::getRandomInstance()),
+            SortParser::param() => $sort->format(Arr::random(Direction::cases())),
         ];
 
         $query = new Query($parameters);
@@ -265,7 +266,7 @@ class PlaylistImageIndexTest extends TestCase
                     Playlist::factory()
                         ->for(User::factory())
                         ->state([
-                            Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
+                            Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
                         ])
                 )
                 ->for(Image::factory())
@@ -314,7 +315,7 @@ class PlaylistImageIndexTest extends TestCase
                         Playlist::factory()
                             ->for(User::factory())
                             ->state([
-                                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
+                                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
                             ])
                     )
                     ->for(Image::factory())
@@ -329,7 +330,7 @@ class PlaylistImageIndexTest extends TestCase
                         Playlist::factory()
                             ->for(User::factory())
                             ->state([
-                                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
+                                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
                             ])
                     )
                     ->for(Image::factory())
@@ -379,7 +380,7 @@ class PlaylistImageIndexTest extends TestCase
                         Playlist::factory()
                             ->for(User::factory())
                             ->state([
-                                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
+                                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
                             ])
                     )
                     ->for(Image::factory())
@@ -394,7 +395,7 @@ class PlaylistImageIndexTest extends TestCase
                         Playlist::factory()
                             ->for(User::factory())
                             ->state([
-                                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
+                                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
                             ])
                     )
                     ->for(Image::factory())
@@ -425,11 +426,11 @@ class PlaylistImageIndexTest extends TestCase
      */
     public function testImagesByFacet(): void
     {
-        $facetFilter = ImageFacet::getRandomInstance();
+        $facetFilter = Arr::random(ImageFacet::cases());
 
         $parameters = [
             FilterParser::param() => [
-                Image::ATTRIBUTE_FACET => $facetFilter->description,
+                Image::ATTRIBUTE_FACET => $facetFilter->localize(),
             ],
             IncludeParser::param() => PlaylistImage::RELATION_IMAGE,
         ];
@@ -440,7 +441,7 @@ class PlaylistImageIndexTest extends TestCase
                     Playlist::factory()
                         ->for(User::factory())
                         ->state([
-                            Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
+                            Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
                         ])
                 )
                 ->for(Image::factory())

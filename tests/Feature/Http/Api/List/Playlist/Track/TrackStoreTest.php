@@ -95,7 +95,7 @@ class TrackStoreTest extends TestCase
             ->for($playlist)
             ->makeOne();
 
-        $user = User::factory()->withPermissions(CrudPermission::CREATE()->format(PlaylistTrack::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(PlaylistTrack::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -116,7 +116,7 @@ class TrackStoreTest extends TestCase
 
         Feature::deactivate(AllowPlaylistManagement::class);
 
-        $user = User::factory()->withPermissions(CrudPermission::CREATE()->format(PlaylistTrack::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(PlaylistTrack::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)
@@ -145,7 +145,7 @@ class TrackStoreTest extends TestCase
 
         Feature::activate(AllowPlaylistManagement::class);
 
-        $user = User::factory()->withPermissions(CrudPermission::CREATE()->format(PlaylistTrack::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(PlaylistTrack::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)
@@ -171,7 +171,7 @@ class TrackStoreTest extends TestCase
 
         Feature::activate(AllowPlaylistManagement::class);
 
-        $user = User::factory()->withPermissions(CrudPermission::CREATE()->format(PlaylistTrack::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(PlaylistTrack::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)
@@ -214,7 +214,7 @@ class TrackStoreTest extends TestCase
 
         Feature::activate(AllowPlaylistManagement::class);
 
-        $user = User::factory()->withPermissions(CrudPermission::CREATE()->format(PlaylistTrack::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(PlaylistTrack::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)
@@ -251,7 +251,7 @@ class TrackStoreTest extends TestCase
 
         Feature::activate(AllowPlaylistManagement::class);
 
-        $user = User::factory()->withPermissions(CrudPermission::CREATE()->format(PlaylistTrack::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(PlaylistTrack::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)
@@ -288,7 +288,7 @@ class TrackStoreTest extends TestCase
 
         Feature::activate(AllowPlaylistManagement::class);
 
-        $user = User::factory()->withPermissions(CrudPermission::CREATE()->format(PlaylistTrack::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(PlaylistTrack::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)
@@ -325,7 +325,7 @@ class TrackStoreTest extends TestCase
 
         Feature::activate(AllowPlaylistManagement::class);
 
-        $user = User::factory()->withPermissions(CrudPermission::CREATE()->format(PlaylistTrack::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(PlaylistTrack::class))->createOne();
 
         $trackCount = $this->faker->numberBetween(2, 9);
 
@@ -375,7 +375,7 @@ class TrackStoreTest extends TestCase
 
         Feature::activate(AllowPlaylistManagement::class);
 
-        $user = User::factory()->withPermissions(CrudPermission::CREATE()->format(PlaylistTrack::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(PlaylistTrack::class))->createOne();
 
         $trackCount = $this->faker->numberBetween(2, 9);
 
@@ -426,7 +426,7 @@ class TrackStoreTest extends TestCase
 
         Feature::activate(AllowPlaylistManagement::class);
 
-        $user = User::factory()->withPermissions(CrudPermission::CREATE()->format(PlaylistTrack::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(PlaylistTrack::class))->createOne();
 
         $trackCount = $this->faker->numberBetween(2, 9);
 
@@ -477,7 +477,7 @@ class TrackStoreTest extends TestCase
 
         Feature::activate(AllowPlaylistManagement::class);
 
-        $user = User::factory()->withPermissions(CrudPermission::CREATE()->format(PlaylistTrack::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(PlaylistTrack::class))->createOne();
 
         $trackCount = $this->faker->numberBetween(2, 9);
 
@@ -528,8 +528,8 @@ class TrackStoreTest extends TestCase
 
         $user = User::factory()
             ->withPermissions(
-                CrudPermission::CREATE()->format(PlaylistTrack::class),
-                SpecialPermission::BYPASS_FEATURE_FLAGS
+                CrudPermission::CREATE->format(PlaylistTrack::class),
+                SpecialPermission::BYPASS_FEATURE_FLAGS->value
             )
             ->createOne();
 
@@ -563,7 +563,7 @@ class TrackStoreTest extends TestCase
         Config::set(PlaylistConstants::MAX_TRACKS_QUALIFIED, $trackLimit);
         Feature::activate(AllowPlaylistManagement::class);
 
-        $user = User::factory()->withPermissions(CrudPermission::CREATE()->format(PlaylistTrack::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(PlaylistTrack::class))->createOne();
 
         $playlist = Playlist::factory()
             ->tracks($trackLimit)
@@ -599,8 +599,8 @@ class TrackStoreTest extends TestCase
 
         $user = User::factory()
             ->withPermissions(
-                CrudPermission::CREATE()->format(PlaylistTrack::class),
-                SpecialPermission::BYPASS_FEATURE_FLAGS
+                CrudPermission::CREATE->format(PlaylistTrack::class),
+                SpecialPermission::BYPASS_FEATURE_FLAGS->value
             )
             ->createOne();
 

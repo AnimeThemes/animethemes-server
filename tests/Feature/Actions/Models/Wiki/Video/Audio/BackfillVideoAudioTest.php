@@ -48,7 +48,7 @@ class BackfillVideoAudioTest extends TestCase
 
         $result = $action->handle();
 
-        static::assertTrue(ActionStatus::SKIPPED()->is($result->getStatus()));
+        static::assertTrue(ActionStatus::SKIPPED === $result->getStatus());
         static::assertDatabaseCount(Audio::class, 1);
         static::assertEmpty(Storage::disk(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED))->allFiles());
     }
@@ -102,7 +102,7 @@ class BackfillVideoAudioTest extends TestCase
 
         $result = $action->handle();
 
-        static::assertTrue(ActionStatus::PASSED()->is($result->getStatus()));
+        static::assertTrue(ActionStatus::PASSED === $result->getStatus());
         static::assertDatabaseCount(Audio::class, 1);
         static::assertTrue($video->audio()->exists());
         static::assertEmpty(Storage::disk(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED))->allFiles());
@@ -126,20 +126,20 @@ class BackfillVideoAudioTest extends TestCase
             ->hasAttached($entry, [], Video::RELATION_ANIMETHEMEENTRIES)
             ->for(Audio::factory())
             ->createOne([
-                Video::ATTRIBUTE_SOURCE => VideoSource::BD,
+                Video::ATTRIBUTE_SOURCE => VideoSource::BD->value,
             ]);
 
         $video = Video::factory()
             ->hasAttached($entry, [], Video::RELATION_ANIMETHEMEENTRIES)
             ->createOne([
-                Video::ATTRIBUTE_SOURCE => VideoSource::WEB,
+                Video::ATTRIBUTE_SOURCE => VideoSource::WEB->value,
             ]);
 
         $action = new BackfillAudioAction($video);
 
         $result = $action->handle();
 
-        static::assertTrue(ActionStatus::PASSED()->is($result->getStatus()));
+        static::assertTrue(ActionStatus::PASSED === $result->getStatus());
         static::assertDatabaseCount(Audio::class, 1);
         static::assertTrue($video->audio()->exists());
         static::assertEmpty(Storage::disk(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED))->allFiles());
@@ -183,7 +183,7 @@ class BackfillVideoAudioTest extends TestCase
 
         $result = $action->handle();
 
-        static::assertTrue(ActionStatus::PASSED()->is($result->getStatus()));
+        static::assertTrue(ActionStatus::PASSED === $result->getStatus());
         static::assertDatabaseCount(Audio::class, 2);
         static::assertTrue($video->audio()->is($sourceAudio));
         static::assertEmpty(Storage::disk(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED))->allFiles());

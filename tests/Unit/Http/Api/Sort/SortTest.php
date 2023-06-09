@@ -39,7 +39,7 @@ class SortTest extends TestCase
 
         $sort = new Sort($sortField);
 
-        static::assertEquals($sortField, $sort->format(Direction::ASCENDING()));
+        static::assertEquals($sortField, $sort->format(Direction::ASCENDING));
     }
 
     /**
@@ -53,6 +53,6 @@ class SortTest extends TestCase
 
         $sort = new Sort($sortField);
 
-        static::assertEquals("-$sortField", $sort->format(Direction::DESCENDING()));
+        static::assertEquals("-$sortField", $sort->format(Direction::DESCENDING));
     }
 }

@@ -74,7 +74,7 @@ class MoveAudioTest extends TestCase
 
         $result = $storageResults->toActionResult();
 
-        static::assertTrue(ActionStatus::PASSED()->is($result->getStatus()));
+        static::assertTrue(ActionStatus::PASSED === $result->getStatus());
     }
 
     /**

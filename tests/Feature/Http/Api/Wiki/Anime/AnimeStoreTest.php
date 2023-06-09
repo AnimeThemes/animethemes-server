@@ -8,6 +8,7 @@ use App\Enums\Auth\CrudPermission;
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
+use Illuminate\Support\Arr;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
@@ -55,7 +56,7 @@ class AnimeStoreTest extends TestCase
      */
     public function testRequiredFields(): void
     {
-        $user = User::factory()->withPermissions(CrudPermission::CREATE()->format(Anime::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(Anime::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -76,12 +77,14 @@ class AnimeStoreTest extends TestCase
      */
     public function testCreate(): void
     {
+        $season = Arr::random(AnimeSeason::cases());
+
         $parameters = array_merge(
             Anime::factory()->raw(),
-            [Anime::ATTRIBUTE_SEASON => AnimeSeason::getRandomInstance()->description],
+            [Anime::ATTRIBUTE_SEASON => $season->localize()],
         );
 
-        $user = User::factory()->withPermissions(CrudPermission::CREATE()->format(Anime::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(Anime::class))->createOne();
 
         Sanctum::actingAs($user);
 

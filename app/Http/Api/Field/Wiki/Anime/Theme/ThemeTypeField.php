@@ -10,8 +10,8 @@ use App\Enums\Models\Wiki\ThemeType;
 use App\Http\Api\Field\EnumField;
 use App\Http\Api\Schema\Schema;
 use App\Models\Wiki\Anime\AnimeTheme;
-use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rules\Enum;
 
 /**
  * Class ThemeTypeField.
@@ -38,7 +38,7 @@ class ThemeTypeField extends EnumField implements CreatableField, UpdatableField
     {
         return [
             'required',
-            new EnumValue(ThemeType::class),
+            new Enum(ThemeType::class),
         ];
     }
 
@@ -53,7 +53,7 @@ class ThemeTypeField extends EnumField implements CreatableField, UpdatableField
         return [
             'sometimes',
             'required',
-            new EnumValue(ThemeType::class),
+            new Enum(ThemeType::class),
         ];
     }
 }

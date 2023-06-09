@@ -69,7 +69,7 @@ readonly class UploadResults implements StorageResults
     {
         if (empty($this->uploads)) {
             return new ActionResult(
-                ActionStatus::FAILED(),
+                ActionStatus::FAILED,
                 'No uploads were attempted. Please check that disks are configured.'
             );
         }
@@ -80,13 +80,13 @@ readonly class UploadResults implements StorageResults
 
         if ($failed->isNotEmpty()) {
             return new ActionResult(
-                ActionStatus::FAILED(),
+                ActionStatus::FAILED,
                 "Failed to upload to disks {$failed->keys()->join(', ', ' & ')}."
             );
         }
 
         return new ActionResult(
-            ActionStatus::PASSED(),
+            ActionStatus::PASSED,
             "Uploaded '{$passed->values()->first()}' to disks {$passed->keys()->join(', ', ' & ')}."
         );
     }

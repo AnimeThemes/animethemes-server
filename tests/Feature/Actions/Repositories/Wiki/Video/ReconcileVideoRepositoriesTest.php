@@ -44,7 +44,7 @@ class ReconcileVideoRepositoriesTest extends TestCase
 
         $result = $action->reconcileRepositories($source, $destination);
 
-        static::assertTrue(ActionStatus::PASSED()->is($result->getStatus()));
+        static::assertTrue(ActionStatus::PASSED === $result->getStatus());
         static::assertFalse($result->hasChanges());
         static::assertDatabaseCount(Video::class, 0);
     }
@@ -73,7 +73,7 @@ class ReconcileVideoRepositoriesTest extends TestCase
 
         $result = $action->reconcileRepositories($source, $destination);
 
-        static::assertTrue(ActionStatus::PASSED()->is($result->getStatus()));
+        static::assertTrue(ActionStatus::PASSED === $result->getStatus());
         static::assertTrue($result->hasChanges());
         static::assertCount($createdVideoCount, $result->getCreated());
         static::assertDatabaseCount(Video::class, $createdVideoCount);
@@ -103,7 +103,7 @@ class ReconcileVideoRepositoriesTest extends TestCase
 
         $result = $action->reconcileRepositories($source, $destination);
 
-        static::assertTrue(ActionStatus::PASSED()->is($result->getStatus()));
+        static::assertTrue(ActionStatus::PASSED === $result->getStatus());
         static::assertTrue($result->hasChanges());
         static::assertCount($deletedVideoCount, $result->getDeleted());
 
@@ -147,7 +147,7 @@ class ReconcileVideoRepositoriesTest extends TestCase
 
         $result = $action->reconcileRepositories($source, $destination);
 
-        static::assertTrue(ActionStatus::PASSED()->is($result->getStatus()));
+        static::assertTrue(ActionStatus::PASSED === $result->getStatus());
         static::assertTrue($result->hasChanges());
         static::assertCount($updatedVideoCount, $result->getUpdated());
         static::assertDatabaseCount(Video::class, $updatedVideoCount);

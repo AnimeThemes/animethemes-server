@@ -63,8 +63,8 @@ class AnimeImageStoreTest extends TestCase
 
         $user = User::factory()
             ->withPermissions(
-                CrudPermission::CREATE()->format(Anime::class),
-                CrudPermission::CREATE()->format(Image::class))
+                CrudPermission::CREATE->format(Anime::class),
+                CrudPermission::CREATE->format(Image::class))
             ->createOne();
 
         Sanctum::actingAs($user);

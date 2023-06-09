@@ -4,38 +4,20 @@ declare(strict_types=1);
 
 namespace App\Enums\Auth;
 
-use App\Enums\BaseEnum;
-use Illuminate\Support\Str;
+use App\Concerns\Enums\FormatsPermission;
 
 /**
- * Class CrudPermissions.
- *
- * @method static static CREATE()
- * @method static static DELETE()
- * @method static static UPDATE()
- * @method static static VIEW()
+ * Enum CrudPermissions.
  */
-class CrudPermission extends BaseEnum
+enum CrudPermission: string
 {
-    public const CREATE = 'create';
+    use FormatsPermission;
 
-    public const DELETE = 'delete';
+    case CREATE = 'create';
 
-    public const UPDATE = 'update';
+    case DELETE = 'delete';
 
-    public const VIEW = 'view';
+    case UPDATE = 'update';
 
-    /**
-     * Format permission name for model.
-     *
-     * @param  string  $modelClass
-     * @return string
-     */
-    public function format(string $modelClass): string
-    {
-        return Str::of($this->value)
-            ->append(class_basename($modelClass))
-            ->snake(' ')
-            ->__toString();
-    }
+    case VIEW = 'view';
 }

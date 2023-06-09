@@ -26,7 +26,7 @@ class StudioCoverLargeLens extends StudioLens
      */
     public function name(): string
     {
-        return __('nova.lenses.studio.images.name', ['facet' => ImageFacet::getDescription(ImageFacet::COVER_LARGE)]);
+        return __('nova.lenses.studio.images.name', ['facet' => ImageFacet::COVER_LARGE->localize()]);
     }
 
     /**
@@ -38,7 +38,7 @@ class StudioCoverLargeLens extends StudioLens
     public static function criteria(Builder $query): Builder
     {
         return $query->whereDoesntHave(Studio::RELATION_IMAGES, function (Builder $imageQuery) {
-            $imageQuery->where(Image::ATTRIBUTE_FACET, ImageFacet::COVER_LARGE);
+            $imageQuery->where(Image::ATTRIBUTE_FACET, ImageFacet::COVER_LARGE->value);
         });
     }
 

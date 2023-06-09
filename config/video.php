@@ -50,7 +50,7 @@ return [
     |
     */
 
-    'streaming_method' => env('VIDEO_STREAMING_METHOD', StreamingMethod::RESPONSE),
+    'streaming_method' => env('VIDEO_STREAMING_METHOD', StreamingMethod::RESPONSE->value),
 
     'nginx_redirect' => env('VIDEO_NGINX_REDIRECT', '/video_redirect/'),
 

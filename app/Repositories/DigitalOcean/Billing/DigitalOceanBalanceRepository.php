@@ -41,8 +41,8 @@ class DigitalOceanBalanceRepository extends DigitalOceanRepository
 
         $balance = new Balance([
             Balance::ATTRIBUTE_BALANCE => -1.0 * floatval(Arr::get($response, 'month_to_date_balance')),
-            Balance::ATTRIBUTE_DATE => Date::now()->firstOfMonth()->format(AllowedDateFormat::YMD),
-            Balance::ATTRIBUTE_FREQUENCY => BalanceFrequency::MONTHLY,
+            Balance::ATTRIBUTE_DATE => Date::now()->firstOfMonth()->format(AllowedDateFormat::YMD->value),
+            Balance::ATTRIBUTE_FREQUENCY => BalanceFrequency::MONTHLY->value,
             Balance::ATTRIBUTE_SERVICE => Service::DIGITALOCEAN,
             Balance::ATTRIBUTE_USAGE => Arr::get($response, 'month_to_date_usage'),
         ]);

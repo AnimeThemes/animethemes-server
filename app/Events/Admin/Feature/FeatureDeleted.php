@@ -26,7 +26,7 @@ class FeatureDeleted extends FeatureEvent
 
         return DiscordMessage::create('', [
             'description' => "Feature '**{$feature->getName()}**' has been deleted.",
-            'color' => EmbedColor::RED,
+            'color' => EmbedColor::RED->value,
         ]);
     }
 }

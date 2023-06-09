@@ -56,7 +56,7 @@ class VideoForceDeleteTest extends TestCase
     {
         $video = Video::factory()->createOne();
 
-        $user = User::factory()->withPermissions(ExtendedCrudPermission::FORCE_DELETE()->format(Video::class))->createOne();
+        $user = User::factory()->withPermissions(ExtendedCrudPermission::FORCE_DELETE->format(Video::class))->createOne();
 
         Sanctum::actingAs($user);
 

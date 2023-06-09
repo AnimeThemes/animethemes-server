@@ -19,7 +19,7 @@ class ArtistAnilistResourceLens extends ArtistResourceLens
      */
     protected static function site(): ResourceSite
     {
-        return ResourceSite::ANILIST();
+        return ResourceSite::ANILIST;
     }
 
     /**

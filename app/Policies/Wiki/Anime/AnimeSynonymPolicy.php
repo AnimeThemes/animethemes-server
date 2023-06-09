@@ -27,7 +27,7 @@ class AnimeSynonymPolicy
     public function viewAny(?User $user): bool
     {
         return Nova::whenServing(
-            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW()->format(AnimeSynonym::class)),
+            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW->format(AnimeSynonym::class)),
             fn (): bool => true
         );
     }
@@ -41,7 +41,7 @@ class AnimeSynonymPolicy
     public function view(?User $user): bool
     {
         return Nova::whenServing(
-            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW()->format(AnimeSynonym::class)),
+            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW->format(AnimeSynonym::class)),
             fn (): bool => true
         );
     }
@@ -54,7 +54,7 @@ class AnimeSynonymPolicy
      */
     public function create(User $user): bool
     {
-        return $user->can(CrudPermission::CREATE()->format(AnimeSynonym::class));
+        return $user->can(CrudPermission::CREATE->format(AnimeSynonym::class));
     }
 
     /**
@@ -66,7 +66,7 @@ class AnimeSynonymPolicy
      */
     public function update(User $user, AnimeSynonym $animesynonym): bool
     {
-        return ! $animesynonym->trashed() && $user->can(CrudPermission::UPDATE()->format(AnimeSynonym::class));
+        return ! $animesynonym->trashed() && $user->can(CrudPermission::UPDATE->format(AnimeSynonym::class));
     }
 
     /**
@@ -78,7 +78,7 @@ class AnimeSynonymPolicy
      */
     public function delete(User $user, AnimeSynonym $animesynonym): bool
     {
-        return ! $animesynonym->trashed() && $user->can(CrudPermission::DELETE()->format(AnimeSynonym::class));
+        return ! $animesynonym->trashed() && $user->can(CrudPermission::DELETE->format(AnimeSynonym::class));
     }
 
     /**
@@ -90,7 +90,7 @@ class AnimeSynonymPolicy
      */
     public function restore(User $user, AnimeSynonym $animesynonym): bool
     {
-        return $animesynonym->trashed() && $user->can(ExtendedCrudPermission::RESTORE()->format(AnimeSynonym::class));
+        return $animesynonym->trashed() && $user->can(ExtendedCrudPermission::RESTORE->format(AnimeSynonym::class));
     }
 
     /**
@@ -101,6 +101,6 @@ class AnimeSynonymPolicy
      */
     public function forceDelete(User $user): bool
     {
-        return $user->can(ExtendedCrudPermission::FORCE_DELETE()->format(AnimeSynonym::class));
+        return $user->can(ExtendedCrudPermission::FORCE_DELETE->format(AnimeSynonym::class));
     }
 }

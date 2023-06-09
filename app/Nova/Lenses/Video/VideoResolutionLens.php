@@ -9,7 +9,6 @@ use App\Enums\Models\Wiki\VideoSource;
 use App\Models\BaseModel;
 use App\Models\Wiki\Video;
 use App\Nova\Lenses\BaseLens;
-use BenSampo\Enum\Enum;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Laravel\Nova\Fields\Boolean;
@@ -106,12 +105,12 @@ class VideoResolutionLens extends BaseLens
 
             Select::make(__('nova.fields.video.overlap.name'), Video::ATTRIBUTE_OVERLAP)
                 ->options(VideoOverlap::asSelectArray())
-                ->displayUsing(fn (?Enum $enum) => $enum?->description)
+                ->displayUsing(fn (?int $enumValue) => VideoOverlap::tryFrom($enumValue)?->localize())
                 ->onlyOnPreview(),
 
             Select::make(__('nova.fields.video.source.name'), Video::ATTRIBUTE_SOURCE)
                 ->options(VideoSource::asSelectArray())
-                ->displayUsing(fn (?Enum $enum) => $enum?->description)
+                ->displayUsing(fn (?int $enumValue) => VideoSource::tryFrom($enumValue)?->localize())
                 ->onlyOnPreview(),
 
             DateTime::make(__('nova.fields.base.created_at'), BaseModel::ATTRIBUTE_CREATED_AT)

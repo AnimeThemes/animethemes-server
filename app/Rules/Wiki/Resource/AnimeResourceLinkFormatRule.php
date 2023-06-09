@@ -34,7 +34,7 @@ readonly class AnimeResourceLinkFormatRule implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        $pattern = match ($this->site->value) {
+        $pattern = match ($this->site) {
             ResourceSite::TWITTER => '/^https:\/\/twitter\.com\/\w+$/',
             ResourceSite::ANIDB => '/^https:\/\/anidb\.net\/anime\/\d+$/',
             ResourceSite::ANILIST => '/^https:\/\/anilist\.co\/anime\/\d+$/',

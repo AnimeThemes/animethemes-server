@@ -149,6 +149,8 @@ class FeaturedTheme extends BaseResource
      */
     public function fields(NovaRequest $request): array
     {
+        $allowedDateFormats = array_column(AllowedDateFormat::cases(), 'value');
+
         return [
             ID::make(__('nova.fields.base.id'), FeaturedThemeModel::ATTRIBUTE_ID)
                 ->sortable()
@@ -161,7 +163,7 @@ class FeaturedTheme extends BaseResource
                 ->rules([
                     'required',
                     Str::of('date_format:')
-                        ->append(implode(',', AllowedDateFormat::getValues()))
+                        ->append(implode(',', $allowedDateFormats))
                         ->__toString(),
                     Str::of('before:')
                         ->append(FeaturedThemeModel::ATTRIBUTE_END_AT)
@@ -178,7 +180,7 @@ class FeaturedTheme extends BaseResource
                 ->rules([
                     'required',
                     Str::of('date_format:')
-                        ->append(implode(',', AllowedDateFormat::getValues()))
+                        ->append(implode(',', $allowedDateFormats))
                         ->__toString(),
                     Str::of('after:')
                         ->append(FeaturedThemeModel::ATTRIBUTE_START_AT)

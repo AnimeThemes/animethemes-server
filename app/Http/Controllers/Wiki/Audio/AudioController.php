@@ -32,8 +32,8 @@ class AudioController extends Controller
     {
         /** @var StreamAction $action */
         $action = match (Config::get(AudioConstants::STREAMING_METHOD_QUALIFIED)) {
-            StreamingMethod::RESPONSE => new AudioResponseStreamAction($audio),
-            StreamingMethod::NGINX => new AudioNginxStreamAction($audio),
+            StreamingMethod::RESPONSE->value => new AudioResponseStreamAction($audio),
+            StreamingMethod::NGINX->value => new AudioNginxStreamAction($audio),
             default => throw new RuntimeException('AUDIO_STREAMING_METHOD must be specified in your .env file'),
         };
 

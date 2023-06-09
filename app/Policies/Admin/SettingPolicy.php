@@ -24,7 +24,7 @@ class SettingPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->can(CrudPermission::VIEW()->format(Setting::class));
+        return $user->can(CrudPermission::VIEW->format(Setting::class));
     }
 
     /**
@@ -35,7 +35,7 @@ class SettingPolicy
      */
     public function view(User $user): bool
     {
-        return $user->can(CrudPermission::VIEW()->format(Setting::class));
+        return $user->can(CrudPermission::VIEW->format(Setting::class));
     }
 
     /**
@@ -46,7 +46,7 @@ class SettingPolicy
      */
     public function create(User $user): bool
     {
-        return $user->can(CrudPermission::CREATE()->format(Setting::class));
+        return $user->can(CrudPermission::CREATE->format(Setting::class));
     }
 
     /**
@@ -57,7 +57,7 @@ class SettingPolicy
      */
     public function update(User $user): bool
     {
-        return $user->can(CrudPermission::UPDATE()->format(Setting::class));
+        return $user->can(CrudPermission::UPDATE->format(Setting::class));
     }
 
     /**
@@ -68,6 +68,6 @@ class SettingPolicy
      */
     public function delete(User $user): bool
     {
-        return $user->can(CrudPermission::DELETE()->format(Setting::class));
+        return $user->can(CrudPermission::DELETE->format(Setting::class));
     }
 }

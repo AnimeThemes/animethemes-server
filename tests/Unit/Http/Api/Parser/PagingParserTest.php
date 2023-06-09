@@ -29,7 +29,7 @@ class PagingParserTest extends TestCase
         $parameters = [];
 
         $criteria = collect(PagingParser::parse($parameters))->first(function (Criteria $criteria) {
-            return $criteria->getStrategy()->is(PaginationStrategy::LIMIT());
+            return PaginationStrategy::LIMIT === $criteria->getStrategy();
         });
 
         static::assertInstanceOf(LimitCriteria::class, $criteria);
@@ -51,7 +51,7 @@ class PagingParserTest extends TestCase
         ];
 
         $criteria = collect(PagingParser::parse($parameters))->first(function (Criteria $criteria) {
-            return $criteria->getStrategy()->is(PaginationStrategy::LIMIT());
+            return PaginationStrategy::LIMIT === $criteria->getStrategy();
         });
 
         static::assertTrue(
@@ -76,7 +76,7 @@ class PagingParserTest extends TestCase
         ];
 
         $criteria = collect(PagingParser::parse($parameters))->first(function (Criteria $criteria) {
-            return $criteria->getStrategy()->is(PaginationStrategy::LIMIT());
+            return PaginationStrategy::LIMIT === $criteria->getStrategy();
         });
 
         static::assertTrue(
@@ -95,7 +95,7 @@ class PagingParserTest extends TestCase
         $parameters = [];
 
         $criteria = collect(PagingParser::parse($parameters))->first(function (Criteria $criteria) {
-            return $criteria->getStrategy()->is(PaginationStrategy::OFFSET());
+            return PaginationStrategy::OFFSET === $criteria->getStrategy();
         });
 
         static::assertInstanceOf(OffsetCriteria::class, $criteria);
@@ -117,7 +117,7 @@ class PagingParserTest extends TestCase
         ];
 
         $criteria = collect(PagingParser::parse($parameters))->first(function (Criteria $criteria) {
-            return $criteria->getStrategy()->is(PaginationStrategy::OFFSET());
+            return PaginationStrategy::OFFSET === $criteria->getStrategy();
         });
 
         static::assertTrue(
@@ -142,7 +142,7 @@ class PagingParserTest extends TestCase
         ];
 
         $criteria = collect(PagingParser::parse($parameters))->first(function (Criteria $criteria) {
-            return $criteria->getStrategy()->is(PaginationStrategy::OFFSET());
+            return PaginationStrategy::OFFSET === $criteria->getStrategy();
         });
 
         static::assertTrue(

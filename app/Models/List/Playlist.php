@@ -155,7 +155,7 @@ class Playlist extends BaseModel implements HasHashids, Viewable
      */
     public function shouldBeSearchable(): bool
     {
-        return PlaylistVisibility::PUBLIC()->is($this->visibility);
+        return PlaylistVisibility::PUBLIC === $this->visibility;
     }
 
     /**

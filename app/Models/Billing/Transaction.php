@@ -11,7 +11,6 @@ use App\Events\Billing\Transaction\TransactionDeleted;
 use App\Events\Billing\Transaction\TransactionRestored;
 use App\Events\Billing\Transaction\TransactionUpdated;
 use App\Models\BaseModel;
-use BenSampo\Enum\Enum;
 use Database\Factories\Billing\TransactionFactory;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
@@ -24,7 +23,7 @@ use Laravel\Nova\Actions\Actionable;
  * @property Carbon $date
  * @property string $description
  * @property string|null $external_id
- * @property Enum $service
+ * @property Service $service
  * @property int $transaction_id
  *
  * @method static TransactionFactory factory(...$parameters)
@@ -101,9 +100,9 @@ class Transaction extends BaseModel
      */
     public function getName(): string
     {
-        return Str::of($this->service->description)
+        return Str::of($this->service->localize())
             ->append(' ')
-            ->append($this->date->format(AllowedDateFormat::YMD))
+            ->append($this->date->format(AllowedDateFormat::YMD->value))
             ->__toString();
     }
 }

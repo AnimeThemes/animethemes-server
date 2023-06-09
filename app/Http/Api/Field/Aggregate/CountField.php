@@ -24,7 +24,7 @@ abstract class CountField extends AggregateField
      */
     public function __construct(Schema $schema, string $relation)
     {
-        parent::__construct($schema, $relation, AggregateFunction::COUNT(), '*');
+        parent::__construct($schema, $relation, AggregateFunction::COUNT, '*');
     }
 
     /**
@@ -34,6 +34,6 @@ abstract class CountField extends AggregateField
      */
     public function getFilter(): Filter
     {
-        return new IntFilter(key: $this->alias(), qualifyColumn: QualifyColumn::NO(), clause: Clause::HAVING());
+        return new IntFilter(key: $this->alias(), qualifyColumn: QualifyColumn::NO, clause: Clause::HAVING);
     }
 }

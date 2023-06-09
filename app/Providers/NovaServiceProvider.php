@@ -79,7 +79,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
      */
     protected function gate(): void
     {
-        Gate::define('viewNova', fn (User $user) => $user->can(SpecialPermission::VIEW_NOVA));
+        Gate::define('viewNova', fn (User $user) => $user->can(SpecialPermission::VIEW_NOVA->value));
     }
 
     /**

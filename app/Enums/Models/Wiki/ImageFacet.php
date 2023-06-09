@@ -4,18 +4,16 @@ declare(strict_types=1);
 
 namespace App\Enums\Models\Wiki;
 
-use App\Enums\BaseEnum;
+use App\Concerns\Enums\LocalizesName;
 
 /**
- * Class ImageFacet.
- *
- * @method static static COVER_SMALL()
- * @method static static COVER_LARGE()
- * @method static static GRILL()
+ * Enum ImageFacet.
  */
-final class ImageFacet extends BaseEnum
+enum ImageFacet: int
 {
-    public const COVER_SMALL = 0;
-    public const COVER_LARGE = 1;
-    public const GRILL = 2;
+    use LocalizesName;
+
+    case COVER_SMALL = 0;
+    case COVER_LARGE = 1;
+    case GRILL = 2;
 }

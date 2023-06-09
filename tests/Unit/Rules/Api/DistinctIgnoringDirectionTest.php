@@ -52,7 +52,7 @@ class DistinctIgnoringDirectionTest extends TestCase
 
         $sorts = [];
 
-        foreach (Direction::getInstances() as $direction) {
+        foreach (Direction::cases() as $direction) {
             $sorts[] = $sort->format($direction);
         }
 

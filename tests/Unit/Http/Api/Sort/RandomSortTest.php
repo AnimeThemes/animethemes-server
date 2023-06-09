@@ -8,6 +8,7 @@ use App\Enums\Http\Api\Sort\Direction;
 use App\Http\Api\Criteria\Sort\RandomCriteria;
 use App\Http\Api\Sort\RandomSort;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Arr;
 use Tests\TestCase;
 
 /**
@@ -26,6 +27,8 @@ class RandomSortTest extends TestCase
     {
         $sort = new RandomSort();
 
-        static::assertEquals(RandomCriteria::PARAM_VALUE, $sort->format(Direction::getRandomInstance()));
+        $direction = Arr::random(Direction::cases());
+
+        static::assertEquals(RandomCriteria::PARAM_VALUE, $sort->format($direction));
     }
 }

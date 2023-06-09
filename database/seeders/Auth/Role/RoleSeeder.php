@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Database\Seeders\Auth\Role;
 
 use App\Enums\Auth\CrudPermission;
+use App\Enums\Auth\ExtendedCrudPermission;
 use App\Models\Auth\Permission;
 use App\Models\Auth\Role;
 use Illuminate\Database\Seeder;
@@ -34,12 +35,15 @@ class RoleSeeder extends Seeder
      *
      * @param  Role  $role
      * @param  string  $resource
-     * @param  CrudPermission[]  $abilities
+     * @param  array  $abilities
      * @return void
      */
     protected function configureResource(Role $role, string $resource, array $abilities): void
     {
-        $permissions = Arr::map($abilities, fn (CrudPermission $ability) => Permission::findByName($ability->format($resource)));
+        $permissions = Arr::map(
+            $abilities,
+            fn (CrudPermission|ExtendedCrudPermission $ability) => Permission::findByName($ability->format($resource))
+        );
 
         $role->givePermissionTo($permissions);
     }

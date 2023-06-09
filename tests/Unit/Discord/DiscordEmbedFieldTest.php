@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace Tests\Unit\Discord;
 
 use App\Discord\DiscordEmbedField;
-use App\Enums\BaseEnum;
 use App\Enums\Http\Api\Filter\AllowedDateFormat;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Date;
 use stdClass;
 use Tests\TestCase;
+use Tests\Unit\Enums\LocalizedEnum;
 
 /**
  * Class DiscordEmbedFieldTest.
@@ -27,16 +27,11 @@ class DiscordEmbedFieldTest extends TestCase
      */
     public function testDiscordEmbedFormatEnum(): void
     {
-        $enum = new class($this->faker->numberBetween(0, 2)) extends BaseEnum
-        {
-            public const ZERO = 0;
-            public const ONE = 1;
-            public const TWO = 2;
-        };
+        $enum = Arr::random(LocalizedEnum::cases());
 
         $field = new DiscordEmbedField($this->faker->word(), $enum);
 
-        static::assertEquals($enum->description, Arr::get($field->toArray(), 'value'));
+        static::assertEquals($enum->localize(), Arr::get($field->toArray(), 'value'));
     }
 
     /**
@@ -50,7 +45,7 @@ class DiscordEmbedFieldTest extends TestCase
 
         $field = new DiscordEmbedField($this->faker->word(), $date);
 
-        static::assertEquals($date->format(AllowedDateFormat::YMD), Arr::get($field->toArray(), 'value'));
+        static::assertEquals($date->format(AllowedDateFormat::YMD->value), Arr::get($field->toArray(), 'value'));
     }
 
     /**

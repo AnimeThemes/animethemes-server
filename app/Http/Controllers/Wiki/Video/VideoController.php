@@ -32,8 +32,8 @@ class VideoController extends Controller
     {
         /** @var StreamAction $action */
         $action = match (Config::get(VideoConstants::STREAMING_METHOD_QUALIFIED)) {
-            StreamingMethod::RESPONSE => new VideoResponseStreamAction($video),
-            StreamingMethod::NGINX => new VideoNginxStreamAction($video),
+            StreamingMethod::RESPONSE->value => new VideoResponseStreamAction($video),
+            StreamingMethod::NGINX->value => new VideoNginxStreamAction($video),
             default => throw new RuntimeException('VIDEO_STREAMING_METHOD must be specified in your .env file'),
         };
 

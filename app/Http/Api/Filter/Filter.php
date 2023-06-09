@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Filter;
 
+use App\Enums\Http\Api\Filter\BinaryLogicalOperator;
 use App\Enums\Http\Api\Filter\Clause;
 use App\Enums\Http\Api\Filter\ComparisonOperator;
-use App\Enums\Http\Api\Filter\LogicalOperator;
+use App\Enums\Http\Api\Filter\UnaryLogicalOperator;
 use App\Enums\Http\Api\QualifyColumn;
 use App\Http\Api\Criteria\Filter\Criteria;
 use Illuminate\Support\Str;
@@ -27,8 +28,8 @@ abstract class Filter
     public function __construct(
         protected readonly string $key,
         protected readonly ?string $column = null,
-        protected readonly QualifyColumn $qualifyColumn = new QualifyColumn(QualifyColumn::YES),
-        protected readonly Clause $clause = new Clause(Clause::WHERE)
+        protected readonly QualifyColumn $qualifyColumn = QualifyColumn::YES,
+        protected readonly Clause $clause = Clause::WHERE
     ) {
     }
 
@@ -59,7 +60,7 @@ abstract class Filter
      */
     public function shouldQualifyColumn(): bool
     {
-        return QualifyColumn::YES()->is($this->qualifyColumn);
+        return QualifyColumn::YES === $this->qualifyColumn;
     }
 
     /**
@@ -142,24 +143,24 @@ abstract class Filter
     /**
      * Format filter string with conditions.
      *
-     * @param  LogicalOperator|null  $logicalOperator
+     * @param  BinaryLogicalOperator|UnaryLogicalOperator|null  $logicalOperator
      * @param  ComparisonOperator|null  $comparisonOperator
      * @return string
      */
     public function format(
-        ?LogicalOperator $logicalOperator = null,
+        BinaryLogicalOperator|UnaryLogicalOperator|null $logicalOperator = null,
         ?ComparisonOperator $comparisonOperator = null
     ): string {
         $formattedFilter = Str::of($this->getKey());
 
         if ($comparisonOperator !== null) {
             $formattedFilter = $formattedFilter->append(Criteria::PARAM_SEPARATOR)
-                ->append($comparisonOperator->key);
+                ->append($comparisonOperator->value);
         }
 
         if ($logicalOperator !== null) {
             $formattedFilter = $formattedFilter->append(Criteria::PARAM_SEPARATOR)
-                ->append($logicalOperator->key);
+                ->append($logicalOperator->value);
         }
 
         return $formattedFilter->lower()->__toString();

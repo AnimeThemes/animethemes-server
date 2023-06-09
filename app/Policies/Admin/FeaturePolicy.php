@@ -26,7 +26,7 @@ class FeaturePolicy
     public function viewAny(?User $user): bool
     {
         return Nova::whenServing(
-            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW()->format(Feature::class)),
+            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW->format(Feature::class)),
             fn (): bool => true
         );
     }
@@ -41,7 +41,7 @@ class FeaturePolicy
     public function view(?User $user, Feature $feature): bool
     {
         return Nova::whenServing(
-            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW()->format(Feature::class)),
+            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW->format(Feature::class)),
             fn (): bool => $feature->isNullScope()
         );
     }
@@ -54,7 +54,7 @@ class FeaturePolicy
      */
     public function create(User $user): bool
     {
-        return $user->can(CrudPermission::CREATE()->format(Feature::class));
+        return $user->can(CrudPermission::CREATE->format(Feature::class));
     }
 
     /**
@@ -65,7 +65,7 @@ class FeaturePolicy
      */
     public function update(User $user): bool
     {
-        return $user->can(CrudPermission::UPDATE()->format(Feature::class));
+        return $user->can(CrudPermission::UPDATE->format(Feature::class));
     }
 
     /**
@@ -76,6 +76,6 @@ class FeaturePolicy
      */
     public function delete(User $user): bool
     {
-        return $user->can(CrudPermission::DELETE()->format(Feature::class));
+        return $user->can(CrudPermission::DELETE->format(Feature::class));
     }
 }

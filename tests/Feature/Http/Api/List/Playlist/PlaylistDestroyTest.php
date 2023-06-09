@@ -78,7 +78,7 @@ class PlaylistDestroyTest extends TestCase
             ->for(User::factory())
             ->createOne();
 
-        $user = User::factory()->withPermissions(CrudPermission::DELETE()->format(Playlist::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::DELETE->format(Playlist::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -99,7 +99,7 @@ class PlaylistDestroyTest extends TestCase
 
         Feature::deactivate(AllowPlaylistManagement::class);
 
-        $user = User::factory()->withPermissions(CrudPermission::DELETE()->format(Playlist::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::DELETE->format(Playlist::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)
@@ -123,7 +123,7 @@ class PlaylistDestroyTest extends TestCase
 
         Feature::activate(AllowPlaylistManagement::class);
 
-        $user = User::factory()->withPermissions(CrudPermission::DELETE()->format(Playlist::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::DELETE->format(Playlist::class))->createOne();
 
         $playlist = Playlist::factory()
             ->trashed()
@@ -148,7 +148,7 @@ class PlaylistDestroyTest extends TestCase
 
         Feature::activate(AllowPlaylistManagement::class);
 
-        $user = User::factory()->withPermissions(CrudPermission::DELETE()->format(Playlist::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::DELETE->format(Playlist::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)
@@ -176,8 +176,8 @@ class PlaylistDestroyTest extends TestCase
 
         $user = User::factory()
             ->withPermissions(
-                CrudPermission::DELETE()->format(Playlist::class),
-                SpecialPermission::BYPASS_FEATURE_FLAGS
+                CrudPermission::DELETE->format(Playlist::class),
+                SpecialPermission::BYPASS_FEATURE_FLAGS->value
             )
             ->createOne();
 

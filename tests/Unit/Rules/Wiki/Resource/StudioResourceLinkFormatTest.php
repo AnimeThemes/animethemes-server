@@ -30,7 +30,7 @@ class StudioResourceLinkFormatTest extends TestCase
 
         $validator = Validator::make(
             [$attribute => $this->faker->url()],
-            [$attribute => new StudioResourceLinkFormatRule(ResourceSite::OFFICIAL_SITE())],
+            [$attribute => new StudioResourceLinkFormatRule(ResourceSite::OFFICIAL_SITE)],
         );
 
         static::assertTrue($validator->passes());
@@ -45,12 +45,12 @@ class StudioResourceLinkFormatTest extends TestCase
     {
         /** @var ResourceSite $site */
         $site = Arr::random([
-            ResourceSite::TWITTER(),
-            ResourceSite::ANIDB(),
-            ResourceSite::ANILIST(),
-            ResourceSite::ANIME_PLANET(),
-            ResourceSite::ANN(),
-            ResourceSite::MAL(),
+            ResourceSite::TWITTER,
+            ResourceSite::ANIDB,
+            ResourceSite::ANILIST,
+            ResourceSite::ANIME_PLANET,
+            ResourceSite::ANN,
+            ResourceSite::MAL,
         ]);
 
         $url = $site->formatStudioResourceLink($this->faker->randomDigitNotNull(), $this->faker->word());
@@ -72,13 +72,13 @@ class StudioResourceLinkFormatTest extends TestCase
      */
     public function testFailsForKitsu(): void
     {
-        $url = ResourceSite::KITSU()->formatAnimeResourceLink($this->faker->randomDigitNotNull(), $this->faker->word());
+        $url = ResourceSite::KITSU->formatAnimeResourceLink($this->faker->randomDigitNotNull(), $this->faker->word());
 
         $attribute = $this->faker->word();
 
         $validator = Validator::make(
             [$attribute => $url],
-            [$attribute => new StudioResourceLinkFormatRule(ResourceSite::KITSU())],
+            [$attribute => new StudioResourceLinkFormatRule(ResourceSite::KITSU)],
         );
 
         static::assertFalse($validator->passes());
@@ -93,12 +93,12 @@ class StudioResourceLinkFormatTest extends TestCase
     {
         /** @var ResourceSite $site */
         $site = Arr::random([
-            ResourceSite::TWITTER(),
-            ResourceSite::ANIDB(),
-            ResourceSite::ANILIST(),
-            ResourceSite::ANIME_PLANET(),
-            ResourceSite::ANN(),
-            ResourceSite::MAL(),
+            ResourceSite::TWITTER,
+            ResourceSite::ANIDB,
+            ResourceSite::ANILIST,
+            ResourceSite::ANIME_PLANET,
+            ResourceSite::ANN,
+            ResourceSite::MAL,
         ]);
 
         $url = $site->formatStudioResourceLink($this->faker->randomDigitNotNull(), $this->faker->word());
@@ -126,8 +126,8 @@ class StudioResourceLinkFormatTest extends TestCase
     {
         /** @var ResourceSite $site */
         $site = Arr::random([
-            ResourceSite::ANILIST(),
-            ResourceSite::MAL(),
+            ResourceSite::ANILIST,
+            ResourceSite::MAL,
         ]);
 
         $url = $site->formatStudioResourceLink($this->faker->randomDigitNotNull(), $this->faker->word());
@@ -156,11 +156,11 @@ class StudioResourceLinkFormatTest extends TestCase
     {
         /** @var ResourceSite $site */
         $site = Arr::random([
-            ResourceSite::ANIDB(),
-            ResourceSite::ANILIST(),
-            ResourceSite::ANIME_PLANET(),
-            ResourceSite::ANN(),
-            ResourceSite::MAL(),
+            ResourceSite::ANIDB,
+            ResourceSite::ANILIST,
+            ResourceSite::ANIME_PLANET,
+            ResourceSite::ANN,
+            ResourceSite::MAL,
         ]);
 
         $url = $site->formatAnimeResourceLink($this->faker->randomDigitNotNull(), $this->faker->word());
@@ -184,10 +184,10 @@ class StudioResourceLinkFormatTest extends TestCase
     {
         /** @var ResourceSite $site */
         $site = Arr::random([
-            ResourceSite::ANILIST(),
-            ResourceSite::ANIME_PLANET(),
-            ResourceSite::ANN(),
-            ResourceSite::MAL(),
+            ResourceSite::ANILIST,
+            ResourceSite::ANIME_PLANET,
+            ResourceSite::ANN,
+            ResourceSite::MAL,
         ]);
 
         $url = $site->formatArtistResourceLink($this->faker->randomDigitNotNull(), $this->faker->word());

@@ -63,8 +63,8 @@ class StudioImageStoreTest extends TestCase
 
         $user = User::factory()
             ->withPermissions(
-                CrudPermission::CREATE()->format(Studio::class),
-                CrudPermission::CREATE()->format(Image::class)
+                CrudPermission::CREATE->format(Studio::class),
+                CrudPermission::CREATE->format(Image::class)
             )
             ->createOne();
 

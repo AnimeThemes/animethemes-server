@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Arr;
 use Tests\TestCase;
 
 /**
@@ -60,7 +61,7 @@ class PlaylistTest extends TestCase
     {
         $playlist = Playlist::factory()
             ->createOne([
-                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
+                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
             ]);
 
         static::assertTrue($playlist->shouldBeSearchable());
@@ -76,8 +77,8 @@ class PlaylistTest extends TestCase
         $visibility = null;
 
         while ($visibility == null) {
-            $candidate = PlaylistVisibility::getRandomInstance();
-            if (PlaylistVisibility::PUBLIC()->isNot($candidate)) {
+            $candidate = Arr::random(PlaylistVisibility::cases());
+            if (PlaylistVisibility::PUBLIC !== $candidate) {
                 $visibility = $candidate;
             }
         }

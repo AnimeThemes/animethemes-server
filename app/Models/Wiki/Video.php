@@ -17,7 +17,6 @@ use App\Models\List\Playlist\PlaylistTrack;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video\VideoScript;
 use App\Pivots\Wiki\AnimeThemeEntryVideo;
-use BenSampo\Enum\Enum;
 use CyrildeWit\EloquentViewable\Contracts\Viewable;
 use CyrildeWit\EloquentViewable\InteractsWithViews;
 use Database\Factories\Wiki\VideoFactory;
@@ -41,13 +40,13 @@ use Laravel\Nova\Actions\Actionable;
  * @property bool $lyrics
  * @property string $mimetype
  * @property bool $nc
- * @property Enum $overlap
+ * @property VideoOverlap $overlap
  * @property string $path
  * @property Collection<int, PlaylistTrack> $tracks
  * @property int|null $resolution
  * @property VideoScript|null $script
  * @property int $size
- * @property Enum|null $source
+ * @property VideoSource|null $source
  * @property bool $subbed
  * @property string[] $tags
  * @property bool $uncen
@@ -159,8 +158,8 @@ class Video extends BaseModel implements Streamable, Viewable
         if ($this->nc) {
             $tags[] = 'NC';
         }
-        if (! empty($this->source) && ($this->source->is(VideoSource::BD) || $this->source->is(VideoSource::DVD))) {
-            $tags[] = $this->source->description;
+        if (VideoSource::BD === $this->source || VideoSource::DVD === $this->source) {
+            $tags[] = $this->source->localize();
         }
         if (! empty($this->resolution) && $this->resolution !== 720) {
             $tags[] = strval($this->resolution);
@@ -183,15 +182,15 @@ class Video extends BaseModel implements Streamable, Viewable
      */
     public function getSourcePriority(): int
     {
-        $priority = VideoSource::getPriority($this->source?->value);
+        $priority = intval($this->source?->getPriority());
 
         // Videos that play over the episode will likely have compressed audio
-        if (VideoOverlap::OVER()->is($this->overlap)) {
+        if (VideoOverlap::OVER === $this->overlap) {
             $priority -= 8;
         }
 
         // Videos that transition to or from the episode may have compressed audio
-        if (VideoOverlap::TRANS()->is($this->overlap)) {
+        if (VideoOverlap::TRANS === $this->overlap) {
             $priority -= 5;
         }
 

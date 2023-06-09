@@ -50,7 +50,7 @@ class ActionResult
      */
     public function hasFailed(): bool
     {
-        return ActionStatus::FAILED()->is($this->status);
+        return ActionStatus::FAILED === $this->status;
     }
 
     /**

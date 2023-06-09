@@ -56,7 +56,7 @@ class StudioForceDeleteTest extends TestCase
     {
         $studio = Studio::factory()->createOne();
 
-        $user = User::factory()->withPermissions(ExtendedCrudPermission::FORCE_DELETE()->format(Studio::class))->createOne();
+        $user = User::factory()->withPermissions(ExtendedCrudPermission::FORCE_DELETE->format(Studio::class))->createOne();
 
         Sanctum::actingAs($user);
 

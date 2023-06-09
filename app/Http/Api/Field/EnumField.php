@@ -8,13 +8,11 @@ use App\Contracts\Http\Api\Field\FilterableField;
 use App\Contracts\Http\Api\Field\RenderableField;
 use App\Contracts\Http\Api\Field\SelectableField;
 use App\Contracts\Http\Api\Field\SortableField;
-use App\Enums\BaseEnum;
 use App\Http\Api\Filter\EnumFilter;
 use App\Http\Api\Filter\Filter;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Schema;
 use App\Http\Api\Sort\Sort;
-use BenSampo\Enum\Enum;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -27,7 +25,7 @@ abstract class EnumField extends Field implements FilterableField, RenderableFie
      *
      * @param  Schema  $schema
      * @param  string  $key
-     * @param  class-string<BaseEnum>  $enumClass
+     * @param  class-string  $enumClass
      * @param  string|null  $column
      */
     public function __construct(
@@ -42,7 +40,7 @@ abstract class EnumField extends Field implements FilterableField, RenderableFie
     /**
      * Get the enum class.
      *
-     * @return class-string<BaseEnum>
+     * @return class-string
      */
     public function getEnumClass(): string
     {
@@ -80,10 +78,9 @@ abstract class EnumField extends Field implements FilterableField, RenderableFie
      */
     public function render(Model $model): ?string
     {
-        /** @var Enum|null $enum */
         $enum = $model->getAttribute($this->getColumn());
 
-        return $enum?->description;
+        return $enum?->localize();
     }
 
     /**

@@ -4,24 +4,15 @@ declare(strict_types=1);
 
 namespace App\Enums\Http\Api\Field;
 
-use App\Enums\BaseEnum;
-
 /**
- * Class AggregateFunction.
- *
- * @method static static AVG()
- * @method static static COUNT()
- * @method static static EXISTS()
- * @method static static MAX()
- * @method static static MIN()
- * @method static static SUM()
+ * Enum AggregateFunction.
  */
-final class AggregateFunction extends BaseEnum
+enum AggregateFunction: string
 {
-    public const AVG = 'avg';
-    public const COUNT = 'count';
-    public const EXISTS = 'exists';
-    public const MAX = 'max';
-    public const MIN = 'min';
-    public const SUM = 'sum';
+    case AVG = 'avg';
+    case COUNT = 'count';
+    case EXISTS = 'exists';
+    case MAX = 'max';
+    case MIN = 'min';
+    case SUM = 'sum';
 }

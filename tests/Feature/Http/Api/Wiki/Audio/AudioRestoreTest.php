@@ -56,7 +56,7 @@ class AudioRestoreTest extends TestCase
     {
         $audio = Audio::factory()->createOne();
 
-        $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE()->format(Audio::class))->createOne();
+        $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE->format(Audio::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -74,7 +74,7 @@ class AudioRestoreTest extends TestCase
     {
         $audio = Audio::factory()->trashed()->createOne();
 
-        $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE()->format(Audio::class))->createOne();
+        $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE->format(Audio::class))->createOne();
 
         Sanctum::actingAs($user);
 

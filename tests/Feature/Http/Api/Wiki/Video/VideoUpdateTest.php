@@ -9,6 +9,7 @@ use App\Enums\Models\Wiki\VideoOverlap;
 use App\Enums\Models\Wiki\VideoSource;
 use App\Models\Auth\User;
 use App\Models\Wiki\Video;
+use Illuminate\Support\Arr;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
@@ -26,11 +27,14 @@ class VideoUpdateTest extends TestCase
     {
         $video = Video::factory()->createOne();
 
+        $overlap = Arr::random(VideoOverlap::cases());
+        $source = Arr::random(VideoSource::cases());
+
         $parameters = array_merge(
             Video::factory()->raw(),
             [
-                Video::ATTRIBUTE_OVERLAP => VideoOverlap::getRandomInstance()->description,
-                Video::ATTRIBUTE_SOURCE => VideoSource::getRandomInstance()->description,
+                Video::ATTRIBUTE_OVERLAP => $overlap->localize(),
+                Video::ATTRIBUTE_SOURCE => $source->localize(),
             ]
         );
 
@@ -48,11 +52,14 @@ class VideoUpdateTest extends TestCase
     {
         $video = Video::factory()->createOne();
 
+        $overlap = Arr::random(VideoOverlap::cases());
+        $source = Arr::random(VideoSource::cases());
+
         $parameters = array_merge(
             Video::factory()->raw(),
             [
-                Video::ATTRIBUTE_OVERLAP => VideoOverlap::getRandomInstance()->description,
-                Video::ATTRIBUTE_SOURCE => VideoSource::getRandomInstance()->description,
+                Video::ATTRIBUTE_OVERLAP => $overlap->localize(),
+                Video::ATTRIBUTE_SOURCE => $source->localize(),
             ]
         );
 
@@ -74,15 +81,18 @@ class VideoUpdateTest extends TestCase
     {
         $video = Video::factory()->trashed()->createOne();
 
+        $overlap = Arr::random(VideoOverlap::cases());
+        $source = Arr::random(VideoSource::cases());
+
         $parameters = array_merge(
             Video::factory()->raw(),
             [
-                Video::ATTRIBUTE_OVERLAP => VideoOverlap::getRandomInstance()->description,
-                Video::ATTRIBUTE_SOURCE => VideoSource::getRandomInstance()->description,
+                Video::ATTRIBUTE_OVERLAP => $overlap->localize(),
+                Video::ATTRIBUTE_SOURCE => $source->localize(),
             ]
         );
 
-        $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(Video::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(Video::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -100,15 +110,18 @@ class VideoUpdateTest extends TestCase
     {
         $video = Video::factory()->createOne();
 
+        $overlap = Arr::random(VideoOverlap::cases());
+        $source = Arr::random(VideoSource::cases());
+
         $parameters = array_merge(
             Video::factory()->raw(),
             [
-                Video::ATTRIBUTE_OVERLAP => VideoOverlap::getRandomInstance()->description,
-                Video::ATTRIBUTE_SOURCE => VideoSource::getRandomInstance()->description,
+                Video::ATTRIBUTE_OVERLAP => $overlap->localize(),
+                Video::ATTRIBUTE_SOURCE => $source->localize(),
             ]
         );
 
-        $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(Video::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(Video::class))->createOne();
 
         Sanctum::actingAs($user);
 

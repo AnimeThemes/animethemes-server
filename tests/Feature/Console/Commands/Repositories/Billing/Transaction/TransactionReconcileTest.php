@@ -41,7 +41,7 @@ class TransactionReconcileTest extends TestCase
      */
     public function testOther(): void
     {
-        $other = Service::OTHER()->key;
+        $other = Service::OTHER->name;
 
         $this->artisan(TransactionReconcileCommand::class, ['service' => $other])
             ->assertFailed()
@@ -61,7 +61,7 @@ class TransactionReconcileTest extends TestCase
             $mock->shouldReceive('get')->once()->andReturn(Collection::make());
         });
 
-        $this->artisan(TransactionReconcileCommand::class, ['service' => Service::DIGITALOCEAN()->key])
+        $this->artisan(TransactionReconcileCommand::class, ['service' => Service::DIGITALOCEAN->name])
             ->assertSuccessful()
             ->expectsOutput('No Transactions created or deleted or updated');
     }
@@ -87,7 +87,7 @@ class TransactionReconcileTest extends TestCase
             $mock->shouldReceive('get')->once()->andReturn($transactions);
         });
 
-        $this->artisan(TransactionReconcileCommand::class, ['service' => Service::DIGITALOCEAN()->key])
+        $this->artisan(TransactionReconcileCommand::class, ['service' => Service::DIGITALOCEAN->name])
             ->assertSuccessful()
             ->expectsOutput("$createdTransactionCount Transactions created, 0 Transactions deleted, 0 Transactions updated");
     }
@@ -111,7 +111,7 @@ class TransactionReconcileTest extends TestCase
             $mock->shouldReceive('get')->once()->andReturn(Collection::make());
         });
 
-        $this->artisan(TransactionReconcileCommand::class, ['service' => Service::DIGITALOCEAN()->key])
+        $this->artisan(TransactionReconcileCommand::class, ['service' => Service::DIGITALOCEAN->name])
             ->assertSuccessful()
             ->expectsOutput("0 Transactions created, $deletedTransactionCount Transactions deleted, 0 Transactions updated");
     }

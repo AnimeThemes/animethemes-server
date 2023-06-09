@@ -28,7 +28,7 @@ class FeaturedThemePolicy
     public function viewAny(?User $user): bool
     {
         return Nova::whenServing(
-            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW()->format(FeaturedTheme::class)),
+            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW->format(FeaturedTheme::class)),
             fn (): bool => true
         );
     }
@@ -43,7 +43,7 @@ class FeaturedThemePolicy
     public function view(?User $user, FeaturedTheme $featuredtheme): bool
     {
         return Nova::whenServing(
-            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW()->format(FeaturedTheme::class)),
+            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW->format(FeaturedTheme::class)),
             fn (): bool => $featuredtheme->start_at->isBefore(Date::now())
         );
     }
@@ -56,7 +56,7 @@ class FeaturedThemePolicy
      */
     public function create(User $user): bool
     {
-        return $user->can(CrudPermission::CREATE()->format(FeaturedTheme::class));
+        return $user->can(CrudPermission::CREATE->format(FeaturedTheme::class));
     }
 
     /**
@@ -68,7 +68,7 @@ class FeaturedThemePolicy
      */
     public function update(User $user, FeaturedTheme $featuredtheme): bool
     {
-        return ! $featuredtheme->trashed() && $user->can(CrudPermission::UPDATE()->format(FeaturedTheme::class));
+        return ! $featuredtheme->trashed() && $user->can(CrudPermission::UPDATE->format(FeaturedTheme::class));
     }
 
     /**
@@ -80,7 +80,7 @@ class FeaturedThemePolicy
      */
     public function delete(User $user, FeaturedTheme $featuredtheme): bool
     {
-        return ! $featuredtheme->trashed() && $user->can(CrudPermission::DELETE()->format(FeaturedTheme::class));
+        return ! $featuredtheme->trashed() && $user->can(CrudPermission::DELETE->format(FeaturedTheme::class));
     }
 
     /**
@@ -92,7 +92,7 @@ class FeaturedThemePolicy
      */
     public function restore(User $user, FeaturedTheme $featuredtheme): bool
     {
-        return $featuredtheme->trashed() && $user->can(ExtendedCrudPermission::RESTORE()->format(FeaturedTheme::class));
+        return $featuredtheme->trashed() && $user->can(ExtendedCrudPermission::RESTORE->format(FeaturedTheme::class));
     }
 
     /**
@@ -103,6 +103,6 @@ class FeaturedThemePolicy
      */
     public function forceDelete(User $user): bool
     {
-        return $user->can(ExtendedCrudPermission::FORCE_DELETE()->format(FeaturedTheme::class));
+        return $user->can(ExtendedCrudPermission::FORCE_DELETE->format(FeaturedTheme::class));
     }
 }

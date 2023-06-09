@@ -27,7 +27,7 @@ class DumpPolicy
     public function viewAny(?User $user): bool
     {
         return Nova::whenServing(
-            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW()->format(Dump::class)),
+            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW->format(Dump::class)),
             fn (): bool => true
         );
     }
@@ -41,7 +41,7 @@ class DumpPolicy
     public function view(?User $user): bool
     {
         return Nova::whenServing(
-            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW()->format(Dump::class)),
+            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW->format(Dump::class)),
             fn (): bool => true
         );
     }
@@ -54,7 +54,7 @@ class DumpPolicy
      */
     public function create(User $user): bool
     {
-        return $user->can(CrudPermission::CREATE()->format(Dump::class));
+        return $user->can(CrudPermission::CREATE->format(Dump::class));
     }
 
     /**
@@ -66,7 +66,7 @@ class DumpPolicy
      */
     public function update(User $user, Dump $dump): bool
     {
-        return ! $dump->trashed() && $user->can(CrudPermission::UPDATE()->format(Dump::class));
+        return ! $dump->trashed() && $user->can(CrudPermission::UPDATE->format(Dump::class));
     }
 
     /**
@@ -78,7 +78,7 @@ class DumpPolicy
      */
     public function delete(User $user, Dump $dump): bool
     {
-        return ! $dump->trashed() && $user->can(CrudPermission::DELETE()->format(Dump::class));
+        return ! $dump->trashed() && $user->can(CrudPermission::DELETE->format(Dump::class));
     }
 
     /**
@@ -90,7 +90,7 @@ class DumpPolicy
      */
     public function restore(User $user, Dump $dump): bool
     {
-        return $dump->trashed() && $user->can(ExtendedCrudPermission::RESTORE()->format(Dump::class));
+        return $dump->trashed() && $user->can(ExtendedCrudPermission::RESTORE->format(Dump::class));
     }
 
     /**
@@ -101,6 +101,6 @@ class DumpPolicy
      */
     public function forceDelete(User $user): bool
     {
-        return $user->can(ExtendedCrudPermission::FORCE_DELETE()->format(Dump::class));
+        return $user->can(ExtendedCrudPermission::FORCE_DELETE->format(Dump::class));
     }
 }

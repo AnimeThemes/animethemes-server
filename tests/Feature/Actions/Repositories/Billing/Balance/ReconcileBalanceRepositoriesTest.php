@@ -46,7 +46,7 @@ class ReconcileBalanceRepositoriesTest extends TestCase
 
         $result = $action->reconcileRepositories($source, $destination);
 
-        static::assertTrue(ActionStatus::PASSED()->is($result->getStatus()));
+        static::assertTrue(ActionStatus::PASSED === $result->getStatus());
         static::assertFalse($result->hasChanges());
         static::assertDatabaseCount(Balance::class, 0);
     }
@@ -65,7 +65,7 @@ class ReconcileBalanceRepositoriesTest extends TestCase
         $balances = Balance::factory()
             ->count($createdBalanceCount)
             ->make([
-                Balance::ATTRIBUTE_DATE => Date::now()->format(AllowedDateFormat::YMD),
+                Balance::ATTRIBUTE_DATE => Date::now()->format(AllowedDateFormat::YMD->value),
                 Balance::ATTRIBUTE_SERVICE => Service::DIGITALOCEAN,
             ]);
 
@@ -80,7 +80,7 @@ class ReconcileBalanceRepositoriesTest extends TestCase
 
         $result = $action->reconcileRepositories($source, $destination);
 
-        static::assertTrue(ActionStatus::PASSED()->is($result->getStatus()));
+        static::assertTrue(ActionStatus::PASSED === $result->getStatus());
         static::assertTrue($result->hasChanges());
         static::assertCount($createdBalanceCount, $result->getCreated());
         static::assertDatabaseCount(Balance::class, $createdBalanceCount);
@@ -100,7 +100,7 @@ class ReconcileBalanceRepositoriesTest extends TestCase
         $balances = Balance::factory()
             ->count($deletedBalanceCount)
             ->create([
-                Balance::ATTRIBUTE_DATE => Date::now()->format(AllowedDateFormat::YMD),
+                Balance::ATTRIBUTE_DATE => Date::now()->format(AllowedDateFormat::YMD->value),
                 Balance::ATTRIBUTE_SERVICE => Service::DIGITALOCEAN,
             ]);
 
@@ -115,7 +115,7 @@ class ReconcileBalanceRepositoriesTest extends TestCase
 
         $result = $action->reconcileRepositories($source, $destination);
 
-        static::assertTrue(ActionStatus::PASSED()->is($result->getStatus()));
+        static::assertTrue(ActionStatus::PASSED === $result->getStatus());
         static::assertTrue($result->hasChanges());
         static::assertCount($deletedBalanceCount, $result->getDeleted());
 
@@ -136,13 +136,13 @@ class ReconcileBalanceRepositoriesTest extends TestCase
     {
         Balance::factory()
             ->create([
-                Balance::ATTRIBUTE_DATE => Date::now()->format(AllowedDateFormat::YMD),
+                Balance::ATTRIBUTE_DATE => Date::now()->format(AllowedDateFormat::YMD->value),
                 Balance::ATTRIBUTE_SERVICE => Service::DIGITALOCEAN,
             ]);
 
         $sourceBalances = Balance::factory()
             ->make([
-                Balance::ATTRIBUTE_DATE => Date::now()->format(AllowedDateFormat::YMD),
+                Balance::ATTRIBUTE_DATE => Date::now()->format(AllowedDateFormat::YMD->value),
                 Balance::ATTRIBUTE_SERVICE => Service::DIGITALOCEAN,
             ]);
 
@@ -157,7 +157,7 @@ class ReconcileBalanceRepositoriesTest extends TestCase
 
         $result = $action->reconcileRepositories($source, $destination);
 
-        static::assertTrue(ActionStatus::PASSED()->is($result->getStatus()));
+        static::assertTrue(ActionStatus::PASSED === $result->getStatus());
         static::assertTrue($result->hasChanges());
         static::assertCount(1, $result->getUpdated());
         static::assertDatabaseCount(Balance::class, 1);

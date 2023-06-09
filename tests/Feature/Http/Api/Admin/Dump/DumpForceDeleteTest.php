@@ -56,7 +56,7 @@ class DumpForceDeleteTest extends TestCase
     {
         $dump = Dump::factory()->createOne();
 
-        $user = User::factory()->withPermissions(ExtendedCrudPermission::FORCE_DELETE()->format(Dump::class))->createOne();
+        $user = User::factory()->withPermissions(ExtendedCrudPermission::FORCE_DELETE->format(Dump::class))->createOne();
 
         Sanctum::actingAs($user);
 

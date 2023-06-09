@@ -75,8 +75,8 @@ class ArtistResourceUpdateTest extends TestCase
 
         $user = User::factory()
             ->withPermissions(
-                CrudPermission::UPDATE()->format(Artist::class),
-                CrudPermission::UPDATE()->format(ExternalResource::class)
+                CrudPermission::UPDATE->format(Artist::class),
+                CrudPermission::UPDATE->format(ExternalResource::class)
             )
             ->createOne();
 

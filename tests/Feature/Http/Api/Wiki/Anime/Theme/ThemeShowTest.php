@@ -27,6 +27,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Arr;
 use Tests\TestCase;
 
 /**
@@ -183,11 +184,11 @@ class ThemeShowTest extends TestCase
      */
     public function testAnimeBySeason(): void
     {
-        $seasonFilter = AnimeSeason::getRandomInstance();
+        $seasonFilter = Arr::random(AnimeSeason::cases());
 
         $parameters = [
             FilterParser::param() => [
-                Anime::ATTRIBUTE_SEASON => $seasonFilter->description,
+                Anime::ATTRIBUTE_SEASON => $seasonFilter->localize(),
             ],
             IncludeParser::param() => AnimeTheme::RELATION_ANIME,
         ];
@@ -269,11 +270,11 @@ class ThemeShowTest extends TestCase
      */
     public function testImagesByFacet(): void
     {
-        $facetFilter = ImageFacet::getRandomInstance();
+        $facetFilter = Arr::random(ImageFacet::cases());
 
         $parameters = [
             FilterParser::param() => [
-                Image::ATTRIBUTE_FACET => $facetFilter->description,
+                Image::ATTRIBUTE_FACET => $facetFilter->localize(),
             ],
             IncludeParser::param() => AnimeTheme::RELATION_IMAGES,
         ];
@@ -533,11 +534,11 @@ class ThemeShowTest extends TestCase
      */
     public function testVideosByOverlap(): void
     {
-        $overlapFilter = VideoOverlap::getRandomInstance();
+        $overlapFilter = Arr::random(VideoOverlap::cases());
 
         $parameters = [
             FilterParser::param() => [
-                Video::ATTRIBUTE_OVERLAP => $overlapFilter->description,
+                Video::ATTRIBUTE_OVERLAP => $overlapFilter->localize(),
             ],
             IncludeParser::param() => AnimeTheme::RELATION_VIDEOS,
         ];
@@ -631,11 +632,11 @@ class ThemeShowTest extends TestCase
      */
     public function testVideosBySource(): void
     {
-        $sourceFilter = VideoSource::getRandomInstance();
+        $sourceFilter = Arr::random(VideoSource::cases());
 
         $parameters = [
             FilterParser::param() => [
-                Video::ATTRIBUTE_SOURCE => $sourceFilter->description,
+                Video::ATTRIBUTE_SOURCE => $sourceFilter->localize(),
             ],
             IncludeParser::param() => AnimeTheme::RELATION_VIDEOS,
         ];

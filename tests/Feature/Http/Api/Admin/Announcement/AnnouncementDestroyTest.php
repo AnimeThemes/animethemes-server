@@ -56,7 +56,7 @@ class AnnouncementDestroyTest extends TestCase
     {
         $announcement = Announcement::factory()->trashed()->createOne();
 
-        $user = User::factory()->withPermissions(CrudPermission::DELETE()->format(Announcement::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::DELETE->format(Announcement::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -74,7 +74,7 @@ class AnnouncementDestroyTest extends TestCase
     {
         $announcement = Announcement::factory()->createOne();
 
-        $user = User::factory()->withPermissions(CrudPermission::DELETE()->format(Announcement::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::DELETE->format(Announcement::class))->createOne();
 
         Sanctum::actingAs($user);
 

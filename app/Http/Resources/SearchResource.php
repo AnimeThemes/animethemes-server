@@ -71,42 +71,42 @@ class SearchResource extends JsonResource
         $action = new IndexAction();
 
         if ($criteria->isAllowedField(AnimeCollection::$wrap)) {
-            $anime = $action->search($this->query, new AnimeSchema(), PaginationStrategy::LIMIT());
+            $anime = $action->search($this->query, new AnimeSchema(), PaginationStrategy::LIMIT);
             $result[AnimeCollection::$wrap] = new AnimeCollection($anime, $this->query);
         }
 
         if ($criteria->isAllowedField(ThemeCollection::$wrap)) {
-            $themes = $action->search($this->query, new ThemeSchema(), PaginationStrategy::LIMIT());
+            $themes = $action->search($this->query, new ThemeSchema(), PaginationStrategy::LIMIT);
             $result[ThemeCollection::$wrap] = new ThemeCollection($themes, $this->query);
         }
 
         if ($criteria->isAllowedField(ArtistCollection::$wrap)) {
-            $artists = $action->search($this->query, new ArtistSchema(), PaginationStrategy::LIMIT());
+            $artists = $action->search($this->query, new ArtistSchema(), PaginationStrategy::LIMIT);
             $result[ArtistCollection::$wrap] = new ArtistCollection($artists, $this->query);
         }
 
         if ($criteria->isAllowedField(PlaylistCollection::$wrap)) {
-            $series = $action->search($this->query, new PlaylistSchema(), PaginationStrategy::LIMIT());
+            $series = $action->search($this->query, new PlaylistSchema(), PaginationStrategy::LIMIT);
             $result[PlaylistCollection::$wrap] = new PlaylistCollection($series, $this->query);
         }
 
         if ($criteria->isAllowedField(SeriesCollection::$wrap)) {
-            $series = $action->search($this->query, new SeriesSchema(), PaginationStrategy::LIMIT());
+            $series = $action->search($this->query, new SeriesSchema(), PaginationStrategy::LIMIT);
             $result[SeriesCollection::$wrap] = new SeriesCollection($series, $this->query);
         }
 
         if ($criteria->isAllowedField(SongCollection::$wrap)) {
-            $songs = $action->search($this->query, new SongSchema(), PaginationStrategy::LIMIT());
+            $songs = $action->search($this->query, new SongSchema(), PaginationStrategy::LIMIT);
             $result[SongCollection::$wrap] = new SongCollection($songs, $this->query);
         }
 
         if ($criteria->isAllowedField(StudioCollection::$wrap)) {
-            $studios = $action->search($this->query, new StudioSchema(), PaginationStrategy::LIMIT());
+            $studios = $action->search($this->query, new StudioSchema(), PaginationStrategy::LIMIT);
             $result[StudioCollection::$wrap] = new StudioCollection($studios, $this->query);
         }
 
         if ($criteria->isAllowedField(VideoCollection::$wrap)) {
-            $videos = $action->search($this->query, new VideoSchema(), PaginationStrategy::LIMIT());
+            $videos = $action->search($this->query, new VideoSchema(), PaginationStrategy::LIMIT);
             $result[VideoCollection::$wrap] = new VideoCollection($videos, $this->query);
         }
 

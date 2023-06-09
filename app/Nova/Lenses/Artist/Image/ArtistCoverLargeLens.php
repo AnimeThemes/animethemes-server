@@ -19,7 +19,7 @@ class ArtistCoverLargeLens extends ArtistImageLens
      */
     protected static function facet(): ImageFacet
     {
-        return ImageFacet::COVER_LARGE();
+        return ImageFacet::COVER_LARGE;
     }
 
     /**

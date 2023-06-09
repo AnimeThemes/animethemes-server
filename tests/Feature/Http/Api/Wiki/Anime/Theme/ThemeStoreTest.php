@@ -9,6 +9,7 @@ use App\Enums\Models\Wiki\ThemeType;
 use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
+use Illuminate\Support\Arr;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
@@ -56,7 +57,7 @@ class ThemeStoreTest extends TestCase
      */
     public function testRequiredFields(): void
     {
-        $user = User::factory()->withPermissions(CrudPermission::CREATE()->format(AnimeTheme::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(AnimeTheme::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -78,13 +79,15 @@ class ThemeStoreTest extends TestCase
     {
         $anime = Anime::factory()->createOne();
 
+        $type = Arr::random(ThemeType::cases());
+
         $parameters = array_merge(
             AnimeTheme::factory()->raw(),
-            [AnimeTheme::ATTRIBUTE_TYPE => ThemeType::getRandomInstance()->description],
+            [AnimeTheme::ATTRIBUTE_TYPE => $type->localize()],
             [AnimeTheme::ATTRIBUTE_ANIME => $anime->getKey()],
         );
 
-        $user = User::factory()->withPermissions(CrudPermission::CREATE()->format(AnimeTheme::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(AnimeTheme::class))->createOne();
 
         Sanctum::actingAs($user);
 

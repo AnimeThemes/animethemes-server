@@ -10,8 +10,8 @@ use App\Enums\Models\Wiki\AnimeSeason;
 use App\Http\Api\Field\EnumField;
 use App\Http\Api\Schema\Schema;
 use App\Models\Wiki\Anime;
-use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rules\Enum;
 
 /**
  * Class AnimeSeasonField.
@@ -38,7 +38,7 @@ class AnimeSeasonField extends EnumField implements CreatableField, UpdatableFie
     {
         return [
             'required',
-            new EnumValue(AnimeSeason::class),
+            new Enum(AnimeSeason::class),
         ];
     }
 
@@ -53,7 +53,7 @@ class AnimeSeasonField extends EnumField implements CreatableField, UpdatableFie
         return [
             'sometimes',
             'required',
-            new EnumValue(AnimeSeason::class),
+            new Enum(AnimeSeason::class),
         ];
     }
 }

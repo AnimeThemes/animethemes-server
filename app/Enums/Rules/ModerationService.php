@@ -4,16 +4,11 @@ declare(strict_types=1);
 
 namespace App\Enums\Rules;
 
-use App\Enums\BaseEnum;
-
 /**
- * Class ModerationService.
- *
- * @method static static NONE()
- * @method static static OPENAI()
+ * Enum ModerationService.
  */
-final class ModerationService extends BaseEnum
+enum ModerationService: string
 {
-    public const NONE = 'none';
-    public const OPENAI = 'openai';
+    case NONE = 'none';
+    case OPENAI = 'openai';
 }

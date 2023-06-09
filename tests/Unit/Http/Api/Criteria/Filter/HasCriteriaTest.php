@@ -10,6 +10,7 @@ use App\Http\Api\Criteria\Filter\Criteria;
 use App\Http\Api\Criteria\Filter\HasCriteria;
 use App\Http\Api\Scope\GlobalScope;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
@@ -41,7 +42,7 @@ class HasCriteriaTest extends TestCase
     {
         $criteria = HasCriteria::make(new GlobalScope(), HasCriteria::PARAM_VALUE, $this->faker->word());
 
-        static::assertEquals(ComparisonOperator::GTE(), $criteria->getComparisonOperator());
+        static::assertEquals(ComparisonOperator::GTE, $criteria->getComparisonOperator());
     }
 
     /**
@@ -51,9 +52,9 @@ class HasCriteriaTest extends TestCase
      */
     public function testComparisonOperator(): void
     {
-        $operator = ComparisonOperator::getRandomInstance();
+        $operator = Arr::random(ComparisonOperator::cases());
 
-        $filterParam = Str::of(HasCriteria::PARAM_VALUE)->append(Criteria::PARAM_SEPARATOR)->append($operator->key)->__toString();
+        $filterParam = Str::of(HasCriteria::PARAM_VALUE)->append(Criteria::PARAM_SEPARATOR)->append($operator->name)->__toString();
 
         $criteria = HasCriteria::make(new GlobalScope(), $filterParam, $this->faker->word());
 
@@ -97,7 +98,7 @@ class HasCriteriaTest extends TestCase
     {
         $criteria = HasCriteria::make(new GlobalScope(), $this->faker->word(), $this->faker->word());
 
-        static::assertEquals(BinaryLogicalOperator::AND(), $criteria->getLogicalOperator());
+        static::assertEquals(BinaryLogicalOperator::AND, $criteria->getLogicalOperator());
     }
 
     /**
@@ -107,9 +108,9 @@ class HasCriteriaTest extends TestCase
      */
     public function testLogicalOperator(): void
     {
-        $operator = BinaryLogicalOperator::getRandomInstance();
+        $operator = Arr::random(BinaryLogicalOperator::cases());
 
-        $filterParam = Str::of(HasCriteria::PARAM_VALUE)->append(Criteria::PARAM_SEPARATOR)->append($operator->key)->__toString();
+        $filterParam = Str::of(HasCriteria::PARAM_VALUE)->append(Criteria::PARAM_SEPARATOR)->append($operator->name)->__toString();
 
         $criteria = HasCriteria::make(new GlobalScope(), $filterParam, $this->faker->word());
 

@@ -13,10 +13,9 @@ use App\Nova\Resources\BaseResource;
 use App\Nova\Resources\List\Playlist\Track;
 use App\Nova\Resources\Wiki\Image;
 use App\Pivots\BasePivot;
-use BenSampo\Enum\Enum;
-use BenSampo\Enum\Rules\EnumValue;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Validation\Rules\Enum;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\DateTime;
@@ -190,9 +189,9 @@ class Playlist extends BaseResource
 
             Select::make(__('nova.fields.playlist.visibility.name'), PlaylistModel::ATTRIBUTE_VISIBILITY)
                 ->options(PlaylistVisibility::asSelectArray())
-                ->displayUsing(fn (?Enum $enum) => $enum?->description)
+                ->displayUsing(fn (?int $enumValue) => PlaylistVisibility::tryFrom($enumValue)?->localize())
                 ->sortable()
-                ->rules(['required', new EnumValue(PlaylistVisibility::class, false)])
+                ->rules(['required', new Enum(PlaylistVisibility::class)])
                 ->help(__('nova.fields.playlist.visibility.help'))
                 ->showOnPreview()
                 ->filterable()

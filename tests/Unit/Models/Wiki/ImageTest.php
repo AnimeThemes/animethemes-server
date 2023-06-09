@@ -17,6 +17,7 @@ use App\Pivots\Wiki\StudioImage;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Testing\File;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Storage;
@@ -141,8 +142,10 @@ class ImageTest extends TestCase
         $file = File::fake()->image($this->faker->word().'.jpg');
         $fsFile = $fs->putFile('', $file);
 
+        $facet = Arr::random(ImageFacet::cases());
+
         $image = Image::factory()->createOne([
-            Image::ATTRIBUTE_FACET => ImageFacet::getRandomValue(),
+            Image::ATTRIBUTE_FACET => $facet->value,
             Image::ATTRIBUTE_PATH => $fsFile,
         ]);
 
@@ -164,8 +167,10 @@ class ImageTest extends TestCase
         $file = File::fake()->image($this->faker->word().'.jpg');
         $fsFile = $fs->putFile('', $file);
 
+        $facet = Arr::random(ImageFacet::cases());
+
         $image = Image::factory()->createOne([
-            Image::ATTRIBUTE_FACET => ImageFacet::getRandomValue(),
+            Image::ATTRIBUTE_FACET => $facet->value,
             Image::ATTRIBUTE_PATH => $fsFile,
         ]);
 

@@ -53,7 +53,7 @@ class TransparencyTest extends TestCase
     {
         Balance::factory()->create();
 
-        $date = Date::now()->subMonths($this->faker->randomDigitNotNull())->format(AllowedDateFormat::YM);
+        $date = Date::now()->subMonths($this->faker->randomDigitNotNull())->format(AllowedDateFormat::YM->value);
 
         $response = $this->get(route('api.transparency.show', ['date' => $date]));
 
@@ -72,10 +72,10 @@ class TransparencyTest extends TestCase
         $balanceCount = $this->faker->randomDigitNotNull();
 
         Balance::factory()->count($balanceCount)->create([
-            Balance::ATTRIBUTE_DATE => $date->format(AllowedDateFormat::YMD),
+            Balance::ATTRIBUTE_DATE => $date->format(AllowedDateFormat::YMD->value),
         ]);
 
-        $response = $this->get(route('api.transparency.show', ['date' => $date->format(AllowedDateFormat::YM)]));
+        $response = $this->get(route('api.transparency.show', ['date' => $date->format(AllowedDateFormat::YM->value)]));
 
         $response->assertJsonCount($balanceCount, 'transparency.balances');
     }
@@ -92,10 +92,10 @@ class TransparencyTest extends TestCase
         $balanceCount = $this->faker->randomDigitNotNull();
 
         Transaction::factory()->count($balanceCount)->create([
-            Transaction::ATTRIBUTE_DATE => $date->format(AllowedDateFormat::YMD),
+            Transaction::ATTRIBUTE_DATE => $date->format(AllowedDateFormat::YMD->value),
         ]);
 
-        $response = $this->get(route('api.transparency.show', ['date' => $date->format(AllowedDateFormat::YM)]));
+        $response = $this->get(route('api.transparency.show', ['date' => $date->format(AllowedDateFormat::YM->value)]));
 
         $response->assertJsonCount($balanceCount, 'transparency.transactions');
     }
@@ -110,10 +110,10 @@ class TransparencyTest extends TestCase
         $date = $this->faker->dateTime();
 
         Balance::factory()->create([
-            Balance::ATTRIBUTE_DATE => $date->format(AllowedDateFormat::YMD),
+            Balance::ATTRIBUTE_DATE => $date->format(AllowedDateFormat::YMD->value),
         ]);
 
-        $response = $this->get(route('api.transparency.show', ['date' => $date->format(AllowedDateFormat::YM)]));
+        $response = $this->get(route('api.transparency.show', ['date' => $date->format(AllowedDateFormat::YM->value)]));
 
         $response->assertJsonCount(1, 'transparency.filterOptions');
     }
@@ -128,10 +128,10 @@ class TransparencyTest extends TestCase
         $date = $this->faker->dateTime();
 
         Balance::factory()->create([
-            Balance::ATTRIBUTE_DATE => $date->format(AllowedDateFormat::YMD),
+            Balance::ATTRIBUTE_DATE => $date->format(AllowedDateFormat::YMD->value),
         ]);
 
-        $response = $this->get(route('api.transparency.show', ['date' => $date->format(AllowedDateFormat::YM)]));
+        $response = $this->get(route('api.transparency.show', ['date' => $date->format(AllowedDateFormat::YM->value)]));
 
         $response->assertJsonStructure([
             'transparency' => [

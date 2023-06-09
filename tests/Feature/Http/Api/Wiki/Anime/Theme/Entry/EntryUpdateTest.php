@@ -71,7 +71,7 @@ class EntryUpdateTest extends TestCase
 
         $parameters = AnimeThemeEntry::factory()->raw();
 
-        $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(AnimeThemeEntry::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(AnimeThemeEntry::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -93,7 +93,7 @@ class EntryUpdateTest extends TestCase
 
         $parameters = AnimeThemeEntry::factory()->raw();
 
-        $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(AnimeThemeEntry::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(AnimeThemeEntry::class))->createOne();
 
         Sanctum::actingAs($user);
 

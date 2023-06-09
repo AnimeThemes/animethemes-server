@@ -10,10 +10,9 @@ use App\Nova\Lenses\Image\ImageUnlinkedLens;
 use App\Nova\Resources\BaseResource;
 use App\Nova\Resources\List\Playlist;
 use App\Pivots\BasePivot;
-use BenSampo\Enum\Enum;
-use BenSampo\Enum\Rules\EnumValue;
 use Exception;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Validation\Rules\Enum;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\ID;
@@ -136,9 +135,9 @@ class Image extends BaseResource
 
             Select::make(__('nova.fields.image.facet.name'), ImageModel::ATTRIBUTE_FACET)
                 ->options(ImageFacet::asSelectArray())
-                ->displayUsing(fn (?Enum $enum) => $enum?->description)
+                ->displayUsing(fn (?int $enumValue) => ImageFacet::tryFrom($enumValue)?->localize())
                 ->sortable()
-                ->rules(['required', new EnumValue(ImageFacet::class, false)])
+                ->rules(['required', new Enum(ImageFacet::class)])
                 ->help(__('nova.fields.image.facet.help'))
                 ->showOnPreview()
                 ->filterable()

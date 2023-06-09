@@ -43,7 +43,7 @@ class WhereInCriteria extends Criteria
 
         $clause = ElasticQuery::terms()->field($filter->getColumn())->values($filterValues);
 
-        if (BinaryLogicalOperator::OR()->is($this->criteria->getLogicalOperator())) {
+        if (BinaryLogicalOperator::OR === $this->criteria->getLogicalOperator()) {
             if ($this->not) {
                 return $builder->should((new BoolQueryBuilder())->mustNot($clause));
             }

@@ -14,7 +14,6 @@ use App\Models\BaseModel;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Song;
-use BenSampo\Enum\Enum;
 use Database\Factories\Wiki\Anime\AnimeThemeFactory;
 use Elastic\ScoutDriverPlus\Searchable;
 use Illuminate\Database\Eloquent\Builder;
@@ -35,7 +34,7 @@ use Laravel\Nova\Actions\Actionable;
  * @property Song|null $song
  * @property int|null $song_id
  * @property int $theme_id
- * @property Enum|null $type
+ * @property ThemeType|null $type
  *
  * @method static AnimeThemeFactory factory(...$parameters)
  */

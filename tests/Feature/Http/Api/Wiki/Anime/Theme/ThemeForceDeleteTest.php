@@ -57,7 +57,7 @@ class ThemeForceDeleteTest extends TestCase
     {
         $theme = AnimeTheme::factory()->for(Anime::factory())->createOne();
 
-        $user = User::factory()->withPermissions(ExtendedCrudPermission::FORCE_DELETE()->format(AnimeTheme::class))->createOne();
+        $user = User::factory()->withPermissions(ExtendedCrudPermission::FORCE_DELETE->format(AnimeTheme::class))->createOne();
 
         Sanctum::actingAs($user);
 

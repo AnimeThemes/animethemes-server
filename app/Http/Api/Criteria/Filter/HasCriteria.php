@@ -12,9 +12,7 @@ use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Schema;
 use App\Http\Api\Scope\Scope;
 use App\Http\Api\Scope\ScopeParser;
-use BenSampo\Enum\Exceptions\InvalidEnumKeyException;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 /**
@@ -66,21 +64,18 @@ class HasCriteria extends Criteria
     public static function make(Scope $scope, string $filterParam, mixed $filterValues): static
     {
         $field = '';
-        $comparisonOperator = ComparisonOperator::GTE();
+        $comparisonOperator = ComparisonOperator::GTE;
         $count = 1;
-        $logicalOperator = BinaryLogicalOperator::AND();
+        $logicalOperator = BinaryLogicalOperator::AND;
 
         $filterParts = Str::of($filterParam)->explode(Criteria::PARAM_SEPARATOR);
+
         while ($filterParts->isNotEmpty()) {
             $filterPart = $filterParts->pop();
 
             // Set logical operator
-            if (empty($field) && BinaryLogicalOperator::hasKey(Str::upper($filterPart))) {
-                try {
-                    $logicalOperator = BinaryLogicalOperator::fromKey(Str::upper($filterPart));
-                } catch (InvalidEnumKeyException $e) {
-                    Log::error($e->getMessage());
-                }
+            if (empty($field) && BinaryLogicalOperator::unstrictCoerce($filterPart) !== null) {
+                $logicalOperator = BinaryLogicalOperator::unstrictCoerce($filterPart);
                 continue;
             }
 
@@ -94,12 +89,8 @@ class HasCriteria extends Criteria
             }
 
             // Set comparison operator
-            if (empty($field) && ComparisonOperator::hasKey(Str::upper($filterPart))) {
-                try {
-                    $comparisonOperator = ComparisonOperator::fromKey(Str::upper($filterPart));
-                } catch (InvalidEnumKeyException $e) {
-                    Log::error($e->getMessage());
-                }
+            if (empty($field) && ComparisonOperator::unstrictCoerce($filterPart) !== null) {
+                $comparisonOperator = ComparisonOperator::unstrictCoerce($filterPart);
                 continue;
             }
 

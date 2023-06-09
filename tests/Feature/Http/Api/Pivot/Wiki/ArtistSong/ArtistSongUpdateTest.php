@@ -75,8 +75,8 @@ class ArtistSongUpdateTest extends TestCase
 
         $user = User::factory()
             ->withPermissions(
-                CrudPermission::UPDATE()->format(Artist::class),
-                CrudPermission::UPDATE()->format(Song::class)
+                CrudPermission::UPDATE->format(Artist::class),
+                CrudPermission::UPDATE->format(Song::class)
             )
             ->createOne();
 

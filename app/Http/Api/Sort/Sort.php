@@ -22,7 +22,7 @@ class Sort
     public function __construct(
         protected readonly string $key,
         protected readonly ?string $column = null,
-        protected readonly QualifyColumn $qualifyColumn = new QualifyColumn(QualifyColumn::YES)
+        protected readonly QualifyColumn $qualifyColumn = QualifyColumn::YES
     ) {
     }
 
@@ -53,7 +53,7 @@ class Sort
      */
     public function shouldQualifyColumn(): bool
     {
-        return QualifyColumn::YES()->is($this->qualifyColumn);
+        return QualifyColumn::YES === $this->qualifyColumn;
     }
 
     /**
@@ -64,9 +64,9 @@ class Sort
      */
     public function format(Direction $direction): string
     {
-        return match ($direction->value) {
+        return match ($direction) {
+            Direction::ASCENDING => $this->getKey(),
             Direction::DESCENDING => "-{$this->getKey()}",
-            default => $this->getKey(),
         };
     }
 }

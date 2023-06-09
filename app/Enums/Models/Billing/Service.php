@@ -4,22 +4,20 @@ declare(strict_types=1);
 
 namespace App\Enums\Models\Billing;
 
-use App\Enums\BaseEnum;
+use App\Concerns\Enums\CoercesInstances;
+use App\Concerns\Enums\LocalizesName;
 
 /**
- * Class Service.
- *
- * @method static static OTHER()
- * @method static static DIGITALOCEAN()
- * @method static static AWS()
- * @method static static HOVER()
- * @method static static WALKERSERVERS()
+ * Enum Service.
  */
-final class Service extends BaseEnum
+enum Service: int
 {
-    public const OTHER = 0;
-    public const DIGITALOCEAN = 1;
-    public const AWS = 2;
-    public const HOVER = 3;
-    public const WALKERSERVERS = 4;
+    use CoercesInstances;
+    use LocalizesName;
+
+    case OTHER = 0;
+    case DIGITALOCEAN = 1;
+    case AWS = 2;
+    case HOVER = 3;
+    case WALKERSERVERS = 4;
 }

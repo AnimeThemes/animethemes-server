@@ -42,15 +42,15 @@ class WhereCriteria extends Criteria
     {
         $clause = $this->getElasticsearchClause($filter);
 
-        if (BinaryLogicalOperator::OR()->is($this->criteria->getLogicalOperator())) {
-            if (ComparisonOperator::NE()->is($this->criteria->getComparisonOperator())) {
+        if (BinaryLogicalOperator::OR === $this->criteria->getLogicalOperator()) {
+            if (ComparisonOperator::NE === $this->criteria->getComparisonOperator()) {
                 return $builder->should((new BoolQueryBuilder())->mustNot($clause));
             }
 
             return $builder->should($clause);
         }
 
-        if (ComparisonOperator::NE()->is($this->criteria->getComparisonOperator())) {
+        if (ComparisonOperator::NE === $this->criteria->getComparisonOperator()) {
             return $builder->mustNot($clause);
         }
 
@@ -67,7 +67,7 @@ class WhereCriteria extends Criteria
     {
         $filterValue = $this->coerceFilterValue($filter);
 
-        return match ($this->criteria->getComparisonOperator()?->value) {
+        return match ($this->criteria->getComparisonOperator()) {
             ComparisonOperator::LT => ElasticQuery::range()->field($filter->getColumn())->lt($filterValue),
             ComparisonOperator::GT => ElasticQuery::range()->field($filter->getColumn())->gt($filterValue),
             ComparisonOperator::LTE => ElasticQuery::range()->field($filter->getColumn())->lte($filterValue),

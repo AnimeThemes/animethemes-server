@@ -67,8 +67,8 @@ class StudioResourceDestroyTest extends TestCase
 
         $user = User::factory()
             ->withPermissions(
-                CrudPermission::DELETE()->format(Studio::class),
-                CrudPermission::DELETE()->format(ExternalResource::class)
+                CrudPermission::DELETE->format(Studio::class),
+                CrudPermission::DELETE->format(ExternalResource::class)
             )
             ->createOne();
 
@@ -93,8 +93,8 @@ class StudioResourceDestroyTest extends TestCase
 
         $user = User::factory()
             ->withPermissions(
-                CrudPermission::DELETE()->format(Studio::class),
-                CrudPermission::DELETE()->format(ExternalResource::class)
+                CrudPermission::DELETE->format(Studio::class),
+                CrudPermission::DELETE->format(ExternalResource::class)
             )
             ->createOne();
 

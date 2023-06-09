@@ -116,7 +116,7 @@ class BackfillStudioAction extends Action implements ShouldQueue
 
             Boolean::make(__('nova.actions.studio.backfill.fields.images.large_cover.name'), self::BACKFILL_LARGE_COVER)
                 ->help(__('nova.actions.studio.backfill.fields.images.large_cover.help'))
-                ->default(fn () => $studio instanceof Studio && $studio->images()->where(Image::ATTRIBUTE_FACET, ImageFacet::COVER_LARGE)->doesntExist()),
+                ->default(fn () => $studio instanceof Studio && $studio->images()->where(Image::ATTRIBUTE_FACET, ImageFacet::COVER_LARGE->value)->doesntExist()),
         ];
     }
 

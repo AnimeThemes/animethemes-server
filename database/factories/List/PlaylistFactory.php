@@ -35,9 +35,11 @@ class PlaylistFactory extends Factory
      */
     public function definition(): array
     {
+        $visibility = Arr::random(PlaylistVisibility::cases());
+
         return [
             Playlist::ATTRIBUTE_NAME => fake()->words(3, true),
-            Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::getRandomValue(),
+            Playlist::ATTRIBUTE_VISIBILITY => $visibility->value,
         ];
     }
 

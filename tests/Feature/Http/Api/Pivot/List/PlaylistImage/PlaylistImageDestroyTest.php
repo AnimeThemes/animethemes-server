@@ -89,8 +89,8 @@ class PlaylistImageDestroyTest extends TestCase
 
         $user = User::factory()
             ->withPermissions(
-                CrudPermission::DELETE()->format(Playlist::class),
-                CrudPermission::DELETE()->format(Image::class))
+                CrudPermission::DELETE->format(Playlist::class),
+                CrudPermission::DELETE->format(Image::class))
             ->createOne();
 
         Sanctum::actingAs($user);
@@ -114,8 +114,8 @@ class PlaylistImageDestroyTest extends TestCase
 
         $user = User::factory()
             ->withPermissions(
-                CrudPermission::DELETE()->format(Playlist::class),
-                CrudPermission::DELETE()->format(Image::class))
+                CrudPermission::DELETE->format(Playlist::class),
+                CrudPermission::DELETE->format(Image::class))
             ->createOne();
 
         $playlistImage = PlaylistImage::factory()
@@ -143,8 +143,8 @@ class PlaylistImageDestroyTest extends TestCase
 
         $user = User::factory()
             ->withPermissions(
-                CrudPermission::DELETE()->format(Playlist::class),
-                CrudPermission::DELETE()->format(Image::class)
+                CrudPermission::DELETE->format(Playlist::class),
+                CrudPermission::DELETE->format(Image::class)
             )
             ->createOne();
 
@@ -173,8 +173,8 @@ class PlaylistImageDestroyTest extends TestCase
 
         $user = User::factory()
             ->withPermissions(
-                CrudPermission::DELETE()->format(Playlist::class),
-                CrudPermission::DELETE()->format(Image::class)
+                CrudPermission::DELETE->format(Playlist::class),
+                CrudPermission::DELETE->format(Image::class)
             )
             ->createOne();
 
@@ -205,9 +205,9 @@ class PlaylistImageDestroyTest extends TestCase
 
         $user = User::factory()
             ->withPermissions(
-                CrudPermission::DELETE()->format(Playlist::class),
-                CrudPermission::DELETE()->format(Image::class),
-                SpecialPermission::BYPASS_FEATURE_FLAGS
+                CrudPermission::DELETE->format(Playlist::class),
+                CrudPermission::DELETE->format(Image::class),
+                SpecialPermission::BYPASS_FEATURE_FLAGS->value
             )
             ->createOne();
 

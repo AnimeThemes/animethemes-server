@@ -19,7 +19,7 @@ class StudioAnnResourceLens extends StudioResourceLens
      */
     protected static function site(): ResourceSite
     {
-        return ResourceSite::ANN();
+        return ResourceSite::ANN;
     }
 
     /**

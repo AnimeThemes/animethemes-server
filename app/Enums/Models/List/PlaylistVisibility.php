@@ -4,18 +4,16 @@ declare(strict_types=1);
 
 namespace App\Enums\Models\List;
 
-use App\Enums\BaseEnum;
+use App\Concerns\Enums\LocalizesName;
 
 /**
- * Class PlaylistVisibility.
- *
- * @method static static PUBLIC()
- * @method static static PRIVATE()
- * @method static static UNLISTED()
+ * Enum PlaylistVisibility.
  */
-final class PlaylistVisibility extends BaseEnum
+enum PlaylistVisibility: int
 {
-    public const PUBLIC = 0;
-    public const PRIVATE = 1;
-    public const UNLISTED = 2;
+    use LocalizesName;
+
+    case PUBLIC = 0;
+    case PRIVATE = 1;
+    case UNLISTED = 2;
 }

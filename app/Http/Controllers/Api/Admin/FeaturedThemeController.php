@@ -50,7 +50,7 @@ class FeaturedThemeController extends BaseController
 
         $builder = FeaturedTheme::query()
             ->whereNotNull(FeaturedTheme::ATTRIBUTE_START_AT)
-            ->whereDate(FeaturedTheme::ATTRIBUTE_START_AT, ComparisonOperator::LTE, Date::now());
+            ->whereDate(FeaturedTheme::ATTRIBUTE_START_AT, ComparisonOperator::LTE->value, Date::now());
 
         $featuredthemes = $action->index($builder, $query, $request->schema());
 

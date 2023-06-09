@@ -56,7 +56,7 @@ class StudioRestoreTest extends TestCase
     {
         $studio = Studio::factory()->createOne();
 
-        $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE()->format(Studio::class))->createOne();
+        $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE->format(Studio::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -74,7 +74,7 @@ class StudioRestoreTest extends TestCase
     {
         $studio = Studio::factory()->trashed()->createOne();
 
-        $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE()->format(Studio::class))->createOne();
+        $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE->format(Studio::class))->createOne();
 
         Sanctum::actingAs($user);
 

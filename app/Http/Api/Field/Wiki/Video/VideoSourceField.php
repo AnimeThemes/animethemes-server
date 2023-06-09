@@ -11,8 +11,8 @@ use App\Http\Api\Field\EnumField;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Schema;
 use App\Models\Wiki\Video;
-use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rules\Enum;
 
 /**
  * Class VideoSourceField.
@@ -40,7 +40,7 @@ class VideoSourceField extends EnumField implements CreatableField, UpdatableFie
         return [
             'sometimes',
             'required',
-            new EnumValue(VideoSource::class),
+            new Enum(VideoSource::class),
         ];
     }
 
@@ -70,7 +70,7 @@ class VideoSourceField extends EnumField implements CreatableField, UpdatableFie
         return [
             'sometimes',
             'required',
-            new EnumValue(VideoSource::class),
+            new Enum(VideoSource::class),
         ];
     }
 }

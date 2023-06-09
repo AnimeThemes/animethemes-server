@@ -56,7 +56,7 @@ class SongDestroyTest extends TestCase
     {
         $song = Song::factory()->trashed()->createOne();
 
-        $user = User::factory()->withPermissions(CrudPermission::DELETE()->format(Song::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::DELETE->format(Song::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -74,7 +74,7 @@ class SongDestroyTest extends TestCase
     {
         $song = Song::factory()->createOne();
 
-        $user = User::factory()->withPermissions(CrudPermission::DELETE()->format(Song::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::DELETE->format(Song::class))->createOne();
 
         Sanctum::actingAs($user);
 

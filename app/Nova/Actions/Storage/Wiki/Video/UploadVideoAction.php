@@ -31,11 +31,10 @@ use App\Rules\Wiki\Submission\Video\VideoColorSpaceStreamRule;
 use App\Rules\Wiki\Submission\Video\VideoColorTransferStreamRule;
 use App\Rules\Wiki\Submission\Video\VideoIndexStreamRule;
 use App\Rules\Wiki\Submission\Video\VideoPixelFormatStreamRule;
-use BenSampo\Enum\Enum;
-use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Validation\Rules\Enum;
 use Illuminate\Validation\Rules\File as FileRule;
 use Laravel\Nova\Fields\ActionFields;
 use Laravel\Nova\Fields\Boolean;
@@ -111,16 +110,16 @@ class UploadVideoAction extends UploadAction
 
                 Select::make(__('nova.fields.video.overlap.name'), Video::ATTRIBUTE_OVERLAP)
                     ->options(VideoOverlap::asSelectArray())
-                    ->displayUsing(fn (?Enum $enum) => $enum?->description)
+                    ->displayUsing(fn (?int $enumValue) => VideoOverlap::tryFrom($enumValue)?->localize())
                     ->nullable()
-                    ->rules(['nullable', new EnumValue(VideoOverlap::class, false)])
+                    ->rules(['nullable', new Enum(VideoOverlap::class)])
                     ->help(__('nova.fields.video.overlap.help')),
 
                 Select::make(__('nova.fields.video.source.name'), Video::ATTRIBUTE_SOURCE)
                     ->options(VideoSource::asSelectArray())
-                    ->displayUsing(fn (?Enum $enum) => $enum?->description)
+                    ->displayUsing(fn (?int $enumValue) => VideoSource::tryFrom($enumValue)?->localize())
                     ->nullable()
-                    ->rules(['nullable', new EnumValue(VideoSource::class, false)])
+                    ->rules(['nullable', new Enum(VideoSource::class)])
                     ->help(__('nova.fields.video.source.help')),
 
                 Heading::make(__('nova.resources.singularLabel.video_script')),

@@ -22,6 +22,7 @@ use App\Http\Resources\Admin\Resource\FeatureResource;
 use App\Models\Admin\Feature;
 use App\Models\BaseModel;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Tests\TestCase;
@@ -161,7 +162,7 @@ class FeatureIndexTest extends TestCase
             ->random();
 
         $parameters = [
-            SortParser::param() => $sort->format(Direction::getRandomInstance()),
+            SortParser::param() => $sort->format(Arr::random(Direction::cases())),
         ];
 
         $query = new Query($parameters);

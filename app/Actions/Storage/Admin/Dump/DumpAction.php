@@ -60,7 +60,7 @@ abstract class DumpAction
             $dumper = $this->getDumper($connection);
             if ($dumper === null) {
                 return new ActionResult(
-                    ActionStatus::FAILED(),
+                    ActionStatus::FAILED,
                     "Unrecognized connection '{$connection->getName()}'"
                 );
             }
@@ -78,7 +78,7 @@ abstract class DumpAction
             File::delete($dumpFile);
         } catch (Exception $e) {
             return new ActionResult(
-                ActionStatus::FAILED(),
+                ActionStatus::FAILED,
                 $e->getMessage()
             );
         }
@@ -88,7 +88,7 @@ abstract class DumpAction
         $reconcileResults->toLog();
 
         return new ActionResult(
-            ActionStatus::PASSED(),
+            ActionStatus::PASSED,
             "Database dump '$dumpFile' has been created",
         );
     }

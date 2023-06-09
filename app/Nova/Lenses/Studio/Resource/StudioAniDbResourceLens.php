@@ -19,7 +19,7 @@ class StudioAniDbResourceLens extends StudioResourceLens
      */
     protected static function site(): ResourceSite
     {
-        return ResourceSite::ANIDB();
+        return ResourceSite::ANIDB;
     }
 
     /**

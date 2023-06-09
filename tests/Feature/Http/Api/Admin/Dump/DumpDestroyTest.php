@@ -56,7 +56,7 @@ class DumpDestroyTest extends TestCase
     {
         $dump = Dump::factory()->trashed()->createOne();
 
-        $user = User::factory()->withPermissions(CrudPermission::DELETE()->format(Dump::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::DELETE->format(Dump::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -74,7 +74,7 @@ class DumpDestroyTest extends TestCase
     {
         $dump = Dump::factory()->createOne();
 
-        $user = User::factory()->withPermissions(CrudPermission::DELETE()->format(Dump::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::DELETE->format(Dump::class))->createOne();
 
         Sanctum::actingAs($user);
 

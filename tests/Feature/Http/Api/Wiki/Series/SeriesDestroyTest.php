@@ -56,7 +56,7 @@ class SeriesDestroyTest extends TestCase
     {
         $series = Series::factory()->trashed()->createOne();
 
-        $user = User::factory()->withPermissions(CrudPermission::DELETE()->format(Series::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::DELETE->format(Series::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -74,7 +74,7 @@ class SeriesDestroyTest extends TestCase
     {
         $series = Series::factory()->createOne();
 
-        $user = User::factory()->withPermissions(CrudPermission::DELETE()->format(Series::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::DELETE->format(Series::class))->createOne();
 
         Sanctum::actingAs($user);
 

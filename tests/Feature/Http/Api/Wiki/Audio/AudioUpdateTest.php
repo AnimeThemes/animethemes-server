@@ -62,7 +62,7 @@ class AudioUpdateTest extends TestCase
 
         $parameters = Audio::factory()->raw();
 
-        $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(Audio::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(Audio::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -82,7 +82,7 @@ class AudioUpdateTest extends TestCase
 
         $parameters = Audio::factory()->raw();
 
-        $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(Audio::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(Audio::class))->createOne();
 
         Sanctum::actingAs($user);
 

@@ -42,7 +42,7 @@ class UserUpdated extends UserEvent
         return DiscordMessage::create('', [
             'description' => "User '**{$user->getName()}**' has been updated.",
             'fields' => $this->getEmbedFields(),
-            'color' => EmbedColor::YELLOW,
+            'color' => EmbedColor::YELLOW->value,
         ]);
     }
 }

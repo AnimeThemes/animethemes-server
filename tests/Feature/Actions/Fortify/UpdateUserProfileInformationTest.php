@@ -160,7 +160,7 @@ class UpdateUserProfileInformationTest extends TestCase
      */
     public function testCreatedIfNotFlaggedByOpenAI(): void
     {
-        Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI);
+        Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI->value);
 
         Http::fake([
             'https://api.openai.com/v1/moderations' => Http::response([
@@ -202,7 +202,7 @@ class UpdateUserProfileInformationTest extends TestCase
      */
     public function testCreatedIfOpenAIFails(): void
     {
-        Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI);
+        Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI->value);
 
         Http::fake([
             'https://api.openai.com/v1/moderations' => Http::response(status: 404),
@@ -240,7 +240,7 @@ class UpdateUserProfileInformationTest extends TestCase
     {
         static::expectException(ValidationException::class);
 
-        Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI);
+        Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI->value);
 
         Http::fake([
             'https://api.openai.com/v1/moderations' => Http::response([

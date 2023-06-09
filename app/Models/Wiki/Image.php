@@ -20,7 +20,6 @@ use App\Pivots\List\PlaylistImage;
 use App\Pivots\Wiki\AnimeImage;
 use App\Pivots\Wiki\ArtistImage;
 use App\Pivots\Wiki\StudioImage;
-use BenSampo\Enum\Enum;
 use Database\Factories\Wiki\ImageFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Collection;
@@ -31,7 +30,7 @@ use Laravel\Nova\Actions\Actionable;
  *
  * @property Collection<int, Anime> $anime
  * @property Collection<int, Artist> $artists
- * @property Enum|null $facet
+ * @property ImageFacet|null $facet
  * @property int $image_id
  * @property string $mimetype
  * @property string $path

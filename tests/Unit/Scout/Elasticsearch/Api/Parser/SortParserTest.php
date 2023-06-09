@@ -13,6 +13,7 @@ use App\Scout\Elasticsearch\Api\Criteria\Sort\FieldCriteria;
 use App\Scout\Elasticsearch\Api\Criteria\Sort\RelationCriteria;
 use App\Scout\Elasticsearch\Api\Parser\SortParser;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Arr;
 use Tests\TestCase;
 
 /**
@@ -29,7 +30,9 @@ class SortParserTest extends TestCase
      */
     public function testRelationCriteria(): void
     {
-        $criteria = new BaseRelationCriteria(new GlobalScope(), $this->faker->word(), Direction::getRandomInstance());
+        $direction = Arr::random(Direction::cases());
+
+        $criteria = new BaseRelationCriteria(new GlobalScope(), $this->faker->word(), $direction);
 
         static::assertInstanceOf(RelationCriteria::class, SortParser::parse($criteria));
     }
@@ -41,7 +44,9 @@ class SortParserTest extends TestCase
      */
     public function testFieldCriteria(): void
     {
-        $criteria = new BaseFieldCriteria(new GlobalScope(), $this->faker->word(), Direction::getRandomInstance());
+        $direction = Arr::random(Direction::cases());
+
+        $criteria = new BaseFieldCriteria(new GlobalScope(), $this->faker->word(), $direction);
 
         static::assertInstanceOf(FieldCriteria::class, SortParser::parse($criteria));
     }

@@ -21,7 +21,6 @@ use App\Pivots\Wiki\AnimeImage;
 use App\Pivots\Wiki\AnimeResource;
 use App\Pivots\Wiki\AnimeSeries;
 use App\Pivots\Wiki\AnimeStudio;
-use BenSampo\Enum\Enum;
 use Database\Factories\Wiki\AnimeFactory;
 use Elastic\ScoutDriverPlus\Searchable;
 use Illuminate\Database\Eloquent\Builder;
@@ -39,7 +38,7 @@ use Laravel\Nova\Actions\Actionable;
  * @property Collection<int, Image> $images
  * @property string $name
  * @property Collection<int, ExternalResource> $resources
- * @property Enum|null $season
+ * @property AnimeSeason|null $season
  * @property Collection<int, Series> $series
  * @property string $slug
  * @property Collection<int, Studio> $studios

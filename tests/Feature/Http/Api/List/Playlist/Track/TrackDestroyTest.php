@@ -85,7 +85,7 @@ class TrackDestroyTest extends TestCase
             ->for(Playlist::factory()->for(User::factory()))
             ->createOne();
 
-        $user = User::factory()->withPermissions(CrudPermission::DELETE()->format(PlaylistTrack::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::DELETE->format(PlaylistTrack::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -106,7 +106,7 @@ class TrackDestroyTest extends TestCase
 
         Feature::deactivate(AllowPlaylistManagement::class);
 
-        $user = User::factory()->withPermissions(CrudPermission::DELETE()->format(PlaylistTrack::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::DELETE->format(PlaylistTrack::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)
@@ -134,13 +134,13 @@ class TrackDestroyTest extends TestCase
 
         Feature::activate(AllowPlaylistManagement::class);
 
-        $user = User::factory()->withPermissions(CrudPermission::DELETE()->format(PlaylistTrack::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::DELETE->format(PlaylistTrack::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)
             ->has(PlaylistTrack::factory()->count($this->faker->randomDigitNotNull()), Playlist::RELATION_TRACKS)
             ->createOne([
-                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
+                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
             ]);
 
         $track = PlaylistTrack::factory()
@@ -165,7 +165,7 @@ class TrackDestroyTest extends TestCase
 
         Feature::activate(AllowPlaylistManagement::class);
 
-        $user = User::factory()->withPermissions(CrudPermission::DELETE()->format(PlaylistTrack::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::DELETE->format(PlaylistTrack::class))->createOne();
 
         $track = PlaylistTrack::factory()
             ->trashed()
@@ -190,7 +190,7 @@ class TrackDestroyTest extends TestCase
 
         Feature::activate(AllowPlaylistManagement::class);
 
-        $user = User::factory()->withPermissions(CrudPermission::DELETE()->format(PlaylistTrack::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::DELETE->format(PlaylistTrack::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)
@@ -232,8 +232,8 @@ class TrackDestroyTest extends TestCase
 
         $user = User::factory()
             ->withPermissions(
-                CrudPermission::DELETE()->format(PlaylistTrack::class),
-                SpecialPermission::BYPASS_FEATURE_FLAGS
+                CrudPermission::DELETE->format(PlaylistTrack::class),
+                SpecialPermission::BYPASS_FEATURE_FLAGS->value
             )
             ->createOne();
 
@@ -263,7 +263,7 @@ class TrackDestroyTest extends TestCase
 
         Feature::activate(AllowPlaylistManagement::class);
 
-        $user = User::factory()->withPermissions(CrudPermission::DELETE()->format(PlaylistTrack::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::DELETE->format(PlaylistTrack::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)
@@ -304,7 +304,7 @@ class TrackDestroyTest extends TestCase
 
         Feature::activate(AllowPlaylistManagement::class);
 
-        $user = User::factory()->withPermissions(CrudPermission::DELETE()->format(PlaylistTrack::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::DELETE->format(PlaylistTrack::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)
@@ -345,7 +345,7 @@ class TrackDestroyTest extends TestCase
 
         Feature::activate(AllowPlaylistManagement::class);
 
-        $user = User::factory()->withPermissions(CrudPermission::DELETE()->format(PlaylistTrack::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::DELETE->format(PlaylistTrack::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)

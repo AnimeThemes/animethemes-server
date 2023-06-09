@@ -28,7 +28,7 @@ class LatestWikiDumpController extends Controller
     {
         /** @var Dump $dump */
         $dump = Dump::query()
-            ->where(Dump::ATTRIBUTE_PATH, ComparisonOperator::LIKE, DumpWikiAction::FILENAME_PREFIX.'%')
+            ->where(Dump::ATTRIBUTE_PATH, ComparisonOperator::LIKE->value, DumpWikiAction::FILENAME_PREFIX.'%')
             ->latest()
             ->firstOrFail();
 

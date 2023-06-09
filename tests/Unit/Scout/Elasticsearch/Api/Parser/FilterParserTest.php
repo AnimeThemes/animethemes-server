@@ -17,6 +17,7 @@ use App\Scout\Elasticsearch\Api\Criteria\Filter\WhereCriteria;
 use App\Scout\Elasticsearch\Api\Criteria\Filter\WhereInCriteria;
 use App\Scout\Elasticsearch\Api\Parser\FilterParser;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Arr;
 use Tests\TestCase;
 
 /**
@@ -35,9 +36,13 @@ class FilterParserTest extends TestCase
     {
         $expression = new Expression($this->faker->word());
 
-        $predicate = new Predicate($this->faker->word(), ComparisonOperator::getRandomInstance(), $expression);
+        $comparisonOperator = Arr::random(ComparisonOperator::cases());
 
-        $criteria = new BaseWhereCriteria($predicate, BinaryLogicalOperator::getRandomInstance(), new GlobalScope());
+        $predicate = new Predicate($this->faker->word(), $comparisonOperator, $expression);
+
+        $logicalOperator = Arr::random(BinaryLogicalOperator::cases());
+
+        $criteria = new BaseWhereCriteria($predicate, $logicalOperator, new GlobalScope());
 
         static::assertInstanceOf(WhereCriteria::class, FilterParser::parse($criteria));
     }
@@ -51,11 +56,13 @@ class FilterParserTest extends TestCase
     {
         $expression = new Expression($this->faker->word());
 
-        $predicate = new Predicate($this->faker->word(), ComparisonOperator::getRandomInstance(), $expression);
+        $comparisonOperator = Arr::random(ComparisonOperator::cases());
+
+        $predicate = new Predicate($this->faker->word(), $comparisonOperator, $expression);
 
         $criteria = new BaseWhereInCriteria(
             $predicate,
-            BinaryLogicalOperator::getRandomInstance(),
+            Arr::random(BinaryLogicalOperator::cases()),
             $this->faker->boolean(),
             new GlobalScope()
         );
@@ -72,11 +79,13 @@ class FilterParserTest extends TestCase
     {
         $expression = new Expression($this->faker->word());
 
-        $predicate = new Predicate($this->faker->word(), ComparisonOperator::getRandomInstance(), $expression);
+        $comparisonOperator = Arr::random(ComparisonOperator::cases());
+
+        $predicate = new Predicate($this->faker->word(), $comparisonOperator, $expression);
 
         $criteria = new HasCriteria(
             $predicate,
-            BinaryLogicalOperator::getRandomInstance(),
+            Arr::random(BinaryLogicalOperator::cases()),
             new GlobalScope(),
             $this->faker->randomDigitNotNull()
         );
@@ -93,11 +102,13 @@ class FilterParserTest extends TestCase
     {
         $expression = new Expression($this->faker->word());
 
-        $predicate = new Predicate($this->faker->word(), ComparisonOperator::getRandomInstance(), $expression);
+        $comparisonOperator = Arr::random(ComparisonOperator::cases());
+
+        $predicate = new Predicate($this->faker->word(), $comparisonOperator, $expression);
 
         $criteria = new TrashedCriteria(
             $predicate,
-            BinaryLogicalOperator::getRandomInstance(),
+            Arr::random(BinaryLogicalOperator::cases()),
             new GlobalScope()
         );
 

@@ -90,7 +90,7 @@ class LatestWikiDumpTest extends TestCase
             Dump::ATTRIBUTE_PATH => $fsFile,
         ]);
 
-        $user = User::factory()->withPermissions(SpecialPermission::BYPASS_FEATURE_FLAGS)->createOne();
+        $user = User::factory()->withPermissions(SpecialPermission::BYPASS_FEATURE_FLAGS->value)->createOne();
 
         Sanctum::actingAs($user);
 

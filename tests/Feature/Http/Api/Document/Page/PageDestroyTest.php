@@ -56,7 +56,7 @@ class PageDestroyTest extends TestCase
     {
         $page = Page::factory()->trashed()->createOne();
 
-        $user = User::factory()->withPermissions(CrudPermission::DELETE()->format(Page::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::DELETE->format(Page::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -74,7 +74,7 @@ class PageDestroyTest extends TestCase
     {
         $page = Page::factory()->createOne();
 
-        $user = User::factory()->withPermissions(CrudPermission::DELETE()->format(Page::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::DELETE->format(Page::class))->createOne();
 
         Sanctum::actingAs($user);
 

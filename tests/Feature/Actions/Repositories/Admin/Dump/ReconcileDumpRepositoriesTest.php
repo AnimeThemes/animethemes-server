@@ -48,7 +48,7 @@ class ReconcileDumpRepositoriesTest extends TestCase
 
         $result = $action->reconcileRepositories($source, $destination);
 
-        static::assertTrue(ActionStatus::PASSED()->is($result->getStatus()));
+        static::assertTrue(ActionStatus::PASSED === $result->getStatus());
         static::assertFalse($result->hasChanges());
         static::assertDatabaseCount(Dump::class, 0);
     }
@@ -79,7 +79,7 @@ class ReconcileDumpRepositoriesTest extends TestCase
 
         $result = $action->reconcileRepositories($source, $destination);
 
-        static::assertTrue(ActionStatus::PASSED()->is($result->getStatus()));
+        static::assertTrue(ActionStatus::PASSED === $result->getStatus());
         static::assertTrue($result->hasChanges());
         static::assertCount($createdDumpCount, $result->getCreated());
         static::assertDatabaseCount(Dump::class, $createdDumpCount);
@@ -111,7 +111,7 @@ class ReconcileDumpRepositoriesTest extends TestCase
 
         $result = $action->reconcileRepositories($source, $destination);
 
-        static::assertTrue(ActionStatus::PASSED()->is($result->getStatus()));
+        static::assertTrue(ActionStatus::PASSED === $result->getStatus());
         static::assertTrue($result->hasChanges());
         static::assertCount($deletedDumpCount, $result->getDeleted());
 

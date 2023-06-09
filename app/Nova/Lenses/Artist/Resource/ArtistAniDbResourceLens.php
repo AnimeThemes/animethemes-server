@@ -19,7 +19,7 @@ class ArtistAniDbResourceLens extends ArtistResourceLens
      */
     protected static function site(): ResourceSite
     {
-        return ResourceSite::ANIDB();
+        return ResourceSite::ANIDB;
     }
 
     /**

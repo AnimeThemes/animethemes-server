@@ -4,14 +4,16 @@ declare(strict_types=1);
 
 namespace App\Enums\Http\Api\Filter;
 
-use App\Enums\BaseEnum;
+use App\Concerns\Enums\LocalizesName;
 
 /**
- * Class TrashedStatus.
+ * Enum TrashedStatus.
  */
-final class TrashedStatus extends BaseEnum
+enum TrashedStatus: string
 {
-    public const WITH = 'with';
-    public const WITHOUT = 'without';
-    public const ONLY = 'only';
+    use LocalizesName;
+
+    case WITH = 'with';
+    case WITHOUT = 'without';
+    case ONLY = 'only';
 }

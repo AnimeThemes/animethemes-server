@@ -77,7 +77,7 @@ readonly class MoveResults implements StorageResults
     {
         if (empty($this->moves)) {
             return new ActionResult(
-                ActionStatus::FAILED(),
+                ActionStatus::FAILED,
                 'No moves were attempted. Please check that disks are configured.'
             );
         }
@@ -88,13 +88,13 @@ readonly class MoveResults implements StorageResults
 
         if ($failed->isNotEmpty()) {
             return new ActionResult(
-                ActionStatus::FAILED(),
+                ActionStatus::FAILED,
                 "Failed to move '{$this->model->getName()}' from '$this->from' to '$this->to' in disks {$failed->keys()->join(', ', ' & ')}."
             );
         }
 
         return new ActionResult(
-            ActionStatus::PASSED(),
+            ActionStatus::PASSED,
             "Moved '{$this->model->getName()}' from '$this->from' to '$this->to' in disks {$passed->keys()->join(', ', ' & ')}."
         );
     }

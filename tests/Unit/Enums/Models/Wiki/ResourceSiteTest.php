@@ -28,10 +28,10 @@ class ResourceSiteTest extends TestCase
 
         /** @var ResourceSite $site */
         $site = Arr::random([
-            ResourceSite::ANIDB(),
-            ResourceSite::ANILIST(),
-            ResourceSite::ANN(),
-            ResourceSite::MAL(),
+            ResourceSite::ANIDB,
+            ResourceSite::ANILIST,
+            ResourceSite::ANN,
+            ResourceSite::MAL,
         ]);
 
         $link = $site->formatAnimeResourceLink($animeId);
@@ -50,10 +50,10 @@ class ResourceSiteTest extends TestCase
 
         /** @var ResourceSite $site */
         $site = Arr::random([
-            ResourceSite::ANIDB(),
-            ResourceSite::ANILIST(),
-            ResourceSite::ANN(),
-            ResourceSite::MAL(),
+            ResourceSite::ANIDB,
+            ResourceSite::ANILIST,
+            ResourceSite::ANN,
+            ResourceSite::MAL,
         ]);
 
         $link = $site->formatStudioResourceLink($studioId);
@@ -68,7 +68,7 @@ class ResourceSiteTest extends TestCase
      */
     public function testFailParseAnimePlanetIdFromStudioResource(): void
     {
-        $link = ResourceSite::ANIME_PLANET()->formatStudioResourceLink(
+        $link = ResourceSite::ANIME_PLANET->formatStudioResourceLink(
             $this->faker->randomDigitNotNull(),
             $this->faker->slug()
         );
@@ -90,7 +90,7 @@ class ResourceSiteTest extends TestCase
             ]),
         ]);
 
-        $link = ResourceSite::ANIME_PLANET()->formatAnimeResourceLink(
+        $link = ResourceSite::ANIME_PLANET->formatAnimeResourceLink(
             $this->faker->randomDigitNotNull(),
             $this->faker->slug()
         );
@@ -124,10 +124,7 @@ class ResourceSiteTest extends TestCase
             ),
         ]);
 
-        $link = ResourceSite::ANIME_PLANET()->formatAnimeResourceLink(
-            $id,
-            $this->faker->slug()
-        );
+        $link = ResourceSite::ANIME_PLANET->formatAnimeResourceLink($id, $this->faker->slug());
 
         static::assertEquals(strval($id), ResourceSite::parseIdFromLink($link));
         Http::assertSentCount(1);
@@ -146,7 +143,7 @@ class ResourceSiteTest extends TestCase
             ]),
         ]);
 
-        $link = ResourceSite::KITSU()->formatAnimeResourceLink(
+        $link = ResourceSite::KITSU->formatAnimeResourceLink(
             $this->faker->randomDigitNotNull(),
             $this->faker->slug()
         );
@@ -174,10 +171,7 @@ class ResourceSiteTest extends TestCase
             ]),
         ]);
 
-        $link = ResourceSite::KITSU()->formatAnimeResourceLink(
-            $id,
-            $this->faker->slug()
-        );
+        $link = ResourceSite::KITSU->formatAnimeResourceLink($id, $this->faker->slug());
 
         static::assertEquals(strval($id), ResourceSite::parseIdFromLink($link));
         Http::assertSentCount(1);

@@ -56,7 +56,7 @@ class SongStoreTest extends TestCase
     {
         $parameters = Song::factory()->raw();
 
-        $user = User::factory()->withPermissions(CrudPermission::CREATE()->format(Song::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(Song::class))->createOne();
 
         Sanctum::actingAs($user);
 

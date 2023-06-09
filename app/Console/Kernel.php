@@ -40,7 +40,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        $schedule->command(BalanceReconcileCommand::class, [Service::DIGITALOCEAN()->key])
+        $schedule->command(BalanceReconcileCommand::class, [Service::DIGITALOCEAN->name])
             ->withoutOverlapping()
             ->runInBackground()
             ->storeOutput()
@@ -126,7 +126,7 @@ class Kernel extends ConsoleKernel
             ->storeOutput()
             ->everyFiveMinutes();
 
-        $schedule->command(TransactionReconcileCommand::class, [Service::DIGITALOCEAN()->key])
+        $schedule->command(TransactionReconcileCommand::class, [Service::DIGITALOCEAN->name])
             ->withoutOverlapping()
             ->runInBackground()
             ->storeOutput()

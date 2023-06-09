@@ -42,7 +42,7 @@ class SettingUpdated extends SettingEvent
         return DiscordMessage::create('', [
             'description' => "Setting '**{$setting->getName()}**' has been updated.",
             'fields' => $this->getEmbedFields(),
-            'color' => EmbedColor::YELLOW,
+            'color' => EmbedColor::YELLOW->value,
         ]);
     }
 }

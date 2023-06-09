@@ -46,7 +46,7 @@ class ReconcileTransactionRepositoriesTest extends TestCase
 
         $result = $action->reconcileRepositories($source, $destination);
 
-        static::assertTrue(ActionStatus::PASSED()->is($result->getStatus()));
+        static::assertTrue(ActionStatus::PASSED === $result->getStatus());
         static::assertFalse($result->hasChanges());
         static::assertDatabaseCount(Transaction::class, 0);
     }
@@ -65,7 +65,7 @@ class ReconcileTransactionRepositoriesTest extends TestCase
         $transactions = Transaction::factory()
             ->count($createdTransactionCount)
             ->make([
-                Transaction::ATTRIBUTE_DATE => Date::now()->format(AllowedDateFormat::YMD),
+                Transaction::ATTRIBUTE_DATE => Date::now()->format(AllowedDateFormat::YMD->value),
                 Transaction::ATTRIBUTE_SERVICE => Service::DIGITALOCEAN,
             ]);
 
@@ -80,7 +80,7 @@ class ReconcileTransactionRepositoriesTest extends TestCase
 
         $result = $action->reconcileRepositories($source, $destination);
 
-        static::assertTrue(ActionStatus::PASSED()->is($result->getStatus()));
+        static::assertTrue(ActionStatus::PASSED === $result->getStatus());
         static::assertTrue($result->hasChanges());
         static::assertCount($createdTransactionCount, $result->getCreated());
         static::assertDatabaseCount(Transaction::class, $createdTransactionCount);
@@ -100,7 +100,7 @@ class ReconcileTransactionRepositoriesTest extends TestCase
         $transactions = Transaction::factory()
             ->count($deletedTransactionCount)
             ->create([
-                Transaction::ATTRIBUTE_DATE => Date::now()->format(AllowedDateFormat::YMD),
+                Transaction::ATTRIBUTE_DATE => Date::now()->format(AllowedDateFormat::YMD->value),
                 Transaction::ATTRIBUTE_SERVICE => Service::DIGITALOCEAN,
             ]);
 
@@ -115,7 +115,7 @@ class ReconcileTransactionRepositoriesTest extends TestCase
 
         $result = $action->reconcileRepositories($source, $destination);
 
-        static::assertTrue(ActionStatus::PASSED()->is($result->getStatus()));
+        static::assertTrue(ActionStatus::PASSED === $result->getStatus());
         static::assertTrue($result->hasChanges());
         static::assertCount($deletedTransactionCount, $result->getDeleted());
 

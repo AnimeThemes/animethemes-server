@@ -12,6 +12,7 @@ use App\Http\Api\Filter\Filter;
 use App\Http\Api\Scope\GlobalScope;
 use App\Http\Api\Scope\TypeScope;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
@@ -30,10 +31,12 @@ class CriteriaTest extends TestCase
     public function testShouldNotFilterIfKeyMismatch(): void
     {
         $expression = new Expression($this->faker->word());
-        $predicate = new Predicate($this->faker->word(), ComparisonOperator::getRandomInstance(), $expression);
+        $comparisonOperator = Arr::random(ComparisonOperator::cases());
+        $predicate = new Predicate($this->faker->word(), $comparisonOperator, $expression);
         $scope = new GlobalScope();
+        $logicalOperator = Arr::random(BinaryLogicalOperator::cases());
 
-        $criteria = new FakeCriteria($predicate, BinaryLogicalOperator::getRandomInstance(), $scope);
+        $criteria = new FakeCriteria($predicate, $logicalOperator, $scope);
 
         $filter = new class($this->faker->word()) extends Filter
         {
@@ -105,10 +108,12 @@ class CriteriaTest extends TestCase
         $key = $this->faker->word();
 
         $expression = new Expression($this->faker->word());
-        $predicate = new Predicate($key, ComparisonOperator::getRandomInstance(), $expression);
+        $comparisonOperator = Arr::random(ComparisonOperator::cases());
+        $predicate = new Predicate($key, $comparisonOperator, $expression);
         $scope = new GlobalScope();
+        $logicalOperator = Arr::random(BinaryLogicalOperator::cases());
 
-        $criteria = new FakeCriteria($predicate, BinaryLogicalOperator::getRandomInstance(), $scope);
+        $criteria = new FakeCriteria($predicate, $logicalOperator, $scope);
 
         $filter = new class($key) extends Filter
         {
@@ -180,10 +185,12 @@ class CriteriaTest extends TestCase
         $key = $this->faker->word();
 
         $expression = new Expression($this->faker->word());
-        $predicate = new Predicate($key, ComparisonOperator::getRandomInstance(), $expression);
+        $comparisonOperator = Arr::random(ComparisonOperator::cases());
+        $predicate = new Predicate($key, $comparisonOperator, $expression);
         $scope = new TypeScope($this->faker->word());
+        $logicalOperator = Arr::random(BinaryLogicalOperator::cases());
 
-        $criteria = new FakeCriteria($predicate, BinaryLogicalOperator::getRandomInstance(), $scope);
+        $criteria = new FakeCriteria($predicate, $logicalOperator, $scope);
 
         $filter = new class($key) extends Filter
         {
@@ -255,10 +262,12 @@ class CriteriaTest extends TestCase
         $key = $this->faker->word();
 
         $expression = new Expression($this->faker->word());
-        $predicate = new Predicate($key, ComparisonOperator::getRandomInstance(), $expression);
+        $comparisonOperator = Arr::random(ComparisonOperator::cases());
+        $predicate = new Predicate($key, $comparisonOperator, $expression);
         $scope = new TypeScope(Str::of(Str::random())->lower()->singular()->__toString());
+        $logicalOperator = Arr::random(BinaryLogicalOperator::cases());
 
-        $criteria = new FakeCriteria($predicate, BinaryLogicalOperator::getRandomInstance(), $scope);
+        $criteria = new FakeCriteria($predicate, $logicalOperator, $scope);
 
         $filter = new class($key) extends Filter
         {

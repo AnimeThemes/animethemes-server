@@ -7,6 +7,7 @@ namespace Tests\Unit\Rules\Wiki\Resource;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Rules\Wiki\Resource\ResourceSiteMatchesLinkRule;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Validator;
 use Tests\TestCase;
 
@@ -27,8 +28,8 @@ class ResourceSiteMatchesLinkTest extends TestCase
         $site = null;
 
         while ($site === null) {
-            $siteCandidate = ResourceSite::getRandomInstance();
-            if (! $siteCandidate->is(ResourceSite::OFFICIAL_SITE)) {
+            $siteCandidate = Arr::random(ResourceSite::cases());
+            if ($siteCandidate !== ResourceSite::OFFICIAL_SITE) {
                 $site = $siteCandidate;
             }
         }
@@ -59,7 +60,7 @@ class ResourceSiteMatchesLinkTest extends TestCase
         $attribute = $this->faker->word();
 
         $validator = Validator::make(
-            [$attribute => ResourceSite::OFFICIAL_SITE],
+            [$attribute => ResourceSite::OFFICIAL_SITE->value],
             [$attribute => new ResourceSiteMatchesLinkRule($this->faker->url())],
         );
 
@@ -76,8 +77,8 @@ class ResourceSiteMatchesLinkTest extends TestCase
         $site = null;
 
         while ($site === null) {
-            $siteCandidate = ResourceSite::getRandomInstance();
-            if (! $siteCandidate->is(ResourceSite::OFFICIAL_SITE)) {
+            $siteCandidate = Arr::random(ResourceSite::cases());
+            if ($siteCandidate !== ResourceSite::OFFICIAL_SITE) {
                 $site = $siteCandidate;
             }
         }

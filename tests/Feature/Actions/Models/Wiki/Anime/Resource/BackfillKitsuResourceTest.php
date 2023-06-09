@@ -43,7 +43,7 @@ class BackfillKitsuResourceTest extends TestCase
 
         $result = $action->handle();
 
-        static::assertTrue(ActionStatus::SKIPPED()->is($result->getStatus()));
+        static::assertTrue(ActionStatus::SKIPPED === $result->getStatus());
         static::assertDatabaseCount(ExternalResource::class, 1);
         Http::assertNothingSent();
     }
@@ -147,7 +147,7 @@ class BackfillKitsuResourceTest extends TestCase
 
         $result = $action->handle();
 
-        static::assertTrue(ActionStatus::PASSED()->is($result->getStatus()));
+        static::assertTrue(ActionStatus::PASSED === $result->getStatus());
         static::assertDatabaseCount(ExternalResource::class, 2);
         static::assertTrue($anime->resources()->where(ExternalResource::ATTRIBUTE_SITE, ResourceSite::KITSU)->exists());
         Http::assertSentCount(1);
@@ -168,7 +168,7 @@ class BackfillKitsuResourceTest extends TestCase
         ExternalResource::factory()->createOne([
             ExternalResource::ATTRIBUTE_SITE => ResourceSite::KITSU,
             ExternalResource::ATTRIBUTE_EXTERNAL_ID => $kitsuId,
-            ExternalResource::ATTRIBUTE_LINK => ResourceSite::KITSU()->formatAnimeResourceLink($kitsuId, $kitsuSlug),
+            ExternalResource::ATTRIBUTE_LINK => ResourceSite::KITSU->formatAnimeResourceLink($kitsuId, $kitsuSlug),
 
         ]);
 
@@ -202,7 +202,7 @@ class BackfillKitsuResourceTest extends TestCase
 
         $result = $action->handle();
 
-        static::assertTrue(ActionStatus::PASSED()->is($result->getStatus()));
+        static::assertTrue(ActionStatus::PASSED === $result->getStatus());
         static::assertDatabaseCount(ExternalResource::class, 2);
         static::assertTrue($anime->resources()->where(ExternalResource::ATTRIBUTE_SITE, ResourceSite::KITSU)->exists());
         Http::assertSentCount(1);

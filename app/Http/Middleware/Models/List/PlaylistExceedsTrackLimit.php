@@ -36,7 +36,7 @@ class PlaylistExceedsTrackLimit
 
         if (
             intval($playlist?->tracks()?->count()) >= $trackLimit
-            && empty($user?->can(SpecialPermission::BYPASS_FEATURE_FLAGS))
+            && empty($user?->can(SpecialPermission::BYPASS_FEATURE_FLAGS->value))
         ) {
             abort(403, "Playlists cannot contain more than '$trackLimit' tracks.");
         }

@@ -62,7 +62,7 @@ class SongUpdateTest extends TestCase
 
         $parameters = Song::factory()->raw();
 
-        $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(Song::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(Song::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -82,7 +82,7 @@ class SongUpdateTest extends TestCase
 
         $parameters = Song::factory()->raw();
 
-        $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(Song::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(Song::class))->createOne();
 
         Sanctum::actingAs($user);
 

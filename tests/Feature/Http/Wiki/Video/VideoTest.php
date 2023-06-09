@@ -12,6 +12,7 @@ use App\Features\AllowVideoStreams;
 use App\Models\Auth\User;
 use App\Models\Wiki\Video;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
@@ -94,11 +95,14 @@ class VideoTest extends TestCase
         Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
 
         Feature::activate(AllowVideoStreams::class, $this->faker->boolean());
-        Config::set(VideoConstants::STREAMING_METHOD_QUALIFIED, StreamingMethod::getRandomValue());
+
+        /** @var StreamingMethod $streamingMethod */
+        $streamingMethod = Arr::random(StreamingMethod::cases());
+        Config::set(VideoConstants::STREAMING_METHOD_QUALIFIED, $streamingMethod->value);
 
         $video = Video::factory()->createOne();
 
-        $user = User::factory()->withPermissions(SpecialPermission::BYPASS_FEATURE_FLAGS)->createOne();
+        $user = User::factory()->withPermissions(SpecialPermission::BYPASS_FEATURE_FLAGS->value)->createOne();
 
         Sanctum::actingAs($user);
 
@@ -176,7 +180,7 @@ class VideoTest extends TestCase
         Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
 
         Feature::activate(AllowVideoStreams::class);
-        Config::set(VideoConstants::STREAMING_METHOD_QUALIFIED, StreamingMethod::RESPONSE);
+        Config::set(VideoConstants::STREAMING_METHOD_QUALIFIED, StreamingMethod::RESPONSE->value);
 
         $video = Video::factory()->createOne();
 
@@ -195,7 +199,7 @@ class VideoTest extends TestCase
         Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
 
         Feature::activate(AllowVideoStreams::class);
-        Config::set(VideoConstants::STREAMING_METHOD_QUALIFIED, StreamingMethod::NGINX);
+        Config::set(VideoConstants::STREAMING_METHOD_QUALIFIED, StreamingMethod::NGINX->value);
 
         $video = Video::factory()->createOne();
 

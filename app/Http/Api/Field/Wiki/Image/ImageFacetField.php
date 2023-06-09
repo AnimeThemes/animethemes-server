@@ -10,8 +10,8 @@ use App\Enums\Models\Wiki\ImageFacet;
 use App\Http\Api\Field\EnumField;
 use App\Http\Api\Schema\Schema;
 use App\Models\Wiki\Image;
-use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rules\Enum;
 
 /**
  * Class ImageFacetField.
@@ -39,7 +39,7 @@ class ImageFacetField extends EnumField implements CreatableField, UpdatableFiel
         return [
             'sometimes',
             'required',
-            new EnumValue(ImageFacet::class),
+            new Enum(ImageFacet::class),
         ];
     }
 
@@ -54,7 +54,7 @@ class ImageFacetField extends EnumField implements CreatableField, UpdatableFiel
         return [
             'sometimes',
             'required',
-            new EnumValue(ImageFacet::class),
+            new Enum(ImageFacet::class),
         ];
     }
 }

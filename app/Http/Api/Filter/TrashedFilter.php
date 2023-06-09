@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Filter;
 
+use App\Enums\Http\Api\Filter\BinaryLogicalOperator;
 use App\Enums\Http\Api\Filter\ComparisonOperator;
-use App\Enums\Http\Api\Filter\LogicalOperator;
 use App\Enums\Http\Api\Filter\TrashedStatus;
+use App\Enums\Http\Api\Filter\UnaryLogicalOperator;
 use App\Http\Api\Criteria\Filter\TrashedCriteria;
 
 /**
@@ -25,14 +26,14 @@ class TrashedFilter extends EnumFilter
     /**
      * Format filter string with conditions.
      *
-     * @param  LogicalOperator|null  $logicalOperator
+     * @param  BinaryLogicalOperator|UnaryLogicalOperator|null  $logicalOperator
      * @param  ComparisonOperator|null  $comparisonOperator
      * @return string
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
     public function format(
-        ?LogicalOperator $logicalOperator = null,
+        BinaryLogicalOperator|UnaryLogicalOperator|null $logicalOperator = null,
         ?ComparisonOperator $comparisonOperator = null
     ): string {
         return $this->getKey();

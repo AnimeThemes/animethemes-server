@@ -10,8 +10,8 @@ use App\Enums\Models\Billing\Service;
 use App\Http\Api\Field\EnumField;
 use App\Http\Api\Schema\Schema;
 use App\Models\Billing\Transaction;
-use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rules\Enum;
 
 /**
  * Class TransactionServiceField.
@@ -38,7 +38,7 @@ class TransactionServiceField extends EnumField implements CreatableField, Updat
     {
         return [
             'required',
-            new EnumValue(Service::class),
+            new Enum(Service::class),
         ];
     }
 
@@ -53,7 +53,7 @@ class TransactionServiceField extends EnumField implements CreatableField, Updat
         return [
             'sometimes',
             'required',
-            new EnumValue(Service::class),
+            new Enum(Service::class),
         ];
     }
 }

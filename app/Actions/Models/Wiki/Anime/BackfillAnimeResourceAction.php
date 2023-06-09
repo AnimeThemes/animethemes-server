@@ -64,7 +64,7 @@ abstract class BackfillAnimeResourceAction extends BackfillResourceAction
             ->first();
 
         if ($resource === null) {
-            Log::info("Creating {$this->getSite()->description} Resource '$id'");
+            Log::info("Creating {$this->getSite()->localize()} Resource '$id'");
 
             $resource = ExternalResource::query()->create([
                 ExternalResource::ATTRIBUTE_EXTERNAL_ID => $id,

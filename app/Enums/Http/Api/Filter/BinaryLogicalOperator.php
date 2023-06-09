@@ -4,14 +4,15 @@ declare(strict_types=1);
 
 namespace App\Enums\Http\Api\Filter;
 
+use App\Concerns\Enums\CoercesInstances;
+
 /**
- * Class BinaryLogicalOperator.
- *
- * @method static static AND()
- * @method static static OR()
+ * Enum BinaryLogicalOperator.
  */
-final class BinaryLogicalOperator extends LogicalOperator
+enum BinaryLogicalOperator: string
 {
-    public const AND = 'and';
-    public const OR = 'or';
+    use CoercesInstances;
+
+    case AND = 'and';
+    case OR = 'or';
 }

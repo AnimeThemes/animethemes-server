@@ -56,7 +56,7 @@ class TransactionDestroyTest extends TestCase
     {
         $transaction = Transaction::factory()->trashed()->createOne();
 
-        $user = User::factory()->withPermissions(CrudPermission::DELETE()->format(Transaction::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::DELETE->format(Transaction::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -74,7 +74,7 @@ class TransactionDestroyTest extends TestCase
     {
         $transaction = Transaction::factory()->createOne();
 
-        $user = User::factory()->withPermissions(CrudPermission::DELETE()->format(Transaction::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::DELETE->format(Transaction::class))->createOne();
 
         Sanctum::actingAs($user);
 

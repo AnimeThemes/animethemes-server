@@ -4,17 +4,18 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Rules\Api;
 
-use App\Enums\BaseEnum;
-use App\Rules\Api\EnumDescriptionRule;
+use App\Rules\Api\EnumLocalizedNameRule;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Tests\TestCase;
+use Tests\Unit\Enums\LocalizedEnum;
 
 /**
- * Class EnumDescriptionTest.
+ * Class EnumLocalizedNameTest.
  */
-class EnumDescriptionTest extends TestCase
+class EnumLocalizedNameTest extends TestCase
 {
     use WithFaker;
 
@@ -25,18 +26,13 @@ class EnumDescriptionTest extends TestCase
      */
     public function testPassesIfEnumDescription(): void
     {
-        $enum = new class($this->faker->numberBetween(0, 2)) extends BaseEnum
-        {
-            public const ZERO = 0;
-            public const ONE = 1;
-            public const TWO = 2;
-        };
+        $enum = Arr::random(LocalizedEnum::cases());
 
         $attribute = $this->faker->word();
 
         $validator = Validator::make(
-            [$attribute => $enum->description],
-            [$attribute => new EnumDescriptionRule(get_class($enum))]
+            [$attribute => $enum->localize()],
+            [$attribute => new EnumLocalizedNameRule(LocalizedEnum::class)]
         );
 
         static::assertTrue($validator->passes());
@@ -49,18 +45,13 @@ class EnumDescriptionTest extends TestCase
      */
     public function testFailsIfEnumValue(): void
     {
-        $enum = new class($this->faker->numberBetween(0, 2)) extends BaseEnum
-        {
-            public const ZERO = 0;
-            public const ONE = 1;
-            public const TWO = 2;
-        };
+        $enum = Arr::random(LocalizedEnum::cases());
 
         $attribute = $this->faker->word();
 
         $validator = Validator::make(
             [$attribute => $enum->value],
-            [$attribute => new EnumDescriptionRule(get_class($enum))]
+            [$attribute => new EnumLocalizedNameRule(LocalizedEnum::class)]
         );
 
         static::assertFalse($validator->passes());
@@ -73,18 +64,11 @@ class EnumDescriptionTest extends TestCase
      */
     public function testFailsIfString(): void
     {
-        $enum = new class($this->faker->numberBetween(0, 2)) extends BaseEnum
-        {
-            public const ZERO = 0;
-            public const ONE = 1;
-            public const TWO = 2;
-        };
-
         $attribute = $this->faker->word();
 
         $validator = Validator::make(
             [$attribute => Str::random()],
-            [$attribute => new EnumDescriptionRule(get_class($enum))]
+            [$attribute => new EnumLocalizedNameRule(LocalizedEnum::class)]
         );
 
         static::assertFalse($validator->passes());

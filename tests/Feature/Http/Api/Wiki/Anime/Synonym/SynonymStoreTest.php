@@ -55,7 +55,7 @@ class SynonymStoreTest extends TestCase
      */
     public function testRequiredFields(): void
     {
-        $user = User::factory()->withPermissions(CrudPermission::CREATE()->format(AnimeSynonym::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(AnimeSynonym::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -80,7 +80,7 @@ class SynonymStoreTest extends TestCase
             [AnimeSynonym::ATTRIBUTE_ANIME => $anime->getKey()],
         );
 
-        $user = User::factory()->withPermissions(CrudPermission::CREATE()->format(AnimeSynonym::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(AnimeSynonym::class))->createOne();
 
         Sanctum::actingAs($user);
 

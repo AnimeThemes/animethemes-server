@@ -58,7 +58,7 @@ class PlaylistImageController extends PivotController
 
         $builder = PlaylistImage::query()
             ->whereHas(PlaylistImage::RELATION_PLAYLIST, function (Builder $relationBuilder) {
-                $relationBuilder->where(Playlist::ATTRIBUTE_VISIBILITY, PlaylistVisibility::PUBLIC);
+                $relationBuilder->where(Playlist::ATTRIBUTE_VISIBILITY, PlaylistVisibility::PUBLIC->value);
             });
 
         $resources = $action->index($builder, $query, $request->schema());

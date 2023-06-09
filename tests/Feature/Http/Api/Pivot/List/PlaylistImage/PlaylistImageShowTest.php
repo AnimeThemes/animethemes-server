@@ -22,6 +22,7 @@ use App\Models\Wiki\Image;
 use App\Pivots\List\PlaylistImage;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
@@ -45,7 +46,7 @@ class PlaylistImageShowTest extends TestCase
         $playlist = Playlist::factory()
             ->for(User::factory())
             ->createOne([
-                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
+                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
             ]);
         $image = Image::factory()->createOne();
 
@@ -68,7 +69,7 @@ class PlaylistImageShowTest extends TestCase
                 Playlist::factory()
                     ->for(User::factory())
                     ->state([
-                        Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PRIVATE,
+                        Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PRIVATE->value,
                     ])
             )
             ->for(Image::factory())
@@ -93,13 +94,13 @@ class PlaylistImageShowTest extends TestCase
                 Playlist::factory()
                     ->for(User::factory())
                     ->state([
-                        Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PRIVATE,
+                        Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PRIVATE->value,
                     ])
             )
             ->for(Image::factory())
             ->createOne();
 
-        $user = User::factory()->withPermissions(CrudPermission::VIEW()->format(Playlist::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::VIEW->format(Playlist::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -117,14 +118,14 @@ class PlaylistImageShowTest extends TestCase
     {
         Event::fakeExcept(PlaylistCreated::class);
 
-        $user = User::factory()->withPermissions(CrudPermission::VIEW()->format(Playlist::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::VIEW->format(Playlist::class))->createOne();
 
         $playlistImage = PlaylistImage::factory()
             ->for(
                 Playlist::factory()
                     ->for($user)
                     ->state([
-                        Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PRIVATE,
+                        Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PRIVATE->value,
                     ])
             )
             ->for(Image::factory())
@@ -151,7 +152,7 @@ class PlaylistImageShowTest extends TestCase
                 Playlist::factory()
                     ->for(User::factory())
                     ->state([
-                        Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::UNLISTED,
+                        Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::UNLISTED->value,
                     ])
             )
             ->for(Image::factory())
@@ -176,7 +177,7 @@ class PlaylistImageShowTest extends TestCase
                 Playlist::factory()
                     ->for(User::factory())
                     ->state([
-                        Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
+                        Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
                     ])
             )
             ->for(Image::factory())
@@ -201,7 +202,7 @@ class PlaylistImageShowTest extends TestCase
                 Playlist::factory()
                     ->for(User::factory())
                     ->state([
-                        Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
+                        Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
                     ])
             )
             ->for(Image::factory())
@@ -249,7 +250,7 @@ class PlaylistImageShowTest extends TestCase
                 Playlist::factory()
                     ->for(User::factory())
                     ->state([
-                        Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
+                        Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
                     ])
             )
             ->for(Image::factory())
@@ -297,7 +298,7 @@ class PlaylistImageShowTest extends TestCase
                 Playlist::factory()
                     ->for(User::factory())
                     ->state([
-                        Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
+                        Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
                     ])
             )
             ->for(Image::factory())
@@ -328,11 +329,11 @@ class PlaylistImageShowTest extends TestCase
     {
         Event::fakeExcept(PlaylistCreated::class);
 
-        $facetFilter = ImageFacet::getRandomInstance();
+        $facetFilter = Arr::random(ImageFacet::cases());
 
         $parameters = [
             FilterParser::param() => [
-                Image::ATTRIBUTE_FACET => $facetFilter->description,
+                Image::ATTRIBUTE_FACET => $facetFilter->localize(),
             ],
             IncludeParser::param() => PlaylistImage::RELATION_IMAGE,
         ];
@@ -342,7 +343,7 @@ class PlaylistImageShowTest extends TestCase
                 Playlist::factory()
                     ->for(User::factory())
                     ->state([
-                        Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
+                        Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
                     ])
             )
             ->for(Image::factory())

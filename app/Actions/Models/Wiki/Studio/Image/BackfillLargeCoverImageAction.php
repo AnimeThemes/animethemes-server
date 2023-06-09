@@ -23,7 +23,7 @@ class BackfillLargeCoverImageAction extends BackfillStudioImageAction
      */
     protected function getFacet(): ImageFacet
     {
-        return ImageFacet::COVER_LARGE();
+        return ImageFacet::COVER_LARGE;
     }
 
     /**
@@ -35,7 +35,7 @@ class BackfillLargeCoverImageAction extends BackfillStudioImageAction
      */
     protected function getImage(): ?Image
     {
-        $malResource = $this->getModel()->resources()->firstWhere(ExternalResource::ATTRIBUTE_SITE, ResourceSite::MAL);
+        $malResource = $this->getModel()->resources()->firstWhere(ExternalResource::ATTRIBUTE_SITE, ResourceSite::MAL->value);
         if ($malResource instanceof ExternalResource) {
             return $this->getMalImage($malResource);
         }

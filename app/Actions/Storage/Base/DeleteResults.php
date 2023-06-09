@@ -71,7 +71,7 @@ readonly class DeleteResults implements StorageResults
     {
         if (empty($this->deletions)) {
             return new ActionResult(
-                ActionStatus::FAILED(),
+                ActionStatus::FAILED,
                 'No deletions were attempted. Please check that disks are configured.'
             );
         }
@@ -82,13 +82,13 @@ readonly class DeleteResults implements StorageResults
 
         if ($failed->isNotEmpty()) {
             return new ActionResult(
-                ActionStatus::FAILED(),
+                ActionStatus::FAILED,
                 "Failed to delete '{$this->model->getName()}' from disks {$failed->keys()->join(', ', ' & ')}."
             );
         }
 
         return new ActionResult(
-            ActionStatus::PASSED(),
+            ActionStatus::PASSED,
             "Deleted '{$this->model->getName()}' from disks {$passed->keys()->join(', ', ' & ')}."
         );
     }

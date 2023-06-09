@@ -56,7 +56,7 @@ class BalanceForceDeleteTest extends TestCase
     {
         $balance = Balance::factory()->createOne();
 
-        $user = User::factory()->withPermissions(ExtendedCrudPermission::FORCE_DELETE()->format(Balance::class))->createOne();
+        $user = User::factory()->withPermissions(ExtendedCrudPermission::FORCE_DELETE->format(Balance::class))->createOne();
 
         Sanctum::actingAs($user);
 

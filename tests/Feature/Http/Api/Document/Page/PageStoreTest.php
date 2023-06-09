@@ -54,7 +54,7 @@ class PageStoreTest extends TestCase
      */
     public function testRequiredFields(): void
     {
-        $user = User::factory()->withPermissions(CrudPermission::CREATE()->format(Page::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(Page::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -76,7 +76,7 @@ class PageStoreTest extends TestCase
     {
         $parameters = Page::factory()->raw();
 
-        $user = User::factory()->withPermissions(CrudPermission::CREATE()->format(Page::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(Page::class))->createOne();
 
         Sanctum::actingAs($user);
 

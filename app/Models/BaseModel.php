@@ -93,6 +93,10 @@ abstract class BaseModel extends Model implements Nameable
      */
     public function prunable(): Builder
     {
-        return static::onlyTrashed()->where(BaseModel::ATTRIBUTE_DELETED_AT, ComparisonOperator::LTE, now()->subWeek());
+        return static::onlyTrashed()->where(
+            BaseModel::ATTRIBUTE_DELETED_AT,
+            ComparisonOperator::LTE->value,
+            now()->subWeek()
+        );
     }
 }

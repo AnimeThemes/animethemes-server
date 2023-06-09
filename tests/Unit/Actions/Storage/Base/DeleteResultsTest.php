@@ -78,6 +78,6 @@ class DeleteResultsTest extends TestCase
 
         $result = $deleteResults->toActionResult();
 
-        static::assertTrue(ActionStatus::PASSED()->is($result->getStatus()));
+        static::assertTrue(ActionStatus::PASSED === $result->getStatus());
     }
 }

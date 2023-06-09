@@ -21,6 +21,7 @@ use App\Models\Wiki\Video;
 use App\Pivots\Wiki\AnimeThemeEntryVideo;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Arr;
 use Tests\TestCase;
 
 /**
@@ -368,11 +369,11 @@ class AnimeThemeEntryVideoShowTest extends TestCase
      */
     public function testVideoByOverlap(): void
     {
-        $overlapFilter = VideoOverlap::getRandomInstance();
+        $overlapFilter = Arr::random(VideoOverlap::cases());
 
         $parameters = [
             FilterParser::param() => [
-                Video::ATTRIBUTE_OVERLAP => $overlapFilter->description,
+                Video::ATTRIBUTE_OVERLAP => $overlapFilter->localize(),
             ],
             IncludeParser::param() => AnimeThemeEntryVideo::RELATION_VIDEO,
         ];
@@ -450,11 +451,11 @@ class AnimeThemeEntryVideoShowTest extends TestCase
      */
     public function testVideoBySource(): void
     {
-        $sourceFilter = VideoSource::getRandomInstance();
+        $sourceFilter = Arr::random(VideoSource::cases());
 
         $parameters = [
             FilterParser::param() => [
-                Video::ATTRIBUTE_SOURCE => $sourceFilter->description,
+                Video::ATTRIBUTE_SOURCE => $sourceFilter->localize(),
             ],
             IncludeParser::param() => AnimeThemeEntryVideo::RELATION_VIDEO,
         ];

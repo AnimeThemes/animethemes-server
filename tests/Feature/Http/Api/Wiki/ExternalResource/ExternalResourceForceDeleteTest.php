@@ -56,7 +56,7 @@ class ExternalResourceForceDeleteTest extends TestCase
     {
         $resource = ExternalResource::factory()->createOne();
 
-        $user = User::factory()->withPermissions(ExtendedCrudPermission::FORCE_DELETE()->format(ExternalResource::class))->createOne();
+        $user = User::factory()->withPermissions(ExtendedCrudPermission::FORCE_DELETE->format(ExternalResource::class))->createOne();
 
         Sanctum::actingAs($user);
 

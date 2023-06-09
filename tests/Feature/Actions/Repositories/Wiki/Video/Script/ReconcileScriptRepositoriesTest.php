@@ -43,7 +43,7 @@ class ReconcileScriptRepositoriesTest extends TestCase
 
         $result = $action->reconcileRepositories($source, $destination);
 
-        static::assertTrue(ActionStatus::PASSED()->is($result->getStatus()));
+        static::assertTrue(ActionStatus::PASSED === $result->getStatus());
         static::assertFalse($result->hasChanges());
         static::assertDatabaseCount(VideoScript::class, 0);
     }
@@ -72,7 +72,7 @@ class ReconcileScriptRepositoriesTest extends TestCase
 
         $result = $action->reconcileRepositories($source, $destination);
 
-        static::assertTrue(ActionStatus::PASSED()->is($result->getStatus()));
+        static::assertTrue(ActionStatus::PASSED === $result->getStatus());
         static::assertTrue($result->hasChanges());
         static::assertCount($createdScriptCount, $result->getCreated());
         static::assertDatabaseCount(VideoScript::class, $createdScriptCount);
@@ -102,7 +102,7 @@ class ReconcileScriptRepositoriesTest extends TestCase
 
         $result = $action->reconcileRepositories($source, $destination);
 
-        static::assertTrue(ActionStatus::PASSED()->is($result->getStatus()));
+        static::assertTrue(ActionStatus::PASSED === $result->getStatus());
         static::assertTrue($result->hasChanges());
         static::assertCount($deletedScriptCount, $result->getDeleted());
 

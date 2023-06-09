@@ -4,18 +4,12 @@ declare(strict_types=1);
 
 namespace App\Enums\Actions;
 
-use App\Enums\BaseEnum;
-
 /**
- * Class ActionStatus.
- *
- * @method static static PASSED()
- * @method static static FAILED()
- * @method static static SKIPPED()
+ * Enum ActionStatus.
  */
-final class ActionStatus extends BaseEnum
+enum ActionStatus
 {
-    public const PASSED = 0;
-    public const FAILED = 1;
-    public const SKIPPED = 2;
+    case PASSED;
+    case FAILED;
+    case SKIPPED;
 }

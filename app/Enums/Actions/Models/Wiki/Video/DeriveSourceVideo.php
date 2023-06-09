@@ -4,16 +4,15 @@ declare(strict_types=1);
 
 namespace App\Enums\Actions\Models\Wiki\Video;
 
-use App\Enums\BaseEnum;
+use App\Concerns\Enums\LocalizesName;
 
 /**
- * Class DeriveSourceVideo.
- *
- * @method static static YES()
- * @method static static NO()
+ * Enum DeriveSourceVideo.
  */
-final class DeriveSourceVideo extends BaseEnum
+enum DeriveSourceVideo: int
 {
-    public const YES = 0;
-    public const NO = 1;
+    use LocalizesName;
+
+    case NO = 0;
+    case YES = 1;
 }
