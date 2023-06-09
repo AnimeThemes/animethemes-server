@@ -23,10 +23,10 @@ class DateFilter extends Filter
     {
         return array_map(
             function (string $filterValue) {
-                foreach (AllowedDateFormat::getValues() as $allowedDateFormat) {
-                    $date = DateTime::createFromFormat('!'.$allowedDateFormat, $filterValue);
-                    if ($date && $date->format($allowedDateFormat) === $filterValue) {
-                        return $date->format(AllowedDateFormat::YMDHISU);
+                foreach (AllowedDateFormat::cases() as $allowedDateFormat) {
+                    $date = DateTime::createFromFormat('!'.$allowedDateFormat->value, $filterValue);
+                    if ($date && $date->format($allowedDateFormat->value) === $filterValue) {
+                        return $date->format(AllowedDateFormat::YMDHISU->value);
                     }
                 }
 
@@ -48,9 +48,9 @@ class DateFilter extends Filter
             array_filter(
                 $filterValues,
                 function (string $filterValue) {
-                    foreach (AllowedDateFormat::getValues() as $allowedDateFormat) {
-                        $date = DateTime::createFromFormat('!'.$allowedDateFormat, $filterValue);
-                        if ($date && $date->format($allowedDateFormat) === $filterValue) {
+                    foreach (AllowedDateFormat::cases() as $allowedDateFormat) {
+                        $date = DateTime::createFromFormat('!'.$allowedDateFormat->value, $filterValue);
+                        if ($date && $date->format($allowedDateFormat->value) === $filterValue) {
                             return true;
                         }
                     }
@@ -80,7 +80,8 @@ class DateFilter extends Filter
      */
     public function getRules(): array
     {
-        $dateFormats = implode(',', AllowedDateFormat::getValues());
+        $allowedDateFormats = array_column(AllowedDateFormat::cases(), 'value');
+        $dateFormats = implode(',', $allowedDateFormats);
 
         return [
             'required',
@@ -96,12 +97,12 @@ class DateFilter extends Filter
     public function getAllowedComparisonOperators(): array
     {
         return [
-            ComparisonOperator::EQ(),
-            ComparisonOperator::NE(),
-            ComparisonOperator::LT(),
-            ComparisonOperator::GT(),
-            ComparisonOperator::LTE(),
-            ComparisonOperator::GTE(),
+            ComparisonOperator::EQ,
+            ComparisonOperator::NE,
+            ComparisonOperator::LT,
+            ComparisonOperator::GT,
+            ComparisonOperator::LTE,
+            ComparisonOperator::GTE,
         ];
     }
 }

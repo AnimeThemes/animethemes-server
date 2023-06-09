@@ -6,6 +6,7 @@ namespace Tests\Unit\Actions;
 
 use App\Actions\ActionResult;
 use App\Enums\Actions\ActionStatus;
+use Illuminate\Support\Arr;
 use Tests\TestCase;
 
 /**
@@ -20,7 +21,7 @@ class ActionResultTest extends TestCase
      */
     public function testHasFailed(): void
     {
-        $result = new ActionResult(ActionStatus::FAILED());
+        $result = new ActionResult(ActionStatus::FAILED);
 
         static::assertTrue($result->hasFailed());
     }
@@ -35,8 +36,8 @@ class ActionResultTest extends TestCase
         $status = null;
 
         while ($status === null) {
-            $statusCandidate = ActionStatus::getRandomInstance();
-            if (ActionStatus::FAILED()->isNot($statusCandidate)) {
+            $statusCandidate = Arr::random(ActionStatus::cases());
+            if (ActionStatus::FAILED !== $statusCandidate) {
                 $status = $statusCandidate;
             }
         }

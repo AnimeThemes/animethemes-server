@@ -19,7 +19,7 @@ class AnimeMalResourceLens extends AnimeResourceLens
      */
     protected static function site(): ResourceSite
     {
-        return ResourceSite::MAL();
+        return ResourceSite::MAL;
     }
 
     /**

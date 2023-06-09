@@ -32,7 +32,7 @@ abstract class StudioResourceLens extends StudioLens
      */
     public function name(): string
     {
-        return __('nova.lenses.studio.resources.name', ['site' => static::site()->description]);
+        return __('nova.lenses.studio.resources.name', ['site' => static::site()->localize()]);
     }
 
     /**

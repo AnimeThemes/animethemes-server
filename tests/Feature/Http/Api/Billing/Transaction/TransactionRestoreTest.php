@@ -56,7 +56,7 @@ class TransactionRestoreTest extends TestCase
     {
         $transaction = Transaction::factory()->createOne();
 
-        $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE()->format(Transaction::class))->createOne();
+        $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE->format(Transaction::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -74,7 +74,7 @@ class TransactionRestoreTest extends TestCase
     {
         $transaction = Transaction::factory()->trashed()->createOne();
 
-        $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE()->format(Transaction::class))->createOne();
+        $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE->format(Transaction::class))->createOne();
 
         Sanctum::actingAs($user);
 

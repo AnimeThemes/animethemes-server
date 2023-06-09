@@ -6,7 +6,6 @@ namespace App\Scout\Elasticsearch\Api\Field;
 
 use App\Contracts\Http\Api\Field\FilterableField;
 use App\Contracts\Http\Api\Field\SortableField;
-use App\Enums\BaseEnum;
 use App\Http\Api\Filter\EnumFilter;
 use App\Http\Api\Filter\Filter;
 use App\Http\Api\Sort\Sort;
@@ -22,7 +21,7 @@ abstract class EnumField extends Field implements FilterableField, SortableField
      *
      * @param  Schema  $schema
      * @param  string  $key
-     * @param  class-string<BaseEnum>  $enumClass
+     * @param  class-string  $enumClass
      * @param  string|null  $column
      */
     public function __construct(

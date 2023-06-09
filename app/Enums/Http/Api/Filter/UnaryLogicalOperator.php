@@ -4,10 +4,14 @@ declare(strict_types=1);
 
 namespace App\Enums\Http\Api\Filter;
 
+use App\Concerns\Enums\CoercesInstances;
+
 /**
- * Class UnaryLogicalOperator.
+ * Enum UnaryLogicalOperator.
  */
-final class UnaryLogicalOperator extends LogicalOperator
+enum UnaryLogicalOperator: string
 {
-    public const NOT = 'not';
+    use CoercesInstances;
+
+    case NOT = 'not';
 }

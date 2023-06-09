@@ -39,6 +39,6 @@ class HorizonServiceProvider extends HorizonApplicationServiceProvider
      */
     protected function gate(): void
     {
-        Gate::define('viewHorizon', fn (User $user) => $user->can(SpecialPermission::VIEW_HORIZON));
+        Gate::define('viewHorizon', fn (User $user) => $user->can(SpecialPermission::VIEW_HORIZON->value));
     }
 }

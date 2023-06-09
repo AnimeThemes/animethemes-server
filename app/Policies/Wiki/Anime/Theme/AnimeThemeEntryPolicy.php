@@ -29,7 +29,7 @@ class AnimeThemeEntryPolicy
     public function viewAny(?User $user): bool
     {
         return Nova::whenServing(
-            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW()->format(AnimeThemeEntry::class)),
+            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW->format(AnimeThemeEntry::class)),
             fn (): bool => true
         );
     }
@@ -43,7 +43,7 @@ class AnimeThemeEntryPolicy
     public function view(?User $user): bool
     {
         return Nova::whenServing(
-            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW()->format(AnimeThemeEntry::class)),
+            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW->format(AnimeThemeEntry::class)),
             fn (): bool => true
         );
     }
@@ -56,7 +56,7 @@ class AnimeThemeEntryPolicy
      */
     public function create(User $user): bool
     {
-        return $user->can(CrudPermission::CREATE()->format(AnimeThemeEntry::class));
+        return $user->can(CrudPermission::CREATE->format(AnimeThemeEntry::class));
     }
 
     /**
@@ -68,7 +68,7 @@ class AnimeThemeEntryPolicy
      */
     public function update(User $user, AnimeThemeEntry $animethemeentry): bool
     {
-        return ! $animethemeentry->trashed() && $user->can(CrudPermission::UPDATE()->format(AnimeThemeEntry::class));
+        return ! $animethemeentry->trashed() && $user->can(CrudPermission::UPDATE->format(AnimeThemeEntry::class));
     }
 
     /**
@@ -80,7 +80,7 @@ class AnimeThemeEntryPolicy
      */
     public function delete(User $user, AnimeThemeEntry $animethemeentry): bool
     {
-        return ! $animethemeentry->trashed() && $user->can(CrudPermission::DELETE()->format(AnimeThemeEntry::class));
+        return ! $animethemeentry->trashed() && $user->can(CrudPermission::DELETE->format(AnimeThemeEntry::class));
     }
 
     /**
@@ -92,7 +92,7 @@ class AnimeThemeEntryPolicy
      */
     public function restore(User $user, AnimeThemeEntry $animethemeentry): bool
     {
-        return $animethemeentry->trashed() && $user->can(ExtendedCrudPermission::RESTORE()->format(AnimeThemeEntry::class));
+        return $animethemeentry->trashed() && $user->can(ExtendedCrudPermission::RESTORE->format(AnimeThemeEntry::class));
     }
 
     /**
@@ -103,7 +103,7 @@ class AnimeThemeEntryPolicy
      */
     public function forceDelete(User $user): bool
     {
-        return $user->can(ExtendedCrudPermission::FORCE_DELETE()->format(AnimeThemeEntry::class));
+        return $user->can(ExtendedCrudPermission::FORCE_DELETE->format(AnimeThemeEntry::class));
     }
 
     /**
@@ -114,7 +114,7 @@ class AnimeThemeEntryPolicy
      */
     public function attachAnyVideo(User $user): bool
     {
-        return $user->can(CrudPermission::UPDATE()->format(AnimeThemeEntry::class));
+        return $user->can(CrudPermission::UPDATE->format(AnimeThemeEntry::class));
     }
 
     /**
@@ -132,7 +132,7 @@ class AnimeThemeEntryPolicy
             ->where($video->getKeyName(), $video->getKey())
             ->exists();
 
-        return ! $attached && $user->can(CrudPermission::UPDATE()->format(AnimeThemeEntry::class));
+        return ! $attached && $user->can(CrudPermission::UPDATE->format(AnimeThemeEntry::class));
     }
 
     /**
@@ -143,6 +143,6 @@ class AnimeThemeEntryPolicy
      */
     public function detachVideo(User $user): bool
     {
-        return $user->can(CrudPermission::UPDATE()->format(AnimeThemeEntry::class));
+        return $user->can(CrudPermission::UPDATE->format(AnimeThemeEntry::class));
     }
 }

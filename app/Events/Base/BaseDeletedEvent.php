@@ -30,7 +30,7 @@ abstract class BaseDeletedEvent extends BaseEvent implements DiscordMessageEvent
     {
         return DiscordMessage::create('', [
             'description' => $this->getDiscordMessageDescription(),
-            'color' => EmbedColor::RED,
+            'color' => EmbedColor::RED->value,
         ]);
     }
 

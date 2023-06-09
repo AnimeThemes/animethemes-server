@@ -69,8 +69,8 @@ class ArtistSongStoreTest extends TestCase
 
         $user = User::factory()
             ->withPermissions(
-                CrudPermission::CREATE()->format(Artist::class),
-                CrudPermission::CREATE()->format(Song::class)
+                CrudPermission::CREATE->format(Artist::class),
+                CrudPermission::CREATE->format(Song::class)
             )
             ->createOne();
 

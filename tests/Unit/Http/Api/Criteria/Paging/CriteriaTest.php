@@ -9,6 +9,7 @@ use App\Http\Api\Criteria\Paging\Criteria;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Tests\TestCase;
 
@@ -37,7 +38,7 @@ class CriteriaTest extends TestCase
              */
             public function getStrategy(): PaginationStrategy
             {
-                return PaginationStrategy::getRandomInstance();
+                return Arr::random(PaginationStrategy::cases());
             }
 
             /**
@@ -73,7 +74,7 @@ class CriteriaTest extends TestCase
              */
             public function getStrategy(): PaginationStrategy
             {
-                return PaginationStrategy::getRandomInstance();
+                return Arr::random(PaginationStrategy::cases());
             }
 
             /**
@@ -109,7 +110,7 @@ class CriteriaTest extends TestCase
              */
             public function getStrategy(): PaginationStrategy
             {
-                return PaginationStrategy::getRandomInstance();
+                return Arr::random(PaginationStrategy::cases());
             }
 
             /**

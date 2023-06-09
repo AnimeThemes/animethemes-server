@@ -28,7 +28,7 @@ trait ReconcilesRepositories
         $sourceRepository = $this->getSourceRepository($data);
         if ($sourceRepository === null) {
             return new ActionResult(
-                ActionStatus::FAILED(),
+                ActionStatus::FAILED,
                 'Could not find source repository'
             );
         }
@@ -36,7 +36,7 @@ trait ReconcilesRepositories
         $destinationRepository = $this->getDestinationRepository($data);
         if ($destinationRepository === null) {
             return new ActionResult(
-                ActionStatus::FAILED(),
+                ActionStatus::FAILED,
                 'Could not find destination repository'
             );
         }

@@ -34,7 +34,7 @@ class ThrottleTest extends TestCase
      */
     public function testClientNotRateLimited(): void
     {
-        $user = User::factory()->withPermissions(SpecialPermission::BYPASS_API_RATE_LIMITER)->createOne();
+        $user = User::factory()->withPermissions(SpecialPermission::BYPASS_API_RATE_LIMITER->value)->createOne();
 
         Sanctum::actingAs($user);
 

@@ -56,7 +56,7 @@ class FeaturedThemeDestroyTest extends TestCase
     {
         $featuredTheme = FeaturedTheme::factory()->trashed()->createOne();
 
-        $user = User::factory()->withPermissions(CrudPermission::DELETE()->format(FeaturedTheme::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::DELETE->format(FeaturedTheme::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -74,7 +74,7 @@ class FeaturedThemeDestroyTest extends TestCase
     {
         $featuredTheme = FeaturedTheme::factory()->createOne();
 
-        $user = User::factory()->withPermissions(CrudPermission::DELETE()->format(FeaturedTheme::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::DELETE->format(FeaturedTheme::class))->createOne();
 
         Sanctum::actingAs($user);
 

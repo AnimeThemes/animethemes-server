@@ -74,7 +74,7 @@ abstract class AggregateField extends Field implements FilterableField, Renderab
      */
     public function getSort(): Sort
     {
-        return new Sort(key: $this->alias(), qualifyColumn: QualifyColumn::NO());
+        return new Sort(key: $this->alias(), qualifyColumn: QualifyColumn::NO);
     }
 
     /**

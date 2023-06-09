@@ -19,7 +19,7 @@ class StudioAnilistResourceLens extends StudioResourceLens
      */
     protected static function site(): ResourceSite
     {
-        return ResourceSite::ANILIST();
+        return ResourceSite::ANILIST;
     }
 
     /**

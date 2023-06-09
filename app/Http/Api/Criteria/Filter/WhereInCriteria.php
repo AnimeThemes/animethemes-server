@@ -11,9 +11,7 @@ use App\Http\Api\Filter\Filter;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Schema;
 use App\Http\Api\Scope\Scope;
-use BenSampo\Enum\Exceptions\InvalidEnumKeyException;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use RuntimeException;
 
@@ -60,7 +58,7 @@ class WhereInCriteria extends Criteria
     public static function make(Scope $scope, string $filterParam, mixed $filterValues): static
     {
         $field = '';
-        $operator = BinaryLogicalOperator::AND();
+        $operator = BinaryLogicalOperator::AND;
         $not = false;
 
         $filterParts = Str::of($filterParam)->explode(Criteria::PARAM_SEPARATOR);
@@ -68,18 +66,14 @@ class WhereInCriteria extends Criteria
             $filterPart = $filterParts->pop();
 
             // Set Not
-            if (empty($field) && UnaryLogicalOperator::hasKey(Str::upper($filterPart))) {
+            if (empty($field) && UnaryLogicalOperator::unstrictCoerce($filterPart) !== null) {
                 $not = true;
                 continue;
             }
 
             // Set operator
-            if (empty($field) && BinaryLogicalOperator::hasKey(Str::upper($filterPart))) {
-                try {
-                    $operator = BinaryLogicalOperator::fromKey(Str::upper($filterPart));
-                } catch (InvalidEnumKeyException $e) {
-                    Log::error($e->getMessage());
-                }
+            if (empty($field) && BinaryLogicalOperator::unstrictCoerce($filterPart) !== null) {
+                $operator = BinaryLogicalOperator::unstrictCoerce($filterPart);
                 continue;
             }
 
@@ -114,7 +108,7 @@ class WhereInCriteria extends Criteria
             ? $builder->qualifyColumn($filter->getColumn())
             : $filter->getColumn();
 
-        return match ($filter->clause()->value) {
+        return match ($filter->clause()) {
             Clause::WHERE => $builder->whereIn(
                 $column,
                 $filter->getFilterValues($this->getFilterValues()),
@@ -122,7 +116,6 @@ class WhereInCriteria extends Criteria
                 $this->not()
             ),
             Clause::HAVING => throw new RuntimeException('IN operator is not supported in HAVING clause'),
-            default => $builder
         };
     }
 }

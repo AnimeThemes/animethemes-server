@@ -67,8 +67,8 @@ class ArtistImageDestroyTest extends TestCase
 
         $user = User::factory()
             ->withPermissions(
-                CrudPermission::DELETE()->format(Artist::class),
-                CrudPermission::DELETE()->format(Image::class)
+                CrudPermission::DELETE->format(Artist::class),
+                CrudPermission::DELETE->format(Image::class)
             )
             ->createOne();
 
@@ -93,8 +93,8 @@ class ArtistImageDestroyTest extends TestCase
 
         $user = User::factory()
             ->withPermissions(
-                CrudPermission::DELETE()->format(Artist::class),
-                CrudPermission::DELETE()->format(Image::class)
+                CrudPermission::DELETE->format(Artist::class),
+                CrudPermission::DELETE->format(Image::class)
             )
             ->createOne();
 

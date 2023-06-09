@@ -32,7 +32,7 @@ class UserExceedsPlaylistLimit
 
         if (
             intval($user?->playlists()?->count()) >= $playlistLimit
-            && empty($user?->can(SpecialPermission::BYPASS_FEATURE_FLAGS))
+            && empty($user?->can(SpecialPermission::BYPASS_FEATURE_FLAGS->value))
         ) {
             abort(403, "User cannot have more than '$playlistLimit' playlists.");
         }

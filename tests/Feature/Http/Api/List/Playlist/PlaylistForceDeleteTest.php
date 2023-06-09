@@ -77,7 +77,7 @@ class PlaylistForceDeleteTest extends TestCase
 
         $playlist = Playlist::factory()->createOne();
 
-        $user = User::factory()->withPermissions(ExtendedCrudPermission::FORCE_DELETE()->format(Playlist::class))->createOne();
+        $user = User::factory()->withPermissions(ExtendedCrudPermission::FORCE_DELETE->format(Playlist::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -99,7 +99,7 @@ class PlaylistForceDeleteTest extends TestCase
 
         $playlist = Playlist::factory()->createOne();
 
-        $user = User::factory()->withPermissions(ExtendedCrudPermission::FORCE_DELETE()->format(Playlist::class))->createOne();
+        $user = User::factory()->withPermissions(ExtendedCrudPermission::FORCE_DELETE->format(Playlist::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -123,8 +123,8 @@ class PlaylistForceDeleteTest extends TestCase
 
         $user = User::factory()
             ->withPermissions(
-                ExtendedCrudPermission::FORCE_DELETE()->format(Playlist::class),
-                SpecialPermission::BYPASS_FEATURE_FLAGS
+                ExtendedCrudPermission::FORCE_DELETE->format(Playlist::class),
+                SpecialPermission::BYPASS_FEATURE_FLAGS->value
             )
             ->createOne();
 

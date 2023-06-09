@@ -66,7 +66,7 @@ class SynonymUpdateTest extends TestCase
 
         $parameters = AnimeSynonym::factory()->raw();
 
-        $user = User::factory()->withPermissions(CrudPermission::VIEW()->format(AnimeSynonym::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::VIEW->format(AnimeSynonym::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -86,7 +86,7 @@ class SynonymUpdateTest extends TestCase
 
         $parameters = AnimeSynonym::factory()->raw();
 
-        $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(AnimeSynonym::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(AnimeSynonym::class))->createOne();
 
         Sanctum::actingAs($user);
 

@@ -32,7 +32,7 @@ class IndexRequest extends ReadRequest
 
         $schemaFormattedFilters = array_merge(
             $this->getSchemaFormattedFilters($schema),
-            $this->getFilterFormats(new HasFilter($schema->allowedIncludes()), BinaryLogicalOperator::getInstances())
+            $this->getFilterFormats(new HasFilter($schema->allowedIncludes()), BinaryLogicalOperator::cases())
         );
 
         $param = Str::of(FilterParser::param())->append('.')->append($schema->type())->__toString();

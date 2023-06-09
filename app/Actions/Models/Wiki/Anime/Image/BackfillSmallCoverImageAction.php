@@ -25,7 +25,7 @@ class BackfillSmallCoverImageAction extends BackfillAnimeImageAction
      */
     protected function getFacet(): ImageFacet
     {
-        return ImageFacet::COVER_SMALL();
+        return ImageFacet::COVER_SMALL;
     }
 
     /**
@@ -37,7 +37,7 @@ class BackfillSmallCoverImageAction extends BackfillAnimeImageAction
      */
     protected function getImage(): ?Image
     {
-        $anilistResource = $this->getModel()->resources()->firstWhere(ExternalResource::ATTRIBUTE_SITE, ResourceSite::ANILIST);
+        $anilistResource = $this->getModel()->resources()->firstWhere(ExternalResource::ATTRIBUTE_SITE, ResourceSite::ANILIST->value);
         if ($anilistResource instanceof ExternalResource) {
             return $this->getAnilistImage($anilistResource);
         }

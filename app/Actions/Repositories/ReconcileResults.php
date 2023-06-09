@@ -32,7 +32,7 @@ abstract class ReconcileResults extends ActionResult
         protected readonly Collection $deleted = new Collection(),
         protected readonly Collection $updated = new Collection()
     ) {
-        parent::__construct(ActionStatus::PASSED());
+        parent::__construct(ActionStatus::PASSED);
     }
 
     /**

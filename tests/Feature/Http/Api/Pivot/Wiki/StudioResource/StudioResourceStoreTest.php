@@ -69,8 +69,8 @@ class StudioResourceStoreTest extends TestCase
 
         $user = User::factory()
             ->withPermissions(
-                CrudPermission::CREATE()->format(Studio::class),
-                CrudPermission::CREATE()->format(ExternalResource::class)
+                CrudPermission::CREATE->format(Studio::class),
+                CrudPermission::CREATE->format(ExternalResource::class)
             )
             ->createOne();
 

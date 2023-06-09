@@ -75,8 +75,8 @@ class StudioResourceUpdateTest extends TestCase
 
         $user = User::factory()
             ->withPermissions(
-                CrudPermission::UPDATE()->format(Studio::class),
-                CrudPermission::UPDATE()->format(ExternalResource::class)
+                CrudPermission::UPDATE->format(Studio::class),
+                CrudPermission::UPDATE->format(ExternalResource::class)
             )
             ->createOne();
 

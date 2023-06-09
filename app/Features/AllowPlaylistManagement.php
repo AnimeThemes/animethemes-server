@@ -21,7 +21,7 @@ class AllowPlaylistManagement
      */
     public function resolve(?User $user): bool
     {
-        if (! empty($user?->can(SpecialPermission::BYPASS_FEATURE_FLAGS))) {
+        if (! empty($user?->can(SpecialPermission::BYPASS_FEATURE_FLAGS->value))) {
             return true;
         }
 

@@ -33,7 +33,7 @@ abstract class BaseUpdatedEvent extends BaseEvent implements DiscordMessageEvent
         return DiscordMessage::create('', [
             'description' => $this->getDiscordMessageDescription(),
             'fields' => $this->getEmbedFields(),
-            'color' => EmbedColor::YELLOW,
+            'color' => EmbedColor::YELLOW->value,
         ]);
     }
 

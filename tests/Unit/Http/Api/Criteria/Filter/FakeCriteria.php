@@ -13,6 +13,7 @@ use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Schema;
 use App\Http\Api\Scope\Scope;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Arr;
 
 /**
  * Class FakeCriteria.
@@ -48,7 +49,7 @@ class FakeCriteria extends Criteria
 
         return new static(
             new Predicate($filterParam, null, $expression),
-            BinaryLogicalOperator::getRandomInstance(),
+            Arr::random(BinaryLogicalOperator::cases()),
             $scope
         );
     }

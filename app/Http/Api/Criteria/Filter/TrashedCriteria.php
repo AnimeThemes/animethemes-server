@@ -49,7 +49,7 @@ class TrashedCriteria extends Criteria
 
         return new static(
             new Predicate(TrashedCriteria::PARAM_VALUE, null, $expression),
-            BinaryLogicalOperator::AND(),
+            BinaryLogicalOperator::AND,
             $scope
         );
     }
@@ -69,9 +69,9 @@ class TrashedCriteria extends Criteria
 
         foreach ($filterValues as $filterValue) {
             $builder = match (Str::lower($filterValue)) {
-                TrashedStatus::WITH => $builder->withTrashed(),
-                TrashedStatus::WITHOUT => $builder->withoutTrashed(),
-                TrashedStatus::ONLY => $builder->onlyTrashed(),
+                TrashedStatus::WITH->value => $builder->withTrashed(),
+                TrashedStatus::WITHOUT->value => $builder->withoutTrashed(),
+                TrashedStatus::ONLY->value => $builder->onlyTrashed(),
                 default => $builder,
             };
         }

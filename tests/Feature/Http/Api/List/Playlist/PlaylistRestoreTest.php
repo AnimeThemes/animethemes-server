@@ -80,7 +80,7 @@ class PlaylistRestoreTest extends TestCase
             ->for(User::factory())
             ->createOne();
 
-        $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE()->format(Playlist::class))->createOne();
+        $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE->format(Playlist::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -101,7 +101,7 @@ class PlaylistRestoreTest extends TestCase
 
         Feature::deactivate(AllowPlaylistManagement::class);
 
-        $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE()->format(Playlist::class))->createOne();
+        $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE->format(Playlist::class))->createOne();
 
         $playlist = Playlist::factory()
             ->trashed()
@@ -126,7 +126,7 @@ class PlaylistRestoreTest extends TestCase
 
         Feature::activate(AllowPlaylistManagement::class);
 
-        $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE()->format(Playlist::class))->createOne();
+        $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE->format(Playlist::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)
@@ -150,7 +150,7 @@ class PlaylistRestoreTest extends TestCase
 
         Feature::activate(AllowPlaylistManagement::class);
 
-        $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE()->format(Playlist::class))->createOne();
+        $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE->format(Playlist::class))->createOne();
 
         $playlist = Playlist::factory()
             ->trashed()
@@ -179,8 +179,8 @@ class PlaylistRestoreTest extends TestCase
 
         $user = User::factory()
             ->withPermissions(
-                ExtendedCrudPermission::RESTORE()->format(Playlist::class),
-                SpecialPermission::BYPASS_FEATURE_FLAGS
+                ExtendedCrudPermission::RESTORE->format(Playlist::class),
+                SpecialPermission::BYPASS_FEATURE_FLAGS->value
             )
             ->createOne();
 
@@ -213,7 +213,7 @@ class PlaylistRestoreTest extends TestCase
 
         $user = User::factory()
             ->has(Playlist::factory()->count($playlistLimit))
-            ->withPermissions(ExtendedCrudPermission::RESTORE()->format(Playlist::class))
+            ->withPermissions(ExtendedCrudPermission::RESTORE->format(Playlist::class))
             ->createOne();
 
         $playlist = Playlist::factory()
@@ -246,8 +246,8 @@ class PlaylistRestoreTest extends TestCase
         $user = User::factory()
             ->has(Playlist::factory()->count($playlistLimit))
             ->withPermissions(
-                ExtendedCrudPermission::RESTORE()->format(Playlist::class),
-                SpecialPermission::BYPASS_FEATURE_FLAGS
+                ExtendedCrudPermission::RESTORE->format(Playlist::class),
+                SpecialPermission::BYPASS_FEATURE_FLAGS->value
             )
             ->createOne();
 

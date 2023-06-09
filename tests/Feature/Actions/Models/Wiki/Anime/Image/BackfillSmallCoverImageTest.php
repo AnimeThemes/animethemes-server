@@ -14,6 +14,7 @@ use App\Models\Wiki\Image;
 use Exception;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Testing\File;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
@@ -38,7 +39,7 @@ class BackfillSmallCoverImageTest extends TestCase
         Storage::fake(Config::get('image.disk'));
 
         $image = Image::factory()->createOne([
-            Image::ATTRIBUTE_FACET => ImageFacet::COVER_SMALL,
+            Image::ATTRIBUTE_FACET => ImageFacet::COVER_SMALL->value,
         ]);
 
         $anime = Anime::factory()
@@ -49,7 +50,7 @@ class BackfillSmallCoverImageTest extends TestCase
 
         $result = $action->handle();
 
-        static::assertTrue(ActionStatus::SKIPPED()->is($result->getStatus()));
+        static::assertTrue(ActionStatus::SKIPPED === $result->getStatus());
         static::assertDatabaseCount(Image::class, 1);
         static::assertEmpty(Storage::disk(Config::get('image.disk'))->allFiles());
         Http::assertNothingSent();
@@ -92,8 +93,8 @@ class BackfillSmallCoverImageTest extends TestCase
         $site = null;
 
         while ($site === null) {
-            $siteCandidate = ResourceSite::getRandomInstance();
-            if (ResourceSite::ANILIST()->isNot($siteCandidate)) {
+            $siteCandidate = Arr::random(ResourceSite::cases());
+            if (ResourceSite::ANILIST !== $siteCandidate) {
                 $site = $siteCandidate;
             }
         }
@@ -189,9 +190,9 @@ class BackfillSmallCoverImageTest extends TestCase
 
         $result = $action->handle();
 
-        static::assertTrue(ActionStatus::PASSED()->is($result->getStatus()));
+        static::assertTrue(ActionStatus::PASSED === $result->getStatus());
         static::assertDatabaseCount(Image::class, 1);
-        static::assertTrue($anime->images()->where(Image::ATTRIBUTE_FACET, ImageFacet::COVER_SMALL)->exists());
+        static::assertTrue($anime->images()->where(Image::ATTRIBUTE_FACET, ImageFacet::COVER_SMALL->value)->exists());
         static::assertCount(1, Storage::disk(Config::get('image.disk'))->allFiles());
         Http::assertSentCount(2);
     }

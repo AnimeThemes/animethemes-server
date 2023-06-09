@@ -42,7 +42,7 @@ class FeatureUpdated extends FeatureEvent
         return DiscordMessage::create('', [
             'description' => "Feature '**{$feature->getName()}**' has been updated.",
             'fields' => $this->getEmbedFields(),
-            'color' => EmbedColor::YELLOW,
+            'color' => EmbedColor::YELLOW->value,
         ]);
     }
 }

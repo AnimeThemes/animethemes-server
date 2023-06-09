@@ -59,7 +59,7 @@ class IndexAction
         $this->sort($builder, $query, $schema, $scope);
 
         // paginate
-        $paginationCriteria = $query->getPagingCriteria(PaginationStrategy::OFFSET());
+        $paginationCriteria = $query->getPagingCriteria(PaginationStrategy::OFFSET);
 
         return $paginationCriteria !== null
             ? $paginationCriteria->paginate($builder)
@@ -77,7 +77,7 @@ class IndexAction
     public function search(
         Query $query,
         Schema $schema,
-        PaginationStrategy $paginationStrategy = new PaginationStrategy(PaginationStrategy::OFFSET)
+        PaginationStrategy $paginationStrategy = PaginationStrategy::OFFSET
     ): Collection|Paginator {
         $search = $this->getSearch();
 

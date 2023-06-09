@@ -114,9 +114,9 @@ class FeaturedTheme extends BaseModel
      */
     public function getName(): string
     {
-        return Str::of($this->start_at->format(AllowedDateFormat::YMD))
+        return Str::of($this->start_at->format(AllowedDateFormat::YMD->value))
             ->append(' - ')
-            ->append($this->end_at->format(AllowedDateFormat::YMD))
+            ->append($this->end_at->format(AllowedDateFormat::YMD->value))
             ->__toString();
     }
 

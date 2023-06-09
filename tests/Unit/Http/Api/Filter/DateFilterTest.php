@@ -10,6 +10,7 @@ use App\Http\Api\Scope\GlobalScope;
 use DateTime;
 use DateTimeInterface;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Date;
 use Tests\TestCase;
 use Tests\Unit\Http\Api\Criteria\Filter\FakeCriteria;
@@ -62,7 +63,9 @@ class DateFilterTest extends TestCase
     {
         $filterField = $this->faker->word();
 
-        $criteria = FakeCriteria::make(new GlobalScope(), $filterField, Date::now()->format(AllowedDateFormat::getRandomValue()));
+        $dateFormat = Arr::random(AllowedDateFormat::cases());
+
+        $criteria = FakeCriteria::make(new GlobalScope(), $filterField, Date::now()->format($dateFormat->value));
 
         $filter = new DateFilter($filterField);
 
@@ -78,9 +81,9 @@ class DateFilterTest extends TestCase
     {
         $filterField = $this->faker->word();
 
-        $dateFormat = AllowedDateFormat::getRandomValue();
+        $dateFormat = Arr::random(AllowedDateFormat::cases());
 
-        $dateFilter = Date::now()->format($dateFormat);
+        $dateFilter = Date::now()->format($dateFormat->value);
 
         $criteria = FakeCriteria::make(new GlobalScope(), $filterField, $dateFilter);
 
@@ -89,7 +92,7 @@ class DateFilterTest extends TestCase
         $filterValues = $filter->getFilterValues($criteria->getFilterValues());
 
         static::assertEquals(
-            DateTime::createFromFormat('!'.$dateFormat, $dateFilter)->format(AllowedDateFormat::YMDHISU),
+            DateTime::createFromFormat('!'.$dateFormat->value, $dateFilter)->format(AllowedDateFormat::YMDHISU->value),
             $filterValues[0]
         );
     }

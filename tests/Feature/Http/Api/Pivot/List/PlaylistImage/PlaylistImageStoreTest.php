@@ -84,8 +84,8 @@ class PlaylistImageStoreTest extends TestCase
 
         $user = User::factory()
             ->withPermissions(
-                CrudPermission::CREATE()->format(Playlist::class),
-                CrudPermission::CREATE()->format(Image::class)
+                CrudPermission::CREATE->format(Playlist::class),
+                CrudPermission::CREATE->format(Image::class)
             )
             ->createOne();
 
@@ -112,8 +112,8 @@ class PlaylistImageStoreTest extends TestCase
 
         $user = User::factory()
             ->withPermissions(
-                CrudPermission::CREATE()->format(Playlist::class),
-                CrudPermission::CREATE()->format(Image::class)
+                CrudPermission::CREATE->format(Playlist::class),
+                CrudPermission::CREATE->format(Image::class)
             )
             ->createOne();
 
@@ -142,9 +142,9 @@ class PlaylistImageStoreTest extends TestCase
 
         $user = User::factory()
             ->withPermissions(
-                CrudPermission::CREATE()->format(Playlist::class),
-                CrudPermission::CREATE()->format(Image::class),
-                SpecialPermission::BYPASS_FEATURE_FLAGS
+                CrudPermission::CREATE->format(Playlist::class),
+                CrudPermission::CREATE->format(Image::class),
+                SpecialPermission::BYPASS_FEATURE_FLAGS->value
             )
             ->createOne();
 

@@ -42,8 +42,8 @@ class ReconcileTransactionRepositoriesAction extends ReconcileRepositoriesAction
      */
     protected function diffCallbackForCreateDelete(): Closure
     {
-        return fn (Transaction $first, Transaction $second) => [$first->external_id, $first->date->format(AllowedDateFormat::YMD), $first->amount]
-            <=> [$second->external_id, $second->date->format(AllowedDateFormat::YMD), $second->amount];
+        return fn (Transaction $first, Transaction $second) => [$first->external_id, $first->date->format(AllowedDateFormat::YMD->value), $first->amount]
+            <=> [$second->external_id, $second->date->format(AllowedDateFormat::YMD->value), $second->amount];
     }
 
     /**

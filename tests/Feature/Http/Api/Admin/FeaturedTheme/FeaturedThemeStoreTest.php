@@ -63,7 +63,7 @@ class FeaturedThemeStoreTest extends TestCase
      */
     public function testRequiredFields(): void
     {
-        $user = User::factory()->withPermissions(CrudPermission::CREATE()->format(FeaturedTheme::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(FeaturedTheme::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -83,11 +83,11 @@ class FeaturedThemeStoreTest extends TestCase
     public function testStartAtBeforeEndDate(): void
     {
         $parameters = FeaturedTheme::factory()->raw([
-            FeaturedTheme::ATTRIBUTE_START_AT => $this->faker->dateTimeBetween('+1 day', '+30 years')->format(AllowedDateFormat::YMDHISU),
-            FeaturedTheme::ATTRIBUTE_END_AT => $this->faker->dateTimeBetween('-30 years', '-1 day')->format(AllowedDateFormat::YMDHISU),
+            FeaturedTheme::ATTRIBUTE_START_AT => $this->faker->dateTimeBetween('+1 day', '+30 years')->format(AllowedDateFormat::YMDHISU->value),
+            FeaturedTheme::ATTRIBUTE_END_AT => $this->faker->dateTimeBetween('-30 years', '-1 day')->format(AllowedDateFormat::YMDHISU->value),
         ]);
 
-        $user = User::factory()->withPermissions(CrudPermission::CREATE()->format(FeaturedTheme::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(FeaturedTheme::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -117,7 +117,7 @@ class FeaturedThemeStoreTest extends TestCase
             FeaturedTheme::ATTRIBUTE_VIDEO => $video->getKey(),
         ]);
 
-        $user = User::factory()->withPermissions(CrudPermission::CREATE()->format(FeaturedTheme::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(FeaturedTheme::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -146,7 +146,7 @@ class FeaturedThemeStoreTest extends TestCase
             FeaturedTheme::ATTRIBUTE_VIDEO => $entryVideo->video_id,
         ]);
 
-        $user = User::factory()->withPermissions(CrudPermission::CREATE()->format(FeaturedTheme::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(FeaturedTheme::class))->createOne();
 
         Sanctum::actingAs($user);
 

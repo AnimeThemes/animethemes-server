@@ -9,7 +9,6 @@ use App\Models\BaseModel;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime as AnimeModel;
 use App\Nova\Lenses\BaseLens;
-use BenSampo\Enum\Enum;
 use Exception;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\ID;
@@ -57,7 +56,7 @@ abstract class AnimeLens extends BaseLens
 
             Select::make(__('nova.fields.anime.season.name'), Anime::ATTRIBUTE_SEASON)
                 ->options(AnimeSeason::asSelectArray())
-                ->displayUsing(fn (?Enum $enum) => $enum?->description)
+                ->displayUsing(fn (?int $enumValue) => AnimeSeason::tryFrom($enumValue)?->localize())
                 ->sortable()
                 ->showOnPreview()
                 ->filterable(),

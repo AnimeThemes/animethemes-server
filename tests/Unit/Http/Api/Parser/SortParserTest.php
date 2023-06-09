@@ -115,7 +115,7 @@ class SortParserTest extends TestCase
 
         static::assertTrue(
             $criteria instanceof FieldCriteria
-            && Direction::ASCENDING()->is($criteria->getDirection())
+            && Direction::ASCENDING === $criteria->getDirection()
         );
     }
 
@@ -136,7 +136,7 @@ class SortParserTest extends TestCase
 
         static::assertTrue(
             $criteria instanceof FieldCriteria
-            && Direction::DESCENDING()->is($criteria->getDirection())
+            && Direction::DESCENDING === $criteria->getDirection()
         );
     }
 

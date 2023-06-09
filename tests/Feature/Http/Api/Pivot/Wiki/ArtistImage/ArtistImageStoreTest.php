@@ -63,8 +63,8 @@ class ArtistImageStoreTest extends TestCase
 
         $user = User::factory()
             ->withPermissions(
-                CrudPermission::CREATE()->format(Artist::class),
-                CrudPermission::CREATE()->format(Image::class)
+                CrudPermission::CREATE->format(Artist::class),
+                CrudPermission::CREATE->format(Image::class)
             )
             ->createOne();
 

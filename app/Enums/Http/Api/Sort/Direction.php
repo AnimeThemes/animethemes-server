@@ -4,16 +4,11 @@ declare(strict_types=1);
 
 namespace App\Enums\Http\Api\Sort;
 
-use App\Enums\BaseEnum;
-
 /**
- * Class Direction.
- *
- * @method static static ASCENDING()
- * @method static static DESCENDING()
+ * Enum Direction.
  */
-final class Direction extends BaseEnum
+enum Direction: string
 {
-    public const ASCENDING = 'asc';
-    public const DESCENDING = 'desc';
+    case ASCENDING = 'asc';
+    case DESCENDING = 'desc';
 }

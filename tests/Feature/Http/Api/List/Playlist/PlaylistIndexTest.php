@@ -32,6 +32,7 @@ use App\Models\List\Playlist\PlaylistTrack;
 use App\Models\Wiki\Image;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Tests\TestCase;
 
@@ -54,19 +55,19 @@ class PlaylistIndexTest extends TestCase
 
         $playlists = Playlist::factory()
             ->count($publicCount)
-            ->create([Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC]);
+            ->create([Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value]);
 
         $unlistedCount = $this->faker->randomDigitNotNull();
 
         Playlist::factory()
             ->count($unlistedCount)
-            ->create([Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::UNLISTED]);
+            ->create([Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::UNLISTED->value]);
 
         $privateCount = $this->faker->randomDigitNotNull();
 
         Playlist::factory()
             ->count($privateCount)
-            ->create([Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PRIVATE]);
+            ->create([Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PRIVATE->value]);
 
         $response = $this->get(route('api.playlist.index'));
 
@@ -93,7 +94,7 @@ class PlaylistIndexTest extends TestCase
     {
         Playlist::factory()
             ->count($this->faker->randomDigitNotNull())
-            ->create([Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC]);
+            ->create([Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value]);
 
         $response = $this->get(route('api.playlist.index'));
 
@@ -131,7 +132,7 @@ class PlaylistIndexTest extends TestCase
             ->has(Image::factory()->count($this->faker->randomDigitNotNull()))
             ->count($this->faker->randomDigitNotNull())
             ->create([
-                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
+                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
             ]);
 
         $playlists = Playlist::with($includedPaths->all())->get();
@@ -171,7 +172,7 @@ class PlaylistIndexTest extends TestCase
 
         $playlists = Playlist::factory()
             ->count($this->faker->randomDigitNotNull())
-            ->create([Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC]);
+            ->create([Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value]);
 
         $response = $this->get(route('api.playlist.index', $parameters));
 
@@ -203,14 +204,14 @@ class PlaylistIndexTest extends TestCase
             ->random();
 
         $parameters = [
-            SortParser::param() => $sort->format(Direction::getRandomInstance()),
+            SortParser::param() => $sort->format(Arr::random(Direction::cases())),
         ];
 
         $query = new Query($parameters);
 
         Playlist::factory()
             ->count($this->faker->randomDigitNotNull())
-            ->create([Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC]);
+            ->create([Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value]);
 
         $response = $this->get(route('api.playlist.index', $parameters));
 
@@ -250,13 +251,13 @@ class PlaylistIndexTest extends TestCase
         Carbon::withTestNow($createdFilter, function () {
             Playlist::factory()
                 ->count($this->faker->randomDigitNotNull())
-                ->create([Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC]);
+                ->create([Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value]);
         });
 
         Carbon::withTestNow($excludedDate, function () {
             Playlist::factory()
                 ->count($this->faker->randomDigitNotNull())
-                ->create([Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC]);
+                ->create([Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value]);
         });
 
         $playlists = Playlist::query()->where(BaseModel::ATTRIBUTE_CREATED_AT, $createdFilter)->get();
@@ -297,13 +298,13 @@ class PlaylistIndexTest extends TestCase
         Carbon::withTestNow($updatedFilter, function () {
             Playlist::factory()
                 ->count($this->faker->randomDigitNotNull())
-                ->create([Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC]);
+                ->create([Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value]);
         });
 
         Carbon::withTestNow($excludedDate, function () {
             Playlist::factory()
                 ->count($this->faker->randomDigitNotNull())
-                ->create([Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC]);
+                ->create([Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value]);
         });
 
         $playlists = Playlist::query()->where(BaseModel::ATTRIBUTE_UPDATED_AT, $updatedFilter)->get();
@@ -331,7 +332,7 @@ class PlaylistIndexTest extends TestCase
     {
         $parameters = [
             FilterParser::param() => [
-                TrashedCriteria::PARAM_VALUE => TrashedStatus::WITHOUT,
+                TrashedCriteria::PARAM_VALUE => TrashedStatus::WITHOUT->value,
             ],
             PagingParser::param() => [
                 OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
@@ -340,12 +341,12 @@ class PlaylistIndexTest extends TestCase
 
         Playlist::factory()
             ->count($this->faker->randomDigitNotNull())
-            ->create([Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC]);
+            ->create([Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value]);
 
         Playlist::factory()
             ->trashed()
             ->count($this->faker->randomDigitNotNull())
-            ->create([Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC]);
+            ->create([Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value]);
 
         $playlists = Playlist::withoutTrashed()->get();
 
@@ -372,7 +373,7 @@ class PlaylistIndexTest extends TestCase
     {
         $parameters = [
             FilterParser::param() => [
-                TrashedCriteria::PARAM_VALUE => TrashedStatus::WITH,
+                TrashedCriteria::PARAM_VALUE => TrashedStatus::WITH->value,
             ],
             PagingParser::param() => [
                 OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
@@ -381,12 +382,12 @@ class PlaylistIndexTest extends TestCase
 
         Playlist::factory()
             ->count($this->faker->randomDigitNotNull())
-            ->create([Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC]);
+            ->create([Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value]);
 
         Playlist::factory()
             ->trashed()
             ->count($this->faker->randomDigitNotNull())
-            ->create([Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC]);
+            ->create([Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value]);
 
         $playlists = Playlist::withTrashed()->get();
 
@@ -413,7 +414,7 @@ class PlaylistIndexTest extends TestCase
     {
         $parameters = [
             FilterParser::param() => [
-                TrashedCriteria::PARAM_VALUE => TrashedStatus::ONLY,
+                TrashedCriteria::PARAM_VALUE => TrashedStatus::ONLY->value,
             ],
             PagingParser::param() => [
                 OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
@@ -422,12 +423,12 @@ class PlaylistIndexTest extends TestCase
 
         Playlist::factory()
             ->count($this->faker->randomDigitNotNull())
-            ->create([Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC]);
+            ->create([Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value]);
 
         Playlist::factory()
             ->trashed()
             ->count($this->faker->randomDigitNotNull())
-            ->create([Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC]);
+            ->create([Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value]);
 
         $playlists = Playlist::onlyTrashed()->get();
 
@@ -458,7 +459,7 @@ class PlaylistIndexTest extends TestCase
         $parameters = [
             FilterParser::param() => [
                 BaseModel::ATTRIBUTE_DELETED_AT => $deletedFilter,
-                TrashedCriteria::PARAM_VALUE => TrashedStatus::WITH,
+                TrashedCriteria::PARAM_VALUE => TrashedStatus::WITH->value,
             ],
             PagingParser::param() => [
                 OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
@@ -469,14 +470,14 @@ class PlaylistIndexTest extends TestCase
             Playlist::factory()
                 ->trashed()
                 ->count($this->faker->randomDigitNotNull())
-                ->create([Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC]);
+                ->create([Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value]);
         });
 
         Carbon::withTestNow($excludedDate, function () {
             Playlist::factory()
                 ->trashed()
                 ->count($this->faker->randomDigitNotNull())
-                ->create([Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC]);
+                ->create([Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value]);
         });
 
         $playlists = Playlist::withTrashed()->where(BaseModel::ATTRIBUTE_DELETED_AT, $deletedFilter)->get();
@@ -502,11 +503,11 @@ class PlaylistIndexTest extends TestCase
      */
     public function testImagesByFacet(): void
     {
-        $facetFilter = ImageFacet::getRandomInstance();
+        $facetFilter = Arr::random(ImageFacet::cases());
 
         $parameters = [
             FilterParser::param() => [
-                Image::ATTRIBUTE_FACET => $facetFilter->description,
+                Image::ATTRIBUTE_FACET => $facetFilter->localize(),
             ],
             IncludeParser::param() => Playlist::RELATION_IMAGES,
         ];
@@ -515,7 +516,7 @@ class PlaylistIndexTest extends TestCase
             ->has(Image::factory()->count($this->faker->randomDigitNotNull()))
             ->count($this->faker->randomDigitNotNull())
             ->create([
-                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
+                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
             ]);
 
         $playlists = Playlist::with([

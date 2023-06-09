@@ -47,51 +47,56 @@ class PermissionSeeder extends Seeder
      */
     public function run(): void
     {
+        $extendedCrudPermissions = array_merge(
+            CrudPermission::cases(),
+            ExtendedCrudPermission::cases(),
+        );
+
         // Admin Resources
-        $this->registerResource(Announcement::class, ExtendedCrudPermission::getInstances());
-        $this->registerResource(Dump::class, ExtendedCrudPermission::getInstances());
-        $this->registerResource(Setting::class, CrudPermission::getInstances());
-        $this->registerResource(Feature::class, CrudPermission::getInstances());
-        $this->registerResource(FeaturedTheme::class, ExtendedCrudPermission::getInstances());
+        $this->registerResource(Announcement::class, $extendedCrudPermissions);
+        $this->registerResource(Dump::class, $extendedCrudPermissions);
+        $this->registerResource(Setting::class, CrudPermission::cases());
+        $this->registerResource(Feature::class, CrudPermission::cases());
+        $this->registerResource(FeaturedTheme::class, $extendedCrudPermissions);
 
         // Auth Resources
-        $this->registerResource(Permission::class, [CrudPermission::VIEW()]);
-        $this->registerResource(Role::class, CrudPermission::getInstances());
-        $this->registerResource(User::class, ExtendedCrudPermission::getInstances());
+        $this->registerResource(Permission::class, [CrudPermission::VIEW]);
+        $this->registerResource(Role::class, CrudPermission::cases());
+        $this->registerResource(User::class, $extendedCrudPermissions);
 
         // Billing Resources
-        $this->registerResource(Balance::class, ExtendedCrudPermission::getInstances());
-        $this->registerResource(Transaction::class, ExtendedCrudPermission::getInstances());
+        $this->registerResource(Balance::class, $extendedCrudPermissions);
+        $this->registerResource(Transaction::class, $extendedCrudPermissions);
 
         // List Resources
-        $this->registerResource(Playlist::class, ExtendedCrudPermission::getInstances());
-        $this->registerResource(PlaylistTrack::class, ExtendedCrudPermission::getInstances());
+        $this->registerResource(Playlist::class, $extendedCrudPermissions);
+        $this->registerResource(PlaylistTrack::class, $extendedCrudPermissions);
 
         // Wiki Resources
-        $this->registerResource(Anime::class, ExtendedCrudPermission::getInstances());
-        $this->registerResource(AnimeSynonym::class, ExtendedCrudPermission::getInstances());
-        $this->registerResource(AnimeTheme::class, ExtendedCrudPermission::getInstances());
-        $this->registerResource(AnimeThemeEntry::class, ExtendedCrudPermission::getInstances());
-        $this->registerResource(Artist::class, ExtendedCrudPermission::getInstances());
-        $this->registerResource(Audio::class, ExtendedCrudPermission::getInstances());
-        $this->registerResource(ExternalResource::class, ExtendedCrudPermission::getInstances());
-        $this->registerResource(Image::class, ExtendedCrudPermission::getInstances());
-        $this->registerResource(Page::class, ExtendedCrudPermission::getInstances());
-        $this->registerResource(Series::class, ExtendedCrudPermission::getInstances());
-        $this->registerResource(Song::class, ExtendedCrudPermission::getInstances());
-        $this->registerResource(Studio::class, ExtendedCrudPermission::getInstances());
-        $this->registerResource(Video::class, ExtendedCrudPermission::getInstances());
-        $this->registerResource(VideoScript::class, ExtendedCrudPermission::getInstances());
+        $this->registerResource(Anime::class, $extendedCrudPermissions);
+        $this->registerResource(AnimeSynonym::class, $extendedCrudPermissions);
+        $this->registerResource(AnimeTheme::class, $extendedCrudPermissions);
+        $this->registerResource(AnimeThemeEntry::class, $extendedCrudPermissions);
+        $this->registerResource(Artist::class, $extendedCrudPermissions);
+        $this->registerResource(Audio::class, $extendedCrudPermissions);
+        $this->registerResource(ExternalResource::class, $extendedCrudPermissions);
+        $this->registerResource(Image::class, $extendedCrudPermissions);
+        $this->registerResource(Page::class, $extendedCrudPermissions);
+        $this->registerResource(Series::class, $extendedCrudPermissions);
+        $this->registerResource(Song::class, $extendedCrudPermissions);
+        $this->registerResource(Studio::class, $extendedCrudPermissions);
+        $this->registerResource(Video::class, $extendedCrudPermissions);
+        $this->registerResource(VideoScript::class, $extendedCrudPermissions);
 
         // Special Permissions
-        $this->registerAbilities(SpecialPermission::getValues());
+        $this->registerAbilities(array_column(SpecialPermission::cases(), 'value'));
     }
 
     /**
      * Register resource abilities.
      *
      * @param  string  $resource
-     * @param  CrudPermission[]  $abilities
+     * @param  array  $abilities
      * @return void
      */
     protected function registerResource(string $resource, array $abilities): void

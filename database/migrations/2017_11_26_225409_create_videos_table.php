@@ -33,7 +33,7 @@ return new class extends Migration
                 $table->boolean(Video::ATTRIBUTE_SUBBED)->default(false);
                 $table->boolean(Video::ATTRIBUTE_LYRICS)->default(false);
                 $table->boolean(Video::ATTRIBUTE_UNCEN)->default(false);
-                $table->integer(Video::ATTRIBUTE_OVERLAP)->default(VideoOverlap::NONE);
+                $table->integer(Video::ATTRIBUTE_OVERLAP)->default(VideoOverlap::NONE->value);
                 $table->integer(Video::ATTRIBUTE_SOURCE)->nullable();
             });
         }

@@ -8,7 +8,6 @@ use App\Enums\Models\Wiki\ImageFacet;
 use App\Models\BaseModel;
 use App\Models\Wiki\Image;
 use App\Nova\Lenses\BaseLens;
-use BenSampo\Enum\Enum;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Config;
@@ -44,7 +43,7 @@ class ImageUnlinkedLens extends BaseLens
      */
     public static function criteria(Builder $query): Builder
     {
-        return $query->whereNot(Image::ATTRIBUTE_FACET, ImageFacet::GRILL)
+        return $query->whereNot(Image::ATTRIBUTE_FACET, ImageFacet::GRILL->value)
             ->whereDoesntHave(Image::RELATION_ANIME)
             ->whereDoesntHave(Image::RELATION_ARTISTS)
             ->whereDoesntHave(Image::RELATION_STUDIOS);
@@ -67,7 +66,7 @@ class ImageUnlinkedLens extends BaseLens
 
             Select::make(__('nova.fields.image.facet.name'), Image::ATTRIBUTE_FACET)
                 ->options(ImageFacet::asSelectArray())
-                ->displayUsing(fn (?Enum $enum) => $enum?->description)
+                ->displayUsing(fn (?int $enumValue) => ImageFacet::tryFrom($enumValue)?->localize())
                 ->sortable()
                 ->showOnPreview()
                 ->filterable(),

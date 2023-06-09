@@ -25,6 +25,7 @@ use App\Models\Wiki\Artist;
 use App\Pivots\BasePivot;
 use App\Pivots\Wiki\ArtistMember;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Tests\TestCase;
@@ -190,7 +191,7 @@ class ArtistMemberIndexTest extends TestCase
             ->random();
 
         $parameters = [
-            SortParser::param() => $sort->format(Direction::getRandomInstance()),
+            SortParser::param() => $sort->format(Arr::random(Direction::cases())),
         ];
 
         $query = new Query($parameters);

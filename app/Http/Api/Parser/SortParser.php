@@ -79,10 +79,10 @@ class SortParser extends Parser
             return new RandomCriteria($scope);
         }
 
-        $direction = Direction::ASCENDING();
+        $direction = Direction::ASCENDING;
 
         if (Str::startsWith($field, '-')) {
-            $direction = Direction::DESCENDING();
+            $direction = Direction::DESCENDING;
             $field = Str::replaceFirst('-', '', $field);
         }
 

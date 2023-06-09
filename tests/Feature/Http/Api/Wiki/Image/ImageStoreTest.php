@@ -11,6 +11,7 @@ use App\Models\Auth\User;
 use App\Models\Wiki\Image;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Sanctum\Sanctum;
@@ -62,7 +63,7 @@ class ImageStoreTest extends TestCase
      */
     public function testRequiredFields(): void
     {
-        $user = User::factory()->withPermissions(CrudPermission::CREATE()->format(Image::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(Image::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -82,9 +83,11 @@ class ImageStoreTest extends TestCase
     {
         $fs = Storage::fake(Config::get('image.disk'));
 
-        $parameters = [Image::ATTRIBUTE_FACET => ImageFacet::getRandomInstance()->description];
+        $facet = Arr::random(ImageFacet::cases());
 
-        $user = User::factory()->withPermissions(CrudPermission::CREATE()->format(Image::class))->createOne();
+        $parameters = [Image::ATTRIBUTE_FACET => $facet->localize()];
+
+        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(Image::class))->createOne();
 
         Sanctum::actingAs($user);
 

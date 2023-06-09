@@ -62,7 +62,7 @@ class BackfillAnimeStudiosAction extends BackfillStudiosAction
      */
     protected function getStudios(): array
     {
-        $malResource = $this->getModel()->resources()->firstWhere(ExternalResource::ATTRIBUTE_SITE, ResourceSite::MAL);
+        $malResource = $this->getModel()->resources()->firstWhere(ExternalResource::ATTRIBUTE_SITE, ResourceSite::MAL->value);
         if ($malResource instanceof ExternalResource) {
             $studios = $this->getMalAnimeStudios($malResource);
             if (! empty($studios)) {
@@ -70,7 +70,7 @@ class BackfillAnimeStudiosAction extends BackfillStudiosAction
             }
         }
 
-        $anilistResource = $this->getModel()->resources()->firstWhere(ExternalResource::ATTRIBUTE_SITE, ResourceSite::ANILIST);
+        $anilistResource = $this->getModel()->resources()->firstWhere(ExternalResource::ATTRIBUTE_SITE, ResourceSite::ANILIST->value);
         if ($anilistResource instanceof ExternalResource) {
             $studios = $this->getAnilistAnimeStudios($anilistResource);
             if (! empty($studios)) {
@@ -78,7 +78,7 @@ class BackfillAnimeStudiosAction extends BackfillStudiosAction
             }
         }
 
-        $kitsuResource = $this->getModel()->resources()->firstWhere(ExternalResource::ATTRIBUTE_SITE, ResourceSite::KITSU);
+        $kitsuResource = $this->getModel()->resources()->firstWhere(ExternalResource::ATTRIBUTE_SITE, ResourceSite::KITSU->value);
         if ($kitsuResource instanceof ExternalResource) {
             return $this->getKitsuAnimeStudios($kitsuResource);
         }
@@ -119,7 +119,7 @@ class BackfillAnimeStudiosAction extends BackfillStudiosAction
 
             $studios[] = $studio;
 
-            $this->ensureStudioHasResource($studio, ResourceSite::MAL(), $id);
+            $this->ensureStudioHasResource($studio, ResourceSite::MAL, $id);
         }
 
         return $studios;
@@ -175,7 +175,7 @@ class BackfillAnimeStudiosAction extends BackfillStudiosAction
 
             $studios[] = $studio;
 
-            $this->ensureStudioHasResource($studio, ResourceSite::ANILIST(), $id);
+            $this->ensureStudioHasResource($studio, ResourceSite::ANILIST, $id);
         }
 
         return $studios;

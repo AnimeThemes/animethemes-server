@@ -56,7 +56,7 @@ class FeaturedThemeForceDeleteTest extends TestCase
     {
         $featuredTheme = FeaturedTheme::factory()->createOne();
 
-        $user = User::factory()->withPermissions(ExtendedCrudPermission::FORCE_DELETE()->format(FeaturedTheme::class))->createOne();
+        $user = User::factory()->withPermissions(ExtendedCrudPermission::FORCE_DELETE->format(FeaturedTheme::class))->createOne();
 
         Sanctum::actingAs($user);
 

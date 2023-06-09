@@ -73,7 +73,7 @@ class TransparencyRequest extends FormRequest
 
         $validDates = $balanceDates->concat($transactionDates);
 
-        $validDates = $validDates->unique(fn (Carbon $date) => $date->format(AllowedDateFormat::YM));
+        $validDates = $validDates->unique(fn (Carbon $date) => $date->format(AllowedDateFormat::YM->value));
 
         return $validDates->sortDesc();
     }
@@ -101,7 +101,7 @@ class TransparencyRequest extends FormRequest
             return $this->getValidDates()->first();
         }
 
-        return Carbon::instance(DateTime::createFromFormat('!'.AllowedDateFormat::YM, $validDate));
+        return Carbon::instance(DateTime::createFromFormat('!'.AllowedDateFormat::YM->value, $validDate));
     }
 
     /**
@@ -124,9 +124,9 @@ class TransparencyRequest extends FormRequest
                 Balance::ATTRIBUTE_SERVICE,
                 Balance::ATTRIBUTE_USAGE,
             ])
-            ->whereMonth(Balance::ATTRIBUTE_DATE, ComparisonOperator::EQ, $date)
-            ->whereYear(Balance::ATTRIBUTE_DATE, ComparisonOperator::EQ, $date)
-            ->orderBy(Balance::ATTRIBUTE_USAGE, Direction::DESCENDING)
+            ->whereMonth(Balance::ATTRIBUTE_DATE, ComparisonOperator::EQ->value, $date)
+            ->whereYear(Balance::ATTRIBUTE_DATE, ComparisonOperator::EQ->value, $date)
+            ->orderBy(Balance::ATTRIBUTE_USAGE, Direction::DESCENDING->value)
             ->get();
     }
 
@@ -150,9 +150,9 @@ class TransparencyRequest extends FormRequest
                 Transaction::ATTRIBUTE_DESCRIPTION,
                 Transaction::ATTRIBUTE_SERVICE,
             ])
-            ->whereMonth(Transaction::ATTRIBUTE_DATE, ComparisonOperator::EQ, $date)
-            ->whereYear(Transaction::ATTRIBUTE_DATE, ComparisonOperator::EQ, $date)
-            ->orderBy(Transaction::ATTRIBUTE_DATE, Direction::DESCENDING)
+            ->whereMonth(Transaction::ATTRIBUTE_DATE, ComparisonOperator::EQ->value, $date)
+            ->whereYear(Transaction::ATTRIBUTE_DATE, ComparisonOperator::EQ->value, $date)
+            ->orderBy(Transaction::ATTRIBUTE_DATE, Direction::DESCENDING->value)
             ->get();
     }
 }

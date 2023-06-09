@@ -84,12 +84,12 @@ class HasFilter extends Filter
     public function getAllowedComparisonOperators(): array
     {
         return [
-            ComparisonOperator::EQ(),
-            ComparisonOperator::NE(),
-            ComparisonOperator::LT(),
-            ComparisonOperator::GT(),
-            ComparisonOperator::LTE(),
-            ComparisonOperator::GTE(),
+            ComparisonOperator::EQ,
+            ComparisonOperator::NE,
+            ComparisonOperator::LT,
+            ComparisonOperator::GT,
+            ComparisonOperator::LTE,
+            ComparisonOperator::GTE,
         ];
     }
 }

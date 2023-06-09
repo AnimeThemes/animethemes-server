@@ -19,7 +19,7 @@ class ArtistMalResourceLens extends ArtistResourceLens
      */
     protected static function site(): ResourceSite
     {
-        return ResourceSite::MAL();
+        return ResourceSite::MAL;
     }
 
     /**

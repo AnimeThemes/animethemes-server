@@ -16,6 +16,7 @@ use App\Models\Wiki\Song;
 use App\Models\Wiki\Video;
 use App\Models\Wiki\Video\VideoScript;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
 /**
@@ -42,9 +43,11 @@ class AnimeFactory extends Factory
      */
     public function definition(): array
     {
+        $season = Arr::random(AnimeSeason::cases());
+
         return [
             Anime::ATTRIBUTE_NAME => fake()->words(3, true),
-            Anime::ATTRIBUTE_SEASON => AnimeSeason::getRandomValue(),
+            Anime::ATTRIBUTE_SEASON => $season->value,
             Anime::ATTRIBUTE_SLUG => Str::slug(fake()->text(191), '_'),
             Anime::ATTRIBUTE_SYNOPSIS => fake()->text(),
             Anime::ATTRIBUTE_YEAR => fake()->numberBetween(1960, intval(date('Y')) + 1),

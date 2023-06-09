@@ -29,8 +29,8 @@ class DigitalOceanBalanceRepository extends EloquentRepository
 
         return Balance::query()
             ->where(Balance::ATTRIBUTE_SERVICE, Service::DIGITALOCEAN)
-            ->whereMonth(Balance::ATTRIBUTE_DATE, ComparisonOperator::EQ, $now)
-            ->whereYear(Balance::ATTRIBUTE_DATE, ComparisonOperator::EQ, $now);
+            ->whereMonth(Balance::ATTRIBUTE_DATE, ComparisonOperator::EQ->value, $now)
+            ->whereYear(Balance::ATTRIBUTE_DATE, ComparisonOperator::EQ->value, $now);
     }
 
     /**

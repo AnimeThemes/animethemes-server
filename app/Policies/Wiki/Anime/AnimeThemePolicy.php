@@ -27,7 +27,7 @@ class AnimeThemePolicy
     public function viewAny(?User $user): bool
     {
         return Nova::whenServing(
-            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW()->format(AnimeTheme::class)),
+            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW->format(AnimeTheme::class)),
             fn (): bool => true
         );
     }
@@ -41,7 +41,7 @@ class AnimeThemePolicy
     public function view(?User $user): bool
     {
         return Nova::whenServing(
-            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW()->format(AnimeTheme::class)),
+            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW->format(AnimeTheme::class)),
             fn (): bool => true
         );
     }
@@ -54,7 +54,7 @@ class AnimeThemePolicy
      */
     public function create(User $user): bool
     {
-        return $user->can(CrudPermission::CREATE()->format(AnimeTheme::class));
+        return $user->can(CrudPermission::CREATE->format(AnimeTheme::class));
     }
 
     /**
@@ -66,7 +66,7 @@ class AnimeThemePolicy
      */
     public function update(User $user, AnimeTheme $animetheme): bool
     {
-        return ! $animetheme->trashed() && $user->can(CrudPermission::UPDATE()->format(AnimeTheme::class));
+        return ! $animetheme->trashed() && $user->can(CrudPermission::UPDATE->format(AnimeTheme::class));
     }
 
     /**
@@ -78,7 +78,7 @@ class AnimeThemePolicy
      */
     public function delete(User $user, AnimeTheme $animetheme): bool
     {
-        return ! $animetheme->trashed() && $user->can(CrudPermission::DELETE()->format(AnimeTheme::class));
+        return ! $animetheme->trashed() && $user->can(CrudPermission::DELETE->format(AnimeTheme::class));
     }
 
     /**
@@ -90,7 +90,7 @@ class AnimeThemePolicy
      */
     public function restore(User $user, AnimeTheme $animetheme): bool
     {
-        return $animetheme->trashed() && $user->can(ExtendedCrudPermission::RESTORE()->format(AnimeTheme::class));
+        return $animetheme->trashed() && $user->can(ExtendedCrudPermission::RESTORE->format(AnimeTheme::class));
     }
 
     /**
@@ -101,6 +101,6 @@ class AnimeThemePolicy
      */
     public function forceDelete(User $user): bool
     {
-        return $user->can(ExtendedCrudPermission::FORCE_DELETE()->format(AnimeTheme::class));
+        return $user->can(ExtendedCrudPermission::FORCE_DELETE->format(AnimeTheme::class));
     }
 }

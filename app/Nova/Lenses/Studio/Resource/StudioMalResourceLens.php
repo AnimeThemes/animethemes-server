@@ -19,7 +19,7 @@ class StudioMalResourceLens extends StudioResourceLens
      */
     protected static function site(): ResourceSite
     {
-        return ResourceSite::MAL();
+        return ResourceSite::MAL;
     }
 
     /**

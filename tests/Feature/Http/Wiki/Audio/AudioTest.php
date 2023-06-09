@@ -12,6 +12,7 @@ use App\Features\AllowAudioStreams;
 use App\Models\Auth\User;
 use App\Models\Wiki\Audio;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
@@ -57,11 +58,14 @@ class AudioTest extends TestCase
         Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
 
         Feature::activate(AllowAudioStreams::class, $this->faker->boolean());
-        Config::set(AudioConstants::STREAMING_METHOD_QUALIFIED, StreamingMethod::getRandomValue());
+
+        /** @var StreamingMethod $streamingMethod */
+        $streamingMethod = Arr::random(StreamingMethod::cases());
+        Config::set(AudioConstants::STREAMING_METHOD_QUALIFIED, $streamingMethod->value);
 
         $audio = Audio::factory()->createOne();
 
-        $user = User::factory()->withPermissions(SpecialPermission::BYPASS_FEATURE_FLAGS)->createOne();
+        $user = User::factory()->withPermissions(SpecialPermission::BYPASS_FEATURE_FLAGS->value)->createOne();
 
         Sanctum::actingAs($user);
 
@@ -176,7 +180,7 @@ class AudioTest extends TestCase
         Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
 
         Feature::activate(AllowAudioStreams::class);
-        Config::set(AudioConstants::STREAMING_METHOD_QUALIFIED, StreamingMethod::RESPONSE);
+        Config::set(AudioConstants::STREAMING_METHOD_QUALIFIED, StreamingMethod::RESPONSE->value);
 
         $audio = Audio::factory()->createOne();
 
@@ -195,7 +199,7 @@ class AudioTest extends TestCase
         Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
 
         Feature::activate(AllowAudioStreams::class);
-        Config::set(AudioConstants::STREAMING_METHOD_QUALIFIED, StreamingMethod::NGINX);
+        Config::set(AudioConstants::STREAMING_METHOD_QUALIFIED, StreamingMethod::NGINX->value);
 
         $audio = Audio::factory()->createOne();
 

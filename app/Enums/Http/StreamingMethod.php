@@ -4,13 +4,11 @@ declare(strict_types=1);
 
 namespace App\Enums\Http;
 
-use App\Enums\BaseEnum;
-
 /**
- * Class StreamingMethod.
+ * Enum StreamingMethod.
  */
-class StreamingMethod extends BaseEnum
+enum StreamingMethod: string
 {
-    public const NGINX = 'nginx';
-    public const RESPONSE = 'response';
+    case NGINX = 'nginx';
+    case RESPONSE = 'response';
 }

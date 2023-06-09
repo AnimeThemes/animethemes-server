@@ -40,7 +40,7 @@ class ReconcileBalanceRepositoriesAction extends ReconcileRepositoriesAction
      */
     protected function diffCallbackForCreateDelete(): Closure
     {
-        return fn (Balance $first, Balance $second) => $first->date->format(AllowedDateFormat::YM) <=> $second->date->format(AllowedDateFormat::YM);
+        return fn (Balance $first, Balance $second) => $first->date->format(AllowedDateFormat::YM->value) <=> $second->date->format(AllowedDateFormat::YM->value);
     }
 
     /**
@@ -67,8 +67,8 @@ class ReconcileBalanceRepositoriesAction extends ReconcileRepositoriesAction
      */
     protected function diffCallbackForUpdate(): Closure
     {
-        return fn (Balance $first, Balance $second) => [$first->date->format(AllowedDateFormat::YMD), $first->usage, $first->balance]
-            <=> [$second->date->format(AllowedDateFormat::YMD), $second->usage, $second->balance];
+        return fn (Balance $first, Balance $second) => [$first->date->format(AllowedDateFormat::YMD->value), $first->usage, $first->balance]
+            <=> [$second->date->format(AllowedDateFormat::YMD->value), $second->usage, $second->balance];
     }
 
     /**
@@ -80,10 +80,10 @@ class ReconcileBalanceRepositoriesAction extends ReconcileRepositoriesAction
      */
     protected function resolveUpdatedModel(Collection $sourceModels, Model $destinationModel): ?Model
     {
-        $formattedDestinationDate = $destinationModel->getAttribute(Balance::ATTRIBUTE_DATE)->format(AllowedDateFormat::YM);
+        $formattedDestinationDate = $destinationModel->getAttribute(Balance::ATTRIBUTE_DATE)->format(AllowedDateFormat::YM->value);
 
         return $sourceModels->first(
-            fn (Balance $balance) => $balance->date->format(AllowedDateFormat::YM) === $formattedDestinationDate
+            fn (Balance $balance) => $balance->date->format(AllowedDateFormat::YM->value) === $formattedDestinationDate
         );
     }
 

@@ -60,7 +60,7 @@ class PlaylistController extends BaseController
     {
         $query = new Query($request->validated());
 
-        $builder = Playlist::query()->where(Playlist::ATTRIBUTE_VISIBILITY, PlaylistVisibility::PUBLIC);
+        $builder = Playlist::query()->where(Playlist::ATTRIBUTE_VISIBILITY, PlaylistVisibility::PUBLIC->value);
 
         $playlists = $query->hasSearchCriteria()
             ? $action->search($query, $request->schema())

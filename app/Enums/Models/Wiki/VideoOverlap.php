@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace App\Enums\Models\Wiki;
 
-use App\Enums\BaseEnum;
+use App\Concerns\Enums\CoercesInstances;
+use App\Concerns\Enums\LocalizesName;
 
 /**
- * Class VideoOverlap.
- *
- * @method static static NONE()
- * @method static static TRANS()
- * @method static static OVER()
+ * Enum VideoOverlap.
  */
-final class VideoOverlap extends BaseEnum
+enum VideoOverlap: int
 {
-    public const NONE = 0;
-    public const TRANS = 1;
-    public const OVER = 2;
+    use CoercesInstances;
+    use LocalizesName;
+
+    case NONE = 0;
+    case TRANS = 1;
+    case OVER = 2;
 }

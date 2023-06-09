@@ -43,7 +43,7 @@ class BalanceReconcileTest extends TestCase
      */
     public function testOther(): void
     {
-        $other = Service::OTHER()->key;
+        $other = Service::OTHER->name;
 
         $this->artisan(BalanceReconcileCommand::class, ['service' => $other])
             ->assertFailed()
@@ -63,7 +63,7 @@ class BalanceReconcileTest extends TestCase
             $mock->shouldReceive('get')->once()->andReturn(Collection::make());
         });
 
-        $this->artisan(BalanceReconcileCommand::class, ['service' => Service::DIGITALOCEAN()->key])
+        $this->artisan(BalanceReconcileCommand::class, ['service' => Service::DIGITALOCEAN->name])
             ->assertSuccessful()
             ->expectsOutput('No Balances created or deleted or updated');
     }
@@ -82,7 +82,7 @@ class BalanceReconcileTest extends TestCase
         $balances = Balance::factory()
             ->count($createdBalanceCount)
             ->make([
-                Balance::ATTRIBUTE_DATE => Date::now()->format(AllowedDateFormat::YMD),
+                Balance::ATTRIBUTE_DATE => Date::now()->format(AllowedDateFormat::YMD->value),
                 Balance::ATTRIBUTE_SERVICE => Service::DIGITALOCEAN,
             ]);
 
@@ -90,7 +90,7 @@ class BalanceReconcileTest extends TestCase
             $mock->shouldReceive('get')->once()->andReturn($balances);
         });
 
-        $this->artisan(BalanceReconcileCommand::class, ['service' => Service::DIGITALOCEAN()->key])
+        $this->artisan(BalanceReconcileCommand::class, ['service' => Service::DIGITALOCEAN->name])
             ->assertSuccessful()
             ->expectsOutput("$createdBalanceCount Balances created, 0 Balances deleted, 0 Balances updated");
     }
@@ -107,7 +107,7 @@ class BalanceReconcileTest extends TestCase
         Balance::factory()
             ->count($deletedBalanceCount)
             ->create([
-                Balance::ATTRIBUTE_DATE => Date::now()->format(AllowedDateFormat::YMD),
+                Balance::ATTRIBUTE_DATE => Date::now()->format(AllowedDateFormat::YMD->value),
                 Balance::ATTRIBUTE_SERVICE => Service::DIGITALOCEAN,
             ]);
 
@@ -115,7 +115,7 @@ class BalanceReconcileTest extends TestCase
             $mock->shouldReceive('get')->once()->andReturn(Collection::make());
         });
 
-        $this->artisan(BalanceReconcileCommand::class, ['service' => Service::DIGITALOCEAN()->key])
+        $this->artisan(BalanceReconcileCommand::class, ['service' => Service::DIGITALOCEAN->name])
             ->assertSuccessful()
             ->expectsOutput("0 Balances created, $deletedBalanceCount Balances deleted, 0 Balances updated");
     }
@@ -129,13 +129,13 @@ class BalanceReconcileTest extends TestCase
     {
         Balance::factory()
             ->create([
-                Balance::ATTRIBUTE_DATE => Date::now()->format(AllowedDateFormat::YMD),
+                Balance::ATTRIBUTE_DATE => Date::now()->format(AllowedDateFormat::YMD->value),
                 Balance::ATTRIBUTE_SERVICE => Service::DIGITALOCEAN,
             ]);
 
         $sourceBalances = Balance::factory()
             ->make([
-                Balance::ATTRIBUTE_DATE => Date::now()->format(AllowedDateFormat::YMD),
+                Balance::ATTRIBUTE_DATE => Date::now()->format(AllowedDateFormat::YMD->value),
                 Balance::ATTRIBUTE_SERVICE => Service::DIGITALOCEAN,
             ]);
 
@@ -143,7 +143,7 @@ class BalanceReconcileTest extends TestCase
             $mock->shouldReceive('get')->once()->andReturn(collect([$sourceBalances]));
         });
 
-        $this->artisan(BalanceReconcileCommand::class, ['service' => Service::DIGITALOCEAN()->key])
+        $this->artisan(BalanceReconcileCommand::class, ['service' => Service::DIGITALOCEAN->name])
             ->assertSuccessful()
             ->expectsOutput('0 Balances created, 0 Balances deleted, 1 Balance updated');
     }

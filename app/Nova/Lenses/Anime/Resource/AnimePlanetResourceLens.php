@@ -19,7 +19,7 @@ class AnimePlanetResourceLens extends AnimeResourceLens
      */
     protected static function site(): ResourceSite
     {
-        return ResourceSite::ANIME_PLANET();
+        return ResourceSite::ANIME_PLANET;
     }
 
     /**

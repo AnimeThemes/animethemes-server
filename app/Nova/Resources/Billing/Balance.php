@@ -9,8 +9,7 @@ use App\Enums\Models\Billing\Service;
 use App\Models\Billing\Balance as BalanceModel;
 use App\Nova\Actions\Repositories\Billing\Balance\ReconcileBalanceAction;
 use App\Nova\Resources\BaseResource;
-use BenSampo\Enum\Enum;
-use BenSampo\Enum\Rules\EnumValue;
+use Illuminate\Validation\Rules\Enum;
 use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\ID;
@@ -131,9 +130,9 @@ class Balance extends BaseResource
 
             Select::make(__('nova.fields.balance.service.name'), BalanceModel::ATTRIBUTE_SERVICE)
                 ->options(Service::asSelectArray())
-                ->displayUsing(fn (?Enum $enum) => $enum?->description)
+                ->displayUsing(fn (?int $enumValue) => Service::tryFrom($enumValue)?->localize())
                 ->sortable()
-                ->rules(['required', new EnumValue(Service::class, false)])
+                ->rules(['required', new Enum(Service::class)])
                 ->help(__('nova.fields.balance.service.help'))
                 ->showOnPreview()
                 ->filterable()
@@ -141,9 +140,9 @@ class Balance extends BaseResource
 
             Select::make(__('nova.fields.balance.frequency.name'), BalanceModel::ATTRIBUTE_FREQUENCY)
                 ->options(BalanceFrequency::asSelectArray())
-                ->displayUsing(fn (?Enum $enum) => $enum?->description)
+                ->displayUsing(fn (?int $enumValue) => BalanceFrequency::tryFrom($enumValue)?->localize())
                 ->sortable()
-                ->rules(['required', new EnumValue(BalanceFrequency::class, false)])
+                ->rules(['required', new Enum(BalanceFrequency::class)])
                 ->help(__('nova.fields.balance.frequency.help'))
                 ->showOnPreview()
                 ->filterable()

@@ -10,8 +10,8 @@ use App\Enums\Models\List\PlaylistVisibility;
 use App\Http\Api\Field\EnumField;
 use App\Http\Api\Schema\Schema;
 use App\Models\List\Playlist;
-use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rules\Enum;
 
 /**
  * Class PlaylistVisibilityField.
@@ -38,7 +38,7 @@ class PlaylistVisibilityField extends EnumField implements CreatableField, Updat
     {
         return [
             'required',
-            new EnumValue(PlaylistVisibility::class),
+            new Enum(PlaylistVisibility::class),
         ];
     }
 
@@ -53,7 +53,7 @@ class PlaylistVisibilityField extends EnumField implements CreatableField, Updat
         return [
             'sometimes',
             'required',
-            new EnumValue(PlaylistVisibility::class),
+            new Enum(PlaylistVisibility::class),
         ];
     }
 }

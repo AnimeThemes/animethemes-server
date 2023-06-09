@@ -28,7 +28,7 @@ class SettingCreated extends SettingEvent
 
         return DiscordMessage::create('', [
             'description' => "Setting '**{$setting->getName()}**' has been created.",
-            'color' => EmbedColor::GREEN,
+            'color' => EmbedColor::GREEN->value,
         ]);
     }
 }

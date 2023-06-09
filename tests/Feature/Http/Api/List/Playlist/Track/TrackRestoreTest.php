@@ -88,7 +88,7 @@ class TrackRestoreTest extends TestCase
             ->for(Playlist::factory()->for(User::factory()))
             ->createOne();
 
-        $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE()->format(PlaylistTrack::class))->createOne();
+        $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE->format(PlaylistTrack::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -108,13 +108,13 @@ class TrackRestoreTest extends TestCase
 
         Feature::activate(AllowPlaylistManagement::class);
 
-        $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE()->format(PlaylistTrack::class))->createOne();
+        $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE->format(PlaylistTrack::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)
             ->has(PlaylistTrack::factory()->count($this->faker->randomDigitNotNull()), Playlist::RELATION_TRACKS)
             ->createOne([
-                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
+                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
             ]);
 
         $track = PlaylistTrack::factory()
@@ -139,7 +139,7 @@ class TrackRestoreTest extends TestCase
 
         Feature::activate(AllowPlaylistManagement::class);
 
-        $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE()->format(PlaylistTrack::class))->createOne();
+        $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE->format(PlaylistTrack::class))->createOne();
 
         $track = PlaylistTrack::factory()
             ->for(Playlist::factory()->for($user))
@@ -166,8 +166,8 @@ class TrackRestoreTest extends TestCase
 
         $user = User::factory()
             ->withPermissions(
-                CrudPermission::DELETE()->format(PlaylistTrack::class),
-                ExtendedCrudPermission::RESTORE()->format(PlaylistTrack::class)
+                CrudPermission::DELETE->format(PlaylistTrack::class),
+                ExtendedCrudPermission::RESTORE->format(PlaylistTrack::class)
             )
             ->createOne();
 
@@ -201,8 +201,8 @@ class TrackRestoreTest extends TestCase
 
         $user = User::factory()
             ->withPermissions(
-                CrudPermission::DELETE()->format(PlaylistTrack::class),
-                ExtendedCrudPermission::RESTORE()->format(PlaylistTrack::class))
+                CrudPermission::DELETE->format(PlaylistTrack::class),
+                ExtendedCrudPermission::RESTORE->format(PlaylistTrack::class))
             ->createOne();
 
         $playlist = Playlist::factory()
@@ -246,8 +246,8 @@ class TrackRestoreTest extends TestCase
 
         $user = User::factory()
             ->withPermissions(
-                CrudPermission::DELETE()->format(PlaylistTrack::class),
-                ExtendedCrudPermission::RESTORE()->format(PlaylistTrack::class)
+                CrudPermission::DELETE->format(PlaylistTrack::class),
+                ExtendedCrudPermission::RESTORE->format(PlaylistTrack::class)
             )
             ->createOne();
 
@@ -299,8 +299,8 @@ class TrackRestoreTest extends TestCase
 
         $user = User::factory()
             ->withPermissions(
-                CrudPermission::DELETE()->format(PlaylistTrack::class),
-                ExtendedCrudPermission::RESTORE()->format(PlaylistTrack::class)
+                CrudPermission::DELETE->format(PlaylistTrack::class),
+                ExtendedCrudPermission::RESTORE->format(PlaylistTrack::class)
             )
             ->createOne();
 
@@ -347,8 +347,8 @@ class TrackRestoreTest extends TestCase
 
         $user = User::factory()
             ->withPermissions(
-                CrudPermission::DELETE()->format(PlaylistTrack::class),
-                ExtendedCrudPermission::RESTORE()->format(PlaylistTrack::class)
+                CrudPermission::DELETE->format(PlaylistTrack::class),
+                ExtendedCrudPermission::RESTORE->format(PlaylistTrack::class)
             )
             ->createOne();
 
@@ -403,9 +403,9 @@ class TrackRestoreTest extends TestCase
 
         $user = User::factory()
             ->withPermissions(
-                CrudPermission::DELETE()->format(PlaylistTrack::class),
-                ExtendedCrudPermission::RESTORE()->format(PlaylistTrack::class),
-                SpecialPermission::BYPASS_FEATURE_FLAGS
+                CrudPermission::DELETE->format(PlaylistTrack::class),
+                ExtendedCrudPermission::RESTORE->format(PlaylistTrack::class),
+                SpecialPermission::BYPASS_FEATURE_FLAGS->value
             )
             ->createOne();
 
@@ -442,8 +442,8 @@ class TrackRestoreTest extends TestCase
 
         $user = User::factory()
             ->withPermissions(
-                CrudPermission::DELETE()->format(PlaylistTrack::class),
-                ExtendedCrudPermission::RESTORE()->format(PlaylistTrack::class)
+                CrudPermission::DELETE->format(PlaylistTrack::class),
+                ExtendedCrudPermission::RESTORE->format(PlaylistTrack::class)
             )
             ->createOne();
 
@@ -482,9 +482,9 @@ class TrackRestoreTest extends TestCase
 
         $user = User::factory()
             ->withPermissions(
-                CrudPermission::DELETE()->format(PlaylistTrack::class),
-                ExtendedCrudPermission::RESTORE()->format(PlaylistTrack::class),
-                SpecialPermission::BYPASS_FEATURE_FLAGS
+                CrudPermission::DELETE->format(PlaylistTrack::class),
+                ExtendedCrudPermission::RESTORE->format(PlaylistTrack::class),
+                SpecialPermission::BYPASS_FEATURE_FLAGS->value
             )
             ->createOne();
 

@@ -54,7 +54,7 @@ class DigitalOceanTransactionRepository extends DigitalOceanRepository
 
                 $sourceTransactions[] = new Transaction([
                     Transaction::ATTRIBUTE_AMOUNT => Arr::get($sourceTransaction, 'amount'),
-                    Transaction::ATTRIBUTE_DATE => $date->format(AllowedDateFormat::YMD),
+                    Transaction::ATTRIBUTE_DATE => $date->format(AllowedDateFormat::YMD->value),
                     Transaction::ATTRIBUTE_DESCRIPTION => Arr::get($sourceTransaction, 'description'),
                     Transaction::ATTRIBUTE_EXTERNAL_ID => Arr::get($sourceTransaction, 'invoice_id'),
                     Transaction::ATTRIBUTE_SERVICE => Service::DIGITALOCEAN,

@@ -87,7 +87,7 @@ class TransparencyDateTest extends TestCase
     {
         $validDates = collect([Date::now()]);
 
-        $formattedDate = Date::now()->subMonths($this->faker->randomDigitNotNull())->format(AllowedDateFormat::YM);
+        $formattedDate = Date::now()->subMonths($this->faker->randomDigitNotNull())->format(AllowedDateFormat::YM->value);
 
         $attribute = $this->faker->word();
 
@@ -108,7 +108,7 @@ class TransparencyDateTest extends TestCase
     {
         $validDates = collect([Date::now()]);
 
-        $formattedDate = Date::now()->format(AllowedDateFormat::YM);
+        $formattedDate = Date::now()->format(AllowedDateFormat::YM->value);
 
         $attribute = $this->faker->word();
 

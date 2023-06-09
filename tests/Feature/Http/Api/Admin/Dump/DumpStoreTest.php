@@ -54,7 +54,7 @@ class DumpStoreTest extends TestCase
      */
     public function testRequiredFields(): void
     {
-        $user = User::factory()->withPermissions(CrudPermission::CREATE()->format(Dump::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(Dump::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -74,7 +74,7 @@ class DumpStoreTest extends TestCase
     {
         $parameters = Dump::factory()->raw();
 
-        $user = User::factory()->withPermissions(CrudPermission::CREATE()->format(Dump::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(Dump::class))->createOne();
 
         Sanctum::actingAs($user);
 

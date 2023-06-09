@@ -19,7 +19,7 @@ class AnimeCoverSmallLens extends AnimeImageLens
      */
     protected static function facet(): ImageFacet
     {
-        return ImageFacet::COVER_SMALL();
+        return ImageFacet::COVER_SMALL;
     }
 
     /**

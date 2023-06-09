@@ -27,7 +27,7 @@ class AnnouncementPolicy
     public function viewAny(?User $user): bool
     {
         return Nova::whenServing(
-            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW()->format(Announcement::class)),
+            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW->format(Announcement::class)),
             fn (): bool => true
         );
     }
@@ -41,7 +41,7 @@ class AnnouncementPolicy
     public function view(?User $user): bool
     {
         return Nova::whenServing(
-            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW()->format(Announcement::class)),
+            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW->format(Announcement::class)),
             fn (): bool => true
         );
     }
@@ -54,7 +54,7 @@ class AnnouncementPolicy
      */
     public function create(User $user): bool
     {
-        return $user->can(CrudPermission::CREATE()->format(Announcement::class));
+        return $user->can(CrudPermission::CREATE->format(Announcement::class));
     }
 
     /**
@@ -66,7 +66,7 @@ class AnnouncementPolicy
      */
     public function update(User $user, Announcement $announcement): bool
     {
-        return ! $announcement->trashed() && $user->can(CrudPermission::UPDATE()->format(Announcement::class));
+        return ! $announcement->trashed() && $user->can(CrudPermission::UPDATE->format(Announcement::class));
     }
 
     /**
@@ -78,7 +78,7 @@ class AnnouncementPolicy
      */
     public function delete(User $user, Announcement $announcement): bool
     {
-        return ! $announcement->trashed() && $user->can(CrudPermission::DELETE()->format(Announcement::class));
+        return ! $announcement->trashed() && $user->can(CrudPermission::DELETE->format(Announcement::class));
     }
 
     /**
@@ -90,7 +90,7 @@ class AnnouncementPolicy
      */
     public function restore(User $user, Announcement $announcement): bool
     {
-        return $announcement->trashed() && $user->can(ExtendedCrudPermission::RESTORE()->format(Announcement::class));
+        return $announcement->trashed() && $user->can(ExtendedCrudPermission::RESTORE->format(Announcement::class));
     }
 
     /**
@@ -101,6 +101,6 @@ class AnnouncementPolicy
      */
     public function forceDelete(User $user): bool
     {
-        return $user->can(ExtendedCrudPermission::FORCE_DELETE()->format(Announcement::class));
+        return $user->can(ExtendedCrudPermission::FORCE_DELETE->format(Announcement::class));
     }
 }

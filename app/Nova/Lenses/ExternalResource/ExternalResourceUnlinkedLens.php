@@ -8,7 +8,6 @@ use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\BaseModel;
 use App\Models\Wiki\ExternalResource;
 use App\Nova\Lenses\BaseLens;
-use BenSampo\Enum\Enum;
 use Illuminate\Database\Eloquent\Builder;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\ID;
@@ -62,7 +61,7 @@ class ExternalResourceUnlinkedLens extends BaseLens
 
             Select::make(__('nova.fields.external_resource.site.name'), ExternalResource::ATTRIBUTE_SITE)
                 ->options(ResourceSite::asSelectArray())
-                ->displayUsing(fn (?Enum $enum) => $enum?->description)
+                ->displayUsing(fn (?int $enumValue) => ResourceSite::tryFrom($enumValue)?->localize())
                 ->sortable()
                 ->showOnPreview()
                 ->filterable(),

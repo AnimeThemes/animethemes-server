@@ -27,7 +27,7 @@ class BalancePolicy
     public function viewAny(?User $user): bool
     {
         return Nova::whenServing(
-            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW()->format(Balance::class)),
+            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW->format(Balance::class)),
             fn (): bool => true
         );
     }
@@ -41,7 +41,7 @@ class BalancePolicy
     public function view(?User $user): bool
     {
         return Nova::whenServing(
-            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW()->format(Balance::class)),
+            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW->format(Balance::class)),
             fn (): bool => true
         );
     }
@@ -54,7 +54,7 @@ class BalancePolicy
      */
     public function create(User $user): bool
     {
-        return $user->can(CrudPermission::CREATE()->format(Balance::class));
+        return $user->can(CrudPermission::CREATE->format(Balance::class));
     }
 
     /**
@@ -66,7 +66,7 @@ class BalancePolicy
      */
     public function update(User $user, Balance $balance): bool
     {
-        return ! $balance->trashed() && $user->can(CrudPermission::UPDATE()->format(Balance::class));
+        return ! $balance->trashed() && $user->can(CrudPermission::UPDATE->format(Balance::class));
     }
 
     /**
@@ -78,7 +78,7 @@ class BalancePolicy
      */
     public function delete(User $user, Balance $balance): bool
     {
-        return ! $balance->trashed() && $user->can(CrudPermission::DELETE()->format(Balance::class));
+        return ! $balance->trashed() && $user->can(CrudPermission::DELETE->format(Balance::class));
     }
 
     /**
@@ -90,7 +90,7 @@ class BalancePolicy
      */
     public function restore(User $user, Balance $balance): bool
     {
-        return $balance->trashed() && $user->can(ExtendedCrudPermission::RESTORE()->format(Balance::class));
+        return $balance->trashed() && $user->can(ExtendedCrudPermission::RESTORE->format(Balance::class));
     }
 
     /**
@@ -101,6 +101,6 @@ class BalancePolicy
      */
     public function forceDelete(User $user): bool
     {
-        return $user->can(ExtendedCrudPermission::FORCE_DELETE()->format(Balance::class));
+        return $user->can(ExtendedCrudPermission::FORCE_DELETE->format(Balance::class));
     }
 }

@@ -9,6 +9,7 @@ use App\Enums\Models\Wiki\VideoOverlap;
 use App\Enums\Models\Wiki\VideoSource;
 use App\Models\Auth\User;
 use App\Models\Wiki\Video;
+use Illuminate\Support\Arr;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
@@ -56,7 +57,7 @@ class VideoStoreTest extends TestCase
      */
     public function testRequiredFields(): void
     {
-        $user = User::factory()->withPermissions(CrudPermission::CREATE()->format(Video::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(Video::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -78,15 +79,18 @@ class VideoStoreTest extends TestCase
      */
     public function testCreate(): void
     {
+        $overlap = Arr::random(VideoOverlap::cases());
+        $source = Arr::random(VideoSource::cases());
+
         $parameters = array_merge(
             Video::factory()->raw(),
             [
-                Video::ATTRIBUTE_OVERLAP => VideoOverlap::getRandomInstance()->description,
-                Video::ATTRIBUTE_SOURCE => VideoSource::getRandomInstance()->description,
+                Video::ATTRIBUTE_OVERLAP => $overlap->localize(),
+                Video::ATTRIBUTE_SOURCE => $source->localize(),
             ]
         );
 
-        $user = User::factory()->withPermissions(CrudPermission::CREATE()->format(Video::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(Video::class))->createOne();
 
         Sanctum::actingAs($user);
 

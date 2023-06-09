@@ -34,7 +34,7 @@ readonly class ArtistResourceLinkFormatRule implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        $pattern = match ($this->site->value) {
+        $pattern = match ($this->site) {
             ResourceSite::TWITTER => '/^https:\/\/twitter\.com\/\w+$/',
             ResourceSite::ANIDB => '/^https:\/\/anidb\.net\/creator\/(?:virtual\/)?\d+$/',
             ResourceSite::ANILIST => '/^https:\/\/anilist\.co\/staff\/\d+$/',

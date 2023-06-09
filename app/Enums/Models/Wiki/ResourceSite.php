@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Enums\Models\Wiki;
 
-use App\Enums\BaseEnum;
+use App\Concerns\Enums\LocalizesName;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
@@ -12,52 +12,44 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 /**
- * Class ResourceSite.
- *
- * @method static static OFFICIAL_SITE()
- * @method static static TWITTER()
- * @method static static ANIDB()
- * @method static static ANILIST()
- * @method static static ANIME_PLANET()
- * @method static static ANN()
- * @method static static KITSU()
- * @method static static MAL()
- * @method static static WIKI()
+ * Enum ResourceSite.
  */
-final class ResourceSite extends BaseEnum
+enum ResourceSite: int
 {
+    use LocalizesName;
+
     // Official Media
-    public const OFFICIAL_SITE = 0;
-    public const TWITTER = 1;
+    case OFFICIAL_SITE = 0;
+    case TWITTER = 1;
 
     // Tracking Sites
-    public const ANIDB = 2;
-    public const ANILIST = 3;
-    public const ANIME_PLANET = 4;
-    public const ANN = 5;
-    public const KITSU = 6;
-    public const MAL = 7;
+    case ANIDB = 2;
+    case ANILIST = 3;
+    case ANIME_PLANET = 4;
+    case ANN = 5;
+    case KITSU = 6;
+    case MAL = 7;
 
     // Compendia
-    public const WIKI = 8;
+    case WIKI = 8;
 
     /**
      * Get domain by resource site.
      *
-     * @param  int|null  $value  the resource site key
+     * @param  int|null  $value
      * @return string|null
      */
     public static function getDomain(?int $value): ?string
     {
         return match ($value) {
-            self::TWITTER => 'twitter.com',
-            self::ANIDB => 'anidb.net',
-            self::ANILIST => 'anilist.co',
-            self::ANIME_PLANET => 'www.anime-planet.com',
-            self::ANN => 'www.animenewsnetwork.com',
-            self::KITSU => 'kitsu.io',
-            self::MAL => 'myanimelist.net',
-            self::WIKI => 'wikipedia.org',
+            ResourceSite::TWITTER->value => 'twitter.com',
+            ResourceSite::ANIDB->value => 'anidb.net',
+            ResourceSite::ANILIST->value => 'anilist.co',
+            ResourceSite::ANIME_PLANET->value => 'www.anime-planet.com',
+            ResourceSite::ANN->value => 'www.animenewsnetwork.com',
+            ResourceSite::KITSU->value => 'kitsu.io',
+            ResourceSite::MAL->value => 'myanimelist.net',
+            ResourceSite::WIKI->value => 'wikipedia.org',
             default => null,
         };
     }
@@ -65,7 +57,7 @@ final class ResourceSite extends BaseEnum
     /**
      * Get resource site by link, matching expected domain.
      *
-     * @param  string  $link  the link to test
+     * @param  string  $link
      * @return ResourceSite|null
      */
     public static function valueOf(string $link): ?ResourceSite
@@ -73,7 +65,7 @@ final class ResourceSite extends BaseEnum
         $parsedHost = parse_url($link, PHP_URL_HOST);
 
         return Arr::first(
-            ResourceSite::getInstances(),
+            ResourceSite::cases(),
             fn (ResourceSite $site) => $parsedHost === ResourceSite::getDomain($site->value)
         );
     }
@@ -88,13 +80,13 @@ final class ResourceSite extends BaseEnum
     {
         $site = ResourceSite::valueOf($link);
 
-        return match ($site?->value) {
+        return match ($site) {
             ResourceSite::ANIDB,
             ResourceSite::ANILIST,
             ResourceSite::ANN,
             ResourceSite::MAL => Str::match('/\d+/', $link),
-            ResourceSite::ANIME_PLANET => self::parseAnimePlanetIdFromLink($link),
-            ResourceSite::KITSU => self::parseKitsuIdFromLink($link),
+            ResourceSite::ANIME_PLANET => ResourceSite::parseAnimePlanetIdFromLink($link),
+            ResourceSite::KITSU => ResourceSite::parseKitsuIdFromLink($link),
             default => null,
         };
     }
@@ -173,7 +165,7 @@ final class ResourceSite extends BaseEnum
      */
     public function formatAnimeResourceLink(int $id, ?string $slug = null): ?string
     {
-        return match ($this->value) {
+        return match ($this) {
             ResourceSite::TWITTER => "https://twitter.com/$slug",
             ResourceSite::ANIDB => "https://anidb.net/anime/$id",
             ResourceSite::ANILIST => "https://anilist.co/anime/$id",
@@ -194,7 +186,7 @@ final class ResourceSite extends BaseEnum
      */
     public function formatArtistResourceLink(int $id, ?string $slug = null): ?string
     {
-        return match ($this->value) {
+        return match ($this) {
             ResourceSite::TWITTER => "https://twitter.com/$slug",
             ResourceSite::ANIDB => "https://anidb.net/creator/$id",
             ResourceSite::ANILIST => "https://anilist.co/staff/$id",
@@ -214,7 +206,7 @@ final class ResourceSite extends BaseEnum
      */
     public function formatStudioResourceLink(int $id, ?string $slug = null): ?string
     {
-        return match ($this->value) {
+        return match ($this) {
             ResourceSite::TWITTER => "https://twitter.com/$slug",
             ResourceSite::ANIDB => "https://anidb.net/creator/$id",
             ResourceSite::ANILIST => "https://anilist.co/studio/$id",

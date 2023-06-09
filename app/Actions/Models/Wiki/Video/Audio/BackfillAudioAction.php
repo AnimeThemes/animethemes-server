@@ -46,8 +46,8 @@ class BackfillAudioAction extends BackfillAction
      */
     public function __construct(
         Video $video,
-        protected readonly DeriveSourceVideo $deriveSourceVideo = new DeriveSourceVideo(DeriveSourceVideo::YES),
-        protected readonly OverwriteAudio $overwriteAudio = new OverwriteAudio(OverwriteAudio::NO)
+        protected readonly DeriveSourceVideo $deriveSourceVideo = DeriveSourceVideo::YES,
+        protected readonly OverwriteAudio $overwriteAudio = OverwriteAudio::NO
     ) {
         parent::__construct($video);
     }
@@ -67,7 +67,7 @@ class BackfillAudioAction extends BackfillAction
             if ($this->relation()->getQuery()->exists() && ! $this->overwriteAudio()) {
                 Log::info("{$this->label()} '{$this->getModel()->getName()}' already has Audio'.");
 
-                return new ActionResult(ActionStatus::SKIPPED());
+                return new ActionResult(ActionStatus::SKIPPED);
             }
 
             $audio = $this->getAudio();
@@ -78,7 +78,7 @@ class BackfillAudioAction extends BackfillAction
 
             if ($this->relation()->getQuery()->doesntExist()) {
                 return new ActionResult(
-                    ActionStatus::FAILED(),
+                    ActionStatus::FAILED,
                     "{$this->label()} '{$this->getModel()->getName()}' has no Audio after backfilling. Please review."
                 );
             }
@@ -92,7 +92,7 @@ class BackfillAudioAction extends BackfillAction
             throw $e;
         }
 
-        return new ActionResult(ActionStatus::PASSED());
+        return new ActionResult(ActionStatus::PASSED);
     }
 
     /**
@@ -122,7 +122,7 @@ class BackfillAudioAction extends BackfillAction
      */
     protected function deriveSourceVideo(): bool
     {
-        return DeriveSourceVideo::YES()->is($this->deriveSourceVideo);
+        return DeriveSourceVideo::YES === $this->deriveSourceVideo;
     }
 
     /**
@@ -132,7 +132,7 @@ class BackfillAudioAction extends BackfillAction
      */
     protected function overwriteAudio(): bool
     {
-        return OverwriteAudio::YES()->is($this->overwriteAudio);
+        return OverwriteAudio::YES === $this->overwriteAudio;
     }
 
     /**

@@ -67,8 +67,8 @@ class AnimeStudioDestroyTest extends TestCase
 
         $user = User::factory()
             ->withPermissions(
-                CrudPermission::DELETE()->format(Anime::class),
-                CrudPermission::DELETE()->format(Studio::class)
+                CrudPermission::DELETE->format(Anime::class),
+                CrudPermission::DELETE->format(Studio::class)
             )
             ->createOne();
 
@@ -93,8 +93,8 @@ class AnimeStudioDestroyTest extends TestCase
 
         $user = User::factory()
             ->withPermissions(
-                CrudPermission::DELETE()->format(Anime::class),
-                CrudPermission::DELETE()->format(Studio::class)
+                CrudPermission::DELETE->format(Anime::class),
+                CrudPermission::DELETE->format(Studio::class)
             )
             ->createOne();
 

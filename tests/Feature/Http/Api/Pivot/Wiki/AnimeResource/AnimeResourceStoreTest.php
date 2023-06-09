@@ -69,8 +69,8 @@ class AnimeResourceStoreTest extends TestCase
 
         $user = User::factory()
             ->withPermissions(
-                CrudPermission::CREATE()->format(Anime::class),
-                CrudPermission::CREATE()->format(ExternalResource::class)
+                CrudPermission::CREATE->format(Anime::class),
+                CrudPermission::CREATE->format(ExternalResource::class)
             )
             ->createOne();
 

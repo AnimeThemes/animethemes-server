@@ -32,7 +32,7 @@ abstract class AnimeResourceLens extends AnimeLens
      */
     public function name(): string
     {
-        return __('nova.lenses.anime.resources.name', ['site' => static::site()->description]);
+        return __('nova.lenses.anime.resources.name', ['site' => static::site()->localize()]);
     }
 
     /**

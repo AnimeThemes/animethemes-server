@@ -35,8 +35,8 @@ class ModerationRule implements ValidationRule
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         match (Config::get(ValidationConstants::MODERATION_SERVICE_QUALIFIED)) {
-            ModerationService::NONE => null,
-            ModerationService::OPENAI => $this->validateForOpenAI($attribute, $value, $fail),
+            ModerationService::NONE->value => null,
+            ModerationService::OPENAI->value => $this->validateForOpenAI($attribute, $value, $fail),
             default => throw new RuntimeException('Invalid moderation service config value'),
         };
     }

@@ -54,7 +54,7 @@ class ScriptStoreTest extends TestCase
      */
     public function testRequiredFields(): void
     {
-        $user = User::factory()->withPermissions(CrudPermission::CREATE()->format(VideoScript::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(VideoScript::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -74,7 +74,7 @@ class ScriptStoreTest extends TestCase
     {
         $parameters = VideoScript::factory()->raw();
 
-        $user = User::factory()->withPermissions(CrudPermission::CREATE()->format(VideoScript::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(VideoScript::class))->createOne();
 
         Sanctum::actingAs($user);
 

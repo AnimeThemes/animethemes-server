@@ -6,7 +6,7 @@ namespace App\Console\Commands\Repositories\Billing;
 
 use App\Console\Commands\Repositories\ReconcileCommand;
 use App\Enums\Models\Billing\Service;
-use BenSampo\Enum\Rules\EnumKey;
+use App\Rules\Api\EnumLocalizedNameRule;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Support\Facades\Validator as ValidatorFacade;
 
@@ -23,7 +23,7 @@ abstract class ServiceReconcileCommand extends ReconcileCommand
     protected function validator(): Validator
     {
         return ValidatorFacade::make($this->arguments(), [
-            'service' => ['required', new EnumKey(Service::class)],
+            'service' => ['required', new EnumLocalizedNameRule(Service::class)],
         ]);
     }
 }

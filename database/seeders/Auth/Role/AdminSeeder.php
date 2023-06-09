@@ -51,44 +51,49 @@ class AdminSeeder extends RoleSeeder
         /** @var Role $role */
         $role = Role::findOrCreate('Admin');
 
+        $extendedCrudPermissions = array_merge(
+            CrudPermission::cases(),
+            ExtendedCrudPermission::cases(),
+        );
+
         // Admin Resources
-        $this->configureResource($role, Announcement::class, ExtendedCrudPermission::getInstances());
-        $this->configureResource($role, Dump::class, ExtendedCrudPermission::getInstances());
-        $this->configureResource($role, Feature::class, [CrudPermission::VIEW(), CrudPermission::UPDATE()]);
-        $this->configureResource($role, Setting::class, CrudPermission::getInstances());
-        $this->configureResource($role, FeaturedTheme::class, ExtendedCrudPermission::getInstances());
+        $this->configureResource($role, Announcement::class, $extendedCrudPermissions);
+        $this->configureResource($role, Dump::class, $extendedCrudPermissions);
+        $this->configureResource($role, Feature::class, [CrudPermission::VIEW, CrudPermission::UPDATE]);
+        $this->configureResource($role, Setting::class, CrudPermission::cases());
+        $this->configureResource($role, FeaturedTheme::class, $extendedCrudPermissions);
 
         // Auth Resources
-        $this->configureResource($role, Permission::class, [CrudPermission::VIEW()]);
-        $this->configureResource($role, Role::class, CrudPermission::getInstances());
-        $this->configureResource($role, User::class, ExtendedCrudPermission::getInstances());
+        $this->configureResource($role, Permission::class, [CrudPermission::VIEW]);
+        $this->configureResource($role, Role::class, CrudPermission::cases());
+        $this->configureResource($role, User::class, $extendedCrudPermissions);
 
         // Billing Resources
-        $this->configureResource($role, Balance::class, ExtendedCrudPermission::getInstances());
-        $this->configureResource($role, Transaction::class, ExtendedCrudPermission::getInstances());
+        $this->configureResource($role, Balance::class, $extendedCrudPermissions);
+        $this->configureResource($role, Transaction::class, $extendedCrudPermissions);
 
         // List Resources
-        $this->configureResource($role, Playlist::class, ExtendedCrudPermission::getInstances());
-        $this->configureResource($role, PlaylistTrack::class, ExtendedCrudPermission::getInstances());
+        $this->configureResource($role, Playlist::class, $extendedCrudPermissions);
+        $this->configureResource($role, PlaylistTrack::class, $extendedCrudPermissions);
 
         // Wiki Resources
-        $this->configureResource($role, Anime::class, ExtendedCrudPermission::getInstances());
-        $this->configureResource($role, AnimeSynonym::class, ExtendedCrudPermission::getInstances());
-        $this->configureResource($role, AnimeTheme::class, ExtendedCrudPermission::getInstances());
-        $this->configureResource($role, AnimeThemeEntry::class, ExtendedCrudPermission::getInstances());
-        $this->configureResource($role, Artist::class, ExtendedCrudPermission::getInstances());
-        $this->configureResource($role, Audio::class, ExtendedCrudPermission::getInstances());
-        $this->configureResource($role, ExternalResource::class, ExtendedCrudPermission::getInstances());
-        $this->configureResource($role, Image::class, ExtendedCrudPermission::getInstances());
-        $this->configureResource($role, Page::class, ExtendedCrudPermission::getInstances());
-        $this->configureResource($role, Series::class, ExtendedCrudPermission::getInstances());
-        $this->configureResource($role, Song::class, ExtendedCrudPermission::getInstances());
-        $this->configureResource($role, Studio::class, ExtendedCrudPermission::getInstances());
-        $this->configureResource($role, Video::class, ExtendedCrudPermission::getInstances());
-        $this->configureResource($role, VideoScript::class, ExtendedCrudPermission::getInstances());
+        $this->configureResource($role, Anime::class, $extendedCrudPermissions);
+        $this->configureResource($role, AnimeSynonym::class, $extendedCrudPermissions);
+        $this->configureResource($role, AnimeTheme::class, $extendedCrudPermissions);
+        $this->configureResource($role, AnimeThemeEntry::class, $extendedCrudPermissions);
+        $this->configureResource($role, Artist::class, $extendedCrudPermissions);
+        $this->configureResource($role, Audio::class, $extendedCrudPermissions);
+        $this->configureResource($role, ExternalResource::class, $extendedCrudPermissions);
+        $this->configureResource($role, Image::class, $extendedCrudPermissions);
+        $this->configureResource($role, Page::class, $extendedCrudPermissions);
+        $this->configureResource($role, Series::class, $extendedCrudPermissions);
+        $this->configureResource($role, Song::class, $extendedCrudPermissions);
+        $this->configureResource($role, Studio::class, $extendedCrudPermissions);
+        $this->configureResource($role, Video::class, $extendedCrudPermissions);
+        $this->configureResource($role, VideoScript::class, $extendedCrudPermissions);
 
         // Special Permissions
-        $this->configureAbilities($role, SpecialPermission::getValues());
+        $this->configureAbilities($role, array_column(SpecialPermission::cases(), 'value'));
 
         $role->color = '#1F8B4C';
         $role->priority = 250000;

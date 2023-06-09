@@ -9,6 +9,7 @@ use App\Enums\Models\Billing\BalanceFrequency;
 use App\Enums\Models\Billing\Service;
 use App\Models\Auth\User;
 use App\Models\Billing\Balance;
+use Illuminate\Support\Arr;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
@@ -26,11 +27,14 @@ class BalanceUpdateTest extends TestCase
     {
         $balance = Balance::factory()->createOne();
 
+        $frequency = Arr::random(BalanceFrequency::cases());
+        $service = Arr::random(Service::cases());
+
         $parameters = array_merge(
             Balance::factory()->raw(),
             [
-                Balance::ATTRIBUTE_FREQUENCY => BalanceFrequency::getRandomInstance()->description,
-                Balance::ATTRIBUTE_SERVICE => Service::getRandomInstance()->description,
+                Balance::ATTRIBUTE_FREQUENCY => $frequency->localize(),
+                Balance::ATTRIBUTE_SERVICE => $service->localize(),
             ]
         );
 
@@ -48,11 +52,14 @@ class BalanceUpdateTest extends TestCase
     {
         $balance = Balance::factory()->createOne();
 
+        $frequency = Arr::random(BalanceFrequency::cases());
+        $service = Arr::random(Service::cases());
+
         $parameters = array_merge(
             Balance::factory()->raw(),
             [
-                Balance::ATTRIBUTE_FREQUENCY => BalanceFrequency::getRandomInstance()->description,
-                Balance::ATTRIBUTE_SERVICE => Service::getRandomInstance()->description,
+                Balance::ATTRIBUTE_FREQUENCY => $frequency->localize(),
+                Balance::ATTRIBUTE_SERVICE => $service->localize(),
             ]
         );
 
@@ -74,15 +81,18 @@ class BalanceUpdateTest extends TestCase
     {
         $balance = Balance::factory()->trashed()->createOne();
 
+        $frequency = Arr::random(BalanceFrequency::cases());
+        $service = Arr::random(Service::cases());
+
         $parameters = array_merge(
             Balance::factory()->raw(),
             [
-                Balance::ATTRIBUTE_FREQUENCY => BalanceFrequency::getRandomInstance()->description,
-                Balance::ATTRIBUTE_SERVICE => Service::getRandomInstance()->description,
+                Balance::ATTRIBUTE_FREQUENCY => $frequency->localize(),
+                Balance::ATTRIBUTE_SERVICE => $service->localize(),
             ]
         );
 
-        $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(Balance::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(Balance::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -100,15 +110,18 @@ class BalanceUpdateTest extends TestCase
     {
         $balance = Balance::factory()->createOne();
 
+        $frequency = Arr::random(BalanceFrequency::cases());
+        $service = Arr::random(Service::cases());
+
         $parameters = array_merge(
             Balance::factory()->raw(),
             [
-                Balance::ATTRIBUTE_FREQUENCY => BalanceFrequency::getRandomInstance()->description,
-                Balance::ATTRIBUTE_SERVICE => Service::getRandomInstance()->description,
+                Balance::ATTRIBUTE_FREQUENCY => $frequency->localize(),
+                Balance::ATTRIBUTE_SERVICE => $service->localize(),
             ]
         );
 
-        $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(Balance::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(Balance::class))->createOne();
 
         Sanctum::actingAs($user);
 

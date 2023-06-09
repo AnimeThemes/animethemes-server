@@ -62,7 +62,7 @@ class PageUpdateTest extends TestCase
 
         $parameters = Page::factory()->raw();
 
-        $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(Page::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(Page::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -82,7 +82,7 @@ class PageUpdateTest extends TestCase
 
         $parameters = Page::factory()->raw();
 
-        $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(Page::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(Page::class))->createOne();
 
         Sanctum::actingAs($user);
 

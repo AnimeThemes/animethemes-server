@@ -22,6 +22,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Arr;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
 
@@ -162,10 +163,10 @@ class VideoTest extends TestCase
         $source = VideoSource::DVD;
 
         $video = Video::factory()->createOne([
-            Video::ATTRIBUTE_SOURCE => $source,
+            Video::ATTRIBUTE_SOURCE => $source->value,
         ]);
 
-        static::assertContains(VideoSource::getDescription($source), $video->tags);
+        static::assertContains($source->localize(), $video->tags);
     }
 
     /**
@@ -178,10 +179,10 @@ class VideoTest extends TestCase
         $source = VideoSource::BD;
 
         $video = Video::factory()->createOne([
-            Video::ATTRIBUTE_SOURCE => $source,
+            Video::ATTRIBUTE_SOURCE => $source->value,
         ]);
 
-        static::assertContains(VideoSource::getDescription($source), $video->tags);
+        static::assertContains($source->localize(), $video->tags);
     }
 
     /**
@@ -193,17 +194,17 @@ class VideoTest extends TestCase
     {
         $source = null;
         while ($source === null) {
-            $sourceCandidate = VideoSource::getRandomInstance();
-            if (! $sourceCandidate->is(VideoSource::BD) && ! $sourceCandidate->is(VideoSource::DVD)) {
-                $source = $sourceCandidate->value;
+            $sourceCandidate = Arr::random(VideoSource::cases());
+            if ($sourceCandidate !== VideoSource::BD && $sourceCandidate !== VideoSource::DVD) {
+                $source = $sourceCandidate;
             }
         }
 
         $video = Video::factory()->createOne([
-            Video::ATTRIBUTE_SOURCE => $source,
+            Video::ATTRIBUTE_SOURCE => $source->value,
         ]);
 
-        static::assertNotContains(VideoSource::getDescription($source), $video->tags);
+        static::assertNotContains($source->localize(), $video->tags);
     }
 
     /**
@@ -357,63 +358,63 @@ class VideoTest extends TestCase
         return [
             [
                 [
-                    Video::ATTRIBUTE_SOURCE => VideoSource::WEB,
+                    Video::ATTRIBUTE_SOURCE => VideoSource::WEB->value,
                 ],
                 [
-                    Video::ATTRIBUTE_SOURCE => VideoSource::BD,
-                ],
-            ],
-            [
-                [
-                    Video::ATTRIBUTE_SOURCE => VideoSource::BD,
-                    Video::ATTRIBUTE_OVERLAP => VideoOverlap::OVER,
-                    Video::ATTRIBUTE_LYRICS => false,
-                    Video::ATTRIBUTE_SUBBED => false,
-                ],
-                [
-                    Video::ATTRIBUTE_SOURCE => VideoSource::BD,
-                    Video::ATTRIBUTE_OVERLAP => VideoOverlap::NONE,
-                    Video::ATTRIBUTE_LYRICS => false,
-                    Video::ATTRIBUTE_SUBBED => false,
+                    Video::ATTRIBUTE_SOURCE => VideoSource::BD->value,
                 ],
             ],
             [
                 [
-                    Video::ATTRIBUTE_SOURCE => VideoSource::BD,
-                    Video::ATTRIBUTE_OVERLAP => VideoOverlap::TRANS,
+                    Video::ATTRIBUTE_SOURCE => VideoSource::BD->value,
+                    Video::ATTRIBUTE_OVERLAP => VideoOverlap::OVER->value,
                     Video::ATTRIBUTE_LYRICS => false,
                     Video::ATTRIBUTE_SUBBED => false,
                 ],
                 [
-                    Video::ATTRIBUTE_SOURCE => VideoSource::BD,
-                    Video::ATTRIBUTE_OVERLAP => VideoOverlap::NONE,
+                    Video::ATTRIBUTE_SOURCE => VideoSource::BD->value,
+                    Video::ATTRIBUTE_OVERLAP => VideoOverlap::NONE->value,
                     Video::ATTRIBUTE_LYRICS => false,
                     Video::ATTRIBUTE_SUBBED => false,
                 ],
             ],
             [
                 [
-                    Video::ATTRIBUTE_SOURCE => VideoSource::BD,
-                    Video::ATTRIBUTE_OVERLAP => VideoOverlap::NONE,
+                    Video::ATTRIBUTE_SOURCE => VideoSource::BD->value,
+                    Video::ATTRIBUTE_OVERLAP => VideoOverlap::TRANS->value,
+                    Video::ATTRIBUTE_LYRICS => false,
+                    Video::ATTRIBUTE_SUBBED => false,
+                ],
+                [
+                    Video::ATTRIBUTE_SOURCE => VideoSource::BD->value,
+                    Video::ATTRIBUTE_OVERLAP => VideoOverlap::NONE->value,
+                    Video::ATTRIBUTE_LYRICS => false,
+                    Video::ATTRIBUTE_SUBBED => false,
+                ],
+            ],
+            [
+                [
+                    Video::ATTRIBUTE_SOURCE => VideoSource::BD->value,
+                    Video::ATTRIBUTE_OVERLAP => VideoOverlap::NONE->value,
                     Video::ATTRIBUTE_LYRICS => true,
                     Video::ATTRIBUTE_SUBBED => false,
                 ],
                 [
-                    Video::ATTRIBUTE_SOURCE => VideoSource::BD,
-                    Video::ATTRIBUTE_OVERLAP => VideoOverlap::NONE,
+                    Video::ATTRIBUTE_SOURCE => VideoSource::BD->value,
+                    Video::ATTRIBUTE_OVERLAP => VideoOverlap::NONE->value,
                     Video::ATTRIBUTE_LYRICS => false,
                     Video::ATTRIBUTE_SUBBED => false,
                 ],
             ],
             [
                 [
-                    Video::ATTRIBUTE_SOURCE => VideoSource::BD,
-                    Video::ATTRIBUTE_OVERLAP => VideoOverlap::NONE,
+                    Video::ATTRIBUTE_SOURCE => VideoSource::BD->value,
+                    Video::ATTRIBUTE_OVERLAP => VideoOverlap::NONE->value,
                     Video::ATTRIBUTE_LYRICS => false,
                     Video::ATTRIBUTE_SUBBED => true,
                 ],
                 [
-                    Video::ATTRIBUTE_SOURCE => VideoSource::BD,
+                    Video::ATTRIBUTE_SOURCE => VideoSource::BD->value,
                     Video::ATTRIBUTE_OVERLAP => VideoOverlap::NONE,
                     Video::ATTRIBUTE_LYRICS => false,
                     Video::ATTRIBUTE_SUBBED => false,

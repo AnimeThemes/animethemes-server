@@ -26,7 +26,7 @@ class UserDeleted extends UserEvent
 
         return DiscordMessage::create('', [
             'description' => "User '**{$user->getName()}**' has been deleted.",
-            'color' => EmbedColor::RED,
+            'color' => EmbedColor::RED->value,
         ]);
     }
 }

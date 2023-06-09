@@ -42,32 +42,37 @@ class PatronRoleSeeder extends RoleSeeder
         /** @var Role $role */
         $role = Role::findOrCreate('Patron');
 
+        $extendedCrudPermissions = array_merge(
+            CrudPermission::cases(),
+            ExtendedCrudPermission::cases(),
+        );
+
         // List Resources
-        $this->configureResource($role, Playlist::class, ExtendedCrudPermission::getInstances());
-        $this->configureResource($role, PlaylistTrack::class, ExtendedCrudPermission::getInstances());
+        $this->configureResource($role, Playlist::class, $extendedCrudPermissions);
+        $this->configureResource($role, PlaylistTrack::class, $extendedCrudPermissions);
 
         // Wiki Resources
-        $this->configureResource($role, Anime::class, [CrudPermission::VIEW()]);
-        $this->configureResource($role, AnimeSynonym::class, [CrudPermission::VIEW()]);
-        $this->configureResource($role, AnimeTheme::class, [CrudPermission::VIEW()]);
-        $this->configureResource($role, AnimeThemeEntry::class, [CrudPermission::VIEW()]);
-        $this->configureResource($role, Artist::class, [CrudPermission::VIEW()]);
-        $this->configureResource($role, Audio::class, [CrudPermission::VIEW()]);
-        $this->configureResource($role, ExternalResource::class, [CrudPermission::VIEW()]);
-        $this->configureResource($role, Image::class, [CrudPermission::VIEW()]);
-        $this->configureResource($role, Page::class, [CrudPermission::VIEW()]);
-        $this->configureResource($role, Series::class, [CrudPermission::VIEW()]);
-        $this->configureResource($role, Song::class, [CrudPermission::VIEW()]);
-        $this->configureResource($role, Studio::class, [CrudPermission::VIEW()]);
-        $this->configureResource($role, Video::class, [CrudPermission::VIEW()]);
-        $this->configureResource($role, VideoScript::class, [CrudPermission::VIEW()]);
+        $this->configureResource($role, Anime::class, [CrudPermission::VIEW]);
+        $this->configureResource($role, AnimeSynonym::class, [CrudPermission::VIEW]);
+        $this->configureResource($role, AnimeTheme::class, [CrudPermission::VIEW]);
+        $this->configureResource($role, AnimeThemeEntry::class, [CrudPermission::VIEW]);
+        $this->configureResource($role, Artist::class, [CrudPermission::VIEW]);
+        $this->configureResource($role, Audio::class, [CrudPermission::VIEW]);
+        $this->configureResource($role, ExternalResource::class, [CrudPermission::VIEW]);
+        $this->configureResource($role, Image::class, [CrudPermission::VIEW]);
+        $this->configureResource($role, Page::class, [CrudPermission::VIEW]);
+        $this->configureResource($role, Series::class, [CrudPermission::VIEW]);
+        $this->configureResource($role, Song::class, [CrudPermission::VIEW]);
+        $this->configureResource($role, Studio::class, [CrudPermission::VIEW]);
+        $this->configureResource($role, Video::class, [CrudPermission::VIEW]);
+        $this->configureResource($role, VideoScript::class, [CrudPermission::VIEW]);
 
         // Special Permissions
         $this->configureAbilities(
             $role,
             [
-                SpecialPermission::BYPASS_FEATURE_FLAGS,
-                SpecialPermission::VIEW_NOVA,
+                SpecialPermission::BYPASS_FEATURE_FLAGS->value,
+                SpecialPermission::VIEW_NOVA->value,
             ]
         );
 

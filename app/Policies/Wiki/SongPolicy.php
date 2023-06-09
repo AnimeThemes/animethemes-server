@@ -27,7 +27,7 @@ class SongPolicy
     public function viewAny(?User $user): bool
     {
         return Nova::whenServing(
-            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW()->format(Song::class)),
+            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW->format(Song::class)),
             fn (): bool => true
         );
     }
@@ -41,7 +41,7 @@ class SongPolicy
     public function view(?User $user): bool
     {
         return Nova::whenServing(
-            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW()->format(Song::class)),
+            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW->format(Song::class)),
             fn (): bool => true
         );
     }
@@ -54,7 +54,7 @@ class SongPolicy
      */
     public function create(User $user): bool
     {
-        return $user->can(CrudPermission::CREATE()->format(Song::class));
+        return $user->can(CrudPermission::CREATE->format(Song::class));
     }
 
     /**
@@ -66,7 +66,7 @@ class SongPolicy
      */
     public function update(User $user, Song $song): bool
     {
-        return ! $song->trashed() && $user->can(CrudPermission::UPDATE()->format(Song::class));
+        return ! $song->trashed() && $user->can(CrudPermission::UPDATE->format(Song::class));
     }
 
     /**
@@ -78,7 +78,7 @@ class SongPolicy
      */
     public function delete(User $user, Song $song): bool
     {
-        return ! $song->trashed() && $user->can(CrudPermission::DELETE()->format(Song::class));
+        return ! $song->trashed() && $user->can(CrudPermission::DELETE->format(Song::class));
     }
 
     /**
@@ -90,7 +90,7 @@ class SongPolicy
      */
     public function restore(User $user, Song $song): bool
     {
-        return $song->trashed() && $user->can(ExtendedCrudPermission::RESTORE()->format(Song::class));
+        return $song->trashed() && $user->can(ExtendedCrudPermission::RESTORE->format(Song::class));
     }
 
     /**
@@ -101,7 +101,7 @@ class SongPolicy
      */
     public function forceDelete(User $user): bool
     {
-        return $user->can(ExtendedCrudPermission::FORCE_DELETE()->format(Song::class));
+        return $user->can(ExtendedCrudPermission::FORCE_DELETE->format(Song::class));
     }
 
     /**
@@ -112,7 +112,7 @@ class SongPolicy
      */
     public function addAnimeTheme(User $user): bool
     {
-        return $user->can(CrudPermission::UPDATE()->format(Song::class));
+        return $user->can(CrudPermission::UPDATE->format(Song::class));
     }
 
     /**
@@ -123,7 +123,7 @@ class SongPolicy
      */
     public function attachAnyArtist(User $user): bool
     {
-        return $user->can(CrudPermission::UPDATE()->format(Song::class));
+        return $user->can(CrudPermission::UPDATE->format(Song::class));
     }
 
     /**
@@ -134,7 +134,7 @@ class SongPolicy
      */
     public function attachArtist(User $user): bool
     {
-        return $user->can(CrudPermission::UPDATE()->format(Song::class));
+        return $user->can(CrudPermission::UPDATE->format(Song::class));
     }
 
     /**
@@ -145,6 +145,6 @@ class SongPolicy
      */
     public function detachArtist(User $user): bool
     {
-        return $user->can(CrudPermission::UPDATE()->format(Song::class));
+        return $user->can(CrudPermission::UPDATE->format(Song::class));
     }
 }

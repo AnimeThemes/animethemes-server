@@ -27,7 +27,7 @@ class TransactionPolicy
     public function viewAny(?User $user): bool
     {
         return Nova::whenServing(
-            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW()->format(Transaction::class)),
+            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW->format(Transaction::class)),
             fn (): bool => true
         );
     }
@@ -41,7 +41,7 @@ class TransactionPolicy
     public function view(?User $user): bool
     {
         return Nova::whenServing(
-            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW()->format(Transaction::class)),
+            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW->format(Transaction::class)),
             fn (): bool => true
         );
     }
@@ -54,7 +54,7 @@ class TransactionPolicy
      */
     public function create(User $user): bool
     {
-        return $user->can(CrudPermission::CREATE()->format(Transaction::class));
+        return $user->can(CrudPermission::CREATE->format(Transaction::class));
     }
 
     /**
@@ -66,7 +66,7 @@ class TransactionPolicy
      */
     public function update(User $user, Transaction $transaction): bool
     {
-        return ! $transaction->trashed() && $user->can(CrudPermission::UPDATE()->format(Transaction::class));
+        return ! $transaction->trashed() && $user->can(CrudPermission::UPDATE->format(Transaction::class));
     }
 
     /**
@@ -78,7 +78,7 @@ class TransactionPolicy
      */
     public function delete(User $user, Transaction $transaction): bool
     {
-        return ! $transaction->trashed() && $user->can(CrudPermission::DELETE()->format(Transaction::class));
+        return ! $transaction->trashed() && $user->can(CrudPermission::DELETE->format(Transaction::class));
     }
 
     /**
@@ -90,7 +90,7 @@ class TransactionPolicy
      */
     public function restore(User $user, Transaction $transaction): bool
     {
-        return $transaction->trashed() && $user->can(ExtendedCrudPermission::RESTORE()->format(Transaction::class));
+        return $transaction->trashed() && $user->can(ExtendedCrudPermission::RESTORE->format(Transaction::class));
     }
 
     /**
@@ -101,6 +101,6 @@ class TransactionPolicy
      */
     public function forceDelete(User $user): bool
     {
-        return $user->can(ExtendedCrudPermission::FORCE_DELETE()->format(Transaction::class));
+        return $user->can(ExtendedCrudPermission::FORCE_DELETE->format(Transaction::class));
     }
 }

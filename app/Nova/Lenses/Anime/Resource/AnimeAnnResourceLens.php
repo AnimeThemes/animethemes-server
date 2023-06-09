@@ -19,7 +19,7 @@ class AnimeAnnResourceLens extends AnimeResourceLens
      */
     protected static function site(): ResourceSite
     {
-        return ResourceSite::ANN();
+        return ResourceSite::ANN;
     }
 
     /**

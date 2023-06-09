@@ -37,7 +37,7 @@ abstract class AttachResourceAction extends Action
      */
     public function name(): string
     {
-        return __('nova.actions.models.wiki.attach_resource.name', ['site' => $this->site->description]);
+        return __('nova.actions.models.wiki.attach_resource.name', ['site' => $this->site->localize()]);
     }
 
     /**

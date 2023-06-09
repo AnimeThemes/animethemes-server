@@ -18,6 +18,7 @@ use App\Pivots\Wiki\AnimeThemeEntryVideo;
 use Exception;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Testing\File;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
@@ -68,7 +69,7 @@ class UploadVideoTest extends TestCase
 
         $result = $storageResults->toActionResult();
 
-        static::assertTrue(ActionStatus::PASSED()->is($result->getStatus()));
+        static::assertTrue(ActionStatus::PASSED === $result->getStatus());
     }
 
     /**
@@ -127,14 +128,17 @@ class UploadVideoTest extends TestCase
 
         $file = File::fake()->create($this->faker->word().'.webm', $this->faker->randomDigitNotNull());
 
+        $overlap = Arr::random(VideoOverlap::cases());
+        $source = Arr::random(VideoSource::cases());
+
         $attributes = [
             Video::ATTRIBUTE_RESOLUTION => $this->faker->numberBetween(360, 1080),
             Video::ATTRIBUTE_NC => $this->faker->boolean(),
             Video::ATTRIBUTE_SUBBED => $this->faker->boolean(),
             Video::ATTRIBUTE_LYRICS => $this->faker->boolean(),
             Video::ATTRIBUTE_UNCEN => $this->faker->boolean(),
-            Video::ATTRIBUTE_OVERLAP => VideoOverlap::getRandomValue(),
-            Video::ATTRIBUTE_SOURCE => VideoSource::getRandomValue(),
+            Video::ATTRIBUTE_OVERLAP => $overlap->value,
+            Video::ATTRIBUTE_SOURCE => $source->value,
         ];
 
         $action = new UploadVideoAction($file, $this->faker->word(), $attributes);

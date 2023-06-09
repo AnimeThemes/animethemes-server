@@ -8,6 +8,7 @@ use App\Enums\Auth\CrudPermission;
 use App\Enums\Models\Billing\Service;
 use App\Models\Auth\User;
 use App\Models\Billing\Transaction;
+use Illuminate\Support\Arr;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
@@ -55,7 +56,7 @@ class TransactionStoreTest extends TestCase
      */
     public function testRequiredFields(): void
     {
-        $user = User::factory()->withPermissions(CrudPermission::CREATE()->format(Transaction::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(Transaction::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -76,12 +77,14 @@ class TransactionStoreTest extends TestCase
      */
     public function testCreate(): void
     {
+        $service = Arr::random(Service::cases());
+
         $parameters = array_merge(
             Transaction::factory()->raw(),
-            [Transaction::ATTRIBUTE_SERVICE => Service::getRandomInstance()->description]
+            [Transaction::ATTRIBUTE_SERVICE => $service->localize()]
         );
 
-        $user = User::factory()->withPermissions(CrudPermission::CREATE()->format(Transaction::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(Transaction::class))->createOne();
 
         Sanctum::actingAs($user);
 

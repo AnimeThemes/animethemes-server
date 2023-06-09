@@ -24,7 +24,7 @@ class BackfillAnidbResourceAction extends BackfillAnimeResourceAction
      */
     protected function getSite(): ResourceSite
     {
-        return ResourceSite::ANIDB();
+        return ResourceSite::ANIDB;
     }
 
     /**
@@ -38,7 +38,7 @@ class BackfillAnidbResourceAction extends BackfillAnimeResourceAction
     {
         // Allow fall-throughs in case AniDB Resource is not mapped to every external site.
 
-        $malResource = $this->getModel()->resources()->firstWhere(ExternalResource::ATTRIBUTE_SITE, ResourceSite::MAL);
+        $malResource = $this->getModel()->resources()->firstWhere(ExternalResource::ATTRIBUTE_SITE, ResourceSite::MAL->value);
         if ($malResource instanceof ExternalResource) {
             $anidbResource = $this->getAnidbMapping($malResource, 'myanimelist');
             if ($anidbResource !== null) {
@@ -49,7 +49,7 @@ class BackfillAnidbResourceAction extends BackfillAnimeResourceAction
             Sleep::for(rand(1, 3))->second();
         }
 
-        $anilistResource = $this->getModel()->resources()->firstWhere(ExternalResource::ATTRIBUTE_SITE, ResourceSite::ANILIST);
+        $anilistResource = $this->getModel()->resources()->firstWhere(ExternalResource::ATTRIBUTE_SITE, ResourceSite::ANILIST->value);
         if ($anilistResource instanceof ExternalResource) {
             $anidbResource = $this->getAnidbMapping($anilistResource, 'anilist');
             if ($anidbResource !== null) {
@@ -60,7 +60,7 @@ class BackfillAnidbResourceAction extends BackfillAnimeResourceAction
             Sleep::for(rand(1, 3))->second();
         }
 
-        $kitsuResource = $this->getModel()->resources()->firstWhere(ExternalResource::ATTRIBUTE_SITE, ResourceSite::KITSU);
+        $kitsuResource = $this->getModel()->resources()->firstWhere(ExternalResource::ATTRIBUTE_SITE, ResourceSite::KITSU->value);
         if ($kitsuResource instanceof ExternalResource) {
             return $this->getAnidbMapping($kitsuResource, 'kitsu');
         }

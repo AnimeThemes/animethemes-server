@@ -35,8 +35,8 @@ class CurrentFeaturedThemeController extends Controller implements InteractsWith
         $featuredtheme = FeaturedTheme::query()
             ->whereNotNull(FeaturedTheme::ATTRIBUTE_START_AT)
             ->whereNotNull(FeaturedTheme::ATTRIBUTE_END_AT)
-            ->whereDate(FeaturedTheme::ATTRIBUTE_START_AT, ComparisonOperator::LTE, Date::now())
-            ->whereDate(FeaturedTheme::ATTRIBUTE_END_AT, ComparisonOperator::GT, Date::now())
+            ->whereDate(FeaturedTheme::ATTRIBUTE_START_AT, ComparisonOperator::LTE->value, Date::now())
+            ->whereDate(FeaturedTheme::ATTRIBUTE_END_AT, ComparisonOperator::GT->value, Date::now())
             ->firstOrFail();
 
         $show = $action->show($featuredtheme, $query, $request->schema());

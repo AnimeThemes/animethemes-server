@@ -4,13 +4,15 @@ declare(strict_types=1);
 
 namespace App\Enums\Models\Wiki;
 
-use App\Enums\BaseEnum;
+use App\Concerns\Enums\LocalizesName;
 
 /**
- * Class ThemeType.
+ * Enum ThemeType.
  */
-final class ThemeType extends BaseEnum
+enum ThemeType: int
 {
-    public const OP = 0;
-    public const ED = 1;
+    use LocalizesName;
+
+    case OP = 0;
+    case ED = 1;
 }

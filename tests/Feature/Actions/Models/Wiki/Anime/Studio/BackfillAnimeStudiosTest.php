@@ -44,7 +44,7 @@ class BackfillAnimeStudiosTest extends TestCase
 
         $result = $action->handle();
 
-        static::assertTrue(ActionStatus::SKIPPED()->is($result->getStatus()));
+        static::assertTrue(ActionStatus::SKIPPED === $result->getStatus());
         static::assertDatabaseCount(Studio::class, $studiosCount);
         Http::assertNothingSent();
     }
@@ -135,7 +135,7 @@ class BackfillAnimeStudiosTest extends TestCase
 
         $result = $action->handle();
 
-        static::assertTrue(ActionStatus::PASSED()->is($result->getStatus()));
+        static::assertTrue(ActionStatus::PASSED === $result->getStatus());
         static::assertDatabaseCount(Studio::class, $studioCount);
         static::assertEquals($studioCount, $anime->studios()->count());
         Http::assertSentCount(1);
@@ -213,7 +213,7 @@ class BackfillAnimeStudiosTest extends TestCase
 
         $result = $action->handle();
 
-        static::assertTrue(ActionStatus::PASSED()->is($result->getStatus()));
+        static::assertTrue(ActionStatus::PASSED === $result->getStatus());
         static::assertDatabaseCount(Studio::class, $studioCount);
         static::assertEquals($studioCount, $anime->studios()->count());
         Http::assertSentCount(1);
@@ -296,7 +296,7 @@ class BackfillAnimeStudiosTest extends TestCase
 
         $result = $action->handle();
 
-        static::assertTrue(ActionStatus::PASSED()->is($result->getStatus()));
+        static::assertTrue(ActionStatus::PASSED === $result->getStatus());
         static::assertDatabaseCount(Studio::class, $studioCount);
         static::assertEquals($studioCount, $anime->studios()->count());
         Http::assertSentCount(1);
@@ -350,7 +350,7 @@ class BackfillAnimeStudiosTest extends TestCase
 
         $result = $action->handle();
 
-        static::assertTrue(ActionStatus::PASSED()->is($result->getStatus()));
+        static::assertTrue(ActionStatus::PASSED === $result->getStatus());
         static::assertDatabaseCount(ExternalResource::class, $studioCount + 1);
         Http::assertSentCount(1);
     }
@@ -392,13 +392,13 @@ class BackfillAnimeStudiosTest extends TestCase
         ]);
 
         $resource = ExternalResource::factory()->createOne([
-            ExternalResource::ATTRIBUTE_SITE => $site,
+            ExternalResource::ATTRIBUTE_SITE => $site->value,
         ]);
 
         foreach ($studios as $studio) {
             $id = Arr::get($studio, 'id');
             $slug = Str::slug(Arr::get($studio, 'name'));
-            $link = ResourceSite::fromValue($site)->formatStudioResourceLink($id, $slug);
+            $link = $site->formatStudioResourceLink($id, $slug);
 
             ExternalResource::factory()->createOne([
                 ExternalResource::ATTRIBUTE_SITE => $site,
@@ -415,7 +415,7 @@ class BackfillAnimeStudiosTest extends TestCase
 
         $result = $action->handle();
 
-        static::assertTrue(ActionStatus::PASSED()->is($result->getStatus()));
+        static::assertTrue(ActionStatus::PASSED === $result->getStatus());
         static::assertDatabaseCount(ExternalResource::class, $studioCount + 1);
         Http::assertSentCount(1);
     }

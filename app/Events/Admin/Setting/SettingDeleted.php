@@ -26,7 +26,7 @@ class SettingDeleted extends SettingEvent
 
         return DiscordMessage::create('', [
             'description' => "Setting '**{$setting->getName()}**' has been deleted.",
-            'color' => EmbedColor::RED,
+            'color' => EmbedColor::RED->value,
         ]);
     }
 }

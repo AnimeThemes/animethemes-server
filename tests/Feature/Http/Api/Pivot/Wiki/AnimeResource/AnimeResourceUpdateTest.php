@@ -75,8 +75,8 @@ class AnimeResourceUpdateTest extends TestCase
 
         $user = User::factory()
             ->withPermissions(
-                CrudPermission::UPDATE()->format(Anime::class),
-                CrudPermission::UPDATE()->format(ExternalResource::class)
+                CrudPermission::UPDATE->format(Anime::class),
+                CrudPermission::UPDATE->format(ExternalResource::class)
             )
             ->createOne();
 

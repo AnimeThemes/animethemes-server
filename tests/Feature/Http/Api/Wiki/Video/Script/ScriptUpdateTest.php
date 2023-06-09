@@ -62,7 +62,7 @@ class ScriptUpdateTest extends TestCase
 
         $parameters = VideoScript::factory()->raw();
 
-        $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(VideoScript::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(VideoScript::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -82,7 +82,7 @@ class ScriptUpdateTest extends TestCase
 
         $parameters = VideoScript::factory()->raw();
 
-        $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(VideoScript::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(VideoScript::class))->createOne();
 
         Sanctum::actingAs($user);
 

@@ -4,28 +4,21 @@ declare(strict_types=1);
 
 namespace App\Enums\Http\Api\Filter;
 
-use App\Enums\BaseEnum;
+use App\Concerns\Enums\CoercesInstances;
 
 /**
- * Class ComparisonOperator.
- *
- * @method static static EQ()
- * @method static static NE()
- * @method static static LT()
- * @method static static GT()
- * @method static static LTE()
- * @method static static GTE()
- * @method static static LIKE()
- * @method static static NOTLIKE()
+ * Enum ComparisonOperator.
  */
-final class ComparisonOperator extends BaseEnum
+enum ComparisonOperator: string
 {
-    public const EQ = '=';
-    public const NE = '<>';
-    public const LT = '<';
-    public const GT = '>';
-    public const LTE = '<=';
-    public const GTE = '>=';
-    public const LIKE = 'like';
-    public const NOTLIKE = 'not like';
+    use CoercesInstances;
+
+    case EQ = '=';
+    case NE = '<>';
+    case LT = '<';
+    case GT = '>';
+    case LTE = '<=';
+    case GTE = '>=';
+    case LIKE = 'like';
+    case NOTLIKE = 'not like';
 }

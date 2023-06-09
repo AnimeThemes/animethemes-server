@@ -56,7 +56,7 @@ class ScriptDestroyTest extends TestCase
     {
         $script = VideoScript::factory()->trashed()->createOne();
 
-        $user = User::factory()->withPermissions(CrudPermission::DELETE()->format(VideoScript::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::DELETE->format(VideoScript::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -74,7 +74,7 @@ class ScriptDestroyTest extends TestCase
     {
         $script = VideoScript::factory()->createOne();
 
-        $user = User::factory()->withPermissions(CrudPermission::DELETE()->format(VideoScript::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::DELETE->format(VideoScript::class))->createOne();
 
         Sanctum::actingAs($user);
 

@@ -26,6 +26,7 @@ use App\Models\Wiki\Song;
 use App\Pivots\BasePivot;
 use App\Pivots\Wiki\ArtistSong;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Tests\TestCase;
@@ -191,7 +192,7 @@ class ArtistSongIndexTest extends TestCase
             ->random();
 
         $parameters = [
-            SortParser::param() => $sort->format(Direction::getRandomInstance()),
+            SortParser::param() => $sort->format(Arr::random(Direction::cases())),
         ];
 
         $query = new Query($parameters);

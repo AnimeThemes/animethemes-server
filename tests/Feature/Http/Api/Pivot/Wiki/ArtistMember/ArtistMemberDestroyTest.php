@@ -64,7 +64,7 @@ class ArtistMemberDestroyTest extends TestCase
         $artist = Artist::factory()->createOne();
         $member = Artist::factory()->createOne();
 
-        $user = User::factory()->withPermissions(CrudPermission::DELETE()->format(Artist::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::DELETE->format(Artist::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -85,7 +85,7 @@ class ArtistMemberDestroyTest extends TestCase
             ->for(Artist::factory(), ArtistMember::RELATION_MEMBER)
             ->createOne();
 
-        $user = User::factory()->withPermissions(CrudPermission::DELETE()->format(Artist::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::DELETE->format(Artist::class))->createOne();
 
         Sanctum::actingAs($user);
 

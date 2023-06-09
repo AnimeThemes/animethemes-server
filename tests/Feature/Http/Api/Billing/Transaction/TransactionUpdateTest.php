@@ -8,6 +8,7 @@ use App\Enums\Auth\CrudPermission;
 use App\Enums\Models\Billing\Service;
 use App\Models\Auth\User;
 use App\Models\Billing\Transaction;
+use Illuminate\Support\Arr;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
@@ -25,9 +26,11 @@ class TransactionUpdateTest extends TestCase
     {
         $transaction = Transaction::factory()->createOne();
 
+        $service = Arr::random(Service::cases());
+
         $parameters = array_merge(
             Transaction::factory()->raw(),
-            [Transaction::ATTRIBUTE_SERVICE => Service::getRandomInstance()->description]
+            [Transaction::ATTRIBUTE_SERVICE => $service->localize()]
         );
 
         $response = $this->put(route('api.transaction.update', ['transaction' => $transaction] + $parameters));
@@ -44,9 +47,11 @@ class TransactionUpdateTest extends TestCase
     {
         $transaction = Transaction::factory()->createOne();
 
+        $service = Arr::random(Service::cases());
+
         $parameters = array_merge(
             Transaction::factory()->raw(),
-            [Transaction::ATTRIBUTE_SERVICE => Service::getRandomInstance()->description]
+            [Transaction::ATTRIBUTE_SERVICE => $service->localize()]
         );
 
         $user = User::factory()->createOne();
@@ -67,12 +72,14 @@ class TransactionUpdateTest extends TestCase
     {
         $transaction = Transaction::factory()->trashed()->createOne();
 
+        $service = Arr::random(Service::cases());
+
         $parameters = array_merge(
             Transaction::factory()->raw(),
-            [Transaction::ATTRIBUTE_SERVICE => Service::getRandomInstance()->description]
+            [Transaction::ATTRIBUTE_SERVICE => $service->localize()]
         );
 
-        $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(Transaction::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(Transaction::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -90,12 +97,14 @@ class TransactionUpdateTest extends TestCase
     {
         $transaction = Transaction::factory()->createOne();
 
+        $service = Arr::random(Service::cases());
+
         $parameters = array_merge(
             Transaction::factory()->raw(),
-            [Transaction::ATTRIBUTE_SERVICE => Service::getRandomInstance()->description]
+            [Transaction::ATTRIBUTE_SERVICE => $service->localize()]
         );
 
-        $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(Transaction::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(Transaction::class))->createOne();
 
         Sanctum::actingAs($user);
 

@@ -10,8 +10,8 @@ use App\Enums\Models\Billing\BalanceFrequency;
 use App\Http\Api\Field\EnumField;
 use App\Http\Api\Schema\Schema;
 use App\Models\Billing\Balance;
-use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rules\Enum;
 
 /**
  * Class BalanceFrequencyField.
@@ -38,7 +38,7 @@ class BalanceFrequencyField extends EnumField implements CreatableField, Updatab
     {
         return [
             'required',
-            new EnumValue(BalanceFrequency::class),
+            new Enum(BalanceFrequency::class),
         ];
     }
 
@@ -53,7 +53,7 @@ class BalanceFrequencyField extends EnumField implements CreatableField, Updatab
         return [
             'sometimes',
             'required',
-            new EnumValue(BalanceFrequency::class),
+            new Enum(BalanceFrequency::class),
         ];
     }
 }

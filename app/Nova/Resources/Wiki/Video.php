@@ -26,9 +26,8 @@ use App\Nova\Resources\List\Playlist\Track;
 use App\Nova\Resources\Wiki\Anime\Theme\Entry;
 use App\Nova\Resources\Wiki\Video\Script;
 use App\Pivots\BasePivot;
-use BenSampo\Enum\Enum;
-use BenSampo\Enum\Rules\EnumValue;
 use Exception;
+use Illuminate\Validation\Rules\Enum;
 use Laravel\Nova\Card;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\BelongsToMany;
@@ -178,10 +177,10 @@ class Video extends BaseResource
 
             Select::make(__('nova.fields.video.overlap.name'), VideoModel::ATTRIBUTE_OVERLAP)
                 ->options(VideoOverlap::asSelectArray())
-                ->displayUsing(fn (?Enum $enum) => $enum?->description)
+                ->displayUsing(fn (?int $enumValue) => VideoOverlap::tryFrom($enumValue)?->localize())
                 ->nullable()
                 ->sortable()
-                ->rules(['nullable', new EnumValue(VideoOverlap::class, false)])
+                ->rules(['nullable', new Enum(VideoOverlap::class)])
                 ->help(__('nova.fields.video.overlap.help'))
                 ->showOnPreview()
                 ->filterable()
@@ -189,10 +188,10 @@ class Video extends BaseResource
 
             Select::make(__('nova.fields.video.source.name'), VideoModel::ATTRIBUTE_SOURCE)
                 ->options(VideoSource::asSelectArray())
-                ->displayUsing(fn (?Enum $enum) => $enum?->description)
+                ->displayUsing(fn (?int $enumValue) => VideoSource::tryFrom($enumValue)?->localize())
                 ->nullable()
                 ->sortable()
-                ->rules(['nullable', new EnumValue(VideoSource::class, false)])
+                ->rules(['nullable', new Enum(VideoSource::class)])
                 ->help(__('nova.fields.video.source.help'))
                 ->showOnPreview()
                 ->filterable()

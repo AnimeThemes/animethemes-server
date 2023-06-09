@@ -22,6 +22,7 @@ use App\Models\List\Playlist\PlaylistTrack;
 use App\Models\Wiki\Image;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
@@ -45,7 +46,7 @@ class PlaylistShowTest extends TestCase
         $playlist = Playlist::factory()
             ->for(User::factory())
             ->createOne([
-                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PRIVATE,
+                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PRIVATE->value,
             ]);
 
         $response = $this->get(route('api.playlist.show', ['playlist' => $playlist]));
@@ -65,10 +66,10 @@ class PlaylistShowTest extends TestCase
         $playlist = Playlist::factory()
             ->for(User::factory())
             ->createOne([
-                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PRIVATE,
+                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PRIVATE->value,
             ]);
 
-        $user = User::factory()->withPermissions(CrudPermission::VIEW()->format(Playlist::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::VIEW->format(Playlist::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -86,12 +87,12 @@ class PlaylistShowTest extends TestCase
     {
         Event::fakeExcept(PlaylistCreated::class);
 
-        $user = User::factory()->withPermissions(CrudPermission::VIEW()->format(Playlist::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::VIEW->format(Playlist::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)
             ->createOne([
-                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PRIVATE,
+                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PRIVATE->value,
             ]);
 
         Sanctum::actingAs($user);
@@ -113,7 +114,7 @@ class PlaylistShowTest extends TestCase
         $playlist = Playlist::factory()
             ->for(User::factory())
             ->createOne([
-                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::UNLISTED,
+                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::UNLISTED->value,
             ]);
 
         $response = $this->get(route('api.playlist.show', ['playlist' => $playlist]));
@@ -133,7 +134,7 @@ class PlaylistShowTest extends TestCase
         $playlist = Playlist::factory()
             ->for(User::factory())
             ->createOne([
-                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
+                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
             ]);
 
         $response = $this->get(route('api.playlist.show', ['playlist' => $playlist]));
@@ -152,7 +153,7 @@ class PlaylistShowTest extends TestCase
 
         $playlist = Playlist::factory()
             ->createOne([
-                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
+                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
             ]);
 
         $response = $this->get(route('api.playlist.show', ['playlist' => $playlist]));
@@ -181,7 +182,7 @@ class PlaylistShowTest extends TestCase
         $playlist = Playlist::factory()
             ->trashed()
             ->createOne([
-                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
+                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
             ]);
 
         $playlist->unsetRelations();
@@ -228,7 +229,7 @@ class PlaylistShowTest extends TestCase
             ->has(PlaylistTrack::factory()->count($this->faker->randomDigitNotNull()), Playlist::RELATION_TRACKS)
             ->has(Image::factory()->count($this->faker->randomDigitNotNull()))
             ->createOne([
-                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
+                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
             ]);
 
         $response = $this->get(route('api.playlist.show', ['playlist' => $playlist] + $parameters));
@@ -268,7 +269,7 @@ class PlaylistShowTest extends TestCase
 
         $playlist = Playlist::factory()
             ->createOne([
-                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
+                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
             ]);
 
         $response = $this->get(route('api.playlist.show', ['playlist' => $playlist] + $parameters));
@@ -294,11 +295,11 @@ class PlaylistShowTest extends TestCase
     {
         Event::fakeExcept(PlaylistCreated::class);
 
-        $facetFilter = ImageFacet::getRandomInstance();
+        $facetFilter = Arr::random(ImageFacet::cases());
 
         $parameters = [
             FilterParser::param() => [
-                Image::ATTRIBUTE_FACET => $facetFilter->description,
+                Image::ATTRIBUTE_FACET => $facetFilter->localize(),
             ],
             IncludeParser::param() => Playlist::RELATION_IMAGES,
         ];
@@ -306,7 +307,7 @@ class PlaylistShowTest extends TestCase
         $playlist = Playlist::factory()
             ->has(Image::factory()->count($this->faker->randomDigitNotNull()))
             ->createOne([
-                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
+                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
             ]);
 
         $playlist->unsetRelations()->load([

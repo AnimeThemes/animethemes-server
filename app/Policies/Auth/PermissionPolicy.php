@@ -25,7 +25,7 @@ class PermissionPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->can(CrudPermission::VIEW()->format(Permission::class));
+        return $user->can(CrudPermission::VIEW->format(Permission::class));
     }
 
     /**
@@ -36,7 +36,7 @@ class PermissionPolicy
      */
     public function view(User $user): bool
     {
-        return $user->can(CrudPermission::VIEW()->format(Permission::class));
+        return $user->can(CrudPermission::VIEW->format(Permission::class));
     }
 
     /**
@@ -47,7 +47,7 @@ class PermissionPolicy
      */
     public function create(User $user): bool
     {
-        return $user->can(CrudPermission::CREATE()->format(Permission::class));
+        return $user->can(CrudPermission::CREATE->format(Permission::class));
     }
 
     /**
@@ -58,7 +58,7 @@ class PermissionPolicy
      */
     public function update(User $user): bool
     {
-        return $user->can(CrudPermission::UPDATE()->format(Permission::class));
+        return $user->can(CrudPermission::UPDATE->format(Permission::class));
     }
 
     /**
@@ -69,7 +69,7 @@ class PermissionPolicy
      */
     public function delete(User $user): bool
     {
-        return $user->can(CrudPermission::DELETE()->format(Permission::class));
+        return $user->can(CrudPermission::DELETE->format(Permission::class));
     }
 
     /**
@@ -80,7 +80,7 @@ class PermissionPolicy
      */
     public function restore(User $user): bool
     {
-        return $user->can(ExtendedCrudPermission::RESTORE()->format(Permission::class));
+        return $user->can(ExtendedCrudPermission::RESTORE->format(Permission::class));
     }
 
     /**
@@ -91,7 +91,7 @@ class PermissionPolicy
      */
     public function forceDelete(User $user): bool
     {
-        return $user->can(ExtendedCrudPermission::FORCE_DELETE()->format(Permission::class));
+        return $user->can(ExtendedCrudPermission::FORCE_DELETE->format(Permission::class));
     }
 
     /**

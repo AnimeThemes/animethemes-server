@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api\Wiki\Anime;
 
 use App\Contracts\Http\Api\InteractsWithSchema;
-use App\Enums\Models\Wiki\AnimeSeason;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Schema;
 use App\Http\Api\Schema\Wiki\AnimeSchema;
@@ -15,7 +14,6 @@ use App\Http\Resources\Wiki\Collection\AnimeCollection;
 use App\Http\Resources\Wiki\Resource\AnimeResource;
 use App\Models\Wiki\Anime;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
 /**
@@ -64,11 +62,7 @@ class YearController extends Controller implements InteractsWithSchema
 
         $anime = collect($anime->toArray($request));
 
-        $anime = $anime->groupBy(fn (AnimeResource $anime) => Str::lower(AnimeSeason::getDescription($anime->season)));
-
-        $anime = $anime->sortBy(
-            fn (Collection $seasonAnime, string $seasonKey) => AnimeSeason::getValue(Str::upper($seasonKey))
-        );
+        $anime = $anime->groupBy(fn (AnimeResource $anime) => Str::lower($anime->season->localize()));
 
         return new JsonResponse($anime);
     }

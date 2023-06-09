@@ -11,10 +11,8 @@ use App\Http\Api\Filter\Filter;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Schema;
 use App\Http\Api\Scope\Scope;
-use BenSampo\Enum\Exceptions\InvalidEnumKeyException;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 /**
@@ -48,30 +46,22 @@ class WhereCriteria extends Criteria
     public static function make(Scope $scope, string $filterParam, mixed $filterValues): static
     {
         $field = '';
-        $comparisonOperator = ComparisonOperator::EQ();
-        $logicalOperator = BinaryLogicalOperator::AND();
+        $comparisonOperator = ComparisonOperator::EQ;
+        $logicalOperator = BinaryLogicalOperator::AND;
 
         $filterParts = Str::of($filterParam)->explode(Criteria::PARAM_SEPARATOR);
         while ($filterParts->isNotEmpty()) {
             $filterPart = $filterParts->pop();
 
             // Set logical operator
-            if (empty($field) && BinaryLogicalOperator::hasKey(Str::upper($filterPart))) {
-                try {
-                    $logicalOperator = BinaryLogicalOperator::fromKey(Str::upper($filterPart));
-                } catch (InvalidEnumKeyException $e) {
-                    Log::error($e->getMessage());
-                }
+            if (empty($field) && BinaryLogicalOperator::unstrictCoerce($filterPart) !== null) {
+                $logicalOperator = BinaryLogicalOperator::unstrictCoerce($filterPart);
                 continue;
             }
 
             // Set comparison operator
-            if (empty($field) && ComparisonOperator::hasKey(Str::upper($filterPart))) {
-                try {
-                    $comparisonOperator = ComparisonOperator::fromKey(Str::upper($filterPart));
-                } catch (InvalidEnumKeyException $e) {
-                    Log::error($e->getMessage());
-                }
+            if (empty($field) && ComparisonOperator::unstrictCoerce($filterPart) !== null) {
+                $comparisonOperator = ComparisonOperator::unstrictCoerce($filterPart);
                 continue;
             }
 
@@ -105,7 +95,7 @@ class WhereCriteria extends Criteria
             ? $builder->qualifyColumn($filter->getColumn())
             : $filter->getColumn();
 
-        return match ($filter->clause()->value) {
+        return match ($filter->clause()) {
             Clause::WHERE => $builder->where(
                 $column,
                 $this->getComparisonOperator()?->value,
@@ -118,7 +108,6 @@ class WhereCriteria extends Criteria
                 Arr::first($filter->getFilterValues($this->getFilterValues())),
                 $this->getLogicalOperator()->value
             ),
-            default => $builder,
         };
     }
 }

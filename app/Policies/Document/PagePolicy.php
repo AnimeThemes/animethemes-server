@@ -27,7 +27,7 @@ class PagePolicy
     public function viewAny(?User $user): bool
     {
         return Nova::whenServing(
-            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW()->format(Page::class)),
+            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW->format(Page::class)),
             fn (): bool => true
         );
     }
@@ -41,7 +41,7 @@ class PagePolicy
     public function view(?User $user): bool
     {
         return Nova::whenServing(
-            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW()->format(Page::class)),
+            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW->format(Page::class)),
             fn (): bool => true
         );
     }
@@ -54,7 +54,7 @@ class PagePolicy
      */
     public function create(User $user): bool
     {
-        return $user->can(CrudPermission::CREATE()->format(Page::class));
+        return $user->can(CrudPermission::CREATE->format(Page::class));
     }
 
     /**
@@ -66,7 +66,7 @@ class PagePolicy
      */
     public function update(User $user, Page $page): bool
     {
-        return ! $page->trashed() && $user->can(CrudPermission::UPDATE()->format(Page::class));
+        return ! $page->trashed() && $user->can(CrudPermission::UPDATE->format(Page::class));
     }
 
     /**
@@ -78,7 +78,7 @@ class PagePolicy
      */
     public function delete(User $user, Page $page): bool
     {
-        return ! $page->trashed() && $user->can(CrudPermission::DELETE()->format(Page::class));
+        return ! $page->trashed() && $user->can(CrudPermission::DELETE->format(Page::class));
     }
 
     /**
@@ -90,7 +90,7 @@ class PagePolicy
      */
     public function restore(User $user, Page $page): bool
     {
-        return $page->trashed() && $user->can(ExtendedCrudPermission::RESTORE()->format(Page::class));
+        return $page->trashed() && $user->can(ExtendedCrudPermission::RESTORE->format(Page::class));
     }
 
     /**
@@ -101,6 +101,6 @@ class PagePolicy
      */
     public function forceDelete(User $user): bool
     {
-        return $user->can(ExtendedCrudPermission::FORCE_DELETE()->format(Page::class));
+        return $user->can(ExtendedCrudPermission::FORCE_DELETE->format(Page::class));
     }
 }

@@ -8,9 +8,8 @@ use App\Enums\Models\Billing\Service;
 use App\Models\Billing\Transaction as TransactionModel;
 use App\Nova\Actions\Repositories\Billing\Transaction\ReconcileTransactionAction;
 use App\Nova\Resources\BaseResource;
-use BenSampo\Enum\Enum;
-use BenSampo\Enum\Rules\EnumValue;
 use Exception;
+use Illuminate\Validation\Rules\Enum;
 use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\ID;
@@ -134,9 +133,9 @@ class Transaction extends BaseResource
 
             Select::make(__('nova.fields.transaction.service.name'), TransactionModel::ATTRIBUTE_SERVICE)
                 ->options(Service::asSelectArray())
-                ->displayUsing(fn (?Enum $enum) => $enum?->description)
+                ->displayUsing(fn (?int $enumValue) => Service::tryFrom($enumValue)?->localize())
                 ->sortable()
-                ->rules(['required', new EnumValue(Service::class, false)])
+                ->rules(['required', new Enum(Service::class)])
                 ->help(__('nova.fields.transaction.service.help'))
                 ->showOnPreview()
                 ->filterable()

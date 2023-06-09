@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Http\Api\Filter;
 
-use App\Enums\BaseEnum;
 use App\Http\Api\Filter\EnumFilter;
 use App\Http\Api\Scope\GlobalScope;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Arr;
 use Tests\TestCase;
+use Tests\Unit\Enums\LocalizedEnum;
 use Tests\Unit\Http\Api\Criteria\Filter\FakeCriteria;
 
 /**
@@ -27,16 +28,9 @@ class EnumFilterTest extends TestCase
     {
         $filterField = $this->faker->word();
 
-        $enum = new class($this->faker->numberBetween(0, 2)) extends BaseEnum
-        {
-            public const ZERO = 0;
-            public const ONE = 1;
-            public const TWO = 2;
-        };
-
         $criteria = FakeCriteria::make(new GlobalScope(), $filterField, $this->faker->words($this->faker->randomDigitNotNull()));
 
-        $filter = new EnumFilter($filterField, get_class($enum));
+        $filter = new EnumFilter($filterField, LocalizedEnum::class);
 
         static::assertFalse($criteria->shouldFilter($filter, $criteria->getScope()));
     }
@@ -50,16 +44,13 @@ class EnumFilterTest extends TestCase
     {
         $filterField = $this->faker->word();
 
-        $enum = new class($this->faker->numberBetween(0, 2)) extends BaseEnum
-        {
-            public const ZERO = 0;
-            public const ONE = 1;
-            public const TWO = 2;
-        };
+        $criteria = FakeCriteria::make(
+            new GlobalScope(),
+            $filterField,
+            array_column(LocalizedEnum::cases(), 'value')
+        );
 
-        $criteria = FakeCriteria::make(new GlobalScope(), $filterField, $enum::getValues());
-
-        $filter = new EnumFilter($filterField, get_class($enum));
+        $filter = new EnumFilter($filterField, LocalizedEnum::class);
 
         static::assertFalse($criteria->shouldFilter($filter, $criteria->getScope()));
     }
@@ -73,16 +64,11 @@ class EnumFilterTest extends TestCase
     {
         $filterField = $this->faker->word();
 
-        $enum = new class($this->faker->numberBetween(0, 2)) extends BaseEnum
-        {
-            public const ZERO = 0;
-            public const ONE = 1;
-            public const TWO = 2;
-        };
+        $enum = Arr::random(LocalizedEnum::cases());
 
-        $criteria = FakeCriteria::make(new GlobalScope(), $filterField, $enum->description);
+        $criteria = FakeCriteria::make(new GlobalScope(), $filterField, $enum->localize());
 
-        $filter = new EnumFilter($filterField, get_class($enum));
+        $filter = new EnumFilter($filterField, LocalizedEnum::class);
 
         $filterValues = $filter->getFilterValues($criteria->getFilterValues());
 

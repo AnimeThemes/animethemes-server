@@ -28,7 +28,7 @@ class UserRestored extends UserEvent
 
         return DiscordMessage::create('', [
             'description' => "User '**{$user->getName()}**' has been restored.",
-            'color' => EmbedColor::GREEN,
+            'color' => EmbedColor::GREEN->value,
         ]);
     }
 }

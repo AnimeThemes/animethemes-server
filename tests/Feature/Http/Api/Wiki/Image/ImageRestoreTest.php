@@ -56,7 +56,7 @@ class ImageRestoreTest extends TestCase
     {
         $image = Image::factory()->createOne();
 
-        $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE()->format(Image::class))->createOne();
+        $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE->format(Image::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -74,7 +74,7 @@ class ImageRestoreTest extends TestCase
     {
         $image = Image::factory()->trashed()->createOne();
 
-        $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE()->format(Image::class))->createOne();
+        $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE->format(Image::class))->createOne();
 
         Sanctum::actingAs($user);
 

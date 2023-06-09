@@ -62,7 +62,7 @@ class DumpUpdateTest extends TestCase
 
         $parameters = Dump::factory()->raw();
 
-        $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(Dump::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(Dump::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -82,7 +82,7 @@ class DumpUpdateTest extends TestCase
 
         $parameters = Dump::factory()->raw();
 
-        $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(Dump::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(Dump::class))->createOne();
 
         Sanctum::actingAs($user);
 

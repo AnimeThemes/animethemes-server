@@ -56,7 +56,7 @@ class ExternalResourceDestroyTest extends TestCase
     {
         $resource = ExternalResource::factory()->trashed()->createOne();
 
-        $user = User::factory()->withPermissions(CrudPermission::DELETE()->format(ExternalResource::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::DELETE->format(ExternalResource::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -74,7 +74,7 @@ class ExternalResourceDestroyTest extends TestCase
     {
         $resource = ExternalResource::factory()->createOne();
 
-        $user = User::factory()->withPermissions(CrudPermission::DELETE()->format(ExternalResource::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::DELETE->format(ExternalResource::class))->createOne();
 
         Sanctum::actingAs($user);
 

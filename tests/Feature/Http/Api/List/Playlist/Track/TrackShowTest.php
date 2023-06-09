@@ -43,7 +43,7 @@ class TrackShowTest extends TestCase
         $playlist = Playlist::factory()
             ->for(User::factory())
             ->createOne([
-                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PRIVATE,
+                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PRIVATE->value,
             ]);
 
         $track = PlaylistTrack::factory()
@@ -67,14 +67,14 @@ class TrackShowTest extends TestCase
         $playlist = Playlist::factory()
             ->for(User::factory())
             ->createOne([
-                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PRIVATE,
+                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PRIVATE->value,
             ]);
 
         $track = PlaylistTrack::factory()
             ->for($playlist)
             ->createOne();
 
-        $user = User::factory()->withPermissions(CrudPermission::VIEW()->format(PlaylistTrack::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::VIEW->format(PlaylistTrack::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -92,12 +92,12 @@ class TrackShowTest extends TestCase
     {
         Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
-        $user = User::factory()->withPermissions(CrudPermission::VIEW()->format(PlaylistTrack::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::VIEW->format(PlaylistTrack::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)
             ->createOne([
-                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PRIVATE,
+                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PRIVATE->value,
             ]);
 
         $track = PlaylistTrack::factory()
@@ -123,7 +123,7 @@ class TrackShowTest extends TestCase
         $playlist = Playlist::factory()
             ->for(User::factory())
             ->createOne([
-                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::UNLISTED,
+                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::UNLISTED->value,
             ]);
 
         $track = PlaylistTrack::factory()
@@ -147,7 +147,7 @@ class TrackShowTest extends TestCase
         $playlist = Playlist::factory()
             ->for(User::factory())
             ->createOne([
-                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
+                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
             ]);
 
         $track = PlaylistTrack::factory()
@@ -168,13 +168,13 @@ class TrackShowTest extends TestCase
     {
         Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
-        $user = User::factory()->withPermissions(CrudPermission::VIEW()->format(PlaylistTrack::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::VIEW->format(PlaylistTrack::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)
             ->has(PlaylistTrack::factory()->count($this->faker->randomDigitNotNull()), Playlist::RELATION_TRACKS)
             ->createOne([
-                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
+                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
             ]);
 
         $track = PlaylistTrack::factory()
@@ -197,7 +197,7 @@ class TrackShowTest extends TestCase
 
         $playlist = Playlist::factory()
             ->createOne([
-                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
+                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
             ]);
 
         $track = PlaylistTrack::factory()
@@ -231,7 +231,7 @@ class TrackShowTest extends TestCase
 
         $playlist = Playlist::factory()
             ->createOne([
-                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
+                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
             ]);
 
         $track = PlaylistTrack::factory()
@@ -278,7 +278,7 @@ class TrackShowTest extends TestCase
 
         $playlist = Playlist::factory()
             ->createOne([
-                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
+                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
             ]);
 
         $track = PlaylistTrack::factory()
@@ -327,7 +327,7 @@ class TrackShowTest extends TestCase
 
         $playlist = Playlist::factory()
             ->createOne([
-                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
+                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
             ]);
 
         $track = PlaylistTrack::factory()

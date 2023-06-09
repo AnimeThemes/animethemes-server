@@ -8,6 +8,7 @@ use App\Enums\Models\Billing\BalanceFrequency;
 use App\Enums\Models\Billing\Service;
 use App\Models\Billing\Balance;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Arr;
 
 /**
  * Class BalanceFactory.
@@ -33,11 +34,14 @@ class BalanceFactory extends Factory
      */
     public function definition(): array
     {
+        $frequency = Arr::random(BalanceFrequency::cases());
+        $service = Arr::random(Service::cases());
+
         return [
             Balance::ATTRIBUTE_BALANCE => fake()->randomFloat(nbMaxDecimals: 2, max: 999999.99),
-            Balance::ATTRIBUTE_FREQUENCY => BalanceFrequency::getRandomValue(),
+            Balance::ATTRIBUTE_FREQUENCY => $frequency->value,
             Balance::ATTRIBUTE_DATE => fake()->date(),
-            Balance::ATTRIBUTE_SERVICE => Service::getRandomValue(),
+            Balance::ATTRIBUTE_SERVICE => $service->value,
             Balance::ATTRIBUTE_USAGE => fake()->randomFloat(nbMaxDecimals: 2, max: 999999.99),
         ];
     }

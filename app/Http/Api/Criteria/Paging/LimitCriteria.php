@@ -23,7 +23,7 @@ class LimitCriteria extends Criteria
      */
     public function getStrategy(): PaginationStrategy
     {
-        return PaginationStrategy::LIMIT();
+        return PaginationStrategy::LIMIT;
     }
 
     /**

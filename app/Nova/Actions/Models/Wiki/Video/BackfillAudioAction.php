@@ -10,13 +10,12 @@ use App\Enums\Actions\Models\Wiki\Video\OverwriteAudio;
 use App\Models\Auth\User;
 use App\Models\Wiki\Video;
 use App\Nova\Resources\Wiki\Video as VideoResource;
-use BenSampo\Enum\Enum;
-use BenSampo\Enum\Rules\EnumValue;
 use Exception;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Collection;
+use Illuminate\Validation\Rules\Enum;
 use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
 use Laravel\Nova\Fields\Select;
@@ -66,8 +65,8 @@ class BackfillAudioAction extends Action implements ShouldQueue
     {
         $uriKey = VideoResource::uriKey();
 
-        $deriveSourceVideo = DeriveSourceVideo::fromValue(intval($fields->get(self::DERIVE_SOURCE_VIDEO)));
-        $overwriteAudio = OverwriteAudio::fromValue(intval($fields->get(self::OVERWRITE_AUDIO)));
+        $deriveSourceVideo = DeriveSourceVideo::from(intval($fields->get(self::DERIVE_SOURCE_VIDEO)));
+        $overwriteAudio = OverwriteAudio::from(intval($fields->get(self::OVERWRITE_AUDIO)));
 
         foreach ($models as $video) {
             $action = new BackfillAudio($video, $deriveSourceVideo, $overwriteAudio);
@@ -104,15 +103,15 @@ class BackfillAudioAction extends Action implements ShouldQueue
         return [
             Select::make(__('nova.actions.video.backfill.fields.derive_source.name'), self::DERIVE_SOURCE_VIDEO)
                 ->options(DeriveSourceVideo::asSelectArray())
-                ->displayUsing(fn (?Enum $enum) => $enum?->description)
-                ->rules(['required', new EnumValue(DeriveSourceVideo::class, false)])
+                ->displayUsing(fn (?int $enumValue) => DeriveSourceVideo::tryFrom($enumValue)?->localize())
+                ->rules(['required', new Enum(DeriveSourceVideo::class)])
                 ->default(DeriveSourceVideo::YES)
                 ->help(__('nova.actions.video.backfill.fields.derive_source.help')),
 
             Select::make(__('nova.actions.video.backfill.fields.overwrite.name'), self::OVERWRITE_AUDIO)
                 ->options(OverwriteAudio::asSelectArray())
-                ->displayUsing(fn (?Enum $enum) => $enum?->description)
-                ->rules(['required', new EnumValue(OverwriteAudio::class, false)])
+                ->displayUsing(fn (?int $enumValue) => OverwriteAudio::tryFrom($enumValue)?->localize())
+                ->rules(['required', new Enum(OverwriteAudio::class)])
                 ->default(OverwriteAudio::NO)
                 ->help(__('nova.actions.video.backfill.fields.overwrite.help')),
         ];

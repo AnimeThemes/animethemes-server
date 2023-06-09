@@ -31,7 +31,7 @@ abstract class ArtistImageLens extends ArtistLens
      */
     public function name(): string
     {
-        return __('nova.lenses.artist.images.name', ['facet' => static::facet()->description]);
+        return __('nova.lenses.artist.images.name', ['facet' => static::facet()->localize()]);
     }
 
     /**

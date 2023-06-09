@@ -63,8 +63,8 @@ class AnimeStudioStoreTest extends TestCase
 
         $user = User::factory()
             ->withPermissions(
-                CrudPermission::CREATE()->format(Anime::class),
-                CrudPermission::CREATE()->format(Studio::class)
+                CrudPermission::CREATE->format(Anime::class),
+                CrudPermission::CREATE->format(Studio::class)
             )
             ->createOne();
 

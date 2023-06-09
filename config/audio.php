@@ -50,7 +50,7 @@ return [
     |
     */
 
-    'streaming_method' => env('AUDIO_STREAMING_METHOD', StreamingMethod::RESPONSE),
+    'streaming_method' => env('AUDIO_STREAMING_METHOD', StreamingMethod::RESPONSE->value),
 
     'nginx_redirect' => env('AUDIO_NGINX_REDIRECT', '/audio_redirect/'),
 ];

@@ -29,7 +29,7 @@ class OffsetCriteria extends Criteria
      */
     public function getStrategy(): PaginationStrategy
     {
-        return PaginationStrategy::OFFSET();
+        return PaginationStrategy::OFFSET;
     }
 
     /**

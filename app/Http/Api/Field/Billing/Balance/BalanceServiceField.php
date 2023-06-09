@@ -10,8 +10,8 @@ use App\Enums\Models\Billing\Service;
 use App\Http\Api\Field\EnumField;
 use App\Http\Api\Schema\Schema;
 use App\Models\Billing\Balance;
-use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rules\Enum;
 
 /**
  * Class BalanceServiceField.
@@ -38,7 +38,7 @@ class BalanceServiceField extends EnumField implements CreatableField, Updatable
     {
         return [
             'required',
-            new EnumValue(Service::class),
+            new Enum(Service::class),
         ];
     }
 
@@ -53,7 +53,7 @@ class BalanceServiceField extends EnumField implements CreatableField, Updatable
         return [
             'sometimes',
             'required',
-            new EnumValue(Service::class),
+            new Enum(Service::class),
         ];
     }
 }

@@ -268,25 +268,25 @@ class Artist extends BaseResource
         return array_merge(
             parent::actions($request),
             [
-                (new AttachArtistResourceAction(ResourceSite::ANIDB()))
+                (new AttachArtistResourceAction(ResourceSite::ANIDB))
                     ->confirmButtonText(__('nova.actions.models.wiki.attach_resource.confirmButtonText'))
                     ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
                     ->exceptOnIndex()
                     ->canSeeWhen('create', ExternalResourceModel::class),
 
-                (new AttachArtistResourceAction(ResourceSite::ANILIST()))
+                (new AttachArtistResourceAction(ResourceSite::ANILIST))
                     ->confirmButtonText(__('nova.actions.models.wiki.attach_resource.confirmButtonText'))
                     ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
                     ->exceptOnIndex()
                     ->canSeeWhen('create', ExternalResourceModel::class),
 
-                (new AttachArtistResourceAction(ResourceSite::ANN()))
+                (new AttachArtistResourceAction(ResourceSite::ANN))
                     ->confirmButtonText(__('nova.actions.models.wiki.attach_resource.confirmButtonText'))
                     ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
                     ->exceptOnIndex()
                     ->canSeeWhen('create', ExternalResourceModel::class),
 
-                (new AttachArtistResourceAction(ResourceSite::MAL()))
+                (new AttachArtistResourceAction(ResourceSite::MAL))
                     ->confirmButtonText(__('nova.actions.models.wiki.attach_resource.confirmButtonText'))
                     ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
                     ->exceptOnIndex()

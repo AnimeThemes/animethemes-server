@@ -30,7 +30,7 @@ class AnimeResourceLinkFormatTest extends TestCase
 
         $validator = Validator::make(
             [$attribute => $this->faker->url()],
-            [$attribute => new AnimeResourceLinkFormatRule(ResourceSite::OFFICIAL_SITE())],
+            [$attribute => new AnimeResourceLinkFormatRule(ResourceSite::OFFICIAL_SITE)],
         );
 
         static::assertTrue($validator->passes());
@@ -45,13 +45,13 @@ class AnimeResourceLinkFormatTest extends TestCase
     {
         /** @var ResourceSite $site */
         $site = Arr::random([
-            ResourceSite::TWITTER(),
-            ResourceSite::ANIDB(),
-            ResourceSite::ANILIST(),
-            ResourceSite::ANIME_PLANET(),
-            ResourceSite::ANN(),
-            ResourceSite::KITSU(),
-            ResourceSite::MAL(),
+            ResourceSite::TWITTER,
+            ResourceSite::ANIDB,
+            ResourceSite::ANILIST,
+            ResourceSite::ANIME_PLANET,
+            ResourceSite::ANN,
+            ResourceSite::KITSU,
+            ResourceSite::MAL,
         ]);
 
         $url = $site->formatAnimeResourceLink($this->faker->randomDigitNotNull(), $this->faker->word());
@@ -75,13 +75,13 @@ class AnimeResourceLinkFormatTest extends TestCase
     {
         /** @var ResourceSite $site */
         $site = Arr::random([
-            ResourceSite::TWITTER(),
-            ResourceSite::ANIDB(),
-            ResourceSite::ANILIST(),
-            ResourceSite::ANIME_PLANET(),
-            ResourceSite::ANN(),
-            ResourceSite::KITSU(),
-            ResourceSite::MAL(),
+            ResourceSite::TWITTER,
+            ResourceSite::ANIDB,
+            ResourceSite::ANILIST,
+            ResourceSite::ANIME_PLANET,
+            ResourceSite::ANN,
+            ResourceSite::KITSU,
+            ResourceSite::MAL,
         ]);
 
         $url = $site->formatAnimeResourceLink($this->faker->randomDigitNotNull(), $this->faker->word());
@@ -109,8 +109,8 @@ class AnimeResourceLinkFormatTest extends TestCase
     {
         /** @var ResourceSite $site */
         $site = Arr::random([
-            ResourceSite::ANILIST(),
-            ResourceSite::MAL(),
+            ResourceSite::ANILIST,
+            ResourceSite::MAL,
         ]);
 
         $url = $site->formatAnimeResourceLink($this->faker->randomDigitNotNull(), $this->faker->word());
@@ -139,11 +139,11 @@ class AnimeResourceLinkFormatTest extends TestCase
     {
         /** @var ResourceSite $site */
         $site = Arr::random([
-            ResourceSite::ANIDB(),
-            ResourceSite::ANILIST(),
-            ResourceSite::ANIME_PLANET(),
-            ResourceSite::ANN(),
-            ResourceSite::MAL(),
+            ResourceSite::ANIDB,
+            ResourceSite::ANILIST,
+            ResourceSite::ANIME_PLANET,
+            ResourceSite::ANN,
+            ResourceSite::MAL,
         ]);
 
         $url = $site->formatArtistResourceLink($this->faker->randomDigitNotNull(), $this->faker->word());
@@ -167,11 +167,11 @@ class AnimeResourceLinkFormatTest extends TestCase
     {
         /** @var ResourceSite $site */
         $site = Arr::random([
-            ResourceSite::ANIDB(),
-            ResourceSite::ANILIST(),
-            ResourceSite::ANIME_PLANET(),
-            ResourceSite::ANN(),
-            ResourceSite::MAL(),
+            ResourceSite::ANIDB,
+            ResourceSite::ANILIST,
+            ResourceSite::ANIME_PLANET,
+            ResourceSite::ANN,
+            ResourceSite::MAL,
         ]);
 
         $url = $site->formatStudioResourceLink($this->faker->randomDigitNotNull(), $this->faker->word());

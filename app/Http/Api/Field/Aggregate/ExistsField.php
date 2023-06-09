@@ -24,7 +24,7 @@ abstract class ExistsField extends AggregateField
      */
     public function __construct(Schema $schema, string $relation)
     {
-        parent::__construct($schema, $relation, AggregateFunction::EXISTS(), '*');
+        parent::__construct($schema, $relation, AggregateFunction::EXISTS, '*');
     }
 
     /**
@@ -34,6 +34,6 @@ abstract class ExistsField extends AggregateField
      */
     public function getFilter(): Filter
     {
-        return new BooleanFilter(key: $this->alias(), qualifyColumn: QualifyColumn::NO(), clause: Clause::HAVING());
+        return new BooleanFilter(key: $this->alias(), qualifyColumn: QualifyColumn::NO, clause: Clause::HAVING);
     }
 }

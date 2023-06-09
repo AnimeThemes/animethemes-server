@@ -132,33 +132,33 @@ class BackfillAnimeAction extends Action implements ShouldQueue
 
             Boolean::make(__('nova.actions.anime.backfill.fields.resources.kitsu.name'), self::BACKFILL_KITSU_RESOURCE)
                 ->help(__('nova.actions.anime.backfill.fields.resources.kitsu.help'))
-                ->default(fn () => $anime instanceof Anime && $anime->resources()->where(ExternalResource::ATTRIBUTE_SITE, ResourceSite::KITSU)->doesntExist()),
+                ->default(fn () => $anime instanceof Anime && $anime->resources()->where(ExternalResource::ATTRIBUTE_SITE, ResourceSite::KITSU->value)->doesntExist()),
 
             Boolean::make(__('nova.actions.anime.backfill.fields.resources.anilist.name'), self::BACKFILL_ANILIST_RESOURCE)
                 ->help(__('nova.actions.anime.backfill.fields.resources.anilist.help'))
-                ->default(fn () => $anime instanceof Anime && $anime->resources()->where(ExternalResource::ATTRIBUTE_SITE, ResourceSite::ANILIST)->doesntExist()),
+                ->default(fn () => $anime instanceof Anime && $anime->resources()->where(ExternalResource::ATTRIBUTE_SITE, ResourceSite::ANILIST->value)->doesntExist()),
 
             Boolean::make(__('nova.actions.anime.backfill.fields.resources.mal.name'), self::BACKFILL_MAL_RESOURCE)
                 ->help(__('nova.actions.anime.backfill.fields.resources.mal.help'))
-                ->default(fn () => $anime instanceof Anime && $anime->resources()->where(ExternalResource::ATTRIBUTE_SITE, ResourceSite::MAL)->doesntExist()),
+                ->default(fn () => $anime instanceof Anime && $anime->resources()->where(ExternalResource::ATTRIBUTE_SITE, ResourceSite::MAL->value)->doesntExist()),
 
             Boolean::make(__('nova.actions.anime.backfill.fields.resources.anidb.name'), self::BACKFILL_ANIDB_RESOURCE)
                 ->help(__('nova.actions.anime.backfill.fields.resources.anidb.help'))
-                ->default(fn () => $anime instanceof Anime && $anime->resources()->where(ExternalResource::ATTRIBUTE_SITE, ResourceSite::ANIDB)->doesntExist()),
+                ->default(fn () => $anime instanceof Anime && $anime->resources()->where(ExternalResource::ATTRIBUTE_SITE, ResourceSite::ANIDB->value)->doesntExist()),
 
             Boolean::make(__('nova.actions.anime.backfill.fields.resources.ann.name'), self::BACKFILL_ANN_RESOURCE)
                 ->help(__('nova.actions.anime.backfill.fields.resources.ann.help'))
-                ->default(fn () => $anime instanceof Anime && $anime->resources()->where(ExternalResource::ATTRIBUTE_SITE, ResourceSite::ANN)->doesntExist()),
+                ->default(fn () => $anime instanceof Anime && $anime->resources()->where(ExternalResource::ATTRIBUTE_SITE, ResourceSite::ANN->value)->doesntExist()),
 
             Heading::make(__('nova.actions.anime.backfill.fields.images.name')),
 
             Boolean::make(__('nova.actions.anime.backfill.fields.images.large_cover.name'), self::BACKFILL_LARGE_COVER)
                 ->help(__('nova.actions.anime.backfill.fields.images.large_cover.help'))
-                ->default(fn () => $anime instanceof Anime && $anime->images()->where(Image::ATTRIBUTE_FACET, ImageFacet::COVER_LARGE)->doesntExist()),
+                ->default(fn () => $anime instanceof Anime && $anime->images()->where(Image::ATTRIBUTE_FACET, ImageFacet::COVER_LARGE->value)->doesntExist()),
 
             Boolean::make(__('nova.actions.anime.backfill.fields.images.small_cover.name'), self::BACKFILL_SMALL_COVER)
                 ->help(__('nova.actions.anime.backfill.fields.images.small_cover.help'))
-                ->default(fn () => $anime instanceof Anime && $anime->images()->where(Image::ATTRIBUTE_FACET, ImageFacet::COVER_SMALL)->doesntExist()),
+                ->default(fn () => $anime instanceof Anime && $anime->images()->where(Image::ATTRIBUTE_FACET, ImageFacet::COVER_SMALL->value)->doesntExist()),
 
             Heading::make(__('nova.actions.anime.backfill.fields.studios.name')),
 

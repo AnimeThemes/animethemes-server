@@ -32,7 +32,7 @@ abstract class BaseRestoredEvent extends BaseEvent implements DiscordMessageEven
     {
         return DiscordMessage::create('', [
             'description' => $this->getDiscordMessageDescription(),
-            'color' => EmbedColor::GREEN,
+            'color' => EmbedColor::GREEN->value,
         ]);
     }
 

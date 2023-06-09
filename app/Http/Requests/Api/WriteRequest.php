@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Api;
 
-use App\Enums\BaseEnum;
 use App\Http\Api\Field\BooleanField;
 use App\Http\Api\Field\EnumField;
 use App\Http\Api\Field\Field;
@@ -47,14 +46,14 @@ abstract class WriteRequest extends BaseRequest
      * Convert enum description parameter value to enum value.
      *
      * @param  string  $attribute
-     * @param  class-string<BaseEnum>  $enumClass
+     * @param  class-string  $enumClass
      * @return void
      */
     protected function convertEnumDescriptionToValue(string $attribute, string $enumClass): void
     {
         $description = $this->input($attribute);
         if (is_string($description)) {
-            $enumInstance = $enumClass::fromDescription($description);
+            $enumInstance = $enumClass::fromLocalizedName($description);
             if ($enumInstance !== null) {
                 $this->merge([
                     $attribute => $enumInstance->value,

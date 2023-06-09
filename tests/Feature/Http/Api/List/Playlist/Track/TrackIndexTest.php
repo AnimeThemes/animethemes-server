@@ -32,6 +32,7 @@ use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
 use App\Models\Wiki\Video;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Event;
@@ -59,7 +60,7 @@ class TrackIndexTest extends TestCase
             ->for(User::factory())
             ->tracks($this->faker->numberBetween(2, 9))
             ->createOne([
-                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PRIVATE,
+                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PRIVATE->value,
             ]);
 
         $response = $this->get(route('api.playlist.track.index', ['playlist' => $playlist]));
@@ -80,10 +81,10 @@ class TrackIndexTest extends TestCase
             ->for(User::factory())
             ->tracks($this->faker->numberBetween(2, 9))
             ->createOne([
-                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PRIVATE,
+                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PRIVATE->value,
             ]);
 
-        $user = User::factory()->withPermissions(CrudPermission::VIEW()->format(PlaylistTrack::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::VIEW->format(PlaylistTrack::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -101,13 +102,13 @@ class TrackIndexTest extends TestCase
     {
         Event::fakeExcept(PlaylistCreated::class);
 
-        $user = User::factory()->withPermissions(CrudPermission::VIEW()->format(PlaylistTrack::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::VIEW->format(PlaylistTrack::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)
             ->tracks($this->faker->numberBetween(2, 9))
             ->createOne([
-                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PRIVATE,
+                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PRIVATE->value,
             ]);
 
         Sanctum::actingAs($user);
@@ -130,7 +131,7 @@ class TrackIndexTest extends TestCase
             ->for(User::factory())
             ->tracks($this->faker->numberBetween(2, 9))
             ->createOne([
-                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::UNLISTED,
+                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::UNLISTED->value,
             ]);
 
         $response = $this->get(route('api.playlist.track.index', ['playlist' => $playlist]));
@@ -151,7 +152,7 @@ class TrackIndexTest extends TestCase
             ->for(User::factory())
             ->tracks($this->faker->numberBetween(2, 9))
             ->createOne([
-                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
+                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
             ]);
 
         $response = $this->get(route('api.playlist.track.index', ['playlist' => $playlist]));
@@ -173,7 +174,7 @@ class TrackIndexTest extends TestCase
         $playlist = Playlist::factory()
             ->has(PlaylistTrack::factory()->count($trackCount), Playlist::RELATION_TRACKS)
             ->createOne([
-                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
+                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
             ]);
 
         Collection::times(
@@ -181,7 +182,7 @@ class TrackIndexTest extends TestCase
             fn () => Playlist::factory()
                 ->has(PlaylistTrack::factory()->count($trackCount), Playlist::RELATION_TRACKS)
                 ->createOne([
-                    Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
+                    Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
                 ])
         );
 
@@ -213,7 +214,7 @@ class TrackIndexTest extends TestCase
         $playlist = Playlist::factory()
             ->has(PlaylistTrack::factory()->count($this->faker->randomDigitNotNull()), Playlist::RELATION_TRACKS)
             ->createOne([
-                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
+                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
             ]);
 
         $response = $this->get(route('api.playlist.track.index', ['playlist' => $playlist]));
@@ -251,7 +252,7 @@ class TrackIndexTest extends TestCase
 
         $playlist = Playlist::factory()
             ->createOne([
-                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
+                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
             ]);
 
         PlaylistTrack::factory()
@@ -302,7 +303,7 @@ class TrackIndexTest extends TestCase
         $playlist = Playlist::factory()
             ->has(PlaylistTrack::factory()->count($this->faker->randomDigitNotNull()), Playlist::RELATION_TRACKS)
             ->createOne([
-                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
+                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
             ]);
 
         $response = $this->get(route('api.playlist.track.index', ['playlist' => $playlist] + $parameters));
@@ -337,13 +338,13 @@ class TrackIndexTest extends TestCase
             ->random();
 
         $parameters = [
-            SortParser::param() => $sort->format(Direction::getRandomInstance()),
+            SortParser::param() => $sort->format(Arr::random(Direction::cases())),
         ];
 
         $playlist = Playlist::factory()
             ->has(PlaylistTrack::factory()->count($this->faker->randomDigitNotNull()), Playlist::RELATION_TRACKS)
             ->createOne([
-                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
+                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
             ]);
 
         $query = new Query($parameters);
@@ -387,7 +388,7 @@ class TrackIndexTest extends TestCase
 
         $playlist = Playlist::factory()
             ->createOne([
-                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
+                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
             ]);
 
         Carbon::withTestNow(
@@ -445,7 +446,7 @@ class TrackIndexTest extends TestCase
 
         $playlist = Playlist::factory()
             ->createOne([
-                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
+                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
             ]);
 
         Carbon::withTestNow(
@@ -491,7 +492,7 @@ class TrackIndexTest extends TestCase
 
         $parameters = [
             FilterParser::param() => [
-                TrashedCriteria::PARAM_VALUE => TrashedStatus::WITHOUT,
+                TrashedCriteria::PARAM_VALUE => TrashedStatus::WITHOUT->value,
             ],
             PagingParser::param() => [
                 OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
@@ -500,7 +501,7 @@ class TrackIndexTest extends TestCase
 
         $playlist = Playlist::factory()
             ->createOne([
-                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
+                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
             ]);
 
         PlaylistTrack::factory()
@@ -536,7 +537,7 @@ class TrackIndexTest extends TestCase
 
         $parameters = [
             FilterParser::param() => [
-                TrashedCriteria::PARAM_VALUE => TrashedStatus::WITH,
+                TrashedCriteria::PARAM_VALUE => TrashedStatus::WITH->value,
             ],
             PagingParser::param() => [
                 OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
@@ -545,7 +546,7 @@ class TrackIndexTest extends TestCase
 
         $playlist = Playlist::factory()
             ->createOne([
-                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
+                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
             ]);
 
         PlaylistTrack::factory()
@@ -581,7 +582,7 @@ class TrackIndexTest extends TestCase
 
         $parameters = [
             FilterParser::param() => [
-                TrashedCriteria::PARAM_VALUE => TrashedStatus::ONLY,
+                TrashedCriteria::PARAM_VALUE => TrashedStatus::ONLY->value,
             ],
             PagingParser::param() => [
                 OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
@@ -590,7 +591,7 @@ class TrackIndexTest extends TestCase
 
         $playlist = Playlist::factory()
             ->createOne([
-                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
+                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
             ]);
 
         PlaylistTrack::factory()
@@ -630,7 +631,7 @@ class TrackIndexTest extends TestCase
         $parameters = [
             FilterParser::param() => [
                 BaseModel::ATTRIBUTE_DELETED_AT => $deletedFilter,
-                TrashedCriteria::PARAM_VALUE => TrashedStatus::WITH,
+                TrashedCriteria::PARAM_VALUE => TrashedStatus::WITH->value,
             ],
             PagingParser::param() => [
                 OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
@@ -639,7 +640,7 @@ class TrackIndexTest extends TestCase
 
         $playlist = Playlist::factory()
             ->createOne([
-                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
+                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
             ]);
 
         Carbon::withTestNow($deletedFilter, function () use ($playlist) {

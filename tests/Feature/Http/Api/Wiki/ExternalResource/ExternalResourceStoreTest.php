@@ -55,7 +55,7 @@ class ExternalResourceStoreTest extends TestCase
      */
     public function testRequiredFields(): void
     {
-        $user = User::factory()->withPermissions(CrudPermission::CREATE()->format(ExternalResource::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(ExternalResource::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -76,10 +76,10 @@ class ExternalResourceStoreTest extends TestCase
     {
         $parameters = array_merge(
             ExternalResource::factory()->raw(),
-            [ExternalResource::ATTRIBUTE_SITE => ResourceSite::getDescription(ResourceSite::OFFICIAL_SITE)],
+            [ExternalResource::ATTRIBUTE_SITE => ResourceSite::OFFICIAL_SITE->localize()],
         );
 
-        $user = User::factory()->withPermissions(CrudPermission::CREATE()->format(ExternalResource::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(ExternalResource::class))->createOne();
 
         Sanctum::actingAs($user);
 

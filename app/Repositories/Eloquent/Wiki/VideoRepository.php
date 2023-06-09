@@ -36,7 +36,7 @@ class VideoRepository extends EloquentRepository
     public function handleFilter(string $filter, mixed $value = null): void
     {
         if ($filter === 'path') {
-            $this->query->where(Video::ATTRIBUTE_PATH, ComparisonOperator::LIKE, "$value%");
+            $this->query->where(Video::ATTRIBUTE_PATH, ComparisonOperator::LIKE->value, "$value%");
         }
     }
 }

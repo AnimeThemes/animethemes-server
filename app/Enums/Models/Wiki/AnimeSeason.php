@@ -4,15 +4,17 @@ declare(strict_types=1);
 
 namespace App\Enums\Models\Wiki;
 
-use App\Enums\BaseEnum;
+use App\Concerns\Enums\LocalizesName;
 
 /**
- * Class AnimeSeason.
+ * Enum AnimeSeason.
  */
-final class AnimeSeason extends BaseEnum
+enum AnimeSeason: int
 {
-    public const WINTER = 0;
-    public const SPRING = 1;
-    public const SUMMER = 2;
-    public const FALL = 3;
+    use LocalizesName;
+
+    case WINTER = 0;
+    case SPRING = 1;
+    case SUMMER = 2;
+    case FALL = 3;
 }

@@ -14,6 +14,7 @@ use App\Features\AllowPlaylistManagement;
 use App\Models\Auth\User;
 use App\Models\List\Playlist;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
 use Laravel\Pennant\Feature;
@@ -73,12 +74,14 @@ class PlaylistStoreTest extends TestCase
     {
         Feature::deactivate(AllowPlaylistManagement::class);
 
+        $visibility = Arr::random(PlaylistVisibility::cases());
+
         $parameters = array_merge(
             Playlist::factory()->raw(),
-            [Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::getRandomInstance()->description],
+            [Playlist::ATTRIBUTE_VISIBILITY => $visibility->localize()],
         );
 
-        $user = User::factory()->withPermissions(CrudPermission::CREATE()->format(Playlist::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(Playlist::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -96,7 +99,7 @@ class PlaylistStoreTest extends TestCase
     {
         Feature::activate(AllowPlaylistManagement::class);
 
-        $user = User::factory()->withPermissions(CrudPermission::CREATE()->format(Playlist::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(Playlist::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -117,12 +120,14 @@ class PlaylistStoreTest extends TestCase
     {
         Feature::activate(AllowPlaylistManagement::class);
 
+        $visibility = Arr::random(PlaylistVisibility::cases());
+
         $parameters = array_merge(
             Playlist::factory()->raw(),
-            [Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::getRandomInstance()->description],
+            [Playlist::ATTRIBUTE_VISIBILITY => $visibility->localize()],
         );
 
-        $user = User::factory()->withPermissions(CrudPermission::CREATE()->format(Playlist::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(Playlist::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -143,15 +148,17 @@ class PlaylistStoreTest extends TestCase
     {
         Feature::activate(AllowPlaylistManagement::class, $this->faker->boolean());
 
+        $visibility = Arr::random(PlaylistVisibility::cases());
+
         $parameters = array_merge(
             Playlist::factory()->raw(),
-            [Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::getRandomInstance()->description],
+            [Playlist::ATTRIBUTE_VISIBILITY => $visibility->localize()],
         );
 
         $user = User::factory()
             ->withPermissions(
-                CrudPermission::CREATE()->format(Playlist::class),
-                SpecialPermission::BYPASS_FEATURE_FLAGS
+                CrudPermission::CREATE->format(Playlist::class),
+                SpecialPermission::BYPASS_FEATURE_FLAGS->value
             )
             ->createOne();
 
@@ -174,14 +181,16 @@ class PlaylistStoreTest extends TestCase
         Config::set(PlaylistConstants::MAX_PLAYLISTS_QUALIFIED, $playlistLimit);
         Feature::activate(AllowPlaylistManagement::class);
 
+        $visibility = Arr::random(PlaylistVisibility::cases());
+
         $parameters = array_merge(
             Playlist::factory()->raw(),
-            [Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::getRandomInstance()->description],
+            [Playlist::ATTRIBUTE_VISIBILITY => $visibility->localize()],
         );
 
         $user = User::factory()
             ->has(Playlist::factory()->count($playlistLimit))
-            ->withPermissions(CrudPermission::CREATE()->format(Playlist::class))
+            ->withPermissions(CrudPermission::CREATE->format(Playlist::class))
             ->createOne();
 
         Sanctum::actingAs($user);
@@ -204,16 +213,18 @@ class PlaylistStoreTest extends TestCase
         Config::set(PlaylistConstants::MAX_PLAYLISTS_QUALIFIED, $playlistLimit);
         Feature::activate(AllowPlaylistManagement::class);
 
+        $visibility = Arr::random(PlaylistVisibility::cases());
+
         $parameters = array_merge(
             Playlist::factory()->raw(),
-            [Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::getRandomInstance()->description],
+            [Playlist::ATTRIBUTE_VISIBILITY => $visibility->localize()],
         );
 
         $user = User::factory()
             ->has(Playlist::factory()->count($playlistLimit))
             ->withPermissions(
-                CrudPermission::CREATE()->format(Playlist::class),
-                SpecialPermission::BYPASS_FEATURE_FLAGS
+                CrudPermission::CREATE->format(Playlist::class),
+                SpecialPermission::BYPASS_FEATURE_FLAGS->value
             )
             ->createOne();
 
@@ -232,7 +243,7 @@ class PlaylistStoreTest extends TestCase
     public function testCreatedIfNotFlaggedByOpenAI(): void
     {
         Feature::activate(AllowPlaylistManagement::class);
-        Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI);
+        Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI->value);
 
         Http::fake([
             'https://api.openai.com/v1/moderations' => Http::response([
@@ -244,12 +255,14 @@ class PlaylistStoreTest extends TestCase
             ]),
         ]);
 
+        $visibility = Arr::random(PlaylistVisibility::cases());
+
         $parameters = array_merge(
             Playlist::factory()->raw(),
-            [Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::getRandomInstance()->description],
+            [Playlist::ATTRIBUTE_VISIBILITY => $visibility->localize()],
         );
 
-        $user = User::factory()->withPermissions(CrudPermission::CREATE()->format(Playlist::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(Playlist::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -266,18 +279,20 @@ class PlaylistStoreTest extends TestCase
     public function testCreatedIfOpenAIFails(): void
     {
         Feature::activate(AllowPlaylistManagement::class);
-        Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI);
+        Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI->value);
 
         Http::fake([
             'https://api.openai.com/v1/moderations' => Http::response(status: 404),
         ]);
 
+        $visibility = Arr::random(PlaylistVisibility::cases());
+
         $parameters = array_merge(
             Playlist::factory()->raw(),
-            [Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::getRandomInstance()->description],
+            [Playlist::ATTRIBUTE_VISIBILITY => $visibility->localize()],
         );
 
-        $user = User::factory()->withPermissions(CrudPermission::CREATE()->format(Playlist::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(Playlist::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -294,7 +309,7 @@ class PlaylistStoreTest extends TestCase
     public function testValidationErrorWhenFlaggedByOpenAI(): void
     {
         Feature::activate(AllowPlaylistManagement::class);
-        Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI);
+        Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI->value);
 
         Http::fake([
             'https://api.openai.com/v1/moderations' => Http::response([
@@ -306,12 +321,14 @@ class PlaylistStoreTest extends TestCase
             ]),
         ]);
 
+        $visibility = Arr::random(PlaylistVisibility::cases());
+
         $parameters = array_merge(
             Playlist::factory()->raw(),
-            [Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::getRandomInstance()->description],
+            [Playlist::ATTRIBUTE_VISIBILITY => $visibility->localize()],
         );
 
-        $user = User::factory()->withPermissions(CrudPermission::CREATE()->format(Playlist::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(Playlist::class))->createOne();
 
         Sanctum::actingAs($user);
 

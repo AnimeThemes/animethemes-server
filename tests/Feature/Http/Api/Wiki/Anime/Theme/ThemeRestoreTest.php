@@ -63,7 +63,7 @@ class ThemeRestoreTest extends TestCase
     {
         $theme = AnimeTheme::factory()->for(Anime::factory())->createOne();
 
-        $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE()->format(AnimeTheme::class))->createOne();
+        $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE->format(AnimeTheme::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -84,7 +84,7 @@ class ThemeRestoreTest extends TestCase
             ->for(Anime::factory())
             ->createOne();
 
-        $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE()->format(AnimeTheme::class))->createOne();
+        $user = User::factory()->withPermissions(ExtendedCrudPermission::RESTORE->format(AnimeTheme::class))->createOne();
 
         Sanctum::actingAs($user);
 

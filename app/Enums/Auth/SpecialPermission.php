@@ -4,20 +4,18 @@ declare(strict_types=1);
 
 namespace App\Enums\Auth;
 
-use App\Enums\BaseEnum;
-
 /**
- * Class SpecialPermission.
+ * Enum SpecialPermission.
  */
-final class SpecialPermission extends BaseEnum
+enum SpecialPermission: string
 {
-    public const BYPASS_API_RATE_LIMITER = 'bypass api rate limiter';
+    case BYPASS_API_RATE_LIMITER = 'bypass api rate limiter';
 
-    public const BYPASS_FEATURE_FLAGS = 'bypass feature flags';
+    case BYPASS_FEATURE_FLAGS = 'bypass feature flags';
 
-    public const VIEW_HORIZON = 'view horizon';
+    case VIEW_HORIZON = 'view horizon';
 
-    public const VIEW_NOVA = 'view nova';
+    case VIEW_NOVA = 'view nova';
 
-    public const VIEW_TELESCOPE = 'view telescope';
+    case VIEW_TELESCOPE = 'view telescope';
 }

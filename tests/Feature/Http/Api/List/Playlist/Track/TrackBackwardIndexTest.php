@@ -30,6 +30,7 @@ use App\Models\List\Playlist;
 use App\Models\List\Playlist\BackwardPlaylistTrack;
 use App\Models\List\Playlist\PlaylistTrack;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
@@ -54,7 +55,7 @@ class TrackBackwardIndexTest extends TestCase
             ->for(User::factory())
             ->tracks($this->faker->numberBetween(2, 9))
             ->createOne([
-                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PRIVATE,
+                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PRIVATE->value,
             ]);
 
         $track = PlaylistTrack::query()->inRandomOrder()->first();
@@ -77,12 +78,12 @@ class TrackBackwardIndexTest extends TestCase
             ->for(User::factory())
             ->tracks($this->faker->numberBetween(2, 9))
             ->createOne([
-                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PRIVATE,
+                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PRIVATE->value,
             ]);
 
         $track = PlaylistTrack::query()->inRandomOrder()->first();
 
-        $user = User::factory()->withPermissions(CrudPermission::VIEW()->format(PlaylistTrack::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::VIEW->format(PlaylistTrack::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -100,13 +101,13 @@ class TrackBackwardIndexTest extends TestCase
     {
         Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
-        $user = User::factory()->withPermissions(CrudPermission::VIEW()->format(PlaylistTrack::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::VIEW->format(PlaylistTrack::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)
             ->tracks($this->faker->numberBetween(2, 9))
             ->createOne([
-                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PRIVATE,
+                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PRIVATE->value,
             ]);
 
         $track = PlaylistTrack::query()->inRandomOrder()->first();
@@ -131,7 +132,7 @@ class TrackBackwardIndexTest extends TestCase
             ->for(User::factory())
             ->tracks($this->faker->numberBetween(2, 9))
             ->createOne([
-                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::UNLISTED,
+                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::UNLISTED->value,
             ]);
 
         $track = PlaylistTrack::query()->inRandomOrder()->first();
@@ -154,7 +155,7 @@ class TrackBackwardIndexTest extends TestCase
             ->for(User::factory())
             ->tracks($this->faker->numberBetween(2, 9))
             ->createOne([
-                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
+                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
             ]);
 
         $track = PlaylistTrack::query()->inRandomOrder()->first();
@@ -178,7 +179,7 @@ class TrackBackwardIndexTest extends TestCase
         $playlist = Playlist::factory()
             ->tracks($trackCount)
             ->createOne([
-                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
+                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
             ]);
 
         /** @var BackwardPlaylistTrack $track */
@@ -214,7 +215,7 @@ class TrackBackwardIndexTest extends TestCase
         $playlist = Playlist::factory()
             ->tracks($this->faker->numberBetween(2, 9))
             ->createOne([
-                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
+                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
             ]);
 
         $track = PlaylistTrack::query()->inRandomOrder()->first();
@@ -255,7 +256,7 @@ class TrackBackwardIndexTest extends TestCase
         $playlist = Playlist::factory()
             ->tracks($this->faker->numberBetween(2, 9))
             ->createOne([
-                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
+                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
             ]);
 
         /** @var BackwardPlaylistTrack $track */
@@ -303,7 +304,7 @@ class TrackBackwardIndexTest extends TestCase
         $playlist = Playlist::factory()
             ->tracks($this->faker->numberBetween(2, 9))
             ->createOne([
-                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
+                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
             ]);
 
         /** @var BackwardPlaylistTrack $track */
@@ -341,13 +342,13 @@ class TrackBackwardIndexTest extends TestCase
             ->random();
 
         $parameters = [
-            SortParser::param() => $sort->format(Direction::getRandomInstance()),
+            SortParser::param() => $sort->format(Arr::random(Direction::cases())),
         ];
 
         $playlist = Playlist::factory()
             ->tracks($this->faker->numberBetween(2, 9))
             ->createOne([
-                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
+                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
             ]);
 
         $track = PlaylistTrack::query()->inRandomOrder()->first();
@@ -380,7 +381,7 @@ class TrackBackwardIndexTest extends TestCase
         $playlist = Playlist::factory()
             ->tracks($this->faker->numberBetween(2, 9))
             ->createOne([
-                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
+                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
             ]);
 
         $track = PlaylistTrack::query()->inRandomOrder()->first();

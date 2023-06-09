@@ -28,7 +28,7 @@ class FeatureCreated extends FeatureEvent
 
         return DiscordMessage::create('', [
             'description' => "Feature '**{$feature->getName()}**' has been created.",
-            'color' => EmbedColor::GREEN,
+            'color' => EmbedColor::GREEN->value,
         ]);
     }
 }

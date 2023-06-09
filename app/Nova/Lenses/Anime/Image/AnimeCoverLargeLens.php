@@ -19,7 +19,7 @@ class AnimeCoverLargeLens extends AnimeImageLens
      */
     protected static function facet(): ImageFacet
     {
-        return ImageFacet::COVER_LARGE();
+        return ImageFacet::COVER_LARGE;
     }
 
     /**

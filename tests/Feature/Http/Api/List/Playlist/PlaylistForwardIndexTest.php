@@ -28,6 +28,7 @@ use App\Models\BaseModel;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Event;
 use Laravel\Sanctum\Sanctum;
@@ -53,7 +54,7 @@ class PlaylistForwardIndexTest extends TestCase
             ->for(User::factory())
             ->tracks($this->faker->numberBetween(2, 9))
             ->createOne([
-                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PRIVATE,
+                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PRIVATE->value,
             ]);
 
         $response = $this->get(route('api.playlist.forward', ['playlist' => $playlist]));
@@ -74,10 +75,10 @@ class PlaylistForwardIndexTest extends TestCase
             ->for(User::factory())
             ->tracks($this->faker->numberBetween(2, 9))
             ->createOne([
-                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PRIVATE,
+                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PRIVATE->value,
             ]);
 
-        $user = User::factory()->withPermissions(CrudPermission::VIEW()->format(PlaylistTrack::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::VIEW->format(PlaylistTrack::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -95,13 +96,13 @@ class PlaylistForwardIndexTest extends TestCase
     {
         Event::fakeExcept(PlaylistCreated::class);
 
-        $user = User::factory()->withPermissions(CrudPermission::VIEW()->format(PlaylistTrack::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::VIEW->format(PlaylistTrack::class))->createOne();
 
         $playlist = Playlist::factory()
             ->for($user)
             ->tracks($this->faker->numberBetween(2, 9))
             ->createOne([
-                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PRIVATE,
+                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PRIVATE->value,
             ]);
 
         Sanctum::actingAs($user);
@@ -124,7 +125,7 @@ class PlaylistForwardIndexTest extends TestCase
             ->for(User::factory())
             ->tracks($this->faker->numberBetween(2, 9))
             ->createOne([
-                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::UNLISTED,
+                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::UNLISTED->value,
             ]);
 
         $response = $this->get(route('api.playlist.forward', ['playlist' => $playlist]));
@@ -145,7 +146,7 @@ class PlaylistForwardIndexTest extends TestCase
             ->for(User::factory())
             ->tracks($this->faker->numberBetween(2, 9))
             ->createOne([
-                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
+                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
             ]);
 
         $response = $this->get(route('api.playlist.forward', ['playlist' => $playlist]));
@@ -167,7 +168,7 @@ class PlaylistForwardIndexTest extends TestCase
         $playlist = Playlist::factory()
             ->tracks($trackCount)
             ->createOne([
-                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
+                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
             ]);
 
         Collection::times(
@@ -175,7 +176,7 @@ class PlaylistForwardIndexTest extends TestCase
             fn () => Playlist::factory()
                 ->has(PlaylistTrack::factory()->count($trackCount), Playlist::RELATION_TRACKS)
                 ->createOne([
-                    Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
+                    Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
                 ])
         );
 
@@ -207,7 +208,7 @@ class PlaylistForwardIndexTest extends TestCase
         $playlist = Playlist::factory()
             ->tracks($this->faker->numberBetween(2, 9))
             ->createOne([
-                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
+                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
             ]);
 
         $response = $this->get(route('api.playlist.forward', ['playlist' => $playlist]));
@@ -246,7 +247,7 @@ class PlaylistForwardIndexTest extends TestCase
         $playlist = Playlist::factory()
             ->tracks($this->faker->numberBetween(2, 9))
             ->createOne([
-                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
+                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
             ]);
 
         $response = $this->get(route('api.playlist.forward', ['playlist' => $playlist] + $parameters));
@@ -289,7 +290,7 @@ class PlaylistForwardIndexTest extends TestCase
         $playlist = Playlist::factory()
             ->tracks($this->faker->numberBetween(2, 9))
             ->createOne([
-                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
+                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
             ]);
 
         $response = $this->get(route('api.playlist.forward', ['playlist' => $playlist] + $parameters));
@@ -324,13 +325,13 @@ class PlaylistForwardIndexTest extends TestCase
             ->random();
 
         $parameters = [
-            SortParser::param() => $sort->format(Direction::getRandomInstance()),
+            SortParser::param() => $sort->format(Arr::random(Direction::cases())),
         ];
 
         $playlist = Playlist::factory()
             ->tracks($this->faker->numberBetween(2, 9))
             ->createOne([
-                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
+                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
             ]);
 
         $response = $this->get(route('api.playlist.forward', ['playlist' => $playlist] + $parameters));
@@ -361,7 +362,7 @@ class PlaylistForwardIndexTest extends TestCase
         $playlist = Playlist::factory()
             ->tracks($this->faker->numberBetween(2, 9))
             ->createOne([
-                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC,
+                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
             ]);
 
         $response = $this->get(route('api.playlist.forward', ['playlist' => $playlist] + $parameters));

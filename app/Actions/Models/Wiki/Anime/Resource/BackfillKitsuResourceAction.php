@@ -25,7 +25,7 @@ class BackfillKitsuResourceAction extends BackfillAnimeResourceAction
      */
     protected function getSite(): ResourceSite
     {
-        return ResourceSite::KITSU();
+        return ResourceSite::KITSU;
     }
 
     /**
@@ -39,7 +39,7 @@ class BackfillKitsuResourceAction extends BackfillAnimeResourceAction
     {
         // Allow fall-throughs in case Kitsu Resource is not mapped to every external site.
 
-        $malResource = $this->getModel()->resources()->firstWhere(ExternalResource::ATTRIBUTE_SITE, ResourceSite::MAL);
+        $malResource = $this->getModel()->resources()->firstWhere(ExternalResource::ATTRIBUTE_SITE, ResourceSite::MAL->value);
         if ($malResource instanceof ExternalResource) {
             $kitsuResource = $this->getKitsuMapping($malResource, 'MYANIMELIST_ANIME');
             if ($kitsuResource !== null) {
@@ -50,7 +50,7 @@ class BackfillKitsuResourceAction extends BackfillAnimeResourceAction
             Sleep::for(rand(1, 3))->second();
         }
 
-        $anilistResource = $this->getModel()->resources()->firstWhere(ExternalResource::ATTRIBUTE_SITE, ResourceSite::ANILIST);
+        $anilistResource = $this->getModel()->resources()->firstWhere(ExternalResource::ATTRIBUTE_SITE, ResourceSite::ANILIST->value);
         if ($anilistResource instanceof ExternalResource) {
             $kitsuResource = $this->getKitsuMapping($anilistResource, 'ANILIST_ANIME');
             if ($kitsuResource !== null) {
@@ -61,7 +61,7 @@ class BackfillKitsuResourceAction extends BackfillAnimeResourceAction
             Sleep::for(rand(1, 3))->second();
         }
 
-        $anidbResource = $this->getModel()->resources()->firstWhere(ExternalResource::ATTRIBUTE_SITE, ResourceSite::ANIDB);
+        $anidbResource = $this->getModel()->resources()->firstWhere(ExternalResource::ATTRIBUTE_SITE, ResourceSite::ANIDB->value);
         if ($anidbResource instanceof ExternalResource) {
             $kitsuResource = $this->getKitsuMapping($anidbResource, 'ANIDB');
             if ($kitsuResource !== null) {
@@ -72,7 +72,7 @@ class BackfillKitsuResourceAction extends BackfillAnimeResourceAction
             Sleep::for(rand(1, 3))->second();
         }
 
-        $annResource = $this->getModel()->resources()->firstWhere(ExternalResource::ATTRIBUTE_SITE, ResourceSite::ANN);
+        $annResource = $this->getModel()->resources()->firstWhere(ExternalResource::ATTRIBUTE_SITE, ResourceSite::ANN->value);
         if ($annResource instanceof ExternalResource) {
             return $this->getKitsuMapping($annResource, 'ANIMENEWSNETWORK');
         }

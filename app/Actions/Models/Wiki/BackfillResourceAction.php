@@ -38,7 +38,7 @@ abstract class BackfillResourceAction extends BackfillAction
             if ($this->relation()->getQuery()->where(ExternalResource::ATTRIBUTE_SITE, $this->getSite()->value)->exists()) {
                 Log::info("{$this->label()} '{$this->getModel()->getName()}' already has Resource of Site '{$this->getSite()->value}'.");
 
-                return new ActionResult(ActionStatus::SKIPPED());
+                return new ActionResult(ActionStatus::SKIPPED);
             }
 
             $resource = $this->getResource();
@@ -49,8 +49,8 @@ abstract class BackfillResourceAction extends BackfillAction
 
             if ($this->relation()->getQuery()->where(ExternalResource::ATTRIBUTE_SITE, $this->getSite()->value)->doesntExist()) {
                 return new ActionResult(
-                    ActionStatus::FAILED(),
-                    "{$this->label()} '{$this->getModel()->getName()}' has no {$this->getSite()->description} Resource after backfilling. Please review."
+                    ActionStatus::FAILED,
+                    "{$this->label()} '{$this->getModel()->getName()}' has no {$this->getSite()->localize()} Resource after backfilling. Please review."
                 );
             }
 
@@ -63,7 +63,7 @@ abstract class BackfillResourceAction extends BackfillAction
             throw $e;
         }
 
-        return new ActionResult(ActionStatus::PASSED());
+        return new ActionResult(ActionStatus::PASSED);
     }
 
     /**

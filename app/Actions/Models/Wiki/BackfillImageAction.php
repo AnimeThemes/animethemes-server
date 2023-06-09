@@ -43,7 +43,7 @@ abstract class BackfillImageAction extends BackfillAction
             if ($this->relation()->getQuery()->where(Image::ATTRIBUTE_FACET, $this->getFacet()->value)->exists()) {
                 Log::info("{$this->label()} '{$this->getModel()->getName()}' already has Image of Facet '{$this->getFacet()->value}'.");
 
-                return new ActionResult(ActionStatus::SKIPPED());
+                return new ActionResult(ActionStatus::SKIPPED);
             }
 
             $image = $this->getImage();
@@ -54,8 +54,8 @@ abstract class BackfillImageAction extends BackfillAction
 
             if ($this->relation()->getQuery()->where(Image::ATTRIBUTE_FACET, $this->getFacet()->value)->doesntExist()) {
                 return new ActionResult(
-                    ActionStatus::FAILED(),
-                    "{$this->label()} '{$this->getModel()->getName()}' has no {$this->getFacet()->description} Image after backfilling. Please review."
+                    ActionStatus::FAILED,
+                    "{$this->label()} '{$this->getModel()->getName()}' has no {$this->getFacet()->localize()} Image after backfilling. Please review."
                 );
             }
 
@@ -68,7 +68,7 @@ abstract class BackfillImageAction extends BackfillAction
             throw $e;
         }
 
-        return new ActionResult(ActionStatus::PASSED());
+        return new ActionResult(ActionStatus::PASSED);
     }
 
     /**
@@ -109,7 +109,7 @@ abstract class BackfillImageAction extends BackfillAction
     {
         return Str::of(Str::kebab(class_basename($this->getModel())))
             ->append(DIRECTORY_SEPARATOR)
-            ->append(Str::kebab($this->getFacet()->description))
+            ->append(Str::kebab($this->getFacet()->localize()))
             ->__toString();
     }
 

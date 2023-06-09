@@ -27,7 +27,7 @@ trait ValidatesSorts
         $allowedSorts = [];
 
         foreach ($schema->sorts() as $sort) {
-            foreach (Direction::getInstances() as $direction) {
+            foreach (Direction::cases() as $direction) {
                 $allowedSorts[] = $sort->format($direction);
             }
         }

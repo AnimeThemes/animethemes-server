@@ -34,6 +34,6 @@ class ReconcileResultsTest extends TestCase
             }
         };
 
-        static::assertTrue(ActionStatus::PASSED()->is($reconcileResults->getStatus()));
+        static::assertTrue(ActionStatus::PASSED === $reconcileResults->getStatus());
     }
 }

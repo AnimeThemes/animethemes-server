@@ -19,7 +19,7 @@ class ArtistAnnResourceLens extends ArtistResourceLens
      */
     protected static function site(): ResourceSite
     {
-        return ResourceSite::ANN();
+        return ResourceSite::ANN;
     }
 
     /**

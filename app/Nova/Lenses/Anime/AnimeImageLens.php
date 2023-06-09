@@ -32,7 +32,7 @@ abstract class AnimeImageLens extends AnimeLens
      */
     public function name(): string
     {
-        return __('nova.lenses.anime.images.name', ['facet' => static::facet()->description]);
+        return __('nova.lenses.anime.images.name', ['facet' => static::facet()->localize()]);
     }
 
     /**

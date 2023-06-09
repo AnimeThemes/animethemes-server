@@ -4,16 +4,11 @@ declare(strict_types=1);
 
 namespace App\Enums\Http\Api;
 
-use App\Enums\BaseEnum;
-
 /**
- * Class QualifyColumn.
- *
- * @method static static YES()
- * @method static static NO()
+ * Enum QualifyColumn.
  */
-final class QualifyColumn extends BaseEnum
+enum QualifyColumn
 {
-    public const YES = 0;
-    public const NO = 1;
+    case YES;
+    case NO;
 }

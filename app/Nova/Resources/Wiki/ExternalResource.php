@@ -13,9 +13,8 @@ use App\Pivots\Wiki\AnimeResource;
 use App\Pivots\Wiki\ArtistResource;
 use App\Pivots\Wiki\StudioResource;
 use App\Rules\Wiki\Resource\ResourceLinkFormatRule;
-use BenSampo\Enum\Enum;
-use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Enum;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\FormData;
@@ -138,9 +137,9 @@ class ExternalResource extends BaseResource
 
             Select::make(__('nova.fields.external_resource.site.name'), ExternalResourceModel::ATTRIBUTE_SITE)
                 ->options(ResourceSite::asSelectArray())
-                ->displayUsing(fn (?Enum $enum) => $enum?->description)
+                ->displayUsing(fn (?int $enumValue) => ResourceSite::tryFrom($enumValue)?->localize())
                 ->sortable()
-                ->rules(['required', new EnumValue(ResourceSite::class, false)])
+                ->rules(['required', new Enum(ResourceSite::class)])
                 ->help(__('nova.fields.external_resource.site.help'))
                 ->showOnPreview()
                 ->filterable()

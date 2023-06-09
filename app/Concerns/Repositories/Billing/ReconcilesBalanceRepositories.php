@@ -28,7 +28,7 @@ trait ReconcilesBalanceRepositories
     {
         $service = Service::unstrictCoerce(Arr::get($data, 'service'));
 
-        return match ($service?->value) {
+        return match ($service) {
             Service::DIGITALOCEAN => App::make(DigitalOceanSourceRepository::class),
             default => null,
         };
@@ -44,7 +44,7 @@ trait ReconcilesBalanceRepositories
     {
         $service = Service::unstrictCoerce(Arr::get($data, 'service'));
 
-        return match ($service?->value) {
+        return match ($service) {
             Service::DIGITALOCEAN => App::make(DigitalOceanDestinationRepository::class),
             default => null,
         };

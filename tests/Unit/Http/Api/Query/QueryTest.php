@@ -192,7 +192,7 @@ class QueryTest extends TestCase
 
         $query = new FakeQuery($parameters);
 
-        static::assertInstanceOf(LimitCriteria::class, $query->getPagingCriteria(PaginationStrategy::LIMIT()));
+        static::assertInstanceOf(LimitCriteria::class, $query->getPagingCriteria(PaginationStrategy::LIMIT));
     }
 
     /**
@@ -206,6 +206,6 @@ class QueryTest extends TestCase
 
         $query = new FakeQuery($parameters);
 
-        static::assertInstanceOf(OffsetCriteria::class, $query->getPagingCriteria(PaginationStrategy::OFFSET()));
+        static::assertInstanceOf(OffsetCriteria::class, $query->getPagingCriteria(PaginationStrategy::OFFSET));
     }
 }

@@ -74,8 +74,8 @@ class AnimeThemeEntryVideoStoreTest extends TestCase
 
         $user = User::factory()
             ->withPermissions(
-                CrudPermission::CREATE()->format(AnimeThemeEntry::class),
-                CrudPermission::CREATE()->format(Video::class)
+                CrudPermission::CREATE->format(AnimeThemeEntry::class),
+                CrudPermission::CREATE->format(Video::class)
             )
             ->createOne();
 

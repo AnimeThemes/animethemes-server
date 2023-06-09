@@ -8,6 +8,7 @@ use App\Enums\Auth\CrudPermission;
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
+use Illuminate\Support\Arr;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
@@ -25,9 +26,11 @@ class AnimeUpdateTest extends TestCase
     {
         $anime = Anime::factory()->createOne();
 
+        $season = Arr::random(AnimeSeason::cases());
+
         $parameters = array_merge(
             Anime::factory()->raw(),
-            [Anime::ATTRIBUTE_SEASON => AnimeSeason::getRandomInstance()->description],
+            [Anime::ATTRIBUTE_SEASON => $season->localize()],
         );
 
         $response = $this->put(route('api.anime.update', ['anime' => $anime] + $parameters));
@@ -44,9 +47,11 @@ class AnimeUpdateTest extends TestCase
     {
         $anime = Anime::factory()->createOne();
 
+        $season = Arr::random(AnimeSeason::cases());
+
         $parameters = array_merge(
             Anime::factory()->raw(),
-            [Anime::ATTRIBUTE_SEASON => AnimeSeason::getRandomInstance()->description],
+            [Anime::ATTRIBUTE_SEASON => $season->localize()],
         );
 
         $user = User::factory()->createOne();
@@ -67,12 +72,14 @@ class AnimeUpdateTest extends TestCase
     {
         $anime = Anime::factory()->trashed()->createOne();
 
+        $season = Arr::random(AnimeSeason::cases());
+
         $parameters = array_merge(
             Anime::factory()->raw(),
-            [Anime::ATTRIBUTE_SEASON => AnimeSeason::getRandomInstance()->description],
+            [Anime::ATTRIBUTE_SEASON => $season->localize()],
         );
 
-        $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(Anime::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(Anime::class))->createOne();
 
         Sanctum::actingAs($user);
 
@@ -90,12 +97,14 @@ class AnimeUpdateTest extends TestCase
     {
         $anime = Anime::factory()->createOne();
 
+        $season = Arr::random(AnimeSeason::cases());
+
         $parameters = array_merge(
             Anime::factory()->raw(),
-            [Anime::ATTRIBUTE_SEASON => AnimeSeason::getRandomInstance()->description],
+            [Anime::ATTRIBUTE_SEASON => $season->localize()],
         );
 
-        $user = User::factory()->withPermissions(CrudPermission::UPDATE()->format(Anime::class))->createOne();
+        $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(Anime::class))->createOne();
 
         Sanctum::actingAs($user);
 
