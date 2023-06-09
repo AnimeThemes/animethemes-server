@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace App\Concerns\Enums;
 
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
-use Mockery\Exception;
 
 /**
  * Trait CoercesInstances.

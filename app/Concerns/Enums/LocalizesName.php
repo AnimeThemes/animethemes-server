@@ -28,7 +28,7 @@ trait LocalizesName
     /**
      * Get the localized name for the derived translation key.
      *
-     * @param string|null $locale
+     * @param  string|null  $locale
      * @return string|null
      */
     protected function getLocalizedName(?string $locale = null): ?string
