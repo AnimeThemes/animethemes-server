@@ -30,7 +30,7 @@ class RateLimited
             Redis::throttle('key')
                 ->block(0)
                 ->allow(1)
-                ->every(15)
+                ->every(3)
                 ->then(
                     function () use ($job, $next) {
                         // Lock obtained...
