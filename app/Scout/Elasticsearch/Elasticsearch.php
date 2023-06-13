@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Scout\Elasticsearch;
 
+use App\Concerns\Actions\Http\Api\AggregatesFields;
 use App\Concerns\Actions\Http\Api\ConstrainsEagerLoads;
 use App\Enums\Http\Api\Paging\PaginationStrategy;
 use App\Http\Api\Query\Query;
@@ -19,6 +20,7 @@ use Elastic\ScoutDriverPlus\Builders\BoolQueryBuilder;
 use Elastic\ScoutDriverPlus\Exceptions\QueryBuilderValidationException;
 use Exception;
 use Illuminate\Contracts\Pagination\Paginator;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
@@ -28,6 +30,7 @@ use Illuminate\Support\Str;
  */
 class Elasticsearch extends Search
 {
+    use AggregatesFields;
     use ConstrainsEagerLoads;
 
     /**
@@ -92,6 +95,11 @@ class Elasticsearch extends Search
 
         // initialize builder for matches
         $builder = $elasticQuery->build($query->getSearchCriteria());
+
+        // load aggregate fields
+        $builder->refineModels(function (Builder $searchModelBuilder) use ($query, $schema) {
+            $this->withAggregates($searchModelBuilder, $query, $schema);
+        });
 
         // eager load relations with constraints
         $builder = $builder->load($this->constrainEagerLoads($query, $schema));
