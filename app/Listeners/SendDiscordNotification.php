@@ -22,7 +22,7 @@ class SendDiscordNotification
      */
     public function handle(DiscordMessageEvent $event): void
     {
-        if (Feature::active(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS) && $event->shouldSendDiscordMessage()) {
+        if (Feature::for(null)->active(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS) && $event->shouldSendDiscordMessage()) {
             SendDiscordNotificationJob::dispatch($event)
                 ->onQueue('discord')
                 ->afterCommit();

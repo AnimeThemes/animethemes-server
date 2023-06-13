@@ -44,7 +44,7 @@ class SendDiscordNotificationJob implements ShouldQueue
      */
     public function handle(): void
     {
-        if (Feature::active(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS)) {
+        if (Feature::for(null)->active(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS)) {
             Notification::route('discord', $this->event->getDiscordChannel())
                 ->notify(new DiscordNotification($this->event->getDiscordMessage()));
         }
