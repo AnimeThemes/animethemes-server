@@ -32,7 +32,7 @@ class RecordView
             throw new RuntimeException('record_view should only be configured for viewable models');
         }
 
-        if (Feature::active(FeatureConstants::ALLOW_VIEW_RECORDING)) {
+        if (Feature::for(null)->active(FeatureConstants::ALLOW_VIEW_RECORDING)) {
             views($model)->cooldown(now()->addMinutes(5))->record();
         }
 

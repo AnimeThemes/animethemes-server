@@ -66,6 +66,6 @@ class DiscordNotification extends Notification implements ShouldQueue
      */
     public function shouldSend(mixed $notifiable, string $channel): bool
     {
-        return Feature::active(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
+        return Feature::for(null)->active(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
     }
 }
