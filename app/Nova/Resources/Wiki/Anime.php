@@ -18,6 +18,8 @@ use App\Nova\Lenses\Anime\Resource\AnimeAnnResourceLens;
 use App\Nova\Lenses\Anime\Resource\AnimeKitsuResourceLens;
 use App\Nova\Lenses\Anime\Resource\AnimeMalResourceLens;
 use App\Nova\Lenses\Anime\Resource\AnimePlanetResourceLens;
+use App\Nova\Lenses\Anime\Resource\AnimeTwitterResourceLens;
+use App\Nova\Lenses\Anime\Resource\AnimeOfficialSiteResourceLens;
 use App\Nova\Lenses\Anime\Studio\AnimeStudioLens;
 use App\Nova\Metrics\Anime\AnimePerDay;
 use App\Nova\Metrics\Anime\NewAnime;
@@ -369,6 +371,8 @@ class Anime extends BaseResource
                 new AnimeAnnResourceLens(),
                 new AnimeKitsuResourceLens(),
                 new AnimeMalResourceLens(),
+                new AnimeTwitterResourceLens(),
+                new AnimeOfficialSiteResourceLens(),
                 new AnimeStudioLens(),
             ]
         );

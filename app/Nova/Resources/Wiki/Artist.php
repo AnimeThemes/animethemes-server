@@ -12,8 +12,11 @@ use App\Nova\Lenses\Artist\Image\ArtistCoverLargeLens;
 use App\Nova\Lenses\Artist\Image\ArtistCoverSmallLens;
 use App\Nova\Lenses\Artist\Resource\ArtistAniDbResourceLens;
 use App\Nova\Lenses\Artist\Resource\ArtistAnilistResourceLens;
+use App\Nova\Lenses\Artist\Resource\ArtistAnimePlanetResourceLens;
 use App\Nova\Lenses\Artist\Resource\ArtistAnnResourceLens;
 use App\Nova\Lenses\Artist\Resource\ArtistMalResourceLens;
+use App\Nova\Lenses\Artist\Resource\ArtistOfficialSiteResourceLens;
+use App\Nova\Lenses\Artist\Resource\ArtistTwitterResourceLens;
 use App\Nova\Lenses\Artist\Song\ArtistSongLens;
 use App\Nova\Metrics\Artist\ArtistsPerDay;
 use App\Nova\Metrics\Artist\NewArtists;
@@ -326,9 +329,12 @@ class Artist extends BaseResource
                 new ArtistAniDbResourceLens(),
                 new ArtistAnilistResourceLens(),
                 new ArtistAnnResourceLens(),
+                new ArtistMalResourceLens(),
+                new ArtistAnimePlanetResourceLens(),
+                new ArtistTwitterResourceLens(),
+                new ArtistOfficialSiteResourceLens(),
                 new ArtistCoverLargeLens(),
                 new ArtistCoverSmallLens(),
-                new ArtistMalResourceLens(),
                 new ArtistSongLens(),
             ]
         );
