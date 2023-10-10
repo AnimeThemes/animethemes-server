@@ -227,6 +227,8 @@ class Theme extends BaseResource
                         }
                         if ($slug->isNotEmpty() && $formData->offsetExists(AnimeTheme::ATTRIBUTE_SEQUENCE)) {
                             $slug = $slug->append($formData->offsetGet(AnimeTheme::ATTRIBUTE_SEQUENCE));
+                        } else if ($slug->isNotEmpty()) {
+                            $slug = $slug->append('1');
                         }
                         $field->value = $slug->__toString();
                     }
