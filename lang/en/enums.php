@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Enums\Models\Billing\BalanceFrequency;
 use App\Enums\Models\Billing\Service;
 use App\Enums\Models\List\PlaylistVisibility;
+use App\Enums\Models\Wiki\AnimeMediaFormat;
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Enums\Models\Wiki\ResourceSite;
@@ -13,6 +14,15 @@ use App\Enums\Models\Wiki\VideoOverlap;
 use App\Enums\Models\Wiki\VideoSource;
 
 return [
+    AnimeMediaFormat::class => [
+        AnimeMediaFormat::UNKNOWN->name => 'Unknown',
+        AnimeMediaFormat::TV->name => 'TV',
+        AnimeMediaFormat::TV_SHORT->name => 'TV Short',
+        AnimeMediaFormat::OVA->name => 'OVA',
+        AnimeMediaFormat::MOVIE->name => 'Movie',
+        AnimeMediaFormat::SPECIAL->name => 'Special',
+        AnimeMediaFormat::ONA->name => 'ONA'
+    ],
     AnimeSeason::class => [
         AnimeSeason::WINTER->name => 'Winter',
         AnimeSeason::SPRING->name => 'Spring',

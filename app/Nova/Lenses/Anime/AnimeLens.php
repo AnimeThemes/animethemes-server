@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Nova\Lenses\Anime;
 
+use App\Enums\Models\Wiki\AnimeMediaFormat;
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Models\BaseModel;
 use App\Models\Wiki\Anime;
@@ -57,6 +58,13 @@ abstract class AnimeLens extends BaseLens
             Select::make(__('nova.fields.anime.season.name'), Anime::ATTRIBUTE_SEASON)
                 ->options(AnimeSeason::asSelectArray())
                 ->displayUsing(fn (?int $enumValue) => AnimeSeason::tryFrom($enumValue)?->localize())
+                ->sortable()
+                ->showOnPreview()
+                ->filterable(),
+
+            Select::make(__('nova.fields.anime.media_format.name'), Anime::ATTRIBUTE_MEDIA_FORMAT)
+                ->options(AnimeMediaFormat::asSelectArray())
+                ->displayUsing(fn (?int $enumValue) => AnimeMediaFormat::tryFrom($enumValue ?? 0)?->localize())
                 ->sortable()
                 ->showOnPreview()
                 ->filterable(),
