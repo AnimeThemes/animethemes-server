@@ -8,6 +8,8 @@ use App\Enums\Models\Wiki\AnimeSeason;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Wiki\Anime as AnimeModel;
 use App\Models\Wiki\ExternalResource as ExternalResourceModel;
+use App\Models\Wiki\Video as VideoModel;
+use App\Nova\Actions\Discord\DiscordThreadAction;
 use App\Nova\Actions\Models\Wiki\Anime\AttachAnimeResourceAction;
 use App\Nova\Actions\Models\Wiki\Anime\BackfillAnimeAction;
 use App\Nova\Lenses\Anime\Image\AnimeCoverLargeLens;
@@ -288,6 +290,12 @@ class Anime extends BaseResource
         return array_merge(
             parent::actions($request),
             [
+                (new DiscordThreadAction())
+                    ->confirmButtonText(__('nova.actions.base.confirmButtonText'))
+                    ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
+                    ->exceptOnIndex()
+                    ->canSeeWhen('create', VideoModel::class),
+
                 (new BackfillAnimeAction($request->user()))
                     ->confirmButtonText(__('nova.actions.anime.backfill.confirmButtonText'))
                     ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
