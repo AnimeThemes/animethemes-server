@@ -12,4 +12,5 @@ enum EmbedColor: int
     case GREEN = 3066993;
     case YELLOW = 16776960;
     case RED = 15158332;
+    case PURPLE = 10092799;
 }

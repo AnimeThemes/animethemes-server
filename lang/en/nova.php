@@ -55,6 +55,11 @@ return [
                 ],
                 'name' => 'Backfill Anime',
             ],
+            'discord' => [
+                'thread' => [
+                    'name' => 'Create Thread Discord'
+                ]
+            ]
         ],
         'audio' => [
             'delete' => [
@@ -71,6 +76,12 @@ return [
         'base' => [
             'cancelButtonText' => 'Cancel',
             'confirmButtonText' => 'Confirm',
+        ],
+        'discord' => [
+            'thread' => [
+                'name' => 'Name',
+                'help' => 'The name of the thread to be created. Use the default name or a shorter synonym if it exceeds 100 characters.'
+            ]
         ],
         'dump' => [
             'dump' => [
