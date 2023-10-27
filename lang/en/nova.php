@@ -175,12 +175,35 @@ return [
                 'attach_resource' => [
                     'confirmButtonText' => 'Attach',
                     'fields' => [
-                        'link' => [
-                            'help' => 'The URL of the resource. Ex: https://myanimelist.net/people/8/, https://anidb.net/creator/3/, https://kaguya.love/',
-                            'name' => 'Link',
+                        'official_site' => [
+                            'help' => 'The URL. Ex: https://kaguya.love/',
+                        ],
+                        'twitter' => [
+                            'help' => 'The URL. Ex: https://twitter.com/AnimeThemesMoe',
+                        ],
+                        'anidb' => [
+                            'help' => 'The URL. Ex: https://anidb.net/anime/11746, https://anidb.net/creator/10759',
+                        ],
+                        'anilist' => [
+                            'help' => 'The URL. Ex: https://anilist.co/anime/21460, https://anilist.co/staff/106030',
+                        ],
+                        'anime_planet' => [
+                            'help' => 'The URL. Ex: https://www.anime-planet.com/anime/sound-euphonium-2, https://www.anime-planet.com/people/chika-anzai',
+                        ],
+                        'ann' => [
+                            'help' => 'The URL. Ex: https://www.animenewsnetwork.com/encyclopedia/anime.php?id=18558',
+                        ],
+                        'kitsu' => [
+                            'help' => 'The URL. Ex: https://kitsu.io/anime/hibike-euphonium-2',
+                        ],
+                        'mal' => [
+                            'help' => 'The URL. Ex: https://myanimelist.net/anime/31988, https://myanimelist.net/people/11030',
+                        ],
+                        'wiki' => [
+                            'help' => 'The URL. Ex: https://unite-up.fandom.com/wiki/Protostar',
                         ],
                     ],
-                    'name' => 'Attach :site Resource',
+                    'name' => 'Attach Resources',
                 ],
             ],
         ],

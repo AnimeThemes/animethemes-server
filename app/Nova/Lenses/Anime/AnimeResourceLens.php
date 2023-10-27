@@ -59,7 +59,7 @@ abstract class AnimeResourceLens extends AnimeLens
     public function actions(NovaRequest $request): array
     {
         return [
-            (new AttachAnimeResourceAction(static::site()))
+            (new AttachAnimeResourceAction([static::site()]))
                 ->confirmButtonText(__('nova.actions.models.wiki.attach_resource.confirmButtonText'))
                 ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
                 ->showInline()

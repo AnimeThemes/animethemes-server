@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Nova\Actions\Models\Wiki\Artist;
 
+use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Wiki\ExternalResource;
 use App\Nova\Actions\Models\Wiki\AttachResourceAction;
 use App\Rules\Wiki\Resource\ArtistResourceLinkFormatRule;
@@ -29,10 +30,11 @@ class AttachArtistResourceAction extends AttachResourceAction
     /**
      * Get the format validation rule.
      *
+     * @param  ResourceSite  $site
      * @return ValidationRule
      */
-    protected function getFormatRule(): ValidationRule
+    protected function getFormatRule(ResourceSite $site): ValidationRule
     {
-        return new ArtistResourceLinkFormatRule($this->site);
+        return new ArtistResourceLinkFormatRule($site);
     }
 }
