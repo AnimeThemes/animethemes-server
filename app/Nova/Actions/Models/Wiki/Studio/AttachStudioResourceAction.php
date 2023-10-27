@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Nova\Actions\Models\Wiki\Studio;
 
+use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Wiki\ExternalResource;
 use App\Nova\Actions\Models\Wiki\AttachResourceAction;
 use App\Rules\Wiki\Resource\StudioResourceLinkFormatRule;
@@ -29,10 +30,11 @@ class AttachStudioResourceAction extends AttachResourceAction
     /**
      * Get the format validation rule.
      *
+     * @param  ResourceSite  $site
      * @return ValidationRule
      */
-    protected function getFormatRule(): ValidationRule
+    protected function getFormatRule(ResourceSite $site): ValidationRule
     {
-        return new StudioResourceLinkFormatRule($this->site);
+        return new StudioResourceLinkFormatRule($site);
     }
 }

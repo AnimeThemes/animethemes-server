@@ -287,6 +287,18 @@ class Anime extends BaseResource
      */
     public function actions(NovaRequest $request): array
     {
+        $resourceSites = [
+            ResourceSite::ANIDB,
+            ResourceSite::ANILIST,
+            ResourceSite::ANIME_PLANET,
+            ResourceSite::ANN,
+            ResourceSite::KITSU,
+            ResourceSite::MAL,
+            ResourceSite::OFFICIAL_SITE,
+            ResourceSite::TWITTER,
+            ResourceSite::WIKI
+        ];
+
         return array_merge(
             parent::actions($request),
             [
@@ -304,37 +316,7 @@ class Anime extends BaseResource
                     ->showInline()
                     ->canSeeWhen('update', $this),
 
-                (new AttachAnimeResourceAction(ResourceSite::ANIDB))
-                    ->confirmButtonText(__('nova.actions.models.wiki.attach_resource.confirmButtonText'))
-                    ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
-                    ->exceptOnIndex()
-                    ->canSeeWhen('create', ExternalResourceModel::class),
-
-                (new AttachAnimeResourceAction(ResourceSite::ANILIST))
-                    ->confirmButtonText(__('nova.actions.models.wiki.attach_resource.confirmButtonText'))
-                    ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
-                    ->exceptOnIndex()
-                    ->canSeeWhen('create', ExternalResourceModel::class),
-
-                (new AttachAnimeResourceAction(ResourceSite::ANIME_PLANET))
-                    ->confirmButtonText(__('nova.actions.models.wiki.attach_resource.confirmButtonText'))
-                    ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
-                    ->exceptOnIndex()
-                    ->canSeeWhen('create', ExternalResourceModel::class),
-
-                (new AttachAnimeResourceAction(ResourceSite::ANN))
-                    ->confirmButtonText(__('nova.actions.models.wiki.attach_resource.confirmButtonText'))
-                    ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
-                    ->exceptOnIndex()
-                    ->canSeeWhen('create', ExternalResourceModel::class),
-
-                (new AttachAnimeResourceAction(ResourceSite::KITSU))
-                    ->confirmButtonText(__('nova.actions.models.wiki.attach_resource.confirmButtonText'))
-                    ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
-                    ->exceptOnIndex()
-                    ->canSeeWhen('create', ExternalResourceModel::class),
-
-                (new AttachAnimeResourceAction(ResourceSite::MAL))
+                (new AttachAnimeResourceAction($resourceSites))
                     ->confirmButtonText(__('nova.actions.models.wiki.attach_resource.confirmButtonText'))
                     ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
                     ->exceptOnIndex()

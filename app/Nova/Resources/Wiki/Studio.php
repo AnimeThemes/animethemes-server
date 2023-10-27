@@ -212,6 +212,14 @@ class Studio extends BaseResource
      */
     public function actions(NovaRequest $request): array
     {
+        $resources = [
+            ResourceSite::ANIDB,
+            ResourceSite::ANILIST,
+            ResourceSite::ANIME_PLANET,
+            ResourceSite::ANN,
+            ResourceSite::MAL
+        ];
+
         return array_merge(
             parent::actions($request),
             [
@@ -223,31 +231,7 @@ class Studio extends BaseResource
                     ->showInline()
                     ->canSeeWhen('update', $this),
 
-                (new AttachStudioResourceAction(ResourceSite::ANIDB))
-                    ->confirmButtonText(__('nova.actions.models.wiki.attach_resource.confirmButtonText'))
-                    ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
-                    ->exceptOnIndex()
-                    ->canSeeWhen('create', ExternalResourceModel::class),
-
-                (new AttachStudioResourceAction(ResourceSite::ANILIST))
-                    ->confirmButtonText(__('nova.actions.models.wiki.attach_resource.confirmButtonText'))
-                    ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
-                    ->exceptOnIndex()
-                    ->canSeeWhen('create', ExternalResourceModel::class),
-
-                (new AttachStudioResourceAction(ResourceSite::ANIME_PLANET))
-                    ->confirmButtonText(__('nova.actions.models.wiki.attach_resource.confirmButtonText'))
-                    ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
-                    ->exceptOnIndex()
-                    ->canSeeWhen('create', ExternalResourceModel::class),
-
-                (new AttachStudioResourceAction(ResourceSite::ANN))
-                    ->confirmButtonText(__('nova.actions.models.wiki.attach_resource.confirmButtonText'))
-                    ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
-                    ->exceptOnIndex()
-                    ->canSeeWhen('create', ExternalResourceModel::class),
-
-                (new AttachStudioResourceAction(ResourceSite::MAL))
+                (new AttachStudioResourceAction($resources))
                     ->confirmButtonText(__('nova.actions.models.wiki.attach_resource.confirmButtonText'))
                     ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
                     ->exceptOnIndex()

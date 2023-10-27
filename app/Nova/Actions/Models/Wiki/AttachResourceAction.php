@@ -5,7 +5,10 @@ declare(strict_types=1);
 namespace App\Nova\Actions\Models\Wiki;
 
 use App\Enums\Models\Wiki\ResourceSite;
+use App\Models\Wiki\Anime;
+use App\Models\Wiki\Artist;
 use App\Models\Wiki\ExternalResource;
+use App\Models\Wiki\Studio;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Collection;
@@ -22,9 +25,9 @@ abstract class AttachResourceAction extends Action
     /**
      * Create a new action instance.
      *
-     * @param  ResourceSite  $site
+     * @param  ResourceSite[]  $sites
      */
-    public function __construct(protected ResourceSite $site)
+    public function __construct(protected array $sites)
     {
     }
 
@@ -37,7 +40,7 @@ abstract class AttachResourceAction extends Action
      */
     public function name(): string
     {
-        return __('nova.actions.models.wiki.attach_resource.name', ['site' => $this->site->localize()]);
+        return __('nova.actions.models.wiki.attach_resource.name');
     }
 
     /**
@@ -49,11 +52,13 @@ abstract class AttachResourceAction extends Action
      */
     public function handle(ActionFields $fields, Collection $models): Collection
     {
-        $resource = $this->getOrCreateResource($fields);
+        $resources = $this->getOrCreateResource($fields);
 
-        $relation = $this->relation($resource);
+        foreach ($resources as $resource) {
+            $relation = $this->relation($resource);
 
-        $relation->attach($models);
+            $relation->attach($models);
+        }
 
         return $models;
     }
@@ -62,26 +67,33 @@ abstract class AttachResourceAction extends Action
      * Get or Create Resource from link field.
      *
      * @param  ActionFields  $fields
-     * @return ExternalResource
+     * @return ExternalResource[]
      */
-    protected function getOrCreateResource(ActionFields $fields): ExternalResource
+    protected function getOrCreateResource(ActionFields $fields): array
     {
-        /** @var string $link */
-        $link = $fields->get('link');
+        $resources = [];
 
-        $resource = ExternalResource::query()
-            ->where(ExternalResource::ATTRIBUTE_LINK, $link)
-            ->first();
+        foreach ($this->sites as $resourceSite) {
+            $link = $fields->get($resourceSite->name);
 
-        if ($resource === null) {
-            $resource = ExternalResource::query()->create([
-                ExternalResource::ATTRIBUTE_EXTERNAL_ID => ResourceSite::parseIdFromLink($link),
-                ExternalResource::ATTRIBUTE_LINK => $link,
-                ExternalResource::ATTRIBUTE_SITE => $this->site->value,
-            ]);
+            if (empty($link)) continue;
+
+            $resource = ExternalResource::query()
+                ->where(ExternalResource::ATTRIBUTE_LINK, $link)
+                ->first();
+
+            if ($resource === null) {
+                $resource = ExternalResource::query()->create([
+                    ExternalResource::ATTRIBUTE_EXTERNAL_ID => ResourceSite::parseIdFromLink($link),
+                    ExternalResource::ATTRIBUTE_LINK => $link,
+                    ExternalResource::ATTRIBUTE_SITE => $resourceSite->value,
+                ]);
+            }
+
+            $resources[] = $resource;
         }
 
-        return $resource;
+        return $resources;
     }
 
     /**
@@ -100,21 +112,37 @@ abstract class AttachResourceAction extends Action
      */
     public function fields(NovaRequest $request): array
     {
+        $fields = [];
+        $model = $request->findModelQuery()->first();
+
+        foreach ($this->sites as $resourceSite) {
+            if ($model instanceof Anime || $model instanceof Artist || $model instanceof Studio) {
+                $resources = $model->resources();
+                if ($resources->where(ExternalResource::ATTRIBUTE_SITE, $resourceSite->value)->exists()) continue;
+            }
+            
+            $resourceSiteLower = strtolower($resourceSite->name);
+
+            $fields[] = Text::make($resourceSite->localize(), $resourceSite->name)
+                            ->help(__("nova.actions.models.wiki.attach_resource.fields.{$resourceSiteLower}.help"))
+                            ->rules(fn ($request) => [
+                                'max:192',
+                                empty($request->input($resourceSite->name)) ? '' : 'url',
+                                empty($request->input($resourceSite->name)) ? '' : $this->getFormatRule($resourceSite),
+                            ]);
+        }
+
         return array_merge(
             parent::fields($request),
-            [
-                Text::make(__('nova.actions.models.wiki.attach_resource.fields.link.name'), 'link')
-                    ->required()
-                    ->rules(['required', 'max:192', 'url', $this->getFormatRule()])
-                    ->help(__('nova.actions.models.wiki.attach_resource.fields.link.help')),
-            ]
+            $fields
         );
     }
 
     /**
      * Get the format validation rule.
      *
+     * @param  ResourceSite  $site
      * @return ValidationRule
      */
-    abstract protected function getFormatRule(): ValidationRule;
+    abstract protected function getFormatRule(ResourceSite $site): ValidationRule;
 }
