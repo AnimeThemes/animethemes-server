@@ -205,6 +205,10 @@ return [
                     ],
                     'name' => 'Attach Resources',
                 ],
+                'attach_image' => [
+                    'confirmButtonText' => 'Upload',
+                    'name' => 'Attach Images'
+                ],
             ],
         ],
         'permission' => [

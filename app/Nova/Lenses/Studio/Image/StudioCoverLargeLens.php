@@ -7,6 +7,7 @@ namespace App\Nova\Lenses\Studio\Image;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Models\Wiki\Image;
 use App\Models\Wiki\Studio;
+use App\Nova\Actions\Models\Wiki\Studio\AttachStudioImageAction;
 use App\Nova\Actions\Models\Wiki\Studio\BackfillStudioAction;
 use App\Nova\Lenses\Studio\StudioLens;
 use Illuminate\Database\Eloquent\Builder;
@@ -58,6 +59,12 @@ class StudioCoverLargeLens extends StudioLens
                 ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
                 ->showInline()
                 ->canSeeWhen('update', $this->resource),
+
+            (new AttachStudioImageAction([ImageFacet::COVER_LARGE]))
+                ->confirmButtonText(__('nova.actions.models.wiki.attach_image.confirmButtonText'))
+                ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
+                ->exceptOnIndex()
+                ->canSeeWhen('create', Image::class),
         ];
     }
 

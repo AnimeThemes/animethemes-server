@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 namespace App\Nova\Resources\Wiki;
 
+use App\Enums\Models\Wiki\ImageFacet;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Wiki\Artist as ArtistModel;
 use App\Models\Wiki\ExternalResource as ExternalResourceModel;
+use App\Models\Wiki\Image as ImageModel;
+use App\Nova\Actions\Models\Wiki\Artist\AttachArtistImageAction;
 use App\Nova\Actions\Models\Wiki\Artist\AttachArtistResourceAction;
 use App\Nova\Lenses\Artist\Image\ArtistCoverLargeLens;
 use App\Nova\Lenses\Artist\Image\ArtistCoverSmallLens;
@@ -279,6 +282,11 @@ class Artist extends BaseResource
             ResourceSite::WIKI
         ];
 
+        $facets = [
+            ImageFacet::COVER_SMALL,
+            ImageFacet::COVER_LARGE
+        ];
+
         return array_merge(
             parent::actions($request),
             [
@@ -287,6 +295,12 @@ class Artist extends BaseResource
                     ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
                     ->exceptOnIndex()
                     ->canSeeWhen('create', ExternalResourceModel::class),
+
+                (new AttachArtistImageAction($facets))
+                    ->confirmButtonText(__('nova.actions.models.wiki.attach_image.confirmButtonText'))
+                    ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
+                    ->exceptOnIndex()
+                    ->canSeeWhen('create', ImageModel::class),
             ]
         );
     }

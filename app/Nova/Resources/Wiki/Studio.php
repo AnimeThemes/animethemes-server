@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 namespace App\Nova\Resources\Wiki;
 
+use App\Enums\Models\Wiki\ImageFacet;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Wiki\ExternalResource as ExternalResourceModel;
+use App\Models\Wiki\Image as ImageModel;
 use App\Models\Wiki\Studio as StudioModel;
+use App\Nova\Actions\Models\Wiki\Studio\AttachStudioImageAction;
 use App\Nova\Actions\Models\Wiki\Studio\AttachStudioResourceAction;
 use App\Nova\Actions\Models\Wiki\Studio\BackfillStudioAction;
 use App\Nova\Lenses\Studio\Image\StudioCoverLargeLens;
@@ -220,6 +223,10 @@ class Studio extends BaseResource
             ResourceSite::MAL
         ];
 
+        $facets = [
+            ImageFacet::COVER_LARGE
+        ];
+
         return array_merge(
             parent::actions($request),
             [
@@ -236,6 +243,12 @@ class Studio extends BaseResource
                     ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
                     ->exceptOnIndex()
                     ->canSeeWhen('create', ExternalResourceModel::class),
+
+                (new AttachStudioImageAction($facets))
+                    ->confirmButtonText(__('nova.actions.models.wiki.attach_image.confirmButtonText'))
+                    ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
+                    ->exceptOnIndex()
+                    ->canSeeWhen('create', ImageModel::class),
             ]
         );
     }
