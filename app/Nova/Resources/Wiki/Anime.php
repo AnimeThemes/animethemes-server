@@ -5,11 +5,14 @@ declare(strict_types=1);
 namespace App\Nova\Resources\Wiki;
 
 use App\Enums\Models\Wiki\AnimeSeason;
+use App\Enums\Models\Wiki\ImageFacet;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Wiki\Anime as AnimeModel;
 use App\Models\Wiki\ExternalResource as ExternalResourceModel;
+use App\Models\Wiki\Image as ImageModel;
 use App\Models\Wiki\Video as VideoModel;
 use App\Nova\Actions\Discord\DiscordThreadAction;
+use App\Nova\Actions\Models\Wiki\Anime\AttachAnimeImageAction;
 use App\Nova\Actions\Models\Wiki\Anime\AttachAnimeResourceAction;
 use App\Nova\Actions\Models\Wiki\Anime\BackfillAnimeAction;
 use App\Nova\Lenses\Anime\Image\AnimeCoverLargeLens;
@@ -299,6 +302,11 @@ class Anime extends BaseResource
             ResourceSite::WIKI
         ];
 
+        $facets = [
+            ImageFacet::COVER_SMALL,
+            ImageFacet::COVER_LARGE
+        ];
+
         return array_merge(
             parent::actions($request),
             [
@@ -321,6 +329,12 @@ class Anime extends BaseResource
                     ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
                     ->exceptOnIndex()
                     ->canSeeWhen('create', ExternalResourceModel::class),
+
+                (new AttachAnimeImageAction($facets))
+                    ->confirmButtonText(__('nova.actions.models.wiki.attach_image.confirmButtonText'))
+                    ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
+                    ->exceptOnIndex()
+                    ->canSeeWhen('create', ImageModel::class),
             ]
         );
     }

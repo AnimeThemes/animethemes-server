@@ -7,6 +7,7 @@ namespace App\Nova\Lenses\Artist;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Image;
+use App\Nova\Actions\Models\Wiki\Artist\AttachArtistImageAction;
 use Illuminate\Database\Eloquent\Builder;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
@@ -57,6 +58,12 @@ abstract class ArtistImageLens extends ArtistLens
      */
     public function actions(NovaRequest $request): array
     {
-        return [];
+        return [
+            (new AttachArtistImageAction([static::facet()]))
+                ->confirmButtonText(__('nova.actions.models.wiki.attach_image.confirmButtonText'))
+                ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
+                ->exceptOnIndex()
+                ->canSeeWhen('create', Image::class),
+        ];
     }
 }
