@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Factories\Wiki;
 
+use App\Enums\Models\Wiki\AnimeMediaFormat;
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeSynonym;
@@ -44,6 +45,7 @@ class AnimeFactory extends Factory
     public function definition(): array
     {
         $season = Arr::random(AnimeSeason::cases());
+        $media_format = Arr::random(AnimeMediaFormat::cases());
 
         return [
             Anime::ATTRIBUTE_NAME => fake()->words(3, true),
@@ -51,6 +53,7 @@ class AnimeFactory extends Factory
             Anime::ATTRIBUTE_SLUG => Str::slug(fake()->text(191), '_'),
             Anime::ATTRIBUTE_SYNOPSIS => fake()->text(),
             Anime::ATTRIBUTE_YEAR => fake()->numberBetween(1960, intval(date('Y')) + 1),
+            Anime::ATTRIBUTE_MEDIA_FORMAT => $media_format->value,
         ];
     }
 

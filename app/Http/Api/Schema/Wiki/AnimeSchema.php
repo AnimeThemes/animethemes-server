@@ -8,6 +8,7 @@ use App\Contracts\Http\Api\Schema\InteractsWithPivots;
 use App\Contracts\Http\Api\Schema\SearchableSchema;
 use App\Http\Api\Field\Base\IdField;
 use App\Http\Api\Field\Field;
+use App\Http\Api\Field\Wiki\Anime\AnimeMediaFormatField;
 use App\Http\Api\Field\Wiki\Anime\AnimeNameField;
 use App\Http\Api\Field\Wiki\Anime\AnimeSeasonField;
 use App\Http\Api\Field\Wiki\Anime\AnimeSlugField;
@@ -95,6 +96,7 @@ class AnimeSchema extends EloquentSchema implements InteractsWithPivots, Searcha
                 new IdField($this, Anime::ATTRIBUTE_ID),
                 new AnimeNameField($this),
                 new AnimeSeasonField($this),
+                new AnimeMediaFormatField($this),
                 new AnimeSlugField($this),
                 new AnimeSynopsisField($this),
                 new AnimeYearField($this),

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Nova\Resources\Wiki;
 
+use App\Enums\Models\Wiki\AnimeMediaFormat;
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Enums\Models\Wiki\ResourceSite;
@@ -200,6 +201,16 @@ class Anime extends BaseResource
                 ->sortable()
                 ->rules(['required', new Enum(AnimeSeason::class)])
                 ->help(__('nova.fields.anime.season.help'))
+                ->showOnPreview()
+                ->filterable()
+                ->showWhenPeeking(),
+
+            Select::make(__('nova.fields.anime.media_format.name'), AnimeModel::ATTRIBUTE_MEDIA_FORMAT)
+                ->options(AnimeMediaFormat::asSelectArray())
+                ->displayUsing(fn (?int $enumValue) => AnimeMediaFormat::tryFrom($enumValue ?? 0)?->localize())
+                ->sortable()
+                ->rules(['required', new Enum(AnimeMediaFormat::class)])
+                ->help(__('nova.fields.anime.media_format.help'))
                 ->showOnPreview()
                 ->filterable()
                 ->showWhenPeeking(),

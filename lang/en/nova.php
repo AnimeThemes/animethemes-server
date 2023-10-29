@@ -393,7 +393,7 @@ return [
                 'name' => 'Sequence',
             ],
             'slug' => [
-                'help' => 'Used as the URL Slug / Model Route Key. By default, this should be the Type and Sequence lowercased and "_" replacing spaces. These should be unique within the scope of the anime. Ex: "OP", "ED1", "OP2-Dub".',
+                'help' => 'Used as the URL Slug / Model Route Key. By default, this should be the Type and Sequence lowercased and "-" replacing spaces. These should be unique within the scope of the anime. Ex: "OP1", "ED1", "OP2-Dub".',
                 'name' => 'Slug',
             ],
             'type' => [
@@ -421,6 +421,10 @@ return [
             'year' => [
                 'help' => 'The Year in which the Anime premiered. By default, we will use the Premiered Field on the MAL page.',
                 'name' => 'Year',
+            ],
+            'media_format' => [
+                'help' => 'The Format of the Anime. By default, we will use the Type Field on the MAL page.',
+                'name' => 'Media Format'
             ],
             'resources' => [
                 'as' => [

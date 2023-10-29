@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models\Wiki;
 
+use App\Enums\Models\Wiki\AnimeMediaFormat;
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Events\Wiki\Anime\AnimeCreated;
 use App\Events\Wiki\Anime\AnimeDeleted;
@@ -44,6 +45,7 @@ use Laravel\Nova\Actions\Actionable;
  * @property Collection<int, Studio> $studios
  * @property string|null $synopsis
  * @property int|null $year
+ * @property AnimeMediaFormat|null $media_format
  *
  * @method static AnimeFactory factory(...$parameters)
  */
@@ -60,6 +62,7 @@ class Anime extends BaseModel
     final public const ATTRIBUTE_SLUG = 'slug';
     final public const ATTRIBUTE_SYNOPSIS = 'synopsis';
     final public const ATTRIBUTE_YEAR = 'year';
+    final public const ATTRIBUTE_MEDIA_FORMAT = 'media_format';
 
     final public const RELATION_ARTISTS = 'animethemes.song.artists';
     final public const RELATION_AUDIO = 'animethemes.animethemeentries.videos.audio';
@@ -85,6 +88,7 @@ class Anime extends BaseModel
         Anime::ATTRIBUTE_SLUG,
         Anime::ATTRIBUTE_SYNOPSIS,
         Anime::ATTRIBUTE_YEAR,
+        Anime::ATTRIBUTE_MEDIA_FORMAT
     ];
 
     /**
@@ -160,6 +164,7 @@ class Anime extends BaseModel
     protected $casts = [
         Anime::ATTRIBUTE_SEASON => AnimeSeason::class,
         Anime::ATTRIBUTE_YEAR => 'int',
+        Anime::ATTRIBUTE_MEDIA_FORMAT => AnimeMediaFormat::class
     ];
 
     /**
