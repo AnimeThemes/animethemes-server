@@ -210,4 +210,14 @@ class Playlist extends BaseModel implements HasHashids, Viewable
     {
         return $this->hasMany(PlaylistTrack::class, PlaylistTrack::ATTRIBUTE_PLAYLIST);
     }
+
+    /**
+     * Only get the attributes as an array to prevent recursive toArray() calls.
+     *
+     * @return array
+     */
+    public function toSearchableArray(): array
+    {
+        return $this->attributesToArray();
+    }
 }
