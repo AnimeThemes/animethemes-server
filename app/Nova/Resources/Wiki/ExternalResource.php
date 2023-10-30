@@ -11,6 +11,7 @@ use App\Nova\Resources\BaseResource;
 use App\Pivots\BasePivot;
 use App\Pivots\Wiki\AnimeResource;
 use App\Pivots\Wiki\ArtistResource;
+use App\Pivots\Wiki\SongResource;
 use App\Pivots\Wiki\StudioResource;
 use App\Rules\Wiki\Resource\ResourceLinkFormatRule;
 use Illuminate\Validation\Rule;
@@ -220,6 +221,27 @@ class ExternalResource extends BaseResource
                         ->copyable()
                         ->rules(['nullable', 'max:192'])
                         ->help(__('nova.fields.anime.resources.as.help')),
+
+                    DateTime::make(__('nova.fields.base.created_at'), BasePivot::ATTRIBUTE_CREATED_AT)
+                        ->hideWhenCreating()
+                        ->hideWhenUpdating(),
+
+                    DateTime::make(__('nova.fields.base.updated_at'), BasePivot::ATTRIBUTE_UPDATED_AT)
+                        ->hideWhenCreating()
+                        ->hideWhenUpdating(),
+                ]),
+
+            BelongsToMany::make(__('nova.resources.label.songs'), ExternalResourceModel::RELATION_SONG, Song::class)
+                ->searchable()
+                ->filterable()
+                ->withSubtitles()
+                ->showCreateRelationButton()
+                ->fields(fn () => [
+                    Text::make(__('nova.fields.song.resources.as.name'), SongResource::ATTRIBUTE_AS)
+                        ->nullable()
+                        ->copyable()
+                        ->rules(['nullable', 'max:192'])
+                        ->help(__('nova.fields.song.resources.as.help')),
 
                     DateTime::make(__('nova.fields.base.created_at'), BasePivot::ATTRIBUTE_CREATED_AT)
                         ->hideWhenCreating()
