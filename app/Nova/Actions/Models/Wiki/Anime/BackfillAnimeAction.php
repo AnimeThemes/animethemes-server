@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Nova\Actions\Models\Wiki\Anime;
 
 use App\Actions\Models\BackfillAction;
+use App\Actions\Models\Wiki\Anime\BackfillAnimeExternalLinksAnilistResourceAction;
 use App\Actions\Models\Wiki\Anime\Image\BackfillLargeCoverImageAction;
 use App\Actions\Models\Wiki\Anime\Image\BackfillSmallCoverImageAction;
 use App\Actions\Models\Wiki\Anime\Resource\BackfillAnidbResourceAction;
@@ -46,6 +47,7 @@ class BackfillAnimeAction extends Action implements ShouldQueue
     final public const BACKFILL_ANILIST_RESOURCE = 'backfill_anilist_resource';
     final public const BACKFILL_ANN_RESOURCE = 'backfill_ann_resource';
     final public const BACKFILL_KITSU_RESOURCE = 'backfill_kitsu_resource';
+    final public const BACKFILL_EXTERNAL_LINKS_BY_ANILIST_RESOURCE = 'backfill_external_links_by_anilist_resource';
     final public const BACKFILL_LARGE_COVER = 'backfill_large_cover';
     final public const BACKFILL_MAL_RESOURCE = 'backfill_mal_resource';
     final public const BACKFILL_SMALL_COVER = 'backfill_small_cover';
@@ -150,6 +152,10 @@ class BackfillAnimeAction extends Action implements ShouldQueue
                 ->help(__('nova.actions.anime.backfill.fields.resources.ann.help'))
                 ->default(fn () => $anime instanceof Anime && $anime->resources()->where(ExternalResource::ATTRIBUTE_SITE, ResourceSite::ANN->value)->doesntExist()),
 
+            Boolean::make(__('nova.actions.anime.backfill.fields.resources.external_links.name'), self::BACKFILL_EXTERNAL_LINKS_BY_ANILIST_RESOURCE)
+                ->help(__('nova.actions.anime.backfill.fields.resources.external_links.help'))
+                ->default(fn () => $anime instanceof Anime),
+
             Heading::make(__('nova.actions.anime.backfill.fields.images.name')),
 
             Boolean::make(__('nova.actions.anime.backfill.fields.images.large_cover.name'), self::BACKFILL_LARGE_COVER)
@@ -202,6 +208,7 @@ class BackfillAnimeAction extends Action implements ShouldQueue
             self::BACKFILL_MAL_RESOURCE => new BackfillMalResourceAction($anime),
             self::BACKFILL_ANIDB_RESOURCE => new BackfillAnidbResourceAction($anime),
             self::BACKFILL_ANN_RESOURCE => new BackfillAnnResourceAction($anime),
+            self::BACKFILL_EXTERNAL_LINKS_BY_ANILIST_RESOURCE => new BackfillAnimeExternalLinksAnilistResourceAction($anime),
             self::BACKFILL_LARGE_COVER => new BackfillLargeCoverImageAction($anime),
             self::BACKFILL_SMALL_COVER => new BackfillSmallCoverImageAction($anime),
             self::BACKFILL_STUDIOS => new BackfillAnimeStudiosAction($anime),

@@ -40,6 +40,10 @@ return [
                             'help' => 'Use the Kitsu, Anilist or AniDB Resource to find a MAL mapping',
                             'name' => 'Backfill MyAnimeList Resource',
                         ],
+                        'external_links' => [
+                            'help' => 'Use Anilist Resource to find other resources as Official Sites and Streamings.',
+                            'name' => 'Backfill Other Resources'
+                        ],
                         'name' => 'Backfill Resources',
                     ],
                     'studios' => [

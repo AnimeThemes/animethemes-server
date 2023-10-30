@@ -39,7 +39,7 @@ abstract class BackfillAnimeResourceAction extends BackfillResourceAction
     }
 
     /**
-     * Get the relation to images.
+     * Get the relation to resources.
      *
      * @return BelongsToMany
      */
