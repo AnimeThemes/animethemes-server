@@ -11,6 +11,7 @@ use App\Nova\Resources\BaseResource;
 use App\Nova\Resources\Wiki\Anime\Theme;
 use App\Pivots\BasePivot;
 use App\Pivots\Wiki\ArtistSong;
+use App\Pivots\Wiki\SongResource;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Laravel\Nova\Fields\BelongsToMany;
@@ -180,6 +181,27 @@ class Song extends BaseResource
                         ->copyable()
                         ->rules(['nullable', 'max:192'])
                         ->help(__('nova.fields.artist.songs.as.help')),
+
+                    DateTime::make(__('nova.fields.base.created_at'), BasePivot::ATTRIBUTE_CREATED_AT)
+                        ->hideWhenCreating()
+                        ->hideWhenUpdating(),
+
+                    DateTime::make(__('nova.fields.base.updated_at'), BasePivot::ATTRIBUTE_UPDATED_AT)
+                        ->hideWhenCreating()
+                        ->hideWhenUpdating(),
+                ]),
+
+            BelongsToMany::make(__('nova.resources.label.external_resources'), SongModel::RELATION_RESOURCES, ExternalResource::class)
+                ->searchable()
+                ->filterable()
+                ->withSubtitles()
+                ->showCreateRelationButton()
+                ->fields(fn () => [
+                    Text::make(__('nova.fields.song.resources.as.name'), SongResource::ATTRIBUTE_AS)
+                        ->nullable()
+                        ->copyable()
+                        ->rules(['nullable', 'max:192'])
+                        ->help(__('nova.fields.song.resources.as.help')),
 
                     DateTime::make(__('nova.fields.base.created_at'), BasePivot::ATTRIBUTE_CREATED_AT)
                         ->hideWhenCreating()

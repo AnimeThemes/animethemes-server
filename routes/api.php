@@ -30,6 +30,7 @@ use App\Http\Controllers\Api\Pivot\Wiki\ArtistImageController;
 use App\Http\Controllers\Api\Pivot\Wiki\ArtistMemberController;
 use App\Http\Controllers\Api\Pivot\Wiki\ArtistResourceController;
 use App\Http\Controllers\Api\Pivot\Wiki\ArtistSongController;
+use App\Http\Controllers\Api\Pivot\Wiki\SongResourceController;
 use App\Http\Controllers\Api\Pivot\Wiki\StudioImageController;
 use App\Http\Controllers\Api\Pivot\Wiki\StudioResourceController;
 use App\Http\Controllers\Api\SearchController;
@@ -275,6 +276,7 @@ apiPivotResource('artistimage', 'artist', 'image', ArtistImageController::class)
 apiEditablePivotResource('artistmember', 'artist', 'member', ArtistMemberController::class);
 apiEditablePivotResource('artistresource', 'artist', 'resource', ArtistResourceController::class);
 apiPivotResource('playlistimage', 'playlist', 'image', PlaylistImageController::class);
+apiEditablePivotResource('songresource', 'song', 'resource', SongResourceController::class);
 apiPivotResource('studioimage', 'studio', 'image', StudioImageController::class);
 apiEditablePivotResource('studioresource', 'studio', 'resource', StudioResourceController::class);
 apiEditablePivotResource('artistsong', 'artist', 'song', ArtistSongController::class);

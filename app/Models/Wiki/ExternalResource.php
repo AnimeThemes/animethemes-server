@@ -12,9 +12,11 @@ use App\Events\Wiki\ExternalResource\ExternalResourceUpdated;
 use App\Http\Resources\Pivot\Wiki\Resource\AnimeResourceResource;
 use App\Http\Resources\Pivot\Wiki\Resource\AnimeStudioResource;
 use App\Http\Resources\Pivot\Wiki\Resource\ArtistResourceResource;
+use App\Http\Resources\Pivot\Wiki\Resource\SongResourceResource;
 use App\Models\BaseModel;
 use App\Pivots\Wiki\AnimeResource;
 use App\Pivots\Wiki\ArtistResource;
+use App\Pivots\Wiki\SongResource;
 use App\Pivots\Wiki\StudioResource;
 use Database\Factories\Wiki\ExternalResourceFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -46,6 +48,7 @@ class ExternalResource extends BaseModel
 
     final public const RELATION_ANIME = 'anime';
     final public const RELATION_ARTISTS = 'artists';
+    final public const RELATION_SONG = 'song';
     final public const RELATION_STUDIOS = 'studios';
 
     /**
@@ -132,6 +135,20 @@ class ExternalResource extends BaseModel
             ->using(ArtistResource::class)
             ->withPivot(ArtistResource::ATTRIBUTE_AS)
             ->as(ArtistResourceResource::$wrap)
+            ->withTimestamps();
+    }
+
+    /**
+     * Get the song that reference this resource.
+     *
+     * @return BelongsToMany
+     */
+    public function song(): BelongsToMany
+    {
+        return $this->belongsToMany(Song::class, SongResource::TABLE, ExternalResource::ATTRIBUTE_ID, Song::ATTRIBUTE_ID)
+            ->using(SongResource::class)
+            ->withPivot(SongResource::ATTRIBUTE_AS)
+            ->as(SongResourceResource::$wrap)
             ->withTimestamps();
     }
 

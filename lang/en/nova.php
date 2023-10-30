@@ -657,6 +657,12 @@ return [
                 'help' => 'The title of the song',
                 'name' => 'Title',
             ],
+            'resources' => [
+                'as' => [
+                    'help' => 'Used to distinguish resources that map to the same song.',
+                    'name' => 'As'
+                ]
+            ]
         ],
         'studio' => [
             'name' => [
