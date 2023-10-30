@@ -42,8 +42,9 @@ class AnimeFormatSeeder extends Seeder
                     $format = Arr::get($response, 'media_type');
                     
                     if ($format !== null) {
-                        if (in_array($format, ['tv', 'ova', 'ona', 'special'], true)) {
+                        if (in_array($format, ['movie', 'tv', 'ova', 'ona', 'special'], true)) {
                             $formats = [
+                                'movie' => AnimeMediaFormat::MOVIE->value,
                                 'tv' => AnimeMediaFormat::TV->value,
                                 'ova' => AnimeMediaFormat::OVA->value,
                                 'ona' => AnimeMediaFormat::ONA->value,
