@@ -201,4 +201,31 @@ class StudioResourceLinkFormatTest extends TestCase
 
         static::assertFalse($validator->passes());
     }
+
+    /**
+     * The Studio Resource Link Format Rule shall fail for song resources.
+     *
+     * @return void
+     */
+    public function testFailsForSongResource(): void
+    {
+        /** @var ResourceSite $site */
+        $site = Arr::random([
+            ResourceSite::ANILIST,
+            ResourceSite::ANIME_PLANET,
+            ResourceSite::ANN,
+            ResourceSite::MAL,
+        ]);
+
+        $url = $site->formatSongResourceLink($this->faker->randomDigitNotNull(), $this->faker->word());
+
+        $attribute = $this->faker->word();
+
+        $validator = Validator::make(
+            [$attribute => $url],
+            [$attribute => new StudioResourceLinkFormatRule($site)],
+        );
+
+        static::assertFalse($validator->passes());
+    }
 }

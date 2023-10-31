@@ -159,6 +159,35 @@ class AnimeResourceLinkFormatTest extends TestCase
     }
 
     /**
+     * The Anime Resource Link Format Rule shall fail for song resources.
+     *
+     * @return void
+     */
+    public function testFailsForSongResource(): void
+    {
+        /** @var ResourceSite $site */
+        $site = Arr::random([
+            ResourceSite::ANIDB,
+            ResourceSite::ANILIST,
+            ResourceSite::ANIME_PLANET,
+            ResourceSite::ANN,
+            ResourceSite::MAL,
+            ResourceSite::YOUTUBE,
+        ]);
+
+        $url = $site->formatSongResourceLink($this->faker->randomDigitNotNull(), $this->faker->word());
+
+        $attribute = $this->faker->word();
+
+        $validator = Validator::make(
+            [$attribute => $url],
+            [$attribute => new AnimeResourceLinkFormatRule($site)],
+        );
+
+        static::assertFalse($validator->passes());
+    }
+
+    /**
      * The Anime Resource Link Format Rule shall fail for studio resources.
      *
      * @return void
