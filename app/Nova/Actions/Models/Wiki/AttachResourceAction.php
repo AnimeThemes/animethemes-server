@@ -8,6 +8,7 @@ use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\ExternalResource;
+use App\Models\Wiki\Song;
 use App\Models\Wiki\Studio;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -116,7 +117,7 @@ abstract class AttachResourceAction extends Action
         $model = $request->findModelQuery()->first();
 
         foreach ($this->sites as $resourceSite) {
-            if ($model instanceof Anime || $model instanceof Artist || $model instanceof Studio) {
+            if ($model instanceof Anime || $model instanceof Artist || $model instanceof Song || $model instanceof Studio) {
                 $resources = $model->resources();
                 if ($resources->where(ExternalResource::ATTRIBUTE_SITE, $resourceSite->value)->exists()) continue;
             }

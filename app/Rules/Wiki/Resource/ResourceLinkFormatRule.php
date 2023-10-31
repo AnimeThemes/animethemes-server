@@ -86,6 +86,7 @@ class ResourceLinkFormatRule implements DataAwareRule, ValidationRule
         $rules = [
             new AnimeResourceLinkFormatRule($site),
             new ArtistResourceLinkFormatRule($site),
+            new SongResourceLinkFormatRule($site),
             new StudioResourceLinkFormatRule($site),
         ];
 

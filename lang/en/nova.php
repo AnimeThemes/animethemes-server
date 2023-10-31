@@ -180,32 +180,47 @@ return [
                     'confirmButtonText' => 'Attach',
                     'fields' => [
                         'official_site' => [
-                            'help' => 'The URL. Ex: https://kaguya.love/',
+                            'help' => 'Ex: https://kaguya.love/',
                         ],
                         'twitter' => [
-                            'help' => 'The URL. Ex: https://twitter.com/AnimeThemesMoe',
+                            'help' => 'Ex: https://twitter.com/AnimeThemesMoe',
                         ],
                         'anidb' => [
-                            'help' => 'The URL. Ex: https://anidb.net/anime/11746, https://anidb.net/creator/10759',
+                            'help' => 'Ex: https://anidb.net/anime/11746, https://anidb.net/creator/10759',
                         ],
                         'anilist' => [
-                            'help' => 'The URL. Ex: https://anilist.co/anime/21460, https://anilist.co/staff/106030',
+                            'help' => 'Ex: https://anilist.co/anime/21460, https://anilist.co/staff/106030',
                         ],
                         'anime_planet' => [
-                            'help' => 'The URL. Ex: https://www.anime-planet.com/anime/sound-euphonium-2, https://www.anime-planet.com/people/chika-anzai',
+                            'help' => 'Ex: https://www.anime-planet.com/anime/sound-euphonium-2, https://www.anime-planet.com/people/chika-anzai',
                         ],
                         'ann' => [
-                            'help' => 'The URL. Ex: https://www.animenewsnetwork.com/encyclopedia/anime.php?id=18558',
+                            'help' => 'Ex: https://www.animenewsnetwork.com/encyclopedia/anime.php?id=18558',
                         ],
                         'kitsu' => [
-                            'help' => 'The URL. Ex: https://kitsu.io/anime/hibike-euphonium-2',
+                            'help' => 'Ex: https://kitsu.io/anime/hibike-euphonium-2',
                         ],
                         'mal' => [
-                            'help' => 'The URL. Ex: https://myanimelist.net/anime/31988, https://myanimelist.net/people/11030',
+                            'help' => 'Ex: https://myanimelist.net/anime/31988, https://myanimelist.net/people/11030',
                         ],
                         'wiki' => [
-                            'help' => 'The URL. Ex: https://unite-up.fandom.com/wiki/Protostar',
+                            'help' => 'Ex: https://unite-up.fandom.com/wiki/Protostar',
                         ],
+                        'spotify' => [
+                            'help' => 'Ex: https://open.spotify.com/track/5dmkAW2HpEJgFDSgkywm8N'
+                        ],
+                        'youtube_music' => [
+                            'help' => 'Ex: https://music.youtube.com/watch?v=dHasNhuseU8'
+                        ],
+                        'youtube' => [
+                            'help' => 'Ex: https://www.youtube.com/@liyuuchannel'
+                        ],
+                        'apple_music' => [
+                            'help' => 'Ex: https://music.apple.com/jp/album/1711324281'
+                        ],
+                        'amazon_music' => [
+                            'help' => 'Ex: https://amazon.co.jp/music/player/albums/B0CKVQGSJY'
+                        ]
                     ],
                     'name' => 'Attach Resources',
                 ],
@@ -785,7 +800,7 @@ return [
         ],
         'external_resource' => [
             'unlinked' => [
-                'name' => 'Resource Without Anime or Artist or Studio',
+                'name' => 'Resource Without Anime or Artist or Song or Studio',
             ],
         ],
         'image' => [
@@ -797,6 +812,9 @@ return [
             'artist' => [
                 'name' => 'Songs Without Artists',
             ],
+            'resources' => [
+                'name' => 'Song Without :site Resource',
+            ]
         ],
         'studio' => [
             'images' => [

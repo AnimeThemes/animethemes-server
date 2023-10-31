@@ -4,8 +4,15 @@ declare(strict_types=1);
 
 namespace App\Nova\Resources\Wiki;
 
+use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Wiki\Anime\AnimeTheme;
+use App\Models\Wiki\ExternalResource as ExternalResourceModel;
 use App\Models\Wiki\Song as SongModel;
+use App\Nova\Actions\Models\Wiki\Song\AttachSongResourceAction;
+use App\Nova\Lenses\Song\Resource\SongAmazonMusicResourceLens;
+use App\Nova\Lenses\Song\Resource\SongAppleMusicResourceLens;
+use App\Nova\Lenses\Song\Resource\SongSpotifyResourceLens;
+use App\Nova\Lenses\Song\Resource\SongYoutubeMusicResourceLens;
 use App\Nova\Lenses\Song\SongArtistLens;
 use App\Nova\Resources\BaseResource;
 use App\Nova\Resources\Wiki\Anime\Theme;
@@ -220,6 +227,34 @@ class Song extends BaseResource
     }
 
     /**
+     * Get the actions available for the resource.
+     *
+     * @param  NovaRequest  $request
+     * @return array
+     */
+    public function actions(NovaRequest $request): array
+    {
+        $resourceSites = [
+            ResourceSite::SPOTIFY,
+            ResourceSite::YOUTUBE_MUSIC,
+            ResourceSite::YOUTUBE,
+            ResourceSite::APPLE_MUSIC,
+            ResourceSite::AMAZON_MUSIC
+        ];
+
+        return array_merge(
+            parent::actions($request),
+            [
+                (new AttachSongResourceAction($resourceSites))
+                    ->confirmButtonText(__('nova.actions.models.wiki.attach_resource.confirmButtonText'))
+                    ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
+                    ->exceptOnIndex()
+                    ->canSeeWhen('create', ExternalResourceModel::class),
+            ]
+        );
+    }
+
+    /**
      * Get the lenses available for the resource.
      *
      * @param  NovaRequest  $request
@@ -231,6 +266,10 @@ class Song extends BaseResource
             parent::lenses($request),
             [
                 new SongArtistLens(),
+                new SongAmazonMusicResourceLens(),
+                new SongAppleMusicResourceLens(),
+                new SongSpotifyResourceLens(),
+                new SongYoutubeMusicResourceLens()
             ]
         );
     }

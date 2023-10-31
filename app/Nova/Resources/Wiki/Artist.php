@@ -19,7 +19,9 @@ use App\Nova\Lenses\Artist\Resource\ArtistAnimePlanetResourceLens;
 use App\Nova\Lenses\Artist\Resource\ArtistAnnResourceLens;
 use App\Nova\Lenses\Artist\Resource\ArtistMalResourceLens;
 use App\Nova\Lenses\Artist\Resource\ArtistOfficialSiteResourceLens;
+use App\Nova\Lenses\Artist\Resource\ArtistSpotifyResourceLens;
 use App\Nova\Lenses\Artist\Resource\ArtistTwitterResourceLens;
+use App\Nova\Lenses\Artist\Resource\ArtistYoutubeResourceLens;
 use App\Nova\Lenses\Artist\Song\ArtistSongLens;
 use App\Nova\Metrics\Artist\ArtistsPerDay;
 use App\Nova\Metrics\Artist\NewArtists;
@@ -278,7 +280,9 @@ class Artist extends BaseResource
             ResourceSite::ANN,
             ResourceSite::MAL,
             ResourceSite::OFFICIAL_SITE,
+            ResourceSite::SPOTIFY,
             ResourceSite::TWITTER,
+            ResourceSite::YOUTUBE,
             ResourceSite::WIKI
         ];
 
@@ -340,6 +344,8 @@ class Artist extends BaseResource
                 new ArtistAnimePlanetResourceLens(),
                 new ArtistTwitterResourceLens(),
                 new ArtistOfficialSiteResourceLens(),
+                new ArtistSpotifyResourceLens(),
+                new ArtistYoutubeResourceLens(),
                 new ArtistCoverLargeLens(),
                 new ArtistCoverSmallLens(),
                 new ArtistSongLens(),
