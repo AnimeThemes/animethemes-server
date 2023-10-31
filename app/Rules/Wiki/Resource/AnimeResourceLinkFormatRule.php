@@ -42,7 +42,11 @@ readonly class AnimeResourceLinkFormatRule implements ValidationRule
             ResourceSite::ANN => '/^https:\/\/www\.animenewsnetwork\.com\/encyclopedia\/anime\.php\?id=\d+$/',
             ResourceSite::KITSU => '/^https:\/\/kitsu\.io\/anime\/[a-zA-Z0-9-]+$/',
             ResourceSite::MAL => '/^https:\/\/myanimelist\.net\/anime\/\d+$/',
+            ResourceSite::SPOTIFY => '/$.^/',
+            ResourceSite::YOUTUBE_MUSIC => '/$.^/',
             ResourceSite::YOUTUBE => '/^https:\/\/www\.youtube\.com\/\@\w+$/',
+            ResourceSite::APPLE_MUSIC => '/$.^/',
+            ResourceSite::AMAZON_MUSIC => '/$.^/',
             default => null,
         };
 

@@ -42,6 +42,11 @@ readonly class StudioResourceLinkFormatRule implements ValidationRule
             ResourceSite::ANN => '/^https:\/\/www\.animenewsnetwork\.com\/encyclopedia\/company\.php\?id=\d+$/',
             ResourceSite::KITSU => '/$.^/',
             ResourceSite::MAL => '/^https:\/\/myanimelist\.net\/anime\/producer\/\d+$/',
+            ResourceSite::SPOTIFY => '/$.^/',
+            ResourceSite::YOUTUBE_MUSIC => '/$.^/',
+            ResourceSite::YOUTUBE => '/$.^/',
+            ResourceSite::APPLE_MUSIC => '/$.^/',
+            ResourceSite::AMAZON_MUSIC => '/$.^/',
             default => null,
         };
 
