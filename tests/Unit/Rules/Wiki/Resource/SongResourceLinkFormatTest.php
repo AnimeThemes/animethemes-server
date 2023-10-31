@@ -139,9 +139,40 @@ class SongResourceLinkFormatTest extends TestCase
             ResourceSite::ANIME_PLANET,
             ResourceSite::ANN,
             ResourceSite::MAL,
+            ResourceSite::YOUTUBE,
         ]);
 
         $url = $site->formatAnimeResourceLink($this->faker->randomDigitNotNull(), $this->faker->word());
+
+        $attribute = $this->faker->word();
+
+        $validator = Validator::make(
+            [$attribute => $url],
+            [$attribute => new SongResourceLinkFormatRule($site)],
+        );
+
+        static::assertFalse($validator->passes());
+    }
+
+    /**
+     * The Song Resource Link Format Rule shall fail for artist resources.
+     *
+     * @return void
+     */
+    public function testFailsForArtistResource(): void
+    {
+        /** @var ResourceSite $site */
+        $site = Arr::random([
+            ResourceSite::ANIDB,
+            ResourceSite::ANILIST,
+            ResourceSite::ANIME_PLANET,
+            ResourceSite::ANN,
+            ResourceSite::MAL,
+            ResourceSite::SPOTIFY,
+            ResourceSite::YOUTUBE,
+        ]);
+
+        $url = $site->formatArtistResourceLink($this->faker->randomDigitNotNull(), $this->faker->word());
 
         $attribute = $this->faker->word();
 

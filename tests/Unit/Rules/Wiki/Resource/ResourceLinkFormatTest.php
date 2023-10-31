@@ -187,7 +187,11 @@ class ResourceLinkFormatTest extends TestCase
             ResourceSite::ANN,
             ResourceSite::KITSU,
             ResourceSite::MAL,
+            ResourceSite::SPOTIFY,
             ResourceSite::YOUTUBE,
+            ResourceSite::YOUTUBE_MUSIC,
+            ResourceSite::APPLE_MUSIC,
+            ResourceSite::AMAZON_MUSIC,
         ]);
 
         $url = $site->formatAnimeResourceLink($this->faker->randomDigitNotNull(), $this->faker->word());

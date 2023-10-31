@@ -176,6 +176,36 @@ class ArtistResourceLinkFormatTest extends TestCase
     }
 
     /**
+     * The Artist Resource Link Format Rule shall fail for song resources.
+     *
+     * @return void
+     */
+    public function testFailsForSongResource(): void
+    {
+        /** @var ResourceSite $site */
+        $site = Arr::random([
+            ResourceSite::ANIDB,
+            ResourceSite::ANILIST,
+            ResourceSite::ANIME_PLANET,
+            ResourceSite::ANN,
+            ResourceSite::MAL,
+            ResourceSite::SPOTIFY,
+            ResourceSite::YOUTUBE,
+        ]);
+
+        $url = $site->formatSongResourceLink($this->faker->randomDigitNotNull(), $this->faker->word());
+
+        $attribute = $this->faker->word();
+
+        $validator = Validator::make(
+            [$attribute => $url],
+            [$attribute => new ArtistResourceLinkFormatRule($site)],
+        );
+
+        static::assertFalse($validator->passes());
+    }
+
+    /**
      * The Artist Resource Link Format Rule shall fail for studio resources.
      *
      * @return void
