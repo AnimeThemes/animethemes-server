@@ -7,8 +7,10 @@ namespace Tests\Unit\Models\Wiki;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Artist;
+use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Song;
 use App\Pivots\Wiki\ArtistSong;
+use App\Pivots\Wiki\SongResource;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -92,5 +94,24 @@ class SongTest extends TestCase
         static::assertEquals($artistCount, $song->artists()->count());
         static::assertInstanceOf(Artist::class, $song->artists()->first());
         static::assertEquals(ArtistSong::class, $song->artists()->getPivotClass());
+    }
+
+    /**
+     * Song shall have a many-to-many relationship with the type ExternalResource.
+     *
+     * @return void
+     */
+    public function testExternalResources(): void
+    {
+        $resourceCount = $this->faker->randomDigitNotNull();
+
+        $song = Song::factory()
+            ->has(ExternalResource::factory()->count($resourceCount), 'resources')
+            ->createOne();
+
+        static::assertInstanceOf(BelongsToMany::class, $song->resources());
+        static::assertEquals($resourceCount, $song->resources()->count());
+        static::assertInstanceOf(ExternalResource::class, $song->resources()->first());
+        static::assertEquals(SongResource::class, $song->resources()->getPivotClass());
     }
 }

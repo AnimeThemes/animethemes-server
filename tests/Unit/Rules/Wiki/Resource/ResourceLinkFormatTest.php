@@ -69,6 +69,7 @@ class ResourceLinkFormatTest extends TestCase
             ResourceSite::ANN,
             ResourceSite::KITSU,
             ResourceSite::MAL,
+            ResourceSite::YOUTUBE,
         ]);
 
         $url = $site->formatAnimeResourceLink($this->faker->randomDigitNotNull(), $this->faker->word());
@@ -98,9 +99,39 @@ class ResourceLinkFormatTest extends TestCase
             ResourceSite::ANIME_PLANET,
             ResourceSite::ANN,
             ResourceSite::MAL,
+            ResourceSite::SPOTIFY,
+            ResourceSite::YOUTUBE
         ]);
 
         $url = $site->formatArtistResourceLink($this->faker->randomDigitNotNull(), $this->faker->word());
+
+        $attribute = $this->faker->word();
+
+        $validator = Validator::make(
+            [$attribute => $url],
+            [$attribute => new ResourceLinkFormatRule($site)],
+        );
+
+        static::assertTrue($validator->passes());
+    }
+
+    /**
+     * The Resource Link Format Rule shall pass for song resources.
+     * 
+     * @return void
+     */
+    public function testPassesForSongResource(): void
+    {
+        /** @var ResourceSite $site */
+        $site = Arr::random([
+            ResourceSite::SPOTIFY,
+            ResourceSite::YOUTUBE_MUSIC,
+            ResourceSite::YOUTUBE,
+            ResourceSite::APPLE_MUSIC,
+            ResourceSite::AMAZON_MUSIC,
+        ]);
+
+        $url = $site->formatSongResourceLink($this->faker->randomDigitNotNull(), $this->faker->word());
 
         $attribute = $this->faker->word();
 
@@ -156,6 +187,7 @@ class ResourceLinkFormatTest extends TestCase
             ResourceSite::ANN,
             ResourceSite::KITSU,
             ResourceSite::MAL,
+            ResourceSite::YOUTUBE,
         ]);
 
         $url = $site->formatAnimeResourceLink($this->faker->randomDigitNotNull(), $this->faker->word());
