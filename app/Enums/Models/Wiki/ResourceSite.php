@@ -222,11 +222,11 @@ enum ResourceSite: int
     public function formatSongResourceLink(int $id, ?string $slug = null): ?string
     {
         return match ($this) {
-            ResourceSite::SPOTIFY->value => "https://open.spotify.com/track/$slug",
-            ResourceSite::YOUTUBE_MUSIC->value => "https://music.youtube.com/watch?v=$slug",
-            ResourceSite::YOUTUBE->value => "https://youtube.com/watch?v=$slug",
-            ResourceSite::APPLE_MUSIC->value => "https://music.apple.com/jp/album/$id",
-            ResourceSite::AMAZON_MUSIC->value => "https://amazon.co.jp/music/player/albums/$slug",
+            ResourceSite::SPOTIFY => "https://open.spotify.com/track/$slug",
+            ResourceSite::YOUTUBE_MUSIC => "https://music.youtube.com/watch?v=$slug",
+            ResourceSite::YOUTUBE => "https://www.youtube.com/watch?v=$slug",
+            ResourceSite::APPLE_MUSIC => "https://music.apple.com/jp/album/$id",
+            ResourceSite::AMAZON_MUSIC => "https://amazon.co.jp/music/player/albums/$slug",
             default => null
         };
     }
