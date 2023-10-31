@@ -11,9 +11,9 @@ use Illuminate\Support\Str;
 use Illuminate\Translation\PotentiallyTranslatedString;
 
 /**
- * Class ArtistResourceLinkFormatRule.
+ * Class SongResourceLinkFormatRule.
  */
-readonly class ArtistResourceLinkFormatRule implements ValidationRule
+readonly class SongResourceLinkFormatRule implements ValidationRule
 {
     /**
      * Create a new rule instance.
@@ -35,15 +35,11 @@ readonly class ArtistResourceLinkFormatRule implements ValidationRule
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         $pattern = match ($this->site) {
-            ResourceSite::TWITTER => '/^https:\/\/twitter\.com\/\w+$/',
-            ResourceSite::ANIDB => '/^https:\/\/anidb\.net\/creator\/(?:virtual\/)?\d+$/',
-            ResourceSite::ANILIST => '/^https:\/\/anilist\.co\/staff\/\d+$/',
-            ResourceSite::ANIME_PLANET => '/^https:\/\/www\.anime-planet\.com\/people\/[a-zA-Z0-9-]+$/',
-            ResourceSite::ANN => '/^https:\/\/www\.animenewsnetwork\.com\/encyclopedia\/people\.php\?id=\d+$/',
-            ResourceSite::KITSU => '/$.^/',
-            ResourceSite::MAL => '/^https:\/\/myanimelist\.net\/people\/\d+$/',
-            ResourceSite::SPOTIFY => '/^https:\/\/open\.spotify\.com\/artist\/\w+$/',
-            ResourceSite::YOUTUBE => '/^https:\/\/www\.youtube\.com\/\@\w+$/',
+            ResourceSite::SPOTIFY => '/^https:\/\/open\.spotify\.com\/track\/\w+$/',
+            ResourceSite::YOUTUBE_MUSIC => '/^https:\/\/music\.youtube\.com\/watch\?v=\w+$/',
+            ResourceSite::YOUTUBE => '/^https:\/\/www\.youtube\.com\/watch\?v=\w+$/',
+            ResourceSite::APPLE_MUSIC => '/^https:\/\/music\.apple\.com\/jp\/album\/\w+$/',
+            ResourceSite::AMAZON_MUSIC => '/^https:\/\/amazon\.co\.jp\/music\/player\/albums\/\w+$/',
             default => null,
         };
 

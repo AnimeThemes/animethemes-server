@@ -26,6 +26,7 @@ use App\Nova\Lenses\Anime\Resource\AnimeMalResourceLens;
 use App\Nova\Lenses\Anime\Resource\AnimePlanetResourceLens;
 use App\Nova\Lenses\Anime\Resource\AnimeTwitterResourceLens;
 use App\Nova\Lenses\Anime\Resource\AnimeOfficialSiteResourceLens;
+use App\Nova\Lenses\Anime\Resource\AnimeYoutubeResourceLens;
 use App\Nova\Lenses\Anime\Studio\AnimeStudioLens;
 use App\Nova\Metrics\Anime\AnimePerDay;
 use App\Nova\Metrics\Anime\NewAnime;
@@ -310,6 +311,7 @@ class Anime extends BaseResource
             ResourceSite::MAL,
             ResourceSite::OFFICIAL_SITE,
             ResourceSite::TWITTER,
+            ResourceSite::YOUTUBE,
             ResourceSite::WIKI
         ];
 
@@ -388,6 +390,7 @@ class Anime extends BaseResource
                 new AnimeMalResourceLens(),
                 new AnimeTwitterResourceLens(),
                 new AnimeOfficialSiteResourceLens(),
+                new AnimeYoutubeResourceLens(),
                 new AnimeStudioLens(),
             ]
         );

@@ -43,6 +43,7 @@ class ExternalResourceUnlinkedLens extends BaseLens
     {
         return $query->whereDoesntHave(ExternalResource::RELATION_ANIME)
             ->whereDoesntHave(ExternalResource::RELATION_ARTISTS)
+            ->whereDoesntHave(ExternalResource::RELATION_SONG)
             ->whereDoesntHave(ExternalResource::RELATION_STUDIOS);
     }
 

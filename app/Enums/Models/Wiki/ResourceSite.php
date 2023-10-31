@@ -33,6 +33,13 @@ enum ResourceSite: int
     // Compendia
     case WIKI = 8;
 
+    // Song Resources
+    case SPOTIFY = 9;
+    case YOUTUBE_MUSIC = 10;
+    case YOUTUBE = 11;
+    case APPLE_MUSIC = 12;
+    case AMAZON_MUSIC = 13;
+
     /**
      * Get domain by resource site.
      *
@@ -50,6 +57,11 @@ enum ResourceSite: int
             ResourceSite::KITSU->value => 'kitsu.io',
             ResourceSite::MAL->value => 'myanimelist.net',
             ResourceSite::WIKI->value => 'wikipedia.org',
+            ResourceSite::SPOTIFY->value => 'open.spotify.com',
+            ResourceSite::YOUTUBE_MUSIC->value => 'music.youtube.com',
+            ResourceSite::YOUTUBE->value => 'www.youtube.com',
+            ResourceSite::APPLE_MUSIC->value => 'music.apple.com',
+            ResourceSite::AMAZON_MUSIC->value => 'amazon.co.jp',
             default => null,
         };
     }
@@ -173,6 +185,7 @@ enum ResourceSite: int
             ResourceSite::ANN => "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=$id",
             ResourceSite::KITSU => "https://kitsu.io/anime/$slug",
             ResourceSite::MAL => "https://myanimelist.net/anime/$id",
+            ResourceSite::YOUTUBE => "https://www.youtube.com/@$slug",
             default => null,
         };
     }
@@ -193,7 +206,28 @@ enum ResourceSite: int
             ResourceSite::ANIME_PLANET => "https://www.anime-planet.com/people/$slug",
             ResourceSite::ANN => "https://www.animenewsnetwork.com/encyclopedia/people.php?id=$id",
             ResourceSite::MAL => "https://myanimelist.net/people/$id",
+            ResourceSite::YOUTUBE => "https://www.youtube.com/@$slug",
+            ResourceSite::SPOTIFY => "https://open.spotify.com/artist/$slug",
             default => null,
+        };
+    }
+
+    /**
+     * Get the URL of the site for song resources.
+     * 
+     * @param  int  $id
+     * @param  string|null  $slug
+     * @return string|null
+     */
+    public function formatSongResourceLink(int $id, ?string $slug = null): ?string
+    {
+        return match ($this) {
+            ResourceSite::SPOTIFY->value => "https://open.spotify.com/track/$slug",
+            ResourceSite::YOUTUBE_MUSIC->value => "https://music.youtube.com/watch?v=$slug",
+            ResourceSite::YOUTUBE->value => "https://youtube.com/watch?v=$slug",
+            ResourceSite::APPLE_MUSIC->value => "https://music.apple.com/jp/album/$id",
+            ResourceSite::AMAZON_MUSIC->value => "https://amazon.co.jp/music/player/albums/$slug",
+            default => null
         };
     }
 

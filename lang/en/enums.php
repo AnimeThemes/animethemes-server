@@ -55,6 +55,11 @@ return [
         ResourceSite::KITSU->name => 'Kitsu',
         ResourceSite::MAL->name => 'MyAnimeList',
         ResourceSite::WIKI->name => 'Wiki',
+        ResourceSite::SPOTIFY->name => 'Spotify',
+        ResourceSite::YOUTUBE_MUSIC->name => 'YouTube Music',
+        ResourceSite::YOUTUBE->name => 'YouTube',
+        ResourceSite::APPLE_MUSIC->name => 'Apple Music',
+        ResourceSite::AMAZON_MUSIC->name => 'Amazon Music'
     ],
     Service::class => [
         Service::OTHER->name => 'Other',
