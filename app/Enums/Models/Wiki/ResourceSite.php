@@ -185,7 +185,7 @@ enum ResourceSite: int
             ResourceSite::ANN => "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=$id",
             ResourceSite::KITSU => "https://kitsu.io/anime/$slug",
             ResourceSite::MAL => "https://myanimelist.net/anime/$id",
-            ResourceSite::YOUTUBE => "https://www.youtube.com/channel/$slug",
+            ResourceSite::YOUTUBE => "https://www.youtube.com/@$slug",
             default => null,
         };
     }
@@ -206,7 +206,7 @@ enum ResourceSite: int
             ResourceSite::ANIME_PLANET => "https://www.anime-planet.com/people/$slug",
             ResourceSite::ANN => "https://www.animenewsnetwork.com/encyclopedia/people.php?id=$id",
             ResourceSite::MAL => "https://myanimelist.net/people/$id",
-            ResourceSite::YOUTUBE => "https://www.youtube.com/channel/$slug",
+            ResourceSite::YOUTUBE => "https://www.youtube.com/@$slug",
             ResourceSite::SPOTIFY => "https://open.spotify.com/artist/$slug",
             default => null,
         };
