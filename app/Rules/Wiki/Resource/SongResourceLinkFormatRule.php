@@ -35,6 +35,13 @@ readonly class SongResourceLinkFormatRule implements ValidationRule
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         $pattern = match ($this->site) {
+            ResourceSite::TWITTER => '/$.^/',
+            ResourceSite::ANIDB => '/$.^/',
+            ResourceSite::ANILIST => '/$.^/',
+            ResourceSite::ANIME_PLANET => '/$.^/',
+            ResourceSite::ANN => '/$.^/',
+            ResourceSite::KITSU => '/$.^/',
+            ResourceSite::MAL => '/$.^/',
             ResourceSite::SPOTIFY => '/^https:\/\/open\.spotify\.com\/track\/\w+$/',
             ResourceSite::YOUTUBE_MUSIC => '/^https:\/\/music\.youtube\.com\/watch\?v=\w+$/',
             ResourceSite::YOUTUBE => '/^https:\/\/www\.youtube\.com\/watch\?v=\w+$/',
