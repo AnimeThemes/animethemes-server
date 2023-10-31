@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Models\Wiki;
 
+use App\Enums\Models\Wiki\AnimeMediaFormat;
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeSynonym;
@@ -40,6 +41,20 @@ class AnimeTest extends TestCase
         $season = $anime->season;
 
         static::assertInstanceOf(AnimeSeason::class, $season);
+    }
+
+    /**
+     * The media_format attribute of an anime shall be cast to an AnimeMediaFormat enum instance.
+     *
+     * @return void
+     */
+    public function testCastsMediaFormatToEnum(): void
+    {
+        $anime = Anime::factory()->createOne();
+
+        $media_format = $anime->media_format;
+
+        static::assertInstanceOf(AnimeMediaFormat::class, $media_format);
     }
 
     /**

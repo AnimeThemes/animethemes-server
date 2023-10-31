@@ -8,6 +8,7 @@ use App\Concerns\Actions\Http\Api\SortsModels;
 use App\Contracts\Http\Api\Field\SortableField;
 use App\Enums\Http\Api\Filter\TrashedStatus;
 use App\Enums\Http\Api\Sort\Direction;
+use App\Enums\Models\Wiki\AnimeMediaFormat;
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Enums\Models\Wiki\ResourceSite;
@@ -220,6 +221,38 @@ class AnimeIndexTest extends TestCase
 
         Anime::factory()->count($this->faker->randomDigitNotNull())->create();
         $anime = Anime::query()->where(Anime::ATTRIBUTE_SEASON, $seasonFilter->value)->get();
+
+        $response = $this->get(route('api.anime.index', $parameters));
+
+        $response->assertJson(
+            json_decode(
+                json_encode(
+                    (new AnimeCollection($anime, new Query($parameters)))
+                        ->response()
+                        ->getData()
+                ),
+                true
+            )
+        );
+    }
+
+    /**
+     * The Anime Index Endpoint shall support filtering by media_format.
+     *
+     * @return void
+     */
+    public function testMediaFormatFilter(): void
+    {
+        $mediaFormatFilter = Arr::random(AnimeMediaFormat::cases());
+
+        $parameters = [
+            FilterParser::param() => [
+                Anime::ATTRIBUTE_MEDIA_FORMAT => $mediaFormatFilter->localize(),
+            ],
+        ];
+
+        Anime::factory()->count($this->faker->randomDigitNotNull())->create();
+        $anime = Anime::query()->where(Anime::ATTRIBUTE_MEDIA_FORMAT, $mediaFormatFilter->value)->get();
 
         $response = $this->get(route('api.anime.index', $parameters));
 
