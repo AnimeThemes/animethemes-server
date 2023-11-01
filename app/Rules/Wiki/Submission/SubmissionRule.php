@@ -22,7 +22,7 @@ abstract class SubmissionRule implements ValidationRule, ValidatorAwareRule
      *
      * @var array
      */
-    protected array $ffprobeData;
+    public static array $ffprobeData;
 
     /**
      * The loudness stats of the input file as parsed by the ffmpeg audio filter.
@@ -47,7 +47,7 @@ abstract class SubmissionRule implements ValidationRule, ValidatorAwareRule
             $ffprobeData = $this->getFFprobeData($file);
             $validator->setValue('ffprobeData', $ffprobeData);
         }
-        $this->ffprobeData = $ffprobeData;
+        static::$ffprobeData = $ffprobeData;
 
         $loudnessStats = Arr::get($validator->getData(), 'loudnessStats');
         if ($loudnessStats === null && $file !== null) {
@@ -98,7 +98,7 @@ abstract class SubmissionRule implements ValidationRule, ValidatorAwareRule
      */
     protected function streams(): array
     {
-        return Arr::get($this->ffprobeData, 'streams', []);
+        return Arr::get(static::$ffprobeData, 'streams', []);
     }
 
     /**
@@ -108,7 +108,7 @@ abstract class SubmissionRule implements ValidationRule, ValidatorAwareRule
      */
     protected function format(): array
     {
-        return Arr::get($this->ffprobeData, 'format', []);
+        return Arr::get(static::$ffprobeData, 'format', []);
     }
 
     /**
@@ -118,7 +118,7 @@ abstract class SubmissionRule implements ValidationRule, ValidatorAwareRule
      */
     protected function chapters(): array
     {
-        return Arr::get($this->ffprobeData, 'chapters', []);
+        return Arr::get(static::$ffprobeData, 'chapters', []);
     }
 
     /**

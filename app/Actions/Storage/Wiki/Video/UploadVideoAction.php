@@ -12,6 +12,7 @@ use App\Enums\Models\Wiki\VideoOverlap;
 use App\Enums\Models\Wiki\VideoSource;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
+use App\Rules\Wiki\Submission\SubmissionRule;
 use Exception;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Arr;
@@ -100,7 +101,12 @@ class UploadVideoAction extends UploadAction
         ];
 
         if (Arr::has($this->attributes, Video::ATTRIBUTE_RESOLUTION)) {
-            $attributes[Video::ATTRIBUTE_RESOLUTION] = Arr::get($this->attributes, Video::ATTRIBUTE_RESOLUTION);
+            if (!empty($this->attributes[Video::ATTRIBUTE_RESOLUTION])) {
+                $attributes[Video::ATTRIBUTE_RESOLUTION] = Arr::get($this->attributes, Video::ATTRIBUTE_RESOLUTION);
+            } else {
+                $ffprobeData = SubmissionRule::$ffprobeData;
+                $attributes[Video::ATTRIBUTE_RESOLUTION] = intval($ffprobeData['streams'][0]['height']);
+            }
         }
         if (Arr::has($this->attributes, Video::ATTRIBUTE_NC)) {
             $attributes[Video::ATTRIBUTE_NC] = Arr::get($this->attributes, Video::ATTRIBUTE_NC);
