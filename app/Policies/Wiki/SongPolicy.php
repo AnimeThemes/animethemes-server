@@ -147,4 +147,37 @@ class SongPolicy
     {
         return $user->can(CrudPermission::UPDATE->format(Song::class));
     }
+    
+    /**
+     * Determine whether the user can attach any resource to the song.
+     *
+     * @param  User  $user
+     * @return bool
+     */
+    public function attachAnyExternalResource(User $user): bool
+    {
+        return $user->can(CrudPermission::UPDATE->format(Song::class));
+    }
+
+    /**
+     * Determine whether the user can attach a resource to the song.
+     *
+     * @param  User  $user
+     * @return bool
+     */
+    public function attachExternalResource(User $user): bool
+    {
+        return $user->can(CrudPermission::UPDATE->format(Song::class));
+    }
+
+    /**
+     * Determine whether the user can detach a resource from the song.
+     *
+     * @param  User  $user
+     * @return bool
+     */
+    public function detachExternalResource(User $user): bool
+    {
+        return $user->can(CrudPermission::UPDATE->format(Song::class));
+    }
 }
