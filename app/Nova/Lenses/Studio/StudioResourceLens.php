@@ -59,7 +59,7 @@ abstract class StudioResourceLens extends StudioLens
     public function actions(Request $request): array
     {
         return [
-            (new AttachStudioResourceAction([static::site()]))
+            (new AttachStudioResourceAction([static::site()], null))
                 ->confirmButtonText(__('nova.actions.models.wiki.attach_resource.confirmButtonText'))
                 ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
                 ->showInline()

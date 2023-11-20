@@ -239,13 +239,13 @@ class Song extends BaseResource
             ResourceSite::YOUTUBE_MUSIC,
             ResourceSite::YOUTUBE,
             ResourceSite::APPLE_MUSIC,
-            ResourceSite::AMAZON_MUSIC
+            ResourceSite::AMAZON_MUSIC,
         ];
 
         return array_merge(
             parent::actions($request),
             [
-                (new AttachSongResourceAction($resourceSites))
+                (new AttachSongResourceAction($resourceSites, null))
                     ->confirmButtonText(__('nova.actions.models.wiki.attach_resource.confirmButtonText'))
                     ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
                     ->exceptOnIndex()
@@ -269,7 +269,7 @@ class Song extends BaseResource
                 new SongAmazonMusicResourceLens(),
                 new SongAppleMusicResourceLens(),
                 new SongSpotifyResourceLens(),
-                new SongYoutubeMusicResourceLens()
+                new SongYoutubeMusicResourceLens(),
             ]
         );
     }

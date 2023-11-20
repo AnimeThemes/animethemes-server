@@ -52,6 +52,13 @@ class AnimeResourceLinkFormatTest extends TestCase
             ResourceSite::ANN,
             ResourceSite::KITSU,
             ResourceSite::MAL,
+            ResourceSite::YOUTUBE,
+            ResourceSite::CRUNCHYROLL,
+            ResourceSite::HIDIVE,
+            ResourceSite::NETFLIX,
+            ResourceSite::DISNEY_PLUS,
+            ResourceSite::HULU,
+            ResourceSite::AMAZON_PRIME_VIDEO,
         ]);
 
         $url = $site->formatAnimeResourceLink($this->faker->randomDigitNotNull(), $this->faker->word());
@@ -82,6 +89,13 @@ class AnimeResourceLinkFormatTest extends TestCase
             ResourceSite::ANN,
             ResourceSite::KITSU,
             ResourceSite::MAL,
+            ResourceSite::YOUTUBE,
+            ResourceSite::CRUNCHYROLL,
+            ResourceSite::HIDIVE,
+            ResourceSite::NETFLIX,
+            ResourceSite::DISNEY_PLUS,
+            ResourceSite::HULU,
+            ResourceSite::AMAZON_PRIME_VIDEO,
         ]);
 
         $url = $site->formatAnimeResourceLink($this->faker->randomDigitNotNull(), $this->faker->word());

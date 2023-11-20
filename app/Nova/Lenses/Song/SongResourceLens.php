@@ -59,7 +59,7 @@ abstract class SongResourceLens extends SongLens
     public function actions(NovaRequest $request): array
     {
         return [
-            (new AttachSongResourceAction([static::site()]))
+            (new AttachSongResourceAction([static::site()], null))
                 ->confirmButtonText(__('nova.actions.models.wiki.attach_resource.confirmButtonText'))
                 ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
                 ->showInline()

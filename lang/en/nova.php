@@ -207,22 +207,43 @@ return [
                             'help' => 'Ex: https://unite-up.fandom.com/wiki/Protostar',
                         ],
                         'spotify' => [
-                            'help' => 'Ex: https://open.spotify.com/track/5dmkAW2HpEJgFDSgkywm8N'
+                            'help' => 'Ex: https://open.spotify.com/track/5dmkAW2HpEJgFDSgkywm8N',
                         ],
                         'youtube_music' => [
-                            'help' => 'Ex: https://music.youtube.com/watch?v=dHasNhuseU8'
+                            'help' => 'Ex: https://music.youtube.com/watch?v=dHasNhuseU8',
                         ],
                         'youtube' => [
-                            'help' => 'Ex: https://www.youtube.com/@liyuuchannel'
+                            'help' => 'Ex: https://www.youtube.com/@liyuuchannel',
                         ],
                         'apple_music' => [
-                            'help' => 'Ex: https://music.apple.com/jp/album/1711324281'
+                            'help' => 'Ex: https://music.apple.com/jp/album/1711324281',
                         ],
                         'amazon_music' => [
-                            'help' => 'Ex: https://amazon.co.jp/music/player/albums/B0CKVQGSJY'
-                        ]
+                            'help' => 'Ex: https://amazon.co.jp/music/player/albums/B0CKVQGSJY',
+                        ],
+                        'crunchyroll' => [
+                            'help' => 'Ex: https://www.crunchyroll.com/series/GRDQNQW9Y',
+                        ],
+                        'hidive' => [
+                            'help' => 'Ex: https://www.hidive.com/tv/the-eminence-in-shadow',
+                        ],
+                        'netflix' => [
+                            'help' => 'Ex: https://www.netflix.com/title/81564905',
+                        ],
+                        'disney_plus' => [
+                            'help' => 'https://www.disneyplus.com/series/tokyo-revengers/4HFbN55sAh0i',
+                        ],
+                        'hulu' => [
+                            'help' => 'Ex: https://www.hulu.com/series/the-eminence-in-shadow-66f37cf4-dba5-4511-ae26-e4092df1668b',
+                        ],
+                        'amazon_prime_video' => [
+                            'help' => 'Ex: https://www.primevideo.com/detail/0PXZCO5NGDNH8OWTJIDTEB8IEF',
+                        ],
                     ],
                     'name' => 'Attach Resources',
+                ],
+                'attach_streaming_resource' => [
+                    'name' => 'Attach Streaming Resources',
                 ],
                 'attach_image' => [
                     'confirmButtonText' => 'Upload',
@@ -777,6 +798,9 @@ return [
             ],
             'resources' => [
                 'name' => 'Anime Without :site Resource',
+            ],
+            'streaming_resources' => [
+                'name' => 'Anime Without Streaming Resources',
             ],
             'studios' => [
                 'name' => 'Anime Without Studios',

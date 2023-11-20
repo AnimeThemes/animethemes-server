@@ -16,6 +16,7 @@ use App\Nova\Actions\Discord\DiscordThreadAction;
 use App\Nova\Actions\Models\Wiki\Anime\AttachAnimeImageAction;
 use App\Nova\Actions\Models\Wiki\Anime\AttachAnimeResourceAction;
 use App\Nova\Actions\Models\Wiki\Anime\BackfillAnimeAction;
+use App\Nova\Lenses\Anime\AnimeStreamingResourceLens;
 use App\Nova\Lenses\Anime\Image\AnimeCoverLargeLens;
 use App\Nova\Lenses\Anime\Image\AnimeCoverSmallLens;
 use App\Nova\Lenses\Anime\Resource\AnimeAniDbResourceLens;
@@ -312,12 +313,21 @@ class Anime extends BaseResource
             ResourceSite::OFFICIAL_SITE,
             ResourceSite::TWITTER,
             ResourceSite::YOUTUBE,
-            ResourceSite::WIKI
+            ResourceSite::WIKI,
+        ];
+
+        $streamingResourceSites = [
+            ResourceSite::CRUNCHYROLL,
+            ResourceSite::HIDIVE,
+            ResourceSite::NETFLIX,
+            ResourceSite::DISNEY_PLUS,
+            ResourceSite::HULU,
+            ResourceSite::AMAZON_PRIME_VIDEO,
         ];
 
         $facets = [
             ImageFacet::COVER_SMALL,
-            ImageFacet::COVER_LARGE
+            ImageFacet::COVER_LARGE,
         ];
 
         return array_merge(
@@ -337,7 +347,13 @@ class Anime extends BaseResource
                     ->showInline()
                     ->canSeeWhen('update', $this),
 
-                (new AttachAnimeResourceAction($resourceSites))
+                (new AttachAnimeResourceAction($resourceSites, null))
+                    ->confirmButtonText(__('nova.actions.models.wiki.attach_resource.confirmButtonText'))
+                    ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
+                    ->exceptOnIndex()
+                    ->canSeeWhen('create', ExternalResourceModel::class),
+
+                (new AttachAnimeResourceAction($streamingResourceSites, __('nova.actions.models.wiki.attach_streaming_resource.name')))
                     ->confirmButtonText(__('nova.actions.models.wiki.attach_resource.confirmButtonText'))
                     ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
                     ->exceptOnIndex()
@@ -391,6 +407,7 @@ class Anime extends BaseResource
                 new AnimeTwitterResourceLens(),
                 new AnimeOfficialSiteResourceLens(),
                 new AnimeYoutubeResourceLens(),
+                new AnimeStreamingResourceLens(),
                 new AnimeStudioLens(),
             ]
         );

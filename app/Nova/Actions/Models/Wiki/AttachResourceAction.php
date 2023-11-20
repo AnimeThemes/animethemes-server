@@ -27,8 +27,9 @@ abstract class AttachResourceAction extends Action
      * Create a new action instance.
      *
      * @param  ResourceSite[]  $sites
+     * @param  string|null  $actionName
      */
-    public function __construct(protected array $sites)
+    public function __construct(protected array $sites, protected ?string $actionName)
     {
     }
 
@@ -41,7 +42,7 @@ abstract class AttachResourceAction extends Action
      */
     public function name(): string
     {
-        return __('nova.actions.models.wiki.attach_resource.name');
+        return $this->actionName ?? __('nova.actions.models.wiki.attach_resource.name');
     }
 
     /**

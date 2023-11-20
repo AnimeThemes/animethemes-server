@@ -32,6 +32,7 @@ class ResourceSiteTest extends TestCase
             ResourceSite::ANILIST,
             ResourceSite::ANN,
             ResourceSite::MAL,
+            ResourceSite::NETFLIX,
         ]);
 
         $link = $site->formatAnimeResourceLink($animeId);

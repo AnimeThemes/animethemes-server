@@ -283,18 +283,18 @@ class Artist extends BaseResource
             ResourceSite::SPOTIFY,
             ResourceSite::TWITTER,
             ResourceSite::YOUTUBE,
-            ResourceSite::WIKI
+            ResourceSite::WIKI,
         ];
 
         $facets = [
             ImageFacet::COVER_SMALL,
-            ImageFacet::COVER_LARGE
+            ImageFacet::COVER_LARGE,
         ];
 
         return array_merge(
             parent::actions($request),
             [
-                (new AttachArtistResourceAction($resources))
+                (new AttachArtistResourceAction($resources, null))
                     ->confirmButtonText(__('nova.actions.models.wiki.attach_resource.confirmButtonText'))
                     ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
                     ->exceptOnIndex()

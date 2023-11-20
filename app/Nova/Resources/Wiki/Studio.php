@@ -220,11 +220,11 @@ class Studio extends BaseResource
             ResourceSite::ANILIST,
             ResourceSite::ANIME_PLANET,
             ResourceSite::ANN,
-            ResourceSite::MAL
+            ResourceSite::MAL,
         ];
 
         $facets = [
-            ImageFacet::COVER_LARGE
+            ImageFacet::COVER_LARGE,
         ];
 
         return array_merge(
@@ -238,7 +238,7 @@ class Studio extends BaseResource
                     ->showInline()
                     ->canSeeWhen('update', $this),
 
-                (new AttachStudioResourceAction($resources))
+                (new AttachStudioResourceAction($resources, null))
                     ->confirmButtonText(__('nova.actions.models.wiki.attach_resource.confirmButtonText'))
                     ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
                     ->exceptOnIndex()
