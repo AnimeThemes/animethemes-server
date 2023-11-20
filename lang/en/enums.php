@@ -59,7 +59,13 @@ return [
         ResourceSite::YOUTUBE_MUSIC->name => 'YouTube Music',
         ResourceSite::YOUTUBE->name => 'YouTube',
         ResourceSite::APPLE_MUSIC->name => 'Apple Music',
-        ResourceSite::AMAZON_MUSIC->name => 'Amazon Music'
+        ResourceSite::AMAZON_MUSIC->name => 'Amazon Music',
+        ResourceSite::CRUNCHYROLL->name => 'Crunchyroll',
+        ResourceSite::HIDIVE->name => 'HIDIVE',
+        ResourceSite::NETFLIX->name => 'Netflix',
+        ResourceSite::DISNEY_PLUS->name => 'Disney Plus',
+        ResourceSite::HULU->name => 'Hulu',
+        ResourceSite::AMAZON_PRIME_VIDEO->name => 'Amazon Prime Video',
     ],
     Service::class => [
         Service::OTHER->name => 'Other',

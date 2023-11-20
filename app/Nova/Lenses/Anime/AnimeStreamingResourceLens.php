@@ -12,16 +12,26 @@ use Illuminate\Database\Eloquent\Builder;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 /**
- * Class AnimeResourceLens.
+ * Class AnimeStreamingResourceLens.
  */
-abstract class AnimeResourceLens extends AnimeLens
+class AnimeStreamingResourceLens extends AnimeLens
 {
     /**
-     * The resource site.
+     * The resources site.
      *
-     * @return ResourceSite
+     * @return ResourceSite[]
      */
-    abstract protected static function site(): ResourceSite;
+    protected static function sites(): array
+    {
+        return [
+            ResourceSite::CRUNCHYROLL,
+            ResourceSite::HIDIVE,
+            ResourceSite::NETFLIX,
+            ResourceSite::DISNEY_PLUS,
+            ResourceSite::HULU,
+            ResourceSite::AMAZON_PRIME_VIDEO,
+        ];
+    }
 
     /**
      * Get the displayable name of the lens.
@@ -32,7 +42,7 @@ abstract class AnimeResourceLens extends AnimeLens
      */
     public function name(): string
     {
-        return __('nova.lenses.anime.resources.name', ['site' => static::site()->localize()]);
+        return __('nova.lenses.anime.streaming_resources.name');
     }
 
     /**
@@ -44,7 +54,11 @@ abstract class AnimeResourceLens extends AnimeLens
     public static function criteria(Builder $query): Builder
     {
         return $query->whereDoesntHave(Anime::RELATION_RESOURCES, function (Builder $resourceQuery) {
-            $resourceQuery->where(ExternalResource::ATTRIBUTE_SITE, static::site()->value);
+            $resourceQuery->where(function (Builder $query) {
+                foreach (static::sites() as $site) {
+                    $query->orWhere(ExternalResource::ATTRIBUTE_SITE, $site->value);
+                }
+            });
         });
     }
 
@@ -59,11 +73,23 @@ abstract class AnimeResourceLens extends AnimeLens
     public function actions(NovaRequest $request): array
     {
         return [
-            (new AttachAnimeResourceAction([static::site()], null))
+            (new AttachAnimeResourceAction(static::sites(), __('nova.actions.models.wiki.attach_streaming_resource.name')))
                 ->confirmButtonText(__('nova.actions.models.wiki.attach_resource.confirmButtonText'))
                 ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
                 ->showInline()
                 ->canSeeWhen('create', ExternalResource::class),
         ];
+    }
+
+    /**
+     * Get the URI key for the lens.
+     *
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public function uriKey(): string
+    {
+        return 'anime-streaming-resources-lens';
     }
 }

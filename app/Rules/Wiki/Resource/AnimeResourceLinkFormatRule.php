@@ -47,6 +47,12 @@ readonly class AnimeResourceLinkFormatRule implements ValidationRule
             ResourceSite::YOUTUBE => '/^https:\/\/www\.youtube\.com\/\@\w+$/',
             ResourceSite::APPLE_MUSIC => '/$.^/',
             ResourceSite::AMAZON_MUSIC => '/$.^/',
+            ResourceSite::CRUNCHYROLL => '/^https:\/\/www\.crunchyroll\.com\/series\/\w+$/',
+            ResourceSite::HIDIVE => '/^https:\/\/www\.hidive\.com\/tv\/[\w-]+$/',
+            ResourceSite::NETFLIX => '/^https:\/\/www\.netflix\.com\/title\/\d+$/',
+            ResourceSite::DISNEY_PLUS => '/^https:\/\/www\.disneyplus\.com\/series\/[\w-]+\/\w+$/',
+            ResourceSite::HULU => '/^https:\/\/www\.hulu\.com\/series\/[\w-]+$/',
+            ResourceSite::AMAZON_PRIME_VIDEO => '/^https:\/\/www\.primevideo\.com\/detail\/\w+$/',
             default => null,
         };
 

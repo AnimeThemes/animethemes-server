@@ -40,6 +40,14 @@ enum ResourceSite: int
     case APPLE_MUSIC = 12;
     case AMAZON_MUSIC = 13;
 
+    // Official Streaming
+    case CRUNCHYROLL = 14;
+    case HIDIVE = 15;
+    case NETFLIX = 16;
+    case DISNEY_PLUS = 17;
+    case HULU = 18;
+    case AMAZON_PRIME_VIDEO = 19;
+    
     /**
      * Get domain by resource site.
      *
@@ -62,6 +70,12 @@ enum ResourceSite: int
             ResourceSite::YOUTUBE->value => 'www.youtube.com',
             ResourceSite::APPLE_MUSIC->value => 'music.apple.com',
             ResourceSite::AMAZON_MUSIC->value => 'amazon.co.jp',
+            ResourceSite::CRUNCHYROLL->value => 'www.crunchyroll.com',
+            ResourceSite::HIDIVE->value => 'www.hidive.com',
+            ResourceSite::NETFLIX->value => 'www.netflix.com',
+            ResourceSite::DISNEY_PLUS->value => 'www.disneyplus.com',
+            ResourceSite::HULU->value => 'www.hulu.com',
+            ResourceSite::AMAZON_PRIME_VIDEO->value => 'www.primevideo.com',
             default => null,
         };
     }
@@ -99,6 +113,7 @@ enum ResourceSite: int
             ResourceSite::MAL => Str::match('/\d+/', $link),
             ResourceSite::ANIME_PLANET => ResourceSite::parseAnimePlanetIdFromLink($link),
             ResourceSite::KITSU => ResourceSite::parseKitsuIdFromLink($link),
+            ResourceSite::NETFLIX => Str::match('/\d+/', $link),
             default => null,
         };
     }
@@ -186,6 +201,12 @@ enum ResourceSite: int
             ResourceSite::KITSU => "https://kitsu.io/anime/$slug",
             ResourceSite::MAL => "https://myanimelist.net/anime/$id",
             ResourceSite::YOUTUBE => "https://www.youtube.com/@$slug",
+            ResourceSite::CRUNCHYROLL => "https://www.crunchyroll.com/series/$slug",
+            ResourceSite::HIDIVE => "https://www.hidive.com/tv/$slug",
+            ResourceSite::NETFLIX => "https://www.netflix.com/title/$id",
+            ResourceSite::DISNEY_PLUS => "https://www.disneyplus.com/series/$slug",
+            ResourceSite::HULU => "https://www.hulu.com/series/$slug",
+            ResourceSite::AMAZON_PRIME_VIDEO => "https://www.primevideo.com/detail/$slug",
             default => null,
         };
     }

@@ -59,7 +59,7 @@ abstract class ArtistResourceLens extends ArtistLens
     public function actions(NovaRequest $request): array
     {
         return [
-            (new AttachArtistResourceAction([static::site()]))
+            (new AttachArtistResourceAction([static::site()], null))
                 ->confirmButtonText(__('nova.actions.models.wiki.attach_resource.confirmButtonText'))
                 ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
                 ->showInline()
