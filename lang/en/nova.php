@@ -231,7 +231,7 @@ return [
                             'help' => 'Ex: https://www.netflix.com/title/81564905',
                         ],
                         'disney_plus' => [
-                            'help' => 'https://www.disneyplus.com/series/tokyo-revengers/4HFbN55sAh0i',
+                            'help' => 'Ex: https://www.disneyplus.com/series/tokyo-revengers/4HFbN55sAh0i',
                         ],
                         'hulu' => [
                             'help' => 'Ex: https://www.hulu.com/series/the-eminence-in-shadow-66f37cf4-dba5-4511-ae26-e4092df1668b',
