@@ -42,10 +42,14 @@ abstract class BackfillExternalLinksAnilistResourceAction extends BackfillAction
             $availableSites = $this->getAvailableSites();
 
             foreach ($externalLinks as $externalLink) {
-                if (!in_array($externalLink['site'], array_keys($availableSites))) continue;
+                $site = $externalLink['site'];
+                $language = $externalLink['language'];
 
-                if ($this->relation()->getQuery()->where(ExternalResource::ATTRIBUTE_SITE, $availableSites[$externalLink['site']]->value)->exists()) {
-                    $nameLocalized = $availableSites[$externalLink['site']]->localize();
+                if (!in_array($site, array_keys($availableSites))) continue;
+                if (in_array($site, ['Official Site', 'Twitter']) && $language !== 'Japanese') continue;
+
+                if ($this->relation()->getQuery()->where(ExternalResource::ATTRIBUTE_SITE, $availableSites[$site]->value)->exists()) {
+                    $nameLocalized = $availableSites[$site]->localize();
                     Log::info("{$nameLocalized} already exists in the model {$this->getModel()->getName()}");
                     continue;
                 }

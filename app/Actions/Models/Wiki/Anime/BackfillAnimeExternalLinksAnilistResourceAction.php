@@ -58,10 +58,16 @@ class BackfillAnimeExternalLinksAnilistResourceAction extends BackfillExternalLi
      */
     protected function getAvailableSites(): array
     {
-        // Key name in Anilist API => ResourceSite
+        /**  Key name in Anilist API => @var ResourceSite */
         return [
             'Twitter' => ResourceSite::TWITTER,
-            'Official Site' => ResourceSite::OFFICIAL_SITE
+            'Official Site' => ResourceSite::OFFICIAL_SITE,
+            'Netflix' => ResourceSite::NETFLIX,
+            'Crunchyroll' => ResourceSite::CRUNCHYROLL,
+            'HIDIVE' => ResourceSite::HIDIVE,
+            'Amazon Prime Video' => ResourceSite::AMAZON_PRIME_VIDEO,
+            'Hulu' => ResourceSite::HULU,
+            'Disney Plus' => ResourceSite::DISNEY_PLUS,
         ];
     }
 
@@ -75,19 +81,26 @@ class BackfillAnimeExternalLinksAnilistResourceAction extends BackfillExternalLi
     {
         $availableSites = $this->getAvailableSites();
         $url = $externalLink['url'];
+        $resourceSite = $availableSites[$externalLink['site']];
+        $urlPattern = $this->getUrlPattern($resourceSite->value);
+
+        if (preg_match($urlPattern, $url, $matches)) {
+            $url = $resourceSite->formatAnimeResourceLink(intval($matches[1]), $matches[1]);
+        }
 
         $resource = ExternalResource::query()
-            ->where(ExternalResource::ATTRIBUTE_SITE, $availableSites[$externalLink['site']]->value)
+            ->where(ExternalResource::ATTRIBUTE_SITE, $resourceSite->value)
             ->where(ExternalResource::ATTRIBUTE_LINK, $url)
             ->first();
 
         if ($resource === null) {
-            $nameLocalized = $availableSites[$externalLink['site']]->localize();
+            $nameLocalized = $resourceSite->localize();
             Log::info("Creating {$nameLocalized} -> '{$url}'");
 
             $resource = ExternalResource::query()->create([
                 ExternalResource::ATTRIBUTE_LINK => $url,
-                ExternalResource::ATTRIBUTE_SITE => $availableSites[$externalLink['site']]->value,
+                ExternalResource::ATTRIBUTE_SITE => $resourceSite->value,
+                ExternalResource::ATTRIBUTE_EXTERNAL_ID => $resourceSite->parseIdFromLink($url) ?? null,
             ]);
         }
 
@@ -138,6 +151,7 @@ class BackfillAnimeExternalLinksAnilistResourceAction extends BackfillExternalLi
                     externalLinks {
                         url
                         site
+                        language
                     }
                 }
             }
@@ -160,5 +174,19 @@ class BackfillAnimeExternalLinksAnilistResourceAction extends BackfillExternalLi
         }
 
         return null;
+    }
+
+    protected function getUrlPattern(int $resourceSite): string
+    {
+        $matches = [
+            ResourceSite::CRUNCHYROLL->value => '/^https:\/\/www\.crunchyroll\.com\/series\/(\w+)/',
+            ResourceSite::HIDIVE->value => '/^https:\/\/www\.hidive\.com\/tv\/([\w-]+)/',
+            ResourceSite::NETFLIX->value => '/^https:\/\/www\.netflix\.com\/title\/(\d+)/',
+            ResourceSite::DISNEY_PLUS->value => '/^https:\/\/www\.disneyplus\.com\/series\/([\w-]+\/\w+)/',
+            ResourceSite::HULU->value => '/^https:\/\/www\.hulu\.com\/series\/([\w-]+)/',
+            ResourceSite::AMAZON_PRIME_VIDEO->value => '/^https:\/\/www\.primevideo\.com\/detail\/(\w+)/',
+        ];
+
+        return $matches[$resourceSite] ?? '/^$/';
     }
 }
