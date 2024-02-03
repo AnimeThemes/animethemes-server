@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Nova\Resources\Wiki;
 
 use App\Models\Wiki\Audio as AudioModel;
+use App\Nova\Actions\Models\Wiki\Audio\AttachAudioToRelatedVideosAction;
 use App\Nova\Actions\Repositories\Storage\Wiki\Audio\ReconcileAudioAction;
 use App\Nova\Actions\Storage\Wiki\Audio\DeleteAudioAction;
 use App\Nova\Actions\Storage\Wiki\Audio\MoveAudioAction;
@@ -207,6 +208,12 @@ class Audio extends BaseResource
                     ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
                     ->onlyOnIndex()
                     ->standalone()
+                    ->canSeeWhen('create', AudioModel::class),
+
+                (new AttachAudioToRelatedVideosAction())
+                    ->confirmButtonText(__('nova.actions.base.confirmButtonText'))
+                    ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
+                    ->exceptOnIndex()
                     ->canSeeWhen('create', AudioModel::class),
             ]
         );
