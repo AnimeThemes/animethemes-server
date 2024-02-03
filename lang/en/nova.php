@@ -76,6 +76,9 @@ return [
             'upload' => [
                 'name' => 'Upload Audio',
             ],
+            'attach_related_videos' => [
+                'name' => 'Attach Audio to Related Videos',
+            ],
         ],
         'base' => [
             'cancelButtonText' => 'Cancel',
