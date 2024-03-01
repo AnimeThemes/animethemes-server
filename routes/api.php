@@ -9,9 +9,6 @@ use App\Http\Controllers\Api\Admin\FeatureController;
 use App\Http\Controllers\Api\Admin\FeaturedThemeController;
 use App\Http\Controllers\Api\Auth\User\Me\List\MyPlaylistController;
 use App\Http\Controllers\Api\Auth\User\Me\MyController;
-use App\Http\Controllers\Api\Billing\BalanceController;
-use App\Http\Controllers\Api\Billing\TransactionController;
-use App\Http\Controllers\Api\Billing\TransparencyController;
 use App\Http\Controllers\Api\Config\WikiController;
 use App\Http\Controllers\Api\Document\PageController;
 use App\Http\Controllers\Api\List\Playlist\TrackBackwardController;
@@ -234,11 +231,6 @@ Route::apiResource('feature', FeatureController::class)
 // Auth Routes
 Route::get('/me', [MyController::class, 'show'])->name('me.show');
 Route::get('/me/playlist', [MyPlaylistController::class, 'index'])->name('me.playlist.index');
-
-// Billing Routes
-apiResource('balance', BalanceController::class);
-apiResource('transaction', TransactionController::class);
-Route::get('transparency', [TransparencyController::class, 'show'])->name('transparency.show');
 
 // Config Routes
 Route::get('config/wiki', [WikiController::class, 'show'])->name('config.wiki.show');

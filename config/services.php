@@ -50,10 +50,6 @@ return [
         'client' => env('MAL_CLIENT_ID'),
     ],
 
-    'do' => [
-        'token' => env('DO_BEARER_TOKEN'),
-    ],
-
     'openai' => [
         'token' => env('OPENAI_BEARER_TOKEN'),
     ],

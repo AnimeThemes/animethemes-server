@@ -15,8 +15,6 @@ use App\Models\Admin\Setting;
 use App\Models\Auth\Permission;
 use App\Models\Auth\Role;
 use App\Models\Auth\User;
-use App\Models\Billing\Balance;
-use App\Models\Billing\Transaction;
 use App\Models\Document\Page;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
@@ -67,10 +65,6 @@ class AdminSeeder extends RoleSeeder
         $this->configureResource($role, Permission::class, [CrudPermission::VIEW]);
         $this->configureResource($role, Role::class, CrudPermission::cases());
         $this->configureResource($role, User::class, $extendedCrudPermissions);
-
-        // Billing Resources
-        $this->configureResource($role, Balance::class, $extendedCrudPermissions);
-        $this->configureResource($role, Transaction::class, $extendedCrudPermissions);
 
         // List Resources
         $this->configureResource($role, Playlist::class, $extendedCrudPermissions);
