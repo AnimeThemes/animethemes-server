@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-use App\Enums\Models\Billing\BalanceFrequency;
-use App\Enums\Models\Billing\Service;
 use App\Enums\Models\List\PlaylistVisibility;
 use App\Enums\Models\Wiki\AnimeMediaFormat;
 use App\Enums\Models\Wiki\AnimeSeason;
@@ -28,13 +26,6 @@ return [
         AnimeSeason::SPRING->name => 'Spring',
         AnimeSeason::SUMMER->name => 'Summer',
         AnimeSeason::FALL->name => 'Fall',
-    ],
-    BalanceFrequency::class => [
-        BalanceFrequency::ONCE->name => 'Once',
-        BalanceFrequency::ANNUALLY->name => 'Annually',
-        BalanceFrequency::BIANNUALLY->name => 'Biannually',
-        BalanceFrequency::QUARTERLY->name => 'Quarterly',
-        BalanceFrequency::MONTHLY->name => 'Monthly',
     ],
     ImageFacet::class => [
         ImageFacet::COVER_SMALL->name => 'Small Cover',
@@ -66,13 +57,6 @@ return [
         ResourceSite::DISNEY_PLUS->name => 'Disney Plus',
         ResourceSite::HULU->name => 'Hulu',
         ResourceSite::AMAZON_PRIME_VIDEO->name => 'Amazon Prime Video',
-    ],
-    Service::class => [
-        Service::OTHER->name => 'Other',
-        Service::DIGITALOCEAN->name => 'DigitalOcean',
-        Service::AWS->name => 'AWS',
-        Service::HOVER->name => 'Hover',
-        Service::WALKERSERVERS->name => 'WalkerServers',
     ],
     ThemeType::class => [
         ThemeType::OP->name => 'OP',

@@ -265,14 +265,6 @@ return [
         'repositories' => [
             'confirmButtonText' => 'Reconcile',
             'name' => 'Reconcile :label',
-            'service' => [
-                'fields' => [
-                    'service' => [
-                        'help' => 'The provider that is billing us',
-                        'name' => 'Service',
-                    ],
-                ],
-            ],
             'storage' => [
                 'fields' => [
                     'path' => [
@@ -530,28 +522,6 @@ return [
                 'name' => 'Size',
             ],
         ],
-        'balance' => [
-            'balance' => [
-                'help' => 'Current balance of the account with current usage',
-                'name' => 'Balance',
-            ],
-            'date' => [
-                'help' => 'The month and year for the balance that we are tracking',
-                'name' => 'Date',
-            ],
-            'frequency' => [
-                'help' => 'The frequency that we are billed by the provider',
-                'name' => 'Frequency',
-            ],
-            'service' => [
-                'help' => 'The provider that is billing us',
-                'name' => 'Service',
-            ],
-            'usage' => [
-                'help' => 'Amount used in the current billing period',
-                'name' => 'Usage',
-            ],
-        ],
         'base' => [
             'created_at' => 'Created At',
             'deleted_at' => 'Deleted At',
@@ -719,28 +689,6 @@ return [
                 'name' => 'Slug',
             ],
         ],
-        'transaction' => [
-            'amount' => [
-                'help' => 'How much are we being billed for or receiving?',
-                'name' => 'Amount',
-            ],
-            'date' => [
-                'help' => 'The date at which the transaction occurred',
-                'name' => 'Date',
-            ],
-            'description' => [
-                'help' => 'What is this transaction for?',
-                'name' => 'Description',
-            ],
-            'external_id' => [
-                'help' => 'The identifier used by the service for this transaction, if applicable',
-                'name' => 'External ID',
-            ],
-            'service' => [
-                'help' => 'The provider that is billing us',
-                'name' => 'Service',
-            ],
-        ],
         'user' => [
             'email' => 'Email',
             'name' => 'Name',
@@ -902,7 +850,6 @@ return [
         'group' => [
             'admin' => 'Admin',
             'auth' => 'Auth',
-            'billing' => 'Billing',
             'document' => 'Document',
             'list' => 'List',
             'wiki' => 'Wiki',
@@ -915,7 +862,6 @@ return [
             'announcements' => 'Announcements',
             'artists' => 'Artists',
             'audios' => 'Audios',
-            'balances' => 'Balances',
             'dumps' => 'Dumps',
             'external_resources' => 'External Resources',
             'features' => 'Features',
@@ -932,7 +878,6 @@ return [
             'settings' => 'Settings',
             'songs' => 'Songs',
             'studios' => 'Studios',
-            'transactions' => 'Transactions',
             'users' => 'Users',
             'video_scripts' => 'Video Scripts',
             'videos' => 'Videos',
@@ -945,7 +890,6 @@ return [
             'announcement' => 'Announcement',
             'artist' => 'Artist',
             'audio' => 'Audio',
-            'balance' => 'Balance',
             'dump' => 'Dump',
             'external_resource' => 'External Resource',
             'feature' => 'Feature',
@@ -960,7 +904,6 @@ return [
             'setting' => 'Setting',
             'song' => 'Song',
             'studio' => 'Studio',
-            'transaction' => 'Transaction',
             'user' => 'User',
             'video_script' => 'Video Script',
             'video' => 'Video',

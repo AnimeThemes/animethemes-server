@@ -4,12 +4,9 @@ declare(strict_types=1);
 
 namespace App\Console;
 
-use App\Console\Commands\Repositories\Billing\Balance\BalanceReconcileCommand;
-use App\Console\Commands\Repositories\Billing\Transaction\TransactionReconcileCommand;
 use App\Console\Commands\Storage\Admin\DocumentDumpCommand;
 use App\Console\Commands\Storage\Admin\DumpPruneCommand;
 use App\Console\Commands\Storage\Admin\WikiDumpCommand;
-use App\Enums\Models\Billing\Service;
 use App\Models\BaseModel;
 use Illuminate\Auth\Console\ClearResetsCommand;
 use Illuminate\Cache\Console\PruneStaleTagsCommand;
@@ -40,12 +37,6 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        $schedule->command(BalanceReconcileCommand::class, [Service::DIGITALOCEAN->name])
-            ->withoutOverlapping()
-            ->runInBackground()
-            ->storeOutput()
-            ->hourly();
-
         $schedule->command(ClearResetsCommand::class)
             ->withoutOverlapping()
             ->runInBackground()
@@ -125,12 +116,6 @@ class Kernel extends ConsoleKernel
             ->runInBackground()
             ->storeOutput()
             ->everyFiveMinutes();
-
-        $schedule->command(TransactionReconcileCommand::class, [Service::DIGITALOCEAN->name])
-            ->withoutOverlapping()
-            ->runInBackground()
-            ->storeOutput()
-            ->hourly();
 
         $schedule->command(UpdateDisposableDomainsCommand::class)
             ->withoutOverlapping()

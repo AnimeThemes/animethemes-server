@@ -15,8 +15,6 @@ use App\Models\Admin\Setting;
 use App\Models\Auth\Permission;
 use App\Models\Auth\Role;
 use App\Models\Auth\User;
-use App\Models\Billing\Balance;
-use App\Models\Billing\Transaction;
 use App\Models\Document\Page;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
@@ -63,10 +61,6 @@ class PermissionSeeder extends Seeder
         $this->registerResource(Permission::class, [CrudPermission::VIEW]);
         $this->registerResource(Role::class, CrudPermission::cases());
         $this->registerResource(User::class, $extendedCrudPermissions);
-
-        // Billing Resources
-        $this->registerResource(Balance::class, $extendedCrudPermissions);
-        $this->registerResource(Transaction::class, $extendedCrudPermissions);
 
         // List Resources
         $this->registerResource(Playlist::class, $extendedCrudPermissions);
