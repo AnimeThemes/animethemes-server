@@ -657,10 +657,6 @@ return [
                 'name' => 'Slug',
             ],
         ],
-        'setting' => [
-            'key' => 'Key',
-            'value' => 'Value',
-        ],
         'song' => [
             'title' => [
                 'help' => 'The title of the song',
