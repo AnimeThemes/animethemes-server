@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace App\Rules\Wiki\Submission\Video;
 
+use App\Constants\FeatureConstants;
 use App\Rules\Wiki\Submission\SubmissionRule;
 use Closure;
 use Illuminate\Support\Arr;
 use Illuminate\Translation\PotentiallyTranslatedString;
+use Laravel\Pennant\Feature;
 
 /**
  * Class VideoColorPrimariesStreamRule.
@@ -29,7 +31,7 @@ class VideoColorPrimariesStreamRule extends SubmissionRule
             fn (array $stream) => Arr::get($stream, 'codec_type') === 'video'
         );
 
-        if (! in_array(Arr::get($video, 'color_primaries'), ['bt709', 'smpte170m', 'bt470bg'])) {
+        if (! in_array(Arr::get($video, 'color_primaries'), explode(',', Feature::for(null)->value(FeatureConstants::VIDEO_COLOR_PRIMARIES_STREAM)))) {
             $fail(__('validation.submission.video_color_primaries'));
         }
     }

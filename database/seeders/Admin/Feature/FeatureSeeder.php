@@ -33,6 +33,13 @@ class FeatureSeeder extends Seeder
 
         Feature::deactivate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
         Feature::deactivate(FeatureConstants::ALLOW_VIEW_RECORDING);
+        Feature::activate(FeatureConstants::AUDIO_BITRATE_RESTRICTION);
         Feature::deactivate(FeatureConstants::REQUIRED_ENCODER_VERSION);
+        Feature::activate(FeatureConstants::VIDEO_BITRATE_RESTRICTION);
+        Feature::deactivate(FeatureConstants::VIDEO_CODEC_STREAM);
+        Feature::deactivate(FeatureConstants::VIDEO_COLOR_PRIMARIES_STREAM);
+        Feature::deactivate(FeatureConstants::VIDEO_COLOR_SPACE_STREAM);
+        Feature::deactivate(FeatureConstants::VIDEO_COLOR_TRANSFER_STREAM);
+        Feature::deactivate(FeatureConstants::VIDEO_PIXEL_FORMAT_STREAM);
     }
 }
