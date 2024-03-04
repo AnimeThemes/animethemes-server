@@ -52,8 +52,8 @@ class AttachAudioToRelatedVideosAction extends Action implements ShouldQueue
         $video->animethemeentries()->each(function (AnimeThemeEntry $firstEntry) use ($audio) {
             $theme = $firstEntry->animetheme()->first();
 
-            $theme->animethemeentries->each(function (AnimeThemeEntry $entry) use ($audio) {
-                $entry->videos->each(function (Video $video) use ($audio) {
+            $theme->animethemeentries()->each(function (AnimeThemeEntry $entry) use ($audio) {
+                $entry->videos()->each(function (Video $video) use ($audio) {
                     Log::info("Associating Audio '{$audio->filename}' with Video '{$video->filename}'");
                     $video->audio()->associate($audio)->save();
                 });

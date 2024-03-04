@@ -32,7 +32,7 @@ class AnimeFormatAnilistSeeder extends Seeder
             }
         ';
 
-        $chunkSize = 10;
+        $chunkSize = 5;
         $animes = Anime::query()->where(Anime::ATTRIBUTE_MEDIA_FORMAT, null)->get();
 
         foreach ($animes->chunk($chunkSize) as $chunk) {
@@ -77,7 +77,7 @@ class AnimeFormatAnilistSeeder extends Seeder
                     }
                 }
             }
-            sleep(5);
+            sleep(11);
         }
     }
 }

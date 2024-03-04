@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace App\Rules\Wiki\Submission\Video;
 
+use App\Constants\FeatureConstants;
 use App\Rules\Wiki\Submission\SubmissionRule;
 use Closure;
 use Illuminate\Support\Arr;
 use Illuminate\Translation\PotentiallyTranslatedString;
+use Laravel\Pennant\Feature;
 
 /**
  * Class VideoPixelFormatStreamRule.
@@ -29,7 +31,7 @@ class VideoPixelFormatStreamRule extends SubmissionRule
             fn (array $stream) => Arr::get($stream, 'codec_type') === 'video'
         );
 
-        if (Arr::get($video, 'pix_fmt') !== 'yuv420p') {
+        if (Arr::get($video, 'pix_fmt') !== Feature::for(null)->value(FeatureConstants::VIDEO_PIXEL_FORMAT_STREAM)) {
             $fail(__('validation.submission.video_pixel_format'));
         }
     }

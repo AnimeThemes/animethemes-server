@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace App\Rules\Wiki\Submission\Format;
 
+use App\Constants\FeatureConstants;
 use App\Rules\Wiki\Submission\SubmissionRule;
 use Closure;
 use Illuminate\Support\Arr;
 use Illuminate\Translation\PotentiallyTranslatedString;
+use Laravel\Pennant\Feature;
 
 /**
  * Class VideoBitrateRestrictionFormatRule.
@@ -35,7 +37,7 @@ class VideoBitrateRestrictionFormatRule extends SubmissionRule
         $height = intval(Arr::get($video, 'height'));
 
         // Linear approximation of egregious bitrate by resolution
-        if ($bitrate > $height * 7100 + 475000) {
+        if (Feature::for(null)->active(FeatureConstants::VIDEO_BITRATE_RESTRICTION) && $bitrate > $height * 7100 + 475000) {
             $fail(__('validation.submission.format_bitrate_restriction'));
         }
     }

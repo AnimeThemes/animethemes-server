@@ -91,6 +91,7 @@ class BackfillAnimeExternalLinksAnilistResourceAction extends BackfillExternalLi
         $resource = ExternalResource::query()
             ->where(ExternalResource::ATTRIBUTE_SITE, $resourceSite->value)
             ->where(ExternalResource::ATTRIBUTE_LINK, $url)
+            ->orWhere(ExternalResource::ATTRIBUTE_LINK, $url . "/")
             ->first();
 
         if ($resource === null) {
@@ -179,6 +180,7 @@ class BackfillAnimeExternalLinksAnilistResourceAction extends BackfillExternalLi
     protected function getUrlPattern(int $resourceSite): string
     {
         $matches = [
+            ResourceSite::TWITTER->value => '/^https:\/\/twitter\.com\/(\w+)/',
             ResourceSite::CRUNCHYROLL->value => '/^https:\/\/www\.crunchyroll\.com\/series\/(\w+)/',
             ResourceSite::HIDIVE->value => '/^https:\/\/www\.hidive\.com\/tv\/([\w-]+)/',
             ResourceSite::NETFLIX->value => '/^https:\/\/www\.netflix\.com\/title\/(\d+)/',
