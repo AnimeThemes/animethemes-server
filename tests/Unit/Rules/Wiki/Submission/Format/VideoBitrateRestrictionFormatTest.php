@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Rules\Wiki\Submission\Format;
 
+use App\Constants\FeatureConstants;
 use App\Rules\Wiki\Submission\Format\VideoBitrateRestrictionFormatRule;
 use App\Rules\Wiki\Submission\SubmissionRule;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Process;
 use Illuminate\Support\Facades\Validator;
+use Laravel\Pennant\Feature;
 use Tests\TestCase;
 
 /**
@@ -26,6 +28,8 @@ class VideoBitrateRestrictionFormatTest extends TestCase
      */
     public function testFailsWhenBitrateIsNotExpected(): void
     {
+        Feature::activate(FeatureConstants::VIDEO_BITRATE_RESTRICTION);
+
         $height = $this->faker->numberBetween(360, 1080);
         $bitrate = $height * 14200 + 475000;
 
@@ -74,6 +78,8 @@ class VideoBitrateRestrictionFormatTest extends TestCase
      */
     public function testPassesWhenBitrateIsExpected(): void
     {
+        Feature::activate(FeatureConstants::VIDEO_BITRATE_RESTRICTION);
+
         $height = $this->faker->numberBetween(360, 1080);
         $bitrate = $height * 3550 + 475000;
 

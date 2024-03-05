@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Rules\Wiki\Submission\Video;
 
+use App\Constants\FeatureConstants;
 use App\Rules\Wiki\Submission\SubmissionRule;
 use App\Rules\Wiki\Submission\Video\VideoPixelFormatStreamRule;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Process;
 use Illuminate\Support\Facades\Validator;
+use Laravel\Pennant\Feature;
 use Tests\TestCase;
 
 /**
@@ -26,6 +28,8 @@ class VideoPixelFormatStreamTest extends TestCase
      */
     public function testFailsWhenCodecIsNotYuv420p(): void
     {
+        Feature::activate(FeatureConstants::VIDEO_PIXEL_FORMAT_STREAM, 'yuv420p');
+
         $file = UploadedFile::fake()->create($this->faker->word().'.webm', $this->faker->randomDigitNotNull());
 
         Process::fake([
@@ -68,6 +72,8 @@ class VideoPixelFormatStreamTest extends TestCase
      */
     public function testPassesWhenCodecIsVp9(): void
     {
+        Feature::activate(FeatureConstants::VIDEO_PIXEL_FORMAT_STREAM, 'yuv420p');
+
         $file = UploadedFile::fake()->create($this->faker->word().'.webm', $this->faker->randomDigitNotNull());
 
         Process::fake([
