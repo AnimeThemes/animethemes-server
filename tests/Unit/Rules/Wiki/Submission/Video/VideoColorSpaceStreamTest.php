@@ -29,7 +29,7 @@ class VideoColorSpaceStreamTest extends TestCase
      */
     public function testFailsWhenColorSpaceIsNotAccepted(): void
     {
-        Feature::activate(FeatureConstants::VIDEO_COLOR_SPACE_STREAM, ['bt709', 'smpte170m', 'bt470bg']);
+        Feature::activate(FeatureConstants::VIDEO_COLOR_SPACE_STREAM, 'bt709,smpte170m,bt470bg');
 
         $file = UploadedFile::fake()->create($this->faker->word().'.webm', $this->faker->randomDigitNotNull());
 
@@ -73,7 +73,7 @@ class VideoColorSpaceStreamTest extends TestCase
      */
     public function testPassesWhenColorSpaceIsAccepted(): void
     {
-        Feature::activate(FeatureConstants::VIDEO_COLOR_SPACE_STREAM, ['bt709', 'smpte170m', 'bt470bg']);
+        Feature::activate(FeatureConstants::VIDEO_COLOR_SPACE_STREAM, 'bt709,smpte170m,bt470bg');
 
         $file = UploadedFile::fake()->create($this->faker->word().'.webm', $this->faker->randomDigitNotNull());
 

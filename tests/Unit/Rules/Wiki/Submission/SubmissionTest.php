@@ -52,9 +52,9 @@ class SubmissionTest extends TestCase
         Feature::activate(FeatureConstants::AUDIO_BITRATE_RESTRICTION);
         Feature::activate(FeatureConstants::VIDEO_BITRATE_RESTRICTION);
         Feature::activate(FeatureConstants::VIDEO_CODEC_STREAM, 'vp9');
-        Feature::activate(FeatureConstants::VIDEO_COLOR_PRIMARIES_STREAM, ['bt709', 'smpte170m', 'bt470bg']);
-        Feature::activate(FeatureConstants::VIDEO_COLOR_SPACE_STREAM, ['bt709', 'smpte170m', 'bt470bg']);
-        Feature::activate(FeatureConstants::VIDEO_COLOR_TRANSFER_STREAM, ['bt709', 'smpte170m', 'bt470bg']);
+        Feature::activate(FeatureConstants::VIDEO_COLOR_PRIMARIES_STREAM, 'bt709,smpte170m,bt470bg');
+        Feature::activate(FeatureConstants::VIDEO_COLOR_SPACE_STREAM, 'bt709,smpte170m,bt470bg');
+        Feature::activate(FeatureConstants::VIDEO_COLOR_TRANSFER_STREAM, 'bt709,smpte170m,bt470bg');
         Feature::activate(FeatureConstants::VIDEO_PIXEL_FORMAT_STREAM, 'yuv420p');
 
         $height = $this->faker->numberBetween(360, 1080);

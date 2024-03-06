@@ -29,7 +29,7 @@ class VideoColorTransferStreamTest extends TestCase
      */
     public function testFailsWhenColorTransferIsNotAccepted(): void
     {
-        Feature::activate(FeatureConstants::VIDEO_COLOR_TRANSFER_STREAM, ['bt709', 'smpte170m', 'bt470bg']);
+        Feature::activate(FeatureConstants::VIDEO_COLOR_TRANSFER_STREAM, 'bt709,smpte170m,bt470bg');
 
         $file = UploadedFile::fake()->create($this->faker->word().'.webm', $this->faker->randomDigitNotNull());
 
@@ -73,7 +73,7 @@ class VideoColorTransferStreamTest extends TestCase
      */
     public function testPassesWhenColorTransferIsAccepted(): void
     {
-        Feature::activate(FeatureConstants::VIDEO_COLOR_TRANSFER_STREAM, ['bt709', 'smpte170m', 'bt470bg']);
+        Feature::activate(FeatureConstants::VIDEO_COLOR_TRANSFER_STREAM, 'bt709,smpte170m,bt470bg');
 
         $file = UploadedFile::fake()->create($this->faker->word().'.webm', $this->faker->randomDigitNotNull());
 

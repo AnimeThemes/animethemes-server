@@ -29,7 +29,7 @@ class VideoColorPrimariesStreamTest extends TestCase
      */
     public function testFailsWhenColorPrimariesIsNotAccepted(): void
     {
-        Feature::activate(FeatureConstants::VIDEO_COLOR_PRIMARIES_STREAM, ['bt709', 'smpte170m', 'bt470bg']);
+        Feature::activate(FeatureConstants::VIDEO_COLOR_PRIMARIES_STREAM, 'bt709,smpte170m,bt470bg');
 
         $file = UploadedFile::fake()->create($this->faker->word().'.webm', $this->faker->randomDigitNotNull());
 
@@ -73,7 +73,7 @@ class VideoColorPrimariesStreamTest extends TestCase
      */
     public function testPassesWhenColorPrimariesIsAccepted(): void
     {
-        Feature::activate(FeatureConstants::VIDEO_COLOR_PRIMARIES_STREAM, ['bt709', 'smpte170m', 'bt470bg']);
+        Feature::activate(FeatureConstants::VIDEO_COLOR_PRIMARIES_STREAM, 'bt709,smpte170m,bt470bg');
 
         $file = UploadedFile::fake()->create($this->faker->word().'.webm', $this->faker->randomDigitNotNull());
 
