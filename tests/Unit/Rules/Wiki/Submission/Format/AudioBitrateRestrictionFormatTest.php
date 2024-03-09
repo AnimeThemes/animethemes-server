@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Rules\Wiki\Submission\Format;
 
+use App\Constants\FeatureConstants;
 use App\Rules\Wiki\Submission\Format\AudioBitrateRestrictionFormatRule;
 use App\Rules\Wiki\Submission\SubmissionRule;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Process;
 use Illuminate\Support\Facades\Validator;
+use Laravel\Pennant\Feature;
 use Tests\TestCase;
 
 /**
@@ -26,6 +28,8 @@ class AudioBitrateRestrictionFormatTest extends TestCase
      */
     public function testFailsWhenBitrateIsNotExpected(): void
     {
+        Feature::activate(FeatureConstants::AUDIO_BITRATE_RESTRICTION);
+
         $file = UploadedFile::fake()->create($this->faker->word().'.webm', $this->faker->randomDigitNotNull());
 
         Process::fake([
@@ -65,6 +69,8 @@ class AudioBitrateRestrictionFormatTest extends TestCase
      */
     public function testPassesWhenBitrateIsExpected(): void
     {
+        Feature::activate(FeatureConstants::AUDIO_BITRATE_RESTRICTION);
+
         $file = UploadedFile::fake()->create($this->faker->word().'.webm', $this->faker->randomDigitNotNull());
 
         Process::fake([

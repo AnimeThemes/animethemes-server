@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Rules\Wiki\Submission\Video;
 
+use App\Constants\FeatureConstants;
 use App\Rules\Wiki\Submission\SubmissionRule;
 use App\Rules\Wiki\Submission\Video\VideoCodecStreamRule;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Process;
 use Illuminate\Support\Facades\Validator;
+use Laravel\Pennant\Feature;
 use Tests\TestCase;
 
 /**
@@ -26,6 +28,8 @@ class VideoCodecStreamTest extends TestCase
      */
     public function testFailsWhenCodecIsNotVp9(): void
     {
+        Feature::activate(FeatureConstants::VIDEO_CODEC_STREAM, 'vp9');
+
         $file = UploadedFile::fake()->create($this->faker->word().'.webm', $this->faker->randomDigitNotNull());
 
         Process::fake([
@@ -68,6 +72,8 @@ class VideoCodecStreamTest extends TestCase
      */
     public function testPassesWhenCodecIsVp9(): void
     {
+        Feature::activate(FeatureConstants::VIDEO_CODEC_STREAM, 'vp9');
+
         $file = UploadedFile::fake()->create($this->faker->word().'.webm', $this->faker->randomDigitNotNull());
 
         Process::fake([
