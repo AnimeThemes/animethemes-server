@@ -86,7 +86,7 @@ class MoveImageToAppropriateFolderSeeder extends Seeder
                     if ($artist instanceof Artist) {
                         $images = $artist->images()->get();
 
-                        if (empty($images)) continue;
+                        if (count($images) === 0) continue;
 
                         $largeCover = $images->where(Image::ATTRIBUTE_FACET, ImageFacet::COVER_LARGE)->first();
                         $smallCover = $images->where(Image::ATTRIBUTE_FACET, ImageFacet::COVER_SMALL)->first();
@@ -151,7 +151,7 @@ class MoveImageToAppropriateFolderSeeder extends Seeder
                     if ($studio instanceof Studio) {
                         $images = $studio->images()->get();
 
-                        if (empty($images)) continue;
+                        if (count($images) === 0) continue;
 
                         $largeCover = $images->where(Image::ATTRIBUTE_FACET, ImageFacet::COVER_LARGE)->first();
 
