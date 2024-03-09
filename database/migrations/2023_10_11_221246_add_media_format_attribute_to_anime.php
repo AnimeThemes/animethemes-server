@@ -12,9 +12,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table(Anime::TABLE, function (Blueprint $table) {
-            $table->integer(Anime::ATTRIBUTE_MEDIA_FORMAT)->nullable();
-        });
+        if (! Schema::hasColumn(Anime::TABLE, Anime::ATTRIBUTE_MEDIA_FORMAT)) {
+            Schema::table(Anime::TABLE, function (Blueprint $table) {
+                $table->integer(Anime::ATTRIBUTE_MEDIA_FORMAT)->nullable();
+            });
+        }
     }
 
     /**
@@ -22,8 +24,10 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table(Anime::TABLE, function (Blueprint $table) {
-            $table->dropColumn(Anime::ATTRIBUTE_MEDIA_FORMAT);
-        });
+        if (Schema::hasColumn(Anime::TABLE, Anime::ATTRIBUTE_MEDIA_FORMAT)) {
+            Schema::table(Anime::TABLE, function (Blueprint $table) {
+                $table->dropColumn(Anime::ATTRIBUTE_MEDIA_FORMAT);
+            });
+        }
     }
 };

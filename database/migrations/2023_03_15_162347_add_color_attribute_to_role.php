@@ -16,10 +16,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table(Role::TABLE, function (Blueprint $table) {
-            $table->string(Role::ATTRIBUTE_COLOR)->nullable();
-            $table->integer(Role::ATTRIBUTE_PRIORITY)->nullable();
-        });
+        if (! Schema::hasColumn(Role::TABLE, Role::ATTRIBUTE_COLOR)) {
+            Schema::table(Role::TABLE, function (Blueprint $table) {
+                $table->string(Role::ATTRIBUTE_COLOR)->nullable();
+            });
+        }
+
+        if (! Schema::hasColumn(Role::TABLE, Role::ATTRIBUTE_PRIORITY)) {
+            Schema::table(Role::TABLE, function (Blueprint $table) {
+                $table->integer(Role::ATTRIBUTE_PRIORITY)->nullable();
+            });
+        }
     }
 
     /**
@@ -29,9 +36,16 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table(Role::TABLE, function (Blueprint $table) {
-            $table->dropColumn(Role::ATTRIBUTE_COLOR);
-            $table->dropColumn(Role::ATTRIBUTE_PRIORITY);
-        });
+        if (Schema::hasColumn(Role::TABLE, Role::ATTRIBUTE_COLOR)) {
+            Schema::table(Role::TABLE, function (Blueprint $table) {
+                $table->dropColumn(Role::ATTRIBUTE_COLOR);
+            });
+        }
+
+        if (Schema::hasColumn(Role::TABLE, Role::ATTRIBUTE_PRIORITY)) {
+            Schema::table(Role::TABLE, function (Blueprint $table) {
+                $table->dropColumn(Role::ATTRIBUTE_PRIORITY);
+            });
+        }
     }
 };

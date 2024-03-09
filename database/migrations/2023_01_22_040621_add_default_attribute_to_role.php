@@ -16,9 +16,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table(Role::TABLE, function (Blueprint $table) {
-            $table->boolean(Role::ATTRIBUTE_DEFAULT)->default(false);
-        });
+        if (! Schema::hasColumn(Role::TABLE, Role::ATTRIBUTE_DEFAULT)) {
+            Schema::table(Role::TABLE, function (Blueprint $table) {
+                $table->boolean(Role::ATTRIBUTE_DEFAULT)->default(false);
+            });
+        }
     }
 
     /**
@@ -28,8 +30,10 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table(Role::TABLE, function (Blueprint $table) {
-            $table->dropColumn(Role::ATTRIBUTE_DEFAULT);
-        });
+        if (Schema::hasColumn(Role::TABLE, Role::ATTRIBUTE_DEFAULT)) {
+            Schema::table(Role::TABLE, function (Blueprint $table) {
+                $table->dropColumn(Role::ATTRIBUTE_DEFAULT);
+            });
+        }
     }
 };
