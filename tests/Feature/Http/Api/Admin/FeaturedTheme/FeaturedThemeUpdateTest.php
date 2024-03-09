@@ -90,8 +90,8 @@ class FeaturedThemeUpdateTest extends TestCase
         $featuredTheme = FeaturedTheme::factory()->createOne();
 
         $parameters = FeaturedTheme::factory()->raw([
-            FeaturedTheme::ATTRIBUTE_START_AT => $this->faker->dateTimeBetween('+1 day', '+30 years')->format(AllowedDateFormat::YMDHISU->value),
-            FeaturedTheme::ATTRIBUTE_END_AT => $this->faker->dateTimeBetween('-30 years', '-1 day')->format(AllowedDateFormat::YMDHISU->value),
+            FeaturedTheme::ATTRIBUTE_START_AT => $this->faker->dateTimeBetween('+1 day', '+1 year')->format(AllowedDateFormat::YMDHISU->value),
+            FeaturedTheme::ATTRIBUTE_END_AT => $this->faker->dateTimeBetween('-1 year', '-1 day')->format(AllowedDateFormat::YMDHISU->value),
         ]);
 
         $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(FeaturedTheme::class))->createOne();

@@ -47,7 +47,7 @@ enum ResourceSite: int
     case DISNEY_PLUS = 17;
     case HULU = 18;
     case AMAZON_PRIME_VIDEO = 19;
-    
+
     /**
      * Get domain by resource site.
      *
@@ -204,7 +204,7 @@ enum ResourceSite: int
             ResourceSite::CRUNCHYROLL => "https://www.crunchyroll.com/series/$slug",
             ResourceSite::HIDIVE => "https://www.hidive.com/tv/$slug",
             ResourceSite::NETFLIX => "https://www.netflix.com/title/$id",
-            ResourceSite::DISNEY_PLUS => "https://www.disneyplus.com/series/$slug",
+            ResourceSite::DISNEY_PLUS => "https://www.disneyplus.com/series/$slug/$id",
             ResourceSite::HULU => "https://www.hulu.com/series/$slug",
             ResourceSite::AMAZON_PRIME_VIDEO => "https://www.primevideo.com/detail/$slug",
             default => null,
@@ -235,7 +235,7 @@ enum ResourceSite: int
 
     /**
      * Get the URL of the site for song resources.
-     * 
+     *
      * @param  int  $id
      * @param  string|null  $slug
      * @return string|null

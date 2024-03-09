@@ -34,7 +34,7 @@ class FeaturedThemeFactory extends Factory
     {
         return [
             FeaturedTheme::ATTRIBUTE_START_AT => fake()->dateTimeBetween()->format(AllowedDateFormat::YMDHISU->value),
-            FeaturedTheme::ATTRIBUTE_END_AT => fake()->dateTimeBetween('+1 day', '+30 years')->format(AllowedDateFormat::YMDHISU->value),
+            FeaturedTheme::ATTRIBUTE_END_AT => fake()->dateTimeBetween('+1 day', '+1 year')->format(AllowedDateFormat::YMDHISU->value),
         ];
     }
 }

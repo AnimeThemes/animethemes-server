@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\List\Playlist;
 
+use App\Concerns\Actions\Http\Api\AggregatesFields;
 use App\Concerns\Actions\Http\Api\SortsModels;
 use App\Contracts\Http\Api\Field\SortableField;
 use App\Enums\Http\Api\Filter\TrashedStatus;
@@ -42,6 +43,7 @@ use Tests\TestCase;
 class PlaylistIndexTest extends TestCase
 {
     use SortsModels;
+    use AggregatesFields;
     use WithFaker;
 
     /**
@@ -215,7 +217,9 @@ class PlaylistIndexTest extends TestCase
 
         $response = $this->get(route('api.playlist.index', $parameters));
 
-        $playlists = $this->sort(Playlist::query(), $query, $schema)->get();
+        $builder = Playlist::query();
+        $this->withAggregates($builder, $query, $schema);
+        $playlists = $this->sort($builder, $query, $schema)->get();
 
         $response->assertJson(
             json_decode(

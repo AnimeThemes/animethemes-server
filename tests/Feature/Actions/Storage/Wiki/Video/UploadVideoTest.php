@@ -199,6 +199,11 @@ class UploadVideoTest extends TestCase
 
         $action->then($result);
 
-        static::assertDatabaseHas(VideoScript::class, [VideoScript::ATTRIBUTE_VIDEO => 1]);
+        /** @var Video $video */
+        $video = Video::query()->first();
+
+        static::assertNotNull($video);
+
+        static::assertDatabaseHas(VideoScript::class, [VideoScript::ATTRIBUTE_VIDEO => $video->video_id]);
     }
 }
