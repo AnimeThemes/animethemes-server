@@ -9,7 +9,6 @@ use App\Http\Controllers\Api\Admin\FeatureController;
 use App\Http\Controllers\Api\Admin\FeaturedThemeController;
 use App\Http\Controllers\Api\Auth\User\Me\List\MyPlaylistController;
 use App\Http\Controllers\Api\Auth\User\Me\MyController;
-use App\Http\Controllers\Api\Config\WikiController;
 use App\Http\Controllers\Api\Document\PageController;
 use App\Http\Controllers\Api\List\Playlist\TrackBackwardController;
 use App\Http\Controllers\Api\List\Playlist\TrackController;
@@ -231,9 +230,6 @@ Route::apiResource('feature', FeatureController::class)
 // Auth Routes
 Route::get('/me', [MyController::class, 'show'])->name('me.show');
 Route::get('/me/playlist', [MyPlaylistController::class, 'index'])->name('me.playlist.index');
-
-// Config Routes
-Route::get('config/wiki', [WikiController::class, 'show'])->name('config.wiki.show');
 
 // Document Routes
 apiResourceWhere('page', PageController::class, ['page' => '[\pL\pM\pN\/_-]+']);
