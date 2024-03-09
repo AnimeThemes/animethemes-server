@@ -60,7 +60,7 @@ class FeaturedThemeIndexTest extends TestCase
 
         Collection::times($this->faker->randomDigitNotNull(), function () {
             FeaturedTheme::factory()->create([
-                FeaturedTheme::ATTRIBUTE_START_AT => $this->faker->dateTimeBetween('+1 day', '+30 years'),
+                FeaturedTheme::ATTRIBUTE_START_AT => $this->faker->dateTimeBetween('+1 day', '+1 year'),
             ]);
         });
 

@@ -83,7 +83,7 @@ class CurrentFeaturedThemeShowTest extends TestCase
     public function testNotFoundIfThemeStartAtAfterNow(): void
     {
         FeaturedTheme::factory()->create([
-            FeaturedTheme::ATTRIBUTE_START_AT => $this->faker->dateTimeBetween('+1 day', '+30 years'),
+            FeaturedTheme::ATTRIBUTE_START_AT => $this->faker->dateTimeBetween('+1 day', '+1 year'),
         ]);
 
         $response = $this->get(route('api.featuredtheme.current.show'));
@@ -128,13 +128,13 @@ class CurrentFeaturedThemeShowTest extends TestCase
 
         Collection::times($this->faker->randomDigitNotNull(), function () {
             FeaturedTheme::factory()->create([
-                FeaturedTheme::ATTRIBUTE_START_AT => $this->faker->dateTimeBetween('+1 day', '+30 years'),
+                FeaturedTheme::ATTRIBUTE_START_AT => $this->faker->dateTimeBetween('+1 day', '+1 year'),
             ]);
         });
 
         Collection::times($this->faker->randomDigitNotNull(), function () {
             FeaturedTheme::factory()->create([
-                FeaturedTheme::ATTRIBUTE_END_AT => $this->faker->dateTimeBetween('-30 years', '-1 day'),
+                FeaturedTheme::ATTRIBUTE_END_AT => $this->faker->dateTimeBetween('-1 year', '-1 day'),
             ]);
         });
 

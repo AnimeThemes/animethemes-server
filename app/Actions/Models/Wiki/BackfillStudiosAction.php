@@ -79,7 +79,7 @@ abstract class BackfillStudiosAction extends BackfillAction
     {
         $column = Studio::ATTRIBUTE_NAME;
         $studio = Studio::query()
-            ->where(DB::raw("lower($column)")->getValue(DB::connection()->getQueryGrammar()), Str::lower($name))
+            ->whereRaw("lower($column) = ?", Str::lower($name))
             ->first();
 
         if (! $studio instanceof Studio) {
