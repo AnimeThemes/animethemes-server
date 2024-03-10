@@ -685,6 +685,26 @@ return [
                 'name' => 'Slug',
             ],
         ],
+        'user_external_list_entry' => [
+            'score' => [
+                'help' => 'The anime score of the user.',
+                'name' => 'Score',
+            ],
+            'watch_status' => [
+                'help' => 'The watch status of the anime.',
+                'name' => 'Watch Status',
+            ],
+        ],
+        'user_external_profile' => [
+            'username' => [
+                'help' => 'The username of the external site.',
+                'name' => 'Username',
+            ],
+            'site' => [
+                'help' => 'The site that owns the external list.',
+                'name' => 'Site',
+            ],
+        ],
         'user' => [
             'email' => 'Email',
             'name' => 'Name',
@@ -874,6 +894,8 @@ return [
             'settings' => 'Settings',
             'songs' => 'Songs',
             'studios' => 'Studios',
+            'user_external_list_entries' => 'User External List Entries',
+            'user_external_profiles' => 'User External Profiles',
             'users' => 'Users',
             'video_scripts' => 'Video Scripts',
             'videos' => 'Videos',
@@ -900,6 +922,8 @@ return [
             'setting' => 'Setting',
             'song' => 'Song',
             'studio' => 'Studio',
+            'user_external_list_entries' => 'User External List Entry',
+            'user_external_profiles' => 'User External Profile',
             'user' => 'User',
             'video_script' => 'Video Script',
             'video' => 'Video',
