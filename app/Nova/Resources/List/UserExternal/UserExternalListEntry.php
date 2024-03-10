@@ -61,7 +61,7 @@ class UserExternalListEntry extends BaseResource
     public function subtitle(): ?string
     {
         $entry = $this->model();
-        if ($entry instanceof UserExternalListEntry) {
+        if ($entry instanceof UserExternalListEntryModel) {
             return $entry->getName();
         }
 
