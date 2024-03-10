@@ -144,8 +144,6 @@ class UserExternalProfile extends BaseResource
      *
      * @param  NovaRequest  $request
      * @return array
-     *
-     * @throws Exception
      */
     public function fields(NovaRequest $request): array
     {
