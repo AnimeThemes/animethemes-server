@@ -11,6 +11,7 @@ use App\Nova\Actions\Models\Auth\User\RevokePermissionAction;
 use App\Nova\Actions\Models\Auth\User\RevokeRoleAction;
 use App\Nova\Resources\BaseResource;
 use App\Nova\Resources\List\Playlist;
+use App\Nova\Resources\List\ExternalProfile;
 use Exception;
 use Illuminate\Validation\Rule;
 use Laravel\Nova\Fields\BelongsToMany;
@@ -173,6 +174,8 @@ class User extends BaseResource
                 ->filterable(),
 
             HasMany::make(__('nova.resources.label.playlists'), UserModel::RELATION_PLAYLISTS, Playlist::class),
+
+            HasMany::make(__('nova.resources.label.external_profiles'), UserModel::RELATION_EXTERNAL_PROFILES, ExternalProfile::class),
 
             Panel::make(__('nova.fields.base.timestamps'), $this->timestamps())
                 ->collapsable(),

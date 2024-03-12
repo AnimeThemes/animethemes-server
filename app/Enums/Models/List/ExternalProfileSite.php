@@ -7,9 +7,9 @@ namespace App\Enums\Models\List;
 use App\Concerns\Enums\LocalizesName;
 
 /**
- * Enum ExternalResourceListType.
+ * Enum ExternalProfileSite.
  */
-enum ExternalResourceListType: int
+enum ExternalProfileSite: int
 {
     use LocalizesName;
 
