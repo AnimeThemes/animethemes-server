@@ -16,6 +16,8 @@ use App\Http\Controllers\Api\List\Playlist\TrackForwardController;
 use App\Http\Controllers\Api\List\PlaylistBackwardController;
 use App\Http\Controllers\Api\List\PlaylistController;
 use App\Http\Controllers\Api\List\PlaylistForwardController;
+use App\Http\Controllers\Api\List\External\ExternalEntryController;
+use App\Http\Controllers\Api\List\ExternalProfileController;
 use App\Http\Controllers\Api\Pivot\List\PlaylistImageController;
 use App\Http\Controllers\Api\Pivot\Wiki\AnimeImageController;
 use App\Http\Controllers\Api\Pivot\Wiki\AnimeResourceController;
@@ -235,7 +237,10 @@ Route::get('/me/playlist', [MyPlaylistController::class, 'index'])->name('me.pla
 apiResourceWhere('page', PageController::class, ['page' => '[\pL\pM\pN\/_-]+']);
 
 // List Routes
+apiResource('externalprofile', ExternalProfileController::class);
+apiResource('externalentry', ExternalEntryController::class);
 apiResource('playlist', PlaylistController::class);
+apiScopedResource('externalprofile.externalentry', ExternalEntryController::class);
 apiScopedResource('playlist.track', TrackController::class);
 
 Route::get('playlist/{playlist}/forward', [PlaylistForwardController::class, 'index'])

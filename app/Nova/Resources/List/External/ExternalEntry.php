@@ -2,15 +2,16 @@
 
 declare(strict_types=1);
 
-namespace App\Nova\Resources\List\UserExternal;
+namespace App\Nova\Resources\List\External;
 
 use App\Enums\Models\List\AnimeWatchStatus;
-use App\Models\List\UserExternalListEntry as UserExternalListEntryModel;
+use App\Models\List\External\ExternalEntry as ExternalEntryModel;
 use App\Nova\Resources\BaseResource;
-use App\Nova\Resources\List\UserExternalProfile;
+use App\Nova\Resources\List\ExternalProfile;
 use App\Nova\Resources\Wiki\Anime;
 use Illuminate\Validation\Rules\Enum;
 use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
@@ -18,23 +19,23 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
 
 /**
- * Class UserExternalListEntry.
+ * Class ExternalEntry.
  */
-class UserExternalListEntry extends BaseResource
+class ExternalEntry extends BaseResource
 {
     /**
      * The model the resource corresponds to.
      *
      * @var string
      */
-    public static string $model = UserExternalListEntryModel::class;
+    public static string $model = ExternalEntryModel::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = UserExternalListEntryModel::ATTRIBUTE_ANIME;
+    public static $title = ExternalEntryModel::ATTRIBUTE_ANIME;
 
     /**
      * Get the value that should be displayed to represent the resource.
@@ -44,7 +45,7 @@ class UserExternalListEntry extends BaseResource
     public function title(): string
     {
         $entry = $this->model();
-        if ($entry instanceof UserExternalListEntryModel) {
+        if ($entry instanceof ExternalEntryModel) {
             return $entry->getName();
         }
 
@@ -61,7 +62,7 @@ class UserExternalListEntry extends BaseResource
     public function subtitle(): ?string
     {
         $entry = $this->model();
-        if ($entry instanceof UserExternalListEntryModel) {
+        if ($entry instanceof ExternalEntryModel) {
             return $entry->getName();
         }
 
@@ -77,7 +78,7 @@ class UserExternalListEntry extends BaseResource
      */
     public static function label(): string
     {
-        return __('nova.resources.label.user_external_list_entries');
+        return __('nova.resources.label.external_entries');
     }
 
     /**
@@ -89,7 +90,7 @@ class UserExternalListEntry extends BaseResource
      */
     public static function singularLabel(): string
     {
-        return __('nova.resources.singularLabel.user_external_list_entries');
+        return __('nova.resources.singularLabel.external_entries');
     }
 
     /**
@@ -132,12 +133,12 @@ class UserExternalListEntry extends BaseResource
     public function fields(NovaRequest $request): array
     {
         return [
-            ID::make(__('nova.fields.base.id'), UserExternalListEntryModel::ATTRIBUTE_ID)
+            ID::make(__('nova.fields.base.id'), ExternalEntryModel::ATTRIBUTE_ID)
                 ->sortable()
                 ->showOnPreview()
                 ->showWhenPeeking(),
 
-            BelongsTo::make(__('nova.resources.singularLabel.anime'), UserExternalListEntryModel::RELATION_ANIME, Anime::class)
+            BelongsTo::make(__('nova.resources.singularLabel.anime'), ExternalEntryModel::RELATION_ANIME, Anime::class)
                 ->sortable()
                 ->filterable()
                 ->searchable()
@@ -146,7 +147,7 @@ class UserExternalListEntry extends BaseResource
                 ->showCreateRelationButton()
                 ->showOnPreview(),
 
-            BelongsTo::make(__('nova.resources.singularLabel.user_external_profiles'), UserExternalListEntryModel::RELATION_USER_PROFILE, UserExternalProfile::class)
+            BelongsTo::make(__('nova.resources.singularLabel.external_profiles'), ExternalEntryModel::RELATION_EXTERNAL_PROFILE, ExternalProfile::class)
                 ->sortable()
                 ->filterable()
                 ->searchable()
@@ -155,22 +156,30 @@ class UserExternalListEntry extends BaseResource
                 ->showCreateRelationButton()
                 ->showOnPreview(),
 
-            Number::make(__('nova.fields.user_external_list_entry.score.name'), UserExternalListEntryModel::ATTRIBUTE_SCORE)
+            Boolean::make(__('nova.fields.external_entry.isfavourite.name'), ExternalEntryModel::ATTRIBUTE_IS_FAVOURITE)
+                ->sortable()
+                ->filterable()
+                ->rules(['required'])
+                ->help(__('nova.fields.external_entry.isfavourite.help'))
+                ->showWhenPeeking()
+                ->showOnPreview(),
+
+            Number::make(__('nova.fields.external_entry.score.name'), ExternalEntryModel::ATTRIBUTE_SCORE)
                 ->sortable()
                 ->nullable()
                 ->rules(['nullable'])
                 ->step(0.01)
-                ->help(__('nova.fields.user_external_list_entry.score.help'))
+                ->help(__('nova.fields.external_entry.score.help'))
                 ->showOnPreview()
                 ->filterable()
                 ->showWhenPeeking(),
 
-            Select::make(__('nova.fields.user_external_list_entry.watch_status.name'), UserExternalListEntryModel::ATTRIBUTE_WATCH_STATUS)
+            Select::make(__('nova.fields.external_entry.watch_status.name'), ExternalEntryModel::ATTRIBUTE_WATCH_STATUS)
                 ->options(AnimeWatchStatus::asSelectArray())
                 ->displayUsing(fn (?int $enumValue) => AnimeWatchStatus::tryFrom($enumValue)?->localize())
                 ->sortable()
                 ->rules(['required', new Enum(AnimeWatchStatus::class)])
-                ->help(__('nova.fields.user_external_list_entry.watch_status.help'))
+                ->help(__('nova.fields.external_entry.watch_status.help'))
                 ->showOnPreview()
                 ->filterable()
                 ->showWhenPeeking(),
