@@ -27,7 +27,7 @@ class ExternalEntryPolicy
      * @param  User|null  $user
      * @return bool
      */
-    public function viewAny(?User $user,): bool
+    public function viewAny(?User $user): bool
     {
         return Nova::whenServing(
             fn (): bool => $user !== null && $user->hasRole('Admin'),
