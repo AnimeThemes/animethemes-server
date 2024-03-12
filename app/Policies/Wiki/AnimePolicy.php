@@ -273,4 +273,15 @@ class AnimePolicy
     {
         return $user->can(CrudPermission::UPDATE->format(Anime::class));
     }
+
+    /**
+     * Determine whether the user can add a entry to the anime.
+     *
+     * @param  User  $user
+     * @return bool
+     */
+    public function addEntry(User $user): bool
+    {
+        return $user->hasRole('Admin');
+    }
 }

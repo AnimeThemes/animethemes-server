@@ -537,6 +537,34 @@ return [
         'dump' => [
             'path' => 'Path',
         ],
+        'external_entry' => [
+            'isfavourite' => [
+                'help' => 'If the user has the entry favorited.',
+                'name' => 'Is Favourite',
+            ],
+            'score' => [
+                'help' => 'The anime score of the user.',
+                'name' => 'Score',
+            ],
+            'watch_status' => [
+                'help' => 'The watch status of the anime.',
+                'name' => 'Watch Status',
+            ],
+        ],
+        'external_profile' => [
+            'username' => [
+                'help' => 'The username of the external site.',
+                'name' => 'Username',
+            ],
+            'site' => [
+                'help' => 'The site that owns the external list.',
+                'name' => 'Site',
+            ],
+            'visibility' => [
+                'help' => 'The visibility of the user profile.',
+                'name' => 'Visibility',
+            ],
+        ],
         'external_resource' => [
             'external_id' => [
                 'help' => 'The identifier used by the external site.',
@@ -701,26 +729,6 @@ return [
             'slug' => [
                 'help' => 'Used as the URL Slug / Model Route Key. By default, this should be the Name lowercased and "_" replacing spaces. Shortenings/Abbreviations are also accepted.',
                 'name' => 'Slug',
-            ],
-        ],
-        'user_external_list_entry' => [
-            'score' => [
-                'help' => 'The anime score of the user.',
-                'name' => 'Score',
-            ],
-            'watch_status' => [
-                'help' => 'The watch status of the anime.',
-                'name' => 'Watch Status',
-            ],
-        ],
-        'user_external_profile' => [
-            'username' => [
-                'help' => 'The username of the external site.',
-                'name' => 'Username',
-            ],
-            'site' => [
-                'help' => 'The site that owns the external list.',
-                'name' => 'Site',
             ],
         ],
         'user' => [
@@ -897,6 +905,8 @@ return [
             'artists' => 'Artists',
             'audios' => 'Audios',
             'dumps' => 'Dumps',
+            'external_entries' => 'External Entries',
+            'external_profiles' => 'External Profiles',
             'external_resources' => 'External Resources',
             'features' => 'Features',
             'featured_themes' => 'Featured Themes',
@@ -912,8 +922,6 @@ return [
             'settings' => 'Settings',
             'songs' => 'Songs',
             'studios' => 'Studios',
-            'user_external_list_entries' => 'User External List Entries',
-            'user_external_profiles' => 'User External Profiles',
             'users' => 'Users',
             'video_scripts' => 'Video Scripts',
             'videos' => 'Videos',
@@ -927,6 +935,8 @@ return [
             'artist' => 'Artist',
             'audio' => 'Audio',
             'dump' => 'Dump',
+            'external_entries' => 'External Entry',
+            'external_profiles' => 'External Profile',
             'external_resource' => 'External Resource',
             'feature' => 'Feature',
             'featured_theme' => 'Featured Theme',
@@ -941,8 +951,6 @@ return [
             'setting' => 'Setting',
             'song' => 'Song',
             'studio' => 'Studio',
-            'user_external_list_entries' => 'User External List Entry',
-            'user_external_profiles' => 'User External Profile',
             'user' => 'User',
             'video_script' => 'Video Script',
             'video' => 'Video',

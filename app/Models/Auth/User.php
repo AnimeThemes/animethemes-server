@@ -13,6 +13,7 @@ use App\Events\Auth\User\UserRestored;
 use App\Events\Auth\User\UserUpdated;
 use App\Models\Admin\ActionLog;
 use App\Models\List\Playlist;
+use App\Models\List\ExternalProfile;
 use Database\Factories\Auth\UserFactory;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Models\Contracts\HasAvatar;
@@ -39,6 +40,7 @@ use Spatie\Permission\Traits\HasRoles;
  * @property Carbon $deleted_at
  * @property string $email
  * @property Carbon|null $email_verified_at
+ * @property Collection<int, ExternalProfile> $external_profiles
  * @property int $id
  * @property string $name
  * @property string $password
@@ -76,6 +78,7 @@ class User extends Authenticatable implements MustVerifyEmail, Nameable, HasSubt
     final public const ATTRIBUTE_TWO_FACTOR_RECOVERY_CODES = 'two_factor_recovery_codes';
     final public const ATTRIBUTE_TWO_FACTOR_SECRET = 'two_factor_secret';
 
+    final public const RELATION_EXTERNAL_PROFILES = 'external_profiles';
     final public const RELATION_PERMISSIONS = 'permissions';
     final public const RELATION_PLAYLISTS = 'playlists';
     final public const RELATION_ROLES = 'roles';
@@ -233,5 +236,15 @@ class User extends Authenticatable implements MustVerifyEmail, Nameable, HasSubt
     public function action_logs(): HasMany
     {
         return $this->hasMany(ActionLog::class, ActionLog::ATTRIBUTE_USER);
+    }
+
+    /**
+     * Get the playlists that belong to the user.
+     *
+     * @return HasMany
+     */
+    public function external_profiles(): HasMany
+    {
+        return $this->hasMany(ExternalProfile::class, ExternalProfile::ATTRIBUTE_USER);
     }
 }
