@@ -78,7 +78,7 @@ class ExternalEntry extends BaseResource
      */
     public static function label(): string
     {
-        return __('nova.resources.label.external_entries');
+        return __('nova.resources.label.externalentries');
     }
 
     /**
@@ -90,7 +90,7 @@ class ExternalEntry extends BaseResource
      */
     public static function singularLabel(): string
     {
-        return __('nova.resources.singularLabel.external_entries');
+        return __('nova.resources.singularLabel.externalentries');
     }
 
     /**
@@ -147,7 +147,7 @@ class ExternalEntry extends BaseResource
                 ->showCreateRelationButton()
                 ->showOnPreview(),
 
-            BelongsTo::make(__('nova.resources.singularLabel.external_profiles'), ExternalEntryModel::RELATION_EXTERNAL_PROFILE, ExternalProfile::class)
+            BelongsTo::make(__('nova.resources.singularLabel.externalprofiles'), ExternalEntryModel::RELATION_EXTERNAL_PROFILE, ExternalProfile::class)
                 ->sortable()
                 ->filterable()
                 ->searchable()
@@ -156,30 +156,30 @@ class ExternalEntry extends BaseResource
                 ->showCreateRelationButton()
                 ->showOnPreview(),
 
-            Boolean::make(__('nova.fields.external_entry.isfavourite.name'), ExternalEntryModel::ATTRIBUTE_IS_FAVOURITE)
+            Boolean::make(__('nova.fields.externalentry.isfavourite.name'), ExternalEntryModel::ATTRIBUTE_IS_FAVOURITE)
                 ->sortable()
                 ->filterable()
                 ->rules(['required'])
-                ->help(__('nova.fields.external_entry.isfavourite.help'))
+                ->help(__('nova.fields.externalentry.isfavourite.help'))
                 ->showWhenPeeking()
                 ->showOnPreview(),
 
-            Number::make(__('nova.fields.external_entry.score.name'), ExternalEntryModel::ATTRIBUTE_SCORE)
+            Number::make(__('nova.fields.externalentry.score.name'), ExternalEntryModel::ATTRIBUTE_SCORE)
                 ->sortable()
                 ->nullable()
                 ->rules(['nullable'])
                 ->step(0.01)
-                ->help(__('nova.fields.external_entry.score.help'))
+                ->help(__('nova.fields.externalentry.score.help'))
                 ->showOnPreview()
                 ->filterable()
                 ->showWhenPeeking(),
 
-            Select::make(__('nova.fields.external_entry.watch_status.name'), ExternalEntryModel::ATTRIBUTE_WATCH_STATUS)
+            Select::make(__('nova.fields.externalentry.watch_status.name'), ExternalEntryModel::ATTRIBUTE_WATCH_STATUS)
                 ->options(AnimeWatchStatus::asSelectArray())
                 ->displayUsing(fn (?int $enumValue) => AnimeWatchStatus::tryFrom($enumValue)?->localize())
                 ->sortable()
                 ->rules(['required', new Enum(AnimeWatchStatus::class)])
-                ->help(__('nova.fields.external_entry.watch_status.help'))
+                ->help(__('nova.fields.externalentry.watch_status.help'))
                 ->showOnPreview()
                 ->filterable()
                 ->showWhenPeeking(),

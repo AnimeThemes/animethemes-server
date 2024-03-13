@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Schema\List\External;
 
-use App\Http\Api\Field\Base\IdField;
 use App\Http\Api\Field\Field;
 use App\Http\Api\Field\List\ExternalProfile\ExternalEntry\ExternalEntryWatchStatusField;
 use App\Http\Api\Field\List\ExternalProfile\ExternalEntry\ExternalEntryIdField;
@@ -57,7 +56,6 @@ class ExternalEntrySchema extends EloquentSchema
         return array_merge(
             parent::fields(),
             [
-                new IdField($this, ExternalEntry::ATTRIBUTE_ID),
                 new ExternalEntryIdField($this),
                 new ExternalEntryScoreField($this),
                 new ExternalEntryIsFavouriteField($this),

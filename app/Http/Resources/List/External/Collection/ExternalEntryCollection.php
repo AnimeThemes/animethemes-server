@@ -19,7 +19,7 @@ class ExternalEntryCollection extends BaseCollection
      *
      * @var string|null
      */
-    public static $wrap = 'external_entries';
+    public static $wrap = 'externalentries';
 
     /**
      * Transform the resource into a JSON array.

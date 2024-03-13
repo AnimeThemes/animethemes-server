@@ -80,7 +80,7 @@ class ExternalProfile extends BaseResource
      */
     public static function label(): string
     {
-        return __('nova.resources.label.external_profiles');
+        return __('nova.resources.label.externalprofiles');
     }
 
     /**
@@ -92,7 +92,7 @@ class ExternalProfile extends BaseResource
      */
     public static function singularLabel(): string
     {
-        return __('nova.resources.singularLabel.external_profiles');
+        return __('nova.resources.singularLabel.externalprofiles');
     }
 
     /**
@@ -154,33 +154,33 @@ class ExternalProfile extends BaseResource
                 ->showOnPreview()
                 ->showWhenPeeking(),
 
-            Text::make(__('nova.fields.external_profile.username.name'), ExternalProfileModel::ATTRIBUTE_USERNAME)
+            Text::make(__('nova.fields.externalprofile.username.name'), ExternalProfileModel::ATTRIBUTE_USERNAME)
                 ->sortable()
                 ->copyable()
                 ->rules(['required', 'max:192'])
-                ->help(__('nova.fields.external_profile.username.help'))
+                ->help(__('nova.fields.externalprofile.username.help'))
                 ->showOnPreview()
                 ->filterable()
                 ->maxlength(192)
                 ->enforceMaxlength()
                 ->showWhenPeeking(),
 
-            Select::make(__('nova.fields.external_profile.site.name'), ExternalProfileModel::ATTRIBUTE_SITE)
+            Select::make(__('nova.fields.externalprofile.site.name'), ExternalProfileModel::ATTRIBUTE_SITE)
                 ->options(ExternalProfileSite::asSelectArray())
                 ->displayUsing(fn (?int $enumValue) => ExternalProfileSite::tryFrom($enumValue)?->localize())
                 ->sortable()
                 ->rules(['required', new Enum(ExternalProfileSite::class)])
-                ->help(__('nova.fields.external_profile.site.help'))
+                ->help(__('nova.fields.externalprofile.site.help'))
                 ->showOnPreview()
                 ->filterable()
                 ->showWhenPeeking(),
 
-            Select::make(__('nova.fields.external_profile.visibility.name'), ExternalProfileModel::ATTRIBUTE_VISIBILITY)
+            Select::make(__('nova.fields.externalprofile.visibility.name'), ExternalProfileModel::ATTRIBUTE_VISIBILITY)
                 ->options(ExternalProfileVisibility::asSelectArray())
                 ->displayUsing(fn (?int $enumValue) => ExternalProfileVisibility::tryFrom($enumValue)?->localize())
                 ->sortable()
                 ->rules(['required', new Enum(ExternalProfileVisibility::class)])
-                ->help(__('nova.fields.external_profile.visibility.help'))
+                ->help(__('nova.fields.externalprofile.visibility.help'))
                 ->showOnPreview()
                 ->filterable()
                 ->showWhenPeeking(),
@@ -191,7 +191,7 @@ class ExternalProfile extends BaseResource
                 ->withSubtitles()
                 ->showOnPreview(),
 
-            HasMany::make(__('nova.resources.label.external_entries'), ExternalProfileModel::RELATION_EXTERNAL_ENTRIES, ExternalEntry::class),
+            HasMany::make(__('nova.resources.label.externalentries'), ExternalProfileModel::RELATION_EXTERNAL_ENTRIES, ExternalEntry::class),
 
             Panel::make(__('nova.fields.base.timestamps'), $this->timestamps())
             ->collapsable(),

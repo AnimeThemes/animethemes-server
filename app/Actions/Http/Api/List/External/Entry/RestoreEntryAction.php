@@ -38,7 +38,7 @@ class RestoreEntryAction
 
             $restoreAction->restore($entry);
 
-            $entry->external_profile()->associate($profile)->save();
+            $entry->externalprofile()->associate($profile)->save();
 
             $restored = $restoreAction->cleanup($entry);
 

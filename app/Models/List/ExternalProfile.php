@@ -19,7 +19,7 @@ use Laravel\Nova\Actions\Actionable;
  * Class ExternalProfile.
  *
  * @property int $profile_id
- * @property Collection<int, ExternalEntry> $external_entries
+ * @property Collection<int, ExternalEntry> $externalentries
  * @property ExternalProfileSite $site
  * @property int|null $user_id
  * @property User|null $user
@@ -39,8 +39,8 @@ class ExternalProfile extends BaseModel
     final public const ATTRIBUTE_VISIBILITY = 'visibility';
     final public const ATTRIBUTE_USER = 'user_id';
 
-    final public const RELATION_ANIMES = 'external_entries.anime';
-    final public const RELATION_EXTERNAL_ENTRIES = 'external_entries';
+    final public const RELATION_ANIMES = 'externalentries.anime';
+    final public const RELATION_EXTERNAL_ENTRIES = 'externalentries';
     final public const RELATION_USER = 'user';
 
     /**
@@ -123,7 +123,7 @@ class ExternalProfile extends BaseModel
      *
      * @return HasMany
      */
-    public function external_entries(): HasMany
+    public function externalentries(): HasMany
     {
         return $this->hasMany(ExternalEntry::class, ExternalEntry::ATTRIBUTE_EXTERNAL_PROFILE);
     }

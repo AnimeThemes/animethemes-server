@@ -19,7 +19,7 @@ use Laravel\Nova\Actions\Actionable;
  * @property int $anime_id
  * @property Anime $anime
  * @property int $external_profile_id
- * @property ExternalProfile $external_profile
+ * @property ExternalProfile $externalprofile
  * @property bool|null $isFavourite
  * @property float|null $score
  * @property AnimeWatchStatus|null $watch_status
@@ -39,8 +39,8 @@ class ExternalEntry extends BaseModel
     final public const ATTRIBUTE_WATCH_STATUS = 'watch_status';
 
     final public const RELATION_ANIME = 'anime';
-    final public const RELATION_EXTERNAL_PROFILE = 'external_profile';
-    final public const RELATION_USER = 'external_profile.user';
+    final public const RELATION_EXTERNAL_PROFILE = 'externalprofile';
+    final public const RELATION_USER = 'externalprofile.user';
 
     /**
      * The attributes that are mass assignable.
@@ -124,7 +124,7 @@ class ExternalEntry extends BaseModel
      *
      * @return BelongsTo
      */
-    public function external_profile(): BelongsTo
+    public function externalprofile(): BelongsTo
     {
         return $this->belongsTo(ExternalProfile::class, ExternalEntry::ATTRIBUTE_EXTERNAL_PROFILE);
     }

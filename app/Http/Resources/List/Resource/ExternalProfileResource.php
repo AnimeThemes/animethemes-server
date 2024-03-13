@@ -18,7 +18,7 @@ class ExternalProfileResource extends BaseResource
      *
      * @var string|null
      */
-    public static $wrap = 'external_profile';
+    public static $wrap = 'externalprofile';
 
     /**
      * Get the resource schema.
