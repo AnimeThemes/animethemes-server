@@ -11,8 +11,10 @@ use App\Actions\Http\Api\List\External\Entry\RestoreEntryAction;
 use App\Actions\Http\Api\List\External\Entry\StoreEntryAction;
 use App\Actions\Http\Api\List\External\Entry\UpdateEntryAction;
 use App\Actions\Http\Api\ShowAction;
+use App\Features\AllowExternalProfileManagement;
 use App\Http\Api\Query\Query;
 use App\Http\Controllers\Api\BaseController;
+use App\Http\Middleware\Models\List\ExternalProfileExceedsEntryLimit;
 use App\Http\Requests\Api\IndexRequest;
 use App\Http\Requests\Api\ShowRequest;
 use App\Http\Requests\Api\StoreRequest;
@@ -22,6 +24,8 @@ use App\Http\Resources\List\External\Resource\ExternalEntryResource;
 use App\Models\List\External\ExternalEntry;
 use App\Models\List\ExternalProfile;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Str;
+use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
 
 /**
  * Class ExternalEntryController.
@@ -34,6 +38,14 @@ class ExternalEntryController extends BaseController
     public function __construct()
     {
         parent::__construct(ExternalEntry::class, 'externalentry,externalprofile');
+
+        $isExternalProfileManagementAllowed = Str::of(EnsureFeaturesAreActive::class)
+            ->append(':')
+            ->append(AllowExternalProfileManagement::class)
+            ->__toString();
+
+        $this->middleware($isExternalProfileManagementAllowed)->except(['index', 'show']);
+        $this->middleware(ExternalProfileExceedsEntryLimit::class)->only(['store', 'restore']);
     }
 
     /**
