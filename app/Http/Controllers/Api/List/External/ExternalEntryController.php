@@ -40,19 +40,18 @@ class ExternalEntryController extends BaseController
      * Display a listing of the resource.
      *
      * @param  IndexRequest  $request
-     * @param  ExternalProfile  $profile
      * @param  IndexAction  $action
      * @return ExternalEntryCollection
      */
-    public function index(IndexRequest $request, ExternalProfile $profile, IndexAction $action): ExternalEntryCollection
+    public function index(IndexRequest $request, IndexAction $action): ExternalEntryCollection
     {
         $query = new Query($request->validated());
 
-        $builder = ExternalEntry::query()->where(ExternalEntry::ATTRIBUTE_EXTERNAL_PROFILE, $profile->getKey());
+        $entry = $query->hasSearchCriteria()
+            ? $action->search($query, $request->schema())
+            : $action->index(ExternalEntry::query(), $query, $request->schema());
 
-        $resources = $action->index($builder, $query, $request->schema());
-
-        return new ExternalEntryCollection($resources, $query);
+        return new ExternalEntryCollection($entry, $query);
     }
 
     /**
