@@ -6,6 +6,10 @@ namespace App\Models\List;
 
 use App\Enums\Models\List\ExternalProfileSite;
 use App\Enums\Models\List\ExternalProfileVisibility;
+use App\Events\List\ExternalProfile\ExternalProfileCreated;
+use App\Events\List\ExternalProfile\ExternalProfileDeleted;
+use App\Events\List\ExternalProfile\ExternalProfileRestored;
+use App\Events\List\ExternalProfile\ExternalProfileUpdated;
 use App\Models\Auth\User;
 use App\Models\BaseModel;
 use App\Models\List\External\ExternalEntry;
@@ -60,7 +64,12 @@ class ExternalProfile extends BaseModel
      *
      * @var array
      */
-    protected $dispatchesEvents = [];
+    protected $dispatchesEvents = [
+        'created' => ExternalProfileCreated::class,
+        'deleted' => ExternalProfileDeleted::class,
+        'restored' => ExternalProfileRestored::class,
+        'updated' => ExternalProfileUpdated::class,
+    ];
 
     /**
      * The table associated with the model.
