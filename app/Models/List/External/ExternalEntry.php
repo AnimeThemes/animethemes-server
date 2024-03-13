@@ -5,6 +5,10 @@ declare(strict_types=1);
 namespace App\Models\List\External;
 
 use App\Enums\Models\List\AnimeWatchStatus;
+use App\Events\List\ExternalProfile\ExternalEntry\ExternalEntryCreated;
+use App\Events\List\ExternalProfile\ExternalEntry\ExternalEntryDeleted;
+use App\Events\List\ExternalProfile\ExternalEntry\ExternalEntryRestored;
+use App\Events\List\ExternalProfile\ExternalEntry\ExternalEntryUpdated;
 use App\Models\BaseModel;
 use App\Models\List\ExternalProfile;
 use App\Models\Wiki\Anime;
@@ -62,7 +66,12 @@ class ExternalEntry extends BaseModel
      *
      * @var array
      */
-    protected $dispatchesEvents = [];
+    protected $dispatchesEvents = [
+        'created' => ExternalEntryCreated::class,
+        'deleted' => ExternalEntryDeleted::class,
+        'restored' => ExternalEntryRestored::class,
+        'updated' => ExternalEntryUpdated::class,
+    ];
 
     /**
      * The table associated with the model.
