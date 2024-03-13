@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Http\Api\Schema\List\External;
 
 use App\Http\Api\Field\Field;
+use App\Http\Api\Field\List\ExternalProfile\ExternalEntry\ExternalEntryAnimeIdField;
+use App\Http\Api\Field\List\ExternalProfile\ExternalEntry\ExternalEntryExternalProfileIdField;
 use App\Http\Api\Field\List\ExternalProfile\ExternalEntry\ExternalEntryWatchStatusField;
 use App\Http\Api\Field\List\ExternalProfile\ExternalEntry\ExternalEntryIdField;
 use App\Http\Api\Field\List\ExternalProfile\ExternalEntry\ExternalEntryIsFavouriteField;
@@ -60,6 +62,8 @@ class ExternalEntrySchema extends EloquentSchema
                 new ExternalEntryScoreField($this),
                 new ExternalEntryIsFavouriteField($this),
                 new ExternalEntryWatchStatusField($this),
+                new ExternalEntryAnimeIdField($this),
+                new ExternalEntryExternalProfileIdField($this),
             ],
         );
     }

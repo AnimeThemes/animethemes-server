@@ -10,6 +10,7 @@ use App\Http\Api\Field\List\ExternalProfile\ExternalProfileUsernameField;
 use App\Http\Api\Field\List\ExternalProfile\ExternalProfileIdField;
 use App\Http\Api\Field\List\ExternalProfile\ExternalProfileVisibilityField;
 use App\Http\Api\Field\List\ExternalProfile\ExternalProfileSiteField;
+use App\Http\Api\Field\List\ExternalProfile\ExternalProfileUserIdField;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\Auth\UserSchema;
 use App\Http\Api\Schema\EloquentSchema;
@@ -61,6 +62,7 @@ class ExternalProfileSchema extends EloquentSchema implements SearchableSchema
                 new ExternalProfileUsernameField($this),
                 new ExternalProfileSiteField($this),
                 new ExternalProfileVisibilityField($this),
+                new ExternalProfileUserIdField($this),
             ],
         );
     }
