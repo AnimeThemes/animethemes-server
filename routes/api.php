@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\Admin\CurrentFeaturedThemeController;
 use App\Http\Controllers\Api\Admin\DumpController;
 use App\Http\Controllers\Api\Admin\FeatureController;
 use App\Http\Controllers\Api\Admin\FeaturedThemeController;
+use App\Http\Controllers\Api\Auth\User\Me\List\MyExternalProfileController;
 use App\Http\Controllers\Api\Auth\User\Me\List\MyPlaylistController;
 use App\Http\Controllers\Api\Auth\User\Me\MyController;
 use App\Http\Controllers\Api\Document\PageController;
@@ -231,6 +232,7 @@ Route::apiResource('feature', FeatureController::class)
 
 // Auth Routes
 Route::get('/me', [MyController::class, 'show'])->name('me.show');
+Route::get('/me/externalprofile', [MyExternalProfileController::class, 'index'])->name('me.externalprofile.index');
 Route::get('/me/playlist', [MyPlaylistController::class, 'index'])->name('me.playlist.index');
 
 // Document Routes
