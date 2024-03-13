@@ -8,6 +8,8 @@ use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\ExtendedCrudPermission;
 use App\Enums\Auth\Role as RoleEnum;
 use App\Models\Auth\Role;
+use App\Models\List\External\ExternalEntry;
+use App\Models\List\ExternalProfile;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
 
@@ -36,6 +38,8 @@ class PlaylistUserRoleSeeder extends RoleSeeder
         );
 
         // List Resources
+        $this->configureResource($role, ExternalEntry::class, $extendedCrudPermissions);
+        $this->configureResource($role, ExternalProfile::class, $extendedCrudPermissions);
         $this->configureResource($role, Playlist::class, $extendedCrudPermissions);
         $this->configureResource($role, PlaylistTrack::class, $extendedCrudPermissions);
 

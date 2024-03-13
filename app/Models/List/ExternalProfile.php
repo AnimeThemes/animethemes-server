@@ -119,7 +119,7 @@ class ExternalProfile extends BaseModel
     }
 
     /**
-     * Get the entries for the user profile.
+     * Get the entries for the profile.
      *
      * @return HasMany
      */
@@ -129,7 +129,7 @@ class ExternalProfile extends BaseModel
     }
 
     /**
-     * Get the user that owns the user profile.
+     * Get the user that owns the profile.
      *
      * @return BelongsTo
      */
