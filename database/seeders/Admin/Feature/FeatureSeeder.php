@@ -7,6 +7,7 @@ namespace Database\Seeders\Admin\Feature;
 use App\Constants\FeatureConstants;
 use App\Features\AllowAudioStreams;
 use App\Features\AllowDumpDownloading;
+use App\Features\AllowExternalProfileManagement;
 use App\Features\AllowPlaylistManagement;
 use App\Features\AllowScriptDownloading;
 use App\Features\AllowVideoStreams;
@@ -27,6 +28,7 @@ class FeatureSeeder extends Seeder
     {
         Feature::deactivate(AllowAudioStreams::class);
         Feature::deactivate(AllowDumpDownloading::class);
+        Feature::deactivate(AllowExternalProfileManagement::class);
         Feature::deactivate(AllowPlaylistManagement::class);
         Feature::deactivate(AllowScriptDownloading::class);
         Feature::deactivate(AllowVideoStreams::class);

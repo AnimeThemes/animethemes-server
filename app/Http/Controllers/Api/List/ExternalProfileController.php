@@ -12,8 +12,10 @@ use App\Actions\Http\Api\ShowAction;
 use App\Actions\Http\Api\StoreAction;
 use App\Actions\Http\Api\UpdateAction;
 use App\Enums\Models\List\ExternalProfileVisibility;
+use App\Features\AllowExternalProfileManagement;
 use App\Http\Api\Query\Query;
 use App\Http\Controllers\Api\BaseController;
+use App\Http\Middleware\Models\List\UserExceedsExternalProfileLimit;
 use App\Http\Requests\Api\IndexRequest;
 use App\Http\Requests\Api\ShowRequest;
 use App\Http\Requests\Api\StoreRequest;
@@ -23,6 +25,8 @@ use App\Http\Resources\List\Resource\ExternalProfileResource;
 use App\Models\List\ExternalProfile;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
+use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
 
 /**
  * Class ExternalProfileController.
@@ -35,6 +39,14 @@ class ExternalProfileController extends BaseController
     public function __construct()
     {
         parent::__construct(ExternalProfile::class, 'externalprofile');
+
+        $isExternalProfileManagementAllowed = Str::of(EnsureFeaturesAreActive::class)
+            ->append(':')
+            ->append(AllowExternalProfileManagement::class)
+            ->__toString();
+
+        $this->middleware($isExternalProfileManagementAllowed)->except(['index', 'show']);
+        $this->middleware(UserExceedsExternalProfileLimit::class)->only(['store', 'restore']);
     }
 
     /**
