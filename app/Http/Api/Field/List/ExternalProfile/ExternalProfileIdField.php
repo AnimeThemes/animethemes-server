@@ -25,7 +25,7 @@ class ExternalProfileIdField extends Field implements SelectableField
         parent::__construct($schema, ExternalProfile::ATTRIBUTE_ID);
     }
 
-        /**
+    /**
      * Determine if the field should be included in the select clause of our query.
      *
      * @param  Query  $query
