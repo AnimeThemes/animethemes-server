@@ -533,7 +533,7 @@ return [
         'dump' => [
             'path' => 'Path',
         ],
-        'external_entry' => [
+        'externalentry' => [
             'isfavourite' => [
                 'help' => 'If the user has the entry favorited.',
                 'name' => 'Is Favourite',
@@ -547,7 +547,7 @@ return [
                 'name' => 'Watch Status',
             ],
         ],
-        'external_profile' => [
+        'externalprofile' => [
             'username' => [
                 'help' => 'The username of the external site.',
                 'name' => 'Username',
@@ -887,8 +887,8 @@ return [
             'artists' => 'Artists',
             'audios' => 'Audios',
             'dumps' => 'Dumps',
-            'external_entries' => 'External Entries',
-            'external_profiles' => 'External Profiles',
+            'externalentries' => 'External Entries',
+            'externalprofiles' => 'External Profiles',
             'external_resources' => 'External Resources',
             'features' => 'Features',
             'featured_themes' => 'Featured Themes',
@@ -917,8 +917,8 @@ return [
             'artist' => 'Artist',
             'audio' => 'Audio',
             'dump' => 'Dump',
-            'external_entries' => 'External Entry',
-            'external_profiles' => 'External Profile',
+            'externalentries' => 'External Entry',
+            'externalprofiles' => 'External Profile',
             'external_resource' => 'External Resource',
             'feature' => 'Feature',
             'featured_theme' => 'Featured Theme',

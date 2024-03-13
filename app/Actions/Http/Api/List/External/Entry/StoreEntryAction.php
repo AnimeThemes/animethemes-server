@@ -38,7 +38,7 @@ class StoreEntryAction
             /** @var ExternalEntry */
             $entry = $storeAction->store($builder, $parameters);
 
-            $profile->external_entries()->save($entry);
+            $profile->externalentries()->save($entry);
 
             DB::commit();
 

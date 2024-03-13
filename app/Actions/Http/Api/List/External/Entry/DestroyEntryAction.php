@@ -29,7 +29,7 @@ class DestroyEntryAction
         try {
             DB::beginTransaction();
 
-            $entry->external_profile()->disassociate()->save();
+            $entry->externalprofile()->disassociate()->save();
 
             $destroyAction = new DestroyAction();
 

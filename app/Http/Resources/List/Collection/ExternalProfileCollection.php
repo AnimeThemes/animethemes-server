@@ -19,7 +19,7 @@ class ExternalProfileCollection extends BaseCollection
      *
      * @var string|null
      */
-    public static $wrap = 'external_profiles';
+    public static $wrap = 'externalprofiles';
 
     /**
      * Transform the resource into a JSON array.
