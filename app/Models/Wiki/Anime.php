@@ -40,7 +40,7 @@ use Laravel\Nova\Actions\Actionable;
  * @property Collection<int, AnimeSynonym> $animesynonyms
  * @property Collection<int, AnimeTheme> $animethemes
  * @property DiscordThread|null $discordthread
- * @property Collection<int, ExternalEntry> $external_entries
+ * @property Collection<int, ExternalEntry> $externalentries
  * @property Collection<int, Image> $images
  * @property AnimeMediaFormat $media_format
  * @property string $name
@@ -72,8 +72,8 @@ class Anime extends BaseModel
     final public const RELATION_ARTISTS = 'animethemes.song.artists';
     final public const RELATION_AUDIO = 'animethemes.animethemeentries.videos.audio';
     final public const RELATION_ENTRIES = 'animethemes.animethemeentries';
-    final public const RELATION_EXTERNAL_ENTRIES = 'external_entries';
-    final public const RELATION_EXTERNAL_PROFILE = 'external_entries.user_profile';
+    final public const RELATION_EXTERNAL_ENTRIES = 'externalentries';
+    final public const RELATION_EXTERNAL_PROFILE = 'externalentries.externalprofile';
     final public const RELATION_GROUPS = 'animethemes.group';
     final public const RELATION_IMAGES = 'images';
     final public const RELATION_RESOURCES = 'resources';
@@ -283,7 +283,7 @@ class Anime extends BaseModel
      *
      * @return HasMany
      */
-    public function external_entries(): HasMany
+    public function externalentries(): HasMany
     {
         return $this->hasMany(ExternalEntry::class, ExternalEntry::ATTRIBUTE_ANIME);
     }

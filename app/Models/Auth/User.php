@@ -40,7 +40,7 @@ use Spatie\Permission\Traits\HasRoles;
  * @property Carbon $deleted_at
  * @property string $email
  * @property Carbon|null $email_verified_at
- * @property Collection<int, ExternalProfile> $external_profiles
+ * @property Collection<int, ExternalProfile> $externalprofiles
  * @property int $id
  * @property string $name
  * @property string $password
@@ -78,7 +78,7 @@ class User extends Authenticatable implements MustVerifyEmail, Nameable, HasSubt
     final public const ATTRIBUTE_TWO_FACTOR_RECOVERY_CODES = 'two_factor_recovery_codes';
     final public const ATTRIBUTE_TWO_FACTOR_SECRET = 'two_factor_secret';
 
-    final public const RELATION_EXTERNAL_PROFILES = 'external_profiles';
+    final public const RELATION_EXTERNAL_PROFILES = 'externalprofiles';
     final public const RELATION_PERMISSIONS = 'permissions';
     final public const RELATION_PLAYLISTS = 'playlists';
     final public const RELATION_ROLES = 'roles';
@@ -243,7 +243,7 @@ class User extends Authenticatable implements MustVerifyEmail, Nameable, HasSubt
      *
      * @return HasMany
      */
-    public function external_profiles(): HasMany
+    public function externalprofiles(): HasMany
     {
         return $this->hasMany(ExternalProfile::class, ExternalProfile::ATTRIBUTE_USER);
     }

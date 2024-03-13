@@ -18,7 +18,7 @@ class ExternalEntryResource extends BaseResource
      *
      * @var string|null
      */
-    public static $wrap = 'external_entry';
+    public static $wrap = 'externalentry';
 
     /**
      * Get the resource schema.

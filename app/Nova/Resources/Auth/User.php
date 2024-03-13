@@ -175,7 +175,7 @@ class User extends BaseResource
 
             HasMany::make(__('nova.resources.label.playlists'), UserModel::RELATION_PLAYLISTS, Playlist::class),
 
-            HasMany::make(__('nova.resources.label.external_profiles'), UserModel::RELATION_EXTERNAL_PROFILES, ExternalProfile::class),
+            HasMany::make(__('nova.resources.label.externalprofiles'), UserModel::RELATION_EXTERNAL_PROFILES, ExternalProfile::class),
 
             Panel::make(__('nova.fields.base.timestamps'), $this->timestamps())
                 ->collapsable(),
