@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\List\External;
 
+use App\Actions\Http\Api\DestroyAction;
+use App\Actions\Http\Api\ForceDeleteAction;
 use App\Actions\Http\Api\IndexAction;
-use App\Actions\Http\Api\List\External\Entry\DestroyEntryAction;
-use App\Actions\Http\Api\List\External\Entry\ForceDeleteEntryAction;
-use App\Actions\Http\Api\List\External\Entry\RestoreEntryAction;
-use App\Actions\Http\Api\List\External\Entry\StoreEntryAction;
-use App\Actions\Http\Api\List\External\Entry\UpdateEntryAction;
+use App\Actions\Http\Api\RestoreAction;
 use App\Actions\Http\Api\ShowAction;
+use App\Actions\Http\Api\StoreAction;
+use App\Actions\Http\Api\UpdateAction;
 use App\Features\AllowExternalProfileManagement;
 use App\Http\Api\Query\Query;
 use App\Http\Controllers\Api\BaseController;
@@ -72,17 +72,17 @@ class ExternalEntryController extends BaseController
      *
      * @param  StoreRequest  $request
      * @param  ExternalProfile  $externalprofile
-     * @param  StoreEntryAction  $action
+     * @param  StoreAction  $action
      * @return ExternalEntryResource
      */
-    public function store(StoreRequest $request, ExternalProfile $externalprofile, StoreEntryAction $action): ExternalEntryResource
+    public function store(StoreRequest $request, ExternalProfile $externalprofile, StoreAction $action): ExternalEntryResource
     {
         $validated = array_merge(
             $request->validated(),
             [ExternalEntry::ATTRIBUTE_EXTERNAL_PROFILE => $externalprofile->getKey()]
         );
 
-        $externalentry = $action->store($externalprofile, ExternalEntry::query(), $validated);
+        $externalentry = $action->store(ExternalEntry::query(), $validated);
 
         return new ExternalEntryResource($externalentry, new Query());
     }
@@ -111,10 +111,10 @@ class ExternalEntryController extends BaseController
      * @param  UpdateRequest  $request
      * @param  ExternalProfile  $externalprofile
      * @param  ExternalEntry  $externalentry
-     * @param  UpdateEntryAction  $action
+     * @param  UpdateAction  $action
      * @return ExternalEntryResource
      */
-    public function update(UpdateRequest $request, ExternalProfile $externalprofile, ExternalEntry $externalentry, UpdateEntryAction $action): ExternalEntryResource
+    public function update(UpdateRequest $request, ExternalProfile $externalprofile, ExternalEntry $externalentry, UpdateAction $action): ExternalEntryResource
     {
         $updated = $action->update($externalentry, $request->validated());
 
@@ -126,10 +126,10 @@ class ExternalEntryController extends BaseController
      *
      * @param  ExternalProfile  $externalprofile
      * @param  ExternalEntry  $externalentry
-     * @param  DestroyEntryAction  $action
+     * @param  DestroyAction  $action
      * @return ExternalEntryResource
      */
-    public function destroy(ExternalProfile $externalprofile, ExternalEntry $externalentry, DestroyEntryAction $action): ExternalEntryResource
+    public function destroy(ExternalProfile $externalprofile, ExternalEntry $externalentry, DestroyAction $action): ExternalEntryResource
     {
         $deleted = $action->destroy($externalentry);
 
@@ -141,12 +141,12 @@ class ExternalEntryController extends BaseController
      *
      * @param  ExternalProfile  $externalprofile
      * @param  ExternalEntry  $externalentry
-     * @param  RestoreEntryAction  $action
+     * @param  RestoreAction  $action
      * @return ExternalEntryResource
      */
-    public function restore(ExternalProfile $externalprofile, ExternalEntry $externalentry, RestoreEntryAction $action): ExternalEntryResource
+    public function restore(ExternalProfile $externalprofile, ExternalEntry $externalentry, RestoreAction $action): ExternalEntryResource
     {
-        $restored = $action->restore($externalprofile, $externalentry);
+        $restored = $action->restore($externalentry);
 
         return new ExternalEntryResource($restored, new Query());
     }
@@ -156,10 +156,10 @@ class ExternalEntryController extends BaseController
      *
      * @param  ExternalProfile  $externalprofile
      * @param  ExternalEntry  $externalentry
-     * @param  ForceDeleteEntryAction  $action
+     * @param  ForceDeleteAction  $action
      * @return JsonResponse
      */
-    public function forceDelete(ExternalProfile $externalprofile, ExternalEntry $externalentry, ForceDeleteEntryAction $action): JsonResponse
+    public function forceDelete(ExternalProfile $externalprofile, ExternalEntry $externalentry, ForceDeleteAction $action): JsonResponse
     {
         $message = $action->forceDelete($externalentry);
 
