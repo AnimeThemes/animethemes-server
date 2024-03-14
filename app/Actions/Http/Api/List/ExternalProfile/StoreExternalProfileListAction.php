@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Actions\Http\Api\List\ExternalProfile;
 
 use App\Actions\Http\Api\StoreAction;
+use App\Enums\Models\List\AnimeWatchStatus;
 use App\Enums\Models\List\ExternalProfileSite;
 use App\Models\List\External\ExternalEntry;
 use App\Models\Wiki\Anime;
@@ -46,19 +47,19 @@ class StoreExternalProfileListAction
                         ExternalResource::ATTRIBUTE_EXTERNAL_ID => 101573,
                         ExternalEntry::ATTRIBUTE_SCORE => 10,
                         ExternalEntry::ATTRIBUTE_IS_FAVOURITE => true,
-                        ExternalEntry::ATTRIBUTE_WATCH_STATUS => 1,
+                        ExternalEntry::ATTRIBUTE_WATCH_STATUS => AnimeWatchStatus::COMPLETED->value,
                     ],
                     [
                         ExternalResource::ATTRIBUTE_EXTERNAL_ID => 477,
                         ExternalEntry::ATTRIBUTE_SCORE => 9.5,
                         ExternalEntry::ATTRIBUTE_IS_FAVOURITE => false,
-                        ExternalEntry::ATTRIBUTE_WATCH_STATUS => 0,
+                        ExternalEntry::ATTRIBUTE_WATCH_STATUS => AnimeWatchStatus::WATCHING->value,
                     ],
                     [
                         ExternalResource::ATTRIBUTE_EXTERNAL_ID => 934,
                         ExternalEntry::ATTRIBUTE_SCORE => 8,
                         ExternalEntry::ATTRIBUTE_IS_FAVOURITE => false,
-                        ExternalEntry::ATTRIBUTE_WATCH_STATUS => 2,
+                        ExternalEntry::ATTRIBUTE_WATCH_STATUS => AnimeWatchStatus::PAUSED->value,
                     ],
                 ],
             ];
