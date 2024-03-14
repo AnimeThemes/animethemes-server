@@ -538,7 +538,7 @@ return [
             'path' => 'Path',
         ],
         'externalentry' => [
-            'isfavourite' => [
+            'is_favourite' => [
                 'help' => 'If the user has the entry favorited.',
                 'name' => 'Is Favourite',
             ],
@@ -552,9 +552,9 @@ return [
             ],
         ],
         'externalprofile' => [
-            'username' => [
-                'help' => 'The username of the external site.',
-                'name' => 'Username',
+            'name' => [
+                'help' => 'The name of the user of the external site.',
+                'name' => 'Name',
             ],
             'site' => [
                 'help' => 'The site that owns the external list.',

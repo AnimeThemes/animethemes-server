@@ -142,25 +142,26 @@ class ExternalEntry extends BaseResource
                 ->sortable()
                 ->filterable()
                 ->searchable()
+                ->required()
+                ->rules(['required'])
                 ->withSubtitles()
-                ->nullable()
-                ->showCreateRelationButton()
                 ->showOnPreview(),
 
             BelongsTo::make(__('nova.resources.singularLabel.externalprofiles'), ExternalEntryModel::RELATION_EXTERNAL_PROFILE, ExternalProfile::class)
                 ->sortable()
                 ->filterable()
                 ->searchable()
+                ->required()
+                ->rules(['required'])
                 ->withSubtitles()
-                ->nullable()
                 ->showCreateRelationButton()
                 ->showOnPreview(),
 
-            Boolean::make(__('nova.fields.externalentry.isfavourite.name'), ExternalEntryModel::ATTRIBUTE_IS_FAVOURITE)
+            Boolean::make(__('nova.fields.externalentry.is_favourite.name'), ExternalEntryModel::ATTRIBUTE_IS_FAVOURITE)
                 ->sortable()
                 ->filterable()
                 ->rules(['required'])
-                ->help(__('nova.fields.externalentry.isfavourite.help'))
+                ->help(__('nova.fields.externalentry.is_favourite.help'))
                 ->showWhenPeeking()
                 ->showOnPreview(),
 

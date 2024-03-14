@@ -37,7 +37,7 @@ class ExternalProfile extends BaseResource
      *
      * @var string
      */
-    public static $title = ExternalProfileModel::ATTRIBUTE_USERNAME;
+    public static $title = ExternalProfileModel::ATTRIBUTE_NAME;
 
     /**
      * Get the value that should be displayed to represent the resource.
@@ -129,7 +129,7 @@ class ExternalProfile extends BaseResource
     public static function searchableColumns(): array
     {
         return [
-            new Column(ExternalProfileModel::ATTRIBUTE_USERNAME),
+            new Column(ExternalProfileModel::ATTRIBUTE_NAME),
         ];
     }
 
@@ -154,11 +154,11 @@ class ExternalProfile extends BaseResource
                 ->showOnPreview()
                 ->showWhenPeeking(),
 
-            Text::make(__('nova.fields.externalprofile.username.name'), ExternalProfileModel::ATTRIBUTE_USERNAME)
+            Text::make(__('nova.fields.externalprofile.name.name'), ExternalProfileModel::ATTRIBUTE_NAME)
                 ->sortable()
                 ->copyable()
                 ->rules(['required', 'max:192'])
-                ->help(__('nova.fields.externalprofile.username.help'))
+                ->help(__('nova.fields.externalprofile.name.help'))
                 ->showOnPreview()
                 ->filterable()
                 ->maxlength(192)
@@ -188,6 +188,8 @@ class ExternalProfile extends BaseResource
             BelongsTo::make(__('nova.resources.singularLabel.user'), ExternalProfileModel::RELATION_USER, User::class)
                 ->sortable()
                 ->filterable()
+                ->searchable()
+                ->nullable()
                 ->withSubtitles()
                 ->showOnPreview(),
 
