@@ -62,11 +62,11 @@ class ExternalProfileController extends BaseController
 
         $builder = ExternalProfile::query()->where(ExternalProfile::ATTRIBUTE_VISIBILITY, ExternalProfileVisibility::PUBLIC->value);
 
-        $profiles = $query->hasSearchCriteria()
+        $externalprofiles = $query->hasSearchCriteria()
             ? $action->search($query, $request->schema())
             : $action->index($builder, $query, $request->schema());
 
-        return new ExternalProfileCollection($profiles, $query);
+        return new ExternalProfileCollection($externalprofiles, $query);
     }
 
     /**
@@ -83,24 +83,24 @@ class ExternalProfileController extends BaseController
             [ExternalProfile::ATTRIBUTE_USER => Auth::id()]
         );
 
-        $profile = $action->store(ExternalProfile::query(), $validated);
+        $externalprofile = $action->store(ExternalProfile::query(), $validated);
 
-        return new ExternalProfileResource($profile, new Query());
+        return new ExternalProfileResource($externalprofile, new Query());
     }
 
     /**
      * Display the specified resource.
      *
      * @param  ShowRequest  $request
-     * @param  ExternalProfile  $profile
+     * @param  ExternalProfile  $externalprofile
      * @param  ShowAction  $action
      * @return ExternalProfileResource
      */
-    public function show(ShowRequest $request, ExternalProfile $profile, ShowAction $action): ExternalProfileResource
+    public function show(ShowRequest $request, ExternalProfile $externalprofile, ShowAction $action): ExternalProfileResource
     {
         $query = new Query($request->validated());
 
-        $show = $action->show($profile, $query, $request->schema());
+        $show = $action->show($externalprofile, $query, $request->schema());
 
         return new ExternalProfileResource($show, $query);
     }
@@ -109,13 +109,13 @@ class ExternalProfileController extends BaseController
      * Update the specified resource.
      *
      * @param  UpdateRequest  $request
-     * @param  ExternalProfile  $profile
+     * @param  ExternalProfile  $externalprofile
      * @param  UpdateAction  $action
      * @return ExternalProfileResource
      */
-    public function update(UpdateRequest $request, ExternalProfile $profile, UpdateAction $action): ExternalProfileResource
+    public function update(UpdateRequest $request, ExternalProfile $externalprofile, UpdateAction $action): ExternalProfileResource
     {
-        $updated = $action->update($profile, $request->validated());
+        $updated = $action->update($externalprofile, $request->validated());
 
         return new ExternalProfileResource($updated, new Query());
     }
@@ -123,13 +123,13 @@ class ExternalProfileController extends BaseController
     /**
      * Remove the specified resource.
      *
-     * @param  ExternalProfile  $profile
+     * @param  ExternalProfile  $externalprofile
      * @param  DestroyAction  $action
      * @return ExternalProfileResource
      */
-    public function destroy(ExternalProfile $profile, DestroyAction $action): ExternalProfileResource
+    public function destroy(ExternalProfile $externalprofile, DestroyAction $action): ExternalProfileResource
     {
-        $deleted = $action->destroy($profile);
+        $deleted = $action->destroy($externalprofile);
 
         return new ExternalProfileResource($deleted, new Query());
     }
@@ -137,13 +137,13 @@ class ExternalProfileController extends BaseController
     /**
      * Restore the specified resource.
      *
-     * @param  ExternalProfile  $profile
+     * @param  ExternalProfile  $externalprofile
      * @param  RestoreAction  $action
      * @return ExternalProfileResource
      */
-    public function restore(ExternalProfile $profile, RestoreAction $action): ExternalProfileResource
+    public function restore(ExternalProfile $externalprofile, RestoreAction $action): ExternalProfileResource
     {
-        $restored = $action->restore($profile);
+        $restored = $action->restore($externalprofile);
 
         return new ExternalProfileResource($restored, new Query());
     }
@@ -151,13 +151,13 @@ class ExternalProfileController extends BaseController
     /**
      * Hard-delete the specified resource.
      *
-     * @param  ExternalProfile  $profile
+     * @param  ExternalProfile  $externalprofile
      * @param  ForceDeleteAction  $action
      * @return JsonResponse
      */
-    public function forceDelete(ExternalProfile $profile, ForceDeleteAction $action): JsonResponse
+    public function forceDelete(ExternalProfile $externalprofile, ForceDeleteAction $action): JsonResponse
     {
-        $message = $action->forceDelete($profile);
+        $message = $action->forceDelete($externalprofile);
 
         return new JsonResponse([
             'message' => $message,
