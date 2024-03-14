@@ -13,9 +13,9 @@ use App\Rules\ModerationRule;
 use Illuminate\Http\Request;
 
 /**
- * Class ExternalProfileUsernameField.
+ * Class ExternalProfileNameField.
  */
-class ExternalProfileUsernameField extends StringField implements CreatableField, UpdatableField
+class ExternalProfileNameField extends StringField implements CreatableField, UpdatableField
 {
     /**
      * Create a new field instance.
@@ -24,7 +24,7 @@ class ExternalProfileUsernameField extends StringField implements CreatableField
      */
     public function __construct(Schema $schema)
     {
-        parent::__construct($schema, ExternalProfile::ATTRIBUTE_USERNAME);
+        parent::__construct($schema, ExternalProfile::ATTRIBUTE_NAME);
     }
 
     /**

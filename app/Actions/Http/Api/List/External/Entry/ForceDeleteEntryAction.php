@@ -28,8 +28,6 @@ class ForceDeleteEntryAction
         try {
             DB::beginTransaction();
 
-            $entry->externalprofile()->disassociate()->save();
-
             $forceDeleteAction = new ForceDeleteAction();
 
             $message = $forceDeleteAction->forceDelete($entry);

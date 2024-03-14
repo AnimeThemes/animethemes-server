@@ -29,8 +29,6 @@ class DestroyEntryAction
         try {
             DB::beginTransaction();
 
-            $entry->externalprofile()->disassociate()->save();
-
             $destroyAction = new DestroyAction();
 
             $destroyed = $destroyAction->destroy($entry);

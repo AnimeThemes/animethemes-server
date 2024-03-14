@@ -38,8 +38,6 @@ class StoreEntryAction
             /** @var ExternalEntry */
             $entry = $storeAction->store($builder, $parameters);
 
-            $profile->externalentries()->save($entry);
-
             DB::commit();
 
             return $storeAction->cleanup($entry);

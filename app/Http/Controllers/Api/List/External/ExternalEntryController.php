@@ -77,7 +77,12 @@ class ExternalEntryController extends BaseController
      */
     public function store(StoreRequest $request, ExternalProfile $externalprofile, StoreEntryAction $action): ExternalEntryResource
     {
-        $externalentry = $action->store($externalprofile, ExternalEntry::query(), $request->validated());
+        $validated = array_merge(
+            $request->validated(),
+            [ExternalEntry::ATTRIBUTE_EXTERNAL_PROFILE => $externalprofile->getKey()]
+        );
+
+        $externalentry = $action->store($externalprofile, ExternalEntry::query(), $validated);
 
         return new ExternalEntryResource($externalentry, new Query());
     }
