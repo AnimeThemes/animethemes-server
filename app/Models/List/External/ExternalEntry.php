@@ -38,7 +38,7 @@ class ExternalEntry extends BaseModel
     final public const ATTRIBUTE_ID = 'entry_id';
     final public const ATTRIBUTE_ANIME = 'anime_id';
     final public const ATTRIBUTE_EXTERNAL_PROFILE = 'external_profile_id';
-    final public const ATTRIBUTE_IS_FAVOURITE = 'isFavourite';
+    final public const ATTRIBUTE_IS_FAVOURITE = 'is_favourite';
     final public const ATTRIBUTE_SCORE = 'score';
     final public const ATTRIBUTE_WATCH_STATUS = 'watch_status';
 
@@ -93,6 +93,7 @@ class ExternalEntry extends BaseModel
      * @var array<string, string>
      */
     protected $casts = [
+        ExternalEntry::ATTRIBUTE_IS_FAVOURITE => 'bool',
         ExternalEntry::ATTRIBUTE_WATCH_STATUS => AnimeWatchStatus::class,
     ];
 

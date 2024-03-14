@@ -52,49 +52,50 @@ class ExternalEntryController extends BaseController
      * Display a listing of the resource.
      *
      * @param  IndexRequest  $request
+     * @param  ExternalProfile  $externalprofile
      * @param  IndexAction  $action
      * @return ExternalEntryCollection
      */
-    public function index(IndexRequest $request, IndexAction $action): ExternalEntryCollection
+    public function index(IndexRequest $request, ExternalProfile $externalprofile, IndexAction $action): ExternalEntryCollection
     {
         $query = new Query($request->validated());
 
-        $entry = $query->hasSearchCriteria()
-            ? $action->search($query, $request->schema())
-            : $action->index(ExternalEntry::query(), $query, $request->schema());
+        $builder = ExternalEntry::query()->where(ExternalEntry::ATTRIBUTE_EXTERNAL_PROFILE, $externalprofile->getKey());
 
-        return new ExternalEntryCollection($entry, $query);
+        $resources = $action->index($builder, $query, $request->schema());
+
+        return new ExternalEntryCollection($resources, $query);
     }
 
     /**
      * Store a newly created resource.
      *
      * @param  StoreRequest  $request
-     * @param  ExternalProfile  $profile
+     * @param  ExternalProfile  $externalprofile
      * @param  StoreEntryAction  $action
      * @return ExternalEntryResource
      */
-    public function store(StoreRequest $request, ExternalProfile $profile, StoreEntryAction $action): ExternalEntryResource
+    public function store(StoreRequest $request, ExternalProfile $externalprofile, StoreEntryAction $action): ExternalEntryResource
     {
-        $entry = $action->store($profile, ExternalEntry::query(), $request->validated());
+        $externalentry = $action->store($externalprofile, ExternalEntry::query(), $request->validated());
 
-        return new ExternalEntryResource($entry, new Query());
+        return new ExternalEntryResource($externalentry, new Query());
     }
 
     /**
      * Display the specified resource.
      *
      * @param  ShowRequest  $request
-     * @param  ExternalProfile  $profile
-     * @param  ExternalEntry  $entry
+     * @param  ExternalProfile  $externalprofile
+     * @param  ExternalEntry  $externalentry
      * @param  ShowAction  $action
      * @return ExternalEntryResource
      */
-    public function show(ShowRequest $request, ExternalProfile $profile, ExternalEntry $entry, ShowAction $action): ExternalEntryResource
+    public function show(ShowRequest $request, ExternalProfile $externalprofile, ExternalEntry $externalentry, ShowAction $action): ExternalEntryResource
     {
         $query = new Query($request->validated());
 
-        $show = $action->show($entry, $query, $request->schema());
+        $show = $action->show($externalentry, $query, $request->schema());
 
         return new ExternalEntryResource($show, $query);
     }
@@ -103,14 +104,14 @@ class ExternalEntryController extends BaseController
      * Update the specified resource.
      *
      * @param  UpdateRequest  $request
-     * @param  ExternalProfile  $profile
-     * @param  ExternalEntry  $entry
+     * @param  ExternalProfile  $externalprofile
+     * @param  ExternalEntry  $externalentry
      * @param  UpdateEntryAction  $action
      * @return ExternalEntryResource
      */
-    public function update(UpdateRequest $request, ExternalProfile $profile, ExternalEntry $entry, UpdateEntryAction $action): ExternalEntryResource
+    public function update(UpdateRequest $request, ExternalProfile $externalprofile, ExternalEntry $externalentry, UpdateEntryAction $action): ExternalEntryResource
     {
-        $updated = $action->update($entry, $request->validated());
+        $updated = $action->update($externalentry, $request->validated());
 
         return new ExternalEntryResource($updated, new Query());
     }
@@ -118,14 +119,14 @@ class ExternalEntryController extends BaseController
     /**
      * Remove the specified resource.
      *
-     * @param  ExternalProfile  $profile
-     * @param  ExternalEntry  $entry
+     * @param  ExternalProfile  $externalprofile
+     * @param  ExternalEntry  $externalentry
      * @param  DestroyEntryAction  $action
      * @return ExternalEntryResource
      */
-    public function destroy(ExternalProfile $profile, ExternalEntry $entry, DestroyEntryAction $action): ExternalEntryResource
+    public function destroy(ExternalProfile $externalprofile, ExternalEntry $externalentry, DestroyEntryAction $action): ExternalEntryResource
     {
-        $deleted = $action->destroy($entry);
+        $deleted = $action->destroy($externalentry);
 
         return new ExternalEntryResource($deleted, new Query());
     }
@@ -133,14 +134,14 @@ class ExternalEntryController extends BaseController
     /**
      * Restore the specified resource.
      *
-     * @param  ExternalProfile  $profile
-     * @param  ExternalEntry  $entry
+     * @param  ExternalProfile  $externalprofile
+     * @param  ExternalEntry  $externalentry
      * @param  RestoreEntryAction  $action
      * @return ExternalEntryResource
      */
-    public function restore(ExternalProfile $profile, ExternalEntry $entry, RestoreEntryAction $action): ExternalEntryResource
+    public function restore(ExternalProfile $externalprofile, ExternalEntry $externalentry, RestoreEntryAction $action): ExternalEntryResource
     {
-        $restored = $action->restore($profile, $entry);
+        $restored = $action->restore($externalprofile, $externalentry);
 
         return new ExternalEntryResource($restored, new Query());
     }
@@ -148,14 +149,14 @@ class ExternalEntryController extends BaseController
     /**
      * Hard-delete the specified resource.
      *
-     * @param  ExternalProfile  $profile
-     * @param  ExternalEntry  $entry
+     * @param  ExternalProfile  $externalprofile
+     * @param  ExternalEntry  $externalentry
      * @param  ForceDeleteEntryAction  $action
      * @return JsonResponse
      */
-    public function forceDelete(ExternalProfile $profile, ExternalEntry $entry, ForceDeleteEntryAction $action): JsonResponse
+    public function forceDelete(ExternalProfile $externalprofile, ExternalEntry $externalentry, ForceDeleteEntryAction $action): JsonResponse
     {
-        $message = $action->forceDelete($entry);
+        $message = $action->forceDelete($externalentry);
 
         return new JsonResponse([
             'message' => $message,
