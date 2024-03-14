@@ -24,10 +24,10 @@ use Laravel\Nova\Actions\Actionable;
  *
  * @property int $profile_id
  * @property Collection<int, ExternalEntry> $externalentries
+ * @property string $name
  * @property ExternalProfileSite $site
  * @property int|null $user_id
  * @property User|null $user
- * @property string $username
  * @property ExternalProfileVisibility $visibility
  */
 class ExternalProfile extends BaseModel
