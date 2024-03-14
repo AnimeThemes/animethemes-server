@@ -6,7 +6,7 @@ namespace App\Http\Api\Schema\List;
 
 use App\Contracts\Http\Api\Schema\SearchableSchema;
 use App\Http\Api\Field\Field;
-use App\Http\Api\Field\List\ExternalProfile\ExternalProfileUsernameField;
+use App\Http\Api\Field\List\ExternalProfile\ExternalProfileNameField;
 use App\Http\Api\Field\List\ExternalProfile\ExternalProfileIdField;
 use App\Http\Api\Field\List\ExternalProfile\ExternalProfileVisibilityField;
 use App\Http\Api\Field\List\ExternalProfile\ExternalProfileSiteField;
@@ -59,7 +59,7 @@ class ExternalProfileSchema extends EloquentSchema implements SearchableSchema
             parent::fields(),
             [
                 new ExternalProfileIdField($this),
-                new ExternalProfileUsernameField($this),
+                new ExternalProfileNameField($this),
                 new ExternalProfileSiteField($this),
                 new ExternalProfileVisibilityField($this),
                 new ExternalProfileUserIdField($this),

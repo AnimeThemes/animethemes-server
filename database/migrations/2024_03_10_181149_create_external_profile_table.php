@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Enums\Models\List\ExternalProfileVisibility;
 use App\Models\Auth\User;
 use App\Models\BaseModel;
 use App\Models\List\ExternalProfile;
@@ -21,9 +22,9 @@ return new class extends Migration
                 $table->timestamps(6);
                 $table->softDeletes(BaseModel::ATTRIBUTE_DELETED_AT, 6);
                 $table->id(ExternalProfile::ATTRIBUTE_ID);
-                $table->string(ExternalProfile::ATTRIBUTE_USERNAME);
+                $table->string(ExternalProfile::ATTRIBUTE_NAME);
                 $table->integer(ExternalProfile::ATTRIBUTE_SITE)->nullable();
-                $table->integer(ExternalProfile::ATTRIBUTE_VISIBILITY);
+                $table->integer(ExternalProfile::ATTRIBUTE_VISIBILITY)->default(ExternalProfileVisibility::PRIVATE->value);
 
                 $table->unsignedBigInteger(ExternalProfile::ATTRIBUTE_USER);
                 $table->foreign(ExternalProfile::ATTRIBUTE_USER)->references(User::ATTRIBUTE_ID)->on(User::TABLE)->cascadeOnDelete();

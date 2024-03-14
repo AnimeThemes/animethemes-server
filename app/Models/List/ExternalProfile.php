@@ -38,7 +38,7 @@ class ExternalProfile extends BaseModel
     final public const TABLE = 'external_profiles';
 
     final public const ATTRIBUTE_ID = 'profile_id';
-    final public const ATTRIBUTE_USERNAME = 'username';
+    final public const ATTRIBUTE_NAME = 'name';
     final public const ATTRIBUTE_SITE = 'site';
     final public const ATTRIBUTE_VISIBILITY = 'visibility';
     final public const ATTRIBUTE_USER = 'user_id';
@@ -53,8 +53,10 @@ class ExternalProfile extends BaseModel
      * @var string[]
      */
     protected $fillable = [
-        ExternalProfile::ATTRIBUTE_USERNAME,
+        ExternalProfile::ATTRIBUTE_NAME,
         ExternalProfile::ATTRIBUTE_SITE,
+        ExternalProfile::ATTRIBUTE_VISIBILITY,
+        ExternalProfile::ATTRIBUTE_USER,
     ];
 
     /**
