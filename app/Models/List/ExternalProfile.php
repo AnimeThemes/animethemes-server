@@ -104,7 +104,7 @@ class ExternalProfile extends BaseModel
      */
     public function getName(): string
     {
-        return $this->username;
+        return $this->name;
     }
 
     /**

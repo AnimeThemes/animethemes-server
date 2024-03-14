@@ -26,7 +26,7 @@ return new class extends Migration
                 $table->integer(ExternalProfile::ATTRIBUTE_SITE)->nullable();
                 $table->integer(ExternalProfile::ATTRIBUTE_VISIBILITY)->default(ExternalProfileVisibility::PRIVATE->value);
 
-                $table->unsignedBigInteger(ExternalProfile::ATTRIBUTE_USER);
+                $table->unsignedBigInteger(ExternalProfile::ATTRIBUTE_USER)->nullable();
                 $table->foreign(ExternalProfile::ATTRIBUTE_USER)->references(User::ATTRIBUTE_ID)->on(User::TABLE)->cascadeOnDelete();
             });
         }
