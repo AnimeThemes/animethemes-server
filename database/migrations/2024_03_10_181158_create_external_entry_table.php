@@ -26,10 +26,10 @@ return new class extends Migration
                 $table->integer(ExternalEntry::ATTRIBUTE_WATCH_STATUS)->nullable();
                 $table->boolean(ExternalEntry::ATTRIBUTE_IS_FAVOURITE)->default(false);
 
-                $table->unsignedBigInteger(ExternalEntry::ATTRIBUTE_ANIME);
+                $table->unsignedBigInteger(ExternalEntry::ATTRIBUTE_ANIME)->nullable();
                 $table->foreign(ExternalEntry::ATTRIBUTE_ANIME)->references(Anime::ATTRIBUTE_ID)->on(Anime::TABLE)->cascadeOnDelete();
 
-                $table->unsignedBigInteger(ExternalEntry::ATTRIBUTE_EXTERNAL_PROFILE);
+                $table->unsignedBigInteger(ExternalEntry::ATTRIBUTE_EXTERNAL_PROFILE)->nullable();
                 $table->foreign(ExternalEntry::ATTRIBUTE_EXTERNAL_PROFILE)->references(ExternalProfile::ATTRIBUTE_ID)->on(ExternalProfile::TABLE)->cascadeOnDelete();
             });
         }
