@@ -35,7 +35,6 @@ class ExternalEntryPolicy
                 /** @var ExternalProfile|null $profile */
                 $profile = $request->route('externalprofile');
 
-                return true;
                 return $user !== null
                     ? ($user->getKey() === $profile?->user_id || ExternalProfileVisibility::PRIVATE !== $profile?->visibility) && $user->can(CrudPermission::VIEW->format(ExternalEntry::class))
                     : ExternalProfileVisibility::PRIVATE !== $profile?->visibility;
@@ -60,7 +59,6 @@ class ExternalEntryPolicy
                 /** @var ExternalProfile|null $profile */
                 $profile = $request->route('externalprofile');
 
-                return true;
                 return $user !== null
                     ? ($user->getKey() === $profile?->user_id || ExternalProfileVisibility::PRIVATE !== $profile?->visibility) && $user->can(CrudPermission::VIEW->format(ExternalEntry::class))
                     : ExternalProfileVisibility::PRIVATE !== $profile?->visibility;
