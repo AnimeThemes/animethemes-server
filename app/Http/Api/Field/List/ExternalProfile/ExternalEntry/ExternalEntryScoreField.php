@@ -36,7 +36,8 @@ class ExternalEntryScoreField extends FloatField implements CreatableField, Upda
     public function getCreationRules(Request $request): array
     {
         return [
-            new ModerationRule(),
+            'required',
+            'decimal:0,2',
         ];
     }
 
@@ -50,7 +51,7 @@ class ExternalEntryScoreField extends FloatField implements CreatableField, Upda
     {
         return [
             'sometimes',
-            new ModerationRule(),
+            'decimal:0,2',
         ];
     }
 }

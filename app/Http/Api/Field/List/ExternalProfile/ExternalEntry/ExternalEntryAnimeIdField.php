@@ -4,16 +4,20 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Field\List\ExternalProfile\ExternalEntry;
 
+use App\Contracts\Http\Api\Field\CreatableField;
 use App\Contracts\Http\Api\Field\SelectableField;
 use App\Http\Api\Field\Field;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Schema;
 use App\Models\List\External\ExternalEntry;
+use App\Models\Wiki\Anime;
+use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 /**
  * Class ExternalEntryAnimeIdField.
  */
-class ExternalEntryAnimeIdField extends Field implements SelectableField
+class ExternalEntryAnimeIdField extends Field implements CreatableField, SelectableField
 {
     /**
      * Create a new field instance.
@@ -36,5 +40,14 @@ class ExternalEntryAnimeIdField extends Field implements SelectableField
     {
         // Needed to match playlist relation.
         return true;
+    }
+
+    public function getCreationRules(Request $request): array
+    {
+        return [
+            'required',
+            'integer',
+            Rule::exists(Anime::class, Anime::ATTRIBUTE_ID),
+        ];
     }
 }
