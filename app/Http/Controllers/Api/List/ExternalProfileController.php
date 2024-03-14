@@ -7,10 +7,10 @@ namespace App\Http\Controllers\Api\List;
 use App\Actions\Http\Api\DestroyAction;
 use App\Actions\Http\Api\ForceDeleteAction;
 use App\Actions\Http\Api\IndexAction;
-use App\Actions\Http\Api\List\ExternalProfile\StoreExternalProfileListAction;
 use App\Actions\Http\Api\RestoreAction;
 use App\Actions\Http\Api\ShowAction;
 use App\Actions\Http\Api\UpdateAction;
+use App\Actions\Models\List\ExternalProfile\StoreExternalProfileAction;
 use App\Enums\Models\List\ExternalProfileVisibility;
 use App\Features\AllowExternalProfileManagement;
 use App\Http\Api\Query\Query;
@@ -73,10 +73,10 @@ class ExternalProfileController extends BaseController
      * Store a newly created resource.
      *
      * @param  StoreRequest  $request
-     * @param  StoreExternalProfileListAction  $action
+     * @param  StoreExternalProfileAction  $action
      * @return ExternalProfileResource
      */
-    public function store(StoreRequest $request, StoreExternalProfileListAction $action): ExternalProfileResource
+    public function store(StoreRequest $request, StoreExternalProfileAction $action): ExternalProfileResource
     {
         $validated = array_merge(
             $request->validated(),

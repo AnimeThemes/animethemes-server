@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Actions\Http\Api\List\ExternalProfile;
+namespace App\Actions\Models\List\ExternalProfile;
 
 use App\Actions\Http\Api\StoreAction;
 use App\Enums\Models\List\AnimeWatchStatus;
@@ -18,9 +18,9 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 /**
- * Class StoreExternalProfileListAction.
+ * Class StoreExternalProfileAction.
  */
-class StoreExternalProfileListAction
+class StoreExternalProfileAction
 {
     /**
      * Store external profile and its entries.
