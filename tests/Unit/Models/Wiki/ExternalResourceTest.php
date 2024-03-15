@@ -8,6 +8,7 @@ use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\ExternalResource;
+use App\Models\Wiki\Song;
 use App\Models\Wiki\Studio;
 use App\Pivots\Wiki\AnimeResource;
 use App\Pivots\Wiki\ArtistResource;
@@ -85,6 +86,23 @@ class ExternalResourceTest extends TestCase
         static::assertEquals($artistCount, $resource->artists()->count());
         static::assertInstanceOf(Artist::class, $resource->artists()->first());
         static::assertEquals(ArtistResource::class, $resource->artists()->getPivotClass());
+    }
+
+    /**
+     * Resource shall have a many-to-many relationship with the type Song.
+     */
+    public function testSong(): void
+    {
+        $songCount = $this->faker->randomDigitNotNull();
+
+        $resource = ExternalResource::factory()
+            ->has(Song::factory()->count($songCount))
+            ->createOne();
+
+        static::assertInstanceOf(BelongsToMany::class, $resource->song());
+        static::assertEquals($songCount, $resource->song()->count());
+        static::assertInstanceOf(Studio::class, $resource->song()->first());
+        static::assertEquals(StudioResource::class, $resource->song()->getPivotClass());
     }
 
     /**
