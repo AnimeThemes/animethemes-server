@@ -61,7 +61,7 @@ class AnimeResourceLinkFormatTest extends TestCase
             ResourceSite::AMAZON_PRIME_VIDEO,
         ]);
 
-        $url = $site->formatAnimeResourceLink($this->faker->randomDigitNotNull(), $this->faker->word());
+        $url = $site->formatAnimeResourceLink($this->faker->randomDigitNotNull(), $this->faker->word(), $this->faker->word());
 
         $attribute = $this->faker->word();
 

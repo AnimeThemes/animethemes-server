@@ -12,6 +12,7 @@ use App\Models\Wiki\Song;
 use App\Models\Wiki\Studio;
 use App\Pivots\Wiki\AnimeResource;
 use App\Pivots\Wiki\ArtistResource;
+use App\Pivots\Wiki\SongResource;
 use App\Pivots\Wiki\StudioResource;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -101,8 +102,8 @@ class ExternalResourceTest extends TestCase
 
         static::assertInstanceOf(BelongsToMany::class, $resource->song());
         static::assertEquals($songCount, $resource->song()->count());
-        static::assertInstanceOf(Studio::class, $resource->song()->first());
-        static::assertEquals(StudioResource::class, $resource->song()->getPivotClass());
+        static::assertInstanceOf(Song::class, $resource->song()->first());
+        static::assertEquals(SongResource::class, $resource->song()->getPivotClass());
     }
 
     /**
