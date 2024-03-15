@@ -80,18 +80,19 @@ class BackfillAnimeExternalLinksAnilistResourceAction extends BackfillExternalLi
     protected function getOrCreateResource(mixed $externalLink): ExternalResource
     {
         $availableSites = $this->getAvailableSites();
-        $url = $externalLink['url'];
+        /** @var ResourceSite $resourceSite */
         $resourceSite = $availableSites[$externalLink['site']];
-        $urlPattern = $this->getUrlPattern($resourceSite->value);
+        $url = $externalLink['url'];
+        $urlPattern = $resourceSite->getUrlPattern();
 
         if (preg_match($urlPattern, $url, $matches)) {
-            $url = $resourceSite->formatAnimeResourceLink(intval($matches[1]), $matches[1]);
+            $url = $resourceSite->formatAnimeResourceLink(intval($matches[2]), $matches[2], $matches[1]);
         }
 
         $resource = ExternalResource::query()
             ->where(ExternalResource::ATTRIBUTE_SITE, $resourceSite->value)
             ->where(ExternalResource::ATTRIBUTE_LINK, $url)
-            ->orWhere(ExternalResource::ATTRIBUTE_LINK, $url . "/")
+            ->orWhere(ExternalResource::ATTRIBUTE_LINK, $url . '/')
             ->first();
 
         if ($resource === null) {
@@ -101,7 +102,7 @@ class BackfillAnimeExternalLinksAnilistResourceAction extends BackfillExternalLi
             $resource = ExternalResource::query()->create([
                 ExternalResource::ATTRIBUTE_LINK => $url,
                 ExternalResource::ATTRIBUTE_SITE => $resourceSite->value,
-                ExternalResource::ATTRIBUTE_EXTERNAL_ID => $resourceSite->parseIdFromLink($url) ?? null,
+                ExternalResource::ATTRIBUTE_EXTERNAL_ID => $resourceSite->parseIdFromLink($url),
             ]);
         }
 
@@ -141,6 +142,11 @@ class BackfillAnimeExternalLinksAnilistResourceAction extends BackfillExternalLi
         return null;
     }
 
+    /**
+     * Get the external links by AniList API.
+     * 
+     * @return array|null
+     */
     protected function getExternalLinksByAnilistResource(): ?array
     {
         $anilistResource = $this->getAnilistResource();
@@ -175,20 +181,5 @@ class BackfillAnimeExternalLinksAnilistResourceAction extends BackfillExternalLi
         }
 
         return null;
-    }
-
-    protected function getUrlPattern(int $resourceSite): string
-    {
-        $matches = [
-            ResourceSite::TWITTER->value => '/^https:\/\/twitter\.com\/(\w+)/',
-            ResourceSite::CRUNCHYROLL->value => '/^https:\/\/www\.crunchyroll\.com\/series\/(\w+)/',
-            ResourceSite::HIDIVE->value => '/^https:\/\/www\.hidive\.com\/tv\/([\w-]+)/',
-            ResourceSite::NETFLIX->value => '/^https:\/\/www\.netflix\.com\/title\/(\d+)/',
-            ResourceSite::DISNEY_PLUS->value => '/^https:\/\/www\.disneyplus\.com\/series\/([\w-]+\/\w+)/',
-            ResourceSite::HULU->value => '/^https:\/\/www\.hulu\.com\/series\/([\w-]+)/',
-            ResourceSite::AMAZON_PRIME_VIDEO->value => '/^https:\/\/www\.primevideo\.com\/detail\/(\w+)/',
-        ];
-
-        return $matches[$resourceSite] ?? '/^$/';
     }
 }

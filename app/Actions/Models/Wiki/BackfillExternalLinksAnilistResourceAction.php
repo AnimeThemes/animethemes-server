@@ -46,7 +46,7 @@ abstract class BackfillExternalLinksAnilistResourceAction extends BackfillAction
                 $language = $externalLink['language'];
 
                 if (!in_array($site, array_keys($availableSites))) continue;
-                if (in_array($site, ['Official Site', 'Twitter']) && $language !== 'Japanese') continue;
+                if (in_array($site, ['Official Site', 'Twitter']) && !in_array($language, ['Japanese', null])) continue;
 
                 if ($this->relation()->getQuery()->where(ExternalResource::ATTRIBUTE_SITE, $availableSites[$site]->value)->exists()) {
                     $nameLocalized = $availableSites[$site]->localize();

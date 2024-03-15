@@ -146,7 +146,7 @@ enum ResourceSite: int
 
         return null;
     }
-
+    
     /**
      * Attempt to parse Kitsu ID from link.
      *
@@ -188,9 +188,10 @@ enum ResourceSite: int
      *
      * @param  int  $id
      * @param  string|null  $slug
+     * @param  string|null  $type
      * @return string|null
      */
-    public function formatAnimeResourceLink(int $id, ?string $slug = null): ?string
+    public function formatAnimeResourceLink(int $id, ?string $slug = null, ?string $type = null): ?string
     {
         return match ($this) {
             ResourceSite::TWITTER => "https://twitter.com/$slug",
@@ -201,11 +202,11 @@ enum ResourceSite: int
             ResourceSite::KITSU => "https://kitsu.io/anime/$slug",
             ResourceSite::MAL => "https://myanimelist.net/anime/$id",
             ResourceSite::YOUTUBE => "https://www.youtube.com/@$slug",
-            ResourceSite::CRUNCHYROLL => "https://www.crunchyroll.com/series/$slug",
-            ResourceSite::HIDIVE => "https://www.hidive.com/tv/$slug",
-            ResourceSite::NETFLIX => "https://www.netflix.com/title/$id",
-            ResourceSite::DISNEY_PLUS => "https://www.disneyplus.com/series/$slug/$id",
-            ResourceSite::HULU => "https://www.hulu.com/series/$slug",
+            ResourceSite::CRUNCHYROLL => "https://www.crunchyroll.com/$type/$slug",
+            ResourceSite::HIDIVE => "https://www.hidive.com/$type/$slug",
+            ResourceSite::NETFLIX => "https://www.netflix.com/$type/$id",
+            ResourceSite::DISNEY_PLUS => "https://www.disneyplus.com/$type/$slug/$id",
+            ResourceSite::HULU => "https://www.hulu.com/$type/$slug",
             ResourceSite::AMAZON_PRIME_VIDEO => "https://www.primevideo.com/detail/$slug",
             default => null,
         };
@@ -269,6 +270,25 @@ enum ResourceSite: int
             ResourceSite::ANN => "https://www.animenewsnetwork.com/encyclopedia/company.php?id=$id",
             ResourceSite::MAL => "https://myanimelist.net/anime/producer/$id",
             default => null,
+        };
+    }
+
+    /**
+     * Get the URL pattern of the resource site.
+     * 
+     * @return string
+     */
+    public function getUrlPattern(): string
+    {
+        return match ($this) {
+            ResourceSite::TWITTER => '/^https?:\/\/(twitter)\.com\/(\w+)/',
+            ResourceSite::CRUNCHYROLL => '/^https?:\/\/www\.crunchyroll\.com\/(series|watch)\/(\w+)/',
+            ResourceSite::HIDIVE => '/^https?:\/\/www\.hidive\.com\/(tv|movies)\/([\w-]+)/',
+            ResourceSite::NETFLIX => '/^https?:\/\/www\.netflix\.com\/(title|watch)\/(\d+)/',
+            ResourceSite::DISNEY_PLUS => '/^https?:\/\/www\.disneyplus\.com\/(series|movies)\/([\w-]+\/\w+)/',
+            ResourceSite::HULU => '/^https?:\/\/www\.hulu\.com\/(series|watch|movie)\/([\w-]+)/',
+            ResourceSite::AMAZON_PRIME_VIDEO => '/^https?:\/\/www\.primevideo\.com\/(detail)\/(\w+)/',
+            default => '/^$/',
         };
     }
 }

@@ -47,7 +47,7 @@ class BackfillExternalResourcesSeeder extends Seeder
                             $language = $externalLink['language'];
 
                             if (!in_array($site, array_keys($availableSites))) continue;
-                            if (in_array($site, ['Official Site', 'Twitter']) && $language !== 'Japanese') continue;
+                            if (in_array($site, ['Official Site', 'Twitter']) && !in_array($language, ['Japanese', null])) continue;
 
                             if ($this->relation($anime)->getQuery()->where(ExternalResource::ATTRIBUTE_SITE, $availableSites[$site]->value)->exists()) {
                                 $nameLocalized = $availableSites[$site]->localize();
@@ -155,12 +155,13 @@ class BackfillExternalResourcesSeeder extends Seeder
     protected function getOrCreateResource(mixed $externalLink, Anime $anime): ExternalResource
     {
         $availableSites = $this->getAvailableSites();
-        $url = $externalLink['url'];
+        /** @var ResourceSite $resourceSite */
         $resourceSite = $availableSites[$externalLink['site']];
-        $urlPattern = $this->getUrlPattern($resourceSite->value);
+        $url = $externalLink['url'];
+        $urlPattern = $resourceSite->getUrlPattern();
 
         if (preg_match($urlPattern, $url, $matches)) {
-            $url = $resourceSite->formatAnimeResourceLink(intval($matches[1]), $matches[1]);
+            $url = $resourceSite->formatAnimeResourceLink(intval($matches[2]), $matches[2], $matches[1]);
         }
 
         $resource = ExternalResource::query()
@@ -177,7 +178,7 @@ class BackfillExternalResourcesSeeder extends Seeder
             $resource = ExternalResource::query()->create([
                 ExternalResource::ATTRIBUTE_LINK => $url,
                 ExternalResource::ATTRIBUTE_SITE => $resourceSite->value,
-                ExternalResource::ATTRIBUTE_EXTERNAL_ID => $resourceSite->parseIdFromLink($url) ?? null,
+                ExternalResource::ATTRIBUTE_EXTERNAL_ID => $resourceSite->parseIdFromLink($url),
             ]);
         }
 
@@ -202,20 +203,5 @@ class BackfillExternalResourcesSeeder extends Seeder
             'Hulu' => ResourceSite::HULU,
             'Disney Plus' => ResourceSite::DISNEY_PLUS,
         ];
-    }
-
-    protected function getUrlPattern(int $resourceSite): string
-    {
-        $matches = [
-            ResourceSite::TWITTER->value => '/^https:\/\/twitter\.com\/(\w+)/',
-            ResourceSite::CRUNCHYROLL->value => '/^https:\/\/www\.crunchyroll\.com\/series\/(\w+)/',
-            ResourceSite::HIDIVE->value => '/^https:\/\/www\.hidive\.com\/tv\/([\w-]+)/',
-            ResourceSite::NETFLIX->value => '/^https:\/\/www\.netflix\.com\/title\/(\d+)/',
-            ResourceSite::DISNEY_PLUS->value => '/^https:\/\/www\.disneyplus\.com\/series\/([\w-]+\/\w+)/',
-            ResourceSite::HULU->value => '/^https:\/\/www\.hulu\.com\/series\/([\w-]+)/',
-            ResourceSite::AMAZON_PRIME_VIDEO->value => '/^https:\/\/www\.primevideo\.com\/detail\/(\w+)/',
-        ];
-
-        return $matches[$resourceSite] ?? '/^$/';
     }
 }
