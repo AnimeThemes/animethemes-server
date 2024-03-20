@@ -209,7 +209,7 @@ class Anime extends BaseResource
 
             Select::make(__('nova.fields.anime.media_format.name'), AnimeModel::ATTRIBUTE_MEDIA_FORMAT)
                 ->options(AnimeMediaFormat::asSelectArray())
-                ->displayUsing(fn (?int $enumValue) => AnimeMediaFormat::tryFrom($enumValue ?? 0)?->localize())
+                ->displayUsing(fn (?int $enumValue) => AnimeMediaFormat::tryFrom($enumValue)?->localize())
                 ->sortable()
                 ->rules(['required', new Enum(AnimeMediaFormat::class)])
                 ->help(__('nova.fields.anime.media_format.help'))

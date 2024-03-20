@@ -97,8 +97,8 @@ class AnimeSchema extends EloquentSchema implements InteractsWithPivots, Searcha
             [
                 new IdField($this, Anime::ATTRIBUTE_ID),
                 new AnimeNameField($this),
-                new AnimeSeasonField($this),
                 new AnimeMediaFormatField($this),
+                new AnimeSeasonField($this),
                 new AnimeSlugField($this),
                 new AnimeSynopsisField($this),
                 new AnimeYearField($this),

@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\Models\Wiki\AnimeMediaFormat;
 use App\Models\Wiki\Anime;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -14,7 +15,7 @@ return new class extends Migration
     {
         if (! Schema::hasColumn(Anime::TABLE, Anime::ATTRIBUTE_MEDIA_FORMAT)) {
             Schema::table(Anime::TABLE, function (Blueprint $table) {
-                $table->integer(Anime::ATTRIBUTE_MEDIA_FORMAT)->nullable();
+                $table->integer(Anime::ATTRIBUTE_MEDIA_FORMAT)->default(AnimeMediaFormat::UNKNOWN->value);
             });
         }
     }

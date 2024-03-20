@@ -100,10 +100,10 @@ class ExternalResourceTest extends TestCase
             ->has(Song::factory()->count($songCount))
             ->createOne();
 
-        static::assertInstanceOf(BelongsToMany::class, $resource->song());
-        static::assertEquals($songCount, $resource->song()->count());
-        static::assertInstanceOf(Song::class, $resource->song()->first());
-        static::assertEquals(SongResource::class, $resource->song()->getPivotClass());
+        static::assertInstanceOf(BelongsToMany::class, $resource->songs());
+        static::assertEquals($songCount, $resource->songs()->count());
+        static::assertInstanceOf(Song::class, $resource->songs()->first());
+        static::assertEquals(SongResource::class, $resource->songs()->getPivotClass());
     }
 
     /**
