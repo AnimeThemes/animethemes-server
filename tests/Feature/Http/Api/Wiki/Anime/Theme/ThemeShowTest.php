@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Wiki\Anime\Theme;
 
+use App\Enums\Models\Wiki\AnimeMediaFormat;
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Enums\Models\Wiki\VideoOverlap;
@@ -184,7 +185,7 @@ class ThemeShowTest extends TestCase
      */
     public function testAnimeByMediaFormat(): void
     {
-        $mediaFormatFilter = Arr::random(AnimeSeason::cases());
+        $mediaFormatFilter = Arr::random(AnimeMediaFormat::cases());
 
         $parameters = [
             FilterParser::param() => [
