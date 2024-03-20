@@ -24,7 +24,7 @@ class AttachSongResourceAction extends AttachResourceAction
      */
     protected function relation(ExternalResource $resource): BelongsToMany
     {
-        return $resource->song();
+        return $resource->songs();
     }
 
     /**

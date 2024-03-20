@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Wiki\Video;
 
+use App\Enums\Models\Wiki\AnimeMediaFormat;
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Enums\Models\Wiki\ThemeType;
 use App\Http\Api\Field\Field;
@@ -424,6 +425,50 @@ class VideoShowTest extends TestCase
         $video->unsetRelations()->load([
             Video::RELATION_ANIMETHEME => function (BelongsTo $query) use ($typeFilter) {
                 $query->where(AnimeTheme::ATTRIBUTE_TYPE, $typeFilter->value);
+            },
+        ]);
+
+        $response = $this->get(route('api.video.show', ['video' => $video] + $parameters));
+
+        $response->assertJson(
+            json_decode(
+                json_encode(
+                    (new VideoResource($video, new Query($parameters)))
+                        ->response()
+                        ->getData()
+                ),
+                true
+            )
+        );
+    }
+
+    /**
+     * The Video Show Endpoint shall support constrained eager loading of anime by media format.
+     *
+     * @return void
+     */
+    public function testAnimeByMediaFormat(): void
+    {
+        $mediaFormatFilter = Arr::random(AnimeMediaFormat::cases());
+
+        $parameters = [
+            FilterParser::param() => [
+                Anime::ATTRIBUTE_MEDIA_FORMAT => $mediaFormatFilter->localize(),
+            ],
+            IncludeParser::param() => Video::RELATION_ANIME,
+        ];
+
+        $video = Video::factory()
+            ->has(
+                AnimeThemeEntry::factory()
+                    ->count($this->faker->randomDigitNotNull())
+                    ->for(AnimeTheme::factory()->for(Anime::factory()))
+            )
+            ->createOne();
+
+        $video->unsetRelations()->load([
+            Video::RELATION_ANIME => function (BelongsTo $query) use ($mediaFormatFilter) {
+                $query->where(Anime::ATTRIBUTE_MEDIA_FORMAT, $mediaFormatFilter->value);
             },
         ]);
 

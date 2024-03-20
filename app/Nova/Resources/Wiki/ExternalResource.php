@@ -231,7 +231,7 @@ class ExternalResource extends BaseResource
                         ->hideWhenUpdating(),
                 ]),
 
-            BelongsToMany::make(__('nova.resources.label.songs'), ExternalResourceModel::RELATION_SONG, Song::class)
+            BelongsToMany::make(__('nova.resources.label.songs'), ExternalResourceModel::RELATION_SONGS, Song::class)
                 ->searchable()
                 ->filterable()
                 ->withSubtitles()

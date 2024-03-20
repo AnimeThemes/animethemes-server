@@ -7,6 +7,7 @@ namespace Http\Api\Pivot\Wiki\AnimeImage;
 use App\Concerns\Actions\Http\Api\SortsModels;
 use App\Contracts\Http\Api\Field\SortableField;
 use App\Enums\Http\Api\Sort\Direction;
+use App\Enums\Models\Wiki\AnimeMediaFormat;
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Http\Api\Criteria\Paging\Criteria;
@@ -357,6 +358,50 @@ class AnimeImageIndexTest extends TestCase
         $animeImages = AnimeImage::with([
             AnimeImage::RELATION_IMAGE => function (BelongsTo $query) use ($facetFilter) {
                 $query->where(Image::ATTRIBUTE_FACET, $facetFilter->value);
+            },
+        ])
+        ->get();
+
+        $response->assertJson(
+            json_decode(
+                json_encode(
+                    (new AnimeImageCollection($animeImages, new Query($parameters)))
+                        ->response()
+                        ->getData()
+                ),
+                true
+            )
+        );
+    }
+
+    /**
+     * The Anime Image Show Endpoint shall support constrained eager loading of anime by media format.
+     *
+     * @return void
+     */
+    public function testAnimeByMediaFormat(): void
+    {
+        $mediaFormatFilter = Arr::random(AnimeMediaFormat::cases());
+
+        $parameters = [
+            FilterParser::param() => [
+                Anime::ATTRIBUTE_MEDIA_FORMAT => $mediaFormatFilter->localize(),
+            ],
+            IncludeParser::param() => AnimeImage::RELATION_ANIME,
+        ];
+
+        Collection::times($this->faker->randomDigitNotNull(), function () {
+            AnimeImage::factory()
+                ->for(Anime::factory())
+                ->for(Image::factory())
+                ->create();
+        });
+
+        $response = $this->get(route('api.animeimage.index', $parameters));
+
+        $animeImages = AnimeImage::with([
+            AnimeImage::RELATION_ANIME => function (BelongsTo $query) use ($mediaFormatFilter) {
+                $query->where(Anime::ATTRIBUTE_MEDIA_FORMAT, $mediaFormatFilter->value);
             },
         ])
         ->get();

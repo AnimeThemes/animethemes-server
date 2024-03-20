@@ -57,8 +57,8 @@ class SongSchema extends EloquentSchema implements InteractsWithPivots, Searchab
         return [
             new AllowedInclude(new AnimeSchema(), Song::RELATION_ANIME),
             new AllowedInclude(new ArtistSchema(), Song::RELATION_ARTISTS),
+            new AllowedInclude(new ExternalResourceSchema(), Song::RELATION_RESOURCES),
             new AllowedInclude(new ThemeSchema(), Song::RELATION_ANIMETHEMES),
-            new AllowedInclude(new ExternalResourceSchema(), Song::RELATION_RESOURCES)
         ];
     }
 

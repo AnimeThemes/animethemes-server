@@ -37,6 +37,7 @@ use Laravel\Nova\Actions\Actionable;
  * @property Collection<int, AnimeSynonym> $animesynonyms
  * @property Collection<int, AnimeTheme> $animethemes
  * @property Collection<int, Image> $images
+ * @property AnimeMediaFormat|null $media_format
  * @property string $name
  * @property Collection<int, ExternalResource> $resources
  * @property AnimeSeason|null $season
@@ -45,7 +46,6 @@ use Laravel\Nova\Actions\Actionable;
  * @property Collection<int, Studio> $studios
  * @property string|null $synopsis
  * @property int|null $year
- * @property AnimeMediaFormat|null $media_format
  *
  * @method static AnimeFactory factory(...$parameters)
  */
@@ -57,12 +57,12 @@ class Anime extends BaseModel
     final public const TABLE = 'anime';
 
     final public const ATTRIBUTE_ID = 'anime_id';
+    final public const ATTRIBUTE_MEDIA_FORMAT = 'media_format';
     final public const ATTRIBUTE_NAME = 'name';
     final public const ATTRIBUTE_SEASON = 'season';
     final public const ATTRIBUTE_SLUG = 'slug';
     final public const ATTRIBUTE_SYNOPSIS = 'synopsis';
     final public const ATTRIBUTE_YEAR = 'year';
-    final public const ATTRIBUTE_MEDIA_FORMAT = 'media_format';
 
     final public const RELATION_ARTISTS = 'animethemes.song.artists';
     final public const RELATION_AUDIO = 'animethemes.animethemeentries.videos.audio';

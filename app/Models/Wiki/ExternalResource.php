@@ -32,6 +32,8 @@ use Laravel\Nova\Actions\Actionable;
  * @property string|null $link
  * @property int $resource_id
  * @property ResourceSite|null $site
+ * @property Collection<int, Song> $songs
+ * @property Collection<int, Studio> $studios
  *
  * @method static ExternalResourceFactory factory(...$parameters)
  */
@@ -48,7 +50,7 @@ class ExternalResource extends BaseModel
 
     final public const RELATION_ANIME = 'anime';
     final public const RELATION_ARTISTS = 'artists';
-    final public const RELATION_SONG = 'song';
+    final public const RELATION_SONGS = 'songs';
     final public const RELATION_STUDIOS = 'studios';
 
     /**
@@ -143,7 +145,7 @@ class ExternalResource extends BaseModel
      *
      * @return BelongsToMany
      */
-    public function song(): BelongsToMany
+    public function songs(): BelongsToMany
     {
         return $this->belongsToMany(Song::class, SongResource::TABLE, ExternalResource::ATTRIBUTE_ID, Song::ATTRIBUTE_ID)
             ->using(SongResource::class)

@@ -7,6 +7,7 @@ namespace Http\Api\Pivot\Wiki\AnimeSeries;
 use App\Concerns\Actions\Http\Api\SortsModels;
 use App\Contracts\Http\Api\Field\SortableField;
 use App\Enums\Http\Api\Sort\Direction;
+use App\Enums\Models\Wiki\AnimeMediaFormat;
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Http\Api\Criteria\Paging\Criteria;
 use App\Http\Api\Criteria\Paging\OffsetCriteria;
@@ -315,6 +316,50 @@ class AnimeSeriesIndexTest extends TestCase
         $animeSeries = AnimeSeries::query()->where(BasePivot::ATTRIBUTE_UPDATED_AT, $updatedFilter)->get();
 
         $response = $this->get(route('api.animeseries.index', $parameters));
+
+        $response->assertJson(
+            json_decode(
+                json_encode(
+                    (new AnimeSeriesCollection($animeSeries, new Query($parameters)))
+                        ->response()
+                        ->getData()
+                ),
+                true
+            )
+        );
+    }
+
+    /**
+     * The Anime Series Show Endpoint shall support constrained eager loading of anime by media format.
+     *
+     * @return void
+     */
+    public function testAnimeByMediaFormat(): void
+    {
+        $mediaFormatFilter = Arr::random(AnimeMediaFormat::cases());
+
+        $parameters = [
+            FilterParser::param() => [
+                Anime::ATTRIBUTE_MEDIA_FORMAT => $mediaFormatFilter->localize(),
+            ],
+            IncludeParser::param() => AnimeSeries::RELATION_ANIME,
+        ];
+
+        Collection::times($this->faker->randomDigitNotNull(), function () {
+            AnimeSeries::factory()
+                ->for(Anime::factory())
+                ->for(Series::factory())
+                ->create();
+        });
+
+        $response = $this->get(route('api.animeseries.index', $parameters));
+
+        $animeSeries = AnimeSeries::with([
+            AnimeSeries::RELATION_ANIME => function (BelongsTo $query) use ($mediaFormatFilter) {
+                $query->where(Anime::ATTRIBUTE_MEDIA_FORMAT, $mediaFormatFilter->value);
+            },
+        ])
+            ->get();
 
         $response->assertJson(
             json_decode(

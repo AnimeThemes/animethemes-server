@@ -27,6 +27,7 @@ use Laravel\Nova\Actions\Actionable;
  *
  * @property Collection<int, AnimeTheme> $animethemes
  * @property Collection<int, Artist> $artists
+ * @property Collection<int, ExternalResource> $resources
  * @property int $song_id
  * @property string|null $title
  *

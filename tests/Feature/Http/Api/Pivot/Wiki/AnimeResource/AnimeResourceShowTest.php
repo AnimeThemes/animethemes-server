@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Http\Api\Pivot\Wiki\AnimeResource;
 
+use App\Enums\Models\Wiki\AnimeMediaFormat;
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Http\Api\Field\Field;
@@ -178,6 +179,47 @@ class AnimeResourceShowTest extends TestCase
         $animeResource->unsetRelations()->load([
             AnimeResource::RELATION_RESOURCE => function (BelongsTo $query) use ($siteFilter) {
                 $query->where(ExternalResource::ATTRIBUTE_SITE, $siteFilter->value);
+            },
+        ]);
+
+        $response->assertJson(
+            json_decode(
+                json_encode(
+                    (new AnimeResourceResource($animeResource, new Query($parameters)))
+                        ->response()
+                        ->getData()
+                ),
+                true
+            )
+        );
+    }
+
+    /**
+     * The Anime Resource Show Endpoint shall support constrained eager loading of anime by media format.
+     *
+     * @return void
+     */
+    public function testAnimeByMediaFormat(): void
+    {
+        $mediaFormatFilter = Arr::random(AnimeMediaFormat::cases());
+
+        $parameters = [
+            FilterParser::param() => [
+                Anime::ATTRIBUTE_MEDIA_FORMAT => $mediaFormatFilter->localize(),
+            ],
+            IncludeParser::param() => AnimeResource::RELATION_ANIME,
+        ];
+
+        $animeResource = AnimeResource::factory()
+            ->for(Anime::factory())
+            ->for(ExternalResource::factory(), AnimeResource::RELATION_RESOURCE)
+            ->createOne();
+
+        $response = $this->get(route('api.animeresource.show', ['anime' => $animeResource->anime, 'resource' => $animeResource->resource] + $parameters));
+
+        $animeResource->unsetRelations()->load([
+            AnimeResource::RELATION_ANIME => function (BelongsTo $query) use ($mediaFormatFilter) {
+                $query->where(Anime::ATTRIBUTE_MEDIA_FORMAT, $mediaFormatFilter->value);
             },
         ]);
 

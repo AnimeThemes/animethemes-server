@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Wiki\Artist;
 
+use App\Enums\Models\Wiki\AnimeMediaFormat;
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Enums\Models\Wiki\ResourceSite;
@@ -292,6 +293,54 @@ class ArtistShowTest extends TestCase
         $artist->unsetRelations()->load([
             Artist::RELATION_ANIMETHEMES => function (HasMany $query) use ($typeFilter) {
                 $query->where(AnimeTheme::ATTRIBUTE_TYPE, $typeFilter->value);
+            },
+        ]);
+
+        $response = $this->get(route('api.artist.show', ['artist' => $artist] + $parameters));
+
+        $response->assertJson(
+            json_decode(
+                json_encode(
+                    (new ArtistResource($artist, new Query($parameters)))
+                        ->response()
+                        ->getData()
+                ),
+                true
+            )
+        );
+    }
+
+    /**
+     * The Artist Show Endpoint shall support constrained eager loading of anime by media format.
+     *
+     * @return void
+     */
+    public function testAnimeByMediaFormat(): void
+    {
+        $mediaFormatFilter = Arr::random(AnimeMediaFormat::cases());
+
+        $parameters = [
+            FilterParser::param() => [
+                Anime::ATTRIBUTE_MEDIA_FORMAT => $mediaFormatFilter->localize(),
+            ],
+            IncludeParser::param() => Artist::RELATION_ANIME,
+        ];
+
+        $artist = Artist::factory()
+            ->has(
+                Song::factory()
+                    ->count($this->faker->randomDigitNotNull())
+                    ->has(
+                        AnimeTheme::factory()
+                            ->for(Anime::factory())
+                            ->count($this->faker->randomDigitNotNull())
+                    )
+            )
+            ->createOne();
+
+        $artist->unsetRelations()->load([
+            Artist::RELATION_ANIME => function (BelongsTo $query) use ($mediaFormatFilter) {
+                $query->where(Anime::ATTRIBUTE_MEDIA_FORMAT, $mediaFormatFilter->value);
             },
         ]);
 
