@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Wiki\Studio;
 
+use App\Enums\Models\Wiki\AnimeMediaFormat;
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Enums\Models\Wiki\ResourceSite;
@@ -137,6 +138,46 @@ class StudioShowTest extends TestCase
         ];
 
         $studio = Studio::factory()->create();
+
+        $response = $this->get(route('api.studio.show', ['studio' => $studio] + $parameters));
+
+        $response->assertJson(
+            json_decode(
+                json_encode(
+                    (new StudioResource($studio, new Query($parameters)))
+                        ->response()
+                        ->getData()
+                ),
+                true
+            )
+        );
+    }
+
+    /**
+     * The Studio Show Endpoint shall support constrained eager loading of anime by media format.
+     *
+     * @return void
+     */
+    public function testAnimeByMediaFormat(): void
+    {
+        $mediaFormatFilter = Arr::random(AnimeMediaFormat::cases());
+
+        $parameters = [
+            FilterParser::param() => [
+                Anime::ATTRIBUTE_MEDIA_FORMAT => $mediaFormatFilter->localize(),
+            ],
+            IncludeParser::param() => Studio::RELATION_ANIME,
+        ];
+
+        $studio = Studio::factory()
+            ->has(Anime::factory()->count($this->faker->randomDigitNotNull()))
+            ->create();
+
+        $studio->unsetRelations()->load([
+            Studio::RELATION_ANIME => function (BelongsToMany $query) use ($mediaFormatFilter) {
+                $query->where(Anime::ATTRIBUTE_MEDIA_FORMAT, $mediaFormatFilter->value);
+            },
+        ]);
 
         $response = $this->get(route('api.studio.show', ['studio' => $studio] + $parameters));
 

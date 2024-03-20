@@ -8,6 +8,7 @@ use App\Concerns\Actions\Http\Api\SortsModels;
 use App\Contracts\Http\Api\Field\SortableField;
 use App\Enums\Http\Api\Filter\TrashedStatus;
 use App\Enums\Http\Api\Sort\Direction;
+use App\Enums\Models\Wiki\AnimeMediaFormat;
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Enums\Models\Wiki\ThemeType;
@@ -610,6 +611,48 @@ class ThemeIndexTest extends TestCase
             ->create();
 
         $themes = AnimeTheme::query()->where(AnimeTheme::ATTRIBUTE_TYPE, $typeFilter->value)->get();
+
+        $response = $this->get(route('api.animetheme.index', $parameters));
+
+        $response->assertJson(
+            json_decode(
+                json_encode(
+                    (new ThemeCollection($themes, new Query($parameters)))
+                        ->response()
+                        ->getData()
+                ),
+                true
+            )
+        );
+    }
+
+    /**
+     * The Theme Index Endpoint shall support constrained eager loading of anime by media format.
+     *
+     * @return void
+     */
+    public function testAnimeByMediaFormat(): void
+    {
+        $mediaFormatFilter = Arr::random(AnimeMediaFormat::cases());
+
+        $parameters = [
+            FilterParser::param() => [
+                Anime::ATTRIBUTE_MEDIA_FORMAT => $mediaFormatFilter->localize(),
+            ],
+            IncludeParser::param() => AnimeTheme::RELATION_ANIME,
+        ];
+
+        AnimeTheme::factory()
+            ->for(Anime::factory())
+            ->count($this->faker->randomDigitNotNull())
+            ->create();
+
+        $themes = AnimeTheme::with([
+            AnimeTheme::RELATION_ANIME => function (BelongsTo $query) use ($mediaFormatFilter) {
+                $query->where(Anime::ATTRIBUTE_MEDIA_FORMAT, $mediaFormatFilter->value);
+            },
+        ])
+        ->get();
 
         $response = $this->get(route('api.animetheme.index', $parameters));
 

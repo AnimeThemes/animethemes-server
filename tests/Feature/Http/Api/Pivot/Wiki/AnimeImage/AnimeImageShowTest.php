@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Http\Api\Pivot\Wiki\AnimeImage;
 
+use App\Enums\Models\Wiki\AnimeMediaFormat;
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Http\Api\Field\Field;
@@ -178,6 +179,47 @@ class AnimeImageShowTest extends TestCase
         $animeImage->unsetRelations()->load([
             AnimeImage::RELATION_IMAGE => function (BelongsTo $query) use ($facetFilter) {
                 $query->where(Image::ATTRIBUTE_FACET, $facetFilter->value);
+            },
+        ]);
+
+        $response->assertJson(
+            json_decode(
+                json_encode(
+                    (new AnimeImageResource($animeImage, new Query($parameters)))
+                        ->response()
+                        ->getData()
+                ),
+                true
+            )
+        );
+    }
+
+    /**
+     * The Anime Image Show Endpoint shall support constrained eager loading of anime by media format.
+     *
+     * @return void
+     */
+    public function testAnimeByMediaFormat(): void
+    {
+        $mediaFormatFilter = Arr::random(AnimeMediaFormat::cases());
+
+        $parameters = [
+            FilterParser::param() => [
+                Anime::ATTRIBUTE_MEDIA_FORMAT => $mediaFormatFilter->localize(),
+            ],
+            IncludeParser::param() => AnimeImage::RELATION_ANIME,
+        ];
+
+        $animeImage = AnimeImage::factory()
+            ->for(Anime::factory())
+            ->for(Image::factory())
+            ->createOne();
+
+        $response = $this->get(route('api.animeimage.show', ['anime' => $animeImage->anime, 'image' => $animeImage->image] + $parameters));
+
+        $animeImage->unsetRelations()->load([
+            AnimeImage::RELATION_ANIME => function (BelongsTo $query) use ($mediaFormatFilter) {
+                $query->where(Anime::ATTRIBUTE_MEDIA_FORMAT, $mediaFormatFilter->value);
             },
         ]);
 

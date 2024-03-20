@@ -8,6 +8,7 @@ use App\Concerns\Actions\Http\Api\SortsModels;
 use App\Contracts\Http\Api\Field\SortableField;
 use App\Enums\Http\Api\Filter\TrashedStatus;
 use App\Enums\Http\Api\Sort\Direction;
+use App\Enums\Models\Wiki\AnimeMediaFormat;
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Http\Api\Criteria\Filter\TrashedCriteria;
 use App\Http\Api\Criteria\Paging\Criteria;
@@ -481,6 +482,48 @@ class SynonymIndexTest extends TestCase
             json_decode(
                 json_encode(
                     (new SynonymCollection($synonym, new Query($parameters)))
+                        ->response()
+                        ->getData()
+                ),
+                true
+            )
+        );
+    }
+
+    /**
+     * The Synonym Index Endpoint shall support constrained eager loading of anime by media format.
+     *
+     * @return void
+     */
+    public function testAnimeByMediaFormat(): void
+    {
+        $mediaFormatFilter = Arr::random(AnimeMediaFormat::cases());
+
+        $parameters = [
+            FilterParser::param() => [
+                Anime::ATTRIBUTE_MEDIA_FORMAT => $mediaFormatFilter->localize(),
+            ],
+            IncludeParser::param() => AnimeSynonym::RELATION_ANIME,
+        ];
+
+        AnimeSynonym::factory()
+            ->for(Anime::factory())
+            ->count($this->faker->randomDigitNotNull())
+            ->create();
+
+        $synonyms = AnimeSynonym::with([
+            AnimeSynonym::RELATION_ANIME => function (BelongsTo $query) use ($mediaFormatFilter) {
+                $query->where(Anime::ATTRIBUTE_MEDIA_FORMAT, $mediaFormatFilter->value);
+            },
+        ])
+        ->get();
+
+        $response = $this->get(route('api.animesynonym.index', $parameters));
+
+        $response->assertJson(
+            json_decode(
+                json_encode(
+                    (new SynonymCollection($synonyms, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),

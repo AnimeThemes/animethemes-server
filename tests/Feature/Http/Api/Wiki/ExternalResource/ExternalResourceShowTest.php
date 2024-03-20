@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Wiki\ExternalResource;
 
+use App\Enums\Models\Wiki\AnimeMediaFormat;
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Http\Api\Field\Field;
 use App\Http\Api\Include\AllowedInclude;
@@ -134,6 +135,46 @@ class ExternalResourceShowTest extends TestCase
         ];
 
         $resource = ExternalResource::factory()->create();
+
+        $response = $this->get(route('api.resource.show', ['resource' => $resource] + $parameters));
+
+        $response->assertJson(
+            json_decode(
+                json_encode(
+                    (new ExternalResourceResource($resource, new Query($parameters)))
+                        ->response()
+                        ->getData()
+                ),
+                true
+            )
+        );
+    }
+
+    /**
+     * The Resource Show Endpoint shall support constrained eager loading of anime by media format.
+     *
+     * @return void
+     */
+    public function testAnimeByMediaFormat(): void
+    {
+        $mediaFormatFilter = Arr::random(AnimeMediaFormat::cases());
+
+        $parameters = [
+            FilterParser::param() => [
+                Anime::ATTRIBUTE_MEDIA_FORMAT => $mediaFormatFilter->localize(),
+            ],
+            IncludeParser::param() => ExternalResource::RELATION_ANIME,
+        ];
+
+        $resource = ExternalResource::factory()
+            ->has(Anime::factory()->count($this->faker->randomDigitNotNull()))
+            ->createOne();
+
+        $resource->unsetRelations()->load([
+            ExternalResource::RELATION_ANIME => function (BelongsToMany $query) use ($mediaFormatFilter) {
+                $query->where(Anime::ATTRIBUTE_MEDIA_FORMAT, $mediaFormatFilter->value);
+            },
+        ]);
 
         $response = $this->get(route('api.resource.show', ['resource' => $resource] + $parameters));
 

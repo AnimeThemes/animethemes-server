@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Wiki\Series;
 
+use App\Enums\Models\Wiki\AnimeMediaFormat;
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Http\Api\Field\Field;
 use App\Http\Api\Include\AllowedInclude;
@@ -133,6 +134,46 @@ class SeriesShowTest extends TestCase
         ];
 
         $series = Series::factory()->create();
+
+        $response = $this->get(route('api.series.show', ['series' => $series] + $parameters));
+
+        $response->assertJson(
+            json_decode(
+                json_encode(
+                    (new SeriesResource($series, new Query($parameters)))
+                        ->response()
+                        ->getData()
+                ),
+                true
+            )
+        );
+    }
+
+    /**
+     * The Series Show Endpoint shall support constrained eager loading of anime by media format.
+     *
+     * @return void
+     */
+    public function testAnimeByMediaFormat(): void
+    {
+        $mediaFormatFilter = Arr::random(AnimeMediaFormat::cases());
+
+        $parameters = [
+            FilterParser::param() => [
+                Anime::ATTRIBUTE_MEDIA_FORMAT => $mediaFormatFilter->localize(),
+            ],
+            IncludeParser::param() => Series::RELATION_ANIME,
+        ];
+
+        $series = Series::factory()
+            ->has(Anime::factory()->count($this->faker->randomDigitNotNull()))
+            ->createOne();
+
+        $series->unsetRelations()->load([
+            Series::RELATION_ANIME => function (BelongsToMany $query) use ($mediaFormatFilter) {
+                $query->where(Anime::ATTRIBUTE_MEDIA_FORMAT, $mediaFormatFilter->value);
+            },
+        ]);
 
         $response = $this->get(route('api.series.show', ['series' => $series] + $parameters));
 

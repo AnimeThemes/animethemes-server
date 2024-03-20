@@ -7,6 +7,7 @@ namespace Http\Api\Pivot\Wiki\AnimeResource;
 use App\Concerns\Actions\Http\Api\SortsModels;
 use App\Contracts\Http\Api\Field\SortableField;
 use App\Enums\Http\Api\Sort\Direction;
+use App\Enums\Models\Wiki\AnimeMediaFormat;
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Http\Api\Criteria\Paging\Criteria;
@@ -357,6 +358,50 @@ class AnimeResourceIndexTest extends TestCase
         $animeResources = AnimeResource::with([
             AnimeResource::RELATION_RESOURCE => function (BelongsTo $query) use ($siteFilter) {
                 $query->where(ExternalResource::ATTRIBUTE_SITE, $siteFilter->value);
+            },
+        ])
+            ->get();
+
+        $response->assertJson(
+            json_decode(
+                json_encode(
+                    (new AnimeResourceCollection($animeResources, new Query($parameters)))
+                        ->response()
+                        ->getData()
+                ),
+                true
+            )
+        );
+    }
+
+    /**
+     * The Anime Resource Show Endpoint shall support constrained eager loading of anime by media format.
+     *
+     * @return void
+     */
+    public function testAnimeByMediaFormat(): void
+    {
+        $mediaFormatFilter = Arr::random(AnimeMediaFormat::cases());
+
+        $parameters = [
+            FilterParser::param() => [
+                Anime::ATTRIBUTE_MEDIA_FORMAT => $mediaFormatFilter->localize(),
+            ],
+            IncludeParser::param() => AnimeResource::RELATION_ANIME,
+        ];
+
+        Collection::times($this->faker->randomDigitNotNull(), function () {
+            AnimeResource::factory()
+                ->for(Anime::factory())
+                ->for(ExternalResource::factory(), AnimeResource::RELATION_RESOURCE)
+                ->create();
+        });
+
+        $response = $this->get(route('api.animeresource.index', $parameters));
+
+        $animeResources = AnimeResource::with([
+            AnimeResource::RELATION_ANIME => function (BelongsTo $query) use ($mediaFormatFilter) {
+                $query->where(Anime::ATTRIBUTE_MEDIA_FORMAT, $mediaFormatFilter->value);
             },
         ])
             ->get();
