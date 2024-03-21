@@ -15,6 +15,8 @@ use App\Models\Auth\Permission;
 use App\Models\Auth\Role;
 use App\Models\Auth\User;
 use App\Models\Document\Page;
+use App\Models\List\External\ExternalEntry;
+use App\Models\List\ExternalProfile;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
 use App\Models\Wiki\Anime;
@@ -65,6 +67,8 @@ class AdminSeeder extends RoleSeeder
         $this->configureResource($role, User::class, $extendedCrudPermissions);
 
         // List Resources
+        $this->configureResource($role, ExternalEntry::class, $extendedCrudPermissions);
+        $this->configureResource($role, ExternalProfile::class, $extendedCrudPermissions);
         $this->configureResource($role, Playlist::class, $extendedCrudPermissions);
         $this->configureResource($role, PlaylistTrack::class, $extendedCrudPermissions);
 

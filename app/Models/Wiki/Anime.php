@@ -16,6 +16,7 @@ use App\Http\Resources\Pivot\Wiki\Resource\AnimeResourceResource;
 use App\Http\Resources\Pivot\Wiki\Resource\AnimeSeriesResource;
 use App\Http\Resources\Pivot\Wiki\Resource\AnimeStudioResource;
 use App\Models\BaseModel;
+use App\Models\List\External\ExternalEntry;
 use App\Models\Wiki\Anime\AnimeSynonym;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Pivots\Wiki\AnimeImage;
@@ -36,6 +37,7 @@ use Laravel\Nova\Actions\Actionable;
  * @property int $anime_id
  * @property Collection<int, AnimeSynonym> $animesynonyms
  * @property Collection<int, AnimeTheme> $animethemes
+ * @property Collection<int, ExternalEntry> $externalentries
  * @property Collection<int, Image> $images
  * @property AnimeMediaFormat|null $media_format
  * @property string $name
@@ -67,6 +69,8 @@ class Anime extends BaseModel
     final public const RELATION_ARTISTS = 'animethemes.song.artists';
     final public const RELATION_AUDIO = 'animethemes.animethemeentries.videos.audio';
     final public const RELATION_ENTRIES = 'animethemes.animethemeentries';
+    final public const RELATION_EXTERNAL_ENTRIES = 'externalentries';
+    final public const RELATION_EXTERNAL_PROFILE = 'externalentries.externalprofile';
     final public const RELATION_IMAGES = 'images';
     final public const RELATION_RESOURCES = 'resources';
     final public const RELATION_SCRIPTS = 'animethemes.animethemeentries.videos.videoscript';
@@ -248,5 +252,15 @@ class Anime extends BaseModel
             ->using(AnimeStudio::class)
             ->as(AnimeStudioResource::$wrap)
             ->withTimestamps();
+    }
+
+    /**
+     * Get the entries for the anime.
+     *
+     * @return HasMany
+     */
+    public function externalentries(): HasMany
+    {
+        return $this->hasMany(ExternalEntry::class, ExternalEntry::ATTRIBUTE_ANIME);
     }
 }

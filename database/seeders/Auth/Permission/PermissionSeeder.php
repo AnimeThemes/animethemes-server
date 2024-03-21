@@ -15,6 +15,8 @@ use App\Models\Auth\Permission;
 use App\Models\Auth\Role;
 use App\Models\Auth\User;
 use App\Models\Document\Page;
+use App\Models\List\External\ExternalEntry;
+use App\Models\List\ExternalProfile;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
 use App\Models\Wiki\Anime;
@@ -61,6 +63,8 @@ class PermissionSeeder extends Seeder
         $this->registerResource(User::class, $extendedCrudPermissions);
 
         // List Resources
+        $this->registerResource(ExternalEntry::class, $extendedCrudPermissions);
+        $this->registerResource(ExternalProfile::class, $extendedCrudPermissions);
         $this->registerResource(Playlist::class, $extendedCrudPermissions);
         $this->registerResource(PlaylistTrack::class, $extendedCrudPermissions);
 
