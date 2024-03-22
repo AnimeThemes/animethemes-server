@@ -26,7 +26,7 @@ class AnimeFormatMalSeeder extends Seeder
     protected function malSeeder(): void
     {
         $chunkSize = 10;
-        $animes = Anime::query()->where(Anime::ATTRIBUTE_MEDIA_FORMAT, null)->get();
+        $animes = Anime::query()->where(Anime::ATTRIBUTE_MEDIA_FORMAT, 0)->get();
 
         foreach ($animes->chunk($chunkSize) as $chunk) {
             foreach ($chunk as $anime) {
