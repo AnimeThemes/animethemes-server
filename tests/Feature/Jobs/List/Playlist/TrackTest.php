@@ -40,7 +40,7 @@ class TrackTest extends TestCase
             ->for($playlist)
             ->createOne();
 
-        Bus::assertDispatched(SendDiscordNotificationJob::class);
+        Bus::assertNotDispatched(SendDiscordNotificationJob::class);
     }
 
     /**
@@ -62,7 +62,7 @@ class TrackTest extends TestCase
 
         $track->delete();
 
-        Bus::assertDispatched(SendDiscordNotificationJob::class);
+        Bus::assertNotDispatched(SendDiscordNotificationJob::class);
     }
 
     /**
@@ -84,7 +84,7 @@ class TrackTest extends TestCase
 
         $track->restore();
 
-        Bus::assertDispatched(SendDiscordNotificationJob::class);
+        Bus::assertNotDispatched(SendDiscordNotificationJob::class);
     }
 
     /**
@@ -112,6 +112,6 @@ class TrackTest extends TestCase
         $track->fill($changes);
         $track->save();
 
-        Bus::assertDispatched(SendDiscordNotificationJob::class);
+        Bus::assertNotDispatched(SendDiscordNotificationJob::class);
     }
 }
