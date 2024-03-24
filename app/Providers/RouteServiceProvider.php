@@ -11,6 +11,7 @@ use App\Constants\Config\VideoConstants;
 use App\Enums\Auth\SpecialPermission;
 use App\Events\Wiki\Video\VideoThrottled;
 use App\Models\Auth\User;
+use App\Models\Wiki\Video;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Http\Request;
