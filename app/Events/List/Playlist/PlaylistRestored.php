@@ -4,15 +4,17 @@ declare(strict_types=1);
 
 namespace App\Events\List\Playlist;
 
-use App\Events\Base\Admin\AdminRestoredEvent;
+use App\Constants\Config\ServiceConstants;
+use App\Events\Base\BaseRestoredEvent;
 use App\Models\List\Playlist;
+use Illuminate\Support\Facades\Config;
 
 /**
  * Class PlaylistRestored.
  *
- * @extends AdminRestoredEvent<Playlist>
+ * @extends BaseRestoredEvent<Playlist>
  */
-class PlaylistRestored extends AdminRestoredEvent
+class PlaylistRestored extends BaseRestoredEvent
 {
     /**
      * Create a new event instance.
@@ -22,6 +24,28 @@ class PlaylistRestored extends AdminRestoredEvent
     public function __construct(Playlist $playlist)
     {
         parent::__construct($playlist);
+    }
+
+    /**
+     * Get Discord channel the message will be sent to.
+     *
+     * @return string
+     */
+    public function getDiscordChannel(): string
+    {
+        return Config::get(ServiceConstants::ADMIN_DISCORD_CHANNEL_QUALIFIED);
+    }
+
+    /**
+     * Determine if the message should be sent.
+     *
+     * @return bool
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public function shouldSendDiscordMessage(): bool
+    {
+        return false;
     }
 
     /**

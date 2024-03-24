@@ -4,16 +4,18 @@ declare(strict_types=1);
 
 namespace App\Events\List\Playlist\Track;
 
-use App\Events\Base\Admin\AdminUpdatedEvent;
+use App\Constants\Config\ServiceConstants;
+use App\Events\Base\BaseUpdatedEvent;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
+use Illuminate\Support\Facades\Config;
 
 /**
  * Class TrackUpdated.
  *
- * @extends AdminUpdatedEvent<PlaylistTrack>
+ * @extends BaseUpdatedEvent<PlaylistTrack>
  */
-class TrackUpdated extends AdminUpdatedEvent
+class TrackUpdated extends BaseUpdatedEvent
 {
     /**
      * The playlist the track belongs to.
@@ -32,6 +34,28 @@ class TrackUpdated extends AdminUpdatedEvent
         parent::__construct($track);
         $this->playlist = $track->playlist;
         $this->initializeEmbedFields($track);
+    }
+
+    /**
+     * Get Discord channel the message will be sent to.
+     *
+     * @return string
+     */
+    public function getDiscordChannel(): string
+    {
+        return Config::get(ServiceConstants::ADMIN_DISCORD_CHANNEL_QUALIFIED);
+    }
+
+    /**
+     * Determine if the message should be sent.
+     *
+     * @return bool
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public function shouldSendDiscordMessage(): bool
+    {
+        return false;
     }
 
     /**

@@ -4,16 +4,18 @@ declare(strict_types=1);
 
 namespace App\Events\List\Playlist\Track;
 
-use App\Events\Base\Admin\AdminRestoredEvent;
+use App\Constants\Config\ServiceConstants;
+use App\Events\Base\BaseRestoredEvent;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
+use Illuminate\Support\Facades\Config;
 
 /**
  * Class TrackRestored.
  *
- * @extends AdminRestoredEvent<PlaylistTrack>
+ * @extends BaseRestoredEvent<PlaylistTrack>
  */
-class TrackRestored extends AdminRestoredEvent
+class TrackRestored extends BaseRestoredEvent
 {
     /**
      * The playlist the track belongs to.
@@ -31,6 +33,28 @@ class TrackRestored extends AdminRestoredEvent
     {
         parent::__construct($track);
         $this->playlist = $track->playlist;
+    }
+
+    /**
+     * Get Discord channel the message will be sent to.
+     *
+     * @return string
+     */
+    public function getDiscordChannel(): string
+    {
+        return Config::get(ServiceConstants::ADMIN_DISCORD_CHANNEL_QUALIFIED);
+    }
+
+    /**
+     * Determine if the message should be sent.
+     *
+     * @return bool
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public function shouldSendDiscordMessage(): bool
+    {
+        return false;
     }
 
     /**
