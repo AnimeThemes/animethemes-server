@@ -223,6 +223,7 @@ class VideoTest extends TestCase
 
         Feature::activate(AllowVideoStreams::class);
         Config::set(VideoConstants::STREAMING_METHOD_QUALIFIED, Arr::random(StreamingMethod::cases())->value);
+        Config::set(VideoConstants::RATE_LIMITER_QUALIFIED, -1);
 
         $video = Video::factory()->createOne();
 

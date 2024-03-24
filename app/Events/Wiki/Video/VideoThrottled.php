@@ -40,7 +40,7 @@ class VideoThrottled implements DiscordMessageEvent
     {
         return DiscordMessage::create('', [
             'description' => "Video '**{$this->video->getName()}**' throttled for user '**$this->user**'",
-            'color' => EmbedColor::YELLOW,
+            'color' => EmbedColor::YELLOW->value,
         ]);
     }
 
