@@ -52,7 +52,7 @@ class PlaylistTest extends TestCase
 
         $playlist->delete();
 
-        Bus::assertDispatched(SendDiscordNotificationJob::class);
+        Bus::assertNotDispatched(SendDiscordNotificationJob::class);
     }
 
     /**
@@ -70,7 +70,7 @@ class PlaylistTest extends TestCase
 
         $playlist->restore();
 
-        Bus::assertDispatched(SendDiscordNotificationJob::class);
+        Bus::assertNotDispatched(SendDiscordNotificationJob::class);
     }
 
     /**
@@ -91,6 +91,6 @@ class PlaylistTest extends TestCase
         $playlist->fill($changes->getAttributes());
         $playlist->save();
 
-        Bus::assertDispatched(SendDiscordNotificationJob::class);
+        Bus::assertNotDispatched(SendDiscordNotificationJob::class);
     }
 }
