@@ -43,9 +43,9 @@ readonly class SongResourceLinkFormatRule implements ValidationRule
             ResourceSite::KITSU => '/$.^/',
             ResourceSite::MAL => '/$.^/',
             ResourceSite::SPOTIFY => '/^https:\/\/open\.spotify\.com\/track\/\w+$/',
-            ResourceSite::YOUTUBE_MUSIC => '/^https:\/\/music\.youtube\.com\/watch\?v=\w+$/',
+            ResourceSite::YOUTUBE_MUSIC => '/^https:\/\/music\.youtube\.com\/watch\?v=[\w-]+$/',
             ResourceSite::YOUTUBE => '/^https:\/\/www\.youtube\.com\/watch\?v=\w+$/',
-            ResourceSite::APPLE_MUSIC => '/^https:\/\/music\.apple\.com\/jp\/album\/\w+$/',
+            ResourceSite::APPLE_MUSIC => '/^https:\/\/music\.apple\.com\/jp\/album\/\d+$/',
             ResourceSite::AMAZON_MUSIC => '/^https:\/\/amazon\.co\.jp\/music\/player\/albums\/\w+$/',
             default => null,
         };
