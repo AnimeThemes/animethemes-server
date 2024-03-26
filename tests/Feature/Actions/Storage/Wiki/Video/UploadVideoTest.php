@@ -132,7 +132,6 @@ class UploadVideoTest extends TestCase
         $source = Arr::random(VideoSource::cases());
 
         $attributes = [
-            Video::ATTRIBUTE_RESOLUTION => $this->faker->numberBetween(360, 1080),
             Video::ATTRIBUTE_NC => $this->faker->boolean(),
             Video::ATTRIBUTE_SUBBED => $this->faker->boolean(),
             Video::ATTRIBUTE_LYRICS => $this->faker->boolean(),
