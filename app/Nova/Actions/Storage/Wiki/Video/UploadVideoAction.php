@@ -6,8 +6,10 @@ namespace App\Nova\Actions\Storage\Wiki\Video;
 
 use App\Actions\Storage\Wiki\Video\UploadVideoAction as UploadVideo;
 use App\Constants\Config\VideoConstants;
+use App\Enums\Models\Wiki\AnimeSeason;
 use App\Enums\Models\Wiki\VideoOverlap;
 use App\Enums\Models\Wiki\VideoSource;
+use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
 use App\Nova\Actions\Storage\Base\UploadAction;
@@ -33,6 +35,7 @@ use App\Rules\Wiki\Submission\Video\VideoIndexStreamRule;
 use App\Rules\Wiki\Submission\Video\VideoPixelFormatStreamRule;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Validation\Rules\Enum;
 use Illuminate\Validation\Rules\File as FileRule;
@@ -80,13 +83,6 @@ class UploadVideoAction extends UploadAction
             [
                 Hidden::make(__('nova.resources.singularLabel.anime_theme_entry'), AnimeThemeEntry::ATTRIBUTE_ID)
                     ->default(fn () => $parent instanceof AnimeThemeEntry ? $parent->getKey() : null),
-
-                Number::make(__('nova.fields.video.resolution.name'), Video::ATTRIBUTE_RESOLUTION)
-                    ->min(360)
-                    ->max(1080)
-                    ->nullable()
-                    ->rules(['nullable', 'integer'])
-                    ->help(__('nova.fields.video.resolution.help')),
 
                 Boolean::make(__('nova.fields.video.nc.name'), Video::ATTRIBUTE_NC)
                     ->nullable()
@@ -141,7 +137,7 @@ class UploadVideoAction extends UploadAction
      */
     protected function action(ActionFields $fields, Collection $models): UploadVideo
     {
-        /** @var string $path */
+        /** @var ?string $path */
         $path = $fields->get('path');
 
         /** @var UploadedFile $file */
@@ -153,8 +149,21 @@ class UploadVideoAction extends UploadAction
         /** @var UploadedFile|null $script */
         $script = $fields->get('script');
 
+        if ($path === null) {
+            /** @var Anime|null $anime */
+            $anime = $entry->animetheme->anime;
+            if ($anime instanceof Anime) {
+                $year = $anime->year;
+                $path = $year >= 2000 ?
+                    Str::of(strval($year))
+                        ->append('/')
+                        ->append(AnimeSeason::tryFrom($anime->season->value)->localize())
+                        ->__toString()
+                    : floor($year % 100 / 10) . '0s';
+            }
+        }
+       
         $attributes = [
-            Video::ATTRIBUTE_RESOLUTION => $fields->get(Video::ATTRIBUTE_RESOLUTION),
             Video::ATTRIBUTE_NC => $fields->get(Video::ATTRIBUTE_NC),
             Video::ATTRIBUTE_SUBBED => $fields->get(Video::ATTRIBUTE_SUBBED),
             Video::ATTRIBUTE_LYRICS => $fields->get(Video::ATTRIBUTE_LYRICS),

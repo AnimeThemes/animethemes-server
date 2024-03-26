@@ -39,8 +39,12 @@ abstract class UploadAction extends StorageAction implements InteractsWithDisk
                 ->help(__('nova.actions.storage.upload.fields.file.help')),
 
             Text::make(__('nova.actions.storage.upload.fields.path.name'), 'path')
-                ->required()
-                ->rules(['required', 'string', 'doesnt_start_with:/', 'doesnt_end_with:/', new StorageDirectoryExistsRule($fs)])
+                ->rules(fn ($request) => [
+                    'doesnt_start_with:/',
+                    'doesnt_end_with:/',
+                    empty($request->input('path')) ? '' : 'string',
+                    empty($request->input('path')) ? '' : new StorageDirectoryExistsRule($fs),
+                ])
                 ->help(__('nova.actions.storage.upload.fields.path.help')),
         ];
     }
