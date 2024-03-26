@@ -157,7 +157,7 @@ class UploadVideoAction extends UploadAction
                 $path = $year >= 2000 ?
                     Str::of(strval($year))
                         ->append('/')
-                        ->append(AnimeSeason::tryFrom($anime->season->value)?->localize())
+                        ->append(AnimeSeason::tryFrom($anime->season->value)->localize())
                         ->__toString()
                     : floor($year % 100 / 10) . '0s';
             }
