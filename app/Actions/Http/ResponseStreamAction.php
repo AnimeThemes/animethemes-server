@@ -15,13 +15,14 @@ abstract class ResponseStreamAction extends StreamAction
     /**
      * Stream the resource.
      *
+     * @param string $disposition
      * @return StreamedResponse
      */
-    public function stream(): StreamedResponse
+    public function stream(string $disposition = 'inline'): StreamedResponse
     {
         $response = new StreamedResponse();
 
-        $disposition = $response->headers->makeDisposition('inline', $this->streamable->basename());
+        $disposition = $response->headers->makeDisposition($disposition, $this->streamable->basename());
 
         $response->headers->replace([
             'Accept-Ranges' => 'bytes',
