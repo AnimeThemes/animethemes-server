@@ -80,13 +80,10 @@ class ThemeCreated extends WikiCreatedEvent implements UpdateRelatedIndicesEvent
     protected function updateFirstTheme(): void
     {
         if ($this->getModel()->sequence >= 2) {
-            $this->anime->animethemes()->each(function (AnimeTheme $theme) {
-                if ($theme->type === $this->getModel()->type && $theme->sequence === null) {
-                    $theme->update([
-                        AnimeTheme::ATTRIBUTE_SEQUENCE => 1,
-                    ]);
-                }
-            });
+            $this->anime->animethemes()->getQuery()
+                ->where(AnimeTheme::ATTRIBUTE_SEQUENCE, null)
+                ->where(AnimeTheme::ATTRIBUTE_TYPE, $this->getModel()->type)
+                ->update([AnimeTheme::ATTRIBUTE_SEQUENCE => 1]);
         }
     }
 }
