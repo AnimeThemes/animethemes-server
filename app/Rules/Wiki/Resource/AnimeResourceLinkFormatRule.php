@@ -44,7 +44,7 @@ readonly class AnimeResourceLinkFormatRule implements ValidationRule
             ResourceSite::MAL => '/^https:\/\/myanimelist\.net\/anime\/\d+$/',
             ResourceSite::SPOTIFY => '/$.^/',
             ResourceSite::YOUTUBE_MUSIC => '/$.^/',
-            ResourceSite::YOUTUBE => '/^https:\/\/www\.youtube\.com\/\@\w+$/',
+            ResourceSite::YOUTUBE => '/^https:\/\/www\.youtube\.com\/\@[\w-]+$/',
             ResourceSite::APPLE_MUSIC => '/$.^/',
             ResourceSite::AMAZON_MUSIC => '/$.^/',
             ResourceSite::CRUNCHYROLL => '/^https:\/\/www\.crunchyroll\.com\/(?:series|watch|null)\/\w+$/',

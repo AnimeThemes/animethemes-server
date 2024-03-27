@@ -44,7 +44,7 @@ readonly class ArtistResourceLinkFormatRule implements ValidationRule
             ResourceSite::MAL => '/^https:\/\/myanimelist\.net\/people\/\d+$/',
             ResourceSite::SPOTIFY => '/^https:\/\/open\.spotify\.com\/artist\/\w+$/',
             ResourceSite::YOUTUBE_MUSIC => '/^https:\/\/music\.youtube\.com\/channel\/[\w-]+/',
-            ResourceSite::YOUTUBE => '/^https:\/\/www\.youtube\.com\/\@\w+$/',
+            ResourceSite::YOUTUBE => '/^https:\/\/www\.youtube\.com\/\@[\w-]+$/',
             ResourceSite::APPLE_MUSIC => '/$.^/',
             ResourceSite::AMAZON_MUSIC => '/$.^/',
             default => null,
