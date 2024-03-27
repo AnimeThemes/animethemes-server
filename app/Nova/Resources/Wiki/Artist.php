@@ -283,6 +283,7 @@ class Artist extends BaseResource
             ResourceSite::SPOTIFY,
             ResourceSite::TWITTER,
             ResourceSite::YOUTUBE,
+            ResourceSite::YOUTUBE_MUSIC,
             ResourceSite::WIKI,
         ];
 

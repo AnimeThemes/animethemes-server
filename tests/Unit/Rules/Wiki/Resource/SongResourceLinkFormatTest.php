@@ -52,7 +52,7 @@ class SongResourceLinkFormatTest extends TestCase
             ResourceSite::AMAZON_MUSIC,
         ]);
 
-        $url = $site->formatSongResourceLink($this->faker->randomDigitNotNull(), $this->faker->word());
+        $url = $site->formatSongResourceLink($this->faker->randomDigitNotNull(), $this->faker->word(), 'null');
 
         $attribute = $this->faker->word();
 

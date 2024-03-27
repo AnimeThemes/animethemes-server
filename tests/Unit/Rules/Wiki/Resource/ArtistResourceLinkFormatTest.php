@@ -53,7 +53,7 @@ class ArtistResourceLinkFormatTest extends TestCase
             ResourceSite::MAL,
         ]);
 
-        $url = $site->formatArtistResourceLink($this->faker->randomDigitNotNull(), $this->faker->word());
+        $url = $site->formatArtistResourceLink($this->faker->randomDigitNotNull(), $this->faker->word(), 'null');
 
         $attribute = $this->faker->word();
 
