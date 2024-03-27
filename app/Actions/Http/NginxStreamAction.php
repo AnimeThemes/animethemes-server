@@ -15,9 +15,10 @@ abstract class NginxStreamAction extends StreamAction
     /**
      * Stream the resource.
      *
+     * @param string $disposition
      * @return Response
      */
-    public function stream(): Response
+    public function stream(string $disposition = 'inline'): Response
     {
         $fs = Storage::disk($this->disk());
 
@@ -34,7 +35,7 @@ abstract class NginxStreamAction extends StreamAction
 
         $response = new Response();
 
-        $disposition = $response->headers->makeDisposition('inline', $this->streamable->basename());
+        $disposition = $response->headers->makeDisposition($disposition, $this->streamable->basename());
 
         return $response->withHeaders([
             'Accept-Ranges' => 'bytes',
