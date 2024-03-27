@@ -5,6 +5,11 @@ declare(strict_types=1);
 namespace App\Enums\Models\Wiki;
 
 use App\Concerns\Enums\LocalizesName;
+use App\Models\Wiki\Anime;
+use App\Models\Wiki\Artist;
+use App\Models\Wiki\Song;
+use App\Models\Wiki\Studio;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
@@ -276,20 +281,46 @@ enum ResourceSite: int
 
     /**
      * Get the URL pattern of the resource site.
-     * 
+     *
+     * @param  Model|null  $model
+     *
      * @return string
      */
-    public function getUrlPattern(): string
+    public function getUrlPattern(?Model $model): string
     {
-        return match ($this) {
-            ResourceSite::TWITTER => '/^https?:\/\/(twitter)\.com\/(\w+)/',
-            ResourceSite::CRUNCHYROLL => '/^https?:\/\/www\.crunchyroll\.com\/(series|watch)\/(\w+)/',
-            ResourceSite::HIDIVE => '/^https?:\/\/www\.hidive\.com\/(tv|movies)\/([\w-]+)/',
-            ResourceSite::NETFLIX => '/^https?:\/\/www\.netflix\.com\/(title|watch)\/(\d+)/',
-            ResourceSite::DISNEY_PLUS => '/^https?:\/\/www\.disneyplus\.com\/(series|movies)\/([\w-]+\/\w+)/',
-            ResourceSite::HULU => '/^https?:\/\/www\.hulu\.com\/(series|watch|movie)\/([\w-]+)/',
-            ResourceSite::AMAZON_PRIME_VIDEO => '/^https?:\/\/www\.primevideo\.com\/(detail)\/(\w+)/',
-            default => '/^$/',
-        };
+        if ($model instanceof Anime) {
+            return match ($this) {
+                ResourceSite::TWITTER => '/^https?:\/\/(twitter)\.com\/(\w+)/',
+                ResourceSite::CRUNCHYROLL => '/^https?:\/\/www\.crunchyroll\.com\/(series|watch)\/(\w+)/',
+                ResourceSite::HIDIVE => '/^https?:\/\/www\.hidive\.com\/(tv|movies)\/([\w-]+)/',
+                ResourceSite::NETFLIX => '/^https?:\/\/www\.netflix\.com\/(title|watch)\/(\d+)/',
+                ResourceSite::DISNEY_PLUS => '/^https?:\/\/www\.disneyplus\.com\/(series|movies)\/([\w-]+\/\w+)/',
+                ResourceSite::HULU => '/^https?:\/\/www\.hulu\.com\/(series|watch|movie)\/([\w-]+)/',
+                ResourceSite::AMAZON_PRIME_VIDEO => '/^https?:\/\/www\.primevideo\.com\/(detail)\/(\w+)/',
+                default => '/^$/',
+            };
+        }
+
+        if ($model instanceof Artist) {
+            return match ($this) {
+                ResourceSite::SPOTIFY => '/^https:\/\/open\.spotify\.com\/artist\/(\w+)$/',
+                default => '/^$/',
+            };
+        }
+
+        if ($model instanceof Song) {
+            return match ($this) {
+                ResourceSite::SPOTIFY => '/^https:\/\/open\.spotify\.com\/track\/(\w+)$/',
+                default => '/^$/',
+            };
+        }
+
+        if ($model instanceof Studio) {
+            return match ($this) {
+                default => '/^$/',
+            };
+        }
+
+        return '/^.*/';
     }
 }

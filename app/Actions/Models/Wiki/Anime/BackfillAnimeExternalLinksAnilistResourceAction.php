@@ -83,7 +83,7 @@ class BackfillAnimeExternalLinksAnilistResourceAction extends BackfillExternalLi
         /** @var ResourceSite $resourceSite */
         $resourceSite = $availableSites[$externalLink['site']];
         $url = $externalLink['url'];
-        $urlPattern = $resourceSite->getUrlPattern();
+        $urlPattern = $resourceSite->getUrlPattern($this->getModel());
 
         if (preg_match($urlPattern, $url, $matches)) {
             $url = $resourceSite->formatAnimeResourceLink(intval($matches[2]), $matches[2], $matches[1]);
