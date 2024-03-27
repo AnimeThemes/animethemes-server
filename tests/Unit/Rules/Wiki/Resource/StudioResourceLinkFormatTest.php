@@ -53,7 +53,7 @@ class StudioResourceLinkFormatTest extends TestCase
             ResourceSite::MAL,
         ]);
 
-        $url = $site->formatStudioResourceLink($this->faker->randomDigitNotNull(), $this->faker->word());
+        $url = $site->formatStudioResourceLink($this->faker->randomDigitNotNull(), $this->faker->word(), 'null');
 
         $attribute = $this->faker->word();
 

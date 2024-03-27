@@ -223,9 +223,10 @@ enum ResourceSite: int
      *
      * @param  int  $id
      * @param  string|null  $slug
+     * @param  string|null  $type
      * @return string|null
      */
-    public function formatArtistResourceLink(int $id, ?string $slug = null): ?string
+    public function formatArtistResourceLink(int $id, ?string $slug = null, ?string $type = null): ?string
     {
         return match ($this) {
             ResourceSite::TWITTER => "https://twitter.com/$slug",
@@ -245,9 +246,10 @@ enum ResourceSite: int
      *
      * @param  int  $id
      * @param  string|null  $slug
+     * @param  string|null  $type
      * @return string|null
      */
-    public function formatSongResourceLink(int $id, ?string $slug = null): ?string
+    public function formatSongResourceLink(int $id, ?string $slug = null, ?string $type = null): ?string
     {
         return match ($this) {
             ResourceSite::SPOTIFY => "https://open.spotify.com/track/$slug",
@@ -264,9 +266,10 @@ enum ResourceSite: int
      *
      * @param  int  $id
      * @param  string|null  $slug
+     * @param  string|null  $type
      * @return string|null
      */
-    public function formatStudioResourceLink(int $id, ?string $slug = null): ?string
+    public function formatStudioResourceLink(int $id, ?string $slug = null, ?string $type = null): ?string
     {
         return match ($this) {
             ResourceSite::TWITTER => "https://twitter.com/$slug",
@@ -280,30 +283,45 @@ enum ResourceSite: int
     }
 
     /**
-     * Get the URL pattern of the resource site.
+     * Get the URL capture groups of the resource site.
      *
      * @param  Model|null  $model
-     *
      * @return string
      */
-    public function getUrlPattern(?Model $model): string
+    public function getUrlCaptureGroups(?Model $model): string
     {
+        // The first capture group refers to $type, the second to $id and $slug of the formatting functions.
         if ($model instanceof Anime) {
             return match ($this) {
-                ResourceSite::TWITTER => '/^https?:\/\/(twitter)\.com\/(\w+)/',
-                ResourceSite::CRUNCHYROLL => '/^https?:\/\/www\.crunchyroll\.com\/(series|watch)\/(\w+)/',
-                ResourceSite::HIDIVE => '/^https?:\/\/www\.hidive\.com\/(tv|movies)\/([\w-]+)/',
-                ResourceSite::NETFLIX => '/^https?:\/\/www\.netflix\.com\/(title|watch)\/(\d+)/',
-                ResourceSite::DISNEY_PLUS => '/^https?:\/\/www\.disneyplus\.com\/(series|movies)\/([\w-]+\/\w+)/',
-                ResourceSite::HULU => '/^https?:\/\/www\.hulu\.com\/(series|watch|movie)\/([\w-]+)/',
-                ResourceSite::AMAZON_PRIME_VIDEO => '/^https?:\/\/www\.primevideo\.com\/(detail)\/(\w+)/',
+                ResourceSite::TWITTER => '/^https:\/\/(twitter)\.com\/(\w+)/',
+                ResourceSite::ANILIST => '/^https:\/\/anilist\.co\/(anime)\/(\d+)$/',
+                ResourceSite::ANIME_PLANET => '/^https:\/\/www\.anime-planet\.com\/(anime)\/([a-zA-Z0-9-]+)$/',
+                ResourceSite::ANN => '/^https:\/\/www\.animenewsnetwork\.com\/encyclopedia\/(anime)\.php\?id=(\d+)$/',
+                ResourceSite::KITSU => '/^https:\/\/kitsu\.io\/(anime)\/([a-zA-Z0-9-]+)$/',
+                ResourceSite::MAL => '/^https:\/\/myanimelist\.net\/(anime)\/(\d+)$/',
+                ResourceSite::YOUTUBE => '/^https:\/\/www\.(youtube)\.com\/\@([\w-]+)$/',
+                ResourceSite::ANIDB => '/^https:\/\/anidb\.net\/(anime)\/(\d+)$/',
+                ResourceSite::CRUNCHYROLL => '/^https:\/\/www\.crunchyroll\.com\/(series|watch)\/(\w+)/',
+                ResourceSite::HIDIVE => '/^https:\/\/www\.hidive\.com\/(tv|movies)\/([\w-]+)/',
+                ResourceSite::NETFLIX => '/^https:\/\/www\.netflix\.com\/(title|watch)\/(\d+)/',
+                ResourceSite::DISNEY_PLUS => '/^https:\/\/www\.disneyplus\.com\/(series|movies)\/([\w-]+\/\w+)/',
+                ResourceSite::HULU => '/^https:\/\/www\.hulu\.com\/(series|watch|movie)\/([\w-]+)/',
+                ResourceSite::AMAZON_PRIME_VIDEO => '/^https:\/\/www\.primevideo\.com\/(detail)\/(\w+)/',
                 default => '/^$/',
             };
         }
 
         if ($model instanceof Artist) {
             return match ($this) {
-                ResourceSite::SPOTIFY => '/^https:\/\/open\.spotify\.com\/artist\/(\w+)$/',
+                ResourceSite::TWITTER => '/^https:\/\/(twitter)\.com\/(\w+)$/',
+                ResourceSite::ANIDB => '/^https:\/\/anidb\.net\/(creator)\/(?:virtual\/)?(\d+)$/',
+                ResourceSite::ANILIST => '/^https:\/\/anilist\.co\/(staff)\/(\d+)$/',
+                ResourceSite::ANIME_PLANET => '/^https:\/\/www\.anime-planet\.com\/(people)\/([a-zA-Z0-9-]+)$/',
+                ResourceSite::ANN => '/^https:\/\/www\.animenewsnetwork\.com\/encyclopedia\/(people)\.php\?id=(\d+)$/',
+                ResourceSite::MAL => '/^https:\/\/myanimelist\.net\/(people)\/(\d+)$/',
+                ResourceSite::SPOTIFY => '/^https:\/\/open\.spotify\.com\/(artist)\/([\w-]+)$/',
+                ResourceSite::YOUTUBE_MUSIC => '/^https:\/\/music\.youtube\.com\/(channel)\/([\w-]+)$/',
+                ResourceSite::YOUTUBE => '/^https:\/\/www\.(youtube)\.com\/\@([\w-]+)$/',
                 default => '/^$/',
             };
         }
@@ -311,12 +329,22 @@ enum ResourceSite: int
         if ($model instanceof Song) {
             return match ($this) {
                 ResourceSite::SPOTIFY => '/^https:\/\/open\.spotify\.com\/track\/(\w+)$/',
+                ResourceSite::YOUTUBE_MUSIC => '/^https:\/\/music\.youtube\.com\/(watch)\?v=([\w-]+)$/',
+                ResourceSite::YOUTUBE => '/^https:\/\/www\.youtube\.com\/(watch)\?v=([\w-]+)$/',
+                ResourceSite::APPLE_MUSIC => '/^https:\/\/music\.apple\.com\/jp\/(album)\/(\d+)$/',
+                ResourceSite::AMAZON_MUSIC => '/^https:\/\/amazon\.co\.jp\/music\/player\/(albums)\/(\w+)$/',
                 default => '/^$/',
             };
         }
 
         if ($model instanceof Studio) {
             return match ($this) {
+                ResourceSite::TWITTER => '/^https:\/\/(twitter)\.com\/(\w+)$/',
+                ResourceSite::ANIDB => '/^https:\/\/anidb\.net\/(creator)\/(?:virtual\/)?(\d+)$/',
+                ResourceSite::ANILIST => '/^https:\/\/anilist\.co\/(studio)\/(\d+)$/',
+                ResourceSite::ANIME_PLANET => '/^https:\/\/www\.anime-planet\.com\/anime\/(studios)\/([a-zA-Z0-9-]+)$/',
+                ResourceSite::ANN => '/^https:\/\/www\.animenewsnetwork\.com\/encyclopedia\/(company)\.php\?id=(\d+)$/',
+                ResourceSite::MAL => '/^https:\/\/myanimelist\.net\/anime\/(producer)\/(\d+)$/',
                 default => '/^$/',
             };
         }
