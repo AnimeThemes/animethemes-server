@@ -149,8 +149,7 @@ class UploadVideoAction extends UploadAction
         /** @var UploadedFile|null $script */
         $script = $fields->get('script');
 
-        if ($path === null) {
-            /** @var Anime|null $anime */
+        if ($path === null && $entry !== null) {
             $anime = $entry->animetheme->anime;
             if ($anime instanceof Anime) {
                 $year = $anime->year;
@@ -161,6 +160,11 @@ class UploadVideoAction extends UploadAction
                         ->__toString()
                     : floor($year % 100 / 10) . '0s';
             }
+        }
+
+        if ($path === null) {
+            $video = Video::query()->where(Video::ATTRIBUTE_BASENAME, $file->getClientOriginalName())->first();
+            $path = $video instanceof Video ? Str::match('/(\d{4}\/\w+)|(\d{2}+s)/', $video->path) : null;
         }
        
         $attributes = [
