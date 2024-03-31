@@ -61,9 +61,9 @@ return [
             ],
             'discord' => [
                 'thread' => [
-                    'name' => 'Create Thread Discord'
-                ]
-            ]
+                    'name' => 'Create Discord Thread',
+                ],
+            ],
         ],
         'audio' => [
             'delete' => [
