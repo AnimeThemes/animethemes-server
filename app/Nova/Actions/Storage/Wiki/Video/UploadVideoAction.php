@@ -9,7 +9,6 @@ use App\Constants\Config\VideoConstants;
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Enums\Models\Wiki\VideoOverlap;
 use App\Enums\Models\Wiki\VideoSource;
-use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
 use App\Nova\Actions\Storage\Base\UploadAction;
@@ -44,7 +43,6 @@ use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\File;
 use Laravel\Nova\Fields\Heading;
 use Laravel\Nova\Fields\Hidden;
-use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
@@ -137,7 +135,7 @@ class UploadVideoAction extends UploadAction
      */
     protected function action(ActionFields $fields, Collection $models): UploadVideo
     {
-        /** @var ?string $path */
+        /** @var string|null $path */
         $path = $fields->get('path');
 
         /** @var UploadedFile $file */
@@ -151,19 +149,17 @@ class UploadVideoAction extends UploadAction
 
         if ($path === null && $entry !== null) {
             $anime = $entry->animetheme->anime;
-            if ($anime instanceof Anime) {
-                $year = $anime->year;
-                $path = $year >= 2000 ?
-                    Str::of(strval($year))
-                        ->append('/')
-                        ->append(AnimeSeason::tryFrom($anime->season->value)->localize())
-                        ->__toString()
-                    : floor($year % 100 / 10) . '0s';
-            }
+            $year = $anime->year;
+            $path = $year >= 2000 ?
+                Str::of(strval($year))
+                    ->append('/')
+                    ->append(AnimeSeason::tryFrom($anime->season->value)->localize())
+                    ->__toString()
+                : floor($year % 100 / 10).'0s';
         }
 
         if ($path === null) {
-            $video = Video::query()->where(Video::ATTRIBUTE_BASENAME, $file->getClientOriginalName())->first();
+            $video = Video::query()->firstWhere(Video::ATTRIBUTE_BASENAME, $file->getClientOriginalName());
             $path = $video instanceof Video ? Str::match('/(\d{4}\/\w+)|(\d{2}+s)/', $video->path) : null;
         }
        

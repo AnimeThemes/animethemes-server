@@ -45,14 +45,15 @@ class DiscordThreadAction extends Action
         $name = $fields->get('name');
 
         $imagePath = $anime->images()->where(Image::ATTRIBUTE_FACET, ImageFacet::COVER_LARGE)->first()->path;
-        $image = Storage::disk(Config::get('image.disk'))->url($imagePath);
+        /** @var \Illuminate\Filesystem\FilesystemAdapter */
+        $imageDisk = Storage::disk(Config::get('image.disk'));
 
-        $animepage = json_decode(file_get_contents(base_path('composer.json')), true)['homepage'] . 'anime/';
-        $description = '**Synopsis:** ' . strip_tags($anime->synopsis) . "\n\n" . '**Link:** ' . $animepage . $anime->slug;
+        $animepage = json_decode(file_get_contents(base_path('composer.json')), true)['homepage'].'anime/';
+        $description = '**Synopsis:** '.strip_tags($anime->synopsis)."\n\n".'**Link:** '.$animepage.$anime->slug;
 
         Http::withToken(Config::get('services.discord.token'), 'Bot')
             ->asMultipart()
-            ->attach('file', file_get_contents($image), 'image.jpg')
+            ->attach('file', file_get_contents($imageDisk->url($imagePath)), 'image.jpg')
             ->post("https://discord.com/api/v10/channels/{$this->getDiscordChannel()}/threads", [
                 'payload_json' => json_encode([
                     'name' => $name,
@@ -60,7 +61,7 @@ class DiscordThreadAction extends Action
                     'message' => [
                         'embeds' => [
                             [
-                                'color' => EmbedColor::PURPLE,
+                                'color' => EmbedColor::PURPLE->value,
                                 'title' => $anime->name,
                                 'description' => $description,
                             ]
@@ -77,7 +78,7 @@ class DiscordThreadAction extends Action
      *
      * @return string
      */
-    private function getDiscordChannel(): string
+    protected function getDiscordChannel(): string
     {
         return Config::get(ServiceConstants::SUBMISSIONS_DISCORD_CHANNEL_QUALIFIED);
     }
@@ -88,18 +89,15 @@ class DiscordThreadAction extends Action
      * @param  int  $season
      * @return array
      */
-    private function getAppliedTags(int $season): array
+    protected function getAppliedTags(int $season): array
     {
-        $map = [
-            AnimeSeason::WINTER->value => Config::get('services.discord.submissions_forum_tags.winter'),
-            AnimeSeason::SPRING->value => Config::get('services.discord.submissions_forum_tags.spring'),
-            AnimeSeason::SUMMER->value => Config::get('services.discord.submissions_forum_tags.summer'),
-            AnimeSeason::FALL->value => Config::get('services.discord.submissions_forum_tags.fall')
-        ];
-
-        return $map[$season] === null
-            ? []
-            : [$map[$season]];
+        return match ($season) {
+            AnimeSeason::WINTER->value => [Config::get('services.discord.submissions_forum_tags.winter')],
+            AnimeSeason::SPRING->value => [Config::get('services.discord.submissions_forum_tags.spring')],
+            AnimeSeason::SUMMER->value => [Config::get('services.discord.submissions_forum_tags.summer')],
+            AnimeSeason::FALL->value => [Config::get('services.discord.submissions_forum_tags.fall')],
+            default => [],
+        };
     }
 
     /**
