@@ -13,13 +13,13 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 /**
- * Class BackfillExternalLinksAnilistResourceAction.
+ * Class BackfillOtherResourcesAction.
  *
  * @template TModel of \App\Models\BaseModel
  *
  * @extends BackfillAction<TModel>
  */
-abstract class BackfillExternalLinksAnilistResourceAction extends BackfillAction
+abstract class BackfillOtherResourcesAction extends BackfillAction
 {
     /**
      * Handle action.
@@ -59,10 +59,9 @@ abstract class BackfillExternalLinksAnilistResourceAction extends BackfillAction
                 if ($resource !== null) {
                     $this->attachResource($resource);
                 }
-
-                DB::commit();
             }
 
+            DB::commit();
         } catch (Exception $e) {
             Log::error($e->getMessage());
 
