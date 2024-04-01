@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Actions\Models\Wiki\Anime;
 
-use App\Actions\Models\Wiki\BackfillExternalLinksAnilistResourceAction;
+use App\Actions\Models\Wiki\BackfillOtherResourcesAction;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\ExternalResource;
@@ -15,11 +15,11 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
 /**
- * Class BackfillAnimeExternalLinksAnilistResourceAction.
+ * Class BackfillAnimeOtherResourcesAction.
  *
- * @extends BackfillExternalLinksAnilistResourceAction<Anime>
+ * @extends BackfillOtherResourcesAction<Anime>
  */
-class BackfillAnimeExternalLinksAnilistResourceAction extends BackfillExternalLinksAnilistResourceAction
+class BackfillAnimeOtherResourcesAction extends BackfillOtherResourcesAction
 {
     /**
      * Create a new action instance.
@@ -165,7 +165,7 @@ class BackfillAnimeExternalLinksAnilistResourceAction extends BackfillExternalLi
             ';
     
             $variables = [
-                'id' => $anilistResource->external_id
+                'id' => $anilistResource->external_id,
             ];
     
             $response = Http::post('https://graphql.anilist.co', [
