@@ -12,6 +12,7 @@ use App\Events\List\ExternalProfile\ExternalEntry\ExternalEntryUpdated;
 use App\Models\BaseModel;
 use App\Models\List\ExternalProfile;
 use App\Models\Wiki\Anime;
+use Database\Factories\List\External\ExternalEntryFactory;
 use Elastic\ScoutDriverPlus\Searchable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Laravel\Nova\Actions\Actionable;
@@ -24,9 +25,11 @@ use Laravel\Nova\Actions\Actionable;
  * @property Anime $anime
  * @property int $external_profile_id
  * @property ExternalProfile $externalprofile
- * @property bool|null $isFavourite
+ * @property bool $is_favourite
  * @property float|null $score
  * @property AnimeWatchStatus|null $watch_status
+ * 
+ * @method static ExternalEntryFactory factory(...$parameters)
  */
 class ExternalEntry extends BaseModel
 {

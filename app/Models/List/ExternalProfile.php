@@ -13,6 +13,7 @@ use App\Events\List\ExternalProfile\ExternalProfileUpdated;
 use App\Models\Auth\User;
 use App\Models\BaseModel;
 use App\Models\List\External\ExternalEntry;
+use Database\Factories\List\ExternalProfileFactory;
 use Elastic\ScoutDriverPlus\Searchable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -29,6 +30,8 @@ use Laravel\Nova\Actions\Actionable;
  * @property int|null $user_id
  * @property User|null $user
  * @property ExternalProfileVisibility $visibility
+ * 
+ * @method static ExternalProfileFactory factory(...$parameters)
  */
 class ExternalProfile extends BaseModel
 {
