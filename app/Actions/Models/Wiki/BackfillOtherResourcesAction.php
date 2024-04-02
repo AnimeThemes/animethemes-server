@@ -36,6 +36,7 @@ abstract class BackfillOtherResourcesAction extends BackfillAction
             $externalLinks = $this->getExternalLinksByAnilistResource();
 
             if ($externalLinks === null) {
+                DB::rollback();
                 return new ActionResult(ActionStatus::FAILED);
             }
 
