@@ -39,6 +39,7 @@ abstract class BackfillStudiosAction extends BackfillAction
             DB::beginTransaction();
 
             if ($this->relation()->getQuery()->exists()) {
+                DB::rollback();
                 Log::info("{$this->label()} '{$this->getModel()->getName()}' already has Studios.");
 
                 return new ActionResult(ActionStatus::SKIPPED);
@@ -51,6 +52,7 @@ abstract class BackfillStudiosAction extends BackfillAction
             }
 
             if ($this->relation()->getQuery()->doesntExist()) {
+                DB::rollback();
                 return new ActionResult(
                     ActionStatus::FAILED,
                     "{$this->label()} '{$this->getModel()->getName()}' has no Studios after backfilling. Please review."

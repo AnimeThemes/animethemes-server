@@ -41,6 +41,7 @@ abstract class BackfillImageAction extends BackfillAction
             DB::beginTransaction();
 
             if ($this->relation()->getQuery()->where(Image::ATTRIBUTE_FACET, $this->getFacet()->value)->exists()) {
+                DB::rollback();
                 Log::info("{$this->label()} '{$this->getModel()->getName()}' already has Image of Facet '{$this->getFacet()->value}'.");
 
                 return new ActionResult(ActionStatus::SKIPPED);
@@ -53,6 +54,7 @@ abstract class BackfillImageAction extends BackfillAction
             }
 
             if ($this->relation()->getQuery()->where(Image::ATTRIBUTE_FACET, $this->getFacet()->value)->doesntExist()) {
+                DB::rollback();
                 return new ActionResult(
                     ActionStatus::FAILED,
                     "{$this->label()} '{$this->getModel()->getName()}' has no {$this->getFacet()->localize()} Image after backfilling. Please review."
