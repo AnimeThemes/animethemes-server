@@ -10,6 +10,7 @@ use App\Models\Wiki\ExternalResource as ExternalResourceModel;
 use App\Models\Wiki\Song as SongModel;
 use App\Nova\Actions\Models\Wiki\Song\AttachSongResourceAction;
 use App\Nova\Lenses\Song\Resource\SongAmazonMusicResourceLens;
+use App\Nova\Lenses\Song\Resource\SongAnidbResourceLens;
 use App\Nova\Lenses\Song\Resource\SongAppleMusicResourceLens;
 use App\Nova\Lenses\Song\Resource\SongSpotifyResourceLens;
 use App\Nova\Lenses\Song\Resource\SongYoutubeMusicResourceLens;
@@ -235,6 +236,7 @@ class Song extends BaseResource
     public function actions(NovaRequest $request): array
     {
         $resourceSites = [
+            ResourceSite::ANIDB,
             ResourceSite::SPOTIFY,
             ResourceSite::YOUTUBE_MUSIC,
             ResourceSite::YOUTUBE,
@@ -267,6 +269,7 @@ class Song extends BaseResource
             [
                 new SongArtistLens(),
                 new SongAmazonMusicResourceLens(),
+                new SongAnidbResourceLens(),
                 new SongAppleMusicResourceLens(),
                 new SongSpotifyResourceLens(),
                 new SongYoutubeMusicResourceLens(),

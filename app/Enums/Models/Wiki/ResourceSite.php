@@ -74,7 +74,7 @@ enum ResourceSite: int
             ResourceSite::YOUTUBE_MUSIC->value => 'music.youtube.com',
             ResourceSite::YOUTUBE->value => 'www.youtube.com',
             ResourceSite::APPLE_MUSIC->value => 'music.apple.com',
-            ResourceSite::AMAZON_MUSIC->value => 'amazon.co.jp',
+            ResourceSite::AMAZON_MUSIC->value => 'music.amazon.co.jp',
             ResourceSite::CRUNCHYROLL->value => 'www.crunchyroll.com',
             ResourceSite::HIDIVE->value => 'www.hidive.com',
             ResourceSite::NETFLIX->value => 'www.netflix.com',
@@ -256,7 +256,7 @@ enum ResourceSite: int
             ResourceSite::YOUTUBE_MUSIC => "https://music.youtube.com/watch?v=$slug",
             ResourceSite::YOUTUBE => "https://www.youtube.com/watch?v=$slug",
             ResourceSite::APPLE_MUSIC => "https://music.apple.com/jp/album/$id",
-            ResourceSite::AMAZON_MUSIC => "https://amazon.co.jp/music/player/albums/$slug",
+            ResourceSite::AMAZON_MUSIC => "https://music.amazon.co.jp/albums/$slug",
             default => null
         };
     }
@@ -328,11 +328,12 @@ enum ResourceSite: int
 
         if ($model instanceof Song) {
             return match ($this) {
+                ResourceSite::ANIDB => '/^https:\/\/anidb\.net\/(song)\/(\d+)$/',
                 ResourceSite::SPOTIFY => '/^https:\/\/open\.spotify\.com\/track\/(\w+)$/',
                 ResourceSite::YOUTUBE_MUSIC => '/^https:\/\/music\.youtube\.com\/(watch)\?v=([\w-]+)$/',
                 ResourceSite::YOUTUBE => '/^https:\/\/www\.youtube\.com\/(watch)\?v=([\w-]+)$/',
                 ResourceSite::APPLE_MUSIC => '/^https:\/\/music\.apple\.com\/jp\/(album)\/(\d+)$/',
-                ResourceSite::AMAZON_MUSIC => '/^https:\/\/amazon\.co\.jp\/music\/player\/(albums)\/(\w+)$/',
+                ResourceSite::AMAZON_MUSIC => '/^https:\/\/music\.amazon\.co\.jp\/(albums)\/(\w+)$/',
                 default => '/^$/',
             };
         }
