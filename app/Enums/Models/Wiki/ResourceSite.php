@@ -9,6 +9,7 @@ use App\Models\Wiki\Anime;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Song;
 use App\Models\Wiki\Studio;
+use Filament\Support\Contracts\HasLabel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Arr;
@@ -19,7 +20,7 @@ use Illuminate\Support\Str;
 /**
  * Enum ResourceSite.
  */
-enum ResourceSite: int
+enum ResourceSite: int implements HasLabel
 {
     use LocalizesName;
 
@@ -52,6 +53,11 @@ enum ResourceSite: int
     case DISNEY_PLUS = 17;
     case HULU = 18;
     case AMAZON_PRIME_VIDEO = 19;
+
+    public function getLabel(): ?string
+    {
+        return $this->localize();
+    }
 
     /**
      * Get domain by resource site.

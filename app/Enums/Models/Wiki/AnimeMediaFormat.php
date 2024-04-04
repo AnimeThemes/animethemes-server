@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace App\Enums\Models\Wiki;
 
 use App\Concerns\Enums\LocalizesName;
+use Filament\Support\Contracts\HasLabel;
 
 /**
  * Enum AnimeMediaFormat.
  */
-enum AnimeMediaFormat: int
+enum AnimeMediaFormat: int implements HasLabel
 {
     use LocalizesName;
 
@@ -20,4 +21,9 @@ enum AnimeMediaFormat: int
     case MOVIE = 4;
     case SPECIAL = 5;
     case ONA = 6;
+
+    public function getLabel(): ?string
+    {
+        return $this->localize();
+    }
 }
