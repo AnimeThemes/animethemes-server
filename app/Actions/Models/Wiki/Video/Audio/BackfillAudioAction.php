@@ -65,6 +65,7 @@ class BackfillAudioAction extends BackfillAction
             DB::beginTransaction();
 
             if ($this->relation()->getQuery()->exists() && ! $this->overwriteAudio()) {
+                DB::rollBack();
                 Log::info("{$this->label()} '{$this->getModel()->getName()}' already has Audio'.");
 
                 return new ActionResult(ActionStatus::SKIPPED);
@@ -77,6 +78,7 @@ class BackfillAudioAction extends BackfillAction
             }
 
             if ($this->relation()->getQuery()->doesntExist()) {
+                DB::rollBack();
                 return new ActionResult(
                     ActionStatus::FAILED,
                     "{$this->label()} '{$this->getModel()->getName()}' has no Audio after backfilling. Please review."
