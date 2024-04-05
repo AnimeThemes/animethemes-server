@@ -5,20 +5,27 @@ declare(strict_types=1);
 namespace App\Filament\Resources\Wiki\Anime\Pages;
 
 use App\Filament\Resources\Wiki\Anime;
-use Filament\Actions;
-use Filament\Resources\Pages\EditRecord;
+use App\Filament\Resources\Base\BaseEditResource;
 
-class EditAnime extends EditRecord
+/**
+ * Class EditAnime.
+ */
+class EditAnime extends BaseEditResource
 {
     protected static string $resource = Anime::class;
 
+    /**
+     * Get the header actions available.
+     *
+     * @return array
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
     protected function getHeaderActions(): array
     {
-        return [
-            Actions\ViewAction::make(),
-            Actions\DeleteAction::make(),
-            Actions\ForceDeleteAction::make(),
-            Actions\RestoreAction::make(),
-        ];
+        return array_merge(
+            parent::getHeaderActions(),
+            [],
+        );
     }
 }

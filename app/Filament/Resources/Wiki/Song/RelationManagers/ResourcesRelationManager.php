@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Filament\Resources\Wiki\Anime\RelationManagers;
+namespace App\Filament\Resources\Wiki\Song\RelationManagers;
 
 use App\Enums\Models\Wiki\ResourceSite;
-use App\Models\Wiki\Anime;
 use App\Models\Wiki\ExternalResource;
-use App\Pivots\Wiki\AnimeResource;
+use App\Models\Wiki\Song;
+use App\Pivots\Wiki\SongResource;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
@@ -17,9 +17,12 @@ use Filament\Tables\Columns\SelectColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
+/**
+ * Class ResourcesRelationManager.
+ */
 class ResourcesRelationManager extends RelationManager
 {
-    protected static string $relationship = Anime::RELATION_RESOURCES;
+    protected static string $relationship = Song::RELATION_RESOURCES;
 
     /**
      * The form to the actions.
@@ -46,9 +49,9 @@ class ResourcesRelationManager extends RelationManager
                     ->url()
                     ->maxLength(255),
 
-                TextInput::make(AnimeResource::ATTRIBUTE_AS)
-                    ->label(__('nova.fields.anime.resources.as.name'))
-                    ->helperText(__('nova.fields.anime.resources.as.help')),
+                TextInput::make(SongResource::ATTRIBUTE_AS)
+                    ->label(__('nova.fields.song.resources.as.name'))
+                    ->helperText(__('nova.fields.song.resources.as.help')),
             ]);
     }
 
@@ -72,8 +75,8 @@ class ResourcesRelationManager extends RelationManager
                 TextColumn::make(ExternalResource::ATTRIBUTE_LINK)
                     ->label(__('nova.fields.external_resource.link.name')),
 
-                TextColumn::make(AnimeResource::ATTRIBUTE_AS)
-                    ->label(__('nova.fields.anime.resources.as.name')),
+                TextColumn::make(SongResource::ATTRIBUTE_AS)
+                    ->label(__('nova.fields.song.resources.as.name')),
 
                 SelectColumn::make(ExternalResource::ATTRIBUTE_SITE)
                     ->label(__('nova.fields.external_resource.site.name'))

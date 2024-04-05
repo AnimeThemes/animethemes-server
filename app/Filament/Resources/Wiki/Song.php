@@ -5,22 +5,23 @@ declare(strict_types=1);
 namespace App\Filament\Resources\Wiki;
 
 use App\Filament\Resources\BaseResource;
-use App\Filament\Resources\Wiki\Artist\Pages\CreateArtist;
-use App\Filament\Resources\Wiki\Artist\Pages\EditArtist;
-use App\Filament\Resources\Wiki\Artist\Pages\ListArtists;
-use App\Filament\Resources\Wiki\Artist\Pages\ViewArtist;
-use App\Models\Wiki\Artist as ArtistModel;
+use App\Filament\Resources\Wiki\Song\Pages\CreateSongs;
+use App\Filament\Resources\Wiki\Song\Pages\EditSong;
+use App\Filament\Resources\Wiki\Song\Pages\ListSongs;
+use App\Filament\Resources\Wiki\Song\Pages\ViewSong;
+use App\Filament\Resources\Wiki\Song\RelationManagers\ResourcesRelationManager;
+use App\Models\Wiki\Song as SongModel;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
 /**
- * Class Artist.
+ * Class Song.
  */
-class Artist extends BaseResource
+class Song extends BaseResource
 {
-    protected static ?string $model = ArtistModel::class;
+    protected static ?string $model = SongModel::class;
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     /**
@@ -32,7 +33,7 @@ class Artist extends BaseResource
      */
     public static function getLabel(): string
     {
-        return __('filament.resources.singularLabel.artist');
+        return __('filament.resources.singularLabel.song');
     }
 
     /**
@@ -44,7 +45,7 @@ class Artist extends BaseResource
      */
     public static function getPluralLabel(): string
     {
-        return __('filament.resources.label.artists');
+        return __('filament.resources.label.songs');
     }
 
     /**
@@ -71,17 +72,11 @@ class Artist extends BaseResource
     {
         return $form
             ->schema([
-                TextInput::make(ArtistModel::ATTRIBUTE_NAME)
-                    ->label(__('filament.fields.artist.name.name'))
-                    ->helperText(__('filament.fields.artist.name.help'))
+                TextInput::make(SongModel::ATTRIBUTE_TITLE)
+                    ->label(__('filament.fields.song.title.name'))
+                    ->helperText(__('filament.fields.song.title.help'))
                     ->required(),
-
-                TextInput::make(ArtistModel::ATTRIBUTE_SLUG)
-                    ->label(__('filament.fields.artist.slug.name'))
-                    ->helperText(__('filament.fields.artist.slug.help'))
-                    ->required(),
-            ])
-            ->columns(2);
+            ]);
     }
 
     /**
@@ -96,20 +91,15 @@ class Artist extends BaseResource
     {
         return parent::table($table)
             ->columns([
-                TextColumn::make(ArtistModel::ATTRIBUTE_ID)
+                TextColumn::make(SongModel::ATTRIBUTE_ID)
                     ->label(__('filament.fields.base.id'))
                     ->numeric()
                     ->sortable(),
 
-                TextColumn::make(ArtistModel::ATTRIBUTE_NAME)
-                    ->label(__('filament.fields.artist.name.name'))
+                TextColumn::make(SongModel::ATTRIBUTE_TITLE)
+                    ->label(__('filament.fields.song.title.name'))
                     ->sortable()
                     ->searchable()
-                    ->copyable(),
-
-                TextColumn::make(ArtistModel::ATTRIBUTE_SLUG)
-                    ->label(__('filament.fields.artist.slug.name'))
-                    ->sortable()
                     ->copyable(),
             ])
             ->filters(static::getFilters())
@@ -126,7 +116,9 @@ class Artist extends BaseResource
      */
     public static function getRelations(): array
     {
-        return [];
+        return [
+            ResourcesRelationManager::class,
+        ];
     }
 
     /**
@@ -184,10 +176,10 @@ class Artist extends BaseResource
     public static function getPages(): array
     {
         return [
-            'index' => ListArtists::route('/'),
-            'create' => CreateArtist::route('/create'),
-            'view' => ViewArtist::route('/{record}'),
-            'edit' => EditArtist::route('/{record}/edit'),
+            'index' => ListSongs::route('/'),
+            'create' => CreateSongs::route('/create'),
+            'view' => ViewSong::route('/{record}'),
+            'edit' => EditSong::route('/{record}/edit'),
         ];
     }
 }

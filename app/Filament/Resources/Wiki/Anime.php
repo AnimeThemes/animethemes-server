@@ -17,12 +17,14 @@ use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
-use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\SelectColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 
+/**
+ * Class Anime.
+ */
 class Anime extends BaseResource
 {
     protected static ?string $model = AnimeModel::class;
@@ -95,13 +97,13 @@ class Anime extends BaseResource
                 Select::make(AnimeModel::ATTRIBUTE_SEASON)
                     ->label(__('filament.fields.anime.season.name'))
                     ->helperText(__('filament.fields.anime.season.help'))
-                    ->options(AnimeSeason::class)
+                    ->options(AnimeSeason::asSelectArray())
                     ->required(),
 
                 Select::make(AnimeModel::ATTRIBUTE_MEDIA_FORMAT)
                     ->label(__('filament.fields.anime.media_format.name'))
                     ->helperText(__('filament.fields.anime.media_format.help'))
-                    ->options(AnimeMediaFormat::class)
+                    ->options(AnimeMediaFormat::asSelectArray())
                     ->required(),
 
                 MarkdownEditor::make(AnimeModel::ATTRIBUTE_SYNOPSIS)
@@ -147,12 +149,12 @@ class Anime extends BaseResource
 
                 SelectColumn::make(AnimeModel::ATTRIBUTE_SEASON)
                     ->label(__('filament.fields.anime.season.name'))
-                    ->options(AnimeSeason::class)
+                    ->options(AnimeSeason::asSelectArray())
                     ->sortable(),
 
                 SelectColumn::make(AnimeModel::ATTRIBUTE_MEDIA_FORMAT)
                     ->label(__('filament.fields.anime.media_format.name'))
-                    ->options(AnimeMediaFormat::class)
+                    ->options(AnimeMediaFormat::asSelectArray())
                     ->sortable(),
 
                 TextColumn::make(AnimeModel::ATTRIBUTE_SYNOPSIS)
@@ -192,11 +194,11 @@ class Anime extends BaseResource
             [
                 SelectFilter::make(AnimeModel::ATTRIBUTE_SEASON)
                     ->label(__('filament.fields.anime.season.name'))
-                    ->options(AnimeSeason::class),
+                    ->options(AnimeSeason::asSelectArray()),
 
                 SelectFilter::make(AnimeModel::ATTRIBUTE_MEDIA_FORMAT)
                     ->label(__('filament.fields.anime.media_format.name'))
-                    ->options(AnimeMediaFormat::class),
+                    ->options(AnimeMediaFormat::asSelectArray()),
             ]
         );
     }

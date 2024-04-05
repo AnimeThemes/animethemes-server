@@ -10,17 +10,16 @@ use App\Filament\Resources\Wiki\ExternalResource\Pages\CreateExternalResource;
 use App\Filament\Resources\Wiki\ExternalResource\Pages\EditExternalResource;
 use App\Filament\Resources\Wiki\ExternalResource\Pages\ListExternalResources;
 use App\Filament\Resources\Wiki\ExternalResource\Pages\ViewExternalResource;
-use App\Filament\Resources\Wiki\ExternalResourceResource\RelationManagers\ResourcesRelationManager;
 use App\Models\Wiki\ExternalResource as ExternalResourceModel;
-use Filament\Forms\Components\MarkdownEditor;
-use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Tables\Columns\SelectColumn;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 
+/**
+ * Class ExternalResource.
+ */
 class ExternalResource extends BaseResource
 {
     protected static ?string $model = ExternalResourceModel::class;
@@ -134,9 +133,7 @@ class ExternalResource extends BaseResource
      */
     public static function getRelations(): array
     {
-        return [
-            
-        ];
+        return [];
     }
 
     /**
@@ -150,9 +147,7 @@ class ExternalResource extends BaseResource
     {
         return array_merge(
             parent::getFilters(),
-            [
-
-            ]
+            []
         );
     }
 
@@ -197,9 +192,9 @@ class ExternalResource extends BaseResource
     {
         return [
             'index' => ListExternalResources::route('/'),
-        //    'create' => CreateExternalResource::route('/create'),
-         //   'view' => ViewExternalResource::route('/{record}'),
-         //   'edit' => EditExternalResource::route('/{record}/edit'),
+            'create' => CreateExternalResource::route('/create'),
+            'view' => ViewExternalResource::route('/{record}'),
+            'edit' => EditExternalResource::route('/{record}/edit'),
         ];
     }
 }
