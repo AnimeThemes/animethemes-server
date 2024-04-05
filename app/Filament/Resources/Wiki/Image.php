@@ -4,29 +4,33 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Wiki;
 
+use App\Enums\Models\Wiki\ImageFacet;
 use App\Filament\Resources\BaseResource;
-use App\Filament\Resources\Wiki\Song\Pages\CreateSong;
-use App\Filament\Resources\Wiki\Song\Pages\EditSong;
-use App\Filament\Resources\Wiki\Song\Pages\ListSongs;
-use App\Filament\Resources\Wiki\Song\Pages\ViewSong;
-use App\Filament\Resources\Wiki\Song\RelationManagers\ResourcesRelationManager;
-use App\Models\Wiki\Song as SongModel;
-use Filament\Forms\Components\TextInput;
+use App\Filament\Resources\Wiki\Image\Pages\CreateImage;
+use App\Filament\Resources\Wiki\Image\Pages\EditImage;
+use App\Filament\Resources\Wiki\Image\Pages\ListImages;
+use App\Filament\Resources\Wiki\Image\Pages\ViewImage;
+use App\Models\Wiki\Image as ImageModel;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Form;
+use Filament\Tables\Columns\ImageColumn;
+use Filament\Tables\Columns\SelectColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Validation\Rules\Enum;
 
 /**
- * Class Song.
+ * Class Image.
  */
-class Song extends BaseResource
+class Image extends BaseResource
 {
     /**
      * The model the resource corresponds to.
      *
      * @var string|null
      */
-    protected static ?string $model = SongModel::class;
+    protected static ?string $model = ImageModel::class;
 
     /**
      * The icon displayed to the resource.
@@ -44,7 +48,7 @@ class Song extends BaseResource
      */
     public static function getLabel(): string
     {
-        return __('filament.resources.singularLabel.song');
+        return __('filament.resources.singularLabel.image');
     }
 
     /**
@@ -56,7 +60,7 @@ class Song extends BaseResource
      */
     public static function getPluralLabel(): string
     {
-        return __('filament.resources.label.songs');
+        return __('filament.resources.label.images');
     }
 
     /**
@@ -83,13 +87,14 @@ class Song extends BaseResource
     {
         return $form
             ->schema([
-                TextInput::make(SongModel::ATTRIBUTE_TITLE)
-                    ->label(__('filament.fields.song.title.name'))
-                    ->helperText(__('filament.fields.song.title.help'))
-                    ->nullable()
-                    ->maxLength(192)
-                    ->rules(['nullable', 'max:192']),
-            ]);
+                Select::make(ImageModel::ATTRIBUTE_FACET)
+                    ->label(__('filament.fields.image.facet.name'))
+                    ->helperText(__('filament.fields.image.facet.help'))
+                    ->options(ImageFacet::asSelectArray())
+                    ->required()
+                    ->rules(['required', new Enum(ImageFacet::class)]),
+            ])
+            ->columns(2);
     }
 
     /**
@@ -104,16 +109,19 @@ class Song extends BaseResource
     {
         return parent::table($table)
             ->columns([
-                TextColumn::make(SongModel::ATTRIBUTE_ID)
+                TextColumn::make(ImageModel::ATTRIBUTE_ID)
                     ->label(__('filament.fields.base.id'))
                     ->numeric()
                     ->sortable(),
 
-                TextColumn::make(SongModel::ATTRIBUTE_TITLE)
-                    ->label(__('filament.fields.song.title.name'))
-                    ->sortable()
-                    ->searchable()
-                    ->copyable(),
+                SelectColumn::make(ImageModel::ATTRIBUTE_FACET)
+                    ->label(__('filament.fields.image.facet.name'))
+                    ->options(ImageFacet::asSelectArray())
+                    ->sortable(),
+
+                ImageColumn::make(ImageModel::ATTRIBUTE_PATH)
+                    ->label(__('nova.fields.image.image.name'))
+                    ->disk(Config::get('image.disk')),
             ])
             ->filters(static::getFilters())
             ->actions(static::getActions())
@@ -129,9 +137,7 @@ class Song extends BaseResource
      */
     public static function getRelations(): array
     {
-        return [
-            ResourcesRelationManager::class,
-        ];
+        return [];
     }
 
     /**
@@ -189,10 +195,10 @@ class Song extends BaseResource
     public static function getPages(): array
     {
         return [
-            'index' => ListSongs::route('/'),
-            'create' => CreateSong::route('/create'),
-            'view' => ViewSong::route('/{record}'),
-            'edit' => EditSong::route('/{record}/edit'),
+            'index' => ListImages::route('/'),
+            'create' => CreateImage::route('/create'),
+            'view' => ViewImage::route('/{record}'),
+            'edit' => EditImage::route('/{record}/edit'),
         ];
     }
 }

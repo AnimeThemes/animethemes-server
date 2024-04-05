@@ -11,18 +11,32 @@ use App\Filament\Resources\Wiki\ExternalResource\Pages\EditExternalResource;
 use App\Filament\Resources\Wiki\ExternalResource\Pages\ListExternalResources;
 use App\Filament\Resources\Wiki\ExternalResource\Pages\ViewExternalResource;
 use App\Models\Wiki\ExternalResource as ExternalResourceModel;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Forms\Set;
 use Filament\Tables\Columns\SelectColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Illuminate\Validation\Rules\Enum;
 
 /**
  * Class ExternalResource.
  */
 class ExternalResource extends BaseResource
 {
+    /**
+     * The model the resource corresponds to.
+     *
+     * @var string|null
+     */
     protected static ?string $model = ExternalResourceModel::class;
+
+    /**
+     * The icon displayed to the resource.
+     *
+     * @var string|null
+     */
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     /**
@@ -73,17 +87,32 @@ class ExternalResource extends BaseResource
     {
         return $form
             ->schema([
+                Select::make(ExternalResourceModel::ATTRIBUTE_SITE)
+                    ->label(__('filament.fields.external_resource.site.name'))
+                    ->helperText(__('filament.fields.external_resource.site.help'))
+                    ->options(ResourceSite::asSelectArray())
+                    ->required()
+                    ->rules(['required', new Enum(ResourceSite::class)]),
+                    
                 TextInput::make(ExternalResourceModel::ATTRIBUTE_LINK)
-                    ->label(__('filament.fields.external_resource.name.name'))
-                    ->helperText(__('filament.fields.external_resource.name.help'))
-                    ->required(),
+                    ->label(__('filament.fields.external_resource.link.name'))
+                    ->helperText(__('filament.fields.external_resource.link.help'))
+                    ->required()
+                    ->live()
+                    ->afterStateUpdated(function (Set $set, ?string $state) {
+                        if ($state !== null) {
+                            $set(ExternalResourceModel::ATTRIBUTE_SITE, ResourceSite::valueOf($state) ?? ResourceSite::OFFICIAL_SITE);
+                            $set(ExternalResourceModel::ATTRIBUTE_EXTERNAL_ID, ResourceSite::parseIdFromLink($state));
+                        }
+                    }),
 
                 TextInput::make(ExternalResourceModel::ATTRIBUTE_EXTERNAL_ID)
-                    ->label(__('filament.fields.external_resource.slug.name'))
-                    ->helperText(__('filament.fields.external_resource.slug.help'))
-                    ->required(),
+                    ->label(__('filament.fields.external_resource.external_id.name'))
+                    ->helperText(__('filament.fields.external_resource.external_id.help'))
+                    ->numeric()
+                    ->rules(['nullable', 'integer']),
             ])
-            ->columns(2);
+            ->columns(1);
     }
 
     /**
@@ -103,6 +132,11 @@ class ExternalResource extends BaseResource
                     ->numeric()
                     ->sortable(),
 
+                SelectColumn::make(ExternalResourceModel::ATTRIBUTE_SITE)
+                    ->label(__('filament.fields.external_resource.site.name'))
+                    ->options(ResourceSite::class)
+                    ->sortable(),
+
                 TextColumn::make(ExternalResourceModel::ATTRIBUTE_LINK)
                     ->label(__('filament.fields.external_resource.link.name'))
                     ->sortable()
@@ -113,11 +147,6 @@ class ExternalResource extends BaseResource
                     ->label(__('filament.fields.external_resource.external_id.name'))
                     ->sortable()
                     ->copyable(),
-
-                SelectColumn::make(ExternalResourceModel::ATTRIBUTE_SITE)
-                    ->label(__('filament.fields.external_resource.site.name'))
-                    ->options(ResourceSite::class)
-                    ->sortable(),
             ])
             ->filters(static::getFilters())
             ->actions(static::getActions())

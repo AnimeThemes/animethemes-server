@@ -5,28 +5,28 @@ declare(strict_types=1);
 namespace App\Filament\Resources\Wiki;
 
 use App\Filament\Resources\BaseResource;
-use App\Filament\Resources\Wiki\Song\Pages\CreateSong;
-use App\Filament\Resources\Wiki\Song\Pages\EditSong;
-use App\Filament\Resources\Wiki\Song\Pages\ListSongs;
-use App\Filament\Resources\Wiki\Song\Pages\ViewSong;
-use App\Filament\Resources\Wiki\Song\RelationManagers\ResourcesRelationManager;
-use App\Models\Wiki\Song as SongModel;
+use App\Filament\Resources\Wiki\Audio\Pages\CreateAudio;
+use App\Filament\Resources\Wiki\Audio\Pages\EditAudio;
+use App\Filament\Resources\Wiki\Audio\Pages\ListAudios;
+use App\Filament\Resources\Wiki\Audio\Pages\ViewAudio;
+use App\Models\Wiki\Audio as AudioModel;
+use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
 /**
- * Class Song.
+ * Class Audio.
  */
-class Song extends BaseResource
+class Audio extends BaseResource
 {
     /**
      * The model the resource corresponds to.
      *
      * @var string|null
      */
-    protected static ?string $model = SongModel::class;
+    protected static ?string $model = AudioModel::class;
 
     /**
      * The icon displayed to the resource.
@@ -44,7 +44,7 @@ class Song extends BaseResource
      */
     public static function getLabel(): string
     {
-        return __('filament.resources.singularLabel.song');
+        return __('filament.resources.singularLabel.audio');
     }
 
     /**
@@ -56,7 +56,7 @@ class Song extends BaseResource
      */
     public static function getPluralLabel(): string
     {
-        return __('filament.resources.label.songs');
+        return __('filament.resources.label.audios');
     }
 
     /**
@@ -83,13 +83,28 @@ class Song extends BaseResource
     {
         return $form
             ->schema([
-                TextInput::make(SongModel::ATTRIBUTE_TITLE)
-                    ->label(__('filament.fields.song.title.name'))
-                    ->helperText(__('filament.fields.song.title.help'))
-                    ->nullable()
-                    ->maxLength(192)
-                    ->rules(['nullable', 'max:192']),
-            ]);
+                TextInput::make(AudioModel::ATTRIBUTE_BASENAME)
+                    ->label(__('filament.fields.audio.basename.name'))
+                    ->hiddenOn(['create', 'edit']),
+                    
+                TextInput::make(AudioModel::ATTRIBUTE_FILENAME)
+                    ->label(__('filament.fields.audio.filename.name'))
+                    ->hiddenOn(['create', 'edit']),
+
+                TextInput::make(AudioModel::ATTRIBUTE_PATH)
+                    ->label(__('filament.fields.audio.path.name'))
+                    ->hiddenOn(['create', 'edit']),
+
+                TextInput::make(AudioModel::ATTRIBUTE_SIZE)
+                    ->label(__('filament.fields.audio.size.name'))
+                    ->numeric()
+                    ->hiddenOn(['create', 'edit']),
+
+                TextInput::make(AudioModel::ATTRIBUTE_MIMETYPE)
+                    ->label(__('filament.fields.audio.mimetype.name'))
+                    ->hiddenOn(['create', 'edit']),
+            ])
+            ->columns(1);
     }
 
     /**
@@ -104,16 +119,39 @@ class Song extends BaseResource
     {
         return parent::table($table)
             ->columns([
-                TextColumn::make(SongModel::ATTRIBUTE_ID)
+                TextColumn::make(AudioModel::ATTRIBUTE_ID)
                     ->label(__('filament.fields.base.id'))
                     ->numeric()
                     ->sortable(),
 
-                TextColumn::make(SongModel::ATTRIBUTE_TITLE)
-                    ->label(__('filament.fields.song.title.name'))
+                TextColumn::make(AudioModel::ATTRIBUTE_BASENAME)
+                    ->label(__('filament.fields.audio.basename.name'))
+                    ->copyable()
+                    ->hidden(),
+                    
+                TextColumn::make(AudioModel::ATTRIBUTE_FILENAME)
+                    ->label(__('filament.fields.audio.filename.name'))
                     ->sortable()
-                    ->searchable()
                     ->copyable(),
+
+                TextColumn::make(AudioModel::ATTRIBUTE_PATH)
+                    ->label(__('filament.fields.audio.path.name'))
+                    ->sortable()
+                    ->copyable()
+                    ->hidden(),
+
+                TextColumn::make(AudioModel::ATTRIBUTE_SIZE)
+                    ->label(__('filament.fields.audio.size.name'))
+                    ->numeric()
+                    ->sortable()
+                    ->copyable()
+                    ->hidden(),
+
+                TextColumn::make(AudioModel::ATTRIBUTE_MIMETYPE)
+                    ->label(__('filament.fields.audio.mimetype.name'))
+                    ->sortable()
+                    ->copyable()
+                    ->hidden(),
             ])
             ->filters(static::getFilters())
             ->actions(static::getActions())
@@ -129,9 +167,7 @@ class Song extends BaseResource
      */
     public static function getRelations(): array
     {
-        return [
-            ResourcesRelationManager::class,
-        ];
+        return [];
     }
 
     /**
@@ -189,10 +225,10 @@ class Song extends BaseResource
     public static function getPages(): array
     {
         return [
-            'index' => ListSongs::route('/'),
-            'create' => CreateSong::route('/create'),
-            'view' => ViewSong::route('/{record}'),
-            'edit' => EditSong::route('/{record}/edit'),
+            'index' => ListAudios::route('/'),
+            'create' => CreateAudio::route('/create'),
+            'view' => ViewAudio::route('/{record}'),
+            'edit' => EditAudio::route('/{record}/edit'),
         ];
     }
 }

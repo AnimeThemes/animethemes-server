@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace App\Filament\Resources\Wiki\Song\Pages;
+namespace App\Filament\Resources\Wiki\Audio\Pages;
 
-use App\Filament\Resources\Base\BaseCreateResource;
-use App\Filament\Resources\Wiki\Song;
+use App\Filament\Resources\Base\BaseListResources;
+use App\Filament\Resources\Wiki\Audio;
 
 /**
- * Class CreateSong.
+ * Class ListAudios.
  */
-class CreateSong extends BaseCreateResource
+class ListAudios extends BaseListResources
 {
-    protected static string $resource = Song::class;
+    protected static string $resource = Audio::class;
 
     /**
      * Get the header actions available.

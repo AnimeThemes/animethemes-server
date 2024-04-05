@@ -5,28 +5,31 @@ declare(strict_types=1);
 namespace App\Filament\Resources\Wiki;
 
 use App\Filament\Resources\BaseResource;
-use App\Filament\Resources\Wiki\Song\Pages\CreateSong;
-use App\Filament\Resources\Wiki\Song\Pages\EditSong;
-use App\Filament\Resources\Wiki\Song\Pages\ListSongs;
-use App\Filament\Resources\Wiki\Song\Pages\ViewSong;
-use App\Filament\Resources\Wiki\Song\RelationManagers\ResourcesRelationManager;
-use App\Models\Wiki\Song as SongModel;
+use App\Filament\Resources\Wiki\Studio\Pages\CreateStudio;
+use App\Filament\Resources\Wiki\Studio\Pages\EditStudio;
+use App\Filament\Resources\Wiki\Studio\Pages\ListStudios;
+use App\Filament\Resources\Wiki\Studio\Pages\ViewStudio;
+use App\Filament\Resources\Wiki\Studio\RelationManagers\ResourcesRelationManager;
+use App\Models\Wiki\Studio as StudioModel;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Forms\Set;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 
 /**
- * Class Song.
+ * Class Studio.
  */
-class Song extends BaseResource
+class Studio extends BaseResource
 {
     /**
      * The model the resource corresponds to.
      *
      * @var string|null
      */
-    protected static ?string $model = SongModel::class;
+    protected static ?string $model = StudioModel::class;
 
     /**
      * The icon displayed to the resource.
@@ -44,7 +47,7 @@ class Song extends BaseResource
      */
     public static function getLabel(): string
     {
-        return __('filament.resources.singularLabel.song');
+        return __('filament.resources.singularLabel.studio');
     }
 
     /**
@@ -56,7 +59,7 @@ class Song extends BaseResource
      */
     public static function getPluralLabel(): string
     {
-        return __('filament.resources.label.songs');
+        return __('filament.resources.label.studios');
     }
 
     /**
@@ -83,12 +86,21 @@ class Song extends BaseResource
     {
         return $form
             ->schema([
-                TextInput::make(SongModel::ATTRIBUTE_TITLE)
-                    ->label(__('filament.fields.song.title.name'))
-                    ->helperText(__('filament.fields.song.title.help'))
-                    ->nullable()
+                TextInput::make(StudioModel::ATTRIBUTE_NAME)
+                    ->label(__('filament.fields.studio.name.name'))
+                    ->helperText(__('filament.fields.studio.name.help'))
+                    ->required()
                     ->maxLength(192)
-                    ->rules(['nullable', 'max:192']),
+                    ->rules(['required', 'max:192'])
+                    ->live()
+                    ->afterStateUpdated(fn (Set $set, ?string $state) => $set(StudioModel::ATTRIBUTE_SLUG, Str::slug($state, '_'))),
+
+                TextInput::make(StudioModel::ATTRIBUTE_SLUG)
+                    ->label(__('filament.fields.studio.slug.name'))
+                    ->helperText(__('filament.fields.studio.slug.help'))
+                    ->required()
+                    ->maxLength(192)
+                    ->rules(['required', 'max:192', 'alpha_dash', Rule::unique(StudioModel::class)])
             ]);
     }
 
@@ -104,15 +116,20 @@ class Song extends BaseResource
     {
         return parent::table($table)
             ->columns([
-                TextColumn::make(SongModel::ATTRIBUTE_ID)
+                TextColumn::make(StudioModel::ATTRIBUTE_ID)
                     ->label(__('filament.fields.base.id'))
                     ->numeric()
                     ->sortable(),
 
-                TextColumn::make(SongModel::ATTRIBUTE_TITLE)
-                    ->label(__('filament.fields.song.title.name'))
+                TextColumn::make(StudioModel::ATTRIBUTE_NAME)
+                    ->label(__('filament.fields.studio.name.name'))
                     ->sortable()
                     ->searchable()
+                    ->copyable(),
+
+                TextColumn::make(StudioModel::ATTRIBUTE_SLUG)
+                    ->label(__('filament.fields.studio.slug.name'))
+                    ->sortable()
                     ->copyable(),
             ])
             ->filters(static::getFilters())
@@ -129,9 +146,7 @@ class Song extends BaseResource
      */
     public static function getRelations(): array
     {
-        return [
-            ResourcesRelationManager::class,
-        ];
+        return [];
     }
 
     /**
@@ -189,10 +204,10 @@ class Song extends BaseResource
     public static function getPages(): array
     {
         return [
-            'index' => ListSongs::route('/'),
-            'create' => CreateSong::route('/create'),
-            'view' => ViewSong::route('/{record}'),
-            'edit' => EditSong::route('/{record}/edit'),
+            'index' => ListStudios::route('/'),
+            'create' => CreateStudio::route('/create'),
+            'view' => ViewStudio::route('/{record}'),
+            'edit' => EditStudio::route('/{record}/edit'),
         ];
     }
 }

@@ -12,15 +12,29 @@ use App\Filament\Resources\Wiki\Artist\Pages\ViewArtist;
 use App\Models\Wiki\Artist as ArtistModel;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Forms\Set;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 
 /**
  * Class Artist.
  */
 class Artist extends BaseResource
 {
+    /**
+     * The model the resource corresponds to.
+     *
+     * @var string|null
+     */
     protected static ?string $model = ArtistModel::class;
+
+    /**
+     * The icon displayed to the resource.
+     *
+     * @var string|null
+     */
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     /**
@@ -74,12 +88,18 @@ class Artist extends BaseResource
                 TextInput::make(ArtistModel::ATTRIBUTE_NAME)
                     ->label(__('filament.fields.artist.name.name'))
                     ->helperText(__('filament.fields.artist.name.help'))
-                    ->required(),
+                    ->required()
+                    ->rules(['required', 'max:192'])
+                    ->maxLength(192)
+                    ->live()
+                    ->afterStateUpdated(fn (Set $set, ?string $state) => $set(ArtistModel::ATTRIBUTE_SLUG, Str::slug($state, '_'))),
 
                 TextInput::make(ArtistModel::ATTRIBUTE_SLUG)
                     ->label(__('filament.fields.artist.slug.name'))
                     ->helperText(__('filament.fields.artist.slug.help'))
-                    ->required(),
+                    ->required()
+                    ->maxLength(192)
+                    ->rules(['required', 'max:192', 'alpha_dash', Rule::unique(ArtistModel::class)]),
             ])
             ->columns(2);
     }

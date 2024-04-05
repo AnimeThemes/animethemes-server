@@ -17,17 +17,32 @@ use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Forms\Set;
 use Filament\Tables\Columns\SelectColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Enum;
 
 /**
  * Class Anime.
  */
 class Anime extends BaseResource
 {
+    /**
+     * The model the resource corresponds to.
+     *
+     * @var string|null
+     */
     protected static ?string $model = AnimeModel::class;
+
+    /**
+     * The icon displayed to the resource.
+     *
+     * @var string|null
+     */
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     /**
@@ -81,35 +96,47 @@ class Anime extends BaseResource
                 TextInput::make(AnimeModel::ATTRIBUTE_NAME)
                     ->label(__('filament.fields.anime.name.name'))
                     ->helperText(__('filament.fields.anime.name.help'))
-                    ->required(),
+                    ->required()
+                    ->rules(['required', 'max:192'])
+                    ->maxLength(192)
+                    ->live()
+                    ->afterStateUpdated(fn (Set $set, ?string $state) => $set(AnimeModel::ATTRIBUTE_SLUG, Str::slug($state, '_'))),
 
                 TextInput::make(AnimeModel::ATTRIBUTE_SLUG)
                     ->label(__('filament.fields.anime.slug.name'))
                     ->helperText(__('filament.fields.anime.slug.help'))
-                    ->required(),
+                    ->required()
+                    ->rules(['required', 'max:192', 'alpha_dash', Rule::unique(AnimeModel::class)]),
 
                 TextInput::make(AnimeModel::ATTRIBUTE_YEAR)
                     ->label(__('filament.fields.anime.year.name'))
                     ->helperText(__('filament.fields.anime.year.help'))
                     ->numeric()
-                    ->required(),
+                    ->required()
+                    ->rules(['required', 'digits:4', 'integer'])
+                    ->minValue(1960)
+                    ->maxValue(intval(date('Y')) + 1),
 
                 Select::make(AnimeModel::ATTRIBUTE_SEASON)
                     ->label(__('filament.fields.anime.season.name'))
                     ->helperText(__('filament.fields.anime.season.help'))
                     ->options(AnimeSeason::asSelectArray())
-                    ->required(),
+                    ->required()
+                    ->rules(['required', new Enum(AnimeSeason::class)]),
 
                 Select::make(AnimeModel::ATTRIBUTE_MEDIA_FORMAT)
                     ->label(__('filament.fields.anime.media_format.name'))
                     ->helperText(__('filament.fields.anime.media_format.help'))
                     ->options(AnimeMediaFormat::asSelectArray())
-                    ->required(),
+                    ->required()
+                    ->rules(['required', new Enum(AnimeMediaFormat::class)]),
 
                 MarkdownEditor::make(AnimeModel::ATTRIBUTE_SYNOPSIS)
                     ->label(__('filament.fields.anime.synopsis.name'))
                     ->helperText(__('filament.fields.anime.synopsis.help'))
-                    ->columnSpan(2),
+                    ->columnSpan(2)
+                    ->maxLength(65535)
+                    ->rules('max:65535'),
             ])
             ->columns(2);
     }

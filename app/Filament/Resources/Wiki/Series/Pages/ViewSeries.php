@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace App\Filament\Resources\Wiki\Song\Pages;
+namespace App\Filament\Resources\Wiki\Series\Pages;
 
-use App\Filament\Resources\Base\BaseCreateResource;
-use App\Filament\Resources\Wiki\Song;
+use App\Filament\Resources\Base\BaseViewResource;
+use App\Filament\Resources\Wiki\Series;
 
 /**
- * Class CreateSong.
+ * Class ViewSeries.
  */
-class CreateSong extends BaseCreateResource
+class ViewSeries extends BaseViewResource
 {
-    protected static string $resource = Song::class;
+    protected static string $resource = Series::class;
 
     /**
      * Get the header actions available.
