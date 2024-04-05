@@ -4,9 +4,13 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources;
 
-use Filament\Resources\Resource;
+use Filament\Resources\RelationManagers\RelationManager;
+use Filament\Tables\Actions\AttachAction;
 use Filament\Tables\Actions\BulkActionGroup;
+use Filament\Tables\Actions\CreateAction;
 use Filament\Tables\Actions\DeleteBulkAction;
+use Filament\Tables\Actions\DetachAction;
+use Filament\Tables\Actions\DetachBulkAction;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\ForceDeleteBulkAction;
 use Filament\Tables\Actions\RestoreBulkAction;
@@ -17,27 +21,27 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 /**
- * Class BaseResource.
+ * Class BaseRelationManager.
  */
-abstract class BaseResource extends Resource
+abstract class BaseRelationManager extends RelationManager
 {
     /**
-     * The index page of the resource.
+     * The index page of the relation resource.
      *
      * @param  Table  $table
      * @return Table
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function table(Table $table): Table
+    public function table(Table $table): Table
     {
         return $table
-            ->paginated([10, 25, 50, 100, 'all'])
-            ->defaultPaginationPageOption(25);
+            ->paginated([5, 10, 25])
+            ->defaultPaginationPageOption(5);
     }
 
     /**
-     * Get the filters available for the resource.
+     * Get the filters available for the relation.
      *
      * @return array
      *
@@ -51,7 +55,7 @@ abstract class BaseResource extends Resource
     }
 
     /**
-     * Get the actions available for the resource.
+     * Get the actions available for the relation.
      *
      * @return array
      *
@@ -62,11 +66,12 @@ abstract class BaseResource extends Resource
         return [
             ViewAction::make(),
             EditAction::make(),
+            DetachAction::make(),
         ];
     }
 
     /**
-     * Get the bulk actions available for the resource.
+     * Get the bulk actions available for the relation.
      * 
      * @return array
      *
@@ -79,12 +84,28 @@ abstract class BaseResource extends Resource
                 DeleteBulkAction::make(),
                 ForceDeleteBulkAction::make(),
                 RestoreBulkAction::make(),
+                DetachBulkAction::make(),
             ]),
         ];
     }
 
     /**
-     * Get the eloquent query for the resource.
+     * Get the header actions available for the relation.
+     *
+     * @return array
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getHeaderActions(): array
+    {
+        return [
+            CreateAction::make(),
+            AttachAction::make(),
+        ];
+    }
+
+    /**
+     * Get the eloquent query for the relation.
      * 
      * @return array
      *

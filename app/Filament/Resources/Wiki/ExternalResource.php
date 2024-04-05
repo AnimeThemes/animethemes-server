@@ -6,6 +6,7 @@ namespace App\Filament\Resources\Wiki;
 
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Filament\Resources\BaseResource;
+use App\Filament\Resources\Wiki\Anime\RelationManagers\AnimesRelationManager;
 use App\Filament\Resources\Wiki\ExternalResource\Pages\CreateExternalResource;
 use App\Filament\Resources\Wiki\ExternalResource\Pages\EditExternalResource;
 use App\Filament\Resources\Wiki\ExternalResource\Pages\ListExternalResources;
@@ -134,7 +135,7 @@ class ExternalResource extends BaseResource
 
                 SelectColumn::make(ExternalResourceModel::ATTRIBUTE_SITE)
                     ->label(__('filament.fields.external_resource.site.name'))
-                    ->options(ResourceSite::class)
+                    ->options(ResourceSite::asSelectArray())
                     ->sortable(),
 
                 TextColumn::make(ExternalResourceModel::ATTRIBUTE_LINK)
@@ -162,7 +163,9 @@ class ExternalResource extends BaseResource
      */
     public static function getRelations(): array
     {
-        return [];
+        return [
+            AnimesRelationManager::class,
+        ];
     }
 
     /**
