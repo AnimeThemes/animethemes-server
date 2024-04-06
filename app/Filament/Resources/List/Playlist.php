@@ -89,7 +89,7 @@ class Playlist extends BaseResource
     /**
      * Get the route key for the resource.
      *
-     * @return string
+     * @return string|null
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
