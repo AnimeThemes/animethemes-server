@@ -5,12 +5,15 @@ declare(strict_types=1);
 namespace App\Filament\Resources\Wiki;
 
 use App\Filament\Resources\BaseResource;
+use App\Filament\Resources\Wiki\ExternalResource\RelationManagers\StudioResourceRelationManager;
 use App\Filament\Resources\Wiki\Studio\Pages\CreateStudio;
 use App\Filament\Resources\Wiki\Studio\Pages\EditStudio;
 use App\Filament\Resources\Wiki\Studio\Pages\ListStudios;
 use App\Filament\Resources\Wiki\Studio\Pages\ViewStudio;
 use App\Filament\Resources\Wiki\Studio\RelationManagers\ResourcesRelationManager;
+use App\Filament\Resources\Wiki\Studio\RelationManagers\ResourceStudioRelationManager;
 use App\Models\Wiki\Studio as StudioModel;
+use App\Pivots\Wiki\StudioResource;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Forms\Set;
@@ -100,7 +103,12 @@ class Studio extends BaseResource
                     ->helperText(__('filament.fields.studio.slug.help'))
                     ->required()
                     ->maxLength(192)
-                    ->rules(['required', 'max:192', 'alpha_dash', Rule::unique(StudioModel::class)])
+                    ->rules(['required', 'max:192', 'alpha_dash', Rule::unique(StudioModel::class)]),
+
+                TextInput::make(StudioResource::ATTRIBUTE_AS)
+                    ->label(__('filament.fields.studio.resources.as.name'))
+                    ->helperText(__('filament.fields.studio.resources.as.help'))
+                    ->visibleOn(StudioResourceRelationManager::class),
             ]);
     }
 
@@ -131,6 +139,10 @@ class Studio extends BaseResource
                     ->label(__('filament.fields.studio.slug.name'))
                     ->sortable()
                     ->copyable(),
+
+                TextColumn::make(StudioResource::ATTRIBUTE_AS)
+                    ->label(__('filament.fields.studio.resources.as.name'))
+                    ->visibleOn(StudioResourceRelationManager::class),
             ])
             ->filters(static::getFilters())
             ->actions(static::getActions())
@@ -146,7 +158,9 @@ class Studio extends BaseResource
      */
     public static function getRelations(): array
     {
-        return [];
+        return [
+            ResourceStudioRelationManager::class,
+        ];
     }
 
     /**

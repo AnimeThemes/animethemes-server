@@ -5,12 +5,15 @@ declare(strict_types=1);
 namespace App\Filament\Resources\Wiki;
 
 use App\Filament\Resources\BaseResource;
+use App\Filament\Resources\Wiki\ExternalResource\RelationManagers\SongResourceRelationManager;
 use App\Filament\Resources\Wiki\Song\Pages\CreateSong;
 use App\Filament\Resources\Wiki\Song\Pages\EditSong;
 use App\Filament\Resources\Wiki\Song\Pages\ListSongs;
 use App\Filament\Resources\Wiki\Song\Pages\ViewSong;
+use App\Filament\Resources\Wiki\Song\RelationManagers\ResourceSongRelationManager;
 use App\Filament\Resources\Wiki\Song\RelationManagers\ResourcesRelationManager;
 use App\Models\Wiki\Song as SongModel;
+use App\Pivots\Wiki\SongResource;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Tables\Columns\TextColumn;
@@ -89,6 +92,11 @@ class Song extends BaseResource
                     ->nullable()
                     ->maxLength(192)
                     ->rules(['nullable', 'max:192']),
+
+                TextInput::make(SongResource::ATTRIBUTE_AS)
+                    ->label(__('filament.fields.song.resources.as.name'))
+                    ->helperText(__('filament.fields.song.resources.as.help'))
+                    ->visibleOn(SongResourceRelationManager::class),
             ]);
     }
 
@@ -114,6 +122,10 @@ class Song extends BaseResource
                     ->sortable()
                     ->searchable()
                     ->copyable(),
+
+                TextColumn::make(SongResource::ATTRIBUTE_AS)
+                    ->label(__('filament.fields.song.resources.as.name'))
+                    ->visibleOn(SongResourceRelationManager::class),
             ])
             ->filters(static::getFilters())
             ->actions(static::getActions())
@@ -130,7 +142,7 @@ class Song extends BaseResource
     public static function getRelations(): array
     {
         return [
-            ResourcesRelationManager::class,
+            ResourceSongRelationManager::class,
         ];
     }
 

@@ -11,8 +11,12 @@ use App\Filament\Resources\Wiki\Anime\Pages\CreateAnime;
 use App\Filament\Resources\Wiki\Anime\Pages\EditAnime;
 use App\Filament\Resources\Wiki\Anime\Pages\ListAnimes;
 use App\Filament\Resources\Wiki\Anime\Pages\ViewAnime;
+use App\Filament\Resources\Wiki\Anime\RelationManagers\AnimesRelationManager;
+use App\Filament\Resources\Wiki\Anime\RelationManagers\ResourceAnimeRelationManager;
 use App\Filament\Resources\Wiki\Anime\RelationManagers\ResourcesRelationManager;
+use App\Filament\Resources\Wiki\ExternalResource\RelationManagers\AnimeResourceRelationManager;
 use App\Models\Wiki\Anime as AnimeModel;
+use App\Pivots\Wiki\AnimeResource;
 use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -137,6 +141,11 @@ class Anime extends BaseResource
                     ->columnSpan(2)
                     ->maxLength(65535)
                     ->rules('max:65535'),
+
+                TextInput::make(AnimeResource::ATTRIBUTE_AS)
+                    ->label(__('filament.fields.anime.resources.as.name'))
+                    ->helperText(__('filament.fields.anime.resources.as.help'))
+                    ->visibleOn(AnimeResourceRelationManager::class),
             ])
             ->columns(2);
     }
@@ -187,6 +196,10 @@ class Anime extends BaseResource
                 TextColumn::make(AnimeModel::ATTRIBUTE_SYNOPSIS)
                     ->label(__('filament.fields.anime.synopsis.name'))
                     ->hidden(),
+
+                TextColumn::make(AnimeResource::ATTRIBUTE_AS)
+                    ->label(__('filament.fields.anime.resources.as.name'))
+                    ->visibleOn(AnimeResourceRelationManager::class),
             ])
             ->filters(static::getFilters())
             ->actions(static::getActions())
@@ -203,7 +216,7 @@ class Anime extends BaseResource
     public static function getRelations(): array
     {
         return [
-            ResourcesRelationManager::class,
+            ResourceAnimeRelationManager::class,
         ];
     }
 

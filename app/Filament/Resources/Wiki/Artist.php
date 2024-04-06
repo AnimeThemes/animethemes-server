@@ -9,7 +9,10 @@ use App\Filament\Resources\Wiki\Artist\Pages\CreateArtist;
 use App\Filament\Resources\Wiki\Artist\Pages\EditArtist;
 use App\Filament\Resources\Wiki\Artist\Pages\ListArtists;
 use App\Filament\Resources\Wiki\Artist\Pages\ViewArtist;
+use App\Filament\Resources\Wiki\Artist\RelationManagers\ResourceArtistRelationManager;
+use App\Filament\Resources\Wiki\ExternalResource\RelationManagers\ArtistResourceRelationManager;
 use App\Models\Wiki\Artist as ArtistModel;
+use App\Pivots\Wiki\ArtistResource;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Forms\Set;
@@ -100,6 +103,11 @@ class Artist extends BaseResource
                     ->required()
                     ->maxLength(192)
                     ->rules(['required', 'max:192', 'alpha_dash', Rule::unique(ArtistModel::class)]),
+
+                TextInput::make(ArtistResource::ATTRIBUTE_AS)
+                    ->label(__('filament.fields.artist.resources.as.name'))
+                    ->helperText(__('filament.fields.artist.resources.as.help'))
+                    ->visibleOn(ArtistResourceRelationManager::class),
             ])
             ->columns(2);
     }
@@ -131,6 +139,10 @@ class Artist extends BaseResource
                     ->label(__('filament.fields.artist.slug.name'))
                     ->sortable()
                     ->copyable(),
+
+                TextColumn::make(ArtistResource::ATTRIBUTE_AS)
+                    ->label(__('filament.fields.artist.resources.as.name'))
+                    ->visibleOn(ArtistResourceRelationManager::class),
             ])
             ->filters(static::getFilters())
             ->actions(static::getActions())
@@ -146,7 +158,9 @@ class Artist extends BaseResource
      */
     public static function getRelations(): array
     {
-        return [];
+        return [
+            ResourceArtistRelationManager::class,
+        ];
     }
 
     /**
