@@ -139,6 +139,7 @@ class Playlist extends BaseResource
                 TextColumn::make(PlaylistModel::ATTRIBUTE_HASHID)
                     ->label(__('filament.fields.playlist.hashid.name')),
             ])
+            ->defaultSort(PlaylistModel::ATTRIBUTE_ID, 'desc')
             ->filters(static::getFilters())
             ->actions(static::getActions())
             ->bulkActions(static::getBulkActions());

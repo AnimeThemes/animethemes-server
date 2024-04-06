@@ -115,6 +115,7 @@ class Permission extends BaseResource
                     ->searchable()
                     ->copyable(),
             ])
+            ->defaultSort(PermissionModel::ATTRIBUTE_ID, 'desc')
             ->filters(static::getFilters())
             ->actions(static::getActions())
             ->bulkActions(static::getBulkActions());

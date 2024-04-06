@@ -153,6 +153,7 @@ class Audio extends BaseResource
                     ->copyable()
                     ->hidden(),
             ])
+            ->defaultSort(AudioModel::ATTRIBUTE_ID, 'desc')
             ->filters(static::getFilters())
             ->actions(static::getActions())
             ->bulkActions(static::getBulkActions());

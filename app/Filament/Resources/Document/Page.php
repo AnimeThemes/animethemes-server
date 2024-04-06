@@ -147,6 +147,7 @@ class Page extends BaseResource
                     ->copyable()
                     ->hidden(),
             ])
+            ->defaultSort(PageModel::ATTRIBUTE_ID, 'desc')
             ->filters(static::getFilters())
             ->actions(static::getActions())
             ->bulkActions(static::getBulkActions());

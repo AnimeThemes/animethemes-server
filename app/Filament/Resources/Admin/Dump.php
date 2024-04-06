@@ -89,6 +89,7 @@ class Dump extends BaseResource
                     ->rules(['required', 'max:192'])
                     ->hiddenOn(['create', 'edit']),
             ])
+            ->defaultSort(DumpModel::ATTRIBUTE_ID, 'desc')
             ->columns(1);
     }
 

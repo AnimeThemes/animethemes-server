@@ -110,6 +110,7 @@ class Track extends BaseResource
                 TextColumn::make(TrackModel::ATTRIBUTE_HASHID)
                     ->label(__('filament.fields.playlist_track.hashid.name')),
             ])
+            ->defaultSort(TrackModel::ATTRIBUTE_ID, 'desc')
             ->filters(static::getFilters())
             ->actions(static::getActions())
             ->bulkActions(static::getBulkActions());

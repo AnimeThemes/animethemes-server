@@ -123,6 +123,7 @@ class Image extends BaseResource
                     ->label(__('nova.fields.image.image.name'))
                     ->disk(Config::get('image.disk')),
             ])
+            ->defaultSort(ImageModel::ATTRIBUTE_ID, 'desc')
             ->filters(static::getFilters())
             ->actions(static::getActions())
             ->bulkActions(static::getBulkActions());

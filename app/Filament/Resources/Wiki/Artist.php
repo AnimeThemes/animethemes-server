@@ -144,6 +144,7 @@ class Artist extends BaseResource
                     ->label(__('filament.fields.artist.resources.as.name'))
                     ->visibleOn(ArtistResourceRelationManager::class),
             ])
+            ->defaultSort(ArtistModel::ATTRIBUTE_ID, 'desc')
             ->filters(static::getFilters())
             ->actions(static::getActions())
             ->bulkActions(static::getBulkActions());

@@ -114,6 +114,7 @@ class Announcement extends BaseResource
                     ->searchable()
                     ->copyable(),
             ])
+            ->defaultSort(AnnouncementModel::ATTRIBUTE_ID, 'desc')
             ->filters(static::getFilters())
             ->actions(static::getActions())
             ->bulkActions(static::getBulkActions());

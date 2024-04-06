@@ -144,6 +144,7 @@ class Studio extends BaseResource
                     ->label(__('filament.fields.studio.resources.as.name'))
                     ->visibleOn(StudioResourceRelationManager::class),
             ])
+            ->defaultSort(StudioModel::ATTRIBUTE_ID, 'desc')
             ->filters(static::getFilters())
             ->actions(static::getActions())
             ->bulkActions(static::getBulkActions());

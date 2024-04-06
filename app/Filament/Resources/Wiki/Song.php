@@ -127,6 +127,7 @@ class Song extends BaseResource
                     ->label(__('filament.fields.song.resources.as.name'))
                     ->visibleOn(SongResourceRelationManager::class),
             ])
+            ->defaultSort(SongModel::ATTRIBUTE_ID, 'desc')
             ->filters(static::getFilters())
             ->actions(static::getActions())
             ->bulkActions(static::getBulkActions());

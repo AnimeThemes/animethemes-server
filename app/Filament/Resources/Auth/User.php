@@ -125,6 +125,7 @@ class User extends BaseResource
                     ->label(__('filament.fields.user.email'))
                     ->icon('heroicon-m-envelope'),
             ])
+            ->defaultSort(UserModel::ATTRIBUTE_ID, 'desc')
             ->filters(static::getFilters())
             ->actions(static::getActions())
             ->bulkActions(static::getBulkActions());

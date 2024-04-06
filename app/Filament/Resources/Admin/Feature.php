@@ -127,6 +127,7 @@ class Feature extends BaseResource
                     ->sortable()
                     ->copyable(),
             ])
+            ->defaultSort(FeatureModel::ATTRIBUTE_ID, 'desc')
             ->filters(static::getFilters())
             ->actions(static::getActions())
             ->bulkActions(static::getBulkActions());

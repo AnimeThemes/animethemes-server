@@ -11,9 +11,7 @@ use App\Filament\Resources\Wiki\Anime\Pages\CreateAnime;
 use App\Filament\Resources\Wiki\Anime\Pages\EditAnime;
 use App\Filament\Resources\Wiki\Anime\Pages\ListAnimes;
 use App\Filament\Resources\Wiki\Anime\Pages\ViewAnime;
-use App\Filament\Resources\Wiki\Anime\RelationManagers\AnimesRelationManager;
 use App\Filament\Resources\Wiki\Anime\RelationManagers\ResourceAnimeRelationManager;
-use App\Filament\Resources\Wiki\Anime\RelationManagers\ResourcesRelationManager;
 use App\Filament\Resources\Wiki\ExternalResource\RelationManagers\AnimeResourceRelationManager;
 use App\Models\Wiki\Anime as AnimeModel;
 use App\Pivots\Wiki\AnimeResource;
@@ -201,6 +199,7 @@ class Anime extends BaseResource
                     ->label(__('filament.fields.anime.resources.as.name'))
                     ->visibleOn(AnimeResourceRelationManager::class),
             ])
+            ->defaultSort(AnimeModel::ATTRIBUTE_ID, 'desc')
             ->filters(static::getFilters())
             ->actions(static::getActions())
             ->bulkActions(static::getBulkActions());

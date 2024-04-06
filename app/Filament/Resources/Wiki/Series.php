@@ -132,6 +132,7 @@ class Series extends BaseResource
                     ->sortable()
                     ->copyable(),
             ])
+            ->defaultSort(SeriesModel::ATTRIBUTE_ID, 'desc')
             ->filters(static::getFilters())
             ->actions(static::getActions())
             ->bulkActions(static::getBulkActions());

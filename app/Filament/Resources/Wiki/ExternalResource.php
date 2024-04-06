@@ -179,6 +179,7 @@ class ExternalResource extends BaseResource
                         ResourceStudioRelationManager::class,
                     ]),
             ])
+            ->defaultSort(ExternalResourceModel::ATTRIBUTE_ID, 'desc')
             ->filters(static::getFilters())
             ->actions(static::getActions())
             ->bulkActions(static::getBulkActions());

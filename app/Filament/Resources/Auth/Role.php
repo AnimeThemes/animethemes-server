@@ -148,6 +148,7 @@ class Role extends BaseResource
                     ->numeric()
                     ->sortable(),
             ])
+            ->defaultSort(RoleModel::ATTRIBUTE_ID, 'desc')
             ->filters(static::getFilters())
             ->actions(static::getActions())
             ->bulkActions(static::getBulkActions());
