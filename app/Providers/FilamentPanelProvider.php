@@ -30,6 +30,7 @@ class FilamentPanelProvider extends PanelProvider
             ->path('admin')
             ->login()
             ->registration()
+            ->sidebarCollapsibleOnDesktop()
             ->profile()
             ->colors([
                 'primary' => Color::Amber,
