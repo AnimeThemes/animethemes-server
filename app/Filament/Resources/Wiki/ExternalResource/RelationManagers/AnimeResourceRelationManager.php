@@ -50,6 +50,7 @@ class AnimeResourceRelationManager extends BaseRelationManager
             ->recordTitleAttribute(Anime::ATTRIBUTE_NAME)
             ->inverseRelationship(Anime::RELATION_RESOURCES)
             ->columns(AnimeResource::table($table)->getColumns())
+            ->defaultSort(Anime::TABLE.'.'.Anime::ATTRIBUTE_ID, 'desc')
             ->filters(static::getFilters())
             ->headerActions(static::getHeaderActions())
             ->actions(static::getActions())

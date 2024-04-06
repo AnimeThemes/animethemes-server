@@ -50,6 +50,7 @@ class StudioResourceRelationManager extends BaseRelationManager
             ->recordTitleAttribute(Studio::ATTRIBUTE_NAME)
             ->inverseRelationship(Studio::RELATION_RESOURCES)
             ->columns(StudioResource::table($table)->getColumns())
+            ->defaultSort(Studio::TABLE.'.'.Studio::ATTRIBUTE_ID, 'desc')
             ->filters(static::getFilters())
             ->headerActions(static::getHeaderActions())
             ->actions(static::getActions())

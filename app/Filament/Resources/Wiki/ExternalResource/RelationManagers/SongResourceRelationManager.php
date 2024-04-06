@@ -50,6 +50,7 @@ class SongResourceRelationManager extends BaseRelationManager
             ->recordTitleAttribute(Song::ATTRIBUTE_TITLE)
             ->inverseRelationship(Song::RELATION_RESOURCES)
             ->columns(SongResource::table($table)->getColumns())
+            ->defaultSort(Song::TABLE.'.'.Song::ATTRIBUTE_ID, 'desc')
             ->filters(static::getFilters())
             ->headerActions(static::getHeaderActions())
             ->actions(static::getActions())
