@@ -72,6 +72,30 @@ class Audio extends BaseResource
     }
 
     /**
+     * Get the slug (URI key) for the resource.
+     *
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getSlug(): string
+    {
+        return 'audios';
+    }
+
+    /**
+     * Get the route key for the resource.
+     *
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getRecordRouteKeyName(): ?string
+    {
+        return AudioModel::ATTRIBUTE_ID;
+    }
+
+    /**
      * The form to the actions.
      *
      * @param  Form  $form
@@ -203,7 +227,7 @@ class Audio extends BaseResource
 
     /**
      * Get the bulk actions available for the resource.
-     * 
+     *
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
@@ -218,7 +242,7 @@ class Audio extends BaseResource
 
     /**
      * Get the pages available for the resource.
-     * 
+     *
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
@@ -228,8 +252,8 @@ class Audio extends BaseResource
         return [
             'index' => ListAudios::route('/'),
             'create' => CreateAudio::route('/create'),
-            'view' => ViewAudio::route('/{record}'),
-            'edit' => EditAudio::route('/{record}/edit'),
+            'view' => ViewAudio::route('/{record:audio_id}'),
+            'edit' => EditAudio::route('/{record:audio_id}/edit'),
         ];
     }
 }

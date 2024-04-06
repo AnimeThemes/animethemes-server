@@ -78,6 +78,30 @@ class Theme extends BaseResource
     }
 
     /**
+     * Get the slug (URI key) for the resource.
+     *
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getSlug(): string
+    {
+        return 'anime-themes';
+    }
+
+    /**
+     * Get the route key for the resource.
+     *
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getRecordRouteKeyName(): ?string
+    {
+        return ThemeModel::ATTRIBUTE_ID;
+    }
+
+    /**
      * The form to the actions.
      *
      * @param  Form  $form
@@ -208,7 +232,7 @@ class Theme extends BaseResource
 
     /**
      * Get the bulk actions available for the resource.
-     * 
+     *
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
@@ -223,7 +247,7 @@ class Theme extends BaseResource
 
     /**
      * Get the pages available for the resource.
-     * 
+     *
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
@@ -233,8 +257,8 @@ class Theme extends BaseResource
         return [
             'index' => ListThemes::route('/'),
             'create' => CreateTheme::route('/create'),
-            'view' => ViewTheme::route('/{record}'),
-            'edit' => EditTheme::route('/{record}/edit'),
+            'view' => ViewTheme::route('/{record:theme_id}'),
+            'edit' => EditTheme::route('/{record:theme_id}/edit'),
         ];
     }
 }

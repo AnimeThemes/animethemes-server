@@ -20,6 +20,7 @@ use Filament\Tables\Columns\CheckboxColumn;
 use Filament\Tables\Columns\SelectColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rules\Enum;
 
 /**
@@ -75,6 +76,30 @@ class Video extends BaseResource
     public static function getNavigationGroup(): string
     {
         return __('filament.resources.group.wiki');
+    }
+
+    /**
+     * Get the slug (URI key) for the resource.
+     *
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getSlug(): string
+    {
+        return 'videos';
+    }
+
+    /**
+     * Get the route key for the resource.
+     *
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getRecordRouteKeyName(): ?string
+    {
+        return VideoModel::ATTRIBUTE_ID;
     }
 
     /**
@@ -275,7 +300,7 @@ class Video extends BaseResource
 
     /**
      * Get the bulk actions available for the resource.
-     * 
+     *
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
@@ -290,7 +315,7 @@ class Video extends BaseResource
 
     /**
      * Get the pages available for the resource.
-     * 
+     *
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
@@ -300,8 +325,8 @@ class Video extends BaseResource
         return [
             'index' => ListVideos::route('/'),
             'create' => CreateVideo::route('/create'),
-            'view' => ViewVideo::route('/{record}'),
-            'edit' => EditVideo::route('/{record}/edit'),
+            'view' => ViewVideo::route('/{record:video_id}'),
+            'edit' => EditVideo::route("/{record:video_id}/edit"),
         ];
     }
 }

@@ -78,6 +78,30 @@ class Studio extends BaseResource
     }
 
     /**
+     * Get the slug (URI key) for the resource.
+     *
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getSlug(): string
+    {
+        return 'studios';
+    }
+
+    /**
+     * Get the route key for the resource.
+     *
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getRecordRouteKeyName(): ?string
+    {
+        return StudioModel::ATTRIBUTE_ID;
+    }
+
+    /**
      * The form to the actions.
      *
      * @param  Form  $form
@@ -196,7 +220,7 @@ class Studio extends BaseResource
 
     /**
      * Get the bulk actions available for the resource.
-     * 
+     *
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
@@ -211,7 +235,7 @@ class Studio extends BaseResource
 
     /**
      * Get the pages available for the resource.
-     * 
+     *
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
@@ -221,8 +245,8 @@ class Studio extends BaseResource
         return [
             'index' => ListStudios::route('/'),
             'create' => CreateStudio::route('/create'),
-            'view' => ViewStudio::route('/{record}'),
-            'edit' => EditStudio::route('/{record}/edit'),
+            'view' => ViewStudio::route('/{record:studio_id}'),
+            'edit' => EditStudio::route('/{record:studio_id}/edit'),
         ];
     }
 }

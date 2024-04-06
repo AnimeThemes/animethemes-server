@@ -73,6 +73,30 @@ class Entry extends BaseResource
     }
 
     /**
+     * Get the URI key for the resource.
+     *
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getSlug(): string
+    {
+        return 'anime-theme-entries';
+    }
+
+    /**
+     * Get the route key for the resource.
+     *
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getRecordRouteKeyName(): ?string
+    {
+        return EntryModel::ATTRIBUTE_ID;
+    }
+
+    /**
      * The form to the actions.
      *
      * @param  Form  $form
@@ -198,7 +222,7 @@ class Entry extends BaseResource
 
     /**
      * Get the bulk actions available for the resource.
-     * 
+     *
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
@@ -213,7 +237,7 @@ class Entry extends BaseResource
 
     /**
      * Get the pages available for the resource.
-     * 
+     *
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
@@ -223,8 +247,8 @@ class Entry extends BaseResource
         return [
             'index' => ListEntries::route('/'),
             'create' => CreateEntry::route('/create'),
-            'view' => ViewEntry::route('/{record}'),
-            'edit' => EditEntry::route('/{record}/edit'),
+            'view' => ViewEntry::route('/{record:entry_id}'),
+            'edit' => EditEntry::route('/{record:entry_id}/edit'),
         ];
     }
 }

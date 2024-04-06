@@ -77,6 +77,30 @@ class Artist extends BaseResource
     }
 
     /**
+     * Get the slug (URI key) for the resource.
+     *
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getSlug(): string
+    {
+        return 'artists';
+    }
+
+    /**
+     * Get the route key for the resource.
+     *
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getRecordRouteKeyName(): ?string
+    {
+        return ArtistModel::ATTRIBUTE_ID;
+    }
+
+    /**
      * The form to the actions.
      *
      * @param  Form  $form
@@ -196,7 +220,7 @@ class Artist extends BaseResource
 
     /**
      * Get the bulk actions available for the resource.
-     * 
+     *
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
@@ -211,7 +235,7 @@ class Artist extends BaseResource
 
     /**
      * Get the pages available for the resource.
-     * 
+     *
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
@@ -221,8 +245,8 @@ class Artist extends BaseResource
         return [
             'index' => ListArtists::route('/'),
             'create' => CreateArtist::route('/create'),
-            'view' => ViewArtist::route('/{record}'),
-            'edit' => EditArtist::route('/{record}/edit'),
+            'view' => ViewArtist::route('/{record:artist_id}'),
+            'edit' => EditArtist::route('/{record:artist_id}/edit'),
         ];
     }
 }

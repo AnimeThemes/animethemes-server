@@ -71,6 +71,30 @@ class Feature extends BaseResource
     }
 
     /**
+     * Get the slug (URI key) for the resource.
+     *
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getSlug(): string
+    {
+        return 'features';
+    }
+
+    /**
+     * Get the route key for the resource.
+     *
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getRecordRouteKeyName(): ?string
+    {
+        return FeatureModel::ATTRIBUTE_ID;
+    }
+
+    /**
      * The form to the actions.
      *
      * @param  Form  $form
@@ -174,7 +198,7 @@ class Feature extends BaseResource
 
     /**
      * Get the bulk actions available for the resource.
-     * 
+     *
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
@@ -189,7 +213,7 @@ class Feature extends BaseResource
 
     /**
      * Get the pages available for the resource.
-     * 
+     *
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
@@ -199,8 +223,8 @@ class Feature extends BaseResource
         return [
             'index' => ListFeatures::route('/'),
             'create' => CreateFeature::route('/create'),
-            'view' => ViewFeature::route('/{record}'),
-            'edit' => EditFeature::route('/{record}/edit'),
+            'view' => ViewFeature::route('/{record:feature_id}'),
+            'edit' => EditFeature::route('/{record:feature_id}/edit'),
         ];
     }
 }

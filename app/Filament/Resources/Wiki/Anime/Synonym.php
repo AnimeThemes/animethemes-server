@@ -71,6 +71,30 @@ class Synonym extends BaseResource
     }
 
     /**
+     * Get the slug (URI key) for the resource.
+     *
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getSlug(): string
+    {
+        return 'anime-synonyms';
+    }
+
+    /**
+     * Get the route key for the resource.
+     *
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getRecordRouteKeyName(): ?string
+    {
+        return SynonymModel::ATTRIBUTE_ID;
+    }
+
+    /**
      * The form to the actions.
      *
      * @param  Form  $form
@@ -163,7 +187,7 @@ class Synonym extends BaseResource
 
     /**
      * Get the bulk actions available for the resource.
-     * 
+     *
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
@@ -178,7 +202,7 @@ class Synonym extends BaseResource
 
     /**
      * Get the pages available for the resource.
-     * 
+     *
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
@@ -188,8 +212,8 @@ class Synonym extends BaseResource
         return [
             'index' => ListSynonyms::route('/'),
             'create' => CreateSynonym::route('/create'),
-            'view' => ViewSynonym::route('/{record}'),
-            'edit' => EditSynonym::route('/{record}/edit'),
+            'view' => ViewSynonym::route('/{record:synonym_id}'),
+            'edit' => EditSynonym::route('/{record:synonym_id}/edit'),
         ];
     }
 }

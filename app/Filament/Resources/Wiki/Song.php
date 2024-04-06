@@ -75,6 +75,30 @@ class Song extends BaseResource
     }
 
     /**
+     * Get the slug (URI key) for the resource.
+     *
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getSlug(): string
+    {
+        return 'songs';
+    }
+
+    /**
+     * Get the route key for the resource.
+     *
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getRecordRouteKeyName(): ?string
+    {
+        return SongModel::ATTRIBUTE_ID;
+    }
+
+    /**
      * The form to the actions.
      *
      * @param  Form  $form
@@ -179,7 +203,7 @@ class Song extends BaseResource
 
     /**
      * Get the bulk actions available for the resource.
-     * 
+     *
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
@@ -194,7 +218,7 @@ class Song extends BaseResource
 
     /**
      * Get the pages available for the resource.
-     * 
+     *
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
@@ -204,8 +228,8 @@ class Song extends BaseResource
         return [
             'index' => ListSongs::route('/'),
             'create' => CreateSong::route('/create'),
-            'view' => ViewSong::route('/{record}'),
-            'edit' => EditSong::route('/{record}/edit'),
+            'view' => ViewSong::route('/{record:song_id}'),
+            'edit' => EditSong::route('/{record:song_id}/edit'),
         ];
     }
 }

@@ -74,6 +74,30 @@ class Series extends BaseResource
     }
 
     /**
+     * Get the slug (URI key) for the resource.
+     *
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getSlug(): string
+    {
+        return 'series';
+    }
+
+    /**
+     * Get the route key for the resource.
+     *
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getRecordRouteKeyName(): ?string
+    {
+        return SeriesModel::ATTRIBUTE_ID;
+    }
+
+    /**
      * The form to the actions.
      *
      * @param  Form  $form
@@ -182,7 +206,7 @@ class Series extends BaseResource
 
     /**
      * Get the bulk actions available for the resource.
-     * 
+     *
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
@@ -197,7 +221,7 @@ class Series extends BaseResource
 
     /**
      * Get the pages available for the resource.
-     * 
+     *
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
@@ -207,8 +231,8 @@ class Series extends BaseResource
         return [
             'index' => ListSeries::route('/'),
             'create' => CreateSeries::route('/create'),
-            'view' => ViewSeries::route('/{record}'),
-            'edit' => EditSeries::route('/{record}/edit'),
+            'view' => ViewSeries::route('/{record:series_id}'),
+            'edit' => EditSeries::route('/{record:series_id}/edit'),
         ];
     }
 }

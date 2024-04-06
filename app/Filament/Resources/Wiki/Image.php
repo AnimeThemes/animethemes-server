@@ -76,6 +76,30 @@ class Image extends BaseResource
     }
 
     /**
+     * Get the slug (URI key) for the resource.
+     *
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getSlug(): string
+    {
+        return 'images';
+    }
+
+    /**
+     * Get the route key for the resource.
+     *
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getRecordRouteKeyName(): ?string
+    {
+        return ImageModel::ATTRIBUTE_ID;
+    }
+
+    /**
      * The form to the actions.
      *
      * @param  Form  $form
@@ -173,7 +197,7 @@ class Image extends BaseResource
 
     /**
      * Get the bulk actions available for the resource.
-     * 
+     *
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
@@ -188,7 +212,7 @@ class Image extends BaseResource
 
     /**
      * Get the pages available for the resource.
-     * 
+     *
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
@@ -198,8 +222,8 @@ class Image extends BaseResource
         return [
             'index' => ListImages::route('/'),
             'create' => CreateImage::route('/create'),
-            'view' => ViewImage::route('/{record}'),
-            'edit' => EditImage::route('/{record}/edit'),
+            'view' => ViewImage::route('/{record:image_id}'),
+            'edit' => EditImage::route('/{record:image_id}/edit'),
         ];
     }
 }

@@ -84,6 +84,30 @@ class Anime extends BaseResource
     }
 
     /**
+     * Get the slug (URI key) for the resource.
+     *
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getSlug(): string
+    {
+        return 'anime';
+    }
+
+    /**
+     * Get the route key for the resource.
+     *
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getRecordRouteKeyName(): ?string
+    {
+        return AnimeModel::ATTRIBUTE_ID;
+    }
+
+    /**
      * The form to the actions.
      *
      * @param  Form  $form
@@ -259,7 +283,7 @@ class Anime extends BaseResource
 
     /**
      * Get the bulk actions available for the resource.
-     * 
+     *
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
@@ -274,7 +298,7 @@ class Anime extends BaseResource
 
     /**
      * Get the pages available for the resource.
-     * 
+     *
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
@@ -284,8 +308,8 @@ class Anime extends BaseResource
         return [
             'index' => ListAnimes::route('/'),
             'create' => CreateAnime::route('/create'),
-            'view' => ViewAnime::route('/{record}'),
-            'edit' => EditAnime::route('/{record}/edit'),
+            'view' => ViewAnime::route('/{record:anime_id}'),
+            'edit' => EditAnime::route('/{record:anime_id}/edit'),
         ];
     }
 }

@@ -71,6 +71,30 @@ class Announcement extends BaseResource
     }
 
     /**
+     * Get the slug (URI key) for the resource.
+     *
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getSlug(): string
+    {
+        return 'announcements';
+    }
+
+    /**
+     * Get the route key for the resource.
+     *
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getRecordRouteKeyName(): ?string
+    {
+        return AnnouncementModel::ATTRIBUTE_ID;
+    }
+
+    /**
      * The form to the actions.
      *
      * @param  Form  $form
@@ -164,7 +188,7 @@ class Announcement extends BaseResource
 
     /**
      * Get the bulk actions available for the resource.
-     * 
+     *
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
@@ -179,7 +203,7 @@ class Announcement extends BaseResource
 
     /**
      * Get the pages available for the resource.
-     * 
+     *
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
@@ -189,8 +213,8 @@ class Announcement extends BaseResource
         return [
             'index' => ListAnnouncements::route('/'),
             'create' => CreateAnnouncement::route('/create'),
-            'view' => ViewAnnouncement::route('/{record}'),
-            'edit' => EditAnnouncement::route('/{record}/edit'),
+            'view' => ViewAnnouncement::route('/{record:announcement_id}'),
+            'edit' => EditAnnouncement::route('/{record:announcement_id}/edit'),
         ];
     }
 }

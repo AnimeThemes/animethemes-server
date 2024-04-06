@@ -71,6 +71,30 @@ class Permission extends BaseResource
     }
 
     /**
+     * Get the slug (URI key) for the resource.
+     *
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getSlug(): string
+    {
+        return 'permissions';
+    }
+
+    /**
+     * Get the route key for the resource.
+     *
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getRecordRouteKeyName(): ?string
+    {
+        return PermissionModel::ATTRIBUTE_ID;
+    }
+
+    /**
      * The form to the actions.
      *
      * @param  Form  $form
@@ -162,7 +186,7 @@ class Permission extends BaseResource
 
     /**
      * Get the bulk actions available for the resource.
-     * 
+     *
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
@@ -177,7 +201,7 @@ class Permission extends BaseResource
 
     /**
      * Get the pages available for the resource.
-     * 
+     *
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
@@ -187,8 +211,8 @@ class Permission extends BaseResource
         return [
             'index' => ListPermissions::route('/'),
             'create' => CreatePermission::route('/create'),
-            'view' => ViewPermission::route('/{record}'),
-            'edit' => EditPermission::route('/{record}/edit'),
+            'view' => ViewPermission::route('/{record:id}'),
+            'edit' => EditPermission::route('/{record:id}/edit'),
         ];
     }
 }

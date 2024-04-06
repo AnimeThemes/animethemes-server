@@ -80,6 +80,30 @@ class FeaturedTheme extends BaseResource
     }
 
     /**
+     * Get the slug (URI key) for the resource.
+     *
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getSlug(): string
+    {
+        return 'featured-themes';
+    }
+
+    /**
+     * Get the route key for the resource.
+     *
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getRecordRouteKeyName(): ?string
+    {
+        return FeaturedThemeModel::ATTRIBUTE_ID;
+    }
+
+    /**
      * The form to the actions.
      *
      * @param  Form  $form
@@ -231,7 +255,7 @@ class FeaturedTheme extends BaseResource
 
     /**
      * Get the bulk actions available for the resource.
-     * 
+     *
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
@@ -246,7 +270,7 @@ class FeaturedTheme extends BaseResource
 
     /**
      * Get the pages available for the resource.
-     * 
+     *
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
@@ -256,8 +280,8 @@ class FeaturedTheme extends BaseResource
         return [
             'index' => ListFeaturedThemes::route('/'),
             'create' => CreateFeaturedTheme::route('/create'),
-            'view' => ViewFeaturedTheme::route('/{record}'),
-            'edit' => EditFeaturedTheme::route('/{record}/edit'),
+            'view' => ViewFeaturedTheme::route('/{record:featured_theme_id}'),
+            'edit' => EditFeaturedTheme::route('/{record:featured_theme_id}/edit'),
         ];
     }
 }

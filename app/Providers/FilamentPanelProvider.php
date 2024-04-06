@@ -28,7 +28,9 @@ class FilamentPanelProvider extends PanelProvider
     {
         TextColumn::macro('urlToRelated', function (string $resourceRelated, string $relation): TextColumn {
             /** @var TextColumn $this */
-            return $this->url(fn (Model $record): string => (new $resourceRelated)::getUrl('edit', ['record' => $record->$relation]));
+            return $this
+                ->color('info')
+                ->url(fn (Model $record): string => (new $resourceRelated)::getUrl('edit', ['record' => $record->$relation]));
         });
 
         return $panel

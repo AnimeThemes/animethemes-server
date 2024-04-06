@@ -71,6 +71,30 @@ class Dump extends BaseResource
     }
 
     /**
+     * Get the slug (URI key) for the resource.
+     *
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getSlug(): string
+    {
+        return 'dumps';
+    }
+
+    /**
+     * Get the route key for the resource.
+     *
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getRecordRouteKeyName(): ?string
+    {
+        return DumpModel::ATTRIBUTE_ID;
+    }
+
+    /**
      * The form to the actions.
      *
      * @param  Form  $form
@@ -165,7 +189,7 @@ class Dump extends BaseResource
 
     /**
      * Get the bulk actions available for the resource.
-     * 
+     *
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
@@ -180,7 +204,7 @@ class Dump extends BaseResource
 
     /**
      * Get the pages available for the resource.
-     * 
+     *
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
@@ -190,8 +214,8 @@ class Dump extends BaseResource
         return [
             'index' => ListDumps::route('/'),
             'create' => CreateDump::route('/create'),
-            'view' => ViewDump::route('/{record}'),
-            'edit' => EditDump::route('/{record}/edit'),
+            'view' => ViewDump::route('/{record:dump_id}'),
+            'edit' => EditDump::route('/{record:dump_id}/edit'),
         ];
     }
 }

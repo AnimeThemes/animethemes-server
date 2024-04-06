@@ -75,6 +75,30 @@ class Playlist extends BaseResource
     }
 
     /**
+     * Get the slug (URI key) for the resource.
+     *
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getSlug(): string
+    {
+        return 'playlists';
+    }
+
+    /**
+     * Get the route key for the resource.
+     *
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getRecordRouteKeyName(): ?string
+    {
+        return PlaylistModel::ATTRIBUTE_ID;
+    }
+
+    /**
      * The form to the actions.
      *
      * @param  Form  $form
@@ -189,7 +213,7 @@ class Playlist extends BaseResource
 
     /**
      * Get the bulk actions available for the resource.
-     * 
+     *
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
@@ -204,7 +228,7 @@ class Playlist extends BaseResource
 
     /**
      * Get the pages available for the resource.
-     * 
+     *
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
@@ -214,8 +238,8 @@ class Playlist extends BaseResource
         return [
             'index' => ListPlaylists::route('/'),
             'create' => CreatePlaylist::route('/create'),
-            'view' => ViewPlaylist::route('/{record}'),
-            'edit' => EditPlaylist::route('/{record}/edit'),
+            'view' => ViewPlaylist::route('/{record:playlist_id}'),
+            'edit' => EditPlaylist::route('/{record:playlist_id}/edit'),
         ];
     }
 }

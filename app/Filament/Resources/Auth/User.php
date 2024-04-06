@@ -71,6 +71,30 @@ class User extends BaseResource
     }
 
     /**
+     * Get the slug (URI key) for the resource.
+     *
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getSlug(): string
+    {
+        return 'users';
+    }
+
+    /**
+     * Get the route key for the resource.
+     *
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getRecordRouteKeyName(): ?string
+    {
+        return UserModel::ATTRIBUTE_ID;
+    }
+
+    /**
      * The form to the actions.
      *
      * @param  Form  $form
@@ -172,7 +196,7 @@ class User extends BaseResource
 
     /**
      * Get the bulk actions available for the resource.
-     * 
+     *
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
@@ -187,7 +211,7 @@ class User extends BaseResource
 
     /**
      * Get the pages available for the resource.
-     * 
+     *
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
@@ -197,8 +221,8 @@ class User extends BaseResource
         return [
             'index' => ListUsers::route('/'),
             'create' => CreateUser::route('/create'),
-            'view' => ViewUser::route('/{record}'),
-            'edit' => EditUser::route('/{record}/edit'),
+            'view' => ViewUser::route('/{record:id}'),
+            'edit' => EditUser::route('/{record:id}/edit'),
         ];
     }
 }

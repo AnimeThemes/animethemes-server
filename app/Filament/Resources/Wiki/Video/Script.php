@@ -71,6 +71,30 @@ class Script extends BaseResource
     }
 
     /**
+     * Get the slug (URI key) for the resource.
+     *
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getSlug(): string
+    {
+        return 'video-scripts';
+    }
+
+    /**
+     * Get the route key for the resource.
+     *
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getRecordRouteKeyName(): ?string
+    {
+        return ScriptModel::ATTRIBUTE_ID;
+    }
+
+    /**
      * The form to the actions.
      *
      * @param  Form  $form
@@ -161,7 +185,7 @@ class Script extends BaseResource
 
     /**
      * Get the bulk actions available for the resource.
-     * 
+     *
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
@@ -176,7 +200,7 @@ class Script extends BaseResource
 
     /**
      * Get the pages available for the resource.
-     * 
+     *
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
@@ -186,8 +210,8 @@ class Script extends BaseResource
         return [
             'index' => ListScripts::route('/'),
             'create' => CreateScript::route('/create'),
-            'view' => ViewScript::route('/{record}'),
-            'edit' => EditScript::route('/{record}/edit'),
+            'view' => ViewScript::route('/{record:script_id}'),
+            'edit' => EditScript::route('/{record:script_id}/edit'),
         ];
     }
 }

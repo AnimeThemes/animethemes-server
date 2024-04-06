@@ -71,6 +71,30 @@ class Track extends BaseResource
     }
 
     /**
+     * Get the slug (URI key) for the resource.
+     *
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getSlug(): string
+    {
+        return 'tracks';
+    }
+
+    /**
+     * Get the route key for the resource.
+     *
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getRecordRouteKeyName(): ?string
+    {
+        return TrackModel::ATTRIBUTE_ID;
+    }
+
+    /**
      * The form to the actions.
      *
      * @param  Form  $form
@@ -160,7 +184,7 @@ class Track extends BaseResource
 
     /**
      * Get the bulk actions available for the resource.
-     * 
+     *
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
@@ -175,7 +199,7 @@ class Track extends BaseResource
 
     /**
      * Get the pages available for the resource.
-     * 
+     *
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
@@ -185,8 +209,8 @@ class Track extends BaseResource
         return [
             'index' => ListTracks::route('/'),
             'create' => CreateTrack::route('/create'),
-            'view' => ViewTrack::route('/{record}'),
-            'edit' => EditTrack::route('/{record}/edit'),
+            'view' => ViewTrack::route('/{record:track_id}'),
+            'edit' => EditTrack::route('/{record:track_id}/edit'),
         ];
     }
 }

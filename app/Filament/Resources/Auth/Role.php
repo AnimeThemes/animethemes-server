@@ -75,6 +75,30 @@ class Role extends BaseResource
     }
 
     /**
+     * Get the slug (URI key) for the resource.
+     *
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getSlug(): string
+    {
+        return 'roles';
+    }
+
+    /**
+     * Get the route key for the resource.
+     *
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getRecordRouteKeyName(): ?string
+    {
+        return RoleModel::ATTRIBUTE_ID;
+    }
+
+    /**
      * The form to the actions.
      *
      * @param  Form  $form
@@ -195,7 +219,7 @@ class Role extends BaseResource
 
     /**
      * Get the bulk actions available for the resource.
-     * 
+     *
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
@@ -210,7 +234,7 @@ class Role extends BaseResource
 
     /**
      * Get the pages available for the resource.
-     * 
+     *
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
@@ -220,8 +244,8 @@ class Role extends BaseResource
         return [
             'index' => ListRoles::route('/'),
             'create' => CreateRole::route('/create'),
-            'view' => ViewRole::route('/{record}'),
-            'edit' => EditRole::route('/{record}/edit'),
+            'view' => ViewRole::route('/{record:id}'),
+            'edit' => EditRole::route('/{record:id}/edit'),
         ];
     }
 }

@@ -75,6 +75,30 @@ class Page extends BaseResource
     }
 
     /**
+     * Get the slug (URI key) for the resource.
+     *
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getSlug(): string
+    {
+        return 'pages';
+    }
+
+    /**
+     * Get the route key for the resource.
+     *
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getRecordRouteKeyName(): ?string
+    {
+        return PageModel::ATTRIBUTE_ID;
+    }
+
+    /**
      * The form to the actions.
      *
      * @param  Form  $form
@@ -197,7 +221,7 @@ class Page extends BaseResource
 
     /**
      * Get the bulk actions available for the resource.
-     * 
+     *
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
@@ -212,7 +236,7 @@ class Page extends BaseResource
 
     /**
      * Get the pages available for the resource.
-     * 
+     *
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
@@ -222,8 +246,8 @@ class Page extends BaseResource
         return [
             'index' => ListPages::route('/'),
             'create' => CreatePage::route('/create'),
-            'view' => ViewPage::route('/{record}'),
-            'edit' => EditPage::route('/{record}/edit'),
+            'view' => ViewPage::route('/{record:page_id}'),
+            'edit' => EditPage::route('/{record:page_id}/edit'),
         ];
     }
 }

@@ -88,6 +88,30 @@ class ExternalResource extends BaseResource
     }
 
     /**
+     * Get the slug (URI key) for the resource.
+     *
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getSlug(): string
+    {
+        return 'external-resources';
+    }
+
+    /**
+     * Get the route key for the resource.
+     *
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getRecordRouteKeyName(): ?string
+    {
+        return ExternalResourceModel::ATTRIBUTE_ID;
+    }
+
+    /**
      * The form to the actions.
      *
      * @param  Form  $form
@@ -234,7 +258,7 @@ class ExternalResource extends BaseResource
 
     /**
      * Get the bulk actions available for the resource.
-     * 
+     *
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
@@ -249,7 +273,7 @@ class ExternalResource extends BaseResource
 
     /**
      * Get the pages available for the resource.
-     * 
+     *
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
@@ -259,8 +283,8 @@ class ExternalResource extends BaseResource
         return [
             'index' => ListExternalResources::route('/'),
             'create' => CreateExternalResource::route('/create'),
-            'view' => ViewExternalResource::route('/{record}'),
-            'edit' => EditExternalResource::route('/{record}/edit'),
+            'view' => ViewExternalResource::route('/{record:resource_id}'),
+            'edit' => EditExternalResource::route('/{record:resource_id}/edit'),
         ];
     }
 }
