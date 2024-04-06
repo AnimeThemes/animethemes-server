@@ -11,9 +11,11 @@ use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Widgets;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
@@ -24,6 +26,11 @@ class FilamentPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
+        TextColumn::macro('urlToRelated', function (string $resourceRelated, string $relation): TextColumn {
+            /** @var TextColumn $this */
+            return $this->url(fn (Model $record): string => (new $resourceRelated)::getUrl('edit', ['record' => $record->$relation]));
+        });
+
         return $panel
             ->default()
             ->id('admin')

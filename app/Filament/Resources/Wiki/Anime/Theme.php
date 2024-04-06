@@ -10,7 +10,9 @@ use App\Filament\Resources\Wiki\Anime\Theme\Pages\CreateTheme;
 use App\Filament\Resources\Wiki\Anime\Theme\Pages\EditTheme;
 use App\Filament\Resources\Wiki\Anime\Theme\Pages\ListThemes;
 use App\Filament\Resources\Wiki\Anime\Theme\Pages\ViewTheme;
+use App\Filament\Resources\Wiki\Song as SongResource;
 use App\Models\Wiki\Anime\AnimeTheme as ThemeModel;
+use App\Models\Wiki\Song;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
@@ -113,6 +115,11 @@ class Theme extends BaseResource
                     ->required()
                     ->maxLength(192)
                     ->rules(['required', 'max:192', 'alpha_dash', Rule::unique(ThemeModel::class)]),
+
+                Select::make(ThemeModel::ATTRIBUTE_SONG)
+                    ->relationship(ThemeModel::RELATION_SONG, Song::ATTRIBUTE_TITLE)
+                    ->searchable()
+                    ->createOptionForm(SongResource::form($form)->getComponents()),
             ])
             ->columns(2);
     }

@@ -18,6 +18,7 @@ use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 /**
@@ -36,6 +37,7 @@ abstract class BaseRelationManager extends RelationManager
     public function table(Table $table): Table
     {
         return $table
+            ->recordUrl(fn (Model $record): string => static::getUrl('edit', ['record' => $record]))
             ->paginated([5, 10, 25])
             ->defaultPaginationPageOption(5);
     }
