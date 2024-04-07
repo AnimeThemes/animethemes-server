@@ -5,11 +5,14 @@ declare(strict_types=1);
 namespace App\Filament\Resources\Wiki\Anime;
 
 use App\Filament\Resources\BaseResource;
+use App\Filament\Resources\Wiki\Anime as AnimeResource;
 use App\Filament\Resources\Wiki\Anime\Synonym\Pages\CreateSynonym;
 use App\Filament\Resources\Wiki\Anime\Synonym\Pages\EditSynonym;
 use App\Filament\Resources\Wiki\Anime\Synonym\Pages\ListSynonyms;
 use App\Filament\Resources\Wiki\Anime\Synonym\Pages\ViewSynonym;
+use App\Models\Wiki\Anime as AnimeModel;
 use App\Models\Wiki\Anime\AnimeSynonym as SynonymModel;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Tables\Columns\TextColumn;
@@ -106,6 +109,12 @@ class Synonym extends BaseResource
     {
         return $form
             ->schema([
+                Select::make(SynonymModel::ATTRIBUTE_ANIME)
+                    ->label(__('filament.resources.singularLabel.anime'))
+                    ->relationship(SynonymModel::RELATION_ANIME, AnimeModel::ATTRIBUTE_NAME)
+                    ->searchable()
+                    ->createOptionForm(AnimeResource::form($form)->getComponents()),
+
                 TextInput::make(SynonymModel::ATTRIBUTE_TEXT)
                     ->label(__('filament.fields.anime_synonym.text.name'))
                     ->helperText(__('filament.fields.anime_synonym.text.help'))
@@ -132,6 +141,10 @@ class Synonym extends BaseResource
                     ->label(__('filament.fields.base.id'))
                     ->numeric()
                     ->sortable(),
+
+                TextColumn::make(SynonymModel::RELATION_ANIME.'.'.AnimeModel::ATTRIBUTE_NAME)
+                    ->label(__('filament.resources.singularLabel.anime'))
+                    ->urlToRelated(AnimeResource::class, SynonymModel::RELATION_ANIME),
 
                 TextColumn::make(SynonymModel::ATTRIBUTE_TEXT)
                     ->label(__('filament.fields.anime_synonym.text.name'))

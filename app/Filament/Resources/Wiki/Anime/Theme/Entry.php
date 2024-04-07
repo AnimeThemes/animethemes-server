@@ -5,13 +5,17 @@ declare(strict_types=1);
 namespace App\Filament\Resources\Wiki\Anime\Theme;
 
 use App\Filament\Resources\BaseResource;
+use App\Filament\Resources\Wiki\Anime as AnimeResource;
+use App\Filament\Resources\Wiki\Anime\Theme as ThemeResource;
 use App\Filament\Resources\Wiki\Anime\Theme\Entry\Pages\CreateEntry;
 use App\Filament\Resources\Wiki\Anime\Theme\Entry\Pages\EditEntry;
 use App\Filament\Resources\Wiki\Anime\Theme\Entry\Pages\ListEntries;
 use App\Filament\Resources\Wiki\Anime\Theme\Entry\Pages\ViewEntry;
-use App\Models\Wiki\Anime;
+use App\Models\Wiki\Anime as AnimeModel;
+use App\Models\Wiki\Anime\AnimeTheme as ThemeModel;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry as EntryModel;
 use Filament\Forms\Components\Checkbox;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Tables\Columns\CheckboxColumn;
@@ -107,7 +111,7 @@ class Entry extends BaseResource
      */
     public static function getGloballySearchableAttributes(): array
     {
-        return [EntryModel::RELATION_ANIME.'.'.Anime::ATTRIBUTE_NAME];
+        return [EntryModel::RELATION_ANIME.'.'.AnimeModel::ATTRIBUTE_NAME];
     }
 
     /**
@@ -146,6 +150,18 @@ class Entry extends BaseResource
     {
         return $form
             ->schema([
+                Select::make(EntryModel::RELATION_ANIME.'.'.AnimeModel::ATTRIBUTE_NAME)
+                    ->label(__('filament.resources.singularLabel.anime'))
+                    ->relationship(EntryModel::RELATION_ANIME, AnimeModel::ATTRIBUTE_NAME)
+                    ->searchable()
+                    ->createOptionForm(AnimeResource::form($form)->getComponents()),
+
+                Select::make(EntryModel::ATTRIBUTE_THEME)
+                    ->label(__('filament.resources.singularLabel.anime_theme'))
+                    ->relationship(EntryModel::RELATION_THEME, ThemeModel::ATTRIBUTE_SLUG)
+                    ->searchable()
+                    ->createOptionForm(ThemeResource::form($form)->getComponents()),
+
                 TextInput::make(EntryModel::ATTRIBUTE_VERSION)
                     ->label(__('filament.fields.anime_theme_entry.version.name'))
                     ->helperText(__('filament.fields.anime_theme_entry.version.help'))
@@ -189,6 +205,14 @@ class Entry extends BaseResource
     {
         return parent::table($table)
             ->columns([
+                TextColumn::make(EntryModel::RELATION_ANIME.'.'.AnimeModel::ATTRIBUTE_NAME)
+                    ->label(__('filament.resources.singularLabel.anime'))
+                    ->urlToRelated(AnimeResource::class, EntryModel::RELATION_ANIME),
+
+                TextColumn::make(EntryModel::RELATION_THEME.'.'.ThemeModel::ATTRIBUTE_SLUG)
+                    ->label(__('filament.resources.singularLabel.anime_theme'))
+                    ->urlToRelated(ThemeResource::class, EntryModel::RELATION_THEME),
+
                 TextColumn::make(EntryModel::ATTRIBUTE_ID)
                     ->label(__('filament.fields.base.id'))
                     ->numeric()

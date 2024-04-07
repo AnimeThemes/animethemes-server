@@ -7,10 +7,12 @@ namespace App\Filament\Resources\Wiki;
 use App\Enums\Models\Wiki\VideoOverlap;
 use App\Enums\Models\Wiki\VideoSource;
 use App\Filament\Resources\BaseResource;
+use App\Filament\Resources\Wiki\Audio as AudioResource;
 use App\Filament\Resources\Wiki\Video\Pages\CreateVideo;
 use App\Filament\Resources\Wiki\Video\Pages\EditVideo;
 use App\Filament\Resources\Wiki\Video\Pages\ListVideos;
 use App\Filament\Resources\Wiki\Video\Pages\ViewVideo;
+use App\Models\Wiki\Audio as AudioModel;
 use App\Models\Wiki\Video as VideoModel;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\Select;
@@ -156,6 +158,12 @@ class Video extends BaseResource
                     ->required()
                     ->rules(['required', new Enum(VideoSource::class)]),
 
+                Select::make(VideoModel::ATTRIBUTE_AUDIO)
+                    ->label(__('filament.resources.singularLabel.audio'))
+                    ->relationship(VideoModel::RELATION_AUDIO, AudioModel::ATTRIBUTE_FILENAME)
+                    ->searchable()
+                    ->createOptionForm(AudioResource::form($form)->getComponents()),
+
                 TextInput::make(VideoModel::ATTRIBUTE_BASENAME)
                     ->label(__('filament.fields.video.basename.name'))
                     ->hiddenOn(['create', 'edit']),
@@ -220,6 +228,10 @@ class Video extends BaseResource
                 SelectColumn::make(VideoModel::ATTRIBUTE_SOURCE)
                     ->label(__('filament.fields.video.source.name'))
                     ->options(VideoSource::asSelectArray()),
+
+                TextColumn::make(VideoModel::RELATION_AUDIO.'.'.AudioModel::ATTRIBUTE_FILENAME)
+                    ->label(__('filament.resources.singularLabel.audio'))
+                    ->visibleOn(['create', 'edit']),
 
                 TextColumn::make(VideoModel::ATTRIBUTE_BASENAME)
                     ->label(__('filament.fields.video.basename.name'))

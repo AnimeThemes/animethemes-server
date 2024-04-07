@@ -6,11 +6,13 @@ namespace App\Filament\Resources\Wiki\Anime;
 
 use App\Enums\Models\Wiki\ThemeType;
 use App\Filament\Resources\BaseResource;
+use App\Filament\Resources\Wiki\Anime as AnimeResource;
 use App\Filament\Resources\Wiki\Anime\Theme\Pages\CreateTheme;
 use App\Filament\Resources\Wiki\Anime\Theme\Pages\EditTheme;
 use App\Filament\Resources\Wiki\Anime\Theme\Pages\ListThemes;
 use App\Filament\Resources\Wiki\Anime\Theme\Pages\ViewTheme;
 use App\Filament\Resources\Wiki\Song as SongResource;
+use App\Models\Wiki\Anime as AnimeModel;
 use App\Models\Wiki\Anime\AnimeTheme as ThemeModel;
 use App\Models\Wiki\Song;
 use Filament\Forms\Components\Select;
@@ -113,6 +115,12 @@ class Theme extends BaseResource
     {
         return $form
             ->schema([
+                Select::make(ThemeModel::ATTRIBUTE_ANIME)
+                    ->label(__('filament.resources.singularLabel.anime'))
+                    ->relationship(ThemeModel::RELATION_ANIME, AnimeModel::ATTRIBUTE_NAME)
+                    ->searchable()
+                    ->createOptionForm(AnimeResource::form($form)->getComponents()),
+
                 Select::make(ThemeModel::ATTRIBUTE_TYPE)
                     ->label(__('filament.fields.anime_theme.type.name'))
                     ->helperText(__('filament.fields.anime_theme.type.help'))
@@ -160,6 +168,10 @@ class Theme extends BaseResource
     {
         return parent::table($table)
             ->columns([
+                TextColumn::make(ThemeModel::RELATION_ANIME.'.'.AnimeModel::ATTRIBUTE_NAME)
+                    ->label(__('filament.resources.singularLabel.anime'))
+                    ->urlToRelated(AnimeResource::class, ThemeModel::RELATION_ANIME),
+
                 TextColumn::make(ThemeModel::ATTRIBUTE_ID)
                     ->label(__('filament.fields.base.id'))
                     ->numeric()

@@ -32,10 +32,11 @@ class FilamentPanelProvider extends PanelProvider
             return $this
                 ->color('info')
                 ->url(function (Model $record) use ($resourceRelated, $relation) { 
-                    if ($record->$relation !== null) {
-                        return (new $resourceRelated)::getUrl('edit', ['record' => $record->$relation]);
-                    }
-                    return null;
+                    foreach (explode('.', $relation) as $element) {
+                        $record = $record->$element;
+                    } 
+
+                    return $record !== null ? (new $resourceRelated)::getUrl('edit', ['record' => $record]) : null;
                 });
         });
 
