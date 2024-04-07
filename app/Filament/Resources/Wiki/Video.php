@@ -12,6 +12,8 @@ use App\Filament\Resources\Wiki\Video\Pages\CreateVideo;
 use App\Filament\Resources\Wiki\Video\Pages\EditVideo;
 use App\Filament\Resources\Wiki\Video\Pages\ListVideos;
 use App\Filament\Resources\Wiki\Video\Pages\ViewVideo;
+use App\Filament\Resources\Wiki\Video\RelationManagers\EntryVideoRelationManager;
+use App\Filament\Resources\Wiki\Video\RelationManagers\TrackVideoRelationManager;
 use App\Models\Wiki\Audio as AudioModel;
 use App\Models\Wiki\Video as VideoModel;
 use Filament\Forms\Components\Checkbox;
@@ -277,7 +279,10 @@ class Video extends BaseResource
      */
     public static function getRelations(): array
     {
-        return [];
+        return [
+            EntryVideoRelationManager::class,
+            TrackVideoRelationManager::class,
+        ];
     }
 
     /**

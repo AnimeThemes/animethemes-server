@@ -9,6 +9,8 @@ use App\Filament\Resources\Auth\Permission\Pages\CreatePermission;
 use App\Filament\Resources\Auth\Permission\Pages\EditPermission;
 use App\Filament\Resources\Auth\Permission\Pages\ListPermissions;
 use App\Filament\Resources\Auth\Permission\Pages\ViewPermission;
+use App\Filament\Resources\Auth\Permission\RelationManagers\RolePermissionRelationManager;
+use App\Filament\Resources\Auth\Permission\RelationManagers\UserPermissionRelationManager;
 use App\Models\Auth\Permission as PermissionModel;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
@@ -154,7 +156,10 @@ class Permission extends BaseResource
      */
     public static function getRelations(): array
     {
-        return [];
+        return [
+            RolePermissionRelationManager::class,
+            UserPermissionRelationManager::class,
+        ];
     }
 
     /**

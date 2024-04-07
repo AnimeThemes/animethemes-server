@@ -10,8 +10,10 @@ use App\Filament\Resources\Wiki\Song\Pages\CreateSong;
 use App\Filament\Resources\Wiki\Song\Pages\EditSong;
 use App\Filament\Resources\Wiki\Song\Pages\ListSongs;
 use App\Filament\Resources\Wiki\Song\Pages\ViewSong;
+use App\Filament\Resources\Wiki\Song\RelationManagers\ArtistSongRelationManager;
 use App\Filament\Resources\Wiki\Song\RelationManagers\ResourceSongRelationManager;
 use App\Filament\Resources\Wiki\Song\RelationManagers\ResourcesRelationManager;
+use App\Filament\Resources\Wiki\Song\RelationManagers\ThemeSongRelationManager;
 use App\Models\Wiki\Song as SongModel;
 use App\Pivots\Wiki\SongResource;
 use Filament\Forms\Components\TextInput;
@@ -191,6 +193,8 @@ class Song extends BaseResource
     public static function getRelations(): array
     {
         return [
+            ArtistSongRelationManager::class,
+            ThemeSongRelationManager::class,
             ResourceSongRelationManager::class,
         ];
     }

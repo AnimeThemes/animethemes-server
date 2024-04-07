@@ -9,6 +9,7 @@ use App\Filament\Resources\Wiki\Audio\Pages\CreateAudio;
 use App\Filament\Resources\Wiki\Audio\Pages\EditAudio;
 use App\Filament\Resources\Wiki\Audio\Pages\ListAudios;
 use App\Filament\Resources\Wiki\Audio\Pages\ViewAudio;
+use App\Filament\Resources\Wiki\Audio\RelationManagers\VideoAudioRelationManager;
 use App\Models\Wiki\Audio as AudioModel;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\TextInput;
@@ -192,7 +193,9 @@ class Audio extends BaseResource
      */
     public static function getRelations(): array
     {
-        return [];
+        return [
+            VideoAudioRelationManager::class,
+        ];
     }
 
     /**

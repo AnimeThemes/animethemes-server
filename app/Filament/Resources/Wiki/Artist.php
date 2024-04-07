@@ -9,7 +9,11 @@ use App\Filament\Resources\Wiki\Artist\Pages\CreateArtist;
 use App\Filament\Resources\Wiki\Artist\Pages\EditArtist;
 use App\Filament\Resources\Wiki\Artist\Pages\ListArtists;
 use App\Filament\Resources\Wiki\Artist\Pages\ViewArtist;
+use App\Filament\Resources\Wiki\Artist\RelationManagers\GroupArtistRelationManager;
+use App\Filament\Resources\Wiki\Artist\RelationManagers\ImageArtistRelationManager;
+use App\Filament\Resources\Wiki\Artist\RelationManagers\MemberArtistRelationManager;
 use App\Filament\Resources\Wiki\Artist\RelationManagers\ResourceArtistRelationManager;
+use App\Filament\Resources\Wiki\Artist\RelationManagers\SongArtistRelationManager;
 use App\Filament\Resources\Wiki\ExternalResource\RelationManagers\ArtistResourceRelationManager;
 use App\Models\Wiki\Artist as ArtistModel;
 use App\Pivots\Wiki\ArtistResource;
@@ -208,7 +212,11 @@ class Artist extends BaseResource
     public static function getRelations(): array
     {
         return [
+            SongArtistRelationManager::class,
             ResourceArtistRelationManager::class,
+            MemberArtistRelationManager::class,
+            GroupArtistRelationManager::class,
+            ImageArtistRelationManager::class,
         ];
     }
 

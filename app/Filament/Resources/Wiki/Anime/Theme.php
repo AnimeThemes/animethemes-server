@@ -137,16 +137,15 @@ class Theme extends BaseResource
                 TextInput::make(ThemeModel::ATTRIBUTE_GROUP)
                     ->label(__('filament.fields.anime_theme.group.name'))
                     ->helperText(__('filament.fields.anime_theme.group.help'))
-                    ->required()
                     ->maxLength(192)
-                    ->rules(['required', 'max:192']),
+                    ->rules(['max:192']),
 
                 TextInput::make(ThemeModel::ATTRIBUTE_SLUG)
                     ->label(__('filament.fields.anime_theme.slug.name'))
                     ->helperText(__('filament.fields.anime_theme.slug.help'))
                     ->required()
                     ->maxLength(192)
-                    ->rules(['required', 'max:192', 'alpha_dash', Rule::unique(ThemeModel::class)]),
+                    ->rules(['required', 'max:192', 'alpha_dash']),
 
                 Select::make(ThemeModel::ATTRIBUTE_SONG)
                     ->relationship(ThemeModel::RELATION_SONG, Song::ATTRIBUTE_TITLE)

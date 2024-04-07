@@ -11,11 +11,19 @@ use App\Filament\Resources\Wiki\Anime\Pages\CreateAnime;
 use App\Filament\Resources\Wiki\Anime\Pages\EditAnime;
 use App\Filament\Resources\Wiki\Anime\Pages\ListAnimes;
 use App\Filament\Resources\Wiki\Anime\Pages\ViewAnime;
+use App\Filament\Resources\Wiki\Anime\RelationManagers\ImageAnimeRelationManager;
 use App\Filament\Resources\Wiki\Anime\RelationManagers\ResourceAnimeRelationManager;
+use App\Filament\Resources\Wiki\Anime\RelationManagers\SeriesAnimeRelationManager;
+use App\Filament\Resources\Wiki\Anime\RelationManagers\StudioAnimeRelationManager;
+use App\Filament\Resources\Wiki\Anime\RelationManagers\SynonymAnimeRelationManager;
+use App\Filament\Resources\Wiki\Anime\RelationManagers\ThemeAnimeRelationManager;
+use App\Filament\Resources\Wiki\Anime\Theme as ThemeResource;
 use App\Filament\Resources\Wiki\ExternalResource\RelationManagers\AnimeResourceRelationManager;
 use App\Models\Wiki\Anime as AnimeModel;
 use App\Pivots\Wiki\AnimeResource;
+use Filament\Forms\Components\Group;
 use Filament\Forms\Components\MarkdownEditor;
+use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
@@ -263,7 +271,12 @@ class Anime extends BaseResource
     public static function getRelations(): array
     {
         return [
+            SynonymAnimeRelationManager::class,
+            ThemeAnimeRelationManager::class,
+            SeriesAnimeRelationManager::class,
             ResourceAnimeRelationManager::class,
+            ImageAnimeRelationManager::class,
+            StudioAnimeRelationManager::class,
         ];
     }
 

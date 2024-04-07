@@ -9,6 +9,9 @@ use App\Filament\Resources\Auth\User\Pages\CreateUser;
 use App\Filament\Resources\Auth\User\Pages\EditUser;
 use App\Filament\Resources\Auth\User\Pages\ListUsers;
 use App\Filament\Resources\Auth\User\Pages\ViewUser;
+use App\Filament\Resources\Auth\User\RelationManagers\PermissionUserRelationManager;
+use App\Filament\Resources\Auth\User\RelationManagers\PlaylistUserRelationManager;
+use App\Filament\Resources\Auth\User\RelationManagers\RoleUserRelationManager;
 use App\Models\Auth\User as UserModel;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
@@ -164,7 +167,11 @@ class User extends BaseResource
      */
     public static function getRelations(): array
     {
-        return [];
+        return [
+            RoleUserRelationManager::class,
+            PermissionUserRelationManager::class,
+            PlaylistUserRelationManager::class,
+        ];
     }
 
     /**

@@ -10,6 +10,10 @@ use App\Filament\Resources\Wiki\Image\Pages\CreateImage;
 use App\Filament\Resources\Wiki\Image\Pages\EditImage;
 use App\Filament\Resources\Wiki\Image\Pages\ListImages;
 use App\Filament\Resources\Wiki\Image\Pages\ViewImage;
+use App\Filament\Resources\Wiki\Image\RelationManagers\AnimeImageRelationManager;
+use App\Filament\Resources\Wiki\Image\RelationManagers\ArtistImageRelationManager;
+use App\Filament\Resources\Wiki\Image\RelationManagers\PlaylistImageRelationManager;
+use App\Filament\Resources\Wiki\Image\RelationManagers\StudioImageRelationManager;
 use App\Models\Wiki\Image as ImageModel;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Form;
@@ -162,7 +166,12 @@ class Image extends BaseResource
      */
     public static function getRelations(): array
     {
-        return [];
+        return [
+            AnimeImageRelationManager::class,
+            ArtistImageRelationManager::class,
+            PlaylistImageRelationManager::class,
+            StudioImageRelationManager::class,
+        ];
     }
 
     /**

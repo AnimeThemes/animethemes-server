@@ -9,6 +9,8 @@ use App\Filament\Resources\Auth\Role\Pages\CreateRole;
 use App\Filament\Resources\Auth\Role\Pages\EditRole;
 use App\Filament\Resources\Auth\Role\Pages\ListRoles;
 use App\Filament\Resources\Auth\Role\Pages\ViewRole;
+use App\Filament\Resources\Auth\Role\RelationManagers\PermissionRoleRelationManager;
+use App\Filament\Resources\Auth\Role\RelationManagers\UserRoleRelationManager;
 use App\Models\Auth\Role as RoleModel;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\ColorPicker;
@@ -187,7 +189,10 @@ class Role extends BaseResource
      */
     public static function getRelations(): array
     {
-        return [];
+        return [
+            PermissionRoleRelationManager::class,
+            UserRoleRelationManager::class,
+        ];
     }
 
     /**

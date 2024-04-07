@@ -9,6 +9,7 @@ use App\Filament\Resources\Wiki\Series\Pages\CreateSeries;
 use App\Filament\Resources\Wiki\Series\Pages\EditSeries;
 use App\Filament\Resources\Wiki\Series\Pages\ListSeries;
 use App\Filament\Resources\Wiki\Series\Pages\ViewSeries;
+use App\Filament\Resources\Wiki\Series\RelationManagers\AnimeSeriesRelationManager;
 use App\Models\Wiki\Series as SeriesModel;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
@@ -195,7 +196,9 @@ class Series extends BaseResource
      */
     public static function getRelations(): array
     {
-        return [];
+        return [
+            AnimeSeriesRelationManager::class,
+        ];
     }
 
     /**

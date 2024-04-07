@@ -12,6 +12,8 @@ use App\Filament\Resources\List\Playlist\Pages\EditPlaylist;
 use App\Filament\Resources\List\Playlist\Pages\ListPlaylists;
 use App\Filament\Resources\List\Playlist\Pages\ViewPlaylist;
 use App\Filament\Resources\List\Playlist\Track;
+use App\Filament\Resources\Wiki\Playlist\RelationManagers\ImagePlaylistRelationManager;
+use App\Filament\Resources\Wiki\Playlist\RelationManagers\TrackPlaylistRelationManager;
 use App\Models\Auth\User as UserModel;
 use App\Models\List\Playlist as PlaylistModel;
 use App\Models\List\Playlist\PlaylistTrack as TrackModel;
@@ -211,7 +213,10 @@ class Playlist extends BaseResource
      */
     public static function getRelations(): array
     {
-        return [];
+        return [
+            ImagePlaylistRelationManager::class,
+            TrackPlaylistRelationManager::class,
+        ];
     }
 
     /**

@@ -10,6 +10,8 @@ use App\Filament\Resources\Wiki\Studio\Pages\CreateStudio;
 use App\Filament\Resources\Wiki\Studio\Pages\EditStudio;
 use App\Filament\Resources\Wiki\Studio\Pages\ListStudios;
 use App\Filament\Resources\Wiki\Studio\Pages\ViewStudio;
+use App\Filament\Resources\Wiki\Studio\RelationManagers\AnimeStudioRelationManager;
+use App\Filament\Resources\Wiki\Studio\RelationManagers\ImageStudioRelationManager;
 use App\Filament\Resources\Wiki\Studio\RelationManagers\ResourcesRelationManager;
 use App\Filament\Resources\Wiki\Studio\RelationManagers\ResourceStudioRelationManager;
 use App\Models\Wiki\Studio as StudioModel;
@@ -184,7 +186,9 @@ class Studio extends BaseResource
     public static function getRelations(): array
     {
         return [
+            AnimeStudioRelationManager::class,
             ResourceStudioRelationManager::class,
+            ImageStudioRelationManager::class,
         ];
     }
 
