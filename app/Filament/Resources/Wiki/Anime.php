@@ -84,6 +84,30 @@ class Anime extends BaseResource
     }
 
     /**
+     * Get the title attribute for the resource.
+     *
+     * @return string|null
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getRecordTitleAttribute(): ?string
+    {
+        return AnimeModel::ATTRIBUTE_NAME;
+    }
+
+    /**
+     * Get the attributes available for the global search.
+     *
+     * @return array
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getGloballySearchableAttributes(): array
+    {
+        return [AnimeModel::ATTRIBUTE_NAME];
+    }
+
+    /**
      * Get the slug (URI key) for the resource.
      *
      * @return string

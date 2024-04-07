@@ -9,6 +9,7 @@ use App\Filament\Resources\Wiki\Anime\Theme\Entry\Pages\CreateEntry;
 use App\Filament\Resources\Wiki\Anime\Theme\Entry\Pages\EditEntry;
 use App\Filament\Resources\Wiki\Anime\Theme\Entry\Pages\ListEntries;
 use App\Filament\Resources\Wiki\Anime\Theme\Entry\Pages\ViewEntry;
+use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry as EntryModel;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\TextInput;
@@ -16,6 +17,7 @@ use Filament\Forms\Form;
 use Filament\Tables\Columns\CheckboxColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Entry.
@@ -70,6 +72,42 @@ class Entry extends BaseResource
     public static function getNavigationGroup(): string
     {
         return __('filament.resources.group.wiki');
+    }
+
+    /**
+     * Get the title for the resource.
+     *
+     * @return string|null
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getRecordTitle(?Model $record): ?string
+    {
+        if ($record instanceof EntryModel) {
+            $theme = $record->animetheme;
+            $anime = $theme->anime->name;
+            $text = $anime.' '.$theme->slug;
+
+            if ($record->version !== null) {
+                return $text.'v'.$record->version;
+            }
+
+            return $text;
+        }
+
+        return null;
+    }
+
+    /**
+     * Get the attributes available for the global search.
+     *
+     * @return array
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getGloballySearchableAttributes(): array
+    {
+        return [EntryModel::RELATION_ANIME.'.'.Anime::ATTRIBUTE_NAME];
     }
 
     /**

@@ -15,13 +15,16 @@ use App\Filament\Resources\Wiki\Anime\Theme\Entry as EntryResource;
 use App\Filament\Resources\Wiki\Video as VideoResource;
 use App\Models\Admin\FeaturedTheme as FeaturedThemeModel;
 use App\Models\Auth\User;
-use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
+use App\Models\Wiki\Anime;
+use App\Models\Wiki\Anime\Theme\AnimeThemeEntry as EntryModel;
 use App\Models\Wiki\Video;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Form;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Support\Str;
 
 /**
@@ -153,7 +156,7 @@ class FeaturedTheme extends BaseResource
 
                 Select::make(FeaturedThemeModel::ATTRIBUTE_ENTRY)
                     ->label(__('filament.resources.singularLabel.anime_theme_entry'))
-                    ->relationship(FeaturedThemeModel::RELATION_ENTRY, AnimeThemeEntry::ATTRIBUTE_VERSION)
+                    ->relationship(FeaturedThemeModel::RELATION_ENTRY, EntryModel::ATTRIBUTE_VERSION)
                     ->searchable()
                     ->createOptionForm(EntryResource::form($form)->getComponents()),
 
@@ -197,7 +200,7 @@ class FeaturedTheme extends BaseResource
                     ->label(__('filament.resources.singularLabel.video'))
                     ->urlToRelated(VideoResource::class, FeaturedThemeModel::RELATION_VIDEO),
 
-                TextColumn::make(FeaturedThemeModel::RELATION_ENTRY.'.'.AnimeThemeEntry::ATTRIBUTE_VERSION)
+                TextColumn::make(FeaturedThemeModel::RELATION_ENTRY.'.'.EntryModel::ATTRIBUTE_VERSION)
                     ->label(__('filament.resources.singularLabel.anime_theme_entry'))
                     ->urlToRelated(EntryResource::class, FeaturedThemeModel::RELATION_ENTRY),
 

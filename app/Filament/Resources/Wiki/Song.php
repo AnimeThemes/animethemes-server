@@ -87,6 +87,30 @@ class Song extends BaseResource
     }
 
     /**
+     * Get the title attribute for the resource.
+     *
+     * @return string|null
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getRecordTitleAttribute(): ?string
+    {
+        return SongModel::ATTRIBUTE_TITLE;
+    }
+
+    /**
+     * Get the attributes available for the global search.
+     *
+     * @return array
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getGloballySearchableAttributes(): array
+    {
+        return [SongModel::ATTRIBUTE_TITLE];
+    }
+
+    /**
      * Get the route key for the resource.
      *
      * @return string|null
