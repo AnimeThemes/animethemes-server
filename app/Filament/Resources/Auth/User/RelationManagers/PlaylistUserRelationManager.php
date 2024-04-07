@@ -66,10 +66,7 @@ class PlaylistUserRelationManager extends BaseRelationManager
      */
     public static function getFilters(): array
     {
-        return array_merge(
-            parent::getFilters(),
-            [],
-        );
+        return [];
     }
 
     /**

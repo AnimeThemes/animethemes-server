@@ -123,8 +123,8 @@ class Page extends BaseResource
                     ->helperText(__('filament.fields.page.slug.help'))
                     ->required()
                     ->maxLength(192)
-                    ->regex('/^[\pL\pM\pN\/_-]+$/u')
-                    ->rules(['required', 'max:192', 'regex:/^[\pL\pM\pN\/_-]+$/u', Rule::unique(PageModel::class)]),
+                   // ->regex('/^[\pL\pM\pN\/_-]+$/u')
+                  ->rules(['required', 'max:192', /*'regex:/^[\pL\pM\pN\/_-]+$/u',*/ /*Rule::unique(PageModel::class)*/]),
 
                 MarkdownEditor::make(PageModel::ATTRIBUTE_BODY)
                     ->label(__('filament.fields.page.body.name'))
