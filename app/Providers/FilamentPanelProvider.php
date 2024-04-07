@@ -20,6 +20,7 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
+use Illuminate\Support\Facades\Log;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 
 class FilamentPanelProvider extends PanelProvider
@@ -30,7 +31,12 @@ class FilamentPanelProvider extends PanelProvider
             /** @var TextColumn $this */
             return $this
                 ->color('info')
-                ->url(fn (Model $record): string => (new $resourceRelated)::getUrl('edit', ['record' => $record->$relation]));
+                ->url(function (Model $record) use ($resourceRelated, $relation) { 
+                    if ($record->$relation !== null) {
+                        return (new $resourceRelated)::getUrl('edit', ['record' => $record->$relation]);
+                    }
+                    return null;
+                });
         });
 
         return $panel
