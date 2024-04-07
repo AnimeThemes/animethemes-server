@@ -47,6 +47,8 @@ class PlaylistUserRelationManager extends BaseRelationManager
     public function table(Table $table): Table
     {
         return $table
+            ->heading(PlaylistResource::getPluralLabel())
+            ->modelLabel(PlaylistResource::getLabel())
             ->recordTitleAttribute(Playlist::ATTRIBUTE_NAME)
             ->inverseRelationship(Playlist::RELATION_USER)
             ->columns(PlaylistResource::table($table)->getColumns())

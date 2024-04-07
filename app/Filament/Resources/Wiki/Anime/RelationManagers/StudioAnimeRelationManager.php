@@ -47,6 +47,8 @@ class StudioAnimeRelationManager extends BaseRelationManager
     public function table(Table $table): Table
     {
         return $table
+            ->heading(StudioResource::getPluralLabel())
+            ->modelLabel(StudioResource::getLabel())
             ->recordTitleAttribute(Studio::ATTRIBUTE_NAME)
             ->inverseRelationship(Studio::RELATION_ANIME)
             ->columns(StudioResource::table($table)->getColumns())

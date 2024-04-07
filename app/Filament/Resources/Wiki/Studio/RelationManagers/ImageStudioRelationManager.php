@@ -47,6 +47,8 @@ class ImageStudioRelationManager extends BaseRelationManager
     public function table(Table $table): Table
     {
         return $table
+            ->heading(ImageResource::getPluralLabel())
+            ->modelLabel(ImageResource::getLabel())
             ->recordTitleAttribute(Image::ATTRIBUTE_PATH)
             ->inverseRelationship(Image::RELATION_STUDIOS)
             ->columns(ImageResource::table($table)->getColumns())

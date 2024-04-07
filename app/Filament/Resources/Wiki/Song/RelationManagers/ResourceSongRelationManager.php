@@ -47,6 +47,8 @@ class ResourceSongRelationManager extends BaseRelationManager
     public function table(Table $table): Table
     {
         return $table
+            ->heading(ExternalResourceResource::getPluralLabel())
+            ->modelLabel(ExternalResourceResource::getLabel())
             ->recordTitleAttribute(ExternalResource::ATTRIBUTE_LINK)
             ->inverseRelationship(ExternalResource::RELATION_SONGS)
             ->columns(ExternalResourceResource::table($table)->getColumns())

@@ -47,6 +47,8 @@ class SynonymAnimeRelationManager extends BaseRelationManager
     public function table(Table $table): Table
     {
         return $table
+            ->heading(Synonym::getPluralLabel())
+            ->modelLabel(Synonym::getLabel())
             ->recordTitleAttribute(SynonymModel::ATTRIBUTE_TEXT)
             ->inverseRelationship(SynonymModel::RELATION_ANIME)
             ->columns(Synonym::table($table)->getColumns())

@@ -47,6 +47,8 @@ class TrackVideoRelationManager extends BaseRelationManager
     public function table(Table $table): Table
     {
         return $table
+            ->heading(TrackResource::getPluralLabel())
+            ->modelLabel(TrackResource::getLabel())
             ->recordTitleAttribute(PlaylistTrack::ATTRIBUTE_HASHID)
             ->inverseRelationship(PlaylistTrack::RELATION_VIDEO)
             ->columns(TrackResource::table($table)->getColumns())

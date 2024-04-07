@@ -47,6 +47,8 @@ class AnimeStudioRelationManager extends BaseRelationManager
     public function table(Table $table): Table
     {
         return $table
+            ->heading(AnimeResource::getPluralLabel())
+            ->modelLabel(AnimeResource::getLabel())
             ->recordTitleAttribute(Anime::ATTRIBUTE_NAME)
             ->inverseRelationship(Anime::RELATION_STUDIOS)
             ->columns(AnimeResource::table($table)->getColumns())

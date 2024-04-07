@@ -47,6 +47,8 @@ class ThemeSongRelationManager extends BaseRelationManager
     public function table(Table $table): Table
     {
         return $table
+            ->heading(ThemeResource::getPluralLabel())
+            ->modelLabel(ThemeResource::getLabel())
             ->recordTitleAttribute(ThemeModel::ATTRIBUTE_SLUG)
             ->inverseRelationship(ThemeModel::RELATION_SONG)
             ->columns(ThemeResource::table($table)->getColumns())

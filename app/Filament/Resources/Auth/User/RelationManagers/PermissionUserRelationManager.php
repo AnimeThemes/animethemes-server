@@ -47,6 +47,8 @@ class PermissionUserRelationManager extends BaseRelationManager
     public function table(Table $table): Table
     {
         return $table
+            ->heading(PermissionResource::getPluralLabel())
+            ->modelLabel(PermissionResource::getLabel())
             ->recordTitleAttribute(Permission::ATTRIBUTE_NAME)
             ->inverseRelationship(Permission::RELATION_USERS)
             ->columns(PermissionResource::table($table)->getColumns())

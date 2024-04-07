@@ -47,6 +47,8 @@ class ResourceArtistRelationManager extends BaseRelationManager
     public function table(Table $table): Table
     {
         return $table
+            ->heading(ExternalResourceResource::getPluralLabel())
+            ->modelLabel(ExternalResourceResource::getLabel())
             ->recordTitleAttribute(ExternalResource::ATTRIBUTE_LINK)
             ->inverseRelationship(ExternalResource::RELATION_ARTISTS)
             ->columns(ExternalResourceResource::table($table)->getColumns())

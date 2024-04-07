@@ -47,6 +47,8 @@ class EntryVideoRelationManager extends BaseRelationManager
     public function table(Table $table): Table
     {
         return $table
+            ->heading(EntryResource::getPluralLabel())
+            ->modelLabel(EntryResource::getLabel())
             ->recordTitleAttribute(AnimeThemeEntry::ATTRIBUTE_VERSION)
             ->inverseRelationship(AnimeThemeEntry::RELATION_VIDEOS)
             ->columns(EntryResource::table($table)->getColumns())

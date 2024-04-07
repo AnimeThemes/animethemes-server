@@ -28,6 +28,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Forms\Set;
+use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Tables\Columns\SelectColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
@@ -271,12 +272,15 @@ class Anime extends BaseResource
     public static function getRelations(): array
     {
         return [
-            SynonymAnimeRelationManager::class,
-            ThemeAnimeRelationManager::class,
-            SeriesAnimeRelationManager::class,
-            ResourceAnimeRelationManager::class,
-            ImageAnimeRelationManager::class,
-            StudioAnimeRelationManager::class,
+            RelationGroup::make('Anime', [
+                SynonymAnimeRelationManager::class,
+                ThemeAnimeRelationManager::class,
+                SeriesAnimeRelationManager::class,
+                ResourceAnimeRelationManager::class,
+                ImageAnimeRelationManager::class,
+                StudioAnimeRelationManager::class,
+            ]),
+            
         ];
     }
 

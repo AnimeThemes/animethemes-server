@@ -47,6 +47,8 @@ class ArtistImageRelationManager extends BaseRelationManager
     public function table(Table $table): Table
     {
         return $table
+            ->heading(ArtistResource::getPluralLabel())
+            ->modelLabel(ArtistResource::getLabel())
             ->recordTitleAttribute(Artist::ATTRIBUTE_NAME)
             ->inverseRelationship(Artist::RELATION_IMAGES)
             ->columns(ArtistResource::table($table)->getColumns())

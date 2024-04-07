@@ -47,6 +47,8 @@ class SongArtistRelationManager extends BaseRelationManager
     public function table(Table $table): Table
     {
         return $table
+            ->heading(SongResource::getPluralLabel())
+            ->modelLabel(SongResource::getLabel())
             ->recordTitleAttribute(Song::ATTRIBUTE_TITLE)
             ->inverseRelationship(Song::RELATION_ARTISTS)
             ->columns(SongResource::table($table)->getColumns())
