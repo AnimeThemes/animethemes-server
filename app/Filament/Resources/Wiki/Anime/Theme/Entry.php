@@ -11,6 +11,7 @@ use App\Filament\Resources\Wiki\Anime\Theme\Entry\Pages\CreateEntry;
 use App\Filament\Resources\Wiki\Anime\Theme\Entry\Pages\EditEntry;
 use App\Filament\Resources\Wiki\Anime\Theme\Entry\Pages\ListEntries;
 use App\Filament\Resources\Wiki\Anime\Theme\Entry\Pages\ViewEntry;
+use App\Filament\Resources\Wiki\Anime\Theme\Entry\RelationManagers\VideoEntryRelationManager;
 use App\Models\Wiki\Anime as AnimeModel;
 use App\Models\Wiki\Anime\AnimeTheme as ThemeModel;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry as EntryModel;
@@ -249,7 +250,9 @@ class Entry extends BaseResource
      */
     public static function getRelations(): array
     {
-        return [];
+        return [
+            VideoEntryRelationManager::class,
+        ];
     }
 
     /**
