@@ -272,7 +272,7 @@ class Anime extends BaseResource
     public static function getRelations(): array
     {
         return [
-            RelationGroup::make('Anime', [
+            RelationGroup::make(static::getLabel(), [
                 SynonymAnimeRelationManager::class,
                 ThemeAnimeRelationManager::class,
                 SeriesAnimeRelationManager::class,
@@ -280,7 +280,6 @@ class Anime extends BaseResource
                 ImageAnimeRelationManager::class,
                 StudioAnimeRelationManager::class,
             ]),
-            
         ];
     }
 

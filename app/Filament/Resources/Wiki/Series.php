@@ -14,6 +14,7 @@ use App\Models\Wiki\Series as SeriesModel;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Forms\Set;
+use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
@@ -197,7 +198,9 @@ class Series extends BaseResource
     public static function getRelations(): array
     {
         return [
-            AnimeSeriesRelationManager::class,
+            RelationGroup::make(static::getLabel(), [
+                AnimeSeriesRelationManager::class,
+            ]),
         ];
     }
 

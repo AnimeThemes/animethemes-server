@@ -16,6 +16,7 @@ use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\ColorPicker;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Tables\Columns\CheckboxColumn;
 use Filament\Tables\Columns\ColorColumn;
 use Filament\Tables\Columns\TextColumn;
@@ -190,8 +191,10 @@ class Role extends BaseResource
     public static function getRelations(): array
     {
         return [
-            PermissionRoleRelationManager::class,
-            UserRoleRelationManager::class,
+            RelationGroup::make(static::getLabel(), [
+                PermissionRoleRelationManager::class,
+                UserRoleRelationManager::class,
+            ]),
         ];
     }
 

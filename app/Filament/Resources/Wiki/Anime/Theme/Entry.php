@@ -19,6 +19,7 @@ use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Tables\Columns\CheckboxColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
@@ -251,7 +252,9 @@ class Entry extends BaseResource
     public static function getRelations(): array
     {
         return [
-            VideoEntryRelationManager::class,
+            RelationGroup::make(static::getLabel(), [
+                VideoEntryRelationManager::class,
+            ]),
         ];
     }
 

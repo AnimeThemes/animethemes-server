@@ -14,6 +14,7 @@ use App\Filament\Resources\Auth\Permission\RelationManagers\UserPermissionRelati
 use App\Models\Auth\Permission as PermissionModel;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
@@ -157,8 +158,10 @@ class Permission extends BaseResource
     public static function getRelations(): array
     {
         return [
-            RolePermissionRelationManager::class,
-            UserPermissionRelationManager::class,
+            RelationGroup::make(static::getLabel(), [
+                RolePermissionRelationManager::class,
+                UserPermissionRelationManager::class,
+            ]),
         ];
     }
 

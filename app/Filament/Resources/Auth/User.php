@@ -15,6 +15,7 @@ use App\Filament\Resources\Auth\User\RelationManagers\RoleUserRelationManager;
 use App\Models\Auth\User as UserModel;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
@@ -168,9 +169,11 @@ class User extends BaseResource
     public static function getRelations(): array
     {
         return [
-            RoleUserRelationManager::class,
-            PermissionUserRelationManager::class,
-            PlaylistUserRelationManager::class,
+            RelationGroup::make(static::getLabel(), [
+                RoleUserRelationManager::class,
+                PermissionUserRelationManager::class,
+                PlaylistUserRelationManager::class,
+            ]),
         ];
     }
 

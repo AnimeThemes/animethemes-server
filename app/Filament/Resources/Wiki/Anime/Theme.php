@@ -11,6 +11,7 @@ use App\Filament\Resources\Wiki\Anime\Theme\Pages\CreateTheme;
 use App\Filament\Resources\Wiki\Anime\Theme\Pages\EditTheme;
 use App\Filament\Resources\Wiki\Anime\Theme\Pages\ListThemes;
 use App\Filament\Resources\Wiki\Anime\Theme\Pages\ViewTheme;
+use App\Filament\Resources\Wiki\Anime\Theme\RelationManagers\EntryThemeRelationManager;
 use App\Filament\Resources\Wiki\Song as SongResource;
 use App\Models\Wiki\Anime as AnimeModel;
 use App\Models\Wiki\Anime\AnimeTheme as ThemeModel;
@@ -18,6 +19,7 @@ use App\Models\Wiki\Song;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Tables\Columns\SelectColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
@@ -208,7 +210,11 @@ class Theme extends BaseResource
      */
     public static function getRelations(): array
     {
-        return [];
+        return [
+            RelationGroup::make(static::getLabel(), [
+                EntryThemeRelationManager::class,
+            ]),
+        ];
     }
 
     /**

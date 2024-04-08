@@ -14,6 +14,7 @@ use App\Models\Wiki\Audio as AudioModel;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
@@ -194,7 +195,9 @@ class Audio extends BaseResource
     public static function getRelations(): array
     {
         return [
-            VideoAudioRelationManager::class,
+            RelationGroup::make(static::getLabel(), [
+                VideoAudioRelationManager::class,
+            ]),
         ];
     }
 

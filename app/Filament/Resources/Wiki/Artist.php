@@ -20,6 +20,7 @@ use App\Pivots\Wiki\ArtistResource;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Forms\Set;
+use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
@@ -212,11 +213,13 @@ class Artist extends BaseResource
     public static function getRelations(): array
     {
         return [
-            SongArtistRelationManager::class,
-            ResourceArtistRelationManager::class,
-            MemberArtistRelationManager::class,
-            GroupArtistRelationManager::class,
-            ImageArtistRelationManager::class,
+            RelationGroup::make(static::getLabel(), [
+                SongArtistRelationManager::class,
+                ResourceArtistRelationManager::class,
+                MemberArtistRelationManager::class,
+                GroupArtistRelationManager::class,
+                ImageArtistRelationManager::class,
+            ]),
         ];
     }
 

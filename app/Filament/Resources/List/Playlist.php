@@ -20,6 +20,7 @@ use App\Models\List\Playlist\PlaylistTrack as TrackModel;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Tables\Columns\SelectColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
@@ -214,8 +215,10 @@ class Playlist extends BaseResource
     public static function getRelations(): array
     {
         return [
-            ImagePlaylistRelationManager::class,
-            TrackPlaylistRelationManager::class,
+            RelationGroup::make(static::getLabel(), [
+                ImagePlaylistRelationManager::class,
+                TrackPlaylistRelationManager::class,
+            ]),
         ];
     }
 

@@ -17,6 +17,7 @@ use App\Filament\Resources\Wiki\Image\RelationManagers\StudioImageRelationManage
 use App\Models\Wiki\Image as ImageModel;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Form;
+use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\SelectColumn;
 use Filament\Tables\Columns\TextColumn;
@@ -167,10 +168,12 @@ class Image extends BaseResource
     public static function getRelations(): array
     {
         return [
-            AnimeImageRelationManager::class,
-            ArtistImageRelationManager::class,
-            PlaylistImageRelationManager::class,
-            StudioImageRelationManager::class,
+            RelationGroup::make(static::getLabel(), [
+                AnimeImageRelationManager::class,
+                ArtistImageRelationManager::class,
+                PlaylistImageRelationManager::class,
+                StudioImageRelationManager::class,
+            ]),
         ];
     }
 

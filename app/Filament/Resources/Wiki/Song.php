@@ -18,6 +18,7 @@ use App\Models\Wiki\Song as SongModel;
 use App\Pivots\Wiki\SongResource;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
@@ -193,9 +194,11 @@ class Song extends BaseResource
     public static function getRelations(): array
     {
         return [
-            ArtistSongRelationManager::class,
-            ThemeSongRelationManager::class,
-            ResourceSongRelationManager::class,
+            RelationGroup::make(static::getLabel(), [
+                ArtistSongRelationManager::class,
+                ThemeSongRelationManager::class,
+                ResourceSongRelationManager::class,
+            ]),
         ];
     }
 

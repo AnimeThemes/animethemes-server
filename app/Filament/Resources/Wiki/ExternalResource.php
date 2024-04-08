@@ -27,6 +27,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Forms\Set;
+use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Tables\Columns\SelectColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
@@ -219,10 +220,12 @@ class ExternalResource extends BaseResource
     public static function getRelations(): array
     {
         return [
-            AnimeResourceRelationManager::class,
-            ArtistResourceRelationManager::class,
-            SongResourceRelationManager::class,
-            StudioResourceRelationManager::class,
+            RelationGroup::make(static::getLabel(), [
+                AnimeResourceRelationManager::class,
+                ArtistResourceRelationManager::class,
+                SongResourceRelationManager::class,
+                StudioResourceRelationManager::class,
+            ]),
         ];
     }
 
