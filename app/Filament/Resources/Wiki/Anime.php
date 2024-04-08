@@ -158,7 +158,7 @@ class Anime extends BaseResource
                     ->required()
                     ->rules(['required', 'max:192'])
                     ->maxLength(192)
-                    ->live(onBlur: true)
+                    ->live(true)
                     ->afterStateUpdated(fn (Set $set, ?string $state) => $set(AnimeModel::ATTRIBUTE_SLUG, Str::slug($state, '_'))),
 
                 TextInput::make(AnimeModel::ATTRIBUTE_SLUG)

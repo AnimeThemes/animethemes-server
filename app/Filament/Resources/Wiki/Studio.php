@@ -122,7 +122,7 @@ class Studio extends BaseResource
                     ->required()
                     ->maxLength(192)
                     ->rules(['required', 'max:192'])
-                    ->live()
+                    ->live(true)
                     ->afterStateUpdated(fn (Set $set, ?string $state) => $set(StudioModel::ATTRIBUTE_SLUG, Str::slug($state, '_'))),
 
                 TextInput::make(StudioModel::ATTRIBUTE_SLUG)

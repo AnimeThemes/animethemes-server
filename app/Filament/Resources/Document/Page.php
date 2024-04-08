@@ -115,7 +115,7 @@ class Page extends BaseResource
                     ->required()
                     ->maxLength(192)
                     ->rules(['required', 'max:192'])
-                    ->live()
+                    ->live(true)
                     ->afterStateUpdated(fn (Set $set, ?string $state) => $set(PageModel::ATTRIBUTE_SLUG, Str::of($state, '_'))),
 
                 TextInput::make(PageModel::ATTRIBUTE_SLUG)
@@ -168,7 +168,7 @@ class Page extends BaseResource
                 TextColumn::make(PageModel::ATTRIBUTE_BODY)
                     ->label(__('filament.fields.page.body.name'))
                     ->sortable()
-                    ->copyable()
+                    ->copyable(),
                     ->hidden(),
             ])
             ->defaultSort(PageModel::ATTRIBUTE_ID, 'desc')

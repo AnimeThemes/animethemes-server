@@ -135,7 +135,7 @@ class ExternalResource extends BaseResource
                     ->label(__('filament.fields.external_resource.link.name'))
                     ->helperText(__('filament.fields.external_resource.link.help'))
                     ->required()
-                    ->live()
+                    ->live(true)
                     ->afterStateUpdated(function (Set $set, ?string $state) {
                         if ($state !== null) {
                             $set(ExternalResourceModel::ATTRIBUTE_SITE, ResourceSite::valueOf($state) ?? ResourceSite::OFFICIAL_SITE);

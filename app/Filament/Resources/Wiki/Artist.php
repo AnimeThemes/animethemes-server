@@ -147,7 +147,7 @@ class Artist extends BaseResource
                     ->required()
                     ->rules(['required', 'max:192'])
                     ->maxLength(192)
-                    ->live()
+                    ->live(true)
                     ->afterStateUpdated(fn (Set $set, ?string $state) => $set(ArtistModel::ATTRIBUTE_SLUG, Str::slug($state, '_'))),
 
                 TextInput::make(ArtistModel::ATTRIBUTE_SLUG)
