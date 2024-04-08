@@ -73,6 +73,7 @@ class User extends Authenticatable implements MustVerifyEmail, Nameable
     final public const RELATION_PERMISSIONS = 'permissions';
     final public const RELATION_PLAYLISTS = 'playlists';
     final public const RELATION_ROLES = 'roles';
+    final public const RELATION_ROLES_PERMISSIONS = 'roles.permissions';
 
     /**
      * The attributes that are mass assignable.
