@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Wiki;
 
+use App\Filament\Resources\BaseRelationManager;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Artist\Pages\CreateArtist;
 use App\Filament\Resources\Wiki\Artist\Pages\EditArtist;
@@ -186,16 +187,18 @@ class Artist extends BaseResource
                     ->label(__('filament.fields.artist.name.name'))
                     ->sortable()
                     ->searchable()
-                    ->copyable(),
+                    ->copyable()
+                    ->toggleable(),
 
                 TextColumn::make(ArtistModel::ATTRIBUTE_SLUG)
                     ->label(__('filament.fields.artist.slug.name'))
                     ->sortable()
-                    ->copyable(),
+                    ->copyable()
+                    ->toggleable(),
 
                 TextColumn::make(ArtistResource::ATTRIBUTE_AS)
                     ->label(__('filament.fields.artist.resources.as.name'))
-                    ->visibleOn(ArtistResourceRelationManager::class),
+                    ->visibleOn(BaseRelationManager::class),
             ])
             ->defaultSort(ArtistModel::ATTRIBUTE_ID, 'desc')
             ->filters(static::getFilters())

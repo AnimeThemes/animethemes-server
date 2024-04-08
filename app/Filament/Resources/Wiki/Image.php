@@ -146,11 +146,13 @@ class Image extends BaseResource
                 SelectColumn::make(ImageModel::ATTRIBUTE_FACET)
                     ->label(__('filament.fields.image.facet.name'))
                     ->options(ImageFacet::asSelectArray())
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(),
 
                 ImageColumn::make(ImageModel::ATTRIBUTE_PATH)
                     ->label(__('nova.fields.image.image.name'))
-                    ->disk(Config::get('image.disk')),
+                    ->disk(Config::get('image.disk'))
+                    ->toggleable(),
             ])
             ->defaultSort(ImageModel::ATTRIBUTE_ID, 'desc')
             ->filters(static::getFilters())

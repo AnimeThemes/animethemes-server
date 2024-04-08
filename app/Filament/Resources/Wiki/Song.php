@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Wiki;
 
+use App\Filament\Resources\BaseRelationManager;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\ExternalResource\RelationManagers\SongResourceRelationManager;
 use App\Filament\Resources\Wiki\Song\Pages\CreateSong;
@@ -12,7 +13,6 @@ use App\Filament\Resources\Wiki\Song\Pages\ListSongs;
 use App\Filament\Resources\Wiki\Song\Pages\ViewSong;
 use App\Filament\Resources\Wiki\Song\RelationManagers\ArtistSongRelationManager;
 use App\Filament\Resources\Wiki\Song\RelationManagers\ResourceSongRelationManager;
-use App\Filament\Resources\Wiki\Song\RelationManagers\ResourcesRelationManager;
 use App\Filament\Resources\Wiki\Song\RelationManagers\ThemeSongRelationManager;
 use App\Models\Wiki\Song as SongModel;
 use App\Pivots\Wiki\SongResource;
@@ -172,11 +172,13 @@ class Song extends BaseResource
                     ->label(__('filament.fields.song.title.name'))
                     ->sortable()
                     ->searchable()
-                    ->copyable(),
+                    ->copyable()
+                    ->toggleable(),
 
                 TextColumn::make(SongResource::ATTRIBUTE_AS)
                     ->label(__('filament.fields.song.resources.as.name'))
-                    ->visibleOn(SongResourceRelationManager::class),
+                    ->visibleOn(BaseRelationManager::class)
+                    ->toggleable(),
             ])
             ->defaultSort(SongModel::ATTRIBUTE_ID, 'desc')
             ->filters(static::getFilters())

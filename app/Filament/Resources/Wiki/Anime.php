@@ -6,6 +6,7 @@ namespace App\Filament\Resources\Wiki;
 
 use App\Enums\Models\Wiki\AnimeMediaFormat;
 use App\Enums\Models\Wiki\AnimeSeason;
+use App\Filament\Resources\BaseRelationManager;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Anime\Pages\CreateAnime;
 use App\Filament\Resources\Wiki\Anime\Pages\EditAnime;
@@ -17,13 +18,10 @@ use App\Filament\Resources\Wiki\Anime\RelationManagers\SeriesAnimeRelationManage
 use App\Filament\Resources\Wiki\Anime\RelationManagers\StudioAnimeRelationManager;
 use App\Filament\Resources\Wiki\Anime\RelationManagers\SynonymAnimeRelationManager;
 use App\Filament\Resources\Wiki\Anime\RelationManagers\ThemeAnimeRelationManager;
-use App\Filament\Resources\Wiki\Anime\Theme as ThemeResource;
 use App\Filament\Resources\Wiki\ExternalResource\RelationManagers\AnimeResourceRelationManager;
 use App\Models\Wiki\Anime as AnimeModel;
 use App\Pivots\Wiki\AnimeResource;
-use Filament\Forms\Components\Group;
 use Filament\Forms\Components\MarkdownEditor;
-use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
@@ -156,8 +154,8 @@ class Anime extends BaseResource
                     ->label(__('filament.fields.anime.name.name'))
                     ->helperText(__('filament.fields.anime.name.help'))
                     ->required()
-                    ->rules(['required', 'max:192'])
                     ->maxLength(192)
+                    ->rules(['required', 'max:192'])
                     ->live(true)
                     ->afterStateUpdated(fn (Set $set, ?string $state) => $set(AnimeModel::ATTRIBUTE_SLUG, Str::slug($state, '_'))),
 
@@ -200,7 +198,7 @@ class Anime extends BaseResource
                 TextInput::make(AnimeResource::ATTRIBUTE_AS)
                     ->label(__('filament.fields.anime.resources.as.name'))
                     ->helperText(__('filament.fields.anime.resources.as.help'))
-                    ->visibleOn(AnimeResourceRelationManager::class),
+                    ->visibleOn(BaseRelationManager::class),
             ])
             ->columns(2);
     }
@@ -226,27 +224,32 @@ class Anime extends BaseResource
                     ->label(__('filament.fields.anime.name.name'))
                     ->sortable()
                     ->searchable()
-                    ->copyable(),
+                    ->copyable()
+                    ->toggleable(),
 
                 TextColumn::make(AnimeModel::ATTRIBUTE_SLUG)
                     ->label(__('filament.fields.anime.slug.name'))
                     ->sortable()
-                    ->copyable(),
+                    ->copyable()
+                    ->toggleable(),
 
                 TextColumn::make(AnimeModel::ATTRIBUTE_YEAR)
                     ->label(__('filament.fields.anime.year.name'))
                     ->numeric()
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(),
 
                 SelectColumn::make(AnimeModel::ATTRIBUTE_SEASON)
                     ->label(__('filament.fields.anime.season.name'))
                     ->options(AnimeSeason::asSelectArray())
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(),
 
                 SelectColumn::make(AnimeModel::ATTRIBUTE_MEDIA_FORMAT)
                     ->label(__('filament.fields.anime.media_format.name'))
                     ->options(AnimeMediaFormat::asSelectArray())
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(),
 
                 TextColumn::make(AnimeModel::ATTRIBUTE_SYNOPSIS)
                     ->label(__('filament.fields.anime.synopsis.name'))

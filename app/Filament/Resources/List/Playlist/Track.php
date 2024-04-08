@@ -156,19 +156,23 @@ class Track extends BaseResource
             ->columns([
                 TextColumn::make(TrackModel::RELATION_PLAYLIST.'.'.PlaylistModel::ATTRIBUTE_NAME)
                     ->label(__('filament.resources.singularLabel.playlist'))
+                    ->toggleable()
                     ->urlToRelated(PlaylistResource::class, TrackModel::RELATION_PLAYLIST),
 
                 TextColumn::make(TrackModel::RELATION_VIDEO.'.'.VideoModel::ATTRIBUTE_FILENAME)
                     ->label(__('filament.resources.singularLabel.video'))
+                    ->toggleable()
                     ->urlToRelated(VideoResource::class, TrackModel::RELATION_VIDEO),
 
                 TextColumn::make(TrackModel::ATTRIBUTE_ID)
                     ->label(__('filament.fields.base.id'))
                     ->numeric()
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(),
 
                 TextColumn::make(TrackModel::ATTRIBUTE_HASHID)
-                    ->label(__('filament.fields.playlist_track.hashid.name')),
+                    ->label(__('filament.fields.playlist_track.hashid.name'))
+                    ->toggleable(),
             ])
             ->defaultSort(TrackModel::ATTRIBUTE_ID, 'desc')
             ->filters(static::getFilters())

@@ -168,6 +168,7 @@ class Playlist extends BaseResource
             ->columns([
                 TextColumn::make(PlaylistModel::ATTRIBUTE_USER)
                     ->label(__('filament.resources.singularLabel.user'))
+                    ->toggleable()
                     ->urlToRelated(UserResource::class, PlaylistModel::RELATION_USER),
 
                 TextColumn::make(PlaylistModel::ATTRIBUTE_ID)
@@ -179,24 +180,29 @@ class Playlist extends BaseResource
                     ->label(__('filament.fields.playlist.name.name'))
                     ->sortable()
                     ->searchable()
-                    ->copyable(),
+                    ->copyable()
+                    ->toggleable(),
 
                 SelectColumn::make(PlaylistModel::ATTRIBUTE_VISIBILITY)
                     ->label(__('filament.fields.playlist.visibility.name'))
                     ->options(PlaylistVisibility::asSelectArray())
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(),
 
                 TextColumn::make(PlaylistModel::ATTRIBUTE_HASHID)
-                    ->label(__('filament.fields.playlist.hashid.name')),
+                    ->label(__('filament.fields.playlist.hashid.name'))
+                    ->toggleable(),
 
                 TextColumn::make(PlaylistModel::ATTRIBUTE_FIRST)
                     ->label(__('filament.fields.playlist.first.name'))
                     ->visibleOn(['create', 'edit', 'view'])
+                    ->toggleable()
                     ->urlToRelated(Track::class, PlaylistModel::RELATION_FIRST),
 
                 TextColumn::make(PlaylistModel::ATTRIBUTE_LAST)
                     ->label(__('filament.fields.playlist.last.name'))
                     ->visibleOn(['create', 'edit', 'view'])
+                    ->toggleable()
                     ->urlToRelated(Track::class, PlaylistModel::RELATION_LAST),
             ])
             ->defaultSort(PlaylistModel::ATTRIBUTE_ID, 'desc')

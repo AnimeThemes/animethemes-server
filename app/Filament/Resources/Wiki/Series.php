@@ -175,12 +175,14 @@ class Series extends BaseResource
                     ->label(__('filament.fields.series.name.name'))
                     ->sortable()
                     ->searchable()
-                    ->copyable(),
+                    ->copyable()
+                    ->toggleable(),
 
                 TextColumn::make(SeriesModel::ATTRIBUTE_SLUG)
                     ->label(__('filament.fields.series.slug.name'))
                     ->sortable()
-                    ->copyable(),
+                    ->copyable()
+                    ->toggleable(),
             ])
             ->defaultSort(SeriesModel::ATTRIBUTE_ID, 'desc')
             ->filters(static::getFilters())

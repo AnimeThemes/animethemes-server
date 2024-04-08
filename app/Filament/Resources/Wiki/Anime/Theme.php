@@ -173,6 +173,7 @@ class Theme extends BaseResource
             ->columns([
                 TextColumn::make(ThemeModel::RELATION_ANIME.'.'.AnimeModel::ATTRIBUTE_NAME)
                     ->label(__('filament.resources.singularLabel.anime'))
+                    ->toggleable()
                     ->urlToRelated(AnimeResource::class, ThemeModel::RELATION_ANIME),
 
                 TextColumn::make(ThemeModel::ATTRIBUTE_ID)
@@ -182,20 +183,24 @@ class Theme extends BaseResource
 
                 SelectColumn::make(ThemeModel::ATTRIBUTE_TYPE)
                     ->label(__('filament.fields.anime_theme.type.name'))
-                    ->options(ThemeType::asSelectArray()),
+                    ->options(ThemeType::asSelectArray())
+                    ->toggleable(),
 
                 TextColumn::make(ThemeModel::ATTRIBUTE_SEQUENCE)
                     ->label(__('filament.fields.anime_theme.sequence.name'))
                     ->numeric()
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(),
 
                 TextColumn::make(ThemeModel::ATTRIBUTE_GROUP)
                     ->label(__('filament.fields.anime_theme.group.name'))
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(),
 
                 TextColumn::make(ThemeModel::ATTRIBUTE_SLUG)
                     ->label(__('filament.fields.anime_theme.slug.name'))
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(),
             ])
             ->defaultSort(ThemeModel::ATTRIBUTE_ID, 'desc')
             ->filters(static::getFilters())

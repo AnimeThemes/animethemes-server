@@ -207,29 +207,36 @@ class Video extends BaseResource
                     ->numeric()
                     ->sortable(),
 
-                    TextColumn::make(VideoModel::ATTRIBUTE_RESOLUTION)
+                TextColumn::make(VideoModel::ATTRIBUTE_RESOLUTION)
                     ->label(__('filament.fields.video.resolution.name'))
-                    ->numeric(),
+                    ->numeric()
+                    ->toggleable(),
 
                 CheckboxColumn::make(VideoModel::ATTRIBUTE_NC)
-                    ->label(__('filament.fields.video.nc.name')),
+                    ->label(__('filament.fields.video.nc.name'))
+                    ->toggleable(),
 
                 CheckboxColumn::make(VideoModel::ATTRIBUTE_SUBBED)
-                    ->label(__('filament.fields.video.subbed.name')),
+                    ->label(__('filament.fields.video.subbed.name'))
+                    ->toggleable(),
 
                 CheckboxColumn::make(VideoModel::ATTRIBUTE_LYRICS)
-                    ->label(__('filament.fields.video.lyrics.name')),
+                    ->label(__('filament.fields.video.lyrics.name'))
+                    ->toggleable(),
 
                 CheckboxColumn::make(VideoModel::ATTRIBUTE_UNCEN)
-                    ->label(__('filament.fields.video.uncen.name')),
+                    ->label(__('filament.fields.video.uncen.name'))
+                    ->toggleable(),
 
                 SelectColumn::make(VideoModel::ATTRIBUTE_OVERLAP)
                     ->label(__('filament.fields.video.overlap.name'))
-                    ->options(VideoOverlap::asSelectArray()),
+                    ->options(VideoOverlap::asSelectArray())
+                    ->toggleable(),
 
                 SelectColumn::make(VideoModel::ATTRIBUTE_SOURCE)
                     ->label(__('filament.fields.video.source.name'))
-                    ->options(VideoSource::asSelectArray()),
+                    ->options(VideoSource::asSelectArray())
+                    ->toggleable(),
 
                 TextColumn::make(VideoModel::RELATION_AUDIO.'.'.AudioModel::ATTRIBUTE_FILENAME)
                     ->label(__('filament.resources.singularLabel.audio'))
@@ -243,7 +250,8 @@ class Video extends BaseResource
                 TextColumn::make(VideoModel::ATTRIBUTE_FILENAME)
                     ->label(__('filament.fields.video.filename.name'))
                     ->sortable()
-                    ->copyable(),
+                    ->copyable()
+                    ->toggleable(),
 
                 TextColumn::make(VideoModel::ATTRIBUTE_PATH)
                     ->label(__('filament.fields.video.path.name'))

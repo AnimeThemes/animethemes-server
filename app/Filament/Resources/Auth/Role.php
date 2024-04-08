@@ -160,20 +160,24 @@ class Role extends BaseResource
                     ->label(__('filament.fields.role.name'))
                     ->sortable()
                     ->searchable()
-                    ->copyable(),
+                    ->copyable()
+                    ->toggleable(),
 
                 CheckboxColumn::make(RoleModel::ATTRIBUTE_DEFAULT)
                     ->label(__('filament.fields.role.default.name'))
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(),
 
                 ColorColumn::make(RoleModel::ATTRIBUTE_COLOR)
                     ->label(__('filament.fields.role.color.name'))
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(),
 
                 TextColumn::make(RoleModel::ATTRIBUTE_PRIORITY)
                     ->label(__('filament.fields.role.priority.name'))
                     ->numeric()
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(),
             ])
             ->defaultSort(RoleModel::ATTRIBUTE_ID, 'desc')
             ->filters(static::getFilters())

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Resources\Wiki;
 
 use App\Enums\Models\Wiki\ResourceSite;
+use App\Filament\Resources\BaseRelationManager;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Anime\RelationManagers\ResourceAnimeRelationManager;
 use App\Filament\Resources\Wiki\Artist\RelationManagers\ResourceArtistRelationManager;
@@ -182,27 +183,25 @@ class ExternalResource extends BaseResource
                 SelectColumn::make(ExternalResourceModel::ATTRIBUTE_SITE)
                     ->label(__('filament.fields.external_resource.site.name'))
                     ->options(ResourceSite::asSelectArray())
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(),
 
                 TextColumn::make(ExternalResourceModel::ATTRIBUTE_LINK)
                     ->label(__('filament.fields.external_resource.link.name'))
                     ->sortable()
                     ->searchable()
-                    ->copyable(),
+                    ->copyable()
+                    ->toggleable(),
 
                 TextColumn::make(ExternalResourceModel::ATTRIBUTE_EXTERNAL_ID)
                     ->label(__('filament.fields.external_resource.external_id.name'))
                     ->sortable()
-                    ->copyable(),
+                    ->copyable()
+                    ->toggleable(),
 
                 TextColumn::make(AnimeResource::ATTRIBUTE_AS)
                     ->label(__('filament.fields.anime.resources.as.name'))
-                    ->visibleOn([
-                        ResourceAnimeRelationManager::class,
-                        ResourceArtistRelationManager::class,
-                        ResourceSongRelationManager::class,
-                        ResourceStudioRelationManager::class,
-                    ]),
+                    ->visibleOn(BaseRelationManager::class),
             ])
             ->defaultSort(ExternalResourceModel::ATTRIBUTE_ID, 'desc')
             ->filters(static::getFilters())

@@ -147,11 +147,13 @@ class User extends BaseResource
                     ->label(__('filament.fields.user.name'))
                     ->sortable()
                     ->searchable()
-                    ->copyable(),
+                    ->copyable()
+                    ->toggleable(),
 
                 TextColumn::make(UserModel::ATTRIBUTE_EMAIL)
                     ->label(__('filament.fields.user.email'))
-                    ->icon('heroicon-m-envelope'),
+                    ->icon('heroicon-m-envelope')
+                    ->toggleable(),
             ])
             ->defaultSort(UserModel::ATTRIBUTE_ID, 'desc')
             ->filters(static::getFilters())

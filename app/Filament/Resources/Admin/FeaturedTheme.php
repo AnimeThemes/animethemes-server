@@ -186,23 +186,28 @@ class FeaturedTheme extends BaseResource
                 TextColumn::make(FeaturedThemeModel::ATTRIBUTE_START_AT)
                     ->label(__('filament.fields.featured_theme.start_at.name'))
                     ->sortable()
-                    ->dateTime(),
+                    ->dateTime()
+                    ->toggleable(),
 
                 TextColumn::make(FeaturedThemeModel::ATTRIBUTE_END_AT)
                     ->label(__('filament.fields.featured_theme.end_at.name'))
                     ->sortable()
-                    ->dateTime(),
+                    ->dateTime()
+                    ->toggleable(),
 
                 TextColumn::make(FeaturedThemeModel::RELATION_VIDEO.'.'.Video::ATTRIBUTE_FILENAME)
                     ->label(__('filament.resources.singularLabel.video'))
+                    ->toggleable()
                     ->urlToRelated(VideoResource::class, FeaturedThemeModel::RELATION_VIDEO),
 
                 TextColumn::make(FeaturedThemeModel::RELATION_ENTRY.'.'.EntryModel::ATTRIBUTE_VERSION)
                     ->label(__('filament.resources.singularLabel.anime_theme_entry'))
+                    ->toggleable()
                     ->urlToRelated(EntryResource::class, FeaturedThemeModel::RELATION_ENTRY),
 
                 TextColumn::make(FeaturedThemeModel::RELATION_USER.'.'.User::ATTRIBUTE_NAME)
                     ->label(__('filament.resources.singularLabel.user'))
+                    ->toggleable()
                     ->urlToRelated(UserResource::class, FeaturedThemeModel::RELATION_USER),
             ])
             ->defaultSort(FeaturedThemeModel::ATTRIBUTE_ID, 'desc')
