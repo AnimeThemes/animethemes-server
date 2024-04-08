@@ -165,7 +165,7 @@ class Anime extends BaseResource
                     ->label(__('filament.fields.anime.slug.name'))
                     ->helperText(__('filament.fields.anime.slug.help'))
                     ->required()
-                    ->rules(['required', 'max:192', 'alpha_dash', Rule::unique(AnimeModel::class)]),
+                    ->rules(['required', 'max:192', 'alpha_dash', Rule::unique(AnimeModel::class, AnimeModel::ATTRIBUTE_SLUG)->__toString()]),
 
                 TextInput::make(AnimeModel::ATTRIBUTE_YEAR)
                     ->label(__('filament.fields.anime.year.name'))
