@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Wiki\Anime\Theme;
 
+use App\Filament\Resources\BaseRelationManager;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Anime as AnimeResource;
 use App\Filament\Resources\Wiki\Anime\Theme as ThemeResource;
@@ -154,15 +155,20 @@ class Entry extends BaseResource
             ->schema([
                 Select::make(EntryModel::RELATION_ANIME.'.'.AnimeModel::ATTRIBUTE_NAME)
                     ->label(__('filament.resources.singularLabel.anime'))
-                    ->relationship(EntryModel::RELATION_ANIME, AnimeModel::ATTRIBUTE_NAME)
+                    ->relationship(EntryModel::RELATION_ANIME_SHALLOW, AnimeModel::ATTRIBUTE_NAME)
                     ->searchable()
-                    ->createOptionForm(AnimeResource::form($form)->getComponents()),
+                    ->disabledOn(BaseRelationManager::class)
+                    ->saveRelationshipsUsing(function (Select $component, Model $record, $state) {
+                        if ($record instanceof EntryModel) {
+                            $record->animetheme->anime()->associate($state)->save();
+                        }
+                    }),
 
                 Select::make(EntryModel::ATTRIBUTE_THEME)
                     ->label(__('filament.resources.singularLabel.anime_theme'))
                     ->relationship(EntryModel::RELATION_THEME, ThemeModel::ATTRIBUTE_SLUG)
                     ->searchable()
-                    ->createOptionForm(ThemeResource::form($form)->getComponents()),
+                    ->disabledOn(BaseRelationManager::class),
 
                 TextInput::make(EntryModel::ATTRIBUTE_VERSION)
                     ->label(__('filament.fields.anime_theme_entry.version.name'))

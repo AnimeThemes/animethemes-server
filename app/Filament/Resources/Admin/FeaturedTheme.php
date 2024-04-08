@@ -151,20 +151,17 @@ class FeaturedTheme extends BaseResource
                 Select::make(FeaturedThemeModel::ATTRIBUTE_VIDEO)
                     ->label(__('filament.resources.singularLabel.video'))
                     ->relationship(FeaturedThemeModel::RELATION_VIDEO, Video::ATTRIBUTE_FILENAME)
-                    ->searchable()
-                    ->createOptionForm(VideoResource::form($form)->getComponents()),
+                    ->searchable(),
 
                 Select::make(FeaturedThemeModel::ATTRIBUTE_ENTRY)
                     ->label(__('filament.resources.singularLabel.anime_theme_entry'))
                     ->relationship(FeaturedThemeModel::RELATION_ENTRY, EntryModel::ATTRIBUTE_VERSION)
-                    ->searchable()
-                    ->createOptionForm(EntryResource::form($form)->getComponents()),
+                    ->searchable(),
 
                 Select::make(FeaturedThemeModel::ATTRIBUTE_USER)
                     ->label(__('filament.resources.singularLabel.user'))
                     ->relationship(FeaturedThemeModel::RELATION_USER, User::ATTRIBUTE_NAME)
-                    ->searchable()
-                    ->createOptionForm(UserResource::form($form)->getComponents()),
+                    ->searchable(),
             ])
             ->columns(1);
     }

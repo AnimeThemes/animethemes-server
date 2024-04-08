@@ -120,8 +120,7 @@ class Track extends BaseResource
                 Select::make(TrackModel::ATTRIBUTE_VIDEO)
                     ->label(__('filament.resources.singularLabel.video'))
                     ->relationship(TrackModel::RELATION_VIDEO, VideoModel::ATTRIBUTE_FILENAME)
-                    ->searchable()
-                    ->createOptionForm(VideoResource::form($form)->getComponents()),
+                    ->searchable(),
                 
                 TextInput::make(TrackModel::ATTRIBUTE_HASHID)
                     ->label(__('filament.fields.playlist_track.hashid.name'))

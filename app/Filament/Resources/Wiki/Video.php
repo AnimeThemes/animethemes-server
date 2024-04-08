@@ -164,8 +164,7 @@ class Video extends BaseResource
                 Select::make(VideoModel::ATTRIBUTE_AUDIO)
                     ->label(__('filament.resources.singularLabel.audio'))
                     ->relationship(VideoModel::RELATION_AUDIO, AudioModel::ATTRIBUTE_FILENAME)
-                    ->searchable()
-                    ->createOptionForm(AudioResource::form($form)->getComponents()),
+                    ->searchable(),
 
                 TextInput::make(VideoModel::ATTRIBUTE_BASENAME)
                     ->label(__('filament.fields.video.basename.name'))

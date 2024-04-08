@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Filament\Resources\BaseRelationManager;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -31,6 +32,7 @@ class FilamentPanelProvider extends PanelProvider
             /** @var TextColumn $this */
             return $this
                 ->color('info')
+                ->hiddenOn(BaseRelationManager::class)
                 ->url(function (Model $record) use ($resourceRelated, $relation) { 
                     foreach (explode('.', $relation) as $element) {
                         $record = $record->$element;
