@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Filament\Resources\Wiki\Playlist\RelationManagers;
+namespace App\Filament\Resources\List\Playlist\RelationManagers;
 
 use App\Filament\Resources\BaseRelationManager;
 use App\Filament\Resources\List\Playlist\Track as TrackResource;
