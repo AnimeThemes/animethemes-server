@@ -168,7 +168,7 @@ class Page extends BaseResource
                 TextColumn::make(PageModel::ATTRIBUTE_BODY)
                     ->label(__('filament.fields.page.body.name'))
                     ->sortable()
-                    ->copyable(),
+                    ->copyable()
                     ->hidden(),
             ])
             ->defaultSort(PageModel::ATTRIBUTE_ID, 'desc')
