@@ -171,7 +171,7 @@ class Studio extends BaseResource
 
                 TextColumn::make(StudioResource::ATTRIBUTE_AS)
                     ->label(__('filament.fields.studio.resources.as.name'))
-                    ->visibleOn(BaseRelationManager::class),
+                    ->visibleOn(StudioResourceRelationManager::class),
             ])
             ->defaultSort(StudioModel::ATTRIBUTE_ID, 'desc')
             ->filters(static::getFilters())

@@ -12,7 +12,6 @@ use App\Filament\Actions\Discord\DiscordThreadAction;
 use App\Filament\Actions\Models\Wiki\Anime\AttachAnimeImageAction;
 use App\Filament\Actions\Models\Wiki\Anime\AttachAnimeResourceAction;
 use App\Filament\Actions\Models\Wiki\Anime\BackfillAnimeAction;
-use App\Filament\Resources\BaseRelationManager;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Anime\Pages\CreateAnime;
 use App\Filament\Resources\Wiki\Anime\Pages\EditAnime;
@@ -24,6 +23,7 @@ use App\Filament\Resources\Wiki\Anime\RelationManagers\SeriesAnimeRelationManage
 use App\Filament\Resources\Wiki\Anime\RelationManagers\StudioAnimeRelationManager;
 use App\Filament\Resources\Wiki\Anime\RelationManagers\SynonymAnimeRelationManager;
 use App\Filament\Resources\Wiki\Anime\RelationManagers\ThemeAnimeRelationManager;
+use App\Filament\Resources\Wiki\ExternalResource\RelationManagers\AnimeResourceRelationManager;
 use App\Models\Wiki\Anime as AnimeModel;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Image;
@@ -208,7 +208,7 @@ class Anime extends BaseResource
                 TextInput::make(AnimeResource::ATTRIBUTE_AS)
                     ->label(__('filament.fields.anime.resources.as.name'))
                     ->helperText(__('filament.fields.anime.resources.as.help'))
-                    ->visibleOn(BaseRelationManager::class),
+                    ->visibleOn(AnimeResourceRelationManager::class),
             ])
             ->columns(2);
     }
@@ -267,7 +267,7 @@ class Anime extends BaseResource
 
                 TextColumn::make(AnimeResource::ATTRIBUTE_AS)
                     ->label(__('filament.fields.anime.resources.as.name'))
-                    ->visibleOn(BaseRelationManager::class),
+                    ->visibleOn(AnimeResourceRelationManager::class),
             ])
             ->defaultSort(AnimeModel::ATTRIBUTE_ID, 'desc')
             ->filters(static::getFilters())

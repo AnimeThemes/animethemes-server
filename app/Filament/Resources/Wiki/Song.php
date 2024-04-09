@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Wiki;
 
-use App\Filament\Resources\BaseRelationManager;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\ExternalResource\RelationManagers\SongResourceRelationManager;
 use App\Filament\Resources\Wiki\Song\Pages\CreateSong;
@@ -177,7 +176,7 @@ class Song extends BaseResource
 
                 TextColumn::make(SongResource::ATTRIBUTE_AS)
                     ->label(__('filament.fields.song.resources.as.name'))
-                    ->visibleOn(BaseRelationManager::class)
+                    ->visibleOn(SongResourceRelationManager::class)
                     ->toggleable(),
             ])
             ->defaultSort(SongModel::ATTRIBUTE_ID, 'desc')

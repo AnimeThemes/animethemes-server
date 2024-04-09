@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Wiki;
 
-use App\Filament\Resources\BaseRelationManager;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Artist\Pages\CreateArtist;
 use App\Filament\Resources\Wiki\Artist\Pages\EditArtist;
@@ -198,7 +197,7 @@ class Artist extends BaseResource
 
                 TextColumn::make(ArtistResource::ATTRIBUTE_AS)
                     ->label(__('filament.fields.artist.resources.as.name'))
-                    ->visibleOn(BaseRelationManager::class),
+                    ->visibleOn(ArtistResourceRelationManager::class),
             ])
             ->defaultSort(ArtistModel::ATTRIBUTE_ID, 'desc')
             ->filters(static::getFilters())
