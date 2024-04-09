@@ -6,7 +6,6 @@ namespace App\Actions\Models\Wiki;
 
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Models\Wiki\Image;
-use Filament\Tables\Actions\Action;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Arr;
@@ -17,7 +16,7 @@ use Illuminate\Support\Str;
 /**
  * Class AttachImageAction.
  */
-abstract class AttachImageAction extends Action
+abstract class AttachImageAction
 {
     /**
      * Create a new action instance.
