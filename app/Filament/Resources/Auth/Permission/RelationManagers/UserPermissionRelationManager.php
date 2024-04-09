@@ -9,6 +9,7 @@ use App\Filament\Resources\Auth\User as UserResource;
 use App\Models\Auth\Permission;
 use App\Models\Auth\User;
 use Filament\Forms\Form;
+use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Table;
 
 /**
@@ -80,10 +81,9 @@ class UserPermissionRelationManager extends BaseRelationManager
      */
     public static function getActions(): array
     {
-        return array_merge(
-            parent::getActions(),
-            [],
-        );
+        return [
+            ViewAction::make(),
+        ];
     }
 
     /**

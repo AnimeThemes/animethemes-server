@@ -13,6 +13,7 @@ use App\Models\Wiki\Studio;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Tables\Actions\Action;
+use Illuminate\Contracts\Validation\ValidationRule;
 
 /**
  * Class AttachResourceAction.
@@ -42,7 +43,10 @@ abstract class AttachResourceAction extends Action
 
             $fields[] = TextInput::make($resourceSite->name)
                             ->label($resourceSite->localize())
-                            ->helperText(__("nova.actions.models.wiki.attach_resource.fields.{$resourceSiteLower}.help"));
+                            ->helperText(__("nova.actions.models.wiki.attach_resource.fields.{$resourceSiteLower}.help"))
+                            ->url()
+                            ->maxLength(192)
+                            ->rules(['max:192', $this->getFormatRule($resourceSite)]);
         }
 
         return $form
@@ -61,4 +65,12 @@ abstract class AttachResourceAction extends Action
 
         return $this;
     }
+
+    /**
+     * Get the format validation rule.
+     *
+     * @param  ResourceSite  $site
+     * @return ValidationRule
+     */
+    abstract protected function getFormatRule(ResourceSite $site): ValidationRule;
 }

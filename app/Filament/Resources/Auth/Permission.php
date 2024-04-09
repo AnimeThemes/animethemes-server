@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Auth;
 
+use App\Filament\Actions\Models\Auth\Permission\GiveRoleAction;
+use App\Filament\Actions\Models\Auth\Permission\RevokeRoleAction;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Auth\Permission\Pages\CreatePermission;
 use App\Filament\Resources\Auth\Permission\Pages\EditPermission;
@@ -15,6 +17,7 @@ use App\Models\Auth\Permission as PermissionModel;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationGroup;
+use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
@@ -188,7 +191,17 @@ class Permission extends BaseResource
     {
         return array_merge(
             parent::getActions(),
-            [],
+            [
+                ActionGroup::make([
+                    GiveRoleAction::make('give-role')
+                        ->label(__('filament.actions.permission.give_role.name'))
+                        ->requiresConfirmation(),
+
+                    RevokeRoleAction::make('revoke-role')
+                        ->label(__('filament.actions.permission.revoke_role.name'))
+                        ->requiresConfirmation(),
+                ]),
+            ],
         );
     }
 

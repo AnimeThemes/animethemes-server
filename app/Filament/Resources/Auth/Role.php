@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Auth;
 
+use App\Filament\Actions\Models\Auth\Role\GivePermissionAction;
+use App\Filament\Actions\Models\Auth\Role\RevokePermissionAction;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Auth\Role\Pages\CreateRole;
 use App\Filament\Resources\Auth\Role\Pages\EditRole;
@@ -17,6 +19,7 @@ use Filament\Forms\Components\ColorPicker;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationGroup;
+use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Columns\CheckboxColumn;
 use Filament\Tables\Columns\ColorColumn;
 use Filament\Tables\Columns\TextColumn;
@@ -225,7 +228,17 @@ class Role extends BaseResource
     {
         return array_merge(
             parent::getActions(),
-            [],
+            [
+                ActionGroup::make([
+                    GivePermissionAction::make('give-permission')
+                        ->label(__('filament.actions.role.give_permission.name'))
+                        ->requiresConfirmation(),
+
+                    RevokePermissionAction::make('revoke-permission')
+                        ->label(__('filament.actions.role.revoke_permission.name'))
+                        ->requiresConfirmation(),
+                ]),
+            ],
         );
     }
 

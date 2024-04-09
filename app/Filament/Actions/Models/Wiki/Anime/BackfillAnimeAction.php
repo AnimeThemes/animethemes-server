@@ -61,10 +61,7 @@ class BackfillAnimeAction extends Action implements ShouldQueue
     {
         parent::setUp();
 
-        $this->action(function (Model $model, array $data) {
-            Log::info($data);
-            $this->handle($model, $data);
-        });
+        $this->action(fn (Model $record, array $data) => $this->handle($record, $data));
     }
 
     /**

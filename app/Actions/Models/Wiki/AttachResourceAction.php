@@ -6,7 +6,6 @@ namespace App\Actions\Models\Wiki;
 
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Wiki\ExternalResource;
-use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Arr;
@@ -81,12 +80,4 @@ abstract class AttachResourceAction
      * @return BelongsToMany
      */
     abstract protected function relation(ExternalResource $resource): BelongsToMany;
-
-    /**
-     * Get the format validation rule.
-     *
-     * @param  ResourceSite  $site
-     * @return ValidationRule
-     */
-    abstract protected function getFormatRule(ResourceSite $site): ValidationRule;
 }

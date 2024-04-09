@@ -9,6 +9,8 @@ use App\Filament\Resources\Auth\User as UserResource;
 use App\Models\Auth\Role;
 use App\Models\Auth\User;
 use Filament\Forms\Form;
+use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Table;
 
 /**
@@ -80,10 +82,10 @@ class UserRoleRelationManager extends BaseRelationManager
      */
     public static function getActions(): array
     {
-        return array_merge(
-            parent::getActions(),
-            [],
-        );
+        return [
+            ViewAction::make(),
+            EditAction::make(),
+        ];
     }
 
     /**

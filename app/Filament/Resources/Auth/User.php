@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Auth;
 
+use App\Filament\Actions\Models\Auth\User\GivePermissionAction;
+use App\Filament\Actions\Models\Auth\User\GiveRoleAction;
+use App\Filament\Actions\Models\Auth\User\RevokePermissionAction;
+use App\Filament\Actions\Models\Auth\User\RevokeRoleAction;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Auth\User\Pages\CreateUser;
 use App\Filament\Resources\Auth\User\Pages\EditUser;
@@ -16,6 +20,7 @@ use App\Models\Auth\User as UserModel;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationGroup;
+use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
@@ -202,7 +207,25 @@ class User extends BaseResource
     {
         return array_merge(
             parent::getActions(),
-            [],
+            [
+                ActionGroup::make([
+                    GiveRoleAction::make('give-role')
+                        ->label(__('filament.actions.user.give_role.name'))
+                        ->requiresConfirmation(),
+
+                    RevokeRoleAction::make('revoke-role')
+                        ->label(__('filament.actions.user.revoke_role.name'))
+                        ->requiresConfirmation(),
+
+                    GivePermissionAction::make('give-permission')
+                        ->label(__('filament.actions.user.give_permission.name'))
+                        ->requiresConfirmation(),
+
+                    RevokePermissionAction::make('revoke-permission')
+                        ->label(__('filament.actions.user.revoke_permission.name'))
+                        ->requiresConfirmation(),
+                ]),
+            ],
         );
     }
 
