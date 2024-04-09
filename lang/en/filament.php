@@ -41,7 +41,7 @@ return [
                             'name' => 'Backfill MyAnimeList Resource',
                         ],
                         'external_links' => [
-                            'help' => 'Use Anilist Resource to find other resources as Official Sites and Streamings.',
+                            'help' => 'Use Anilist Resource to find other resources as Official Sites and Streamings',
                             'name' => 'Backfill Other Resources'
                         ],
                         'name' => 'Backfill Resources',

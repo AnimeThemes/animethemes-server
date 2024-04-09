@@ -6,6 +6,12 @@ namespace App\Filament\Resources\Wiki;
 
 use App\Enums\Models\Wiki\AnimeMediaFormat;
 use App\Enums\Models\Wiki\AnimeSeason;
+use App\Enums\Models\Wiki\ImageFacet;
+use App\Enums\Models\Wiki\ResourceSite;
+use App\Filament\Actions\Discord\DiscordThreadAction;
+use App\Filament\Actions\Models\Wiki\Anime\AttachAnimeImageAction;
+use App\Filament\Actions\Models\Wiki\Anime\AttachAnimeResourceAction;
+use App\Filament\Actions\Models\Wiki\Anime\BackfillAnimeAction;
 use App\Filament\Resources\BaseRelationManager;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Anime\Pages\CreateAnime;
@@ -18,8 +24,10 @@ use App\Filament\Resources\Wiki\Anime\RelationManagers\SeriesAnimeRelationManage
 use App\Filament\Resources\Wiki\Anime\RelationManagers\StudioAnimeRelationManager;
 use App\Filament\Resources\Wiki\Anime\RelationManagers\SynonymAnimeRelationManager;
 use App\Filament\Resources\Wiki\Anime\RelationManagers\ThemeAnimeRelationManager;
-use App\Filament\Resources\Wiki\ExternalResource\RelationManagers\AnimeResourceRelationManager;
 use App\Models\Wiki\Anime as AnimeModel;
+use App\Models\Wiki\ExternalResource;
+use App\Models\Wiki\Image;
+use App\Models\Wiki\Video;
 use App\Pivots\Wiki\AnimeResource;
 use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Components\Select;
@@ -27,6 +35,8 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Forms\Set;
 use Filament\Resources\RelationManagers\RelationGroup;
+use Filament\Support\Enums\MaxWidth;
+use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Columns\SelectColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
@@ -257,7 +267,7 @@ class Anime extends BaseResource
 
                 TextColumn::make(AnimeResource::ATTRIBUTE_AS)
                     ->label(__('filament.fields.anime.resources.as.name'))
-                    ->visibleOn(AnimeResourceRelationManager::class),
+                    ->visibleOn(BaseRelationManager::class),
             ])
             ->defaultSort(AnimeModel::ATTRIBUTE_ID, 'desc')
             ->filters(static::getFilters())
@@ -318,9 +328,74 @@ class Anime extends BaseResource
      */
     public static function getActions(): array
     {
+        $resourceSites = [
+            ResourceSite::ANIDB,
+            ResourceSite::ANILIST,
+            ResourceSite::ANIME_PLANET,
+            ResourceSite::ANN,
+            ResourceSite::KITSU,
+            ResourceSite::MAL,
+            ResourceSite::OFFICIAL_SITE,
+            ResourceSite::TWITTER,
+            ResourceSite::YOUTUBE,
+            ResourceSite::WIKI,
+        ];
+
+        $streamingResourceSites = [
+            ResourceSite::CRUNCHYROLL,
+            ResourceSite::HIDIVE,
+            ResourceSite::NETFLIX,
+            ResourceSite::DISNEY_PLUS,
+            ResourceSite::HULU,
+            ResourceSite::AMAZON_PRIME_VIDEO,
+        ];
+
+        $facets = [
+            ImageFacet::COVER_SMALL,
+            ImageFacet::COVER_LARGE,
+        ];
+
         return array_merge(
             parent::getActions(),
-            [],
+            [
+                ActionGroup::make([
+                    DiscordThreadAction::make('discord-thread')
+                        ->label(__('filament.actions.anime.discord.thread.name'))
+                        ->icon('heroicon-o-chat-bubble-left-right')
+                        ->requiresConfirmation()
+                        ->authorize('create', Video::class),
+
+                    BackfillAnimeAction::make('backfill-anime')
+                        ->label(__('filament.actions.anime.backfill.name'))
+                        ->icon('heroicon-o-bars-4')
+                        ->requiresConfirmation()
+                        ->modalWidth(MaxWidth::FourExtraLarge)
+                        ->authorize('create', AnimeModel::class),
+
+                    AttachAnimeImageAction::make('attach-anime-image')
+                        ->label(__('filament.actions.models.wiki.attach_image.name'))
+                        ->icon('heroicon-o-photo')
+                        ->facets($facets)
+                        ->requiresConfirmation()
+                        ->authorize('create', Image::class),
+
+                    AttachAnimeResourceAction::make('attach-anime-resource')
+                        ->label(__('filament.actions.models.wiki.attach_resource.name'))
+                        ->icon('heroicon-o-queue-list')
+                        ->sites($resourceSites)
+                        ->requiresConfirmation()
+                        ->modalWidth(MaxWidth::FourExtraLarge)
+                        ->authorize('create', ExternalResource::class),
+
+                    AttachAnimeResourceAction::make('attach-anime-streaming-resource')
+                        ->label(__('filament.actions.models.wiki.attach_streaming_resource.name'))
+                        ->icon('heroicon-o-tv')
+                        ->sites($streamingResourceSites)
+                        ->requiresConfirmation()
+                        ->modalWidth(MaxWidth::FourExtraLarge)
+                        ->authorize('create', ExternalResource::class),
+                ]),
+            ],
         );
     }
 

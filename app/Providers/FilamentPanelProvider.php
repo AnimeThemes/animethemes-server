@@ -21,7 +21,6 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
-use Illuminate\Support\Facades\Log;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 
 class FilamentPanelProvider extends PanelProvider
@@ -47,7 +46,6 @@ class FilamentPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
-            ->registration()
             ->sidebarCollapsibleOnDesktop()
             ->profile()
             ->colors([
