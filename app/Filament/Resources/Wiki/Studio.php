@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Wiki;
 
+use App\Enums\Models\Wiki\ResourceSite;
+use App\Filament\Actions\Models\Wiki\Studio\AttachStudioResourceAction;
 use App\Filament\Resources\BaseRelationManager;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\ExternalResource\RelationManagers\StudioResourceRelationManager;
@@ -20,6 +22,8 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Forms\Set;
 use Filament\Resources\RelationManagers\RelationGroup;
+use Filament\Support\Enums\MaxWidth;
+use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
@@ -221,9 +225,27 @@ class Studio extends BaseResource
      */
     public static function getActions(): array
     {
+        $resourceSites = [
+            ResourceSite::ANIDB,
+            ResourceSite::ANILIST,
+            ResourceSite::ANIME_PLANET,
+            ResourceSite::ANN,
+            ResourceSite::MAL,
+        ];
+
         return array_merge(
             parent::getActions(),
-            [],
+            [
+                ActionGroup::make([
+                    AttachStudioResourceAction::make('attach-studio-resource')
+                        ->label(__('filament.actions.models.wiki.attach_resource.name'))
+                        ->icon('heroicon-o-queue-list')
+                        ->sites($resourceSites)
+                        ->requiresConfirmation()
+                        ->modalWidth(MaxWidth::FourExtraLarge)
+                        ->authorize('create', ExternalResource::class),
+                ])
+            ],
         );
     }
 
