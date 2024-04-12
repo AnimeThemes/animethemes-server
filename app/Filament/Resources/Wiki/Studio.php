@@ -8,6 +8,7 @@ use App\Enums\Models\Wiki\ImageFacet;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Filament\Actions\Models\Wiki\Studio\AttachStudioImageAction;
 use App\Filament\Actions\Models\Wiki\Studio\AttachStudioResourceAction;
+use App\Filament\Actions\Models\Wiki\Studio\BackfillStudioAction;
 use App\Filament\Resources\BaseRelationManager;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\ExternalResource\RelationManagers\StudioResourceRelationManager;
@@ -244,6 +245,12 @@ class Studio extends BaseResource
             parent::getActions(),
             [
                 ActionGroup::make([
+                    BackfillStudioAction::make('backfill-studio')
+                        ->label(__('filament.actions.studio.backfill.name'))
+                        ->requiresConfirmation()
+                        ->modalWidth(MaxWidth::FourExtraLarge)
+                        ->authorize('update', StudioModel::class),
+
                     AttachStudioImageAction::make('attach-studio-image')
                         ->label(__('filament.actions.models.wiki.attach_image.name'))
                         ->icon('heroicon-o-photo')

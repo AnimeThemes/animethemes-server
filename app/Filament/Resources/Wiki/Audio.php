@@ -16,6 +16,7 @@ use App\Models\Wiki\Video;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationGroup;
+use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
@@ -229,10 +230,12 @@ class Audio extends BaseResource
         return array_merge(
             parent::getActions(),
             [
-                AttachAudioToRelatedVideosAction::make('attach-audio-related-video')
-                    ->label('filament.actions.audio.attach_related_videos.name')
-                    ->requiresConfirmation()
-                    ->authorize('update', Video::class),
+                ActionGroup::make([
+                    AttachAudioToRelatedVideosAction::make('attach-audio-related-video')
+                        ->label(__('filament.actions.audio.attach_related_videos.name'))
+                        ->requiresConfirmation()
+                        ->authorize('update', Video::class),
+                ]),
             ],
         );
     }

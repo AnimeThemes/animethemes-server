@@ -8,6 +8,7 @@ use App\Filament\HeaderActions\Models\Wiki\Audio\AttachAudioToRelatedVideosHeade
 use App\Filament\Resources\Wiki\Audio;
 use App\Filament\Resources\Base\BaseEditResource;
 use App\Models\Wiki\Video;
+use Filament\Actions\ActionGroup;
 
 /**
  * Class EditAudio.
@@ -28,10 +29,12 @@ class EditAudio extends BaseEditResource
         return array_merge(
             parent::getHeaderActions(),
             [
-                AttachAudioToRelatedVideosHeaderAction::make('attach-audio-related-video')
-                    ->label('filament.actions.audio.attach_related_videos.name')
-                    ->requiresConfirmation()
-                    ->authorize('update', Video::class),
+                ActionGroup::make([
+                    AttachAudioToRelatedVideosHeaderAction::make('attach-audio-related-video')
+                        ->label(__('filament.actions.audio.attach_related_videos.name'))
+                        ->requiresConfirmation()
+                        ->authorize('update', Video::class),
+                ]),
             ],
         );
     }

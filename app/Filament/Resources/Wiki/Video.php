@@ -6,6 +6,7 @@ namespace App\Filament\Resources\Wiki;
 
 use App\Enums\Models\Wiki\VideoOverlap;
 use App\Enums\Models\Wiki\VideoSource;
+use App\Filament\Actions\Models\Wiki\Video\BackfillAudioAction;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Audio as AudioResource;
 use App\Filament\Resources\Wiki\Video\Pages\CreateVideo;
@@ -21,6 +22,8 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationGroup;
+use Filament\Support\Enums\MaxWidth;
+use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Columns\CheckboxColumn;
 use Filament\Tables\Columns\SelectColumn;
 use Filament\Tables\Columns\TextColumn;
@@ -321,7 +324,15 @@ class Video extends BaseResource
     {
         return array_merge(
             parent::getActions(),
-            [],
+            [
+                ActionGroup::make([
+                    BackfillAudioAction::make('backfill-audio')
+                        ->label(__('filament.actions.video.backfill.name'))
+                        ->requiresConfirmation()
+                        ->modalWidth(MaxWidth::TwoExtraLarge)
+                        ->authorize('update', VideoModel::class),
+                ]),
+            ],
         );
     }
 
