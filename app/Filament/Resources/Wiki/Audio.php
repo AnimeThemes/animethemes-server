@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Wiki;
 
+use App\Filament\Actions\Models\Wiki\Audio\AttachAudioToRelatedVideosAction;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Audio\Pages\CreateAudio;
 use App\Filament\Resources\Wiki\Audio\Pages\EditAudio;
@@ -11,7 +12,7 @@ use App\Filament\Resources\Wiki\Audio\Pages\ListAudios;
 use App\Filament\Resources\Wiki\Audio\Pages\ViewAudio;
 use App\Filament\Resources\Wiki\Audio\RelationManagers\VideoAudioRelationManager;
 use App\Models\Wiki\Audio as AudioModel;
-use Filament\Forms\Components\Hidden;
+use App\Models\Wiki\Video;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationGroup;
@@ -227,7 +228,12 @@ class Audio extends BaseResource
     {
         return array_merge(
             parent::getActions(),
-            [],
+            [
+                AttachAudioToRelatedVideosAction::make('attach-audio-related-video')
+                    ->label('filament.actions.audio.attach_related_videos.name')
+                    ->requiresConfirmation()
+                    ->authorize('update', Video::class),
+            ],
         );
     }
 
