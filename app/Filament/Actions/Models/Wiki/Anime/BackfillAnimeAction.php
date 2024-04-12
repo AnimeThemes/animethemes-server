@@ -25,6 +25,8 @@ use Exception;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Form;
+use Filament\Notifications\Actions\Action as NotificationAction;
+use Filament\Notifications\Notification;
 use Filament\Tables\Actions\Action;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -74,7 +76,6 @@ class BackfillAnimeAction extends Action implements ShouldQueue
     public function handle(Model $anime, array $fields): void
     {
         if (!$anime instanceof Anime) return;
-        $uriKey = AnimeResource::getSlug();
 
         if ($anime->resources()->doesntExist()) {
             $this->fail(__('filament.actions.anime.backfill.message.resource_required_failure'));
@@ -87,13 +88,15 @@ class BackfillAnimeAction extends Action implements ShouldQueue
             foreach ($actions as $action) {
                 $result = $action->handle();
                 if ($result->hasFailed()) {
-                    // $this->user->notify(
-                    //     NovaNotification::make()
-                    //         ->icon('flag')
-                    //         ->message($result->getMessage())
-                    //         ->type(NovaNotification::WARNING_TYPE)
-                    //         ->url("/$uriKey/{$anime->getKey()}")
-                    // );
+                    Notification::make()
+                        ->body($result->getMessage())
+                        ->warning()
+                        ->actions([
+                            NotificationAction::make('mark-as-read')
+                                ->button()
+                                ->markAsRead(),
+                        ])
+                        ->sendToDatabase(auth()->user());
                 }
             }
         } catch (Exception $e) {

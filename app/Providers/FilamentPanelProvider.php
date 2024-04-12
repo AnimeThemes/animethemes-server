@@ -46,6 +46,7 @@ class FilamentPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
+            ->databaseNotifications()
             ->sidebarCollapsibleOnDesktop()
             ->profile()
             ->colors([
