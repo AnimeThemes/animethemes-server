@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Resources\List;
 
 use App\Enums\Models\List\PlaylistVisibility;
+use App\Filament\Actions\Models\AssignHashidsAction;
 use App\Filament\Resources\Auth\User as UserResource;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\List\Playlist\Pages\CreatePlaylist;
@@ -254,7 +255,13 @@ class Playlist extends BaseResource
     {
         return array_merge(
             parent::getActions(),
-            [],
+            [
+                AssignHashidsAction::make('assign-hashids')
+                    ->label(__('filament.actions.models.assign_hashids.name'))
+                    ->setConnection('playlists')
+                    ->requiresConfirmation()
+                    ->authorize('update', PlaylistModel::class),
+            ],
         );
     }
 
