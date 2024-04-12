@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Wiki\Studio\Pages;
 
+use App\Enums\Models\Wiki\ImageFacet;
 use App\Enums\Models\Wiki\ResourceSite;
+use App\Filament\HeaderActions\Models\Wiki\Studio\AttachStudioImageHeaderAction;
 use App\Filament\HeaderActions\Models\Wiki\Studio\AttachStudioResourceHeaderAction;
 use App\Filament\Resources\Wiki\Studio;
 use App\Filament\Resources\Base\BaseEditResource;
 use App\Models\Wiki\ExternalResource;
+use App\Models\Wiki\Image;
 use Filament\Actions\ActionGroup;
 use Filament\Support\Enums\MaxWidth;
 
@@ -28,6 +31,11 @@ class EditStudio extends BaseEditResource
      */
     protected function getHeaderActions(): array
     {
+        $facets = [
+            ImageFacet::COVER_SMALL,
+            ImageFacet::COVER_LARGE,
+        ];
+
         $resourceSites = [
             ResourceSite::ANIDB,
             ResourceSite::ANILIST,
@@ -40,6 +48,13 @@ class EditStudio extends BaseEditResource
             parent::getHeaderActions(),
             [
                 ActionGroup::make([
+                    AttachStudioImageHeaderAction::make('attach-studio-image')
+                        ->label(__('filament.actions.models.wiki.attach_image.name'))
+                        ->icon('heroicon-o-photo')
+                        ->facets($facets)
+                        ->requiresConfirmation()
+                        ->authorize('create', Image::class),
+
                     AttachStudioResourceHeaderAction::make('attach-studio-resource')
                         ->label(__('filament.actions.models.wiki.attach_resource.name'))
                         ->icon('heroicon-o-queue-list')

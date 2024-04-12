@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Wiki;
 
+use App\Enums\Models\Wiki\ImageFacet;
 use App\Enums\Models\Wiki\ResourceSite;
+use App\Filament\Actions\Models\Wiki\Artist\AttachArtistImageAction;
 use App\Filament\Actions\Models\Wiki\Artist\AttachArtistResourceAction;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Artist\Pages\CreateArtist;
@@ -253,6 +255,11 @@ class Artist extends BaseResource
      */
     public static function getActions(): array
     {
+        $facets = [
+            ImageFacet::COVER_SMALL,
+            ImageFacet::COVER_LARGE,
+        ];
+
         $resourceSites = [
             ResourceSite::ANIDB,
             ResourceSite::ANILIST,
@@ -271,6 +278,13 @@ class Artist extends BaseResource
             parent::getActions(),
             [
                 ActionGroup::make([
+                    AttachArtistImageAction::make('attach-artist-image')
+                        ->label(__('filament.actions.models.wiki.attach_image.name'))
+                        ->icon('heroicon-o-photo')
+                        ->facets($facets)
+                        ->requiresConfirmation()
+                        ->authorize('create', Image::class),
+
                     AttachArtistResourceAction::make('attach-artist-resource')
                         ->label(__('filament.actions.models.wiki.attach_resource.name'))
                         ->icon('heroicon-o-queue-list')

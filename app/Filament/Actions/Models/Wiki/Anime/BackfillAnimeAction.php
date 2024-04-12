@@ -16,11 +16,9 @@ use App\Actions\Models\Wiki\Anime\Resource\BackfillMalResourceAction;
 use App\Actions\Models\Wiki\Anime\Studio\BackfillAnimeStudiosAction;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Enums\Models\Wiki\ResourceSite;
-use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Image;
-use App\Filament\Resources\Wiki\Anime as AnimeResource;
 use Exception;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\Section;
@@ -33,7 +31,6 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Sleep;
 
 /**

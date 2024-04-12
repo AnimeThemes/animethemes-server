@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Wiki\Artist\Pages;
 
+use App\Enums\Models\Wiki\ImageFacet;
 use App\Enums\Models\Wiki\ResourceSite;
+use App\Filament\HeaderActions\Models\Wiki\Artist\AttachArtistImageHeaderAction;
 use App\Filament\HeaderActions\Models\Wiki\Artist\AttachArtistResourceHeaderAction;
 use App\Filament\Resources\Base\BaseEditResource;
 use App\Filament\Resources\Wiki\Artist;
 use App\Models\Wiki\ExternalResource;
+use App\Models\Wiki\Image;
 use Filament\Actions\ActionGroup;
 use Filament\Support\Enums\MaxWidth;
 
@@ -28,6 +31,11 @@ class EditArtist extends BaseEditResource
      */
     protected function getHeaderActions(): array
     {
+        $facets = [
+            ImageFacet::COVER_SMALL,
+            ImageFacet::COVER_LARGE,
+        ];
+
         $resourceSites = [
             ResourceSite::ANIDB,
             ResourceSite::ANILIST,
@@ -46,6 +54,13 @@ class EditArtist extends BaseEditResource
             parent::getHeaderActions(),
             [
                 ActionGroup::make([
+                    AttachArtistImageHeaderAction::make('attach-artist-image')
+                        ->label(__('filament.actions.models.wiki.attach_image.name'))
+                        ->icon('heroicon-o-photo')
+                        ->facets($facets)
+                        ->requiresConfirmation()
+                        ->authorize('create', Image::class),
+
                     AttachArtistResourceHeaderAction::make('attach-artist-resource')
                         ->label(__('filament.actions.models.wiki.attach_resource.name'))
                         ->icon('heroicon-o-queue-list')

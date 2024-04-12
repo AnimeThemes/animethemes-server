@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Wiki;
 
+use App\Enums\Models\Wiki\ImageFacet;
 use App\Enums\Models\Wiki\ResourceSite;
+use App\Filament\Actions\Models\Wiki\Studio\AttachStudioImageAction;
 use App\Filament\Actions\Models\Wiki\Studio\AttachStudioResourceAction;
 use App\Filament\Resources\BaseRelationManager;
 use App\Filament\Resources\BaseResource;
@@ -225,6 +227,11 @@ class Studio extends BaseResource
      */
     public static function getActions(): array
     {
+        $facets = [
+            ImageFacet::COVER_SMALL,
+            ImageFacet::COVER_LARGE,
+        ];
+
         $resourceSites = [
             ResourceSite::ANIDB,
             ResourceSite::ANILIST,
@@ -237,6 +244,13 @@ class Studio extends BaseResource
             parent::getActions(),
             [
                 ActionGroup::make([
+                    AttachStudioImageAction::make('attach-studio-image')
+                        ->label(__('filament.actions.models.wiki.attach_image.name'))
+                        ->icon('heroicon-o-photo')
+                        ->facets($facets)
+                        ->requiresConfirmation()
+                        ->authorize('create', Image::class),
+
                     AttachStudioResourceAction::make('attach-studio-resource')
                         ->label(__('filament.actions.models.wiki.attach_resource.name'))
                         ->icon('heroicon-o-queue-list')
