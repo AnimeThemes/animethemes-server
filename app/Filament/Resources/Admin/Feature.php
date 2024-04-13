@@ -138,7 +138,6 @@ class Feature extends BaseResource
             ->columns([
                 TextColumn::make(FeatureModel::ATTRIBUTE_ID)
                     ->label(__('filament.fields.base.id'))
-                    ->numeric()
                     ->sortable(),
 
                 TextColumn::make(FeatureModel::ATTRIBUTE_NAME)

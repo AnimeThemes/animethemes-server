@@ -185,7 +185,6 @@ class Artist extends BaseResource
             ->columns([
                 TextColumn::make(ArtistModel::ATTRIBUTE_ID)
                     ->label(__('filament.fields.base.id'))
-                    ->numeric()
                     ->sortable(),
 
                 TextColumn::make(ArtistModel::ATTRIBUTE_NAME)

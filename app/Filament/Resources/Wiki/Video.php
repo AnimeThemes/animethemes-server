@@ -207,12 +207,10 @@ class Video extends BaseResource
             ->columns([
                 TextColumn::make(VideoModel::ATTRIBUTE_ID)
                     ->label(__('filament.fields.base.id'))
-                    ->numeric()
                     ->sortable(),
 
                 TextColumn::make(VideoModel::ATTRIBUTE_RESOLUTION)
                     ->label(__('filament.fields.video.resolution.name'))
-                    ->numeric()
                     ->toggleable(),
 
                 CheckboxColumn::make(VideoModel::ATTRIBUTE_NC)
@@ -264,7 +262,6 @@ class Video extends BaseResource
 
                 TextColumn::make(VideoModel::ATTRIBUTE_SIZE)
                     ->label(__('filament.fields.video.size.name'))
-                    ->numeric()
                     ->sortable()
                     ->copyable()
                     ->hidden(),

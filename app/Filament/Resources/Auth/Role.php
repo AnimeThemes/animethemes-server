@@ -156,7 +156,6 @@ class Role extends BaseResource
             ->columns([
                 TextColumn::make(RoleModel::ATTRIBUTE_ID)
                     ->label(__('filament.fields.base.id'))
-                    ->numeric()
                     ->sortable(),
 
                 TextColumn::make(RoleModel::ATTRIBUTE_NAME)
@@ -178,7 +177,6 @@ class Role extends BaseResource
 
                 TextColumn::make(RoleModel::ATTRIBUTE_PRIORITY)
                     ->label(__('filament.fields.role.priority.name'))
-                    ->numeric()
                     ->sortable()
                     ->toggleable(),
             ])

@@ -168,7 +168,6 @@ class Song extends BaseResource
             ->columns([
                 TextColumn::make(SongModel::ATTRIBUTE_ID)
                     ->label(__('filament.fields.base.id'))
-                    ->numeric()
                     ->sortable(),
 
                 TextColumn::make(SongModel::ATTRIBUTE_TITLE)

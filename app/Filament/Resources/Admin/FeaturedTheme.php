@@ -180,7 +180,6 @@ class FeaturedTheme extends BaseResource
             ->columns([
                 TextColumn::make(FeaturedThemeModel::ATTRIBUTE_ID)
                     ->label(__('filament.fields.base.id'))
-                    ->numeric()
                     ->sortable(),
 
                 TextColumn::make(FeaturedThemeModel::ATTRIBUTE_START_AT)

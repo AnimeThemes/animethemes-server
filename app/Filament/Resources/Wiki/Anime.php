@@ -227,7 +227,6 @@ class Anime extends BaseResource
             ->columns([
                 TextColumn::make(AnimeModel::ATTRIBUTE_ID)
                     ->label(__('filament.fields.base.id'))
-                    ->numeric()
                     ->sortable(),
 
                 TextColumn::make(AnimeModel::ATTRIBUTE_NAME)
@@ -245,7 +244,6 @@ class Anime extends BaseResource
 
                 TextColumn::make(AnimeModel::ATTRIBUTE_YEAR)
                     ->label(__('filament.fields.anime.year.name'))
-                    ->numeric()
                     ->sortable()
                     ->toggleable(),
 

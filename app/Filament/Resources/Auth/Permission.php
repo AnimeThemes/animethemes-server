@@ -136,7 +136,6 @@ class Permission extends BaseResource
             ->columns([
                 TextColumn::make(PermissionModel::ATTRIBUTE_ID)
                     ->label(__('filament.fields.base.id'))
-                    ->numeric()
                     ->sortable(),
 
                 TextColumn::make(PermissionModel::ATTRIBUTE_NAME)

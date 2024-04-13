@@ -149,7 +149,6 @@ class Audio extends BaseResource
             ->columns([
                 TextColumn::make(AudioModel::ATTRIBUTE_ID)
                     ->label(__('filament.fields.base.id'))
-                    ->numeric()
                     ->sortable(),
 
                 TextColumn::make(AudioModel::ATTRIBUTE_BASENAME)
@@ -170,7 +169,6 @@ class Audio extends BaseResource
 
                 TextColumn::make(AudioModel::ATTRIBUTE_SIZE)
                     ->label(__('filament.fields.audio.size.name'))
-                    ->numeric()
                     ->sortable()
                     ->copyable()
                     ->hidden(),

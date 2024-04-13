@@ -130,7 +130,6 @@ class Dump extends BaseResource
             ->columns([
                 TextColumn::make(DumpModel::ATTRIBUTE_ID)
                     ->label(__('filament.fields.base.id'))
-                    ->numeric()
                     ->sortable(),
 
                 TextColumn::make(DumpModel::ATTRIBUTE_PATH)

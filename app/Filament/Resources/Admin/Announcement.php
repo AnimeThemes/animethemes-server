@@ -129,7 +129,6 @@ class Announcement extends BaseResource
             ->columns([
                 TextColumn::make(AnnouncementModel::ATTRIBUTE_ID)
                     ->label(__('filament.fields.base.id'))
-                    ->numeric()
                     ->sortable(),
 
                 TextColumn::make(AnnouncementModel::ATTRIBUTE_CONTENT)

@@ -140,7 +140,6 @@ class Synonym extends BaseResource
             ->columns([
                 TextColumn::make(SynonymModel::ATTRIBUTE_ID)
                     ->label(__('filament.fields.base.id'))
-                    ->numeric()
                     ->sortable(),
 
                 TextColumn::make(SynonymModel::RELATION_ANIME.'.'.AnimeModel::ATTRIBUTE_NAME)

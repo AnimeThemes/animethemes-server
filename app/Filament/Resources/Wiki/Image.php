@@ -140,7 +140,6 @@ class Image extends BaseResource
             ->columns([
                 TextColumn::make(ImageModel::ATTRIBUTE_ID)
                     ->label(__('filament.fields.base.id'))
-                    ->numeric()
                     ->sortable(),
 
                 SelectColumn::make(ImageModel::ATTRIBUTE_FACET)

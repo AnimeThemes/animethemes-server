@@ -127,7 +127,6 @@ class Script extends BaseResource
             ->columns([
                 TextColumn::make(ScriptModel::ATTRIBUTE_ID)
                     ->label(__('filament.fields.base.id'))
-                    ->numeric()
                     ->sortable(),
 
                 TextColumn::make(ScriptModel::ATTRIBUTE_PATH)

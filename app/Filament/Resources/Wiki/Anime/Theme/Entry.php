@@ -225,12 +225,10 @@ class Entry extends BaseResource
 
                 TextColumn::make(EntryModel::ATTRIBUTE_ID)
                     ->label(__('filament.fields.base.id'))
-                    ->numeric()
                     ->sortable(),
 
                 TextColumn::make(EntryModel::ATTRIBUTE_VERSION)
                     ->label(__('filament.fields.anime_theme_entry.version.name'))
-                    ->numeric()
                     ->toggleable(),
 
                 TextColumn::make(EntryModel::ATTRIBUTE_EPISODES)

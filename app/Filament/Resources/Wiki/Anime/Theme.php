@@ -184,7 +184,6 @@ class Theme extends BaseResource
 
                 TextColumn::make(ThemeModel::ATTRIBUTE_ID)
                     ->label(__('filament.fields.base.id'))
-                    ->numeric()
                     ->sortable(),
 
                 SelectColumn::make(ThemeModel::ATTRIBUTE_TYPE)
@@ -194,7 +193,6 @@ class Theme extends BaseResource
 
                 TextColumn::make(ThemeModel::ATTRIBUTE_SEQUENCE)
                     ->label(__('filament.fields.anime_theme.sequence.name'))
-                    ->numeric()
                     ->sortable()
                     ->toggleable(),
 

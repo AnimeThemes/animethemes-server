@@ -165,7 +165,6 @@ class ExternalResource extends BaseResource
             ->columns([
                 TextColumn::make(ExternalResourceModel::ATTRIBUTE_ID)
                     ->label(__('filament.fields.base.id'))
-                    ->numeric()
                     ->sortable(),
 
                 SelectColumn::make(ExternalResourceModel::ATTRIBUTE_SITE)

@@ -167,7 +167,6 @@ class Track extends BaseResource
 
                 TextColumn::make(TrackModel::ATTRIBUTE_ID)
                     ->label(__('filament.fields.base.id'))
-                    ->numeric()
                     ->sortable()
                     ->toggleable(),
 

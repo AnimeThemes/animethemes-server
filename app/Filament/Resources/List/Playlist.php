@@ -174,7 +174,6 @@ class Playlist extends BaseResource
 
                 TextColumn::make(PlaylistModel::ATTRIBUTE_ID)
                     ->label(__('filament.fields.base.id'))
-                    ->numeric()
                     ->sortable(),
 
                 TextColumn::make(PlaylistModel::ATTRIBUTE_NAME)
