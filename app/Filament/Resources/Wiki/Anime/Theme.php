@@ -20,11 +20,13 @@ use App\Models\Wiki\Song;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
+use Filament\Forms\Set;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Tables\Columns\SelectColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Validation\Rule;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\Enum;
 
 /**
@@ -129,12 +131,16 @@ class Theme extends BaseResource
                     ->helperText(__('filament.fields.anime_theme.type.help'))
                     ->options(ThemeType::asSelectArray())
                     ->required()
+                    ->live(true)
+                    ->afterStateUpdated(fn (Set $set, Get $get) => Theme::setThemeSlug($set, $get))
                     ->rules(['required', new Enum(ThemeType::class)]),
 
                 TextInput::make(ThemeModel::ATTRIBUTE_SEQUENCE)
                     ->label(__('filament.fields.anime_theme.sequence.name'))
                     ->helperText(__('filament.fields.anime_theme.sequence.help'))
                     ->numeric()
+                    ->live(true)
+                    ->afterStateUpdated(fn (Set $set, Get $get) => Theme::setThemeSlug($set, $get))
                     ->rules(['nullable', 'integer']),
 
                 TextInput::make(ThemeModel::ATTRIBUTE_GROUP)
@@ -206,6 +212,30 @@ class Theme extends BaseResource
             ->filters(static::getFilters())
             ->actions(static::getActions())
             ->bulkActions(static::getBulkActions());
+    }
+
+    /**
+     * Set the theme slug.
+     * 
+     * @param  Set  $set
+     * @param  Get  $get
+     * @return void
+     */
+    protected static function setThemeSlug(Set $set, Get $get): void
+    {
+        $slug = Str::of('');
+        $type = $get(ThemeModel::ATTRIBUTE_TYPE);
+
+        if (!empty($type)) {
+            $type = ThemeType::tryFrom(intval($type));
+            $slug = $slug->append($type->name);
+        }
+        
+        if ($slug->isNotEmpty()) {
+            $slug = $slug->append($get(ThemeModel::ATTRIBUTE_SEQUENCE) ?? 1);
+        }
+
+        $set(ThemeModel::ATTRIBUTE_SLUG, $slug->__toString());
     }
 
     /**
