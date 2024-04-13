@@ -216,7 +216,7 @@ class Theme extends BaseResource
 
     /**
      * Set the theme slug.
-     * 
+     *
      * @param  Set  $set
      * @param  Get  $get
      * @return void
@@ -226,13 +226,14 @@ class Theme extends BaseResource
         $slug = Str::of('');
         $type = $get(ThemeModel::ATTRIBUTE_TYPE);
 
-        if (!empty($type)) {
+        if (!empty($type) || $type !== null) {
             $type = ThemeType::tryFrom(intval($type));
             $slug = $slug->append($type->name);
         }
         
         if ($slug->isNotEmpty()) {
-            $slug = $slug->append($get(ThemeModel::ATTRIBUTE_SEQUENCE) ?? 1);
+            $sequence = $get(ThemeModel::ATTRIBUTE_SEQUENCE);
+            $slug = $slug->append(empty($sequence) || $sequence === null ? 1 : $sequence);
         }
 
         $set(ThemeModel::ATTRIBUTE_SLUG, $slug->__toString());
