@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Resources\Wiki;
 
 use App\Filament\Actions\Models\Wiki\Audio\AttachAudioToRelatedVideosAction;
+use App\Filament\HeaderActions\Repositories\Storage\Wiki\Audio\ReconcileAudioHeaderAction;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Audio\Pages\CreateAudio;
 use App\Filament\Resources\Wiki\Audio\Pages\EditAudio;
@@ -182,7 +183,8 @@ class Audio extends BaseResource
             ->defaultSort(AudioModel::ATTRIBUTE_ID, 'desc')
             ->filters(static::getFilters())
             ->actions(static::getActions())
-            ->bulkActions(static::getBulkActions());
+            ->bulkActions(static::getBulkActions())
+            ->headerActions(static::getHeaderActions());
     }
 
     /**
@@ -251,6 +253,25 @@ class Audio extends BaseResource
             parent::getBulkActions(),
             [],
         );
+    }
+
+    /**
+     * Get the header actions available for the resource.
+     *
+     * @return array
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getHeaderActions(): array
+    {
+        return [
+            ActionGroup::make([
+                ReconcileAudioHeaderAction::make('reconcile-audio')
+                    ->label(__('filament.actions.repositories.name', ['label' => __('filament.resources.label.audios')]))
+                    ->requiresConfirmation()
+                    ->authorize('create', AudioModel::class),
+            ]),
+        ];
     }
 
     /**

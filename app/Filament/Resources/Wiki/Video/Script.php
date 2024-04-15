@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Wiki\Video;
 
+use App\Filament\HeaderActions\Repositories\Storage\Wiki\Video\Script\ReconcileScriptHeaderAction;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Video\Script\Pages\CreateScript;
 use App\Filament\Resources\Wiki\Video\Script\Pages\EditScript;
@@ -12,6 +13,7 @@ use App\Filament\Resources\Wiki\Video\Script\Pages\ViewScript;
 use App\Models\Wiki\Video\VideoScript as ScriptModel;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
@@ -137,7 +139,8 @@ class Script extends BaseResource
             ->defaultSort(ScriptModel::ATTRIBUTE_ID, 'desc')
             ->filters(static::getFilters())
             ->actions(static::getActions())
-            ->bulkActions(static::getBulkActions());
+            ->bulkActions(static::getBulkActions())
+            ->headerActions(static::getHeaderActions());
     }
 
     /**
@@ -195,6 +198,25 @@ class Script extends BaseResource
             parent::getBulkActions(),
             [],
         );
+    }
+
+    /**
+     * Get the header actions available for the resource.
+     *
+     * @return array
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getHeaderActions(): array
+    {
+        return [
+            ActionGroup::make([
+                ReconcileScriptHeaderAction::make('reconcile-script')
+                    ->label(__('filament.actions.repositories.name', ['label' => __('filament.resources.label.video_scripts')]))
+                    ->requiresConfirmation()
+                    ->authorize('create', ScriptModel::class),
+            ]),
+        ];
     }
 
     /**

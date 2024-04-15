@@ -7,8 +7,8 @@ namespace App\Filament\Resources\Wiki;
 use App\Enums\Models\Wiki\VideoOverlap;
 use App\Enums\Models\Wiki\VideoSource;
 use App\Filament\Actions\Models\Wiki\Video\BackfillAudioAction;
+use App\Filament\HeaderActions\Repositories\Storage\Wiki\Video\ReconcileVideoHeaderAction;
 use App\Filament\Resources\BaseResource;
-use App\Filament\Resources\Wiki\Audio as AudioResource;
 use App\Filament\Resources\Wiki\Video\Pages\CreateVideo;
 use App\Filament\Resources\Wiki\Video\Pages\EditVideo;
 use App\Filament\Resources\Wiki\Video\Pages\ListVideos;
@@ -275,7 +275,8 @@ class Video extends BaseResource
             ->defaultSort(VideoModel::ATTRIBUTE_ID, 'desc')
             ->filters(static::getFilters())
             ->actions(static::getActions())
-            ->bulkActions(static::getBulkActions());
+            ->bulkActions(static::getBulkActions())
+            ->headerActions(static::getHeaderActions());
     }
 
     /**
@@ -346,6 +347,25 @@ class Video extends BaseResource
             parent::getBulkActions(),
             [],
         );
+    }
+
+    /**
+     * Get the header actions available for the resource.
+     *
+     * @return array
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getHeaderActions(): array
+    {
+        return [
+            ActionGroup::make([
+                ReconcileVideoHeaderAction::make('reconcile-video')
+                    ->label(__('filament.actions.repositories.name', ['label' => __('filament.resources.label.videos')]))
+                    ->requiresConfirmation()
+                    ->authorize('create', VideoModel::class),
+            ]),
+        ];
     }
 
     /**

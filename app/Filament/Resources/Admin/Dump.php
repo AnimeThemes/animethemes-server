@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Admin;
 
+use App\Filament\HeaderActions\Repositories\Storage\Admin\Dump\ReconcileDumpHeaderAction;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Admin\Dump\Pages\CreateDump;
 use App\Filament\Resources\Admin\Dump\Pages\EditDump;
 use App\Filament\Resources\Admin\Dump\Pages\ListDumps;
 use App\Filament\Resources\Admin\Dump\Pages\ViewDump;
 use App\Models\Admin\Dump as DumpModel;
+use Filament\Tables\Actions\ActionGroup;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Tables\Columns\TextColumn;
@@ -141,7 +143,8 @@ class Dump extends BaseResource
             ->defaultSort(DumpModel::ATTRIBUTE_ID, 'desc')
             ->filters(static::getFilters())
             ->actions(static::getActions())
-            ->bulkActions(static::getBulkActions());
+            ->bulkActions(static::getBulkActions())
+            ->headerActions(static::getHeaderActions());
     }
 
     /**
@@ -199,6 +202,25 @@ class Dump extends BaseResource
             parent::getBulkActions(),
             [],
         );
+    }
+
+    /**
+     * Get the headeractions available for the resource.
+     *
+     * @return array
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getHeaderActions(): array
+    {
+        return [
+                ActionGroup::make([
+                    ReconcileDumpHeaderAction::make('reconcile-dump')
+                        ->label(__('filament.actions.repositories.name', ['label' => __('filament.resources.label.dumps')]))
+                        ->requiresConfirmation()
+                        ->authorize('create', DumpModel::class),
+                ]),
+            ];
     }
 
     /**
