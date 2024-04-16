@@ -25,6 +25,7 @@ use App\Http\Api\Field\Wiki\Video\VideoUncenField;
 use App\Http\Api\Field\Wiki\Video\VideoViewCountField;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\EloquentSchema;
+use App\Http\Api\Schema\List\Playlist\TrackSchema;
 use App\Http\Api\Schema\Wiki\Anime\Theme\EntrySchema;
 use App\Http\Api\Schema\Wiki\Anime\ThemeSchema;
 use App\Http\Api\Schema\Wiki\Video\ScriptSchema;
@@ -59,6 +60,7 @@ class VideoSchema extends EloquentSchema implements SearchableSchema
             new AllowedInclude(new EntrySchema(), Video::RELATION_ANIMETHEMEENTRIES),
             new AllowedInclude(new ScriptSchema(), Video::RELATION_SCRIPT),
             new AllowedInclude(new ThemeSchema(), Video::RELATION_ANIMETHEME),
+            new AllowedInclude(new TrackSchema(), Video::RELATION_TRACKS),
 
             // Undocumented paths needed for client builds
             new AllowedInclude(new SongSchema(), 'animethemeentries.animetheme.song'),

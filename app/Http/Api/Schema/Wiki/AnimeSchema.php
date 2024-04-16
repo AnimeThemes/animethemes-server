@@ -16,6 +16,7 @@ use App\Http\Api\Field\Wiki\Anime\AnimeSynopsisField;
 use App\Http\Api\Field\Wiki\Anime\AnimeYearField;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\EloquentSchema;
+use App\Http\Api\Schema\List\PlaylistSchema;
 use App\Http\Api\Schema\Pivot\Wiki\AnimeResourceSchema;
 use App\Http\Api\Schema\Wiki\Anime\SynonymSchema;
 use App\Http\Api\Schema\Wiki\Anime\Theme\EntrySchema;
@@ -82,6 +83,7 @@ class AnimeSchema extends EloquentSchema implements InteractsWithPivots, Searcha
             new AllowedInclude(new ExternalResourceSchema(), 'animethemes.animethemeentries.videos.animethemeentries.animetheme.song.resources'),
             new AllowedInclude(new ExternalResourceSchema(), 'animethemes.song.resources'),
             new AllowedInclude(new ImageSchema(), 'animethemes.song.artists.images'),
+            new AllowedInclude(new PlaylistSchema(), 'animethemes.animethemeentries.videos.tracks.playlist'),
         ];
     }
 
