@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Models\Wiki;
 
+use App\Enums\Models\List\PlaylistVisibility;
 use App\Enums\Models\Wiki\VideoOverlap;
 use App\Enums\Models\Wiki\VideoSource;
 use App\Models\List\Playlist;
@@ -316,21 +317,41 @@ class VideoTest extends TestCase
     }
 
     /**
-     * Video shall have a one-to-many relationship with the type PlaylistTrack.
+     * Video shall have a one-to-many relationship with the type PlaylistTrack, but only if the playlist is public.
      *
      * @return void
      */
-    public function testTracks(): void
+    public function testTracksPublic(): void
     {
         $trackCount = $this->faker->randomDigitNotNull();
 
+        $playlist = Playlist::factory()->createOne([ Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC ]);
         $video = Video::factory()
-            ->has(PlaylistTrack::factory()->for(Playlist::factory())->count($trackCount), Video::RELATION_TRACKS)
+            ->has(PlaylistTrack::factory()->for($playlist)->count($trackCount), Video::RELATION_TRACKS)
             ->createOne();
 
         static::assertInstanceOf(HasMany::class, $video->tracks());
         static::assertEquals($trackCount, $video->tracks()->count());
         static::assertInstanceOf(PlaylistTrack::class, $video->tracks()->first());
+    }
+
+    /**
+     * Video shall have a one-to-many relationship with the type PlaylistTrack, but only if the playlist is public.
+     *
+     * @return void
+     */
+    public function testTracksNotPublic(): void
+    {
+        $trackCount = $this->faker->randomDigitNotNull();
+
+        $visibility = Arr::random([ PlaylistVisibility::PRIVATE, PlaylistVisibility::UNLISTED ]);
+        $playlist = Playlist::factory()->createOne([ Playlist::ATTRIBUTE_VISIBILITY => $visibility ]);
+        $video = Video::factory()
+            ->has(PlaylistTrack::factory()->for($playlist)->count($trackCount), Video::RELATION_TRACKS)
+            ->createOne();
+
+        static::assertInstanceOf(HasMany::class, $video->tracks());
+        static::assertNotEquals($trackCount, $video->tracks()->count());
     }
 
     /**

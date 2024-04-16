@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models\Wiki;
 
 use App\Contracts\Models\Streamable;
+use App\Enums\Models\List\PlaylistVisibility;
 use App\Enums\Models\Wiki\VideoOverlap;
 use App\Enums\Models\Wiki\VideoSource;
 use App\Events\Wiki\Video\VideoCreated;
@@ -13,6 +14,7 @@ use App\Events\Wiki\Video\VideoRestored;
 use App\Events\Wiki\Video\VideoUpdated;
 use App\Http\Resources\Pivot\Wiki\Resource\AnimeThemeEntryVideoResource;
 use App\Models\BaseModel;
+use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video\VideoScript;
@@ -349,6 +351,7 @@ class Video extends BaseModel implements Streamable, Viewable
      */
     public function tracks(): HasMany
     {
-        return $this->hasMany(PlaylistTrack::class, PlaylistTrack::ATTRIBUTE_VIDEO);
+        return $this->hasMany(PlaylistTrack::class, PlaylistTrack::ATTRIBUTE_VIDEO)
+            ->whereRelation(PlaylistTrack::RELATION_PLAYLIST, Playlist::ATTRIBUTE_VISIBILITY, PlaylistVisibility::PUBLIC->value);
     }
 }

@@ -44,6 +44,7 @@ class MySchema extends EloquentSchema
             new AllowedInclude(new PermissionSchema(), User::RELATION_PERMISSIONS),
             new AllowedInclude(new PlaylistSchema(), User::RELATION_PLAYLISTS),
             new AllowedInclude(new RoleSchema(), User::RELATION_ROLES),
+            new AllowedInclude(new PermissionSchema(), User::RELATION_ROLES_PERMISSIONS),
         ];
     }
 

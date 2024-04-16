@@ -18,4 +18,6 @@ enum SpecialPermission: string
     case VIEW_NOVA = 'view nova';
 
     case VIEW_TELESCOPE = 'view telescope';
+
+    case REVALIDATE_PAGES = 'revalidate pages';
 }
