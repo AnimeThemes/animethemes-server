@@ -29,6 +29,8 @@
         "bepsvpt/secure-headers": "^7.4",
         "cyrildewit/eloquent-viewable": "^7.0",
         "fakerphp/faker": "^1.21",
+        "filament/filament": "3.2",
+        "filament/forms": "3.2",
         "guzzlehttp/guzzle": "^7.5",
         "laravel-notification-channels/discord": "^1.4",
         "laravel/fortify": "^1.16",
@@ -95,7 +97,8 @@
     "scripts": {
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
-            "@php artisan package:discover --ansi"
+            "@php artisan package:discover --ansi",
+            "@php artisan filament:upgrade"
         ],
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
