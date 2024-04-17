@@ -43,7 +43,7 @@ trait ReconcilesDumpRepositories
      *
      * @return ReconcileRepositoriesAction
      */
-    protected function action(): ReconcileRepositoriesAction
+    protected function reconcileAction(): ReconcileRepositoriesAction
     {
         return new ReconcileDumpRepositoriesAction();
     }
