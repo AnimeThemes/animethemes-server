@@ -224,7 +224,7 @@ return [
         App\Providers\FilamentPanelProvider::class,
         App\Providers\FortifyServiceProvider::class,
         App\Providers\HorizonServiceProvider::class,
-       // App\Providers\NovaServiceProvider::class,
+        App\Providers\NovaServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\TelescopeServiceProvider::class,
     ])->toArray(),

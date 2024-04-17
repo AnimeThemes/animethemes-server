@@ -32,6 +32,19 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Filament Path
+    |--------------------------------------------------------------------------
+    |
+    | This is the URI path where Filament will be accessible from. Feel free to
+    | change this path to anything you like. Note that this URI will not
+    | affect Filament's internal API routes which aren't exposed to users.
+    |
+    */
+
+    'path' => env('FILAMENT_PATH'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Default Filesystem Disk
     |--------------------------------------------------------------------------
     |
