@@ -4,15 +4,19 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Wiki\Video;
 
-use App\Filament\HeaderActions\Repositories\Storage\Wiki\Video\Script\ReconcileScriptHeaderAction;
+use App\Filament\Actions\Storage\Wiki\Video\Script\DeleteScriptAction;
+use App\Filament\Actions\Storage\Wiki\Video\Script\MoveScriptAction;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Video\Script\Pages\CreateScript;
 use App\Filament\Resources\Wiki\Video\Script\Pages\EditScript;
 use App\Filament\Resources\Wiki\Video\Script\Pages\ListScripts;
 use App\Filament\Resources\Wiki\Video\Script\Pages\ViewScript;
+use App\Filament\TableActions\Repositories\Storage\Wiki\Video\Script\ReconcileScriptTableAction;
+use App\Filament\TableActions\Storage\Wiki\Video\Script\UploadScriptTableAction;
 use App\Models\Wiki\Video\VideoScript as ScriptModel;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Support\Enums\MaxWidth;
 use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
@@ -181,7 +185,21 @@ class Script extends BaseResource
     {
         return array_merge(
             parent::getActions(),
-            [],
+            [
+                ActionGroup::make([
+                    MoveScriptAction::make('move-script')
+                        ->label(__('filament.actions.video_script.move.name'))
+                        ->requiresConfirmation()
+                        ->modalWidth(MaxWidth::FourExtraLarge)
+                        ->authorize('create', ScriptModel::class),
+                    
+                    DeleteScriptAction::make('delete-script')
+                        ->label(__('filament.actions.video_script.delete.name'))
+                        ->requiresConfirmation()
+                        ->modalWidth(MaxWidth::FourExtraLarge)
+                        ->authorize('delete', ScriptModel::class),
+                ]),
+            ],
         );
     }
 
@@ -211,7 +229,13 @@ class Script extends BaseResource
     {
         return [
             ActionGroup::make([
-                ReconcileScriptHeaderAction::make('reconcile-script')
+                UploadScriptTableAction::make('upload-script')
+                    ->label(__('filament.actions.video_script.upload.name'))
+                    ->modalWidth(MaxWidth::FourExtraLarge)
+                    ->requiresConfirmation()
+                    ->authorize('create', ScriptModel::class),
+
+                ReconcileScriptTableAction::make('reconcile-script')
                     ->label(__('filament.actions.repositories.name', ['label' => __('filament.resources.label.video_scripts')]))
                     ->requiresConfirmation()
                     ->authorize('create', ScriptModel::class),

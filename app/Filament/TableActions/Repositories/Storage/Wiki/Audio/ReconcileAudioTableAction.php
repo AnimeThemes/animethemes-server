@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace App\Filament\HeaderActions\Repositories\Storage\Wiki\Audio;
+namespace App\Filament\TableActions\Repositories\Storage\Wiki\Audio;
 
 use App\Concerns\Repositories\Wiki\ReconcilesAudioRepositories;
 use App\Constants\Config\AudioConstants;
-use App\Filament\HeaderActions\Repositories\Storage\ReconcileStorageHeaderAction;
+use App\Filament\TableActions\Repositories\Storage\ReconcileStorageTableAction;
 use Illuminate\Support\Facades\Config;
 
 /**
- * Class ReconcileAudioHeaderAction.
+ * Class ReconcileAudioTableAction.
  */
-class ReconcileAudioHeaderAction extends ReconcileStorageHeaderAction
+class ReconcileAudioTableAction extends ReconcileStorageTableAction
 {
     use ReconcilesAudioRepositories;
 

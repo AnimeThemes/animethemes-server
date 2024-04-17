@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Filament\HeaderActions\Repositories;
+namespace App\Filament\TableActions\Repositories;
 
 use App\Concerns\Repositories\ReconcilesRepositories;
 use Exception;
@@ -10,9 +10,9 @@ use Filament\Tables\Actions\Action;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class ReconcileHeaderAction.
+ * Class ReconcileTableAction.
  */
-abstract class ReconcileHeaderAction extends Action
+abstract class ReconcileTableAction extends Action
 {
     use ReconcilesRepositories;
 

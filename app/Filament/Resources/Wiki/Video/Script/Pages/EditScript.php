@@ -4,8 +4,13 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Wiki\Video\Script\Pages;
 
+use App\Filament\HeaderActions\Storage\Wiki\Video\Script\DeleteScriptHeaderAction;
+use App\Filament\HeaderActions\Storage\Wiki\Video\Script\MoveScriptHeaderAction;
 use App\Filament\Resources\Wiki\Video\Script;
 use App\Filament\Resources\Base\BaseEditResource;
+use App\Models\Wiki\Video\VideoScript as ScriptModel;
+use Filament\Actions\ActionGroup;
+use Filament\Support\Enums\MaxWidth;
 
 /**
  * Class EditScript.
@@ -25,7 +30,21 @@ class EditScript extends BaseEditResource
     {
         return array_merge(
             parent::getHeaderActions(),
-            [],
+            [
+                ActionGroup::make([
+                    MoveScriptHeaderAction::make('move-script')
+                        ->label(__('filament.actions.video_script.move.name'))
+                        ->requiresConfirmation()
+                        ->modalWidth(MaxWidth::FourExtraLarge)
+                        ->authorize('create', ScriptModel::class),
+                    
+                    DeleteScriptHeaderAction::make('delete-script')
+                        ->label(__('filament.actions.video_script.delete.name'))
+                        ->requiresConfirmation()
+                        ->modalWidth(MaxWidth::FourExtraLarge)
+                        ->authorize('delete', ScriptModel::class),
+                ]),
+            ],
         );
     }
 }

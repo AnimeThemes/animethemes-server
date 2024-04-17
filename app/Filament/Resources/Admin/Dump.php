@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Admin;
 
-use App\Filament\HeaderActions\Repositories\Storage\Admin\Dump\ReconcileDumpHeaderAction;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Admin\Dump\Pages\CreateDump;
 use App\Filament\Resources\Admin\Dump\Pages\EditDump;
 use App\Filament\Resources\Admin\Dump\Pages\ListDumps;
 use App\Filament\Resources\Admin\Dump\Pages\ViewDump;
+use App\Filament\TableActions\Repositories\Storage\Admin\Dump\ReconcileDumpTableAction;
+use App\Filament\TableActions\Storage\Admin\DumpDocumentTableAction;
+use App\Filament\TableActions\Storage\Admin\DumpWikiTableAction;
+use App\Filament\TableActions\Storage\Admin\PruneDumpTableAction;
 use App\Models\Admin\Dump as DumpModel;
 use Filament\Tables\Actions\ActionGroup;
 use Filament\Forms\Components\TextInput;
@@ -205,7 +208,7 @@ class Dump extends BaseResource
     }
 
     /**
-     * Get the headeractions available for the resource.
+     * Get the header actions available for the resource.
      *
      * @return array
      *
@@ -214,13 +217,27 @@ class Dump extends BaseResource
     public static function getHeaderActions(): array
     {
         return [
-                ActionGroup::make([
-                    ReconcileDumpHeaderAction::make('reconcile-dump')
-                        ->label(__('filament.actions.repositories.name', ['label' => __('filament.resources.label.dumps')]))
-                        ->requiresConfirmation()
-                        ->authorize('create', DumpModel::class),
-                ]),
-            ];
+            ActionGroup::make([
+                DumpWikiTableAction::make('dump-wiki')
+                    ->label(__('filament.actions.dump.dump.name.wiki'))
+                    ->requiresConfirmation()
+                    ->authorize('create', DumpModel::class),
+
+                DumpDocumentTableAction::make('dump-document')
+                    ->label(__('filament.actions.dump.dump.name.document'))
+                    ->requiresConfirmation()
+                    ->authorize('create', DumpModel::class),
+                
+                PruneDumpTableAction::make('prune-dump')
+                    ->label(__('filament.actions.dump.prune.name'))
+                    ->requiresConfirmation(),
+
+                ReconcileDumpTableAction::make('reconcile-dump')
+                    ->label(__('filament.actions.repositories.name', ['label' => __('filament.resources.label.dumps')]))
+                    ->requiresConfirmation()
+                    ->authorize('create', DumpModel::class),
+            ]),
+        ];
     }
 
     /**

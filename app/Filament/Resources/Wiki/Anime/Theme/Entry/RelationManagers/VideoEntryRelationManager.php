@@ -115,6 +115,7 @@ class VideoEntryRelationManager extends BaseRelationManager
     {
         return array_merge(
             parent::getHeaderActions(),
+            VideoResource::getHeaderActions(),
             [],
         );
     }

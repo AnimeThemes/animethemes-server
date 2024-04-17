@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Filament\Resources\Wiki\Video\Pages;
 
 use App\Filament\HeaderActions\Models\Wiki\Video\BackfillAudioHeaderAction;
+use App\Filament\HeaderActions\Storage\Wiki\Video\DeleteVideoHeaderAction;
+use App\Filament\HeaderActions\Storage\Wiki\Video\MoveVideoHeaderAction;
 use App\Filament\Resources\Wiki\Video;
 use App\Filament\Resources\Base\BaseEditResource;
 use App\Models\Wiki\Video as VideoModel;
@@ -36,6 +38,18 @@ class EditVideo extends BaseEditResource
                         ->requiresConfirmation()
                         ->modalWidth(MaxWidth::TwoExtraLarge)
                         ->authorize('update', VideoModel::class),
+
+                    MoveVideoHeaderAction::make('move-video')
+                        ->label(__('filament.actions.video.move.name'))
+                        ->requiresConfirmation()
+                        ->modalWidth(MaxWidth::FourExtraLarge)
+                        ->authorize('create', VideoModel::class),
+                    
+                    DeleteVideoHeaderAction::make('delete-video')
+                        ->label(__('filament.actions.video.delete.name'))
+                        ->requiresConfirmation()
+                        ->modalWidth(MaxWidth::FourExtraLarge)
+                        ->authorize('delete', VideoModel::class),
                 ]),
             ],
         );

@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace App\Filament\HeaderActions\Repositories\Storage\Admin\Dump;
+namespace App\Filament\TableActions\Repositories\Storage\Admin\Dump;
 
 use App\Concerns\Repositories\Admin\ReconcilesDumpRepositories;
 use App\Constants\Config\DumpConstants;
-use App\Filament\HeaderActions\Repositories\Storage\ReconcileStorageHeaderAction;
+use App\Filament\TableActions\Repositories\Storage\ReconcileStorageTableAction;
 use Filament\Forms\Form;
 use Illuminate\Support\Facades\Config;
 
 /**
- * Class ReconcileDumpHeaderAction.
+ * Class ReconcileDumpTableAction.
  */
-class ReconcileDumpHeaderAction extends ReconcileStorageHeaderAction
+class ReconcileDumpTableAction extends ReconcileStorageTableAction
 {
     use ReconcilesDumpRepositories;
 

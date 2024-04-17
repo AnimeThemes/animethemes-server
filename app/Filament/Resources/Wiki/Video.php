@@ -7,7 +7,8 @@ namespace App\Filament\Resources\Wiki;
 use App\Enums\Models\Wiki\VideoOverlap;
 use App\Enums\Models\Wiki\VideoSource;
 use App\Filament\Actions\Models\Wiki\Video\BackfillAudioAction;
-use App\Filament\HeaderActions\Repositories\Storage\Wiki\Video\ReconcileVideoHeaderAction;
+use App\Filament\Actions\Storage\Wiki\Video\DeleteVideoAction;
+use App\Filament\Actions\Storage\Wiki\Video\MoveVideoAction;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Video\Pages\CreateVideo;
 use App\Filament\Resources\Wiki\Video\Pages\EditVideo;
@@ -15,6 +16,8 @@ use App\Filament\Resources\Wiki\Video\Pages\ListVideos;
 use App\Filament\Resources\Wiki\Video\Pages\ViewVideo;
 use App\Filament\Resources\Wiki\Video\RelationManagers\EntryVideoRelationManager;
 use App\Filament\Resources\Wiki\Video\RelationManagers\TrackVideoRelationManager;
+use App\Filament\TableActions\Repositories\Storage\Wiki\Video\ReconcileVideoTableAction;
+use App\Filament\TableActions\Storage\Wiki\Video\UploadVideoTableAction;
 use App\Models\Wiki\Audio as AudioModel;
 use App\Models\Wiki\Video as VideoModel;
 use Filament\Forms\Components\Checkbox;
@@ -28,7 +31,6 @@ use Filament\Tables\Columns\CheckboxColumn;
 use Filament\Tables\Columns\SelectColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rules\Enum;
 
 /**
@@ -329,6 +331,18 @@ class Video extends BaseResource
                         ->requiresConfirmation()
                         ->modalWidth(MaxWidth::TwoExtraLarge)
                         ->authorize('update', VideoModel::class),
+
+                    MoveVideoAction::make('move-video')
+                        ->label(__('filament.actions.video.move.name'))
+                        ->requiresConfirmation()
+                        ->modalWidth(MaxWidth::FourExtraLarge)
+                        ->authorize('create', VideoModel::class),
+                    
+                    DeleteVideoAction::make('delete-video')
+                        ->label(__('filament.actions.video.delete.name'))
+                        ->requiresConfirmation()
+                        ->modalWidth(MaxWidth::FourExtraLarge)
+                        ->authorize('delete', VideoModel::class),
                 ]),
             ],
         );
@@ -360,7 +374,13 @@ class Video extends BaseResource
     {
         return [
             ActionGroup::make([
-                ReconcileVideoHeaderAction::make('reconcile-video')
+                UploadVideoTableAction::make('upload-video')
+                    ->label(__('filament.actions.video.upload.name'))
+                    ->requiresConfirmation()
+                    ->modalWidth(MaxWidth::FourExtraLarge)
+                    ->authorize('create', VideoModel::class),
+
+                ReconcileVideoTableAction::make('reconcile-video')
                     ->label(__('filament.actions.repositories.name', ['label' => __('filament.resources.label.videos')]))
                     ->requiresConfirmation()
                     ->authorize('create', VideoModel::class),

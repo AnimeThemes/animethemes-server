@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Filament\HeaderActions\Repositories\Storage;
+namespace App\Filament\TableActions\Repositories\Storage;
 
 use App\Contracts\Repositories\RepositoryInterface;
 use App\Contracts\Storage\InteractsWithDisk;
-use App\Filament\HeaderActions\Repositories\ReconcileHeaderAction;
+use App\Filament\TableActions\Repositories\ReconcileTableAction;
 use App\Rules\Storage\StorageDirectoryExistsRule;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
@@ -14,9 +14,9 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
 
 /**
- * Class ReconcileStorageHeaderAction.
+ * Class ReconcileStorageTableAction.
  */
-abstract class ReconcileStorageHeaderAction extends ReconcileHeaderAction implements InteractsWithDisk
+abstract class ReconcileStorageTableAction extends ReconcileTableAction implements InteractsWithDisk
 {
     /**
      * Apply filters to repositories before reconciliation.

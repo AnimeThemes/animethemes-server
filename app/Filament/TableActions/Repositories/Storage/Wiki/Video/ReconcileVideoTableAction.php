@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace App\Filament\HeaderActions\Repositories\Storage\Wiki\Video;
+namespace App\Filament\TableActions\Repositories\Storage\Wiki\Video;
 
 use App\Concerns\Repositories\Wiki\ReconcilesVideoRepositories;
 use App\Constants\Config\VideoConstants;
-use App\Filament\HeaderActions\Repositories\Storage\ReconcileStorageHeaderAction;
+use App\Filament\TableActions\Repositories\Storage\ReconcileStorageTableAction;
 use Illuminate\Support\Facades\Config;
 
 /**
- * Class ReconcileVideoHeaderAction.
+ * Class ReconcileVideoTableAction.
  */
-class ReconcileVideoHeaderAction extends ReconcileStorageHeaderAction
+class ReconcileVideoTableAction extends ReconcileStorageTableAction
 {
     use ReconcilesVideoRepositories;
 
