@@ -16,6 +16,7 @@ use App\Filament\Resources\Wiki\Video as VideoResource;
 use App\Models\Admin\FeaturedTheme as FeaturedThemeModel;
 use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
+use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry as EntryModel;
 use App\Models\Wiki\Video;
 use Filament\Forms\Components\DatePicker;
@@ -23,8 +24,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Form;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Contracts\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
 /**
@@ -156,7 +156,22 @@ class FeaturedTheme extends BaseResource
                 Select::make(FeaturedThemeModel::ATTRIBUTE_ENTRY)
                     ->label(__('filament.resources.singularLabel.anime_theme_entry'))
                     ->relationship(FeaturedThemeModel::RELATION_ENTRY, EntryModel::ATTRIBUTE_VERSION)
-                    ->searchable(),
+                    ->searchable()
+                    ->getSearchResultsUsing(function (string $search) {
+                        $arr = [];
+                        $animeResult = Anime::query()->where(Anime::ATTRIBUTE_NAME, 'like', "%{$search}%")->limit(50)->get();
+                        
+                        $animeResult->each(function (Anime $anime) use (&$arr) {
+                            $anime->animethemes->each(function (AnimeTheme $theme) use ($anime, &$arr) {
+                                $theme->animethemeentries->each(function (EntryModel $entry) use ($anime, $theme, &$arr) {
+                                    $version = $entry->version ? " v{$entry->version}" : '';
+                                    Arr::set($arr, $entry->entry_id, "{$anime->getName()} {$theme->slug}{$version}");
+                                });
+                            });
+                        });
+
+                        return $arr;
+                    }),
 
                 Select::make(FeaturedThemeModel::ATTRIBUTE_USER)
                     ->label(__('filament.resources.singularLabel.user'))
@@ -199,9 +214,16 @@ class FeaturedTheme extends BaseResource
                     ->toggleable()
                     ->urlToRelated(VideoResource::class, FeaturedThemeModel::RELATION_VIDEO),
 
-                TextColumn::make(FeaturedThemeModel::RELATION_ENTRY.'.'.EntryModel::ATTRIBUTE_VERSION)
+                TextColumn::make(FeaturedThemeModel::RELATION_ENTRY.'.'.EntryModel::ATTRIBUTE_ID)
                     ->label(__('filament.resources.singularLabel.anime_theme_entry'))
                     ->toggleable()
+                    ->formatStateUsing(function (string $state) {
+                        $entry = EntryModel::find(intval($state));
+                        $version = $entry->version ? " v{$entry->version}" : ''; 
+                        $theme = $entry->animetheme;
+
+                        return "{$theme->anime->getName()} {$theme->slug}{$version}";
+                    })
                     ->urlToRelated(EntryResource::class, FeaturedThemeModel::RELATION_ENTRY),
 
                 TextColumn::make(FeaturedThemeModel::RELATION_USER.'.'.User::ATTRIBUTE_NAME)
