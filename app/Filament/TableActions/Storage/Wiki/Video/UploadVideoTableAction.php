@@ -120,7 +120,8 @@ class UploadVideoTableAction extends UploadTableAction
                             ->label(__('filament.resources.singularLabel.video_script'))
                             ->helperText(__('filament.actions.storage.upload.fields.file.help'))
                             ->nullable()
-                            ->rules(['nullable', FileRule::types('txt')->max(2 * 1024)]),
+                            ->rules(['nullable', FileRule::types('txt')->max(2 * 1024)])
+                            ->storeFiles(false),
                     ]),
             ]);
     }

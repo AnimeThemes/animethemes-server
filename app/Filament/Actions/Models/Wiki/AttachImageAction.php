@@ -7,6 +7,7 @@ namespace App\Filament\Actions\Models\Wiki;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Artist;
+use App\Models\Wiki\Image;
 use App\Models\Wiki\Studio;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Form;
@@ -33,11 +34,12 @@ abstract class AttachImageAction extends Action
         if ($model instanceof Anime || $model instanceof Artist || $model instanceof Studio) {
             foreach ($this->facets as $facet) {
                 $images = $model->images();
-               // if ($images->where(Image::ATTRIBUTE_FACET, $facet->value)->exists()) continue;
+                if ($images->where(Image::ATTRIBUTE_FACET, $facet->value)->exists()) continue;
 
                 $fields[] = FileUpload::make($facet->name)
                     ->label($facet->localize())
-                    ->image();
+                    ->image()
+                    ->storeFiles(false);
             }
         }
 
