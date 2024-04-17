@@ -9,6 +9,7 @@ use App\Constants\Config\VideoConstants;
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Enums\Models\Wiki\VideoOverlap;
 use App\Enums\Models\Wiki\VideoSource;
+use App\Filament\Resources\BaseRelationManager;
 use App\Filament\Resources\Wiki\Video\Pages\ListVideos;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
@@ -39,7 +40,6 @@ use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Form;
-use Filament\Resources\RelationManagers\RelationManager;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Arr;
@@ -69,7 +69,7 @@ class UploadVideoTableAction extends UploadTableAction
                             [
                                 Hidden::make(AnimeThemeEntry::ATTRIBUTE_ID)
                                     ->label(__('filament.resources.singularLabel.anime_theme_entry'))
-                                    ->default(fn (RelationManager|ListVideos $livewire) => !($livewire instanceof ListVideos) ? $livewire->getOwnerRecord()->getKey() : null),
+                                    ->default(fn (BaseRelationManager|ListVideos $livewire) => $livewire instanceof BaseRelationManager ? $livewire->getOwnerRecord()->getKey() : null),
                             ],
                             parent::getForm($form)->getComponents(),
                             [
