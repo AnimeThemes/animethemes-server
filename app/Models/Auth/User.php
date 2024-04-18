@@ -5,12 +5,15 @@ declare(strict_types=1);
 namespace App\Models\Auth;
 
 use App\Contracts\Models\Nameable;
+use App\Enums\Auth\SpecialPermission;
 use App\Events\Auth\User\UserCreated;
 use App\Events\Auth\User\UserDeleted;
 use App\Events\Auth\User\UserRestored;
 use App\Events\Auth\User\UserUpdated;
 use App\Models\List\Playlist;
 use Database\Factories\Auth\UserFactory;
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Panel;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -46,7 +49,7 @@ use Spatie\Permission\Traits\HasRoles;
  *
  * @method static UserFactory factory(...$parameters)
  */
-class User extends Authenticatable implements MustVerifyEmail, Nameable
+class User extends Authenticatable implements MustVerifyEmail, Nameable, FilamentUser
 {
     use Actionable;
     use HasApiTokens;
@@ -174,6 +177,17 @@ class User extends Authenticatable implements MustVerifyEmail, Nameable
         $this->fireModelEvent('restored', false);
 
         return $result;
+    }
+
+    /**
+     * Determine if the user can access the filament panel.
+     *
+     * @param  Panel  $panel
+     * @return bool
+     */
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return $this->hasVerifiedEmail() && $this->hasAnyPermission(SpecialPermission::VIEW_FILAMENT->value);
     }
 
     /**

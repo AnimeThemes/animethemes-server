@@ -77,7 +77,13 @@ class WikiEditorRoleSeeder extends RoleSeeder
         $this->configureResource($role, VideoScript::class, [CrudPermission::VIEW]);
 
         // Special Permissions
-        $this->configureAbilities($role, [SpecialPermission::VIEW_NOVA->value]);
+        $this->configureAbilities(
+            $role,
+            [
+                SpecialPermission::VIEW_NOVA->value,
+                SpecialPermission::VIEW_FILAMENT->value,
+            ]
+        );
 
         $role->color = '#2E5A88';
         $role->priority = 100000;
