@@ -73,6 +73,7 @@ class PatronRoleSeeder extends RoleSeeder
             [
                 SpecialPermission::BYPASS_FEATURE_FLAGS->value,
                 SpecialPermission::VIEW_NOVA->value,
+                SpecialPermission::VIEW_FILAMENT->value,
             ]
         );
 
