@@ -17,6 +17,8 @@ use App\Models\Admin\Dump as DumpModel;
 use Filament\Tables\Actions\ActionGroup;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Infolists\Components\Section;
+use Filament\Infolists\Infolist;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
@@ -148,6 +150,23 @@ class Dump extends BaseResource
             ->actions(static::getActions())
             ->bulkActions(static::getBulkActions())
             ->headerActions(static::getHeaderActions());
+    }
+
+    /**
+     * Get the infolist available for the resource.
+     *
+     * @param  Infolist  $infolist
+     * @return Infolist
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                Section::make(__('filament.fields.base.timestamps'))
+                    ->schema(parent::timestamps()),
+            ]);
     }
 
     /**

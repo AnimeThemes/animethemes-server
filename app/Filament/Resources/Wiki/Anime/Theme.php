@@ -22,6 +22,8 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Forms\Set;
+use Filament\Infolists\Components\Section;
+use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Tables\Columns\SelectColumn;
 use Filament\Tables\Columns\TextColumn;
@@ -210,6 +212,23 @@ class Theme extends BaseResource
             ->filters(static::getFilters())
             ->actions(static::getActions())
             ->bulkActions(static::getBulkActions());
+    }
+
+    /**
+     * Get the infolist available for the resource.
+     *
+     * @param  Infolist  $infolist
+     * @return Infolist
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                Section::make(__('filament.fields.base.timestamps'))
+                    ->schema(parent::timestamps()),
+            ]);
     }
 
     /**

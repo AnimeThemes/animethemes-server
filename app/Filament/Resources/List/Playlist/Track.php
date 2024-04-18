@@ -18,6 +18,8 @@ use App\Models\Wiki\Video as VideoModel;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Infolists\Components\Section;
+use Filament\Infolists\Infolist;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
@@ -178,6 +180,23 @@ class Track extends BaseResource
             ->filters(static::getFilters())
             ->actions(static::getActions())
             ->bulkActions(static::getBulkActions());
+    }
+
+    /**
+     * Get the infolist available for the resource.
+     *
+     * @param  Infolist  $infolist
+     * @return Infolist
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                Section::make(__('filament.fields.base.timestamps'))
+                    ->schema(parent::timestamps()),
+            ]);
     }
 
     /**

@@ -12,6 +12,8 @@ use App\Filament\Resources\Admin\Announcement\Pages\ViewAnnouncement;
 use App\Models\Admin\Announcement as AnnouncementModel;
 use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Form;
+use Filament\Infolists\Components\Section;
+use Filament\Infolists\Infolist;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
@@ -141,6 +143,23 @@ class Announcement extends BaseResource
             ->filters(static::getFilters())
             ->actions(static::getActions())
             ->bulkActions(static::getBulkActions());
+    }
+
+    /**
+     * Get the infolist available for the resource.
+     *
+     * @param  Infolist  $infolist
+     * @return Infolist
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                Section::make(__('filament.fields.base.timestamps'))
+                    ->schema(parent::timestamps()),
+            ]);
     }
 
     /**

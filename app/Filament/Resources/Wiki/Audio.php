@@ -19,6 +19,9 @@ use App\Models\Wiki\Audio as AudioModel;
 use App\Models\Wiki\Video;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Infolists\Components\Section;
+use Filament\Infolists\Components\TextEntry;
+use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Support\Enums\MaxWidth;
 use Filament\Tables\Actions\ActionGroup;
@@ -155,40 +158,52 @@ class Audio extends BaseResource
                 TextColumn::make(AudioModel::ATTRIBUTE_ID)
                     ->label(__('filament.fields.base.id'))
                     ->sortable(),
-
-                TextColumn::make(AudioModel::ATTRIBUTE_BASENAME)
-                    ->label(__('filament.fields.audio.basename.name'))
-                    ->copyable()
-                    ->hidden(),
                     
                 TextColumn::make(AudioModel::ATTRIBUTE_FILENAME)
                     ->label(__('filament.fields.audio.filename.name'))
                     ->sortable()
                     ->copyable(),
-
-                TextColumn::make(AudioModel::ATTRIBUTE_PATH)
-                    ->label(__('filament.fields.audio.path.name'))
-                    ->sortable()
-                    ->copyable()
-                    ->hidden(),
-
-                TextColumn::make(AudioModel::ATTRIBUTE_SIZE)
-                    ->label(__('filament.fields.audio.size.name'))
-                    ->sortable()
-                    ->copyable()
-                    ->hidden(),
-
-                TextColumn::make(AudioModel::ATTRIBUTE_MIMETYPE)
-                    ->label(__('filament.fields.audio.mimetype.name'))
-                    ->sortable()
-                    ->copyable()
-                    ->hidden(),
             ])
             ->defaultSort(AudioModel::ATTRIBUTE_ID, 'desc')
             ->filters(static::getFilters())
             ->actions(static::getActions())
             ->bulkActions(static::getBulkActions())
             ->headerActions(static::getHeaderActions());
+    }
+
+    /**
+     * Get the infolist available for the resource.
+     *
+     * @param  Infolist  $infolist
+     * @return Infolist
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                Section::make(__('filament.fields.base.file_properties'))
+                    ->schema([
+                        TextEntry::make(AudioModel::ATTRIBUTE_BASENAME)
+                            ->label(__('filament.fields.audio.basename.name')),
+
+                        TextEntry::make(AudioModel::ATTRIBUTE_FILENAME)
+                            ->label(__('filament.fields.audio.filename.name')),
+
+                        TextEntry::make(AudioModel::ATTRIBUTE_PATH)
+                            ->label(__('filament.fields.audio.path.name')),
+
+                        TextEntry::make(AudioModel::ATTRIBUTE_SIZE)
+                            ->label(__('filament.fields.audio.size.name')),
+
+                        TextEntry::make(AudioModel::ATTRIBUTE_MIMETYPE)
+                            ->label(__('filament.fields.audio.mimetype.name')),
+                    ]),
+
+                Section::make(__('filament.fields.base.timestamps'))
+                    ->schema(parent::timestamps()),
+            ]);
     }
 
     /**

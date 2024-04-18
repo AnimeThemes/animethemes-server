@@ -137,7 +137,7 @@ class Role extends BaseResource
                     ->numeric()
                     ->minValue(1)
                     ->nullable()
-                    ->rules(['nullable', 'integer', 'min:1'])
+                    ->rules(['nullable', 'integer', 'min:1']),
             ])
             ->columns(1);
     }

@@ -16,6 +16,8 @@ use App\Filament\TableActions\Storage\Wiki\Video\Script\UploadScriptTableAction;
 use App\Models\Wiki\Video\VideoScript as ScriptModel;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Infolists\Components\Section;
+use Filament\Infolists\Infolist;
 use Filament\Support\Enums\MaxWidth;
 use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Columns\TextColumn;
@@ -201,6 +203,23 @@ class Script extends BaseResource
                 ]),
             ],
         );
+    }
+
+    /**
+     * Get the infolist available for the resource.
+     *
+     * @param  Infolist  $infolist
+     * @return Infolist
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                Section::make(__('filament.fields.base.timestamps'))
+                    ->schema(parent::timestamps()),
+            ]);
     }
 
     /**

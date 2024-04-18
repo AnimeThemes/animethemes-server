@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources;
 
+use App\Models\BaseModel;
+use Filament\Infolists\Components\TextEntry;
 use Filament\Resources\Resource;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteBulkAction;
@@ -36,6 +38,28 @@ abstract class BaseResource extends Resource
             ->recordUrl(fn (Model $record): string => static::getUrl('edit', ['record' => $record]))
             ->paginated([10, 25, 50, 100, 'all'])
             ->defaultPaginationPageOption(25);
+    }
+
+    /**
+     * The panel for timestamp fields.
+     *
+     * @return array
+     */
+    public static function timestamps(): array
+    {
+        return [
+            TextEntry::make(BaseModel::ATTRIBUTE_CREATED_AT)
+                ->label(__('filament.fields.base.created_at'))
+                ->dateTime(),
+
+            TextEntry::make(BaseModel::ATTRIBUTE_UPDATED_AT)
+                ->label(__('filament.fields.base.updated_at'))
+                ->dateTime(),
+
+            TextEntry::make(BaseModel::ATTRIBUTE_DELETED_AT)
+                ->label(__('filament.fields.base.deleted_at'))
+                ->dateTime(),
+        ];
     }
 
     /**
