@@ -23,6 +23,7 @@ use Filament\Infolists\Components\Section;
 use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Tables\Actions\ActionGroup;
+use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
@@ -148,6 +149,11 @@ class User extends BaseResource
                 TextColumn::make(UserModel::ATTRIBUTE_ID)
                     ->label(__('filament.fields.base.id'))
                     ->sortable(),
+
+                ImageColumn::make('avatar')
+                    ->label(__('filament.fields.user.avatar'))
+                    ->defaultImageUrl(fn (UserModel $model) => $model->getFilamentAvatarUrl())
+                    ->circular(),
 
                 TextColumn::make(UserModel::ATTRIBUTE_NAME)
                     ->label(__('filament.fields.user.name'))

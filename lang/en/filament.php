@@ -686,6 +686,7 @@ return [
             ],
         ],
         'user' => [
+            'avatar' => 'Avatar',
             'email' => 'Email',
             'name' => 'Name',
         ],

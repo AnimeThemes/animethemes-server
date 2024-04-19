@@ -15,8 +15,6 @@ use App\Filament\Resources\Wiki\Anime\Theme\Entry as EntryResource;
 use App\Filament\Resources\Wiki\Video as VideoResource;
 use App\Models\Admin\FeaturedTheme as FeaturedThemeModel;
 use App\Models\Auth\User;
-use App\Models\Wiki\Anime;
-use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry as EntryModel;
 use App\Models\Wiki\Video;
 use Filament\Forms\Components\DatePicker;
@@ -26,8 +24,6 @@ use Filament\Infolists\Components\Section;
 use Filament\Infolists\Infolist;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 /**
