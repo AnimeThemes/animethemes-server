@@ -107,6 +107,17 @@ class ArtistPolicy
     }
 
     /**
+     * Determine whether the user can permanently delete any model.
+     *
+     * @param  User  $user
+     * @return bool
+     */
+    public function forceDeleteAny(User $user): bool
+    {
+        return $user->can(ExtendedCrudPermission::FORCE_DELETE->format(Artist::class));
+    }
+
+    /**
      * Determine whether the user can attach any resource to the artist.
      *
      * @param  User  $user

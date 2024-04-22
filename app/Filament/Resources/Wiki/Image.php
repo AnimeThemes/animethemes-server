@@ -17,6 +17,8 @@ use App\Filament\Resources\Wiki\Image\RelationManagers\StudioImageRelationManage
 use App\Models\Wiki\Image as ImageModel;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Form;
+use Filament\Infolists\Components\Section;
+use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\SelectColumn;
@@ -36,13 +38,6 @@ class Image extends BaseResource
      * @var string|null
      */
     protected static ?string $model = ImageModel::class;
-
-    /**
-     * The icon displayed to the resource.
-     *
-     * @var string|null
-     */
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     /**
      * Get the displayable singular label of the resource.
@@ -78,6 +73,18 @@ class Image extends BaseResource
     public static function getNavigationGroup(): string
     {
         return __('filament.resources.group.wiki');
+    }
+
+    /**
+     * The icon displayed to the resource.
+     *
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getNavigationIcon(): string
+    {
+        return __('filament.resources.icon.images');
     }
 
     /**
@@ -157,6 +164,23 @@ class Image extends BaseResource
             ->filters(static::getFilters())
             ->actions(static::getActions())
             ->bulkActions(static::getBulkActions());
+    }
+
+    /**
+     * Get the infolist available for the resource.
+     *
+     * @param  Infolist  $infolist
+     * @return Infolist
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                Section::make(__('filament.fields.base.timestamps'))
+                    ->schema(parent::timestamps()),
+            ]);
     }
 
     /**

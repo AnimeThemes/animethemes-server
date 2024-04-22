@@ -105,6 +105,17 @@ class AudioPolicy
     }
 
     /**
+     * Determine whether the user can permanently delete any model.
+     *
+     * @param  User  $user
+     * @return bool
+     */
+    public function forceDeleteAny(User $user): bool
+    {
+        return $user->can(ExtendedCrudPermission::FORCE_DELETE->format(Audio::class));
+    }
+
+    /**
      * Determine whether the user can add a video to the audio.
      *
      * @param  User  $user

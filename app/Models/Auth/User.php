@@ -13,6 +13,7 @@ use App\Events\Auth\User\UserUpdated;
 use App\Models\List\Playlist;
 use Database\Factories\Auth\UserFactory;
 use Filament\Models\Contracts\FilamentUser;
+use Filament\Models\Contracts\HasAvatar;
 use Filament\Panel;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -49,7 +50,7 @@ use Spatie\Permission\Traits\HasRoles;
  *
  * @method static UserFactory factory(...$parameters)
  */
-class User extends Authenticatable implements MustVerifyEmail, Nameable, FilamentUser
+class User extends Authenticatable implements MustVerifyEmail, Nameable, FilamentUser, HasAvatar
 {
     use Actionable;
     use HasApiTokens;
@@ -188,6 +189,18 @@ class User extends Authenticatable implements MustVerifyEmail, Nameable, Filamen
     public function canAccessPanel(Panel $panel): bool
     {
         return $this->hasVerifiedEmail() && $this->hasAnyPermission(SpecialPermission::VIEW_FILAMENT->value);
+    }
+
+    /**
+     * Get the filament avatar.
+     *
+     * @return string
+     */
+    public function getFilamentAvatarUrl(): string
+    {
+        $hash = md5(strtolower(trim($this->email)));
+
+        return 'https://www.gravatar.com/avatar/'.$hash;
     }
 
     /**

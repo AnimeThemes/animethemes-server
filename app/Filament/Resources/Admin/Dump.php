@@ -17,6 +17,8 @@ use App\Models\Admin\Dump as DumpModel;
 use Filament\Tables\Actions\ActionGroup;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Infolists\Components\Section;
+use Filament\Infolists\Infolist;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
@@ -31,13 +33,6 @@ class Dump extends BaseResource
      * @var string|null
      */
     protected static ?string $model = DumpModel::class;
-
-    /**
-     * The icon displayed to the resource.
-     *
-     * @var string|null
-     */
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     /**
      * Get the displayable singular label of the resource.
@@ -73,6 +68,18 @@ class Dump extends BaseResource
     public static function getNavigationGroup(): string
     {
         return __('filament.resources.group.admin');
+    }
+
+    /**
+     * The icon displayed to the resource.
+     *
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getNavigationIcon(): string
+    {
+        return __('filament.resources.icon.dumps');
     }
 
     /**
@@ -148,6 +155,23 @@ class Dump extends BaseResource
             ->actions(static::getActions())
             ->bulkActions(static::getBulkActions())
             ->headerActions(static::getHeaderActions());
+    }
+
+    /**
+     * Get the infolist available for the resource.
+     *
+     * @param  Infolist  $infolist
+     * @return Infolist
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                Section::make(__('filament.fields.base.timestamps'))
+                    ->schema(parent::timestamps()),
+            ]);
     }
 
     /**

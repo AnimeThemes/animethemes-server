@@ -66,9 +66,14 @@ abstract class BaseRelationManager extends RelationManager
     public static function getActions(): array
     {
         return [
-            ViewAction::make(),
-            EditAction::make(),
-            DetachAction::make(),
+            ViewAction::make()
+                ->label(__('filament.actions.base.view')),
+
+            EditAction::make()
+                ->label(__('filament.actions.base.edit')),
+
+            DetachAction::make()
+                ->label(__('filament.actions.base.detach')),
         ];
     }
 
@@ -83,10 +88,17 @@ abstract class BaseRelationManager extends RelationManager
     {
         return [
             BulkActionGroup::make([
-                DeleteBulkAction::make(),
-                ForceDeleteBulkAction::make(),
-                RestoreBulkAction::make(),
-                DetachBulkAction::make(),
+                DeleteBulkAction::make()
+                    ->label(__('filament.bulk_actions.base.delete')),
+
+                ForceDeleteBulkAction::make()
+                    ->label(__('filament.bulk_actions.base.forcedelete')),
+
+                RestoreBulkAction::make()
+                    ->label(__('filament.bulk_actions.base.restore')),
+
+                DetachBulkAction::make()
+                    ->label(__('filament.bulk_actions.base.detach')),
             ]),
         ];
     }

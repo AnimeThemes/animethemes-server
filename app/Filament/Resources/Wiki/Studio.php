@@ -9,7 +9,6 @@ use App\Enums\Models\Wiki\ResourceSite;
 use App\Filament\Actions\Models\Wiki\Studio\AttachStudioImageAction;
 use App\Filament\Actions\Models\Wiki\Studio\AttachStudioResourceAction;
 use App\Filament\Actions\Models\Wiki\Studio\BackfillStudioAction;
-use App\Filament\Resources\BaseRelationManager;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\ExternalResource\RelationManagers\StudioResourceRelationManager;
 use App\Filament\Resources\Wiki\Studio\Pages\CreateStudio;
@@ -24,6 +23,8 @@ use App\Pivots\Wiki\StudioResource;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Forms\Set;
+use Filament\Infolists\Components\Section;
+use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Support\Enums\MaxWidth;
 use Filament\Tables\Actions\ActionGroup;
@@ -43,13 +44,6 @@ class Studio extends BaseResource
      * @var string|null
      */
     protected static ?string $model = StudioModel::class;
-
-    /**
-     * The icon displayed to the resource.
-     *
-     * @var string|null
-     */
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     /**
      * Get the displayable singular label of the resource.
@@ -85,6 +79,18 @@ class Studio extends BaseResource
     public static function getNavigationGroup(): string
     {
         return __('filament.resources.group.wiki');
+    }
+
+    /**
+     * The icon displayed to the resource.
+     *
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getNavigationIcon(): string
+    {
+        return __('filament.resources.icon.studios');
     }
 
     /**
@@ -183,6 +189,23 @@ class Studio extends BaseResource
             ->filters(static::getFilters())
             ->actions(static::getActions())
             ->bulkActions(static::getBulkActions());
+    }
+
+    /**
+     * Get the infolist available for the resource.
+     *
+     * @param  Infolist  $infolist
+     * @return Infolist
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                Section::make(__('filament.fields.base.timestamps'))
+                    ->schema(parent::timestamps()),
+            ]);
     }
 
     /**
