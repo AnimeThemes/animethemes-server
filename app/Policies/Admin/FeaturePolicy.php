@@ -7,6 +7,7 @@ namespace App\Policies\Admin;
 use App\Enums\Auth\CrudPermission;
 use App\Models\Admin\Feature;
 use App\Models\Auth\User;
+use Filament\Facades\Filament;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Laravel\Nova\Nova;
 
@@ -42,7 +43,7 @@ class FeaturePolicy
     {
         return Nova::whenServing(
             fn (): bool => $user !== null && $user->can(CrudPermission::VIEW->format(Feature::class)),
-            fn (): bool => $feature->isNullScope()
+            fn (): bool => Filament::isServing() ? $user !== null && $user->can(CrudPermission::VIEW->format(Feature::class)) : $feature->isNullScope()
         );
     }
 

@@ -24,6 +24,9 @@ use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Infolists\Components\Section;
+use Filament\Infolists\Components\TextEntry;
+use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Support\Enums\MaxWidth;
 use Filament\Tables\Actions\ActionGroup;
@@ -44,13 +47,6 @@ class Video extends BaseResource
      * @var string|null
      */
     protected static ?string $model = VideoModel::class;
-
-    /**
-     * The icon displayed to the resource.
-     *
-     * @var string|null
-     */
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     /**
      * Get the displayable singular label of the resource.
@@ -86,6 +82,18 @@ class Video extends BaseResource
     public static function getNavigationGroup(): string
     {
         return __('filament.resources.group.wiki');
+    }
+
+    /**
+     * The icon displayed to the resource.
+     *
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getNavigationIcon(): string
+    {
+        return __('filament.resources.icon.videos');
     }
 
     /**
@@ -174,7 +182,7 @@ class Video extends BaseResource
                 TextInput::make(VideoModel::ATTRIBUTE_BASENAME)
                     ->label(__('filament.fields.video.basename.name'))
                     ->hiddenOn(['create', 'edit']),
-                    
+
                 TextInput::make(VideoModel::ATTRIBUTE_FILENAME)
                     ->label(__('filament.fields.video.filename.name'))
                     ->hiddenOn(['create', 'edit']),
@@ -241,44 +249,56 @@ class Video extends BaseResource
                     ->options(VideoSource::asSelectArray())
                     ->toggleable(),
 
-                TextColumn::make(VideoModel::RELATION_AUDIO.'.'.AudioModel::ATTRIBUTE_FILENAME)
+                TextColumn::make(VideoModel::RELATION_AUDIO . '.' . AudioModel::ATTRIBUTE_FILENAME)
                     ->label(__('filament.resources.singularLabel.audio'))
                     ->visibleOn(['create', 'edit']),
 
-                TextColumn::make(VideoModel::ATTRIBUTE_BASENAME)
-                    ->label(__('filament.fields.video.basename.name'))
-                    ->copyable()
-                    ->hidden(),
-                    
                 TextColumn::make(VideoModel::ATTRIBUTE_FILENAME)
                     ->label(__('filament.fields.video.filename.name'))
                     ->sortable()
                     ->copyable()
                     ->toggleable(),
-
-                TextColumn::make(VideoModel::ATTRIBUTE_PATH)
-                    ->label(__('filament.fields.video.path.name'))
-                    ->sortable()
-                    ->copyable()
-                    ->hidden(),
-
-                TextColumn::make(VideoModel::ATTRIBUTE_SIZE)
-                    ->label(__('filament.fields.video.size.name'))
-                    ->sortable()
-                    ->copyable()
-                    ->hidden(),
-
-                TextColumn::make(VideoModel::ATTRIBUTE_MIMETYPE)
-                    ->label(__('filament.fields.video.mimetype.name'))
-                    ->sortable()
-                    ->copyable()
-                    ->hidden(),
             ])
             ->defaultSort(VideoModel::ATTRIBUTE_ID, 'desc')
             ->filters(static::getFilters())
             ->actions(static::getActions())
             ->bulkActions(static::getBulkActions())
             ->headerActions(static::getHeaderActions());
+    }
+
+    /**
+     * Get the infolist available for the resource.
+     *
+     * @param  Infolist  $infolist
+     * @return Infolist
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                Section::make(__('filament.fields.base.file_properties'))
+                    ->schema([
+                        TextEntry::make(VideoModel::ATTRIBUTE_BASENAME)
+                            ->label(__('filament.fields.video.basename.name')),
+
+                        TextEntry::make(VideoModel::ATTRIBUTE_FILENAME)
+                            ->label(__('filament.fields.video.filename.name')),
+
+                        TextEntry::make(VideoModel::ATTRIBUTE_PATH)
+                            ->label(__('filament.fields.video.path.name')),
+
+                        TextEntry::make(VideoModel::ATTRIBUTE_SIZE)
+                            ->label(__('filament.fields.video.size.name')),
+
+                        TextEntry::make(VideoModel::ATTRIBUTE_MIMETYPE)
+                            ->label(__('filament.fields.video.mimetype.name')),
+                    ]),
+
+                Section::make(__('filament.fields.base.timestamps'))
+                    ->schema(parent::timestamps()),
+            ]);
     }
 
     /**
@@ -337,7 +357,7 @@ class Video extends BaseResource
                         ->requiresConfirmation()
                         ->modalWidth(MaxWidth::FourExtraLarge)
                         ->authorize('create', VideoModel::class),
-                    
+
                     DeleteVideoAction::make('delete-video')
                         ->label(__('filament.actions.video.delete.name'))
                         ->requiresConfirmation()

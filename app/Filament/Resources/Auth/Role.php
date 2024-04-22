@@ -38,13 +38,6 @@ class Role extends BaseResource
     protected static ?string $model = RoleModel::class;
 
     /**
-     * The icon displayed to the resource.
-     *
-     * @var string|null
-     */
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-
-    /**
      * Get the displayable singular label of the resource.
      *
      * @return string
@@ -78,6 +71,18 @@ class Role extends BaseResource
     public static function getNavigationGroup(): string
     {
         return __('filament.resources.group.auth');
+    }
+
+    /**
+     * The icon displayed to the resource.
+     *
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getNavigationIcon(): string
+    {
+        return __('filament.resources.icon.roles');
     }
 
     /**
@@ -137,7 +142,7 @@ class Role extends BaseResource
                     ->numeric()
                     ->minValue(1)
                     ->nullable()
-                    ->rules(['nullable', 'integer', 'min:1'])
+                    ->rules(['nullable', 'integer', 'min:1']),
             ])
             ->columns(1);
     }

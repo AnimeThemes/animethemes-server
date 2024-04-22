@@ -83,6 +83,12 @@ return [
         'base' => [
             'cancelButtonText' => 'Cancel',
             'confirmButtonText' => 'Confirm',
+            'delete' => 'Delete',
+            'detach' => 'Detach',
+            'edit' => 'Edit',
+            'forcedelete' => 'Force Delete',
+            'restore' => 'Restore',
+            'view' => 'View',
         ],
         'discord' => [
             'thread' => [
@@ -389,6 +395,14 @@ return [
             ],
         ],
     ],
+    'bulk_actions' => [
+        'base' => [
+            'delete' => 'Delete Selected',
+            'detach' => 'Detach Selected',
+            'forcedelete' => 'Force Delete Selected',
+            'restore' => 'Restore Selected',
+        ],
+    ],
     'fields' => [
         'anime_synonym' => [
             'text' => [
@@ -686,6 +700,7 @@ return [
             ],
         ],
         'user' => [
+            'avatar' => 'Avatar',
             'email' => 'Email',
             'name' => 'Name',
         ],
@@ -850,6 +865,33 @@ return [
             'list' => 'List',
             'wiki' => 'Wiki',
         ],
+        'icon' => [
+            'anime_synonyms' => 'heroicon-o-list-bullet',
+            'anime_theme_entries' => 'heroicon-o-list-bullet',
+            'anime_themes' => 'heroicon-o-list-bullet',
+            'anime' => 'heroicon-o-tv',
+            'announcements' => 'heroicon-o-megaphone',
+            'artists' => 'heroicon-o-user-circle',
+            'audios' => 'heroicon-o-speaker-wave',
+            'dumps' => 'heroicon-o-circle-stack',
+            'external_resources' => 'heroicon-o-arrow-top-right-on-square',
+            'features' => 'heroicon-o-cog-6-tooth',
+            'featured_themes' => 'heroicon-o-list-bullet',
+            'groups' => '',
+            'images' => 'heroicon-o-photo',
+            'members' => '',
+            'pages' => 'heroicon-o-document-text',
+            'permissions' => 'heroicon-o-information-circle',
+            'playlist_tracks' => 'heroicon-o-play',
+            'playlists' => 'heroicon-o-play',
+            'roles' => 'heroicon-o-briefcase',
+            'series' => 'heroicon-o-folder',
+            'songs' => 'heroicon-o-musical-note',
+            'studios' => 'heroicon-o-building-office',
+            'users' => 'heroicon-o-users',
+            'video_scripts' => 'heroicon-o-document-text',
+            'videos' => 'heroicon-o-film',
+        ],
         'label' => [
             'anime_synonyms' => 'Anime Synonyms',
             'anime_theme_entries' => 'Anime Theme Entries',
@@ -871,7 +913,6 @@ return [
             'playlists' => 'Playlists',
             'roles' => 'Roles',
             'series' => 'Series',
-            'settings' => 'Settings',
             'songs' => 'Songs',
             'studios' => 'Studios',
             'users' => 'Users',
@@ -897,7 +938,6 @@ return [
             'playlist' => 'Playlist',
             'role' => 'Role',
             'series' => 'Series',
-            'setting' => 'Setting',
             'song' => 'Song',
             'studio' => 'Studio',
             'user' => 'User',
