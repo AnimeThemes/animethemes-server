@@ -42,13 +42,6 @@ class Playlist extends BaseResource
     protected static ?string $model = PlaylistModel::class;
 
     /**
-     * The icon displayed to the resource.
-     *
-     * @var string|null
-     */
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-
-    /**
      * Get the displayable singular label of the resource.
      *
      * @return string
@@ -82,6 +75,18 @@ class Playlist extends BaseResource
     public static function getNavigationGroup(): string
     {
         return __('filament.resources.group.list');
+    }
+
+    /**
+     * The icon displayed to the resource.
+     *
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getNavigationIcon(): string
+    {
+        return __('filament.resources.icon.playlists');
     }
 
     /**

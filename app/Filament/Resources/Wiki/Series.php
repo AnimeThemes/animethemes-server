@@ -35,13 +35,6 @@ class Series extends BaseResource
     protected static ?string $model = SeriesModel::class;
 
     /**
-     * The icon displayed to the resource.
-     *
-     * @var string|null
-     */
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-
-    /**
      * Get the displayable singular label of the resource.
      *
      * @return string
@@ -75,6 +68,18 @@ class Series extends BaseResource
     public static function getNavigationGroup(): string
     {
         return __('filament.resources.group.wiki');
+    }
+
+    /**
+     * The icon displayed to the resource.
+     *
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getNavigationIcon(): string
+    {
+        return __('filament.resources.icon.series');
     }
 
     /**
