@@ -10,6 +10,7 @@ use App\Enums\Models\List\PlaylistVisibility;
 use App\Models\Auth\User;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
+use Filament\Facades\Filament;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Http\Request;
 use Laravel\Nova\Nova;
@@ -32,6 +33,8 @@ class PlaylistTrackPolicy
         return Nova::whenServing(
             fn (): bool => $user !== null && $user->hasRole('Admin'),
             function (Request $request) use ($user): bool {
+                if (Filament::isServing()) return $user !== null && $user->hasRole('Admin');
+
                 /** @var Playlist|null $playlist */
                 $playlist = $request->route('playlist');
 
@@ -56,6 +59,8 @@ class PlaylistTrackPolicy
         return Nova::whenServing(
             fn (): bool => $user !== null && $user->hasRole('Admin'),
             function (Request $request) use ($user): bool {
+                if (Filament::isServing()) return $user !== null && $user->hasRole('Admin');
+
                 /** @var Playlist|null $playlist */
                 $playlist = $request->route('playlist');
 
@@ -77,6 +82,8 @@ class PlaylistTrackPolicy
         return Nova::whenServing(
             fn (): bool => $user->hasRole('Admin'),
             function (Request $request) use ($user): bool {
+                if (Filament::isServing()) return $user !== null && $user->hasRole('Admin');
+
                 /** @var Playlist|null $playlist */
                 $playlist = $request->route('playlist');
 
@@ -99,6 +106,8 @@ class PlaylistTrackPolicy
         return Nova::whenServing(
             fn (): bool => $user->hasRole('Admin'),
             function (Request $request) use ($user, $track): bool {
+                if (Filament::isServing()) return $user !== null && $user->hasRole('Admin');
+
                 /** @var Playlist|null $playlist */
                 $playlist = $request->route('playlist');
 
@@ -121,6 +130,8 @@ class PlaylistTrackPolicy
         return Nova::whenServing(
             fn (): bool => $user->hasRole('Admin'),
             function (Request $request) use ($user, $track): bool {
+                if (Filament::isServing()) return $user !== null && $user->hasRole('Admin');
+
                 /** @var Playlist|null $playlist */
                 $playlist = $request->route('playlist');
 
@@ -143,6 +154,8 @@ class PlaylistTrackPolicy
         return Nova::whenServing(
             fn (): bool => $user->hasRole('Admin'),
             function (Request $request) use ($user, $track): bool {
+                if (Filament::isServing()) return $user !== null && $user->hasRole('Admin');
+                
                 /** @var Playlist|null $playlist */
                 $playlist = $request->route('playlist');
 

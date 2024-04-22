@@ -105,6 +105,17 @@ class SongPolicy
     }
 
     /**
+     * Determine whether the user can permanently delete any model.
+     *
+     * @param  User  $user
+     * @return bool
+     */
+    public function forceDeleteAny(User $user): bool
+    {
+        return $user->can(ExtendedCrudPermission::FORCE_DELETE->format(Song::class));
+    }
+
+    /**
      * Determine whether the user can add a theme to the song.
      *
      * @param  User  $user

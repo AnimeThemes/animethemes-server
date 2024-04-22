@@ -83,6 +83,12 @@ return [
         'base' => [
             'cancelButtonText' => 'Cancel',
             'confirmButtonText' => 'Confirm',
+            'delete' => 'Delete',
+            'detach' => 'Detach',
+            'edit' => 'Edit',
+            'forcedelete' => 'Force Delete',
+            'restore' => 'Restore',
+            'view' => 'View',
         ],
         'discord' => [
             'thread' => [
@@ -387,6 +393,14 @@ return [
             'upload' => [
                 'name' => 'Upload Video',
             ],
+        ],
+    ],
+    'bulk_actions' => [
+        'base' => [
+            'delete' => 'Delete Selected',
+            'detach' => 'Detach Selected',
+            'forcedelete' => 'Force Delete Selected',
+            'restore' => 'Restore Selected',
         ],
     ],
     'fields' => [
