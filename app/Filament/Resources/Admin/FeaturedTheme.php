@@ -15,16 +15,15 @@ use App\Filament\Resources\Wiki\Anime\Theme\Entry as EntryResource;
 use App\Filament\Resources\Wiki\Video as VideoResource;
 use App\Models\Admin\FeaturedTheme as FeaturedThemeModel;
 use App\Models\Auth\User;
-use App\Models\Wiki\Anime;
-use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry as EntryModel;
 use App\Models\Wiki\Video;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Form;
+use Filament\Infolists\Components\Section;
+use Filament\Infolists\Infolist;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
 /**
@@ -38,13 +37,6 @@ class FeaturedTheme extends BaseResource
      * @var string|null
      */
     protected static ?string $model = FeaturedThemeModel::class;
-
-    /**
-     * The icon displayed to the resource.
-     *
-     * @var string|null
-     */
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     /**
      * Get the displayable singular label of the resource.
@@ -80,6 +72,18 @@ class FeaturedTheme extends BaseResource
     public static function getNavigationGroup(): string
     {
         return __('filament.resources.group.admin');
+    }
+
+    /**
+     * The icon displayed to the resource.
+     *
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getNavigationIcon(): string
+    {
+        return __('filament.resources.icon.featured_themes');
     }
 
     /**
@@ -155,22 +159,14 @@ class FeaturedTheme extends BaseResource
 
                 Select::make(FeaturedThemeModel::ATTRIBUTE_ENTRY)
                     ->label(__('filament.resources.singularLabel.anime_theme_entry'))
-                    ->relationship(FeaturedThemeModel::RELATION_ENTRY, EntryModel::ATTRIBUTE_VERSION)
+                    ->relationship(FeaturedThemeModel::RELATION_ENTRY, EntryModel::ATTRIBUTE_ID)
                     ->searchable()
                     ->getSearchResultsUsing(function (string $search) {
-                        $arr = [];
-                        $animeResult = Anime::query()->where(Anime::ATTRIBUTE_NAME, 'like', "%{$search}%")->limit(50)->get();
-                        
-                        $animeResult->each(function (Anime $anime) use (&$arr) {
-                            $anime->animethemes->each(function (AnimeTheme $theme) use ($anime, &$arr) {
-                                $theme->animethemeentries->each(function (EntryModel $entry) use ($anime, $theme, &$arr) {
-                                    $version = $entry->version ? " v{$entry->version}" : '';
-                                    Arr::set($arr, $entry->entry_id, "{$anime->getName()} {$theme->slug}{$version}");
-                                });
-                            });
-                        });
-
-                        return $arr;
+                        return EntryModel::search($search)
+                            ->get()
+                            ->load(EntryModel::RELATION_ANIME_SHALLOW)
+                            ->mapWithKeys(fn (EntryModel $entry) => [$entry->entry_id => $entry->getName()])
+                            ->toArray();
                     }),
 
                 Select::make(FeaturedThemeModel::ATTRIBUTE_USER)
@@ -200,13 +196,13 @@ class FeaturedTheme extends BaseResource
                 TextColumn::make(FeaturedThemeModel::ATTRIBUTE_START_AT)
                     ->label(__('filament.fields.featured_theme.start_at.name'))
                     ->sortable()
-                    ->dateTime()
+                    ->date()
                     ->toggleable(),
 
                 TextColumn::make(FeaturedThemeModel::ATTRIBUTE_END_AT)
                     ->label(__('filament.fields.featured_theme.end_at.name'))
                     ->sortable()
-                    ->dateTime()
+                    ->date()
                     ->toggleable(),
 
                 TextColumn::make(FeaturedThemeModel::RELATION_VIDEO.'.'.Video::ATTRIBUTE_FILENAME)
@@ -217,13 +213,7 @@ class FeaturedTheme extends BaseResource
                 TextColumn::make(FeaturedThemeModel::RELATION_ENTRY.'.'.EntryModel::ATTRIBUTE_ID)
                     ->label(__('filament.resources.singularLabel.anime_theme_entry'))
                     ->toggleable()
-                    ->formatStateUsing(function (string $state) {
-                        $entry = EntryModel::find(intval($state));
-                        $version = $entry->version ? " v{$entry->version}" : ''; 
-                        $theme = $entry->animetheme;
-
-                        return "{$theme->anime->getName()} {$theme->slug}{$version}";
-                    })
+                    ->formatStateUsing(fn (string $state) => EntryModel::find(intval($state))->load(EntryModel::RELATION_ANIME)->getName())
                     ->urlToRelated(EntryResource::class, FeaturedThemeModel::RELATION_ENTRY),
 
                 TextColumn::make(FeaturedThemeModel::RELATION_USER.'.'.User::ATTRIBUTE_NAME)
@@ -235,6 +225,23 @@ class FeaturedTheme extends BaseResource
             ->filters(static::getFilters())
             ->actions(static::getActions())
             ->bulkActions(static::getBulkActions());
+    }
+
+    /**
+     * Get the infolist available for the resource.
+     *
+     * @param  Infolist  $infolist
+     * @return Infolist
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                Section::make(__('filament.fields.base.timestamps'))
+                    ->schema(parent::timestamps()),
+            ]);
     }
 
     /**

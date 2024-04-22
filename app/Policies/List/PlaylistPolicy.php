@@ -11,6 +11,7 @@ use App\Models\Auth\User;
 use App\Models\List\Playlist;
 use App\Models\Wiki\Image;
 use App\Pivots\List\PlaylistImage;
+use Filament\Facades\Filament;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Laravel\Nova\Nova;
 
@@ -31,7 +32,11 @@ class PlaylistPolicy
     {
         return Nova::whenServing(
             fn (): bool => $user !== null && $user->hasRole('Admin'),
-            fn (): bool => $user === null || $user->can(CrudPermission::VIEW->format(Playlist::class))
+            function () use ($user): bool {
+                return Filament::isServing()
+                    ? $user !== null && $user->hasRole('Admin')
+                    : $user === null || $user->can(CrudPermission::VIEW->format(Playlist::class));
+            }
         );
     }
 
@@ -62,7 +67,11 @@ class PlaylistPolicy
     {
         return Nova::whenServing(
             fn (): bool => $user->hasRole('Admin'),
-            fn (): bool => $user->can(CrudPermission::CREATE->format(Playlist::class))
+            function () use ($user): bool {
+                return Filament::isServing()
+                    ? $user->hasRole('Admin')
+                    : $user->can(CrudPermission::CREATE->format(Playlist::class));
+            }
         );
     }
 
@@ -77,7 +86,11 @@ class PlaylistPolicy
     {
         return Nova::whenServing(
             fn (): bool => $user->hasRole('Admin'),
-            fn (): bool => ! $playlist->trashed() && $user->getKey() === $playlist->user_id && $user->can(CrudPermission::UPDATE->format(Playlist::class))
+            function () use ($user, $playlist): bool {
+                return Filament::isServing()
+                    ? $user->hasRole('Admin')
+                    : ! $playlist->trashed() && $user->getKey() === $playlist->user_id && $user->can(CrudPermission::UPDATE->format(Playlist::class));
+            } 
         );
     }
 
@@ -92,7 +105,11 @@ class PlaylistPolicy
     {
         return Nova::whenServing(
             fn (): bool => $user->hasRole('Admin'),
-            fn (): bool => ! $playlist->trashed() && $user->getKey() === $playlist->user_id && $user->can(CrudPermission::DELETE->format(Playlist::class))
+            function () use ($user, $playlist): bool {
+                return Filament::isServing()
+                    ? $user->hasRole('Admin')
+                    : ! $playlist->trashed() && $user->getKey() === $playlist->user_id && $user->can(CrudPermission::DELETE->format(Playlist::class));
+            }
         );
     }
 
@@ -107,7 +124,11 @@ class PlaylistPolicy
     {
         return Nova::whenServing(
             fn (): bool => $user->hasRole('Admin'),
-            fn (): bool => $playlist->trashed() && $user->getKey() === $playlist->user_id && $user->can(ExtendedCrudPermission::RESTORE->format(Playlist::class))
+            function () use ($user, $playlist): bool {
+                return Filament::isServing()
+                    ? $user->hasRole('Admin')
+                    : $playlist->trashed() && $user->getKey() === $playlist->user_id && $user->can(ExtendedCrudPermission::RESTORE->format(Playlist::class));
+            }
         );
     }
 

@@ -19,8 +19,11 @@ use App\Filament\Resources\Auth\User\RelationManagers\RoleUserRelationManager;
 use App\Models\Auth\User as UserModel;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Infolists\Components\Section;
+use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Tables\Actions\ActionGroup;
+use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
@@ -35,13 +38,6 @@ class User extends BaseResource
      * @var string|null
      */
     protected static ?string $model = UserModel::class;
-
-    /**
-     * The icon displayed to the resource.
-     *
-     * @var string|null
-     */
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     /**
      * Get the displayable singular label of the resource.
@@ -77,6 +73,18 @@ class User extends BaseResource
     public static function getNavigationGroup(): string
     {
         return __('filament.resources.group.auth');
+    }
+
+    /**
+     * The icon displayed to the resource.
+     *
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getNavigationIcon(): string
+    {
+        return __('filament.resources.icon.users');
     }
 
     /**
@@ -147,6 +155,11 @@ class User extends BaseResource
                     ->label(__('filament.fields.base.id'))
                     ->sortable(),
 
+                ImageColumn::make('avatar')
+                    ->label(__('filament.fields.user.avatar'))
+                    ->defaultImageUrl(fn (UserModel $model) => $model->getFilamentAvatarUrl())
+                    ->circular(),
+
                 TextColumn::make(UserModel::ATTRIBUTE_NAME)
                     ->label(__('filament.fields.user.name'))
                     ->sortable()
@@ -163,6 +176,23 @@ class User extends BaseResource
             ->filters(static::getFilters())
             ->actions(static::getActions())
             ->bulkActions(static::getBulkActions());
+    }
+
+    /**
+     * Get the infolist available for the resource.
+     *
+     * @param  Infolist  $infolist
+     * @return Infolist
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                Section::make(__('filament.fields.base.timestamps'))
+                    ->schema(parent::timestamps()),
+            ]);
     }
 
     /**

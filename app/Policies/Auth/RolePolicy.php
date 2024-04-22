@@ -95,6 +95,17 @@ class RolePolicy
     }
 
     /**
+     * Determine whether the user can permanently delete any model.
+     *
+     * @param  User  $user
+     * @return bool
+     */
+    public function forceDeleteAny(User $user): bool
+    {
+        return $user->can(ExtendedCrudPermission::FORCE_DELETE->format(Role::class));
+    }
+
+    /**
      * Determine whether the user can attach any permission to the role.
      *
      * @return bool
