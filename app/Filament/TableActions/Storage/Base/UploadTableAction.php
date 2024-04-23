@@ -11,7 +11,6 @@ use App\Rules\Storage\StorageDirectoryExistsRule;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 
 /**
@@ -49,11 +48,10 @@ abstract class UploadTableAction extends StorageTableAction implements Interacts
     /**
      * Get the underlying storage action.
      *
-     * @param  Model  $model
      * @param  array  $fields
      * @return BaseUploadAction
      */
-    abstract protected function storageAction(Model $model, array $fields): BaseUploadAction;
+    abstract protected function storageAction(array $fields): BaseUploadAction;
 
     /**
      * Get the file validation rules.
