@@ -27,6 +27,7 @@ use App\Pivots\Wiki\ArtistImage;
 use App\Pivots\Wiki\ArtistMember;
 use App\Pivots\Wiki\ArtistResource;
 use App\Pivots\Wiki\ArtistSong;
+use App\Pivots\Wiki\SongResource;
 use App\Pivots\Wiki\StudioImage;
 use App\Pivots\Wiki\StudioResource;
 use Illuminate\Support\Facades\Date;
@@ -69,6 +70,7 @@ class DumpWikiAction extends DumpAction
             Image::TABLE,
             Series::TABLE,
             Song::TABLE,
+            SongResource::TABLE,
             Studio::TABLE,
             StudioImage::TABLE,
             StudioResource::TABLE,
