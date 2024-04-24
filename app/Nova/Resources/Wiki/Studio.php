@@ -224,6 +224,7 @@ class Studio extends BaseResource
         ];
 
         $facets = [
+            ImageFacet::COVER_SMALL,
             ImageFacet::COVER_LARGE,
         ];
 
