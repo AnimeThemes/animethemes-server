@@ -30,6 +30,10 @@ return [
     ImageFacet::class => [
         ImageFacet::COVER_SMALL->name => 'Small Cover',
         ImageFacet::COVER_LARGE->name => 'Large Cover',
+        ImageFacet::GRILL->name => 'Grill',
+        ImageFacet::DOCUMENT->name => 'Document',
+        ImageFacet::AVATAR->name => 'Avatar',
+        ImageFacet::BANNER->name => 'Banner',
     ],
     PlaylistVisibility::class => [
         PlaylistVisibility::PUBLIC->name => 'Public',

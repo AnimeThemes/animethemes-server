@@ -6,6 +6,7 @@ namespace App\Nova\Resources\Wiki;
 
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Models\Wiki\Image as ImageModel;
+use App\Nova\Actions\Models\Wiki\Image\AttachImageAction;
 use App\Nova\Lenses\Image\ImageUnlinkedLens;
 use App\Nova\Resources\BaseResource;
 use App\Nova\Resources\List\Playlist;
@@ -225,6 +226,32 @@ class Image extends BaseResource
                 ->filterable()
                 ->showWhenPeeking(),
         ];
+    }
+
+    /**
+     * Get the actions available for the resource.
+     *
+     * @param  NovaRequest  $request
+     * @return array
+     */
+    public function actions(NovaRequest $request): array
+    {
+        $facets = [
+            ImageFacet::GRILL,
+            ImageFacet::DOCUMENT,
+        ];
+
+        return array_merge(
+            parent::actions($request),
+            [
+                (new AttachImageAction($facets))
+                    ->confirmButtonText(__('nova.actions.models.wiki.attach_image.confirmButtonText'))
+                    ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
+                    ->onlyOnIndex()
+                    ->standalone()
+                    ->canSeeWhen('create', ImageModel::class),
+            ]
+        );
     }
 
     /**

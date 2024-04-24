@@ -58,6 +58,8 @@ abstract class AttachImageAction extends Action
         $images = $this->createImages($fields, $models->first());
 
         foreach ($images as $image) {
+            if (in_array($image->facet, [ImageFacet::GRILL, ImageFacet::DOCUMENT])) continue;
+
             $relation = $this->relation($image);
 
             $relation->attach($models);
@@ -70,10 +72,10 @@ abstract class AttachImageAction extends Action
      * Create the images.
      *
      * @param  ActionFields  $fields
-     * @param  Model  $model
+     * @param  Model|null  $model
      * @return Image[]
      */
-    protected function createImages(ActionFields $fields, Model $model): array
+    protected function createImages(ActionFields $fields, ?Model $model): array
     {
         $images = [];
 
@@ -101,11 +103,16 @@ abstract class AttachImageAction extends Action
      * Path to storage image in filesystem.
      *
      * @param  ImageFacet  $facet
-     * @param  Model  $model
+     * @param  Model|null  $model
      * @return string
      */
-    protected function path(ImageFacet $facet, Model $model): string
+    protected function path(ImageFacet $facet, ?Model $model): string
     {
+        if (in_array($facet, [ImageFacet::GRILL, ImageFacet::DOCUMENT])) {
+            return Str::of(Str::kebab($facet->localize()))
+                ->__toString();
+        }
+        
         return Str::of(Str::kebab(class_basename($model)))
             ->append(DIRECTORY_SEPARATOR)
             ->append(Str::kebab($facet->localize()))
@@ -116,9 +123,9 @@ abstract class AttachImageAction extends Action
      * Get the relation to the action models.
      *
      * @param  Image  $image
-     * @return BelongsToMany
+     * @return BelongsToMany|Image
      */
-    abstract protected function relation(Image $image): BelongsToMany;
+    abstract protected function relation(Image $image): BelongsToMany|Image;
 
     /**
      * Get the fields available on the action.
