@@ -14,6 +14,7 @@ use App\Models\Wiki\Anime\AnimeTheme;
 use Database\Factories\Wiki\GroupFactory;
 use Elastic\ScoutDriverPlus\Searchable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Collection;
 use Laravel\Nova\Actions\Actionable;
 
 /**

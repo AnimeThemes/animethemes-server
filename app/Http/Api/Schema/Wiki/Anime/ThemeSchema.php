@@ -60,7 +60,7 @@ class ThemeSchema extends EloquentSchema implements SearchableSchema
             new AllowedInclude(new AnimeSchema(), AnimeTheme::RELATION_ANIME),
             new AllowedInclude(new ArtistSchema(), AnimeTheme::RELATION_ARTISTS),
             new AllowedInclude(new EntrySchema(), AnimeTheme::RELATION_ENTRIES),
-            new AllowedInclude(new GroupSchema(), AnimeTheme::RELATION_THEME_GROUP),
+            new AllowedInclude(new GroupSchema(), AnimeTheme::RELATION_GROUP),
             new AllowedInclude(new ImageSchema(), AnimeTheme::RELATION_IMAGES),
             new AllowedInclude(new SongSchema(), AnimeTheme::RELATION_SONG),
             new AllowedInclude(new VideoSchema(), AnimeTheme::RELATION_VIDEOS),

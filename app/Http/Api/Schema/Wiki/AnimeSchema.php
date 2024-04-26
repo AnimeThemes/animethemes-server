@@ -63,6 +63,7 @@ class AnimeSchema extends EloquentSchema implements InteractsWithPivots, Searcha
         return [
             new AllowedInclude(new ArtistSchema(), Anime::RELATION_ARTISTS),
             new AllowedInclude(new AudioSchema(), Anime::RELATION_AUDIO),
+            new AllowedInclude(new GroupSchema(), Anime::RELATION_GROUPS),
             new AllowedInclude(new EntrySchema(), Anime::RELATION_ENTRIES),
             new AllowedInclude(new ExternalResourceSchema(), Anime::RELATION_RESOURCES),
             new AllowedInclude(new ImageSchema(), Anime::RELATION_IMAGES),

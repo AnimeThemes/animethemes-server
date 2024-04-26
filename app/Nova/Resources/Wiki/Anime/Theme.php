@@ -233,7 +233,7 @@ class Theme extends BaseResource
                     }
                 ),
 
-            BelongsTo::make(__('nova.resources.singularLabel.group'), AnimeTheme::RELATION_THEME_GROUP, Group::class)
+            BelongsTo::make(__('nova.resources.singularLabel.group'), AnimeTheme::RELATION_GROUP, Group::class)
                 ->sortable()
                 ->filterable()
                 ->searchable()
