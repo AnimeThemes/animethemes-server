@@ -18,6 +18,7 @@ use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Audio;
 use App\Models\Wiki\ExternalResource;
+use App\Models\Wiki\Group;
 use App\Models\Wiki\Image;
 use App\Models\Wiki\Series;
 use App\Models\Wiki\Song;
@@ -58,6 +59,7 @@ class PatronRoleSeeder extends RoleSeeder
         $this->configureResource($role, AnimeThemeEntry::class, [CrudPermission::VIEW]);
         $this->configureResource($role, Artist::class, [CrudPermission::VIEW]);
         $this->configureResource($role, Audio::class, [CrudPermission::VIEW]);
+        $this->configureResource($role, Group::class, [CrudPermission::VIEW]);
         $this->configureResource($role, ExternalResource::class, [CrudPermission::VIEW]);
         $this->configureResource($role, Image::class, [CrudPermission::VIEW]);
         $this->configureResource($role, Page::class, [CrudPermission::VIEW]);

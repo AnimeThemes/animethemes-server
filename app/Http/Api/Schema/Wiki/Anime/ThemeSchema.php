@@ -9,6 +9,7 @@ use App\Http\Api\Field\Base\IdField;
 use App\Http\Api\Field\Field;
 use App\Http\Api\Field\Wiki\Anime\Theme\ThemeAnimeIdField;
 use App\Http\Api\Field\Wiki\Anime\Theme\ThemeGroupField;
+use App\Http\Api\Field\Wiki\Anime\Theme\ThemeGroupIdField;
 use App\Http\Api\Field\Wiki\Anime\Theme\ThemeSequenceField;
 use App\Http\Api\Field\Wiki\Anime\Theme\ThemeSlugField;
 use App\Http\Api\Field\Wiki\Anime\Theme\ThemeSongIdField;
@@ -19,6 +20,7 @@ use App\Http\Api\Schema\Wiki\Anime\Theme\EntrySchema;
 use App\Http\Api\Schema\Wiki\AnimeSchema;
 use App\Http\Api\Schema\Wiki\ArtistSchema;
 use App\Http\Api\Schema\Wiki\AudioSchema;
+use App\Http\Api\Schema\Wiki\GroupSchema;
 use App\Http\Api\Schema\Wiki\ImageSchema;
 use App\Http\Api\Schema\Wiki\SongSchema;
 use App\Http\Api\Schema\Wiki\VideoSchema;
@@ -58,6 +60,7 @@ class ThemeSchema extends EloquentSchema implements SearchableSchema
             new AllowedInclude(new AnimeSchema(), AnimeTheme::RELATION_ANIME),
             new AllowedInclude(new ArtistSchema(), AnimeTheme::RELATION_ARTISTS),
             new AllowedInclude(new EntrySchema(), AnimeTheme::RELATION_ENTRIES),
+            new AllowedInclude(new GroupSchema(), AnimeTheme::RELATION_THEME_GROUP),
             new AllowedInclude(new ImageSchema(), AnimeTheme::RELATION_IMAGES),
             new AllowedInclude(new SongSchema(), AnimeTheme::RELATION_SONG),
             new AllowedInclude(new VideoSchema(), AnimeTheme::RELATION_VIDEOS),
@@ -83,6 +86,7 @@ class ThemeSchema extends EloquentSchema implements SearchableSchema
                 new ThemeSlugField($this),
                 new ThemeTypeField($this),
                 new ThemeAnimeIdField($this),
+                new ThemeGroupIdField($this),
                 new ThemeSongIdField($this),
             ],
         );
