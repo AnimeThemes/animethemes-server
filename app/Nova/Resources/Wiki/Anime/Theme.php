@@ -9,6 +9,7 @@ use App\Models\Wiki\Anime\AnimeTheme;
 use App\Nova\Resources\BaseResource;
 use App\Nova\Resources\Wiki\Anime;
 use App\Nova\Resources\Wiki\Anime\Theme\Entry;
+use App\Nova\Resources\Wiki\Group;
 use App\Nova\Resources\Wiki\Song;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
@@ -231,6 +232,15 @@ class Theme extends BaseResource
                         $field->value = $slug->__toString();
                     }
                 ),
+
+            BelongsTo::make(__('nova.resources.singularLabel.group'), AnimeTheme::RELATION_GROUP, Group::class)
+                ->sortable()
+                ->filterable()
+                ->searchable()
+                ->withSubtitles()
+                ->nullable()
+                ->showCreateRelationButton()
+                ->showOnPreview(),
 
             BelongsTo::make(__('nova.resources.singularLabel.song'), AnimeTheme::RELATION_SONG, Song::class)
                 ->sortable()

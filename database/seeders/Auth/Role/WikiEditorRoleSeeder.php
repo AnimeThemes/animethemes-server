@@ -18,6 +18,7 @@ use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Audio;
 use App\Models\Wiki\ExternalResource;
+use App\Models\Wiki\Group;
 use App\Models\Wiki\Image;
 use App\Models\Wiki\Series;
 use App\Models\Wiki\Song;
@@ -65,6 +66,7 @@ class WikiEditorRoleSeeder extends RoleSeeder
         $this->configureResource($role, AnimeThemeEntry::class, $extendedCrudPermissions);
         $this->configureResource($role, Artist::class, $extendedCrudPermissions);
         $this->configureResource($role, Audio::class, [CrudPermission::VIEW, CrudPermission::UPDATE]);
+        $this->configureResource($role, Group::class, $extendedCrudPermissions);
         $this->configureResource($role, ExternalResource::class, $extendedCrudPermissions);
         $this->configureResource($role, Image::class, $extendedCrudPermissions);
         $this->configureResource($role, Page::class, $extendedCrudPermissions);

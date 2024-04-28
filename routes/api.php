@@ -38,6 +38,7 @@ use App\Http\Controllers\Api\Wiki\AnimeController;
 use App\Http\Controllers\Api\Wiki\ArtistController;
 use App\Http\Controllers\Api\Wiki\AudioController;
 use App\Http\Controllers\Api\Wiki\ExternalResourceController;
+use App\Http\Controllers\Api\Wiki\GroupController;
 use App\Http\Controllers\Api\Wiki\ImageController;
 use App\Http\Controllers\Api\Wiki\SeriesController;
 use App\Http\Controllers\Api\Wiki\SongController;
@@ -273,6 +274,7 @@ apiEditablePivotResource('artistsong', 'artist', 'song', ArtistSongController::c
 apiResource('anime', AnimeController::class);
 apiResource('artist', ArtistController::class);
 apiResource('audio', AudioController::class);
+apiResource('group', GroupController::class);
 apiResource('image', ImageController::class);
 apiResource('resource', ExternalResourceController::class);
 Route::get('search', [SearchController::class, 'show'])->name('search.show');

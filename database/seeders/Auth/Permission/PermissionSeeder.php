@@ -24,6 +24,7 @@ use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Audio;
 use App\Models\Wiki\ExternalResource;
+use App\Models\Wiki\Group;
 use App\Models\Wiki\Image;
 use App\Models\Wiki\Series;
 use App\Models\Wiki\Song;
@@ -71,6 +72,7 @@ class PermissionSeeder extends Seeder
         $this->registerResource(AnimeThemeEntry::class, $extendedCrudPermissions);
         $this->registerResource(Artist::class, $extendedCrudPermissions);
         $this->registerResource(Audio::class, $extendedCrudPermissions);
+        $this->registerResource(Group::class, $extendedCrudPermissions);
         $this->registerResource(ExternalResource::class, $extendedCrudPermissions);
         $this->registerResource(Image::class, $extendedCrudPermissions);
         $this->registerResource(Page::class, $extendedCrudPermissions);
