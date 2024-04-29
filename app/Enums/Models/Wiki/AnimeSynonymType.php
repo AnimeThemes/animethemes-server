@@ -15,7 +15,6 @@ enum AnimeSynonymType: int
 
     case OTHER = 0;
     case NATIVE = 1;
-    case ROMAJI = 2;
-    case ENGLISH = 3;
-    case SHORT = 4;
+    case ENGLISH = 2;
+    case SHORT = 3;
 }

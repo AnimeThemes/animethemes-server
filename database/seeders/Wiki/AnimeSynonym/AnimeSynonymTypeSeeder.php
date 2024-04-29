@@ -39,7 +39,6 @@ class AnimeSynonymTypeSeeder extends Seeder
 
                     if ($titles === null) continue;
 
-                    $romaji = Arr::get($titles, 'romaji');
                     $english = Arr::get($titles, 'english');
                     $native = Arr::get($titles, 'native');
 
@@ -48,12 +47,6 @@ class AnimeSynonymTypeSeeder extends Seeder
                     foreach ($synonyms as $synonym) {
                         if ($synonym->type === AnimeSynonymType::OTHER->value) continue;
 
-                        if (trim($synonym->text) === $romaji) {
-                            $synonym->update([AnimeSynonym::ATTRIBUTE_TYPE => AnimeSynonymType::ROMAJI->value]);
-                            echo "{$synonym->text} -> update romaji"."\n";
-                            continue;
-                        }
-    
                         if (trim($synonym->text) === $english) {
                             $synonym->update([AnimeSynonym::ATTRIBUTE_TYPE => AnimeSynonymType::ENGLISH->value]);
                             echo "{$synonym->text} -> update english"."\n";
@@ -66,17 +59,6 @@ class AnimeSynonymTypeSeeder extends Seeder
                             continue;
                         }
                     }
-
-                    // if (!$synonyms->contains(AnimeSynonym::ATTRIBUTE_TYPE, AnimeSynonymType::ROMAJI->value)) {
-                    //     $newSynonymRomaji = new AnimeSynonym([
-                    //         AnimeSynonym::ATTRIBUTE_TEXT => $romaji,
-                    //         AnimeSynonym::ATTRIBUTE_TYPE => AnimeSynonymType::ROMAJI->value,
-                    //         AnimeSynonym::ATTRIBUTE_ANIME => $anime->anime_id,
-                    //     ]);
-
-                    //     $newSynonymRomaji->save();
-                    //     echo "{$newSynonymRomaji->text} -> create romaji"."\n";
-                    // }
 
                     // if (!$synonyms->contains(AnimeSynonym::ATTRIBUTE_TYPE, AnimeSynonymType::ENGLISH->value)) {
                     //     $newSynonymEnglish = new AnimeSynonym([
@@ -113,7 +95,6 @@ class AnimeSynonymTypeSeeder extends Seeder
             query ($id: Int) {
                 Media(id: $id, type: ANIME) {
                     title {
-                        romaji
                         english
                         native
                     }

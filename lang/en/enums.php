@@ -31,7 +31,6 @@ return [
     AnimeSynonymType::class => [
         AnimeSynonymType::OTHER->name => 'Other',
         AnimeSynonymType::NATIVE->name => 'Native',
-        AnimeSynonymType::ROMAJI->name => 'Romaji',
         AnimeSynonymType::ENGLISH->name => 'English',
         AnimeSynonymType::SHORT->name => 'Short',
     ],
