@@ -49,6 +49,9 @@ final class CreateAnimeIndex implements MigrationInterface
                     'text' => [
                         'type' => 'text',
                     ],
+                    'type' => [
+                        'type' => 'long',
+                    ],
                     'updated_at' => [
                         'type' => 'date',
                     ],

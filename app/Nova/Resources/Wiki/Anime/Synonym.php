@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace App\Nova\Resources\Wiki\Anime;
 
+use App\Enums\Models\Wiki\AnimeSynonymType;
 use App\Models\Wiki\Anime\AnimeSynonym;
 use App\Nova\Resources\BaseResource;
 use App\Nova\Resources\Wiki\Anime;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Validation\Rules\Enum;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
@@ -134,6 +137,16 @@ class Synonym extends BaseResource
             ID::make(__('nova.fields.base.id'), AnimeSynonym::ATTRIBUTE_ID)
                 ->sortable()
                 ->showOnPreview()
+                ->showWhenPeeking(),
+
+            Select::make(__('nova.fields.anime_synonym.type.name'), AnimeSynonym::ATTRIBUTE_TYPE)
+                ->options(AnimeSynonymType::asSelectArray())
+                ->displayUsing(fn (?int $enumValue) => AnimeSynonymType::tryFrom($enumValue)?->localize())
+                ->sortable()
+                ->rules(['required', new Enum(AnimeSynonymType::class)])
+                ->help(__('nova.fields.anime_synonym.type.help'))
+                ->showOnPreview()
+                ->filterable()
                 ->showWhenPeeking(),
 
             Text::make(__('nova.fields.anime_synonym.text.name'), AnimeSynonym::ATTRIBUTE_TEXT)

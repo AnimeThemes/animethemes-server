@@ -9,6 +9,7 @@ use App\Http\Api\Field\Base\IdField;
 use App\Http\Api\Field\Field;
 use App\Http\Api\Field\Wiki\Anime\Synonym\SynonymAnimeIdField;
 use App\Http\Api\Field\Wiki\Anime\Synonym\SynonymTextField;
+use App\Http\Api\Field\Wiki\Anime\Synonym\SynonymTypeField;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Api\Schema\Wiki\AnimeSchema;
@@ -54,6 +55,7 @@ class SynonymSchema extends EloquentSchema implements SearchableSchema
             [
                 new IdField($this, AnimeSynonym::ATTRIBUTE_ID),
                 new SynonymTextField($this),
+                new SynonymTypeField($this),
                 new SynonymAnimeIdField($this),
             ],
         );
