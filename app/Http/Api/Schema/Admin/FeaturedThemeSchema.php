@@ -18,6 +18,7 @@ use App\Http\Api\Schema\Wiki\Anime\Theme\EntrySchema;
 use App\Http\Api\Schema\Wiki\Anime\ThemeSchema;
 use App\Http\Api\Schema\Wiki\AnimeSchema;
 use App\Http\Api\Schema\Wiki\ArtistSchema;
+use App\Http\Api\Schema\Wiki\GroupSchema;
 use App\Http\Api\Schema\Wiki\ImageSchema;
 use App\Http\Api\Schema\Wiki\SongSchema;
 use App\Http\Api\Schema\Wiki\VideoSchema;
@@ -55,6 +56,8 @@ class FeaturedThemeSchema extends EloquentSchema
             new AllowedInclude(new ThemeSchema(), FeaturedTheme::RELATION_THEME),
             new AllowedInclude(new UserSchema(), FeaturedTheme::RELATION_USER),
             new AllowedInclude(new VideoSchema(), FeaturedTheme::RELATION_VIDEO),
+
+            new AllowedInclude(new GroupSchema(), 'animethemeentry.animetheme.theme_group'),
         ];
     }
 

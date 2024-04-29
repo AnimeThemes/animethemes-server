@@ -60,6 +60,7 @@ class StudioSchema extends EloquentSchema implements InteractsWithPivots, Search
             new AllowedInclude(new ImageSchema(), 'anime.images'),
             new AllowedInclude(new VideoSchema(), 'anime.animethemes.animethemeentries.videos'),
             new AllowedInclude(new SongSchema(), 'anime.animethemes.song'),
+            new AllowedInclude(new GroupSchema(), 'anime.animethemes.theme_group'),
         ];
     }
 

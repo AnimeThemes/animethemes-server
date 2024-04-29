@@ -12,6 +12,7 @@ use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Audio;
 use App\Models\Wiki\ExternalResource;
+use App\Models\Wiki\Group;
 use App\Models\Wiki\Image;
 use App\Models\Wiki\Series;
 use App\Models\Wiki\Song;
@@ -67,6 +68,7 @@ class DumpWikiAction extends DumpAction
             ArtistSong::TABLE,
             Audio::TABLE,
             ExternalResource::TABLE,
+            Group::TABLE,
             Image::TABLE,
             Series::TABLE,
             Song::TABLE,

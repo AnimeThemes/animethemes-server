@@ -18,6 +18,7 @@ use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Api\Schema\List\PlaylistSchema;
 use App\Http\Api\Schema\Wiki\ArtistSchema;
 use App\Http\Api\Schema\Wiki\AudioSchema;
+use App\Http\Api\Schema\Wiki\GroupSchema;
 use App\Http\Api\Schema\Wiki\ImageSchema;
 use App\Http\Api\Schema\Wiki\VideoSchema;
 use App\Http\Resources\List\Playlist\Resource\TrackResource;
@@ -53,6 +54,8 @@ class TrackSchema extends EloquentSchema
             new AllowedInclude(new TrackSchema(), PlaylistTrack::RELATION_NEXT),
             new AllowedInclude(new TrackSchema(), PlaylistTrack::RELATION_PREVIOUS),
             new AllowedInclude(new VideoSchema(), PlaylistTrack::RELATION_VIDEO),
+
+            new AllowedInclude(new GroupSchema(), 'video.animethemeentries.animetheme.theme_group'),
         ];
     }
 
