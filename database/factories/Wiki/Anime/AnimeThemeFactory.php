@@ -36,7 +36,6 @@ class AnimeThemeFactory extends Factory
         $type = Arr::random(ThemeType::cases());
 
         return [
-            AnimeTheme::ATTRIBUTE_GROUP => fake()->words(3, true),
             AnimeTheme::ATTRIBUTE_SEQUENCE => fake()->randomDigitNotNull(),
             AnimeTheme::ATTRIBUTE_SLUG => fake()->word(),
             AnimeTheme::ATTRIBUTE_TYPE => $type->value,

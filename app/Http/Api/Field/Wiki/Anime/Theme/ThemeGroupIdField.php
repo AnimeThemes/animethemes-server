@@ -6,6 +6,7 @@ namespace App\Http\Api\Field\Wiki\Anime\Theme;
 
 use App\Contracts\Http\Api\Field\CreatableField;
 use App\Contracts\Http\Api\Field\SelectableField;
+use App\Contracts\Http\Api\Field\UpdatableField;
 use App\Http\Api\Field\Field;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Schema;
@@ -17,7 +18,7 @@ use Illuminate\Validation\Rule;
 /**
  * Class ThemeGroupIdField.
  */
-class ThemeGroupIdField extends Field implements CreatableField, SelectableField
+class ThemeGroupIdField extends Field implements CreatableField, UpdatableField, SelectableField
 {
     /**
      * Create a new field instance.
@@ -38,6 +39,23 @@ class ThemeGroupIdField extends Field implements CreatableField, SelectableField
     public function getCreationRules(Request $request): array
     {
         return [
+            'sometimes',
+            'required',
+            'integer',
+            Rule::exists(Group::class, Group::ATTRIBUTE_ID),
+        ];
+    }
+
+    /**
+     * Set the update validation rules for the field.
+     *
+     * @param  Request  $request
+     * @return array
+     */
+    public function getUpdateRules(Request $request): array
+    {
+        return [
+            'sometimes',
             'required',
             'integer',
             Rule::exists(Group::class, Group::ATTRIBUTE_ID),

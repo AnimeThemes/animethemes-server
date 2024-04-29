@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Wiki\Song;
+namespace Tests\Feature\Http\Api\Wiki\Group;
 
 use App\Enums\Models\Wiki\AnimeMediaFormat;
 use App\Enums\Models\Wiki\AnimeSeason;
@@ -13,12 +13,11 @@ use App\Http\Api\Parser\FieldParser;
 use App\Http\Api\Parser\FilterParser;
 use App\Http\Api\Parser\IncludeParser;
 use App\Http\Api\Query\Query;
-use App\Http\Api\Schema\Wiki\SongSchema;
-use App\Http\Resources\Wiki\Resource\SongResource;
+use App\Http\Api\Schema\Wiki\GroupSchema;
+use App\Http\Resources\Wiki\Resource\GroupResource;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
-use App\Models\Wiki\Artist;
-use App\Models\Wiki\Song;
+use App\Models\Wiki\Group;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -27,27 +26,27 @@ use Illuminate\Support\Arr;
 use Tests\TestCase;
 
 /**
- * Class SongShowTest.
+ * Class GroupShowTest.
  */
-class SongShowTest extends TestCase
+class GroupShowTest extends TestCase
 {
     use WithFaker;
 
     /**
-     * By default, the Song Show Endpoint shall return a Song Resource.
+     * By default, the Group Show Endpoint shall return a Group Resource.
      *
      * @return void
      */
     public function testDefault(): void
     {
-        $song = Song::factory()->create();
+        $group = Group::factory()->create();
 
-        $response = $this->get(route('api.song.show', ['song' => $song]));
+        $response = $this->get(route('api.group.show', ['group' => $group]));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new SongResource($song, new Query()))
+                    (new GroupResource($group, new Query()))
                         ->response()
                         ->getData()
                 ),
@@ -57,22 +56,22 @@ class SongShowTest extends TestCase
     }
 
     /**
-     * The Song Show Endpoint shall return a Song Resource for soft deleted songs.
+     * The Group Show Endpoint shall return a Group Resource for soft deleted groups.
      *
      * @return void
      */
     public function testSoftDelete(): void
     {
-        $song = Song::factory()->trashed()->createOne();
+        $group = Group::factory()->trashed()->createOne();
 
-        $song->unsetRelations();
+        $group->unsetRelations();
 
-        $response = $this->get(route('api.song.show', ['song' => $song]));
+        $response = $this->get(route('api.group.show', ['group' => $group]));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new SongResource($song, new Query()))
+                    (new GroupResource($group, new Query()))
                         ->response()
                         ->getData()
                 ),
@@ -82,13 +81,13 @@ class SongShowTest extends TestCase
     }
 
     /**
-     * The Song Show Endpoint shall allow inclusion of related resources.
+     * The Group Show Endpoint shall allow inclusion of related resources.
      *
      * @return void
      */
     public function testAllowedIncludePaths(): void
     {
-        $schema = new SongSchema();
+        $schema = new GroupSchema();
 
         $allowedIncludes = collect($schema->allowedIncludes());
 
@@ -100,17 +99,16 @@ class SongShowTest extends TestCase
             IncludeParser::param() => $includedPaths->join(','),
         ];
 
-        $song = Song::factory()
+        $group = Group::factory()
             ->has(AnimeTheme::factory()->count($this->faker->randomDigitNotNull())->for(Anime::factory()))
-            ->has(Artist::factory()->count($this->faker->randomDigitNotNull()))
             ->createOne();
 
-        $response = $this->get(route('api.song.show', ['song' => $song] + $parameters));
+        $response = $this->get(route('api.group.show', ['group' => $group] + $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new SongResource($song, new Query($parameters)))
+                    (new GroupResource($group, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -120,13 +118,13 @@ class SongShowTest extends TestCase
     }
 
     /**
-     * The Song Show Endpoint shall implement sparse fieldsets.
+     * The Group Show Endpoint shall implement sparse fieldsets.
      *
      * @return void
      */
     public function testSparseFieldsets(): void
     {
-        $schema = new SongSchema();
+        $schema = new GroupSchema();
 
         $fields = collect($schema->fields());
 
@@ -134,18 +132,18 @@ class SongShowTest extends TestCase
 
         $parameters = [
             FieldParser::param() => [
-                SongResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+                GroupResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
             ],
         ];
 
-        $song = Song::factory()->create();
+        $group = Group::factory()->create();
 
-        $response = $this->get(route('api.song.show', ['song' => $song] + $parameters));
+        $response = $this->get(route('api.group.show', ['group' => $group] + $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new SongResource($song, new Query($parameters)))
+                    (new GroupResource($group, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -155,7 +153,7 @@ class SongShowTest extends TestCase
     }
 
     /**
-     * The Song Show Endpoint shall support constrained eager loading of themes by sequence.
+     * The Group Show Endpoint shall support constrained eager loading of themes by sequence.
      *
      * @return void
      */
@@ -168,10 +166,10 @@ class SongShowTest extends TestCase
             FilterParser::param() => [
                 AnimeTheme::ATTRIBUTE_SEQUENCE => $sequenceFilter,
             ],
-            IncludeParser::param() => Song::RELATION_ANIMETHEMES,
+            IncludeParser::param() => Group::RELATION_THEMES,
         ];
 
-        $song = Song::factory()
+        $group = Group::factory()
             ->has(
                 AnimeTheme::factory()
                     ->count($this->faker->randomDigitNotNull())
@@ -183,18 +181,18 @@ class SongShowTest extends TestCase
             )
             ->createOne();
 
-        $song->unsetRelations()->load([
-            Song::RELATION_ANIMETHEMES => function (HasMany $query) use ($sequenceFilter) {
+        $group->unsetRelations()->load([
+            Group::RELATION_THEMES => function (HasMany $query) use ($sequenceFilter) {
                 $query->where(AnimeTheme::ATTRIBUTE_SEQUENCE, $sequenceFilter);
             },
         ]);
 
-        $response = $this->get(route('api.song.show', ['song' => $song] + $parameters));
+        $response = $this->get(route('api.group.show', ['group' => $group] + $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new SongResource($song, new Query($parameters)))
+                    (new GroupResource($group, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -204,7 +202,7 @@ class SongShowTest extends TestCase
     }
 
     /**
-     * The Song Show Endpoint shall support constrained eager loading of themes by type.
+     * The Group Show Endpoint shall support constrained eager loading of themes by type.
      *
      * @return void
      */
@@ -216,25 +214,25 @@ class SongShowTest extends TestCase
             FilterParser::param() => [
                 AnimeTheme::ATTRIBUTE_TYPE => $typeFilter->localize(),
             ],
-            IncludeParser::param() => Song::RELATION_ANIMETHEMES,
+            IncludeParser::param() => Group::RELATION_THEMES,
         ];
 
-        $song = Song::factory()
+        $group = Group::factory()
             ->has(AnimeTheme::factory()->count($this->faker->randomDigitNotNull())->for(Anime::factory()))
             ->createOne();
 
-        $song->unsetRelations()->load([
-            Song::RELATION_ANIMETHEMES => function (HasMany $query) use ($typeFilter) {
+        $group->unsetRelations()->load([
+            Group::RELATION_THEMES => function (HasMany $query) use ($typeFilter) {
                 $query->where(AnimeTheme::ATTRIBUTE_TYPE, $typeFilter->value);
             },
         ]);
 
-        $response = $this->get(route('api.song.show', ['song' => $song] + $parameters));
+        $response = $this->get(route('api.group.show', ['group' => $group] + $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new SongResource($song, new Query($parameters)))
+                    (new GroupResource($group, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -244,7 +242,7 @@ class SongShowTest extends TestCase
     }
 
     /**
-     * The Song Show Endpoint shall support constrained eager loading of anime by media format.
+     * The Group Show Endpoint shall support constrained eager loading of anime by media format.
      *
      * @return void
      */
@@ -256,25 +254,25 @@ class SongShowTest extends TestCase
             FilterParser::param() => [
                 Anime::ATTRIBUTE_MEDIA_FORMAT => $mediaFormatFilter->localize(),
             ],
-            IncludeParser::param() => Song::RELATION_ANIME,
+            IncludeParser::param() => Group::RELATION_ANIME,
         ];
 
-        $song = Song::factory()
+        $group = Group::factory()
             ->has(AnimeTheme::factory()->count($this->faker->randomDigitNotNull())->for(Anime::factory()))
             ->createOne();
 
-        $song->unsetRelations()->load([
-            Song::RELATION_ANIME => function (BelongsTo $query) use ($mediaFormatFilter) {
+        $group->unsetRelations()->load([
+            Group::RELATION_ANIME => function (BelongsTo $query) use ($mediaFormatFilter) {
                 $query->where(Anime::ATTRIBUTE_MEDIA_FORMAT, $mediaFormatFilter->value);
             },
         ]);
 
-        $response = $this->get(route('api.song.show', ['song' => $song] + $parameters));
+        $response = $this->get(route('api.group.show', ['group' => $group] + $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new SongResource($song, new Query($parameters)))
+                    (new GroupResource($group, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -284,7 +282,7 @@ class SongShowTest extends TestCase
     }
 
     /**
-     * The Song Show Endpoint shall support constrained eager loading of anime by season.
+     * The Group Show Endpoint shall support constrained eager loading of anime by season.
      *
      * @return void
      */
@@ -296,25 +294,25 @@ class SongShowTest extends TestCase
             FilterParser::param() => [
                 Anime::ATTRIBUTE_SEASON => $seasonFilter->localize(),
             ],
-            IncludeParser::param() => Song::RELATION_ANIME,
+            IncludeParser::param() => Group::RELATION_ANIME,
         ];
 
-        $song = Song::factory()
+        $group = Group::factory()
             ->has(AnimeTheme::factory()->count($this->faker->randomDigitNotNull())->for(Anime::factory()))
             ->createOne();
 
-        $song->unsetRelations()->load([
-            Song::RELATION_ANIME => function (BelongsTo $query) use ($seasonFilter) {
+        $group->unsetRelations()->load([
+            Group::RELATION_ANIME => function (BelongsTo $query) use ($seasonFilter) {
                 $query->where(Anime::ATTRIBUTE_SEASON, $seasonFilter->value);
             },
         ]);
 
-        $response = $this->get(route('api.song.show', ['song' => $song] + $parameters));
+        $response = $this->get(route('api.group.show', ['group' => $group] + $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new SongResource($song, new Query($parameters)))
+                    (new GroupResource($group, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -324,7 +322,7 @@ class SongShowTest extends TestCase
     }
 
     /**
-     * The Song Show Endpoint shall support constrained eager loading of anime by year.
+     * The Group Show Endpoint shall support constrained eager loading of anime by year.
      *
      * @return void
      */
@@ -337,10 +335,10 @@ class SongShowTest extends TestCase
             FilterParser::param() => [
                 Anime::ATTRIBUTE_YEAR => $yearFilter,
             ],
-            IncludeParser::param() => Song::RELATION_ANIME,
+            IncludeParser::param() => Group::RELATION_ANIME,
         ];
 
-        $song = Song::factory()
+        $group = Group::factory()
             ->has(
                 AnimeTheme::factory()
                     ->count($this->faker->randomDigitNotNull())
@@ -353,18 +351,18 @@ class SongShowTest extends TestCase
             )
             ->createOne();
 
-        $song->unsetRelations()->load([
-            Song::RELATION_ANIME => function (BelongsTo $query) use ($yearFilter) {
+        $group->unsetRelations()->load([
+            Group::RELATION_ANIME => function (BelongsTo $query) use ($yearFilter) {
                 $query->where(Anime::ATTRIBUTE_YEAR, $yearFilter);
             },
         ]);
 
-        $response = $this->get(route('api.song.show', ['song' => $song] + $parameters));
+        $response = $this->get(route('api.group.show', ['group' => $group] + $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new SongResource($song, new Query($parameters)))
+                    (new GroupResource($group, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),

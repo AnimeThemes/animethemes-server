@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Wiki\Artist;
+namespace Tests\Feature\Http\Api\Wiki\Group;
 
 use App\Concerns\Actions\Http\Api\SortsModels;
 use App\Contracts\Http\Api\Field\SortableField;
@@ -10,8 +10,6 @@ use App\Enums\Http\Api\Filter\TrashedStatus;
 use App\Enums\Http\Api\Sort\Direction;
 use App\Enums\Models\Wiki\AnimeMediaFormat;
 use App\Enums\Models\Wiki\AnimeSeason;
-use App\Enums\Models\Wiki\ImageFacet;
-use App\Enums\Models\Wiki\ResourceSite;
 use App\Enums\Models\Wiki\ThemeType;
 use App\Http\Api\Criteria\Filter\TrashedCriteria;
 use App\Http\Api\Criteria\Paging\Criteria;
@@ -24,20 +22,16 @@ use App\Http\Api\Parser\IncludeParser;
 use App\Http\Api\Parser\PagingParser;
 use App\Http\Api\Parser\SortParser;
 use App\Http\Api\Query\Query;
-use App\Http\Api\Schema\Wiki\ArtistSchema;
+use App\Http\Api\Schema\Wiki\GroupSchema;
 use App\Http\Api\Sort\Sort;
-use App\Http\Resources\Wiki\Collection\ArtistCollection;
-use App\Http\Resources\Wiki\Resource\ArtistResource;
+use App\Http\Resources\Wiki\Collection\GroupCollection;
+use App\Http\Resources\Wiki\Resource\GroupResource;
 use App\Models\BaseModel;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
-use App\Models\Wiki\Artist;
-use App\Models\Wiki\ExternalResource;
-use App\Models\Wiki\Image;
-use App\Models\Wiki\Song;
+use App\Models\Wiki\Group;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
@@ -45,28 +39,28 @@ use Illuminate\Support\Carbon;
 use Tests\TestCase;
 
 /**
- * Class ArtistIndexTest.
+ * Class GroupIndexTest.
  */
-class ArtistIndexTest extends TestCase
+class GroupIndexTest extends TestCase
 {
     use SortsModels;
     use WithFaker;
 
     /**
-     * By default, the Artist Index Endpoint shall return a collection of Artist Resources.
+     * By default, the Group Index Endpoint shall return a collection of Group Resources.
      *
      * @return void
      */
     public function testDefault(): void
     {
-        $artists = Artist::factory()->count($this->faker->randomDigitNotNull())->create();
+        $groups = Group::factory()->count($this->faker->randomDigitNotNull())->create();
 
-        $response = $this->get(route('api.artist.index'));
+        $response = $this->get(route('api.group.index'));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ArtistCollection($artists, new Query()))
+                    (new GroupCollection($groups, new Query()))
                         ->response()
                         ->getData()
                 ),
@@ -76,31 +70,31 @@ class ArtistIndexTest extends TestCase
     }
 
     /**
-     * The Artist Index Endpoint shall be paginated.
+     * The Group Index Endpoint shall be paginated.
      *
      * @return void
      */
     public function testPaginated(): void
     {
-        Artist::factory()->count($this->faker->randomDigitNotNull())->create();
+        Group::factory()->count($this->faker->randomDigitNotNull())->create();
 
-        $response = $this->get(route('api.artist.index'));
+        $response = $this->get(route('api.group.index'));
 
         $response->assertJsonStructure([
-            ArtistCollection::$wrap,
+            GroupCollection::$wrap,
             'links',
             'meta',
         ]);
     }
 
     /**
-     * The Artist Index Endpoint shall allow inclusion of related resources.
+     * The Series Index Endpoint shall allow inclusion of related resources.
      *
      * @return void
      */
     public function testAllowedIncludePaths(): void
     {
-        $schema = new ArtistSchema();
+        $schema = new GroupSchema();
 
         $allowedIncludes = collect($schema->allowedIncludes());
 
@@ -110,20 +104,21 @@ class ArtistIndexTest extends TestCase
 
         $parameters = [
             IncludeParser::param() => $includedPaths->join(','),
-            PagingParser::param() => [
-                OffsetCriteria::SIZE_PARAM => Criteria::MAX_RESULTS,
-            ],
         ];
 
-        Artist::factory()->jsonApiResource()->create();
-        $artists = Artist::with($includedPaths->all())->get();
+        Group::factory()
+            ->has(AnimeTheme::factory()->count($this->faker->randomDigitNotNull())->for(Anime::factory()))
+            ->count($this->faker->randomDigitNotNull())
+            ->create();
 
-        $response = $this->get(route('api.artist.index', $parameters));
+        $groups = Group::with($includedPaths->all())->get();
+
+        $response = $this->get(route('api.group.index', $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ArtistCollection($artists, new Query($parameters)))
+                    (new GroupCollection($groups, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -133,13 +128,13 @@ class ArtistIndexTest extends TestCase
     }
 
     /**
-     * The Artist Index Endpoint shall implement sparse fieldsets.
+     * The Group Index Endpoint shall implement sparse fieldsets.
      *
      * @return void
      */
     public function testSparseFieldsets(): void
     {
-        $schema = new ArtistSchema();
+        $schema = new GroupSchema();
 
         $fields = collect($schema->fields());
 
@@ -147,18 +142,18 @@ class ArtistIndexTest extends TestCase
 
         $parameters = [
             FieldParser::param() => [
-                ArtistResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
+                GroupResource::$wrap => $includedFields->map(fn (Field $field) => $field->getKey())->join(','),
             ],
         ];
 
-        $artists = Artist::factory()->count($this->faker->randomDigitNotNull())->create();
+        $groups = Group::factory()->count($this->faker->randomDigitNotNull())->create();
 
-        $response = $this->get(route('api.artist.index', $parameters));
+        $response = $this->get(route('api.group.index', $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ArtistCollection($artists, new Query($parameters)))
+                    (new GroupCollection($groups, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -168,13 +163,13 @@ class ArtistIndexTest extends TestCase
     }
 
     /**
-     * The Artist Index Endpoint shall support sorting resources.
+     * The Group Index Endpoint shall support sorting resources.
      *
      * @return void
      */
     public function testSorts(): void
     {
-        $schema = new ArtistSchema();
+        $schema = new GroupSchema();
 
         /** @var Sort $sort */
         $sort = collect($schema->fields())
@@ -188,16 +183,16 @@ class ArtistIndexTest extends TestCase
 
         $query = new Query($parameters);
 
-        Artist::factory()->count($this->faker->randomDigitNotNull())->create();
+        Group::factory()->count($this->faker->randomDigitNotNull())->create();
 
-        $response = $this->get(route('api.artist.index', $parameters));
+        $response = $this->get(route('api.group.index', $parameters));
 
-        $artists = $this->sort(Artist::query(), $query, $schema)->get();
+        $groups = $this->sort(Group::query(), $query, $schema)->get();
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ArtistCollection($artists, $query))
+                    (new GroupCollection($groups, $query))
                         ->response()
                         ->getData()
                 ),
@@ -207,7 +202,7 @@ class ArtistIndexTest extends TestCase
     }
 
     /**
-     * The Artist Index Endpoint shall support filtering by created_at.
+     * The Group Index Endpoint shall support filtering by created_at.
      *
      * @return void
      */
@@ -226,21 +221,21 @@ class ArtistIndexTest extends TestCase
         ];
 
         Carbon::withTestNow($createdFilter, function () {
-            Artist::factory()->count($this->faker->randomDigitNotNull())->create();
+            Group::factory()->count($this->faker->randomDigitNotNull())->create();
         });
 
         Carbon::withTestNow($excludedDate, function () {
-            Artist::factory()->count($this->faker->randomDigitNotNull())->create();
+            Group::factory()->count($this->faker->randomDigitNotNull())->create();
         });
 
-        $artist = Artist::query()->where(BaseModel::ATTRIBUTE_CREATED_AT, $createdFilter)->get();
+        $group = Group::query()->where(BaseModel::ATTRIBUTE_CREATED_AT, $createdFilter)->get();
 
-        $response = $this->get(route('api.artist.index', $parameters));
+        $response = $this->get(route('api.group.index', $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ArtistCollection($artist, new Query($parameters)))
+                    (new GroupCollection($group, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -250,7 +245,7 @@ class ArtistIndexTest extends TestCase
     }
 
     /**
-     * The Artist Index Endpoint shall support filtering by updated_at.
+     * The Group Index Endpoint shall support filtering by updated_at.
      *
      * @return void
      */
@@ -269,21 +264,21 @@ class ArtistIndexTest extends TestCase
         ];
 
         Carbon::withTestNow($updatedFilter, function () {
-            Artist::factory()->count($this->faker->randomDigitNotNull())->create();
+            Group::factory()->count($this->faker->randomDigitNotNull())->create();
         });
 
         Carbon::withTestNow($excludedDate, function () {
-            Artist::factory()->count($this->faker->randomDigitNotNull())->create();
+            Group::factory()->count($this->faker->randomDigitNotNull())->create();
         });
 
-        $artist = Artist::query()->where(BaseModel::ATTRIBUTE_UPDATED_AT, $updatedFilter)->get();
+        $group = Group::query()->where(BaseModel::ATTRIBUTE_UPDATED_AT, $updatedFilter)->get();
 
-        $response = $this->get(route('api.artist.index', $parameters));
+        $response = $this->get(route('api.group.index', $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ArtistCollection($artist, new Query($parameters)))
+                    (new GroupCollection($group, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -293,7 +288,7 @@ class ArtistIndexTest extends TestCase
     }
 
     /**
-     * The Artist Index Endpoint shall support filtering by trashed.
+     * The Group Index Endpoint shall support filtering by trashed.
      *
      * @return void
      */
@@ -308,18 +303,18 @@ class ArtistIndexTest extends TestCase
             ],
         ];
 
-        Artist::factory()->count($this->faker->randomDigitNotNull())->create();
+        Group::factory()->count($this->faker->randomDigitNotNull())->create();
 
-        Artist::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
+        Group::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
 
-        $artist = Artist::withoutTrashed()->get();
+        $group = Group::withoutTrashed()->get();
 
-        $response = $this->get(route('api.artist.index', $parameters));
+        $response = $this->get(route('api.group.index', $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ArtistCollection($artist, new Query($parameters)))
+                    (new GroupCollection($group, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -329,7 +324,7 @@ class ArtistIndexTest extends TestCase
     }
 
     /**
-     * The Artist Index Endpoint shall support filtering by trashed.
+     * The Group Index Endpoint shall support filtering by trashed.
      *
      * @return void
      */
@@ -344,18 +339,18 @@ class ArtistIndexTest extends TestCase
             ],
         ];
 
-        Artist::factory()->count($this->faker->randomDigitNotNull())->create();
+        Group::factory()->count($this->faker->randomDigitNotNull())->create();
 
-        Artist::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
+        Group::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
 
-        $artist = Artist::withTrashed()->get();
+        $group = Group::withTrashed()->get();
 
-        $response = $this->get(route('api.artist.index', $parameters));
+        $response = $this->get(route('api.group.index', $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ArtistCollection($artist, new Query($parameters)))
+                    (new GroupCollection($group, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -365,7 +360,7 @@ class ArtistIndexTest extends TestCase
     }
 
     /**
-     * The Artist Index Endpoint shall support filtering by trashed.
+     * The Group Index Endpoint shall support filtering by trashed.
      *
      * @return void
      */
@@ -380,18 +375,18 @@ class ArtistIndexTest extends TestCase
             ],
         ];
 
-        Artist::factory()->count($this->faker->randomDigitNotNull())->create();
+        Group::factory()->count($this->faker->randomDigitNotNull())->create();
 
-        Artist::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
+        Group::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
 
-        $artist = Artist::onlyTrashed()->get();
+        $group = Group::onlyTrashed()->get();
 
-        $response = $this->get(route('api.artist.index', $parameters));
+        $response = $this->get(route('api.group.index', $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ArtistCollection($artist, new Query($parameters)))
+                    (new GroupCollection($group, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -401,7 +396,7 @@ class ArtistIndexTest extends TestCase
     }
 
     /**
-     * The Artist Index Endpoint shall support filtering by deleted_at.
+     * The Group Index Endpoint shall support filtering by deleted_at.
      *
      * @return void
      */
@@ -421,21 +416,21 @@ class ArtistIndexTest extends TestCase
         ];
 
         Carbon::withTestNow($deletedFilter, function () {
-            Artist::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
+            Group::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
         });
 
         Carbon::withTestNow($excludedDate, function () {
-            Artist::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
+            Group::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
         });
 
-        $artist = Artist::withTrashed()->where(BaseModel::ATTRIBUTE_DELETED_AT, $deletedFilter)->get();
+        $groups = Group::withTrashed()->where(BaseModel::ATTRIBUTE_DELETED_AT, $deletedFilter)->get();
 
-        $response = $this->get(route('api.artist.index', $parameters));
+        $response = $this->get(route('api.group.index', $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ArtistCollection($artist, new Query($parameters)))
+                    (new GroupCollection($groups, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -445,7 +440,7 @@ class ArtistIndexTest extends TestCase
     }
 
     /**
-     * The Artist Index Endpoint shall support constrained eager loading of themes by sequence.
+     * The Group Index Endpoint shall support constrained eager loading of themes by sequence.
      *
      * @return void
      */
@@ -458,39 +453,35 @@ class ArtistIndexTest extends TestCase
             FilterParser::param() => [
                 AnimeTheme::ATTRIBUTE_SEQUENCE => $sequenceFilter,
             ],
-            IncludeParser::param() => Artist::RELATION_ANIMETHEMES,
+            IncludeParser::param() => Group::RELATION_THEMES,
         ];
 
-        Artist::factory()
+        Group::factory()
             ->has(
-                Song::factory()
+                AnimeTheme::factory()
                     ->count($this->faker->randomDigitNotNull())
-                    ->has(
-                        AnimeTheme::factory()
-                            ->for(Anime::factory())
-                            ->count($this->faker->randomDigitNotNull())
-                            ->state(new Sequence(
-                                [AnimeTheme::ATTRIBUTE_SEQUENCE => $sequenceFilter],
-                                [AnimeTheme::ATTRIBUTE_SEQUENCE => $excludedSequence],
-                            ))
-                    )
+                    ->for(Anime::factory())
+                    ->state(new Sequence(
+                        [AnimeTheme::ATTRIBUTE_SEQUENCE => $sequenceFilter],
+                        [AnimeTheme::ATTRIBUTE_SEQUENCE => $excludedSequence],
+                    ))
             )
             ->count($this->faker->randomDigitNotNull())
             ->create();
 
-        $artists = Artist::with([
-            Artist::RELATION_ANIMETHEMES => function (HasMany $query) use ($sequenceFilter) {
+        $groups = Group::with([
+            Group::RELATION_THEMES => function (HasMany $query) use ($sequenceFilter) {
                 $query->where(AnimeTheme::ATTRIBUTE_SEQUENCE, $sequenceFilter);
             },
         ])
         ->get();
 
-        $response = $this->get(route('api.artist.index', $parameters));
+        $response = $this->get(route('api.group.index', $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ArtistCollection($artists, new Query($parameters)))
+                    (new GroupCollection($groups, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -500,7 +491,7 @@ class ArtistIndexTest extends TestCase
     }
 
     /**
-     * The Artist Index Endpoint shall support constrained eager loading of themes by type.
+     * The Group Index Endpoint shall support constrained eager loading of themes by type.
      *
      * @return void
      */
@@ -512,35 +503,27 @@ class ArtistIndexTest extends TestCase
             FilterParser::param() => [
                 AnimeTheme::ATTRIBUTE_TYPE => $typeFilter->localize(),
             ],
-            IncludeParser::param() => Artist::RELATION_ANIMETHEMES,
+            IncludeParser::param() => Group::RELATION_THEMES,
         ];
 
-        Artist::factory()
-            ->has(
-                Song::factory()
-                    ->count($this->faker->randomDigitNotNull())
-                    ->has(
-                        AnimeTheme::factory()
-                            ->for(Anime::factory())
-                            ->count($this->faker->randomDigitNotNull())
-                    )
-            )
+        Group::factory()
+            ->has(AnimeTheme::factory()->count($this->faker->randomDigitNotNull())->for(Anime::factory()))
             ->count($this->faker->randomDigitNotNull())
             ->create();
 
-        $artists = Artist::with([
-            Artist::RELATION_ANIMETHEMES => function (HasMany $query) use ($typeFilter) {
+        $groups = Group::with([
+            Group::RELATION_THEMES => function (HasMany $query) use ($typeFilter) {
                 $query->where(AnimeTheme::ATTRIBUTE_TYPE, $typeFilter->value);
             },
         ])
         ->get();
 
-        $response = $this->get(route('api.artist.index', $parameters));
+        $response = $this->get(route('api.group.index', $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ArtistCollection($artists, new Query($parameters)))
+                    (new GroupCollection($groups, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -550,7 +533,7 @@ class ArtistIndexTest extends TestCase
     }
 
     /**
-     * The Artist Index Endpoint shall support constrained eager loading of anime by media format.
+     * The Group Index Endpoint shall support constrained eager loading of anime by media format.
      *
      * @return void
      */
@@ -562,35 +545,27 @@ class ArtistIndexTest extends TestCase
             FilterParser::param() => [
                 Anime::ATTRIBUTE_MEDIA_FORMAT => $mediaFormatFilter->localize(),
             ],
-            IncludeParser::param() => Artist::RELATION_ANIME,
+            IncludeParser::param() => Group::RELATION_ANIME,
         ];
 
-        Artist::factory()
-            ->has(
-                Song::factory()
-                    ->count($this->faker->randomDigitNotNull())
-                    ->has(
-                        AnimeTheme::factory()
-                            ->for(Anime::factory())
-                            ->count($this->faker->randomDigitNotNull())
-                    )
-            )
+        Group::factory()
+            ->has(AnimeTheme::factory()->count($this->faker->randomDigitNotNull())->for(Anime::factory()))
             ->count($this->faker->randomDigitNotNull())
             ->create();
 
-        $artists = Artist::with([
-            Artist::RELATION_ANIME => function (BelongsTo $query) use ($mediaFormatFilter) {
+        $groups = Group::with([
+            Group::RELATION_ANIME => function (BelongsTo $query) use ($mediaFormatFilter) {
                 $query->where(Anime::ATTRIBUTE_MEDIA_FORMAT, $mediaFormatFilter->value);
             },
         ])
         ->get();
 
-        $response = $this->get(route('api.artist.index', $parameters));
+        $response = $this->get(route('api.group.index', $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ArtistCollection($artists, new Query($parameters)))
+                    (new GroupCollection($groups, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -600,7 +575,7 @@ class ArtistIndexTest extends TestCase
     }
 
     /**
-     * The Artist Index Endpoint shall support constrained eager loading of anime by season.
+     * The Group Index Endpoint shall support constrained eager loading of anime by season.
      *
      * @return void
      */
@@ -612,35 +587,27 @@ class ArtistIndexTest extends TestCase
             FilterParser::param() => [
                 Anime::ATTRIBUTE_SEASON => $seasonFilter->localize(),
             ],
-            IncludeParser::param() => Artist::RELATION_ANIME,
+            IncludeParser::param() => Group::RELATION_ANIME,
         ];
 
-        Artist::factory()
-            ->has(
-                Song::factory()
-                    ->count($this->faker->randomDigitNotNull())
-                    ->has(
-                        AnimeTheme::factory()
-                            ->for(Anime::factory())
-                            ->count($this->faker->randomDigitNotNull())
-                    )
-            )
+        Group::factory()
+            ->has(AnimeTheme::factory()->count($this->faker->randomDigitNotNull())->for(Anime::factory()))
             ->count($this->faker->randomDigitNotNull())
             ->create();
 
-        $artists = Artist::with([
-            Artist::RELATION_ANIME => function (BelongsTo $query) use ($seasonFilter) {
+        $groups = Group::with([
+            Group::RELATION_ANIME => function (BelongsTo $query) use ($seasonFilter) {
                 $query->where(Anime::ATTRIBUTE_SEASON, $seasonFilter->value);
             },
         ])
         ->get();
 
-        $response = $this->get(route('api.artist.index', $parameters));
+        $response = $this->get(route('api.group.index', $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ArtistCollection($artists, new Query($parameters)))
+                    (new GroupCollection($groups, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
@@ -650,7 +617,7 @@ class ArtistIndexTest extends TestCase
     }
 
     /**
-     * The Artist Index Endpoint shall support constrained eager loading of anime by year.
+     * The Group Index Endpoint shall support constrained eager loading of anime by year.
      *
      * @return void
      */
@@ -663,124 +630,36 @@ class ArtistIndexTest extends TestCase
             FilterParser::param() => [
                 Anime::ATTRIBUTE_YEAR => $yearFilter,
             ],
-            IncludeParser::param() => Artist::RELATION_ANIME,
+            IncludeParser::param() => Group::RELATION_ANIME,
         ];
 
-        Artist::factory()
+        Group::factory()
             ->has(
-                Song::factory()
+                AnimeTheme::factory()
                     ->count($this->faker->randomDigitNotNull())
-                    ->has(
-                        AnimeTheme::factory()
-                            ->for(
-                                Anime::factory()
-                                    ->state([
-                                        Anime::ATTRIBUTE_YEAR => $this->faker->boolean() ? $yearFilter : $excludedYear,
-                                    ])
-                            )
-                            ->count($this->faker->randomDigitNotNull())
+                    ->for(
+                        Anime::factory()
+                            ->state([
+                                Anime::ATTRIBUTE_YEAR => $this->faker->boolean() ? $yearFilter : $excludedYear,
+                            ])
                     )
             )
             ->count($this->faker->randomDigitNotNull())
             ->create();
 
-        $artists = Artist::with([
-            Artist::RELATION_ANIME => function (BelongsTo $query) use ($yearFilter) {
+        $groups = Group::with([
+            Group::RELATION_ANIME => function (BelongsTo $query) use ($yearFilter) {
                 $query->where(Anime::ATTRIBUTE_YEAR, $yearFilter);
             },
         ])
         ->get();
 
-        $response = $this->get(route('api.artist.index', $parameters));
+        $response = $this->get(route('api.group.index', $parameters));
 
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ArtistCollection($artists, new Query($parameters)))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
-     * The Artist Index Endpoint shall support constrained eager loading of resources by site.
-     *
-     * @return void
-     */
-    public function testResourcesBySite(): void
-    {
-        $siteFilter = Arr::random(ResourceSite::cases());
-
-        $parameters = [
-            FilterParser::param() => [
-                ExternalResource::ATTRIBUTE_SITE => $siteFilter->localize(),
-            ],
-            IncludeParser::param() => Artist::RELATION_RESOURCES,
-        ];
-
-        Artist::factory()
-            ->has(ExternalResource::factory()->count($this->faker->randomDigitNotNull()), Artist::RELATION_RESOURCES)
-            ->count($this->faker->randomDigitNotNull())
-            ->create();
-
-        $artists = Artist::with([
-            Artist::RELATION_RESOURCES => function (BelongsToMany $query) use ($siteFilter) {
-                $query->where(ExternalResource::ATTRIBUTE_SITE, $siteFilter->value);
-            },
-        ])
-        ->get();
-
-        $response = $this->get(route('api.artist.index', $parameters));
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    (new ArtistCollection($artists, new Query($parameters)))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
-     * The Artist Index Endpoint shall support constrained eager loading of images by facet.
-     *
-     * @return void
-     */
-    public function testImagesByFacet(): void
-    {
-        $facetFilter = Arr::random(ImageFacet::cases());
-
-        $parameters = [
-            FilterParser::param() => [
-                Image::ATTRIBUTE_FACET => $facetFilter->localize(),
-            ],
-            IncludeParser::param() => Artist::RELATION_IMAGES,
-        ];
-
-        Artist::factory()
-            ->has(Image::factory()->count($this->faker->randomDigitNotNull()))
-            ->count($this->faker->randomDigitNotNull())
-            ->create();
-
-        $artists = Artist::with([
-            Artist::RELATION_IMAGES => function (BelongsToMany $query) use ($facetFilter) {
-                $query->where(Image::ATTRIBUTE_FACET, $facetFilter->value);
-            },
-        ])
-        ->get();
-
-        $response = $this->get(route('api.artist.index', $parameters));
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    (new ArtistCollection($artists, new Query($parameters)))
+                    (new GroupCollection($groups, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),

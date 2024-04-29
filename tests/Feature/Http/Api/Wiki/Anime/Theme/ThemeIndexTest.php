@@ -33,6 +33,7 @@ use App\Models\BaseModel;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
+use App\Models\Wiki\Group;
 use App\Models\Wiki\Image;
 use App\Models\Wiki\Song;
 use App\Models\Wiki\Video;
@@ -62,6 +63,7 @@ class ThemeIndexTest extends TestCase
     {
         AnimeTheme::factory()
             ->for(Anime::factory())
+            ->for(Group::factory())
             ->for(Song::factory())
             ->count($this->faker->randomDigitNotNull())
             ->create();
@@ -124,6 +126,7 @@ class ThemeIndexTest extends TestCase
 
         AnimeTheme::factory()
             ->for(Anime::factory())
+            ->for(Group::factory())
             ->for(Song::factory())
             ->has(
                 AnimeThemeEntry::factory()
@@ -500,47 +503,6 @@ class ThemeIndexTest extends TestCase
             json_decode(
                 json_encode(
                     (new ThemeCollection($theme, new Query($parameters)))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
-     * The Theme Index Endpoint shall support filtering by group.
-     *
-     * @return void
-     */
-    public function testGroupFilter(): void
-    {
-        $groupFilter = $this->faker->word();
-        $excludedGroup = $this->faker->word();
-
-        $parameters = [
-            FilterParser::param() => [
-                AnimeTheme::ATTRIBUTE_GROUP => $groupFilter,
-            ],
-        ];
-
-        AnimeTheme::factory()
-            ->for(Anime::factory())
-            ->state(new Sequence(
-                [AnimeTheme::ATTRIBUTE_GROUP => $groupFilter],
-                [AnimeTheme::ATTRIBUTE_GROUP => $excludedGroup],
-            ))
-            ->count($this->faker->randomDigitNotNull())
-            ->create();
-
-        $themes = AnimeTheme::query()->where(AnimeTheme::ATTRIBUTE_GROUP, $groupFilter)->get();
-
-        $response = $this->get(route('api.animetheme.index', $parameters));
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    (new ThemeCollection($themes, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),

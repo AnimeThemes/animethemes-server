@@ -157,59 +157,6 @@ class ArtistShowTest extends TestCase
     }
 
     /**
-     * The Artist Show Endpoint shall support constrained eager loading of themes by group.
-     *
-     * @return void
-     */
-    public function testThemesByGroup(): void
-    {
-        $groupFilter = $this->faker->word();
-        $excludedGroup = $this->faker->word();
-
-        $parameters = [
-            FilterParser::param() => [
-                AnimeTheme::ATTRIBUTE_GROUP => $groupFilter,
-            ],
-            IncludeParser::param() => Artist::RELATION_ANIMETHEMES,
-        ];
-
-        $artist = Artist::factory()
-            ->has(
-                Song::factory()
-                    ->count($this->faker->randomDigitNotNull())
-                    ->has(
-                        AnimeTheme::factory()
-                            ->for(Anime::factory())
-                            ->count($this->faker->randomDigitNotNull())
-                            ->state(new Sequence(
-                                [AnimeTheme::ATTRIBUTE_GROUP => $groupFilter],
-                                [AnimeTheme::ATTRIBUTE_GROUP => $excludedGroup],
-                            ))
-                    )
-            )
-            ->createOne();
-
-        $artist->unsetRelations()->load([
-            Artist::RELATION_ANIMETHEMES => function (HasMany $query) use ($groupFilter) {
-                $query->where(AnimeTheme::ATTRIBUTE_GROUP, $groupFilter);
-            },
-        ]);
-
-        $response = $this->get(route('api.artist.show', ['artist' => $artist] + $parameters));
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    (new ArtistResource($artist, new Query($parameters)))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
      * The Artist Show Endpoint shall support constrained eager loading of themes by sequence.
      *
      * @return void

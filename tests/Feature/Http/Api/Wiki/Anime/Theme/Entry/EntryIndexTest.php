@@ -741,55 +741,6 @@ class EntryIndexTest extends TestCase
     }
 
     /**
-     * The Entry Index Endpoint shall support constrained eager loading of themes by group.
-     *
-     * @return void
-     */
-    public function testThemesByGroup(): void
-    {
-        $groupFilter = $this->faker->word();
-        $excludedGroup = $this->faker->word();
-
-        $parameters = [
-            FilterParser::param() => [
-                AnimeTheme::ATTRIBUTE_GROUP => $groupFilter,
-            ],
-            IncludeParser::param() => AnimeThemeEntry::RELATION_THEME,
-        ];
-
-        AnimeThemeEntry::factory()
-            ->for(
-                AnimeTheme::factory()
-                    ->for(Anime::factory())
-                    ->state([
-                        AnimeTheme::ATTRIBUTE_GROUP => $this->faker->boolean() ? $groupFilter : $excludedGroup,
-                    ])
-            )
-            ->count($this->faker->randomDigitNotNull())
-            ->create();
-
-        $entries = AnimeThemeEntry::with([
-            AnimeThemeEntry::RELATION_THEME => function (BelongsTo $query) use ($groupFilter) {
-                $query->where(AnimeTheme::ATTRIBUTE_GROUP, $groupFilter);
-            },
-        ])
-        ->get();
-
-        $response = $this->get(route('api.animethemeentry.index', $parameters));
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    (new EntryCollection($entries, new Query($parameters)))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
      * The Entry Index Endpoint shall support constrained eager loading of themes by sequence.
      *
      * @return void

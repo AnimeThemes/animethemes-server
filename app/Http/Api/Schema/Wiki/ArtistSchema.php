@@ -64,6 +64,7 @@ class ArtistSchema extends EloquentSchema implements InteractsWithPivots, Search
             new AllowedInclude(new ArtistSchema(), Artist::RELATION_GROUPS),
             new AllowedInclude(new ArtistSchema(), Artist::RELATION_MEMBERS),
             new AllowedInclude(new ExternalResourceSchema(), Artist::RELATION_RESOURCES),
+            new AllowedInclude(new GroupSchema(), Artist::RELATION_THEME_GROUPS),
             new AllowedInclude(new ImageSchema(), Artist::RELATION_IMAGES),
             new AllowedInclude(new SongSchema(), Artist::RELATION_SONGS),
             new AllowedInclude(new ThemeSchema(), Artist::RELATION_ANIMETHEMES),

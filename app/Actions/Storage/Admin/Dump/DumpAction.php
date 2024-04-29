@@ -158,7 +158,10 @@ abstract class DumpAction
         $dumper->setPassword(strval($connection->getConfig('password')));
 
         $hostConfig = $connection->getConfig('host');
-        if ($hostConfig !== null) {
+        $socketConfig = $connection->getConfig('unix_socket');
+        if ($socketConfig !== null) {
+            $dumper->setSocket(strval($socketConfig));
+        } elseif ($hostConfig !== null) {
             $dumper->setHost(collect($hostConfig)->first());
         }
 

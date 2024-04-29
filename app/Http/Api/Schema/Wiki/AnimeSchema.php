@@ -63,9 +63,9 @@ class AnimeSchema extends EloquentSchema implements InteractsWithPivots, Searcha
         return [
             new AllowedInclude(new ArtistSchema(), Anime::RELATION_ARTISTS),
             new AllowedInclude(new AudioSchema(), Anime::RELATION_AUDIO),
-            new AllowedInclude(new GroupSchema(), Anime::RELATION_GROUPS),
             new AllowedInclude(new EntrySchema(), Anime::RELATION_ENTRIES),
             new AllowedInclude(new ExternalResourceSchema(), Anime::RELATION_RESOURCES),
+            new AllowedInclude(new GroupSchema(), Anime::RELATION_GROUPS),
             new AllowedInclude(new ImageSchema(), Anime::RELATION_IMAGES),
             new AllowedInclude(new ScriptSchema(), Anime::RELATION_SCRIPTS),
             new AllowedInclude(new SeriesSchema(), Anime::RELATION_SERIES),
@@ -81,6 +81,7 @@ class AnimeSchema extends EloquentSchema implements InteractsWithPivots, Searcha
             new AllowedInclude(new VideoSchema(), 'animethemes.animethemeentries.videos.animethemeentries.animetheme.animethemeentries.videos'),
             new AllowedInclude(new AudioSchema(), 'animethemes.animethemeentries.videos.animethemeentries.animetheme.animethemeentries.videos.audio'),
             new AllowedInclude(new ArtistSchema(), 'animethemes.animethemeentries.videos.animethemeentries.animetheme.song.artists'),
+            new AllowedInclude(new GroupSchema(), 'animethemes.animethemeentries.videos.animethemeentries.animetheme.theme_group'),
             new AllowedInclude(new ExternalResourceSchema(), 'animethemes.animethemeentries.videos.animethemeentries.animetheme.song.resources'),
             new AllowedInclude(new ExternalResourceSchema(), 'animethemes.song.resources'),
             new AllowedInclude(new ImageSchema(), 'animethemes.song.artists.images'),

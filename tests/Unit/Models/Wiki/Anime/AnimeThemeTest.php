@@ -8,6 +8,7 @@ use App\Enums\Models\Wiki\ThemeType;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
+use App\Models\Wiki\Group;
 use App\Models\Wiki\Song;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -92,6 +93,22 @@ class AnimeThemeTest extends TestCase
 
         static::assertInstanceOf(BelongsTo::class, $theme->anime());
         static::assertInstanceOf(Anime::class, $theme->anime()->first());
+    }
+
+    /**
+     * Themes shall belong to a Group.
+     *
+     * @return void
+     */
+    public function testGroup(): void
+    {
+        $theme = AnimeTheme::factory()
+            ->for(Anime::factory())
+            ->for(Group::factory())
+            ->createOne();
+
+        static::assertInstanceOf(BelongsTo::class, $theme->theme_group());
+        static::assertInstanceOf(Group::class, $theme->theme_group()->first());
     }
 
     /**
