@@ -55,6 +55,8 @@ class AnimeSynonymTypeSeeder extends Seeder
                     $native = Arr::get($titles, 'native');
 
                     if (!$synonyms->contains(AnimeSynonym::ATTRIBUTE_TYPE, AnimeSynonymType::ENGLISH->value)) {
+                        if ($anime->name === $english) continue;
+
                         $newSynonymEnglish = new AnimeSynonym([
                             AnimeSynonym::ATTRIBUTE_TEXT => $english,
                             AnimeSynonym::ATTRIBUTE_TYPE => AnimeSynonymType::ENGLISH->value,
@@ -66,6 +68,8 @@ class AnimeSynonymTypeSeeder extends Seeder
                     }
 
                     if (!$synonyms->contains(AnimeSynonym::ATTRIBUTE_TYPE, AnimeSynonymType::NATIVE->value)) {
+                        if ($anime->name === $native) continue;
+                        
                         $newSynonymNative = new AnimeSynonym([
                             AnimeSynonym::ATTRIBUTE_TEXT => $native,
                             AnimeSynonym::ATTRIBUTE_TYPE => AnimeSynonymType::NATIVE->value,
