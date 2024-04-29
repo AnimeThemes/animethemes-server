@@ -26,6 +26,11 @@ class AnimeSynonymTypeSeeder extends Seeder
      */
     public function run(): void
     {
+        $this->createNewSynonymsByAnilist();
+    }
+
+    protected function createNewSynonymsByAnilist()
+    {
         $chunkSize = 5;
 
         $animes = Anime::query()
@@ -35,6 +40,13 @@ class AnimeSynonymTypeSeeder extends Seeder
         foreach ($animes->chunk($chunkSize) as $chunk) {
             foreach ($chunk as $anime) {
                 if ($anime instanceof Anime) {
+                    $synonyms = $anime->animesynonyms()->get();
+
+                    if (
+                        $synonyms->contains(AnimeSynonym::ATTRIBUTE_TYPE, AnimeSynonymType::ENGLISH->value) &&
+                        $synonyms->contains(AnimeSynonym::ATTRIBUTE_TYPE, AnimeSynonymType::NATIVE->value)
+                    ) continue;
+
                     $titles = $this->getTitlesAvailable($anime);
 
                     if ($titles === null) continue;
@@ -42,45 +54,27 @@ class AnimeSynonymTypeSeeder extends Seeder
                     $english = Arr::get($titles, 'english');
                     $native = Arr::get($titles, 'native');
 
-                    $synonyms = $anime->animesynonyms()->get();
+                    if (!$synonyms->contains(AnimeSynonym::ATTRIBUTE_TYPE, AnimeSynonymType::ENGLISH->value)) {
+                        $newSynonymEnglish = new AnimeSynonym([
+                            AnimeSynonym::ATTRIBUTE_TEXT => $english,
+                            AnimeSynonym::ATTRIBUTE_TYPE => AnimeSynonymType::ENGLISH->value,
+                            AnimeSynonym::ATTRIBUTE_ANIME => $anime->anime_id,
+                        ]);
 
-                    foreach ($synonyms as $synonym) {
-                        if ($synonym->type === AnimeSynonymType::OTHER->value) continue;
-
-                        if (trim($synonym->text) === $english) {
-                            $synonym->update([AnimeSynonym::ATTRIBUTE_TYPE => AnimeSynonymType::ENGLISH->value]);
-                            echo "{$synonym->text} -> update english"."\n";
-                            continue;
-                        }
-                        
-                        if (trim($synonym->text) === $native) {
-                            $synonym->update([AnimeSynonym::ATTRIBUTE_TYPE => AnimeSynonymType::NATIVE->value]);
-                            echo "{$synonym->text} -> update native"."\n";
-                            continue;
-                        }
+                        $newSynonymEnglish->save();
+                        echo "{$newSynonymEnglish->text} -> create english"."\n";
                     }
 
-                    // if (!$synonyms->contains(AnimeSynonym::ATTRIBUTE_TYPE, AnimeSynonymType::ENGLISH->value)) {
-                    //     $newSynonymEnglish = new AnimeSynonym([
-                    //         AnimeSynonym::ATTRIBUTE_TEXT => $english,
-                    //         AnimeSynonym::ATTRIBUTE_TYPE => AnimeSynonymType::ENGLISH->value,
-                    //         AnimeSynonym::ATTRIBUTE_ANIME => $anime->anime_id,
-                    //     ]);
+                    if (!$synonyms->contains(AnimeSynonym::ATTRIBUTE_TYPE, AnimeSynonymType::NATIVE->value)) {
+                        $newSynonymNative = new AnimeSynonym([
+                            AnimeSynonym::ATTRIBUTE_TEXT => $native,
+                            AnimeSynonym::ATTRIBUTE_TYPE => AnimeSynonymType::NATIVE->value,
+                            AnimeSynonym::ATTRIBUTE_ANIME => $anime->anime_id,
+                        ]);
 
-                    //     $newSynonymEnglish->save();
-                    //     echo "{$newSynonymEnglish->text} -> create english"."\n";
-                    // }
-
-                    // if (!$synonyms->contains(AnimeSynonym::ATTRIBUTE_TYPE, AnimeSynonymType::NATIVE->value)) {
-                    //     $newSynonymNative = new AnimeSynonym([
-                    //         AnimeSynonym::ATTRIBUTE_TEXT => $native,
-                    //         AnimeSynonym::ATTRIBUTE_TYPE => AnimeSynonymType::NATIVE->value,
-                    //         AnimeSynonym::ATTRIBUTE_ANIME => $anime->anime_id,
-                    //     ]);
-
-                    //     $newSynonymNative->save();
-                    //     echo "{$newSynonymNative->text} -> create native"."\n";
-                    // }
+                        $newSynonymNative->save();
+                        echo "{$newSynonymNative->text} -> create native"."\n";
+                    }
                 }
             }
             sleep(11);
@@ -90,6 +84,8 @@ class AnimeSynonymTypeSeeder extends Seeder
     protected function getTitlesAvailable(Anime $anime)
     {
         $anilistResource = $anime->resources()->firstWhere(ExternalResource::ATTRIBUTE_SITE, ResourceSite::ANILIST->value);
+
+        if ($anilistResource === null) return null;
 
         $query = '
             query ($id: Int) {
