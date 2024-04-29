@@ -13,6 +13,7 @@ use App\Http\Resources\Wiki\Resource\AnimeResource;
 use App\Models\Wiki\Anime;
 use App\Scout\Elasticsearch\Api\Field\Base\IdField;
 use App\Scout\Elasticsearch\Api\Field\Field;
+use App\Scout\Elasticsearch\Api\Field\Wiki\Anime\AnimeMediaFormatField;
 use App\Scout\Elasticsearch\Api\Field\Wiki\Anime\AnimeNameField;
 use App\Scout\Elasticsearch\Api\Field\Wiki\Anime\AnimeSeasonField;
 use App\Scout\Elasticsearch\Api\Field\Wiki\Anime\AnimeSlugField;
@@ -85,6 +86,7 @@ class AnimeSchema extends Schema
             [
                 new IdField($this, Anime::ATTRIBUTE_ID),
                 new AnimeNameField($this),
+                new AnimeMediaFormatField($this),
                 new AnimeSeasonField($this),
                 new AnimeSlugField($this),
                 new AnimeSynopsisField($this),

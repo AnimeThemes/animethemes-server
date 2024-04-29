@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Enums\Models\List\PlaylistVisibility;
 use App\Enums\Models\Wiki\AnimeMediaFormat;
 use App\Enums\Models\Wiki\AnimeSeason;
+use App\Enums\Models\Wiki\AnimeSynonymType;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Enums\Models\Wiki\ThemeType;
@@ -26,6 +27,13 @@ return [
         AnimeSeason::SPRING->name => 'Spring',
         AnimeSeason::SUMMER->name => 'Summer',
         AnimeSeason::FALL->name => 'Fall',
+    ],
+    AnimeSynonymType::class => [
+        AnimeSynonymType::OTHER->name => 'Other',
+        AnimeSynonymType::NATIVE->name => 'Native',
+        AnimeSynonymType::ROMAJI->name => 'Romaji',
+        AnimeSynonymType::ENGLISH->name => 'English',
+        AnimeSynonymType::SHORT->name => 'Short',
     ],
     ImageFacet::class => [
         ImageFacet::COVER_SMALL->name => 'Small Cover',

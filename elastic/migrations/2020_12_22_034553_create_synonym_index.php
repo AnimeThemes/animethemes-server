@@ -28,6 +28,9 @@ final class CreateSynonymIndex implements MigrationInterface
                     'name' => [
                         'type' => 'text',
                     ],
+                    'media_format' => [
+                        'type' => 'long',
+                    ],
                     'season' => [
                         'type' => 'long',
                     ],
@@ -55,6 +58,7 @@ final class CreateSynonymIndex implements MigrationInterface
                     ],
                 ],
             ]);
+            $mapping->long('type');
             $mapping->date('updated_at');
         });
     }

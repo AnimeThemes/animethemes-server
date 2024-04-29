@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models\Wiki\Anime;
 
+use App\Enums\Models\Wiki\AnimeSynonymType;
 use App\Events\Wiki\Anime\Synonym\SynonymCreated;
 use App\Events\Wiki\Anime\Synonym\SynonymDeleted;
 use App\Events\Wiki\Anime\Synonym\SynonymRestored;
@@ -22,6 +23,7 @@ use Laravel\Nova\Actions\Actionable;
  * @property int $anime_id
  * @property int $synonym_id
  * @property string|null $text
+ * @property AnimeSynonymType $type
  *
  * @method static AnimeSynonymFactory factory(...$parameters)
  */
@@ -35,6 +37,7 @@ class AnimeSynonym extends BaseModel
     final public const ATTRIBUTE_ANIME = 'anime_id';
     final public const ATTRIBUTE_ID = 'synonym_id';
     final public const ATTRIBUTE_TEXT = 'text';
+    final public const ATTRIBUTE_TYPE = 'type';
 
     final public const RELATION_ANIME = 'anime';
     final public const RELATION_VIDEOS = 'anime.animethemes.animethemeentries.videos';
@@ -47,6 +50,7 @@ class AnimeSynonym extends BaseModel
     protected $fillable = [
         AnimeSynonym::ATTRIBUTE_ANIME,
         AnimeSynonym::ATTRIBUTE_TEXT,
+        AnimeSynonym::ATTRIBUTE_TYPE,
     ];
 
     /**
@@ -76,6 +80,15 @@ class AnimeSynonym extends BaseModel
      * @var string
      */
     protected $primaryKey = AnimeSynonym::ATTRIBUTE_ID;
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        AnimeSynonym::ATTRIBUTE_TYPE => AnimeSynonymType::class,
+    ];
 
     /**
      * Get name.

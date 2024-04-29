@@ -51,6 +51,9 @@ final class CreateThemeIndex implements MigrationInterface
                                 'type' => 'text',
                                 'copy_to' => ['synonym_slug'],
                             ],
+                            'type' => [
+                                'type' => 'long',
+                            ],
                             'updated_at' => [
                                 'type' => 'date',
                             ],

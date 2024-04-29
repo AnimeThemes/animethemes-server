@@ -10,6 +10,7 @@ use App\Models\Wiki\Anime\AnimeSynonym;
 use App\Scout\Elasticsearch\Api\Field\Base\IdField;
 use App\Scout\Elasticsearch\Api\Field\Field;
 use App\Scout\Elasticsearch\Api\Field\Wiki\Anime\Synonym\SynonymTextField;
+use App\Scout\Elasticsearch\Api\Field\Wiki\Anime\Synonym\SynonymTypeField;
 use App\Scout\Elasticsearch\Api\Query\ElasticQuery;
 use App\Scout\Elasticsearch\Api\Query\Wiki\Anime\SynonymQuery;
 use App\Scout\Elasticsearch\Api\Schema\Schema;
@@ -64,6 +65,7 @@ class SynonymSchema extends Schema
             [
                 new IdField($this, AnimeSynonym::ATTRIBUTE_ID),
                 new SynonymTextField($this),
+                new SynonymTypeField($this),
             ],
         );
     }

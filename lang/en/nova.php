@@ -395,6 +395,10 @@ return [
                 'help' => 'For alternative titles, licensed titles, common abbreviations and/or shortenings',
                 'name' => 'Text',
             ],
+            'type' => [
+                'help' => 'The title type.',
+                'name' => 'Type',
+            ]
         ],
         'anime_theme_entry' => [
             'episodes' => [
