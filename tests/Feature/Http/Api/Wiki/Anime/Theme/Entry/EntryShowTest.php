@@ -288,53 +288,6 @@ class EntryShowTest extends TestCase
     }
 
     /**
-     * The Entry Show Endpoint shall support constrained eager loading of themes by group.
-     *
-     * @return void
-     */
-    public function testThemesByGroup(): void
-    {
-        $groupFilter = $this->faker->word();
-        $excludedGroup = $this->faker->word();
-
-        $parameters = [
-            FilterParser::param() => [
-                AnimeTheme::ATTRIBUTE_GROUP => $groupFilter,
-            ],
-            IncludeParser::param() => AnimeThemeEntry::RELATION_THEME,
-        ];
-
-        $entry = AnimeThemeEntry::factory()
-            ->for(
-                AnimeTheme::factory()
-                    ->for(Anime::factory())
-                    ->state([
-                        AnimeTheme::ATTRIBUTE_GROUP => $this->faker->boolean() ? $groupFilter : $excludedGroup,
-                    ])
-            )
-            ->createOne();
-
-        $entry->unsetRelations()->load([
-            AnimeThemeEntry::RELATION_THEME => function (BelongsTo $query) use ($groupFilter) {
-                $query->where(AnimeTheme::ATTRIBUTE_GROUP, $groupFilter);
-            },
-        ]);
-
-        $response = $this->get(route('api.animethemeentry.show', ['animethemeentry' => $entry] + $parameters));
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    (new EntryResource($entry, new Query($parameters)))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
      * The Entry Show Endpoint shall support constrained eager loading of themes by sequence.
      *
      * @return void

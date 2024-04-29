@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Models\Wiki\Anime;
 
+use App\Enums\Models\Wiki\AnimeSynonymType;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeSynonym;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -16,6 +17,22 @@ use Tests\TestCase;
 class AnimeSynonymTest extends TestCase
 {
     use WithFaker;
+
+    /**
+     * The type attribute of a synonym shall be cast to a AnimeSynonymType enum instance.
+     *
+     * @return void
+     */
+    public function testCastsTypeToEnum(): void
+    {
+        $theme = AnimeSynonym::factory()
+            ->for(Anime::factory())
+            ->createOne();
+
+        $type = $theme->type;
+
+        static::assertInstanceOf(AnimeSynonymType::class, $type);
+    }
 
     /**
      * Synonym shall be a searchable resource.

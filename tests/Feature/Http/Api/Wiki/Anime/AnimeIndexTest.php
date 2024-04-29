@@ -547,56 +547,6 @@ class AnimeIndexTest extends TestCase
     }
 
     /**
-     * The Anime Index Endpoint shall support constrained eager loading of themes by group.
-     *
-     * @return void
-     */
-    public function testThemesByGroup(): void
-    {
-        $groupFilter = $this->faker->word();
-        $excludedGroup = $this->faker->word();
-
-        $parameters = [
-            FilterParser::param() => [
-                AnimeTheme::ATTRIBUTE_GROUP => $groupFilter,
-            ],
-            IncludeParser::param() => Anime::RELATION_THEMES,
-        ];
-
-        Anime::factory()
-            ->has(
-                AnimeTheme::factory()
-                    ->count($this->faker->randomDigitNotNull())
-                    ->state(new Sequence(
-                        [AnimeTheme::ATTRIBUTE_GROUP => $groupFilter],
-                        [AnimeTheme::ATTRIBUTE_GROUP => $excludedGroup],
-                    ))
-            )
-            ->count($this->faker->randomDigitNotNull())
-            ->create();
-
-        $anime = Anime::with([
-            Anime::RELATION_THEMES => function (HasMany $query) use ($groupFilter) {
-                $query->where(AnimeTheme::ATTRIBUTE_GROUP, $groupFilter);
-            },
-        ])
-        ->get();
-
-        $response = $this->get(route('api.anime.index', $parameters));
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    (new AnimeCollection($anime, new Query($parameters)))
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
      * The Anime Index Endpoint shall support constrained eager loading of themes by sequence.
      *
      * @return void
