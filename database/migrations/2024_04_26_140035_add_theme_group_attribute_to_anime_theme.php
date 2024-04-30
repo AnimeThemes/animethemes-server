@@ -15,10 +15,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if (! Schema::hasColumn(AnimeTheme::TABLE, AnimeTheme::ATTRIBUTE_THEME_GROUP)) {
+        if (! Schema::hasColumn(AnimeTheme::TABLE, AnimeTheme::ATTRIBUTE_GROUP)) {
             Schema::table(AnimeTheme::TABLE, function (Blueprint $table) {
-                $table->unsignedBigInteger(AnimeTheme::ATTRIBUTE_THEME_GROUP)->nullable();
-                $table->foreign(AnimeTheme::ATTRIBUTE_THEME_GROUP)->references(Group::ATTRIBUTE_ID)->on(Group::TABLE)->nullOnDelete();
+                $table->unsignedBigInteger(AnimeTheme::ATTRIBUTE_GROUP)->nullable();
+                $table->foreign(AnimeTheme::ATTRIBUTE_GROUP)->references(Group::ATTRIBUTE_ID)->on(Group::TABLE)->nullOnDelete();
             });
         }
     }
@@ -28,9 +28,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        if (Schema::hasColumn(AnimeTheme::TABLE, AnimeTheme::ATTRIBUTE_THEME_GROUP)) {
+        if (Schema::hasColumn(AnimeTheme::TABLE, AnimeTheme::ATTRIBUTE_GROUP)) {
             Schema::table(AnimeTheme::TABLE, function (Blueprint $table) {
-                $table->dropConstrainedForeignId(AnimeTheme::ATTRIBUTE_THEME_GROUP);
+                $table->dropConstrainedForeignId(AnimeTheme::ATTRIBUTE_GROUP);
             });
         }
     }

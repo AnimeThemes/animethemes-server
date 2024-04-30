@@ -24,7 +24,6 @@ return new class extends Migration
                 $table->id(AnimeTheme::ATTRIBUTE_ID);
                 $table->timestamps(6);
                 $table->softDeletes(BaseModel::ATTRIBUTE_DELETED_AT, 6);
-                $table->string(AnimeTheme::ATTRIBUTE_GROUP)->nullable();
                 $table->integer(AnimeTheme::ATTRIBUTE_TYPE)->nullable();
                 $table->integer(AnimeTheme::ATTRIBUTE_SEQUENCE)->nullable();
                 $table->string(AnimeTheme::ATTRIBUTE_SLUG);

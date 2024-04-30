@@ -107,8 +107,8 @@ class AnimeThemeTest extends TestCase
             ->for(Group::factory())
             ->createOne();
 
-        static::assertInstanceOf(BelongsTo::class, $theme->theme_group());
-        static::assertInstanceOf(Group::class, $theme->theme_group()->first());
+        static::assertInstanceOf(BelongsTo::class, $theme->group());
+        static::assertInstanceOf(Group::class, $theme->group()->first());
     }
 
     /**

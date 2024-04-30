@@ -423,10 +423,6 @@ return [
             ],
         ],
         'anime_theme' => [
-            'group' => [
-                'help' => 'For separating sequences belonging to dubs, rebroadcasts, remasters, etc. By default, leave blank.',
-                'name' => 'Group',
-            ],
             'sequence' => [
                 'help' => 'Numeric ordering of theme. If only one theme of this type exists for the show, this can be left blank.',
                 'name' => 'Sequence',

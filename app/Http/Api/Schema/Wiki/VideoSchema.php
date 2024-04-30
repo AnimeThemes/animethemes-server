@@ -65,7 +65,7 @@ class VideoSchema extends EloquentSchema implements SearchableSchema
             // Undocumented paths needed for client builds
             new AllowedInclude(new SongSchema(), 'animethemeentries.animetheme.song'),
             new AllowedInclude(new ArtistSchema(), 'animethemeentries.animetheme.song.artists'),
-            new AllowedInclude(new GroupSchema(), 'animethemeentries.animetheme.theme_group'),
+            new AllowedInclude(new GroupSchema(), 'animethemeentries.animetheme.group'),
             new AllowedInclude(new ImageSchema(), 'animethemeentries.animetheme.anime.images'),
         ];
     }

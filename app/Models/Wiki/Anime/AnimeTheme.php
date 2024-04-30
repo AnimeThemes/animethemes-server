@@ -29,8 +29,7 @@ use Laravel\Nova\Actions\Actionable;
  * @property Anime $anime
  * @property int $anime_id
  * @property Collection<int, AnimeThemeEntry> $animethemeentries
- * @property string|null $group
- * @property Group|null $theme_group
+ * @property Group|null $group
  * @property int|null $group_id
  * @property int|null $sequence
  * @property string $slug
@@ -49,19 +48,18 @@ class AnimeTheme extends BaseModel
     final public const TABLE = 'anime_themes';
 
     final public const ATTRIBUTE_ANIME = 'anime_id';
-    final public const ATTRIBUTE_GROUP = 'group';
     final public const ATTRIBUTE_ID = 'theme_id';
+    final public const ATTRIBUTE_GROUP = 'group_id';
     final public const ATTRIBUTE_SEQUENCE = 'sequence';
     final public const ATTRIBUTE_SLUG = 'slug';
     final public const ATTRIBUTE_SONG = 'song_id';
-    final public const ATTRIBUTE_THEME_GROUP = 'group_id';
     final public const ATTRIBUTE_TYPE = 'type';
 
     final public const RELATION_ANIME = 'anime';
     final public const RELATION_ARTISTS = 'song.artists';
     final public const RELATION_AUDIO = 'animethemeentries.videos.audio';
     final public const RELATION_ENTRIES = 'animethemeentries';
-    final public const RELATION_GROUP = 'theme_group';
+    final public const RELATION_GROUP = 'group';
     final public const RELATION_IMAGES = 'anime.images';
     final public const RELATION_SONG = 'song';
     final public const RELATION_SYNONYMS = 'anime.animesynonyms';
@@ -75,7 +73,6 @@ class AnimeTheme extends BaseModel
     protected $fillable = [
         AnimeTheme::ATTRIBUTE_ANIME,
         AnimeTheme::ATTRIBUTE_GROUP,
-        AnimeTheme::ATTRIBUTE_THEME_GROUP,
         AnimeTheme::ATTRIBUTE_SEQUENCE,
         AnimeTheme::ATTRIBUTE_SLUG,
         AnimeTheme::ATTRIBUTE_SONG,
@@ -176,9 +173,9 @@ class AnimeTheme extends BaseModel
      *
      * @return BelongsTo
      */
-    public function theme_group(): BelongsTo
+    public function group(): BelongsTo
     {
-        return $this->belongsTo(Group::class, AnimeTheme::ATTRIBUTE_THEME_GROUP);
+        return $this->belongsTo(Group::class, AnimeTheme::ATTRIBUTE_GROUP);
     }
 
     /**

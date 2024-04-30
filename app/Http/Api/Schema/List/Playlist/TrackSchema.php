@@ -55,7 +55,7 @@ class TrackSchema extends EloquentSchema
             new AllowedInclude(new TrackSchema(), PlaylistTrack::RELATION_PREVIOUS),
             new AllowedInclude(new VideoSchema(), PlaylistTrack::RELATION_VIDEO),
 
-            new AllowedInclude(new GroupSchema(), 'video.animethemeentries.animetheme.theme_group'),
+            new AllowedInclude(new GroupSchema(), 'video.animethemeentries.animetheme.group'),
         ];
     }
 

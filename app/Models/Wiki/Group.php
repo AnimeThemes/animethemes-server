@@ -101,6 +101,6 @@ class Group extends BaseModel
      */
     public function animethemes(): HasMany
     {
-        return $this->hasMany(AnimeTheme::class, AnimeTheme::ATTRIBUTE_THEME_GROUP);
+        return $this->hasMany(AnimeTheme::class, AnimeTheme::ATTRIBUTE_GROUP);
     }
 }

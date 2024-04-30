@@ -8,7 +8,6 @@ use App\Contracts\Http\Api\Schema\SearchableSchema;
 use App\Http\Api\Field\Base\IdField;
 use App\Http\Api\Field\Field;
 use App\Http\Api\Field\Wiki\Anime\Theme\ThemeAnimeIdField;
-use App\Http\Api\Field\Wiki\Anime\Theme\ThemeGroupField;
 use App\Http\Api\Field\Wiki\Anime\Theme\ThemeGroupIdField;
 use App\Http\Api\Field\Wiki\Anime\Theme\ThemeSequenceField;
 use App\Http\Api\Field\Wiki\Anime\Theme\ThemeSlugField;
@@ -81,7 +80,6 @@ class ThemeSchema extends EloquentSchema implements SearchableSchema
             parent::fields(),
             [
                 new IdField($this, AnimeTheme::ATTRIBUTE_ID),
-                new ThemeGroupField($this),
                 new ThemeSequenceField($this),
                 new ThemeSlugField($this),
                 new ThemeTypeField($this),

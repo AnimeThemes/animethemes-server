@@ -198,17 +198,6 @@ class Theme extends BaseResource
                 ->filterable()
                 ->showWhenPeeking(),
 
-            Text::make(__('nova.fields.anime_theme.group.name'), AnimeTheme::ATTRIBUTE_GROUP)
-                ->sortable()
-                ->nullable()
-                ->rules(['nullable', 'max:192'])
-                ->help(__('nova.fields.anime_theme.group.help'))
-                ->showOnPreview()
-                ->filterable()
-                ->maxlength(192)
-                ->enforceMaxlength()
-                ->showWhenPeeking(),
-
             Text::make(__('nova.fields.anime_theme.slug.name'), AnimeTheme::ATTRIBUTE_SLUG)
                 ->sortable()
                 ->rules(['required', 'max:192', 'alpha_dash'])

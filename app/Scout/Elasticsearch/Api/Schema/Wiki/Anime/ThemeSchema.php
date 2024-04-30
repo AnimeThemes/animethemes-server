@@ -11,7 +11,6 @@ use App\Http\Resources\Wiki\Anime\Resource\ThemeResource;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Scout\Elasticsearch\Api\Field\Base\IdField;
 use App\Scout\Elasticsearch\Api\Field\Field;
-use App\Scout\Elasticsearch\Api\Field\Wiki\Anime\Theme\ThemeGroupField;
 use App\Scout\Elasticsearch\Api\Field\Wiki\Anime\Theme\ThemeSequenceField;
 use App\Scout\Elasticsearch\Api\Field\Wiki\Anime\Theme\ThemeSlugField;
 use App\Scout\Elasticsearch\Api\Field\Wiki\Anime\Theme\ThemeTypeField;
@@ -85,7 +84,6 @@ class ThemeSchema extends Schema
             parent::fields(),
             [
                 new IdField($this, AnimeTheme::ATTRIBUTE_ID),
-                new ThemeGroupField($this),
                 new ThemeSequenceField($this),
                 new ThemeSlugField($this),
                 new ThemeTypeField($this),
