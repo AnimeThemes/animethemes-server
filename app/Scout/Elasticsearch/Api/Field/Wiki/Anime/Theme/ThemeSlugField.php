@@ -9,7 +9,7 @@ use App\Scout\Elasticsearch\Api\Field\StringField;
 use App\Scout\Elasticsearch\Api\Schema\Schema;
 
 /**
- * Class ThemeGroupField.
+ * Class ThemeSlugField.
  */
 class ThemeSlugField extends StringField
 {

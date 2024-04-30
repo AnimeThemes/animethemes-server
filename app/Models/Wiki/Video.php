@@ -84,6 +84,7 @@ class Video extends BaseModel implements Streamable, Viewable
     final public const RELATION_ANIMESYNONYMS = 'animethemeentries.animetheme.anime.animesynonyms';
     final public const RELATION_ANIMETHEME = 'animethemeentries.animetheme';
     final public const RELATION_ANIMETHEMEENTRIES = 'animethemeentries';
+    final public const RELATION_GROUP = 'animethemeentries.animetheme.group';
     final public const RELATION_AUDIO = 'audio';
     final public const RELATION_SCRIPT = 'videoscript';
     final public const RELATION_SONG = 'animethemeentries.animetheme.song';

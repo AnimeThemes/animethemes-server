@@ -42,7 +42,7 @@ class SeriesSchema extends EloquentSchema implements SearchableSchema
             // Undocumented paths needed for client builds
             new AllowedInclude(new ImageSchema(), 'anime.images'),
             new AllowedInclude(new VideoSchema(), 'anime.animethemes.animethemeentries.videos'),
-            new AllowedInclude(new GroupSchema(), 'anime.animethemes.theme_group'),
+            new AllowedInclude(new GroupSchema(), 'anime.animethemes.group'),
             new AllowedInclude(new SongSchema(), 'anime.animethemes.song'),
         ];
     }

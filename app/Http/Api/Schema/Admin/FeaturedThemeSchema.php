@@ -57,7 +57,7 @@ class FeaturedThemeSchema extends EloquentSchema
             new AllowedInclude(new UserSchema(), FeaturedTheme::RELATION_USER),
             new AllowedInclude(new VideoSchema(), FeaturedTheme::RELATION_VIDEO),
 
-            new AllowedInclude(new GroupSchema(), 'animethemeentry.animetheme.theme_group'),
+            new AllowedInclude(new GroupSchema(), 'animethemeentry.animetheme.group'),
         ];
     }
 

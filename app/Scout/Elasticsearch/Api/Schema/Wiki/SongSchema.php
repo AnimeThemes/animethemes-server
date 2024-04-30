@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Scout\Elasticsearch\Api\Schema\Wiki;
 
 use App\Http\Api\Include\AllowedInclude;
+use App\Http\Api\Schema\Wiki\GroupSchema;
 use App\Http\Resources\Wiki\Resource\SongResource;
 use App\Models\Wiki\Song;
 use App\Scout\Elasticsearch\Api\Field\Base\IdField;
@@ -50,6 +51,7 @@ class SongSchema extends Schema
         return [
             new AllowedInclude(new AnimeSchema(), Song::RELATION_ANIME),
             new AllowedInclude(new ArtistSchema(), Song::RELATION_ARTISTS),
+            new AllowedInclude(new GroupSchema(), Song::RELATION_THEME_GROUPS),
             new AllowedInclude(new ThemeSchema(), Song::RELATION_ANIMETHEMES),
         ];
     }

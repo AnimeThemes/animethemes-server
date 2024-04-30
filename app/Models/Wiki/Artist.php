@@ -56,7 +56,7 @@ class Artist extends BaseModel
     final public const RELATION_MEMBERS = 'members';
     final public const RELATION_RESOURCES = 'resources';
     final public const RELATION_SONGS = 'songs';
-    final public const RELATION_THEME_GROUPS = 'songs.animethemes.theme_group';
+    final public const RELATION_THEME_GROUPS = 'songs.animethemes.group';
 
     /**
      * The attributes that are mass assignable.

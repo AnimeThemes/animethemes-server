@@ -6,6 +6,7 @@ namespace App\Scout\Elasticsearch\Api\Schema\Wiki;
 
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\Wiki\ExternalResourceSchema;
+use App\Http\Api\Schema\Wiki\GroupSchema;
 use App\Http\Api\Schema\Wiki\ImageSchema;
 use App\Http\Resources\Wiki\Resource\ArtistResource;
 use App\Models\Wiki\Artist;
@@ -55,6 +56,7 @@ class ArtistSchema extends Schema
             new AllowedInclude(new ArtistSchema(), Artist::RELATION_GROUPS),
             new AllowedInclude(new ArtistSchema(), Artist::RELATION_MEMBERS),
             new AllowedInclude(new ExternalResourceSchema(), Artist::RELATION_RESOURCES),
+            new AllowedInclude(new GroupSchema(), Artist::RELATION_THEME_GROUPS),
             new AllowedInclude(new ImageSchema(), Artist::RELATION_IMAGES),
             new AllowedInclude(new SongSchema(), Artist::RELATION_SONGS),
             new AllowedInclude(new ThemeSchema(), Artist::RELATION_ANIMETHEMES),

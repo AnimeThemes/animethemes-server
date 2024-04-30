@@ -47,6 +47,7 @@ class Song extends BaseModel
     final public const RELATION_ANIMETHEMES = 'animethemes';
     final public const RELATION_ARTISTS = 'artists';
     final public const RELATION_RESOURCES = 'resources';
+    final public const RELATION_THEME_GROUPS = 'animethemes.group';
     final public const RELATION_VIDEOS = 'animethemes.animethemeentries.videos';
 
     /**

@@ -50,7 +50,7 @@ class GroupDeleting extends BaseEvent implements UpdateRelatedIndicesEvent
         if ($group->isForceDeleting()) {
             $group->animethemes->each(function (AnimeTheme $theme) {
                 AnimeTheme::withoutEvents(function () use ($theme) {
-                    $theme->theme_group()->dissociate();
+                    $theme->group()->dissociate();
                     $theme->save();
                 });
                 $theme->searchable();

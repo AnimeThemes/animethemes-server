@@ -7,6 +7,7 @@ namespace App\Scout\Elasticsearch\Api\Schema\Wiki;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\Wiki\AudioSchema;
 use App\Http\Api\Schema\Wiki\ExternalResourceSchema;
+use App\Http\Api\Schema\Wiki\GroupSchema;
 use App\Http\Api\Schema\Wiki\ImageSchema;
 use App\Http\Api\Schema\Wiki\Video\ScriptSchema;
 use App\Http\Resources\Wiki\Resource\AnimeResource;
@@ -63,6 +64,7 @@ class AnimeSchema extends Schema
             new AllowedInclude(new AudioSchema(), Anime::RELATION_AUDIO),
             new AllowedInclude(new EntrySchema(), Anime::RELATION_ENTRIES),
             new AllowedInclude(new ExternalResourceSchema(), Anime::RELATION_RESOURCES),
+            new AllowedInclude(new GroupSchema(), Anime::RELATION_GROUPS),
             new AllowedInclude(new ImageSchema(), Anime::RELATION_IMAGES),
             new AllowedInclude(new ScriptSchema(), Anime::RELATION_SCRIPTS),
             new AllowedInclude(new SeriesSchema(), Anime::RELATION_SERIES),

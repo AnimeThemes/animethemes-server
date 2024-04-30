@@ -27,7 +27,7 @@ class ThemeGroupIdField extends Field implements CreatableField, UpdatableField,
      */
     public function __construct(Schema $schema)
     {
-        parent::__construct($schema, AnimeTheme::ATTRIBUTE_THEME_GROUP);
+        parent::__construct($schema, AnimeTheme::ATTRIBUTE_GROUP);
     }
 
     /**
