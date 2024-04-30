@@ -110,7 +110,30 @@ final class CreateVideoIndex implements MigrationInterface
                                 'type' => 'date',
                             ],
                             'group' => [
-                                'type' => 'text',
+                                'type' => 'nested',
+                                'properties' => [
+                                    'created_at' => [
+                                        'type' => 'date',
+                                    ],
+                                    'group_id' => [
+                                        'type' => 'long',
+                                    ],
+                                    'name' => [
+                                        'type' => 'text',
+                                    ],
+                                    'slug' => [
+                                        'type' => 'text',
+                                    ],
+                                    'video_filename' => [
+                                        'type' => 'text',
+                                    ],
+                                    'updated_at' => [
+                                        'type' => 'date',
+                                    ],
+                                ],
+                            ],
+                            'group_id' => [
+                                'type' => 'long',
                             ],
                             'sequence' => [
                                 'type' => 'long',

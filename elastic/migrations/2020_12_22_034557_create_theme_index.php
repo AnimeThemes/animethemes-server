@@ -73,13 +73,29 @@ final class CreateThemeIndex implements MigrationInterface
             $mapping->long('anime_id');
             $mapping->text('anime_slug');
             $mapping->date('created_at');
-            $mapping->text('group', [
-                'fields' => [
-                    'keyword' => [
-                        'type' => 'keyword',
+            $mapping->nested('group', [
+                'properties' => [
+                    'created_at' => [
+                        'type' => 'date',
+                    ],
+                    'group_id' => [
+                        'type' => 'long',
+                    ],
+                    'name' => [
+                        'type' => 'text',
+                    ],
+                    'slug' => [
+                        'type' => 'text',
+                    ],
+                    'video_filename' => [
+                        'type' => 'text',
+                    ],
+                    'updated_at' => [
+                        'type' => 'date',
                     ],
                 ],
             ]);
+            $mapping->long('group_id');
             $mapping->long('sequence');
             $mapping->text('slug', [
                 'copy_to' => [
