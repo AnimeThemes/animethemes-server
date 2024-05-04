@@ -222,7 +222,7 @@ return [
                             'help' => 'Ex: https://music.apple.com/jp/album/1711324281',
                         ],
                         'amazon_music' => [
-                            'help' => 'Ex: https://amazon.co.jp/music/player/albums/B0CKVQGSJY',
+                            'help' => 'Ex: https://music.amazon.co.jp/tracks/B0CKVQGSJY',
                         ],
                         'crunchyroll' => [
                             'help' => 'Ex: https://www.crunchyroll.com/series/GRDQNQW9Y',
