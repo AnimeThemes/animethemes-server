@@ -22,7 +22,6 @@ return new class extends Migration
                 $table->softDeletes(BaseModel::ATTRIBUTE_DELETED_AT, 6);
                 $table->string(Group::ATTRIBUTE_NAME);
                 $table->string(Group::ATTRIBUTE_SLUG);
-                $table->string(Group::ATTRIBUTE_VIDEO_FILENAME)->nullable();
             });
         }
     }

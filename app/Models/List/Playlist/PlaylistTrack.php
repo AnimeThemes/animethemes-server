@@ -51,6 +51,7 @@ class PlaylistTrack extends BaseModel implements HasHashids
     final public const RELATION_NEXT = 'next';
     final public const RELATION_PLAYLIST = 'playlist';
     final public const RELATION_PREVIOUS = 'previous';
+    final public const RELATION_THEME_GROUP = 'video.animethemeentries.animetheme.group';
     final public const RELATION_VIDEO = 'video';
 
     /**

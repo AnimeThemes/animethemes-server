@@ -124,9 +124,6 @@ final class CreateVideoIndex implements MigrationInterface
                                     'slug' => [
                                         'type' => 'text',
                                     ],
-                                    'video_filename' => [
-                                        'type' => 'text',
-                                    ],
                                     'updated_at' => [
                                         'type' => 'date',
                                     ],

@@ -200,18 +200,6 @@ class Group extends BaseResource
                 ->enforceMaxlength()
                 ->showWhenPeeking(),
 
-            Text::make(__('nova.fields.group.video_filename.name'), GroupModel::ATTRIBUTE_VIDEO_FILENAME)
-                ->sortable()
-                ->copyable()
-                ->nullable()
-                ->rules(['nullable', 'max:192'])
-                ->help(__('nova.fields.group.video_filename.help'))
-                ->showOnPreview()
-                ->filterable()
-                ->maxlength(192)
-                ->enforceMaxlength()
-                ->showWhenPeeking(),
-
             HasMany::make(__('nova.resources.label.anime_themes'), GroupModel::RELATION_THEMES, Theme::class),
 
             Panel::make(__('nova.fields.base.timestamps'), $this->timestamps())
