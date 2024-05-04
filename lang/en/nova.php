@@ -576,10 +576,6 @@ return [
                 'name' => 'Slug',
                 'help' => 'The slug that will be appended to the slug of the theme that has the group.',
             ],
-            'video_filename' => [
-                'name' => 'Video Filename',
-                'help' => 'The filename that will be appended to the filaname of the video that is related to the group.',
-            ],
         ],
         'image' => [
             'facet' => [

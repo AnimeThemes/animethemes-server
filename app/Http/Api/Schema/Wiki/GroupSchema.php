@@ -60,7 +60,6 @@ class GroupSchema extends EloquentSchema implements SearchableSchema
                 new IdField($this, Group::ATTRIBUTE_ID),
                 new GroupNameField($this),
                 new GroupSlugField($this),
-                new GroupVideoFilenameField($this),
             ],
         );
     }

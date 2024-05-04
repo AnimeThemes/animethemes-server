@@ -35,7 +35,6 @@ class GroupFactory extends Factory
         return [
             Group::ATTRIBUTE_NAME => fake()->words(3, true),
             Group::ATTRIBUTE_SLUG => Str::slug(fake()->text(191), '_'),
-            Group::ATTRIBUTE_VIDEO_FILENAME => fake()->words(3, true),
         ];
     }
 }

@@ -24,7 +24,6 @@ use Laravel\Nova\Actions\Actionable;
  * @property int $group_id
  * @property string $name
  * @property string $slug
- * @property string|null $video_filename
  * 
  * @method static GroupFactory factory(...$parameters)
  */
@@ -38,7 +37,6 @@ class Group extends BaseModel
     final public const ATTRIBUTE_ID = 'group_id';
     final public const ATTRIBUTE_NAME = 'name';
     final public const ATTRIBUTE_SLUG = 'slug';
-    final public const ATTRIBUTE_VIDEO_FILENAME = 'video_filename';
 
     final public const RELATION_ANIME = 'animethemes.anime';
     final public const RELATION_THEMES = 'animethemes';
@@ -52,7 +50,6 @@ class Group extends BaseModel
     protected $fillable = [
         Group::ATTRIBUTE_NAME,
         Group::ATTRIBUTE_SLUG,
-        Group::ATTRIBUTE_VIDEO_FILENAME,
     ];
 
     /**

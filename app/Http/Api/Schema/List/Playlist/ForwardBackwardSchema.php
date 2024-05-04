@@ -12,6 +12,7 @@ use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Api\Schema\Wiki\ArtistSchema;
 use App\Http\Api\Schema\Wiki\AudioSchema;
+use App\Http\Api\Schema\Wiki\GroupSchema;
 use App\Http\Api\Schema\Wiki\ImageSchema;
 use App\Http\Api\Schema\Wiki\VideoSchema;
 use App\Http\Resources\List\Playlist\Resource\TrackResource;
@@ -42,6 +43,7 @@ class ForwardBackwardSchema extends EloquentSchema
         return [
             new AllowedInclude(new ArtistSchema(), PlaylistTrack::RELATION_ARTISTS),
             new AllowedInclude(new AudioSchema(), PlaylistTrack::RELATION_AUDIO),
+            new AllowedInclude(new GroupSchema(), PlaylistTrack::RELATION_THEME_GROUP),
             new AllowedInclude(new ImageSchema(), PlaylistTrack::RELATION_IMAGES),
             new AllowedInclude(new VideoSchema(), PlaylistTrack::RELATION_VIDEO),
         ];
