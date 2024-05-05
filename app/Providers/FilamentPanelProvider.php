@@ -21,6 +21,7 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
+use Illuminate\Support\Facades\Config;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 
 class FilamentPanelProvider extends PanelProvider
@@ -43,8 +44,9 @@ class FilamentPanelProvider extends PanelProvider
 
         return $panel
             ->default()
-            ->id('admin')
-            ->path('admin')
+            ->id(Config::get('filament.path'))
+            ->path(Config::get('filament.path'))
+            ->domain(Config::get('filament.domain'))
             ->login()
             ->databaseNotifications()
             ->sidebarCollapsibleOnDesktop()

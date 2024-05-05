@@ -15,6 +15,7 @@ use App\Filament\Resources\Wiki\Video\Pages\EditVideo;
 use App\Filament\Resources\Wiki\Video\Pages\ListVideos;
 use App\Filament\Resources\Wiki\Video\Pages\ViewVideo;
 use App\Filament\Resources\Wiki\Video\RelationManagers\EntryVideoRelationManager;
+use App\Filament\Resources\Wiki\Video\RelationManagers\ScriptVideoRelationManager;
 use App\Filament\Resources\Wiki\Video\RelationManagers\TrackVideoRelationManager;
 use App\Filament\TableActions\Repositories\Storage\Wiki\Video\ReconcileVideoTableAction;
 use App\Filament\TableActions\Storage\Wiki\Video\UploadVideoTableAction;
@@ -178,27 +179,6 @@ class Video extends BaseResource
                     ->label(__('filament.resources.singularLabel.audio'))
                     ->relationship(VideoModel::RELATION_AUDIO, AudioModel::ATTRIBUTE_FILENAME)
                     ->searchable(),
-
-                TextInput::make(VideoModel::ATTRIBUTE_BASENAME)
-                    ->label(__('filament.fields.video.basename.name'))
-                    ->hiddenOn(['create', 'edit']),
-
-                TextInput::make(VideoModel::ATTRIBUTE_FILENAME)
-                    ->label(__('filament.fields.video.filename.name'))
-                    ->hiddenOn(['create', 'edit']),
-
-                TextInput::make(VideoModel::ATTRIBUTE_PATH)
-                    ->label(__('filament.fields.video.path.name'))
-                    ->hiddenOn(['create', 'edit']),
-
-                TextInput::make(VideoModel::ATTRIBUTE_SIZE)
-                    ->label(__('filament.fields.video.size.name'))
-                    ->numeric()
-                    ->hiddenOn(['create', 'edit']),
-
-                TextInput::make(VideoModel::ATTRIBUTE_MIMETYPE)
-                    ->label(__('filament.fields.video.mimetype.name'))
-                    ->hiddenOn(['create', 'edit']),
             ])
             ->columns(1);
     }
@@ -313,6 +293,7 @@ class Video extends BaseResource
         return [
             RelationGroup::make(static::getLabel(), [
                 EntryVideoRelationManager::class,
+                ScriptVideoRelationManager::class,
                 TrackVideoRelationManager::class,
             ]),
         ];

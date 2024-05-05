@@ -40,7 +40,6 @@ use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Form;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
@@ -129,11 +128,10 @@ class UploadVideoTableAction extends UploadTableAction
     /**
      * Get the underlying storage action.
      *
-     * @param  Model  $model
      * @param  array  $fields
      * @return UploadVideo
      */
-    protected function storageAction(Model $model, array $fields): UploadVideo
+    protected function storageAction(array $fields): UploadVideo
     {
         /** @var string|null $path */
         $path = Arr::get($fields, 'path');

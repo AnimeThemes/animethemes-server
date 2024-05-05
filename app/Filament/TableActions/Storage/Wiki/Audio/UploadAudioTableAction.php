@@ -21,7 +21,6 @@ use App\Rules\Wiki\Submission\Format\ExtraneousChaptersFormatRule;
 use App\Rules\Wiki\Submission\Format\ExtraneousMetadataFormatRule;
 use App\Rules\Wiki\Submission\Format\FormatNameFormatRule;
 use App\Rules\Wiki\Submission\Format\TotalStreamsFormatRule;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
@@ -35,11 +34,10 @@ class UploadAudioTableAction extends UploadTableAction
     /**
      * Get the underlying storage action.
      *
-     * @param  Model  $model
      * @param  array  $fields
      * @return UploadAudio
      */
-    protected function storageAction(Model $model, array $fields): UploadAudio
+    protected function storageAction(array $fields): UploadAudio
     {
         /** @var UploadedFile $file */
         $file = Arr::get($fields, 'file');
