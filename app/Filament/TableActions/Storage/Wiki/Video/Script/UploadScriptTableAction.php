@@ -6,11 +6,12 @@ namespace App\Filament\TableActions\Storage\Wiki\Video\Script;
 
 use App\Actions\Storage\Wiki\Video\Script\UploadScriptAction as UploadScript;
 use App\Constants\Config\VideoConstants;
+use App\Filament\Resources\BaseRelationManager;
+use App\Filament\Resources\Wiki\Video\Script\Pages\ListScripts;
 use App\Models\Wiki\Video;
 use App\Filament\TableActions\Storage\Base\UploadTableAction;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Form;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
@@ -38,7 +39,7 @@ class UploadScriptTableAction extends UploadTableAction
                     [
                         Hidden::make(Video::ATTRIBUTE_ID)
                             ->label(__('filament.resources.singularLabel.video'))
-                            ->default(fn () => $model instanceof Video ? $model->getKey() : null),
+                            ->default(fn (BaseRelationManager|ListScripts $livewire) => $livewire instanceof BaseRelationManager ? $livewire->getOwnerRecord()->getKey() : null),
                     ],
                 )
             );
@@ -47,11 +48,10 @@ class UploadScriptTableAction extends UploadTableAction
     /**
      * Get the underlying storage action.
      *
-     * @param  Model  $model
      * @param  array  $fields
      * @return UploadScript
      */
-    protected function storageAction(Model $model, array $fields): UploadScript
+    protected function storageAction(array $fields): UploadScript
     {
         /** @var UploadedFile $file */
         $file = Arr::get($fields, 'file');

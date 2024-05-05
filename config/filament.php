@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
 
     /*
@@ -29,6 +31,18 @@ return [
         // ],
 
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Filament Domain Name
+    |--------------------------------------------------------------------------
+    |
+    | This value is the "domain name" associated with your application. This
+    | can be used to prevent Filament's internal routes from being registered
+    | on subdomains which do not need access to your admin application.
+    |
+    */
+    'domain' => env('FILAMENT_DOMAIN_NAME'),
 
     /*
     |--------------------------------------------------------------------------

@@ -6,7 +6,6 @@ namespace App\Filament\TableActions\Storage;
 
 use App\Contracts\Actions\Storage\StorageAction as BaseStorageAction;
 use Filament\Tables\Actions\Action;
-use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class StorageTableAction.
@@ -22,28 +21,26 @@ abstract class StorageTableAction extends Action
     {
         parent::setUp();
 
-        $this->action(fn (Model $record, array $data) => $this->handle($record, $data));
+        $this->action(fn (array $data) => $this->handle($data));
     }
 
     /**
      * Get the underlying storage action.
      *
-     * @param  Model  $model
      * @param  array  $fields
      * @return BaseStorageAction
      */
-    abstract protected function storageAction(Model $model, array $fields): BaseStorageAction;
+    abstract protected function storageAction(array $fields): BaseStorageAction;
 
     /**
      * Perform the action on the given models.
      *
-     * @param  Model  $model
      * @param  array  $fields
      * @return void
      */
-    public function handle(Model $model, array $fields): void
+    public function handle(array $fields): void
     {
-        $action = $this->storageAction($model, $fields);
+        $action = $this->storageAction($fields);
 
         $storageResults = $action->handle();
 
