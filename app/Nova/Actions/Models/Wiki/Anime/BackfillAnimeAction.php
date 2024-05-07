@@ -6,6 +6,7 @@ namespace App\Nova\Actions\Models\Wiki\Anime;
 
 use App\Actions\Models\BackfillAction;
 use App\Actions\Models\Wiki\Anime\BackfillAnimeOtherResourcesAction;
+use App\Actions\Models\Wiki\Anime\BackfillAnimeSynonymsAction;
 use App\Actions\Models\Wiki\Anime\Image\BackfillLargeCoverImageAction;
 use App\Actions\Models\Wiki\Anime\Image\BackfillSmallCoverImageAction;
 use App\Actions\Models\Wiki\Anime\Resource\BackfillAnidbResourceAction;
@@ -52,6 +53,7 @@ class BackfillAnimeAction extends Action implements ShouldQueue
     final public const BACKFILL_MAL_RESOURCE = 'backfill_mal_resource';
     final public const BACKFILL_SMALL_COVER = 'backfill_small_cover';
     final public const BACKFILL_STUDIOS = 'backfill_studios';
+    final public const BACKFILL_SYNONYMS = 'backfill_synonyms';
 
     /**
      * Create a new action instance.
@@ -171,6 +173,12 @@ class BackfillAnimeAction extends Action implements ShouldQueue
             Boolean::make(__('nova.actions.anime.backfill.fields.studios.anime.name'), self::BACKFILL_STUDIOS)
                 ->help(__('nova.actions.anime.backfill.fields.studios.anime.help'))
                 ->default(fn () => $anime instanceof Anime && $anime->studios()->doesntExist()),
+
+            Heading::make(__('nova.actions.anime.backfill.fields.synonyms.name')),
+
+            Boolean::make(__('nova.actions.anime.backfill.fields.synonyms.name'))
+                ->help(__('nova.actions.anime.backfill.fields.synonyms.help'))
+                ->default(fn () => $anime instanceof Anime && $anime->animesynonyms()->count() === 0),
         ];
     }
 
@@ -212,6 +220,7 @@ class BackfillAnimeAction extends Action implements ShouldQueue
             self::BACKFILL_LARGE_COVER => new BackfillLargeCoverImageAction($anime),
             self::BACKFILL_SMALL_COVER => new BackfillSmallCoverImageAction($anime),
             self::BACKFILL_STUDIOS => new BackfillAnimeStudiosAction($anime),
+            self::BACKFILL_SYNONYMS => new BackfillAnimeSynonymsAction($anime),
         ];
     }
 }

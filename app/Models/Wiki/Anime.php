@@ -37,7 +37,7 @@ use Laravel\Nova\Actions\Actionable;
  * @property Collection<int, AnimeSynonym> $animesynonyms
  * @property Collection<int, AnimeTheme> $animethemes
  * @property Collection<int, Image> $images
- * @property AnimeMediaFormat|null $media_format
+ * @property AnimeMediaFormat $media_format
  * @property string $name
  * @property Collection<int, ExternalResource> $resources
  * @property AnimeSeason|null $season
