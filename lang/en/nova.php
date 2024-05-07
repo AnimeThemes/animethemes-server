@@ -53,6 +53,10 @@ return [
                         ],
                         'name' => 'Backfill Studios',
                     ],
+                    'synonyms' => [
+                        'help' => 'Use the Anilist Resource to map Anime Synonyms',
+                        'name' => 'Backfill Synonyms',
+                    ],
                 ],
                 'message' => [
                     'resource_required_failure' => 'At least one Resource is required to backfill Anime',
