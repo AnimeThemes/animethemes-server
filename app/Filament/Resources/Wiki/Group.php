@@ -2,39 +2,35 @@
 
 declare(strict_types=1);
 
-namespace App\Filament\Resources\Wiki\Anime;
+namespace App\Filament\Resources\Wiki;
 
-use App\Enums\Models\Wiki\AnimeSynonymType;
-use App\Filament\Resources\BaseRelationManager;
 use App\Filament\Resources\BaseResource;
-use App\Filament\Resources\Wiki\Anime as AnimeResource;
-use App\Filament\Resources\Wiki\Anime\Synonym\Pages\CreateSynonym;
-use App\Filament\Resources\Wiki\Anime\Synonym\Pages\EditSynonym;
-use App\Filament\Resources\Wiki\Anime\Synonym\Pages\ListSynonyms;
-use App\Filament\Resources\Wiki\Anime\Synonym\Pages\ViewSynonym;
-use App\Models\Wiki\Anime as AnimeModel;
-use App\Models\Wiki\Anime\AnimeSynonym as SynonymModel;
-use Filament\Forms\Components\Select;
+use App\Filament\Resources\Wiki\Group\Pages\CreateGroup;
+use App\Filament\Resources\Wiki\Group\Pages\EditGroup;
+use App\Filament\Resources\Wiki\Group\Pages\ListGroups;
+use App\Filament\Resources\Wiki\Group\Pages\ViewGroup;
+use App\Filament\Resources\Wiki\Group\RelationManagers\ThemeGroupRelationManager;
+use App\Models\Wiki\Group as GroupModel;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Infolist;
-use Filament\Tables\Columns\SelectColumn;
+use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Validation\Rules\Enum;
+use Illuminate\Validation\Rule;
 
 /**
- * Class Synonym.
+ * Class Group.
  */
-class Synonym extends BaseResource
+class Group extends BaseResource
 {
     /**
      * The model the resource corresponds to.
      *
      * @var string|null
      */
-    protected static ?string $model = SynonymModel::class;
+    protected static ?string $model = GroupModel::class;
 
     /**
      * Get the displayable singular label of the resource.
@@ -45,7 +41,7 @@ class Synonym extends BaseResource
      */
     public static function getLabel(): string
     {
-        return __('filament.resources.singularLabel.anime_synonym');
+        return __('filament.resources.singularLabel.group');
     }
 
     /**
@@ -57,7 +53,7 @@ class Synonym extends BaseResource
      */
     public static function getPluralLabel(): string
     {
-        return __('filament.resources.label.anime_synonyms');
+        return __('filament.resources.label.groups');
     }
 
     /**
@@ -81,7 +77,7 @@ class Synonym extends BaseResource
      */
     public static function getNavigationIcon(): string
     {
-        return __('filament.resources.icon.anime_synonyms');
+        return __('filament.resources.icon.groups');
     }
 
     /**
@@ -93,7 +89,31 @@ class Synonym extends BaseResource
      */
     public static function getSlug(): string
     {
-        return 'anime-synonyms';
+        return 'group';
+    }
+
+    /**
+     * Get the title attribute for the resource.
+     *
+     * @return string|null
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getRecordTitleAttribute(): ?string
+    {
+        return GroupModel::ATTRIBUTE_NAME;
+    }
+
+    /**
+     * Get the attributes available for the global search.
+     *
+     * @return array
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getGloballySearchableAttributes(): array
+    {
+        return [GroupModel::ATTRIBUTE_NAME];
     }
 
     /**
@@ -105,7 +125,7 @@ class Synonym extends BaseResource
      */
     public static function getRecordRouteKeyName(): ?string
     {
-        return SynonymModel::ATTRIBUTE_ID;
+        return GroupModel::ATTRIBUTE_ID;
     }
 
     /**
@@ -120,25 +140,19 @@ class Synonym extends BaseResource
     {
         return $form
             ->schema([
-                Select::make(SynonymModel::ATTRIBUTE_ANIME)
-                    ->label(__('filament.resources.singularLabel.anime'))
-                    ->relationship(SynonymModel::RELATION_ANIME, AnimeModel::ATTRIBUTE_NAME)
-                    ->searchable()
-                    ->hiddenOn(BaseRelationManager::class),
-
-                Select::make(SynonymModel::ATTRIBUTE_TYPE)
-                    ->label(__('filament.fields.anime_synonym.type.name'))
-                    ->helperText(__('filament.fields.anime_synonym.type.help'))
-                    ->options(AnimeSynonymType::asSelectArray())
-                    ->required()
-                    ->rules(['required', new Enum(AnimeSynonymType::class)]),
-
-                TextInput::make(SynonymModel::ATTRIBUTE_TEXT)
-                    ->label(__('filament.fields.anime_synonym.text.name'))
-                    ->helperText(__('filament.fields.anime_synonym.text.help'))
+                TextInput::make(GroupModel::ATTRIBUTE_NAME)
+                    ->label(__('filament.fields.group.name.name'))
+                    ->helperText(__('filament.fields.group.name.help'))
                     ->required()
                     ->maxLength(192)
                     ->rules(['required', 'max:192']),
+
+                TextInput::make(GroupModel::ATTRIBUTE_SLUG)
+                    ->label(__('filament.fields.group.slug.name'))
+                    ->helperText(__('filament.fields.group.slug.help'))
+                    ->required()
+                    ->maxLength(192)
+                    ->rules(['required', 'max:192', 'alpha_dash', Rule::unique(GroupModel::class, GroupModel::ATTRIBUTE_SLUG)->__toString()]),
             ])
             ->columns(1);
     }
@@ -155,26 +169,24 @@ class Synonym extends BaseResource
     {
         return parent::table($table)
             ->columns([
-                TextColumn::make(SynonymModel::ATTRIBUTE_ID)
+                TextColumn::make(GroupModel::ATTRIBUTE_ID)
                     ->label(__('filament.fields.base.id'))
                     ->sortable(),
 
-                TextColumn::make(SynonymModel::RELATION_ANIME.'.'.AnimeModel::ATTRIBUTE_NAME)
-                    ->label(__('filament.resources.singularLabel.anime'))
-                    ->toggleable()
-                    ->urlToRelated(AnimeResource::class, SynonymModel::RELATION_ANIME),
-
-                SelectColumn::make(SynonymModel::ATTRIBUTE_TYPE)
-                    ->label(__('filament.fields.anime_synonym.type.name'))
-                    ->options(AnimeSynonymType::asSelectArray())
+                TextColumn::make(GroupModel::ATTRIBUTE_NAME)
+                    ->label(__('filament.fields.group.name.name'))
+                    ->sortable()
+                    ->searchable()
+                    ->copyable()
                     ->toggleable(),
 
-                TextColumn::make(SynonymModel::ATTRIBUTE_TEXT)
-                    ->label(__('filament.fields.anime_synonym.text.name'))
+                TextColumn::make(GroupModel::ATTRIBUTE_SLUG)
+                    ->label(__('filament.fields.group.slug.name'))
                     ->sortable()
+                    ->copyable()
                     ->toggleable(),
             ])
-            ->defaultSort(SynonymModel::ATTRIBUTE_ID, 'desc')
+            ->defaultSort(GroupModel::ATTRIBUTE_ID, 'desc')
             ->filters(static::getFilters())
             ->actions(static::getActions())
             ->bulkActions(static::getBulkActions());
@@ -206,7 +218,11 @@ class Synonym extends BaseResource
      */
     public static function getRelations(): array
     {
-        return [];
+        return [
+            RelationGroup::make(static::getLabel(), [
+                ThemeGroupRelationManager::class,
+            ]),
+        ];
     }
 
     /**
@@ -264,10 +280,10 @@ class Synonym extends BaseResource
     public static function getPages(): array
     {
         return [
-            'index' => ListSynonyms::route('/'),
-            'create' => CreateSynonym::route('/create'),
-            'view' => ViewSynonym::route('/{record:synonym_id}'),
-            'edit' => EditSynonym::route('/{record:synonym_id}/edit'),
+            'index' => ListGroups::route('/'),
+            'create' => CreateGroup::route('/create'),
+            'view' => ViewGroup::route('/{record:group_id}'),
+            'edit' => EditGroup::route('/{record:group_id}/edit'),
         ];
     }
 }
