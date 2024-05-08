@@ -14,12 +14,14 @@ use App\Filament\Resources\Wiki\Image\RelationManagers\AnimeImageRelationManager
 use App\Filament\Resources\Wiki\Image\RelationManagers\ArtistImageRelationManager;
 use App\Filament\Resources\Wiki\Image\RelationManagers\PlaylistImageRelationManager;
 use App\Filament\Resources\Wiki\Image\RelationManagers\StudioImageRelationManager;
+use App\Filament\TableActions\Models\Wiki\Image\UploadImageTableAction;
 use App\Models\Wiki\Image as ImageModel;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Form;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
+use Filament\Support\Enums\MaxWidth;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\SelectColumn;
 use Filament\Tables\Columns\TextColumn;
@@ -163,7 +165,8 @@ class Image extends BaseResource
             ->defaultSort(ImageModel::ATTRIBUTE_ID, 'desc')
             ->filters(static::getFilters())
             ->actions(static::getActions())
-            ->bulkActions(static::getBulkActions());
+            ->bulkActions(static::getBulkActions())
+            ->headerActions(static::getHeaderActions());
     }
 
     /**
@@ -246,6 +249,25 @@ class Image extends BaseResource
             [],
         );
     }
+
+    /**
+    * Get the header actions available for the resource.
+    *
+    * @return array
+    *
+    * @noinspection PhpMissingParentCallCommonInspection
+    */
+   public static function getHeaderActions(): array
+   {
+       return [
+            UploadImageTableAction::make('upload-image')
+                ->label(__('filament.actions.models.wiki.upload_image.name'))
+                ->requiresConfirmation()
+                ->facets([ImageFacet::GRILL, ImageFacet::DOCUMENT])
+                ->modalWidth(MaxWidth::FourExtraLarge)
+                ->authorize('create', ImageModel::class),
+       ];
+   }
 
     /**
      * Get the pages available for the resource.

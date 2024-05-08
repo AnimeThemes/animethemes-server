@@ -262,6 +262,9 @@ return [
                     'confirmButtonText' => 'Upload',
                     'name' => 'Attach Images'
                 ],
+                'upload_image' => [
+                    'name' => 'Upload Image',
+                ],
             ],
         ],
         'permission' => [
