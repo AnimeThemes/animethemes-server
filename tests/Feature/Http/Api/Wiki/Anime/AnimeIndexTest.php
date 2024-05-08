@@ -10,6 +10,7 @@ use App\Enums\Http\Api\Filter\TrashedStatus;
 use App\Enums\Http\Api\Sort\Direction;
 use App\Enums\Models\Wiki\AnimeMediaFormat;
 use App\Enums\Models\Wiki\AnimeSeason;
+use App\Enums\Models\Wiki\AnimeSynonymType;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Enums\Models\Wiki\ThemeType;
@@ -28,10 +29,13 @@ use App\Http\Api\Parser\SortParser;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Wiki\AnimeSchema;
 use App\Http\Api\Sort\Sort;
+use App\Http\Resources\Wiki\Anime\Resource\SynonymResource;
+use App\Http\Resources\Wiki\Anime\Resource\ThemeResource;
 use App\Http\Resources\Wiki\Collection\AnimeCollection;
 use App\Http\Resources\Wiki\Resource\AnimeResource;
 use App\Models\BaseModel;
 use App\Models\Wiki\Anime;
+use App\Models\Wiki\Anime\AnimeSynonym;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\ExternalResource;
@@ -547,6 +551,50 @@ class AnimeIndexTest extends TestCase
     }
 
     /**
+     * The Anime Index Endpoint shall support constrained eager loading of synonyms by type.
+     *
+     * @return void
+     */
+    public function testSynonymsByType(): void
+    {
+        $typeFilter = Arr::random(AnimeSynonymType::cases());
+
+        $parameters = [
+            FilterParser::param() => [
+                SynonymResource::$wrap => [
+                    AnimeSynonym::ATTRIBUTE_TYPE => $typeFilter->localize(),
+                ],
+            ],
+            IncludeParser::param() => Anime::RELATION_SYNONYMS,
+        ];
+
+        Anime::factory()
+            ->has(AnimeSynonym::factory()->count($this->faker->randomDigitNotNull()))
+            ->count($this->faker->randomDigitNotNull())
+            ->create();
+
+        $anime = Anime::with([
+            Anime::RELATION_SYNONYMS => function (HasMany $query) use ($typeFilter) {
+                $query->where(AnimeSynonym::ATTRIBUTE_TYPE, $typeFilter->value);
+            },
+        ])
+        ->get();
+
+        $response = $this->get(route('api.anime.index', $parameters));
+
+        $response->assertJson(
+            json_decode(
+                json_encode(
+                    (new AnimeCollection($anime, new Query($parameters)))
+                        ->response()
+                        ->getData()
+                ),
+                true
+            )
+        );
+    }
+
+    /**
      * The Anime Index Endpoint shall support constrained eager loading of themes by sequence.
      *
      * @return void
@@ -607,7 +655,9 @@ class AnimeIndexTest extends TestCase
 
         $parameters = [
             FilterParser::param() => [
-                AnimeTheme::ATTRIBUTE_TYPE => $typeFilter->localize(),
+                ThemeResource::$wrap => [
+                    AnimeTheme::ATTRIBUTE_TYPE => $typeFilter->localize(),
+                ],
             ],
             IncludeParser::param() => Anime::RELATION_THEMES,
         ];

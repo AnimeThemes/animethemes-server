@@ -19,8 +19,23 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
+/**
+ * Class BackfillAnimeSynonymsAction.
+ *
+ * @extends BackfillAction<Anime>
+ */
 class BackfillAnimeSynonymsAction extends BackfillAction
 {
+    /**
+     * Create a new action instance.
+     *
+     * @param  Anime  $anime
+     */
+    public function __construct(Anime $anime)
+    {
+        parent::__construct($anime);
+    }
+
     /**
      * Handle action.
      *
@@ -68,14 +83,14 @@ class BackfillAnimeSynonymsAction extends BackfillAction
      * Get the enum related to the array map.
      *
      * @param  string  $title
-     * @return AnimeSynonymType
+     * @return AnimeSynonymType|null
      */
-    protected static function getAnilistSynonymsMap($title): AnimeSynonymType
+    protected static function getAnilistSynonymsMap($title): ?AnimeSynonymType
     {
         return match ($title) {
             'english' => AnimeSynonymType::ENGLISH,
             'native' => AnimeSynonymType::NATIVE,
-            'romaji' => AnimeSynonymType::OTHER,
+            default => AnimeSynonymType::OTHER,
         };
     }
 
