@@ -13,9 +13,11 @@ use App\Filament\Resources\Wiki\Anime\Theme\Pages\EditTheme;
 use App\Filament\Resources\Wiki\Anime\Theme\Pages\ListThemes;
 use App\Filament\Resources\Wiki\Anime\Theme\Pages\ViewTheme;
 use App\Filament\Resources\Wiki\Anime\Theme\RelationManagers\EntryThemeRelationManager;
+use App\Filament\Resources\Wiki\Group as GroupResource;
 use App\Filament\Resources\Wiki\Song as SongResource;
 use App\Models\Wiki\Anime as AnimeModel;
 use App\Models\Wiki\Anime\AnimeTheme as ThemeModel;
+use App\Models\Wiki\Group;
 use App\Models\Wiki\Song;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -150,18 +152,18 @@ class Theme extends BaseResource
                     ->afterStateUpdated(fn (Set $set, Get $get) => Theme::setThemeSlug($set, $get))
                     ->rules(['nullable', 'integer']),
 
-                TextInput::make(ThemeModel::ATTRIBUTE_GROUP)
-                    ->label(__('filament.fields.anime_theme.group.name'))
-                    ->helperText(__('filament.fields.anime_theme.group.help'))
-                    ->maxLength(192)
-                    ->rules(['max:192']),
-
                 TextInput::make(ThemeModel::ATTRIBUTE_SLUG)
                     ->label(__('filament.fields.anime_theme.slug.name'))
                     ->helperText(__('filament.fields.anime_theme.slug.help'))
                     ->required()
                     ->maxLength(192)
                     ->rules(['required', 'max:192', 'alpha_dash']),
+
+                Select::make(ThemeModel::ATTRIBUTE_GROUP)
+                    ->label(__('filament.resources.singularLabel.group'))
+                    ->relationship(ThemeModel::RELATION_GROUP, Group::ATTRIBUTE_NAME)
+                    ->searchable()
+                    ->createOptionForm(GroupResource::form($form)->getComponents()),
 
                 Select::make(ThemeModel::ATTRIBUTE_SONG)
                     ->label(__('filament.resources.singularLabel.song'))
@@ -200,11 +202,6 @@ class Theme extends BaseResource
 
                 TextColumn::make(ThemeModel::ATTRIBUTE_SEQUENCE)
                     ->label(__('filament.fields.anime_theme.sequence.name'))
-                    ->sortable()
-                    ->toggleable(),
-
-                TextColumn::make(ThemeModel::ATTRIBUTE_GROUP)
-                    ->label(__('filament.fields.anime_theme.group.name'))
                     ->sortable()
                     ->toggleable(),
 
