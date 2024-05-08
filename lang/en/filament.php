@@ -53,6 +53,10 @@ return [
                         ],
                         'name' => 'Backfill Studios',
                     ],
+                    'synonyms' => [
+                        'help' => 'Use the Anilist Resource to map Anime Synonyms',
+                        'name' => 'Backfill Synonyms',
+                    ],
                 ],
                 'message' => [
                     'resource_required_failure' => 'At least one Resource is required to backfill Anime',
@@ -228,7 +232,7 @@ return [
                             'help' => 'Ex: https://music.apple.com/jp/album/1711324281',
                         ],
                         'amazon_music' => [
-                            'help' => 'Ex: https://amazon.co.jp/music/player/albums/B0CKVQGSJY',
+                            'help' => 'Ex: https://music.amazon.co.jp/tracks/B0CKVQGSJY',
                         ],
                         'crunchyroll' => [
                             'help' => 'Ex: https://www.crunchyroll.com/series/GRDQNQW9Y',
@@ -257,6 +261,9 @@ return [
                 'attach_image' => [
                     'confirmButtonText' => 'Upload',
                     'name' => 'Attach Images'
+                ],
+                'upload_image' => [
+                    'name' => 'Upload Image',
                 ],
             ],
         ],
@@ -409,6 +416,10 @@ return [
                 'help' => 'For alternative titles, licensed titles, common abbreviations and/or shortenings',
                 'name' => 'Text',
             ],
+            'type' => [
+                'help' => 'The title type.',
+                'name' => 'Type',
+            ]
         ],
         'anime_theme_entry' => [
             'episodes' => [
@@ -433,10 +444,6 @@ return [
             ],
         ],
         'anime_theme' => [
-            'group' => [
-                'help' => 'For separating sequences belonging to dubs, rebroadcasts, remasters, etc. By default, leave blank.',
-                'name' => 'Group',
-            ],
             'sequence' => [
                 'help' => 'Numeric ordering of theme. If only one theme of this type exists for the show, this can be left blank.',
                 'name' => 'Sequence',
@@ -579,6 +586,16 @@ return [
             'start_at' => [
                 'help' => 'The datetime that the featured theme should start being featured.',
                 'name' => 'Start At',
+            ],
+        ],
+        'group' => [
+            'name' => [
+                'name' => 'Name',
+                'help' => 'The name of the group.',
+            ],
+            'slug' => [
+                'name' => 'Slug',
+                'help' => 'The slug that will be appended to the slug of the theme that has the group.',
             ],
         ],
         'image' => [
@@ -877,7 +894,7 @@ return [
             'external_resources' => 'heroicon-o-arrow-top-right-on-square',
             'features' => 'heroicon-o-cog-6-tooth',
             'featured_themes' => 'heroicon-o-list-bullet',
-            'groups' => '',
+            'groups' => 'heroicon-o-folder-open',
             'images' => 'heroicon-o-photo',
             'members' => '',
             'pages' => 'heroicon-o-document-text',
@@ -931,6 +948,7 @@ return [
             'external_resource' => 'External Resource',
             'feature' => 'Feature',
             'featured_theme' => 'Featured Theme',
+            'group' => 'Group',
             'image' => 'Image',
             'page' => 'Page',
             'permission' => 'Permission',

@@ -4,42 +4,33 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Wiki;
 
-use App\Enums\Models\Wiki\ImageFacet;
 use App\Filament\Resources\BaseResource;
-use App\Filament\Resources\Wiki\Image\Pages\CreateImage;
-use App\Filament\Resources\Wiki\Image\Pages\EditImage;
-use App\Filament\Resources\Wiki\Image\Pages\ListImages;
-use App\Filament\Resources\Wiki\Image\Pages\ViewImage;
-use App\Filament\Resources\Wiki\Image\RelationManagers\AnimeImageRelationManager;
-use App\Filament\Resources\Wiki\Image\RelationManagers\ArtistImageRelationManager;
-use App\Filament\Resources\Wiki\Image\RelationManagers\PlaylistImageRelationManager;
-use App\Filament\Resources\Wiki\Image\RelationManagers\StudioImageRelationManager;
-use App\Filament\TableActions\Models\Wiki\Image\UploadImageTableAction;
-use App\Models\Wiki\Image as ImageModel;
-use Filament\Forms\Components\Select;
+use App\Filament\Resources\Wiki\Group\Pages\CreateGroup;
+use App\Filament\Resources\Wiki\Group\Pages\EditGroup;
+use App\Filament\Resources\Wiki\Group\Pages\ListGroups;
+use App\Filament\Resources\Wiki\Group\Pages\ViewGroup;
+use App\Filament\Resources\Wiki\Group\RelationManagers\ThemeGroupRelationManager;
+use App\Models\Wiki\Group as GroupModel;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
-use Filament\Support\Enums\MaxWidth;
-use Filament\Tables\Columns\ImageColumn;
-use Filament\Tables\Columns\SelectColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Validation\Rules\Enum;
+use Illuminate\Validation\Rule;
 
 /**
- * Class Image.
+ * Class Group.
  */
-class Image extends BaseResource
+class Group extends BaseResource
 {
     /**
      * The model the resource corresponds to.
      *
      * @var string|null
      */
-    protected static ?string $model = ImageModel::class;
+    protected static ?string $model = GroupModel::class;
 
     /**
      * Get the displayable singular label of the resource.
@@ -50,7 +41,7 @@ class Image extends BaseResource
      */
     public static function getLabel(): string
     {
-        return __('filament.resources.singularLabel.image');
+        return __('filament.resources.singularLabel.group');
     }
 
     /**
@@ -62,7 +53,7 @@ class Image extends BaseResource
      */
     public static function getPluralLabel(): string
     {
-        return __('filament.resources.label.images');
+        return __('filament.resources.label.groups');
     }
 
     /**
@@ -86,7 +77,7 @@ class Image extends BaseResource
      */
     public static function getNavigationIcon(): string
     {
-        return __('filament.resources.icon.images');
+        return __('filament.resources.icon.groups');
     }
 
     /**
@@ -98,7 +89,31 @@ class Image extends BaseResource
      */
     public static function getSlug(): string
     {
-        return 'images';
+        return 'group';
+    }
+
+    /**
+     * Get the title attribute for the resource.
+     *
+     * @return string|null
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getRecordTitleAttribute(): ?string
+    {
+        return GroupModel::ATTRIBUTE_NAME;
+    }
+
+    /**
+     * Get the attributes available for the global search.
+     *
+     * @return array
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getGloballySearchableAttributes(): array
+    {
+        return [GroupModel::ATTRIBUTE_NAME];
     }
 
     /**
@@ -110,7 +125,7 @@ class Image extends BaseResource
      */
     public static function getRecordRouteKeyName(): ?string
     {
-        return ImageModel::ATTRIBUTE_ID;
+        return GroupModel::ATTRIBUTE_ID;
     }
 
     /**
@@ -125,14 +140,21 @@ class Image extends BaseResource
     {
         return $form
             ->schema([
-                Select::make(ImageModel::ATTRIBUTE_FACET)
-                    ->label(__('filament.fields.image.facet.name'))
-                    ->helperText(__('filament.fields.image.facet.help'))
-                    ->options(ImageFacet::asSelectArray())
+                TextInput::make(GroupModel::ATTRIBUTE_NAME)
+                    ->label(__('filament.fields.group.name.name'))
+                    ->helperText(__('filament.fields.group.name.help'))
                     ->required()
-                    ->rules(['required', new Enum(ImageFacet::class)]),
+                    ->maxLength(192)
+                    ->rules(['required', 'max:192']),
+
+                TextInput::make(GroupModel::ATTRIBUTE_SLUG)
+                    ->label(__('filament.fields.group.slug.name'))
+                    ->helperText(__('filament.fields.group.slug.help'))
+                    ->required()
+                    ->maxLength(192)
+                    ->rules(['required', 'max:192', 'alpha_dash', Rule::unique(GroupModel::class, GroupModel::ATTRIBUTE_SLUG)->__toString()]),
             ])
-            ->columns(2);
+            ->columns(1);
     }
 
     /**
@@ -147,26 +169,27 @@ class Image extends BaseResource
     {
         return parent::table($table)
             ->columns([
-                TextColumn::make(ImageModel::ATTRIBUTE_ID)
+                TextColumn::make(GroupModel::ATTRIBUTE_ID)
                     ->label(__('filament.fields.base.id'))
                     ->sortable(),
 
-                SelectColumn::make(ImageModel::ATTRIBUTE_FACET)
-                    ->label(__('filament.fields.image.facet.name'))
-                    ->options(ImageFacet::asSelectArray())
+                TextColumn::make(GroupModel::ATTRIBUTE_NAME)
+                    ->label(__('filament.fields.group.name.name'))
                     ->sortable()
+                    ->searchable()
+                    ->copyable()
                     ->toggleable(),
 
-                ImageColumn::make(ImageModel::ATTRIBUTE_PATH)
-                    ->label(__('nova.fields.image.image.name'))
-                    ->disk(Config::get('image.disk'))
+                TextColumn::make(GroupModel::ATTRIBUTE_SLUG)
+                    ->label(__('filament.fields.group.slug.name'))
+                    ->sortable()
+                    ->copyable()
                     ->toggleable(),
             ])
-            ->defaultSort(ImageModel::ATTRIBUTE_ID, 'desc')
+            ->defaultSort(GroupModel::ATTRIBUTE_ID, 'desc')
             ->filters(static::getFilters())
             ->actions(static::getActions())
-            ->bulkActions(static::getBulkActions())
-            ->headerActions(static::getHeaderActions());
+            ->bulkActions(static::getBulkActions());
     }
 
     /**
@@ -197,10 +220,7 @@ class Image extends BaseResource
     {
         return [
             RelationGroup::make(static::getLabel(), [
-                AnimeImageRelationManager::class,
-                ArtistImageRelationManager::class,
-                PlaylistImageRelationManager::class,
-                StudioImageRelationManager::class,
+                ThemeGroupRelationManager::class,
             ]),
         ];
     }
@@ -251,25 +271,6 @@ class Image extends BaseResource
     }
 
     /**
-    * Get the header actions available for the resource.
-    *
-    * @return array
-    *
-    * @noinspection PhpMissingParentCallCommonInspection
-    */
-   public static function getHeaderActions(): array
-   {
-       return [
-            UploadImageTableAction::make('upload-image')
-                ->label(__('filament.actions.models.wiki.upload_image.name'))
-                ->requiresConfirmation()
-                ->facets([ImageFacet::GRILL, ImageFacet::DOCUMENT])
-                ->modalWidth(MaxWidth::FourExtraLarge)
-                ->authorize('create', ImageModel::class),
-       ];
-   }
-
-    /**
      * Get the pages available for the resource.
      *
      * @return array
@@ -279,10 +280,10 @@ class Image extends BaseResource
     public static function getPages(): array
     {
         return [
-            'index' => ListImages::route('/'),
-            'create' => CreateImage::route('/create'),
-            'view' => ViewImage::route('/{record:image_id}'),
-            'edit' => EditImage::route('/{record:image_id}/edit'),
+            'index' => ListGroups::route('/'),
+            'create' => CreateGroup::route('/create'),
+            'view' => ViewGroup::route('/{record:group_id}'),
+            'edit' => EditGroup::route('/{record:group_id}/edit'),
         ];
     }
 }

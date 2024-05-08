@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Wiki\Anime;
 
+use App\Enums\Models\Wiki\AnimeSynonymType;
 use App\Filament\Resources\BaseRelationManager;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Anime as AnimeResource;
@@ -18,8 +19,10 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Infolist;
+use Filament\Tables\Columns\SelectColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Illuminate\Validation\Rules\Enum;
 
 /**
  * Class Synonym.
@@ -123,6 +126,13 @@ class Synonym extends BaseResource
                     ->searchable()
                     ->hiddenOn(BaseRelationManager::class),
 
+                Select::make(SynonymModel::ATTRIBUTE_TYPE)
+                    ->label(__('filament.fields.anime_synonym.type.name'))
+                    ->helperText(__('filament.fields.anime_synonym.type.help'))
+                    ->options(AnimeSynonymType::asSelectArray())
+                    ->required()
+                    ->rules(['required', new Enum(AnimeSynonymType::class)]),
+
                 TextInput::make(SynonymModel::ATTRIBUTE_TEXT)
                     ->label(__('filament.fields.anime_synonym.text.name'))
                     ->helperText(__('filament.fields.anime_synonym.text.help'))
@@ -153,6 +163,11 @@ class Synonym extends BaseResource
                     ->label(__('filament.resources.singularLabel.anime'))
                     ->toggleable()
                     ->urlToRelated(AnimeResource::class, SynonymModel::RELATION_ANIME),
+
+                SelectColumn::make(SynonymModel::ATTRIBUTE_TYPE)
+                    ->label(__('filament.fields.anime_synonym.type.name'))
+                    ->options(AnimeSynonymType::asSelectArray())
+                    ->toggleable(),
 
                 TextColumn::make(SynonymModel::ATTRIBUTE_TEXT)
                     ->label(__('filament.fields.anime_synonym.text.name'))

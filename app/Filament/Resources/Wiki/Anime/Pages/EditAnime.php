@@ -9,8 +9,10 @@ use App\Enums\Models\Wiki\ResourceSite;
 use App\Filament\HeaderActions\Discord\DiscordThreadHeaderAction;
 use App\Filament\HeaderActions\Models\Wiki\Anime\AttachAnimeImageHeaderAction;
 use App\Filament\HeaderActions\Models\Wiki\Anime\AttachAnimeResourceHeaderAction;
+use App\Filament\HeaderActions\Models\Wiki\Anime\BackfillAnimeHeaderAction;
 use App\Filament\Resources\Wiki\Anime;
 use App\Filament\Resources\Base\BaseEditResource;
+use App\Models\Wiki\Anime as AnimeModel;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Image;
 use App\Models\Wiki\Video;
@@ -69,6 +71,13 @@ class EditAnime extends BaseEditResource
                         ->icon('heroicon-o-chat-bubble-left-right')
                         ->requiresConfirmation()
                         ->authorize('create', Video::class),
+
+                    BackfillAnimeHeaderAction::make('backfill-anime')
+                        ->label(__('filament.actions.anime.backfill.name'))
+                        ->icon('heroicon-o-bars-4')
+                        ->requiresConfirmation()
+                        ->modalWidth(MaxWidth::FourExtraLarge)
+                        ->authorize('create', AnimeModel::class),
 
                     AttachAnimeImageHeaderAction::make('attach-anime-image')
                         ->label(__('filament.actions.models.wiki.attach_image.name'))

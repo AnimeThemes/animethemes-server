@@ -6,6 +6,7 @@ namespace App\Filament\HeaderActions\Models\Wiki\Anime;
 
 use App\Actions\Models\BackfillAction;
 use App\Actions\Models\Wiki\Anime\BackfillAnimeOtherResourcesAction;
+use App\Actions\Models\Wiki\Anime\BackfillAnimeSynonymsAction;
 use App\Actions\Models\Wiki\Anime\Image\BackfillLargeCoverImageAction;
 use App\Actions\Models\Wiki\Anime\Image\BackfillSmallCoverImageAction;
 use App\Actions\Models\Wiki\Anime\Resource\BackfillAnidbResourceAction;
@@ -50,6 +51,7 @@ class BackfillAnimeHeaderAction extends Action implements ShouldQueue
     final public const BACKFILL_MAL_RESOURCE = 'backfill_mal_resource';
     final public const BACKFILL_SMALL_COVER = 'backfill_small_cover';
     final public const BACKFILL_STUDIOS = 'backfill_studios';
+    final public const BACKFILL_SYNONYMS = 'backfill_synonyms';
 
     /**
      * Initial setup for the action.
@@ -171,6 +173,14 @@ class BackfillAnimeHeaderAction extends Action implements ShouldQueue
                             ->helperText(__('filament.actions.anime.backfill.fields.studios.anime.help'))
                             ->default(fn () => $anime instanceof Anime && $anime->studios()->doesntExist()),
                     ]),
+
+                Section::make(__('filament.actions.anime.backfill.fields.synonyms.name'))
+                    ->schema([
+                        Checkbox::make(self::BACKFILL_STUDIOS)
+                            ->label(__('filament.actions.anime.backfill.fields.synonyms.name'))
+                            ->helperText(__('filament.actions.anime.backfill.fields.synonyms.help'))
+                            ->default(fn () => $anime instanceof Anime && $anime->animesynonyms()->count() === 0),
+                    ]),
             ]);
     }
 
@@ -212,6 +222,7 @@ class BackfillAnimeHeaderAction extends Action implements ShouldQueue
             self::BACKFILL_LARGE_COVER => new BackfillLargeCoverImageAction($anime),
             self::BACKFILL_SMALL_COVER => new BackfillSmallCoverImageAction($anime),
             self::BACKFILL_STUDIOS => new BackfillAnimeStudiosAction($anime),
+            self::BACKFILL_SYNONYMS => new BackfillAnimeSynonymsAction($anime),
         ];
     }
 }
