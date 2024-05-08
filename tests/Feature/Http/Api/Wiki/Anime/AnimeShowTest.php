@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Api\Wiki\Anime;
 
+use App\Enums\Models\Wiki\AnimeSynonymType;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Enums\Models\Wiki\ThemeType;
@@ -16,8 +17,11 @@ use App\Http\Api\Parser\FilterParser;
 use App\Http\Api\Parser\IncludeParser;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Wiki\AnimeSchema;
+use App\Http\Resources\Wiki\Anime\Resource\SynonymResource;
+use App\Http\Resources\Wiki\Anime\Resource\ThemeResource;
 use App\Http\Resources\Wiki\Resource\AnimeResource;
 use App\Models\Wiki\Anime;
+use App\Models\Wiki\Anime\AnimeSynonym;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\ExternalResource;
@@ -28,6 +32,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Log;
 use Tests\TestCase;
 
 /**
@@ -156,6 +161,48 @@ class AnimeShowTest extends TestCase
     }
 
     /**
+     * The Anime Show Endpoint shall support constrained eager loading of synonyms by type.
+     *
+     * @return void
+     */
+    public function testSynonymsByType(): void
+    {
+        $typeFilter = Arr::random(AnimeSynonymType::cases());
+
+        $parameters = [
+            FilterParser::param() => [
+                SynonymResource::$wrap => [
+                    AnimeSynonym::ATTRIBUTE_TYPE => $typeFilter->localize(),
+                ],
+            ],
+            IncludeParser::param() => Anime::RELATION_SYNONYMS,
+        ];
+
+        $anime = Anime::factory()
+            ->has(AnimeSynonym::factory()->count($this->faker->randomDigitNotNull()))
+            ->createOne();
+
+        $anime->unsetRelations()->load([
+            Anime::RELATION_SYNONYMS => function (HasMany $query) use ($typeFilter) {
+                $query->where(AnimeSynonym::ATTRIBUTE_TYPE, $typeFilter->value);
+            },
+        ]);
+
+        $response = $this->get(route('api.anime.show', ['anime' => $anime] + $parameters));
+
+        $response->assertJson(
+            json_decode(
+                json_encode(
+                    (new AnimeResource($anime, new Query($parameters)))
+                        ->response()
+                        ->getData()
+                ),
+                true
+            )
+        );
+    }
+
+    /**
      * The Anime Show Endpoint shall support constrained eager loading of themes by sequence.
      *
      * @return void
@@ -214,7 +261,9 @@ class AnimeShowTest extends TestCase
 
         $parameters = [
             FilterParser::param() => [
-                AnimeTheme::ATTRIBUTE_TYPE => $typeFilter->localize(),
+                ThemeResource::$wrap => [
+                    AnimeTheme::ATTRIBUTE_TYPE => $typeFilter->localize(),
+                ],
             ],
             IncludeParser::param() => Anime::RELATION_THEMES,
         ];
