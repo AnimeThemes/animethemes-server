@@ -89,7 +89,7 @@ class Group extends BaseResource
      */
     public static function getSlug(): string
     {
-        return 'resources/group';
+        return static::getDefaultSlug().'group';
     }
 
     /**

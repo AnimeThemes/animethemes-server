@@ -106,7 +106,7 @@ class Video extends BaseResource
      */
     public static function getSlug(): string
     {
-        return 'resources/videos';
+        return static::getDefaultSlug().'videos';
     }
 
     /**

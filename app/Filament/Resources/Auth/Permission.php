@@ -90,7 +90,7 @@ class Permission extends BaseResource
      */
     public static function getSlug(): string
     {
-        return 'resources/permissions';
+        return static::getDefaultSlug().'permissions';
     }
 
     /**

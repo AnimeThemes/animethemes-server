@@ -91,7 +91,7 @@ class Dump extends BaseResource
      */
     public static function getSlug(): string
     {
-        return 'resources/dumps';
+        return static::getDefaultSlug().'dumps';
     }
 
     /**

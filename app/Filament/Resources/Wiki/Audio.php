@@ -97,7 +97,7 @@ class Audio extends BaseResource
      */
     public static function getSlug(): string
     {
-        return 'resources/audios';
+        return static::getDefaultSlug().'audios';
     }
 
     /**

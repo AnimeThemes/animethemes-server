@@ -98,7 +98,7 @@ class Playlist extends BaseResource
      */
     public static function getSlug(): string
     {
-        return 'resources/playlists';
+        return static::getDefaultSlug().'playlists';
     }
 
     /**

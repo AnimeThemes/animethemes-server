@@ -98,7 +98,7 @@ class ExternalResource extends BaseResource
      */
     public static function getSlug(): string
     {
-        return 'resources/external-resources';
+        return static::getDefaultSlug().'external-resources';
     }
 
     /**

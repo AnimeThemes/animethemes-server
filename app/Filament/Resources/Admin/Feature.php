@@ -84,7 +84,7 @@ class Feature extends BaseResource
      */
     public static function getSlug(): string
     {
-        return 'resources/features';
+        return static::getDefaultSlug().'features';
     }
 
     /**

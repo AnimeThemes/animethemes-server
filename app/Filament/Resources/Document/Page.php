@@ -90,7 +90,7 @@ class Page extends BaseResource
      */
     public static function getSlug(): string
     {
-        return 'resources/pages';
+        return static::getDefaultSlug().'pages';
     }
 
     /**
