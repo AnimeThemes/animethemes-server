@@ -2,15 +2,16 @@
 
 declare(strict_types=1);
 
-namespace App\Filament\Tabs;
+namespace App\Filament\Tabs\Song;
 
-use Filament\Resources\Components\Tab;
+use App\Filament\Tabs\BaseTab;
+use App\Models\Wiki\Song;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
- * Class BaseTab.
+ * Class SongArtistTab.
  */
-abstract class BaseTab extends Tab
+class SongArtistTab extends BaseTab
 {
     /**
      * Get the key for the tab.
@@ -19,7 +20,10 @@ abstract class BaseTab extends Tab
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    abstract static public function getKey(): string;
+    public static function getKey(): string
+    {
+        return 'song-artist-tab';
+    }
 
     /**
      * Get the displayable name of the tab.
@@ -30,7 +34,7 @@ abstract class BaseTab extends Tab
      */
     public function getLabel(): string
     {
-        return $this->getLabel();
+        return __('filament.tabs.song.artist.name');
     }
 
     /**
@@ -41,7 +45,7 @@ abstract class BaseTab extends Tab
      */
     public function modifyQuery(Builder $query): Builder
     {
-        return $this->modifyQuery($query);
+        return $query->whereDoesntHave(Song::RELATION_ARTISTS);
     }
 
     /**
@@ -51,6 +55,6 @@ abstract class BaseTab extends Tab
      */
     public function getBadge(): int
     {
-        return $this->getBadge();
+        return Song::query()->whereDoesntHave(Song::RELATION_ARTISTS)->count();
     }
 }

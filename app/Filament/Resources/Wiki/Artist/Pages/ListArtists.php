@@ -9,7 +9,7 @@ use App\Filament\Resources\Base\BaseListResources;
 use App\Filament\Resources\Wiki\Artist;
 use App\Filament\Tabs\Artist\Image\ArtistCoverLargeTab;
 use App\Filament\Tabs\Artist\Image\ArtistCoverSmallTab;
-use App\Filament\Tabs\Artist\Resource\ArtistAniDbResourceTab;
+use App\Filament\Tabs\Artist\Resource\ArtistAnidbResourceTab;
 use App\Filament\Tabs\Artist\Resource\ArtistAnilistResourceTab;
 use App\Filament\Tabs\Artist\Resource\ArtistAnimePlanetResourceTab;
 use App\Filament\Tabs\Artist\Resource\ArtistAnnResourceTab;
@@ -55,7 +55,7 @@ class ListArtists extends BaseListResources
         return ['all' => Tab::make()] + $this->toArray([
             ArtistCoverLargeTab::class,
             ArtistCoverSmallTab::class,
-            ArtistAniDbResourceTab::class,
+            ArtistAnidbResourceTab::class,
             ArtistAnilistResourceTab::class,
             ArtistAnimePlanetResourceTab::class,
             ArtistAnnResourceTab::class,

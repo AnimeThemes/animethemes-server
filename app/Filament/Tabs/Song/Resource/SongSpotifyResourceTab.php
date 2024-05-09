@@ -2,24 +2,26 @@
 
 declare(strict_types=1);
 
-namespace App\Filament\Tabs\Anime\Resource;
+namespace App\Filament\Tabs\Song\Resource;
 
 use App\Enums\Models\Wiki\ResourceSite;
-use App\Filament\Tabs\Anime\AnimeResourceTab;
+use App\Filament\Tabs\Song\SongResourceTab;
 
 /**
- * Class AnimeAnidbResourceTab.
+ * Class SongSpotifyResourceTab.
  */
-class AnimeAnidbResourceTab extends AnimeResourceTab
+class SongSpotifyResourceTab extends SongResourceTab
 {
     /**
      * Get the key for the tab.
      *
      * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getKey(): string
     {
-        return 'anime-anidb-resource-tab';
+        return 'song-spotify-resource-tab';
     }
 
     /**
@@ -29,6 +31,6 @@ class AnimeAnidbResourceTab extends AnimeResourceTab
      */
     protected static function site(): ResourceSite
     {
-        return ResourceSite::ANIDB;
+        return ResourceSite::SPOTIFY;
     }
 }

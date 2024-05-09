@@ -8,9 +8,9 @@ use App\Enums\Models\Wiki\ResourceSite;
 use App\Filament\Tabs\Artist\ArtistResourceTab;
 
 /**
- * Class ArtistAniDbResourceTab.
+ * Class ArtistAnidbResourceTab.
  */
-class ArtistAniDbResourceTab extends ArtistResourceTab
+class ArtistAnidbResourceTab extends ArtistResourceTab
 {
     /**
      * Get the key for the tab.

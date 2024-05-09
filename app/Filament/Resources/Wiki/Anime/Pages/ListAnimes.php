@@ -10,7 +10,7 @@ use App\Filament\Resources\Wiki\Anime;
 use App\Filament\Tabs\Anime\AnimeStreamingResourceTab;
 use App\Filament\Tabs\Anime\Image\AnimeCoverLargeTab;
 use App\Filament\Tabs\Anime\Image\AnimeCoverSmallTab;
-use App\Filament\Tabs\Anime\Resource\AnimeAniDbResourceTab;
+use App\Filament\Tabs\Anime\Resource\AnimeAnidbResourceTab;
 use App\Filament\Tabs\Anime\Resource\AnimeAnilistResourceTab;
 use App\Filament\Tabs\Anime\Resource\AnimeAnnResourceTab;
 use App\Filament\Tabs\Anime\Resource\AnimeKitsuResourceTab;
@@ -56,7 +56,7 @@ class ListAnimes extends BaseListResources
         return ['all' => Tab::make()] + $this->toArray([
             AnimeCoverLargeTab::class,
             AnimeCoverSmallTab::class,
-            AnimeAniDbResourceTab::class,
+            AnimeAnidbResourceTab::class,
             AnimeAnilistResourceTab::class,
             AnimeAnnResourceTab::class,
             AnimeKitsuResourceTab::class,
