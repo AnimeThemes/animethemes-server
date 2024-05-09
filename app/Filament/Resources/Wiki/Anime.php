@@ -140,7 +140,7 @@ class Anime extends BaseResource
      */
     public static function getSlug(): string
     {
-        return 'anime';
+        return 'resources/anime';
     }
 
     /**

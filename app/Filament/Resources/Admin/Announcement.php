@@ -86,7 +86,7 @@ class Announcement extends BaseResource
      */
     public static function getSlug(): string
     {
-        return 'announcements';
+        return 'resources/announcements';
     }
 
     /**

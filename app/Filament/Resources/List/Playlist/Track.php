@@ -92,7 +92,7 @@ class Track extends BaseResource
      */
     public static function getSlug(): string
     {
-        return 'tracks';
+        return 'resources/tracks';
     }
 
     /**

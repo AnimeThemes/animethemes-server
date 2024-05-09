@@ -96,7 +96,7 @@ class Song extends BaseResource
      */
     public static function getSlug(): string
     {
-        return 'songs';
+        return 'resources/songs';
     }
 
     /**

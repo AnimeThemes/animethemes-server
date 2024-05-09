@@ -93,7 +93,7 @@ class Synonym extends BaseResource
      */
     public static function getSlug(): string
     {
-        return 'anime-synonyms';
+        return 'resources/anime-synonyms';
     }
 
     /**

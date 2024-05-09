@@ -96,7 +96,7 @@ class User extends BaseResource
      */
     public static function getSlug(): string
     {
-        return 'users';
+        return 'resources/users';
     }
 
     /**

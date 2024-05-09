@@ -92,7 +92,7 @@ class Script extends BaseResource
      */
     public static function getSlug(): string
     {
-        return 'video-scripts';
+        return 'resources/video-scripts';
     }
 
     /**

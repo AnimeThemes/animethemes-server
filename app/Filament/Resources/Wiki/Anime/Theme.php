@@ -102,7 +102,7 @@ class Theme extends BaseResource
      */
     public static function getSlug(): string
     {
-        return 'anime-themes';
+        return 'resources/anime-themes';
     }
 
     /**

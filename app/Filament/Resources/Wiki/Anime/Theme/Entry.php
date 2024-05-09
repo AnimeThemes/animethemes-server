@@ -133,7 +133,7 @@ class Entry extends BaseResource
      */
     public static function getSlug(): string
     {
-        return 'anime-theme-entries';
+        return 'resources/anime-theme-entries';
     }
 
     /**
