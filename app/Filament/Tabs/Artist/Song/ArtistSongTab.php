@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace App\Filament\Tabs\Anime\Studio;
+namespace App\Filament\Tabs\Artist\Song;
 
 use App\Filament\Tabs\BaseTab;
-use App\Models\Wiki\Anime;
+use App\Models\Wiki\Artist;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
- * Class AnimeStudioTab.
+ * Class ArtistSongTab.
  */
-class AnimeStudioTab extends BaseTab
+class ArtistSongTab extends BaseTab
 {
     /**
      * Get the key for the tab.
@@ -20,7 +20,7 @@ class AnimeStudioTab extends BaseTab
      */
     public static function getKey(): string
     {
-        return 'anime-studio-tab';
+        return 'artist-song-lens';
     }
 
     /**
@@ -32,7 +32,7 @@ class AnimeStudioTab extends BaseTab
      */
     public function getLabel(): string
     {
-        return __('filament.tabs.anime.studios.name');
+        return __('filament.tabs.artist.songs.name');
     }
 
     /**
@@ -43,7 +43,7 @@ class AnimeStudioTab extends BaseTab
      */
     public function modifyQuery(Builder $query): Builder
     {
-        return $query->whereDoesntHave(Anime::RELATION_STUDIOS);
+        return $query->whereDoesntHave(Artist::RELATION_SONGS);
     }
 
     /**
@@ -53,6 +53,6 @@ class AnimeStudioTab extends BaseTab
      */
     public function getBadge(): int
     {
-        return Anime::query()->whereDoesntHave(Anime::RELATION_STUDIOS)->count();
+        return Artist::query()->whereDoesntHave(Artist::RELATION_SONGS)->count();
     }
 }

@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace App\Filament\Tabs\Anime;
+namespace App\Filament\Tabs\Artist;
 
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Filament\Tabs\BaseTab;
-use App\Models\Wiki\Anime;
+use App\Models\Wiki\Artist;
 use App\Models\Wiki\ExternalResource;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
- * Class AnimeResourceTab.
+ * Class ArtistResourceTab.
  */
-abstract class AnimeResourceTab extends BaseTab
+abstract class ArtistResourceTab extends BaseTab
 {
     /**
      * The resource site.
@@ -31,7 +31,7 @@ abstract class AnimeResourceTab extends BaseTab
      */
     public function getLabel(): string
     {
-        return __('filament.tabs.anime.resources.name', ['site' => static::site()->localize()]);
+        return __('filament.tabs.artist.resources.name', ['site' => static::site()->localize()]);
     }
 
     /**
@@ -42,7 +42,7 @@ abstract class AnimeResourceTab extends BaseTab
      */
     public function modifyQuery(Builder $query): Builder
     {
-        return $query->whereDoesntHave(Anime::RELATION_RESOURCES, function (Builder $resourceQuery) {
+        return $query->whereDoesntHave(Artist::RELATION_RESOURCES, function (Builder $resourceQuery) {
             $resourceQuery->where(ExternalResource::ATTRIBUTE_SITE, static::site()->value);
         });
     }
@@ -54,7 +54,7 @@ abstract class AnimeResourceTab extends BaseTab
      */
     public function getBadge(): int
     {
-        return Anime::query()->whereDoesntHave(Anime::RELATION_RESOURCES, function (Builder $resourceQuery) {
+        return Artist::query()->whereDoesntHave(Artist::RELATION_RESOURCES, function (Builder $resourceQuery) {
             $resourceQuery->where(ExternalResource::ATTRIBUTE_SITE, static::site()->value);
         })->count();
     }

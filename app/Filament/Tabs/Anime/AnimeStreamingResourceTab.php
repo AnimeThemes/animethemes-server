@@ -55,7 +55,7 @@ class AnimeStreamingResourceTab extends BaseTab
     }
 
     /**
-     * The criteria used to refine the models for the tab.
+     * The query used to refine the models for the tab.
      *
      * @param  Builder  $query
      * @return Builder

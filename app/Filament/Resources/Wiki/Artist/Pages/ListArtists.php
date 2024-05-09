@@ -4,14 +4,30 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Wiki\Artist\Pages;
 
+use App\Concerns\Filament\HasTabs;
 use App\Filament\Resources\Base\BaseListResources;
 use App\Filament\Resources\Wiki\Artist;
+use App\Filament\Tabs\Artist\Image\ArtistCoverLargeTab;
+use App\Filament\Tabs\Artist\Image\ArtistCoverSmallTab;
+use App\Filament\Tabs\Artist\Resource\ArtistAniDbResourceTab;
+use App\Filament\Tabs\Artist\Resource\ArtistAnilistResourceTab;
+use App\Filament\Tabs\Artist\Resource\ArtistAnimePlanetResourceTab;
+use App\Filament\Tabs\Artist\Resource\ArtistAnnResourceTab;
+use App\Filament\Tabs\Artist\Resource\ArtistMalResourceTab;
+use App\Filament\Tabs\Artist\Resource\ArtistOfficialSiteResourceTab;
+use App\Filament\Tabs\Artist\Resource\ArtistSpotifyResourceTab;
+use App\Filament\Tabs\Artist\Resource\ArtistTwitterResourceTab;
+use App\Filament\Tabs\Artist\Resource\ArtistYoutubeResourceTab;
+use App\Filament\Tabs\Artist\Song\ArtistSongTab;
+use Filament\Resources\Components\Tab;
 
 /**
  * Class ListArtists.
  */
 class ListArtists extends BaseListResources
 {
+    use HasTabs;
+
     protected static string $resource = Artist::class;
 
     /**
@@ -27,5 +43,28 @@ class ListArtists extends BaseListResources
             parent::getHeaderActions(),
             [],
         );
+    }
+
+    /**
+     * Get the tabs available.
+     *
+     * @return array
+     */
+    public function getTabs(): array
+    {
+        return ['all' => Tab::make()] + $this->toArray([
+            ArtistCoverLargeTab::class,
+            ArtistCoverSmallTab::class,
+            ArtistAniDbResourceTab::class,
+            ArtistAnilistResourceTab::class,
+            ArtistAnimePlanetResourceTab::class,
+            ArtistAnnResourceTab::class,
+            ArtistMalResourceTab::class,
+            ArtistOfficialSiteResourceTab::class,
+            ArtistSpotifyResourceTab::class,
+            ArtistTwitterResourceTab::class,
+            ArtistYoutubeResourceTab::class,
+            ArtistSongTab::class,
+        ]);
     }
 }
