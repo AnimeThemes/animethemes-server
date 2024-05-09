@@ -95,7 +95,7 @@ class FeaturedTheme extends BaseResource
      */
     public static function getSlug(): string
     {
-        return 'featured-themes';
+        return static::getDefaultSlug().'featured-themes';
     }
 
     /**

@@ -770,84 +770,6 @@ return [
             ],
         ],
     ],
-    'lenses' => [
-        'anime' => [
-            'images' => [
-                'name' => 'Anime Without :facet Image',
-            ],
-            'resources' => [
-                'name' => 'Anime Without :site Resource',
-            ],
-            'streaming_resources' => [
-                'name' => 'Anime Without Streaming Resources',
-            ],
-            'studios' => [
-                'name' => 'Anime Without Studios',
-            ],
-        ],
-        'artist' => [
-            'images' => [
-                'name' => 'Artist Without :facet Image',
-            ],
-            'resources' => [
-                'name' => 'Artist Without :site Resource',
-            ],
-            'songs' => [
-                'name' => 'Artist Without Songs',
-            ],
-        ],
-        'audio' => [
-            'video' => [
-                'name' => 'Audio Without Video',
-            ],
-        ],
-        'external_resource' => [
-            'unlinked' => [
-                'name' => 'Resource Without Anime or Artist or Song or Studio',
-            ],
-        ],
-        'image' => [
-            'unlinked' => [
-                'name' => 'Image Without Anime or Artist',
-            ],
-        ],
-        'song' => [
-            'artist' => [
-                'name' => 'Songs Without Artists',
-            ],
-            'resources' => [
-                'name' => 'Song Without :site Resource',
-            ]
-        ],
-        'studio' => [
-            'images' => [
-                'name' => 'Studio Without :facet Image',
-            ],
-            'resources' => [
-                'name' => 'Studio Without :site Resource',
-            ],
-            'unlinked' => [
-                'name' => 'Studio Without Anime or Studio',
-            ],
-        ],
-        'video' => [
-            'audio' => [
-                'name' => 'Video Without Audio',
-            ],
-            'resolution' => [
-                'name' => 'Video with Unset Resolution',
-            ],
-            'script' => [
-                'name' => 'Video Without Script',
-            ],
-            'source' => [
-                'name' => 'Video with Unknown Source Type',
-            ],
-            'unlinked' => [
-                'name' => 'Video Without Entries',
-            ],
-        ],
-    ],
     'menu' => [
         'main' => [
             'section' => [
@@ -961,6 +883,84 @@ return [
             'user' => 'User',
             'video_script' => 'Video Script',
             'video' => 'Video',
+        ],
+    ],
+    'tabs' => [
+        'anime' => [
+            'images' => [
+                'name' => 'Without :facet Image',
+            ],
+            'resources' => [
+                'name' => 'Without :site Resource',
+            ],
+            'streaming_resources' => [
+                'name' => 'Without Streaming Resources',
+            ],
+            'studios' => [
+                'name' => 'Without Studios',
+            ],
+        ],
+        'artist' => [
+            'images' => [
+                'name' => 'Without :facet Image',
+            ],
+            'resources' => [
+                'name' => 'Without :site Resource',
+            ],
+            'songs' => [
+                'name' => 'Without Songs',
+            ],
+        ],
+        'audio' => [
+            'video' => [
+                'name' => 'Without Video',
+            ],
+        ],
+        'external_resource' => [
+            'unlinked' => [
+                'name' => 'Without Anime or Artist or Song or Studio',
+            ],
+        ],
+        'image' => [
+            'unlinked' => [
+                'name' => 'Without Anime or Artist or Studio',
+            ],
+        ],
+        'song' => [
+            'artist' => [
+                'name' => 'Without Artists',
+            ],
+            'resources' => [
+                'name' => 'Without :site Resource',
+            ]
+        ],
+        'studio' => [
+            'images' => [
+                'name' => 'Without :facet Image',
+            ],
+            'resources' => [
+                'name' => 'Without :site Resource',
+            ],
+            'unlinked' => [
+                'name' => 'Without Anime',
+            ],
+        ],
+        'video' => [
+            'audio' => [
+                'name' => 'Without Audio',
+            ],
+            'resolution' => [
+                'name' => 'With Unset Resolution',
+            ],
+            'script' => [
+                'name' => 'Without Script',
+            ],
+            'source' => [
+                'name' => 'With Unknown Source Type',
+            ],
+            'unlinked' => [
+                'name' => 'Without Entries',
+            ],
         ],
     ],
 ];
