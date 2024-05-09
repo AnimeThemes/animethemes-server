@@ -143,4 +143,16 @@ abstract class BaseResource extends Resource
                 SoftDeletingScope::class,
             ]);
     }
+
+    /**
+     * Get the default slug (URI key) for the resources.
+     *
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    protected static function getDefaultSlug(): string
+    {
+        return 'resources/';
+    }
 }

@@ -102,7 +102,7 @@ class Studio extends BaseResource
      */
     public static function getSlug(): string
     {
-        return 'studios';
+        return static::getDefaultSlug().'studios';
     }
 
     /**

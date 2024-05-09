@@ -127,7 +127,7 @@ class Artist extends BaseResource
      */
     public static function getSlug(): string
     {
-        return 'artists';
+        return static::getDefaultSlug().'artists';
     }
 
     /**

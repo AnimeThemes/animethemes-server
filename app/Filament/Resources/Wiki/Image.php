@@ -98,7 +98,7 @@ class Image extends BaseResource
      */
     public static function getSlug(): string
     {
-        return 'images';
+        return static::getDefaultSlug().'images';
     }
 
     /**

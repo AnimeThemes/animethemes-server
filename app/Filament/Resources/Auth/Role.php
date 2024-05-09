@@ -94,7 +94,7 @@ class Role extends BaseResource
      */
     public static function getSlug(): string
     {
-        return 'roles';
+        return static::getDefaultSlug().'roles';
     }
 
     /**

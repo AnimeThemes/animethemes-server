@@ -91,7 +91,7 @@ class Series extends BaseResource
      */
     public static function getSlug(): string
     {
-        return 'series';
+        return static::getDefaultSlug().'series';
     }
 
     /**
