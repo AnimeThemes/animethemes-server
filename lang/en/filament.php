@@ -923,7 +923,7 @@ return [
         ],
         'image' => [
             'unlinked' => [
-                'name' => 'Without Anime or Artist',
+                'name' => 'Without Anime or Artist or Studio',
             ],
         ],
         'song' => [
@@ -942,7 +942,7 @@ return [
                 'name' => 'Without :site Resource',
             ],
             'unlinked' => [
-                'name' => 'Without Anime or Studio',
+                'name' => 'Without Anime',
             ],
         ],
         'video' => [
