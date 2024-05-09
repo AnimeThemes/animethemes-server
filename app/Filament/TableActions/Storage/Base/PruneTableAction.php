@@ -37,9 +37,8 @@ abstract class PruneTableAction extends StorageTableAction
     /**
      * Get the underlying storage action.
      *
-     * @param  Model  $model
      * @param  array  $fields
      * @return BasePruneAction
      */
-    abstract protected function storageAction(Model $model, array $fields): BasePruneAction;
+    abstract protected function storageAction(array $fields): BasePruneAction;
 }
