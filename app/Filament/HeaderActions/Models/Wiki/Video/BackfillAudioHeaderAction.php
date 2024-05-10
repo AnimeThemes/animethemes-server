@@ -7,6 +7,8 @@ namespace App\Filament\HeaderActions\Models\Wiki\Video;
 use App\Actions\Models\Wiki\Video\Audio\BackfillAudioAction as BackfillAudio;
 use App\Enums\Actions\Models\Wiki\Video\DeriveSourceVideo;
 use App\Enums\Actions\Models\Wiki\Video\OverwriteAudio;
+use App\Models\BaseModel;
+use App\Models\Wiki\Video;
 use Exception;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Form;
@@ -15,7 +17,6 @@ use Filament\Notifications\Notification;
 use Filament\Actions\Action;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Arr;
 use Illuminate\Validation\Rules\Enum;
@@ -40,17 +41,17 @@ class BackfillAudioHeaderAction extends Action implements ShouldQueue
     {
         parent::setUp();
 
-        $this->action(fn (Model $record, array $data) => $this->handle($record, $data));
+        $this->action(fn (Video $record, array $data) => $this->handle($record, $data));
     }
 
     /**
      * Perform the action on the given models.
      *
-     * @param  Model  $video
+     * @param  Video  $video
      * @param  array  $data
      * @return void
      */
-    public function handle(Model $video, array $data): void
+    public function handle(Video $video, array $data): void
     {
         $deriveSourceVideo = DeriveSourceVideo::from(intval(Arr::get($data, self::DERIVE_SOURCE_VIDEO)));
         $overwriteAudio = OverwriteAudio::from(intval(Arr::get($data, self::OVERWRITE_AUDIO)));
@@ -71,7 +72,7 @@ class BackfillAudioHeaderAction extends Action implements ShouldQueue
                     ->sendToDatabase(auth()->user());
             }
         } catch (Exception $e) {
-            $this->markAsFailed($video, $e);
+            //$this->markAsFailed($video, $e);
         }
     }
 

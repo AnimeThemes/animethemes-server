@@ -7,9 +7,9 @@ namespace App\Filament\Actions\Models\Wiki\Artist;
 use App\Actions\Models\Wiki\Artist\AttachArtistResourceAction as AttachArtistResourceActionAction;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Filament\Actions\Models\Wiki\AttachResourceAction;
+use App\Models\Wiki\Artist;
 use App\Rules\Wiki\Resource\ArtistResourceLinkFormatRule;
 use Illuminate\Contracts\Validation\ValidationRule;
-use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class AttachArtistResourceAction.
@@ -25,7 +25,7 @@ class AttachArtistResourceAction extends AttachResourceAction
     {
         parent::setUp();
 
-        $this->action(fn (Model $record, array $data) => (new AttachArtistResourceActionAction($this->sites))->handle($record, $data));
+        $this->action(fn (Artist $record, array $data) => (new AttachArtistResourceActionAction($this->sites))->handle($record, $data));
     }
 
     /**

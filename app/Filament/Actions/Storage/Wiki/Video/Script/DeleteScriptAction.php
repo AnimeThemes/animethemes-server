@@ -6,7 +6,8 @@ namespace App\Filament\Actions\Storage\Wiki\Video\Script;
 
 use App\Actions\Storage\Wiki\Video\Script\DeleteScriptAction as DeleteScript;
 use App\Filament\Actions\Storage\Base\DeleteAction;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\BaseModel;
+use App\Models\Wiki\Video\VideoScript;
 
 /**
  * Class DeleteScriptAction.
@@ -16,11 +17,11 @@ class DeleteScriptAction extends DeleteAction
     /**
      * Get the underlying storage action.
      *
-     * @param  Model  $script
+     * @param  VideoScript  $script
      * @param  array  $fields
      * @return DeleteScript
      */
-    protected function storageAction(Model $script, array $fields): DeleteScript
+    protected function storageAction(BaseModel $script, array $fields): DeleteScript
     {
         return new DeleteScript($script);
     }

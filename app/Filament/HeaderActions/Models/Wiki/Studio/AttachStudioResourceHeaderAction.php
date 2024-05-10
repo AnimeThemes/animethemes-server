@@ -7,9 +7,9 @@ namespace App\Filament\HeaderActions\Models\Wiki\Studio;
 use App\Actions\Models\Wiki\Studio\AttachStudioResourceAction as AttachStudioResourceActionAction;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Filament\HeaderActions\Models\Wiki\AttachResourceHeaderAction;
+use App\Models\Wiki\Studio;
 use App\Rules\Wiki\Resource\StudioResourceLinkFormatRule;
 use Illuminate\Contracts\Validation\ValidationRule;
-use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class AttachStudioResourceHeaderAction.
@@ -25,7 +25,7 @@ class AttachStudioResourceHeaderAction extends AttachResourceHeaderAction
     {
         parent::setUp();
 
-        $this->action(fn (Model $record, array $data) => (new AttachStudioResourceActionAction($this->sites))->handle($record, $data));
+        $this->action(fn (Studio $record, array $data) => (new AttachStudioResourceActionAction($this->sites))->handle($record, $data));
     }
 
     /**

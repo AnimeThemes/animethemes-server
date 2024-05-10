@@ -8,7 +8,7 @@ use App\Actions\Storage\Wiki\Audio\MoveAudioAction as MoveAudio;
 use App\Constants\Config\AudioConstants;
 use App\Models\Wiki\Audio;
 use App\Filament\HeaderActions\Storage\Base\MoveHeaderAction;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\BaseModel;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
 
@@ -20,11 +20,11 @@ class MoveAudioHeaderAction extends MoveHeaderAction
     /**
      * Get the underlying storage action.
      *
-     * @param  Model  $audio
+     * @param  Audio  $audio
      * @param  array  $fields
      * @return MoveAudio
      */
-    protected function storageAction(Model $audio, array $fields): MoveAudio
+    protected function storageAction(BaseModel $audio, array $fields): MoveAudio
     {
         /** @var string $path */
         $path = Arr::get($fields, 'path');

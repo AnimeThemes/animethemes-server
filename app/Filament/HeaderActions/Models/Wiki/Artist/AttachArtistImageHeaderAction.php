@@ -6,7 +6,7 @@ namespace App\Filament\HeaderActions\Models\Wiki\Artist;
 
 use App\Actions\Models\Wiki\Artist\AttachArtistImageAction as AttachArtistImageActionAction;
 use App\Filament\HeaderActions\Models\Wiki\AttachImageHeaderAction;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Wiki\Artist;
 
 /**
  * Class AttachArtistImageHeaderAction.
@@ -22,6 +22,6 @@ class AttachArtistImageHeaderAction extends AttachImageHeaderAction
     {
         parent::setUp();
 
-        $this->action(fn (Model $record, array $data) => (new AttachArtistImageActionAction($this->facets))->handle($record, $data));
+        $this->action(fn (Artist $record, array $data) => (new AttachArtistImageActionAction($this->facets))->handle($record, $data));
     }
 }

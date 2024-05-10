@@ -252,7 +252,7 @@ class Theme extends BaseResource
         
         if ($slug->isNotEmpty()) {
             $sequence = $get(ThemeModel::ATTRIBUTE_SEQUENCE);
-            $slug = $slug->append(empty($sequence) || $sequence === null ? 1 : $sequence);
+            $slug = $slug->append(strval(empty($sequence) ? 1 : $sequence));
         }
 
         $set(ThemeModel::ATTRIBUTE_SLUG, $slug->__toString());

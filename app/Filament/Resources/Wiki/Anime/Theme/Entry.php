@@ -165,8 +165,15 @@ class Entry extends BaseResource
                     ->relationship(EntryModel::RELATION_ANIME_SHALLOW, AnimeModel::ATTRIBUTE_NAME)
                     ->searchable()
                     ->disabledOn(BaseRelationManager::class)
-                    ->formatStateUsing(fn ($livewire, $state) => $livewire instanceof BaseRelationManager ? $livewire->getOwnerRecord()->anime->name : $state)
-                    ->saveRelationshipsUsing(function (Select $component, Model $record, $state) {
+                    ->formatStateUsing(function ($livewire, $state) {
+                        if ($livewire instanceof BaseRelationManager) {
+                            /** @var EntryModel */
+                            $entry = $livewire->getOwnerRecord();
+                            return $entry->anime->getName();
+                        }
+                        return $state;
+                    })
+                    ->saveRelationshipsUsing(function (Model $record, $state) {
                         if ($record instanceof EntryModel) {
                             $record->animetheme->anime()->associate($state)->save();
                         }
@@ -177,7 +184,14 @@ class Entry extends BaseResource
                     ->relationship(EntryModel::RELATION_THEME, ThemeModel::ATTRIBUTE_SLUG)
                     ->searchable()
                     ->disabledOn(BaseRelationManager::class)
-                    ->formatStateUsing(fn ($livewire, $state) => $livewire instanceof BaseRelationManager ? $livewire->getOwnerRecord()->slug : $state),
+                    ->formatStateUsing(function ($livewire, $state) {
+                        if ($livewire instanceof BaseRelationManager) {
+                            /** @var EntryModel */
+                            $entry = $livewire->getOwnerRecord();
+                            return $entry->animetheme->slug;
+                        }
+                        return $state;
+                    }),
 
                 TextInput::make(EntryModel::ATTRIBUTE_VERSION)
                     ->label(__('filament.fields.anime_theme_entry.version.name'))

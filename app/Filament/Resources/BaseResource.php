@@ -132,7 +132,7 @@ abstract class BaseResource extends Resource
     /**
      * Get the eloquent query for the resource.
      * 
-     * @return array
+     * @return Builder
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */

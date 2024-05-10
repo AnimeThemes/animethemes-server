@@ -6,7 +6,7 @@ namespace App\Filament\HeaderActions\Models\Wiki\Anime;
 
 use App\Actions\Models\Wiki\Anime\AttachAnimeImageAction as AttachAnimeImageActionAction;
 use App\Filament\HeaderActions\Models\Wiki\AttachImageHeaderAction;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Wiki\Anime;
 
 /**
  * Class AttachAnimeImageHeaderAction.
@@ -22,6 +22,6 @@ class AttachAnimeImageHeaderAction extends AttachImageHeaderAction
     {
         parent::setUp();
 
-        $this->action(fn (Model $record, array $data) => (new AttachAnimeImageActionAction($this->facets))->handle($record, $data));
+        $this->action(fn (Anime $record, array $data) => (new AttachAnimeImageActionAction($this->facets))->handle($record, $data));
     }
 }
