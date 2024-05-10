@@ -119,19 +119,20 @@ class Page extends BaseResource
             ->schema([
                 TextInput::make(PageModel::ATTRIBUTE_NAME)
                     ->label(__('filament.fields.page.name.name'))
+                    ->helperText(__('filament.fields.page.name.help'))
                     ->required()
                     ->maxLength(192)
                     ->rules(['required', 'max:192'])
                     ->live(true)
-                    ->afterStateUpdated(fn (Set $set, ?string $state) => $set(PageModel::ATTRIBUTE_SLUG, Str::of($state, '_'))),
+                    ->afterStateUpdated(fn (Set $set, ?string $state) => $set(PageModel::ATTRIBUTE_SLUG, Str::slug($state, '_'))),
 
                 TextInput::make(PageModel::ATTRIBUTE_SLUG)
                     ->label(__('filament.fields.page.slug.name'))
                     ->helperText(__('filament.fields.page.slug.help'))
                     ->required()
                     ->maxLength(192)
-                   // ->regex('/^[\pL\pM\pN\/_-]+$/u')
-                    ->rules(['required', 'max:192', /*'regex:/^[\pL\pM\pN\/_-]+$/u',*/ Rule::unique(PageModel::class, PageModel::ATTRIBUTE_SLUG)->__toString()]),
+                    ->regex('/^[\pL\pM\pN\/_-]+$/u')
+                    ->rules(['required', 'max:192', 'regex:/^[\pL\pM\pN\/_-]+$/u', Rule::unique(PageModel::class, PageModel::ATTRIBUTE_SLUG)->__toString()]),
 
                 MarkdownEditor::make(PageModel::ATTRIBUTE_BODY)
                     ->label(__('filament.fields.page.body.name'))
