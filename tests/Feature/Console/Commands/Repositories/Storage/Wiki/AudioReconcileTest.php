@@ -26,8 +26,6 @@ class AudioReconcileTest extends TestCase
      */
     public function testNoResults(): void
     {
-        $this->baseRefreshDatabase(); // Cannot lazily refresh database within pending command
-
         $this->mock(AudioRepository::class, function (MockInterface $mock) {
             $mock->shouldReceive('get')->once()->andReturn(Collection::make());
         });
@@ -44,8 +42,6 @@ class AudioReconcileTest extends TestCase
      */
     public function testCreated(): void
     {
-        $this->baseRefreshDatabase(); // Cannot lazily refresh database within pending command
-
         $createdAudioCount = $this->faker->numberBetween(2, 9);
 
         $audios = Audio::factory()->count($createdAudioCount)->make();

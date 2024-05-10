@@ -31,8 +31,6 @@ class VideoReconcileTest extends TestCase
     {
         Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
 
-        $this->baseRefreshDatabase(); // Cannot lazily refresh database within pending command
-
         $this->mock(VideoRepository::class, function (MockInterface $mock) {
             $mock->shouldReceive('get')->once()->andReturn(Collection::make());
         });
@@ -50,8 +48,6 @@ class VideoReconcileTest extends TestCase
     public function testCreated(): void
     {
         Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
-
-        $this->baseRefreshDatabase(); // Cannot lazily refresh database within pending command
 
         $createdVideoCount = $this->faker->numberBetween(2, 9);
 

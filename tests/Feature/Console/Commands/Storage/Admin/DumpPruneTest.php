@@ -28,8 +28,6 @@ class DumpPruneTest extends TestCase
      */
     public function testNoResults(): void
     {
-        $this->baseRefreshDatabase(); // Cannot lazily refresh database within pending command
-
         Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));
 
         $this->artisan(DumpPruneCommand::class, ['--hours' => 0])
@@ -44,8 +42,6 @@ class DumpPruneTest extends TestCase
      */
     public function testDeleted(): void
     {
-        $this->baseRefreshDatabase(); // Cannot lazily refresh database within pending command
-
         Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));
 
         $prunedCount = $this->faker->randomDigitNotNull();
