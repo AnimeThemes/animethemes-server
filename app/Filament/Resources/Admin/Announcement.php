@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Admin;
 
-use App\Filament\Components\TextColumn;
+use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Admin\Announcement\Pages\CreateAnnouncement;
 use App\Filament\Resources\Admin\Announcement\Pages\EditAnnouncement;

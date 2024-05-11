@@ -6,7 +6,7 @@ namespace App\Filament\Resources\Auth;
 
 use App\Filament\Actions\Models\Auth\Permission\GiveRoleAction;
 use App\Filament\Actions\Models\Auth\Permission\RevokeRoleAction;
-use App\Filament\Components\TextColumn;
+use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Auth\Permission\Pages\CreatePermission;
 use App\Filament\Resources\Auth\Permission\Pages\EditPermission;

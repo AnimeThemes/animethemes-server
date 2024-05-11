@@ -8,7 +8,7 @@ use App\Filament\Actions\Models\Auth\User\GivePermissionAction;
 use App\Filament\Actions\Models\Auth\User\GiveRoleAction;
 use App\Filament\Actions\Models\Auth\User\RevokePermissionAction;
 use App\Filament\Actions\Models\Auth\User\RevokeRoleAction;
-use App\Filament\Components\TextColumn;
+use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Auth\User\Pages\CreateUser;
 use App\Filament\Resources\Auth\User\Pages\EditUser;

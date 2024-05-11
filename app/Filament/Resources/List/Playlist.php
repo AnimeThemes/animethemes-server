@@ -6,7 +6,7 @@ namespace App\Filament\Resources\List;
 
 use App\Enums\Models\List\PlaylistVisibility;
 use App\Filament\Actions\Models\AssignHashidsAction;
-use App\Filament\Components\TextColumn;
+use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Resources\Auth\User as UserResource;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\List\Playlist\Pages\CreatePlaylist;

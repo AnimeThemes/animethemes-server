@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Filament\Components;
+namespace App\Filament\Components\Columns;
 
 use App\Filament\Resources\BaseRelationManager;
 use App\Filament\Resources\BaseResource;

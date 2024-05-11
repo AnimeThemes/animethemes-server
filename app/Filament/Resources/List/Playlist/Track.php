@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Resources\List\Playlist;
 
 use App\Filament\Actions\Models\AssignHashidsAction;
-use App\Filament\Components\TextColumn;
+use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\List\Playlist as PlaylistResource;
 use App\Filament\Resources\List\Playlist\Track\Pages\CreateTrack;
