@@ -180,7 +180,6 @@ class Series extends BaseResource
                 TextColumn::make(SeriesModel::ATTRIBUTE_NAME)
                     ->label(__('filament.fields.series.name.name'))
                     ->sortable()
-                    ->searchable()
                     ->copyable()
                     ->toggleable(),
 
@@ -190,6 +189,7 @@ class Series extends BaseResource
                     ->copyable()
                     ->toggleable(),
             ])
+            ->searchable()
             ->defaultSort(SeriesModel::ATTRIBUTE_ID, 'desc')
             ->filters(static::getFilters())
             ->actions(static::getActions())

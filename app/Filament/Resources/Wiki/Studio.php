@@ -171,7 +171,6 @@ class Studio extends BaseResource
                 TextColumn::make(StudioModel::ATTRIBUTE_NAME)
                     ->label(__('filament.fields.studio.name.name'))
                     ->sortable()
-                    ->searchable()
                     ->copyable()
                     ->toggleable(),
 
@@ -185,6 +184,7 @@ class Studio extends BaseResource
                     ->label(__('filament.fields.studio.resources.as.name'))
                     ->visibleOn(StudioResourceRelationManager::class),
             ])
+            ->searchable()
             ->defaultSort(StudioModel::ATTRIBUTE_ID, 'desc')
             ->filters(static::getFilters())
             ->actions(static::getActions())

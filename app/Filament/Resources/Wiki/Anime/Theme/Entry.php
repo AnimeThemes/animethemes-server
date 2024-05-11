@@ -26,7 +26,9 @@ use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Tables\Columns\CheckboxColumn;
 use Filament\Tables\Table;
+use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 
 /**
  * Class Entry.
@@ -97,19 +99,7 @@ class Entry extends BaseResource
      */
     public static function getRecordTitle(?Model $record): ?string
     {
-        if ($record instanceof EntryModel) {
-            $theme = $record->animetheme;
-            $anime = $theme->anime->name;
-            $text = $anime.' '.$theme->slug;
-
-            if ($record->version !== null) {
-                return $text.'v'.$record->version;
-            }
-
-            return $text;
-        }
-
-        return null;
+        return $record instanceof EntryModel ? $record->getName() : null;
     }
 
     /**
@@ -270,6 +260,7 @@ class Entry extends BaseResource
                     ->label(__('filament.fields.anime_theme_entry.notes.name'))
                     ->toggleable(),
             ])
+            ->searchable()
             ->defaultSort(EntryModel::ATTRIBUTE_ID, 'desc')
             ->filters(static::getFilters())
             ->actions(static::getActions())

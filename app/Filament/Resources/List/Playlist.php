@@ -186,7 +186,6 @@ class Playlist extends BaseResource
                 TextColumn::make(PlaylistModel::ATTRIBUTE_NAME)
                     ->label(__('filament.fields.playlist.name.name'))
                     ->sortable()
-                    ->searchable()
                     ->copyable()
                     ->toggleable(),
 
@@ -212,6 +211,7 @@ class Playlist extends BaseResource
                     ->toggleable()
                     ->urlToRelated(Track::class, PlaylistModel::RELATION_LAST),
             ])
+            ->searchable()
             ->defaultSort(PlaylistModel::ATTRIBUTE_ID, 'desc')
             ->filters(static::getFilters())
             ->actions(static::getActions())

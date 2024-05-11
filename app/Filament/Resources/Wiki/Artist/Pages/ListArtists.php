@@ -19,7 +19,9 @@ use App\Filament\Tabs\Artist\Resource\ArtistSpotifyResourceTab;
 use App\Filament\Tabs\Artist\Resource\ArtistTwitterResourceTab;
 use App\Filament\Tabs\Artist\Resource\ArtistYoutubeResourceTab;
 use App\Filament\Tabs\Artist\Song\ArtistSongTab;
+use App\Models\Wiki\Artist as ArtistModel;
 use Filament\Resources\Components\Tab;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Class ListArtists.
@@ -43,6 +45,23 @@ class ListArtists extends BaseListResources
             parent::getHeaderActions(),
             [],
         );
+    }
+
+    /**
+     * Using Laravel Scout to search.
+     *
+     * @param  Builder  $query
+     * @return Builder
+     */
+    protected function applySearchToTableQuery(Builder $query): Builder
+    {
+        $this->applyColumnSearchesToTableQuery($query);
+    
+        if (filled($search = $this->getTableSearch())) {
+            $query->whereIn(ArtistModel::ATTRIBUTE_ID, ArtistModel::search($search)->keys());
+        }
+     
+        return $query;
     }
 
     /**

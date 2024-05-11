@@ -239,7 +239,6 @@ class Anime extends BaseResource
                 TextColumn::make(AnimeModel::ATTRIBUTE_NAME)
                     ->label(__('filament.fields.anime.name.name'))
                     ->sortable()
-                    ->searchable()
                     ->copyable()
                     ->toggleable(),
 
@@ -274,6 +273,7 @@ class Anime extends BaseResource
                     ->label(__('filament.fields.anime.resources.as.name'))
                     ->visibleOn(AnimeResourceRelationManager::class),
             ])
+            ->searchable()
             ->defaultSort(AnimeModel::ATTRIBUTE_ID, 'desc')
             ->filters(static::getFilters())
             ->actions(static::getActions())

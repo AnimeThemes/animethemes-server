@@ -12,7 +12,9 @@ use App\Filament\Tabs\Video\VideoResolutionTab;
 use App\Filament\Tabs\Video\VideoScriptTab;
 use App\Filament\Tabs\Video\VideoSourceTab;
 use App\Filament\Tabs\Video\VideoUnlinkedTab;
+use App\Models\Wiki\Video as VideoModel;
 use Filament\Resources\Components\Tab;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Class ListVideos.
@@ -36,6 +38,23 @@ class ListVideos extends BaseListResources
             parent::getHeaderActions(),
             [],
         );
+    }
+
+    /**
+     * Using Laravel Scout to search.
+     *
+     * @param  Builder  $query
+     * @return Builder
+     */
+    protected function applySearchToTableQuery(Builder $query): Builder
+    {
+        $this->applyColumnSearchesToTableQuery($query);
+    
+        if (filled($search = $this->getTableSearch())) {
+            $query->whereIn(VideoModel::ATTRIBUTE_ID, VideoModel::search($search)->keys());
+        }
+     
+        return $query;
     }
 
     /**

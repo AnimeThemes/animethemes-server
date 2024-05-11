@@ -220,6 +220,7 @@ class Theme extends BaseResource
                     ->toggleable()
                     ->urlToRelated(SongResource::class, ThemeModel::RELATION_SONG),
             ])
+            ->searchable()
             ->defaultSort(ThemeModel::ATTRIBUTE_ID, 'desc')
             ->filters(static::getFilters())
             ->actions(static::getActions())

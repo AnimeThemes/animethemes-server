@@ -15,7 +15,9 @@ use App\Filament\Tabs\Studio\Resource\StudioAnimePlanetResourceTab;
 use App\Filament\Tabs\Studio\Resource\StudioAnnResourceTab;
 use App\Filament\Tabs\Studio\Resource\StudioMalResourceTab;
 use App\Filament\Tabs\Studio\StudioUnlinkedTab;
+use App\Models\Wiki\Studio as StudioModel;
 use Filament\Resources\Components\Tab;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Class ListStudios.
@@ -41,6 +43,22 @@ class ListStudios extends BaseListResources
         );
     }
 
+    /**
+     * Using Laravel Scout to search.
+     *
+     * @param  Builder  $query
+     * @return Builder
+     */
+    protected function applySearchToTableQuery(Builder $query): Builder
+    {
+        $this->applyColumnSearchesToTableQuery($query);
+    
+        if (filled($search = $this->getTableSearch())) {
+            $query->whereIn(StudioModel::ATTRIBUTE_ID, StudioModel::search($search)->keys());
+        }
+     
+        return $query;
+    }
     
     /**
      * Get the tabs available.

@@ -180,7 +180,6 @@ class Song extends BaseResource
                 TextColumn::make(SongModel::ATTRIBUTE_TITLE)
                     ->label(__('filament.fields.song.title.name'))
                     ->sortable()
-                    ->searchable()
                     ->copyable()
                     ->toggleable(),
 
@@ -189,6 +188,7 @@ class Song extends BaseResource
                     ->visibleOn(SongResourceRelationManager::class)
                     ->toggleable(),
             ])
+            ->searchable()
             ->defaultSort(SongModel::ATTRIBUTE_ID, 'desc')
             ->filters(static::getFilters())
             ->actions(static::getActions())

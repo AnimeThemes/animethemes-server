@@ -239,6 +239,7 @@ class Video extends BaseResource
                     ->copyable()
                     ->toggleable(),
             ])
+            ->searchable()
             ->defaultSort(VideoModel::ATTRIBUTE_ID, 'desc')
             ->filters(static::getFilters())
             ->actions(static::getActions())

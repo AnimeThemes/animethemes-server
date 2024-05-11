@@ -174,6 +174,7 @@ class Synonym extends BaseResource
                     ->sortable()
                     ->toggleable(),
             ])
+            ->searchable()
             ->defaultSort(SynonymModel::ATTRIBUTE_ID, 'desc')
             ->filters(static::getFilters())
             ->actions(static::getActions())

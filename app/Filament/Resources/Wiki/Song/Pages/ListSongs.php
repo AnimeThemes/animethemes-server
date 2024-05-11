@@ -14,7 +14,9 @@ use App\Filament\Tabs\Song\Resource\SongSpotifyResourceTab;
 use App\Filament\Tabs\Song\Resource\SongYoutubeMusicResourceTab;
 use App\Filament\Tabs\Song\Resource\SongYoutubeResourceTab;
 use App\Filament\Tabs\Song\SongArtistTab;
+use App\Models\Wiki\Song as SongModel;
 use Filament\Resources\Components\Tab;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Class ListSongs.
@@ -38,6 +40,23 @@ class ListSongs extends BaseListResources
             parent::getHeaderActions(),
             [],
         );
+    }
+
+    /**
+     * Using Laravel Scout to search.
+     *
+     * @param  Builder  $query
+     * @return Builder
+     */
+    protected function applySearchToTableQuery(Builder $query): Builder
+    {
+        $this->applyColumnSearchesToTableQuery($query);
+    
+        if (filled($search = $this->getTableSearch())) {
+            $query->whereIn(SongModel::ATTRIBUTE_ID, SongModel::search($search)->keys());
+        }
+     
+        return $query;
     }
 
     /**
