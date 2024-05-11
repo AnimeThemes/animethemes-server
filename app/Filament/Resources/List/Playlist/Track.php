@@ -6,6 +6,7 @@ namespace App\Filament\Resources\List\Playlist;
 
 use App\Filament\Actions\Models\AssignHashidsAction;
 use App\Filament\Components\Columns\TextColumn;
+use App\Filament\Components\Fields\Select;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\List\Playlist as PlaylistResource;
 use App\Filament\Resources\List\Playlist\Track\Pages\CreateTrack;
@@ -16,7 +17,6 @@ use App\Filament\Resources\Wiki\Video as VideoResource;
 use App\Models\List\Playlist as PlaylistModel;
 use App\Models\List\Playlist\PlaylistTrack as TrackModel;
 use App\Models\Wiki\Video as VideoModel;
-use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Infolists\Components\Section;

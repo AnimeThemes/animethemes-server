@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Filament\Actions\Models\Auth\Role;
 
+use App\Filament\Components\Fields\Select;
 use App\Models\Auth\Permission;
 use App\Models\Auth\Role;
-use Filament\Forms\Components\Select;
 use Filament\Forms\Form;
 use Filament\Tables\Actions\Action;
 use Illuminate\Support\Arr;

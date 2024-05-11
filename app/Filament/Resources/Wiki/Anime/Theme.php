@@ -6,6 +6,7 @@ namespace App\Filament\Resources\Wiki\Anime;
 
 use App\Enums\Models\Wiki\ThemeType;
 use App\Filament\Components\Columns\TextColumn;
+use App\Filament\Components\Fields\Select;
 use App\Filament\Resources\BaseRelationManager;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Anime as AnimeResource;
@@ -20,7 +21,6 @@ use App\Models\Wiki\Anime as AnimeModel;
 use App\Models\Wiki\Anime\AnimeTheme as ThemeModel;
 use App\Models\Wiki\Group;
 use App\Models\Wiki\Song;
-use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
@@ -168,7 +168,7 @@ class Theme extends BaseResource
                 Select::make(ThemeModel::ATTRIBUTE_SONG)
                     ->label(__('filament.resources.singularLabel.song'))
                     ->relationship(ThemeModel::RELATION_SONG, Song::ATTRIBUTE_TITLE)
-                    ->searchable()
+                    ->useScout(Song::class)
                     ->createOptionForm(SongResource::form($form)->getComponents()),
             ])
             ->columns(1);

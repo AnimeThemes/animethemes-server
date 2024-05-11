@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Filament\HeaderActions\Models\Auth\User;
 
+use App\Filament\Components\Fields\Select;
 use App\Models\Auth\Permission;
 use App\Models\Auth\User;
-use Filament\Forms\Components\Select;
 use Filament\Forms\Form;
 use Filament\Actions\Action;
 use Illuminate\Database\Eloquent\Model;

@@ -6,6 +6,7 @@ namespace App\Filament\Resources\Wiki;
 
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Filament\Components\Columns\TextColumn;
+use App\Filament\Components\Fields\Select;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Image\Pages\CreateImage;
 use App\Filament\Resources\Wiki\Image\Pages\EditImage;
@@ -17,7 +18,6 @@ use App\Filament\Resources\Wiki\Image\RelationManagers\PlaylistImageRelationMana
 use App\Filament\Resources\Wiki\Image\RelationManagers\StudioImageRelationManager;
 use App\Filament\TableActions\Models\Wiki\Image\UploadImageTableAction;
 use App\Models\Wiki\Image as ImageModel;
-use Filament\Forms\Components\Select;
 use Filament\Forms\Form;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Infolist;
