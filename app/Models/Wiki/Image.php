@@ -58,7 +58,7 @@ class Image extends BaseModel
     /**
      * The attributes that are mass assignable.
      *
-     * @var string[]
+     * @var array<int, string>
      */
     protected $fillable = [
         Image::ATTRIBUTE_FACET,

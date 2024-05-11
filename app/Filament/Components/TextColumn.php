@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Components;
 
 use App\Filament\Resources\BaseRelationManager;
+use App\Filament\Resources\BaseResource;
 use App\Models\BaseModel;
 use Filament\Tables\Columns\TextColumn as ColumnsTextColumn;
 
@@ -14,9 +15,9 @@ use Filament\Tables\Columns\TextColumn as ColumnsTextColumn;
 class TextColumn extends ColumnsTextColumn
 {
     /**
-     * Used to relation columns.
+     * Used for column relationships.
      *
-     * @param  string  $resourceRelated
+     * @param  class-string<BaseResource>  $resourceRelated
      * @param  string  $relation
      * @return static
      */
