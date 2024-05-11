@@ -209,6 +209,16 @@ class Theme extends BaseResource
                     ->label(__('filament.fields.anime_theme.slug.name'))
                     ->sortable()
                     ->toggleable(),
+
+                TextColumn::make(ThemeModel::RELATION_GROUP.'.'.Group::ATTRIBUTE_NAME)
+                    ->label(__('filament.resources.singularLabel.group'))
+                    ->toggleable()
+                    ->urlToRelated(GroupResource::class, ThemeModel::RELATION_GROUP),
+
+                TextColumn::make(ThemeModel::RELATION_SONG.'.'.Song::ATTRIBUTE_TITLE)
+                    ->label(__('filament.resources.singularLabel.song'))
+                    ->toggleable()
+                    ->urlToRelated(SongResource::class, ThemeModel::RELATION_SONG),
             ])
             ->defaultSort(ThemeModel::ATTRIBUTE_ID, 'desc')
             ->filters(static::getFilters())
