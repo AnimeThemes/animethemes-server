@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Admin;
 
+use App\Filament\Components\TextColumn;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Admin\Feature\Pages\CreateFeature;
 use App\Filament\Resources\Admin\Feature\Pages\EditFeature;
@@ -12,7 +13,6 @@ use App\Filament\Resources\Admin\Feature\Pages\ViewFeature;
 use App\Models\Admin\Feature as FeatureModel;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
-use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
 /**

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Admin;
 
+use App\Filament\Components\TextColumn;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Admin\Announcement\Pages\CreateAnnouncement;
 use App\Filament\Resources\Admin\Announcement\Pages\EditAnnouncement;
@@ -14,7 +15,6 @@ use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Form;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Infolist;
-use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
 /**
