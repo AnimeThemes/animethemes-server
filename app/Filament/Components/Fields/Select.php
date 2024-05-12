@@ -26,14 +26,9 @@ class Select extends ComponentsSelect
             return $this
                 ->searchable()
                 ->getSearchResultsUsing(function (string $search) use ($model, $loadRelation) {
-                    $results = (new $model)::search($search)
-                        ->get();
-
-                    if ($loadRelation !== null) {
-                        $results = $results->load($loadRelation);
-                    }
-
-                    return $results
+                   return (new $model)::search($search)
+                        ->get()
+                        ->load($loadRelation ?? [])
                         ->mapWithKeys(fn (BaseModel $model) => [$model->getKey() => $model->getName()])
                         ->toArray();
                 });
