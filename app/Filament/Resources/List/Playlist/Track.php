@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Filament\Resources\List\Playlist;
 
 use App\Filament\Actions\Models\AssignHashidsAction;
+use App\Filament\Components\Columns\TextColumn;
+use App\Filament\Components\Fields\Select;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\List\Playlist as PlaylistResource;
 use App\Filament\Resources\List\Playlist\Track\Pages\CreateTrack;
@@ -15,12 +17,10 @@ use App\Filament\Resources\Wiki\Video as VideoResource;
 use App\Models\List\Playlist as PlaylistModel;
 use App\Models\List\Playlist\PlaylistTrack as TrackModel;
 use App\Models\Wiki\Video as VideoModel;
-use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Infolist;
-use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
 /**
@@ -98,11 +98,11 @@ class Track extends BaseResource
     /**
      * Get the route key for the resource.
      *
-     * @return string|null
+     * @return string
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getRecordRouteKeyName(): ?string
+    public static function getRecordRouteKeyName(): string
     {
         return TrackModel::ATTRIBUTE_ID;
     }

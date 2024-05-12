@@ -6,6 +6,7 @@ namespace App\Filament\Resources\Wiki;
 
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Filament\Actions\Models\Wiki\Song\AttachSongResourceAction;
+use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\ExternalResource\RelationManagers\SongResourceRelationManager;
 use App\Filament\Resources\Wiki\Song\Pages\CreateSong;
@@ -24,7 +25,6 @@ use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Support\Enums\MaxWidth;
 use Filament\Tables\Actions\ActionGroup;
-use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
 /**
@@ -88,6 +88,18 @@ class Song extends BaseResource
     }
 
     /**
+     * Determine if the resource can globally search.
+     *
+     * @return bool
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function canGloballySearch(): bool
+    {
+        return true;
+    }
+
+    /**
      * Get the slug (URI key) for the resource.
      *
      * @return string
@@ -102,35 +114,23 @@ class Song extends BaseResource
     /**
      * Get the title attribute for the resource.
      *
-     * @return string|null
+     * @return string
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getRecordTitleAttribute(): ?string
+    public static function getRecordTitleAttribute(): string
     {
         return SongModel::ATTRIBUTE_TITLE;
     }
 
     /**
-     * Get the attributes available for the global search.
-     *
-     * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    public static function getGloballySearchableAttributes(): array
-    {
-        return [SongModel::ATTRIBUTE_TITLE];
-    }
-
-    /**
      * Get the route key for the resource.
      *
-     * @return string|null
+     * @return string
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getRecordRouteKeyName(): ?string
+    public static function getRecordRouteKeyName(): string
     {
         return SongModel::ATTRIBUTE_ID;
     }
@@ -180,7 +180,6 @@ class Song extends BaseResource
                 TextColumn::make(SongModel::ATTRIBUTE_TITLE)
                     ->label(__('filament.fields.song.title.name'))
                     ->sortable()
-                    ->searchable()
                     ->copyable()
                     ->toggleable(),
 
@@ -189,6 +188,7 @@ class Song extends BaseResource
                     ->visibleOn(SongResourceRelationManager::class)
                     ->toggleable(),
             ])
+            ->searchable()
             ->defaultSort(SongModel::ATTRIBUTE_ID, 'desc')
             ->filters(static::getFilters())
             ->actions(static::getActions())

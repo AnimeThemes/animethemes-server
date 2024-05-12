@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Filament\Resources\Wiki;
 
 use App\Enums\Models\Wiki\ResourceSite;
+use App\Filament\Components\Columns\TextColumn;
+use App\Filament\Components\Fields\Select;
 use App\Filament\Resources\BaseRelationManager;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\ExternalResource\Pages\CreateExternalResource;
@@ -17,7 +19,6 @@ use App\Filament\Resources\Wiki\ExternalResource\RelationManagers\SongResourceRe
 use App\Filament\Resources\Wiki\ExternalResource\RelationManagers\StudioResourceRelationManager;
 use App\Models\Wiki\ExternalResource as ExternalResourceModel;
 use App\Pivots\Wiki\AnimeResource;
-use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Forms\Set;
@@ -25,7 +26,6 @@ use Filament\Infolists\Components\Section;
 use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Tables\Columns\SelectColumn;
-use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Validation\Rules\Enum;
 
@@ -104,11 +104,11 @@ class ExternalResource extends BaseResource
     /**
      * Get the route key for the resource.
      *
-     * @return string|null
+     * @return string
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getRecordRouteKeyName(): ?string
+    public static function getRecordRouteKeyName(): string
     {
         return ExternalResourceModel::ATTRIBUTE_ID;
     }

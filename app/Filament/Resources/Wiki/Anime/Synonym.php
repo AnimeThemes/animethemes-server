@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Filament\Resources\Wiki\Anime;
 
 use App\Enums\Models\Wiki\AnimeSynonymType;
+use App\Filament\Components\Columns\TextColumn;
+use App\Filament\Components\Fields\Select;
 use App\Filament\Resources\BaseRelationManager;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Anime as AnimeResource;
@@ -14,13 +16,11 @@ use App\Filament\Resources\Wiki\Anime\Synonym\Pages\ListSynonyms;
 use App\Filament\Resources\Wiki\Anime\Synonym\Pages\ViewSynonym;
 use App\Models\Wiki\Anime as AnimeModel;
 use App\Models\Wiki\Anime\AnimeSynonym as SynonymModel;
-use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Infolist;
 use Filament\Tables\Columns\SelectColumn;
-use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Validation\Rules\Enum;
 
@@ -99,11 +99,11 @@ class Synonym extends BaseResource
     /**
      * Get the route key for the resource.
      *
-     * @return string|null
+     * @return string
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getRecordRouteKeyName(): ?string
+    public static function getRecordRouteKeyName(): string
     {
         return SynonymModel::ATTRIBUTE_ID;
     }
@@ -174,6 +174,7 @@ class Synonym extends BaseResource
                     ->sortable()
                     ->toggleable(),
             ])
+            ->searchable()
             ->defaultSort(SynonymModel::ATTRIBUTE_ID, 'desc')
             ->filters(static::getFilters())
             ->actions(static::getActions())

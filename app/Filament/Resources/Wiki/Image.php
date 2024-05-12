@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Filament\Resources\Wiki;
 
 use App\Enums\Models\Wiki\ImageFacet;
+use App\Filament\Components\Columns\TextColumn;
+use App\Filament\Components\Fields\Select;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Image\Pages\CreateImage;
 use App\Filament\Resources\Wiki\Image\Pages\EditImage;
@@ -16,7 +18,6 @@ use App\Filament\Resources\Wiki\Image\RelationManagers\PlaylistImageRelationMana
 use App\Filament\Resources\Wiki\Image\RelationManagers\StudioImageRelationManager;
 use App\Filament\TableActions\Models\Wiki\Image\UploadImageTableAction;
 use App\Models\Wiki\Image as ImageModel;
-use Filament\Forms\Components\Select;
 use Filament\Forms\Form;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Infolist;
@@ -24,7 +25,6 @@ use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Support\Enums\MaxWidth;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\SelectColumn;
-use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Validation\Rules\Enum;
@@ -104,11 +104,11 @@ class Image extends BaseResource
     /**
      * Get the route key for the resource.
      *
-     * @return string|null
+     * @return string
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getRecordRouteKeyName(): ?string
+    public static function getRecordRouteKeyName(): string
     {
         return ImageModel::ATTRIBUTE_ID;
     }

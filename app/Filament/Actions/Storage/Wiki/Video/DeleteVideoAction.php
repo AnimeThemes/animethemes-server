@@ -6,7 +6,8 @@ namespace App\Filament\Actions\Storage\Wiki\Video;
 
 use App\Actions\Storage\Wiki\Video\DeleteVideoAction as DeleteVideo;
 use App\Filament\Actions\Storage\Base\DeleteAction;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\BaseModel;
+use App\Models\Wiki\Video;
 
 /**
  * Class DeleteVideoAction.
@@ -16,11 +17,11 @@ class DeleteVideoAction extends DeleteAction
     /**
      * Get the underlying storage action.
      *
-     * @param  Model  $video
+     * @param  Video  $video
      * @param  array  $fields
      * @return DeleteVideo
      */
-    protected function storageAction(Model $video, array $fields): DeleteVideo
+    protected function storageAction(BaseModel $video, array $fields): DeleteVideo
     {
         return new DeleteVideo($video);
     }

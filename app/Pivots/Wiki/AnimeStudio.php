@@ -55,7 +55,7 @@ class AnimeStudio extends BasePivot
     /**
      * The attributes that are mass assignable.
      *
-     * @var string[]
+     * @var array<int, string>
      */
     protected $fillable = [
         AnimeStudio::ATTRIBUTE_ANIME,

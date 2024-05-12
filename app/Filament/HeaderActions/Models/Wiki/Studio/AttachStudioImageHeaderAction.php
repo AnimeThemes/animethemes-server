@@ -6,7 +6,7 @@ namespace App\Filament\HeaderActions\Models\Wiki\Studio;
 
 use App\Actions\Models\Wiki\Studio\AttachStudioImageAction as AttachStudioImageActionAction;
 use App\Filament\HeaderActions\Models\Wiki\AttachImageHeaderAction;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Wiki\Studio;
 
 /**
  * Class AttachStudioImageHeaderAction.
@@ -22,6 +22,6 @@ class AttachStudioImageHeaderAction extends AttachImageHeaderAction
     {
         parent::setUp();
 
-        $this->action(fn (Model $record, array $data) => (new AttachStudioImageActionAction($this->facets))->handle($record, $data));
+        $this->action(fn (Studio $record, array $data) => (new AttachStudioImageActionAction($this->facets))->handle($record, $data));
     }
 }

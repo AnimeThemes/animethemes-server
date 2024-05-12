@@ -9,6 +9,7 @@ use App\Models\Auth\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Spatie\Permission\PermissionRegistrar;
 
@@ -40,7 +41,7 @@ class UserFactory extends Factory
             User::ATTRIBUTE_NAME => fake()->name(),
             User::ATTRIBUTE_EMAIL => fake()->safeEmail(),
             User::ATTRIBUTE_EMAIL_VERIFIED_AT => now(),
-            User::ATTRIBUTE_PASSWORD => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            User::ATTRIBUTE_PASSWORD => Hash::make('password'),
             User::ATTRIBUTE_REMEMBER_TOKEN => Str::random(10),
         ];
     }

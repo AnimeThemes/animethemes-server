@@ -9,6 +9,8 @@ use App\Enums\Models\Wiki\VideoSource;
 use App\Filament\Actions\Models\Wiki\Video\BackfillAudioAction;
 use App\Filament\Actions\Storage\Wiki\Video\DeleteVideoAction;
 use App\Filament\Actions\Storage\Wiki\Video\MoveVideoAction;
+use App\Filament\Components\Columns\TextColumn;
+use App\Filament\Components\Fields\Select;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Video\Pages\CreateVideo;
 use App\Filament\Resources\Wiki\Video\Pages\EditVideo;
@@ -22,7 +24,6 @@ use App\Filament\TableActions\Storage\Wiki\Video\UploadVideoTableAction;
 use App\Models\Wiki\Audio as AudioModel;
 use App\Models\Wiki\Video as VideoModel;
 use Filament\Forms\Components\Checkbox;
-use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Infolists\Components\Section;
@@ -33,7 +34,6 @@ use Filament\Support\Enums\MaxWidth;
 use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Columns\CheckboxColumn;
 use Filament\Tables\Columns\SelectColumn;
-use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Validation\Rules\Enum;
 
@@ -112,11 +112,11 @@ class Video extends BaseResource
     /**
      * Get the route key for the resource.
      *
-     * @return string|null
+     * @return string
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getRecordRouteKeyName(): ?string
+    public static function getRecordRouteKeyName(): string
     {
         return VideoModel::ATTRIBUTE_ID;
     }
@@ -239,6 +239,7 @@ class Video extends BaseResource
                     ->copyable()
                     ->toggleable(),
             ])
+            ->searchable()
             ->defaultSort(VideoModel::ATTRIBUTE_ID, 'desc')
             ->filters(static::getFilters())
             ->actions(static::getActions())

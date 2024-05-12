@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Actions\Discord;
 
 use App\Actions\Discord\DiscordThreadAction as DiscordThreadActionAction;
+use App\Models\Wiki\Anime;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Tables\Actions\Action;
@@ -24,9 +25,9 @@ class DiscordThreadAction extends Action
     {
         parent::setUp();
 
-        $this->fillForm(fn (Model $record): array => ['name' => $record->name]);
+        $this->fillForm(fn (Anime $record): array => ['name' => $record->getName()]);
 
-        $this->action(fn (Model $record, array $data) => (new DiscordThreadActionAction())->handle($record, $data));
+        $this->action(fn (Anime $record, array $data) => (new DiscordThreadActionAction())->handle($record, $data));
     }
     
     /**

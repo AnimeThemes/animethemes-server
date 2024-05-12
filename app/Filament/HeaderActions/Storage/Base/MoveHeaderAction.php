@@ -7,10 +7,10 @@ namespace App\Filament\HeaderActions\Storage\Base;
 use App\Actions\Storage\Base\MoveAction as BaseMoveAction;
 use App\Contracts\Storage\InteractsWithDisk;
 use App\Filament\HeaderActions\Storage\StorageHeaderAction;
+use App\Models\BaseModel;
 use App\Rules\Storage\StorageFileDirectoryExistsRule;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 
 /**
@@ -46,11 +46,11 @@ abstract class MoveHeaderAction extends StorageHeaderAction implements Interacts
     /**
      * Get the underlying storage action.
      *
-     * @param  Model  $model
+     * @param  BaseModel  $model
      * @param  array  $fields
      * @return BaseMoveAction
      */
-    abstract protected function storageAction(Model $model, array $fields): BaseMoveAction;
+    abstract protected function storageAction(BaseModel $model, array $fields): BaseMoveAction;
 
     /**
      * Resolve the default value for the path field.

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Document;
 
+use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Document\Page\Pages\CreatePage;
 use App\Filament\Resources\Document\Page\Pages\EditPage;
@@ -16,7 +17,6 @@ use Filament\Forms\Form;
 use Filament\Forms\Set;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Infolist;
-use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
@@ -96,11 +96,11 @@ class Page extends BaseResource
     /**
      * Get the route key for the resource.
      *
-     * @return string|null
+     * @return string
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getRecordRouteKeyName(): ?string
+    public static function getRecordRouteKeyName(): string
     {
         return PageModel::ATTRIBUTE_ID;
     }
@@ -119,19 +119,20 @@ class Page extends BaseResource
             ->schema([
                 TextInput::make(PageModel::ATTRIBUTE_NAME)
                     ->label(__('filament.fields.page.name.name'))
+                    ->helperText(__('filament.fields.page.name.help'))
                     ->required()
                     ->maxLength(192)
                     ->rules(['required', 'max:192'])
                     ->live(true)
-                    ->afterStateUpdated(fn (Set $set, ?string $state) => $set(PageModel::ATTRIBUTE_SLUG, Str::of($state, '_'))),
+                    ->afterStateUpdated(fn (Set $set, ?string $state) => $set(PageModel::ATTRIBUTE_SLUG, Str::slug($state, '_'))),
 
                 TextInput::make(PageModel::ATTRIBUTE_SLUG)
                     ->label(__('filament.fields.page.slug.name'))
                     ->helperText(__('filament.fields.page.slug.help'))
                     ->required()
                     ->maxLength(192)
-                   // ->regex('/^[\pL\pM\pN\/_-]+$/u')
-                    ->rules(['required', 'max:192', /*'regex:/^[\pL\pM\pN\/_-]+$/u',*/ Rule::unique(PageModel::class, PageModel::ATTRIBUTE_SLUG)->__toString()]),
+                    ->regex('/^[\pL\pM\pN\/_-]+$/u')
+                    ->rules(['required', 'max:192', 'regex:/^[\pL\pM\pN\/_-]+$/u', Rule::unique(PageModel::class, PageModel::ATTRIBUTE_SLUG)->__toString()]),
 
                 MarkdownEditor::make(PageModel::ATTRIBUTE_BODY)
                     ->label(__('filament.fields.page.body.name'))

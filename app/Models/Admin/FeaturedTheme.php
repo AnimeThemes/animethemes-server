@@ -59,7 +59,7 @@ class FeaturedTheme extends BaseModel
     /**
      * The attributes that are mass assignable.
      *
-     * @var string[]
+     * @var array<int, string>
      */
     protected $fillable = [
         FeaturedTheme::ATTRIBUTE_END_AT,

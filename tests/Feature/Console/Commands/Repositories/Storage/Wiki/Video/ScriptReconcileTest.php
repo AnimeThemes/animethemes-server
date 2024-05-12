@@ -31,8 +31,6 @@ class ScriptReconcileTest extends TestCase
     {
         Storage::fake(Config::get(VideoConstants::SCRIPT_DISK_QUALIFIED));
 
-        $this->baseRefreshDatabase(); // Cannot lazily refresh database within pending command
-
         $this->mock(ScriptRepository::class, function (MockInterface $mock) {
             $mock->shouldReceive('get')->once()->andReturn(Collection::make());
         });
@@ -50,8 +48,6 @@ class ScriptReconcileTest extends TestCase
     public function testCreated(): void
     {
         Storage::fake(Config::get(VideoConstants::SCRIPT_DISK_QUALIFIED));
-
-        $this->baseRefreshDatabase(); // Cannot lazily refresh database within pending command
 
         $createdScriptCount = $this->faker->numberBetween(2, 9);
 

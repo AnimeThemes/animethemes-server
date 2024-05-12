@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Actions\Models\Wiki;
 
 use App\Enums\Models\Wiki\ImageFacet;
+use App\Models\BaseModel;
 use App\Models\Wiki\Image;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
@@ -30,11 +30,11 @@ abstract class AttachImageAction
     /**
      * Perform the action on the given models.
      *
-     * @param  Model  $model
+     * @param  BaseModel  $model
      * @param  array  $fields
      * @return void
      */
-    public function handle(Model $model, array $fields): void
+    public function handle(BaseModel $model, array $fields): void
     {
         $images = $this->createImages($fields, $model);
 
@@ -49,10 +49,10 @@ abstract class AttachImageAction
      * Create the images.
      *
      * @param  array  $fields
-     * @param  Model  $model
+     * @param  BaseModel  $model
      * @return Image[]
      */
-    protected function createImages(array $fields, Model $model): array
+    protected function createImages(array $fields, BaseModel $model): array
     {
         $images = [];
 
@@ -81,10 +81,10 @@ abstract class AttachImageAction
      * Path to storage image in filesystem.
      *
      * @param  ImageFacet  $facet
-     * @param  Model  $model
+     * @param  BaseModel  $model
      * @return string
      */
-    protected function path(ImageFacet $facet, Model $model): string
+    protected function path(ImageFacet $facet, BaseModel $model): string
     {
         return Str::of(Str::kebab(class_basename($model)))
             ->append(DIRECTORY_SEPARATOR)

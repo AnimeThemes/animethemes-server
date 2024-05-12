@@ -6,6 +6,7 @@ namespace App\Filament\Resources\Wiki\Video;
 
 use App\Filament\Actions\Storage\Wiki\Video\Script\DeleteScriptAction;
 use App\Filament\Actions\Storage\Wiki\Video\Script\MoveScriptAction;
+use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Video\Script\Pages\CreateScript;
 use App\Filament\Resources\Wiki\Video\Script\Pages\EditScript;
@@ -20,7 +21,6 @@ use Filament\Infolists\Components\Section;
 use Filament\Infolists\Infolist;
 use Filament\Support\Enums\MaxWidth;
 use Filament\Tables\Actions\ActionGroup;
-use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
 /**
@@ -98,11 +98,11 @@ class Script extends BaseResource
     /**
      * Get the route key for the resource.
      *
-     * @return string|null
+     * @return string
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getRecordRouteKeyName(): ?string
+    public static function getRecordRouteKeyName(): string
     {
         return ScriptModel::ATTRIBUTE_ID;
     }

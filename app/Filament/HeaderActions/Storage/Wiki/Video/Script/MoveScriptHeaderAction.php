@@ -8,6 +8,7 @@ use App\Actions\Storage\Wiki\Video\Script\MoveScriptAction as MoveScript;
 use App\Constants\Config\VideoConstants;
 use App\Models\Wiki\Video\VideoScript;
 use App\Filament\HeaderActions\Storage\Base\MoveHeaderAction;
+use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
@@ -20,11 +21,11 @@ class MoveScriptHeaderAction extends MoveHeaderAction
     /**
      * Get the underlying storage action.
      *
-     * @param  Model  $script
+     * @param  VideoScript  $script
      * @param  array  $fields
      * @return MoveScript
      */
-    protected function storageAction(Model $script, array $fields): MoveScript
+    protected function storageAction(BaseModel $script, array $fields): MoveScript
     {
         /** @var string $path */
         $path = Arr::get($fields, 'path');
