@@ -120,15 +120,15 @@ class Anime extends BaseResource
     }
 
     /**
-     * Get the attributes available for the global search.
+     * Determine if the resource can globally search.
      *
-     * @return string[]
+     * @return bool
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getGloballySearchableAttributes(): array
+    public static function canGloballySearch(): bool
     {
-        return [AnimeModel::ATTRIBUTE_NAME];
+        return true;
     }
 
     /**

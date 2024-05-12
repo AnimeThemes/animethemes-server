@@ -105,18 +105,6 @@ class Group extends BaseResource
     }
 
     /**
-     * Get the attributes available for the global search.
-     *
-     * @return string[]
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    public static function getGloballySearchableAttributes(): array
-    {
-        return [GroupModel::ATTRIBUTE_NAME];
-    }
-
-    /**
      * Get the route key for the resource.
      *
      * @return string

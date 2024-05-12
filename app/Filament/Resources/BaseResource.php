@@ -28,6 +28,18 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 abstract class BaseResource extends Resource
 {
     /**
+     * Determine if the resource can globally search.
+     *
+     * @return bool
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function canGloballySearch(): bool
+    {
+        return false;
+    }
+
+    /**
      * The index page of the resource.
      *
      * @param  Table  $table

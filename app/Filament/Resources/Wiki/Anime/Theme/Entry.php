@@ -26,9 +26,7 @@ use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Tables\Columns\CheckboxColumn;
 use Filament\Tables\Table;
-use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Collection;
 
 /**
  * Class Entry.
@@ -103,15 +101,15 @@ class Entry extends BaseResource
     }
 
     /**
-     * Get the attributes available for the global search.
+     * Determine if the resource can globally search.
      *
-     * @return string[]
+     * @return bool
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getGloballySearchableAttributes(): array
+    public static function canGloballySearch(): bool
     {
-        return [EntryModel::RELATION_ANIME.'.'.AnimeModel::ATTRIBUTE_NAME];
+        return true;
     }
 
     /**

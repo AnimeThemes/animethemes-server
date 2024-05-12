@@ -88,6 +88,18 @@ class Song extends BaseResource
     }
 
     /**
+     * Determine if the resource can globally search.
+     *
+     * @return bool
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function canGloballySearch(): bool
+    {
+        return true;
+    }
+
+    /**
      * Get the slug (URI key) for the resource.
      *
      * @return string
@@ -109,18 +121,6 @@ class Song extends BaseResource
     public static function getRecordTitleAttribute(): string
     {
         return SongModel::ATTRIBUTE_TITLE;
-    }
-
-    /**
-     * Get the attributes available for the global search.
-     *
-     * @return string[]
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    public static function getGloballySearchableAttributes(): array
-    {
-        return [SongModel::ATTRIBUTE_TITLE];
     }
 
     /**

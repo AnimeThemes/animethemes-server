@@ -30,6 +30,7 @@ use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Tables\Columns\SelectColumn;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\Enum;
 
@@ -91,6 +92,30 @@ class Theme extends BaseResource
     public static function getNavigationIcon(): string
     {
         return __('filament.resources.icon.anime_themes');
+    }
+
+    /**
+     * Get the title for the resource.
+     *
+     * @return string|null
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getRecordTitle(?Model $record): ?string
+    {
+        return $record instanceof ThemeModel ? $record->anime->getName().' '.$record->slug : null;
+    }
+
+    /**
+     * Determine if the resource can globally search.
+     *
+     * @return bool
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function canGloballySearch(): bool
+    {
+        return true;
     }
 
     /**

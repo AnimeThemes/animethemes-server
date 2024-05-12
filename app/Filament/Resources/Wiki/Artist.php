@@ -31,6 +31,7 @@ use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Support\Enums\MaxWidth;
 use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
@@ -95,27 +96,15 @@ class Artist extends BaseResource
     }
 
     /**
-     * Get the title attribute for the resource.
+     * Determine if the resource can globally search.
      *
-     * @return string
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    public static function getRecordTitleAttribute(): string
-    {
-        return ArtistModel::ATTRIBUTE_NAME;
-    }
-
-    /**
-     * Get the attributes available for the global search.
-     *
-     * @return string[]
+     * @return bool
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getGloballySearchableAttributes(): array
+    public static function canGloballySearch(): bool
     {
-        return [ArtistModel::ATTRIBUTE_NAME];
+        return true;
     }
 
     /**
@@ -128,6 +117,18 @@ class Artist extends BaseResource
     public static function getSlug(): string
     {
         return static::getDefaultSlug().'artists';
+    }
+
+    /**
+     * Get the title attribute for the resource.
+     *
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getRecordTitleAttribute(): string
+    {
+        return ArtistModel::ATTRIBUTE_NAME;
     }
 
     /**

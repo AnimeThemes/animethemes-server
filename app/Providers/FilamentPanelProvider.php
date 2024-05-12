@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Filament\Providers\GlobalSearchScoutProvider;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -31,6 +32,7 @@ class FilamentPanelProvider extends PanelProvider
             ->path(Config::get('filament.path'))
             ->domain(Config::get('filament.domain'))
             ->login()
+            ->globalSearch(GlobalSearchScoutProvider::class)
             ->databaseNotifications()
             ->sidebarCollapsibleOnDesktop()
             ->profile()

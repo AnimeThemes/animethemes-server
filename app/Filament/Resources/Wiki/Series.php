@@ -83,6 +83,18 @@ class Series extends BaseResource
     }
 
     /**
+     * Determine if the resource can globally search.
+     *
+     * @return bool
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function canGloballySearch(): bool
+    {
+        return true;
+    }
+
+    /**
      * Get the slug (URI key) for the resource.
      *
      * @return string
@@ -104,18 +116,6 @@ class Series extends BaseResource
     public static function getRecordTitleAttribute(): string
     {
         return SeriesModel::ATTRIBUTE_NAME;
-    }
-
-    /**
-     * Get the attributes available for the global search.
-     *
-     * @return string[]
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    public static function getGloballySearchableAttributes(): array
-    {
-        return [SeriesModel::ATTRIBUTE_NAME];
     }
 
     /**
