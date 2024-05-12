@@ -6,7 +6,7 @@ namespace App\Filament\HeaderActions\Storage\Base;
 
 use App\Actions\Storage\Base\DeleteAction as BaseDeleteAction;
 use App\Filament\HeaderActions\Storage\StorageHeaderAction;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\BaseModel;
 
 /**
  * Class DeleteHeaderAction.
@@ -16,9 +16,9 @@ abstract class DeleteHeaderAction extends StorageHeaderAction
     /**
      * Get the underlying storage action.
      *
-     * @param  Model  $model
+     * @param  BaseModel  $model
      * @param  array  $fields
      * @return BaseDeleteAction
      */
-    abstract protected function storageAction(Model $model, array $fields): BaseDeleteAction;
+    abstract protected function storageAction(BaseModel $model, array $fields): BaseDeleteAction;
 }

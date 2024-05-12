@@ -29,8 +29,6 @@ class DumpReconcileTest extends TestCase
      */
     public function testNoResults(): void
     {
-        $this->baseRefreshDatabase(); // Cannot lazily refresh database within pending command
-
         $this->mock(DumpRepository::class, function (MockInterface $mock) {
             $mock->shouldReceive('get')->once()->andReturn(Collection::make());
         });
@@ -48,8 +46,6 @@ class DumpReconcileTest extends TestCase
     public function testCreated(): void
     {
         Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));
-
-        $this->baseRefreshDatabase(); // Cannot lazily refresh database within pending command
 
         $createdDumpCount = $this->faker->numberBetween(2, 9);
 

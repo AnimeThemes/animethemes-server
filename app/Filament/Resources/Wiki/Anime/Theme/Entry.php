@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Wiki\Anime\Theme;
 
+use App\Filament\Components\Columns\TextColumn;
+use App\Filament\Components\Fields\Select;
 use App\Filament\Resources\BaseRelationManager;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Anime as AnimeResource;
@@ -17,14 +19,12 @@ use App\Models\Wiki\Anime as AnimeModel;
 use App\Models\Wiki\Anime\AnimeTheme as ThemeModel;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry as EntryModel;
 use Filament\Forms\Components\Checkbox;
-use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Tables\Columns\CheckboxColumn;
-use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 
@@ -97,31 +97,19 @@ class Entry extends BaseResource
      */
     public static function getRecordTitle(?Model $record): ?string
     {
-        if ($record instanceof EntryModel) {
-            $theme = $record->animetheme;
-            $anime = $theme->anime->name;
-            $text = $anime.' '.$theme->slug;
-
-            if ($record->version !== null) {
-                return $text.'v'.$record->version;
-            }
-
-            return $text;
-        }
-
-        return null;
+        return $record instanceof EntryModel ? $record->getName() : null;
     }
 
     /**
-     * Get the attributes available for the global search.
+     * Determine if the resource can globally search.
      *
-     * @return array
+     * @return bool
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getGloballySearchableAttributes(): array
+    public static function canGloballySearch(): bool
     {
-        return [EntryModel::RELATION_ANIME.'.'.AnimeModel::ATTRIBUTE_NAME];
+        return true;
     }
 
     /**
@@ -139,11 +127,11 @@ class Entry extends BaseResource
     /**
      * Get the route key for the resource.
      *
-     * @return string|null
+     * @return string
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getRecordRouteKeyName(): ?string
+    public static function getRecordRouteKeyName(): string
     {
         return EntryModel::ATTRIBUTE_ID;
     }
@@ -165,8 +153,15 @@ class Entry extends BaseResource
                     ->relationship(EntryModel::RELATION_ANIME_SHALLOW, AnimeModel::ATTRIBUTE_NAME)
                     ->searchable()
                     ->disabledOn(BaseRelationManager::class)
-                    ->formatStateUsing(fn ($livewire, $state) => $livewire instanceof BaseRelationManager ? $livewire->getOwnerRecord()->anime->name : $state)
-                    ->saveRelationshipsUsing(function (Select $component, Model $record, $state) {
+                    ->formatStateUsing(function ($livewire, $state) {
+                        if ($livewire instanceof BaseRelationManager) {
+                            /** @var EntryModel */
+                            $entry = $livewire->getOwnerRecord();
+                            return $entry->anime->getName();
+                        }
+                        return $state;
+                    })
+                    ->saveRelationshipsUsing(function (Model $record, $state) {
                         if ($record instanceof EntryModel) {
                             $record->animetheme->anime()->associate($state)->save();
                         }
@@ -177,7 +172,14 @@ class Entry extends BaseResource
                     ->relationship(EntryModel::RELATION_THEME, ThemeModel::ATTRIBUTE_SLUG)
                     ->searchable()
                     ->disabledOn(BaseRelationManager::class)
-                    ->formatStateUsing(fn ($livewire, $state) => $livewire instanceof BaseRelationManager ? $livewire->getOwnerRecord()->slug : $state),
+                    ->formatStateUsing(function ($livewire, $state) {
+                        if ($livewire instanceof BaseRelationManager) {
+                            /** @var EntryModel */
+                            $entry = $livewire->getOwnerRecord();
+                            return $entry->animetheme->slug;
+                        }
+                        return $state;
+                    }),
 
                 TextInput::make(EntryModel::ATTRIBUTE_VERSION)
                     ->label(__('filament.fields.anime_theme_entry.version.name'))
@@ -256,6 +258,7 @@ class Entry extends BaseResource
                     ->label(__('filament.fields.anime_theme_entry.notes.name'))
                     ->toggleable(),
             ])
+            ->searchable()
             ->defaultSort(EntryModel::ATTRIBUTE_ID, 'desc')
             ->filters(static::getFilters())
             ->actions(static::getActions())

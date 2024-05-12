@@ -50,7 +50,7 @@ class Studio extends BaseModel
     /**
      * The attributes that are mass assignable.
      *
-     * @var string[]
+     * @var array<int, string>
      */
     protected $fillable = [
         Studio::ATTRIBUTE_NAME,

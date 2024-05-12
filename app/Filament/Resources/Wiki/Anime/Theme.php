@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Filament\Resources\Wiki\Anime;
 
 use App\Enums\Models\Wiki\ThemeType;
+use App\Filament\Components\Columns\TextColumn;
+use App\Filament\Components\Fields\Select;
 use App\Filament\Resources\BaseRelationManager;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Anime as AnimeResource;
@@ -19,7 +21,6 @@ use App\Models\Wiki\Anime as AnimeModel;
 use App\Models\Wiki\Anime\AnimeTheme as ThemeModel;
 use App\Models\Wiki\Group;
 use App\Models\Wiki\Song;
-use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
@@ -28,8 +29,8 @@ use Filament\Infolists\Components\Section;
 use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Tables\Columns\SelectColumn;
-use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\Enum;
 
@@ -94,6 +95,30 @@ class Theme extends BaseResource
     }
 
     /**
+     * Get the title for the resource.
+     *
+     * @return string|null
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getRecordTitle(?Model $record): ?string
+    {
+        return $record instanceof ThemeModel ? $record->anime->getName().' '.$record->slug : null;
+    }
+
+    /**
+     * Determine if the resource can globally search.
+     *
+     * @return bool
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function canGloballySearch(): bool
+    {
+        return true;
+    }
+
+    /**
      * Get the slug (URI key) for the resource.
      *
      * @return string
@@ -108,11 +133,11 @@ class Theme extends BaseResource
     /**
      * Get the route key for the resource.
      *
-     * @return string|null
+     * @return string
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getRecordRouteKeyName(): ?string
+    public static function getRecordRouteKeyName(): string
     {
         return ThemeModel::ATTRIBUTE_ID;
     }
@@ -168,7 +193,7 @@ class Theme extends BaseResource
                 Select::make(ThemeModel::ATTRIBUTE_SONG)
                     ->label(__('filament.resources.singularLabel.song'))
                     ->relationship(ThemeModel::RELATION_SONG, Song::ATTRIBUTE_TITLE)
-                    ->searchable()
+                    ->useScout(Song::class)
                     ->createOptionForm(SongResource::form($form)->getComponents()),
             ])
             ->columns(1);
@@ -209,7 +234,18 @@ class Theme extends BaseResource
                     ->label(__('filament.fields.anime_theme.slug.name'))
                     ->sortable()
                     ->toggleable(),
+
+                TextColumn::make(ThemeModel::RELATION_GROUP.'.'.Group::ATTRIBUTE_NAME)
+                    ->label(__('filament.resources.singularLabel.group'))
+                    ->toggleable()
+                    ->urlToRelated(GroupResource::class, ThemeModel::RELATION_GROUP),
+
+                TextColumn::make(ThemeModel::RELATION_SONG.'.'.Song::ATTRIBUTE_TITLE)
+                    ->label(__('filament.resources.singularLabel.song'))
+                    ->toggleable()
+                    ->urlToRelated(SongResource::class, ThemeModel::RELATION_SONG),
             ])
+            ->searchable()
             ->defaultSort(ThemeModel::ATTRIBUTE_ID, 'desc')
             ->filters(static::getFilters())
             ->actions(static::getActions())
@@ -252,7 +288,7 @@ class Theme extends BaseResource
         
         if ($slug->isNotEmpty()) {
             $sequence = $get(ThemeModel::ATTRIBUTE_SEQUENCE);
-            $slug = $slug->append(empty($sequence) || $sequence === null ? 1 : $sequence);
+            $slug = $slug->append(strval(empty($sequence) ? 1 : $sequence));
         }
 
         $set(ThemeModel::ATTRIBUTE_SLUG, $slug->__toString());

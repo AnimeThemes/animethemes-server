@@ -8,6 +8,7 @@ use App\Filament\Actions\Models\Auth\User\GivePermissionAction;
 use App\Filament\Actions\Models\Auth\User\GiveRoleAction;
 use App\Filament\Actions\Models\Auth\User\RevokePermissionAction;
 use App\Filament\Actions\Models\Auth\User\RevokeRoleAction;
+use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Auth\User\Pages\CreateUser;
 use App\Filament\Resources\Auth\User\Pages\EditUser;
@@ -24,7 +25,6 @@ use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Columns\ImageColumn;
-use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
 /**
@@ -102,11 +102,11 @@ class User extends BaseResource
     /**
      * Get the route key for the resource.
      *
-     * @return string|null
+     * @return string
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getRecordRouteKeyName(): ?string
+    public static function getRecordRouteKeyName(): string
     {
         return UserModel::ATTRIBUTE_ID;
     }

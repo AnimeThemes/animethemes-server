@@ -20,7 +20,9 @@ use App\Filament\Tabs\Anime\Resource\AnimePlanetResourceTab;
 use App\Filament\Tabs\Anime\Resource\AnimeTwitterResourceTab;
 use App\Filament\Tabs\Anime\Resource\AnimeYoutubeResourceTab;
 use App\Filament\Tabs\Anime\Studio\AnimeStudioTab;
+use App\Models\Wiki\Anime as AnimeModel;
 use Filament\Resources\Components\Tab;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Class ListAnimes.
@@ -44,6 +46,23 @@ class ListAnimes extends BaseListResources
             parent::getHeaderActions(),
             [],
         );
+    }
+
+    /**
+     * Using Laravel Scout to search.
+     *
+     * @param  Builder  $query
+     * @return Builder
+     */
+    protected function applySearchToTableQuery(Builder $query): Builder
+    {
+        $this->applyColumnSearchesToTableQuery($query);
+    
+        if (filled($search = $this->getTableSearch())) {
+            $query->whereIn(AnimeModel::ATTRIBUTE_ID, AnimeModel::search($search)->keys());
+        }
+     
+        return $query;
     }
 
     /**

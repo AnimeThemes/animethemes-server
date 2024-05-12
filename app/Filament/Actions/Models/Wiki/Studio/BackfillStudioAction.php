@@ -18,7 +18,6 @@ use Filament\Notifications\Notification;
 use Filament\Tables\Actions\Action;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Sleep;
@@ -42,20 +41,20 @@ class BackfillStudioAction extends Action implements ShouldQueue
     {
         parent::setUp();
 
-        $this->action(fn (Model $record, array $data) => $this->handle($record, $data));
+        $this->action(fn (Studio $record, array $data) => $this->handle($record, $data));
     }
 
     /**
      * Perform the action on the given models.
      *
-     * @param  Model  $studio
+     * @param  Studio  $studio
      * @param  array  $fields
      * @return void
      */
-    public function handle(Model $studio, array $fields): void
+    public function handle(Studio $studio, array $fields): void
     {
         if ($studio->resources()->doesntExist()) {
-            $this->markAsFailed($studio, __('filament.actions.studio.backfill.message.resource_required_failure'));
+            //$this->markAsFailed($studio, __('filament.actions.studio.backfill.message.resource_required_failure'));
             return;
         }
 
@@ -77,7 +76,7 @@ class BackfillStudioAction extends Action implements ShouldQueue
                 }
             }
         } catch (Exception $e) {
-            $this->markAsFailed($studio, $e);
+            //$this->markAsFailed($studio, $e);
         } finally {
             // Try not to upset third-party APIs
             Sleep::for(rand(3, 5))->second();

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Admin;
 
+use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Admin\Feature\Pages\CreateFeature;
 use App\Filament\Resources\Admin\Feature\Pages\EditFeature;
@@ -12,7 +13,6 @@ use App\Filament\Resources\Admin\Feature\Pages\ViewFeature;
 use App\Models\Admin\Feature as FeatureModel;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
-use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
 /**
@@ -90,11 +90,11 @@ class Feature extends BaseResource
     /**
      * Get the route key for the resource.
      *
-     * @return string|null
+     * @return string
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getRecordRouteKeyName(): ?string
+    public static function getRecordRouteKeyName(): string
     {
         return FeatureModel::ATTRIBUTE_ID;
     }

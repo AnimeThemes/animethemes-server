@@ -12,6 +12,8 @@ use App\Filament\Actions\Discord\DiscordThreadAction;
 use App\Filament\Actions\Models\Wiki\Anime\AttachAnimeImageAction;
 use App\Filament\Actions\Models\Wiki\Anime\AttachAnimeResourceAction;
 use App\Filament\Actions\Models\Wiki\Anime\BackfillAnimeAction;
+use App\Filament\Components\Columns\TextColumn;
+use App\Filament\Components\Fields\Select;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Anime\Pages\CreateAnime;
 use App\Filament\Resources\Wiki\Anime\Pages\EditAnime;
@@ -30,7 +32,6 @@ use App\Models\Wiki\Image;
 use App\Models\Wiki\Video;
 use App\Pivots\Wiki\AnimeResource;
 use Filament\Forms\Components\MarkdownEditor;
-use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Forms\Set;
@@ -40,7 +41,6 @@ use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Support\Enums\MaxWidth;
 use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Columns\SelectColumn;
-use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
@@ -110,25 +110,25 @@ class Anime extends BaseResource
     /**
      * Get the title attribute for the resource.
      *
-     * @return string|null
+     * @return string
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getRecordTitleAttribute(): ?string
+    public static function getRecordTitleAttribute(): string
     {
         return AnimeModel::ATTRIBUTE_NAME;
     }
 
     /**
-     * Get the attributes available for the global search.
+     * Determine if the resource can globally search.
      *
-     * @return array
+     * @return bool
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getGloballySearchableAttributes(): array
+    public static function canGloballySearch(): bool
     {
-        return [AnimeModel::ATTRIBUTE_NAME];
+        return true;
     }
 
     /**
@@ -146,11 +146,11 @@ class Anime extends BaseResource
     /**
      * Get the route key for the resource.
      *
-     * @return string|null
+     * @return string
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getRecordRouteKeyName(): ?string
+    public static function getRecordRouteKeyName(): string
     {
         return AnimeModel::ATTRIBUTE_ID;
     }
@@ -239,7 +239,6 @@ class Anime extends BaseResource
                 TextColumn::make(AnimeModel::ATTRIBUTE_NAME)
                     ->label(__('filament.fields.anime.name.name'))
                     ->sortable()
-                    ->searchable()
                     ->copyable()
                     ->toggleable(),
 
@@ -274,6 +273,7 @@ class Anime extends BaseResource
                     ->label(__('filament.fields.anime.resources.as.name'))
                     ->visibleOn(AnimeResourceRelationManager::class),
             ])
+            ->searchable()
             ->defaultSort(AnimeModel::ATTRIBUTE_ID, 'desc')
             ->filters(static::getFilters())
             ->actions(static::getActions())

@@ -6,9 +6,9 @@ namespace App\Filament\HeaderActions\Models;
 
 use App\Actions\Models\AssignHashidsAction as AssignHashids;
 use App\Contracts\Models\HasHashids;
+use App\Models\BaseModel;
 use Exception;
 use Filament\Actions\Action;
-use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class AssignHashidsHeaderAction.
@@ -26,19 +26,18 @@ class AssignHashidsHeaderAction extends Action
     {
         parent::setUp();
 
-        $this->action(fn (Model $record, array $data) => $this->handle($record, $data));
+        $this->action(fn (BaseModel $record) => $this->handle($record));
     }
 
     /**
      * Perform the action on the given models.
      *
-     * @param  Model  $model
-     * @param  array  $data
+     * @param  BaseModel  $model
      * @return void
      *
      * @noinspection PhpUnusedParameterInspection
      */
-    public function handle(Model $model, array $data): void
+    public function handle(BaseModel $model): void
     {
         $action = new AssignHashids();
 
@@ -46,7 +45,7 @@ class AssignHashidsHeaderAction extends Action
             try {
                 $action->assign($model, $this->connection);
             } catch (Exception $e) {
-                $this->markAsFailed($model, $e);
+                //$this->markAsFailed($model, $e);
             }
         }
     }

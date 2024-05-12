@@ -32,7 +32,7 @@ class Dump extends BaseModel
     /**
      * The attributes that are mass assignable.
      *
-     * @var string[]
+     * @var array<int, string>
      */
     protected $fillable = [
         Dump::ATTRIBUTE_PATH,

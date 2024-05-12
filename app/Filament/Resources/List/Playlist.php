@@ -6,6 +6,8 @@ namespace App\Filament\Resources\List;
 
 use App\Enums\Models\List\PlaylistVisibility;
 use App\Filament\Actions\Models\AssignHashidsAction;
+use App\Filament\Components\Columns\TextColumn;
+use App\Filament\Components\Fields\Select;
 use App\Filament\Resources\Auth\User as UserResource;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\List\Playlist\Pages\CreatePlaylist;
@@ -18,14 +20,12 @@ use App\Filament\Resources\List\Playlist\RelationManagers\TrackPlaylistRelationM
 use App\Models\Auth\User as UserModel;
 use App\Models\List\Playlist as PlaylistModel;
 use App\Models\List\Playlist\PlaylistTrack as TrackModel;
-use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Tables\Columns\SelectColumn;
-use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Validation\Rules\Enum;
 
@@ -104,11 +104,11 @@ class Playlist extends BaseResource
     /**
      * Get the route key for the resource.
      *
-     * @return string|null
+     * @return string
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getRecordRouteKeyName(): ?string
+    public static function getRecordRouteKeyName(): string
     {
         return PlaylistModel::ATTRIBUTE_ID;
     }
@@ -186,7 +186,6 @@ class Playlist extends BaseResource
                 TextColumn::make(PlaylistModel::ATTRIBUTE_NAME)
                     ->label(__('filament.fields.playlist.name.name'))
                     ->sortable()
-                    ->searchable()
                     ->copyable()
                     ->toggleable(),
 
@@ -212,6 +211,7 @@ class Playlist extends BaseResource
                     ->toggleable()
                     ->urlToRelated(Track::class, PlaylistModel::RELATION_LAST),
             ])
+            ->searchable()
             ->defaultSort(PlaylistModel::ATTRIBUTE_ID, 'desc')
             ->filters(static::getFilters())
             ->actions(static::getActions())

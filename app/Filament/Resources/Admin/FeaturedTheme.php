@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Filament\Resources\Admin;
 
 use App\Enums\Http\Api\Filter\AllowedDateFormat;
+use App\Filament\Components\Columns\TextColumn;
+use App\Filament\Components\Fields\Select;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Admin\FeaturedTheme\Pages\CreateFeaturedTheme;
 use App\Filament\Resources\Admin\FeaturedTheme\Pages\EditFeaturedTheme;
@@ -18,11 +20,9 @@ use App\Models\Auth\User;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry as EntryModel;
 use App\Models\Wiki\Video;
 use Filament\Forms\Components\DatePicker;
-use Filament\Forms\Components\Select;
 use Filament\Forms\Form;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Infolist;
-use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
 
@@ -101,11 +101,11 @@ class FeaturedTheme extends BaseResource
     /**
      * Get the route key for the resource.
      *
-     * @return string|null
+     * @return string
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getRecordRouteKeyName(): ?string
+    public static function getRecordRouteKeyName(): string
     {
         return FeaturedThemeModel::ATTRIBUTE_ID;
     }
@@ -155,19 +155,12 @@ class FeaturedTheme extends BaseResource
                 Select::make(FeaturedThemeModel::ATTRIBUTE_VIDEO)
                     ->label(__('filament.resources.singularLabel.video'))
                     ->relationship(FeaturedThemeModel::RELATION_VIDEO, Video::ATTRIBUTE_FILENAME)
-                    ->searchable(),
+                    ->useScout(Video::class),
 
                 Select::make(FeaturedThemeModel::ATTRIBUTE_ENTRY)
                     ->label(__('filament.resources.singularLabel.anime_theme_entry'))
                     ->relationship(FeaturedThemeModel::RELATION_ENTRY, EntryModel::ATTRIBUTE_ID)
-                    ->searchable()
-                    ->getSearchResultsUsing(function (string $search) {
-                        return EntryModel::search($search)
-                            ->get()
-                            ->load(EntryModel::RELATION_ANIME_SHALLOW)
-                            ->mapWithKeys(fn (EntryModel $entry) => [$entry->entry_id => $entry->getName()])
-                            ->toArray();
-                    }),
+                    ->useScout(EntryModel::class, EntryModel::RELATION_ANIME_SHALLOW),
 
                 Select::make(FeaturedThemeModel::ATTRIBUTE_USER)
                     ->label(__('filament.resources.singularLabel.user'))

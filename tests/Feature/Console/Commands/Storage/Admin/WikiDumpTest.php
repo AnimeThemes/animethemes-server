@@ -26,8 +26,6 @@ class WikiDumpTest extends TestCase
      */
     public function testDataBaseDumpOutput(): void
     {
-        $this->baseRefreshDatabase(); // Cannot lazily refresh database within pending command
-
         Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));
 
         Date::setTestNow($this->faker->iso8601());
@@ -44,8 +42,6 @@ class WikiDumpTest extends TestCase
      */
     public function testDataBaseDumpFile(): void
     {
-        $this->baseRefreshDatabase(); // Cannot lazily refresh database within pending command
-
         $local = Storage::fake('local');
         $fs = Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));
 

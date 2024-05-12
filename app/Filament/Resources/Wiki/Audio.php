@@ -7,6 +7,7 @@ namespace App\Filament\Resources\Wiki;
 use App\Filament\Actions\Models\Wiki\Audio\AttachAudioToRelatedVideosAction;
 use App\Filament\Actions\Storage\Wiki\Audio\DeleteAudioAction;
 use App\Filament\Actions\Storage\Wiki\Audio\MoveAudioAction;
+use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Audio\Pages\CreateAudio;
 use App\Filament\Resources\Wiki\Audio\Pages\EditAudio;
@@ -25,7 +26,6 @@ use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Support\Enums\MaxWidth;
 use Filament\Tables\Actions\ActionGroup;
-use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
 /**
@@ -103,11 +103,11 @@ class Audio extends BaseResource
     /**
      * Get the route key for the resource.
      *
-     * @return string|null
+     * @return string
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getRecordRouteKeyName(): ?string
+    public static function getRecordRouteKeyName(): string
     {
         return AudioModel::ATTRIBUTE_ID;
     }

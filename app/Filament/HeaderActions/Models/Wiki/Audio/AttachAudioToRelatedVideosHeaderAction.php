@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace App\Filament\HeaderActions\Models\Wiki\Audio;
 
+use App\Models\BaseModel;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
+use App\Models\Wiki\Audio;
 use App\Models\Wiki\Video;
 use Filament\Actions\Action;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
 
 /**
@@ -25,17 +26,16 @@ class AttachAudioToRelatedVideosHeaderAction extends Action implements ShouldQue
     {
         parent::setUp();
 
-        $this->action(fn (Model $record, array $data) => $this->handle($record, $data));
+        $this->action(fn (Audio $record) => $this->handle($record));
     }
 
     /**
      * Perform the action on the given models.
      *
-     * @param  Model  $audio
-     * @param  array  $data
+     * @param  Audio  $audio
      * @return void
      */
-    public function handle(Model $audio, array $data): void
+    public function handle(Audio $audio): void
     {
         $video = $audio->videos()->first();
 

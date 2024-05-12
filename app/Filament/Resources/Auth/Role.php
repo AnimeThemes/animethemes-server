@@ -6,6 +6,7 @@ namespace App\Filament\Resources\Auth;
 
 use App\Filament\Actions\Models\Auth\Role\GivePermissionAction;
 use App\Filament\Actions\Models\Auth\Role\RevokePermissionAction;
+use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Auth\Role\Pages\CreateRole;
 use App\Filament\Resources\Auth\Role\Pages\EditRole;
@@ -22,7 +23,6 @@ use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Columns\CheckboxColumn;
 use Filament\Tables\Columns\ColorColumn;
-use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
 /**
@@ -100,11 +100,11 @@ class Role extends BaseResource
     /**
      * Get the route key for the resource.
      *
-     * @return string|null
+     * @return string
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getRecordRouteKeyName(): ?string
+    public static function getRecordRouteKeyName(): string
     {
         return RoleModel::ATTRIBUTE_ID;
     }

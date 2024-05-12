@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Wiki;
 
+use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Series\Pages\CreateSeries;
 use App\Filament\Resources\Wiki\Series\Pages\EditSeries;
@@ -17,7 +18,6 @@ use Filament\Forms\Set;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
-use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
@@ -83,6 +83,18 @@ class Series extends BaseResource
     }
 
     /**
+     * Determine if the resource can globally search.
+     *
+     * @return bool
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function canGloballySearch(): bool
+    {
+        return true;
+    }
+
+    /**
      * Get the slug (URI key) for the resource.
      *
      * @return string
@@ -97,35 +109,23 @@ class Series extends BaseResource
     /**
      * Get the title attribute for the resource.
      *
-     * @return string|null
+     * @return string
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getRecordTitleAttribute(): ?string
+    public static function getRecordTitleAttribute(): string
     {
         return SeriesModel::ATTRIBUTE_NAME;
     }
 
     /**
-     * Get the attributes available for the global search.
-     *
-     * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    public static function getGloballySearchableAttributes(): array
-    {
-        return [SeriesModel::ATTRIBUTE_NAME];
-    }
-
-    /**
      * Get the route key for the resource.
      *
-     * @return string|null
+     * @return string
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getRecordRouteKeyName(): ?string
+    public static function getRecordRouteKeyName(): string
     {
         return SeriesModel::ATTRIBUTE_ID;
     }
@@ -180,7 +180,6 @@ class Series extends BaseResource
                 TextColumn::make(SeriesModel::ATTRIBUTE_NAME)
                     ->label(__('filament.fields.series.name.name'))
                     ->sortable()
-                    ->searchable()
                     ->copyable()
                     ->toggleable(),
 
@@ -190,6 +189,7 @@ class Series extends BaseResource
                     ->copyable()
                     ->toggleable(),
             ])
+            ->searchable()
             ->defaultSort(SeriesModel::ATTRIBUTE_ID, 'desc')
             ->filters(static::getFilters())
             ->actions(static::getActions())

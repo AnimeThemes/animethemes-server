@@ -12,7 +12,6 @@ use App\Events\Wiki\Group\GroupUpdated;
 use App\Models\BaseModel;
 use App\Models\Wiki\Anime\AnimeTheme;
 use Database\Factories\Wiki\GroupFactory;
-use Elastic\ScoutDriverPlus\Searchable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
 use Laravel\Nova\Actions\Actionable;
@@ -30,7 +29,6 @@ use Laravel\Nova\Actions\Actionable;
 class Group extends BaseModel
 {
     use Actionable;
-    use Searchable;
 
     final public const TABLE = 'groups';
 
@@ -45,7 +43,7 @@ class Group extends BaseModel
     /**
      * The attributes that are mass assignable.
      *
-     * @var string[]
+     * @var array<int, string>
      */
     protected $fillable = [
         Group::ATTRIBUTE_NAME,

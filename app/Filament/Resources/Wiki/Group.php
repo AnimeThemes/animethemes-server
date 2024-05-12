@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Wiki;
 
+use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Group\Pages\CreateGroup;
 use App\Filament\Resources\Wiki\Group\Pages\EditGroup;
@@ -16,7 +17,6 @@ use Filament\Forms\Form;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
-use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Validation\Rule;
 
@@ -95,35 +95,23 @@ class Group extends BaseResource
     /**
      * Get the title attribute for the resource.
      *
-     * @return string|null
+     * @return string
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getRecordTitleAttribute(): ?string
+    public static function getRecordTitleAttribute(): string
     {
         return GroupModel::ATTRIBUTE_NAME;
     }
 
     /**
-     * Get the attributes available for the global search.
-     *
-     * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    public static function getGloballySearchableAttributes(): array
-    {
-        return [GroupModel::ATTRIBUTE_NAME];
-    }
-
-    /**
      * Get the route key for the resource.
      *
-     * @return string|null
+     * @return string
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getRecordRouteKeyName(): ?string
+    public static function getRecordRouteKeyName(): string
     {
         return GroupModel::ATTRIBUTE_ID;
     }

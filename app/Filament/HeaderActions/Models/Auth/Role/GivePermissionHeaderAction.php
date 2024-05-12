@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Filament\HeaderActions\Models\Auth\Role;
 
+use App\Filament\Components\Fields\Select;
 use App\Models\Auth\Permission;
-use Filament\Forms\Components\Select;
+use App\Models\Auth\Role;
 use Filament\Forms\Form;
 use Filament\Actions\Action;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 
 /**
@@ -27,17 +27,17 @@ class GivePermissionHeaderAction extends Action
     {
         parent::setUp();
 
-        $this->action(fn (Model $record, array $data) => $this->handle($record, $data));
+        $this->action(fn (Role $record, array $data) => $this->handle($record, $data));
     }
 
     /**
      * Perform the action on the given model.
      *
-     * @param  Model  $role
+     * @param  Role  $role
      * @param  array  $data
      * @return void
      */
-    public function handle(Model $role, array $data): void
+    public function handle(Role $role, array $data): void
     {
         $permission = Permission::findById(intval(Arr::get($data, self::FIELD_PERMISSION)));
 

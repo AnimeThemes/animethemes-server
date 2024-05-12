@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Actions\Models\Wiki;
 
 use App\Enums\Models\Wiki\ResourceSite;
+use App\Models\BaseModel;
 use App\Models\Wiki\ExternalResource;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Arr;
 
@@ -24,12 +24,11 @@ abstract class AttachResourceAction
     /**
      * Handle the action.
      *
-     * @param  Model  $model
+     * @param  BaseModel  $model
      * @param  array  $data
-     * @param  ResourceSite[]  $sites
      * @return void
      */
-    public function handle(Model $model, array $data): void
+    public function handle(BaseModel $model, array $data): void
     {
         $resources = $this->getOrCreateResource($data);
 

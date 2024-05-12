@@ -8,6 +8,7 @@ use App\Enums\Models\Wiki\ImageFacet;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Filament\Actions\Models\Wiki\Artist\AttachArtistImageAction;
 use App\Filament\Actions\Models\Wiki\Artist\AttachArtistResourceAction;
+use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Artist\Pages\CreateArtist;
 use App\Filament\Resources\Wiki\Artist\Pages\EditArtist;
@@ -29,8 +30,8 @@ use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Support\Enums\MaxWidth;
 use Filament\Tables\Actions\ActionGroup;
-use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
@@ -95,27 +96,15 @@ class Artist extends BaseResource
     }
 
     /**
-     * Get the title attribute for the resource.
+     * Determine if the resource can globally search.
      *
-     * @return string|null
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    public static function getRecordTitleAttribute(): ?string
-    {
-        return ArtistModel::ATTRIBUTE_NAME;
-    }
-
-    /**
-     * Get the attributes available for the global search.
-     *
-     * @return array
+     * @return bool
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getGloballySearchableAttributes(): array
+    public static function canGloballySearch(): bool
     {
-        return [ArtistModel::ATTRIBUTE_NAME];
+        return true;
     }
 
     /**
@@ -131,13 +120,25 @@ class Artist extends BaseResource
     }
 
     /**
-     * Get the route key for the resource.
+     * Get the title attribute for the resource.
      *
-     * @return string|null
+     * @return string
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getRecordRouteKeyName(): ?string
+    public static function getRecordTitleAttribute(): string
+    {
+        return ArtistModel::ATTRIBUTE_NAME;
+    }
+
+    /**
+     * Get the route key for the resource.
+     *
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getRecordRouteKeyName(): string
     {
         return ArtistModel::ATTRIBUTE_ID;
     }
@@ -197,7 +198,6 @@ class Artist extends BaseResource
                 TextColumn::make(ArtistModel::ATTRIBUTE_NAME)
                     ->label(__('filament.fields.artist.name.name'))
                     ->sortable()
-                    ->searchable()
                     ->copyable()
                     ->toggleable(),
 
@@ -211,6 +211,7 @@ class Artist extends BaseResource
                     ->label(__('filament.fields.artist.resources.as.name'))
                     ->visibleOn(ArtistResourceRelationManager::class),
             ])
+            ->searchable()
             ->defaultSort(ArtistModel::ATTRIBUTE_ID, 'desc')
             ->filters(static::getFilters())
             ->actions(static::getActions())

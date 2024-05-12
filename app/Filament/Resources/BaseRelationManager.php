@@ -17,9 +17,6 @@ use Filament\Tables\Actions\RestoreBulkAction;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 /**
  * Class BaseRelationManager.
@@ -37,7 +34,7 @@ abstract class BaseRelationManager extends RelationManager
     public function table(Table $table): Table
     {
         return $table
-            ->recordUrl(fn (Model $record): string => static::getUrl('edit', ['record' => $record]))
+            ->recordUrl(fn (BaseResource $record): string => $record::getUrl('edit', ['record' => $record]))
             ->paginated([5, 10, 25])
             ->defaultPaginationPageOption(5);
     }
@@ -116,20 +113,5 @@ abstract class BaseRelationManager extends RelationManager
             CreateAction::make(),
             AttachAction::make(),
         ];
-    }
-
-    /**
-     * Get the eloquent query for the relation.
-     * 
-     * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    public static function getEloquentQuery(): Builder
-    {
-        return parent::getEloquentQuery()
-            ->withoutGlobalScopes([
-                SoftDeletingScope::class,
-            ]);
     }
 }

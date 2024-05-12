@@ -6,9 +6,9 @@ namespace App\Filament\TableActions\Models\Wiki\Image;
 
 use App\Actions\Models\Wiki\UploadImageAction;
 use App\Enums\Models\Wiki\ImageFacet;
+use App\Filament\Components\Fields\Select;
 use App\Models\Wiki\Image;
 use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\Select;
 use Filament\Forms\Form;
 use Filament\Tables\Actions\Action;
 use Illuminate\Validation\Rules\Enum;

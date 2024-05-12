@@ -50,7 +50,7 @@ class Audio extends BaseModel implements Streamable, Viewable
     /**
      * The attributes that are mass assignable.
      *
-     * @var string[]
+     * @var array<int, string>
      */
     protected $fillable = [
         Audio::ATTRIBUTE_BASENAME,

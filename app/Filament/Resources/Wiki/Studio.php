@@ -9,6 +9,7 @@ use App\Enums\Models\Wiki\ResourceSite;
 use App\Filament\Actions\Models\Wiki\Studio\AttachStudioImageAction;
 use App\Filament\Actions\Models\Wiki\Studio\AttachStudioResourceAction;
 use App\Filament\Actions\Models\Wiki\Studio\BackfillStudioAction;
+use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\ExternalResource\RelationManagers\StudioResourceRelationManager;
 use App\Filament\Resources\Wiki\Studio\Pages\CreateStudio;
@@ -28,7 +29,6 @@ use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Support\Enums\MaxWidth;
 use Filament\Tables\Actions\ActionGroup;
-use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
@@ -108,11 +108,11 @@ class Studio extends BaseResource
     /**
      * Get the route key for the resource.
      *
-     * @return string|null
+     * @return string
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getRecordRouteKeyName(): ?string
+    public static function getRecordRouteKeyName(): string
     {
         return StudioModel::ATTRIBUTE_ID;
     }
@@ -171,7 +171,6 @@ class Studio extends BaseResource
                 TextColumn::make(StudioModel::ATTRIBUTE_NAME)
                     ->label(__('filament.fields.studio.name.name'))
                     ->sortable()
-                    ->searchable()
                     ->copyable()
                     ->toggleable(),
 
@@ -185,6 +184,7 @@ class Studio extends BaseResource
                     ->label(__('filament.fields.studio.resources.as.name'))
                     ->visibleOn(StudioResourceRelationManager::class),
             ])
+            ->searchable()
             ->defaultSort(StudioModel::ATTRIBUTE_ID, 'desc')
             ->filters(static::getFilters())
             ->actions(static::getActions())

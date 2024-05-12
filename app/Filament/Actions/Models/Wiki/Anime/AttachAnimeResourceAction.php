@@ -7,9 +7,9 @@ namespace App\Filament\Actions\Models\Wiki\Anime;
 use App\Actions\Models\Wiki\Anime\AttachAnimeResourceAction as AttachAnimeResourceActionAction;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Filament\Actions\Models\Wiki\AttachResourceAction;
+use App\Models\Wiki\Anime;
 use App\Rules\Wiki\Resource\AnimeResourceLinkFormatRule;
 use Illuminate\Contracts\Validation\ValidationRule;
-use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class AttachAnimeResourceAction.
@@ -25,7 +25,7 @@ class AttachAnimeResourceAction extends AttachResourceAction
     {
         parent::setUp();
 
-        $this->action(fn (Model $record, array $data) => (new AttachAnimeResourceActionAction($this->sites))->handle($record, $data));
+        $this->action(fn (Anime $record, array $data) => (new AttachAnimeResourceActionAction($this->sites))->handle($record, $data));
     }
 
     /**
