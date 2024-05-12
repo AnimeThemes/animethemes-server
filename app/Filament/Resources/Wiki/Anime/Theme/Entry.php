@@ -105,7 +105,7 @@ class Entry extends BaseResource
     /**
      * Get the attributes available for the global search.
      *
-     * @return array
+     * @return string[]
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
@@ -129,11 +129,11 @@ class Entry extends BaseResource
     /**
      * Get the route key for the resource.
      *
-     * @return string|null
+     * @return string
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getRecordRouteKeyName(): ?string
+    public static function getRecordRouteKeyName(): string
     {
         return EntryModel::ATTRIBUTE_ID;
     }

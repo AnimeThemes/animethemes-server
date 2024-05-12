@@ -97,11 +97,11 @@ class Artist extends BaseResource
     /**
      * Get the title attribute for the resource.
      *
-     * @return string|null
+     * @return string
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getRecordTitleAttribute(): ?string
+    public static function getRecordTitleAttribute(): string
     {
         return ArtistModel::ATTRIBUTE_NAME;
     }
@@ -109,7 +109,7 @@ class Artist extends BaseResource
     /**
      * Get the attributes available for the global search.
      *
-     * @return array
+     * @return string[]
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
@@ -133,11 +133,11 @@ class Artist extends BaseResource
     /**
      * Get the route key for the resource.
      *
-     * @return string|null
+     * @return string
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getRecordRouteKeyName(): ?string
+    public static function getRecordRouteKeyName(): string
     {
         return ArtistModel::ATTRIBUTE_ID;
     }

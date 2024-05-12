@@ -97,11 +97,11 @@ class Series extends BaseResource
     /**
      * Get the title attribute for the resource.
      *
-     * @return string|null
+     * @return string
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getRecordTitleAttribute(): ?string
+    public static function getRecordTitleAttribute(): string
     {
         return SeriesModel::ATTRIBUTE_NAME;
     }
@@ -109,7 +109,7 @@ class Series extends BaseResource
     /**
      * Get the attributes available for the global search.
      *
-     * @return array
+     * @return string[]
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
@@ -121,11 +121,11 @@ class Series extends BaseResource
     /**
      * Get the route key for the resource.
      *
-     * @return string|null
+     * @return string
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getRecordRouteKeyName(): ?string
+    public static function getRecordRouteKeyName(): string
     {
         return SeriesModel::ATTRIBUTE_ID;
     }
