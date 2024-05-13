@@ -6,7 +6,7 @@ namespace App\Filament\Resources\Wiki\Anime\Theme;
 
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\Select;
-use App\Filament\Components\Filters\DateFilter;
+use App\Filament\Components\Filters\NumberFilter;
 use App\Filament\Components\Filters\TextFilter;
 use App\Filament\Resources\BaseRelationManager;
 use App\Filament\Resources\BaseResource;
@@ -312,10 +312,9 @@ class Entry extends BaseResource
     {
         return array_merge(
             [
-                DateFilter::make(EntryModel::ATTRIBUTE_VERSION)
+                NumberFilter::make(EntryModel::ATTRIBUTE_VERSION)
                     ->labels(__('filament.filters.anime_theme_entry.version_from'), __('filament.filters.anime_theme_entry.version_to'))
-                    ->attribute(EntryModel::ATTRIBUTE_VERSION)
-                    ->integer(),
+                    ->attribute(EntryModel::ATTRIBUTE_VERSION),
 
                 TextFilter::make(EntryModel::ATTRIBUTE_EPISODES)
                     ->label(__('filament.fields.anime_theme_entry.episodes.name'))
