@@ -412,9 +412,11 @@ return [
     ],
     'dashboards' => [
         'icon' => [
+            'admin' => 'heroicon-m-home',
             'wiki' => 'heroicon-m-home',
         ],
         'label' => [
+            'admin' => 'Admin',
             'wiki' => 'Wiki',
         ],
     ],

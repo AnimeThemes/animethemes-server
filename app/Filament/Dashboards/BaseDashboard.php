@@ -20,4 +20,14 @@ abstract class BaseDashboard extends Dashboard
     {
         return 'dashboards/'.static::getSlug();
     }
+
+    /**
+     * Get the title for the dashboard.
+     *
+     * @return string
+     */
+    public function getTitle(): string
+    {
+        return static::getNavigationLabel();
+    }
 }
