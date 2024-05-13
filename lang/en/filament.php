@@ -410,6 +410,16 @@ return [
             'restore' => 'Restore Selected',
         ],
     ],
+    'dashboards' => [
+        'icon' => [
+            'admin' => 'heroicon-m-home',
+            'wiki' => 'heroicon-m-home',
+        ],
+        'label' => [
+            'admin' => 'Admin',
+            'wiki' => 'Wiki',
+        ],
+    ],
     'fields' => [
         'anime_synonym' => [
             'text' => [
@@ -810,32 +820,6 @@ return [
             'size_to' => 'Size - To'
         ],
     ],
-    'menu' => [
-        'main' => [
-            'section' => [
-                'lenses' => 'Lenses',
-            ],
-        ],
-    ],
-    'metrics' => [
-        'ranges' => [
-            'trend' => [
-                '30' => '30 Days',
-                '60' => '60 Days',
-                '90' => '90 Days',
-            ],
-            'value' => [
-                '30' => '30 Days',
-                '60' => '60 Days',
-                '365' => '365 Days',
-                'mtd' => 'Month To Date',
-                'qtd' => 'Quarter To Date',
-                'today' => 'Today',
-                'yesterday' => 'Yesterday',
-                'ytd' => 'Year To Date',
-            ],
-        ],
-    ],
     'resources' => [
         'group' => [
             'admin' => 'Admin',
@@ -1001,6 +985,22 @@ return [
             'unlinked' => [
                 'name' => 'Without Entries',
             ],
+        ],
+    ],
+    'widgets' => [
+        'month' => [
+            'jan' => 'Jan',
+            'feb' => 'Feb',
+            'mar' => 'Mar',
+            'apr' => 'Apr',
+            'may' => 'May',
+            'jun' => 'Jun',
+            'jul' => 'Jul',
+            'aug' => 'Aug',
+            'sep' => 'Sep',
+            'oct' => 'Oct',
+            'nov' => 'Nov',
+            'dec' => 'Dec',
         ],
     ],
 ];
