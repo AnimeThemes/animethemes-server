@@ -7,6 +7,7 @@ namespace App\Filament\Resources\Wiki\Anime;
 use App\Enums\Models\Wiki\ThemeType;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\Select;
+use App\Filament\Components\Filters\DateFilter;
 use App\Filament\Resources\BaseRelationManager;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Anime as AnimeResource;
@@ -29,6 +30,7 @@ use Filament\Infolists\Components\Section;
 use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Tables\Columns\SelectColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
@@ -320,8 +322,17 @@ class Theme extends BaseResource
     public static function getFilters(): array
     {
         return array_merge(
+            [
+                SelectFilter::make(ThemeModel::ATTRIBUTE_TYPE)
+                    ->label(__('filament.fields.anime_theme.type.name'))
+                    ->options(ThemeType::asSelectArray()),
+
+                DateFilter::make(ThemeModel::ATTRIBUTE_SEQUENCE)
+                    ->labels(__('filament.filters.anime_theme.sequence_from'), __('filament.filters.anime_theme.sequence_to'))
+                    ->attribute(ThemeModel::ATTRIBUTE_SEQUENCE)
+                    ->integer(),
+            ],
             parent::getFilters(),
-            []
         );
     }
 

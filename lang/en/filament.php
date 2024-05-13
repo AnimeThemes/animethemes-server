@@ -775,6 +775,14 @@ return [
             'year_from' => 'Year - From',
             'year_to' => 'Year - To',
         ],
+        'anime_theme' => [
+            'sequence_from' => 'Sequence - From',
+            'sequence_to' => 'Sequence - To',
+        ],
+        'anime_theme_entry' => [
+            'version_from' => 'Version - From',
+            'version_to' => 'Version - To',
+        ],
         'base' => [
             'created_at_from' => 'Created At - From',
             'created_at_to' => 'Created At - To',

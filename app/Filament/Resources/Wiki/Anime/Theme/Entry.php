@@ -6,6 +6,8 @@ namespace App\Filament\Resources\Wiki\Anime\Theme;
 
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\Select;
+use App\Filament\Components\Filters\DateFilter;
+use App\Filament\Components\Filters\TextFilter;
 use App\Filament\Resources\BaseRelationManager;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Anime as AnimeResource;
@@ -25,6 +27,7 @@ use Filament\Infolists\Components\Section;
 use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Tables\Columns\CheckboxColumn;
+use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 
@@ -308,8 +311,25 @@ class Entry extends BaseResource
     public static function getFilters(): array
     {
         return array_merge(
+            [
+                DateFilter::make(EntryModel::ATTRIBUTE_VERSION)
+                    ->labels(__('filament.filters.anime_theme_entry.version_from'), __('filament.filters.anime_theme_entry.version_to'))
+                    ->attribute(EntryModel::ATTRIBUTE_VERSION)
+                    ->integer(),
+
+                TextFilter::make(EntryModel::ATTRIBUTE_EPISODES)
+                    ->label(__('filament.fields.anime_theme_entry.episodes.name'))
+                    ->attribute(EntryModel::ATTRIBUTE_EPISODES),
+
+                Filter::make(EntryModel::ATTRIBUTE_NSFW)
+                    ->label(__('filament.fields.anime_theme_entry.nsfw.name'))
+                    ->toggle(),
+
+                Filter::make(EntryModel::ATTRIBUTE_SPOILER)
+                    ->label(__('filament.fields.anime_theme_entry.spoiler.name'))
+                    ->toggle(),
+            ],
             parent::getFilters(),
-            []
         );
     }
 

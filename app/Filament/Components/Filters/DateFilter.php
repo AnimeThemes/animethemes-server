@@ -9,6 +9,7 @@ use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\TextInput;
 use Filament\Tables\Filters\Filter;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Arr;
 
 /**
  * Class DateFilter.
@@ -102,22 +103,22 @@ class DateFilter extends Filter
         if ($this->integer) {
             return $query
                 ->when(
-                    $data[$this->attribute.'_'.'from'],
+                    Arr::get($data, $this->attribute.'_'.'from'),
                     fn (Builder $query, $date): Builder => $query->where($this->attribute, ComparisonOperator::GTE->value, $date),
                 )
                 ->when(
-                    $data[$this->attribute.'_'.'to'],
+                    Arr::get($data, $this->attribute.'_'.'to'),
                     fn (Builder $query, $date): Builder => $query->where($this->attribute, ComparisonOperator::LTE->value, $date),
                 );
         }
 
         return $query
             ->when(
-                $data[$this->attribute.'_'.'from'],
+                Arr::get($data, $this->attribute.'_'.'from'),
                 fn (Builder $query, $date): Builder => $query->whereDate($this->attribute, ComparisonOperator::GTE->value, $date),
             )
             ->when(
-                $data[$this->attribute.'_'.'to'],
+                Arr::get($data, $this->attribute.'_'.'to'),
                 fn (Builder $query, $date): Builder => $query->whereDate($this->attribute, ComparisonOperator::LTE->value, $date),
             );
     }
