@@ -21,6 +21,7 @@ use Filament\Forms\Form;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Infolist;
 use Filament\Tables\Columns\SelectColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Validation\Rules\Enum;
 
@@ -220,8 +221,12 @@ class Synonym extends BaseResource
     public static function getFilters(): array
     {
         return array_merge(
+            [
+                SelectFilter::make(SynonymModel::ATTRIBUTE_TEXT)
+                    ->label(__('filament.fields.anime_synonym.type.name'))
+                    ->options(AnimeSynonymType::asSelectArray()),
+            ],
             parent::getFilters(),
-            []
         );
     }
 
