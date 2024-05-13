@@ -770,6 +770,20 @@ return [
             ],
         ],
     ],
+    'filters' => [
+        'anime' => [
+            'year_from' => 'Year - From',
+            'year_to' => 'Year - To',
+        ],
+        'base' => [
+            'created_at_from' => 'Created At - From',
+            'created_at_to' => 'Created At - To',
+            'updated_at_from' => 'Updated At - From',
+            'updated_at_to' => 'Updated At - To',
+            'deleted_at_from' => 'Deleted At - From',
+            'deleted_at_to' => 'Updated At - To',
+        ],
+    ],
     'menu' => [
         'main' => [
             'section' => [
