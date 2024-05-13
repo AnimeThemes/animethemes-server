@@ -59,7 +59,7 @@ abstract class BaseTab extends Tab
      *
      * @return bool
      */
-    public function hidden(): bool
+    public function shouldBeHidden(): bool
     {
         return $this->getBadge() === 0;
     }

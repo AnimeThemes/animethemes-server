@@ -22,7 +22,7 @@ trait HasTabs
         $tabs = [];
 
         foreach ($tabClasses as $class) {
-            if ((new $class)->hidden()) continue;
+            if ((new $class)->shouldBeHidden()) continue;
             $tabs[$class::getKey()] = $class::make();
         }
 
