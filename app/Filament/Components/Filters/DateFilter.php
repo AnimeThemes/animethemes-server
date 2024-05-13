@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Filament\Filters;
+namespace App\Filament\Components\Filters;
 
 use App\Enums\Http\Api\Filter\ComparisonOperator;
 use Filament\Forms\Components\DatePicker;

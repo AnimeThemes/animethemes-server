@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources;
 
-use App\Filament\Filters\DateFilter;
+use App\Filament\Components\Filters\DateFilter;
 use App\Models\BaseModel;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Resources\Resource;
