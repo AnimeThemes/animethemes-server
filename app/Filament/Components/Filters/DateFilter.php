@@ -6,7 +6,6 @@ namespace App\Filament\Components\Filters;
 
 use App\Enums\Http\Api\Filter\ComparisonOperator;
 use Filament\Forms\Components\DatePicker;
-use Filament\Forms\Components\TextInput;
 use Filament\Tables\Filters\Filter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
@@ -20,8 +19,6 @@ class DateFilter extends Filter
     protected string $fromLabel = '';
     protected string $toLabel = '';
 
-    protected bool $integer = false;
-
     /**
      * Get the attribute used for filter.
      *
@@ -31,18 +28,6 @@ class DateFilter extends Filter
     public function attribute(string $attribute): static
     {
         $this->attribute = $attribute;
-
-        return $this;
-    }
-
-    /**
-     * Determine if the filter should be an integer.
-     *
-     * @return static
-     */
-    public function integer(): static
-    {
-        $this->integer = true;
 
         return $this;
     }
@@ -70,18 +55,6 @@ class DateFilter extends Filter
      */
     public function getFormSchema(): array
     {
-        if ($this->integer) {
-            return [
-                TextInput::make($this->attribute.'_'.'from')
-                    ->label($this->fromLabel)
-                    ->integer(),
-
-                TextInput::make($this->attribute.'_'.'to')
-                    ->label($this->toLabel)
-                    ->integer(),
-            ];
-        }
-
         return [
             DatePicker::make($this->attribute.'_'.'from')
                 ->label($this->fromLabel),
@@ -100,18 +73,6 @@ class DateFilter extends Filter
      */
     public function applyToBaseQuery(Builder $query, array $data = []): Builder
     {
-        if ($this->integer) {
-            return $query
-                ->when(
-                    Arr::get($data, $this->attribute.'_'.'from'),
-                    fn (Builder $query, $date): Builder => $query->where($this->attribute, ComparisonOperator::GTE->value, $date),
-                )
-                ->when(
-                    Arr::get($data, $this->attribute.'_'.'to'),
-                    fn (Builder $query, $date): Builder => $query->where($this->attribute, ComparisonOperator::LTE->value, $date),
-                );
-        }
-
         return $query
             ->when(
                 Arr::get($data, $this->attribute.'_'.'from'),
