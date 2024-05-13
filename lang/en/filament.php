@@ -799,6 +799,16 @@ return [
             'external_id_from' => 'External ID - From',
             'external_id_to' => 'External ID - To',
         ],
+        'role' => [
+            'priority_from' => 'Priority - From',
+            'priority_to' => 'Priority - To',
+        ],
+        'video' => [
+            'resolution_from' => 'Resolution - From',
+            'resolution_to' => 'Resolution - To',
+            'size_from' => 'Size - From',
+            'size_to' => 'Size - To'
+        ],
     ],
     'menu' => [
         'main' => [

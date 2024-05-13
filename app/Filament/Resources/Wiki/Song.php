@@ -240,8 +240,8 @@ class Song extends BaseResource
     public static function getFilters(): array
     {
         return array_merge(
+            [],
             parent::getFilters(),
-            []
         );
     }
 

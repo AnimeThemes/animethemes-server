@@ -242,8 +242,7 @@ class Audio extends BaseResource
             [
                 NumberFilter::make(AudioModel::ATTRIBUTE_SIZE)
                     ->labels(__('filament.filters.audio.size_from'), __('filament.filters.audio.size_to'))
-                    ->attribute(AudioModel::ATTRIBUTE_SIZE)
-                    ->integer(),
+                    ->attribute(AudioModel::ATTRIBUTE_SIZE),
 
                 TextFilter::make(AudioModel::ATTRIBUTE_MIMETYPE)
                     ->label(__('filament.fields.audio.mimetype.name'))

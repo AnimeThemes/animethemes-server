@@ -25,6 +25,7 @@ use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Support\Enums\MaxWidth;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\SelectColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Validation\Rules\Enum;
@@ -215,8 +216,12 @@ class Image extends BaseResource
     public static function getFilters(): array
     {
         return array_merge(
+            [
+                SelectFilter::make(ImageModel::ATTRIBUTE_FACET)
+                    ->label(__('filament.fields.image.facet.name'))
+                    ->options(ImageFacet::asSelectArray()),
+            ],
             parent::getFilters(),
-            []
         );
     }
 

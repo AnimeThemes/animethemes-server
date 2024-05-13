@@ -322,11 +322,11 @@ class Entry extends BaseResource
 
                 Filter::make(EntryModel::ATTRIBUTE_NSFW)
                     ->label(__('filament.fields.anime_theme_entry.nsfw.name'))
-                    ->toggle(),
+                    ->checkbox(),
 
                 Filter::make(EntryModel::ATTRIBUTE_SPOILER)
                     ->label(__('filament.fields.anime_theme_entry.spoiler.name'))
-                    ->toggle(),
+                    ->checkbox(),
             ],
             parent::getFilters(),
         );
