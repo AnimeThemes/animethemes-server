@@ -11,6 +11,8 @@ use App\Filament\Actions\Storage\Wiki\Video\DeleteVideoAction;
 use App\Filament\Actions\Storage\Wiki\Video\MoveVideoAction;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\Select;
+use App\Filament\Components\Filters\NumberFilter;
+use App\Filament\Components\Filters\TextFilter;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Video\Pages\CreateVideo;
 use App\Filament\Resources\Wiki\Video\Pages\EditVideo;
@@ -34,6 +36,8 @@ use Filament\Support\Enums\MaxWidth;
 use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Columns\CheckboxColumn;
 use Filament\Tables\Columns\SelectColumn;
+use Filament\Tables\Filters\Filter;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Validation\Rules\Enum;
 
@@ -310,8 +314,44 @@ class Video extends BaseResource
     public static function getFilters(): array
     {
         return array_merge(
+            [
+                NumberFilter::make(VideoModel::ATTRIBUTE_RESOLUTION)
+                    ->labels(__('filament.filters.video.resolution_from'), __('filament.filters.video.resolution_to'))
+                    ->attribute(VideoModel::ATTRIBUTE_RESOLUTION),
+
+                Filter::make(VideoModel::ATTRIBUTE_NC)
+                    ->label(__('filament.fields.video.nc.name'))
+                    ->checkbox(),
+
+                Filter::make(VideoModel::ATTRIBUTE_SUBBED)
+                    ->label(__('filament.fields.video.subbed.name'))
+                    ->checkbox(),
+
+                Filter::make(VideoModel::ATTRIBUTE_LYRICS)
+                    ->label(__('filament.fields.video.lyrics.name'))
+                    ->checkbox(),
+
+                Filter::make(VideoModel::ATTRIBUTE_UNCEN)
+                    ->label(__('filament.fields.video.uncen.name'))
+                    ->checkbox(),
+
+                SelectFilter::make(VideoModel::ATTRIBUTE_OVERLAP)
+                    ->label(__('filament.fields.video.overlap.name'))
+                    ->options(VideoOverlap::asSelectArray()),
+
+                SelectFilter::make(VideoModel::ATTRIBUTE_SOURCE)
+                    ->label(__('filament.fields.video.source.name'))
+                    ->options(VideoSource::asSelectArray()),
+
+                NumberFilter::make(VideoModel::ATTRIBUTE_SIZE)
+                    ->labels(__('filament.filters.video.size_from'), __('filament.filters.video.size_to'))
+                    ->attribute(VideoModel::ATTRIBUTE_SIZE),
+
+                TextFilter::make(VideoModel::ATTRIBUTE_MIMETYPE)
+                    ->label(__('filament.fields.video.mimetype.name'))
+                    ->attribute(VideoModel::ATTRIBUTE_MIMETYPE),
+            ],
             parent::getFilters(),
-            []
         );
     }
 

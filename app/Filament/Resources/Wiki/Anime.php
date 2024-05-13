@@ -14,6 +14,7 @@ use App\Filament\Actions\Models\Wiki\Anime\AttachAnimeResourceAction;
 use App\Filament\Actions\Models\Wiki\Anime\BackfillAnimeAction;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\Select;
+use App\Filament\Components\Filters\NumberFilter;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Anime\Pages\CreateAnime;
 use App\Filament\Resources\Wiki\Anime\Pages\EditAnime;
@@ -328,8 +329,11 @@ class Anime extends BaseResource
     public static function getFilters(): array
     {
         return array_merge(
-            parent::getFilters(),
             [
+                NumberFilter::make(AnimeModel::ATTRIBUTE_YEAR)
+                    ->labels(__('filament.filters.anime.year_from'), __('filament.filters.anime.year_to'))
+                    ->attribute(AnimeModel::ATTRIBUTE_YEAR),
+
                 SelectFilter::make(AnimeModel::ATTRIBUTE_SEASON)
                     ->label(__('filament.fields.anime.season.name'))
                     ->options(AnimeSeason::asSelectArray()),
@@ -337,7 +341,8 @@ class Anime extends BaseResource
                 SelectFilter::make(AnimeModel::ATTRIBUTE_MEDIA_FORMAT)
                     ->label(__('filament.fields.anime.media_format.name'))
                     ->options(AnimeMediaFormat::asSelectArray()),
-            ]
+            ],
+            parent::getFilters(),
         );
     }
 

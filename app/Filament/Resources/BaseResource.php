@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources;
 
+use App\Filament\Components\Filters\DateFilter;
 use App\Models\BaseModel;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Resources\Resource;
@@ -87,7 +88,19 @@ abstract class BaseResource extends Resource
     public static function getFilters(): array
     {
         return [
-            TrashedFilter::make()
+            TrashedFilter::make(),
+
+            DateFilter::make(BaseModel::ATTRIBUTE_CREATED_AT)
+                ->attribute(BaseModel::ATTRIBUTE_CREATED_AT)
+                ->labels(__('filament.filters.base.created_at_from'),  __('filament.filters.base.created_at_to')),
+
+            DateFilter::make(BaseModel::ATTRIBUTE_UPDATED_AT)
+                ->attribute(BaseModel::ATTRIBUTE_UPDATED_AT)
+                ->labels(__('filament.filters.base.updated_at_from'),  __('filament.filters.base.updated_at_to')),
+
+            DateFilter::make(BaseModel::ATTRIBUTE_DELETED_AT)
+                ->attribute(BaseModel::ATTRIBUTE_DELETED_AT)
+                ->labels(__('filament.filters.base.deleted_at_from'),  __('filament.filters.base.deleted_at_to')),
         ];
     }
 

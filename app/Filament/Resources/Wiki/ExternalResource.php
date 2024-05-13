@@ -7,6 +7,7 @@ namespace App\Filament\Resources\Wiki;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\Select;
+use App\Filament\Components\Filters\NumberFilter;
 use App\Filament\Resources\BaseRelationManager;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\ExternalResource\Pages\CreateExternalResource;
@@ -26,6 +27,7 @@ use Filament\Infolists\Components\Section;
 use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Tables\Columns\SelectColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Validation\Rules\Enum;
 
@@ -249,8 +251,16 @@ class ExternalResource extends BaseResource
     public static function getFilters(): array
     {
         return array_merge(
+            [
+                SelectFilter::make(ExternalResourceModel::ATTRIBUTE_SITE)
+                    ->label(__('filament.fields.external_resource.site.name'))
+                    ->options(ResourceSite::asSelectArray()),
+
+                NumberFilter::make(ExternalResourceModel::ATTRIBUTE_EXTERNAL_ID)
+                    ->labels(__('filament.filters.external_resource.external_id_from'), __('filament.filters.external_resource.external_id_to'))
+                    ->attribute(ExternalResourceModel::ATTRIBUTE_EXTERNAL_ID),
+            ],
             parent::getFilters(),
-            []
         );
     }
 
