@@ -37,7 +37,6 @@ class DateFilter extends Filter
      *
      * @param  string  $fromLabel
      * @param  string  $toLabel
-     *
      * @return static
      */
     public function labels(string $fromLabel, string $toLabel): static

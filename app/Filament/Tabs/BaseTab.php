@@ -53,4 +53,14 @@ abstract class BaseTab extends Tab
     {
         return $this->getBadge();
     }
+
+    /**
+     * Determine if the tab should be hidden.
+     *
+     * @return bool
+     */
+    public function hidden(): bool
+    {
+        return $this->getBadge() === 0;
+    }
 }
