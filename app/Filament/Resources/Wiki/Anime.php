@@ -196,7 +196,9 @@ class Anime extends BaseResource
                 Select::make(AnimeModel::ATTRIBUTE_SEASON)
                     ->label(__('filament.fields.anime.season.name'))
                     ->helperText(__('filament.fields.anime.season.help'))
-                    ->options(AnimeSeason::asSelectArray())
+                    ->options(AnimeSeason::asSelectArrayStyled())
+                    ->searchable()
+                    ->allowHtml()
                     ->required()
                     ->rules(['required', new Enum(AnimeSeason::class)]),
 
