@@ -43,7 +43,7 @@ abstract class AttachResourceHeaderAction extends Action
 
             $fields[] = TextInput::make($resourceSite->name)
                             ->label($resourceSite->localize())
-                            ->helperText(__("nova.actions.models.wiki.attach_resource.fields.{$resourceSiteLower}.help"))
+                            ->helperText(__("filament.actions.models.wiki.attach_resource.fields.{$resourceSiteLower}.help"))
                             ->url()
                             ->maxLength(192)
                             ->rules(['max:192', $this->getFormatRule($resourceSite)]);

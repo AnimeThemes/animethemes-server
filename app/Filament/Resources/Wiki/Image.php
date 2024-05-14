@@ -159,7 +159,7 @@ class Image extends BaseResource
                     ->toggleable(),
 
                 ImageColumn::make(ImageModel::ATTRIBUTE_PATH)
-                    ->label(__('nova.fields.image.image.name'))
+                    ->label(__('filament.fields.image.image.name'))
                     ->disk(Config::get('image.disk'))
                     ->toggleable(),
             ])
