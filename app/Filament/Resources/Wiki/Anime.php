@@ -260,7 +260,8 @@ class Anime extends BaseResource
                     ->label(__('filament.fields.anime.season.name'))
                     ->sortable()
                     ->toggleable()
-                    ->formatStateUsing(fn ($state) => $state->localize()),
+                    ->formatStateUsing(fn ($state) => $state->localizeStyled())
+                    ->html(),
 
                 TextColumn::make(AnimeModel::ATTRIBUTE_MEDIA_FORMAT)
                     ->label(__('filament.fields.anime.media_format.name'))
