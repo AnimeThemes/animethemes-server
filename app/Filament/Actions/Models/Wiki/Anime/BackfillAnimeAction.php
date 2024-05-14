@@ -29,7 +29,6 @@ use Filament\Notifications\Notification;
 use Filament\Tables\Actions\Action;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Sleep;
@@ -62,20 +61,18 @@ class BackfillAnimeAction extends Action implements ShouldQueue
     {
         parent::setUp();
 
-        $this->action(fn (Model $record, array $data) => $this->handle($record, $data));
+        $this->action(fn (Anime $record, array $data) => $this->handle($record, $data));
     }
 
     /**
      * Perform the action on the given models.
      *
-     * @param  Model  $anime
+     * @param  Anime  $anime
      * @param  array  $fields
      * @return void
      */
-    public function handle(Model $anime, array $fields): void
+    public function handle(Anime $anime, array $fields): void
     {
-        if (!$anime instanceof Anime) return;
-
         if ($anime->resources()->doesntExist()) {
             $this->fail(__('filament.actions.anime.backfill.message.resource_required_failure'));
             return;
