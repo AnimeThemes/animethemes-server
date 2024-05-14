@@ -141,6 +141,7 @@ class Page extends BaseResource
                     ->required()
                     ->maxLength(16777215)
                     ->rules(['required', 'max:16777215'])
+                    ->formatStateUsing(fn ($livewire) => PageModel::find($livewire->getRecord()->getKey())->body)
                     ->columnSpan(2),
             ])
             ->columns(2);
