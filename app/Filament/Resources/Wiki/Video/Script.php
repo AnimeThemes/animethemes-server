@@ -145,7 +145,7 @@ class Script extends BaseResource
                 TextColumn::make(ScriptModel::ATTRIBUTE_PATH)
                     ->label(__('filament.fields.video_script.path'))
                     ->sortable()
-                    ->copyable(),
+                    ->copyableWithMessage(),
             ])
             ->defaultSort(ScriptModel::ATTRIBUTE_ID, 'desc')
             ->filters(static::getFilters())

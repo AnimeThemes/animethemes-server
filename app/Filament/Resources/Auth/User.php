@@ -164,7 +164,7 @@ class User extends BaseResource
                     ->label(__('filament.fields.user.name'))
                     ->sortable()
                     ->searchable()
-                    ->copyable()
+                    ->copyableWithMessage()
                     ->toggleable(),
 
                 TextColumn::make(UserModel::ATTRIBUTE_EMAIL)

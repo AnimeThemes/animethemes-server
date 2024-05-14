@@ -180,7 +180,7 @@ class Series extends BaseResource
                 TextColumn::make(SeriesModel::ATTRIBUTE_NAME)
                     ->label(__('filament.fields.series.name.name'))
                     ->sortable()
-                    ->copyable()
+                    ->copyableWithMessage()
                     ->toggleable(),
 
                 TextColumn::make(SeriesModel::ATTRIBUTE_SLUG)

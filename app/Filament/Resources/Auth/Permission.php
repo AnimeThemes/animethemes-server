@@ -147,7 +147,7 @@ class Permission extends BaseResource
                     ->label(__('filament.fields.permission.name'))
                     ->sortable()
                     ->searchable()
-                    ->copyable(),
+                    ->copyableWithMessage(),
             ])
             ->defaultSort(PermissionModel::ATTRIBUTE_ID, 'desc')
             ->filters(static::getFilters())

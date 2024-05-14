@@ -165,7 +165,7 @@ class Group extends BaseResource
                     ->label(__('filament.fields.group.name.name'))
                     ->sortable()
                     ->searchable()
-                    ->copyable()
+                    ->copyableWithMessage()
                     ->toggleable(),
 
                 TextColumn::make(GroupModel::ATTRIBUTE_SLUG)

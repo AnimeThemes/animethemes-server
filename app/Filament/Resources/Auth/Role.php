@@ -169,7 +169,7 @@ class Role extends BaseResource
                     ->label(__('filament.fields.role.name'))
                     ->sortable()
                     ->searchable()
-                    ->copyable()
+                    ->copyableWithMessage()
                     ->toggleable(),
 
                 CheckboxColumn::make(RoleModel::ATTRIBUTE_DEFAULT)

@@ -142,7 +142,7 @@ class Announcement extends BaseResource
                     ->label(__('filament.fields.announcement.content'))
                     ->sortable()
                     ->searchable()
-                    ->copyable(),
+                    ->copyableWithMessage(),
             ])
             ->defaultSort(AnnouncementModel::ATTRIBUTE_ID, 'desc')
             ->filters(static::getFilters())

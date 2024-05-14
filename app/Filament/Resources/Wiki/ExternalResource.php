@@ -186,7 +186,7 @@ class ExternalResource extends BaseResource
                     ->label(__('filament.fields.external_resource.link.name'))
                     ->sortable()
                     ->searchable()
-                    ->copyable()
+                    ->copyableWithMessage()
                     ->toggleable(),
 
                 TextColumn::make(ExternalResourceModel::ATTRIBUTE_EXTERNAL_ID)

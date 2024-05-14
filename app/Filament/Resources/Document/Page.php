@@ -165,13 +165,13 @@ class Page extends BaseResource
                     ->label(__('filament.fields.page.name.name'))
                     ->sortable()
                     ->searchable()
-                    ->copyable()
+                    ->copyableWithMessage()
                     ->toggleable(),
 
                 TextColumn::make(PageModel::ATTRIBUTE_SLUG)
                     ->label(__('filament.fields.page.slug.name'))
                     ->sortable()
-                    ->copyable()
+                    ->copyableWithMessage()
                     ->toggleable(),
 
                 TextColumn::make(PageModel::ATTRIBUTE_BODY)

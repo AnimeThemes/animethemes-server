@@ -241,7 +241,7 @@ class Video extends BaseResource
                 TextColumn::make(VideoModel::ATTRIBUTE_FILENAME)
                     ->label(__('filament.fields.video.filename.name'))
                     ->sortable()
-                    ->copyable()
+                    ->copyableWithMessage()
                     ->toggleable(),
             ])
             ->searchable()

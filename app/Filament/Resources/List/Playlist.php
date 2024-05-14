@@ -186,7 +186,7 @@ class Playlist extends BaseResource
                 TextColumn::make(PlaylistModel::ATTRIBUTE_NAME)
                     ->label(__('filament.fields.playlist.name.name'))
                     ->sortable()
-                    ->copyable()
+                    ->copyableWithMessage()
                     ->toggleable(),
 
                 SelectColumn::make(PlaylistModel::ATTRIBUTE_VISIBILITY)
@@ -198,7 +198,7 @@ class Playlist extends BaseResource
                 TextColumn::make(PlaylistModel::ATTRIBUTE_HASHID)
                     ->label(__('filament.fields.playlist.hashid.name'))
                     ->toggleable()
-                    ->copyable(),
+                    ->copyableWithMessage(),
 
                 TextColumn::make(PlaylistModel::ATTRIBUTE_FIRST)
                     ->label(__('filament.fields.playlist.first.name'))

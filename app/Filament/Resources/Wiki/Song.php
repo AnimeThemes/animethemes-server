@@ -181,7 +181,7 @@ class Song extends BaseResource
                 TextColumn::make(SongModel::ATTRIBUTE_TITLE)
                     ->label(__('filament.fields.song.title.name'))
                     ->sortable()
-                    ->copyable()
+                    ->copyableWithMessage()
                     ->toggleable(),
 
                 TextColumn::make(SongResource::ATTRIBUTE_AS)

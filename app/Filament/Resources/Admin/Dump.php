@@ -148,7 +148,7 @@ class Dump extends BaseResource
                     ->label(__('filament.fields.dump.path'))
                     ->sortable()
                     ->searchable()
-                    ->copyable(),
+                    ->copyableWithMessage(),
             ])
             ->defaultSort(DumpModel::ATTRIBUTE_ID, 'desc')
             ->filters(static::getFilters())

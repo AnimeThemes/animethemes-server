@@ -241,7 +241,7 @@ class Anime extends BaseResource
                 TextColumn::make(AnimeModel::ATTRIBUTE_NAME)
                     ->label(__('filament.fields.anime.name.name'))
                     ->sortable()
-                    ->copyable()
+                    ->copyableWithMessage()
                     ->toggleable(),
 
                 TextColumn::make(AnimeModel::ATTRIBUTE_SLUG)

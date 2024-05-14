@@ -148,12 +148,12 @@ class Feature extends BaseResource
                 TextColumn::make(FeatureModel::ATTRIBUTE_NAME)
                     ->label(__('filament.fields.feature.key.name'))
                     ->sortable()
-                    ->copyable(),
+                    ->copyableWithMessage(),
 
                 TextColumn::make(FeatureModel::ATTRIBUTE_VALUE)
                     ->label(__('filament.fields.feature.value.name'))
                     ->sortable()
-                    ->copyable(),
+                    ->copyableWithMessage(),
             ])
             ->defaultSort(FeatureModel::ATTRIBUTE_ID, 'desc')
             ->filters(static::getFilters())
