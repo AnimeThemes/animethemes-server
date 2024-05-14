@@ -7,9 +7,10 @@ namespace App\Filament\Components\Infolist;
 use App\Filament\Resources\BaseResource;
 use App\Models\BaseModel;
 use Filament\Infolists\Components\TextEntry as ComponentsTextEntry;
+use Filament\Support\Enums\FontWeight;
 
 /**
- * Class Entry.
+ * Class TextEntry.
  */
 class TextEntry extends ComponentsTextEntry
 {
@@ -23,7 +24,9 @@ class TextEntry extends ComponentsTextEntry
     public function urlToRelated(string $resourceRelated, string $relation): static
     {
         return $this
-            ->color('info')
+            ->weight(FontWeight::SemiBold)
+            ->html()
+            ->formatStateUsing(fn ($state) => "<p style='color: rgb(64, 184, 166);'>$state</p>")
             ->url(function (BaseModel $record) use ($resourceRelated, $relation) { 
                 foreach (explode('.', $relation) as $element) {
                     $record = $record->$element;

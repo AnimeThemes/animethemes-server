@@ -7,6 +7,7 @@ namespace App\Filament\Components\Columns;
 use App\Filament\Resources\BaseRelationManager;
 use App\Filament\Resources\BaseResource;
 use App\Models\BaseModel;
+use Filament\Support\Enums\FontWeight;
 use Filament\Tables\Columns\TextColumn as ColumnsTextColumn;
 
 /**
@@ -24,7 +25,9 @@ class TextColumn extends ColumnsTextColumn
     public function urlToRelated(string $resourceRelated, string $relation): static
     {
         return $this
-            ->color('info')
+            ->weight(FontWeight::SemiBold)
+            ->html()
+            ->formatStateUsing(fn ($state) => "<p style='color: rgb(64, 184, 166);'>$state</p>")
             ->hiddenOn(BaseRelationManager::class)
             ->url(function (BaseModel $record) use ($resourceRelated, $relation) { 
                 foreach (explode('.', $relation) as $element) {
