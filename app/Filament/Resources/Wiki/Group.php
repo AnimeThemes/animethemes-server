@@ -171,7 +171,6 @@ class Group extends BaseResource
                 TextColumn::make(GroupModel::ATTRIBUTE_SLUG)
                     ->label(__('filament.fields.group.slug.name'))
                     ->sortable()
-                    ->copyable()
                     ->toggleable(),
             ])
             ->defaultSort(GroupModel::ATTRIBUTE_ID, 'desc')

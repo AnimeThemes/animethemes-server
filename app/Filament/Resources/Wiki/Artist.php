@@ -204,7 +204,6 @@ class Artist extends BaseResource
                 TextColumn::make(ArtistModel::ATTRIBUTE_SLUG)
                     ->label(__('filament.fields.artist.slug.name'))
                     ->sortable()
-                    ->copyable()
                     ->toggleable(),
 
                 TextColumn::make(ArtistResource::ATTRIBUTE_AS)

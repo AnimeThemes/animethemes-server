@@ -177,7 +177,6 @@ class Studio extends BaseResource
                 TextColumn::make(StudioModel::ATTRIBUTE_SLUG)
                     ->label(__('filament.fields.studio.slug.name'))
                     ->sortable()
-                    ->copyable()
                     ->toggleable(),
 
                 TextColumn::make(StudioResource::ATTRIBUTE_AS)

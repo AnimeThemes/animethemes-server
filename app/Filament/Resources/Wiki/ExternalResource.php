@@ -192,7 +192,6 @@ class ExternalResource extends BaseResource
                 TextColumn::make(ExternalResourceModel::ATTRIBUTE_EXTERNAL_ID)
                     ->label(__('filament.fields.external_resource.external_id.name'))
                     ->sortable()
-                    ->copyable()
                     ->toggleable()
                     ->placeholder('-'),
 

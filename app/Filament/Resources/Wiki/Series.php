@@ -186,7 +186,6 @@ class Series extends BaseResource
                 TextColumn::make(SeriesModel::ATTRIBUTE_SLUG)
                     ->label(__('filament.fields.series.slug.name'))
                     ->sortable()
-                    ->copyable()
                     ->toggleable(),
             ])
             ->searchable()

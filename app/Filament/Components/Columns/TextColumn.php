@@ -7,6 +7,7 @@ namespace App\Filament\Components\Columns;
 use App\Filament\Resources\BaseRelationManager;
 use App\Filament\Resources\BaseResource;
 use App\Models\BaseModel;
+use Closure;
 use Filament\Tables\Columns\TextColumn as ColumnsTextColumn;
 
 /**
@@ -33,5 +34,18 @@ class TextColumn extends ColumnsTextColumn
 
                 return $record !== null ? (new $resourceRelated)::getUrl('edit', ['record' => $record]) : null;
             });
+    }
+
+    /**
+     * Make the column copyable.
+     *
+     * @param  bool|Closure  $condition
+     * @return static
+     */
+    public function copyable(bool|Closure $condition = true): static
+    {
+        return $this
+            ->copyable($condition)
+            ->copyMessage(__('filament.actions.base.copied'));
     }
 }
