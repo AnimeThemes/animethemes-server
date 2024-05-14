@@ -20,12 +20,15 @@ use App\Models\Admin\FeaturedTheme as FeaturedThemeModel;
 use App\Models\Auth\User;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry as EntryModel;
 use App\Models\Wiki\Video;
+use App\Pivots\Wiki\AnimeThemeEntryVideo;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Infolist;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 
 /**
  * Class FeaturedTheme.
@@ -153,15 +156,48 @@ class FeaturedTheme extends BaseResource
                             ->__toString(),
                     ]),
 
-                Select::make(FeaturedThemeModel::ATTRIBUTE_VIDEO)
-                    ->label(__('filament.resources.singularLabel.video'))
-                    ->relationship(FeaturedThemeModel::RELATION_VIDEO, Video::ATTRIBUTE_FILENAME)
-                    ->searchable(),
-
                 Select::make(FeaturedThemeModel::ATTRIBUTE_ENTRY)
                     ->label(__('filament.resources.singularLabel.anime_theme_entry'))
                     ->relationship(FeaturedThemeModel::RELATION_ENTRY, EntryModel::ATTRIBUTE_ID)
-                    ->useScout(EntryModel::class, EntryModel::RELATION_ANIME_SHALLOW),
+                    ->live(true)
+                    ->useScout(EntryModel::class, EntryModel::RELATION_ANIME_SHALLOW)
+                    ->rules([
+                        fn (Get $get) => function () use ($get) {
+                            return [
+                                Rule::when(
+                                    ! empty($get(FeaturedThemeModel::RELATION_ENTRY)) && ! empty($get(FeaturedThemeModel::RELATION_VIDEO)),
+                                    [
+                                        Rule::exists(AnimeThemeEntryVideo::class, AnimeThemeEntryVideo::ATTRIBUTE_ENTRY)
+                                            ->where(AnimeThemeEntryVideo::ATTRIBUTE_VIDEO, $get(FeaturedThemeModel::RELATION_VIDEO)),
+                                    ]
+                            )];
+                        }
+                    ]),
+
+                Select::make(FeaturedThemeModel::ATTRIBUTE_VIDEO)
+                    ->label(__('filament.resources.singularLabel.video'))
+                    ->relationship(FeaturedThemeModel::RELATION_VIDEO, Video::ATTRIBUTE_FILENAME)
+                    ->rules([
+                        fn (Get $get) => function () use ($get) {
+                            return [
+                                Rule::when(
+                                    ! empty($get(FeaturedThemeModel::RELATION_ENTRY)) && ! empty($get(FeaturedThemeModel::RELATION_VIDEO)),
+                                    [
+                                        Rule::exists(AnimeThemeEntryVideo::class, AnimeThemeEntryVideo::ATTRIBUTE_VIDEO)
+                                            ->where(AnimeThemeEntryVideo::ATTRIBUTE_ENTRY, $get(FeaturedThemeModel::RELATION_ENTRY)),
+                                    ]
+                            )];
+                        }
+                    ])
+                    ->options(function (Get $get) {
+                        return Video::query()
+                            ->whereHas(Video::RELATION_ANIMETHEMEENTRIES, function ($query) use ($get) {
+                                $query->where(EntryModel::TABLE.'.'.EntryModel::ATTRIBUTE_ID, $get(FeaturedThemeModel::ATTRIBUTE_ENTRY));
+                            })
+                            ->get()
+                            ->mapWithKeys(fn (Video $video) => [$video->getKey() => $video->getName()])
+                            ->toArray();
+                    }),
 
                 Select::make(FeaturedThemeModel::ATTRIBUTE_USER)
                     ->label(__('filament.resources.singularLabel.user'))
