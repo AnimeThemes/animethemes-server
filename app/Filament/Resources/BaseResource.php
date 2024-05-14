@@ -74,7 +74,8 @@ abstract class BaseResource extends Resource
 
             TextEntry::make(BaseModel::ATTRIBUTE_DELETED_AT)
                 ->label(__('filament.fields.base.deleted_at'))
-                ->dateTime(),
+                ->dateTime()
+                ->placeholder('-'),
         ];
     }
 
