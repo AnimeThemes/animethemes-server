@@ -323,6 +323,7 @@ class Anime extends BaseResource
                         TextEntry::make(AnimeModel::ATTRIBUTE_SYNOPSIS)
                             ->label(__('filament.fields.anime.synopsis.name'))
                             ->markdown()
+                            ->placeholder('-')
                             ->columnSpanFull(),
                     ])
                     ->columns(3),
