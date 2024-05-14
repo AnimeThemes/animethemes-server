@@ -230,7 +230,8 @@ class Theme extends BaseResource
                 TextColumn::make(ThemeModel::ATTRIBUTE_SEQUENCE)
                     ->label(__('filament.fields.anime_theme.sequence.name'))
                     ->sortable()
-                    ->toggleable(),
+                    ->toggleable()
+                    ->placeholder('-'),
 
                 TextColumn::make(ThemeModel::ATTRIBUTE_SLUG)
                     ->label(__('filament.fields.anime_theme.slug.name'))
@@ -240,11 +241,13 @@ class Theme extends BaseResource
                 TextColumn::make(ThemeModel::RELATION_GROUP.'.'.Group::ATTRIBUTE_NAME)
                     ->label(__('filament.resources.singularLabel.group'))
                     ->toggleable()
+                    ->placeholder('-')
                     ->urlToRelated(GroupResource::class, ThemeModel::RELATION_GROUP),
 
                 TextColumn::make(ThemeModel::RELATION_SONG.'.'.Song::ATTRIBUTE_TITLE)
                     ->label(__('filament.resources.singularLabel.song'))
                     ->toggleable()
+                    ->placeholder('-')
                     ->urlToRelated(SongResource::class, ThemeModel::RELATION_SONG),
             ])
             ->searchable()

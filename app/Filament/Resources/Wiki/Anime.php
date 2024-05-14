@@ -216,7 +216,8 @@ class Anime extends BaseResource
                 TextInput::make(AnimeResource::ATTRIBUTE_AS)
                     ->label(__('filament.fields.anime.resources.as.name'))
                     ->helperText(__('filament.fields.anime.resources.as.help'))
-                    ->visibleOn(AnimeResourceRelationManager::class),
+                    ->visibleOn(AnimeResourceRelationManager::class)
+                    ->placeholder('-'),
             ])
             ->columns(2);
     }

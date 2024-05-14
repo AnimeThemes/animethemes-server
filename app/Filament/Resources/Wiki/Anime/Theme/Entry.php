@@ -243,11 +243,13 @@ class Entry extends BaseResource
 
                 TextColumn::make(EntryModel::ATTRIBUTE_VERSION)
                     ->label(__('filament.fields.anime_theme_entry.version.name'))
-                    ->toggleable(),
+                    ->toggleable()
+                    ->placeholder('-'),
 
                 TextColumn::make(EntryModel::ATTRIBUTE_EPISODES)
                     ->label(__('filament.fields.anime_theme_entry.episodes.name'))
-                    ->toggleable(),
+                    ->toggleable()
+                    ->placeholder('-'),
 
                 CheckboxColumn::make(EntryModel::ATTRIBUTE_NSFW)
                     ->label(__('filament.fields.anime_theme_entry.nsfw.name'))
@@ -259,7 +261,8 @@ class Entry extends BaseResource
 
                 TextColumn::make(EntryModel::ATTRIBUTE_NOTES)
                     ->label(__('filament.fields.anime_theme_entry.notes.name'))
-                    ->toggleable(),
+                    ->toggleable()
+                    ->placeholder('-'),
             ])
             ->searchable()
             ->defaultSort(EntryModel::ATTRIBUTE_ID, 'desc')

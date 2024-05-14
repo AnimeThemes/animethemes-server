@@ -201,17 +201,20 @@ class FeaturedTheme extends BaseResource
                 TextColumn::make(FeaturedThemeModel::RELATION_VIDEO.'.'.Video::ATTRIBUTE_FILENAME)
                     ->label(__('filament.resources.singularLabel.video'))
                     ->toggleable()
+                    ->placeholder('-')
                     ->urlToRelated(VideoResource::class, FeaturedThemeModel::RELATION_VIDEO),
 
                 TextColumn::make(FeaturedThemeModel::RELATION_ENTRY.'.'.EntryModel::ATTRIBUTE_ID)
                     ->label(__('filament.resources.singularLabel.anime_theme_entry'))
                     ->toggleable()
+                    ->placeholder('-')
                     ->formatStateUsing(fn (string $state) => EntryModel::find(intval($state))->load(EntryModel::RELATION_ANIME)->getName())
                     ->urlToRelated(EntryResource::class, FeaturedThemeModel::RELATION_ENTRY),
 
                 TextColumn::make(FeaturedThemeModel::RELATION_USER.'.'.User::ATTRIBUTE_NAME)
                     ->label(__('filament.resources.singularLabel.user'))
                     ->toggleable()
+                    ->placeholder('-')
                     ->urlToRelated(UserResource::class, FeaturedThemeModel::RELATION_USER),
             ])
             ->defaultSort(FeaturedThemeModel::ATTRIBUTE_ID, 'desc')

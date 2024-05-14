@@ -209,7 +209,8 @@ class Artist extends BaseResource
 
                 TextColumn::make(ArtistResource::ATTRIBUTE_AS)
                     ->label(__('filament.fields.artist.resources.as.name'))
-                    ->visibleOn(ArtistResourceRelationManager::class),
+                    ->visibleOn(ArtistResourceRelationManager::class)
+                    ->placeholder('-'),
             ])
             ->searchable()
             ->defaultSort(ArtistModel::ATTRIBUTE_ID, 'desc')

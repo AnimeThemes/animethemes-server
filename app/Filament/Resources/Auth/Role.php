@@ -185,7 +185,8 @@ class Role extends BaseResource
                 TextColumn::make(RoleModel::ATTRIBUTE_PRIORITY)
                     ->label(__('filament.fields.role.priority.name'))
                     ->sortable()
-                    ->toggleable(),
+                    ->toggleable()
+                    ->placeholder('-'),
             ])
             ->defaultSort(RoleModel::ATTRIBUTE_ID, 'desc')
             ->filters(static::getFilters())

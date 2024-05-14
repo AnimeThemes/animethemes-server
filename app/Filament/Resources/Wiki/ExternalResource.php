@@ -193,7 +193,8 @@ class ExternalResource extends BaseResource
                     ->label(__('filament.fields.external_resource.external_id.name'))
                     ->sortable()
                     ->copyable()
-                    ->toggleable(),
+                    ->toggleable()
+                    ->placeholder('-'),
 
                 TextColumn::make(AnimeResource::ATTRIBUTE_AS)
                     ->label(__('filament.fields.anime.resources.as.name'))

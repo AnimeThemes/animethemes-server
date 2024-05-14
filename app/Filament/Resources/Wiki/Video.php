@@ -205,7 +205,8 @@ class Video extends BaseResource
 
                 TextColumn::make(VideoModel::ATTRIBUTE_RESOLUTION)
                     ->label(__('filament.fields.video.resolution.name'))
-                    ->toggleable(),
+                    ->toggleable()
+                    ->placeholder('-'),
 
                 CheckboxColumn::make(VideoModel::ATTRIBUTE_NC)
                     ->label(__('filament.fields.video.nc.name'))

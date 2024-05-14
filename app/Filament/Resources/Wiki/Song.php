@@ -157,7 +157,8 @@ class Song extends BaseResource
                 TextInput::make(SongResource::ATTRIBUTE_AS)
                     ->label(__('filament.fields.song.resources.as.name'))
                     ->helperText(__('filament.fields.song.resources.as.help'))
-                    ->visibleOn(SongResourceRelationManager::class),
+                    ->visibleOn(SongResourceRelationManager::class)
+                    ->placeholder('-'),
             ]);
     }
 
