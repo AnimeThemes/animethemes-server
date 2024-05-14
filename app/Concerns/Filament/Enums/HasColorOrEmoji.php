@@ -25,25 +25,7 @@ trait HasColorOrEmoji
 
         /** @var static $case */
         foreach (static::cases() as $case) {
-            $name = Str::of('');
-
-            if ($hasColor) {
-                $color = $case->getColor();
-                $name = $name->append("<p style='color: rgb($color);'>");
-            }
-
-            if ($hasEmoji) {
-                $emoji = $case->getEmoji();
-                $name = $name->append("$emoji ");
-            }
-
-            $name = $name->append($case->localize($locale));
-
-            if ($hasColor) {
-                $name = $name->append('</p>');
-            }
-
-            $selectArray[$case->value] = $name->__toString();
+            $selectArray[$case->value] = $case->localizeStyled($hasColor, $hasEmoji, $locale);
         }
 
         return $selectArray;
