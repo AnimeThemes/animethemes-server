@@ -313,7 +313,8 @@ class Anime extends BaseResource
 
                         TextEntry::make(AnimeModel::ATTRIBUTE_SEASON)
                             ->label(__('filament.fields.anime.season.name'))
-                            ->formatStateUsing(fn ($state) => $state->localize()),
+                            ->formatStateUsing(fn ($state) => $state->localizeStyled())
+                            ->html(),
 
                         TextEntry::make(AnimeModel::ATTRIBUTE_MEDIA_FORMAT)
                             ->label(__('filament.fields.anime.media_format.name'))
