@@ -42,7 +42,6 @@ use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Support\Enums\MaxWidth;
 use Filament\Tables\Actions\ActionGroup;
-use Filament\Tables\Columns\SelectColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
@@ -257,17 +256,17 @@ class Anime extends BaseResource
                     ->sortable()
                     ->toggleable(),
 
-                SelectColumn::make(AnimeModel::ATTRIBUTE_SEASON)
+                TextColumn::make(AnimeModel::ATTRIBUTE_SEASON)
                     ->label(__('filament.fields.anime.season.name'))
-                    ->options(AnimeSeason::asSelectArray())
                     ->sortable()
-                    ->toggleable(),
+                    ->toggleable()
+                    ->formatStateUsing(fn ($state) => $state->localize()),
 
-                SelectColumn::make(AnimeModel::ATTRIBUTE_MEDIA_FORMAT)
+                TextColumn::make(AnimeModel::ATTRIBUTE_MEDIA_FORMAT)
                     ->label(__('filament.fields.anime.media_format.name'))
-                    ->options(AnimeMediaFormat::asSelectArray())
                     ->sortable()
-                    ->toggleable(),
+                    ->toggleable()
+                    ->formatStateUsing(fn ($state) => $state->localize()),
 
                 TextColumn::make(AnimeModel::ATTRIBUTE_SYNOPSIS)
                     ->label(__('filament.fields.anime.synopsis.name'))

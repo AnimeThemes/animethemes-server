@@ -27,7 +27,6 @@ use Filament\Forms\Set;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
-use Filament\Tables\Columns\SelectColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Validation\Rules\Enum;
@@ -177,11 +176,11 @@ class ExternalResource extends BaseResource
                     ->label(__('filament.fields.base.id'))
                     ->sortable(),
 
-                SelectColumn::make(ExternalResourceModel::ATTRIBUTE_SITE)
+                TextColumn::make(ExternalResourceModel::ATTRIBUTE_SITE)
                     ->label(__('filament.fields.external_resource.site.name'))
-                    ->options(ResourceSite::asSelectArray())
                     ->sortable()
-                    ->toggleable(),
+                    ->toggleable()
+                    ->formatStateUsing(fn ($state) => $state->localize()),
 
                 TextColumn::make(ExternalResourceModel::ATTRIBUTE_LINK)
                     ->label(__('filament.fields.external_resource.link.name'))

@@ -26,7 +26,6 @@ use Filament\Forms\Form;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
-use Filament\Tables\Columns\SelectColumn;
 use Filament\Tables\Table;
 use Illuminate\Validation\Rules\Enum;
 
@@ -191,11 +190,11 @@ class Playlist extends BaseResource
                     ->copyableWithMessage()
                     ->toggleable(),
 
-                SelectColumn::make(PlaylistModel::ATTRIBUTE_VISIBILITY)
+                TextColumn::make(PlaylistModel::ATTRIBUTE_VISIBILITY)
                     ->label(__('filament.fields.playlist.visibility.name'))
-                    ->options(PlaylistVisibility::asSelectArray())
                     ->sortable()
-                    ->toggleable(),
+                    ->toggleable()
+                    ->formatStateUsing(fn ($state) => $state->localize()),
 
                 TextColumn::make(PlaylistModel::ATTRIBUTE_HASHID)
                     ->label(__('filament.fields.playlist.hashid.name'))

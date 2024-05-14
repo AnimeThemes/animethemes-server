@@ -28,7 +28,7 @@ use Filament\Infolists\Components\IconEntry;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
-use Filament\Tables\Columns\CheckboxColumn;
+use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
@@ -253,13 +253,15 @@ class Entry extends BaseResource
                     ->toggleable()
                     ->placeholder('-'),
 
-                CheckboxColumn::make(EntryModel::ATTRIBUTE_NSFW)
+                IconColumn::make(EntryModel::ATTRIBUTE_NSFW)
                     ->label(__('filament.fields.anime_theme_entry.nsfw.name'))
-                    ->toggleable(),
+                    ->toggleable()
+                    ->boolean(),
 
-                CheckboxColumn::make(EntryModel::ATTRIBUTE_SPOILER)
+                IconColumn::make(EntryModel::ATTRIBUTE_SPOILER)
                     ->label(__('filament.fields.anime_theme_entry.spoiler.name'))
-                    ->toggleable(),
+                    ->toggleable()
+                    ->boolean(),
 
                 TextColumn::make(EntryModel::ATTRIBUTE_NOTES)
                     ->label(__('filament.fields.anime_theme_entry.notes.name'))
