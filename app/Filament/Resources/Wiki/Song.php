@@ -7,6 +7,7 @@ namespace App\Filament\Resources\Wiki;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Filament\Actions\Models\Wiki\Song\AttachSongResourceAction;
 use App\Filament\Components\Columns\TextColumn;
+use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\ExternalResource\RelationManagers\SongResourceRelationManager;
 use App\Filament\Resources\Wiki\Song\Pages\CreateSong;
@@ -208,8 +209,20 @@ class Song extends BaseResource
     {
         return $infolist
             ->schema([
+                Section::make(static::getRecordTitle($infolist->getRecord()))
+                    ->schema([
+                        TextEntry::make(SongModel::ATTRIBUTE_ID)
+                            ->label(__('filament.fields.base.id')),
+
+                        TextEntry::make(SongModel::ATTRIBUTE_TITLE)
+                            ->label(__('filament.fields.song.title.name'))
+                            ->copyableWithMessage(),
+                    ])
+                    ->columns(2),
+
                 Section::make(__('filament.fields.base.timestamps'))
-                    ->schema(parent::timestamps()),
+                    ->schema(parent::timestamps())
+                    ->columns(3),
             ]);
     }
 

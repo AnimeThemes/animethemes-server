@@ -15,6 +15,7 @@ use App\Filament\Actions\Models\Wiki\Anime\BackfillAnimeAction;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\Select;
 use App\Filament\Components\Filters\NumberFilter;
+use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Anime\Pages\CreateAnime;
 use App\Filament\Resources\Wiki\Anime\Pages\EditAnime;
@@ -293,8 +294,39 @@ class Anime extends BaseResource
     {
         return $infolist
             ->schema([
+                Section::make(static::getRecordTitle($infolist->getRecord()))
+                    ->schema([
+                        TextEntry::make(AnimeModel::ATTRIBUTE_ID)
+                            ->label(__('filament.fields.base.id')),
+
+                        TextEntry::make(AnimeModel::ATTRIBUTE_NAME)
+                            ->label(__('filament.fields.anime.name.name'))
+                            ->copyableWithMessage(),
+
+                        TextEntry::make(AnimeModel::ATTRIBUTE_SLUG)
+                            ->label(__('filament.fields.anime.slug.name')),
+
+                        TextEntry::make(AnimeModel::ATTRIBUTE_YEAR)
+                            ->label(__('filament.fields.anime.year.name')),
+
+                        TextEntry::make(AnimeModel::ATTRIBUTE_SEASON)
+                            ->label(__('filament.fields.anime.season.name'))
+                            ->formatStateUsing(fn ($state) => $state->localize()),
+
+                        TextEntry::make(AnimeModel::ATTRIBUTE_MEDIA_FORMAT)
+                            ->label(__('filament.fields.anime.media_format.name'))
+                            ->formatStateUsing(fn ($state) => $state->localize()),
+
+                        TextEntry::make(AnimeModel::ATTRIBUTE_SYNOPSIS)
+                            ->label(__('filament.fields.anime.synopsis.name'))
+                            ->markdown()
+                            ->columnSpanFull(),
+                    ])
+                    ->columns(3),
+
                 Section::make(__('filament.fields.base.timestamps'))
-                    ->schema(parent::timestamps()),
+                    ->schema(parent::timestamps())
+                    ->columns(3),
             ]);
     }
 

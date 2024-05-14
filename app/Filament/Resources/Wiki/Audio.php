@@ -209,7 +209,8 @@ class Audio extends BaseResource
                     ]),
 
                 Section::make(__('filament.fields.base.timestamps'))
-                    ->schema(parent::timestamps()),
+                    ->schema(parent::timestamps())
+                    ->columns(3),
             ]);
     }
 

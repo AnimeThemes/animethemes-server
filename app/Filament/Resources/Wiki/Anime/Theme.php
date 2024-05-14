@@ -8,6 +8,7 @@ use App\Enums\Models\Wiki\ThemeType;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\Select;
 use App\Filament\Components\Filters\NumberFilter;
+use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\BaseRelationManager;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Anime as AnimeResource;
@@ -269,8 +270,41 @@ class Theme extends BaseResource
     {
         return $infolist
             ->schema([
+                Section::make(static::getRecordTitle($infolist->getRecord()))
+                    ->schema([
+                        TextEntry::make(ThemeModel::ATTRIBUTE_ID)
+                            ->label(__('filament.fields.base.id')),
+
+                        TextEntry::make(ThemeModel::RELATION_ANIME.'.'.AnimeModel::ATTRIBUTE_NAME)
+                            ->label(__('filament.resources.singularLabel.anime'))
+                            ->urlToRelated(AnimeResource::class, ThemeModel::RELATION_ANIME),
+
+                        TextEntry::make(ThemeModel::ATTRIBUTE_TYPE)
+                            ->label(__('filament.fields.anime_theme.type.name'))
+                            ->formatStateUsing(fn ($state) => $state->localize()),
+
+                        TextEntry::make(ThemeModel::ATTRIBUTE_SEQUENCE)
+                            ->label(__('filament.fields.anime_theme.sequence.name'))
+                            ->placeholder('-'),
+
+                        TextEntry::make(ThemeModel::ATTRIBUTE_SLUG)
+                            ->label(__('filament.fields.anime_theme.slug.name')),
+
+                        TextEntry::make(ThemeModel::RELATION_GROUP.'.'.Group::ATTRIBUTE_NAME)
+                            ->label(__('filament.resources.singularLabel.group'))
+                            ->placeholder('-')
+                            ->urlToRelated(GroupResource::class, ThemeModel::RELATION_GROUP),
+
+                        TextEntry::make(ThemeModel::RELATION_SONG.'.'.Song::ATTRIBUTE_TITLE)
+                            ->label(__('filament.resources.singularLabel.song'))
+                            ->placeholder('-')
+                            ->urlToRelated(SongResource::class, ThemeModel::RELATION_SONG),
+                    ])
+                    ->columns(3),
+
                 Section::make(__('filament.fields.base.timestamps'))
-                    ->schema(parent::timestamps()),
+                    ->schema(parent::timestamps())
+                    ->columns(3),
             ]);
     }
 

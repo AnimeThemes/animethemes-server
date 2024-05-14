@@ -9,6 +9,7 @@ use App\Filament\Actions\Models\Auth\User\GiveRoleAction;
 use App\Filament\Actions\Models\Auth\User\RevokePermissionAction;
 use App\Filament\Actions\Models\Auth\User\RevokeRoleAction;
 use App\Filament\Components\Columns\TextColumn;
+use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Auth\User\Pages\CreateUser;
 use App\Filament\Resources\Auth\User\Pages\EditUser;
@@ -20,6 +21,7 @@ use App\Filament\Resources\Auth\User\RelationManagers\RoleUserRelationManager;
 use App\Models\Auth\User as UserModel;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Infolists\Components\ImageEntry;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
@@ -190,8 +192,29 @@ class User extends BaseResource
     {
         return $infolist
             ->schema([
+                Section::make(static::getRecordTitle($infolist->getRecord()))
+                    ->schema([
+                        ImageEntry::make('avatar')
+                            ->label(__('filament.fields.user.avatar'))
+                            ->defaultImageUrl(fn (UserModel $model) => $model->getFilamentAvatarUrl())
+                            ->circular(),
+
+                        TextEntry::make(UserModel::ATTRIBUTE_NAME)
+                            ->label(__('filament.fields.user.name'))
+                            ->copyableWithMessage(),
+
+                        TextEntry::make(UserModel::ATTRIBUTE_EMAIL)
+                            ->label(__('filament.fields.user.email'))
+                            ->icon('heroicon-m-envelope'),
+
+                        TextEntry::make(UserModel::ATTRIBUTE_ID)
+                            ->label(__('filament.fields.base.id')),
+                    ])
+                    ->columns(3),
+
                 Section::make(__('filament.fields.base.timestamps'))
-                    ->schema(parent::timestamps()),
+                    ->schema(parent::timestamps())
+                    ->columns(3),
             ]);
     }
 

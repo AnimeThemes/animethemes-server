@@ -123,7 +123,7 @@ class BackfillAnimeAction extends Action implements ShouldQueue
                             ->label(__('filament.actions.anime.backfill.fields.resources.kitsu.name'))
                             ->helperText(__('filament.actions.anime.backfill.fields.resources.kitsu.help'))
                             ->default(fn () => $anime instanceof Anime && $anime->resources()->where(ExternalResource::ATTRIBUTE_SITE, ResourceSite::KITSU->value)->doesntExist()),
-        
+
                         Checkbox::make(self::BACKFILL_ANILIST_RESOURCE)
                             ->label(__('filament.actions.anime.backfill.fields.resources.anilist.name'))
                             ->helperText(__('filament.actions.anime.backfill.fields.resources.anilist.help'))

@@ -7,6 +7,7 @@ namespace App\Filament\Resources\Admin;
 use App\Enums\Http\Api\Filter\AllowedDateFormat;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\Select;
+use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Admin\FeaturedTheme\Pages\CreateFeaturedTheme;
 use App\Filament\Resources\Admin\FeaturedTheme\Pages\EditFeaturedTheme;
@@ -155,7 +156,7 @@ class FeaturedTheme extends BaseResource
                 Select::make(FeaturedThemeModel::ATTRIBUTE_VIDEO)
                     ->label(__('filament.resources.singularLabel.video'))
                     ->relationship(FeaturedThemeModel::RELATION_VIDEO, Video::ATTRIBUTE_FILENAME)
-                    ->useScout(Video::class),
+                    ->searchable(),
 
                 Select::make(FeaturedThemeModel::ATTRIBUTE_ENTRY)
                     ->label(__('filament.resources.singularLabel.anime_theme_entry'))
@@ -235,8 +236,40 @@ class FeaturedTheme extends BaseResource
     {
         return $infolist
             ->schema([
+                Section::make(static::getRecordTitle($infolist->getRecord()))
+                    ->schema([
+                        TextEntry::make(FeaturedThemeModel::ATTRIBUTE_ID)
+                            ->label(__('filament.fields.base.id')),
+
+                        TextEntry::make(FeaturedThemeModel::ATTRIBUTE_START_AT)
+                            ->label(__('filament.fields.featured_theme.start_at.name'))
+                            ->date(),
+
+                        TextEntry::make(FeaturedThemeModel::ATTRIBUTE_END_AT)
+                            ->label(__('filament.fields.featured_theme.end_at.name'))
+                            ->date(),
+
+                        TextEntry::make(FeaturedThemeModel::RELATION_VIDEO.'.'.Video::ATTRIBUTE_FILENAME)
+                            ->label(__('filament.resources.singularLabel.video'))
+                            ->placeholder('-')
+                            ->urlToRelated(VideoResource::class, FeaturedThemeModel::RELATION_VIDEO),
+
+                        TextEntry::make(FeaturedThemeModel::RELATION_ENTRY.'.'.EntryModel::ATTRIBUTE_ID)
+                            ->label(__('filament.resources.singularLabel.anime_theme_entry'))
+                            ->placeholder('-')
+                            ->formatStateUsing(fn (string $state) => EntryModel::find(intval($state))->load(EntryModel::RELATION_ANIME)->getName())
+                            ->urlToRelated(EntryResource::class, FeaturedThemeModel::RELATION_ENTRY),
+
+                        TextEntry::make(FeaturedThemeModel::RELATION_USER.'.'.User::ATTRIBUTE_NAME)
+                            ->label(__('filament.resources.singularLabel.user'))
+                            ->placeholder('-')
+                            ->urlToRelated(UserResource::class, FeaturedThemeModel::RELATION_USER),
+                    ])
+                    ->columns(3),
+
                 Section::make(__('filament.fields.base.timestamps'))
-                    ->schema(parent::timestamps()),
+                    ->schema(parent::timestamps())
+                    ->columns(3),
             ]);
     }
 

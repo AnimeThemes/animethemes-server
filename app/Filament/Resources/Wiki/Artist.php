@@ -9,6 +9,7 @@ use App\Enums\Models\Wiki\ResourceSite;
 use App\Filament\Actions\Models\Wiki\Artist\AttachArtistImageAction;
 use App\Filament\Actions\Models\Wiki\Artist\AttachArtistResourceAction;
 use App\Filament\Components\Columns\TextColumn;
+use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Artist\Pages\CreateArtist;
 use App\Filament\Resources\Wiki\Artist\Pages\EditArtist;
@@ -230,8 +231,23 @@ class Artist extends BaseResource
     {
         return $infolist
             ->schema([
+                Section::make(static::getRecordTitle($infolist->getRecord()))
+                    ->schema([
+                        TextEntry::make(ArtistModel::ATTRIBUTE_ID)
+                            ->label(__('filament.fields.base.id')),
+
+                        TextEntry::make(ArtistModel::ATTRIBUTE_NAME)
+                            ->label(__('filament.fields.artist.name.name'))
+                            ->copyableWithMessage(),
+
+                        TextEntry::make(ArtistModel::ATTRIBUTE_SLUG)
+                            ->label(__('filament.fields.artist.slug.name')),
+                    ])
+                    ->columns(3),
+
                 Section::make(__('filament.fields.base.timestamps'))
-                    ->schema(parent::timestamps()),
+                    ->schema(parent::timestamps())
+                    ->columns(3),
             ]);
     }
 

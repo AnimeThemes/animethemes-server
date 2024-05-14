@@ -8,6 +8,7 @@ use App\Enums\Models\Wiki\ResourceSite;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\Select;
 use App\Filament\Components\Filters\NumberFilter;
+use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\BaseRelationManager;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\ExternalResource\Pages\CreateExternalResource;
@@ -217,8 +218,25 @@ class ExternalResource extends BaseResource
     {
         return $infolist
             ->schema([
+                Section::make(static::getRecordTitle($infolist->getRecord()))
+                    ->schema([
+                        TextEntry::make(ExternalResourceModel::ATTRIBUTE_SITE)
+                            ->label(__('filament.fields.external_resource.site.name'))
+                            ->formatStateUsing(fn ($state) => $state->localize()),
+
+                        TextEntry::make(ExternalResourceModel::ATTRIBUTE_LINK)
+                            ->label(__('filament.fields.external_resource.link.name'))
+                            ->copyableWithMessage(),
+
+                        TextEntry::make(ExternalResourceModel::ATTRIBUTE_EXTERNAL_ID)
+                            ->label(__('filament.fields.external_resource.external_id.name'))
+                            ->placeholder('-'),
+                    ])
+                    ->columns(3),
+
                 Section::make(__('filament.fields.base.timestamps'))
-                    ->schema(parent::timestamps()),
+                    ->schema(parent::timestamps())
+                    ->columns(3),
             ]);
     }
 

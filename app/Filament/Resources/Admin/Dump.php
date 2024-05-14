@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Resources\Admin;
 
 use App\Filament\Components\Columns\TextColumn;
+use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Admin\Dump\Pages\CreateDump;
 use App\Filament\Resources\Admin\Dump\Pages\EditDump;
@@ -169,8 +170,20 @@ class Dump extends BaseResource
     {
         return $infolist
             ->schema([
+                Section::make(static::getRecordTitle($infolist->getRecord()))
+                    ->schema([
+                        TextEntry::make(DumpModel::ATTRIBUTE_ID)
+                            ->label(__('filament.fields.base.id')),
+
+                        TextEntry::make(DumpModel::ATTRIBUTE_PATH)
+                            ->label(__('filament.fields.dump.path'))
+                            ->copyableWithMessage(),
+                    ])
+                    ->columns(3),
+
                 Section::make(__('filament.fields.base.timestamps'))
-                    ->schema(parent::timestamps()),
+                    ->schema(parent::timestamps())
+                    ->columns(3),
             ]);
     }
 

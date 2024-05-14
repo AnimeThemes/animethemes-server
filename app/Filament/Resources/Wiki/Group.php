@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Resources\Wiki;
 
 use App\Filament\Components\Columns\TextColumn;
+use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Group\Pages\CreateGroup;
 use App\Filament\Resources\Wiki\Group\Pages\EditGroup;
@@ -191,8 +192,23 @@ class Group extends BaseResource
     {
         return $infolist
             ->schema([
+                Section::make(static::getRecordTitle($infolist->getRecord()))
+                    ->schema([
+                        TextEntry::make(GroupModel::ATTRIBUTE_ID)
+                            ->label(__('filament.fields.base.id')),
+
+                        TextEntry::make(GroupModel::ATTRIBUTE_NAME)
+                            ->label(__('filament.fields.group.name.name'))
+                            ->copyableWithMessage(),
+
+                        TextEntry::make(GroupModel::ATTRIBUTE_SLUG)
+                            ->label(__('filament.fields.group.slug.name')),
+                    ])
+                    ->columns(3),
+
                 Section::make(__('filament.fields.base.timestamps'))
-                    ->schema(parent::timestamps()),
+                    ->schema(parent::timestamps())
+                    ->columns(3),
             ]);
     }
 

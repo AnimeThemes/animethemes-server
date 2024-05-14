@@ -8,6 +8,7 @@ use App\Enums\Models\List\PlaylistVisibility;
 use App\Filament\Actions\Models\AssignHashidsAction;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\Select;
+use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\Auth\User as UserResource;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\List\Playlist\Pages\CreatePlaylist;
@@ -177,6 +178,7 @@ class Playlist extends BaseResource
                 TextColumn::make(PlaylistModel::ATTRIBUTE_USER)
                     ->label(__('filament.resources.singularLabel.user'))
                     ->toggleable()
+                    ->placeholder('-')
                     ->urlToRelated(UserResource::class, PlaylistModel::RELATION_USER),
 
                 TextColumn::make(PlaylistModel::ATTRIBUTE_ID)
@@ -198,18 +200,21 @@ class Playlist extends BaseResource
                 TextColumn::make(PlaylistModel::ATTRIBUTE_HASHID)
                     ->label(__('filament.fields.playlist.hashid.name'))
                     ->toggleable()
+                    ->placeholder('-')
                     ->copyableWithMessage(),
 
                 TextColumn::make(PlaylistModel::ATTRIBUTE_FIRST)
                     ->label(__('filament.fields.playlist.first.name'))
                     ->visibleOn(['create', 'edit', 'view'])
                     ->toggleable()
+                    ->placeholder('-')
                     ->urlToRelated(Track::class, PlaylistModel::RELATION_FIRST),
 
                 TextColumn::make(PlaylistModel::ATTRIBUTE_LAST)
                     ->label(__('filament.fields.playlist.last.name'))
                     ->visibleOn(['create', 'edit', 'view'])
                     ->toggleable()
+                    ->placeholder('-')
                     ->urlToRelated(Track::class, PlaylistModel::RELATION_LAST),
             ])
             ->searchable()
@@ -231,8 +236,44 @@ class Playlist extends BaseResource
     {
         return $infolist
             ->schema([
+                Section::make(static::getRecordTitle($infolist->getRecord()))
+                    ->schema([
+                        TextEntry::make(PlaylistModel::ATTRIBUTE_USER)
+                            ->label(__('filament.resources.singularLabel.user'))
+                            ->placeholder('-')
+                            ->urlToRelated(UserResource::class, PlaylistModel::RELATION_USER),
+
+                        TextEntry::make(PlaylistModel::ATTRIBUTE_NAME)
+                            ->label(__('filament.fields.playlist.name.name'))
+                            ->copyableWithMessage(),
+
+                        TextEntry::make(PlaylistModel::ATTRIBUTE_VISIBILITY)
+                            ->label(__('filament.fields.playlist.visibility.name'))
+                            ->formatStateUsing(fn ($state) => $state->localize()),
+
+                        TextEntry::make(PlaylistModel::ATTRIBUTE_HASHID)
+                            ->label(__('filament.fields.playlist.hashid.name'))
+                            ->placeholder('-')
+                            ->copyableWithMessage(),
+
+                        TextEntry::make(PlaylistModel::ATTRIBUTE_FIRST)
+                            ->label(__('filament.fields.playlist.first.name'))
+                            ->placeholder('-')
+                            ->urlToRelated(Track::class, PlaylistModel::RELATION_FIRST),
+
+                        TextEntry::make(PlaylistModel::ATTRIBUTE_LAST)
+                            ->label(__('filament.fields.playlist.last.name'))
+                            ->placeholder('-')
+                            ->urlToRelated(Track::class, PlaylistModel::RELATION_LAST),
+
+                        TextEntry::make(PlaylistModel::ATTRIBUTE_ID)
+                            ->label(__('filament.fields.base.id')),
+                    ])
+                    ->columns(3),
+
                 Section::make(__('filament.fields.base.timestamps'))
-                    ->schema(parent::timestamps()),
+                    ->schema(parent::timestamps())
+                    ->columns(3),
             ]);
     }
 

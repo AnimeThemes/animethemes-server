@@ -7,6 +7,7 @@ namespace App\Filament\Resources\List\Playlist;
 use App\Filament\Actions\Models\AssignHashidsAction;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\Select;
+use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\List\Playlist as PlaylistResource;
 use App\Filament\Resources\List\Playlist\Track\Pages\CreateTrack;
@@ -179,7 +180,8 @@ class Track extends BaseResource
 
                 TextColumn::make(TrackModel::ATTRIBUTE_HASHID)
                     ->label(__('filament.fields.playlist_track.hashid.name'))
-                    ->toggleable(),
+                    ->toggleable()
+                    ->placeholder('-'),
             ])
             ->defaultSort(TrackModel::ATTRIBUTE_ID, 'desc')
             ->filters(static::getFilters())
@@ -199,8 +201,28 @@ class Track extends BaseResource
     {
         return $infolist
             ->schema([
+                Section::make(static::getRecordTitle($infolist->getRecord()))
+                    ->schema([
+                        TextEntry::make(TrackModel::RELATION_PLAYLIST.'.'.PlaylistModel::ATTRIBUTE_NAME)
+                            ->label(__('filament.resources.singularLabel.playlist'))
+                            ->urlToRelated(PlaylistResource::class, TrackModel::RELATION_PLAYLIST),
+
+                        TextEntry::make(TrackModel::RELATION_VIDEO.'.'.VideoModel::ATTRIBUTE_FILENAME)
+                            ->label(__('filament.resources.singularLabel.video'))
+                            ->urlToRelated(VideoResource::class, TrackModel::RELATION_VIDEO),
+
+                        TextEntry::make(TrackModel::ATTRIBUTE_HASHID)
+                            ->label(__('filament.fields.playlist_track.hashid.name'))
+                            ->placeholder('-'),
+
+                        TextEntry::make(TrackModel::ATTRIBUTE_ID)
+                            ->label(__('filament.fields.base.id')),
+                    ])
+                    ->columns(3),
+
                 Section::make(__('filament.fields.base.timestamps'))
-                    ->schema(parent::timestamps()),
+                    ->schema(parent::timestamps())
+                    ->columns(3),
             ]);
     }
 
