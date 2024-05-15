@@ -10,6 +10,7 @@ use App\Filament\Actions\Storage\Wiki\Audio\MoveAudioAction;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Filters\NumberFilter;
 use App\Filament\Components\Filters\TextFilter;
+use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Audio\Pages\CreateAudio;
 use App\Filament\Resources\Wiki\Audio\Pages\EditAudio;
@@ -23,7 +24,6 @@ use App\Models\Wiki\Video;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Infolists\Components\Section;
-use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Support\Enums\MaxWidth;
@@ -206,7 +206,8 @@ class Audio extends BaseResource
 
                         TextEntry::make(AudioModel::ATTRIBUTE_MIMETYPE)
                             ->label(__('filament.fields.audio.mimetype.name')),
-                    ]),
+                    ])
+                    ->columns(3),
 
                 Section::make(__('filament.fields.base.timestamps'))
                     ->schema(parent::timestamps())

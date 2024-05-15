@@ -167,7 +167,7 @@ class Entry extends BaseResource
                         }
                         return $state;
                     })
-                    ->saveRelationshipsUsing(fn (EntryModel $record, $state) => $record->anime()->associate(intval($state))->save()),
+                    ->saveRelationshipsUsing(fn (EntryModel $record, $state) => $record->animetheme->anime()->associate(intval($state))->save()),
 
                 Select::make(EntryModel::ATTRIBUTE_THEME)
                     ->label(__('filament.resources.singularLabel.anime_theme'))

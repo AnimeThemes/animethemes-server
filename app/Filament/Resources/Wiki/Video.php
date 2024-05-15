@@ -13,6 +13,7 @@ use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\Select;
 use App\Filament\Components\Filters\NumberFilter;
 use App\Filament\Components\Filters\TextFilter;
+use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Video\Pages\CreateVideo;
 use App\Filament\Resources\Wiki\Video\Pages\EditVideo;
@@ -23,13 +24,13 @@ use App\Filament\Resources\Wiki\Video\RelationManagers\ScriptVideoRelationManage
 use App\Filament\Resources\Wiki\Video\RelationManagers\TrackVideoRelationManager;
 use App\Filament\TableActions\Repositories\Storage\Wiki\Video\ReconcileVideoTableAction;
 use App\Filament\TableActions\Storage\Wiki\Video\UploadVideoTableAction;
+use App\Http\Resources\Wiki\Resource\AudioResource;
 use App\Models\Wiki\Audio as AudioModel;
 use App\Models\Wiki\Video as VideoModel;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Infolists\Components\Section;
-use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Support\Enums\MaxWidth;
@@ -283,7 +284,13 @@ class Video extends BaseResource
 
                         TextEntry::make(VideoModel::ATTRIBUTE_MIMETYPE)
                             ->label(__('filament.fields.video.mimetype.name')),
-                    ]),
+
+                        TextEntry::make(VideoModel::RELATION_AUDIO.'.'.AudioModel::ATTRIBUTE_FILENAME)
+                            ->label(__('filament.resources.singularLabel.audio'))
+                            ->placeholder('-')
+                            ->urlToRelated(AudioResource::class, VideoModel::RELATION_AUDIO),
+                    ])
+                    ->columns(3),
 
                 Section::make(__('filament.fields.base.timestamps'))
                     ->schema(parent::timestamps()),

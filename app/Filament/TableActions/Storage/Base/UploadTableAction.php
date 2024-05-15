@@ -35,7 +35,9 @@ abstract class UploadTableAction extends StorageTableAction implements Interacts
                 ->label(__('filament.actions.storage.upload.fields.file.name'))
                 ->helperText(__('filament.actions.storage.upload.fields.file.help'))
                 ->required()
+                ->live(true)
                 ->rules($this->fileRules())
+                ->preserveFilenames()
                 ->storeFiles(false),
 
             TextInput::make('path')
