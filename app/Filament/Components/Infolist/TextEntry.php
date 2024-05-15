@@ -2,21 +2,20 @@
 
 declare(strict_types=1);
 
-namespace App\Filament\Components\Columns;
+namespace App\Filament\Components\Infolist;
 
-use App\Filament\Resources\BaseRelationManager;
 use App\Filament\Resources\BaseResource;
 use App\Models\BaseModel;
+use Filament\Infolists\Components\TextEntry as ComponentsTextEntry;
 use Filament\Support\Enums\FontWeight;
-use Filament\Tables\Columns\TextColumn as ColumnsTextColumn;
 
 /**
- * Class TextColumn.
+ * Class TextEntry.
  */
-class TextColumn extends ColumnsTextColumn
+class TextEntry extends ComponentsTextEntry
 {
     /**
-     * Used for column relationships.
+     * Used for entry relationships.
      *
      * @param  class-string<BaseResource>  $resourceRelated
      * @param  string  $relation
@@ -28,7 +27,6 @@ class TextColumn extends ColumnsTextColumn
             ->weight(FontWeight::SemiBold)
             ->html()
             ->formatStateUsing(fn ($state) => "<p style='color: rgb(64, 184, 166);'>$state</p>")
-            ->hiddenOn(BaseRelationManager::class)
             ->url(function (BaseModel $record) use ($resourceRelated, $relation) { 
                 foreach (explode('.', $relation) as $element) {
                     $record = $record->$element;
@@ -39,7 +37,7 @@ class TextColumn extends ColumnsTextColumn
     }
 
     /**
-     * Make the column copyable.
+     * Make the entry copyable.
      *
      * @param  bool  $condition
      * @return static

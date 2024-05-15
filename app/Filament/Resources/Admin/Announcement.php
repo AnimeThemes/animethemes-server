@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Resources\Admin;
 
 use App\Filament\Components\Columns\TextColumn;
+use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Admin\Announcement\Pages\CreateAnnouncement;
 use App\Filament\Resources\Admin\Announcement\Pages\EditAnnouncement;
@@ -142,7 +143,7 @@ class Announcement extends BaseResource
                     ->label(__('filament.fields.announcement.content'))
                     ->sortable()
                     ->searchable()
-                    ->copyable(),
+                    ->copyableWithMessage(),
             ])
             ->defaultSort(AnnouncementModel::ATTRIBUTE_ID, 'desc')
             ->filters(static::getFilters())
@@ -162,8 +163,22 @@ class Announcement extends BaseResource
     {
         return $infolist
             ->schema([
+                Section::make(static::getRecordTitle($infolist->getRecord()))
+                    ->schema([
+                        TextEntry::make(AnnouncementModel::ATTRIBUTE_ID)
+                            ->label(__('filament.fields.base.id')),
+
+                        TextEntry::make(AnnouncementModel::ATTRIBUTE_CONTENT)
+                            ->label(__('filament.fields.announcement.content'))
+                            ->markdown()
+                            ->columnSpanFull()
+                            ->copyableWithMessage(),
+                    ])
+                    ->columns(3),
+
                 Section::make(__('filament.fields.base.timestamps'))
-                    ->schema(parent::timestamps()),
+                    ->schema(parent::timestamps())
+                    ->columns(3),
             ]);
     }
 

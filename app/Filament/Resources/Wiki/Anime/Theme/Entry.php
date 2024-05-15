@@ -8,6 +8,7 @@ use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\Select;
 use App\Filament\Components\Filters\NumberFilter;
 use App\Filament\Components\Filters\TextFilter;
+use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\BaseRelationManager;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Anime as AnimeResource;
@@ -23,10 +24,11 @@ use App\Models\Wiki\Anime\Theme\AnimeThemeEntry as EntryModel;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Infolists\Components\IconEntry;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
-use Filament\Tables\Columns\CheckboxColumn;
+use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
@@ -243,23 +245,28 @@ class Entry extends BaseResource
 
                 TextColumn::make(EntryModel::ATTRIBUTE_VERSION)
                     ->label(__('filament.fields.anime_theme_entry.version.name'))
-                    ->toggleable(),
+                    ->toggleable()
+                    ->placeholder('-'),
 
                 TextColumn::make(EntryModel::ATTRIBUTE_EPISODES)
                     ->label(__('filament.fields.anime_theme_entry.episodes.name'))
-                    ->toggleable(),
+                    ->toggleable()
+                    ->placeholder('-'),
 
-                CheckboxColumn::make(EntryModel::ATTRIBUTE_NSFW)
+                IconColumn::make(EntryModel::ATTRIBUTE_NSFW)
                     ->label(__('filament.fields.anime_theme_entry.nsfw.name'))
-                    ->toggleable(),
+                    ->toggleable()
+                    ->boolean(),
 
-                CheckboxColumn::make(EntryModel::ATTRIBUTE_SPOILER)
+                IconColumn::make(EntryModel::ATTRIBUTE_SPOILER)
                     ->label(__('filament.fields.anime_theme_entry.spoiler.name'))
-                    ->toggleable(),
+                    ->toggleable()
+                    ->boolean(),
 
                 TextColumn::make(EntryModel::ATTRIBUTE_NOTES)
                     ->label(__('filament.fields.anime_theme_entry.notes.name'))
-                    ->toggleable(),
+                    ->toggleable()
+                    ->placeholder('-'),
             ])
             ->searchable()
             ->defaultSort(EntryModel::ATTRIBUTE_ID, 'desc')
@@ -280,8 +287,44 @@ class Entry extends BaseResource
     {
         return $infolist
             ->schema([
+                Section::make(static::getRecordTitle($infolist->getRecord()))
+                    ->schema([
+                        TextEntry::make(EntryModel::RELATION_ANIME.'.'.AnimeModel::ATTRIBUTE_NAME)
+                            ->label(__('filament.resources.singularLabel.anime'))
+                            ->urlToRelated(AnimeResource::class, EntryModel::RELATION_ANIME),
+
+                        TextEntry::make(EntryModel::RELATION_THEME.'.'.ThemeModel::ATTRIBUTE_SLUG)
+                            ->label(__('filament.resources.singularLabel.anime_theme'))
+                            ->urlToRelated(ThemeResource::class, EntryModel::RELATION_THEME),
+
+                        TextEntry::make(EntryModel::ATTRIBUTE_ID)
+                            ->label(__('filament.fields.base.id')),
+
+                        TextEntry::make(EntryModel::ATTRIBUTE_VERSION)
+                            ->label(__('filament.fields.anime_theme_entry.version.name'))
+                            ->placeholder('-'),
+
+                        TextEntry::make(EntryModel::ATTRIBUTE_EPISODES)
+                            ->label(__('filament.fields.anime_theme_entry.episodes.name'))
+                            ->placeholder('-'),
+
+                        IconEntry::make(EntryModel::ATTRIBUTE_NSFW)
+                            ->label(__('filament.fields.anime_theme_entry.nsfw.name'))
+                            ->boolean(),
+
+                        IconEntry::make(EntryModel::ATTRIBUTE_SPOILER)
+                            ->label(__('filament.fields.anime_theme_entry.spoiler.name'))
+                            ->boolean(),
+
+                        TextEntry::make(EntryModel::ATTRIBUTE_NOTES)
+                            ->label(__('filament.fields.anime_theme_entry.notes.name'))
+                            ->placeholder('-'),
+                    ])
+                    ->columns(2),
+
                 Section::make(__('filament.fields.base.timestamps'))
-                    ->schema(parent::timestamps()),
+                    ->schema(parent::timestamps())
+                    ->columns(3),
             ]);
     }
 

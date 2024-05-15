@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Resources\Document;
 
 use App\Filament\Components\Columns\TextColumn;
+use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Document\Page\Pages\CreatePage;
 use App\Filament\Resources\Document\Page\Pages\EditPage;
@@ -140,6 +141,7 @@ class Page extends BaseResource
                     ->required()
                     ->maxLength(16777215)
                     ->rules(['required', 'max:16777215'])
+                    ->formatStateUsing(fn ($livewire) => PageModel::find($livewire->getRecord()->getKey())->body)
                     ->columnSpan(2),
             ])
             ->columns(2);
@@ -165,19 +167,18 @@ class Page extends BaseResource
                     ->label(__('filament.fields.page.name.name'))
                     ->sortable()
                     ->searchable()
-                    ->copyable()
+                    ->copyableWithMessage()
                     ->toggleable(),
 
                 TextColumn::make(PageModel::ATTRIBUTE_SLUG)
                     ->label(__('filament.fields.page.slug.name'))
                     ->sortable()
-                    ->copyable()
+                    ->copyableWithMessage()
                     ->toggleable(),
 
                 TextColumn::make(PageModel::ATTRIBUTE_BODY)
                     ->label(__('filament.fields.page.body.name'))
                     ->sortable()
-                    ->copyable()
                     ->hidden(),
             ])
             ->defaultSort(PageModel::ATTRIBUTE_ID, 'desc')
@@ -198,8 +199,29 @@ class Page extends BaseResource
     {
         return $infolist
             ->schema([
+                Section::make(static::getRecordTitle($infolist->getRecord()))
+                    ->schema([
+                        TextEntry::make(PageModel::ATTRIBUTE_ID)
+                            ->label(__('filament.fields.base.id')),
+
+                        TextEntry::make(PageModel::ATTRIBUTE_NAME)
+                            ->label(__('filament.fields.page.name.name'))
+                            ->copyableWithMessage(),
+
+                        TextEntry::make(PageModel::ATTRIBUTE_SLUG)
+                            ->label(__('filament.fields.page.slug.name'))
+                            ->copyableWithMessage(),
+
+                        TextEntry::make(PageModel::ATTRIBUTE_BODY)
+                            ->label(__('filament.fields.page.body.name'))
+                            ->markdown()
+                            ->columnSpanFull(),
+                    ])
+                    ->columns(3),
+
                 Section::make(__('filament.fields.base.timestamps'))
-                    ->schema(parent::timestamps()),
+                    ->schema(parent::timestamps())
+                    ->columns(3),
             ]);
     }
 

@@ -7,6 +7,7 @@ namespace App\Filament\Resources\Wiki\Anime;
 use App\Enums\Models\Wiki\AnimeSynonymType;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\Select;
+use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\BaseRelationManager;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Anime as AnimeResource;
@@ -20,7 +21,6 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Infolist;
-use Filament\Tables\Columns\SelectColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Validation\Rules\Enum;
@@ -165,10 +165,10 @@ class Synonym extends BaseResource
                     ->toggleable()
                     ->urlToRelated(AnimeResource::class, SynonymModel::RELATION_ANIME),
 
-                SelectColumn::make(SynonymModel::ATTRIBUTE_TYPE)
+                TextColumn::make(SynonymModel::ATTRIBUTE_TYPE)
                     ->label(__('filament.fields.anime_synonym.type.name'))
-                    ->options(AnimeSynonymType::asSelectArray())
-                    ->toggleable(),
+                    ->toggleable()
+                    ->formatStateUsing(fn ($state) => $state->localize()),
 
                 TextColumn::make(SynonymModel::ATTRIBUTE_TEXT)
                     ->label(__('filament.fields.anime_synonym.text.name'))
@@ -194,8 +194,27 @@ class Synonym extends BaseResource
     {
         return $infolist
             ->schema([
+                Section::make(static::getRecordTitle($infolist->getRecord()))
+                    ->schema([
+                        TextEntry::make(SynonymModel::ATTRIBUTE_ID)
+                            ->label(__('filament.fields.base.id')),
+
+                        TextEntry::make(SynonymModel::RELATION_ANIME.'.'.AnimeModel::ATTRIBUTE_NAME)
+                            ->label(__('filament.resources.singularLabel.anime'))
+                            ->urlToRelated(AnimeResource::class, SynonymModel::RELATION_ANIME),
+
+                        TextEntry::make(SynonymModel::ATTRIBUTE_TYPE)
+                            ->label(__('filament.fields.anime_synonym.type.name'))
+                            ->formatStateUsing(fn ($state) => $state->localize()),
+
+                        TextEntry::make(SynonymModel::ATTRIBUTE_TEXT)
+                            ->label(__('filament.fields.anime_synonym.text.name')),
+                    ])
+                    ->columns(2),
+
                 Section::make(__('filament.fields.base.timestamps'))
-                    ->schema(parent::timestamps()),
+                    ->schema(parent::timestamps())
+                    ->columns(3),
             ]);
     }
 

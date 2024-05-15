@@ -87,6 +87,7 @@ return [
         'base' => [
             'cancelButtonText' => 'Cancel',
             'confirmButtonText' => 'Confirm',
+            'copied' => 'Copied',
             'delete' => 'Delete',
             'detach' => 'Detach',
             'edit' => 'Edit',

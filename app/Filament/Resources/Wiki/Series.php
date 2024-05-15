@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Resources\Wiki;
 
 use App\Filament\Components\Columns\TextColumn;
+use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Series\Pages\CreateSeries;
 use App\Filament\Resources\Wiki\Series\Pages\EditSeries;
@@ -180,13 +181,12 @@ class Series extends BaseResource
                 TextColumn::make(SeriesModel::ATTRIBUTE_NAME)
                     ->label(__('filament.fields.series.name.name'))
                     ->sortable()
-                    ->copyable()
+                    ->copyableWithMessage()
                     ->toggleable(),
 
                 TextColumn::make(SeriesModel::ATTRIBUTE_SLUG)
                     ->label(__('filament.fields.series.slug.name'))
                     ->sortable()
-                    ->copyable()
                     ->toggleable(),
             ])
             ->searchable()
@@ -208,8 +208,23 @@ class Series extends BaseResource
     {
         return $infolist
             ->schema([
+                Section::make(static::getRecordTitle($infolist->getRecord()))
+                    ->schema([
+                        TextEntry::make(SeriesModel::ATTRIBUTE_ID)
+                            ->label(__('filament.fields.base.id')),
+
+                        TextEntry::make(SeriesModel::ATTRIBUTE_NAME)
+                            ->label(__('filament.fields.series.name.name'))
+                            ->copyableWithMessage(),
+
+                        TextEntry::make(SeriesModel::ATTRIBUTE_SLUG)
+                            ->label(__('filament.fields.series.slug.name')),
+                    ])
+                    ->columns(3),
+
                 Section::make(__('filament.fields.base.timestamps'))
-                    ->schema(parent::timestamps()),
+                    ->schema(parent::timestamps())
+                    ->columns(3),
             ]);
     }
 

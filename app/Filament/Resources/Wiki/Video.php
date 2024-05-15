@@ -34,8 +34,7 @@ use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Support\Enums\MaxWidth;
 use Filament\Tables\Actions\ActionGroup;
-use Filament\Tables\Columns\CheckboxColumn;
-use Filament\Tables\Columns\SelectColumn;
+use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
@@ -205,33 +204,38 @@ class Video extends BaseResource
 
                 TextColumn::make(VideoModel::ATTRIBUTE_RESOLUTION)
                     ->label(__('filament.fields.video.resolution.name'))
-                    ->toggleable(),
+                    ->toggleable()
+                    ->placeholder('-'),
 
-                CheckboxColumn::make(VideoModel::ATTRIBUTE_NC)
+                IconColumn::make(VideoModel::ATTRIBUTE_NC)
                     ->label(__('filament.fields.video.nc.name'))
-                    ->toggleable(),
+                    ->toggleable()
+                    ->boolean(),
 
-                CheckboxColumn::make(VideoModel::ATTRIBUTE_SUBBED)
+                IconColumn::make(VideoModel::ATTRIBUTE_SUBBED)
                     ->label(__('filament.fields.video.subbed.name'))
-                    ->toggleable(),
+                    ->toggleable()
+                    ->boolean(),
 
-                CheckboxColumn::make(VideoModel::ATTRIBUTE_LYRICS)
+                IconColumn::make(VideoModel::ATTRIBUTE_LYRICS)
                     ->label(__('filament.fields.video.lyrics.name'))
-                    ->toggleable(),
+                    ->toggleable()
+                    ->boolean(),
 
-                CheckboxColumn::make(VideoModel::ATTRIBUTE_UNCEN)
+                IconColumn::make(VideoModel::ATTRIBUTE_UNCEN)
                     ->label(__('filament.fields.video.uncen.name'))
-                    ->toggleable(),
+                    ->toggleable()
+                    ->boolean(),
 
-                SelectColumn::make(VideoModel::ATTRIBUTE_OVERLAP)
+                TextColumn::make(VideoModel::ATTRIBUTE_OVERLAP)
                     ->label(__('filament.fields.video.overlap.name'))
-                    ->options(VideoOverlap::asSelectArray())
-                    ->toggleable(),
+                    ->toggleable()
+                    ->formatStateUsing(fn ($state) => $state->localize()),
 
-                SelectColumn::make(VideoModel::ATTRIBUTE_SOURCE)
+                TextColumn::make(VideoModel::ATTRIBUTE_SOURCE)
                     ->label(__('filament.fields.video.source.name'))
-                    ->options(VideoSource::asSelectArray())
-                    ->toggleable(),
+                    ->toggleable()
+                    ->formatStateUsing(fn ($state) => $state->localize()),
 
                 TextColumn::make(VideoModel::RELATION_AUDIO . '.' . AudioModel::ATTRIBUTE_FILENAME)
                     ->label(__('filament.resources.singularLabel.audio'))
@@ -240,7 +244,7 @@ class Video extends BaseResource
                 TextColumn::make(VideoModel::ATTRIBUTE_FILENAME)
                     ->label(__('filament.fields.video.filename.name'))
                     ->sortable()
-                    ->copyable()
+                    ->copyableWithMessage()
                     ->toggleable(),
             ])
             ->searchable()
