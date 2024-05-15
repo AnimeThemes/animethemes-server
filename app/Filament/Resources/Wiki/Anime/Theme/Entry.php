@@ -32,6 +32,7 @@ use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Class Entry.
@@ -153,7 +154,7 @@ class Entry extends BaseResource
     {
         return $form
             ->schema([
-                Select::make(EntryModel::RELATION_ANIME.'.'.AnimeModel::ATTRIBUTE_NAME)
+                Select::make(EntryModel::RELATION_ANIME.'.'.AnimeModel::ATTRIBUTE_ID)
                     ->label(__('filament.resources.singularLabel.anime'))
                     ->relationship(EntryModel::RELATION_ANIME_SHALLOW, AnimeModel::ATTRIBUTE_NAME)
                     ->searchable()
@@ -166,11 +167,7 @@ class Entry extends BaseResource
                         }
                         return $state;
                     })
-                    ->saveRelationshipsUsing(function (Model $record, $state) {
-                        if ($record instanceof EntryModel) {
-                            $record->animetheme->anime()->associate($state)->save();
-                        }
-                    }),
+                    ->saveRelationshipsUsing(fn (EntryModel $record, $state) => $record->anime()->associate(intval($state))->save()),
 
                 Select::make(EntryModel::ATTRIBUTE_THEME)
                     ->label(__('filament.resources.singularLabel.anime_theme'))
@@ -181,7 +178,9 @@ class Entry extends BaseResource
                         if ($livewire instanceof BaseRelationManager) {
                             /** @var EntryModel */
                             $entry = $livewire->getOwnerRecord();
-                            return $entry->animetheme->slug;
+                            /** @var ThemeModel|null */
+                            $theme = $entry->animetheme;
+                            return $theme === null ? $state : $theme->slug;
                         }
                         return $state;
                     }),
