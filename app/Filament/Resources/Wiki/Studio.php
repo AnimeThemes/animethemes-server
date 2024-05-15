@@ -10,6 +10,7 @@ use App\Filament\Actions\Models\Wiki\Studio\AttachStudioImageAction;
 use App\Filament\Actions\Models\Wiki\Studio\AttachStudioResourceAction;
 use App\Filament\Actions\Models\Wiki\Studio\BackfillStudioAction;
 use App\Filament\Components\Columns\TextColumn;
+use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\ExternalResource\RelationManagers\StudioResourceRelationManager;
 use App\Filament\Resources\Wiki\Studio\Pages\CreateStudio;
@@ -171,18 +172,18 @@ class Studio extends BaseResource
                 TextColumn::make(StudioModel::ATTRIBUTE_NAME)
                     ->label(__('filament.fields.studio.name.name'))
                     ->sortable()
-                    ->copyable()
+                    ->copyableWithMessage()
                     ->toggleable(),
 
                 TextColumn::make(StudioModel::ATTRIBUTE_SLUG)
                     ->label(__('filament.fields.studio.slug.name'))
                     ->sortable()
-                    ->copyable()
                     ->toggleable(),
 
                 TextColumn::make(StudioResource::ATTRIBUTE_AS)
                     ->label(__('filament.fields.studio.resources.as.name'))
-                    ->visibleOn(StudioResourceRelationManager::class),
+                    ->visibleOn(StudioResourceRelationManager::class)
+                    ->placeholder('-'),
             ])
             ->searchable()
             ->defaultSort(StudioModel::ATTRIBUTE_ID, 'desc')
@@ -203,8 +204,23 @@ class Studio extends BaseResource
     {
         return $infolist
             ->schema([
+                Section::make(static::getRecordTitle($infolist->getRecord()))
+                    ->schema([
+                        TextEntry::make(StudioModel::ATTRIBUTE_NAME)
+                            ->label(__('filament.fields.studio.name.name'))
+                            ->copyableWithMessage(),
+
+                        TextEntry::make(StudioModel::ATTRIBUTE_SLUG)
+                            ->label(__('filament.fields.studio.slug.name')),
+
+                        TextEntry::make(StudioModel::ATTRIBUTE_ID)
+                            ->label(__('filament.fields.base.id')),
+                    ])
+                    ->columns(3),
+
                 Section::make(__('filament.fields.base.timestamps'))
-                    ->schema(parent::timestamps()),
+                    ->schema(parent::timestamps())
+                    ->columns(3),
             ]);
     }
 

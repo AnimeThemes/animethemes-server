@@ -8,6 +8,7 @@ use App\Filament\Actions\Models\Auth\Role\GivePermissionAction;
 use App\Filament\Actions\Models\Auth\Role\RevokePermissionAction;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Filters\NumberFilter;
+use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Auth\Role\Pages\CreateRole;
 use App\Filament\Resources\Auth\Role\Pages\EditRole;
@@ -20,10 +21,14 @@ use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\ColorPicker;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Infolists\Components\ColorEntry;
+use Filament\Infolists\Components\IconEntry;
+use Filament\Infolists\Components\Section;
+use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Tables\Actions\ActionGroup;
-use Filament\Tables\Columns\CheckboxColumn;
 use Filament\Tables\Columns\ColorColumn;
+use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
 
@@ -169,13 +174,14 @@ class Role extends BaseResource
                     ->label(__('filament.fields.role.name'))
                     ->sortable()
                     ->searchable()
-                    ->copyable()
+                    ->copyableWithMessage()
                     ->toggleable(),
 
-                CheckboxColumn::make(RoleModel::ATTRIBUTE_DEFAULT)
+                IconColumn::make(RoleModel::ATTRIBUTE_DEFAULT)
                     ->label(__('filament.fields.role.default.name'))
                     ->sortable()
-                    ->toggleable(),
+                    ->toggleable()
+                    ->boolean(),
 
                 ColorColumn::make(RoleModel::ATTRIBUTE_COLOR)
                     ->label(__('filament.fields.role.color.name'))
@@ -185,12 +191,53 @@ class Role extends BaseResource
                 TextColumn::make(RoleModel::ATTRIBUTE_PRIORITY)
                     ->label(__('filament.fields.role.priority.name'))
                     ->sortable()
-                    ->toggleable(),
+                    ->toggleable()
+                    ->placeholder('-'),
             ])
             ->defaultSort(RoleModel::ATTRIBUTE_ID, 'desc')
             ->filters(static::getFilters())
             ->actions(static::getActions())
             ->bulkActions(static::getBulkActions());
+    }
+
+    /**
+     * Get the infolist available for the resource.
+     *
+     * @param  Infolist  $infolist
+     * @return Infolist
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                Section::make(static::getRecordTitle($infolist->getRecord()))
+                    ->schema([
+                        TextEntry::make(RoleModel::ATTRIBUTE_ID)
+                            ->label(__('filament.fields.base.id')),
+
+                        TextEntry::make(RoleModel::ATTRIBUTE_NAME)
+                            ->label(__('filament.fields.role.name'))
+                            ->copyableWithMessage(),
+
+                        IconEntry::make(RoleModel::ATTRIBUTE_DEFAULT)
+                            ->label(__('filament.fields.role.default.name'))
+                            ->boolean(),
+
+                        ColorEntry::make(RoleModel::ATTRIBUTE_COLOR)
+                            ->label(__('filament.fields.role.color.name')),
+
+                        TextEntry::make(RoleModel::ATTRIBUTE_PRIORITY)
+                            ->label(__('filament.fields.role.priority.name'))
+                            ->placeholder('-'),
+                    ])
+                    ->columns(3),
+
+                Section::make(__('filament.fields.base.timestamps'))
+                    ->schema(parent::timestamps())
+                    ->columns(3),
+            ]);
     }
 
     /**

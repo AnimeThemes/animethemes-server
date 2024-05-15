@@ -7,6 +7,7 @@ namespace App\Filament\Resources\Wiki;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\Select;
+use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Image\Pages\CreateImage;
 use App\Filament\Resources\Wiki\Image\Pages\EditImage;
@@ -19,12 +20,12 @@ use App\Filament\Resources\Wiki\Image\RelationManagers\StudioImageRelationManage
 use App\Filament\TableActions\Models\Wiki\Image\UploadImageTableAction;
 use App\Models\Wiki\Image as ImageModel;
 use Filament\Forms\Form;
+use Filament\Infolists\Components\ImageEntry;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Support\Enums\MaxWidth;
 use Filament\Tables\Columns\ImageColumn;
-use Filament\Tables\Columns\SelectColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Config;
@@ -152,14 +153,14 @@ class Image extends BaseResource
                     ->label(__('filament.fields.base.id'))
                     ->sortable(),
 
-                SelectColumn::make(ImageModel::ATTRIBUTE_FACET)
+                TextColumn::make(ImageModel::ATTRIBUTE_FACET)
                     ->label(__('filament.fields.image.facet.name'))
-                    ->options(ImageFacet::asSelectArray())
                     ->sortable()
-                    ->toggleable(),
+                    ->toggleable()
+                    ->formatStateUsing(fn ($state) => $state->localize()),
 
                 ImageColumn::make(ImageModel::ATTRIBUTE_PATH)
-                    ->label(__('nova.fields.image.image.name'))
+                    ->label(__('filament.fields.image.image.name'))
                     ->disk(Config::get('image.disk'))
                     ->toggleable(),
             ])
@@ -182,8 +183,24 @@ class Image extends BaseResource
     {
         return $infolist
             ->schema([
+                Section::make(static::getRecordTitle($infolist->getRecord()))
+                    ->schema([
+                        ImageEntry::make(ImageModel::ATTRIBUTE_PATH)
+                            ->label(__('filament.fields.image.image.name'))
+                            ->disk(Config::get('image.disk')),
+
+                        TextEntry::make(ImageModel::ATTRIBUTE_FACET)
+                            ->label(__('filament.fields.image.facet.name'))
+                            ->formatStateUsing(fn ($state) => $state->localize()),
+
+                        TextEntry::make(ImageModel::ATTRIBUTE_ID)
+                            ->label(__('filament.fields.base.id')),
+                    ])
+                    ->columns(3),
+
                 Section::make(__('filament.fields.base.timestamps'))
-                    ->schema(parent::timestamps()),
+                    ->schema(parent::timestamps())
+                    ->columns(3),
             ]);
     }
 

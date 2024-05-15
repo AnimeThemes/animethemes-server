@@ -7,6 +7,7 @@ namespace App\Filament\Resources\Admin;
 use App\Enums\Http\Api\Filter\AllowedDateFormat;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\Select;
+use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Admin\FeaturedTheme\Pages\CreateFeaturedTheme;
 use App\Filament\Resources\Admin\FeaturedTheme\Pages\EditFeaturedTheme;
@@ -19,12 +20,15 @@ use App\Models\Admin\FeaturedTheme as FeaturedThemeModel;
 use App\Models\Auth\User;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry as EntryModel;
 use App\Models\Wiki\Video;
+use App\Pivots\Wiki\AnimeThemeEntryVideo;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Infolist;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 
 /**
  * Class FeaturedTheme.
@@ -152,15 +156,48 @@ class FeaturedTheme extends BaseResource
                             ->__toString(),
                     ]),
 
-                Select::make(FeaturedThemeModel::ATTRIBUTE_VIDEO)
-                    ->label(__('filament.resources.singularLabel.video'))
-                    ->relationship(FeaturedThemeModel::RELATION_VIDEO, Video::ATTRIBUTE_FILENAME)
-                    ->useScout(Video::class),
-
                 Select::make(FeaturedThemeModel::ATTRIBUTE_ENTRY)
                     ->label(__('filament.resources.singularLabel.anime_theme_entry'))
                     ->relationship(FeaturedThemeModel::RELATION_ENTRY, EntryModel::ATTRIBUTE_ID)
-                    ->useScout(EntryModel::class, EntryModel::RELATION_ANIME_SHALLOW),
+                    ->live(true)
+                    ->useScout(EntryModel::class, EntryModel::RELATION_ANIME_SHALLOW)
+                    ->rules([
+                        fn (Get $get) => function () use ($get) {
+                            return [
+                                Rule::when(
+                                    ! empty($get(FeaturedThemeModel::RELATION_ENTRY)) && ! empty($get(FeaturedThemeModel::RELATION_VIDEO)),
+                                    [
+                                        Rule::exists(AnimeThemeEntryVideo::class, AnimeThemeEntryVideo::ATTRIBUTE_ENTRY)
+                                            ->where(AnimeThemeEntryVideo::ATTRIBUTE_VIDEO, $get(FeaturedThemeModel::RELATION_VIDEO)),
+                                    ]
+                            )];
+                        }
+                    ]),
+
+                Select::make(FeaturedThemeModel::ATTRIBUTE_VIDEO)
+                    ->label(__('filament.resources.singularLabel.video'))
+                    ->relationship(FeaturedThemeModel::RELATION_VIDEO, Video::ATTRIBUTE_FILENAME)
+                    ->rules([
+                        fn (Get $get) => function () use ($get) {
+                            return [
+                                Rule::when(
+                                    ! empty($get(FeaturedThemeModel::RELATION_ENTRY)) && ! empty($get(FeaturedThemeModel::RELATION_VIDEO)),
+                                    [
+                                        Rule::exists(AnimeThemeEntryVideo::class, AnimeThemeEntryVideo::ATTRIBUTE_VIDEO)
+                                            ->where(AnimeThemeEntryVideo::ATTRIBUTE_ENTRY, $get(FeaturedThemeModel::RELATION_ENTRY)),
+                                    ]
+                            )];
+                        }
+                    ])
+                    ->options(function (Get $get) {
+                        return Video::query()
+                            ->whereHas(Video::RELATION_ANIMETHEMEENTRIES, function ($query) use ($get) {
+                                $query->where(EntryModel::TABLE.'.'.EntryModel::ATTRIBUTE_ID, $get(FeaturedThemeModel::ATTRIBUTE_ENTRY));
+                            })
+                            ->get()
+                            ->mapWithKeys(fn (Video $video) => [$video->getKey() => $video->getName()])
+                            ->toArray();
+                    }),
 
                 Select::make(FeaturedThemeModel::ATTRIBUTE_USER)
                     ->label(__('filament.resources.singularLabel.user'))
@@ -201,17 +238,20 @@ class FeaturedTheme extends BaseResource
                 TextColumn::make(FeaturedThemeModel::RELATION_VIDEO.'.'.Video::ATTRIBUTE_FILENAME)
                     ->label(__('filament.resources.singularLabel.video'))
                     ->toggleable()
+                    ->placeholder('-')
                     ->urlToRelated(VideoResource::class, FeaturedThemeModel::RELATION_VIDEO),
 
                 TextColumn::make(FeaturedThemeModel::RELATION_ENTRY.'.'.EntryModel::ATTRIBUTE_ID)
                     ->label(__('filament.resources.singularLabel.anime_theme_entry'))
                     ->toggleable()
+                    ->placeholder('-')
                     ->formatStateUsing(fn (string $state) => EntryModel::find(intval($state))->load(EntryModel::RELATION_ANIME)->getName())
                     ->urlToRelated(EntryResource::class, FeaturedThemeModel::RELATION_ENTRY),
 
                 TextColumn::make(FeaturedThemeModel::RELATION_USER.'.'.User::ATTRIBUTE_NAME)
                     ->label(__('filament.resources.singularLabel.user'))
                     ->toggleable()
+                    ->placeholder('-')
                     ->urlToRelated(UserResource::class, FeaturedThemeModel::RELATION_USER),
             ])
             ->defaultSort(FeaturedThemeModel::ATTRIBUTE_ID, 'desc')
@@ -232,8 +272,40 @@ class FeaturedTheme extends BaseResource
     {
         return $infolist
             ->schema([
+                Section::make(static::getRecordTitle($infolist->getRecord()))
+                    ->schema([
+                        TextEntry::make(FeaturedThemeModel::ATTRIBUTE_ID)
+                            ->label(__('filament.fields.base.id')),
+
+                        TextEntry::make(FeaturedThemeModel::ATTRIBUTE_START_AT)
+                            ->label(__('filament.fields.featured_theme.start_at.name'))
+                            ->date(),
+
+                        TextEntry::make(FeaturedThemeModel::ATTRIBUTE_END_AT)
+                            ->label(__('filament.fields.featured_theme.end_at.name'))
+                            ->date(),
+
+                        TextEntry::make(FeaturedThemeModel::RELATION_VIDEO.'.'.Video::ATTRIBUTE_FILENAME)
+                            ->label(__('filament.resources.singularLabel.video'))
+                            ->placeholder('-')
+                            ->urlToRelated(VideoResource::class, FeaturedThemeModel::RELATION_VIDEO),
+
+                        TextEntry::make(FeaturedThemeModel::RELATION_ENTRY.'.'.EntryModel::ATTRIBUTE_ID)
+                            ->label(__('filament.resources.singularLabel.anime_theme_entry'))
+                            ->placeholder('-')
+                            ->formatStateUsing(fn (string $state) => EntryModel::find(intval($state))->load(EntryModel::RELATION_ANIME)->getName())
+                            ->urlToRelated(EntryResource::class, FeaturedThemeModel::RELATION_ENTRY),
+
+                        TextEntry::make(FeaturedThemeModel::RELATION_USER.'.'.User::ATTRIBUTE_NAME)
+                            ->label(__('filament.resources.singularLabel.user'))
+                            ->placeholder('-')
+                            ->urlToRelated(UserResource::class, FeaturedThemeModel::RELATION_USER),
+                    ])
+                    ->columns(3),
+
                 Section::make(__('filament.fields.base.timestamps'))
-                    ->schema(parent::timestamps()),
+                    ->schema(parent::timestamps())
+                    ->columns(3),
             ]);
     }
 

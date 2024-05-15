@@ -15,6 +15,7 @@ use App\Filament\Actions\Models\Wiki\Anime\BackfillAnimeAction;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\Select;
 use App\Filament\Components\Filters\NumberFilter;
+use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Anime\Pages\CreateAnime;
 use App\Filament\Resources\Wiki\Anime\Pages\EditAnime;
@@ -41,7 +42,6 @@ use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Support\Enums\MaxWidth;
 use Filament\Tables\Actions\ActionGroup;
-use Filament\Tables\Columns\SelectColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
@@ -195,7 +195,9 @@ class Anime extends BaseResource
                 Select::make(AnimeModel::ATTRIBUTE_SEASON)
                     ->label(__('filament.fields.anime.season.name'))
                     ->helperText(__('filament.fields.anime.season.help'))
-                    ->options(AnimeSeason::asSelectArray())
+                    ->options(AnimeSeason::asSelectArrayStyled())
+                    ->searchable()
+                    ->allowHtml()
                     ->required()
                     ->rules(['required', new Enum(AnimeSeason::class)]),
 
@@ -216,7 +218,8 @@ class Anime extends BaseResource
                 TextInput::make(AnimeResource::ATTRIBUTE_AS)
                     ->label(__('filament.fields.anime.resources.as.name'))
                     ->helperText(__('filament.fields.anime.resources.as.help'))
-                    ->visibleOn(AnimeResourceRelationManager::class),
+                    ->visibleOn(AnimeResourceRelationManager::class)
+                    ->placeholder('-'),
             ])
             ->columns(2);
     }
@@ -240,13 +243,12 @@ class Anime extends BaseResource
                 TextColumn::make(AnimeModel::ATTRIBUTE_NAME)
                     ->label(__('filament.fields.anime.name.name'))
                     ->sortable()
-                    ->copyable()
+                    ->copyableWithMessage()
                     ->toggleable(),
 
                 TextColumn::make(AnimeModel::ATTRIBUTE_SLUG)
                     ->label(__('filament.fields.anime.slug.name'))
                     ->sortable()
-                    ->copyable()
                     ->toggleable(),
 
                 TextColumn::make(AnimeModel::ATTRIBUTE_YEAR)
@@ -254,17 +256,18 @@ class Anime extends BaseResource
                     ->sortable()
                     ->toggleable(),
 
-                SelectColumn::make(AnimeModel::ATTRIBUTE_SEASON)
+                TextColumn::make(AnimeModel::ATTRIBUTE_SEASON)
                     ->label(__('filament.fields.anime.season.name'))
-                    ->options(AnimeSeason::asSelectArray())
                     ->sortable()
-                    ->toggleable(),
+                    ->toggleable()
+                    ->formatStateUsing(fn ($state) => $state->localizeStyled())
+                    ->html(),
 
-                SelectColumn::make(AnimeModel::ATTRIBUTE_MEDIA_FORMAT)
+                TextColumn::make(AnimeModel::ATTRIBUTE_MEDIA_FORMAT)
                     ->label(__('filament.fields.anime.media_format.name'))
-                    ->options(AnimeMediaFormat::asSelectArray())
                     ->sortable()
-                    ->toggleable(),
+                    ->toggleable()
+                    ->formatStateUsing(fn ($state) => $state->localize()),
 
                 TextColumn::make(AnimeModel::ATTRIBUTE_SYNOPSIS)
                     ->label(__('filament.fields.anime.synopsis.name'))
@@ -293,8 +296,41 @@ class Anime extends BaseResource
     {
         return $infolist
             ->schema([
+                Section::make(static::getRecordTitle($infolist->getRecord()))
+                    ->schema([
+                        TextEntry::make(AnimeModel::ATTRIBUTE_ID)
+                            ->label(__('filament.fields.base.id')),
+
+                        TextEntry::make(AnimeModel::ATTRIBUTE_NAME)
+                            ->label(__('filament.fields.anime.name.name'))
+                            ->copyableWithMessage(),
+
+                        TextEntry::make(AnimeModel::ATTRIBUTE_SLUG)
+                            ->label(__('filament.fields.anime.slug.name')),
+
+                        TextEntry::make(AnimeModel::ATTRIBUTE_YEAR)
+                            ->label(__('filament.fields.anime.year.name')),
+
+                        TextEntry::make(AnimeModel::ATTRIBUTE_SEASON)
+                            ->label(__('filament.fields.anime.season.name'))
+                            ->formatStateUsing(fn ($state) => $state->localizeStyled())
+                            ->html(),
+
+                        TextEntry::make(AnimeModel::ATTRIBUTE_MEDIA_FORMAT)
+                            ->label(__('filament.fields.anime.media_format.name'))
+                            ->formatStateUsing(fn ($state) => $state->localize()),
+
+                        TextEntry::make(AnimeModel::ATTRIBUTE_SYNOPSIS)
+                            ->label(__('filament.fields.anime.synopsis.name'))
+                            ->markdown()
+                            ->placeholder('-')
+                            ->columnSpanFull(),
+                    ])
+                    ->columns(3),
+
                 Section::make(__('filament.fields.base.timestamps'))
-                    ->schema(parent::timestamps()),
+                    ->schema(parent::timestamps())
+                    ->columns(3),
             ]);
     }
 

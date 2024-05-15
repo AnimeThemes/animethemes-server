@@ -169,7 +169,7 @@ class Audio extends BaseResource
                 TextColumn::make(AudioModel::ATTRIBUTE_FILENAME)
                     ->label(__('filament.fields.audio.filename.name'))
                     ->sortable()
-                    ->copyable(),
+                    ->copyableWithMessage(),
             ])
             ->defaultSort(AudioModel::ATTRIBUTE_ID, 'desc')
             ->filters(static::getFilters())
@@ -209,7 +209,8 @@ class Audio extends BaseResource
                     ]),
 
                 Section::make(__('filament.fields.base.timestamps'))
-                    ->schema(parent::timestamps()),
+                    ->schema(parent::timestamps())
+                    ->columns(3),
             ]);
     }
 

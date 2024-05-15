@@ -7,6 +7,7 @@ namespace App\Filament\Resources\Auth;
 use App\Filament\Actions\Models\Auth\Permission\GiveRoleAction;
 use App\Filament\Actions\Models\Auth\Permission\RevokeRoleAction;
 use App\Filament\Components\Columns\TextColumn;
+use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Auth\Permission\Pages\CreatePermission;
 use App\Filament\Resources\Auth\Permission\Pages\EditPermission;
@@ -17,6 +18,8 @@ use App\Filament\Resources\Auth\Permission\RelationManagers\UserPermissionRelati
 use App\Models\Auth\Permission as PermissionModel;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Infolists\Components\Section;
+use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Table;
@@ -147,12 +150,41 @@ class Permission extends BaseResource
                     ->label(__('filament.fields.permission.name'))
                     ->sortable()
                     ->searchable()
-                    ->copyable(),
+                    ->copyableWithMessage(),
             ])
             ->defaultSort(PermissionModel::ATTRIBUTE_ID, 'desc')
             ->filters(static::getFilters())
             ->actions(static::getActions())
             ->bulkActions(static::getBulkActions());
+    }
+
+    /**
+     * Get the infolist available for the resource.
+     *
+     * @param  Infolist  $infolist
+     * @return Infolist
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                Section::make(static::getRecordTitle($infolist->getRecord()))
+                    ->schema([
+                        TextEntry::make(PermissionModel::ATTRIBUTE_ID)
+                            ->label(__('filament.fields.base.id')),
+
+                        TextEntry::make(PermissionModel::ATTRIBUTE_NAME)
+                            ->label(__('filament.fields.permission.name'))
+                            ->copyableWithMessage(),
+                    ])
+                    ->columns(2),
+
+                Section::make(__('filament.fields.base.timestamps'))
+                    ->schema(parent::timestamps())
+                    ->columns(3),
+            ]);
     }
 
     /**

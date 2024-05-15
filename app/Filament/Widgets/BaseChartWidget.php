@@ -17,7 +17,7 @@ class BaseChartWidget extends ApexChartWidget
     /**
      * Get the resources count created per month.
      * 
-     * @param  class-string<BaseModel>  $model
+     * @param  class-string  $model
      * @return Collection
      */
     protected function perMonth(string $model): Collection

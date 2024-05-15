@@ -62,20 +62,18 @@ class BackfillAnimeHeaderAction extends Action implements ShouldQueue
     {
         parent::setUp();
 
-        $this->action(fn (Model $record, array $data) => $this->handle($record, $data));
+        $this->action(fn (Anime $record, array $data) => $this->handle($record, $data));
     }
 
     /**
      * Perform the action on the given models.
      *
-     * @param  Model  $anime
+     * @param  Anime  $anime
      * @param  array  $fields
      * @return void
      */
-    public function handle(Model $anime, array $fields): void
+    public function handle(Anime $anime, array $fields): void
     {
-        if (!$anime instanceof Anime) return;
-
         if ($anime->resources()->doesntExist()) {
             $this->fail(__('filament.actions.anime.backfill.message.resource_required_failure'));
             return;
@@ -126,7 +124,7 @@ class BackfillAnimeHeaderAction extends Action implements ShouldQueue
                             ->label(__('filament.actions.anime.backfill.fields.resources.kitsu.name'))
                             ->helperText(__('filament.actions.anime.backfill.fields.resources.kitsu.help'))
                             ->default(fn () => $anime instanceof Anime && $anime->resources()->where(ExternalResource::ATTRIBUTE_SITE, ResourceSite::KITSU->value)->doesntExist()),
-        
+
                         Checkbox::make(self::BACKFILL_ANILIST_RESOURCE)
                             ->label(__('filament.actions.anime.backfill.fields.resources.anilist.name'))
                             ->helperText(__('filament.actions.anime.backfill.fields.resources.anilist.help'))

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Resources\Admin;
 
 use App\Filament\Components\Columns\TextColumn;
+use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Admin\Feature\Pages\CreateFeature;
 use App\Filament\Resources\Admin\Feature\Pages\EditFeature;
@@ -13,6 +14,8 @@ use App\Filament\Resources\Admin\Feature\Pages\ViewFeature;
 use App\Models\Admin\Feature as FeatureModel;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Infolists\Components\Section;
+use Filament\Infolists\Infolist;
 use Filament\Tables\Table;
 
 /**
@@ -148,17 +151,50 @@ class Feature extends BaseResource
                 TextColumn::make(FeatureModel::ATTRIBUTE_NAME)
                     ->label(__('filament.fields.feature.key.name'))
                     ->sortable()
-                    ->copyable(),
+                    ->copyableWithMessage(),
 
                 TextColumn::make(FeatureModel::ATTRIBUTE_VALUE)
                     ->label(__('filament.fields.feature.value.name'))
                     ->sortable()
-                    ->copyable(),
+                    ->copyableWithMessage(),
             ])
             ->defaultSort(FeatureModel::ATTRIBUTE_ID, 'desc')
             ->filters(static::getFilters())
             ->actions(static::getActions())
             ->bulkActions(static::getBulkActions());
+    }
+
+    /**
+     * Get the infolist available for the resource.
+     *
+     * @param  Infolist  $infolist
+     * @return Infolist
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                Section::make(static::getRecordTitle($infolist->getRecord()))
+                    ->schema([
+                        TextEntry::make(FeatureModel::ATTRIBUTE_ID)
+                            ->label(__('filament.fields.base.id')),
+
+                        TextEntry::make(FeatureModel::ATTRIBUTE_NAME)
+                            ->label(__('filament.fields.feature.key.name'))
+                            ->copyableWithMessage(),
+
+                        TextEntry::make(FeatureModel::ATTRIBUTE_VALUE)
+                            ->label(__('filament.fields.feature.value.name'))
+                            ->copyableWithMessage(),
+                    ])
+                    ->columns(3),
+
+                Section::make(__('filament.fields.base.timestamps'))
+                    ->schema(parent::timestamps())
+                    ->columns(3),
+            ]);
     }
 
     /**

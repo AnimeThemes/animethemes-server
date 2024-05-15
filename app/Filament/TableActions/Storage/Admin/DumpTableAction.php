@@ -6,12 +6,12 @@ namespace App\Filament\TableActions\Storage\Admin;
 
 use App\Actions\Storage\Admin\Dump\DumpAction as DumpDatabase;
 use App\Filament\Components\Fields\Select;
+use App\Models\Admin\Dump;
 use Exception;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Tables\Actions\Action;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\MySqlConnection;
 use Illuminate\Database\PostgresConnection;
 use Illuminate\Support\Facades\DB;
@@ -31,13 +31,13 @@ abstract class DumpTableAction extends Action
     {
         parent::setUp();
 
-        $this->action(fn (Model $record, array $data) => $this->handle($record, $data));
+        $this->action(fn (Dump $record, array $data) => $this->handle($record, $data));
     }
 
     /**
      * Perform the action on the given models.
      *
-     * @param  Model  $model
+     * @param  Dump  $model
      * @param  array  $fields
      * @return void
      *
@@ -45,7 +45,7 @@ abstract class DumpTableAction extends Action
      *
      * @noinspection PhpUnusedParameterInspection
      */
-    public function handle(Model $model, array $fields): void
+    public function handle(Dump $model, array $fields): void
     {
         $action = $this->storageAction($fields);
 
