@@ -358,10 +358,6 @@ class Video extends BaseResource
                 NumberFilter::make(VideoModel::ATTRIBUTE_SIZE)
                     ->labels(__('filament.filters.video.size_from'), __('filament.filters.video.size_to'))
                     ->attribute(VideoModel::ATTRIBUTE_SIZE),
-
-                TextFilter::make(VideoModel::ATTRIBUTE_MIMETYPE)
-                    ->label(__('filament.fields.video.mimetype.name'))
-                    ->attribute(VideoModel::ATTRIBUTE_MIMETYPE),
             ],
             parent::getFilters(),
         );

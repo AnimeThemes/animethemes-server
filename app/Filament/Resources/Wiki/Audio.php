@@ -8,6 +8,7 @@ use App\Filament\Actions\Models\Wiki\Audio\AttachAudioToRelatedVideosAction;
 use App\Filament\Actions\Storage\Wiki\Audio\DeleteAudioAction;
 use App\Filament\Actions\Storage\Wiki\Audio\MoveAudioAction;
 use App\Filament\Components\Columns\TextColumn;
+use App\Filament\Components\Filters\NumberFilter;
 use App\Filament\Components\Filters\TextFilter;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\BaseResource;
@@ -242,9 +243,9 @@ class Audio extends BaseResource
     {
         return array_merge(
             [
-                TextFilter::make(AudioModel::ATTRIBUTE_MIMETYPE)
-                    ->label(__('filament.fields.audio.mimetype.name'))
-                    ->attribute(AudioModel::ATTRIBUTE_MIMETYPE),
+                NumberFilter::make(AudioModel::ATTRIBUTE_SIZE)
+                    ->labels(__('filament.filters.audio.size_from'), __('filament.filters.audio.size_to'))
+                    ->attribute(AudioModel::ATTRIBUTE_SIZE),
             ],
             parent::getFilters(),
         );
