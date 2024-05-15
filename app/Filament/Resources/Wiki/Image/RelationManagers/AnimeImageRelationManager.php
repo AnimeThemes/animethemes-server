@@ -54,6 +54,7 @@ class AnimeImageRelationManager extends BaseRelationManager
             ->columns(AnimeResource::table($table)->getColumns())
             ->defaultSort(Anime::TABLE.'.'.Anime::ATTRIBUTE_ID, 'desc')
             ->filters(static::getFilters())
+            ->filtersFormMaxHeight('400px')
             ->headerActions(static::getHeaderActions())
             ->actions(static::getActions())
             ->bulkActions(static::getBulkActions());

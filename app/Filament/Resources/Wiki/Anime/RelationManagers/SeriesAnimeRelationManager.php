@@ -54,6 +54,7 @@ class SeriesAnimeRelationManager extends BaseRelationManager
             ->columns(SeriesResource::table($table)->getColumns())
             ->defaultSort(Series::TABLE.'.'.Series::ATTRIBUTE_ID, 'desc')
             ->filters(static::getFilters())
+            ->filtersFormMaxHeight('400px')
             ->headerActions(static::getHeaderActions())
             ->actions(static::getActions())
             ->bulkActions(static::getBulkActions());

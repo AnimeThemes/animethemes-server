@@ -166,6 +166,7 @@ class Image extends BaseResource
             ])
             ->defaultSort(ImageModel::ATTRIBUTE_ID, 'desc')
             ->filters(static::getFilters())
+            ->filtersFormMaxHeight('400px')
             ->actions(static::getActions())
             ->bulkActions(static::getBulkActions())
             ->headerActions(static::getHeaderActions());

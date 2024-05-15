@@ -215,6 +215,7 @@ class Artist extends BaseResource
             ->searchable()
             ->defaultSort(ArtistModel::ATTRIBUTE_ID, 'desc')
             ->filters(static::getFilters())
+            ->filtersFormMaxHeight('400px')
             ->actions(static::getActions())
             ->bulkActions(static::getBulkActions());
     }

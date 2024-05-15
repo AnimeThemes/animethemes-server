@@ -54,6 +54,7 @@ class VideoEntryRelationManager extends BaseRelationManager
             ->columns(VideoResource::table($table)->getColumns())
             ->defaultSort(Video::TABLE.'.'.Video::ATTRIBUTE_ID, 'desc')
             ->filters(static::getFilters())
+            ->filtersFormMaxHeight('400px')
             ->headerActions(static::getHeaderActions())
             ->actions(static::getActions())
             ->bulkActions(static::getBulkActions());

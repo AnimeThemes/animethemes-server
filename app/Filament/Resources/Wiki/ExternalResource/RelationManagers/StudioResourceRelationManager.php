@@ -54,6 +54,7 @@ class StudioResourceRelationManager extends BaseRelationManager
             ->columns(StudioResource::table($table)->getColumns())
             ->defaultSort(Studio::TABLE.'.'.Studio::ATTRIBUTE_ID, 'desc')
             ->filters(static::getFilters())
+            ->filtersFormMaxHeight('400px')
             ->headerActions(static::getHeaderActions())
             ->actions(static::getActions())
             ->bulkActions(static::getBulkActions());
