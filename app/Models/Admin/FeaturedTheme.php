@@ -127,7 +127,7 @@ class FeaturedTheme extends BaseModel
      */
     public function getSubName(): string
     {
-        return "{$this->entry->getName()}";
+        return $this->entry->getName();
     }
 
     /**
