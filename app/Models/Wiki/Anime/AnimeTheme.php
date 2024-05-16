@@ -157,7 +157,7 @@ class AnimeTheme extends BaseModel
     public function getName(): string
     {
         return Str::of($this->type->localize())
-            ->append($this->sequence ?? 1)
+            ->append(strval($this->sequence ?? 1))
             ->append($this->group !== null ? '-'.$this->group->slug : '')
             ->__toString();
     }

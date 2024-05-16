@@ -174,13 +174,14 @@ class Entry extends BaseResource
                     ->relationship(EntryModel::RELATION_THEME, ThemeModel::ATTRIBUTE_ID)
                     ->searchable()
                     ->disabledOn(BaseRelationManager::class)
-                    ->formatStateUsing(function ($livewire, $state) {
+                    ->formatStateUsing(function ($livewire, $state, $record) {
+                        if ($record->animetheme !== null) return $record->animetheme->getName();
                         if ($livewire instanceof BaseRelationManager) {
                             /** @var EntryModel */
                             $entry = $livewire->getOwnerRecord();
                             /** @var ThemeModel|null */
                             $theme = $entry->animetheme;
-                            return $theme === null ? $state : $theme->getName();
+                            return $theme->getName();
                         }
                         return $state;
                     }),
