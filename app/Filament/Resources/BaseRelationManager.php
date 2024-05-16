@@ -18,6 +18,7 @@ use Filament\Tables\Actions\RestoreBulkAction;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
  * Class BaseRelationManager.
@@ -114,6 +115,7 @@ abstract class BaseRelationManager extends RelationManager
             CreateAction::make(),
 
             AttachAction::make()
+                ->hidden(fn (BaseRelationManager $livewire) => !($livewire->getRelationship() instanceof BelongsToMany))
                 ->recordSelect(function (BaseRelationManager $livewire) {
                     /** @var string */
                     $model = $livewire->getTable()->getModel();
