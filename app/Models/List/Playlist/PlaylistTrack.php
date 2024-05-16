@@ -128,6 +128,16 @@ class PlaylistTrack extends BaseModel implements HasHashids
     }
 
     /**
+     * Get subname.
+     *
+     * @return string
+     */
+    public function getSubName(): string
+    {
+        return "{$this->playlist->user->getName()} - {$this->playlist->getName()}";
+    }
+
+    /**
      * Get the playlist the track belongs to.
      *
      * @return BelongsTo

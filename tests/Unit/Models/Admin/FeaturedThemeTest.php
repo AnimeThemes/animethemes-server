@@ -32,6 +32,18 @@ class FeaturedThemeTest extends TestCase
     }
 
     /**
+     * Featured Themes shall be subnameable.
+     *
+     * @return void
+     */
+    public function testSubNameable(): void
+    {
+        $featuredTheme = FeaturedTheme::factory()->createOne();
+
+        static::assertIsString($featuredTheme->getSubName());
+    }
+
+    /**
      * Featured Themes shall cast the end_at attribute to datetime.
      *
      * @return void

@@ -121,6 +121,16 @@ class FeaturedTheme extends BaseModel
     }
 
     /**
+     * Get subname.
+     *
+     * @return string
+     */
+    public function getSubName(): string
+    {
+        return "{$this->entry->getName()}";
+    }
+
+    /**
      * Get the user that recommended the featured theme.
      *
      * @return BelongsTo

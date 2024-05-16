@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models\Auth;
 
 use App\Contracts\Models\Nameable;
+use App\Contracts\Models\SubNameable;
 use App\Enums\Auth\SpecialPermission;
 use App\Events\Auth\User\UserCreated;
 use App\Events\Auth\User\UserDeleted;
@@ -50,7 +51,7 @@ use Spatie\Permission\Traits\HasRoles;
  *
  * @method static UserFactory factory(...$parameters)
  */
-class User extends Authenticatable implements MustVerifyEmail, Nameable, FilamentUser, HasAvatar
+class User extends Authenticatable implements MustVerifyEmail, Nameable, SubNameable, FilamentUser, HasAvatar
 {
     use Actionable;
     use HasApiTokens;
@@ -152,6 +153,16 @@ class User extends Authenticatable implements MustVerifyEmail, Nameable, Filamen
     }
 
     /**
+     * Get subname.
+     *
+     * @return string
+     */
+    public function getSubName(): string
+    {
+        return $this->email;
+    }
+
+    /**
      * Restore a soft-deleted model instance.
      *
      * @return bool|null
@@ -200,7 +211,7 @@ class User extends Authenticatable implements MustVerifyEmail, Nameable, Filamen
     {
         $hash = md5(strtolower(trim($this->email)));
 
-        return 'https://www.gravatar.com/avatar/'.$hash;
+        return "https://www.gravatar.com/avatar/$hash";
     }
 
     /**

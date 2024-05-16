@@ -149,6 +149,16 @@ class Playlist extends BaseModel implements HasHashids, Viewable
     }
 
     /**
+     * Get subname.
+     *
+     * @return string
+     */
+    public function getSubName(): string
+    {
+        return $this->user->getName();
+    }
+
+    /**
      * Determine if the model should be searchable.
      *
      * @return bool

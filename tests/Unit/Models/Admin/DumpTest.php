@@ -23,4 +23,16 @@ class DumpTest extends TestCase
 
         static::assertIsString($dump->getName());
     }
+
+    /**
+     * Dumps shall be subnameable.
+     *
+     * @return void
+     */
+    public function testSubNameable(): void
+    {
+        $dump = Dump::factory()->createOne();
+
+        static::assertIsString($dump->getSubName());
+    }
 }

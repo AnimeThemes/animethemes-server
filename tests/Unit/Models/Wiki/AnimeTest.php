@@ -94,6 +94,18 @@ class AnimeTest extends TestCase
     }
 
     /**
+     * Anime shall be subnameable.
+     *
+     * @return void
+     */
+    public function testSubNameable(): void
+    {
+        $anime = Anime::factory()->createOne();
+
+        static::assertIsString($anime->getSubName());
+    }
+
+    /**
      * Anime shall have a one-to-many relationship with the type Synonym.
      *
      * @return void

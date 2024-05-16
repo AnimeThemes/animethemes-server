@@ -60,6 +60,18 @@ class SongTest extends TestCase
     }
 
     /**
+     * Songs shall be subnameable.
+     *
+     * @return void
+     */
+    public function testSubNameable(): void
+    {
+        $song = Song::factory()->createOne();
+
+        static::assertIsString($song->getSubName());
+    }
+
+    /**
      * Song shall have a one-to-many relationship with the type Theme.
      *
      * @return void

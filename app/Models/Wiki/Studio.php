@@ -108,6 +108,16 @@ class Studio extends BaseModel
     }
 
     /**
+     * Get subname.
+     *
+     * @return string
+     */
+    public function getSubName(): string
+    {
+        return $this->slug;
+    }
+
+    /**
      * Get the anime that the studio produced.
      *
      * @return BelongsToMany

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Resources\Admin;
 
 use App\Enums\Http\Api\Filter\AllowedDateFormat;
+use App\Enums\Http\Api\Filter\ComparisonOperator;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\Select;
 use App\Filament\Components\Infolist\TextEntry;
@@ -202,7 +203,15 @@ class FeaturedTheme extends BaseResource
                 Select::make(FeaturedThemeModel::ATTRIBUTE_USER)
                     ->label(__('filament.resources.singularLabel.user'))
                     ->relationship(FeaturedThemeModel::RELATION_USER, User::ATTRIBUTE_NAME)
-                    ->searchable(),
+                    ->allowHtml()
+                    ->searchable()
+                    ->getSearchResultsUsing(function (string $search) {
+                        return User::query()
+                            ->where(User::ATTRIBUTE_NAME, ComparisonOperator::LIKE->value, "%$search%")
+                            ->get()
+                            ->mapWithKeys(fn (User $model) => [$model->getKey() => Select::getSearchLabelWithBlade($model)])
+                            ->toArray();
+                    }),
             ])
             ->columns(1);
     }

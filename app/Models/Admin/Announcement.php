@@ -75,4 +75,14 @@ class Announcement extends BaseModel
     {
         return strval($this->getKey());
     }
+
+    /**
+     * Get subname.
+     *
+     * @return string
+     */
+    public function getSubName(): string
+    {
+        return $this->getName();
+    }
 }

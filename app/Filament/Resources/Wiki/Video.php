@@ -12,7 +12,6 @@ use App\Filament\Actions\Storage\Wiki\Video\MoveVideoAction;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\Select;
 use App\Filament\Components\Filters\NumberFilter;
-use App\Filament\Components\Filters\TextFilter;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Video\Pages\CreateVideo;

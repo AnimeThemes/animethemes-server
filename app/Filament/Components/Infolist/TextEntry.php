@@ -17,7 +17,7 @@ class TextEntry extends ComponentsTextEntry
     /**
      * Used for entry relationships.
      *
-     * @param  class-string<BaseResource>  $resourceRelated
+     * @param  class-string<BaseResource>|string  $resourceRelated
      * @param  string  $relation
      * @return static
      */

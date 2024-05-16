@@ -90,6 +90,16 @@ class Group extends BaseModel
     }
 
     /**
+     * Get subname.
+     *
+     * @return string
+     */
+    public function getSubName(): string
+    {
+        return $this->slug;
+    }
+
+    /**
      * Get the themes for the group.
      *
      * @return HasMany

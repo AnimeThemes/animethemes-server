@@ -85,6 +85,16 @@ class Feature extends Model
     }
 
     /**
+     * Get subname.
+     *
+     * @return string
+     */
+    public function getSubName(): string
+    {
+        return $this->scope;
+    }
+
+    /**
      * Determine if the feature scope is global.
      *
      * @return bool

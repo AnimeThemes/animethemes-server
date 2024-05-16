@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Components\Fields;
 
+use App\Models\Auth\User;
 use App\Models\BaseModel;
 use Filament\Forms\Components\Select as ComponentsSelect;
 use Laravel\Scout\Searchable;
@@ -24,16 +25,32 @@ class Select extends ComponentsSelect
     {
         if (in_array(Searchable::class, class_uses_recursive($model))) {
             return $this
+                ->allowHtml()
                 ->searchable()
                 ->getSearchResultsUsing(function (string $search) use ($model, $loadRelation) {
                     return (new $model)::search($search)
                         ->get()
                         ->load($loadRelation ?? [])
-                        ->mapWithKeys(fn (BaseModel $model) => [$model->getKey() => $model->getName()])
+                        ->mapWithKeys(fn (BaseModel $model) => [$model->getKey() => static::getSearchLabelWithBlade($model)])
                         ->toArray();
                 });
         }
 
         return $this->searchable();
+    }
+
+    /**
+     * Use the blade to make the results.
+     *
+     * @param  BaseModel|User  $model
+     * @return string
+     */
+    public static function getSearchLabelWithBlade(BaseModel|User $model): string
+    {
+        return view('filament.components.select')
+            ->with('name', $model->getName())
+            ->with('subname', $model->getSubName())
+            ->with('image', $model instanceof User ? $model->getFilamentAvatarUrl() : null)
+            ->render();
     }
 }

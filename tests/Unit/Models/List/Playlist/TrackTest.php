@@ -16,7 +16,7 @@ use Tests\TestCase;
 class TrackTest extends TestCase
 {
     /**
-     * Anime shall be nameable.
+     * Playlist Tracks shall be nameable.
      *
      * @return void
      */
@@ -27,6 +27,20 @@ class TrackTest extends TestCase
             ->createOne();
 
         static::assertIsString($track->getName());
+    }
+
+    /**
+     * Playlist Tracks shall be subnameable.
+     *
+     * @return void
+     */
+    public function testSubNameable(): void
+    {
+        $track = PlaylistTrack::factory()
+            ->for(Playlist::factory())
+            ->createOne();
+
+        static::assertIsString($track->getSubName());
     }
 
     /**

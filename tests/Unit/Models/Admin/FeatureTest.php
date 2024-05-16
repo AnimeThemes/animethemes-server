@@ -28,6 +28,18 @@ class FeatureTest extends TestCase
     }
 
     /**
+     * Features shall be subnameable.
+     *
+     * @return void
+     */
+    public function testSubNameable(): void
+    {
+        $feature = Feature::factory()->createOne();
+
+        static::assertIsString($feature->getSubName());
+    }
+
+    /**
      * Feature shall indicate if the scope is null.
      *
      * @return void

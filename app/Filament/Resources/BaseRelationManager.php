@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources;
 
+use App\Filament\Components\Fields\Select;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables\Actions\AttachAction;
 use Filament\Tables\Actions\BulkActionGroup;
@@ -111,7 +112,16 @@ abstract class BaseRelationManager extends RelationManager
     {
         return [
             CreateAction::make(),
-            AttachAction::make(),
+
+            AttachAction::make()
+                ->recordSelect(function (BaseRelationManager $livewire) {
+                    /** @var string */
+                    $model = $livewire->getTable()->getModel();
+                    $title = $livewire->getTable()->getRecordTitle(new $model);
+                    return Select::make($title)
+                        ->label($title)
+                        ->useScout($model);
+                }),
         ];
     }
 }

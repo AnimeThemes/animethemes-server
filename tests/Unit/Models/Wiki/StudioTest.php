@@ -59,6 +59,18 @@ class StudioTest extends TestCase
     }
 
     /**
+     * Studio shall be subnameable.
+     *
+     * @return void
+     */
+    public function testSubNameable(): void
+    {
+        $studio = Studio::factory()->createOne();
+
+        static::assertIsString($studio->getSubName());
+    }
+
+    /**
      * Studio shall have a many-to-many relationship with the type Anime.
      *
      * @return void

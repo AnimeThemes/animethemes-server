@@ -179,6 +179,16 @@ class Anime extends BaseModel
     }
 
     /**
+     * Get subname.
+     *
+     * @return string
+     */
+    public function getSubName(): string
+    {
+        return $this->slug;
+    }
+
+    /**
      * Get the synonyms for the anime.
      *
      * @return HasMany

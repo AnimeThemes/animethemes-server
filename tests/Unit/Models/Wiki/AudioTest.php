@@ -32,6 +32,18 @@ class AudioTest extends TestCase
     }
 
     /**
+     * Audios shall be subnameable.
+     *
+     * @return void
+     */
+    public function testSubNameable(): void
+    {
+        $audio = Audio::factory()->createOne();
+
+        static::assertIsString($audio->getSubName());
+    }
+
+    /**
      * Audio shall have a one-to-many relationship with the type Video.
      *
      * @return void

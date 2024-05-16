@@ -120,6 +120,16 @@ class Audio extends BaseModel implements Streamable, Viewable
     }
 
     /**
+     * Get subname.
+     *
+     * @return string
+     */
+    public function getSubName(): string
+    {
+        return $this->path();
+    }
+
+    /**
      * Get the path of the streamable model in the filesystem.
      *
      * @return string

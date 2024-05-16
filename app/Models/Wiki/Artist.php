@@ -143,6 +143,16 @@ class Artist extends BaseModel
     }
 
     /**
+     * Get subname.
+     *
+     * @return string
+     */
+    public function getSubName(): string
+    {
+        return $this->slug;
+    }
+
+    /**
      * Get the songs the artist has performed in.
      *
      * @return BelongsToMany

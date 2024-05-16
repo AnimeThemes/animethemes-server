@@ -23,4 +23,16 @@ class PageTest extends TestCase
 
         static::assertIsString($page->getName());
     }
+
+    /**
+     * Pages shall be subnameable.
+     *
+     * @return void
+     */
+    public function testSubNameable(): void
+    {
+        $page = Page::factory()->createOne();
+
+        static::assertIsString($page->getSubName());
+    }
 }

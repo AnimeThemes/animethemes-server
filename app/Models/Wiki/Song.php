@@ -102,6 +102,11 @@ class Song extends BaseModel
         return $this->title;
     }
 
+    public function getSubName(): string
+    {
+        return $this->animethemes->first()->anime->getName();
+    }
+
     /**
      * Get the anime themes that use this song.
      *
