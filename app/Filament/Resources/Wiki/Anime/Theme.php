@@ -292,8 +292,9 @@ class Theme extends BaseResource
                             ->label(__('filament.fields.anime_theme.sequence.name'))
                             ->placeholder('-'),
 
-                        TextEntry::make(ThemeModel::ATTRIBUTE_SLUG)
-                            ->label(__('filament.fields.anime_theme.slug.name')),
+                        TextEntry::make(ThemeModel::ATTRIBUTE_ID)
+                            ->label(__('filament.fields.anime_theme.slug.name'))
+                            ->formatStateUsing(fn ($state) => ThemeModel::find(intval($state))->getName()),
 
                         TextEntry::make(ThemeModel::RELATION_GROUP.'.'.Group::ATTRIBUTE_NAME)
                             ->label(__('filament.resources.singularLabel.group'))
