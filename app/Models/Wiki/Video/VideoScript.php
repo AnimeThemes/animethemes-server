@@ -91,7 +91,7 @@ class VideoScript extends BaseModel
      */
     public function getSubtitle(): string
     {
-        return $this->path;
+        return $this->video->getName();
     }
 
     /**

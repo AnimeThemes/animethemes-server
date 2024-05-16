@@ -157,8 +157,10 @@ class AnimeThemeEntry extends BaseModel
     {
         return Str::of($this->anime->name)
             ->append(' ')
-            ->append($this->animetheme->slug)
-            ->append(empty($this->version) ? '' : " V$this->version")
+            ->append($this->animetheme->type->localize())
+            ->append($this->animetheme->sequence ?? 1)
+            ->append(empty($this->version) ? '' : "v$this->version")
+            ->append($this->animetheme->group !== null ? '-'.$this->animetheme->group->slug : '')
             ->__toString();
     }
 

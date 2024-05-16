@@ -127,7 +127,7 @@ class FeaturedTheme extends BaseModel
      */
     public function getSubtitle(): string
     {
-        return $this->animethemeentry->getName();
+        return $this->animethemeentry === null ? $this->getName() : $this->animethemeentry->getName();
     }
 
     /**

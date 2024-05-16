@@ -183,6 +183,8 @@ class Theme extends BaseResource
                     ->label(__('filament.fields.anime_theme.slug.name'))
                     ->helperText(__('filament.fields.anime_theme.slug.help'))
                     ->required()
+                    ->readOnly()
+                    ->disabled()
                     ->maxLength(192)
                     ->rules(['required', 'max:192', 'alpha_dash']),
 
@@ -190,6 +192,8 @@ class Theme extends BaseResource
                     ->label(__('filament.resources.singularLabel.group'))
                     ->relationship(ThemeModel::RELATION_GROUP, Group::ATTRIBUTE_NAME)
                     ->searchable()
+                    ->live(true)
+                    ->afterStateUpdated(fn (Set $set, Get $get) => Theme::setThemeSlug($set, $get))
                     ->createOptionForm(GroupResource::form($form)->getComponents()),
 
                 Select::make(ThemeModel::ATTRIBUTE_SONG)
@@ -233,10 +237,11 @@ class Theme extends BaseResource
                     ->toggleable()
                     ->placeholder('-'),
 
-                TextColumn::make(ThemeModel::ATTRIBUTE_SLUG)
+                TextColumn::make(ThemeModel::ATTRIBUTE_ID)
                     ->label(__('filament.fields.anime_theme.slug.name'))
                     ->sortable()
-                    ->toggleable(),
+                    ->toggleable()
+                    ->formatStateUsing(fn ($state) => ThemeModel::find(intval($state))->getName()),
 
                 TextColumn::make(ThemeModel::RELATION_GROUP.'.'.Group::ATTRIBUTE_NAME)
                     ->label(__('filament.resources.singularLabel.group'))
@@ -328,6 +333,11 @@ class Theme extends BaseResource
         if ($slug->isNotEmpty()) {
             $sequence = $get(ThemeModel::ATTRIBUTE_SEQUENCE);
             $slug = $slug->append(strval(empty($sequence) ? 1 : $sequence));
+        }
+
+        if ($slug->isNotEmpty()) {
+            $group = $get(ThemeModel::ATTRIBUTE_GROUP);
+            $slug = $slug->append(strval(empty($group) ? '' : '-'.Group::find(intval($group))->slug));
         }
 
         $set(ThemeModel::ATTRIBUTE_SLUG, $slug->__toString());

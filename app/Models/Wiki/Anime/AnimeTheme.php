@@ -21,6 +21,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 use Laravel\Nova\Actions\Actionable;
 
 /**
@@ -155,7 +156,10 @@ class AnimeTheme extends BaseModel
      */
     public function getName(): string
     {
-        return $this->slug;
+        return Str::of($this->type->localize())
+            ->append($this->sequence ?? 1)
+            ->append($this->group !== null ? '-'.$this->group->slug : '')
+            ->__toString();
     }
 
     /**
