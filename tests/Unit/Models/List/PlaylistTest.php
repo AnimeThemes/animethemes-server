@@ -59,7 +59,9 @@ class PlaylistTest extends TestCase
      */
     public function testSubNameable(): void
     {
-        $playlist = Playlist::factory()->createOne();
+        $playlist = Playlist::factory()
+            ->for(User::factory())
+            ->createOne();
 
         static::assertIsString($playlist->getSubName());
     }

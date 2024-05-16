@@ -66,7 +66,9 @@ class SongTest extends TestCase
      */
     public function testSubNameable(): void
     {
-        $song = Song::factory()->createOne();
+        $song = Song::factory()
+            ->for(AnimeTheme::factory()->for(Anime::factory()))
+            ->createOne();
 
         static::assertIsString($song->getSubName());
     }

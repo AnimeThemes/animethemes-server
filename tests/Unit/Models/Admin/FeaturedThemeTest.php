@@ -38,7 +38,9 @@ class FeaturedThemeTest extends TestCase
      */
     public function testSubNameable(): void
     {
-        $featuredTheme = FeaturedTheme::factory()->createOne();
+        $featuredTheme = FeaturedTheme::factory()
+            ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+            ->createOne();
 
         static::assertIsString($featuredTheme->getSubName());
     }
