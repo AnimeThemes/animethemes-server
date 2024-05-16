@@ -54,6 +54,7 @@ class SongResourceRelationManager extends BaseRelationManager
             ->columns(SongResource::table($table)->getColumns())
             ->defaultSort(Song::TABLE.'.'.Song::ATTRIBUTE_ID, 'desc')
             ->filters(static::getFilters())
+            ->filtersFormMaxHeight('400px')
             ->headerActions(static::getHeaderActions())
             ->actions(static::getActions())
             ->bulkActions(static::getBulkActions());

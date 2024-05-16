@@ -23,7 +23,7 @@ use Laravel\Nova\Actions\Actionable;
  * Class FeaturedTheme.
  *
  * @property Carbon|null $end_at
- * @property AnimeThemeEntry|null $entry
+ * @property AnimeThemeEntry|null $animethemeentry
  * @property int $entry_id
  * @property int $feature_id
  * @property Carbon|null $start_at
@@ -118,6 +118,16 @@ class FeaturedTheme extends BaseModel
             ->append(' - ')
             ->append($this->end_at->format(AllowedDateFormat::YMD->value))
             ->__toString();
+    }
+
+    /**
+     * Get subname.
+     *
+     * @return string
+     */
+    public function getSubName(): string
+    {
+        return $this->animethemeentry->getName();
     }
 
     /**

@@ -55,6 +55,18 @@ class SeriesTest extends TestCase
     }
 
     /**
+     * Series shall be subnameable.
+     *
+     * @return void
+     */
+    public function testSubNameable(): void
+    {
+        $series = Series::factory()->createOne();
+
+        static::assertIsString($series->getSubName());
+    }
+
+    /**
      * Series shall have a many-to-many relationship with the type Anime.
      *
      * @return void

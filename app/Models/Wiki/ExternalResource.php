@@ -113,6 +113,16 @@ class ExternalResource extends BaseModel
     }
 
     /**
+     * Get subname.
+     *
+     * @return string
+     */
+    public function getSubName(): string
+    {
+        return strval($this->external_id);
+    }
+
+    /**
      * Get the anime that reference this resource.
      *
      * @return BelongsToMany

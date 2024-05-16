@@ -8,7 +8,6 @@ use App\Actions\Models\Wiki\Video\Audio\BackfillAudioAction as BackfillAudio;
 use App\Enums\Actions\Models\Wiki\Video\DeriveSourceVideo;
 use App\Enums\Actions\Models\Wiki\Video\OverwriteAudio;
 use App\Filament\Components\Fields\Select;
-use App\Models\BaseModel;
 use App\Models\Wiki\Video;
 use Exception;
 use Filament\Forms\Form;
@@ -92,14 +91,14 @@ class BackfillAudioHeaderAction extends Action implements ShouldQueue
                     ->label(__('filament.actions.video.backfill.fields.derive_source.name'))
                     ->options(DeriveSourceVideo::asSelectArray())
                     ->rules(['required', new Enum(DeriveSourceVideo::class)])
-                    ->default(DeriveSourceVideo::YES)
+                    ->default(DeriveSourceVideo::YES->value)
                     ->helperText(__('filament.actions.video.backfill.fields.derive_source.help')),
 
                 Select::make(self::OVERWRITE_AUDIO)
                     ->label(__('filament.actions.video.backfill.fields.overwrite.name'))
                     ->options(OverwriteAudio::asSelectArray())
                     ->rules(['required', new Enum(OverwriteAudio::class)])
-                    ->default(OverwriteAudio::NO)
+                    ->default(OverwriteAudio::NO->value)
                     ->helperText(__('filament.actions.video.backfill.fields.overwrite.help')),
             ]);
     }

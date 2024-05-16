@@ -99,6 +99,18 @@ class VideoTest extends TestCase
     }
 
     /**
+     * Videos shall be subnameable.
+     *
+     * @return void
+     */
+    public function testSubNameable(): void
+    {
+        $video = Video::factory()->createOne();
+
+        static::assertIsString($video->getSubName());
+    }
+
+    /**
      * Videos shall have a one-to-many polymorphic relationship to View.
      *
      * @return void

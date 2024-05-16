@@ -65,6 +65,20 @@ class AnimeThemeEntryTest extends TestCase
     }
 
     /**
+     * Entries shall be subnameable.
+     *
+     * @return void
+     */
+    public function testSubNameable(): void
+    {
+        $entry = AnimeThemeEntry::factory()
+            ->for(AnimeTheme::factory()->for(Anime::factory()))
+            ->createOne();
+
+        static::assertIsString($entry->getSubName());
+    }
+
+    /**
      * Entries shall belong to a Theme.
      *
      * @return void

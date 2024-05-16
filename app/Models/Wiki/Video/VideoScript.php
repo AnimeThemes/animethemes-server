@@ -85,6 +85,16 @@ class VideoScript extends BaseModel
     }
 
     /**
+     * Get subname.
+     *
+     * @return string
+     */
+    public function getSubName(): string
+    {
+        return $this->path;
+    }
+
+    /**
      * Get the video that owns the script.
      *
      * @return BelongsTo

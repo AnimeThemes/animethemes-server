@@ -253,6 +253,7 @@ class Theme extends BaseResource
             ->searchable()
             ->defaultSort(ThemeModel::ATTRIBUTE_ID, 'desc')
             ->filters(static::getFilters())
+            ->filtersFormMaxHeight('400px')
             ->actions(static::getActions())
             ->bulkActions(static::getBulkActions());
     }

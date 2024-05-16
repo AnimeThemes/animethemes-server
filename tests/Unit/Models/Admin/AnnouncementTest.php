@@ -23,4 +23,16 @@ class AnnouncementTest extends TestCase
 
         static::assertIsString($announcement->getName());
     }
+
+    /**
+     * Announcements shall be subnameable.
+     *
+     * @return void
+     */
+    public function testSubNameable(): void
+    {
+        $announcement = Announcement::factory()->createOne();
+
+        static::assertIsString($announcement->getSubName());
+    }
 }

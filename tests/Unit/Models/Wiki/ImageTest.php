@@ -57,6 +57,18 @@ class ImageTest extends TestCase
     }
 
     /**
+     * Images shall be subnameable.
+     *
+     * @return void
+     */
+    public function testSubNameable(): void
+    {
+        $image = Image::factory()->createOne();
+
+        static::assertIsString($image->getSubName());
+    }
+
+    /**
      * Image shall have a many-to-many relationship with the type Anime.
      *
      * @return void

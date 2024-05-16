@@ -101,6 +101,16 @@ class AnimeSynonym extends BaseModel
     }
 
     /**
+     * Get subname.
+     *
+     * @return string
+     */
+    public function getSubName(): string
+    {
+        return $this->anime->getName();
+    }
+
+    /**
      * Gets the anime that owns the synonym.
      *
      * @return BelongsTo

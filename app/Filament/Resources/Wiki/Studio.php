@@ -188,6 +188,7 @@ class Studio extends BaseResource
             ->searchable()
             ->defaultSort(StudioModel::ATTRIBUTE_ID, 'desc')
             ->filters(static::getFilters())
+            ->filtersFormMaxHeight('400px')
             ->actions(static::getActions())
             ->bulkActions(static::getBulkActions());
     }

@@ -53,6 +53,7 @@ class ScriptVideoRelationManager extends BaseRelationManager
             ->inverseRelationship(VideoScript::RELATION_VIDEO)
             ->columns(ScriptResource::table($table)->getColumns())
             ->filters(static::getFilters())
+            ->filtersFormMaxHeight('400px')
             ->headerActions(static::getHeaderActions())
             ->actions(static::getActions())
             ->bulkActions(static::getBulkActions());

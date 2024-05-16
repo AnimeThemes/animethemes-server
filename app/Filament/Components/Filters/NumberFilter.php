@@ -78,11 +78,11 @@ class NumberFilter extends Filter
         return $query
             ->when(
                 Arr::get($data, $this->attribute.'_'.'from'),
-                fn (Builder $query, $date): Builder => $query->where($this->attribute, ComparisonOperator::GTE->value, $date),
+                fn (Builder $query, $value): Builder => $query->where($this->attribute, ComparisonOperator::GTE->value, $value),
             )
             ->when(
                 Arr::get($data, $this->attribute.'_'.'to'),
-                fn (Builder $query, $date): Builder => $query->where($this->attribute, ComparisonOperator::LTE->value, $date),
+                fn (Builder $query, $value): Builder => $query->where($this->attribute, ComparisonOperator::LTE->value, $value),
             );
     }
 }

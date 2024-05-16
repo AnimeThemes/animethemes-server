@@ -15,7 +15,7 @@ use Tests\TestCase;
 class ScriptTest extends TestCase
 {
     /**
-     * Dumps shall be nameable.
+     * Scripts shall be nameable.
      *
      * @return void
      */
@@ -24,6 +24,18 @@ class ScriptTest extends TestCase
         $script = VideoScript::factory()->createOne();
 
         static::assertIsString($script->getName());
+    }
+
+    /**
+     * Scripts shall be subnameable.
+     *
+     * @return void
+     */
+    public function testSubNameable(): void
+    {
+        $script = VideoScript::factory()->createOne();
+
+        static::assertIsString($script->getSubName());
     }
 
     /**

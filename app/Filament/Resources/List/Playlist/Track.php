@@ -185,6 +185,7 @@ class Track extends BaseResource
             ])
             ->defaultSort(TrackModel::ATTRIBUTE_ID, 'desc')
             ->filters(static::getFilters())
+            ->filtersFormMaxHeight('400px')
             ->actions(static::getActions())
             ->bulkActions(static::getBulkActions());
     }
@@ -207,16 +208,24 @@ class Track extends BaseResource
                             ->label(__('filament.resources.singularLabel.playlist'))
                             ->urlToRelated(PlaylistResource::class, TrackModel::RELATION_PLAYLIST),
 
-                        TextEntry::make(TrackModel::RELATION_VIDEO.'.'.VideoModel::ATTRIBUTE_FILENAME)
-                            ->label(__('filament.resources.singularLabel.video'))
-                            ->urlToRelated(VideoResource::class, TrackModel::RELATION_VIDEO),
-
                         TextEntry::make(TrackModel::ATTRIBUTE_HASHID)
                             ->label(__('filament.fields.playlist_track.hashid.name'))
                             ->placeholder('-'),
 
                         TextEntry::make(TrackModel::ATTRIBUTE_ID)
                             ->label(__('filament.fields.base.id')),
+
+                        TextEntry::make(TrackModel::RELATION_VIDEO.'.'.VideoModel::ATTRIBUTE_FILENAME)
+                            ->label(__('filament.resources.singularLabel.video'))
+                            ->urlToRelated(VideoResource::class, TrackModel::RELATION_VIDEO),
+
+                        TextEntry::make(TrackModel::RELATION_PREVIOUS.'.'.TrackModel::RELATION_VIDEO.'.'.VideoModel::ATTRIBUTE_FILENAME)
+                            ->label(__('filament.fields.playlist_track.previous.name'))
+                            ->urlToRelated(Track::class, TrackModel::RELATION_PREVIOUS),
+        
+                        TextEntry::make(TrackModel::RELATION_NEXT.'.'.TrackModel::RELATION_VIDEO.'.'.VideoModel::ATTRIBUTE_FILENAME)
+                            ->label(__('filament.fields.playlist_track.next.name'))
+                            ->urlToRelated(Track::class, TrackModel::RELATION_NEXT),
                     ])
                     ->columns(3),
 

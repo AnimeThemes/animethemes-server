@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Models\List\Playlist;
 
+use App\Models\Auth\User;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
 use App\Models\Wiki\Video;
@@ -16,7 +17,7 @@ use Tests\TestCase;
 class TrackTest extends TestCase
 {
     /**
-     * Anime shall be nameable.
+     * Playlist Tracks shall be nameable.
      *
      * @return void
      */
@@ -27,6 +28,20 @@ class TrackTest extends TestCase
             ->createOne();
 
         static::assertIsString($track->getName());
+    }
+
+    /**
+     * Playlist Tracks shall be subnameable.
+     *
+     * @return void
+     */
+    public function testSubNameable(): void
+    {
+        $track = PlaylistTrack::factory()
+            ->for(Playlist::factory()->for(User::factory()))
+            ->createOne();
+
+        static::assertIsString($track->getSubName());
     }
 
     /**

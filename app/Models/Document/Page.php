@@ -102,4 +102,14 @@ class Page extends BaseModel
     {
         return $this->name;
     }
+
+    /**
+     * Get subname.
+     *
+     * @return string
+     */
+    public function getSubName(): string
+    {
+        return $this->slug;
+    }
 }

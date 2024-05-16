@@ -149,6 +149,7 @@ class Script extends BaseResource
             ])
             ->defaultSort(ScriptModel::ATTRIBUTE_ID, 'desc')
             ->filters(static::getFilters())
+            ->filtersFormMaxHeight('400px')
             ->actions(static::getActions())
             ->bulkActions(static::getBulkActions())
             ->headerActions(static::getHeaderActions());

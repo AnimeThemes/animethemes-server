@@ -81,6 +81,20 @@ class AnimeThemeTest extends TestCase
     }
 
     /**
+     * Themes shall be subnameable.
+     *
+     * @return void
+     */
+    public function testSubNameable(): void
+    {
+        $theme = AnimeTheme::factory()
+            ->for(Anime::factory())
+            ->createOne();
+
+        static::assertIsString($theme->getSubName());
+    }
+
+    /**
      * Themes shall belong to an Anime.
      *
      * @return void

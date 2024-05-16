@@ -60,6 +60,18 @@ class ArtistTest extends TestCase
     }
 
     /**
+     * Artists shall be subnameable.
+     *
+     * @return void
+     */
+    public function testSubNameable(): void
+    {
+        $artist = Artist::factory()->createOne();
+
+        static::assertIsString($artist->getSubName());
+    }
+
+    /**
      * Artist shall have a many-to-many relationship with the type Song.
      *
      * @return void

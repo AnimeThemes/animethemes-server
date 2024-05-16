@@ -75,4 +75,14 @@ class Dump extends BaseModel
     {
         return $this->path;
     }
+
+    /**
+     * Get subname.
+     *
+     * @return string
+     */
+    public function getSubName(): string
+    {
+        return $this->getName();
+    }
 }

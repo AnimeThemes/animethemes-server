@@ -56,6 +56,7 @@ class UserRoleRelationManager extends BaseRelationManager
             ->columns(UserResource::table($table)->getColumns())
             ->defaultSort(User::TABLE.'.'.User::ATTRIBUTE_ID, 'desc')
             ->filters(static::getFilters())
+            ->filtersFormMaxHeight('400px')
             ->headerActions(static::getHeaderActions())
             ->actions(static::getActions())
             ->bulkActions(static::getBulkActions());

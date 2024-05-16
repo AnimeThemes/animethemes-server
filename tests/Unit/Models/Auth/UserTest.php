@@ -64,6 +64,18 @@ class UserTest extends TestCase
     }
 
     /**
+     * Users shall be subnameable.
+     *
+     * @return void
+     */
+    public function testSubNameable(): void
+    {
+        $user = User::factory()->createOne();
+
+        static::assertIsString($user->getSubName());
+    }
+
+    /**
      * User shall have a one-to-many relationship with the type Playlist.
      *
      * @return void

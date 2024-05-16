@@ -53,6 +53,7 @@ class MemberArtistRelationManager extends BaseRelationManager
             ->columns(ArtistResource::table($table)->getColumns())
             ->defaultSort(Artist::TABLE.'.'.Artist::ATTRIBUTE_ID, 'desc')
             ->filters(static::getFilters())
+            ->filtersFormMaxHeight('400px')
             ->headerActions(static::getHeaderActions())
             ->actions(static::getActions())
             ->bulkActions(static::getBulkActions());

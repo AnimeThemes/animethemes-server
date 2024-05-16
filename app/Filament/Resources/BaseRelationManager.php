@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources;
 
+use App\Filament\Components\Fields\Select;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables\Actions\AttachAction;
 use Filament\Tables\Actions\BulkActionGroup;
@@ -17,6 +18,7 @@ use Filament\Tables\Actions\RestoreBulkAction;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
  * Class BaseRelationManager.
@@ -111,7 +113,17 @@ abstract class BaseRelationManager extends RelationManager
     {
         return [
             CreateAction::make(),
-            AttachAction::make(),
+
+            AttachAction::make()
+                ->hidden(fn (BaseRelationManager $livewire) => !($livewire->getRelationship() instanceof BelongsToMany))
+                ->recordSelect(function (BaseRelationManager $livewire) {
+                    /** @var string */
+                    $model = $livewire->getTable()->getModel();
+                    $title = $livewire->getTable()->getRecordTitle(new $model);
+                    return Select::make($title)
+                        ->label($title)
+                        ->useScout($model);
+                }),
         ];
     }
 }

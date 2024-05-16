@@ -103,6 +103,16 @@ class Song extends BaseModel
     }
 
     /**
+     * Get subname.
+     *
+     * @return string
+     */
+    public function getSubName(): string
+    {
+        return "{$this->animethemes->first()->anime->getName()} {$this->animethemes->first()->slug}" ;
+    }
+
+    /**
      * Get the anime themes that use this song.
      *
      * @return HasMany

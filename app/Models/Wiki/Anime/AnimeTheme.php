@@ -159,6 +159,16 @@ class AnimeTheme extends BaseModel
     }
 
     /**
+     * Get subname.
+     *
+     * @return string
+     */
+    public function getSubName(): string
+    {
+        return $this->anime->getName();
+    }
+
+    /**
      * Gets the anime that owns the theme.
      *
      * @return BelongsTo

@@ -52,6 +52,18 @@ class ExternalResourceTest extends TestCase
     }
 
     /**
+     * Resources shall be subnameable.
+     *
+     * @return void
+     */
+    public function testSubNameable(): void
+    {
+        $resource = ExternalResource::factory()->createOne();
+
+        static::assertIsString($resource->getSubName());
+    }
+
+    /**
      * Resource shall have a many-to-many relationship with the type Anime.
      *
      * @return void

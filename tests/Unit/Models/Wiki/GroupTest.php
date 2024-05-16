@@ -31,6 +31,18 @@ class GroupTest extends TestCase
     }
 
     /**
+     * Groups shall be subnameable.
+     *
+     * @return void
+     */
+    public function testSubNameable(): void
+    {
+        $group = Group::factory()->createOne();
+
+        static::assertIsString($group->getSubName());
+    }
+
+    /**
      * Group shall have a one-to-many relationship with the type Theme.
      *
      * @return void
