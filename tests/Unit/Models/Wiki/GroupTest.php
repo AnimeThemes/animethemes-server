@@ -31,15 +31,15 @@ class GroupTest extends TestCase
     }
 
     /**
-     * Groups shall be subnameable.
+     * Groups shall have subtitle.
      *
      * @return void
      */
-    public function testSubNameable(): void
+    public function testHasSubtitle(): void
     {
         $group = Group::factory()->createOne();
 
-        static::assertIsString($group->getSubName());
+        static::assertIsString($group->getSubtitle());
     }
 
     /**

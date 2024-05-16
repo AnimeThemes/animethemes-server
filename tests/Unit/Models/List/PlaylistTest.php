@@ -53,17 +53,17 @@ class PlaylistTest extends TestCase
     }
 
     /**
-     * Playlist shall be subnameable.
+     * Playlist shall have subtitle.
      *
      * @return void
      */
-    public function testSubNameable(): void
+    public function testHasSubtitle(): void
     {
         $playlist = Playlist::factory()
             ->for(User::factory())
             ->createOne();
 
-        static::assertIsString($playlist->getSubName());
+        static::assertIsString($playlist->getSubtitle());
     }
 
     /**

@@ -25,14 +25,14 @@ class PageTest extends TestCase
     }
 
     /**
-     * Pages shall be subnameable.
+     * Pages shall have subtitle.
      *
      * @return void
      */
-    public function testSubNameable(): void
+    public function testHasSubtitle(): void
     {
         $page = Page::factory()->createOne();
 
-        static::assertIsString($page->getSubName());
+        static::assertIsString($page->getSubtitle());
     }
 }

@@ -27,15 +27,15 @@ class ScriptTest extends TestCase
     }
 
     /**
-     * Scripts shall be subnameable.
+     * Scripts shall have subtitle.
      *
      * @return void
      */
-    public function testSubNameable(): void
+    public function testHasSubtitle(): void
     {
         $script = VideoScript::factory()->createOne();
 
-        static::assertIsString($script->getSubName());
+        static::assertIsString($script->getSubtitle());
     }
 
     /**

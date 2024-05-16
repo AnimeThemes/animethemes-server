@@ -32,17 +32,17 @@ class FeaturedThemeTest extends TestCase
     }
 
     /**
-     * Featured Themes shall be subnameable.
+     * Featured Themes shall have subtitle.
      *
      * @return void
      */
-    public function testSubNameable(): void
+    public function testHasSubtitle(): void
     {
         $featuredTheme = FeaturedTheme::factory()
             ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
             ->createOne();
 
-        static::assertIsString($featuredTheme->getSubName());
+        static::assertIsString($featuredTheme->getSubtitle());
     }
 
     /**

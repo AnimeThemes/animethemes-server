@@ -60,15 +60,15 @@ class ArtistTest extends TestCase
     }
 
     /**
-     * Artists shall be subnameable.
+     * Artists shall have subtitle.
      *
      * @return void
      */
-    public function testSubNameable(): void
+    public function testHasSubtitle(): void
     {
         $artist = Artist::factory()->createOne();
 
-        static::assertIsString($artist->getSubName());
+        static::assertIsString($artist->getSubtitle());
     }
 
     /**

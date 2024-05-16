@@ -52,15 +52,15 @@ class ExternalResourceTest extends TestCase
     }
 
     /**
-     * Resources shall be subnameable.
+     * Resources shall have subtitle.
      *
      * @return void
      */
-    public function testSubNameable(): void
+    public function testHasSubtitle(): void
     {
         $resource = ExternalResource::factory()->createOne();
 
-        static::assertIsString($resource->getSubName());
+        static::assertIsString($resource->getSubtitle());
     }
 
     /**

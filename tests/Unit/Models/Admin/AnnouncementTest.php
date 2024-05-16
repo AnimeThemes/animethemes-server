@@ -25,14 +25,14 @@ class AnnouncementTest extends TestCase
     }
 
     /**
-     * Announcements shall be subnameable.
+     * Announcements shall have subtitle.
      *
      * @return void
      */
-    public function testSubNameable(): void
+    public function testHasSubtitle(): void
     {
         $announcement = Announcement::factory()->createOne();
 
-        static::assertIsString($announcement->getSubName());
+        static::assertIsString($announcement->getSubtitle());
     }
 }

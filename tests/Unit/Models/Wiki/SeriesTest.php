@@ -55,15 +55,15 @@ class SeriesTest extends TestCase
     }
 
     /**
-     * Series shall be subnameable.
+     * Series shall have subtitle.
      *
      * @return void
      */
-    public function testSubNameable(): void
+    public function testHasSubtitle(): void
     {
         $series = Series::factory()->createOne();
 
-        static::assertIsString($series->getSubName());
+        static::assertIsString($series->getSubtitle());
     }
 
     /**

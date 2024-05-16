@@ -28,15 +28,15 @@ class FeatureTest extends TestCase
     }
 
     /**
-     * Features shall be subnameable.
+     * Features shall have subtitle.
      *
      * @return void
      */
-    public function testSubNameable(): void
+    public function testHasSubtitle(): void
     {
         $feature = Feature::factory()->createOne();
 
-        static::assertIsString($feature->getSubName());
+        static::assertIsString($feature->getSubtitle());
     }
 
     /**

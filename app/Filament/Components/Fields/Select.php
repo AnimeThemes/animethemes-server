@@ -49,7 +49,7 @@ class Select extends ComponentsSelect
     {
         return view('filament.components.select')
             ->with('name', $model->getName())
-            ->with('subname', $model->getSubName())
+            ->with('subtitle', $model->getSubtitle())
             ->with('image', $model instanceof User ? $model->getFilamentAvatarUrl() : null)
             ->render();
     }

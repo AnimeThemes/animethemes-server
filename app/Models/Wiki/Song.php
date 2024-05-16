@@ -103,11 +103,11 @@ class Song extends BaseModel
     }
 
     /**
-     * Get subname.
+     * Get subtitle.
      *
      * @return string
      */
-    public function getSubName(): string
+    public function getSubtitle(): string
     {
         return "{$this->animethemes->first()->anime->getName()} {$this->animethemes->first()->slug}" ;
     }
