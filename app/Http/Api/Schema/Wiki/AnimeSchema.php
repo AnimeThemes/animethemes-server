@@ -85,6 +85,7 @@ class AnimeSchema extends EloquentSchema implements InteractsWithPivots, Searcha
             new AllowedInclude(new ExternalResourceSchema(), 'animethemes.animethemeentries.videos.animethemeentries.animetheme.song.resources'),
             new AllowedInclude(new ExternalResourceSchema(), 'animethemes.song.resources'),
             new AllowedInclude(new ImageSchema(), 'animethemes.song.artists.images'),
+            new AllowedInclude(new ImageSchema(), 'studios.images'),
             new AllowedInclude(new PlaylistSchema(), 'animethemes.animethemeentries.videos.tracks.playlist'),
         ];
     }
