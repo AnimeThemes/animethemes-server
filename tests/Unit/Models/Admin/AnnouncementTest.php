@@ -23,4 +23,16 @@ class AnnouncementTest extends TestCase
 
         static::assertIsString($announcement->getName());
     }
+
+    /**
+     * Announcements shall have subtitle.
+     *
+     * @return void
+     */
+    public function testHasSubtitle(): void
+    {
+        $announcement = Announcement::factory()->createOne();
+
+        static::assertIsString($announcement->getSubtitle());
+    }
 }

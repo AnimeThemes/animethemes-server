@@ -57,6 +57,18 @@ class ImageTest extends TestCase
     }
 
     /**
+     * Images shall have subtitle.
+     *
+     * @return void
+     */
+    public function testHasSubtitle(): void
+    {
+        $image = Image::factory()->createOne();
+
+        static::assertIsString($image->getSubtitle());
+    }
+
+    /**
      * Image shall have a many-to-many relationship with the type Anime.
      *
      * @return void

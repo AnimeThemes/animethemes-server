@@ -81,6 +81,20 @@ class AnimeThemeTest extends TestCase
     }
 
     /**
+     * Themes shall have subtitle.
+     *
+     * @return void
+     */
+    public function testHasSubtitle(): void
+    {
+        $theme = AnimeTheme::factory()
+            ->for(Anime::factory())
+            ->createOne();
+
+        static::assertIsString($theme->getSubtitle());
+    }
+
+    /**
      * Themes shall belong to an Anime.
      *
      * @return void

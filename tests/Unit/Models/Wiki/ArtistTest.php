@@ -60,6 +60,18 @@ class ArtistTest extends TestCase
     }
 
     /**
+     * Artists shall have subtitle.
+     *
+     * @return void
+     */
+    public function testHasSubtitle(): void
+    {
+        $artist = Artist::factory()->createOne();
+
+        static::assertIsString($artist->getSubtitle());
+    }
+
+    /**
      * Artist shall have a many-to-many relationship with the type Song.
      *
      * @return void

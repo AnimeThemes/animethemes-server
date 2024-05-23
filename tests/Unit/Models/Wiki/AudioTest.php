@@ -32,6 +32,18 @@ class AudioTest extends TestCase
     }
 
     /**
+     * Audios shall have subtitle.
+     *
+     * @return void
+     */
+    public function testHasSubtitle(): void
+    {
+        $audio = Audio::factory()->createOne();
+
+        static::assertIsString($audio->getSubtitle());
+    }
+
+    /**
      * Audio shall have a one-to-many relationship with the type Video.
      *
      * @return void

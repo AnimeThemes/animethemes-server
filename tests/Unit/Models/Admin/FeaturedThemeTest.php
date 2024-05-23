@@ -32,6 +32,20 @@ class FeaturedThemeTest extends TestCase
     }
 
     /**
+     * Featured Themes shall have subtitle.
+     *
+     * @return void
+     */
+    public function testHasSubtitle(): void
+    {
+        $featuredTheme = FeaturedTheme::factory()
+            ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+            ->createOne();
+
+        static::assertIsString($featuredTheme->getSubtitle());
+    }
+
+    /**
      * Featured Themes shall cast the end_at attribute to datetime.
      *
      * @return void

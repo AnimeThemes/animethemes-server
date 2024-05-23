@@ -58,7 +58,7 @@ class Image extends BaseModel
     /**
      * The attributes that are mass assignable.
      *
-     * @var string[]
+     * @var array<int, string>
      */
     protected $fillable = [
         Image::ATTRIBUTE_FACET,
@@ -109,6 +109,16 @@ class Image extends BaseModel
      * @return string
      */
     public function getName(): string
+    {
+        return $this->path;
+    }
+
+    /**
+     * Get subtitle.
+     *
+     * @return string
+     */
+    public function getSubtitle(): string
     {
         return $this->path;
     }

@@ -57,7 +57,7 @@ class PlaylistTrack extends BaseModel implements HasHashids
     /**
      * The attributes that are mass assignable.
      *
-     * @var string[]
+     * @var array<int, string>
      */
     protected $fillable = [
         PlaylistTrack::ATTRIBUTE_PLAYLIST,
@@ -125,6 +125,18 @@ class PlaylistTrack extends BaseModel implements HasHashids
     public function getName(): string
     {
         return strval($this->getKey());
+    }
+
+    /**
+     * Get subtitle.
+     *
+     * @return string
+     */
+    public function getSubtitle(): string
+    {
+        return $this->playlist->user !== null
+            ? "{$this->playlist->user->getName()} - {$this->playlist->getName()}"
+            : $this->playlist->getName();
     }
 
     /**

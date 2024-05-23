@@ -32,7 +32,7 @@ class Dump extends BaseModel
     /**
      * The attributes that are mass assignable.
      *
-     * @var string[]
+     * @var array<int, string>
      */
     protected $fillable = [
         Dump::ATTRIBUTE_PATH,
@@ -74,5 +74,15 @@ class Dump extends BaseModel
     public function getName(): string
     {
         return $this->path;
+    }
+
+    /**
+     * Get subtitle.
+     *
+     * @return string
+     */
+    public function getSubtitle(): string
+    {
+        return $this->getName();
     }
 }

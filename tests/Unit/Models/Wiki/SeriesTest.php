@@ -55,6 +55,18 @@ class SeriesTest extends TestCase
     }
 
     /**
+     * Series shall have subtitle.
+     *
+     * @return void
+     */
+    public function testHasSubtitle(): void
+    {
+        $series = Series::factory()->createOne();
+
+        static::assertIsString($series->getSubtitle());
+    }
+
+    /**
      * Series shall have a many-to-many relationship with the type Anime.
      *
      * @return void

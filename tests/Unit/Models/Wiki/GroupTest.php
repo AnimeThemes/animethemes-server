@@ -19,30 +19,6 @@ class GroupTest extends TestCase
     use WithFaker;
 
     /**
-     * Group shall be a searchable resource.
-     *
-     * @return void
-     */
-    public function testSearchableAs(): void
-    {
-        $group = Group::factory()->createOne();
-
-        static::assertIsString($group->searchableAs());
-    }
-
-    /**
-     * Group shall be a searchable resource.
-     *
-     * @return void
-     */
-    public function testToSearchableArray(): void
-    {
-        $group = Group::factory()->createOne();
-
-        static::assertIsArray($group->toSearchableArray());
-    }
-
-    /**
      * Groups shall be nameable.
      *
      * @return void
@@ -52,6 +28,18 @@ class GroupTest extends TestCase
         $group = Group::factory()->createOne();
 
         static::assertIsString($group->getName());
+    }
+
+    /**
+     * Groups shall have subtitle.
+     *
+     * @return void
+     */
+    public function testHasSubtitle(): void
+    {
+        $group = Group::factory()->createOne();
+
+        static::assertIsString($group->getSubtitle());
     }
 
     /**

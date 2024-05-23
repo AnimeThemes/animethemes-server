@@ -56,7 +56,7 @@ class ExternalResource extends BaseModel
     /**
      * The attributes that are mass assignable.
      *
-     * @var string[]
+     * @var array<int, string>
      */
     protected $fillable = [
         ExternalResource::ATTRIBUTE_EXTERNAL_ID,
@@ -110,6 +110,16 @@ class ExternalResource extends BaseModel
     public function getName(): string
     {
         return strval($this->link);
+    }
+
+    /**
+     * Get subtitle.
+     *
+     * @return string
+     */
+    public function getSubtitle(): string
+    {
+        return strval($this->external_id);
     }
 
     /**

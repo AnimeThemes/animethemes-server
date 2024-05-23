@@ -39,7 +39,7 @@ class VideoScript extends BaseModel
     /**
      * The attributes that are mass assignable.
      *
-     * @var string[]
+     * @var array<int, string>
      */
     protected $fillable = [
         VideoScript::ATTRIBUTE_PATH,
@@ -82,6 +82,16 @@ class VideoScript extends BaseModel
     public function getName(): string
     {
         return $this->path;
+    }
+
+    /**
+     * Get subtitle.
+     *
+     * @return string
+     */
+    public function getSubtitle(): string
+    {
+        return $this->video->getName();
     }
 
     /**

@@ -23,4 +23,16 @@ class DumpTest extends TestCase
 
         static::assertIsString($dump->getName());
     }
+
+    /**
+     * Dumps shall have subtitle.
+     *
+     * @return void
+     */
+    public function testHasSubtitle(): void
+    {
+        $dump = Dump::factory()->createOne();
+
+        static::assertIsString($dump->getSubtitle());
+    }
 }

@@ -41,7 +41,7 @@ class Feature extends Model
     /**
      * The attributes that are mass assignable.
      *
-     * @var string[]
+     * @var array<int, string>
      */
     protected $fillable = [
         Feature::ATTRIBUTE_VALUE,
@@ -82,6 +82,16 @@ class Feature extends Model
     public function getName(): string
     {
         return $this->name;
+    }
+
+    /**
+     * Get subtitle.
+     *
+     * @return string
+     */
+    public function getSubtitle(): string
+    {
+        return $this->scope;
     }
 
     /**

@@ -23,4 +23,16 @@ class PageTest extends TestCase
 
         static::assertIsString($page->getName());
     }
+
+    /**
+     * Pages shall have subtitle.
+     *
+     * @return void
+     */
+    public function testHasSubtitle(): void
+    {
+        $page = Page::factory()->createOne();
+
+        static::assertIsString($page->getSubtitle());
+    }
 }

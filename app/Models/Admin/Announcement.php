@@ -32,7 +32,7 @@ class Announcement extends BaseModel
     /**
      * The attributes that are mass assignable.
      *
-     * @var string[]
+     * @var array<int, string>
      */
     protected $fillable = [
         Announcement::ATTRIBUTE_CONTENT,
@@ -74,5 +74,15 @@ class Announcement extends BaseModel
     public function getName(): string
     {
         return strval($this->getKey());
+    }
+
+    /**
+     * Get subtitle.
+     *
+     * @return string
+     */
+    public function getSubtitle(): string
+    {
+        return $this->getName();
     }
 }

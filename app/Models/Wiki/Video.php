@@ -94,7 +94,7 @@ class Video extends BaseModel implements Streamable, Viewable
     /**
      * The attributes that are mass assignable.
      *
-     * @var string[]
+     * @var array<int, string>
      */
     protected $fillable = [
         Video::ATTRIBUTE_AUDIO,
@@ -270,6 +270,16 @@ class Video extends BaseModel implements Streamable, Viewable
     public function getName(): string
     {
         return $this->basename;
+    }
+
+    /**
+     * Get subtitle.
+     *
+     * @return string
+     */
+    public function getSubtitle(): string
+    {
+        return $this->path();
     }
 
     /**

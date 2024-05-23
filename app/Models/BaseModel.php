@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Contracts\Models\Nameable;
+use App\Contracts\Models\HasSubtitle;
 use App\Enums\Http\Api\Filter\ComparisonOperator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -22,7 +23,7 @@ use Illuminate\Support\Str;
  * @property Carbon $deleted_at
  * @property Carbon $updated_at
  */
-abstract class BaseModel extends Model implements Nameable
+abstract class BaseModel extends Model implements Nameable, HasSubtitle
 {
     use HasFactory;
     use Prunable;

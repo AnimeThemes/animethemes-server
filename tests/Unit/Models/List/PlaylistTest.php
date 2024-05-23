@@ -41,7 +41,7 @@ class PlaylistTest extends TestCase
     }
 
     /**
-     * Anime shall be nameable.
+     * Playlist shall be nameable.
      *
      * @return void
      */
@@ -50,6 +50,20 @@ class PlaylistTest extends TestCase
         $playlist = Playlist::factory()->createOne();
 
         static::assertIsString($playlist->getName());
+    }
+
+    /**
+     * Playlist shall have subtitle.
+     *
+     * @return void
+     */
+    public function testHasSubtitle(): void
+    {
+        $playlist = Playlist::factory()
+            ->for(User::factory())
+            ->createOne();
+
+        static::assertIsString($playlist->getSubtitle());
     }
 
     /**

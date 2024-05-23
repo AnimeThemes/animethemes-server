@@ -52,6 +52,18 @@ class ExternalResourceTest extends TestCase
     }
 
     /**
+     * Resources shall have subtitle.
+     *
+     * @return void
+     */
+    public function testHasSubtitle(): void
+    {
+        $resource = ExternalResource::factory()->createOne();
+
+        static::assertIsString($resource->getSubtitle());
+    }
+
+    /**
      * Resource shall have a many-to-many relationship with the type Anime.
      *
      * @return void

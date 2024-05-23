@@ -28,6 +28,18 @@ class FeatureTest extends TestCase
     }
 
     /**
+     * Features shall have subtitle.
+     *
+     * @return void
+     */
+    public function testHasSubtitle(): void
+    {
+        $feature = Feature::factory()->createOne();
+
+        static::assertIsString($feature->getSubtitle());
+    }
+
+    /**
      * Feature shall indicate if the scope is null.
      *
      * @return void

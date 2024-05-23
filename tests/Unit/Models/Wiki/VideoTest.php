@@ -99,6 +99,18 @@ class VideoTest extends TestCase
     }
 
     /**
+     * Videos shall have subtitle.
+     *
+     * @return void
+     */
+    public function testHasSubtitle(): void
+    {
+        $video = Video::factory()->createOne();
+
+        static::assertIsString($video->getSubtitle());
+    }
+
+    /**
      * Videos shall have a one-to-many polymorphic relationship to View.
      *
      * @return void

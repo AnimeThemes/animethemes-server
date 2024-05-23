@@ -94,6 +94,18 @@ class AnimeTest extends TestCase
     }
 
     /**
+     * Anime shall have subtitle.
+     *
+     * @return void
+     */
+    public function testHasSubtitle(): void
+    {
+        $anime = Anime::factory()->createOne();
+
+        static::assertIsString($anime->getSubtitle());
+    }
+
+    /**
      * Anime shall have a one-to-many relationship with the type Synonym.
      *
      * @return void

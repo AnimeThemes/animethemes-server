@@ -60,6 +60,20 @@ class SongTest extends TestCase
     }
 
     /**
+     * Songs shall have subtitle.
+     *
+     * @return void
+     */
+    public function testHasSubtitle(): void
+    {
+        $song = Song::factory()
+            ->has(AnimeTheme::factory()->for(Anime::factory()))
+            ->createOne();
+
+        static::assertIsString($song->getSubtitle());
+    }
+
+    /**
      * Song shall have a one-to-many relationship with the type Theme.
      *
      * @return void

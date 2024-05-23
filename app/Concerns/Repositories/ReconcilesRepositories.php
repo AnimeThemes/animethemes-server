@@ -43,7 +43,7 @@ trait ReconcilesRepositories
 
         $this->handleFilters($sourceRepository, $destinationRepository, $data);
 
-        $action = $this->action();
+        $action = $this->reconcileAction();
 
         return $action->reconcileRepositories($sourceRepository, $destinationRepository);
     }
@@ -53,7 +53,7 @@ trait ReconcilesRepositories
      *
      * @return ReconcileRepositoriesAction
      */
-    abstract protected function action(): ReconcileRepositoriesAction;
+    abstract protected function reconcileAction(): ReconcileRepositoriesAction;
 
     /**
      * Get source repository.

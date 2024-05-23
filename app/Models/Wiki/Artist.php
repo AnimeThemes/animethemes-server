@@ -61,7 +61,7 @@ class Artist extends BaseModel
     /**
      * The attributes that are mass assignable.
      *
-     * @var string[]
+     * @var array<int, string>
      */
     protected $fillable = [
         Artist::ATTRIBUTE_NAME,
@@ -140,6 +140,16 @@ class Artist extends BaseModel
     public function getName(): string
     {
         return $this->name;
+    }
+
+    /**
+     * Get subtitle.
+     *
+     * @return string
+     */
+    public function getSubtitle(): string
+    {
+        return $this->slug;
     }
 
     /**

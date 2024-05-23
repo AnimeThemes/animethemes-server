@@ -23,7 +23,7 @@ use Laravel\Nova\Actions\Actionable;
  * Class FeaturedTheme.
  *
  * @property Carbon|null $end_at
- * @property AnimeThemeEntry|null $entry
+ * @property AnimeThemeEntry|null $animethemeentry
  * @property int $entry_id
  * @property int $feature_id
  * @property Carbon|null $start_at
@@ -59,7 +59,7 @@ class FeaturedTheme extends BaseModel
     /**
      * The attributes that are mass assignable.
      *
-     * @var string[]
+     * @var array<int, string>
      */
     protected $fillable = [
         FeaturedTheme::ATTRIBUTE_END_AT,
@@ -118,6 +118,16 @@ class FeaturedTheme extends BaseModel
             ->append(' - ')
             ->append($this->end_at->format(AllowedDateFormat::YMD->value))
             ->__toString();
+    }
+
+    /**
+     * Get subtitle.
+     *
+     * @return string
+     */
+    public function getSubtitle(): string
+    {
+        return $this->animethemeentry === null ? $this->getName() : $this->animethemeentry->getName();
     }
 
     /**

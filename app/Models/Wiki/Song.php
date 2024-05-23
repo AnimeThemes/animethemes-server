@@ -53,7 +53,7 @@ class Song extends BaseModel
     /**
      * The attributes that are mass assignable.
      *
-     * @var string[]
+     * @var array<int, string>
      */
     protected $fillable = [
         Song::ATTRIBUTE_TITLE,
@@ -100,6 +100,18 @@ class Song extends BaseModel
         }
 
         return $this->title;
+    }
+
+    /**
+     * Get subtitle.
+     *
+     * @return string
+     */
+    public function getSubtitle(): string
+    {
+        return $this->animethemes()->count() !== 0 && $this->animethemes->first()->anime !== null
+            ? "{$this->animethemes->first()->anime->getName()} {$this->animethemes->first()->slug}"
+            : $this->getName();
     }
 
     /**

@@ -77,6 +77,20 @@ class AnimeSynonymTest extends TestCase
     }
 
     /**
+     * Synonyms shall have subtitle.
+     *
+     * @return void
+     */
+    public function testHasSubtitle(): void
+    {
+        $synonym = AnimeSynonym::factory()
+            ->for(Anime::factory())
+            ->createOne();
+
+        static::assertIsString($synonym->getSubtitle());
+    }
+
+    /**
      * Synonyms shall belong to an Anime.
      *
      * @return void

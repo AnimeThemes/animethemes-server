@@ -21,6 +21,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 use Laravel\Nova\Actions\Actionable;
 
 /**
@@ -68,7 +69,7 @@ class AnimeTheme extends BaseModel
     /**
      * The attributes that are mass assignable.
      *
-     * @var string[]
+     * @var array<int, string>
      */
     protected $fillable = [
         AnimeTheme::ATTRIBUTE_ANIME,
@@ -155,7 +156,20 @@ class AnimeTheme extends BaseModel
      */
     public function getName(): string
     {
-        return $this->slug;
+        return Str::of($this->type->localize())
+            ->append(strval($this->sequence ?? 1))
+            ->append($this->group !== null ? '-'.$this->group->slug : '')
+            ->__toString();
+    }
+
+    /**
+     * Get subtitle.
+     *
+     * @return string
+     */
+    public function getSubtitle(): string
+    {
+        return $this->anime->getName();
     }
 
     /**

@@ -64,6 +64,18 @@ class UserTest extends TestCase
     }
 
     /**
+     * Users shall have subtitle.
+     *
+     * @return void
+     */
+    public function testHasSubtitle(): void
+    {
+        $user = User::factory()->createOne();
+
+        static::assertIsString($user->getSubtitle());
+    }
+
+    /**
      * User shall have a one-to-many relationship with the type Playlist.
      *
      * @return void

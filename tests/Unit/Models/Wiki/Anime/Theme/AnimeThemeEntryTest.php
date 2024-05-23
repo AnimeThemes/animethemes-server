@@ -65,6 +65,20 @@ class AnimeThemeEntryTest extends TestCase
     }
 
     /**
+     * Entries shall have subtitle.
+     *
+     * @return void
+     */
+    public function testHasSubtitle(): void
+    {
+        $entry = AnimeThemeEntry::factory()
+            ->for(AnimeTheme::factory()->for(Anime::factory()))
+            ->createOne();
+
+        static::assertIsString($entry->getSubtitle());
+    }
+
+    /**
      * Entries shall belong to a Theme.
      *
      * @return void

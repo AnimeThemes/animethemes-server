@@ -77,7 +77,13 @@ class EncoderRoleSeeder extends RoleSeeder
         $this->configureResource($role, VideoScript::class, $extendedCrudPermissions);
 
         // Special Permissions
-        $this->configureAbilities($role, [SpecialPermission::VIEW_NOVA->value]);
+        $this->configureAbilities(
+            $role,
+            [
+                SpecialPermission::VIEW_NOVA->value,
+                SpecialPermission::VIEW_FILAMENT->value,
+            ]
+        );
 
         $role->color = '#FFC107';
         $role->priority = 150000;

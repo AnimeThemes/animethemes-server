@@ -68,7 +68,7 @@ class Playlist extends BaseModel implements HasHashids, Viewable
     /**
      * The attributes that are mass assignable.
      *
-     * @var string[]
+     * @var array<int, string>
      */
     protected $fillable = [
         Playlist::ATTRIBUTE_NAME,
@@ -146,6 +146,16 @@ class Playlist extends BaseModel implements HasHashids, Viewable
     public function getName(): string
     {
         return $this->name;
+    }
+
+    /**
+     * Get subtitle.
+     *
+     * @return string
+     */
+    public function getSubtitle(): string
+    {
+        return $this->user === null ? $this->getName() : $this->user->getName();
     }
 
     /**

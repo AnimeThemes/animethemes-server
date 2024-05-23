@@ -59,6 +59,18 @@ class StudioTest extends TestCase
     }
 
     /**
+     * Studio shall have subtitle.
+     *
+     * @return void
+     */
+    public function testHasSubtitle(): void
+    {
+        $studio = Studio::factory()->createOne();
+
+        static::assertIsString($studio->getSubtitle());
+    }
+
+    /**
      * Studio shall have a many-to-many relationship with the type Anime.
      *
      * @return void
