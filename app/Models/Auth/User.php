@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Models\Auth;
 
 use App\Contracts\Models\Nameable;
-use App\Contracts\Models\SubNameable;
+use App\Contracts\Models\HasSubtitle;
 use App\Enums\Auth\SpecialPermission;
 use App\Events\Auth\User\UserCreated;
 use App\Events\Auth\User\UserDeleted;
@@ -51,7 +51,7 @@ use Spatie\Permission\Traits\HasRoles;
  *
  * @method static UserFactory factory(...$parameters)
  */
-class User extends Authenticatable implements MustVerifyEmail, Nameable, SubNameable, FilamentUser, HasAvatar
+class User extends Authenticatable implements MustVerifyEmail, Nameable, HasSubtitle, FilamentUser, HasAvatar
 {
     use Actionable;
     use HasApiTokens;
@@ -153,11 +153,11 @@ class User extends Authenticatable implements MustVerifyEmail, Nameable, SubName
     }
 
     /**
-     * Get subname.
+     * Get subtitle.
      *
      * @return string
      */
-    public function getSubName(): string
+    public function getSubtitle(): string
     {
         return $this->email;
     }

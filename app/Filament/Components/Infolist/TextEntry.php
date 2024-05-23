@@ -19,18 +19,23 @@ class TextEntry extends ComponentsTextEntry
      *
      * @param  class-string<BaseResource>|string  $resourceRelated
      * @param  string  $relation
+     * @param  bool|null  $shouldUseName
      * @return static
      */
-    public function urlToRelated(string $resourceRelated, string $relation): static
+    public function urlToRelated(string $resourceRelated, string $relation, ?bool $shouldUseName = false): static
     {
         return $this
             ->weight(FontWeight::SemiBold)
             ->html()
-            ->formatStateUsing(fn ($state) => "<p style='color: rgb(64, 184, 166);'>$state</p>")
-            ->url(function (BaseModel $record) use ($resourceRelated, $relation) { 
+            ->url(function (BaseModel $record) use ($resourceRelated, $relation, $shouldUseName) { 
                 foreach (explode('.', $relation) as $element) {
                     $record = $record->$element;
                 } 
+
+                $this->formatStateUsing(function ($state) use ($shouldUseName, $record) {
+                    $name = $shouldUseName ? $record->getName() : $state;
+                    return "<p style='color: rgb(64, 184, 166);'>{$name}</p>";
+                });
 
                 return $record !== null ? (new $resourceRelated)::getUrl('edit', ['record' => $record]) : null;
             });

@@ -64,15 +64,15 @@ class UserTest extends TestCase
     }
 
     /**
-     * Users shall be subnameable.
+     * Users shall have subtitle.
      *
      * @return void
      */
-    public function testSubNameable(): void
+    public function testHasSubtitle(): void
     {
         $user = User::factory()->createOne();
 
-        static::assertIsString($user->getSubName());
+        static::assertIsString($user->getSubtitle());
     }
 
     /**

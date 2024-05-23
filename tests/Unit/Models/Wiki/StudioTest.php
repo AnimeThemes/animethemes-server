@@ -59,15 +59,15 @@ class StudioTest extends TestCase
     }
 
     /**
-     * Studio shall be subnameable.
+     * Studio shall have subtitle.
      *
      * @return void
      */
-    public function testSubNameable(): void
+    public function testHasSubtitle(): void
     {
         $studio = Studio::factory()->createOne();
 
-        static::assertIsString($studio->getSubName());
+        static::assertIsString($studio->getSubtitle());
     }
 
     /**

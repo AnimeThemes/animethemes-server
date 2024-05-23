@@ -149,13 +149,13 @@ class Playlist extends BaseModel implements HasHashids, Viewable
     }
 
     /**
-     * Get subname.
+     * Get subtitle.
      *
      * @return string
      */
-    public function getSubName(): string
+    public function getSubtitle(): string
     {
-        return $this->user->getName();
+        return $this->user === null ? $this->getName() : $this->user->getName();
     }
 
     /**

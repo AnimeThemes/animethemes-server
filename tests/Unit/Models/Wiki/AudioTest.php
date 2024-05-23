@@ -32,15 +32,15 @@ class AudioTest extends TestCase
     }
 
     /**
-     * Audios shall be subnameable.
+     * Audios shall have subtitle.
      *
      * @return void
      */
-    public function testSubNameable(): void
+    public function testHasSubtitle(): void
     {
         $audio = Audio::factory()->createOne();
 
-        static::assertIsString($audio->getSubName());
+        static::assertIsString($audio->getSubtitle());
     }
 
     /**

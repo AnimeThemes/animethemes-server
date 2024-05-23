@@ -171,16 +171,17 @@ class Entry extends BaseResource
 
                 Select::make(EntryModel::ATTRIBUTE_THEME)
                     ->label(__('filament.resources.singularLabel.anime_theme'))
-                    ->relationship(EntryModel::RELATION_THEME, ThemeModel::ATTRIBUTE_SLUG)
+                    ->relationship(EntryModel::RELATION_THEME, ThemeModel::ATTRIBUTE_ID)
                     ->searchable()
                     ->disabledOn(BaseRelationManager::class)
-                    ->formatStateUsing(function ($livewire, $state) {
+                    ->formatStateUsing(function ($livewire, $state, $record) {
+                        if ($record->animetheme !== null) return $record->animetheme->getName();
                         if ($livewire instanceof BaseRelationManager) {
                             /** @var EntryModel */
                             $entry = $livewire->getOwnerRecord();
                             /** @var ThemeModel|null */
                             $theme = $entry->animetheme;
-                            return $theme === null ? $state : $theme->slug;
+                            return $theme->getName();
                         }
                         return $state;
                     }),
@@ -233,10 +234,10 @@ class Entry extends BaseResource
                     ->toggleable()
                     ->urlToRelated(AnimeResource::class, EntryModel::RELATION_ANIME),
 
-                TextColumn::make(EntryModel::RELATION_THEME.'.'.ThemeModel::ATTRIBUTE_SLUG)
+                TextColumn::make(EntryModel::ATTRIBUTE_THEME)
                     ->label(__('filament.resources.singularLabel.anime_theme'))
                     ->toggleable()
-                    ->urlToRelated(ThemeResource::class, EntryModel::RELATION_THEME),
+                    ->urlToRelated(ThemeResource::class, EntryModel::RELATION_THEME, true),
 
                 TextColumn::make(EntryModel::ATTRIBUTE_ID)
                     ->label(__('filament.fields.base.id'))
@@ -293,9 +294,9 @@ class Entry extends BaseResource
                             ->label(__('filament.resources.singularLabel.anime'))
                             ->urlToRelated(AnimeResource::class, EntryModel::RELATION_ANIME),
 
-                        TextEntry::make(EntryModel::RELATION_THEME.'.'.ThemeModel::ATTRIBUTE_SLUG)
+                        TextEntry::make(EntryModel::ATTRIBUTE_THEME)
                             ->label(__('filament.resources.singularLabel.anime_theme'))
-                            ->urlToRelated(ThemeResource::class, EntryModel::RELATION_THEME),
+                            ->urlToRelated(ThemeResource::class, EntryModel::RELATION_THEME, true),
 
                         TextEntry::make(EntryModel::ATTRIBUTE_ID)
                             ->label(__('filament.fields.base.id')),

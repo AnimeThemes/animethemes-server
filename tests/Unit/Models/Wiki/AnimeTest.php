@@ -94,15 +94,15 @@ class AnimeTest extends TestCase
     }
 
     /**
-     * Anime shall be subnameable.
+     * Anime shall have subtitle.
      *
      * @return void
      */
-    public function testSubNameable(): void
+    public function testHasSubtitle(): void
     {
         $anime = Anime::factory()->createOne();
 
-        static::assertIsString($anime->getSubName());
+        static::assertIsString($anime->getSubtitle());
     }
 
     /**

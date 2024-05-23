@@ -99,15 +99,15 @@ class VideoTest extends TestCase
     }
 
     /**
-     * Videos shall be subnameable.
+     * Videos shall have subtitle.
      *
      * @return void
      */
-    public function testSubNameable(): void
+    public function testHasSubtitle(): void
     {
         $video = Video::factory()->createOne();
 
-        static::assertIsString($video->getSubName());
+        static::assertIsString($video->getSubtitle());
     }
 
     /**

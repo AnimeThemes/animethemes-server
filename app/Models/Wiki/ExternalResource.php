@@ -113,11 +113,11 @@ class ExternalResource extends BaseModel
     }
 
     /**
-     * Get subname.
+     * Get subtitle.
      *
      * @return string
      */
-    public function getSubName(): string
+    public function getSubtitle(): string
     {
         return strval($this->external_id);
     }

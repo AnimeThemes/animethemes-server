@@ -128,13 +128,15 @@ class PlaylistTrack extends BaseModel implements HasHashids
     }
 
     /**
-     * Get subname.
+     * Get subtitle.
      *
      * @return string
      */
-    public function getSubName(): string
+    public function getSubtitle(): string
     {
-        return "{$this->playlist->user->getName()} - {$this->playlist->getName()}";
+        return $this->playlist->user !== null
+            ? "{$this->playlist->user->getName()} - {$this->playlist->getName()}"
+            : $this->playlist->getName();
     }
 
     /**

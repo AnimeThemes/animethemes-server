@@ -25,14 +25,14 @@ class DumpTest extends TestCase
     }
 
     /**
-     * Dumps shall be subnameable.
+     * Dumps shall have subtitle.
      *
      * @return void
      */
-    public function testSubNameable(): void
+    public function testHasSubtitle(): void
     {
         $dump = Dump::factory()->createOne();
 
-        static::assertIsString($dump->getSubName());
+        static::assertIsString($dump->getSubtitle());
     }
 }

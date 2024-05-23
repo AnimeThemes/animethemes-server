@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace App\Contracts\Models;
 
 /**
- * Interface SubNameable.
+ * Interface HasSubtitle.
  */
-interface SubNameable
+interface HasSubtitle
 {
     /**
-     * Get subname.
+     * Get subtitle.
      *
      * @return string
      */
-    public function getSubName(): string;
+    public function getSubtitle(): string;
 }

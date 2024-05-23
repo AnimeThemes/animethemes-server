@@ -57,15 +57,15 @@ class ImageTest extends TestCase
     }
 
     /**
-     * Images shall be subnameable.
+     * Images shall have subtitle.
      *
      * @return void
      */
-    public function testSubNameable(): void
+    public function testHasSubtitle(): void
     {
         $image = Image::factory()->createOne();
 
-        static::assertIsString($image->getSubName());
+        static::assertIsString($image->getSubtitle());
     }
 
     /**
