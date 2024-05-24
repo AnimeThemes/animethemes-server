@@ -184,7 +184,6 @@ class Theme extends BaseResource
                     ->helperText(__('filament.fields.anime_theme.slug.help'))
                     ->required()
                     ->readOnly()
-                    ->disabled()
                     ->maxLength(192)
                     ->rules(['required', 'max:192', 'alpha_dash']),
 
