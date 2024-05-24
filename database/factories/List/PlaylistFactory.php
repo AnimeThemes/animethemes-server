@@ -39,6 +39,7 @@ class PlaylistFactory extends Factory
 
         return [
             Playlist::ATTRIBUTE_NAME => fake()->words(3, true),
+            Playlist::ATTRIBUTE_DESCRIPTION => fake()->words(10, true),
             Playlist::ATTRIBUTE_VISIBILITY => $visibility->value,
         ];
     }

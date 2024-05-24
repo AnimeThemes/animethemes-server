@@ -29,6 +29,7 @@ use Laravel\Nova\Actions\Actionable;
 /**
  * Class Playlist.
  *
+ * @property string|null $description
  * @property PlaylistTrack|null $first
  * @property int $first_id
  * @property Collection<int, Image> $images
@@ -51,6 +52,7 @@ class Playlist extends BaseModel implements HasHashids, Viewable
 
     final public const TABLE = 'playlists';
 
+    final public const ATTRIBUTE_DESCRIPTION = 'description';
     final public const ATTRIBUTE_FIRST = 'first_id';
     final public const ATTRIBUTE_ID = 'playlist_id';
     final public const ATTRIBUTE_LAST = 'last_id';
@@ -71,6 +73,7 @@ class Playlist extends BaseModel implements HasHashids, Viewable
      * @var array<int, string>
      */
     protected $fillable = [
+        Playlist::ATTRIBUTE_DESCRIPTION,
         Playlist::ATTRIBUTE_NAME,
         Playlist::ATTRIBUTE_USER,
         Playlist::ATTRIBUTE_VISIBILITY,

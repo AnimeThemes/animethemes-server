@@ -641,6 +641,10 @@ return [
                 'help' => 'The display title of the Playlist',
                 'name' => 'Name',
             ],
+            'description' => [
+                'help' => 'The description of the Playlist',
+                'name' => 'Description',
+            ],
             'visibility' => [
                 'help' => 'Who can view this playlist? Private: only the owner. Unlisted: anyone directly linked to the playlist. Public: anyone can search for the playlist.',
                 'name' => 'Visibility',

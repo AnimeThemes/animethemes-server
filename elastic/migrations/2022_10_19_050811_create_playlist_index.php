@@ -33,6 +33,13 @@ final class CreatePlaylistIndex implements MigrationInterface
                     ],
                 ],
             ]);
+            $mapping->text('description', [
+                'fields' => [
+                    'keyword' => [
+                        'type' => 'keyword',
+                    ],
+                ],
+            ]);
             $mapping->date('updated_at');
         });
     }

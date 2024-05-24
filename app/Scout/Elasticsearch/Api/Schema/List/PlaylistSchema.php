@@ -11,6 +11,7 @@ use App\Http\Api\Schema\Wiki\ImageSchema;
 use App\Http\Resources\List\Resource\PlaylistResource;
 use App\Models\List\Playlist;
 use App\Scout\Elasticsearch\Api\Field\Field;
+use App\Scout\Elasticsearch\Api\Field\List\Playlist\PlaylistDescriptionField;
 use App\Scout\Elasticsearch\Api\Field\List\Playlist\PlaylistHashidsField;
 use App\Scout\Elasticsearch\Api\Field\List\Playlist\PlaylistNameField;
 use App\Scout\Elasticsearch\Api\Field\List\Playlist\PlaylistVisibilityField;
@@ -71,6 +72,7 @@ class PlaylistSchema extends Schema
             [
                 new PlaylistHashidsField($this),
                 new PlaylistNameField($this),
+                new PlaylistDescriptionField($this),
                 new PlaylistVisibilityField($this),
             ],
         );

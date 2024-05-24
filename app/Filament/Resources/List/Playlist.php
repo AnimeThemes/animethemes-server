@@ -21,6 +21,7 @@ use App\Filament\Resources\List\Playlist\RelationManagers\TrackPlaylistRelationM
 use App\Models\Auth\User as UserModel;
 use App\Models\List\Playlist as PlaylistModel;
 use App\Models\List\Playlist\PlaylistTrack as TrackModel;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Infolists\Components\Section;
@@ -158,8 +159,16 @@ class Playlist extends BaseResource
                     ->label(__('filament.fields.playlist.last.name'))
                     ->relationship(PlaylistModel::RELATION_LAST, TrackModel::ATTRIBUTE_HASHID)
                     ->searchable(),
+
+                Textarea::make(PlaylistModel::ATTRIBUTE_DESCRIPTION)
+                    ->label(__('filament.fields.playlist.description.name'))
+                    ->helperText(__('filament.fields.playlist.description.help'))
+                    ->nullable()
+                    ->maxLength(1000)
+                    ->rules(['nullable', 'max:1000'])
+                    ->columnSpanFull(),
             ])
-            ->columns(1);
+            ->columns(2);
     }
 
     /**
@@ -215,6 +224,10 @@ class Playlist extends BaseResource
                     ->toggleable()
                     ->placeholder('-')
                     ->urlToRelated(Track::class, PlaylistModel::RELATION_LAST),
+
+                TextColumn::make(PlaylistModel::ATTRIBUTE_DESCRIPTION)
+                    ->label(__('filament.fields.playlist.description.name'))
+                    ->hidden(),
             ])
             ->searchable()
             ->defaultSort(PlaylistModel::ATTRIBUTE_ID, 'desc')
@@ -268,6 +281,12 @@ class Playlist extends BaseResource
 
                         TextEntry::make(PlaylistModel::ATTRIBUTE_ID)
                             ->label(__('filament.fields.base.id')),
+
+                        TextEntry::make(PlaylistModel::ATTRIBUTE_DESCRIPTION)
+                            ->label(__('filament.fields.playlist.description.name'))
+                            ->placeholder('-')
+                            ->copyableWithMessage()
+                            ->columnSpanFull(),
                     ])
                     ->columns(3),
 

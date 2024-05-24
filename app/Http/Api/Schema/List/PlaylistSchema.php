@@ -6,6 +6,7 @@ namespace App\Http\Api\Schema\List;
 
 use App\Contracts\Http\Api\Schema\SearchableSchema;
 use App\Http\Api\Field\Field;
+use App\Http\Api\Field\List\Playlist\PlaylistDescriptionField;
 use App\Http\Api\Field\List\Playlist\PlaylistFirstIdField;
 use App\Http\Api\Field\List\Playlist\PlaylistHashidsField;
 use App\Http\Api\Field\List\Playlist\PlaylistIdField;
@@ -82,6 +83,7 @@ class PlaylistSchema extends EloquentSchema implements SearchableSchema
                 new PlaylistFirstIdField($this),
                 new PlaylistLastIdField($this),
                 new PlaylistNameField($this),
+                new PlaylistDescriptionField($this),
                 new PlaylistUserIdField($this),
                 new PlaylistVisibilityField($this),
                 new PlaylistViewCountField($this),
