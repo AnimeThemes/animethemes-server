@@ -23,6 +23,7 @@ use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
 use Laravel\Nova\Query\Search\Column;
@@ -204,6 +205,16 @@ class Playlist extends BaseResource
                 ->help(__('nova.fields.playlist.hashid.help'))
                 ->showOnPreview()
                 ->filterable()
+                ->showWhenPeeking(),
+
+            Textarea::make(__('nova.fields.playlist.description.name'), PlaylistModel::ATTRIBUTE_DESCRIPTION)
+                ->sortable()
+                ->nullable()
+                ->rules(['max:1000'])
+                ->help(__('nova.fields.playlist.description.help'))
+                ->showOnPreview()
+                ->maxlength(1000)
+                ->enforceMaxlength()
                 ->showWhenPeeking(),
 
             BelongsTo::make(__('nova.fields.playlist.first.name'), PlaylistModel::RELATION_FIRST, Track::class)
