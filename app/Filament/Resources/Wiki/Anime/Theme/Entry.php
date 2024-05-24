@@ -32,7 +32,6 @@ use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Log;
 
 /**
  * Class Entry.
@@ -158,7 +157,7 @@ class Entry extends BaseResource
                     ->label(__('filament.resources.singularLabel.anime'))
                     ->relationship(EntryModel::RELATION_ANIME_SHALLOW, AnimeModel::ATTRIBUTE_NAME)
                     ->searchable()
-                    ->disabledOn(BaseRelationManager::class)
+                    ->hiddenOn(BaseRelationManager::class)
                     ->formatStateUsing(function ($livewire, $state) {
                         if ($livewire instanceof BaseRelationManager) {
                             /** @var EntryModel */
@@ -173,7 +172,7 @@ class Entry extends BaseResource
                     ->label(__('filament.resources.singularLabel.anime_theme'))
                     ->relationship(EntryModel::RELATION_THEME, ThemeModel::ATTRIBUTE_ID)
                     ->searchable()
-                    ->disabledOn(BaseRelationManager::class)
+                    ->hiddenOn(BaseRelationManager::class)
                     ->formatStateUsing(function ($livewire, $state, $record) {
                         if ($record->animetheme !== null) return $record->animetheme->getName();
                         if ($livewire instanceof BaseRelationManager) {
