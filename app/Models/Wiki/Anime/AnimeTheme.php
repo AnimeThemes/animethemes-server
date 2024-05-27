@@ -118,6 +118,7 @@ class AnimeTheme extends BaseModel
     protected function makeAllSearchableUsing(Builder $query): Builder
     {
         return $query->with([
+            AnimeTheme::RELATION_GROUP,
             AnimeTheme::RELATION_SYNONYMS,
             AnimeTheme::RELATION_SONG,
         ]);
@@ -156,6 +157,7 @@ class AnimeTheme extends BaseModel
      */
     public function getName(): string
     {
+        $this->load(AnimeTheme::RELATION_GROUP);
         return Str::of($this->type->localize())
             ->append(strval($this->sequence ?? 1))
             ->append($this->group !== null ? '-'.$this->group->slug : '')
