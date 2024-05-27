@@ -33,7 +33,9 @@ class ScriptTest extends TestCase
      */
     public function testHasSubtitle(): void
     {
-        $script = VideoScript::factory()->createOne();
+        $script = VideoScript::factory()
+            ->for(Video::factory())
+            ->createOne();
 
         static::assertIsString($script->getSubtitle());
     }
