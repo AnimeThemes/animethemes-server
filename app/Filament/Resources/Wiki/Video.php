@@ -425,12 +425,14 @@ class Video extends BaseResource
             ActionGroup::make([
                 UploadVideoTableAction::make('upload-video')
                     ->label(__('filament.actions.video.upload.name'))
+                    ->icon(__('filament.table_actions.base.upload.icon'))
                     ->requiresConfirmation()
                     ->modalWidth(MaxWidth::FourExtraLarge)
                     ->authorize('create', VideoModel::class),
 
                 ReconcileVideoTableAction::make('reconcile-video')
                     ->label(__('filament.actions.repositories.name', ['label' => __('filament.resources.label.videos')]))
+                    ->icon(__('filament.table_actions.base.reconcile.icon'))
                     ->requiresConfirmation()
                     ->authorize('create', VideoModel::class),
             ]),

@@ -313,12 +313,14 @@ class Audio extends BaseResource
             ActionGroup::make([
                 UploadAudioTableAction::make('upload-audio')
                     ->label(__('filament.actions.audio.upload.name'))
+                    ->icon(__('filament.table_actions.base.upload.icon'))
                     ->requiresConfirmation()
                     ->modalWidth(MaxWidth::FourExtraLarge)
                     ->authorize('create', AudioModel::class),
                     
                 ReconcileAudioTableAction::make('reconcile-audio')
                     ->label(__('filament.actions.repositories.name', ['label' => __('filament.resources.label.audios')]))
+                    ->icon(__('filament.table_actions.base.reconcile.icon'))
                     ->requiresConfirmation()
                     ->authorize('create', AudioModel::class),
             ]),

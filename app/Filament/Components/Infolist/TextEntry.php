@@ -8,6 +8,7 @@ use App\Filament\Resources\BaseResource;
 use App\Models\BaseModel;
 use Filament\Infolists\Components\TextEntry as ComponentsTextEntry;
 use Filament\Support\Enums\FontWeight;
+use Illuminate\Support\Arr;
 
 /**
  * Class TextEntry.
@@ -27,17 +28,18 @@ class TextEntry extends ComponentsTextEntry
         return $this
             ->weight(FontWeight::SemiBold)
             ->html()
-            ->url(function (BaseModel $record) use ($resourceRelated, $relation, $shouldUseName) { 
+            ->url(function (BaseModel $record) use ($resourceRelated, $relation, $shouldUseName) {
                 foreach (explode('.', $relation) as $element) {
-                    $record = $record->$element;
-                } 
+                    $record = Arr::get($record, $element);
+                    if ($record === null) return null;
+                }
 
                 $this->formatStateUsing(function ($state) use ($shouldUseName, $record) {
                     $name = $shouldUseName ? $record->getName() : $state;
                     return "<p style='color: rgb(64, 184, 166);'>{$name}</p>";
                 });
 
-                return $record !== null ? (new $resourceRelated)::getUrl('edit', ['record' => $record]) : null;
+                return (new $resourceRelated)::getUrl('edit', ['record' => $record]);
             });
     }
 

@@ -141,7 +141,7 @@ class Anime extends BaseResource
      */
     public static function getSlug(): string
     {
-        return static::getDefaultSlug().'anime';
+        return static::getDefaultSlug() . 'anime';
     }
 
     /**
@@ -181,7 +181,16 @@ class Anime extends BaseResource
                     ->label(__('filament.fields.anime.slug.name'))
                     ->helperText(__('filament.fields.anime.slug.help'))
                     ->required()
-                    ->rules(['required', 'max:192', 'alpha_dash', Rule::unique(AnimeModel::class, AnimeModel::ATTRIBUTE_SLUG)->__toString()]),
+                    ->rules([
+                        fn ($record) => [
+                            'required',
+                            'max:192',
+                            'alpha_dash',
+                            Rule::unique(AnimeModel::class)
+                                ->ignore($record->getKey(), AnimeModel::ATTRIBUTE_ID)
+                                ->__toString(),
+                        ]
+                    ]),
 
                 TextInput::make(AnimeModel::ATTRIBUTE_YEAR)
                     ->label(__('filament.fields.anime.year.name'))

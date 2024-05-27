@@ -834,7 +834,7 @@ return [
             'wiki' => 'Wiki',
         ],
         'icon' => [
-            'anime_synonyms' => 'heroicon-o-list-bullet',
+            'anime_synonyms' => 'heroicon-o-globe-alt',
             'anime_theme_entries' => 'heroicon-o-list-bullet',
             'anime_themes' => 'heroicon-o-list-bullet',
             'anime' => 'heroicon-o-tv',
@@ -844,7 +844,7 @@ return [
             'dumps' => 'heroicon-o-circle-stack',
             'external_resources' => 'heroicon-o-arrow-top-right-on-square',
             'features' => 'heroicon-o-cog-6-tooth',
-            'featured_themes' => 'heroicon-o-list-bullet',
+            'featured_themes' => 'heroicon-o-calendar-days',
             'groups' => 'heroicon-o-folder-open',
             'images' => 'heroicon-o-photo',
             'members' => '',
@@ -912,6 +912,24 @@ return [
             'user' => 'User',
             'video_script' => 'Video Script',
             'video' => 'Video',
+        ],
+    ],
+    'table_actions' => [
+        'base' => [
+            'reconcile' => [
+                'icon' => 'heroicon-o-arrow-path',
+            ],
+            'upload' => [
+                'icon' => 'heroicon-o-arrow-up-tray',
+            ],
+        ],
+        'dump' => [
+            'dump' => [
+                'icon' => 'heroicon-o-circle-stack',
+            ],
+            'prune' => [
+                'icon' => 'heroicon-o-trash',
+            ],
         ],
     ],
     'tabs' => [

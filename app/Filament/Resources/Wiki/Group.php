@@ -141,7 +141,16 @@ class Group extends BaseResource
                     ->helperText(__('filament.fields.group.slug.help'))
                     ->required()
                     ->maxLength(192)
-                    ->rules(['required', 'max:192', 'alpha_dash', Rule::unique(GroupModel::class, GroupModel::ATTRIBUTE_SLUG)->__toString()]),
+                    ->rules([
+                        fn ($record) => [
+                            'required',
+                            'max:192',
+                            'alpha_dash',
+                            Rule::unique(GroupModel::class)
+                                ->ignore($record->getKey(), GroupModel::ATTRIBUTE_ID)
+                                ->__toString(),
+                        ]
+                    ]),
             ])
             ->columns(1);
     }

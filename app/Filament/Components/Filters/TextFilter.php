@@ -51,6 +51,8 @@ class TextFilter extends Filter
      */
     public function applyToBaseQuery(Builder $query, array $data = []): Builder
     {
-        return $query->where($this->attribute, Arr::get($data, $this->attribute));
+        return Arr::get($data, $this->attribute) !== null
+            ? $query->where($this->attribute, Arr::get($data, $this->attribute))
+            : $query;
     }
 }

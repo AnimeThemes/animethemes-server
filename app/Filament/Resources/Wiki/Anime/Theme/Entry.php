@@ -32,6 +32,7 @@ use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Class Entry.
@@ -102,7 +103,11 @@ class Entry extends BaseResource
      */
     public static function getRecordTitle(?Model $record): ?string
     {
-        return $record instanceof EntryModel ? $record->getName() : null;
+        return $record instanceof EntryModel
+            && $record->anime !== null
+            && $record->animetheme !== null
+            ? $record->getName()
+            : null;
     }
 
     /**
@@ -173,16 +178,13 @@ class Entry extends BaseResource
                     ->relationship(EntryModel::RELATION_THEME, ThemeModel::ATTRIBUTE_ID)
                     ->searchable()
                     ->hiddenOn(BaseRelationManager::class)
-                    ->formatStateUsing(function ($livewire, $state, $record) {
-                        if ($record->animetheme !== null) return $record->animetheme->getName();
-                        if ($livewire instanceof BaseRelationManager) {
-                            /** @var EntryModel */
-                            $entry = $livewire->getOwnerRecord();
-                            /** @var ThemeModel|null */
-                            $theme = $entry->animetheme;
-                            return $theme->getName();
-                        }
-                        return $state;
+                    ->allowHtml()
+                    ->getSearchResultsUsing(function ($search) {
+                        return ThemeModel::search($search)
+                            ->get()
+                            ->load(ThemeModel::RELATION_ANIME)
+                            ->mapWithKeys(fn (ThemeModel $model) => [$model->getKey() => Select::getSearchLabelWithBlade($model)])
+                            ->toArray();
                     }),
 
                 TextInput::make(EntryModel::ATTRIBUTE_VERSION)
@@ -231,11 +233,13 @@ class Entry extends BaseResource
                 TextColumn::make(EntryModel::RELATION_ANIME.'.'.AnimeModel::ATTRIBUTE_NAME)
                     ->label(__('filament.resources.singularLabel.anime'))
                     ->toggleable()
+                    ->placeholder('-')
                     ->urlToRelated(AnimeResource::class, EntryModel::RELATION_ANIME),
 
                 TextColumn::make(EntryModel::ATTRIBUTE_THEME)
                     ->label(__('filament.resources.singularLabel.anime_theme'))
                     ->toggleable()
+                    ->placeholder('-')
                     ->urlToRelated(ThemeResource::class, EntryModel::RELATION_THEME, true),
 
                 TextColumn::make(EntryModel::ATTRIBUTE_ID)
@@ -291,10 +295,12 @@ class Entry extends BaseResource
                     ->schema([
                         TextEntry::make(EntryModel::RELATION_ANIME.'.'.AnimeModel::ATTRIBUTE_NAME)
                             ->label(__('filament.resources.singularLabel.anime'))
+                            ->placeholder('-')
                             ->urlToRelated(AnimeResource::class, EntryModel::RELATION_ANIME),
 
                         TextEntry::make(EntryModel::ATTRIBUTE_THEME)
                             ->label(__('filament.resources.singularLabel.anime_theme'))
+                            ->placeholder('-')
                             ->urlToRelated(ThemeResource::class, EntryModel::RELATION_THEME, true),
 
                         TextEntry::make(EntryModel::ATTRIBUTE_ID)
