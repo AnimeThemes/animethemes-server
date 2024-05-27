@@ -24,3 +24,4 @@ parameters:
         -
             message: '#Call to an undefined static method App\\Models\\BaseModel::search\(\).#'
             path: app/Filament/Components/Fields/Select.php
+        - '#::mapWithKeys\(\) expects*non-empty-array<int|string, string> given.#'
