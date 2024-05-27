@@ -102,7 +102,11 @@ class Entry extends BaseResource
      */
     public static function getRecordTitle(?Model $record): ?string
     {
-        return $record instanceof EntryModel ? $record->getName() : null;
+        return $record instanceof EntryModel
+            && $record->anime !== null
+            && $record->animetheme !== null
+            ? $record->getName()
+            : null;
     }
 
     /**
@@ -231,11 +235,13 @@ class Entry extends BaseResource
                 TextColumn::make(EntryModel::RELATION_ANIME.'.'.AnimeModel::ATTRIBUTE_NAME)
                     ->label(__('filament.resources.singularLabel.anime'))
                     ->toggleable()
+                    ->placeholder('-')
                     ->urlToRelated(AnimeResource::class, EntryModel::RELATION_ANIME),
 
                 TextColumn::make(EntryModel::ATTRIBUTE_THEME)
                     ->label(__('filament.resources.singularLabel.anime_theme'))
                     ->toggleable()
+                    ->placeholder('-')
                     ->urlToRelated(ThemeResource::class, EntryModel::RELATION_THEME, true),
 
                 TextColumn::make(EntryModel::ATTRIBUTE_ID)
@@ -291,10 +297,12 @@ class Entry extends BaseResource
                     ->schema([
                         TextEntry::make(EntryModel::RELATION_ANIME.'.'.AnimeModel::ATTRIBUTE_NAME)
                             ->label(__('filament.resources.singularLabel.anime'))
+                            ->placeholder('-')
                             ->urlToRelated(AnimeResource::class, EntryModel::RELATION_ANIME),
 
                         TextEntry::make(EntryModel::ATTRIBUTE_THEME)
                             ->label(__('filament.resources.singularLabel.anime_theme'))
+                            ->placeholder('-')
                             ->urlToRelated(ThemeResource::class, EntryModel::RELATION_THEME, true),
 
                         TextEntry::make(EntryModel::ATTRIBUTE_ID)

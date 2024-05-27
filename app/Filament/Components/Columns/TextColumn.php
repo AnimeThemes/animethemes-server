@@ -9,6 +9,7 @@ use App\Filament\Resources\BaseResource;
 use App\Models\BaseModel;
 use Filament\Support\Enums\FontWeight;
 use Filament\Tables\Columns\TextColumn as ColumnsTextColumn;
+use Illuminate\Support\Arr;
 
 /**
  * Class TextColumn.
@@ -29,17 +30,18 @@ class TextColumn extends ColumnsTextColumn
             ->weight(FontWeight::SemiBold)
             ->html()
             ->hiddenOn(BaseRelationManager::class)
-            ->url(function (BaseModel $record) use ($resourceRelated, $relation, $shouldUseName) { 
+            ->url(function (BaseModel $record) use ($resourceRelated, $relation, $shouldUseName) {
                 foreach (explode('.', $relation) as $element) {
-                    $record = $record->$element;
-                } 
+                    $record = Arr::get($record, $element);
+                    if ($record === null) return null;
+                }
 
                 $this->formatStateUsing(function ($state) use ($shouldUseName, $record) {
                     $name = $shouldUseName ? $record->getName() : $state;
                     return "<p style='color: rgb(64, 184, 166);'>{$name}</p>";
                 });
 
-                return $record !== null ? (new $resourceRelated)::getUrl('edit', ['record' => $record]) : null;
+                return (new $resourceRelated)::getUrl('edit', ['record' => $record]);
             });
     }
 
