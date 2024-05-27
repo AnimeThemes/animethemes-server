@@ -256,12 +256,14 @@ class Script extends BaseResource
             ActionGroup::make([
                 UploadScriptTableAction::make('upload-script')
                     ->label(__('filament.actions.video_script.upload.name'))
+                    ->icon(__('filament.table_actions.base.upload.icon'))
                     ->modalWidth(MaxWidth::FourExtraLarge)
                     ->requiresConfirmation()
                     ->authorize('create', ScriptModel::class),
 
                 ReconcileScriptTableAction::make('reconcile-script')
                     ->label(__('filament.actions.repositories.name', ['label' => __('filament.resources.label.video_scripts')]))
+                    ->icon(__('filament.table_actions.base.reconcile.icon'))
                     ->requiresConfirmation()
                     ->authorize('create', ScriptModel::class),
             ]),
