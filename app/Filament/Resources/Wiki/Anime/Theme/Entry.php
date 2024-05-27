@@ -32,6 +32,7 @@ use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Class Entry.
@@ -177,16 +178,13 @@ class Entry extends BaseResource
                     ->relationship(EntryModel::RELATION_THEME, ThemeModel::ATTRIBUTE_ID)
                     ->searchable()
                     ->hiddenOn(BaseRelationManager::class)
-                    ->formatStateUsing(function ($livewire, $state, $record) {
-                        if ($record->animetheme !== null) return $record->animetheme->getName();
-                        if ($livewire instanceof BaseRelationManager) {
-                            /** @var EntryModel */
-                            $entry = $livewire->getOwnerRecord();
-                            /** @var ThemeModel|null */
-                            $theme = $entry->animetheme;
-                            return $theme->getName();
-                        }
-                        return $state;
+                    ->allowHtml()
+                    ->getSearchResultsUsing(function ($search) {
+                        return ThemeModel::search($search)
+                            ->get()
+                            ->load(ThemeModel::RELATION_ANIME)
+                            ->mapWithKeys(fn (ThemeModel $model) => [$model->getKey() => Select::getSearchLabelWithBlade($model)])
+                            ->toArray();
                     }),
 
                 TextInput::make(EntryModel::ATTRIBUTE_VERSION)
