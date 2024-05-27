@@ -157,7 +157,16 @@ class Series extends BaseResource
                     ->helperText(__('filament.fields.series.slug.help'))
                     ->required()
                     ->maxLength(192)
-                    ->rules(['required', 'max:192', 'alpha_dash', Rule::unique(SeriesModel::class, SeriesModel::ATTRIBUTE_SLUG)->__toString()]),
+                    ->rules([
+                        fn ($record) => [
+                            'required',
+                            'max:192',
+                            'alpha_dash',
+                            Rule::unique(SeriesModel::class)
+                                ->ignore($record->getKey(), SeriesModel::ATTRIBUTE_ID)
+                                ->__toString(),
+                        ]
+                    ]),
             ])
             ->columns(1);
     }

@@ -144,7 +144,16 @@ class Studio extends BaseResource
                     ->helperText(__('filament.fields.studio.slug.help'))
                     ->required()
                     ->maxLength(192)
-                    ->rules(['required', 'max:192', 'alpha_dash', Rule::unique(StudioModel::class, StudioModel::ATTRIBUTE_SLUG)->__toString()]),
+                    ->rules([
+                        fn ($record) => [
+                            'required',
+                            'max:192',
+                            'alpha_dash',
+                            Rule::unique(StudioModel::class)
+                                ->ignore($record->getKey(), StudioModel::ATTRIBUTE_ID)
+                                ->__toString(),
+                        ]
+                    ]),
 
                 TextInput::make(StudioResource::ATTRIBUTE_AS)
                     ->label(__('filament.fields.studio.resources.as.name'))
