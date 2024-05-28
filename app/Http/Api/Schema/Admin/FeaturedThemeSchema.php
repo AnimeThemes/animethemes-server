@@ -51,13 +51,12 @@ class FeaturedThemeSchema extends EloquentSchema
             new AllowedInclude(new AnimeSchema(), FeaturedTheme::RELATION_ANIME),
             new AllowedInclude(new ArtistSchema(), FeaturedTheme::RELATION_ARTISTS),
             new AllowedInclude(new EntrySchema(), FeaturedTheme::RELATION_ENTRY),
+            new AllowedInclude(new GroupSchema(), FeaturedTheme::RELATION_GROUP),
             new AllowedInclude(new ImageSchema(), FeaturedTheme::RELATION_IMAGES),
             new AllowedInclude(new SongSchema(), FeaturedTheme::RELATION_SONG),
             new AllowedInclude(new ThemeSchema(), FeaturedTheme::RELATION_THEME),
             new AllowedInclude(new UserSchema(), FeaturedTheme::RELATION_USER),
             new AllowedInclude(new VideoSchema(), FeaturedTheme::RELATION_VIDEO),
-
-            new AllowedInclude(new GroupSchema(), 'animethemeentry.animetheme.group'),
         ];
     }
 
