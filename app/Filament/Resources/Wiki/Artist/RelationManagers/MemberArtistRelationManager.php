@@ -46,8 +46,8 @@ class MemberArtistRelationManager extends BaseRelationManager
     public function table(Table $table): Table
     {
         return $table
-            ->heading(ArtistResource::getPluralLabel())
-            ->modelLabel(ArtistResource::getLabel())
+            ->heading(__('filament.resources.label.members'))
+            ->modelLabel(__('filament.resources.singularLabel.member'))
             ->recordTitleAttribute(Artist::ATTRIBUTE_NAME)
             ->inverseRelationship(Artist::RELATION_GROUPS)
             ->columns(ArtistResource::table($table)->getColumns())

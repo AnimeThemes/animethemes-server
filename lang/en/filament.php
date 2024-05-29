@@ -901,6 +901,7 @@ return [
             'featured_theme' => 'Featured Theme',
             'group' => 'Group',
             'image' => 'Image',
+            'member' => 'Member',
             'page' => 'Page',
             'permission' => 'Permission',
             'playlist_track' => 'Playlist Track',
