@@ -49,13 +49,12 @@ class TrackSchema extends EloquentSchema
         return [
             new AllowedInclude(new ArtistSchema(), PlaylistTrack::RELATION_ARTISTS),
             new AllowedInclude(new AudioSchema(), PlaylistTrack::RELATION_AUDIO),
+            new AllowedInclude(new GroupSchema(), PlaylistTrack::RELATION_THEME_GROUP),
             new AllowedInclude(new ImageSchema(), PlaylistTrack::RELATION_IMAGES),
             new AllowedInclude(new PlaylistSchema(), PlaylistTrack::RELATION_PLAYLIST),
             new AllowedInclude(new TrackSchema(), PlaylistTrack::RELATION_NEXT),
             new AllowedInclude(new TrackSchema(), PlaylistTrack::RELATION_PREVIOUS),
             new AllowedInclude(new VideoSchema(), PlaylistTrack::RELATION_VIDEO),
-
-            new AllowedInclude(new GroupSchema(), 'video.animethemeentries.animetheme.group'),
         ];
     }
 

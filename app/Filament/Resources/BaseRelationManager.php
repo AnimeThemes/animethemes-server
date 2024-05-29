@@ -120,7 +120,7 @@ abstract class BaseRelationManager extends RelationManager
                     /** @var string */
                     $model = $livewire->getTable()->getModel();
                     $title = $livewire->getTable()->getRecordTitle(new $model);
-                    return Select::make($title)
+                    return Select::make('recordId')
                         ->label($title)
                         ->useScout($model);
                 }),

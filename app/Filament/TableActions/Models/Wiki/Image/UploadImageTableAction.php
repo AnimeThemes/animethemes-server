@@ -7,29 +7,30 @@ namespace App\Filament\TableActions\Models\Wiki\Image;
 use App\Actions\Models\Wiki\UploadImageAction;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Filament\Components\Fields\Select;
+use App\Filament\TableActions\BaseTableAction;
 use App\Models\Wiki\Image;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Form;
-use Filament\Tables\Actions\Action;
 use Illuminate\Validation\Rules\Enum;
 
 /**
  * Class UploadImageTableAction.
  */
-class UploadImageTableAction extends Action
+class UploadImageTableAction extends BaseTableAction
 {
     protected array $facets = [];
 
     /**
-     * Initial setup for the action.
+     * Perform the action on the table.
      *
+     * @param  array  $fields
      * @return void
      */
-    protected function setUp(): void
+    public function handle(array $fields): void
     {
-        parent::setUp();
+        $action = new UploadImageAction();
 
-        $this->action(fn (array $data) => (new UploadImageAction())->handle($data));
+        $action->handle($fields);
     }
 
     /**

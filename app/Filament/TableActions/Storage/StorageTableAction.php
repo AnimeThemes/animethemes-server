@@ -5,25 +5,13 @@ declare(strict_types=1);
 namespace App\Filament\TableActions\Storage;
 
 use App\Contracts\Actions\Storage\StorageAction as BaseStorageAction;
-use Filament\Tables\Actions\Action;
+use App\Filament\TableActions\BaseTableAction;
 
 /**
  * Class StorageTableAction.
  */
-abstract class StorageTableAction extends Action
+abstract class StorageTableAction extends BaseTableAction
 {
-    /**
-     * Initial setup for the action.
-     *
-     * @return void
-     */
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->action(fn (array $data) => $this->handle($data));
-    }
-
     /**
      * Get the underlying storage action.
      *
@@ -33,7 +21,7 @@ abstract class StorageTableAction extends Action
     abstract protected function storageAction(array $fields): BaseStorageAction;
 
     /**
-     * Perform the action on the given models.
+     * Perform the action on the table.
      *
      * @param  array  $fields
      * @return void

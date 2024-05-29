@@ -50,6 +50,7 @@ class FeaturedTheme extends BaseModel
     final public const RELATION_ANIME = 'animethemeentry.animetheme.anime';
     final public const RELATION_ARTISTS = 'animethemeentry.animetheme.song.artists';
     final public const RELATION_ENTRY = 'animethemeentry';
+    final public const RELATION_GROUP = 'animethemeentry.animetheme.group';
     final public const RELATION_IMAGES = 'animethemeentry.animetheme.anime.images';
     final public const RELATION_SONG = 'animethemeentry.animetheme.song';
     final public const RELATION_THEME = 'animethemeentry.animetheme';
