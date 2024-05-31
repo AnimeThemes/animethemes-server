@@ -36,6 +36,7 @@ return [
     'discord' => [
         'token' => env('DISCORD_BOT_API_TOKEN'),
         'api_url' => env('DISCORD_BOT_API_URL'),
+        'api_key' => env('DISCORD_BOT_API_KEY'),
         'db_updates_discord_channel' => env('DB_UPDATES_DISCORD_CHANNEL'),
         'admin_discord_channel' => env('ADMIN_DISCORD_CHANNEL'),
     ],

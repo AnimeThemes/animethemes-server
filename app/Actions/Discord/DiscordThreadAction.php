@@ -32,7 +32,8 @@ class DiscordThreadAction
 
         $anime->images->each(fn ($image) => Arr::set($image, 'link', $fs->url($image->path)));
 
-        $thread = Http::post(Config::get('services.discord.api_url') . '/thread', $anime->toArray())
+        $thread = Http::withHeaders([ 'x-api-key' => Config::get('services.discord.api_key')])
+            ->post(Config::get('services.discord.api_url') . '/thread', $anime->toArray())
             ->json()
             ->throw();
 
