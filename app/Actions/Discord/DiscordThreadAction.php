@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Actions\Discord;
 
+use App\Models\Discord\DiscordThread;
 use App\Models\Wiki\Anime;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
@@ -29,9 +30,20 @@ class DiscordThreadAction
         /** @var \Illuminate\Filesystem\FilesystemAdapter */
         $fs = Storage::disk(Config::get('image.disk'));
 
-        $anime->images->each(fn ($image) => $image->link = $fs->url($image->path));
+        $anime->images->each(fn ($image) => Arr::set($image, 'link', $fs->url($image->path)));
 
-        Http::post(Config::get('services.discord.api_url') . '/thread', $anime->toArray())
+        $thread = Http::post(Config::get('services.discord.api_url') . '/thread', $anime->toArray())
+            ->json()
             ->throw();
+
+        if ($thread->status() === 201) {
+            $newThread = new DiscordThread([
+                DiscordThread::ATTRIBUTE_ANIME => $anime->getKey(),
+                DiscordThread::ATTRIBUTE_NAME => Arr::get($thread, 'data.name'),
+                DiscordThread::ATTRIBUTE_ID => Arr::get($thread, 'data.id'),
+            ]);
+    
+            $newThread->save();
+        }
     }
 }
