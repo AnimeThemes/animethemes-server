@@ -35,15 +35,9 @@ return [
 
     'discord' => [
         'token' => env('DISCORD_BOT_API_TOKEN'),
+        'api_url' => env('DISCORD_BOT_API_URL'),
         'db_updates_discord_channel' => env('DB_UPDATES_DISCORD_CHANNEL'),
         'admin_discord_channel' => env('ADMIN_DISCORD_CHANNEL'),
-        'submissions_discord_channel' => env('SUBMISSIONS_DISCORD_CHANNEL'),
-        'submissions_forum_tags' => [
-            'winter' => env('WINTER_DISCORD_FORUM_TAG'),
-            'spring' => env('SPRING_DISCORD_FORUM_TAG'),
-            'summer' => env('SUMMER_DISCORD_FORUM_TAG'),
-            'fall' => env('FALL_DISCORD_FORUM_TAG')
-        ]
     ],
 
     'mal' => [
