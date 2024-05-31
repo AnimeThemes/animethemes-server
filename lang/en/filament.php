@@ -563,7 +563,10 @@ return [
             'updated_at' => 'Updated At',
         ],
         'discord_thread' => [
-            'name' => 'Name',
+            'name' => [
+                'help' => 'The name of the thread on Discord',
+                'name' => 'Name',
+            ],
         ],
         'dump' => [
             'path' => 'Path',

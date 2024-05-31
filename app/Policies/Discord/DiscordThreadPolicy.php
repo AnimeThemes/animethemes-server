@@ -71,24 +71,11 @@ class DiscordThreadPolicy
      * Determine whether the user can delete the model.
      *
      * @param  User  $user
-     * @param  DiscordThread  $discordThread
      * @return bool
      */
-    public function delete(User $user, DiscordThread $discordThread): bool
+    public function delete(User $user): bool
     {
-        return ! $discordThread->trashed() && $user->can(CrudPermission::DELETE->format(DiscordThread::class));
-    }
-
-    /**
-     * Determine whether the user can restore the model.
-     *
-     * @param  User  $user
-     * @param  DiscordThread  $discordThread
-     * @return bool
-     */
-    public function restore(User $user, DiscordThread $discordThread): bool
-    {
-        return $discordThread->trashed() && $user->can(ExtendedCrudPermission::RESTORE->format(DiscordThread::class));
+        return $user->can(CrudPermission::DELETE->format(DiscordThread::class));
     }
 
     /**
@@ -99,7 +86,7 @@ class DiscordThreadPolicy
      */
     public function forceDelete(User $user): bool
     {
-        return $user->can(ExtendedCrudPermission::FORCE_DELETE->format(DiscordThread::class));
+        return $user->can(CrudPermission::DELETE->format(DiscordThread::class));
     }
 
     /**
@@ -110,6 +97,6 @@ class DiscordThreadPolicy
      */
     public function forceDeleteAny(User $user): bool
     {
-        return $user->can(ExtendedCrudPermission::FORCE_DELETE->format(DiscordThread::class));
+        return $user->can(CrudPermission::DELETE->format(DiscordThread::class));
     }
 }

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models\Discord;
 
+use App\Events\Discord\DiscordThread\DiscordThreadDeleted;
+use App\Events\Discord\DiscordThread\DiscordThreadUpdated;
 use App\Models\BaseModel;
 use App\Models\Wiki\Anime;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -49,6 +51,18 @@ class DiscordThread extends BaseModel
      * @var string
      */
     protected $primaryKey = DiscordThread::ATTRIBUTE_ID;
+
+    /**
+     * The event map for the model.
+     *
+     * Allows for object-based events for native Eloquent events.
+     *
+     * @var array
+     */
+    protected $dispatchesEvents = [
+        'deleted' => DiscordThreadDeleted::class,
+        'updated' => DiscordThreadUpdated::class,
+    ];
 
     /**
      * Get name.

@@ -14,6 +14,7 @@ use App\Filament\Resources\Discord\DiscordThread\Pages\ViewDiscordThread;
 use App\Filament\Resources\Wiki\Anime as AnimeResource;
 use App\Models\Discord\DiscordThread as DiscordThreadModel;
 use App\Models\Wiki\Anime;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Infolist;
@@ -125,7 +126,14 @@ class DiscordThread extends BaseResource
      */
     public static function form(Form $form): Form
     {
-        return $form;
+        return $form
+            ->schema([
+                TextInput::make(DiscordThreadModel::ATTRIBUTE_NAME)
+                    ->label(__('filament.fields.discord_thread.name.name'))
+                    ->helperText(__('filament.fields.discord_thread.name.help'))
+                    ->required()
+                    ->rules(['required', 'string']),
+            ]);
     }
 
     /**
@@ -145,7 +153,7 @@ class DiscordThread extends BaseResource
                     ->sortable(),
 
                 TextColumn::make(DiscordThreadModel::ATTRIBUTE_NAME)
-                    ->label(__('filament.fields.discord_thread.name'))
+                    ->label(__('filament.fields.discord_thread.name.name'))
                     ->sortable()
                     ->copyableWithMessage()
                     ->toggleable(),
@@ -180,13 +188,14 @@ class DiscordThread extends BaseResource
                         TextEntry::make(DiscordThreadModel::ATTRIBUTE_ID)
                             ->label(__('filament.fields.base.id')),
 
+                        TextEntry::make(DiscordThreadModel::ATTRIBUTE_NAME)
+                            ->label(__('filament.fields.discord_thread.name.name')),
+
                         TextEntry::make(DiscordThreadModel::RELATION_ANIME.'.'.Anime::ATTRIBUTE_NAME)
                             ->label(__('filament.resources.singularLabel.anime'))
                             ->urlToRelated(AnimeResource::class, DiscordThreadModel::RELATION_ANIME),
-
-                        TextEntry::make(DiscordThreadModel::ATTRIBUTE_NAME)
-                            ->label(__('filament.fields.discord_thread.name.name')),
-                    ]),
+                    ])
+                    ->columns(3),
             ]);
     }
 

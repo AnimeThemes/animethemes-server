@@ -67,7 +67,7 @@ class AdminSeeder extends RoleSeeder
         $this->configureResource($role, User::class, $extendedCrudPermissions);
 
         // Discord Resources
-        $this->configureResource($role, DiscordThread::class, $extendedCrudPermissions);
+        $this->configureResource($role, DiscordThread::class, CrudPermission::cases());
 
         // List Resources
         $this->configureResource($role, Playlist::class, $extendedCrudPermissions);

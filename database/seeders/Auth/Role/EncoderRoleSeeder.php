@@ -50,7 +50,7 @@ class EncoderRoleSeeder extends RoleSeeder
         );
 
         // Discord Resources
-        $this->configureResource($role, DiscordThread::class, [CrudPermission::VIEW]);
+        $this->configureResource($role, DiscordThread::class, [CrudPermission::CREATE, CrudPermission::UPDATE, CrudPermission::VIEW]);
 
         // List Resources
         $this->configureResource($role, Playlist::class, $extendedCrudPermissions);
