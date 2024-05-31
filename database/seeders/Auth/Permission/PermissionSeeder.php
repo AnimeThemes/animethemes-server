@@ -14,6 +14,7 @@ use App\Models\Admin\FeaturedTheme;
 use App\Models\Auth\Permission;
 use App\Models\Auth\Role;
 use App\Models\Auth\User;
+use App\Models\Discord\DiscordThread;
 use App\Models\Document\Page;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
@@ -60,6 +61,9 @@ class PermissionSeeder extends Seeder
         $this->registerResource(Permission::class, [CrudPermission::VIEW]);
         $this->registerResource(Role::class, CrudPermission::cases());
         $this->registerResource(User::class, $extendedCrudPermissions);
+
+        // Discord Resources
+        $this->registerResource(DiscordThread::class, $extendedCrudPermissions);
 
         // List Resources
         $this->registerResource(Playlist::class, $extendedCrudPermissions);

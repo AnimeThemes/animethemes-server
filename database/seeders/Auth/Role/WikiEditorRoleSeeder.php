@@ -8,6 +8,7 @@ use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\ExtendedCrudPermission;
 use App\Enums\Auth\SpecialPermission;
 use App\Models\Auth\Role;
+use App\Models\Discord\DiscordThread;
 use App\Models\Document\Page;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
@@ -47,6 +48,9 @@ class WikiEditorRoleSeeder extends RoleSeeder
             CrudPermission::cases(),
             ExtendedCrudPermission::cases(),
         );
+
+        // Discord Resources
+        $this->configureResource($role, DiscordThread::class, [CrudPermission::VIEW]);
 
         // List Resources
         $this->configureResource($role, Playlist::class, $extendedCrudPermissions);

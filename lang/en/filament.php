@@ -562,6 +562,9 @@ return [
             'timestamps' => 'Timestamps',
             'updated_at' => 'Updated At',
         ],
+        'discord_thread' => [
+            'name' => 'Name',
+        ],
         'dump' => [
             'path' => 'Path',
         ],
@@ -829,6 +832,7 @@ return [
         'group' => [
             'admin' => 'Admin',
             'auth' => 'Auth',
+            'discord' => 'Discord',
             'document' => 'Document',
             'list' => 'List',
             'wiki' => 'Wiki',
@@ -841,6 +845,7 @@ return [
             'announcements' => 'heroicon-o-megaphone',
             'artists' => 'heroicon-o-user-circle',
             'audios' => 'heroicon-o-speaker-wave',
+            'discord_thread' => 'heroicon-o-chat-bubble-left-right',
             'dumps' => 'heroicon-o-circle-stack',
             'external_resources' => 'heroicon-o-arrow-top-right-on-square',
             'features' => 'heroicon-o-cog-6-tooth',
@@ -868,6 +873,7 @@ return [
             'announcements' => 'Announcements',
             'artists' => 'Artists',
             'audios' => 'Audios',
+            'discord_threads' => 'Threads',
             'dumps' => 'Dumps',
             'external_resources' => 'External Resources',
             'features' => 'Features',
@@ -895,6 +901,7 @@ return [
             'announcement' => 'Announcement',
             'artist' => 'Artist',
             'audio' => 'Audio',
+            'discord_thread' => 'Thread',
             'dump' => 'Dump',
             'external_resource' => 'External Resource',
             'feature' => 'Feature',

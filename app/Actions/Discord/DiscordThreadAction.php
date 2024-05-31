@@ -32,16 +32,16 @@ class DiscordThreadAction
 
         $anime->images->each(fn ($image) => Arr::set($image, 'link', $fs->url($image->path)));
 
-        $thread = Http::withHeaders([ 'x-api-key' => Config::get('services.discord.api_key')])
+        $thread = Http::withHeaders(['x-api-key' => Config::get('services.discord.api_key')])
             ->post(Config::get('services.discord.api_url') . '/thread', $anime->toArray())
-            ->json()
             ->throw();
 
         if ($thread->status() === 201) {
+            $json = $thread->json();
             $newThread = new DiscordThread([
                 DiscordThread::ATTRIBUTE_ANIME => $anime->getKey(),
-                DiscordThread::ATTRIBUTE_NAME => Arr::get($thread, 'data.name'),
-                DiscordThread::ATTRIBUTE_ID => Arr::get($thread, 'data.id'),
+                DiscordThread::ATTRIBUTE_NAME => Arr::get($json, 'data.name'),
+                DiscordThread::ATTRIBUTE_ID => Arr::get($json, 'data.id'),
             ]);
     
             $newThread->save();
