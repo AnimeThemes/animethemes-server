@@ -31,6 +31,7 @@ class DiscordThread extends BaseModel
      * @var array<int, string>
      */
     protected $fillable = [
+        DiscordThread::ATTRIBUTE_ANIME,
         DiscordThread::ATTRIBUTE_ID,
         DiscordThread::ATTRIBUTE_NAME,
     ];

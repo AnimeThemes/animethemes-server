@@ -24,7 +24,7 @@ return new class extends Migration
                 $table->string(DiscordThread::ATTRIBUTE_NAME);
 
                 $table->unsignedBigInteger(DiscordThread::ATTRIBUTE_ANIME);
-                $table->foreign(DiscordThread::ATTRIBUTE_ANIME)->references(Anime::ATTRIBUTE_ID)->on(Anime::TABLE);
+                $table->foreign(DiscordThread::ATTRIBUTE_ANIME)->references(Anime::ATTRIBUTE_ID)->on(Anime::TABLE)->cascadeOnDelete();
             });
         }
     }
