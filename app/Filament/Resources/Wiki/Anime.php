@@ -28,10 +28,10 @@ use App\Filament\Resources\Wiki\Anime\RelationManagers\StudioAnimeRelationManage
 use App\Filament\Resources\Wiki\Anime\RelationManagers\SynonymAnimeRelationManager;
 use App\Filament\Resources\Wiki\Anime\RelationManagers\ThemeAnimeRelationManager;
 use App\Filament\Resources\Wiki\ExternalResource\RelationManagers\AnimeResourceRelationManager;
+use App\Models\Discord\DiscordThread;
 use App\Models\Wiki\Anime as AnimeModel;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Image;
-use App\Models\Wiki\Video;
 use App\Pivots\Wiki\AnimeResource;
 use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Components\TextInput;
@@ -436,7 +436,7 @@ class Anime extends BaseResource
                         ->label(__('filament.actions.anime.discord.thread.name'))
                         ->icon('heroicon-o-chat-bubble-left-right')
                         ->requiresConfirmation()
-                        ->authorize('create', Video::class),
+                        ->authorize('create', DiscordThread::class),
 
                     BackfillAnimeAction::make('backfill-anime')
                         ->label(__('filament.actions.anime.backfill.name'))

@@ -12,10 +12,10 @@ use App\Filament\HeaderActions\Models\Wiki\Anime\AttachAnimeResourceHeaderAction
 use App\Filament\HeaderActions\Models\Wiki\Anime\BackfillAnimeHeaderAction;
 use App\Filament\Resources\Wiki\Anime;
 use App\Filament\Resources\Base\BaseEditResource;
+use App\Models\Discord\DiscordThread;
 use App\Models\Wiki\Anime as AnimeModel;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Image;
-use App\Models\Wiki\Video;
 use Filament\Actions\ActionGroup;
 use Filament\Support\Enums\MaxWidth;
 
@@ -70,7 +70,7 @@ class EditAnime extends BaseEditResource
                         ->label(__('filament.actions.anime.discord.thread.name'))
                         ->icon('heroicon-o-chat-bubble-left-right')
                         ->requiresConfirmation()
-                        ->authorize('create', Video::class),
+                        ->authorize('create', DiscordThread::class),
 
                     BackfillAnimeHeaderAction::make('backfill-anime')
                         ->label(__('filament.actions.anime.backfill.name'))
