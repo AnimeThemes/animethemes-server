@@ -412,6 +412,7 @@ return [
         ],
         'discord' => [
             'notification' => [
+                'icon' => 'heroicon-o-bell',
                 'name' => 'Create Discord Notification',
                 'type' => [
                     'help' => 'Are they new videos or replacement?',
@@ -426,8 +427,8 @@ return [
     ],
     'dashboards' => [
         'icon' => [
-            'admin' => 'heroicon-m-home',
-            'wiki' => 'heroicon-m-home',
+            'admin' => 'heroicon-m-chart-bar',
+            'wiki' => 'heroicon-m-chart-bar',
         ],
         'label' => [
             'admin' => 'Admin',
