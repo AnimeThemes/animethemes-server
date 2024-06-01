@@ -36,7 +36,6 @@ use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Support\Enums\MaxWidth;
 use Filament\Tables\Actions\ActionGroup;
-use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
@@ -412,12 +411,11 @@ class Video extends BaseResource
         return array_merge(
             parent::getBulkActions(),
             [
-                BulkActionGroup::make([
-                    DiscordVideoNotificationBulkAction::make('discord-notification')
-                        ->label(__('filament.bulk_actions.discord.notification.name'))
-                        ->requiresConfirmation()
-                        ->authorize('create', DiscordThread::class),
-                ]),
+                DiscordVideoNotificationBulkAction::make('discord-notification')
+                    ->label(__('filament.bulk_actions.discord.notification.name'))
+                    ->icon(__('filament.bulk_actions.discord.notification.icon'))
+                    ->requiresConfirmation()
+                    ->authorize('create', DiscordThread::class),
             ],
         );
     }

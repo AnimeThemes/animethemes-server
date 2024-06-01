@@ -234,7 +234,8 @@ class Entry extends BaseResource
                     ->label(__('filament.resources.singularLabel.anime'))
                     ->toggleable()
                     ->placeholder('-')
-                    ->urlToRelated(AnimeResource::class, EntryModel::RELATION_ANIME),
+                    ->urlToRelated(AnimeResource::class, EntryModel::RELATION_ANIME, limit: 30)
+                    ->tooltip(fn (TextColumn $column) => $column->getState()),
 
                 TextColumn::make(EntryModel::ATTRIBUTE_THEME)
                     ->label(__('filament.resources.singularLabel.anime_theme'))

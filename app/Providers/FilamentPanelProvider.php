@@ -11,6 +11,7 @@ use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
+use Filament\Support\Enums\MaxWidth;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
@@ -31,7 +32,11 @@ class FilamentPanelProvider extends PanelProvider
             ->path(Config::get('filament.path'))
             ->domain(Config::get('filament.domain'))
             ->login()
+            ->brandLogo(asset('img/logo.svg'))
+            ->darkModeBrandLogo(asset('img/gray-logo.svg'))
+            ->brandLogoHeight('1.8rem')
             ->globalSearch(GlobalSearchScoutProvider::class)
+            ->maxContentWidth(MaxWidth::Full)
             ->databaseNotifications()
             ->sidebarCollapsibleOnDesktop()
             ->profile()

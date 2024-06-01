@@ -219,7 +219,8 @@ class Theme extends BaseResource
                 TextColumn::make(ThemeModel::RELATION_ANIME.'.'.AnimeModel::ATTRIBUTE_NAME)
                     ->label(__('filament.resources.singularLabel.anime'))
                     ->toggleable()
-                    ->urlToRelated(AnimeResource::class, ThemeModel::RELATION_ANIME),
+                    ->urlToRelated(AnimeResource::class, ThemeModel::RELATION_ANIME, limit: 30)
+                    ->tooltip(fn (TextColumn $column) => $column->getState()),
 
                 TextColumn::make(ThemeModel::ATTRIBUTE_ID)
                     ->label(__('filament.fields.base.id'))
@@ -252,7 +253,8 @@ class Theme extends BaseResource
                     ->label(__('filament.resources.singularLabel.song'))
                     ->toggleable()
                     ->placeholder('-')
-                    ->urlToRelated(SongResource::class, ThemeModel::RELATION_SONG),
+                    ->urlToRelated(SongResource::class, ThemeModel::RELATION_SONG, limit: 30)
+                    ->tooltip(fn (TextColumn $column) => $column->getState()),
             ])
             ->searchable()
             ->defaultSort(ThemeModel::ATTRIBUTE_ID, 'desc')

@@ -10,6 +10,7 @@ use App\Models\BaseModel;
 use Filament\Support\Enums\FontWeight;
 use Filament\Tables\Columns\TextColumn as ColumnsTextColumn;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 
 /**
  * Class TextColumn.
@@ -22,23 +23,25 @@ class TextColumn extends ColumnsTextColumn
      * @param  class-string<BaseResource>  $resourceRelated
      * @param  string  $relation
      * @param  bool|null  $shouldUseName
+     * @param  int|null  $limit
      * @return static
      */
-    public function urlToRelated(string $resourceRelated, string $relation, ?bool $shouldUseName = false): static
+    public function urlToRelated(string $resourceRelated, string $relation, ?bool $shouldUseName = false, ?int $limit = null): static
     {
         return $this
             ->weight(FontWeight::SemiBold)
             ->html()
             ->hiddenOn(BaseRelationManager::class)
-            ->url(function (BaseModel $record) use ($resourceRelated, $relation, $shouldUseName) {
+            ->url(function (BaseModel $record) use ($resourceRelated, $relation, $shouldUseName, $limit) {
                 foreach (explode('.', $relation) as $element) {
                     $record = Arr::get($record, $element);
                     if ($record === null) return null;
                 }
 
-                $this->formatStateUsing(function ($state) use ($shouldUseName, $record) {
+                $this->formatStateUsing(function ($state) use ($shouldUseName, $record, $limit) {
                     $name = $shouldUseName ? $record->getName() : $state;
-                    return "<p style='color: rgb(64, 184, 166);'>{$name}</p>";
+                    $nameLimited = Str::limit($name, $limit ?? 100);
+                    return "<p style='color: rgb(64, 184, 166);'>{$nameLimited}</p>";
                 });
 
                 return (new $resourceRelated)::getUrl('edit', ['record' => $record]);

@@ -163,7 +163,8 @@ class Synonym extends BaseResource
                 TextColumn::make(SynonymModel::RELATION_ANIME.'.'.AnimeModel::ATTRIBUTE_NAME)
                     ->label(__('filament.resources.singularLabel.anime'))
                     ->toggleable()
-                    ->urlToRelated(AnimeResource::class, SynonymModel::RELATION_ANIME),
+                    ->urlToRelated(AnimeResource::class, SynonymModel::RELATION_ANIME, limit: 40)
+                    ->tooltip(fn (TextColumn $column) => $column->getState()),
 
                 TextColumn::make(SynonymModel::ATTRIBUTE_TYPE)
                     ->label(__('filament.fields.anime_synonym.type.name'))
@@ -173,7 +174,9 @@ class Synonym extends BaseResource
                 TextColumn::make(SynonymModel::ATTRIBUTE_TEXT)
                     ->label(__('filament.fields.anime_synonym.text.name'))
                     ->sortable()
-                    ->toggleable(),
+                    ->toggleable()
+                    ->limit(70)
+                    ->tooltip(fn (TextColumn $column) => $column->getState()),
             ])
             ->searchable()
             ->defaultSort(SynonymModel::ATTRIBUTE_ID, 'desc')
