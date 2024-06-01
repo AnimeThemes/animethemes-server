@@ -55,8 +55,9 @@ class DiscordThreadUpdated extends AdminUpdatedEvent
      */
     protected function updateThread(): void
     {
+
         Http::withHeaders(['x-api-key' => Config::get('services.discord.api_key')])
-            ->put(Config::get('services.discord.api_url') . '/thread', $this->getModel())
+            ->put(Config::get('services.discord.api_url') . '/thread', $this->getModel()->toArray())
             ->throw();
     }
 }

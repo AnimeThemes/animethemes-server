@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * Class DiscordThread.
  *
  * @property Anime $anime
+ * @property int $anime_id
  * @property int $thread_id
  * @property string $name
  */
