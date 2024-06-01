@@ -16,6 +16,7 @@ use App\Http\Resources\Pivot\Wiki\Resource\AnimeResourceResource;
 use App\Http\Resources\Pivot\Wiki\Resource\AnimeSeriesResource;
 use App\Http\Resources\Pivot\Wiki\Resource\AnimeStudioResource;
 use App\Models\BaseModel;
+use App\Models\Discord\DiscordThread;
 use App\Models\Wiki\Anime\AnimeSynonym;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Pivots\Wiki\AnimeImage;
@@ -27,6 +28,7 @@ use Elastic\ScoutDriverPlus\Searchable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Collection;
 use Laravel\Nova\Actions\Actionable;
 
@@ -36,6 +38,7 @@ use Laravel\Nova\Actions\Actionable;
  * @property int $anime_id
  * @property Collection<int, AnimeSynonym> $animesynonyms
  * @property Collection<int, AnimeTheme> $animethemes
+ * @property DiscordThread|null $discordthread
  * @property Collection<int, Image> $images
  * @property AnimeMediaFormat $media_format
  * @property string $name
@@ -196,6 +199,16 @@ class Anime extends BaseModel
     public function animesynonyms(): HasMany
     {
         return $this->hasMany(AnimeSynonym::class, AnimeSynonym::ATTRIBUTE_ANIME);
+    }
+
+    /**
+     * Get the discord thread that the anime owns.
+     *
+     * @return HasOne
+     */
+    public function discordthread(): HasOne
+    {
+        return $this->hasOne(DiscordThread::class, DiscordThread::ATTRIBUTE_ANIME);
     }
 
     /**

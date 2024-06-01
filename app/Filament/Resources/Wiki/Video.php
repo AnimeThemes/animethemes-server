@@ -9,6 +9,7 @@ use App\Enums\Models\Wiki\VideoSource;
 use App\Filament\Actions\Models\Wiki\Video\BackfillAudioAction;
 use App\Filament\Actions\Storage\Wiki\Video\DeleteVideoAction;
 use App\Filament\Actions\Storage\Wiki\Video\MoveVideoAction;
+use App\Filament\BulkActions\Discord\DiscordVideoNotificationBulkAction;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\Select;
 use App\Filament\Components\Filters\NumberFilter;
@@ -24,6 +25,7 @@ use App\Filament\Resources\Wiki\Video\RelationManagers\TrackVideoRelationManager
 use App\Filament\TableActions\Repositories\Storage\Wiki\Video\ReconcileVideoTableAction;
 use App\Filament\TableActions\Storage\Wiki\Video\UploadVideoTableAction;
 use App\Http\Resources\Wiki\Resource\AudioResource;
+use App\Models\Discord\DiscordThread;
 use App\Models\Wiki\Audio as AudioModel;
 use App\Models\Wiki\Video as VideoModel;
 use Filament\Forms\Components\Checkbox;
@@ -34,6 +36,7 @@ use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Support\Enums\MaxWidth;
 use Filament\Tables\Actions\ActionGroup;
+use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
@@ -408,7 +411,14 @@ class Video extends BaseResource
     {
         return array_merge(
             parent::getBulkActions(),
-            [],
+            [
+                BulkActionGroup::make([
+                    DiscordVideoNotificationBulkAction::make('discord-notification')
+                        ->label(__('filament.bulk_actions.discord.notification.name'))
+                        ->requiresConfirmation()
+                        ->authorize('create', DiscordThread::class),
+                ]),
+            ],
         );
     }
 

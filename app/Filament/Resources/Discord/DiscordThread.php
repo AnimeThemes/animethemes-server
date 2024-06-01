@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Resources\Discord;
 
 use App\Filament\Components\Columns\TextColumn;
+use App\Filament\Components\Fields\Select;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Discord\DiscordThread\Pages\CreateDiscordThread;
@@ -128,11 +129,24 @@ class DiscordThread extends BaseResource
     {
         return $form
             ->schema([
+                TextInput::make(DiscordThreadModel::ATTRIBUTE_ID)
+                    ->label(__('filament.fields.discord_thread.id.name'))
+                    ->helperText(__('filament.fields.discord_thread.id.help'))
+                    ->integer()
+                    ->required()
+                    ->rules(['required', 'integer']),
+
                 TextInput::make(DiscordThreadModel::ATTRIBUTE_NAME)
                     ->label(__('filament.fields.discord_thread.name.name'))
                     ->helperText(__('filament.fields.discord_thread.name.help'))
                     ->required()
                     ->rules(['required', 'string']),
+
+                Select::make(DiscordThreadModel::ATTRIBUTE_ANIME)
+                    ->label(__('filament.resources.singularLabel.anime'))
+                    ->relationship(DiscordThreadModel::RELATION_ANIME, Anime::ATTRIBUTE_NAME)
+                    ->required()
+                    ->useScout(Anime::class),
             ]);
     }
 

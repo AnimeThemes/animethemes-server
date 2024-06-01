@@ -410,6 +410,19 @@ return [
             'forcedelete' => 'Force Delete Selected',
             'restore' => 'Restore Selected',
         ],
+        'discord' => [
+            'notification' => [
+                'name' => 'Create Discord Notification',
+                'type' => [
+                    'help' => 'Are they new videos or replacement?',
+                    'name' => 'Type',
+                    'options' => [
+                        'added' => 'Added',
+                        'updated' => 'Updated',
+                    ],
+                ],
+            ],
+        ],
     ],
     'dashboards' => [
         'icon' => [
@@ -563,6 +576,10 @@ return [
             'updated_at' => 'Updated At',
         ],
         'discord_thread' => [
+            'id' => [
+                'help' => 'The thread ID on Discord',
+                'name' => 'Thread ID',
+            ],
             'name' => [
                 'help' => 'The name of the thread on Discord',
                 'name' => 'Name',
