@@ -253,12 +253,16 @@ class Anime extends BaseResource
                     ->label(__('filament.fields.anime.name.name'))
                     ->sortable()
                     ->copyableWithMessage()
-                    ->toggleable(),
+                    ->toggleable()
+                    ->limit(50)
+                    ->tooltip(fn (TextColumn $column) => $column->getState()),
 
                 TextColumn::make(AnimeModel::ATTRIBUTE_SLUG)
                     ->label(__('filament.fields.anime.slug.name'))
                     ->sortable()
-                    ->toggleable(),
+                    ->toggleable()
+                    ->limit(20)
+                    ->tooltip(fn (TextColumn $column) => $column->getState()),
 
                 TextColumn::make(AnimeModel::ATTRIBUTE_YEAR)
                     ->label(__('filament.fields.anime.year.name'))
