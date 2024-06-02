@@ -11,6 +11,9 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 
+/**
+ * Class DiscordThreadAction.
+ */
 class DiscordThreadAction
 {
     /**
