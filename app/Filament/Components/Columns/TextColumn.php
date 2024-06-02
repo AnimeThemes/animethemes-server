@@ -31,7 +31,6 @@ class TextColumn extends ColumnsTextColumn
         return $this
             ->weight(FontWeight::SemiBold)
             ->html()
-            ->hiddenOn(BaseRelationManager::class)
             ->url(function (BaseModel $record) use ($resourceRelated, $relation, $shouldUseName, $limit) {
                 foreach (explode('.', $relation) as $element) {
                     $record = Arr::get($record, $element);

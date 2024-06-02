@@ -196,12 +196,14 @@ class Song extends BaseResource
                 TextColumn::make(SongResource::ATTRIBUTE_AS)
                     ->label(__('filament.fields.song.resources.as.name'))
                     ->visibleOn(SongResourceRelationManager::class)
-                    ->toggleable(),
+                    ->toggleable()
+                    ->placeholder('-'),
 
                 TextColumn::make(ArtistSong::ATTRIBUTE_AS)
                     ->label(__('filament.fields.artist.songs.as.name'))
                     ->visibleOn(SongArtistRelationManager::class)
-                    ->toggleable(),
+                    ->toggleable()
+                    ->placeholder('-'),
             ])
             ->searchable()
             ->defaultSort(SongModel::ATTRIBUTE_ID, 'desc')

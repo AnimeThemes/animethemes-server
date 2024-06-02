@@ -197,7 +197,8 @@ class ExternalResource extends BaseResource
 
                 TextColumn::make(AnimeResource::ATTRIBUTE_AS)
                     ->label(__('filament.fields.anime.resources.as.name'))
-                    ->visibleOn(BaseRelationManager::class),
+                    ->visibleOn(BaseRelationManager::class)
+                    ->placeholder('-'),
             ])
             ->defaultSort(ExternalResourceModel::ATTRIBUTE_ID, 'desc')
             ->filters(static::getFilters())

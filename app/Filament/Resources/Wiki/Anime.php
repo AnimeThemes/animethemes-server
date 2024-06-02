@@ -291,7 +291,8 @@ class Anime extends BaseResource
 
                 TextColumn::make(AnimeResource::ATTRIBUTE_AS)
                     ->label(__('filament.fields.anime.resources.as.name'))
-                    ->visibleOn(AnimeResourceRelationManager::class),
+                    ->visibleOn(AnimeResourceRelationManager::class)
+                    ->placeholder('-'),
             ])
             ->searchable()
             ->defaultSort(AnimeModel::ATTRIBUTE_ID, 'desc')
