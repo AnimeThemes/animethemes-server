@@ -28,7 +28,7 @@ class FeaturePolicy
     {
         return Nova::whenServing(
             fn (): bool => $user !== null && $user->can(CrudPermission::VIEW->format(Feature::class)),
-            fn (): bool => true
+            fn (): bool => Filament::isServing() ? $user !== null && $user->can(CrudPermission::VIEW->format(Feature::class)) : true
         );
     }
 

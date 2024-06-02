@@ -271,7 +271,8 @@ class Dump extends BaseResource
                 PruneDumpTableAction::make('prune-dump')
                     ->label(__('filament.actions.dump.prune.name'))
                     ->icon(__('filament.table_actions.dump.prune.icon'))
-                    ->requiresConfirmation(),
+                    ->requiresConfirmation()
+                    ->authorize('delete', DumpModel::class),
 
                 ReconcileDumpTableAction::make('reconcile-dump')
                     ->label(__('filament.actions.repositories.name', ['label' => __('filament.resources.label.dumps')]))

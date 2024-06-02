@@ -381,7 +381,7 @@ class Video extends BaseResource
                         ->label(__('filament.actions.video.backfill.name'))
                         ->requiresConfirmation()
                         ->modalWidth(MaxWidth::TwoExtraLarge)
-                        ->authorize('update', VideoModel::class),
+                        ->authorize('create', VideoModel::class),
 
                     MoveVideoAction::make('move-video')
                         ->label(__('filament.actions.video.move.name'))
