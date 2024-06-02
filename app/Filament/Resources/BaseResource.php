@@ -129,12 +129,12 @@ abstract class BaseResource extends Resource
                 ForceDeleteAction::make()
                     ->label(__('filament.actions.base.forcedelete'))
                     ->visible(true),
-
-                RestoreAction::make()
-                    ->label(__('filament.actions.base.restore')),
             ])
                 ->icon('heroicon-o-trash')
                 ->color('danger'),
+
+            RestoreAction::make()
+                ->label(__('filament.actions.base.restore')),
         ];
     }
 
