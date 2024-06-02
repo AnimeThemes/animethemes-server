@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *
  * @property Anime $anime
  * @property int $anime_id
- * @property int $thread_id
+ * @property string $thread_id
  * @property string $name
  *
  * @method static DiscordThreadFactory factory(...$parameters)
