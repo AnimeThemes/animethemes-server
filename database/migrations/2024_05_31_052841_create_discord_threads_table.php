@@ -20,7 +20,7 @@ return new class extends Migration
             Schema::create(DiscordThread::TABLE, function (Blueprint $table) {
                 $table->timestamps(6);
                 $table->softDeletes(BaseModel::ATTRIBUTE_DELETED_AT, 6);
-                $table->bigInteger(DiscordThread::ATTRIBUTE_ID)->primary();
+                $table->string(DiscordThread::ATTRIBUTE_ID)->primary();
                 $table->string(DiscordThread::ATTRIBUTE_NAME);
 
                 $table->unsignedBigInteger(DiscordThread::ATTRIBUTE_ANIME);
