@@ -146,9 +146,11 @@ class Group extends BaseResource
                             'required',
                             'max:192',
                             'alpha_dash',
-                            Rule::unique(GroupModel::class)
-                                ->ignore($record->getKey(), GroupModel::ATTRIBUTE_ID)
-                                ->__toString(),
+                            $record !== null
+                                ? Rule::unique(GroupModel::class)
+                                    ->ignore($record->getKey(), GroupModel::ATTRIBUTE_ID)
+                                    ->__toString()
+                                : null,
                         ]
                     ]),
             ])

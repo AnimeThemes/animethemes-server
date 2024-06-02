@@ -32,7 +32,6 @@ use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Support\Enums\MaxWidth;
 use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
@@ -175,9 +174,11 @@ class Artist extends BaseResource
                             'required',
                             'max:192',
                             'alpha_dash',
-                            Rule::unique(ArtistModel::class)
-                                ->ignore($record->getKey(), ArtistModel::ATTRIBUTE_ID)
-                                ->__toString(),
+                            $record !== null
+                                ? Rule::unique(ArtistModel::class)
+                                    ->ignore($record->getKey(), ArtistModel::ATTRIBUTE_ID)
+                                    ->__toString()
+                                : null,
                         ]
                     ]),
 

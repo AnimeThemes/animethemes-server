@@ -186,9 +186,11 @@ class Anime extends BaseResource
                             'required',
                             'max:192',
                             'alpha_dash',
-                            Rule::unique(AnimeModel::class)
-                                ->ignore($record->getKey(), AnimeModel::ATTRIBUTE_ID)
-                                ->__toString(),
+                            $record !== null
+                                ? Rule::unique(AnimeModel::class)
+                                    ->ignore($record->getKey(), AnimeModel::ATTRIBUTE_ID)
+                                    ->__toString()
+                                : null,
                         ]
                     ]),
 
