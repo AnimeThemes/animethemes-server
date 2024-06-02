@@ -150,13 +150,17 @@ abstract class BaseResource extends Resource
         return [
             BulkActionGroup::make([
                 DeleteBulkAction::make()
-                    ->label(__('filament.bulk_actions.base.delete')),
+                    ->label(__('filament.bulk_actions.base.delete'))
+                    ->authorize('delete', (new static::$model)),
 
                 ForceDeleteBulkAction::make()
-                    ->label(__('filament.bulk_actions.base.forcedelete')),
+                    ->label(__('filament.bulk_actions.base.forcedelete'))
+                    ->hidden(false)
+                    ->authorize('forcedelete', (new static::$model)),
 
                 RestoreBulkAction::make()
-                    ->label(__('filament.bulk_actions.base.restore')),
+                    ->label(__('filament.bulk_actions.base.restore'))
+                    ->authorize('restore', (new static::$model)),
             ]),
         ];
     }
