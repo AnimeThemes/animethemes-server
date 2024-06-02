@@ -162,9 +162,11 @@ class Series extends BaseResource
                             'required',
                             'max:192',
                             'alpha_dash',
-                            Rule::unique(SeriesModel::class)
-                                ->ignore($record->getKey(), SeriesModel::ATTRIBUTE_ID)
-                                ->__toString(),
+                            $record !== null
+                                ? Rule::unique(SeriesModel::class)
+                                    ->ignore($record->getKey(), SeriesModel::ATTRIBUTE_ID)
+                                    ->__toString()
+                                : null,
                         ]
                     ]),
             ])

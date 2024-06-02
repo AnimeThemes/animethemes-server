@@ -138,9 +138,11 @@ class Page extends BaseResource
                             'required',
                             'max:192',
                             'regex:/^[\pL\pM\pN\/_-]+$/u',
-                            Rule::unique(PageModel::class)
-                                ->ignore($record->getKey(), PageModel::ATTRIBUTE_ID)
-                                ->__toString(),
+                            $record !== null
+                                ? Rule::unique(PageModel::class)
+                                    ->ignore($record->getKey(), PageModel::ATTRIBUTE_ID)
+                                    ->__toString()
+                                : null,
                         ]
                     ]),
 

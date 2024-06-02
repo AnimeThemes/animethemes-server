@@ -149,9 +149,11 @@ class Studio extends BaseResource
                             'required',
                             'max:192',
                             'alpha_dash',
-                            Rule::unique(StudioModel::class)
-                                ->ignore($record->getKey(), StudioModel::ATTRIBUTE_ID)
-                                ->__toString(),
+                            $record !== null
+                                ? Rule::unique(StudioModel::class)
+                                    ->ignore($record->getKey(), StudioModel::ATTRIBUTE_ID)
+                                    ->__toString()
+                                : null,
                         ]
                     ]),
 
