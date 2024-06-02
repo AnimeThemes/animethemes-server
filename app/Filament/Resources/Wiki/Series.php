@@ -157,6 +157,7 @@ class Series extends BaseResource
                     ->helperText(__('filament.fields.series.slug.help'))
                     ->required()
                     ->maxLength(192)
+                    ->unique(SeriesModel::class, SeriesModel::ATTRIBUTE_SLUG, ignoreRecord: true)
                     ->rules([
                         fn ($record) => [
                             'required',
@@ -166,7 +167,7 @@ class Series extends BaseResource
                                 ? Rule::unique(SeriesModel::class)
                                     ->ignore($record->getKey(), SeriesModel::ATTRIBUTE_ID)
                                     ->__toString()
-                                : null,
+                                : Rule::unique(SeriesModel::class)->__toString(),
                         ]
                     ]),
             ])

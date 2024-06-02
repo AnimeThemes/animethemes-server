@@ -18,6 +18,7 @@ use App\Filament\Resources\Wiki\Anime\Theme\Entry\Pages\EditEntry;
 use App\Filament\Resources\Wiki\Anime\Theme\Entry\Pages\ListEntries;
 use App\Filament\Resources\Wiki\Anime\Theme\Entry\Pages\ViewEntry;
 use App\Filament\Resources\Wiki\Anime\Theme\Entry\RelationManagers\VideoEntryRelationManager;
+use App\Filament\Resources\Wiki\Anime\Theme\RelationManagers\EntryThemeRelationManager;
 use App\Models\Wiki\Anime as AnimeModel;
 use App\Models\Wiki\Anime\AnimeTheme as ThemeModel;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry as EntryModel;
@@ -32,7 +33,6 @@ use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Log;
 
 /**
  * Class Entry.
@@ -241,6 +241,7 @@ class Entry extends BaseResource
                     ->label(__('filament.resources.singularLabel.anime_theme'))
                     ->toggleable()
                     ->placeholder('-')
+                    ->hiddenOn(EntryThemeRelationManager::class)
                     ->urlToRelated(ThemeResource::class, EntryModel::RELATION_THEME, true),
 
                 TextColumn::make(EntryModel::ATTRIBUTE_ID)

@@ -9,6 +9,7 @@ use App\Filament\Actions\Models\Wiki\Song\AttachSongResourceAction;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\BaseResource;
+use App\Filament\Resources\Wiki\Artist\RelationManagers\SongArtistRelationManager;
 use App\Filament\Resources\Wiki\ExternalResource\RelationManagers\SongResourceRelationManager;
 use App\Filament\Resources\Wiki\Song\Pages\CreateSong;
 use App\Filament\Resources\Wiki\Song\Pages\EditSong;
@@ -18,6 +19,7 @@ use App\Filament\Resources\Wiki\Song\RelationManagers\ArtistSongRelationManager;
 use App\Filament\Resources\Wiki\Song\RelationManagers\ResourceSongRelationManager;
 use App\Filament\Resources\Wiki\Song\RelationManagers\ThemeSongRelationManager;
 use App\Models\Wiki\Song as SongModel;
+use App\Pivots\Wiki\ArtistSong;
 use App\Pivots\Wiki\SongResource;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
@@ -160,6 +162,12 @@ class Song extends BaseResource
                     ->helperText(__('filament.fields.song.resources.as.help'))
                     ->visibleOn(SongResourceRelationManager::class)
                     ->placeholder('-'),
+
+                TextInput::make(ArtistSong::ATTRIBUTE_AS)
+                    ->label(__('filament.fields.artist.songs.as.name'))
+                    ->helperText(__('filament.fields.artist.songs.as.help'))
+                    ->visibleOn(SongArtistRelationManager::class)
+                    ->placeholder('-'),
             ]);
     }
 
@@ -188,7 +196,14 @@ class Song extends BaseResource
                 TextColumn::make(SongResource::ATTRIBUTE_AS)
                     ->label(__('filament.fields.song.resources.as.name'))
                     ->visibleOn(SongResourceRelationManager::class)
-                    ->toggleable(),
+                    ->toggleable()
+                    ->placeholder('-'),
+
+                TextColumn::make(ArtistSong::ATTRIBUTE_AS)
+                    ->label(__('filament.fields.artist.songs.as.name'))
+                    ->visibleOn(SongArtistRelationManager::class)
+                    ->toggleable()
+                    ->placeholder('-'),
             ])
             ->searchable()
             ->defaultSort(SongModel::ATTRIBUTE_ID, 'desc')

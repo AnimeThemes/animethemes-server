@@ -10,6 +10,7 @@ use App\Filament\Components\Fields\Select;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\List\Playlist as PlaylistResource;
+use App\Filament\Resources\List\Playlist\RelationManagers\TrackPlaylistRelationManager;
 use App\Filament\Resources\List\Playlist\Track\Pages\CreateTrack;
 use App\Filament\Resources\List\Playlist\Track\Pages\EditTrack;
 use App\Filament\Resources\List\Playlist\Track\Pages\ListTracks;
@@ -166,6 +167,7 @@ class Track extends BaseResource
                 TextColumn::make(TrackModel::RELATION_PLAYLIST.'.'.PlaylistModel::ATTRIBUTE_NAME)
                     ->label(__('filament.resources.singularLabel.playlist'))
                     ->toggleable()
+                    ->hiddenOn(TrackPlaylistRelationManager::class)
                     ->urlToRelated(PlaylistResource::class, TrackModel::RELATION_PLAYLIST),
 
                 TextColumn::make(TrackModel::RELATION_VIDEO.'.'.VideoModel::ATTRIBUTE_FILENAME)

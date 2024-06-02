@@ -141,6 +141,7 @@ class Group extends BaseResource
                     ->helperText(__('filament.fields.group.slug.help'))
                     ->required()
                     ->maxLength(192)
+                    ->unique(GroupModel::class, GroupModel::ATTRIBUTE_SLUG, ignoreRecord: true)
                     ->rules([
                         fn ($record) => [
                             'required',
@@ -150,7 +151,7 @@ class Group extends BaseResource
                                 ? Rule::unique(GroupModel::class)
                                     ->ignore($record->getKey(), GroupModel::ATTRIBUTE_ID)
                                     ->__toString()
-                                : null,
+                                : Rule::unique(GroupModel::class)->__toString(),
                         ]
                     ]),
             ])

@@ -37,7 +37,7 @@ class EditVideo extends BaseEditResource
                         ->label(__('filament.actions.video.backfill.name'))
                         ->requiresConfirmation()
                         ->modalWidth(MaxWidth::TwoExtraLarge)
-                        ->authorize('update', VideoModel::class),
+                        ->authorize('create', VideoModel::class),
 
                     MoveVideoHeaderAction::make('move-video')
                         ->label(__('filament.actions.video.move.name'))

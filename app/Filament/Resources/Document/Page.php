@@ -131,6 +131,7 @@ class Page extends BaseResource
                     ->label(__('filament.fields.page.slug.name'))
                     ->helperText(__('filament.fields.page.slug.help'))
                     ->required()
+                    ->unique(PageModel::class, PageModel::ATTRIBUTE_SLUG, ignoreRecord: true)
                     ->maxLength(192)
                     ->regex('/^[\pL\pM\pN\/_-]+$/u')
                     ->rules([
@@ -142,7 +143,7 @@ class Page extends BaseResource
                                 ? Rule::unique(PageModel::class)
                                     ->ignore($record->getKey(), PageModel::ATTRIBUTE_ID)
                                     ->__toString()
-                                : null,
+                                : Rule::unique(PageModel::class)->__toString(),
                         ]
                     ]),
 

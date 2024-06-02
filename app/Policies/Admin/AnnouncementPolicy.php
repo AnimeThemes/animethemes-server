@@ -8,6 +8,7 @@ use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\ExtendedCrudPermission;
 use App\Models\Admin\Announcement;
 use App\Models\Auth\User;
+use Filament\Facades\Filament;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Laravel\Nova\Nova;
 
@@ -28,7 +29,7 @@ class AnnouncementPolicy
     {
         return Nova::whenServing(
             fn (): bool => $user !== null && $user->can(CrudPermission::VIEW->format(Announcement::class)),
-            fn (): bool => true
+            fn (): bool => Filament::isServing() ? $user !== null && $user->can(CrudPermission::VIEW->format(Announcement::class)) : true
         );
     }
 
@@ -42,7 +43,7 @@ class AnnouncementPolicy
     {
         return Nova::whenServing(
             fn (): bool => $user !== null && $user->can(CrudPermission::VIEW->format(Announcement::class)),
-            fn (): bool => true
+            fn (): bool => Filament::isServing() ? $user !== null && $user->can(CrudPermission::VIEW->format(Announcement::class)) : true
         );
     }
 

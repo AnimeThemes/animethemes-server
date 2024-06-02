@@ -12,6 +12,7 @@ use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\BaseRelationManager;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Anime as AnimeResource;
+use App\Filament\Resources\Wiki\Anime\RelationManagers\ThemeAnimeRelationManager;
 use App\Filament\Resources\Wiki\Anime\Theme\Pages\CreateTheme;
 use App\Filament\Resources\Wiki\Anime\Theme\Pages\EditTheme;
 use App\Filament\Resources\Wiki\Anime\Theme\Pages\ListThemes;
@@ -19,6 +20,7 @@ use App\Filament\Resources\Wiki\Anime\Theme\Pages\ViewTheme;
 use App\Filament\Resources\Wiki\Anime\Theme\RelationManagers\EntryThemeRelationManager;
 use App\Filament\Resources\Wiki\Group as GroupResource;
 use App\Filament\Resources\Wiki\Song as SongResource;
+use App\Filament\Resources\Wiki\Song\RelationManagers\ThemeSongRelationManager;
 use App\Models\Wiki\Anime as AnimeModel;
 use App\Models\Wiki\Anime\AnimeTheme as ThemeModel;
 use App\Models\Wiki\Group;
@@ -219,6 +221,7 @@ class Theme extends BaseResource
                 TextColumn::make(ThemeModel::RELATION_ANIME.'.'.AnimeModel::ATTRIBUTE_NAME)
                     ->label(__('filament.resources.singularLabel.anime'))
                     ->toggleable()
+                    ->hiddenOn(ThemeAnimeRelationManager::class)
                     ->urlToRelated(AnimeResource::class, ThemeModel::RELATION_ANIME, limit: 30)
                     ->tooltip(fn (TextColumn $column) => $column->getState()),
 
@@ -253,6 +256,7 @@ class Theme extends BaseResource
                     ->label(__('filament.resources.singularLabel.song'))
                     ->toggleable()
                     ->placeholder('-')
+                    ->hiddenOn(ThemeSongRelationManager::class)
                     ->urlToRelated(SongResource::class, ThemeModel::RELATION_SONG, limit: 30)
                     ->tooltip(fn (TextColumn $column) => $column->getState()),
             ])

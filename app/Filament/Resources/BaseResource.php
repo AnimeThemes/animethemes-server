@@ -8,6 +8,7 @@ use App\Filament\Components\Filters\DateFilter;
 use App\Models\BaseModel;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Resources\Resource;
+use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\DeleteBulkAction;
@@ -121,11 +122,16 @@ abstract class BaseResource extends Resource
             EditAction::make()
                 ->label(__('filament.actions.base.edit')),
 
-            DeleteAction::make()
-                ->label(__('filament.actions.base.delete')),
+            ActionGroup::make([
+                DeleteAction::make()
+                    ->label(__('filament.actions.base.delete')),
 
-            ForceDeleteAction::make()
-                ->label(__('filament.actions.base.forcedelete')),
+                ForceDeleteAction::make()
+                    ->label(__('filament.actions.base.forcedelete'))
+                    ->visible(true),
+            ])
+                ->icon('heroicon-o-trash')
+                ->color('danger'),
 
             RestoreAction::make()
                 ->label(__('filament.actions.base.restore')),
@@ -144,13 +150,17 @@ abstract class BaseResource extends Resource
         return [
             BulkActionGroup::make([
                 DeleteBulkAction::make()
-                    ->label(__('filament.bulk_actions.base.delete')),
+                    ->label(__('filament.bulk_actions.base.delete'))
+                    ->authorize('delete', (new static::$model)),
 
                 ForceDeleteBulkAction::make()
-                    ->label(__('filament.bulk_actions.base.forcedelete')),
+                    ->label(__('filament.bulk_actions.base.forcedelete'))
+                    ->hidden(false)
+                    ->authorize('forcedelete', (new static::$model)),
 
                 RestoreBulkAction::make()
-                    ->label(__('filament.bulk_actions.base.restore')),
+                    ->label(__('filament.bulk_actions.base.restore'))
+                    ->authorize('restore', (new static::$model)),
             ]),
         ];
     }

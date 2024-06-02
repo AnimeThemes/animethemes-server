@@ -11,6 +11,7 @@ use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\BaseRelationManager;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Anime as AnimeResource;
+use App\Filament\Resources\Wiki\Anime\RelationManagers\SynonymAnimeRelationManager;
 use App\Filament\Resources\Wiki\Anime\Synonym\Pages\CreateSynonym;
 use App\Filament\Resources\Wiki\Anime\Synonym\Pages\EditSynonym;
 use App\Filament\Resources\Wiki\Anime\Synonym\Pages\ListSynonyms;
@@ -163,6 +164,7 @@ class Synonym extends BaseResource
                 TextColumn::make(SynonymModel::RELATION_ANIME.'.'.AnimeModel::ATTRIBUTE_NAME)
                     ->label(__('filament.resources.singularLabel.anime'))
                     ->toggleable()
+                    ->hiddenOn(SynonymAnimeRelationManager::class)
                     ->urlToRelated(AnimeResource::class, SynonymModel::RELATION_ANIME, limit: 40)
                     ->tooltip(fn (TextColumn $column) => $column->getState()),
 

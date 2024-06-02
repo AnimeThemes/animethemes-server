@@ -21,8 +21,10 @@ use App\Filament\Resources\Wiki\Artist\RelationManagers\MemberArtistRelationMana
 use App\Filament\Resources\Wiki\Artist\RelationManagers\ResourceArtistRelationManager;
 use App\Filament\Resources\Wiki\Artist\RelationManagers\SongArtistRelationManager;
 use App\Filament\Resources\Wiki\ExternalResource\RelationManagers\ArtistResourceRelationManager;
+use App\Filament\Resources\Wiki\Song\RelationManagers\ArtistSongRelationManager;
 use App\Models\Wiki\Artist as ArtistModel;
 use App\Pivots\Wiki\ArtistResource;
+use App\Pivots\Wiki\ArtistSong;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Forms\Set;
@@ -169,16 +171,17 @@ class Artist extends BaseResource
                     ->helperText(__('filament.fields.artist.slug.help'))
                     ->required()
                     ->maxLength(192)
+                    ->unique(ArtistModel::class, ArtistModel::ATTRIBUTE_SLUG, ignoreRecord: true)
                     ->rules([
                         fn ($record) => [
                             'required',
                             'max:192',
                             'alpha_dash',
-                            $record !== null
+                            $record instanceof ArtistModel
                                 ? Rule::unique(ArtistModel::class)
                                     ->ignore($record->getKey(), ArtistModel::ATTRIBUTE_ID)
                                     ->__toString()
-                                : null,
+                                : Rule::unique(ArtistModel::class)->__toString(),
                         ]
                     ]),
 
@@ -186,6 +189,11 @@ class Artist extends BaseResource
                     ->label(__('filament.fields.artist.resources.as.name'))
                     ->helperText(__('filament.fields.artist.resources.as.help'))
                     ->visibleOn(ArtistResourceRelationManager::class),
+
+                TextInput::make(ArtistSong::ATTRIBUTE_AS)
+                    ->label(__('filament.fields.artist.songs.as.name'))
+                    ->helperText(__('filament.fields.artist.songs.as.help'))
+                    ->visibleOn(ArtistSongRelationManager::class),
             ])
             ->columns(2);
     }
@@ -220,6 +228,11 @@ class Artist extends BaseResource
                 TextColumn::make(ArtistResource::ATTRIBUTE_AS)
                     ->label(__('filament.fields.artist.resources.as.name'))
                     ->visibleOn(ArtistResourceRelationManager::class)
+                    ->placeholder('-'),
+
+                TextColumn::make(ArtistSong::ATTRIBUTE_AS)
+                    ->label(__('filament.fields.artist.songs.as.name'))
+                    ->visibleOn(ArtistSongRelationManager::class)
                     ->placeholder('-'),
             ])
             ->searchable()
