@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Base;
 
-use Filament\Actions\DeleteAction as ActionsDeleteAction;
-use Filament\Actions\ForceDeleteAction as ActionsForceDeleteAction;
-use Filament\Actions\RestoreAction as ActionsRestoreAction;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\ForceDeleteAction;
+use Filament\Actions\RestoreAction;
 use Filament\Actions\ViewAction;
 use Filament\Resources\Pages\EditRecord;
 
@@ -25,10 +25,18 @@ abstract class BaseEditResource extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            ViewAction::make(),
-            ActionsDeleteAction::make(),
-            ActionsForceDeleteAction::make(),
-            ActionsRestoreAction::make(),
+            ViewAction::make()
+                ->label(__('filament.actions.base.view')),
+
+            DeleteAction::make()
+                ->label(__('filament.actions.base.delete')),
+
+            ForceDeleteAction::make()
+                ->label(__('filament.actions.base.forcedelete'))
+                ->visible(true),
+
+            RestoreAction::make()
+                ->label(__('filament.actions.base.restore')),
         ];
     }
 }

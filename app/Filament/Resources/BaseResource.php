@@ -8,6 +8,7 @@ use App\Filament\Components\Filters\DateFilter;
 use App\Models\BaseModel;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Resources\Resource;
+use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\DeleteBulkAction;
@@ -121,14 +122,19 @@ abstract class BaseResource extends Resource
             EditAction::make()
                 ->label(__('filament.actions.base.edit')),
 
-            DeleteAction::make()
-                ->label(__('filament.actions.base.delete')),
+            ActionGroup::make([
+                DeleteAction::make()
+                    ->label(__('filament.actions.base.delete')),
 
-            ForceDeleteAction::make()
-                ->label(__('filament.actions.base.forcedelete')),
+                ForceDeleteAction::make()
+                    ->label(__('filament.actions.base.forcedelete'))
+                    ->visible(true),
 
-            RestoreAction::make()
-                ->label(__('filament.actions.base.restore')),
+                RestoreAction::make()
+                    ->label(__('filament.actions.base.restore')),
+            ])
+                ->icon('heroicon-o-trash')
+                ->color('danger'),
         ];
     }
 
