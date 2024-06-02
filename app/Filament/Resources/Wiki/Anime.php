@@ -181,6 +181,7 @@ class Anime extends BaseResource
                     ->label(__('filament.fields.anime.slug.name'))
                     ->helperText(__('filament.fields.anime.slug.help'))
                     ->required()
+                    ->unique(AnimeModel::class, AnimeModel::ATTRIBUTE_SLUG, ignoreRecord: true)
                     ->rules([
                         fn ($record) => [
                             'required',
@@ -190,7 +191,7 @@ class Anime extends BaseResource
                                 ? Rule::unique(AnimeModel::class)
                                     ->ignore($record->getKey(), AnimeModel::ATTRIBUTE_ID)
                                     ->__toString()
-                                : null,
+                                : Rule::unique(AnimeModel::class)->__toString(),
                         ]
                     ]),
 

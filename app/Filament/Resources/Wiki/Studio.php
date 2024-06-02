@@ -144,6 +144,7 @@ class Studio extends BaseResource
                     ->helperText(__('filament.fields.studio.slug.help'))
                     ->required()
                     ->maxLength(192)
+                    ->unique(StudioModel::class, StudioModel::ATTRIBUTE_SLUG, ignoreRecord: true)
                     ->rules([
                         fn ($record) => [
                             'required',
@@ -153,7 +154,7 @@ class Studio extends BaseResource
                                 ? Rule::unique(StudioModel::class)
                                     ->ignore($record->getKey(), StudioModel::ATTRIBUTE_ID)
                                     ->__toString()
-                                : null,
+                                : Rule::unique(StudioModel::class)->__toString(),
                         ]
                     ]),
 

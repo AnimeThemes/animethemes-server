@@ -171,16 +171,17 @@ class Artist extends BaseResource
                     ->helperText(__('filament.fields.artist.slug.help'))
                     ->required()
                     ->maxLength(192)
+                    ->unique(ArtistModel::class, ArtistModel::ATTRIBUTE_SLUG, ignoreRecord: true)
                     ->rules([
                         fn ($record) => [
                             'required',
                             'max:192',
                             'alpha_dash',
-                            $record !== null
+                            $record instanceof ArtistModel
                                 ? Rule::unique(ArtistModel::class)
                                     ->ignore($record->getKey(), ArtistModel::ATTRIBUTE_ID)
                                     ->__toString()
-                                : null,
+                                : Rule::unique(ArtistModel::class)->__toString(),
                         ]
                     ]),
 
