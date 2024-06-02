@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Base;
 
+use Filament\Actions\ActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\ForceDeleteAction;
 use Filament\Actions\RestoreAction;
@@ -28,15 +29,19 @@ abstract class BaseEditResource extends EditRecord
             ViewAction::make()
                 ->label(__('filament.actions.base.view')),
 
-            DeleteAction::make()
-                ->label(__('filament.actions.base.delete')),
+            ActionGroup::make([
+                DeleteAction::make()
+                    ->label(__('filament.actions.base.delete')),
 
-            ForceDeleteAction::make()
-                ->label(__('filament.actions.base.forcedelete'))
-                ->visible(true),
+                ForceDeleteAction::make()
+                    ->label(__('filament.actions.base.forcedelete'))
+                    ->visible(true),
 
-            RestoreAction::make()
-                ->label(__('filament.actions.base.restore')),
+                RestoreAction::make()
+                    ->label(__('filament.actions.base.restore')),
+            ])
+                ->icon('heroicon-o-trash')
+                ->color('danger'),
         ];
     }
 }
