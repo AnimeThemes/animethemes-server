@@ -8,6 +8,7 @@ use App\Events\Discord\DiscordThread\DiscordThreadDeleted;
 use App\Events\Discord\DiscordThread\DiscordThreadUpdated;
 use App\Models\BaseModel;
 use App\Models\Wiki\Anime;
+use Database\Factories\Discord\DiscordThreadFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
@@ -17,6 +18,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int $anime_id
  * @property int $thread_id
  * @property string $name
+ *
+ * @method static DiscordThreadFactory factory(...$parameters)
  */
 class DiscordThread extends BaseModel
 {
@@ -54,6 +57,13 @@ class DiscordThread extends BaseModel
     protected $primaryKey = DiscordThread::ATTRIBUTE_ID;
 
     /**
+     * The data type of the primary key ID.
+     *
+     * @var string
+     */
+    protected $keyType = 'string';
+
+    /**
      * The event map for the model.
      *
      * Allows for object-based events for native Eloquent events.
@@ -82,7 +92,7 @@ class DiscordThread extends BaseModel
      */
     public function getSubtitle(): string
     {
-        return $this->getKey();
+        return $this->anime->getName();
     }
 
     /**
