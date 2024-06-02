@@ -24,7 +24,6 @@ use App\Filament\Resources\Wiki\Video\RelationManagers\ScriptVideoRelationManage
 use App\Filament\Resources\Wiki\Video\RelationManagers\TrackVideoRelationManager;
 use App\Filament\TableActions\Repositories\Storage\Wiki\Video\ReconcileVideoTableAction;
 use App\Filament\TableActions\Storage\Wiki\Video\UploadVideoTableAction;
-use App\Http\Resources\Wiki\Resource\AudioResource;
 use App\Models\Discord\DiscordThread;
 use App\Models\Wiki\Audio as AudioModel;
 use App\Models\Wiki\Video as VideoModel;
@@ -290,12 +289,13 @@ class Video extends BaseResource
                         TextEntry::make(VideoModel::RELATION_AUDIO.'.'.AudioModel::ATTRIBUTE_FILENAME)
                             ->label(__('filament.resources.singularLabel.audio'))
                             ->placeholder('-')
-                            ->urlToRelated(AudioResource::class, VideoModel::RELATION_AUDIO),
+                            ->urlToRelated(Audio::class, VideoModel::RELATION_AUDIO),
                     ])
                     ->columns(3),
 
                 Section::make(__('filament.fields.base.timestamps'))
-                    ->schema(parent::timestamps()),
+                    ->schema(parent::timestamps())
+                    ->columns(3),
             ]);
     }
 

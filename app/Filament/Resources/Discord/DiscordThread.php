@@ -13,6 +13,7 @@ use App\Filament\Resources\Discord\DiscordThread\Pages\EditDiscordThread;
 use App\Filament\Resources\Discord\DiscordThread\Pages\ListDiscordThreads;
 use App\Filament\Resources\Discord\DiscordThread\Pages\ViewDiscordThread;
 use App\Filament\Resources\Wiki\Anime as AnimeResource;
+use App\Models\BaseModel;
 use App\Models\Discord\DiscordThread as DiscordThreadModel;
 use App\Models\Wiki\Anime;
 use Filament\Forms\Components\TextInput;
@@ -132,9 +133,10 @@ class DiscordThread extends BaseResource
                 TextInput::make(DiscordThreadModel::ATTRIBUTE_ID)
                     ->label(__('filament.fields.discord_thread.id.name'))
                     ->helperText(__('filament.fields.discord_thread.id.help'))
-                    ->integer()
+                    ->disabledOn(['edit'])
+                    ->formatStateUsing(fn ($state) => strval($state))
                     ->required()
-                    ->rules(['required', 'integer']),
+                    ->rules(['required']),
 
                 TextInput::make(DiscordThreadModel::ATTRIBUTE_NAME)
                     ->label(__('filament.fields.discord_thread.name.name'))
@@ -163,7 +165,7 @@ class DiscordThread extends BaseResource
         return parent::table($table)
             ->columns([
                 TextColumn::make(DiscordThreadModel::ATTRIBUTE_ID)
-                    ->label(__('filament.fields.base.id'))
+                    ->label(__('filament.fields.discord_thread.id.name'))
                     ->sortable(),
 
                 TextColumn::make(DiscordThreadModel::ATTRIBUTE_NAME)
@@ -178,7 +180,7 @@ class DiscordThread extends BaseResource
                     ->urlToRelated(AnimeResource::class, DiscordThreadModel::RELATION_ANIME),
             ])
             ->searchable()
-            ->defaultSort(DiscordThreadModel::ATTRIBUTE_ID, 'desc')
+            ->defaultSort(BaseModel::CREATED_AT, 'desc')
             ->filters(static::getFilters())
             ->filtersFormMaxHeight('400px')
             ->actions(static::getActions())
@@ -200,7 +202,7 @@ class DiscordThread extends BaseResource
                 Section::make(static::getRecordTitle($infolist->getRecord()))
                     ->schema([
                         TextEntry::make(DiscordThreadModel::ATTRIBUTE_ID)
-                            ->label(__('filament.fields.base.id')),
+                            ->label(__('filament.fields.discord_thread.id.name')),
 
                         TextEntry::make(DiscordThreadModel::ATTRIBUTE_NAME)
                             ->label(__('filament.fields.discord_thread.name.name')),
