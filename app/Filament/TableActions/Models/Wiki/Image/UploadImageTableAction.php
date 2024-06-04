@@ -59,10 +59,12 @@ class UploadImageTableAction extends BaseTableAction
                 FileUpload::make(Image::ATTRIBUTE_PATH)
                     ->label(__('filament.fields.image.image.name'))
                     ->required()
+                    ->image()
+                    ->imageEditor()
+                    ->imageEditorAspectRatios([null, '2:3'])
                     ->storeFiles(false),
             ])
             ->columns(1);
-            
     }
 
     /**

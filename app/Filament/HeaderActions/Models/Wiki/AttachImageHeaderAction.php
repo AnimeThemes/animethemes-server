@@ -39,6 +39,8 @@ abstract class AttachImageHeaderAction extends Action
                 $fields[] = FileUpload::make($facet->name)
                     ->label($facet->localize())
                     ->image()
+                    ->imageEditor()
+                    ->imageEditorAspectRatios([null, '2:3'])
                     ->storeFiles(false);
             }
         }
