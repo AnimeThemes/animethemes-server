@@ -85,9 +85,9 @@ class Announcement extends BaseResource
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getSlug(): string
+    public static function getRecordSlug(): string
     {
-        return static::getDefaultSlug().'announcements';
+        return 'announcements';
     }
 
     /**

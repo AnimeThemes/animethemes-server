@@ -199,14 +199,21 @@ abstract class BaseResource extends Resource
     }
 
     /**
-     * Get the default slug (URI key) for the resources.
+     * Get the generic slug (URI key) for the resource.
      *
      * @return string
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    protected static function getDefaultSlug(): string
+    public static function getSlug(): string
     {
-        return 'resources/';
+        return 'resources/' . static::getRecordSlug();
     }
+
+    /**
+     * Get the slug (URI key) for the resource.
+     *
+     * @return string
+     */
+    abstract public static function getRecordSlug(): string;
 }

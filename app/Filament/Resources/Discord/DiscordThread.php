@@ -101,9 +101,9 @@ class DiscordThread extends BaseResource
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getSlug(): string
+    public static function getRecordSlug(): string
     {
-        return static::getDefaultSlug() . 'discord-thread';
+        return 'discord-thread';
     }
 
     /**
@@ -209,6 +209,18 @@ class DiscordThread extends BaseResource
                     ])
                     ->columns(3),
             ]);
+    }
+
+    /**
+     * Get the relationships available for the resource.
+     *
+     * @return array
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getRelations(): array
+    {
+        return [];
     }
 
     /**

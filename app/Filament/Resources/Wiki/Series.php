@@ -102,9 +102,9 @@ class Series extends BaseResource
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getSlug(): string
+    public static function getRecordSlug(): string
     {
-        return static::getDefaultSlug().'series';
+        return 'series';
     }
 
     /**

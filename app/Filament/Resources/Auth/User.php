@@ -96,9 +96,9 @@ class User extends BaseResource
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getSlug(): string
+    public static function getRecordSlug(): string
     {
-        return static::getDefaultSlug().'users';
+        return 'users';
     }
 
     /**

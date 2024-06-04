@@ -139,9 +139,9 @@ class Anime extends BaseResource
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getSlug(): string
+    public static function getRecordSlug(): string
     {
-        return static::getDefaultSlug() . 'anime';
+        return 'anime';
     }
 
     /**

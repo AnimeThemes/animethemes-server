@@ -93,9 +93,9 @@ class Synonym extends BaseResource
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getSlug(): string
+    public static function getRecordSlug(): string
     {
-        return static::getDefaultSlug().'anime-synonyms';
+        return 'anime-synonyms';
     }
 
     /**

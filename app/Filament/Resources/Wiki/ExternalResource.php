@@ -98,9 +98,9 @@ class ExternalResource extends BaseResource
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getSlug(): string
+    public static function getRecordSlug(): string
     {
-        return static::getDefaultSlug().'external-resources';
+        return 'external-resources';
     }
 
     /**

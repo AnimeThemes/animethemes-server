@@ -101,9 +101,9 @@ class Studio extends BaseResource
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getSlug(): string
+    public static function getRecordSlug(): string
     {
-        return static::getDefaultSlug().'studios';
+        return 'studios';
     }
 
     /**

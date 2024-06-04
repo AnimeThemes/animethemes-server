@@ -98,9 +98,9 @@ class FeaturedTheme extends BaseResource
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getSlug(): string
+    public static function getRecordSlug(): string
     {
-        return static::getDefaultSlug().'featured-themes';
+        return 'featured-themes';
     }
 
     /**

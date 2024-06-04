@@ -129,9 +129,9 @@ class Theme extends BaseResource
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getSlug(): string
+    public static function getRecordSlug(): string
     {
-        return static::getDefaultSlug().'anime-themes';
+        return 'anime-themes';
     }
 
     /**
