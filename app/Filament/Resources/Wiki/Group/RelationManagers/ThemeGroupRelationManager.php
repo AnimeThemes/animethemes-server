@@ -52,12 +52,7 @@ class ThemeGroupRelationManager extends BaseRelationManager
             ->recordTitleAttribute(ThemeModel::ATTRIBUTE_SLUG)
             ->inverseRelationship(ThemeModel::RELATION_GROUP)
             ->columns(ThemeResource::table($table)->getColumns())
-            ->defaultSort(ThemeModel::TABLE.'.'.ThemeModel::ATTRIBUTE_ID, 'desc')
-            ->filters(static::getFilters())
-            ->filtersFormMaxHeight('400px')
-            ->headerActions(static::getHeaderActions())
-            ->actions(static::getActions())
-            ->bulkActions(static::getBulkActions());
+            ->defaultSort(ThemeModel::TABLE.'.'.ThemeModel::ATTRIBUTE_ID, 'desc');
     }
 
     /**

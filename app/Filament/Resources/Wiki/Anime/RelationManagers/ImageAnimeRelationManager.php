@@ -52,12 +52,7 @@ class ImageAnimeRelationManager extends BaseRelationManager
             ->recordTitleAttribute(Image::ATTRIBUTE_PATH)
             ->inverseRelationship(Image::RELATION_ANIME)
             ->columns(ImageResource::table($table)->getColumns())
-            ->defaultSort(Image::TABLE.'.'.Image::ATTRIBUTE_ID, 'desc')
-            ->filters(static::getFilters())
-            ->filtersFormMaxHeight('400px')
-            ->headerActions(static::getHeaderActions())
-            ->actions(static::getActions())
-            ->bulkActions(static::getBulkActions());
+            ->defaultSort(Image::TABLE.'.'.Image::ATTRIBUTE_ID, 'desc');
     }
 
     /**

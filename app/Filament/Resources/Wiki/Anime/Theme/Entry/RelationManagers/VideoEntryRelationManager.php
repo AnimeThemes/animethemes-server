@@ -52,12 +52,7 @@ class VideoEntryRelationManager extends BaseRelationManager
             ->recordTitleAttribute(Video::ATTRIBUTE_FILENAME)
             ->inverseRelationship(Video::RELATION_ANIMETHEMEENTRIES)
             ->columns(VideoResource::table($table)->getColumns())
-            ->defaultSort(Video::TABLE.'.'.Video::ATTRIBUTE_ID, 'desc')
-            ->filters(static::getFilters())
-            ->filtersFormMaxHeight('400px')
-            ->headerActions(static::getHeaderActions())
-            ->actions(static::getActions())
-            ->bulkActions(static::getBulkActions());
+            ->defaultSort(Video::TABLE.'.'.Video::ATTRIBUTE_ID, 'desc');
     }
 
     /**

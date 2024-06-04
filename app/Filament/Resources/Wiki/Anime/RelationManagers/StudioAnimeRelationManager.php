@@ -52,12 +52,7 @@ class StudioAnimeRelationManager extends BaseRelationManager
             ->recordTitleAttribute(Studio::ATTRIBUTE_NAME)
             ->inverseRelationship(Studio::RELATION_ANIME)
             ->columns(StudioResource::table($table)->getColumns())
-            ->defaultSort(Studio::TABLE.'.'.Studio::ATTRIBUTE_ID, 'desc')
-            ->filters(static::getFilters())
-            ->filtersFormMaxHeight('400px')
-            ->headerActions(static::getHeaderActions())
-            ->actions(static::getActions())
-            ->bulkActions(static::getBulkActions());
+            ->defaultSort(Studio::TABLE.'.'.Studio::ATTRIBUTE_ID, 'desc');
     }
 
     /**

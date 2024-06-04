@@ -102,9 +102,9 @@ class Series extends BaseResource
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getSlug(): string
+    public static function getRecordSlug(): string
     {
-        return static::getDefaultSlug().'series';
+        return 'series';
     }
 
     /**
@@ -201,12 +201,7 @@ class Series extends BaseResource
                     ->sortable()
                     ->toggleable(),
             ])
-            ->searchable()
-            ->defaultSort(SeriesModel::ATTRIBUTE_ID, 'desc')
-            ->filters(static::getFilters())
-            ->filtersFormMaxHeight('400px')
-            ->actions(static::getActions())
-            ->bulkActions(static::getBulkActions());
+            ->searchable();
     }
 
     /**
@@ -298,6 +293,21 @@ class Series extends BaseResource
     {
         return array_merge(
             parent::getBulkActions(),
+            [],
+        );
+    }
+
+    /**
+     * Get the header actions available for the resource.
+     *
+     * @return array
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getHeaderActions(): array
+    {
+        return array_merge(
+            parent::getHeaderActions(),
             [],
         );
     }

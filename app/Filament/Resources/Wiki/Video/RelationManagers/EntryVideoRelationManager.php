@@ -52,12 +52,7 @@ class EntryVideoRelationManager extends BaseRelationManager
             ->recordTitleAttribute(AnimeThemeEntry::ATTRIBUTE_VERSION)
             ->inverseRelationship(AnimeThemeEntry::RELATION_VIDEOS)
             ->columns(EntryResource::table($table)->getColumns())
-            ->defaultSort(AnimeThemeEntry::TABLE.'.'.AnimeThemeEntry::ATTRIBUTE_ID, 'desc')
-            ->filters(static::getFilters())
-            ->filtersFormMaxHeight('400px')
-            ->headerActions(static::getHeaderActions())
-            ->actions(static::getActions())
-            ->bulkActions(static::getBulkActions());
+            ->defaultSort(AnimeThemeEntry::TABLE.'.'.AnimeThemeEntry::ATTRIBUTE_ID, 'desc');
     }
 
     /**

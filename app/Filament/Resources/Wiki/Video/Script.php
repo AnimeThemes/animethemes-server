@@ -90,9 +90,9 @@ class Script extends BaseResource
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getSlug(): string
+    public static function getRecordSlug(): string
     {
-        return static::getDefaultSlug().'video-scripts';
+        return 'video-scripts';
     }
 
     /**
@@ -146,13 +146,24 @@ class Script extends BaseResource
                     ->label(__('filament.fields.video_script.path'))
                     ->sortable()
                     ->copyableWithMessage(),
-            ])
-            ->defaultSort(ScriptModel::ATTRIBUTE_ID, 'desc')
-            ->filters(static::getFilters())
-            ->filtersFormMaxHeight('400px')
-            ->actions(static::getActions())
-            ->bulkActions(static::getBulkActions())
-            ->headerActions(static::getHeaderActions());
+            ]);
+    }
+
+    /**
+     * Get the infolist available for the resource.
+     *
+     * @param  Infolist  $infolist
+     * @return Infolist
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                Section::make(__('filament.fields.base.timestamps'))
+                    ->schema(parent::timestamps()),
+            ]);
     }
 
     /**
@@ -209,23 +220,6 @@ class Script extends BaseResource
                 ]),
             ],
         );
-    }
-
-    /**
-     * Get the infolist available for the resource.
-     *
-     * @param  Infolist  $infolist
-     * @return Infolist
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    public static function infolist(Infolist $infolist): Infolist
-    {
-        return $infolist
-            ->schema([
-                Section::make(__('filament.fields.base.timestamps'))
-                    ->schema(parent::timestamps()),
-            ]);
     }
 
     /**

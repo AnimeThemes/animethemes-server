@@ -52,12 +52,7 @@ class SeriesAnimeRelationManager extends BaseRelationManager
             ->recordTitleAttribute(Series::ATTRIBUTE_NAME)
             ->inverseRelationship(Series::RELATION_ANIME)
             ->columns(SeriesResource::table($table)->getColumns())
-            ->defaultSort(Series::TABLE.'.'.Series::ATTRIBUTE_ID, 'desc')
-            ->filters(static::getFilters())
-            ->filtersFormMaxHeight('400px')
-            ->headerActions(static::getHeaderActions())
-            ->actions(static::getActions())
-            ->bulkActions(static::getBulkActions());
+            ->defaultSort(Series::TABLE.'.'.Series::ATTRIBUTE_ID, 'desc');
     }
 
     /**

@@ -88,9 +88,9 @@ class Group extends BaseResource
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getSlug(): string
+    public static function getRecordSlug(): string
     {
-        return static::getDefaultSlug().'group';
+        return 'group';
     }
 
     /**
@@ -185,12 +185,7 @@ class Group extends BaseResource
                     ->label(__('filament.fields.group.slug.name'))
                     ->sortable()
                     ->toggleable(),
-            ])
-            ->defaultSort(GroupModel::ATTRIBUTE_ID, 'desc')
-            ->filters(static::getFilters())
-            ->filtersFormMaxHeight('400px')
-            ->actions(static::getActions())
-            ->bulkActions(static::getBulkActions());
+            ]);
     }
 
     /**
@@ -282,6 +277,21 @@ class Group extends BaseResource
     {
         return array_merge(
             parent::getBulkActions(),
+            [],
+        );
+    }
+
+    /**
+     * Get the header actions available for the resource.
+     *
+     * @return array
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getHeaderActions(): array
+    {
+        return array_merge(
+            parent::getHeaderActions(),
             [],
         );
     }

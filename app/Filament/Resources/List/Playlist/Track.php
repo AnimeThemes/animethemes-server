@@ -92,9 +92,9 @@ class Track extends BaseResource
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getSlug(): string
+    public static function getRecordSlug(): string
     {
-        return static::getDefaultSlug().'tracks';
+        return 'tracks';
     }
 
     /**
@@ -184,12 +184,7 @@ class Track extends BaseResource
                     ->label(__('filament.fields.playlist_track.hashid.name'))
                     ->toggleable()
                     ->placeholder('-'),
-            ])
-            ->defaultSort(TrackModel::ATTRIBUTE_ID, 'desc')
-            ->filters(static::getFilters())
-            ->filtersFormMaxHeight('400px')
-            ->actions(static::getActions())
-            ->bulkActions(static::getBulkActions());
+            ]);
     }
 
     /**
@@ -300,7 +295,20 @@ class Track extends BaseResource
         );
     }
 
-   // protected static bool $shouldSkipAuthorization = true;
+    /**
+     * Get the header actions available for the resource.
+     *
+     * @return array
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getHeaderActions(): array
+    {
+        return array_merge(
+            parent::getHeaderActions(),
+            [],
+        );
+    }
 
     /**
      * Get the pages available for the resource.

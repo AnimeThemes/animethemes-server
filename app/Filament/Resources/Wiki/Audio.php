@@ -97,9 +97,9 @@ class Audio extends BaseResource
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getSlug(): string
+    public static function getRecordSlug(): string
     {
-        return static::getDefaultSlug().'audios';
+        return 'audios';
     }
 
     /**
@@ -170,13 +170,7 @@ class Audio extends BaseResource
                     ->label(__('filament.fields.audio.filename.name'))
                     ->sortable()
                     ->copyableWithMessage(),
-            ])
-            ->defaultSort(AudioModel::ATTRIBUTE_ID, 'desc')
-            ->filters(static::getFilters())
-            ->filtersFormMaxHeight('400px')
-            ->actions(static::getActions())
-            ->bulkActions(static::getBulkActions())
-            ->headerActions(static::getHeaderActions());
+            ]);
     }
 
     /**

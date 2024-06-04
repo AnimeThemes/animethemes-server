@@ -90,9 +90,9 @@ class Dump extends BaseResource
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getSlug(): string
+    public static function getRecordSlug(): string
     {
-        return static::getDefaultSlug().'dumps';
+        return 'dumps';
     }
 
     /**
@@ -150,13 +150,7 @@ class Dump extends BaseResource
                     ->sortable()
                     ->searchable()
                     ->copyableWithMessage(),
-            ])
-            ->defaultSort(DumpModel::ATTRIBUTE_ID, 'desc')
-            ->filters(static::getFilters())
-            ->filtersFormMaxHeight('400px')
-            ->actions(static::getActions())
-            ->bulkActions(static::getBulkActions())
-            ->headerActions(static::getHeaderActions());
+            ]);
     }
 
     /**

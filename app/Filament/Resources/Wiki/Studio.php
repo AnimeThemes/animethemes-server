@@ -101,9 +101,9 @@ class Studio extends BaseResource
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getSlug(): string
+    public static function getRecordSlug(): string
     {
-        return static::getDefaultSlug().'studios';
+        return 'studios';
     }
 
     /**
@@ -197,12 +197,7 @@ class Studio extends BaseResource
                     ->visibleOn(StudioResourceRelationManager::class)
                     ->placeholder('-'),
             ])
-            ->searchable()
-            ->defaultSort(StudioModel::ATTRIBUTE_ID, 'desc')
-            ->filters(static::getFilters())
-            ->filtersFormMaxHeight('400px')
-            ->actions(static::getActions())
-            ->bulkActions(static::getBulkActions());
+            ->searchable();
     }
 
     /**
@@ -332,6 +327,21 @@ class Studio extends BaseResource
     {
         return array_merge(
             parent::getBulkActions(),
+            [],
+        );
+    }
+
+    /**
+     * Get the header actions available for the resource.
+     *
+     * @return array
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getHeaderActions(): array
+    {
+        return array_merge(
+            parent::getHeaderActions(),
             [],
         );
     }

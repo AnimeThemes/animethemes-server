@@ -54,12 +54,7 @@ class UserRoleRelationManager extends BaseRelationManager
             ->recordTitleAttribute(User::ATTRIBUTE_NAME)
             ->inverseRelationship(User::RELATION_ROLES)
             ->columns(UserResource::table($table)->getColumns())
-            ->defaultSort(User::TABLE.'.'.User::ATTRIBUTE_ID, 'desc')
-            ->filters(static::getFilters())
-            ->filtersFormMaxHeight('400px')
-            ->headerActions(static::getHeaderActions())
-            ->actions(static::getActions())
-            ->bulkActions(static::getBulkActions());
+            ->defaultSort(User::TABLE.'.'.User::ATTRIBUTE_ID, 'desc');
     }
 
     /**

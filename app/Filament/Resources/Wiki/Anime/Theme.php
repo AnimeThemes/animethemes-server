@@ -129,9 +129,9 @@ class Theme extends BaseResource
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getSlug(): string
+    public static function getRecordSlug(): string
     {
-        return static::getDefaultSlug().'anime-themes';
+        return 'anime-themes';
     }
 
     /**
@@ -260,12 +260,7 @@ class Theme extends BaseResource
                     ->urlToRelated(SongResource::class, ThemeModel::RELATION_SONG, limit: 30)
                     ->tooltip(fn (TextColumn $column) => $column->getState()),
             ])
-            ->searchable()
-            ->defaultSort(ThemeModel::ATTRIBUTE_ID, 'desc')
-            ->filters(static::getFilters())
-            ->filtersFormMaxHeight('400px')
-            ->actions(static::getActions())
-            ->bulkActions(static::getBulkActions());
+            ->searchable();
     }
 
     /**
@@ -414,6 +409,21 @@ class Theme extends BaseResource
     {
         return array_merge(
             parent::getBulkActions(),
+            [],
+        );
+    }
+
+    /**
+     * Get the header actions available for the resource.
+     *
+     * @return array
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getHeaderActions(): array
+    {
+        return array_merge(
+            parent::getHeaderActions(),
             [],
         );
     }

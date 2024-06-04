@@ -52,6 +52,12 @@ abstract class BaseResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->defaultSort(static::getRecordRouteKeyName(), 'desc')
+            ->filters(static::getFilters())
+            ->filtersFormMaxHeight('400px')
+            ->actions(static::getActions())
+            ->bulkActions(static::getBulkActions())
+            ->headerActions(static::getHeaderActions())
             ->recordUrl(fn (Model $record): string => static::getUrl('edit', ['record' => $record]))
             ->paginated([10, 25, 50, 100, 'all'])
             ->defaultPaginationPageOption(25);
@@ -166,6 +172,18 @@ abstract class BaseResource extends Resource
     }
 
     /**
+     * Get the header actions available for the resource.
+     * 
+     * @return array
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getHeaderActions(): array
+    {
+        return [];
+    }
+
+    /**
      * Get the eloquent query for the resource.
      * 
      * @return Builder
@@ -181,14 +199,21 @@ abstract class BaseResource extends Resource
     }
 
     /**
-     * Get the default slug (URI key) for the resources.
+     * Get the generic slug (URI key) for the resource.
      *
      * @return string
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    protected static function getDefaultSlug(): string
+    public static function getSlug(): string
     {
-        return 'resources/';
+        return 'resources/' . static::getRecordSlug();
     }
+
+    /**
+     * Get the slug (URI key) for the resource.
+     *
+     * @return string
+     */
+    abstract public static function getRecordSlug(): string;
 }

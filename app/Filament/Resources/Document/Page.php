@@ -89,9 +89,9 @@ class Page extends BaseResource
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getSlug(): string
+    public static function getRecordSlug(): string
     {
-        return static::getDefaultSlug().'pages';
+        return 'pages';
     }
 
     /**
@@ -192,12 +192,7 @@ class Page extends BaseResource
                     ->label(__('filament.fields.page.body.name'))
                     ->sortable()
                     ->hidden(),
-            ])
-            ->defaultSort(PageModel::ATTRIBUTE_ID, 'desc')
-            ->filters(static::getFilters())
-            ->filtersFormMaxHeight('400px')
-            ->actions(static::getActions())
-            ->bulkActions(static::getBulkActions());
+            ]);
     }
 
     /**
@@ -291,6 +286,21 @@ class Page extends BaseResource
     {
         return array_merge(
             parent::getBulkActions(),
+            [],
+        );
+    }
+
+    /**
+     * Get the header actions available for the resource.
+     *
+     * @return array
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getHeaderActions(): array
+    {
+        return array_merge(
+            parent::getHeaderActions(),
             [],
         );
     }

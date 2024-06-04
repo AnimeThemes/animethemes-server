@@ -97,9 +97,9 @@ class Playlist extends BaseResource
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getSlug(): string
+    public static function getRecordSlug(): string
     {
-        return static::getDefaultSlug().'playlists';
+        return 'playlists';
     }
 
     /**
@@ -229,12 +229,7 @@ class Playlist extends BaseResource
                     ->label(__('filament.fields.playlist.description.name'))
                     ->hidden(),
             ])
-            ->searchable()
-            ->defaultSort(PlaylistModel::ATTRIBUTE_ID, 'desc')
-            ->filters(static::getFilters())
-            ->filtersFormMaxHeight('400px')
-            ->actions(static::getActions())
-            ->bulkActions(static::getBulkActions());
+            ->searchable();
     }
 
     /**
@@ -360,6 +355,21 @@ class Playlist extends BaseResource
     {
         return array_merge(
             parent::getBulkActions(),
+            [],
+        );
+    }
+
+    /**
+     * Get the header actions available for the resource.
+     *
+     * @return array
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getHeaderActions(): array
+    {
+        return array_merge(
+            parent::getHeaderActions(),
             [],
         );
     }

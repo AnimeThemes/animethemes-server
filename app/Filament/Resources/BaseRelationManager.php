@@ -36,6 +36,11 @@ abstract class BaseRelationManager extends RelationManager
     public function table(Table $table): Table
     {
         return $table
+            ->filters(static::getFilters())
+            ->filtersFormMaxHeight('400px')
+            ->actions(static::getActions())
+            ->bulkActions(static::getBulkActions())
+            ->headerActions(static::getHeaderActions())
             ->recordUrl(fn (BaseResource $record): string => $record::getUrl('edit', ['record' => $record]))
             ->paginated([5, 10, 25])
             ->defaultPaginationPageOption(5);
@@ -51,7 +56,7 @@ abstract class BaseRelationManager extends RelationManager
     public static function getFilters(): array
     {
         return [
-            TrashedFilter::make()
+            TrashedFilter::make(),
         ];
     }
 

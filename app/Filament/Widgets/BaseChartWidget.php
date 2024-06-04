@@ -54,6 +54,6 @@ class BaseChartWidget extends ApexChartWidget
             12 => __('filament.widgets.month.dec'),
         ];
 
-        return $dates[$month].' - '.$year;
+        return $dates[$month].'/'.$year;
     }
 }
