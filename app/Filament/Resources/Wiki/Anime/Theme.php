@@ -260,12 +260,7 @@ class Theme extends BaseResource
                     ->urlToRelated(SongResource::class, ThemeModel::RELATION_SONG, limit: 30)
                     ->tooltip(fn (TextColumn $column) => $column->getState()),
             ])
-            ->searchable()
-            ->defaultSort(ThemeModel::ATTRIBUTE_ID, 'desc')
-            ->filters(static::getFilters())
-            ->filtersFormMaxHeight('400px')
-            ->actions(static::getActions())
-            ->bulkActions(static::getBulkActions());
+            ->searchable();
     }
 
     /**

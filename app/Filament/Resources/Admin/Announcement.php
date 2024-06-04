@@ -144,12 +144,7 @@ class Announcement extends BaseResource
                     ->sortable()
                     ->searchable()
                     ->copyableWithMessage(),
-            ])
-            ->defaultSort(AnnouncementModel::ATTRIBUTE_ID, 'desc')
-            ->filters(static::getFilters())
-            ->filtersFormMaxHeight('400px')
-            ->actions(static::getActions())
-            ->bulkActions(static::getBulkActions());
+            ]);
     }
 
     /**

@@ -201,12 +201,7 @@ class Series extends BaseResource
                     ->sortable()
                     ->toggleable(),
             ])
-            ->searchable()
-            ->defaultSort(SeriesModel::ATTRIBUTE_ID, 'desc')
-            ->filters(static::getFilters())
-            ->filtersFormMaxHeight('400px')
-            ->actions(static::getActions())
-            ->bulkActions(static::getBulkActions());
+            ->searchable();
     }
 
     /**

@@ -294,12 +294,7 @@ class Anime extends BaseResource
                     ->visibleOn(AnimeResourceRelationManager::class)
                     ->placeholder('-'),
             ])
-            ->searchable()
-            ->defaultSort(AnimeModel::ATTRIBUTE_ID, 'desc')
-            ->filters(static::getFilters())
-            ->filtersFormMaxHeight('400px')
-            ->actions(static::getActions())
-            ->bulkActions(static::getBulkActions());
+            ->searchable();
     }
 
     /**

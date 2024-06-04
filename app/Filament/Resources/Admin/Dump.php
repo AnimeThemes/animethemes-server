@@ -150,13 +150,7 @@ class Dump extends BaseResource
                     ->sortable()
                     ->searchable()
                     ->copyableWithMessage(),
-            ])
-            ->defaultSort(DumpModel::ATTRIBUTE_ID, 'desc')
-            ->filters(static::getFilters())
-            ->filtersFormMaxHeight('400px')
-            ->actions(static::getActions())
-            ->bulkActions(static::getBulkActions())
-            ->headerActions(static::getHeaderActions());
+            ]);
     }
 
     /**

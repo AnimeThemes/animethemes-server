@@ -192,12 +192,7 @@ class Page extends BaseResource
                     ->label(__('filament.fields.page.body.name'))
                     ->sortable()
                     ->hidden(),
-            ])
-            ->defaultSort(PageModel::ATTRIBUTE_ID, 'desc')
-            ->filters(static::getFilters())
-            ->filtersFormMaxHeight('400px')
-            ->actions(static::getActions())
-            ->bulkActions(static::getBulkActions());
+            ]);
     }
 
     /**

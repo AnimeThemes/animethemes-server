@@ -180,11 +180,7 @@ class DiscordThread extends BaseResource
                     ->urlToRelated(AnimeResource::class, DiscordThreadModel::RELATION_ANIME),
             ])
             ->searchable()
-            ->defaultSort(BaseModel::CREATED_AT, 'desc')
-            ->filters(static::getFilters())
-            ->filtersFormMaxHeight('400px')
-            ->actions(static::getActions())
-            ->bulkActions(static::getBulkActions());
+            ->defaultSort(BaseModel::CREATED_AT, 'desc');
     }
 
     /**

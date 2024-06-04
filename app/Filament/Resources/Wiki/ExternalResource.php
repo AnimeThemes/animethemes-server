@@ -199,12 +199,7 @@ class ExternalResource extends BaseResource
                     ->label(__('filament.fields.anime.resources.as.name'))
                     ->visibleOn(BaseRelationManager::class)
                     ->placeholder('-'),
-            ])
-            ->defaultSort(ExternalResourceModel::ATTRIBUTE_ID, 'desc')
-            ->filters(static::getFilters())
-            ->filtersFormMaxHeight('400px')
-            ->actions(static::getActions())
-            ->bulkActions(static::getBulkActions());
+            ]);
     }
 
     /**

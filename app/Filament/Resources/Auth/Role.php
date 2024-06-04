@@ -193,12 +193,7 @@ class Role extends BaseResource
                     ->sortable()
                     ->toggleable()
                     ->placeholder('-'),
-            ])
-            ->defaultSort(RoleModel::ATTRIBUTE_ID, 'desc')
-            ->filters(static::getFilters())
-            ->filtersFormMaxHeight('400px')
-            ->actions(static::getActions())
-            ->bulkActions(static::getBulkActions());
+            ]);
     }
 
     /**

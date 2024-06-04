@@ -163,13 +163,7 @@ class Image extends BaseResource
                     ->label(__('filament.fields.image.image.name'))
                     ->disk(Config::get('image.disk'))
                     ->toggleable(),
-            ])
-            ->defaultSort(ImageModel::ATTRIBUTE_ID, 'desc')
-            ->filters(static::getFilters())
-            ->filtersFormMaxHeight('400px')
-            ->actions(static::getActions())
-            ->bulkActions(static::getBulkActions())
-            ->headerActions(static::getHeaderActions());
+            ]);
     }
 
     /**

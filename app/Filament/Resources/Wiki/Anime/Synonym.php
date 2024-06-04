@@ -180,12 +180,7 @@ class Synonym extends BaseResource
                     ->limit(70)
                     ->tooltip(fn (TextColumn $column) => $column->getState()),
             ])
-            ->searchable()
-            ->defaultSort(SynonymModel::ATTRIBUTE_ID, 'desc')
-            ->filters(static::getFilters())
-            ->filtersFormMaxHeight('400px')
-            ->actions(static::getActions())
-            ->bulkActions(static::getBulkActions());
+            ->searchable();
     }
 
     /**

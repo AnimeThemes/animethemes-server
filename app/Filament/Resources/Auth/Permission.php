@@ -151,12 +151,7 @@ class Permission extends BaseResource
                     ->sortable()
                     ->searchable()
                     ->copyableWithMessage(),
-            ])
-            ->defaultSort(PermissionModel::ATTRIBUTE_ID, 'desc')
-            ->filters(static::getFilters())
-            ->filtersFormMaxHeight('400px')
-            ->actions(static::getActions())
-            ->bulkActions(static::getBulkActions());
+            ]);
     }
 
     /**

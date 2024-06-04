@@ -184,12 +184,7 @@ class Track extends BaseResource
                     ->label(__('filament.fields.playlist_track.hashid.name'))
                     ->toggleable()
                     ->placeholder('-'),
-            ])
-            ->defaultSort(TrackModel::ATTRIBUTE_ID, 'desc')
-            ->filters(static::getFilters())
-            ->filtersFormMaxHeight('400px')
-            ->actions(static::getActions())
-            ->bulkActions(static::getBulkActions());
+            ]);
     }
 
     /**

@@ -146,13 +146,7 @@ class Script extends BaseResource
                     ->label(__('filament.fields.video_script.path'))
                     ->sortable()
                     ->copyableWithMessage(),
-            ])
-            ->defaultSort(ScriptModel::ATTRIBUTE_ID, 'desc')
-            ->filters(static::getFilters())
-            ->filtersFormMaxHeight('400px')
-            ->actions(static::getActions())
-            ->bulkActions(static::getBulkActions())
-            ->headerActions(static::getHeaderActions());
+            ]);
     }
 
     /**

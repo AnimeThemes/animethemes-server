@@ -52,6 +52,12 @@ abstract class BaseResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->defaultSort(static::getRecordRouteKeyName(), 'desc')
+            ->filters(static::getFilters())
+            ->filtersFormMaxHeight('400px')
+            ->actions(static::getActions())
+            ->bulkActions(static::getBulkActions())
+            ->headerActions(static::getHeaderActions())
             ->recordUrl(fn (Model $record): string => static::getUrl('edit', ['record' => $record]))
             ->paginated([10, 25, 50, 100, 'all'])
             ->defaultPaginationPageOption(25);
@@ -163,6 +169,18 @@ abstract class BaseResource extends Resource
                     ->authorize('restore', (new static::$model)),
             ]),
         ];
+    }
+
+    /**
+     * Get the header actions available for the resource.
+     * 
+     * @return array
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getHeaderActions(): array
+    {
+        return [];
     }
 
     /**

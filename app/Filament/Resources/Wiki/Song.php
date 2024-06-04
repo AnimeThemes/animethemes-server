@@ -205,12 +205,7 @@ class Song extends BaseResource
                     ->toggleable()
                     ->placeholder('-'),
             ])
-            ->searchable()
-            ->defaultSort(SongModel::ATTRIBUTE_ID, 'desc')
-            ->filters(static::getFilters())
-            ->filtersFormMaxHeight('400px')
-            ->actions(static::getActions())
-            ->bulkActions(static::getBulkActions());
+            ->searchable();
     }
 
     /**

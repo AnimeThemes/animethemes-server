@@ -173,12 +173,7 @@ class User extends BaseResource
                     ->label(__('filament.fields.user.email'))
                     ->icon('heroicon-m-envelope')
                     ->toggleable(),
-            ])
-            ->defaultSort(UserModel::ATTRIBUTE_ID, 'desc')
-            ->filters(static::getFilters())
-            ->filtersFormMaxHeight('400px')
-            ->actions(static::getActions())
-            ->bulkActions(static::getBulkActions());
+            ]);
     }
 
     /**

@@ -185,12 +185,7 @@ class Group extends BaseResource
                     ->label(__('filament.fields.group.slug.name'))
                     ->sortable()
                     ->toggleable(),
-            ])
-            ->defaultSort(GroupModel::ATTRIBUTE_ID, 'desc')
-            ->filters(static::getFilters())
-            ->filtersFormMaxHeight('400px')
-            ->actions(static::getActions())
-            ->bulkActions(static::getBulkActions());
+            ]);
     }
 
     /**
