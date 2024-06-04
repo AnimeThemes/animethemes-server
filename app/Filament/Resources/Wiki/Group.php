@@ -282,6 +282,21 @@ class Group extends BaseResource
     }
 
     /**
+     * Get the header actions available for the resource.
+     *
+     * @return array
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getHeaderActions(): array
+    {
+        return array_merge(
+            parent::getHeaderActions(),
+            [],
+        );
+    }
+
+    /**
      * Get the pages available for the resource.
      *
      * @return array
