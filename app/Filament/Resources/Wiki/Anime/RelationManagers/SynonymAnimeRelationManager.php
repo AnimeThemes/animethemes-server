@@ -52,12 +52,7 @@ class SynonymAnimeRelationManager extends BaseRelationManager
             ->recordTitleAttribute(SynonymModel::ATTRIBUTE_TEXT)
             ->inverseRelationship(SynonymModel::RELATION_ANIME)
             ->columns(Synonym::table($table)->getColumns())
-            ->defaultSort(SynonymModel::TABLE.'.'.SynonymModel::ATTRIBUTE_ID, 'desc')
-            ->filters(static::getFilters())
-            ->filtersFormMaxHeight('400px')
-            ->headerActions(static::getHeaderActions())
-            ->actions(static::getActions())
-            ->bulkActions(static::getBulkActions());
+            ->defaultSort(SynonymModel::TABLE.'.'.SynonymModel::ATTRIBUTE_ID, 'desc');
     }
 
     /**

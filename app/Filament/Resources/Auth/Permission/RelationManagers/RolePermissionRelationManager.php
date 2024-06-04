@@ -53,12 +53,7 @@ class RolePermissionRelationManager extends BaseRelationManager
             ->recordTitleAttribute(Role::ATTRIBUTE_NAME)
             ->inverseRelationship(Role::RELATION_PERMISSIONS)
             ->columns(RoleResource::table($table)->getColumns())
-            ->defaultSort(Role::TABLE.'.'.Role::ATTRIBUTE_ID, 'desc')
-            ->filters(static::getFilters())
-            ->filtersFormMaxHeight('400px')
-            ->headerActions(static::getHeaderActions())
-            ->actions(static::getActions())
-            ->bulkActions(static::getBulkActions());
+            ->defaultSort(Role::TABLE.'.'.Role::ATTRIBUTE_ID, 'desc');
     }
 
     /**

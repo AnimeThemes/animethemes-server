@@ -52,12 +52,7 @@ class PlaylistImageRelationManager extends BaseRelationManager
             ->recordTitleAttribute(Playlist::ATTRIBUTE_NAME)
             ->inverseRelationship(Playlist::RELATION_IMAGES)
             ->columns(PlaylistResource::table($table)->getColumns())
-            ->defaultSort(Playlist::TABLE.'.'.Playlist::ATTRIBUTE_ID, 'desc')
-            ->filters(static::getFilters())
-            ->filtersFormMaxHeight('400px')
-            ->headerActions(static::getHeaderActions())
-            ->actions(static::getActions())
-            ->bulkActions(static::getBulkActions());
+            ->defaultSort(Playlist::TABLE.'.'.Playlist::ATTRIBUTE_ID, 'desc');
     }
 
     /**

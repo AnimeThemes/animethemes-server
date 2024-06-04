@@ -52,12 +52,7 @@ class SongArtistRelationManager extends BaseRelationManager
             ->recordTitleAttribute(Song::ATTRIBUTE_TITLE)
             ->inverseRelationship(Song::RELATION_ARTISTS)
             ->columns(SongResource::table($table)->getColumns())
-            ->defaultSort(Song::TABLE.'.'.Song::ATTRIBUTE_ID, 'desc')
-            ->filters(static::getFilters())
-            ->filtersFormMaxHeight('400px')
-            ->headerActions(static::getHeaderActions())
-            ->actions(static::getActions())
-            ->bulkActions(static::getBulkActions());
+            ->defaultSort(Song::TABLE.'.'.Song::ATTRIBUTE_ID, 'desc');
     }
 
     /**

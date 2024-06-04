@@ -52,12 +52,7 @@ class ResourceSongRelationManager extends BaseRelationManager
             ->recordTitleAttribute(ExternalResource::ATTRIBUTE_LINK)
             ->inverseRelationship(ExternalResource::RELATION_SONGS)
             ->columns(ExternalResourceResource::table($table)->getColumns())
-            ->defaultSort(ExternalResource::TABLE.'.'.ExternalResource::ATTRIBUTE_ID, 'desc')
-            ->filters(static::getFilters())
-            ->filtersFormMaxHeight('400px')
-            ->headerActions(static::getHeaderActions())
-            ->actions(static::getActions())
-            ->bulkActions(static::getBulkActions());
+            ->defaultSort(ExternalResource::TABLE.'.'.ExternalResource::ATTRIBUTE_ID, 'desc');
     }
 
     /**

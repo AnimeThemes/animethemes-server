@@ -52,12 +52,7 @@ class TrackVideoRelationManager extends BaseRelationManager
             ->recordTitleAttribute(PlaylistTrack::ATTRIBUTE_HASHID)
             ->inverseRelationship(PlaylistTrack::RELATION_VIDEO)
             ->columns(TrackResource::table($table)->getColumns())
-            ->defaultSort(PlaylistTrack::TABLE.'.'.PlaylistTrack::ATTRIBUTE_ID, 'desc')
-            ->filters(static::getFilters())
-            ->filtersFormMaxHeight('400px')
-            ->headerActions(static::getHeaderActions())
-            ->actions(static::getActions())
-            ->bulkActions(static::getBulkActions());
+            ->defaultSort(PlaylistTrack::TABLE.'.'.PlaylistTrack::ATTRIBUTE_ID, 'desc');
     }
 
     /**
