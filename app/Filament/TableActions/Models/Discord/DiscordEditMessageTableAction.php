@@ -67,7 +67,6 @@ class DiscordEditMessageTableAction extends BaseTableAction
                                 $set("embeds.item{$index}.fields.{$fieldIndex}.name", Arr::get($field, 'name'));
                                 $set("embeds.item{$index}.fields.{$fieldIndex}.value", Arr::get($field, 'value'));
                                 $set("embeds.item{$index}.fields.{$fieldIndex}.inline", Arr::get($field, 'inline'));
-                                $fieldIndex++;
                             }
                         }
 
