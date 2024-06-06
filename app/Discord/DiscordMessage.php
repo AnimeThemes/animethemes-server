@@ -9,11 +9,18 @@ namespace App\Discord;
  */
 class DiscordMessage
 {
+    final public const ATTRIBUTE_CHANNEL_ID = 'channelId';
+    final public const ATTRIBUTE_ID = 'id';
+    final public const ATTRIBUTE_URL = 'url';
+    final public const ATTRIBUTE_CONTENT = 'content';
+    final public const ATTRIBUTE_EMBEDS = 'embeds';
+    final public const ATTRIBUTE_IMAGES = 'images';
+
     protected string $channelId = '0';
     protected string $id = '0';
     protected string $content = '';
     protected array $embeds = [];
-    protected array $files = [];
+    protected array $images = [];
 
     /**
      * Get the channelId of the message.
@@ -56,13 +63,13 @@ class DiscordMessage
     }
 
     /**
-     * Get the files of the message.
+     * Get the images of the message.
      *
      * @return array<string>
      */
-    public function getFiles(): array
+    public function getImages(): array
     {
-        return $this->files;
+        return $this->images;
     }
 
     /**
@@ -92,14 +99,14 @@ class DiscordMessage
     }
 
     /**
-     * Set the files of the message.
+     * Set the images of the message.
      *
-     * @param  array<string>  $files
+     * @param  array<string>  $images
      * @return static
      */
-    public function setFiles(array $files): static
+    public function setImages(array $images): static
     {
-        $this->files = $files;
+        $this->images = $images;
 
         return $this;
     }
@@ -142,7 +149,7 @@ class DiscordMessage
             'id' => $this->getId(),
             'content' => $this->getContent(),
             'embeds' => $this->getEmbeds(),
-            'files' => $this->getFiles(),
+            'files' => $this->getImages(),
         ];
     }
 }

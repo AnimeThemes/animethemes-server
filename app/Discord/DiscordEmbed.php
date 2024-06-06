@@ -9,6 +9,17 @@ namespace App\Discord;
  */
 class DiscordEmbed
 {
+    final public const ATTRIBUTE_TYPE = 'type';
+    final public const ATTRIBUTE_TITLE = 'title';
+    final public const ATTRIBUTE_DESCRIPTION = 'description';
+    final public const ATTRIBUTE_COLOR = 'color';
+    final public const ATTRIBUTE_THUMBNAIL = 'thumbnail';
+    final public const ATTRIBUTE_IMAGE = 'image';
+    final public const ATTRIBUTE_FIELDS = 'fields';
+    final public const ATTRIBUTE_FIELDS_NAME = 'name';
+    final public const ATTRIBUTE_FIELDS_VALUE = 'value';
+    final public const ATTRIBUTE_FIELDS_INLINE = 'inline';
+
     protected string $type = 'rich';
     protected string $title = '';
     protected string $description = '';

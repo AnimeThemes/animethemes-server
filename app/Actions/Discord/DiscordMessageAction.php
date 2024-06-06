@@ -29,19 +29,19 @@ class DiscordMessageAction
 
         $embeds = [];
 
-        foreach (Arr::get($fields, 'embeds') as $embed) {
+        foreach (Arr::get($fields, DiscordMessage::ATTRIBUTE_EMBEDS) as $embed) {
             $newEmbed = (new DiscordEmbed())
-                ->setTitle(Arr::get($embed, 'title') ?? '')
-                ->setDescription(Arr::get($embed, 'description') ?? '')
-                ->setColor(hexdec(Arr::get($embed, 'color') ?? ''))
-                ->setThumbnail(Arr::get($embed, 'thumbnail'))
-                ->setImage(Arr::get($embed, 'image'))
-                ->setFields(Arr::get($embed, 'fields') ?? []);
+                ->setTitle(Arr::get($embed, DiscordEmbed::ATTRIBUTE_TITLE) ?? '')
+                ->setDescription(Arr::get($embed, DiscordEmbed::ATTRIBUTE_DESCRIPTION) ?? '')
+                ->setColor(hexdec(Arr::get($embed, DiscordEmbed::ATTRIBUTE_COLOR) ?? ''))
+                ->setThumbnail(Arr::get($embed, DiscordEmbed::ATTRIBUTE_THUMBNAIL))
+                ->setImage(Arr::get($embed, DiscordEmbed::ATTRIBUTE_IMAGE))
+                ->setFields(Arr::get($embed, DiscordEmbed::ATTRIBUTE_FIELDS) ?? []);
 
-            $embedFields = Arr::get($embed, 'fields');
+            $embedFields = Arr::get($embed, DiscordEmbed::ATTRIBUTE_FIELDS);
             $newEmbedFields = [];
             foreach ($embedFields as $embedField) {
-                if (Arr::get($embedField, 'name') && Arr::get($embedField, 'value')) {
+                if (Arr::get($embedField, DiscordEmbed::ATTRIBUTE_FIELDS_NAME) && Arr::get($embedField, DiscordEmbed::ATTRIBUTE_FIELDS_VALUE)) {
                     $newEmbedFields[] = $embedField;
                 }
             }
@@ -49,22 +49,22 @@ class DiscordMessageAction
             $embeds[] = $newEmbed->setFields($newEmbedFields)->toArray();
         }
 
-        if (Arr::has($fields, 'url')) {
-            preg_match('/https:\/\/discord\.com\/channels\/(\d+)\/(\d+)\/(\d+)/', Arr::get($fields, 'url'), $matches);
+        if (Arr::has($fields, DiscordMessage::ATTRIBUTE_URL)) {
+            preg_match('/https:\/\/discord\.com\/channels\/(\d+)\/(\d+)\/(\d+)/', Arr::get($fields, DiscordMessage::ATTRIBUTE_URL), $matches);
 
             $message = $message
                 ->setChannelId(strval($matches[2]))
                 ->setId(strval($matches[3]));
         }
 
-        if (Arr::has($fields, 'channelId')) {
-            $message = $message->setChannelId(Arr::get($fields, 'channelId'));
+        if (Arr::has($fields, DiscordMessage::ATTRIBUTE_CHANNEL_ID)) {
+            $message = $message->setChannelId(Arr::get($fields, DiscordMessage::ATTRIBUTE_CHANNEL_ID));
         }
 
         $message = $message
-            ->setContent(Arr::get($fields, 'content') ?? '')
+            ->setContent(Arr::get($fields, DiscordMessage::ATTRIBUTE_CONTENT) ?? '')
             ->setEmbeds($embeds)
-            ->setFiles(Arr::get($fields, 'images'))
+            ->setImages(Arr::get($fields, DiscordMessage::ATTRIBUTE_IMAGES))
             ->toArray();
 
         return $message;
