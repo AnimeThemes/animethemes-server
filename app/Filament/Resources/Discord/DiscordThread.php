@@ -295,14 +295,14 @@ class DiscordThread extends BaseResource
                         ->icon(__('filament.table_actions.discord_thread.message.edit.icon'))
                         ->requiresConfirmation()
                         ->modalWidth(MaxWidth::FourExtraLarge)
-                        ->authorize('delete', DiscordThread::class),
+                        ->authorize('delete', DiscordThreadModel::class),
 
                     DiscordSendMessageTableAction::make('send-message')
                         ->label(__('filament.table_actions.discord_thread.message.send.name'))
                         ->icon(__('filament.table_actions.discord_thread.message.send.icon'))
                         ->requiresConfirmation()
                         ->modalWidth(MaxWidth::FourExtraLarge)
-                        ->authorize('delete', DiscordThread::class),
+                        ->authorize('delete', DiscordThreadModel::class),
                 ]),
             ],
         );
