@@ -64,9 +64,9 @@ class DiscordEditMessageTableAction extends BaseTableAction
                             $set("embeds.item{$index}.image", Arr::get($embed, 'image'));
 
                             foreach (Arr::get($embed, 'fields') ?? [] as $fieldIndex => $field) {
-                                $set("embeds.item{$index}.fields.{$fieldIndex}.name", Arr::get($field, 'name'));
-                                $set("embeds.item{$index}.fields.{$fieldIndex}.value", Arr::get($field, 'value'));
-                                $set("embeds.item{$index}.fields.{$fieldIndex}.inline", Arr::get($field, 'inline'));
+                                foreach ($field as $key => $value) {
+                                    $set("embeds.item{$index}.fields.{$fieldIndex}.{$key}", $value);
+                                }
                             }
                         }
 
