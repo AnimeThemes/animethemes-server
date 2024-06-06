@@ -57,6 +57,7 @@ class DiscordSendMessageTableAction extends BaseTableAction
                     ->label(__('filament.table_actions.discord_thread.message.embeds.name'))
                     ->helperText(__('filament.table_actions.discord_thread.message.embeds.help'))
                     ->collapsible()
+                    ->defaultItems(0)
                     ->schema([
                         TextInput::make('title')
                             ->label(__('filament.table_actions.discord_thread.message.embeds.body.title.name'))
@@ -107,6 +108,7 @@ class DiscordSendMessageTableAction extends BaseTableAction
                     ->label(__('filament.table_actions.discord_thread.message.images.name'))
                     ->helperText(__('filament.table_actions.discord_thread.message.images.help'))
                     ->collapsible()
+                    ->defaultItems(0)
                     ->schema([
                         TextInput::make('url')
                             ->label(__('filament.table_actions.discord_thread.message.images.body.url.name'))

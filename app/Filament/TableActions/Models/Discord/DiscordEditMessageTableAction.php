@@ -77,19 +77,7 @@ class DiscordEditMessageTableAction extends BaseTableAction
                         $index = 0;
                         foreach (Arr::get($message, 'files') as $file) {
                             $set("images.item{$index}.url", $file);
-                        }
-
-                        $embedRepeater = $component->getContainer()->getComponent('embeds')->getState();
-                        $imagesRepeater = $component->getContainer()->getComponent('images')->getState();
-
-                        if (count($embedRepeater) > 1) {
-                            array_shift($embedRepeater);
-                            $set('embeds', $embedRepeater);
-                        }
-
-                        if (count($imagesRepeater) > 1) {
-                            array_shift($imagesRepeater);
-                            $set('images', $imagesRepeater);
+                            $index++;
                         }
                     }),
 
@@ -102,6 +90,7 @@ class DiscordEditMessageTableAction extends BaseTableAction
                     ->helperText(__('filament.table_actions.discord_thread.message.embeds.help'))
                     ->key('embeds')
                     ->collapsible()
+                    ->defaultItems(0)
                     ->schema([
                         TextInput::make('title')
                             ->label(__('filament.table_actions.discord_thread.message.embeds.body.title.name'))
@@ -153,6 +142,7 @@ class DiscordEditMessageTableAction extends BaseTableAction
                     ->helperText(__('filament.table_actions.discord_thread.message.images.help'))
                     ->key('images')
                     ->collapsible()
+                    ->defaultItems(0)
                     ->schema([
                         TextInput::make('url')
                             ->label(__('filament.table_actions.discord_thread.message.images.body.url.name'))
