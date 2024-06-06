@@ -56,28 +56,23 @@ class DiscordEditMessageTableAction extends BaseTableAction
 
                         $set('content', Arr::get($message, 'content'));
 
-                        $index = 0;
-                        foreach (Arr::get($message, 'embeds') ?? [] as $embed) {
+                        foreach (Arr::get($message, 'embeds') ?? [] as $index => $embed) {
                             $set("embeds.item{$index}.title", Arr::get($embed, 'title'));
                             $set("embeds.item{$index}.description", Arr::get($embed, 'description'));
                             $set("embeds.item{$index}.color", '#' . dechex(Arr::get($embed, 'color')));
                             $set("embeds.item{$index}.thumbnail", Arr::get($embed, 'thumbnail'));
                             $set("embeds.item{$index}.image", Arr::get($embed, 'image'));
 
-                            $fieldIndex = 0;
-                            foreach (Arr::get($embed, 'fields') ?? [] as $field) {
+                            foreach (Arr::get($embed, 'fields') ?? [] as $fieldIndex => $field) {
                                 $set("embeds.item{$index}.fields.{$fieldIndex}.name", Arr::get($field, 'name'));
                                 $set("embeds.item{$index}.fields.{$fieldIndex}.value", Arr::get($field, 'value'));
                                 $set("embeds.item{$index}.fields.{$fieldIndex}.inline", Arr::get($field, 'inline'));
                                 $fieldIndex++;
                             }
-                            $index++;
                         }
 
-                        $index = 0;
-                        foreach (Arr::get($message, 'files') as $file) {
+                        foreach (Arr::get($message, 'files') as $index => $file) {
                             $set("images.item{$index}.url", $file);
-                            $index++;
                         }
                     }),
 
