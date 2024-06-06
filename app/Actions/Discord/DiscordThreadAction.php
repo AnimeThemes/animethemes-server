@@ -51,7 +51,7 @@ class DiscordThreadAction
     }
 
     /**
-     * Get the thread.
+     * Get the thread by ID.
      *
      * @param  string  $id
      * @return array

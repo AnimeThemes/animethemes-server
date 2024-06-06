@@ -15,8 +15,6 @@ use Illuminate\Support\Facades\Http;
  */
 class DiscordMessageAction
 {
-    protected array $message;
-
     /**
      * Make the Discord message.
      *
@@ -71,22 +69,12 @@ class DiscordMessageAction
     }
 
     /**
-     * Get the current Discord message.
-     *
-     * @return array
-     */
-    public function getMessage(): array
-    {
-        return $this->message;
-    }
-
-    /**
      * Set the Discord message.
      *
      * @param  string  $url
-     * @return static
+     * @return array
      */
-    public function get(string $url): static
+    public function get(string $url): array
     {
         $message = Http::withHeaders(['x-api-key' => Config::get('services.discord.api_key')])
             ->get(Config::get('services.discord.api_url') . '/message', [
@@ -95,9 +83,7 @@ class DiscordMessageAction
             ->throw()
             ->json();
 
-        $this->message = Arr::get($message, 'message');
-
-        return $this;
+        return Arr::get($message, 'message');
     }
 
     /**

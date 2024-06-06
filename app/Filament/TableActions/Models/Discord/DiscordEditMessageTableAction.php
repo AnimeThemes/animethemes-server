@@ -68,7 +68,7 @@ class DiscordEditMessageTableAction extends BaseTableAction
 
                                 $component->hint(null);
 
-                                $message = (new DiscordMessageAction())->get($state)->getMessage();
+                                $message = (new DiscordMessageAction())->get($state);
 
                                 $set(DiscordMessage::ATTRIBUTE_CONTENT, Arr::get($message, DiscordMessage::ATTRIBUTE_CONTENT));
 

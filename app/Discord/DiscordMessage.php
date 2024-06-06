@@ -88,7 +88,7 @@ class DiscordMessage
     /**
      * Set the embeds of the message.
      *
-     * @param  DiscordMessage[]  $embeds
+     * @param  array  $embeds
      * @return static
      */
     public function setEmbeds(array $embeds): static
