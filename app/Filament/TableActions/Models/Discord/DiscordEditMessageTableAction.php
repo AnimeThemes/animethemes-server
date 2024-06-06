@@ -8,6 +8,7 @@ use App\Actions\Discord\DiscordMessageAction;
 use App\Discord\DiscordEmbed;
 use App\Discord\DiscordMessage;
 use App\Filament\TableActions\BaseTableAction;
+use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\ColorPicker;
 use Filament\Forms\Components\Repeater;
@@ -50,30 +51,44 @@ class DiscordEditMessageTableAction extends BaseTableAction
                 TextInput::make(DiscordMessage::ATTRIBUTE_URL)
                     ->label(__('filament.table_actions.discord_thread.message.url.name'))
                     ->helperText(__('filament.table_actions.discord_thread.message.url.help'))
-                    ->live(true)
                     ->required()
-                    ->rules(['required', 'string'])
-                    ->afterStateUpdated(function (Set $set, string $state) {
-                        $message = (new DiscordMessageAction())->get($state)->getMessage();
-
-                        $set(DiscordMessage::ATTRIBUTE_CONTENT, Arr::get($message, DiscordMessage::ATTRIBUTE_CONTENT));
-
-                        foreach (Arr::get($message, DiscordMessage::ATTRIBUTE_EMBEDS) ?? [] as $index => $embed) {
-                            foreach ($embed as $key => $value) {
-                                $set("embeds.item{$index}.{$key}", $key === DiscordEmbed::ATTRIBUTE_COLOR ? '#' . dechex($value) : $value);
-                            }
-
-                            foreach (Arr::get($embed, DiscordEmbed::ATTRIBUTE_FIELDS) ?? [] as $fieldIndex => $field) {
-                                foreach ($field as $key => $value) {
-                                    $set("embeds.item{$index}.fields.{$fieldIndex}.{$key}", $value);
+                    ->autofocus()
+                    ->regex('/https:\/\/discord\.com\/channels\/\d+\/\d+\/\d+/')
+                    ->rules(['required', 'string', 'regex:/https:\/\/discord\.com\/channels\/\d+\/\d+\/\d+/'])
+                    ->hintAction(
+                        Action::make('load')
+                            ->label(__('filament.table_actions.discord_thread.message.url.action'))
+                            ->action(function (Set $set, string $state, TextInput $component) {
+                                if (!preg_match($component->getRegexPattern(), $state)) {
+                                    $component
+                                        ->hint(__('filament.table_actions.discord_thread.message.url.validation'))
+                                        ->hintColor('danger');
+                                    return;
                                 }
-                            }
-                        }
 
-                        foreach (Arr::get($message, 'files') as $index => $file) {
-                            $set("images.item{$index}.url", $file);
-                        }
-                    }),
+                                $component->hint(null);
+
+                                $message = (new DiscordMessageAction())->get($state)->getMessage();
+
+                                $set(DiscordMessage::ATTRIBUTE_CONTENT, Arr::get($message, DiscordMessage::ATTRIBUTE_CONTENT));
+
+                                foreach (Arr::get($message, DiscordMessage::ATTRIBUTE_EMBEDS) ?? [] as $index => $embed) {
+                                    foreach ($embed as $key => $value) {
+                                        $set("embeds.item{$index}.{$key}", $key === DiscordEmbed::ATTRIBUTE_COLOR ? '#' . dechex($value) : $value);
+                                    }
+
+                                    foreach (Arr::get($embed, DiscordEmbed::ATTRIBUTE_FIELDS) ?? [] as $fieldIndex => $field) {
+                                        foreach ($field as $key => $value) {
+                                            $set("embeds.item{$index}.fields.{$fieldIndex}.{$key}", $value);
+                                        }
+                                    }
+                                }
+
+                                foreach (Arr::get($message, 'files') as $index => $file) {
+                                    $set("images.item{$index}.url", $file);
+                                }
+                            })
+                    ),
 
                 RichEditor::make(DiscordMessage::ATTRIBUTE_CONTENT)
                     ->label(__('filament.table_actions.discord_thread.message.content.name'))
