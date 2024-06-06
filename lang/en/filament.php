@@ -1025,8 +1025,10 @@ return [
                     ],
                 ],
                 'url' => [
+                    'action' => 'Load',
                     'help' => 'Click on "Copy Message Link" on Discord',
                     'name' => 'URL',
+                    'validation' => 'This is not a valid URL',
                 ],
             ],
         ],

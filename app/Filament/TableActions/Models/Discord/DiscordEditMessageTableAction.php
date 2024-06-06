@@ -5,11 +5,14 @@ declare(strict_types=1);
 namespace App\Filament\TableActions\Models\Discord;
 
 use App\Actions\Discord\DiscordMessageAction;
+use App\Discord\DiscordEmbed;
+use App\Discord\DiscordMessage;
 use App\Filament\TableActions\BaseTableAction;
+use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\ColorPicker;
-use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Forms\Set;
@@ -45,116 +48,112 @@ class DiscordEditMessageTableAction extends BaseTableAction
     {
         return $form
             ->schema([
-                TextInput::make('url')
+                TextInput::make(DiscordMessage::ATTRIBUTE_URL)
                     ->label(__('filament.table_actions.discord_thread.message.url.name'))
                     ->helperText(__('filament.table_actions.discord_thread.message.url.help'))
-                    ->live(true)
                     ->required()
-                    ->rules(['required', 'string'])
-                    ->afterStateUpdated(function (Set $set, TextInput $component, string $state) {
-                        $message = (new DiscordMessageAction())->get($state)->getMessage();
+                    ->autofocus()
+                    ->regex('/https:\/\/discord\.com\/channels\/\d+\/\d+\/\d+/')
+                    ->rules(['required', 'string', 'regex:/https:\/\/discord\.com\/channels\/\d+\/\d+\/\d+/'])
+                    ->hintAction(
+                        Action::make('load')
+                            ->label(__('filament.table_actions.discord_thread.message.url.action'))
+                            ->action(function (Set $set, string $state, TextInput $component) {
+                                if (!preg_match($component->getRegexPattern(), $state)) {
+                                    $component
+                                        ->hint(__('filament.table_actions.discord_thread.message.url.validation'))
+                                        ->hintColor('danger');
+                                    return;
+                                }
 
-                        $set('content', Arr::get($message, 'content'));
+                                $component->hint(null);
 
-                        $index = 0;
-                        foreach (Arr::get($message, 'embeds') ?? [] as $embed) {
-                            $set("embeds.item{$index}.title", Arr::get($embed, 'title'));
-                            $set("embeds.item{$index}.description", Arr::get($embed, 'description'));
-                            $set("embeds.item{$index}.color", '#' . dechex(Arr::get($embed, 'color')));
-                            $set("embeds.item{$index}.thumbnail", Arr::get($embed, 'thumbnail'));
-                            $set("embeds.item{$index}.image", Arr::get($embed, 'image'));
+                                $message = (new DiscordMessageAction())->get($state);
 
-                            $fieldIndex = 0;
-                            foreach (Arr::get($embed, 'fields') ?? [] as $field) {
-                                $set("embeds.item{$index}.fields.{$fieldIndex}.name", Arr::get($field, 'name'));
-                                $set("embeds.item{$index}.fields.{$fieldIndex}.value", Arr::get($field, 'value'));
-                                $set("embeds.item{$index}.fields.{$fieldIndex}.inline", Arr::get($field, 'inline'));
-                                $fieldIndex++;
-                            }
-                            $index++;
-                        }
+                                $set(DiscordMessage::ATTRIBUTE_CONTENT, Arr::get($message, DiscordMessage::ATTRIBUTE_CONTENT));
 
-                        $index = 0;
-                        foreach (Arr::get($message, 'files') as $file) {
-                            $set("images.item{$index}.url", $file);
-                        }
+                                foreach (Arr::get($message, DiscordMessage::ATTRIBUTE_EMBEDS) ?? [] as $index => $embed) {
+                                    foreach ($embed as $key => $value) {
+                                        $set("embeds.item{$index}.{$key}", $key === DiscordEmbed::ATTRIBUTE_COLOR ? '#' . dechex($value) : $value);
+                                    }
 
-                        $embedRepeater = $component->getContainer()->getComponent('embeds')->getState();
-                        $imagesRepeater = $component->getContainer()->getComponent('images')->getState();
+                                    foreach (Arr::get($embed, DiscordEmbed::ATTRIBUTE_FIELDS) ?? [] as $fieldIndex => $field) {
+                                        foreach ($field as $key => $value) {
+                                            $set("embeds.item{$index}.fields.{$fieldIndex}.{$key}", $value);
+                                        }
+                                    }
+                                }
 
-                        if (count($embedRepeater) > 1) {
-                            array_shift($embedRepeater);
-                            $set('embeds', $embedRepeater);
-                        }
+                                foreach (Arr::get($message, 'files') as $index => $file) {
+                                    $set("images.item{$index}.url", $file);
+                                }
+                            })
+                    ),
 
-                        if (count($imagesRepeater) > 1) {
-                            array_shift($imagesRepeater);
-                            $set('images', $imagesRepeater);
-                        }
-                    }),
-
-                MarkdownEditor::make('content')
+                RichEditor::make(DiscordMessage::ATTRIBUTE_CONTENT)
                     ->label(__('filament.table_actions.discord_thread.message.content.name'))
                     ->helperText(__('filament.table_actions.discord_thread.message.content.help')),
 
-                Repeater::make('embeds')
+                Repeater::make(DiscordMessage::ATTRIBUTE_EMBEDS)
                     ->label(__('filament.table_actions.discord_thread.message.embeds.name'))
                     ->helperText(__('filament.table_actions.discord_thread.message.embeds.help'))
-                    ->key('embeds')
+                    ->key(DiscordMessage::ATTRIBUTE_EMBEDS)
                     ->collapsible()
+                    ->defaultItems(0)
                     ->schema([
-                        TextInput::make('title')
+                        TextInput::make(DiscordEmbed::ATTRIBUTE_TITLE)
                             ->label(__('filament.table_actions.discord_thread.message.embeds.body.title.name'))
                             ->helperText(__('filament.table_actions.discord_thread.message.embeds.body.title.help')),
 
-                        MarkdownEditor::make('description')
+                        RichEditor::make(DiscordEmbed::ATTRIBUTE_DESCRIPTION)
                             ->label(__('filament.table_actions.discord_thread.message.embeds.body.description.name'))
                             ->helperText(__('filament.table_actions.discord_thread.message.embeds.body.description.help'))
                             ->required()
                             ->rules(['required', 'string']),
 
-                        ColorPicker::make('color')
+                        ColorPicker::make(DiscordEmbed::ATTRIBUTE_COLOR)
                             ->label(__('filament.table_actions.discord_thread.message.embeds.body.color.name'))
                             ->helperText(__('filament.table_actions.discord_thread.message.embeds.body.color.help')),
 
-                        TextInput::make('thumbnail')
+                        TextInput::make(DiscordEmbed::ATTRIBUTE_THUMBNAIL)
                             ->label(__('filament.table_actions.discord_thread.message.embeds.body.thumbnail.name'))
                             ->helperText(__('filament.table_actions.discord_thread.message.embeds.body.thumbnail.help')),
 
-                        TextInput::make('image')
+                        TextInput::make(DiscordEmbed::ATTRIBUTE_IMAGE)
                             ->label(__('filament.table_actions.discord_thread.message.embeds.body.image.name'))
                             ->helperText(__('filament.table_actions.discord_thread.message.embeds.body.image.help')),
 
-                        Repeater::make('fields')
+                        Repeater::make(DiscordEmbed::ATTRIBUTE_FIELDS)
                             ->label(__('filament.table_actions.discord_thread.message.embeds.body.fields.title.name'))
                             ->helperText(__('filament.table_actions.discord_thread.message.embeds.body.fields.title.help'))
                             ->collapsible()
                             ->schema([
-                                TextInput::make('name')
+                                TextInput::make(DiscordEmbed::ATTRIBUTE_FIELDS_NAME)
                                     ->label(__('filament.table_actions.discord_thread.message.embeds.body.fields.name.name'))
                                     ->helperText(__('filament.table_actions.discord_thread.message.embeds.body.fields.name.help'))
                                     ->required()
                                     ->rules(['required', 'string']),
 
-                                TextInput::make('value')
+                                TextInput::make(DiscordEmbed::ATTRIBUTE_FIELDS_VALUE)
                                     ->label(__('filament.table_actions.discord_thread.message.embeds.body.fields.value.name'))
                                     ->helperText(__('filament.table_actions.discord_thread.message.embeds.body.fields.value.help'))
                                     ->required()
                                     ->rules(['required', 'string']),
 
-                                Checkbox::make('inline')
+                                Checkbox::make(DiscordEmbed::ATTRIBUTE_FIELDS_INLINE)
                                     ->label(__('filament.table_actions.discord_thread.message.embeds.body.fields.inline.name'))
                                     ->helperText(__('filament.table_actions.discord_thread.message.embeds.body.fields.inline.help')),
                             ]),
                     ]),
 
-                Repeater::make('images')
+                Repeater::make(DiscordMessage::ATTRIBUTE_IMAGES)
                     ->label(__('filament.table_actions.discord_thread.message.images.name'))
                     ->helperText(__('filament.table_actions.discord_thread.message.images.help'))
-                    ->key('images')
+                    ->key(DiscordMessage::ATTRIBUTE_IMAGES)
                     ->collapsible()
+                    ->defaultItems(0)
                     ->schema([
-                        TextInput::make('url')
+                        TextInput::make(DiscordMessage::ATTRIBUTE_URL)
                             ->label(__('filament.table_actions.discord_thread.message.images.body.url.name'))
                             ->helperText(__('filament.table_actions.discord_thread.message.images.body.url.help'))
                             ->required()
