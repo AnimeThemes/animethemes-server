@@ -13,6 +13,8 @@ use App\Filament\Resources\Discord\DiscordThread\Pages\EditDiscordThread;
 use App\Filament\Resources\Discord\DiscordThread\Pages\ListDiscordThreads;
 use App\Filament\Resources\Discord\DiscordThread\Pages\ViewDiscordThread;
 use App\Filament\Resources\Wiki\Anime as AnimeResource;
+use App\Filament\TableActions\Models\Discord\DiscordEditMessageTableAction;
+use App\Filament\TableActions\Models\Discord\DiscordSendMessageTableAction;
 use App\Models\BaseModel;
 use App\Models\Discord\DiscordThread as DiscordThreadModel;
 use App\Models\Wiki\Anime;
@@ -20,6 +22,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Infolist;
+use Filament\Support\Enums\MaxWidth;
 use Filament\Tables\Table;
 
 /**
@@ -279,7 +282,17 @@ class DiscordThread extends BaseResource
     {
         return array_merge(
             parent::getHeaderActions(),
-            [],
+            [
+                DiscordEditMessageTableAction::make('edit-message')
+                    ->label('Edit Message')
+                    ->requiresConfirmation()
+                    ->modalWidth(MaxWidth::FourExtraLarge),
+
+                DiscordSendMessageTableAction::make('send-message')
+                    ->label('Send Message')
+                    ->requiresConfirmation()
+                    ->modalWidth(MaxWidth::FourExtraLarge),
+            ],
         );
     }
 

@@ -952,6 +952,58 @@ return [
                 'icon' => 'heroicon-o-arrow-up-tray',
             ],
         ],
+        'discord_thread' => [
+            'message' => [
+                'channelId' => [
+                    'help' => 'The channel ID the message should be sent to',
+                    'name' => 'Channel ID',
+                ],
+                'content' => [
+                    'help' => 'The content of the message',
+                    'name' => 'Content',
+                ],
+                'embeds' => [
+                    'help' => 'The embeds of the message',
+                    'name' => 'Embeds',
+                    'body' => [
+                        'title' => [
+                            'help' => 'The title of the embed',
+                            'name' => 'Title',
+                        ],
+                        'description' => [
+                            'help' => 'The description of the embed',
+                            'name' => 'Description',
+                        ],
+                        'color' => [
+                            'help' => 'The color of the embed',
+                            'name' => 'Color',
+                        ],
+                        'fields' => [
+                            'title' => [
+                                'help' => 'The fields of the embed',
+                                'name' => 'Fields',
+                            ],
+                            'name' => [
+                                'help' => 'The name of the field',
+                                'name' => 'Name',
+                            ],
+                            'value' => [
+                                'help' => 'The value of the field',
+                                'name' => 'Value',
+                            ],
+                            'inline' => [
+                                'help' => 'If the field should be inline',
+                                'name' => 'Inline',
+                            ],
+                        ],
+                    ],
+                ],
+                'url' => [
+                    'help' => 'Click on "Copy Message Link" on Discord',
+                    'name' => 'URL',
+                ],
+            ],
+        ],
         'dump' => [
             'dump' => [
                 'icon' => 'heroicon-o-circle-stack',
