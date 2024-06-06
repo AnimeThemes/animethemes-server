@@ -49,4 +49,19 @@ class DiscordThreadAction
             ]);
         }
     }
+
+    /**
+     * Get the thread.
+     *
+     * @param  string  $id
+     * @return array
+     */
+    public function get(string $id): array
+    {
+        return Http::withHeaders(['x-api-key' => Config::get('services.discord.api_key')])
+            ->acceptJson()
+            ->get(Config::get('services.discord.api_url') . '/thread', ['id' => $id])
+            ->throw()
+            ->json();
+    }
 }
