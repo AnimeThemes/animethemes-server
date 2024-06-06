@@ -9,9 +9,9 @@ use App\Discord\DiscordEmbed;
 use App\Discord\DiscordMessage;
 use App\Filament\TableActions\BaseTableAction;
 use Filament\Forms\Components\Checkbox;
-use Filament\Forms\Components\ColorPicker;
-use Filament\Forms\Components\MarkdownEditor;
+use Filament\Forms\Components\ColorPicker;;
 use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 
@@ -51,7 +51,7 @@ class DiscordSendMessageTableAction extends BaseTableAction
                     ->required()
                     ->rules(['required', 'string']),
 
-                MarkdownEditor::make(DiscordMessage::ATTRIBUTE_CONTENT)
+                RichEditor::make(DiscordMessage::ATTRIBUTE_CONTENT)
                     ->label(__('filament.table_actions.discord_thread.message.content.name'))
                     ->helperText(__('filament.table_actions.discord_thread.message.content.help')),
 
@@ -65,7 +65,7 @@ class DiscordSendMessageTableAction extends BaseTableAction
                             ->label(__('filament.table_actions.discord_thread.message.embeds.body.title.name'))
                             ->helperText(__('filament.table_actions.discord_thread.message.embeds.body.title.help')),
 
-                        MarkdownEditor::make(DiscordEmbed::ATTRIBUTE_DESCRIPTION)
+                        RichEditor::make(DiscordEmbed::ATTRIBUTE_DESCRIPTION)
                             ->label(__('filament.table_actions.discord_thread.message.embeds.body.description.name'))
                             ->helperText(__('filament.table_actions.discord_thread.message.embeds.body.description.help'))
                             ->required()
