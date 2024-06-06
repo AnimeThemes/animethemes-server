@@ -57,11 +57,9 @@ class DiscordEditMessageTableAction extends BaseTableAction
                         $set('content', Arr::get($message, 'content'));
 
                         foreach (Arr::get($message, 'embeds') ?? [] as $index => $embed) {
-                            $set("embeds.item{$index}.title", Arr::get($embed, 'title'));
-                            $set("embeds.item{$index}.description", Arr::get($embed, 'description'));
-                            $set("embeds.item{$index}.color", '#' . dechex(Arr::get($embed, 'color')));
-                            $set("embeds.item{$index}.thumbnail", Arr::get($embed, 'thumbnail'));
-                            $set("embeds.item{$index}.image", Arr::get($embed, 'image'));
+                            foreach ($embed as $key => $value) {
+                                $set("embeds.item{$index}.{$key}", $key === 'color' ? '#' . dechex($value) : $value);
+                            }
 
                             foreach (Arr::get($embed, 'fields') ?? [] as $fieldIndex => $field) {
                                 foreach ($field as $key => $value) {
