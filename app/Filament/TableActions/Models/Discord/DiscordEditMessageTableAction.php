@@ -29,7 +29,7 @@ class DiscordEditMessageTableAction extends BaseTableAction
     public function handle(array $fields): void
     {
         $action = new DiscordMessageAction();
-        
+
         $message = $action->makeMessage($fields);
 
         $action->edit($message);
@@ -52,9 +52,7 @@ class DiscordEditMessageTableAction extends BaseTableAction
                     ->required()
                     ->rules(['required', 'string'])
                     ->afterStateUpdated(function (Set $set, TextInput $component, string $state) {
-                        $action = new DiscordMessageAction();
-
-                        $message = $action->get($state)->getMessage();
+                        $message = (new DiscordMessageAction())->get($state)->getMessage();
 
                         $set('content', Arr::get($message, 'content'));
 
@@ -62,7 +60,9 @@ class DiscordEditMessageTableAction extends BaseTableAction
                         foreach (Arr::get($message, 'embeds') ?? [] as $embed) {
                             $set("embeds.item{$index}.title", Arr::get($embed, 'title'));
                             $set("embeds.item{$index}.description", Arr::get($embed, 'description'));
-                            $set("embeds.item{$index}.color", '#'.dechex(Arr::get($embed, 'color')));
+                            $set("embeds.item{$index}.color", '#' . dechex(Arr::get($embed, 'color')));
+                            $set("embeds.item{$index}.thumbnail", Arr::get($embed, 'thumbnail'));
+                            $set("embeds.item{$index}.image", Arr::get($embed, 'image'));
 
                             $fieldIndex = 0;
                             foreach (Arr::get($embed, 'fields') ?? [] as $field) {
@@ -71,15 +71,25 @@ class DiscordEditMessageTableAction extends BaseTableAction
                                 $set("embeds.item{$index}.fields.{$fieldIndex}.inline", Arr::get($field, 'inline'));
                                 $fieldIndex++;
                             }
-
                             $index++;
                         }
 
-                        $repeater = $component->getContainer()->getComponent('embeds')->getState();
+                        $index = 0;
+                        foreach (Arr::get($message, 'files') as $file) {
+                            $set("images.item{$index}.url", $file);
+                        }
 
-                        if (count($repeater) > 1) {
-                            array_shift($repeater);
-                            $set('embeds', $repeater);
+                        $embedRepeater = $component->getContainer()->getComponent('embeds')->getState();
+                        $imagesRepeater = $component->getContainer()->getComponent('images')->getState();
+
+                        if (count($embedRepeater) > 1) {
+                            array_shift($embedRepeater);
+                            $set('embeds', $embedRepeater);
+                        }
+
+                        if (count($imagesRepeater) > 1) {
+                            array_shift($imagesRepeater);
+                            $set('images', $imagesRepeater);
                         }
                     }),
 
@@ -107,6 +117,14 @@ class DiscordEditMessageTableAction extends BaseTableAction
                             ->label(__('filament.table_actions.discord_thread.message.embeds.body.color.name'))
                             ->helperText(__('filament.table_actions.discord_thread.message.embeds.body.color.help')),
 
+                        TextInput::make('thumbnail')
+                            ->label(__('filament.table_actions.discord_thread.message.embeds.body.thumbnail.name'))
+                            ->helperText(__('filament.table_actions.discord_thread.message.embeds.body.thumbnail.help')),
+
+                        TextInput::make('image')
+                            ->label(__('filament.table_actions.discord_thread.message.embeds.body.image.name'))
+                            ->helperText(__('filament.table_actions.discord_thread.message.embeds.body.image.help')),
+
                         Repeater::make('fields')
                             ->label(__('filament.table_actions.discord_thread.message.embeds.body.fields.title.name'))
                             ->helperText(__('filament.table_actions.discord_thread.message.embeds.body.fields.title.help'))
@@ -128,6 +146,19 @@ class DiscordEditMessageTableAction extends BaseTableAction
                                     ->label(__('filament.table_actions.discord_thread.message.embeds.body.fields.inline.name'))
                                     ->helperText(__('filament.table_actions.discord_thread.message.embeds.body.fields.inline.help')),
                             ]),
+                    ]),
+
+                Repeater::make('images')
+                    ->label(__('filament.table_actions.discord_thread.message.images.name'))
+                    ->helperText(__('filament.table_actions.discord_thread.message.images.help'))
+                    ->key('images')
+                    ->collapsible()
+                    ->schema([
+                        TextInput::make('url')
+                            ->label(__('filament.table_actions.discord_thread.message.images.body.url.name'))
+                            ->helperText(__('filament.table_actions.discord_thread.message.images.body.url.help'))
+                            ->required()
+                            ->rules(['required', 'string']),
                     ]),
             ]);
     }

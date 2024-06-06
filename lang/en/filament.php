@@ -978,6 +978,14 @@ return [
                             'help' => 'The color of the embed',
                             'name' => 'Color',
                         ],
+                        'thumbnail' => [
+                            'help' => 'The link of the thumbnail of the embed (right side)',
+                            'name' => 'Thumbnail',
+                        ],
+                        'image' => [
+                            'help' => 'The link of the image of the embed (bottom side)',
+                            'name' => 'Image',
+                        ],
                         'fields' => [
                             'title' => [
                                 'help' => 'The fields of the embed',
@@ -995,6 +1003,16 @@ return [
                                 'help' => 'If the field should be inline',
                                 'name' => 'Inline',
                             ],
+                        ],
+                    ],
+                ],
+                'images' => [
+                    'help' => 'The images of the message',
+                    'name' => 'Images',
+                    'body' => [
+                        'url' => [
+                            'help' => 'The URL of the image',
+                            'name' => 'URL',
                         ],
                     ],
                 ],

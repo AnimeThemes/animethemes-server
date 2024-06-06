@@ -56,7 +56,6 @@ class DiscordSendMessageTableAction extends BaseTableAction
                 Repeater::make('embeds')
                     ->label(__('filament.table_actions.discord_thread.message.embeds.name'))
                     ->helperText(__('filament.table_actions.discord_thread.message.embeds.help'))
-                    ->key('embeds')
                     ->collapsible()
                     ->schema([
                         TextInput::make('title')
@@ -72,6 +71,14 @@ class DiscordSendMessageTableAction extends BaseTableAction
                         ColorPicker::make('color')
                             ->label(__('filament.table_actions.discord_thread.message.embeds.body.color.name'))
                             ->helperText(__('filament.table_actions.discord_thread.message.embeds.body.color.help')),
+
+                        TextInput::make('thumbnail')
+                            ->label(__('filament.table_actions.discord_thread.message.embeds.body.thumbnail.name'))
+                            ->helperText(__('filament.table_actions.discord_thread.message.embeds.body.thumbnail.help')),
+
+                        TextInput::make('image')
+                            ->label(__('filament.table_actions.discord_thread.message.embeds.body.image.name'))
+                            ->helperText(__('filament.table_actions.discord_thread.message.embeds.body.image.help')),
 
                         Repeater::make('fields')
                             ->label(__('filament.table_actions.discord_thread.message.embeds.body.fields.title.name'))
@@ -94,6 +101,18 @@ class DiscordSendMessageTableAction extends BaseTableAction
                                     ->label(__('filament.table_actions.discord_thread.message.embeds.body.fields.inline.name'))
                                     ->helperText(__('filament.table_actions.discord_thread.message.embeds.body.fields.inline.help')),
                             ]),
+                    ]),
+
+                Repeater::make('images')
+                    ->label(__('filament.table_actions.discord_thread.message.images.name'))
+                    ->helperText(__('filament.table_actions.discord_thread.message.images.help'))
+                    ->collapsible()
+                    ->schema([
+                        TextInput::make('url')
+                            ->label(__('filament.table_actions.discord_thread.message.images.body.url.name'))
+                            ->helperText(__('filament.table_actions.discord_thread.message.images.body.url.help'))
+                            ->required()
+                            ->rules(['required', 'string']),
                     ]),
             ]);
     }

@@ -29,11 +29,13 @@ class DiscordMessageAction
 
         $embeds = [];
 
-        foreach(Arr::get($fields, 'embeds') as $embed) {
+        foreach (Arr::get($fields, 'embeds') as $embed) {
             $newEmbed = (new DiscordEmbed())
                 ->setTitle(Arr::get($embed, 'title') ?? '')
                 ->setDescription(Arr::get($embed, 'description') ?? '')
                 ->setColor(hexdec(Arr::get($embed, 'color') ?? ''))
+                ->setThumbnail(Arr::get($embed, 'thumbnail'))
+                ->setImage(Arr::get($embed, 'image'))
                 ->setFields(Arr::get($embed, 'fields') ?? []);
 
             $embedFields = Arr::get($embed, 'fields');
@@ -44,8 +46,7 @@ class DiscordMessageAction
                 }
             }
 
-            $newEmbed->setFields($newEmbedFields);
-            $embeds[] = $newEmbed->toArray();
+            $embeds[] = $newEmbed->setFields($newEmbedFields)->toArray();
         }
 
         if (Arr::has($fields, 'url')) {
@@ -57,14 +58,13 @@ class DiscordMessageAction
         }
 
         if (Arr::has($fields, 'channelId')) {
-            $message = $message
-                ->setChannelId(Arr::get($fields, 'channelId'));
+            $message = $message->setChannelId(Arr::get($fields, 'channelId'));
         }
 
         $message = $message
             ->setContent(Arr::get($fields, 'content') ?? '')
             ->setEmbeds($embeds)
-            ->setFiles(Arr::get($fields, 'files') ?? [])
+            ->setFiles(Arr::get($fields, 'images'))
             ->toArray();
 
         return $message;
