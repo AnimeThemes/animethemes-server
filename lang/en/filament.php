@@ -954,6 +954,14 @@ return [
         ],
         'discord_thread' => [
             'message' => [
+                'edit' => [
+                    'icon' => 'heroicon-o-pencil-square',
+                    'name' => 'Edit Message',
+                ],
+                'send' => [
+                    'icon' => 'heroicon-o-chat-bubble-left',
+                    'name' => 'Send Message',
+                ],
                 'channelId' => [
                     'help' => 'The channel ID the message should be sent to',
                     'name' => 'Channel ID',

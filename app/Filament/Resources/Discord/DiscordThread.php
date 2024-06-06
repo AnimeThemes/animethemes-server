@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Discord;
 
+use App\Actions\Discord\DiscordThreadAction;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\Select;
 use App\Filament\Components\Infolist\TextEntry;
@@ -20,10 +21,13 @@ use App\Models\Discord\DiscordThread as DiscordThreadModel;
 use App\Models\Wiki\Anime;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Forms\Set;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Infolist;
 use Filament\Support\Enums\MaxWidth;
+use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Table;
+use Illuminate\Support\Arr;
 
 /**
  * Class DiscordThread.
@@ -139,7 +143,9 @@ class DiscordThread extends BaseResource
                     ->disabledOn(['edit'])
                     ->formatStateUsing(fn ($state) => strval($state))
                     ->required()
-                    ->rules(['required']),
+                    ->rules(['required'])
+                    ->live(true)
+                    ->afterStateUpdated(fn (Set $set, string $state) => $set(DiscordThreadModel::ATTRIBUTE_NAME, Arr::get((new DiscordThreadAction())->get($state), 'thread.name'))),
 
                 TextInput::make(DiscordThreadModel::ATTRIBUTE_NAME)
                     ->label(__('filament.fields.discord_thread.name.name'))
@@ -283,15 +289,21 @@ class DiscordThread extends BaseResource
         return array_merge(
             parent::getHeaderActions(),
             [
-                DiscordEditMessageTableAction::make('edit-message')
-                    ->label('Edit Message')
-                    ->requiresConfirmation()
-                    ->modalWidth(MaxWidth::FourExtraLarge),
+                ActionGroup::make([
+                    DiscordEditMessageTableAction::make('edit-message')
+                        ->label(__('filament.table_actions.discord_thread.message.edit.name'))
+                        ->icon(__('filament.table_actions.discord_thread.message.edit.icon'))
+                        ->requiresConfirmation()
+                        ->modalWidth(MaxWidth::FourExtraLarge)
+                        ->authorize('delete', DiscordThread::class),
 
-                DiscordSendMessageTableAction::make('send-message')
-                    ->label('Send Message')
-                    ->requiresConfirmation()
-                    ->modalWidth(MaxWidth::FourExtraLarge),
+                    DiscordSendMessageTableAction::make('send-message')
+                        ->label(__('filament.table_actions.discord_thread.message.send.name'))
+                        ->icon(__('filament.table_actions.discord_thread.message.send.icon'))
+                        ->requiresConfirmation()
+                        ->modalWidth(MaxWidth::FourExtraLarge)
+                        ->authorize('delete', DiscordThread::class),
+                ]),
             ],
         );
     }
