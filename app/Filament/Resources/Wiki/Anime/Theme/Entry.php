@@ -181,6 +181,7 @@ class Entry extends BaseResource
                     ->allowHtml()
                     ->getSearchResultsUsing(function ($search) {
                         return ThemeModel::search($search)
+                            ->take(25)
                             ->get()
                             ->load(ThemeModel::RELATION_ANIME)
                             ->mapWithKeys(fn (ThemeModel $model) => [$model->getKey() => Select::getSearchLabelWithBlade($model)])
