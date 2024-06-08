@@ -32,13 +32,21 @@ class RouteServiceProvider extends ServiceProvider
     public function boot(): void
     {
         RateLimiter::for('api', function (Request $request) {
-            // Allow the client to bypass API rate limiting
             $user = $request->user('sanctum');
-            if ($user instanceof User && $user->can(SpecialPermission::BYPASS_API_RATE_LIMITER->value)) {
+            $ip = $request->ip();
+            $forwardedIp = $request->header('x-forwarded-ip');
+
+            // (If request is from client and no forwarded ip) or (the user logged in has permission to bypass API rate limiting)
+            if (($ip === '127.0.0.1' && !$forwardedIp) || ($user instanceof User && $user->can(SpecialPermission::BYPASS_API_RATE_LIMITER->value))) {
                 return Limit::none();
             }
 
-            return Limit::perMinute(90)->by(Auth::check() ? Auth::id() : $request->ip());
+            // Check if request is from client to prevent users from using forwarded ip
+            if ($ip === '127.0.0.1' && $forwardedIp) {
+                $ip = $forwardedIp;
+            }
+
+            return Limit::perMinute(90)->by(Auth::check() ? Auth::id() : $ip);
         });
 
         $this->routes(function () {
