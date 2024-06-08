@@ -46,13 +46,15 @@ class AnimeSeriesRelationManager extends BaseRelationManager
      */
     public function table(Table $table): Table
     {
-        return $table
-            ->heading(AnimeResource::getPluralLabel())
-            ->modelLabel(AnimeResource::getLabel())
-            ->recordTitleAttribute(Anime::ATTRIBUTE_NAME)
-            ->inverseRelationship(Anime::RELATION_SERIES)
-            ->columns(AnimeResource::table($table)->getColumns())
-            ->defaultSort(Anime::TABLE.'.'.Anime::ATTRIBUTE_ID, 'desc');
+        return parent::table(
+            $table
+                ->heading(AnimeResource::getPluralLabel())
+                ->modelLabel(AnimeResource::getLabel())
+                ->recordTitleAttribute(Anime::ATTRIBUTE_NAME)
+                ->inverseRelationship(Anime::RELATION_SERIES)
+                ->columns(AnimeResource::table($table)->getColumns())
+                ->defaultSort(Anime::TABLE . '.' . Anime::ATTRIBUTE_ID, 'desc')
+        );
     }
 
     /**

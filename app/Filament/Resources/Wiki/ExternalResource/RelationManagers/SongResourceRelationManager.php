@@ -46,13 +46,15 @@ class SongResourceRelationManager extends BaseRelationManager
      */
     public function table(Table $table): Table
     {
-        return $table
-            ->heading(SongResource::getPluralLabel())
-            ->modelLabel(SongResource::getLabel())
-            ->recordTitleAttribute(Song::ATTRIBUTE_TITLE)
-            ->inverseRelationship(Song::RELATION_RESOURCES)
-            ->columns(SongResource::table($table)->getColumns())
-            ->defaultSort(Song::TABLE.'.'.Song::ATTRIBUTE_ID, 'desc');
+        return parent::table(
+            $table
+                ->heading(SongResource::getPluralLabel())
+                ->modelLabel(SongResource::getLabel())
+                ->recordTitleAttribute(Song::ATTRIBUTE_TITLE)
+                ->inverseRelationship(Song::RELATION_RESOURCES)
+                ->columns(SongResource::table($table)->getColumns())
+                ->defaultSort(Song::TABLE . '.' . Song::ATTRIBUTE_ID, 'desc')
+        );
     }
 
     /**

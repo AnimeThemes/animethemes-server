@@ -47,13 +47,15 @@ class UserPermissionRelationManager extends BaseRelationManager
      */
     public function table(Table $table): Table
     {
-        return $table
-            ->heading(UserResource::getPluralLabel())
-            ->modelLabel(UserResource::getLabel())
-            ->recordTitleAttribute(User::ATTRIBUTE_NAME)
-            ->inverseRelationship(User::RELATION_PERMISSIONS)
-            ->columns(UserResource::table($table)->getColumns())
-            ->defaultSort(User::TABLE.'.'.User::ATTRIBUTE_ID, 'desc');
+        return parent::table(
+            $table
+                ->heading(UserResource::getPluralLabel())
+                ->modelLabel(UserResource::getLabel())
+                ->recordTitleAttribute(User::ATTRIBUTE_NAME)
+                ->inverseRelationship(User::RELATION_PERMISSIONS)
+                ->columns(UserResource::table($table)->getColumns())
+                ->defaultSort(User::TABLE . '.' . User::ATTRIBUTE_ID, 'desc')
+        );
     }
 
     /**

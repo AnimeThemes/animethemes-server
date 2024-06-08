@@ -46,13 +46,15 @@ class EntryThemeRelationManager extends BaseRelationManager
      */
     public function table(Table $table): Table
     {
-        return $table
-            ->heading(EntryResource::getPluralLabel())
-            ->modelLabel(EntryResource::getLabel())
-            ->recordTitleAttribute(AnimeThemeEntry::ATTRIBUTE_VERSION)
-            ->inverseRelationship(AnimeThemeEntry::RELATION_THEME)
-            ->columns(EntryResource::table($table)->getColumns())
-            ->defaultSort(AnimeThemeEntry::TABLE.'.'.AnimeThemeEntry::ATTRIBUTE_ID, 'desc');
+        return parent::table(
+            $table
+                ->heading(EntryResource::getPluralLabel())
+                ->modelLabel(EntryResource::getLabel())
+                ->recordTitleAttribute(AnimeThemeEntry::ATTRIBUTE_VERSION)
+                ->inverseRelationship(AnimeThemeEntry::RELATION_THEME)
+                ->columns(EntryResource::table($table)->getColumns())
+                ->defaultSort(AnimeThemeEntry::TABLE . '.' . AnimeThemeEntry::ATTRIBUTE_ID, 'desc')
+        );
     }
 
     /**

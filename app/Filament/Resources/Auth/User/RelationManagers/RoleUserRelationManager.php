@@ -48,13 +48,15 @@ class RoleUserRelationManager extends BaseRelationManager
      */
     public function table(Table $table): Table
     {
-        return $table
-            ->heading(RoleResource::getPluralLabel())
-            ->modelLabel(RoleResource::getLabel())
-            ->recordTitleAttribute(Role::ATTRIBUTE_NAME)
-            ->inverseRelationship(Role::RELATION_USERS)
-            ->columns(RoleResource::table($table)->getColumns())
-            ->defaultSort(Role::TABLE.'.'.Role::ATTRIBUTE_ID, 'desc');
+        return parent::table(
+            $table
+                ->heading(RoleResource::getPluralLabel())
+                ->modelLabel(RoleResource::getLabel())
+                ->recordTitleAttribute(Role::ATTRIBUTE_NAME)
+                ->inverseRelationship(Role::RELATION_USERS)
+                ->columns(RoleResource::table($table)->getColumns())
+                ->defaultSort(Role::TABLE . '.' . Role::ATTRIBUTE_ID, 'desc')
+        );
     }
 
     /**

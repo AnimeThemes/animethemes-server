@@ -46,13 +46,15 @@ class ResourceAnimeRelationManager extends BaseRelationManager
      */
     public function table(Table $table): Table
     {
-        return $table
-            ->heading(ExternalResourceResource::getPluralLabel())
-            ->modelLabel(ExternalResourceResource::getLabel())
-            ->recordTitleAttribute(ExternalResource::ATTRIBUTE_LINK)
-            ->inverseRelationship(ExternalResource::RELATION_ANIME)
-            ->columns(ExternalResourceResource::table($table)->getColumns())
-            ->defaultSort(ExternalResource::TABLE.'.'.ExternalResource::ATTRIBUTE_ID, 'desc');
+        return parent::table(
+            $table
+                ->heading(ExternalResourceResource::getPluralLabel())
+                ->modelLabel(ExternalResourceResource::getLabel())
+                ->recordTitleAttribute(ExternalResource::ATTRIBUTE_LINK)
+                ->inverseRelationship(ExternalResource::RELATION_ANIME)
+                ->columns(ExternalResourceResource::table($table)->getColumns())
+                ->defaultSort(ExternalResource::TABLE . '.' . ExternalResource::ATTRIBUTE_ID, 'desc')
+        );
     }
 
     /**
