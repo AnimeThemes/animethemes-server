@@ -46,13 +46,15 @@ class StudioImageRelationManager extends BaseRelationManager
      */
     public function table(Table $table): Table
     {
-        return $table
-            ->heading(StudioResource::getPluralLabel())
-            ->modelLabel(StudioResource::getLabel())
-            ->recordTitleAttribute(Studio::ATTRIBUTE_NAME)
-            ->inverseRelationship(Studio::RELATION_IMAGES)
-            ->columns(StudioResource::table($table)->getColumns())
-            ->defaultSort(Studio::TABLE.'.'.Studio::ATTRIBUTE_ID, 'desc');
+        return parent::table(
+            $table
+                ->heading(StudioResource::getPluralLabel())
+                ->modelLabel(StudioResource::getLabel())
+                ->recordTitleAttribute(Studio::ATTRIBUTE_NAME)
+                ->inverseRelationship(Studio::RELATION_IMAGES)
+                ->columns(StudioResource::table($table)->getColumns())
+                ->defaultSort(Studio::TABLE . '.' . Studio::ATTRIBUTE_ID, 'desc')
+        );
     }
 
     /**

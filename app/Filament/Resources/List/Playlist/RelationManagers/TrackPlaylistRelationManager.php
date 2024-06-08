@@ -46,13 +46,15 @@ class TrackPlaylistRelationManager extends BaseRelationManager
      */
     public function table(Table $table): Table
     {
-        return $table
-            ->heading(TrackResource::getPluralLabel())
-            ->modelLabel(TrackResource::getLabel())
-            ->recordTitleAttribute(PlaylistTrack::ATTRIBUTE_HASHID)
-            ->inverseRelationship(PlaylistTrack::RELATION_PLAYLIST)
-            ->columns(TrackResource::table($table)->getColumns())
-            ->defaultSort(PlaylistTrack::TABLE.'.'.PlaylistTrack::ATTRIBUTE_ID, 'desc');
+        return parent::table(
+            $table
+                ->heading(TrackResource::getPluralLabel())
+                ->modelLabel(TrackResource::getLabel())
+                ->recordTitleAttribute(PlaylistTrack::ATTRIBUTE_HASHID)
+                ->inverseRelationship(PlaylistTrack::RELATION_PLAYLIST)
+                ->columns(TrackResource::table($table)->getColumns())
+                ->defaultSort(PlaylistTrack::TABLE . '.' . PlaylistTrack::ATTRIBUTE_ID, 'desc')
+        );
     }
 
     /**

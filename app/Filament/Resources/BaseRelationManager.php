@@ -41,7 +41,6 @@ abstract class BaseRelationManager extends RelationManager
             ->actions(static::getActions())
             ->bulkActions(static::getBulkActions())
             ->headerActions(static::getHeaderActions())
-            ->recordUrl(fn (BaseResource $record): string => $record::getUrl('edit', ['record' => $record]))
             ->paginated([5, 10, 25])
             ->defaultPaginationPageOption(5);
     }

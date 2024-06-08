@@ -46,13 +46,15 @@ class ThemeGroupRelationManager extends BaseRelationManager
      */
     public function table(Table $table): Table
     {
-        return $table
-            ->heading(ThemeResource::getPluralLabel())
-            ->modelLabel(ThemeResource::getLabel())
-            ->recordTitleAttribute(ThemeModel::ATTRIBUTE_SLUG)
-            ->inverseRelationship(ThemeModel::RELATION_GROUP)
-            ->columns(ThemeResource::table($table)->getColumns())
-            ->defaultSort(ThemeModel::TABLE.'.'.ThemeModel::ATTRIBUTE_ID, 'desc');
+        return parent::table(
+            $table
+                ->heading(ThemeResource::getPluralLabel())
+                ->modelLabel(ThemeResource::getLabel())
+                ->recordTitleAttribute(ThemeModel::ATTRIBUTE_SLUG)
+                ->inverseRelationship(ThemeModel::RELATION_GROUP)
+                ->columns(ThemeResource::table($table)->getColumns())
+                ->defaultSort(ThemeModel::TABLE . '.' . ThemeModel::ATTRIBUTE_ID, 'desc')
+        );
     }
 
     /**

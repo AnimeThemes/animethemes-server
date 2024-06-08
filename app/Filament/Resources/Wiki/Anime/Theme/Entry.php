@@ -181,6 +181,7 @@ class Entry extends BaseResource
                     ->allowHtml()
                     ->getSearchResultsUsing(function ($search) {
                         return ThemeModel::search($search)
+                            ->take(25)
                             ->get()
                             ->load(ThemeModel::RELATION_ANIME)
                             ->mapWithKeys(fn (ThemeModel $model) => [$model->getKey() => Select::getSearchLabelWithBlade($model)])
@@ -234,7 +235,7 @@ class Entry extends BaseResource
                     ->label(__('filament.resources.singularLabel.anime'))
                     ->toggleable()
                     ->placeholder('-')
-                    ->urlToRelated(AnimeResource::class, EntryModel::RELATION_ANIME, limit: 30)
+                    ->urlToRelated(AnimeResource::class, EntryModel::RELATION_ANIME, limit: 60)
                     ->tooltip(fn (TextColumn $column) => $column->getState()),
 
                 TextColumn::make(EntryModel::ATTRIBUTE_THEME)

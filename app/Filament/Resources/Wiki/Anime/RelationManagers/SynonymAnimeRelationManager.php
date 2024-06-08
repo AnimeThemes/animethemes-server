@@ -46,13 +46,15 @@ class SynonymAnimeRelationManager extends BaseRelationManager
      */
     public function table(Table $table): Table
     {
-        return $table
-            ->heading(Synonym::getPluralLabel())
-            ->modelLabel(Synonym::getLabel())
-            ->recordTitleAttribute(SynonymModel::ATTRIBUTE_TEXT)
-            ->inverseRelationship(SynonymModel::RELATION_ANIME)
-            ->columns(Synonym::table($table)->getColumns())
-            ->defaultSort(SynonymModel::TABLE.'.'.SynonymModel::ATTRIBUTE_ID, 'desc');
+        return parent::table(
+            $table
+                ->heading(Synonym::getPluralLabel())
+                ->modelLabel(Synonym::getLabel())
+                ->recordTitleAttribute(SynonymModel::ATTRIBUTE_TEXT)
+                ->inverseRelationship(SynonymModel::RELATION_ANIME)
+                ->columns(Synonym::table($table)->getColumns())
+                ->defaultSort(SynonymModel::TABLE . '.' . SynonymModel::ATTRIBUTE_ID, 'desc')
+        );
     }
 
     /**

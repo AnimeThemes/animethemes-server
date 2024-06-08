@@ -47,13 +47,15 @@ class VideoAudioRelationManager extends BaseRelationManager
      */
     public function table(Table $table): Table
     {
-        return $table
-            ->heading(VideoResource::getPluralLabel())
-            ->modelLabel(VideoResource::getLabel())
-            ->recordTitleAttribute(Video::ATTRIBUTE_FILENAME)
-            ->inverseRelationship(Video::RELATION_AUDIO)
-            ->columns(VideoResource::table($table)->getColumns())
-            ->defaultSort(Video::TABLE.'.'.Video::ATTRIBUTE_ID, 'desc');
+        return parent::table(
+            $table
+                ->heading(VideoResource::getPluralLabel())
+                ->modelLabel(VideoResource::getLabel())
+                ->recordTitleAttribute(Video::ATTRIBUTE_FILENAME)
+                ->inverseRelationship(Video::RELATION_AUDIO)
+                ->columns(VideoResource::table($table)->getColumns())
+                ->defaultSort(Video::TABLE . '.' . Video::ATTRIBUTE_ID, 'desc')
+        );
     }
 
     /**

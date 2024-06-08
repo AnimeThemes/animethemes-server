@@ -56,11 +56,11 @@ class ListArtists extends BaseListResources
     protected function applySearchToTableQuery(Builder $query): Builder
     {
         $this->applyColumnSearchesToTableQuery($query);
-    
+
         if (filled($search = $this->getTableSearch())) {
-            $query->whereIn(ArtistModel::ATTRIBUTE_ID, ArtistModel::search($search)->keys());
+            $query->whereIn(ArtistModel::ATTRIBUTE_ID, ArtistModel::search($search)->take(25)->keys());
         }
-     
+
         return $query;
     }
 

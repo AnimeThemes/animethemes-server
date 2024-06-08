@@ -46,12 +46,14 @@ class ScriptVideoRelationManager extends BaseRelationManager
      */
     public function table(Table $table): Table
     {
-        return $table
-            ->heading(ScriptResource::getLabel())
-            ->modelLabel(ScriptResource::getLabel())
-            ->recordTitleAttribute(VideoScript::ATTRIBUTE_PATH)
-            ->inverseRelationship(VideoScript::RELATION_VIDEO)
-            ->columns(ScriptResource::table($table)->getColumns());
+        return parent::table(
+            $table
+                ->heading(ScriptResource::getLabel())
+                ->modelLabel(ScriptResource::getLabel())
+                ->recordTitleAttribute(VideoScript::ATTRIBUTE_PATH)
+                ->inverseRelationship(VideoScript::RELATION_VIDEO)
+                ->columns(ScriptResource::table($table)->getColumns())
+        );
     }
 
     /**

@@ -29,6 +29,7 @@ class Select extends ComponentsSelect
                 ->searchable()
                 ->getSearchResultsUsing(function (string $search) use ($model, $loadRelation) {
                     return (new $model)::search($search)
+                        ->take(25)
                         ->get()
                         ->load($loadRelation ?? [])
                         ->mapWithKeys(fn (BaseModel $model) => [$model->getKey() => static::getSearchLabelWithBlade($model)])

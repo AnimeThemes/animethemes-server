@@ -48,13 +48,15 @@ class PermissionRoleRelationManager extends BaseRelationManager
      */
     public function table(Table $table): Table
     {
-        return $table
-            ->heading(PermissionResource::getPluralLabel())
-            ->modelLabel(PermissionResource::getLabel())
-            ->recordTitleAttribute(Permission::ATTRIBUTE_NAME)
-            ->inverseRelationship(Permission::RELATION_ROLES)
-            ->columns(PermissionResource::table($table)->getColumns())
-            ->defaultSort(Permission::TABLE.'.'.Permission::ATTRIBUTE_ID, 'desc');
+        return parent::table(
+            $table
+                ->heading(PermissionResource::getPluralLabel())
+                ->modelLabel(PermissionResource::getLabel())
+                ->recordTitleAttribute(Permission::ATTRIBUTE_NAME)
+                ->inverseRelationship(Permission::RELATION_ROLES)
+                ->columns(PermissionResource::table($table)->getColumns())
+                ->defaultSort(Permission::TABLE . '.' . Permission::ATTRIBUTE_ID, 'desc')
+        );
     }
 
     /**

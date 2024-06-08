@@ -40,11 +40,11 @@ class ListThemes extends BaseListResources
     protected function applySearchToTableQuery(Builder $query): Builder
     {
         $this->applyColumnSearchesToTableQuery($query);
-    
+
         if (filled($search = $this->getTableSearch())) {
-            $query->whereIn(AnimeTheme::ATTRIBUTE_ID, AnimeTheme::search($search)->keys());
+            $query->whereIn(AnimeTheme::ATTRIBUTE_ID, AnimeTheme::search($search)->take(25)->keys());
         }
-     
+
         return $query;
     }
 }

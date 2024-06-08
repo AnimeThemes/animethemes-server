@@ -46,13 +46,15 @@ class SeriesAnimeRelationManager extends BaseRelationManager
      */
     public function table(Table $table): Table
     {
-        return $table
-            ->heading(SeriesResource::getPluralLabel())
-            ->modelLabel(SeriesResource::getLabel())
-            ->recordTitleAttribute(Series::ATTRIBUTE_NAME)
-            ->inverseRelationship(Series::RELATION_ANIME)
-            ->columns(SeriesResource::table($table)->getColumns())
-            ->defaultSort(Series::TABLE.'.'.Series::ATTRIBUTE_ID, 'desc');
+        return parent::table(
+            $table
+                ->heading(SeriesResource::getPluralLabel())
+                ->modelLabel(SeriesResource::getLabel())
+                ->recordTitleAttribute(Series::ATTRIBUTE_NAME)
+                ->inverseRelationship(Series::RELATION_ANIME)
+                ->columns(SeriesResource::table($table)->getColumns())
+                ->defaultSort(Series::TABLE . '.' . Series::ATTRIBUTE_ID, 'desc')
+        );
     }
 
     /**
