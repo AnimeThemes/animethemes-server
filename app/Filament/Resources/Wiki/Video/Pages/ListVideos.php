@@ -49,11 +49,11 @@ class ListVideos extends BaseListResources
     protected function applySearchToTableQuery(Builder $query): Builder
     {
         $this->applyColumnSearchesToTableQuery($query);
-    
+
         if (filled($search = $this->getTableSearch())) {
-            $query->whereIn(VideoModel::ATTRIBUTE_ID, VideoModel::search($search)->keys());
+            $query->whereIn(VideoModel::ATTRIBUTE_ID, VideoModel::search($search)->take(25)->keys());
         }
-     
+
         return $query;
     }
 

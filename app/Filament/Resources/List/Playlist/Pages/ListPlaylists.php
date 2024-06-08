@@ -40,11 +40,11 @@ class ListPlaylists extends BaseListResources
     protected function applySearchToTableQuery(Builder $query): Builder
     {
         $this->applyColumnSearchesToTableQuery($query);
-    
+
         if (filled($search = $this->getTableSearch())) {
-            $query->whereIn(PlaylistModel::ATTRIBUTE_ID, PlaylistModel::search($search)->keys());
+            $query->whereIn(PlaylistModel::ATTRIBUTE_ID, PlaylistModel::search($search)->take(25)->keys());
         }
-     
+
         return $query;
     }
 }

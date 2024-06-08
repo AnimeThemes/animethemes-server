@@ -52,14 +52,14 @@ class ListStudios extends BaseListResources
     protected function applySearchToTableQuery(Builder $query): Builder
     {
         $this->applyColumnSearchesToTableQuery($query);
-    
+
         if (filled($search = $this->getTableSearch())) {
-            $query->whereIn(StudioModel::ATTRIBUTE_ID, StudioModel::search($search)->keys());
+            $query->whereIn(StudioModel::ATTRIBUTE_ID, StudioModel::search($search)->take(25)->keys());
         }
-     
+
         return $query;
     }
-    
+
     /**
      * Get the tabs available.
      *
