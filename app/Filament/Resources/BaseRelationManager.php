@@ -5,6 +5,22 @@ declare(strict_types=1);
 namespace App\Filament\Resources;
 
 use App\Filament\Components\Fields\Select;
+use App\Filament\Resources\Wiki\Anime\RelationManagers\ResourceAnimeRelationManager;
+use App\Filament\Resources\Wiki\Artist\RelationManagers\ResourceArtistRelationManager;
+use App\Filament\Resources\Wiki\Artist\RelationManagers\SongArtistRelationManager;
+use App\Filament\Resources\Wiki\ExternalResource\RelationManagers\AnimeResourceRelationManager;
+use App\Filament\Resources\Wiki\ExternalResource\RelationManagers\ArtistResourceRelationManager;
+use App\Filament\Resources\Wiki\ExternalResource\RelationManagers\SongResourceRelationManager;
+use App\Filament\Resources\Wiki\ExternalResource\RelationManagers\StudioResourceRelationManager;
+use App\Filament\Resources\Wiki\Song\RelationManagers\ArtistSongRelationManager;
+use App\Filament\Resources\Wiki\Song\RelationManagers\ResourceSongRelationManager;
+use App\Filament\Resources\Wiki\Studio\RelationManagers\ResourceStudioRelationManager;
+use App\Pivots\Wiki\AnimeResource;
+use App\Pivots\Wiki\ArtistResource;
+use App\Pivots\Wiki\ArtistSong;
+use App\Pivots\Wiki\StudioResource;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables\Actions\AttachAction;
 use Filament\Tables\Actions\BulkActionGroup;
@@ -127,6 +143,34 @@ abstract class BaseRelationManager extends RelationManager
                     return Select::make('recordId')
                         ->label($title)
                         ->useScout($model);
+                })
+                ->form(function (Form $form, AttachAction $action) {
+                    return $form
+                        ->schema([
+                            $action->getRecordSelect(),
+
+                            TextInput::make(AnimeResource::ATTRIBUTE_AS)
+                                ->label(__('filament.fields.anime.resources.as.name'))
+                                ->helperText(__('filament.fields.anime.resources.as.help'))
+                                ->visibleOn([
+                                    AnimeResourceRelationManager::class,
+                                    ArtistResourceRelationManager::class,
+                                    SongResourceRelationManager::class,
+                                    StudioResourceRelationManager::class,
+                                    ResourceAnimeRelationManager::class,
+                                    ResourceArtistRelationManager::class,
+                                    ResourceSongRelationManager::class,
+                                    ResourceStudioRelationManager::class,
+                                ]),
+
+                            TextInput::make(ArtistSong::ATTRIBUTE_AS)
+                                ->label(__('filament.fields.artist.songs.as.name'))
+                                ->helperText(__('filament.fields.artist.songs.as.help'))
+                                ->visibleOn([
+                                    ArtistSongRelationManager::class,
+                                    SongArtistRelationManager::class,
+                                ]),
+                        ]);
                 }),
         ];
     }

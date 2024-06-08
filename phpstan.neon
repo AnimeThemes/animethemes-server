@@ -27,4 +27,4 @@ parameters:
         - '#::mapWithKeys\(\) expects*non-empty-array<int|string, string> given.#'
         -
             message: '#Right side of && is always true.#'
-            path: app\Providers\RouteServiceProvider.php
+            path: app/Providers/RouteServiceProvider.php
