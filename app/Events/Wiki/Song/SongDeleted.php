@@ -6,6 +6,7 @@ namespace App\Events\Wiki\Song;
 
 use App\Contracts\Events\UpdateRelatedIndicesEvent;
 use App\Events\Base\Wiki\WikiDeletedEvent;
+use App\Filament\Resources\Wiki\Song as SongFilament;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Artist;
@@ -68,6 +69,18 @@ class SongDeleted extends WikiDeletedEvent implements UpdateRelatedIndicesEvent
     protected function getNovaNotificationUrl(): string
     {
         $uriKey = SongResource::uriKey();
+
+        return "/resources/$uriKey/{$this->getModel()->getKey()}";
+    }
+
+    /**
+     * Get the URL for the Filament notification.
+     *
+     * @return string
+     */
+    protected function getFilamentNotificationUrl(): string
+    {
+        $uriKey = SongFilament::getRecordSlug();
 
         return "/resources/$uriKey/{$this->getModel()->getKey()}";
     }

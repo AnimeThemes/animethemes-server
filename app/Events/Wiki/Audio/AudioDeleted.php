@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Events\Wiki\Audio;
 
 use App\Events\Base\Wiki\WikiDeletedEvent;
+use App\Filament\Resources\Wiki\Audio as AudioFilament;
 use App\Models\Wiki\Audio;
 use App\Nova\Resources\Wiki\Audio as AudioResource;
 
@@ -63,6 +64,18 @@ class AudioDeleted extends WikiDeletedEvent
     protected function getNovaNotificationUrl(): string
     {
         $uriKey = AudioResource::uriKey();
+
+        return "/resources/$uriKey/{$this->getModel()->getKey()}";
+    }
+
+    /**
+     * Get the URL for the Filament notification.
+     *
+     * @return string
+     */
+    protected function getFilamentNotificationUrl(): string
+    {
+        $uriKey = AudioFilament::getRecordSlug();
 
         return "/resources/$uriKey/{$this->getModel()->getKey()}";
     }

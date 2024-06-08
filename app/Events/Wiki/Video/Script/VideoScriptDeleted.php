@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Events\Wiki\Video\Script;
 
 use App\Events\Base\Wiki\WikiDeletedEvent;
+use App\Filament\Resources\Wiki\Video\Script as VideoScriptFilament;
 use App\Models\Wiki\Video\VideoScript;
 use App\Nova\Resources\Wiki\Video\Script;
 
@@ -63,6 +64,18 @@ class VideoScriptDeleted extends WikiDeletedEvent
     protected function getNovaNotificationUrl(): string
     {
         $uriKey = Script::uriKey();
+
+        return "/resources/$uriKey/{$this->getModel()->getKey()}";
+    }
+
+    /**
+     * Get the URL for the Filament notification.
+     *
+     * @return string
+     */
+    protected function getFilamentNotificationUrl(): string
+    {
+        $uriKey = VideoScriptFilament::getRecordSlug();
 
         return "/resources/$uriKey/{$this->getModel()->getKey()}";
     }
