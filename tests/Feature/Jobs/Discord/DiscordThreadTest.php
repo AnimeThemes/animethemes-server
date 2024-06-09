@@ -12,6 +12,7 @@ use App\Models\Discord\DiscordThread;
 use App\Models\Wiki\Anime;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Http;
 use Laravel\Pennant\Feature;
 use Tests\TestCase;
 
@@ -33,6 +34,7 @@ class DiscordThreadTest extends TestCase
 
         Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
         Bus::fake(SendDiscordNotificationJob::class);
+        Http::fake();
         Event::fakeExcept(DiscordThreadDeleted::class);
 
         $thread->delete();
@@ -53,6 +55,7 @@ class DiscordThreadTest extends TestCase
 
         Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
         Bus::fake(SendDiscordNotificationJob::class);
+        Http::fake();
         Event::fakeExcept(DiscordThreadUpdated::class);
 
         $changes = DiscordThread::factory()
