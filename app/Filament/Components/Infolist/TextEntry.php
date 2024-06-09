@@ -8,6 +8,7 @@ use App\Filament\Resources\BaseResource;
 use App\Models\BaseModel;
 use Filament\Infolists\Components\TextEntry as ComponentsTextEntry;
 use Filament\Support\Enums\FontWeight;
+use Filament\Support\Enums\IconPosition;
 use Illuminate\Support\Arr;
 
 /**
@@ -53,6 +54,7 @@ class TextEntry extends ComponentsTextEntry
     {
         return $this
             ->copyable($condition)
-            ->copyMessage(__('filament.actions.base.copied'));
+            ->copyMessage(__('filament.actions.base.copied'))
+            ->icon('heroicon-o-clipboard');
     }
 }
