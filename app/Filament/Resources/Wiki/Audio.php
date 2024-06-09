@@ -9,7 +9,6 @@ use App\Filament\Actions\Storage\Wiki\Audio\DeleteAudioAction;
 use App\Filament\Actions\Storage\Wiki\Audio\MoveAudioAction;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Filters\NumberFilter;
-use App\Filament\Components\Filters\TextFilter;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Audio\Pages\CreateAudio;
@@ -238,8 +237,7 @@ class Audio extends BaseResource
         return array_merge(
             [
                 NumberFilter::make(AudioModel::ATTRIBUTE_SIZE)
-                    ->labels(__('filament.filters.audio.size_from'), __('filament.filters.audio.size_to'))
-                    ->attribute(AudioModel::ATTRIBUTE_SIZE),
+                    ->labels(__('filament.filters.audio.size_from'), __('filament.filters.audio.size_to')),
             ],
             parent::getFilters(),
         );

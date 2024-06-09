@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Resources;
 
 use App\Filament\Components\Filters\DateFilter;
+use App\Filament\RelationManagers\BaseRelationManager;
 use App\Models\BaseModel;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Resources\Resource;
@@ -12,6 +13,7 @@ use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\DeleteBulkAction;
+use Filament\Tables\Actions\DetachAction;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\ForceDeleteAction;
 use Filament\Tables\Actions\ForceDeleteBulkAction;
@@ -99,15 +101,12 @@ abstract class BaseResource extends Resource
             TrashedFilter::make(),
 
             DateFilter::make(BaseModel::ATTRIBUTE_CREATED_AT)
-                ->attribute(BaseModel::ATTRIBUTE_CREATED_AT)
                 ->labels(__('filament.filters.base.created_at_from'),  __('filament.filters.base.created_at_to')),
 
             DateFilter::make(BaseModel::ATTRIBUTE_UPDATED_AT)
-                ->attribute(BaseModel::ATTRIBUTE_UPDATED_AT)
                 ->labels(__('filament.filters.base.updated_at_from'),  __('filament.filters.base.updated_at_to')),
 
             DateFilter::make(BaseModel::ATTRIBUTE_DELETED_AT)
-                ->attribute(BaseModel::ATTRIBUTE_DELETED_AT)
                 ->labels(__('filament.filters.base.deleted_at_from'),  __('filament.filters.base.deleted_at_to')),
         ];
     }
@@ -129,6 +128,10 @@ abstract class BaseResource extends Resource
                 ->label(__('filament.actions.base.edit')),
 
             ActionGroup::make([
+                DetachAction::make()
+                    ->label(__('filament.actions.base.detach'))
+                    ->hidden(fn ($livewire) => !($livewire instanceof BaseRelationManager)),
+
                 DeleteAction::make()
                     ->label(__('filament.actions.base.delete')),
 

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Filament\Components\Columns;
 
-use App\Filament\Resources\BaseRelationManager;
 use App\Filament\Resources\BaseResource;
 use App\Models\BaseModel;
 use Filament\Support\Enums\FontWeight;
@@ -57,6 +56,7 @@ class TextColumn extends ColumnsTextColumn
     {
         return $this
             ->copyable($condition)
-            ->copyMessage(__('filament.actions.base.copied'));
+            ->copyMessage(__('filament.actions.base.copied'))
+            ->icon('heroicon-o-clipboard');
     }
 }

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Filament\Widgets;
 
-use App\Models\BaseModel;
 use Flowframe\Trend\Trend;
 use Illuminate\Support\Collection;
 use Leandrocfe\FilamentApexCharts\Widgets\ApexChartWidget;
@@ -14,6 +13,8 @@ use Leandrocfe\FilamentApexCharts\Widgets\ApexChartWidget;
  */
 class BaseChartWidget extends ApexChartWidget
 {
+    protected static bool $isLazy = false;
+
     /**
      * Get the resources count created per month.
      * 

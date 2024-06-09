@@ -4,17 +4,15 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\List\Playlist\RelationManagers;
 
-use App\Filament\Resources\BaseRelationManager;
-use App\Filament\Resources\List\Playlist\Track as TrackResource;
+use App\Filament\RelationManagers\List\Playlist\TrackRelationManager;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
-use Filament\Forms\Form;
 use Filament\Tables\Table;
 
 /**
  * Class TrackPlaylistRelationManager.
  */
-class TrackPlaylistRelationManager extends BaseRelationManager
+class TrackPlaylistRelationManager extends TrackRelationManager
 {
     /**
      * The relationship the relation manager corresponds to.
@@ -22,19 +20,6 @@ class TrackPlaylistRelationManager extends BaseRelationManager
      * @return string
      */
     protected static string $relationship = Playlist::RELATION_TRACKS;
-
-    /**
-     * The form to the actions.
-     *
-     * @param  Form  $form
-     * @return Form
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    public function form(Form $form): Form
-    {
-        return TrackResource::form($form);
-    }
 
     /**
      * The index page of the resource.
@@ -48,12 +33,7 @@ class TrackPlaylistRelationManager extends BaseRelationManager
     {
         return parent::table(
             $table
-                ->heading(TrackResource::getPluralLabel())
-                ->modelLabel(TrackResource::getLabel())
-                ->recordTitleAttribute(PlaylistTrack::ATTRIBUTE_HASHID)
                 ->inverseRelationship(PlaylistTrack::RELATION_PLAYLIST)
-                ->columns(TrackResource::table($table)->getColumns())
-                ->defaultSort(PlaylistTrack::TABLE . '.' . PlaylistTrack::ATTRIBUTE_ID, 'desc')
         );
     }
 
@@ -67,8 +47,8 @@ class TrackPlaylistRelationManager extends BaseRelationManager
     public static function getFilters(): array
     {
         return array_merge(
-            parent::getFilters(),
             [],
+            parent::getFilters(),
         );
     }
 
@@ -89,7 +69,7 @@ class TrackPlaylistRelationManager extends BaseRelationManager
 
     /**
      * Get the bulk actions available for the relation.
-     * 
+     *
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection

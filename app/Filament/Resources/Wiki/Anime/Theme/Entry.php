@@ -9,7 +9,7 @@ use App\Filament\Components\Fields\Select;
 use App\Filament\Components\Filters\NumberFilter;
 use App\Filament\Components\Filters\TextFilter;
 use App\Filament\Components\Infolist\TextEntry;
-use App\Filament\Resources\BaseRelationManager;
+use App\Filament\RelationManagers\Wiki\Anime\Theme\EntryRelationManager;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Anime as AnimeResource;
 use App\Filament\Resources\Wiki\Anime\Theme as ThemeResource;
@@ -162,9 +162,9 @@ class Entry extends BaseResource
                     ->label(__('filament.resources.singularLabel.anime'))
                     ->relationship(EntryModel::RELATION_ANIME_SHALLOW, AnimeModel::ATTRIBUTE_NAME)
                     ->searchable()
-                    ->hiddenOn(BaseRelationManager::class)
+                    ->hiddenOn(EntryRelationManager::class)
                     ->formatStateUsing(function ($livewire, $state) {
-                        if ($livewire instanceof BaseRelationManager) {
+                        if ($livewire instanceof EntryRelationManager) {
                             /** @var EntryModel */
                             $entry = $livewire->getOwnerRecord();
                             return $entry->anime->getName();
@@ -177,7 +177,7 @@ class Entry extends BaseResource
                     ->label(__('filament.resources.singularLabel.anime_theme'))
                     ->relationship(EntryModel::RELATION_THEME, ThemeModel::ATTRIBUTE_ID)
                     ->searchable()
-                    ->hiddenOn(BaseRelationManager::class)
+                    ->hiddenOn(EntryRelationManager::class)
                     ->allowHtml()
                     ->getSearchResultsUsing(function ($search) {
                         return ThemeModel::search($search)
@@ -360,12 +360,10 @@ class Entry extends BaseResource
         return array_merge(
             [
                 NumberFilter::make(EntryModel::ATTRIBUTE_VERSION)
-                    ->labels(__('filament.filters.anime_theme_entry.version_from'), __('filament.filters.anime_theme_entry.version_to'))
-                    ->attribute(EntryModel::ATTRIBUTE_VERSION),
+                    ->labels(__('filament.filters.anime_theme_entry.version_from'), __('filament.filters.anime_theme_entry.version_to')),
 
                 TextFilter::make(EntryModel::ATTRIBUTE_EPISODES)
-                    ->label(__('filament.fields.anime_theme_entry.episodes.name'))
-                    ->attribute(EntryModel::ATTRIBUTE_EPISODES),
+                    ->label(__('filament.fields.anime_theme_entry.episodes.name')),
 
                 Filter::make(EntryModel::ATTRIBUTE_NSFW)
                     ->label(__('filament.fields.anime_theme_entry.nsfw.name'))

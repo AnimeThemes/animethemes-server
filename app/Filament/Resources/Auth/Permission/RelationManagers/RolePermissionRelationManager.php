@@ -4,18 +4,15 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Auth\Permission\RelationManagers;
 
-use App\Filament\Resources\BaseRelationManager;
-use App\Filament\Resources\Auth\Role as RoleResource;
+use App\Filament\RelationManagers\Auth\RoleRelationManager;
 use App\Models\Auth\Permission;
 use App\Models\Auth\Role;
-use Filament\Forms\Form;
-use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Table;
 
 /**
  * Class RolePermissionRelationManager.
  */
-class RolePermissionRelationManager extends BaseRelationManager
+class RolePermissionRelationManager extends RoleRelationManager
 {
     /**
      * The relationship the relation manager corresponds to.
@@ -23,19 +20,6 @@ class RolePermissionRelationManager extends BaseRelationManager
      * @return string
      */
     protected static string $relationship = Permission::RELATION_ROLES;
-
-    /**
-     * The form to the actions.
-     *
-     * @param  Form  $form
-     * @return Form
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    public function form(Form $form): Form
-    {
-        return RoleResource::form($form);
-    }
 
     /**
      * The index page of the resource.
@@ -49,12 +33,7 @@ class RolePermissionRelationManager extends BaseRelationManager
     {
         return parent::table(
             $table
-                ->heading(RoleResource::getPluralLabel())
-                ->modelLabel(RoleResource::getLabel())
-                ->recordTitleAttribute(Role::ATTRIBUTE_NAME)
                 ->inverseRelationship(Role::RELATION_PERMISSIONS)
-                ->columns(RoleResource::table($table)->getColumns())
-                ->defaultSort(Role::TABLE . '.' . Role::ATTRIBUTE_ID, 'desc')
         );
     }
 
@@ -67,7 +46,10 @@ class RolePermissionRelationManager extends BaseRelationManager
      */
     public static function getFilters(): array
     {
-        return [];
+        return array_merge(
+            [],
+            parent::getFilters(),
+        );
     }
 
     /**
@@ -79,14 +61,15 @@ class RolePermissionRelationManager extends BaseRelationManager
      */
     public static function getActions(): array
     {
-        return [
-            ViewAction::make(),
-        ];
+        return array_merge(
+            parent::getActions(),
+            [],
+        );
     }
 
     /**
      * Get the bulk actions available for the relation.
-     * 
+     *
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection

@@ -4,11 +4,9 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Auth\Role\RelationManagers;
 
-use App\Filament\Resources\BaseRelationManager;
-use App\Filament\Resources\Auth\User as UserResource;
+use App\Filament\RelationManagers\Auth\UserRelationManager;
 use App\Models\Auth\Role;
 use App\Models\Auth\User;
-use Filament\Forms\Form;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Table;
@@ -16,7 +14,7 @@ use Filament\Tables\Table;
 /**
  * Class UserRoleRelationManager.
  */
-class UserRoleRelationManager extends BaseRelationManager
+class UserRoleRelationManager extends UserRelationManager
 {
     /**
      * The relationship the relation manager corresponds to.
@@ -24,19 +22,6 @@ class UserRoleRelationManager extends BaseRelationManager
      * @return string
      */
     protected static string $relationship = Role::RELATION_USERS;
-
-    /**
-     * The form to the actions.
-     *
-     * @param  Form  $form
-     * @return Form
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    public function form(Form $form): Form
-    {
-        return UserResource::form($form);
-    }
 
     /**
      * The index page of the resource.
@@ -50,12 +35,7 @@ class UserRoleRelationManager extends BaseRelationManager
     {
         return parent::table(
             $table
-                ->heading(UserResource::getPluralLabel())
-                ->modelLabel(UserResource::getLabel())
-                ->recordTitleAttribute(User::ATTRIBUTE_NAME)
                 ->inverseRelationship(User::RELATION_ROLES)
-                ->columns(UserResource::table($table)->getColumns())
-                ->defaultSort(User::TABLE . '.' . User::ATTRIBUTE_ID, 'desc')
         );
     }
 

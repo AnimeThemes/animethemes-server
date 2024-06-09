@@ -8,7 +8,7 @@ use App\Enums\Models\Wiki\AnimeSynonymType;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\Select;
 use App\Filament\Components\Infolist\TextEntry;
-use App\Filament\Resources\BaseRelationManager;
+use App\Filament\RelationManagers\Wiki\Anime\SynonymRelationManager;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Anime as AnimeResource;
 use App\Filament\Resources\Wiki\Anime\RelationManagers\SynonymAnimeRelationManager;
@@ -126,7 +126,7 @@ class Synonym extends BaseResource
                     ->label(__('filament.resources.singularLabel.anime'))
                     ->relationship(SynonymModel::RELATION_ANIME, AnimeModel::ATTRIBUTE_NAME)
                     ->searchable()
-                    ->hiddenOn(BaseRelationManager::class),
+                    ->hiddenOn(SynonymRelationManager::class),
 
                 Select::make(SynonymModel::ATTRIBUTE_TYPE)
                     ->label(__('filament.fields.anime_synonym.type.name'))

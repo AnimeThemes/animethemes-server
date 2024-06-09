@@ -4,17 +4,15 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Wiki\Video\RelationManagers;
 
-use App\Filament\Resources\BaseRelationManager;
-use App\Filament\Resources\Wiki\Anime\Theme\Entry as EntryResource;
+use App\Filament\RelationManagers\Wiki\Anime\Theme\EntryRelationManager;
 use App\Models\Wiki\Video;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
-use Filament\Forms\Form;
 use Filament\Tables\Table;
 
 /**
  * Class EntryVideoRelationManager.
  */
-class EntryVideoRelationManager extends BaseRelationManager
+class EntryVideoRelationManager extends EntryRelationManager
 {
     /**
      * The relationship the relation manager corresponds to.
@@ -22,19 +20,6 @@ class EntryVideoRelationManager extends BaseRelationManager
      * @return string
      */
     protected static string $relationship = Video::RELATION_ANIMETHEMEENTRIES;
-
-    /**
-     * The form to the actions.
-     *
-     * @param  Form  $form
-     * @return Form
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    public function form(Form $form): Form
-    {
-        return EntryResource::form($form);
-    }
 
     /**
      * The index page of the resource.
@@ -48,12 +33,7 @@ class EntryVideoRelationManager extends BaseRelationManager
     {
         return parent::table(
             $table
-                ->heading(EntryResource::getPluralLabel())
-                ->modelLabel(EntryResource::getLabel())
-                ->recordTitleAttribute(AnimeThemeEntry::ATTRIBUTE_VERSION)
                 ->inverseRelationship(AnimeThemeEntry::RELATION_VIDEOS)
-                ->columns(EntryResource::table($table)->getColumns())
-                ->defaultSort(AnimeThemeEntry::TABLE . '.' . AnimeThemeEntry::ATTRIBUTE_ID, 'desc')
         );
     }
 
@@ -67,8 +47,8 @@ class EntryVideoRelationManager extends BaseRelationManager
     public static function getFilters(): array
     {
         return array_merge(
-            parent::getFilters(),
             [],
+            parent::getFilters(),
         );
     }
 
@@ -89,7 +69,7 @@ class EntryVideoRelationManager extends BaseRelationManager
 
     /**
      * Get the bulk actions available for the relation.
-     * 
+     *
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection

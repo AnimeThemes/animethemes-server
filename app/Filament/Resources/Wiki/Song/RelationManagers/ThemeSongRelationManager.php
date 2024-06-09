@@ -4,17 +4,15 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Wiki\Song\RelationManagers;
 
-use App\Filament\Resources\BaseRelationManager;
-use App\Filament\Resources\Wiki\Anime\Theme as ThemeResource;
+use App\Filament\RelationManagers\Wiki\Anime\ThemeRelationManager;
 use App\Models\Wiki\Anime\AnimeTheme as ThemeModel;
 use App\Models\Wiki\Song as SongModel;
-use Filament\Forms\Form;
 use Filament\Tables\Table;
 
 /**
  * Class ThemeSongRelationManager.
  */
-class ThemeSongRelationManager extends BaseRelationManager
+class ThemeSongRelationManager extends ThemeRelationManager
 {
     /**
      * The relationship the relation manager corresponds to.
@@ -22,19 +20,6 @@ class ThemeSongRelationManager extends BaseRelationManager
      * @return string
      */
     protected static string $relationship = SongModel::RELATION_ANIMETHEMES;
-
-    /**
-     * The form to the actions.
-     *
-     * @param  Form  $form
-     * @return Form
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    public function form(Form $form): Form
-    {
-        return ThemeResource::form($form);
-    }
 
     /**
      * The index page of the Theme.
@@ -48,12 +33,7 @@ class ThemeSongRelationManager extends BaseRelationManager
     {
         return parent::table(
             $table
-                ->heading(ThemeResource::getPluralLabel())
-                ->modelLabel(ThemeResource::getLabel())
-                ->recordTitleAttribute(ThemeModel::ATTRIBUTE_SLUG)
                 ->inverseRelationship(ThemeModel::RELATION_SONG)
-                ->columns(ThemeResource::table($table)->getColumns())
-                ->defaultSort(ThemeModel::TABLE . '.' . ThemeModel::ATTRIBUTE_ID, 'desc')
         );
     }
 
@@ -67,8 +47,8 @@ class ThemeSongRelationManager extends BaseRelationManager
     public static function getFilters(): array
     {
         return array_merge(
-            parent::getFilters(),
             [],
+            parent::getFilters(),
         );
     }
 
@@ -89,7 +69,7 @@ class ThemeSongRelationManager extends BaseRelationManager
 
     /**
      * Get the bulk actions available for the relation.
-     * 
+     *
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection

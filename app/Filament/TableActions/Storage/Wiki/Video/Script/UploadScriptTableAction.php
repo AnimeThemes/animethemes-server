@@ -6,7 +6,7 @@ namespace App\Filament\TableActions\Storage\Wiki\Video\Script;
 
 use App\Actions\Storage\Wiki\Video\Script\UploadScriptAction as UploadScript;
 use App\Constants\Config\VideoConstants;
-use App\Filament\Resources\BaseRelationManager;
+use App\Filament\RelationManagers\BaseRelationManager;
 use App\Filament\Resources\Wiki\Video\Script\Pages\ListScripts;
 use App\Models\Wiki\Video;
 use App\Filament\TableActions\Storage\Base\UploadTableAction;

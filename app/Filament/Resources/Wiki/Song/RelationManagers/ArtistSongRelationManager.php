@@ -4,17 +4,15 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Wiki\Song\RelationManagers;
 
-use App\Filament\Resources\BaseRelationManager;
-use App\Filament\Resources\Wiki\Artist as ArtistResource;
+use App\Filament\RelationManagers\Wiki\ArtistRelationManager;
 use App\Models\Wiki\Song;
 use App\Models\Wiki\Artist;
-use Filament\Forms\Form;
 use Filament\Tables\Table;
 
 /**
  * Class ArtistSongRelationManager.
  */
-class ArtistSongRelationManager extends BaseRelationManager
+class ArtistSongRelationManager extends ArtistRelationManager
 {
     /**
      * The relationship the relation manager corresponds to.
@@ -22,19 +20,6 @@ class ArtistSongRelationManager extends BaseRelationManager
      * @return string
      */
     protected static string $relationship = Song::RELATION_ARTISTS;
-
-    /**
-     * The form to the actions.
-     *
-     * @param  Form  $form
-     * @return Form
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    public function form(Form $form): Form
-    {
-        return ArtistResource::form($form);
-    }
 
     /**
      * The index page of the resource.
@@ -48,12 +33,7 @@ class ArtistSongRelationManager extends BaseRelationManager
     {
         return parent::table(
             $table
-                ->heading(ArtistResource::getPluralLabel())
-                ->modelLabel(ArtistResource::getLabel())
-                ->recordTitleAttribute(Artist::ATTRIBUTE_NAME)
                 ->inverseRelationship(Artist::RELATION_SONGS)
-                ->columns(ArtistResource::table($table)->getColumns())
-                ->defaultSort(Artist::TABLE . '.' . Artist::ATTRIBUTE_ID, 'desc')
         );
     }
 
@@ -67,8 +47,8 @@ class ArtistSongRelationManager extends BaseRelationManager
     public static function getFilters(): array
     {
         return array_merge(
-            parent::getFilters(),
             [],
+            parent::getFilters(),
         );
     }
 
@@ -89,7 +69,7 @@ class ArtistSongRelationManager extends BaseRelationManager
 
     /**
      * Get the bulk actions available for the relation.
-     * 
+     *
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection

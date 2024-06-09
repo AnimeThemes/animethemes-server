@@ -53,6 +53,7 @@ class TextEntry extends ComponentsTextEntry
     {
         return $this
             ->copyable($condition)
-            ->copyMessage(__('filament.actions.base.copied'));
+            ->copyMessage(__('filament.actions.base.copied'))
+            ->icon('heroicon-o-clipboard');
     }
 }

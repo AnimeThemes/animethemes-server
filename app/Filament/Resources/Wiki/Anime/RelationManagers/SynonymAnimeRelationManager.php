@@ -4,17 +4,15 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Wiki\Anime\RelationManagers;
 
-use App\Filament\Resources\BaseRelationManager;
-use App\Filament\Resources\Wiki\Anime\Synonym as Synonym;
+use App\Filament\RelationManagers\Wiki\Anime\SynonymRelationManager;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeSynonym as SynonymModel;
-use Filament\Forms\Form;
 use Filament\Tables\Table;
 
 /**
  * Class SynonymAnimeRelationManager.
  */
-class SynonymAnimeRelationManager extends BaseRelationManager
+class SynonymAnimeRelationManager extends SynonymRelationManager
 {
     /**
      * The relationship the relation manager corresponds to.
@@ -22,19 +20,6 @@ class SynonymAnimeRelationManager extends BaseRelationManager
      * @return string
      */
     protected static string $relationship = Anime::RELATION_SYNONYMS;
-
-    /**
-     * The form to the actions.
-     *
-     * @param  Form  $form
-     * @return Form
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    public function form(Form $form): Form
-    {
-        return Synonym::form($form);
-    }
 
     /**
      * The index page of the Synonym.
@@ -48,12 +33,7 @@ class SynonymAnimeRelationManager extends BaseRelationManager
     {
         return parent::table(
             $table
-                ->heading(Synonym::getPluralLabel())
-                ->modelLabel(Synonym::getLabel())
-                ->recordTitleAttribute(SynonymModel::ATTRIBUTE_TEXT)
                 ->inverseRelationship(SynonymModel::RELATION_ANIME)
-                ->columns(Synonym::table($table)->getColumns())
-                ->defaultSort(SynonymModel::TABLE . '.' . SynonymModel::ATTRIBUTE_ID, 'desc')
         );
     }
 
@@ -67,8 +47,8 @@ class SynonymAnimeRelationManager extends BaseRelationManager
     public static function getFilters(): array
     {
         return array_merge(
-            parent::getFilters(),
             [],
+            parent::getFilters(),
         );
     }
 
@@ -89,7 +69,7 @@ class SynonymAnimeRelationManager extends BaseRelationManager
 
     /**
      * Get the bulk actions available for the relation.
-     * 
+     *
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection

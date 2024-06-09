@@ -4,17 +4,15 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Wiki\Anime\Theme\RelationManagers;
 
-use App\Filament\Resources\BaseRelationManager;
-use App\Filament\Resources\Wiki\Anime\Theme\Entry as EntryResource;
+use App\Filament\RelationManagers\Wiki\Anime\Theme\EntryRelationManager;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Anime\AnimeTheme;
-use Filament\Forms\Form;
 use Filament\Tables\Table;
 
 /**
  * Class EntryThemeRelationManager.
  */
-class EntryThemeRelationManager extends BaseRelationManager
+class EntryThemeRelationManager extends EntryRelationManager
 {
     /**
      * The relationship the relation manager corresponds to.
@@ -22,19 +20,6 @@ class EntryThemeRelationManager extends BaseRelationManager
      * @return string
      */
     protected static string $relationship = AnimeTheme::RELATION_ENTRIES;
-
-    /**
-     * The form to the actions.
-     *
-     * @param  Form  $form
-     * @return Form
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    public function form(Form $form): Form
-    {
-        return EntryResource::form($form);
-    }
 
     /**
      * The index page of the resource.
@@ -48,12 +33,7 @@ class EntryThemeRelationManager extends BaseRelationManager
     {
         return parent::table(
             $table
-                ->heading(EntryResource::getPluralLabel())
-                ->modelLabel(EntryResource::getLabel())
-                ->recordTitleAttribute(AnimeThemeEntry::ATTRIBUTE_VERSION)
                 ->inverseRelationship(AnimeThemeEntry::RELATION_THEME)
-                ->columns(EntryResource::table($table)->getColumns())
-                ->defaultSort(AnimeThemeEntry::TABLE . '.' . AnimeThemeEntry::ATTRIBUTE_ID, 'desc')
         );
     }
 
@@ -67,8 +47,8 @@ class EntryThemeRelationManager extends BaseRelationManager
     public static function getFilters(): array
     {
         return array_merge(
-            parent::getFilters(),
             [],
+            parent::getFilters(),
         );
     }
 
@@ -89,7 +69,7 @@ class EntryThemeRelationManager extends BaseRelationManager
 
     /**
      * Get the bulk actions available for the relation.
-     * 
+     *
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection

@@ -4,17 +4,15 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Wiki\Image\RelationManagers;
 
-use App\Filament\Resources\BaseRelationManager;
-use App\Filament\Resources\List\Playlist as PlaylistResource;
+use App\Filament\RelationManagers\List\PlaylistRelationManager;
 use App\Models\Wiki\Image;
 use App\Models\List\Playlist;
-use Filament\Forms\Form;
 use Filament\Tables\Table;
 
 /**
  * Class PlaylistImageRelationManager.
  */
-class PlaylistImageRelationManager extends BaseRelationManager
+class PlaylistImageRelationManager extends PlaylistRelationManager
 {
     /**
      * The relationship the relation manager corresponds to.
@@ -22,19 +20,6 @@ class PlaylistImageRelationManager extends BaseRelationManager
      * @return string
      */
     protected static string $relationship = Image::RELATION_PLAYLISTS;
-
-    /**
-     * The form to the actions.
-     *
-     * @param  Form  $form
-     * @return Form
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    public function form(Form $form): Form
-    {
-        return PlaylistResource::form($form);
-    }
 
     /**
      * The index page of the resource.
@@ -48,12 +33,7 @@ class PlaylistImageRelationManager extends BaseRelationManager
     {
         return parent::table(
             $table
-                ->heading(PlaylistResource::getPluralLabel())
-                ->modelLabel(PlaylistResource::getLabel())
-                ->recordTitleAttribute(Playlist::ATTRIBUTE_NAME)
                 ->inverseRelationship(Playlist::RELATION_IMAGES)
-                ->columns(PlaylistResource::table($table)->getColumns())
-                ->defaultSort(Playlist::TABLE . '.' . Playlist::ATTRIBUTE_ID, 'desc')
         );
     }
 
@@ -67,8 +47,8 @@ class PlaylistImageRelationManager extends BaseRelationManager
     public static function getFilters(): array
     {
         return array_merge(
-            parent::getFilters(),
             [],
+            parent::getFilters(),
         );
     }
 
@@ -89,7 +69,7 @@ class PlaylistImageRelationManager extends BaseRelationManager
 
     /**
      * Get the bulk actions available for the relation.
-     * 
+     *
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection

@@ -9,7 +9,7 @@ use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\Select;
 use App\Filament\Components\Filters\NumberFilter;
 use App\Filament\Components\Infolist\TextEntry;
-use App\Filament\Resources\BaseRelationManager;
+use App\Filament\RelationManagers\Wiki\ResourceRelationManager;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\ExternalResource\Pages\CreateExternalResource;
 use App\Filament\Resources\Wiki\ExternalResource\Pages\EditExternalResource;
@@ -155,7 +155,7 @@ class ExternalResource extends BaseResource
                 TextInput::make(AnimeResource::ATTRIBUTE_AS)
                     ->label(__('filament.fields.anime.resources.as.name'))
                     ->helperText(__('filament.fields.anime.resources.as.help'))
-                    ->visibleOn(BaseRelationManager::class),
+                    ->visibleOn(ResourceRelationManager::class),
             ])
             ->columns(1);
     }
@@ -197,7 +197,7 @@ class ExternalResource extends BaseResource
 
                 TextColumn::make(AnimeResource::ATTRIBUTE_AS)
                     ->label(__('filament.fields.anime.resources.as.name'))
-                    ->visibleOn(BaseRelationManager::class)
+                    ->visibleOn(ResourceRelationManager::class)
                     ->placeholder('-'),
             ]);
     }
@@ -271,8 +271,7 @@ class ExternalResource extends BaseResource
                     ->options(ResourceSite::asSelectArray()),
 
                 NumberFilter::make(ExternalResourceModel::ATTRIBUTE_EXTERNAL_ID)
-                    ->labels(__('filament.filters.external_resource.external_id_from'), __('filament.filters.external_resource.external_id_to'))
-                    ->attribute(ExternalResourceModel::ATTRIBUTE_EXTERNAL_ID),
+                    ->labels(__('filament.filters.external_resource.external_id_from'), __('filament.filters.external_resource.external_id_to')),
             ],
             parent::getFilters(),
         );

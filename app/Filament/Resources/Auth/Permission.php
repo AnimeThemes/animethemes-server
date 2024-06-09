@@ -141,6 +141,7 @@ class Permission extends BaseResource
     public static function table(Table $table): Table
     {
         return parent::table($table)
+            ->recordUrl(fn (PermissionModel $record): string => static::getUrl('view', ['record' => $record]))
             ->columns([
                 TextColumn::make(PermissionModel::ATTRIBUTE_ID)
                     ->label(__('filament.fields.base.id'))

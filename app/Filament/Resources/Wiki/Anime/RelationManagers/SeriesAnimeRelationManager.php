@@ -4,17 +4,15 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Wiki\Anime\RelationManagers;
 
-use App\Filament\Resources\BaseRelationManager;
-use App\Filament\Resources\Wiki\Series as SeriesResource;
+use App\Filament\RelationManagers\Wiki\SeriesRelationManager;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Series;
-use Filament\Forms\Form;
 use Filament\Tables\Table;
 
 /**
  * Class SeriesAnimeRelationManager.
  */
-class SeriesAnimeRelationManager extends BaseRelationManager
+class SeriesAnimeRelationManager extends SeriesRelationManager
 {
     /**
      * The relationship the relation manager corresponds to.
@@ -22,19 +20,6 @@ class SeriesAnimeRelationManager extends BaseRelationManager
      * @return string
      */
     protected static string $relationship = Anime::RELATION_SERIES;
-
-    /**
-     * The form to the actions.
-     *
-     * @param  Form  $form
-     * @return Form
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    public function form(Form $form): Form
-    {
-        return SeriesResource::form($form);
-    }
 
     /**
      * The index page of the resource.
@@ -48,12 +33,7 @@ class SeriesAnimeRelationManager extends BaseRelationManager
     {
         return parent::table(
             $table
-                ->heading(SeriesResource::getPluralLabel())
-                ->modelLabel(SeriesResource::getLabel())
-                ->recordTitleAttribute(Series::ATTRIBUTE_NAME)
                 ->inverseRelationship(Series::RELATION_ANIME)
-                ->columns(SeriesResource::table($table)->getColumns())
-                ->defaultSort(Series::TABLE . '.' . Series::ATTRIBUTE_ID, 'desc')
         );
     }
 
@@ -67,8 +47,8 @@ class SeriesAnimeRelationManager extends BaseRelationManager
     public static function getFilters(): array
     {
         return array_merge(
-            parent::getFilters(),
             [],
+            parent::getFilters(),
         );
     }
 
@@ -89,7 +69,7 @@ class SeriesAnimeRelationManager extends BaseRelationManager
 
     /**
      * Get the bulk actions available for the relation.
-     * 
+     *
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection

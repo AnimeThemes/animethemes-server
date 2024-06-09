@@ -4,17 +4,15 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Wiki\Video\RelationManagers;
 
-use App\Filament\Resources\BaseRelationManager;
-use App\Filament\Resources\Wiki\Video\Script as ScriptResource;
+use App\Filament\RelationManagers\Wiki\Video\ScriptRelationManager;
 use App\Models\Wiki\Video;
 use App\Models\Wiki\Video\VideoScript;
-use Filament\Forms\Form;
 use Filament\Tables\Table;
 
 /**
  * Class ScriptVideoRelationManager.
  */
-class ScriptVideoRelationManager extends BaseRelationManager
+class ScriptVideoRelationManager extends ScriptRelationManager
 {
     /**
      * The relationship the relation manager corresponds to.
@@ -22,19 +20,6 @@ class ScriptVideoRelationManager extends BaseRelationManager
      * @return string
      */
     protected static string $relationship = Video::RELATION_SCRIPT;
-
-    /**
-     * The form to the actions.
-     *
-     * @param  Form  $form
-     * @return Form
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    public function form(Form $form): Form
-    {
-        return ScriptResource::form($form);
-    }
 
     /**
      * The index page of the resource.
@@ -48,11 +33,7 @@ class ScriptVideoRelationManager extends BaseRelationManager
     {
         return parent::table(
             $table
-                ->heading(ScriptResource::getLabel())
-                ->modelLabel(ScriptResource::getLabel())
-                ->recordTitleAttribute(VideoScript::ATTRIBUTE_PATH)
                 ->inverseRelationship(VideoScript::RELATION_VIDEO)
-                ->columns(ScriptResource::table($table)->getColumns())
         );
     }
 
@@ -66,8 +47,8 @@ class ScriptVideoRelationManager extends BaseRelationManager
     public static function getFilters(): array
     {
         return array_merge(
-            parent::getFilters(),
             [],
+            parent::getFilters(),
         );
     }
 
@@ -88,7 +69,7 @@ class ScriptVideoRelationManager extends BaseRelationManager
 
     /**
      * Get the bulk actions available for the relation.
-     * 
+     *
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
@@ -110,6 +91,9 @@ class ScriptVideoRelationManager extends BaseRelationManager
      */
     public static function getHeaderActions(): array
     {
-        return ScriptResource::getHeaderActions();
+        return array_merge(
+            parent::getHeaderActions(),
+            [],
+        );
     }
 }

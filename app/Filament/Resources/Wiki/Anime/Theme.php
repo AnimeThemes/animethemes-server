@@ -9,7 +9,7 @@ use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\Select;
 use App\Filament\Components\Filters\NumberFilter;
 use App\Filament\Components\Infolist\TextEntry;
-use App\Filament\Resources\BaseRelationManager;
+use App\Filament\RelationManagers\Wiki\Anime\ThemeRelationManager;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Anime as AnimeResource;
 use App\Filament\Resources\Wiki\Anime\RelationManagers\ThemeAnimeRelationManager;
@@ -162,7 +162,7 @@ class Theme extends BaseResource
                     ->label(__('filament.resources.singularLabel.anime'))
                     ->relationship(ThemeModel::RELATION_ANIME, AnimeModel::ATTRIBUTE_NAME)
                     ->searchable()
-                    ->hiddenOn(BaseRelationManager::class),
+                    ->hiddenOn(ThemeRelationManager::class),
 
                 Select::make(ThemeModel::ATTRIBUTE_TYPE)
                     ->label(__('filament.fields.anime_theme.type.name'))
@@ -376,8 +376,7 @@ class Theme extends BaseResource
                     ->options(ThemeType::asSelectArray()),
 
                 NumberFilter::make(ThemeModel::ATTRIBUTE_SEQUENCE)
-                    ->labels(__('filament.filters.anime_theme.sequence_from'), __('filament.filters.anime_theme.sequence_to'))
-                    ->attribute(ThemeModel::ATTRIBUTE_SEQUENCE),
+                    ->labels(__('filament.filters.anime_theme.sequence_from'), __('filament.filters.anime_theme.sequence_to')),
             ],
             parent::getFilters(),
         );

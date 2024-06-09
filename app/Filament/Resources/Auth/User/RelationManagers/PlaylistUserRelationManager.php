@@ -4,17 +4,15 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Auth\User\RelationManagers;
 
-use App\Filament\Resources\BaseRelationManager;
-use App\Filament\Resources\List\Playlist as PlaylistResource;
+use App\Filament\RelationManagers\List\PlaylistRelationManager;
 use App\Models\Auth\User;
 use App\Models\List\Playlist;
-use Filament\Forms\Form;
 use Filament\Tables\Table;
 
 /**
  * Class PlaylistUserRelationManager.
  */
-class PlaylistUserRelationManager extends BaseRelationManager
+class PlaylistUserRelationManager extends PlaylistRelationManager
 {
     /**
      * The relationship the relation manager corresponds to.
@@ -22,19 +20,6 @@ class PlaylistUserRelationManager extends BaseRelationManager
      * @return string
      */
     protected static string $relationship = User::RELATION_PLAYLISTS;
-
-    /**
-     * The form to the actions.
-     *
-     * @param  Form  $form
-     * @return Form
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    public function form(Form $form): Form
-    {
-        return PlaylistResource::form($form);
-    }
 
     /**
      * The index page of the resource.
@@ -48,12 +33,7 @@ class PlaylistUserRelationManager extends BaseRelationManager
     {
         return parent::table(
             $table
-                ->heading(PlaylistResource::getPluralLabel())
-                ->modelLabel(PlaylistResource::getLabel())
-                ->recordTitleAttribute(Playlist::ATTRIBUTE_NAME)
                 ->inverseRelationship(Playlist::RELATION_USER)
-                ->columns(PlaylistResource::table($table)->getColumns())
-                ->defaultSort(Playlist::TABLE . '.' . Playlist::ATTRIBUTE_ID, 'desc')
         );
     }
 

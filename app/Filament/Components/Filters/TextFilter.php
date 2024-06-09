@@ -14,21 +14,6 @@ use Illuminate\Support\Arr;
  */
 class TextFilter extends Filter
 {
-    protected string $attribute = '';
-
-    /**
-     * Get the attribute used for filter.
-     *
-     * @param  string  $attribute
-     * @return static
-     */
-    public function attribute(string $attribute): static
-    {
-        $this->attribute = $attribute;
-
-        return $this;
-    }
-
     /**
      * Get the form for the filter.
      *
@@ -37,7 +22,7 @@ class TextFilter extends Filter
     public function getFormSchema(): array
     {
         return [
-            TextInput::make($this->attribute)
+            TextInput::make($this->getName())
                 ->label($this->label),
         ];
     }
@@ -51,8 +36,8 @@ class TextFilter extends Filter
      */
     public function applyToBaseQuery(Builder $query, array $data = []): Builder
     {
-        return Arr::get($data, $this->attribute) !== null
-            ? $query->where($this->attribute, Arr::get($data, $this->attribute))
+        return Arr::get($data, $this->getName()) !== null
+            ? $query->where($this->getName(), Arr::get($data, $this->getName()))
             : $query;
     }
 }
