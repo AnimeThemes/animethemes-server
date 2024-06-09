@@ -4,16 +4,14 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Wiki\Artist\RelationManagers;
 
-use App\Filament\Resources\BaseRelationManager;
-use App\Filament\Resources\Wiki\Artist as ArtistResource;
+use App\Filament\RelationManagers\Wiki\ArtistRelationManager;
 use App\Models\Wiki\Artist;
-use Filament\Forms\Form;
 use Filament\Tables\Table;
 
 /**
  * Class MemberArtistRelationManager.
  */
-class MemberArtistRelationManager extends BaseRelationManager
+class MemberArtistRelationManager extends ArtistRelationManager
 {
     /**
      * The relationship the relation manager corresponds to.
@@ -21,19 +19,6 @@ class MemberArtistRelationManager extends BaseRelationManager
      * @return string
      */
     protected static string $relationship = Artist::RELATION_MEMBERS;
-
-    /**
-     * The form to the actions.
-     *
-     * @param  Form  $form
-     * @return Form
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    public function form(Form $form): Form
-    {
-        return ArtistResource::form($form);
-    }
 
     /**
      * The index page of the resource.
@@ -47,13 +32,10 @@ class MemberArtistRelationManager extends BaseRelationManager
     {
         return parent::table(
             $table
-                ->heading(__('filament.resources.label.members'))
-                ->modelLabel(__('filament.resources.singularLabel.member'))
-                ->recordTitleAttribute(Artist::ATTRIBUTE_NAME)
                 ->inverseRelationship(Artist::RELATION_GROUPS)
-                ->columns(ArtistResource::table($table)->getColumns())
-                ->defaultSort(Artist::TABLE . '.' . Artist::ATTRIBUTE_ID, 'desc')
-        );
+        )
+            ->heading(__('filament.resources.label.members'))
+            ->modelLabel(__('filament.resources.singularLabel.member'));
     }
 
     /**

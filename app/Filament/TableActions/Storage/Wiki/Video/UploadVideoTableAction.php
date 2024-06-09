@@ -10,7 +10,7 @@ use App\Enums\Models\Wiki\AnimeSeason;
 use App\Enums\Models\Wiki\VideoOverlap;
 use App\Enums\Models\Wiki\VideoSource;
 use App\Filament\Components\Fields\Select;
-use App\Filament\Resources\BaseRelationManager;
+use App\Filament\RelationManagers\BaseRelationManager;
 use App\Filament\Resources\Wiki\Video\Pages\ListVideos;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;

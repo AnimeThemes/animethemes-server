@@ -4,19 +4,15 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Auth\User\RelationManagers;
 
-use App\Filament\Resources\BaseRelationManager;
-use App\Filament\Resources\Auth\Permission as PermissionResource;
+use App\Filament\RelationManagers\Auth\PermissionRelationManager;
 use App\Models\Auth\User;
 use App\Models\Auth\Permission;
-use Filament\Forms\Form;
-use Filament\Tables\Actions\EditAction;
-use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Table;
 
 /**
  * Class PermissionUserRelationManager.
  */
-class PermissionUserRelationManager extends BaseRelationManager
+class PermissionUserRelationManager extends PermissionRelationManager
 {
     /**
      * The relationship the relation manager corresponds to.
@@ -24,19 +20,6 @@ class PermissionUserRelationManager extends BaseRelationManager
      * @return string
      */
     protected static string $relationship = User::RELATION_PERMISSIONS;
-
-    /**
-     * The form to the actions.
-     *
-     * @param  Form  $form
-     * @return Form
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    public function form(Form $form): Form
-    {
-        return PermissionResource::form($form);
-    }
 
     /**
      * The index page of the resource.
@@ -50,12 +33,7 @@ class PermissionUserRelationManager extends BaseRelationManager
     {
         return parent::table(
             $table
-                ->heading(PermissionResource::getPluralLabel())
-                ->modelLabel(PermissionResource::getLabel())
-                ->recordTitleAttribute(Permission::ATTRIBUTE_NAME)
                 ->inverseRelationship(Permission::RELATION_USERS)
-                ->columns(PermissionResource::table($table)->getColumns())
-                ->defaultSort(Permission::TABLE . '.' . Permission::ATTRIBUTE_ID, 'desc')
         );
     }
 
@@ -68,7 +46,10 @@ class PermissionUserRelationManager extends BaseRelationManager
      */
     public static function getFilters(): array
     {
-        return [];
+        return array_merge(
+            [],
+            parent::getFilters(),
+        );
     }
 
     /**
@@ -80,15 +61,15 @@ class PermissionUserRelationManager extends BaseRelationManager
      */
     public static function getActions(): array
     {
-        return [
-            ViewAction::make(),
-            EditAction::make(),
-        ];
+        return array_merge(
+            parent::getActions(),
+            [],
+        );
     }
 
     /**
      * Get the bulk actions available for the relation.
-     * 
+     *
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection

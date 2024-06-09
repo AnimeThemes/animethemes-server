@@ -4,18 +4,15 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Wiki\Audio\RelationManagers;
 
-use App\Filament\Resources\BaseRelationManager;
-use App\Filament\Resources\Wiki\Audio as AudioResource;
-use App\Filament\Resources\Wiki\Video as VideoResource;
+use App\Filament\RelationManagers\Wiki\VideoRelationManager;
 use App\Models\Wiki\Audio;
 use App\Models\Wiki\Video;
-use Filament\Forms\Form;
 use Filament\Tables\Table;
 
 /**
  * Class VideoAudioRelationManager.
  */
-class VideoAudioRelationManager extends BaseRelationManager
+class VideoAudioRelationManager extends VideoRelationManager
 {
     /**
      * The relationship the relation manager corresponds to.
@@ -23,19 +20,6 @@ class VideoAudioRelationManager extends BaseRelationManager
      * @return string
      */
     protected static string $relationship = Audio::RELATION_VIDEOS;
-
-    /**
-     * The form to the actions.
-     *
-     * @param  Form  $form
-     * @return Form
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    public function form(Form $form): Form
-    {
-        return VideoResource::form($form);
-    }
 
     /**
      * The index page of the resource.
@@ -49,12 +33,7 @@ class VideoAudioRelationManager extends BaseRelationManager
     {
         return parent::table(
             $table
-                ->heading(VideoResource::getPluralLabel())
-                ->modelLabel(VideoResource::getLabel())
-                ->recordTitleAttribute(Video::ATTRIBUTE_FILENAME)
                 ->inverseRelationship(Video::RELATION_AUDIO)
-                ->columns(VideoResource::table($table)->getColumns())
-                ->defaultSort(Video::TABLE . '.' . Video::ATTRIBUTE_ID, 'desc')
         );
     }
 
@@ -68,8 +47,8 @@ class VideoAudioRelationManager extends BaseRelationManager
     public static function getFilters(): array
     {
         return array_merge(
-            parent::getFilters(),
             [],
+            parent::getFilters(),
         );
     }
 
@@ -90,7 +69,7 @@ class VideoAudioRelationManager extends BaseRelationManager
 
     /**
      * Get the bulk actions available for the relation.
-     * 
+     *
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection

@@ -4,17 +4,15 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Wiki\Studio\RelationManagers;
 
-use App\Filament\Resources\BaseRelationManager;
-use App\Filament\Resources\Wiki\Image as ImageResource;
+use App\Filament\RelationManagers\Wiki\ImageRelationManager;
 use App\Models\Wiki\Studio;
 use App\Models\Wiki\Image;
-use Filament\Forms\Form;
 use Filament\Tables\Table;
 
 /**
  * Class ImageStudioRelationManager.
  */
-class ImageStudioRelationManager extends BaseRelationManager
+class ImageStudioRelationManager extends ImageRelationManager
 {
     /**
      * The relationship the relation manager corresponds to.
@@ -22,19 +20,6 @@ class ImageStudioRelationManager extends BaseRelationManager
      * @return string
      */
     protected static string $relationship = Studio::RELATION_IMAGES;
-
-    /**
-     * The form to the actions.
-     *
-     * @param  Form  $form
-     * @return Form
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    public function form(Form $form): Form
-    {
-        return ImageResource::form($form);
-    }
 
     /**
      * The index page of the resource.
@@ -48,12 +33,7 @@ class ImageStudioRelationManager extends BaseRelationManager
     {
         return parent::table(
             $table
-                ->heading(ImageResource::getPluralLabel())
-                ->modelLabel(ImageResource::getLabel())
-                ->recordTitleAttribute(Image::ATTRIBUTE_PATH)
                 ->inverseRelationship(Image::RELATION_STUDIOS)
-                ->columns(ImageResource::table($table)->getColumns())
-                ->defaultSort(Image::TABLE . '.' . Image::ATTRIBUTE_ID, 'desc')
         );
     }
 
@@ -67,8 +47,8 @@ class ImageStudioRelationManager extends BaseRelationManager
     public static function getFilters(): array
     {
         return array_merge(
-            parent::getFilters(),
             [],
+            parent::getFilters(),
         );
     }
 
@@ -89,7 +69,7 @@ class ImageStudioRelationManager extends BaseRelationManager
 
     /**
      * Get the bulk actions available for the relation.
-     * 
+     *
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
