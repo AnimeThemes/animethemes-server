@@ -11,4 +11,5 @@ use Filament\Widgets\StatsOverviewWidget;
  */
 class BaseStatsWidget extends StatsOverviewWidget
 {
+    protected static bool $isLazy = false;
 }

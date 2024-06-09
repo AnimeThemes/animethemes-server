@@ -19,7 +19,6 @@ use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables\Actions\AttachAction;
 use Filament\Tables\Actions\CreateAction;
-use Filament\Tables\Actions\DetachAction;
 use Filament\Tables\Actions\DetachBulkAction;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
@@ -30,6 +29,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  */
 abstract class BaseRelationManager extends RelationManager
 {
+    protected static bool $isLazy = false;
+
     /**
      * The index page of the relation resource.
      *
