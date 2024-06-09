@@ -360,12 +360,10 @@ class Entry extends BaseResource
         return array_merge(
             [
                 NumberFilter::make(EntryModel::ATTRIBUTE_VERSION)
-                    ->labels(__('filament.filters.anime_theme_entry.version_from'), __('filament.filters.anime_theme_entry.version_to'))
-                    ->attribute(EntryModel::ATTRIBUTE_VERSION),
+                    ->labels(__('filament.filters.anime_theme_entry.version_from'), __('filament.filters.anime_theme_entry.version_to')),
 
                 TextFilter::make(EntryModel::ATTRIBUTE_EPISODES)
-                    ->label(__('filament.fields.anime_theme_entry.episodes.name'))
-                    ->attribute(EntryModel::ATTRIBUTE_EPISODES),
+                    ->label(__('filament.fields.anime_theme_entry.episodes.name')),
 
                 Filter::make(EntryModel::ATTRIBUTE_NSFW)
                     ->label(__('filament.fields.anime_theme_entry.nsfw.name'))

@@ -268,8 +268,7 @@ class Role extends BaseResource
                 ->checkbox(),
 
             NumberFilter::make(RoleModel::ATTRIBUTE_PRIORITY)
-                ->labels(__('filament.filters.role.priority_from'), __('filament.filters.role.priority_to'))
-                ->attribute(RoleModel::ATTRIBUTE_PRIORITY),
+                ->labels(__('filament.filters.role.priority_from'), __('filament.filters.role.priority_to')),
         ];
     }
 

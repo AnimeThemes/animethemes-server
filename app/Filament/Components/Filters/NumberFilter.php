@@ -15,22 +15,8 @@ use Illuminate\Support\Arr;
  */
 class NumberFilter extends Filter
 {
-    protected string $attribute = '';
     protected string $fromLabel = '';
     protected string $toLabel = '';
-
-    /**
-     * Get the attribute used for filter.
-     *
-     * @param  string  $attribute
-     * @return static
-     */
-    public function attribute(string $attribute): static
-    {
-        $this->attribute = $attribute;
-
-        return $this;
-    }
 
     /**
      * Get the label for the filters.
@@ -56,11 +42,11 @@ class NumberFilter extends Filter
     public function getFormSchema(): array
     {
         return [
-            TextInput::make($this->attribute.'_'.'from')
+            TextInput::make($this->getName().'_'.'from')
                 ->label($this->fromLabel)
                 ->integer(),
 
-            TextInput::make($this->attribute.'_'.'to')
+            TextInput::make($this->getName().'_'.'to')
                 ->label($this->toLabel)
                 ->integer(),
         ];
@@ -77,12 +63,12 @@ class NumberFilter extends Filter
     {
         return $query
             ->when(
-                Arr::get($data, $this->attribute.'_'.'from'),
-                fn (Builder $query, $value): Builder => $query->where($this->attribute, ComparisonOperator::GTE->value, $value),
+                Arr::get($data, $this->getName().'_'.'from'),
+                fn (Builder $query, $value): Builder => $query->where($this->getName(), ComparisonOperator::GTE->value, $value),
             )
             ->when(
-                Arr::get($data, $this->attribute.'_'.'to'),
-                fn (Builder $query, $value): Builder => $query->where($this->attribute, ComparisonOperator::LTE->value, $value),
+                Arr::get($data, $this->getName().'_'.'to'),
+                fn (Builder $query, $value): Builder => $query->where($this->getName(), ComparisonOperator::LTE->value, $value),
             );
     }
 }

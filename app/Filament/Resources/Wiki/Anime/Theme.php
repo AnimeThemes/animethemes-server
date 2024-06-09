@@ -376,8 +376,7 @@ class Theme extends BaseResource
                     ->options(ThemeType::asSelectArray()),
 
                 NumberFilter::make(ThemeModel::ATTRIBUTE_SEQUENCE)
-                    ->labels(__('filament.filters.anime_theme.sequence_from'), __('filament.filters.anime_theme.sequence_to'))
-                    ->attribute(ThemeModel::ATTRIBUTE_SEQUENCE),
+                    ->labels(__('filament.filters.anime_theme.sequence_from'), __('filament.filters.anime_theme.sequence_to')),
             ],
             parent::getFilters(),
         );

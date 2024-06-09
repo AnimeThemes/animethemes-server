@@ -101,15 +101,12 @@ abstract class BaseResource extends Resource
             TrashedFilter::make(),
 
             DateFilter::make(BaseModel::ATTRIBUTE_CREATED_AT)
-                ->attribute(BaseModel::ATTRIBUTE_CREATED_AT)
                 ->labels(__('filament.filters.base.created_at_from'),  __('filament.filters.base.created_at_to')),
 
             DateFilter::make(BaseModel::ATTRIBUTE_UPDATED_AT)
-                ->attribute(BaseModel::ATTRIBUTE_UPDATED_AT)
                 ->labels(__('filament.filters.base.updated_at_from'),  __('filament.filters.base.updated_at_to')),
 
             DateFilter::make(BaseModel::ATTRIBUTE_DELETED_AT)
-                ->attribute(BaseModel::ATTRIBUTE_DELETED_AT)
                 ->labels(__('filament.filters.base.deleted_at_from'),  __('filament.filters.base.deleted_at_to')),
         ];
     }

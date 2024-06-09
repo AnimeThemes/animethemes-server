@@ -15,22 +15,8 @@ use Illuminate\Support\Arr;
  */
 class DateFilter extends Filter
 {
-    protected string $attribute = '';
     protected string $fromLabel = '';
     protected string $toLabel = '';
-
-    /**
-     * Get the attribute used for filter.
-     *
-     * @param  string  $attribute
-     * @return static
-     */
-    public function attribute(string $attribute): static
-    {
-        $this->attribute = $attribute;
-
-        return $this;
-    }
 
     /**
      * Get the label for the filters.
@@ -55,10 +41,10 @@ class DateFilter extends Filter
     public function getFormSchema(): array
     {
         return [
-            DatePicker::make($this->attribute.'_'.'from')
+            DatePicker::make($this->getName().'_'.'from')
                 ->label($this->fromLabel),
 
-            DatePicker::make($this->attribute.'_'.'to')
+            DatePicker::make($this->getName().'_'.'to')
                 ->label($this->toLabel),
         ];
     }
@@ -74,12 +60,12 @@ class DateFilter extends Filter
     {
         return $query
             ->when(
-                Arr::get($data, $this->attribute.'_'.'from'),
-                fn (Builder $query, $date): Builder => $query->whereDate($this->attribute, ComparisonOperator::GTE->value, $date),
+                Arr::get($data, $this->getName().'_'.'from'),
+                fn (Builder $query, $date): Builder => $query->whereDate($this->getName(), ComparisonOperator::GTE->value, $date),
             )
             ->when(
-                Arr::get($data, $this->attribute.'_'.'to'),
-                fn (Builder $query, $date): Builder => $query->whereDate($this->attribute, ComparisonOperator::LTE->value, $date),
+                Arr::get($data, $this->getName().'_'.'to'),
+                fn (Builder $query, $date): Builder => $query->whereDate($this->getName(), ComparisonOperator::LTE->value, $date),
             );
     }
 }
