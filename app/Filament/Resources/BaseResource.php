@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Resources;
 
 use App\Filament\Components\Filters\DateFilter;
+use App\Filament\RelationManagers\BaseRelationManager;
 use App\Models\BaseModel;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Resources\Resource;
@@ -12,6 +13,7 @@ use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\DeleteBulkAction;
+use Filament\Tables\Actions\DetachAction;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\ForceDeleteAction;
 use Filament\Tables\Actions\ForceDeleteBulkAction;
@@ -23,7 +25,6 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Illuminate\Support\Facades\Log;
 
 /**
  * Class BaseResource.
@@ -130,6 +131,10 @@ abstract class BaseResource extends Resource
                 ->label(__('filament.actions.base.edit')),
 
             ActionGroup::make([
+                DetachAction::make()
+                    ->label(__('filament.actions.base.detach'))
+                    ->hidden(fn ($livewire) => !($livewire instanceof BaseRelationManager)),
+
                 DeleteAction::make()
                     ->label(__('filament.actions.base.delete')),
 

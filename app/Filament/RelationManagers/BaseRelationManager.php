@@ -73,10 +73,7 @@ abstract class BaseRelationManager extends RelationManager
      */
     public static function getActions(): array
     {
-        return [
-            DetachAction::make()
-                ->label(__('filament.actions.base.detach')),
-        ];
+        return [];
     }
 
     /**
