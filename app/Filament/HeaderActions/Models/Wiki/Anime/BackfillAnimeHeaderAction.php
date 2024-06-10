@@ -29,7 +29,6 @@ use Filament\Notifications\Notification;
 use Filament\Actions\Action;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Sleep;
@@ -174,7 +173,7 @@ class BackfillAnimeHeaderAction extends Action implements ShouldQueue
 
                 Section::make(__('filament.actions.anime.backfill.fields.synonyms.name'))
                     ->schema([
-                        Checkbox::make(self::BACKFILL_STUDIOS)
+                        Checkbox::make(self::BACKFILL_SYNONYMS)
                             ->label(__('filament.actions.anime.backfill.fields.synonyms.name'))
                             ->helperText(__('filament.actions.anime.backfill.fields.synonyms.help'))
                             ->default(fn () => $anime instanceof Anime && $anime->animesynonyms()->count() === 0),
