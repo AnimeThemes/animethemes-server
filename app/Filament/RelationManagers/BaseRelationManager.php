@@ -99,7 +99,7 @@ abstract class BaseRelationManager extends RelationManager
         return [
             DetachBulkAction::make()
                 ->label(__('filament.bulk_actions.base.detach'))
-                ->authorize('deleteany'),
+                ->authorize('forcedeleteany'),
         ];
     }
 
