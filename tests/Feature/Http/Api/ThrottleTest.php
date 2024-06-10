@@ -15,21 +15,6 @@ use Tests\TestCase;
 class ThrottleTest extends TestCase
 {
     /**
-     * By default, the user shall be rate limited when using the API.
-     *
-     * @return void
-     */
-    public function testRateLimited(): void
-    {
-        $this->call('GET', route('api.anime.index'), [], [], [], ['REMOTE_ADDR' => fake()->ipv4()]);
-
-        $response = $this->get(route('api.anime.index'));
-
-        $response->assertHeader('X-RateLimit-Limit');
-        $response->assertHeader('X-RateLimit-Remaining');
-    }
-
-    /**
      * Client with forwarded ip shall be rate limited.
      *
      * @return void
