@@ -42,7 +42,7 @@ class TextColumn extends ColumnsTextColumn
                     return "<p style='color: rgb(64, 184, 166);'>{$nameLimited}</p>";
                 });
 
-                return (new $resourceRelated)::getUrl('edit', ['record' => $record]);
+                return (new $resourceRelated)::getUrl('view', ['record' => $record]);
             });
     }
 

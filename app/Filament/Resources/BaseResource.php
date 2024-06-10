@@ -60,7 +60,7 @@ abstract class BaseResource extends Resource
             ->actions(static::getActions())
             ->bulkActions(static::getBulkActions())
             ->headerActions(static::getHeaderActions())
-            ->recordUrl(fn (Model $record): string => static::getUrl('edit', ['record' => $record]))
+            ->recordUrl(fn (Model $record): string => static::getUrl('view', ['record' => $record]))
             ->paginated([10, 25, 50, 100, 'all'])
             ->defaultPaginationPageOption(25);
     }
@@ -130,7 +130,8 @@ abstract class BaseResource extends Resource
             ActionGroup::make([
                 DetachAction::make()
                     ->label(__('filament.actions.base.detach'))
-                    ->hidden(fn ($livewire) => !($livewire instanceof BaseRelationManager)),
+                    ->hidden(fn ($livewire) => !($livewire instanceof BaseRelationManager))
+                    ->authorize('delete'),
 
                 DeleteAction::make()
                     ->label(__('filament.actions.base.delete')),
