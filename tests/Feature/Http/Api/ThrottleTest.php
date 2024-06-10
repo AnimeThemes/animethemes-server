@@ -15,16 +15,29 @@ use Tests\TestCase;
 class ThrottleTest extends TestCase
 {
     /**
-     * By default, the user shall be rate limited when using the API.
+     * Client with forwarded ip shall be rate limited.
      *
      * @return void
      */
-    public function testRateLimited(): void
+    public function testForwardedIpRateLimited(): void
     {
-        $response = $this->get(route('api.anime.index'));
+        $response = $this->withHeader('x-forwarded-ip', fake()->ipv4())->get(route('api.anime.index'));
 
         $response->assertHeader('X-RateLimit-Limit');
         $response->assertHeader('X-RateLimit-Remaining');
+    }
+
+    /**
+     * Client with no forwarded ip shall not be rate limited.
+     *
+     * @return void
+     */
+    public function testClientNoForwardedIpNotRateLimited(): void
+    {
+        $response = $this->get(route('api.anime.index'));
+
+        $response->assertHeaderMissing('X-RateLimit-Limit');
+        $response->assertHeaderMissing('X-RateLimit-Remaining');
     }
 
     /**
@@ -32,7 +45,7 @@ class ThrottleTest extends TestCase
      *
      * @return void
      */
-    public function testClientNotRateLimited(): void
+    public function testUserNotRateLimited(): void
     {
         $user = User::factory()->withPermissions(SpecialPermission::BYPASS_API_RATE_LIMITER->value)->createOne();
 

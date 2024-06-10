@@ -32,6 +32,16 @@ abstract class BaseRelationManager extends RelationManager
     protected static bool $isLazy = false;
 
     /**
+     * The actions should appear in the view page.
+     * 
+     * @return bool
+     */
+    public function isReadOnly(): bool
+    {
+        return false;
+    }
+
+    /**
      * The index page of the relation resource.
      *
      * @param  Table  $table
@@ -48,7 +58,7 @@ abstract class BaseRelationManager extends RelationManager
             ->bulkActions(static::getBulkActions())
             ->headerActions(static::getHeaderActions())
             ->paginated([5, 10, 25])
-            ->defaultPaginationPageOption(5);
+            ->defaultPaginationPageOption(10);
     }
 
     /**
@@ -88,7 +98,8 @@ abstract class BaseRelationManager extends RelationManager
     {
         return [
             DetachBulkAction::make()
-                ->label(__('filament.bulk_actions.base.detach')),
+                ->label(__('filament.bulk_actions.base.detach'))
+                ->authorize('forcedeleteany'),
         ];
     }
 
@@ -106,6 +117,7 @@ abstract class BaseRelationManager extends RelationManager
 
             AttachAction::make()
                 ->hidden(fn (BaseRelationManager $livewire) => !($livewire->getRelationship() instanceof BelongsToMany))
+                ->authorize('create')
                 ->recordSelect(function (BaseRelationManager $livewire) {
                     /** @var string */
                     $model = $livewire->getTable()->getModel();

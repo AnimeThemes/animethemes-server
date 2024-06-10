@@ -173,7 +173,7 @@ class BackfillAnimeAction extends Action implements ShouldQueue
 
                 Section::make(__('filament.actions.anime.backfill.fields.synonyms.name'))
                     ->schema([
-                        Checkbox::make(self::BACKFILL_STUDIOS)
+                        Checkbox::make(self::BACKFILL_SYNONYMS)
                             ->label(__('filament.actions.anime.backfill.fields.synonyms.name'))
                             ->helperText(__('filament.actions.anime.backfill.fields.synonyms.help'))
                             ->default(fn () => $anime instanceof Anime && $anime->animesynonyms()->count() === 0),
