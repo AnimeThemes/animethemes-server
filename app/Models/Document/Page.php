@@ -112,4 +112,29 @@ class Page extends BaseModel
     {
         return $this->slug;
     }
+
+    /**
+     * Get the sections available on db.
+     *
+     * @return array
+     */
+    public static function getSections(): array
+    {
+        $pages = static::query()->get(static::ATTRIBUTE_SLUG)->toArray();
+
+        $slugs = array_map(fn ($slug) => $slug[static::ATTRIBUTE_SLUG], $pages);
+
+        $sections = [];
+        foreach ($slugs as $slug) {
+            $lastSlash = strrpos($slug, '/');
+
+            $value = $lastSlash ? substr($slug, 0, $lastSlash) : $slug;
+
+            $sections[$value] = $value;
+        }
+
+        ksort($sections);
+
+        return $sections;
+    }
 }

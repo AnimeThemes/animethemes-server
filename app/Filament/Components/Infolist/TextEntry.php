@@ -29,9 +29,11 @@ class TextEntry extends ComponentsTextEntry
             ->weight(FontWeight::SemiBold)
             ->html()
             ->url(function (BaseModel $record) use ($resourceRelated, $relation, $shouldUseName) {
-                foreach (explode('.', $relation) as $element) {
-                    $record = Arr::get($record, $element);
-                    if ($record === null) return null;
+                if (!empty($relation)) {
+                    foreach (explode('.', $relation) as $element) {
+                        $record = Arr::get($record, $element);
+                        if ($record === null) return null;
+                    }
                 }
 
                 $this->formatStateUsing(function ($state) use ($shouldUseName, $record) {
