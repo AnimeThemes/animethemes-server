@@ -18,13 +18,18 @@ use App\Filament\Resources\Wiki\Anime\Theme\Pages\EditTheme;
 use App\Filament\Resources\Wiki\Anime\Theme\Pages\ListThemes;
 use App\Filament\Resources\Wiki\Anime\Theme\Pages\ViewTheme;
 use App\Filament\Resources\Wiki\Anime\Theme\RelationManagers\EntryThemeRelationManager;
+use App\Filament\Resources\Wiki\Artist as ArtistResource;
 use App\Filament\Resources\Wiki\Group as GroupResource;
 use App\Filament\Resources\Wiki\Song as SongResource;
 use App\Filament\Resources\Wiki\Song\RelationManagers\ThemeSongRelationManager;
 use App\Models\Wiki\Anime as AnimeModel;
 use App\Models\Wiki\Anime\AnimeTheme as ThemeModel;
+use App\Models\Wiki\Artist;
 use App\Models\Wiki\Group;
 use App\Models\Wiki\Song;
+use App\Pivots\Wiki\ArtistSong;
+use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\Section as SectionForm;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
@@ -35,6 +40,7 @@ use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\Enum;
 
@@ -107,7 +113,7 @@ class Theme extends BaseResource
      */
     public static function getRecordTitle(?Model $record): ?string
     {
-        return $record instanceof ThemeModel ? $record->anime->getName().' '.$record->slug : null;
+        return $record instanceof ThemeModel ? $record->anime->getName() . ' ' . $record->slug : null;
     }
 
     /**
@@ -197,11 +203,77 @@ class Theme extends BaseResource
                     ->afterStateUpdated(fn (Set $set, Get $get) => Theme::setThemeSlug($set, $get))
                     ->createOptionForm(GroupResource::form($form)->getComponents()),
 
-                Select::make(ThemeModel::ATTRIBUTE_SONG)
-                    ->label(__('filament.resources.singularLabel.song'))
-                    ->relationship(ThemeModel::RELATION_SONG, Song::ATTRIBUTE_TITLE)
-                    ->useScout(Song::class)
-                    ->createOptionForm(SongResource::form($form)->getComponents()),
+                SectionForm::make(__('filament.resources.singularLabel.song'))
+                    ->schema([
+                        Select::make(ThemeModel::ATTRIBUTE_SONG)
+                            ->label(__('filament.resources.singularLabel.song'))
+                            ->relationship(ThemeModel::RELATION_SONG, Song::ATTRIBUTE_TITLE)
+                            ->live(true)
+                            ->useScout(Song::class)
+                            ->createOptionForm(SongResource::form($form)->getComponents())
+                            ->afterStateUpdated(function (Set $set, $state) {
+                                /** @var Song|null */
+                                $song = Song::find($state);
+
+                                if (!$song) return;
+
+                                foreach ($song->artists()->get() as $index => $artist) {
+                                    $set("song.artists.item{$index}.artist_id", $artist->getKey());
+                                    $set("song.artists.item{$index}.as", Arr::get($artist, 'artistsong.as'));
+                                }
+                            }),
+
+                        Repeater::make(ThemeModel::RELATION_SONG . '.' . Song::RELATION_ARTISTS)
+                            ->label(__('filament.resources.label.artists'))
+                            ->hidden(fn (Get $get) => $get(ThemeModel::ATTRIBUTE_SONG) === null)
+                            ->live(true)
+                            ->key('song.artists')
+                            ->collapsible()
+                            ->defaultItems(0)
+                            ->schema([
+                                Select::make(Artist::ATTRIBUTE_ID)
+                                    ->label(__('filament.resources.singularLabel.artist'))
+                                    ->required()
+                                    ->rules(['required'])
+                                    ->useScout(Artist::class)
+                                    ->createOptionForm(ArtistResource::form($form)->getComponents())
+                                    ->getOptionLabelUsing(fn ($state) => Select::getSearchLabelWithBlade(Artist::find($state))),
+
+                                TextInput::make(ArtistSong::ATTRIBUTE_AS)
+                                    ->label(__('filament.fields.artist.songs.as.name'))
+                                    ->helperText(__('filament.fields.artist.songs.as.help')),
+                            ])
+                            ->formatStateUsing(function (?array $state, Get $get) {
+                                /** @var Song|null */
+                                $song = Song::find($get(ThemeModel::ATTRIBUTE_SONG));
+
+                                if (!$song) return $state;
+
+                                $artists = [];
+                                foreach ($song->artists()->get() as $artist) {
+                                    $artists[] = [
+                                        Artist::ATTRIBUTE_ID => $artist->getKey(),
+                                        ArtistSong::ATTRIBUTE_AS => Arr::get($artist, 'artistsong.as'),
+                                    ];
+                                }
+
+                                return $artists;
+                            })
+                            ->saveRelationshipsUsing(function (?array $state, Get $get) {
+                                /** @var Song */
+                                $song = Song::find($get(ThemeModel::ATTRIBUTE_SONG));
+
+                                $artists = [];
+                                foreach ($state as $artist) {
+                                    $artists[Arr::get($artist, Artist::ATTRIBUTE_ID)] = [
+                                        ArtistSong::ATTRIBUTE_AS => Arr::get($artist, ArtistSong::ATTRIBUTE_AS)
+                                    ];
+                                }
+
+                                $song->artists()->sync($artists);
+                            })
+                            ->columns(2),
+                    ]),
             ])
             ->columns(1);
     }
@@ -218,7 +290,7 @@ class Theme extends BaseResource
     {
         return parent::table($table)
             ->columns([
-                TextColumn::make(ThemeModel::RELATION_ANIME.'.'.AnimeModel::ATTRIBUTE_NAME)
+                TextColumn::make(ThemeModel::RELATION_ANIME . '.' . AnimeModel::ATTRIBUTE_NAME)
                     ->label(__('filament.resources.singularLabel.anime'))
                     ->toggleable()
                     ->hiddenOn(ThemeAnimeRelationManager::class)
@@ -246,13 +318,13 @@ class Theme extends BaseResource
                     ->toggleable()
                     ->formatStateUsing(fn ($state) => ThemeModel::find(intval($state))->getName()),
 
-                TextColumn::make(ThemeModel::RELATION_GROUP.'.'.Group::ATTRIBUTE_NAME)
+                TextColumn::make(ThemeModel::RELATION_GROUP . '.' . Group::ATTRIBUTE_NAME)
                     ->label(__('filament.resources.singularLabel.group'))
                     ->toggleable()
                     ->placeholder('-')
                     ->urlToRelated(GroupResource::class, ThemeModel::RELATION_GROUP),
 
-                TextColumn::make(ThemeModel::RELATION_SONG.'.'.Song::ATTRIBUTE_TITLE)
+                TextColumn::make(ThemeModel::RELATION_SONG . '.' . Song::ATTRIBUTE_TITLE)
                     ->label(__('filament.resources.singularLabel.song'))
                     ->toggleable()
                     ->placeholder('-')
@@ -280,7 +352,7 @@ class Theme extends BaseResource
                         TextEntry::make(ThemeModel::ATTRIBUTE_ID)
                             ->label(__('filament.fields.base.id')),
 
-                        TextEntry::make(ThemeModel::RELATION_ANIME.'.'.AnimeModel::ATTRIBUTE_NAME)
+                        TextEntry::make(ThemeModel::RELATION_ANIME . '.' . AnimeModel::ATTRIBUTE_NAME)
                             ->label(__('filament.resources.singularLabel.anime'))
                             ->urlToRelated(AnimeResource::class, ThemeModel::RELATION_ANIME),
 
@@ -296,12 +368,12 @@ class Theme extends BaseResource
                             ->label(__('filament.fields.anime_theme.slug.name'))
                             ->formatStateUsing(fn ($state) => ThemeModel::find(intval($state))->getName()),
 
-                        TextEntry::make(ThemeModel::RELATION_GROUP.'.'.Group::ATTRIBUTE_NAME)
+                        TextEntry::make(ThemeModel::RELATION_GROUP . '.' . Group::ATTRIBUTE_NAME)
                             ->label(__('filament.resources.singularLabel.group'))
                             ->placeholder('-')
                             ->urlToRelated(GroupResource::class, ThemeModel::RELATION_GROUP),
 
-                        TextEntry::make(ThemeModel::RELATION_SONG.'.'.Song::ATTRIBUTE_TITLE)
+                        TextEntry::make(ThemeModel::RELATION_SONG . '.' . Song::ATTRIBUTE_TITLE)
                             ->label(__('filament.resources.singularLabel.song'))
                             ->placeholder('-')
                             ->urlToRelated(SongResource::class, ThemeModel::RELATION_SONG),
@@ -330,7 +402,7 @@ class Theme extends BaseResource
             $type = ThemeType::tryFrom(intval($type));
             $slug = $slug->append($type->name);
         }
-        
+
         if ($slug->isNotEmpty()) {
             $sequence = $get(ThemeModel::ATTRIBUTE_SEQUENCE);
             $slug = $slug->append(strval(empty($sequence) ? 1 : $sequence));
@@ -338,7 +410,7 @@ class Theme extends BaseResource
 
         if ($slug->isNotEmpty()) {
             $group = $get(ThemeModel::ATTRIBUTE_GROUP);
-            $slug = $slug->append(strval(empty($group) ? '' : '-'.Group::find(intval($group))->slug));
+            $slug = $slug->append(strval(empty($group) ? '' : '-' . Group::find(intval($group))->slug));
         }
 
         $set(ThemeModel::ATTRIBUTE_SLUG, $slug->__toString());
