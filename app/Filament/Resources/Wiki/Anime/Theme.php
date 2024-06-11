@@ -313,11 +313,11 @@ class Theme extends BaseResource
                     ->toggleable()
                     ->placeholder('-'),
 
-                TextColumn::make(ThemeModel::ATTRIBUTE_ID)
+                TextColumn::make(ThemeModel::ATTRIBUTE_SLUG)
                     ->label(__('filament.fields.anime_theme.slug.name'))
                     ->sortable()
                     ->toggleable()
-                    ->formatStateUsing(fn ($state) => ThemeModel::find(intval($state))->getName()),
+                    ->formatStateUsing(fn ($state, $record) => $record->getName()),
 
                 TextColumn::make(ThemeModel::RELATION_GROUP . '.' . Group::ATTRIBUTE_NAME)
                     ->label(__('filament.resources.singularLabel.group'))
