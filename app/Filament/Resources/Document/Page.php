@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Document;
 
+use App\Enums\Http\Api\Filter\ComparisonOperator;
 use App\Filament\Components\Columns\TextColumn;
+use App\Filament\Components\Fields\Select;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Document\Page\Pages\CreatePage;
@@ -15,10 +17,14 @@ use App\Models\Document\Page as PageModel;
 use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
 use Filament\Forms\Set;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Infolist;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
@@ -125,7 +131,14 @@ class Page extends BaseResource
                     ->maxLength(192)
                     ->rules(['required', 'max:192'])
                     ->live(true)
-                    ->afterStateUpdated(fn (Set $set, ?string $state) => $set(PageModel::ATTRIBUTE_SLUG, Str::slug($state, '_'))),
+                    ->afterStateUpdated(fn (Set $set, Get $get) => static::setSlug($set, $get)),
+
+                Select::make('section')
+                    ->label(__('filament.fields.page.section.name'))
+                    ->helperText(__('filament.fields.page.section.help'))
+                    ->options(PageModel::getSections())
+                    ->live(true)
+                    ->afterStateUpdated(fn (Set $set, Get $get) => static::setSlug($set, $get)),
 
                 TextInput::make(PageModel::ATTRIBUTE_SLUG)
                     ->label(__('filament.fields.page.slug.name'))
@@ -153,7 +166,7 @@ class Page extends BaseResource
                     ->required()
                     ->maxLength(16777215)
                     ->rules(['required', 'max:16777215'])
-                    ->formatStateUsing(fn ($livewire) => PageModel::find($livewire->getRecord()->getKey())->body)
+                    ->formatStateUsing(fn ($livewire) => PageModel::find($livewire->getRecord()?->getKey())?->body)
                     ->columnSpan(2),
             ])
             ->columns(2);
@@ -174,6 +187,18 @@ class Page extends BaseResource
                 TextColumn::make(PageModel::ATTRIBUTE_ID)
                     ->label(__('filament.fields.base.id'))
                     ->sortable(),
+
+                TextColumn::make('section')
+                    ->label(__('filament.fields.page.section.name'))
+                    ->toggleable()
+                    ->sortable()
+                    ->state(function (PageModel $record) {
+                        $slug = $record->slug;
+                        $lastSlash = strrpos($slug, '/');
+
+                        return $lastSlash ? substr($slug, 0, $lastSlash) : $slug;
+                    })
+                    ->badge(),
 
                 TextColumn::make(PageModel::ATTRIBUTE_NAME)
                     ->label(__('filament.fields.page.name.name'))
@@ -212,6 +237,16 @@ class Page extends BaseResource
                         TextEntry::make(PageModel::ATTRIBUTE_ID)
                             ->label(__('filament.fields.base.id')),
 
+                        TextEntry::make('section')
+                            ->label(__('filament.fields.page.section.name'))
+                            ->state(function (PageModel $record) {
+                                $slug = $record->slug;
+                                $lastSlash = strrpos($slug, '/');
+        
+                                return $lastSlash ? substr($slug, 0, $lastSlash) : $slug;
+                            })
+                            ->badge(),
+
                         TextEntry::make(PageModel::ATTRIBUTE_NAME)
                             ->label(__('filament.fields.page.name.name'))
                             ->copyableWithMessage(),
@@ -225,12 +260,34 @@ class Page extends BaseResource
                             ->markdown()
                             ->columnSpanFull(),
                     ])
-                    ->columns(3),
+                    ->columns(2),
 
                 Section::make(__('filament.fields.base.timestamps'))
                     ->schema(parent::timestamps())
                     ->columns(3),
             ]);
+    }
+
+    /**
+     * Set the page slug.
+     *
+     * @param  Set  $set
+     * @param  Get  $get
+     * @return void
+     */
+    protected static function setSlug(Set $set, Get $get): void
+    {
+        $slug = Str::of('');
+        $name = $get(PageModel::ATTRIBUTE_NAME);
+        $section = $get('section');
+
+        if (!empty($section) && $section !== null) {
+            $slug = $slug->append($section)->append('/');
+        }
+
+        $slug = $slug->append(Str::slug($name, '_'));
+
+        $set(PageModel::ATTRIBUTE_SLUG, $slug->__toString());
     }
 
     /**
@@ -255,8 +312,13 @@ class Page extends BaseResource
     public static function getFilters(): array
     {
         return array_merge(
+            [
+                SelectFilter::make('section')
+                    ->label(__('filament.fields.page.section.name'))
+                    ->options(PageModel::getSections())
+                    ->modifyQueryUsing(fn (Builder $query, array $state) => $query->where(PageModel::ATTRIBUTE_SLUG, ComparisonOperator::LIKE->value, '%' . Arr::get($state, 'value') . '%')),
+            ],
             parent::getFilters(),
-            []
         );
     }
 
