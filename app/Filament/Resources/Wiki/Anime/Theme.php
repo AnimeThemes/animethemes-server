@@ -34,6 +34,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Forms\Set;
+use Filament\Infolists\Components\RepeatableEntry;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
@@ -379,6 +380,29 @@ class Theme extends BaseResource
                             ->urlToRelated(SongResource::class, ThemeModel::RELATION_SONG),
                     ])
                     ->columns(3),
+
+                Section::make(__('filament.resources.singularLabel.song'))
+                    ->relationship(ThemeModel::RELATION_SONG)
+                    ->schema([
+                        RepeatableEntry::make(__('filament.resources.label.artists'))
+                            ->schema([
+                                TextEntry::make(Artist::ATTRIBUTE_ID)
+                                    ->label(__('filament.fields.base.id')),
+
+                                TextEntry::make(Artist::ATTRIBUTE_NAME)
+                                    ->label(__('filament.fields.artist.name.name'))
+                                    ->urlToRelated(ArtistResource::class, '')
+                                    ->formatStateUsing(fn ($state) => "<p style='color: rgb(64, 184, 166);'>{$state}</p>"),
+
+                                TextEntry::make(Artist::ATTRIBUTE_SLUG)
+                                    ->label(__('filament.fields.artist.slug.name')),
+
+                                TextEntry::make('artistsong' . '.' . ArtistSong::ATTRIBUTE_AS)
+                                    ->label(__('filament.fields.artist.songs.as.name'))
+                                    ->placeholder('-'),
+                            ])
+                            ->columns(4),
+                    ]),
 
                 Section::make(__('filament.fields.base.timestamps'))
                     ->schema(parent::timestamps())
