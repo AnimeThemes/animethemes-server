@@ -168,6 +168,7 @@ class Audio extends BaseResource
                 TextColumn::make(AudioModel::ATTRIBUTE_FILENAME)
                     ->label(__('filament.fields.audio.filename.name'))
                     ->sortable()
+                    ->searchable()
                     ->copyableWithMessage(),
             ]);
     }
