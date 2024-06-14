@@ -25,7 +25,6 @@ use App\Filament\Resources\Wiki\Video\RelationManagers\ScriptVideoRelationManage
 use App\Filament\Resources\Wiki\Video\RelationManagers\TrackVideoRelationManager;
 use App\Filament\TableActions\Repositories\Storage\Wiki\Video\ReconcileVideoTableAction;
 use App\Filament\TableActions\Storage\Wiki\Video\UploadVideoTableAction;
-use App\Models\Discord\DiscordThread;
 use App\Models\Wiki\Audio as AudioModel;
 use App\Models\Wiki\Video as VideoModel;
 use Filament\Forms\Components\Checkbox;
@@ -370,23 +369,11 @@ class Video extends BaseResource
             parent::getActions(),
             [
                 ActionGroup::make([
-                    BackfillAudioAction::make('backfill-audio')
-                        ->label(__('filament.actions.video.backfill.name'))
-                        ->requiresConfirmation()
-                        ->modalWidth(MaxWidth::TwoExtraLarge)
-                        ->authorize('create', VideoModel::class),
+                    BackfillAudioAction::make('backfill-audio'),
 
-                    MoveVideoAction::make('move-video')
-                        ->label(__('filament.actions.video.move.name'))
-                        ->requiresConfirmation()
-                        ->modalWidth(MaxWidth::FourExtraLarge)
-                        ->authorize('create', VideoModel::class),
+                    MoveVideoAction::make('move-video'),
 
-                    DeleteVideoAction::make('delete-video')
-                        ->label(__('filament.actions.video.delete.name'))
-                        ->requiresConfirmation()
-                        ->modalWidth(MaxWidth::FourExtraLarge)
-                        ->authorize('forcedelete', VideoModel::class),
+                    DeleteVideoAction::make('delete-video'),
                 ]),
             ],
         );

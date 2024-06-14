@@ -29,9 +29,7 @@ class EditPlaylist extends BaseEditResource
             parent::getHeaderActions(),
             [
                 AssignHashidsHeaderAction::make('assign-hashids')
-                    ->label(__('filament.actions.models.assign_hashids.name'))
                     ->setConnection('playlists')
-                    ->requiresConfirmation()
                     ->authorize('update', PlaylistModel::class)
             ],
         );

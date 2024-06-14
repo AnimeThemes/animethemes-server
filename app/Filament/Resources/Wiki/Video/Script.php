@@ -207,17 +207,9 @@ class Script extends BaseResource
             parent::getActions(),
             [
                 ActionGroup::make([
-                    MoveScriptAction::make('move-script')
-                        ->label(__('filament.actions.video_script.move.name'))
-                        ->requiresConfirmation()
-                        ->modalWidth(MaxWidth::FourExtraLarge)
-                        ->authorize('create', ScriptModel::class),
+                    MoveScriptAction::make('move-script'),
                     
-                    DeleteScriptAction::make('delete-script')
-                        ->label(__('filament.actions.video_script.delete.name'))
-                        ->requiresConfirmation()
-                        ->modalWidth(MaxWidth::FourExtraLarge)
-                        ->authorize('delete', ScriptModel::class),
+                    DeleteScriptAction::make('delete-script'),
                 ]),
             ],
         );

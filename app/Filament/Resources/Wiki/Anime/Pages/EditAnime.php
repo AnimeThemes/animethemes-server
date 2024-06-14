@@ -12,12 +12,7 @@ use App\Filament\HeaderActions\Models\Wiki\Anime\AttachAnimeResourceHeaderAction
 use App\Filament\HeaderActions\Models\Wiki\Anime\BackfillAnimeHeaderAction;
 use App\Filament\Resources\Wiki\Anime;
 use App\Filament\Resources\Base\BaseEditResource;
-use App\Models\Discord\DiscordThread;
-use App\Models\Wiki\Anime as AnimeModel;
-use App\Models\Wiki\ExternalResource;
-use App\Models\Wiki\Image;
 use Filament\Actions\ActionGroup;
-use Filament\Support\Enums\MaxWidth;
 
 /**
  * Class EditAnime.
@@ -66,41 +61,18 @@ class EditAnime extends BaseEditResource
             parent::getHeaderActions(),
             [
                 ActionGroup::make([
-                    DiscordThreadHeaderAction::make('discord-thread-header')
-                        ->label(__('filament.actions.anime.discord.thread.name'))
-                        ->icon('heroicon-o-chat-bubble-left-right')
-                        ->requiresConfirmation()
-                        ->authorize('create', DiscordThread::class),
+                    DiscordThreadHeaderAction::make('discord-thread-header'),
 
-                    BackfillAnimeHeaderAction::make('backfill-anime')
-                        ->label(__('filament.actions.anime.backfill.name'))
-                        ->icon('heroicon-o-bars-4')
-                        ->requiresConfirmation()
-                        ->modalWidth(MaxWidth::FourExtraLarge)
-                        ->authorize('create', AnimeModel::class),
+                    BackfillAnimeHeaderAction::make('backfill-anime'),
 
-                    AttachAnimeImageHeaderAction::make('attach-anime-image')
-                        ->label(__('filament.actions.models.wiki.attach_image.name'))
-                        ->icon('heroicon-o-photo')
-                        ->facets($facets)
-                        ->requiresConfirmation()
-                        ->authorize('create', Image::class),
+                    AttachAnimeImageHeaderAction::make('attach-anime-image'),
 
-                    AttachAnimeResourceHeaderAction::make('attach-anime-resource')
-                        ->label(__('filament.actions.models.wiki.attach_resource.name'))
-                        ->icon('heroicon-o-queue-list')
-                        ->sites($resourceSites)
-                        ->requiresConfirmation()
-                        ->modalWidth(MaxWidth::FourExtraLarge)
-                        ->authorize('create', ExternalResource::class),
+                    AttachAnimeResourceHeaderAction::make('attach-anime-resource'),
 
                     AttachAnimeResourceHeaderAction::make('attach-anime-streaming-resource')
                         ->label(__('filament.actions.models.wiki.attach_streaming_resource.name'))
                         ->icon('heroicon-o-tv')
-                        ->sites($streamingResourceSites)
-                        ->requiresConfirmation()
-                        ->modalWidth(MaxWidth::FourExtraLarge)
-                        ->authorize('create', ExternalResource::class),
+                        ->sites($streamingResourceSites),
                 ]),
             ],
         );

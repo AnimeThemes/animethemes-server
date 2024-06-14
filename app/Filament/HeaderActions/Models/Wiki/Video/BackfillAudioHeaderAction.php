@@ -8,12 +8,14 @@ use App\Actions\Models\Wiki\Video\Audio\BackfillAudioAction as BackfillAudio;
 use App\Enums\Actions\Models\Wiki\Video\DeriveSourceVideo;
 use App\Enums\Actions\Models\Wiki\Video\OverwriteAudio;
 use App\Filament\Components\Fields\Select;
+use App\Filament\HeaderActions\BaseHeaderAction;
+use App\Models\Wiki\Audio;
 use App\Models\Wiki\Video;
 use Exception;
 use Filament\Forms\Form;
 use Filament\Notifications\Actions\Action as NotificationAction;
 use Filament\Notifications\Notification;
-use Filament\Actions\Action;
+use Filament\Support\Enums\MaxWidth;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
@@ -23,7 +25,7 @@ use Illuminate\Validation\Rules\Enum;
 /**
  * Class BackfillAudioHeaderAction.
  */
-class BackfillAudioHeaderAction extends Action implements ShouldQueue
+class BackfillAudioHeaderAction extends BaseHeaderAction implements ShouldQueue
 {
     use InteractsWithQueue;
     use Queueable;
@@ -39,6 +41,12 @@ class BackfillAudioHeaderAction extends Action implements ShouldQueue
     protected function setUp(): void
     {
         parent::setUp();
+
+        $this->label(__('filament.actions.video.backfill.name'));
+
+        $this->modalWidth(MaxWidth::TwoExtraLarge);
+
+        $this->authorize('create', Audio::class);
 
         $this->action(fn (Video $record, array $data) => $this->handle($record, $data));
     }

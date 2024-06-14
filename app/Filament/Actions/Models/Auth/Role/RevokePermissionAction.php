@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace App\Filament\Actions\Models\Auth\Role;
 
+use App\Filament\Actions\BaseAction;
 use App\Filament\Components\Fields\Select;
 use App\Models\Auth\Permission;
 use App\Models\Auth\Role;
 use Filament\Forms\Form;
-use Filament\Tables\Actions\Action;
 use Illuminate\Support\Arr;
 
 /**
  * Class RevokePermissionAction.
  */
-class RevokePermissionAction extends Action
+class RevokePermissionAction extends BaseAction
 {
     final public const FIELD_PERMISSION = 'permission';
 
@@ -26,6 +26,8 @@ class RevokePermissionAction extends Action
     protected function setUp(): void
     {
         parent::setUp();
+
+        $this->label(__('filament.actions.role.revoke_permission.name'));
 
         $this->action(fn (Role $record, array $data) => $this->handle($record, $data));
     }

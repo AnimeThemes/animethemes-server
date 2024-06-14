@@ -20,7 +20,6 @@ use App\Filament\Resources\Wiki\Audio\RelationManagers\VideoAudioRelationManager
 use App\Filament\TableActions\Repositories\Storage\Wiki\Audio\ReconcileAudioTableAction;
 use App\Filament\TableActions\Storage\Wiki\Audio\UploadAudioTableAction;
 use App\Models\Wiki\Audio as AudioModel;
-use App\Models\Wiki\Video;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Infolists\Components\Section;
@@ -258,22 +257,11 @@ class Audio extends BaseResource
             parent::getActions(),
             [
                 ActionGroup::make([
-                    MoveAudioAction::make('move-audio')
-                        ->label(__('filament.actions.audio.move.name'))
-                        ->requiresConfirmation()
-                        ->modalWidth(MaxWidth::FourExtraLarge)
-                        ->authorize('create', AudioModel::class),
+                    MoveAudioAction::make('move-audio'),
                     
-                    DeleteAudioAction::make('delete-audio')
-                        ->label(__('filament.actions.audio.delete.name'))
-                        ->requiresConfirmation()
-                        ->modalWidth(MaxWidth::FourExtraLarge)
-                        ->authorize('forcedelete', AudioModel::class),
+                    DeleteAudioAction::make('delete-audio'),
 
-                    AttachAudioToRelatedVideosAction::make('attach-audio-related-video')
-                        ->label(__('filament.actions.audio.attach_related_videos.name'))
-                        ->requiresConfirmation()
-                        ->authorize('update', Video::class),
+                    AttachAudioToRelatedVideosAction::make('attach-audio-related-video'),
                 ]),
             ],
         );

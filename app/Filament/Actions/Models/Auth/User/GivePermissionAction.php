@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace App\Filament\Actions\Models\Auth\User;
 
+use App\Filament\Actions\BaseAction;
 use App\Filament\Components\Fields\Select;
 use App\Models\Auth\Permission;
 use App\Models\Auth\User;
 use Filament\Forms\Form;
-use Filament\Tables\Actions\Action;
 use Illuminate\Support\Arr;
 
 /**
  * Class GivePermissionAction.
  */
-class GivePermissionAction extends Action
+class GivePermissionAction extends BaseAction
 {
     final public const FIELD_PERMISSION = 'permission';
 
@@ -26,6 +26,8 @@ class GivePermissionAction extends Action
     protected function setUp(): void
     {
         parent::setUp();
+
+        $this->label(__('filament.actions.user.give_permission.name'));
 
         $this->action(fn (User $record, array $data) => $this->handle($record, $data));
     }

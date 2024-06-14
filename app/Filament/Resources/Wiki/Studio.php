@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Wiki;
 
-use App\Enums\Models\Wiki\ImageFacet;
-use App\Enums\Models\Wiki\ResourceSite;
 use App\Filament\Actions\Models\Wiki\Studio\AttachStudioImageAction;
 use App\Filament\Actions\Models\Wiki\Studio\AttachStudioResourceAction;
 use App\Filament\Actions\Models\Wiki\Studio\BackfillStudioAction;
@@ -28,7 +26,6 @@ use Filament\Forms\Set;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
-use Filament\Support\Enums\MaxWidth;
 use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
@@ -274,43 +271,15 @@ class Studio extends BaseResource
      */
     public static function getActions(): array
     {
-        $facets = [
-            ImageFacet::COVER_SMALL,
-            ImageFacet::COVER_LARGE,
-        ];
-
-        $resourceSites = [
-            ResourceSite::ANIDB,
-            ResourceSite::ANILIST,
-            ResourceSite::ANIME_PLANET,
-            ResourceSite::ANN,
-            ResourceSite::MAL,
-        ];
-
         return array_merge(
             parent::getActions(),
             [
                 ActionGroup::make([
-                    BackfillStudioAction::make('backfill-studio')
-                        ->label(__('filament.actions.studio.backfill.name'))
-                        ->requiresConfirmation()
-                        ->modalWidth(MaxWidth::FourExtraLarge)
-                        ->authorize('update', StudioModel::class),
+                    BackfillStudioAction::make('backfill-studio'),
 
-                    AttachStudioImageAction::make('attach-studio-image')
-                        ->label(__('filament.actions.models.wiki.attach_image.name'))
-                        ->icon('heroicon-o-photo')
-                        ->facets($facets)
-                        ->requiresConfirmation()
-                        ->authorize('create', Image::class),
+                    AttachStudioImageAction::make('attach-studio-image'),
 
-                    AttachStudioResourceAction::make('attach-studio-resource')
-                        ->label(__('filament.actions.models.wiki.attach_resource.name'))
-                        ->icon('heroicon-o-queue-list')
-                        ->sites($resourceSites)
-                        ->requiresConfirmation()
-                        ->modalWidth(MaxWidth::FourExtraLarge)
-                        ->authorize('create', ExternalResource::class),
+                    AttachStudioResourceAction::make('attach-studio-resource'),
                 ])
             ],
         );

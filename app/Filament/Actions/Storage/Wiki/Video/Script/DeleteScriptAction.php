@@ -15,6 +15,20 @@ use App\Models\Wiki\Video\VideoScript;
 class DeleteScriptAction extends DeleteAction
 {
     /**
+     * Initial setup for the action.
+     *
+     * @return void
+     */
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->label(__('filament.actions.video_script.delete.name'));
+
+        $this->authorize('delete', VideoScript::class);
+    }
+
+    /**
      * Get the underlying storage action.
      *
      * @param  VideoScript  $script

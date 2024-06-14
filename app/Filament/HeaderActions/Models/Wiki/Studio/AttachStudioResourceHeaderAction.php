@@ -25,6 +25,14 @@ class AttachStudioResourceHeaderAction extends AttachResourceHeaderAction
     {
         parent::setUp();
 
+        $this->sites([
+            ResourceSite::ANIDB,
+            ResourceSite::ANILIST,
+            ResourceSite::ANIME_PLANET,
+            ResourceSite::ANN,
+            ResourceSite::MAL,
+        ]);
+
         $this->action(fn (Studio $record, array $data) => (new AttachStudioResourceActionAction($this->sites))->handle($record, $data));
     }
 

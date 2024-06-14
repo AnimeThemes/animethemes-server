@@ -15,6 +15,20 @@ use App\Models\Wiki\Video;
 class DeleteVideoHeaderAction extends DeleteHeaderAction
 {
     /**
+     * Initial setup for the action.
+     *
+     * @return void
+     */
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->label(__('filament.actions.video.delete.name'));
+
+        $this->authorize('forcedelete', Video::class);
+    }
+
+    /**
      * Get the underlying storage action.
      *
      * @param  Video  $video

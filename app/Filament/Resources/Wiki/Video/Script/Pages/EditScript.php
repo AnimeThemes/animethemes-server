@@ -32,17 +32,9 @@ class EditScript extends BaseEditResource
             parent::getHeaderActions(),
             [
                 ActionGroup::make([
-                    MoveScriptHeaderAction::make('move-script')
-                        ->label(__('filament.actions.video_script.move.name'))
-                        ->requiresConfirmation()
-                        ->modalWidth(MaxWidth::FourExtraLarge)
-                        ->authorize('create', ScriptModel::class),
+                    MoveScriptHeaderAction::make('move-script'),
                     
-                    DeleteScriptHeaderAction::make('delete-script')
-                        ->label(__('filament.actions.video_script.delete.name'))
-                        ->requiresConfirmation()
-                        ->modalWidth(MaxWidth::FourExtraLarge)
-                        ->authorize('delete', ScriptModel::class),
+                    DeleteScriptHeaderAction::make('delete-script'),
                 ]),
             ],
         );

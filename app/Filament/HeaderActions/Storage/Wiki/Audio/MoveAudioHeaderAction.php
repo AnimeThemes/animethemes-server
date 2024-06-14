@@ -18,6 +18,20 @@ use Illuminate\Support\Facades\Config;
 class MoveAudioHeaderAction extends MoveHeaderAction
 {
     /**
+     * Initial setup for the action.
+     *
+     * @return void
+     */
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->label(__('filament.actions.audio.move.name'));
+
+        $this->authorize('create', Audio::class);
+    }
+
+    /**
      * Get the underlying storage action.
      *
      * @param  Audio  $audio

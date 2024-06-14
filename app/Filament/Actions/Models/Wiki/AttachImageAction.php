@@ -5,20 +5,35 @@ declare(strict_types=1);
 namespace App\Filament\Actions\Models\Wiki;
 
 use App\Enums\Models\Wiki\ImageFacet;
+use App\Filament\Actions\BaseAction;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Image;
 use App\Models\Wiki\Studio;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Form;
-use Filament\Tables\Actions\Action;
 
 /**
  * Class AttachImageAction.
  */
-abstract class AttachImageAction extends Action
+abstract class AttachImageAction extends BaseAction
 {
     protected array $facets = [];
+
+    /**
+     * Initial setup for the action.
+     *
+     * @return void
+     */
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->label(__('filament.actions.models.wiki.attach_image.name'));
+        $this->icon('heroicon-o-photo');
+
+        $this->authorize('create', Image::class);
+    }
 
     /**
      * Get the fields available on the action.
