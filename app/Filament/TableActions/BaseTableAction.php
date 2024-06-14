@@ -9,6 +9,11 @@ use Filament\Tables\Actions\Action;
 
 /**
  * Class BaseTableAction.
+ *
+ * Table actions are standalone actions.
+ * It is an action related to the table and not to an individual model.
+ * In filament, it is called the table's Header Actions.
+ * Don't confuse it with the header actions of an individual model.
  */
 abstract class BaseTableAction extends Action
 {

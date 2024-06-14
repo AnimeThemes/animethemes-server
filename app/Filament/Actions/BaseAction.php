@@ -8,6 +8,9 @@ use Filament\Tables\Actions\Action;
 
 /**
  * Class BaseAction.
+ *
+ * Actions are row actions.
+ * They are present in the rows of the table.
  */
 abstract class BaseAction extends Action
 {

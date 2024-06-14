@@ -11,6 +11,8 @@ use Illuminate\Database\Eloquent\Collection;
 
 /**
  * Class BaseBulkAction.
+ *
+ * Bulk actions are present in the table to perform an action on more than one model at once.
  */
 abstract class BaseBulkAction extends BulkAction
 {

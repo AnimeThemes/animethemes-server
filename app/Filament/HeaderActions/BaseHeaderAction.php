@@ -8,6 +8,8 @@ use Filament\Actions\Action;
 
 /**
  * Class BaseHeaderAction.
+ *
+ * Header actions are present at the top of the edit/view model page.
  */
 abstract class BaseHeaderAction extends Action
 {
