@@ -6,7 +6,7 @@ namespace App\Filament\TableActions\Storage\Admin;
 
 use App\Actions\Storage\Admin\Dump\PruneDumpAction as PruneDump;
 use App\Filament\TableActions\Storage\Base\PruneTableAction;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Admin\Dump;
 use Illuminate\Support\Arr;
 
 /**
@@ -14,6 +14,20 @@ use Illuminate\Support\Arr;
  */
 class PruneDumpTableAction extends PruneTableAction
 {
+    /**
+     * Initial setup for the action.
+     *
+     * @return void
+     */
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->label(__('filament.actions.dump.prune.name'));
+
+        $this->authorize('forcedeleteany', Dump::class);
+    }
+
     /**
      * Get the underlying storage action.
      *

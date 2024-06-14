@@ -250,29 +250,13 @@ class Dump extends BaseResource
     {
         return [
             ActionGroup::make([
-                DumpWikiTableAction::make('dump-wiki')
-                    ->label(__('filament.actions.dump.dump.name.wiki'))
-                    ->icon(__('filament.table_actions.dump.dump.icon'))
-                    ->requiresConfirmation()
-                    ->authorize('create', DumpModel::class),
+                DumpWikiTableAction::make('dump-wiki'),
 
-                DumpDocumentTableAction::make('dump-document')
-                    ->label(__('filament.actions.dump.dump.name.document'))
-                    ->icon(__('filament.table_actions.dump.dump.icon'))
-                    ->requiresConfirmation()
-                    ->authorize('create', DumpModel::class),
+                DumpDocumentTableAction::make('dump-document'),
                 
-                PruneDumpTableAction::make('prune-dump')
-                    ->label(__('filament.actions.dump.prune.name'))
-                    ->icon(__('filament.table_actions.dump.prune.icon'))
-                    ->requiresConfirmation()
-                    ->authorize('forcedeleteany', DumpModel::class),
+                PruneDumpTableAction::make('prune-dump'),
 
-                ReconcileDumpTableAction::make('reconcile-dump')
-                    ->label(__('filament.actions.repositories.name', ['label' => __('filament.resources.label.dumps')]))
-                    ->icon(__('filament.table_actions.base.reconcile.icon'))
-                    ->requiresConfirmation()
-                    ->authorize('create', DumpModel::class),
+                ReconcileDumpTableAction::make('reconcile-dump'),
             ]),
         ];
     }

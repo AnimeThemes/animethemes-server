@@ -6,11 +6,12 @@ namespace App\Filament\TableActions\Storage\Admin;
 
 use App\Actions\Storage\Admin\Dump\DumpAction as DumpDatabase;
 use App\Filament\Components\Fields\Select;
+use App\Filament\TableActions\BaseTableAction;
+use App\Models\Admin\Dump;
 use Exception;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
-use Filament\Tables\Actions\Action;
 use Illuminate\Database\MySqlConnection;
 use Illuminate\Database\PostgresConnection;
 use Illuminate\Support\Facades\DB;
@@ -19,7 +20,7 @@ use Illuminate\Validation\Rule;
 /**
  * Class DumpTableAction.
  */
-abstract class DumpTableAction extends Action
+abstract class DumpTableAction extends BaseTableAction
 {
     /**
      * Initial setup for the action.
@@ -30,7 +31,9 @@ abstract class DumpTableAction extends Action
     {
         parent::setUp();
 
-        $this->action(fn (array $data) => $this->handle($data));
+        $this->icon(__('filament.table_actions.dump.dump.icon'));
+
+        $this->authorize('create', Dump::class);
     }
 
     /**

@@ -25,7 +25,6 @@ use Filament\Forms\Form;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
-use Filament\Support\Enums\MaxWidth;
 use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Table;
 
@@ -279,8 +278,7 @@ class Audio extends BaseResource
         return array_merge(
             parent::getBulkActions(),
             [
-                DeleteAudioBulkAction::make('delete-audio')
-                    ->label(__('filament.actions.audio.delete.name')),
+                DeleteAudioBulkAction::make('delete-audio'),
             ],
         );
     }
@@ -296,18 +294,9 @@ class Audio extends BaseResource
     {
         return [
             ActionGroup::make([
-                UploadAudioTableAction::make('upload-audio')
-                    ->label(__('filament.actions.audio.upload.name'))
-                    ->icon(__('filament.table_actions.base.upload.icon'))
-                    ->requiresConfirmation()
-                    ->modalWidth(MaxWidth::FourExtraLarge)
-                    ->authorize('create', AudioModel::class),
+                UploadAudioTableAction::make('upload-audio'),
                     
-                ReconcileAudioTableAction::make('reconcile-audio')
-                    ->label(__('filament.actions.repositories.name', ['label' => __('filament.resources.label.audios')]))
-                    ->icon(__('filament.table_actions.base.reconcile.icon'))
-                    ->requiresConfirmation()
-                    ->authorize('create', AudioModel::class),
+                ReconcileAudioTableAction::make('reconcile-audio'),
             ]),
         ];
     }

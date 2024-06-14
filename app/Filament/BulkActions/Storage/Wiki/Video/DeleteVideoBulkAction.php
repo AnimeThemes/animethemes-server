@@ -15,6 +15,18 @@ use App\Models\Wiki\Video;
 class DeleteVideoBulkAction extends DeleteBulkAction
 {
     /**
+     * Initial setup for the action.
+     *
+     * @return void
+     */
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->label(__('filament.actions.video.delete.name'));
+    }
+
+    /**
      * Get the underlying storage action.
      *
      * @param  Video  $video

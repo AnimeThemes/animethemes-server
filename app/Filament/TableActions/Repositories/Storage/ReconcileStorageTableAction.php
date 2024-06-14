@@ -19,6 +19,18 @@ use Illuminate\Support\Facades\Storage;
 abstract class ReconcileStorageTableAction extends ReconcileTableAction implements InteractsWithDisk
 {
     /**
+     * Initial setup for the action.
+     *
+     * @return void
+     */
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->icon(__('filament.table_actions.base.reconcile.icon'));
+    }
+
+    /**
      * Apply filters to repositories before reconciliation.
      *
      * @param  RepositoryInterface  $sourceRepository

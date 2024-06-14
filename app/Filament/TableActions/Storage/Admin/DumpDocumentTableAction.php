@@ -13,6 +13,18 @@ use App\Actions\Storage\Admin\Dump\DumpDocumentAction as DumpDocumentDatabase;
 class DumpDocumentTableAction extends DumpTableAction
 {
     /**
+     * Initial setup for the action.
+     *
+     * @return void
+     */
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->label(__('filament.actions.dump.dump.name.document'));
+    }
+
+    /**
      * Get the underlying action.
      *
      * @param  array  $fields

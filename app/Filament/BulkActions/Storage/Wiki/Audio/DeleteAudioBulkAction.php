@@ -15,6 +15,18 @@ use App\Models\Wiki\Audio;
 class DeleteAudioBulkAction extends DeleteBulkAction
 {
     /**
+     * Initial setup for the action.
+     *
+     * @return void
+     */
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->label(__('filament.actions.audio.delete.name'));
+    }
+
+    /**
      * Get the underlying storage action.
      *
      * @param  Audio  $audio

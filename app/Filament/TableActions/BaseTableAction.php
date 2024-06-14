@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\TableActions;
 
+use Filament\Support\Enums\MaxWidth;
 use Filament\Tables\Actions\Action;
 
 /**
@@ -19,6 +20,10 @@ abstract class BaseTableAction extends Action
     protected function setUp(): void
     {
         parent::setUp();
+
+        $this->requiresConfirmation();
+
+        $this->modalWidth(MaxWidth::FourExtraLarge);
 
         $this->action(fn (array $data) => $this->handle($data));
     }

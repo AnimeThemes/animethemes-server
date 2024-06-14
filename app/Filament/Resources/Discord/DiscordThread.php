@@ -24,7 +24,6 @@ use Filament\Forms\Form;
 use Filament\Forms\Set;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Infolist;
-use Filament\Support\Enums\MaxWidth;
 use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Table;
 use Illuminate\Support\Arr;
@@ -290,19 +289,9 @@ class DiscordThread extends BaseResource
             parent::getHeaderActions(),
             [
                 ActionGroup::make([
-                    DiscordEditMessageTableAction::make('edit-message')
-                        ->label(__('filament.table_actions.discord_thread.message.edit.name'))
-                        ->icon(__('filament.table_actions.discord_thread.message.edit.icon'))
-                        ->requiresConfirmation()
-                        ->modalWidth(MaxWidth::FourExtraLarge)
-                        ->authorize('forcedeleteany', DiscordThreadModel::class),
+                    DiscordEditMessageTableAction::make('edit-message'),
 
-                    DiscordSendMessageTableAction::make('send-message')
-                        ->label(__('filament.table_actions.discord_thread.message.send.name'))
-                        ->icon(__('filament.table_actions.discord_thread.message.send.icon'))
-                        ->requiresConfirmation()
-                        ->modalWidth(MaxWidth::FourExtraLarge)
-                        ->authorize('forcedeleteany', DiscordThreadModel::class),
+                    DiscordSendMessageTableAction::make('send-message'),
                 ]),
             ],
         );

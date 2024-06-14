@@ -33,7 +33,6 @@ use Filament\Forms\Form;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
-use Filament\Support\Enums\MaxWidth;
 use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Filters\Filter;
@@ -391,12 +390,9 @@ class Video extends BaseResource
         return array_merge(
             parent::getBulkActions(),
             [
-                VideoDiscordNotificationBulkAction::make('discord-notification')
-                    ->label(__('filament.bulk_actions.discord.notification.name'))
-                    ->icon(__('filament.bulk_actions.discord.notification.icon')),
+                VideoDiscordNotificationBulkAction::make('discord-notification'),
 
-                DeleteVideoBulkAction::make('delete-video')
-                    ->label(__('filament.actions.video.delete.name')),
+                DeleteVideoBulkAction::make('delete-video'),
             ],
         );
     }
@@ -412,18 +408,9 @@ class Video extends BaseResource
     {
         return [
             ActionGroup::make([
-                UploadVideoTableAction::make('upload-video')
-                    ->label(__('filament.actions.video.upload.name'))
-                    ->icon(__('filament.table_actions.base.upload.icon'))
-                    ->requiresConfirmation()
-                    ->modalWidth(MaxWidth::FourExtraLarge)
-                    ->authorize('create', VideoModel::class),
+                UploadVideoTableAction::make('upload-video'),
 
-                ReconcileVideoTableAction::make('reconcile-video')
-                    ->label(__('filament.actions.repositories.name', ['label' => __('filament.resources.label.videos')]))
-                    ->icon(__('filament.table_actions.base.reconcile.icon'))
-                    ->requiresConfirmation()
-                    ->authorize('create', VideoModel::class),
+                ReconcileVideoTableAction::make('reconcile-video'),
             ]),
         ];
     }

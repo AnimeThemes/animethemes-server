@@ -53,6 +53,20 @@ use Illuminate\Validation\Rules\File as FileRule;
 class UploadVideoTableAction extends UploadTableAction
 {
     /**
+     * Initial setup for the action.
+     *
+     * @return void
+     */
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->label(__('filament.actions.video.upload.name'));
+
+        $this->authorize('create', Video::class);
+    }
+
+    /**
      * Get the fields available on the action.
      *
      * @param  Form  $form

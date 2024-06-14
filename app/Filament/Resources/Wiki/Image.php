@@ -24,7 +24,6 @@ use Filament\Infolists\Components\ImageEntry;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
-use Filament\Support\Enums\MaxWidth;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
@@ -277,12 +276,7 @@ class Image extends BaseResource
    public static function getHeaderActions(): array
    {
        return [
-            UploadImageTableAction::make('upload-image')
-                ->label(__('filament.actions.models.wiki.upload_image.name'))
-                ->requiresConfirmation()
-                ->facets([ImageFacet::GRILL, ImageFacet::DOCUMENT])
-                ->modalWidth(MaxWidth::FourExtraLarge)
-                ->authorize('create', ImageModel::class),
+            UploadImageTableAction::make('upload-image'),
        ];
    }
 

@@ -15,6 +15,18 @@ use App\Models\Wiki\Video\VideoScript;
 class DeleteScriptBulkAction extends DeleteBulkAction
 {
     /**
+     * Initial setup for the action.
+     *
+     * @return void
+     */
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->label(__('filament.actions.video_script.delete.name'));
+    }
+
+    /**
      * Get the underlying storage action.
      *
      * @param  VideoScript  $script

@@ -20,7 +20,6 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Infolist;
-use Filament\Support\Enums\MaxWidth;
 use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Table;
 
@@ -227,8 +226,7 @@ class Script extends BaseResource
         return array_merge(
             parent::getBulkActions(),
             [
-                DeleteScriptBulkAction::make('delete-script')
-                    ->label(__('filament.actions.video_script.delete.name')),
+                DeleteScriptBulkAction::make('delete-script'),
             ],
         );
     }
@@ -244,18 +242,9 @@ class Script extends BaseResource
     {
         return [
             ActionGroup::make([
-                UploadScriptTableAction::make('upload-script')
-                    ->label(__('filament.actions.video_script.upload.name'))
-                    ->icon(__('filament.table_actions.base.upload.icon'))
-                    ->modalWidth(MaxWidth::FourExtraLarge)
-                    ->requiresConfirmation()
-                    ->authorize('create', ScriptModel::class),
+                UploadScriptTableAction::make('upload-script'),
 
-                ReconcileScriptTableAction::make('reconcile-script')
-                    ->label(__('filament.actions.repositories.name', ['label' => __('filament.resources.label.video_scripts')]))
-                    ->icon(__('filament.table_actions.base.reconcile.icon'))
-                    ->requiresConfirmation()
-                    ->authorize('create', ScriptModel::class),
+                ReconcileScriptTableAction::make('reconcile-script'),
             ]),
         ];
     }
