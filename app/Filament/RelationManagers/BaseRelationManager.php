@@ -70,7 +70,6 @@ abstract class BaseRelationManager extends RelationManager
 
                     TextColumn::make(BasePivot::ATTRIBUTE_UPDATED_AT)
                         ->label(__('filament.fields.base.updated_at'))
-                        ->dateTime()
                         ->hidden(fn ($livewire) => !($livewire->getRelationship() instanceof BelongsToMany))
                         ->formatStateUsing(function (BaseModel $record) {
                             $pivot = current($record->getRelations());
