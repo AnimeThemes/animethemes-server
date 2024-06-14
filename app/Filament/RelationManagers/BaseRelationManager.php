@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\RelationManagers;
 
+use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\Select;
 use App\Filament\RelationManagers\Wiki\ResourceRelationManager;
 use App\Filament\Resources\Wiki\Artist\RelationManagers\SongArtistRelationManager;
@@ -12,8 +13,11 @@ use App\Filament\Resources\Wiki\ExternalResource\RelationManagers\ArtistResource
 use App\Filament\Resources\Wiki\ExternalResource\RelationManagers\SongResourceRelationManager;
 use App\Filament\Resources\Wiki\ExternalResource\RelationManagers\StudioResourceRelationManager;
 use App\Filament\Resources\Wiki\Song\RelationManagers\ArtistSongRelationManager;
+use App\Models\BaseModel;
+use App\Pivots\BasePivot;
 use App\Pivots\Wiki\AnimeResource;
 use App\Pivots\Wiki\ArtistSong;
+use DateTime;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
@@ -23,6 +27,7 @@ use Filament\Tables\Actions\DetachBulkAction;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Arr;
 
 /**
  * Class BaseRelationManager.
@@ -52,6 +57,27 @@ abstract class BaseRelationManager extends RelationManager
     public function table(Table $table): Table
     {
         return $table
+            ->columns(array_merge(
+                $table->getColumns(),
+                [
+                    TextColumn::make(BasePivot::ATTRIBUTE_CREATED_AT)
+                        ->label(__('filament.fields.base.created_at'))
+                        ->hidden(fn ($livewire) => !($livewire->getRelationship() instanceof BelongsToMany))
+                        ->formatStateUsing(function (BaseModel $record) {
+                            $pivot = current($record->getRelations());
+                            return (new DateTime(Arr::get($pivot->getAttributes(), BasePivot::ATTRIBUTE_CREATED_AT)))->format('M j, Y H:i:s');
+                        }),
+
+                    TextColumn::make(BasePivot::ATTRIBUTE_UPDATED_AT)
+                        ->label(__('filament.fields.base.updated_at'))
+                        ->dateTime()
+                        ->hidden(fn ($livewire) => !($livewire->getRelationship() instanceof BelongsToMany))
+                        ->formatStateUsing(function (BaseModel $record) {
+                            $pivot = current($record->getRelations());
+                            return (new DateTime(Arr::get($pivot->getAttributes(), BasePivot::ATTRIBUTE_UPDATED_AT)))->format('M j, Y H:i:s');
+                        }),
+                ],
+            ))
             ->filters(static::getFilters())
             ->filtersFormMaxHeight('400px')
             ->actions(static::getActions())
