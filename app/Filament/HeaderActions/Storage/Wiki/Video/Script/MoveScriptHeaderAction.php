@@ -9,7 +9,6 @@ use App\Constants\Config\VideoConstants;
 use App\Models\Wiki\Video\VideoScript;
 use App\Filament\HeaderActions\Storage\Base\MoveHeaderAction;
 use App\Models\BaseModel;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
 
@@ -18,6 +17,20 @@ use Illuminate\Support\Facades\Config;
  */
 class MoveScriptHeaderAction extends MoveHeaderAction
 {
+    /**
+     * Initial setup for the action.
+     *
+     * @return void
+     */
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->label(__('filament.actions.video_script.move.name'));
+
+        $this->authorize('create', VideoScript::class);
+    }
+
     /**
      * Get the underlying storage action.
      *

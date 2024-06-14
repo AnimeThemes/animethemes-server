@@ -25,6 +25,15 @@ class AttachSongResourceAction extends AttachResourceAction
     {
         parent::setUp();
 
+        $this->sites([
+            ResourceSite::ANIDB,
+            ResourceSite::SPOTIFY,
+            ResourceSite::YOUTUBE_MUSIC,
+            ResourceSite::YOUTUBE,
+            ResourceSite::APPLE_MUSIC,
+            ResourceSite::AMAZON_MUSIC,
+        ]);
+
         $this->action(fn (Song $record, array $data) => (new AttachSongResourceActionAction($this->sites))->handle($record, $data));
     }
 

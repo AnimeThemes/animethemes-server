@@ -13,6 +13,18 @@ use App\Actions\Storage\Admin\Dump\DumpWikiAction as DumpWikiDatabase;
 class DumpWikiTableAction extends DumpTableAction
 {
     /**
+     * Initial setup for the action.
+     *
+     * @return void
+     */
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->label(__('filament.actions.dump.dump.name.wiki'));
+    }
+
+    /**
      * Get the underlying action.
      *
      * @param  array  $fields

@@ -9,7 +9,8 @@ use App\Enums\Models\Wiki\VideoSource;
 use App\Filament\Actions\Models\Wiki\Video\BackfillAudioAction;
 use App\Filament\Actions\Storage\Wiki\Video\DeleteVideoAction;
 use App\Filament\Actions\Storage\Wiki\Video\MoveVideoAction;
-use App\Filament\BulkActions\Discord\DiscordVideoNotificationBulkAction;
+use App\Filament\BulkActions\Models\Wiki\Video\VideoDiscordNotificationBulkAction;
+use App\Filament\BulkActions\Storage\Wiki\Video\DeleteVideoBulkAction;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\Select;
 use App\Filament\Components\Filters\NumberFilter;
@@ -24,7 +25,6 @@ use App\Filament\Resources\Wiki\Video\RelationManagers\ScriptVideoRelationManage
 use App\Filament\Resources\Wiki\Video\RelationManagers\TrackVideoRelationManager;
 use App\Filament\TableActions\Repositories\Storage\Wiki\Video\ReconcileVideoTableAction;
 use App\Filament\TableActions\Storage\Wiki\Video\UploadVideoTableAction;
-use App\Models\Discord\DiscordThread;
 use App\Models\Wiki\Audio as AudioModel;
 use App\Models\Wiki\Video as VideoModel;
 use Filament\Forms\Components\Checkbox;
@@ -33,7 +33,6 @@ use Filament\Forms\Form;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
-use Filament\Support\Enums\MaxWidth;
 use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Filters\Filter;
@@ -369,23 +368,11 @@ class Video extends BaseResource
             parent::getActions(),
             [
                 ActionGroup::make([
-                    BackfillAudioAction::make('backfill-audio')
-                        ->label(__('filament.actions.video.backfill.name'))
-                        ->requiresConfirmation()
-                        ->modalWidth(MaxWidth::TwoExtraLarge)
-                        ->authorize('create', VideoModel::class),
+                    BackfillAudioAction::make('backfill-audio'),
 
-                    MoveVideoAction::make('move-video')
-                        ->label(__('filament.actions.video.move.name'))
-                        ->requiresConfirmation()
-                        ->modalWidth(MaxWidth::FourExtraLarge)
-                        ->authorize('create', VideoModel::class),
+                    MoveVideoAction::make('move-video'),
 
-                    DeleteVideoAction::make('delete-video')
-                        ->label(__('filament.actions.video.delete.name'))
-                        ->requiresConfirmation()
-                        ->modalWidth(MaxWidth::FourExtraLarge)
-                        ->authorize('delete', VideoModel::class),
+                    DeleteVideoAction::make('delete-video'),
                 ]),
             ],
         );
@@ -403,11 +390,9 @@ class Video extends BaseResource
         return array_merge(
             parent::getBulkActions(),
             [
-                DiscordVideoNotificationBulkAction::make('discord-notification')
-                    ->label(__('filament.bulk_actions.discord.notification.name'))
-                    ->icon(__('filament.bulk_actions.discord.notification.icon'))
-                    ->requiresConfirmation()
-                    ->authorize('create', DiscordThread::class),
+                VideoDiscordNotificationBulkAction::make('discord-notification'),
+
+                DeleteVideoBulkAction::make('delete-video'),
             ],
         );
     }
@@ -423,18 +408,9 @@ class Video extends BaseResource
     {
         return [
             ActionGroup::make([
-                UploadVideoTableAction::make('upload-video')
-                    ->label(__('filament.actions.video.upload.name'))
-                    ->icon(__('filament.table_actions.base.upload.icon'))
-                    ->requiresConfirmation()
-                    ->modalWidth(MaxWidth::FourExtraLarge)
-                    ->authorize('create', VideoModel::class),
+                UploadVideoTableAction::make('upload-video'),
 
-                ReconcileVideoTableAction::make('reconcile-video')
-                    ->label(__('filament.actions.repositories.name', ['label' => __('filament.resources.label.videos')]))
-                    ->icon(__('filament.table_actions.base.reconcile.icon'))
-                    ->requiresConfirmation()
-                    ->authorize('create', VideoModel::class),
+                ReconcileVideoTableAction::make('reconcile-video'),
             ]),
         ];
     }

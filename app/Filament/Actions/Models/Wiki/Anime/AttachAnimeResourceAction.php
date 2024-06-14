@@ -25,6 +25,19 @@ class AttachAnimeResourceAction extends AttachResourceAction
     {
         parent::setUp();
 
+        $this->sites([
+            ResourceSite::ANIDB,
+            ResourceSite::ANILIST,
+            ResourceSite::ANIME_PLANET,
+            ResourceSite::ANN,
+            ResourceSite::KITSU,
+            ResourceSite::MAL,
+            ResourceSite::OFFICIAL_SITE,
+            ResourceSite::TWITTER,
+            ResourceSite::YOUTUBE,
+            ResourceSite::WIKI,
+        ]);
+
         $this->action(fn (Anime $record, array $data) => (new AttachAnimeResourceActionAction($this->sites))->handle($record, $data));
     }
 

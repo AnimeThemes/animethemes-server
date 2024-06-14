@@ -8,11 +8,13 @@ use App\Actions\Models\Wiki\Video\Audio\BackfillAudioAction as BackfillAudio;
 use App\Enums\Actions\Models\Wiki\Video\DeriveSourceVideo;
 use App\Enums\Actions\Models\Wiki\Video\OverwriteAudio;
 use App\Filament\Components\Fields\Select;
+use App\Models\Wiki\Audio;
 use App\Models\Wiki\Video;
 use Exception;
 use Filament\Forms\Form;
 use Filament\Notifications\Actions\Action as NotificationAction;
 use Filament\Notifications\Notification;
+use Filament\Support\Enums\MaxWidth;
 use Filament\Tables\Actions\Action;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -39,6 +41,14 @@ class BackfillAudioAction extends Action implements ShouldQueue
     protected function setUp(): void
     {
         parent::setUp();
+
+        $this->label(__('filament.actions.video.backfill.name'));
+
+        $this->requiresConfirmation();
+
+        $this->modalWidth(MaxWidth::TwoExtraLarge);
+
+        $this->authorize('create', Audio::class);
 
         $this->action(fn (Video $record, array $data) => $this->handle($record, $data));
     }

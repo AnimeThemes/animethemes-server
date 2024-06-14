@@ -7,6 +7,7 @@ namespace App\Filament\Resources\Wiki;
 use App\Filament\Actions\Models\Wiki\Audio\AttachAudioToRelatedVideosAction;
 use App\Filament\Actions\Storage\Wiki\Audio\DeleteAudioAction;
 use App\Filament\Actions\Storage\Wiki\Audio\MoveAudioAction;
+use App\Filament\BulkActions\Storage\Wiki\Audio\DeleteAudioBulkAction;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Filters\NumberFilter;
 use App\Filament\Components\Infolist\TextEntry;
@@ -19,13 +20,11 @@ use App\Filament\Resources\Wiki\Audio\RelationManagers\VideoAudioRelationManager
 use App\Filament\TableActions\Repositories\Storage\Wiki\Audio\ReconcileAudioTableAction;
 use App\Filament\TableActions\Storage\Wiki\Audio\UploadAudioTableAction;
 use App\Models\Wiki\Audio as AudioModel;
-use App\Models\Wiki\Video;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
-use Filament\Support\Enums\MaxWidth;
 use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Table;
 
@@ -168,6 +167,7 @@ class Audio extends BaseResource
                 TextColumn::make(AudioModel::ATTRIBUTE_FILENAME)
                     ->label(__('filament.fields.audio.filename.name'))
                     ->sortable()
+                    ->searchable()
                     ->copyableWithMessage(),
             ]);
     }
@@ -256,22 +256,11 @@ class Audio extends BaseResource
             parent::getActions(),
             [
                 ActionGroup::make([
-                    MoveAudioAction::make('move-audio')
-                        ->label(__('filament.actions.audio.move.name'))
-                        ->requiresConfirmation()
-                        ->modalWidth(MaxWidth::FourExtraLarge)
-                        ->authorize('create', AudioModel::class),
+                    MoveAudioAction::make('move-audio'),
                     
-                    DeleteAudioAction::make('delete-audio')
-                        ->label(__('filament.actions.audio.delete.name'))
-                        ->requiresConfirmation()
-                        ->modalWidth(MaxWidth::FourExtraLarge)
-                        ->authorize('delete', AudioModel::class),
+                    DeleteAudioAction::make('delete-audio'),
 
-                    AttachAudioToRelatedVideosAction::make('attach-audio-related-video')
-                        ->label(__('filament.actions.audio.attach_related_videos.name'))
-                        ->requiresConfirmation()
-                        ->authorize('update', Video::class),
+                    AttachAudioToRelatedVideosAction::make('attach-audio-related-video'),
                 ]),
             ],
         );
@@ -288,7 +277,9 @@ class Audio extends BaseResource
     {
         return array_merge(
             parent::getBulkActions(),
-            [],
+            [
+                DeleteAudioBulkAction::make('delete-audio'),
+            ],
         );
     }
 
@@ -303,18 +294,9 @@ class Audio extends BaseResource
     {
         return [
             ActionGroup::make([
-                UploadAudioTableAction::make('upload-audio')
-                    ->label(__('filament.actions.audio.upload.name'))
-                    ->icon(__('filament.table_actions.base.upload.icon'))
-                    ->requiresConfirmation()
-                    ->modalWidth(MaxWidth::FourExtraLarge)
-                    ->authorize('create', AudioModel::class),
+                UploadAudioTableAction::make('upload-audio'),
                     
-                ReconcileAudioTableAction::make('reconcile-audio')
-                    ->label(__('filament.actions.repositories.name', ['label' => __('filament.resources.label.audios')]))
-                    ->icon(__('filament.table_actions.base.reconcile.icon'))
-                    ->requiresConfirmation()
-                    ->authorize('create', AudioModel::class),
+                ReconcileAudioTableAction::make('reconcile-audio'),
             ]),
         ];
     }

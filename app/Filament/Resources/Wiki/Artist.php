@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Wiki;
 
-use App\Enums\Models\Wiki\ImageFacet;
-use App\Enums\Models\Wiki\ResourceSite;
 use App\Filament\Actions\Models\Wiki\Artist\AttachArtistImageAction;
 use App\Filament\Actions\Models\Wiki\Artist\AttachArtistResourceAction;
 use App\Filament\Components\Columns\TextColumn;
@@ -31,7 +29,6 @@ use Filament\Forms\Set;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
-use Filament\Support\Enums\MaxWidth;
 use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
@@ -314,43 +311,13 @@ class Artist extends BaseResource
      */
     public static function getActions(): array
     {
-        $facets = [
-            ImageFacet::COVER_SMALL,
-            ImageFacet::COVER_LARGE,
-        ];
-
-        $resourceSites = [
-            ResourceSite::ANIDB,
-            ResourceSite::ANILIST,
-            ResourceSite::ANIME_PLANET,
-            ResourceSite::ANN,
-            ResourceSite::MAL,
-            ResourceSite::OFFICIAL_SITE,
-            ResourceSite::SPOTIFY,
-            ResourceSite::TWITTER,
-            ResourceSite::YOUTUBE,
-            ResourceSite::YOUTUBE_MUSIC,
-            ResourceSite::WIKI,
-        ];
-
         return array_merge(
             parent::getActions(),
             [
                 ActionGroup::make([
-                    AttachArtistImageAction::make('attach-artist-image')
-                        ->label(__('filament.actions.models.wiki.attach_image.name'))
-                        ->icon('heroicon-o-photo')
-                        ->facets($facets)
-                        ->requiresConfirmation()
-                        ->authorize('create', Image::class),
+                    AttachArtistImageAction::make('attach-artist-image'),
 
-                    AttachArtistResourceAction::make('attach-artist-resource')
-                        ->label(__('filament.actions.models.wiki.attach_resource.name'))
-                        ->icon('heroicon-o-queue-list')
-                        ->sites($resourceSites)
-                        ->requiresConfirmation()
-                        ->modalWidth(MaxWidth::FourExtraLarge)
-                        ->authorize('create', ExternalResource::class),
+                    AttachArtistResourceAction::make('attach-artist-resource'),
                 ])
             ],
         );

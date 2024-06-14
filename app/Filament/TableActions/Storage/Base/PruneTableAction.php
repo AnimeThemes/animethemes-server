@@ -8,13 +8,24 @@ use App\Actions\Storage\Base\PruneAction as BasePruneAction;
 use App\Filament\TableActions\Storage\StorageTableAction;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
-use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class PruneTableAction.
  */
 abstract class PruneTableAction extends StorageTableAction
 {
+    /**
+     * Initial setup for the action.
+     *
+     * @return void
+     */
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->icon(__('filament.table_actions.base.prune.icon'));
+    }
+
     /**
      * Get the fields available on the action.
      *

@@ -6,6 +6,7 @@ namespace App\Filament\Resources\Wiki\Video;
 
 use App\Filament\Actions\Storage\Wiki\Video\Script\DeleteScriptAction;
 use App\Filament\Actions\Storage\Wiki\Video\Script\MoveScriptAction;
+use App\Filament\BulkActions\Storage\Wiki\Video\Script\DeleteScriptBulkAction;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Video\Script\Pages\CreateScript;
@@ -19,7 +20,6 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Infolist;
-use Filament\Support\Enums\MaxWidth;
 use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Table;
 
@@ -206,17 +206,9 @@ class Script extends BaseResource
             parent::getActions(),
             [
                 ActionGroup::make([
-                    MoveScriptAction::make('move-script')
-                        ->label(__('filament.actions.video_script.move.name'))
-                        ->requiresConfirmation()
-                        ->modalWidth(MaxWidth::FourExtraLarge)
-                        ->authorize('create', ScriptModel::class),
+                    MoveScriptAction::make('move-script'),
                     
-                    DeleteScriptAction::make('delete-script')
-                        ->label(__('filament.actions.video_script.delete.name'))
-                        ->requiresConfirmation()
-                        ->modalWidth(MaxWidth::FourExtraLarge)
-                        ->authorize('delete', ScriptModel::class),
+                    DeleteScriptAction::make('delete-script'),
                 ]),
             ],
         );
@@ -233,7 +225,9 @@ class Script extends BaseResource
     {
         return array_merge(
             parent::getBulkActions(),
-            [],
+            [
+                DeleteScriptBulkAction::make('delete-script'),
+            ],
         );
     }
 
@@ -248,18 +242,9 @@ class Script extends BaseResource
     {
         return [
             ActionGroup::make([
-                UploadScriptTableAction::make('upload-script')
-                    ->label(__('filament.actions.video_script.upload.name'))
-                    ->icon(__('filament.table_actions.base.upload.icon'))
-                    ->modalWidth(MaxWidth::FourExtraLarge)
-                    ->requiresConfirmation()
-                    ->authorize('create', ScriptModel::class),
+                UploadScriptTableAction::make('upload-script'),
 
-                ReconcileScriptTableAction::make('reconcile-script')
-                    ->label(__('filament.actions.repositories.name', ['label' => __('filament.resources.label.video_scripts')]))
-                    ->icon(__('filament.table_actions.base.reconcile.icon'))
-                    ->requiresConfirmation()
-                    ->authorize('create', ScriptModel::class),
+                ReconcileScriptTableAction::make('reconcile-script'),
             ]),
         ];
     }

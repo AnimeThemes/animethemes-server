@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Actions\Models\Wiki\Studio;
 
 use App\Actions\Models\Wiki\Studio\AttachStudioImageAction as AttachStudioImageActionAction;
+use App\Enums\Models\Wiki\ImageFacet;
 use App\Filament\Actions\Models\Wiki\AttachImageAction;
 use App\Models\Wiki\Studio;
 
@@ -21,6 +22,11 @@ class AttachStudioImageAction extends AttachImageAction
     protected function setUp(): void
     {
         parent::setUp();
+
+        $this->facets([
+            ImageFacet::COVER_SMALL,
+            ImageFacet::COVER_LARGE,
+        ]);
 
         $this->action(fn (Studio $record, array $data) => (new AttachStudioImageActionAction($this->facets))->handle($record, $data));
     }

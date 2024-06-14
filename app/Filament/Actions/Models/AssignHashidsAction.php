@@ -6,14 +6,15 @@ namespace App\Filament\Actions\Models;
 
 use App\Actions\Models\AssignHashidsAction as AssignHashids;
 use App\Contracts\Models\HasHashids;
+use App\Filament\Actions\BaseAction;
 use App\Models\BaseModel;
+use App\Models\List\Playlist;
 use Exception;
-use Filament\Tables\Actions\Action;
 
 /**
  * Class AssignHashidsAction.
  */
-class AssignHashidsAction extends Action
+class AssignHashidsAction extends BaseAction
 {
     protected ?string $connection = null;
 
@@ -25,6 +26,10 @@ class AssignHashidsAction extends Action
     protected function setUp(): void
     {
         parent::setUp();
+
+        $this->label(__('filament.actions.models.assign_hashids.name'));
+
+        $this->authorize('update', Playlist::class);
 
         $this->action(fn (BaseModel $record) => $this->handle($record));
     }

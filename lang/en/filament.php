@@ -949,6 +949,9 @@ return [
     ],
     'table_actions' => [
         'base' => [
+            'prune' => [
+                'icon' => 'heroicon-o-trash',
+            ],
             'reconcile' => [
                 'icon' => 'heroicon-o-arrow-path',
             ],
@@ -1039,9 +1042,6 @@ return [
         'dump' => [
             'dump' => [
                 'icon' => 'heroicon-o-circle-stack',
-            ],
-            'prune' => [
-                'icon' => 'heroicon-o-trash',
             ],
         ],
     ],

@@ -5,17 +5,16 @@ declare(strict_types=1);
 namespace App\Filament\HeaderActions\Models\Auth\User;
 
 use App\Filament\Components\Fields\Select;
+use App\Filament\HeaderActions\BaseHeaderAction;
 use App\Models\Auth\Role;
 use App\Models\Auth\User;
 use Filament\Forms\Form;
-use Filament\Actions\Action;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 
 /**
  * Class GiveRoleHeaderAction.
  */
-class GiveRoleHeaderAction extends Action
+class GiveRoleHeaderAction extends BaseHeaderAction
 {
     final public const FIELD_ROLE = 'role';
 
@@ -27,6 +26,8 @@ class GiveRoleHeaderAction extends Action
     protected function setUp(): void
     {
         parent::setUp();
+
+        $this->label(__('filament.actions.user.give_role.name'));
 
         $this->action(fn (User $record, array $data) => $this->handle($record, $data));
     }

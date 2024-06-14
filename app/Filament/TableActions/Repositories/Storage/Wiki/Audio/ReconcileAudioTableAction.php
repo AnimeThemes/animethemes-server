@@ -7,6 +7,7 @@ namespace App\Filament\TableActions\Repositories\Storage\Wiki\Audio;
 use App\Concerns\Repositories\Wiki\ReconcilesAudioRepositories;
 use App\Constants\Config\AudioConstants;
 use App\Filament\TableActions\Repositories\Storage\ReconcileStorageTableAction;
+use App\Models\Wiki\Audio;
 use Illuminate\Support\Facades\Config;
 
 /**
@@ -15,6 +16,20 @@ use Illuminate\Support\Facades\Config;
 class ReconcileAudioTableAction extends ReconcileStorageTableAction
 {
     use ReconcilesAudioRepositories;
+
+    /**
+     * Initial setup for the action.
+     *
+     * @return void
+     */
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->label(__('filament.actions.repositories.name', ['label' => __('filament.resources.label.audios')]));
+
+        $this->authorize('create', Audio::class);
+    }
 
     /**
      * The name of the disk.

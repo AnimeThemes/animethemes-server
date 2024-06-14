@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace App\Filament\Actions\Storage;
 
 use App\Contracts\Actions\Storage\StorageAction as BaseStorageAction;
+use App\Filament\Actions\BaseAction;
 use App\Models\BaseModel;
-use Filament\Tables\Actions\Action;
 
 /**
  * Class StorageAction.
  */
-abstract class StorageAction extends Action
+abstract class StorageAction extends BaseAction
 {
     /**
      * Initial setup for the action.

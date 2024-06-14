@@ -15,6 +15,8 @@ class FeatureConstants
 
     final public const AUDIO_BITRATE_RESTRICTION = 'audio_bitrate_restriction';
 
+    final public const IGNORE_ALL_FILE_VALIDATIONS = 'ignore_all_file_validations';
+
     final public const NULL_SCOPE = '__laravel_null';
 
     final public const REQUIRED_ENCODER_VERSION = 'required_encoder_version';

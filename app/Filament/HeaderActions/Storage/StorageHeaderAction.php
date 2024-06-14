@@ -5,14 +5,13 @@ declare(strict_types=1);
 namespace App\Filament\HeaderActions\Storage;
 
 use App\Contracts\Actions\Storage\StorageAction as BaseStorageAction;
+use App\Filament\HeaderActions\BaseHeaderAction;
 use App\Models\BaseModel;
-use Filament\Actions\Action;
-use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class StorageHeaderAction.
  */
-abstract class StorageHeaderAction extends Action
+abstract class StorageHeaderAction extends BaseHeaderAction
 {
     /**
      * Initial setup for the action.

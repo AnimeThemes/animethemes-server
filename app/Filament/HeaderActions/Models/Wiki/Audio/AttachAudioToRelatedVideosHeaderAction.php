@@ -4,18 +4,17 @@ declare(strict_types=1);
 
 namespace App\Filament\HeaderActions\Models\Wiki\Audio;
 
-use App\Models\BaseModel;
+use App\Filament\HeaderActions\BaseHeaderAction;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Audio;
 use App\Models\Wiki\Video;
-use Filament\Actions\Action;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Log;
 
 /**
  * Class AttachAudioToRelatedVideosHeaderAction.
  */
-class AttachAudioToRelatedVideosHeaderAction extends Action implements ShouldQueue
+class AttachAudioToRelatedVideosHeaderAction extends BaseHeaderAction implements ShouldQueue
 {
     /**
      * Initial setup for the action.
@@ -25,6 +24,10 @@ class AttachAudioToRelatedVideosHeaderAction extends Action implements ShouldQue
     protected function setUp(): void
     {
         parent::setUp();
+
+        $this->label(__('filament.actions.audio.attach_related_videos.name'));
+
+        $this->authorize('update', Video::class);
 
         $this->action(fn (Audio $record) => $this->handle($record));
     }

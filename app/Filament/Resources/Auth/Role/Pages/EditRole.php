@@ -30,13 +30,9 @@ class EditRole extends BaseEditResource
             parent::getHeaderActions(),
             [
                 ActionGroup::make([
-                    GivePermissionHeaderAction::make('give-permission')
-                        ->label(__('filament.actions.role.give_permission.name'))
-                        ->requiresConfirmation(),
+                    GivePermissionHeaderAction::make('give-permission'),
 
-                    RevokePermissionHeaderAction::make('revoke-permission')
-                        ->label(__('filament.actions.role.revoke_permission.name'))
-                        ->requiresConfirmation(),
+                    RevokePermissionHeaderAction::make('revoke-permission'),
                 ]),
             ],
         );

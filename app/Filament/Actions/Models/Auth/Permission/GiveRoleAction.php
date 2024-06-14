@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace App\Filament\Actions\Models\Auth\Permission;
 
+use App\Filament\Actions\BaseAction;
 use App\Filament\Components\Fields\Select;
 use App\Models\Auth\Permission;
 use App\Models\Auth\Role;
 use Filament\Forms\Form;
-use Filament\Tables\Actions\Action;
 use Illuminate\Support\Arr;
 
 /**
  * Class GiveRoleAction.
  */
-class GiveRoleAction extends Action
+class GiveRoleAction extends BaseAction
 {
     final public const FIELD_ROLE = 'role';
 
@@ -26,6 +26,8 @@ class GiveRoleAction extends Action
     protected function setUp(): void
     {
         parent::setUp();
+
+        $this->label(__('filament.actions.permission.give_role.name'));
 
         $this->action(fn (Permission $record, array $data) => $this->handle($record, $data));
     }

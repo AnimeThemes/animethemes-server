@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Admin;
 
+use App\Constants\FeatureConstants;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\BaseResource;
@@ -17,6 +18,7 @@ use Filament\Forms\Form;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Infolist;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Class Feature.
@@ -143,6 +145,7 @@ class Feature extends BaseResource
     public static function table(Table $table): Table
     {
         return parent::table($table)
+            ->modifyQueryUsing(fn (Builder $query) => $query->where(FeatureModel::ATTRIBUTE_SCOPE, FeatureConstants::NULL_SCOPE))
             ->columns([
                 TextColumn::make(FeatureModel::ATTRIBUTE_ID)
                     ->label(__('filament.fields.base.id'))
@@ -151,6 +154,7 @@ class Feature extends BaseResource
                 TextColumn::make(FeatureModel::ATTRIBUTE_NAME)
                     ->label(__('filament.fields.feature.key.name'))
                     ->sortable()
+                    ->searchable()
                     ->copyableWithMessage(),
 
                 TextColumn::make(FeatureModel::ATTRIBUTE_VALUE)

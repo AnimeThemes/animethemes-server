@@ -15,6 +15,20 @@ use App\Models\Wiki\Audio;
 class DeleteAudioAction extends DeleteAction
 {
     /**
+     * Initial setup for the action.
+     *
+     * @return void
+     */
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->label(__('filament.actions.audio.delete.name'));
+
+        $this->authorize('forcedelete', Audio::class);
+    }
+
+    /**
      * Get the underlying storage action.
      *
      * @param  Audio  $audio

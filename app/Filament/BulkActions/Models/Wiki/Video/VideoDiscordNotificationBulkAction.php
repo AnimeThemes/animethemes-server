@@ -2,20 +2,38 @@
 
 declare(strict_types=1);
 
-namespace App\Filament\BulkActions\Discord;
+namespace App\Filament\BulkActions\Models\Wiki\Video;
 
 use App\Actions\Discord\DiscordVideoNotificationAction as DiscordVideoNotificationActionAction;
 use App\Filament\BulkActions\BaseBulkAction;
 use App\Filament\Components\Fields\Select;
-use App\Models\Wiki\Video;
+use App\Models\Discord\DiscordThread;
 use Filament\Forms\Form;
+use Filament\Support\Enums\MaxWidth;
 use Illuminate\Database\Eloquent\Collection;
 
 /**
- * Class DiscordVideoNotificationBulkAction.
+ * Class VideoDiscordNotificationBulkAction.
  */
-class DiscordVideoNotificationBulkAction extends BaseBulkAction
+class VideoDiscordNotificationBulkAction extends BaseBulkAction
 {
+    /**
+     * Initial setup for the action.
+     *
+     * @return void
+     */
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->modalWidth(MaxWidth::Large);
+
+        $this->label(__('filament.bulk_actions.discord.notification.name'));
+        $this->icon(__('filament.bulk_actions.discord.notification.icon'));
+
+        $this->authorize('create', DiscordThread::class);
+    }
+
     /**
      * Handle the action.
      *

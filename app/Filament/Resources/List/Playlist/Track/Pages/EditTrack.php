@@ -29,9 +29,7 @@ class EditTrack extends BaseEditResource
             parent::getHeaderActions(),
             [
                 AssignHashidsHeaderAction::make('assign-hashids')
-                    ->label(__('filament.actions.models.assign_hashids.name'))
                     ->setConnection('playlists')
-                    ->requiresConfirmation()
                     ->authorize('update', PlaylistTrack::class)
             ],
         );

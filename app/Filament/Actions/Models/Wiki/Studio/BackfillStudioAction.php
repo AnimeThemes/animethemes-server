@@ -7,6 +7,7 @@ namespace App\Filament\Actions\Models\Wiki\Studio;
 use App\Actions\Models\BackfillAction;
 use App\Actions\Models\Wiki\Studio\Image\BackfillLargeCoverImageAction;
 use App\Enums\Models\Wiki\ImageFacet;
+use App\Filament\Actions\BaseAction;
 use App\Models\Wiki\Image;
 use App\Models\Wiki\Studio;
 use Exception;
@@ -15,7 +16,7 @@ use Filament\Forms\Components\Section;
 use Filament\Forms\Form;
 use Filament\Notifications\Actions\Action as NotificationAction;
 use Filament\Notifications\Notification;
-use Filament\Tables\Actions\Action;
+use Filament\Support\Enums\MaxWidth;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
@@ -25,7 +26,7 @@ use Illuminate\Support\Sleep;
 /**
  * Class BackfillStudioAction.
  */
-class BackfillStudioAction extends Action implements ShouldQueue
+class BackfillStudioAction extends BaseAction implements ShouldQueue
 {
     use InteractsWithQueue;
     use Queueable;
@@ -40,6 +41,12 @@ class BackfillStudioAction extends Action implements ShouldQueue
     protected function setUp(): void
     {
         parent::setUp();
+
+        $this->label(__('filament.actions.studio.backfill.name'));
+
+        $this->modalWidth(MaxWidth::FourExtraLarge);
+
+        $this->authorize('update', Studio::class);
 
         $this->action(fn (Studio $record, array $data) => $this->handle($record, $data));
     }

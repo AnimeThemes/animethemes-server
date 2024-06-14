@@ -7,6 +7,7 @@ namespace App\Filament\TableActions\Storage\Wiki\Audio;
 use App\Actions\Storage\Wiki\Audio\UploadAudioAction as UploadAudio;
 use App\Constants\Config\AudioConstants;
 use App\Filament\TableActions\Storage\Base\UploadTableAction;
+use App\Models\Wiki\Audio;
 use App\Rules\Wiki\Submission\Audio\AudioChannelLayoutStreamRule;
 use App\Rules\Wiki\Submission\Audio\AudioChannelsStreamRule;
 use App\Rules\Wiki\Submission\Audio\AudioCodecStreamRule;
@@ -31,6 +32,20 @@ use Illuminate\Validation\Rules\File as FileRule;
  */
 class UploadAudioTableAction extends UploadTableAction
 {
+    /**
+     * Initial setup for the action.
+     *
+     * @return void
+     */
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->label(__('filament.actions.audio.upload.name'));
+
+        $this->authorize('create', Audio::class);
+    }
+
     /**
      * Get the underlying storage action.
      *

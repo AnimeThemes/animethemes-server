@@ -8,6 +8,7 @@ use App\Actions\Discord\DiscordMessageAction;
 use App\Discord\DiscordEmbed;
 use App\Discord\DiscordMessage;
 use App\Filament\TableActions\BaseTableAction;
+use App\Models\Discord\DiscordThread;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\ColorPicker;
@@ -23,6 +24,21 @@ use Illuminate\Support\Arr;
  */
 class DiscordEditMessageTableAction extends BaseTableAction
 {
+    /**
+    * Initial setup for the action.
+    *
+    * @return void
+    */
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->label(__('filament.table_actions.discord_thread.message.edit.name'));
+        $this->icon(__('filament.table_actions.discord_thread.message.edit.icon'));
+
+        $this->authorize('forcedeleteany', DiscordThread::class);
+    }
+
     /**
      * Perform the action on the table.
      *

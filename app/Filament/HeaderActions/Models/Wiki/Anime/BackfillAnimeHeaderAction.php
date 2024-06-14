@@ -17,6 +17,7 @@ use App\Actions\Models\Wiki\Anime\Resource\BackfillMalResourceAction;
 use App\Actions\Models\Wiki\Anime\Studio\BackfillAnimeStudiosAction;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Enums\Models\Wiki\ResourceSite;
+use App\Filament\HeaderActions\BaseHeaderAction;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Image;
@@ -26,7 +27,6 @@ use Filament\Forms\Components\Section;
 use Filament\Forms\Form;
 use Filament\Notifications\Actions\Action as NotificationAction;
 use Filament\Notifications\Notification;
-use Filament\Actions\Action;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
@@ -36,7 +36,7 @@ use Illuminate\Support\Sleep;
 /**
  * Class BackfillAnimeHeaderAction.
  */
-class BackfillAnimeHeaderAction extends Action implements ShouldQueue
+class BackfillAnimeHeaderAction extends BaseHeaderAction implements ShouldQueue
 {
     use InteractsWithQueue;
     use Queueable;
@@ -60,6 +60,11 @@ class BackfillAnimeHeaderAction extends Action implements ShouldQueue
     protected function setUp(): void
     {
         parent::setUp();
+
+        $this->label(__('filament.actions.anime.backfill.name'));
+        $this->icon('heroicon-o-bars-4');
+
+        $this->authorize('create', Anime::class);
 
         $this->action(fn (Anime $record, array $data) => $this->handle($record, $data));
     }

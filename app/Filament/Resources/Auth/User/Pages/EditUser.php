@@ -32,21 +32,13 @@ class EditUser extends BaseEditResource
             parent::getHeaderActions(),
             [
                 ActionGroup::make([
-                    GiveRoleHeaderAction::make('give-role')
-                        ->label(__('filament.actions.user.give_role.name'))
-                        ->requiresConfirmation(),
+                    GiveRoleHeaderAction::make('give-role'),
 
-                    RevokeRoleHeaderAction::make('revoke-role')
-                        ->label(__('filament.actions.user.revoke_role.name'))
-                        ->requiresConfirmation(),
+                    RevokeRoleHeaderAction::make('revoke-role'),
 
-                    GivePermissionHeaderAction::make('give-permission')
-                        ->label(__('filament.actions.user.give_permission.name'))
-                        ->requiresConfirmation(),
+                    GivePermissionHeaderAction::make('give-permission'),
 
-                    RevokePermissionHeaderAction::make('revoke-permission')
-                        ->label(__('filament.actions.user.revoke_permission.name'))
-                        ->requiresConfirmation(),
+                    RevokePermissionHeaderAction::make('revoke-permission'),
                 ]),
             ],
         );

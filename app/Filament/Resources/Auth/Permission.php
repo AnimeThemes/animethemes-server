@@ -226,13 +226,9 @@ class Permission extends BaseResource
             parent::getActions(),
             [
                 ActionGroup::make([
-                    GiveRoleAction::make('give-role')
-                        ->label(__('filament.actions.permission.give_role.name'))
-                        ->requiresConfirmation(),
+                    GiveRoleAction::make('give-role'),
 
-                    RevokeRoleAction::make('revoke-role')
-                        ->label(__('filament.actions.permission.revoke_role.name'))
-                        ->requiresConfirmation(),
+                    RevokeRoleAction::make('revoke-role'),
                 ]),
             ],
         );

@@ -25,6 +25,20 @@ class AttachArtistResourceHeaderAction extends AttachResourceHeaderAction
     {
         parent::setUp();
 
+        $this->sites([
+            ResourceSite::ANIDB,
+            ResourceSite::ANILIST,
+            ResourceSite::ANIME_PLANET,
+            ResourceSite::ANN,
+            ResourceSite::MAL,
+            ResourceSite::OFFICIAL_SITE,
+            ResourceSite::SPOTIFY,
+            ResourceSite::TWITTER,
+            ResourceSite::YOUTUBE,
+            ResourceSite::YOUTUBE_MUSIC,
+            ResourceSite::WIKI,
+        ]);
+
         $this->action(fn (Artist $record, array $data) => (new AttachArtistResourceActionAction($this->sites))->handle($record, $data));
     }
 

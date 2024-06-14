@@ -21,6 +21,25 @@ class UploadImageTableAction extends BaseTableAction
     protected array $facets = [];
 
     /**
+     * Initial setup for the action.
+     *
+     * @return void
+     */
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->label(__('filament.actions.models.wiki.upload_image.name'));
+
+        $this->facets([
+            ImageFacet::GRILL,
+            ImageFacet::DOCUMENT,
+        ]);
+
+        $this->authorize('create', Image::class);
+    }
+
+    /**
      * Perform the action on the table.
      *
      * @param  array  $fields

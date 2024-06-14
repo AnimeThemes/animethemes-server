@@ -7,6 +7,7 @@ namespace App\Filament\TableActions\Repositories\Storage\Wiki\Video;
 use App\Concerns\Repositories\Wiki\ReconcilesVideoRepositories;
 use App\Constants\Config\VideoConstants;
 use App\Filament\TableActions\Repositories\Storage\ReconcileStorageTableAction;
+use App\Models\Wiki\Video;
 use Illuminate\Support\Facades\Config;
 
 /**
@@ -15,6 +16,20 @@ use Illuminate\Support\Facades\Config;
 class ReconcileVideoTableAction extends ReconcileStorageTableAction
 {
     use ReconcilesVideoRepositories;
+
+    /**
+     * Initial setup for the action.
+     *
+     * @return void
+     */
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->label(__('filament.actions.repositories.name', ['label' => __('filament.resources.label.videos')]));
+
+        $this->authorize('create', Video::class);
+    }
 
     /**
      * The name of the disk.

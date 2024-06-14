@@ -18,6 +18,20 @@ use Illuminate\Support\Facades\Config;
 class MoveVideoHeaderAction extends MoveHeaderAction
 {
     /**
+     * Initial setup for the action.
+     *
+     * @return void
+     */
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->label(__('filament.actions.video.move.name'));
+
+        $this->authorize('create', Video::class);
+    }
+
+    /**
      * Get the underlying storage action.
      *
      * @param  Video  $video

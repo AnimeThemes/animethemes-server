@@ -5,16 +5,16 @@ declare(strict_types=1);
 namespace App\Filament\Actions\Discord;
 
 use App\Actions\Discord\DiscordThreadAction as DiscordThreadActionAction;
+use App\Filament\Actions\BaseAction;
+use App\Models\Discord\DiscordThread;
 use App\Models\Wiki\Anime;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
-use Filament\Tables\Actions\Action;
-use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class DiscordThreadAction.
  */
-class DiscordThreadAction extends Action
+class DiscordThreadAction extends BaseAction
 {
     /**
      * Initial setup for the action.
@@ -24,6 +24,11 @@ class DiscordThreadAction extends Action
     protected function setUp(): void
     {
         parent::setUp();
+
+        $this->label(__('filament.actions.anime.discord.thread.name'));
+        $this->icon('heroicon-o-chat-bubble-left-right');
+
+        $this->authorize('create', DiscordThread::class);
 
         $this->fillForm(fn (Anime $record): array => ['name' => $record->getName()]);
 

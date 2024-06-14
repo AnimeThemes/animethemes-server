@@ -5,16 +5,16 @@ declare(strict_types=1);
 namespace App\Filament\HeaderActions\Models\Auth\User;
 
 use App\Filament\Components\Fields\Select;
+use App\Filament\HeaderActions\BaseHeaderAction;
 use App\Models\Auth\Role;
 use App\Models\Auth\User;
 use Filament\Forms\Form;
-use Filament\Actions\Action;
 use Illuminate\Support\Arr;
 
 /**
  * Class RevokeRoleHeaderAction.
  */
-class RevokeRoleHeaderAction extends Action
+class RevokeRoleHeaderAction extends BaseHeaderAction
 {
     final public const FIELD_ROLE = 'role';
 
@@ -26,6 +26,8 @@ class RevokeRoleHeaderAction extends Action
     protected function setUp(): void
     {
         parent::setUp();
+
+        $this->label(__('filament.actions.user.revoke_role.name'));
 
         $this->action(fn (User $record, array $data) => $this->handle($record, $data));
     }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\HeaderActions\Models\Wiki;
 
 use App\Enums\Models\Wiki\ResourceSite;
+use App\Filament\HeaderActions\BaseHeaderAction;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\ExternalResource;
@@ -12,15 +13,32 @@ use App\Models\Wiki\Song;
 use App\Models\Wiki\Studio;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
-use Filament\Actions\Action;
+use Filament\Support\Enums\MaxWidth;
 use Illuminate\Contracts\Validation\ValidationRule;
 
 /**
  * Class AttachResourceHeaderAction.
  */
-abstract class AttachResourceHeaderAction extends Action
+abstract class AttachResourceHeaderAction extends BaseHeaderAction
 {
     protected array $sites = [];
+
+    /**
+     * Initial setup for the action.
+     *
+     * @return void
+     */
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->label(__('filament.actions.models.wiki.attach_resource.name'));
+        $this->icon('heroicon-o-queue-list');
+
+        $this->modalWidth(MaxWidth::FourExtraLarge);
+
+        $this->authorize('create', ExternalResource::class);
+    }
 
     /**
      * Get the fields available on the action.

@@ -10,6 +10,7 @@ use App\Filament\RelationManagers\BaseRelationManager;
 use App\Filament\Resources\Wiki\Video\Script\Pages\ListScripts;
 use App\Models\Wiki\Video;
 use App\Filament\TableActions\Storage\Base\UploadTableAction;
+use App\Models\Wiki\Video\VideoScript;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Form;
 use Illuminate\Http\UploadedFile;
@@ -22,6 +23,20 @@ use Illuminate\Validation\Rules\File as FileRule;
  */
 class UploadScriptTableAction extends UploadTableAction
 {
+    /**
+     * Initial setup for the action.
+     *
+     * @return void
+     */
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->label(__('filament.actions.video_script.upload.name'));
+
+        $this->authorize('create', VideoScript::class);
+    }
+
     /**
      * Get the fields available on the action.
      *

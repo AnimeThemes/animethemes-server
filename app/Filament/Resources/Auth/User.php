@@ -257,21 +257,13 @@ class User extends BaseResource
             parent::getActions(),
             [
                 ActionGroup::make([
-                    GiveRoleAction::make('give-role')
-                        ->label(__('filament.actions.user.give_role.name'))
-                        ->requiresConfirmation(),
+                    GiveRoleAction::make('give-role'),
 
-                    RevokeRoleAction::make('revoke-role')
-                        ->label(__('filament.actions.user.revoke_role.name'))
-                        ->requiresConfirmation(),
+                    RevokeRoleAction::make('revoke-role'),
 
-                    GivePermissionAction::make('give-permission')
-                        ->label(__('filament.actions.user.give_permission.name'))
-                        ->requiresConfirmation(),
+                    GivePermissionAction::make('give-permission'),
 
-                    RevokePermissionAction::make('revoke-permission')
-                        ->label(__('filament.actions.user.revoke_permission.name'))
-                        ->requiresConfirmation(),
+                    RevokePermissionAction::make('revoke-permission'),
                 ]),
             ],
         );

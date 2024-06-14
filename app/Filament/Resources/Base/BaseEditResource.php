@@ -27,7 +27,8 @@ abstract class BaseEditResource extends EditRecord
     {
         return [
             ViewAction::make()
-                ->label(__('filament.actions.base.view')),
+                ->label(__('filament.actions.base.view'))
+                ->hidden(fn ($livewire) => $livewire instanceof BaseViewResource),
 
             ActionGroup::make([
                 DeleteAction::make()
