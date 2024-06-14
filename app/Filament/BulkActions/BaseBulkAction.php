@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\BulkActions;
 
 use App\Models\BaseModel;
+use Filament\Support\Enums\MaxWidth;
 use Filament\Tables\Actions\BulkAction;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -21,6 +22,10 @@ abstract class BaseBulkAction extends BulkAction
     protected function setUp(): void
     {
         parent::setUp();
+
+        $this->requiresConfirmation();
+
+        $this->modalWidth(MaxWidth::FourExtraLarge);
 
         $this->action(fn (Collection $records, array $data) => $this->handle($records, $data));
     }

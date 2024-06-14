@@ -7,6 +7,7 @@ namespace App\Filament\Resources\Wiki;
 use App\Filament\Actions\Models\Wiki\Audio\AttachAudioToRelatedVideosAction;
 use App\Filament\Actions\Storage\Wiki\Audio\DeleteAudioAction;
 use App\Filament\Actions\Storage\Wiki\Audio\MoveAudioAction;
+use App\Filament\BulkActions\Storage\Wiki\Audio\DeleteAudioBulkAction;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Filters\NumberFilter;
 use App\Filament\Components\Infolist\TextEntry;
@@ -267,7 +268,7 @@ class Audio extends BaseResource
                         ->label(__('filament.actions.audio.delete.name'))
                         ->requiresConfirmation()
                         ->modalWidth(MaxWidth::FourExtraLarge)
-                        ->authorize('delete', AudioModel::class),
+                        ->authorize('forcedelete', AudioModel::class),
 
                     AttachAudioToRelatedVideosAction::make('attach-audio-related-video')
                         ->label(__('filament.actions.audio.attach_related_videos.name'))
@@ -289,7 +290,10 @@ class Audio extends BaseResource
     {
         return array_merge(
             parent::getBulkActions(),
-            [],
+            [
+                DeleteAudioBulkAction::make('delete-audio')
+                    ->label(__('filament.actions.audio.delete.name')),
+            ],
         );
     }
 

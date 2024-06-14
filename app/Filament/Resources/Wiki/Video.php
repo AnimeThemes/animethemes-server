@@ -9,7 +9,8 @@ use App\Enums\Models\Wiki\VideoSource;
 use App\Filament\Actions\Models\Wiki\Video\BackfillAudioAction;
 use App\Filament\Actions\Storage\Wiki\Video\DeleteVideoAction;
 use App\Filament\Actions\Storage\Wiki\Video\MoveVideoAction;
-use App\Filament\BulkActions\Discord\DiscordVideoNotificationBulkAction;
+use App\Filament\BulkActions\Models\Wiki\Video\VideoDiscordNotificationBulkAction;
+use App\Filament\BulkActions\Storage\Wiki\Video\DeleteVideoBulkAction;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\Select;
 use App\Filament\Components\Filters\NumberFilter;
@@ -385,7 +386,7 @@ class Video extends BaseResource
                         ->label(__('filament.actions.video.delete.name'))
                         ->requiresConfirmation()
                         ->modalWidth(MaxWidth::FourExtraLarge)
-                        ->authorize('delete', VideoModel::class),
+                        ->authorize('forcedelete', VideoModel::class),
                 ]),
             ],
         );
@@ -403,11 +404,12 @@ class Video extends BaseResource
         return array_merge(
             parent::getBulkActions(),
             [
-                DiscordVideoNotificationBulkAction::make('discord-notification')
+                VideoDiscordNotificationBulkAction::make('discord-notification')
                     ->label(__('filament.bulk_actions.discord.notification.name'))
-                    ->icon(__('filament.bulk_actions.discord.notification.icon'))
-                    ->requiresConfirmation()
-                    ->authorize('create', DiscordThread::class),
+                    ->icon(__('filament.bulk_actions.discord.notification.icon')),
+
+                DeleteVideoBulkAction::make('delete-video')
+                    ->label(__('filament.actions.video.delete.name')),
             ],
         );
     }

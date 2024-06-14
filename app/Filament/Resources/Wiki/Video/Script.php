@@ -6,6 +6,7 @@ namespace App\Filament\Resources\Wiki\Video;
 
 use App\Filament\Actions\Storage\Wiki\Video\Script\DeleteScriptAction;
 use App\Filament\Actions\Storage\Wiki\Video\Script\MoveScriptAction;
+use App\Filament\BulkActions\Storage\Wiki\Video\Script\DeleteScriptBulkAction;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Video\Script\Pages\CreateScript;
@@ -233,7 +234,10 @@ class Script extends BaseResource
     {
         return array_merge(
             parent::getBulkActions(),
-            [],
+            [
+                DeleteScriptBulkAction::make('delete-script')
+                    ->label(__('filament.actions.video_script.delete.name')),
+            ],
         );
     }
 

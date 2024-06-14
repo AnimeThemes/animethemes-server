@@ -44,7 +44,7 @@ class EditAudio extends BaseEditResource
                         ->label(__('filament.actions.audio.delete.name'))
                         ->requiresConfirmation()
                         ->modalWidth(MaxWidth::FourExtraLarge)
-                        ->authorize('delete', AudioModel::class),
+                        ->authorize('forcedelete', AudioModel::class),
 
                     AttachAudioToRelatedVideosHeaderAction::make('attach-audio-related-video')
                         ->label(__('filament.actions.audio.attach_related_videos.name'))

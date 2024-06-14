@@ -49,7 +49,7 @@ class EditVideo extends BaseEditResource
                         ->label(__('filament.actions.video.delete.name'))
                         ->requiresConfirmation()
                         ->modalWidth(MaxWidth::FourExtraLarge)
-                        ->authorize('delete', VideoModel::class),
+                        ->authorize('forcedelete', VideoModel::class),
                 ]),
             ],
         );
