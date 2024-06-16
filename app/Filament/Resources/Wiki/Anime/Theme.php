@@ -238,6 +238,7 @@ class Theme extends BaseResource
                                     ->rules(['required'])
                                     ->useScout(Artist::class)
                                     ->createOptionForm(ArtistResource::form($form)->getComponents())
+                                    ->createOptionUsing(fn (array $data) => Artist::query()->create($data)->getKey())
                                     ->getOptionLabelUsing(fn ($state) => Select::getSearchLabelWithBlade(Artist::find($state))),
 
                                 TextInput::make(ArtistSong::ATTRIBUTE_AS)
