@@ -8,6 +8,7 @@ use App\Actions\Discord\DiscordVideoNotificationAction as DiscordVideoNotificati
 use App\Filament\BulkActions\BaseBulkAction;
 use App\Filament\Components\Fields\Select;
 use App\Models\Discord\DiscordThread;
+use App\Models\Wiki\Video;
 use Filament\Forms\Form;
 use Filament\Support\Enums\MaxWidth;
 use Illuminate\Database\Eloquent\Collection;
@@ -42,6 +43,8 @@ class VideoDiscordNotificationBulkAction extends BaseBulkAction
      */
     public function handle(Collection $videos, array $fields): void
     {
+        $videos = $videos->sortBy(Video::ATTRIBUTE_ID);
+
         $action = new DiscordVideoNotificationActionAction();
 
         $action->handle($videos, $fields);
@@ -67,6 +70,16 @@ class VideoDiscordNotificationBulkAction extends BaseBulkAction
                     ->default('added')
                     ->required()
                     ->rules(['required']),
+
+                    Select::make('should-force-thread')
+                        ->label(__('filament.bulk_actions.discord.notification.should_force.name'))
+                        ->helperText(__('filament.bulk_actions.discord.notification.should_force.help'))
+                        ->options([
+                            'yes' => __('filament.bulk_actions.discord.notification.should_force.options.yes'),
+                            'no' => __('filament.bulk_actions.discord.notification.should_force.options.no'),
+                        ])
+                        ->default('no')
+                        ->required(),
                 ]);
     }
 }
