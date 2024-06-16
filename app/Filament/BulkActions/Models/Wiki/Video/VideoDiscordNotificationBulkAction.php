@@ -70,6 +70,16 @@ class VideoDiscordNotificationBulkAction extends BaseBulkAction
                     ->default('added')
                     ->required()
                     ->rules(['required']),
+
+                    Select::make('should-force-thread')
+                        ->label(__('filament.bulk_actions.discord.notification.should_force.name'))
+                        ->helperText(__('filament.bulk_actions.discord.notification.should_force.help'))
+                        ->options([
+                            'yes' => __('filament.bulk_actions.discord.notification.should_force.options.yes'),
+                            'no' => __('filament.bulk_actions.discord.notification.should_force.options.no'),
+                        ])
+                        ->default('no')
+                        ->required(),
                 ]);
     }
 }

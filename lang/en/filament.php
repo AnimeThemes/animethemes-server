@@ -414,6 +414,14 @@ return [
             'notification' => [
                 'icon' => 'heroicon-o-bell',
                 'name' => 'Create Discord Notification',
+                'should_force' => [
+                    'help' => 'If yes, the thread will be created if it does not exist',
+                    'name' => 'Should force thread?',
+                    'options' => [
+                        'yes' => 'Yes',
+                        'no' => 'No',
+                    ],
+                ],
                 'type' => [
                     'help' => 'Are they new videos or replacement?',
                     'name' => 'Type',

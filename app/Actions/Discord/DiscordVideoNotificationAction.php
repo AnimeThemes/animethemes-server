@@ -28,6 +28,7 @@ class DiscordVideoNotificationAction
     public function handle(Collection $videos, array $fields): void
     {
         $type = Arr::get($fields, 'type');
+        $shouldForce = Arr::get($fields, 'should-force-thread');
 
         /** @var \Illuminate\Filesystem\FilesystemAdapter */
         $fs = Storage::disk(Config::get('image.disk'));
@@ -44,14 +45,22 @@ class DiscordVideoNotificationAction
                 ]);
 
             $theme = $video->animethemeentries->first()->animetheme;
+            $anime = $theme->anime;
 
-            if ($theme->anime->discordthread === null) continue;
+            if ($anime->discordthread === null) {
+                if ($shouldForce === 'no') return;
+
+                $threadAction = new DiscordThreadAction();
+
+                $threadAction->handle($anime, ['name' => $anime->getName()]);
+                $anime->load('discordthread');
+            }
 
             Arr::set($video, 'source_name', $video->source->localize());
             Arr::set($video, 'overlap_name', $video->overlap->localize());
             Arr::set($theme, 'type_name', $theme->type->localize());
 
-            $theme->anime->images->each(function (Image $image) use ($fs) {
+            $anime->images->each(function (Image $image) use ($fs) {
                 Arr::set($image, 'link', $fs->url($image->path));
             });
 
