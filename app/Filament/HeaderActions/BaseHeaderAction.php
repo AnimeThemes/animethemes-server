@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\HeaderActions;
 
 use Filament\Actions\Action;
+use Filament\Support\Enums\MaxWidth;
 
 /**
  * Class BaseHeaderAction.
@@ -23,5 +24,7 @@ abstract class BaseHeaderAction extends Action
         parent::setUp();
 
         $this->requiresConfirmation();
+
+        $this->modalWidth(MaxWidth::FourExtraLarge);
     }
 }

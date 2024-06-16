@@ -8,6 +8,7 @@ use App\Actions\Discord\DiscordVideoNotificationAction as DiscordVideoNotificati
 use App\Filament\BulkActions\BaseBulkAction;
 use App\Filament\Components\Fields\Select;
 use App\Models\Discord\DiscordThread;
+use App\Models\Wiki\Video;
 use Filament\Forms\Form;
 use Filament\Support\Enums\MaxWidth;
 use Illuminate\Database\Eloquent\Collection;
@@ -42,6 +43,8 @@ class VideoDiscordNotificationBulkAction extends BaseBulkAction
      */
     public function handle(Collection $videos, array $fields): void
     {
+        $videos = $videos->sortBy(Video::ATTRIBUTE_ID);
+
         $action = new DiscordVideoNotificationActionAction();
 
         $action->handle($videos, $fields);
