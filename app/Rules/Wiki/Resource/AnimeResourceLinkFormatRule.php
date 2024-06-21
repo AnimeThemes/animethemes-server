@@ -37,7 +37,7 @@ readonly class AnimeResourceLinkFormatRule implements ValidationRule
     {
         $pattern = $this->site->getPattern(Anime::class);
 
-        if (Str::match($pattern, $value) !== $value) {
+        if ($pattern !== null && Str::match($pattern, $value) !== $value) {
             $fail(__('validation.regex'));
         }
     }

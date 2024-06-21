@@ -37,7 +37,7 @@ readonly class ArtistResourceLinkFormatRule implements ValidationRule
     {
         $pattern = $this->site->getPattern(Artist::class);
 
-        if (Str::match($pattern, $value) !== $value) {
+        if ($pattern !== null && Str::match($pattern, $value) !== $value) {
             $fail(__('validation.regex'));
         }
     }
