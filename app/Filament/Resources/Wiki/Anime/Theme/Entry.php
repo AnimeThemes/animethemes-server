@@ -162,23 +162,18 @@ class Entry extends BaseResource
                     ->label(__('filament.resources.singularLabel.anime'))
                     ->relationship(EntryModel::RELATION_ANIME_SHALLOW, AnimeModel::ATTRIBUTE_NAME)
                     ->searchable()
-                    ->hiddenOn(EntryRelationManager::class)
-                    ->formatStateUsing(function ($livewire, $state) {
-                        if ($livewire instanceof EntryRelationManager) {
-                            /** @var EntryModel */
-                            $entry = $livewire->getOwnerRecord();
-                            return $entry->anime->getName();
-                        }
-                        return $state;
-                    })
+                    ->visibleOn([CreateEntry::class, EditEntry::class])
+                    ->allowHtml()
+                    ->getOptionLabelUsing(fn ($state) => Select::getSearchLabelWithBlade(AnimeModel::find($state)))
                     ->saveRelationshipsUsing(fn (EntryModel $record, $state) => $record->animetheme->anime()->associate(intval($state))->save()),
 
                 Select::make(EntryModel::ATTRIBUTE_THEME)
                     ->label(__('filament.resources.singularLabel.anime_theme'))
                     ->relationship(EntryModel::RELATION_THEME, ThemeModel::ATTRIBUTE_ID)
                     ->searchable()
-                    ->hiddenOn(EntryRelationManager::class)
+                    ->visibleOn([CreateEntry::class, EditEntry::class])
                     ->allowHtml()
+                    ->getOptionLabelUsing(fn ($state) => Select::getSearchLabelWithBlade(ThemeModel::find($state)))
                     ->getSearchResultsUsing(function ($search) {
                         return ThemeModel::search($search)
                             ->take(25)
