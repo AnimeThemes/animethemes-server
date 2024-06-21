@@ -190,6 +190,70 @@ enum ResourceSite: int
     }
 
     /**
+     * Get the resource sites available for determined model.
+     *
+     * @param  class-string|null  $modelClass
+     * @return ResourceSite[]
+     */
+    public static function getForModel(?string $modelClass): array
+    {
+        return match ($modelClass) {
+            Anime::class => [
+                ResourceSite::TWITTER,
+                ResourceSite::ANIDB,
+                ResourceSite::ANILIST,
+                ResourceSite::ANIME_PLANET,
+                ResourceSite::ANN,
+                ResourceSite::KITSU,
+                ResourceSite::MAL,
+                ResourceSite::YOUTUBE,
+                ResourceSite::CRUNCHYROLL,
+                ResourceSite::HIDIVE,
+                ResourceSite::NETFLIX,
+                ResourceSite::DISNEY_PLUS,
+                ResourceSite::HULU,
+                ResourceSite::AMAZON_PRIME_VIDEO,
+                ResourceSite::OFFICIAL_SITE,
+                ResourceSite::WIKI,
+            ],
+            Artist::class => [
+                ResourceSite::TWITTER,
+                ResourceSite::ANIDB,
+                ResourceSite::ANILIST,
+                ResourceSite::ANIME_PLANET,
+                ResourceSite::ANN,
+                ResourceSite::MAL,
+                ResourceSite::SPOTIFY,
+                ResourceSite::YOUTUBE_MUSIC,
+                ResourceSite::YOUTUBE,
+                ResourceSite::OFFICIAL_SITE,
+                ResourceSite::WIKI,
+            ],
+            Song::class => [
+                ResourceSite::ANIDB,
+                ResourceSite::SPOTIFY,
+                ResourceSite::YOUTUBE_MUSIC,
+                ResourceSite::YOUTUBE,
+                ResourceSite::APPLE_MUSIC,
+                ResourceSite::AMAZON_MUSIC,
+                ResourceSite::OFFICIAL_SITE,
+                ResourceSite::WIKI,
+            ],
+            Studio::class => [
+                ResourceSite::TWITTER,
+                ResourceSite::ANIDB,
+                ResourceSite::ANILIST,
+                ResourceSite::ANIME_PLANET,
+                ResourceSite::ANN,
+                ResourceSite::MAL,
+                ResourceSite::OFFICIAL_SITE,
+                ResourceSite::WIKI,
+            ],
+            default => ResourceSite::cases(),
+        };
+    }
+
+    /**
      * Get the URL of the site for resources by determined model.
      *
      * @param  class-string  $modelClass
@@ -237,6 +301,7 @@ enum ResourceSite: int
 
         if ($modelClass === Song::class) {
             return match ($this) {
+                ResourceSite::ANIDB => "https://anidb.net/song/$id",
                 ResourceSite::SPOTIFY => "https://open.spotify.com/track/$slug",
                 ResourceSite::YOUTUBE_MUSIC => "https://music.youtube.com/watch?v=$slug",
                 ResourceSite::YOUTUBE => "https://www.youtube.com/watch?v=$slug",
@@ -269,7 +334,7 @@ enum ResourceSite: int
      */
     public function getUrlCaptureGroups(?Model $model): string
     {
-        // The first capture group refers to $type, the second to $id and $slug of the formatting functions.
+        // The first capture group refers to $type, the second to $id and $slug of the formatResourceLink method.
         if ($model instanceof Anime) {
             return match ($this) {
                 ResourceSite::TWITTER => '/^https:\/\/(twitter)\.com\/(\w+)/',
@@ -357,6 +422,7 @@ enum ResourceSite: int
                 ResourceSite::HULU => '/^https:\/\/www\.hulu\.com\/(?:series|watch|movie|null)\/[\w-]+$/',
                 ResourceSite::AMAZON_PRIME_VIDEO => '/^https:\/\/www\.primevideo\.com\/detail\/\w+$/',
                 ResourceSite::OFFICIAL_SITE => null,
+                ResourceSite::WIKI => null,
                 default => '/$.^/',
             };
         }
@@ -373,6 +439,7 @@ enum ResourceSite: int
                 ResourceSite::YOUTUBE_MUSIC => '/^https:\/\/music\.youtube\.com\/channel\/[\w-]+/',
                 ResourceSite::YOUTUBE => '/^https:\/\/www\.youtube\.com\/\@[\w-]+$/',
                 ResourceSite::OFFICIAL_SITE => null,
+                ResourceSite::WIKI => null,
                 default => '/$.^/',
             };
         }
@@ -386,6 +453,7 @@ enum ResourceSite: int
                 ResourceSite::APPLE_MUSIC => '/^https:\/\/music\.apple\.com\/jp\/album\/\d+$/',
                 ResourceSite::AMAZON_MUSIC => '/^https:\/\/music\.amazon\.co\.jp\/tracks\/\w+$/',
                 ResourceSite::OFFICIAL_SITE => null,
+                ResourceSite::WIKI => null,
                 default => '/$.^/',
             };
         }
@@ -399,6 +467,7 @@ enum ResourceSite: int
                 ResourceSite::ANN => '/^https:\/\/www\.animenewsnetwork\.com\/encyclopedia\/company\.php\?id=\d+$/',
                 ResourceSite::MAL => '/^https:\/\/myanimelist\.net\/anime\/producer\/\d+$/',
                 ResourceSite::OFFICIAL_SITE => null,
+                ResourceSite::WIKI => null,
                 default => '/$.^/',
             };
         }
