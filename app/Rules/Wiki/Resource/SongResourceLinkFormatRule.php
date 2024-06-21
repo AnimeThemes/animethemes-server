@@ -37,7 +37,7 @@ readonly class SongResourceLinkFormatRule implements ValidationRule
     {
         $pattern = $this->site->getPattern(Song::class);
 
-        if ($pattern !== null && Str::match($pattern, $value) !== $value) {
+        if ($pattern !== '/$.^/' && Str::match($pattern, $value) !== $value) {
             $fail(__('validation.regex'));
         }
     }
