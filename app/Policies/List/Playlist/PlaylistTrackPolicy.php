@@ -6,6 +6,7 @@ namespace App\Policies\List\Playlist;
 
 use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\ExtendedCrudPermission;
+use App\Enums\Auth\Role as RoleEnum;
 use App\Enums\Models\List\PlaylistVisibility;
 use App\Models\Auth\User;
 use App\Models\List\Playlist;
@@ -31,9 +32,9 @@ class PlaylistTrackPolicy
     public function viewAny(?User $user): bool
     {
         return Nova::whenServing(
-            fn (): bool => $user !== null && $user->hasRole('Admin'),
+            fn (): bool => $user !== null && $user->hasRole(RoleEnum::ADMIN->value),
             function (Request $request) use ($user): bool {
-                if (Filament::isServing()) return $user !== null && $user->hasRole('Admin');
+                if (Filament::isServing()) return $user !== null && $user->hasRole(RoleEnum::ADMIN->value);
 
                 /** @var Playlist|null $playlist */
                 $playlist = $request->route('playlist');
@@ -57,9 +58,9 @@ class PlaylistTrackPolicy
     public function view(?User $user, PlaylistTrack $track): bool
     {
         return Nova::whenServing(
-            fn (): bool => $user !== null && $user->hasRole('Admin'),
+            fn (): bool => $user !== null && $user->hasRole(RoleEnum::ADMIN->value),
             function (Request $request) use ($user): bool {
-                if (Filament::isServing()) return $user !== null && $user->hasRole('Admin');
+                if (Filament::isServing()) return $user !== null && $user->hasRole(RoleEnum::ADMIN->value);
 
                 /** @var Playlist|null $playlist */
                 $playlist = $request->route('playlist');
@@ -80,9 +81,9 @@ class PlaylistTrackPolicy
     public function create(User $user): bool
     {
         return Nova::whenServing(
-            fn (): bool => $user->hasRole('Admin'),
+            fn (): bool => $user->hasRole(RoleEnum::ADMIN->value),
             function (Request $request) use ($user): bool {
-                if (Filament::isServing()) return $user !== null && $user->hasRole('Admin');
+                if (Filament::isServing()) return $user !== null && $user->hasRole(RoleEnum::ADMIN->value);
 
                 /** @var Playlist|null $playlist */
                 $playlist = $request->route('playlist');
@@ -104,9 +105,9 @@ class PlaylistTrackPolicy
     public function update(User $user, PlaylistTrack $track): bool
     {
         return Nova::whenServing(
-            fn (): bool => $user->hasRole('Admin'),
+            fn (): bool => $user->hasRole(RoleEnum::ADMIN->value),
             function (Request $request) use ($user, $track): bool {
-                if (Filament::isServing()) return $user !== null && $user->hasRole('Admin');
+                if (Filament::isServing()) return $user !== null && $user->hasRole(RoleEnum::ADMIN->value);
 
                 /** @var Playlist|null $playlist */
                 $playlist = $request->route('playlist');
@@ -128,9 +129,9 @@ class PlaylistTrackPolicy
     public function delete(User $user, PlaylistTrack $track): bool
     {
         return Nova::whenServing(
-            fn (): bool => $user->hasRole('Admin'),
+            fn (): bool => $user->hasRole(RoleEnum::ADMIN->value),
             function (Request $request) use ($user, $track): bool {
-                if (Filament::isServing()) return $user !== null && $user->hasRole('Admin');
+                if (Filament::isServing()) return $user !== null && $user->hasRole(RoleEnum::ADMIN->value);
 
                 /** @var Playlist|null $playlist */
                 $playlist = $request->route('playlist');
@@ -152,9 +153,9 @@ class PlaylistTrackPolicy
     public function restore(User $user, PlaylistTrack $track): bool
     {
         return Nova::whenServing(
-            fn (): bool => $user->hasRole('Admin'),
+            fn (): bool => $user->hasRole(RoleEnum::ADMIN->value),
             function (Request $request) use ($user, $track): bool {
-                if (Filament::isServing()) return $user !== null && $user->hasRole('Admin');
+                if (Filament::isServing()) return $user !== null && $user->hasRole(RoleEnum::ADMIN->value);
                 
                 /** @var Playlist|null $playlist */
                 $playlist = $request->route('playlist');

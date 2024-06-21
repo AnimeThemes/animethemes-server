@@ -6,6 +6,7 @@ namespace Database\Seeders\Auth\Role;
 
 use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\ExtendedCrudPermission;
+use App\Enums\Auth\Role as RoleEnum;
 use App\Models\Auth\Role;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
@@ -24,8 +25,10 @@ class PlaylistUserRoleSeeder extends RoleSeeder
      */
     public function run(): void
     {
+        $roleEnum = RoleEnum::PLAYLIST_USER;
+
         /** @var Role $role */
-        $role = Role::findOrCreate('Playlist User');
+        $role = Role::findOrCreate($roleEnum->value);
 
         $extendedCrudPermissions = array_merge(
             CrudPermission::cases(),
@@ -36,6 +39,8 @@ class PlaylistUserRoleSeeder extends RoleSeeder
         $this->configureResource($role, Playlist::class, $extendedCrudPermissions);
         $this->configureResource($role, PlaylistTrack::class, $extendedCrudPermissions);
 
+        $role->color = $roleEnum->color();
+        $role->priority = $roleEnum->priority();
         $role->default = true;
 
         $role->save();

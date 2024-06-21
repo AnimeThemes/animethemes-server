@@ -6,6 +6,7 @@ namespace App\Policies\Auth;
 
 use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\ExtendedCrudPermission;
+use App\Enums\Auth\Role as RoleEnum;
 use App\Models\Auth\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
@@ -161,6 +162,6 @@ class UserPolicy
      */
     public function addPlaylist(User $user): bool
     {
-        return $user->hasRole('Admin');
+        return $user->hasRole(RoleEnum::ADMIN->value);
     }
 }

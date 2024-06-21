@@ -6,6 +6,7 @@ namespace Database\Seeders\Auth\Role;
 
 use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\ExtendedCrudPermission;
+use App\Enums\Auth\Role as RoleEnum;
 use App\Enums\Auth\SpecialPermission;
 use App\Models\Auth\Role;
 use App\Models\Discord\DiscordThread;
@@ -41,8 +42,10 @@ class EncoderRoleSeeder extends RoleSeeder
      */
     public function run(): void
     {
+        $roleEnum = RoleEnum::ENCODER;
+
         /** @var Role $role */
-        $role = Role::findOrCreate('Encoder');
+        $role = Role::findOrCreate($roleEnum->value);
 
         $extendedCrudPermissions = array_merge(
             CrudPermission::cases(),
@@ -89,8 +92,8 @@ class EncoderRoleSeeder extends RoleSeeder
             ]
         );
 
-        $role->color = '#FFC107';
-        $role->priority = 150000;
+        $role->color = $roleEnum->color();
+        $role->priority = $roleEnum->priority();
 
         $role->save();
     }

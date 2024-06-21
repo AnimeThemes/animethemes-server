@@ -6,6 +6,7 @@ namespace Database\Seeders\Auth\Role;
 
 use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\ExtendedCrudPermission;
+use App\Enums\Auth\Role as RoleEnum;
 use App\Enums\Auth\SpecialPermission;
 use App\Models\Auth\Role;
 use App\Models\Discord\DiscordThread;
@@ -41,8 +42,10 @@ class WikiViewerRoleSeeder extends RoleSeeder
      */
     public function run(): void
     {
+        $roleEnum = RoleEnum::WIKI_VIEWER;
+
         /** @var Role $role */
-        $role = Role::findOrCreate('Wiki Viewer');
+        $role = Role::findOrCreate($roleEnum->value);
 
         $extendedCrudPermissions = array_merge(
             CrudPermission::cases(),
@@ -82,8 +85,8 @@ class WikiViewerRoleSeeder extends RoleSeeder
             ]
         );
 
-        $role->color = '#2596D1';
-        $role->priority = 25000;
+        $role->color = $roleEnum->color();
+        $role->priority = $roleEnum->priority();
 
         $role->save();
     }

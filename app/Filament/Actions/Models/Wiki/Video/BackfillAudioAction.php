@@ -20,6 +20,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rules\Enum;
 
 /**
@@ -78,7 +79,7 @@ class BackfillAudioAction extends Action implements ShouldQueue
                             ->button()
                             ->markAsRead(),
                     ])
-                    ->sendToDatabase(auth()->user());
+                    ->sendToDatabase(Auth::user());
             }
         } catch (Exception $e) {
             //$this->markAsFailed($video, $e);
