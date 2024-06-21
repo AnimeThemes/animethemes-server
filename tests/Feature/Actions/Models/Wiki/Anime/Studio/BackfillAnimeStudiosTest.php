@@ -398,7 +398,7 @@ class BackfillAnimeStudiosTest extends TestCase
         foreach ($studios as $studio) {
             $id = Arr::get($studio, 'id');
             $slug = Str::slug(Arr::get($studio, 'name'));
-            $link = $site->formatStudioResourceLink($id, $slug);
+            $link = $site->formatResourceLink(Studio::class, $id, $slug);
 
             ExternalResource::factory()->createOne([
                 ExternalResource::ATTRIBUTE_SITE => $site,

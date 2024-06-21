@@ -6,6 +6,7 @@ namespace App\Policies\Wiki;
 
 use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\ExtendedCrudPermission;
+use App\Enums\Auth\Role as RoleEnum;
 use App\Models\Auth\User;
 use App\Models\Wiki\Video;
 use Illuminate\Auth\Access\HandlesAuthorization;
@@ -156,6 +157,6 @@ class VideoPolicy
      */
     public function addTrack(User $user): bool
     {
-        return $user->hasRole('Admin');
+        return $user->hasRole(RoleEnum::ADMIN->value);
     }
 }

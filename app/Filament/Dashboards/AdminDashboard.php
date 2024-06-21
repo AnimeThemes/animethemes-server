@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace App\Filament\Dashboards;
 
+use App\Enums\Auth\Role as RoleEnum;
 use App\Filament\Widgets\Auth\UserChart;
 use App\Filament\Widgets\List\PlaylistChart;
 use App\Filament\Widgets\List\PlaylistTrackChart;
 use App\Models\Auth\User;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Class AdminDashboard.
@@ -31,7 +33,7 @@ class AdminDashboard extends BaseDashboard
      */
     public static function canAccess(): bool
     {
-        return User::find(auth()->user()->id)->hasRole('Admin');
+        return User::find(Auth::id())->hasRole(RoleEnum::ADMIN->value);
     }
 
     /**

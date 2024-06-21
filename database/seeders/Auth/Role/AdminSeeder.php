@@ -6,6 +6,7 @@ namespace Database\Seeders\Auth\Role;
 
 use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\ExtendedCrudPermission;
+use App\Enums\Auth\Role as RoleEnum;
 use App\Enums\Auth\SpecialPermission;
 use App\Models\Admin\Announcement;
 use App\Models\Admin\Dump;
@@ -47,8 +48,10 @@ class AdminSeeder extends RoleSeeder
      */
     public function run(): void
     {
+        $roleEnum = RoleEnum::ADMIN;
+
         /** @var Role $role */
-        $role = Role::findOrCreate('Admin');
+        $role = Role::findOrCreate($roleEnum->value);
 
         $extendedCrudPermissions = array_merge(
             CrudPermission::cases(),
@@ -93,8 +96,8 @@ class AdminSeeder extends RoleSeeder
         // Special Permissions
         $this->configureAbilities($role, array_column(SpecialPermission::cases(), 'value'));
 
-        $role->color = '#1F8B4C';
-        $role->priority = 250000;
+        $role->color = $roleEnum->color();
+        $role->priority = $roleEnum->priority();
 
         $role->save();
     }

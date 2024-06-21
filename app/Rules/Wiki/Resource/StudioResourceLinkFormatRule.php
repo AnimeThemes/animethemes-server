@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Rules\Wiki\Resource;
 
 use App\Enums\Models\Wiki\ResourceSite;
+use App\Models\Wiki\Studio;
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Support\Str;
@@ -34,21 +35,7 @@ readonly class StudioResourceLinkFormatRule implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        $pattern = match ($this->site) {
-            ResourceSite::TWITTER => '/^https:\/\/twitter\.com\/\w+$/',
-            ResourceSite::ANIDB => '/^https:\/\/anidb\.net\/creator\/(?:virtual\/)?\d+$/',
-            ResourceSite::ANILIST => '/^https:\/\/anilist\.co\/studio\/\d+$/',
-            ResourceSite::ANIME_PLANET => '/^https:\/\/www\.anime-planet\.com\/anime\/studios\/[a-zA-Z0-9-]+$/',
-            ResourceSite::ANN => '/^https:\/\/www\.animenewsnetwork\.com\/encyclopedia\/company\.php\?id=\d+$/',
-            ResourceSite::KITSU => '/$.^/',
-            ResourceSite::MAL => '/^https:\/\/myanimelist\.net\/anime\/producer\/\d+$/',
-            ResourceSite::SPOTIFY => '/$.^/',
-            ResourceSite::YOUTUBE_MUSIC => '/$.^/',
-            ResourceSite::YOUTUBE => '/$.^/',
-            ResourceSite::APPLE_MUSIC => '/$.^/',
-            ResourceSite::AMAZON_MUSIC => '/$.^/',
-            default => null,
-        };
+        $pattern = $this->site->getPattern(Studio::class);
 
         if ($pattern !== null && Str::match($pattern, $value) !== $value) {
             $fail(__('validation.regex'));

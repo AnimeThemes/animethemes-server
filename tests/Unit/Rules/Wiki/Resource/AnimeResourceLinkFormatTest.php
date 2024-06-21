@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit\Rules\Wiki\Resource;
 
 use App\Enums\Models\Wiki\ResourceSite;
+use App\Models\Wiki\Anime;
 use App\Rules\Wiki\Resource\AnimeResourceLinkFormatRule;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
@@ -20,20 +21,20 @@ class AnimeResourceLinkFormatTest extends TestCase
     use WithFaker;
 
     /**
-     * The Anime Resource Link Format Rule shall pass for sites with no expected pattern.
+     * The Anime Resource Link Format Rule shall fail for sites with no defined pattern.
      *
      * @return void
      */
-    public function testPassesForNoPattern(): void
+    public function testFailsForNoPattern(): void
     {
         $attribute = $this->faker->word();
 
         $validator = Validator::make(
             [$attribute => $this->faker->url()],
-            [$attribute => new AnimeResourceLinkFormatRule(ResourceSite::OFFICIAL_SITE)],
+            [$attribute => new AnimeResourceLinkFormatRule(ResourceSite::YOUTUBE_MUSIC)],
         );
 
-        static::assertTrue($validator->passes());
+        static::assertFalse($validator->passes());
     }
 
     /**
@@ -44,24 +45,9 @@ class AnimeResourceLinkFormatTest extends TestCase
     public function testPassesForPattern(): void
     {
         /** @var ResourceSite $site */
-        $site = Arr::random([
-            ResourceSite::TWITTER,
-            ResourceSite::ANIDB,
-            ResourceSite::ANILIST,
-            ResourceSite::ANIME_PLANET,
-            ResourceSite::ANN,
-            ResourceSite::KITSU,
-            ResourceSite::MAL,
-            ResourceSite::YOUTUBE,
-            ResourceSite::CRUNCHYROLL,
-            ResourceSite::HIDIVE,
-            ResourceSite::NETFLIX,
-            ResourceSite::DISNEY_PLUS,
-            ResourceSite::HULU,
-            ResourceSite::AMAZON_PRIME_VIDEO,
-        ]);
+        $site = Arr::random(ResourceSite::getForModel(Anime::class));
 
-        $url = $site->formatAnimeResourceLink($this->faker->randomDigitNotNull(), $this->faker->word(), 'null');
+        $url = $site->formatResourceLink(Anime::class, $this->faker->randomDigitNotNull(), $this->faker->word(), 'null');
 
         $attribute = $this->faker->word();
 
@@ -81,24 +67,9 @@ class AnimeResourceLinkFormatTest extends TestCase
     public function testFailsForTrailingSlash(): void
     {
         /** @var ResourceSite $site */
-        $site = Arr::random([
-            ResourceSite::TWITTER,
-            ResourceSite::ANIDB,
-            ResourceSite::ANILIST,
-            ResourceSite::ANIME_PLANET,
-            ResourceSite::ANN,
-            ResourceSite::KITSU,
-            ResourceSite::MAL,
-            ResourceSite::YOUTUBE,
-            ResourceSite::CRUNCHYROLL,
-            ResourceSite::HIDIVE,
-            ResourceSite::NETFLIX,
-            ResourceSite::DISNEY_PLUS,
-            ResourceSite::HULU,
-            ResourceSite::AMAZON_PRIME_VIDEO,
-        ]);
+        $site = Arr::random(ResourceSite::getForModel(Anime::class));
 
-        $url = $site->formatAnimeResourceLink($this->faker->randomDigitNotNull(), $this->faker->word());
+        $url = $site->formatResourceLink(Anime::class, $this->faker->randomDigitNotNull(), $this->faker->word());
 
         $url = Str::of($url)
             ->append('/')
@@ -111,7 +82,7 @@ class AnimeResourceLinkFormatTest extends TestCase
             [$attribute => new AnimeResourceLinkFormatRule($site)],
         );
 
-        static::assertFalse($validator->passes());
+        static::assertFalse($site->getPattern(Anime::class) && $validator->passes());
     }
 
     /**
@@ -122,12 +93,9 @@ class AnimeResourceLinkFormatTest extends TestCase
     public function testFailsForTrailingSlug(): void
     {
         /** @var ResourceSite $site */
-        $site = Arr::random([
-            ResourceSite::ANILIST,
-            ResourceSite::MAL,
-        ]);
+        $site = Arr::random(ResourceSite::getForModel(Anime::class));
 
-        $url = $site->formatAnimeResourceLink($this->faker->randomDigitNotNull(), $this->faker->word());
+        $url = $site->formatResourceLink(Anime::class, $this->faker->randomDigitNotNull(), $this->faker->word());
 
         $url = Str::of($url)
             ->append('/')
@@ -141,83 +109,25 @@ class AnimeResourceLinkFormatTest extends TestCase
             [$attribute => new AnimeResourceLinkFormatRule($site)],
         );
 
-        static::assertFalse($validator->passes());
+        static::assertFalse($site->getPattern(Anime::class) && $validator->passes());
     }
 
     /**
-     * The Anime Resource Link Format Rule shall fail for artist resources.
+     * The Anime Resource Link Format Rule shall fail for other resources not allowed.
      *
      * @return void
      */
-    public function testFailsForArtistResource(): void
-    {
+    public function testFailsForOtherResources(): void
+    { 
         /** @var ResourceSite $site */
-        $site = Arr::random([
-            ResourceSite::ANIDB,
-            ResourceSite::ANILIST,
-            ResourceSite::ANIME_PLANET,
-            ResourceSite::ANN,
-            ResourceSite::MAL,
-        ]);
-
-        $url = $site->formatArtistResourceLink($this->faker->randomDigitNotNull(), $this->faker->word());
-
-        $attribute = $this->faker->word();
-
-        $validator = Validator::make(
-            [$attribute => $url],
-            [$attribute => new AnimeResourceLinkFormatRule($site)],
+        $site = Arr::random(
+            array_filter(
+                ResourceSite::cases(),
+                fn ($value) => !in_array($value, ResourceSite::getForModel(Anime::class))
+            )
         );
 
-        static::assertFalse($validator->passes());
-    }
-
-    /**
-     * The Anime Resource Link Format Rule shall fail for song resources.
-     *
-     * @return void
-     */
-    public function testFailsForSongResource(): void
-    {
-        /** @var ResourceSite $site */
-        $site = Arr::random([
-            ResourceSite::ANIDB,
-            ResourceSite::ANILIST,
-            ResourceSite::ANIME_PLANET,
-            ResourceSite::ANN,
-            ResourceSite::MAL,
-            ResourceSite::YOUTUBE,
-        ]);
-
-        $url = $site->formatSongResourceLink($this->faker->randomDigitNotNull(), $this->faker->word());
-
-        $attribute = $this->faker->word();
-
-        $validator = Validator::make(
-            [$attribute => $url],
-            [$attribute => new AnimeResourceLinkFormatRule($site)],
-        );
-
-        static::assertFalse($validator->passes());
-    }
-
-    /**
-     * The Anime Resource Link Format Rule shall fail for studio resources.
-     *
-     * @return void
-     */
-    public function testFailsForStudioResource(): void
-    {
-        /** @var ResourceSite $site */
-        $site = Arr::random([
-            ResourceSite::ANIDB,
-            ResourceSite::ANILIST,
-            ResourceSite::ANIME_PLANET,
-            ResourceSite::ANN,
-            ResourceSite::MAL,
-        ]);
-
-        $url = $site->formatStudioResourceLink($this->faker->randomDigitNotNull(), $this->faker->word());
+        $url = $site->formatResourceLink(Anime::class, $this->faker->randomDigitNotNull(), $this->faker->word());
 
         $attribute = $this->faker->word();
 

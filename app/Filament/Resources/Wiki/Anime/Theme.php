@@ -13,6 +13,7 @@ use App\Filament\RelationManagers\Wiki\Anime\ThemeRelationManager;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Anime as AnimeResource;
 use App\Filament\Resources\Wiki\Anime\RelationManagers\ThemeAnimeRelationManager;
+use App\Filament\Resources\Wiki\Anime\Theme\Entry;
 use App\Filament\Resources\Wiki\Anime\Theme\Pages\CreateTheme;
 use App\Filament\Resources\Wiki\Anime\Theme\Pages\EditTheme;
 use App\Filament\Resources\Wiki\Anime\Theme\Pages\ListThemes;
@@ -29,7 +30,8 @@ use App\Models\Wiki\Group;
 use App\Models\Wiki\Song;
 use App\Pivots\Wiki\ArtistSong;
 use Filament\Forms\Components\Repeater;
-use Filament\Forms\Components\Section as SectionForm;
+use Filament\Forms\Components\Tabs;
+use Filament\Forms\Components\Tabs\Tab;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
@@ -165,117 +167,135 @@ class Theme extends BaseResource
     {
         return $form
             ->schema([
-                Select::make(ThemeModel::ATTRIBUTE_ANIME)
-                    ->label(__('filament.resources.singularLabel.anime'))
-                    ->relationship(ThemeModel::RELATION_ANIME, AnimeModel::ATTRIBUTE_NAME)
-                    ->searchable()
-                    ->hiddenOn(ThemeRelationManager::class),
-
-                Select::make(ThemeModel::ATTRIBUTE_TYPE)
-                    ->label(__('filament.fields.anime_theme.type.name'))
-                    ->helperText(__('filament.fields.anime_theme.type.help'))
-                    ->options(ThemeType::asSelectArray())
-                    ->required()
-                    ->live(true)
-                    ->afterStateUpdated(fn (Set $set, Get $get) => Theme::setThemeSlug($set, $get))
-                    ->rules(['required', new Enum(ThemeType::class)]),
-
-                TextInput::make(ThemeModel::ATTRIBUTE_SEQUENCE)
-                    ->label(__('filament.fields.anime_theme.sequence.name'))
-                    ->helperText(__('filament.fields.anime_theme.sequence.help'))
-                    ->numeric()
-                    ->live(true)
-                    ->afterStateUpdated(fn (Set $set, Get $get) => Theme::setThemeSlug($set, $get))
-                    ->rules(['nullable', 'integer']),
-
-                TextInput::make(ThemeModel::ATTRIBUTE_SLUG)
-                    ->label(__('filament.fields.anime_theme.slug.name'))
-                    ->helperText(__('filament.fields.anime_theme.slug.help'))
-                    ->required()
-                    ->readOnly()
-                    ->maxLength(192)
-                    ->rules(['required', 'max:192', 'alpha_dash']),
-
-                Select::make(ThemeModel::ATTRIBUTE_GROUP)
-                    ->label(__('filament.resources.singularLabel.group'))
-                    ->relationship(ThemeModel::RELATION_GROUP, Group::ATTRIBUTE_NAME)
-                    ->searchable()
-                    ->live(true)
-                    ->afterStateUpdated(fn (Set $set, Get $get) => Theme::setThemeSlug($set, $get))
-                    ->createOptionForm(GroupResource::form($form)->getComponents()),
-
-                SectionForm::make(__('filament.resources.singularLabel.song'))
-                    ->schema([
-                        Select::make(ThemeModel::ATTRIBUTE_SONG)
-                            ->label(__('filament.resources.singularLabel.song'))
-                            ->relationship(ThemeModel::RELATION_SONG, Song::ATTRIBUTE_TITLE)
-                            ->live(true)
-                            ->useScout(Song::class)
-                            ->createOptionForm(SongResource::form($form)->getComponents())
-                            ->afterStateUpdated(function (Set $set, $state) {
-                                /** @var Song|null */
-                                $song = Song::find($state);
-
-                                if (!$song) return;
-
-                                foreach ($song->artists()->get() as $index => $artist) {
-                                    $set("song.artists.item{$index}.artist_id", $artist->getKey());
-                                    $set("song.artists.item{$index}.as", Arr::get($artist, 'artistsong.as'));
-                                }
-                            }),
-
-                        Repeater::make(ThemeModel::RELATION_SONG . '.' . Song::RELATION_ARTISTS)
-                            ->label(__('filament.resources.label.artists'))
-                            ->hidden(fn (Get $get) => $get(ThemeModel::ATTRIBUTE_SONG) === null)
-                            ->live(true)
-                            ->key('song.artists')
-                            ->collapsible()
-                            ->defaultItems(0)
+                Tabs::make('Tabs')
+                    ->tabs([
+                        Tab::make('theme')
+                            ->label(__('filament.resources.singularLabel.anime_theme'))
                             ->schema([
-                                Select::make(Artist::ATTRIBUTE_ID)
-                                    ->label(__('filament.resources.singularLabel.artist'))
+                                Select::make(ThemeModel::ATTRIBUTE_ANIME)
+                                    ->label(__('filament.resources.singularLabel.anime'))
+                                    ->relationship(ThemeModel::RELATION_ANIME, AnimeModel::ATTRIBUTE_NAME)
+                                    ->searchable()
+                                    ->hiddenOn(ThemeRelationManager::class),
+
+                                Select::make(ThemeModel::ATTRIBUTE_TYPE)
+                                    ->label(__('filament.fields.anime_theme.type.name'))
+                                    ->helperText(__('filament.fields.anime_theme.type.help'))
+                                    ->options(ThemeType::asSelectArray())
                                     ->required()
-                                    ->rules(['required'])
-                                    ->useScout(Artist::class)
-                                    ->createOptionForm(ArtistResource::form($form)->getComponents())
-                                    ->createOptionUsing(fn (array $data) => Artist::query()->create($data)->getKey())
-                                    ->getOptionLabelUsing(fn ($state) => Select::getSearchLabelWithBlade(Artist::find($state))),
+                                    ->live(true)
+                                    ->afterStateUpdated(fn (Set $set, Get $get) => Theme::setThemeSlug($set, $get))
+                                    ->rules(['required', new Enum(ThemeType::class)]),
 
-                                TextInput::make(ArtistSong::ATTRIBUTE_AS)
-                                    ->label(__('filament.fields.artist.songs.as.name'))
-                                    ->helperText(__('filament.fields.artist.songs.as.help')),
-                            ])
-                            ->formatStateUsing(function (?array $state, Get $get) {
-                                /** @var Song|null */
-                                $song = Song::find($get(ThemeModel::ATTRIBUTE_SONG));
+                                TextInput::make(ThemeModel::ATTRIBUTE_SEQUENCE)
+                                    ->label(__('filament.fields.anime_theme.sequence.name'))
+                                    ->helperText(__('filament.fields.anime_theme.sequence.help'))
+                                    ->numeric()
+                                    ->live(true)
+                                    ->afterStateUpdated(fn (Set $set, Get $get) => Theme::setThemeSlug($set, $get))
+                                    ->rules(['nullable', 'integer']),
 
-                                if (!$song) return $state;
+                                TextInput::make(ThemeModel::ATTRIBUTE_SLUG)
+                                    ->label(__('filament.fields.anime_theme.slug.name'))
+                                    ->helperText(__('filament.fields.anime_theme.slug.help'))
+                                    ->required()
+                                    ->readOnly()
+                                    ->maxLength(192)
+                                    ->rules(['required', 'max:192', 'alpha_dash']),
 
-                                $artists = [];
-                                foreach ($song->artists()->get() as $artist) {
-                                    $artists[] = [
-                                        Artist::ATTRIBUTE_ID => $artist->getKey(),
-                                        ArtistSong::ATTRIBUTE_AS => Arr::get($artist, 'artistsong.as'),
-                                    ];
-                                }
+                                Select::make(ThemeModel::ATTRIBUTE_GROUP)
+                                    ->label(__('filament.resources.singularLabel.group'))
+                                    ->relationship(ThemeModel::RELATION_GROUP, Group::ATTRIBUTE_NAME)
+                                    ->searchable()
+                                    ->live(true)
+                                    ->afterStateUpdated(fn (Set $set, Get $get) => Theme::setThemeSlug($set, $get))
+                                    ->createOptionForm(GroupResource::form($form)->getComponents()),
+                            ]),
 
-                                return $artists;
-                            })
-                            ->saveRelationshipsUsing(function (?array $state, Get $get) {
-                                /** @var Song */
-                                $song = Song::find($get(ThemeModel::ATTRIBUTE_SONG));
+                        Tab::make('song')
+                            ->label(__('filament.resources.singularLabel.song'))
+                            ->schema([
+                                Select::make(ThemeModel::ATTRIBUTE_SONG)
+                                    ->label(__('filament.resources.singularLabel.song'))
+                                    ->relationship(ThemeModel::RELATION_SONG, Song::ATTRIBUTE_TITLE)
+                                    ->live(true)
+                                    ->useScout(Song::class)
+                                    ->createOptionForm(SongResource::form($form)->getComponents())
+                                    ->afterStateUpdated(function (Set $set, $state) {
+                                        /** @var Song|null */
+                                        $song = Song::find($state);
 
-                                $artists = [];
-                                foreach ($state as $artist) {
-                                    $artists[Arr::get($artist, Artist::ATTRIBUTE_ID)] = [
-                                        ArtistSong::ATTRIBUTE_AS => Arr::get($artist, ArtistSong::ATTRIBUTE_AS)
-                                    ];
-                                }
+                                        if (!$song) return;
 
-                                $song->artists()->sync($artists);
-                            })
-                            ->columns(2),
-                    ]),
+                                        foreach ($song->artists()->get() as $index => $artist) {
+                                            $set("song.artists.item{$index}.artist_id", $artist->getKey());
+                                            $set("song.artists.item{$index}.as", Arr::get($artist, 'artistsong.as'));
+                                        }
+                                    }),
+
+                                Repeater::make(ThemeModel::RELATION_SONG . '.' . Song::RELATION_ARTISTS)
+                                    ->label(__('filament.resources.label.artists'))
+                                    ->hidden(fn (Get $get) => $get(ThemeModel::ATTRIBUTE_SONG) === null)
+                                    ->live(true)
+                                    ->key('song.artists')
+                                    ->collapsible()
+                                    ->defaultItems(0)
+                                    ->schema([
+                                        Select::make(Artist::ATTRIBUTE_ID)
+                                            ->label(__('filament.resources.singularLabel.artist'))
+                                            ->required()
+                                            ->rules(['required'])
+                                            ->useScout(Artist::class)
+                                            ->createOptionForm(ArtistResource::form($form)->getComponents())
+                                            ->createOptionUsing(fn (array $data) => Artist::query()->create($data)->getKey())
+                                            ->getOptionLabelUsing(fn ($state) => Select::getSearchLabelWithBlade(Artist::find($state))),
+
+                                        TextInput::make(ArtistSong::ATTRIBUTE_AS)
+                                            ->label(__('filament.fields.artist.songs.as.name'))
+                                            ->helperText(__('filament.fields.artist.songs.as.help')),
+                                    ])
+                                    ->formatStateUsing(function (?array $state, Get $get) {
+                                        /** @var Song|null */
+                                        $song = Song::find($get(ThemeModel::ATTRIBUTE_SONG));
+
+                                        if (!$song) return $state;
+
+                                        $artists = [];
+                                        foreach ($song->artists()->get() as $artist) {
+                                            $artists[] = [
+                                                Artist::ATTRIBUTE_ID => $artist->getKey(),
+                                                ArtistSong::ATTRIBUTE_AS => Arr::get($artist, 'artistsong.as'),
+                                            ];
+                                        }
+
+                                        return $artists;
+                                    })
+                                    ->saveRelationshipsUsing(function (?array $state, Get $get) {
+                                        /** @var Song */
+                                        $song = Song::find($get(ThemeModel::ATTRIBUTE_SONG));
+
+                                        $artists = [];
+                                        foreach ($state as $artist) {
+                                            $artists[Arr::get($artist, Artist::ATTRIBUTE_ID)] = [
+                                                ArtistSong::ATTRIBUTE_AS => Arr::get($artist, ArtistSong::ATTRIBUTE_AS)
+                                            ];
+                                        }
+
+                                        $song->artists()->sync($artists);
+                                    })
+                                    ->columns(2),
+                            ]),
+
+                        Tab::make('entries')
+                            ->label(__('filament.resources.label.anime_theme_entries'))
+                            ->hiddenOn(EditTheme::class)
+                            ->schema([
+                                Repeater::make(ThemeModel::RELATION_ENTRIES)
+                                    ->label(__('filament.resources.label.anime_theme_entries'))
+                                    ->relationship()
+                                    ->schema(Entry::form($form)->getComponents()),
+                            ]),
+                    ])
             ])
             ->columns(1);
     }

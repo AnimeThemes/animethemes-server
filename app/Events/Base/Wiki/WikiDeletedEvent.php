@@ -7,6 +7,7 @@ namespace App\Events\Base\Wiki;
 use App\Constants\Config\ServiceConstants;
 use App\Contracts\Events\FilamentNotificationEvent;
 use App\Contracts\Events\NovaNotificationEvent;
+use App\Enums\Auth\Role as RoleEnum;
 use App\Events\Base\BaseDeletedEvent;
 use App\Models\Auth\Role;
 use App\Models\Auth\User;
@@ -69,7 +70,7 @@ abstract class WikiDeletedEvent extends BaseDeletedEvent implements NovaNotifica
     public function getNovaNotificationRecipients(): Collection
     {
         return User::query()
-            ->whereRelation(User::RELATION_ROLES, Role::ATTRIBUTE_NAME, 'Admin')
+            ->whereRelation(User::RELATION_ROLES, Role::ATTRIBUTE_NAME, RoleEnum::ADMIN->value)
             ->get();
     }
 
@@ -128,7 +129,7 @@ abstract class WikiDeletedEvent extends BaseDeletedEvent implements NovaNotifica
     public function getFilamentNotificationRecipients(): Collection
     {
         return User::query()
-            ->whereRelation(User::RELATION_ROLES, Role::ATTRIBUTE_NAME, 'Admin')
+            ->whereRelation(User::RELATION_ROLES, Role::ATTRIBUTE_NAME, RoleEnum::ADMIN->value)
             ->get();
     }
 

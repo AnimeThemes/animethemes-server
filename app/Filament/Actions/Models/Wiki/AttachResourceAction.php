@@ -56,7 +56,7 @@ abstract class AttachResourceAction extends BaseAction
                 $resources = $model->resources();
                 if ($resources->where(ExternalResource::ATTRIBUTE_SITE, $resourceSite->value)->exists()) continue;
             }
-            
+
             $resourceSiteLower = strtolower($resourceSite->name);
 
             $fields[] = TextInput::make($resourceSite->name)

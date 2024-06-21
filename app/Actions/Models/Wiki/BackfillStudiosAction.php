@@ -109,7 +109,7 @@ abstract class BackfillStudiosAction extends BackfillAction
         $studioResource = ExternalResource::query()
             ->where(ExternalResource::ATTRIBUTE_SITE, $site->value)
             ->where(ExternalResource::ATTRIBUTE_EXTERNAL_ID, $id)
-            ->where(ExternalResource::ATTRIBUTE_LINK, $site->formatStudioResourceLink($id))
+            ->where(ExternalResource::ATTRIBUTE_LINK, $site->formatResourceLink(Studio::class, $id))
             ->first();
 
         if (! $studioResource instanceof ExternalResource) {
@@ -117,7 +117,7 @@ abstract class BackfillStudiosAction extends BackfillAction
 
             $studioResource = ExternalResource::query()->create([
                 ExternalResource::ATTRIBUTE_EXTERNAL_ID => $id,
-                ExternalResource::ATTRIBUTE_LINK =>$site->formatStudioResourceLink($id),
+                ExternalResource::ATTRIBUTE_LINK =>$site->formatResourceLink(Studio::class, $id),
                 ExternalResource::ATTRIBUTE_SITE => $site->value,
             ]);
         }

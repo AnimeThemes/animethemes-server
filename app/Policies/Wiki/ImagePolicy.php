@@ -6,6 +6,7 @@ namespace App\Policies\Wiki;
 
 use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\ExtendedCrudPermission;
+use App\Enums\Auth\Role as RoleEnum;
 use App\Models\Auth\User;
 use App\Models\List\Playlist;
 use App\Models\Wiki\Anime;
@@ -251,11 +252,11 @@ class ImagePolicy
      */
     public function attachAnyPlaylist(User $user): bool
     {
-        return $user->hasRole('Admin');
+        return $user->hasRole(RoleEnum::ADMIN->value);
     }
 
     /**
-     * Determine whether the user can attach a studio to the image.
+     * Determine whether the user can attach a playlist to the image.
      *
      * @param  User  $user
      * @param  Image  $image
@@ -269,7 +270,7 @@ class ImagePolicy
             ->where($playlist->getKeyName(), $playlist->getKey())
             ->exists();
 
-        return ! $attached && $user->hasRole('Admin');
+        return ! $attached && $user->hasRole(RoleEnum::ADMIN->value);
     }
 
     /**
@@ -280,6 +281,6 @@ class ImagePolicy
      */
     public function detachPlaylist(User $user): bool
     {
-        return $user->hasRole('Admin');
+        return $user->hasRole(RoleEnum::ADMIN->value);
     }
 }

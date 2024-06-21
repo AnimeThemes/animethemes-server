@@ -60,7 +60,7 @@ abstract class BackfillAnimeResourceAction extends BackfillResourceAction
         $resource = ExternalResource::query()
             ->where(ExternalResource::ATTRIBUTE_SITE, $this->getSite()->value)
             ->where(ExternalResource::ATTRIBUTE_EXTERNAL_ID, $id)
-            ->where(ExternalResource::ATTRIBUTE_LINK, $this->getSite()->formatAnimeResourceLink($id, $slug))
+            ->where(ExternalResource::ATTRIBUTE_LINK, $this->getSite()->formatResourceLink(Anime::class, $id, $slug))
             ->first();
 
         if ($resource === null) {
@@ -68,7 +68,7 @@ abstract class BackfillAnimeResourceAction extends BackfillResourceAction
 
             $resource = ExternalResource::query()->create([
                 ExternalResource::ATTRIBUTE_EXTERNAL_ID => $id,
-                ExternalResource::ATTRIBUTE_LINK => $this->getSite()->formatAnimeResourceLink($id, $slug),
+                ExternalResource::ATTRIBUTE_LINK => $this->getSite()->formatResourceLink(Anime::class, $id, $slug),
                 ExternalResource::ATTRIBUTE_SITE => $this->getSite()->value,
             ]);
         }
