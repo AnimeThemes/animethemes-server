@@ -290,7 +290,7 @@ class BackfillMalResourceTest extends TestCase
         ExternalResource::factory()->createOne([
             ExternalResource::ATTRIBUTE_SITE => ResourceSite::MAL,
             ExternalResource::ATTRIBUTE_EXTERNAL_ID => $malId,
-            ExternalResource::ATTRIBUTE_LINK => ResourceSite::MAL->formatAnimeResourceLink($malId),
+            ExternalResource::ATTRIBUTE_LINK => ResourceSite::MAL->formatResourceLink(Anime::class, $malId),
         ]);
 
         Http::fake([

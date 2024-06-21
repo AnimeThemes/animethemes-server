@@ -86,7 +86,7 @@ class BackfillAnimeOtherResourcesAction extends BackfillOtherResourcesAction
         $urlPattern = $resourceSite->getUrlCaptureGroups($this->getModel());
 
         if (preg_match($urlPattern, $url, $matches)) {
-            $url = $resourceSite->formatAnimeResourceLink(intval($matches[2]), $matches[2], $matches[1]);
+            $url = $resourceSite->formatResourceLink(Anime::class, intval($matches[2]), $matches[2], $matches[1]);
         }
 
         $resource = ExternalResource::query()

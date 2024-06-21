@@ -190,96 +190,74 @@ enum ResourceSite: int
     }
 
     /**
-     * Get the URL of the site for anime resources.
+     * Get the URL of the site for resources by determined model.
      *
+     * @param  class-string  $modelClass
      * @param  int  $id
      * @param  string|null  $slug
      * @param  string|null  $type
      * @return string|null
      */
-    public function formatAnimeResourceLink(int $id, ?string $slug = null, ?string $type = null): ?string
+    public function formatResourceLink(string $modelClass, int $id, ?string $slug = null, ?string $type = null): ?string
     {
-        return match ($this) {
-            ResourceSite::TWITTER => "https://twitter.com/$slug",
-            ResourceSite::ANIDB => "https://anidb.net/anime/$id",
-            ResourceSite::ANILIST => "https://anilist.co/anime/$id",
-            ResourceSite::ANIME_PLANET => "https://www.anime-planet.com/anime/$slug",
-            ResourceSite::ANN => "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=$id",
-            ResourceSite::KITSU => "https://kitsu.io/anime/$slug",
-            ResourceSite::MAL => "https://myanimelist.net/anime/$id",
-            ResourceSite::YOUTUBE => "https://www.youtube.com/@$slug",
-            ResourceSite::CRUNCHYROLL => "https://www.crunchyroll.com/$type/$slug",
-            ResourceSite::HIDIVE => "https://www.hidive.com/$type/$slug",
-            ResourceSite::NETFLIX => "https://www.netflix.com/$type/$id",
-            ResourceSite::DISNEY_PLUS => "https://www.disneyplus.com/$type/$slug/$id",
-            ResourceSite::HULU => "https://www.hulu.com/$type/$slug",
-            ResourceSite::AMAZON_PRIME_VIDEO => "https://www.primevideo.com/detail/$slug",
-            default => null,
-        };
-    }
+        if ($modelClass === Anime::class) {
+            return match ($this) {
+                ResourceSite::TWITTER => "https://twitter.com/$slug",
+                ResourceSite::ANIDB => "https://anidb.net/anime/$id",
+                ResourceSite::ANILIST => "https://anilist.co/anime/$id",
+                ResourceSite::ANIME_PLANET => "https://www.anime-planet.com/anime/$slug",
+                ResourceSite::ANN => "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=$id",
+                ResourceSite::KITSU => "https://kitsu.io/anime/$slug",
+                ResourceSite::MAL => "https://myanimelist.net/anime/$id",
+                ResourceSite::YOUTUBE => "https://www.youtube.com/@$slug",
+                ResourceSite::CRUNCHYROLL => "https://www.crunchyroll.com/$type/$slug",
+                ResourceSite::HIDIVE => "https://www.hidive.com/$type/$slug",
+                ResourceSite::NETFLIX => "https://www.netflix.com/$type/$id",
+                ResourceSite::DISNEY_PLUS => "https://www.disneyplus.com/$type/$slug/$id",
+                ResourceSite::HULU => "https://www.hulu.com/$type/$slug",
+                ResourceSite::AMAZON_PRIME_VIDEO => "https://www.primevideo.com/detail/$slug",
+                default => null,
+            };
+        }
 
-    /**
-     * Get the URL of the site for artist resources.
-     *
-     * @param  int  $id
-     * @param  string|null  $slug
-     * @param  string|null  $type
-     * @return string|null
-     */
-    public function formatArtistResourceLink(int $id, ?string $slug = null, ?string $type = null): ?string
-    {
-        return match ($this) {
-            ResourceSite::TWITTER => "https://twitter.com/$slug",
-            ResourceSite::ANIDB => "https://anidb.net/creator/$id",
-            ResourceSite::ANILIST => "https://anilist.co/staff/$id",
-            ResourceSite::ANIME_PLANET => "https://www.anime-planet.com/people/$slug",
-            ResourceSite::ANN => "https://www.animenewsnetwork.com/encyclopedia/people.php?id=$id",
-            ResourceSite::MAL => "https://myanimelist.net/people/$id",
-            ResourceSite::YOUTUBE => "https://www.youtube.com/@$slug",
-            ResourceSite::SPOTIFY => "https://open.spotify.com/artist/$slug",
-            default => null,
-        };
-    }
+        if ($modelClass === Artist::class) {
+            return match ($this) {
+                ResourceSite::TWITTER => "https://twitter.com/$slug",
+                ResourceSite::ANIDB => "https://anidb.net/creator/$id",
+                ResourceSite::ANILIST => "https://anilist.co/staff/$id",
+                ResourceSite::ANIME_PLANET => "https://www.anime-planet.com/people/$slug",
+                ResourceSite::ANN => "https://www.animenewsnetwork.com/encyclopedia/people.php?id=$id",
+                ResourceSite::MAL => "https://myanimelist.net/people/$id",
+                ResourceSite::YOUTUBE => "https://www.youtube.com/@$slug",
+                ResourceSite::SPOTIFY => "https://open.spotify.com/artist/$slug",
+                default => null,
+            };
+        }
 
-    /**
-     * Get the URL of the site for song resources.
-     *
-     * @param  int  $id
-     * @param  string|null  $slug
-     * @param  string|null  $type
-     * @return string|null
-     */
-    public function formatSongResourceLink(int $id, ?string $slug = null, ?string $type = null): ?string
-    {
-        return match ($this) {
-            ResourceSite::SPOTIFY => "https://open.spotify.com/track/$slug",
-            ResourceSite::YOUTUBE_MUSIC => "https://music.youtube.com/watch?v=$slug",
-            ResourceSite::YOUTUBE => "https://www.youtube.com/watch?v=$slug",
-            ResourceSite::APPLE_MUSIC => "https://music.apple.com/jp/album/$id",
-            ResourceSite::AMAZON_MUSIC => "https://music.amazon.co.jp/tracks/$slug",
-            default => null
-        };
-    }
+        if ($modelClass === Song::class) {
+            return match ($this) {
+                ResourceSite::SPOTIFY => "https://open.spotify.com/track/$slug",
+                ResourceSite::YOUTUBE_MUSIC => "https://music.youtube.com/watch?v=$slug",
+                ResourceSite::YOUTUBE => "https://www.youtube.com/watch?v=$slug",
+                ResourceSite::APPLE_MUSIC => "https://music.apple.com/jp/album/$id",
+                ResourceSite::AMAZON_MUSIC => "https://music.amazon.co.jp/tracks/$slug",
+                default => null,
+            };
+        }
 
-    /**
-     * Get the URL of the site for studio resources.
-     *
-     * @param  int  $id
-     * @param  string|null  $slug
-     * @param  string|null  $type
-     * @return string|null
-     */
-    public function formatStudioResourceLink(int $id, ?string $slug = null, ?string $type = null): ?string
-    {
-        return match ($this) {
-            ResourceSite::TWITTER => "https://twitter.com/$slug",
-            ResourceSite::ANIDB => "https://anidb.net/creator/$id",
-            ResourceSite::ANILIST => "https://anilist.co/studio/$id",
-            ResourceSite::ANIME_PLANET => "https://www.anime-planet.com/anime/studios/$slug",
-            ResourceSite::ANN => "https://www.animenewsnetwork.com/encyclopedia/company.php?id=$id",
-            ResourceSite::MAL => "https://myanimelist.net/anime/producer/$id",
-            default => null,
-        };
+        if ($modelClass === Studio::class) {
+            return match ($this) {
+                ResourceSite::TWITTER => "https://twitter.com/$slug",
+                ResourceSite::ANIDB => "https://anidb.net/creator/$id",
+                ResourceSite::ANILIST => "https://anilist.co/studio/$id",
+                ResourceSite::ANIME_PLANET => "https://www.anime-planet.com/anime/studios/$slug",
+                ResourceSite::ANN => "https://www.animenewsnetwork.com/encyclopedia/company.php?id=$id",
+                ResourceSite::MAL => "https://myanimelist.net/anime/producer/$id",
+                default => null,
+            };
+        }
+
+        return null;
     }
 
     /**

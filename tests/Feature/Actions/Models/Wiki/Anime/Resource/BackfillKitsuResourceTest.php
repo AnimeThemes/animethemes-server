@@ -168,7 +168,7 @@ class BackfillKitsuResourceTest extends TestCase
         ExternalResource::factory()->createOne([
             ExternalResource::ATTRIBUTE_SITE => ResourceSite::KITSU,
             ExternalResource::ATTRIBUTE_EXTERNAL_ID => $kitsuId,
-            ExternalResource::ATTRIBUTE_LINK => ResourceSite::KITSU->formatAnimeResourceLink($kitsuId, $kitsuSlug),
+            ExternalResource::ATTRIBUTE_LINK => ResourceSite::KITSU->formatResourceLink(Anime::class, $kitsuId, $kitsuSlug),
 
         ]);
 

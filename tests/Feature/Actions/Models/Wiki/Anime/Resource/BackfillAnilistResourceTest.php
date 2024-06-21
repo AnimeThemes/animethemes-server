@@ -290,7 +290,7 @@ class BackfillAnilistResourceTest extends TestCase
         ExternalResource::factory()->createOne([
             ExternalResource::ATTRIBUTE_SITE => ResourceSite::ANILIST,
             ExternalResource::ATTRIBUTE_EXTERNAL_ID => $anilistId,
-            ExternalResource::ATTRIBUTE_LINK => ResourceSite::ANILIST->formatAnimeResourceLink($anilistId),
+            ExternalResource::ATTRIBUTE_LINK => ResourceSite::ANILIST->formatResourceLink(Anime::class, $anilistId),
         ]);
 
         Http::fake([

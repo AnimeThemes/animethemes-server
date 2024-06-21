@@ -5,6 +5,10 @@ declare(strict_types=1);
 namespace Tests\Unit\Rules\Wiki\Resource;
 
 use App\Enums\Models\Wiki\ResourceSite;
+use App\Models\Wiki\Anime;
+use App\Models\Wiki\Artist;
+use App\Models\Wiki\Song;
+use App\Models\Wiki\Studio;
 use App\Rules\Wiki\Resource\ResourceLinkFormatRule;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
@@ -72,7 +76,7 @@ class ResourceLinkFormatTest extends TestCase
             ResourceSite::YOUTUBE,
         ]);
 
-        $url = $site->formatAnimeResourceLink($this->faker->randomDigitNotNull(), $this->faker->word());
+        $url = $site->formatResourceLink(Anime::class, $this->faker->randomDigitNotNull(), $this->faker->word());
 
         $attribute = $this->faker->word();
 
@@ -103,7 +107,7 @@ class ResourceLinkFormatTest extends TestCase
             ResourceSite::YOUTUBE
         ]);
 
-        $url = $site->formatArtistResourceLink($this->faker->randomDigitNotNull(), $this->faker->word());
+        $url = $site->formatResourceLink(Artist::class, $this->faker->randomDigitNotNull(), $this->faker->word());
 
         $attribute = $this->faker->word();
 
@@ -131,7 +135,7 @@ class ResourceLinkFormatTest extends TestCase
             ResourceSite::AMAZON_MUSIC,
         ]);
 
-        $url = $site->formatSongResourceLink($this->faker->randomDigitNotNull(), $this->faker->word());
+        $url = $site->formatResourceLink(Song::class, $this->faker->randomDigitNotNull(), $this->faker->word());
 
         $attribute = $this->faker->word();
 
@@ -160,7 +164,7 @@ class ResourceLinkFormatTest extends TestCase
             ResourceSite::MAL,
         ]);
 
-        $url = $site->formatStudioResourceLink($this->faker->randomDigitNotNull(), $this->faker->word());
+        $url = $site->formatResourceLink(Studio::class, $this->faker->randomDigitNotNull(), $this->faker->word());
 
         $attribute = $this->faker->word();
 
@@ -194,7 +198,7 @@ class ResourceLinkFormatTest extends TestCase
             ResourceSite::AMAZON_MUSIC,
         ]);
 
-        $url = $site->formatAnimeResourceLink($this->faker->randomDigitNotNull(), $this->faker->word());
+        $url = $site->formatResourceLink(Anime::class, $this->faker->randomDigitNotNull(), $this->faker->word());
 
         $url = Str::of($url)
             ->append('/')

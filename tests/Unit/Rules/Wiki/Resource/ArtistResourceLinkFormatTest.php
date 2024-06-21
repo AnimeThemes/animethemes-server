@@ -5,6 +5,10 @@ declare(strict_types=1);
 namespace Tests\Unit\Rules\Wiki\Resource;
 
 use App\Enums\Models\Wiki\ResourceSite;
+use App\Models\Wiki\Anime;
+use App\Models\Wiki\Artist;
+use App\Models\Wiki\Song;
+use App\Models\Wiki\Studio;
 use App\Rules\Wiki\Resource\ArtistResourceLinkFormatRule;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
@@ -53,7 +57,7 @@ class ArtistResourceLinkFormatTest extends TestCase
             ResourceSite::MAL,
         ]);
 
-        $url = $site->formatArtistResourceLink($this->faker->randomDigitNotNull(), $this->faker->word(), 'null');
+        $url = $site->formatResourceLink(Artist::class, $this->faker->randomDigitNotNull(), $this->faker->word(), 'null');
 
         $attribute = $this->faker->word();
 
@@ -72,7 +76,7 @@ class ArtistResourceLinkFormatTest extends TestCase
      */
     public function testFailsForKitsu(): void
     {
-        $url = ResourceSite::KITSU->formatAnimeResourceLink($this->faker->randomDigitNotNull(), $this->faker->word());
+        $url = ResourceSite::KITSU->formatResourceLink(Anime::class, $this->faker->randomDigitNotNull(), $this->faker->word());
 
         $attribute = $this->faker->word();
 
@@ -101,7 +105,7 @@ class ArtistResourceLinkFormatTest extends TestCase
             ResourceSite::MAL,
         ]);
 
-        $url = $site->formatArtistResourceLink($this->faker->randomDigitNotNull(), $this->faker->word());
+        $url = $site->formatResourceLink(Artist::class, $this->faker->randomDigitNotNull(), $this->faker->word());
 
         $url = Str::of($url)
             ->append('/')
@@ -130,7 +134,7 @@ class ArtistResourceLinkFormatTest extends TestCase
             ResourceSite::MAL,
         ]);
 
-        $url = $site->formatArtistResourceLink($this->faker->randomDigitNotNull(), $this->faker->word());
+        $url = $site->formatResourceLink(Artist::class, $this->faker->randomDigitNotNull(), $this->faker->word());
 
         $url = Str::of($url)
             ->append('/')
@@ -163,7 +167,7 @@ class ArtistResourceLinkFormatTest extends TestCase
             ResourceSite::MAL,
         ]);
 
-        $url = $site->formatAnimeResourceLink($this->faker->randomDigitNotNull(), $this->faker->word());
+        $url = $site->formatResourceLink(Anime::class, $this->faker->randomDigitNotNull(), $this->faker->word());
 
         $attribute = $this->faker->word();
 
@@ -193,7 +197,7 @@ class ArtistResourceLinkFormatTest extends TestCase
             ResourceSite::YOUTUBE,
         ]);
 
-        $url = $site->formatSongResourceLink($this->faker->randomDigitNotNull(), $this->faker->word());
+        $url = $site->formatResourceLink(Song::class, $this->faker->randomDigitNotNull(), $this->faker->word());
 
         $attribute = $this->faker->word();
 
@@ -220,7 +224,7 @@ class ArtistResourceLinkFormatTest extends TestCase
             ResourceSite::MAL,
         ]);
 
-        $url = $site->formatStudioResourceLink($this->faker->randomDigitNotNull(), $this->faker->word());
+        $url = $site->formatResourceLink(Studio::class, $this->faker->randomDigitNotNull(), $this->faker->word());
 
         $attribute = $this->faker->word();
 
