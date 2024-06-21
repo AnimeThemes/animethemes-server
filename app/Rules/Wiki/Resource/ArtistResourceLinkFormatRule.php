@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Rules\Wiki\Resource;
 
 use App\Enums\Models\Wiki\ResourceSite;
+use App\Models\Wiki\Artist;
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Support\Str;
@@ -34,23 +35,9 @@ readonly class ArtistResourceLinkFormatRule implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        $pattern = match ($this->site) {
-            ResourceSite::TWITTER => '/^https:\/\/twitter\.com\/\w+$/',
-            ResourceSite::ANIDB => '/^https:\/\/anidb\.net\/creator\/(?:virtual\/)?\d+$/',
-            ResourceSite::ANILIST => '/^https:\/\/anilist\.co\/staff\/\d+$/',
-            ResourceSite::ANIME_PLANET => '/^https:\/\/www\.anime-planet\.com\/people\/[a-zA-Z0-9-]+$/',
-            ResourceSite::ANN => '/^https:\/\/www\.animenewsnetwork\.com\/encyclopedia\/people\.php\?id=\d+$/',
-            ResourceSite::KITSU => '/$.^/',
-            ResourceSite::MAL => '/^https:\/\/myanimelist\.net\/people\/\d+$/',
-            ResourceSite::SPOTIFY => '/^https:\/\/open\.spotify\.com\/artist\/\w+$/',
-            ResourceSite::YOUTUBE_MUSIC => '/^https:\/\/music\.youtube\.com\/channel\/[\w-]+/',
-            ResourceSite::YOUTUBE => '/^https:\/\/www\.youtube\.com\/\@[\w-]+$/',
-            ResourceSite::APPLE_MUSIC => '/$.^/',
-            ResourceSite::AMAZON_MUSIC => '/$.^/',
-            default => null,
-        };
+        $pattern = $this->site->getPattern(Artist::class);
 
-        if ($pattern !== null && Str::match($pattern, $value) !== $value) {
+        if (Str::match($pattern, $value) !== $value) {
             $fail(__('validation.regex'));
         }
     }

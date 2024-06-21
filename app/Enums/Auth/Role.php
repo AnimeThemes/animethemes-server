@@ -31,13 +31,12 @@ enum Role: string
     public function color(): ?string
     {
         return match ($this) {
-            self::ADMIN => '#1F8B4C',
-            self::DEVELOPER => '#FF69B4',
-            self::ENCODER => '#FFC107',
-            self::PATRON => '#E74C3C',
-            self::PLAYLIST_USER => null,
-            self::WIKI_EDITOR => '#2E5A88',
-            self::WIKI_VIEWER => '#2596D1',
+            Role::ADMIN => '#1F8B4C',
+            Role::DEVELOPER => '#FF69B4',
+            Role::ENCODER => '#FFC107',
+            Role::PATRON => '#E74C3C',
+            Role::WIKI_EDITOR => '#2E5A88',
+            Role::WIKI_VIEWER => '#2596D1',
             default => null,
         };
     }
@@ -50,13 +49,12 @@ enum Role: string
     public function priority(): ?int
     {
         return match ($this) {
-            self::ADMIN => 250000,
-            self::DEVELOPER => 125000,
-            self::ENCODER => 150000,
-            self::PATRON => 50000,
-            self::PLAYLIST_USER => null,
-            self::WIKI_EDITOR => 100000,
-            self::WIKI_VIEWER => 25000,
+            Role::ADMIN => 250000,
+            Role::DEVELOPER => 125000,
+            Role::ENCODER => 150000,
+            Role::PATRON => 50000,
+            Role::WIKI_EDITOR => 100000,
+            Role::WIKI_VIEWER => 25000,
             default => null,
         };
     }

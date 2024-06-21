@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Rules\Wiki\Resource;
 
 use App\Enums\Models\Wiki\ResourceSite;
+use App\Models\Wiki\Anime;
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Support\Str;
@@ -34,29 +35,9 @@ readonly class AnimeResourceLinkFormatRule implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        $pattern = match ($this->site) {
-            ResourceSite::TWITTER => '/^https:\/\/twitter\.com\/\w+$/',
-            ResourceSite::ANIDB => '/^https:\/\/anidb\.net\/anime\/\d+$/',
-            ResourceSite::ANILIST => '/^https:\/\/anilist\.co\/anime\/\d+$/',
-            ResourceSite::ANIME_PLANET => '/^https:\/\/www\.anime-planet\.com\/anime\/[a-zA-Z0-9-]+$/',
-            ResourceSite::ANN => '/^https:\/\/www\.animenewsnetwork\.com\/encyclopedia\/anime\.php\?id=\d+$/',
-            ResourceSite::KITSU => '/^https:\/\/kitsu\.io\/anime\/[a-zA-Z0-9-]+$/',
-            ResourceSite::MAL => '/^https:\/\/myanimelist\.net\/anime\/\d+$/',
-            ResourceSite::SPOTIFY => '/$.^/',
-            ResourceSite::YOUTUBE_MUSIC => '/$.^/',
-            ResourceSite::YOUTUBE => '/^https:\/\/www\.youtube\.com\/\@[\w-]+$/',
-            ResourceSite::APPLE_MUSIC => '/$.^/',
-            ResourceSite::AMAZON_MUSIC => '/$.^/',
-            ResourceSite::CRUNCHYROLL => '/^https:\/\/www\.crunchyroll\.com\/(?:series|watch|null)\/\w+$/',
-            ResourceSite::HIDIVE => '/^https:\/\/www\.hidive\.com\/(?:tv|movies|null)\/[\w-]+$/',
-            ResourceSite::NETFLIX => '/^https:\/\/www\.netflix\.com\/(?:title|watch|null)\/\d+$/',
-            ResourceSite::DISNEY_PLUS => '/^https:\/\/www\.disneyplus\.com\/(?:series|movies|null)\/[\w-]+\/\w+$/',
-            ResourceSite::HULU => '/^https:\/\/www\.hulu\.com\/(?:series|watch|movie|null)\/[\w-]+$/',
-            ResourceSite::AMAZON_PRIME_VIDEO => '/^https:\/\/www\.primevideo\.com\/detail\/\w+$/',
-            default => null,
-        };
+        $pattern = $this->site->getPattern(Anime::class);
 
-        if ($pattern !== null && Str::match($pattern, $value) !== $value) {
+        if (Str::match($pattern, $value) !== $value) {
             $fail(__('validation.regex'));
         }
     }

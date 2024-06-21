@@ -352,4 +352,74 @@ enum ResourceSite: int
 
         return '/^.*/';
     }
+
+    /**
+     * Get the pattern of the resource site by determined model.
+     *
+     * @param  class-string  $modelClass
+     * @return string
+     */
+    public function getPattern(string $modelClass): string
+    {
+        if ($modelClass === Anime::class) {
+            return match ($this) {
+                ResourceSite::TWITTER => '/^https:\/\/twitter\.com\/\w+$/',
+                ResourceSite::ANIDB => '/^https:\/\/anidb\.net\/anime\/\d+$/',
+                ResourceSite::ANILIST => '/^https:\/\/anilist\.co\/anime\/\d+$/',
+                ResourceSite::ANIME_PLANET => '/^https:\/\/www\.anime-planet\.com\/anime\/[a-zA-Z0-9-]+$/',
+                ResourceSite::ANN => '/^https:\/\/www\.animenewsnetwork\.com\/encyclopedia\/anime\.php\?id=\d+$/',
+                ResourceSite::KITSU => '/^https:\/\/kitsu\.io\/anime\/[a-zA-Z0-9-]+$/',
+                ResourceSite::MAL => '/^https:\/\/myanimelist\.net\/anime\/\d+$/',
+                ResourceSite::YOUTUBE => '/^https:\/\/www\.youtube\.com\/\@[\w-]+$/',
+                ResourceSite::CRUNCHYROLL => '/^https:\/\/www\.crunchyroll\.com\/(?:series|watch|null)\/\w+$/',
+                ResourceSite::HIDIVE => '/^https:\/\/www\.hidive\.com\/(?:tv|movies|null)\/[\w-]+$/',
+                ResourceSite::NETFLIX => '/^https:\/\/www\.netflix\.com\/(?:title|watch|null)\/\d+$/',
+                ResourceSite::DISNEY_PLUS => '/^https:\/\/www\.disneyplus\.com\/(?:series|movies|null)\/[\w-]+\/\w+$/',
+                ResourceSite::HULU => '/^https:\/\/www\.hulu\.com\/(?:series|watch|movie|null)\/[\w-]+$/',
+                ResourceSite::AMAZON_PRIME_VIDEO => '/^https:\/\/www\.primevideo\.com\/detail\/\w+$/',
+                default => '/$.^/',
+            };
+        }
+
+        if ($modelClass === Artist::class) {
+            return match ($this) {
+                ResourceSite::TWITTER => '/^https:\/\/twitter\.com\/\w+$/',
+                ResourceSite::ANIDB => '/^https:\/\/anidb\.net\/creator\/(?:virtual\/)?\d+$/',
+                ResourceSite::ANILIST => '/^https:\/\/anilist\.co\/staff\/\d+$/',
+                ResourceSite::ANIME_PLANET => '/^https:\/\/www\.anime-planet\.com\/people\/[a-zA-Z0-9-]+$/',
+                ResourceSite::ANN => '/^https:\/\/www\.animenewsnetwork\.com\/encyclopedia\/people\.php\?id=\d+$/',
+                ResourceSite::MAL => '/^https:\/\/myanimelist\.net\/people\/\d+$/',
+                ResourceSite::SPOTIFY => '/^https:\/\/open\.spotify\.com\/artist\/\w+$/',
+                ResourceSite::YOUTUBE_MUSIC => '/^https:\/\/music\.youtube\.com\/channel\/[\w-]+/',
+                ResourceSite::YOUTUBE => '/^https:\/\/www\.youtube\.com\/\@[\w-]+$/',
+                default => '/$.^/',
+            };
+        }
+
+        if ($modelClass === Song::class) {
+            return match ($this) {
+                ResourceSite::ANIDB => '/^https:\/\/anidb\.net\/song\/\d+$/',
+                ResourceSite::SPOTIFY => '/^https:\/\/open\.spotify\.com\/track\/\w+$/',
+                ResourceSite::YOUTUBE_MUSIC => '/^https:\/\/music\.youtube\.com\/watch\?v=[\w-]+$/',
+                ResourceSite::YOUTUBE => '/^https:\/\/www\.youtube\.com\/watch\?v=[\w-]+$/',
+                ResourceSite::APPLE_MUSIC => '/^https:\/\/music\.apple\.com\/jp\/album\/\d+$/',
+                ResourceSite::AMAZON_MUSIC => '/^https:\/\/music\.amazon\.co\.jp\/tracks\/\w+$/',
+                default => '/$.^/',
+            };
+        }
+
+        if ($modelClass === Studio::class) {
+            return match ($this) {
+                ResourceSite::TWITTER => '/^https:\/\/twitter\.com\/\w+$/',
+                ResourceSite::ANIDB => '/^https:\/\/anidb\.net\/creator\/(?:virtual\/)?\d+$/',
+                ResourceSite::ANILIST => '/^https:\/\/anilist\.co\/studio\/\d+$/',
+                ResourceSite::ANIME_PLANET => '/^https:\/\/www\.anime-planet\.com\/anime\/studios\/[a-zA-Z0-9-]+$/',
+                ResourceSite::ANN => '/^https:\/\/www\.animenewsnetwork\.com\/encyclopedia\/company\.php\?id=\d+$/',
+                ResourceSite::MAL => '/^https:\/\/myanimelist\.net\/anime\/producer\/\d+$/',
+                default => '/$.^/',
+            };
+        }
+
+        return '/$.^/';
+    }
 }
