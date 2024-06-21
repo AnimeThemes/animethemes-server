@@ -24,11 +24,11 @@ class ArtistResourceLinkFormatTest extends TestCase
     use WithFaker;
 
     /**
-     * The Artist Resource Link Format Rule shall pass for sites with no expected pattern.
+     * The Artist Resource Link Format Rule shall fail for sites with no expected pattern.
      *
      * @return void
      */
-    public function testPassesForNoPattern(): void
+    public function testFailsForNoPattern(): void
     {
         $attribute = $this->faker->word();
 
@@ -37,7 +37,7 @@ class ArtistResourceLinkFormatTest extends TestCase
             [$attribute => new ArtistResourceLinkFormatRule(ResourceSite::OFFICIAL_SITE)],
         );
 
-        static::assertTrue($validator->passes());
+        static::assertFalse($validator->passes());
     }
 
     /**
@@ -55,6 +55,9 @@ class ArtistResourceLinkFormatTest extends TestCase
             ResourceSite::ANIME_PLANET,
             ResourceSite::ANN,
             ResourceSite::MAL,
+            ResourceSite::SPOTIFY,
+            ResourceSite::YOUTUBE_MUSIC,
+            ResourceSite::YOUTUBE,
         ]);
 
         $url = $site->formatResourceLink(Artist::class, $this->faker->randomDigitNotNull(), $this->faker->word(), 'null');
@@ -67,25 +70,6 @@ class ArtistResourceLinkFormatTest extends TestCase
         );
 
         static::assertTrue($validator->passes());
-    }
-
-    /**
-     * The Artist Resource Link Format Rule shall fail for kitsu resources.
-     *
-     * @return void
-     */
-    public function testFailsForKitsu(): void
-    {
-        $url = ResourceSite::KITSU->formatResourceLink(Anime::class, $this->faker->randomDigitNotNull(), $this->faker->word());
-
-        $attribute = $this->faker->word();
-
-        $validator = Validator::make(
-            [$attribute => $url],
-            [$attribute => new ArtistResourceLinkFormatRule(ResourceSite::KITSU)],
-        );
-
-        static::assertFalse($validator->passes());
     }
 
     /**

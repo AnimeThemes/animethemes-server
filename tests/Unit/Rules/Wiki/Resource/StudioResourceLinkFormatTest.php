@@ -24,11 +24,11 @@ class StudioResourceLinkFormatTest extends TestCase
     use WithFaker;
 
     /**
-     * The Studio Resource Link Format Rule shall pass for sites with no expected pattern.
+     * The Studio Resource Link Format Rule shall fail for sites with no expected pattern.
      *
      * @return void
      */
-    public function testPassesForNoPattern(): void
+    public function testFailsForNoPattern(): void
     {
         $attribute = $this->faker->word();
 
@@ -37,7 +37,7 @@ class StudioResourceLinkFormatTest extends TestCase
             [$attribute => new StudioResourceLinkFormatRule(ResourceSite::OFFICIAL_SITE)],
         );
 
-        static::assertTrue($validator->passes());
+        static::assertFalse($validator->passes());
     }
 
     /**
@@ -67,25 +67,6 @@ class StudioResourceLinkFormatTest extends TestCase
         );
 
         static::assertTrue($validator->passes());
-    }
-
-    /**
-     * The Studio Resource Link Format Rule shall fail for kitsu resources.
-     *
-     * @return void
-     */
-    public function testFailsForKitsu(): void
-    {
-        $url = ResourceSite::KITSU->formatResourceLink(Anime::class, $this->faker->randomDigitNotNull(), $this->faker->word());
-
-        $attribute = $this->faker->word();
-
-        $validator = Validator::make(
-            [$attribute => $url],
-            [$attribute => new StudioResourceLinkFormatRule(ResourceSite::KITSU)],
-        );
-
-        static::assertFalse($validator->passes());
     }
 
     /**

@@ -24,11 +24,11 @@ class AnimeResourceLinkFormatTest extends TestCase
     use WithFaker;
 
     /**
-     * The Anime Resource Link Format Rule shall pass for sites with no expected pattern.
+     * The Anime Resource Link Format Rule shall fail for sites with no expected pattern.
      *
      * @return void
      */
-    public function testPassesForNoPattern(): void
+    public function testFailsForNoPattern(): void
     {
         $attribute = $this->faker->word();
 
@@ -37,7 +37,7 @@ class AnimeResourceLinkFormatTest extends TestCase
             [$attribute => new AnimeResourceLinkFormatRule(ResourceSite::OFFICIAL_SITE)],
         );
 
-        static::assertTrue($validator->passes());
+        static::assertFalse($validator->passes());
     }
 
     /**

@@ -183,19 +183,9 @@ class ResourceLinkFormatTest extends TestCase
      */
     public function testFailsForTrailingSlash(): void
     {
+        // Resource sites that can be attached for all models.
         $site = Arr::random([
-            ResourceSite::TWITTER,
             ResourceSite::ANIDB,
-            ResourceSite::ANILIST,
-            ResourceSite::ANIME_PLANET,
-            ResourceSite::ANN,
-            ResourceSite::KITSU,
-            ResourceSite::MAL,
-            ResourceSite::SPOTIFY,
-            ResourceSite::YOUTUBE,
-            ResourceSite::YOUTUBE_MUSIC,
-            ResourceSite::APPLE_MUSIC,
-            ResourceSite::AMAZON_MUSIC,
         ]);
 
         $url = $site->formatResourceLink(Anime::class, $this->faker->randomDigitNotNull(), $this->faker->word());

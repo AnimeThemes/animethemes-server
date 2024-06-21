@@ -228,8 +228,9 @@ enum ResourceSite: int
                 ResourceSite::ANIME_PLANET => "https://www.anime-planet.com/people/$slug",
                 ResourceSite::ANN => "https://www.animenewsnetwork.com/encyclopedia/people.php?id=$id",
                 ResourceSite::MAL => "https://myanimelist.net/people/$id",
-                ResourceSite::YOUTUBE => "https://www.youtube.com/@$slug",
                 ResourceSite::SPOTIFY => "https://open.spotify.com/artist/$slug",
+                ResourceSite::YOUTUBE_MUSIC => "https://music.youtube.com/channel/$slug",
+                ResourceSite::YOUTUBE => "https://www.youtube.com/@$slug",
                 default => null,
             };
         }
@@ -334,10 +335,10 @@ enum ResourceSite: int
     /**
      * Get the pattern of the resource site by determined model.
      *
-     * @param  class-string  $modelClass
+     * @param  class-string|null  $modelClass
      * @return string|null
      */
-    public function getPattern(string $modelClass): ?string
+    public function getPattern(?string $modelClass): ?string
     {
         if ($modelClass === Anime::class) {
             return match ($this) {
@@ -355,6 +356,7 @@ enum ResourceSite: int
                 ResourceSite::DISNEY_PLUS => '/^https:\/\/www\.disneyplus\.com\/(?:series|movies|null)\/[\w-]+\/\w+$/',
                 ResourceSite::HULU => '/^https:\/\/www\.hulu\.com\/(?:series|watch|movie|null)\/[\w-]+$/',
                 ResourceSite::AMAZON_PRIME_VIDEO => '/^https:\/\/www\.primevideo\.com\/detail\/\w+$/',
+                ResourceSite::OFFICIAL_SITE => null,
                 default => '/$.^/',
             };
         }
@@ -370,6 +372,7 @@ enum ResourceSite: int
                 ResourceSite::SPOTIFY => '/^https:\/\/open\.spotify\.com\/artist\/\w+$/',
                 ResourceSite::YOUTUBE_MUSIC => '/^https:\/\/music\.youtube\.com\/channel\/[\w-]+/',
                 ResourceSite::YOUTUBE => '/^https:\/\/www\.youtube\.com\/\@[\w-]+$/',
+                ResourceSite::OFFICIAL_SITE => null,
                 default => '/$.^/',
             };
         }
@@ -382,6 +385,7 @@ enum ResourceSite: int
                 ResourceSite::YOUTUBE => '/^https:\/\/www\.youtube\.com\/watch\?v=[\w-]+$/',
                 ResourceSite::APPLE_MUSIC => '/^https:\/\/music\.apple\.com\/jp\/album\/\d+$/',
                 ResourceSite::AMAZON_MUSIC => '/^https:\/\/music\.amazon\.co\.jp\/tracks\/\w+$/',
+                ResourceSite::OFFICIAL_SITE => null,
                 default => '/$.^/',
             };
         }
@@ -394,10 +398,11 @@ enum ResourceSite: int
                 ResourceSite::ANIME_PLANET => '/^https:\/\/www\.anime-planet\.com\/anime\/studios\/[a-zA-Z0-9-]+$/',
                 ResourceSite::ANN => '/^https:\/\/www\.animenewsnetwork\.com\/encyclopedia\/company\.php\?id=\d+$/',
                 ResourceSite::MAL => '/^https:\/\/myanimelist\.net\/anime\/producer\/\d+$/',
+                ResourceSite::OFFICIAL_SITE => null,
                 default => '/$.^/',
             };
         }
 
-        return '/$.^/';
+        return null;
     }
 }

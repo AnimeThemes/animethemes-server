@@ -24,11 +24,11 @@ class SongResourceLinkFormatTest extends TestCase
     use WithFaker;
 
     /**
-     * The Song Resource Link Format Rule shall pass for sites with no expected pattern.
+     * The Song Resource Link Format Rule shall fail for sites with no expected pattern.
      *
      * @return void
      */
-    public function testPassesForNoPattern(): void
+    public function testFailsForNoPattern(): void
     {
         $attribute = $this->faker->word();
 
@@ -37,7 +37,7 @@ class SongResourceLinkFormatTest extends TestCase
             [$attribute => new SongResourceLinkFormatRule(ResourceSite::OFFICIAL_SITE)],
         );
 
-        static::assertTrue($validator->passes());
+        static::assertFalse($validator->passes());
     }
 
     /**
@@ -49,6 +49,7 @@ class SongResourceLinkFormatTest extends TestCase
     {
         /** @var ResourceSite $site */
         $site = Arr::random([
+            ResourceSite::ANIDB,
             ResourceSite::SPOTIFY,
             ResourceSite::YOUTUBE_MUSIC,
             ResourceSite::YOUTUBE,
@@ -109,7 +110,12 @@ class SongResourceLinkFormatTest extends TestCase
     {
         /** @var ResourceSite $site */
         $site = Arr::random([
+            ResourceSite::ANIDB,
+            ResourceSite::SPOTIFY,
+            ResourceSite::YOUTUBE_MUSIC,
+            ResourceSite::YOUTUBE,
             ResourceSite::APPLE_MUSIC,
+            ResourceSite::AMAZON_MUSIC,
         ]);
 
         $url = $site->formatResourceLink(Song::class, $this->faker->randomDigitNotNull(), $this->faker->word());
@@ -139,10 +145,6 @@ class SongResourceLinkFormatTest extends TestCase
         /** @var ResourceSite $site */
         $site = Arr::random([
             ResourceSite::ANIDB,
-            ResourceSite::ANILIST,
-            ResourceSite::ANIME_PLANET,
-            ResourceSite::ANN,
-            ResourceSite::MAL,
             ResourceSite::YOUTUBE,
         ]);
 
@@ -168,11 +170,8 @@ class SongResourceLinkFormatTest extends TestCase
         /** @var ResourceSite $site */
         $site = Arr::random([
             ResourceSite::ANIDB,
-            ResourceSite::ANILIST,
-            ResourceSite::ANIME_PLANET,
-            ResourceSite::ANN,
-            ResourceSite::MAL,
             ResourceSite::SPOTIFY,
+            ResourceSite::YOUTUBE_MUSIC,
             ResourceSite::YOUTUBE,
         ]);
 
@@ -197,10 +196,7 @@ class SongResourceLinkFormatTest extends TestCase
     {
         /** @var ResourceSite $site */
         $site = Arr::random([
-            ResourceSite::ANILIST,
-            ResourceSite::ANIME_PLANET,
-            ResourceSite::ANN,
-            ResourceSite::MAL,
+            ResourceSite::ANIDB,
         ]);
 
         $url = $site->formatResourceLink(Studio::class, $this->faker->randomDigitNotNull(), $this->faker->word());
