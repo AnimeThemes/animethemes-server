@@ -433,6 +433,9 @@ return [
             ],
         ],
     ],
+    'buttons' => [
+        'add' => 'Add',
+    ],
     'dashboards' => [
         'icon' => [
             'admin' => 'heroicon-m-chart-bar',
