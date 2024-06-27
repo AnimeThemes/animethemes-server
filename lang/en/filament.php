@@ -833,6 +833,12 @@ return [
         ],
     ],
     'filters' => [
+        'action_log' => [
+            'finished_at_from' => 'Finished At - From',
+            'finished_at_to' => 'Finished At - To',
+            'happened_at_from' => 'Happened At - From',
+            'happened_at_to' => 'Happened At - To',
+        ],
         'anime' => [
             'year_from' => 'Year - From',
             'year_to' => 'Year - To',

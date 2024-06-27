@@ -7,6 +7,7 @@ namespace App\Filament\Resources\Admin;
 use App\Enums\Actions\ActionLogStatus;
 use App\Enums\Auth\Role;
 use App\Filament\Components\Columns\TextColumn;
+use App\Filament\Components\Filters\DateFilter;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Admin\ActionLog\Pages\ListActionLogs;
@@ -21,6 +22,7 @@ use Filament\Forms\Form;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 
@@ -146,7 +148,8 @@ class ActionLog extends BaseResource
 
                 TextColumn::make(ActionLogModel::ATTRIBUTE_NAME)
                     ->label(__('filament.fields.action_log.name'))
-                    ->sortable(),
+                    ->sortable()
+                    ->searchable(),
 
                 TextColumn::make(ActionLogModel::ATTRIBUTE_USER)
                     ->label(__('filament.resources.singularLabel.user'))
@@ -261,7 +264,17 @@ class ActionLog extends BaseResource
      */
     public static function getFilters(): array
     {
-        return [];
+        return [
+            SelectFilter::make(ActionLogModel::ATTRIBUTE_STATUS)
+                ->label(__('filament.fields.action_log.status'))
+                ->options(ActionLogStatus::asSelectArray()),
+
+            DateFilter::make(BaseModel::ATTRIBUTE_CREATED_AT)
+                ->labels(__('filament.filters.action_log.happened_at_from'),  __('filament.filters.action_log.happened_at_to')),
+
+            DateFilter::make(ActionLogModel::ATTRIBUTE_FINISHED_AT)
+                ->labels(__('filament.filters.action_log.finished_at_from'),  __('filament.filters.action_log.finished_at_to')),
+        ];
     }
 
     /**
