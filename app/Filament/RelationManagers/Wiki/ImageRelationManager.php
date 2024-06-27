@@ -107,4 +107,14 @@ abstract class ImageRelationManager extends BaseRelationManager
             ImageResource::getHeaderActions(),
         );
     }
+
+    /**
+     * Determine whether the related model can be created.
+     *
+     * @return bool
+     */
+    protected function canCreate(): bool
+    {
+        return false;
+    }
 }

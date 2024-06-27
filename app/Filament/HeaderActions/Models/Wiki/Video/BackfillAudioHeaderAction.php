@@ -80,7 +80,7 @@ class BackfillAudioHeaderAction extends BaseHeaderAction implements ShouldQueue
                     ->sendToDatabase(Auth::user());
             }
         } catch (Exception $e) {
-            //$this->markAsFailed($video, $e);
+            $this->failedLog($e);
         }
     }
 

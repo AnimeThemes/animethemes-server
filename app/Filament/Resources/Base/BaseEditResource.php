@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Base;
 
+use App\Filament\HeaderActions\Base\DeleteHeaderAction;
+use App\Filament\HeaderActions\Base\ForceDeleteHeaderAction;
+use App\Filament\HeaderActions\Base\RestoreHeaderAction;
+use App\Filament\HeaderActions\Base\ViewHeaderAction;
+use App\Models\Admin\ActionLog;
 use Filament\Actions\ActionGroup;
-use Filament\Actions\DeleteAction;
-use Filament\Actions\ForceDeleteAction;
-use Filament\Actions\RestoreAction;
-use Filament\Actions\ViewAction;
 use Filament\Resources\Pages\EditRecord;
 
 /**
@@ -26,23 +27,28 @@ abstract class BaseEditResource extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            ViewAction::make()
-                ->label(__('filament.actions.base.view'))
-                ->hidden(fn ($livewire) => $livewire instanceof BaseViewResource),
+            ViewHeaderAction::make(),
 
             ActionGroup::make([
-                DeleteAction::make()
+                DeleteHeaderAction::make()
                     ->label(__('filament.actions.base.delete')),
 
-                ForceDeleteAction::make()
-                    ->label(__('filament.actions.base.forcedelete'))
-                    ->visible(true),
+                ForceDeleteHeaderAction::make(),
             ])
                 ->icon('heroicon-o-trash')
                 ->color('danger'),
 
-            RestoreAction::make()
-                ->label(__('filament.actions.base.restore')),
+            RestoreHeaderAction::make(),
         ];
+    }
+
+    /**
+     * Run after the record is edited.
+     *
+     * @return void
+     */
+    protected function afterSave(): void
+    {
+        ActionLog::modelUpdated($this->getRecord());
     }
 }

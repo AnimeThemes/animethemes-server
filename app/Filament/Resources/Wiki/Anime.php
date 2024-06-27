@@ -352,14 +352,19 @@ class Anime extends BaseResource
     public static function getRelations(): array
     {
         return [
-            RelationGroup::make(static::getLabel(), [
-                SynonymAnimeRelationManager::class,
-                ThemeAnimeRelationManager::class,
-                SeriesAnimeRelationManager::class,
-                ResourceAnimeRelationManager::class,
-                ImageAnimeRelationManager::class,
-                StudioAnimeRelationManager::class,
-            ]),
+            RelationGroup::make(static::getLabel(),
+                array_merge(
+                    [
+                        SynonymAnimeRelationManager::class,
+                        ThemeAnimeRelationManager::class,
+                        SeriesAnimeRelationManager::class,
+                        ResourceAnimeRelationManager::class,
+                        ImageAnimeRelationManager::class,
+                        StudioAnimeRelationManager::class,
+                    ],
+                    parent::getBaseRelations(),
+                )
+            ),
         ];
     }
 

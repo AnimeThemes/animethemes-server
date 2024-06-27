@@ -8,6 +8,7 @@ use App\Actions\Discord\DiscordThreadAction as DiscordThreadActionAction;
 use App\Filament\Actions\BaseAction;
 use App\Models\Discord\DiscordThread;
 use App\Models\Wiki\Anime;
+use Exception;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 
@@ -32,9 +33,15 @@ class DiscordThreadAction extends BaseAction
 
         $this->fillForm(fn (Anime $record): array => ['name' => $record->getName()]);
 
-        $this->action(fn (Anime $record, array $data) => (new DiscordThreadActionAction())->handle($record, $data));
+        $this->action(function (Anime $record, array $data) {
+            $action = (new DiscordThreadActionAction())->handle($record, $data);
+
+            if ($action instanceof Exception) {
+                $this->failedLog($action);
+            }
+        });
     }
-    
+
     /**
      * Get the fields available on the action.
      *

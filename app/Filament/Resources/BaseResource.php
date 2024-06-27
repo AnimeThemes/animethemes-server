@@ -4,22 +4,22 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources;
 
+use App\Filament\Actions\Base\DeleteAction;
+use App\Filament\Actions\Base\DetachAction;
+use App\Filament\Actions\Base\EditAction;
+use App\Filament\Actions\Base\ForceDeleteAction;
+use App\Filament\Actions\Base\RestoreAction;
+use App\Filament\Actions\Base\ViewAction;
+use App\Filament\BulkActions\Base\DeleteBulkAction;
+use App\Filament\BulkActions\Base\ForceDeleteBulkAction;
+use App\Filament\BulkActions\Base\RestoreBulkAction;
 use App\Filament\Components\Filters\DateFilter;
-use App\Filament\RelationManagers\BaseRelationManager;
+use App\Filament\RelationManagers\Base\ActionLogRelationManager;
 use App\Models\BaseModel;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Resources\Resource;
 use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Actions\BulkActionGroup;
-use Filament\Tables\Actions\DeleteAction;
-use Filament\Tables\Actions\DeleteBulkAction;
-use Filament\Tables\Actions\DetachAction;
-use Filament\Tables\Actions\EditAction;
-use Filament\Tables\Actions\ForceDeleteAction;
-use Filament\Tables\Actions\ForceDeleteBulkAction;
-use Filament\Tables\Actions\RestoreAction;
-use Filament\Tables\Actions\RestoreBulkAction;
-use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -121,30 +121,21 @@ abstract class BaseResource extends Resource
     public static function getActions(): array
     {
         return [
-            ViewAction::make()
-                ->label(__('filament.actions.base.view')),
+            ViewAction::make(),
 
-            EditAction::make()
-                ->label(__('filament.actions.base.edit')),
+            EditAction::make(),
 
             ActionGroup::make([
-                DetachAction::make()
-                    ->label(__('filament.actions.base.detach'))
-                    ->hidden(fn ($livewire) => !($livewire instanceof BaseRelationManager))
-                    ->authorize('delete'),
+                DetachAction::make(),
 
-                DeleteAction::make()
-                    ->label(__('filament.actions.base.delete')),
+                DeleteAction::make(),
 
-                ForceDeleteAction::make()
-                    ->label(__('filament.actions.base.forcedelete'))
-                    ->visible(true),
+                ForceDeleteAction::make(),
             ])
                 ->icon('heroicon-o-trash')
                 ->color('danger'),
 
-            RestoreAction::make()
-                ->label(__('filament.actions.base.restore')),
+            RestoreAction::make(),
         ];
     }
 
@@ -159,18 +150,11 @@ abstract class BaseResource extends Resource
     {
         return [
             BulkActionGroup::make([
-                DeleteBulkAction::make()
-                    ->label(__('filament.bulk_actions.base.delete'))
-                    ->authorize('delete', (new static::$model)),
+                DeleteBulkAction::make(),
 
-                ForceDeleteBulkAction::make()
-                    ->label(__('filament.bulk_actions.base.forcedelete'))
-                    ->hidden(false)
-                    ->authorize('forcedelete', (new static::$model)),
+                ForceDeleteBulkAction::make(),
 
-                RestoreBulkAction::make()
-                    ->label(__('filament.bulk_actions.base.restore'))
-                    ->authorize('restore', (new static::$model)),
+                RestoreBulkAction::make(),
             ]),
         ];
     }
@@ -200,6 +184,20 @@ abstract class BaseResource extends Resource
             ->withoutGlobalScopes([
                 SoftDeletingScope::class,
             ]);
+    }
+
+    /**
+     * Get the base relationships available for all resources.
+     *
+     * @return array
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getBaseRelations(): array
+    {
+        return [
+            ActionLogRelationManager::class,
+        ];
     }
 
     /**

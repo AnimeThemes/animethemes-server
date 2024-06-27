@@ -277,13 +277,18 @@ class Artist extends BaseResource
     public static function getRelations(): array
     {
         return [
-            RelationGroup::make(static::getLabel(), [
-                SongArtistRelationManager::class,
-                ResourceArtistRelationManager::class,
-                MemberArtistRelationManager::class,
-                GroupArtistRelationManager::class,
-                ImageArtistRelationManager::class,
-            ]),
+            RelationGroup::make(static::getLabel(),
+                array_merge(
+                    [
+                        SongArtistRelationManager::class,
+                        ResourceArtistRelationManager::class,
+                        MemberArtistRelationManager::class,
+                        GroupArtistRelationManager::class,
+                        ImageArtistRelationManager::class,
+                    ],
+                    parent::getBaseRelations(),
+                )
+            ),
         ];
     }
 

@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Filament\BulkActions;
 
+use App\Concerns\Filament\Actions\HasActionLogs;
 use App\Models\BaseModel;
+use Filament\Forms\Form;
 use Filament\Support\Enums\MaxWidth;
 use Filament\Tables\Actions\BulkAction;
 use Illuminate\Database\Eloquent\Collection;
@@ -16,6 +18,8 @@ use Illuminate\Database\Eloquent\Collection;
  */
 abstract class BaseBulkAction extends BulkAction
 {
+    use HasActionLogs;
+
     /**
      * Initial setup for the action.
      *
@@ -26,6 +30,14 @@ abstract class BaseBulkAction extends BulkAction
         parent::setUp();
 
         $this->requiresConfirmation();
+
+        $this->before(function ($action) {
+            foreach ($this->getRecords() as $record) {
+                $this->createActionLog($action, $record, false);
+            }
+        });
+
+        $this->after(fn () => $this->batchFinishedLog());
 
         $this->modalWidth(MaxWidth::FourExtraLarge);
 

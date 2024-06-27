@@ -8,6 +8,7 @@ use App\Filament\Resources\BaseResource;
 use App\Models\BaseModel;
 use Filament\Infolists\Components\TextEntry as ComponentsTextEntry;
 use Filament\Support\Enums\FontWeight;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 
 /**
@@ -28,7 +29,7 @@ class TextEntry extends ComponentsTextEntry
         return $this
             ->weight(FontWeight::SemiBold)
             ->html()
-            ->url(function (BaseModel $record) use ($resourceRelated, $relation, $shouldUseName) {
+            ->url(function (BaseModel|Model $record) use ($resourceRelated, $relation, $shouldUseName) {
                 if (!empty($relation)) {
                     foreach (explode('.', $relation) as $element) {
                         $record = Arr::get($record, $element);

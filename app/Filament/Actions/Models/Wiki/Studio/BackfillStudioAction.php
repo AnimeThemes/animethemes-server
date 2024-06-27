@@ -16,7 +16,6 @@ use Filament\Forms\Components\Section;
 use Filament\Forms\Form;
 use Filament\Notifications\Actions\Action as NotificationAction;
 use Filament\Notifications\Notification;
-use Filament\Support\Enums\MaxWidth;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
@@ -45,8 +44,6 @@ class BackfillStudioAction extends BaseAction implements ShouldQueue
 
         $this->label(__('filament.actions.studio.backfill.name'));
 
-        $this->modalWidth(MaxWidth::FourExtraLarge);
-
         $this->authorize('update', Studio::class);
 
         $this->action(fn (Studio $record, array $data) => $this->handle($record, $data));
@@ -62,7 +59,7 @@ class BackfillStudioAction extends BaseAction implements ShouldQueue
     public function handle(Studio $studio, array $fields): void
     {
         if ($studio->resources()->doesntExist()) {
-            //$this->markAsFailed($studio, __('filament.actions.studio.backfill.message.resource_required_failure'));
+            $this->failedLog(__('filament.actions.studio.backfill.message.resource_required_failure'));
             return;
         }
 
@@ -84,7 +81,7 @@ class BackfillStudioAction extends BaseAction implements ShouldQueue
                 }
             }
         } catch (Exception $e) {
-            //$this->markAsFailed($studio, $e);
+            $this->failedLog($e);
         } finally {
             // Try not to upset third-party APIs
             Sleep::for(rand(3, 5))->second();

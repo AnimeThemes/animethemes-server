@@ -6,6 +6,7 @@ namespace App\Actions\Discord;
 
 use App\Models\Discord\DiscordThread;
 use App\Models\Wiki\Anime;
+use Exception;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
@@ -21,32 +22,38 @@ class DiscordThreadAction
      *
      * @param  Anime  $anime
      * @param  array  $fields
-     *
-     * @return void
+     * @return Exception|null
      */
-    public function handle(Anime $anime, array $fields): void
+    public function handle(Anime $anime, array $fields): ?Exception
     {
-        $anime->load(Anime::RELATION_IMAGES);
+        try {
+            $anime->load(Anime::RELATION_IMAGES);
 
-        $anime->name = Arr::get($fields, 'name');
+            $anime->name = Arr::get($fields, 'name');
 
-        /** @var \Illuminate\Filesystem\FilesystemAdapter */
-        $fs = Storage::disk(Config::get('image.disk'));
+            /** @var \Illuminate\Filesystem\FilesystemAdapter */
+            $fs = Storage::disk(Config::get('image.disk'));
 
-        $anime->images->each(fn ($image) => Arr::set($image, 'link', $fs->url($image->path)));
+            $anime->images->each(fn ($image) => Arr::set($image, 'link', $fs->url($image->path)));
 
-        $response = Http::withHeaders(['x-api-key' => Config::get('services.discord.api_key')])
-            ->acceptJson()
-            ->post(Config::get('services.discord.api_url') . '/thread', $anime->toArray())
-            ->throw()
-            ->json();
+            $response = Http::withHeaders(['x-api-key' => Config::get('services.discord.api_key')])
+                ->acceptJson()
+                ->post(Config::get('services.discord.api_url') . '/thread', $anime->toArray())
+                ->throw()
+                ->json();
 
-        if (Arr::has($response, 'id')) {
-            DiscordThread::query()->create([
-                DiscordThread::ATTRIBUTE_NAME => Arr::get($response, 'name'),
-                DiscordThread::ATTRIBUTE_ID => intval(Arr::get($response, 'id')),
-                DiscordThread::ATTRIBUTE_ANIME => $anime->getKey(),
-            ]);
+            if (Arr::has($response, 'id')) {
+                DiscordThread::query()->create([
+                    DiscordThread::ATTRIBUTE_NAME => Arr::get($response, 'name'),
+                    DiscordThread::ATTRIBUTE_ID => intval(Arr::get($response, 'id')),
+                    DiscordThread::ATTRIBUTE_ANIME => $anime->getKey(),
+                ]);
+            }
+
+            return null;
+
+        } catch (Exception $e) {
+            return $e;
         }
     }
 

@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Enums\Actions\ActionLogStatus;
 use App\Enums\Models\List\PlaylistVisibility;
 use App\Enums\Models\Wiki\AnimeMediaFormat;
 use App\Enums\Models\Wiki\AnimeSeason;
@@ -33,6 +34,11 @@ return [
         AnimeSynonymType::NATIVE->name => 'Native',
         AnimeSynonymType::ENGLISH->name => 'English',
         AnimeSynonymType::SHORT->name => 'Short',
+    ],
+    ActionLogStatus::class => [
+        ActionLogStatus::RUNNING->name => 'Running',
+        ActionLogStatus::FAILED->name => 'Failed',
+        ActionLogStatus::FINISHED->name => 'Finished',
     ],
     ImageFacet::class => [
         ImageFacet::COVER_SMALL->name => 'Small Cover',

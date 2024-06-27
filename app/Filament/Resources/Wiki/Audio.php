@@ -12,7 +12,6 @@ use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Filters\NumberFilter;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\BaseResource;
-use App\Filament\Resources\Wiki\Audio\Pages\CreateAudio;
 use App\Filament\Resources\Wiki\Audio\Pages\EditAudio;
 use App\Filament\Resources\Wiki\Audio\Pages\ListAudios;
 use App\Filament\Resources\Wiki\Audio\Pages\ViewAudio;
@@ -219,9 +218,14 @@ class Audio extends BaseResource
     public static function getRelations(): array
     {
         return [
-            RelationGroup::make(static::getLabel(), [
-                VideoAudioRelationManager::class,
-            ]),
+            RelationGroup::make(static::getLabel(),
+                array_merge(
+                    [
+                        VideoAudioRelationManager::class,
+                    ],
+                    parent::getBaseRelations(),
+                )
+            ),
         ];
     }
 
@@ -302,6 +306,16 @@ class Audio extends BaseResource
     }
 
     /**
+     * Determine whether the related model can be created.
+     *
+     * @return bool
+     */
+    public static function canCreate(): bool
+    {
+        return false;
+    }
+
+    /**
      * Get the pages available for the resource.
      *
      * @return array
@@ -312,7 +326,6 @@ class Audio extends BaseResource
     {
         return [
             'index' => ListAudios::route('/'),
-            'create' => CreateAudio::route('/create'),
             'view' => ViewAudio::route('/{record:audio_id}'),
             'edit' => EditAudio::route('/{record:audio_id}/edit'),
         ];

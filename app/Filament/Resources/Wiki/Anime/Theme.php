@@ -473,9 +473,14 @@ class Theme extends BaseResource
     public static function getRelations(): array
     {
         return [
-            RelationGroup::make(static::getLabel(), [
-                EntryThemeRelationManager::class,
-            ]),
+            RelationGroup::make(static::getLabel(),
+                array_merge(
+                    [
+                        EntryThemeRelationManager::class,
+                    ],
+                    parent::getBaseRelations(),
+                )
+            ),
         ];
     }
 

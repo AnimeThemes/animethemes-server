@@ -24,6 +24,7 @@ use Filament\Forms\Form;
 use Filament\Forms\Set;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Infolist;
+use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Table;
 use Illuminate\Support\Arr;
@@ -228,7 +229,14 @@ class DiscordThread extends BaseResource
      */
     public static function getRelations(): array
     {
-        return [];
+        return [
+            RelationGroup::make(static::getLabel(),
+                array_merge(
+                    [],
+                    parent::getBaseRelations(),
+                )
+            ),
+        ];
     }
 
     /**

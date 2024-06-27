@@ -447,6 +447,14 @@ return [
         ],
     ],
     'fields' => [
+        'action_log' => [
+            'name' => 'Name',
+            'target' => 'Target',
+            'status' => 'Status',
+            'happened_at' => 'Happened At',
+            'finished_at' => 'Finished At',
+            'exception' => 'Exception',
+        ],
         'anime_synonym' => [
             'text' => [
                 'help' => 'For alternative titles, licensed titles, common abbreviations and/or shortenings',
@@ -874,6 +882,7 @@ return [
             'wiki' => 'Wiki',
         ],
         'icon' => [
+            'action_logs' => 'heroicon-o-rectangle-stack',
             'anime_synonyms' => 'heroicon-o-globe-alt',
             'anime_theme_entries' => 'heroicon-o-list-bullet',
             'anime_themes' => 'heroicon-o-list-bullet',
@@ -902,6 +911,7 @@ return [
             'videos' => 'heroicon-o-film',
         ],
         'label' => [
+            'action_logs' => 'Action Logs',
             'anime_synonyms' => 'Anime Synonyms',
             'anime_theme_entries' => 'Anime Theme Entries',
             'anime_themes' => 'Anime Themes',
@@ -930,6 +940,7 @@ return [
             'videos' => 'Videos',
         ],
         'singularLabel' => [
+            'action_log' => 'Action Log',
             'anime_synonym' => 'Anime Synonym',
             'anime_theme_entry' => 'Anime Theme Entry',
             'anime_theme' => 'Anime Theme',

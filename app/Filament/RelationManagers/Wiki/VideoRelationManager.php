@@ -107,4 +107,14 @@ abstract class VideoRelationManager extends BaseRelationManager
             VideoResource::getHeaderActions(),
         );
     }
+
+    /**
+     * Determine whether the related model can be created.
+     *
+     * @return bool
+     */
+    protected function canCreate(): bool
+    {
+        return false;
+    }
 }

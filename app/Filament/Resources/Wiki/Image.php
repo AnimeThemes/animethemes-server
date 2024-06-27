@@ -9,7 +9,6 @@ use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\Select;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\BaseResource;
-use App\Filament\Resources\Wiki\Image\Pages\CreateImage;
 use App\Filament\Resources\Wiki\Image\Pages\EditImage;
 use App\Filament\Resources\Wiki\Image\Pages\ListImages;
 use App\Filament\Resources\Wiki\Image\Pages\ViewImage;
@@ -208,12 +207,17 @@ class Image extends BaseResource
     public static function getRelations(): array
     {
         return [
-            RelationGroup::make(static::getLabel(), [
-                AnimeImageRelationManager::class,
-                ArtistImageRelationManager::class,
-                PlaylistImageRelationManager::class,
-                StudioImageRelationManager::class,
-            ]),
+            RelationGroup::make(static::getLabel(),
+                array_merge(
+                    [
+                        AnimeImageRelationManager::class,
+                        ArtistImageRelationManager::class,
+                        PlaylistImageRelationManager::class,
+                        StudioImageRelationManager::class,
+                    ],
+                    parent::getBaseRelations(),
+                )
+            ),
         ];
     }
 
@@ -273,12 +277,22 @@ class Image extends BaseResource
     *
     * @noinspection PhpMissingParentCallCommonInspection
     */
-   public static function getHeaderActions(): array
-   {
-       return [
+    public static function getHeaderActions(): array
+    {
+        return [
             UploadImageTableAction::make('upload-image'),
-       ];
-   }
+        ];
+    }
+
+    /**
+     * Determine whether the related model can be created.
+     *
+     * @return bool
+     */
+    public static function canCreate(): bool
+    {
+        return false;
+    }
 
     /**
      * Get the pages available for the resource.
@@ -291,7 +305,6 @@ class Image extends BaseResource
     {
         return [
             'index' => ListImages::route('/'),
-            'create' => CreateImage::route('/create'),
             'view' => ViewImage::route('/{record:image_id}'),
             'edit' => EditImage::route('/{record:image_id}/edit'),
         ];

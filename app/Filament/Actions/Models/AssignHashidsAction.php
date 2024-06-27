@@ -50,7 +50,7 @@ class AssignHashidsAction extends BaseAction
             try {
                 $action->assign($model, $this->connection);
             } catch (Exception $e) {
-                //$this->markAsFailed($model, $e);
+                $this->failedLog($e);
             }
         }
     }

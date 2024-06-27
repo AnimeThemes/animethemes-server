@@ -21,6 +21,7 @@ use Filament\Forms\Get;
 use Filament\Forms\Set;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Infolist;
+use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -299,7 +300,14 @@ class Page extends BaseResource
      */
     public static function getRelations(): array
     {
-        return [];
+        return [
+            RelationGroup::make(static::getLabel(),
+                array_merge(
+                    [],
+                    parent::getBaseRelations(),
+                )
+            ),
+        ];
     }
 
     /**

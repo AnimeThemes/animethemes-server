@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Actions;
 
+use App\Concerns\Filament\Actions\HasActionLogs;
 use Filament\Support\Enums\MaxWidth;
 use Filament\Tables\Actions\Action;
 
@@ -15,6 +16,8 @@ use Filament\Tables\Actions\Action;
  */
 abstract class BaseAction extends Action
 {
+    use HasActionLogs;
+
     /**
      * Initial setup for the action.
      *
@@ -25,6 +28,10 @@ abstract class BaseAction extends Action
         parent::setUp();
 
         $this->requiresConfirmation();
+
+        $this->afterFormValidated(fn (BaseAction $action) => $this->createActionLog($action));
+
+        $this->after(fn () => $this->finishedLog());
 
         $this->modalWidth(MaxWidth::FourExtraLarge);
     }

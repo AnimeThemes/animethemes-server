@@ -7,10 +7,12 @@ namespace App\Models;
 use App\Contracts\Models\Nameable;
 use App\Contracts\Models\HasSubtitle;
 use App\Enums\Http\Api\Filter\ComparisonOperator;
+use App\Models\Admin\ActionLog;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Prunable;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Config;
@@ -99,5 +101,15 @@ abstract class BaseModel extends Model implements Nameable, HasSubtitle
             ComparisonOperator::LTE->value,
             now()->subWeek()
         );
+    }
+
+    /**
+     * Get the action logs for the model.
+     *
+     * @return MorphMany
+     */
+    public function action_logs(): MorphMany
+    {
+        return $this->morphMany(ActionLog::class, 'actionable');
     }
 }

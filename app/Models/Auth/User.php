@@ -11,6 +11,7 @@ use App\Events\Auth\User\UserCreated;
 use App\Events\Auth\User\UserDeleted;
 use App\Events\Auth\User\UserRestored;
 use App\Events\Auth\User\UserUpdated;
+use App\Models\Admin\ActionLog;
 use App\Models\List\Playlist;
 use Database\Factories\Auth\UserFactory;
 use Filament\Models\Contracts\FilamentUser;
@@ -222,5 +223,15 @@ class User extends Authenticatable implements MustVerifyEmail, Nameable, HasSubt
     public function playlists(): HasMany
     {
         return $this->hasMany(Playlist::class, Playlist::ATTRIBUTE_USER);
+    }
+
+    /**
+     * Get the action logs the user executed.
+     *
+     * @return HasMany
+     */
+    public function action_logs(): HasMany
+    {
+        return $this->hasMany(ActionLog::class, ActionLog::ATTRIBUTE_USER);
     }
 }
