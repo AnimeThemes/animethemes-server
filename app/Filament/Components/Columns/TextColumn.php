@@ -8,6 +8,7 @@ use App\Filament\Resources\BaseResource;
 use App\Models\BaseModel;
 use Filament\Support\Enums\FontWeight;
 use Filament\Tables\Columns\TextColumn as ColumnsTextColumn;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
@@ -30,7 +31,7 @@ class TextColumn extends ColumnsTextColumn
         return $this
             ->weight(FontWeight::SemiBold)
             ->html()
-            ->url(function (BaseModel $record) use ($resourceRelated, $relation, $shouldUseName, $limit) {
+            ->url(function (BaseModel|Model $record) use ($resourceRelated, $relation, $shouldUseName, $limit) {
                 foreach (explode('.', $relation) as $element) {
                     $record = Arr::get($record, $element);
                     if ($record === null) return null;

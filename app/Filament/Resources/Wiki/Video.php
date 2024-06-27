@@ -16,7 +16,6 @@ use App\Filament\Components\Fields\Select;
 use App\Filament\Components\Filters\NumberFilter;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\BaseResource;
-use App\Filament\Resources\Wiki\Video\Pages\CreateVideo;
 use App\Filament\Resources\Wiki\Video\Pages\EditVideo;
 use App\Filament\Resources\Wiki\Video\Pages\ListVideos;
 use App\Filament\Resources\Wiki\Video\Pages\ViewVideo;
@@ -302,11 +301,16 @@ class Video extends BaseResource
     public static function getRelations(): array
     {
         return [
-            RelationGroup::make(static::getLabel(), [
-                EntryVideoRelationManager::class,
-                ScriptVideoRelationManager::class,
-                TrackVideoRelationManager::class,
-            ]),
+            RelationGroup::make(static::getLabel(),
+                array_merge(
+                    [
+                        EntryVideoRelationManager::class,
+                        ScriptVideoRelationManager::class,
+                        TrackVideoRelationManager::class,
+                    ],
+                    parent::getBaseRelations(),
+                )
+            ),
         ];
     }
 
@@ -416,6 +420,16 @@ class Video extends BaseResource
     }
 
     /**
+     * Determine whether the related model can be created.
+     *
+     * @return bool
+     */
+    public static function canCreate(): bool
+    {
+        return false;
+    }
+
+    /**
      * Get the pages available for the resource.
      *
      * @return array
@@ -426,7 +440,6 @@ class Video extends BaseResource
     {
         return [
             'index' => ListVideos::route('/'),
-            'create' => CreateVideo::route('/create'),
             'view' => ViewVideo::route('/{record:video_id}'),
             'edit' => EditVideo::route("/{record:video_id}/edit"),
         ];

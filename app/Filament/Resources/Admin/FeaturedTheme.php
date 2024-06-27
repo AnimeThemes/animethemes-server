@@ -27,6 +27,7 @@ use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Infolist;
+use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
@@ -323,7 +324,14 @@ class FeaturedTheme extends BaseResource
      */
     public static function getRelations(): array
     {
-        return [];
+        return [
+            RelationGroup::make(static::getLabel(),
+                array_merge(
+                    [],
+                    parent::getBaseRelations(),
+                )
+            ),
+        ];
     }
 
     /**

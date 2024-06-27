@@ -28,3 +28,6 @@ parameters:
         -
             message: '#Right side of && is always true.#'
             path: app/Providers/RouteServiceProvider.php
+        -
+            message: '#Call to an undefined method App\\Filament\\BulkActions\\.*::getRecord\(\).#'
+            path: app/Concerns/Filament/Actions/HasActionLogs.php

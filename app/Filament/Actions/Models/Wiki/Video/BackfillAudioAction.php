@@ -7,6 +7,7 @@ namespace App\Filament\Actions\Models\Wiki\Video;
 use App\Actions\Models\Wiki\Video\Audio\BackfillAudioAction as BackfillAudio;
 use App\Enums\Actions\Models\Wiki\Video\DeriveSourceVideo;
 use App\Enums\Actions\Models\Wiki\Video\OverwriteAudio;
+use App\Filament\Actions\BaseAction;
 use App\Filament\Components\Fields\Select;
 use App\Models\Wiki\Audio;
 use App\Models\Wiki\Video;
@@ -14,8 +15,6 @@ use Exception;
 use Filament\Forms\Form;
 use Filament\Notifications\Actions\Action as NotificationAction;
 use Filament\Notifications\Notification;
-use Filament\Support\Enums\MaxWidth;
-use Filament\Tables\Actions\Action;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
@@ -26,7 +25,7 @@ use Illuminate\Validation\Rules\Enum;
 /**
  * Class BackfillAudioAction.
  */
-class BackfillAudioAction extends Action implements ShouldQueue
+class BackfillAudioAction extends BaseAction implements ShouldQueue
 {
     use InteractsWithQueue;
     use Queueable;
@@ -44,10 +43,6 @@ class BackfillAudioAction extends Action implements ShouldQueue
         parent::setUp();
 
         $this->label(__('filament.actions.video.backfill.name'));
-
-        $this->requiresConfirmation();
-
-        $this->modalWidth(MaxWidth::TwoExtraLarge);
 
         $this->authorize('create', Audio::class);
 
@@ -82,7 +77,7 @@ class BackfillAudioAction extends Action implements ShouldQueue
                     ->sendToDatabase(Auth::user());
             }
         } catch (Exception $e) {
-            //$this->markAsFailed($video, $e);
+            $this->failedLog($e);
         }
     }
 

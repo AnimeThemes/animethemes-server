@@ -235,6 +235,7 @@ class Theme extends BaseResource
 
                                 Repeater::make(ThemeModel::RELATION_SONG . '.' . Song::RELATION_ARTISTS)
                                     ->label(__('filament.resources.label.artists'))
+                                    ->addActionLabel(__('filament.buttons.add').' '.__('filament.resources.singularLabel.artist'))
                                     ->hidden(fn (Get $get) => $get(ThemeModel::ATTRIBUTE_SONG) === null)
                                     ->live(true)
                                     ->key('song.artists')
@@ -292,6 +293,7 @@ class Theme extends BaseResource
                             ->schema([
                                 Repeater::make(ThemeModel::RELATION_ENTRIES)
                                     ->label(__('filament.resources.label.anime_theme_entries'))
+                                    ->addActionLabel(__('filament.buttons.add'))
                                     ->relationship()
                                     ->schema(Entry::form($form)->getComponents()),
                             ]),
@@ -471,9 +473,14 @@ class Theme extends BaseResource
     public static function getRelations(): array
     {
         return [
-            RelationGroup::make(static::getLabel(), [
-                EntryThemeRelationManager::class,
-            ]),
+            RelationGroup::make(static::getLabel(),
+                array_merge(
+                    [
+                        EntryThemeRelationManager::class,
+                    ],
+                    parent::getBaseRelations(),
+                )
+            ),
         ];
     }
 

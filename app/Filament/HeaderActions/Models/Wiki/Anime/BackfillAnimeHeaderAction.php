@@ -80,10 +80,10 @@ class BackfillAnimeHeaderAction extends BaseHeaderAction implements ShouldQueue
     public function handle(Anime $anime, array $fields): void
     {
         if ($anime->resources()->doesntExist()) {
-            $this->fail(__('filament.actions.anime.backfill.message.resource_required_failure'));
+            $this->failedLog(__('filament.actions.anime.backfill.message.resource_required_failure'));
             return;
         }
-        
+
         $actions = $this->getActions($fields, $anime);
 
         try {
@@ -102,7 +102,7 @@ class BackfillAnimeHeaderAction extends BaseHeaderAction implements ShouldQueue
                 }
             }
         } catch (Exception $e) {
-            $this->fail($e);
+            $this->failedLog($e);
         } finally {
             // Try not to upset third-party APIs
             Sleep::for(rand(3, 5))->second();

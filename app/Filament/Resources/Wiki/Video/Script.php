@@ -9,7 +9,6 @@ use App\Filament\Actions\Storage\Wiki\Video\Script\MoveScriptAction;
 use App\Filament\BulkActions\Storage\Wiki\Video\Script\DeleteScriptBulkAction;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Resources\BaseResource;
-use App\Filament\Resources\Wiki\Video\Script\Pages\CreateScript;
 use App\Filament\Resources\Wiki\Video\Script\Pages\EditScript;
 use App\Filament\Resources\Wiki\Video\Script\Pages\ListScripts;
 use App\Filament\Resources\Wiki\Video\Script\Pages\ViewScript;
@@ -20,6 +19,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Infolist;
+use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Table;
 
@@ -175,7 +175,14 @@ class Script extends BaseResource
      */
     public static function getRelations(): array
     {
-        return [];
+        return [
+            RelationGroup::make(static::getLabel(),
+                array_merge(
+                    [],
+                    parent::getBaseRelations(),
+                )
+            ),
+        ];
     }
 
     /**
@@ -250,6 +257,16 @@ class Script extends BaseResource
     }
 
     /**
+     * Determine whether the related model can be created.
+     *
+     * @return bool
+     */
+    public static function canCreate(): bool
+    {
+        return false;
+    }
+
+    /**
      * Get the pages available for the resource.
      *
      * @return array
@@ -260,7 +277,6 @@ class Script extends BaseResource
     {
         return [
             'index' => ListScripts::route('/'),
-            'create' => CreateScript::route('/create'),
             'view' => ViewScript::route('/{record:script_id}'),
             'edit' => EditScript::route('/{record:script_id}/edit'),
         ];

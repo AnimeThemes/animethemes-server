@@ -301,10 +301,15 @@ class Playlist extends BaseResource
     public static function getRelations(): array
     {
         return [
-            RelationGroup::make(static::getLabel(), [
-                ImagePlaylistRelationManager::class,
-                TrackPlaylistRelationManager::class,
-            ]),
+            RelationGroup::make(static::getLabel(),
+                array_merge(
+                    [
+                        ImagePlaylistRelationManager::class,
+                        TrackPlaylistRelationManager::class,
+                    ],
+                    parent::getBaseRelations(),
+                )
+            ),
         ];
     }
 

@@ -224,11 +224,16 @@ class User extends BaseResource
     public static function getRelations(): array
     {
         return [
-            RelationGroup::make(static::getLabel(), [
-                RoleUserRelationManager::class,
-                PermissionUserRelationManager::class,
-                PlaylistUserRelationManager::class,
-            ]),
+            RelationGroup::make(static::getLabel(),
+                array_merge(
+                    [
+                        RoleUserRelationManager::class,
+                        PermissionUserRelationManager::class,
+                        PlaylistUserRelationManager::class,
+                    ],
+                    parent::getBaseRelations(),
+                )
+            ),
         ];
     }
 

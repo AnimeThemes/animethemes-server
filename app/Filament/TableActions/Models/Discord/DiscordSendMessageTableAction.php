@@ -73,6 +73,7 @@ class DiscordSendMessageTableAction extends BaseTableAction
 
                 Repeater::make(DiscordMessage::ATTRIBUTE_EMBEDS)
                     ->label(__('filament.table_actions.discord_thread.message.embeds.name'))
+                    ->addActionLabel(__('filament.buttons.add'))
                     ->helperText(__('filament.table_actions.discord_thread.message.embeds.help'))
                     ->collapsible()
                     ->defaultItems(0)
@@ -101,6 +102,7 @@ class DiscordSendMessageTableAction extends BaseTableAction
 
                         Repeater::make(DiscordEmbed::ATTRIBUTE_FIELDS)
                             ->label(__('filament.table_actions.discord_thread.message.embeds.body.fields.title.name'))
+                            ->addActionLabel(__('filament.buttons.add'))
                             ->helperText(__('filament.table_actions.discord_thread.message.embeds.body.fields.title.help'))
                             ->collapsible()
                             ->schema([
@@ -124,6 +126,7 @@ class DiscordSendMessageTableAction extends BaseTableAction
 
                 Repeater::make(DiscordMessage::ATTRIBUTE_IMAGES)
                     ->label(__('filament.table_actions.discord_thread.message.images.name'))
+                    ->addActionLabel(__('filament.buttons.add'))
                     ->helperText(__('filament.table_actions.discord_thread.message.images.help'))
                     ->collapsible()
                     ->defaultItems(0)

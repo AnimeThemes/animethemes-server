@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Filament\TableActions;
 
+use App\Concerns\Filament\Actions\HasActionLogs;
+use App\Filament\RelationManagers\BaseRelationManager;
 use Filament\Support\Enums\MaxWidth;
 use Filament\Tables\Actions\Action;
 
@@ -17,6 +19,8 @@ use Filament\Tables\Actions\Action;
  */
 abstract class BaseTableAction extends Action
 {
+    use HasActionLogs;
+
     /**
      * Initial setup for the action.
      *
@@ -27,6 +31,18 @@ abstract class BaseTableAction extends Action
         parent::setUp();
 
         $this->requiresConfirmation();
+
+        $this->afterFormValidated(function ($livewire, BaseTableAction $action) {
+            if ($livewire instanceof BaseRelationManager) {
+                $this->createActionLog($action, $livewire->getOwnerRecord());
+            }
+        });
+
+        $this->after(function ($livewire, BaseTableAction $action) {
+            if ($livewire instanceof BaseRelationManager) {
+                $this->finishedLog();
+            }
+        });
 
         $this->modalWidth(MaxWidth::FourExtraLarge);
 

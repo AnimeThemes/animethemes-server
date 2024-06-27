@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Base;
 
-use Filament\Actions\CreateAction;
+use App\Filament\HeaderActions\Base\CreateHeaderAction;
 use Filament\Resources\Pages\ListRecords;
 
 /**
@@ -22,7 +22,7 @@ abstract class BaseListResources extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            CreateAction::make(),
+            CreateHeaderAction::make(),
         ];
     }
 }

@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace App\Filament\TableActions\Storage;
 
 use App\Contracts\Actions\Storage\StorageAction as BaseStorageAction;
+use App\Filament\RelationManagers\BaseRelationManager;
 use App\Filament\TableActions\BaseTableAction;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
  * Class StorageTableAction.
@@ -34,8 +36,27 @@ abstract class StorageTableAction extends BaseTableAction
 
         $storageResults->toLog();
 
-        $action->then($storageResults);
+        $model = $action->then($storageResults);
 
         $actionResult = $storageResults->toActionResult();
+
+        if ($actionResult->hasFailed()) {
+            $this->failedLog($actionResult->getMessage());
+            return;
+        }
+
+        $livewire = $this->getLivewire();
+        if ($livewire instanceof BaseRelationManager) {
+            /** @var BelongsToMany */
+            $relation = $livewire->getRelationship();
+            $pivotClass = $relation->getPivotClass();
+
+            $pivot = $pivotClass::query()
+                ->where($livewire->getOwnerRecord()->getKeyName(), $livewire->getOwnerRecord()->getKey())
+                ->where($model->getKeyName(), $model->getKey())
+                ->first();
+
+            $this->updateLog($model, $pivot);
+        }
     }
 }

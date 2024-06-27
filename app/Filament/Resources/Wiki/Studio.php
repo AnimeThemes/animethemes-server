@@ -239,11 +239,16 @@ class Studio extends BaseResource
     public static function getRelations(): array
     {
         return [
-            RelationGroup::make(static::getLabel(), [
-                AnimeStudioRelationManager::class,
-                ResourceStudioRelationManager::class,
-                ImageStudioRelationManager::class,
-            ]),
+            RelationGroup::make(static::getLabel(),
+                array_merge(
+                    [
+                        AnimeStudioRelationManager::class,
+                        ResourceStudioRelationManager::class,
+                        ImageStudioRelationManager::class,
+                    ],
+                    parent::getBaseRelations(),
+                )
+            ),
         ];
     }
 
