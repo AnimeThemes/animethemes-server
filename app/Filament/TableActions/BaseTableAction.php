@@ -35,12 +35,14 @@ abstract class BaseTableAction extends Action
         $this->afterFormValidated(function ($livewire, BaseTableAction $action) {
             if ($livewire instanceof BaseRelationManager) {
                 $this->createActionLog($action, $livewire->getOwnerRecord());
+                $livewire->dispatch('updateAllRelationManager');
             }
         });
 
-        $this->after(function ($livewire, BaseTableAction $action) {
+        $this->after(function ($livewire) {
             if ($livewire instanceof BaseRelationManager) {
                 $this->finishedLog();
+                $livewire->dispatch('updateAllRelationManager');
             }
         });
 

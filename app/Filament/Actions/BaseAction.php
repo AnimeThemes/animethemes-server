@@ -29,9 +29,15 @@ abstract class BaseAction extends Action
 
         $this->requiresConfirmation();
 
-        $this->afterFormValidated(fn (BaseAction $action) => $this->createActionLog($action));
+        $this->afterFormValidated(function (BaseAction $action, $livewire) {
+            $this->createActionLog($action);
+            $livewire->dispatch('updateAllRelationManager');
+        });
 
-        $this->after(fn () => $this->finishedLog());
+        $this->after(function ($livewire) {
+            $this->finishedLog();
+            $livewire->dispatch('updateAllRelationManager');
+        });
 
         $this->modalWidth(MaxWidth::FourExtraLarge);
     }
