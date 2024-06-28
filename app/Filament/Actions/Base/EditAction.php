@@ -7,6 +7,7 @@ namespace App\Filament\Actions\Base;
 use App\Concerns\Filament\Actions\HasPivotActionLogs;
 use App\Filament\RelationManagers\BaseRelationManager;
 use Filament\Tables\Actions\EditAction as DefaultEditAction;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
  * Class EditAction.
@@ -28,7 +29,9 @@ class EditAction extends DefaultEditAction
 
         $this->after(function ($livewire, $record) {
             if ($livewire instanceof BaseRelationManager) {
-                $this->pivotActionLog('Update Attached', $livewire, $record);
+                if ($livewire->getRelationship() instanceof BelongsToMany) {
+                    $this->pivotActionLog('Update Attached', $livewire, $record);
+                }
             }
         });
     }
