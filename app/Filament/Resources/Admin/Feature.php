@@ -211,7 +211,6 @@ class Feature extends BaseResource
             RelationGroup::make(static::getLabel(),
                 array_merge(
                     [],
-                    parent::getBaseRelations(),
                 )
             ),
         ];
