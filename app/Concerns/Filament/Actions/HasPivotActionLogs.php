@@ -8,6 +8,7 @@ use App\Filament\RelationManagers\BaseRelationManager;
 use App\Models\Admin\ActionLog;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * Trait HasPivotActionLogs.
@@ -26,20 +27,45 @@ trait HasPivotActionLogs
     {
         $ownerRecord = $livewire->getOwnerRecord();
 
-        /** @var BelongsToMany */
         $relation = $livewire->getRelationship();
-        $pivotClass = $relation->getPivotClass();
 
-        $pivot = $pivotClass::query()
-            ->where($ownerRecord->getKeyName(), $ownerRecord->getKey())
-            ->where($record->getKeyName(), $record->getKey())
-            ->first();
+        if ($relation instanceof BelongsToMany) {
+            $pivotClass = $relation->getPivotClass();
 
-        ActionLog::modelPivot(
-            $actionName,
-            $livewire->getOwnerRecord(),
-            $record,
-            $pivot,
-        );
+            $pivot = $pivotClass::query()
+                ->where($ownerRecord->getKeyName(), $ownerRecord->getKey())
+                ->where($record->getKeyName(), $record->getKey())
+                ->first();
+    
+            ActionLog::modelPivot(
+                $actionName,
+                $ownerRecord,
+                $record,
+                $pivot,
+            );
+        }
+    }
+
+    /**
+     * Create the associate action log.
+     *
+     * @param  string  $actionName
+     * @param  BaseRelationManager $livewire
+     * @param  Model  $record
+     * @return void
+     */
+    public function associateActionLog(string $actionName, BaseRelationManager $livewire, Model $record): void
+    {
+        $ownerRecord = $livewire->getOwnerRecord();
+
+        $relation = $livewire->getRelationship();
+
+        if ($relation instanceof HasMany) {
+            ActionLog::modelAssociated(
+                $actionName,
+                $ownerRecord,
+                $record,
+            );
+        }
     }
 }

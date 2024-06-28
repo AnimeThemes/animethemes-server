@@ -290,6 +290,31 @@ class ActionLog extends Model implements Nameable, HasSubtitle
     }
 
     /**
+     * Register an action log for a model associated (HasMany).
+     *
+     * @param  string  $action
+     * @param  Model  $related
+     * @param  Model  $parent
+     * @return ActionLog
+     */
+    public static function modelAssociated(string $action, Model $related, Model $parent): ActionLog
+    {
+        return ActionLog::query()->create([
+            ActionLog::ATTRIBUTE_BATCH_ID => Str::orderedUuid()->__toString(),
+            ActionLog::ATTRIBUTE_USER => ActionLog::getUser()->getKey(),
+            ActionLog::ATTRIBUTE_NAME => $action,
+            ActionLog::ATTRIBUTE_ACTIONABLE_TYPE => $related->getMorphClass(),
+            ActionLog::ATTRIBUTE_ACTIONABLE_ID => $related->getKey(),
+            ActionLog::ATTRIBUTE_TARGET_TYPE => $parent->getMorphClass(),
+            ActionLog::ATTRIBUTE_TARGET_ID => $parent->getKey(),
+            ActionLog::ATTRIBUTE_MODEL_TYPE => $related->getMorphClass(),
+            ActionLog::ATTRIBUTE_MODEL_ID => $related->getKey(),
+            ActionLog::ATTRIBUTE_STATUS => ActionLogStatus::FINISHED->value,
+            ActionLog::ATTRIBUTE_FINISHED_AT => Date::now(),
+        ]);
+    }
+
+    /**
      * Register an action log for when a model has an action executed.
      *
      * @param  string  $batchId

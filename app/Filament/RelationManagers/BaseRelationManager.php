@@ -23,6 +23,8 @@ abstract class BaseRelationManager extends RelationManager
 {
     protected static bool $isLazy = false;
 
+    protected $listeners = ['updateAllRelationManager' => '$refresh'];
+
     /**
      * The actions should appear in the view page.
      * 
