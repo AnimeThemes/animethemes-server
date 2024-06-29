@@ -144,7 +144,7 @@ class DiscordThread extends BaseResource
                     ->formatStateUsing(fn ($state) => strval($state))
                     ->required()
                     ->rules(['required'])
-                    ->live(true)
+                    ->live()
                     ->afterStateUpdated(fn (Set $set, string $state) => $set(DiscordThreadModel::ATTRIBUTE_NAME, Arr::get((new DiscordThreadAction())->get($state), 'thread.name'))),
 
                 TextInput::make(DiscordThreadModel::ATTRIBUTE_NAME)
