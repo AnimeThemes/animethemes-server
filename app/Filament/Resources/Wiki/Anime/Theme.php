@@ -176,7 +176,9 @@ class Theme extends BaseResource
                                     ->label(__('filament.resources.singularLabel.anime'))
                                     ->relationship(ThemeModel::RELATION_ANIME, AnimeModel::ATTRIBUTE_NAME)
                                     ->searchable()
-                                    ->hiddenOn(ThemeRelationManager::class),
+                                    ->hiddenOn(ThemeRelationManager::class)
+                                    ->required()
+                                    ->rules(['required']),
 
                                 Select::make(ThemeModel::ATTRIBUTE_TYPE)
                                     ->label(__('filament.fields.anime_theme.type.name'))
@@ -351,10 +353,10 @@ class Theme extends BaseResource
                 TextColumn::make(ThemeModel::RELATION_SONG . '.' . Song::ATTRIBUTE_TITLE)
                     ->label(__('filament.resources.singularLabel.song'))
                     ->toggleable()
-                    ->placeholder('-')
                     ->hiddenOn(ThemeSongRelationManager::class)
                     ->urlToRelated(SongResource::class, ThemeModel::RELATION_SONG, limit: 30)
-                    ->tooltip(fn (TextColumn $column) => $column->getState()),
+                    ->placeholder('-')
+                    ->tooltip(fn (TextColumn $column) => is_array($column->getState()) ? null : $column->getState()),
             ])
             ->searchable();
     }
