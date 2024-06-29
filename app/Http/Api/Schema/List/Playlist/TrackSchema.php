@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Api\Schema\List\Playlist;
 
 use App\Http\Api\Field\Field;
+use App\Http\Api\Field\List\Playlist\Track\TrackEntryIdField;
 use App\Http\Api\Field\List\Playlist\Track\TrackHashidsField;
 use App\Http\Api\Field\List\Playlist\Track\TrackIdField;
 use App\Http\Api\Field\List\Playlist\Track\TrackNextHashidsField;
@@ -16,6 +17,7 @@ use App\Http\Api\Field\List\Playlist\Track\TrackVideoIdField;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Api\Schema\List\PlaylistSchema;
+use App\Http\Api\Schema\Wiki\Anime\Theme\EntrySchema;
 use App\Http\Api\Schema\Wiki\ArtistSchema;
 use App\Http\Api\Schema\Wiki\AudioSchema;
 use App\Http\Api\Schema\Wiki\GroupSchema;
@@ -49,6 +51,7 @@ class TrackSchema extends EloquentSchema
         return [
             new AllowedInclude(new ArtistSchema(), PlaylistTrack::RELATION_ARTISTS),
             new AllowedInclude(new AudioSchema(), PlaylistTrack::RELATION_AUDIO),
+            new AllowedInclude(new EntrySchema(), PlaylistTrack::RELATION_ENTRY),
             new AllowedInclude(new GroupSchema(), PlaylistTrack::RELATION_THEME_GROUP),
             new AllowedInclude(new ImageSchema(), PlaylistTrack::RELATION_IMAGES),
             new AllowedInclude(new PlaylistSchema(), PlaylistTrack::RELATION_PLAYLIST),
@@ -75,6 +78,7 @@ class TrackSchema extends EloquentSchema
                 new TrackPlaylistIdField($this),
                 new TrackPreviousIdField($this),
                 new TrackPreviousHashidsField($this),
+                new TrackEntryIdField($this),
                 new TrackVideoIdField($this),
             ],
         );

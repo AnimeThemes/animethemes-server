@@ -14,15 +14,15 @@ use App\Http\Api\Filter\IntFilter;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Schema;
 use App\Models\List\Playlist\PlaylistTrack;
-use App\Models\Wiki\Video;
+use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Pivots\Wiki\AnimeThemeEntryVideo;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
 /**
- * Class TrackVideoIdField.
+ * Class TrackEntryIdField.
  */
-class TrackVideoIdField extends Field implements CreatableField, FilterableField, SelectableField, UpdatableField
+class TrackEntryIdField extends Field implements CreatableField, FilterableField, SelectableField, UpdatableField
 {
     /**
      * Create a new field instance.
@@ -31,7 +31,7 @@ class TrackVideoIdField extends Field implements CreatableField, FilterableField
      */
     public function __construct(Schema $schema)
     {
-        parent::__construct($schema, PlaylistTrack::ATTRIBUTE_VIDEO);
+        parent::__construct($schema, PlaylistTrack::ATTRIBUTE_ENTRY);
     }
 
     /**
@@ -45,9 +45,9 @@ class TrackVideoIdField extends Field implements CreatableField, FilterableField
         return [
             'required',
             'integer',
-            Rule::exists(Video::class, Video::ATTRIBUTE_ID),
-            Rule::exists(AnimeThemeEntryVideo::class, AnimeThemeEntryVideo::ATTRIBUTE_VIDEO)
-                ->where(AnimeThemeEntryVideo::ATTRIBUTE_ENTRY, $this->resolveEntryId($request)),
+            Rule::exists(AnimeThemeEntry::class, AnimeThemeEntry::ATTRIBUTE_ID),
+            Rule::exists(AnimeThemeEntryVideo::class, AnimeThemeEntryVideo::ATTRIBUTE_ENTRY)
+                ->where(AnimeThemeEntryVideo::ATTRIBUTE_VIDEO, $this->resolveVideoId($request)),
         ];
     }
 
@@ -86,25 +86,25 @@ class TrackVideoIdField extends Field implements CreatableField, FilterableField
             'sometimes',
             'required',
             'integer',
-            Rule::exists(Video::class, Video::ATTRIBUTE_ID),
+            Rule::exists(AnimeThemeEntry::class, AnimeThemeEntry::ATTRIBUTE_ID),
         ];
     }
 
     /**
-     * Get dependent entry_id field.
+     * Get dependent video_id field.
      *
      * @param  Request  $request
      * @return mixed
      */
-    private function resolveEntryId(Request $request): mixed
+    private function resolveVideoId(Request $request): mixed
     {
-        if ($request->has(PlaylistTrack::ATTRIBUTE_ENTRY)) {
-            return $request->get(PlaylistTrack::ATTRIBUTE_ENTRY);
+        if ($request->has(PlaylistTrack::ATTRIBUTE_VIDEO)) {
+            return $request->get(PlaylistTrack::ATTRIBUTE_VIDEO);
         }
 
         /** @var PlaylistTrack|null $track */
         $track = $request->route('track');
 
-        return $track?->entry_id;
+        return $track?->video_id;
     }
 }
