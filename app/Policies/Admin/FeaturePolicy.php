@@ -26,9 +26,13 @@ class FeaturePolicy
      */
     public function viewAny(?User $user): bool
     {
+        if (Filament::isServing()) {
+            return $user !== null && $user->can(CrudPermission::VIEW->format(Feature::class));
+        }
+
         return Nova::whenServing(
             fn (): bool => $user !== null && $user->can(CrudPermission::VIEW->format(Feature::class)),
-            fn (): bool => Filament::isServing() ? $user !== null && $user->can(CrudPermission::VIEW->format(Feature::class)) : true
+            fn (): bool => true
         );
     }
 
@@ -41,9 +45,13 @@ class FeaturePolicy
      */
     public function view(?User $user, Feature $feature): bool
     {
+        if (Filament::isServing()) {
+            return $user !== null && $user->can(CrudPermission::VIEW->format(Feature::class));
+        }
+
         return Nova::whenServing(
             fn (): bool => $user !== null && $user->can(CrudPermission::VIEW->format(Feature::class)),
-            fn (): bool => Filament::isServing() ? $user !== null && $user->can(CrudPermission::VIEW->format(Feature::class)) : $feature->isNullScope()
+            fn (): bool => $feature->isNullScope()
         );
     }
 

@@ -31,13 +31,13 @@ class PlaylistPolicy
      */
     public function viewAny(?User $user): bool
     {
+        if (Filament::isServing()) {
+            return $user !== null && $user->hasRole(RoleEnum::ADMIN->value);
+        }
+
         return Nova::whenServing(
             fn (): bool => $user !== null && $user->hasRole(RoleEnum::ADMIN->value),
-            function () use ($user): bool {
-                return Filament::isServing()
-                    ? $user !== null && $user->hasRole(RoleEnum::ADMIN->value)
-                    : $user === null || $user->can(CrudPermission::VIEW->format(Playlist::class));
-            }
+            fn (): bool => $user === null || $user->can(CrudPermission::VIEW->format(Playlist::class))
         );
     }
 
@@ -50,6 +50,10 @@ class PlaylistPolicy
      */
     public function view(?User $user, Playlist $playlist): bool
     {
+        if (Filament::isServing()) {
+            return $user !== null && $user->hasRole(RoleEnum::ADMIN->value);
+        }
+
         return Nova::whenServing(
             fn (): bool => $user !== null && $user->hasRole(RoleEnum::ADMIN->value),
             fn (): bool => $user !== null
@@ -66,13 +70,13 @@ class PlaylistPolicy
      */
     public function create(User $user): bool
     {
+        if (Filament::isServing()) {
+            return $user->hasRole(RoleEnum::ADMIN->value);
+        }
+
         return Nova::whenServing(
             fn (): bool => $user->hasRole(RoleEnum::ADMIN->value),
-            function () use ($user): bool {
-                return Filament::isServing()
-                    ? $user->hasRole(RoleEnum::ADMIN->value)
-                    : $user->can(CrudPermission::CREATE->format(Playlist::class));
-            }
+            fn (): bool => $user->can(CrudPermission::CREATE->format(Playlist::class))
         );
     }
 
@@ -85,13 +89,13 @@ class PlaylistPolicy
      */
     public function update(User $user, Playlist $playlist): bool
     {
+        if (Filament::isServing()) {
+            return $user->hasRole(RoleEnum::ADMIN->value);
+        }
+
         return Nova::whenServing(
             fn (): bool => $user->hasRole(RoleEnum::ADMIN->value),
-            function () use ($user, $playlist): bool {
-                return Filament::isServing()
-                    ? $user->hasRole(RoleEnum::ADMIN->value)
-                    : ! $playlist->trashed() && $user->getKey() === $playlist->user_id && $user->can(CrudPermission::UPDATE->format(Playlist::class));
-            } 
+            fn (): bool => ! $playlist->trashed() && $user->getKey() === $playlist->user_id && $user->can(CrudPermission::UPDATE->format(Playlist::class))
         );
     }
 
@@ -104,13 +108,13 @@ class PlaylistPolicy
      */
     public function delete(User $user, Playlist $playlist): bool
     {
+        if (Filament::isServing()) {
+            return $user->hasRole(RoleEnum::ADMIN->value);
+        }
+
         return Nova::whenServing(
             fn (): bool => $user->hasRole(RoleEnum::ADMIN->value),
-            function () use ($user, $playlist): bool {
-                return Filament::isServing()
-                    ? $user->hasRole(RoleEnum::ADMIN->value)
-                    : ! $playlist->trashed() && $user->getKey() === $playlist->user_id && $user->can(CrudPermission::DELETE->format(Playlist::class));
-            }
+            fn (): bool => ! $playlist->trashed() && $user->getKey() === $playlist->user_id && $user->can(CrudPermission::DELETE->format(Playlist::class))
         );
     }
 
@@ -123,13 +127,13 @@ class PlaylistPolicy
      */
     public function restore(User $user, Playlist $playlist): bool
     {
+        if (Filament::isServing()) {
+            return $user->hasRole(RoleEnum::ADMIN->value);
+        }
+
         return Nova::whenServing(
             fn (): bool => $user->hasRole(RoleEnum::ADMIN->value),
-            function () use ($user, $playlist): bool {
-                return Filament::isServing()
-                    ? $user->hasRole(RoleEnum::ADMIN->value)
-                    : $playlist->trashed() && $user->getKey() === $playlist->user_id && $user->can(ExtendedCrudPermission::RESTORE->format(Playlist::class));
-            }
+            fn (): bool => $playlist->trashed() && $user->getKey() === $playlist->user_id && $user->can(ExtendedCrudPermission::RESTORE->format(Playlist::class))
         );
     }
 
@@ -167,7 +171,7 @@ class PlaylistPolicy
     }
 
     /**
-     * Determine whether the user can attach a studio to the image.
+     * Determine whether the user can attach an image to the playlist.
      *
      * @param  User  $user
      * @param  Playlist  $playlist

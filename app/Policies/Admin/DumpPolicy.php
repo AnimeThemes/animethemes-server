@@ -27,9 +27,13 @@ class DumpPolicy
      */
     public function viewAny(?User $user): bool
     {
+        if (Filament::isServing()) {
+            return $user !== null && $user->can(CrudPermission::VIEW->format(Dump::class));
+        }
+
         return Nova::whenServing(
             fn (): bool => $user !== null && $user->can(CrudPermission::VIEW->format(Dump::class)),
-            fn (): bool => Filament::isServing() ? $user !== null && $user->can(CrudPermission::VIEW->format(Dump::class)) : true
+            fn (): bool => true
         );
     }
 
@@ -41,9 +45,13 @@ class DumpPolicy
      */
     public function view(?User $user): bool
     {
+        if (Filament::isServing()) {
+            return $user !== null && $user->can(CrudPermission::VIEW->format(Dump::class));
+        }
+
         return Nova::whenServing(
             fn (): bool => $user !== null && $user->can(CrudPermission::VIEW->format(Dump::class)),
-            fn (): bool => Filament::isServing() ? $user !== null && $user->can(CrudPermission::VIEW->format(Dump::class)) : true
+            fn (): bool => true
         );
     }
 

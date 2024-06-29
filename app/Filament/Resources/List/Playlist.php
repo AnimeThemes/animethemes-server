@@ -187,7 +187,7 @@ class Playlist extends BaseResource
                     ->label(__('filament.resources.singularLabel.user'))
                     ->toggleable()
                     ->placeholder('-')
-                    ->urlToRelated(UserResource::class, PlaylistModel::RELATION_USER),
+                    ->urlToRelated(UserResource::class, PlaylistModel::RELATION_USER, true),
 
                 TextColumn::make(PlaylistModel::ATTRIBUTE_ID)
                     ->label(__('filament.fields.base.id'))
