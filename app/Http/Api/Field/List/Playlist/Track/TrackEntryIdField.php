@@ -43,6 +43,7 @@ class TrackEntryIdField extends Field implements CreatableField, FilterableField
     public function getCreationRules(Request $request): array
     {
         return [
+            'sometimes',
             'required',
             'integer',
             Rule::exists(AnimeThemeEntry::class, AnimeThemeEntry::ATTRIBUTE_ID),
