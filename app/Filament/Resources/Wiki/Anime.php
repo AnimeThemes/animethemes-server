@@ -314,7 +314,8 @@ class Anime extends BaseResource
                             ->copyableWithMessage(),
 
                         TextEntry::make(AnimeModel::ATTRIBUTE_SLUG)
-                            ->label(__('filament.fields.anime.slug.name')),
+                            ->label(__('filament.fields.anime.slug.name'))
+                            ->limit(60),
 
                         TextEntry::make(AnimeModel::ATTRIBUTE_YEAR)
                             ->label(__('filament.fields.anime.year.name')),
