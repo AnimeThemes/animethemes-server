@@ -176,14 +176,16 @@ class Theme extends BaseResource
                                     ->label(__('filament.resources.singularLabel.anime'))
                                     ->relationship(ThemeModel::RELATION_ANIME, AnimeModel::ATTRIBUTE_NAME)
                                     ->searchable()
-                                    ->hiddenOn(ThemeRelationManager::class),
+                                    ->hiddenOn(ThemeRelationManager::class)
+                                    ->required()
+                                    ->rules(['required']),
 
                                 Select::make(ThemeModel::ATTRIBUTE_TYPE)
                                     ->label(__('filament.fields.anime_theme.type.name'))
                                     ->helperText(__('filament.fields.anime_theme.type.help'))
                                     ->options(ThemeType::asSelectArray())
                                     ->required()
-                                    ->live(true)
+                                    ->live()
                                     ->afterStateUpdated(fn (Set $set, Get $get) => Theme::setThemeSlug($set, $get))
                                     ->rules(['required', new Enum(ThemeType::class)]),
 
@@ -191,7 +193,7 @@ class Theme extends BaseResource
                                     ->label(__('filament.fields.anime_theme.sequence.name'))
                                     ->helperText(__('filament.fields.anime_theme.sequence.help'))
                                     ->numeric()
-                                    ->live(true)
+                                    ->live()
                                     ->afterStateUpdated(fn (Set $set, Get $get) => Theme::setThemeSlug($set, $get))
                                     ->rules(['nullable', 'integer']),
 
@@ -207,7 +209,7 @@ class Theme extends BaseResource
                                     ->label(__('filament.resources.singularLabel.group'))
                                     ->relationship(ThemeModel::RELATION_GROUP, Group::ATTRIBUTE_NAME)
                                     ->searchable()
-                                    ->live(true)
+                                    ->live()
                                     ->afterStateUpdated(fn (Set $set, Get $get) => Theme::setThemeSlug($set, $get))
                                     ->createOptionForm(GroupResource::form($form)->getComponents()),
                             ]),
@@ -218,7 +220,7 @@ class Theme extends BaseResource
                                 Select::make(ThemeModel::ATTRIBUTE_SONG)
                                     ->label(__('filament.resources.singularLabel.song'))
                                     ->relationship(ThemeModel::RELATION_SONG, Song::ATTRIBUTE_TITLE)
-                                    ->live(true)
+                                    ->live()
                                     ->useScout(Song::class)
                                     ->createOptionForm(SongResource::form($form)->getComponents())
                                     ->afterStateUpdated(function (Set $set, $state) {
@@ -237,7 +239,7 @@ class Theme extends BaseResource
                                     ->label(__('filament.resources.label.artists'))
                                     ->addActionLabel(__('filament.buttons.add').' '.__('filament.resources.singularLabel.artist'))
                                     ->hidden(fn (Get $get) => $get(ThemeModel::ATTRIBUTE_SONG) === null)
-                                    ->live(true)
+                                    ->live()
                                     ->key('song.artists')
                                     ->collapsible()
                                     ->defaultItems(0)
@@ -351,10 +353,10 @@ class Theme extends BaseResource
                 TextColumn::make(ThemeModel::RELATION_SONG . '.' . Song::ATTRIBUTE_TITLE)
                     ->label(__('filament.resources.singularLabel.song'))
                     ->toggleable()
-                    ->placeholder('-')
                     ->hiddenOn(ThemeSongRelationManager::class)
                     ->urlToRelated(SongResource::class, ThemeModel::RELATION_SONG, limit: 30)
-                    ->tooltip(fn (TextColumn $column) => $column->getState()),
+                    ->placeholder('-')
+                    ->tooltip(fn (TextColumn $column) => is_array($column->getState()) ? null : $column->getState()),
             ])
             ->searchable();
     }

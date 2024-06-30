@@ -15,16 +15,21 @@ use App\Filament\Resources\List\Playlist\Track\Pages\CreateTrack;
 use App\Filament\Resources\List\Playlist\Track\Pages\EditTrack;
 use App\Filament\Resources\List\Playlist\Track\Pages\ListTracks;
 use App\Filament\Resources\List\Playlist\Track\Pages\ViewTrack;
+use App\Filament\Resources\Wiki\Anime\Theme\Entry;
 use App\Filament\Resources\Wiki\Video as VideoResource;
 use App\Models\List\Playlist as PlaylistModel;
 use App\Models\List\Playlist\PlaylistTrack as TrackModel;
+use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video as VideoModel;
+use App\Pivots\Wiki\AnimeThemeEntryVideo;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Tables\Table;
+use Illuminate\Validation\Rule;
 
 /**
  * Class Track.
@@ -126,13 +131,56 @@ class Track extends BaseResource
                     ->label(__('filament.resources.singularLabel.playlist'))
                     ->relationship(TrackModel::RELATION_PLAYLIST, PlaylistModel::ATTRIBUTE_NAME)
                     ->searchable()
+                    ->required()
+                    ->rules(['required'])
+                    ->hiddenOn([TrackPlaylistRelationManager::class])
                     ->createOptionForm(PlaylistResource::form($form)->getComponents()),
+
+                Select::make(TrackModel::ATTRIBUTE_ENTRY)
+                    ->label(__('filament.resources.singularLabel.anime_theme_entry'))
+                    ->relationship(TrackModel::RELATION_ENTRY, AnimeThemeEntry::ATTRIBUTE_ID)
+                    ->live(true)
+                    ->useScout(AnimeThemeEntry::class, AnimeThemeEntry::RELATION_ANIME_SHALLOW)
+                    ->rules([
+                        fn (Get $get) => function () use ($get) {
+                            return [
+                                Rule::when(
+                                    !empty($get(TrackModel::RELATION_ENTRY)) && !empty($get(TrackModel::RELATION_VIDEO)),
+                                    [
+                                        Rule::exists(AnimeThemeEntryVideo::class, AnimeThemeEntryVideo::ATTRIBUTE_ENTRY)
+                                            ->where(AnimeThemeEntryVideo::ATTRIBUTE_VIDEO, $get(TrackModel::RELATION_VIDEO)),
+                                    ]
+                                )
+                            ];
+                        }
+                    ]),
 
                 Select::make(TrackModel::ATTRIBUTE_VIDEO)
                     ->label(__('filament.resources.singularLabel.video'))
                     ->relationship(TrackModel::RELATION_VIDEO, VideoModel::ATTRIBUTE_FILENAME)
-                    ->searchable(),
-                
+                    ->rules([
+                        fn (Get $get) => function () use ($get) {
+                            return [
+                                Rule::when(
+                                    !empty($get(TrackModel::RELATION_ENTRY)) && !empty($get(TrackModel::RELATION_VIDEO)),
+                                    [
+                                        Rule::exists(AnimeThemeEntryVideo::class, AnimeThemeEntryVideo::ATTRIBUTE_VIDEO)
+                                            ->where(AnimeThemeEntryVideo::ATTRIBUTE_ENTRY, $get(TrackModel::RELATION_ENTRY)),
+                                    ]
+                                )
+                            ];
+                        }
+                    ])
+                    ->options(function (Get $get) {
+                        return VideoModel::query()
+                            ->whereHas(VideoModel::RELATION_ANIMETHEMEENTRIES, function ($query) use ($get) {
+                                $query->where(AnimeThemeEntry::TABLE . '.' . AnimeThemeEntry::ATTRIBUTE_ID, $get(TrackModel::ATTRIBUTE_ENTRY));
+                            })
+                            ->get()
+                            ->mapWithKeys(fn (VideoModel $video) => [$video->getKey() => $video->getName()])
+                            ->toArray();
+                    }),
+
                 TextInput::make(TrackModel::ATTRIBUTE_HASHID)
                     ->label(__('filament.fields.playlist_track.hashid.name'))
                     ->helperText(__('filament.fields.playlist_track.hashid.help'))
@@ -165,13 +213,18 @@ class Track extends BaseResource
     {
         return parent::table($table)
             ->columns([
-                TextColumn::make(TrackModel::RELATION_PLAYLIST.'.'.PlaylistModel::ATTRIBUTE_NAME)
+                TextColumn::make(TrackModel::RELATION_PLAYLIST . '.' . PlaylistModel::ATTRIBUTE_NAME)
                     ->label(__('filament.resources.singularLabel.playlist'))
                     ->toggleable()
                     ->hiddenOn(TrackPlaylistRelationManager::class)
                     ->urlToRelated(PlaylistResource::class, TrackModel::RELATION_PLAYLIST),
 
-                TextColumn::make(TrackModel::RELATION_VIDEO.'.'.VideoModel::ATTRIBUTE_FILENAME)
+                TextColumn::make(TrackModel::RELATION_ENTRY . '.' . AnimeThemeEntry::ATTRIBUTE_ID)
+                    ->label(__('filament.resources.singularLabel.anime_theme_entry'))
+                    ->toggleable()
+                    ->urlToRelated(Entry::class, TrackModel::RELATION_ENTRY, true),
+
+                TextColumn::make(TrackModel::RELATION_VIDEO . '.' . VideoModel::ATTRIBUTE_FILENAME)
                     ->label(__('filament.resources.singularLabel.video'))
                     ->toggleable()
                     ->urlToRelated(VideoResource::class, TrackModel::RELATION_VIDEO),
@@ -202,7 +255,7 @@ class Track extends BaseResource
             ->schema([
                 Section::make(static::getRecordTitle($infolist->getRecord()))
                     ->schema([
-                        TextEntry::make(TrackModel::RELATION_PLAYLIST.'.'.PlaylistModel::ATTRIBUTE_NAME)
+                        TextEntry::make(TrackModel::RELATION_PLAYLIST . '.' . PlaylistModel::ATTRIBUTE_NAME)
                             ->label(__('filament.resources.singularLabel.playlist'))
                             ->urlToRelated(PlaylistResource::class, TrackModel::RELATION_PLAYLIST),
 
@@ -213,15 +266,15 @@ class Track extends BaseResource
                         TextEntry::make(TrackModel::ATTRIBUTE_ID)
                             ->label(__('filament.fields.base.id')),
 
-                        TextEntry::make(TrackModel::RELATION_VIDEO.'.'.VideoModel::ATTRIBUTE_FILENAME)
+                        TextEntry::make(TrackModel::RELATION_VIDEO . '.' . VideoModel::ATTRIBUTE_FILENAME)
                             ->label(__('filament.resources.singularLabel.video'))
                             ->urlToRelated(VideoResource::class, TrackModel::RELATION_VIDEO),
 
-                        TextEntry::make(TrackModel::RELATION_PREVIOUS.'.'.TrackModel::RELATION_VIDEO.'.'.VideoModel::ATTRIBUTE_FILENAME)
+                        TextEntry::make(TrackModel::RELATION_PREVIOUS . '.' . TrackModel::RELATION_VIDEO . '.' . VideoModel::ATTRIBUTE_FILENAME)
                             ->label(__('filament.fields.playlist_track.previous.name'))
                             ->urlToRelated(Track::class, TrackModel::RELATION_PREVIOUS),
-        
-                        TextEntry::make(TrackModel::RELATION_NEXT.'.'.TrackModel::RELATION_VIDEO.'.'.VideoModel::ATTRIBUTE_FILENAME)
+
+                        TextEntry::make(TrackModel::RELATION_NEXT . '.' . TrackModel::RELATION_VIDEO . '.' . VideoModel::ATTRIBUTE_FILENAME)
                             ->label(__('filament.fields.playlist_track.next.name'))
                             ->urlToRelated(Track::class, TrackModel::RELATION_NEXT),
                     ])
@@ -243,7 +296,8 @@ class Track extends BaseResource
     public static function getRelations(): array
     {
         return [
-            RelationGroup::make(static::getLabel(),
+            RelationGroup::make(
+                static::getLabel(),
                 array_merge(
                     [],
                     parent::getBaseRelations(),

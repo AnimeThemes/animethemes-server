@@ -31,11 +31,13 @@ class PlaylistTrackPolicy
      */
     public function viewAny(?User $user): bool
     {
+        if (Filament::isServing()) {
+            return $user !== null && $user->hasRole(RoleEnum::ADMIN->value);
+        }
+
         return Nova::whenServing(
             fn (): bool => $user !== null && $user->hasRole(RoleEnum::ADMIN->value),
             function (Request $request) use ($user): bool {
-                if (Filament::isServing()) return $user !== null && $user->hasRole(RoleEnum::ADMIN->value);
-
                 /** @var Playlist|null $playlist */
                 $playlist = $request->route('playlist');
 
@@ -57,11 +59,13 @@ class PlaylistTrackPolicy
      */
     public function view(?User $user, PlaylistTrack $track): bool
     {
+        if (Filament::isServing()) {
+            return $user !== null && $user->hasRole(RoleEnum::ADMIN->value);
+        }
+
         return Nova::whenServing(
             fn (): bool => $user !== null && $user->hasRole(RoleEnum::ADMIN->value),
             function (Request $request) use ($user): bool {
-                if (Filament::isServing()) return $user !== null && $user->hasRole(RoleEnum::ADMIN->value);
-
                 /** @var Playlist|null $playlist */
                 $playlist = $request->route('playlist');
 
@@ -80,11 +84,13 @@ class PlaylistTrackPolicy
      */
     public function create(User $user): bool
     {
+        if (Filament::isServing()) {
+            return $user !== null && $user->hasRole(RoleEnum::ADMIN->value);
+        }
+
         return Nova::whenServing(
             fn (): bool => $user->hasRole(RoleEnum::ADMIN->value),
             function (Request $request) use ($user): bool {
-                if (Filament::isServing()) return $user !== null && $user->hasRole(RoleEnum::ADMIN->value);
-
                 /** @var Playlist|null $playlist */
                 $playlist = $request->route('playlist');
 
@@ -104,11 +110,13 @@ class PlaylistTrackPolicy
      */
     public function update(User $user, PlaylistTrack $track): bool
     {
+        if (Filament::isServing()) {
+            return $user !== null && $user->hasRole(RoleEnum::ADMIN->value);
+        }
+
         return Nova::whenServing(
             fn (): bool => $user->hasRole(RoleEnum::ADMIN->value),
             function (Request $request) use ($user, $track): bool {
-                if (Filament::isServing()) return $user !== null && $user->hasRole(RoleEnum::ADMIN->value);
-
                 /** @var Playlist|null $playlist */
                 $playlist = $request->route('playlist');
 
@@ -128,11 +136,13 @@ class PlaylistTrackPolicy
      */
     public function delete(User $user, PlaylistTrack $track): bool
     {
+        if (Filament::isServing()) {
+            return $user !== null && $user->hasRole(RoleEnum::ADMIN->value);
+        }
+
         return Nova::whenServing(
             fn (): bool => $user->hasRole(RoleEnum::ADMIN->value),
             function (Request $request) use ($user, $track): bool {
-                if (Filament::isServing()) return $user !== null && $user->hasRole(RoleEnum::ADMIN->value);
-
                 /** @var Playlist|null $playlist */
                 $playlist = $request->route('playlist');
 
@@ -152,11 +162,13 @@ class PlaylistTrackPolicy
      */
     public function restore(User $user, PlaylistTrack $track): bool
     {
+        if (Filament::isServing()) {
+            return $user !== null && $user->hasRole(RoleEnum::ADMIN->value);
+        }
+
         return Nova::whenServing(
             fn (): bool => $user->hasRole(RoleEnum::ADMIN->value),
             function (Request $request) use ($user, $track): bool {
-                if (Filament::isServing()) return $user !== null && $user->hasRole(RoleEnum::ADMIN->value);
-                
                 /** @var Playlist|null $playlist */
                 $playlist = $request->route('playlist');
 

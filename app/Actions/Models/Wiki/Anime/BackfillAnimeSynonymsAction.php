@@ -56,7 +56,11 @@ class BackfillAnimeSynonymsAction extends BackfillAction
             }
 
             foreach ($titles as $type => $text) {
-                if ($type === 'romaji' && $text === $this->getModel()->getName()) continue;
+                if (
+                    $text === null
+                    || empty($text)
+                    || ($type === 'romaji' && $text === $this->getModel()->getName())
+                ) continue;
 
                 Log::info("Creating {$text}");
 
@@ -83,9 +87,9 @@ class BackfillAnimeSynonymsAction extends BackfillAction
      * Get the enum related to the array map.
      *
      * @param  string  $title
-     * @return AnimeSynonymType|null
+     * @return AnimeSynonymType
      */
-    protected static function getAnilistSynonymsMap($title): ?AnimeSynonymType
+    protected static function getAnilistSynonymsMap($title): AnimeSynonymType
     {
         return match ($title) {
             'english' => AnimeSynonymType::ENGLISH,
@@ -141,9 +145,9 @@ class BackfillAnimeSynonymsAction extends BackfillAction
             ])
                 ->throw()
                 ->json();
-    
+
             $titles = Arr::get($response, 'data.Media.title');
-    
+
             return $titles;
         }
 

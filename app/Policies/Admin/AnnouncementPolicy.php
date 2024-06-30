@@ -27,9 +27,13 @@ class AnnouncementPolicy
      */
     public function viewAny(?User $user): bool
     {
+        if (Filament::isServing()) {
+            return $user !== null && $user->can(CrudPermission::VIEW->format(Announcement::class));
+        }
+
         return Nova::whenServing(
             fn (): bool => $user !== null && $user->can(CrudPermission::VIEW->format(Announcement::class)),
-            fn (): bool => Filament::isServing() ? $user !== null && $user->can(CrudPermission::VIEW->format(Announcement::class)) : true
+            fn (): bool => true
         );
     }
 
@@ -41,9 +45,13 @@ class AnnouncementPolicy
      */
     public function view(?User $user): bool
     {
+        if (Filament::isServing()) {
+            return $user !== null && $user->can(CrudPermission::VIEW->format(Announcement::class));
+        }
+
         return Nova::whenServing(
             fn (): bool => $user !== null && $user->can(CrudPermission::VIEW->format(Announcement::class)),
-            fn (): bool => Filament::isServing() ? $user !== null && $user->can(CrudPermission::VIEW->format(Announcement::class)) : true
+            fn (): bool => true
         );
     }
 

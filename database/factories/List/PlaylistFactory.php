@@ -7,7 +7,11 @@ namespace Database\Factories\List;
 use App\Enums\Models\List\PlaylistVisibility;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
+use App\Models\Wiki\Anime;
+use App\Models\Wiki\Anime\AnimeTheme;
+use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
+use App\Pivots\Wiki\AnimeThemeEntryVideo;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Arr;
 
@@ -60,9 +64,21 @@ class PlaylistFactory extends Factory
                     /** @var PlaylistTrack|null $last */
                     $last = Arr::last($tracks);
 
+                    $entry = AnimeThemeEntry::factory()
+                        ->for(AnimeTheme::factory()->for(Anime::factory()))
+                        ->create();
+
+                    $video = Video::factory()->create();
+
+                    AnimeThemeEntryVideo::query()->create([
+                        AnimeThemeEntryVideo::ATTRIBUTE_ENTRY => $entry->getKey(),
+                        AnimeThemeEntryVideo::ATTRIBUTE_VIDEO => $video->getKey(),
+                    ]);
+
                     $track = PlaylistTrack::factory()
                         ->for($playlist)
-                        ->for(Video::factory())
+                        ->for($video)
+                        ->for($entry)
                         ->createOne();
 
                     if ($index === 1) {
@@ -78,6 +94,53 @@ class PlaylistFactory extends Factory
                     }
 
                     if ($index === $count) {
+                        $playlist->last()->associate($track);
+                        $playlist->save();
+                    }
+
+                    $tracks[] = $track;
+                }
+            }
+        );
+    }
+
+    /**
+     * Define the model's track listing.
+     *
+     * @param  array  $videoIds
+     * @return static
+     */
+    public function tracksForIds(array $videoIds): static
+    {
+        return $this->afterCreating(
+            function (Playlist $playlist) use ($videoIds) {
+                $tracks = [];
+
+                for ($index = 0; $index < count($videoIds); $index++) {
+                    $videoId = $videoIds[$index];
+
+                    /** @var PlaylistTrack|null $last */
+                    $last = Arr::last($tracks);
+
+                    $track = PlaylistTrack::factory()
+                        ->for($playlist)
+                        ->for(Video::query()->find($videoId))
+                        ->for(Video::query()->find($videoId)->animethemeentries()->first())
+                        ->createOne();
+
+                    if ($index === 1) {
+                        $playlist->first()->associate($track)->save();
+                    }
+
+                    if ($last !== null) {
+                        $last->next()->associate($track);
+                        $last->save();
+
+                        $track->previous()->associate($last);
+                        $track->save();
+                    }
+
+                    if ($index === count($videoIds)) {
                         $playlist->last()->associate($track);
                         $playlist->save();
                     }

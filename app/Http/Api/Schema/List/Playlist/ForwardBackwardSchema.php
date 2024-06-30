@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Api\Schema\List\Playlist;
 
 use App\Http\Api\Field\Field;
+use App\Http\Api\Field\List\Playlist\Track\TrackEntryIdField;
 use App\Http\Api\Field\List\Playlist\Track\TrackHashidsField;
 use App\Http\Api\Field\List\Playlist\Track\TrackIdField;
 use App\Http\Api\Field\List\Playlist\Track\TrackVideoIdField;
@@ -61,6 +62,7 @@ class ForwardBackwardSchema extends EloquentSchema
             [
                 new TrackIdField($this),
                 new TrackHashidsField($this),
+                new TrackEntryIdField($this),
                 new TrackVideoIdField($this),
             ],
         );

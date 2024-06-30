@@ -11,6 +11,7 @@ use App\Events\List\Playlist\Track\TrackRestored;
 use App\Events\List\Playlist\Track\TrackUpdated;
 use App\Models\BaseModel;
 use App\Models\List\Playlist;
+use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
 use Database\Factories\List\Playlist\PlaylistTrackFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -20,6 +21,8 @@ use Staudenmeir\LaravelAdjacencyList\Eloquent\HasRecursiveRelationships;
 /**
  * Class PlaylistTrack.
  *
+ * @property int $entry_id
+ * @property AnimeThemeEntry $animethemeentry
  * @property PlaylistTrack|null $next
  * @property int $next_id
  * @property int $playlist_id
@@ -40,18 +43,20 @@ class PlaylistTrack extends BaseModel implements HasHashids
     final public const TABLE = 'playlist_tracks';
 
     final public const ATTRIBUTE_ID = 'track_id';
+    final public const ATTRIBUTE_ENTRY = 'entry_id';
     final public const ATTRIBUTE_NEXT = 'next_id';
     final public const ATTRIBUTE_PLAYLIST = 'playlist_id';
     final public const ATTRIBUTE_PREVIOUS = 'previous_id';
     final public const ATTRIBUTE_VIDEO = 'video_id';
 
-    final public const RELATION_ARTISTS = 'video.animethemeentries.animetheme.song.artists';
+    final public const RELATION_ARTISTS = 'animethemeentry.animetheme.song.artists';
     final public const RELATION_AUDIO = 'video.audio';
-    final public const RELATION_IMAGES = 'video.animethemeentries.animetheme.anime.images';
+    final public const RELATION_ENTRY = 'animethemeentry';
+    final public const RELATION_IMAGES = 'animethemeentry.animetheme.anime.images';
     final public const RELATION_NEXT = 'next';
     final public const RELATION_PLAYLIST = 'playlist';
     final public const RELATION_PREVIOUS = 'previous';
-    final public const RELATION_THEME_GROUP = 'video.animethemeentries.animetheme.group';
+    final public const RELATION_THEME_GROUP = 'animethemeentry.animetheme.group';
     final public const RELATION_VIDEO = 'video';
 
     /**
@@ -137,6 +142,16 @@ class PlaylistTrack extends BaseModel implements HasHashids
         return $this->playlist->user !== null
             ? "{$this->playlist->user->getName()} - {$this->playlist->getName()}"
             : $this->playlist->getName();
+    }
+
+    /**
+     * Get the entry of the track.
+     *
+     * @return BelongsTo
+     */
+    public function animethemeentry(): BelongsTo
+    {
+        return $this->belongsTo(AnimeThemeEntry::class, PlaylistTrack::ATTRIBUTE_ENTRY);
     }
 
     /**

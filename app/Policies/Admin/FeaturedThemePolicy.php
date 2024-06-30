@@ -28,9 +28,13 @@ class FeaturedThemePolicy
      */
     public function viewAny(?User $user): bool
     {
+        if (Filament::isServing()) {
+            return $user !== null && $user->can(CrudPermission::VIEW->format(FeaturedTheme::class));
+        }
+
         return Nova::whenServing(
             fn (): bool => $user !== null && $user->can(CrudPermission::VIEW->format(FeaturedTheme::class)),
-            fn (): bool => Filament::isServing() ? $user !== null && $user->can(CrudPermission::VIEW->format(FeaturedTheme::class)) : true
+            fn (): bool => true
         );
     }
 
@@ -43,9 +47,13 @@ class FeaturedThemePolicy
      */
     public function view(?User $user, FeaturedTheme $featuredtheme): bool
     {
+        if (Filament::isServing()) {
+            return $user !== null && $user->can(CrudPermission::VIEW->format(FeaturedTheme::class));
+        }
+
         return Nova::whenServing(
             fn (): bool => $user !== null && $user->can(CrudPermission::VIEW->format(FeaturedTheme::class)),
-            fn (): bool => Filament::isServing() ? $user !== null && $user->can(CrudPermission::VIEW->format(FeaturedTheme::class)) : $featuredtheme->start_at->isBefore(Date::now())
+            fn (): bool => $featuredtheme->start_at->isBefore(Date::now())
         );
     }
 
