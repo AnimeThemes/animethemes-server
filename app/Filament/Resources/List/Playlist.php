@@ -195,6 +195,8 @@ class Playlist extends BaseResource
 
                 TextColumn::make(PlaylistModel::ATTRIBUTE_NAME)
                     ->label(__('filament.fields.playlist.name.name'))
+                    ->limit(40)
+                    ->tooltip(fn (TextColumn $column) => $column->getState())
                     ->sortable()
                     ->copyableWithMessage()
                     ->toggleable(),
@@ -253,6 +255,7 @@ class Playlist extends BaseResource
 
                         TextEntry::make(PlaylistModel::ATTRIBUTE_NAME)
                             ->label(__('filament.fields.playlist.name.name'))
+                            ->limit(30)
                             ->copyableWithMessage(),
 
                         TextEntry::make(PlaylistModel::ATTRIBUTE_VISIBILITY)
@@ -279,6 +282,7 @@ class Playlist extends BaseResource
 
                         TextEntry::make(PlaylistModel::ATTRIBUTE_DESCRIPTION)
                             ->label(__('filament.fields.playlist.description.name'))
+                            ->markdown()
                             ->placeholder('-')
                             ->copyableWithMessage()
                             ->columnSpanFull(),
