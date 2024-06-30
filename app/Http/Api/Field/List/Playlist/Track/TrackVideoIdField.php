@@ -42,12 +42,19 @@ class TrackVideoIdField extends Field implements CreatableField, FilterableField
      */
     public function getCreationRules(Request $request): array
     {
+        $entryId = $this->resolveEntryId($request);
+
         return [
             'required',
             'integer',
             Rule::exists(Video::class, Video::ATTRIBUTE_ID),
-            Rule::exists(AnimeThemeEntryVideo::class, AnimeThemeEntryVideo::ATTRIBUTE_VIDEO)
-                ->where(AnimeThemeEntryVideo::ATTRIBUTE_ENTRY, $this->resolveEntryId($request)),
+            Rule::when(
+                ! empty($entryId),
+                [
+                    Rule::exists(AnimeThemeEntryVideo::class, AnimeThemeEntryVideo::ATTRIBUTE_VIDEO)
+                        ->where(AnimeThemeEntryVideo::ATTRIBUTE_ENTRY, $this->resolveEntryId($request)),
+                ]
+            ),
         ];
     }
 
