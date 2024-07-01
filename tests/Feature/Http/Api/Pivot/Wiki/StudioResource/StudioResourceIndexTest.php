@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Http\Api\Pivot\Wiki\StudioResource;
+namespace Tests\Feature\Http\Api\Pivot\Wiki\StudioResource;
 
 use App\Concerns\Actions\Http\Api\SortsModels;
 use App\Contracts\Http\Api\Field\SortableField;

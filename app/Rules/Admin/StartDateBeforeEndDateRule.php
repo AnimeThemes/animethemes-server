@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Rules\Admin;
 
-use Carbon\Carbon;
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
+use Illuminate\Support\Carbon;
 use Illuminate\Translation\PotentiallyTranslatedString;
 use RuntimeException;
 

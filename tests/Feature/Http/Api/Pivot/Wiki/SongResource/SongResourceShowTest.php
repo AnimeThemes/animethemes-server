@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Http\Api\Pivot\Wiki\SongResource;
+namespace Tests\Feature\Http\Api\Pivot\Wiki\SongResource;
 
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Http\Api\Field\Field;

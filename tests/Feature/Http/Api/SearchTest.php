@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Http\Api;
+namespace Tests\Feature\Http\Api;
 
 use App\Http\Api\Parser\FieldParser;
 use App\Http\Api\Parser\SearchParser;

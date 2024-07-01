@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Http\Api\List\Playlist;
+namespace Tests\Feature\Http\Api\List\Playlist;
 
 use App\Contracts\Http\Api\Field\SortableField;
 use App\Enums\Auth\CrudPermission;

@@ -23,13 +23,13 @@ use App\Models\Wiki\Anime\Theme\AnimeThemeEntry as EntryModel;
 use App\Models\Wiki\Video;
 use App\Pivots\Wiki\AnimeThemeEntryVideo;
 use App\Rules\Admin\StartDateBeforeEndDateRule;
-use Carbon\Carbon;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Tables\Table;
+use Illuminate\Support\Carbon;
 use Illuminate\Validation\Rule;
 use Malzariey\FilamentDaterangepickerFilter\Fields\DateRangePicker;
 
@@ -146,12 +146,9 @@ class FeaturedTheme extends BaseResource
                     ])
                     ->saveRelationshipsUsing(function (FeaturedThemeModel $record, string $state) {
                         $dates = explode(' - ', $state);
-
-                        $startAt = Carbon::createFromFormat('m/d/Y', $dates[0])->getTimestamp();
-                        $endAt = Carbon::createFromFormat('m/d/Y', $dates[1])->getTimestamp();
                         
-                        $record->start_at = $startAt;
-                        $record->end_at = $endAt;
+                        $record->start_at = Carbon::createFromFormat('m/d/Y', $dates[0]);
+                        $record->end_at = Carbon::createFromFormat('m/d/Y', $dates[1]);
                         $record->save();
                     }),
 
