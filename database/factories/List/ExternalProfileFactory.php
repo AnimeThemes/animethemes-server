@@ -63,7 +63,32 @@ class ExternalProfileFactory extends Factory
                         ->for(Anime::factory())
                         ->createOne();
 
-                    $entry->is_favourite = fake()->boolean();
+                    $entry->is_favorite = fake()->boolean();
+                    $entry->score = fake()->numberBetween(1, 10);
+                    $entry->watch_status = Arr::random(AnimeWatchStatus::cases())->value;
+                    $entry->save();
+                }
+            }
+        );
+    }
+
+    /**
+     * Define the model's entry listing.
+     *
+     * @param  array  $animeIds
+     * @return static
+     */
+    public function entriesForIds(array $animeIds): static
+    {
+        return $this->afterCreating(
+            function (ExternalProfile $profile) use ($animeIds) {
+                foreach ($animeIds as $animeId) {
+                    $entry = ExternalEntry::factory()
+                        ->for($profile)
+                        ->for(Anime::query()->find($animeId))
+                        ->createOne();
+
+                    $entry->is_favorite = fake()->boolean();
                     $entry->score = fake()->numberBetween(1, 10);
                     $entry->watch_status = Arr::random(AnimeWatchStatus::cases())->value;
                     $entry->save();

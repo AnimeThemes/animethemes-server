@@ -25,7 +25,7 @@ use Laravel\Nova\Actions\Actionable;
  * @property Anime $anime
  * @property int $external_profile_id
  * @property ExternalProfile $externalprofile
- * @property bool $is_favourite
+ * @property bool $is_favorite
  * @property float|null $score
  * @property AnimeWatchStatus|null $watch_status
  * 
@@ -41,7 +41,7 @@ class ExternalEntry extends BaseModel
     final public const ATTRIBUTE_ID = 'entry_id';
     final public const ATTRIBUTE_ANIME = 'anime_id';
     final public const ATTRIBUTE_EXTERNAL_PROFILE = 'external_profile_id';
-    final public const ATTRIBUTE_IS_FAVOURITE = 'is_favourite';
+    final public const ATTRIBUTE_IS_FAVORITE = 'is_favorite';
     final public const ATTRIBUTE_SCORE = 'score';
     final public const ATTRIBUTE_WATCH_STATUS = 'watch_status';
 
@@ -52,12 +52,12 @@ class ExternalEntry extends BaseModel
     /**
      * The attributes that are mass assignable.
      *
-     * @var string[]
+     * @var array<int, string>
      */
     protected $fillable = [
         ExternalEntry::ATTRIBUTE_ANIME,
         ExternalEntry::ATTRIBUTE_EXTERNAL_PROFILE,
-        ExternalEntry::ATTRIBUTE_IS_FAVOURITE,
+        ExternalEntry::ATTRIBUTE_IS_FAVORITE,
         ExternalEntry::ATTRIBUTE_SCORE,
         ExternalEntry::ATTRIBUTE_WATCH_STATUS,
     ];
@@ -96,7 +96,7 @@ class ExternalEntry extends BaseModel
      * @var array<string, string>
      */
     protected $casts = [
-        ExternalEntry::ATTRIBUTE_IS_FAVOURITE => 'bool',
+        ExternalEntry::ATTRIBUTE_IS_FAVORITE => 'bool',
         ExternalEntry::ATTRIBUTE_WATCH_STATUS => AnimeWatchStatus::class,
     ];
 
@@ -108,6 +108,16 @@ class ExternalEntry extends BaseModel
     public function getName(): string
     {
         return strval($this->getKey());
+    }
+
+    /**
+     * Get subtitle.
+     *
+     * @return string
+     */
+    public function getSubtitle(): string
+    {
+        return $this->anime->getName();
     }
 
     /**

@@ -10,6 +10,7 @@ use App\Enums\Models\List\ExternalProfileVisibility;
 use App\Models\Auth\User;
 use App\Models\List\ExternalProfile;
 use App\Models\List\External\ExternalEntry;
+use Filament\Facades\Filament;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Http\Request;
 use Laravel\Nova\Nova;
@@ -29,6 +30,10 @@ class ExternalEntryPolicy
      */
     public function viewAny(?User $user): bool
     {
+        if (Filament::isServing()) {
+            return $user !== null && $user->hasRole('Admin');
+        }
+
         return Nova::whenServing(
             fn (): bool => $user !== null && $user->hasRole('Admin'),
             function (Request $request) use ($user): bool {
@@ -53,6 +58,10 @@ class ExternalEntryPolicy
      */
     public function view(?User $user, ExternalEntry $entry): bool
     {
+        if (Filament::isServing()) {
+            return $user !== null && $user->hasRole('Admin');
+        }
+
         return Nova::whenServing(
             fn (): bool => $user !== null && $user->hasRole('Admin'),
             function (Request $request) use ($user): bool {
@@ -74,6 +83,10 @@ class ExternalEntryPolicy
      */
     public function create(User $user): bool
     {
+        if (Filament::isServing()) {
+            return $user !== null && $user->hasRole('Admin');
+        }
+
         return Nova::whenServing(
             fn (): bool => $user->hasRole('Admin'),
             function (Request $request) use ($user): bool {
@@ -96,6 +109,10 @@ class ExternalEntryPolicy
      */
     public function update(User $user, ExternalEntry $entry): bool
     {
+        if (Filament::isServing()) {
+            return $user !== null && $user->hasRole('Admin');
+        }
+
         return Nova::whenServing(
             fn (): bool => $user->hasRole('Admin'),
             function (Request $request) use ($user, $entry): bool {
@@ -118,6 +135,10 @@ class ExternalEntryPolicy
      */
     public function delete(User $user, ExternalEntry $entry): bool
     {
+        if (Filament::isServing()) {
+            return $user !== null && $user->hasRole('Admin');
+        }
+
         return Nova::whenServing(
             fn (): bool => $user->hasRole('Admin'),
             function (Request $request) use ($user, $entry): bool {
@@ -140,6 +161,10 @@ class ExternalEntryPolicy
      */
     public function restore(User $user, ExternalEntry $entry): bool
     {
+        if (Filament::isServing()) {
+            return $user !== null && $user->hasRole('Admin');
+        }
+
         return Nova::whenServing(
             fn (): bool => $user->hasRole('Admin'),
             function (Request $request) use ($user, $entry): bool {

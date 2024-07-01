@@ -538,9 +538,9 @@ return [
             'path' => 'Path',
         ],
         'externalentry' => [
-            'is_favourite' => [
+            'is_favorite' => [
                 'help' => 'If the user has the entry favorited.',
-                'name' => 'Is Favourite',
+                'name' => 'Is Favorite',
             ],
             'score' => [
                 'help' => 'The anime score of the user.',

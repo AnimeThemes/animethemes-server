@@ -9,7 +9,7 @@ use App\Http\Api\Field\List\ExternalProfile\ExternalEntry\ExternalEntryAnimeIdFi
 use App\Http\Api\Field\List\ExternalProfile\ExternalEntry\ExternalEntryExternalProfileIdField;
 use App\Http\Api\Field\List\ExternalProfile\ExternalEntry\ExternalEntryWatchStatusField;
 use App\Http\Api\Field\List\ExternalProfile\ExternalEntry\ExternalEntryIdField;
-use App\Http\Api\Field\List\ExternalProfile\ExternalEntry\ExternalEntryIsFavouriteField;
+use App\Http\Api\Field\List\ExternalProfile\ExternalEntry\ExternalEntryIsFavoriteField;
 use App\Http\Api\Field\List\ExternalProfile\ExternalEntry\ExternalEntryScoreField;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\Auth\UserSchema;
@@ -60,7 +60,7 @@ class ExternalEntrySchema extends EloquentSchema
             [
                 new ExternalEntryIdField($this),
                 new ExternalEntryScoreField($this),
-                new ExternalEntryIsFavouriteField($this),
+                new ExternalEntryIsFavoriteField($this),
                 new ExternalEntryWatchStatusField($this),
                 new ExternalEntryAnimeIdField($this),
                 new ExternalEntryExternalProfileIdField($this),

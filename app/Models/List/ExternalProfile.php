@@ -53,7 +53,7 @@ class ExternalProfile extends BaseModel
     /**
      * The attributes that are mass assignable.
      *
-     * @var string[]
+     * @var array<int, string>
      */
     protected $fillable = [
         ExternalProfile::ATTRIBUTE_NAME,
@@ -108,6 +108,16 @@ class ExternalProfile extends BaseModel
     public function getName(): string
     {
         return $this->name;
+    }
+
+    /**
+     * Get subtitle.
+     *
+     * @return string
+     */
+    public function getSubtitle(): string
+    {
+        return $this->user === null ? $this->getName() : $this->user->getName();
     }
 
     /**

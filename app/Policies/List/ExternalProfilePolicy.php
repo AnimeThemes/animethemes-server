@@ -9,6 +9,7 @@ use App\Enums\Auth\ExtendedCrudPermission;
 use App\Enums\Models\List\ExternalProfileVisibility;
 use App\Models\Auth\User;
 use App\Models\List\ExternalProfile;
+use Filament\Facades\Filament;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Laravel\Nova\Nova;
 
@@ -27,6 +28,10 @@ class ExternalProfilePolicy
      */
     public function viewAny(?User $user): bool
     {
+        if (Filament::isServing()) {
+            return $user !== null && $user->hasRole('Admin');
+        }
+
         return Nova::whenServing(
             fn (): bool => $user !== null && $user->hasRole('Admin'),
             fn (): bool => $user === null || $user->can(CrudPermission::VIEW->format(ExternalProfile::class))
@@ -42,6 +47,10 @@ class ExternalProfilePolicy
      */
     public function view(?User $user, ExternalProfile $profile): bool
     {
+        if (Filament::isServing()) {
+            return $user !== null && $user->hasRole('Admin');
+        }
+
         return Nova::whenServing(
             fn (): bool => $user !== null && $user->hasRole('Admin'),
             fn (): bool => $user !== null
@@ -58,6 +67,10 @@ class ExternalProfilePolicy
      */
     public function create(User $user): bool
     {
+        if (Filament::isServing()) {
+            return $user !== null && $user->hasRole('Admin');
+        }
+
         return Nova::whenServing(
             fn (): bool => $user->hasRole('Admin'),
             fn (): bool => $user->can(CrudPermission::CREATE->format(ExternalProfile::class))
@@ -73,6 +86,10 @@ class ExternalProfilePolicy
      */
     public function update(User $user, ExternalProfile $profile): bool
     {
+        if (Filament::isServing()) {
+            return $user !== null && $user->hasRole('Admin');
+        }
+
         return Nova::whenServing(
             fn (): bool => $user->hasRole('Admin'),
             fn (): bool => ! $profile->trashed() && $user->getKey() === $profile->user_id && $user->can(CrudPermission::UPDATE->format(ExternalProfile::class))
@@ -88,6 +105,10 @@ class ExternalProfilePolicy
      */
     public function delete(User $user, ExternalProfile $profile): bool
     {
+        if (Filament::isServing()) {
+            return $user !== null && $user->hasRole('Admin');
+        }
+
         return Nova::whenServing(
             fn (): bool => $user->hasRole('Admin'),
             fn (): bool => ! $profile->trashed() && $user->getKey() === $profile->user_id && $user->can(CrudPermission::DELETE->format(ExternalProfile::class))
@@ -103,6 +124,10 @@ class ExternalProfilePolicy
      */
     public function restore(User $user, ExternalProfile $profile): bool
     {
+        if (Filament::isServing()) {
+            return $user !== null && $user->hasRole('Admin');
+        }
+
         return Nova::whenServing(
             fn (): bool => $user->hasRole('Admin'),
             fn (): bool => $profile->trashed() && $user->getKey() === $profile->user_id && $user->can(ExtendedCrudPermission::RESTORE->format(ExternalProfile::class))
