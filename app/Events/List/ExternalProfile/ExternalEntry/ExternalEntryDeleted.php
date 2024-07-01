@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace App\Events\List\ExternalProfile\ExternalEntry;
 
-use App\Events\Base\Admin\AdminDeletedEvent;
+use App\Events\Base\List\ListDeletedEvent;
 use App\Models\List\ExternalProfile;
 use App\Models\List\External\ExternalEntry;
 
 /**
  * Class ExternalEntryDeleted.
  *
- * @extends AdminDeletedEvent<ExternalEntry>
+ * @extends ListDeletedEvent<ExternalEntry>
  */
-class ExternalEntryDeleted extends AdminDeletedEvent
+class ExternalEntryDeleted extends ListDeletedEvent
 {
     /**
      * The profile the entry belongs to.
@@ -31,6 +31,18 @@ class ExternalEntryDeleted extends AdminDeletedEvent
     {
         parent::__construct($entry);
         $this->profile = $entry->externalprofile;
+    }
+
+    /**
+     * Determine if the message should be sent.
+     *
+     * @return bool
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public function shouldSendDiscordMessage(): bool
+    {
+        return false;
     }
 
     /**

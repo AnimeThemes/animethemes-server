@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace App\Events\List\ExternalProfile\ExternalEntry;
 
-use App\Events\Base\Admin\AdminUpdatedEvent;
+use App\Events\Base\List\ListUpdatedEvent;
 use App\Models\List\ExternalProfile;
 use App\Models\List\External\ExternalEntry;
 
 /**
  * Class ExternalEntryUpdated.
  *
- * @extends AdminUpdatedEvent<ExternalEntry>
+ * @extends ListUpdatedEvent<ExternalEntry>
  */
-class ExternalEntryUpdated extends AdminUpdatedEvent
+class ExternalEntryUpdated extends ListUpdatedEvent
 {
     /**
      * The profile the entry belongs to.
@@ -32,6 +32,18 @@ class ExternalEntryUpdated extends AdminUpdatedEvent
         parent::__construct($entry);
         $this->profile = $entry->externalprofile;
         $this->initializeEmbedFields($entry);
+    }
+
+    /**
+     * Determine if the message should be sent.
+     *
+     * @return bool
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public function shouldSendDiscordMessage(): bool
+    {
+        return false;
     }
 
     /**

@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace App\Events\List\ExternalProfile;
 
-use App\Events\Base\Admin\AdminRestoredEvent;
+use App\Events\Base\List\ListRestoredEvent;
 use App\Models\List\ExternalProfile;
 
 /**
  * Class ExternalProfileRestored.
  *
- * @extends AdminRestoredEvent<ExternalProfile>
+ * @extends ListRestoredEvent<ExternalProfile>
  */
-class ExternalProfileRestored extends AdminRestoredEvent
+class ExternalProfileRestored extends ListRestoredEvent
 {
     /**
      * Create a new event instance.
@@ -22,6 +22,18 @@ class ExternalProfileRestored extends AdminRestoredEvent
     public function __construct(ExternalProfile $profile)
     {
         parent::__construct($profile);
+    }
+
+    /**
+     * Determine if the message should be sent.
+     *
+     * @return bool
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public function shouldSendDiscordMessage(): bool
+    {
+        return false;
     }
 
     /**

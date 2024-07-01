@@ -4,17 +4,15 @@ declare(strict_types=1);
 
 namespace App\Events\List\Playlist;
 
-use App\Constants\Config\ServiceConstants;
-use App\Events\Base\BaseUpdatedEvent;
+use App\Events\Base\List\ListUpdatedEvent;
 use App\Models\List\Playlist;
-use Illuminate\Support\Facades\Config;
 
 /**
  * Class PlaylistUpdated.
  *
- * @extends BaseUpdatedEvent<Playlist>
+ * @extends ListUpdatedEvent<Playlist>
  */
-class PlaylistUpdated extends BaseUpdatedEvent
+class PlaylistUpdated extends ListUpdatedEvent
 {
     /**
      * Create a new event instance.
@@ -25,28 +23,6 @@ class PlaylistUpdated extends BaseUpdatedEvent
     {
         parent::__construct($playlist);
         $this->initializeEmbedFields($playlist);
-    }
-
-    /**
-     * Get Discord channel the message will be sent to.
-     *
-     * @return string
-     */
-    public function getDiscordChannel(): string
-    {
-        return Config::get(ServiceConstants::ADMIN_DISCORD_CHANNEL_QUALIFIED);
-    }
-
-    /**
-     * Determine if the message should be sent.
-     *
-     * @return bool
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    public function shouldSendDiscordMessage(): bool
-    {
-        return false;
     }
 
     /**
