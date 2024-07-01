@@ -132,6 +132,8 @@ class FeaturedTheme extends BaseResource
         return $form
             ->schema([
                 DateRangePicker::make('date')
+                    ->label(__('filament.fields.featured_theme.date.name'))
+                    ->helperText(__('filament.fields.featured_theme.date.help'))
                     ->timezone('UTC')
                     ->displayFormat('MM/DD/YYYY')
                     ->format(AllowedDateFormat::YMD->value)
@@ -229,13 +231,13 @@ class FeaturedTheme extends BaseResource
                     ->sortable(),
 
                 TextColumn::make(FeaturedThemeModel::ATTRIBUTE_START_AT)
-                    ->label(__('filament.fields.featured_theme.start_at.name'))
+                    ->label(__('filament.fields.featured_theme.start_at'))
                     ->sortable()
                     ->date()
                     ->toggleable(),
 
                 TextColumn::make(FeaturedThemeModel::ATTRIBUTE_END_AT)
-                    ->label(__('filament.fields.featured_theme.end_at.name'))
+                    ->label(__('filament.fields.featured_theme.end_at'))
                     ->sortable()
                     ->date()
                     ->toggleable(),
@@ -279,11 +281,11 @@ class FeaturedTheme extends BaseResource
                             ->label(__('filament.fields.base.id')),
 
                         TextEntry::make(FeaturedThemeModel::ATTRIBUTE_START_AT)
-                            ->label(__('filament.fields.featured_theme.start_at.name'))
+                            ->label(__('filament.fields.featured_theme.start_at'))
                             ->date(),
 
                         TextEntry::make(FeaturedThemeModel::ATTRIBUTE_END_AT)
-                            ->label(__('filament.fields.featured_theme.end_at.name'))
+                            ->label(__('filament.fields.featured_theme.end_at'))
                             ->date(),
 
                         TextEntry::make(FeaturedThemeModel::RELATION_VIDEO.'.'.Video::ATTRIBUTE_FILENAME)
