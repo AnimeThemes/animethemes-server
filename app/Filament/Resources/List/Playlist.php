@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\List;
 
+use App\Enums\Http\Api\Filter\ComparisonOperator;
 use App\Enums\Models\List\PlaylistVisibility;
 use App\Filament\Actions\Models\AssignHashidsAction;
 use App\Filament\Components\Columns\TextColumn;
@@ -129,7 +130,15 @@ class Playlist extends BaseResource
                 Select::make(PlaylistModel::ATTRIBUTE_USER)
                     ->label(__('filament.resources.singularLabel.user'))
                     ->relationship(PlaylistModel::RELATION_USER, UserModel::ATTRIBUTE_NAME)
-                    ->searchable(),
+                    ->allowHtml()
+                    ->searchable()
+                    ->getSearchResultsUsing(function (string $search) {
+                        return UserModel::query()
+                            ->where(UserModel::ATTRIBUTE_NAME, ComparisonOperator::LIKE->value, "%$search%")
+                            ->get()
+                            ->mapWithKeys(fn (UserModel $model) => [$model->getKey() => Select::getSearchLabelWithBlade($model)])
+                            ->toArray();
+                    }),
 
                 TextInput::make(PlaylistModel::ATTRIBUTE_NAME)
                     ->label(__('filament.fields.playlist.name.name'))

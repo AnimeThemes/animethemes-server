@@ -4,17 +4,15 @@ declare(strict_types=1);
 
 namespace App\Events\List\Playlist;
 
-use App\Constants\Config\ServiceConstants;
-use App\Events\Base\BaseRestoredEvent;
+use App\Events\Base\List\ListRestoredEvent;
 use App\Models\List\Playlist;
-use Illuminate\Support\Facades\Config;
 
 /**
  * Class PlaylistRestored.
  *
- * @extends BaseRestoredEvent<Playlist>
+ * @extends ListRestoredEvent<Playlist>
  */
-class PlaylistRestored extends BaseRestoredEvent
+class PlaylistRestored extends ListRestoredEvent
 {
     /**
      * Create a new event instance.
@@ -24,16 +22,6 @@ class PlaylistRestored extends BaseRestoredEvent
     public function __construct(Playlist $playlist)
     {
         parent::__construct($playlist);
-    }
-
-    /**
-     * Get Discord channel the message will be sent to.
-     *
-     * @return string
-     */
-    public function getDiscordChannel(): string
-    {
-        return Config::get(ServiceConstants::ADMIN_DISCORD_CHANNEL_QUALIFIED);
     }
 
     /**

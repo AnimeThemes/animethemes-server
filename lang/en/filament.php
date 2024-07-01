@@ -608,6 +608,34 @@ return [
         'dump' => [
             'path' => 'Path',
         ],
+        'external_entry' => [
+            'is_favorite' => [
+                'help' => 'If the user has the entry favorited.',
+                'name' => 'Is Favorite',
+            ],
+            'score' => [
+                'help' => 'The anime score of the user.',
+                'name' => 'Score',
+            ],
+            'watch_status' => [
+                'help' => 'The watch status of the anime.',
+                'name' => 'Watch Status',
+            ],
+        ],
+        'external_profile' => [
+            'name' => [
+                'help' => 'The name of the user of the external site.',
+                'name' => 'Name',
+            ],
+            'site' => [
+                'help' => 'The site that owns the external list.',
+                'name' => 'Site',
+            ],
+            'visibility' => [
+                'help' => 'The visibility of the user profile.',
+                'name' => 'Visibility',
+            ],
+        ],
         'external_resource' => [
             'external_id' => [
                 'help' => 'The identifier used by the external site.',
@@ -898,6 +926,8 @@ return [
             'audios' => 'heroicon-o-speaker-wave',
             'discord_thread' => 'heroicon-o-chat-bubble-left-right',
             'dumps' => 'heroicon-o-circle-stack',
+            'external_entries' => 'heroicon-o-list-bullet',
+            'external_profiles' => 'heroicon-o-list-bullet',
             'external_resources' => 'heroicon-o-arrow-top-right-on-square',
             'features' => 'heroicon-o-cog-6-tooth',
             'featured_themes' => 'heroicon-o-calendar-days',
@@ -927,6 +957,8 @@ return [
             'audios' => 'Audios',
             'discord_threads' => 'Threads',
             'dumps' => 'Dumps',
+            'external_entries' => 'External Entries',
+            'external_profiles' => 'External Profiles',
             'external_resources' => 'External Resources',
             'features' => 'Features',
             'featured_themes' => 'Featured Themes',
@@ -956,6 +988,8 @@ return [
             'audio' => 'Audio',
             'discord_thread' => 'Thread',
             'dump' => 'Dump',
+            'external_entry' => 'External Entry',
+            'external_profile' => 'External Profile',
             'external_resource' => 'External Resource',
             'feature' => 'Feature',
             'featured_theme' => 'Featured Theme',

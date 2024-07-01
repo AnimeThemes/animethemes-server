@@ -4,18 +4,16 @@ declare(strict_types=1);
 
 namespace App\Events\List\Playlist\Track;
 
-use App\Constants\Config\ServiceConstants;
-use App\Events\Base\BaseDeletedEvent;
+use App\Events\Base\List\ListDeletedEvent;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
-use Illuminate\Support\Facades\Config;
 
 /**
  * Class TrackDeleted.
  *
- * @extends BaseDeletedEvent<PlaylistTrack>
+ * @extends ListDeletedEvent<PlaylistTrack>
  */
-class TrackDeleted extends BaseDeletedEvent
+class TrackDeleted extends ListDeletedEvent
 {
     /**
      * The playlist the track belongs to.
@@ -33,16 +31,6 @@ class TrackDeleted extends BaseDeletedEvent
     {
         parent::__construct($track);
         $this->playlist = $track->playlist;
-    }
-
-    /**
-     * Get Discord channel the message will be sent to.
-     *
-     * @return string
-     */
-    public function getDiscordChannel(): string
-    {
-        return Config::get(ServiceConstants::ADMIN_DISCORD_CHANNEL_QUALIFIED);
     }
 
     /**

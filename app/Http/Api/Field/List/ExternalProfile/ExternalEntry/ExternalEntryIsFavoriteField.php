@@ -12,9 +12,9 @@ use App\Models\List\External\ExternalEntry;
 use Illuminate\Http\Request;
 
 /**
- * Class ExternalEntryIsFavouriteField.
+ * Class ExternalEntryIsFavoriteField.
  */
-class ExternalEntryIsFavouriteField extends BooleanField implements CreatableField, UpdatableField
+class ExternalEntryIsFavoriteField extends BooleanField implements CreatableField, UpdatableField
 {
     /**
      * Create a new field instance.
@@ -23,7 +23,7 @@ class ExternalEntryIsFavouriteField extends BooleanField implements CreatableFie
      */
     public function __construct(Schema $schema)
     {
-        parent::__construct($schema, ExternalEntry::ATTRIBUTE_IS_FAVOURITE);
+        parent::__construct($schema, ExternalEntry::ATTRIBUTE_IS_FAVORITE);
     }
 
     /**

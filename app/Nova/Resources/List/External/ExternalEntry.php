@@ -157,11 +157,11 @@ class ExternalEntry extends BaseResource
                 ->showCreateRelationButton()
                 ->showOnPreview(),
 
-            Boolean::make(__('nova.fields.externalentry.is_favourite.name'), ExternalEntryModel::ATTRIBUTE_IS_FAVOURITE)
+            Boolean::make(__('nova.fields.externalentry.is_favorite.name'), ExternalEntryModel::ATTRIBUTE_IS_FAVORITE)
                 ->sortable()
                 ->filterable()
                 ->rules(['required'])
-                ->help(__('nova.fields.externalentry.is_favourite.help'))
+                ->help(__('nova.fields.externalentry.is_favorite.help'))
                 ->showWhenPeeking()
                 ->showOnPreview(),
 
