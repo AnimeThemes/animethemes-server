@@ -13,7 +13,6 @@ use App\Filament\Actions\Base\ViewAction;
 use App\Filament\BulkActions\Base\DeleteBulkAction;
 use App\Filament\BulkActions\Base\ForceDeleteBulkAction;
 use App\Filament\BulkActions\Base\RestoreBulkAction;
-use App\Filament\Components\Filters\DateFilter;
 use App\Filament\RelationManagers\Base\ActionLogRelationManager;
 use App\Models\BaseModel;
 use Filament\Infolists\Components\TextEntry;
@@ -25,6 +24,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Malzariey\FilamentDaterangepickerFilter\Filters\DateRangeFilter;
 
 /**
  * Class BaseResource.
@@ -100,14 +100,14 @@ abstract class BaseResource extends Resource
         return [
             TrashedFilter::make(),
 
-            DateFilter::make(BaseModel::ATTRIBUTE_CREATED_AT)
-                ->labels(__('filament.filters.base.created_at_from'),  __('filament.filters.base.created_at_to')),
+            DateRangeFilter::make(BaseModel::ATTRIBUTE_CREATED_AT)
+                ->label(__('filament.fields.base.created_at')),
 
-            DateFilter::make(BaseModel::ATTRIBUTE_UPDATED_AT)
-                ->labels(__('filament.filters.base.updated_at_from'),  __('filament.filters.base.updated_at_to')),
+            DateRangeFilter::make(BaseModel::ATTRIBUTE_UPDATED_AT)
+                ->label(__('filament.fields.base.updated_at')),
 
-            DateFilter::make(BaseModel::ATTRIBUTE_DELETED_AT)
-                ->labels(__('filament.filters.base.deleted_at_from'),  __('filament.filters.base.deleted_at_to')),
+            DateRangeFilter::make(BaseModel::ATTRIBUTE_DELETED_AT)
+                ->label(__('filament.fields.base.deleted_at')),
         ];
     }
 

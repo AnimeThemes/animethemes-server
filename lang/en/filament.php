@@ -861,12 +861,6 @@ return [
         ],
     ],
     'filters' => [
-        'action_log' => [
-            'finished_at_from' => 'Finished At - From',
-            'finished_at_to' => 'Finished At - To',
-            'happened_at_from' => 'Happened At - From',
-            'happened_at_to' => 'Happened At - To',
-        ],
         'anime' => [
             'year_from' => 'Year - From',
             'year_to' => 'Year - To',
@@ -882,14 +876,6 @@ return [
         'audio' => [
             'size_from' => 'Size - From',
             'size_to' => 'Size - To'
-        ],
-        'base' => [
-            'created_at_from' => 'Created At - From',
-            'created_at_to' => 'Created At - To',
-            'updated_at_from' => 'Updated At - From',
-            'updated_at_to' => 'Updated At - To',
-            'deleted_at_from' => 'Deleted At - From',
-            'deleted_at_to' => 'Deleted At - To',
         ],
         'external_resource' => [
             'external_id_from' => 'External ID - From',

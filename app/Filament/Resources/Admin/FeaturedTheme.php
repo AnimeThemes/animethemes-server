@@ -22,15 +22,16 @@ use App\Models\Auth\User;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry as EntryModel;
 use App\Models\Wiki\Video;
 use App\Pivots\Wiki\AnimeThemeEntryVideo;
-use Filament\Forms\Components\DatePicker;
+use App\Rules\Admin\StartDateBeforeEndDateRule;
+use Carbon\Carbon;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Tables\Table;
-use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
+use Malzariey\FilamentDaterangepickerFilter\Fields\DateRangePicker;
 
 /**
  * Class FeaturedTheme.
@@ -130,33 +131,27 @@ class FeaturedTheme extends BaseResource
 
         return $form
             ->schema([
-                DatePicker::make(FeaturedThemeModel::ATTRIBUTE_START_AT)
-                    ->label(__('filament.fields.featured_theme.start_at.name'))
-                    ->helperText(__('filament.fields.featured_theme.start_at.help'))
+                DateRangePicker::make('date')
+                    ->timezone('UTC')
+                    ->displayFormat('MM/DD/YYYY')
+                    ->format(AllowedDateFormat::YMD->value)
                     ->required()
                     ->rules([
                         'required',
-                        Str::of('date_format:')
-                            ->append(implode(',', $allowedDateFormats))
-                            ->__toString(),
-                        Str::of('before:')
-                            ->append(FeaturedThemeModel::ATTRIBUTE_END_AT)
-                            ->__toString(),
-                    ]),
+                        'string',
+                        'regex:/^\d{2}\/\d{2}\/\d{4} - \d{2}\/\d{2}\/\d{4}$/',
+                        new StartDateBeforeEndDateRule(),
+                    ])
+                    ->saveRelationshipsUsing(function (FeaturedThemeModel $record, string $state) {
+                        $dates = explode(' - ', $state);
 
-                DatePicker::make(FeaturedThemeModel::ATTRIBUTE_END_AT)
-                    ->label(__('filament.fields.featured_theme.end_at.name'))
-                    ->helperText(__('filament.fields.featured_theme.end_at.help'))
-                    ->required()
-                    ->rules([
-                        'required',
-                        Str::of('date_format:')
-                            ->append(implode(',', $allowedDateFormats))
-                            ->__toString(),
-                        Str::of('after:')
-                            ->append(FeaturedThemeModel::ATTRIBUTE_START_AT)
-                            ->__toString(),
-                    ]),
+                        $startAt = Carbon::createFromFormat('m/d/Y', $dates[0])->getTimestamp();
+                        $endAt = Carbon::createFromFormat('m/d/Y', $dates[1])->getTimestamp();
+                        
+                        $record->start_at = $startAt;
+                        $record->end_at = $endAt;
+                        $record->save();
+                    }),
 
                 Select::make(FeaturedThemeModel::ATTRIBUTE_ENTRY)
                     ->label(__('filament.resources.singularLabel.anime_theme_entry'))
