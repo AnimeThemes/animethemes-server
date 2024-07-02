@@ -15,6 +15,7 @@ use App\Enums\Models\List\ExternalProfileVisibility;
 use App\Features\AllowExternalProfileManagement;
 use App\Http\Api\Query\Query;
 use App\Http\Controllers\Api\BaseController;
+use App\Http\Middleware\Api\EnabledOnlyOnLocalhost;
 use App\Http\Middleware\Models\List\UserExceedsExternalProfileLimit;
 use App\Http\Requests\Api\IndexRequest;
 use App\Http\Requests\Api\ShowRequest;
@@ -45,6 +46,7 @@ class ExternalProfileController extends BaseController
             ->append(AllowExternalProfileManagement::class)
             ->__toString();
 
+        $this->middleware(EnabledOnlyOnLocalhost::class);
         $this->middleware($isExternalProfileManagementAllowed)->except(['index', 'show']);
         $this->middleware(UserExceedsExternalProfileLimit::class)->only(['store', 'restore']);
     }

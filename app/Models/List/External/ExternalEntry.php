@@ -15,7 +15,6 @@ use App\Models\Wiki\Anime;
 use Database\Factories\List\External\ExternalEntryFactory;
 use Elastic\ScoutDriverPlus\Searchable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Laravel\Nova\Actions\Actionable;
 
 /**
  * Class ExternalEntry.
@@ -33,7 +32,6 @@ use Laravel\Nova\Actions\Actionable;
  */
 class ExternalEntry extends BaseModel
 {
-    use Actionable;
     use Searchable;
 
     final public const TABLE = 'external_entries';

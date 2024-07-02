@@ -14,6 +14,7 @@ use App\Actions\Http\Api\UpdateAction;
 use App\Features\AllowExternalProfileManagement;
 use App\Http\Api\Query\Query;
 use App\Http\Controllers\Api\BaseController;
+use App\Http\Middleware\Api\EnabledOnlyOnLocalhost;
 use App\Http\Middleware\Models\List\ExternalProfileExceedsEntryLimit;
 use App\Http\Requests\Api\IndexRequest;
 use App\Http\Requests\Api\ShowRequest;
@@ -44,6 +45,7 @@ class ExternalEntryController extends BaseController
             ->append(AllowExternalProfileManagement::class)
             ->__toString();
 
+        $this->middleware(EnabledOnlyOnLocalhost::class);
         $this->middleware($isExternalProfileManagementAllowed)->except(['index', 'show']);
         $this->middleware(ExternalProfileExceedsEntryLimit::class)->only(['store', 'restore']);
     }
