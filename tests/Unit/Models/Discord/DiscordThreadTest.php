@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+namespace Tests\Unit\Models\Discord;
+
 use App\Models\Discord\DiscordThread;
 use App\Models\Wiki\Anime;
 use Illuminate\Foundation\Testing\WithFaker;

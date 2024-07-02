@@ -38,7 +38,7 @@ class PlaylistTest extends TestCase
     }
 
     /**
-     * When a playlist is deleted, a SendDiscordNotification job shall be dispatched.
+     * When a playlist is deleted, a SendDiscordNotification job shall not be dispatched.
      *
      * @return void
      */
@@ -56,7 +56,7 @@ class PlaylistTest extends TestCase
     }
 
     /**
-     * When a playlist is restored, a SendDiscordNotification job shall be dispatched.
+     * When a playlist is restored, a SendDiscordNotification job shall not be dispatched.
      *
      * @return void
      */
@@ -91,6 +91,6 @@ class PlaylistTest extends TestCase
         $playlist->fill($changes->getAttributes());
         $playlist->save();
 
-        Bus::assertNotDispatched(SendDiscordNotificationJob::class);
+        Bus::assertDispatched(SendDiscordNotificationJob::class);
     }
 }

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Http\Api\Pivot\Wiki\AnimeStudio;
+namespace Tests\Feature\Http\Api\Pivot\Wiki\AnimeStudio;
 
 use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;

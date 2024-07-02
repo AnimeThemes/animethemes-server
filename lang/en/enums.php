@@ -3,7 +3,10 @@
 declare(strict_types=1);
 
 use App\Enums\Actions\ActionLogStatus;
+use App\Enums\Models\List\AnimeWatchStatus;
+use App\Enums\Models\List\ExternalProfileSite;
 use App\Enums\Models\List\PlaylistVisibility;
+use App\Enums\Models\List\ExternalProfileVisibility;
 use App\Enums\Models\Wiki\AnimeMediaFormat;
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Enums\Models\Wiki\AnimeSynonymType;
@@ -39,6 +42,22 @@ return [
         ActionLogStatus::RUNNING->name => 'Running',
         ActionLogStatus::FAILED->name => 'Failed',
         ActionLogStatus::FINISHED->name => 'Finished',
+    ],
+    AnimeWatchStatus::class => [
+        AnimeWatchStatus::WATCHING->name => 'Watching',
+        AnimeWatchStatus::COMPLETED->name => 'Completed',
+        AnimeWatchStatus::PAUSED->name => 'Paused',
+        AnimeWatchStatus::DROPPED->name => 'Dropped',
+        AnimeWatchStatus::PLAN_TO_WATCH->name => 'Plan to Watch',
+    ],
+    ExternalProfileSite::class => [
+        ExternalProfileSite::MAL->name => 'MyAnimeList',
+        ExternalProfileSite::ANILIST->name => 'AniList',
+        ExternalProfileSite::KITSU->name => 'Kitsu',
+    ],
+    ExternalProfileVisibility::class => [
+        ExternalProfileVisibility::PUBLIC->name => 'Public',
+        ExternalProfileVisibility::PRIVATE->name => 'Private',
     ],
     ImageFacet::class => [
         ImageFacet::COVER_SMALL->name => 'Small Cover',

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Http\Api\Pivot\Wiki\StudioImage;
+namespace Tests\Feature\Http\Api\Pivot\Wiki\StudioImage;
 
 use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;

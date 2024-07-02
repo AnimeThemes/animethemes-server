@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Http\Api\Pivot\Wiki\StudioResource;
+namespace Tests\Feature\Http\Api\Pivot\Wiki\StudioResource;
 
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Http\Api\Field\Field;

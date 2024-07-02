@@ -537,6 +537,34 @@ return [
         'dump' => [
             'path' => 'Path',
         ],
+        'externalentry' => [
+            'is_favorite' => [
+                'help' => 'If the user has the entry favorited.',
+                'name' => 'Is Favorite',
+            ],
+            'score' => [
+                'help' => 'The anime score of the user.',
+                'name' => 'Score',
+            ],
+            'watch_status' => [
+                'help' => 'The watch status of the anime.',
+                'name' => 'Watch Status',
+            ],
+        ],
+        'externalprofile' => [
+            'name' => [
+                'help' => 'The name of the user of the external site.',
+                'name' => 'Name',
+            ],
+            'site' => [
+                'help' => 'The site that owns the external list.',
+                'name' => 'Site',
+            ],
+            'visibility' => [
+                'help' => 'The visibility of the user profile.',
+                'name' => 'Visibility',
+            ],
+        ],
         'external_resource' => [
             'external_id' => [
                 'help' => 'The identifier used by the external site.',
@@ -877,6 +905,8 @@ return [
             'artists' => 'Artists',
             'audios' => 'Audios',
             'dumps' => 'Dumps',
+            'externalentries' => 'External Entries',
+            'externalprofiles' => 'External Profiles',
             'external_resources' => 'External Resources',
             'features' => 'Features',
             'featured_themes' => 'Featured Themes',
@@ -905,6 +935,8 @@ return [
             'artist' => 'Artist',
             'audio' => 'Audio',
             'dump' => 'Dump',
+            'externalentries' => 'External Entry',
+            'externalprofiles' => 'External Profile',
             'external_resource' => 'External Resource',
             'feature' => 'Feature',
             'featured_theme' => 'Featured Theme',

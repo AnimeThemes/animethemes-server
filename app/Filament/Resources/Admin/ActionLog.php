@@ -7,7 +7,6 @@ namespace App\Filament\Resources\Admin;
 use App\Enums\Actions\ActionLogStatus;
 use App\Enums\Auth\Role;
 use App\Filament\Components\Columns\TextColumn;
-use App\Filament\Components\Filters\DateFilter;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Admin\ActionLog\Pages\ListActionLogs;
@@ -25,6 +24,7 @@ use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
+use Malzariey\FilamentDaterangepickerFilter\Filters\DateRangeFilter;
 
 /**
  * Class ActionLog.
@@ -269,11 +269,11 @@ class ActionLog extends BaseResource
                 ->label(__('filament.fields.action_log.status'))
                 ->options(ActionLogStatus::asSelectArray()),
 
-            DateFilter::make(BaseModel::ATTRIBUTE_CREATED_AT)
-                ->labels(__('filament.filters.action_log.happened_at_from'),  __('filament.filters.action_log.happened_at_to')),
+            DateRangeFilter::make(BaseModel::ATTRIBUTE_CREATED_AT)
+                ->label(__('filament.fields.action_log.happened_at')),
 
-            DateFilter::make(ActionLogModel::ATTRIBUTE_FINISHED_AT)
-                ->labels(__('filament.filters.action_log.finished_at_from'),  __('filament.filters.action_log.finished_at_to')),
+            DateRangeFilter::make(ActionLogModel::ATTRIBUTE_FINISHED_AT)
+                ->label(__('filament.fields.action_log.finished_at')),
         ];
     }
 

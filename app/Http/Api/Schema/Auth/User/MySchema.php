@@ -14,6 +14,7 @@ use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\Auth\PermissionSchema;
 use App\Http\Api\Schema\Auth\RoleSchema;
 use App\Http\Api\Schema\EloquentSchema;
+use App\Http\Api\Schema\List\ExternalProfileSchema;
 use App\Http\Api\Schema\List\PlaylistSchema;
 use App\Http\Resources\Auth\User\Resource\MyResource;
 use App\Models\Auth\User;
@@ -41,6 +42,7 @@ class MySchema extends EloquentSchema
     public function allowedIncludes(): array
     {
         return [
+            new AllowedInclude(new ExternalProfileSchema(), User::RELATION_EXTERNAL_PROFILES),
             new AllowedInclude(new PermissionSchema(), User::RELATION_PERMISSIONS),
             new AllowedInclude(new PlaylistSchema(), User::RELATION_PLAYLISTS),
             new AllowedInclude(new RoleSchema(), User::RELATION_ROLES),
