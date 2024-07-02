@@ -6,6 +6,7 @@ namespace App\Filament\Dashboards;
 
 use App\Enums\Auth\Role as RoleEnum;
 use App\Filament\Widgets\Auth\UserChart;
+use App\Filament\Widgets\List\ExternalProfileChart;
 use App\Filament\Widgets\List\PlaylistChart;
 use App\Filament\Widgets\List\PlaylistTrackChart;
 use App\Models\Auth\User;
@@ -65,6 +66,7 @@ class AdminDashboard extends BaseDashboard
     {
         return [
             UserChart::class,
+            ExternalProfileChart::class,
             PlaylistChart::class,
             PlaylistTrackChart::class,
         ];
