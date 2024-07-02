@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Http\Api\Pivot\Wiki\ArtistResource;
+namespace Tests\Feature\Http\Api\Pivot\Wiki\ArtistResource;
 
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Http\Api\Field\Field;

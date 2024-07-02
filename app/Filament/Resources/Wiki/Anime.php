@@ -381,7 +381,7 @@ class Anime extends BaseResource
         return array_merge(
             [
                 NumberFilter::make(AnimeModel::ATTRIBUTE_YEAR)
-                    ->labels(__('filament.filters.anime.year_from'), __('filament.filters.anime.year_to')),
+                    ->label(__('filament.fields.anime.year.name')),
 
                 SelectFilter::make(AnimeModel::ATTRIBUTE_SEASON)
                     ->label(__('filament.fields.anime.season.name'))

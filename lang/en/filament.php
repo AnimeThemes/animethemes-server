@@ -661,14 +661,12 @@ return [
             ],
         ],
         'featured_theme' => [
-            'end_at' => [
-                'help' => 'The datetime that the featured theme should stop being featured.',
-                'name' => 'End At',
+            'date' => [
+                'help' => 'The range of days that the featured theme should remain.',
+                'name' => 'Date Range',
             ],
-            'start_at' => [
-                'help' => 'The datetime that the featured theme should start being featured.',
-                'name' => 'Start At',
-            ],
+            'end_at' => 'End At',
+            'start_at' => 'Start At',
         ],
         'group' => [
             'name' => [
@@ -861,49 +859,9 @@ return [
         ],
     ],
     'filters' => [
-        'action_log' => [
-            'finished_at_from' => 'Finished At - From',
-            'finished_at_to' => 'Finished At - To',
-            'happened_at_from' => 'Happened At - From',
-            'happened_at_to' => 'Happened At - To',
-        ],
-        'anime' => [
-            'year_from' => 'Year - From',
-            'year_to' => 'Year - To',
-        ],
-        'anime_theme' => [
-            'sequence_from' => 'Sequence - From',
-            'sequence_to' => 'Sequence - To',
-        ],
-        'anime_theme_entry' => [
-            'version_from' => 'Version - From',
-            'version_to' => 'Version - To',
-        ],
-        'audio' => [
-            'size_from' => 'Size - From',
-            'size_to' => 'Size - To'
-        ],
         'base' => [
-            'created_at_from' => 'Created At - From',
-            'created_at_to' => 'Created At - To',
-            'updated_at_from' => 'Updated At - From',
-            'updated_at_to' => 'Updated At - To',
-            'deleted_at_from' => 'Deleted At - From',
-            'deleted_at_to' => 'Deleted At - To',
-        ],
-        'external_resource' => [
-            'external_id_from' => 'External ID - From',
-            'external_id_to' => 'External ID - To',
-        ],
-        'role' => [
-            'priority_from' => 'Priority - From',
-            'priority_to' => 'Priority - To',
-        ],
-        'video' => [
-            'resolution_from' => 'Resolution - From',
-            'resolution_to' => 'Resolution - To',
-            'size_from' => 'Size - From',
-            'size_to' => 'Size - To'
+            'from' => 'From',
+            'to' => 'To',
         ],
     ],
     'resources' => [

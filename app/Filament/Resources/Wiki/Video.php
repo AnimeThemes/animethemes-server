@@ -326,7 +326,7 @@ class Video extends BaseResource
         return array_merge(
             [
                 NumberFilter::make(VideoModel::ATTRIBUTE_RESOLUTION)
-                    ->labels(__('filament.filters.video.resolution_from'), __('filament.filters.video.resolution_to')),
+                    ->label(__('filament.fields.video.resolution.name')),
 
                 Filter::make(VideoModel::ATTRIBUTE_NC)
                     ->label(__('filament.fields.video.nc.name'))
@@ -353,7 +353,7 @@ class Video extends BaseResource
                     ->options(VideoSource::asSelectArray()),
 
                 NumberFilter::make(VideoModel::ATTRIBUTE_SIZE)
-                    ->labels(__('filament.filters.video.size_from'), __('filament.filters.video.size_to')),
+                    ->label(__('filament.fields.video.size.name')),
             ],
             parent::getFilters(),
         );

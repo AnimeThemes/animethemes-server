@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Http\Api\Pivot\List\PlaylistImage;
+namespace Tests\Feature\Http\Api\Pivot\List\PlaylistImage;
 
 use App\Enums\Auth\CrudPermission;
 use App\Enums\Models\List\PlaylistVisibility;

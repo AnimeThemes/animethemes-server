@@ -276,7 +276,7 @@ class ExternalResource extends BaseResource
                     ->options(ResourceSite::asSelectArray()),
 
                 NumberFilter::make(ExternalResourceModel::ATTRIBUTE_EXTERNAL_ID)
-                    ->labels(__('filament.filters.external_resource.external_id_from'), __('filament.filters.external_resource.external_id_to')),
+                    ->label(__('filament.fields.external_resource.external_id.name')),
             ],
             parent::getFilters(),
         );

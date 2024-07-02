@@ -502,7 +502,7 @@ class Theme extends BaseResource
                     ->options(ThemeType::asSelectArray()),
 
                 NumberFilter::make(ThemeModel::ATTRIBUTE_SEQUENCE)
-                    ->labels(__('filament.filters.anime_theme.sequence_from'), __('filament.filters.anime_theme.sequence_to')),
+                    ->label(__('filament.fields.anime_theme.sequence.name')),
             ],
             parent::getFilters(),
         );

@@ -24,7 +24,7 @@ use Tests\TestCase;
 class TrackTest extends TestCase
 {
     /**
-     * When a track is created, a SendDiscordNotification job shall be dispatched.
+     * When a track is created, a SendDiscordNotification job shall not be dispatched.
      *
      * @return void
      */
@@ -44,7 +44,7 @@ class TrackTest extends TestCase
     }
 
     /**
-     * When a track is deleted, a SendDiscordNotification job shall be dispatched.
+     * When a track is deleted, a SendDiscordNotification job shall not be dispatched.
      *
      * @return void
      */
@@ -66,7 +66,7 @@ class TrackTest extends TestCase
     }
 
     /**
-     * When a track is restored, a SendDiscordNotification job shall be dispatched.
+     * When a track is restored, a SendDiscordNotification job shall not be dispatched.
      *
      * @return void
      */
@@ -88,7 +88,7 @@ class TrackTest extends TestCase
     }
 
     /**
-     * When a track is updated, a SendDiscordNotification job shall be dispatched.
+     * When a track is updated, a SendDiscordNotification job shall not be dispatched.
      *
      * @return void
      */
