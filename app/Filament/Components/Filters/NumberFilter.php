@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Filament\Components\Filters;
 
 use App\Enums\Http\Api\Filter\ComparisonOperator;
+use Filament\Forms\Components\Grid;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
 use Filament\Tables\Filters\Filter;
 use Illuminate\Database\Eloquent\Builder;
@@ -15,25 +17,6 @@ use Illuminate\Support\Arr;
  */
 class NumberFilter extends Filter
 {
-    protected string $fromLabel = '';
-    protected string $toLabel = '';
-
-    /**
-     * Get the label for the filters.
-     *
-     * @param  string  $fromLabel
-     * @param  string  $toLabel
-     *
-     * @return static
-     */
-    public function labels(string $fromLabel, string $toLabel): static
-    {
-        $this->fromLabel = $fromLabel;
-        $this->toLabel = $toLabel;
-
-        return $this;
-    }
-
     /**
      * Get the form for the filter.
      *
@@ -42,13 +25,22 @@ class NumberFilter extends Filter
     public function getFormSchema(): array
     {
         return [
-            TextInput::make($this->getName().'_'.'from')
-                ->label($this->fromLabel)
-                ->integer(),
-
-            TextInput::make($this->getName().'_'.'to')
-                ->label($this->toLabel)
-                ->integer(),
+            Section::make($this->getLabel())
+                ->label($this->getLabel())
+                ->schema([
+                    Grid::make([
+                        'sm' => 2,
+                    ])
+                        ->schema([
+                            TextInput::make('from')
+                                ->label(__('filament.filters.base.from'))
+                                ->integer(),
+    
+                            TextInput::make('to')
+                                ->label(__('filament.filters.base.to'))
+                                ->integer(),
+                        ])
+                ]),
         ];
     }
 
@@ -63,11 +55,11 @@ class NumberFilter extends Filter
     {
         return $query
             ->when(
-                Arr::get($data, $this->getName().'_'.'from'),
+                Arr::get($data, 'from'),
                 fn (Builder $query, $value): Builder => $query->where($this->getName(), ComparisonOperator::GTE->value, $value),
             )
             ->when(
-                Arr::get($data, $this->getName().'_'.'to'),
+                Arr::get($data, 'to'),
                 fn (Builder $query, $value): Builder => $query->where($this->getName(), ComparisonOperator::LTE->value, $value),
             );
     }

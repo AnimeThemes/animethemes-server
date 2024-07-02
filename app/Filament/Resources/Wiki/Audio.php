@@ -241,7 +241,7 @@ class Audio extends BaseResource
         return array_merge(
             [
                 NumberFilter::make(AudioModel::ATTRIBUTE_SIZE)
-                    ->labels(__('filament.filters.audio.size_from'), __('filament.filters.audio.size_to')),
+                    ->label(__('filament.fields.audio.size.name')),
             ],
             parent::getFilters(),
         );

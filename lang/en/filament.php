@@ -859,35 +859,9 @@ return [
         ],
     ],
     'filters' => [
-        'anime' => [
-            'year_from' => 'Year - From',
-            'year_to' => 'Year - To',
-        ],
-        'anime_theme' => [
-            'sequence_from' => 'Sequence - From',
-            'sequence_to' => 'Sequence - To',
-        ],
-        'anime_theme_entry' => [
-            'version_from' => 'Version - From',
-            'version_to' => 'Version - To',
-        ],
-        'audio' => [
-            'size_from' => 'Size - From',
-            'size_to' => 'Size - To'
-        ],
-        'external_resource' => [
-            'external_id_from' => 'External ID - From',
-            'external_id_to' => 'External ID - To',
-        ],
-        'role' => [
-            'priority_from' => 'Priority - From',
-            'priority_to' => 'Priority - To',
-        ],
-        'video' => [
-            'resolution_from' => 'Resolution - From',
-            'resolution_to' => 'Resolution - To',
-            'size_from' => 'Size - From',
-            'size_to' => 'Size - To'
+        'base' => [
+            'from' => 'From',
+            'to' => 'To',
         ],
     ],
     'resources' => [
