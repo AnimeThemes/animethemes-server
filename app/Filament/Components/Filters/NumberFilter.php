@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Components\Filters;
 
 use App\Enums\Http\Api\Filter\ComparisonOperator;
+use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
@@ -25,7 +26,7 @@ class NumberFilter extends Filter
     public function getFormSchema(): array
     {
         return [
-            Section::make($this->getLabel())
+            Fieldset::make($this->getLabel())
                 ->label($this->getLabel())
                 ->schema([
                     Grid::make([
