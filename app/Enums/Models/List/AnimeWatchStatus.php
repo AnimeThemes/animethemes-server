@@ -18,4 +18,5 @@ enum AnimeWatchStatus: int
     case PAUSED = 2;
     case DROPPED = 3;
     case PLAN_TO_WATCH = 4;
+    case REWATCHING = 5;
 }
