@@ -147,7 +147,7 @@ class ExternalProfile extends BaseModel
      */
     public function externalentries(): HasMany
     {
-        return $this->hasMany(ExternalEntry::class, ExternalEntry::ATTRIBUTE_EXTERNAL_PROFILE);
+        return $this->hasMany(ExternalEntry::class, ExternalEntry::ATTRIBUTE_PROFILE);
     }
 
     /**

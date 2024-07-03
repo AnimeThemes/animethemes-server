@@ -22,7 +22,7 @@ class ExternalEntryExternalProfileIdField extends Field implements SelectableFie
      */
     public function __construct(Schema $schema)
     {
-        parent::__construct($schema, ExternalEntry::ATTRIBUTE_EXTERNAL_PROFILE);
+        parent::__construct($schema, ExternalEntry::ATTRIBUTE_PROFILE);
     }
 
     /**

@@ -85,7 +85,7 @@ class StoreExternalProfileAction
                             $entryParameters,
                             [
                                 ExternalEntry::ATTRIBUTE_ANIME => $anime->getKey(),
-                                ExternalEntry::ATTRIBUTE_EXTERNAL_PROFILE => $profile->getKey(),
+                                ExternalEntry::ATTRIBUTE_PROFILE => $profile->getKey(),
                             ]
                         ));
                     }

@@ -29,8 +29,8 @@ return new class extends Migration
                 $table->unsignedBigInteger(ExternalEntry::ATTRIBUTE_ANIME)->nullable();
                 $table->foreign(ExternalEntry::ATTRIBUTE_ANIME)->references(Anime::ATTRIBUTE_ID)->on(Anime::TABLE)->nullOnDelete();
 
-                $table->unsignedBigInteger(ExternalEntry::ATTRIBUTE_EXTERNAL_PROFILE);
-                $table->foreign(ExternalEntry::ATTRIBUTE_EXTERNAL_PROFILE)->references(ExternalProfile::ATTRIBUTE_ID)->on(ExternalProfile::TABLE)->cascadeOnDelete();
+                $table->unsignedBigInteger(ExternalEntry::ATTRIBUTE_PROFILE);
+                $table->foreign(ExternalEntry::ATTRIBUTE_PROFILE)->references(ExternalProfile::ATTRIBUTE_ID)->on(ExternalProfile::TABLE)->cascadeOnDelete();
             });
         }
     }

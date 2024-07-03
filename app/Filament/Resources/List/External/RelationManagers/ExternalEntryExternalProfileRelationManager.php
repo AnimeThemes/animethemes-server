@@ -33,7 +33,7 @@ class ExternalEntryExternalProfileRelationManager extends ExternalEntryRelationM
     {
         return parent::table(
             $table
-                ->inverseRelationship(ExternalEntry::RELATION_EXTERNAL_PROFILE)
+                ->inverseRelationship(ExternalEntry::RELATION_PROFILE)
         );
     }
 

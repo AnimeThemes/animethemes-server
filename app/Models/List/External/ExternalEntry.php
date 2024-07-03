@@ -22,7 +22,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int $entry_id
  * @property int|null $anime_id
  * @property Anime|null $anime
- * @property int $external_profile_id
+ * @property int $profile_id
  * @property ExternalProfile $externalprofile
  * @property bool $is_favorite
  * @property float|null $score
@@ -38,13 +38,13 @@ class ExternalEntry extends BaseModel
 
     final public const ATTRIBUTE_ID = 'entry_id';
     final public const ATTRIBUTE_ANIME = 'anime_id';
-    final public const ATTRIBUTE_EXTERNAL_PROFILE = 'external_profile_id';
+    final public const ATTRIBUTE_PROFILE = 'profile_id';
     final public const ATTRIBUTE_IS_FAVORITE = 'is_favorite';
     final public const ATTRIBUTE_SCORE = 'score';
     final public const ATTRIBUTE_WATCH_STATUS = 'watch_status';
 
     final public const RELATION_ANIME = 'anime';
-    final public const RELATION_EXTERNAL_PROFILE = 'externalprofile';
+    final public const RELATION_PROFILE = 'externalprofile';
     final public const RELATION_USER = 'externalprofile.user';
 
     /**
@@ -54,7 +54,7 @@ class ExternalEntry extends BaseModel
      */
     protected $fillable = [
         ExternalEntry::ATTRIBUTE_ANIME,
-        ExternalEntry::ATTRIBUTE_EXTERNAL_PROFILE,
+        ExternalEntry::ATTRIBUTE_PROFILE,
         ExternalEntry::ATTRIBUTE_IS_FAVORITE,
         ExternalEntry::ATTRIBUTE_SCORE,
         ExternalEntry::ATTRIBUTE_WATCH_STATUS,
@@ -147,6 +147,6 @@ class ExternalEntry extends BaseModel
      */
     public function externalprofile(): BelongsTo
     {
-        return $this->belongsTo(ExternalProfile::class, ExternalEntry::ATTRIBUTE_EXTERNAL_PROFILE);
+        return $this->belongsTo(ExternalProfile::class, ExternalEntry::ATTRIBUTE_PROFILE);
     }
 }

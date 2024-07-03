@@ -43,7 +43,7 @@ class ExternalEntrySchema extends EloquentSchema
     {
         return [
             new AllowedInclude(new AnimeSchema(), ExternalEntry::RELATION_ANIME),
-            new AllowedInclude(new ExternalProfileSchema(), ExternalEntry::RELATION_EXTERNAL_PROFILE),
+            new AllowedInclude(new ExternalProfileSchema(), ExternalEntry::RELATION_PROFILE),
             new AllowedInclude(new UserSchema(), ExternalEntry::RELATION_USER),
         ];
     }
