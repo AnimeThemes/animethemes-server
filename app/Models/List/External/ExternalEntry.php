@@ -20,13 +20,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * Class ExternalEntry.
  *
  * @property int $entry_id
- * @property int $anime_id
- * @property Anime $anime
+ * @property int|null $anime_id
+ * @property Anime|null $anime
  * @property int $external_profile_id
  * @property ExternalProfile $externalprofile
  * @property bool $is_favorite
  * @property float|null $score
- * @property AnimeWatchStatus|null $watch_status
+ * @property AnimeWatchStatus $watch_status
  * 
  * @method static ExternalEntryFactory factory(...$parameters)
  */

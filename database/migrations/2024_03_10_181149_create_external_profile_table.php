@@ -23,7 +23,7 @@ return new class extends Migration
                 $table->softDeletes(BaseModel::ATTRIBUTE_DELETED_AT, 6);
                 $table->id(ExternalProfile::ATTRIBUTE_ID);
                 $table->string(ExternalProfile::ATTRIBUTE_NAME);
-                $table->integer(ExternalProfile::ATTRIBUTE_SITE)->nullable();
+                $table->integer(ExternalProfile::ATTRIBUTE_SITE);
                 $table->integer(ExternalProfile::ATTRIBUTE_VISIBILITY)->default(ExternalProfileVisibility::PRIVATE->value);
 
                 $table->unsignedBigInteger(ExternalProfile::ATTRIBUTE_USER)->nullable();
