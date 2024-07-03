@@ -74,7 +74,7 @@ class PlaylistTest extends TestCase
     }
 
     /**
-     * When a playlist is updated, a SendDiscordNotification job shall be dispatched.
+     * When a playlist is updated, a SendDiscordNotification job shall not be dispatched.
      *
      * @return void
      */
@@ -91,6 +91,6 @@ class PlaylistTest extends TestCase
         $playlist->fill($changes->getAttributes());
         $playlist->save();
 
-        Bus::assertDispatched(SendDiscordNotificationJob::class);
+        Bus::assertNotDispatched(SendDiscordNotificationJob::class);
     }
 }

@@ -147,7 +147,7 @@ class ExternalEntry extends BaseResource
                 ->withSubtitles()
                 ->showOnPreview(),
 
-            BelongsTo::make(__('nova.resources.singularLabel.externalprofiles'), ExternalEntryModel::RELATION_EXTERNAL_PROFILE, ExternalProfile::class)
+            BelongsTo::make(__('nova.resources.singularLabel.externalprofiles'), ExternalEntryModel::RELATION_PROFILE, ExternalProfile::class)
                 ->sortable()
                 ->filterable()
                 ->searchable()

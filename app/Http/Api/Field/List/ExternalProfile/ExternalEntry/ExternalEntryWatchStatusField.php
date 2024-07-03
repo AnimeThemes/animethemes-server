@@ -46,6 +46,7 @@ class ExternalEntryWatchStatusField extends EnumField implements CreatableField,
     {
         return [
             'sometimes',
+            'required',
             new Enum(AnimeWatchStatus::class),
         ];
     }

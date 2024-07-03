@@ -62,7 +62,7 @@ class ExternalEntryController extends BaseController
     {
         $query = new Query($request->validated());
 
-        $builder = ExternalEntry::query()->where(ExternalEntry::ATTRIBUTE_EXTERNAL_PROFILE, $externalprofile->getKey());
+        $builder = ExternalEntry::query()->where(ExternalEntry::ATTRIBUTE_PROFILE, $externalprofile->getKey());
 
         $resources = $action->index($builder, $query, $request->schema());
 
@@ -81,7 +81,7 @@ class ExternalEntryController extends BaseController
     {
         $validated = array_merge(
             $request->validated(),
-            [ExternalEntry::ATTRIBUTE_EXTERNAL_PROFILE => $externalprofile->getKey()]
+            [ExternalEntry::ATTRIBUTE_PROFILE => $externalprofile->getKey()]
         );
 
         $externalentry = $action->store(ExternalEntry::query(), $validated);

@@ -36,13 +36,14 @@ class FeatureSeeder extends Seeder
         Feature::deactivate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
         Feature::deactivate(FeatureConstants::ALLOW_VIEW_RECORDING);
         Feature::activate(FeatureConstants::AUDIO_BITRATE_RESTRICTION);
+        Feature::activate(FeatureConstants::ENABLED_ONLY_ON_LOCALHOST);
         Feature::deactivate(FeatureConstants::IGNORE_ALL_FILE_VALIDATIONS);
-        Feature::deactivate(FeatureConstants::REQUIRED_ENCODER_VERSION);
+        Feature::activate(FeatureConstants::REQUIRED_ENCODER_VERSION, 'Lavf59.27.100');
         Feature::activate(FeatureConstants::VIDEO_BITRATE_RESTRICTION);
-        Feature::deactivate(FeatureConstants::VIDEO_CODEC_STREAM);
-        Feature::deactivate(FeatureConstants::VIDEO_COLOR_PRIMARIES_STREAM);
-        Feature::deactivate(FeatureConstants::VIDEO_COLOR_SPACE_STREAM);
-        Feature::deactivate(FeatureConstants::VIDEO_COLOR_TRANSFER_STREAM);
-        Feature::deactivate(FeatureConstants::VIDEO_PIXEL_FORMAT_STREAM);
+        Feature::activate(FeatureConstants::VIDEO_CODEC_STREAM, 'vp9');
+        Feature::activate(FeatureConstants::VIDEO_COLOR_PRIMARIES_STREAM, 'bt709,smpte170m,bt470bg');
+        Feature::activate(FeatureConstants::VIDEO_COLOR_SPACE_STREAM, 'bt709,smpte170m,bt470bg');
+        Feature::activate(FeatureConstants::VIDEO_COLOR_TRANSFER_STREAM, 'bt709,smpte170m,bt470bg');
+        Feature::activate(FeatureConstants::VIDEO_PIXEL_FORMAT_STREAM, 'yuv420p');
     }
 }

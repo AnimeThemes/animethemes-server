@@ -26,6 +26,18 @@ class PlaylistUpdated extends ListUpdatedEvent
     }
 
     /**
+     * Determine if the message should be sent.
+     *
+     * @return bool
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public function shouldSendDiscordMessage(): bool
+    {
+        return false;
+    }
+
+    /**
      * Get the model that has fired this event.
      *
      * @return Playlist

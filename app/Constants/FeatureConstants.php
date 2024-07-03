@@ -15,6 +15,8 @@ class FeatureConstants
 
     final public const AUDIO_BITRATE_RESTRICTION = 'audio_bitrate_restriction';
 
+    final public const ENABLED_ONLY_ON_LOCALHOST = 'enabled_only_on_localhost';
+
     final public const IGNORE_ALL_FILE_VALIDATIONS = 'ignore_all_file_validations';
 
     final public const NULL_SCOPE = '__laravel_null';

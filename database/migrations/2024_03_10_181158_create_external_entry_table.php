@@ -23,14 +23,14 @@ return new class extends Migration
                 $table->softDeletes(BaseModel::ATTRIBUTE_DELETED_AT, 6);
                 $table->id(ExternalEntry::ATTRIBUTE_ID);
                 $table->float(ExternalEntry::ATTRIBUTE_SCORE)->nullable();
-                $table->integer(ExternalEntry::ATTRIBUTE_WATCH_STATUS)->nullable();
+                $table->integer(ExternalEntry::ATTRIBUTE_WATCH_STATUS);
                 $table->boolean(ExternalEntry::ATTRIBUTE_IS_FAVORITE)->default(false);
 
                 $table->unsignedBigInteger(ExternalEntry::ATTRIBUTE_ANIME)->nullable();
                 $table->foreign(ExternalEntry::ATTRIBUTE_ANIME)->references(Anime::ATTRIBUTE_ID)->on(Anime::TABLE)->nullOnDelete();
 
-                $table->unsignedBigInteger(ExternalEntry::ATTRIBUTE_EXTERNAL_PROFILE)->nullable();
-                $table->foreign(ExternalEntry::ATTRIBUTE_EXTERNAL_PROFILE)->references(ExternalProfile::ATTRIBUTE_ID)->on(ExternalProfile::TABLE)->cascadeOnDelete();
+                $table->unsignedBigInteger(ExternalEntry::ATTRIBUTE_PROFILE);
+                $table->foreign(ExternalEntry::ATTRIBUTE_PROFILE)->references(ExternalProfile::ATTRIBUTE_ID)->on(ExternalProfile::TABLE)->cascadeOnDelete();
             });
         }
     }

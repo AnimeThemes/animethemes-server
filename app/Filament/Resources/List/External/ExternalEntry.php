@@ -126,7 +126,7 @@ class ExternalEntry extends BaseResource
     {
         return $form
             ->schema([
-                Select::make(ExternalEntryModel::ATTRIBUTE_EXTERNAL_PROFILE)
+                Select::make(ExternalEntryModel::ATTRIBUTE_PROFILE)
                     ->label(__('filament.resources.singularLabel.external_profile'))
                     ->useScout(ExternalProfileModel::class)
                     ->required()
@@ -171,9 +171,9 @@ class ExternalEntry extends BaseResource
     {
         return parent::table($table)
             ->columns([
-                TextColumn::make(ExternalEntryModel::ATTRIBUTE_EXTERNAL_PROFILE)
+                TextColumn::make(ExternalEntryModel::ATTRIBUTE_PROFILE)
                     ->label(__('filament.resources.singularLabel.external_profile'))
-                    ->urlToRelated(ExternalProfileResource::class, ExternalEntryModel::RELATION_EXTERNAL_PROFILE, true)
+                    ->urlToRelated(ExternalProfileResource::class, ExternalEntryModel::RELATION_PROFILE, true)
                     ->sortable()
                     ->toggleable(),
 
@@ -221,9 +221,9 @@ class ExternalEntry extends BaseResource
             ->schema([
                 Section::make(static::getRecordTitle($infolist->getRecord()))
                     ->schema([
-                        TextEntry::make(ExternalEntryModel::ATTRIBUTE_EXTERNAL_PROFILE)
+                        TextEntry::make(ExternalEntryModel::ATTRIBUTE_PROFILE)
                             ->label(__('filament.resources.singularLabel.external_profile'))
-                            ->urlToRelated(ExternalProfileResource::class, ExternalEntryModel::RELATION_EXTERNAL_PROFILE, true),
+                            ->urlToRelated(ExternalProfileResource::class, ExternalEntryModel::RELATION_PROFILE, true),
 
                         TextEntry::make(ExternalEntryModel::ATTRIBUTE_ANIME)
                             ->label(__('filament.resources.singularLabel.anime'))

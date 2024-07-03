@@ -36,6 +36,7 @@ class ExternalEntryScoreField extends FloatField implements CreatableField, Upda
     public function getCreationRules(Request $request): array
     {
         return [
+            'sometimes',
             'required',
             'decimal:0,2',
         ];
@@ -51,6 +52,7 @@ class ExternalEntryScoreField extends FloatField implements CreatableField, Upda
     {
         return [
             'sometimes',
+            'required',
             'decimal:0,2',
         ];
     }

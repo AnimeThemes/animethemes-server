@@ -49,6 +49,7 @@ return [
         AnimeWatchStatus::PAUSED->name => 'Paused',
         AnimeWatchStatus::DROPPED->name => 'Dropped',
         AnimeWatchStatus::PLAN_TO_WATCH->name => 'Plan to Watch',
+        AnimeWatchStatus::REWATCHING->name => 'Rewatching',
     ],
     ExternalProfileSite::class => [
         ExternalProfileSite::MAL->name => 'MyAnimeList',
