@@ -28,7 +28,7 @@ class ExternalEntryTest extends TestCase
      *
      * @return void
      */
-    public function testPlaylistCreatedSendsDiscordNotification(): void
+    public function testExternalEntryCreatedSendsDiscordNotification(): void
     {
         $profile = ExternalProfile::factory()->createOne();
         $anime = Anime::factory()->createOne();
@@ -50,7 +50,7 @@ class ExternalEntryTest extends TestCase
      *
      * @return void
      */
-    public function testPlaylistDeletedSendsDiscordNotification(): void
+    public function testExternalEntryDeletedSendsDiscordNotification(): void
     {
         $profile = ExternalProfile::factory()->createOne();
         $anime = Anime::factory()->createOne();
@@ -74,7 +74,7 @@ class ExternalEntryTest extends TestCase
      *
      * @return void
      */
-    public function testPlaylistRestoredSendsDiscordNotification(): void
+    public function testExternalEntryRestoredSendsDiscordNotification(): void
     {
         $profile = ExternalProfile::factory()->createOne();
         $anime = Anime::factory()->createOne();
@@ -98,7 +98,7 @@ class ExternalEntryTest extends TestCase
      *
      * @return void
      */
-    public function testPlaylistUpdatedSendsDiscordNotification(): void
+    public function testExternalEntryUpdatedSendsDiscordNotification(): void
     {
         $profile = ExternalProfile::factory()->createOne();
         $anime = Anime::factory()->createOne();
