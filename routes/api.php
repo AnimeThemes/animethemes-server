@@ -241,7 +241,6 @@ apiResourceWhere('page', PageController::class, ['page' => '[\pL\pM\pN\/_-]+']);
 
 // List Routes
 apiResource('externalprofile', ExternalProfileController::class);
-apiResource('externalentry', ExternalEntryController::class);
 apiResource('playlist', PlaylistController::class);
 apiScopedResource('externalprofile.externalentry', ExternalEntryController::class);
 apiScopedResource('playlist.track', TrackController::class);
