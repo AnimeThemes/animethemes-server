@@ -37,6 +37,7 @@ class ExternalProfileVisibilityField extends EnumField implements CreatableField
     public function getCreationRules(Request $request): array
     {
         return [
+            'sometimes',
             'required',
             new Enum(ExternalProfileVisibility::class),
         ];

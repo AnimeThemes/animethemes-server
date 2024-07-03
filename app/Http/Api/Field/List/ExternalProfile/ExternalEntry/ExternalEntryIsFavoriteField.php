@@ -35,6 +35,7 @@ class ExternalEntryIsFavoriteField extends BooleanField implements CreatableFiel
     public function getCreationRules(Request $request): array
     {
         return [
+            'sometimes',
             'required',
             'boolean',
         ];

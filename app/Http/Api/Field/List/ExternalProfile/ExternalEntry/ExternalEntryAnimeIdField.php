@@ -38,7 +38,7 @@ class ExternalEntryAnimeIdField extends Field implements CreatableField, Selecta
      */
     public function shouldSelect(Query $query, Schema $schema): bool
     {
-        // Needed to match playlist relation.
+        // Needed to match profile relation.
         return true;
     }
 

@@ -34,7 +34,7 @@ class ExternalEntryExternalProfileIdField extends Field implements SelectableFie
      */
     public function shouldSelect(Query $query, Schema $schema): bool
     {
-        // Needed to match playlist relation.
+        // Needed to match profile relation.
         return true;
     }
 }
