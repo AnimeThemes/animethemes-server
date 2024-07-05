@@ -7,6 +7,7 @@ namespace App\Filament\Resources\Wiki;
 use App\Filament\Actions\Models\Wiki\Artist\AttachArtistImageAction;
 use App\Filament\Actions\Models\Wiki\Artist\AttachArtistResourceAction;
 use App\Filament\Components\Columns\TextColumn;
+use App\Filament\Components\Fields\Slug;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Artist\Pages\CreateArtist;
@@ -32,7 +33,6 @@ use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
-use Illuminate\Validation\Rule;
 
 /**
  * Class Artist.
@@ -151,24 +151,9 @@ class Artist extends BaseResource
                     ->live(true)
                     ->afterStateUpdated(fn (Set $set, ?string $state) => $set(ArtistModel::ATTRIBUTE_SLUG, Str::slug($state, '_'))),
 
-                TextInput::make(ArtistModel::ATTRIBUTE_SLUG)
+                Slug::make(ArtistModel::ATTRIBUTE_SLUG)
                     ->label(__('filament.fields.artist.slug.name'))
-                    ->helperText(__('filament.fields.artist.slug.help'))
-                    ->required()
-                    ->maxLength(192)
-                    ->unique(ArtistModel::class, ArtistModel::ATTRIBUTE_SLUG, ignoreRecord: true)
-                    ->rules([
-                        fn ($record) => [
-                            'required',
-                            'max:192',
-                            'alpha_dash',
-                            $record instanceof ArtistModel
-                                ? Rule::unique(ArtistModel::class)
-                                    ->ignore($record->getKey(), ArtistModel::ATTRIBUTE_ID)
-                                    ->__toString()
-                                : Rule::unique(ArtistModel::class)->__toString(),
-                        ]
-                    ]),
+                    ->helperText(__('filament.fields.artist.slug.help')),
 
                 TextInput::make(ArtistResource::ATTRIBUTE_AS)
                     ->label(__('filament.fields.artist.resources.as.name'))
