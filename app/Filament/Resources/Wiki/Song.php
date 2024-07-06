@@ -125,18 +125,6 @@ class Song extends BaseResource
     }
 
     /**
-     * Get the route key for the resource.
-     *
-     * @return string
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    public static function getRecordRouteKeyName(): string
-    {
-        return SongModel::ATTRIBUTE_ID;
-    }
-
-    /**
      * The form to the actions.
      *
      * @param  Form  $form
@@ -151,9 +139,9 @@ class Song extends BaseResource
                 TextInput::make(SongModel::ATTRIBUTE_TITLE)
                     ->label(__('filament.fields.song.title.name'))
                     ->helperText(__('filament.fields.song.title.help'))
-                    ->nullable()
+                    ->required()
                     ->maxLength(192)
-                    ->rules(['nullable', 'max:192']),
+                    ->rules(['required', 'max:192']),
 
                 TextInput::make(SongResource::ATTRIBUTE_AS)
                     ->label(__('filament.fields.song.resources.as.name'))

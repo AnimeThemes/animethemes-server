@@ -44,6 +44,21 @@ abstract class BaseResource extends Resource
     }
 
     /**
+     * Get the route key for the resource.
+     *
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getRecordRouteKeyName(): string
+    {
+        /** @var Model */
+        $model = static::getModel();
+
+        return (new $model)->getKeyName();
+    }
+
+    /**
      * The index page of the resource.
      *
      * @param  Table  $table

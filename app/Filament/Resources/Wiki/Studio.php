@@ -8,6 +8,7 @@ use App\Filament\Actions\Models\Wiki\Studio\AttachStudioImageAction;
 use App\Filament\Actions\Models\Wiki\Studio\AttachStudioResourceAction;
 use App\Filament\Actions\Models\Wiki\Studio\BackfillStudioAction;
 use App\Filament\Components\Columns\TextColumn;
+use App\Filament\Components\Fields\Slug;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\ExternalResource\RelationManagers\StudioResourceRelationManager;
@@ -29,7 +30,6 @@ use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
-use Illuminate\Validation\Rule;
 
 /**
  * Class Studio.
@@ -104,18 +104,6 @@ class Studio extends BaseResource
     }
 
     /**
-     * Get the route key for the resource.
-     *
-     * @return string
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    public static function getRecordRouteKeyName(): string
-    {
-        return StudioModel::ATTRIBUTE_ID;
-    }
-
-    /**
      * The form to the actions.
      *
      * @param  Form  $form
@@ -136,24 +124,9 @@ class Studio extends BaseResource
                     ->live(true)
                     ->afterStateUpdated(fn (Set $set, ?string $state) => $set(StudioModel::ATTRIBUTE_SLUG, Str::slug($state, '_'))),
 
-                TextInput::make(StudioModel::ATTRIBUTE_SLUG)
+                Slug::make(StudioModel::ATTRIBUTE_SLUG)
                     ->label(__('filament.fields.studio.slug.name'))
-                    ->helperText(__('filament.fields.studio.slug.help'))
-                    ->required()
-                    ->maxLength(192)
-                    ->unique(StudioModel::class, StudioModel::ATTRIBUTE_SLUG, ignoreRecord: true)
-                    ->rules([
-                        fn ($record) => [
-                            'required',
-                            'max:192',
-                            'alpha_dash',
-                            $record !== null
-                                ? Rule::unique(StudioModel::class)
-                                    ->ignore($record->getKey(), StudioModel::ATTRIBUTE_ID)
-                                    ->__toString()
-                                : Rule::unique(StudioModel::class)->__toString(),
-                        ]
-                    ]),
+                    ->helperText(__('filament.fields.studio.slug.help')),
 
                 TextInput::make(StudioResource::ATTRIBUTE_AS)
                     ->label(__('filament.fields.studio.resources.as.name'))

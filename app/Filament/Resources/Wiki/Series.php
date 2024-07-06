@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Resources\Wiki;
 
 use App\Filament\Components\Columns\TextColumn;
+use App\Filament\Components\Fields\Slug;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Series\Pages\CreateSeries;
@@ -21,7 +22,6 @@ use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
-use Illuminate\Validation\Rule;
 
 /**
  * Class Series.
@@ -120,18 +120,6 @@ class Series extends BaseResource
     }
 
     /**
-     * Get the route key for the resource.
-     *
-     * @return string
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    public static function getRecordRouteKeyName(): string
-    {
-        return SeriesModel::ATTRIBUTE_ID;
-    }
-
-    /**
      * The form to the actions.
      *
      * @param  Form  $form
@@ -152,24 +140,9 @@ class Series extends BaseResource
                     ->live(true)
                     ->afterStateUpdated(fn (Set $set, ?string $state) => $set(SeriesModel::ATTRIBUTE_SLUG, Str::slug($state, '_'))),
 
-                TextInput::make(SeriesModel::ATTRIBUTE_SLUG)
+                Slug::make(SeriesModel::ATTRIBUTE_SLUG)
                     ->label(__('filament.fields.series.slug.name'))
-                    ->helperText(__('filament.fields.series.slug.help'))
-                    ->required()
-                    ->maxLength(192)
-                    ->unique(SeriesModel::class, SeriesModel::ATTRIBUTE_SLUG, ignoreRecord: true)
-                    ->rules([
-                        fn ($record) => [
-                            'required',
-                            'max:192',
-                            'alpha_dash',
-                            $record !== null
-                                ? Rule::unique(SeriesModel::class)
-                                    ->ignore($record->getKey(), SeriesModel::ATTRIBUTE_ID)
-                                    ->__toString()
-                                : Rule::unique(SeriesModel::class)->__toString(),
-                        ]
-                    ]),
+                    ->helperText(__('filament.fields.series.slug.help')),
             ])
             ->columns(1);
     }

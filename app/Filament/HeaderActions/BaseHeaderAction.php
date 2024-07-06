@@ -28,7 +28,7 @@ abstract class BaseHeaderAction extends Action
 
         $this->requiresConfirmation();
 
-        $this->afterFormValidated(function (BaseHeaderAction $action, $livewire) {
+        $this->before(function (BaseHeaderAction $action, $livewire) {
             $this->createActionLog($action);
             $livewire->dispatch('updateAllRelationManager');
         });

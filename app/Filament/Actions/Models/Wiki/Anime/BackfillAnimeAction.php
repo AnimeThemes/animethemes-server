@@ -27,7 +27,6 @@ use Filament\Forms\Components\Section;
 use Filament\Forms\Form;
 use Filament\Notifications\Actions\Action as NotificationAction;
 use Filament\Notifications\Notification;
-use Filament\Support\Enums\MaxWidth;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
@@ -65,8 +64,6 @@ class BackfillAnimeAction extends BaseAction implements ShouldQueue
 
         $this->label(__('filament.actions.anime.backfill.name'));
         $this->icon('heroicon-o-bars-4');
-
-        $this->modalWidth(MaxWidth::FourExtraLarge);
 
         $this->authorize('create', Anime::class);
 

@@ -84,6 +84,10 @@ trait HasActionLogs
     public function failedLog(Throwable|string|null $exception): void
     {
         $this->actionLog->failed($exception);
+
+        // Filament notifications
+        $this->failureNotificationTitle(Str::limit($exception, 200));
+        $this->failure();
     }
 
     /**
@@ -95,6 +99,9 @@ trait HasActionLogs
     {
         if (!$this->isFailedLog()) {
             $this->actionLog->finished();
+
+            // Filament notifications
+            $this->success();
         }
     }
 
@@ -117,4 +124,6 @@ trait HasActionLogs
     {
         return $this->actionLog->isFailed();
     }
+
+
 }

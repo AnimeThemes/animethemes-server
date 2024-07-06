@@ -13,6 +13,7 @@ use App\Filament\Actions\Models\Wiki\Anime\AttachAnimeResourceAction;
 use App\Filament\Actions\Models\Wiki\Anime\BackfillAnimeAction;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\Select;
+use App\Filament\Components\Fields\Slug;
 use App\Filament\Components\Filters\NumberFilter;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\BaseResource;
@@ -40,7 +41,6 @@ use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
-use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Enum;
 
 /**
@@ -140,18 +140,6 @@ class Anime extends BaseResource
     }
 
     /**
-     * Get the route key for the resource.
-     *
-     * @return string
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    public static function getRecordRouteKeyName(): string
-    {
-        return AnimeModel::ATTRIBUTE_ID;
-    }
-
-    /**
      * The form to the actions.
      *
      * @param  Form  $form
@@ -172,23 +160,9 @@ class Anime extends BaseResource
                     ->live(true)
                     ->afterStateUpdated(fn (Set $set, ?string $state) => $set(AnimeModel::ATTRIBUTE_SLUG, Str::slug($state, '_'))),
 
-                TextInput::make(AnimeModel::ATTRIBUTE_SLUG)
+                Slug::make(AnimeModel::ATTRIBUTE_SLUG)
                     ->label(__('filament.fields.anime.slug.name'))
-                    ->helperText(__('filament.fields.anime.slug.help'))
-                    ->required()
-                    ->unique(AnimeModel::class, AnimeModel::ATTRIBUTE_SLUG, ignoreRecord: true)
-                    ->rules([
-                        fn ($record) => [
-                            'required',
-                            'max:192',
-                            'alpha_dash',
-                            $record !== null
-                                ? Rule::unique(AnimeModel::class)
-                                    ->ignore($record->getKey(), AnimeModel::ATTRIBUTE_ID)
-                                    ->__toString()
-                                : Rule::unique(AnimeModel::class)->__toString(),
-                        ]
-                    ]),
+                    ->helperText(__('filament.fields.anime.slug.help')),
 
                 TextInput::make(AnimeModel::ATTRIBUTE_YEAR)
                     ->label(__('filament.fields.anime.year.name'))

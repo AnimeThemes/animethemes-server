@@ -7,6 +7,7 @@ namespace App\Filament\Resources\Document;
 use App\Enums\Http\Api\Filter\ComparisonOperator;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\Select;
+use App\Filament\Components\Fields\Slug;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Document\Page\Pages\CreatePage;
@@ -27,7 +28,6 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
-use Illuminate\Validation\Rule;
 
 /**
  * Class Page.
@@ -102,18 +102,6 @@ class Page extends BaseResource
     }
 
     /**
-     * Get the route key for the resource.
-     *
-     * @return string
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    public static function getRecordRouteKeyName(): string
-    {
-        return PageModel::ATTRIBUTE_ID;
-    }
-
-    /**
      * The form to the actions.
      *
      * @param  Form  $form
@@ -141,25 +129,10 @@ class Page extends BaseResource
                     ->live(true)
                     ->afterStateUpdated(fn (Set $set, Get $get) => static::setSlug($set, $get)),
 
-                TextInput::make(PageModel::ATTRIBUTE_SLUG)
+                Slug::make(PageModel::ATTRIBUTE_SLUG)
                     ->label(__('filament.fields.page.slug.name'))
                     ->helperText(__('filament.fields.page.slug.help'))
-                    ->required()
-                    ->unique(PageModel::class, PageModel::ATTRIBUTE_SLUG, ignoreRecord: true)
-                    ->maxLength(192)
-                    ->regex('/^[\pL\pM\pN\/_-]+$/u')
-                    ->rules([
-                        fn ($record) => [
-                            'required',
-                            'max:192',
-                            'regex:/^[\pL\pM\pN\/_-]+$/u',
-                            $record !== null
-                                ? Rule::unique(PageModel::class)
-                                    ->ignore($record->getKey(), PageModel::ATTRIBUTE_ID)
-                                    ->__toString()
-                                : Rule::unique(PageModel::class)->__toString(),
-                        ]
-                    ]),
+                    ->regex('/^[\pL\pM\pN\/_-]+$/u'),
 
                 MarkdownEditor::make(PageModel::ATTRIBUTE_BODY)
                     ->label(__('filament.fields.page.body.name'))
