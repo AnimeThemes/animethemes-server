@@ -28,15 +28,14 @@ abstract class BaseAction extends Action
         parent::setUp();
 
         $this->requiresConfirmation();
+        $this->failure();
 
-        $this->before(function (BaseAction $action, $livewire) {
+        $this->before(function (BaseAction $action) {
             $this->createActionLog($action);
-            $livewire->dispatch('updateAllRelationManager');
         });
 
-        $this->after(function ($livewire) {
+        $this->after(function () {
             $this->finishedLog();
-            $livewire->dispatch('updateAllRelationManager');
         });
 
         $this->modalWidth(MaxWidth::FourExtraLarge);
