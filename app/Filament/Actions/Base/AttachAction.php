@@ -8,6 +8,8 @@ use App\Concerns\Filament\Actions\HasPivotActionLogs;
 use App\Filament\Components\Fields\Select;
 use App\Filament\RelationManagers\BaseRelationManager;
 use App\Filament\RelationManagers\Wiki\ResourceRelationManager;
+use App\Filament\Resources\Wiki\Artist\RelationManagers\GroupArtistRelationManager;
+use App\Filament\Resources\Wiki\Artist\RelationManagers\MemberArtistRelationManager;
 use App\Filament\Resources\Wiki\Artist\RelationManagers\SongArtistRelationManager;
 use App\Filament\Resources\Wiki\ExternalResource\RelationManagers\AnimeResourceRelationManager;
 use App\Filament\Resources\Wiki\ExternalResource\RelationManagers\ArtistResourceRelationManager;
@@ -71,6 +73,8 @@ class AttachAction extends DefaultAttachAction
                         ->helperText(__('filament.fields.artist.songs.as.help'))
                         ->visibleOn([
                             ArtistSongRelationManager::class,
+                            MemberArtistRelationManager::class,
+                            GroupArtistRelationManager::class,
                             SongArtistRelationManager::class,
                         ]),
                 ]);

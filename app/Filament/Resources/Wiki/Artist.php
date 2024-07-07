@@ -22,6 +22,7 @@ use App\Filament\Resources\Wiki\Artist\RelationManagers\SongArtistRelationManage
 use App\Filament\Resources\Wiki\ExternalResource\RelationManagers\ArtistResourceRelationManager;
 use App\Filament\Resources\Wiki\Song\RelationManagers\ArtistSongRelationManager;
 use App\Models\Wiki\Artist as ArtistModel;
+use App\Pivots\Wiki\ArtistMember;
 use App\Pivots\Wiki\ArtistResource;
 use App\Pivots\Wiki\ArtistSong;
 use Filament\Forms\Components\TextInput;
@@ -164,6 +165,11 @@ class Artist extends BaseResource
                     ->label(__('filament.fields.artist.songs.as.name'))
                     ->helperText(__('filament.fields.artist.songs.as.help'))
                     ->visibleOn(ArtistSongRelationManager::class),
+
+                TextInput::make(ArtistMember::ATTRIBUTE_AS)
+                    ->label(__('filament.fields.artist.members.as.name'))
+                    ->helperText(__('filament.fields.artist.members.as.help'))
+                    ->visibleOn([MemberArtistRelationManager::class, GroupArtistRelationManager::class]),
             ])
             ->columns(2);
     }
@@ -203,6 +209,11 @@ class Artist extends BaseResource
                 TextColumn::make(ArtistSong::ATTRIBUTE_AS)
                     ->label(__('filament.fields.artist.songs.as.name'))
                     ->visibleOn(ArtistSongRelationManager::class)
+                    ->placeholder('-'),
+
+                TextColumn::make(ArtistMember::ATTRIBUTE_AS)
+                    ->label(__('filament.fields.artist.members.as.name'))
+                    ->visibleOn([MemberArtistRelationManager::class, GroupArtistRelationManager::class])
                     ->placeholder('-'),
             ])
             ->searchable();
