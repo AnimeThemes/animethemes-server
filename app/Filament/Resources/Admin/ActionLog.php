@@ -152,7 +152,7 @@ class ActionLog extends BaseResource
                     ->sortable()
                     ->searchable(),
 
-                BelongsToColumn::make(ActionLogModel::ATTRIBUTE_USER)
+                BelongsToColumn::make(ActionLogModel::RELATION_USER.'.'.UserModel::ATTRIBUTE_NAME)
                     ->resource(User::class)
                     ->sortable(),
 
