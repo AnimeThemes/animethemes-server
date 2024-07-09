@@ -9,7 +9,6 @@ use App\Filament\Components\Fields\Select;
 use App\Filament\Components\Filters\NumberFilter;
 use App\Filament\Components\Filters\TextFilter;
 use App\Filament\Components\Infolist\TextEntry;
-use App\Filament\RelationManagers\Wiki\Anime\Theme\EntryRelationManager;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Anime as AnimeResource;
 use App\Filament\Resources\Wiki\Anime\Theme as ThemeResource;
@@ -25,6 +24,7 @@ use App\Models\Wiki\Anime\Theme\AnimeThemeEntry as EntryModel;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
 use Filament\Infolists\Components\IconEntry;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Infolist;
@@ -149,29 +149,24 @@ class Entry extends BaseResource
                 Select::make(EntryModel::RELATION_ANIME.'.'.AnimeModel::ATTRIBUTE_ID)
                     ->label(__('filament.resources.singularLabel.anime'))
                     ->relationship(EntryModel::RELATION_ANIME_SHALLOW, AnimeModel::ATTRIBUTE_NAME)
-                    ->searchable()
+                    ->live(true)
                     ->required()
                     ->rules(['required'])
                     ->visibleOn([CreateEntry::class, EditEntry::class])
-                    ->allowHtml()
-                    ->getOptionLabelUsing(fn ($state) => Select::getSearchLabelWithBlade(AnimeModel::find($state)))
+                    ->useScout(AnimeModel::class)
                     ->saveRelationshipsUsing(fn (EntryModel $record, $state) => $record->animetheme->anime()->associate(intval($state))->save()),
 
                 Select::make(EntryModel::ATTRIBUTE_THEME)
                     ->label(__('filament.resources.singularLabel.anime_theme'))
                     ->relationship(EntryModel::RELATION_THEME, ThemeModel::ATTRIBUTE_ID)
-                    ->searchable()
                     ->required()
                     ->rules(['required'])
                     ->visibleOn([CreateEntry::class, EditEntry::class])
-                    ->allowHtml()
-                    ->getOptionLabelUsing(fn ($state) => Select::getSearchLabelWithBlade(ThemeModel::find($state)))
-                    ->getSearchResultsUsing(function ($search) {
-                        return ThemeModel::search($search)
-                            ->take(25)
+                    ->options(function (Get $get) {
+                        return ThemeModel::query()
+                            ->where(ThemeModel::ATTRIBUTE_ANIME, $get(EntryModel::RELATION_ANIME.'.'.AnimeModel::ATTRIBUTE_ID))
                             ->get()
-                            ->load(ThemeModel::RELATION_ANIME)
-                            ->mapWithKeys(fn (ThemeModel $model) => [$model->getKey() => Select::getSearchLabelWithBlade($model)])
+                            ->mapWithKeys(fn (ThemeModel $theme) => [$theme->getKey() => $theme->getName()])
                             ->toArray();
                     }),
 

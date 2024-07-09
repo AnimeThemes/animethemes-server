@@ -115,8 +115,6 @@ class FeaturedTheme extends BaseResource
      */
     public static function form(Form $form): Form
     {
-        $allowedDateFormats = array_column(AllowedDateFormat::cases(), 'value');
-
         return $form
             ->schema([
                 DateRangePicker::make('date')
@@ -125,6 +123,7 @@ class FeaturedTheme extends BaseResource
                     ->timezone('UTC')
                     ->displayFormat('MM/DD/YYYY')
                     ->format(AllowedDateFormat::YMD->value)
+                    ->formatStateUsing(fn ($record) => $record->start_at->format('m/d/Y') . ' - ' . $record->end_at->format('m/d/Y'))
                     ->required()
                     ->rules([
                         'required',
@@ -132,9 +131,9 @@ class FeaturedTheme extends BaseResource
                         'regex:/^\d{2}\/\d{2}\/\d{4} - \d{2}\/\d{2}\/\d{4}$/',
                         new StartDateBeforeEndDateRule(),
                     ])
-                    ->saveRelationshipsUsing(function (FeaturedThemeModel $record, string $state) {
+                    ->saveRelationshipsBeforeChildrenUsing(function (FeaturedThemeModel $record, string $state) {
                         $dates = explode(' - ', $state);
-                        
+
                         $record->start_at = Carbon::createFromFormat('m/d/Y', $dates[0]);
                         $record->end_at = Carbon::createFromFormat('m/d/Y', $dates[1]);
                         $record->save();
@@ -237,8 +236,7 @@ class FeaturedTheme extends BaseResource
                     ->label(__('filament.resources.singularLabel.anime_theme_entry'))
                     ->toggleable()
                     ->placeholder('-')
-                    ->formatStateUsing(fn (string $state) => EntryModel::find(intval($state))->load(EntryModel::RELATION_ANIME_SHALLOW)->getName())
-                    ->urlToRelated(EntryResource::class, FeaturedThemeModel::RELATION_ENTRY),
+                    ->urlToRelated(EntryResource::class, FeaturedThemeModel::RELATION_ENTRY, true),
 
                 TextColumn::make(FeaturedThemeModel::RELATION_USER.'.'.User::ATTRIBUTE_NAME)
                     ->label(__('filament.resources.singularLabel.user'))

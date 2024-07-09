@@ -27,6 +27,7 @@ class Select extends ComponentsSelect
             return $this
                 ->allowHtml()
                 ->searchable()
+                ->getOptionLabelUsing(fn ($state) => static::getSearchLabelWithBlade((new $model)::find($state)))
                 ->getSearchResultsUsing(function (string $search) use ($model, $loadRelation) {
                     return (new $model)::search($search)
                         ->take(25)
