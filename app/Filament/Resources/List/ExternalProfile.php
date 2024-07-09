@@ -8,6 +8,7 @@ use App\Enums\Http\Api\Filter\ComparisonOperator;
 use App\Enums\Models\List\ExternalProfileSite;
 use App\Enums\Models\List\ExternalProfileVisibility;
 use App\Filament\Components\Columns\TextColumn;
+use App\Filament\Components\Fields\BelongsTo;
 use App\Filament\Components\Fields\Select;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\Auth\User;
@@ -17,7 +18,6 @@ use App\Filament\Resources\List\External\Pages\EditExternalProfile;
 use App\Filament\Resources\List\External\Pages\ListExternalProfiles;
 use App\Filament\Resources\List\External\Pages\ViewExternalProfile;
 use App\Filament\Resources\List\External\RelationManagers\ExternalEntryExternalProfileRelationManager;
-use App\Models\Auth\User as UserModel;
 use App\Models\List\ExternalProfile as ExternalProfileModel;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
@@ -111,18 +111,8 @@ class ExternalProfile extends BaseResource
     {
         return $form
             ->schema([
-                Select::make(ExternalProfileModel::ATTRIBUTE_USER)
-                    ->label(__('filament.resources.singularLabel.user'))
-                    ->relationship(ExternalProfileModel::RELATION_USER, UserModel::ATTRIBUTE_NAME)
-                    ->allowHtml()
-                    ->searchable()
-                    ->getSearchResultsUsing(function (string $search) {
-                        return UserModel::query()
-                            ->where(UserModel::ATTRIBUTE_NAME, ComparisonOperator::LIKE->value, "%$search%")
-                            ->get()
-                            ->mapWithKeys(fn (UserModel $model) => [$model->getKey() => Select::getSearchLabelWithBlade($model)])
-                            ->toArray();
-                    }),
+                BelongsTo::make(ExternalProfileModel::ATTRIBUTE_USER)
+                    ->resource(User::class),
 
                 TextInput::make(ExternalProfileModel::ATTRIBUTE_NAME)
                     ->label(__('filament.fields.external_profile.name.name'))

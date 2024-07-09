@@ -6,6 +6,7 @@ namespace App\Filament\Resources\List\External;
 
 use App\Enums\Models\List\AnimeWatchStatus;
 use App\Filament\Components\Columns\TextColumn;
+use App\Filament\Components\Fields\BelongsTo;
 use App\Filament\Components\Fields\Select;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\BaseResource;
@@ -17,8 +18,6 @@ use App\Filament\Resources\List\External\RelationManagers\ExternalEntryExternalP
 use App\Filament\Resources\List\ExternalProfile as ExternalProfileResource;
 use App\Filament\Resources\Wiki\Anime;
 use App\Models\List\External\ExternalEntry as ExternalEntryModel;
-use App\Models\List\ExternalProfile as ExternalProfileModel;
-use App\Models\Wiki\Anime as AnimeModel;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
@@ -114,17 +113,14 @@ class ExternalEntry extends BaseResource
     {
         return $form
             ->schema([
-                Select::make(ExternalEntryModel::ATTRIBUTE_PROFILE)
-                    ->label(__('filament.resources.singularLabel.external_profile'))
-                    ->useScout(ExternalProfileModel::class)
+                BelongsTo::make(ExternalEntryModel::ATTRIBUTE_PROFILE)
+                    ->resource(ExternalProfileResource::class)
                     ->required()
                     ->rules(['required'])
-                    ->hiddenOn([ExternalEntryExternalProfileRelationManager::class])
-                    ->createOptionForm(ExternalProfileResource::form($form)->getComponents()),
+                    ->hiddenOn([ExternalEntryExternalProfileRelationManager::class]),
 
-                Select::make(ExternalEntryModel::ATTRIBUTE_ANIME)
-                    ->label(__('filament.resources.singularLabel.anime'))
-                    ->useScout(AnimeModel::class)
+                BelongsTo::make(ExternalEntryModel::ATTRIBUTE_ANIME)
+                    ->resource(Anime::class)
                     ->required()
                     ->rules(['required']),
 

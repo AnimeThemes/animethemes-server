@@ -6,6 +6,7 @@ namespace App\Filament\Resources\Wiki\Anime;
 
 use App\Enums\Models\Wiki\AnimeSynonymType;
 use App\Filament\Components\Columns\TextColumn;
+use App\Filament\Components\Fields\BelongsTo;
 use App\Filament\Components\Fields\Select;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\RelationManagers\Wiki\Anime\SynonymRelationManager;
@@ -111,10 +112,8 @@ class Synonym extends BaseResource
     {
         return $form
             ->schema([
-                Select::make(SynonymModel::ATTRIBUTE_ANIME)
-                    ->label(__('filament.resources.singularLabel.anime'))
-                    ->relationship(SynonymModel::RELATION_ANIME, AnimeModel::ATTRIBUTE_NAME)
-                    ->searchable()
+                BelongsTo::make(SynonymModel::ATTRIBUTE_ANIME)
+                    ->resource(AnimeResource::class)
                     ->hiddenOn(SynonymRelationManager::class),
 
                 Select::make(SynonymModel::ATTRIBUTE_TYPE)

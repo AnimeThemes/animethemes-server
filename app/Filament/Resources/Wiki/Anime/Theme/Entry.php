@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Resources\Wiki\Anime\Theme;
 
 use App\Filament\Components\Columns\TextColumn;
+use App\Filament\Components\Fields\BelongsTo;
 use App\Filament\Components\Fields\Select;
 use App\Filament\Components\Filters\NumberFilter;
 use App\Filament\Components\Filters\TextFilter;
@@ -146,14 +147,12 @@ class Entry extends BaseResource
     {
         return $form
             ->schema([
-                Select::make(EntryModel::RELATION_ANIME.'.'.AnimeModel::ATTRIBUTE_ID)
-                    ->label(__('filament.resources.singularLabel.anime'))
-                    ->relationship(EntryModel::RELATION_ANIME_SHALLOW, AnimeModel::ATTRIBUTE_NAME)
+                BelongsTo::make(EntryModel::RELATION_ANIME.'.'.AnimeModel::ATTRIBUTE_ID)
+                    ->resource(AnimeResource::class)
                     ->live(true)
                     ->required()
                     ->rules(['required'])
                     ->visibleOn([CreateEntry::class, EditEntry::class])
-                    ->useScout(AnimeModel::class)
                     ->saveRelationshipsUsing(fn (EntryModel $record, $state) => $record->animetheme->anime()->associate(intval($state))->save()),
 
                 Select::make(EntryModel::ATTRIBUTE_THEME)

@@ -6,6 +6,7 @@ namespace App\Filament\Resources\Wiki\Anime;
 
 use App\Enums\Models\Wiki\ThemeType;
 use App\Filament\Components\Columns\TextColumn;
+use App\Filament\Components\Fields\BelongsTo;
 use App\Filament\Components\Fields\Select;
 use App\Filament\Components\Filters\NumberFilter;
 use App\Filament\Components\Infolist\TextEntry;
@@ -160,10 +161,8 @@ class Theme extends BaseResource
                         Tab::make('theme')
                             ->label(__('filament.resources.singularLabel.anime_theme'))
                             ->schema([
-                                Select::make(ThemeModel::ATTRIBUTE_ANIME)
-                                    ->label(__('filament.resources.singularLabel.anime'))
-                                    ->relationship(ThemeModel::RELATION_ANIME, AnimeModel::ATTRIBUTE_NAME)
-                                    ->searchable()
+                                BelongsTo::make(ThemeModel::ATTRIBUTE_ANIME)
+                                    ->resource(AnimeResource::class)
                                     ->hiddenOn(ThemeRelationManager::class)
                                     ->required()
                                     ->rules(['required']),
@@ -193,24 +192,20 @@ class Theme extends BaseResource
                                     ->maxLength(192)
                                     ->rules(['required', 'max:192', 'alpha_dash']),
 
-                                Select::make(ThemeModel::ATTRIBUTE_GROUP)
-                                    ->label(__('filament.resources.singularLabel.group'))
-                                    ->relationship(ThemeModel::RELATION_GROUP, Group::ATTRIBUTE_NAME)
-                                    ->searchable()
+                                BelongsTo::make(ThemeModel::ATTRIBUTE_GROUP)
+                                    ->resource(GroupResource::class)
+                                    ->showCreateOption()
                                     ->live()
-                                    ->afterStateUpdated(fn (Set $set, Get $get) => Theme::setThemeSlug($set, $get))
-                                    ->createOptionForm(GroupResource::form($form)->getComponents()),
+                                    ->afterStateUpdated(fn (Set $set, Get $get) => Theme::setThemeSlug($set, $get)),
                             ]),
 
                         Tab::make('song')
                             ->label(__('filament.resources.singularLabel.song'))
                             ->schema([
-                                Select::make(ThemeModel::ATTRIBUTE_SONG)
-                                    ->label(__('filament.resources.singularLabel.song'))
-                                    ->relationship(ThemeModel::RELATION_SONG, Song::ATTRIBUTE_TITLE)
+                                BelongsTo::make(ThemeModel::ATTRIBUTE_SONG)
+                                    ->resource(SongResource::class)
+                                    ->showCreateOption()
                                     ->live()
-                                    ->useScout(Song::class)
-                                    ->createOptionForm(SongResource::form($form)->getComponents())
                                     ->afterStateUpdated(function (Set $set, $state) {
                                         /** @var Song|null */
                                         $song = Song::find($state);
@@ -232,12 +227,11 @@ class Theme extends BaseResource
                                     ->collapsible()
                                     ->defaultItems(0)
                                     ->schema([
-                                        Select::make(Artist::ATTRIBUTE_ID)
-                                            ->label(__('filament.resources.singularLabel.artist'))
+                                        BelongsTo::make(Artist::ATTRIBUTE_ID)
+                                            ->resource(ArtistResource::class)
+                                            ->showCreateOption()
                                             ->required()
                                             ->rules(['required'])
-                                            ->useScout(Artist::class)
-                                            ->createOptionForm(ArtistResource::form($form)->getComponents())
                                             ->createOptionUsing(fn (array $data) => Artist::query()->create($data)->getKey()),
 
                                         TextInput::make(ArtistSong::ATTRIBUTE_AS)

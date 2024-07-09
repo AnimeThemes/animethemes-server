@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Filament\Resources\Admin;
 
 use App\Enums\Http\Api\Filter\AllowedDateFormat;
-use App\Enums\Http\Api\Filter\ComparisonOperator;
 use App\Filament\Components\Columns\TextColumn;
+use App\Filament\Components\Fields\BelongsTo;
 use App\Filament\Components\Fields\Select;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\BaseResource;
@@ -139,11 +139,9 @@ class FeaturedTheme extends BaseResource
                         $record->save();
                     }),
 
-                Select::make(FeaturedThemeModel::ATTRIBUTE_ENTRY)
-                    ->label(__('filament.resources.singularLabel.anime_theme_entry'))
-                    ->relationship(FeaturedThemeModel::RELATION_ENTRY, EntryModel::ATTRIBUTE_ID)
+                BelongsTo::make(FeaturedThemeModel::ATTRIBUTE_ENTRY)
+                    ->resource(EntryResource::class)
                     ->live(true)
-                    ->useScout(EntryModel::class, EntryModel::RELATION_ANIME_SHALLOW)
                     ->rules([
                         fn (Get $get) => function () use ($get) {
                             return [
@@ -182,18 +180,8 @@ class FeaturedTheme extends BaseResource
                             ->toArray();
                     }),
 
-                Select::make(FeaturedThemeModel::ATTRIBUTE_USER)
-                    ->label(__('filament.resources.singularLabel.user'))
-                    ->relationship(FeaturedThemeModel::RELATION_USER, User::ATTRIBUTE_NAME)
-                    ->allowHtml()
-                    ->searchable()
-                    ->getSearchResultsUsing(function (string $search) {
-                        return User::query()
-                            ->where(User::ATTRIBUTE_NAME, ComparisonOperator::LIKE->value, "%$search%")
-                            ->get()
-                            ->mapWithKeys(fn (User $model) => [$model->getKey() => Select::getSearchLabelWithBlade($model)])
-                            ->toArray();
-                    }),
+                BelongsTo::make(FeaturedThemeModel::ATTRIBUTE_USER)
+                    ->resource(UserResource::class),
             ])
             ->columns(1);
     }
