@@ -27,8 +27,11 @@ class BelongsTo extends ComponentsSelect
      */
     protected function reload(): void
     {
+        $model = $this->resource->getModel();
+
         if ($this->showCreateOption && $this->resource !== null) {
             $this->createOptionForm(fn (Form $form) => $this->resource::form($form)->getComponents());
+            $this->createOptionUsing(fn (array $data) => (new $model)::query()->create($data)->getKey());
         }
 
         if ($this->resource) {
