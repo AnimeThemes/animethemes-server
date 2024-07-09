@@ -17,7 +17,7 @@ class ResourceArtistRelationManager extends ResourceRelationManager
     /**
      * The relationship the relation manager corresponds to.
      *
-     * @return string
+     * @var string
      */
     protected static string $relationship = Artist::RELATION_RESOURCES;
 

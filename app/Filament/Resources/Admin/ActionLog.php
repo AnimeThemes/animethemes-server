@@ -6,6 +6,7 @@ namespace App\Filament\Resources\Admin;
 
 use App\Enums\Actions\ActionLogStatus;
 use App\Enums\Auth\Role;
+use App\Filament\Components\Columns\BelongsToColumn;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\BaseResource;
@@ -99,6 +100,18 @@ class ActionLog extends BaseResource
     }
 
     /**
+     * Get the title attribute for the resource.
+     *
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getRecordTitleAttribute(): string
+    {
+        return ActionLogModel::ATTRIBUTE_NAME;
+    }
+
+    /**
      * The form to the actions.
      *
      * @param  Form  $form
@@ -139,9 +152,8 @@ class ActionLog extends BaseResource
                     ->sortable()
                     ->searchable(),
 
-                TextColumn::make(ActionLogModel::ATTRIBUTE_USER)
-                    ->label(__('filament.resources.singularLabel.user'))
-                    ->urlToRelated(User::class, ActionLogModel::RELATION_USER, true)
+                BelongsToColumn::make(ActionLogModel::RELATION_USER.'.'.UserModel::ATTRIBUTE_NAME)
+                    ->resource(User::class)
                     ->sortable(),
 
                 TextColumn::make(ActionLogModel::ATTRIBUTE_TARGET)

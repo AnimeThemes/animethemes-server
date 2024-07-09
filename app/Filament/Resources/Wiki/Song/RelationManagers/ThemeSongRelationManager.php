@@ -17,7 +17,7 @@ class ThemeSongRelationManager extends ThemeRelationManager
     /**
      * The relationship the relation manager corresponds to.
      *
-     * @return string
+     * @var string
      */
     protected static string $relationship = SongModel::RELATION_ANIMETHEMES;
 

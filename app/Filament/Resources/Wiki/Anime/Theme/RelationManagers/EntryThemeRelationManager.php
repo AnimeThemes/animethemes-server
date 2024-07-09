@@ -17,7 +17,7 @@ class EntryThemeRelationManager extends EntryRelationManager
     /**
      * The relationship the relation manager corresponds to.
      *
-     * @return string
+     * @var string
      */
     protected static string $relationship = AnimeTheme::RELATION_ENTRIES;
 

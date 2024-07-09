@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace App\Filament\Resources\Discord;
 
 use App\Actions\Discord\DiscordThreadAction;
+use App\Filament\Components\Columns\BelongsToColumn;
 use App\Filament\Components\Columns\TextColumn;
-use App\Filament\Components\Fields\Select;
+use App\Filament\Components\Fields\BelongsTo;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Discord\DiscordThread\Pages\CreateDiscordThread;
@@ -141,11 +142,9 @@ class DiscordThread extends BaseResource
                     ->required()
                     ->rules(['required', 'string']),
 
-                Select::make(DiscordThreadModel::ATTRIBUTE_ANIME)
-                    ->label(__('filament.resources.singularLabel.anime'))
-                    ->relationship(DiscordThreadModel::RELATION_ANIME, Anime::ATTRIBUTE_NAME)
-                    ->required()
-                    ->useScout(Anime::class),
+                BelongsTo::make(DiscordThreadModel::ATTRIBUTE_ANIME)
+                    ->resource(AnimeResource::class)
+                    ->required(),
             ]);
     }
 
@@ -171,10 +170,9 @@ class DiscordThread extends BaseResource
                     ->copyableWithMessage()
                     ->toggleable(),
 
-                TextColumn::make(DiscordThreadModel::RELATION_ANIME.'.'.Anime::ATTRIBUTE_NAME)
-                    ->label(__('filament.resources.singularLabel.anime'))
-                    ->toggleable()
-                    ->urlToRelated(AnimeResource::class, DiscordThreadModel::RELATION_ANIME),
+                BelongsToColumn::make(DiscordThreadModel::RELATION_ANIME.'.'.Anime::ATTRIBUTE_NAME)
+                    ->resource(AnimeResource::class)
+                    ->toggleable(),
             ])
             ->searchable()
             ->defaultSort(BaseModel::CREATED_AT, 'desc');

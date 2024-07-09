@@ -17,7 +17,7 @@ class SynonymAnimeRelationManager extends SynonymRelationManager
     /**
      * The relationship the relation manager corresponds to.
      *
-     * @return string
+     * @var string
      */
     protected static string $relationship = Anime::RELATION_SYNONYMS;
 

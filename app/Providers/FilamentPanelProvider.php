@@ -37,6 +37,7 @@ class FilamentPanelProvider extends PanelProvider
             ->brandLogoHeight('1.8rem')
             ->globalSearch(GlobalSearchScoutProvider::class)
             ->maxContentWidth(MaxWidth::Full)
+            ->readOnlyRelationManagersOnResourceViewPagesByDefault(false)
             ->databaseNotifications()
             ->sidebarCollapsibleOnDesktop()
             ->profile()

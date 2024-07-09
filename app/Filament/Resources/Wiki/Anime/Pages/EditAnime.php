@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Wiki\Anime\Pages;
 
-use App\Enums\Models\Wiki\ImageFacet;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Filament\HeaderActions\Discord\DiscordThreadHeaderAction;
 use App\Filament\HeaderActions\Models\Wiki\Anime\AttachAnimeImageHeaderAction;
@@ -30,19 +29,6 @@ class EditAnime extends BaseEditResource
      */
     protected function getHeaderActions(): array
     {
-        $resourceSites = [
-            ResourceSite::ANIDB,
-            ResourceSite::ANILIST,
-            ResourceSite::ANIME_PLANET,
-            ResourceSite::ANN,
-            ResourceSite::KITSU,
-            ResourceSite::MAL,
-            ResourceSite::OFFICIAL_SITE,
-            ResourceSite::TWITTER,
-            ResourceSite::YOUTUBE,
-            ResourceSite::WIKI,
-        ];
-
         $streamingResourceSites = [
             ResourceSite::CRUNCHYROLL,
             ResourceSite::HIDIVE,
@@ -50,11 +36,6 @@ class EditAnime extends BaseEditResource
             ResourceSite::DISNEY_PLUS,
             ResourceSite::HULU,
             ResourceSite::AMAZON_PRIME_VIDEO,
-        ];
-
-        $facets = [
-            ImageFacet::COVER_SMALL,
-            ImageFacet::COVER_LARGE,
         ];
 
         return array_merge(

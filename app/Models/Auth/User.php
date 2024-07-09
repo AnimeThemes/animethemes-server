@@ -229,16 +229,6 @@ class User extends Authenticatable implements MustVerifyEmail, Nameable, HasSubt
     }
 
     /**
-     * Get the action logs the user executed.
-     *
-     * @return HasMany
-     */
-    public function action_logs(): HasMany
-    {
-        return $this->hasMany(ActionLog::class, ActionLog::ATTRIBUTE_USER);
-    }
-
-    /**
      * Get the playlists that belong to the user.
      *
      * @return HasMany
@@ -246,5 +236,15 @@ class User extends Authenticatable implements MustVerifyEmail, Nameable, HasSubt
     public function externalprofiles(): HasMany
     {
         return $this->hasMany(ExternalProfile::class, ExternalProfile::ATTRIBUTE_USER);
+    }
+
+    /**
+     * Get the action logs that the user has executed.
+     *
+     * @return HasMany
+     */
+    public function actionlogs(): HasMany
+    {
+        return $this->hasMany(ActionLog::class, ActionLog::ATTRIBUTE_USER);
     }
 }

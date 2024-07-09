@@ -26,16 +26,6 @@ abstract class BaseRelationManager extends RelationManager
     protected $listeners = ['updateAllRelationManager' => '$refresh'];
 
     /**
-     * The actions should appear in the view page.
-     * 
-     * @return bool
-     */
-    public function isReadOnly(): bool
-    {
-        return false;
-    }
-
-    /**
      * The index page of the relation resource.
      *
      * @param  Table  $table

@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace App\Filament\Resources\List\Playlist;
 
 use App\Filament\Actions\Models\AssignHashidsAction;
+use App\Filament\Components\Columns\BelongsToColumn;
 use App\Filament\Components\Columns\TextColumn;
+use App\Filament\Components\Fields\BelongsTo;
 use App\Filament\Components\Fields\Select;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\BaseResource;
@@ -104,6 +106,18 @@ class Track extends BaseResource
     }
 
     /**
+     * Get the title attribute for the resource.
+     *
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getRecordTitleAttribute(): string
+    {
+        return TrackModel::ATTRIBUTE_HASHID;
+    }
+
+    /**
      * The form to the actions.
      *
      * @param  Form  $form
@@ -115,20 +129,15 @@ class Track extends BaseResource
     {
         return $form
             ->schema([
-                Select::make(TrackModel::ATTRIBUTE_PLAYLIST)
-                    ->label(__('filament.resources.singularLabel.playlist'))
-                    ->relationship(TrackModel::RELATION_PLAYLIST, PlaylistModel::ATTRIBUTE_NAME)
-                    ->searchable()
+                BelongsTo::make(TrackModel::ATTRIBUTE_PLAYLIST)
+                    ->resource(PlaylistResource::class)
                     ->required()
                     ->rules(['required'])
-                    ->hiddenOn([TrackPlaylistRelationManager::class])
-                    ->createOptionForm(PlaylistResource::form($form)->getComponents()),
+                    ->hiddenOn([TrackPlaylistRelationManager::class]),
 
-                Select::make(TrackModel::ATTRIBUTE_ENTRY)
-                    ->label(__('filament.resources.singularLabel.anime_theme_entry'))
-                    ->relationship(TrackModel::RELATION_ENTRY, AnimeThemeEntry::ATTRIBUTE_ID)
+                BelongsTo::make(TrackModel::ATTRIBUTE_ENTRY)
+                    ->resource(Entry::class)
                     ->live(true)
-                    ->useScout(AnimeThemeEntry::class, AnimeThemeEntry::RELATION_ANIME_SHALLOW)
                     ->rules([
                         fn (Get $get) => function () use ($get) {
                             return [
@@ -174,17 +183,16 @@ class Track extends BaseResource
                     ->helperText(__('filament.fields.playlist_track.hashid.help'))
                     ->readOnly(),
 
-                Select::make(TrackModel::ATTRIBUTE_PREVIOUS)
+                BelongsTo::make(TrackModel::ATTRIBUTE_PREVIOUS)
+                    ->resource(Track::class)
                     ->label(__('filament.fields.playlist_track.previous.name'))
                     ->helperText(__('filament.fields.playlist_track.previous.help'))
-                    ->relationship(TrackModel::RELATION_PREVIOUS, TrackModel::ATTRIBUTE_HASHID)
                     ->searchable(),
 
-                Select::make(TrackModel::ATTRIBUTE_NEXT)
+                BelongsTo::make(TrackModel::ATTRIBUTE_NEXT)
+                    ->resource(Track::class)
                     ->label(__('filament.fields.playlist_track.next.name'))
-                    ->helperText(__('filament.fields.playlist_track.next.help'))
-                    ->relationship(TrackModel::RELATION_NEXT, TrackModel::ATTRIBUTE_HASHID)
-                    ->searchable(),
+                    ->helperText(__('filament.fields.playlist_track.next.help')),
             ])
             ->columns(1);
     }
@@ -201,21 +209,18 @@ class Track extends BaseResource
     {
         return parent::table($table)
             ->columns([
-                TextColumn::make(TrackModel::RELATION_PLAYLIST . '.' . PlaylistModel::ATTRIBUTE_NAME)
-                    ->label(__('filament.resources.singularLabel.playlist'))
+                BelongsToColumn::make(TrackModel::RELATION_PLAYLIST . '.' . PlaylistModel::ATTRIBUTE_NAME)
+                    ->resource(PlaylistResource::class)
                     ->toggleable()
-                    ->hiddenOn(TrackPlaylistRelationManager::class)
-                    ->urlToRelated(PlaylistResource::class, TrackModel::RELATION_PLAYLIST),
+                    ->hiddenOn(TrackPlaylistRelationManager::class),
 
-                TextColumn::make(TrackModel::RELATION_ENTRY . '.' . AnimeThemeEntry::ATTRIBUTE_ID)
-                    ->label(__('filament.resources.singularLabel.anime_theme_entry'))
-                    ->toggleable()
-                    ->urlToRelated(Entry::class, TrackModel::RELATION_ENTRY, true),
+                BelongsToColumn::make(TrackModel::RELATION_ENTRY . '.' . AnimeThemeEntry::ATTRIBUTE_ID)
+                    ->resource(Entry::class)
+                    ->toggleable(),
 
-                TextColumn::make(TrackModel::RELATION_VIDEO . '.' . VideoModel::ATTRIBUTE_FILENAME)
-                    ->label(__('filament.resources.singularLabel.video'))
-                    ->toggleable()
-                    ->urlToRelated(VideoResource::class, TrackModel::RELATION_VIDEO),
+                BelongsToColumn::make(TrackModel::RELATION_VIDEO . '.' . VideoModel::ATTRIBUTE_FILENAME)
+                    ->resource(VideoResource::class)
+                    ->toggleable(),
 
                 TextColumn::make(TrackModel::ATTRIBUTE_ID)
                     ->label(__('filament.fields.base.id'))
