@@ -38,8 +38,8 @@ class BelongsToColumn extends TextColumn
                 if ($record === null) return null;
             }
 
-            $this->formatStateUsing(function ($state) use ($record) {
-                $name = $record->getName();//$shouldUseName ? $record->getName() : $state;
+            $this->formatStateUsing(function () use ($record) {
+                $name = $record->getName();
                 $nameLimited = Str::limit($name, $this->getCharacterLimit() ?? 100);
                 return "<p style='color: rgb(64, 184, 166);'>{$nameLimited}</p>";
             });
