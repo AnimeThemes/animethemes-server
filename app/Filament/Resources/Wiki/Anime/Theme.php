@@ -232,8 +232,7 @@ class Theme extends BaseResource
                                             ->resource(ArtistResource::class)
                                             ->showCreateOption()
                                             ->required()
-                                            ->rules(['required'])
-                                            ->createOptionUsing(fn (array $data) => Artist::query()->create($data)->getKey()),
+                                            ->rules(['required']),
 
                                         TextInput::make(ArtistSong::ATTRIBUTE_AS)
                                             ->label(__('filament.fields.artist.songs.as.name'))
