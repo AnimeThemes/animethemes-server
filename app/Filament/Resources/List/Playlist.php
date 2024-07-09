@@ -6,6 +6,7 @@ namespace App\Filament\Resources\List;
 
 use App\Enums\Models\List\PlaylistVisibility;
 use App\Filament\Actions\Models\AssignHashidsAction;
+use App\Filament\Components\Columns\BelongsToColumn;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\BelongsTo;
 use App\Filament\Components\Fields\Select;
@@ -19,7 +20,9 @@ use App\Filament\Resources\List\Playlist\Pages\ViewPlaylist;
 use App\Filament\Resources\List\Playlist\Track;
 use App\Filament\Resources\List\Playlist\RelationManagers\ImagePlaylistRelationManager;
 use App\Filament\Resources\List\Playlist\RelationManagers\TrackPlaylistRelationManager;
+use App\Models\Auth\User;
 use App\Models\List\Playlist as PlaylistModel;
+use App\Models\List\Playlist\PlaylistTrack;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
@@ -166,11 +169,9 @@ class Playlist extends BaseResource
     {
         return parent::table($table)
             ->columns([
-                TextColumn::make(PlaylistModel::ATTRIBUTE_USER)
-                    ->label(__('filament.resources.singularLabel.user'))
-                    ->toggleable()
-                    ->placeholder('-')
-                    ->urlToRelated(UserResource::class, PlaylistModel::RELATION_USER, true),
+                BelongsToColumn::make(PlaylistModel::RELATION_USER.'.'.User::ATTRIBUTE_NAME)
+                    ->resource(UserResource::class)
+                    ->toggleable(),
 
                 TextColumn::make(PlaylistModel::ATTRIBUTE_ID)
                     ->label(__('filament.fields.base.id'))
@@ -196,19 +197,17 @@ class Playlist extends BaseResource
                     ->placeholder('-')
                     ->copyableWithMessage(),
 
-                TextColumn::make(PlaylistModel::ATTRIBUTE_FIRST)
+                BelongsToColumn::make(PlaylistModel::RELATION_FIRST.'.'.PlaylistTrack::ATTRIBUTE_HASHID)
+                    ->resource(Track::class)
                     ->label(__('filament.fields.playlist.first.name'))
                     ->visibleOn(['create', 'edit', 'view'])
-                    ->toggleable()
-                    ->placeholder('-')
-                    ->urlToRelated(Track::class, PlaylistModel::RELATION_FIRST),
+                    ->toggleable(),
 
-                TextColumn::make(PlaylistModel::ATTRIBUTE_LAST)
+                BelongsToColumn::make(PlaylistModel::RELATION_LAST.'.'.PlaylistTrack::ATTRIBUTE_HASHID)
+                    ->resource(Track::class)
                     ->label(__('filament.fields.playlist.last.name'))
                     ->visibleOn(['create', 'edit', 'view'])
-                    ->toggleable()
-                    ->placeholder('-')
-                    ->urlToRelated(Track::class, PlaylistModel::RELATION_LAST),
+                    ->toggleable(),
 
                 TextColumn::make(PlaylistModel::ATTRIBUTE_DESCRIPTION)
                     ->label(__('filament.fields.playlist.description.name'))

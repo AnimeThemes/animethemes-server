@@ -94,7 +94,7 @@ class BelongsTo extends ComponentsSelect
                     ->where($this->resource->getRecordTitleAttribute(), ComparisonOperator::LIKE->value, "%$search%")
                     ->take(25)
                     ->get()
-                    ->mapWithKeys(fn (BaseModel $model) => [$model->getKey() => static::getSearchLabelWithBlade($model)])
+                    ->mapWithKeys(fn (BaseModel|User $model) => [$model->getKey() => static::getSearchLabelWithBlade($model)])
                     ->toArray();
             });
     }

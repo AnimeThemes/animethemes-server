@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Resources\List\External;
 
 use App\Enums\Models\List\AnimeWatchStatus;
+use App\Filament\Components\Columns\BelongsToColumn;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\BelongsTo;
 use App\Filament\Components\Fields\Select;
@@ -18,6 +19,8 @@ use App\Filament\Resources\List\External\RelationManagers\ExternalEntryExternalP
 use App\Filament\Resources\List\ExternalProfile as ExternalProfileResource;
 use App\Filament\Resources\Wiki\Anime;
 use App\Models\List\External\ExternalEntry as ExternalEntryModel;
+use App\Models\List\ExternalProfile;
+use App\Models\Wiki\Anime as AnimeModel;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
@@ -155,15 +158,13 @@ class ExternalEntry extends BaseResource
     {
         return parent::table($table)
             ->columns([
-                TextColumn::make(ExternalEntryModel::ATTRIBUTE_PROFILE)
-                    ->label(__('filament.resources.singularLabel.external_profile'))
-                    ->urlToRelated(ExternalProfileResource::class, ExternalEntryModel::RELATION_PROFILE, true)
+                BelongsToColumn::make(ExternalEntryModel::RELATION_PROFILE.'.'.ExternalProfile::ATTRIBUTE_NAME)
+                    ->resource(ExternalProfileResource::class)
                     ->sortable()
                     ->toggleable(),
 
-                TextColumn::make(ExternalEntryModel::ATTRIBUTE_ANIME)
-                    ->label(__('filament.resources.singularLabel.anime'))
-                    ->urlToRelated(Anime::class, ExternalEntryModel::RELATION_ANIME, true)
+                BelongsToColumn::make(ExternalEntryModel::RELATION_ANIME.'.'.AnimeModel::ATTRIBUTE_NAME)
+                    ->resource(Anime::class)
                     ->sortable()
                     ->toggleable(),
 

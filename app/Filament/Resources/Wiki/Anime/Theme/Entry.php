@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Wiki\Anime\Theme;
 
+use App\Filament\Components\Columns\BelongsToColumn;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\BelongsTo;
 use App\Filament\Components\Fields\Select;
@@ -212,19 +213,14 @@ class Entry extends BaseResource
     {
         return parent::table($table)
             ->columns([
-                TextColumn::make(EntryModel::RELATION_ANIME.'.'.AnimeModel::ATTRIBUTE_NAME)
-                    ->label(__('filament.resources.singularLabel.anime'))
-                    ->toggleable()
-                    ->placeholder('-')
-                    ->urlToRelated(AnimeResource::class, EntryModel::RELATION_ANIME, limit: 60)
-                    ->tooltip(fn (TextColumn $column) => $column->getState()),
+                BelongsToColumn::make(EntryModel::RELATION_ANIME_SHALLOW.'.'.AnimeModel::ATTRIBUTE_NAME)
+                    ->resource(AnimeResource::class)
+                    ->toggleable(),
 
-                TextColumn::make(EntryModel::ATTRIBUTE_THEME)
-                    ->label(__('filament.resources.singularLabel.anime_theme'))
+                BelongsToColumn::make(EntryModel::RELATION_THEME.'.'.ThemeModel::ATTRIBUTE_ID)
+                    ->resource(ThemeResource::class)
                     ->toggleable()
-                    ->placeholder('-')
-                    ->hiddenOn(EntryThemeRelationManager::class)
-                    ->urlToRelated(ThemeResource::class, EntryModel::RELATION_THEME, true),
+                    ->hiddenOn(EntryThemeRelationManager::class),
 
                 TextColumn::make(EntryModel::ATTRIBUTE_ID)
                     ->label(__('filament.fields.base.id'))

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Resources\Admin;
 
 use App\Enums\Http\Api\Filter\AllowedDateFormat;
+use App\Filament\Components\Columns\BelongsToColumn;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\BelongsTo;
 use App\Filament\Components\Fields\Select;
@@ -214,23 +215,17 @@ class FeaturedTheme extends BaseResource
                     ->date()
                     ->toggleable(),
 
-                TextColumn::make(FeaturedThemeModel::RELATION_VIDEO.'.'.Video::ATTRIBUTE_FILENAME)
-                    ->label(__('filament.resources.singularLabel.video'))
-                    ->toggleable()
-                    ->placeholder('-')
-                    ->urlToRelated(VideoResource::class, FeaturedThemeModel::RELATION_VIDEO),
+                BelongsToColumn::make(FeaturedThemeModel::RELATION_VIDEO.'.'.Video::ATTRIBUTE_FILENAME)
+                    ->resource(VideoResource::class)
+                    ->toggleable(),
 
-                TextColumn::make(FeaturedThemeModel::RELATION_ENTRY.'.'.EntryModel::ATTRIBUTE_ID)
-                    ->label(__('filament.resources.singularLabel.anime_theme_entry'))
-                    ->toggleable()
-                    ->placeholder('-')
-                    ->urlToRelated(EntryResource::class, FeaturedThemeModel::RELATION_ENTRY, true),
+                BelongsToColumn::make(FeaturedThemeModel::RELATION_ENTRY.'.'.EntryModel::ATTRIBUTE_ID)
+                    ->resource(EntryResource::class)
+                    ->toggleable(),
 
-                TextColumn::make(FeaturedThemeModel::RELATION_USER.'.'.User::ATTRIBUTE_NAME)
-                    ->label(__('filament.resources.singularLabel.user'))
-                    ->toggleable()
-                    ->placeholder('-')
-                    ->urlToRelated(UserResource::class, FeaturedThemeModel::RELATION_USER),
+                BelongsToColumn::make(FeaturedThemeModel::RELATION_USER.'.'.User::ATTRIBUTE_NAME)
+                    ->resource(UserResource::class)
+                    ->toggleable(),
             ]);
     }
 

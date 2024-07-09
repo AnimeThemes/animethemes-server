@@ -105,6 +105,18 @@ class Role extends BaseResource
     }
 
     /**
+     * Get the title attribute for the resource.
+     *
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getRecordTitleAttribute(): string
+    {
+        return RoleModel::ATTRIBUTE_NAME;
+    }
+
+    /**
      * The form to the actions.
      *
      * @param  Form  $form

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Resources\List\Playlist;
 
 use App\Filament\Actions\Models\AssignHashidsAction;
+use App\Filament\Components\Columns\BelongsToColumn;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\BelongsTo;
 use App\Filament\Components\Fields\Select;
@@ -208,21 +209,18 @@ class Track extends BaseResource
     {
         return parent::table($table)
             ->columns([
-                TextColumn::make(TrackModel::RELATION_PLAYLIST . '.' . PlaylistModel::ATTRIBUTE_NAME)
-                    ->label(__('filament.resources.singularLabel.playlist'))
+                BelongsToColumn::make(TrackModel::RELATION_PLAYLIST . '.' . PlaylistModel::ATTRIBUTE_NAME)
+                    ->resource(PlaylistResource::class)
                     ->toggleable()
-                    ->hiddenOn(TrackPlaylistRelationManager::class)
-                    ->urlToRelated(PlaylistResource::class, TrackModel::RELATION_PLAYLIST),
+                    ->hiddenOn(TrackPlaylistRelationManager::class),
 
-                TextColumn::make(TrackModel::RELATION_ENTRY . '.' . AnimeThemeEntry::ATTRIBUTE_ID)
-                    ->label(__('filament.resources.singularLabel.anime_theme_entry'))
-                    ->toggleable()
-                    ->urlToRelated(Entry::class, TrackModel::RELATION_ENTRY, true),
+                BelongsToColumn::make(TrackModel::RELATION_ENTRY . '.' . AnimeThemeEntry::ATTRIBUTE_ID)
+                    ->resource(Entry::class)
+                    ->toggleable(),
 
-                TextColumn::make(TrackModel::RELATION_VIDEO . '.' . VideoModel::ATTRIBUTE_FILENAME)
-                    ->label(__('filament.resources.singularLabel.video'))
-                    ->toggleable()
-                    ->urlToRelated(VideoResource::class, TrackModel::RELATION_VIDEO),
+                BelongsToColumn::make(TrackModel::RELATION_VIDEO . '.' . VideoModel::ATTRIBUTE_FILENAME)
+                    ->resource(VideoResource::class)
+                    ->toggleable(),
 
                 TextColumn::make(TrackModel::ATTRIBUTE_ID)
                     ->label(__('filament.fields.base.id'))

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Resources\Wiki\Anime;
 
 use App\Enums\Models\Wiki\ThemeType;
+use App\Filament\Components\Columns\BelongsToColumn;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\BelongsTo;
 use App\Filament\Components\Fields\Select;
@@ -297,12 +298,10 @@ class Theme extends BaseResource
     {
         return parent::table($table)
             ->columns([
-                TextColumn::make(ThemeModel::RELATION_ANIME . '.' . AnimeModel::ATTRIBUTE_NAME)
-                    ->label(__('filament.resources.singularLabel.anime'))
+                BelongsToColumn::make(ThemeModel::RELATION_ANIME . '.' . AnimeModel::ATTRIBUTE_NAME)
+                    ->resource(AnimeResource::class)
                     ->toggleable()
-                    ->hiddenOn(ThemeAnimeRelationManager::class)
-                    ->urlToRelated(AnimeResource::class, ThemeModel::RELATION_ANIME, limit: 30)
-                    ->tooltip(fn (TextColumn $column) => $column->getState()),
+                    ->hiddenOn(ThemeAnimeRelationManager::class),
 
                 TextColumn::make(ThemeModel::ATTRIBUTE_ID)
                     ->label(__('filament.fields.base.id'))
@@ -325,19 +324,14 @@ class Theme extends BaseResource
                     ->toggleable()
                     ->formatStateUsing(fn ($state, $record) => $record->getName()),
 
-                TextColumn::make(ThemeModel::RELATION_GROUP . '.' . Group::ATTRIBUTE_NAME)
-                    ->label(__('filament.resources.singularLabel.group'))
-                    ->toggleable()
-                    ->placeholder('-')
-                    ->urlToRelated(GroupResource::class, ThemeModel::RELATION_GROUP),
+                BelongsToColumn::make(ThemeModel::RELATION_GROUP . '.' . Group::ATTRIBUTE_NAME)
+                    ->resource(GroupResource::class)
+                    ->toggleable(),
 
-                TextColumn::make(ThemeModel::RELATION_SONG . '.' . Song::ATTRIBUTE_TITLE)
-                    ->label(__('filament.resources.singularLabel.song'))
+                BelongsToColumn::make(ThemeModel::RELATION_SONG . '.' . Song::ATTRIBUTE_TITLE)
+                    ->resource(SongResource::class)
                     ->toggleable()
                     ->hiddenOn(ThemeSongRelationManager::class)
-                    ->urlToRelated(SongResource::class, ThemeModel::RELATION_SONG, limit: 30)
-                    ->placeholder('-')
-                    ->tooltip(fn (TextColumn $column) => is_array($column->getState()) ? null : $column->getState()),
             ])
             ->searchable();
     }
