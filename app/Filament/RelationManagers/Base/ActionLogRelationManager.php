@@ -16,7 +16,7 @@ use Filament\Tables\Table;
  */
 class ActionLogRelationManager extends BaseRelationManager
 {
-    protected static string $relationship = 'action_logs';
+    protected static string $relationship = 'actionlogs';
 
     protected static ?string $recordTitleAttribute = ActionLogModel::ATTRIBUTE_ID;
 

@@ -65,6 +65,7 @@ class PlaylistTrack extends BaseModel implements HasHashids
      * @var array<int, string>
      */
     protected $fillable = [
+        PlaylistTrack::ATTRIBUTE_ENTRY,
         PlaylistTrack::ATTRIBUTE_PLAYLIST,
         PlaylistTrack::ATTRIBUTE_VIDEO,
     ];
