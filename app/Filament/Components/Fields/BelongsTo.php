@@ -10,7 +10,6 @@ use App\Models\Auth\User;
 use App\Models\BaseModel;
 use Filament\Forms\Components\Select as ComponentsSelect;
 use Filament\Forms\Form;
-use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Searchable;
 
 /**
@@ -95,7 +94,7 @@ class BelongsTo extends ComponentsSelect
                     ->where($this->resource->getRecordTitleAttribute(), ComparisonOperator::LIKE->value, "%$search%")
                     ->take(25)
                     ->get()
-                    ->mapWithKeys(fn (Model $model) => [$model->getKey() => static::getSearchLabelWithBlade($model)])
+                    ->mapWithKeys(fn (BaseModel $model) => [$model->getKey() => static::getSearchLabelWithBlade($model)])
                     ->toArray();
             });
     }

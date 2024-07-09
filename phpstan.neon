@@ -24,6 +24,9 @@ parameters:
         -
             message: '#Call to an undefined static method App\\Models\\BaseModel::search\(\).#'
             path: app/Filament/Components/Fields/Select.php
+        -
+            message: '#Call to an undefined static method App\\Models\\BaseModel::search\(\).#'
+            path: app/Filament/Components/Fields/BelongsTo.php
         - '#::mapWithKeys\(\) expects*non-empty-array<int|string, string> given.#'
         -
             message: '#Right side of && is always true.#'
