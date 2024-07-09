@@ -17,7 +17,7 @@ class ResourceStudioRelationManager extends ResourceRelationManager
     /**
      * The relationship the relation manager corresponds to.
      *
-     * @return string
+     * @var string
      */
     protected static string $relationship = Studio::RELATION_RESOURCES;
 

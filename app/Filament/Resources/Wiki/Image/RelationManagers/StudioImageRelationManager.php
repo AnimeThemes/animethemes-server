@@ -17,7 +17,7 @@ class StudioImageRelationManager extends StudioRelationManager
     /**
      * The relationship the relation manager corresponds to.
      *
-     * @return string
+     * @var string
      */
     protected static string $relationship = Image::RELATION_STUDIOS;
 

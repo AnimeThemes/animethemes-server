@@ -17,7 +17,7 @@ class PlaylistUserRelationManager extends PlaylistRelationManager
     /**
      * The relationship the relation manager corresponds to.
      *
-     * @return string
+     * @var string
      */
     protected static string $relationship = User::RELATION_PLAYLISTS;
 

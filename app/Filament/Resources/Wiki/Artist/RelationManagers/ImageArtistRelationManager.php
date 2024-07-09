@@ -17,7 +17,7 @@ class ImageArtistRelationManager extends ImageRelationManager
     /**
      * The relationship the relation manager corresponds to.
      *
-     * @return string
+     * @var string
      */
     protected static string $relationship = Artist::RELATION_IMAGES;
 

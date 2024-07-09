@@ -17,7 +17,7 @@ class ExternalEntryExternalProfileRelationManager extends ExternalEntryRelationM
     /**
      * The relationship the relation manager corresponds to.
      *
-     * @return string
+     * @var string
      */
     protected static string $relationship = ExternalProfile::RELATION_EXTERNAL_ENTRIES;
 

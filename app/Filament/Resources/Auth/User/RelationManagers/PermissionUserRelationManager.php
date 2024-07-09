@@ -17,7 +17,7 @@ class PermissionUserRelationManager extends PermissionRelationManager
     /**
      * The relationship the relation manager corresponds to.
      *
-     * @return string
+     * @var string
      */
     protected static string $relationship = User::RELATION_PERMISSIONS;
 
