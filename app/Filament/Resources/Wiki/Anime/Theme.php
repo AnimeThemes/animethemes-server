@@ -112,6 +112,7 @@ class Theme extends BaseResource
     /**
      * Get the title for the resource.
      *
+     * @param Model|null $record
      * @return string|null
      *
      * @noinspection PhpMissingParentCallCommonInspection
@@ -208,7 +209,7 @@ class Theme extends BaseResource
                                     ->showCreateOption()
                                     ->live()
                                     ->afterStateUpdated(function (Set $set, $state) {
-                                        /** @var Song|null */
+                                        /** @var Song|null $song */
                                         $song = Song::find($state);
 
                                         if (!$song) return;
@@ -239,7 +240,7 @@ class Theme extends BaseResource
                                             ->helperText(__('filament.fields.artist.songs.as.help')),
                                     ])
                                     ->formatStateUsing(function (?array $state, Get $get) {
-                                        /** @var Song|null */
+                                        /** @var Song|null $song */
                                         $song = Song::find($get(ThemeModel::ATTRIBUTE_SONG));
 
                                         if (!$song) return $state;
@@ -255,7 +256,7 @@ class Theme extends BaseResource
                                         return $artists;
                                     })
                                     ->saveRelationshipsUsing(function (?array $state, Get $get) {
-                                        /** @var Song */
+                                        /** @var Song $song */
                                         $song = Song::find($get(ThemeModel::ATTRIBUTE_SONG));
 
                                         $artists = [];
@@ -266,8 +267,7 @@ class Theme extends BaseResource
                                         }
 
                                         $song->artists()->sync($artists);
-                                    })
-                                    ->columns(2),
+                                    }),
                             ]),
 
                         Tab::make('entries')
@@ -433,7 +433,7 @@ class Theme extends BaseResource
 
         if ($slug->isNotEmpty()) {
             $group = $get(ThemeModel::ATTRIBUTE_GROUP);
-            $slug = $slug->append(strval(empty($group) ? '' : '-' . Group::find(intval($group))->slug));
+            $slug = $slug->append(empty($group) ? '' : '-' . Group::find(intval($group))->slug);
         }
 
         $set(ThemeModel::ATTRIBUTE_SLUG, $slug->__toString());

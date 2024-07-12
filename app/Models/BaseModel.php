@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Concerns\Filament\Actions\ModelHasActionLogs;
-use App\Contracts\Models\Nameable;
 use App\Contracts\Models\HasSubtitle;
+use App\Contracts\Models\Nameable;
 use App\Enums\Http\Api\Filter\ComparisonOperator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -23,6 +23,8 @@ use Illuminate\Support\Str;
  * @property Carbon $created_at
  * @property Carbon $deleted_at
  * @property Carbon $updated_at
+ *
+ * @method static find($key)
  */
 abstract class BaseModel extends Model implements Nameable, HasSubtitle
 {

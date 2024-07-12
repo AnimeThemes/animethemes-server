@@ -17,9 +17,9 @@ use App\Filament\Resources\List\Playlist\Pages\CreatePlaylist;
 use App\Filament\Resources\List\Playlist\Pages\EditPlaylist;
 use App\Filament\Resources\List\Playlist\Pages\ListPlaylists;
 use App\Filament\Resources\List\Playlist\Pages\ViewPlaylist;
-use App\Filament\Resources\List\Playlist\Track;
 use App\Filament\Resources\List\Playlist\RelationManagers\ImagePlaylistRelationManager;
 use App\Filament\Resources\List\Playlist\RelationManagers\TrackPlaylistRelationManager;
+use App\Filament\Resources\List\Playlist\Track;
 use App\Models\Auth\User;
 use App\Models\List\Playlist as PlaylistModel;
 use App\Models\List\Playlist\PlaylistTrack;
@@ -153,8 +153,7 @@ class Playlist extends BaseResource
                     ->maxLength(1000)
                     ->rules(['nullable', 'max:1000'])
                     ->columnSpanFull(),
-            ])
-            ->columns(2);
+            ]);
     }
 
     /**

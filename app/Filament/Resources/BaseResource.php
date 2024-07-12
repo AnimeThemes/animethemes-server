@@ -52,7 +52,7 @@ abstract class BaseResource extends Resource
      */
     public static function getRecordRouteKeyName(): string
     {
-        /** @var Model */
+        /** @var Model $model */
         $model = static::getModel();
 
         return (new $model)->getKeyName();
@@ -156,7 +156,7 @@ abstract class BaseResource extends Resource
 
     /**
      * Get the bulk actions available for the resource.
-     * 
+     *
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
@@ -176,7 +176,7 @@ abstract class BaseResource extends Resource
 
     /**
      * Get the header actions available for the resource.
-     * 
+     *
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
@@ -188,7 +188,7 @@ abstract class BaseResource extends Resource
 
     /**
      * Get the eloquent query for the resource.
-     * 
+     *
      * @return Builder
      *
      * @noinspection PhpMissingParentCallCommonInspection

@@ -119,8 +119,7 @@ class Image extends BaseResource
                     ->options(ImageFacet::asSelectArray())
                     ->required()
                     ->rules(['required', new Enum(ImageFacet::class)]),
-            ])
-            ->columns(2);
+            ]);
     }
 
     /**
