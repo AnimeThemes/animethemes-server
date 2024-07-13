@@ -6,7 +6,7 @@ namespace App\Http\Api\Field\List\ExternalProfile\ExternalEntry;
 
 use App\Contracts\Http\Api\Field\CreatableField;
 use App\Contracts\Http\Api\Field\UpdatableField;
-use App\Enums\Models\List\AnimeWatchStatus;
+use App\Enums\Models\List\ExternalEntryWatchStatus;
 use App\Http\Api\Field\EnumField;
 use App\Http\Api\Schema\Schema;
 use App\Models\List\External\ExternalEntry;
@@ -25,7 +25,7 @@ class ExternalEntryWatchStatusField extends EnumField implements CreatableField,
      */
     public function __construct(Schema $schema)
     {
-        parent::__construct($schema, ExternalEntry::ATTRIBUTE_WATCH_STATUS, AnimeWatchStatus::class);
+        parent::__construct($schema, ExternalEntry::ATTRIBUTE_WATCH_STATUS, ExternalEntryWatchStatus::class);
     }
 
     /**
@@ -38,7 +38,7 @@ class ExternalEntryWatchStatusField extends EnumField implements CreatableField,
     {
         return [
             'required',
-            new Enum(AnimeWatchStatus::class),
+            new Enum(ExternalEntryWatchStatus::class),
         ];
     }
 
@@ -47,7 +47,7 @@ class ExternalEntryWatchStatusField extends EnumField implements CreatableField,
         return [
             'sometimes',
             'required',
-            new Enum(AnimeWatchStatus::class),
+            new Enum(ExternalEntryWatchStatus::class),
         ];
     }
 }

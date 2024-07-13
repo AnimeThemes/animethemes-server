@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Nova\Resources\List\External;
 
-use App\Enums\Models\List\AnimeWatchStatus;
+use App\Enums\Models\List\ExternalEntryWatchStatus;
 use App\Models\List\External\ExternalEntry as ExternalEntryModel;
 use App\Nova\Resources\BaseResource;
 use App\Nova\Resources\List\ExternalProfile;
@@ -176,10 +176,10 @@ class ExternalEntry extends BaseResource
                 ->showWhenPeeking(),
 
             Select::make(__('nova.fields.externalentry.watch_status.name'), ExternalEntryModel::ATTRIBUTE_WATCH_STATUS)
-                ->options(AnimeWatchStatus::asSelectArray())
-                ->displayUsing(fn (?int $enumValue) => AnimeWatchStatus::tryFrom($enumValue)?->localize())
+                ->options(ExternalEntryWatchStatus::asSelectArray())
+                ->displayUsing(fn(?int $enumValue) => ExternalEntryWatchStatus::tryFrom($enumValue)?->localize())
                 ->sortable()
-                ->rules(['required', new Enum(AnimeWatchStatus::class)])
+                ->rules(['required', new Enum(ExternalEntryWatchStatus::class)])
                 ->help(__('nova.fields.externalentry.watch_status.help'))
                 ->showOnPreview()
                 ->filterable()
