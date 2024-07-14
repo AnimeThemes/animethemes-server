@@ -24,7 +24,6 @@ use Illuminate\Support\Str;
  * @property Carbon $deleted_at
  * @property Carbon $updated_at
  *
- * @method static find($key)
  */
 abstract class BaseModel extends Model implements Nameable, HasSubtitle
 {

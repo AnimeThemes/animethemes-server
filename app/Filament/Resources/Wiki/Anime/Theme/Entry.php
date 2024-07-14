@@ -149,8 +149,8 @@ class Entry extends BaseResource
     {
         return $form
             ->schema([
-                BelongsTo::make(EntryModel::RELATION_ANIME.'.'.AnimeModel::ATTRIBUTE_ID)
-                    ->resource(AnimeResource::class)
+                BelongsTo::make(EntryModel::RELATION_THEME . '.' . ThemeModel::ATTRIBUTE_ANIME)
+                    ->resource(AnimeResource::class, EntryModel::RELATION_ANIME_SHALLOW)
                     ->live(true)
                     ->required()
                     ->rules(['required'])
@@ -165,7 +165,7 @@ class Entry extends BaseResource
                     ->visibleOn([CreateEntry::class, EditEntry::class])
                     ->options(function (Get $get) {
                         return ThemeModel::query()
-                            ->where(ThemeModel::ATTRIBUTE_ANIME, $get(EntryModel::RELATION_ANIME.'.'.AnimeModel::ATTRIBUTE_ID))
+                            ->where(ThemeModel::ATTRIBUTE_ANIME, $get(EntryModel::RELATION_THEME . '.' . ThemeModel::ATTRIBUTE_ANIME))
                             ->get()
                             ->mapWithKeys(fn (ThemeModel $theme) => [$theme->getKey() => $theme->getName()])
                             ->toArray();

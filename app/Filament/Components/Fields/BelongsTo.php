@@ -17,6 +17,7 @@ use Laravel\Scout\Searchable;
  */
 class BelongsTo extends ComponentsSelect
 {
+    protected string $relation = '';
     protected ?BaseResource $resource = null;
     protected bool $showCreateOption = false;
 
@@ -27,28 +28,34 @@ class BelongsTo extends ComponentsSelect
      */
     protected function reload(): void
     {
-        $model = $this->resource->getModel();
+        if ($resource = $this->resource) {
+            $model = $resource->getModel();
+            $this->label($resource->getModelLabel());
 
-        if ($this->showCreateOption && $this->resource !== null) {
-            $this->createOptionForm(fn (Form $form) => $this->resource::form($form)->getComponents());
-            $this->createOptionUsing(fn (array $data) => (new $model)::query()->create($data)->getKey());
-        }
+            if (!empty($this->relation)) {
+                $this->relationship($this->relation, $resource->getRecordTitleAttribute());
+            }
 
-        if ($this->resource) {
-            $this->label($this->resource->getModelLabel());
+            $this->tryScout($model);
+
+            if ($this->showCreateOption) {
+                $this->createOptionForm(fn(Form $form) => $resource::form($form)->getComponents());
+                $this->createOptionUsing(fn(array $data) => (new $model)::query()->create($data)->getKey());
+            }
         }
     }
 
     /**
-     * Set the filament resource for the relation.
+     * Set the filament resource for the relation. Relation should be set if BelongsToThrough.
      *
      * @param  class-string<BaseResource>  $resource
+     * @param string|null $relation
      * @return static
      */
-    public function resource(string $resource): static
+    public function resource(string $resource, ?string $relation = ''): static
     {
         $this->resource = new $resource;
-        $this->tryScout($this->resource->getModel());
+        $this->relation = $relation;
         $this->reload();
 
         return $this;
