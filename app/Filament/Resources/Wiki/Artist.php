@@ -207,12 +207,7 @@ class Artist extends BaseResource
 
                 TextColumn::make(ArtistSong::ATTRIBUTE_AS)
                     ->label(__('filament.fields.artist.songs.as.name'))
-                    ->visibleOn(ArtistSongRelationManager::class)
-                    ->placeholder('-'),
-
-                TextColumn::make(ArtistMember::ATTRIBUTE_AS)
-                    ->label(__('filament.fields.artist.members.as.name'))
-                    ->visibleOn([MemberArtistRelationManager::class, GroupArtistRelationManager::class])
+                    ->visibleOn([ArtistSongRelationManager::class, MemberArtistRelationManager::class, GroupArtistRelationManager::class])
                     ->placeholder('-'),
             ])
             ->searchable();
