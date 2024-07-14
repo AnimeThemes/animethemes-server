@@ -174,7 +174,7 @@ class Theme extends BaseResource
                                     ->helperText(__('filament.fields.anime_theme.type.help'))
                                     ->options(ThemeType::asSelectArray())
                                     ->required()
-                                    ->live()
+                                    ->live(true)
                                     ->afterStateUpdated(fn (Set $set, Get $get) => Theme::setThemeSlug($set, $get))
                                     ->rules(['required', new Enum(ThemeType::class)]),
 
@@ -182,7 +182,7 @@ class Theme extends BaseResource
                                     ->label(__('filament.fields.anime_theme.sequence.name'))
                                     ->helperText(__('filament.fields.anime_theme.sequence.help'))
                                     ->numeric()
-                                    ->live()
+                                    ->live(true)
                                     ->afterStateUpdated(fn (Set $set, Get $get) => Theme::setThemeSlug($set, $get))
                                     ->rules(['nullable', 'integer']),
 
@@ -197,7 +197,7 @@ class Theme extends BaseResource
                                 BelongsTo::make(ThemeModel::ATTRIBUTE_GROUP)
                                     ->resource(GroupResource::class)
                                     ->showCreateOption()
-                                    ->live()
+                                    ->live(true)
                                     ->afterStateUpdated(fn (Set $set, Get $get) => Theme::setThemeSlug($set, $get)),
                             ]),
 
@@ -224,7 +224,7 @@ class Theme extends BaseResource
                                     ->label(__('filament.resources.label.artists'))
                                     ->addActionLabel(__('filament.buttons.add').' '.__('filament.resources.singularLabel.artist'))
                                     ->hidden(fn (Get $get) => $get(ThemeModel::ATTRIBUTE_SONG) === null)
-                                    ->live()
+                                    ->live(true)
                                     ->key('song.artists')
                                     ->collapsible()
                                     ->defaultItems(0)
