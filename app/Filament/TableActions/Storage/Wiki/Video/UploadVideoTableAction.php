@@ -6,15 +6,15 @@ namespace App\Filament\TableActions\Storage\Wiki\Video;
 
 use App\Actions\Storage\Wiki\Video\UploadVideoAction as UploadVideo;
 use App\Constants\Config\VideoConstants;
-use App\Enums\Models\Wiki\AnimeSeason;
 use App\Enums\Models\Wiki\VideoOverlap;
 use App\Enums\Models\Wiki\VideoSource;
 use App\Filament\Components\Fields\Select;
 use App\Filament\RelationManagers\BaseRelationManager;
+use App\Filament\Resources\Wiki\Anime\Theme\Entry\RelationManagers\VideoEntryRelationManager;
 use App\Filament\Resources\Wiki\Video\Pages\ListVideos;
+use App\Filament\TableActions\Storage\Base\UploadTableAction;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
-use App\Filament\TableActions\Storage\Base\UploadTableAction;
 use App\Rules\Wiki\Submission\Audio\AudioChannelLayoutStreamRule;
 use App\Rules\Wiki\Submission\Audio\AudioChannelsStreamRule;
 use App\Rules\Wiki\Submission\Audio\AudioCodecStreamRule;
@@ -42,8 +42,8 @@ use Filament\Forms\Components\Section;
 use Filament\Forms\Form;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\Enum;
 use Illuminate\Validation\Rules\File as FileRule;
 
@@ -82,7 +82,7 @@ class UploadVideoTableAction extends UploadTableAction
                             [
                                 Hidden::make(AnimeThemeEntry::ATTRIBUTE_ID)
                                     ->label(__('filament.resources.singularLabel.anime_theme_entry'))
-                                    ->default(fn (BaseRelationManager|ListVideos $livewire) => $livewire instanceof BaseRelationManager ? $livewire->getOwnerRecord()->getKey() : null),
+                                    ->default(fn(BaseRelationManager|ListVideos $livewire) => $livewire instanceof VideoEntryRelationManager ? $livewire->getOwnerRecord()->getKey() : null),
                             ],
                             parent::getForm($form)->getComponents(),
                             [
@@ -91,32 +91,32 @@ class UploadVideoTableAction extends UploadTableAction
                                     ->helperText(__('filament.fields.video.nc.help'))
                                     ->nullable()
                                     ->rules(['nullable', 'boolean']),
-                
+
                                 Checkbox::make(Video::ATTRIBUTE_SUBBED)
                                     ->label(__('filament.fields.video.subbed.name'))
                                     ->helperText(__('filament.fields.video.subbed.help'))
                                     ->nullable()
                                     ->rules(['nullable', 'boolean']),
-                
+
                                 Checkbox::make(Video::ATTRIBUTE_LYRICS)
                                     ->label(__('filament.fields.video.lyrics.name'))
                                     ->helperText(__('filament.fields.video.lyrics.help'))
                                     ->nullable()
                                     ->rules(['nullable', 'boolean']),
-                
+
                                 Checkbox::make(Video::ATTRIBUTE_UNCEN)
                                     ->label(__('filament.fields.video.uncen.name'))
                                     ->helperText(__('filament.fields.video.uncen.help'))
                                     ->nullable()
                                     ->rules(['nullable', 'boolean']),
-                
+
                                 Select::make(Video::ATTRIBUTE_OVERLAP)
                                     ->label(__('filament.fields.video.overlap.name'))
                                     ->helperText(__('filament.fields.video.overlap.help'))
                                     ->options(VideoOverlap::asSelectArray())
                                     ->nullable()
                                     ->rules(['nullable', new Enum(VideoOverlap::class)]),
-                
+
                                 Select::make(Video::ATTRIBUTE_SOURCE)
                                     ->label(__('filament.fields.video.source.name'))
                                     ->helperText(__('filament.fields.video.source.help'))
@@ -165,16 +165,16 @@ class UploadVideoTableAction extends UploadTableAction
             $path = $year >= 2000 ?
                 Str::of(strval($year))
                     ->append('/')
-                    ->append(AnimeSeason::tryFrom($anime->season->value)->localize())
+                    ->append($anime->season->localize())
                     ->__toString()
                 : floor($year % 100 / 10).'0s';
         }
 
         if ($path === null) {
             $video = Video::query()->firstWhere(Video::ATTRIBUTE_BASENAME, $file->getClientOriginalName());
-            $path = $video instanceof Video ? Str::match('/(\d{4}\/\w+)|(\d{2}+s)/', $video->path) : null;
+            $path = $video instanceof Video ? explode($video->filename, $video->path())[0] : null;
         }
-       
+
         $attributes = [
             Video::ATTRIBUTE_NC => Arr::get($fields, Video::ATTRIBUTE_NC),
             Video::ATTRIBUTE_SUBBED => Arr::get($fields, Video::ATTRIBUTE_SUBBED),

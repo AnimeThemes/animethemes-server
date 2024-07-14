@@ -6,6 +6,8 @@ namespace App\Filament\TableActions\Storage\Base;
 
 use App\Actions\Storage\Base\UploadAction as BaseUploadAction;
 use App\Contracts\Storage\InteractsWithDisk;
+use App\Filament\Resources\Wiki\Anime\Theme\Entry\RelationManagers\VideoEntryRelationManager;
+use App\Filament\Resources\Wiki\Video\RelationManagers\ScriptVideoRelationManager;
 use App\Filament\TableActions\Storage\StorageTableAction;
 use App\Rules\Storage\StorageDirectoryExistsRule;
 use Filament\Forms\Components\FileUpload;
@@ -55,7 +57,8 @@ abstract class UploadTableAction extends StorageTableAction implements Interacts
             TextInput::make('path')
                 ->label(__('filament.actions.storage.upload.fields.path.name'))
                 ->helperText(__('filament.actions.storage.upload.fields.path.help'))
-                ->rules(['doesnt_start_with:/', 'doesnt_end_with:/', 'string', new StorageDirectoryExistsRule($fs)]),
+                ->rules(['doesnt_start_with:/', 'doesnt_end_with:/', 'string', new StorageDirectoryExistsRule($fs)])
+                ->hidden(fn($livewire) => $livewire instanceof VideoEntryRelationManager || $livewire instanceof ScriptVideoRelationManager),
         ]);
     }
 

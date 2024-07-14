@@ -47,14 +47,17 @@ abstract class StorageTableAction extends BaseTableAction
 
         $livewire = $this->getLivewire();
         if ($livewire instanceof BaseRelationManager) {
-            /** @var BelongsToMany */
             $relation = $livewire->getRelationship();
-            $pivotClass = $relation->getPivotClass();
+            $pivot = $model;
 
-            $pivot = $pivotClass::query()
-                ->where($livewire->getOwnerRecord()->getKeyName(), $livewire->getOwnerRecord()->getKey())
-                ->where($model->getKeyName(), $model->getKey())
-                ->first();
+            if ($relation instanceof BelongsToMany) {
+                $pivotClass = $relation->getPivotClass();
+
+                $pivot = $pivotClass::query()
+                    ->where($livewire->getOwnerRecord()->getKeyName(), $livewire->getOwnerRecord()->getKey())
+                    ->where($model->getKeyName(), $model->getKey())
+                    ->first();
+            }
 
             $this->updateLog($model, $pivot);
         }

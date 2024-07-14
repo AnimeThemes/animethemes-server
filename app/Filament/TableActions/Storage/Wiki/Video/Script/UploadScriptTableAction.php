@@ -8,8 +8,8 @@ use App\Actions\Storage\Wiki\Video\Script\UploadScriptAction as UploadScript;
 use App\Constants\Config\VideoConstants;
 use App\Filament\RelationManagers\BaseRelationManager;
 use App\Filament\Resources\Wiki\Video\Script\Pages\ListScripts;
-use App\Models\Wiki\Video;
 use App\Filament\TableActions\Storage\Base\UploadTableAction;
+use App\Models\Wiki\Video;
 use App\Models\Wiki\Video\VideoScript;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Form;
@@ -71,11 +71,10 @@ class UploadScriptTableAction extends UploadTableAction
         /** @var UploadedFile $file */
         $file = Arr::get($fields, 'file');
 
-        /** @var string $path */
-        $path = Arr::get($fields, 'path');
-
         /** @var Video|null $video */
         $video = Video::query()->find(Arr::get($fields, Video::ATTRIBUTE_ID));
+
+        $path = explode($video->filename, $video->path())[0];
 
         return new UploadScript($file, $path, $video);
     }
