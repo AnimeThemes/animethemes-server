@@ -153,7 +153,8 @@ class Playlist extends BaseResource
                     ->maxLength(1000)
                     ->rules(['nullable', 'max:1000'])
                     ->columnSpanFull(),
-            ]);
+            ])
+            ->columns(2);
     }
 
     /**

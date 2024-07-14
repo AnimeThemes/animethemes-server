@@ -180,7 +180,8 @@ class Permission extends BaseResource
                 Section::make(__('filament.fields.base.timestamps'))
                     ->schema(parent::timestamps())
                     ->columns(3),
-            ]);
+            ])
+            ->columns(2);
     }
 
     /**

@@ -142,7 +142,8 @@ class Page extends BaseResource
                     ->rules(['required', 'max:16777215'])
                     ->formatStateUsing(fn ($livewire) => PageModel::find($livewire->getRecord()?->getKey())?->body)
                     ->columnSpan(2),
-            ]);
+            ])
+            ->columns(2);
     }
 
     /**
@@ -232,7 +233,8 @@ class Page extends BaseResource
                             ->label(__('filament.fields.page.body.name'))
                             ->markdown()
                             ->columnSpanFull(),
-                    ]),
+                    ])
+                    ->columns(2),
 
                 Section::make(__('filament.fields.base.timestamps'))
                     ->schema(parent::timestamps())

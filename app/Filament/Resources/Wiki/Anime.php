@@ -201,7 +201,8 @@ class Anime extends BaseResource
                     ->helperText(__('filament.fields.anime.resources.as.help'))
                     ->visibleOn(AnimeResourceRelationManager::class)
                     ->placeholder('-'),
-            ]);
+            ])
+            ->columns(2);
     }
 
     /**

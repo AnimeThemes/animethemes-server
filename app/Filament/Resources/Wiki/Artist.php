@@ -170,7 +170,8 @@ class Artist extends BaseResource
                     ->label(__('filament.fields.artist.members.as.name'))
                     ->helperText(__('filament.fields.artist.members.as.help'))
                     ->visibleOn([MemberArtistRelationManager::class, GroupArtistRelationManager::class]),
-            ]);
+            ])
+            ->columns(2);
     }
 
     /**

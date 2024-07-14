@@ -267,7 +267,8 @@ class Theme extends BaseResource
                                         }
 
                                         $song->artists()->sync($artists);
-                                    })->columns(2),
+                                    })
+                                    ->columns(2),
                             ]),
 
                         Tab::make('entries')

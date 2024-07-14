@@ -135,7 +135,8 @@ class ExternalProfile extends BaseResource
                     ->options(ExternalProfileVisibility::asSelectArray())
                     ->required()
                     ->rules(['required', new Enum(ExternalProfileVisibility::class)]),
-            ]);
+            ])
+            ->columns(2);
     }
 
     /**

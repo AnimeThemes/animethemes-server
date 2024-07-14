@@ -301,7 +301,8 @@ class Entry extends BaseResource
                         TextEntry::make(EntryModel::ATTRIBUTE_NOTES)
                             ->label(__('filament.fields.anime_theme_entry.notes.name'))
                             ->placeholder('-'),
-                    ]),
+                    ])
+                    ->columns(2),
 
                 Section::make(__('filament.fields.base.timestamps'))
                     ->schema(parent::timestamps())
