@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Factories\List\External;
 
-use App\Enums\Models\List\AnimeWatchStatus;
+use App\Enums\Models\List\ExternalEntryWatchStatus;
 use App\Models\List\External\ExternalEntry;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Arr;
@@ -33,7 +33,7 @@ class ExternalEntryFactory extends Factory
      */
     public function definition(): array
     {
-        $watchStatus = Arr::random(AnimeWatchStatus::cases());
+        $watchStatus = Arr::random(ExternalEntryWatchStatus::cases());
 
         return [
             ExternalEntry::ATTRIBUTE_WATCH_STATUS => $watchStatus->value,

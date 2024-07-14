@@ -216,7 +216,7 @@ class Page extends BaseResource
                             ->state(function (PageModel $record) {
                                 $slug = $record->slug;
                                 $lastSlash = strrpos($slug, '/');
-        
+
                                 return $lastSlash ? substr($slug, 0, $lastSlash) : $slug;
                             })
                             ->badge(),
@@ -255,7 +255,7 @@ class Page extends BaseResource
         $name = $get(PageModel::ATTRIBUTE_NAME);
         $section = $get('section');
 
-        if (!empty($section) && $section !== null) {
+        if (!empty($section)) {
             $slug = $slug->append($section)->append('/');
         }
 

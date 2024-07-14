@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models\List\External;
 
-use App\Enums\Models\List\AnimeWatchStatus;
+use App\Enums\Models\List\ExternalEntryWatchStatus;
 use App\Events\List\ExternalProfile\ExternalEntry\ExternalEntryCreated;
 use App\Events\List\ExternalProfile\ExternalEntry\ExternalEntryDeleted;
 use App\Events\List\ExternalProfile\ExternalEntry\ExternalEntryRestored;
@@ -26,8 +26,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property ExternalProfile $externalprofile
  * @property bool $is_favorite
  * @property float|null $score
- * @property AnimeWatchStatus $watch_status
- * 
+ * @property ExternalEntryWatchStatus $watch_status
+ *
  * @method static ExternalEntryFactory factory(...$parameters)
  */
 class ExternalEntry extends BaseModel
@@ -95,7 +95,7 @@ class ExternalEntry extends BaseModel
      */
     protected $casts = [
         ExternalEntry::ATTRIBUTE_IS_FAVORITE => 'bool',
-        ExternalEntry::ATTRIBUTE_WATCH_STATUS => AnimeWatchStatus::class,
+        ExternalEntry::ATTRIBUTE_WATCH_STATUS => ExternalEntryWatchStatus::class,
     ];
 
     /**

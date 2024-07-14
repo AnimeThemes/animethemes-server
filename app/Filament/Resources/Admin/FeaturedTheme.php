@@ -10,12 +10,12 @@ use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\BelongsTo;
 use App\Filament\Components\Fields\Select;
 use App\Filament\Components\Infolist\TextEntry;
-use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Admin\FeaturedTheme\Pages\CreateFeaturedTheme;
 use App\Filament\Resources\Admin\FeaturedTheme\Pages\EditFeaturedTheme;
 use App\Filament\Resources\Admin\FeaturedTheme\Pages\ListFeaturedThemes;
 use App\Filament\Resources\Admin\FeaturedTheme\Pages\ViewFeaturedTheme;
 use App\Filament\Resources\Auth\User as UserResource;
+use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Anime\Theme\Entry as EntryResource;
 use App\Filament\Resources\Wiki\Video as VideoResource;
 use App\Models\Admin\FeaturedTheme as FeaturedThemeModel;
@@ -124,7 +124,7 @@ class FeaturedTheme extends BaseResource
                     ->timezone('UTC')
                     ->displayFormat('MM/DD/YYYY')
                     ->format(AllowedDateFormat::YMD->value)
-                    ->formatStateUsing(fn ($record) => $record->start_at->format('m/d/Y') . ' - ' . $record->end_at->format('m/d/Y'))
+                    ->formatStateUsing(fn($record) => $record !== null ? $record->start_at->format('m/d/Y') . ' - ' . $record->end_at->format('m/d/Y') : null)
                     ->required()
                     ->rules([
                         'required',

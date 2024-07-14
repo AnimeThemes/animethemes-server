@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\List\External;
 
-use App\Enums\Models\List\AnimeWatchStatus;
+use App\Enums\Models\List\ExternalEntryWatchStatus;
 use App\Filament\Components\Columns\BelongsToColumn;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\BelongsTo;
@@ -135,8 +135,8 @@ class ExternalEntry extends BaseResource
                 Select::make(ExternalEntryModel::ATTRIBUTE_WATCH_STATUS)
                     ->label(__('filament.fields.external_entry.watch_status.name'))
                     ->helperText(__('filament.fields.external_entry.watch_status.help'))
-                    ->options(AnimeWatchStatus::asSelectArray())
-                    ->rules([new Enum(AnimeWatchStatus::class)]),
+                    ->options(ExternalEntryWatchStatus::asSelectArray())
+                    ->rules([new Enum(ExternalEntryWatchStatus::class)]),
 
                 Checkbox::make(ExternalEntryModel::ATTRIBUTE_IS_FAVORITE)
                     ->label(__('filament.fields.external_entry.is_favorite.name'))
@@ -181,7 +181,7 @@ class ExternalEntry extends BaseResource
 
                 TextColumn::make(ExternalEntryModel::ATTRIBUTE_WATCH_STATUS)
                     ->label(__('filament.fields.external_entry.watch_status.name'))
-                    ->formatStateUsing(fn (AnimeWatchStatus $state) => $state->localize())
+                    ->formatStateUsing(fn(ExternalEntryWatchStatus $state) => $state->localize())
                     ->sortable()
                     ->toggleable(),
 
@@ -222,7 +222,7 @@ class ExternalEntry extends BaseResource
 
                         TextEntry::make(ExternalEntryModel::ATTRIBUTE_WATCH_STATUS)
                             ->label(__('filament.fields.external_entry.watch_status.name'))
-                            ->formatStateUsing(fn (AnimeWatchStatus $state) => $state->localize()),
+                            ->formatStateUsing(fn(ExternalEntryWatchStatus $state) => $state->localize()),
 
                         TextEntry::make(ExternalEntryModel::ATTRIBUTE_ID)
                             ->label(__('filament.fields.base.id')),

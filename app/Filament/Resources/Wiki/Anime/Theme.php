@@ -112,6 +112,7 @@ class Theme extends BaseResource
     /**
      * Get the title for the resource.
      *
+     * @param Model|null $record
      * @return string|null
      *
      * @noinspection PhpMissingParentCallCommonInspection
@@ -173,7 +174,7 @@ class Theme extends BaseResource
                                     ->helperText(__('filament.fields.anime_theme.type.help'))
                                     ->options(ThemeType::asSelectArray())
                                     ->required()
-                                    ->live()
+                                    ->live(true)
                                     ->afterStateUpdated(fn (Set $set, Get $get) => Theme::setThemeSlug($set, $get))
                                     ->rules(['required', new Enum(ThemeType::class)]),
 
@@ -181,7 +182,7 @@ class Theme extends BaseResource
                                     ->label(__('filament.fields.anime_theme.sequence.name'))
                                     ->helperText(__('filament.fields.anime_theme.sequence.help'))
                                     ->numeric()
-                                    ->live()
+                                    ->live(true)
                                     ->afterStateUpdated(fn (Set $set, Get $get) => Theme::setThemeSlug($set, $get))
                                     ->rules(['nullable', 'integer']),
 
@@ -196,7 +197,7 @@ class Theme extends BaseResource
                                 BelongsTo::make(ThemeModel::ATTRIBUTE_GROUP)
                                     ->resource(GroupResource::class)
                                     ->showCreateOption()
-                                    ->live()
+                                    ->live(true)
                                     ->afterStateUpdated(fn (Set $set, Get $get) => Theme::setThemeSlug($set, $get)),
                             ]),
 
@@ -208,7 +209,7 @@ class Theme extends BaseResource
                                     ->showCreateOption()
                                     ->live()
                                     ->afterStateUpdated(function (Set $set, $state) {
-                                        /** @var Song|null */
+                                        /** @var Song|null $song */
                                         $song = Song::find($state);
 
                                         if (!$song) return;
@@ -223,7 +224,7 @@ class Theme extends BaseResource
                                     ->label(__('filament.resources.label.artists'))
                                     ->addActionLabel(__('filament.buttons.add').' '.__('filament.resources.singularLabel.artist'))
                                     ->hidden(fn (Get $get) => $get(ThemeModel::ATTRIBUTE_SONG) === null)
-                                    ->live()
+                                    ->live(true)
                                     ->key('song.artists')
                                     ->collapsible()
                                     ->defaultItems(0)
@@ -239,7 +240,7 @@ class Theme extends BaseResource
                                             ->helperText(__('filament.fields.artist.songs.as.help')),
                                     ])
                                     ->formatStateUsing(function (?array $state, Get $get) {
-                                        /** @var Song|null */
+                                        /** @var Song|null $song */
                                         $song = Song::find($get(ThemeModel::ATTRIBUTE_SONG));
 
                                         if (!$song) return $state;
@@ -255,7 +256,7 @@ class Theme extends BaseResource
                                         return $artists;
                                     })
                                     ->saveRelationshipsUsing(function (?array $state, Get $get) {
-                                        /** @var Song */
+                                        /** @var Song $song */
                                         $song = Song::find($get(ThemeModel::ATTRIBUTE_SONG));
 
                                         $artists = [];
@@ -433,7 +434,7 @@ class Theme extends BaseResource
 
         if ($slug->isNotEmpty()) {
             $group = $get(ThemeModel::ATTRIBUTE_GROUP);
-            $slug = $slug->append(strval(empty($group) ? '' : '-' . Group::find(intval($group))->slug));
+            $slug = $slug->append(empty($group) ? '' : '-' . Group::find(intval($group))->slug);
         }
 
         $set(ThemeModel::ATTRIBUTE_SLUG, $slug->__toString());

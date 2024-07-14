@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Filament\Resources\Wiki\Anime\Theme\Entry\RelationManagers;
 
 use App\Filament\RelationManagers\Wiki\VideoRelationManager;
-use App\Filament\Resources\Wiki\Video as VideoResource;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
 use Filament\Tables\Table;

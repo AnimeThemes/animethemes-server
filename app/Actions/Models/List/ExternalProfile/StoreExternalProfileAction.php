@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Actions\Models\List\ExternalProfile;
 
 use App\Actions\Http\Api\StoreAction;
-use App\Enums\Models\List\AnimeWatchStatus;
+use App\Enums\Models\List\ExternalEntryWatchStatus;
 use App\Enums\Models\List\ExternalProfileSite;
 use App\Models\List\External\ExternalEntry;
 use App\Models\Wiki\Anime;
@@ -28,7 +28,7 @@ class StoreExternalProfileAction
      * @param  Builder  $builder
      * @param  array  $profileParameters
      * @return Model
-     * 
+     *
      * @throws Exception
      */
     public function store(Builder $builder, array $profileParameters): Model
@@ -47,19 +47,19 @@ class StoreExternalProfileAction
                         ExternalResource::ATTRIBUTE_EXTERNAL_ID => 101573,
                         ExternalEntry::ATTRIBUTE_SCORE => 10,
                         ExternalEntry::ATTRIBUTE_IS_FAVORITE => true,
-                        ExternalEntry::ATTRIBUTE_WATCH_STATUS => AnimeWatchStatus::COMPLETED->value,
+                        ExternalEntry::ATTRIBUTE_WATCH_STATUS => ExternalEntryWatchStatus::COMPLETED->value,
                     ],
                     [
                         ExternalResource::ATTRIBUTE_EXTERNAL_ID => 477,
                         ExternalEntry::ATTRIBUTE_SCORE => 9.5,
                         ExternalEntry::ATTRIBUTE_IS_FAVORITE => false,
-                        ExternalEntry::ATTRIBUTE_WATCH_STATUS => AnimeWatchStatus::WATCHING->value,
+                        ExternalEntry::ATTRIBUTE_WATCH_STATUS => ExternalEntryWatchStatus::WATCHING->value,
                     ],
                     [
                         ExternalResource::ATTRIBUTE_EXTERNAL_ID => 934,
                         ExternalEntry::ATTRIBUTE_SCORE => 8,
                         ExternalEntry::ATTRIBUTE_IS_FAVORITE => false,
-                        ExternalEntry::ATTRIBUTE_WATCH_STATUS => AnimeWatchStatus::PAUSED->value,
+                        ExternalEntry::ATTRIBUTE_WATCH_STATUS => ExternalEntryWatchStatus::PAUSED->value,
                     ],
                 ],
             ];
@@ -78,7 +78,7 @@ class StoreExternalProfileAction
                     $query->where(ExternalResource::ATTRIBUTE_SITE, ExternalProfileSite::getResourceSite($externalSite)->value)
                         ->where(ExternalResource::ATTRIBUTE_EXTERNAL_ID, $external_id);
                 })->get();
-                
+
                 foreach ($animes as $anime) {
                     if ($anime instanceof Anime) {
                         $storeEntryAction->store(ExternalEntry::query(), array_merge(

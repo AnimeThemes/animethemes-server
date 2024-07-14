@@ -32,7 +32,7 @@ trait HasPivotActionLogs
         if ($relation instanceof BelongsToMany) {
             $pivotClass = $relation->getPivotClass();
 
-            // This needs to be updated/fixed for member/group artist relation
+            // TODO: This needs to be updated/fixed for member/group artist relation
             $pivot = $pivotClass::query()
                 ->where($ownerRecord->getKeyName(), $ownerRecord->getKey())
                 ->where($record->getKeyName(), $record->getKey())

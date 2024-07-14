@@ -197,13 +197,13 @@ class Synonym extends BaseResource
 
                         TextEntry::make(SynonymModel::ATTRIBUTE_TEXT)
                             ->label(__('filament.fields.anime_synonym.text.name')),
-                    ])
-                    ->columns(2),
+                    ]),
 
                 Section::make(__('filament.fields.base.timestamps'))
                     ->schema(parent::timestamps())
                     ->columns(3),
-            ]);
+            ])
+            ->columns(2);
     }
 
     /**

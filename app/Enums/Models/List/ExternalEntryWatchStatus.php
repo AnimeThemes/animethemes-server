@@ -7,9 +7,9 @@ namespace App\Enums\Models\List;
 use App\Concerns\Enums\LocalizesName;
 
 /**
- * Enum AnimeWatchStatus.
+ * Enum ExternalEntryWatchStatus.
  */
-enum AnimeWatchStatus: int
+enum ExternalEntryWatchStatus: int
 {
     use LocalizesName;
 

@@ -8,13 +8,13 @@ use App\Filament\Actions\Models\Auth\Permission\GiveRoleAction;
 use App\Filament\Actions\Models\Auth\Permission\RevokeRoleAction;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Infolist\TextEntry;
-use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Auth\Permission\Pages\CreatePermission;
 use App\Filament\Resources\Auth\Permission\Pages\EditPermission;
 use App\Filament\Resources\Auth\Permission\Pages\ListPermissions;
 use App\Filament\Resources\Auth\Permission\Pages\ViewPermission;
 use App\Filament\Resources\Auth\Permission\RelationManagers\RolePermissionRelationManager;
 use App\Filament\Resources\Auth\Permission\RelationManagers\UserPermissionRelationManager;
+use App\Filament\Resources\BaseResource;
 use App\Models\Auth\Permission as PermissionModel;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
@@ -175,13 +175,13 @@ class Permission extends BaseResource
                         TextEntry::make(PermissionModel::ATTRIBUTE_NAME)
                             ->label(__('filament.fields.permission.name'))
                             ->copyableWithMessage(),
-                    ])
-                    ->columns(2),
+                    ]),
 
                 Section::make(__('filament.fields.base.timestamps'))
                     ->schema(parent::timestamps())
                     ->columns(3),
-            ]);
+            ])
+            ->columns(2);
     }
 
     /**

@@ -9,10 +9,10 @@ use App\Enums\Auth\Role;
 use App\Filament\Components\Columns\BelongsToColumn;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Infolist\TextEntry;
-use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Admin\ActionLog\Pages\ListActionLogs;
 use App\Filament\Resources\Admin\ActionLog\Pages\ViewActionLog;
 use App\Filament\Resources\Auth\User;
+use App\Filament\Resources\BaseResource;
 use App\Models\Admin\ActionLog as ActionLogModel;
 use App\Models\Auth\User as UserModel;
 use App\Models\BaseModel;
@@ -372,7 +372,7 @@ class ActionLog extends BaseResource
      */
     public static function canAccess(): bool
     {
-        /** @var UserModel */
+        /** @var UserModel $user */
         $user = Filament::auth()->user();
         return $user->hasRole(Role::ADMIN->value);
     }
