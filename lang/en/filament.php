@@ -29,7 +29,7 @@ return [
                             'name' => 'Backfill Anilist Resource',
                         ],
                         'ann' => [
-                            'help' => 'Use the Kitsu resource to find an ANN mapping',
+                            'help' => 'Use the MAL or Kitsu resource to find an ANN mapping',
                             'name' => 'Backfill ANN Resource',
                         ],
                         'kitsu' => [

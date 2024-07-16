@@ -36,9 +36,49 @@ class BackfillAnnResourceAction extends BackfillAnimeResourceAction
      */
     protected function getResource(): ?ExternalResource
     {
+        $malResource = $this->getModel()->resources()->firstWhere(ExternalResource::ATTRIBUTE_SITE, ResourceSite::MAL->value);
+        if ($malResource instanceof ExternalResource) {
+            return $this->getMalAnnMapping($malResource);
+        }
+
         $kitsuResource = $this->getModel()->resources()->firstWhere(ExternalResource::ATTRIBUTE_SITE, ResourceSite::KITSU->value);
         if ($kitsuResource instanceof ExternalResource) {
             return $this->getKitsuAnnMapping($kitsuResource);
+        }
+
+        return null;
+    }
+
+    /**
+     * Query Jikan Unofficial MAL API for ANN mapping.
+     *
+     * @param  ExternalResource  $malResource
+     * @return ExternalResource|null
+     *
+     * @throws RequestException
+     */
+    protected function getMalAnnMapping(ExternalResource $malResource): ?ExternalResource
+    {
+        $id = $malResource->external_id;
+
+        $response = Http::get("https://api.jikan.moe/v4/anime/$id/external")
+            ->throw()
+            ->json();
+
+        $malMappings = Arr::get($response, 'data');
+
+        foreach ($malMappings as $malMapping) {
+            $name = Arr::get($malMapping, 'name');
+
+            if ($name !== 'ANN') {
+                Log::info("Skipping mapping of externalSite '$name'");
+                continue;
+            }
+
+            $url = Arr::get($malMapping, 'url');
+            $externalId = intval($this->getSite()::parseIdFromLink($url));
+
+            return $this->getOrCreateResource($externalId);
         }
 
         return null;
