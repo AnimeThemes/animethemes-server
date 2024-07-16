@@ -31,6 +31,7 @@ class AttachAnimeResourceAction extends AttachResourceAction
             ResourceSite::ANIME_PLANET,
             ResourceSite::ANN,
             ResourceSite::KITSU,
+            ResourceSite::LIVECHART,
             ResourceSite::MAL,
             ResourceSite::OFFICIAL_SITE,
             ResourceSite::TWITTER,

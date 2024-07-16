@@ -214,6 +214,9 @@ return [
                         'kitsu' => [
                             'help' => 'Ex: https://kitsu.io/anime/hibike-euphonium-2',
                         ],
+                        'livechart' => [
+                            'help' => 'Ex: https://www.livechart.me/anime/11873',
+                        ],
                         'mal' => [
                             'help' => 'Ex: https://myanimelist.net/anime/31988, https://myanimelist.net/people/11030',
                         ],
