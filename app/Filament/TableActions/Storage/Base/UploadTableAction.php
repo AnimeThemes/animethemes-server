@@ -58,7 +58,7 @@ abstract class UploadTableAction extends StorageTableAction implements Interacts
                 ->label(__('filament.actions.storage.upload.fields.path.name'))
                 ->helperText(__('filament.actions.storage.upload.fields.path.help'))
                 ->rules(['doesnt_start_with:/', 'doesnt_end_with:/', 'string', new StorageDirectoryExistsRule($fs)])
-                ->hidden(fn($livewire) => $livewire instanceof VideoEntryRelationManager || $livewire instanceof ScriptVideoRelationManager),
+                ->hidden(fn ($livewire) => $livewire instanceof VideoEntryRelationManager || $livewire instanceof ScriptVideoRelationManager),
         ]);
     }
 

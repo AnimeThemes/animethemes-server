@@ -177,7 +177,7 @@ class ExternalEntry extends BaseResource
 
             Select::make(__('nova.fields.externalentry.watch_status.name'), ExternalEntryModel::ATTRIBUTE_WATCH_STATUS)
                 ->options(ExternalEntryWatchStatus::asSelectArray())
-                ->displayUsing(fn(?int $enumValue) => ExternalEntryWatchStatus::tryFrom($enumValue)?->localize())
+                ->displayUsing(fn (?int $enumValue) => ExternalEntryWatchStatus::tryFrom($enumValue)?->localize())
                 ->sortable()
                 ->rules(['required', new Enum(ExternalEntryWatchStatus::class)])
                 ->help(__('nova.fields.externalentry.watch_status.help'))
