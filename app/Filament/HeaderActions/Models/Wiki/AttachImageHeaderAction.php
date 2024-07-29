@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Filament\HeaderActions\Models\Wiki;
 
+use App\Actions\Models\Wiki\AttachImageAction as AttachImageActionAction;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Filament\HeaderActions\BaseHeaderAction;
+use App\Models\BaseModel;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Image;
@@ -16,9 +18,12 @@ use Filament\Forms\Form;
 /**
  * Class AttachImageHeaderAction.
  */
-abstract class AttachImageHeaderAction extends BaseHeaderAction
+class AttachImageHeaderAction extends BaseHeaderAction
 {
-    protected array $facets = [];
+    protected array $facets = [
+        ImageFacet::COVER_SMALL,
+        ImageFacet::COVER_LARGE,
+    ];
 
     /**
      * Initial setup for the action.
@@ -33,6 +38,8 @@ abstract class AttachImageHeaderAction extends BaseHeaderAction
         $this->icon('heroicon-o-photo');
 
         $this->authorize('create', Image::class);
+
+        $this->action(fn (BaseModel $record, array $data) => (new AttachImageActionAction($record, $data, $this->facets))->handle());
     }
 
     /**

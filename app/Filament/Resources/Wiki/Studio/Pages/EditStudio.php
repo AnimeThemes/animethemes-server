@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Wiki\Studio\Pages;
 
-use App\Filament\HeaderActions\Models\Wiki\Studio\AttachStudioImageHeaderAction;
+use App\Filament\HeaderActions\Models\Wiki\AttachImageHeaderAction;
 use App\Filament\HeaderActions\Models\Wiki\Studio\AttachStudioResourceHeaderAction;
 use App\Filament\HeaderActions\Models\Wiki\Studio\BackfillStudioHeaderAction;
 use App\Filament\Resources\Wiki\Studio;
@@ -32,7 +32,7 @@ class EditStudio extends BaseEditResource
                 ActionGroup::make([
                     BackfillStudioHeaderAction::make('backfill-studio'),
 
-                    AttachStudioImageHeaderAction::make('attach-studio-image'),
+                    AttachImageHeaderAction::make('attach-studio-image'),
 
                     AttachStudioResourceHeaderAction::make('attach-studio-resource'),
                 ])

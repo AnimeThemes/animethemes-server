@@ -39,3 +39,9 @@ parameters:
         -
             message: '#Call to an undefined method App\\Models\\BaseModel::images\(\)#'
             path: app/Actions/Models/BackfillWikiAction.php
+        -
+            message: '#Call to an undefined method App\\Models\\BaseModel::resources\(\)#'
+            path: app/Concerns/Models/CanCreateExternalResource.php
+        -
+            message: '#Call to an undefined method App\\Models\\BaseModel::images\(\)#'
+            path: app/Concerns/Models/CanCreateImage.php
