@@ -39,12 +39,10 @@ abstract class SubmissionRule implements ValidationRule, ValidatorAwareRule
      */
     public function setValidator(Validator $validator): self
     {
-        /** @var UploadedFile|array $files */
+        /** @var array<UploadedFile> $files */
         $files = Arr::get($validator->getData(), 'file');
 
         foreach ($files as $file) {
-            /** @var UploadedFile $file*/
-
             $ffprobeData = Arr::get($validator->getData(), 'ffprobeData');
             if ($ffprobeData === null && $file !== null) {
                 $ffprobeData = $this->getFFprobeData($file);
