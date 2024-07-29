@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\HeaderActions\Models\Wiki\Studio;
 
-use App\Actions\Models\BackfillAction;
-use App\Actions\Models\Wiki\Studio\Image\BackfillLargeCoverImageAction;
+use App\Actions\Models\Wiki\BackfillStudioAction as BackfillStudioActionAction;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Filament\HeaderActions\BaseHeaderAction;
 use App\Models\Wiki\Image;
@@ -30,6 +29,8 @@ class BackfillStudioHeaderAction extends BaseHeaderAction implements ShouldQueue
 {
     use InteractsWithQueue;
     use Queueable;
+
+    final public const IMAGES = BackfillStudioActionAction::IMAGES;
 
     final public const BACKFILL_LARGE_COVER = 'backfill_large_cover';
 
@@ -63,23 +64,21 @@ class BackfillStudioHeaderAction extends BaseHeaderAction implements ShouldQueue
             return;
         }
 
-        $actions = $this->getActions($fields, $studio);
+        $action = new BackfillStudioActionAction($studio, $this->getToBackfill($fields));
 
         try {
-            foreach ($actions as $action) {
-                $result = $action->handle();
-                if ($result->hasFailed()) {
-                    Notification::make()
-                        ->body($result->getMessage())
-                        ->warning()
-                        ->actions([
-                            NotificationAction::make('mark-as-read')
-                                ->button()
-                                ->markAsRead(),
-                        ])
-                        ->sendToDatabase(Auth::user());
-                }
-            }
+            $result = $action->handle();
+            // if ($result->hasFailed()) {
+            //     Notification::make()
+            //         ->body($result->getMessage())
+            //         ->warning()
+            //         ->actions([
+            //             NotificationAction::make('mark-as-read')
+            //                 ->button()
+            //                 ->markAsRead(),
+            //         ])
+            //         ->sendToDatabase(Auth::user());
+            // }
         } catch (Exception $e) {
             $this->failedLog($e);
         } finally {
@@ -113,35 +112,34 @@ class BackfillStudioHeaderAction extends BaseHeaderAction implements ShouldQueue
     }
 
     /**
-     * Get the selected actions for backfilling studios.
+     * Get what should be backfilled.
      *
      * @param  array  $fields
-     * @param  Studio  $studio
-     * @return BackfillAction[]
+     * @return array
      */
-    protected function getActions(array $fields, Studio $studio): array
+    protected function getToBackfill(array $fields): array
     {
-        $actions = [];
+        $toBackfill = [];
+        $toBackfill[self::IMAGES] = [];
 
-        foreach ($this->getActionMapping($studio) as $field => $action) {
+        foreach ($this->getImagesMapping() as $field => $facets) {
             if (Arr::get($fields, $field) === true) {
-                $actions[] = $action;
+                $toBackfill[self::IMAGES] = array_merge($toBackfill[self::IMAGES], $facets);
             }
         }
 
-        return $actions;
+        return $toBackfill;
     }
 
     /**
-     * Get the mapping of actions to their form fields.
+     * Get the images for mapping.
      *
-     * @param  Studio  $studio
-     * @return array<string, BackfillAction>
+     * @return array
      */
-    protected function getActionMapping(Studio $studio): array
+    protected function getImagesMapping(): array
     {
         return [
-            self::BACKFILL_LARGE_COVER => new BackfillLargeCoverImageAction($studio),
+            self::BACKFILL_LARGE_COVER => [ImageFacet::COVER_LARGE],
         ];
     }
 }

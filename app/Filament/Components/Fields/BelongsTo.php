@@ -39,8 +39,8 @@ class BelongsTo extends ComponentsSelect
             $this->tryScout($model);
 
             if ($this->showCreateOption) {
-                $this->createOptionForm(fn(Form $form) => $resource::form($form)->getComponents());
-                $this->createOptionUsing(fn(array $data) => (new $model)::query()->create($data)->getKey());
+                $this->createOptionForm(fn (Form $form) => $resource::form($form)->getComponents());
+                $this->createOptionUsing(fn (array $data) => (new $model)::query()->create($data)->getKey());
             }
         }
     }

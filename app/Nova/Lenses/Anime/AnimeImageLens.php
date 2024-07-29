@@ -8,7 +8,6 @@ use App\Enums\Models\Wiki\ImageFacet;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Image;
 use App\Nova\Actions\Models\Wiki\Anime\AttachAnimeImageAction;
-use App\Nova\Actions\Models\Wiki\Anime\BackfillAnimeAction;
 use Illuminate\Database\Eloquent\Builder;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
@@ -60,12 +59,6 @@ abstract class AnimeImageLens extends AnimeLens
     public function actions(NovaRequest $request): array
     {
         return [
-            (new BackfillAnimeAction($request->user()))
-                ->confirmButtonText(__('nova.actions.anime.backfill.confirmButtonText'))
-                ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
-                ->showInline()
-                ->canSeeWhen('update', $this->resource),
-
             (new AttachAnimeImageAction([static::facet()]))
                 ->confirmButtonText(__('nova.actions.models.wiki.attach_image.confirmButtonText'))
                 ->cancelButtonText(__('nova.actions.base.cancelButtonText'))

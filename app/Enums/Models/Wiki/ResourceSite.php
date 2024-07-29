@@ -34,6 +34,7 @@ enum ResourceSite: int
     case ANN = 5;
     case KITSU = 6;
     case MAL = 7;
+    case LIVECHART = 20;
 
     // Compendia
     case WIKI = 8;
@@ -68,6 +69,7 @@ enum ResourceSite: int
             ResourceSite::ANIME_PLANET->value => 'www.anime-planet.com',
             ResourceSite::ANN->value => 'www.animenewsnetwork.com',
             ResourceSite::KITSU->value => 'kitsu.io',
+            ResourceSite::LIVECHART->value => 'www.livechart.me',
             ResourceSite::MAL->value => 'myanimelist.net',
             ResourceSite::WIKI->value => 'wikipedia.org',
             ResourceSite::SPOTIFY->value => 'open.spotify.com',
@@ -117,8 +119,9 @@ enum ResourceSite: int
             ResourceSite::ANN,
             ResourceSite::MAL,
             ResourceSite::NETFLIX,
+            ResourceSite::LIVECHART,
             ResourceSite::APPLE_MUSIC => Str::match('/\d+/', $link),
-            ResourceSite::ANIME_PLANET => ResourceSite::parseAnimePlanetIdFromLink($link),
+        //    ResourceSite::ANIME_PLANET => ResourceSite::parseAnimePlanetIdFromLink($link),
             ResourceSite::KITSU => ResourceSite::parseKitsuIdFromLink($link),
             default => null,
         };
@@ -133,7 +136,7 @@ enum ResourceSite: int
     protected static function parseAnimePlanetIdFromLink(string $link): ?string
     {
         // We only want to attempt to parse the ID for an anime resource
-        if (Str::match('/^https:\/\/www\.anime-planet\.com\/anime\/[a-zA-Z0-9-]+$/', $link) !== $link) {
+        if (Str::match('/^https?:\/\/www\.anime-planet\.com\/anime\/[a-zA-Z0-9-]+$/', $link) !== $link) {
             return null;
         }
 
@@ -162,6 +165,10 @@ enum ResourceSite: int
     protected static function parseKitsuIdFromLink(string $link): ?string
     {
         try {
+            if ($id = Str::match('/^https?:\/\/kitsu\.io\/anime\/(\d+)/', $link)) {
+                return $id;
+            }
+
             $query = '
             query ($slug: String!) {
                 findAnimeBySlug(slug: $slug) {
@@ -215,6 +222,7 @@ enum ResourceSite: int
                 ResourceSite::AMAZON_PRIME_VIDEO,
                 ResourceSite::OFFICIAL_SITE,
                 ResourceSite::WIKI,
+                ResourceSite::LIVECHART,
             ],
             Artist::class => [
                 ResourceSite::TWITTER,
@@ -272,6 +280,7 @@ enum ResourceSite: int
                 ResourceSite::ANIME_PLANET => "https://www.anime-planet.com/anime/$slug",
                 ResourceSite::ANN => "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=$id",
                 ResourceSite::KITSU => "https://kitsu.io/anime/$slug",
+                ResourceSite::LIVECHART => "https://www.livechart.me/anime/$id",
                 ResourceSite::MAL => "https://myanimelist.net/anime/$id",
                 ResourceSite::YOUTUBE => "https://www.youtube.com/@$slug",
                 ResourceSite::CRUNCHYROLL => "https://www.crunchyroll.com/$type/$slug",
@@ -342,6 +351,7 @@ enum ResourceSite: int
                 ResourceSite::ANIME_PLANET => '/^https:\/\/www\.anime-planet\.com\/(anime)\/([a-zA-Z0-9-]+)$/',
                 ResourceSite::ANN => '/^https:\/\/www\.animenewsnetwork\.com\/encyclopedia\/(anime)\.php\?id=(\d+)$/',
                 ResourceSite::KITSU => '/^https:\/\/kitsu\.io\/(anime)\/([a-zA-Z0-9-]+)$/',
+                ResourceSite::LIVECHART => '/^https:\/\/www\.livechart\.me\/(anime)\/(\d+)$/',
                 ResourceSite::MAL => '/^https:\/\/myanimelist\.net\/(anime)\/(\d+)$/',
                 ResourceSite::YOUTUBE => '/^https:\/\/www\.(youtube)\.com\/\@([\w-]+)$/',
                 ResourceSite::ANIDB => '/^https:\/\/anidb\.net\/(anime)\/(\d+)$/',
@@ -413,6 +423,7 @@ enum ResourceSite: int
                 ResourceSite::ANIME_PLANET => '/^https:\/\/www\.anime-planet\.com\/anime\/[a-zA-Z0-9-]+$/',
                 ResourceSite::ANN => '/^https:\/\/www\.animenewsnetwork\.com\/encyclopedia\/anime\.php\?id=\d+$/',
                 ResourceSite::KITSU => '/^https:\/\/kitsu\.io\/anime\/[a-zA-Z0-9-]+$/',
+                ResourceSite::LIVECHART => '/^https:\/\/www\.livechart\.me\/anime\/\d+$/',
                 ResourceSite::MAL => '/^https:\/\/myanimelist\.net\/anime\/\d+$/',
                 ResourceSite::YOUTUBE => '/^https:\/\/www\.youtube\.com\/\@[\w-]+$/',
                 ResourceSite::CRUNCHYROLL => '/^https:\/\/www\.crunchyroll\.com\/(?:series|watch|null)\/\w+$/',
@@ -421,7 +432,8 @@ enum ResourceSite: int
                 ResourceSite::DISNEY_PLUS => '/^https:\/\/www\.disneyplus\.com\/(?:series|movies|null)\/[\w-]+\/\w+$/',
                 ResourceSite::HULU => '/^https:\/\/www\.hulu\.com\/(?:series|watch|movie|null)\/[\w-]+$/',
                 ResourceSite::AMAZON_PRIME_VIDEO => '/^https:\/\/www\.primevideo\.com\/detail\/\w+$/',
-                ResourceSite::OFFICIAL_SITE, ResourceSite::WIKI => null,
+                ResourceSite::OFFICIAL_SITE,
+                ResourceSite::WIKI => null,
                 default => '/$.^/',
             };
         }
@@ -437,7 +449,8 @@ enum ResourceSite: int
                 ResourceSite::SPOTIFY => '/^https:\/\/open\.spotify\.com\/artist\/\w+$/',
                 ResourceSite::YOUTUBE_MUSIC => '/^https:\/\/music\.youtube\.com\/channel\/[\w-]+/',
                 ResourceSite::YOUTUBE => '/^https:\/\/www\.youtube\.com\/\@[\w-]+$/',
-                ResourceSite::OFFICIAL_SITE, ResourceSite::WIKI => null,
+                ResourceSite::OFFICIAL_SITE,
+                ResourceSite::WIKI => null,
                 default => '/$.^/',
             };
         }
@@ -450,7 +463,8 @@ enum ResourceSite: int
                 ResourceSite::YOUTUBE => '/^https:\/\/www\.youtube\.com\/watch\?v=[\w-]+$/',
                 ResourceSite::APPLE_MUSIC => '/^https:\/\/music\.apple\.com\/jp\/album\/\d+$/',
                 ResourceSite::AMAZON_MUSIC => '/^https:\/\/music\.amazon\.co\.jp\/tracks\/\w+$/',
-                ResourceSite::OFFICIAL_SITE, ResourceSite::WIKI => null,
+                ResourceSite::OFFICIAL_SITE,
+                ResourceSite::WIKI => null,
                 default => '/$.^/',
             };
         }
@@ -463,7 +477,8 @@ enum ResourceSite: int
                 ResourceSite::ANIME_PLANET => '/^https:\/\/www\.anime-planet\.com\/anime\/studios\/[a-zA-Z0-9-]+$/',
                 ResourceSite::ANN => '/^https:\/\/www\.animenewsnetwork\.com\/encyclopedia\/company\.php\?id=\d+$/',
                 ResourceSite::MAL => '/^https:\/\/myanimelist\.net\/anime\/producer\/\d+$/',
-                ResourceSite::OFFICIAL_SITE, ResourceSite::WIKI => null,
+                ResourceSite::OFFICIAL_SITE,
+                ResourceSite::WIKI => null,
                 default => '/$.^/',
             };
         }

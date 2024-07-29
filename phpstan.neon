@@ -34,3 +34,9 @@ parameters:
         -
             message: '#Call to an undefined method App\\Filament\\BulkActions\\.*::getRecord\(\).#'
             path: app/Concerns/Filament/Actions/HasActionLogs.php
+        -
+            message: '#Call to an undefined method App\\Models\\BaseModel::resources\(\)#'
+            path: app/Actions/Models/BackfillWikiAction.php
+        -
+            message: '#Call to an undefined method App\\Models\\BaseModel::images\(\)#'
+            path: app/Actions/Models/BackfillWikiAction.php

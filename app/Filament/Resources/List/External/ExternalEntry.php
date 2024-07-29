@@ -181,7 +181,7 @@ class ExternalEntry extends BaseResource
 
                 TextColumn::make(ExternalEntryModel::ATTRIBUTE_WATCH_STATUS)
                     ->label(__('filament.fields.external_entry.watch_status.name'))
-                    ->formatStateUsing(fn(ExternalEntryWatchStatus $state) => $state->localize())
+                    ->formatStateUsing(fn (ExternalEntryWatchStatus $state) => $state->localize())
                     ->sortable()
                     ->toggleable(),
 
@@ -222,7 +222,7 @@ class ExternalEntry extends BaseResource
 
                         TextEntry::make(ExternalEntryModel::ATTRIBUTE_WATCH_STATUS)
                             ->label(__('filament.fields.external_entry.watch_status.name'))
-                            ->formatStateUsing(fn(ExternalEntryWatchStatus $state) => $state->localize()),
+                            ->formatStateUsing(fn (ExternalEntryWatchStatus $state) => $state->localize()),
 
                         TextEntry::make(ExternalEntryModel::ATTRIBUTE_ID)
                             ->label(__('filament.fields.base.id')),

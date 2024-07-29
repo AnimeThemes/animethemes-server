@@ -11,7 +11,6 @@ use App\Models\Wiki\Image as ImageModel;
 use App\Models\Wiki\Studio as StudioModel;
 use App\Nova\Actions\Models\Wiki\Studio\AttachStudioImageAction;
 use App\Nova\Actions\Models\Wiki\Studio\AttachStudioResourceAction;
-use App\Nova\Actions\Models\Wiki\Studio\BackfillStudioAction;
 use App\Nova\Lenses\Studio\Image\StudioCoverLargeLens;
 use App\Nova\Lenses\Studio\Resource\StudioAniDbResourceLens;
 use App\Nova\Lenses\Studio\Resource\StudioAnilistResourceLens;
@@ -231,14 +230,6 @@ class Studio extends BaseResource
         return array_merge(
             parent::actions($request),
             [
-                (new BackfillStudioAction($request->user()))
-                    ->confirmButtonText(__('nova.actions.studio.backfill.confirmButtonText'))
-                    ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
-                    ->showOnIndex()
-                    ->showOnDetail()
-                    ->showInline()
-                    ->canSeeWhen('update', $this),
-
                 (new AttachStudioResourceAction($resources, null))
                     ->confirmButtonText(__('nova.actions.models.wiki.attach_resource.confirmButtonText'))
                     ->cancelButtonText(__('nova.actions.base.cancelButtonText'))

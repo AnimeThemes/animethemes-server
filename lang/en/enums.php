@@ -81,6 +81,7 @@ return [
         ResourceSite::ANIME_PLANET->name => 'Anime-Planet',
         ResourceSite::ANN->name => 'Anime News Network',
         ResourceSite::KITSU->name => 'Kitsu',
+        ResourceSite::LIVECHART->name => 'LiveChart',
         ResourceSite::MAL->name => 'MyAnimeList',
         ResourceSite::WIKI->name => 'Wiki',
         ResourceSite::SPOTIFY->name => 'Spotify',

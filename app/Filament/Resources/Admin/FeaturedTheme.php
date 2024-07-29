@@ -124,7 +124,7 @@ class FeaturedTheme extends BaseResource
                     ->timezone('UTC')
                     ->displayFormat('MM/DD/YYYY')
                     ->format(AllowedDateFormat::YMD->value)
-                    ->formatStateUsing(fn($record) => $record !== null ? $record->start_at->format('m/d/Y') . ' - ' . $record->end_at->format('m/d/Y') : null)
+                    ->formatStateUsing(fn ($record) => $record !== null ? $record->start_at->format('m/d/Y') . ' - ' . $record->end_at->format('m/d/Y') : null)
                     ->required()
                     ->rules([
                         'required',

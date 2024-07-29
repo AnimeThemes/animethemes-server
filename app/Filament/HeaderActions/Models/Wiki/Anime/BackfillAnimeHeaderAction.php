@@ -4,17 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\HeaderActions\Models\Wiki\Anime;
 
-use App\Actions\Models\BackfillAction;
-use App\Actions\Models\Wiki\Anime\BackfillAnimeOtherResourcesAction;
-use App\Actions\Models\Wiki\Anime\BackfillAnimeSynonymsAction;
-use App\Actions\Models\Wiki\Anime\Image\BackfillLargeCoverImageAction;
-use App\Actions\Models\Wiki\Anime\Image\BackfillSmallCoverImageAction;
-use App\Actions\Models\Wiki\Anime\Resource\BackfillAnidbResourceAction;
-use App\Actions\Models\Wiki\Anime\Resource\BackfillAnilistResourceAction;
-use App\Actions\Models\Wiki\Anime\Resource\BackfillAnnResourceAction;
-use App\Actions\Models\Wiki\Anime\Resource\BackfillKitsuResourceAction;
-use App\Actions\Models\Wiki\Anime\Resource\BackfillMalResourceAction;
-use App\Actions\Models\Wiki\Anime\Studio\BackfillAnimeStudiosAction;
+use App\Actions\Models\Wiki\BackfillAnimeAction;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Filament\HeaderActions\BaseHeaderAction;
@@ -42,8 +32,14 @@ class BackfillAnimeHeaderAction extends BaseHeaderAction implements ShouldQueue
     use InteractsWithQueue;
     use Queueable;
 
+    final public const RESOURCES = BackfillAnimeAction::RESOURCES;
+    final public const IMAGES = BackfillAnimeAction::IMAGES;
+    final public const STUDIOS = BackfillAnimeAction::STUDIOS;
+    final public const SYNONYMS = BackfillAnimeAction::SYNONYMS;
+
     final public const BACKFILL_ANIDB_RESOURCE = 'backfill_anidb_resource';
     final public const BACKFILL_ANILIST_RESOURCE = 'backfill_anilist_resource';
+    final public const BACKFILL_ANIME_PLANET_RESOURCE = 'backfill_anime_planet_resource';
     final public const BACKFILL_ANN_RESOURCE = 'backfill_ann_resource';
     final public const BACKFILL_KITSU_RESOURCE = 'backfill_kitsu_resource';
     final public const BACKFILL_OTHER_RESOURCES = 'backfill_other_resources';
@@ -84,23 +80,21 @@ class BackfillAnimeHeaderAction extends BaseHeaderAction implements ShouldQueue
             return;
         }
 
-        $actions = $this->getActions($fields, $anime);
+        $action = new BackfillAnimeAction($anime, $this->getToBackfill($fields));
 
         try {
-            foreach ($actions as $action) {
-                $result = $action->handle();
-                if ($result->hasFailed()) {
-                    Notification::make()
-                        ->body($result->getMessage())
-                        ->warning()
-                        ->actions([
-                            NotificationAction::make('mark-as-read')
-                                ->button()
-                                ->markAsRead(),
-                        ])
-                        ->sendToDatabase(Auth::user());
-                }
-            }
+            $result = $action->handle();
+            // if ($result->hasFailed()) {
+            //     Notification::make()
+            //         ->body($result->getMessage())
+            //         ->warning()
+            //         ->actions([
+            //             NotificationAction::make('mark-as-read')
+            //                 ->button()
+            //                 ->markAsRead(),
+            //         ])
+            //         ->sendToDatabase(Auth::user());
+            // }
         } catch (Exception $e) {
             $this->failedLog($e);
         } finally {
@@ -134,22 +128,27 @@ class BackfillAnimeHeaderAction extends BaseHeaderAction implements ShouldQueue
                             ->label(__('filament.actions.anime.backfill.fields.resources.anilist.name'))
                             ->helperText(__('filament.actions.anime.backfill.fields.resources.anilist.help'))
                             ->default(fn () => $anime instanceof Anime && $anime->resources()->where(ExternalResource::ATTRIBUTE_SITE, ResourceSite::ANILIST->value)->doesntExist()),
-            
+
                         Checkbox::make(self::BACKFILL_MAL_RESOURCE)
                             ->label(__('filament.actions.anime.backfill.fields.resources.mal.name'))
                             ->helperText(__('filament.actions.anime.backfill.fields.resources.mal.help'))
                             ->default(fn () => $anime instanceof Anime && $anime->resources()->where(ExternalResource::ATTRIBUTE_SITE, ResourceSite::MAL->value)->doesntExist()),
-            
+
                         Checkbox::make(self::BACKFILL_ANIDB_RESOURCE)
                             ->label(__('filament.actions.anime.backfill.fields.resources.anidb.name'))
                             ->helperText(__('filament.actions.anime.backfill.fields.resources.anidb.help'))
                             ->default(fn () => $anime instanceof Anime && $anime->resources()->where(ExternalResource::ATTRIBUTE_SITE, ResourceSite::ANIDB->value)->doesntExist()),
-            
+
                         Checkbox::make(self::BACKFILL_ANN_RESOURCE)
                             ->label(__('filament.actions.anime.backfill.fields.resources.ann.name'))
                             ->helperText(__('filament.actions.anime.backfill.fields.resources.ann.help'))
                             ->default(fn () => $anime instanceof Anime && $anime->resources()->where(ExternalResource::ATTRIBUTE_SITE, ResourceSite::ANN->value)->doesntExist()),
-            
+
+                        Checkbox::make(self::BACKFILL_ANIME_PLANET_RESOURCE)
+                            ->label(__('filament.actions.anime.backfill.fields.resources.anime_planet.name'))
+                            ->helperText(__('filament.actions.anime.backfill.fields.resources.anime_planet.help'))
+                            ->default(fn () => $anime instanceof Anime && $anime->resources()->where(ExternalResource::ATTRIBUTE_SITE, ResourceSite::ANIME_PLANET->value)->doesntExist()),
+
                         Checkbox::make(self::BACKFILL_OTHER_RESOURCES)
                             ->label(__('filament.actions.anime.backfill.fields.resources.external_links.name'))
                             ->helperText(__('filament.actions.anime.backfill.fields.resources.external_links.help'))
@@ -162,7 +161,7 @@ class BackfillAnimeHeaderAction extends BaseHeaderAction implements ShouldQueue
                             ->label(__('filament.actions.anime.backfill.fields.images.large_cover.name'))
                             ->helperText(__('filament.actions.anime.backfill.fields.images.large_cover.help'))
                             ->default(fn () => $anime instanceof Anime && $anime->images()->where(Image::ATTRIBUTE_FACET, ImageFacet::COVER_LARGE->value)->doesntExist()),
-            
+
                         Checkbox::make(self::BACKFILL_SMALL_COVER)
                             ->label(__('filament.actions.anime.backfill.fields.images.small_cover.name'))
                             ->helperText(__('filament.actions.anime.backfill.fields.images.small_cover.help'))
@@ -188,44 +187,66 @@ class BackfillAnimeHeaderAction extends BaseHeaderAction implements ShouldQueue
     }
 
     /**
-     * Get the selected actions for backfilling anime.
+     * Get what should be backfilled.
      *
      * @param  array  $fields
-     * @param  Anime  $anime
-     * @return BackfillAction[]
+     * @return array
      */
-    protected function getActions(array $fields, Anime $anime): array
+    protected function getToBackfill(array $fields): array
     {
-        $actions = [];
+        $toBackfill = [];
+        $toBackfill[self::RESOURCES] = [];
+        $toBackfill[self::IMAGES] = [];
 
-        foreach ($this->getActionMapping($anime) as $field => $action) {
+        foreach ($this->getResourcesMapping() as $field => $sites) {
             if (Arr::get($fields, $field) === true) {
-                $actions[] = $action;
+                $toBackfill[self::RESOURCES] = array_merge($toBackfill[self::RESOURCES], $sites);
             }
         }
 
-        return $actions;
+        foreach ($this->getImagesMapping() as $field => $facets) {
+            if (Arr::get($fields, $field) === true) {
+                $toBackfill[self::IMAGES] = array_merge($toBackfill[self::IMAGES], $facets);
+            }
+        }
+
+        $toBackfill[self::STUDIOS] = Arr::get($fields, self::BACKFILL_STUDIOS);
+        $toBackfill[self::SYNONYMS] = Arr::get($fields, self::BACKFILL_SYNONYMS);
+
+        return $toBackfill;
     }
 
     /**
-     * Get the mapping of actions to their form fields.
+     * Get the resources for mapping.
      *
-     * @param  Anime  $anime
-     * @return array<string, BackfillAction>
+     * @return array
      */
-    protected function getActionMapping(Anime $anime): array
+    protected function getResourcesMapping(): array
     {
         return [
-            self::BACKFILL_KITSU_RESOURCE => new BackfillKitsuResourceAction($anime),
-            self::BACKFILL_ANILIST_RESOURCE => new BackfillAnilistResourceAction($anime),
-            self::BACKFILL_MAL_RESOURCE => new BackfillMalResourceAction($anime),
-            self::BACKFILL_ANIDB_RESOURCE => new BackfillAnidbResourceAction($anime),
-            self::BACKFILL_ANN_RESOURCE => new BackfillAnnResourceAction($anime),
-            self::BACKFILL_OTHER_RESOURCES => new BackfillAnimeOtherResourcesAction($anime),
-            self::BACKFILL_LARGE_COVER => new BackfillLargeCoverImageAction($anime),
-            self::BACKFILL_SMALL_COVER => new BackfillSmallCoverImageAction($anime),
-            self::BACKFILL_STUDIOS => new BackfillAnimeStudiosAction($anime),
-            self::BACKFILL_SYNONYMS => new BackfillAnimeSynonymsAction($anime),
+            self::BACKFILL_KITSU_RESOURCE => [ResourceSite::KITSU],
+            self::BACKFILL_ANILIST_RESOURCE => [ResourceSite::ANILIST],
+            self::BACKFILL_MAL_RESOURCE => [ResourceSite::MAL],
+            self::BACKFILL_ANIDB_RESOURCE => [ResourceSite::ANIDB],
+            self::BACKFILL_ANN_RESOURCE => [ResourceSite::ANN],
+            self::BACKFILL_ANIME_PLANET_RESOURCE => [ResourceSite::ANIME_PLANET],
+            self::BACKFILL_OTHER_RESOURCES => [
+                ResourceSite::TWITTER, ResourceSite::OFFICIAL_SITE, ResourceSite::NETFLIX, ResourceSite::CRUNCHYROLL,
+                ResourceSite::HIDIVE, ResourceSite::AMAZON_PRIME_VIDEO, ResourceSite::HULU, ResourceSite::DISNEY_PLUS,
+            ],
+        ];
+    }
+
+    /**
+     * Get the images for mapping.
+     *
+     * @return array
+     */
+    protected function getImagesMapping(): array
+    {
+        return [
+            self::BACKFILL_LARGE_COVER => [ImageFacet::COVER_LARGE],
+            self::BACKFILL_SMALL_COVER => [ImageFacet::COVER_SMALL],
         ];
     }
 }
