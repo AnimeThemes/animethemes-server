@@ -109,7 +109,7 @@ class SubmissionTest extends TestCase
         ]);
 
         $validator = Validator::make(
-            ['file' => [$file]],
+            ['file' => $file],
             [
                 'file' => [
                     new TotalStreamsFormatRule(2),

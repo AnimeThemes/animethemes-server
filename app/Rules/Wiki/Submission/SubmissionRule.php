@@ -39,24 +39,26 @@ abstract class SubmissionRule implements ValidationRule, ValidatorAwareRule
      */
     public function setValidator(Validator $validator): self
     {
-        /** @var array<UploadedFile> $files */
-        $files = Arr::get($validator->getData(), 'file');
+        /** @var UploadedFile|array $file */
+        $file = Arr::get($validator->getData(), 'file');
 
-        foreach ($files as $file) {
-            $ffprobeData = Arr::get($validator->getData(), 'ffprobeData');
-            if ($ffprobeData === null && $file !== null) {
-                $ffprobeData = $this->getFFprobeData($file);
-                $validator->setValue('ffprobeData', $ffprobeData);
-            }
-            static::$ffprobeData = $ffprobeData;
-
-            $loudnessStats = Arr::get($validator->getData(), 'loudnessStats');
-            if ($loudnessStats === null && $file !== null) {
-                $loudnessStats = $this->getLoudnessStats($file);
-                $validator->setValue('loudnessStats', $loudnessStats);
-            }
-            $this->loudnessStats = $loudnessStats;
+        if (is_array($file)) {
+            $file = Arr::first($file);
         }
+
+        $ffprobeData = Arr::get($validator->getData(), 'ffprobeData');
+        if ($ffprobeData === null && $file !== null) {
+            $ffprobeData = $this->getFFprobeData($file);
+            $validator->setValue('ffprobeData', $ffprobeData);
+        }
+        static::$ffprobeData = $ffprobeData;
+
+        $loudnessStats = Arr::get($validator->getData(), 'loudnessStats');
+        if ($loudnessStats === null && $file !== null) {
+            $loudnessStats = $this->getLoudnessStats($file);
+            $validator->setValue('loudnessStats', $loudnessStats);
+        }
+        $this->loudnessStats = $loudnessStats;
 
         return $this;
     }

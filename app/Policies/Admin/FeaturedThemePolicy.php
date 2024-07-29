@@ -47,7 +47,7 @@ class FeaturedThemePolicy
             return $user !== null && $user->can(CrudPermission::VIEW->format(FeaturedTheme::class));
         }
 
-        return true;
+        return $featuredtheme->start_at->isBefore(Date::now());
     }
 
     /**
