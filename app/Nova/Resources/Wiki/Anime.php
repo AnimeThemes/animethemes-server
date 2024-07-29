@@ -15,7 +15,6 @@ use App\Models\Wiki\Video as VideoModel;
 use App\Nova\Actions\Discord\DiscordThreadAction;
 use App\Nova\Actions\Models\Wiki\Anime\AttachAnimeImageAction;
 use App\Nova\Actions\Models\Wiki\Anime\AttachAnimeResourceAction;
-use App\Nova\Actions\Models\Wiki\Anime\BackfillAnimeAction;
 use App\Nova\Lenses\Anime\AnimeStreamingResourceLens;
 use App\Nova\Lenses\Anime\Image\AnimeCoverLargeLens;
 use App\Nova\Lenses\Anime\Image\AnimeCoverSmallLens;
@@ -338,14 +337,6 @@ class Anime extends BaseResource
                     ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
                     ->exceptOnIndex()
                     ->canSeeWhen('create', VideoModel::class),
-
-                (new BackfillAnimeAction($request->user()))
-                    ->confirmButtonText(__('nova.actions.anime.backfill.confirmButtonText'))
-                    ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
-                    ->showOnIndex()
-                    ->showOnDetail()
-                    ->showInline()
-                    ->canSeeWhen('update', $this),
 
                 (new AttachAnimeResourceAction($resourceSites, null))
                     ->confirmButtonText(__('nova.actions.models.wiki.attach_resource.confirmButtonText'))

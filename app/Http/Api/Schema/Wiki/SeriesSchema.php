@@ -11,6 +11,7 @@ use App\Http\Api\Field\Wiki\Series\SeriesNameField;
 use App\Http\Api\Field\Wiki\Series\SeriesSlugField;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\EloquentSchema;
+use App\Http\Api\Schema\Wiki\Anime\SynonymSchema;
 use App\Http\Resources\Wiki\Resource\SeriesResource;
 use App\Models\Wiki\Series;
 
@@ -44,6 +45,7 @@ class SeriesSchema extends EloquentSchema implements SearchableSchema
             new AllowedInclude(new VideoSchema(), 'anime.animethemes.animethemeentries.videos'),
             new AllowedInclude(new GroupSchema(), 'anime.animethemes.group'),
             new AllowedInclude(new SongSchema(), 'anime.animethemes.song'),
+            new AllowedInclude(new SynonymSchema(), 'anime.animesynonyms'),
         ];
     }
 

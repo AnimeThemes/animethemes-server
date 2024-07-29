@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Nova\Lenses\Anime\Studio;
 
 use App\Models\Wiki\Anime;
-use App\Nova\Actions\Models\Wiki\Anime\BackfillAnimeAction;
 use App\Nova\Lenses\Anime\AnimeLens;
 use Illuminate\Database\Eloquent\Builder;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -48,13 +47,7 @@ class AnimeStudioLens extends AnimeLens
      */
     public function actions(NovaRequest $request): array
     {
-        return [
-            (new BackfillAnimeAction($request->user()))
-                ->confirmButtonText(__('nova.actions.anime.backfill.confirmButtonText'))
-                ->cancelButtonText(__('nova.actions.base.cancelButtonText'))
-                ->showInline()
-                ->canSeeWhen('update', $this->resource),
-        ];
+        return [];
     }
 
     /**

@@ -21,34 +21,38 @@ return [
                     ],
                     'resources' => [
                         'anidb' => [
-                            'help' => 'Use the Manami Project Anime Offline Database hosted by yuna.moe to find an AniDB mapping from a MAL, Anilist or Kitsu Resource',
+                            'help' => 'Use LiveChart to find an AniDB mapping',
                             'name' => 'Backfill AniDB Resource',
                         ],
                         'anilist' => [
-                            'help' => 'Use the MAL, Kitsu or AniDB Resource to find an Anilist mapping',
+                            'help' => 'Use LiveChart to find an AniList mapping',
                             'name' => 'Backfill Anilist Resource',
                         ],
+                        'anime_planet' => [
+                            'help' => 'Use LiveChart to find an Anime Planet mapping',
+                            'name' => 'Backfill Anime Planet Resource',
+                        ],
                         'ann' => [
-                            'help' => 'Use the MAL or Kitsu resource to find an ANN mapping',
+                            'help' => 'Use LiveChart to find an Anime News Network mapping',
                             'name' => 'Backfill ANN Resource',
                         ],
                         'kitsu' => [
-                            'help' => 'Use the Kitsu API to find a mapping from a MAL, Anilist, AniDB or ANN Resource',
+                            'help' => 'Use LiveChart to find a Kitsu mapping',
                             'name' => 'Backfill Kitsu Resource',
                         ],
                         'mal' => [
-                            'help' => 'Use the Kitsu, Anilist or AniDB Resource to find a MAL mapping',
+                            'help' => 'Use LiveChart to find a MyAnimeList mapping',
                             'name' => 'Backfill MyAnimeList Resource',
                         ],
                         'external_links' => [
-                            'help' => 'Use Anilist Resource to find other resources as Official Sites and Streamings',
+                            'help' => 'Use Anilist Resource to find other resources like Official Sites and Streamings',
                             'name' => 'Backfill Other Resources'
                         ],
                         'name' => 'Backfill Resources',
                     ],
                     'studios' => [
                         'anime' => [
-                            'help' => 'Use the MAL, Anilist or Kitsu Resource to map Anime Studios',
+                            'help' => 'Use the MAL Resource to map Anime Studios',
                             'name' => 'Backfill Anime Studios',
                         ],
                         'name' => 'Backfill Studios',

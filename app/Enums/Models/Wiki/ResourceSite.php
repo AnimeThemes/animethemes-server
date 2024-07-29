@@ -121,7 +121,7 @@ enum ResourceSite: int
             ResourceSite::NETFLIX,
             ResourceSite::LIVECHART,
             ResourceSite::APPLE_MUSIC => Str::match('/\d+/', $link),
-            ResourceSite::ANIME_PLANET => ResourceSite::parseAnimePlanetIdFromLink($link),
+        //    ResourceSite::ANIME_PLANET => ResourceSite::parseAnimePlanetIdFromLink($link),
             ResourceSite::KITSU => ResourceSite::parseKitsuIdFromLink($link),
             default => null,
         };
@@ -136,7 +136,7 @@ enum ResourceSite: int
     protected static function parseAnimePlanetIdFromLink(string $link): ?string
     {
         // We only want to attempt to parse the ID for an anime resource
-        if (Str::match('/^https:\/\/www\.anime-planet\.com\/anime\/[a-zA-Z0-9-]+$/', $link) !== $link) {
+        if (Str::match('/^https?:\/\/www\.anime-planet\.com\/anime\/[a-zA-Z0-9-]+$/', $link) !== $link) {
             return null;
         }
 
@@ -165,6 +165,10 @@ enum ResourceSite: int
     protected static function parseKitsuIdFromLink(string $link): ?string
     {
         try {
+            if ($id = Str::match('/^https?:\/\/kitsu\.io\/anime\/(\d+)/', $link)) {
+                return $id;
+            }
+
             $query = '
             query ($slug: String!) {
                 findAnimeBySlug(slug: $slug) {
