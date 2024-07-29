@@ -10,7 +10,6 @@ use App\Events\Document\Page\PageRestored;
 use App\Events\Document\Page\PageUpdated;
 use App\Models\BaseModel;
 use Database\Factories\Document\PageFactory;
-use Laravel\Nova\Actions\Actionable;
 
 /**
  * Class Page.
@@ -24,8 +23,6 @@ use Laravel\Nova\Actions\Actionable;
  */
 class Page extends BaseModel
 {
-    use Actionable;
-
     final public const TABLE = 'pages';
 
     final public const ATTRIBUTE_BODY = 'body';

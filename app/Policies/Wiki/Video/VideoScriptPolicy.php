@@ -8,8 +8,8 @@ use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\ExtendedCrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Video\VideoScript;
+use Filament\Facades\Filament;
 use Illuminate\Auth\Access\HandlesAuthorization;
-use Laravel\Nova\Nova;
 
 /**
  * Class VideoScriptPolicy.
@@ -26,10 +26,11 @@ class VideoScriptPolicy
      */
     public function viewAny(?User $user): bool
     {
-        return Nova::whenServing(
-            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW->format(VideoScript::class)),
-            fn (): bool => true
-        );
+        if (Filament::isServing()) {
+            return $user !== null && $user->can(CrudPermission::VIEW->format(VideoScript::class));
+        }
+
+        return true;
     }
 
     /**
@@ -40,10 +41,11 @@ class VideoScriptPolicy
      */
     public function view(?User $user): bool
     {
-        return Nova::whenServing(
-            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW->format(VideoScript::class)),
-            fn (): bool => true
-        );
+        if (Filament::isServing()) {
+            return $user !== null && $user->can(CrudPermission::VIEW->format(VideoScript::class));
+        }
+
+        return true;
     }
 
     /**
@@ -66,7 +68,7 @@ class VideoScriptPolicy
      */
     public function update(User $user, VideoScript $videoscript): bool
     {
-        return ! $videoscript->trashed() && $user->can(CrudPermission::UPDATE->format(VideoScript::class));
+        return !$videoscript->trashed() && $user->can(CrudPermission::UPDATE->format(VideoScript::class));
     }
 
     /**
@@ -78,7 +80,7 @@ class VideoScriptPolicy
      */
     public function delete(User $user, VideoScript $videoscript): bool
     {
-        return ! $videoscript->trashed() && $user->can(CrudPermission::DELETE->format(VideoScript::class));
+        return !$videoscript->trashed() && $user->can(CrudPermission::DELETE->format(VideoScript::class));
     }
 
     /**

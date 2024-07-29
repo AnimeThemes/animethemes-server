@@ -7,7 +7,6 @@ namespace App\Events\Wiki\Image;
 use App\Events\Base\Wiki\WikiDeletedEvent;
 use App\Filament\Resources\Wiki\Image as ImageFilament;
 use App\Models\Wiki\Image;
-use App\Nova\Resources\Wiki\Image as ImageResource;
 
 /**
  * Class ImageDeleted.
@@ -47,25 +46,13 @@ class ImageDeleted extends WikiDeletedEvent
     }
 
     /**
-     * Get the message for the nova notification.
+     * Get the message for the filament notification.
      *
      * @return string
      */
     protected function getNotificationMessage(): string
     {
         return "Image '{$this->getModel()->getName()}' has been deleted. It will be automatically pruned in one week. Please review.";
-    }
-
-    /**
-     * Get the URL for the nova notification.
-     *
-     * @return string
-     */
-    protected function getNovaNotificationUrl(): string
-    {
-        $uriKey = ImageResource::uriKey();
-
-        return "/resources/$uriKey/{$this->getModel()->getKey()}";
     }
 
     /**

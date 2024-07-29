@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Policies\Discord;
 
 use App\Enums\Auth\CrudPermission;
-use App\Enums\Auth\ExtendedCrudPermission;
 use App\Models\Auth\User;
 use App\Models\Discord\DiscordThread;
 use Filament\Facades\Filament;

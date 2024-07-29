@@ -15,7 +15,6 @@ use Database\Factories\Wiki\SeriesFactory;
 use Elastic\ScoutDriverPlus\Searchable;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Collection;
-use Laravel\Nova\Actions\Actionable;
 
 /**
  * Class Series.
@@ -29,7 +28,6 @@ use Laravel\Nova\Actions\Actionable;
  */
 class Series extends BaseModel
 {
-    use Actionable;
     use Searchable;
 
     final public const TABLE = 'series';

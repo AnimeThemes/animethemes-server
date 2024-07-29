@@ -22,7 +22,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
-use Laravel\Nova\Actions\Actionable;
 
 /**
  * Class AnimeTheme.
@@ -43,7 +42,6 @@ use Laravel\Nova\Actions\Actionable;
  */
 class AnimeTheme extends BaseModel
 {
-    use Actionable;
     use Searchable;
 
     final public const TABLE = 'anime_themes';

@@ -13,8 +13,6 @@ use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
 use Filament\Facades\Filament;
 use Illuminate\Auth\Access\HandlesAuthorization;
-use Illuminate\Http\Request;
-use Laravel\Nova\Nova;
 
 /**
  * Class TrackPolicy.
@@ -35,17 +33,12 @@ class PlaylistTrackPolicy
             return $user !== null && $user->hasRole(RoleEnum::ADMIN->value);
         }
 
-        return Nova::whenServing(
-            fn (): bool => $user !== null && $user->hasRole(RoleEnum::ADMIN->value),
-            function (Request $request) use ($user): bool {
-                /** @var Playlist|null $playlist */
-                $playlist = $request->route('playlist');
+        /** @var Playlist|null $playlist */
+        $playlist = request()->route('playlist');
 
-                return $user !== null
-                    ? ($user->getKey() === $playlist?->user_id || PlaylistVisibility::PRIVATE !== $playlist?->visibility) && $user->can(CrudPermission::VIEW->format(PlaylistTrack::class))
-                    : PlaylistVisibility::PRIVATE !== $playlist?->visibility;
-            }
-        );
+        return $user !== null
+            ? ($user->getKey() === $playlist?->user_id || PlaylistVisibility::PRIVATE !== $playlist?->visibility) && $user->can(CrudPermission::VIEW->format(PlaylistTrack::class))
+            : PlaylistVisibility::PRIVATE !== $playlist?->visibility;
     }
 
     /**
@@ -63,17 +56,12 @@ class PlaylistTrackPolicy
             return $user !== null && $user->hasRole(RoleEnum::ADMIN->value);
         }
 
-        return Nova::whenServing(
-            fn (): bool => $user !== null && $user->hasRole(RoleEnum::ADMIN->value),
-            function (Request $request) use ($user): bool {
-                /** @var Playlist|null $playlist */
-                $playlist = $request->route('playlist');
+        /** @var Playlist|null $playlist */
+        $playlist = request()->route('playlist');
 
-                return $user !== null
-                    ? ($user->getKey() === $playlist?->user_id || PlaylistVisibility::PRIVATE !== $playlist?->visibility) && $user->can(CrudPermission::VIEW->format(PlaylistTrack::class))
-                    : PlaylistVisibility::PRIVATE !== $playlist?->visibility;
-            }
-        );
+        return $user !== null
+            ? ($user->getKey() === $playlist?->user_id || PlaylistVisibility::PRIVATE !== $playlist?->visibility) && $user->can(CrudPermission::VIEW->format(PlaylistTrack::class))
+            : PlaylistVisibility::PRIVATE !== $playlist?->visibility;
     }
 
     /**
@@ -88,15 +76,10 @@ class PlaylistTrackPolicy
             return $user !== null && $user->hasRole(RoleEnum::ADMIN->value);
         }
 
-        return Nova::whenServing(
-            fn (): bool => $user->hasRole(RoleEnum::ADMIN->value),
-            function (Request $request) use ($user): bool {
-                /** @var Playlist|null $playlist */
-                $playlist = $request->route('playlist');
+        /** @var Playlist|null $playlist */
+        $playlist = request()->route('playlist');
 
-                return $user->getKey() === $playlist?->user_id;
-            }
-        );
+        return $user->getKey() === $playlist?->user_id;
     }
 
     /**
@@ -114,15 +97,10 @@ class PlaylistTrackPolicy
             return $user !== null && $user->hasRole(RoleEnum::ADMIN->value);
         }
 
-        return Nova::whenServing(
-            fn (): bool => $user->hasRole(RoleEnum::ADMIN->value),
-            function (Request $request) use ($user, $track): bool {
-                /** @var Playlist|null $playlist */
-                $playlist = $request->route('playlist');
+        /** @var Playlist|null $playlist */
+        $playlist = request()->route('playlist');
 
-                return ! $track->trashed() && $user->getKey() === $playlist?->user_id && $user->can(CrudPermission::UPDATE->format(PlaylistTrack::class));
-            }
-        );
+        return !$track->trashed() && $user->getKey() === $playlist?->user_id && $user->can(CrudPermission::UPDATE->format(PlaylistTrack::class));
     }
 
     /**
@@ -140,15 +118,10 @@ class PlaylistTrackPolicy
             return $user !== null && $user->hasRole(RoleEnum::ADMIN->value);
         }
 
-        return Nova::whenServing(
-            fn (): bool => $user->hasRole(RoleEnum::ADMIN->value),
-            function (Request $request) use ($user, $track): bool {
-                /** @var Playlist|null $playlist */
-                $playlist = $request->route('playlist');
+        /** @var Playlist|null $playlist */
+        $playlist = request()->route('playlist');
 
-                return ! $track->trashed() && $user->getKey() === $playlist?->user_id && $user->can(CrudPermission::DELETE->format(PlaylistTrack::class));
-            }
-        );
+        return !$track->trashed() && $user->getKey() === $playlist?->user_id && $user->can(CrudPermission::DELETE->format(PlaylistTrack::class));
     }
 
     /**
@@ -166,15 +139,10 @@ class PlaylistTrackPolicy
             return $user !== null && $user->hasRole(RoleEnum::ADMIN->value);
         }
 
-        return Nova::whenServing(
-            fn (): bool => $user->hasRole(RoleEnum::ADMIN->value),
-            function (Request $request) use ($user, $track): bool {
-                /** @var Playlist|null $playlist */
-                $playlist = $request->route('playlist');
+        /** @var Playlist|null $playlist */
+        $playlist = request()->route('playlist');
 
-                return $track->trashed() && $user->getKey() === $playlist?->user_id && $user->can(ExtendedCrudPermission::RESTORE->format(PlaylistTrack::class));
-            }
-        );
+        return $track->trashed() && $user->getKey() === $playlist?->user_id && $user->can(ExtendedCrudPermission::RESTORE->format(PlaylistTrack::class));
     }
 
     /**

@@ -91,7 +91,6 @@ class EncoderRoleSeeder extends RoleSeeder
         $this->configureAbilities(
             $role,
             [
-                SpecialPermission::VIEW_NOVA->value,
                 SpecialPermission::VIEW_FILAMENT->value,
             ]
         );

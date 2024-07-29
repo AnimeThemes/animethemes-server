@@ -10,8 +10,8 @@ use App\Models\Auth\User;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Image;
 use App\Pivots\Wiki\ArtistImage;
+use Filament\Facades\Filament;
 use Illuminate\Auth\Access\HandlesAuthorization;
-use Laravel\Nova\Nova;
 
 /**
  * Class ArtistPolicy.
@@ -28,10 +28,11 @@ class ArtistPolicy
      */
     public function viewAny(?User $user): bool
     {
-        return Nova::whenServing(
-            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW->format(Artist::class)),
-            fn (): bool => true
-        );
+        if (Filament::isServing()) {
+            return $user !== null && $user->can(CrudPermission::VIEW->format(Artist::class));
+        }
+
+        return true;
     }
 
     /**
@@ -42,10 +43,11 @@ class ArtistPolicy
      */
     public function view(?User $user): bool
     {
-        return Nova::whenServing(
-            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW->format(Artist::class)),
-            fn (): bool => true
-        );
+        if (Filament::isServing()) {
+            return $user !== null && $user->can(CrudPermission::VIEW->format(Artist::class));
+        }
+
+        return true;
     }
 
     /**
@@ -68,7 +70,7 @@ class ArtistPolicy
      */
     public function update(User $user, Artist $artist): bool
     {
-        return ! $artist->trashed() && $user->can(CrudPermission::UPDATE->format(Artist::class));
+        return !$artist->trashed() && $user->can(CrudPermission::UPDATE->format(Artist::class));
     }
 
     /**
@@ -80,7 +82,7 @@ class ArtistPolicy
      */
     public function delete(User $user, Artist $artist): bool
     {
-        return ! $artist->trashed() && $user->can(CrudPermission::DELETE->format(Artist::class));
+        return !$artist->trashed() && $user->can(CrudPermission::DELETE->format(Artist::class));
     }
 
     /**
@@ -242,7 +244,7 @@ class ArtistPolicy
             ->where($image->getKeyName(), $image->getKey())
             ->exists();
 
-        return ! $attached && $user->can(CrudPermission::UPDATE->format(Artist::class));
+        return !$attached && $user->can(CrudPermission::UPDATE->format(Artist::class));
     }
 
     /**

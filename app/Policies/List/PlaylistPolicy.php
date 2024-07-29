@@ -14,7 +14,6 @@ use App\Models\Wiki\Image;
 use App\Pivots\List\PlaylistImage;
 use Filament\Facades\Filament;
 use Illuminate\Auth\Access\HandlesAuthorization;
-use Laravel\Nova\Nova;
 
 /**
  * Class PlaylistPolicy.
@@ -35,10 +34,7 @@ class PlaylistPolicy
             return $user !== null && $user->hasRole(RoleEnum::ADMIN->value);
         }
 
-        return Nova::whenServing(
-            fn (): bool => $user !== null && $user->hasRole(RoleEnum::ADMIN->value),
-            fn (): bool => $user === null || $user->can(CrudPermission::VIEW->format(Playlist::class))
-        );
+        return $user === null || $user->can(CrudPermission::VIEW->format(Playlist::class));
     }
 
     /**
@@ -54,12 +50,9 @@ class PlaylistPolicy
             return $user !== null && $user->hasRole(RoleEnum::ADMIN->value);
         }
 
-        return Nova::whenServing(
-            fn (): bool => $user !== null && $user->hasRole(RoleEnum::ADMIN->value),
-            fn (): bool => $user !== null
-                ? ($user->getKey() === $playlist->user_id || PlaylistVisibility::PRIVATE !== $playlist->visibility) && $user->can(CrudPermission::VIEW->format(Playlist::class))
-                : PlaylistVisibility::PRIVATE !== $playlist->visibility
-        );
+        return $user !== null
+            ? ($user->getKey() === $playlist->user_id || PlaylistVisibility::PRIVATE !== $playlist->visibility) && $user->can(CrudPermission::VIEW->format(Playlist::class))
+            : PlaylistVisibility::PRIVATE !== $playlist->visibility;
     }
 
     /**
@@ -74,10 +67,7 @@ class PlaylistPolicy
             return $user->hasRole(RoleEnum::ADMIN->value);
         }
 
-        return Nova::whenServing(
-            fn (): bool => $user->hasRole(RoleEnum::ADMIN->value),
-            fn (): bool => $user->can(CrudPermission::CREATE->format(Playlist::class))
-        );
+        return $user->can(CrudPermission::CREATE->format(Playlist::class));
     }
 
     /**
@@ -93,10 +83,7 @@ class PlaylistPolicy
             return $user->hasRole(RoleEnum::ADMIN->value);
         }
 
-        return Nova::whenServing(
-            fn (): bool => $user->hasRole(RoleEnum::ADMIN->value),
-            fn (): bool => ! $playlist->trashed() && $user->getKey() === $playlist->user_id && $user->can(CrudPermission::UPDATE->format(Playlist::class))
-        );
+        return !$playlist->trashed() && $user->getKey() === $playlist->user_id && $user->can(CrudPermission::UPDATE->format(Playlist::class));
     }
 
     /**
@@ -112,10 +99,7 @@ class PlaylistPolicy
             return $user->hasRole(RoleEnum::ADMIN->value);
         }
 
-        return Nova::whenServing(
-            fn (): bool => $user->hasRole(RoleEnum::ADMIN->value),
-            fn (): bool => ! $playlist->trashed() && $user->getKey() === $playlist->user_id && $user->can(CrudPermission::DELETE->format(Playlist::class))
-        );
+        return !$playlist->trashed() && $user->getKey() === $playlist->user_id && $user->can(CrudPermission::DELETE->format(Playlist::class));
     }
 
     /**
@@ -131,10 +115,7 @@ class PlaylistPolicy
             return $user->hasRole(RoleEnum::ADMIN->value);
         }
 
-        return Nova::whenServing(
-            fn (): bool => $user->hasRole(RoleEnum::ADMIN->value),
-            fn (): bool => $playlist->trashed() && $user->getKey() === $playlist->user_id && $user->can(ExtendedCrudPermission::RESTORE->format(Playlist::class))
-        );
+        return $playlist->trashed() && $user->getKey() === $playlist->user_id && $user->can(ExtendedCrudPermission::RESTORE->format(Playlist::class));
     }
 
     /**
@@ -185,7 +166,7 @@ class PlaylistPolicy
             ->where($playlist->getKeyName(), $playlist->getKey())
             ->exists();
 
-        return ! $attached && $user->hasRole(RoleEnum::ADMIN->value);
+        return !$attached && $user->hasRole(RoleEnum::ADMIN->value);
     }
 
     /**

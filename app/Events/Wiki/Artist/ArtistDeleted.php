@@ -7,7 +7,6 @@ namespace App\Events\Wiki\Artist;
 use App\Events\Base\Wiki\WikiDeletedEvent;
 use App\Filament\Resources\Wiki\Artist as ArtistFilament;
 use App\Models\Wiki\Artist;
-use App\Nova\Resources\Wiki\Artist as ArtistResource;
 
 /**
  * Class ArtistDeleted.
@@ -47,25 +46,13 @@ class ArtistDeleted extends WikiDeletedEvent
     }
 
     /**
-     * Get the message for the nova notification.
+     * Get the message for the filament notification.
      *
      * @return string
      */
     protected function getNotificationMessage(): string
     {
         return "Artist '{$this->getModel()->getName()}' has been deleted. It will be automatically pruned in one week. Please review.";
-    }
-
-    /**
-     * Get the URL for the nova notification.
-     *
-     * @return string
-     */
-    protected function getNovaNotificationUrl(): string
-    {
-        $uriKey = ArtistResource::uriKey();
-
-        return "/resources/$uriKey/{$this->getModel()->getKey()}";
     }
 
     /**

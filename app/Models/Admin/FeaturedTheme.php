@@ -17,7 +17,6 @@ use Database\Factories\Admin\FeaturedThemeFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
-use Laravel\Nova\Actions\Actionable;
 
 /**
  * Class FeaturedTheme.
@@ -36,8 +35,6 @@ use Laravel\Nova\Actions\Actionable;
  */
 class FeaturedTheme extends BaseModel
 {
-    use Actionable;
-
     final public const TABLE = 'featured_themes';
 
     final public const ATTRIBUTE_END_AT = 'end_at';

@@ -12,8 +12,6 @@ use App\Models\List\ExternalProfile;
 use App\Models\List\External\ExternalEntry;
 use Filament\Facades\Filament;
 use Illuminate\Auth\Access\HandlesAuthorization;
-use Illuminate\Http\Request;
-use Laravel\Nova\Nova;
 
 /**
  * Class ExternalEntryPolicy.
@@ -34,17 +32,12 @@ class ExternalEntryPolicy
             return $user !== null && $user->hasRole('Admin');
         }
 
-        return Nova::whenServing(
-            fn (): bool => $user !== null && $user->hasRole('Admin'),
-            function (Request $request) use ($user): bool {
-                /** @var ExternalProfile|null $profile */
-                $profile = $request->route('externalprofile');
+        /** @var ExternalProfile|null $profile */
+        $profile = request()->route('externalprofile');
 
-                return $user !== null
-                    ? ($user->getKey() === $profile?->user_id || ExternalProfileVisibility::PRIVATE !== $profile?->visibility) && $user->can(CrudPermission::VIEW->format(ExternalEntry::class))
-                    : ExternalProfileVisibility::PRIVATE !== $profile?->visibility;
-            }
-        );
+        return $user !== null
+            ? ($user->getKey() === $profile?->user_id || ExternalProfileVisibility::PRIVATE !== $profile?->visibility) && $user->can(CrudPermission::VIEW->format(ExternalEntry::class))
+            : ExternalProfileVisibility::PRIVATE !== $profile?->visibility;
     }
 
     /**
@@ -62,17 +55,12 @@ class ExternalEntryPolicy
             return $user !== null && $user->hasRole('Admin');
         }
 
-        return Nova::whenServing(
-            fn (): bool => $user !== null && $user->hasRole('Admin'),
-            function (Request $request) use ($user): bool {
-                /** @var ExternalProfile|null $profile */
-                $profile = $request->route('externalprofile');
+        /** @var ExternalProfile|null $profile */
+        $profile = request()->route('externalprofile');
 
-                return $user !== null
-                    ? ($user->getKey() === $profile?->user_id || ExternalProfileVisibility::PRIVATE !== $profile?->visibility) && $user->can(CrudPermission::VIEW->format(ExternalEntry::class))
-                    : ExternalProfileVisibility::PRIVATE !== $profile?->visibility;
-            }
-        );
+        return $user !== null
+            ? ($user->getKey() === $profile?->user_id || ExternalProfileVisibility::PRIVATE !== $profile?->visibility) && $user->can(CrudPermission::VIEW->format(ExternalEntry::class))
+            : ExternalProfileVisibility::PRIVATE !== $profile?->visibility;
     }
 
     /**
@@ -87,15 +75,10 @@ class ExternalEntryPolicy
             return $user !== null && $user->hasRole('Admin');
         }
 
-        return Nova::whenServing(
-            fn (): bool => $user->hasRole('Admin'),
-            function (Request $request) use ($user): bool {
-                /** @var ExternalProfile|null $profile */
-                $profile = $request->route('externalprofile');
+        /** @var ExternalProfile|null $profile */
+        $profile = request()->route('externalprofile');
 
-                return $user->getKey() === $profile?->user_id;
-            }
-        );
+        return $user->getKey() === $profile?->user_id;
     }
 
     /**
@@ -113,15 +96,10 @@ class ExternalEntryPolicy
             return $user !== null && $user->hasRole('Admin');
         }
 
-        return Nova::whenServing(
-            fn (): bool => $user->hasRole('Admin'),
-            function (Request $request) use ($user, $entry): bool {
-                /** @var ExternalProfile|null $profile */
-                $profile = $request->route('externalprofile');
+        /** @var ExternalProfile|null $profile */
+        $profile = request()->route('externalprofile');
 
-                return ! $entry->trashed() && $user->getKey() === $profile?->user_id && $user->can(CrudPermission::UPDATE->format(ExternalEntry::class));
-            }
-        );
+        return !$entry->trashed() && $user->getKey() === $profile?->user_id && $user->can(CrudPermission::UPDATE->format(ExternalEntry::class));
     }
 
     /**
@@ -139,15 +117,10 @@ class ExternalEntryPolicy
             return $user !== null && $user->hasRole('Admin');
         }
 
-        return Nova::whenServing(
-            fn (): bool => $user->hasRole('Admin'),
-            function (Request $request) use ($user, $entry): bool {
-                /** @var ExternalProfile|null $profile */
-                $profile = $request->route('externalprofile');
+        /** @var ExternalProfile|null $profile */
+        $profile = request()->route('externalprofile');
 
-                return ! $entry->trashed() && $user->getKey() === $profile?->user_id && $user->can(CrudPermission::DELETE->format(ExternalEntry::class));
-            }
-        );
+        return !$entry->trashed() && $user->getKey() === $profile?->user_id && $user->can(CrudPermission::DELETE->format(ExternalEntry::class));
     }
 
     /**
@@ -165,15 +138,10 @@ class ExternalEntryPolicy
             return $user !== null && $user->hasRole('Admin');
         }
 
-        return Nova::whenServing(
-            fn (): bool => $user->hasRole('Admin'),
-            function (Request $request) use ($user, $entry): bool {
-                /** @var ExternalProfile|null $profile */
-                $profile = $request->route('externalprofile');
+        /** @var ExternalProfile|null $profile */
+        $profile = request()->route('externalprofile');
 
-                return $entry->trashed() && $user->getKey() === $profile?->user_id && $user->can(ExtendedCrudPermission::RESTORE->format(ExternalEntry::class));
-            }
-        );
+        return $entry->trashed() && $user->getKey() === $profile?->user_id && $user->can(ExtendedCrudPermission::RESTORE->format(ExternalEntry::class));
     }
 
     /**

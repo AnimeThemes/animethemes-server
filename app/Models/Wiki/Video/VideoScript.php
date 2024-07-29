@@ -12,7 +12,6 @@ use App\Models\BaseModel;
 use App\Models\Wiki\Video;
 use Database\Factories\Wiki\Video\VideoScriptFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Laravel\Nova\Actions\Actionable;
 
 /**
  * Class VideoScript.
@@ -26,8 +25,6 @@ use Laravel\Nova\Actions\Actionable;
  */
 class VideoScript extends BaseModel
 {
-    use Actionable;
-
     final public const TABLE = 'video_scripts';
 
     final public const ATTRIBUTE_ID = 'script_id';

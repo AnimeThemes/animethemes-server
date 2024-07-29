@@ -10,8 +10,8 @@ use App\Models\Auth\User;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
 use App\Pivots\Wiki\AnimeThemeEntryVideo;
+use Filament\Facades\Filament;
 use Illuminate\Auth\Access\HandlesAuthorization;
-use Laravel\Nova\Nova;
 
 /**
  * Class AnimeThemeEntryPolicy.
@@ -28,10 +28,11 @@ class AnimeThemeEntryPolicy
      */
     public function viewAny(?User $user): bool
     {
-        return Nova::whenServing(
-            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW->format(AnimeThemeEntry::class)),
-            fn (): bool => true
-        );
+        if (Filament::isServing()) {
+            return $user !== null && $user->can(CrudPermission::VIEW->format(AnimeThemeEntry::class));
+        }
+
+        return true;
     }
 
     /**
@@ -42,10 +43,11 @@ class AnimeThemeEntryPolicy
      */
     public function view(?User $user): bool
     {
-        return Nova::whenServing(
-            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW->format(AnimeThemeEntry::class)),
-            fn (): bool => true
-        );
+        if (Filament::isServing()) {
+            return $user !== null && $user->can(CrudPermission::VIEW->format(AnimeThemeEntry::class));
+        }
+
+        return true;
     }
 
     /**
@@ -68,7 +70,7 @@ class AnimeThemeEntryPolicy
      */
     public function update(User $user, AnimeThemeEntry $animethemeentry): bool
     {
-        return ! $animethemeentry->trashed() && $user->can(CrudPermission::UPDATE->format(AnimeThemeEntry::class));
+        return !$animethemeentry->trashed() && $user->can(CrudPermission::UPDATE->format(AnimeThemeEntry::class));
     }
 
     /**
@@ -80,7 +82,7 @@ class AnimeThemeEntryPolicy
      */
     public function delete(User $user, AnimeThemeEntry $animethemeentry): bool
     {
-        return ! $animethemeentry->trashed() && $user->can(CrudPermission::DELETE->format(AnimeThemeEntry::class));
+        return !$animethemeentry->trashed() && $user->can(CrudPermission::DELETE->format(AnimeThemeEntry::class));
     }
 
     /**
@@ -143,7 +145,7 @@ class AnimeThemeEntryPolicy
             ->where($video->getKeyName(), $video->getKey())
             ->exists();
 
-        return ! $attached && $user->can(CrudPermission::UPDATE->format(AnimeThemeEntry::class));
+        return !$attached && $user->can(CrudPermission::UPDATE->format(AnimeThemeEntry::class));
     }
 
     /**

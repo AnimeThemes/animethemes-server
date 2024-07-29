@@ -8,8 +8,8 @@ use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\ExtendedCrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Anime\AnimeTheme;
+use Filament\Facades\Filament;
 use Illuminate\Auth\Access\HandlesAuthorization;
-use Laravel\Nova\Nova;
 
 /**
  * Class AnimeThemePolicy.
@@ -26,10 +26,11 @@ class AnimeThemePolicy
      */
     public function viewAny(?User $user): bool
     {
-        return Nova::whenServing(
-            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW->format(AnimeTheme::class)),
-            fn (): bool => true
-        );
+        if (Filament::isServing()) {
+            return $user !== null && $user->can(CrudPermission::VIEW->format(AnimeTheme::class));
+        }
+
+        return true;
     }
 
     /**
@@ -40,10 +41,11 @@ class AnimeThemePolicy
      */
     public function view(?User $user): bool
     {
-        return Nova::whenServing(
-            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW->format(AnimeTheme::class)),
-            fn (): bool => true
-        );
+        if (Filament::isServing()) {
+            return $user !== null && $user->can(CrudPermission::VIEW->format(AnimeTheme::class));
+        }
+
+        return true;
     }
 
     /**
@@ -66,7 +68,7 @@ class AnimeThemePolicy
      */
     public function update(User $user, AnimeTheme $animetheme): bool
     {
-        return ! $animetheme->trashed() && $user->can(CrudPermission::UPDATE->format(AnimeTheme::class));
+        return !$animetheme->trashed() && $user->can(CrudPermission::UPDATE->format(AnimeTheme::class));
     }
 
     /**
@@ -78,7 +80,7 @@ class AnimeThemePolicy
      */
     public function delete(User $user, AnimeTheme $animetheme): bool
     {
-        return ! $animetheme->trashed() && $user->can(CrudPermission::DELETE->format(AnimeTheme::class));
+        return !$animetheme->trashed() && $user->can(CrudPermission::DELETE->format(AnimeTheme::class));
     }
 
     /**

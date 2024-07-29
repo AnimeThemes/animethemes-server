@@ -8,8 +8,8 @@ use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\ExtendedCrudPermission;
 use App\Models\Auth\User;
 use App\Models\Document\Page;
+use Filament\Facades\Filament;
 use Illuminate\Auth\Access\HandlesAuthorization;
-use Laravel\Nova\Nova;
 
 /**
  * Class PagePolicy.
@@ -26,10 +26,11 @@ class PagePolicy
      */
     public function viewAny(?User $user): bool
     {
-        return Nova::whenServing(
-            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW->format(Page::class)),
-            fn (): bool => true
-        );
+        if (Filament::isServing()) {
+            return $user !== null && $user->can(CrudPermission::VIEW->format(Page::class));
+        }
+
+        return true;
     }
 
     /**
@@ -40,10 +41,11 @@ class PagePolicy
      */
     public function view(?User $user): bool
     {
-        return Nova::whenServing(
-            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW->format(Page::class)),
-            fn (): bool => true
-        );
+        if (Filament::isServing()) {
+            return $user !== null && $user->can(CrudPermission::VIEW->format(Page::class));
+        }
+
+        return true;
     }
 
     /**

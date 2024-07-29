@@ -6,7 +6,6 @@ namespace App\Models\Auth;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
-use Laravel\Nova\Actions\Actionable;
 use Spatie\Permission\Models\Permission as BasePermission;
 
 /**
@@ -20,8 +19,6 @@ use Spatie\Permission\Models\Permission as BasePermission;
  */
 class Permission extends BasePermission
 {
-    use Actionable;
-
     final public const TABLE = 'permissions';
 
     final public const ATTRIBUTE_CREATED_AT = Model::CREATED_AT;

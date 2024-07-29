@@ -7,7 +7,6 @@ namespace App\Events\Wiki\Anime;
 use App\Events\Base\Wiki\WikiDeletedEvent;
 use App\Filament\Resources\Wiki\Anime as AnimeFilament;
 use App\Models\Wiki\Anime;
-use App\Nova\Resources\Wiki\Anime as AnimeResource;
 
 /**
  * Class AnimeDeleted.
@@ -47,25 +46,13 @@ class AnimeDeleted extends WikiDeletedEvent
     }
 
     /**
-     * Get the message for the nova notification.
+     * Get the message for the filament notification.
      *
      * @return string
      */
     protected function getNotificationMessage(): string
     {
         return "Anime '{$this->getModel()->getName()}' has been deleted. It will be automatically pruned in one week. Please review.";
-    }
-
-    /**
-     * Get the URL for the nova notification.
-     *
-     * @return string
-     */
-    protected function getNovaNotificationUrl(): string
-    {
-        $uriKey = AnimeResource::uriKey();
-
-        return "/resources/$uriKey/{$this->getModel()->getKey()}";
     }
 
     /**

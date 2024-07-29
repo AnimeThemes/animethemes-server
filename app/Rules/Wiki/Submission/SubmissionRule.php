@@ -42,39 +42,22 @@ abstract class SubmissionRule implements ValidationRule, ValidatorAwareRule
         /** @var UploadedFile|array $files */
         $files = Arr::get($validator->getData(), 'file');
 
-        // Nova
-        if ($files instanceof UploadedFile) {
+        foreach ($files as $file) {
+            /** @var UploadedFile $file*/
+
             $ffprobeData = Arr::get($validator->getData(), 'ffprobeData');
-            if ($ffprobeData === null && $files !== null) {
-                $ffprobeData = $this->getFFprobeData($files);
+            if ($ffprobeData === null && $file !== null) {
+                $ffprobeData = $this->getFFprobeData($file);
                 $validator->setValue('ffprobeData', $ffprobeData);
             }
             static::$ffprobeData = $ffprobeData;
 
             $loudnessStats = Arr::get($validator->getData(), 'loudnessStats');
-            if ($loudnessStats === null && $files !== null) {
-                $loudnessStats = $this->getLoudnessStats($files);
+            if ($loudnessStats === null && $file !== null) {
+                $loudnessStats = $this->getLoudnessStats($file);
                 $validator->setValue('loudnessStats', $loudnessStats);
             }
             $this->loudnessStats = $loudnessStats;
-        } else { // Filament
-            foreach ($files as $file) {
-                /** @var UploadedFile $file*/
-    
-                $ffprobeData = Arr::get($validator->getData(), 'ffprobeData');
-                if ($ffprobeData === null && $file !== null) {
-                    $ffprobeData = $this->getFFprobeData($file);
-                    $validator->setValue('ffprobeData', $ffprobeData);
-                }
-                static::$ffprobeData = $ffprobeData;
-    
-                $loudnessStats = Arr::get($validator->getData(), 'loudnessStats');
-                if ($loudnessStats === null && $file !== null) {
-                    $loudnessStats = $this->getLoudnessStats($file);
-                    $validator->setValue('loudnessStats', $loudnessStats);
-                }
-                $this->loudnessStats = $loudnessStats;
-            }
         }
 
         return $this;

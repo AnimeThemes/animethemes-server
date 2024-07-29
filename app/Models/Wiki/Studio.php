@@ -19,7 +19,6 @@ use Database\Factories\Wiki\StudioFactory;
 use Elastic\ScoutDriverPlus\Searchable;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Collection;
-use Laravel\Nova\Actions\Actionable;
 
 /**
  * Class Studio.
@@ -34,7 +33,6 @@ use Laravel\Nova\Actions\Actionable;
  */
 class Studio extends BaseModel
 {
-    use Actionable;
     use Searchable;
 
     final public const TABLE = 'studios';

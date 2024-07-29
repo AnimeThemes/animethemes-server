@@ -24,7 +24,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
-use Laravel\Nova\Actions\Actionable;
 
 /**
  * Class Playlist.
@@ -46,7 +45,6 @@ use Laravel\Nova\Actions\Actionable;
  */
 class Playlist extends BaseModel implements HasHashids, Viewable
 {
-    use Actionable;
     use Searchable;
     use InteractsWithViews;
 

@@ -16,7 +16,6 @@ use App\Models\Wiki\Video;
 use Database\Factories\List\Playlist\PlaylistTrackFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Str;
-use Laravel\Nova\Actions\Actionable;
 use Staudenmeir\LaravelAdjacencyList\Eloquent\HasRecursiveRelationships;
 
 /**
@@ -38,7 +37,6 @@ use Staudenmeir\LaravelAdjacencyList\Eloquent\HasRecursiveRelationships;
  */
 class PlaylistTrack extends BaseModel implements HasHashids
 {
-    use Actionable;
     use HasRecursiveRelationships;
 
     final public const TABLE = 'playlist_tracks';

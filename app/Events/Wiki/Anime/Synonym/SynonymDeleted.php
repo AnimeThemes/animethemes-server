@@ -12,7 +12,6 @@ use App\Models\Wiki\Anime\AnimeSynonym;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
-use App\Nova\Resources\Wiki\Anime\Synonym as SynonymResource;
 
 /**
  * Class SynonymDeleted.
@@ -60,25 +59,13 @@ class SynonymDeleted extends WikiDeletedEvent implements UpdateRelatedIndicesEve
     }
 
     /**
-     * Get the message for the nova notification.
+     * Get the message for the filament notification.
      *
      * @return string
      */
     protected function getNotificationMessage(): string
     {
         return "Synonym '{$this->getModel()->getName()}' has been deleted for Anime '{$this->anime->getName()}'. It will be automatically pruned in one week. Please review.";
-    }
-
-    /**
-     * Get the URL for the nova notification.
-     *
-     * @return string
-     */
-    protected function getNovaNotificationUrl(): string
-    {
-        $uriKey = SynonymResource::uriKey();
-
-        return "/resources/$uriKey/{$this->getModel()->getKey()}";
     }
 
     /**

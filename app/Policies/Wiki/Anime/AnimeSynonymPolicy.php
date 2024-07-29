@@ -8,8 +8,8 @@ use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\ExtendedCrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Anime\AnimeSynonym;
+use Filament\Facades\Filament;
 use Illuminate\Auth\Access\HandlesAuthorization;
-use Laravel\Nova\Nova;
 
 /**
  * Class AnimeSynonymPolicy.
@@ -26,10 +26,11 @@ class AnimeSynonymPolicy
      */
     public function viewAny(?User $user): bool
     {
-        return Nova::whenServing(
-            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW->format(AnimeSynonym::class)),
-            fn (): bool => true
-        );
+        if (Filament::isServing()) {
+            return $user !== null && $user->can(CrudPermission::VIEW->format(AnimeSynonym::class));
+        }
+
+        return true;
     }
 
     /**
@@ -40,10 +41,11 @@ class AnimeSynonymPolicy
      */
     public function view(?User $user): bool
     {
-        return Nova::whenServing(
-            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW->format(AnimeSynonym::class)),
-            fn (): bool => true
-        );
+        if (Filament::isServing()) {
+            return $user !== null && $user->can(CrudPermission::VIEW->format(AnimeSynonym::class));
+        }
+
+        return true;
     }
 
     /**
@@ -66,7 +68,7 @@ class AnimeSynonymPolicy
      */
     public function update(User $user, AnimeSynonym $animesynonym): bool
     {
-        return ! $animesynonym->trashed() && $user->can(CrudPermission::UPDATE->format(AnimeSynonym::class));
+        return !$animesynonym->trashed() && $user->can(CrudPermission::UPDATE->format(AnimeSynonym::class));
     }
 
     /**
@@ -78,7 +80,7 @@ class AnimeSynonymPolicy
      */
     public function delete(User $user, AnimeSynonym $animesynonym): bool
     {
-        return ! $animesynonym->trashed() && $user->can(CrudPermission::DELETE->format(AnimeSynonym::class));
+        return !$animesynonym->trashed() && $user->can(CrudPermission::DELETE->format(AnimeSynonym::class));
     }
 
     /**

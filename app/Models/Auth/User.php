@@ -27,8 +27,6 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Laravel\Fortify\TwoFactorAuthenticatable;
-use Laravel\Nova\Actions\Actionable;
-use Laravel\Nova\Auth\Impersonatable;
 use Laravel\Sanctum\HasApiTokens;
 use Laravel\Sanctum\PersonalAccessToken;
 use Spatie\Permission\Traits\HasRoles;
@@ -56,11 +54,9 @@ use Spatie\Permission\Traits\HasRoles;
  */
 class User extends Authenticatable implements MustVerifyEmail, Nameable, HasSubtitle, FilamentUser, HasAvatar
 {
-    use Actionable;
     use HasApiTokens;
     use HasFactory;
     use HasRoles;
-    use Impersonatable;
     use Notifiable;
     use SoftDeletes;
     use TwoFactorAuthenticatable;

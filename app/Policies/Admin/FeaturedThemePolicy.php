@@ -11,7 +11,6 @@ use App\Models\Auth\User;
 use Filament\Facades\Filament;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Support\Facades\Date;
-use Laravel\Nova\Nova;
 
 /**
  * Class FeaturedThemePolicy.
@@ -32,10 +31,7 @@ class FeaturedThemePolicy
             return $user !== null && $user->can(CrudPermission::VIEW->format(FeaturedTheme::class));
         }
 
-        return Nova::whenServing(
-            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW->format(FeaturedTheme::class)),
-            fn (): bool => true
-        );
+        return true;
     }
 
     /**
@@ -51,10 +47,7 @@ class FeaturedThemePolicy
             return $user !== null && $user->can(CrudPermission::VIEW->format(FeaturedTheme::class));
         }
 
-        return Nova::whenServing(
-            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW->format(FeaturedTheme::class)),
-            fn (): bool => $featuredtheme->start_at->isBefore(Date::now())
-        );
+        return true;
     }
 
     /**

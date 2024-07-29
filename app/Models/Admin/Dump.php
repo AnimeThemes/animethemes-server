@@ -10,7 +10,6 @@ use App\Events\Admin\Dump\DumpRestored;
 use App\Events\Admin\Dump\DumpUpdated;
 use App\Models\BaseModel;
 use Database\Factories\Admin\DumpFactory;
-use Laravel\Nova\Actions\Actionable;
 
 /**
  * Class Dump.
@@ -22,8 +21,6 @@ use Laravel\Nova\Actions\Actionable;
  */
 class Dump extends BaseModel
 {
-    use Actionable;
-
     final public const TABLE = 'dumps';
 
     final public const ATTRIBUTE_ID = 'dump_id';
