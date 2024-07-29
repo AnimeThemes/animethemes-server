@@ -45,7 +45,7 @@ class FeaturePolicy
             return $user !== null && $user->can(CrudPermission::VIEW->format(Feature::class));
         }
 
-        return true;
+        return $feature->isNullScope();
     }
 
     /**
