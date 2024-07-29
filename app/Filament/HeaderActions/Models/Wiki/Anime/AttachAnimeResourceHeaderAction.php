@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\HeaderActions\Models\Wiki\Anime;
 
-use App\Actions\Models\Wiki\Anime\AttachAnimeResourceAction as AttachAnimeResourceActionAction;
+use App\Actions\Models\Wiki\AttachResourceAction as AttachResourceActionAction;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Filament\HeaderActions\Models\Wiki\AttachResourceHeaderAction;
 use App\Models\Wiki\Anime;
@@ -39,7 +39,7 @@ class AttachAnimeResourceHeaderAction extends AttachResourceHeaderAction
             ResourceSite::WIKI,
         ]);
 
-        $this->action(fn (Anime $record, array $data) => (new AttachAnimeResourceActionAction($this->sites))->handle($record, $data));
+        $this->action(fn (Anime $record, array $data) => (new AttachResourceActionAction($record, $data, $this->sites))->handle());
     }
 
     /**

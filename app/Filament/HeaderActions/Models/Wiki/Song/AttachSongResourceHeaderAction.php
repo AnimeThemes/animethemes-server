@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\HeaderActions\Models\Wiki\Song;
 
-use App\Actions\Models\Wiki\Song\AttachSongResourceAction as AttachSongResourceActionAction;
+use App\Actions\Models\Wiki\AttachResourceAction as AttachResourceActionAction;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Filament\HeaderActions\Models\Wiki\AttachResourceHeaderAction;
 use App\Models\Wiki\Song;
@@ -34,7 +34,7 @@ class AttachSongResourceHeaderAction extends AttachResourceHeaderAction
             ResourceSite::AMAZON_MUSIC,
         ]);
 
-        $this->action(fn (Song $record, array $data) => (new AttachSongResourceActionAction($this->sites))->handle($record, $data));
+        $this->action(fn (Song $record, array $data) => (new AttachResourceActionAction($record, $data, $this->sites))->handle());
     }
 
     /**

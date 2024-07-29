@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\HeaderActions\Models\Wiki\Studio;
 
-use App\Actions\Models\Wiki\Studio\AttachStudioResourceAction as AttachStudioResourceActionAction;
+use App\Actions\Models\Wiki\AttachResourceAction as AttachResourceActionAction;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Filament\HeaderActions\Models\Wiki\AttachResourceHeaderAction;
 use App\Models\Wiki\Studio;
@@ -33,7 +33,7 @@ class AttachStudioResourceHeaderAction extends AttachResourceHeaderAction
             ResourceSite::MAL,
         ]);
 
-        $this->action(fn (Studio $record, array $data) => (new AttachStudioResourceActionAction($this->sites))->handle($record, $data));
+        $this->action(fn (Studio $record, array $data) => (new AttachResourceActionAction($record, $data, $this->sites))->handle());
     }
 
     /**

@@ -74,10 +74,7 @@ abstract class BackfillWikiAction
                 continue;
             }
 
-            $resource = $this->getOrCreateResource($this->getModel()::class, $site, $url);
-
-            Log::info("Attaching Resource '{$resource->getName()}' to {$this->label()} '{$this->getModel()->getName()}'");
-            $this->getModel()->resources()->attach($resource);
+            $this->createResource($url, $site, $this->getModel());
 
             $this->backfilled($site, self::RESOURCES);
         }

@@ -21,6 +21,8 @@ use Illuminate\Support\Str;
  */
 trait CanCreateImage
 {
+    use HasLabel;
+
     /**
      * Create Image from response.
      *
@@ -51,7 +53,7 @@ trait CanCreateImage
             Image::ATTRIBUTE_PATH => $fsFile,
         ]);
 
-        $this->attach($image, $model);
+        $this->attachImage($image, $model);
 
         return $image;
     }
@@ -78,7 +80,7 @@ trait CanCreateImage
             Image::ATTRIBUTE_PATH => $fsFile,
         ]);
 
-        $this->attach($image, $model);
+        $this->attachImage($image, $model);
 
         return $image;
     }
@@ -112,26 +114,15 @@ trait CanCreateImage
      * @param  BaseModel|null  $model
      * @return void
      */
-    protected function attach(Image $image, ?BaseModel $model): void
+    protected function attachImage(Image $image, ?BaseModel $model): void
     {
         if ($model !== null) {
             $images = $model->images();
 
             if ($images instanceof BelongsToMany) {
-                Log::info("Attaching Image {$image->getName()} to {$this->label($model)} {$model->getName()}");
+                Log::info("Attaching Image {$image->getName()} to {$this->privateLabel($model)} {$model->getName()}");
                 $images->attach($image);
             }
         }
-    }
-
-    /**
-     * Get the human-friendly label for the underlying model.
-     *
-     * @param  BaseModel  $model
-     * @return string
-     */
-    private function label(BaseModel $model): string
-    {
-        return Str::headline(class_basename($model));
     }
 }

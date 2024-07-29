@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\HeaderActions\Models\Wiki\Artist;
 
-use App\Actions\Models\Wiki\Artist\AttachArtistResourceAction as AttachArtistResourceActionAction;
+use App\Actions\Models\Wiki\AttachResourceAction as AttachResourceActionAction;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Filament\HeaderActions\Models\Wiki\AttachResourceHeaderAction;
 use App\Models\Wiki\Artist;
@@ -39,7 +39,7 @@ class AttachArtistResourceHeaderAction extends AttachResourceHeaderAction
             ResourceSite::WIKI,
         ]);
 
-        $this->action(fn (Artist $record, array $data) => (new AttachArtistResourceActionAction($this->sites))->handle($record, $data));
+        $this->action(fn (Artist $record, array $data) => (new AttachResourceActionAction($record, $data, $this->sites))->handle());
     }
 
     /**
