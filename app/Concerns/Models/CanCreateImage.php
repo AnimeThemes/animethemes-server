@@ -118,9 +118,20 @@ trait CanCreateImage
             $images = $model->images();
 
             if ($images instanceof BelongsToMany) {
-                Log::info("Attaching Image {$image->getName()} to {$model->getName()}");
+                Log::info("Attaching Image {$image->getName()} to {$this->label($model)} {$model->getName()}");
                 $images->attach($image);
             }
         }
+    }
+
+    /**
+     * Get the human-friendly label for the underlying model.
+     *
+     * @param  BaseModel  $model
+     * @return string
+     */
+    private function label(BaseModel $model): string
+    {
+        return Str::headline(class_basename($model));
     }
 }
