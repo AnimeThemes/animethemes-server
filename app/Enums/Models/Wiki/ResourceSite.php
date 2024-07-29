@@ -121,7 +121,7 @@ enum ResourceSite: int
             ResourceSite::NETFLIX,
             ResourceSite::LIVECHART,
             ResourceSite::APPLE_MUSIC => Str::match('/\d+/', $link),
-        //    ResourceSite::ANIME_PLANET => ResourceSite::parseAnimePlanetIdFromLink($link),
+            ResourceSite::ANIME_PLANET => ResourceSite::parseAnimePlanetIdFromLink($link),
             ResourceSite::KITSU => ResourceSite::parseKitsuIdFromLink($link),
             default => null,
         };
