@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Wiki\Artist\Pages;
 
-use App\Filament\HeaderActions\Models\Wiki\Artist\AttachArtistImageHeaderAction;
 use App\Filament\HeaderActions\Models\Wiki\Artist\AttachArtistResourceHeaderAction;
+use App\Filament\HeaderActions\Models\Wiki\AttachImageHeaderAction;
 use App\Filament\Resources\Base\BaseEditResource;
 use App\Filament\Resources\Wiki\Artist;
 use Filament\Actions\ActionGroup;
@@ -30,7 +30,7 @@ class EditArtist extends BaseEditResource
             parent::getHeaderActions(),
             [
                 ActionGroup::make([
-                    AttachArtistImageHeaderAction::make('attach-artist-image'),
+                    AttachImageHeaderAction::make('attach-artist-image'),
 
                     AttachArtistResourceHeaderAction::make('attach-artist-resource'),
                 ])

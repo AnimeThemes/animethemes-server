@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Wiki;
 
-use App\Filament\Actions\Models\Wiki\Studio\AttachStudioImageAction;
+use App\Filament\Actions\Models\Wiki\AttachImageAction;
 use App\Filament\Actions\Models\Wiki\Studio\AttachStudioResourceAction;
 use App\Filament\Actions\Models\Wiki\Studio\BackfillStudioAction;
 use App\Filament\Components\Columns\TextColumn;
@@ -255,7 +255,7 @@ class Studio extends BaseResource
                 ActionGroup::make([
                     BackfillStudioAction::make('backfill-studio'),
 
-                    AttachStudioImageAction::make('attach-studio-image'),
+                    AttachImageAction::make('attach-studio-image'),
 
                     AttachStudioResourceAction::make('attach-studio-resource'),
                 ])

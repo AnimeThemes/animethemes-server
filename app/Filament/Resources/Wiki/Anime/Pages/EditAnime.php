@@ -6,9 +6,9 @@ namespace App\Filament\Resources\Wiki\Anime\Pages;
 
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Filament\HeaderActions\Discord\DiscordThreadHeaderAction;
-use App\Filament\HeaderActions\Models\Wiki\Anime\AttachAnimeImageHeaderAction;
 use App\Filament\HeaderActions\Models\Wiki\Anime\AttachAnimeResourceHeaderAction;
 use App\Filament\HeaderActions\Models\Wiki\Anime\BackfillAnimeHeaderAction;
+use App\Filament\HeaderActions\Models\Wiki\AttachImageHeaderAction;
 use App\Filament\Resources\Wiki\Anime;
 use App\Filament\Resources\Base\BaseEditResource;
 use Filament\Actions\ActionGroup;
@@ -46,7 +46,7 @@ class EditAnime extends BaseEditResource
 
                     BackfillAnimeHeaderAction::make('backfill-anime'),
 
-                    AttachAnimeImageHeaderAction::make('attach-anime-image'),
+                    AttachImageHeaderAction::make('attach-anime-image'),
 
                     AttachAnimeResourceHeaderAction::make('attach-anime-resource'),
 

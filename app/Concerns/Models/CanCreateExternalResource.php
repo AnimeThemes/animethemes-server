@@ -25,19 +25,15 @@ trait CanCreateExternalResource
     public function getOrCreateResource(string $model, ResourceSite $site, string $url): ExternalResource
     {
         $urlPattern = $site->getUrlCaptureGroups(new $model);
-        Log::info($urlPattern);
         $id = $site::parseIdFromLink($url);
-        Log::info($id);
 
         if (preg_match($urlPattern, $url, $matches)) {
             $url = $site->formatResourceLink($model, intval($matches[2]), $matches[2], $matches[1]);
         }
-        Log::info($url);
 
         if ($id !== null) {
             $url = $site->formatResourceLink($model, intval($id), $id);
         }
-        Log::info($url);
 
         $resource = ExternalResource::query()
             ->where(ExternalResource::ATTRIBUTE_SITE, $site->value)

@@ -8,9 +8,9 @@ use App\Enums\Models\Wiki\AnimeMediaFormat;
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Filament\Actions\Discord\DiscordThreadAction;
-use App\Filament\Actions\Models\Wiki\Anime\AttachAnimeImageAction;
 use App\Filament\Actions\Models\Wiki\Anime\AttachAnimeResourceAction;
 use App\Filament\Actions\Models\Wiki\Anime\BackfillAnimeAction;
+use App\Filament\Actions\Models\Wiki\AttachImageAction;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\Select;
 use App\Filament\Components\Fields\Slug;
@@ -395,7 +395,7 @@ class Anime extends BaseResource
 
                     BackfillAnimeAction::make('backfill-anime'),
 
-                    AttachAnimeImageAction::make('attach-anime-image'),
+                    AttachImageAction::make('attach-anime-image'),
 
                     AttachAnimeResourceAction::make('attach-anime-resource'),
 

@@ -7,7 +7,7 @@ namespace App\Actions\Models;
 use App\Actions\ActionResult;
 use App\Actions\Models\Wiki\ApiAction;
 use App\Concerns\Models\CanCreateExternalResource;
-use App\Concerns\Models\CanCreateImageFromUrl;
+use App\Concerns\Models\CanCreateImage;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\BaseModel;
@@ -22,7 +22,7 @@ use Illuminate\Support\Str;
 abstract class BackfillWikiAction
 {
     use CanCreateExternalResource;
-    use CanCreateImageFromUrl;
+    use CanCreateImage;
 
     final public const RESOURCES = 'resources';
     final public const IMAGES = 'images';
@@ -106,10 +106,7 @@ abstract class BackfillWikiAction
                 continue;
             }
 
-            $image = $this->createImage($url, $facet, $this->getModel());
-
-            Log::info("Attaching Image '{$image->getName()}' to {$this->label()} '{$this->getModel()->getName()}'");
-            $this->getModel()->images()->attach($image);
+            $this->createImageFromUrl($url, $facet, $this->getModel());
 
             $this->backfilled($facet, self::IMAGES);
         }

@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace App\Filament\TableActions\Models\Wiki\Image;
 
-use App\Actions\Models\Wiki\UploadImageAction;
+use App\Concerns\Models\CanCreateImage;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Filament\Components\Fields\Select;
 use App\Filament\TableActions\BaseTableAction;
 use App\Models\Wiki\Image;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Form;
+use Illuminate\Support\Arr;
 use Illuminate\Validation\Rules\Enum;
 
 /**
@@ -18,6 +19,8 @@ use Illuminate\Validation\Rules\Enum;
  */
 class UploadImageTableAction extends BaseTableAction
 {
+    use CanCreateImage;
+
     protected array $facets = [];
 
     /**
@@ -47,9 +50,10 @@ class UploadImageTableAction extends BaseTableAction
      */
     public function handle(array $fields): void
     {
-        $action = new UploadImageAction();
+        $image = Arr::get($fields, Image::ATTRIBUTE_PATH);
+        $facet = ImageFacet::from(intval(Arr::get($fields, Image::ATTRIBUTE_FACET)));
 
-        $action->handle($fields);
+        $this->createImageFromFile($image, $facet);
     }
 
     /**
