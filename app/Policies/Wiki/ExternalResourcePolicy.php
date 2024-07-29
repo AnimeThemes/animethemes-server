@@ -8,8 +8,8 @@ use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\ExtendedCrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\ExternalResource;
+use Filament\Facades\Filament;
 use Illuminate\Auth\Access\HandlesAuthorization;
-use Laravel\Nova\Nova;
 
 /**
  * Class ExternalResourcePolicy.
@@ -26,10 +26,11 @@ class ExternalResourcePolicy
      */
     public function viewAny(?User $user): bool
     {
-        return Nova::whenServing(
-            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW->format(ExternalResource::class)),
-            fn (): bool => true
-        );
+        if (Filament::isServing()) {
+            return $user !== null && $user->can(CrudPermission::VIEW->format(ExternalResource::class));
+        }
+
+        return true;
     }
 
     /**
@@ -40,10 +41,11 @@ class ExternalResourcePolicy
      */
     public function view(?User $user): bool
     {
-        return Nova::whenServing(
-            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW->format(ExternalResource::class)),
-            fn (): bool => true
-        );
+        if (Filament::isServing()) {
+            return $user !== null && $user->can(CrudPermission::VIEW->format(ExternalResource::class));
+        }
+
+        return true;
     }
 
     /**
@@ -66,7 +68,7 @@ class ExternalResourcePolicy
      */
     public function update(User $user, ExternalResource $resource): bool
     {
-        return ! $resource->trashed() && $user->can(CrudPermission::UPDATE->format(ExternalResource::class));
+        return !$resource->trashed() && $user->can(CrudPermission::UPDATE->format(ExternalResource::class));
     }
 
     /**
@@ -78,7 +80,7 @@ class ExternalResourcePolicy
      */
     public function delete(User $user, ExternalResource $resource): bool
     {
-        return ! $resource->trashed() && $user->can(CrudPermission::DELETE->format(ExternalResource::class));
+        return !$resource->trashed() && $user->can(CrudPermission::DELETE->format(ExternalResource::class));
     }
 
     /**

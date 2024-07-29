@@ -8,8 +8,8 @@ use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\ExtendedCrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Audio;
+use Filament\Facades\Filament;
 use Illuminate\Auth\Access\HandlesAuthorization;
-use Laravel\Nova\Nova;
 
 /**
  * Class AudioPolicy.
@@ -26,10 +26,11 @@ class AudioPolicy
      */
     public function viewAny(?User $user): bool
     {
-        return Nova::whenServing(
-            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW->format(Audio::class)),
-            fn (): bool => true
-        );
+        if (Filament::isServing()) {
+            return $user !== null && $user->can(CrudPermission::VIEW->format(Audio::class));
+        }
+
+        return true;
     }
 
     /**
@@ -40,10 +41,11 @@ class AudioPolicy
      */
     public function view(?User $user): bool
     {
-        return Nova::whenServing(
-            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW->format(Audio::class)),
-            fn (): bool => true
-        );
+        if (Filament::isServing()) {
+            return $user !== null && $user->can(CrudPermission::VIEW->format(Audio::class));
+        }
+
+        return true;
     }
 
     /**
@@ -66,7 +68,7 @@ class AudioPolicy
      */
     public function update(User $user, Audio $audio): bool
     {
-        return ! $audio->trashed() && $user->can(CrudPermission::UPDATE->format(Audio::class));
+        return !$audio->trashed() && $user->can(CrudPermission::UPDATE->format(Audio::class));
     }
 
     /**
@@ -78,7 +80,7 @@ class AudioPolicy
      */
     public function delete(User $user, Audio $audio): bool
     {
-        return ! $audio->trashed() && $user->can(CrudPermission::DELETE->format(Audio::class));
+        return !$audio->trashed() && $user->can(CrudPermission::DELETE->format(Audio::class));
     }
 
     /**

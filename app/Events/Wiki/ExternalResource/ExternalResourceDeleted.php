@@ -7,7 +7,6 @@ namespace App\Events\Wiki\ExternalResource;
 use App\Events\Base\Wiki\WikiDeletedEvent;
 use App\Filament\Resources\Wiki\ExternalResource as ExternalResourceFilament;
 use App\Models\Wiki\ExternalResource;
-use App\Nova\Resources\Wiki\ExternalResource as ExternalResourceResource;
 
 /**
  * Class ExternalResourceDeleted.
@@ -47,25 +46,13 @@ class ExternalResourceDeleted extends WikiDeletedEvent
     }
 
     /**
-     * Get the message for the nova notification.
+     * Get the message for the filament notification.
      *
      * @return string
      */
     protected function getNotificationMessage(): string
     {
         return "Resource '{$this->getModel()->getName()}' has been deleted. It will be automatically pruned in one week. Please review.";
-    }
-
-    /**
-     * Get the URL for the nova notification.
-     *
-     * @return string
-     */
-    protected function getNovaNotificationUrl(): string
-    {
-        $uriKey = ExternalResourceResource::uriKey();
-
-        return "/resources/$uriKey/{$this->getModel()->getKey()}";
     }
 
     /**

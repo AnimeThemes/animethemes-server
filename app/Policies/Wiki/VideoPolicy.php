@@ -9,8 +9,8 @@ use App\Enums\Auth\ExtendedCrudPermission;
 use App\Enums\Auth\Role as RoleEnum;
 use App\Models\Auth\User;
 use App\Models\Wiki\Video;
+use Filament\Facades\Filament;
 use Illuminate\Auth\Access\HandlesAuthorization;
-use Laravel\Nova\Nova;
 
 /**
  * Class VideoPolicy.
@@ -27,10 +27,11 @@ class VideoPolicy
      */
     public function viewAny(?User $user): bool
     {
-        return Nova::whenServing(
-            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW->format(Video::class)),
-            fn (): bool => true
-        );
+        if (Filament::isServing()) {
+            return $user !== null && $user->can(CrudPermission::VIEW->format(Video::class));
+        }
+
+        return true;
     }
 
     /**
@@ -41,10 +42,11 @@ class VideoPolicy
      */
     public function view(?User $user): bool
     {
-        return Nova::whenServing(
-            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW->format(Video::class)),
-            fn (): bool => true
-        );
+        if (Filament::isServing()) {
+            return $user !== null && $user->can(CrudPermission::VIEW->format(Video::class));
+        }
+
+        return true;
     }
 
     /**
@@ -67,7 +69,7 @@ class VideoPolicy
      */
     public function update(User $user, Video $video): bool
     {
-        return ! $video->trashed() && $user->can(CrudPermission::UPDATE->format(Video::class));
+        return !$video->trashed() && $user->can(CrudPermission::UPDATE->format(Video::class));
     }
 
     /**
@@ -79,7 +81,7 @@ class VideoPolicy
      */
     public function delete(User $user, Video $video): bool
     {
-        return ! $video->trashed() && $user->can(CrudPermission::DELETE->format(Video::class));
+        return !$video->trashed() && $user->can(CrudPermission::DELETE->format(Video::class));
     }
 
     /**

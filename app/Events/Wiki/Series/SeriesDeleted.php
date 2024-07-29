@@ -7,7 +7,6 @@ namespace App\Events\Wiki\Series;
 use App\Events\Base\Wiki\WikiDeletedEvent;
 use App\Filament\Resources\Wiki\Series as SeriesFilament;
 use App\Models\Wiki\Series;
-use App\Nova\Resources\Wiki\Series as SeriesResource;
 
 /**
  * Class SeriesDeleted.
@@ -47,25 +46,13 @@ class SeriesDeleted extends WikiDeletedEvent
     }
 
     /**
-     * Get the message for the nova notification.
+     * Get the message for the filament notification.
      *
      * @return string
      */
     protected function getNotificationMessage(): string
     {
         return "Series '{$this->getModel()->getName()}' has been deleted. It will be automatically pruned in one week. Please review.";
-    }
-
-    /**
-     * Get the URL for the nova notification.
-     *
-     * @return string
-     */
-    protected function getNovaNotificationUrl(): string
-    {
-        $uriKey = SeriesResource::uriKey();
-
-        return "/resources/$uriKey/{$this->getModel()->getKey()}";
     }
 
     /**

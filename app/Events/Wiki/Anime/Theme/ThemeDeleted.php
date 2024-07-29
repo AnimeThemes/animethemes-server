@@ -8,7 +8,6 @@ use App\Events\Base\Wiki\WikiDeletedEvent;
 use App\Filament\Resources\Wiki\Anime\Theme as ThemeFilament;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
-use App\Nova\Resources\Wiki\Anime\Theme as ThemeResource;
 
 /**
  * Class ThemeDeleted.
@@ -56,25 +55,13 @@ class ThemeDeleted extends WikiDeletedEvent
     }
 
     /**
-     * Get the message for the nova notification.
+     * Get the message for the filament notification.
      *
      * @return string
      */
     protected function getNotificationMessage(): string
     {
         return "Theme '{$this->getModel()->getName()}' has been deleted for Anime '{$this->anime->getName()}'. It will be automatically pruned in one week. Please review.";
-    }
-
-    /**
-     * Get the URL for the nova notification.
-     *
-     * @return string
-     */
-    protected function getNovaNotificationUrl(): string
-    {
-        $uriKey = ThemeResource::uriKey();
-
-        return "/resources/$uriKey/{$this->getModel()->getKey()}";
     }
 
     /**

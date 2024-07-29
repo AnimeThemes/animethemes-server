@@ -8,8 +8,8 @@ use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\ExtendedCrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Song;
+use Filament\Facades\Filament;
 use Illuminate\Auth\Access\HandlesAuthorization;
-use Laravel\Nova\Nova;
 
 /**
  * Class SongPolicy.
@@ -26,10 +26,11 @@ class SongPolicy
      */
     public function viewAny(?User $user): bool
     {
-        return Nova::whenServing(
-            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW->format(Song::class)),
-            fn (): bool => true
-        );
+        if (Filament::isServing()) {
+            return $user !== null && $user->can(CrudPermission::VIEW->format(Song::class));
+        }
+
+        return true;
     }
 
     /**
@@ -40,10 +41,11 @@ class SongPolicy
      */
     public function view(?User $user): bool
     {
-        return Nova::whenServing(
-            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW->format(Song::class)),
-            fn (): bool => true
-        );
+        if (Filament::isServing()) {
+            return $user !== null && $user->can(CrudPermission::VIEW->format(Song::class));
+        }
+
+        return true;
     }
 
     /**
@@ -66,7 +68,7 @@ class SongPolicy
      */
     public function update(User $user, Song $song): bool
     {
-        return ! $song->trashed() && $user->can(CrudPermission::UPDATE->format(Song::class));
+        return !$song->trashed() && $user->can(CrudPermission::UPDATE->format(Song::class));
     }
 
     /**
@@ -78,7 +80,7 @@ class SongPolicy
      */
     public function delete(User $user, Song $song): bool
     {
-        return ! $song->trashed() && $user->can(CrudPermission::DELETE->format(Song::class));
+        return !$song->trashed() && $user->can(CrudPermission::DELETE->format(Song::class));
     }
 
     /**
@@ -158,7 +160,7 @@ class SongPolicy
     {
         return $user->can(CrudPermission::UPDATE->format(Song::class));
     }
-    
+
     /**
      * Determine whether the user can attach any resource to the song.
      *

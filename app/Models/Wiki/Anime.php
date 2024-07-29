@@ -31,7 +31,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Collection;
-use Laravel\Nova\Actions\Actionable;
 
 /**
  * Class Anime.
@@ -56,7 +55,6 @@ use Laravel\Nova\Actions\Actionable;
  */
 class Anime extends BaseModel
 {
-    use Actionable;
     use Searchable;
 
     final public const TABLE = 'anime';

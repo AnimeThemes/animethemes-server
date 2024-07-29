@@ -32,7 +32,6 @@
         <env name="SCOUT_DRIVER" value="null"/>
         <env name="HORIZON_TEAM_ID" value="null"/>
         <env name="TEAM_CREATOR_ID" value="null"/>
-        <env name="NOVA_TEAM_ID" value="null"/>
         <env name="TELESCOPE_TEAM_ID" value="null"/>
     </php>
 </phpunit>

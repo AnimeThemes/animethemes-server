@@ -6,7 +6,6 @@ namespace App\Events\Base\Wiki;
 
 use App\Constants\Config\ServiceConstants;
 use App\Contracts\Events\FilamentNotificationEvent;
-use App\Contracts\Events\NovaNotificationEvent;
 use App\Enums\Auth\Role as RoleEnum;
 use App\Events\Base\BaseDeletedEvent;
 use App\Models\Auth\Role;
@@ -15,7 +14,6 @@ use Filament\Notifications\Actions\Action as NotificationAction;
 use Filament\Notifications\Notification;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
-use Laravel\Nova\Notifications\NovaNotification;
 
 /**
  * Class WikiDeletedEvent.
@@ -24,7 +22,7 @@ use Laravel\Nova\Notifications\NovaNotification;
  *
  * @extends BaseDeletedEvent<TModel>
  */
-abstract class WikiDeletedEvent extends BaseDeletedEvent implements NovaNotificationEvent, FilamentNotificationEvent
+abstract class WikiDeletedEvent extends BaseDeletedEvent implements FilamentNotificationEvent
 {
     /**
      * Get Discord channel the message will be sent to.
@@ -37,56 +35,11 @@ abstract class WikiDeletedEvent extends BaseDeletedEvent implements NovaNotifica
     }
 
     /**
-     * Determine if the notifications should be sent.
-     *
-     * @return bool
-     */
-    public function shouldSendNovaNotification(): bool
-    {
-        $model = $this->getModel();
-
-        return !$model->isForceDeleting();
-    }
-
-    /**
-     * Get the nova notification.
-     *
-     * @return NovaNotification
-     */
-    public function getNovaNotification(): NovaNotification
-    {
-        return NovaNotification::make()
-            ->icon('flag')
-            ->message($this->getNotificationMessage())
-            ->type(NovaNotification::INFO_TYPE)
-            ->url($this->getNovaNotificationUrl());
-    }
-
-    /**
-     * Get the users to notify.
-     *
-     * @return Collection
-     */
-    public function getNovaNotificationRecipients(): Collection
-    {
-        return User::query()
-            ->whereRelation(User::RELATION_ROLES, Role::ATTRIBUTE_NAME, RoleEnum::ADMIN->value)
-            ->get();
-    }
-
-    /**
-     * Get the message for the nova/filament notification.
+     * Get the message for the filament notification.
      *
      * @return string
      */
     abstract protected function getNotificationMessage(): string;
-
-    /**
-     * Get the URL for the nova notification.
-     *
-     * @return string
-     */
-    abstract protected function getNovaNotificationUrl(): string;
 
     /**
      * Determine if the notifications should be sent.
@@ -101,7 +54,7 @@ abstract class WikiDeletedEvent extends BaseDeletedEvent implements NovaNotifica
     }
 
     /**
-     * Get the nova notification.
+     * Get the filament notification.
      *
      * @return Notification
      */
@@ -134,7 +87,7 @@ abstract class WikiDeletedEvent extends BaseDeletedEvent implements NovaNotifica
     }
 
     /**
-     * Get the URL for the nova notification.
+     * Get the URL for the filament notification.
      *
      * @return string
      */

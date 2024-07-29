@@ -10,8 +10,8 @@ use App\Models\Auth\User;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Series;
 use App\Pivots\Wiki\AnimeSeries;
+use Filament\Facades\Filament;
 use Illuminate\Auth\Access\HandlesAuthorization;
-use Laravel\Nova\Nova;
 
 /**
  * Class SeriesPolicy.
@@ -28,10 +28,11 @@ class SeriesPolicy
      */
     public function viewAny(?User $user): bool
     {
-        return Nova::whenServing(
-            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW->format(Series::class)),
-            fn (): bool => true
-        );
+        if (Filament::isServing()) {
+            return $user !== null && $user->can(CrudPermission::VIEW->format(Series::class));
+        }
+
+        return true;
     }
 
     /**
@@ -42,10 +43,11 @@ class SeriesPolicy
      */
     public function view(?User $user): bool
     {
-        return Nova::whenServing(
-            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW->format(Series::class)),
-            fn (): bool => true
-        );
+        if (Filament::isServing()) {
+            return $user !== null && $user->can(CrudPermission::VIEW->format(Series::class));
+        }
+
+        return true;
     }
 
     /**
@@ -68,7 +70,7 @@ class SeriesPolicy
      */
     public function update(User $user, Series $series): bool
     {
-        return ! $series->trashed() && $user->can(CrudPermission::UPDATE->format(Series::class));
+        return !$series->trashed() && $user->can(CrudPermission::UPDATE->format(Series::class));
     }
 
     /**
@@ -80,7 +82,7 @@ class SeriesPolicy
      */
     public function delete(User $user, Series $series): bool
     {
-        return ! $series->trashed() && $user->can(CrudPermission::DELETE->format(Series::class));
+        return !$series->trashed() && $user->can(CrudPermission::DELETE->format(Series::class));
     }
 
     /**
@@ -143,7 +145,7 @@ class SeriesPolicy
             ->where($series->getKeyName(), $series->getKey())
             ->exists();
 
-        return ! $attached && $user->can(CrudPermission::UPDATE->format(Series::class));
+        return !$attached && $user->can(CrudPermission::UPDATE->format(Series::class));
     }
 
     /**

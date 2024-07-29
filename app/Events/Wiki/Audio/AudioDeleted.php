@@ -7,7 +7,6 @@ namespace App\Events\Wiki\Audio;
 use App\Events\Base\Wiki\WikiDeletedEvent;
 use App\Filament\Resources\Wiki\Audio as AudioFilament;
 use App\Models\Wiki\Audio;
-use App\Nova\Resources\Wiki\Audio as AudioResource;
 
 /**
  * Class AudioDeleted.
@@ -47,25 +46,13 @@ class AudioDeleted extends WikiDeletedEvent
     }
 
     /**
-     * Get the message for the nova notification.
+     * Get the message for the filament notification.
      *
      * @return string
      */
     protected function getNotificationMessage(): string
     {
         return "Audio '{$this->getModel()->getName()}' has been deleted. It will be automatically pruned in one week. Please review.";
-    }
-
-    /**
-     * Get the URL for the nova notification.
-     *
-     * @return string
-     */
-    protected function getNovaNotificationUrl(): string
-    {
-        $uriKey = AudioResource::uriKey();
-
-        return "/resources/$uriKey/{$this->getModel()->getKey()}";
     }
 
     /**

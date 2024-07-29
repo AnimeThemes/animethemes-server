@@ -8,8 +8,8 @@ use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\ExtendedCrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Group;
+use Filament\Facades\Filament;
 use Illuminate\Auth\Access\HandlesAuthorization;
-use Laravel\Nova\Nova;
 
 /**
  * Class GroupPolicy.
@@ -26,10 +26,11 @@ class GroupPolicy
      */
     public function viewAny(?User $user): bool
     {
-        return Nova::whenServing(
-            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW->format(Group::class)),
-            fn (): bool => true
-        );
+        if (Filament::isServing()) {
+            return $user !== null && $user->can(CrudPermission::VIEW->format(Group::class));
+        }
+
+        return true;
     }
 
     /**
@@ -40,10 +41,11 @@ class GroupPolicy
      */
     public function view(?User $user): bool
     {
-        return Nova::whenServing(
-            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW->format(Group::class)),
-            fn (): bool => true
-        );
+        if (Filament::isServing()) {
+            return $user !== null && $user->can(CrudPermission::VIEW->format(Group::class));
+        }
+
+        return true;
     }
 
     /**
@@ -66,7 +68,7 @@ class GroupPolicy
      */
     public function update(User $user, Group $group): bool
     {
-        return ! $group->trashed() && $user->can(CrudPermission::UPDATE->format(Group::class));
+        return !$group->trashed() && $user->can(CrudPermission::UPDATE->format(Group::class));
     }
 
     /**
@@ -78,7 +80,7 @@ class GroupPolicy
      */
     public function delete(User $user, Group $group): bool
     {
-        return ! $group->trashed() && $user->can(CrudPermission::DELETE->format(Group::class));
+        return !$group->trashed() && $user->can(CrudPermission::DELETE->format(Group::class));
     }
 
     /**

@@ -19,7 +19,6 @@ parameters:
 
     ignoreErrors:
         - '#Call to an undefined method Mockery\\ExpectationInterface|Mockery\\HigherOrderMessage::once\(\).#'
-        - '#Strict comparison using === between class-string<Laravel\\Nova\\Resource> and null will always evaluate to false.#'
         - '#Call to an undefined method Database\\Factories.*::trashed\(\).#'
         -
             message: '#Call to an undefined static method App\\Models\\BaseModel::search\(\).#'

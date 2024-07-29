@@ -37,7 +37,6 @@
         "laravel/fortify": "^1.16",
         "laravel/framework": "^10.10",
         "laravel/horizon": "^5.12",
-        "laravel/nova": "^4.22.2",
         "laravel/pennant": "^1.2",
         "laravel/sanctum": "^3.2",
         "laravel/scout": "^10.0",
@@ -110,14 +109,7 @@
             "@php artisan key:generate --ansi"
         ],
         "post-update-cmd": [
-            "@php artisan vendor:publish --tag=laravel-assets --ansi --force",
-            "@php artisan nova:publish --ansi"
+            "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
         ]
-    },
-    "repositories": [
-        {
-            "type": "composer",
-            "url": "https://nova.laravel.com"
-        }
-    ]
+    }
 }

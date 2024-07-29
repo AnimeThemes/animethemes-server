@@ -17,8 +17,8 @@ use App\Pivots\List\PlaylistImage;
 use App\Pivots\Wiki\AnimeImage;
 use App\Pivots\Wiki\ArtistImage;
 use App\Pivots\Wiki\StudioImage;
+use Filament\Facades\Filament;
 use Illuminate\Auth\Access\HandlesAuthorization;
-use Laravel\Nova\Nova;
 
 /**
  * Class ImagePolicy.
@@ -35,10 +35,11 @@ class ImagePolicy
      */
     public function viewAny(?User $user): bool
     {
-        return Nova::whenServing(
-            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW->format(Image::class)),
-            fn (): bool => true
-        );
+        if (Filament::isServing()) {
+            return $user !== null && $user->can(CrudPermission::VIEW->format(Image::class));
+        }
+
+        return true;
     }
 
     /**
@@ -49,10 +50,11 @@ class ImagePolicy
      */
     public function view(?User $user): bool
     {
-        return Nova::whenServing(
-            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW->format(Image::class)),
-            fn (): bool => true
-        );
+        if (Filament::isServing()) {
+            return $user !== null && $user->can(CrudPermission::VIEW->format(Image::class));
+        }
+
+        return true;
     }
 
     /**
@@ -75,7 +77,7 @@ class ImagePolicy
      */
     public function update(User $user, Image $image): bool
     {
-        return ! $image->trashed() && $user->can(CrudPermission::UPDATE->format(Image::class));
+        return !$image->trashed() && $user->can(CrudPermission::UPDATE->format(Image::class));
     }
 
     /**
@@ -87,7 +89,7 @@ class ImagePolicy
      */
     public function delete(User $user, Image $image): bool
     {
-        return ! $image->trashed() && $user->can(CrudPermission::DELETE->format(Image::class));
+        return !$image->trashed() && $user->can(CrudPermission::DELETE->format(Image::class));
     }
 
     /**
@@ -150,7 +152,7 @@ class ImagePolicy
             ->where($image->getKeyName(), $image->getKey())
             ->exists();
 
-        return ! $attached && $user->can(CrudPermission::UPDATE->format(Image::class));
+        return !$attached && $user->can(CrudPermission::UPDATE->format(Image::class));
     }
 
     /**
@@ -190,7 +192,7 @@ class ImagePolicy
             ->where($image->getKeyName(), $image->getKey())
             ->exists();
 
-        return ! $attached && $user->can(CrudPermission::UPDATE->format(Image::class));
+        return !$attached && $user->can(CrudPermission::UPDATE->format(Image::class));
     }
 
     /**
@@ -230,7 +232,7 @@ class ImagePolicy
             ->where($studio->getKeyName(), $studio->getKey())
             ->exists();
 
-        return ! $attached && $user->can(CrudPermission::UPDATE->format(Image::class));
+        return !$attached && $user->can(CrudPermission::UPDATE->format(Image::class));
     }
 
     /**
@@ -270,7 +272,7 @@ class ImagePolicy
             ->where($playlist->getKeyName(), $playlist->getKey())
             ->exists();
 
-        return ! $attached && $user->hasRole(RoleEnum::ADMIN->value);
+        return !$attached && $user->hasRole(RoleEnum::ADMIN->value);
     }
 
     /**

@@ -12,8 +12,8 @@ use App\Models\Wiki\Image;
 use App\Models\Wiki\Studio;
 use App\Pivots\Wiki\AnimeStudio;
 use App\Pivots\Wiki\StudioImage;
+use Filament\Facades\Filament;
 use Illuminate\Auth\Access\HandlesAuthorization;
-use Laravel\Nova\Nova;
 
 /**
  * Class StudioPolicy.
@@ -30,10 +30,11 @@ class StudioPolicy
      */
     public function viewAny(?User $user): bool
     {
-        return Nova::whenServing(
-            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW->format(Studio::class)),
-            fn (): bool => true
-        );
+        if (Filament::isServing()) {
+            return $user !== null && $user->can(CrudPermission::VIEW->format(Studio::class));
+        }
+
+        return true;
     }
 
     /**
@@ -44,10 +45,11 @@ class StudioPolicy
      */
     public function view(?User $user): bool
     {
-        return Nova::whenServing(
-            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW->format(Studio::class)),
-            fn (): bool => true
-        );
+        if (Filament::isServing()) {
+            return $user !== null && $user->can(CrudPermission::VIEW->format(Studio::class));
+        }
+
+        return true;
     }
 
     /**
@@ -70,7 +72,7 @@ class StudioPolicy
      */
     public function update(User $user, Studio $studio): bool
     {
-        return ! $studio->trashed() && $user->can(CrudPermission::UPDATE->format(Studio::class));
+        return !$studio->trashed() && $user->can(CrudPermission::UPDATE->format(Studio::class));
     }
 
     /**
@@ -82,7 +84,7 @@ class StudioPolicy
      */
     public function delete(User $user, Studio $studio): bool
     {
-        return ! $studio->trashed() && $user->can(CrudPermission::DELETE->format(Studio::class));
+        return !$studio->trashed() && $user->can(CrudPermission::DELETE->format(Studio::class));
     }
 
     /**
@@ -145,7 +147,7 @@ class StudioPolicy
             ->where($studio->getKeyName(), $studio->getKey())
             ->exists();
 
-        return ! $attached && $user->can(CrudPermission::UPDATE->format(Studio::class));
+        return !$attached && $user->can(CrudPermission::UPDATE->format(Studio::class));
     }
 
     /**
@@ -218,7 +220,7 @@ class StudioPolicy
             ->where($image->getKeyName(), $image->getKey())
             ->exists();
 
-        return ! $attached && $user->can(CrudPermission::UPDATE->format(Studio::class));
+        return !$attached && $user->can(CrudPermission::UPDATE->format(Studio::class));
     }
 
     /**

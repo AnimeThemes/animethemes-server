@@ -15,7 +15,6 @@ use CyrildeWit\EloquentViewable\InteractsWithViews;
 use Database\Factories\Wiki\AudioFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
-use Laravel\Nova\Actions\Actionable;
 
 /**
  * Class Audio.
@@ -32,7 +31,6 @@ use Laravel\Nova\Actions\Actionable;
  */
 class Audio extends BaseModel implements Streamable, Viewable
 {
-    use Actionable;
     use InteractsWithViews;
 
     final public const TABLE = 'audios';

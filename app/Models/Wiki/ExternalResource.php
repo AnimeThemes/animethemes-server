@@ -21,7 +21,6 @@ use App\Pivots\Wiki\StudioResource;
 use Database\Factories\Wiki\ExternalResourceFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Collection;
-use Laravel\Nova\Actions\Actionable;
 
 /**
  * Class Resource.
@@ -39,8 +38,6 @@ use Laravel\Nova\Actions\Actionable;
  */
 class ExternalResource extends BaseModel
 {
-    use Actionable;
-
     final public const TABLE = 'resources';
 
     final public const ATTRIBUTE_EXTERNAL_ID = 'external_id';

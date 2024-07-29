@@ -12,7 +12,6 @@ use Database\Factories\Admin\FeatureFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
-use Laravel\Nova\Actions\Actionable;
 
 /**
  * Class Feature.
@@ -28,7 +27,6 @@ use Laravel\Nova\Actions\Actionable;
  */
 class Feature extends Model
 {
-    use Actionable;
     use HasFactory;
 
     final public const TABLE = 'features';

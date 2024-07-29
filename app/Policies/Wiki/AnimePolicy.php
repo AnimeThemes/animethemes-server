@@ -14,8 +14,8 @@ use App\Models\Wiki\Studio;
 use App\Pivots\Wiki\AnimeImage;
 use App\Pivots\Wiki\AnimeSeries;
 use App\Pivots\Wiki\AnimeStudio;
+use Filament\Facades\Filament;
 use Illuminate\Auth\Access\HandlesAuthorization;
-use Laravel\Nova\Nova;
 
 /**
  * Class AnimePolicy.
@@ -32,10 +32,11 @@ class AnimePolicy
      */
     public function viewAny(?User $user): bool
     {
-        return Nova::whenServing(
-            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW->format(Anime::class)),
-            fn (): bool => true
-        );
+        if (Filament::isServing()) {
+            return $user !== null && $user->can(CrudPermission::VIEW->format(Anime::class));
+        }
+
+        return true;
     }
 
     /**
@@ -46,10 +47,11 @@ class AnimePolicy
      */
     public function view(?User $user): bool
     {
-        return Nova::whenServing(
-            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW->format(Anime::class)),
-            fn (): bool => true
-        );
+        if (Filament::isServing()) {
+            return $user !== null && $user->can(CrudPermission::VIEW->format(Anime::class));
+        }
+
+        return true;
     }
 
     /**
@@ -72,7 +74,7 @@ class AnimePolicy
      */
     public function update(User $user, Anime $anime): bool
     {
-        return ! $anime->trashed() && $user->can(CrudPermission::UPDATE->format(Anime::class));
+        return !$anime->trashed() && $user->can(CrudPermission::UPDATE->format(Anime::class));
     }
 
     /**
@@ -84,7 +86,7 @@ class AnimePolicy
      */
     public function delete(User $user, Anime $anime): bool
     {
-        return ! $anime->trashed() && $user->can(CrudPermission::DELETE->format(Anime::class));
+        return !$anime->trashed() && $user->can(CrudPermission::DELETE->format(Anime::class));
     }
 
     /**
@@ -147,7 +149,7 @@ class AnimePolicy
             ->where($series->getKeyName(), $series->getKey())
             ->exists();
 
-        return ! $attached && $user->can(CrudPermission::UPDATE->format(Anime::class));
+        return !$attached && $user->can(CrudPermission::UPDATE->format(Anime::class));
     }
 
     /**
@@ -220,7 +222,7 @@ class AnimePolicy
             ->where($image->getKeyName(), $image->getKey())
             ->exists();
 
-        return ! $attached && $user->can(CrudPermission::UPDATE->format(Anime::class));
+        return !$attached && $user->can(CrudPermission::UPDATE->format(Anime::class));
     }
 
     /**
@@ -260,7 +262,7 @@ class AnimePolicy
             ->where($studio->getKeyName(), $studio->getKey())
             ->exists();
 
-        return ! $attached && $user->can(CrudPermission::UPDATE->format(Anime::class));
+        return !$attached && $user->can(CrudPermission::UPDATE->format(Anime::class));
     }
 
     /**

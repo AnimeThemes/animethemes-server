@@ -14,7 +14,6 @@ use App\Models\Wiki\Anime\AnimeTheme;
 use Database\Factories\Wiki\GroupFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
-use Laravel\Nova\Actions\Actionable;
 
 /**
  * Class Group.
@@ -28,8 +27,6 @@ use Laravel\Nova\Actions\Actionable;
  */
 class Group extends BaseModel
 {
-    use Actionable;
-
     final public const TABLE = 'groups';
 
     final public const ATTRIBUTE_ID = 'group_id';

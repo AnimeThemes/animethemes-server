@@ -29,7 +29,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Collection;
-use Laravel\Nova\Actions\Actionable;
 
 /**
  * Class Video.
@@ -58,7 +57,6 @@ use Laravel\Nova\Actions\Actionable;
  */
 class Video extends BaseModel implements Streamable, Viewable
 {
-    use Actionable;
     use Searchable;
     use InteractsWithViews;
 

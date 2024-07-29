@@ -10,7 +10,6 @@ use App\Models\Admin\Dump;
 use App\Models\Auth\User;
 use Filament\Facades\Filament;
 use Illuminate\Auth\Access\HandlesAuthorization;
-use Laravel\Nova\Nova;
 
 /**
  * Class DumpPolicy.
@@ -31,10 +30,7 @@ class DumpPolicy
             return $user !== null && $user->can(CrudPermission::VIEW->format(Dump::class));
         }
 
-        return Nova::whenServing(
-            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW->format(Dump::class)),
-            fn (): bool => true
-        );
+        return true;
     }
 
     /**
@@ -49,10 +45,7 @@ class DumpPolicy
             return $user !== null && $user->can(CrudPermission::VIEW->format(Dump::class));
         }
 
-        return Nova::whenServing(
-            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW->format(Dump::class)),
-            fn (): bool => true
-        );
+        return true;
     }
 
     /**

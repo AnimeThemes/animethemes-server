@@ -9,7 +9,6 @@ use App\Models\Admin\Feature;
 use App\Models\Auth\User;
 use Filament\Facades\Filament;
 use Illuminate\Auth\Access\HandlesAuthorization;
-use Laravel\Nova\Nova;
 
 /**
  * Class FeaturePolicy.
@@ -30,10 +29,7 @@ class FeaturePolicy
             return $user !== null && $user->can(CrudPermission::VIEW->format(Feature::class));
         }
 
-        return Nova::whenServing(
-            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW->format(Feature::class)),
-            fn (): bool => true
-        );
+        return true;
     }
 
     /**
@@ -49,10 +45,7 @@ class FeaturePolicy
             return $user !== null && $user->can(CrudPermission::VIEW->format(Feature::class));
         }
 
-        return Nova::whenServing(
-            fn (): bool => $user !== null && $user->can(CrudPermission::VIEW->format(Feature::class)),
-            fn (): bool => $feature->isNullScope()
-        );
+        return true;
     }
 
     /**

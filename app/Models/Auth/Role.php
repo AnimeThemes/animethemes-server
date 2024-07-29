@@ -6,7 +6,6 @@ namespace App\Models\Auth;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
-use Laravel\Nova\Actions\Actionable;
 use Spatie\Permission\Models\Role as BaseRole;
 
 /**
@@ -23,8 +22,6 @@ use Spatie\Permission\Models\Role as BaseRole;
  */
 class Role extends BaseRole
 {
-    use Actionable;
-
     final public const TABLE = 'roles';
 
     final public const ATTRIBUTE_COLOR = 'color';
