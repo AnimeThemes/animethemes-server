@@ -66,7 +66,7 @@ class ResourceLinkFormatTest extends TestCase
     {
         /** @var ResourceSite $site */
         $site = Arr::random([
-            ResourceSite::TWITTER,
+            ResourceSite::X,
             ResourceSite::ANIDB,
             ResourceSite::ANILIST,
             ResourceSite::ANIME_PLANET,
@@ -97,7 +97,7 @@ class ResourceLinkFormatTest extends TestCase
     {
         /** @var ResourceSite $site */
         $site = Arr::random([
-            ResourceSite::TWITTER,
+            ResourceSite::X,
             ResourceSite::ANIDB,
             ResourceSite::ANILIST,
             ResourceSite::ANIME_PLANET,
@@ -156,7 +156,7 @@ class ResourceLinkFormatTest extends TestCase
     {
         /** @var ResourceSite $site */
         $site = Arr::random([
-            ResourceSite::TWITTER,
+            ResourceSite::X,
             ResourceSite::ANIDB,
             ResourceSite::ANILIST,
             ResourceSite::ANIME_PLANET,

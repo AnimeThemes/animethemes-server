@@ -231,7 +231,7 @@ class BackfillAnimeAction extends BaseAction implements ShouldQueue
             self::BACKFILL_ANN_RESOURCE => [ResourceSite::ANN],
             self::BACKFILL_ANIME_PLANET_RESOURCE => [ResourceSite::ANIME_PLANET],
             self::BACKFILL_OTHER_RESOURCES => [
-                ResourceSite::TWITTER, ResourceSite::OFFICIAL_SITE, ResourceSite::NETFLIX, ResourceSite::CRUNCHYROLL,
+                ResourceSite::X, ResourceSite::OFFICIAL_SITE, ResourceSite::NETFLIX, ResourceSite::CRUNCHYROLL,
                 ResourceSite::HIDIVE, ResourceSite::AMAZON_PRIME_VIDEO, ResourceSite::HULU, ResourceSite::DISNEY_PLUS,
             ],
         ];

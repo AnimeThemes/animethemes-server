@@ -200,8 +200,8 @@ return [
                         'official_site' => [
                             'help' => 'Ex: https://kaguya.love/',
                         ],
-                        'twitter' => [
-                            'help' => 'Ex: https://twitter.com/AnimeThemesMoe',
+                        'x' => [
+                            'help' => 'Ex: https://x.com/AnimeThemesMoe',
                         ],
                         'anidb' => [
                             'help' => 'Ex: https://anidb.net/anime/11746, https://anidb.net/creator/10759',

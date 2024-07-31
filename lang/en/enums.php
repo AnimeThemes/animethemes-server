@@ -75,7 +75,7 @@ return [
     ],
     ResourceSite::class => [
         ResourceSite::OFFICIAL_SITE->name => 'Official Website',
-        ResourceSite::TWITTER->name => 'Twitter',
+        ResourceSite::X->name => 'X',
         ResourceSite::ANIDB->name => 'aniDB',
         ResourceSite::ANILIST->name => 'AniList',
         ResourceSite::ANIME_PLANET->name => 'Anime-Planet',

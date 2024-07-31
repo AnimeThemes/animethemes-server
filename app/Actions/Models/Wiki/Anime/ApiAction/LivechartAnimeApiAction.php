@@ -70,7 +70,7 @@ class LivechartAnimeApiAction extends ApiAction
             ResourceSite::KITSU->value => 'kitsu_url',
             ResourceSite::MAL->value => 'mal_url',
             ResourceSite::OFFICIAL_SITE->value => 'website_url',
-            ResourceSite::TWITTER->value => 'twitter_url',
+            ResourceSite::X->value => 'twitter_url',
         ];
     }
 

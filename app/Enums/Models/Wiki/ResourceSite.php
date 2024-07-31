@@ -25,7 +25,7 @@ enum ResourceSite: int
 
     // Official Media
     case OFFICIAL_SITE = 0;
-    case TWITTER = 1;
+    case X = 1;
 
     // Tracking Sites
     case ANIDB = 2;
@@ -63,7 +63,7 @@ enum ResourceSite: int
     public static function getDomain(?int $value): ?string
     {
         return match ($value) {
-            ResourceSite::TWITTER->value => 'twitter.com',
+            ResourceSite::X->value => 'x.com',
             ResourceSite::ANIDB->value => 'anidb.net',
             ResourceSite::ANILIST->value => 'anilist.co',
             ResourceSite::ANIME_PLANET->value => 'www.anime-planet.com',
@@ -206,7 +206,7 @@ enum ResourceSite: int
     {
         return match ($modelClass) {
             Anime::class => [
-                ResourceSite::TWITTER,
+                ResourceSite::X,
                 ResourceSite::ANIDB,
                 ResourceSite::ANILIST,
                 ResourceSite::ANIME_PLANET,
@@ -225,7 +225,7 @@ enum ResourceSite: int
                 ResourceSite::LIVECHART,
             ],
             Artist::class => [
-                ResourceSite::TWITTER,
+                ResourceSite::X,
                 ResourceSite::ANIDB,
                 ResourceSite::ANILIST,
                 ResourceSite::ANIME_PLANET,
@@ -248,7 +248,7 @@ enum ResourceSite: int
                 ResourceSite::WIKI,
             ],
             Studio::class => [
-                ResourceSite::TWITTER,
+                ResourceSite::X,
                 ResourceSite::ANIDB,
                 ResourceSite::ANILIST,
                 ResourceSite::ANIME_PLANET,
@@ -274,7 +274,7 @@ enum ResourceSite: int
     {
         if ($modelClass === Anime::class) {
             return match ($this) {
-                ResourceSite::TWITTER => "https://twitter.com/$slug",
+                ResourceSite::X => "https://x.com/$slug",
                 ResourceSite::ANIDB => "https://anidb.net/anime/$id",
                 ResourceSite::ANILIST => "https://anilist.co/anime/$id",
                 ResourceSite::ANIME_PLANET => "https://www.anime-planet.com/anime/$slug",
@@ -295,7 +295,7 @@ enum ResourceSite: int
 
         if ($modelClass === Artist::class) {
             return match ($this) {
-                ResourceSite::TWITTER => "https://twitter.com/$slug",
+                ResourceSite::X => "https://x.com/$slug",
                 ResourceSite::ANIDB => "https://anidb.net/creator/$id",
                 ResourceSite::ANILIST => "https://anilist.co/staff/$id",
                 ResourceSite::ANIME_PLANET => "https://www.anime-planet.com/people/$slug",
@@ -322,7 +322,7 @@ enum ResourceSite: int
 
         if ($modelClass === Studio::class) {
             return match ($this) {
-                ResourceSite::TWITTER => "https://twitter.com/$slug",
+                ResourceSite::X => "https://x.com/$slug",
                 ResourceSite::ANIDB => "https://anidb.net/creator/$id",
                 ResourceSite::ANILIST => "https://anilist.co/studio/$id",
                 ResourceSite::ANIME_PLANET => "https://www.anime-planet.com/anime/studios/$slug",
@@ -346,7 +346,7 @@ enum ResourceSite: int
         // The first capture group refers to $type, the second to $id and $slug of the formatResourceLink method.
         if ($model instanceof Anime) {
             return match ($this) {
-                ResourceSite::TWITTER => '/^https:\/\/(twitter)\.com\/(\w+)/',
+                ResourceSite::X => '/^https:\/\/(x)\.com\/(\w+)/',
                 ResourceSite::ANILIST => '/^https:\/\/anilist\.co\/(anime)\/(\d+)$/',
                 ResourceSite::ANIME_PLANET => '/^https:\/\/www\.anime-planet\.com\/(anime)\/([a-zA-Z0-9-]+)$/',
                 ResourceSite::ANN => '/^https:\/\/www\.animenewsnetwork\.com\/encyclopedia\/(anime)\.php\?id=(\d+)$/',
@@ -367,7 +367,7 @@ enum ResourceSite: int
 
         if ($model instanceof Artist) {
             return match ($this) {
-                ResourceSite::TWITTER => '/^https:\/\/(twitter)\.com\/(\w+)$/',
+                ResourceSite::X => '/^https:\/\/(x)\.com\/(\w+)$/',
                 ResourceSite::ANIDB => '/^https:\/\/anidb\.net\/(creator)\/(?:virtual\/)?(\d+)$/',
                 ResourceSite::ANILIST => '/^https:\/\/anilist\.co\/(staff)\/(\d+)$/',
                 ResourceSite::ANIME_PLANET => '/^https:\/\/www\.anime-planet\.com\/(people)\/([a-zA-Z0-9-]+)$/',
@@ -394,7 +394,7 @@ enum ResourceSite: int
 
         if ($model instanceof Studio) {
             return match ($this) {
-                ResourceSite::TWITTER => '/^https:\/\/(twitter)\.com\/(\w+)$/',
+                ResourceSite::X => '/^https:\/\/(x)\.com\/(\w+)$/',
                 ResourceSite::ANIDB => '/^https:\/\/anidb\.net\/(creator)\/(?:virtual\/)?(\d+)$/',
                 ResourceSite::ANILIST => '/^https:\/\/anilist\.co\/(studio)\/(\d+)$/',
                 ResourceSite::ANIME_PLANET => '/^https:\/\/www\.anime-planet\.com\/anime\/(studios)\/([a-zA-Z0-9-]+)$/',
@@ -417,7 +417,7 @@ enum ResourceSite: int
     {
         if ($modelClass === Anime::class) {
             return match ($this) {
-                ResourceSite::TWITTER => '/^https:\/\/twitter\.com\/\w+$/',
+                ResourceSite::X => '/^https:\/\/x\.com\/\w+$/',
                 ResourceSite::ANIDB => '/^https:\/\/anidb\.net\/anime\/\d+$/',
                 ResourceSite::ANILIST => '/^https:\/\/anilist\.co\/anime\/\d+$/',
                 ResourceSite::ANIME_PLANET => '/^https:\/\/www\.anime-planet\.com\/anime\/[a-zA-Z0-9-]+$/',
@@ -440,7 +440,7 @@ enum ResourceSite: int
 
         if ($modelClass === Artist::class) {
             return match ($this) {
-                ResourceSite::TWITTER => '/^https:\/\/twitter\.com\/\w+$/',
+                ResourceSite::X => '/^https:\/\/x\.com\/\w+$/',
                 ResourceSite::ANIDB => '/^https:\/\/anidb\.net\/creator\/(?:virtual\/)?\d+$/',
                 ResourceSite::ANILIST => '/^https:\/\/anilist\.co\/staff\/\d+$/',
                 ResourceSite::ANIME_PLANET => '/^https:\/\/www\.anime-planet\.com\/people\/[a-zA-Z0-9-]+$/',
@@ -471,7 +471,7 @@ enum ResourceSite: int
 
         if ($modelClass === Studio::class) {
             return match ($this) {
-                ResourceSite::TWITTER => '/^https:\/\/twitter\.com\/\w+$/',
+                ResourceSite::X => '/^https:\/\/x\.com\/\w+$/',
                 ResourceSite::ANIDB => '/^https:\/\/anidb\.net\/creator\/(?:virtual\/)?\d+$/',
                 ResourceSite::ANILIST => '/^https:\/\/anilist\.co\/studio\/\d+$/',
                 ResourceSite::ANIME_PLANET => '/^https:\/\/www\.anime-planet\.com\/anime\/studios\/[a-zA-Z0-9-]+$/',
