@@ -188,6 +188,11 @@ return [
                 'name' => 'Prune Dumps',
             ],
         ],
+        'image' => [
+            'move' => [
+                'name' => 'Move Image',
+            ],
+        ],
         'models' => [
             'assign_hashids' => [
                 'name' => 'Assign Hashids',
