@@ -16,7 +16,7 @@ use App\Filament\Tabs\Artist\Resource\ArtistAnnResourceTab;
 use App\Filament\Tabs\Artist\Resource\ArtistMalResourceTab;
 use App\Filament\Tabs\Artist\Resource\ArtistOfficialSiteResourceTab;
 use App\Filament\Tabs\Artist\Resource\ArtistSpotifyResourceTab;
-use App\Filament\Tabs\Artist\Resource\ArtistTwitterResourceTab;
+use App\Filament\Tabs\Artist\Resource\ArtistXResourceTab;
 use App\Filament\Tabs\Artist\Resource\ArtistYoutubeResourceTab;
 use App\Filament\Tabs\Artist\Song\ArtistSongTab;
 use App\Models\Wiki\Artist as ArtistModel;
@@ -81,7 +81,7 @@ class ListArtists extends BaseListResources
             ArtistMalResourceTab::class,
             ArtistOfficialSiteResourceTab::class,
             ArtistSpotifyResourceTab::class,
-            ArtistTwitterResourceTab::class,
+            ArtistXResourceTab::class,
             ArtistYoutubeResourceTab::class,
             ArtistSongTab::class,
         ]);

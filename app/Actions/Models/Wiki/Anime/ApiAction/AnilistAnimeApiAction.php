@@ -133,7 +133,7 @@ class AnilistAnimeApiAction extends ApiAction
     protected function getResourcesMapping(): array
     {
         return [
-            ResourceSite::TWITTER->value => 'Twitter',
+            ResourceSite::X->value => 'Twitter',
             ResourceSite::OFFICIAL_SITE->value => 'Official Site',
             ResourceSite::NETFLIX->value => 'Netflix',
             ResourceSite::CRUNCHYROLL->value => 'Crunchyroll',

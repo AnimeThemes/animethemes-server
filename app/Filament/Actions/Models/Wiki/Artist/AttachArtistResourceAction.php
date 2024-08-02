@@ -33,7 +33,7 @@ class AttachArtistResourceAction extends AttachResourceAction
             ResourceSite::MAL,
             ResourceSite::OFFICIAL_SITE,
             ResourceSite::SPOTIFY,
-            ResourceSite::TWITTER,
+            ResourceSite::X,
             ResourceSite::YOUTUBE,
             ResourceSite::YOUTUBE_MUSIC,
             ResourceSite::WIKI,

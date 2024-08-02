@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace App\Filament\Tabs\Anime\Resource;
+namespace App\Filament\Tabs\Artist\Resource;
 
 use App\Enums\Models\Wiki\ResourceSite;
-use App\Filament\Tabs\Anime\AnimeResourceTab;
+use App\Filament\Tabs\Artist\ArtistResourceTab;
 
 /**
- * Class AnimeTwitterResourceTab.
+ * Class ArtistXResourceTab.
  */
-class AnimeTwitterResourceTab extends AnimeResourceTab
+class ArtistXResourceTab extends ArtistResourceTab
 {
     /**
      * Get the key for the tab.
@@ -19,7 +19,7 @@ class AnimeTwitterResourceTab extends AnimeResourceTab
      */
     public static function getKey(): string
     {
-        return 'anime-twitter-resource-tab';
+        return 'artist-x-resource-tab';
     }
 
     /**
@@ -29,6 +29,6 @@ class AnimeTwitterResourceTab extends AnimeResourceTab
      */
     protected static function site(): ResourceSite
     {
-        return ResourceSite::TWITTER;
+        return ResourceSite::X;
     }
 }

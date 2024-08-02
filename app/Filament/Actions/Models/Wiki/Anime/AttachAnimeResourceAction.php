@@ -34,7 +34,7 @@ class AttachAnimeResourceAction extends AttachResourceAction
             ResourceSite::LIVECHART,
             ResourceSite::MAL,
             ResourceSite::OFFICIAL_SITE,
-            ResourceSite::TWITTER,
+            ResourceSite::X,
             ResourceSite::YOUTUBE,
             ResourceSite::WIKI,
         ]);

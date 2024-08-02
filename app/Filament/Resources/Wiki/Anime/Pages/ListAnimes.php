@@ -17,7 +17,7 @@ use App\Filament\Tabs\Anime\Resource\AnimeKitsuResourceTab;
 use App\Filament\Tabs\Anime\Resource\AnimeMalResourceTab;
 use App\Filament\Tabs\Anime\Resource\AnimeOfficialSiteResourceTab;
 use App\Filament\Tabs\Anime\Resource\AnimePlanetResourceTab;
-use App\Filament\Tabs\Anime\Resource\AnimeTwitterResourceTab;
+use App\Filament\Tabs\Anime\Resource\AnimeXResourceTab;
 use App\Filament\Tabs\Anime\Resource\AnimeYoutubeResourceTab;
 use App\Filament\Tabs\Anime\Studio\AnimeStudioTab;
 use App\Models\Wiki\Anime as AnimeModel;
@@ -82,7 +82,7 @@ class ListAnimes extends BaseListResources
             AnimeMalResourceTab::class,
             AnimeOfficialSiteResourceTab::class,
             AnimePlanetResourceTab::class,
-            AnimeTwitterResourceTab::class,
+            AnimeXResourceTab::class,
             AnimeYoutubeResourceTab::class,
             AnimeStreamingResourceTab::class,
             AnimeStudioTab::class,

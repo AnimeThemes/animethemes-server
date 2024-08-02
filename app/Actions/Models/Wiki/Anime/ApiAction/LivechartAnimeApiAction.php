@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Actions\Models\Wiki\Anime\ApiAction;
 
 use App\Actions\Models\Wiki\ApiAction;
-use App\Enums\Models\Wiki\ImageFacet;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Wiki\ExternalResource;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -39,12 +38,7 @@ class LivechartAnimeApiAction extends ApiAction
         if ($resource instanceof ExternalResource) {
             $id = $resource->external_id;
 
-            $response = Http::withHeaders([
-                'accept-encoding' => 'gzip',
-                'connection' => 'Keep-Alive',
-                'host' => 'www.livechart.me',
-                'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36 OPR/109.0.0.0',
-            ])->withoutVerifying()
+            $response = Http::withUserAgent('AnimeThemes/1.0 (https://animethemes.moe)')
                 ->get("https://www.livechart.me/api/v2/anime/$id")
                 ->throw()
                 ->json();
@@ -70,7 +64,7 @@ class LivechartAnimeApiAction extends ApiAction
             ResourceSite::KITSU->value => 'kitsu_url',
             ResourceSite::MAL->value => 'mal_url',
             ResourceSite::OFFICIAL_SITE->value => 'website_url',
-            ResourceSite::TWITTER->value => 'twitter_url',
+            ResourceSite::X->value => 'twitter_url',
         ];
     }
 
