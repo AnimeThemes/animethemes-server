@@ -39,12 +39,7 @@ class LivechartAnimeApiAction extends ApiAction
         if ($resource instanceof ExternalResource) {
             $id = $resource->external_id;
 
-            $response = Http::withHeaders([
-                'accept-encoding' => 'gzip',
-                'connection' => 'Keep-Alive',
-                'host' => 'www.livechart.me',
-                'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36 OPR/109.0.0.0',
-            ])->withoutVerifying()
+            $response = Http::withUserAgent('AnimeThemes/1.0 (https://animethemes.moe)')
                 ->get("https://www.livechart.me/api/v2/anime/$id")
                 ->throw()
                 ->json();

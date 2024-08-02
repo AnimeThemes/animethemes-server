@@ -141,7 +141,8 @@ enum ResourceSite: int
         }
 
         try {
-            $response = Http::get($link)
+            $response = Http::withUserAgent('AnimeThemes/1.0 (https://animethemes.moe)')
+                ->get($link)
                 ->throw()
                 ->body();
 
