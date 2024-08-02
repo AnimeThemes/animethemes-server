@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Actions\Models\Wiki\Anime\ApiAction;
 
 use App\Actions\Models\Wiki\ApiAction;
-use App\Enums\Models\Wiki\ImageFacet;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Wiki\ExternalResource;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
