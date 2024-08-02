@@ -279,7 +279,7 @@ enum ResourceSite: int
                 ResourceSite::ANILIST => "https://anilist.co/anime/$id",
                 ResourceSite::ANIME_PLANET => "https://www.anime-planet.com/anime/$slug",
                 ResourceSite::ANN => "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=$id",
-                ResourceSite::KITSU => "https://kitsu.io/anime/$slug",
+                ResourceSite::KITSU => "https://kitsu.io/anime/$id",
                 ResourceSite::LIVECHART => "https://www.livechart.me/anime/$id",
                 ResourceSite::MAL => "https://myanimelist.net/anime/$id",
                 ResourceSite::YOUTUBE => "https://www.youtube.com/@$slug",

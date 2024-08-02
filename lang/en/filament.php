@@ -216,7 +216,7 @@ return [
                             'help' => 'Ex: https://www.animenewsnetwork.com/encyclopedia/anime.php?id=18558',
                         ],
                         'kitsu' => [
-                            'help' => 'Ex: https://kitsu.io/anime/hibike-euphonium-2',
+                            'help' => 'Ex: https://kitsu.io/anime/hibike-euphonium-2, https://kitsu.io/anime/11474',
                         ],
                         'livechart' => [
                             'help' => 'Ex: https://www.livechart.me/anime/11873',
