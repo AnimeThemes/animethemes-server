@@ -19,4 +19,40 @@ enum ExternalEntryWatchStatus: int
     case DROPPED = 3;
     case PLAN_TO_WATCH = 4;
     case REWATCHING = 5;
+
+    /**
+     * Get the watch status by the MAL key.
+     *
+     * @param  string  $status
+     * @return static
+     */
+    public static function getMalMapping(string $status): static
+    {
+        return match ($status) {
+            'rewatching' => static::REWATCHING,
+            'watching' => static::WATCHING,
+            'completed' => static::COMPLETED,
+            'on_hold' => static::PAUSED,
+            'dropped' => static::DROPPED,
+            'plan_to_watch' => static::PLAN_TO_WATCH,
+        };
+    }
+
+    /**
+     * Get the watch status by the AniList key.
+     *
+     * @param  string  $status
+     * @return static
+     */
+    public static function getAnilistMapping(string $status): static
+    {
+        return match ($status) {
+            'CURRENT' => static::WATCHING,
+            'PLANNING' => static::PLAN_TO_WATCH,
+            'COMPLETED' => static::COMPLETED,
+            'DROPPED' => static::DROPPED,
+            'PAUSED' => static::PAUSED,
+            'REPEATING' => static::REWATCHING,
+        };
+    }
 }
