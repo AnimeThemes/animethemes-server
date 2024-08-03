@@ -188,10 +188,22 @@ return [
                 'name' => 'Prune Dumps',
             ],
         ],
+        'image' => [
+            'move' => [
+                'name' => 'Move Image',
+            ],
+        ],
         'models' => [
             'assign_hashids' => [
                 'name' => 'Assign Hashids',
                 'confirmButtonText' => 'Assign',
+            ],
+            'list' => [
+                'external_profile' => [
+                    'create' => [
+                        'name' => 'Create External Profile',
+                    ],
+                ],
             ],
             'wiki' => [
                 'attach_resource' => [

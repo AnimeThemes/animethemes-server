@@ -51,7 +51,8 @@ class ImageUnlinkedTab extends BaseTab
             ->whereNot(Image::ATTRIBUTE_FACET, ImageFacet::DOCUMENT->value)
             ->whereDoesntHave(Image::RELATION_ANIME)
             ->whereDoesntHave(Image::RELATION_ARTISTS)
-            ->whereDoesntHave(Image::RELATION_STUDIOS);
+            ->whereDoesntHave(Image::RELATION_STUDIOS)
+            ->whereDoesntHave(Image::RELATION_PLAYLISTS);
     }
 
     /**
@@ -67,6 +68,7 @@ class ImageUnlinkedTab extends BaseTab
             ->whereDoesntHave(Image::RELATION_ANIME)
             ->whereDoesntHave(Image::RELATION_ARTISTS)
             ->whereDoesntHave(Image::RELATION_STUDIOS)
+            ->whereDoesntHave(Image::RELATION_PLAYLISTS)
             ->count();
     }
 }
