@@ -21,15 +21,14 @@ enum ExternalProfileSite: int
     /**
      * Get the ResourceSite by the ExternalProfileSite value.
      *
-     * @return ResourceSite|null
+     * @return ResourceSite
      */
-    public function getResourceSite(): ?ResourceSite
+    public function getResourceSite(): ResourceSite
     {
         return match ($this) {
             static::MAL => ResourceSite::MAL,
             static::ANILIST => ResourceSite::ANILIST,
             static::KITSU => ResourceSite::KITSU,
-            default => null,
         };
     }
 }

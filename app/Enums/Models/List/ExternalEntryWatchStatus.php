@@ -34,7 +34,7 @@ enum ExternalEntryWatchStatus: int
             'completed' => static::COMPLETED,
             'on_hold' => static::PAUSED,
             'dropped' => static::DROPPED,
-            'plan_to_watch' => static::PLAN_TO_WATCH,
+            default => static::PLAN_TO_WATCH
         };
     }
 
@@ -48,11 +48,11 @@ enum ExternalEntryWatchStatus: int
     {
         return match ($status) {
             'CURRENT' => static::WATCHING,
-            'PLANNING' => static::PLAN_TO_WATCH,
             'COMPLETED' => static::COMPLETED,
             'DROPPED' => static::DROPPED,
             'PAUSED' => static::PAUSED,
             'REPEATING' => static::REWATCHING,
+            default => static::PLAN_TO_WATCH,
         };
     }
 }

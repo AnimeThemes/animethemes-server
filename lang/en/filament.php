@@ -198,6 +198,13 @@ return [
                 'name' => 'Assign Hashids',
                 'confirmButtonText' => 'Assign',
             ],
+            'list' => [
+                'external_profile' => [
+                    'create' => [
+                        'name' => 'Create External Profile',
+                    ],
+                ],
+            ],
             'wiki' => [
                 'attach_resource' => [
                     'confirmButtonText' => 'Attach',

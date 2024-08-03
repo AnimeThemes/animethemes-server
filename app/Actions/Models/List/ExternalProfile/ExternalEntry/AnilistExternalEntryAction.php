@@ -86,12 +86,11 @@ class AnilistExternalEntryAction extends ExternalEntryAction
                 ->json();
 
             return $response;
+
         } catch (RequestException $e) {
             Log::error($e->getMessage());
 
             throw $e;
         }
-
-        return null;
     }
 }
