@@ -10,11 +10,10 @@ use App\Actions\Models\Wiki\Anime\ApiAction\AnilistAnimeApiAction;
 use App\Actions\Models\Wiki\Anime\ApiAction\JikanAnimeApiAction;
 use App\Actions\Models\Wiki\Anime\ApiAction\LivechartAnimeApiAction;
 use App\Actions\Models\Wiki\Anime\ApiAction\MalAnimeApiAction;
+use App\Concerns\Models\CanCreateAnimeSynonym;
 use App\Concerns\Models\CanCreateStudio;
 use App\Enums\Actions\ActionStatus;
-use App\Enums\Models\Wiki\AnimeSynonymType;
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\Anime\AnimeSynonym;
 use Exception;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
@@ -25,6 +24,7 @@ use Illuminate\Support\Facades\Log;
  */
 class BackfillAnimeAction extends BackfillWikiAction
 {
+    use CanCreateAnimeSynonym;
     use CanCreateStudio;
 
     final public const STUDIOS = 'studios';
@@ -124,10 +124,10 @@ class BackfillAnimeAction extends BackfillWikiAction
             Log::info("Attaching Studio of name '$name' to Anime {$this->getModel()->getName()}");
             $this->getModel()->studios()->attach($studio);
 
-            $this->toBackfill[self::STUDIOS] = false;
-
             $this->ensureStudioHasResource($studio, $response->getSite(), $id);
         }
+
+        $this->toBackfill[self::STUDIOS] = false;
     }
 
     /**
@@ -141,22 +141,10 @@ class BackfillAnimeAction extends BackfillWikiAction
         if (!$this->toBackfill[self::SYNONYMS]) return;
 
         foreach ($api->getSynonyms() as $type => $text) {
-            if (
-                $text === null
-                || empty($text)
-                || ($type === AnimeSynonymType::OTHER->value && $text === $this->getModel()->getName())
-            ) continue;
-
-            Log::info("Creating {$text}");
-
-            AnimeSynonym::query()->create([
-                AnimeSynonym::ATTRIBUTE_TEXT => $text,
-                AnimeSynonym::ATTRIBUTE_TYPE => $type,
-                AnimeSynonym::ATTRIBUTE_ANIME => $this->getModel()->getKey(),
-            ]);
-
-            $this->toBackfill[self::SYNONYMS] = false;
+            $this->createAnimeSynonym($text, $type, $this->getModel());
         }
+
+        $this->toBackfill[self::SYNONYMS] = false;
     }
 
     /**

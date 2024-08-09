@@ -162,13 +162,13 @@ class ActionLog extends Model implements Nameable, HasSubtitle
     }
 
     /**
-     * Get the user for the action log.
+     * Get the user id for the action log.
      *
-     * @return User
+     * @return int
      */
-    public static function getUser(): User
+    public static function getUserId(): int
     {
-        return Filament::auth()->user();
+        return Filament::auth()->id();
     }
 
     /**
@@ -180,8 +180,8 @@ class ActionLog extends Model implements Nameable, HasSubtitle
     public static function modelCreated(Model $model): ActionLog
     {
         return ActionLog::query()->create([
-            ActionLog::ATTRIBUTE_BATCH_ID => (string) Str::orderedUuid(),
-            ActionLog::ATTRIBUTE_USER => ActionLog::getUser()->getKey(),
+            ActionLog::ATTRIBUTE_BATCH_ID => Str::orderedUuid()->__toString(),
+            ActionLog::ATTRIBUTE_USER => ActionLog::getUserId(),
             ActionLog::ATTRIBUTE_NAME => 'Create',
             ActionLog::ATTRIBUTE_ACTIONABLE_TYPE => $model->getMorphClass(),
             ActionLog::ATTRIBUTE_ACTIONABLE_ID => $model->getKey(),
@@ -203,8 +203,8 @@ class ActionLog extends Model implements Nameable, HasSubtitle
     public static function modelUpdated(Model $model): ActionLog
     {
         return ActionLog::query()->create([
-            ActionLog::ATTRIBUTE_BATCH_ID => (string) Str::orderedUuid(),
-            ActionLog::ATTRIBUTE_USER => ActionLog::getUser()->getKey(),
+            ActionLog::ATTRIBUTE_BATCH_ID => Str::orderedUuid()->__toString(),
+            ActionLog::ATTRIBUTE_USER => ActionLog::getUserId(),
             ActionLog::ATTRIBUTE_NAME => 'Update',
             ActionLog::ATTRIBUTE_ACTIONABLE_TYPE => $model->getMorphClass(),
             ActionLog::ATTRIBUTE_ACTIONABLE_ID => $model->getKey(),
@@ -250,7 +250,7 @@ class ActionLog extends Model implements Nameable, HasSubtitle
     {
         return ActionLog::query()->create([
             ActionLog::ATTRIBUTE_BATCH_ID => Str::orderedUuid()->__toString(),
-            ActionLog::ATTRIBUTE_USER => ActionLog::getUser()->getKey(),
+            ActionLog::ATTRIBUTE_USER => ActionLog::getUserId(),
             ActionLog::ATTRIBUTE_NAME => $actionName,
             ActionLog::ATTRIBUTE_ACTIONABLE_TYPE => $model->getMorphClass(),
             ActionLog::ATTRIBUTE_ACTIONABLE_ID => $model->getKey(),
@@ -276,7 +276,7 @@ class ActionLog extends Model implements Nameable, HasSubtitle
     {
         return ActionLog::query()->create([
             ActionLog::ATTRIBUTE_BATCH_ID => Str::orderedUuid()->__toString(),
-            ActionLog::ATTRIBUTE_USER => ActionLog::getUser()->getKey(),
+            ActionLog::ATTRIBUTE_USER => ActionLog::getUserId(),
             ActionLog::ATTRIBUTE_NAME => $action,
             ActionLog::ATTRIBUTE_ACTIONABLE_TYPE => $related->getMorphClass(),
             ActionLog::ATTRIBUTE_ACTIONABLE_ID => $related->getKey(),
@@ -301,7 +301,7 @@ class ActionLog extends Model implements Nameable, HasSubtitle
     {
         return ActionLog::query()->create([
             ActionLog::ATTRIBUTE_BATCH_ID => Str::orderedUuid()->__toString(),
-            ActionLog::ATTRIBUTE_USER => ActionLog::getUser()->getKey(),
+            ActionLog::ATTRIBUTE_USER => ActionLog::getUserId(),
             ActionLog::ATTRIBUTE_NAME => $action,
             ActionLog::ATTRIBUTE_ACTIONABLE_TYPE => $related->getMorphClass(),
             ActionLog::ATTRIBUTE_ACTIONABLE_ID => $related->getKey(),
@@ -326,7 +326,7 @@ class ActionLog extends Model implements Nameable, HasSubtitle
     {
         return ActionLog::query()->create([
             ActionLog::ATTRIBUTE_BATCH_ID => $batchId,
-            ActionLog::ATTRIBUTE_USER => ActionLog::getUser()->getKey(),
+            ActionLog::ATTRIBUTE_USER => ActionLog::getUserId(),
             ActionLog::ATTRIBUTE_NAME => $action->getLabel(),
             ActionLog::ATTRIBUTE_ACTIONABLE_TYPE => $model->getMorphClass(),
             ActionLog::ATTRIBUTE_ACTIONABLE_ID => $model->getKey(),
