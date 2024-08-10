@@ -85,7 +85,7 @@ return [
                 'name' => 'Upload Audio',
             ],
             'attach_related_videos' => [
-                'name' => 'Attach Audio to Related Videos',
+                'name' => 'Attach to Related Videos',
             ],
         ],
         'base' => [
