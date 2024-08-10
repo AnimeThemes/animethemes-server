@@ -168,13 +168,13 @@ class DiscordThread extends BaseResource
                     ->label(__('filament.fields.discord_thread.name.name'))
                     ->sortable()
                     ->copyableWithMessage()
+                    ->searchable()
                     ->toggleable(),
 
                 BelongsToColumn::make(DiscordThreadModel::RELATION_ANIME.'.'.Anime::ATTRIBUTE_NAME)
                     ->resource(AnimeResource::class)
                     ->toggleable(),
             ])
-            ->searchable()
             ->defaultSort(BaseModel::CREATED_AT, 'desc');
     }
 
