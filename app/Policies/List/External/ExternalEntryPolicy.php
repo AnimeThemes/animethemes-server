@@ -8,18 +8,18 @@ use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\ExtendedCrudPermission;
 use App\Enums\Models\List\ExternalProfileVisibility;
 use App\Models\Auth\User;
+use App\Models\BaseModel;
 use App\Models\List\ExternalProfile;
 use App\Models\List\External\ExternalEntry;
+use App\Policies\BasePolicy;
 use Filament\Facades\Filament;
-use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class ExternalEntryPolicy.
  */
-class ExternalEntryPolicy
+class ExternalEntryPolicy extends BasePolicy
 {
-    use HandlesAuthorization;
-
     /**
      * Determine whether the user can view any models.
      *
@@ -49,7 +49,7 @@ class ExternalEntryPolicy
      *
      * @noinspection PhpUnusedParameterInspection
      */
-    public function view(?User $user, ExternalEntry $entry): bool
+    public function view(?User $user, BaseModel|Model $entry): bool
     {
         if (Filament::isServing()) {
             return $user !== null && $user->hasRole('Admin');
@@ -90,7 +90,7 @@ class ExternalEntryPolicy
      *
      * @noinspection PhpUnusedParameterInspection
      */
-    public function update(User $user, ExternalEntry $entry): bool
+    public function update(User $user, BaseModel|Model $entry): bool
     {
         if (Filament::isServing()) {
             return $user !== null && $user->hasRole('Admin');
@@ -111,7 +111,7 @@ class ExternalEntryPolicy
      *
      * @noinspection PhpUnusedParameterInspection
      */
-    public function delete(User $user, ExternalEntry $entry): bool
+    public function delete(User $user, BaseModel|Model $entry): bool
     {
         if (Filament::isServing()) {
             return $user !== null && $user->hasRole('Admin');
@@ -132,7 +132,7 @@ class ExternalEntryPolicy
      *
      * @noinspection PhpUnusedParameterInspection
      */
-    public function restore(User $user, ExternalEntry $entry): bool
+    public function restore(User $user, BaseModel|Model $entry): bool
     {
         if (Filament::isServing()) {
             return $user !== null && $user->hasRole('Admin');
@@ -142,16 +142,5 @@ class ExternalEntryPolicy
         $profile = request()->route('externalprofile');
 
         return $entry->trashed() && $user->getKey() === $profile?->user_id && $user->can(ExtendedCrudPermission::RESTORE->format(ExternalEntry::class));
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     *
-     * @param  User  $user
-     * @return bool
-     */
-    public function forceDelete(User $user): bool
-    {
-        return $user->can(ExtendedCrudPermission::FORCE_DELETE->format(ExternalEntry::class));
     }
 }

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Policies\Wiki;
 
 use App\Enums\Auth\CrudPermission;
-use App\Enums\Auth\ExtendedCrudPermission;
 use App\Enums\Auth\Role as RoleEnum;
 use App\Models\Auth\User;
 use App\Models\List\Playlist;
@@ -17,115 +16,13 @@ use App\Pivots\List\PlaylistImage;
 use App\Pivots\Wiki\AnimeImage;
 use App\Pivots\Wiki\ArtistImage;
 use App\Pivots\Wiki\StudioImage;
-use Filament\Facades\Filament;
-use Illuminate\Auth\Access\HandlesAuthorization;
+use App\Policies\BasePolicy;
 
 /**
  * Class ImagePolicy.
  */
-class ImagePolicy
+class ImagePolicy extends BasePolicy
 {
-    use HandlesAuthorization;
-
-    /**
-     * Determine whether the user can view any models.
-     *
-     * @param  User|null  $user
-     * @return bool
-     */
-    public function viewAny(?User $user): bool
-    {
-        if (Filament::isServing()) {
-            return $user !== null && $user->can(CrudPermission::VIEW->format(Image::class));
-        }
-
-        return true;
-    }
-
-    /**
-     * Determine whether the user can view the model.
-     *
-     * @param  User|null  $user
-     * @return bool
-     */
-    public function view(?User $user): bool
-    {
-        if (Filament::isServing()) {
-            return $user !== null && $user->can(CrudPermission::VIEW->format(Image::class));
-        }
-
-        return true;
-    }
-
-    /**
-     * Determine whether the user can create models.
-     *
-     * @param  User  $user
-     * @return bool
-     */
-    public function create(User $user): bool
-    {
-        return $user->can(CrudPermission::CREATE->format(Image::class));
-    }
-
-    /**
-     * Determine whether the user can update the model.
-     *
-     * @param  User  $user
-     * @param  Image  $image
-     * @return bool
-     */
-    public function update(User $user, Image $image): bool
-    {
-        return !$image->trashed() && $user->can(CrudPermission::UPDATE->format(Image::class));
-    }
-
-    /**
-     * Determine whether the user can delete the model.
-     *
-     * @param  User  $user
-     * @param  Image  $image
-     * @return bool
-     */
-    public function delete(User $user, Image $image): bool
-    {
-        return !$image->trashed() && $user->can(CrudPermission::DELETE->format(Image::class));
-    }
-
-    /**
-     * Determine whether the user can restore the model.
-     *
-     * @param  User  $user
-     * @param  Image  $image
-     * @return bool
-     */
-    public function restore(User $user, Image $image): bool
-    {
-        return $image->trashed() && $user->can(ExtendedCrudPermission::RESTORE->format(Image::class));
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     *
-     * @param  User  $user
-     * @return bool
-     */
-    public function forceDelete(User $user): bool
-    {
-        return $user->can(ExtendedCrudPermission::FORCE_DELETE->format(Image::class));
-    }
-
-    /**
-     * Determine whether the user can permanently delete any model.
-     *
-     * @param  User  $user
-     * @return bool
-     */
-    public function forceDeleteAny(User $user): bool
-    {
-        return $user->can(ExtendedCrudPermission::FORCE_DELETE->format(Image::class));
-    }
-
     /**
      * Determine whether the user can attach any artist to the image.
      *
