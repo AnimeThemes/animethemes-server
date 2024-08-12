@@ -130,7 +130,7 @@ abstract class BasePolicy
      */
     public function restore(User $user, BaseModel|Model $model): bool
     {
-        return (!($model instanceof BaseModel) || !$model->trashed()) && $user->can(ExtendedCrudPermission::RESTORE->format(static::getModel()));
+        return (!($model instanceof BaseModel) || $model->trashed()) && $user->can(ExtendedCrudPermission::RESTORE->format(static::getModel()));
     }
 
     /**
