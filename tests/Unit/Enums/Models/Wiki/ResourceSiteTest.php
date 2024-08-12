@@ -9,6 +9,7 @@ use App\Models\Wiki\Anime;
 use App\Models\Wiki\Studio;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Http;
 use Tests\TestCase;
 
@@ -134,35 +135,32 @@ class ResourceSiteTest extends TestCase
     }
 
     /**
-     * The Resource Site shall fail to parse the ID from Kitsu if the response is not expected.
+     * The Resource Site shall parse the ID from Kitsu if the link contains an integer.
      *
      * @return void
      */
-    public function testFailParseKitsuIdFromAnimeResource(): void
+    public function testParseKitsuIdForIdFromAnimeResource(): void
     {
-        Http::fake([
-            'https://kitsu.io/api/graphql' => Http::response([
-                $this->faker->word() => $this->faker->word(),
-            ]),
-        ]);
+        $id = $this->faker->randomDigitNotNull();
 
-        $link = ResourceSite::KITSU->formatResourceLink(Anime::class, 
-            $this->faker->randomDigitNotNull(),
-            $this->faker->slug()
-        );
+        $link = ResourceSite::KITSU->formatResourceLink(Anime::class, $id);
 
-        static::assertEmpty(ResourceSite::parseIdFromLink($link));
-        Http::assertSentCount(1);
+        static::assertEquals($id, ResourceSite::parseIdFromLink($link));
     }
 
     /**
-     * The Resource Site shall parse the ID from Kitsu if the response is expected.
+     * The Resource Site shall parse the ID from Kitsu if the link contains an slug.
      *
      * @return void
      */
-    public function testParseKitsuIdFromAnimeResource(): void
+    public function testParseKitsuIdForSlugFromAnimeResource(): void
     {
         $id = $this->faker->randomDigitNotNull();
+        $slug = $this->faker->slug();
+
+        $linkWithSlug = Str::of(ResourceSite::KITSU->formatResourceLink(Anime::class, $id))
+            ->replace($id, $slug)
+            ->__toString();
 
         Http::fake([
             'https://kitsu.io/api/graphql' => Http::response([
@@ -174,9 +172,7 @@ class ResourceSiteTest extends TestCase
             ]),
         ]);
 
-        $link = ResourceSite::KITSU->formatResourceLink(Anime::class, $id, $this->faker->slug());
-
-        static::assertEquals(strval($id), ResourceSite::parseIdFromLink($link));
+        static::assertEquals(strval($id), ResourceSite::parseIdFromLink($linkWithSlug));
         Http::assertSentCount(1);
     }
 }

@@ -9,6 +9,7 @@ use App\Filament\Actions\Base\ViewAction;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Resources\Admin\Exception\Pages\ListExceptions;
 use App\Filament\Resources\Admin\Exception\Pages\ViewException;
+use App\Models\Auth\User;
 use BezhanSalleh\FilamentExceptions\Models\Exception as ExceptionModel;
 use BezhanSalleh\FilamentExceptions\Resources\ExceptionResource;
 use Filament\Facades\Filament;
@@ -53,11 +54,9 @@ class Exception extends ExceptionResource
                         'gray',
                         'success' => fn ($state): bool => $state === 'GET',
                         'primary' => fn ($state): bool => $state === 'POST',
-                        'warning' => fn ($state): bool => $state === 'PUT',
+                        'warning' => fn ($state): bool => $state === 'PUT' || $state === 'PATCH',
                         'danger' => fn ($state): bool => $state === 'DELETE',
-                        'warning' => fn ($state): bool => $state === 'PATCH',
                         'gray' => fn ($state): bool => $state === 'OPTIONS',
-
                     ])
                     ->searchable()
                     ->sortable(),
@@ -103,7 +102,7 @@ class Exception extends ExceptionResource
      */
     public static function canViewAny(): bool
     {
-        /** @var UserModel $user */
+        /** @var User $user */
         $user = Filament::auth()->user();
         return $user->hasRole(Role::ADMIN->value);
     }
