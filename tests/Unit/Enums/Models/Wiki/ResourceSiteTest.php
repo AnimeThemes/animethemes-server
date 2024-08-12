@@ -149,7 +149,7 @@ class ResourceSiteTest extends TestCase
     }
 
     /**
-     * The Resource Site shall parse the ID from Kitsu if the link contains an slug.
+     * The Resource Site shall parse the ID from Kitsu if the link contains a slug.
      *
      * @return void
      */
@@ -159,7 +159,7 @@ class ResourceSiteTest extends TestCase
         $slug = $this->faker->slug();
 
         $linkWithSlug = Str::of(ResourceSite::KITSU->formatResourceLink(Anime::class, $id))
-            ->replace($id, $slug)
+            ->replace(strval($id), $slug)
             ->__toString();
 
         Http::fake([
