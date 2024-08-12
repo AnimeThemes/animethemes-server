@@ -9,19 +9,19 @@ use App\Enums\Auth\ExtendedCrudPermission;
 use App\Enums\Auth\Role as RoleEnum;
 use App\Enums\Models\List\PlaylistVisibility;
 use App\Models\Auth\User;
+use App\Models\BaseModel;
 use App\Models\List\Playlist;
 use App\Models\Wiki\Image;
 use App\Pivots\List\PlaylistImage;
+use App\Policies\BasePolicy;
 use Filament\Facades\Filament;
-use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class PlaylistPolicy.
  */
-class PlaylistPolicy
+class PlaylistPolicy extends BasePolicy
 {
-    use HandlesAuthorization;
-
     /**
      * Determine whether the user can view any models.
      *
@@ -44,7 +44,7 @@ class PlaylistPolicy
      * @param  Playlist  $playlist
      * @return bool
      */
-    public function view(?User $user, Playlist $playlist): bool
+    public function view(?User $user, BaseModel|Model $playlist): bool
     {
         if (Filament::isServing()) {
             return $user !== null && $user->hasRole(RoleEnum::ADMIN->value);
@@ -77,7 +77,7 @@ class PlaylistPolicy
      * @param  Playlist  $playlist
      * @return bool
      */
-    public function update(User $user, Playlist $playlist): bool
+    public function update(User $user, BaseModel|Model $playlist): bool
     {
         if (Filament::isServing()) {
             return $user->hasRole(RoleEnum::ADMIN->value);
@@ -93,7 +93,7 @@ class PlaylistPolicy
      * @param  Playlist  $playlist
      * @return bool
      */
-    public function delete(User $user, Playlist $playlist): bool
+    public function delete(User $user, BaseModel|Model $playlist): bool
     {
         if (Filament::isServing()) {
             return $user->hasRole(RoleEnum::ADMIN->value);
@@ -109,24 +109,13 @@ class PlaylistPolicy
      * @param  Playlist  $playlist
      * @return bool
      */
-    public function restore(User $user, Playlist $playlist): bool
+    public function restore(User $user, BaseModel|Model $playlist): bool
     {
         if (Filament::isServing()) {
             return $user->hasRole(RoleEnum::ADMIN->value);
         }
 
         return $playlist->trashed() && $user->getKey() === $playlist->user_id && $user->can(ExtendedCrudPermission::RESTORE->format(Playlist::class));
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     *
-     * @param  User  $user
-     * @return bool
-     */
-    public function forceDelete(User $user): bool
-    {
-        return $user->can(ExtendedCrudPermission::FORCE_DELETE->format(Playlist::class));
     }
 
     /**

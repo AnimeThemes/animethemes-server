@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace App\Exceptions;
 
+use BezhanSalleh\FilamentExceptions\FilamentExceptions;
+use Filament\Facades\Filament;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Throwable;
 
 /**
  * Class Handler.
@@ -21,4 +24,18 @@ class Handler extends ExceptionHandler
         'password',
         'password_confirmation',
     ];
+
+    /**
+     * Register the exception handling callbacks for the application.
+     *
+     * @return void
+     */
+    public function register(): void
+    {
+        $this->reportable(function (Throwable $e) {
+            if (Filament::isServing() && $this->shouldReport($e)) {
+                FilamentExceptions::report($e);
+            }
+        });
+    }
 }

@@ -9,18 +9,18 @@ use App\Enums\Auth\ExtendedCrudPermission;
 use App\Enums\Auth\Role as RoleEnum;
 use App\Enums\Models\List\PlaylistVisibility;
 use App\Models\Auth\User;
+use App\Models\BaseModel;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
+use App\Policies\BasePolicy;
 use Filament\Facades\Filament;
-use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class TrackPolicy.
  */
-class PlaylistTrackPolicy
+class PlaylistTrackPolicy extends BasePolicy
 {
-    use HandlesAuthorization;
-
     /**
      * Determine whether the user can view any models.
      *
@@ -50,7 +50,7 @@ class PlaylistTrackPolicy
      *
      * @noinspection PhpUnusedParameterInspection
      */
-    public function view(?User $user, PlaylistTrack $track): bool
+    public function view(?User $user, BaseModel|Model $track): bool
     {
         if (Filament::isServing()) {
             return $user !== null && $user->hasRole(RoleEnum::ADMIN->value);
@@ -91,7 +91,7 @@ class PlaylistTrackPolicy
      *
      * @noinspection PhpUnusedParameterInspection
      */
-    public function update(User $user, PlaylistTrack $track): bool
+    public function update(User $user, BaseModel|Model $track): bool
     {
         if (Filament::isServing()) {
             return $user !== null && $user->hasRole(RoleEnum::ADMIN->value);
@@ -112,7 +112,7 @@ class PlaylistTrackPolicy
      *
      * @noinspection PhpUnusedParameterInspection
      */
-    public function delete(User $user, PlaylistTrack $track): bool
+    public function delete(User $user, BaseModel|Model $track): bool
     {
         if (Filament::isServing()) {
             return $user !== null && $user->hasRole(RoleEnum::ADMIN->value);
@@ -133,7 +133,7 @@ class PlaylistTrackPolicy
      *
      * @noinspection PhpUnusedParameterInspection
      */
-    public function restore(User $user, PlaylistTrack $track): bool
+    public function restore(User $user, BaseModel|Model $track): bool
     {
         if (Filament::isServing()) {
             return $user !== null && $user->hasRole(RoleEnum::ADMIN->value);
@@ -143,16 +143,5 @@ class PlaylistTrackPolicy
         $playlist = request()->route('playlist');
 
         return $track->trashed() && $user->getKey() === $playlist?->user_id && $user->can(ExtendedCrudPermission::RESTORE->format(PlaylistTrack::class));
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     *
-     * @param  User  $user
-     * @return bool
-     */
-    public function forceDelete(User $user): bool
-    {
-        return $user->can(ExtendedCrudPermission::FORCE_DELETE->format(PlaylistTrack::class));
     }
 }

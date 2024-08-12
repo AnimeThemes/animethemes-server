@@ -434,7 +434,10 @@ class Theme extends BaseResource
 
         if ($slug->isNotEmpty()) {
             $group = $get(ThemeModel::ATTRIBUTE_GROUP);
-            $slug = $slug->append(empty($group) ? '' : '-' . Group::find(intval($group))->slug);
+
+            if (!empty($group)) {
+                $slug = $slug->append('-' . Group::find(intval($group))->slug);
+            }
         }
 
         $set(ThemeModel::ATTRIBUTE_SLUG, $slug->__toString());
