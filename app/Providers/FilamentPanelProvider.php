@@ -22,6 +22,9 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Leandrocfe\FilamentApexCharts\FilamentApexChartsPlugin;
 
+/**
+ * Class FilamentPanelProvider.
+ */
 class FilamentPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel

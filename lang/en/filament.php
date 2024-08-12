@@ -458,10 +458,12 @@ return [
     'dashboards' => [
         'icon' => [
             'admin' => 'heroicon-m-chart-bar',
+            'dev' => 'heroicon-m-code-bracket',
             'wiki' => 'heroicon-m-chart-bar',
         ],
         'label' => [
             'admin' => 'Admin',
+            'dev' => 'Developer',
             'wiki' => 'Wiki',
         ],
     ],

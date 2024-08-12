@@ -5,17 +5,14 @@ declare(strict_types=1);
 namespace App\Filament\Dashboards;
 
 use App\Enums\Auth\Role as RoleEnum;
-use App\Filament\Widgets\Auth\UserChart;
-use App\Filament\Widgets\List\ExternalProfileChart;
-use App\Filament\Widgets\List\PlaylistChart;
-use App\Filament\Widgets\List\PlaylistTrackChart;
+use App\Filament\Widgets\Admin\ExceptionsTableWidget;
 use App\Models\Auth\User;
 use Filament\Facades\Filament;
 
 /**
- * Class AdminDashboard.
+ * Class DeveloperDashboard.
  */
-class AdminDashboard extends BaseDashboard
+class DeveloperDashboard extends BaseDashboard
 {
     /**
      * Get the slug used to the dashboard route path.
@@ -24,7 +21,7 @@ class AdminDashboard extends BaseDashboard
      */
     public static function getSlug(): string
     {
-        return 'admin';
+        return 'dev';
     }
 
     /**
@@ -44,7 +41,7 @@ class AdminDashboard extends BaseDashboard
      */
     public static function getNavigationLabel(): string
     {
-        return __('filament.dashboards.label.admin');
+        return __('filament.dashboards.label.dev');
     }
 
     /**
@@ -54,7 +51,7 @@ class AdminDashboard extends BaseDashboard
      */
     public static function getNavigationIcon(): string
     {
-        return __('filament.dashboards.icon.admin');;
+        return __('filament.dashboards.icon.dev');;
     }
 
     /**
@@ -65,10 +62,7 @@ class AdminDashboard extends BaseDashboard
     public function getWidgets(): array
     {
         return [
-            UserChart::class,
-            ExternalProfileChart::class,
-            PlaylistChart::class,
-            PlaylistTrackChart::class,
+            ExceptionsTableWidget::class,
         ];
     }
 }

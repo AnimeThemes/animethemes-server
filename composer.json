@@ -27,6 +27,7 @@
         "babenkoivan/elastic-migrations": "^3.3",
         "babenkoivan/elastic-scout-driver-plus": "^4.3",
         "bepsvpt/secure-headers": "^7.4",
+        "bezhansalleh/filament-exceptions": "^2.1",
         "cyrildewit/eloquent-viewable": "^7.0",
         "fakerphp/faker": "^1.21",
         "filament/filament": "3.2",
