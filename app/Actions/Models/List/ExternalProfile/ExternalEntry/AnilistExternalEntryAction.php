@@ -29,16 +29,17 @@ class AnilistExternalEntryAction extends ExternalEntryAction
         $response = $this->makeRequest();
 
         if ($response !== null) {
-            $lists = Arr::get($response, 'data.MediaListCollection.lists');
-            $lists = Arr::where($lists, fn ($value, $key) => $value['isCustomList'] === false);
+            $favorites = Arr::map(Arr::get($response, 'data.User.favourites.anime.nodes'), fn ($value) => $value['id']);
+            $lists = Arr::where(Arr::get($response, 'data.MediaListCollection.lists'), fn ($value) => $value['isCustomList'] === false);
 
             foreach ($lists as $list) {
                 foreach (Arr::get($list, 'entries') as $entry) {
+                    $entryId = intval(Arr::get($entry, 'media.id'));
                     $entries[] = [
-                        ExternalResource::ATTRIBUTE_EXTERNAL_ID => intval(Arr::get($entry, 'media.id')),
+                        ExternalResource::ATTRIBUTE_EXTERNAL_ID => $entryId,
                         ExternalEntry::ATTRIBUTE_SCORE => Arr::get($entry, 'score'),
                         ExternalEntry::ATTRIBUTE_WATCH_STATUS => ExternalEntryWatchStatus::getAnilistMapping(Arr::get($entry, 'status'))->value,
-                        ExternalEntry::ATTRIBUTE_IS_FAVORITE => false, // TODO
+                        ExternalEntry::ATTRIBUTE_IS_FAVORITE => in_array($entryId, $favorites),
                     ];
                 }
             }
@@ -57,6 +58,15 @@ class AnilistExternalEntryAction extends ExternalEntryAction
         try {
             $query = '
                 query($userName: String) {
+                    User(name: $userName) {
+                        favourites {
+                            anime {
+                                nodes {
+                                    id
+                                }
+                            }
+                        }
+                    }
                     MediaListCollection(userName: $userName, type: ANIME) {
                         lists {
                             name
