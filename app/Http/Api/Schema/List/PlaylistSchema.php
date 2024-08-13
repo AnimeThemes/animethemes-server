@@ -21,6 +21,7 @@ use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\Auth\UserSchema;
 use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Api\Schema\List\Playlist\TrackSchema;
+use App\Http\Api\Schema\Wiki\Anime\Theme\EntrySchema;
 use App\Http\Api\Schema\Wiki\ArtistSchema;
 use App\Http\Api\Schema\Wiki\AudioSchema;
 use App\Http\Api\Schema\Wiki\GroupSchema;
@@ -62,6 +63,7 @@ class PlaylistSchema extends EloquentSchema implements SearchableSchema
             new AllowedInclude(new ArtistSchema(), 'tracks.animethemeentry.animetheme.song.artists'),
             new AllowedInclude(new AudioSchema(), 'tracks.video.audio'),
             new AllowedInclude(new ImageSchema(), 'tracks.video.animethemeentries.animetheme.anime.images'),
+            new AllowedInclude(new EntrySchema(), 'tracks.animethemeentry'),
             new AllowedInclude(new ImageSchema(), 'tracks.animethemeentry.animetheme.anime.images'),
             new AllowedInclude(new VideoSchema(), 'tracks.video'),
             new AllowedInclude(new GroupSchema(), 'tracks.video.animethemeentries.animetheme.group'),
