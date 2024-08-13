@@ -1,10 +1,10 @@
 includes:
-    - ./vendor/nunomaduro/larastan/extension.neon
+    - ./vendor/larastan/larastan/extension.neon
 
 parameters:
     checkModelProperties: true
     checkOctaneCompatibility: true
-    checkMissingIterableValueType: false
+    reportUnmatchedIgnoredErrors: false
 
     paths:
         - app
@@ -14,10 +14,12 @@ parameters:
         - routes
         - tests
 
-    # The level 8 is the highest level
+    # The level 9 is the highest level
     level: 5
 
     ignoreErrors:
+        -
+            identifier: missingType.iterableValue
         - '#Call to an undefined method Mockery\\ExpectationInterface|Mockery\\HigherOrderMessage::once\(\).#'
         - '#Call to an undefined method Database\\Factories.*::trashed\(\).#'
         -
@@ -26,7 +28,7 @@ parameters:
         -
             message: '#Call to an undefined static method App\\Models\\BaseModel::search\(\).#'
             path: app/Filament/Components/Fields/BelongsTo.php
-        - '#::mapWithKeys\(\) expects*non-empty-array<int|string, string> given.#'
+        - '#::mapWithKeys\(\) expects*non-empty-array<int\|string, string> given.#'
         -
             message: '#Right side of && is always true.#'
             path: app/Providers/RouteServiceProvider.php

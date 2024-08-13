@@ -29,6 +29,7 @@ class ExternalResourceFactory extends Factory
     /**
      * Define the model's default state.
      *
+     * @phpstan-ignore-next-line
      * @return array
      */
     public function definition(): array

@@ -141,7 +141,7 @@ class Video extends BaseModel implements Streamable, Viewable
     /**
      * The accessors to append to the model's array form.
      *
-     * @var array
+     * @var array<int, string>
      */
     protected $appends = [
         Video::ATTRIBUTE_TAGS,
