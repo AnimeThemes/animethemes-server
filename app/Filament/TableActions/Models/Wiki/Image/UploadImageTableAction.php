@@ -7,6 +7,7 @@ namespace App\Filament\TableActions\Models\Wiki\Image;
 use App\Concerns\Models\CanCreateImage;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Filament\Components\Fields\Select;
+use App\Filament\Resources\Base\BaseListResources;
 use App\Filament\TableActions\BaseTableAction;
 use App\Models\Wiki\Image;
 use Filament\Forms\Components\FileUpload;
@@ -40,6 +41,7 @@ class UploadImageTableAction extends BaseTableAction
         ]);
 
         $this->authorize('create', Image::class);
+        $this->visible(fn ($livewire) => $livewire instanceof BaseListResources);
     }
 
     /**
