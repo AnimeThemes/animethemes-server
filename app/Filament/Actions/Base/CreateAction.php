@@ -5,10 +5,14 @@ declare(strict_types=1);
 namespace App\Filament\Actions\Base;
 
 use App\Concerns\Filament\Actions\HasPivotActionLogs;
+use App\Enums\Auth\Role;
 use App\Filament\RelationManagers\BaseRelationManager;
+use App\Filament\RelationManagers\Wiki\ResourceRelationManager;
 use Filament\Tables\Actions\CreateAction as DefaultCreateAction;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Http\Request;
+use Livewire\Component;
 
 /**
  * Class CreateAction.
@@ -37,6 +41,14 @@ class CreateAction extends DefaultCreateAction
                     $this->associateActionLog('Create and Associate', $livewire, $record);
                 }
             }
+        });
+
+        $this->hidden(function (Component $livewire, Request $request) {
+            if ($livewire instanceof ResourceRelationManager) {
+                return !$request->user()->hasRole(Role::ADMIN->value);
+            }
+
+            return false;
         });
     }
 }

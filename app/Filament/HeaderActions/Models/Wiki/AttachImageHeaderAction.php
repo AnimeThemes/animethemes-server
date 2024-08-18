@@ -60,7 +60,9 @@ class AttachImageHeaderAction extends BaseHeaderAction
 
                 $fields[] = FileUpload::make($facet->name)
                     ->label($facet->localize())
+                    ->helperText(__('filament.actions.models.wiki.attach_image.help'))
                     ->image()
+                    ->imageCropAspectRatio('2:3')
                     ->imageEditor()
                     ->imageEditorAspectRatios([null, '2:3'])
                     ->storeFiles(false);
