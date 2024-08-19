@@ -89,14 +89,17 @@ class ExternalProfile extends BaseModel
     protected $primaryKey = ExternalProfile::ATTRIBUTE_ID;
 
     /**
-     * The attributes that should be cast.
+     * Get the attributes that should be cast.
      *
-     * @var array<string, string>
+     * @return array<string, string>
      */
-    protected $casts = [
-        ExternalProfile::ATTRIBUTE_SITE => ExternalProfileSite::class,
-        ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::class,
-    ];
+    protected function casts(): array
+    {
+        return [
+            ExternalProfile::ATTRIBUTE_SITE => ExternalProfileSite::class,
+            ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::class,
+        ];
+    }
 
     /**
      * Get name.

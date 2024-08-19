@@ -96,14 +96,17 @@ class FeaturedTheme extends BaseModel
     protected $primaryKey = FeaturedTheme::ATTRIBUTE_ID;
 
     /**
-     * The attributes that should be cast.
+     * Get the attributes that should be cast.
      *
-     * @var array<string, string>
+     * @return array<string, string>
      */
-    protected $casts = [
-        FeaturedTheme::ATTRIBUTE_END_AT => 'datetime',
-        FeaturedTheme::ATTRIBUTE_START_AT => 'datetime',
-    ];
+    protected function casts(): array
+    {
+        return [
+            FeaturedTheme::ATTRIBUTE_END_AT => 'datetime',
+            FeaturedTheme::ATTRIBUTE_START_AT => 'datetime',
+        ];
+    }
 
     /**
      * Get name.

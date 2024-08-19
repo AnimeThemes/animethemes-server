@@ -118,13 +118,16 @@ class Playlist extends BaseModel implements HasHashids, Viewable
     }
 
     /**
-     * The attributes that should be cast.
+     * Get the attributes that should be cast.
      *
-     * @var array<string, string>
+     * @return array<string, string>
      */
-    protected $casts = [
-        Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::class,
-    ];
+    protected function casts(): array
+    {
+        return [
+            Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::class,
+        ];
+    }
 
     /**
      * Get the numbers used to encode the model's hashids.

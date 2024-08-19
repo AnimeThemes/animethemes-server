@@ -16,9 +16,9 @@ class PlaylistChart extends BaseChartWidget
     /**
      * Chart Id.
      *
-     * @var string
+     * @var string|null
      */
-    protected static string $chartId = 'playlistChart';
+    protected static ?string $chartId = 'playlistChart';
 
     /**
      * Get the displayed label of the widget.

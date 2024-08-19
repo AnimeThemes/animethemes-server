@@ -99,13 +99,16 @@ class Audio extends BaseModel implements Streamable, Viewable
     }
 
     /**
-     * The attributes that should be cast.
+     * Get the attributes that should be cast.
      *
-     * @var array<string, string>
+     * @return array<string, string>
      */
-    protected $casts = [
-        Audio::ATTRIBUTE_SIZE => 'int',
-    ];
+    protected function casts(): array
+    {
+        return [
+            Audio::ATTRIBUTE_SIZE => 'int',
+        ];
+    }
 
     /**
      * Get name.

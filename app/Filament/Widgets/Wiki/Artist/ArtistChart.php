@@ -16,9 +16,9 @@ class ArtistChart extends BaseChartWidget
     /**
      * Chart Id.
      *
-     * @var string
+     * @var string|null
      */
-    protected static string $chartId = 'artistChart';
+    protected static ?string $chartId = 'artistChart';
 
     /**
      * Get the displayed label of the widget.

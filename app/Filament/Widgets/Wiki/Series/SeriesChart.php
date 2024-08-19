@@ -16,9 +16,9 @@ class SeriesChart extends BaseChartWidget
     /**
      * Chart Id.
      *
-     * @var string
+     * @var string|null
      */
-    protected static string $chartId = 'seriesChart';
+    protected static ?string $chartId = 'seriesChart';
 
     /**
      * Get the displayed label of the widget.

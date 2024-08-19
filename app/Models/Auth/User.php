@@ -133,14 +133,17 @@ class User extends Authenticatable implements MustVerifyEmail, Nameable, HasSubt
     protected $dateFormat = 'Y-m-d\TH:i:s.u';
 
     /**
-     * The attributes that should be cast.
+     * Get the attributes that should be cast.
      *
-     * @var array<string, string>
+     * @return array<string, string>
      */
-    protected $casts = [
-        User::ATTRIBUTE_EMAIL_VERIFIED_AT => 'datetime',
-        User::ATTRIBUTE_PASSWORD => 'hashed',
-    ];
+    protected function casts(): array
+    {
+        return [
+            User::ATTRIBUTE_EMAIL_VERIFIED_AT => 'datetime',
+            User::ATTRIBUTE_PASSWORD => 'hashed',
+        ];
+    }
 
     /**
      * Get name.

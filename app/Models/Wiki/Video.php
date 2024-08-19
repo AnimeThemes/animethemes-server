@@ -246,19 +246,22 @@ class Video extends BaseModel implements Streamable, Viewable
     }
 
     /**
-     * The attributes that should be cast.
+     * Get the attributes that should be cast.
      *
-     * @var array<string, string>
+     * @return array<string, string>
      */
-    protected $casts = [
-        Video::ATTRIBUTE_LYRICS => 'boolean',
-        Video::ATTRIBUTE_NC => 'boolean',
-        Video::ATTRIBUTE_OVERLAP => VideoOverlap::class,
-        Video::ATTRIBUTE_SIZE => 'int',
-        Video::ATTRIBUTE_SOURCE => VideoSource::class,
-        Video::ATTRIBUTE_SUBBED => 'boolean',
-        Video::ATTRIBUTE_UNCEN => 'boolean',
-    ];
+    protected function casts(): array
+    {
+        return [
+            Video::ATTRIBUTE_LYRICS => 'boolean',
+            Video::ATTRIBUTE_NC => 'boolean',
+            Video::ATTRIBUTE_OVERLAP => VideoOverlap::class,
+            Video::ATTRIBUTE_SIZE => 'int',
+            Video::ATTRIBUTE_SOURCE => VideoSource::class,
+            Video::ATTRIBUTE_SUBBED => 'boolean',
+            Video::ATTRIBUTE_UNCEN => 'boolean',
+        ];
+    }
 
     /**
      * Get name.

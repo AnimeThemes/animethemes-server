@@ -80,13 +80,16 @@ class AnimeSynonym extends BaseModel
     protected $primaryKey = AnimeSynonym::ATTRIBUTE_ID;
 
     /**
-     * The attributes that should be cast.
+     * Get the attributes that should be cast.
      *
-     * @var array<string, string>
+     * @return array<string, string>
      */
-    protected $casts = [
-        AnimeSynonym::ATTRIBUTE_TYPE => AnimeSynonymType::class,
-    ];
+    protected function casts(): array
+    {
+        return [
+            AnimeSynonym::ATTRIBUTE_TYPE => AnimeSynonymType::class,
+        ];
+    }
 
     /**
      * Get name.

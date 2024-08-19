@@ -16,9 +16,9 @@ class VideoChart extends BaseChartWidget
     /**
      * Chart Id.
      *
-     * @var string
+     * @var string|null
      */
-    protected static string $chartId = 'videoChart';
+    protected static ?string $chartId = 'videoChart';
 
     /**
      * Get the displayed label of the widget.

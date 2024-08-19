@@ -92,13 +92,16 @@ class Image extends BaseModel
     protected $primaryKey = Image::ATTRIBUTE_ID;
 
     /**
-     * The attributes that should be cast.
+     * Get the attributes that should be cast.
      *
-     * @var array<string, string>
+     * @return array<string, string>
      */
-    protected $casts = [
-        Image::ATTRIBUTE_FACET => ImageFacet::class,
-    ];
+    protected function casts(): array
+    {
+        return [
+            Image::ATTRIBUTE_FACET => ImageFacet::class,
+        ];
+    }
 
     /**
      * Get name.

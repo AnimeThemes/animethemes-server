@@ -84,15 +84,6 @@ class ActionLog extends Model implements Nameable, HasSubtitle
     ];
 
     /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        ActionLog::ATTRIBUTE_STATUS => ActionLogStatus::class,
-    ];
-
-    /**
      * The table associated with the model.
      *
      * @var string
@@ -105,6 +96,18 @@ class ActionLog extends Model implements Nameable, HasSubtitle
      * @var string
      */
     protected $primaryKey = ActionLog::ATTRIBUTE_ID;
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            ActionLog::ATTRIBUTE_STATUS => ActionLogStatus::class,
+        ];
+    }
 
     /**
      * Get name.

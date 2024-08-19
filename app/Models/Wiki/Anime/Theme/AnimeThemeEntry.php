@@ -106,15 +106,18 @@ class AnimeThemeEntry extends BaseModel
     protected $primaryKey = AnimeThemeEntry::ATTRIBUTE_ID;
 
     /**
-     * The attributes that should be cast.
+     * Get the attributes that should be cast.
      *
-     * @var array<string, string>
+     * @return array<string, string>
      */
-    protected $casts = [
-        AnimeThemeEntry::ATTRIBUTE_NSFW => 'boolean',
-        AnimeThemeEntry::ATTRIBUTE_SPOILER => 'boolean',
-        AnimeThemeEntry::ATTRIBUTE_VERSION => 'int',
-    ];
+    protected function casts(): array
+    {
+        return [
+            AnimeThemeEntry::ATTRIBUTE_NSFW => 'boolean',
+            AnimeThemeEntry::ATTRIBUTE_SPOILER => 'boolean',
+            AnimeThemeEntry::ATTRIBUTE_VERSION => 'int',
+        ];
+    }
 
     /**
      * Modify the query used to retrieve models when making all of the models searchable.
