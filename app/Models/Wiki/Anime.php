@@ -163,15 +163,18 @@ class Anime extends BaseModel
     }
 
     /**
-     * The attributes that should be cast.
+     * Get the attributes that should be cast.
      *
-     * @var array<string, string>
+     * @return array<string, string>
      */
-    protected $casts = [
-        Anime::ATTRIBUTE_SEASON => AnimeSeason::class,
-        Anime::ATTRIBUTE_YEAR => 'int',
-        Anime::ATTRIBUTE_MEDIA_FORMAT => AnimeMediaFormat::class
-    ];
+    protected function casts(): array
+    {
+        return [
+            Anime::ATTRIBUTE_SEASON => AnimeSeason::class,
+            Anime::ATTRIBUTE_YEAR => 'int',
+            Anime::ATTRIBUTE_MEDIA_FORMAT => AnimeMediaFormat::class,
+        ];
+    }
 
     /**
      * Get name.

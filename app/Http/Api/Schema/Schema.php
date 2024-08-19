@@ -75,6 +75,7 @@ abstract class Schema implements SchemaInterface
     {
         $relationInclude = Arr::first($this->allowedIncludes(), fn (AllowedInclude $include) => $include->path() === $path);
 
+        /** @phpstan-ignore-next-line */
         return $relationInclude?->schema();
     }
 }

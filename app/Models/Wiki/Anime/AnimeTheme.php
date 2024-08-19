@@ -139,14 +139,17 @@ class AnimeTheme extends BaseModel
     }
 
     /**
-     * The attributes that should be cast.
+     * Get the attributes that should be cast.
      *
-     * @var array<string, string>
+     * @return array<string, string>
      */
-    protected $casts = [
-        AnimeTheme::ATTRIBUTE_SEQUENCE => 'int',
-        AnimeTheme::ATTRIBUTE_TYPE => ThemeType::class,
-    ];
+    protected function casts(): array
+    {
+        return [
+            AnimeTheme::ATTRIBUTE_SEQUENCE => 'int',
+            AnimeTheme::ATTRIBUTE_TYPE => ThemeType::class,
+        ];
+    }
 
     /**
      * Get name.

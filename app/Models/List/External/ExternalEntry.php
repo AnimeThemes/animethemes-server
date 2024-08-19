@@ -89,14 +89,17 @@ class ExternalEntry extends BaseModel
     protected $primaryKey = ExternalEntry::ATTRIBUTE_ID;
 
     /**
-     * The attributes that should be cast.
+     * Get the attributes that should be cast.
      *
-     * @var array<string, string>
+     * @return array<string, string>
      */
-    protected $casts = [
-        ExternalEntry::ATTRIBUTE_IS_FAVORITE => 'bool',
-        ExternalEntry::ATTRIBUTE_WATCH_STATUS => ExternalEntryWatchStatus::class,
-    ];
+    protected function casts(): array
+    {
+        return [
+            ExternalEntry::ATTRIBUTE_IS_FAVORITE => 'bool',
+            ExternalEntry::ATTRIBUTE_WATCH_STATUS => ExternalEntryWatchStatus::class,
+        ];
+    }
 
     /**
      * Get name.

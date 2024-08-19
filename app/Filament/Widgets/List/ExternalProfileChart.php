@@ -16,9 +16,9 @@ class ExternalProfileChart extends BaseChartWidget
     /**
      * Chart Id.
      *
-     * @var string
+     * @var string|null
      */
-    protected static string $chartId = 'externalProfileChart';
+    protected static ?string $chartId = 'externalProfileChart';
 
     /**
      * Get the displayed label of the widget.

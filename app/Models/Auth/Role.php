@@ -37,12 +37,15 @@ class Role extends BaseRole
     final public const RELATION_USERS = 'users';
 
     /**
-     * The attributes that should be cast.
+     * Get the attributes that should be cast.
      *
-     * @var array<string, string>
+     * @return array<string, string>
      */
-    protected $casts = [
-        Role::ATTRIBUTE_DEFAULT => 'boolean',
-        Role::ATTRIBUTE_PRIORITY => 'int',
-    ];
+    protected function casts(): array
+    {
+        return [
+            Role::ATTRIBUTE_DEFAULT => 'boolean',
+            Role::ATTRIBUTE_PRIORITY => 'int',
+        ];
+    }
 }

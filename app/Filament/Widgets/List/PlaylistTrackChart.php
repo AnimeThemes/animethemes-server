@@ -16,9 +16,9 @@ class PlaylistTrackChart extends BaseChartWidget
     /**
      * Chart Id.
      *
-     * @var string
+     * @var string|null
      */
-    protected static string $chartId = 'trackChart';
+    protected static ?string $chartId = 'trackChart';
 
     /**
      * Get the displayed label of the widget.
