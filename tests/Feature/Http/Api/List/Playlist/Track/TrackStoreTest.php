@@ -13,7 +13,11 @@ use App\Features\AllowPlaylistManagement;
 use App\Models\Auth\User;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
+use App\Models\Wiki\Anime;
+use App\Models\Wiki\Anime\AnimeTheme;
+use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
+use App\Pivots\Wiki\AnimeThemeEntryVideo;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Event;
@@ -39,10 +43,17 @@ class TrackStoreTest extends TestCase
 
         Feature::activate(AllowPlaylistManagement::class);
 
+        $entryVideo = AnimeThemeEntryVideo::factory()
+            ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+            ->for(Video::factory())
+            ->createOne();
+
         $playlist = Playlist::factory()->createOne();
 
         $track = PlaylistTrack::factory()
             ->for($playlist)
+            ->for($entryVideo->animethemeentry)
+            ->for($entryVideo->video)
             ->makeOne();
 
         $response = $this->post(route('api.playlist.track.store', ['playlist' => $playlist] + $track->toArray()));
@@ -61,10 +72,17 @@ class TrackStoreTest extends TestCase
 
         Feature::activate(AllowPlaylistManagement::class);
 
+        $entryVideo = AnimeThemeEntryVideo::factory()
+            ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+            ->for(Video::factory())
+            ->createOne();
+
         $playlist = Playlist::factory()->createOne();
 
         $track = PlaylistTrack::factory()
             ->for($playlist)
+            ->for($entryVideo->animethemeentry)
+            ->for($entryVideo->video)
             ->makeOne();
 
         $user = User::factory()->createOne();
@@ -87,12 +105,19 @@ class TrackStoreTest extends TestCase
 
         Feature::activate(AllowPlaylistManagement::class);
 
+        $entryVideo = AnimeThemeEntryVideo::factory()
+            ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+            ->for(Video::factory())
+            ->createOne();
+
         $playlist = Playlist::factory()
             ->for(User::factory())
             ->createOne();
 
         $track = PlaylistTrack::factory()
             ->for($playlist)
+            ->for($entryVideo->animethemeentry)
+            ->for($entryVideo->video)
             ->makeOne();
 
         $user = User::factory()->withPermissions(CrudPermission::CREATE->format(PlaylistTrack::class))->createOne();
@@ -118,13 +143,19 @@ class TrackStoreTest extends TestCase
 
         $user = User::factory()->withPermissions(CrudPermission::CREATE->format(PlaylistTrack::class))->createOne();
 
+        $entryVideo = AnimeThemeEntryVideo::factory()
+            ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+            ->for(Video::factory())
+            ->createOne();
+
         $playlist = Playlist::factory()
             ->for($user)
             ->createOne();
 
         $track = PlaylistTrack::factory()
             ->for($playlist)
-            ->for(Video::factory())
+            ->for($entryVideo->animethemeentry)
+            ->for($entryVideo->video)
             ->makeOne();
 
         Sanctum::actingAs($user);
@@ -135,7 +166,7 @@ class TrackStoreTest extends TestCase
     }
 
     /**
-     * The Track Store Endpoint shall require the video field.
+     * The Track Store Endpoint shall require the entry & video field.
      *
      * @return void
      */
@@ -156,6 +187,43 @@ class TrackStoreTest extends TestCase
         $response = $this->post(route('api.playlist.track.store', ['playlist' => $playlist]));
 
         $response->assertJsonValidationErrors([
+            PlaylistTrack::ATTRIBUTE_ENTRY,
+            PlaylistTrack::ATTRIBUTE_VIDEO,
+        ]);
+    }
+
+    /**
+     * The Playlist Track Store Endpoint shall require the entry and video to have an association.
+     *
+     * @return void
+     */
+    public function testAnimeThemeEntryVideoExists(): void
+    {
+        $entry = AnimeThemeEntry::factory()
+            ->for(AnimeTheme::factory()->for(Anime::factory()))
+            ->create();
+
+        $video = Video::factory()->create();
+
+        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(PlaylistTrack::class))->createOne();
+
+        $playlist = Playlist::factory()
+            ->for($user)
+            ->createOne();
+
+        $parameters = PlaylistTrack::factory()
+            ->for($playlist)
+            ->raw([
+                PlaylistTrack::ATTRIBUTE_ENTRY => $entry->getKey(),
+                PlaylistTrack::ATTRIBUTE_VIDEO => $video->getKey(),
+            ]);
+
+        Sanctum::actingAs($user);
+
+        $response = $this->post(route('api.playlist.track.store', $parameters));
+
+        $response->assertJsonValidationErrors([
+            PlaylistTrack::ATTRIBUTE_ENTRY,
             PlaylistTrack::ATTRIBUTE_VIDEO,
         ]);
     }
@@ -173,21 +241,41 @@ class TrackStoreTest extends TestCase
 
         $user = User::factory()->withPermissions(CrudPermission::CREATE->format(PlaylistTrack::class))->createOne();
 
+        $entryVideoPrevious = AnimeThemeEntryVideo::factory()
+            ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+            ->for(Video::factory())
+            ->createOne();
+
+        $entryVideoNext = AnimeThemeEntryVideo::factory()
+            ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+            ->for(Video::factory())
+            ->createOne();
+
+        $entryVideo = AnimeThemeEntryVideo::factory()
+            ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+            ->for(Video::factory())
+            ->createOne();
+
         $playlist = Playlist::factory()
             ->for($user)
             ->createOne();
 
         $previous = PlaylistTrack::factory()
             ->for($playlist)
+            ->for($entryVideoPrevious->animethemeentry)
+            ->for($entryVideoPrevious->video)
             ->createOne();
 
         $next = PlaylistTrack::factory()
             ->for($playlist)
+            ->for($entryVideoNext->animethemeentry)
+            ->for($entryVideoNext->video)
             ->createOne();
 
         $track = PlaylistTrack::factory()
             ->for($playlist)
-            ->for(Video::factory())
+            ->for($entryVideo->animethemeentry)
+            ->for($entryVideo->video)
             ->makeOne([
                 PlaylistTrack::RELATION_PREVIOUS => $previous->getRouteKey(),
                 PlaylistTrack::RELATION_NEXT => $next->getRouteKey(),
@@ -216,18 +304,31 @@ class TrackStoreTest extends TestCase
 
         $user = User::factory()->withPermissions(CrudPermission::CREATE->format(PlaylistTrack::class))->createOne();
 
+        $entryVideoNext = AnimeThemeEntryVideo::factory()
+            ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+            ->for(Video::factory())
+            ->createOne();
+
+        $entryVideo = AnimeThemeEntryVideo::factory()
+            ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+            ->for(Video::factory())
+            ->createOne();
+
         $playlist = Playlist::factory()
             ->for($user)
             ->createOne();
 
         $next = PlaylistTrack::factory()
             ->for(Playlist::factory())
+            ->for($entryVideoNext->animethemeentry)
+            ->for($entryVideoNext->video)
             ->createOne();
 
         $track = PlaylistTrack::factory()
             ->for($playlist)
+            ->for($entryVideo->animethemeentry)
+            ->for($entryVideo->video)
             ->makeOne([
-                PlaylistTrack::ATTRIBUTE_VIDEO => Video::factory()->createOne()->getKey(),
                 PlaylistTrack::RELATION_NEXT => $next->getRouteKey(),
             ]);
 
@@ -253,18 +354,31 @@ class TrackStoreTest extends TestCase
 
         $user = User::factory()->withPermissions(CrudPermission::CREATE->format(PlaylistTrack::class))->createOne();
 
+        $entryVideoPrevious = AnimeThemeEntryVideo::factory()
+            ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+            ->for(Video::factory())
+            ->createOne();
+
+        $entryVideo = AnimeThemeEntryVideo::factory()
+            ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+            ->for(Video::factory())
+            ->createOne();
+
         $playlist = Playlist::factory()
             ->for($user)
             ->createOne();
 
         $previous = PlaylistTrack::factory()
             ->for(Playlist::factory())
+            ->for($entryVideoPrevious->animethemeentry)
+            ->for($entryVideoPrevious->video)
             ->createOne();
 
         $track = PlaylistTrack::factory()
             ->for($playlist)
+            ->for($entryVideo->animethemeentry)
+            ->for($entryVideo->video)
             ->makeOne([
-                PlaylistTrack::ATTRIBUTE_VIDEO => Video::factory()->createOne()->getKey(),
                 PlaylistTrack::RELATION_PREVIOUS => $previous->getRouteKey(),
             ]);
 
@@ -290,13 +404,19 @@ class TrackStoreTest extends TestCase
 
         $user = User::factory()->withPermissions(CrudPermission::CREATE->format(PlaylistTrack::class))->createOne();
 
+        $entryVideo = AnimeThemeEntryVideo::factory()
+            ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+            ->for(Video::factory())
+            ->createOne();
+
         $playlist = Playlist::factory()
             ->for($user)
             ->createOne();
 
         $track = PlaylistTrack::factory()
             ->for($playlist)
-            ->for(Video::factory())
+            ->for($entryVideo->animethemeentry)
+            ->for($entryVideo->video)
             ->makeOne();
 
         Sanctum::actingAs($user);
@@ -327,6 +447,11 @@ class TrackStoreTest extends TestCase
 
         $user = User::factory()->withPermissions(CrudPermission::CREATE->format(PlaylistTrack::class))->createOne();
 
+        $entryVideo = AnimeThemeEntryVideo::factory()
+            ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+            ->for(Video::factory())
+            ->createOne();
+
         $trackCount = $this->faker->numberBetween(2, 9);
 
         $playlist = Playlist::factory()
@@ -338,7 +463,8 @@ class TrackStoreTest extends TestCase
 
         $track = PlaylistTrack::factory()
             ->for($playlist)
-            ->for(Video::factory())
+            ->for($entryVideo->animethemeentry)
+            ->for($entryVideo->video)
             ->makeOne([
                 PlaylistTrack::RELATION_PREVIOUS => $last->getRouteKey(),
             ]);
@@ -377,6 +503,11 @@ class TrackStoreTest extends TestCase
 
         $user = User::factory()->withPermissions(CrudPermission::CREATE->format(PlaylistTrack::class))->createOne();
 
+        $entryVideo = AnimeThemeEntryVideo::factory()
+            ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+            ->for(Video::factory())
+            ->createOne();
+
         $trackCount = $this->faker->numberBetween(2, 9);
 
         $playlist = Playlist::factory()
@@ -389,7 +520,8 @@ class TrackStoreTest extends TestCase
 
         $track = PlaylistTrack::factory()
             ->for($playlist)
-            ->for(Video::factory())
+            ->for($entryVideo->animethemeentry)
+            ->for($entryVideo->video)
             ->makeOne([
                 PlaylistTrack::RELATION_PREVIOUS => $first->getRouteKey(),
             ]);
@@ -428,6 +560,11 @@ class TrackStoreTest extends TestCase
 
         $user = User::factory()->withPermissions(CrudPermission::CREATE->format(PlaylistTrack::class))->createOne();
 
+        $entryVideo = AnimeThemeEntryVideo::factory()
+            ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+            ->for(Video::factory())
+            ->createOne();
+
         $trackCount = $this->faker->numberBetween(2, 9);
 
         $playlist = Playlist::factory()
@@ -440,7 +577,8 @@ class TrackStoreTest extends TestCase
 
         $track = PlaylistTrack::factory()
             ->for($playlist)
-            ->for(Video::factory())
+            ->for($entryVideo->animethemeentry)
+            ->for($entryVideo->video)
             ->makeOne([
                 PlaylistTrack::RELATION_NEXT => $last->getRouteKey(),
             ]);
@@ -479,6 +617,11 @@ class TrackStoreTest extends TestCase
 
         $user = User::factory()->withPermissions(CrudPermission::CREATE->format(PlaylistTrack::class))->createOne();
 
+        $entryVideo = AnimeThemeEntryVideo::factory()
+            ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+            ->for(Video::factory())
+            ->createOne();
+
         $trackCount = $this->faker->numberBetween(2, 9);
 
         $playlist = Playlist::factory()
@@ -490,7 +633,8 @@ class TrackStoreTest extends TestCase
 
         $track = PlaylistTrack::factory()
             ->for($playlist)
-            ->for(Video::factory())
+            ->for($entryVideo->animethemeentry)
+            ->for($entryVideo->video)
             ->makeOne([
                 PlaylistTrack::RELATION_NEXT => $first->getRouteKey(),
             ]);
@@ -533,13 +677,19 @@ class TrackStoreTest extends TestCase
             )
             ->createOne();
 
+        $entryVideo = AnimeThemeEntryVideo::factory()
+            ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+            ->for(Video::factory())
+            ->createOne();
+
         $playlist = Playlist::factory()
             ->for($user)
             ->createOne();
 
         $track = PlaylistTrack::factory()
             ->for($playlist)
-            ->for(Video::factory())
+            ->for($entryVideo->animethemeentry)
+            ->for($entryVideo->video)
             ->makeOne();
 
         Sanctum::actingAs($user);
@@ -565,6 +715,11 @@ class TrackStoreTest extends TestCase
 
         $user = User::factory()->withPermissions(CrudPermission::CREATE->format(PlaylistTrack::class))->createOne();
 
+        $entryVideo = AnimeThemeEntryVideo::factory()
+            ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+            ->for(Video::factory())
+            ->createOne();
+
         $playlist = Playlist::factory()
             ->tracks($trackLimit)
             ->for($user)
@@ -572,7 +727,8 @@ class TrackStoreTest extends TestCase
 
         $track = PlaylistTrack::factory()
             ->for($playlist)
-            ->for(Video::factory())
+            ->for($entryVideo->animethemeentry)
+            ->for($entryVideo->video)
             ->makeOne();
 
         Sanctum::actingAs($user);
@@ -604,6 +760,11 @@ class TrackStoreTest extends TestCase
             )
             ->createOne();
 
+        $entryVideo = AnimeThemeEntryVideo::factory()
+            ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+            ->for(Video::factory())
+            ->createOne();
+
         $playlist = Playlist::factory()
             ->tracks($trackLimit)
             ->for($user)
@@ -611,7 +772,8 @@ class TrackStoreTest extends TestCase
 
         $track = PlaylistTrack::factory()
             ->for($playlist)
-            ->for(Video::factory())
+            ->for($entryVideo->animethemeentry)
+            ->for($entryVideo->video)
             ->makeOne();
 
         Sanctum::actingAs($user);
