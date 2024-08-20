@@ -35,7 +35,7 @@ trait CanCreateExternalResource
             if (preg_match($urlPattern, $url, $matches)) {
                 $url = $site->formatResourceLink($model::class, intval($matches[2]), $matches[2], $matches[1]);
             }
-    
+
             if ($id !== null) {
                 $url = $site->formatResourceLink($model::class, intval($id), $id);
             }

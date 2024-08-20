@@ -24,4 +24,4 @@ Please review the [**Contributing Guide**](https://github.com/AnimeThemes/animet
 
 ## Resources
 
-Please make use of the #development channel in the [**Discord Server**](https://discordapp.com/invite/m9zbVyQ) for questions pertaining to the AnimeThemes database or API.
+Please make use of the #api channel in the [**Discord Server**](https://discordapp.com/invite/m9zbVyQ) for questions pertaining to the AnimeThemes database or API.
