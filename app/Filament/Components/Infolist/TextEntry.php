@@ -27,6 +27,7 @@ class TextEntry extends ComponentsTextEntry
     public function urlToRelated(string $resourceRelated, string $relation, ?bool $shouldUseName = false): static
     {
         return $this
+            ->placeholder('-')
             ->weight(FontWeight::SemiBold)
             ->html()
             ->url(function (BaseModel|Model $record) use ($resourceRelated, $relation, $shouldUseName) {
