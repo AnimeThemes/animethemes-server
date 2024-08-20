@@ -24,8 +24,10 @@ use App\Models\Wiki\Anime\Theme\AnimeThemeEntry as EntryModel;
 use App\Models\Wiki\Video;
 use App\Pivots\Wiki\AnimeThemeEntryVideo;
 use App\Rules\Admin\StartDateBeforeEndDateRule;
+use Filament\Forms\Components\Hidden;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
+use Filament\Forms\Set;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
@@ -132,13 +134,15 @@ class FeaturedTheme extends BaseResource
                         'regex:/^\d{2}\/\d{2}\/\d{4} - \d{2}\/\d{2}\/\d{4}$/',
                         new StartDateBeforeEndDateRule(),
                     ])
-                    ->saveRelationshipsBeforeChildrenUsing(function (FeaturedThemeModel $record, string $state) {
+                    ->live(true)
+                    ->afterStateUpdated(function (string $state, Set $set) {
                         $dates = explode(' - ', $state);
-
-                        $record->start_at = Carbon::createFromFormat('m/d/Y', $dates[0]);
-                        $record->end_at = Carbon::createFromFormat('m/d/Y', $dates[1]);
-                        $record->save();
+                        $set(FeaturedThemeModel::ATTRIBUTE_START_AT, Carbon::createFromFormat('m/d/Y', $dates[0]));
+                        $set(FeaturedThemeModel::ATTRIBUTE_END_AT, Carbon::createFromFormat('m/d/Y', $dates[1]));
                     }),
+
+                Hidden::make(FeaturedThemeModel::ATTRIBUTE_START_AT),
+                Hidden::make(FeaturedThemeModel::ATTRIBUTE_END_AT),
 
                 BelongsTo::make(FeaturedThemeModel::ATTRIBUTE_ENTRY)
                     ->resource(EntryResource::class)
@@ -259,11 +263,10 @@ class FeaturedTheme extends BaseResource
                             ->placeholder('-')
                             ->urlToRelated(VideoResource::class, FeaturedThemeModel::RELATION_VIDEO),
 
-                        TextEntry::make(FeaturedThemeModel::RELATION_ENTRY.'.'.EntryModel::ATTRIBUTE_ID)
+                        TextEntry::make(FeaturedThemeModel::RELATION_ENTRY)
                             ->label(__('filament.resources.singularLabel.anime_theme_entry'))
                             ->placeholder('-')
-                            ->formatStateUsing(fn (string $state) => EntryModel::find(intval($state))->load(EntryModel::RELATION_ANIME)->getName())
-                            ->urlToRelated(EntryResource::class, FeaturedThemeModel::RELATION_ENTRY),
+                            ->urlToRelated(EntryResource::class, FeaturedThemeModel::RELATION_ENTRY, true),
 
                         TextEntry::make(FeaturedThemeModel::RELATION_USER.'.'.User::ATTRIBUTE_NAME)
                             ->label(__('filament.resources.singularLabel.user'))
