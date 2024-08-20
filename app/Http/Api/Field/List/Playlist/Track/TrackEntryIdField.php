@@ -43,7 +43,6 @@ class TrackEntryIdField extends Field implements CreatableField, FilterableField
     public function getCreationRules(Request $request): array
     {
         return [
-            'sometimes',
             'required',
             'integer',
             Rule::exists(AnimeThemeEntry::class, AnimeThemeEntry::ATTRIBUTE_ID),
@@ -90,8 +89,13 @@ class TrackEntryIdField extends Field implements CreatableField, FilterableField
             'required',
             'integer',
             Rule::exists(AnimeThemeEntry::class, AnimeThemeEntry::ATTRIBUTE_ID),
-            Rule::exists(AnimeThemeEntryVideo::class, AnimeThemeEntryVideo::ATTRIBUTE_ENTRY)
-                ->where(AnimeThemeEntryVideo::ATTRIBUTE_VIDEO, $this->resolveVideoId($request)),
+            Rule::when(
+                ! empty($videoId),
+                [
+                    Rule::exists(AnimeThemeEntryVideo::class, AnimeThemeEntryVideo::ATTRIBUTE_ENTRY)
+                        ->where(AnimeThemeEntryVideo::ATTRIBUTE_VIDEO, $videoId),
+                ]
+            ),
         ];
     }
 
