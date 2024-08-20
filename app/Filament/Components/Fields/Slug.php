@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace App\Filament\Components\Fields;
 
 use Filament\Forms\Components\TextInput;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Validation\Rule;
 
 /**
  * Class Slug.
@@ -23,18 +21,8 @@ class Slug extends TextInput
         parent::setUp();
 
         $this->required();
+        $this->maxLength(192);
         $this->unique(ignoreRecord: true);
-        $this->rules([
-            fn (?Model $record) => [
-                'required',
-                'max:192',
-                'alpha_dash',
-                $record !== null
-                    ? Rule::unique($record::class, $this->getName())
-                        ->ignore($record->getKey(), $record->getKeyName())
-                        ->__toString()
-                    : Rule::unique($this->getModel(), $this->getName())->__toString(),
-            ],
-        ]);
+        $this->alphaDash();
     }
 }
