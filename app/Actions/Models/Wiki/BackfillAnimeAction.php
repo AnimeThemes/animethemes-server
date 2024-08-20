@@ -124,10 +124,10 @@ class BackfillAnimeAction extends BackfillWikiAction
             $this->getModel()->studios()->attach($studio);
 
             $this->ensureStudioHasResource($studio, $response->getSite(), $id);
+        }
 
-            if ($this->getModel()->studios()->exists()) {
-                $this->toBackfill[self::STUDIOS] = false;
-            }
+        if ($this->getModel()->studios()->exists()) {
+            $this->toBackfill[self::STUDIOS] = false;
         }
     }
 
@@ -142,11 +142,11 @@ class BackfillAnimeAction extends BackfillWikiAction
         if (!$this->toBackfill[self::SYNONYMS]) return;
 
         foreach ($api->getSynonyms() as $type => $text) {
-            $this->createAnimeSynonym($text, $type, $this->getModel());
+            $this->createAnimeSynonym($text, $type, $this->getModel()); 
+        }
 
-            if ($this->getModel()->animesynonyms()->exists()) {
-                $this->toBackfill[self::SYNONYMS] = false;
-            }
+        if ($this->getModel()->animesynonyms()->exists()) {
+            $this->toBackfill[self::SYNONYMS] = false;
         }
     }
 
