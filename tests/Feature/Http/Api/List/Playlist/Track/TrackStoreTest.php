@@ -211,16 +211,16 @@ class TrackStoreTest extends TestCase
             ->for($user)
             ->createOne();
 
-        $parameters = PlaylistTrack::factory()
+        $track = PlaylistTrack::factory()
             ->for($playlist)
-            ->raw([
+            ->makeOne([
                 PlaylistTrack::ATTRIBUTE_ENTRY => $entry->getKey(),
                 PlaylistTrack::ATTRIBUTE_VIDEO => $video->getKey(),
             ]);
 
         Sanctum::actingAs($user);
 
-        $response = $this->post(route('api.playlist.track.store', $parameters));
+        $response = $this->post(route('api.playlist.track.store', ['playlist' => $playlist] + $track->toArray()));
 
         $response->assertJsonValidationErrors([
             PlaylistTrack::ATTRIBUTE_ENTRY,
