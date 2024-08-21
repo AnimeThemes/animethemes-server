@@ -74,7 +74,7 @@ abstract class BaseResource extends Resource
             ->filtersFormMaxHeight('400px')
             ->actions(static::getActions())
             ->bulkActions(static::getBulkActions())
-            ->headerActions(static::getHeaderActions())
+            ->headerActions(static::getTableActions())
             ->recordUrl(fn (Model $record): string => static::getUrl('view', ['record' => $record]))
             ->paginated([10, 25, 50, 100, 'all'])
             ->defaultPaginationPageOption(25);
@@ -181,13 +181,13 @@ abstract class BaseResource extends Resource
     }
 
     /**
-     * Get the header actions available for the resource.
+     * Get the table actions available for the resource.
      *
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getHeaderActions(): array
+    public static function getTableActions(): array
     {
         return [];
     }

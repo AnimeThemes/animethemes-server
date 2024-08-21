@@ -95,7 +95,7 @@ abstract class AnimeRelationManager extends BaseRelationManager
     }
 
     /**
-     * Get the header actions available for the relation.
+     * Get the header actions available for the relation. These are merged with the table actions of the resources.
      *
      * @return array
      *
@@ -105,7 +105,7 @@ abstract class AnimeRelationManager extends BaseRelationManager
     {
         return array_merge(
             parent::getHeaderActions(),
-            AnimeResource::getHeaderActions(),
+            AnimeResource::getTableActions(),
         );
     }
 }

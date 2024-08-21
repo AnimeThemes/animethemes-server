@@ -95,7 +95,7 @@ abstract class VideoRelationManager extends BaseRelationManager
     }
 
     /**
-     * Get the header actions available for the relation.
+     * Get the header actions available for the relation. These are merged with the table actions of the resources.
      *
      * @return array
      *
@@ -105,7 +105,7 @@ abstract class VideoRelationManager extends BaseRelationManager
     {
         return array_merge(
             parent::getHeaderActions(),
-            VideoResource::getHeaderActions(),
+            VideoResource::getTableActions(),
         );
     }
 

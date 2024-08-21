@@ -92,7 +92,7 @@ abstract class PermissionRelationManager extends BaseRelationManager
     }
 
     /**
-     * Get the header actions available for the relation.
+     * Get the header actions available for the relation. These are merged with the table actions of the resources.
      *
      * @return array
      *
@@ -100,6 +100,6 @@ abstract class PermissionRelationManager extends BaseRelationManager
      */
     public static function getHeaderActions(): array
     {
-        return PermissionResource::getHeaderActions();
+        return PermissionResource::getTableActions();
     }
 }

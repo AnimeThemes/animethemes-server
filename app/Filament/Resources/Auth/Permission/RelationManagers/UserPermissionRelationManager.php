@@ -83,7 +83,7 @@ class UserPermissionRelationManager extends UserRelationManager
     }
 
     /**
-     * Get the header actions available for the relation.
+     * Get the header actions available for the relation. These are merged with the table actions of the resources.
      *
      * @return array
      *

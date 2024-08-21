@@ -95,7 +95,7 @@ abstract class SeriesRelationManager extends BaseRelationManager
     }
 
     /**
-     * Get the header actions available for the relation.
+     * Get the header actions available for the relation. These are merged with the table actions of the resources.
      *
      * @return array
      *
@@ -105,7 +105,7 @@ abstract class SeriesRelationManager extends BaseRelationManager
     {
         return array_merge(
             parent::getHeaderActions(),
-            SeriesResource::getHeaderActions(),
+            SeriesResource::getTableActions(),
         );
     }
 }

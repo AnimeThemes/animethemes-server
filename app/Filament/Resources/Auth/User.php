@@ -291,16 +291,16 @@ class User extends BaseResource
     }
 
     /**
-     * Get the header actions available for the resource.
+     * Get the table actions available for the resource.
      *
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getHeaderActions(): array
+    public static function getTableActions(): array
     {
         return array_merge(
-            parent::getHeaderActions(),
+            parent::getTableActions(),
             [],
         );
     }
