@@ -27,7 +27,7 @@ class DiscordVideoNotificationAction
      */
     public function handle(Collection $videos, array $fields): void
     {
-        $type = Arr::get($fields, 'type');
+        $type = Arr::get($fields, 'notification-type');
         $shouldForce = Arr::get($fields, 'should-force-thread');
 
         /** @var \Illuminate\Filesystem\FilesystemAdapter */

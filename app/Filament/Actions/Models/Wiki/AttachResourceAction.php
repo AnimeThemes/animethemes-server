@@ -15,6 +15,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Support\Enums\MaxWidth;
 use Illuminate\Contracts\Validation\ValidationRule;
+use Illuminate\Support\Str;
 
 /**
  * Class AttachResourceAction.
@@ -57,7 +58,7 @@ abstract class AttachResourceAction extends BaseAction
                 if ($resources->where(ExternalResource::ATTRIBUTE_SITE, $resourceSite->value)->exists()) continue;
             }
 
-            $resourceSiteLower = strtolower($resourceSite->name);
+            $resourceSiteLower = Str::lower($resourceSite->name);
 
             $fields[] = TextInput::make($resourceSite->name)
                             ->label($resourceSite->localize())

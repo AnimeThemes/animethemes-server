@@ -25,6 +25,7 @@ use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 use Malzariey\FilamentDaterangepickerFilter\Filters\DateRangeFilter;
 
 /**
@@ -158,7 +159,7 @@ class ActionLog extends BaseResource
 
                 TextColumn::make(ActionLogModel::ATTRIBUTE_TARGET)
                     ->label(__('filament.fields.action_log.target'))
-                    ->formatStateUsing(fn ($state) => class_basename($state) . ': ' . $state->getName())
+                    ->formatStateUsing(fn ($state) => Str::headline(class_basename($state)) . ': ' . $state->getName())
                     ->sortable(),
 
                 TextColumn::make(ActionLogModel::ATTRIBUTE_STATUS)

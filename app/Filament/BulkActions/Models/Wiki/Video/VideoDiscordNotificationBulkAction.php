@@ -60,7 +60,7 @@ class VideoDiscordNotificationBulkAction extends BaseBulkAction
     {
         return $form
             ->schema([
-                Select::make('type')
+                Select::make('notification-type')
                     ->label(__('filament.bulk_actions.discord.notification.type.name'))
                     ->helperText(__('filament.bulk_actions.discord.notification.type.help'))
                     ->options([

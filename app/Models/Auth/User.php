@@ -26,6 +26,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Sanctum\HasApiTokens;
 use Laravel\Sanctum\PersonalAccessToken;
@@ -212,7 +213,7 @@ class User extends Authenticatable implements MustVerifyEmail, Nameable, HasSubt
      */
     public function getFilamentAvatarUrl(): string
     {
-        $hash = md5(strtolower(trim($this->email)));
+        $hash = md5(Str::lower(Str::trim($this->email)));
 
         return "https://www.gravatar.com/avatar/$hash";
     }

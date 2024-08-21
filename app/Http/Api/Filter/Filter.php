@@ -155,12 +155,12 @@ abstract class Filter
 
         if ($comparisonOperator !== null) {
             $formattedFilter = $formattedFilter->append(Criteria::PARAM_SEPARATOR)
-                ->append(strtolower($comparisonOperator->name));
+                ->append(Str::lower($comparisonOperator->name));
         }
 
         if ($logicalOperator !== null) {
             $formattedFilter = $formattedFilter->append(Criteria::PARAM_SEPARATOR)
-                ->append(strtolower($logicalOperator->name));
+                ->append(Str::lower($logicalOperator->name));
         }
 
         return $formattedFilter->lower()->__toString();

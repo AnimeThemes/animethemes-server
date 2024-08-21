@@ -7,6 +7,7 @@ namespace App\Filament\TableActions\Storage;
 use App\Contracts\Actions\Storage\StorageAction as BaseStorageAction;
 use App\Filament\RelationManagers\BaseRelationManager;
 use App\Filament\TableActions\BaseTableAction;
+use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
@@ -21,6 +22,17 @@ abstract class StorageTableAction extends BaseTableAction
      * @return BaseStorageAction
      */
     abstract protected function storageAction(array $fields): BaseStorageAction;
+
+    /**
+     * Run this after the video is uploaded.
+     *
+     * @param  BaseModel  $model
+     * @param  array  $data
+     * @return void
+     */
+    protected function afterUploaded(BaseModel $model, array $fields): void
+    {
+    }
 
     /**
      * Perform the action on the table.
@@ -44,6 +56,8 @@ abstract class StorageTableAction extends BaseTableAction
             $this->failedLog($actionResult->getMessage());
             return;
         }
+
+        $this->afterUploaded($model, $fields);
 
         $livewire = $this->getLivewire();
         if ($livewire instanceof BaseRelationManager) {
