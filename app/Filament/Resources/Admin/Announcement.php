@@ -7,16 +7,12 @@ namespace App\Filament\Resources\Admin;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\BaseResource;
-use App\Filament\Resources\Admin\Announcement\Pages\CreateAnnouncement;
-use App\Filament\Resources\Admin\Announcement\Pages\EditAnnouncement;
-use App\Filament\Resources\Admin\Announcement\Pages\ListAnnouncements;
-use App\Filament\Resources\Admin\Announcement\Pages\ViewAnnouncement;
+use App\Filament\Resources\Admin\Announcement\Pages\ManageAnnouncements;
 use App\Models\Admin\Announcement as AnnouncementModel;
 use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Form;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Infolist;
-use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Tables\Table;
 
 /**
@@ -135,6 +131,7 @@ class Announcement extends BaseResource
     public static function table(Table $table): Table
     {
         return parent::table($table)
+            ->recordUrl('')
             ->columns([
                 TextColumn::make(AnnouncementModel::ATTRIBUTE_ID)
                     ->label(__('filament.fields.base.id'))
@@ -177,25 +174,6 @@ class Announcement extends BaseResource
                     ->schema(parent::timestamps())
                     ->columns(3),
             ]);
-    }
-
-    /**
-     * Get the relationships available for the resource.
-     *
-     * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    public static function getRelations(): array
-    {
-        return [
-            RelationGroup::make(static::getLabel(),
-                array_merge(
-                    [],
-                    parent::getBaseRelations(),
-                )
-            ),
-        ];
     }
 
     /**
@@ -269,10 +247,7 @@ class Announcement extends BaseResource
     public static function getPages(): array
     {
         return [
-            'index' => ListAnnouncements::route('/'),
-            'create' => CreateAnnouncement::route('/create'),
-            'view' => ViewAnnouncement::route('/{record:announcement_id}'),
-            'edit' => EditAnnouncement::route('/{record:announcement_id}/edit'),
+            'index' => ManageAnnouncements::route('/'),
         ];
     }
 }

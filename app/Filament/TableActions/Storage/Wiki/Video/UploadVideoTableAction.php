@@ -96,7 +96,7 @@ class UploadVideoTableAction extends UploadTableAction
                                             [
                                                 Hidden::make(AnimeThemeEntry::ATTRIBUTE_ID)
                                                     ->label(__('filament.resources.singularLabel.anime_theme_entry'))
-                                                    ->default(fn(BaseRelationManager|ListVideos $livewire) => $livewire instanceof VideoEntryRelationManager ? $livewire->getOwnerRecord()->getKey() : null),
+                                                    ->default(fn (BaseRelationManager|ListVideos $livewire) => $livewire instanceof VideoEntryRelationManager ? $livewire->getOwnerRecord()->getKey() : null),
                                             ],
                                             parent::getForm($form)->getComponents(),
                                             [

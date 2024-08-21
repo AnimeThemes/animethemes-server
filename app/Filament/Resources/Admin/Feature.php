@@ -8,16 +8,12 @@ use App\Constants\FeatureConstants;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\BaseResource;
-use App\Filament\Resources\Admin\Feature\Pages\CreateFeature;
-use App\Filament\Resources\Admin\Feature\Pages\EditFeature;
-use App\Filament\Resources\Admin\Feature\Pages\ListFeatures;
-use App\Filament\Resources\Admin\Feature\Pages\ViewFeature;
+use App\Filament\Resources\Admin\Feature\Pages\ManageFeatures;
 use App\Models\Admin\Feature as FeatureModel;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Infolist;
-use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -146,6 +142,7 @@ class Feature extends BaseResource
     public static function table(Table $table): Table
     {
         return parent::table($table)
+            ->recordUrl('')
             ->modifyQueryUsing(fn (Builder $query) => $query->where(FeatureModel::ATTRIBUTE_SCOPE, FeatureConstants::NULL_SCOPE))
             ->columns([
                 TextColumn::make(FeatureModel::ATTRIBUTE_ID)
@@ -196,24 +193,6 @@ class Feature extends BaseResource
                     ->schema(parent::timestamps())
                     ->columns(3),
             ]);
-    }
-
-    /**
-     * Get the relationships available for the resource.
-     *
-     * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    public static function getRelations(): array
-    {
-        return [
-            RelationGroup::make(static::getLabel(),
-                array_merge(
-                    [],
-                )
-            ),
-        ];
     }
 
     /**
@@ -284,10 +263,7 @@ class Feature extends BaseResource
     public static function getPages(): array
     {
         return [
-            'index' => ListFeatures::route('/'),
-            'create' => CreateFeature::route('/create'),
-            'view' => ViewFeature::route('/{record:feature_id}'),
-            'edit' => EditFeature::route('/{record:feature_id}/edit'),
+            'index' => ManageFeatures::route('/'),
         ];
     }
 }

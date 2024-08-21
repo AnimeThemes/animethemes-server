@@ -75,7 +75,7 @@ abstract class BaseResource extends Resource
             ->actions(static::getActions())
             ->bulkActions(static::getBulkActions())
             ->headerActions(static::getHeaderActions())
-            ->recordUrl(fn(Model $record): string => static::getUrl('view', ['record' => $record]))
+            ->recordUrl(fn (Model $record): string => static::getUrl('view', ['record' => $record]))
             ->paginated([10, 25, 50, 100, 'all'])
             ->defaultPaginationPageOption(25);
     }

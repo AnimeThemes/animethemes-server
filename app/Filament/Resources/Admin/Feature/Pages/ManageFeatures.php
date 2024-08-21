@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Admin\Feature\Pages;
 
-use App\Filament\Resources\Base\BaseViewResource;
+use App\Filament\Resources\Base\BaseManageResources;
 use App\Filament\Resources\Admin\Feature;
 
 /**
- * Class ViewFeature.
+ * Class ManageFeatures.
  */
-class ViewFeature extends BaseViewResource
+class ManageFeatures extends BaseManageResources
 {
     protected static string $resource = Feature::class;
 
@@ -23,9 +23,6 @@ class ViewFeature extends BaseViewResource
      */
     protected function getHeaderActions(): array
     {
-        return array_merge(
-            parent::getHeaderActions(),
-            [],
-        );
+        return [];
     }
 }

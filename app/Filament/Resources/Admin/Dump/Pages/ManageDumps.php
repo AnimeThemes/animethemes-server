@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Admin\Dump\Pages;
 
+use App\Filament\Resources\Base\BaseManageResources;
 use App\Filament\Resources\Admin\Dump;
-use App\Filament\Resources\Base\BaseEditResource;
 
 /**
- * Class EditDump.
+ * Class ManageDumps.
  */
-class EditDump extends BaseEditResource
+class ManageDumps extends BaseManageResources
 {
     protected static string $resource = Dump::class;
 
@@ -23,9 +23,6 @@ class EditDump extends BaseEditResource
      */
     protected function getHeaderActions(): array
     {
-        return array_merge(
-            parent::getHeaderActions(),
-            [],
-        );
+        return [];
     }
 }
