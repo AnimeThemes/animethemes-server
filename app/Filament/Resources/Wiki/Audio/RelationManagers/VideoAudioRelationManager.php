@@ -70,11 +70,12 @@ class VideoAudioRelationManager extends VideoRelationManager
     /**
      * Get the bulk actions available for the relation.
      *
+     * @param  array|null  $actionsIncludedInGroup
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getBulkActions(): array
+    public static function getBulkActions(?array $actionsIncludedInGroup = []): array
     {
         return array_merge(
             parent::getBulkActions(),
@@ -83,7 +84,7 @@ class VideoAudioRelationManager extends VideoRelationManager
     }
 
     /**
-     * Get the header actions available for the relation.
+     * Get the header actions available for the relation. These are merged with the table actions of the resources.
      *
      * @return array
      *

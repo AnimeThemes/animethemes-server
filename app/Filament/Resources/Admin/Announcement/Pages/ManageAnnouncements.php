@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace App\Filament\Resources\Admin\ActionLog\Pages;
+namespace App\Filament\Resources\Admin\Announcement\Pages;
 
-use App\Filament\Resources\Base\BaseViewResource;
-use App\Filament\Resources\Admin\ActionLog;
+use App\Filament\Resources\Base\BaseManageResources;
+use App\Filament\Resources\Admin\Announcement;
 
 /**
- * Class ViewActionLog.
+ * Class ManageAnnouncements.
  */
-class ViewActionLog extends BaseViewResource
+class ManageAnnouncements extends BaseManageResources
 {
-    protected static string $resource = ActionLog::class;
+    protected static string $resource = Announcement::class;
 
     /**
      * Get the header actions available.

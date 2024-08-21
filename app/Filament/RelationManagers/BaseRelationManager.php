@@ -102,7 +102,7 @@ abstract class BaseRelationManager extends RelationManager
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getBulkActions(): array
+    public static function getBulkActions(?array $actionsIncludedInGroup = []): array
     {
         return [
             DetachBulkAction::make(),
@@ -110,7 +110,7 @@ abstract class BaseRelationManager extends RelationManager
     }
 
     /**
-     * Get the header actions available for the relation.
+     * Get the header actions available for the relation. These are merged with the table actions of the resources.
      *
      * @return array
      *

@@ -9,8 +9,7 @@ use App\Enums\Auth\Role;
 use App\Filament\Components\Columns\BelongsToColumn;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Infolist\TextEntry;
-use App\Filament\Resources\Admin\ActionLog\Pages\ListActionLogs;
-use App\Filament\Resources\Admin\ActionLog\Pages\ViewActionLog;
+use App\Filament\Resources\Admin\ActionLog\Pages\ManageActionLogs;
 use App\Filament\Resources\Auth\User;
 use App\Filament\Resources\BaseResource;
 use App\Models\Admin\ActionLog as ActionLogModel;
@@ -19,12 +18,11 @@ use App\Models\BaseModel;
 use Filament\Facades\Filament;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Form;
-use Filament\Infolists\Components\Section;
 use Filament\Infolists\Infolist;
-use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 use Malzariey\FilamentDaterangepickerFilter\Filters\DateRangeFilter;
 
 /**
@@ -142,6 +140,7 @@ class ActionLog extends BaseResource
     public static function table(Table $table): Table
     {
         return parent::table($table)
+            ->recordUrl('')
             ->columns([
                 TextColumn::make(ActionLogModel::ATTRIBUTE_ID)
                     ->label(__('filament.fields.base.id'))
@@ -158,7 +157,7 @@ class ActionLog extends BaseResource
 
                 TextColumn::make(ActionLogModel::ATTRIBUTE_TARGET)
                     ->label(__('filament.fields.action_log.target'))
-                    ->formatStateUsing(fn ($state) => class_basename($state) . ': ' . $state->getName())
+                    ->formatStateUsing(fn ($state) => Str::headline(class_basename($state)) . ': ' . $state->getName())
                     ->sortable(),
 
                 TextColumn::make(ActionLogModel::ATTRIBUTE_STATUS)
@@ -193,66 +192,38 @@ class ActionLog extends BaseResource
     {
         return $infolist
             ->schema([
-                Section::make(static::getRecordTitle($infolist->getRecord()))
-                    ->schema([
-                        TextEntry::make(ActionLogModel::ATTRIBUTE_ID)
-                            ->label(__('filament.fields.base.id')),
+                TextEntry::make(ActionLogModel::ATTRIBUTE_NAME)
+                    ->label(__('filament.fields.action_log.name'))
+                    ->formatStateUsing(fn ($state) => ucfirst($state)),
 
-                        TextEntry::make(ActionLogModel::ATTRIBUTE_NAME)
-                            ->label(__('filament.fields.action_log.name'))
-                            ->formatStateUsing(fn ($state) => ucfirst($state)),
+                TextEntry::make(ActionLogModel::ATTRIBUTE_USER)
+                    ->label(__('filament.resources.singularLabel.user'))
+                    ->urlToRelated(User::class, ActionLogModel::RELATION_USER, true),
 
-                        TextEntry::make(ActionLogModel::ATTRIBUTE_USER)
-                            ->label(__('filament.resources.singularLabel.user'))
-                            ->urlToRelated(User::class, ActionLogModel::RELATION_USER, true),
+                TextEntry::make(ActionLogModel::ATTRIBUTE_TARGET)
+                    ->label(__('filament.fields.action_log.target'))
+                    ->formatStateUsing(fn ($state) => class_basename($state) . ': ' . $state->getName()),
 
-                        TextEntry::make(ActionLogModel::ATTRIBUTE_TARGET)
-                            ->label(__('filament.fields.action_log.target'))
-                            ->formatStateUsing(fn ($state) => class_basename($state) . ': ' . $state->getName()),
+                TextEntry::make(ActionLogModel::ATTRIBUTE_STATUS)
+                    ->label(__('filament.fields.action_log.status'))
+                    ->formatStateUsing(fn (ActionLogStatus $state) => $state->localize())
+                    ->color(fn (ActionLogStatus $state) => $state->color())
+                    ->badge(),
 
-                        TextEntry::make(ActionLogModel::ATTRIBUTE_STATUS)
-                            ->label(__('filament.fields.action_log.status'))
-                            ->formatStateUsing(fn (ActionLogStatus $state) => $state->localize())
-                            ->color(fn (ActionLogStatus $state) => $state->color())
-                            ->badge(),
+                TextEntry::make(BaseModel::ATTRIBUTE_CREATED_AT)
+                    ->label(__('filament.fields.action_log.happened_at'))
+                    ->dateTime(),
 
-                        TextEntry::make(BaseModel::ATTRIBUTE_CREATED_AT)
-                            ->label(__('filament.fields.action_log.happened_at'))
-                            ->dateTime(),
+                TextEntry::make(ActionLogModel::ATTRIBUTE_FINISHED_AT)
+                    ->label(__('filament.fields.action_log.finished_at'))
+                    ->dateTime()
+                    ->placeholder('-'),
 
-                        TextEntry::make(ActionLogModel::ATTRIBUTE_FINISHED_AT)
-                            ->label(__('filament.fields.action_log.finished_at'))
-                            ->dateTime()
-                            ->placeholder('-'),
-
-                        TextEntry::make(ActionLogModel::ATTRIBUTE_EXCEPTION)
-                            ->label(__('filament.fields.action_log.exception'))
-                            ->placeholder('-')
-                            ->columnSpanFull(),
-                    ])
-                    ->columns(3),
-
-                Section::make(__('filament.fields.base.timestamps'))
-                    ->schema(parent::timestamps())
-                    ->columns(3),
-            ]);
-    }
-
-    /**
-     * Get the relationships available for the resource.
-     *
-     * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    public static function getRelations(): array
-    {
-        return [
-            RelationGroup::make(
-                static::getLabel(),
-                [],
-            ),
-        ];
+                TextEntry::make(ActionLogModel::ATTRIBUTE_EXCEPTION)
+                    ->label(__('filament.fields.action_log.exception'))
+                    ->placeholder('-')
+                    ->columnSpanFull(),
+            ])->columns(3);
     }
 
     /**
@@ -295,11 +266,12 @@ class ActionLog extends BaseResource
     /**
      * Get the bulk actions available for the resource.
      *
+     * @param  array|null  $actionsIncludedInGroup
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getBulkActions(): array
+    public static function getBulkActions(?array $actionsIncludedInGroup = []): array
     {
         return array_merge(
             parent::getBulkActions(),
@@ -308,16 +280,16 @@ class ActionLog extends BaseResource
     }
 
     /**
-     * Get the header actions available for the resource.
+     * Get the table actions available for the resource.
      *
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getHeaderActions(): array
+    public static function getTableActions(): array
     {
         return array_merge(
-            parent::getHeaderActions(),
+            parent::getTableActions(),
             [],
         );
     }
@@ -387,8 +359,7 @@ class ActionLog extends BaseResource
     public static function getPages(): array
     {
         return [
-            'index' => ListActionLogs::route('/'),
-            'view' => ViewActionLog::route('/{record:id}'),
+            'index' => ManageActionLogs::route('/'),
         ];
     }
 }

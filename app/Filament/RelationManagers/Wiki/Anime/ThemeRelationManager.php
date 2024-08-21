@@ -81,11 +81,12 @@ abstract class ThemeRelationManager extends BaseRelationManager
     /**
      * Get the bulk actions available for the relation.
      *
+     * @param  array|null  $actionsIncludedInGroup
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getBulkActions(): array
+    public static function getBulkActions(?array $actionsIncludedInGroup = []): array
     {
         return array_merge(
             parent::getBulkActions(),
@@ -94,7 +95,7 @@ abstract class ThemeRelationManager extends BaseRelationManager
     }
 
     /**
-     * Get the header actions available for the relation.
+     * Get the header actions available for the relation. These are merged with the table actions of the resources.
      *
      * @return array
      *
@@ -104,7 +105,7 @@ abstract class ThemeRelationManager extends BaseRelationManager
     {
         return array_merge(
             parent::getHeaderActions(),
-            ThemeResource::getHeaderActions(),
+            ThemeResource::getTableActions(),
         );
     }
 }

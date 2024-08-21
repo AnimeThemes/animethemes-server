@@ -81,11 +81,12 @@ abstract class UserRelationManager extends BaseRelationManager
     /**
      * Get the bulk actions available for the relation.
      *
+     * @param  array|null  $actionsIncludedInGroup
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getBulkActions(): array
+    public static function getBulkActions(?array $actionsIncludedInGroup = []): array
     {
         return array_merge(
             parent::getBulkActions(),
@@ -94,7 +95,7 @@ abstract class UserRelationManager extends BaseRelationManager
     }
 
     /**
-     * Get the header actions available for the relation.
+     * Get the header actions available for the relation. These are merged with the table actions of the resources.
      *
      * @return array
      *
@@ -102,6 +103,6 @@ abstract class UserRelationManager extends BaseRelationManager
      */
     public static function getHeaderActions(): array
     {
-        return UserResource::getHeaderActions();
+        return UserResource::getTableActions();
     }
 }

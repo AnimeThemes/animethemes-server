@@ -8,11 +8,14 @@ use App\Actions\Storage\Wiki\Video\UploadVideoAction as UploadVideo;
 use App\Constants\Config\VideoConstants;
 use App\Enums\Models\Wiki\VideoOverlap;
 use App\Enums\Models\Wiki\VideoSource;
+use App\Filament\Actions\Models\Wiki\Video\BackfillAudioAction;
+use App\Filament\BulkActions\Models\Wiki\Video\VideoDiscordNotificationBulkAction;
 use App\Filament\Components\Fields\Select;
 use App\Filament\RelationManagers\BaseRelationManager;
 use App\Filament\Resources\Wiki\Anime\Theme\Entry\RelationManagers\VideoEntryRelationManager;
 use App\Filament\Resources\Wiki\Video\Pages\ListVideos;
 use App\Filament\TableActions\Storage\Base\UploadTableAction;
+use App\Models\BaseModel;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
 use App\Rules\Wiki\Submission\Audio\AudioChannelLayoutStreamRule;
@@ -39,7 +42,10 @@ use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Tabs;
+use Filament\Forms\Components\Tabs\Tab;
 use Filament\Forms\Form;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
@@ -52,6 +58,9 @@ use Illuminate\Validation\Rules\File as FileRule;
  */
 class UploadVideoTableAction extends UploadTableAction
 {
+    final public const SHOULD_BACKFILL_AUDIO = 'should_backfill_audio';
+    final public const SHOULD_SEND_NOTIFICATION = 'should_send_notification';
+
     /**
      * Initial setup for the action.
      *
@@ -76,66 +85,112 @@ class UploadVideoTableAction extends UploadTableAction
     {
         return $form
             ->schema([
-                Section::make(__('filament.resources.singularLabel.video'))
-                    ->schema(
-                        array_merge(
-                            [
-                                Hidden::make(AnimeThemeEntry::ATTRIBUTE_ID)
-                                    ->label(__('filament.resources.singularLabel.anime_theme_entry'))
-                                    ->default(fn (BaseRelationManager|ListVideos $livewire) => $livewire instanceof VideoEntryRelationManager ? $livewire->getOwnerRecord()->getKey() : null),
-                            ],
-                            parent::getForm($form)->getComponents(),
-                            [
-                                Checkbox::make(Video::ATTRIBUTE_NC)
-                                    ->label(__('filament.fields.video.nc.name'))
-                                    ->helperText(__('filament.fields.video.nc.help'))
-                                    ->nullable()
-                                    ->rules(['nullable', 'boolean']),
+                Tabs::make('Tabs')
+                    ->tabs([
+                        Tab::make('video')
+                            ->label(__('filament.resources.singularLabel.video'))
+                            ->schema([
+                                Section::make(__('filament.resources.singularLabel.video'))
+                                    ->schema(
+                                        array_merge(
+                                            [
+                                                Hidden::make(AnimeThemeEntry::ATTRIBUTE_ID)
+                                                    ->label(__('filament.resources.singularLabel.anime_theme_entry'))
+                                                    ->default(fn (BaseRelationManager|ListVideos $livewire) => $livewire instanceof VideoEntryRelationManager ? $livewire->getOwnerRecord()->getKey() : null),
+                                            ],
+                                            parent::getForm($form)->getComponents(),
+                                            [
+                                                Checkbox::make(Video::ATTRIBUTE_NC)
+                                                    ->label(__('filament.fields.video.nc.name'))
+                                                    ->helperText(__('filament.fields.video.nc.help'))
+                                                    ->nullable()
+                                                    ->rules(['nullable', 'boolean']),
 
-                                Checkbox::make(Video::ATTRIBUTE_SUBBED)
-                                    ->label(__('filament.fields.video.subbed.name'))
-                                    ->helperText(__('filament.fields.video.subbed.help'))
-                                    ->nullable()
-                                    ->rules(['nullable', 'boolean']),
+                                                Checkbox::make(Video::ATTRIBUTE_SUBBED)
+                                                    ->label(__('filament.fields.video.subbed.name'))
+                                                    ->helperText(__('filament.fields.video.subbed.help'))
+                                                    ->nullable()
+                                                    ->rules(['nullable', 'boolean']),
 
-                                Checkbox::make(Video::ATTRIBUTE_LYRICS)
-                                    ->label(__('filament.fields.video.lyrics.name'))
-                                    ->helperText(__('filament.fields.video.lyrics.help'))
-                                    ->nullable()
-                                    ->rules(['nullable', 'boolean']),
+                                                Checkbox::make(Video::ATTRIBUTE_LYRICS)
+                                                    ->label(__('filament.fields.video.lyrics.name'))
+                                                    ->helperText(__('filament.fields.video.lyrics.help'))
+                                                    ->nullable()
+                                                    ->rules(['nullable', 'boolean']),
 
-                                Checkbox::make(Video::ATTRIBUTE_UNCEN)
-                                    ->label(__('filament.fields.video.uncen.name'))
-                                    ->helperText(__('filament.fields.video.uncen.help'))
-                                    ->nullable()
-                                    ->rules(['nullable', 'boolean']),
+                                                Checkbox::make(Video::ATTRIBUTE_UNCEN)
+                                                    ->label(__('filament.fields.video.uncen.name'))
+                                                    ->helperText(__('filament.fields.video.uncen.help'))
+                                                    ->nullable()
+                                                    ->rules(['nullable', 'boolean']),
 
-                                Select::make(Video::ATTRIBUTE_OVERLAP)
-                                    ->label(__('filament.fields.video.overlap.name'))
-                                    ->helperText(__('filament.fields.video.overlap.help'))
-                                    ->options(VideoOverlap::asSelectArray())
-                                    ->nullable()
-                                    ->rules(['nullable', new Enum(VideoOverlap::class)]),
+                                                Select::make(Video::ATTRIBUTE_OVERLAP)
+                                                    ->label(__('filament.fields.video.overlap.name'))
+                                                    ->helperText(__('filament.fields.video.overlap.help'))
+                                                    ->options(VideoOverlap::asSelectArray())
+                                                    ->nullable()
+                                                    ->rules(['nullable', new Enum(VideoOverlap::class)]),
 
-                                Select::make(Video::ATTRIBUTE_SOURCE)
-                                    ->label(__('filament.fields.video.source.name'))
-                                    ->helperText(__('filament.fields.video.source.help'))
-                                    ->options(VideoSource::asSelectArray())
-                                    ->nullable()
-                                    ->rules(['nullable', new Enum(VideoSource::class)]),
-                            ],
-                        )
-                    ),
+                                                Select::make(Video::ATTRIBUTE_SOURCE)
+                                                    ->label(__('filament.fields.video.source.name'))
+                                                    ->helperText(__('filament.fields.video.source.help'))
+                                                    ->options(VideoSource::asSelectArray())
+                                                    ->nullable()
+                                                    ->rules(['nullable', new Enum(VideoSource::class)]),
+                                            ],
+                                        )
+                                    ),
 
-                Section::make(__('filament.resources.singularLabel.video_script'))
-                    ->schema([
-                        FileUpload::make('script')
-                            ->label(__('filament.resources.singularLabel.video_script'))
-                            ->helperText(__('filament.actions.storage.upload.fields.file.help'))
-                            ->nullable()
-                            ->rules(['nullable', FileRule::types('txt')->max(2 * 1024)])
-                            ->storeFiles(false),
-                    ]),
+                                Section::make(__('filament.resources.singularLabel.video_script'))
+                                    ->schema([
+                                        FileUpload::make('script')
+                                            ->label(__('filament.resources.singularLabel.video_script'))
+                                            ->helperText(__('filament.actions.storage.upload.fields.file.help'))
+                                            ->nullable()
+                                            ->rules(['nullable', FileRule::types('txt')->max(2 * 1024)])
+                                            ->storeFiles(false),
+                                    ]),
+                            ]),
+
+                        Tab::make('audio')
+                            ->label(__('filament.actions.video.backfill.name'))
+                            ->schema(
+                                array_merge(
+                                    [
+                                        Select::make(self::SHOULD_BACKFILL_AUDIO)
+                                            ->label(__('filament.actions.video.backfill.fields.should.name'))
+                                            ->helperText(__('filament.actions.video.backfill.fields.should.help'))
+                                            ->options([
+                                                'yes' => __('filament.actions.video.backfill.fields.should.options.yes'),
+                                                'no' => __('filament.actions.video.backfill.fields.should.options.no'),
+                                            ])
+                                            ->required()
+                                            ->default('yes')
+                                    ],
+                                    BackfillAudioAction::make()->getForm($form)->getComponents(),
+                                )
+                            ),
+
+                        Tab::make('discord')
+                            ->label(__('filament.bulk_actions.discord.notification.name'))
+                            ->schema(
+                                array_merge(
+                                    [
+                                        Select::make(self::SHOULD_SEND_NOTIFICATION)
+                                            ->label(__('filament.bulk_actions.discord.notification.should_send.name'))
+                                            ->helperText(__('filament.bulk_actions.discord.notification.should_send.help'))
+                                            ->options([
+                                                'yes' => __('filament.bulk_actions.discord.notification.should_send.options.yes'),
+                                                'no' => __('filament.bulk_actions.discord.notification.should_send.options.no'),
+                                            ])
+                                            ->required()
+                                            ->default('yes')
+                                    ],
+                                    VideoDiscordNotificationBulkAction::make()->getForm($form)->getComponents(),
+                                )
+                            ),
+                    ])
+
             ]);
     }
 
@@ -162,12 +217,12 @@ class UploadVideoTableAction extends UploadTableAction
         if ($path === null && $entry !== null) {
             $anime = $entry->animetheme->anime;
             $year = $anime->year;
-            $path = $year >= 2000 ?
-                Str::of(strval($year))
+            $path = $year >= 2000
+                ? Str::of(strval($year))
                     ->append('/')
                     ->append($anime->season->localize())
                     ->__toString()
-                : floor($year % 100 / 10).'0s';
+                : floor($year % 100 / 10) . '0s';
         }
 
         if ($path === null) {
@@ -185,6 +240,28 @@ class UploadVideoTableAction extends UploadTableAction
         ];
 
         return new UploadVideo($file, $path, $attributes, $entry, $script);
+    }
+
+    /**
+     * Run this after the video is uploaded.
+     *
+     * @param  Video  $video
+     * @param  array  $data
+     * @return void
+     */
+    protected function afterUploaded(BaseModel $video, array $data): void
+    {
+        if (Arr::get($data, self::SHOULD_BACKFILL_AUDIO) === 'yes') {
+            $backfillAudioAction = new BackfillAudioAction('audio');
+            $backfillAudioAction->handle($video, $data);
+        }
+
+        if (Arr::get($data, self::SHOULD_SEND_NOTIFICATION) === 'yes') {
+            $videos = new Collection($video);
+
+            $discordNotificationAction = new VideoDiscordNotificationBulkAction('discord');
+            $discordNotificationAction->handle($videos, $data);
+        }
     }
 
     /**

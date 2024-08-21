@@ -7,10 +7,7 @@ namespace App\Filament\Resources\Admin;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\BaseResource;
-use App\Filament\Resources\Admin\Dump\Pages\CreateDump;
-use App\Filament\Resources\Admin\Dump\Pages\EditDump;
-use App\Filament\Resources\Admin\Dump\Pages\ListDumps;
-use App\Filament\Resources\Admin\Dump\Pages\ViewDump;
+use App\Filament\Resources\Admin\Dump\Pages\ManageDumps;
 use App\Filament\TableActions\Repositories\Storage\Admin\Dump\ReconcileDumpTableAction;
 use App\Filament\TableActions\Storage\Admin\DumpDocumentTableAction;
 use App\Filament\TableActions\Storage\Admin\DumpWikiTableAction;
@@ -21,7 +18,6 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Infolist;
-use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Tables\Table;
 
 /**
@@ -141,6 +137,7 @@ class Dump extends BaseResource
     public static function table(Table $table): Table
     {
         return parent::table($table)
+            ->recordUrl('')
             ->columns([
                 TextColumn::make(DumpModel::ATTRIBUTE_ID)
                     ->label(__('filament.fields.base.id'))
@@ -184,25 +181,6 @@ class Dump extends BaseResource
     }
 
     /**
-     * Get the relationships available for the resource.
-     *
-     * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    public static function getRelations(): array
-    {
-        return [
-            RelationGroup::make(static::getLabel(),
-                array_merge(
-                    [],
-                    parent::getBaseRelations(),
-                )
-            ),
-        ];
-    }
-
-    /**
      * Get the filters available for the resource.
      *
      * @return array
@@ -235,11 +213,12 @@ class Dump extends BaseResource
     /**
      * Get the bulk actions available for the resource.
      *
+     * @param  array|null  $actionsIncludedInGroup
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getBulkActions(): array
+    public static function getBulkActions(?array $actionsIncludedInGroup = []): array
     {
         return array_merge(
             parent::getBulkActions(),
@@ -248,13 +227,13 @@ class Dump extends BaseResource
     }
 
     /**
-     * Get the header actions available for the resource.
+     * Get the table actions available for the resource.
      *
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getHeaderActions(): array
+    public static function getTableActions(): array
     {
         return [
             ActionGroup::make([
@@ -279,10 +258,7 @@ class Dump extends BaseResource
     public static function getPages(): array
     {
         return [
-            'index' => ListDumps::route('/'),
-            'create' => CreateDump::route('/create'),
-            'view' => ViewDump::route('/{record:dump_id}'),
-            'edit' => EditDump::route('/{record:dump_id}/edit'),
+            'index' => ManageDumps::route('/'),
         ];
     }
 }

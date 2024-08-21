@@ -408,11 +408,20 @@ return [
                         'help' => 'If Yes, the Audio will be extracted from the Video even if the Audio already exists. If No, the Audio will only be extracted from the Video if the Audio doesn\'t exist. No should be used in most cases. Yes is useful if we are replacing Audio for a Video.',
                         'name' => 'Overwrite Audio',
                     ],
+                    'should' => [
+                        'help' => 'Determines whether audio should be extracted.',
+                        'name' => 'Should backfill?',
+                        'options' => [
+                            'no' => 'No',
+                            'yes' => 'Yes',
+                        ],
+                    ],
                 ],
                 'name' => 'Backfill Audio',
             ],
             'delete' => [
                 'confirmText' => 'Remove Video from configured storage disks and from the database?',
+                'icon' => 'heroicon-m-trash',
                 'name' => 'Remove Video',
             ],
             'move' => [
@@ -437,6 +446,14 @@ return [
                 'should_force' => [
                     'help' => 'If yes, the thread will be created if it does not exist',
                     'name' => 'Should force thread?',
+                    'options' => [
+                        'yes' => 'Yes',
+                        'no' => 'No',
+                    ],
+                ],
+                'should_send' => [
+                    'help' => 'If yes, the notification will be created.',
+                    'name' => 'Should send notification?',
                     'options' => [
                         'yes' => 'Yes',
                         'no' => 'No',

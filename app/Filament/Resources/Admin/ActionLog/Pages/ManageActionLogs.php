@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Admin\ActionLog\Pages;
 
-use App\Filament\Resources\Base\BaseListResources;
+use App\Filament\Resources\Base\BaseManageResources;
 use App\Filament\Resources\Admin\ActionLog;
 
 /**
- * Class ListActionLogs.
+ * Class ManageActionLogs.
  */
-class ListActionLogs extends BaseListResources
+class ManageActionLogs extends BaseManageResources
 {
     protected static string $resource = ActionLog::class;
 
@@ -23,9 +23,6 @@ class ListActionLogs extends BaseListResources
      */
     protected function getHeaderActions(): array
     {
-        return array_merge(
-            parent::getHeaderActions(),
-            [],
-        );
+        return [];
     }
 }
