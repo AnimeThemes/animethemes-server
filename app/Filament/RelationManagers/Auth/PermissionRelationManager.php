@@ -78,11 +78,12 @@ abstract class PermissionRelationManager extends BaseRelationManager
     /**
      * Get the bulk actions available for the relation.
      *
+     * @param  array|null  $actionsIncludedInGroup
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getBulkActions(): array
+    public static function getBulkActions(?array $actionsIncludedInGroup = []): array
     {
         return array_merge(
             parent::getBulkActions(),

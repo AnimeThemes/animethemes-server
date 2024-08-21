@@ -102,7 +102,7 @@ abstract class BaseRelationManager extends RelationManager
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getBulkActions(): array
+    public static function getBulkActions(?array $actionsIncludedInGroup = []): array
     {
         return [
             DetachBulkAction::make(),

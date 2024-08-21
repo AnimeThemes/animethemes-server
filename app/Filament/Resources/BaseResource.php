@@ -75,7 +75,7 @@ abstract class BaseResource extends Resource
             ->actions(static::getActions())
             ->bulkActions(static::getBulkActions())
             ->headerActions(static::getHeaderActions())
-            ->recordUrl(fn (Model $record): string => static::getUrl('view', ['record' => $record]))
+            ->recordUrl(fn(Model $record): string => static::getUrl('view', ['record' => $record]))
             ->paginated([10, 25, 50, 100, 'all'])
             ->defaultPaginationPageOption(25);
     }
@@ -157,20 +157,26 @@ abstract class BaseResource extends Resource
     /**
      * Get the bulk actions available for the resource.
      *
+     * @param  array|null  $actionsIncludedInGroup
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getBulkActions(): array
+    public static function getBulkActions(?array $actionsIncludedInGroup = []): array
     {
         return [
-            BulkActionGroup::make([
-                DeleteBulkAction::make(),
+            BulkActionGroup::make(
+                array_merge(
+                    [
+                        DeleteBulkAction::make(),
 
-                ForceDeleteBulkAction::make(),
+                        ForceDeleteBulkAction::make(),
 
-                RestoreBulkAction::make(),
-            ]),
+                        RestoreBulkAction::make(),
+                    ],
+                    $actionsIncludedInGroup,
+                )
+            ),
         ];
     }
 

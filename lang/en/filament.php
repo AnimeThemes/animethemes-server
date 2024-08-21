@@ -421,6 +421,7 @@ return [
             ],
             'delete' => [
                 'confirmText' => 'Remove Video from configured storage disks and from the database?',
+                'icon' => 'heroicon-m-trash',
                 'name' => 'Remove Video',
             ],
             'move' => [
