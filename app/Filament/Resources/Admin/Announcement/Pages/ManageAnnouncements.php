@@ -23,6 +23,9 @@ class ManageAnnouncements extends BaseManageResources
      */
     protected function getHeaderActions(): array
     {
-        return [];
+        return array_merge(
+            parent::getHeaderActions(),
+            [],
+        );
     }
 }
