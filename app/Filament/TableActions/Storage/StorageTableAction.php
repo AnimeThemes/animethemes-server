@@ -27,7 +27,7 @@ abstract class StorageTableAction extends BaseTableAction
      * Run this after the video is uploaded.
      *
      * @param  BaseModel  $model
-     * @param  array  $data
+     * @param  array  $fields
      * @return void
      */
     protected function afterUploaded(BaseModel $model, array $fields): void
