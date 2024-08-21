@@ -68,7 +68,7 @@ enum ResourceSite: int
             ResourceSite::ANILIST->value => 'anilist.co',
             ResourceSite::ANIME_PLANET->value => 'www.anime-planet.com',
             ResourceSite::ANN->value => 'www.animenewsnetwork.com',
-            ResourceSite::KITSU->value => 'kitsu.io',
+            ResourceSite::KITSU->value => 'kitsu.app',
             ResourceSite::LIVECHART->value => 'www.livechart.me',
             ResourceSite::MAL->value => 'myanimelist.net',
             ResourceSite::WIKI->value => 'wikipedia.org',
@@ -166,7 +166,7 @@ enum ResourceSite: int
     protected static function parseKitsuIdFromLink(string $link): ?string
     {
         try {
-            if ($id = Str::match('/^https?:\/\/kitsu\.io\/anime\/(\d+)/', $link)) {
+            if ($id = Str::match('/^https?:\/\/kitsu\.app\/anime\/(\d+)/', $link)) {
                 return $id;
             }
 
@@ -280,7 +280,7 @@ enum ResourceSite: int
                 ResourceSite::ANILIST => "https://anilist.co/anime/$id",
                 ResourceSite::ANIME_PLANET => "https://www.anime-planet.com/anime/$slug",
                 ResourceSite::ANN => "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=$id",
-                ResourceSite::KITSU => "https://kitsu.io/anime/$id",
+                ResourceSite::KITSU => "https://kitsu.app/anime/$id",
                 ResourceSite::LIVECHART => "https://www.livechart.me/anime/$id",
                 ResourceSite::MAL => "https://myanimelist.net/anime/$id",
                 ResourceSite::YOUTUBE => "https://www.youtube.com/@$slug",
@@ -351,7 +351,7 @@ enum ResourceSite: int
                 ResourceSite::ANILIST => '/^https:\/\/anilist\.co\/(anime)\/(\d+)$/',
                 ResourceSite::ANIME_PLANET => '/^https:\/\/www\.anime-planet\.com\/(anime)\/([a-zA-Z0-9-]+)$/',
                 ResourceSite::ANN => '/^https:\/\/www\.animenewsnetwork\.com\/encyclopedia\/(anime)\.php\?id=(\d+)$/',
-                ResourceSite::KITSU => '/^https:\/\/kitsu\.io\/(anime)\/([a-zA-Z0-9-]+)$/',
+                ResourceSite::KITSU => '/^https:\/\/kitsu\.app\/(anime)\/([a-zA-Z0-9-]+)$/',
                 ResourceSite::LIVECHART => '/^https:\/\/www\.livechart\.me\/(anime)\/(\d+)$/',
                 ResourceSite::MAL => '/^https:\/\/myanimelist\.net\/(anime)\/(\d+)$/',
                 ResourceSite::YOUTUBE => '/^https:\/\/www\.(youtube)\.com\/\@([\w-]+)$/',
@@ -423,7 +423,7 @@ enum ResourceSite: int
                 ResourceSite::ANILIST => '/^https:\/\/anilist\.co\/anime\/\d+$/',
                 ResourceSite::ANIME_PLANET => '/^https:\/\/www\.anime-planet\.com\/anime\/[a-zA-Z0-9-]+$/',
                 ResourceSite::ANN => '/^https:\/\/www\.animenewsnetwork\.com\/encyclopedia\/anime\.php\?id=\d+$/',
-                ResourceSite::KITSU => '/^https:\/\/kitsu\.io\/anime\/[a-zA-Z0-9-]+$/',
+                ResourceSite::KITSU => '/^https:\/\/kitsu\.app\/anime\/[a-zA-Z0-9-]+$/',
                 ResourceSite::LIVECHART => '/^https:\/\/www\.livechart\.me\/anime\/\d+$/',
                 ResourceSite::MAL => '/^https:\/\/myanimelist\.net\/anime\/\d+$/',
                 ResourceSite::YOUTUBE => '/^https:\/\/www\.youtube\.com\/\@[\w-]+$/',

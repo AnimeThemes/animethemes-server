@@ -71,7 +71,6 @@ class BackfillAnimeAction extends BackfillWikiAction
                 $this->forStudios($response);
                 $this->forSynonyms($response);
 
-                Log::info("Commit try for api {$api->getSite()->localize()}");
                 DB::commit();
             }
         } catch (Exception $e) {
@@ -127,7 +126,9 @@ class BackfillAnimeAction extends BackfillWikiAction
             $this->ensureStudioHasResource($studio, $response->getSite(), $id);
         }
 
-        $this->toBackfill[self::STUDIOS] = false;
+        if ($this->getModel()->studios()->exists()) {
+            $this->toBackfill[self::STUDIOS] = false;
+        }
     }
 
     /**
@@ -141,10 +142,12 @@ class BackfillAnimeAction extends BackfillWikiAction
         if (!$this->toBackfill[self::SYNONYMS]) return;
 
         foreach ($api->getSynonyms() as $type => $text) {
-            $this->createAnimeSynonym($text, $type, $this->getModel());
+            $this->createAnimeSynonym($text, $type, $this->getModel()); 
         }
 
-        $this->toBackfill[self::SYNONYMS] = false;
+        if ($this->getModel()->animesynonyms()->exists()) {
+            $this->toBackfill[self::SYNONYMS] = false;
+        }
     }
 
     /**

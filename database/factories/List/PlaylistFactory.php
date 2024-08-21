@@ -65,21 +65,15 @@ class PlaylistFactory extends Factory
                     /** @var PlaylistTrack|null $last */
                     $last = Arr::last($tracks);
 
-                    $entry = AnimeThemeEntry::factory()
-                        ->for(AnimeTheme::factory()->for(Anime::factory()))
-                        ->create();
-
-                    $video = Video::factory()->create();
-
-                    AnimeThemeEntryVideo::query()->create([
-                        AnimeThemeEntryVideo::ATTRIBUTE_ENTRY => $entry->getKey(),
-                        AnimeThemeEntryVideo::ATTRIBUTE_VIDEO => $video->getKey(),
-                    ]);
+                    $entryVideo = AnimeThemeEntryVideo::factory()
+                        ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
+                        ->for(Video::factory())
+                        ->createOne();
 
                     $track = PlaylistTrack::factory()
                         ->for($playlist)
-                        ->for($video)
-                        ->for($entry)
+                        ->for($entryVideo->video)
+                        ->for($entryVideo->animethemeentry)
                         ->createOne();
 
                     if ($index === 1) {

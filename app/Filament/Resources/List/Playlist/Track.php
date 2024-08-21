@@ -259,6 +259,10 @@ class Track extends BaseResource
                         TextEntry::make(TrackModel::ATTRIBUTE_ID)
                             ->label(__('filament.fields.base.id')),
 
+                        TextEntry::make(TrackModel::RELATION_ENTRY)
+                            ->label(__('filament.resources.singularLabel.anime_theme_entry'))
+                            ->urlToRelated(Entry::class, TrackModel::RELATION_ENTRY, true),
+
                         TextEntry::make(TrackModel::RELATION_VIDEO . '.' . VideoModel::ATTRIBUTE_FILENAME)
                             ->label(__('filament.resources.singularLabel.video'))
                             ->urlToRelated(VideoResource::class, TrackModel::RELATION_VIDEO),

@@ -55,7 +55,9 @@ abstract class ApiAction
 
         if ($this->response) {
             foreach ($this->getResourcesMapping() as $site => $key) {
-                $resources[$site] = Arr::get($this->response, $key);
+                if (Arr::get($this->response, $key) !== null) {
+                    $resources[$site] = Arr::get($this->response, $key);
+                }
             }
         }
 
@@ -73,7 +75,9 @@ abstract class ApiAction
 
         if ($this->response) {
             foreach ($this->getImagesMapping() as $facet => $key) {
-                $images[$facet] = Arr::get($this->response, $key);
+                if (Arr::get($this->response, $key) !== null) {
+                    $images[$facet] = Arr::get($this->response, $key);
+                }
             }
         }
 
