@@ -257,7 +257,7 @@ class UploadVideoTableAction extends UploadTableAction
         }
 
         if (Arr::get($data, self::SHOULD_SEND_NOTIFICATION) === 'yes') {
-            $videos = new Collection($video);
+            $videos = new Collection([$video]);
 
             $discordNotificationAction = new VideoDiscordNotificationBulkAction('discord');
             $discordNotificationAction->handle($videos, $data);

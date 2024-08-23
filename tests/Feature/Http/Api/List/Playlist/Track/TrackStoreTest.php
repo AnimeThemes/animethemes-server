@@ -199,6 +199,10 @@ class TrackStoreTest extends TestCase
      */
     public function testAnimeThemeEntryVideoExists(): void
     {
+        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
+
+        Feature::activate(AllowPlaylistManagement::class);
+
         $entry = AnimeThemeEntry::factory()
             ->for(AnimeTheme::factory()->for(Anime::factory()))
             ->create();
