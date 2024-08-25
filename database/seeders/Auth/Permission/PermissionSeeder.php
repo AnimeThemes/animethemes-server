@@ -68,7 +68,7 @@ class PermissionSeeder extends Seeder
         $this->registerResource(DiscordThread::class, CrudPermission::cases());
 
         // List Resources
-        $this->registerResource(ExternalEntry::class, $extendedCrudPermissions);
+        $this->registerResource(ExternalEntry::class, [CrudPermission::VIEW]);
         $this->registerResource(ExternalProfile::class, $extendedCrudPermissions);
         $this->registerResource(Playlist::class, $extendedCrudPermissions);
         $this->registerResource(PlaylistTrack::class, $extendedCrudPermissions);

@@ -10,6 +10,4 @@ namespace App\Constants\Config;
 class ExternalProfileConstants
 {
     final public const MAX_PROFILES_QUALIFIED = 'externalprofile.user_max_profiles';
-
-    final public const MAX_ENTRIES_QUALIFIED = 'externalprofile.profile_max_entries';
 }
