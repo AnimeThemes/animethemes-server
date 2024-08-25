@@ -11,8 +11,6 @@ use App\Filament\Components\Fields\BelongsTo;
 use App\Filament\Components\Fields\Select;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\BaseResource;
-use App\Filament\Resources\List\External\ExternalEntry\Pages\CreateExternalEntry;
-use App\Filament\Resources\List\External\ExternalEntry\Pages\EditExternalEntry;
 use App\Filament\Resources\List\External\ExternalEntry\Pages\ListExternalEntries;
 use App\Filament\Resources\List\External\ExternalEntry\Pages\ViewExternalEntry;
 use App\Filament\Resources\List\External\RelationManagers\ExternalEntryExternalProfileRelationManager;
@@ -327,9 +325,7 @@ class ExternalEntry extends BaseResource
     {
         return [
             'index' => ListExternalEntries::route('/'),
-            'create' => CreateExternalEntry::route('/create'),
             'view' => ViewExternalEntry::route('/{record:entry_id}'),
-            'edit' => EditExternalEntry::route('/{record:entry_id}/edit'),
         ];
     }
 }

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Policies\List\External;
 
 use App\Enums\Auth\CrudPermission;
-use App\Enums\Auth\ExtendedCrudPermission;
 use App\Enums\Models\List\ExternalProfileVisibility;
 use App\Models\Auth\User;
 use App\Models\BaseModel;
@@ -78,7 +77,7 @@ class ExternalEntryPolicy extends BasePolicy
         /** @var ExternalProfile|null $profile */
         $profile = request()->route('externalprofile');
 
-        return $user->getKey() === $profile?->user_id;
+        return parent::create($user) && $user->getKey() === $profile?->user_id;
     }
 
     /**
@@ -99,7 +98,7 @@ class ExternalEntryPolicy extends BasePolicy
         /** @var ExternalProfile|null $profile */
         $profile = request()->route('externalprofile');
 
-        return !$entry->trashed() && $user->getKey() === $profile?->user_id && $user->can(CrudPermission::UPDATE->format(ExternalEntry::class));
+        return parent::update($user, $entry) && $user->getKey() === $profile?->user_id;
     }
 
     /**
@@ -120,7 +119,7 @@ class ExternalEntryPolicy extends BasePolicy
         /** @var ExternalProfile|null $profile */
         $profile = request()->route('externalprofile');
 
-        return !$entry->trashed() && $user->getKey() === $profile?->user_id && $user->can(CrudPermission::DELETE->format(ExternalEntry::class));
+        return parent::delete($user, $entry) && $user->getKey() === $profile?->user_id;
     }
 
     /**
@@ -141,6 +140,6 @@ class ExternalEntryPolicy extends BasePolicy
         /** @var ExternalProfile|null $profile */
         $profile = request()->route('externalprofile');
 
-        return $entry->trashed() && $user->getKey() === $profile?->user_id && $user->can(ExtendedCrudPermission::RESTORE->format(ExternalEntry::class));
+        return parent::restore($user, $entry) && $user->getKey() === $profile?->user_id;
     }
 }

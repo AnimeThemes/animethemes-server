@@ -38,7 +38,7 @@ class PlaylistUserRoleSeeder extends RoleSeeder
         );
 
         // List Resources
-        $this->configureResource($role, ExternalEntry::class, $extendedCrudPermissions);
+        $this->configureResource($role, ExternalEntry::class, [CrudPermission::VIEW]);
         $this->configureResource($role, ExternalProfile::class, $extendedCrudPermissions);
         $this->configureResource($role, Playlist::class, $extendedCrudPermissions);
         $this->configureResource($role, PlaylistTrack::class, $extendedCrudPermissions);
