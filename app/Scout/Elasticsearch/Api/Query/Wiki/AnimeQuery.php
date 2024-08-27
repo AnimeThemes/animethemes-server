@@ -32,37 +32,7 @@ class AnimeQuery extends ElasticQuery
                             // The more sub-queries match the better the score will be.
                             'bool' => [
                                 'should' => [
-                                    [
-                                        'match_phrase' => [
-                                            'name' => [
-                                                'query' => $criteria->getTerm(),
-                                            ],
-                                        ],
-                                    ],
-                                    [
-                                        'match' => [
-                                            'name' => [
-                                                'query' => $criteria->getTerm(),
-                                                'operator' => 'AND',
-                                            ],
-                                        ],
-                                    ],
-                                    [
-                                        'match' => [
-                                            'name' => [
-                                                'query' => $criteria->getTerm(),
-                                                'boost' => 0.6,
-                                            ],
-                                        ],
-                                    ],
-                                    [
-                                        'fuzzy' => [
-                                            'name' => [
-                                                'value' => $criteria->getTerm(),
-                                                'boost' => 0.4,
-                                            ],
-                                        ],
-                                    ],
+                                    $this->createTextQuery('name', $criteria->getTerm()),
                                 ],
                             ],
                         ],
@@ -70,57 +40,7 @@ class AnimeQuery extends ElasticQuery
                             'bool' => [
                                 'boost' => 0.85,
                                 'should' => [
-                                    [
-                                        'nested' => [
-                                            'path' => 'synonyms',
-                                            'query' => [
-                                                'match_phrase' => [
-                                                    'synonyms.text' => [
-                                                        'query' => $criteria->getTerm(),
-                                                    ],
-                                                ],
-                                            ],
-                                        ],
-                                    ],
-                                    [
-                                        'nested' => [
-                                            'path' => 'synonyms',
-                                            'query' => [
-                                                'match' => [
-                                                    'synonyms.text' => [
-                                                        'query' => $criteria->getTerm(),
-                                                        'operator' => 'AND',
-                                                    ],
-                                                ],
-                                            ],
-                                        ],
-                                    ],
-                                    [
-                                        'nested' => [
-                                            'path' => 'synonyms',
-                                            'query' => [
-                                                'match' => [
-                                                    'synonyms.text' => [
-                                                        'query' => $criteria->getTerm(),
-                                                        'boost' => 0.6,
-                                                    ],
-                                                ],
-                                            ],
-                                        ],
-                                    ],
-                                    [
-                                        'nested' => [
-                                            'path' => 'synonyms',
-                                            'query' => [
-                                                'fuzzy' => [
-                                                    'synonyms.text' => [
-                                                        'value' => $criteria->getTerm(),
-                                                        'boost' => 0.4,
-                                                    ],
-                                                ],
-                                            ],
-                                        ],
-                                    ],
+                                    $this->createNestedTextQuery('synonyms', 'text', $criteria->getTerm()),
                                 ],
                             ],
                         ],
