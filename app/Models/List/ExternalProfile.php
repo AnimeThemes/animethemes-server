@@ -19,6 +19,7 @@ use Elastic\ScoutDriverPlus\Searchable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 
 /**
@@ -29,6 +30,7 @@ use Illuminate\Support\Collection;
  * @property ExternalToken|null $externaltoken
  * @property string $name
  * @property ExternalProfileSite $site
+ * @property Carbon|null $sync_at
  * @property int|null $user_id
  * @property User|null $user
  * @property ExternalProfileVisibility $visibility
@@ -46,6 +48,7 @@ class ExternalProfile extends BaseModel
     final public const ATTRIBUTE_SITE = 'site';
     final public const ATTRIBUTE_VISIBILITY = 'visibility';
     final public const ATTRIBUTE_USER = 'user_id';
+    final public const ATTRIBUTE_SYNC_AT = 'sync_at';
 
     final public const RELATION_ANIMES = 'externalentries.anime';
     final public const RELATION_EXTERNAL_ENTRIES = 'externalentries';
@@ -60,6 +63,7 @@ class ExternalProfile extends BaseModel
     protected $fillable = [
         ExternalProfile::ATTRIBUTE_NAME,
         ExternalProfile::ATTRIBUTE_SITE,
+        ExternalProfile::ATTRIBUTE_SYNC_AT,
         ExternalProfile::ATTRIBUTE_VISIBILITY,
         ExternalProfile::ATTRIBUTE_USER,
     ];
