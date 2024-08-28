@@ -18,6 +18,7 @@ use App\Http\Controllers\Api\List\PlaylistBackwardController;
 use App\Http\Controllers\Api\List\PlaylistController;
 use App\Http\Controllers\Api\List\PlaylistForwardController;
 use App\Http\Controllers\Api\List\External\ExternalEntryController;
+use App\Http\Controllers\Api\List\External\ExternalTokenCallbackController;
 use App\Http\Controllers\Api\List\ExternalProfileController;
 use App\Http\Controllers\Api\List\SyncExternalProfileController;
 use App\Http\Controllers\Api\Pivot\List\PlaylistImageController;
@@ -244,6 +245,9 @@ apiResourceWhere('page', PageController::class, ['page' => '[\pL\pM\pN\/_-]+']);
 // External Routes
 apiResource('externalprofile', ExternalProfileController::class);
 apiScopedResource('externalprofile.externalentry', ExternalEntryController::class);
+
+Route::get('externaltoken/callback', [ExternalTokenCallbackController::class, 'index'])
+    ->name('externaltoken.callback');
 
 Route::get('externalprofile/{externalprofile}/sync', [SyncExternalProfileController::class, 'show'])
     ->name('externalprofile.sync.show');

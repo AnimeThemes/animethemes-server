@@ -2,12 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Actions\Models\List\ExternalProfile;
+namespace App\Actions\Models\List\ExternalProfile\ExternalEntry;
 
 /**
- * Class ExternalEntryTokenAction
+ * Class BaseExternalEntryTokenAction
+ *
+ * This action will create the entries through the authentication method.
  */
-abstract class ExternalEntryTokenAction
+abstract class BaseExternalEntryTokenAction
 {
     /**
      * Create a new action instance.

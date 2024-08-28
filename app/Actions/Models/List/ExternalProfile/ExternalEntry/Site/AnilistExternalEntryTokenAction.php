@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Actions\Models\List\ExternalProfile\ExternalEntry;
+namespace App\Actions\Models\List\ExternalProfile\ExternalEntry\Site;
 
-use App\Actions\Models\List\ExternalProfile\ExternalEntryTokenAction;
+use App\Actions\Models\List\ExternalProfile\ExternalEntry\BaseExternalEntryTokenAction;
 use App\Enums\Models\List\ExternalEntryWatchStatus;
 use App\Models\List\External\ExternalEntry;
 use App\Models\Wiki\ExternalResource;
@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Log;
 /**
  * Class AnilistExternalEntryTokenAction.
  */
-class AnilistExternalEntryTokenAction extends ExternalEntryTokenAction
+class AnilistExternalEntryTokenAction extends BaseExternalEntryTokenAction
 {
     /**
      * Get the entries of the response.

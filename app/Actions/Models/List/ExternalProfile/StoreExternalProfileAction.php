@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace App\Actions\Models\List\ExternalProfile;
 
 use App\Actions\Http\Api\StoreAction;
-use App\Actions\Models\List\ExternalProfile\ExternalEntry\AnilistExternalEntryAction;
+use App\Actions\Models\List\ExternalProfile\ExternalEntry\BaseExternalEntryAction;
+use App\Actions\Models\List\ExternalProfile\ExternalEntry\Site\AnilistExternalEntryAction;
 use App\Enums\Models\List\ExternalProfileSite;
 use App\Enums\Models\List\ExternalProfileVisibility;
 use App\Models\List\External\ExternalEntry;
@@ -96,9 +97,9 @@ class StoreExternalProfileAction
      *
      * @param  ExternalProfileSite  $site
      * @param  array  $profileParameters
-     * @return ExternalEntryAction|null
+     * @return BaseExternalEntryAction|null
      */
-    protected function getActionClass(ExternalProfileSite $site, array $profileParameters): ?ExternalEntryAction
+    protected function getActionClass(ExternalProfileSite $site, array $profileParameters): ?BaseExternalEntryAction
     {
         return match ($site) {
             ExternalProfileSite::ANILIST => new AnilistExternalEntryAction($profileParameters),

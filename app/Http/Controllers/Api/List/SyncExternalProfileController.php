@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api\List;
 
 use App\Features\AllowExternalProfileManagement;
-use App\Http\Api\Schema\Schema;
 use App\Http\Controllers\Api\BaseController;
 use App\Http\Middleware\Api\EnabledOnlyOnLocalhost;
 use App\Http\Requests\Api\ShowRequest;
@@ -51,15 +50,5 @@ class SyncExternalProfileController extends BaseController
     public function store()
     {
         // TODO
-    }
-
-    /**
-     * Get the underlying schema.
-     *
-     * @return Schema
-     */
-    public function schema(): Schema
-    {
-        return new Schema(); // TODO
     }
 }
