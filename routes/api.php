@@ -19,6 +19,7 @@ use App\Http\Controllers\Api\List\PlaylistController;
 use App\Http\Controllers\Api\List\PlaylistForwardController;
 use App\Http\Controllers\Api\List\External\ExternalEntryController;
 use App\Http\Controllers\Api\List\ExternalProfileController;
+use App\Http\Controllers\Api\List\SyncExternalProfileController;
 use App\Http\Controllers\Api\Pivot\List\PlaylistImageController;
 use App\Http\Controllers\Api\Pivot\Wiki\AnimeImageController;
 use App\Http\Controllers\Api\Pivot\Wiki\AnimeResourceController;
@@ -240,9 +241,18 @@ Route::get('/me/playlist', [MyPlaylistController::class, 'index'])->name('me.pla
 apiResourceWhere('page', PageController::class, ['page' => '[\pL\pM\pN\/_-]+']);
 
 // List Routes
+// External Routes
 apiResource('externalprofile', ExternalProfileController::class);
-apiResource('playlist', PlaylistController::class);
 apiScopedResource('externalprofile.externalentry', ExternalEntryController::class);
+
+Route::get('externalprofile/{externalprofile}/sync', [SyncExternalProfileController::class, 'show'])
+    ->name('externalprofile.sync.show');
+
+Route::post('externalprofile/{externalprofile}/sync', [SyncExternalProfileController::class, 'store'])
+    ->name('externalprofile.sync.store');
+
+// Playlist Routes
+apiResource('playlist', PlaylistController::class);
 apiScopedResource('playlist.track', TrackController::class);
 
 Route::get('playlist/{playlist}/forward', [PlaylistForwardController::class, 'index'])
