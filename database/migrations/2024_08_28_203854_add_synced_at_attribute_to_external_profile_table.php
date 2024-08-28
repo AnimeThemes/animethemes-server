@@ -14,9 +14,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if (! Schema::hasColumn(ExternalProfile::TABLE, ExternalProfile::ATTRIBUTE_SYNC_AT)) {
+        if (! Schema::hasColumn(ExternalProfile::TABLE, ExternalProfile::ATTRIBUTE_SYNCED_AT)) {
             Schema::table(ExternalProfile::TABLE, function (Blueprint $table) {
-                $table->timestamp(ExternalProfile::ATTRIBUTE_SYNC_AT, 6)->nullable();
+                $table->timestamp(ExternalProfile::ATTRIBUTE_SYNCED_AT, 6)->nullable();
             });
         }
     }
@@ -26,9 +26,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        if (Schema::hasColumn(ExternalProfile::TABLE, ExternalProfile::ATTRIBUTE_SYNC_AT)) {
+        if (Schema::hasColumn(ExternalProfile::TABLE, ExternalProfile::ATTRIBUTE_SYNCED_AT)) {
             Schema::table(ExternalProfile::TABLE, function (Blueprint $table) {
-                $table->dropColumn(ExternalProfile::ATTRIBUTE_SYNC_AT);
+                $table->dropColumn(ExternalProfile::ATTRIBUTE_SYNCED_AT);
             });
         }
     }
