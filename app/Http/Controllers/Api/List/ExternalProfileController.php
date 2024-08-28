@@ -80,12 +80,7 @@ class ExternalProfileController extends BaseController
      */
     public function store(StoreRequest $request, StoreExternalProfileAction $action): ExternalProfileResource
     {
-        $validated = array_merge(
-            $request->validated(),
-            [ExternalProfile::ATTRIBUTE_USER => Auth::id()]
-        );
-
-        $externalprofile = $action->store(ExternalProfile::query(), $validated);
+        $externalprofile = $action->store(ExternalProfile::query(), $request->validated());
 
         return new ExternalProfileResource($externalprofile, new Query());
     }

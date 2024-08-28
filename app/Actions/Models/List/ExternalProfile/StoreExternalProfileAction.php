@@ -57,7 +57,6 @@ class StoreExternalProfileAction
             $this->preloadResources($profileSite, $entries);
 
             $profile = $storeAction->store($builder, [
-                ExternalProfile::ATTRIBUTE_USER => Arr::get($profileParameters, ExternalProfile::ATTRIBUTE_USER),
                 ExternalProfile::ATTRIBUTE_NAME => Arr::get($profileParameters, ExternalProfile::ATTRIBUTE_NAME),
                 ExternalProfile::ATTRIBUTE_SITE => $profileSite->value,
                 ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::fromLocalizedName(Arr::get($profileParameters, ExternalProfile::ATTRIBUTE_VISIBILITY))->value,
