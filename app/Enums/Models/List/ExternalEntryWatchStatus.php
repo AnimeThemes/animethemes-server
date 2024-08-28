@@ -34,7 +34,7 @@ enum ExternalEntryWatchStatus: int
             'completed' => static::COMPLETED,
             'on_hold' => static::PAUSED,
             'dropped' => static::DROPPED,
-            default => static::PLAN_TO_WATCH
+            default => static::PLAN_TO_WATCH,
         };
     }
 

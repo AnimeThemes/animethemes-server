@@ -113,7 +113,7 @@ class ExternalToken extends BaseModel
      */
     public function getSubtitle(): string
     {
-        return $this->profile->getName();
+        return $this->externalprofile->getName();
     }
 
     /**
