@@ -8,8 +8,12 @@ use App\Actions\Models\List\ExternalProfile\ExternalEntry\BaseExternalEntryToken
 use App\Enums\Models\List\ExternalEntryWatchStatus;
 use App\Models\List\External\ExternalEntry;
 use App\Models\Wiki\ExternalResource;
+use Exception;
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
@@ -62,6 +66,33 @@ class AnilistExternalEntryTokenAction extends BaseExternalEntryTokenAction
         }
 
         return Arr::get($this->response, 'data.Viewer.name');
+    }
+
+    /**
+     * Get the id of the external user.
+     *
+     * @return int|null
+     */
+    public function getId(): ?int
+    {
+        if ($this->id !== null) {
+            return $this->id;
+        }
+
+        // TODO: This should be tested.
+        try {
+            $decoded = JWT::decode($this->getToken(), new Key(Config::get('services.anilist.client_secret'), 'HS256'));
+
+            $decodedArray = json_decode(json_encode($decoded), true);
+
+            $this->id = Arr::get($decodedArray, 'id');
+
+            return $this->id;
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+
+            return null;
+        }
     }
 
     /**

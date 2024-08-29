@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace App\Actions\Models\List\ExternalProfile\ExternalEntry;
 
 use App\Models\List\External\ExternalToken;
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
+use Illuminate\Support\Facades\Config;
 
 /**
  * Class BaseExternalEntryTokenAction
@@ -14,6 +17,7 @@ use App\Models\List\External\ExternalToken;
 abstract class BaseExternalEntryTokenAction
 {
     protected ?array $response = null;
+    protected ?int $id = null;
 
     /**
      * Create a new action instance.
@@ -25,11 +29,11 @@ abstract class BaseExternalEntryTokenAction
     /**
      * Get the id of the external user.
      *
-     * @return int
+     * @return int|null
      */
-    public function getId(): int
+    public function getId(): ?int
     {
-        return 0; // TODO: Decode the token using JWT
+        return $this->id;
     }
 
     /**
