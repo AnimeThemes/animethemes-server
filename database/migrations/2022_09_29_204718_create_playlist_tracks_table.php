@@ -25,7 +25,7 @@ return new class extends Migration
                 $table->id(PlaylistTrack::ATTRIBUTE_ID);
                 $table->timestamps(6);
                 $table->softDeletes(BaseModel::ATTRIBUTE_DELETED_AT, 6);
-                $table->string(HasHashids::ATTRIBUTE_HASHID)->nullable();
+                $table->string(HasHashids::ATTRIBUTE_HASHID)->nullable()->collation('utf8mb4_bin');
 
                 $table->unsignedBigInteger(PlaylistTrack::ATTRIBUTE_PLAYLIST);
                 $table->foreign(PlaylistTrack::ATTRIBUTE_PLAYLIST)->references(Playlist::ATTRIBUTE_ID)->on(Playlist::TABLE)->cascadeOnDelete();
