@@ -8,8 +8,12 @@ use App\Actions\Models\List\ExternalProfile\ExternalEntry\BaseExternalEntryToken
 use App\Enums\Models\List\ExternalEntryWatchStatus;
 use App\Models\List\External\ExternalEntry;
 use App\Models\Wiki\ExternalResource;
+use Exception;
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
@@ -26,9 +30,12 @@ class AnilistExternalEntryTokenAction extends BaseExternalEntryTokenAction
     public function getEntries(): array
     {
         $entries = [];
-        $response = $this->makeRequest();
 
-        if ($response !== null) {
+        if ($this->response === null) {
+            $this->makeRequest();
+        }
+
+        if ($response = $this->response) {
             $lists = Arr::where(Arr::get($response, 'data.MediaListCollection.lists'), fn ($value) => $value['isCustomList'] === false);
 
             foreach ($lists as $list) {
@@ -48,16 +55,60 @@ class AnilistExternalEntryTokenAction extends BaseExternalEntryTokenAction
     }
 
     /**
+     * Get the username.
+     *
+     * @return string|null
+     */
+    public function getUsername(): ?string
+    {
+        if ($this->response === null) {
+            $this->makeRequest();
+        }
+
+        return Arr::get($this->response, 'data.Viewer.name');
+    }
+
+    /**
+     * Get the id of the external user.
+     *
+     * @return int|null
+     */
+    public function getId(): ?int
+    {
+        if ($this->id !== null) {
+            return $this->id;
+        }
+
+        // TODO: This should be tested.
+        try {
+            $decoded = JWT::decode($this->getToken(), new Key(Config::get('services.anilist.client_secret'), 'HS256'));
+
+            $decodedArray = json_decode(json_encode($decoded), true);
+
+            $this->id = Arr::get($decodedArray, 'id');
+
+            return $this->id;
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+
+            return null;
+        }
+    }
+
+    /**
      * Make the request to the external api.
      *
-     * @return array|null
+     * @return static
      */
-    public function makeRequest(): ?array
+    protected function makeRequest(): static
     {
         try {
             $query = '
-                query($userName: String) {
-                    MediaListCollection(userName: $userName, type: ANIME) {
+                query($userId: Int) {
+                    Viewer {
+                        name
+                    }
+                    MediaListCollection(userId: $userId, type: ANIME) {
                         lists {
                             name
                             status
@@ -77,10 +128,10 @@ class AnilistExternalEntryTokenAction extends BaseExternalEntryTokenAction
             ';
 
             $variables = [
-                'userName' => $this->getUsername(),
+                'userId' => $this->getId(),
             ];
 
-            $response = Http::withToken($this->getToken())
+            $this->response = Http::withToken($this->getToken())
                 ->post('https://graphql.anilist.co', [
                     'query' => $query,
                     'variables' => $variables,
@@ -88,7 +139,7 @@ class AnilistExternalEntryTokenAction extends BaseExternalEntryTokenAction
                 ->throw()
                 ->json();
 
-            return $response;
+            return $this;
 
         } catch (RequestException $e) {
             Log::error($e->getMessage());

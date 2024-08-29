@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models\List;
 
+use App\Enums\Http\Api\Filter\ComparisonOperator;
 use App\Enums\Models\List\ExternalProfileSite;
 use App\Enums\Models\List\ExternalProfileVisibility;
 use App\Events\List\ExternalProfile\ExternalProfileCreated;
@@ -16,11 +17,13 @@ use App\Models\List\External\ExternalEntry;
 use App\Models\List\External\ExternalToken;
 use Database\Factories\List\ExternalProfileFactory;
 use Elastic\ScoutDriverPlus\Searchable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Date;
 
 /**
  * Class ExternalProfile.
@@ -28,6 +31,7 @@ use Illuminate\Support\Collection;
  * @property int $profile_id
  * @property Collection<int, ExternalEntry> $externalentries
  * @property ExternalToken|null $externaltoken
+ * @property int|null $external_user_id
  * @property string $name
  * @property ExternalProfileSite $site
  * @property Carbon|null $synced_at
@@ -44,6 +48,7 @@ class ExternalProfile extends BaseModel
     final public const TABLE = 'external_profiles';
 
     final public const ATTRIBUTE_ID = 'profile_id';
+    final public const ATTRIBUTE_EXTERNAL_USER_ID = 'external_user_id';
     final public const ATTRIBUTE_NAME = 'name';
     final public const ATTRIBUTE_SITE = 'site';
     final public const ATTRIBUTE_VISIBILITY = 'visibility';
@@ -61,6 +66,7 @@ class ExternalProfile extends BaseModel
      * @var array<int, string>
      */
     protected $fillable = [
+        ExternalProfile::ATTRIBUTE_EXTERNAL_USER_ID,
         ExternalProfile::ATTRIBUTE_NAME,
         ExternalProfile::ATTRIBUTE_SITE,
         ExternalProfile::ATTRIBUTE_SYNCED_AT,
@@ -199,5 +205,21 @@ class ExternalProfile extends BaseModel
     public function externaltoken(): HasOne
     {
         return $this->hasOne(ExternalToken::class, ExternalToken::ATTRIBUTE_PROFILE);
+    }
+
+    /**
+     * Get the prunable model query.
+     *
+     * @return Builder
+     */
+    public function prunable(): Builder
+    {
+        return static::query()
+            ->whereDoesntHave(ExternalProfile::RELATION_USER)
+            ->where(
+                BaseModel::ATTRIBUTE_CREATED_AT,
+                ComparisonOperator::LTE->value,
+                Date::now()->subWeek()
+            );
     }
 }

@@ -19,6 +19,12 @@ return new class extends Migration
                 $table->timestamp(ExternalProfile::ATTRIBUTE_SYNCED_AT, 6)->nullable();
             });
         }
+
+        if (! Schema::hasColumn(ExternalProfile::TABLE, ExternalProfile::ATTRIBUTE_EXTERNAL_USER_ID)) {
+            Schema::table(ExternalProfile::TABLE, function (Blueprint $table) {
+                $table->integer(ExternalProfile::ATTRIBUTE_EXTERNAL_USER_ID)->nullable();
+            });
+        }
     }
 
     /**
@@ -29,6 +35,12 @@ return new class extends Migration
         if (Schema::hasColumn(ExternalProfile::TABLE, ExternalProfile::ATTRIBUTE_SYNCED_AT)) {
             Schema::table(ExternalProfile::TABLE, function (Blueprint $table) {
                 $table->dropColumn(ExternalProfile::ATTRIBUTE_SYNCED_AT);
+            });
+        }
+
+        if (Schema::hasColumn(ExternalProfile::TABLE, ExternalProfile::ATTRIBUTE_EXTERNAL_USER_ID)) {
+            Schema::table(ExternalProfile::TABLE, function (Blueprint $table) {
+                $table->dropColumn(ExternalProfile::ATTRIBUTE_EXTERNAL_USER_ID);
             });
         }
     }

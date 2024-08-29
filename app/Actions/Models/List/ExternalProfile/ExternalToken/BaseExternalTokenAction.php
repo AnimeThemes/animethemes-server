@@ -11,5 +11,18 @@ use App\Models\List\External\ExternalToken;
  */
 abstract class BaseExternalTokenAction
 {
-    abstract public function store(): ExternalToken;
+    /**
+     * Create a new action instance.
+     */
+    public function __construct()
+    {
+    }
+
+    /**
+     * Use the authorization code to get the tokens and store them.
+     *
+     * @param  string  $code
+     * @return ExternalToken|null
+     */
+    abstract public function store(string $code): ?ExternalToken;
 }

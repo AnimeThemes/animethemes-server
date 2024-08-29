@@ -8,6 +8,7 @@ use App\Console\Commands\Storage\Admin\DocumentDumpCommand;
 use App\Console\Commands\Storage\Admin\DumpPruneCommand;
 use App\Console\Commands\Storage\Admin\WikiDumpCommand;
 use App\Models\BaseModel;
+use App\Models\List\ExternalProfile;
 use BezhanSalleh\FilamentExceptions\Models\Exception;
 use Illuminate\Auth\Console\ClearResetsCommand;
 use Illuminate\Cache\Console\PruneStaleTagsCommand;

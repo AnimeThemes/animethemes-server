@@ -16,4 +16,6 @@ return [
     'login' => env('WIKI_LOGIN'),
 
     'reset_password' => env('WIKI_RESET_PASSWORD'),
+
+    'external_profile' => env('WIKI_EXTERNAL_PROFILE'),
 ];

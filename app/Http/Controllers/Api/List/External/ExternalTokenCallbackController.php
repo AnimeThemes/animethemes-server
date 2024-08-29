@@ -4,12 +4,18 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\List\External;
 
+use App\Actions\Models\List\ExternalProfile\StoreExternalProfileTokenAction;
 use App\Actions\Models\List\ExternalProfile\StoreExternalTokenAction;
 use App\Features\AllowExternalProfileManagement;
-use App\Http\Api\Query\Query;
 use App\Http\Controllers\Api\BaseController;
 use App\Http\Requests\Api\IndexRequest;
 use App\Models\List\External\ExternalToken;
+use App\Models\List\ExternalProfile;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Str;
 use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
 
@@ -30,24 +36,44 @@ class ExternalTokenCallbackController extends BaseController
             ->append(AllowExternalProfileManagement::class)
             ->__toString();
 
-        $this->middleware($isExternalProfileManagementAllowed)->except(['index', 'show']);
+        $this->middleware($isExternalProfileManagementAllowed);
     }
 
     /**
      * This is the redirect URL which is set in the external provider.
      *
      * @param  IndexRequest  $request
+     * @return RedirectResponse|JsonResponse
      */
-    public function index(IndexRequest $request)
+    public function index(IndexRequest $request): RedirectResponse|JsonResponse
     {
-        //$query = new Query($request->validated());
+        $validated = array_merge(
+            $request->validated(),
+            [ExternalProfile::ATTRIBUTE_USER => Auth::id()]
+        );
 
-        //$action = new StoreExternalTokenAction();
+        $action = new StoreExternalTokenAction();
 
-        //$action->store($query); // This stores the external token.
+        $externalToken = $action->store($validated);
 
-        // TODO: We should find or create a profile with the entries.
+        if ($externalToken === null) {
+            return new JsonResponse([
+                'error' => 'invalid code',
+            ], 400);
+        }
 
-        // TODO: Then, the user should be redirect to the client page, e.g. /external/{site}/{profile}.
+        $profileAction = new StoreExternalProfileTokenAction();
+
+        $profile = $profileAction->findOrCreate($externalToken, $validated); 
+
+        // https://animethemes.moe/external/{mal|anilist}/{profile_name}
+        $clientUrl = Str::of(Config::get('wiki.external_profile'))
+            ->append('/')
+            ->append(Str::lower($profile->site->name))
+            ->append('/')
+            ->append($profile->getName())
+            ->__toString();
+
+        return Redirect::to($clientUrl);
     }
 }

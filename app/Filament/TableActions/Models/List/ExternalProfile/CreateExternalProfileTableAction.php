@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\TableActions\Models\List\ExternalProfile;
 
-use App\Actions\Models\List\ExternalProfile\StoreExternalProfileAction;
+use App\Actions\Models\List\ExternalProfile\StoreExternalProfileUsernameAction;
 use App\Enums\Models\List\ExternalProfileSite;
 use App\Enums\Models\List\ExternalProfileVisibility;
 use App\Filament\Components\Fields\Select;
@@ -47,9 +47,9 @@ class CreateExternalProfileTableAction extends BaseTableAction
         $site = Arr::get($fields, ExternalProfile::ATTRIBUTE_SITE);
         $visibility = Arr::get($fields, ExternalProfile::ATTRIBUTE_VISIBILITY);
 
-        $action = new StoreExternalProfileAction();
+        $action = new StoreExternalProfileUsernameAction();
 
-        $action->store(ExternalProfile::query(), [
+        $action->findOrCreate(ExternalProfile::query(), [
             ExternalProfile::ATTRIBUTE_USER => Filament::auth()->id(),
             ExternalProfile::ATTRIBUTE_NAME => $name,
             ExternalProfile::ATTRIBUTE_SITE => ExternalProfileSite::from(intval($site))->localize(),

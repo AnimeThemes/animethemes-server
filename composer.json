@@ -32,6 +32,7 @@
         "fakerphp/faker": "^1.21",
         "filament/filament": "3.2.106",
         "filament/forms": "3.2.106",
+        "firebase/php-jwt": "^6.10",
         "flowframe/laravel-trend": "*",
         "guzzlehttp/guzzle": "^7.5",
         "laravel-notification-channels/discord": "^1.4",

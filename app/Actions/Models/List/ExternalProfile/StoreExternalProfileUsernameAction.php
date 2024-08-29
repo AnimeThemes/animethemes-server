@@ -5,47 +5,49 @@ declare(strict_types=1);
 namespace App\Actions\Models\List\ExternalProfile;
 
 use App\Actions\Http\Api\StoreAction;
+use App\Actions\Models\List\BaseStoreExternalProfileAction;
 use App\Actions\Models\List\ExternalProfile\ExternalEntry\BaseExternalEntryAction;
 use App\Actions\Models\List\ExternalProfile\ExternalEntry\Site\AnilistExternalEntryAction;
 use App\Enums\Models\List\ExternalProfileSite;
 use App\Enums\Models\List\ExternalProfileVisibility;
 use App\Models\List\External\ExternalEntry;
 use App\Models\List\ExternalProfile;
-use App\Models\Wiki\Anime;
-use App\Models\Wiki\ExternalResource;
 use Error;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 /**
- * Class StoreExternalProfileAction.
+ * Class StoreExternalProfileUsernameAction.
  */
-class StoreExternalProfileAction
+class StoreExternalProfileUsernameAction extends BaseStoreExternalProfileAction
 {
-    protected Collection $resources;
-
     /**
-     * Store external profile and its entries.
+     * Find or store an external profile and its entries given determined username.
      *
      * @param  Builder  $builder
      * @param  array  $profileParameters
-     * @return Model
+     * @return ExternalProfile
      *
      * @throws Exception
      */
-    public function store(Builder $builder, array $profileParameters): Model
+    public function findOrCreate(Builder $builder, array $profileParameters): ExternalProfile
     {
         try {
-            DB::beginTransaction();
-
-            $storeAction = new StoreAction();
-
             $profileSite = ExternalProfileSite::fromLocalizedName(Arr::get($profileParameters, 'site'));
+
+            $findProfile = ExternalProfile::query()
+                ->where(ExternalProfile::ATTRIBUTE_NAME, Arr::get($profileParameters, 'name'))
+                ->where(ExternalProfile::ATTRIBUTE_SITE, $profileSite->value)
+                ->first();
+
+            if ($findProfile instanceof ExternalProfile) {
+                return $findProfile;
+            }
+
+            DB::beginTransaction();
 
             $action = $this->getActionClass($profileSite, $profileParameters);
 
@@ -57,7 +59,11 @@ class StoreExternalProfileAction
 
             $this->preloadResources($profileSite, $entries);
 
+            $storeAction = new StoreAction();
+
+            /** @var ExternalProfile $profile */
             $profile = $storeAction->store($builder, [
+                ExternalProfile::ATTRIBUTE_EXTERNAL_USER_ID => $action->getId(),
                 ExternalProfile::ATTRIBUTE_NAME => Arr::get($profileParameters, ExternalProfile::ATTRIBUTE_NAME),
                 ExternalProfile::ATTRIBUTE_SITE => $profileSite->value,
                 ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::fromLocalizedName(Arr::get($profileParameters, ExternalProfile::ATTRIBUTE_VISIBILITY))->value,
@@ -105,35 +111,5 @@ class StoreExternalProfileAction
             ExternalProfileSite::ANILIST => new AnilistExternalEntryAction($profileParameters),
             default => null,
         };
-    }
-
-    /**
-     * Preload the resources for performance proposals.
-     *
-     * @param  ExternalProfileSite  $profileSite
-     * @param  array  $entries
-     * @return void 
-     */
-    protected function preloadResources(ExternalProfileSite $profileSite, array $entries): void
-    {
-        $externalResources = ExternalResource::query()
-            ->where(ExternalResource::ATTRIBUTE_SITE, $profileSite->getResourceSite()->value)
-            ->whereIn(ExternalResource::ATTRIBUTE_EXTERNAL_ID, Arr::pluck($entries, 'external_id'))
-            ->with(ExternalResource::RELATION_ANIME)
-            ->get()
-            ->mapWithKeys(fn (ExternalResource $resource) => [$resource->external_id => $resource->anime]);
-
-        $this->resources = $externalResources;
-    }
-
-    /**
-     * Get the animes by the external id.
-     *
-     * @param  int  $externalId
-     * @return Collection<int, Anime>
-     */
-    protected function getAnimesByExternalId(int $externalId): Collection
-    {
-        return $this->resources[$externalId] ?? new Collection();
     }
 }

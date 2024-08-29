@@ -41,11 +41,19 @@ return [
         'admin_discord_channel' => env('ADMIN_DISCORD_CHANNEL'),
     ],
 
-    'mal' => [
-        'client' => env('MAL_CLIENT_ID'),
-    ],
-
     'openai' => [
         'token' => env('OPENAI_BEARER_TOKEN'),
+    ],
+
+    'anilist' => [
+        'client_id' => env('ANILIST_CLIENT_ID'),
+        'client_secret' => env('ANILIST_CLIENT_SECRET'),
+        'redirect_uri' => env('ANILIST_REDIRECT_URI'),
+    ],
+
+    'mal' => [
+        'client_id' => env('MAL_CLIENT_ID'),
+        'client_secret' => env('MAL_CLIENT_SECRET'),
+        'redirect_uri' => env('MAL_REDIRECT_URI'),
     ],
 ];

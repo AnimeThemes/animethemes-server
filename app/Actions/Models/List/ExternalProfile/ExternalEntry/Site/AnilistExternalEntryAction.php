@@ -26,22 +26,23 @@ class AnilistExternalEntryAction extends BaseExternalEntryAction
     public function getEntries(): array
     {
         $entries = [];
-        $response = $this->makeRequest();
 
-        if ($response !== null) {
-            $favorites = Arr::map(Arr::get($response, 'data.User.favourites.anime.nodes'), fn ($value) => $value['id']);
-            $lists = Arr::where(Arr::get($response, 'data.MediaListCollection.lists'), fn ($value) => $value['isCustomList'] === false);
+        if ($this->response === null) {
+            $this->makeRequest();
+        }
 
-            foreach ($lists as $list) {
-                foreach (Arr::get($list, 'entries') as $entry) {
-                    $entryId = intval(Arr::get($entry, 'media.id'));
-                    $entries[] = [
-                        ExternalResource::ATTRIBUTE_EXTERNAL_ID => $entryId,
-                        ExternalEntry::ATTRIBUTE_SCORE => Arr::get($entry, 'score'),
-                        ExternalEntry::ATTRIBUTE_WATCH_STATUS => ExternalEntryWatchStatus::getAnilistMapping(Arr::get($entry, 'status'))->value,
-                        ExternalEntry::ATTRIBUTE_IS_FAVORITE => in_array($entryId, $favorites),
-                    ];
-                }
+        $favorites = Arr::map(Arr::get($this->response, 'data.User.favourites.anime.nodes'), fn ($value) => $value['id']);
+        $lists = Arr::where(Arr::get($this->response, 'data.MediaListCollection.lists'), fn ($value) => $value['isCustomList'] === false);
+
+        foreach ($lists as $list) {
+            foreach (Arr::get($list, 'entries') as $entry) {
+                $entryId = intval(Arr::get($entry, 'media.id'));
+                $entries[] = [
+                    ExternalResource::ATTRIBUTE_EXTERNAL_ID => $entryId,
+                    ExternalEntry::ATTRIBUTE_SCORE => Arr::get($entry, 'score'),
+                    ExternalEntry::ATTRIBUTE_WATCH_STATUS => ExternalEntryWatchStatus::getAnilistMapping(Arr::get($entry, 'status'))->value,
+                    ExternalEntry::ATTRIBUTE_IS_FAVORITE => in_array($entryId, $favorites),
+                ];
             }
         }
 
@@ -49,16 +50,31 @@ class AnilistExternalEntryAction extends BaseExternalEntryAction
     }
 
     /**
+     * Get the id of the external user.
+     *
+     * @return int|null
+     */
+    public function getId(): ?int
+    {
+        if ($this->response === null) {
+            $this->makeRequest();
+        }
+
+        return Arr::get($this->response, 'data.User.id');
+    }
+
+    /**
      * Make the request to the external api.
      *
-     * @return array|null
+     * @return static
      */
-    public function makeRequest(): ?array
+    protected function makeRequest(): static
     {
         try {
             $query = '
                 query($userName: String) {
                     User(name: $userName) {
+                        id
                         favourites {
                             anime {
                                 nodes {
@@ -88,14 +104,14 @@ class AnilistExternalEntryAction extends BaseExternalEntryAction
                 'userName' => $this->getUsername(),
             ];
 
-            $response = Http::post('https://graphql.anilist.co', [
+            $this->response = Http::post('https://graphql.anilist.co', [
                 'query' => $query,
                 'variables' => $variables,
             ])
                 ->throw()
                 ->json();
 
-            return $response;
+            return $this;
 
         } catch (RequestException $e) {
             Log::error($e->getMessage());

@@ -10,7 +10,7 @@ use App\Actions\Http\Api\IndexAction;
 use App\Actions\Http\Api\RestoreAction;
 use App\Actions\Http\Api\ShowAction;
 use App\Actions\Http\Api\UpdateAction;
-use App\Actions\Models\List\ExternalProfile\StoreExternalProfileAction;
+use App\Actions\Models\List\ExternalProfile\StoreExternalProfileUsernameAction;
 use App\Enums\Models\List\ExternalProfileVisibility;
 use App\Features\AllowExternalProfileManagement;
 use App\Http\Api\Query\Query;
@@ -91,12 +91,12 @@ class ExternalProfileController extends BaseController
      * Store a newly created resource.
      *
      * @param  StoreRequest  $request
-     * @param  StoreExternalProfileAction  $action
+     * @param  StoreExternalProfileUsernameAction  $action
      * @return ExternalProfileResource
      */
-    public function store(StoreRequest $request, StoreExternalProfileAction $action): ExternalProfileResource
+    public function store(StoreRequest $request, StoreExternalProfileUsernameAction $action): ExternalProfileResource
     {
-        $externalprofile = $action->store(ExternalProfile::query(), $request->validated());
+        $externalprofile = $action->findOrCreate(ExternalProfile::query(), $request->validated());
 
         return new ExternalProfileResource($externalprofile, new Query());
     }

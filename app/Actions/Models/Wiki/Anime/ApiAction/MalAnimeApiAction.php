@@ -38,7 +38,7 @@ class MalAnimeApiAction extends ApiAction
         $resource = $resources->firstWhere(ExternalResource::ATTRIBUTE_SITE, ResourceSite::MAL->value);
 
         if ($resource instanceof ExternalResource) {
-            $response = Http::withHeaders(['X-MAL-CLIENT-ID' => Config::get('services.mal.client')])
+            $response = Http::withHeaders(['X-MAL-CLIENT-ID' => Config::get('services.mal.client_id')])
                 ->get("https://api.myanimelist.net/v2/anime/$resource->external_id", [
                     'fields' => 'studios',
                 ])
