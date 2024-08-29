@@ -40,11 +40,11 @@ class ExternalTokenCallbackController extends BaseController
      */
     public function index(IndexRequest $request)
     {
-        $query = new Query($request->validated());
+        //$query = new Query($request->validated());
 
-        $action = new StoreExternalTokenAction();
+        //$action = new StoreExternalTokenAction();
 
-        $action->store($query); // This stores the external token.
+        //$action->store($query); // This stores the external token.
 
         // TODO: We should find or create a profile with the entries.
 
