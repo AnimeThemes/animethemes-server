@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace App\Actions\Models\List\ExternalProfile;
 
 use App\Actions\Http\Api\StoreAction;
-use App\Actions\Models\List\ExternalProfile\ExternalEntry\AnilistExternalEntryAction;
+use App\Actions\Models\List\ExternalProfile\ExternalEntry\BaseExternalEntryAction;
+use App\Actions\Models\List\ExternalProfile\ExternalEntry\Site\AnilistExternalEntryAction;
 use App\Enums\Models\List\ExternalProfileSite;
 use App\Enums\Models\List\ExternalProfileVisibility;
 use App\Models\List\External\ExternalEntry;
@@ -57,7 +58,6 @@ class StoreExternalProfileAction
             $this->preloadResources($profileSite, $entries);
 
             $profile = $storeAction->store($builder, [
-                ExternalProfile::ATTRIBUTE_USER => Arr::get($profileParameters, ExternalProfile::ATTRIBUTE_USER),
                 ExternalProfile::ATTRIBUTE_NAME => Arr::get($profileParameters, ExternalProfile::ATTRIBUTE_NAME),
                 ExternalProfile::ATTRIBUTE_SITE => $profileSite->value,
                 ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::fromLocalizedName(Arr::get($profileParameters, ExternalProfile::ATTRIBUTE_VISIBILITY))->value,
@@ -97,9 +97,9 @@ class StoreExternalProfileAction
      *
      * @param  ExternalProfileSite  $site
      * @param  array  $profileParameters
-     * @return ExternalEntryAction|null
+     * @return BaseExternalEntryAction|null
      */
-    protected function getActionClass(ExternalProfileSite $site, array $profileParameters): ?ExternalEntryAction
+    protected function getActionClass(ExternalProfileSite $site, array $profileParameters): ?BaseExternalEntryAction
     {
         return match ($site) {
             ExternalProfileSite::ANILIST => new AnilistExternalEntryAction($profileParameters),

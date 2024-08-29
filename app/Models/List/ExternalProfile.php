@@ -13,10 +13,13 @@ use App\Events\List\ExternalProfile\ExternalProfileUpdated;
 use App\Models\Auth\User;
 use App\Models\BaseModel;
 use App\Models\List\External\ExternalEntry;
+use App\Models\List\External\ExternalToken;
 use Database\Factories\List\ExternalProfileFactory;
 use Elastic\ScoutDriverPlus\Searchable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 
 /**
@@ -24,8 +27,10 @@ use Illuminate\Support\Collection;
  *
  * @property int $profile_id
  * @property Collection<int, ExternalEntry> $externalentries
+ * @property ExternalToken|null $externaltoken
  * @property string $name
  * @property ExternalProfileSite $site
+ * @property Carbon|null $synced_at
  * @property int|null $user_id
  * @property User|null $user
  * @property ExternalProfileVisibility $visibility
@@ -43,9 +48,11 @@ class ExternalProfile extends BaseModel
     final public const ATTRIBUTE_SITE = 'site';
     final public const ATTRIBUTE_VISIBILITY = 'visibility';
     final public const ATTRIBUTE_USER = 'user_id';
+    final public const ATTRIBUTE_SYNCED_AT = 'synced_at';
 
     final public const RELATION_ANIMES = 'externalentries.anime';
     final public const RELATION_EXTERNAL_ENTRIES = 'externalentries';
+    final public const RELATION_RELATION_TOKEN = 'externaltoken';
     final public const RELATION_USER = 'user';
 
     /**
@@ -56,6 +63,7 @@ class ExternalProfile extends BaseModel
     protected $fillable = [
         ExternalProfile::ATTRIBUTE_NAME,
         ExternalProfile::ATTRIBUTE_SITE,
+        ExternalProfile::ATTRIBUTE_SYNCED_AT,
         ExternalProfile::ATTRIBUTE_VISIBILITY,
         ExternalProfile::ATTRIBUTE_USER,
     ];
@@ -134,6 +142,16 @@ class ExternalProfile extends BaseModel
     }
 
     /**
+     * Only get the attributes as an array to prevent recursive toArray() calls.
+     *
+     * @return array
+     */
+    public function toSearchableArray(): array
+    {
+        return $this->attributesToArray();
+    }
+
+    /**
      * Determine if the model should be searchable.
      *
      * @return bool
@@ -141,6 +159,16 @@ class ExternalProfile extends BaseModel
     public function shouldBeSearchable(): bool
     {
         return ExternalProfileVisibility::PUBLIC === $this->visibility;
+    }
+
+    /**
+     * Check if the profile was created through username case.
+     *
+     * @return bool
+     */
+    public function isClaimed(): bool
+    {
+        return $this->user()->exists() || $this->externaltoken()->exists();
     }
 
     /**
@@ -164,12 +192,12 @@ class ExternalProfile extends BaseModel
     }
 
     /**
-     * Only get the attributes as an array to prevent recursive toArray() calls.
+     * Get the external token that the external profile owns.
      *
-     * @return array
+     * @return HasOne
      */
-    public function toSearchableArray(): array
+    public function externaltoken(): HasOne
     {
-        return $this->attributesToArray();
+        return $this->hasOne(ExternalToken::class, ExternalToken::ATTRIBUTE_PROFILE);
     }
 }

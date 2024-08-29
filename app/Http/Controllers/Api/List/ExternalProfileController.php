@@ -25,7 +25,6 @@ use App\Http\Resources\List\Collection\ExternalProfileCollection;
 use App\Http\Resources\List\Resource\ExternalProfileResource;
 use App\Models\List\ExternalProfile;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
 
@@ -72,25 +71,6 @@ class ExternalProfileController extends BaseController
     }
 
     /**
-     * Store a newly created resource.
-     *
-     * @param  StoreRequest  $request
-     * @param  StoreExternalProfileAction  $action
-     * @return ExternalProfileResource
-     */
-    public function store(StoreRequest $request, StoreExternalProfileAction $action): ExternalProfileResource
-    {
-        $validated = array_merge(
-            $request->validated(),
-            [ExternalProfile::ATTRIBUTE_USER => Auth::id()]
-        );
-
-        $externalprofile = $action->store(ExternalProfile::query(), $validated);
-
-        return new ExternalProfileResource($externalprofile, new Query());
-    }
-
-    /**
      * Display the specified resource.
      *
      * @param  ShowRequest  $request
@@ -105,6 +85,20 @@ class ExternalProfileController extends BaseController
         $show = $action->show($externalprofile, $query, $request->schema());
 
         return new ExternalProfileResource($show, $query);
+    }
+
+    /**
+     * Store a newly created resource.
+     *
+     * @param  StoreRequest  $request
+     * @param  StoreExternalProfileAction  $action
+     * @return ExternalProfileResource
+     */
+    public function store(StoreRequest $request, StoreExternalProfileAction $action): ExternalProfileResource
+    {
+        $externalprofile = $action->store(ExternalProfile::query(), $request->validated());
+
+        return new ExternalProfileResource($externalprofile, new Query());
     }
 
     /**

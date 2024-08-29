@@ -2,16 +2,18 @@
 
 declare(strict_types=1);
 
-namespace App\Actions\Models\List\ExternalProfile;
+namespace App\Actions\Models\List\ExternalProfile\ExternalEntry;
 
 use App\Enums\Models\List\ExternalProfileSite;
 use App\Enums\Models\Wiki\ResourceSite;
 use Illuminate\Support\Arr;
 
 /**
- * Class ExternalEntryAction
+ * Class BaseExternalEntryAction.
+ *
+ * This action will create the entries through the username method.
  */
-abstract class ExternalEntryAction
+abstract class BaseExternalEntryAction
 {
     /**
      * Create a new action instance.

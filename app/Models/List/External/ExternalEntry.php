@@ -13,7 +13,6 @@ use App\Models\BaseModel;
 use App\Models\List\ExternalProfile;
 use App\Models\Wiki\Anime;
 use Database\Factories\List\External\ExternalEntryFactory;
-use Elastic\ScoutDriverPlus\Searchable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
@@ -32,8 +31,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class ExternalEntry extends BaseModel
 {
-    use Searchable;
-
     final public const TABLE = 'external_entries';
 
     final public const ATTRIBUTE_ID = 'entry_id';
