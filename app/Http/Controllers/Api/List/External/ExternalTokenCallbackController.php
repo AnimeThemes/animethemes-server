@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\List\External;
 
-use App\Actions\Models\List\ExternalProfile\StoreExternalProfileAction;
+use App\Actions\Models\List\ExternalProfile\StoreExternalProfileTokenAction;
 use App\Actions\Models\List\ExternalProfile\StoreExternalTokenAction;
 use App\Features\AllowExternalProfileManagement;
 use App\Http\Controllers\Api\BaseController;
@@ -62,9 +62,9 @@ class ExternalTokenCallbackController extends BaseController
             ], 400);
         }
 
-        $profileAction = new StoreExternalProfileAction();
+        $profileAction = new StoreExternalProfileTokenAction();
 
-        $profile = $profileAction->findOrCreateForExternalToken($externalToken, $validated); 
+        $profile = $profileAction->findOrCreate($externalToken, $validated); 
 
         // https://animethemes.moe/external/{mal|anilist}/{profile_name}
         $clientUrl = Str::of(Config::get('wiki.external_profile'))

@@ -59,7 +59,7 @@ abstract class BaseExternalEntryAction
     /**
      * Get the id of the external user.
      *
-     * @return string
+     * @return int|null
      */
     abstract public function getId(): ?int;
 
