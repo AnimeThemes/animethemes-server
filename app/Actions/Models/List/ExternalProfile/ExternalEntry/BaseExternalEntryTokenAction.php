@@ -13,10 +13,8 @@ abstract class BaseExternalEntryTokenAction
 {
     /**
      * Create a new action instance.
-     *
-     * @param  array  $parameters
      */
-    public function __construct(protected array $parameters)
+    public function __construct()
     {
     }
 

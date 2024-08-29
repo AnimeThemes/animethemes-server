@@ -96,7 +96,7 @@ class ExternalProfileController extends BaseController
      */
     public function store(StoreRequest $request, StoreExternalProfileAction $action): ExternalProfileResource
     {
-        $externalprofile = $action->store(ExternalProfile::query(), $request->validated());
+        $externalprofile = $action->findOrCreateForUsername(ExternalProfile::query(), $request->validated());
 
         return new ExternalProfileResource($externalprofile, new Query());
     }
