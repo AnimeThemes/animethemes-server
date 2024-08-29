@@ -64,8 +64,6 @@ class ExternalTokenCallbackController extends BaseController
 
         $profileAction = new StoreExternalProfileAction();
 
-        // TODO: We should check if the profile already exists in case 
-        // it is just a re-authentication. Currently, 'find' is useless.
         $profile = $profileAction->findOrCreateForExternalToken($externalToken, $validated); 
 
         // https://animethemes.moe/external/{mal|anilist}/{profile_name}

@@ -31,6 +31,7 @@ use Illuminate\Support\Facades\Date;
  * @property int $profile_id
  * @property Collection<int, ExternalEntry> $externalentries
  * @property ExternalToken|null $externaltoken
+ * @property int|null $external_user_id
  * @property string $name
  * @property ExternalProfileSite $site
  * @property Carbon|null $synced_at
@@ -47,6 +48,7 @@ class ExternalProfile extends BaseModel
     final public const TABLE = 'external_profiles';
 
     final public const ATTRIBUTE_ID = 'profile_id';
+    final public const ATTRIBUTE_EXTERNAL_USER_ID = 'external_user_id';
     final public const ATTRIBUTE_NAME = 'name';
     final public const ATTRIBUTE_SITE = 'site';
     final public const ATTRIBUTE_VISIBILITY = 'visibility';
@@ -64,6 +66,7 @@ class ExternalProfile extends BaseModel
      * @var array<int, string>
      */
     protected $fillable = [
+        ExternalProfile::ATTRIBUTE_EXTERNAL_USER_ID,
         ExternalProfile::ATTRIBUTE_NAME,
         ExternalProfile::ATTRIBUTE_SITE,
         ExternalProfile::ATTRIBUTE_SYNCED_AT,

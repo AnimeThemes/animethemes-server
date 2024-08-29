@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Actions\Models\List\ExternalProfile\ExternalEntry;
 
+use App\Models\List\External\ExternalToken;
+
 /**
  * Class BaseExternalEntryTokenAction
  *
@@ -11,21 +13,23 @@ namespace App\Actions\Models\List\ExternalProfile\ExternalEntry;
  */
 abstract class BaseExternalEntryTokenAction
 {
+    protected ?array $response = null;
+
     /**
      * Create a new action instance.
      */
-    public function __construct()
+    public function __construct(protected ExternalToken $token)
     {
     }
 
     /**
-     * Get the username of the profile.
+     * Get the id of the external user.
      *
-     * @return string
+     * @return int
      */
-    public function getUsername(): string
+    public function getId(): int
     {
-        return ''; // TODO
+        return 0; // TODO: Decode the token using JWT
     }
 
     /**
@@ -35,7 +39,17 @@ abstract class BaseExternalEntryTokenAction
      */
     public function getToken(): string
     {
-        return ''; // TODO
+        return $this->token->access_token;
+    }
+
+    /**
+     * Get the username.
+     *
+     * @return string|null
+     */
+    public function getUsername(): ?string
+    {
+        return null;
     }
 
     /**
@@ -48,7 +62,7 @@ abstract class BaseExternalEntryTokenAction
     /**
      * Make the request to the external api.
      *
-     * @return array|null
+     * @return static
      */
-    abstract public function makeRequest(): ?array;
+    abstract protected function makeRequest(): static;
 }

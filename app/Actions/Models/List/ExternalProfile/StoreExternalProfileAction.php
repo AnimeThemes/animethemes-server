@@ -45,26 +45,21 @@ class StoreExternalProfileAction
         try {
             DB::beginTransaction();
 
-            $storeAction = new StoreAction();
-
             $site = ExternalProfileSite::fromLocalizedName(Arr::get($parameters, 'site'));
 
-            $action = $this->getActionClassToken($site);
+            $action = $this->getActionClassToken($site, $token);
 
             if ($action === null) {
                 throw new Error("Undefined action for site {$site->localize()}"); // TODO: check if it is working
             }
 
+            $userId = $action->getId();
+
+            $profile = $this->findOrCreateForUserId($userId, $site, $action, $parameters);
+
             $entries = $action->getEntries();
 
             $this->preloadResources($site, $entries);
-
-            $profile = $storeAction->store(ExternalProfile::query(), [
-                ExternalProfile::ATTRIBUTE_USER => Arr::get($parameters, ExternalProfile::ATTRIBUTE_USER),
-                ExternalProfile::ATTRIBUTE_NAME => '', // TODO
-                ExternalProfile::ATTRIBUTE_SITE => $site->value,
-                ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PRIVATE->value,
-            ]);
 
             $token->externalprofile()->associate($profile);
 
@@ -110,11 +105,18 @@ class StoreExternalProfileAction
     public function findOrCreateForUsername(Builder $builder, array $profileParameters): ExternalProfile
     {
         try {
-            DB::beginTransaction();
-
-            $storeAction = new StoreAction();
-
             $profileSite = ExternalProfileSite::fromLocalizedName(Arr::get($profileParameters, 'site'));
+
+            $findProfile = ExternalProfile::query()
+                ->where(ExternalProfile::ATTRIBUTE_NAME, Arr::get($profileParameters, 'name'))
+                ->where(ExternalProfile::ATTRIBUTE_SITE, $profileSite->value)
+                ->first();
+
+            if ($findProfile instanceof ExternalProfile) {
+                return $findProfile;
+            }
+
+            DB::beginTransaction();
 
             $action = $this->getActionClass($profileSite, $profileParameters);
 
@@ -126,7 +128,10 @@ class StoreExternalProfileAction
 
             $this->preloadResources($profileSite, $entries);
 
+            $storeAction = new StoreAction();
+
             $profile = $storeAction->store($builder, [
+                ExternalProfile::ATTRIBUTE_EXTERNAL_USER_ID => $action->getId(),
                 ExternalProfile::ATTRIBUTE_NAME => Arr::get($profileParameters, ExternalProfile::ATTRIBUTE_NAME),
                 ExternalProfile::ATTRIBUTE_SITE => $profileSite->value,
                 ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::fromLocalizedName(Arr::get($profileParameters, ExternalProfile::ATTRIBUTE_VISIBILITY))->value,
@@ -162,15 +167,70 @@ class StoreExternalProfileAction
     }
 
     /**
+     * Find or create the profile for a userId and site.
+     *
+     * @param  int  $userId
+     * @param  ExternalProfileSite  $site
+     * @param  BaseExternalEntryTokenAction  $action
+     * @param  array  $parameters
+     * @return ExternalProfile|null
+     */
+    protected function findOrCreateForUserId(int $userId, ExternalProfileSite $site, BaseExternalEntryTokenAction $action, array $parameters): ?ExternalProfile
+    {
+        $claimedProfile = ExternalProfile::query()
+            ->where(ExternalProfile::ATTRIBUTE_EXTERNAL_USER_ID, $userId)
+            ->where(ExternalProfile::ATTRIBUTE_SITE, $site->value)
+            ->whereHas(ExternalProfile::RELATION_USER)
+            ->first();
+
+        if ($claimedProfile instanceof ExternalProfile) {
+            return $claimedProfile;
+        }
+
+        $unclaimedProfile = ExternalToken::query()
+            ->where(ExternalProfile::ATTRIBUTE_EXTERNAL_USER_ID, $userId)
+            ->where(ExternalProfile::ATTRIBUTE_SITE, $site->value)
+            ->whereDoesntHave(ExternalProfile::RELATION_USER)
+            ->first();
+
+        if ($unclaimedProfile instanceof ExternalProfile) {
+            $unclaimedProfile->update([
+                ExternalProfile::ATTRIBUTE_USER => Arr::get($parameters, ExternalProfile::ATTRIBUTE_USER),
+                ExternalProfile::ATTRIBUTE_NAME => $action->getUsername(),
+                ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PRIVATE->value,
+            ]);
+
+            return $unclaimedProfile;
+        }
+
+        $storeAction = new StoreAction();
+
+        $profile = $storeAction->store(ExternalProfile::query(), [
+            ExternalProfile::ATTRIBUTE_EXTERNAL_USER_ID => $userId,
+            ExternalProfile::ATTRIBUTE_USER => Arr::get($parameters, ExternalProfile::ATTRIBUTE_USER),
+            ExternalProfile::ATTRIBUTE_NAME => $action->getUsername(),
+            ExternalProfile::ATTRIBUTE_SITE => $site->value,
+            ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PRIVATE->value,
+        ]);
+
+        if ($profile instanceof ExternalProfile) {
+            return $profile;
+        }
+
+        return null;
+    }
+
+    /**
      * Get the mapping for the entries token class.
      *
      * @param  ExternalProfileSite  $site
+     * @param  ExternalToken  $token
      * @return BaseExternalEntryTokenAction|null
      */
-    protected function getActionClassToken(ExternalProfileSite $site): ?BaseExternalEntryTokenAction
+    protected function getActionClassToken(ExternalProfileSite $site, ExternalToken $token): ?BaseExternalEntryTokenAction
     {
         return match ($site) {
-            ExternalProfileSite::ANILIST => new AnilistExternalEntryTokenAction(),
+            ExternalProfileSite::ANILIST => new AnilistExternalEntryTokenAction($token),
             default => null,
         };
     }

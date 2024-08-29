@@ -15,6 +15,8 @@ use Illuminate\Support\Arr;
  */
 abstract class BaseExternalEntryAction
 {
+    protected ?array $response = null;
+
     /**
      * Create a new action instance.
      *
@@ -55,6 +57,13 @@ abstract class BaseExternalEntryAction
     }
 
     /**
+     * Get the id of the external user.
+     *
+     * @return string
+     */
+    abstract public function getId(): ?int;
+
+    /**
      * Get the entries of the response.
      *
      * @return array
@@ -64,7 +73,7 @@ abstract class BaseExternalEntryAction
     /**
      * Make the request to the external api.
      *
-     * @return array|null
+     * @return static
      */
-    abstract public function makeRequest(): ?array;
+    abstract protected function makeRequest(): static;
 }
