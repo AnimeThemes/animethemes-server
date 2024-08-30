@@ -19,8 +19,8 @@ return new class extends Migration
         if (! Schema::hasTable(ExternalToken::TABLE)) {
             Schema::create(ExternalToken::TABLE, function (Blueprint $table) {
                 $table->id(ExternalToken::ATTRIBUTE_ID);
-                $table->string(ExternalToken::ATTRIBUTE_ACCESS_TOKEN)->nullable();
-                $table->string(ExternalToken::ATTRIBUTE_REFRESH_TOKEN)->nullable();
+                $table->longText(ExternalToken::ATTRIBUTE_ACCESS_TOKEN)->nullable();
+                $table->longText(ExternalToken::ATTRIBUTE_REFRESH_TOKEN)->nullable();
 
                 $table->unsignedBigInteger(ExternalToken::ATTRIBUTE_PROFILE)->nullable();
                 $table->foreign(ExternalToken::ATTRIBUTE_PROFILE)->references(ExternalProfile::ATTRIBUTE_ID)->on(ExternalProfile::TABLE)->cascadeOnDelete();
