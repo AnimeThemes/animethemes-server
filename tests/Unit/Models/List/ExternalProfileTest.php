@@ -158,7 +158,7 @@ class ExternalProfileTest extends TestCase
     public function testExternalToken(): void
     {
         $profile = ExternalProfile::factory()
-            ->for(ExternalToken::factory())
+            ->has(ExternalToken::factory(), ExternalProfile::RELATION_EXTERNAL_TOKEN)
             ->createOne();
 
         static::assertInstanceOf(HasOne::class, $profile->externaltoken());

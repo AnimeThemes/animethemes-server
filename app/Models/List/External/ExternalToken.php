@@ -138,7 +138,7 @@ class ExternalToken extends BaseModel
             null,
             '',
             [
-                User::class => User::ATTRIBUTE_ID,
+                User::class => ExternalProfile::ATTRIBUTE_USER,
                 ExternalProfile::class => ExternalProfile::ATTRIBUTE_ID,
             ]
         );

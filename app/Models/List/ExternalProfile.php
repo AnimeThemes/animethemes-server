@@ -57,7 +57,7 @@ class ExternalProfile extends BaseModel
 
     final public const RELATION_ANIMES = 'externalentries.anime';
     final public const RELATION_EXTERNAL_ENTRIES = 'externalentries';
-    final public const RELATION_RELATION_TOKEN = 'externaltoken';
+    final public const RELATION_EXTERNAL_TOKEN = 'externaltoken';
     final public const RELATION_USER = 'user';
 
     /**
