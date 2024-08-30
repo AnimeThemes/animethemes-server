@@ -8,7 +8,9 @@ use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
 use App\Models\Wiki\Video;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\MySqlConnection;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -25,7 +27,11 @@ return new class extends Migration
                 $table->id(PlaylistTrack::ATTRIBUTE_ID);
                 $table->timestamps(6);
                 $table->softDeletes(BaseModel::ATTRIBUTE_DELETED_AT, 6);
-                $table->string(HasHashids::ATTRIBUTE_HASHID)->nullable()->collation('utf8mb4_bin');
+                $hashIdColumn = $table->string(HasHashids::ATTRIBUTE_HASHID)->nullable();
+                if (DB::connection() instanceof MySqlConnection) {
+                    // Set collation to binary to be case-sensitive
+                    $hashIdColumn->collation('utf8mb4_bin');
+                }
 
                 $table->unsignedBigInteger(PlaylistTrack::ATTRIBUTE_PLAYLIST);
                 $table->foreign(PlaylistTrack::ATTRIBUTE_PLAYLIST)->references(Playlist::ATTRIBUTE_ID)->on(Playlist::TABLE)->cascadeOnDelete();
