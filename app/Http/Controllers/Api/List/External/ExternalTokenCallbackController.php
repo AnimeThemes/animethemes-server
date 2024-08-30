@@ -7,6 +7,8 @@ namespace App\Http\Controllers\Api\List\External;
 use App\Actions\Models\List\ExternalProfile\StoreExternalProfileTokenAction;
 use App\Actions\Models\List\ExternalProfile\StoreExternalTokenAction;
 use App\Features\AllowExternalProfileManagement;
+use App\Http\Api\Schema\List\ExternalProfileSchema;
+use App\Http\Api\Schema\Schema;
 use App\Http\Controllers\Api\BaseController;
 use App\Http\Requests\Api\IndexRequest;
 use App\Models\List\External\ExternalToken;
@@ -48,7 +50,7 @@ class ExternalTokenCallbackController extends BaseController
     public function index(IndexRequest $request): RedirectResponse|JsonResponse
     {
         $validated = array_merge(
-            $request->validated(),
+            $request->all(),
             [ExternalProfile::ATTRIBUTE_USER => Auth::id()]
         );
 
@@ -75,5 +77,17 @@ class ExternalTokenCallbackController extends BaseController
             ->__toString();
 
         return Redirect::to($clientUrl);
+    }
+
+    /**
+     * Get the underlying schema.
+     *
+     * @return Schema
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public function schema(): Schema
+    {
+        return new ExternalProfileSchema();
     }
 }
