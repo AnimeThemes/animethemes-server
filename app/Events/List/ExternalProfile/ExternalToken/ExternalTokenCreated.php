@@ -16,13 +16,6 @@ use App\Models\List\ExternalProfile;
 class ExternalTokenCreated extends ListCreatedEvent
 {
     /**
-     * The profile the token belongs to.
-     *
-     * @var ExternalProfile
-     */
-    protected ExternalProfile $profile;
-
-    /**
      * Create a new event instance.
      *
      * @param  ExternalToken  $token
@@ -30,7 +23,6 @@ class ExternalTokenCreated extends ListCreatedEvent
     public function __construct(ExternalToken $token)
     {
         parent::__construct($token);
-        $this->profile = $token->externalprofile;
     }
 
     /**
@@ -62,6 +54,6 @@ class ExternalTokenCreated extends ListCreatedEvent
      */
     protected function getDiscordMessageDescription(): string
     {
-        return "Token '**{$this->getModel()->getName()}**' has been created for External Profile '**{$this->profile->getName()}**'.";
+        return "Token '**{$this->getModel()->getName()}**' has been created.";
     }
 }
