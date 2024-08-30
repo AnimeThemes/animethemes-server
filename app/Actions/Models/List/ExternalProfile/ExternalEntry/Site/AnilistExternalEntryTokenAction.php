@@ -74,18 +74,17 @@ class AnilistExternalEntryTokenAction extends BaseExternalEntryTokenAction
      * @return int|null
      */
     public function getId(): ?int
-    {
+    {  
         if ($this->id !== null) {
             return $this->id;
         }
 
-        // TODO: This should be tested.
         try {
-            $decoded = JWT::decode($this->getToken(), new Key(Config::get('services.anilist.client_secret'), 'HS256'));
+            $decoded = JWT::decode($this->getToken(), new Key(Config::get('services.anilist.client_secret'), 'RS256'));
 
             $decodedArray = json_decode(json_encode($decoded), true);
 
-            $this->id = Arr::get($decodedArray, 'id');
+            $this->id = intval(Arr::get($decodedArray, 'sub'));
 
             return $this->id;
         } catch (Exception $e) {

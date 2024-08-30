@@ -9,6 +9,7 @@ use App\Models\List\External\ExternalToken;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
@@ -42,7 +43,7 @@ class AnilistExternalTokenAction extends BaseExternalTokenAction
 
             if ($token !== null) {
                 return ExternalToken::query()->create([
-                    ExternalToken::ATTRIBUTE_ACCESS_TOKEN => $token,
+                    ExternalToken::ATTRIBUTE_ACCESS_TOKEN => Crypt::encrypt($token),
                 ]);
             }
 

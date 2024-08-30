@@ -84,19 +84,6 @@ class ExternalToken extends BaseModel
     protected $primaryKey = ExternalToken::ATTRIBUTE_ID;
 
     /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    protected function casts(): array
-    {
-        return [
-            ExternalToken::ATTRIBUTE_ACCESS_TOKEN => 'hashed',
-            ExternalToken::ATTRIBUTE_REFRESH_TOKEN => 'hashed',
-        ];
-    }
-
-    /**
      * Get name.
      *
      * @return string

@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace App\Actions\Models\List\ExternalProfile\ExternalEntry;
 
 use App\Models\List\External\ExternalToken;
-use Firebase\JWT\JWT;
-use Firebase\JWT\Key;
-use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Crypt;
 
 /**
  * Class BaseExternalEntryTokenAction
@@ -43,7 +41,7 @@ abstract class BaseExternalEntryTokenAction
      */
     public function getToken(): string
     {
-        return $this->token->access_token;
+        return Crypt::decrypt($this->token->access_token);
     }
 
     /**
