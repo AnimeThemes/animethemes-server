@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\List\External;
 
-use App\Actions\Models\List\ExternalProfile\StoreExternalProfileTokenAction;
-use App\Actions\Models\List\ExternalProfile\StoreExternalTokenAction;
+use App\Actions\Models\List\ExternalTokenCallbackAction;
 use App\Features\AllowExternalProfileManagement;
+use App\Http\Api\Schema\List\ExternalProfileSchema;
+use App\Http\Api\Schema\Schema;
 use App\Http\Controllers\Api\BaseController;
 use App\Http\Requests\Api\IndexRequest;
 use App\Models\List\External\ExternalToken;
@@ -48,32 +49,38 @@ class ExternalTokenCallbackController extends BaseController
     public function index(IndexRequest $request): RedirectResponse|JsonResponse
     {
         $validated = array_merge(
-            $request->validated(),
+            $request->all(),
             [ExternalProfile::ATTRIBUTE_USER => Auth::id()]
         );
 
-        $action = new StoreExternalTokenAction();
+        $action = new ExternalTokenCallbackAction();
 
-        $externalToken = $action->store($validated);
+        $response = $action->store($validated);
 
-        if ($externalToken === null) {
-            return new JsonResponse([
-                'error' => 'invalid code',
-            ], 400);
+        if (!($response instanceof ExternalProfile)) {
+            return $response;
         }
-
-        $profileAction = new StoreExternalProfileTokenAction();
-
-        $profile = $profileAction->findOrCreate($externalToken, $validated); 
 
         // https://animethemes.moe/external/{mal|anilist}/{profile_name}
         $clientUrl = Str::of(Config::get('wiki.external_profile'))
             ->append('/')
-            ->append(Str::lower($profile->site->name))
+            ->append(Str::lower($response->site->name))
             ->append('/')
-            ->append($profile->getName())
+            ->append($response->getName())
             ->__toString();
 
         return Redirect::to($clientUrl);
+    }
+
+    /**
+     * Get the underlying schema.
+     *
+     * @return Schema
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public function schema(): Schema
+    {
+        return new ExternalProfileSchema();
     }
 }

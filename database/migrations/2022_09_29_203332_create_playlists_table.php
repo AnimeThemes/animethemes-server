@@ -7,7 +7,9 @@ use App\Models\Auth\User;
 use App\Models\BaseModel;
 use App\Models\List\Playlist;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\MySqlConnection;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration

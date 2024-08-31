@@ -16,13 +16,6 @@ use App\Models\List\External\ExternalToken;
 class ExternalTokenUpdated extends ListUpdatedEvent
 {
     /**
-     * The profile the token belongs to.
-     *
-     * @var ExternalProfile
-     */
-    protected ExternalProfile $profile;
-
-    /**
      * Create a new event instance.
      *
      * @param  ExternalToken  $token
@@ -30,7 +23,6 @@ class ExternalTokenUpdated extends ListUpdatedEvent
     public function __construct(ExternalToken $token)
     {
         parent::__construct($token);
-        $this->profile = $token->externalprofile;
         $this->initializeEmbedFields($token);
     }
 
@@ -63,6 +55,6 @@ class ExternalTokenUpdated extends ListUpdatedEvent
      */
     protected function getDiscordMessageDescription(): string
     {
-        return "Token '**{$this->getModel()->getName()}**' has been updated for External Profile '**{$this->profile->getName()}**'.";
+        return "Token '**{$this->getModel()->getName()}**' has been updated.";
     }
 }

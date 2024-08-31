@@ -6,6 +6,7 @@ namespace Tests\Unit\Models\Discord;
 
 use App\Models\Discord\DiscordThread;
 use App\Models\Wiki\Anime;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
@@ -42,5 +43,20 @@ class DiscordThreadTest extends TestCase
             ->createOne();
 
         static::assertIsString($thread->getSubtitle());
+    }
+
+    /**
+     * Discord Thread shall belong to an Anime.
+     *
+     * @return void
+     */
+    public function testAnime(): void
+    {
+        $thread = DiscordThread::factory()
+            ->for(Anime::factory())
+            ->createOne();
+
+        static::assertInstanceOf(BelongsTo::class, $thread->anime());
+        static::assertInstanceOf(Anime::class, $thread->anime()->first());
     }
 }

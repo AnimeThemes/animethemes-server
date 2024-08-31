@@ -17,7 +17,6 @@ use Error;
 use Exception;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 /**
@@ -32,21 +31,19 @@ class StoreExternalProfileTokenAction extends BaseStoreExternalProfileAction
      *
      * @param  ExternalToken  $token
      * @param  array  $parameters
-     * @return ExternalProfile
+     * @return ExternalProfile|null
      *
      * @throws Exception
      */
-    public function findOrCreate(ExternalToken $token, array $parameters): ExternalProfile
+    public function findOrCreate(ExternalToken $token, array $parameters): ?ExternalProfile
     {
         try {
-            DB::beginTransaction();
-
             $site = ExternalProfileSite::fromLocalizedName(Arr::get($parameters, 'site'));
 
             $action = $this->getActionClass($site, $token);
 
             if ($action === null) {
-                throw new Error("Undefined action for site {$site->localize()}"); // TODO: check if it is working
+                return null;
             }
 
             $userId = $action->getId();
@@ -77,16 +74,12 @@ class StoreExternalProfileTokenAction extends BaseStoreExternalProfileAction
 
             ExternalEntry::insert($externalEntries);
 
-            DB::commit();
-
             return $profile;
 
         } catch (Exception $e) {
             Log::error($e->getMessage());
 
-            DB::rollBack();
-
-            throw $e;
+            return null;
         }
     }
 

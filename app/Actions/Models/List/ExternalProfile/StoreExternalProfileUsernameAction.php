@@ -29,11 +29,11 @@ class StoreExternalProfileUsernameAction extends BaseStoreExternalProfileAction
      *
      * @param  Builder  $builder
      * @param  array  $profileParameters
-     * @return ExternalProfile
+     * @return ExternalProfile|null
      *
      * @throws Exception
      */
-    public function findOrCreate(Builder $builder, array $profileParameters): ExternalProfile
+    public function findOrCreate(Builder $builder, array $profileParameters): ?ExternalProfile
     {
         try {
             $profileSite = ExternalProfileSite::fromLocalizedName(Arr::get($profileParameters, 'site'));
@@ -52,7 +52,7 @@ class StoreExternalProfileUsernameAction extends BaseStoreExternalProfileAction
             $action = $this->getActionClass($profileSite, $profileParameters);
 
             if ($action === null) {
-                throw new Error("Undefined action for site {$profileSite->localize()}"); // TODO: check if it is working
+                return null;
             }
 
             $entries = $action->getEntries();
@@ -94,7 +94,7 @@ class StoreExternalProfileUsernameAction extends BaseStoreExternalProfileAction
 
             DB::rollBack();
 
-            throw $e;
+            return null;
         }
     }
 

@@ -16,13 +16,6 @@ use App\Models\List\External\ExternalToken;
 class ExternalTokenDeleted extends ListDeletedEvent
 {
     /**
-     * The profile the token belongs to.
-     *
-     * @var ExternalProfile
-     */
-    protected ExternalProfile $profile;
-
-    /**
      * Create a new event instance.
      *
      * @param  ExternalToken  $token
@@ -30,7 +23,6 @@ class ExternalTokenDeleted extends ListDeletedEvent
     public function __construct(ExternalToken $token)
     {
         parent::__construct($token);
-        $this->profile = $token->externalprofile;
     }
 
     /**
@@ -62,6 +54,6 @@ class ExternalTokenDeleted extends ListDeletedEvent
      */
     protected function getDiscordMessageDescription(): string
     {
-        return "Token '**{$this->getModel()->getName()}**' has been deleted for External Profile '**{$this->profile->getName()}**'.";
+        return "Token '**{$this->getModel()->getName()}**' has been deleted.";
     }
 }

@@ -9,11 +9,8 @@ use App\Enums\Models\List\ExternalEntryWatchStatus;
 use App\Models\List\External\ExternalEntry;
 use App\Models\Wiki\ExternalResource;
 use Exception;
-use Firebase\JWT\JWT;
-use Firebase\JWT\Key;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
@@ -79,13 +76,12 @@ class AnilistExternalEntryTokenAction extends BaseExternalEntryTokenAction
             return $this->id;
         }
 
-        // TODO: This should be tested.
         try {
-            $decoded = JWT::decode($this->getToken(), new Key(Config::get('services.anilist.client_secret'), 'HS256'));
+            [, $payload] = explode('.', $this->getToken());
 
-            $decodedArray = json_decode(json_encode($decoded), true);
+            $decodedArray = json_decode(base64_decode($payload), true);
 
-            $this->id = Arr::get($decodedArray, 'id');
+            $this->id = intval(Arr::get($decodedArray, 'sub'));
 
             return $this->id;
         } catch (Exception $e) {
@@ -140,7 +136,6 @@ class AnilistExternalEntryTokenAction extends BaseExternalEntryTokenAction
                 ->json();
 
             return $this;
-
         } catch (RequestException $e) {
             Log::error($e->getMessage());
 
