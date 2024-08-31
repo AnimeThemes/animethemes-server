@@ -77,7 +77,7 @@ class AnilistExternalEntryTokenAction extends BaseExternalEntryTokenAction
         }
 
         try {
-            [, $payload] = explode(',', $this->getToken());
+            [, $payload] = explode('.', $this->getToken());
 
             $decodedArray = json_decode(base64_decode($payload), true);
 
