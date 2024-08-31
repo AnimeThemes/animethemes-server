@@ -6,7 +6,8 @@ namespace App\Actions\Models\List\ExternalProfile\ExternalToken\Site;
 
 use App\Actions\Models\List\ExternalProfile\ExternalToken\BaseExternalTokenAction;
 use App\Models\List\External\ExternalToken;
-use Illuminate\Http\Client\RequestException;
+use Error;
+use Exception;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Crypt;
@@ -23,6 +24,8 @@ class AnilistExternalTokenAction extends BaseExternalTokenAction
      *
      * @param  string  $code
      * @return ExternalToken|null
+     *
+     * @throws Exception
      */
     public function store(string $code): ?ExternalToken
     {
@@ -41,18 +44,17 @@ class AnilistExternalTokenAction extends BaseExternalTokenAction
 
             $token = Arr::get($response, 'access_token');
 
-            if ($token !== null) {
-                return ExternalToken::query()->create([
-                    ExternalToken::ATTRIBUTE_ACCESS_TOKEN => Crypt::encrypt($token),
-                ]);
+            if ($token === null) {
+                return null;
             }
 
-            return null;
-
-        } catch (RequestException $e) {
+            return ExternalToken::query()->create([
+                ExternalToken::ATTRIBUTE_ACCESS_TOKEN => Crypt::encrypt($token),
+            ]);
+        } catch (Exception $e) {
             Log::error($e->getMessage());
 
-            throw $e;
+            return null;
         }
     }
 }

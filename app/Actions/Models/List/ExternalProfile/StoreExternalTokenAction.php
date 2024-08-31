@@ -8,7 +8,6 @@ use App\Actions\Models\List\ExternalProfile\ExternalToken\BaseExternalTokenActio
 use App\Actions\Models\List\ExternalProfile\ExternalToken\Site\AnilistExternalTokenAction;
 use App\Enums\Models\List\ExternalProfileSite;
 use App\Models\List\External\ExternalToken;
-use Error;
 use Exception;
 use Illuminate\Support\Arr;
 
@@ -33,7 +32,7 @@ class StoreExternalTokenAction
         $action = $this->getActionClass($profileSite);
 
         if ($action === null) {
-            throw new Error("Undefined callback URL for site {$site}");
+            return null;
         }
 
         $externalToken = $action->store(Arr::get($query, 'code'));
