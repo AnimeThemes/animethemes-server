@@ -22,7 +22,7 @@ return new class extends Migration
                 $table->longText(ExternalToken::ATTRIBUTE_ACCESS_TOKEN)->nullable();
                 $table->longText(ExternalToken::ATTRIBUTE_REFRESH_TOKEN)->nullable();
 
-                $table->unsignedBigInteger(ExternalToken::ATTRIBUTE_PROFILE)->nullable();
+                $table->unsignedBigInteger(ExternalToken::ATTRIBUTE_PROFILE)->nullable()->unique();
                 $table->foreign(ExternalToken::ATTRIBUTE_PROFILE)->references(ExternalProfile::ATTRIBUTE_ID)->on(ExternalProfile::TABLE)->cascadeOnDelete();
 
                 $table->timestamps(6);
