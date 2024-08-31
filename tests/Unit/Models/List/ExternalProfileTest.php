@@ -151,7 +151,7 @@ class ExternalProfileTest extends TestCase
     }
 
     /**
-     * Profiles shall belong to an external token.
+     * Profiles shall have a one-to-one relationship with the type external token.
      *
      * @return void
      */
