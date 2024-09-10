@@ -2,18 +2,16 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controllers\Api\List\External;
+namespace App\Http\Controllers\List\External;
 
 use App\Actions\Models\List\ExternalTokenCallbackAction;
 use App\Features\AllowExternalProfileManagement;
-use App\Http\Api\Schema\List\ExternalProfileSchema;
-use App\Http\Api\Schema\Schema;
-use App\Http\Controllers\Api\BaseController;
-use App\Http\Requests\Api\IndexRequest;
-use App\Models\List\External\ExternalToken;
+use App\Http\Controllers\Controller;
+use App\Http\Middleware\Api\EnabledOnlyOnLocalhost;
 use App\Models\List\ExternalProfile;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Redirect;
@@ -23,30 +21,29 @@ use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
 /**
  * Class ExternalTokenCallbackController.
  */
-class ExternalTokenCallbackController extends BaseController
+class ExternalTokenCallbackController extends Controller
 {
     /**
      * Create a new controller instance.
      */
     public function __construct()
     {
-        parent::__construct(ExternalToken::class, 'externaltoken');
-
         $isExternalProfileManagementAllowed = Str::of(EnsureFeaturesAreActive::class)
             ->append(':')
             ->append(AllowExternalProfileManagement::class)
             ->__toString();
 
+        $this->middleware(EnabledOnlyOnLocalhost::class);
         $this->middleware($isExternalProfileManagementAllowed);
     }
 
     /**
      * This is the redirect URL which is set in the external provider.
      *
-     * @param  IndexRequest  $request
+     * @param  Request $request
      * @return RedirectResponse|JsonResponse
      */
-    public function index(IndexRequest $request): RedirectResponse|JsonResponse
+    public function index(Request $request): RedirectResponse|JsonResponse
     {
         $validated = array_merge(
             $request->all(),
@@ -70,17 +67,5 @@ class ExternalTokenCallbackController extends BaseController
             ->__toString();
 
         return Redirect::to($clientUrl);
-    }
-
-    /**
-     * Get the underlying schema.
-     *
-     * @return Schema
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    public function schema(): Schema
-    {
-        return new ExternalProfileSchema();
     }
 }

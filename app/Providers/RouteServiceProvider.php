@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Constants\Config\ApiConstants;
 use App\Constants\Config\AudioConstants;
 use App\Constants\Config\DumpConstants;
 use App\Constants\Config\VideoConstants;
 use App\Enums\Auth\SpecialPermission;
+use App\Http\Middleware\Auth\Authenticate;
 use App\Models\Auth\User;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
@@ -75,9 +77,15 @@ class RouteServiceProvider extends ServiceProvider
                 ->prefix(Config::get(VideoConstants::SCRIPT_PATH_QUALIFIED))
                 ->group(base_path('routes/script.php'));
 
+            Route::middleware(['web', Authenticate::class, 'throttle:api'])
+                ->domain(Config::get(ApiConstants::URL_QUALIFIED))
+                ->prefix(Config::get(ApiConstants::PATH_QUALIFIED))
+                ->as('api.')
+                ->group(base_path('routes/externallist.php'));
+
             Route::middleware('api')
-                ->domain(Config::get('api.url'))
-                ->prefix(Config::get('api.path'))
+                ->domain(Config::get(ApiConstants::URL_QUALIFIED))
+                ->prefix(Config::get(ApiConstants::PATH_QUALIFIED))
                 ->as('api.')
                 ->group(base_path('routes/api.php'));
         });

@@ -25,6 +25,7 @@ use App\Http\Resources\List\Collection\ExternalProfileCollection;
 use App\Http\Resources\List\Resource\ExternalProfileResource;
 use App\Models\List\ExternalProfile;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
 
@@ -62,6 +63,11 @@ class ExternalProfileController extends BaseController
         $query = new Query($request->validated());
 
         $builder = ExternalProfile::query()->where(ExternalProfile::ATTRIBUTE_VISIBILITY, ExternalProfileVisibility::PUBLIC->value);
+
+        $userId = Auth::id();
+        if ($userId) {
+            $builder->orWhere(ExternalProfile::ATTRIBUTE_USER, Auth::id());
+        }
 
         $externalprofiles = $query->hasSearchCriteria()
             ? $action->search($query, $request->schema())
