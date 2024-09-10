@@ -26,7 +26,11 @@ return new class extends Migration
                 $table->id(Playlist::ATTRIBUTE_ID);
                 $table->timestamps(6);
                 $table->softDeletes(BaseModel::ATTRIBUTE_DELETED_AT, 6);
-                $table->string(HasHashids::ATTRIBUTE_HASHID)->nullable()->collation('utf8mb4_bin');
+                $hashIdColumn = $table->string(HasHashids::ATTRIBUTE_HASHID)->nullable();
+                if (DB::connection() instanceof MySqlConnection) {
+                    // Set collation to binary to be case-sensitive
+                    $hashIdColumn->collation('utf8mb4_bin');
+                }
                 $table->string(Playlist::ATTRIBUTE_NAME);
                 $table->integer(Playlist::ATTRIBUTE_VISIBILITY);
 
