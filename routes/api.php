@@ -11,16 +11,14 @@ use App\Http\Controllers\Api\Auth\User\Me\List\MyExternalProfileController;
 use App\Http\Controllers\Api\Auth\User\Me\List\MyPlaylistController;
 use App\Http\Controllers\Api\Auth\User\Me\MyController;
 use App\Http\Controllers\Api\Document\PageController;
+use App\Http\Controllers\Api\List\External\ExternalEntryController;
+use App\Http\Controllers\Api\List\ExternalProfileController;
 use App\Http\Controllers\Api\List\Playlist\TrackBackwardController;
 use App\Http\Controllers\Api\List\Playlist\TrackController;
 use App\Http\Controllers\Api\List\Playlist\TrackForwardController;
 use App\Http\Controllers\Api\List\PlaylistBackwardController;
 use App\Http\Controllers\Api\List\PlaylistController;
 use App\Http\Controllers\Api\List\PlaylistForwardController;
-use App\Http\Controllers\Api\List\External\ExternalEntryController;
-use App\Http\Controllers\Api\List\External\ExternalTokenCallbackController;
-use App\Http\Controllers\Api\List\ExternalProfileController;
-use App\Http\Controllers\Api\List\SyncExternalProfileController;
 use App\Http\Controllers\Api\Pivot\List\PlaylistImageController;
 use App\Http\Controllers\Api\Pivot\Wiki\AnimeImageController;
 use App\Http\Controllers\Api\Pivot\Wiki\AnimeResourceController;
@@ -245,15 +243,6 @@ apiResourceWhere('page', PageController::class, ['page' => '[\pL\pM\pN\/_-]+']);
 // External Routes
 apiResource('externalprofile', ExternalProfileController::class);
 apiScopedResource('externalprofile.externalentry', ExternalEntryController::class);
-
-Route::get('externaltoken/callback', [ExternalTokenCallbackController::class, 'index'])
-    ->name('externaltoken.callback');
-
-Route::get('externalprofile/{externalprofile}/sync', [SyncExternalProfileController::class, 'show'])
-    ->name('externalprofile.sync.show');
-
-Route::post('externalprofile/{externalprofile}/sync', [SyncExternalProfileController::class, 'store'])
-    ->name('externalprofile.sync.store');
 
 // Playlist Routes
 apiResource('playlist', PlaylistController::class);

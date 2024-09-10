@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controllers\Api\List;
+namespace App\Http\Controllers\List;
 
 use App\Features\AllowExternalProfileManagement;
-use App\Http\Controllers\Api\BaseController;
+use App\Http\Controllers\Controller;
 use App\Http\Middleware\Api\EnabledOnlyOnLocalhost;
 use App\Http\Requests\Api\ShowRequest;
 use App\Models\List\ExternalProfile;
@@ -15,15 +15,13 @@ use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
 /**
  * Class SyncExternalProfileController.
  */
-class SyncExternalProfileController extends BaseController
+class SyncExternalProfileController extends Controller
 {
     /**
      * Create a new controller instance.
      */
     public function __construct()
     {
-        parent::__construct(ExternalProfile::class, 'externalprofile');
-
         $isExternalProfileManagementAllowed = Str::of(EnsureFeaturesAreActive::class)
             ->append(':')
             ->append(AllowExternalProfileManagement::class)

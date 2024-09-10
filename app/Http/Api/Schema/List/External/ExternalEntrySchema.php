@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Schema\List\External;
 
+use App\Http\Api\Field\Base\IdField;
 use App\Http\Api\Field\Field;
 use App\Http\Api\Field\List\ExternalProfile\ExternalEntry\ExternalEntryAnimeIdField;
 use App\Http\Api\Field\List\ExternalProfile\ExternalEntry\ExternalEntryExternalProfileIdField;
 use App\Http\Api\Field\List\ExternalProfile\ExternalEntry\ExternalEntryWatchStatusField;
-use App\Http\Api\Field\List\ExternalProfile\ExternalEntry\ExternalEntryIdField;
 use App\Http\Api\Field\List\ExternalProfile\ExternalEntry\ExternalEntryIsFavoriteField;
 use App\Http\Api\Field\List\ExternalProfile\ExternalEntry\ExternalEntryScoreField;
 use App\Http\Api\Include\AllowedInclude;
@@ -58,7 +58,7 @@ class ExternalEntrySchema extends EloquentSchema
         return array_merge(
             parent::fields(),
             [
-                new ExternalEntryIdField($this),
+                new IdField($this, ExternalEntry::ATTRIBUTE_ID),
                 new ExternalEntryScoreField($this),
                 new ExternalEntryIsFavoriteField($this),
                 new ExternalEntryWatchStatusField($this),

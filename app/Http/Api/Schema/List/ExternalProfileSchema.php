@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Http\Api\Schema\List;
 
 use App\Contracts\Http\Api\Schema\SearchableSchema;
+use App\Http\Api\Field\Base\IdField;
 use App\Http\Api\Field\Field;
 use App\Http\Api\Field\List\ExternalProfile\ExternalProfileNameField;
-use App\Http\Api\Field\List\ExternalProfile\ExternalProfileIdField;
 use App\Http\Api\Field\List\ExternalProfile\ExternalProfileVisibilityField;
 use App\Http\Api\Field\List\ExternalProfile\ExternalProfileSiteField;
 use App\Http\Api\Field\List\ExternalProfile\ExternalProfileUserIdField;
@@ -16,6 +16,10 @@ use App\Http\Api\Schema\Auth\UserSchema;
 use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Api\Schema\List\External\ExternalEntrySchema;
 use App\Http\Api\Schema\Wiki\AnimeSchema;
+use App\Http\Api\Schema\Wiki\GroupSchema;
+use App\Http\Api\Schema\Wiki\ImageSchema;
+use App\Http\Api\Schema\Wiki\SongSchema;
+use App\Http\Api\Schema\Wiki\VideoSchema;
 use App\Http\Resources\List\Resource\ExternalProfileResource;
 use App\Models\List\ExternalProfile;
 
@@ -45,6 +49,11 @@ class ExternalProfileSchema extends EloquentSchema implements SearchableSchema
             new AllowedInclude(new AnimeSchema(), ExternalProfile::RELATION_ANIMES),
             new AllowedInclude(new ExternalEntrySchema(), ExternalProfile::RELATION_EXTERNAL_ENTRIES),
             new AllowedInclude(new UserSchema(), ExternalProfile::RELATION_USER),
+
+            new AllowedInclude(new GroupSchema(), "externalentries.anime.animethemes.group"),
+            new AllowedInclude(new VideoSchema(), "externalentries.anime.animethemes.animethemeentries.videos"),
+            new AllowedInclude(new SongSchema(), "externalentries.anime.animethemes.song"),
+            new AllowedInclude(new ImageSchema(), "externalentries.anime.images"),
         ];
     }
 
@@ -58,7 +67,7 @@ class ExternalProfileSchema extends EloquentSchema implements SearchableSchema
         return array_merge(
             parent::fields(),
             [
-                new ExternalProfileIdField($this),
+                new IdField($this, ExternalProfile::ATTRIBUTE_ID),
                 new ExternalProfileNameField($this),
                 new ExternalProfileSiteField($this),
                 new ExternalProfileVisibilityField($this),
