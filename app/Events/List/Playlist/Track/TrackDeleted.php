@@ -7,6 +7,7 @@ namespace App\Events\List\Playlist\Track;
 use App\Events\Base\List\ListDeletedEvent;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
+use Illuminate\Support\Str;
 
 /**
  * Class TrackDeleted.
@@ -18,9 +19,9 @@ class TrackDeleted extends ListDeletedEvent
     /**
      * The playlist the track belongs to.
      *
-     * @var Playlist
+     * @var Playlist|null
      */
-    protected Playlist $playlist;
+    protected ?Playlist $playlist;
 
     /**
      * Create a new event instance.
@@ -62,6 +63,8 @@ class TrackDeleted extends ListDeletedEvent
      */
     protected function getDiscordMessageDescription(): string
     {
-        return "Track '**{$this->getModel()->getName()}**' has been deleted for Playlist '**{$this->playlist->getName()}**'.";
+        return Str::of("Track '**{$this->getModel()->getName()}**' has been deleted")
+            ->append($this->playlist ? " for Playlist '**{$this->playlist->getName()}**'." : '.')
+            ->__toString();
     }
 }

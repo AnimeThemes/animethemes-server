@@ -7,6 +7,7 @@ namespace App\Events\List\ExternalProfile\ExternalEntry;
 use App\Events\Base\List\ListDeletedEvent;
 use App\Models\List\ExternalProfile;
 use App\Models\List\External\ExternalEntry;
+use Illuminate\Support\Str;
 
 /**
  * Class ExternalEntryDeleted.
@@ -18,9 +19,9 @@ class ExternalEntryDeleted extends ListDeletedEvent
     /**
      * The profile the entry belongs to.
      *
-     * @var ExternalProfile
+     * @var ExternalProfile|null
      */
-    protected ExternalProfile $profile;
+    protected ?ExternalProfile $profile;
 
     /**
      * Create a new event instance.
@@ -62,6 +63,8 @@ class ExternalEntryDeleted extends ListDeletedEvent
      */
     protected function getDiscordMessageDescription(): string
     {
-        return "Entry '**{$this->getModel()->getName()}**' has been deleted for External Profile '**{$this->profile->getName()}**'.";
+        return Str::of("Entry '**{$this->getModel()->getName()}**' has been deleted")
+            ->append($this->profile ? " for External Profile '**{$this->profile->getName()}**'." : '.')
+            ->__toString();
     }
 }
