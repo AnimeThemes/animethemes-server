@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\HeaderActions\Base;
 
 use Filament\Actions\EditAction as DefaultEditAction;
+use Filament\Support\Enums\IconSize;
 
 /**
  * Class EditHeaderAction.
@@ -21,5 +22,6 @@ class EditHeaderAction extends DefaultEditAction
         parent::setUp();
 
         $this->label(__('filament.actions.base.edit'));
+        $this->icon('heroicon-o-pencil-square');
     }
 }

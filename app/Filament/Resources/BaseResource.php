@@ -59,6 +59,18 @@ abstract class BaseResource extends Resource
     }
 
     /**
+     * Get the title attribute for the resource.
+     *
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getRecordTitleAttribute(): string
+    {
+        return (new static::$model)->getKeyName();
+    }
+
+    /**
      * The index page of the resource.
      *
      * @param  Table  $table
