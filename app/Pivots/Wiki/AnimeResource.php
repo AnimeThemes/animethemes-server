@@ -82,7 +82,7 @@ class AnimeResource extends BasePivot
     /**
      * Gets the anime that owns the anime resource.
      *
-     * @return BelongsTo
+     * @return BelongsTo<Anime, AnimeResource>
      */
     public function anime(): BelongsTo
     {
@@ -92,7 +92,7 @@ class AnimeResource extends BasePivot
     /**
      * Gets the resource that owns the anime resource.
      *
-     * @return BelongsTo
+     * @return BelongsTo<ExternalResource, AnimeResource>
      */
     public function resource(): BelongsTo
     {

@@ -82,7 +82,7 @@ class ArtistSong extends BasePivot
     /**
      * Gets the artist that owns the artist song.
      *
-     * @return BelongsTo
+     * @return BelongsTo<Artist, ArtistSong>
      */
     public function artist(): BelongsTo
     {
@@ -92,7 +92,7 @@ class ArtistSong extends BasePivot
     /**
      * Gets the song that owns the artist song.
      *
-     * @return BelongsTo
+     * @return BelongsTo<Song, ArtistSong>
      */
     public function song(): BelongsTo
     {

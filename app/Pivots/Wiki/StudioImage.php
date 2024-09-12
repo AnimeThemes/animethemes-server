@@ -77,7 +77,7 @@ class StudioImage extends BasePivot
     /**
      * Gets the studio that owns the studio image.
      *
-     * @return BelongsTo
+     * @return BelongsTo<Studio, StudioImage>
      */
     public function studio(): BelongsTo
     {
@@ -87,7 +87,7 @@ class StudioImage extends BasePivot
     /**
      * Gets the image that owns the studio image.
      *
-     * @return BelongsTo
+     * @return BelongsTo<Image, StudioImage>
      */
     public function image(): BelongsTo
     {

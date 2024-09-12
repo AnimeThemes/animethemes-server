@@ -178,7 +178,7 @@ class AnimeTheme extends BaseModel
     /**
      * Gets the anime that owns the theme.
      *
-     * @return BelongsTo
+     * @return BelongsTo<Anime, AnimeTheme>
      */
     public function anime(): BelongsTo
     {
@@ -188,7 +188,7 @@ class AnimeTheme extends BaseModel
     /**
      * Gets the group that the theme uses.
      *
-     * @return BelongsTo
+     * @return BelongsTo<Group, AnimeTheme>
      */
     public function group(): BelongsTo
     {
@@ -198,7 +198,7 @@ class AnimeTheme extends BaseModel
     /**
      * Gets the song that the theme uses.
      *
-     * @return BelongsTo
+     * @return BelongsTo<Song, AnimeTheme>
      */
     public function song(): BelongsTo
     {
@@ -208,7 +208,7 @@ class AnimeTheme extends BaseModel
     /**
      * Get the entries for the theme.
      *
-     * @return HasMany
+     * @return HasMany<AnimeThemeEntry>
      */
     public function animethemeentries(): HasMany
     {

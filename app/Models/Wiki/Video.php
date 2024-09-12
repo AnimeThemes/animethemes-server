@@ -326,7 +326,7 @@ class Video extends BaseModel implements Streamable, Viewable
     /**
      * Get the related entries.
      *
-     * @return BelongsToMany
+     * @return BelongsToMany<AnimeThemeEntry>
      */
     public function animethemeentries(): BelongsToMany
     {
@@ -339,7 +339,7 @@ class Video extends BaseModel implements Streamable, Viewable
     /**
      * Gets the audio that the video uses.
      *
-     * @return BelongsTo
+     * @return BelongsTo<Audio, Video>
      */
     public function audio(): BelongsTo
     {
@@ -349,7 +349,7 @@ class Video extends BaseModel implements Streamable, Viewable
     /**
      * Get the script that the video owns.
      *
-     * @return HasOne
+     * @return HasOne<VideoScript>
      */
     public function videoscript(): HasOne
     {
@@ -359,7 +359,7 @@ class Video extends BaseModel implements Streamable, Viewable
     /**
      * Get the tracks that use this video.
      *
-     * @return HasMany
+     * @return HasMany<PlaylistTrack>
      */
     public function tracks(): HasMany
     {

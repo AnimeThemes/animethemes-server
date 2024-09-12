@@ -115,7 +115,7 @@ class Song extends BaseModel
     /**
      * Get the anime themes that use this song.
      *
-     * @return HasMany
+     * @return HasMany<AnimeTheme>
      */
     public function animethemes(): HasMany
     {
@@ -125,7 +125,7 @@ class Song extends BaseModel
     /**
      * Get the artists included in the performance.
      *
-     * @return BelongsToMany
+     * @return BelongsToMany<Artist>
      */
     public function artists(): BelongsToMany
     {
@@ -139,7 +139,7 @@ class Song extends BaseModel
     /**
      * Get the resources for the song.
      *
-     * @return BelongsToMany
+     * @return BelongsToMany<ExternalResource>
      */
     public function resources(): BelongsToMany
     {

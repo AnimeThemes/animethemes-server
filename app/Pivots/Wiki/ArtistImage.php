@@ -77,7 +77,7 @@ class ArtistImage extends BasePivot
     /**
      * Gets the artist that owns the artist image.
      *
-     * @return BelongsTo
+     * @return BelongsTo<Artist, ArtistImage>
      */
     public function artist(): BelongsTo
     {
@@ -87,7 +87,7 @@ class ArtistImage extends BasePivot
     /**
      * Gets the image that owns the artist image.
      *
-     * @return BelongsTo
+     * @return BelongsTo<Image, ArtistImage>
      */
     public function image(): BelongsTo
     {

@@ -145,7 +145,7 @@ class ActionLog extends Model implements Nameable, HasSubtitle
     /**
      * Get the user that initiated the action.
      *
-     * @return BelongsTo
+     * @return BelongsTo<User, ActionLog>
      */
     public function user(): BelongsTo
     {

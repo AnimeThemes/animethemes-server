@@ -221,7 +221,7 @@ class User extends Authenticatable implements MustVerifyEmail, Nameable, HasSubt
     /**
      * Get the playlists that belong to the user.
      *
-     * @return HasMany
+     * @return HasMany<Playlist>
      */
     public function playlists(): HasMany
     {
@@ -231,7 +231,7 @@ class User extends Authenticatable implements MustVerifyEmail, Nameable, HasSubt
     /**
      * Get the playlists that belong to the user.
      *
-     * @return HasMany
+     * @return HasMany<ExternalProfile>
      */
     public function externalprofiles(): HasMany
     {
@@ -241,7 +241,7 @@ class User extends Authenticatable implements MustVerifyEmail, Nameable, HasSubt
     /**
      * Get the action logs that the user has executed.
      *
-     * @return HasMany
+     * @return HasMany<ActionLog>
      */
     public function actionlogs(): HasMany
     {

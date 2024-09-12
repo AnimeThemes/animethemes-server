@@ -178,7 +178,7 @@ class AnimeThemeEntry extends BaseModel
     /**
      * Get the theme that owns the entry.
      *
-     * @return BelongsTo
+     * @return BelongsTo<AnimeTheme, AnimeThemeEntry>
      */
     public function animetheme(): BelongsTo
     {
@@ -188,7 +188,7 @@ class AnimeThemeEntry extends BaseModel
     /**
      * Get the videos linked in the theme entry.
      *
-     * @return BelongsToMany
+     * @return BelongsToMany<Video>
      */
     public function videos(): BelongsToMany
     {

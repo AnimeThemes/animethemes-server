@@ -82,7 +82,7 @@ class StudioResource extends BasePivot
     /**
      * Gets the studio that owns the studio resource.
      *
-     * @return BelongsTo
+     * @return BelongsTo<Studio, StudioResource>
      */
     public function studio(): BelongsTo
     {
@@ -92,7 +92,7 @@ class StudioResource extends BasePivot
     /**
      * Gets the resource that owns the studio resource.
      *
-     * @return BelongsTo
+     * @return BelongsTo<ExternalResource, StudioResource>
      */
     public function resource(): BelongsTo
     {

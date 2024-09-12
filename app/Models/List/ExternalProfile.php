@@ -180,7 +180,7 @@ class ExternalProfile extends BaseModel
     /**
      * Get the entries for the profile.
      *
-     * @return HasMany
+     * @return HasMany<ExternalEntry>
      */
     public function externalentries(): HasMany
     {
@@ -190,7 +190,7 @@ class ExternalProfile extends BaseModel
     /**
      * Get the user that owns the profile.
      *
-     * @return BelongsTo
+     * @return BelongsTo<User, ExternalProfile>
      */
     public function user(): BelongsTo
     {
@@ -200,7 +200,7 @@ class ExternalProfile extends BaseModel
     /**
      * Get the external token that the external profile owns.
      *
-     * @return HasOne
+     * @return HasOne<ExternalToken>
      */
     public function externaltoken(): HasOne
     {

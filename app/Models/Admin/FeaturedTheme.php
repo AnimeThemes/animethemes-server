@@ -134,7 +134,7 @@ class FeaturedTheme extends BaseModel
     /**
      * Get the user that recommended the featured theme.
      *
-     * @return BelongsTo
+     * @return BelongsTo<User, FeaturedTheme>
      */
     public function user(): BelongsTo
     {
@@ -144,7 +144,7 @@ class FeaturedTheme extends BaseModel
     /**
      * Get the entry for the featured video.
      *
-     * @return BelongsTo
+     * @return BelongsTo<AnimeThemeEntry, FeaturedTheme>
      */
     public function animethemeentry(): BelongsTo
     {
@@ -154,7 +154,7 @@ class FeaturedTheme extends BaseModel
     /**
      * Get the video to feature.
      *
-     * @return BelongsTo
+     * @return BelongsTo<Video, FeaturedTheme>
      */
     public function video(): BelongsTo
     {

@@ -199,7 +199,7 @@ class Anime extends BaseModel
     /**
      * Get the synonyms for the anime.
      *
-     * @return HasMany
+     * @return HasMany<AnimeSynonym>
      */
     public function animesynonyms(): HasMany
     {
@@ -209,7 +209,7 @@ class Anime extends BaseModel
     /**
      * Get the discord thread that the anime owns.
      *
-     * @return HasOne
+     * @return HasOne<DiscordThread>
      */
     public function discordthread(): HasOne
     {
@@ -219,7 +219,7 @@ class Anime extends BaseModel
     /**
      * Get the series the anime is included in.
      *
-     * @return BelongsToMany
+     * @return BelongsToMany<Series>
      */
     public function series(): BelongsToMany
     {
@@ -232,7 +232,7 @@ class Anime extends BaseModel
     /**
      * Get the themes for the anime.
      *
-     * @return HasMany
+     * @return HasMany<AnimeTheme>
      */
     public function animethemes(): HasMany
     {
@@ -242,7 +242,7 @@ class Anime extends BaseModel
     /**
      * Get the resources for the anime.
      *
-     * @return BelongsToMany
+     * @return BelongsToMany<ExternalResource>
      */
     public function resources(): BelongsToMany
     {
@@ -256,7 +256,7 @@ class Anime extends BaseModel
     /**
      * Get the images for the anime.
      *
-     * @return BelongsToMany
+     * @return BelongsToMany<Image>
      */
     public function images(): BelongsToMany
     {
@@ -269,7 +269,7 @@ class Anime extends BaseModel
     /**
      * Get the studios that produced the anime.
      *
-     * @return BelongsToMany
+     * @return BelongsToMany<Studio>
      */
     public function studios(): BelongsToMany
     {
@@ -282,7 +282,7 @@ class Anime extends BaseModel
     /**
      * Get the entries for the anime.
      *
-     * @return HasMany
+     * @return HasMany<ExternalEntry>
      */
     public function externalentries(): HasMany
     {

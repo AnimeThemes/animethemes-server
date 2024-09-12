@@ -111,7 +111,7 @@ class Series extends BaseModel
     /**
      * Get the anime included in the series.
      *
-     * @return BelongsToMany
+     * @return BelongsToMany<Anime>
      */
     public function anime(): BelongsToMany
     {
