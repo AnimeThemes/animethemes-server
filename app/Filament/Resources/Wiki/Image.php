@@ -102,6 +102,18 @@ class Image extends BaseResource
     }
 
     /**
+     * Get the title attribute for the resource.
+     *
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getRecordTitleAttribute(): string
+    {
+        return ImageModel::ATTRIBUTE_PATH;
+    }
+
+    /**
      * The form to the actions.
      *
      * @param  Form  $form
