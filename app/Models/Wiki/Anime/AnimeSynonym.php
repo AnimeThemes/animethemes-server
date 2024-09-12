@@ -114,7 +114,7 @@ class AnimeSynonym extends BaseModel
     /**
      * Gets the anime that owns the synonym.
      *
-     * @return BelongsTo
+     * @return BelongsTo<Anime, AnimeSynonym>
      */
     public function anime(): BelongsTo
     {

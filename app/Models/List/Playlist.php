@@ -175,7 +175,7 @@ class Playlist extends BaseModel implements HasHashids, Viewable
     /**
      * Get the user that owns the playlist.
      *
-     * @return BelongsTo
+     * @return BelongsTo<User, Playlist>
      */
     public function user(): BelongsTo
     {
@@ -185,7 +185,7 @@ class Playlist extends BaseModel implements HasHashids, Viewable
     /**
      * Get the first track of the playlist.
      *
-     * @return BelongsTo
+     * @return BelongsTo<PlaylistTrack, Playlist>
      */
     public function first(): BelongsTo
     {
@@ -195,7 +195,7 @@ class Playlist extends BaseModel implements HasHashids, Viewable
     /**
      * Get the last track of the playlist.
      *
-     * @return BelongsTo
+     * @return BelongsTo<PlaylistTrack, Playlist>
      */
     public function last(): BelongsTo
     {
@@ -205,7 +205,7 @@ class Playlist extends BaseModel implements HasHashids, Viewable
     /**
      * Get the images for the playlist.
      *
-     * @return BelongsToMany
+     * @return BelongsToMany<Image>
      */
     public function images(): BelongsToMany
     {
@@ -218,7 +218,7 @@ class Playlist extends BaseModel implements HasHashids, Viewable
     /**
      * Get the tracks that comprise the playlist.
      *
-     * @return HasMany
+     * @return HasMany<PlaylistTrack>
      */
     public function tracks(): HasMany
     {

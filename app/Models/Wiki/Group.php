@@ -99,7 +99,7 @@ class Group extends BaseModel
     /**
      * Get the themes for the group.
      *
-     * @return HasMany
+     * @return HasMany<AnimeTheme>
      */
     public function animethemes(): HasMany
     {

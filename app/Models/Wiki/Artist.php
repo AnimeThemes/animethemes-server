@@ -153,7 +153,7 @@ class Artist extends BaseModel
     /**
      * Get the songs the artist has performed in.
      *
-     * @return BelongsToMany
+     * @return BelongsToMany<Song>
      */
     public function songs(): BelongsToMany
     {
@@ -167,7 +167,7 @@ class Artist extends BaseModel
     /**
      * Get the resources for the artist.
      *
-     * @return BelongsToMany
+     * @return BelongsToMany<ExternalResource>
      */
     public function resources(): BelongsToMany
     {
@@ -181,7 +181,7 @@ class Artist extends BaseModel
     /**
      * Get the members that comprise this group.
      *
-     * @return BelongsToMany
+     * @return BelongsToMany<Artist>
      */
     public function members(): BelongsToMany
     {
@@ -195,7 +195,7 @@ class Artist extends BaseModel
     /**
      * Get the groups the artist has performed in.
      *
-     * @return BelongsToMany
+     * @return BelongsToMany<Artist>
      */
     public function groups(): BelongsToMany
     {
@@ -209,7 +209,7 @@ class Artist extends BaseModel
     /**
      * Get the images for the artist.
      *
-     * @return BelongsToMany
+     * @return BelongsToMany<Image>
      */
     public function images(): BelongsToMany
     {
