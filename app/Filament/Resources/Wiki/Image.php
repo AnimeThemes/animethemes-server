@@ -24,6 +24,7 @@ use Filament\Infolists\Components\Section;
 use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Tables\Columns\ImageColumn;
+use Filament\Tables\Columns\Layout\Stack;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Config;
@@ -146,7 +147,8 @@ class Image extends BaseResource
     {
         return parent::table($table)
             ->columns([
-                TextColumn::make(ImageModel::ATTRIBUTE_ID)
+                Stack::make([
+                    TextColumn::make(ImageModel::ATTRIBUTE_ID)
                     ->label(__('filament.fields.base.id'))
                     ->sortable(),
 
@@ -159,7 +161,14 @@ class Image extends BaseResource
                 ImageColumn::make(ImageModel::ATTRIBUTE_PATH)
                     ->label(__('filament.fields.image.image.name'))
                     ->disk(Config::get('image.disk'))
-                    ->toggleable(),
+                    ->toggleable()
+                    ->width(100)
+                    ->height(150),
+                ]),
+            ])
+            ->contentGrid([
+                'md' => 2,
+                'xl' => 3,
             ]);
     }
 

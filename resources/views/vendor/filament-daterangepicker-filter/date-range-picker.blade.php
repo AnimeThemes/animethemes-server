@@ -122,7 +122,7 @@
                                 'disabled' => $isDisabled(),
                                 'placeholder' => $getPlaceholder(),
                                 'required' => $isRequired(),
-                                'readonly' => true,
+                                'readonly' => false,
                                 'type' => 'text',
                                 $applyStateBindingModifiers('wire:model') => $statePath,
                             ], escape: false)"
