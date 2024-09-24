@@ -178,6 +178,16 @@ class ExternalProfile extends BaseModel
     }
 
     /**
+     * Determine if the profile can be synced.
+     *
+     * @return bool
+     */
+    public function canBeSynced(): bool
+    {
+        return !$this->synced_at || $this->synced_at->addHours(3)->isPast();
+    }
+
+    /**
      * Get the entries for the profile.
      *
      * @return HasMany<ExternalEntry>
