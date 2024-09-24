@@ -32,6 +32,7 @@ class SyncExternalProfileJob implements ShouldQueue
      */
     public function __construct(protected readonly ExternalProfile $profile)
     {
+        $this->onQueue('sync-external-profile');
     }
 
     /**
