@@ -8,7 +8,9 @@ use App\Features\AllowExternalProfileManagement;
 use App\Http\Controllers\Controller;
 use App\Http\Middleware\Api\EnabledOnlyOnLocalhost;
 use App\Http\Requests\Api\ShowRequest;
+use App\Jobs\List\SyncExternalProfileJob;
 use App\Models\List\ExternalProfile;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Str;
 use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
 
@@ -44,9 +46,22 @@ class SyncExternalProfileController extends Controller
 
     /**
      * Start a new sync job.
+     *
+     * @param  ExternalProfile  $externalProfile
+     * @return JsonResponse
      */
-    public function store()
+    public function store(ExternalProfile $externalProfile)
     {
-        // TODO
+        if (!$externalProfile->canBeSynced()) {
+            return new JsonResponse([
+                'error' => 'This external profile cannot be synced at the moment.'
+            ], 403);
+        }
+
+        SyncExternalProfileJob::dispatch($externalProfile);
+
+        return new JsonResponse([
+            'message' => 'Job dispatched.'
+        ], 201);
     }
 }
