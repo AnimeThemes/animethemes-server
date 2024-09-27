@@ -8,7 +8,7 @@ use App\Console\Commands\BaseCommand;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
 use Illuminate\Contracts\Validation\Validator;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator as ValidatorFacade;
 
@@ -51,7 +51,7 @@ class PlaylistFixCommand extends BaseCommand
         // Fetch all tracks in the playlist and index them by track_id
         $this->info("Fetching tracks for playlist ID: $playlistId...");
 
-        /** @var Collection<PlaylistTrack> $tracks */
+        /** @var Collection<int, PlaylistTrack> $tracks */
         $tracks = PlaylistTrack::where(PlaylistTrack::ATTRIBUTE_PLAYLIST, $playlistId)
             ->orderBy(PlaylistTrack::ATTRIBUTE_ID)
             ->get()
