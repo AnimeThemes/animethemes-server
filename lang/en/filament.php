@@ -579,7 +579,7 @@ return [
                     'name' => 'Alias',
                 ],
                 'as' => [
-                    'help' => 'Used in place of the Artist name if the performance is made as a character.',
+                    'help' => 'Used alongside the Artist name if the performance is made as a character.',
                     'name' => 'As',
                 ],
             ],
@@ -589,7 +589,7 @@ return [
                     'name' => 'Alias',
                 ],
                 'as' => [
-                    'help' => 'Used in place of the Artist name if the performance is made as a character.',
+                    'help' => 'Used alongside the Artist name if the performance is made as a character.',
                     'name' => 'As',
                 ],
             ],
@@ -613,7 +613,7 @@ return [
                     'name' => 'Alias',
                 ],
                 'as' => [
-                    'help' => 'Used in place of the Artist name if the performance is made as a character.',
+                    'help' => 'Used alongside the Artist name if the performance is made as a character.',
                     'name' => 'As',
                 ],
             ],
