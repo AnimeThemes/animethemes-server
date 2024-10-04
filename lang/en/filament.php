@@ -575,21 +575,21 @@ return [
         'artist' => [
             'groups' => [
                 'alias' => [
-                    'help' => 'Used in place where an Artist is using another name.',
+                    'help' => 'Used in place of the Artist if the performance is using an alias.',
                     'name' => 'Alias',
                 ],
                 'as' => [
-                    'help' => 'Used in place of the Artist name if the performance is made as a character or group/unit member.',
+                    'help' => 'Used in place of the Artist name if the performance is made as a character.',
                     'name' => 'As',
                 ],
             ],
             'members' => [
                 'alias' => [
-                    'help' => 'Used in place where an Artist is using another name.',
+                    'help' => 'Used in place of the Artist if the performance is using an alias.',
                     'name' => 'Alias',
                 ],
                 'as' => [
-                    'help' => 'Used in place of the Artist name if the performance is made as a character or group/unit member',
+                    'help' => 'Used in place of the Artist name if the performance is made as a character.',
                     'name' => 'As',
                 ],
             ],
@@ -609,11 +609,11 @@ return [
             ],
             'songs' => [
                 'alias' => [
-                    'help' => 'Used in place where an Artist is using another name.',
+                    'help' => 'Used in place of the Artist if the performance is using an alias.',
                     'name' => 'Alias',
                 ],
                 'as' => [
-                    'help' => 'Used in place of the Artist name if the performance is made as a character or group/unit member.',
+                    'help' => 'Used in place of the Artist name if the performance is made as a character.',
                     'name' => 'As',
                 ],
             ],

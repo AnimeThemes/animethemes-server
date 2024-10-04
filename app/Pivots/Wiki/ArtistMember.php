@@ -28,8 +28,8 @@ class ArtistMember extends BasePivot
 {
     final public const TABLE = 'artist_member';
 
-    final public const ATTRIBUTE_AS = 'as';
     final public const ATTRIBUTE_ALIAS = 'alias';
+    final public const ATTRIBUTE_AS = 'as';
     final public const ATTRIBUTE_ARTIST = 'artist_id';
     final public const ATTRIBUTE_MEMBER = 'member_id';
 
