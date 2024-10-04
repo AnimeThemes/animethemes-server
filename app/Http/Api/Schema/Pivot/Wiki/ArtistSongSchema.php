@@ -7,6 +7,7 @@ namespace App\Http\Api\Schema\Pivot\Wiki;
 use App\Http\Api\Field\Base\CreatedAtField;
 use App\Http\Api\Field\Base\UpdatedAtField;
 use App\Http\Api\Field\Field;
+use App\Http\Api\Field\Pivot\Wiki\ArtistSong\ArtistSongAliasField;
 use App\Http\Api\Field\Pivot\Wiki\ArtistSong\ArtistSongArtistIdField;
 use App\Http\Api\Field\Pivot\Wiki\ArtistSong\ArtistSongAsField;
 use App\Http\Api\Field\Pivot\Wiki\ArtistSong\ArtistSongSongIdField;
@@ -59,6 +60,7 @@ class ArtistSongSchema extends EloquentSchema
             new UpdatedAtField($this),
             new ArtistSongArtistIdField($this),
             new ArtistSongSongIdField($this),
+            new ArtistSongAliasField($this),
             new ArtistSongAsField($this),
         ];
     }

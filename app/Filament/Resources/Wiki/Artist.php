@@ -164,12 +164,12 @@ class Artist extends BaseResource
                 TextInput::make(ArtistSong::ATTRIBUTE_AS)
                     ->label(__('filament.fields.artist.songs.as.name'))
                     ->helperText(__('filament.fields.artist.songs.as.help'))
-                    ->visibleOn(ArtistSongRelationManager::class),
+                    ->visibleOn([ArtistSongRelationManager::class, MemberArtistRelationManager::class, GroupArtistRelationManager::class]),
 
-                TextInput::make(ArtistMember::ATTRIBUTE_AS)
-                    ->label(__('filament.fields.artist.members.as.name'))
-                    ->helperText(__('filament.fields.artist.members.as.help'))
-                    ->visibleOn([MemberArtistRelationManager::class, GroupArtistRelationManager::class]),
+                TextInput::make(ArtistSong::ATTRIBUTE_ALIAS)
+                    ->label(__('filament.fields.artist.songs.alias.name'))
+                    ->helperText(__('filament.fields.artist.songs.alias.help'))
+                    ->visibleOn([ArtistSongRelationManager::class, MemberArtistRelationManager::class, GroupArtistRelationManager::class]),
             ])
             ->columns(2);
     }
@@ -208,6 +208,11 @@ class Artist extends BaseResource
 
                 TextColumn::make(ArtistSong::ATTRIBUTE_AS)
                     ->label(__('filament.fields.artist.songs.as.name'))
+                    ->visibleOn([ArtistSongRelationManager::class, MemberArtistRelationManager::class, GroupArtistRelationManager::class])
+                    ->placeholder('-'),
+
+                TextColumn::make(ArtistSong::ATTRIBUTE_ALIAS)
+                    ->label(__('filament.fields.artist.songs.alias.name'))
                     ->visibleOn([ArtistSongRelationManager::class, MemberArtistRelationManager::class, GroupArtistRelationManager::class])
                     ->placeholder('-'),
             ])

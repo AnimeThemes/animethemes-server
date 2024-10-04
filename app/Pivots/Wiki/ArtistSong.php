@@ -18,7 +18,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *
  * @property Artist $artist
  * @property int $artist_id
- * @property string $as
+ * @property string|null $alias
+ * @property string|null $as
  * @property Song $song
  * @property int $song_id
  *
@@ -29,6 +30,7 @@ class ArtistSong extends BasePivot
     final public const TABLE = 'artist_song';
 
     final public const ATTRIBUTE_AS = 'as';
+    final public const ATTRIBUTE_ALIAS = 'alias';
     final public const ATTRIBUTE_ARTIST = 'artist_id';
     final public const ATTRIBUTE_SONG = 'song_id';
 
@@ -42,6 +44,7 @@ class ArtistSong extends BasePivot
      */
     protected $fillable = [
         ArtistSong::ATTRIBUTE_ARTIST,
+        ArtistSong::ATTRIBUTE_ALIAS,
         ArtistSong::ATTRIBUTE_AS,
         ArtistSong::ATTRIBUTE_SONG,
     ];
