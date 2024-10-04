@@ -154,6 +154,12 @@ class Song extends BaseResource
                     ->helperText(__('filament.fields.artist.songs.as.help'))
                     ->visibleOn(SongArtistRelationManager::class)
                     ->placeholder('-'),
+
+                TextInput::make(ArtistSong::ATTRIBUTE_ALIAS)
+                    ->label(__('filament.fields.artist.songs.alias.name'))
+                    ->helperText(__('filament.fields.artist.songs.alias.help'))
+                    ->visibleOn(SongArtistRelationManager::class)
+                    ->placeholder('-'),
             ]);
     }
 
@@ -187,6 +193,12 @@ class Song extends BaseResource
 
                 TextColumn::make(ArtistSong::ATTRIBUTE_AS)
                     ->label(__('filament.fields.artist.songs.as.name'))
+                    ->visibleOn(SongArtistRelationManager::class)
+                    ->toggleable()
+                    ->placeholder('-'),
+
+                TextColumn::make(ArtistSong::ATTRIBUTE_ALIAS)
+                    ->label(__('filament.fields.artist.songs.alias.name'))
                     ->visibleOn(SongArtistRelationManager::class)
                     ->toggleable()
                     ->placeholder('-'),

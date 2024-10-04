@@ -159,7 +159,7 @@ class Artist extends BaseModel
     {
         return $this->belongsToMany(Song::class, ArtistSong::TABLE, Artist::ATTRIBUTE_ID, Song::ATTRIBUTE_ID)
             ->using(ArtistSong::class)
-            ->withPivot(ArtistSong::ATTRIBUTE_AS)
+            ->withPivot([ArtistSong::ATTRIBUTE_ALIAS, ArtistSong::ATTRIBUTE_AS])
             ->as(ArtistSongResource::$wrap)
             ->withTimestamps();
     }
@@ -187,7 +187,7 @@ class Artist extends BaseModel
     {
         return $this->belongsToMany(Artist::class, ArtistMember::TABLE, Artist::ATTRIBUTE_ID, 'member_id')
             ->using(ArtistMember::class)
-            ->withPivot(ArtistMember::ATTRIBUTE_AS)
+            ->withPivot([ArtistMember::ATTRIBUTE_ALIAS, ArtistMember::ATTRIBUTE_AS])
             ->as(ArtistMemberResource::$wrap)
             ->withTimestamps();
     }
@@ -201,7 +201,7 @@ class Artist extends BaseModel
     {
         return $this->belongsToMany(Artist::class, ArtistMember::TABLE, 'member_id', Artist::ATTRIBUTE_ID)
             ->using(ArtistMember::class)
-            ->withPivot(ArtistMember::ATTRIBUTE_AS)
+            ->withPivot([ArtistMember::ATTRIBUTE_ALIAS, ArtistMember::ATTRIBUTE_AS])
             ->as(ArtistMemberResource::$wrap)
             ->withTimestamps();
     }

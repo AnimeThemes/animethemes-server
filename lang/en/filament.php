@@ -574,12 +574,20 @@ return [
         ],
         'artist' => [
             'groups' => [
+                'alias' => [
+                    'help' => 'Used in place where an Artist is using another name.',
+                    'name' => 'Alias',
+                ],
                 'as' => [
                     'help' => 'Used in place of the Artist name if the performance is made as a character or group/unit member.',
                     'name' => 'As',
                 ],
             ],
             'members' => [
+                'alias' => [
+                    'help' => 'Used in place where an Artist is using another name.',
+                    'name' => 'Alias',
+                ],
                 'as' => [
                     'help' => 'Used in place of the Artist name if the performance is made as a character or group/unit member',
                     'name' => 'As',
@@ -600,6 +608,10 @@ return [
                 'name' => 'Slug',
             ],
             'songs' => [
+                'alias' => [
+                    'help' => 'Used in place where an Artist is using another name.',
+                    'name' => 'Alias',
+                ],
                 'as' => [
                     'help' => 'Used in place of the Artist name if the performance is made as a character or group/unit member.',
                     'name' => 'As',

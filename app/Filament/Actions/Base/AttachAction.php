@@ -74,6 +74,16 @@ class AttachAction extends DefaultAttachAction
                     GroupArtistRelationManager::class,
                     SongArtistRelationManager::class,
                 ]),
+
+            TextInput::make(ArtistSong::ATTRIBUTE_ALIAS)
+                ->label(__('filament.fields.artist.songs.alias.name'))
+                ->helperText(__('filament.fields.artist.songs.alias.help'))
+                ->visibleOn([
+                    ArtistSongRelationManager::class,
+                    MemberArtistRelationManager::class,
+                    GroupArtistRelationManager::class,
+                    SongArtistRelationManager::class,
+                ]),
         ]);
 
         $this->after(fn ($livewire, $record) => $this->pivotActionLog('Attach', $livewire, $record));

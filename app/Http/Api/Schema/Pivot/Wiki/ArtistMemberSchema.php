@@ -7,6 +7,7 @@ namespace App\Http\Api\Schema\Pivot\Wiki;
 use App\Http\Api\Field\Base\CreatedAtField;
 use App\Http\Api\Field\Base\UpdatedAtField;
 use App\Http\Api\Field\Field;
+use App\Http\Api\Field\Pivot\Wiki\ArtistMember\ArtistMemberAliasField;
 use App\Http\Api\Field\Pivot\Wiki\ArtistMember\ArtistMemberArtistIdField;
 use App\Http\Api\Field\Pivot\Wiki\ArtistMember\ArtistMemberAsField;
 use App\Http\Api\Field\Pivot\Wiki\ArtistMember\ArtistMemberMemberIdField;
@@ -58,6 +59,7 @@ class ArtistMemberSchema extends EloquentSchema
             new UpdatedAtField($this),
             new ArtistMemberArtistIdField($this),
             new ArtistMemberMemberIdField($this),
+            new ArtistMemberAliasField($this),
             new ArtistMemberAsField($this),
         ];
     }

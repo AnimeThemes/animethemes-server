@@ -131,7 +131,7 @@ class Song extends BaseModel
     {
         return $this->belongsToMany(Artist::class, ArtistSong::TABLE, Song::ATTRIBUTE_ID, Artist::ATTRIBUTE_ID)
             ->using(ArtistSong::class)
-            ->withPivot(ArtistSong::ATTRIBUTE_AS)
+            ->withPivot([ArtistSong::ATTRIBUTE_ALIAS, ArtistSong::ATTRIBUTE_AS])
             ->as(ArtistSongResource::$wrap)
             ->withTimestamps();
     }
