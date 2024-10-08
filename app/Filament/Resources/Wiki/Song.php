@@ -142,24 +142,6 @@ class Song extends BaseResource
                     ->required()
                     ->maxLength(192)
                     ->rules(['required', 'max:192']),
-
-                TextInput::make(SongResource::ATTRIBUTE_AS)
-                    ->label(__('filament.fields.song.resources.as.name'))
-                    ->helperText(__('filament.fields.song.resources.as.help'))
-                    ->visibleOn(SongResourceRelationManager::class)
-                    ->placeholder('-'),
-
-                TextInput::make(ArtistSong::ATTRIBUTE_AS)
-                    ->label(__('filament.fields.artist.songs.as.name'))
-                    ->helperText(__('filament.fields.artist.songs.as.help'))
-                    ->visibleOn(SongArtistRelationManager::class)
-                    ->placeholder('-'),
-
-                TextInput::make(ArtistSong::ATTRIBUTE_ALIAS)
-                    ->label(__('filament.fields.artist.songs.alias.name'))
-                    ->helperText(__('filament.fields.artist.songs.alias.help'))
-                    ->visibleOn(SongArtistRelationManager::class)
-                    ->placeholder('-'),
             ]);
     }
 

@@ -26,6 +26,16 @@ abstract class BaseRelationManager extends RelationManager
     protected $listeners = ['updateAllRelationManager' => '$refresh'];
 
     /**
+     * Get the pivot fields of the relation.
+     *
+     * @return array<Component>
+     */
+    public function getPivotFields(): array
+    {
+        return [];
+    }
+
+    /**
      * The index page of the relation resource.
      *
      * @param  Table  $table
@@ -97,7 +107,7 @@ abstract class BaseRelationManager extends RelationManager
 
     /**
      * Get the bulk actions available for the relation.
-     * 
+     *
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection

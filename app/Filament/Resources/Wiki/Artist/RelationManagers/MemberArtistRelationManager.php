@@ -6,6 +6,9 @@ namespace App\Filament\Resources\Wiki\Artist\RelationManagers;
 
 use App\Filament\RelationManagers\Wiki\ArtistRelationManager;
 use App\Models\Wiki\Artist;
+use App\Pivots\Wiki\ArtistMember;
+use Filament\Forms\Components\Component;
+use Filament\Forms\Components\TextInput;
 use Filament\Tables\Table;
 
 /**
@@ -13,6 +16,24 @@ use Filament\Tables\Table;
  */
 class MemberArtistRelationManager extends ArtistRelationManager
 {
+    /**
+     * Get the pivot fields of the relation.
+     *
+     * @return array<int, Component>
+     */
+    public function getPivotFields(): array
+    {
+        return [
+            TextInput::make(ArtistMember::ATTRIBUTE_AS)
+                ->label(__('filament.fields.artist.members.as.name'))
+                ->helperText(__('filament.fields.artist.members.as.help')),
+
+            TextInput::make(ArtistMember::ATTRIBUTE_ALIAS)
+                ->label(__('filament.fields.artist.members.alias.name'))
+                ->helperText(__('filament.fields.artist.members.alias.help')),
+        ];
+    }
+
     /**
      * The relationship the relation manager corresponds to.
      *
@@ -70,7 +91,7 @@ class MemberArtistRelationManager extends ArtistRelationManager
 
     /**
      * Get the bulk actions available for the relation.
-     * 
+     *
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection

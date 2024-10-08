@@ -139,11 +139,6 @@ class Studio extends BaseResource
                 Slug::make(StudioModel::ATTRIBUTE_SLUG)
                     ->label(__('filament.fields.studio.slug.name'))
                     ->helperText(__('filament.fields.studio.slug.help')),
-
-                TextInput::make(StudioResource::ATTRIBUTE_AS)
-                    ->label(__('filament.fields.studio.resources.as.name'))
-                    ->helperText(__('filament.fields.studio.resources.as.help'))
-                    ->visibleOn(StudioResourceRelationManager::class),
             ]);
     }
 

@@ -195,12 +195,6 @@ class Anime extends BaseResource
                     ->columnSpan(2)
                     ->maxLength(65535)
                     ->rules('max:65535'),
-
-                TextInput::make(AnimeResource::ATTRIBUTE_AS)
-                    ->label(__('filament.fields.anime.resources.as.name'))
-                    ->helperText(__('filament.fields.anime.resources.as.help'))
-                    ->visibleOn(AnimeResourceRelationManager::class)
-                    ->placeholder('-'),
             ])
             ->columns(2);
     }

@@ -8,6 +8,7 @@ use App\Concerns\Filament\Actions\HasPivotActionLogs;
 use App\Enums\Auth\Role;
 use App\Filament\RelationManagers\BaseRelationManager;
 use App\Filament\RelationManagers\Wiki\ResourceRelationManager;
+use Filament\Forms\Form;
 use Filament\Tables\Actions\CreateAction as DefaultCreateAction;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -29,6 +30,11 @@ class CreateAction extends DefaultCreateAction
     protected function setUp(): void
     {
         parent::setUp();
+
+        $this->form(fn (Form $form, BaseRelationManager $livewire) => [
+            ...$livewire->form($form)->getComponents(),
+            ...$livewire->getPivotFields(),
+        ]);
 
         $this->after(function ($livewire, $record) {
             if ($livewire instanceof BaseRelationManager) {

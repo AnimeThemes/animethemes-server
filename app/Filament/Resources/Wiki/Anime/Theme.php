@@ -238,6 +238,10 @@ class Theme extends BaseResource
                                         TextInput::make(ArtistSong::ATTRIBUTE_AS)
                                             ->label(__('filament.fields.artist.songs.as.name'))
                                             ->helperText(__('filament.fields.artist.songs.as.help')),
+
+                                        TextInput::make(ArtistSong::ATTRIBUTE_ALIAS)
+                                            ->label(__('filament.fields.artist.songs.alias.name'))
+                                            ->helperText(__('filament.fields.artist.songs.alias.help')),
                                     ])
                                     ->formatStateUsing(function (?array $state, Get $get) {
                                         /** @var Song|null $song */
@@ -249,6 +253,7 @@ class Theme extends BaseResource
                                         foreach ($song->artists()->get() as $artist) {
                                             $artists[] = [
                                                 Artist::ATTRIBUTE_ID => $artist->getKey(),
+                                                ArtistSong::ATTRIBUTE_ALIAS => Arr::get($artist, 'artistsong.alias'),
                                                 ArtistSong::ATTRIBUTE_AS => Arr::get($artist, 'artistsong.as'),
                                             ];
                                         }
@@ -262,13 +267,14 @@ class Theme extends BaseResource
                                         $artists = [];
                                         foreach ($state as $artist) {
                                             $artists[Arr::get($artist, Artist::ATTRIBUTE_ID)] = [
+                                                ArtistSong::ATTRIBUTE_ALIAS => Arr::get($artist, ArtistSong::ATTRIBUTE_ALIAS),
                                                 ArtistSong::ATTRIBUTE_AS => Arr::get($artist, ArtistSong::ATTRIBUTE_AS)
                                             ];
                                         }
 
                                         $song->artists()->sync($artists);
                                     })
-                                    ->columns(2),
+                                    ->columns(3),
                             ]),
 
                         Tab::make('entries')

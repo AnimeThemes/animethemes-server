@@ -7,6 +7,8 @@ namespace App\Filament\RelationManagers\Wiki;
 use App\Filament\RelationManagers\BaseRelationManager;
 use App\Filament\Resources\Wiki\ExternalResource as ExternalResourceResource;
 use App\Models\Wiki\ExternalResource;
+use App\Pivots\Wiki\AnimeResource;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 
@@ -15,6 +17,20 @@ use Filament\Tables\Table;
  */
 abstract class ResourceRelationManager extends BaseRelationManager
 {
+    /**
+     * Get the pivot fields of the relation.
+     *
+     * @return array<Component>
+     */
+    public function getPivotFields(): array
+    {
+        return [
+            TextInput::make(AnimeResource::ATTRIBUTE_AS)
+                ->label(__('filament.fields.anime.resources.as.name'))
+                ->helperText(__('filament.fields.anime.resources.as.help')),
+        ];
+    }
+
     /**
      * The form to the actions.
      *
