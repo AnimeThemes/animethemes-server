@@ -8,6 +8,7 @@ use App\Filament\RelationManagers\BaseRelationManager;
 use App\Filament\Resources\Wiki\ExternalResource as ExternalResourceResource;
 use App\Models\Wiki\ExternalResource;
 use App\Pivots\Wiki\AnimeResource;
+use Filament\Forms\Components\Component;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
@@ -20,7 +21,7 @@ abstract class ResourceRelationManager extends BaseRelationManager
     /**
      * Get the pivot fields of the relation.
      *
-     * @return array<Component>
+     * @return array<int, Component>
      */
     public function getPivotFields(): array
     {
