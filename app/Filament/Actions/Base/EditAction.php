@@ -6,6 +6,7 @@ namespace App\Filament\Actions\Base;
 
 use App\Concerns\Filament\Actions\HasPivotActionLogs;
 use App\Filament\RelationManagers\BaseRelationManager;
+use Filament\Forms\Form;
 use Filament\Tables\Actions\EditAction as DefaultEditAction;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
@@ -26,6 +27,11 @@ class EditAction extends DefaultEditAction
         parent::setUp();
 
         $this->label(__('filament.actions.base.edit'));
+
+        $this->form(fn (Form $form, BaseRelationManager $livewire) => [
+            ...$livewire->form($form)->getComponents(),
+            ...$livewire->getPivotFields(),
+        ]);
 
         $this->after(function ($livewire, $record) {
             if ($livewire instanceof BaseRelationManager) {

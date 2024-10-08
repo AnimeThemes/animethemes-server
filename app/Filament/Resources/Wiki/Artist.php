@@ -22,7 +22,6 @@ use App\Filament\Resources\Wiki\Artist\RelationManagers\SongArtistRelationManage
 use App\Filament\Resources\Wiki\ExternalResource\RelationManagers\ArtistResourceRelationManager;
 use App\Filament\Resources\Wiki\Song\RelationManagers\ArtistSongRelationManager;
 use App\Models\Wiki\Artist as ArtistModel;
-use App\Pivots\Wiki\ArtistMember;
 use App\Pivots\Wiki\ArtistResource;
 use App\Pivots\Wiki\ArtistSong;
 use Filament\Forms\Components\TextInput;
@@ -155,21 +154,6 @@ class Artist extends BaseResource
                 Slug::make(ArtistModel::ATTRIBUTE_SLUG)
                     ->label(__('filament.fields.artist.slug.name'))
                     ->helperText(__('filament.fields.artist.slug.help')),
-
-                TextInput::make(ArtistResource::ATTRIBUTE_AS)
-                    ->label(__('filament.fields.artist.resources.as.name'))
-                    ->helperText(__('filament.fields.artist.resources.as.help'))
-                    ->visibleOn(ArtistResourceRelationManager::class),
-
-                TextInput::make(ArtistSong::ATTRIBUTE_AS)
-                    ->label(__('filament.fields.artist.songs.as.name'))
-                    ->helperText(__('filament.fields.artist.songs.as.help'))
-                    ->visibleOn([ArtistSongRelationManager::class, MemberArtistRelationManager::class, GroupArtistRelationManager::class]),
-
-                TextInput::make(ArtistSong::ATTRIBUTE_ALIAS)
-                    ->label(__('filament.fields.artist.songs.alias.name'))
-                    ->helperText(__('filament.fields.artist.songs.alias.help'))
-                    ->visibleOn([ArtistSongRelationManager::class, MemberArtistRelationManager::class, GroupArtistRelationManager::class]),
             ])
             ->columns(2);
     }

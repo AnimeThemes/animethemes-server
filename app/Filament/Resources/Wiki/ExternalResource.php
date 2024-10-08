@@ -133,7 +133,7 @@ class ExternalResource extends BaseResource
                     ->options(ResourceSite::asSelectArray())
                     ->required()
                     ->rules(['required', new Enum(ResourceSite::class)]),
-                    
+
                 TextInput::make(ExternalResourceModel::ATTRIBUTE_LINK)
                     ->label(__('filament.fields.external_resource.link.name'))
                     ->helperText(__('filament.fields.external_resource.link.help'))
@@ -151,11 +151,6 @@ class ExternalResource extends BaseResource
                     ->helperText(__('filament.fields.external_resource.external_id.help'))
                     ->numeric()
                     ->rules(['nullable', 'integer']),
-
-                TextInput::make(AnimeResource::ATTRIBUTE_AS)
-                    ->label(__('filament.fields.anime.resources.as.name'))
-                    ->helperText(__('filament.fields.anime.resources.as.help'))
-                    ->visibleOn(ResourceRelationManager::class),
             ])
             ->columns(1);
     }
