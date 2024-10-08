@@ -8,6 +8,7 @@ use App\Filament\RelationManagers\Wiki\ArtistRelationManager;
 use App\Models\Wiki\Song;
 use App\Models\Wiki\Artist;
 use App\Pivots\Wiki\ArtistSong;
+use Filament\Forms\Components\Component;
 use Filament\Forms\Components\TextInput;
 use Filament\Tables\Table;
 
