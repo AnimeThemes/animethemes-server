@@ -65,7 +65,11 @@ class DiscordVideoNotificationAction
             Arr::set($videoArray, Video::ATTRIBUTE_OVERLAP, $video->overlap->localize());
             Arr::set($videoArray, 'animethemeentries.0.animetheme.type', $theme->type->localize());
 
-            $newVideos = $videoArray;
+            foreach ($videoArray['animethemeentries.0.animetheme.anime.images'] as $key => $image) {
+                Arr::set($videoArray, "animethemeentries.0.animetheme.anime.images.$key.facet", $anime->images->get($key)->facet->localize());
+            }
+
+            $newVideos[] = $videoArray;
         }
 
         Http::withHeaders(['x-api-key' => Config::get('services.discord.api_key')])
