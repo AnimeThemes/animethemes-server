@@ -31,14 +31,23 @@ class DiscordThreadAction
 
             $anime->name = Arr::get($fields, 'name');
 
-            /** @var \Illuminate\Filesystem\FilesystemAdapter */
+            /** @var \Illuminate\Filesystem\FilesystemAdapter $fs */
             $fs = Storage::disk(Config::get('image.disk'));
 
             $anime->images->each(fn ($image) => Arr::set($image, 'link', $fs->url($image->path)));
 
+            $animeArray = $anime->toArray();
+
+            Arr::set($animeArray, Anime::ATTRIBUTE_SEASON, $anime->season->localize());
+            Arr::set($animeArray, Anime::ATTRIBUTE_MEDIA_FORMAT, $anime->media_format->localize());
+
+            foreach ($animeArray['images'] as $key => $image) {
+                Arr::set($animeArray, "images.$key.facet", $anime->images->get($key)->facet->localize());
+            }
+
             $response = Http::withHeaders(['x-api-key' => Config::get('services.discord.api_key')])
                 ->acceptJson()
-                ->post(Config::get('services.discord.api_url') . '/thread', $anime->toArray())
+                ->post(Config::get('services.discord.api_url') . '/thread', $animeArray)
                 ->throw()
                 ->json();
 

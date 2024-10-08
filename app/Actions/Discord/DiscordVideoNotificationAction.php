@@ -22,7 +22,6 @@ class DiscordVideoNotificationAction
      *
      * @param  Collection<int, Video>  $videos
      * @param  array  $fields
-     *
      * @return void
      */
     public function handle(Collection $videos, array $fields): void
@@ -30,7 +29,7 @@ class DiscordVideoNotificationAction
         $type = Arr::get($fields, 'notification-type');
         $shouldForce = Arr::get($fields, 'should-force-thread');
 
-        /** @var \Illuminate\Filesystem\FilesystemAdapter */
+        /** @var \Illuminate\Filesystem\FilesystemAdapter $fs */
         $fs = Storage::disk(Config::get('image.disk'));
 
         $newVideos = [];
@@ -56,15 +55,17 @@ class DiscordVideoNotificationAction
                 $anime->load('discordthread');
             }
 
-            Arr::set($video, 'source_name', $video->source->localize());
-            Arr::set($video, 'overlap_name', $video->overlap->localize());
-            Arr::set($theme, 'type_name', $theme->type->localize());
-
             $anime->images->each(function (Image $image) use ($fs) {
                 Arr::set($image, 'link', $fs->url($image->path));
             });
 
-            $newVideos[] = $video;
+            $videoArray = $video->toArray();
+
+            Arr::set($videoArray, Video::ATTRIBUTE_SOURCE, $video->source->localize());
+            Arr::set($videoArray, Video::ATTRIBUTE_OVERLAP, $video->overlap->localize());
+            Arr::set($videoArray, 'animethemeentries.0.animetheme.type', $theme->type->localize());
+
+            $newVideos = $videoArray;
         }
 
         Http::withHeaders(['x-api-key' => Config::get('services.discord.api_key')])
