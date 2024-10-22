@@ -77,7 +77,7 @@ class PlaylistImage extends BasePivot
     /**
      * Gets the playlist that owns the playlist image.
      *
-     * @return BelongsTo<Playlist, PlaylistImage>
+     * @return BelongsTo<Playlist, $this>
      */
     public function playlist(): BelongsTo
     {
@@ -87,7 +87,7 @@ class PlaylistImage extends BasePivot
     /**
      * Gets the image that owns the playlist image.
      *
-     * @return BelongsTo<Image, PlaylistImage>
+     * @return BelongsTo<Image, $this>
      */
     public function image(): BelongsTo
     {

@@ -126,7 +126,7 @@ class Image extends BaseModel
     /**
      * Get the anime that use this image.
      *
-     * @return BelongsToMany<Anime>
+     * @return BelongsToMany<Anime, $this>
      */
     public function anime(): BelongsToMany
     {
@@ -139,7 +139,7 @@ class Image extends BaseModel
     /**
      * Get the artists that use this image.
      *
-     * @return BelongsToMany<Artist>
+     * @return BelongsToMany<Artist, $this>
      */
     public function artists(): BelongsToMany
     {
@@ -152,7 +152,7 @@ class Image extends BaseModel
     /**
      * Get the studios that use this image.
      *
-     * @return BelongsToMany<Studio>
+     * @return BelongsToMany<Studio, $this>
      */
     public function studios(): BelongsToMany
     {
@@ -165,7 +165,7 @@ class Image extends BaseModel
     /**
      * Get the playlists that use this image.
      *
-     * @return BelongsToMany<Playlist>
+     * @return BelongsToMany<Playlist, $this>
      */
     public function playlists(): BelongsToMany
     {

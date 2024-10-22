@@ -65,7 +65,7 @@ class DiscordVideoNotificationAction
             Arr::set($videoArray, Video::ATTRIBUTE_OVERLAP, $video->overlap->localize());
             Arr::set($videoArray, 'animethemeentries.0.animetheme.type', $theme->type->localize());
 
-            foreach ($videoArray['animethemeentries.0.animetheme.anime.images'] as $key => $image) {
+            foreach (Arr::get($videoArray, 'animethemeentries.0.animetheme.anime.images') as $key => $image) {
                 Arr::set($videoArray, "animethemeentries.0.animetheme.anime.images.$key.facet", $anime->images->get($key)->facet->localize());
             }
 

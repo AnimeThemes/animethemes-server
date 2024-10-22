@@ -9,6 +9,7 @@ use App\Models\Wiki\Anime;
 use App\Models\Wiki\ExternalResource;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 
 /**
  * Class BaseStoreExternalProfileAction.
@@ -22,18 +23,18 @@ abstract class BaseStoreExternalProfileAction
      *
      * @param  ExternalProfileSite  $profileSite
      * @param  array  $entries
-     * @return void 
+     * @return void
      */
     protected function preloadResources(ExternalProfileSite $profileSite, array $entries): void
     {
-        $externalResources = ExternalResource::query()
-            ->where(ExternalResource::ATTRIBUTE_SITE, $profileSite->getResourceSite()->value)
-            ->whereIn(ExternalResource::ATTRIBUTE_EXTERNAL_ID, Arr::pluck($entries, 'external_id'))
-            ->with(ExternalResource::RELATION_ANIME)
-            ->get()
-            ->mapWithKeys(fn (ExternalResource $resource) => [$resource->external_id => $resource->anime]);
-
-        $this->resources = $externalResources;
+        $this->resources = Cache::flexible("externalprofile_resources", [60, 300], function () use ($profileSite, $entries) {
+            return ExternalResource::query()
+                ->where(ExternalResource::ATTRIBUTE_SITE, $profileSite->getResourceSite()->value)
+                ->whereIn(ExternalResource::ATTRIBUTE_EXTERNAL_ID, Arr::pluck($entries, 'external_id'))
+                ->with(ExternalResource::RELATION_ANIME)
+                ->get()
+                ->mapWithKeys(fn (ExternalResource $resource) => [$resource->external_id => $resource->anime]);
+        });
     }
 
     /**

@@ -82,7 +82,7 @@ class SongResource extends BasePivot
     /**
      * Gets the song that owns the anime resource.
      *
-     * @return BelongsTo<Song, SongResource>
+     * @return BelongsTo<Song, $this>
      */
     public function song(): BelongsTo
     {
@@ -92,7 +92,7 @@ class SongResource extends BasePivot
     /**
      * Gets the resource that owns the anime resource.
      *
-     * @return BelongsTo<ExternalResource, SongResource>
+     * @return BelongsTo<ExternalResource, $this>
      */
     public function resource(): BelongsTo
     {

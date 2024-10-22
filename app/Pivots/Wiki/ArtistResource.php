@@ -82,7 +82,7 @@ class ArtistResource extends BasePivot
     /**
      * Gets the artist that owns the artist resource.
      *
-     * @return BelongsTo<Artist, ArtistResource>
+     * @return BelongsTo<Artist, $this>
      */
     public function artist(): BelongsTo
     {
@@ -92,7 +92,7 @@ class ArtistResource extends BasePivot
     /**
      * Gets the resource that owns the artist resource.
      *
-     * @return BelongsTo<ExternalResource, ArtistResource>
+     * @return BelongsTo<ExternalResource, $this>
      */
     public function resource(): BelongsTo
     {

@@ -118,7 +118,7 @@ class Studio extends BaseModel
     /**
      * Get the anime that the studio produced.
      *
-     * @return BelongsToMany<Anime>
+     * @return BelongsToMany<Anime, $this>
      */
     public function anime(): BelongsToMany
     {
@@ -131,7 +131,7 @@ class Studio extends BaseModel
     /**
      * Get the resources for the studio.
      *
-     * @return BelongsToMany<ExternalResource>
+     * @return BelongsToMany<ExternalResource, $this>
      */
     public function resources(): BelongsToMany
     {
@@ -145,7 +145,7 @@ class Studio extends BaseModel
     /**
      * Get the images for the studio.
      *
-     * @return BelongsToMany<Image>
+     * @return BelongsToMany<Image, $this>
      */
     public function images(): BelongsToMany
     {

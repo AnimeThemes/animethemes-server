@@ -8,6 +8,7 @@ use App\Actions\Models\Wiki\ApiAction;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Wiki\ExternalResource;
+use App\Models\Wiki\Studio;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
@@ -28,7 +29,7 @@ class MalStudioApiAction extends ApiAction
     /**
      * Set the response after the request.
      *
-     * @param  BelongsToMany<ExternalResource>  $resources
+     * @param  BelongsToMany<ExternalResource, Studio>  $resources
      * @return static
      */
     public function handle(BelongsToMany $resources): static

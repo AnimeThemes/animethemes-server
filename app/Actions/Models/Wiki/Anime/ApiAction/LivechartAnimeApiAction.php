@@ -6,6 +6,7 @@ namespace App\Actions\Models\Wiki\Anime\ApiAction;
 
 use App\Actions\Models\Wiki\ApiAction;
 use App\Enums\Models\Wiki\ResourceSite;
+use App\Models\Wiki\Anime;
 use App\Models\Wiki\ExternalResource;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Facades\Http;
@@ -28,7 +29,7 @@ class LivechartAnimeApiAction extends ApiAction
     /**
      * Set the response after the request.
      *
-     * @param  BelongsToMany<ExternalResource>  $resources
+     * @param  BelongsToMany<ExternalResource, Anime>  $resources
      * @return static
      */
     public function handle(BelongsToMany $resources): static

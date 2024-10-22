@@ -77,7 +77,7 @@ class AnimeSeries extends BasePivot
     /**
      * Gets the anime that owns the anime series.
      *
-     * @return BelongsTo<Anime, AnimeSeries>
+     * @return BelongsTo<Anime, $this>
      */
     public function anime(): BelongsTo
     {
@@ -87,7 +87,7 @@ class AnimeSeries extends BasePivot
     /**
      * Gets the series that owns the anime series.
      *
-     * @return BelongsTo<Series, AnimeSeries>
+     * @return BelongsTo<Series, $this>
      */
     public function series(): BelongsTo
     {

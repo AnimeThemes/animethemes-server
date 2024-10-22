@@ -94,7 +94,7 @@ class VideoScript extends BaseModel
     /**
      * Get the video that owns the script.
      *
-     * @return BelongsTo<Video, VideoScript>
+     * @return BelongsTo<Video, $this>
      */
     public function video(): BelongsTo
     {

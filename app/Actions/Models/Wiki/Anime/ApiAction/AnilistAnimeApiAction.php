@@ -8,6 +8,7 @@ use App\Actions\Models\Wiki\ApiAction;
 use App\Enums\Models\Wiki\AnimeSynonymType;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Enums\Models\Wiki\ResourceSite;
+use App\Models\Wiki\Anime;
 use App\Models\Wiki\ExternalResource;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Arr;
@@ -31,7 +32,7 @@ class AnilistAnimeApiAction extends ApiAction
     /**
      * Set the response after the request.
      *
-     * @param  BelongsToMany<ExternalResource>  $resources
+     * @param  BelongsToMany<ExternalResource, Anime>  $resources
      * @return static
      */
     public function handle(BelongsToMany $resources): static
@@ -127,7 +128,7 @@ class AnilistAnimeApiAction extends ApiAction
 
     /**
      * Get the available sites to backfill.
-     * 
+     *
      * @return array
      */
     protected function getResourcesMapping(): array

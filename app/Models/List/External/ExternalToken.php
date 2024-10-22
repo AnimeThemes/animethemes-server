@@ -118,7 +118,7 @@ class ExternalToken extends BaseModel
     /**
      * Get the external profile that owns the external token.
      *
-     * @return BelongsTo<ExternalProfile, ExternalToken>
+     * @return BelongsTo<ExternalProfile, $this>
      */
     public function externalprofile(): BelongsTo
     {
