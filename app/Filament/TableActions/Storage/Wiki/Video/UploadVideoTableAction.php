@@ -128,15 +128,15 @@ class UploadVideoTableAction extends UploadTableAction
                                                     ->label(__('filament.fields.video.overlap.name'))
                                                     ->helperText(__('filament.fields.video.overlap.help'))
                                                     ->options(VideoOverlap::asSelectArray())
-                                                    ->nullable()
-                                                    ->rules(['nullable', new Enum(VideoOverlap::class)]),
+                                                    ->required()
+                                                    ->rules(['required', new Enum(VideoOverlap::class)]),
 
                                                 Select::make(Video::ATTRIBUTE_SOURCE)
                                                     ->label(__('filament.fields.video.source.name'))
                                                     ->helperText(__('filament.fields.video.source.help'))
                                                     ->options(VideoSource::asSelectArray())
-                                                    ->nullable()
-                                                    ->rules(['nullable', new Enum(VideoSource::class)]),
+                                                    ->required()
+                                                    ->rules(['required', new Enum(VideoSource::class)]),
                                             ],
                                         )
                                     ),
