@@ -6,6 +6,7 @@ namespace App\Filament\Widgets;
 
 use Flowframe\Trend\Trend;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 use Leandrocfe\FilamentApexCharts\Widgets\ApexChartWidget;
 
 /**
@@ -17,16 +18,18 @@ class BaseChartWidget extends ApexChartWidget
 
     /**
      * Get the resources count created per month.
-     * 
+     *
      * @param  class-string  $model
      * @return Collection
      */
     protected function perMonth(string $model): Collection
     {
-        return Trend::model($model)
-            ->between(now()->addMonths(-11)->startOfMonth(), now()->endOfMonth())
-            ->perMonth()
-            ->count();
+        return Cache::flexible("filament_chart_$model", [300, 600], function () use ($model) {
+            return Trend::model($model)
+                ->between(now()->addMonths(-11)->startOfMonth(), now()->endOfMonth())
+                ->perMonth()
+                ->count();
+        });
     }
 
     /**
