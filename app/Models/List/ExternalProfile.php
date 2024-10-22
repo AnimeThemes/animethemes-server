@@ -38,7 +38,7 @@ use Illuminate\Support\Facades\Date;
  * @property int|null $user_id
  * @property User|null $user
  * @property ExternalProfileVisibility $visibility
- * 
+ *
  * @method static ExternalProfileFactory factory(...$parameters)
  */
 class ExternalProfile extends BaseModel
@@ -190,7 +190,7 @@ class ExternalProfile extends BaseModel
     /**
      * Get the entries for the profile.
      *
-     * @return HasMany<ExternalEntry>
+     * @return HasMany<ExternalEntry, $this>
      */
     public function externalentries(): HasMany
     {
@@ -200,7 +200,7 @@ class ExternalProfile extends BaseModel
     /**
      * Get the user that owns the profile.
      *
-     * @return BelongsTo<User, ExternalProfile>
+     * @return BelongsTo<User, $this>
      */
     public function user(): BelongsTo
     {
@@ -210,7 +210,7 @@ class ExternalProfile extends BaseModel
     /**
      * Get the external token that the external profile owns.
      *
-     * @return HasOne<ExternalToken>
+     * @return HasOne<ExternalToken, $this>
      */
     public function externaltoken(): HasOne
     {

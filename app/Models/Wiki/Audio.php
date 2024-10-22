@@ -173,7 +173,7 @@ class Audio extends BaseModel implements Streamable, Viewable
     /**
      * Get the videos that use this audio.
      *
-     * @return HasMany<Video>
+     * @return HasMany<Video, $this>
      */
     public function videos(): HasMany
     {

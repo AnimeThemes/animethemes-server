@@ -22,7 +22,7 @@ use Illuminate\Support\Collection;
  * @property int $group_id
  * @property string $name
  * @property string $slug
- * 
+ *
  * @method static GroupFactory factory(...$parameters)
  */
 class Group extends BaseModel
@@ -99,7 +99,7 @@ class Group extends BaseModel
     /**
      * Get the themes for the group.
      *
-     * @return HasMany<AnimeTheme>
+     * @return HasMany<AnimeTheme, $this>
      */
     public function animethemes(): HasMany
     {

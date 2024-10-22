@@ -5,7 +5,11 @@ declare(strict_types=1);
 namespace App\Actions\Models\Wiki;
 
 use App\Enums\Models\Wiki\ResourceSite;
+use App\Models\BaseModel;
+use App\Models\Wiki\Anime;
 use App\Models\Wiki\ExternalResource;
+use App\Models\Wiki\Studio;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Arr;
 
@@ -39,7 +43,7 @@ abstract class ApiAction
     /**
      * Set the response after the request.
      *
-     * @param  BelongsToMany<ExternalResource>  $resources
+     * @param  BelongsToMany  $resources
      * @return static
      */
     abstract public function handle(BelongsToMany $resources): static;

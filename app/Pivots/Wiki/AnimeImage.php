@@ -77,7 +77,7 @@ class AnimeImage extends BasePivot
     /**
      * Gets the anime that owns the anime image.
      *
-     * @return BelongsTo<Anime, AnimeImage>
+     * @return BelongsTo<Anime, $this>
      */
     public function anime(): BelongsTo
     {
@@ -87,7 +87,7 @@ class AnimeImage extends BasePivot
     /**
      * Gets the image that owns the anime image.
      *
-     * @return BelongsTo<Image, AnimeImage>
+     * @return BelongsTo<Image, $this>
      */
     public function image(): BelongsTo
     {

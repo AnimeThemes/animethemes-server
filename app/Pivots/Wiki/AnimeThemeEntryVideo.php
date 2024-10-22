@@ -81,7 +81,7 @@ class AnimeThemeEntryVideo extends BasePivot
     /**
      * Gets the video that owns the video entry.
      *
-     * @return BelongsTo<Video, AnimeThemeEntryVideo>
+     * @return BelongsTo<Video, $this>
      */
     public function video(): BelongsTo
     {
@@ -91,7 +91,7 @@ class AnimeThemeEntryVideo extends BasePivot
     /**
      * Gets the entry that owns the video entry.
      *
-     * @return BelongsTo<AnimeThemeEntry, AnimeThemeEntryVideo>
+     * @return BelongsTo<AnimeThemeEntry, $this>
      */
     public function animethemeentry(): BelongsTo
     {

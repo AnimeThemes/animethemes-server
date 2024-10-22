@@ -156,7 +156,7 @@ class PlaylistTrack extends BaseModel implements HasHashids
     /**
      * Get the entry of the track.
      *
-     * @return BelongsTo<AnimeThemeEntry, PlaylistTrack>
+     * @return BelongsTo<AnimeThemeEntry, $this>
      */
     public function animethemeentry(): BelongsTo
     {
@@ -166,7 +166,7 @@ class PlaylistTrack extends BaseModel implements HasHashids
     /**
      * Get the playlist the track belongs to.
      *
-     * @return BelongsTo<Playlist, PlaylistTrack>
+     * @return BelongsTo<Playlist, $this>
      */
     public function playlist(): BelongsTo
     {
@@ -176,7 +176,7 @@ class PlaylistTrack extends BaseModel implements HasHashids
     /**
      * Get the previous track.
      *
-     * @return BelongsTo<PlaylistTrack, PlaylistTrack>
+     * @return BelongsTo<PlaylistTrack, $this>
      */
     public function previous(): BelongsTo
     {
@@ -186,7 +186,7 @@ class PlaylistTrack extends BaseModel implements HasHashids
     /**
      * Get the next track.
      *
-     * @return BelongsTo<PlaylistTrack, PlaylistTrack>
+     * @return BelongsTo<PlaylistTrack, $this>
      */
     public function next(): BelongsTo
     {
@@ -196,7 +196,7 @@ class PlaylistTrack extends BaseModel implements HasHashids
     /**
      * Get the video of the track.
      *
-     * @return BelongsTo<Video, PlaylistTrack>
+     * @return BelongsTo<Video, $this>
      */
     public function video(): BelongsTo
     {

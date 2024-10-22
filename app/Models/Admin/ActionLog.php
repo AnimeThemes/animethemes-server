@@ -20,7 +20,7 @@ use Throwable;
 
 /**
  * Class ActionLog.
- * 
+ *
  * @property int $id
  * @property string $batch_id
  * @property string $name
@@ -145,7 +145,7 @@ class ActionLog extends Model implements Nameable, HasSubtitle
     /**
      * Get the user that initiated the action.
      *
-     * @return BelongsTo<User, ActionLog>
+     * @return BelongsTo<User, $this>
      */
     public function user(): BelongsTo
     {

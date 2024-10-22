@@ -125,7 +125,7 @@ class ExternalResource extends BaseModel
     /**
      * Get the anime that reference this resource.
      *
-     * @return BelongsToMany<Anime>
+     * @return BelongsToMany<Anime, $this>
      */
     public function anime(): BelongsToMany
     {
@@ -139,7 +139,7 @@ class ExternalResource extends BaseModel
     /**
      * Get the artists that reference this resource.
      *
-     * @return BelongsToMany<Artist>
+     * @return BelongsToMany<Artist, $this>
      */
     public function artists(): BelongsToMany
     {
@@ -153,7 +153,7 @@ class ExternalResource extends BaseModel
     /**
      * Get the song that reference this resource.
      *
-     * @return BelongsToMany<Song>
+     * @return BelongsToMany<Song, $this>
      */
     public function songs(): BelongsToMany
     {
@@ -167,7 +167,7 @@ class ExternalResource extends BaseModel
     /**
      * Get the studios that reference this resource.
      *
-     * @return BelongsToMany<Studio>
+     * @return BelongsToMany<Studio, $this>
      */
     public function studios(): BelongsToMany
     {

@@ -199,7 +199,7 @@ class Anime extends BaseModel
     /**
      * Get the synonyms for the anime.
      *
-     * @return HasMany<AnimeSynonym>
+     * @return HasMany<AnimeSynonym, $this>
      */
     public function animesynonyms(): HasMany
     {
@@ -209,7 +209,7 @@ class Anime extends BaseModel
     /**
      * Get the discord thread that the anime owns.
      *
-     * @return HasOne<DiscordThread>
+     * @return HasOne<DiscordThread, $this>
      */
     public function discordthread(): HasOne
     {
@@ -219,7 +219,7 @@ class Anime extends BaseModel
     /**
      * Get the series the anime is included in.
      *
-     * @return BelongsToMany<Series>
+     * @return BelongsToMany<Series, $this>
      */
     public function series(): BelongsToMany
     {
@@ -232,7 +232,7 @@ class Anime extends BaseModel
     /**
      * Get the themes for the anime.
      *
-     * @return HasMany<AnimeTheme>
+     * @return HasMany<AnimeTheme, $this>
      */
     public function animethemes(): HasMany
     {
@@ -242,7 +242,7 @@ class Anime extends BaseModel
     /**
      * Get the resources for the anime.
      *
-     * @return BelongsToMany<ExternalResource>
+     * @return BelongsToMany<ExternalResource, $this>
      */
     public function resources(): BelongsToMany
     {
@@ -256,7 +256,7 @@ class Anime extends BaseModel
     /**
      * Get the images for the anime.
      *
-     * @return BelongsToMany<Image>
+     * @return BelongsToMany<Image, $this>
      */
     public function images(): BelongsToMany
     {
@@ -269,7 +269,7 @@ class Anime extends BaseModel
     /**
      * Get the studios that produced the anime.
      *
-     * @return BelongsToMany<Studio>
+     * @return BelongsToMany<Studio, $this>
      */
     public function studios(): BelongsToMany
     {
@@ -282,7 +282,7 @@ class Anime extends BaseModel
     /**
      * Get the entries for the anime.
      *
-     * @return HasMany<ExternalEntry>
+     * @return HasMany<ExternalEntry, $this>
      */
     public function externalentries(): HasMany
     {
