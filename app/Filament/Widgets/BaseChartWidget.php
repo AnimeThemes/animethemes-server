@@ -24,7 +24,7 @@ class BaseChartWidget extends ApexChartWidget
      */
     protected function perMonth(string $model): Collection
     {
-        return Cache::flexible("filament_chart_$model", [300, 600], function () use ($model) {
+        return Cache::flexible("filament_chart_$model", [300, 1200], function () use ($model) {
             return Trend::model($model)
                 ->between(now()->addMonths(-11)->startOfMonth(), now()->endOfMonth())
                 ->perMonth()
