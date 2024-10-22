@@ -6,6 +6,7 @@ namespace App\Filament\Tabs;
 
 use Filament\Resources\Components\Tab;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Cache;
 
 /**
  * Class BaseTab.
@@ -41,7 +42,9 @@ abstract class BaseTab extends Tab
      */
     public function modifyQuery(Builder $query): Builder
     {
-        return $this->modifyQuery($query);
+        return Cache::flexible('filament_query_'.$this->getKey(), [15, 30], function () use ($query) {
+            return $this->modifyQuery($query);
+        });
     }
 
     /**
@@ -51,7 +54,9 @@ abstract class BaseTab extends Tab
      */
     public function getBadge(): int
     {
-        return $this->getBadge();
+        return Cache::flexible('filament_badge_'.$this->getKey(), [15, 30], function () {
+            return $this->getBadge();
+        });
     }
 
     /**
