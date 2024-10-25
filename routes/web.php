@@ -2,6 +2,10 @@
 
 declare(strict_types=1);
 
+use App\Actions\Models\Wiki\BackfillSongAction;
+use App\Models\Wiki\Song;
+use Illuminate\Support\Facades\Route;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -12,3 +16,9 @@ declare(strict_types=1);
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+Route::get('/test', function () {
+    $action = new BackfillSongAction(Song::find(2), 'https://claris.lnk.to/Hitorigoto');
+
+    $action->handle();
+
+});

@@ -384,7 +384,7 @@ enum ResourceSite: int
         if ($model instanceof Song) {
             return match ($this) {
                 ResourceSite::ANIDB => '/^https:\/\/anidb\.net\/(song)\/(\d+)$/',
-                ResourceSite::SPOTIFY => '/^https:\/\/open\.spotify\.com\/track\/(\w+)$/',
+                ResourceSite::SPOTIFY => '/^https:\/\/open\.spotify\.com\/(track)\/(\w+)$/',
                 ResourceSite::YOUTUBE_MUSIC => '/^https:\/\/music\.youtube\.com\/(watch)\?v=([\w-]+)$/',
                 ResourceSite::YOUTUBE => '/^https:\/\/www\.youtube\.com\/(watch)\?v=([\w-]+)$/',
                 ResourceSite::APPLE_MUSIC => '/^https:\/\/music\.apple\.com\/jp\/(album)\/(\d+)$/',
