@@ -34,7 +34,7 @@ parameters:
             path: app/Providers/RouteServiceProvider.php
         -
             message: '#Call to an undefined method App\\Filament\\BulkActions\\.*::getRecord\(\).#'
-            path: app/Concerns/Filament/Actions/HasActionLogs.php
+            path: app/Concerns/Filament/ActionLogs/HasActionLogs.php
         -
             message: '#Call to an undefined method App\\Models\\BaseModel::resources\(\)#'
             path: app/Actions/Models/BackfillWikiAction.php

@@ -48,7 +48,7 @@ trait CanCreateExternalResource
             ->first();
 
         if ($resource === null) {
-            Log::info("Creating {$site->localize()} -> '{$url}'");
+            Log::info("Creating External Resource {$site->localize()} -> '{$url}'");
 
             $resource = ExternalResource::query()->create([
                 ExternalResource::ATTRIBUTE_LINK => $url,

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\BulkActions;
 
-use App\Concerns\Filament\Actions\HasActionLogs;
+use App\Concerns\Filament\ActionLogs\HasActionLogs;
 use App\Models\BaseModel;
 use Filament\Support\Enums\MaxWidth;
 use Filament\Tables\Actions\BulkAction;

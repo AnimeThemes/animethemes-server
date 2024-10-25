@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Concerns\Filament\Actions;
+namespace App\Concerns\Filament\ActionLogs;
 
 use App\Filament\RelationManagers\BaseRelationManager;
 use App\Models\Admin\ActionLog;
@@ -37,7 +37,7 @@ trait HasPivotActionLogs
                 ->where($ownerRecord->getKeyName(), $ownerRecord->getKey())
                 ->where($record->getKeyName(), $record->getKey())
                 ->first();
-    
+
             ActionLog::modelPivot(
                 $actionName,
                 $ownerRecord,

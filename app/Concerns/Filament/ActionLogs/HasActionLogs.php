@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Concerns\Filament\Actions;
+namespace App\Concerns\Filament\ActionLogs;
 
 use App\Models\Admin\ActionLog;
 use Illuminate\Database\Eloquent\Model;
@@ -45,7 +45,7 @@ trait HasActionLogs
         if ($shouldCreateNewBatchId) {
             $this->createBatchId();
         }
-        
+
         // $record must be specified if in context of bulk action
         $this->recordLog = $record ?? $this->getRecord();
 

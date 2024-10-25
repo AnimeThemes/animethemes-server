@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Actions\Base;
 
-use App\Concerns\Filament\Actions\HasPivotActionLogs;
+use App\Concerns\Filament\ActionLogs\HasPivotActionLogs;
 use App\Filament\RelationManagers\BaseRelationManager;
 use Filament\Tables\Actions\DetachAction as DefaultDetachAction;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
