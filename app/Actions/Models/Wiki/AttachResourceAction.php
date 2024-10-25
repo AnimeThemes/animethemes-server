@@ -37,7 +37,7 @@ class AttachResourceAction
         foreach ($this->sites as $resourceSite) {
             $link = Arr::get($this->fields, $resourceSite->name);
 
-            if (empty($link) || !$link) continue;
+            if (empty($link)) continue;
 
             $this->createResource($link, $resourceSite, $this->model);
         }

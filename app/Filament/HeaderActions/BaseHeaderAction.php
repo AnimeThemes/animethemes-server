@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\HeaderActions;
 
-use App\Concerns\Filament\Actions\HasActionLogs;
+use App\Concerns\Filament\ActionLogs\HasActionLogs;
 use Filament\Actions\Action;
 use Filament\Support\Enums\MaxWidth;
 

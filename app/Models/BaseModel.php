@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Concerns\Filament\Actions\ModelHasActionLogs;
+use App\Concerns\Filament\ActionLogs\ModelHasActionLogs;
 use App\Contracts\Models\HasSubtitle;
 use App\Contracts\Models\Nameable;
 use App\Enums\Http\Api\Filter\ComparisonOperator;

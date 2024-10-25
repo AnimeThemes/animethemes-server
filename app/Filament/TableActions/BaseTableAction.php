@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\TableActions;
 
-use App\Concerns\Filament\Actions\HasActionLogs;
+use App\Concerns\Filament\ActionLogs\HasActionLogs;
 use App\Filament\RelationManagers\BaseRelationManager;
 use Filament\Support\Enums\MaxWidth;
 use Filament\Tables\Actions\Action;

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\BulkActions\Base;
 
-use App\Concerns\Filament\Actions\HasActionLogs;
+use App\Concerns\Filament\ActionLogs\HasActionLogs;
 use Filament\Tables\Actions\DeleteBulkAction as DefaultDeleteBulkAction;
 
 /**
