@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Concerns\Filament\Actions\Storage\Base;
 
 use App\Actions\Storage\Base\MoveAction as BaseMoveAction;
+use App\Contracts\Actions\Storage\StorageAction;
 use App\Models\BaseModel;
 use App\Rules\Storage\StorageFileDirectoryExistsRule;
 use Filament\Forms\Components\TextInput;
@@ -48,7 +49,7 @@ trait MoveActionTrait
      * @param  array  $fields
      * @return BaseMoveAction
      */
-    abstract protected function storageAction(BaseModel $model, array $fields): BaseMoveAction;
+    abstract protected function storageAction(BaseModel $model, array $fields): StorageAction;
 
     /**
      * Resolve the default value for the path field.
