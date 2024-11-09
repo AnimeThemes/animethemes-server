@@ -17,7 +17,5 @@ enum SpecialPermission: string
 
     case VIEW_HORIZON = 'view horizon';
 
-    case VIEW_TELESCOPE = 'view telescope';
-
     case REVALIDATE_PAGES = 'revalidate pages';
 }

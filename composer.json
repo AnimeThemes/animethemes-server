@@ -43,7 +43,6 @@
         "laravel/pulse": "^1.2",
         "laravel/sanctum": "^4.0",
         "laravel/scout": "^10.0",
-        "laravel/telescope": "^5.0",
         "laravel/tinker": "^2.8",
         "league/flysystem-aws-s3-v3": "^3.0",
         "leandrocfe/filament-apex-charts": "^3.1",

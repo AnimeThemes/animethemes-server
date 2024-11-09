@@ -27,11 +27,9 @@
         <env name="MAIL_MAILER" value="array"/>
         <env name="QUEUE_CONNECTION" value="sync"/>
         <env name="SESSION_DRIVER" value="array"/>
-        <env name="TELESCOPE_ENABLED" value="false"/>
         <env name="SCOUT_QUEUE" value="false"/>
         <env name="SCOUT_DRIVER" value="null"/>
         <env name="HORIZON_TEAM_ID" value="null"/>
         <env name="TEAM_CREATOR_ID" value="null"/>
-        <env name="TELESCOPE_TEAM_ID" value="null"/>
     </php>
 </phpunit>
