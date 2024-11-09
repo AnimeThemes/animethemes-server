@@ -20,7 +20,6 @@ use Illuminate\Queue\Console\PruneBatchesCommand;
 use Illuminate\Queue\Console\PruneFailedJobsCommand;
 use Laravel\Horizon\Console\SnapshotCommand;
 use Laravel\Sanctum\Console\Commands\PruneExpired;
-use Laravel\Telescope\Console\PruneCommand as PruneTelescopeEntriesCommand;
 use Propaganistas\LaravelDisposableEmail\Console\UpdateDisposableDomainsCommand;
 
 /**
@@ -109,14 +108,6 @@ class Kernel extends ConsoleKernel
             ->runInBackground()
             ->storeOutput()
             ->hourly();
-
-        if (config('telescope.enabled') === true) {
-            $schedule->command(PruneTelescopeEntriesCommand::class)
-                ->withoutOverlapping()
-                ->runInBackground()
-                ->storeOutput()
-                ->daily();
-        }
 
         $schedule->command(SnapshotCommand::class)
             ->withoutOverlapping()
