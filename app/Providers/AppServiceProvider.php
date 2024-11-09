@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Enums\Auth\Role;
+use App\Models\Auth\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
@@ -40,5 +43,9 @@ class AppServiceProvider extends ServiceProvider
         });
 
         EnsureFeaturesAreActive::whenInactive(fn (Request $request, array $features) => new Response(status: 403));
+
+        Gate::define('viewPulse', function (User $user) {
+            return $user->hasRole(Role::ADMIN->value);
+        });
     }
 }
