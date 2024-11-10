@@ -11,6 +11,7 @@ use App\Events\List\ExternalProfile\ExternalProfileCreated;
 use App\Events\List\ExternalProfile\ExternalProfileDeleted;
 use App\Events\List\ExternalProfile\ExternalProfileRestored;
 use App\Events\List\ExternalProfile\ExternalProfileUpdated;
+use App\Jobs\List\SyncExternalProfileJob;
 use App\Models\Auth\User;
 use App\Models\BaseModel;
 use App\Models\List\External\ExternalEntry;
@@ -185,6 +186,16 @@ class ExternalProfile extends BaseModel
     public function canBeSynced(): bool
     {
         return !$this->synced_at || $this->synced_at->addHours(3)->isPast();
+    }
+
+    /**
+     * Dispatch the sync external profile job.
+     *
+     * @return void
+     */
+    public function startSyncEntriesJob(): void
+    {
+        SyncExternalProfileJob::dispatch($this);
     }
 
     /**

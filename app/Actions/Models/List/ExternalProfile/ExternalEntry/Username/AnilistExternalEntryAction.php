@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Actions\Models\List\ExternalProfile\ExternalEntry\Site;
+namespace App\Actions\Models\List\ExternalProfile\ExternalEntry\Username;
 
 use App\Actions\Models\List\ExternalProfile\ExternalEntry\BaseExternalEntryAction;
 use App\Enums\Models\List\ExternalEntryWatchStatus;

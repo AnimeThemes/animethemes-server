@@ -91,7 +91,7 @@ class ExternalProfileStoreTest extends TestCase
     }
 
     /**
-     * The External Profile Store Endpoint shall require name, site & visibility fields.
+     * The External Profile Store Endpoint shall require name & site fields.
      *
      * @return void
      */
@@ -107,7 +107,6 @@ class ExternalProfileStoreTest extends TestCase
 
         $response->assertJsonValidationErrors([
             ExternalProfile::ATTRIBUTE_NAME,
-            ExternalProfile::ATTRIBUTE_VISIBILITY,
             ExternalProfile::ATTRIBUTE_SITE,
         ]);
     }

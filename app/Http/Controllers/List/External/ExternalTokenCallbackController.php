@@ -8,6 +8,7 @@ use App\Actions\Models\List\ExternalTokenCallbackAction;
 use App\Features\AllowExternalProfileManagement;
 use App\Http\Controllers\Controller;
 use App\Http\Middleware\Api\EnabledOnlyOnLocalhost;
+use App\Jobs\List\SyncExternalProfileJob;
 use App\Models\List\ExternalProfile;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -52,18 +53,16 @@ class ExternalTokenCallbackController extends Controller
 
         $action = new ExternalTokenCallbackAction();
 
-        $response = $action->store($validated);
+        $profile = $action->store($validated);
 
-        if (!($response instanceof ExternalProfile)) {
-            return $response;
-        }
+        $profile->startSyncEntriesJob();
 
         // https://animethemes.moe/external/{mal|anilist}/{profile_name}
         $clientUrl = Str::of(Config::get('wiki.external_profile'))
             ->append('/')
-            ->append(Str::lower($response->site->name))
+            ->append(Str::lower($profile->site->name))
             ->append('/')
-            ->append($response->getName())
+            ->append($profile->getName())
             ->__toString();
 
         return Redirect::to($clientUrl);

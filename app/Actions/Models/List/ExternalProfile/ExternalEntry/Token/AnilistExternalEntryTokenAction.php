@@ -2,13 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Actions\Models\List\ExternalProfile\ExternalEntry\Site;
+namespace App\Actions\Models\List\ExternalProfile\ExternalEntry\Token;
 
 use App\Actions\Models\List\ExternalProfile\ExternalEntry\BaseExternalEntryTokenAction;
 use App\Enums\Models\List\ExternalEntryWatchStatus;
 use App\Models\List\External\ExternalEntry;
 use App\Models\Wiki\ExternalResource;
-use Exception;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
@@ -76,19 +75,13 @@ class AnilistExternalEntryTokenAction extends BaseExternalEntryTokenAction
             return $this->id;
         }
 
-        try {
-            [, $payload] = explode('.', $this->getToken());
+        [, $payload] = explode('.', $this->getToken());
 
-            $decodedArray = json_decode(base64_decode($payload), true);
+        $decodedArray = json_decode(base64_decode($payload), true);
 
-            $this->id = intval(Arr::get($decodedArray, 'sub'));
+        $this->id = intval(Arr::get($decodedArray, 'sub'));
 
-            return $this->id;
-        } catch (Exception $e) {
-            Log::error($e->getMessage());
-
-            return null;
-        }
+        return $this->id;
     }
 
     /**

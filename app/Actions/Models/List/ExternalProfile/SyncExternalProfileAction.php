@@ -4,31 +4,38 @@ declare(strict_types=1);
 
 namespace App\Actions\Models\List\ExternalProfile;
 
-use App\Actions\Models\List\BaseStoreExternalProfileAction;
 use App\Actions\Models\List\ExternalProfile\ExternalEntry\BaseExternalEntryAction;
 use App\Actions\Models\List\ExternalProfile\ExternalEntry\BaseExternalEntryTokenAction;
-use App\Actions\Models\List\ExternalProfile\ExternalEntry\Site\AnilistExternalEntryAction;
-use App\Actions\Models\List\ExternalProfile\ExternalEntry\Site\AnilistExternalEntryTokenAction;
+use App\Actions\Models\List\ExternalProfile\ExternalEntry\Username\AnilistExternalEntryAction;
+use App\Actions\Models\List\ExternalProfile\ExternalEntry\Token\AnilistExternalEntryTokenAction;
 use App\Enums\Models\List\ExternalProfileSite;
 use App\Models\List\External\ExternalEntry;
 use App\Models\List\ExternalProfile;
+use App\Models\Wiki\Anime;
+use App\Models\Wiki\ExternalResource;
 use Exception;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 /**
  * Class SyncExternalProfileAction.
  */
-class SyncExternalProfileAction extends BaseStoreExternalProfileAction
+class SyncExternalProfileAction
 {
+    protected Collection $resources;
+
     /**
      * Sync the profile.
      *
      * @param  ExternalProfile  $profile
-     * @return ExternalProfile|null
+     * @return ExternalProfile
+     *
+     * @throws Exception
      */
-    public function handle(ExternalProfile $profile): ?ExternalProfile
+    public function handle(ExternalProfile $profile): ExternalProfile
     {
         try {
             DB::beginTransaction();
@@ -56,13 +63,7 @@ class SyncExternalProfileAction extends BaseStoreExternalProfileAction
                 }
             }
 
-            //ExternalEntry::insert($externalEntries);
-
             $profile->externalentries()->upsert($externalEntries, [ExternalEntry::ATTRIBUTE_ANIME, ExternalEntry::ATTRIBUTE_PROFILE]);
-
-            // Delete the old entries before creating new ones.
-            //ExternalEntry::withoutEvents(fn () => ExternalEntry::query()->whereBelongsTo($profile)->delete());
-
 
             return $profile;
         } catch (Exception $e) {
@@ -70,7 +71,7 @@ class SyncExternalProfileAction extends BaseStoreExternalProfileAction
 
             DB::rollBack();
 
-            return null;
+            throw $e;
         }
     }
 
@@ -100,5 +101,35 @@ class SyncExternalProfileAction extends BaseStoreExternalProfileAction
             ExternalProfileSite::ANILIST => new AnilistExternalEntryAction($profile->toArray()),
             default => null,
         };
+    }
+
+    /**
+     * Preload the resources for performance proposals.
+     *
+     * @param  ExternalProfileSite  $profileSite
+     * @param  array  $entries
+     * @return void
+     */
+    protected function preloadResources(ExternalProfileSite $profileSite, array $entries): void
+    {
+        $this->resources = Cache::flexible("externalprofile_resources", [60, 300], function () use ($profileSite, $entries) {
+            return ExternalResource::query()
+                ->where(ExternalResource::ATTRIBUTE_SITE, $profileSite->getResourceSite()->value)
+                ->whereIn(ExternalResource::ATTRIBUTE_EXTERNAL_ID, Arr::pluck($entries, 'external_id'))
+                ->with(ExternalResource::RELATION_ANIME)
+                ->get()
+                ->mapWithKeys(fn (ExternalResource $resource) => [$resource->external_id => $resource->anime]);
+        });
+    }
+
+    /**
+     * Get the animes by the external id.
+     *
+     * @param  int  $externalId
+     * @return Collection<int, Anime>
+     */
+    protected function getAnimesByExternalId(int $externalId): Collection
+    {
+        return $this->resources[$externalId] ?? new Collection();
     }
 }
