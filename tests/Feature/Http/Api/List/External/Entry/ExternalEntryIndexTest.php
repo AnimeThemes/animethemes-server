@@ -172,7 +172,7 @@ class ExternalEntryIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ExternalEntryCollection($profile->entries, new Query()))
+                    (new ExternalEntryCollection($profile->externalentries, new Query()))
                         ->response()
                         ->getData()
                 ),
@@ -288,7 +288,7 @@ class ExternalEntryIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ExternalEntryCollection($profile->entries, new Query($parameters)))
+                    (new ExternalEntryCollection($profile->externalentries, new Query($parameters)))
                         ->response()
                         ->getData()
                 ),
