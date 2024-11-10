@@ -56,14 +56,13 @@ class SyncExternalProfileAction extends BaseStoreExternalProfileAction
                 }
             }
 
-            // Delete the old entries before creating new ones.
-            $profile->externalentries->each(function (ExternalEntry $entry) {
-                ExternalEntry::withoutEvents(function () use ($entry) {
-                    $entry->delete();
-                });
-            });
+            //ExternalEntry::insert($externalEntries);
 
-            ExternalEntry::insert($externalEntries);
+            $profile->externalentries()->upsert($externalEntries, [ExternalEntry::ATTRIBUTE_ANIME, ExternalEntry::ATTRIBUTE_PROFILE]);
+
+            // Delete the old entries before creating new ones.
+            //ExternalEntry::withoutEvents(fn () => ExternalEntry::query()->whereBelongsTo($profile)->delete());
+
 
             return $profile;
         } catch (Exception $e) {
