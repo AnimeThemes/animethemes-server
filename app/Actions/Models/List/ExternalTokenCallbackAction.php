@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace App\Actions\Models\List;
 
+use App\Actions\Models\List\ExternalProfile\ExternalToken\BaseExternalTokenAction;
+use App\Actions\Models\List\ExternalProfile\ExternalToken\Site\AnilistExternalTokenAction;
 use App\Actions\Models\List\ExternalProfile\StoreExternalProfileTokenAction;
-use App\Actions\Models\List\ExternalProfile\StoreExternalTokenAction;
+use App\Enums\Models\List\ExternalProfileSite;
 use App\Models\List\ExternalProfile;
 use Error;
 use Exception;
-use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -19,21 +21,28 @@ use Illuminate\Support\Facades\Log;
 class ExternalTokenCallbackAction
 {
     /**
-     * We should store the token, the profile and its entries.
+     * We should store the token and the profile.
      *
      * @param  array  $parameters
-     * @return JsonResponse|ExternalProfile
+     * @return ExternalProfile
      *
      * @throws Exception
      */
-    public function store(array $parameters): JsonResponse|ExternalProfile
+    public function store(array $parameters): ExternalProfile
     {
         try {
             DB::beginTransaction();
 
-            $action = new StoreExternalTokenAction();
+            $site = Arr::get($parameters, 'site');
+            $profileSite = ExternalProfileSite::fromLocalizedName($site);
 
-            $externalToken = $action->store($parameters);
+            $action = $this->getActionClass($profileSite);
+
+            if ($action === null) {
+                throw new Error("Action not found for site {$profileSite->localize()}", 404);
+            }
+
+            $externalToken = $action->store(Arr::get($parameters, 'code'));
 
             if ($externalToken === null) {
                 throw new Error('Invalid Code', 400);
@@ -51,9 +60,21 @@ class ExternalTokenCallbackAction
 
             DB::rollBack();
 
-            return new JsonResponse([
-                'error' => $e->getMessage(),
-            ], $e->getCode());
+            throw $e;
         }
+    }
+
+    /**
+     * Get the mapping for the token class.
+     *
+     * @param  ExternalProfileSite  $site
+     * @return BaseExternalTokenAction|null
+     */
+    protected function getActionClass(ExternalProfileSite $site): ?BaseExternalTokenAction
+    {
+        return match ($site) {
+            ExternalProfileSite::ANILIST => new AnilistExternalTokenAction(),
+            default => null,
+        };
     }
 }

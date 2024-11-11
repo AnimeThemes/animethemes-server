@@ -9,8 +9,8 @@ use App\Actions\Http\Api\ForceDeleteAction;
 use App\Actions\Http\Api\IndexAction;
 use App\Actions\Http\Api\RestoreAction;
 use App\Actions\Http\Api\ShowAction;
+use App\Actions\Http\Api\StoreAction;
 use App\Actions\Http\Api\UpdateAction;
-use App\Actions\Models\List\ExternalProfile\StoreExternalProfileUsernameAction;
 use App\Enums\Models\List\ExternalProfileVisibility;
 use App\Features\AllowExternalProfileManagement;
 use App\Http\Api\Query\Query;
@@ -97,14 +97,19 @@ class ExternalProfileController extends BaseController
      * Store a newly created resource.
      *
      * @param  StoreRequest  $request
-     * @param  StoreExternalProfileUsernameAction  $action
+     * @param  StoreAction  $action
      * @return ExternalProfileResource
      */
-    public function store(StoreRequest $request, StoreExternalProfileUsernameAction $action): ExternalProfileResource
+    public function store(StoreRequest $request, StoreAction $action): ExternalProfileResource
     {
-        $externalprofile = $action->findOrCreate(ExternalProfile::query(), $request->validated());
+        $validated = array_merge(
+            $request->validated(),
+            [ExternalProfile::ATTRIBUTE_USER => Auth::id()]
+        );
 
-        return new ExternalProfileResource($externalprofile, new Query());
+        $profile = $action->store(ExternalProfile::query(), $validated);
+
+        return new ExternalProfileResource($profile, new Query());
     }
 
     /**

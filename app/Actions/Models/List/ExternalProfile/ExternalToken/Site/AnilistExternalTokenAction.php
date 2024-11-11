@@ -23,11 +23,11 @@ class AnilistExternalTokenAction extends BaseExternalTokenAction
      * Use the authorization code to get the tokens and store them.
      *
      * @param  string  $code
-     * @return ExternalToken|null
+     * @return ExternalToken
      *
      * @throws Exception
      */
-    public function store(string $code): ?ExternalToken
+    public function store(string $code): ExternalToken
     {
         try {
             $response = Http::acceptJson()
@@ -45,7 +45,7 @@ class AnilistExternalTokenAction extends BaseExternalTokenAction
             $token = Arr::get($response, 'access_token');
 
             if ($token === null) {
-                return null;
+                throw new Error('Failed to get token');
             }
 
             return ExternalToken::query()->create([
@@ -54,7 +54,7 @@ class AnilistExternalTokenAction extends BaseExternalTokenAction
         } catch (Exception $e) {
             Log::error($e->getMessage());
 
-            return null;
+            throw $e;
         }
     }
 }

@@ -52,18 +52,16 @@ class ExternalTokenCallbackController extends Controller
 
         $action = new ExternalTokenCallbackAction();
 
-        $response = $action->store($validated);
+        $profile = $action->store($validated);
 
-        if (!($response instanceof ExternalProfile)) {
-            return $response;
-        }
+        $profile->startSyncEntriesJob();
 
         // https://animethemes.moe/external/{mal|anilist}/{profile_name}
         $clientUrl = Str::of(Config::get('wiki.external_profile'))
             ->append('/')
-            ->append(Str::lower($response->site->name))
+            ->append(Str::lower($profile->site->name))
             ->append('/')
-            ->append($response->getName())
+            ->append($profile->getName())
             ->__toString();
 
         return Redirect::to($clientUrl);

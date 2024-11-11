@@ -8,7 +8,6 @@ use App\Features\AllowExternalProfileManagement;
 use App\Http\Controllers\Controller;
 use App\Http\Middleware\Api\EnabledOnlyOnLocalhost;
 use App\Http\Requests\Api\ShowRequest;
-use App\Jobs\List\SyncExternalProfileJob;
 use App\Models\List\ExternalProfile;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Str;
@@ -58,7 +57,7 @@ class SyncExternalProfileController extends Controller
             ], 403);
         }
 
-        SyncExternalProfileJob::dispatch($externalProfile);
+        $externalProfile->startSyncEntriesJob();
 
         return new JsonResponse([
             'message' => 'Job dispatched.'
