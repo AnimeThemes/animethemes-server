@@ -373,7 +373,7 @@ class Theme extends BaseResource
 
                         TextEntry::make(ThemeModel::ATTRIBUTE_ID)
                             ->label(__('filament.fields.anime_theme.slug.name'))
-                            ->formatStateUsing(fn ($state) => ThemeModel::find(intval($state))->getName()),
+                            ->formatStateUsing(fn ($state) => ThemeModel::withTrashed()->find(intval($state))->getName()),
 
                         TextEntry::make(ThemeModel::RELATION_GROUP . '.' . Group::ATTRIBUTE_NAME)
                             ->label(__('filament.resources.singularLabel.group'))

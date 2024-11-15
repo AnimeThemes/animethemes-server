@@ -13,11 +13,11 @@ use App\Filament\Components\Fields\Select;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\Auth\User;
 use App\Filament\Resources\BaseResource;
+use App\Filament\Resources\List\External\Pages\CreateExternalProfile;
 use App\Filament\Resources\List\External\Pages\EditExternalProfile;
 use App\Filament\Resources\List\External\Pages\ListExternalProfiles;
 use App\Filament\Resources\List\External\Pages\ViewExternalProfile;
 use App\Filament\Resources\List\External\RelationManagers\ExternalEntryExternalProfileRelationManager;
-use App\Filament\TableActions\Models\List\ExternalProfile\CreateExternalProfileTableAction;
 use App\Models\Auth\User as UserModel;
 use App\Models\List\ExternalProfile as ExternalProfileModel;
 use Filament\Forms\Components\TextInput;
@@ -313,20 +313,8 @@ class ExternalProfile extends BaseResource
     {
         return array_merge(
             parent::getTableActions(),
-            [
-                CreateExternalProfileTableAction::make('create-profile'),
-            ],
+            [],
         );
-    }
-
-    /**
-     * Determine whether the related model can be created.
-     *
-     * @return bool
-     */
-    public static function canCreate(): bool
-    {
-        return false;
     }
 
     /**
@@ -340,6 +328,7 @@ class ExternalProfile extends BaseResource
     {
         return [
             'index' => ListExternalProfiles::route('/'),
+            'create' => CreateExternalProfile::route('/create'),
             'view' => ViewExternalProfile::route('/{record:profile_id}'),
             'edit' => EditExternalProfile::route('/{record:profile_id}/edit'),
         ];

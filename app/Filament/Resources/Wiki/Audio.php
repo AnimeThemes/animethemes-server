@@ -121,30 +121,7 @@ class Audio extends BaseResource
      */
     public static function form(Form $form): Form
     {
-        return $form
-            ->schema([
-                TextInput::make(AudioModel::ATTRIBUTE_BASENAME)
-                    ->label(__('filament.fields.audio.basename.name'))
-                    ->hiddenOn(['create', 'edit']),
-                    
-                TextInput::make(AudioModel::ATTRIBUTE_FILENAME)
-                    ->label(__('filament.fields.audio.filename.name'))
-                    ->hiddenOn(['create', 'edit']),
-
-                TextInput::make(AudioModel::ATTRIBUTE_PATH)
-                    ->label(__('filament.fields.audio.path.name'))
-                    ->hiddenOn(['create', 'edit']),
-
-                TextInput::make(AudioModel::ATTRIBUTE_SIZE)
-                    ->label(__('filament.fields.audio.size.name'))
-                    ->numeric()
-                    ->hiddenOn(['create', 'edit']),
-
-                TextInput::make(AudioModel::ATTRIBUTE_MIMETYPE)
-                    ->label(__('filament.fields.audio.mimetype.name'))
-                    ->hiddenOn(['create', 'edit']),
-            ])
-            ->columns(1);
+        return $form;
     }
 
     /**
@@ -162,7 +139,7 @@ class Audio extends BaseResource
                 TextColumn::make(AudioModel::ATTRIBUTE_ID)
                     ->label(__('filament.fields.base.id'))
                     ->sortable(),
-                    
+
                 TextColumn::make(AudioModel::ATTRIBUTE_FILENAME)
                     ->label(__('filament.fields.audio.filename.name'))
                     ->sortable()
@@ -261,7 +238,7 @@ class Audio extends BaseResource
             [
                 ActionGroup::make([
                     MoveAudioAction::make('move-audio'),
-                    
+
                     DeleteAudioAction::make('delete-audio'),
 
                     AttachAudioToRelatedVideosAction::make('attach-audio-related-video'),
@@ -300,7 +277,7 @@ class Audio extends BaseResource
         return [
             ActionGroup::make([
                 UploadAudioTableAction::make('upload-audio'),
-                    
+
                 ReconcileAudioTableAction::make('reconcile-audio'),
             ]),
         ];
