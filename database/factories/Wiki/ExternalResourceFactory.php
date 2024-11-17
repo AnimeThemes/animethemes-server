@@ -36,9 +36,11 @@ class ExternalResourceFactory extends Factory
     {
         $site = Arr::random(ResourceSite::cases());
 
+        $link = fake()->url();
+
         return [
-            ExternalResource::ATTRIBUTE_EXTERNAL_ID => fake()->randomNumber(),
-            ExternalResource::ATTRIBUTE_LINK => fake()->url(),
+            ExternalResource::ATTRIBUTE_EXTERNAL_ID => ResourceSite::parseIdFromLink($link),
+            ExternalResource::ATTRIBUTE_LINK => $link,
             ExternalResource::ATTRIBUTE_SITE => $site->value,
         ];
     }

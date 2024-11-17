@@ -38,7 +38,7 @@ class ExternalEntryFactory extends Factory
 
         return [
             ExternalEntry::ATTRIBUTE_WATCH_STATUS => $watchStatus->value,
-            ExternalEntry::ATTRIBUTE_SCORE => fake()->randomFloat(),
+            ExternalEntry::ATTRIBUTE_SCORE => fake()->randomFloat(2),
             ExternalEntry::ATTRIBUTE_IS_FAVORITE => fake()->boolean(),
         ];
     }

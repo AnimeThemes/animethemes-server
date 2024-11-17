@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Database\Factories\Wiki\Anime\Theme;
 
+use App\Models\Wiki\Anime;
+use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -39,5 +41,15 @@ class AnimeThemeEntryFactory extends Factory
             AnimeThemeEntry::ATTRIBUTE_SPOILER => fake()->boolean(),
             AnimeThemeEntry::ATTRIBUTE_VERSION => fake()->randomDigitNotNull(),
         ];
+    }
+
+    /**
+     * Add anime and theme to the entry.
+     *
+     * @return static
+     */
+    public function forAnime(): static
+    {
+        return $this->for(AnimeTheme::factory()->for(Anime::factory()));
     }
 }
