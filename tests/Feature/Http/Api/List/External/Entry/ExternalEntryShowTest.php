@@ -19,7 +19,6 @@ use App\Models\Auth\User;
 use App\Models\List\ExternalProfile;
 use App\Models\List\External\ExternalEntry;
 use App\Models\Wiki\Anime;
-use App\Models\Wiki\Video;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Event;
 use Laravel\Sanctum\Sanctum;
