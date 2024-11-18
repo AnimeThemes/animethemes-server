@@ -69,19 +69,19 @@ class AnilistExternalEntryTokenAction extends BaseExternalEntryTokenAction
      *
      * @return int|null
      */
-    public function getId(): ?int
+    public function getUserId(): ?int
     {
-        if ($this->id !== null) {
-            return $this->id;
+        if ($this->userId !== null) {
+            return $this->userId;
         }
 
         [, $payload] = explode('.', $this->getToken());
 
         $decodedArray = json_decode(base64_decode($payload), true);
 
-        $this->id = intval(Arr::get($decodedArray, 'sub'));
+        $this->userId = intval(Arr::get($decodedArray, 'sub'));
 
-        return $this->id;
+        return $this->userId;
     }
 
     /**
@@ -117,7 +117,7 @@ class AnilistExternalEntryTokenAction extends BaseExternalEntryTokenAction
             ';
 
             $variables = [
-                'userId' => $this->getId(),
+                'userId' => $this->getUserId(),
             ];
 
             $this->response = Http::withToken($this->getToken())

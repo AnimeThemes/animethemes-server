@@ -6,6 +6,7 @@ namespace App\Actions\Models\List;
 
 use App\Actions\Models\List\ExternalProfile\ExternalToken\BaseExternalTokenAction;
 use App\Actions\Models\List\ExternalProfile\ExternalToken\Site\AnilistExternalTokenAction;
+use App\Actions\Models\List\ExternalProfile\ExternalToken\Site\MalExternalTokenAction;
 use App\Actions\Models\List\ExternalProfile\StoreExternalProfileTokenAction;
 use App\Enums\Models\List\ExternalProfileSite;
 use App\Models\List\ExternalProfile;
@@ -42,7 +43,7 @@ class ExternalTokenCallbackAction
                 throw new Error("Action not found for site {$profileSite->localize()}", 404);
             }
 
-            $externalToken = $action->store(Arr::get($parameters, 'code'));
+            $externalToken = $action->store($parameters);
 
             if ($externalToken === null) {
                 throw new Error('Invalid Code', 400);
@@ -51,6 +52,8 @@ class ExternalTokenCallbackAction
             $profileAction = new StoreExternalProfileTokenAction();
 
             $profile = $profileAction->findOrCreate($externalToken, $parameters);
+
+            $externalToken->externalprofile()->associate($profile);
 
             DB::commit();
 
@@ -74,6 +77,7 @@ class ExternalTokenCallbackAction
     {
         return match ($site) {
             ExternalProfileSite::ANILIST => new AnilistExternalTokenAction(),
+            ExternalProfileSite::MAL => new MalExternalTokenAction(),
             default => null,
         };
     }

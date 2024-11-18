@@ -8,6 +8,7 @@ use App\Actions\Models\List\ExternalProfile\ExternalEntry\BaseExternalEntryActio
 use App\Actions\Models\List\ExternalProfile\ExternalEntry\BaseExternalEntryTokenAction;
 use App\Actions\Models\List\ExternalProfile\ExternalEntry\Username\AnilistExternalEntryAction;
 use App\Actions\Models\List\ExternalProfile\ExternalEntry\Token\AnilistExternalEntryTokenAction;
+use App\Actions\Models\List\ExternalProfile\ExternalEntry\Token\MalExternalEntryTokenAction;
 use App\Enums\Models\List\ExternalProfileSite;
 use App\Models\List\External\ExternalEntry;
 use App\Models\List\ExternalProfile;
@@ -63,7 +64,11 @@ class SyncExternalProfileAction
                 }
             }
 
-            $profile->externalentries()->upsert($externalEntries, [ExternalEntry::ATTRIBUTE_ANIME, ExternalEntry::ATTRIBUTE_PROFILE]);
+            ExternalEntry::upsert($externalEntries, [ExternalEntry::ATTRIBUTE_ANIME, ExternalEntry::ATTRIBUTE_PROFILE]);
+
+            $profile->update([ExternalProfile::ATTRIBUTE_SYNCED_AT => now()]);
+
+            DB::commit();
 
             return $profile;
         } catch (Exception $e) {
@@ -85,6 +90,7 @@ class SyncExternalProfileAction
     {
         return match ($profile->site) {
             ExternalProfileSite::ANILIST => new AnilistExternalEntryTokenAction($profile->externaltoken),
+            ExternalProfileSite::MAL => new MalExternalEntryTokenAction($profile->externaltoken),
             default => null,
         };
     }

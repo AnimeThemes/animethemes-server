@@ -7,6 +7,7 @@ namespace App\Actions\Models\List\ExternalProfile;
 use App\Actions\Http\Api\StoreAction;
 use App\Actions\Models\List\ExternalProfile\ExternalEntry\BaseExternalEntryTokenAction;
 use App\Actions\Models\List\ExternalProfile\ExternalEntry\Token\AnilistExternalEntryTokenAction;
+use App\Actions\Models\List\ExternalProfile\ExternalEntry\Token\MalExternalEntryTokenAction;
 use App\Enums\Models\List\ExternalProfileSite;
 use App\Enums\Models\List\ExternalProfileVisibility;
 use App\Models\List\External\ExternalToken;
@@ -43,7 +44,7 @@ class StoreExternalProfileTokenAction
                 return null;
             }
 
-            $userId = $action->getId();
+            $userId = $action->getUserId();
 
             $profile = $this->findForUserIdOrCreate($userId, $site, $action, $parameters);
 
@@ -52,7 +53,7 @@ class StoreExternalProfileTokenAction
         } catch (Exception $e) {
             Log::error($e->getMessage());
 
-            return null;
+            throw $e;
         }
     }
 
@@ -118,6 +119,7 @@ class StoreExternalProfileTokenAction
     {
         return match ($site) {
             ExternalProfileSite::ANILIST => new AnilistExternalEntryTokenAction($token),
+            ExternalProfileSite::MAL => new MalExternalEntryTokenAction($token),
             default => null,
         };
     }

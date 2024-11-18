@@ -21,8 +21,8 @@ abstract class BaseExternalTokenAction
     /**
      * Use the authorization code to get the tokens and store them.
      *
-     * @param  string  $code
+     * @param  array  $parameters
      * @return ExternalToken|null
      */
-    abstract public function store(string $code): ?ExternalToken;
+    abstract public function store(array $parameters): ?ExternalToken;
 }
