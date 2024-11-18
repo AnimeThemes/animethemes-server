@@ -29,12 +29,12 @@ enum ExternalEntryWatchStatus: int
     public static function getMalMapping(string $status): static
     {
         return match ($status) {
-            'rewatching' => static::REWATCHING,
             'watching' => static::WATCHING,
             'completed' => static::COMPLETED,
             'on_hold' => static::PAUSED,
             'dropped' => static::DROPPED,
-            default => static::PLAN_TO_WATCH,
+            'plan_to_watch' => static::PLAN_TO_WATCH,
+            default => static::REWATCHING,
         };
     }
 

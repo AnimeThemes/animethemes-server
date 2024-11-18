@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Crypt;
 abstract class BaseExternalEntryTokenAction
 {
     protected ?array $response = null;
-    protected ?int $id = null;
+    protected ?int $userId = null;
 
     /**
      * Create a new action instance.
@@ -29,9 +29,9 @@ abstract class BaseExternalEntryTokenAction
      *
      * @return int|null
      */
-    public function getId(): ?int
+    public function getUserId(): ?int
     {
-        return $this->id;
+        return $this->userId;
     }
 
     /**
