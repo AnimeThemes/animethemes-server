@@ -7,6 +7,7 @@ namespace App\Filament\Resources\Auth;
 use App\Filament\Actions\Models\Auth\Role\GivePermissionAction;
 use App\Filament\Actions\Models\Auth\Role\RevokePermissionAction;
 use App\Filament\Components\Columns\TextColumn;
+use App\Filament\Components\Filters\CheckboxFilter;
 use App\Filament\Components\Filters\NumberFilter;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\BaseResource;
@@ -29,7 +30,6 @@ use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Columns\ColorColumn;
 use Filament\Tables\Columns\IconColumn;
-use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
 
 /**
@@ -267,9 +267,8 @@ class Role extends BaseResource
     public static function getFilters(): array
     {
         return [
-            Filter::make(RoleModel::ATTRIBUTE_DEFAULT)
-                ->label(__('filament.fields.role.default.name'))
-                ->checkbox(),
+            CheckboxFilter::make(RoleModel::ATTRIBUTE_DEFAULT)
+                ->label(__('filament.fields.role.default.name')),
 
             NumberFilter::make(RoleModel::ATTRIBUTE_PRIORITY)
                 ->label(__('filament.fields.role.priority.name')),
