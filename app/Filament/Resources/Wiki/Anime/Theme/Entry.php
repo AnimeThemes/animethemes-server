@@ -8,6 +8,7 @@ use App\Filament\Components\Columns\BelongsToColumn;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\BelongsTo;
 use App\Filament\Components\Fields\Select;
+use App\Filament\Components\Filters\CheckboxFilter;
 use App\Filament\Components\Filters\NumberFilter;
 use App\Filament\Components\Filters\TextFilter;
 use App\Filament\Components\Infolist\TextEntry;
@@ -32,7 +33,6 @@ use Filament\Infolists\Components\Section;
 use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Tables\Columns\IconColumn;
-use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 
@@ -348,13 +348,11 @@ class Entry extends BaseResource
                 TextFilter::make(EntryModel::ATTRIBUTE_EPISODES)
                     ->label(__('filament.fields.anime_theme_entry.episodes.name')),
 
-                Filter::make(EntryModel::ATTRIBUTE_NSFW)
-                    ->label(__('filament.fields.anime_theme_entry.nsfw.name'))
-                    ->checkbox(),
+                CheckboxFilter::make(EntryModel::ATTRIBUTE_NSFW)
+                    ->label(__('filament.fields.anime_theme_entry.nsfw.name')),
 
-                Filter::make(EntryModel::ATTRIBUTE_SPOILER)
-                    ->label(__('filament.fields.anime_theme_entry.spoiler.name'))
-                    ->checkbox(),
+                CheckboxFilter::make(EntryModel::ATTRIBUTE_SPOILER)
+                    ->label(__('filament.fields.anime_theme_entry.spoiler.name')),
             ],
             parent::getFilters(),
         );

@@ -13,6 +13,7 @@ use App\Filament\BulkActions\Models\Wiki\Video\VideoDiscordNotificationBulkActio
 use App\Filament\BulkActions\Storage\Wiki\Video\DeleteVideoBulkAction;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\Select;
+use App\Filament\Components\Filters\CheckboxFilter;
 use App\Filament\Components\Filters\NumberFilter;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\BaseResource;
@@ -29,12 +30,12 @@ use App\Models\Wiki\Video as VideoModel;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Infolists\Components\IconEntry;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Columns\IconColumn;
-use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Validation\Rules\Enum;
@@ -261,6 +262,42 @@ class Video extends BaseResource
     {
         return $infolist
             ->schema([
+                Section::make(static::getRecordTitle($infolist->getRecord()))
+                    ->schema([
+                        TextEntry::make(VideoModel::ATTRIBUTE_ID)
+                            ->label(__('filament.fields.base.id')),
+
+                        TextEntry::make(VideoModel::ATTRIBUTE_OVERLAP)
+                            ->label(__('filament.fields.video.overlap.name'))
+                            ->formatStateUsing(fn ($state) => $state->localize()),
+
+                        TextEntry::make(VideoModel::ATTRIBUTE_SOURCE)
+                            ->label(__('filament.fields.video.source.name'))
+                            ->formatStateUsing(fn ($state) => $state->localize()),
+
+                        IconEntry::make(VideoModel::ATTRIBUTE_NC)
+                            ->label(__('filament.fields.video.nc.name'))
+                            ->boolean(),
+
+                        IconEntry::make(VideoModel::ATTRIBUTE_SUBBED)
+                            ->label(__('filament.fields.video.subbed.name'))
+                            ->boolean(),
+
+                        IconEntry::make(VideoModel::ATTRIBUTE_LYRICS)
+                            ->label(__('filament.fields.video.lyrics.name'))
+                            ->boolean(),
+
+                        IconEntry::make(VideoModel::ATTRIBUTE_UNCEN)
+                            ->label(__('filament.fields.video.uncen.name'))
+                            ->boolean(),
+
+                        TextEntry::make(VideoModel::RELATION_AUDIO.'.'.AudioModel::ATTRIBUTE_FILENAME)
+                            ->label(__('filament.resources.singularLabel.audio'))
+                            ->placeholder('-')
+                            ->urlToRelated(Audio::class, VideoModel::RELATION_AUDIO),
+                    ])
+                    ->columns(3),
+
                 Section::make(__('filament.fields.base.file_properties'))
                     ->schema([
                         TextEntry::make(VideoModel::ATTRIBUTE_BASENAME)
@@ -278,10 +315,8 @@ class Video extends BaseResource
                         TextEntry::make(VideoModel::ATTRIBUTE_MIMETYPE)
                             ->label(__('filament.fields.video.mimetype.name')),
 
-                        TextEntry::make(VideoModel::RELATION_AUDIO.'.'.AudioModel::ATTRIBUTE_FILENAME)
-                            ->label(__('filament.resources.singularLabel.audio'))
-                            ->placeholder('-')
-                            ->urlToRelated(Audio::class, VideoModel::RELATION_AUDIO),
+                        TextEntry::make(VideoModel::ATTRIBUTE_RESOLUTION)
+                            ->label(__('filament.fields.video.resolution.name')),
                     ])
                     ->columns(3),
 
@@ -328,21 +363,17 @@ class Video extends BaseResource
                 NumberFilter::make(VideoModel::ATTRIBUTE_RESOLUTION)
                     ->label(__('filament.fields.video.resolution.name')),
 
-                Filter::make(VideoModel::ATTRIBUTE_NC)
-                    ->label(__('filament.fields.video.nc.name'))
-                    ->checkbox(),
+                CheckboxFilter::make(VideoModel::ATTRIBUTE_NC)
+                    ->label(__('filament.fields.video.nc.name')),
 
-                Filter::make(VideoModel::ATTRIBUTE_SUBBED)
-                    ->label(__('filament.fields.video.subbed.name'))
-                    ->checkbox(),
+                CheckboxFilter::make(VideoModel::ATTRIBUTE_SUBBED)
+                    ->label(__('filament.fields.video.subbed.name')),
 
-                Filter::make(VideoModel::ATTRIBUTE_LYRICS)
-                    ->label(__('filament.fields.video.lyrics.name'))
-                    ->checkbox(),
+                CheckboxFilter::make(VideoModel::ATTRIBUTE_LYRICS)
+                    ->label(__('filament.fields.video.lyrics.name')),
 
-                Filter::make(VideoModel::ATTRIBUTE_UNCEN)
-                    ->label(__('filament.fields.video.uncen.name'))
-                    ->checkbox(),
+                CheckboxFilter::make(VideoModel::ATTRIBUTE_UNCEN)
+                    ->label(__('filament.fields.video.uncen.name')),
 
                 SelectFilter::make(VideoModel::ATTRIBUTE_OVERLAP)
                     ->label(__('filament.fields.video.overlap.name'))
