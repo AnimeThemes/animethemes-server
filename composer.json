@@ -44,7 +44,7 @@
         "laravel/sanctum": "^4.0.3",
         "laravel/scout": "^10.11.7",
         "laravel/tinker": "^2.10",
-        "league/flysystem-aws-s3-v3": "^3.29",
+        "league/flysystem-aws-s3-v3": "3.0",
         "leandrocfe/filament-apex-charts": "^3.1.4",
         "malzariey/filament-daterangepicker-filter": "2.7",
         "propaganistas/laravel-disposable-email": "^2.4.7",
