@@ -96,6 +96,7 @@ return [
             'detach' => 'Detach',
             'edit' => 'Edit',
             'forcedelete' => 'Force Delete',
+            'moveAll' => 'Move All',
             'restore' => 'Restore',
             'view' => 'View',
         ],

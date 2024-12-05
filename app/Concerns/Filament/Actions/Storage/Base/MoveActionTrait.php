@@ -18,6 +18,18 @@ use Illuminate\Support\Facades\Storage;
 trait MoveActionTrait
 {
     /**
+     * Initial setup for the action.
+     *
+     * @return void
+     */
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->icon('heroicon-o-arrow-long-right');
+    }
+
+    /**
      * Get the fields available on the action.
      *
      * @param  Form  $form
@@ -38,7 +50,7 @@ trait MoveActionTrait
                     ->helperText(__('filament.actions.storage.move.fields.path.help'))
                     ->required()
                     ->rules(['required', 'string', 'doesnt_start_with:/', "ends_with:{$this->allowedFileExtension()}", new StorageFileDirectoryExistsRule($fs)])
-                    ->default(fn () => $defaultPath),
+                    ->default($defaultPath),
             ]);
     }
 

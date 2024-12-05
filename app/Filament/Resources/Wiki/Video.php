@@ -7,6 +7,7 @@ namespace App\Filament\Resources\Wiki;
 use App\Enums\Models\Wiki\VideoOverlap;
 use App\Enums\Models\Wiki\VideoSource;
 use App\Filament\Actions\Models\Wiki\Video\BackfillAudioAction;
+use App\Filament\Actions\Storage\MoveAllAction;
 use App\Filament\Actions\Storage\Wiki\Video\DeleteVideoAction;
 use App\Filament\Actions\Storage\Wiki\Video\MoveVideoAction;
 use App\Filament\BulkActions\Models\Wiki\Video\VideoDiscordNotificationBulkAction;
@@ -406,6 +407,8 @@ class Video extends BaseResource
                     BackfillAudioAction::make('backfill-audio'),
 
                     MoveVideoAction::make('move-video'),
+
+                    MoveAllAction::make('move-all'),
 
                     DeleteVideoAction::make('delete-video'),
                 ]),

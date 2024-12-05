@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Resources\Wiki\Video\Pages;
 
 use App\Filament\HeaderActions\Models\Wiki\Video\BackfillAudioHeaderAction;
+use App\Filament\HeaderActions\Storage\MoveAllHeaderAction;
 use App\Filament\HeaderActions\Storage\Wiki\Video\DeleteVideoHeaderAction;
 use App\Filament\HeaderActions\Storage\Wiki\Video\MoveVideoHeaderAction;
 use App\Filament\Resources\Wiki\Video;
@@ -34,7 +35,9 @@ class EditVideo extends BaseEditResource
                     BackfillAudioHeaderAction::make('backfill-audio'),
 
                     MoveVideoHeaderAction::make('move-video'),
-                    
+
+                    MoveAllHeaderAction::make('move-all'),
+
                     DeleteVideoHeaderAction::make('delete-video'),
                 ]),
             ],

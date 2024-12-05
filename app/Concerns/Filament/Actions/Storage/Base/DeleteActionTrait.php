@@ -14,6 +14,20 @@ use App\Models\BaseModel;
 trait DeleteActionTrait
 {
     /**
+     * Initial setup for the action.
+     *
+     * @return void
+     */
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->color('danger');
+
+        $this->icon('heroicon-m-trash');
+    }
+
+    /**
      * Get the underlying storage action.
      *
      * @param  BaseModel  $model

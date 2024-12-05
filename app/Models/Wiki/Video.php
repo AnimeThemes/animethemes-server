@@ -45,7 +45,7 @@ use Illuminate\Support\Collection;
  * @property string $path
  * @property Collection<int, PlaylistTrack> $tracks
  * @property int|null $resolution
- * @property VideoScript|null $script
+ * @property VideoScript|null $videoscript
  * @property int $size
  * @property VideoSource|null $source
  * @property bool $subbed
