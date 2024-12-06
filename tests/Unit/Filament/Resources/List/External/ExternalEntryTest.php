@@ -12,12 +12,12 @@ use App\Models\List\External\ExternalEntry as ExternalEntryModel;
 use App\Models\List\ExternalProfile;
 use Filament\Facades\Filament;
 use Livewire\Livewire;
-use Tests\Unit\Filament\BaseResourceTest;
+use Tests\Unit\Filament\BaseResourceTestCase;
 
 /**
  * Class ExternalEntryTest.
  */
-class ExternalEntryTest extends BaseResourceTest
+class ExternalEntryTest extends BaseResourceTestCase
 {
     /**
      * Initial setup for the tests.

@@ -9,9 +9,9 @@ use App\Models\Auth\User;
 use Tests\TestCase;
 
 /**
- * Class BaseResourceTest.
+ * Class BaseResourceTestCase.
  */
-abstract class BaseResourceTest extends TestCase
+abstract class BaseResourceTestCase extends TestCase
 {
     /**
      * Initial setup for the tests.

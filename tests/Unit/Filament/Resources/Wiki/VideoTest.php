@@ -13,12 +13,12 @@ use App\Filament\Resources\Wiki\Video;
 use App\Models\Auth\User;
 use App\Models\Wiki\Video as VideoModel;
 use Livewire\Livewire;
-use Tests\Unit\Filament\BaseResourceTest;
+use Tests\Unit\Filament\BaseResourceTestCase;
 
 /**
  * Class VideoTest.
  */
-class VideoTest extends BaseResourceTest
+class VideoTest extends BaseResourceTestCase
 {
     /**
      * Get the index page class of the resource.

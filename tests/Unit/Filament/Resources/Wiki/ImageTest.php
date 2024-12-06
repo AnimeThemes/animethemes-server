@@ -13,12 +13,12 @@ use App\Filament\Resources\Wiki\Image;
 use App\Models\Auth\User;
 use App\Models\Wiki\Image as ImageModel;
 use Livewire\Livewire;
-use Tests\Unit\Filament\BaseResourceTest;
+use Tests\Unit\Filament\BaseResourceTestCase;
 
 /**
  * Class ImageTest.
  */
-class ImageTest extends BaseResourceTest
+class ImageTest extends BaseResourceTestCase
 {
     /**
      * Get the index page class of the resource.

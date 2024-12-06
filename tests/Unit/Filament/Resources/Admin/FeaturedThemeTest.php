@@ -13,12 +13,12 @@ use App\Filament\Resources\Admin\FeaturedTheme;
 use App\Models\Admin\FeaturedTheme as FeaturedThemeModel;
 use App\Models\Auth\User;
 use Livewire\Livewire;
-use Tests\Unit\Filament\BaseResourceTest;
+use Tests\Unit\Filament\BaseResourceTestCase;
 
 /**
  * Class FeaturedThemeTest.
  */
-class FeaturedThemeTest extends BaseResourceTest
+class FeaturedThemeTest extends BaseResourceTestCase
 {
     /**
      * Get the index page class of the resource.

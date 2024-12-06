@@ -13,12 +13,12 @@ use App\Filament\Resources\Wiki\Series;
 use App\Models\Auth\User;
 use App\Models\Wiki\Series as SeriesModel;
 use Livewire\Livewire;
-use Tests\Unit\Filament\BaseResourceTest;
+use Tests\Unit\Filament\BaseResourceTestCase;
 
 /**
  * Class SeriesTest.
  */
-class SeriesTest extends BaseResourceTest
+class SeriesTest extends BaseResourceTestCase
 {
     /**
      * Get the index page class of the resource.

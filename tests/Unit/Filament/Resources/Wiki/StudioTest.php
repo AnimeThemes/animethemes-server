@@ -13,12 +13,12 @@ use App\Filament\Resources\Wiki\Studio;
 use App\Models\Auth\User;
 use App\Models\Wiki\Studio as StudioModel;
 use Livewire\Livewire;
-use Tests\Unit\Filament\BaseResourceTest;
+use Tests\Unit\Filament\BaseResourceTestCase;
 
 /**
  * Class StudioTest.
  */
-class StudioTest extends BaseResourceTest
+class StudioTest extends BaseResourceTestCase
 {
     /**
      * Get the index page class of the resource.

@@ -12,12 +12,12 @@ use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack as PlaylistTrackModel;
 use Filament\Facades\Filament;
 use Livewire\Livewire;
-use Tests\Unit\Filament\BaseResourceTest;
+use Tests\Unit\Filament\BaseResourceTestCase;
 
 /**
  * Class TrackTest.
  */
-class TrackTest extends BaseResourceTest
+class TrackTest extends BaseResourceTestCase
 {
     /**
      * Initial setup for the tests.

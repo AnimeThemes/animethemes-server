@@ -13,12 +13,12 @@ use App\Filament\Resources\Document\Page;
 use App\Models\Auth\User;
 use App\Models\Document\Page as PageModel;
 use Livewire\Livewire;
-use Tests\Unit\Filament\BaseResourceTest;
+use Tests\Unit\Filament\BaseResourceTestCase;
 
 /**
  * Class PageTest.
  */
-class PageTest extends BaseResourceTest
+class PageTest extends BaseResourceTestCase
 {
     /**
      * Get the index page class of the resource.
