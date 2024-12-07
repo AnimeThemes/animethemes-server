@@ -47,7 +47,7 @@ class EntryShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new EntryResource($entry, new Query()))
+                    new EntryResource($entry, new Query())
                         ->response()
                         ->getData()
                 ),
@@ -75,7 +75,7 @@ class EntryShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new EntryResource($entry, new Query()))
+                    new EntryResource($entry, new Query())
                         ->response()
                         ->getData()
                 ),
@@ -113,7 +113,7 @@ class EntryShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new EntryResource($entry, new Query($parameters)))
+                    new EntryResource($entry, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -150,7 +150,7 @@ class EntryShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new EntryResource($entry, new Query($parameters)))
+                    new EntryResource($entry, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -190,7 +190,7 @@ class EntryShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new EntryResource($entry, new Query($parameters)))
+                    new EntryResource($entry, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -230,7 +230,7 @@ class EntryShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new EntryResource($entry, new Query($parameters)))
+                    new EntryResource($entry, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -278,7 +278,7 @@ class EntryShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new EntryResource($entry, new Query($parameters)))
+                    new EntryResource($entry, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -325,7 +325,7 @@ class EntryShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new EntryResource($entry, new Query($parameters)))
+                    new EntryResource($entry, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -365,7 +365,7 @@ class EntryShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new EntryResource($entry, new Query($parameters)))
+                    new EntryResource($entry, new Query($parameters))
                         ->response()
                         ->getData()
                 ),

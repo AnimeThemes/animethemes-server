@@ -187,7 +187,7 @@ class PlaylistBackwardIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new TrackCollection($playlist->tracks->sortByDesc(PlaylistTrack::ATTRIBUTE_ID), new Query()))
+                    new TrackCollection($playlist->tracks->sortByDesc(PlaylistTrack::ATTRIBUTE_ID), new Query())
                         ->response()
                         ->getData()
                 ),
@@ -257,7 +257,7 @@ class PlaylistBackwardIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new TrackCollection($tracks, new Query($parameters)))
+                    new TrackCollection($tracks, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -298,7 +298,7 @@ class PlaylistBackwardIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new TrackCollection($playlist->tracks->sortByDesc(PlaylistTrack::ATTRIBUTE_ID), new Query($parameters)))
+                    new TrackCollection($playlist->tracks->sortByDesc(PlaylistTrack::ATTRIBUTE_ID), new Query($parameters))
                         ->response()
                         ->getData()
                 ),

@@ -33,7 +33,7 @@ use Throwable;
  * @property string|null $exception
  * @property Carbon|null $finished_at
  * @property ActionLogStatus $status
- * @property morphs $target
+ * @property Model $target
  * @property int $user_id
  * @property User $user
  */
@@ -66,7 +66,7 @@ class ActionLog extends Model implements Nameable, HasSubtitle
     /**
      * The attributes that are mass assignable.
      *
-     * @var array<int, string>
+     * @var list<string>
      */
     protected $fillable = [
         ActionLog::ATTRIBUTE_BATCH_ID,

@@ -61,7 +61,7 @@ class StudioIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new StudioCollection($studio, new Query()))
+                    new StudioCollection($studio, new Query())
                         ->response()
                         ->getData()
                 ),
@@ -119,7 +119,7 @@ class StudioIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new StudioCollection($studio, new Query($parameters)))
+                    new StudioCollection($studio, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -154,7 +154,7 @@ class StudioIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new StudioCollection($studio, new Query($parameters)))
+                    new StudioCollection($studio, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -193,7 +193,7 @@ class StudioIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new StudioCollection($studios, $query))
+                    new StudioCollection($studios, $query)
                         ->response()
                         ->getData()
                 ),
@@ -236,7 +236,7 @@ class StudioIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new StudioCollection($studio, new Query($parameters)))
+                    new StudioCollection($studio, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -279,7 +279,7 @@ class StudioIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new StudioCollection($studio, new Query($parameters)))
+                    new StudioCollection($studio, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -315,7 +315,7 @@ class StudioIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new StudioCollection($studio, new Query($parameters)))
+                    new StudioCollection($studio, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -351,7 +351,7 @@ class StudioIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new StudioCollection($studio, new Query($parameters)))
+                    new StudioCollection($studio, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -387,7 +387,7 @@ class StudioIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new StudioCollection($studio, new Query($parameters)))
+                    new StudioCollection($studio, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -431,7 +431,7 @@ class StudioIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new StudioCollection($studio, new Query($parameters)))
+                    new StudioCollection($studio, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -473,7 +473,7 @@ class StudioIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new StudioCollection($studio, new Query($parameters)))
+                    new StudioCollection($studio, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -515,7 +515,7 @@ class StudioIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new StudioCollection($studio, new Query($parameters)))
+                    new StudioCollection($studio, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -565,7 +565,7 @@ class StudioIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new StudioCollection($studio, new Query($parameters)))
+                    new StudioCollection($studio, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -607,7 +607,7 @@ class StudioIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new StudioCollection($studios, new Query($parameters)))
+                    new StudioCollection($studios, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -649,7 +649,7 @@ class StudioIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new StudioCollection($anime, new Query($parameters)))
+                    new StudioCollection($anime, new Query($parameters))
                         ->response()
                         ->getData()
                 ),

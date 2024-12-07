@@ -64,7 +64,7 @@ class AnimeResourceIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AnimeResourceCollection($animeResources, new Query()))
+                    new AnimeResourceCollection($animeResources, new Query())
                         ->response()
                         ->getData()
                 ),
@@ -129,7 +129,7 @@ class AnimeResourceIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AnimeResourceCollection($animeResources, new Query($parameters)))
+                    new AnimeResourceCollection($animeResources, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -171,7 +171,7 @@ class AnimeResourceIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AnimeResourceCollection($animeResources, new Query($parameters)))
+                    new AnimeResourceCollection($animeResources, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -215,7 +215,7 @@ class AnimeResourceIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AnimeResourceCollection($animeResources, $query))
+                    new AnimeResourceCollection($animeResources, $query)
                         ->response()
                         ->getData()
                 ),
@@ -268,7 +268,7 @@ class AnimeResourceIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AnimeResourceCollection($animeResources, new Query($parameters)))
+                    new AnimeResourceCollection($animeResources, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -321,7 +321,7 @@ class AnimeResourceIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AnimeResourceCollection($animeResources, new Query($parameters)))
+                    new AnimeResourceCollection($animeResources, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -365,7 +365,7 @@ class AnimeResourceIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AnimeResourceCollection($animeResources, new Query($parameters)))
+                    new AnimeResourceCollection($animeResources, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -409,7 +409,7 @@ class AnimeResourceIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AnimeResourceCollection($animeResources, new Query($parameters)))
+                    new AnimeResourceCollection($animeResources, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -453,7 +453,7 @@ class AnimeResourceIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AnimeResourceCollection($animeResources, new Query($parameters)))
+                    new AnimeResourceCollection($animeResources, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -503,7 +503,7 @@ class AnimeResourceIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AnimeResourceCollection($animeResources, new Query($parameters)))
+                    new AnimeResourceCollection($animeResources, new Query($parameters))
                         ->response()
                         ->getData()
                 ),

@@ -28,18 +28,18 @@ class EntryQuery extends ElasticQuery
     {
         $query = Query::bool()
             ->should(
-                (new MatchPhraseQueryBuilder())
+                new MatchPhraseQueryBuilder()
                 ->field('version')
                 ->query($criteria->getTerm())
             )
             ->should(
-                (new MatchQueryBuilder())
+                new MatchQueryBuilder()
                 ->field('version')
                 ->query($criteria->getTerm())
                 ->operator('AND')
             )
             ->should(
-                (new MatchQueryBuilder())
+                new MatchQueryBuilder()
                 ->field('version')
                 ->query($criteria->getTerm())
                 ->operator('AND')
@@ -47,18 +47,18 @@ class EntryQuery extends ElasticQuery
                 ->fuzziness('AUTO')
             )
             ->should(
-                (new MatchPhraseQueryBuilder())
+                new MatchPhraseQueryBuilder()
                 ->field('version_slug')
                 ->query($criteria->getTerm())
             )
             ->should(
-                (new MatchQueryBuilder())
+                new MatchQueryBuilder()
                 ->field('version_slug')
                 ->query($criteria->getTerm())
                 ->operator('AND')
             )
             ->should(
-                (new MatchQueryBuilder())
+                new MatchQueryBuilder()
                 ->field('version_slug')
                 ->query($criteria->getTerm())
                 ->operator('AND')
@@ -66,18 +66,18 @@ class EntryQuery extends ElasticQuery
                 ->fuzziness('AUTO')
             )
             ->should(
-                (new MatchPhraseQueryBuilder())
+                new MatchPhraseQueryBuilder()
                 ->field('anime_slug')
                 ->query($criteria->getTerm())
             )
             ->should(
-                (new MatchQueryBuilder())
+                new MatchQueryBuilder()
                 ->field('anime_slug')
                 ->query($criteria->getTerm())
                 ->operator('AND')
             )
             ->should(
-                (new MatchQueryBuilder())
+                new MatchQueryBuilder()
                 ->field('anime_slug')
                 ->query($criteria->getTerm())
                 ->operator('AND')
@@ -85,18 +85,18 @@ class EntryQuery extends ElasticQuery
                 ->fuzziness('AUTO')
             )
             ->should(
-                (new MatchPhraseQueryBuilder())
+                new MatchPhraseQueryBuilder()
                 ->field('synonym_slug')
                 ->query($criteria->getTerm())
             )
             ->should(
-                (new MatchQueryBuilder())
+                new MatchQueryBuilder()
                 ->field('synonym_slug')
                 ->query($criteria->getTerm())
                 ->operator('AND')
             )
             ->should(
-                (new MatchQueryBuilder())
+                new MatchQueryBuilder()
                 ->field('synonym_slug')
                 ->query($criteria->getTerm())
                 ->operator('AND')
@@ -104,26 +104,26 @@ class EntryQuery extends ElasticQuery
                 ->fuzziness('AUTO')
             )
             ->should(
-                (new NestedQueryBuilder())
+                new NestedQueryBuilder()
                 ->path('theme')
                 ->query(
-                    (new NestedQueryBuilder())
+                    new NestedQueryBuilder()
                     ->path('theme.anime')
                     ->query(
-                        (new MatchPhraseQueryBuilder())
+                        new MatchPhraseQueryBuilder()
                         ->field('theme.anime.name')
                         ->query($criteria->getTerm())
                     )
                 )
             )
             ->should(
-                (new NestedQueryBuilder())
+                new NestedQueryBuilder()
                 ->path('theme')
                 ->query(
-                    (new NestedQueryBuilder())
+                    new NestedQueryBuilder()
                     ->path('theme.anime')
                     ->query(
-                        (new MatchQueryBuilder())
+                        new MatchQueryBuilder()
                         ->field('theme.anime.name')
                         ->query($criteria->getTerm())
                         ->operator('AND')
@@ -131,13 +131,13 @@ class EntryQuery extends ElasticQuery
                 )
             )
             ->should(
-                (new NestedQueryBuilder())
+                new NestedQueryBuilder()
                 ->path('theme')
                 ->query(
-                    (new NestedQueryBuilder())
+                    new NestedQueryBuilder()
                     ->path('theme.anime')
                     ->query(
-                        (new MatchQueryBuilder())
+                        new MatchQueryBuilder()
                         ->field('theme.anime.name')
                         ->query($criteria->getTerm())
                         ->operator('AND')
@@ -147,16 +147,16 @@ class EntryQuery extends ElasticQuery
                 )
             )
             ->should(
-                (new NestedQueryBuilder())
+                new NestedQueryBuilder()
                 ->path('theme')
                 ->query(
-                    (new NestedQueryBuilder())
+                    new NestedQueryBuilder()
                     ->path('theme.anime')
                     ->query(
-                        (new NestedQueryBuilder())
+                        new NestedQueryBuilder()
                         ->path('theme.anime.synonyms')
                         ->query(
-                            (new MatchPhraseQueryBuilder())
+                            new MatchPhraseQueryBuilder()
                             ->field('theme.anime.synonyms.text')
                             ->query($criteria->getTerm())
                         )
@@ -164,16 +164,16 @@ class EntryQuery extends ElasticQuery
                 )
             )
             ->should(
-                (new NestedQueryBuilder())
+                new NestedQueryBuilder()
                 ->path('theme')
                 ->query(
-                    (new NestedQueryBuilder())
+                    new NestedQueryBuilder()
                     ->path('theme.anime')
                     ->query(
-                        (new NestedQueryBuilder())
+                        new NestedQueryBuilder()
                         ->path('theme.anime.synonyms')
                         ->query(
-                            (new MatchQueryBuilder())
+                            new MatchQueryBuilder()
                             ->field('theme.anime.synonyms.text')
                             ->query($criteria->getTerm())
                             ->operator('AND')
@@ -182,16 +182,16 @@ class EntryQuery extends ElasticQuery
                 )
             )
             ->should(
-                (new NestedQueryBuilder())
+                new NestedQueryBuilder()
                 ->path('theme')
                 ->query(
-                    (new NestedQueryBuilder())
+                    new NestedQueryBuilder()
                     ->path('theme.anime')
                     ->query(
-                        (new NestedQueryBuilder())
+                        new NestedQueryBuilder()
                         ->path('theme.anime.synonyms')
                         ->query(
-                            (new MatchQueryBuilder())
+                            new MatchQueryBuilder()
                             ->field('theme.anime.synonyms.text')
                             ->query($criteria->getTerm())
                             ->operator('AND')
@@ -202,26 +202,26 @@ class EntryQuery extends ElasticQuery
                 )
             )
             ->should(
-                (new NestedQueryBuilder())
+                new NestedQueryBuilder()
                 ->path('theme')
                 ->query(
-                    (new NestedQueryBuilder())
+                    new NestedQueryBuilder()
                     ->path('theme.song')
                     ->query(
-                        (new MatchPhraseQueryBuilder())
+                        new MatchPhraseQueryBuilder()
                         ->field('theme.song.title')
                         ->query($criteria->getTerm())
                     )
                 )
             )
             ->should(
-                (new NestedQueryBuilder())
+                new NestedQueryBuilder()
                 ->path('theme')
                 ->query(
-                    (new NestedQueryBuilder())
+                    new NestedQueryBuilder()
                     ->path('theme.song')
                     ->query(
-                        (new MatchQueryBuilder())
+                        new MatchQueryBuilder()
                         ->field('theme.song.title')
                         ->query($criteria->getTerm())
                         ->operator('AND')
@@ -229,13 +229,13 @@ class EntryQuery extends ElasticQuery
                 )
             )
             ->should(
-                (new NestedQueryBuilder())
+                new NestedQueryBuilder()
                 ->path('theme')
                 ->query(
-                    (new NestedQueryBuilder())
+                    new NestedQueryBuilder()
                     ->path('theme.song')
                     ->query(
-                        (new MatchQueryBuilder())
+                        new MatchQueryBuilder()
                         ->field('theme.song.title')
                         ->query($criteria->getTerm())
                         ->operator('AND')

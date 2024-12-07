@@ -32,7 +32,7 @@ trait AttachStudioResourceActionTrait
             ResourceSite::MAL,
         ]);
 
-        $this->action(fn (Studio $record, array $data) => (new AttachResourceActionAction($record, $data, $this->sites))->handle());
+        $this->action(fn (Studio $record, array $data) => new AttachResourceActionAction($record, $data, $this->sites)->handle());
     }
 
     /**

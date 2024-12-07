@@ -61,7 +61,7 @@ class ExternalProfilePolicy extends BasePolicy
     public function create(User $user): bool
     {
         if (Filament::isServing()) {
-            return $user !== null && $user->hasRole('Admin');
+            return $user->hasRole('Admin');
         }
 
         return $user->can(CrudPermission::CREATE->format(ExternalProfile::class));
@@ -77,7 +77,7 @@ class ExternalProfilePolicy extends BasePolicy
     public function update(User $user, BaseModel|Model $profile): bool
     {
         if (Filament::isServing()) {
-            return $user !== null && $user->hasRole('Admin');
+            return $user->hasRole('Admin');
         }
 
         return !$profile->trashed() && $user->getKey() === $profile->user_id && $user->can(CrudPermission::UPDATE->format(ExternalProfile::class));
@@ -93,7 +93,7 @@ class ExternalProfilePolicy extends BasePolicy
     public function delete(User $user, BaseModel|Model $profile): bool
     {
         if (Filament::isServing()) {
-            return $user !== null && $user->hasRole('Admin');
+            return $user->hasRole('Admin');
         }
 
         return !$profile->trashed() && $user->getKey() === $profile->user_id && $user->can(CrudPermission::DELETE->format(ExternalProfile::class));
@@ -109,7 +109,7 @@ class ExternalProfilePolicy extends BasePolicy
     public function restore(User $user, BaseModel|Model $profile): bool
     {
         if (Filament::isServing()) {
-            return $user !== null && $user->hasRole('Admin');
+            return $user->hasRole('Admin');
         }
 
         return $profile->trashed() && $user->getKey() === $profile->user_id && $user->can(ExtendedCrudPermission::RESTORE->format(ExternalProfile::class));

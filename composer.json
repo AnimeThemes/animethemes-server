@@ -59,7 +59,7 @@
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.14.9",
         "brianium/paratest": "^7.4.8",
-        "larastan/larastan": "^2.9.12",
+        "larastan/larastan": "^3.0.2",
         "laravel/pint": "^1.18.3",
         "laravel/sail": "^1.39.1",
         "mockery/mockery": "^1.6.12",
@@ -71,8 +71,8 @@
     "config": {
         "optimize-autoloader": true,
         "platform": {
-            "ext-pcntl": "8.2",
-            "ext-posix": "8.2"
+            "ext-pcntl": "8.4",
+            "ext-posix": "8.4"
         },
         "preferred-install": "dist",
         "sort-packages": true,

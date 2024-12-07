@@ -161,7 +161,7 @@ class PlaylistShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new PlaylistResource($playlist, new Query()))
+                    new PlaylistResource($playlist, new Query())
                         ->response()
                         ->getData()
                 ),
@@ -192,7 +192,7 @@ class PlaylistShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new PlaylistResource($playlist, new Query()))
+                    new PlaylistResource($playlist, new Query())
                         ->response()
                         ->getData()
                 ),
@@ -237,7 +237,7 @@ class PlaylistShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new PlaylistResource($playlist, new Query($parameters)))
+                    new PlaylistResource($playlist, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -277,7 +277,7 @@ class PlaylistShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new PlaylistResource($playlist, new Query($parameters)))
+                    new PlaylistResource($playlist, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -321,7 +321,7 @@ class PlaylistShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new PlaylistResource($playlist, new Query($parameters)))
+                    new PlaylistResource($playlist, new Query($parameters))
                         ->response()
                         ->getData()
                 ),

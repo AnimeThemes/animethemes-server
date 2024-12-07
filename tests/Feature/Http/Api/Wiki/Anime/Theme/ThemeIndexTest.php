@@ -75,7 +75,7 @@ class ThemeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ThemeCollection($themes, new Query()))
+                    new ThemeCollection($themes, new Query())
                         ->response()
                         ->getData()
                 ),
@@ -143,7 +143,7 @@ class ThemeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ThemeCollection($themes, new Query($parameters)))
+                    new ThemeCollection($themes, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -183,7 +183,7 @@ class ThemeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ThemeCollection($themes, new Query($parameters)))
+                    new ThemeCollection($themes, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -225,7 +225,7 @@ class ThemeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ThemeCollection($themes, $query))
+                    new ThemeCollection($themes, $query)
                         ->response()
                         ->getData()
                 ),
@@ -274,7 +274,7 @@ class ThemeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ThemeCollection($theme, new Query($parameters)))
+                    new ThemeCollection($theme, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -323,7 +323,7 @@ class ThemeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ThemeCollection($theme, new Query($parameters)))
+                    new ThemeCollection($theme, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -366,7 +366,7 @@ class ThemeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ThemeCollection($theme, new Query($parameters)))
+                    new ThemeCollection($theme, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -409,7 +409,7 @@ class ThemeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ThemeCollection($theme, new Query($parameters)))
+                    new ThemeCollection($theme, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -452,7 +452,7 @@ class ThemeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ThemeCollection($theme, new Query($parameters)))
+                    new ThemeCollection($theme, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -502,7 +502,7 @@ class ThemeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ThemeCollection($theme, new Query($parameters)))
+                    new ThemeCollection($theme, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -543,7 +543,7 @@ class ThemeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ThemeCollection($themes, new Query($parameters)))
+                    new ThemeCollection($themes, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -579,7 +579,7 @@ class ThemeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ThemeCollection($themes, new Query($parameters)))
+                    new ThemeCollection($themes, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -621,7 +621,7 @@ class ThemeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ThemeCollection($themes, new Query($parameters)))
+                    new ThemeCollection($themes, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -663,7 +663,7 @@ class ThemeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ThemeCollection($themes, new Query($parameters)))
+                    new ThemeCollection($themes, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -711,7 +711,7 @@ class ThemeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ThemeCollection($themes, new Query($parameters)))
+                    new ThemeCollection($themes, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -756,7 +756,7 @@ class ThemeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ThemeCollection($themes, new Query($parameters)))
+                    new ThemeCollection($themes, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -799,7 +799,7 @@ class ThemeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ThemeCollection($themes, new Query($parameters)))
+                    new ThemeCollection($themes, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -842,7 +842,7 @@ class ThemeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ThemeCollection($themes, new Query($parameters)))
+                    new ThemeCollection($themes, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -893,7 +893,7 @@ class ThemeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ThemeCollection($themes, new Query($parameters)))
+                    new ThemeCollection($themes, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -940,7 +940,7 @@ class ThemeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ThemeCollection($themes, new Query($parameters)))
+                    new ThemeCollection($themes, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -987,7 +987,7 @@ class ThemeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ThemeCollection($themes, new Query($parameters)))
+                    new ThemeCollection($themes, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -1034,7 +1034,7 @@ class ThemeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ThemeCollection($themes, new Query($parameters)))
+                    new ThemeCollection($themes, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -1089,7 +1089,7 @@ class ThemeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ThemeCollection($themes, new Query($parameters)))
+                    new ThemeCollection($themes, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -1136,7 +1136,7 @@ class ThemeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ThemeCollection($themes, new Query($parameters)))
+                    new ThemeCollection($themes, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -1183,7 +1183,7 @@ class ThemeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ThemeCollection($themes, new Query($parameters)))
+                    new ThemeCollection($themes, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -1230,7 +1230,7 @@ class ThemeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ThemeCollection($themes, new Query($parameters)))
+                    new ThemeCollection($themes, new Query($parameters))
                         ->response()
                         ->getData()
                 ),

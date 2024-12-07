@@ -62,7 +62,7 @@ class ArtistResourceShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ArtistResourceResource($artistResource, new Query()))
+                    new ArtistResourceResource($artistResource, new Query())
                         ->response()
                         ->getData()
                 ),
@@ -102,7 +102,7 @@ class ArtistResourceShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ArtistResourceResource($artistResource, new Query($parameters)))
+                    new ArtistResourceResource($artistResource, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -142,7 +142,7 @@ class ArtistResourceShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ArtistResourceResource($artistResource, new Query($parameters)))
+                    new ArtistResourceResource($artistResource, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -183,7 +183,7 @@ class ArtistResourceShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ArtistResourceResource($artistResource, new Query($parameters)))
+                    new ArtistResourceResource($artistResource, new Query($parameters))
                         ->response()
                         ->getData()
                 ),

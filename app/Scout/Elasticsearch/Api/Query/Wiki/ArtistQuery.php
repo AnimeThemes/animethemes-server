@@ -28,18 +28,18 @@ class ArtistQuery extends ElasticQuery
     {
         $query = Query::bool()
             ->should(
-                (new MatchPhraseQueryBuilder())
+                new MatchPhraseQueryBuilder()
                 ->field('name')
                 ->query($criteria->getTerm())
             )
             ->should(
-                (new MatchQueryBuilder())
+                new MatchQueryBuilder()
                 ->field('name')
                 ->query($criteria->getTerm())
                 ->operator('AND')
             )
             ->should(
-                (new MatchQueryBuilder())
+                new MatchQueryBuilder()
                 ->field('name')
                 ->query($criteria->getTerm())
                 ->operator('AND')
@@ -47,26 +47,26 @@ class ArtistQuery extends ElasticQuery
                 ->fuzziness('AUTO')
             )
             ->should(
-                (new NestedQueryBuilder())
+                new NestedQueryBuilder()
                 ->path('songs')
                 ->query(
-                    (new NestedQueryBuilder())
+                    new NestedQueryBuilder()
                     ->path('songs.pivot')
                     ->query(
-                        (new MatchPhraseQueryBuilder())
+                        new MatchPhraseQueryBuilder()
                         ->field('songs.pivot.as')
                         ->query($criteria->getTerm())
                     )
                 )
             )
             ->should(
-                (new NestedQueryBuilder())
+                new NestedQueryBuilder()
                 ->path('songs')
                 ->query(
-                    (new NestedQueryBuilder())
+                    new NestedQueryBuilder()
                     ->path('songs.pivot')
                     ->query(
-                        (new MatchQueryBuilder())
+                        new MatchQueryBuilder()
                         ->field('songs.pivot.as')
                         ->query($criteria->getTerm())
                         ->operator('AND')
@@ -74,13 +74,13 @@ class ArtistQuery extends ElasticQuery
                 )
             )
             ->should(
-                (new NestedQueryBuilder())
+                new NestedQueryBuilder()
                 ->path('songs')
                 ->query(
-                    (new NestedQueryBuilder())
+                    new NestedQueryBuilder()
                     ->path('songs.pivot')
                     ->query(
-                        (new MatchQueryBuilder())
+                        new MatchQueryBuilder()
                         ->field('songs.pivot.as')
                         ->query($criteria->getTerm())
                         ->operator('AND')

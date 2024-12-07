@@ -44,7 +44,7 @@ class BelongsToColumn extends TextColumn
                 return "<p style='color: rgb(64, 184, 166);'>{$nameLimited}</p>";
             });
 
-            return (new $this->resource)::getUrl('view', ['record' => $record]);
+            return $this->resource::getUrl('view', ['record' => $record]);
         });
     }
 

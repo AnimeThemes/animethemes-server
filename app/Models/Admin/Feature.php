@@ -39,7 +39,7 @@ class Feature extends Model
     /**
      * The attributes that are mass assignable.
      *
-     * @var array<int, string>
+     * @var list<string>
      */
     protected $fillable = [
         Feature::ATTRIBUTE_VALUE,

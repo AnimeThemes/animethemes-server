@@ -27,18 +27,18 @@ class SynonymQuery extends ElasticQuery
     {
         $query = Query::bool()
             ->should(
-                (new MatchPhraseQueryBuilder())
+                new MatchPhraseQueryBuilder()
                 ->field('text')
                 ->query($criteria->getTerm())
             )
             ->should(
-                (new MatchQueryBuilder())
+                new MatchQueryBuilder()
                 ->field('text')
                 ->query($criteria->getTerm())
                 ->operator('AND')
             )
             ->should(
-                (new MatchQueryBuilder())
+                new MatchQueryBuilder()
                 ->field('text')
                 ->query($criteria->getTerm())
                 ->operator('AND')

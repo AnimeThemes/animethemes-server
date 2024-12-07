@@ -25,11 +25,11 @@ class BaseViewResource extends ViewRecord
      */
     protected function getHeaderActions(): array
     {
-        $pages = (new static::$resource)::getPages();
+        $pages = static::$resource::getPages();
 
         if (Arr::has($pages, 'edit')) {
             $editPage = $pages['edit']->getPage();
-            $action = (new $editPage)->getHeaderActions();
+            $action = new $editPage->getHeaderActions();
         } else {
             $action = [];
         }

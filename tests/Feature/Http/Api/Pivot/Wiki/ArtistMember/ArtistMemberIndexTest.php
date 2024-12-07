@@ -59,7 +59,7 @@ class ArtistMemberIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ArtistMemberCollection($artistMembers, new Query()))
+                    new ArtistMemberCollection($artistMembers, new Query())
                         ->response()
                         ->getData()
                 ),
@@ -124,7 +124,7 @@ class ArtistMemberIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ArtistMemberCollection($artistMembers, new Query($parameters)))
+                    new ArtistMemberCollection($artistMembers, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -166,7 +166,7 @@ class ArtistMemberIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ArtistMemberCollection($artistMembers, new Query($parameters)))
+                    new ArtistMemberCollection($artistMembers, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -210,7 +210,7 @@ class ArtistMemberIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ArtistMemberCollection($artistMembers, $query))
+                    new ArtistMemberCollection($artistMembers, $query)
                         ->response()
                         ->getData()
                 ),
@@ -263,7 +263,7 @@ class ArtistMemberIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ArtistMemberCollection($artistMembers, new Query($parameters)))
+                    new ArtistMemberCollection($artistMembers, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -316,7 +316,7 @@ class ArtistMemberIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ArtistMemberCollection($artistMembers, new Query($parameters)))
+                    new ArtistMemberCollection($artistMembers, new Query($parameters))
                         ->response()
                         ->getData()
                 ),

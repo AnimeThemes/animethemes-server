@@ -47,7 +47,7 @@ class SongShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new SongResource($song, new Query()))
+                    new SongResource($song, new Query())
                         ->response()
                         ->getData()
                 ),
@@ -72,7 +72,7 @@ class SongShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new SongResource($song, new Query()))
+                    new SongResource($song, new Query())
                         ->response()
                         ->getData()
                 ),
@@ -110,7 +110,7 @@ class SongShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new SongResource($song, new Query($parameters)))
+                    new SongResource($song, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -145,7 +145,7 @@ class SongShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new SongResource($song, new Query($parameters)))
+                    new SongResource($song, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -194,7 +194,7 @@ class SongShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new SongResource($song, new Query($parameters)))
+                    new SongResource($song, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -234,7 +234,7 @@ class SongShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new SongResource($song, new Query($parameters)))
+                    new SongResource($song, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -274,7 +274,7 @@ class SongShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new SongResource($song, new Query($parameters)))
+                    new SongResource($song, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -314,7 +314,7 @@ class SongShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new SongResource($song, new Query($parameters)))
+                    new SongResource($song, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -364,7 +364,7 @@ class SongShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new SongResource($song, new Query($parameters)))
+                    new SongResource($song, new Query($parameters))
                         ->response()
                         ->getData()
                 ),

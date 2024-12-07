@@ -38,7 +38,7 @@ class AnimeResource extends BasePivot
     /**
      * The attributes that are mass assignable.
      *
-     * @var array<int, string>
+     * @var list<string>
      */
     protected $fillable = [
         AnimeResource::ATTRIBUTE_ANIME,

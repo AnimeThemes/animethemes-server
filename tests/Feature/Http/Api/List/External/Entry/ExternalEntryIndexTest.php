@@ -172,7 +172,7 @@ class ExternalEntryIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ExternalEntryCollection($profile->externalentries, new Query()))
+                    new ExternalEntryCollection($profile->externalentries, new Query())
                         ->response()
                         ->getData()
                 ),
@@ -247,7 +247,7 @@ class ExternalEntryIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ExternalEntryCollection($entries, new Query($parameters)))
+                    new ExternalEntryCollection($entries, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -288,7 +288,7 @@ class ExternalEntryIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ExternalEntryCollection($profile->externalentries, new Query($parameters)))
+                    new ExternalEntryCollection($profile->externalentries, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -333,7 +333,7 @@ class ExternalEntryIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ExternalEntryCollection($entries, $query))
+                    new ExternalEntryCollection($entries, $query)
                         ->response()
                         ->getData()
                 ),
@@ -391,7 +391,7 @@ class ExternalEntryIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ExternalEntryCollection($entries, new Query($parameters)))
+                    new ExternalEntryCollection($entries, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -449,7 +449,7 @@ class ExternalEntryIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ExternalEntryCollection($entries, new Query($parameters)))
+                    new ExternalEntryCollection($entries, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -494,7 +494,7 @@ class ExternalEntryIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ExternalEntryCollection($entries, new Query($parameters)))
+                    new ExternalEntryCollection($entries, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -539,7 +539,7 @@ class ExternalEntryIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ExternalEntryCollection($entries, new Query($parameters)))
+                    new ExternalEntryCollection($entries, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -584,7 +584,7 @@ class ExternalEntryIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ExternalEntryCollection($entries, new Query($parameters)))
+                    new ExternalEntryCollection($entries, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -643,7 +643,7 @@ class ExternalEntryIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ExternalEntryCollection($entries, new Query($parameters)))
+                    new ExternalEntryCollection($entries, new Query($parameters))
                         ->response()
                         ->getData()
                 ),

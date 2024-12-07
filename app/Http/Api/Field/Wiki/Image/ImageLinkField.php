@@ -10,8 +10,6 @@ use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Schema;
 use App\Models\Wiki\Image;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Storage;
 
 /**
  * Class ImageLinkField.
@@ -25,7 +23,7 @@ class ImageLinkField extends Field implements RenderableField
      */
     public function __construct(Schema $schema)
     {
-        parent::__construct($schema, 'link');
+        parent::__construct($schema, Image::ATTRIBUTE_LINK);
     }
 
     /**
@@ -49,8 +47,6 @@ class ImageLinkField extends Field implements RenderableField
      */
     public function render(Model $model): string
     {
-        $fs = Storage::disk(Config::get('image.disk'));
-
-        return $fs->url($model->getAttribute(Image::ATTRIBUTE_PATH));
+        return $model->getAttribute($this->getColumn());
     }
 }

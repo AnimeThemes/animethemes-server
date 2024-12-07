@@ -10,7 +10,6 @@ use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Collection;
 use Tests\TestCase;
 
 /**
@@ -45,9 +44,9 @@ class CriteriaTest extends TestCase
              * Paginate the query.
              *
              * @param  Builder  $builder
-             * @return Collection|Paginator
+             * @return Paginator
              */
-            public function paginate(Builder $builder): Collection|Paginator
+            public function paginate(Builder $builder): Paginator
             {
                 return $builder->paginate();
             }
@@ -81,9 +80,9 @@ class CriteriaTest extends TestCase
              * Paginate the query.
              *
              * @param  Builder  $builder
-             * @return Collection|Paginator
+             * @return Paginator
              */
-            public function paginate(Builder $builder): Collection|Paginator
+            public function paginate(Builder $builder): Paginator
             {
                 return $builder->paginate();
             }
@@ -117,9 +116,9 @@ class CriteriaTest extends TestCase
              * Paginate the query.
              *
              * @param  Builder  $builder
-             * @return Collection|Paginator
+             * @return Paginator
              */
-            public function paginate(Builder $builder): Collection|Paginator
+            public function paginate(Builder $builder): Paginator
             {
                 return $builder->paginate();
             }

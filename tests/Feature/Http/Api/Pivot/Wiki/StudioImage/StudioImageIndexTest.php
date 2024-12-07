@@ -62,7 +62,7 @@ class StudioImageIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new StudioImageCollection($studioImages, new Query()))
+                    new StudioImageCollection($studioImages, new Query())
                         ->response()
                         ->getData()
                 ),
@@ -127,7 +127,7 @@ class StudioImageIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new StudioImageCollection($studioImages, new Query($parameters)))
+                    new StudioImageCollection($studioImages, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -169,7 +169,7 @@ class StudioImageIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new StudioImageCollection($studioImages, new Query($parameters)))
+                    new StudioImageCollection($studioImages, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -213,7 +213,7 @@ class StudioImageIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new StudioImageCollection($studioImages, $query))
+                    new StudioImageCollection($studioImages, $query)
                         ->response()
                         ->getData()
                 ),
@@ -266,7 +266,7 @@ class StudioImageIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new StudioImageCollection($studioImages, new Query($parameters)))
+                    new StudioImageCollection($studioImages, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -319,7 +319,7 @@ class StudioImageIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new StudioImageCollection($studioImages, new Query($parameters)))
+                    new StudioImageCollection($studioImages, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -363,7 +363,7 @@ class StudioImageIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new StudioImageCollection($studioImages, new Query($parameters)))
+                    new StudioImageCollection($studioImages, new Query($parameters))
                         ->response()
                         ->getData()
                 ),

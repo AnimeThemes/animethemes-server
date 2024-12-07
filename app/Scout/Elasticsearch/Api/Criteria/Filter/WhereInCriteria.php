@@ -45,7 +45,7 @@ class WhereInCriteria extends Criteria
 
         if (BinaryLogicalOperator::OR === $this->criteria->getLogicalOperator()) {
             if ($this->not) {
-                return $builder->should((new BoolQueryBuilder())->mustNot($clause));
+                return $builder->should(new BoolQueryBuilder()->mustNot($clause));
             }
 
             return $builder->should($clause);

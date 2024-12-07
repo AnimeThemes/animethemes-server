@@ -38,7 +38,7 @@ class SongResource extends BasePivot
     /**
      * The attributes that are mass assignable.
      *
-     * @var array<int, string>
+     * @var list<string>
      */
     protected $fillable = [
         SongResource::ATTRIBUTE_SONG,

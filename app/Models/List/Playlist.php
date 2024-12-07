@@ -68,7 +68,7 @@ class Playlist extends BaseModel implements HasHashids, Viewable
     /**
      * The attributes that are mass assignable.
      *
-     * @var array<int, string>
+     * @var list<string>
      */
     protected $fillable = [
         Playlist::ATTRIBUTE_DESCRIPTION,

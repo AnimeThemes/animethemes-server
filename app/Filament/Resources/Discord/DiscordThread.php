@@ -134,7 +134,7 @@ class DiscordThread extends BaseResource
                     ->required()
                     ->rules(['required'])
                     ->live()
-                    ->afterStateUpdated(fn (Set $set, string $state) => $set(DiscordThreadModel::ATTRIBUTE_NAME, Arr::get((new DiscordThreadAction())->get($state), 'thread.name'))),
+                    ->afterStateUpdated(fn (Set $set, string $state) => $set(DiscordThreadModel::ATTRIBUTE_NAME, Arr::get(new DiscordThreadAction()->get($state), 'thread.name'))),
 
                 TextInput::make(DiscordThreadModel::ATTRIBUTE_NAME)
                     ->label(__('filament.fields.discord_thread.name.name'))

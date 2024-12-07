@@ -40,7 +40,7 @@ class BelongsTo extends ComponentsSelect
 
             if ($this->showCreateOption) {
                 $this->createOptionForm(fn (Form $form) => $resource::form($form)->getComponents());
-                $this->createOptionUsing(fn (array $data) => (new $model)::query()->create($data)->getKey());
+                $this->createOptionUsing(fn (array $data) => $model::query()->create($data)->getKey());
             }
         }
     }
@@ -85,12 +85,12 @@ class BelongsTo extends ComponentsSelect
     {
         $this->allowHtml();
         $this->searchable();
-        $this->getOptionLabelUsing(fn ($state) => static::getSearchLabelWithBlade((new $model)::find($state)));
+        $this->getOptionLabelUsing(fn ($state) => static::getSearchLabelWithBlade($model::find($state)));
 
         if (in_array(Searchable::class, class_uses_recursive($model))) {
             return $this
                 ->getSearchResultsUsing(function (string $search) use ($model) {
-                    return (new $model)::search($search)
+                    return $model::search($search)
                         ->take(25)
                         ->get()
                         ->mapWithKeys(fn (BaseModel $model) => [$model->getKey() => static::getSearchLabelWithBlade($model)])
@@ -100,7 +100,7 @@ class BelongsTo extends ComponentsSelect
 
         return $this
             ->getSearchResultsUsing(function (string $search) use ($model) {
-                return (new $model)::query()
+                return $model::query()
                     ->where($this->resource->getRecordTitleAttribute(), ComparisonOperator::LIKE->value, "%$search%")
                     ->take(25)
                     ->get()

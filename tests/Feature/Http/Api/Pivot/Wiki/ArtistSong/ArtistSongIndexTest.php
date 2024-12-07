@@ -60,7 +60,7 @@ class ArtistSongIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ArtistSongCollection($artistSongs, new Query()))
+                    new ArtistSongCollection($artistSongs, new Query())
                         ->response()
                         ->getData()
                 ),
@@ -125,7 +125,7 @@ class ArtistSongIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ArtistSongCollection($artistSongs, new Query($parameters)))
+                    new ArtistSongCollection($artistSongs, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -167,7 +167,7 @@ class ArtistSongIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ArtistSongCollection($artistSongs, new Query($parameters)))
+                    new ArtistSongCollection($artistSongs, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -211,7 +211,7 @@ class ArtistSongIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ArtistSongCollection($artistSongs, $query))
+                    new ArtistSongCollection($artistSongs, $query)
                         ->response()
                         ->getData()
                 ),
@@ -264,7 +264,7 @@ class ArtistSongIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ArtistSongCollection($artistSongs, new Query($parameters)))
+                    new ArtistSongCollection($artistSongs, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -317,7 +317,7 @@ class ArtistSongIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ArtistSongCollection($artistSongs, new Query($parameters)))
+                    new ArtistSongCollection($artistSongs, new Query($parameters))
                         ->response()
                         ->getData()
                 ),

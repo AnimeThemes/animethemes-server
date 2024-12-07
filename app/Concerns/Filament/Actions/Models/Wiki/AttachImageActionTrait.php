@@ -38,7 +38,7 @@ trait AttachImageActionTrait
 
         $this->authorize('create', Image::class);
 
-        $this->action(fn (BaseModel $record, array $data) => (new AttachImageActionAction($record, $data, $this->facets))->handle());
+        $this->action(fn (BaseModel $record, array $data) => new AttachImageActionAction($record, $data, $this->facets)->handle());
     }
 
     /**

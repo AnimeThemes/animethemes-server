@@ -136,7 +136,7 @@ class ExternalProfileShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ExternalProfileResource($profile, new Query()))
+                    new ExternalProfileResource($profile, new Query())
                         ->response()
                         ->getData()
                 ),
@@ -167,7 +167,7 @@ class ExternalProfileShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ExternalProfileResource($profile, new Query()))
+                    new ExternalProfileResource($profile, new Query())
                         ->response()
                         ->getData()
                 ),
@@ -209,7 +209,7 @@ class ExternalProfileShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ExternalProfileResource($profile, new Query($parameters)))
+                    new ExternalProfileResource($profile, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -249,7 +249,7 @@ class ExternalProfileShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ExternalProfileResource($profile, new Query($parameters)))
+                    new ExternalProfileResource($profile, new Query($parameters))
                         ->response()
                         ->getData()
                 ),

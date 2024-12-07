@@ -43,7 +43,7 @@ class ImageShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ImageResource($image, new Query()))
+                    new ImageResource($image, new Query())
                         ->response()
                         ->getData()
                 ),
@@ -68,7 +68,7 @@ class ImageShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ImageResource($image, new Query()))
+                    new ImageResource($image, new Query())
                         ->response()
                         ->getData()
                 ),
@@ -106,7 +106,7 @@ class ImageShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ImageResource($image, new Query($parameters)))
+                    new ImageResource($image, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -141,7 +141,7 @@ class ImageShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ImageResource($image, new Query($parameters)))
+                    new ImageResource($image, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -181,7 +181,7 @@ class ImageShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ImageResource($image, new Query($parameters)))
+                    new ImageResource($image, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -221,7 +221,7 @@ class ImageShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ImageResource($image, new Query($parameters)))
+                    new ImageResource($image, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -268,7 +268,7 @@ class ImageShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ImageResource($image, new Query($parameters)))
+                    new ImageResource($image, new Query($parameters))
                         ->response()
                         ->getData()
                 ),

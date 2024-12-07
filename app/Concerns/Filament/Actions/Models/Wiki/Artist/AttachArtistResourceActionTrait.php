@@ -38,7 +38,7 @@ trait AttachArtistResourceActionTrait
             ResourceSite::WIKI,
         ]);
 
-        $this->action(fn (Artist $record, array $data) => (new AttachResourceActionAction($record, $data, $this->sites))->handle());
+        $this->action(fn (Artist $record, array $data) => new AttachResourceActionAction($record, $data, $this->sites)->handle());
     }
 
     /**

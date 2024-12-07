@@ -145,7 +145,7 @@ class CurrentFeaturedThemeShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new FeaturedThemeResource($currentTheme, new Query()))
+                    new FeaturedThemeResource($currentTheme, new Query())
                         ->response()
                         ->getData()
                 ),
@@ -205,7 +205,7 @@ class CurrentFeaturedThemeShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new FeaturedThemeResource($currentTheme, new Query($parameters)))
+                    new FeaturedThemeResource($currentTheme, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -240,7 +240,7 @@ class CurrentFeaturedThemeShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new FeaturedThemeResource($currentTheme, new Query($parameters)))
+                    new FeaturedThemeResource($currentTheme, new Query($parameters))
                         ->response()
                         ->getData()
                 ),

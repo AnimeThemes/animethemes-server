@@ -10,7 +10,6 @@ use Exception;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Storage;
 
 /**
  * Class DiscordThreadAction.
@@ -30,11 +29,6 @@ class DiscordThreadAction
             $anime->load(Anime::RELATION_IMAGES);
 
             $anime->name = Arr::get($fields, 'name');
-
-            /** @var \Illuminate\Filesystem\FilesystemAdapter $fs */
-            $fs = Storage::disk(Config::get('image.disk'));
-
-            $anime->images->each(fn ($image) => Arr::set($image, 'link', $fs->url($image->path)));
 
             $animeArray = $anime->toArray();
 

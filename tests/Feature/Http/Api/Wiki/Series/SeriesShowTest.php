@@ -43,7 +43,7 @@ class SeriesShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new SeriesResource($series, new Query()))
+                    new SeriesResource($series, new Query())
                         ->response()
                         ->getData()
                 ),
@@ -68,7 +68,7 @@ class SeriesShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new SeriesResource($series, new Query()))
+                    new SeriesResource($series, new Query())
                         ->response()
                         ->getData()
                 ),
@@ -105,7 +105,7 @@ class SeriesShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new SeriesResource($series, new Query($parameters)))
+                    new SeriesResource($series, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -140,7 +140,7 @@ class SeriesShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new SeriesResource($series, new Query($parameters)))
+                    new SeriesResource($series, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -180,7 +180,7 @@ class SeriesShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new SeriesResource($series, new Query($parameters)))
+                    new SeriesResource($series, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -220,7 +220,7 @@ class SeriesShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new SeriesResource($series, new Query($parameters)))
+                    new SeriesResource($series, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -268,7 +268,7 @@ class SeriesShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new SeriesResource($series, new Query($parameters)))
+                    new SeriesResource($series, new Query($parameters))
                         ->response()
                         ->getData()
                 ),

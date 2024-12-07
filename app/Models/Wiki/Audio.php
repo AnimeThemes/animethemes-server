@@ -22,6 +22,7 @@ use Illuminate\Support\Collection;
  * @property int $audio_id
  * @property string $basename
  * @property string $filename
+ * @property string $link
  * @property string $mimetype
  * @property string $path
  * @property int $size
@@ -38,6 +39,7 @@ class Audio extends BaseModel implements Streamable, Viewable
     final public const ATTRIBUTE_BASENAME = 'basename';
     final public const ATTRIBUTE_FILENAME = 'filename';
     final public const ATTRIBUTE_ID = 'audio_id';
+    final public const ATTRIBUTE_LINK = 'link';
     final public const ATTRIBUTE_MIMETYPE = 'mimetype';
     final public const ATTRIBUTE_PATH = 'path';
     final public const ATTRIBUTE_SIZE = 'size';
@@ -48,7 +50,7 @@ class Audio extends BaseModel implements Streamable, Viewable
     /**
      * The attributes that are mass assignable.
      *
-     * @var array<int, string>
+     * @var list<string>
      */
     protected $fillable = [
         Audio::ATTRIBUTE_BASENAME,
@@ -85,6 +87,25 @@ class Audio extends BaseModel implements Streamable, Viewable
      * @var string
      */
     protected $primaryKey = Audio::ATTRIBUTE_ID;
+
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var list<string>
+     */
+    protected $appends = [
+        Audio::ATTRIBUTE_LINK,
+    ];
+
+    /**
+     * The link of the audio.
+     *
+     * @return string
+     */
+    public function getLinkAttribute(): string
+    {
+        return route('audio.show', $this);
+    }
 
     /**
      * Get the route key for the model.
