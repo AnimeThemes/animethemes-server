@@ -27,8 +27,7 @@ class ArtistImageFactory extends Factory
     /**
      * Define the model's default state.
      *
-     * @phpstan-ignore-next-line
-     * @return array
+     * @return array<string, mixed>
      */
     public function definition(): array
     {

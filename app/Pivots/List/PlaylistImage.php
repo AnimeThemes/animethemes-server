@@ -55,7 +55,7 @@ class PlaylistImage extends BasePivot
     /**
      * The attributes that are mass assignable.
      *
-     * @var array<int, string>
+     * @var list<string>
      */
     protected $fillable = [
         PlaylistImage::ATTRIBUTE_IMAGE,

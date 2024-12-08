@@ -58,7 +58,7 @@ class ScriptIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ScriptCollection($scripts, new Query()))
+                    new ScriptCollection($scripts, new Query())
                         ->response()
                         ->getData()
                 ),
@@ -118,7 +118,7 @@ class ScriptIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ScriptCollection($scripts, new Query($parameters)))
+                    new ScriptCollection($scripts, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -155,7 +155,7 @@ class ScriptIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ScriptCollection($scripts, new Query($parameters)))
+                    new ScriptCollection($scripts, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -196,7 +196,7 @@ class ScriptIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ScriptCollection($scripts, $query))
+                    new ScriptCollection($scripts, $query)
                         ->response()
                         ->getData()
                 ),
@@ -239,7 +239,7 @@ class ScriptIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ScriptCollection($script, new Query($parameters)))
+                    new ScriptCollection($script, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -282,7 +282,7 @@ class ScriptIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ScriptCollection($script, new Query($parameters)))
+                    new ScriptCollection($script, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -318,7 +318,7 @@ class ScriptIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ScriptCollection($script, new Query($parameters)))
+                    new ScriptCollection($script, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -354,7 +354,7 @@ class ScriptIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ScriptCollection($script, new Query($parameters)))
+                    new ScriptCollection($script, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -390,7 +390,7 @@ class ScriptIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ScriptCollection($script, new Query($parameters)))
+                    new ScriptCollection($script, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -434,7 +434,7 @@ class ScriptIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ScriptCollection($script, new Query($parameters)))
+                    new ScriptCollection($script, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -476,7 +476,7 @@ class ScriptIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ScriptCollection($scripts, new Query($parameters)))
+                    new ScriptCollection($scripts, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -518,7 +518,7 @@ class ScriptIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ScriptCollection($scripts, new Query($parameters)))
+                    new ScriptCollection($scripts, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -560,7 +560,7 @@ class ScriptIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ScriptCollection($scripts, new Query($parameters)))
+                    new ScriptCollection($scripts, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -607,7 +607,7 @@ class ScriptIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ScriptCollection($scripts, new Query($parameters)))
+                    new ScriptCollection($scripts, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -649,7 +649,7 @@ class ScriptIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ScriptCollection($scripts, new Query($parameters)))
+                    new ScriptCollection($scripts, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -691,7 +691,7 @@ class ScriptIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ScriptCollection($scripts, new Query($parameters)))
+                    new ScriptCollection($scripts, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -733,7 +733,7 @@ class ScriptIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ScriptCollection($scripts, new Query($parameters)))
+                    new ScriptCollection($scripts, new Query($parameters))
                         ->response()
                         ->getData()
                 ),

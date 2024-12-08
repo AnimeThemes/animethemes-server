@@ -46,7 +46,7 @@ class GroupShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new GroupResource($group, new Query()))
+                    new GroupResource($group, new Query())
                         ->response()
                         ->getData()
                 ),
@@ -71,7 +71,7 @@ class GroupShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new GroupResource($group, new Query()))
+                    new GroupResource($group, new Query())
                         ->response()
                         ->getData()
                 ),
@@ -108,7 +108,7 @@ class GroupShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new GroupResource($group, new Query($parameters)))
+                    new GroupResource($group, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -143,7 +143,7 @@ class GroupShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new GroupResource($group, new Query($parameters)))
+                    new GroupResource($group, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -192,7 +192,7 @@ class GroupShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new GroupResource($group, new Query($parameters)))
+                    new GroupResource($group, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -232,7 +232,7 @@ class GroupShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new GroupResource($group, new Query($parameters)))
+                    new GroupResource($group, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -272,7 +272,7 @@ class GroupShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new GroupResource($group, new Query($parameters)))
+                    new GroupResource($group, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -312,7 +312,7 @@ class GroupShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new GroupResource($group, new Query($parameters)))
+                    new GroupResource($group, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -362,7 +362,7 @@ class GroupShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new GroupResource($group, new Query($parameters)))
+                    new GroupResource($group, new Query($parameters))
                         ->response()
                         ->getData()
                 ),

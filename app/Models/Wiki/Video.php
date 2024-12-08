@@ -28,6 +28,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 
 /**
@@ -38,6 +39,7 @@ use Illuminate\Support\Collection;
  * @property int|null $audio_id
  * @property string $basename
  * @property string $filename
+ * @property string $link
  * @property bool $lyrics
  * @property string $mimetype
  * @property bool $nc
@@ -66,6 +68,7 @@ class Video extends BaseModel implements Streamable, Viewable
     final public const ATTRIBUTE_BASENAME = 'basename';
     final public const ATTRIBUTE_FILENAME = 'filename';
     final public const ATTRIBUTE_ID = 'video_id';
+    final public const ATTRIBUTE_LINK = 'link';
     final public const ATTRIBUTE_LYRICS = 'lyrics';
     final public const ATTRIBUTE_MIMETYPE = 'mimetype';
     final public const ATTRIBUTE_NC = 'nc';
@@ -92,7 +95,7 @@ class Video extends BaseModel implements Streamable, Viewable
     /**
      * The attributes that are mass assignable.
      *
-     * @var array<int, string>
+     * @var list<string>
      */
     protected $fillable = [
         Video::ATTRIBUTE_AUDIO,
@@ -141,11 +144,26 @@ class Video extends BaseModel implements Streamable, Viewable
     /**
      * The accessors to append to the model's array form.
      *
-     * @var array<int, string>
+     * @var list<string>
      */
     protected $appends = [
+        Video::ATTRIBUTE_LINK,
         Video::ATTRIBUTE_TAGS,
     ];
+
+    /**
+     * The link of the video.
+     *
+     * @return string|null
+     */
+    public function getLinkAttribute(): ?string
+    {
+        if (Arr::exists($this->attributes, Video::ATTRIBUTE_BASENAME)) {
+            return route('video.show', $this);
+        }
+
+        return null;
+    }
 
     /**
      * The array of tags used to uniquely identify the video within the context of a theme.

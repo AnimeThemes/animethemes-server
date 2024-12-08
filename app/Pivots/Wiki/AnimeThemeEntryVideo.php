@@ -59,7 +59,7 @@ class AnimeThemeEntryVideo extends BasePivot
     /**
      * The attributes that are mass assignable.
      *
-     * @var array<int, string>
+     * @var list<string>
      */
     protected $fillable = [
         AnimeThemeEntryVideo::ATTRIBUTE_ENTRY,

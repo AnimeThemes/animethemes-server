@@ -11,12 +11,12 @@ use App\Models\Auth\User;
 use App\Models\List\ExternalProfile as ExternalProfileModel;
 use Filament\Facades\Filament;
 use Livewire\Livewire;
-use Tests\Unit\Filament\BaseResourceTest;
+use Tests\Unit\Filament\BaseResourceTestCase;
 
 /**
  * Class ExternalProfileTest.
  */
-class ExternalProfileTest extends BaseResourceTest
+class ExternalProfileTest extends BaseResourceTestCase
 {
     /**
      * Initial setup for the tests.

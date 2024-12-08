@@ -52,7 +52,7 @@ class ArtistShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ArtistResource($artist, new Query()))
+                    new ArtistResource($artist, new Query())
                         ->response()
                         ->getData()
                 ),
@@ -77,7 +77,7 @@ class ArtistShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ArtistResource($artist, new Query()))
+                    new ArtistResource($artist, new Query())
                         ->response()
                         ->getData()
                 ),
@@ -112,7 +112,7 @@ class ArtistShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ArtistResource($artist, new Query($parameters)))
+                    new ArtistResource($artist, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -147,7 +147,7 @@ class ArtistShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ArtistResource($artist, new Query($parameters)))
+                    new ArtistResource($artist, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -200,7 +200,7 @@ class ArtistShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ArtistResource($artist, new Query($parameters)))
+                    new ArtistResource($artist, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -248,7 +248,7 @@ class ArtistShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ArtistResource($artist, new Query($parameters)))
+                    new ArtistResource($artist, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -296,7 +296,7 @@ class ArtistShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ArtistResource($artist, new Query($parameters)))
+                    new ArtistResource($artist, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -344,7 +344,7 @@ class ArtistShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ArtistResource($artist, new Query($parameters)))
+                    new ArtistResource($artist, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -398,7 +398,7 @@ class ArtistShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ArtistResource($artist, new Query($parameters)))
+                    new ArtistResource($artist, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -438,7 +438,7 @@ class ArtistShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ArtistResource($artist, new Query($parameters)))
+                    new ArtistResource($artist, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -478,7 +478,7 @@ class ArtistShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ArtistResource($artist, new Query($parameters)))
+                    new ArtistResource($artist, new Query($parameters))
                         ->response()
                         ->getData()
                 ),

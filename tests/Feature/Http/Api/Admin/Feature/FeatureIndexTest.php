@@ -49,7 +49,7 @@ class FeatureIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new FeatureCollection($features, new Query()))
+                    new FeatureCollection($features, new Query())
                         ->response()
                         ->getData()
                 ),
@@ -84,7 +84,7 @@ class FeatureIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new FeatureCollection($features, new Query()))
+                    new FeatureCollection($features, new Query())
                         ->response()
                         ->getData()
                 ),
@@ -137,7 +137,7 @@ class FeatureIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new FeatureCollection($features, new Query($parameters)))
+                    new FeatureCollection($features, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -176,7 +176,7 @@ class FeatureIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new FeatureCollection($features, $query))
+                    new FeatureCollection($features, $query)
                         ->response()
                         ->getData()
                 ),
@@ -219,7 +219,7 @@ class FeatureIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new FeatureCollection($feature, new Query($parameters)))
+                    new FeatureCollection($feature, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -262,7 +262,7 @@ class FeatureIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new FeatureCollection($feature, new Query($parameters)))
+                    new FeatureCollection($feature, new Query($parameters))
                         ->response()
                         ->getData()
                 ),

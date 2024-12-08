@@ -34,7 +34,7 @@ class FeatureShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new FeatureResource($feature, new Query()))
+                    new FeatureResource($feature, new Query())
                         ->response()
                         ->getData()
                 ),
@@ -85,7 +85,7 @@ class FeatureShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new FeatureResource($feature, new Query($parameters)))
+                    new FeatureResource($feature, new Query($parameters))
                         ->response()
                         ->getData()
                 ),

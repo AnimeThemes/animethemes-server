@@ -13,12 +13,12 @@ use App\Filament\Resources\Wiki\Audio;
 use App\Models\Auth\User;
 use App\Models\Wiki\Audio as AudioModel;
 use Livewire\Livewire;
-use Tests\Unit\Filament\BaseResourceTest;
+use Tests\Unit\Filament\BaseResourceTestCase;
 
 /**
  * Class AudioTest.
  */
-class AudioTest extends BaseResourceTest
+class AudioTest extends BaseResourceTestCase
 {
     /**
      * Get the index page class of the resource.

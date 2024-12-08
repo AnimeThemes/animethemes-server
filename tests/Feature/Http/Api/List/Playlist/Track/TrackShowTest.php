@@ -211,7 +211,7 @@ class TrackShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new TrackResource($track, new Query()))
+                    new TrackResource($track, new Query())
                         ->response()
                         ->getData()
                 ),
@@ -246,7 +246,7 @@ class TrackShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new TrackResource($track, new Query()))
+                    new TrackResource($track, new Query())
                         ->response()
                         ->getData()
                 ),
@@ -295,7 +295,7 @@ class TrackShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new TrackResource($track, new Query($parameters)))
+                    new TrackResource($track, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -341,7 +341,7 @@ class TrackShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new TrackResource($track, new Query($parameters)))
+                    new TrackResource($track, new Query($parameters))
                         ->response()
                         ->getData()
                 ),

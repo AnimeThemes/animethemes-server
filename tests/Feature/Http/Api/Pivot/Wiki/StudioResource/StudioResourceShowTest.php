@@ -62,7 +62,7 @@ class StudioResourceShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new StudioResourceResource($studioResource, new Query()))
+                    new StudioResourceResource($studioResource, new Query())
                         ->response()
                         ->getData()
                 ),
@@ -102,7 +102,7 @@ class StudioResourceShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new StudioResourceResource($studioResource, new Query($parameters)))
+                    new StudioResourceResource($studioResource, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -142,7 +142,7 @@ class StudioResourceShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new StudioResourceResource($studioResource, new Query($parameters)))
+                    new StudioResourceResource($studioResource, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -183,7 +183,7 @@ class StudioResourceShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new StudioResourceResource($studioResource, new Query($parameters)))
+                    new StudioResourceResource($studioResource, new Query($parameters))
                         ->response()
                         ->getData()
                 ),

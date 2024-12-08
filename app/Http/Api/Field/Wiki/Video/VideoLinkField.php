@@ -8,6 +8,7 @@ use App\Contracts\Http\Api\Field\RenderableField;
 use App\Http\Api\Field\Field;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Schema;
+use App\Models\Wiki\Video;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -22,7 +23,7 @@ class VideoLinkField extends Field implements RenderableField
      */
     public function __construct(Schema $schema)
     {
-        parent::__construct($schema, 'link');
+        parent::__construct($schema, Video::ATTRIBUTE_LINK);
     }
 
     /**
@@ -46,6 +47,6 @@ class VideoLinkField extends Field implements RenderableField
      */
     public function render(Model $model): string
     {
-        return route('video.show', $model);
+        return $model->getAttribute($this->getColumn());
     }
 }

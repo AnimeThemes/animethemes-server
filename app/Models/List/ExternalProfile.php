@@ -64,7 +64,7 @@ class ExternalProfile extends BaseModel
     /**
      * The attributes that are mass assignable.
      *
-     * @var array<int, string>
+     * @var list<string>
      */
     protected $fillable = [
         ExternalProfile::ATTRIBUTE_EXTERNAL_USER_ID,

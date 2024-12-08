@@ -13,12 +13,12 @@ use App\Filament\Resources\Wiki\ExternalResource;
 use App\Models\Auth\User;
 use App\Models\Wiki\ExternalResource as ExternalResourceModel;
 use Livewire\Livewire;
-use Tests\Unit\Filament\BaseResourceTest;
+use Tests\Unit\Filament\BaseResourceTestCase;
 
 /**
  * Class ExternalResourceTest.
  */
-class ExternalResourceTest extends BaseResourceTest
+class ExternalResourceTest extends BaseResourceTestCase
 {
     /**
      * Get the index page class of the resource.

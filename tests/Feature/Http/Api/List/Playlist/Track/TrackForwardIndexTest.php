@@ -194,7 +194,7 @@ class TrackForwardIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new TrackCollection($tracks, new Query()))
+                    new TrackCollection($tracks, new Query())
                         ->response()
                         ->getData()
                 ),
@@ -271,7 +271,7 @@ class TrackForwardIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new TrackCollection($tracks, new Query($parameters)))
+                    new TrackCollection($tracks, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -315,7 +315,7 @@ class TrackForwardIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new TrackCollection($track->descendants()->get(), new Query($parameters)))
+                    new TrackCollection($track->descendants()->get(), new Query($parameters))
                         ->response()
                         ->getData()
                 ),

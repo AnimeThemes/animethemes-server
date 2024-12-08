@@ -68,7 +68,7 @@ class AnimeThemeEntryVideoShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AnimeThemeEntryVideoResource($entryVideo, new Query()))
+                    new AnimeThemeEntryVideoResource($entryVideo, new Query())
                         ->response()
                         ->getData()
                 ),
@@ -108,7 +108,7 @@ class AnimeThemeEntryVideoShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AnimeThemeEntryVideoResource($entryVideo, new Query($parameters)))
+                    new AnimeThemeEntryVideoResource($entryVideo, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -148,7 +148,7 @@ class AnimeThemeEntryVideoShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AnimeThemeEntryVideoResource($entryVideo, new Query($parameters)))
+                    new AnimeThemeEntryVideoResource($entryVideo, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -189,7 +189,7 @@ class AnimeThemeEntryVideoShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AnimeThemeEntryVideoResource($entryVideo, new Query($parameters)))
+                    new AnimeThemeEntryVideoResource($entryVideo, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -230,7 +230,7 @@ class AnimeThemeEntryVideoShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AnimeThemeEntryVideoResource($entryVideo, new Query($parameters)))
+                    new AnimeThemeEntryVideoResource($entryVideo, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -271,7 +271,7 @@ class AnimeThemeEntryVideoShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AnimeThemeEntryVideoResource($entryVideo, new Query($parameters)))
+                    new AnimeThemeEntryVideoResource($entryVideo, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -312,7 +312,7 @@ class AnimeThemeEntryVideoShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AnimeThemeEntryVideoResource($entryVideo, new Query($parameters)))
+                    new AnimeThemeEntryVideoResource($entryVideo, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -353,7 +353,7 @@ class AnimeThemeEntryVideoShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AnimeThemeEntryVideoResource($entryVideo, new Query($parameters)))
+                    new AnimeThemeEntryVideoResource($entryVideo, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -394,7 +394,7 @@ class AnimeThemeEntryVideoShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AnimeThemeEntryVideoResource($entryVideo, new Query($parameters)))
+                    new AnimeThemeEntryVideoResource($entryVideo, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -435,7 +435,7 @@ class AnimeThemeEntryVideoShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AnimeThemeEntryVideoResource($entryVideo, new Query($parameters)))
+                    new AnimeThemeEntryVideoResource($entryVideo, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -476,7 +476,7 @@ class AnimeThemeEntryVideoShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AnimeThemeEntryVideoResource($entryVideo, new Query($parameters)))
+                    new AnimeThemeEntryVideoResource($entryVideo, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -517,7 +517,7 @@ class AnimeThemeEntryVideoShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AnimeThemeEntryVideoResource($entryVideo, new Query($parameters)))
+                    new AnimeThemeEntryVideoResource($entryVideo, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -558,7 +558,7 @@ class AnimeThemeEntryVideoShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AnimeThemeEntryVideoResource($entryVideo, new Query($parameters)))
+                    new AnimeThemeEntryVideoResource($entryVideo, new Query($parameters))
                         ->response()
                         ->getData()
                 ),

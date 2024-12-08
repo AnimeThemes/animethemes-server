@@ -15,12 +15,12 @@ use App\Filament\Resources\Admin\Announcement;
 use App\Models\Admin\Announcement as AnnouncementModel;
 use App\Models\Auth\User;
 use Livewire\Livewire;
-use Tests\Unit\Filament\BaseResourceTest;
+use Tests\Unit\Filament\BaseResourceTestCase;
 
 /**
  * Class AnnouncementTest.
  */
-class AnnouncementTest extends BaseResourceTest
+class AnnouncementTest extends BaseResourceTestCase
 {
     /**
      * Get the index page class of the resource.

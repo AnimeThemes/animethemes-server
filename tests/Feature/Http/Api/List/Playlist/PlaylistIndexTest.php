@@ -78,7 +78,7 @@ class PlaylistIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new PlaylistCollection($playlists, new Query()))
+                    new PlaylistCollection($playlists, new Query())
                         ->response()
                         ->getData()
                 ),
@@ -144,7 +144,7 @@ class PlaylistIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new PlaylistCollection($playlists, new Query($parameters)))
+                    new PlaylistCollection($playlists, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -181,7 +181,7 @@ class PlaylistIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new PlaylistCollection($playlists, new Query($parameters)))
+                    new PlaylistCollection($playlists, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -224,7 +224,7 @@ class PlaylistIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new PlaylistCollection($playlists, $query))
+                    new PlaylistCollection($playlists, $query)
                         ->response()
                         ->getData()
                 ),
@@ -271,7 +271,7 @@ class PlaylistIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new PlaylistCollection($playlists, new Query($parameters)))
+                    new PlaylistCollection($playlists, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -318,7 +318,7 @@ class PlaylistIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new PlaylistCollection($playlists, new Query($parameters)))
+                    new PlaylistCollection($playlists, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -359,7 +359,7 @@ class PlaylistIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new PlaylistCollection($playlists, new Query($parameters)))
+                    new PlaylistCollection($playlists, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -400,7 +400,7 @@ class PlaylistIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new PlaylistCollection($playlists, new Query($parameters)))
+                    new PlaylistCollection($playlists, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -441,7 +441,7 @@ class PlaylistIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new PlaylistCollection($playlists, new Query($parameters)))
+                    new PlaylistCollection($playlists, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -491,7 +491,7 @@ class PlaylistIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new PlaylistCollection($playlists, new Query($parameters)))
+                    new PlaylistCollection($playlists, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -535,7 +535,7 @@ class PlaylistIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new PlaylistCollection($playlists, new Query($parameters)))
+                    new PlaylistCollection($playlists, new Query($parameters))
                         ->response()
                         ->getData()
                 ),

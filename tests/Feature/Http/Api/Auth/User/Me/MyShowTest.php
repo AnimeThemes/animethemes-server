@@ -46,7 +46,7 @@ class MyShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new UserResource($user, new Query()))
+                    new UserResource($user, new Query())
                         ->response()
                         ->getData()
                 ),

@@ -38,7 +38,7 @@ trait AttachAnimeResourceActionTrait
             ResourceSite::WIKI,
         ]);
 
-        $this->action(fn (Anime $record, array $data) => (new AttachResourceActionAction($record, $data, $this->sites))->handle());
+        $this->action(fn (Anime $record, array $data) => new AttachResourceActionAction($record, $data, $this->sites)->handle());
     }
 
     /**

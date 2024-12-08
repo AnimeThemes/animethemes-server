@@ -84,7 +84,7 @@ class User extends Authenticatable implements MustVerifyEmail, Nameable, HasSubt
     /**
      * The attributes that are mass assignable.
      *
-     * @var array<int, string>
+     * @var list<string>
      */
     protected $fillable = [
         User::ATTRIBUTE_EMAIL,
@@ -117,7 +117,7 @@ class User extends Authenticatable implements MustVerifyEmail, Nameable, HasSubt
     /**
      * The attributes that should be hidden for serialization.
      *
-     * @var array<int, string>
+     * @var list<string>
      */
     protected $hidden = [
         User::ATTRIBUTE_PASSWORD,

@@ -65,7 +65,7 @@ class AnimeThemeEntryVideoIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AnimeThemeEntryVideoCollection($entryVideos, new Query()))
+                    new AnimeThemeEntryVideoCollection($entryVideos, new Query())
                         ->response()
                         ->getData()
                 ),
@@ -130,7 +130,7 @@ class AnimeThemeEntryVideoIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AnimeThemeEntryVideoCollection($entryVideos, new Query($parameters)))
+                    new AnimeThemeEntryVideoCollection($entryVideos, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -172,7 +172,7 @@ class AnimeThemeEntryVideoIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AnimeThemeEntryVideoCollection($entryVideos, new Query($parameters)))
+                    new AnimeThemeEntryVideoCollection($entryVideos, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -216,7 +216,7 @@ class AnimeThemeEntryVideoIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AnimeThemeEntryVideoCollection($entryVideos, $query))
+                    new AnimeThemeEntryVideoCollection($entryVideos, $query)
                         ->response()
                         ->getData()
                 ),
@@ -269,7 +269,7 @@ class AnimeThemeEntryVideoIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AnimeThemeEntryVideoCollection($entryVideos, new Query($parameters)))
+                    new AnimeThemeEntryVideoCollection($entryVideos, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -322,7 +322,7 @@ class AnimeThemeEntryVideoIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AnimeThemeEntryVideoCollection($entryVideos, new Query($parameters)))
+                    new AnimeThemeEntryVideoCollection($entryVideos, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -366,7 +366,7 @@ class AnimeThemeEntryVideoIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AnimeThemeEntryVideoCollection($entryVideos, new Query($parameters)))
+                    new AnimeThemeEntryVideoCollection($entryVideos, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -410,7 +410,7 @@ class AnimeThemeEntryVideoIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AnimeThemeEntryVideoCollection($entryVideos, new Query($parameters)))
+                    new AnimeThemeEntryVideoCollection($entryVideos, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -454,7 +454,7 @@ class AnimeThemeEntryVideoIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AnimeThemeEntryVideoCollection($entryVideos, new Query($parameters)))
+                    new AnimeThemeEntryVideoCollection($entryVideos, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -498,7 +498,7 @@ class AnimeThemeEntryVideoIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AnimeThemeEntryVideoCollection($entryVideos, new Query($parameters)))
+                    new AnimeThemeEntryVideoCollection($entryVideos, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -542,7 +542,7 @@ class AnimeThemeEntryVideoIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AnimeThemeEntryVideoCollection($entryVideos, new Query($parameters)))
+                    new AnimeThemeEntryVideoCollection($entryVideos, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -586,7 +586,7 @@ class AnimeThemeEntryVideoIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AnimeThemeEntryVideoCollection($entryVideos, new Query($parameters)))
+                    new AnimeThemeEntryVideoCollection($entryVideos, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -630,7 +630,7 @@ class AnimeThemeEntryVideoIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AnimeThemeEntryVideoCollection($entryVideos, new Query($parameters)))
+                    new AnimeThemeEntryVideoCollection($entryVideos, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -674,7 +674,7 @@ class AnimeThemeEntryVideoIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AnimeThemeEntryVideoCollection($entryVideos, new Query($parameters)))
+                    new AnimeThemeEntryVideoCollection($entryVideos, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -718,7 +718,7 @@ class AnimeThemeEntryVideoIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AnimeThemeEntryVideoCollection($entryVideos, new Query($parameters)))
+                    new AnimeThemeEntryVideoCollection($entryVideos, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -762,7 +762,7 @@ class AnimeThemeEntryVideoIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AnimeThemeEntryVideoCollection($entryVideos, new Query($parameters)))
+                    new AnimeThemeEntryVideoCollection($entryVideos, new Query($parameters))
                         ->response()
                         ->getData()
                 ),

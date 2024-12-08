@@ -60,7 +60,7 @@ class GroupIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new GroupCollection($groups, new Query()))
+                    new GroupCollection($groups, new Query())
                         ->response()
                         ->getData()
                 ),
@@ -118,7 +118,7 @@ class GroupIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new GroupCollection($groups, new Query($parameters)))
+                    new GroupCollection($groups, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -153,7 +153,7 @@ class GroupIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new GroupCollection($groups, new Query($parameters)))
+                    new GroupCollection($groups, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -192,7 +192,7 @@ class GroupIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new GroupCollection($groups, $query))
+                    new GroupCollection($groups, $query)
                         ->response()
                         ->getData()
                 ),
@@ -235,7 +235,7 @@ class GroupIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new GroupCollection($group, new Query($parameters)))
+                    new GroupCollection($group, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -278,7 +278,7 @@ class GroupIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new GroupCollection($group, new Query($parameters)))
+                    new GroupCollection($group, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -314,7 +314,7 @@ class GroupIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new GroupCollection($group, new Query($parameters)))
+                    new GroupCollection($group, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -350,7 +350,7 @@ class GroupIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new GroupCollection($group, new Query($parameters)))
+                    new GroupCollection($group, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -386,7 +386,7 @@ class GroupIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new GroupCollection($group, new Query($parameters)))
+                    new GroupCollection($group, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -430,7 +430,7 @@ class GroupIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new GroupCollection($groups, new Query($parameters)))
+                    new GroupCollection($groups, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -481,7 +481,7 @@ class GroupIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new GroupCollection($groups, new Query($parameters)))
+                    new GroupCollection($groups, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -523,7 +523,7 @@ class GroupIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new GroupCollection($groups, new Query($parameters)))
+                    new GroupCollection($groups, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -565,7 +565,7 @@ class GroupIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new GroupCollection($groups, new Query($parameters)))
+                    new GroupCollection($groups, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -607,7 +607,7 @@ class GroupIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new GroupCollection($groups, new Query($parameters)))
+                    new GroupCollection($groups, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -659,7 +659,7 @@ class GroupIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new GroupCollection($groups, new Query($parameters)))
+                    new GroupCollection($groups, new Query($parameters))
                         ->response()
                         ->getData()
                 ),

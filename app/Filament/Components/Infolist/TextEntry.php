@@ -43,7 +43,7 @@ class TextEntry extends ComponentsTextEntry
                     return "<p style='color: rgb(64, 184, 166);'>{$name}</p>";
                 });
 
-                return (new $resourceRelated)::getUrl('view', ['record' => $record]);
+                return $resourceRelated::getUrl('view', ['record' => $record]);
             });
     }
 

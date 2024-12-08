@@ -56,7 +56,7 @@ class AnimeShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AnimeResource($anime, new Query()))
+                    new AnimeResource($anime, new Query())
                         ->response()
                         ->getData()
                 ),
@@ -81,7 +81,7 @@ class AnimeShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AnimeResource($anime, new Query()))
+                    new AnimeResource($anime, new Query())
                         ->response()
                         ->getData()
                 ),
@@ -116,7 +116,7 @@ class AnimeShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AnimeResource($anime, new Query($parameters)))
+                    new AnimeResource($anime, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -151,7 +151,7 @@ class AnimeShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AnimeResource($anime, new Query($parameters)))
+                    new AnimeResource($anime, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -193,7 +193,7 @@ class AnimeShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AnimeResource($anime, new Query($parameters)))
+                    new AnimeResource($anime, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -241,7 +241,7 @@ class AnimeShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AnimeResource($anime, new Query($parameters)))
+                    new AnimeResource($anime, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -283,7 +283,7 @@ class AnimeShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AnimeResource($anime, new Query($parameters)))
+                    new AnimeResource($anime, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -327,7 +327,7 @@ class AnimeShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AnimeResource($anime, new Query($parameters)))
+                    new AnimeResource($anime, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -371,7 +371,7 @@ class AnimeShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AnimeResource($anime, new Query($parameters)))
+                    new AnimeResource($anime, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -423,7 +423,7 @@ class AnimeShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AnimeResource($anime, new Query($parameters)))
+                    new AnimeResource($anime, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -463,7 +463,7 @@ class AnimeShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AnimeResource($anime, new Query($parameters)))
+                    new AnimeResource($anime, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -503,7 +503,7 @@ class AnimeShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AnimeResource($anime, new Query($parameters)))
+                    new AnimeResource($anime, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -541,7 +541,7 @@ class AnimeShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AnimeResource($anime, new Query($parameters)))
+                    new AnimeResource($anime, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -579,7 +579,7 @@ class AnimeShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AnimeResource($anime, new Query($parameters)))
+                    new AnimeResource($anime, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -617,7 +617,7 @@ class AnimeShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AnimeResource($anime, new Query($parameters)))
+                    new AnimeResource($anime, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -673,7 +673,7 @@ class AnimeShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AnimeResource($anime, new Query($parameters)))
+                    new AnimeResource($anime, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -711,7 +711,7 @@ class AnimeShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AnimeResource($anime, new Query($parameters)))
+                    new AnimeResource($anime, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -749,7 +749,7 @@ class AnimeShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AnimeResource($anime, new Query($parameters)))
+                    new AnimeResource($anime, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -787,7 +787,7 @@ class AnimeShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AnimeResource($anime, new Query($parameters)))
+                    new AnimeResource($anime, new Query($parameters))
                         ->response()
                         ->getData()
                 ),

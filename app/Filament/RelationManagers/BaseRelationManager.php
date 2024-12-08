@@ -57,7 +57,7 @@ abstract class BaseRelationManager extends RelationManager
                             $pivot = current($record->getRelations());
                             $createdAtField = Arr::get($pivot->getAttributes(), BasePivot::ATTRIBUTE_CREATED_AT);
                             if (!$createdAtField) return '-';
-                            return (new DateTime($createdAtField))->format('M j, Y H:i:s');
+                            return new DateTime($createdAtField)->format('M j, Y H:i:s');
                         }),
 
                     TextColumn::make(BasePivot::ATTRIBUTE_UPDATED_AT)
@@ -67,7 +67,7 @@ abstract class BaseRelationManager extends RelationManager
                             $pivot = current($record->getRelations());
                             $updatedAtField = Arr::get($pivot->getAttributes(), BasePivot::ATTRIBUTE_UPDATED_AT);
                             if (!$updatedAtField) return '-';
-                            return (new DateTime($updatedAtField))->format('M j, Y H:i:s');
+                            return new DateTime($updatedAtField)->format('M j, Y H:i:s');
                         }),
                 ],
             ))

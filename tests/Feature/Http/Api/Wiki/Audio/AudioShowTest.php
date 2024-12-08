@@ -37,7 +37,7 @@ class AudioShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AudioResource($audio, new Query()))
+                    new AudioResource($audio, new Query())
                         ->response()
                         ->getData()
                 ),
@@ -60,7 +60,7 @@ class AudioShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AudioResource($audio, new Query()))
+                    new AudioResource($audio, new Query())
                         ->response()
                         ->getData()
                 ),
@@ -97,7 +97,7 @@ class AudioShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AudioResource($audio, new Query($parameters)))
+                    new AudioResource($audio, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -132,7 +132,7 @@ class AudioShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AudioResource($audio, new Query($parameters)))
+                    new AudioResource($audio, new Query($parameters))
                         ->response()
                         ->getData()
                 ),

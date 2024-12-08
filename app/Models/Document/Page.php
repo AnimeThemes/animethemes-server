@@ -33,7 +33,7 @@ class Page extends BaseModel
     /**
      * The attributes that are mass assignable.
      *
-     * @var array<int, string>
+     * @var list<string>
      */
     protected $fillable = [
         Page::ATTRIBUTE_BODY,
@@ -44,7 +44,7 @@ class Page extends BaseModel
     /**
      * The attributes that should be hidden for serialization.
      *
-     * @var array<int, string>
+     * @var list<string>
      */
     protected $hidden = [
         Page::ATTRIBUTE_BODY,

@@ -34,7 +34,7 @@ class AnnouncementShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AnnouncementResource($announcement, new Query()))
+                    new AnnouncementResource($announcement, new Query())
                         ->response()
                         ->getData()
                 ),
@@ -59,7 +59,7 @@ class AnnouncementShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AnnouncementResource($announcement, new Query()))
+                    new AnnouncementResource($announcement, new Query())
                         ->response()
                         ->getData()
                 ),
@@ -94,7 +94,7 @@ class AnnouncementShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AnnouncementResource($announcement, new Query($parameters)))
+                    new AnnouncementResource($announcement, new Query($parameters))
                         ->response()
                         ->getData()
                 ),

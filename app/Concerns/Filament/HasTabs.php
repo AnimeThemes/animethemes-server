@@ -13,7 +13,7 @@ trait HasTabs
 {
     /**
      * Get the tabs for an array key-mapped.
-     * 
+     *
      * @param  class-string<BaseTab>[]  $tabClasses
      * @return array
      */

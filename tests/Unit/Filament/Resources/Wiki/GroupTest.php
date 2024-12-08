@@ -13,12 +13,12 @@ use App\Filament\Resources\Wiki\Group;
 use App\Models\Auth\User;
 use App\Models\Wiki\Group as GroupModel;
 use Livewire\Livewire;
-use Tests\Unit\Filament\BaseResourceTest;
+use Tests\Unit\Filament\BaseResourceTestCase;
 
 /**
  * Class GroupTest.
  */
-class GroupTest extends BaseResourceTest
+class GroupTest extends BaseResourceTestCase
 {
     /**
      * Get the index page class of the resource.

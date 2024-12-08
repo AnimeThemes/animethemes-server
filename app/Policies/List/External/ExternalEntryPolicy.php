@@ -71,7 +71,7 @@ class ExternalEntryPolicy extends BasePolicy
     public function create(User $user): bool
     {
         if (Filament::isServing()) {
-            return $user !== null && $user->hasRole('Admin');
+            return $user->hasRole('Admin');
         }
 
         /** @var ExternalProfile|null $profile */
@@ -92,7 +92,7 @@ class ExternalEntryPolicy extends BasePolicy
     public function update(User $user, BaseModel|Model $entry): bool
     {
         if (Filament::isServing()) {
-            return $user !== null && $user->hasRole('Admin');
+            return $user->hasRole('Admin');
         }
 
         /** @var ExternalProfile|null $profile */
@@ -113,7 +113,7 @@ class ExternalEntryPolicy extends BasePolicy
     public function delete(User $user, BaseModel|Model $entry): bool
     {
         if (Filament::isServing()) {
-            return $user !== null && $user->hasRole('Admin');
+            return $user->hasRole('Admin');
         }
 
         /** @var ExternalProfile|null $profile */
@@ -134,7 +134,7 @@ class ExternalEntryPolicy extends BasePolicy
     public function restore(User $user, BaseModel|Model $entry): bool
     {
         if (Filament::isServing()) {
-            return $user !== null && $user->hasRole('Admin');
+            return $user->hasRole('Admin');
         }
 
         /** @var ExternalProfile|null $profile */

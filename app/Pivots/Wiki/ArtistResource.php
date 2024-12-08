@@ -38,7 +38,7 @@ class ArtistResource extends BasePivot
     /**
      * The attributes that are mass assignable.
      *
-     * @var array<int, string>
+     * @var list<string>
      */
     protected $fillable = [
         ArtistResource::ATTRIBUTE_ARTIST,

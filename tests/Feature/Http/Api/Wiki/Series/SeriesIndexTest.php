@@ -57,7 +57,7 @@ class SeriesIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new SeriesCollection($series, new Query()))
+                    new SeriesCollection($series, new Query())
                         ->response()
                         ->getData()
                 ),
@@ -115,7 +115,7 @@ class SeriesIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new SeriesCollection($series, new Query($parameters)))
+                    new SeriesCollection($series, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -150,7 +150,7 @@ class SeriesIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new SeriesCollection($series, new Query($parameters)))
+                    new SeriesCollection($series, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -189,7 +189,7 @@ class SeriesIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new SeriesCollection($series, $query))
+                    new SeriesCollection($series, $query)
                         ->response()
                         ->getData()
                 ),
@@ -232,7 +232,7 @@ class SeriesIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new SeriesCollection($series, new Query($parameters)))
+                    new SeriesCollection($series, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -275,7 +275,7 @@ class SeriesIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new SeriesCollection($series, new Query($parameters)))
+                    new SeriesCollection($series, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -311,7 +311,7 @@ class SeriesIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new SeriesCollection($series, new Query($parameters)))
+                    new SeriesCollection($series, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -347,7 +347,7 @@ class SeriesIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new SeriesCollection($series, new Query($parameters)))
+                    new SeriesCollection($series, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -383,7 +383,7 @@ class SeriesIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new SeriesCollection($series, new Query($parameters)))
+                    new SeriesCollection($series, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -427,7 +427,7 @@ class SeriesIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new SeriesCollection($series, new Query($parameters)))
+                    new SeriesCollection($series, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -469,7 +469,7 @@ class SeriesIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new SeriesCollection($series, new Query($parameters)))
+                    new SeriesCollection($series, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -511,7 +511,7 @@ class SeriesIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new SeriesCollection($series, new Query($parameters)))
+                    new SeriesCollection($series, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -561,7 +561,7 @@ class SeriesIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new SeriesCollection($series, new Query($parameters)))
+                    new SeriesCollection($series, new Query($parameters))
                         ->response()
                         ->getData()
                 ),

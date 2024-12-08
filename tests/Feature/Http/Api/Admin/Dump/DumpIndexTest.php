@@ -50,7 +50,7 @@ class DumpIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new DumpCollection($dumps, new Query()))
+                    new DumpCollection($dumps, new Query())
                         ->response()
                         ->getData()
                 ),
@@ -103,7 +103,7 @@ class DumpIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new DumpCollection($dumps, new Query($parameters)))
+                    new DumpCollection($dumps, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -142,7 +142,7 @@ class DumpIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new DumpCollection($dumps, $query))
+                    new DumpCollection($dumps, $query)
                         ->response()
                         ->getData()
                 ),
@@ -185,7 +185,7 @@ class DumpIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new DumpCollection($dump, new Query($parameters)))
+                    new DumpCollection($dump, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -228,7 +228,7 @@ class DumpIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new DumpCollection($dump, new Query($parameters)))
+                    new DumpCollection($dump, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -264,7 +264,7 @@ class DumpIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new DumpCollection($dump, new Query($parameters)))
+                    new DumpCollection($dump, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -300,7 +300,7 @@ class DumpIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new DumpCollection($dump, new Query($parameters)))
+                    new DumpCollection($dump, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -336,7 +336,7 @@ class DumpIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new DumpCollection($dump, new Query($parameters)))
+                    new DumpCollection($dump, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -380,7 +380,7 @@ class DumpIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new DumpCollection($dump, new Query($parameters)))
+                    new DumpCollection($dump, new Query($parameters))
                         ->response()
                         ->getData()
                 ),

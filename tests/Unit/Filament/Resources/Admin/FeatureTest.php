@@ -14,12 +14,12 @@ use App\Filament\Resources\Admin\Feature;
 use App\Models\Admin\Feature as FeatureModel;
 use App\Models\Auth\User;
 use Livewire\Livewire;
-use Tests\Unit\Filament\BaseResourceTest;
+use Tests\Unit\Filament\BaseResourceTestCase;
 
 /**
  * Class FeatureTest.
  */
-class FeatureTest extends BaseResourceTest
+class FeatureTest extends BaseResourceTestCase
 {
     /**
      * Get the index page class of the resource.

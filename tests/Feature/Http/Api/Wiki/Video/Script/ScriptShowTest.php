@@ -42,7 +42,7 @@ class ScriptShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ScriptResource($script, new Query()))
+                    new ScriptResource($script, new Query())
                         ->response()
                         ->getData()
                 ),
@@ -65,7 +65,7 @@ class ScriptShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ScriptResource($script, new Query()))
+                    new ScriptResource($script, new Query())
                         ->response()
                         ->getData()
                 ),
@@ -102,7 +102,7 @@ class ScriptShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ScriptResource($script, new Query($parameters)))
+                    new ScriptResource($script, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -137,7 +137,7 @@ class ScriptShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ScriptResource($script, new Query($parameters)))
+                    new ScriptResource($script, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -177,7 +177,7 @@ class ScriptShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ScriptResource($script, new Query($parameters)))
+                    new ScriptResource($script, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -217,7 +217,7 @@ class ScriptShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ScriptResource($script, new Query($parameters)))
+                    new ScriptResource($script, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -257,7 +257,7 @@ class ScriptShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ScriptResource($script, new Query($parameters)))
+                    new ScriptResource($script, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -302,7 +302,7 @@ class ScriptShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ScriptResource($script, new Query($parameters)))
+                    new ScriptResource($script, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -342,7 +342,7 @@ class ScriptShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ScriptResource($script, new Query($parameters)))
+                    new ScriptResource($script, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -382,7 +382,7 @@ class ScriptShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ScriptResource($script, new Query($parameters)))
+                    new ScriptResource($script, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -422,7 +422,7 @@ class ScriptShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new ScriptResource($script, new Query($parameters)))
+                    new ScriptResource($script, new Query($parameters))
                         ->response()
                         ->getData()
                 ),

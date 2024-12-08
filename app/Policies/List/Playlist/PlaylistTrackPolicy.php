@@ -73,7 +73,7 @@ class PlaylistTrackPolicy extends BasePolicy
     public function create(User $user): bool
     {
         if (Filament::isServing()) {
-            return $user !== null && $user->hasRole(RoleEnum::ADMIN->value);
+            return $user->hasRole(RoleEnum::ADMIN->value);
         }
 
         /** @var Playlist|null $playlist */
@@ -94,7 +94,7 @@ class PlaylistTrackPolicy extends BasePolicy
     public function update(User $user, BaseModel|Model $track): bool
     {
         if (Filament::isServing()) {
-            return $user !== null && $user->hasRole(RoleEnum::ADMIN->value);
+            return $user->hasRole(RoleEnum::ADMIN->value);
         }
 
         /** @var Playlist|null $playlist */
@@ -115,7 +115,7 @@ class PlaylistTrackPolicy extends BasePolicy
     public function delete(User $user, BaseModel|Model $track): bool
     {
         if (Filament::isServing()) {
-            return $user !== null && $user->hasRole(RoleEnum::ADMIN->value);
+            return $user->hasRole(RoleEnum::ADMIN->value);
         }
 
         /** @var Playlist|null $playlist */
@@ -136,7 +136,7 @@ class PlaylistTrackPolicy extends BasePolicy
     public function restore(User $user, BaseModel|Model $track): bool
     {
         if (Filament::isServing()) {
-            return $user !== null && $user->hasRole(RoleEnum::ADMIN->value);
+            return $user->hasRole(RoleEnum::ADMIN->value);
         }
 
         /** @var Playlist|null $playlist */

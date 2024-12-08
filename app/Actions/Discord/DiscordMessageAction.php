@@ -28,7 +28,7 @@ class DiscordMessageAction
         $embeds = [];
 
         foreach (Arr::get($fields, DiscordMessage::ATTRIBUTE_EMBEDS) as $embed) {
-            $newEmbed = (new DiscordEmbed())
+            $newEmbed = new DiscordEmbed()
                 ->setTitle(Arr::get($embed, DiscordEmbed::ATTRIBUTE_TITLE) ?? '')
                 ->setDescription(Arr::get($embed, DiscordEmbed::ATTRIBUTE_DESCRIPTION) ?? '')
                 ->setColor(hexdec(Arr::get($embed, DiscordEmbed::ATTRIBUTE_COLOR) ?? ''))

@@ -13,12 +13,12 @@ use App\Filament\Resources\Wiki\Artist;
 use App\Models\Auth\User;
 use App\Models\Wiki\Artist as ArtistModel;
 use Livewire\Livewire;
-use Tests\Unit\Filament\BaseResourceTest;
+use Tests\Unit\Filament\BaseResourceTestCase;
 
 /**
  * Class ArtistTest.
  */
-class ArtistTest extends BaseResourceTest
+class ArtistTest extends BaseResourceTestCase
 {
     /**
      * Get the index page class of the resource.

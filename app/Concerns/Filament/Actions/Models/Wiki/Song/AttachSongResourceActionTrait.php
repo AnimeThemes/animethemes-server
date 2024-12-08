@@ -33,7 +33,7 @@ trait AttachSongResourceActionTrait
             ResourceSite::AMAZON_MUSIC,
         ]);
 
-        $this->action(fn (Song $record, array $data) => (new AttachResourceActionAction($record, $data, $this->sites))->handle());
+        $this->action(fn (Song $record, array $data) => new AttachResourceActionAction($record, $data, $this->sites)->handle());
     }
 
     /**

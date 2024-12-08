@@ -64,7 +64,7 @@ class AnimeImageIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AnimeImageCollection($animeImages, new Query()))
+                    new AnimeImageCollection($animeImages, new Query())
                         ->response()
                         ->getData()
                 ),
@@ -129,7 +129,7 @@ class AnimeImageIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AnimeImageCollection($animeImages, new Query($parameters)))
+                    new AnimeImageCollection($animeImages, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -171,7 +171,7 @@ class AnimeImageIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AnimeImageCollection($animeImages, new Query($parameters)))
+                    new AnimeImageCollection($animeImages, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -215,7 +215,7 @@ class AnimeImageIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AnimeImageCollection($animeImages, $query))
+                    new AnimeImageCollection($animeImages, $query)
                         ->response()
                         ->getData()
                 ),
@@ -268,7 +268,7 @@ class AnimeImageIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AnimeImageCollection($animeImages, new Query($parameters)))
+                    new AnimeImageCollection($animeImages, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -321,7 +321,7 @@ class AnimeImageIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AnimeImageCollection($animeImages, new Query($parameters)))
+                    new AnimeImageCollection($animeImages, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -365,7 +365,7 @@ class AnimeImageIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AnimeImageCollection($animeImages, new Query($parameters)))
+                    new AnimeImageCollection($animeImages, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -409,7 +409,7 @@ class AnimeImageIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AnimeImageCollection($animeImages, new Query($parameters)))
+                    new AnimeImageCollection($animeImages, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -453,7 +453,7 @@ class AnimeImageIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AnimeImageCollection($animeImages, new Query($parameters)))
+                    new AnimeImageCollection($animeImages, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -503,7 +503,7 @@ class AnimeImageIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AnimeImageCollection($animeImages, new Query($parameters)))
+                    new AnimeImageCollection($animeImages, new Query($parameters))
                         ->response()
                         ->getData()
                 ),

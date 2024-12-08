@@ -215,7 +215,7 @@ class PlaylistImageShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new PlaylistImageResource($playlistImage, new Query()))
+                    new PlaylistImageResource($playlistImage, new Query())
                         ->response()
                         ->getData()
                 ),
@@ -263,7 +263,7 @@ class PlaylistImageShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new PlaylistImageResource($playlistImage, new Query($parameters)))
+                    new PlaylistImageResource($playlistImage, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -311,7 +311,7 @@ class PlaylistImageShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new PlaylistImageResource($playlistImage, new Query($parameters)))
+                    new PlaylistImageResource($playlistImage, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -360,7 +360,7 @@ class PlaylistImageShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new PlaylistImageResource($playlistImage, new Query($parameters)))
+                    new PlaylistImageResource($playlistImage, new Query($parameters))
                         ->response()
                         ->getData()
                 ),

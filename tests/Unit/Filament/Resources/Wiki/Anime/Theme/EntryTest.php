@@ -13,12 +13,12 @@ use App\Filament\Resources\Wiki\Anime\Theme\Entry;
 use App\Models\Auth\User;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry as AnimeThemeEntryModel;
 use Livewire\Livewire;
-use Tests\Unit\Filament\BaseResourceTest;
+use Tests\Unit\Filament\BaseResourceTestCase;
 
 /**
  * Class EntryTest.
  */
-class EntryTest extends BaseResourceTest
+class EntryTest extends BaseResourceTestCase
 {
     /**
      * Get the index page class of the resource.

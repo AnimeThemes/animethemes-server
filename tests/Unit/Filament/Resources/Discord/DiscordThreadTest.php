@@ -12,12 +12,12 @@ use App\Models\Auth\User;
 use App\Models\Discord\DiscordThread as DiscordThreadModel;
 use App\Models\Wiki\Anime;
 use Livewire\Livewire;
-use Tests\Unit\Filament\BaseResourceTest;
+use Tests\Unit\Filament\BaseResourceTestCase;
 
 /**
  * Class DiscordThreadTest.
  */
-class DiscordThreadTest extends BaseResourceTest
+class DiscordThreadTest extends BaseResourceTestCase
 {
     /**
      * Get the index page class of the resource.

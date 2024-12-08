@@ -77,7 +77,7 @@ class FeaturedThemeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new FeaturedThemeCollection($featuredThemes, new Query()))
+                    new FeaturedThemeCollection($featuredThemes, new Query())
                         ->response()
                         ->getData()
                 ),
@@ -144,7 +144,7 @@ class FeaturedThemeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new FeaturedThemeCollection($featuredThemes, new Query($parameters)))
+                    new FeaturedThemeCollection($featuredThemes, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -179,7 +179,7 @@ class FeaturedThemeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new FeaturedThemeCollection($featuredThemes, new Query($parameters)))
+                    new FeaturedThemeCollection($featuredThemes, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -218,7 +218,7 @@ class FeaturedThemeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new FeaturedThemeCollection($featuredThemes, $query))
+                    new FeaturedThemeCollection($featuredThemes, $query)
                         ->response()
                         ->getData()
                 ),
@@ -261,7 +261,7 @@ class FeaturedThemeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new FeaturedThemeCollection($featuredTheme, new Query($parameters)))
+                    new FeaturedThemeCollection($featuredTheme, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -304,7 +304,7 @@ class FeaturedThemeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new FeaturedThemeCollection($featuredTheme, new Query($parameters)))
+                    new FeaturedThemeCollection($featuredTheme, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -340,7 +340,7 @@ class FeaturedThemeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new FeaturedThemeCollection($featuredTheme, new Query($parameters)))
+                    new FeaturedThemeCollection($featuredTheme, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -376,7 +376,7 @@ class FeaturedThemeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new FeaturedThemeCollection($featuredTheme, new Query($parameters)))
+                    new FeaturedThemeCollection($featuredTheme, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -412,7 +412,7 @@ class FeaturedThemeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new FeaturedThemeCollection($featuredTheme, new Query($parameters)))
+                    new FeaturedThemeCollection($featuredTheme, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -456,7 +456,7 @@ class FeaturedThemeIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new FeaturedThemeCollection($featuredTheme, new Query($parameters)))
+                    new FeaturedThemeCollection($featuredTheme, new Query($parameters))
                         ->response()
                         ->getData()
                 ),

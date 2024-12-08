@@ -55,7 +55,7 @@ class AudioIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AudioCollection($audios, new Query()))
+                    new AudioCollection($audios, new Query())
                         ->response()
                         ->getData()
                 ),
@@ -115,7 +115,7 @@ class AudioIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AudioCollection($audios, new Query($parameters)))
+                    new AudioCollection($audios, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -152,7 +152,7 @@ class AudioIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AudioCollection($audios, new Query($parameters)))
+                    new AudioCollection($audios, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -193,7 +193,7 @@ class AudioIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AudioCollection($audios, $query))
+                    new AudioCollection($audios, $query)
                         ->response()
                         ->getData()
                 ),
@@ -236,7 +236,7 @@ class AudioIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AudioCollection($audio, new Query($parameters)))
+                    new AudioCollection($audio, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -279,7 +279,7 @@ class AudioIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AudioCollection($audio, new Query($parameters)))
+                    new AudioCollection($audio, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -315,7 +315,7 @@ class AudioIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AudioCollection($audio, new Query($parameters)))
+                    new AudioCollection($audio, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -351,7 +351,7 @@ class AudioIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AudioCollection($audio, new Query($parameters)))
+                    new AudioCollection($audio, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -387,7 +387,7 @@ class AudioIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AudioCollection($audio, new Query($parameters)))
+                    new AudioCollection($audio, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -431,7 +431,7 @@ class AudioIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new AudioCollection($audio, new Query($parameters)))
+                    new AudioCollection($audio, new Query($parameters))
                         ->response()
                         ->getData()
                 ),

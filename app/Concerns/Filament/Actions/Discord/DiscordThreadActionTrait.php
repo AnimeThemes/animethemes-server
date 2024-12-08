@@ -33,7 +33,7 @@ trait DiscordThreadActionTrait
         $this->fillForm(fn (Anime $record): array => ['name' => $record->getName()]);
 
         $this->action(function (Anime $record, array $data) {
-            $action = (new DiscordThreadActionAction())->handle($record, $data);
+            $action = new DiscordThreadActionAction()->handle($record, $data);
 
             if ($action instanceof Exception) {
                 $this->failedLog($action);

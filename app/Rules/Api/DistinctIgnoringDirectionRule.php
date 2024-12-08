@@ -26,8 +26,8 @@ class DistinctIgnoringDirectionRule implements ValidationRule
     {
         $values = Str::of($value)->explode(',');
 
-        /** @phpstan-ignore-next-line */
         $duplicateValues = $values->duplicates(function (mixed $sort) {
+            /** @phpstan-ignore-next-line */
             if (is_string($sort) && Str::startsWith($sort, '-')) {
                 return Str::replaceFirst('-', '', $sort);
             }

@@ -11,12 +11,12 @@ use App\Models\Auth\User;
 use App\Models\List\Playlist as PlaylistModel;
 use Filament\Facades\Filament;
 use Livewire\Livewire;
-use Tests\Unit\Filament\BaseResourceTest;
+use Tests\Unit\Filament\BaseResourceTestCase;
 
 /**
  * Class PlaylistTest.
  */
-class PlaylistTest extends BaseResourceTest
+class PlaylistTest extends BaseResourceTestCase
 {
     /**
      * Initial setup for the tests.

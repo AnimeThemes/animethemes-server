@@ -66,7 +66,7 @@ class ExternalProfileController extends BaseController
 
         $userId = Auth::id();
         if ($userId) {
-            $builder->orWhere(ExternalProfile::ATTRIBUTE_USER, Auth::id());
+            $builder->orWhereBelongsTo(Auth::user());
         }
 
         $externalprofiles = $query->hasSearchCriteria()

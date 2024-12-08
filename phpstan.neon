@@ -2,6 +2,7 @@ includes:
     - ./vendor/larastan/larastan/extension.neon
 
 parameters:
+    treatPhpDocTypesAsCertain: false
     checkModelProperties: true
     checkOctaneCompatibility: true
     reportUnmatchedIgnoredErrors: false
@@ -20,6 +21,10 @@ parameters:
     ignoreErrors:
         -
             identifier: missingType.iterableValue
+        -
+            identifier: varTag.nativeType
+        -
+            identifier: method.childReturnType
         - '#Call to an undefined method Mockery\\ExpectationInterface|Mockery\\HigherOrderMessage::once\(\).#'
         - '#Call to an undefined method Database\\Factories.*::trashed\(\).#'
         -

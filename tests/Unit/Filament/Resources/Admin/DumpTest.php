@@ -14,12 +14,12 @@ use App\Filament\Resources\Admin\Dump;
 use App\Models\Admin\Dump as DumpModel;
 use App\Models\Auth\User;
 use Livewire\Livewire;
-use Tests\Unit\Filament\BaseResourceTest;
+use Tests\Unit\Filament\BaseResourceTestCase;
 
 /**
  * Class DumpTest.
  */
-class DumpTest extends BaseResourceTest
+class DumpTest extends BaseResourceTestCase
 {
     /**
      * Get the index page class of the resource.

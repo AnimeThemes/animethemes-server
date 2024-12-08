@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Actions\Discord;
 
-use App\Models\Wiki\Image;
 use App\Models\Wiki\Video;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Arr;
@@ -54,10 +53,6 @@ class DiscordVideoNotificationAction
                 $threadAction->handle($anime, ['name' => $anime->getName()]);
                 $anime->load('discordthread');
             }
-
-            $anime->images->each(function (Image $image) use ($fs) {
-                Arr::set($image, 'link', $fs->url($image->path));
-            });
 
             $videoArray = $video->toArray();
 

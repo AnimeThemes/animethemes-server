@@ -51,7 +51,7 @@ class Song extends BaseModel
     /**
      * The attributes that are mass assignable.
      *
-     * @var array<int, string>
+     * @var list<string>
      */
     protected $fillable = [
         Song::ATTRIBUTE_TITLE,

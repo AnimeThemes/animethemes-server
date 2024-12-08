@@ -34,7 +34,7 @@ class DumpShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new DumpResource($dump, new Query()))
+                    new DumpResource($dump, new Query())
                         ->response()
                         ->getData()
                 ),
@@ -59,7 +59,7 @@ class DumpShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new DumpResource($dump, new Query()))
+                    new DumpResource($dump, new Query())
                         ->response()
                         ->getData()
                 ),
@@ -94,7 +94,7 @@ class DumpShowTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new DumpResource($dump, new Query($parameters)))
+                    new DumpResource($dump, new Query($parameters))
                         ->response()
                         ->getData()
                 ),

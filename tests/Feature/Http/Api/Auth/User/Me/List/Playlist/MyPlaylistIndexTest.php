@@ -82,7 +82,7 @@ class MyPlaylistIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new PlaylistCollection($playlists, new Query()))
+                    new PlaylistCollection($playlists, new Query())
                         ->response()
                         ->getData()
                 ),

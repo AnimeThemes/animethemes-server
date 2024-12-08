@@ -193,7 +193,7 @@ class TrackIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new TrackCollection($playlist->tracks, new Query()))
+                    new TrackCollection($playlist->tracks, new Query())
                         ->response()
                         ->getData()
                 ),
@@ -270,7 +270,7 @@ class TrackIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new TrackCollection($tracks, new Query($parameters)))
+                    new TrackCollection($tracks, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -311,7 +311,7 @@ class TrackIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new TrackCollection($playlist->tracks, new Query($parameters)))
+                    new TrackCollection($playlist->tracks, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -356,7 +356,7 @@ class TrackIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new TrackCollection($tracks, $query))
+                    new TrackCollection($tracks, $query)
                         ->response()
                         ->getData()
                 ),
@@ -414,7 +414,7 @@ class TrackIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new TrackCollection($tracks, new Query($parameters)))
+                    new TrackCollection($tracks, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -472,7 +472,7 @@ class TrackIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new TrackCollection($tracks, new Query($parameters)))
+                    new TrackCollection($tracks, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -517,7 +517,7 @@ class TrackIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new TrackCollection($tracks, new Query($parameters)))
+                    new TrackCollection($tracks, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -562,7 +562,7 @@ class TrackIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new TrackCollection($tracks, new Query($parameters)))
+                    new TrackCollection($tracks, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -607,7 +607,7 @@ class TrackIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new TrackCollection($tracks, new Query($parameters)))
+                    new TrackCollection($tracks, new Query($parameters))
                         ->response()
                         ->getData()
                 ),
@@ -666,7 +666,7 @@ class TrackIndexTest extends TestCase
         $response->assertJson(
             json_decode(
                 json_encode(
-                    (new TrackCollection($tracks, new Query($parameters)))
+                    new TrackCollection($tracks, new Query($parameters))
                         ->response()
                         ->getData()
                 ),

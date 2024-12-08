@@ -23,6 +23,8 @@ use App\Pivots\Wiki\StudioImage;
 use Database\Factories\Wiki\ImageFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * Class Image.
@@ -31,6 +33,7 @@ use Illuminate\Support\Collection;
  * @property Collection<int, Artist> $artists
  * @property ImageFacet|null $facet
  * @property int $image_id
+ * @property string $link
  * @property string $mimetype
  * @property string $path
  * @property Collection<int, Playlist> $playlists
@@ -46,6 +49,7 @@ class Image extends BaseModel
     final public const ATTRIBUTE_FACET = 'facet';
     final public const ATTRIBUTE_ID = 'image_id';
     final public const ATTRIBUTE_PATH = 'path';
+    final public const ATTRIBUTE_LINK = 'link';
 
     final public const RELATION_ANIME = 'anime';
     final public const RELATION_ARTISTS = 'artists';
@@ -55,7 +59,7 @@ class Image extends BaseModel
     /**
      * The attributes that are mass assignable.
      *
-     * @var array<int, string>
+     * @var list<string>
      */
     protected $fillable = [
         Image::ATTRIBUTE_FACET,
@@ -92,6 +96,15 @@ class Image extends BaseModel
     protected $primaryKey = Image::ATTRIBUTE_ID;
 
     /**
+     * The accessors to append to the model's array form.
+     *
+     * @var list<string>
+     */
+    protected $appends = [
+        Image::ATTRIBUTE_LINK,
+    ];
+
+    /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>
@@ -121,6 +134,23 @@ class Image extends BaseModel
     public function getSubtitle(): string
     {
         return $this->path;
+    }
+
+    /**
+     * The link of the image model.
+     *
+     * @return string|null
+     */
+    public function getLinkAttribute(): ?string
+    {
+        if ($this->path) {
+            /** @var \Illuminate\Filesystem\FilesystemAdapter $fs */
+            $fs = Storage::disk(Config::get('image.disk'));
+
+            return $fs->url($this->getAttribute(Image::ATTRIBUTE_PATH));
+        }
+
+        return null;
     }
 
     /**
