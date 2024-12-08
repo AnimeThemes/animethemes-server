@@ -20,11 +20,11 @@ use App\Pivots\List\PlaylistImage;
 use App\Pivots\Wiki\AnimeImage;
 use App\Pivots\Wiki\ArtistImage;
 use App\Pivots\Wiki\StudioImage;
-use Config;
 use Database\Factories\Wiki\ImageFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Collection;
-use Storage;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * Class Image.
@@ -139,13 +139,18 @@ class Image extends BaseModel
     /**
      * The link of the image model.
      *
-     * @return string
+     * @return string|null
      */
-    public function getLinkAttribute(): string
+    public function getLinkAttribute(): ?string
     {
-        $fs = Storage::disk(Config::get('image.disk'));
+        if ($this->path) {
+            /** @var \Illuminate\Filesystem\FilesystemAdapter $fs */
+            $fs = Storage::disk(Config::get('image.disk'));
 
-        return $fs->url($this->getAttribute(Image::ATTRIBUTE_PATH));
+            return $fs->url($this->getAttribute(Image::ATTRIBUTE_PATH));
+        }
+
+        return null;
     }
 
     /**

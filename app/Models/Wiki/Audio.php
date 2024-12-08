@@ -14,6 +14,7 @@ use CyrildeWit\EloquentViewable\Contracts\Viewable;
 use CyrildeWit\EloquentViewable\InteractsWithViews;
 use Database\Factories\Wiki\AudioFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 
 /**
@@ -100,11 +101,15 @@ class Audio extends BaseModel implements Streamable, Viewable
     /**
      * The link of the audio.
      *
-     * @return string
+     * @return string|null
      */
-    public function getLinkAttribute(): string
+    public function getLinkAttribute(): ?string
     {
-        return route('audio.show', $this);
+        if (Arr::exists($this->attributes, Audio::ATTRIBUTE_BASENAME)) {
+            return route('audio.show', $this);
+        }
+
+        return null;
     }
 
     /**

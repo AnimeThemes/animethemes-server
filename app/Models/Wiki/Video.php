@@ -28,6 +28,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 
 /**
@@ -153,11 +154,15 @@ class Video extends BaseModel implements Streamable, Viewable
     /**
      * The link of the video.
      *
-     * @return string
+     * @return string|null
      */
-    public function getLinkAttribute(): string
+    public function getLinkAttribute(): ?string
     {
-        return route('video.show', $this);
+        if (Arr::exists($this->attributes, Video::ATTRIBUTE_BASENAME)) {
+            return route('video.show', $this);
+        }
+
+        return null;
     }
 
     /**
