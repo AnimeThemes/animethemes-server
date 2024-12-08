@@ -29,7 +29,7 @@ class BaseViewResource extends ViewRecord
 
         if (Arr::has($pages, 'edit')) {
             $editPage = $pages['edit']->getPage();
-            $action = new $editPage->getHeaderActions();
+            $action = (new $editPage)->getHeaderActions();
         } else {
             $action = [];
         }
