@@ -27,7 +27,6 @@ class BelongsToColumn extends TextColumn
     {
         $relation = explode('.', $this->getName())[0];
 
-        $this->placeholder('-');
         $this->label($this->resource->getModelLabel());
         $this->tooltip(fn (BelongsToColumn $column) => is_array($column->getState()) ? null : $column->getState());
         $this->weight(FontWeight::SemiBold);

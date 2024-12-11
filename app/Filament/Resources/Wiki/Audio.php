@@ -137,12 +137,10 @@ class Audio extends BaseResource
         return parent::table($table)
             ->columns([
                 TextColumn::make(AudioModel::ATTRIBUTE_ID)
-                    ->label(__('filament.fields.base.id'))
-                    ->sortable(),
+                    ->label(__('filament.fields.base.id')),
 
                 TextColumn::make(AudioModel::ATTRIBUTE_FILENAME)
                     ->label(__('filament.fields.audio.filename.name'))
-                    ->sortable()
                     ->searchable()
                     ->copyableWithMessage(),
             ]);

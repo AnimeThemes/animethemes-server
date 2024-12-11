@@ -58,8 +58,7 @@ class Exception extends ExceptionResource
                         'danger' => fn ($state): bool => $state === 'DELETE',
                         'gray' => fn ($state): bool => $state === 'OPTIONS',
                     ])
-                    ->searchable()
-                    ->sortable(),
+                    ->searchable(),
 
                 TextColumn::make('path')
                     ->label(__('filament-exceptions::filament-exceptions.columns.path'))
@@ -67,21 +66,16 @@ class Exception extends ExceptionResource
 
                 TextColumn::make('type')
                     ->label(__('filament-exceptions::filament-exceptions.columns.type'))
-                    ->sortable()
                     ->searchable(),
 
                 TextColumn::make('code')
                     ->label(__('filament-exceptions::filament-exceptions.columns.code'))
-                    ->searchable()
-                    ->sortable()
-                    ->toggleable(),
+                    ->searchable(),
 
                 TextColumn::make('created_at')
                     ->label(__('filament-exceptions::filament-exceptions.columns.occurred_at'))
-                    ->sortable()
                     ->searchable()
-                    ->dateTime()
-                    ->toggleable(),
+                    ->dateTime(),
             ])
             ->actions([
                 ViewAction::make('view')

@@ -171,13 +171,10 @@ class Page extends BaseResource
         return parent::table($table)
             ->columns([
                 TextColumn::make(PageModel::ATTRIBUTE_ID)
-                    ->label(__('filament.fields.base.id'))
-                    ->sortable(),
+                    ->label(__('filament.fields.base.id')),
 
                 TextColumn::make('section')
                     ->label(__('filament.fields.page.section.name'))
-                    ->toggleable()
-                    ->sortable()
                     ->state(function (PageModel $record) {
                         $slug = $record->slug;
                         $lastSlash = strrpos($slug, '/');
@@ -188,20 +185,15 @@ class Page extends BaseResource
 
                 TextColumn::make(PageModel::ATTRIBUTE_NAME)
                     ->label(__('filament.fields.page.name.name'))
-                    ->sortable()
                     ->searchable()
-                    ->copyableWithMessage()
-                    ->toggleable(),
+                    ->copyableWithMessage(),
 
                 TextColumn::make(PageModel::ATTRIBUTE_SLUG)
                     ->label(__('filament.fields.page.slug.name'))
-                    ->sortable()
-                    ->copyableWithMessage()
-                    ->toggleable(),
+                    ->copyableWithMessage(),
 
                 TextColumn::make(PageModel::ATTRIBUTE_BODY)
                     ->label(__('filament.fields.page.body.name'))
-                    ->sortable()
                     ->hidden(),
             ]);
     }

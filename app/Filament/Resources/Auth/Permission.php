@@ -144,12 +144,10 @@ class Permission extends BaseResource
             ->recordUrl(fn (PermissionModel $record): string => static::getUrl('view', ['record' => $record]))
             ->columns([
                 TextColumn::make(PermissionModel::ATTRIBUTE_ID)
-                    ->label(__('filament.fields.base.id'))
-                    ->sortable(),
+                    ->label(__('filament.fields.base.id')),
 
                 TextColumn::make(PermissionModel::ATTRIBUTE_NAME)
                     ->label(__('filament.fields.permission.name'))
-                    ->sortable()
                     ->searchable()
                     ->copyableWithMessage(),
             ]);

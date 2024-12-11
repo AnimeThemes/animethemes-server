@@ -140,12 +140,10 @@ class Dump extends BaseResource
             ->recordUrl('')
             ->columns([
                 TextColumn::make(DumpModel::ATTRIBUTE_ID)
-                    ->label(__('filament.fields.base.id'))
-                    ->sortable(),
+                    ->label(__('filament.fields.base.id')),
 
                 TextColumn::make(DumpModel::ATTRIBUTE_PATH)
                     ->label(__('filament.fields.dump.path'))
-                    ->sortable()
                     ->searchable()
                     ->copyableWithMessage(),
             ]);
@@ -240,7 +238,7 @@ class Dump extends BaseResource
                 DumpWikiTableAction::make('dump-wiki'),
 
                 DumpDocumentTableAction::make('dump-document'),
-                
+
                 PruneDumpTableAction::make('prune-dump'),
 
                 ReconcileDumpTableAction::make('reconcile-dump'),

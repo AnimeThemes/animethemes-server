@@ -73,6 +73,18 @@ class Kernel extends HttpKernel
             LogRequest::class,
         ],
 
+        'external' => [
+            EncryptCookies::class,
+            AddQueuedCookiesToResponse::class,
+            StartSession::class,
+            ShareErrorsFromSession::class,
+            VerifyCsrfToken::class,
+            SubstituteBindings::class,
+            LogRequest::class,
+            'auth',
+            'throttle:api',
+        ],
+
         'api' => [
             EnsureFrontendRequestsAreStateful::class,
             SetAcceptJsonHeader::class,

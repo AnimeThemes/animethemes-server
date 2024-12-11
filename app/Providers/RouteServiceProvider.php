@@ -77,11 +77,11 @@ class RouteServiceProvider extends ServiceProvider
                 ->prefix(Config::get(VideoConstants::SCRIPT_PATH_QUALIFIED))
                 ->group(base_path('routes/script.php'));
 
-            Route::middleware(['web', Authenticate::class, 'throttle:api'])
+            Route::middleware('external')
                 ->domain(Config::get(ApiConstants::URL_QUALIFIED))
                 ->prefix(Config::get(ApiConstants::PATH_QUALIFIED))
                 ->as('api.')
-                ->group(base_path('routes/externallist.php'));
+                ->group(base_path('routes/external.php'));
 
             Route::middleware('api')
                 ->domain(Config::get(ApiConstants::URL_QUALIFIED))

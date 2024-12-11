@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Builder;
 class CheckboxFilter extends Filter
 {
     /**
-     * Initial setup for the filter
+     * Initial setup for the filter.
      *
      * @return void
      */

@@ -161,19 +161,15 @@ class DiscordThread extends BaseResource
         return parent::table($table)
             ->columns([
                 TextColumn::make(DiscordThreadModel::ATTRIBUTE_ID)
-                    ->label(__('filament.fields.discord_thread.id.name'))
-                    ->sortable(),
+                    ->label(__('filament.fields.discord_thread.id.name')),
 
                 TextColumn::make(DiscordThreadModel::ATTRIBUTE_NAME)
                     ->label(__('filament.fields.discord_thread.name.name'))
-                    ->sortable()
                     ->copyableWithMessage()
-                    ->searchable()
-                    ->toggleable(),
+                    ->searchable(),
 
                 BelongsToColumn::make(DiscordThreadModel::RELATION_ANIME.'.'.Anime::ATTRIBUTE_NAME)
-                    ->resource(AnimeResource::class)
-                    ->toggleable(),
+                    ->resource(AnimeResource::class),
             ])
             ->defaultSort(BaseModel::CREATED_AT, 'desc');
     }

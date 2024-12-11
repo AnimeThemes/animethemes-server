@@ -9,10 +9,12 @@ use Awcodes\Recently\RecentlyPlugin;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Filament\Infolists\Components\Entry;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
 use Filament\Support\Enums\MaxWidth;
+use Filament\Tables\Columns\Column;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
@@ -28,6 +30,21 @@ use Leandrocfe\FilamentApexCharts\FilamentApexChartsPlugin;
  */
 class FilamentPanelProvider extends PanelProvider
 {
+    public function register(): void
+    {
+        parent::register();
+
+        Column::configureUsing(function (Column $column) {
+            $column->placeholder('-');
+            $column->sortable();
+            $column->toggleable();
+        });
+
+        Entry::configureUsing(function (Entry $entry) {
+            $entry->placeholder('-');
+        });
+    }
+
     public function panel(Panel $panel): Panel
     {
         return $panel

@@ -13,9 +13,9 @@ use App\Filament\Actions\Base\ViewAction;
 use App\Filament\BulkActions\Base\DeleteBulkAction;
 use App\Filament\BulkActions\Base\ForceDeleteBulkAction;
 use App\Filament\BulkActions\Base\RestoreBulkAction;
+use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\RelationManagers\Base\ActionLogRelationManager;
 use App\Models\BaseModel;
-use Filament\Infolists\Components\TextEntry;
 use Filament\Resources\Resource;
 use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Actions\BulkActionGroup;
@@ -110,8 +110,7 @@ abstract class BaseResource extends Resource
 
             TextEntry::make(BaseModel::ATTRIBUTE_DELETED_AT)
                 ->label(__('filament.fields.base.deleted_at'))
-                ->dateTime()
-                ->placeholder('-'),
+                ->dateTime(),
         ];
     }
 

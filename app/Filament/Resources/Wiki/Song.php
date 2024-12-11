@@ -158,32 +158,23 @@ class Song extends BaseResource
         return parent::table($table)
             ->columns([
                 TextColumn::make(SongModel::ATTRIBUTE_ID)
-                    ->label(__('filament.fields.base.id'))
-                    ->sortable(),
+                    ->label(__('filament.fields.base.id')),
 
                 TextColumn::make(SongModel::ATTRIBUTE_TITLE)
                     ->label(__('filament.fields.song.title.name'))
-                    ->sortable()
-                    ->copyableWithMessage()
-                    ->toggleable(),
+                    ->copyableWithMessage(),
 
                 TextColumn::make(SongResource::ATTRIBUTE_AS)
                     ->label(__('filament.fields.song.resources.as.name'))
-                    ->visibleOn(SongResourceRelationManager::class)
-                    ->toggleable()
-                    ->placeholder('-'),
+                    ->visibleOn(SongResourceRelationManager::class),
 
                 TextColumn::make(ArtistSong::ATTRIBUTE_AS)
                     ->label(__('filament.fields.artist.songs.as.name'))
-                    ->visibleOn(SongArtistRelationManager::class)
-                    ->toggleable()
-                    ->placeholder('-'),
+                    ->visibleOn(SongArtistRelationManager::class),
 
                 TextColumn::make(ArtistSong::ATTRIBUTE_ALIAS)
                     ->label(__('filament.fields.artist.songs.alias.name'))
-                    ->visibleOn(SongArtistRelationManager::class)
-                    ->toggleable()
-                    ->placeholder('-'),
+                    ->visibleOn(SongArtistRelationManager::class),
             ])
             ->searchable();
     }

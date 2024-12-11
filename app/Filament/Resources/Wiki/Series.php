@@ -160,19 +160,14 @@ class Series extends BaseResource
         return parent::table($table)
             ->columns([
                 TextColumn::make(SeriesModel::ATTRIBUTE_ID)
-                    ->label(__('filament.fields.base.id'))
-                    ->sortable(),
+                    ->label(__('filament.fields.base.id')),
 
                 TextColumn::make(SeriesModel::ATTRIBUTE_NAME)
                     ->label(__('filament.fields.series.name.name'))
-                    ->sortable()
-                    ->copyableWithMessage()
-                    ->toggleable(),
+                    ->copyableWithMessage(),
 
                 TextColumn::make(SeriesModel::ATTRIBUTE_SLUG)
-                    ->label(__('filament.fields.series.slug.name'))
-                    ->sortable()
-                    ->toggleable(),
+                    ->label(__('filament.fields.series.slug.name')),
             ])
             ->searchable();
     }

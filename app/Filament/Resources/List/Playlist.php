@@ -182,44 +182,34 @@ class Playlist extends BaseResource
         return parent::table($table)
             ->columns([
                 BelongsToColumn::make(PlaylistModel::RELATION_USER.'.'.User::ATTRIBUTE_NAME)
-                    ->resource(UserResource::class)
-                    ->toggleable(),
+                    ->resource(UserResource::class),
 
                 TextColumn::make(PlaylistModel::ATTRIBUTE_ID)
-                    ->label(__('filament.fields.base.id'))
-                    ->sortable(),
+                    ->label(__('filament.fields.base.id')),
 
                 TextColumn::make(PlaylistModel::ATTRIBUTE_NAME)
                     ->label(__('filament.fields.playlist.name.name'))
                     ->limit(40)
                     ->tooltip(fn (TextColumn $column) => $column->getState())
-                    ->sortable()
-                    ->copyableWithMessage()
-                    ->toggleable(),
+                    ->copyableWithMessage(),
 
                 TextColumn::make(PlaylistModel::ATTRIBUTE_VISIBILITY)
                     ->label(__('filament.fields.playlist.visibility.name'))
-                    ->sortable()
-                    ->toggleable()
                     ->formatStateUsing(fn ($state) => $state->localize()),
 
                 TextColumn::make(PlaylistModel::ATTRIBUTE_HASHID)
                     ->label(__('filament.fields.playlist.hashid.name'))
-                    ->toggleable()
-                    ->placeholder('-')
                     ->copyableWithMessage(),
 
                 BelongsToColumn::make(PlaylistModel::RELATION_FIRST.'.'.PlaylistTrack::ATTRIBUTE_HASHID)
                     ->resource(Track::class)
                     ->label(__('filament.fields.playlist.first.name'))
-                    ->visibleOn(['create', 'edit', 'view'])
-                    ->toggleable(),
+                    ->visibleOn(['create', 'edit', 'view']),
 
                 BelongsToColumn::make(PlaylistModel::RELATION_LAST.'.'.PlaylistTrack::ATTRIBUTE_HASHID)
                     ->resource(Track::class)
                     ->label(__('filament.fields.playlist.last.name'))
-                    ->visibleOn(['create', 'edit', 'view'])
-                    ->toggleable(),
+                    ->visibleOn(['create', 'edit', 'view']),
 
                 TextColumn::make(PlaylistModel::ATTRIBUTE_DESCRIPTION)
                     ->label(__('filament.fields.playlist.description.name'))
@@ -244,7 +234,6 @@ class Playlist extends BaseResource
                     ->schema([
                         TextEntry::make(PlaylistModel::ATTRIBUTE_USER)
                             ->label(__('filament.resources.singularLabel.user'))
-                            ->placeholder('-')
                             ->urlToRelated(UserResource::class, PlaylistModel::RELATION_USER),
 
                         TextEntry::make(PlaylistModel::ATTRIBUTE_NAME)
@@ -258,17 +247,14 @@ class Playlist extends BaseResource
 
                         TextEntry::make(PlaylistModel::ATTRIBUTE_HASHID)
                             ->label(__('filament.fields.playlist.hashid.name'))
-                            ->placeholder('-')
                             ->copyableWithMessage(),
 
                         TextEntry::make(PlaylistModel::ATTRIBUTE_FIRST)
                             ->label(__('filament.fields.playlist.first.name'))
-                            ->placeholder('-')
                             ->urlToRelated(Track::class, PlaylistModel::RELATION_FIRST),
 
                         TextEntry::make(PlaylistModel::ATTRIBUTE_LAST)
                             ->label(__('filament.fields.playlist.last.name'))
-                            ->placeholder('-')
                             ->urlToRelated(Track::class, PlaylistModel::RELATION_LAST),
 
                         TextEntry::make(PlaylistModel::ATTRIBUTE_ID)
@@ -277,7 +263,6 @@ class Playlist extends BaseResource
                         TextEntry::make(PlaylistModel::ATTRIBUTE_DESCRIPTION)
                             ->label(__('filament.fields.playlist.description.name'))
                             ->markdown()
-                            ->placeholder('-')
                             ->copyableWithMessage()
                             ->columnSpanFull(),
                     ])

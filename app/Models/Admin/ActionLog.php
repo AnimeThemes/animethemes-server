@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Date;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 use Throwable;
 
@@ -96,6 +97,48 @@ class ActionLog extends Model implements Nameable, HasSubtitle
      * @var string
      */
     protected $primaryKey = ActionLog::ATTRIBUTE_ID;
+
+    /**
+     * Boostrap the model.
+     *
+     * @return void
+     */
+    protected static function boot(): void
+    {
+        parent::boot();
+
+        static::creating(function (ActionLog $actionLog) {
+            if ($actionLog->status === ActionLogStatus::RUNNING) {
+                Session::put('currentActionLog', $actionLog->batch_id);
+            }
+        });
+
+        static::updating(function (ActionLog $actionLog) {
+            if ($actionLog->status === ActionLogStatus::FINISHED || $actionLog->status === ActionLogStatus::FAILED) {
+                Session::forget('currentActionLog');
+            }
+        });
+    }
+
+    /**
+     * When an exception is thrown, the current action logs should be handled.
+     *
+     * @param  Throwable  $e
+     * @return void
+     */
+    public static function updateCurrentActionLogToFailed(Throwable $e): void
+    {
+        if ($actionLog = Session::get('currentActionLog')) {
+            ActionLog::query()
+                ->where(ActionLog::ATTRIBUTE_BATCH_ID, $actionLog)
+                ->where(ActionLog::ATTRIBUTE_STATUS, ActionLogStatus::RUNNING->value)
+                ->update([
+                    ActionLog::ATTRIBUTE_STATUS => ActionLogStatus::FAILED->value,
+                    ActionLog::ATTRIBUTE_EXCEPTION => $e->__toString(),
+                    ActionLog::ATTRIBUTE_FINISHED_AT => Date::now(),
+                ]);
+        }
+    }
 
     /**
      * Get the attributes that should be cast.

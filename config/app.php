@@ -226,6 +226,7 @@ return [
         App\Providers\HorizonServiceProvider::class,
         App\Providers\PulseServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        App\Providers\ViewableServiceProvider::class,
     ])->toArray(),
 
     /*

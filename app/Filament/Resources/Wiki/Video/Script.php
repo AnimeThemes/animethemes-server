@@ -139,12 +139,10 @@ class Script extends BaseResource
         return parent::table($table)
             ->columns([
                 TextColumn::make(ScriptModel::ATTRIBUTE_ID)
-                    ->label(__('filament.fields.base.id'))
-                    ->sortable(),
+                    ->label(__('filament.fields.base.id')),
 
                 TextColumn::make(ScriptModel::ATTRIBUTE_PATH)
                     ->label(__('filament.fields.video_script.path'))
-                    ->sortable()
                     ->copyableWithMessage(),
             ]);
     }
@@ -214,7 +212,7 @@ class Script extends BaseResource
             [
                 ActionGroup::make([
                     MoveScriptAction::make('move-script'),
-                    
+
                     DeleteScriptAction::make('delete-script'),
                 ]),
             ],

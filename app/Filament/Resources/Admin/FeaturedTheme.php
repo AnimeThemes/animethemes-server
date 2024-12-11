@@ -204,32 +204,24 @@ class FeaturedTheme extends BaseResource
         return parent::table($table)
             ->columns([
                 TextColumn::make(FeaturedThemeModel::ATTRIBUTE_ID)
-                    ->label(__('filament.fields.base.id'))
-                    ->sortable(),
+                    ->label(__('filament.fields.base.id')),
 
                 TextColumn::make(FeaturedThemeModel::ATTRIBUTE_START_AT)
                     ->label(__('filament.fields.featured_theme.start_at'))
-                    ->sortable()
-                    ->date()
-                    ->toggleable(),
+                    ->date(),
 
                 TextColumn::make(FeaturedThemeModel::ATTRIBUTE_END_AT)
                     ->label(__('filament.fields.featured_theme.end_at'))
-                    ->sortable()
-                    ->date()
-                    ->toggleable(),
+                    ->date(),
 
                 BelongsToColumn::make(FeaturedThemeModel::RELATION_VIDEO.'.'.Video::ATTRIBUTE_FILENAME)
-                    ->resource(VideoResource::class)
-                    ->toggleable(),
+                    ->resource(VideoResource::class),
 
                 BelongsToColumn::make(FeaturedThemeModel::RELATION_ENTRY.'.'.EntryModel::ATTRIBUTE_ID)
-                    ->resource(EntryResource::class)
-                    ->toggleable(),
+                    ->resource(EntryResource::class),
 
                 BelongsToColumn::make(FeaturedThemeModel::RELATION_USER.'.'.User::ATTRIBUTE_NAME)
-                    ->resource(UserResource::class)
-                    ->toggleable(),
+                    ->resource(UserResource::class),
             ]);
     }
 
@@ -260,17 +252,14 @@ class FeaturedTheme extends BaseResource
 
                         TextEntry::make(FeaturedThemeModel::RELATION_VIDEO.'.'.Video::ATTRIBUTE_FILENAME)
                             ->label(__('filament.resources.singularLabel.video'))
-                            ->placeholder('-')
                             ->urlToRelated(VideoResource::class, FeaturedThemeModel::RELATION_VIDEO),
 
                         TextEntry::make(FeaturedThemeModel::RELATION_ENTRY)
                             ->label(__('filament.resources.singularLabel.anime_theme_entry'))
-                            ->placeholder('-')
                             ->urlToRelated(EntryResource::class, FeaturedThemeModel::RELATION_ENTRY, true),
 
                         TextEntry::make(FeaturedThemeModel::RELATION_USER.'.'.User::ATTRIBUTE_NAME)
                             ->label(__('filament.resources.singularLabel.user'))
-                            ->placeholder('-')
                             ->urlToRelated(UserResource::class, FeaturedThemeModel::RELATION_USER),
                     ])
                     ->columns(3),

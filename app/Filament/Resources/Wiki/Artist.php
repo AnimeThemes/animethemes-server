@@ -171,34 +171,26 @@ class Artist extends BaseResource
         return parent::table($table)
             ->columns([
                 TextColumn::make(ArtistModel::ATTRIBUTE_ID)
-                    ->label(__('filament.fields.base.id'))
-                    ->sortable(),
+                    ->label(__('filament.fields.base.id')),
 
                 TextColumn::make(ArtistModel::ATTRIBUTE_NAME)
                     ->label(__('filament.fields.artist.name.name'))
-                    ->sortable()
-                    ->copyableWithMessage()
-                    ->toggleable(),
+                    ->copyableWithMessage(),
 
                 TextColumn::make(ArtistModel::ATTRIBUTE_SLUG)
-                    ->label(__('filament.fields.artist.slug.name'))
-                    ->sortable()
-                    ->toggleable(),
+                    ->label(__('filament.fields.artist.slug.name')),
 
                 TextColumn::make(ArtistResource::ATTRIBUTE_AS)
                     ->label(__('filament.fields.artist.resources.as.name'))
-                    ->visibleOn(ArtistResourceRelationManager::class)
-                    ->placeholder('-'),
+                    ->visibleOn(ArtistResourceRelationManager::class),
 
                 TextColumn::make(ArtistSong::ATTRIBUTE_AS)
                     ->label(__('filament.fields.artist.songs.as.name'))
-                    ->visibleOn([ArtistSongRelationManager::class, MemberArtistRelationManager::class, GroupArtistRelationManager::class])
-                    ->placeholder('-'),
+                    ->visibleOn([ArtistSongRelationManager::class, MemberArtistRelationManager::class, GroupArtistRelationManager::class]),
 
                 TextColumn::make(ArtistSong::ATTRIBUTE_ALIAS)
                     ->label(__('filament.fields.artist.songs.alias.name'))
-                    ->visibleOn([ArtistSongRelationManager::class, MemberArtistRelationManager::class, GroupArtistRelationManager::class])
-                    ->placeholder('-'),
+                    ->visibleOn([ArtistSongRelationManager::class, MemberArtistRelationManager::class, GroupArtistRelationManager::class]),
             ])
             ->searchable();
     }

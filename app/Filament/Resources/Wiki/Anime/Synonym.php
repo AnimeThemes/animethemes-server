@@ -159,23 +159,18 @@ class Synonym extends BaseResource
         return parent::table($table)
             ->columns([
                 TextColumn::make(SynonymModel::ATTRIBUTE_ID)
-                    ->label(__('filament.fields.base.id'))
-                    ->sortable(),
+                    ->label(__('filament.fields.base.id')),
 
                 BelongsToColumn::make(SynonymModel::RELATION_ANIME.'.'.AnimeModel::ATTRIBUTE_NAME)
                     ->resource(AnimeResource::class)
-                    ->toggleable()
                     ->hiddenOn(SynonymAnimeRelationManager::class),
 
                 TextColumn::make(SynonymModel::ATTRIBUTE_TYPE)
                     ->label(__('filament.fields.anime_synonym.type.name'))
-                    ->toggleable()
                     ->formatStateUsing(fn ($state) => $state->localize()),
 
                 TextColumn::make(SynonymModel::ATTRIBUTE_TEXT)
                     ->label(__('filament.fields.anime_synonym.text.name'))
-                    ->sortable()
-                    ->toggleable()
                     ->limit(70)
                     ->tooltip(fn (TextColumn $column) => $column->getState()),
             ])

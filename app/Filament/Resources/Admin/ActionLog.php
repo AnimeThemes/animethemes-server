@@ -18,6 +18,7 @@ use App\Models\BaseModel;
 use Filament\Facades\Filament;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Form;
+use Filament\Infolists\Components\TextEntry\TextEntrySize;
 use Filament\Infolists\Infolist;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
@@ -124,7 +125,6 @@ class ActionLog extends BaseResource
                 Textarea::make(ActionLogModel::ATTRIBUTE_EXCEPTION)
                     ->label(__('filament.fields.action_log.exception'))
                     ->disabled()
-                    ->placeholder('-')
                     ->columnSpanFull(),
             ]);
     }
@@ -143,40 +143,32 @@ class ActionLog extends BaseResource
             ->recordUrl('')
             ->columns([
                 TextColumn::make(ActionLogModel::ATTRIBUTE_ID)
-                    ->label(__('filament.fields.base.id'))
-                    ->sortable(),
+                    ->label(__('filament.fields.base.id')),
 
                 TextColumn::make(ActionLogModel::ATTRIBUTE_NAME)
                     ->label(__('filament.fields.action_log.name'))
-                    ->sortable()
                     ->searchable(),
 
                 BelongsToColumn::make(ActionLogModel::RELATION_USER.'.'.UserModel::ATTRIBUTE_NAME)
-                    ->resource(User::class)
-                    ->sortable(),
+                    ->resource(User::class),
 
                 TextColumn::make(ActionLogModel::ATTRIBUTE_TARGET)
                     ->label(__('filament.fields.action_log.target'))
-                    ->formatStateUsing(fn ($state) => Str::headline(class_basename($state)) . ': ' . $state->getName())
-                    ->sortable(),
+                    ->formatStateUsing(fn ($state) => Str::headline(class_basename($state)) . ': ' . $state->getName()),
 
                 TextColumn::make(ActionLogModel::ATTRIBUTE_STATUS)
                     ->label(__('filament.fields.action_log.status'))
                     ->formatStateUsing(fn (ActionLogStatus $state) => $state->localize())
                     ->color(fn (ActionLogStatus $state) => $state->color())
-                    ->badge()
-                    ->sortable(),
+                    ->badge(),
 
                 TextColumn::make(BaseModel::ATTRIBUTE_CREATED_AT)
                     ->label(__('filament.fields.action_log.happened_at'))
-                    ->dateTime()
-                    ->sortable(),
+                    ->dateTime(),
 
                 TextColumn::make(ActionLogModel::ATTRIBUTE_FINISHED_AT)
                     ->label(__('filament.fields.action_log.finished_at'))
-                    ->dateTime()
-                    ->sortable()
-                    ->placeholder('-'),
+                    ->dateTime(),
             ]);
     }
 
@@ -216,13 +208,12 @@ class ActionLog extends BaseResource
 
                 TextEntry::make(ActionLogModel::ATTRIBUTE_FINISHED_AT)
                     ->label(__('filament.fields.action_log.finished_at'))
-                    ->dateTime()
-                    ->placeholder('-'),
+                    ->dateTime(),
 
                 TextEntry::make(ActionLogModel::ATTRIBUTE_EXCEPTION)
                     ->label(__('filament.fields.action_log.exception'))
-                    ->placeholder('-')
-                    ->columnSpanFull(),
+                    ->columnSpanFull()
+                    ->size(TextEntrySize::Large),
             ])->columns(3);
     }
 

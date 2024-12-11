@@ -9,12 +9,12 @@ use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
-| External List Routes
+| External Profile Routes
 |--------------------------------------------------------------------------
 |
-| Here is where you can register any routes about external lists. These
+| Here is where you can register any routes about external profiles. These
 | routes are loaded by the RouteServiceProvider and use the api subdomain,
-| but all of them will be assigned to the "web" middleware group instead.
+| but all of them will be assigned to the "external" middleware group instead.
 | Make something great!
 |
 */

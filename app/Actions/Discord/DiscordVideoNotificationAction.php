@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Storage;
 
 /**
  * Class DiscordVideoNotificationAction.
@@ -27,9 +26,6 @@ class DiscordVideoNotificationAction
     {
         $type = Arr::get($fields, 'notification-type');
         $shouldForce = Arr::get($fields, 'should-force-thread');
-
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $fs */
-        $fs = Storage::disk(Config::get('image.disk'));
 
         $newVideos = [];
 
