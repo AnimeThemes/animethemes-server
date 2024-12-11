@@ -58,6 +58,7 @@ return [
             'visibility' => env('IMAGE_VISIBILITY'),
             'url' => env('IMAGE_URL'),
             'throw' => false,
+            'retain_visibility' => false,
         ],
 
         'images_local' => [
@@ -79,6 +80,7 @@ return [
             'disable_asserts' => env('VIDEO_NYC_DISABLE_ASSERTS'),
             'visibility' => env('VIDEO_NYC_VISIBILITY'),
             'throw' => false,
+            'retain_visibility' => false,
         ],
 
         'videos_fra' => [
@@ -92,6 +94,7 @@ return [
             'disable_asserts' => env('VIDEO_FRA_DISABLE_ASSERTS'),
             'visibility' => env('VIDEO_FRA_VISIBILITY'),
             'throw' => false,
+            'retain_visibility' => false,
         ],
 
         'videos_local' => [
@@ -113,6 +116,7 @@ return [
             'disable_asserts' => env('AUDIO_NYC_DISABLE_ASSERTS'),
             'visibility' => env('AUDIO_NYC_VISIBILITY'),
             'throw' => false,
+            'retain_visibility' => false,
         ],
 
         'audios_fra' => [
@@ -126,6 +130,7 @@ return [
             'disable_asserts' => env('AUDIO_FRA_DISABLE_ASSERTS'),
             'visibility' => env('AUDIO_FRA_VISIBILITY'),
             'throw' => false,
+            'retain_visibility' => false,
         ],
 
         'audios_local' => [
@@ -147,6 +152,7 @@ return [
             'disable_asserts' => env('DUMP_DISABLE_ASSERTS'),
             'visibility' => env('DUMP_VISIBILITY'),
             'throw' => false,
+            'retain_visibility' => false,
         ],
 
         'dumps_local' => [
@@ -168,6 +174,7 @@ return [
             'disable_asserts' => env('SCRIPT_DISABLE_ASSERTS'),
             'visibility' => env('SCRIPT_VISIBILITY'),
             'throw' => false,
+            'retain_visibility' => false,
         ],
 
         'scripts_local' => [
