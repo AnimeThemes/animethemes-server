@@ -211,26 +211,19 @@ class Track extends BaseResource
             ->columns([
                 BelongsToColumn::make(TrackModel::RELATION_PLAYLIST . '.' . PlaylistModel::ATTRIBUTE_NAME)
                     ->resource(PlaylistResource::class)
-                    ->toggleable()
                     ->hiddenOn(TrackPlaylistRelationManager::class),
 
                 BelongsToColumn::make(TrackModel::RELATION_ENTRY . '.' . AnimeThemeEntry::ATTRIBUTE_ID)
-                    ->resource(Entry::class)
-                    ->toggleable(),
+                    ->resource(Entry::class),
 
                 BelongsToColumn::make(TrackModel::RELATION_VIDEO . '.' . VideoModel::ATTRIBUTE_FILENAME)
-                    ->resource(VideoResource::class)
-                    ->toggleable(),
+                    ->resource(VideoResource::class),
 
                 TextColumn::make(TrackModel::ATTRIBUTE_ID)
-                    ->label(__('filament.fields.base.id'))
-                    ->sortable()
-                    ->toggleable(),
+                    ->label(__('filament.fields.base.id')),
 
                 TextColumn::make(TrackModel::ATTRIBUTE_HASHID)
-                    ->label(__('filament.fields.playlist_track.hashid.name'))
-                    ->toggleable()
-                    ->placeholder('-'),
+                    ->label(__('filament.fields.playlist_track.hashid.name')),
             ]);
     }
 
@@ -253,8 +246,7 @@ class Track extends BaseResource
                             ->urlToRelated(PlaylistResource::class, TrackModel::RELATION_PLAYLIST),
 
                         TextEntry::make(TrackModel::ATTRIBUTE_HASHID)
-                            ->label(__('filament.fields.playlist_track.hashid.name'))
-                            ->placeholder('-'),
+                            ->label(__('filament.fields.playlist_track.hashid.name')),
 
                         TextEntry::make(TrackModel::ATTRIBUTE_ID)
                             ->label(__('filament.fields.base.id')),

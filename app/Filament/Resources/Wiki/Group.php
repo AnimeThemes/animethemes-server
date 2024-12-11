@@ -159,20 +159,15 @@ class Group extends BaseResource
         return parent::table($table)
             ->columns([
                 TextColumn::make(GroupModel::ATTRIBUTE_ID)
-                    ->label(__('filament.fields.base.id'))
-                    ->sortable(),
+                    ->label(__('filament.fields.base.id')),
 
                 TextColumn::make(GroupModel::ATTRIBUTE_NAME)
                     ->label(__('filament.fields.group.name.name'))
-                    ->sortable()
                     ->searchable()
-                    ->copyableWithMessage()
-                    ->toggleable(),
+                    ->copyableWithMessage(),
 
                 TextColumn::make(GroupModel::ATTRIBUTE_SLUG)
-                    ->label(__('filament.fields.group.slug.name'))
-                    ->sortable()
-                    ->toggleable(),
+                    ->label(__('filament.fields.group.slug.name')),
             ]);
     }
 

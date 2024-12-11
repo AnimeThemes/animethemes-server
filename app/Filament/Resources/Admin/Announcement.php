@@ -122,12 +122,10 @@ class Announcement extends BaseResource
             ->recordUrl('')
             ->columns([
                 TextColumn::make(AnnouncementModel::ATTRIBUTE_ID)
-                    ->label(__('filament.fields.base.id'))
-                    ->sortable(),
+                    ->label(__('filament.fields.base.id')),
 
                 TextColumn::make(AnnouncementModel::ATTRIBUTE_CONTENT)
                     ->label(__('filament.fields.announcement.content'))
-                    ->sortable()
                     ->searchable()
                     ->copyableWithMessage(),
             ]);

@@ -149,19 +149,15 @@ class Image extends BaseResource
             ->columns([
                 Stack::make([
                     TextColumn::make(ImageModel::ATTRIBUTE_ID)
-                    ->label(__('filament.fields.base.id'))
-                    ->sortable(),
+                    ->label(__('filament.fields.base.id')),
 
                 TextColumn::make(ImageModel::ATTRIBUTE_FACET)
                     ->label(__('filament.fields.image.facet.name'))
-                    ->sortable()
-                    ->toggleable()
                     ->formatStateUsing(fn ($state) => $state->localize()),
 
                 ImageColumn::make(ImageModel::ATTRIBUTE_PATH)
                     ->label(__('filament.fields.image.image.name'))
                     ->disk(Config::get('image.disk'))
-                    ->toggleable()
                     ->width(100)
                     ->height(150),
                 ]),

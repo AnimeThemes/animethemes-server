@@ -158,36 +158,24 @@ class ExternalEntry extends BaseResource
         return parent::table($table)
             ->columns([
                 BelongsToColumn::make(ExternalEntryModel::RELATION_PROFILE.'.'.ExternalProfile::ATTRIBUTE_NAME)
-                    ->resource(ExternalProfileResource::class)
-                    ->sortable()
-                    ->toggleable(),
+                    ->resource(ExternalProfileResource::class),
 
                 BelongsToColumn::make(ExternalEntryModel::RELATION_ANIME.'.'.AnimeModel::ATTRIBUTE_NAME)
-                    ->resource(Anime::class)
-                    ->sortable()
-                    ->toggleable(),
+                    ->resource(Anime::class),
 
                 IconColumn::make(ExternalEntryModel::ATTRIBUTE_IS_FAVORITE)
                     ->label(__('filament.fields.external_entry.is_favorite.name'))
-                    ->boolean()
-                    ->sortable()
-                    ->toggleable(),
+                    ->boolean(),
 
                 TextColumn::make(ExternalEntryModel::ATTRIBUTE_SCORE)
-                    ->label(__('filament.fields.external_entry.score.name'))
-                    ->sortable()
-                    ->toggleable(),
+                    ->label(__('filament.fields.external_entry.score.name')),
 
                 TextColumn::make(ExternalEntryModel::ATTRIBUTE_WATCH_STATUS)
                     ->label(__('filament.fields.external_entry.watch_status.name'))
-                    ->formatStateUsing(fn (ExternalEntryWatchStatus $state) => $state->localize())
-                    ->sortable()
-                    ->toggleable(),
+                    ->formatStateUsing(fn (ExternalEntryWatchStatus $state) => $state->localize()),
 
                 TextColumn::make(ExternalEntryModel::ATTRIBUTE_ID)
-                    ->label(__('filament.fields.base.id'))
-                    ->sortable()
-                    ->toggleable(),
+                    ->label(__('filament.fields.base.id')),
             ]);
     }
 

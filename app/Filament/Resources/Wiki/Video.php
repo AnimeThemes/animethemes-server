@@ -200,42 +200,33 @@ class Video extends BaseResource
         return parent::table($table)
             ->columns([
                 TextColumn::make(VideoModel::ATTRIBUTE_ID)
-                    ->label(__('filament.fields.base.id'))
-                    ->sortable(),
+                    ->label(__('filament.fields.base.id')),
 
                 TextColumn::make(VideoModel::ATTRIBUTE_RESOLUTION)
-                    ->label(__('filament.fields.video.resolution.name'))
-                    ->toggleable()
-                    ->placeholder('-'),
+                    ->label(__('filament.fields.video.resolution.name')),
 
                 IconColumn::make(VideoModel::ATTRIBUTE_NC)
                     ->label(__('filament.fields.video.nc.name'))
-                    ->toggleable()
                     ->boolean(),
 
                 IconColumn::make(VideoModel::ATTRIBUTE_SUBBED)
                     ->label(__('filament.fields.video.subbed.name'))
-                    ->toggleable()
                     ->boolean(),
 
                 IconColumn::make(VideoModel::ATTRIBUTE_LYRICS)
                     ->label(__('filament.fields.video.lyrics.name'))
-                    ->toggleable()
                     ->boolean(),
 
                 IconColumn::make(VideoModel::ATTRIBUTE_UNCEN)
                     ->label(__('filament.fields.video.uncen.name'))
-                    ->toggleable()
                     ->boolean(),
 
                 TextColumn::make(VideoModel::ATTRIBUTE_OVERLAP)
                     ->label(__('filament.fields.video.overlap.name'))
-                    ->toggleable()
                     ->formatStateUsing(fn ($state) => $state->localize()),
 
                 TextColumn::make(VideoModel::ATTRIBUTE_SOURCE)
                     ->label(__('filament.fields.video.source.name'))
-                    ->toggleable()
                     ->formatStateUsing(fn ($state) => $state->localize()),
 
                 TextColumn::make(VideoModel::RELATION_AUDIO . '.' . AudioModel::ATTRIBUTE_FILENAME)
@@ -244,9 +235,7 @@ class Video extends BaseResource
 
                 TextColumn::make(VideoModel::ATTRIBUTE_FILENAME)
                     ->label(__('filament.fields.video.filename.name'))
-                    ->sortable()
-                    ->copyableWithMessage()
-                    ->toggleable(),
+                    ->copyableWithMessage(),
             ])
             ->searchable();
     }
@@ -294,7 +283,6 @@ class Video extends BaseResource
 
                         TextEntry::make(VideoModel::RELATION_AUDIO.'.'.AudioModel::ATTRIBUTE_FILENAME)
                             ->label(__('filament.resources.singularLabel.audio'))
-                            ->placeholder('-')
                             ->urlToRelated(Audio::class, VideoModel::RELATION_AUDIO),
                     ])
                     ->columns(3),

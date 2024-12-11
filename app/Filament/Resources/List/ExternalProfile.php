@@ -164,31 +164,21 @@ class ExternalProfile extends BaseResource
         return parent::table($table)
             ->columns([
                 BelongsToColumn::make(ExternalProfileModel::RELATION_USER.'.'.UserModel::ATTRIBUTE_NAME)
-                    ->resource(User::class)
-                    ->sortable()
-                    ->toggleable(),
+                    ->resource(User::class),
 
                 TextColumn::make(ExternalProfileModel::ATTRIBUTE_NAME)
-                    ->label(__('filament.fields.external_profile.name.name'))
-                    ->sortable()
-                    ->toggleable(),
+                    ->label(__('filament.fields.external_profile.name.name')),
 
                 TextColumn::make(ExternalProfileModel::ATTRIBUTE_SITE)
                     ->label(__('filament.fields.external_profile.site.name'))
-                    ->formatStateUsing(fn (ExternalProfileSite $state) => $state->localize())
-                    ->sortable()
-                    ->toggleable(),
+                    ->formatStateUsing(fn (ExternalProfileSite $state) => $state->localize()),
 
                 TextColumn::make(ExternalProfileModel::ATTRIBUTE_VISIBILITY)
                     ->label(__('filament.fields.external_profile.visibility.name'))
-                    ->formatStateUsing(fn (ExternalProfileVisibility $state) => $state->localize())
-                    ->sortable()
-                    ->toggleable(),
+                    ->formatStateUsing(fn (ExternalProfileVisibility $state) => $state->localize()),
 
                 TextColumn::make(ExternalProfileModel::ATTRIBUTE_ID)
-                    ->label(__('filament.fields.base.id'))
-                    ->sortable()
-                    ->toggleable(),
+                    ->label(__('filament.fields.base.id')),
             ])
             ->searchable();
     }
@@ -209,8 +199,7 @@ class ExternalProfile extends BaseResource
                     ->schema([
                         TextEntry::make(ExternalProfileModel::ATTRIBUTE_USER)
                             ->label(__('filament.resources.singularLabel.user'))
-                            ->urlToRelated(User::class, ExternalProfileModel::RELATION_USER, true)
-                            ->placeholder('-'),
+                            ->urlToRelated(User::class, ExternalProfileModel::RELATION_USER, true),
 
                         TextEntry::make(ExternalProfileModel::ATTRIBUTE_NAME)
                             ->label(__('filament.fields.external_profile.name.name')),

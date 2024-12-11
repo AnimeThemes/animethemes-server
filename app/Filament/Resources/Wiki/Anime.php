@@ -212,40 +212,29 @@ class Anime extends BaseResource
         return parent::table($table)
             ->columns([
                 TextColumn::make(AnimeModel::ATTRIBUTE_ID)
-                    ->label(__('filament.fields.base.id'))
-                    ->sortable(),
+                    ->label(__('filament.fields.base.id')),
 
                 TextColumn::make(AnimeModel::ATTRIBUTE_NAME)
                     ->label(__('filament.fields.anime.name.name'))
-                    ->sortable()
                     ->copyableWithMessage()
-                    ->toggleable()
                     ->limit(50)
                     ->tooltip(fn (TextColumn $column) => $column->getState()),
 
                 TextColumn::make(AnimeModel::ATTRIBUTE_SLUG)
                     ->label(__('filament.fields.anime.slug.name'))
-                    ->sortable()
-                    ->toggleable()
                     ->limit(20)
                     ->tooltip(fn (TextColumn $column) => $column->getState()),
 
                 TextColumn::make(AnimeModel::ATTRIBUTE_YEAR)
-                    ->label(__('filament.fields.anime.year.name'))
-                    ->sortable()
-                    ->toggleable(),
+                    ->label(__('filament.fields.anime.year.name')),
 
                 TextColumn::make(AnimeModel::ATTRIBUTE_SEASON)
                     ->label(__('filament.fields.anime.season.name'))
-                    ->sortable()
-                    ->toggleable()
                     ->formatStateUsing(fn ($state) => $state->localizeStyled())
                     ->html(),
 
                 TextColumn::make(AnimeModel::ATTRIBUTE_MEDIA_FORMAT)
                     ->label(__('filament.fields.anime.media_format.name'))
-                    ->sortable()
-                    ->toggleable()
                     ->formatStateUsing(fn ($state) => $state->localize()),
 
                 TextColumn::make(AnimeModel::ATTRIBUTE_SYNOPSIS)
@@ -254,8 +243,7 @@ class Anime extends BaseResource
 
                 TextColumn::make(AnimeResource::ATTRIBUTE_AS)
                     ->label(__('filament.fields.anime.resources.as.name'))
-                    ->visibleOn(AnimeResourceRelationManager::class)
-                    ->placeholder('-'),
+                    ->visibleOn(AnimeResourceRelationManager::class),
             ])
             ->searchable();
     }
@@ -300,7 +288,6 @@ class Anime extends BaseResource
                         TextEntry::make(AnimeModel::ATTRIBUTE_SYNOPSIS)
                             ->label(__('filament.fields.anime.synopsis.name'))
                             ->markdown()
-                            ->placeholder('-')
                             ->columnSpanFull(),
                     ])
                     ->columns(3),

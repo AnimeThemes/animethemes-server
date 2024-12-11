@@ -168,32 +168,23 @@ class ExternalResource extends BaseResource
         return parent::table($table)
             ->columns([
                 TextColumn::make(ExternalResourceModel::ATTRIBUTE_ID)
-                    ->label(__('filament.fields.base.id'))
-                    ->sortable(),
+                    ->label(__('filament.fields.base.id')),
 
                 TextColumn::make(ExternalResourceModel::ATTRIBUTE_SITE)
                     ->label(__('filament.fields.external_resource.site.name'))
-                    ->sortable()
-                    ->toggleable()
                     ->formatStateUsing(fn ($state) => $state->localize()),
 
                 TextColumn::make(ExternalResourceModel::ATTRIBUTE_LINK)
                     ->label(__('filament.fields.external_resource.link.name'))
-                    ->sortable()
                     ->searchable()
-                    ->copyableWithMessage()
-                    ->toggleable(),
+                    ->copyableWithMessage(),
 
                 TextColumn::make(ExternalResourceModel::ATTRIBUTE_EXTERNAL_ID)
-                    ->label(__('filament.fields.external_resource.external_id.name'))
-                    ->sortable()
-                    ->toggleable()
-                    ->placeholder('-'),
+                    ->label(__('filament.fields.external_resource.external_id.name')),
 
                 TextColumn::make(AnimeResource::ATTRIBUTE_AS)
                     ->label(__('filament.fields.anime.resources.as.name'))
-                    ->visibleOn(ResourceRelationManager::class)
-                    ->placeholder('-'),
+                    ->visibleOn(ResourceRelationManager::class),
             ]);
     }
 
@@ -220,8 +211,7 @@ class ExternalResource extends BaseResource
                             ->copyableWithMessage(),
 
                         TextEntry::make(ExternalResourceModel::ATTRIBUTE_EXTERNAL_ID)
-                            ->label(__('filament.fields.external_resource.external_id.name'))
-                            ->placeholder('-'),
+                            ->label(__('filament.fields.external_resource.external_id.name')),
                     ])
                     ->columns(3),
 

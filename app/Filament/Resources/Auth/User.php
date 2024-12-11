@@ -154,8 +154,7 @@ class User extends BaseResource
         return parent::table($table)
             ->columns([
                 TextColumn::make(UserModel::ATTRIBUTE_ID)
-                    ->label(__('filament.fields.base.id'))
-                    ->sortable(),
+                    ->label(__('filament.fields.base.id')),
 
                 ImageColumn::make('avatar')
                     ->label(__('filament.fields.user.avatar'))
@@ -164,15 +163,12 @@ class User extends BaseResource
 
                 TextColumn::make(UserModel::ATTRIBUTE_NAME)
                     ->label(__('filament.fields.user.name'))
-                    ->sortable()
                     ->searchable()
-                    ->copyableWithMessage()
-                    ->toggleable(),
+                    ->copyableWithMessage(),
 
                 TextColumn::make(UserModel::ATTRIBUTE_EMAIL)
                     ->label(__('filament.fields.user.email'))
-                    ->icon('heroicon-m-envelope')
-                    ->toggleable(),
+                    ->icon('heroicon-m-envelope'),
             ]);
     }
 

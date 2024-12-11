@@ -146,18 +146,15 @@ class Feature extends BaseResource
             ->modifyQueryUsing(fn (Builder $query) => $query->where(FeatureModel::ATTRIBUTE_SCOPE, FeatureConstants::NULL_SCOPE))
             ->columns([
                 TextColumn::make(FeatureModel::ATTRIBUTE_ID)
-                    ->label(__('filament.fields.base.id'))
-                    ->sortable(),
+                    ->label(__('filament.fields.base.id')),
 
                 TextColumn::make(FeatureModel::ATTRIBUTE_NAME)
                     ->label(__('filament.fields.feature.key.name'))
-                    ->sortable()
                     ->searchable()
                     ->copyableWithMessage(),
 
                 TextColumn::make(FeatureModel::ATTRIBUTE_VALUE)
                     ->label(__('filament.fields.feature.value.name'))
-                    ->sortable()
                     ->copyableWithMessage(),
             ]);
     }

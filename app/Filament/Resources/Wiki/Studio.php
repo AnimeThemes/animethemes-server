@@ -155,24 +155,18 @@ class Studio extends BaseResource
         return parent::table($table)
             ->columns([
                 TextColumn::make(StudioModel::ATTRIBUTE_ID)
-                    ->label(__('filament.fields.base.id'))
-                    ->sortable(),
+                    ->label(__('filament.fields.base.id')),
 
                 TextColumn::make(StudioModel::ATTRIBUTE_NAME)
                     ->label(__('filament.fields.studio.name.name'))
-                    ->sortable()
-                    ->copyableWithMessage()
-                    ->toggleable(),
+                    ->copyableWithMessage(),
 
                 TextColumn::make(StudioModel::ATTRIBUTE_SLUG)
-                    ->label(__('filament.fields.studio.slug.name'))
-                    ->sortable()
-                    ->toggleable(),
+                    ->label(__('filament.fields.studio.slug.name')),
 
                 TextColumn::make(StudioResource::ATTRIBUTE_AS)
                     ->label(__('filament.fields.studio.resources.as.name'))
-                    ->visibleOn(StudioResourceRelationManager::class)
-                    ->placeholder('-'),
+                    ->visibleOn(StudioResourceRelationManager::class),
             ])
             ->searchable();
     }

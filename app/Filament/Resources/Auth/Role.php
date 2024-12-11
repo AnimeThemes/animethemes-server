@@ -167,32 +167,22 @@ class Role extends BaseResource
         return parent::table($table)
             ->columns([
                 TextColumn::make(RoleModel::ATTRIBUTE_ID)
-                    ->label(__('filament.fields.base.id'))
-                    ->sortable(),
+                    ->label(__('filament.fields.base.id')),
 
                 TextColumn::make(RoleModel::ATTRIBUTE_NAME)
                     ->label(__('filament.fields.role.name'))
-                    ->sortable()
                     ->searchable()
-                    ->copyableWithMessage()
-                    ->toggleable(),
+                    ->copyableWithMessage(),
 
                 IconColumn::make(RoleModel::ATTRIBUTE_DEFAULT)
                     ->label(__('filament.fields.role.default.name'))
-                    ->sortable()
-                    ->toggleable()
                     ->boolean(),
 
                 ColorColumn::make(RoleModel::ATTRIBUTE_COLOR)
-                    ->label(__('filament.fields.role.color.name'))
-                    ->sortable()
-                    ->toggleable(),
+                    ->label(__('filament.fields.role.color.name')),
 
                 TextColumn::make(RoleModel::ATTRIBUTE_PRIORITY)
-                    ->label(__('filament.fields.role.priority.name'))
-                    ->sortable()
-                    ->toggleable()
-                    ->placeholder('-'),
+                    ->label(__('filament.fields.role.priority.name')),
             ]);
     }
 
@@ -225,8 +215,7 @@ class Role extends BaseResource
                             ->label(__('filament.fields.role.color.name')),
 
                         TextEntry::make(RoleModel::ATTRIBUTE_PRIORITY)
-                            ->label(__('filament.fields.role.priority.name'))
-                            ->placeholder('-'),
+                            ->label(__('filament.fields.role.priority.name')),
                     ])
                     ->columns(3),
 
