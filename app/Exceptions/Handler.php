@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Exceptions;
 
+use App\Models\Admin\ActionLog;
 use BezhanSalleh\FilamentExceptions\FilamentExceptions;
 use Filament\Facades\Filament;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
@@ -34,6 +35,7 @@ class Handler extends ExceptionHandler
     {
         $this->reportable(function (Throwable $e) {
             if (Filament::isServing() && $this->shouldReport($e)) {
+                ActionLog::updateCurrentActionLogToFailed($e);
                 FilamentExceptions::report($e);
             }
         });
