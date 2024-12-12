@@ -160,9 +160,13 @@ class BackfillAudioAction extends BackfillAction
     protected function getAudio(): ?Audio
     {
         // Allow bypassing of source video derivation
-        $sourceVideo = $this->deriveSourceVideo()
-            ? $this->getSourceVideo($this->replaceRelatedAudio() ? '<' : '>')
-            : $this->getModel();
+        if ($this->replaceRelatedAudio()) {
+            $sourceVideo = $this->getSourceVideo('<');
+        } elseif ($this->deriveSourceVideo()) {
+            $sourceVideo = $this->getSourceVideo();
+        } else {
+            $sourceVideo = $this->getModel();
+        }
 
         // It's possible that the video is not attached to any themes, exit early.
         if ($sourceVideo === null) {
@@ -177,7 +181,7 @@ class BackfillAudioAction extends BackfillAction
         // When uploading a BD version we should get the parent audio of a WEB version and
         // move the file overwriting the content later. Therefore, the old model is not deleted.
         if ($this->replaceRelatedAudio() && $audio instanceof Audio) {
-            $moveAction = new MoveAudioAction($audio, $this->getModel()->path());
+            $moveAction = new MoveAudioAction($audio, Str::replace('webm', 'ogg', $this->getModel()->path()));
 
             $storageResults = $moveAction->handle();
 
@@ -196,7 +200,10 @@ class BackfillAudioAction extends BackfillAction
 
         // Finally, extract audio from the source video
         if ($audio === null || $this->overwriteAudio() || $this->replaceRelatedAudio()) {
-            Log::info("Extracting Audio from Video '{$sourceVideo->getName()}'");
+
+            if ($this->replaceRelatedAudio()) {
+                $sourceVideo = $this->getModel();
+            }
 
             return $this->extractAudio($sourceVideo);
         }
