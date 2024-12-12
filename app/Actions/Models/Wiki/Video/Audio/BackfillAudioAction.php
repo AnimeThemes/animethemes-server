@@ -6,11 +6,13 @@ namespace App\Actions\Models\Wiki\Video\Audio;
 
 use App\Actions\ActionResult;
 use App\Actions\Models\BackfillAction;
+use App\Actions\Storage\Wiki\Audio\MoveAudioAction;
 use App\Actions\Storage\Wiki\Audio\UploadAudioAction;
 use App\Constants\Config\VideoConstants;
 use App\Enums\Actions\ActionStatus;
 use App\Enums\Actions\Models\Wiki\Video\DeriveSourceVideo;
 use App\Enums\Actions\Models\Wiki\Video\OverwriteAudio;
+use App\Enums\Actions\Models\Wiki\Video\ReplaceRelatedAudio;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
@@ -47,7 +49,8 @@ class BackfillAudioAction extends BackfillAction
     public function __construct(
         Video $video,
         protected readonly DeriveSourceVideo $deriveSourceVideo = DeriveSourceVideo::YES,
-        protected readonly OverwriteAudio $overwriteAudio = OverwriteAudio::NO
+        protected readonly OverwriteAudio $overwriteAudio = OverwriteAudio::NO,
+        protected readonly ReplaceRelatedAudio $replaceRelatedAudio = ReplaceRelatedAudio::NO,
     ) {
         parent::__construct($video);
     }
@@ -138,6 +141,16 @@ class BackfillAudioAction extends BackfillAction
     }
 
     /**
+     * Determine if the new audio should replace a related one.
+     *
+     * @return bool
+     */
+    protected function replaceRelatedAudio(): bool
+    {
+        return ReplaceRelatedAudio::YES === $this->replaceRelatedAudio;
+    }
+
+    /**
      * Get or Create Audio.
      *
      * @return Audio|null
@@ -148,7 +161,7 @@ class BackfillAudioAction extends BackfillAction
     {
         // Allow bypassing of source video derivation
         $sourceVideo = $this->deriveSourceVideo()
-            ? $this->getSourceVideo()
+            ? $this->getSourceVideo($this->replaceRelatedAudio() ? '<' : '>')
             : $this->getModel();
 
         // It's possible that the video is not attached to any themes, exit early.
@@ -161,6 +174,16 @@ class BackfillAudioAction extends BackfillAction
         // First, attempt to set audio from the source video
         $audio = $sourceVideo->audio;
 
+        // When uploading a BD version we should get the parent audio of a WEB version and
+        // move the file overwriting the content later. Therefore, the old model is not deleted.
+        if ($this->replaceRelatedAudio() && $audio instanceof Audio) {
+            $moveAction = new MoveAudioAction($audio, $this->getModel()->path());
+
+            $storageResults = $moveAction->handle();
+
+            $audio = $moveAction->then($storageResults);
+        }
+
         // Anticipate audio path for FFmpeg save file
         $audioPath = $audio === null
             ? Str::replace('webm', 'ogg', $sourceVideo->path)
@@ -172,7 +195,7 @@ class BackfillAudioAction extends BackfillAction
         }
 
         // Finally, extract audio from the source video
-        if ($audio === null || $this->overwriteAudio()) {
+        if ($audio === null || $this->overwriteAudio() || $this->replaceRelatedAudio()) {
             Log::info("Extracting Audio from Video '{$sourceVideo->getName()}'");
 
             return $this->extractAudio($sourceVideo);
@@ -184,16 +207,21 @@ class BackfillAudioAction extends BackfillAction
     /**
      * Get the source video for the given video.
      *
+     * @param  string  $operation
      * @return Video|null
      */
-    protected function getSourceVideo(): ?Video
+    protected function getSourceVideo(string $operation = '>'): ?Video
     {
         $source = null;
 
         $sourceCandidates = $this->getAdjacentVideos();
 
         foreach ($sourceCandidates as $sourceCandidate) {
-            if (! $source instanceof Video || $sourceCandidate->getSourcePriority() > $source->getSourcePriority()) {
+            if ($operation === '>' && (! $source instanceof Video || $sourceCandidate->getSourcePriority() > $source->getSourcePriority())) {
+                $source = $sourceCandidate;
+            }
+
+            if ($operation === '<' && (! $source instanceof Video || $sourceCandidate->getSourcePriority() < $source->getSourcePriority())) {
                 $source = $sourceCandidate;
             }
         }

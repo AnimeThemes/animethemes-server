@@ -409,6 +409,10 @@ return [
                         'help' => 'If Yes, the Audio will be extracted from the Video even if the Audio already exists. If No, the Audio will only be extracted from the Video if the Audio doesn\'t exist. No should be used in most cases. Yes is useful if we are replacing Audio for a Video.',
                         'name' => 'Overwrite Audio',
                     ],
+                    'replace_related' => [
+                        'help' => 'If Yes, the engine will search a related audio to move and replace the content. Yes should be used only when uploading a BD version of an uploaded WEB version, so the extracted audio will use the same model.',
+                        'name' => 'Replace Related Audio',
+                    ],
                     'should' => [
                         'help' => 'Determines whether audio should be extracted.',
                         'name' => 'Should backfill?',
