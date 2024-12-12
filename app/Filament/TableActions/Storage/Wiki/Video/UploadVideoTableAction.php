@@ -6,6 +6,8 @@ namespace App\Filament\TableActions\Storage\Wiki\Video;
 
 use App\Actions\Storage\Wiki\Video\UploadVideoAction as UploadVideo;
 use App\Constants\Config\VideoConstants;
+use App\Enums\Actions\Models\Wiki\Video\ShouldBackfillAudio;
+use App\Enums\Actions\Models\Wiki\Video\ShouldSendNotification;
 use App\Enums\Models\Wiki\VideoOverlap;
 use App\Enums\Models\Wiki\VideoSource;
 use App\Filament\Actions\Models\Wiki\Video\BackfillAudioAction;
@@ -154,12 +156,10 @@ class UploadVideoTableAction extends UploadTableAction
                                 Select::make(self::SHOULD_BACKFILL_AUDIO)
                                     ->label(__('filament.actions.video.backfill.fields.should.name'))
                                     ->helperText(__('filament.actions.video.backfill.fields.should.help'))
-                                    ->options([
-                                        'yes' => __('filament.actions.video.backfill.fields.should.options.yes'),
-                                        'no' => __('filament.actions.video.backfill.fields.should.options.no'),
-                                    ])
+                                    ->options(ShouldBackfillAudio::asSelectArray())
                                     ->required()
-                                    ->default('yes'),
+                                    ->rules(['required', new Enum(ShouldBackfillAudio::class)])
+                                    ->default(ShouldBackfillAudio::YES->value),
 
                                 ...BackfillAudioAction::make()->getForm($form)->getComponents(),
                             ]),
@@ -170,12 +170,10 @@ class UploadVideoTableAction extends UploadTableAction
                                 Select::make(self::SHOULD_SEND_NOTIFICATION)
                                     ->label(__('filament.bulk_actions.discord.notification.should_send.name'))
                                     ->helperText(__('filament.bulk_actions.discord.notification.should_send.help'))
-                                    ->options([
-                                        'yes' => __('filament.bulk_actions.discord.notification.should_send.options.yes'),
-                                        'no' => __('filament.bulk_actions.discord.notification.should_send.options.no'),
-                                    ])
+                                    ->options(ShouldSendNotification::asSelectArray())
                                     ->required()
-                                    ->default('yes'),
+                                    ->rules(['required', new Enum(ShouldSendNotification::class)])
+                                    ->default(ShouldSendNotification::YES->value),
 
                                 ...VideoDiscordNotificationBulkAction::make()->getForm($form)->getComponents(),
                             ]),
@@ -241,12 +239,15 @@ class UploadVideoTableAction extends UploadTableAction
      */
     protected function afterUploaded(BaseModel $video, array $data): void
     {
-        if (Arr::get($data, self::SHOULD_BACKFILL_AUDIO) === 'yes') {
+        $shouldBackfill = ShouldBackfillAudio::from(intval(Arr::get($data, self::SHOULD_BACKFILL_AUDIO)));
+        $shouldSendNot = ShouldSendNotification::from(intval(Arr::get($data, self::SHOULD_SEND_NOTIFICATION)));
+
+        if ($shouldBackfill === ShouldBackfillAudio::YES) {
             $backfillAudioAction = new BackfillAudioAction('audio');
             $backfillAudioAction->handle($video, $data);
         }
 
-        if (Arr::get($data, self::SHOULD_SEND_NOTIFICATION) === 'yes') {
+        if ($shouldSendNot === ShouldSendNotification::YES) {
             $videos = new Collection([$video]);
 
             $discordNotificationAction = new VideoDiscordNotificationBulkAction('discord');

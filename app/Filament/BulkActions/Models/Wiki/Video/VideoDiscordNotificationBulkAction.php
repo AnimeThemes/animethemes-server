@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Filament\BulkActions\Models\Wiki\Video;
 
 use App\Actions\Discord\DiscordVideoNotificationAction as DiscordVideoNotificationActionAction;
+use App\Enums\Actions\Models\Wiki\Video\NotificationType;
+use App\Enums\Actions\Models\Wiki\Video\ShouldForceThread;
 use App\Filament\BulkActions\BaseBulkAction;
 use App\Filament\Components\Fields\Select;
 use App\Models\Discord\DiscordThread;
@@ -12,6 +14,7 @@ use App\Models\Wiki\Video;
 use Filament\Forms\Form;
 use Filament\Support\Enums\MaxWidth;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Validation\Rules\Enum;
 
 /**
  * Class VideoDiscordNotificationBulkAction.
@@ -60,26 +63,21 @@ class VideoDiscordNotificationBulkAction extends BaseBulkAction
     {
         return $form
             ->schema([
-                Select::make('notification-type')
+                Select::make(NotificationType::getFieldKey())
                     ->label(__('filament.bulk_actions.discord.notification.type.name'))
                     ->helperText(__('filament.bulk_actions.discord.notification.type.help'))
-                    ->options([
-                        'added' => __('filament.bulk_actions.discord.notification.type.options.added'),
-                        'updated' => __('filament.bulk_actions.discord.notification.type.options.updated'),
-                    ])
-                    ->default('added')
+                    ->options(NotificationType::asSelectArray())
+                    ->default(NotificationType::ADDED->value)
                     ->required()
-                    ->rules(['required']),
+                    ->rules(['required', new Enum(NotificationType::class)]),
 
-                    Select::make('should-force-thread')
-                        ->label(__('filament.bulk_actions.discord.notification.should_force.name'))
-                        ->helperText(__('filament.bulk_actions.discord.notification.should_force.help'))
-                        ->options([
-                            'yes' => __('filament.bulk_actions.discord.notification.should_force.options.yes'),
-                            'no' => __('filament.bulk_actions.discord.notification.should_force.options.no'),
-                        ])
-                        ->default('no')
-                        ->required(),
-                ]);
+                Select::make(ShouldForceThread::getFieldKey())
+                    ->label(__('filament.bulk_actions.discord.notification.should_force.name'))
+                    ->helperText(__('filament.bulk_actions.discord.notification.should_force.help'))
+                    ->options(ShouldForceThread::asSelectArray())
+                    ->default(ShouldForceThread::NO->value)
+                    ->required()
+                    ->rules(['required', new Enum(ShouldForceThread::class)]),
+            ]);
     }
 }

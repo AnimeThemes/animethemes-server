@@ -416,10 +416,6 @@ return [
                     'should' => [
                         'help' => 'Determines whether audio should be extracted.',
                         'name' => 'Should backfill?',
-                        'options' => [
-                            'no' => 'No',
-                            'yes' => 'Yes',
-                        ],
                     ],
                 ],
                 'name' => 'Backfill Audio',
@@ -451,26 +447,14 @@ return [
                 'should_force' => [
                     'help' => 'If yes, the thread will be created if it does not exist',
                     'name' => 'Should force thread?',
-                    'options' => [
-                        'yes' => 'Yes',
-                        'no' => 'No',
-                    ],
                 ],
                 'should_send' => [
                     'help' => 'If yes, the notification will be created.',
                     'name' => 'Should send notification?',
-                    'options' => [
-                        'yes' => 'Yes',
-                        'no' => 'No',
-                    ],
                 ],
                 'type' => [
                     'help' => 'Are they new videos or replacement?',
                     'name' => 'Type',
-                    'options' => [
-                        'added' => 'Added',
-                        'updated' => 'Updated',
-                    ],
                 ],
             ],
         ],
