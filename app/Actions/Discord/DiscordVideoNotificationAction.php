@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Actions\Discord;
 
+use App\Enums\Actions\Models\Wiki\Video\NotificationType;
+use App\Enums\Actions\Models\Wiki\Video\ShouldForceThread;
 use App\Models\Wiki\Video;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Arr;
@@ -24,8 +26,8 @@ class DiscordVideoNotificationAction
      */
     public function handle(Collection $videos, array $fields): void
     {
-        $type = Arr::get($fields, 'notification-type');
-        $shouldForce = Arr::get($fields, 'should-force-thread');
+        $type = Arr::get($fields, NotificationType::getFieldKey());
+        $shouldForce = ShouldForceThread::from(intval(Arr::get($fields, ShouldForceThread::getFieldKey())));
 
         $newVideos = [];
 
@@ -42,7 +44,7 @@ class DiscordVideoNotificationAction
             $anime = $theme->anime;
 
             if ($anime->discordthread === null) {
-                if ($shouldForce === 'no') return;
+                if ($shouldForce === ShouldForceThread::NO) return;
 
                 $threadAction = new DiscordThreadAction();
 

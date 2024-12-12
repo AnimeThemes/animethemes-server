@@ -84,9 +84,6 @@ return [
             'upload' => [
                 'name' => 'Upload Audio',
             ],
-            'attach_related_videos' => [
-                'name' => 'Attach to Related Videos',
-            ],
         ],
         'base' => [
             'cancelButtonText' => 'Cancel',
@@ -409,13 +406,13 @@ return [
                         'help' => 'If Yes, the Audio will be extracted from the Video even if the Audio already exists. If No, the Audio will only be extracted from the Video if the Audio doesn\'t exist. No should be used in most cases. Yes is useful if we are replacing Audio for a Video.',
                         'name' => 'Overwrite Audio',
                     ],
+                    'replace_related' => [
+                        'help' => 'If Yes, the engine will search a related audio to move and replace the content. Yes should be used only when uploading a BD version of an uploaded WEB version, so the extracted audio will use the same model.',
+                        'name' => 'Replace Related Audio',
+                    ],
                     'should' => [
                         'help' => 'Determines whether audio should be extracted.',
                         'name' => 'Should backfill?',
-                        'options' => [
-                            'no' => 'No',
-                            'yes' => 'Yes',
-                        ],
                     ],
                 ],
                 'name' => 'Backfill Audio',
@@ -447,26 +444,14 @@ return [
                 'should_force' => [
                     'help' => 'If yes, the thread will be created if it does not exist',
                     'name' => 'Should force thread?',
-                    'options' => [
-                        'yes' => 'Yes',
-                        'no' => 'No',
-                    ],
                 ],
                 'should_send' => [
                     'help' => 'If yes, the notification will be created.',
                     'name' => 'Should send notification?',
-                    'options' => [
-                        'yes' => 'Yes',
-                        'no' => 'No',
-                    ],
                 ],
                 'type' => [
                     'help' => 'Are they new videos or replacement?',
                     'name' => 'Type',
-                    'options' => [
-                        'added' => 'Added',
-                        'updated' => 'Updated',
-                    ],
                 ],
             ],
         ],

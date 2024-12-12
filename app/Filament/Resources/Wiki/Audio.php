@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Wiki;
 
-use App\Filament\Actions\Models\Wiki\Audio\AttachAudioToRelatedVideosAction;
 use App\Filament\Actions\Storage\Wiki\Audio\DeleteAudioAction;
 use App\Filament\Actions\Storage\Wiki\Audio\MoveAudioAction;
 use App\Filament\BulkActions\Storage\Wiki\Audio\DeleteAudioBulkAction;
@@ -19,7 +18,6 @@ use App\Filament\Resources\Wiki\Audio\RelationManagers\VideoAudioRelationManager
 use App\Filament\TableActions\Repositories\Storage\Wiki\Audio\ReconcileAudioTableAction;
 use App\Filament\TableActions\Storage\Wiki\Audio\UploadAudioTableAction;
 use App\Models\Wiki\Audio as AudioModel;
-use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Infolist;
@@ -238,8 +236,6 @@ class Audio extends BaseResource
                     MoveAudioAction::make('move-audio'),
 
                     DeleteAudioAction::make('delete-audio'),
-
-                    AttachAudioToRelatedVideosAction::make('attach-audio-related-video'),
                 ]),
             ],
         );

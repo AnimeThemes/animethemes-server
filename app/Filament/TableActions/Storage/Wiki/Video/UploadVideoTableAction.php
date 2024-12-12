@@ -6,6 +6,8 @@ namespace App\Filament\TableActions\Storage\Wiki\Video;
 
 use App\Actions\Storage\Wiki\Video\UploadVideoAction as UploadVideo;
 use App\Constants\Config\VideoConstants;
+use App\Enums\Actions\Models\Wiki\Video\ShouldBackfillAudio;
+use App\Enums\Actions\Models\Wiki\Video\ShouldSendNotification;
 use App\Enums\Models\Wiki\VideoOverlap;
 use App\Enums\Models\Wiki\VideoSource;
 use App\Filament\Actions\Models\Wiki\Video\BackfillAudioAction;
@@ -91,55 +93,51 @@ class UploadVideoTableAction extends UploadTableAction
                             ->label(__('filament.resources.singularLabel.video'))
                             ->schema([
                                 Section::make(__('filament.resources.singularLabel.video'))
-                                    ->schema(
-                                        array_merge(
-                                            [
-                                                Hidden::make(AnimeThemeEntry::ATTRIBUTE_ID)
-                                                    ->label(__('filament.resources.singularLabel.anime_theme_entry'))
-                                                    ->default(fn (BaseRelationManager|ListVideos $livewire) => $livewire instanceof VideoEntryRelationManager ? $livewire->getOwnerRecord()->getKey() : null),
-                                            ],
-                                            parent::getForm($form)->getComponents(),
-                                            [
-                                                Checkbox::make(Video::ATTRIBUTE_NC)
-                                                    ->label(__('filament.fields.video.nc.name'))
-                                                    ->helperText(__('filament.fields.video.nc.help'))
-                                                    ->nullable()
-                                                    ->rules(['nullable', 'boolean']),
+                                    ->schema([
+                                        Hidden::make(AnimeThemeEntry::ATTRIBUTE_ID)
+                                            ->label(__('filament.resources.singularLabel.anime_theme_entry'))
+                                            ->default(fn (BaseRelationManager|ListVideos $livewire) => $livewire instanceof VideoEntryRelationManager ? $livewire->getOwnerRecord()->getKey() : null),
 
-                                                Checkbox::make(Video::ATTRIBUTE_SUBBED)
-                                                    ->label(__('filament.fields.video.subbed.name'))
-                                                    ->helperText(__('filament.fields.video.subbed.help'))
-                                                    ->nullable()
-                                                    ->rules(['nullable', 'boolean']),
+                                        ...parent::getForm($form)->getComponents(),
 
-                                                Checkbox::make(Video::ATTRIBUTE_LYRICS)
-                                                    ->label(__('filament.fields.video.lyrics.name'))
-                                                    ->helperText(__('filament.fields.video.lyrics.help'))
-                                                    ->nullable()
-                                                    ->rules(['nullable', 'boolean']),
+                                        Checkbox::make(Video::ATTRIBUTE_NC)
+                                            ->label(__('filament.fields.video.nc.name'))
+                                            ->helperText(__('filament.fields.video.nc.help'))
+                                            ->nullable()
+                                            ->rules(['nullable', 'boolean']),
 
-                                                Checkbox::make(Video::ATTRIBUTE_UNCEN)
-                                                    ->label(__('filament.fields.video.uncen.name'))
-                                                    ->helperText(__('filament.fields.video.uncen.help'))
-                                                    ->nullable()
-                                                    ->rules(['nullable', 'boolean']),
+                                        Checkbox::make(Video::ATTRIBUTE_SUBBED)
+                                            ->label(__('filament.fields.video.subbed.name'))
+                                            ->helperText(__('filament.fields.video.subbed.help'))
+                                            ->nullable()
+                                            ->rules(['nullable', 'boolean']),
 
-                                                Select::make(Video::ATTRIBUTE_OVERLAP)
-                                                    ->label(__('filament.fields.video.overlap.name'))
-                                                    ->helperText(__('filament.fields.video.overlap.help'))
-                                                    ->options(VideoOverlap::asSelectArray())
-                                                    ->required()
-                                                    ->rules(['required', new Enum(VideoOverlap::class)]),
+                                        Checkbox::make(Video::ATTRIBUTE_LYRICS)
+                                            ->label(__('filament.fields.video.lyrics.name'))
+                                            ->helperText(__('filament.fields.video.lyrics.help'))
+                                            ->nullable()
+                                            ->rules(['nullable', 'boolean']),
 
-                                                Select::make(Video::ATTRIBUTE_SOURCE)
-                                                    ->label(__('filament.fields.video.source.name'))
-                                                    ->helperText(__('filament.fields.video.source.help'))
-                                                    ->options(VideoSource::asSelectArray())
-                                                    ->required()
-                                                    ->rules(['required', new Enum(VideoSource::class)]),
-                                            ],
-                                        )
-                                    ),
+                                        Checkbox::make(Video::ATTRIBUTE_UNCEN)
+                                            ->label(__('filament.fields.video.uncen.name'))
+                                            ->helperText(__('filament.fields.video.uncen.help'))
+                                            ->nullable()
+                                            ->rules(['nullable', 'boolean']),
+
+                                        Select::make(Video::ATTRIBUTE_OVERLAP)
+                                            ->label(__('filament.fields.video.overlap.name'))
+                                            ->helperText(__('filament.fields.video.overlap.help'))
+                                            ->options(VideoOverlap::asSelectArray())
+                                            ->required()
+                                            ->rules(['required', new Enum(VideoOverlap::class)]),
+
+                                        Select::make(Video::ATTRIBUTE_SOURCE)
+                                            ->label(__('filament.fields.video.source.name'))
+                                            ->helperText(__('filament.fields.video.source.help'))
+                                            ->options(VideoSource::asSelectArray())
+                                            ->required()
+                                            ->rules(['required', new Enum(VideoSource::class)]),
+                                    ]),
 
                                 Section::make(__('filament.resources.singularLabel.video_script'))
                                     ->schema([
@@ -154,41 +152,31 @@ class UploadVideoTableAction extends UploadTableAction
 
                         Tab::make('audio')
                             ->label(__('filament.actions.video.backfill.name'))
-                            ->schema(
-                                array_merge(
-                                    [
-                                        Select::make(self::SHOULD_BACKFILL_AUDIO)
-                                            ->label(__('filament.actions.video.backfill.fields.should.name'))
-                                            ->helperText(__('filament.actions.video.backfill.fields.should.help'))
-                                            ->options([
-                                                'yes' => __('filament.actions.video.backfill.fields.should.options.yes'),
-                                                'no' => __('filament.actions.video.backfill.fields.should.options.no'),
-                                            ])
-                                            ->required()
-                                            ->default('yes')
-                                    ],
-                                    BackfillAudioAction::make()->getForm($form)->getComponents(),
-                                )
-                            ),
+                            ->schema([
+                                Select::make(self::SHOULD_BACKFILL_AUDIO)
+                                    ->label(__('filament.actions.video.backfill.fields.should.name'))
+                                    ->helperText(__('filament.actions.video.backfill.fields.should.help'))
+                                    ->options(ShouldBackfillAudio::asSelectArray())
+                                    ->required()
+                                    ->rules(['required', new Enum(ShouldBackfillAudio::class)])
+                                    ->default(ShouldBackfillAudio::YES->value),
+
+                                ...BackfillAudioAction::make()->getForm($form)->getComponents(),
+                            ]),
 
                         Tab::make('discord')
                             ->label(__('filament.bulk_actions.discord.notification.name'))
-                            ->schema(
-                                array_merge(
-                                    [
-                                        Select::make(self::SHOULD_SEND_NOTIFICATION)
-                                            ->label(__('filament.bulk_actions.discord.notification.should_send.name'))
-                                            ->helperText(__('filament.bulk_actions.discord.notification.should_send.help'))
-                                            ->options([
-                                                'yes' => __('filament.bulk_actions.discord.notification.should_send.options.yes'),
-                                                'no' => __('filament.bulk_actions.discord.notification.should_send.options.no'),
-                                            ])
-                                            ->required()
-                                            ->default('yes')
-                                    ],
-                                    VideoDiscordNotificationBulkAction::make()->getForm($form)->getComponents(),
-                                )
-                            ),
+                            ->schema([
+                                Select::make(self::SHOULD_SEND_NOTIFICATION)
+                                    ->label(__('filament.bulk_actions.discord.notification.should_send.name'))
+                                    ->helperText(__('filament.bulk_actions.discord.notification.should_send.help'))
+                                    ->options(ShouldSendNotification::asSelectArray())
+                                    ->required()
+                                    ->rules(['required', new Enum(ShouldSendNotification::class)])
+                                    ->default(ShouldSendNotification::YES->value),
+
+                                ...VideoDiscordNotificationBulkAction::make()->getForm($form)->getComponents(),
+                            ]),
                     ])
 
             ]);
@@ -251,12 +239,15 @@ class UploadVideoTableAction extends UploadTableAction
      */
     protected function afterUploaded(BaseModel $video, array $data): void
     {
-        if (Arr::get($data, self::SHOULD_BACKFILL_AUDIO) === 'yes') {
+        $shouldBackfill = ShouldBackfillAudio::from(intval(Arr::get($data, self::SHOULD_BACKFILL_AUDIO)));
+        $shouldSendNot = ShouldSendNotification::from(intval(Arr::get($data, self::SHOULD_SEND_NOTIFICATION)));
+
+        if ($shouldBackfill === ShouldBackfillAudio::YES) {
             $backfillAudioAction = new BackfillAudioAction('audio');
             $backfillAudioAction->handle($video, $data);
         }
 
-        if (Arr::get($data, self::SHOULD_SEND_NOTIFICATION) === 'yes') {
+        if ($shouldSendNot === ShouldSendNotification::YES) {
             $videos = new Collection([$video]);
 
             $discordNotificationAction = new VideoDiscordNotificationBulkAction('discord');
