@@ -30,7 +30,7 @@ class ExternalResourcePolicy extends BasePolicy
      */
     public function attachAnyAnime(User $user): bool
     {
-        return $user->can(CrudPermission::UPDATE->format(ExternalResource::class));
+        return $user->can(CrudPermission::CREATE->format(ExternalResource::class)) && $user->can(CrudPermission::CREATE->format(Anime::class));
     }
 
      /**
@@ -48,7 +48,9 @@ class ExternalResourcePolicy extends BasePolicy
             ->where(AnimeResource::ATTRIBUTE_ANIME, $anime->getKey())
             ->exists();
 
-        return !$attached && $user->can(CrudPermission::UPDATE->format(ExternalResource::class));
+        return !$attached
+            && $user->can(CrudPermission::CREATE->format(ExternalResource::class))
+            && $user->can(CrudPermission::CREATE->format(Anime::class));
     }
 
     /**
@@ -59,25 +61,7 @@ class ExternalResourcePolicy extends BasePolicy
      */
     public function detachAnyAnime(User $user): bool
     {
-        return $user->can(CrudPermission::UPDATE->format(ExternalResource::class));
-    }
-
-    /**
-     * Determine whether the user can detach an anime from the resource.
-     *
-     * @param  User  $user
-     * @param  ExternalResource  $resource
-     * @param  Anime  $anime
-     * @return bool
-     */
-    public function detachAnime(User $user, ExternalResource $resource, Anime $anime): bool
-    {
-        $attached = AnimeResource::query()
-            ->where(AnimeResource::ATTRIBUTE_RESOURCE, $resource->getKey())
-            ->where(AnimeResource::ATTRIBUTE_ANIME, $anime->getKey())
-            ->exists();
-
-        return $attached && $user->can(CrudPermission::UPDATE->format(ExternalResource::class));
+        return $user->can(CrudPermission::DELETE->format(ExternalResource::class)) && $user->can(CrudPermission::DELETE->format(Anime::class));
     }
 
     /**
@@ -88,7 +72,7 @@ class ExternalResourcePolicy extends BasePolicy
      */
     public function attachAnyArtist(User $user): bool
     {
-        return $user->can(CrudPermission::UPDATE->format(ExternalResource::class));
+        return $user->can(CrudPermission::CREATE->format(ExternalResource::class)) && $user->can(CrudPermission::CREATE->format(Artist::class));
     }
 
     /**
@@ -106,7 +90,9 @@ class ExternalResourcePolicy extends BasePolicy
             ->where(ArtistResource::ATTRIBUTE_ARTIST, $artist->getKey())
             ->exists();
 
-        return !$attached && $user->can(CrudPermission::UPDATE->format(ExternalResource::class));
+            return !$attached
+            && $user->can(CrudPermission::CREATE->format(ExternalResource::class))
+            && $user->can(CrudPermission::CREATE->format(Artist::class));
     }
 
     /**
@@ -117,25 +103,7 @@ class ExternalResourcePolicy extends BasePolicy
      */
     public function detachAnyArtist(User $user): bool
     {
-        return $user->can(CrudPermission::UPDATE->format(ExternalResource::class));
-    }
-
-    /**
-     * Determine whether the user can detach an artist from the resource.
-     *
-     * @param  User  $user
-     * @param  ExternalResource  $resource
-     * @param  Artist  $artist
-     * @return bool
-     */
-    public function detachArtist(User $user, ExternalResource $resource, Artist $artist): bool
-    {
-        $attached = ArtistResource::query()
-            ->where(ArtistResource::ATTRIBUTE_RESOURCE, $resource->getKey())
-            ->where(ArtistResource::ATTRIBUTE_ARTIST, $artist->getKey())
-            ->exists();
-
-        return $attached && $user->can(CrudPermission::UPDATE->format(ExternalResource::class));
+        return $user->can(CrudPermission::DELETE->format(ExternalResource::class)) && $user->can(CrudPermission::DELETE->format(Artist::class));
     }
 
     /**
@@ -146,7 +114,7 @@ class ExternalResourcePolicy extends BasePolicy
      */
     public function attachAnySong(User $user): bool
     {
-        return $user->can(CrudPermission::UPDATE->format(ExternalResource::class));
+        return $user->can(CrudPermission::CREATE->format(ExternalResource::class)) && $user->can(CrudPermission::CREATE->format(Song::class));
     }
 
     /**
@@ -164,7 +132,9 @@ class ExternalResourcePolicy extends BasePolicy
             ->where(SongResource::ATTRIBUTE_SONG, $song->getKey())
             ->exists();
 
-        return !$attached && $user->can(CrudPermission::UPDATE->format(ExternalResource::class));
+        return !$attached
+            && $user->can(CrudPermission::CREATE->format(ExternalResource::class))
+            && $user->can(CrudPermission::CREATE->format(Song::class));
     }
 
     /**
@@ -175,25 +145,7 @@ class ExternalResourcePolicy extends BasePolicy
      */
     public function detachAnySong(User $user): bool
     {
-        return $user->can(CrudPermission::UPDATE->format(ExternalResource::class));
-    }
-
-    /**
-     * Determine whether the user can detach a song from the resource.
-     *
-     * @param  User  $user
-     * @param  ExternalResource  $resource
-     * @param  Song  $song
-     * @return bool
-     */
-    public function detachSong(User $user, ExternalResource $resource, Song $song): bool
-    {
-        $attached = SongResource::query()
-            ->where(SongResource::ATTRIBUTE_RESOURCE, $resource->getKey())
-            ->where(SongResource::ATTRIBUTE_SONG, $song->getKey())
-            ->exists();
-
-        return $attached && $user->can(CrudPermission::UPDATE->format(ExternalResource::class));
+        return $user->can(CrudPermission::DELETE->format(ExternalResource::class)) && $user->can(CrudPermission::DELETE->format(Song::class));
     }
 
     /**
@@ -204,7 +156,7 @@ class ExternalResourcePolicy extends BasePolicy
      */
     public function attachAnyStudio(User $user): bool
     {
-        return $user->can(CrudPermission::UPDATE->format(ExternalResource::class));
+        return $user->can(CrudPermission::CREATE->format(ExternalResource::class)) && $user->can(CrudPermission::CREATE->format(Studio::class));
     }
 
     /**
@@ -222,7 +174,9 @@ class ExternalResourcePolicy extends BasePolicy
             ->where(StudioResource::ATTRIBUTE_STUDIO, $studio->getKey())
             ->exists();
 
-        return !$attached && $user->can(CrudPermission::UPDATE->format(ExternalResource::class));
+        return !$attached
+            && $user->can(CrudPermission::CREATE->format(ExternalResource::class))
+            && $user->can(CrudPermission::CREATE->format(Studio::class));
     }
 
     /**
@@ -233,24 +187,6 @@ class ExternalResourcePolicy extends BasePolicy
      */
     public function detachAnyStudio(User $user): bool
     {
-        return $user->can(CrudPermission::UPDATE->format(ExternalResource::class));
-    }
-
-    /**
-     * Determine whether the user can detach a studio from the resource.
-     *
-     * @param  User  $user
-     * @param  ExternalResource  $resource
-     * @param  Studio  $studio
-     * @return bool
-     */
-    public function detachStudio(User $user, ExternalResource $resource, Studio $studio): bool
-    {
-        $attached = StudioResource::query()
-            ->where(StudioResource::ATTRIBUTE_RESOURCE, $resource->getKey())
-            ->where(StudioResource::ATTRIBUTE_STUDIO, $studio->getKey())
-            ->exists();
-
-        return $attached && $user->can(CrudPermission::UPDATE->format(ExternalResource::class));
+        return $user->can(CrudPermission::DELETE->format(ExternalResource::class)) && $user->can(CrudPermission::DELETE->format(Studio::class));
     }
 }

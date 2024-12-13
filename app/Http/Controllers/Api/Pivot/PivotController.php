@@ -8,6 +8,7 @@ use App\Contracts\Http\Api\InteractsWithSchema;
 use App\Http\Api\Schema\Schema;
 use App\Http\Controllers\Controller;
 use App\Http\Middleware\Auth\Authenticate;
+use App\Http\Middleware\Models\AuthorizesPivot;
 use Illuminate\Support\Str;
 
 /**
@@ -25,8 +26,9 @@ abstract class PivotController extends Controller implements InteractsWithSchema
      */
     public function __construct(string $foreignModel, string $foreignParameter, string $relatedModel, string $relatedParameter)
     {
-        $this->authorizeResource($foreignModel, $foreignParameter);
-        $this->authorizeResource($relatedModel, $relatedParameter);
+        $this->middleware(AuthorizesPivot::class.":{$foreignParameter},{$relatedParameter}")->only(['store', 'destroy']);
+        //$this->authorizeResource($foreignModel, $foreignParameter);
+        //$this->authorizeResource($relatedModel, $relatedParameter);
         $this->middleware(Authenticate::using('sanctum'))->except(['index', 'show']);
     }
 

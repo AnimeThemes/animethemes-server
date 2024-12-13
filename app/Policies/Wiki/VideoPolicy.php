@@ -25,7 +25,7 @@ class VideoPolicy extends BasePolicy
      */
     public function attachAnyAnimeThemeEntry(User $user): bool
     {
-        return $user->can(CrudPermission::UPDATE->format(Video::class));
+        return $user->can(CrudPermission::CREATE->format(Video::class)) && $user->can(CrudPermission::CREATE->format(AnimeThemeEntry::class));
     }
 
     /**
@@ -43,36 +43,20 @@ class VideoPolicy extends BasePolicy
             ->where(AnimeThemeEntryVideo::ATTRIBUTE_ENTRY, $entry->getKey())
             ->exists();
 
-        return !$attached && $user->can(CrudPermission::UPDATE->format(Video::class));
+        return !$attached
+            && $user->can(CrudPermission::CREATE->format(Video::class))
+            && $user->can(CrudPermission::CREATE->format(AnimeThemeEntry::class));
     }
 
     /**
-     * Determine whether the user can detach an entry from a video.
+     * Determine whether the user can detach any entry from a video.
      *
      * @param  User  $user
      * @return bool
      */
     public function detachAnyAnimeThemeEntry(User $user): bool
     {
-        return $user->can(CrudPermission::UPDATE->format(Video::class));
-    }
-
-    /**
-     * Determine whether the user can detach an entry from a video.
-     *
-     * @param  User  $user
-     * @param  Video  $video
-     * @param  AnimeThemeEntry  $entry
-     * @return bool
-     */
-    public function detachAnimeThemeEntry(User $user, Video $video, AnimeThemeEntry $entry): bool
-    {
-        $attached = AnimeThemeEntryVideo::query()
-            ->where(AnimeThemeEntryVideo::ATTRIBUTE_VIDEO, $video->getKey())
-            ->where(AnimeThemeEntryVideo::ATTRIBUTE_ENTRY, $entry->getKey())
-            ->exists();
-
-        return $attached && $user->can(CrudPermission::UPDATE->format(Video::class));
+        return $user->can(CrudPermission::DELETE->format(Video::class)) && $user->can(CrudPermission::DELETE->format(AnimeThemeEntry::class));
     }
 
     /**

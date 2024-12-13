@@ -6,6 +6,7 @@ namespace App\Policies\Wiki;
 
 use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
+use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Song;
@@ -26,7 +27,7 @@ class SongPolicy extends BasePolicy
      */
     public function attachAnyArtist(User $user): bool
     {
-        return $user->can(CrudPermission::UPDATE->format(Song::class));
+        return $user->can(CrudPermission::CREATE->format(Song::class)) && $user->can(CrudPermission::CREATE->format(Artist::class));
     }
 
     /**
@@ -44,7 +45,9 @@ class SongPolicy extends BasePolicy
             ->where(ArtistSong::ATTRIBUTE_ARTIST, $artist->getKey())
             ->exists();
 
-        return !$attached && $user->can(CrudPermission::UPDATE->format(Song::class));
+        return !$attached
+            && $user->can(CrudPermission::CREATE->format(Song::class))
+            && $user->can(CrudPermission::CREATE->format(Artist::class));
     }
 
     /**
@@ -55,25 +58,7 @@ class SongPolicy extends BasePolicy
      */
     public function detachAnyArtist(User $user): bool
     {
-        return $user->can(CrudPermission::UPDATE->format(Song::class));
-    }
-
-    /**
-     * Determine whether the user can detach an artist from the song.
-     *
-     * @param  User  $user
-     * @param  Song  $song
-     * @param  Artist  $artist
-     * @return bool
-     */
-    public function detachArtist(User $user, Song $song, Artist $artist): bool
-    {
-        $attached = ArtistSong::query()
-            ->where(ArtistSong::ATTRIBUTE_SONG, $song->getKey())
-            ->where(ArtistSong::ATTRIBUTE_ARTIST, $artist->getKey())
-            ->exists();
-
-        return $attached && $user->can(CrudPermission::UPDATE->format(Song::class));
+        return $user->can(CrudPermission::DELETE->format(Song::class)) && $user->can(CrudPermission::DELETE->format(Artist::class));
     }
 
     /**
@@ -84,7 +69,7 @@ class SongPolicy extends BasePolicy
      */
     public function addAnimeTheme(User $user): bool
     {
-        return $user->can(CrudPermission::UPDATE->format(Song::class));
+        return $user->can(CrudPermission::UPDATE->format(AnimeTheme::class));
     }
 
     /**
@@ -95,7 +80,7 @@ class SongPolicy extends BasePolicy
      */
     public function attachAnyExternalResource(User $user): bool
     {
-        return $user->can(CrudPermission::UPDATE->format(Song::class));
+        return $user->can(CrudPermission::CREATE->format(Song::class)) && $user->can(CrudPermission::CREATE->format(ExternalResource::class));
     }
 
     /**
@@ -113,7 +98,9 @@ class SongPolicy extends BasePolicy
             ->where(SongResource::ATTRIBUTE_RESOURCE, $resource->getKey())
             ->exists();
 
-        return !$attached && $user->can(CrudPermission::UPDATE->format(Song::class));
+        return !$attached
+            && $user->can(CrudPermission::CREATE->format(Song::class))
+            && $user->can(CrudPermission::CREATE->format(ExternalResource::class));
     }
 
     /**
@@ -124,24 +111,6 @@ class SongPolicy extends BasePolicy
      */
     public function detachAnyExternalResource(User $user): bool
     {
-        return $user->can(CrudPermission::UPDATE->format(Song::class));
-    }
-
-    /**
-     * Determine whether the user can detach a resource from the song.
-     *
-     * @param  User  $user
-     * @param  Song  $song
-     * @param  ExternalResource  $resource
-     * @return bool
-     */
-    public function detachExternalResource(User $user, Song $song, ExternalResource $resource): bool
-    {
-        $attached = SongResource::query()
-            ->where(SongResource::ATTRIBUTE_SONG, $song->getKey())
-            ->where(SongResource::ATTRIBUTE_RESOURCE, $resource->getKey())
-            ->exists();
-
-        return $attached && $user->can(CrudPermission::UPDATE->format(Song::class));
+        return $user->can(CrudPermission::DELETE->format(Song::class)) && $user->can(CrudPermission::DELETE->format(ExternalResource::class));
     }
 }

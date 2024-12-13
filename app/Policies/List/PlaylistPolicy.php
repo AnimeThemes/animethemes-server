@@ -150,12 +150,18 @@ class PlaylistPolicy extends BasePolicy
      */
     public function attachImage(User $user, Playlist $playlist, Image $image): bool
     {
+        if ($playlist->user()->isNot($user)) {
+            return false;
+        }
+
         $attached = PlaylistImage::query()
             ->where(PlaylistImage::ATTRIBUTE_PLAYLIST, $playlist->getKey())
             ->where(PlaylistImage::ATTRIBUTE_IMAGE, $image->getKey())
             ->exists();
 
-        return !$attached && $user->hasRole(RoleEnum::ADMIN->value);
+        return !$attached
+            && $user->can(CrudPermission::CREATE->format(Playlist::class))
+            && $user->can(CrudPermission::CREATE->format(Image::class));
     }
 
     /**
@@ -174,16 +180,12 @@ class PlaylistPolicy extends BasePolicy
      *
      * @param  User  $user
      * @param  Playlist  $playlist
-     * @param  Image  $image
      * @return bool
      */
-    public function detachImage(User $user, Playlist $playlist, Image $image): bool
+    public function detachImage(User $user, Playlist $playlist): bool
     {
-        $attached = PlaylistImage::query()
-            ->where(PlaylistImage::ATTRIBUTE_PLAYLIST, $playlist->getKey())
-            ->where(PlaylistImage::ATTRIBUTE_IMAGE, $image->getKey())
-            ->exists();
-
-        return $attached && $user->hasRole(RoleEnum::ADMIN->value);
+        return $playlist->user()->is($user)
+            && $user->can(CrudPermission::DELETE->format(Playlist::class))
+            && $user->can(CrudPermission::DELETE->format(Image::class));
     }
 }

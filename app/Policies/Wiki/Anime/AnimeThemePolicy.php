@@ -6,7 +6,7 @@ namespace App\Policies\Wiki\Anime;
 
 use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
-use App\Models\Wiki\Anime\AnimeTheme;
+use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Policies\BasePolicy;
 
 /**
@@ -22,6 +22,6 @@ class AnimeThemePolicy extends BasePolicy
      */
     public function addAnyAnimeThemeEntry(User $user): bool
     {
-        return $user->can(CrudPermission::UPDATE->format(AnimeTheme::class));
+        return $user->can(CrudPermission::UPDATE->format(AnimeThemeEntry::class));
     }
 }

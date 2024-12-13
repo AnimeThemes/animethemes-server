@@ -7,6 +7,8 @@ namespace App\Policies\Wiki\Anime\Theme;
 use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
+use App\Models\Wiki\Video;
+use App\Pivots\Wiki\AnimeThemeEntryVideo;
 use App\Policies\BasePolicy;
 
 /**
@@ -22,7 +24,27 @@ class AnimeThemeEntryPolicy extends BasePolicy
      */
     public function attachAnyVideo(User $user): bool
     {
-        return $user->can(CrudPermission::UPDATE->format(AnimeThemeEntry::class));
+        return $user->can(CrudPermission::CREATE->format(AnimeThemeEntry::class)) && $user->can(CrudPermission::CREATE->format(Video::class));
+    }
+
+    /**
+     * Determine whether the user can attach an entry to the video.
+     *
+     * @param  User  $user
+     * @param  Video  $video
+     * @param  AnimeThemeEntry  $entry
+     * @return bool
+     */
+    public function attachVideo(User $user, Video $video, AnimeThemeEntry $entry): bool
+    {
+        $attached = AnimeThemeEntryVideo::query()
+            ->where(AnimeThemeEntryVideo::ATTRIBUTE_VIDEO, $video->getKey())
+            ->where(AnimeThemeEntryVideo::ATTRIBUTE_ENTRY, $entry->getKey())
+            ->exists();
+
+        return !$attached
+            && $user->can(CrudPermission::CREATE->format(AnimeThemeEntry::class))
+            && $user->can(CrudPermission::CREATE->format(Video::class));
     }
 
     /**
@@ -33,17 +55,6 @@ class AnimeThemeEntryPolicy extends BasePolicy
      */
     public function detachAnyVideo(User $user): bool
     {
-        return $user->can(CrudPermission::UPDATE->format(AnimeThemeEntry::class));
-    }
-
-    /**
-     * Determine whether the user can detach a video from the entry.
-     *
-     * @param  User  $user
-     * @return bool
-     */
-    public function detachVideo(User $user): bool
-    {
-        return $user->can(CrudPermission::UPDATE->format(AnimeThemeEntry::class));
+        return $user->can(CrudPermission::DELETE->format(AnimeThemeEntry::class)) && $user->can(CrudPermission::DELETE->format(Video::class));
     }
 }

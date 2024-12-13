@@ -29,7 +29,7 @@ class ImagePolicy extends BasePolicy
      */
     public function attachAnyArtist(User $user): bool
     {
-        return $user->can(CrudPermission::UPDATE->format(Image::class));
+        return $user->can(CrudPermission::CREATE->format(Image::class)) && $user->can(CrudPermission::CREATE->format(Artist::class));
     }
 
     /**
@@ -47,7 +47,9 @@ class ImagePolicy extends BasePolicy
             ->where(ArtistImage::ATTRIBUTE_ARTIST, $artist->getKey())
             ->exists();
 
-        return !$attached && $user->can(CrudPermission::UPDATE->format(Image::class));
+        return !$attached
+            && $user->can(CrudPermission::CREATE->format(Image::class))
+            && $user->can(CrudPermission::CREATE->format(Artist::class));
     }
 
     /**
@@ -58,25 +60,7 @@ class ImagePolicy extends BasePolicy
      */
     public function detachAnyArtist(User $user): bool
     {
-        return $user->can(CrudPermission::UPDATE->format(Image::class));
-    }
-
-    /**
-     * Determine whether the user can detach an artist from the image.
-     *
-     * @param  User  $user
-     * @param  Image  $image
-     * @param  Artist  $artist
-     * @return bool
-     */
-    public function detachArtist(User $user, Image $image, Artist $artist): bool
-    {
-        $attached = ArtistImage::query()
-            ->where(ArtistImage::ATTRIBUTE_IMAGE, $image->getKey())
-            ->where(ArtistImage::ATTRIBUTE_ARTIST, $artist->getKey())
-            ->exists();
-
-        return $attached && $user->can(CrudPermission::UPDATE->format(Image::class));
+        return $user->can(CrudPermission::DELETE->format(Image::class)) && $user->can(CrudPermission::DELETE->format(Artist::class));
     }
 
     /**
@@ -87,7 +71,7 @@ class ImagePolicy extends BasePolicy
      */
     public function attachAnyAnime(User $user): bool
     {
-        return $user->can(CrudPermission::UPDATE->format(Image::class));
+        return $user->can(CrudPermission::CREATE->format(Image::class)) && $user->can(CrudPermission::CREATE->format(Anime::class));
     }
 
     /**
@@ -105,7 +89,9 @@ class ImagePolicy extends BasePolicy
             ->where(AnimeImage::ATTRIBUTE_ANIME, $anime->getKey())
             ->exists();
 
-        return !$attached && $user->can(CrudPermission::UPDATE->format(Image::class));
+        return !$attached
+            && $user->can(CrudPermission::CREATE->format(Image::class))
+            && $user->can(CrudPermission::CREATE->format(Anime::class));
     }
 
     /**
@@ -116,23 +102,7 @@ class ImagePolicy extends BasePolicy
      */
     public function detachAnyAnime(User $user): bool
     {
-        return $user->can(CrudPermission::UPDATE->format(Image::class));
-    }
-
-    /**
-     * Determine whether the user can detach an anime from the image.
-     *
-     * @param  User  $user
-     * @return bool
-     */
-    public function detachAnime(User $user, Image $image, Anime $anime): bool
-    {
-        $attached = AnimeImage::query()
-            ->where(AnimeImage::ATTRIBUTE_IMAGE, $image->getKey())
-            ->where(AnimeImage::ATTRIBUTE_ANIME, $anime->getKey())
-            ->exists();
-
-        return $attached && $user->can(CrudPermission::UPDATE->format(Image::class));
+        return $user->can(CrudPermission::DELETE->format(Image::class)) && $user->can(CrudPermission::DELETE->format(Anime::class));
     }
 
     /**
@@ -143,7 +113,7 @@ class ImagePolicy extends BasePolicy
      */
     public function attachAnyStudio(User $user): bool
     {
-        return $user->can(CrudPermission::UPDATE->format(Image::class));
+        return $user->can(CrudPermission::CREATE->format(Image::class)) && $user->can(CrudPermission::CREATE->format(Studio::class));
     }
 
     /**
@@ -161,7 +131,9 @@ class ImagePolicy extends BasePolicy
             ->where(StudioImage::ATTRIBUTE_STUDIO, $studio->getKey())
             ->exists();
 
-        return !$attached && $user->can(CrudPermission::UPDATE->format(Image::class));
+        return !$attached
+            && $user->can(CrudPermission::CREATE->format(Image::class))
+            && $user->can(CrudPermission::CREATE->format(Studio::class));
     }
 
     /**
@@ -172,25 +144,7 @@ class ImagePolicy extends BasePolicy
      */
     public function detachAnyStudio(User $user): bool
     {
-        return $user->can(CrudPermission::UPDATE->format(Image::class));
-    }
-
-    /**
-     * Determine whether the user can detach a studio from the image.
-     *
-     * @param  User  $user
-     * @param  Image  $image
-     * @param  Studio  $studio
-     * @return bool
-     */
-    public function detachStudio(User $user, Image $image, Studio $studio): bool
-    {
-        $attached = StudioImage::query()
-            ->where(StudioImage::ATTRIBUTE_IMAGE, $image->getKey())
-            ->where(StudioImage::ATTRIBUTE_STUDIO, $studio->getKey())
-            ->exists();
-
-        return $attached && $user->can(CrudPermission::UPDATE->format(Image::class));
+        return $user->can(CrudPermission::DELETE->format(Image::class)) && $user->can(CrudPermission::DELETE->format(Studio::class));
     }
 
     /**
@@ -222,17 +176,6 @@ class ImagePolicy extends BasePolicy
      * @return bool
      */
     public function detachAnyPlaylist(User $user): bool
-    {
-        return $user->hasRole(RoleEnum::ADMIN->value);
-    }
-
-    /**
-     * Determine whether the user can detach a playlist from the image.
-     *
-     * @param  User  $user
-     * @return bool
-     */
-    public function detachPlaylist(User $user): bool
     {
         return $user->hasRole(RoleEnum::ADMIN->value);
     }
