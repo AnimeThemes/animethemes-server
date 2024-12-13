@@ -51,12 +51,12 @@ class AuthorizesPivot
     /**
      * Get the authorization to show a pivot.
      *
-     * @param  User  $user
+     * @param  User|null  $user
      * @param  Model  $foreignModel
      * @param  Model  $relatedModel
      * @return bool
      */
-    protected function forShow(User $user, Model $foreignModel, Model $relatedModel): bool
+    protected function forShow(?User $user, Model $foreignModel, Model $relatedModel): bool
     {
         return Gate::forUser($user)->check('view', $foreignModel)
             && Gate::forUser($user)->check('view', $relatedModel);
