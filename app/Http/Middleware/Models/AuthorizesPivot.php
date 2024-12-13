@@ -21,11 +21,13 @@ class AuthorizesPivot
      *
      * @param  Request  $request
      * @param  Closure(Request): mixed  $next
+     * @param  string  $foreignClass
      * @param  string  $foreignParameter
+     * @param  string  $relatedClass
      * @param  string  $relatedParameter
      * @return mixed
      */
-    public function handle(Request $request, Closure $next, string $foreignParameter, string $relatedParameter): mixed
+    public function handle(Request $request, Closure $next, string $foreignClass, string $foreignParameter, string $relatedClass, string $relatedParameter): mixed
     {
         /** @var Model $foreignModel */
         $foreignModel = $request->route($foreignParameter);
@@ -34,11 +36,11 @@ class AuthorizesPivot
         $relatedModel = $request->route($relatedParameter);
 
         $isAuthorized = match ($request->route()->getActionMethod()) {
-            'index' => $this->forIndex($request->user(), $foreignModel, $relatedModel),
+            'index' => $this->forIndex($request->user(), $foreignClass, $relatedClass),
             'show' => $this->forShow($request->user(), $foreignModel, $relatedModel),
-            'store' => $this->forStore($request->user(), $foreignModel, $relatedModel),
+            'create', 'store' => $this->forStore($request->user(), $foreignModel, $relatedModel),
             'destroy' => $this->forDestroy($request->user(), $foreignModel, $relatedModel),
-            'update' => $this->forUpdate($request->user(), $foreignModel, $relatedModel),
+            'edit', 'update' => $this->forUpdate($request->user(), $foreignModel, $relatedModel),
             default => false,
         };
 
@@ -53,14 +55,14 @@ class AuthorizesPivot
      * Get the authorization to index.
      *
      * @param  User|null  $user
-     * @param  Model  $foreignModel
-     * @param  Model  $relatedModel
+     * @param  string  $foreignClass
+     * @param  string  $relatedClass
      * @return bool
      */
-    protected function forIndex(?User $user, Model $foreignModel, Model $relatedModel): bool
+    protected function forIndex(?User $user, string $foreignClass, string $relatedClass): bool
     {
-        return Gate::forUser($user)->check('viewAny', $foreignModel)
-            && Gate::forUser($user)->check('viewAny', $relatedModel);
+        return Gate::forUser($user)->check('viewAny', $foreignClass)
+            && Gate::forUser($user)->check('viewAny', $relatedClass);
     }
 
     /**

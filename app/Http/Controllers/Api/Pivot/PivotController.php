@@ -26,10 +26,8 @@ abstract class PivotController extends Controller implements InteractsWithSchema
      */
     public function __construct(string $foreignModel, string $foreignParameter, string $relatedModel, string $relatedParameter)
     {
-        /** @phpstan-ignore-unused $foreignModel */
-        /** @phpstan-ignore-unused $relatedModel */
-        $this->middleware(AuthorizesPivot::class.":{$foreignParameter},{$relatedParameter}");
-        //$this->authorizeResource($foreignModel, $foreignParameter);
+        $this->middleware(AuthorizesPivot::class.":{$foreignModel},{$foreignParameter},{$relatedModel},{$relatedParameter}");
+        $this->authorizeResource($foreignModel, $foreignParameter);
         //$this->authorizeResource($relatedModel, $relatedParameter);
         $this->middleware(Authenticate::using('sanctum'))->except(['index', 'show']);
     }
