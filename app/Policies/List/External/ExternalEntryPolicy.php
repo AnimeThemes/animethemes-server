@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Policies\List\External;
 
 use App\Enums\Auth\CrudPermission;
+use App\Enums\Auth\Role;
 use App\Enums\Models\List\ExternalProfileVisibility;
 use App\Models\Auth\User;
 use App\Models\BaseModel;
@@ -28,7 +29,7 @@ class ExternalEntryPolicy extends BasePolicy
     public function viewAny(?User $user): bool
     {
         if (Filament::isServing()) {
-            return $user !== null && $user->hasRole('Admin');
+            return $user !== null && $user->hasRole(Role::ADMIN->value);
         }
 
         /** @var ExternalProfile|null $profile */
@@ -51,7 +52,7 @@ class ExternalEntryPolicy extends BasePolicy
     public function view(?User $user, BaseModel|Model $entry): bool
     {
         if (Filament::isServing()) {
-            return $user !== null && $user->hasRole('Admin');
+            return $user !== null && $user->hasRole(Role::ADMIN->value);
         }
 
         /** @var ExternalProfile|null $profile */
@@ -71,7 +72,7 @@ class ExternalEntryPolicy extends BasePolicy
     public function create(User $user): bool
     {
         if (Filament::isServing()) {
-            return $user->hasRole('Admin');
+            return $user->hasRole(Role::ADMIN->value);
         }
 
         /** @var ExternalProfile|null $profile */
@@ -92,7 +93,7 @@ class ExternalEntryPolicy extends BasePolicy
     public function update(User $user, BaseModel|Model $entry): bool
     {
         if (Filament::isServing()) {
-            return $user->hasRole('Admin');
+            return $user->hasRole(Role::ADMIN->value);
         }
 
         /** @var ExternalProfile|null $profile */
@@ -113,7 +114,7 @@ class ExternalEntryPolicy extends BasePolicy
     public function delete(User $user, BaseModel|Model $entry): bool
     {
         if (Filament::isServing()) {
-            return $user->hasRole('Admin');
+            return $user->hasRole(Role::ADMIN->value);
         }
 
         /** @var ExternalProfile|null $profile */
@@ -134,7 +135,7 @@ class ExternalEntryPolicy extends BasePolicy
     public function restore(User $user, BaseModel|Model $entry): bool
     {
         if (Filament::isServing()) {
-            return $user->hasRole('Admin');
+            return $user->hasRole(Role::ADMIN->value);
         }
 
         /** @var ExternalProfile|null $profile */

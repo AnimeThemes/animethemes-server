@@ -9,6 +9,9 @@ use App\Filament\Components\Fields\Select;
 use App\Filament\RelationManagers\BaseRelationManager;
 use Filament\Tables\Actions\AttachAction as DefaultAttachAction;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Str;
 
 /**
  * Class AttachAction.
@@ -26,9 +29,23 @@ class AttachAction extends DefaultAttachAction
     {
         parent::setUp();
 
-        $this->authorize('create');
+        $this->visible(function (BaseRelationManager $livewire) {
+            if (!$livewire->getRelationship() instanceof BelongsToMany) {
+                return false;
+            }
 
-        $this->hidden(fn (BaseRelationManager $livewire) => !($livewire->getRelationship() instanceof BelongsToMany));
+            $ownerRecord = $livewire->getOwnerRecord();
+
+            $gate = Gate::getPolicyFor($ownerRecord);
+
+            $ability = Str::of('attachAny')
+                ->append(Str::singular(class_basename($livewire->getTable()->getModel())))
+                ->toString();
+
+            return is_object($gate) & method_exists($gate, $ability)
+                ? Gate::forUser(Auth::user())->any($ability, $ownerRecord)
+                : true;
+        });
 
         $this->recordSelect(function (BaseRelationManager $livewire) {
             /** @var string */

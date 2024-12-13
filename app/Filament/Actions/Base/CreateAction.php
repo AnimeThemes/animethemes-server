@@ -8,12 +8,14 @@ use App\Concerns\Filament\ActionLogs\HasPivotActionLogs;
 use App\Enums\Auth\Role;
 use App\Filament\RelationManagers\BaseRelationManager;
 use App\Filament\RelationManagers\Wiki\ResourceRelationManager;
+use App\Models\Auth\User;
 use Filament\Forms\Form;
 use Filament\Tables\Actions\CreateAction as DefaultCreateAction;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Http\Request;
-use Livewire\Component;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Str;
 
 /**
  * Class CreateAction.
@@ -49,12 +51,26 @@ class CreateAction extends DefaultCreateAction
             }
         });
 
-        $this->hidden(function (Component $livewire, Request $request) {
+        $this->visible(function (BaseRelationManager $livewire) {
             if ($livewire instanceof ResourceRelationManager) {
-                return !$request->user()->hasRole(Role::ADMIN->value);
+                /** @var User $user */
+                $user = Auth::user();
+                return $user->hasRole(Role::ADMIN->value);
             }
 
-            return false;
+            $ownerRecord = $livewire->getOwnerRecord();
+
+            $gate = Gate::getPolicyFor($ownerRecord);
+
+            $method = $livewire->getRelationship() instanceof BelongsToMany ? 'attachAny' : 'addAny';
+
+            $ability = Str::of($method)
+                ->append(Str::singular(class_basename($livewire->getTable()->getModel())))
+                ->toString();
+
+            return is_object($gate) & method_exists($gate, $ability)
+                ? Gate::forUser(Auth::user())->any($ability, $ownerRecord)
+                : true;
         });
     }
 }

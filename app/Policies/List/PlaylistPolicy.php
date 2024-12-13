@@ -124,7 +124,7 @@ class PlaylistPolicy extends BasePolicy
      * @param  User  $user
      * @return bool
      */
-    public function addTrack(User $user): bool
+    public function addPlaylistTrack(User $user): bool
     {
         return $user->hasRole(RoleEnum::ADMIN->value);
     }
@@ -151,21 +151,39 @@ class PlaylistPolicy extends BasePolicy
     public function attachImage(User $user, Playlist $playlist, Image $image): bool
     {
         $attached = PlaylistImage::query()
-            ->where($image->getKeyName(), $image->getKey())
-            ->where($playlist->getKeyName(), $playlist->getKey())
+            ->where(PlaylistImage::ATTRIBUTE_PLAYLIST, $playlist->getKey())
+            ->where(PlaylistImage::ATTRIBUTE_IMAGE, $image->getKey())
             ->exists();
 
         return !$attached && $user->hasRole(RoleEnum::ADMIN->value);
     }
 
     /**
-     * Determine whether the user can detach an image from the playlist.
+     * Determine whether the user can detach any image from the playlist.
      *
      * @param  User  $user
      * @return bool
      */
-    public function detachImage(User $user): bool
+    public function detachAnyImage(User $user): bool
     {
         return $user->hasRole(RoleEnum::ADMIN->value);
+    }
+
+    /**
+     * Determine whether the user can detach an image from the playlist.
+     *
+     * @param  User  $user
+     * @param  Playlist  $playlist
+     * @param  Image  $image
+     * @return bool
+     */
+    public function detachImage(User $user, Playlist $playlist, Image $image): bool
+    {
+        $attached = PlaylistImage::query()
+            ->where(PlaylistImage::ATTRIBUTE_PLAYLIST, $playlist->getKey())
+            ->where(PlaylistImage::ATTRIBUTE_IMAGE, $image->getKey())
+            ->exists();
+
+        return $attached && $user->hasRole(RoleEnum::ADMIN->value);
     }
 }

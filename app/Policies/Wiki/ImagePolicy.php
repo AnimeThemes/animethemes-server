@@ -7,12 +7,10 @@ namespace App\Policies\Wiki;
 use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\Role as RoleEnum;
 use App\Models\Auth\User;
-use App\Models\List\Playlist;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Image;
 use App\Models\Wiki\Studio;
-use App\Pivots\List\PlaylistImage;
 use App\Pivots\Wiki\AnimeImage;
 use App\Pivots\Wiki\ArtistImage;
 use App\Pivots\Wiki\StudioImage;
@@ -45,22 +43,40 @@ class ImagePolicy extends BasePolicy
     public function attachArtist(User $user, Image $image, Artist $artist): bool
     {
         $attached = ArtistImage::query()
-            ->where($artist->getKeyName(), $artist->getKey())
-            ->where($image->getKeyName(), $image->getKey())
+            ->where(ArtistImage::ATTRIBUTE_IMAGE, $image->getKey())
+            ->where(ArtistImage::ATTRIBUTE_ARTIST, $artist->getKey())
             ->exists();
 
         return !$attached && $user->can(CrudPermission::UPDATE->format(Image::class));
     }
 
     /**
-     * Determine whether the user can detach an artist from the image.
+     * Determine whether the user can detach any artist from the image.
      *
      * @param  User  $user
      * @return bool
      */
-    public function detachArtist(User $user): bool
+    public function detachAnyArtist(User $user): bool
     {
         return $user->can(CrudPermission::UPDATE->format(Image::class));
+    }
+
+    /**
+     * Determine whether the user can detach an artist from the image.
+     *
+     * @param  User  $user
+     * @param  Image  $image
+     * @param  Artist  $artist
+     * @return bool
+     */
+    public function detachArtist(User $user, Image $image, Artist $artist): bool
+    {
+        $attached = ArtistImage::query()
+            ->where(ArtistImage::ATTRIBUTE_IMAGE, $image->getKey())
+            ->where(ArtistImage::ATTRIBUTE_ARTIST, $artist->getKey())
+            ->exists();
+
+        return $attached && $user->can(CrudPermission::UPDATE->format(Image::class));
     }
 
     /**
@@ -85,11 +101,22 @@ class ImagePolicy extends BasePolicy
     public function attachAnime(User $user, Image $image, Anime $anime): bool
     {
         $attached = AnimeImage::query()
-            ->where($anime->getKeyName(), $anime->getKey())
-            ->where($image->getKeyName(), $image->getKey())
+            ->where(AnimeImage::ATTRIBUTE_IMAGE, $image->getKey())
+            ->where(AnimeImage::ATTRIBUTE_ANIME, $anime->getKey())
             ->exists();
 
         return !$attached && $user->can(CrudPermission::UPDATE->format(Image::class));
+    }
+
+    /**
+     * Determine whether the user can detach any anime from the image.
+     *
+     * @param  User  $user
+     * @return bool
+     */
+    public function detachAnyAnime(User $user): bool
+    {
+        return $user->can(CrudPermission::UPDATE->format(Image::class));
     }
 
     /**
@@ -98,9 +125,14 @@ class ImagePolicy extends BasePolicy
      * @param  User  $user
      * @return bool
      */
-    public function detachAnime(User $user): bool
+    public function detachAnime(User $user, Image $image, Anime $anime): bool
     {
-        return $user->can(CrudPermission::UPDATE->format(Image::class));
+        $attached = AnimeImage::query()
+            ->where(AnimeImage::ATTRIBUTE_IMAGE, $image->getKey())
+            ->where(AnimeImage::ATTRIBUTE_ANIME, $anime->getKey())
+            ->exists();
+
+        return $attached && $user->can(CrudPermission::UPDATE->format(Image::class));
     }
 
     /**
@@ -125,22 +157,40 @@ class ImagePolicy extends BasePolicy
     public function attachStudio(User $user, Image $image, Studio $studio): bool
     {
         $attached = StudioImage::query()
-            ->where($image->getKeyName(), $image->getKey())
-            ->where($studio->getKeyName(), $studio->getKey())
+            ->where(StudioImage::ATTRIBUTE_IMAGE, $image->getKey())
+            ->where(StudioImage::ATTRIBUTE_STUDIO, $studio->getKey())
             ->exists();
 
         return !$attached && $user->can(CrudPermission::UPDATE->format(Image::class));
     }
 
     /**
-     * Determine whether the user can detach a studio from the image.
+     * Determine whether the user can detach any studio from the image.
      *
      * @param  User  $user
      * @return bool
      */
-    public function detachStudio(User $user): bool
+    public function detachAnyStudio(User $user): bool
     {
         return $user->can(CrudPermission::UPDATE->format(Image::class));
+    }
+
+    /**
+     * Determine whether the user can detach a studio from the image.
+     *
+     * @param  User  $user
+     * @param  Image  $image
+     * @param  Studio  $studio
+     * @return bool
+     */
+    public function detachStudio(User $user, Image $image, Studio $studio): bool
+    {
+        $attached = StudioImage::query()
+            ->where(StudioImage::ATTRIBUTE_IMAGE, $image->getKey())
+            ->where(StudioImage::ATTRIBUTE_STUDIO, $studio->getKey())
+            ->exists();
+
+        return $attached && $user->can(CrudPermission::UPDATE->format(Image::class));
     }
 
     /**
@@ -158,18 +208,22 @@ class ImagePolicy extends BasePolicy
      * Determine whether the user can attach a playlist to the image.
      *
      * @param  User  $user
-     * @param  Image  $image
-     * @param  Playlist  $playlist
      * @return bool
      */
-    public function attachPlaylist(User $user, Image $image, Playlist $playlist): bool
+    public function attachPlaylist(User $user): bool
     {
-        $attached = PlaylistImage::query()
-            ->where($image->getKeyName(), $image->getKey())
-            ->where($playlist->getKeyName(), $playlist->getKey())
-            ->exists();
+        return $user->hasRole(RoleEnum::ADMIN->value);
+    }
 
-        return !$attached && $user->hasRole(RoleEnum::ADMIN->value);
+    /**
+     * Determine whether the user can detach any playlist from the image.
+     *
+     * @param  User  $user
+     * @return bool
+     */
+    public function detachAnyPlaylist(User $user): bool
+    {
+        return $user->hasRole(RoleEnum::ADMIN->value);
     }
 
     /**

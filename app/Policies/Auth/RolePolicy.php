@@ -45,7 +45,7 @@ class RolePolicy extends BasePolicy
      * @param  User  $user
      * @param  Role  $role
      * @return bool
-     * 
+     *
      * @noinspection PhpUnusedParameterInspection
      */
     public function update(User $user, Model $role): bool
@@ -59,7 +59,7 @@ class RolePolicy extends BasePolicy
      * @param  User  $user
      * @param  Role  $role
      * @return bool
-     * 
+     *
      * @noinspection PhpUnusedParameterInspection
      */
     public function delete(User $user, Model $role): bool
@@ -73,7 +73,7 @@ class RolePolicy extends BasePolicy
      * @param  User  $user
      * @param  Role  $role
      * @return bool
-     * 
+     *
      * @noinspection PhpUnusedParameterInspection
      */
     public function restore(User $user, Model $role): bool
@@ -97,6 +97,16 @@ class RolePolicy extends BasePolicy
      * @return bool
      */
     public function attachPermission(): bool
+    {
+        return false;
+    }
+
+    /**
+     * Determine whether the user can detach any permission from the role.
+     *
+     * @return bool
+     */
+    public function detachAnyPermission(): bool
     {
         return false;
     }
@@ -127,6 +137,16 @@ class RolePolicy extends BasePolicy
      * @return bool
      */
     public function attachUser(): bool
+    {
+        return false;
+    }
+
+    /**
+     * Determine whether the user can detach any user from the role.
+     *
+     * @return bool
+     */
+    public function detachAnyUser(): bool
     {
         return false;
     }
