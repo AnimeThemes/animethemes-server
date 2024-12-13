@@ -91,7 +91,7 @@ class AuthorizesPivot
     {
         $attach = Str::of('attach')
             ->append(Str::singular(class_basename($relatedModel)))
-            ->toString();
+            ->__toString();
 
         return Gate::forUser($user)->check($attach, [$foreignModel, $relatedModel]);
     }

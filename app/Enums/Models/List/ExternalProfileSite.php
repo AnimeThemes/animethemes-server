@@ -45,7 +45,7 @@ enum ExternalProfileSite: int
         if ($this === static::MAL) {
             $codeVerifier = bin2hex(random_bytes(64));
 
-            $id = Str::uuid()->toString();
+            $id = Str::uuid()->__toString();
 
             Cache::set("mal-external-token-request-{$id}", $codeVerifier);
 

@@ -46,11 +46,11 @@ class DetachAction extends DefaultDetachAction
 
             $detachAny = Str::of('detachAny')
                 ->append($model)
-                ->toString();
+                ->__toString();
 
             $detach = Str::of('detach')
                 ->append($model)
-                ->toString();
+                ->__toString();
 
             return is_object($gate) & method_exists($gate, $detachAny)
                 ? Gate::forUser(Auth::user())->any([$detachAny, $detach], [$ownerRecord, $this->getRecord()])

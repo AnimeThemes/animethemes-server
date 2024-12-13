@@ -31,15 +31,15 @@ class AnimeThemeEntryPolicy extends BasePolicy
      * Determine whether the user can attach an entry to the video.
      *
      * @param  User  $user
-     * @param  Video  $video
      * @param  AnimeThemeEntry  $entry
+     * @param  Video  $video
      * @return bool
      */
-    public function attachVideo(User $user, Video $video, AnimeThemeEntry $entry): bool
+    public function attachVideo(User $user, AnimeThemeEntry $entry, Video $video): bool
     {
         $attached = AnimeThemeEntryVideo::query()
-            ->where(AnimeThemeEntryVideo::ATTRIBUTE_VIDEO, $video->getKey())
             ->where(AnimeThemeEntryVideo::ATTRIBUTE_ENTRY, $entry->getKey())
+            ->where(AnimeThemeEntryVideo::ATTRIBUTE_VIDEO, $video->getKey())
             ->exists();
 
         return !$attached
