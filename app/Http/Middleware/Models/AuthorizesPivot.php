@@ -36,6 +36,8 @@ class AuthorizesPivot
         $isAuthorized = match ($request->route()->getActionMethod()) {
             'store' => $this->forStore($request->user(), $foreignModel, $relatedModel),
             'destroy' => $this->forDestroy($request->user(), $foreignModel, $relatedModel),
+            'update' => $this->forUpdate($request->user(), $foreignModel, $relatedModel),
+            default => false,
         };
 
         if (!$isAuthorized) {
@@ -81,5 +83,19 @@ class AuthorizesPivot
             ->__toString();
 
         return Gate::forUser($user)->any([$detach, $detachAny], $foreignModel);
+    }
+
+    /**
+     * Get the authorization to update a pivot.
+     *
+     * @param  User  $user
+     * @param  Model  $foreignModel
+     * @param  Model  $relatedModel
+     * @return bool
+     */
+    protected function forUpdate(User $user, Model $foreignModel, Model $relatedModel): bool
+    {
+        return Gate::forUser($user)->check('update', $foreignModel)
+            && Gate::forUser($user)->check('update', $relatedModel);
     }
 }

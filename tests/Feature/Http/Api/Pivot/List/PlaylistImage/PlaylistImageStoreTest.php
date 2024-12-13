@@ -107,7 +107,6 @@ class PlaylistImageStoreTest extends TestCase
 
         Feature::activate(AllowPlaylistManagement::class);
 
-        $playlist = Playlist::factory()->createOne();
         $image = Image::factory()->createOne();
 
         $user = User::factory()
@@ -115,6 +114,10 @@ class PlaylistImageStoreTest extends TestCase
                 CrudPermission::CREATE->format(Playlist::class),
                 CrudPermission::CREATE->format(Image::class)
             )
+            ->createOne();
+
+        $playlist = Playlist::factory()
+            ->for($user)
             ->createOne();
 
         Sanctum::actingAs($user);
@@ -137,7 +140,6 @@ class PlaylistImageStoreTest extends TestCase
 
         Feature::activate(AllowPlaylistManagement::class, $this->faker->boolean());
 
-        $playlist = Playlist::factory()->createOne();
         $image = Image::factory()->createOne();
 
         $user = User::factory()
@@ -146,6 +148,10 @@ class PlaylistImageStoreTest extends TestCase
                 CrudPermission::CREATE->format(Image::class),
                 SpecialPermission::BYPASS_FEATURE_FLAGS->value
             )
+            ->createOne();
+
+        $playlist = Playlist::factory()
+            ->for($user)
             ->createOne();
 
         Sanctum::actingAs($user);
