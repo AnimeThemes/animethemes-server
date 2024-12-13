@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
 
 /**
- * AuthorizesPivot
+ * Class AuthorizesPivot.
  */
 class AuthorizesPivot
 {
