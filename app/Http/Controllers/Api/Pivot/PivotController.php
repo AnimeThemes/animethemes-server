@@ -27,8 +27,6 @@ abstract class PivotController extends Controller implements InteractsWithSchema
     public function __construct(string $foreignModel, string $foreignParameter, string $relatedModel, string $relatedParameter)
     {
         $this->middleware(AuthorizesPivot::class.":{$foreignModel},{$foreignParameter},{$relatedModel},{$relatedParameter}");
-        $this->authorizeResource($foreignModel, $foreignParameter);
-        //$this->authorizeResource($relatedModel, $relatedParameter);
         $this->middleware(Authenticate::using('sanctum'))->except(['index', 'show']);
     }
 
