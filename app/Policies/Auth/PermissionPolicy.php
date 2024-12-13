@@ -104,6 +104,16 @@ class PermissionPolicy extends BasePolicy
     }
 
     /**
+     * Determine whether the user can detach any role from the permission.
+     *
+     * @return bool
+     */
+    public function detachAnyRole(): bool
+    {
+        return false;
+    }
+
+    /**
      * Determine whether the user can detach a role from the permission.
      *
      * @return bool
@@ -129,6 +139,16 @@ class PermissionPolicy extends BasePolicy
      * @return bool
      */
     public function attachUser(): bool
+    {
+        return false;
+    }
+
+    /**
+     * Determine whether the user can detach any user from the permission.
+     *
+     * @return bool
+     */
+    public function detachAnyUser(): bool
     {
         return false;
     }

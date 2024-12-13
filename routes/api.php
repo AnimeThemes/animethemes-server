@@ -160,7 +160,7 @@ if (! function_exists('apiResourceUri')) {
                 ->append('}');
         }
 
-        return $uri->toString();
+        return $uri->__toString();
     }
 }
 
@@ -218,7 +218,7 @@ if (! function_exists('apiPivotResourceUri')) {
             ->append('}/{')
             ->append($foreign)
             ->append('}')
-            ->toString();
+            ->__toString();
     }
 }
 

@@ -24,7 +24,7 @@ class LogRequest
      */
     public function handle(Request $request, Closure $next): mixed
     {
-        $requestId = Str::uuid()->toString();
+        $requestId = Str::uuid()->__toString();
 
         Log::withContext([
             'request-id' => $requestId,

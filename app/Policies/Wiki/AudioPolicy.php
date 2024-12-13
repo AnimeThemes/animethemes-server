@@ -6,7 +6,7 @@ namespace App\Policies\Wiki;
 
 use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
-use App\Models\Wiki\Audio;
+use App\Models\Wiki\Video;
 use App\Policies\BasePolicy;
 
 /**
@@ -22,6 +22,6 @@ class AudioPolicy extends BasePolicy
      */
     public function addVideo(User $user): bool
     {
-        return $user->can(CrudPermission::CREATE->format(Audio::class));
+        return $user->can(CrudPermission::CREATE->format(Video::class));
     }
 }

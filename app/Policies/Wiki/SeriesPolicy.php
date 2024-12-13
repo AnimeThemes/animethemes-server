@@ -24,7 +24,7 @@ class SeriesPolicy extends BasePolicy
      */
     public function attachAnyAnime(User $user): bool
     {
-        return $user->can(CrudPermission::UPDATE->format(Series::class));
+        return $user->can(CrudPermission::CREATE->format(Series::class)) && $user->can(CrudPermission::CREATE->format(Anime::class));
     }
 
     /**
@@ -38,21 +38,23 @@ class SeriesPolicy extends BasePolicy
     public function attachAnime(User $user, Series $series, Anime $anime): bool
     {
         $attached = AnimeSeries::query()
-            ->where($anime->getKeyName(), $anime->getKey())
-            ->where($series->getKeyName(), $series->getKey())
+            ->where(AnimeSeries::ATTRIBUTE_SERIES, $series->getKey())
+            ->where(AnimeSeries::ATTRIBUTE_ANIME, $anime->getKey())
             ->exists();
 
-        return !$attached && $user->can(CrudPermission::UPDATE->format(Series::class));
+        return !$attached
+            && $user->can(CrudPermission::CREATE->format(Series::class))
+            && $user->can(CrudPermission::CREATE->format(Anime::class));
     }
 
     /**
-     * Determine whether the user can detach an anime from the series.
+     * Determine whether the user can detach any anime from the series.
      *
      * @param  User  $user
      * @return bool
      */
-    public function detachAnime(User $user): bool
+    public function detachAnyAnime(User $user): bool
     {
-        return $user->can(CrudPermission::UPDATE->format(Series::class));
+        return $user->can(CrudPermission::DELETE->format(Series::class)) && $user->can(CrudPermission::DELETE->format(Anime::class));
     }
 }
