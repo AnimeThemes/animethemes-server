@@ -34,6 +34,7 @@ class AuthorizesPivot
         $relatedModel = $request->route($relatedParameter);
 
         $isAuthorized = match ($request->route()->getActionMethod()) {
+            'index' => $this->forIndex($request->user(), $foreignModel, $relatedModel),
             'show' => $this->forShow($request->user(), $foreignModel, $relatedModel),
             'store' => $this->forStore($request->user(), $foreignModel, $relatedModel),
             'destroy' => $this->forDestroy($request->user(), $foreignModel, $relatedModel),
@@ -46,6 +47,20 @@ class AuthorizesPivot
         }
 
         return $next($request);
+    }
+
+    /**
+     * Get the authorization to index.
+     *
+     * @param  User|null  $user
+     * @param  Model  $foreignModel
+     * @param  Model  $relatedModel
+     * @return bool
+     */
+    protected function forIndex(?User $user, Model $foreignModel, Model $relatedModel): bool
+    {
+        return Gate::forUser($user)->check('viewAny', $foreignModel)
+            && Gate::forUser($user)->check('viewAny', $relatedModel);
     }
 
     /**
