@@ -10,6 +10,7 @@ use App\Models\Admin\Report\ReportStep;
 use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 /**
  * Trait Reportable.
@@ -37,6 +38,10 @@ trait Reportable
 
         static::creating(function (BaseModel $model) {
 
+            if (Gate::forUser(Auth::user())->check('create', $model)) {
+                return;
+            }
+
             $report = Report::query()->create([
                 Report::ATTRIBUTE_USER => Auth::id(),
                 Report::ATTRIBUTE_STATUS => ApprovableStatus::PENDING->value,
@@ -49,6 +54,11 @@ trait Reportable
         });
 
         static::deleting(function (BaseModel $model) {
+
+            if (Gate::forUser(Auth::user())->check('delete', $model)) {
+                return;
+            }
+
             $report = Report::query()->create([
                 Report::ATTRIBUTE_USER => Auth::id(),
                 Report::ATTRIBUTE_STATUS => ApprovableStatus::PENDING->value,
@@ -61,6 +71,11 @@ trait Reportable
         });
 
         static::updating(function (BaseModel $model) {
+
+            if (Gate::forUser(Auth::user())->check('update', $model)) {
+                return;
+            }
+
             $report = Report::query()->create([
                 Report::ATTRIBUTE_USER => Auth::id(),
                 Report::ATTRIBUTE_STATUS => ApprovableStatus::PENDING->value,

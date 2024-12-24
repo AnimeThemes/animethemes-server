@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Admin\Report;
 
+use App\Contracts\Models\Nameable;
 use App\Enums\Models\Admin\ApprovableStatus;
 use App\Enums\Models\Admin\ReportActionType;
 use App\Filament\Components\Columns\BelongsToColumn;
@@ -207,6 +208,8 @@ class ReportStep extends BaseResource
 
                         KeyValueEntry::make(ReportStepModel::ATTRIBUTE_FIELDS)
                             ->label(__('filament.fields.report_step.fields.name'))
+                            ->keyLabel(__('filament.fields.report_step.fields.columns'))
+                            ->valueLabel(__('filament.fields.report_step.fields.values'))
                             ->hidden(fn (?array $state, ReportStepModel $record) => is_null($state) || $record->action === ReportActionType::UPDATE)
                             ->columnSpanFull(),
                         ])
@@ -227,20 +230,23 @@ class ReportStep extends BaseResource
      */
     protected static function getActionName(ReportStepModel $record, ReportActionType $state): string
     {
+        $name = $record->actionable instanceof Nameable ? $record->actionable->getName() : $record->actionable_type;
+
+        if ($state === ReportActionType::CREATE) {
+            return $record->action->localize() . ' ' . $name;
+        }
+
         $actionableUrl = Filament::getUrl($record->actionable);
-        $name = $state === ReportActionType::CREATE ? class_basename($record->actionable_type) : $record->actionable->getName();
         $actionableLink = "<a style='color: rgb(64, 184, 166);' href='{$actionableUrl}'>{$name}</a>";
 
         if ($state === ReportActionType::ATTACH || $state === ReportActionType::DETACH) {
             $targetUrl = Filament::getUrl($record->target);
 
-            $targetLink = "<a style='color: rgb(64, 184, 166);' href='{$targetUrl}'>{$record->target->getName()}</a>";
+            $targetName = $record->target instanceof Nameable ? $record->target->getName() : $record->target_type;
+
+            $targetLink = "<a style='color: rgb(64, 184, 166);' href='{$targetUrl}'>{$targetName}</a>";
 
             return $state->localize() . ' ' . $actionableLink . ' to ' . $targetLink . ' via ' . class_basename($record->pivot_class);
-        }
-
-        if ($state === ReportActionType::CREATE) {
-            return $record->action->localize() . ' ' . $name;
         }
 
         return $record->action->localize() . ' ' . $actionableLink;

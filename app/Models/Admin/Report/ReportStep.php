@@ -12,17 +12,22 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Carbon;
 
 /**
  * Class ReportStep.
  *
  * @property ReportActionType|null $action
  * @property Model|null $actionable
+ * @property string $actionable_type
+ * @property int|null $actionable_id
  * @property array|null $fields
  * @property Carbon|null $finished_at
  * @property class-string<Model>|null $pivot_class
  * @property ApprovableStatus $status
  * @property Model|null $target
+ * @property string|null $target_type
+ * @property int|null $target_id
  */
 class ReportStep extends Model
 {
