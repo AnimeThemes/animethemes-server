@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Admin;
 
-use App\Enums\Actions\ActionLogStatus;
 use App\Enums\Auth\Role;
+use App\Enums\Models\Admin\ActionLogStatus;
 use App\Filament\Components\Columns\BelongsToColumn;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Infolist\TextEntry;

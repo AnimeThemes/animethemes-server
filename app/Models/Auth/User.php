@@ -12,6 +12,7 @@ use App\Events\Auth\User\UserDeleted;
 use App\Events\Auth\User\UserRestored;
 use App\Events\Auth\User\UserUpdated;
 use App\Models\Admin\ActionLog;
+use App\Models\Admin\Report;
 use App\Models\List\Playlist;
 use App\Models\List\ExternalProfile;
 use Database\Factories\Auth\UserFactory;
@@ -41,10 +42,12 @@ use Spatie\Permission\Traits\HasRoles;
  * @property Carbon|null $email_verified_at
  * @property Collection<int, ExternalProfile> $externalprofiles
  * @property int $id
+ * @property Collection<int, Report> $managedreports
  * @property string $name
  * @property string $password
  * @property Collection<int, Playlist> $playlists
  * @property string $remember_token
+ * @property Collection<int, Report> $reports
  * @property Collection<int, PersonalAccessToken> $tokens
  * @property Carbon|null $two_factor_confirmed_at
  * @property string|null $two_factor_recovery_codes
@@ -76,10 +79,12 @@ class User extends Authenticatable implements MustVerifyEmail, Nameable, HasSubt
     final public const ATTRIBUTE_TWO_FACTOR_SECRET = 'two_factor_secret';
 
     final public const RELATION_EXTERNAL_PROFILES = 'externalprofiles';
+    final public const RELATION_MANAGED_SUBMISSIONS = 'managedsubmissions';
     final public const RELATION_PERMISSIONS = 'permissions';
     final public const RELATION_PLAYLISTS = 'playlists';
     final public const RELATION_ROLES = 'roles';
     final public const RELATION_ROLES_PERMISSIONS = 'roles.permissions';
+    final public const RELATION_SUBMISSIONS = 'submissions';
 
     /**
      * The attributes that are mass assignable.
@@ -236,6 +241,26 @@ class User extends Authenticatable implements MustVerifyEmail, Nameable, HasSubt
     public function externalprofiles(): HasMany
     {
         return $this->hasMany(ExternalProfile::class, ExternalProfile::ATTRIBUTE_USER);
+    }
+
+    /**
+     * Get the submissions that the user made.
+     *
+     * @return HasMany
+     */
+    public function reports(): HasMany
+    {
+        return $this->hasMany(Report::class, Report::ATTRIBUTE_USER);
+    }
+
+    /**
+     * Get the reports that the admin managed.
+     *
+     * @return HasMany
+     */
+    public function managedreports(): HasMany
+    {
+        return $this->hasMany(Report::class, Report::ATTRIBUTE_MODERATOR);
     }
 
     /**

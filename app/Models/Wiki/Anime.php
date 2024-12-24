@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models\Wiki;
 
+use App\Concerns\Models\Reportable;
 use App\Enums\Models\Wiki\AnimeMediaFormat;
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Events\Wiki\Anime\AnimeCreated;
@@ -55,6 +56,7 @@ use Illuminate\Support\Collection;
  */
 class Anime extends BaseModel
 {
+    use Reportable;
     use Searchable;
 
     final public const TABLE = 'anime';

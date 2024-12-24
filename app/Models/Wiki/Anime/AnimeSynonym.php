@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models\Wiki\Anime;
 
+use App\Concerns\Models\Reportable;
 use App\Enums\Models\Wiki\AnimeSynonymType;
 use App\Events\Wiki\Anime\Synonym\SynonymCreated;
 use App\Events\Wiki\Anime\Synonym\SynonymDeleted;
@@ -28,6 +29,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class AnimeSynonym extends BaseModel
 {
+    use Reportable;
     use Searchable;
 
     final public const TABLE = 'anime_synonyms';

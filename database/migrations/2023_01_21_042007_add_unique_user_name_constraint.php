@@ -5,7 +5,6 @@ declare(strict_types=1);
 use App\Models\Auth\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -33,8 +32,7 @@ return new class extends Migration
     {
         if (Schema::hasTable(User::TABLE)) {
             Schema::table(User::TABLE, function (Blueprint $table) {
-                // The index name will only be formatted by laravel if we provide an array of columns
-                $table->dropUnique(Arr::wrap(User::ATTRIBUTE_NAME));
+                $table->dropUnique(User::ATTRIBUTE_NAME);
             });
         }
     }

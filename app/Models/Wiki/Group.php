@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models\Wiki;
 
+use App\Concerns\Models\Reportable;
 use App\Events\Wiki\Group\GroupCreated;
 use App\Events\Wiki\Group\GroupDeleted;
 use App\Events\Wiki\Group\GroupDeleting;
@@ -27,6 +28,8 @@ use Illuminate\Support\Collection;
  */
 class Group extends BaseModel
 {
+    use Reportable;
+
     final public const TABLE = 'groups';
 
     final public const ATTRIBUTE_ID = 'group_id';

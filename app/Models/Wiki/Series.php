@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models\Wiki;
 
+use App\Concerns\Models\Reportable;
 use App\Events\Wiki\Series\SeriesCreated;
 use App\Events\Wiki\Series\SeriesDeleted;
 use App\Events\Wiki\Series\SeriesRestored;
@@ -28,6 +29,7 @@ use Illuminate\Support\Collection;
  */
 class Series extends BaseModel
 {
+    use Reportable;
     use Searchable;
 
     final public const TABLE = 'series';

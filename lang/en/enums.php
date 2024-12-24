@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
-use App\Enums\Actions\ActionLogStatus;
+use App\Enums\Models\Admin\ActionLogStatus;
+use App\Enums\Models\Admin\ApprovableStatus;
+use App\Enums\Models\Admin\ReportActionType;
 use App\Enums\Models\List\ExternalEntryWatchStatus;
 use App\Enums\Models\List\ExternalProfileSite;
 use App\Enums\Models\List\ExternalProfileVisibility;
@@ -17,6 +19,11 @@ use App\Enums\Models\Wiki\VideoOverlap;
 use App\Enums\Models\Wiki\VideoSource;
 
 return [
+    ActionLogStatus::class => [
+        ActionLogStatus::RUNNING->name => 'Running',
+        ActionLogStatus::FAILED->name => 'Failed',
+        ActionLogStatus::FINISHED->name => 'Finished',
+    ],
     AnimeMediaFormat::class => [
         AnimeMediaFormat::UNKNOWN->name => 'Unknown',
         AnimeMediaFormat::TV->name => 'TV',
@@ -38,10 +45,11 @@ return [
         AnimeSynonymType::ENGLISH->name => 'English',
         AnimeSynonymType::SHORT->name => 'Short',
     ],
-    ActionLogStatus::class => [
-        ActionLogStatus::RUNNING->name => 'Running',
-        ActionLogStatus::FAILED->name => 'Failed',
-        ActionLogStatus::FINISHED->name => 'Finished',
+    ApprovableStatus::class => [
+        ApprovableStatus::PENDING->name => 'Pending',
+        ApprovableStatus::REJECTED->name => 'Rejected',
+        ApprovableStatus::PARTIALLY_APPROVED->name => 'Partially Approved',
+        ApprovableStatus::APPROVED->name => 'Approved',
     ],
     ExternalEntryWatchStatus::class => [
         ExternalEntryWatchStatus::WATCHING->name => 'Watching',
@@ -72,6 +80,13 @@ return [
         PlaylistVisibility::PUBLIC->name => 'Public',
         PlaylistVisibility::PRIVATE->name => 'Private',
         PlaylistVisibility::UNLISTED->name => 'Unlisted',
+    ],
+    ReportActionType::class => [
+        ReportActionType::CREATE->name => 'Create',
+        ReportActionType::UPDATE->name => 'Update',
+        ReportActionType::DELETE->name => 'Delete',
+        ReportActionType::ATTACH->name => 'Attach',
+        ReportActionType::DETACH->name => 'Detach',
     ],
     ResourceSite::class => [
         ResourceSite::OFFICIAL_SITE->name => 'Official Website',

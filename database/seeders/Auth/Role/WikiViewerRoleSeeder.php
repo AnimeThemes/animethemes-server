@@ -8,6 +8,7 @@ use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\ExtendedCrudPermission;
 use App\Enums\Auth\Role as RoleEnum;
 use App\Enums\Auth\SpecialPermission;
+use App\Models\Admin\Report;
 use App\Models\Auth\Role;
 use App\Models\Discord\DiscordThread;
 use App\Models\Document\Page;
@@ -53,6 +54,9 @@ class WikiViewerRoleSeeder extends RoleSeeder
             CrudPermission::cases(),
             ExtendedCrudPermission::cases(),
         );
+
+        // Admin Resources
+        $this->configureResource($role, Report::class, [CrudPermission::VIEW, CrudPermission::CREATE, CrudPermission::UPDATE]);
 
         // Discord Resources
         $this->configureResource($role, DiscordThread::class, [CrudPermission::VIEW]);
