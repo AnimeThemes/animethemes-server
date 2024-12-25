@@ -25,8 +25,6 @@ class ActionLogRelationManager extends BaseRelationManager
      *
      * @param  Table  $table
      * @return Table
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public function table(Table $table): Table
     {

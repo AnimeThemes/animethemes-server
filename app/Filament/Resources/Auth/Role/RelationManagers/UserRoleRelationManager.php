@@ -28,8 +28,6 @@ class UserRoleRelationManager extends UserRelationManager
      *
      * @param  Table  $table
      * @return Table
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public function table(Table $table): Table
     {
@@ -68,7 +66,7 @@ class UserRoleRelationManager extends UserRelationManager
 
     /**
      * Get the bulk actions available for the relation.
-     * 
+     *
      * @return array
      *
      * @noinspection PhpMissingParentCallCommonInspection
@@ -85,8 +83,6 @@ class UserRoleRelationManager extends UserRelationManager
      * Get the header actions available for the relation. These are merged with the table actions of the resources.
      *
      * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getHeaderActions(): array
     {

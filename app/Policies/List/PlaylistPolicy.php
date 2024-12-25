@@ -51,7 +51,7 @@ class PlaylistPolicy extends BasePolicy
         }
 
         return $user !== null
-            ? ($user->getKey() === $playlist->user_id || PlaylistVisibility::PRIVATE !== $playlist->visibility) && $user->can(CrudPermission::VIEW->format(Playlist::class))
+            ? ($playlist->user()->is($user) || PlaylistVisibility::PRIVATE !== $playlist->visibility) && $user->can(CrudPermission::VIEW->format(Playlist::class))
             : PlaylistVisibility::PRIVATE !== $playlist->visibility;
     }
 
@@ -83,7 +83,7 @@ class PlaylistPolicy extends BasePolicy
             return $user->hasRole(RoleEnum::ADMIN->value);
         }
 
-        return !$playlist->trashed() && $user->getKey() === $playlist->user_id && $user->can(CrudPermission::UPDATE->format(Playlist::class));
+        return !$playlist->trashed() && $playlist->user()->is($user) && $user->can(CrudPermission::UPDATE->format(Playlist::class));
     }
 
     /**
@@ -99,7 +99,7 @@ class PlaylistPolicy extends BasePolicy
             return $user->hasRole(RoleEnum::ADMIN->value);
         }
 
-        return !$playlist->trashed() && $user->getKey() === $playlist->user_id && $user->can(CrudPermission::DELETE->format(Playlist::class));
+        return !$playlist->trashed() && $playlist->user()->is($user) && $user->can(CrudPermission::DELETE->format(Playlist::class));
     }
 
     /**
@@ -115,7 +115,7 @@ class PlaylistPolicy extends BasePolicy
             return $user->hasRole(RoleEnum::ADMIN->value);
         }
 
-        return $playlist->trashed() && $user->getKey() === $playlist->user_id && $user->can(ExtendedCrudPermission::RESTORE->format(Playlist::class));
+        return $playlist->trashed() && $playlist->user()->is($user) && $user->can(ExtendedCrudPermission::RESTORE->format(Playlist::class));
     }
 
     /**

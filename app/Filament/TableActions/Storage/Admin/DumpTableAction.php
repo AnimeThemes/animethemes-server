@@ -43,8 +43,6 @@ abstract class DumpTableAction extends BaseTableAction
      * @return void
      *
      * @throws Exception
-     *
-     * @noinspection PhpUnusedParameterInspection
      */
     public function handle(array $fields): void
     {

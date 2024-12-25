@@ -207,8 +207,6 @@ abstract class BaseResource extends Resource
      * Get the eloquent query for the resource.
      *
      * @return Builder
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getEloquentQuery(): Builder
     {

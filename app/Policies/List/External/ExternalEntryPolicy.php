@@ -36,7 +36,7 @@ class ExternalEntryPolicy extends BasePolicy
         $profile = request()->route('externalprofile');
 
         return $user !== null
-            ? ($user->getKey() === $profile?->user_id || ExternalProfileVisibility::PRIVATE !== $profile?->visibility) && $user->can(CrudPermission::VIEW->format(ExternalEntry::class))
+            ? ($profile?->user()->is($user) || ExternalProfileVisibility::PRIVATE !== $profile?->visibility) && $user->can(CrudPermission::VIEW->format(ExternalEntry::class))
             : ExternalProfileVisibility::PRIVATE !== $profile?->visibility;
     }
 
@@ -59,7 +59,7 @@ class ExternalEntryPolicy extends BasePolicy
         $profile = request()->route('externalprofile');
 
         return $user !== null
-            ? ($user->getKey() === $profile?->user_id || ExternalProfileVisibility::PRIVATE !== $profile?->visibility) && $user->can(CrudPermission::VIEW->format(ExternalEntry::class))
+            ? ($profile?->user()->is($user) || ExternalProfileVisibility::PRIVATE !== $profile?->visibility) && $user->can(CrudPermission::VIEW->format(ExternalEntry::class))
             : ExternalProfileVisibility::PRIVATE !== $profile?->visibility;
     }
 
@@ -78,7 +78,7 @@ class ExternalEntryPolicy extends BasePolicy
         /** @var ExternalProfile|null $profile */
         $profile = request()->route('externalprofile');
 
-        return parent::create($user) && $user->getKey() === $profile?->user_id;
+        return parent::create($user) && $profile?->user()->is($user);
     }
 
     /**
@@ -87,8 +87,6 @@ class ExternalEntryPolicy extends BasePolicy
      * @param  User  $user
      * @param  ExternalEntry  $entry
      * @return bool
-     *
-     * @noinspection PhpUnusedParameterInspection
      */
     public function update(User $user, BaseModel|Model $entry): bool
     {
@@ -99,7 +97,7 @@ class ExternalEntryPolicy extends BasePolicy
         /** @var ExternalProfile|null $profile */
         $profile = request()->route('externalprofile');
 
-        return parent::update($user, $entry) && $user->getKey() === $profile?->user_id;
+        return parent::update($user, $entry) && $profile?->user()->is($user);
     }
 
     /**
@@ -108,8 +106,6 @@ class ExternalEntryPolicy extends BasePolicy
      * @param  User  $user
      * @param  ExternalEntry  $entry
      * @return bool
-     *
-     * @noinspection PhpUnusedParameterInspection
      */
     public function delete(User $user, BaseModel|Model $entry): bool
     {
@@ -120,7 +116,7 @@ class ExternalEntryPolicy extends BasePolicy
         /** @var ExternalProfile|null $profile */
         $profile = request()->route('externalprofile');
 
-        return parent::delete($user, $entry) && $user->getKey() === $profile?->user_id;
+        return parent::delete($user, $entry) && $profile?->user()->is($user);
     }
 
     /**
@@ -129,8 +125,6 @@ class ExternalEntryPolicy extends BasePolicy
      * @param  User  $user
      * @param  ExternalEntry  $entry
      * @return bool
-     *
-     * @noinspection PhpUnusedParameterInspection
      */
     public function restore(User $user, BaseModel|Model $entry): bool
     {
@@ -141,6 +135,6 @@ class ExternalEntryPolicy extends BasePolicy
         /** @var ExternalProfile|null $profile */
         $profile = request()->route('externalprofile');
 
-        return parent::restore($user, $entry) && $user->getKey() === $profile?->user_id;
+        return parent::restore($user, $entry) && $profile?->user()->is($user);
     }
 }

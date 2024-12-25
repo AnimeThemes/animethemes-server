@@ -56,8 +56,6 @@ class ThemeSongRelationManager extends ThemeRelationManager
      * Get the actions available for the relation.
      *
      * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getActions(): array
     {
@@ -72,8 +70,6 @@ class ThemeSongRelationManager extends ThemeRelationManager
      *
      * @param  array|null  $actionsIncludedInGroup
      * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getBulkActions(?array $actionsIncludedInGroup = []): array
     {
@@ -87,8 +83,6 @@ class ThemeSongRelationManager extends ThemeRelationManager
      * Get the header actions available for the relation. These are merged with the table actions of the resources.
      *
      * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getHeaderActions(): array
     {

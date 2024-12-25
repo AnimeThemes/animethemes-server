@@ -46,8 +46,6 @@ class MemberArtistRelationManager extends ArtistRelationManager
      *
      * @param  Table  $table
      * @return Table
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public function table(Table $table): Table
     {
@@ -78,8 +76,6 @@ class MemberArtistRelationManager extends ArtistRelationManager
      * Get the actions available for the relation.
      *
      * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getActions(): array
     {
@@ -108,8 +104,6 @@ class MemberArtistRelationManager extends ArtistRelationManager
      * Get the header actions available for the relation. These are merged with the table actions of the resources.
      *
      * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getHeaderActions(): array
     {

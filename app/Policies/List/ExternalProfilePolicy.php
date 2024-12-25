@@ -49,7 +49,7 @@ class ExternalProfilePolicy extends BasePolicy
         }
 
         return $user !== null
-            ? ($user->getKey() === $profile->user_id || ExternalProfileVisibility::PRIVATE !== $profile->visibility) && $user->can(CrudPermission::VIEW->format(ExternalProfile::class))
+            ? ($profile->user()->is($user) || ExternalProfileVisibility::PRIVATE !== $profile->visibility) && $user->can(CrudPermission::VIEW->format(ExternalProfile::class))
             : ExternalProfileVisibility::PRIVATE !== $profile->visibility;
     }
 
@@ -81,7 +81,7 @@ class ExternalProfilePolicy extends BasePolicy
             return $user->hasRole(Role::ADMIN->value);
         }
 
-        return !$profile->trashed() && $user->getKey() === $profile->user_id && $user->can(CrudPermission::UPDATE->format(ExternalProfile::class));
+        return !$profile->trashed() && $profile->user()->is($user) && $user->can(CrudPermission::UPDATE->format(ExternalProfile::class));
     }
 
     /**
@@ -97,7 +97,7 @@ class ExternalProfilePolicy extends BasePolicy
             return $user->hasRole(Role::ADMIN->value);
         }
 
-        return !$profile->trashed() && $user->getKey() === $profile->user_id && $user->can(CrudPermission::DELETE->format(ExternalProfile::class));
+        return !$profile->trashed() && $profile->user()->is($user) && $user->can(CrudPermission::DELETE->format(ExternalProfile::class));
     }
 
     /**
@@ -113,7 +113,7 @@ class ExternalProfilePolicy extends BasePolicy
             return $user->hasRole(Role::ADMIN->value);
         }
 
-        return $profile->trashed() && $user->getKey() === $profile->user_id && $user->can(ExtendedCrudPermission::RESTORE->format(ExternalProfile::class));
+        return $profile->trashed() && $profile->user()->is($user) && $user->can(ExtendedCrudPermission::RESTORE->format(ExternalProfile::class));
     }
 
     /**
