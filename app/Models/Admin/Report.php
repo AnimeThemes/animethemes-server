@@ -149,7 +149,7 @@ class Report extends Model implements Nameable, HasSubtitle
      * @param  string|null  $notes
      * @return static
      */
-    public static function make(ReportStep|array $steps, ?string $notes = null): static
+    public static function makeReport(ReportStep|array $steps, ?string $notes = null): static
     {
         $report = Report::query()->create([
             Report::ATTRIBUTE_USER => Auth::id(),

@@ -41,7 +41,7 @@ trait Reportable
                 return;
             }
 
-            Report::make(ReportStep::makeForCreate($model::class, $model->attributesToArray()));
+            Report::makeReport(ReportStep::makeForCreate($model::class, $model->attributesToArray()));
 
             return false;
         });
@@ -52,7 +52,7 @@ trait Reportable
                 return;
             }
 
-            Report::make(ReportStep::makeForDelete($model));
+            Report::makeReport(ReportStep::makeForDelete($model));
 
             return false;
         });
@@ -63,7 +63,7 @@ trait Reportable
                 return;
             }
 
-            Report::make(ReportStep::makeForUpdate($model, $model->attributesToArray()));
+            Report::makeReport(ReportStep::makeForUpdate($model, $model->attributesToArray()));
 
             return false;
         });

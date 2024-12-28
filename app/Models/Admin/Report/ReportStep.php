@@ -7,7 +7,7 @@ namespace App\Models\Admin\Report;
 use App\Enums\Models\Admin\ApprovableStatus;
 use App\Enums\Models\Admin\ReportActionType;
 use App\Models\Admin\Report;
-use Database\Factories\Admin\ReportStepFactory;
+use Database\Factories\Admin\Report\ReportStepFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -174,9 +174,9 @@ class ReportStep extends Model
      *
      * @param  class-string<Model>  $model
      * @param  array  $fields
-     * @return static
+     * @return self
      */
-    public static function makeForCreate(string $model, array $fields): static
+    public static function makeForCreate(string $model, array $fields): self
     {
         return static::makeFor(ReportActionType::CREATE, $model, $fields);
     }
@@ -186,9 +186,9 @@ class ReportStep extends Model
      *
      * @param  Model  $model
      * @param  array  $fields
-     * @return static
+     * @return self
      */
-    public static function makeForUpdate(Model $model, array $fields): static
+    public static function makeForUpdate(Model $model, array $fields): self
     {
         return static::makeFor(ReportActionType::UPDATE, $model, $fields);
     }
@@ -197,9 +197,9 @@ class ReportStep extends Model
      * Create a report step to delete a model.
      *
      * @param  Model  $model
-     * @return static
+     * @return self
      */
-    public static function makeForDelete(Model $model): static
+    public static function makeForDelete(Model $model): self
     {
         return static::makeFor(ReportActionType::DELETE, $model);
     }
@@ -211,9 +211,9 @@ class ReportStep extends Model
      * @param  Model  $related
      * @param  class-string<Pivot>  $pivot
      * @param  array  $fields
-     * @return static
+     * @return self
      */
-    public static function makeForAttach(Model $foreign, Model $related, string $pivot, array $fields): static
+    public static function makeForAttach(Model $foreign, Model $related, string $pivot, array $fields): self
     {
         return static::makeFor(ReportActionType::ATTACH, $foreign, $fields, $related, $pivot);
     }
@@ -225,9 +225,9 @@ class ReportStep extends Model
      * @param  Model  $related
      * @param  Pivot  $pivot
      * @param  array  $fields
-     * @return static
+     * @return self
      */
-    public static function makeForDetach(Model $foreign, Model $related, Pivot $pivot, array $fields): static
+    public static function makeForDetach(Model $foreign, Model $related, Pivot $pivot, array $fields): self
     {
         return static::makeFor(ReportActionType::DETACH, $foreign, $fields, $related, $pivot);
     }
@@ -240,11 +240,11 @@ class ReportStep extends Model
      * @param  array|null  $fields
      * @param  Model|null  $related
      * @param  Pivot|null  $pivot
-     * @return static
+     * @return self
      */
-    protected static function makeFor(ReportActionType $action, Model|string $model, ?array $fields = null, ?Model $related = null, Pivot|string|null $pivot = null): static
+    protected static function makeFor(ReportActionType $action, Model|string $model, ?array $fields = null, ?Model $related = null, Pivot|string|null $pivot = null): self
     {
-        return new static([
+        return new self([
             ReportStep::ATTRIBUTE_ACTION => $action->value,
             ReportStep::ATTRIBUTE_ACTIONABLE_TYPE => $model instanceof Model ? $model->getMorphClass() : $model,
             ReportStep::ATTRIBUTE_ACTIONABLE_ID => $model instanceof Model ? $model->getKey() : null,

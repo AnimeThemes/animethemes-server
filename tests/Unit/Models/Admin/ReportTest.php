@@ -70,7 +70,7 @@ class ReportTest extends TestCase
     }
 
     /**
-     * A report shall have steps attached.
+     * Reports shall have a one-to-many relationship with the type ReportStep.
      *
      * @return void
      */
@@ -78,9 +78,12 @@ class ReportTest extends TestCase
     {
         $stepsCount = $this->faker->randomDigitNotNull();
 
-        $report = Report::factory()
-            ->has(ReportStep::factory()->count($stepsCount))
-            ->createOne();
+        $report = Report::factory()->createOne();
+
+        ReportStep::factory()
+            ->for($report)
+            ->count($stepsCount)
+            ->create();
 
         static::assertInstanceOf(HasMany::class, $report->steps());
         static::assertEquals($stepsCount, $report->steps()->count());
