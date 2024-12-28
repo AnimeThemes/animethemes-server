@@ -179,8 +179,7 @@ class Playlist extends BaseResource
     {
         return parent::table($table)
             ->columns([
-                BelongsToColumn::make(PlaylistModel::RELATION_USER.'.'.User::ATTRIBUTE_NAME)
-                    ->resource(UserResource::class),
+                BelongsToColumn::make(PlaylistModel::RELATION_USER, UserResource::class),
 
                 TextColumn::make(PlaylistModel::ATTRIBUTE_ID)
                     ->label(__('filament.fields.base.id')),
@@ -199,15 +198,11 @@ class Playlist extends BaseResource
                     ->label(__('filament.fields.playlist.hashid.name'))
                     ->copyableWithMessage(),
 
-                BelongsToColumn::make(PlaylistModel::RELATION_FIRST.'.'.PlaylistTrack::ATTRIBUTE_HASHID)
-                    ->resource(Track::class)
-                    ->label(__('filament.fields.playlist.first.name'))
-                    ->visibleOn(['create', 'edit', 'view']),
+                BelongsToColumn::make(PlaylistModel::RELATION_FIRST, Track::class)
+                    ->label(__('filament.fields.playlist.first.name')),
 
-                BelongsToColumn::make(PlaylistModel::RELATION_LAST.'.'.PlaylistTrack::ATTRIBUTE_HASHID)
-                    ->resource(Track::class)
-                    ->label(__('filament.fields.playlist.last.name'))
-                    ->visibleOn(['create', 'edit', 'view']),
+                BelongsToColumn::make(PlaylistModel::RELATION_LAST, Track::class)
+                    ->label(__('filament.fields.playlist.last.name')),
 
                 TextColumn::make(PlaylistModel::ATTRIBUTE_DESCRIPTION)
                     ->label(__('filament.fields.playlist.description.name'))

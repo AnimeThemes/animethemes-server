@@ -302,8 +302,7 @@ class Theme extends BaseResource
     {
         return parent::table($table)
             ->columns([
-                BelongsToColumn::make(ThemeModel::RELATION_ANIME . '.' . AnimeModel::ATTRIBUTE_NAME)
-                    ->resource(AnimeResource::class)
+                BelongsToColumn::make(ThemeModel::RELATION_ANIME, AnimeResource::class)
                     ->hiddenOn(ThemeAnimeRelationManager::class),
 
                 TextColumn::make(ThemeModel::ATTRIBUTE_ID)
@@ -320,11 +319,9 @@ class Theme extends BaseResource
                     ->label(__('filament.fields.anime_theme.slug.name'))
                     ->formatStateUsing(fn ($state, $record) => $record->getName()),
 
-                BelongsToColumn::make(ThemeModel::RELATION_GROUP . '.' . Group::ATTRIBUTE_NAME)
-                    ->resource(GroupResource::class),
+                BelongsToColumn::make(ThemeModel::RELATION_GROUP, GroupResource::class),
 
-                BelongsToColumn::make(ThemeModel::RELATION_SONG . '.' . Song::ATTRIBUTE_TITLE)
-                    ->resource(SongResource::class)
+                BelongsToColumn::make(ThemeModel::RELATION_SONG, SongResource::class)
                     ->hiddenOn(ThemeSongRelationManager::class)
             ])
             ->searchable();

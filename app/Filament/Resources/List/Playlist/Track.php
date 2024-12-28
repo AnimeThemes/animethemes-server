@@ -207,15 +207,12 @@ class Track extends BaseResource
     {
         return parent::table($table)
             ->columns([
-                BelongsToColumn::make(TrackModel::RELATION_PLAYLIST . '.' . PlaylistModel::ATTRIBUTE_NAME)
-                    ->resource(PlaylistResource::class)
+                BelongsToColumn::make(TrackModel::RELATION_PLAYLIST, PlaylistResource::class)
                     ->hiddenOn(TrackPlaylistRelationManager::class),
 
-                BelongsToColumn::make(TrackModel::RELATION_ENTRY . '.' . AnimeThemeEntry::ATTRIBUTE_ID)
-                    ->resource(Entry::class),
+                BelongsToColumn::make(TrackModel::RELATION_ENTRY, Entry::class),
 
-                BelongsToColumn::make(TrackModel::RELATION_VIDEO . '.' . VideoModel::ATTRIBUTE_FILENAME)
-                    ->resource(VideoResource::class),
+                BelongsToColumn::make(TrackModel::RELATION_VIDEO, VideoResource::class),
 
                 TextColumn::make(TrackModel::ATTRIBUTE_ID)
                     ->label(__('filament.fields.base.id')),

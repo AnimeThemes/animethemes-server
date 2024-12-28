@@ -212,14 +212,11 @@ class FeaturedTheme extends BaseResource
                     ->label(__('filament.fields.featured_theme.end_at'))
                     ->date(),
 
-                BelongsToColumn::make(FeaturedThemeModel::RELATION_VIDEO.'.'.Video::ATTRIBUTE_FILENAME)
-                    ->resource(VideoResource::class),
+                BelongsToColumn::make(FeaturedThemeModel::RELATION_VIDEO, VideoResource::class),
 
-                BelongsToColumn::make(FeaturedThemeModel::RELATION_ENTRY.'.'.EntryModel::ATTRIBUTE_ID)
-                    ->resource(EntryResource::class),
+                BelongsToColumn::make(FeaturedThemeModel::RELATION_ENTRY, EntryResource::class),
 
-                BelongsToColumn::make(FeaturedThemeModel::RELATION_USER.'.'.User::ATTRIBUTE_NAME)
-                    ->resource(UserResource::class),
+                BelongsToColumn::make(FeaturedThemeModel::RELATION_USER, UserResource::class),
             ]);
     }
 

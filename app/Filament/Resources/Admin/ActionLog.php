@@ -147,8 +147,7 @@ class ActionLog extends BaseResource
                     ->label(__('filament.fields.action_log.name'))
                     ->searchable(),
 
-                BelongsToColumn::make(ActionLogModel::RELATION_USER.'.'.UserModel::ATTRIBUTE_NAME)
-                    ->resource(User::class),
+                BelongsToColumn::make(ActionLogModel::RELATION_USER, User::class),
 
                 TextColumn::make(ActionLogModel::ATTRIBUTE_TARGET)
                     ->label(__('filament.fields.action_log.target'))

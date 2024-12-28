@@ -159,8 +159,7 @@ class Synonym extends BaseResource
                 TextColumn::make(SynonymModel::ATTRIBUTE_ID)
                     ->label(__('filament.fields.base.id')),
 
-                BelongsToColumn::make(SynonymModel::RELATION_ANIME.'.'.AnimeModel::ATTRIBUTE_NAME)
-                    ->resource(AnimeResource::class)
+                BelongsToColumn::make(SynonymModel::RELATION_ANIME, AnimeResource::class)
                     ->hiddenOn(SynonymAnimeRelationManager::class),
 
                 TextColumn::make(SynonymModel::ATTRIBUTE_TYPE)

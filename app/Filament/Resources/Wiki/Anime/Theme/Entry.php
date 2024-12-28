@@ -212,11 +212,9 @@ class Entry extends BaseResource
     {
         return parent::table($table)
             ->columns([
-                BelongsToColumn::make(EntryModel::RELATION_ANIME_SHALLOW.'.'.AnimeModel::ATTRIBUTE_NAME)
-                    ->resource(AnimeResource::class),
+                BelongsToColumn::make(EntryModel::RELATION_ANIME_SHALLOW, AnimeResource::class),
 
-                BelongsToColumn::make(EntryModel::RELATION_THEME.'.'.ThemeModel::ATTRIBUTE_ID)
-                    ->resource(ThemeResource::class)
+                BelongsToColumn::make(EntryModel::RELATION_THEME, ThemeResource::class, true)
                     ->hiddenOn(EntryThemeRelationManager::class),
 
                 TextColumn::make(EntryModel::ATTRIBUTE_ID)

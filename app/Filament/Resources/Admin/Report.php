@@ -137,11 +137,9 @@ class Report extends BaseResource
                     ->color(fn (ApprovableStatus $state) => $state->color())
                     ->badge(),
 
-                BelongsToColumn::make(ReportModel::RELATION_USER.'.'.User::ATTRIBUTE_NAME)
-                    ->resource(UserResource::class),
+                BelongsToColumn::make(ReportModel::RELATION_USER, UserResource::class),
 
-                BelongsToColumn::make(ReportModel::RELATION_MODERATOR.'.'.User::ATTRIBUTE_NAME)
-                    ->resource(UserResource::class)
+                BelongsToColumn::make(ReportModel::RELATION_MODERATOR, UserResource::class)
                     ->label(__('filament.fields.report.moderator')),
 
                 TextColumn::make(ReportModel::ATTRIBUTE_FINISHED_AT)

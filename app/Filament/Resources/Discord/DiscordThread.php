@@ -166,8 +166,7 @@ class DiscordThread extends BaseResource
                     ->copyableWithMessage()
                     ->searchable(),
 
-                BelongsToColumn::make(DiscordThreadModel::RELATION_ANIME.'.'.Anime::ATTRIBUTE_NAME)
-                    ->resource(AnimeResource::class),
+                BelongsToColumn::make(DiscordThreadModel::RELATION_ANIME, AnimeResource::class),
             ])
             ->defaultSort(BaseModel::CREATED_AT, 'desc');
     }

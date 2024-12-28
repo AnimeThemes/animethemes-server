@@ -11,12 +11,11 @@ use App\Filament\Components\Columns\BelongsToColumn;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Infolist\KeyValueThreeEntry;
 use App\Filament\Components\Infolist\TextEntry;
-use App\Filament\Resources\Admin\Report;
+use App\Filament\Resources\Admin\Report as ReportResource;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Admin\Report\ReportStep\Pages\ListReportSteps;
 use App\Filament\Resources\Admin\Report\ReportStep\Pages\ViewReportStep;
 use App\Models\Admin\Report\ReportStep as ReportStepModel;
-use App\Models\Admin\Report as ReportModel;
 use Filament\Facades\Filament;
 use Filament\Forms\Form;
 use Filament\Infolists\Components\KeyValueEntry;
@@ -149,8 +148,7 @@ class ReportStep extends BaseResource
                     ->label(__('filament.fields.report.finished_at'))
                     ->dateTime(),
 
-                BelongsToColumn::make(ReportStepModel::RELATION_REPORT . '.' . ReportModel::ATTRIBUTE_ID)
-                    ->resource(Report::class),
+                BelongsToColumn::make(ReportStepModel::RELATION_REPORT, ReportResource::class),
             ]);
     }
 
@@ -188,7 +186,7 @@ class ReportStep extends BaseResource
 
                         TextEntry::make(ReportStepModel::ATTRIBUTE_REPORT)
                             ->label(__('filament.resources.singularLabel.report'))
-                            ->urlToRelated(Report::class, ReportStepModel::RELATION_REPORT),
+                            ->urlToRelated(ReportResource::class, ReportStepModel::RELATION_REPORT),
 
                         KeyValueThreeEntry::make(ReportStepModel::ATTRIBUTE_FIELDS)
                             ->label(__('filament.fields.report_step.fields.name'))

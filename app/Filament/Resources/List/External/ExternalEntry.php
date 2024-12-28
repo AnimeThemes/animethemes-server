@@ -155,11 +155,9 @@ class ExternalEntry extends BaseResource
     {
         return parent::table($table)
             ->columns([
-                BelongsToColumn::make(ExternalEntryModel::RELATION_PROFILE.'.'.ExternalProfile::ATTRIBUTE_NAME)
-                    ->resource(ExternalProfileResource::class),
+                BelongsToColumn::make(ExternalEntryModel::RELATION_PROFILE, ExternalProfileResource::class),
 
-                BelongsToColumn::make(ExternalEntryModel::RELATION_ANIME.'.'.AnimeModel::ATTRIBUTE_NAME)
-                    ->resource(Anime::class),
+                BelongsToColumn::make(ExternalEntryModel::RELATION_ANIME, Anime::class),
 
                 IconColumn::make(ExternalEntryModel::ATTRIBUTE_IS_FAVORITE)
                     ->label(__('filament.fields.external_entry.is_favorite.name'))

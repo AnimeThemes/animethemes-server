@@ -161,8 +161,7 @@ class ExternalProfile extends BaseResource
     {
         return parent::table($table)
             ->columns([
-                BelongsToColumn::make(ExternalProfileModel::RELATION_USER.'.'.UserModel::ATTRIBUTE_NAME)
-                    ->resource(User::class),
+                BelongsToColumn::make(ExternalProfileModel::RELATION_USER, User::class),
 
                 TextColumn::make(ExternalProfileModel::ATTRIBUTE_NAME)
                     ->label(__('filament.fields.external_profile.name.name')),
