@@ -93,7 +93,7 @@ class ManageStepAction
     }
 
     /**
-     * Det=tach a model from another according the step.
+     * Detach a model from another according the step.
      *
      * @param  ReportStep  $step
      * @return void

@@ -51,7 +51,7 @@ return new class extends Migration
                 $table->json(ReportStep::ATTRIBUTE_FIELDS)->nullable();
                 $table->integer(ReportStep::ATTRIBUTE_STATUS)->default(ApprovableStatus::PENDING->value);
 
-                $table->unsignedBigInteger(ReportStep::ATTRIBUTE_REPORT);
+                $table->unsignedBigInteger(ReportStep::ATTRIBUTE_REPORT)->nullable();
                 $table->foreign(ReportStep::ATTRIBUTE_REPORT)->references(Report::ATTRIBUTE_ID)->on(Report::TABLE)->cascadeOnDelete();
 
                 $table->timestamp(ReportStep::ATTRIBUTE_FINISHED_AT, 6)->nullable();

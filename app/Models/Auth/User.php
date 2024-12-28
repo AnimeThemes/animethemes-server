@@ -79,12 +79,12 @@ class User extends Authenticatable implements MustVerifyEmail, Nameable, HasSubt
     final public const ATTRIBUTE_TWO_FACTOR_SECRET = 'two_factor_secret';
 
     final public const RELATION_EXTERNAL_PROFILES = 'externalprofiles';
-    final public const RELATION_MANAGED_SUBMISSIONS = 'managedsubmissions';
+    final public const RELATION_MANAGED_REPORTS = 'managedreports';
     final public const RELATION_PERMISSIONS = 'permissions';
     final public const RELATION_PLAYLISTS = 'playlists';
+    final public const RELATION_REPORTS = 'reports';
     final public const RELATION_ROLES = 'roles';
     final public const RELATION_ROLES_PERMISSIONS = 'roles.permissions';
-    final public const RELATION_SUBMISSIONS = 'submissions';
 
     /**
      * The attributes that are mass assignable.

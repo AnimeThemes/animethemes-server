@@ -9,6 +9,8 @@ use App\Contracts\Models\Nameable;
 use App\Enums\Models\Admin\ApprovableStatus;
 use App\Models\Admin\Report\ReportStep;
 use App\Models\Auth\User;
+use Database\Factories\Admin\ReportFactory;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -29,6 +31,9 @@ use Illuminate\Support\Facades\Auth;
  * @property Collection<int, ReportStep> $steps
  * @property User|null $user
  * @property int|null $user_id
+ *
+ * @method static Builder pending()
+ * @method static ReportFactory factory(...$parameters)
  */
 class Report extends Model implements Nameable, HasSubtitle
 {
@@ -121,6 +126,17 @@ class Report extends Model implements Nameable, HasSubtitle
             Report::ATTRIBUTE_FINISHED_AT => 'datetime',
             Report::ATTRIBUTE_STATUS => ApprovableStatus::class,
         ];
+    }
+
+    /**
+     * Scope a query to only include pending reports.
+     *
+     * @param  Builder  $query
+     * @return void
+     */
+    public function scopePending(Builder $query): void
+    {
+        $query->where(Report::ATTRIBUTE_STATUS, ApprovableStatus::PENDING->value);
     }
 
     /**

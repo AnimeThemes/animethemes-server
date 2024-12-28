@@ -7,6 +7,7 @@ namespace App\Models\Admin\Report;
 use App\Enums\Models\Admin\ApprovableStatus;
 use App\Enums\Models\Admin\ReportActionType;
 use App\Models\Admin\Report;
+use Database\Factories\Admin\ReportStepFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
@@ -28,6 +29,8 @@ use Illuminate\Support\Carbon;
  * @property Model|null $target
  * @property string|null $target_type
  * @property int|null $target_id
+ *
+ * @method static ReportStepFactory factory(...$parameters)
  */
 class ReportStep extends Model
 {
