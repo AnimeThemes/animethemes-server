@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Concerns\Models;
 
-use App\Enums\Models\Admin\ApprovableStatus;
 use App\Models\Admin\Report;
 use App\Models\Admin\Report\ReportStep;
 use App\Models\BaseModel;
@@ -42,13 +41,7 @@ trait Reportable
                 return;
             }
 
-            $report = Report::query()->create([
-                Report::ATTRIBUTE_USER => Auth::id(),
-                Report::ATTRIBUTE_STATUS => ApprovableStatus::PENDING->value,
-                Report::ATTRIBUTE_NOTES => 'notes',
-            ]);
-
-            ReportStep::makeForCreate($model::class, $model->attributesToArray(), report: $report);
+            Report::make(ReportStep::makeForCreate($model::class, $model->attributesToArray()));
 
             return false;
         });
@@ -59,13 +52,7 @@ trait Reportable
                 return;
             }
 
-            $report = Report::query()->create([
-                Report::ATTRIBUTE_USER => Auth::id(),
-                Report::ATTRIBUTE_STATUS => ApprovableStatus::PENDING->value,
-                Report::ATTRIBUTE_NOTES => 'notes',
-            ]);
-
-            ReportStep::makeForDelete($model, report: $report);
+            Report::make(ReportStep::makeForDelete($model));
 
             return false;
         });
@@ -76,13 +63,7 @@ trait Reportable
                 return;
             }
 
-            $report = Report::query()->create([
-                Report::ATTRIBUTE_USER => Auth::id(),
-                Report::ATTRIBUTE_STATUS => ApprovableStatus::PENDING->value,
-                Report::ATTRIBUTE_NOTES => 'notes',
-            ]);
-
-            ReportStep::makeForUpdate($model, $model->attributesToArray(), report: $report);
+            Report::make(ReportStep::makeForUpdate($model, $model->attributesToArray()));
 
             return false;
         });

@@ -12,8 +12,10 @@ use App\Models\Auth\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Class Report.
@@ -121,18 +123,25 @@ class Report extends Model implements Nameable, HasSubtitle
         ];
     }
 
-    // public function approve(?string $modNotes = null): void
-    // {
-    //     $this->updateStatus(ApprovableStatus::APPROVED, $modNotes);
-    // }
+    /**
+     * Create a report with the given steps.
+     *
+     * @param  ReportStep|ReportStep[]  $steps
+     * @param  string|null  $notes
+     * @return static
+     */
+    public static function make(ReportStep|array $steps, ?string $notes = null): static
+    {
+        $report = Report::query()->create([
+            Report::ATTRIBUTE_USER => Auth::id(),
+            Report::ATTRIBUTE_STATUS => ApprovableStatus::PENDING->value,
+            Report::ATTRIBUTE_NOTES => $notes,
+        ]);
 
-    // public function updateStatus(ApprovableStatus $status, ?string $modNotes = null): void
-    // {
-    //     $this->update([
-    //         Report::ATTRIBUTE_STATUS => $status->value,
-    //         Report::ATTRIBUTE_MOD_NOTES => $modNotes,
-    //     ]);
-    // }
+        $report->steps()->saveMany(Arr::wrap($steps));
+
+        return $report;
+    }
 
     /**
      * Get the steps of the report.

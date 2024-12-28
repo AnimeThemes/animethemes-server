@@ -176,10 +176,6 @@ class ReportStep extends BaseResource
                             ->html()
                             ->formatStateUsing(fn (ReportStepModel $record, ReportActionType $state) => static::getActionName($record, $state)),
 
-                        TextEntry::make(ReportStepModel::ATTRIBUTE_PIVOT_CLASS)
-                            ->label(__('filament.fields.report_step.pivot'))
-                            ->hidden(fn ($state) => is_null($state)),
-
                         TextEntry::make(ReportStepModel::ATTRIBUTE_STATUS)
                             ->label(__('filament.fields.report.status'))
                             ->formatStateUsing(fn (ApprovableStatus $state) => $state->localize())

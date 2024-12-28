@@ -131,6 +131,13 @@ class ReportStep extends Model
         ];
     }
 
+    /**
+     * Format the fields to display in the admin panel
+     * TODO: Double check if this action can be refactored.
+     *
+     * @param  array|null  $fields
+     * @return array
+     */
     public function formatFields(?array $fields = null): array
     {
         $newFields = [];
@@ -141,7 +148,6 @@ class ReportStep extends Model
         }
 
         foreach ($fields as $column => $value) {
-
             $casted = $actionable->hasCast($column)
                 ? $actionable->castAttribute($column, $value)
                 : $value;
@@ -164,9 +170,9 @@ class ReportStep extends Model
      * @param  array  $fields
      * @return static
      */
-    public static function makeForCreate(string $model, array $fields, Report $report): static
+    public static function makeForCreate(string $model, array $fields): static
     {
-        return static::makeFor(ReportActionType::CREATE, $model, $fields, report: $report);
+        return static::makeFor(ReportActionType::CREATE, $model, $fields);
     }
 
     /**
@@ -174,24 +180,22 @@ class ReportStep extends Model
      *
      * @param  Model  $model
      * @param  array  $fields
-     * @param  Report|null  $report
      * @return static
      */
-    public static function makeForUpdate(Model $model, array $fields, ?Report $report = null): static
+    public static function makeForUpdate(Model $model, array $fields): static
     {
-        return static::makeFor(ReportActionType::UPDATE, $model, $fields, report: $report);
+        return static::makeFor(ReportActionType::UPDATE, $model, $fields);
     }
 
     /**
      * Create a report step to delete a model.
      *
      * @param  Model  $model
-     * @param  Report|null  $report
      * @return static
      */
-    public static function makeForDelete(Model $model, ?Report $report = null): static
+    public static function makeForDelete(Model $model): static
     {
-        return static::makeFor(ReportActionType::DELETE, $model, report: $report);
+        return static::makeFor(ReportActionType::DELETE, $model);
     }
 
     /**
@@ -203,9 +207,9 @@ class ReportStep extends Model
      * @param  array  $fields
      * @return static
      */
-    public static function makeForAttach(Model $foreign, Model $related, string $pivot, array $fields, Report $report): static
+    public static function makeForAttach(Model $foreign, Model $related, string $pivot, array $fields): static
     {
-        return static::makeFor(ReportActionType::ATTACH, $foreign, $fields, $related, $pivot, report: $report);
+        return static::makeFor(ReportActionType::ATTACH, $foreign, $fields, $related, $pivot);
     }
 
     /**
@@ -232,20 +236,18 @@ class ReportStep extends Model
      * @param  Pivot|null  $pivot
      * @return static
      */
-    protected static function makeFor(ReportActionType $action, Model|string $model, ?array $fields = null, ?Model $related = null, Pivot|string|null $pivot = null, ?Report $report = null): static
+    protected static function makeFor(ReportActionType $action, Model|string $model, ?array $fields = null, ?Model $related = null, Pivot|string|null $pivot = null): static
     {
-        return ReportStep::query()
-            ->create([
-                ReportStep::ATTRIBUTE_REPORT => $report?->getKey(),
-                ReportStep::ATTRIBUTE_ACTION => $action->value,
-                ReportStep::ATTRIBUTE_ACTIONABLE_TYPE => $model instanceof Model ? $model->getMorphClass() : $model,
-                ReportStep::ATTRIBUTE_ACTIONABLE_ID => $model instanceof Model ? $model->getKey() : null,
-                ReportStep::ATTRIBUTE_FIELDS => Arr::where($fields, fn ($value, $key) => $model->isFillable($key)),
-                ReportStep::ATTRIBUTE_STATUS => ApprovableStatus::PENDING->value,
-                ReportStep::ATTRIBUTE_TARGET_TYPE => $related instanceof Model ? $related->getMorphClass() : null,
-                ReportStep::ATTRIBUTE_TARGET_ID => $related instanceof Model ? $related->getKey() : null,
-                ReportStep::ATTRIBUTE_PIVOT_CLASS => $pivot instanceof Model ? $pivot->getMorphClass() : $pivot,
-            ]);
+        return new static([
+            ReportStep::ATTRIBUTE_ACTION => $action->value,
+            ReportStep::ATTRIBUTE_ACTIONABLE_TYPE => $model instanceof Model ? $model->getMorphClass() : $model,
+            ReportStep::ATTRIBUTE_ACTIONABLE_ID => $model instanceof Model ? $model->getKey() : null,
+            ReportStep::ATTRIBUTE_FIELDS => Arr::where($fields, fn ($value, $key) => $model->isFillable($key)),
+            ReportStep::ATTRIBUTE_STATUS => ApprovableStatus::PENDING->value,
+            ReportStep::ATTRIBUTE_TARGET_TYPE => $related instanceof Model ? $related->getMorphClass() : null,
+            ReportStep::ATTRIBUTE_TARGET_ID => $related instanceof Model ? $related->getKey() : null,
+            ReportStep::ATTRIBUTE_PIVOT_CLASS => $pivot instanceof Model ? $pivot->getMorphClass() : $pivot,
+        ]);
     }
 
     /**
