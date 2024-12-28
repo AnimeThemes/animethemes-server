@@ -53,7 +53,7 @@ class AttachAction extends DefaultAttachAction
             $title = $livewire->getTable()->getRecordTitle(new $model);
             return Select::make('recordId')
                 ->label($title)
-                ->useScout($model)
+                ->useScout($livewire, $model)
                 ->required();
         });
 

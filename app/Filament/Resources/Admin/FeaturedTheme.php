@@ -177,8 +177,8 @@ class FeaturedTheme extends BaseResource
                     ])
                     ->options(function (Get $get) {
                         return Video::query()
-                            ->whereHas(Video::RELATION_ANIMETHEMEENTRIES, function ($query) use ($get) {
-                                $query->where(EntryModel::TABLE.'.'.EntryModel::ATTRIBUTE_ID, $get(FeaturedThemeModel::ATTRIBUTE_ENTRY));
+                            ->whereRelation(Video::RELATION_ANIMETHEMEENTRIES, function ($query) use ($get) {
+                                $query->whereKey($get(FeaturedThemeModel::ATTRIBUTE_ENTRY));
                             })
                             ->get()
                             ->mapWithKeys(fn (Video $video) => [$video->getKey() => $video->getName()])
