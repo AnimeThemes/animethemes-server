@@ -11,6 +11,7 @@ use App\Models\Admin\Report\ReportStep;
 use App\Models\Auth\User;
 use Database\Factories\Admin\ReportFactory;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -37,6 +38,8 @@ use Illuminate\Support\Facades\Auth;
  */
 class Report extends Model implements Nameable, HasSubtitle
 {
+    use HasFactory;
+
     final public const TABLE = 'reports';
 
     final public const ATTRIBUTE_ID = 'report_id';

@@ -8,6 +8,7 @@ use App\Enums\Models\Admin\ApprovableStatus;
 use App\Enums\Models\Admin\ReportActionType;
 use App\Models\Admin\Report;
 use Database\Factories\Admin\ReportStepFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
@@ -34,6 +35,8 @@ use Illuminate\Support\Carbon;
  */
 class ReportStep extends Model
 {
+    use HasFactory;
+
     final public const TABLE = 'report_step';
 
     final public const ATTRIBUTE_ID = 'step_id';

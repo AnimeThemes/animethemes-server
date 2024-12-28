@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Database\Factories\Admin;
+namespace Database\Factories\Admin\Report;
 
 use App\Enums\Models\Admin\ApprovableStatus;
 use App\Enums\Models\Admin\ReportActionType;
