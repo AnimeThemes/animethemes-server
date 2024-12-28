@@ -53,6 +53,8 @@ class FilamentPanelProvider extends PanelProvider
             ->path(Config::get('filament.path'))
             ->domain(Config::get('filament.domain'))
             ->login()
+            ->spa()
+            ->unsavedChangesAlerts()
             ->brandLogo(asset('img/logo.svg'))
             ->darkModeBrandLogo(asset('img/gray-logo.svg'))
             ->brandLogoHeight('1.8rem')
