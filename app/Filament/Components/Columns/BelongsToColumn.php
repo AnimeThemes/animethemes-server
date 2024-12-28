@@ -23,7 +23,7 @@ class BelongsToColumn extends TextColumn
      * Rename the parameter to make it more readable.
      *
      * @param  string  $relation
-     * @param  class-string<BaseResource>|null
+     * @param  class-string<BaseResource>|null  $resource
      * @param  bool|null  $shouldUseModelName
      * @return static
      */
