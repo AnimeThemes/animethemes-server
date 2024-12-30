@@ -34,8 +34,6 @@ abstract class RoleRelationManager extends BaseRelationManager
      *
      * @param  Table  $table
      * @return Table
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public function table(Table $table): Table
     {
@@ -83,8 +81,6 @@ abstract class RoleRelationManager extends BaseRelationManager
      *
      * @param  array|null  $actionsIncludedInGroup
      * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getBulkActions(?array $actionsIncludedInGroup = []): array
     {

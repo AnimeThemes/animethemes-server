@@ -6,7 +6,7 @@ namespace App\Models\Admin;
 
 use App\Contracts\Models\HasSubtitle;
 use App\Contracts\Models\Nameable;
-use App\Enums\Actions\ActionLogStatus;
+use App\Enums\Models\Admin\ActionLogStatus;
 use App\Models\Auth\User;
 use App\Models\BaseModel;
 use Filament\Facades\Filament;

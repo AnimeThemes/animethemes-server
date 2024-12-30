@@ -12,6 +12,7 @@ use App\Models\Admin\Announcement;
 use App\Models\Admin\Dump;
 use App\Models\Admin\Feature;
 use App\Models\Admin\FeaturedTheme;
+use App\Models\Admin\Report;
 use App\Models\Auth\Permission;
 use App\Models\Auth\Role;
 use App\Models\Auth\User;
@@ -65,6 +66,7 @@ class AdminSeeder extends RoleSeeder
         $this->configureResource($role, Dump::class, $extendedCrudPermissions);
         $this->configureResource($role, Feature::class, [CrudPermission::VIEW, CrudPermission::UPDATE]);
         $this->configureResource($role, FeaturedTheme::class, $extendedCrudPermissions);
+        $this->configureResource($role, Report::class, CrudPermission::cases());
 
         // Auth Resources
         $this->configureResource($role, Permission::class, [CrudPermission::VIEW]);

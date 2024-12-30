@@ -174,15 +174,12 @@ class Playlist extends BaseResource
      *
      * @param  Table  $table
      * @return Table
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function table(Table $table): Table
     {
         return parent::table($table)
             ->columns([
-                BelongsToColumn::make(PlaylistModel::RELATION_USER.'.'.User::ATTRIBUTE_NAME)
-                    ->resource(UserResource::class),
+                BelongsToColumn::make(PlaylistModel::RELATION_USER, UserResource::class),
 
                 TextColumn::make(PlaylistModel::ATTRIBUTE_ID)
                     ->label(__('filament.fields.base.id')),
@@ -201,15 +198,11 @@ class Playlist extends BaseResource
                     ->label(__('filament.fields.playlist.hashid.name'))
                     ->copyableWithMessage(),
 
-                BelongsToColumn::make(PlaylistModel::RELATION_FIRST.'.'.PlaylistTrack::ATTRIBUTE_HASHID)
-                    ->resource(Track::class)
-                    ->label(__('filament.fields.playlist.first.name'))
-                    ->visibleOn(['create', 'edit', 'view']),
+                BelongsToColumn::make(PlaylistModel::RELATION_FIRST, Track::class)
+                    ->label(__('filament.fields.playlist.first.name')),
 
-                BelongsToColumn::make(PlaylistModel::RELATION_LAST.'.'.PlaylistTrack::ATTRIBUTE_HASHID)
-                    ->resource(Track::class)
-                    ->label(__('filament.fields.playlist.last.name'))
-                    ->visibleOn(['create', 'edit', 'view']),
+                BelongsToColumn::make(PlaylistModel::RELATION_LAST, Track::class)
+                    ->label(__('filament.fields.playlist.last.name')),
 
                 TextColumn::make(PlaylistModel::ATTRIBUTE_DESCRIPTION)
                     ->label(__('filament.fields.playlist.description.name'))
@@ -300,8 +293,6 @@ class Playlist extends BaseResource
      * Get the filters available for the resource.
      *
      * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getFilters(): array
     {
@@ -315,8 +306,6 @@ class Playlist extends BaseResource
      * Get the actions available for the resource.
      *
      * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getActions(): array
     {
@@ -335,8 +324,6 @@ class Playlist extends BaseResource
      *
      * @param  array|null  $actionsIncludedInGroup
      * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getBulkActions(?array $actionsIncludedInGroup = []): array
     {
@@ -350,8 +337,6 @@ class Playlist extends BaseResource
      * Get the table actions available for the resource.
      *
      * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getTableActions(): array
     {

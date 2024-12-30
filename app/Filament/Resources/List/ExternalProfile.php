@@ -156,15 +156,12 @@ class ExternalProfile extends BaseResource
      *
      * @param  Table  $table
      * @return Table
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function table(Table $table): Table
     {
         return parent::table($table)
             ->columns([
-                BelongsToColumn::make(ExternalProfileModel::RELATION_USER.'.'.UserModel::ATTRIBUTE_NAME)
-                    ->resource(User::class),
+                BelongsToColumn::make(ExternalProfileModel::RELATION_USER, User::class),
 
                 TextColumn::make(ExternalProfileModel::ATTRIBUTE_NAME)
                     ->label(__('filament.fields.external_profile.name.name')),
@@ -249,8 +246,6 @@ class ExternalProfile extends BaseResource
      * Get the filters available for the resource.
      *
      * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getFilters(): array
     {
@@ -264,8 +259,6 @@ class ExternalProfile extends BaseResource
      * Get the actions available for the resource.
      *
      * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getActions(): array
     {
@@ -280,8 +273,6 @@ class ExternalProfile extends BaseResource
      *
      * @param  array|null  $actionsIncludedInGroup
      * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getBulkActions(?array $actionsIncludedInGroup = []): array
     {
@@ -295,8 +286,6 @@ class ExternalProfile extends BaseResource
      * Get the table actions available for the resource.
      *
      * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getTableActions(): array
     {

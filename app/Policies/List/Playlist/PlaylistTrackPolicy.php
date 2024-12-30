@@ -37,7 +37,7 @@ class PlaylistTrackPolicy extends BasePolicy
         $playlist = request()->route('playlist');
 
         return $user !== null
-            ? ($user->getKey() === $playlist?->user_id || PlaylistVisibility::PRIVATE !== $playlist?->visibility) && $user->can(CrudPermission::VIEW->format(PlaylistTrack::class))
+            ? ($playlist?->user()->is($user) || PlaylistVisibility::PRIVATE !== $playlist?->visibility) && $user->can(CrudPermission::VIEW->format(PlaylistTrack::class))
             : PlaylistVisibility::PRIVATE !== $playlist?->visibility;
     }
 
@@ -60,7 +60,7 @@ class PlaylistTrackPolicy extends BasePolicy
         $playlist = request()->route('playlist');
 
         return $user !== null
-            ? ($user->getKey() === $playlist?->user_id || PlaylistVisibility::PRIVATE !== $playlist?->visibility) && $user->can(CrudPermission::VIEW->format(PlaylistTrack::class))
+            ? ($playlist?->user()->is($user) || PlaylistVisibility::PRIVATE !== $playlist?->visibility) && $user->can(CrudPermission::VIEW->format(PlaylistTrack::class))
             : PlaylistVisibility::PRIVATE !== $playlist?->visibility;
     }
 
@@ -79,7 +79,7 @@ class PlaylistTrackPolicy extends BasePolicy
         /** @var Playlist|null $playlist */
         $playlist = request()->route('playlist');
 
-        return $user->getKey() === $playlist?->user_id;
+        return $playlist?->user()->is($user);
     }
 
     /**
@@ -88,8 +88,6 @@ class PlaylistTrackPolicy extends BasePolicy
      * @param  User  $user
      * @param  PlaylistTrack  $track
      * @return bool
-     *
-     * @noinspection PhpUnusedParameterInspection
      */
     public function update(User $user, BaseModel|Model $track): bool
     {
@@ -100,7 +98,7 @@ class PlaylistTrackPolicy extends BasePolicy
         /** @var Playlist|null $playlist */
         $playlist = request()->route('playlist');
 
-        return !$track->trashed() && $user->getKey() === $playlist?->user_id && $user->can(CrudPermission::UPDATE->format(PlaylistTrack::class));
+        return !$track->trashed() && $playlist?->user()->is($user) && $user->can(CrudPermission::UPDATE->format(PlaylistTrack::class));
     }
 
     /**
@@ -109,8 +107,6 @@ class PlaylistTrackPolicy extends BasePolicy
      * @param  User  $user
      * @param  PlaylistTrack  $track
      * @return bool
-     *
-     * @noinspection PhpUnusedParameterInspection
      */
     public function delete(User $user, BaseModel|Model $track): bool
     {
@@ -121,7 +117,7 @@ class PlaylistTrackPolicy extends BasePolicy
         /** @var Playlist|null $playlist */
         $playlist = request()->route('playlist');
 
-        return !$track->trashed() && $user->getKey() === $playlist?->user_id && $user->can(CrudPermission::DELETE->format(PlaylistTrack::class));
+        return !$track->trashed() && $playlist?->user()->is($user) && $user->can(CrudPermission::DELETE->format(PlaylistTrack::class));
     }
 
     /**
@@ -130,8 +126,6 @@ class PlaylistTrackPolicy extends BasePolicy
      * @param  User  $user
      * @param  PlaylistTrack  $track
      * @return bool
-     *
-     * @noinspection PhpUnusedParameterInspection
      */
     public function restore(User $user, BaseModel|Model $track): bool
     {
@@ -142,6 +136,6 @@ class PlaylistTrackPolicy extends BasePolicy
         /** @var Playlist|null $playlist */
         $playlist = request()->route('playlist');
 
-        return $track->trashed() && $user->getKey() === $playlist?->user_id && $user->can(ExtendedCrudPermission::RESTORE->format(PlaylistTrack::class));
+        return $track->trashed() && $playlist?->user()->is($user) && $user->can(ExtendedCrudPermission::RESTORE->format(PlaylistTrack::class));
     }
 }

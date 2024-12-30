@@ -202,22 +202,17 @@ class Track extends BaseResource
      *
      * @param  Table  $table
      * @return Table
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function table(Table $table): Table
     {
         return parent::table($table)
             ->columns([
-                BelongsToColumn::make(TrackModel::RELATION_PLAYLIST . '.' . PlaylistModel::ATTRIBUTE_NAME)
-                    ->resource(PlaylistResource::class)
+                BelongsToColumn::make(TrackModel::RELATION_PLAYLIST, PlaylistResource::class)
                     ->hiddenOn(TrackPlaylistRelationManager::class),
 
-                BelongsToColumn::make(TrackModel::RELATION_ENTRY . '.' . AnimeThemeEntry::ATTRIBUTE_ID)
-                    ->resource(Entry::class),
+                BelongsToColumn::make(TrackModel::RELATION_ENTRY, Entry::class),
 
-                BelongsToColumn::make(TrackModel::RELATION_VIDEO . '.' . VideoModel::ATTRIBUTE_FILENAME)
-                    ->resource(VideoResource::class),
+                BelongsToColumn::make(TrackModel::RELATION_VIDEO, VideoResource::class),
 
                 TextColumn::make(TrackModel::ATTRIBUTE_ID)
                     ->label(__('filament.fields.base.id')),
@@ -299,8 +294,6 @@ class Track extends BaseResource
      * Get the filters available for the resource.
      *
      * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getFilters(): array
     {
@@ -314,8 +307,6 @@ class Track extends BaseResource
      * Get the actions available for the resource.
      *
      * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getActions(): array
     {
@@ -334,8 +325,6 @@ class Track extends BaseResource
      *
      * @param  array|null  $actionsIncludedInGroup
      * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getBulkActions(?array $actionsIncludedInGroup = []): array
     {
@@ -349,8 +338,6 @@ class Track extends BaseResource
      * Get the table actions available for the resource.
      *
      * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getTableActions(): array
     {

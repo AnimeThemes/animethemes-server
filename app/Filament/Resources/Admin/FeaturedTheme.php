@@ -177,8 +177,8 @@ class FeaturedTheme extends BaseResource
                     ])
                     ->options(function (Get $get) {
                         return Video::query()
-                            ->whereHas(Video::RELATION_ANIMETHEMEENTRIES, function ($query) use ($get) {
-                                $query->where(EntryModel::TABLE.'.'.EntryModel::ATTRIBUTE_ID, $get(FeaturedThemeModel::ATTRIBUTE_ENTRY));
+                            ->whereRelation(Video::RELATION_ANIMETHEMEENTRIES, function ($query) use ($get) {
+                                $query->whereKey($get(FeaturedThemeModel::ATTRIBUTE_ENTRY));
                             })
                             ->get()
                             ->mapWithKeys(fn (Video $video) => [$video->getKey() => $video->getName()])
@@ -196,8 +196,6 @@ class FeaturedTheme extends BaseResource
      *
      * @param  Table  $table
      * @return Table
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function table(Table $table): Table
     {
@@ -214,14 +212,11 @@ class FeaturedTheme extends BaseResource
                     ->label(__('filament.fields.featured_theme.end_at'))
                     ->date(),
 
-                BelongsToColumn::make(FeaturedThemeModel::RELATION_VIDEO.'.'.Video::ATTRIBUTE_FILENAME)
-                    ->resource(VideoResource::class),
+                BelongsToColumn::make(FeaturedThemeModel::RELATION_VIDEO, VideoResource::class),
 
-                BelongsToColumn::make(FeaturedThemeModel::RELATION_ENTRY.'.'.EntryModel::ATTRIBUTE_ID)
-                    ->resource(EntryResource::class),
+                BelongsToColumn::make(FeaturedThemeModel::RELATION_ENTRY, EntryResource::class),
 
-                BelongsToColumn::make(FeaturedThemeModel::RELATION_USER.'.'.User::ATTRIBUTE_NAME)
-                    ->resource(UserResource::class),
+                BelongsToColumn::make(FeaturedThemeModel::RELATION_USER, UserResource::class),
             ]);
     }
 
@@ -293,8 +288,6 @@ class FeaturedTheme extends BaseResource
      * Get the filters available for the resource.
      *
      * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getFilters(): array
     {
@@ -308,8 +301,6 @@ class FeaturedTheme extends BaseResource
      * Get the actions available for the resource.
      *
      * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getActions(): array
     {
@@ -324,8 +315,6 @@ class FeaturedTheme extends BaseResource
      *
      * @param  array|null  $actionsIncludedInGroup
      * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getBulkActions(?array $actionsIncludedInGroup = []): array
     {
@@ -339,8 +328,6 @@ class FeaturedTheme extends BaseResource
      * Get the table actions available for the resource.
      *
      * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getTableActions(): array
     {

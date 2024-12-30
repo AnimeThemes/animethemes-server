@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Admin;
 
-use App\Enums\Actions\ActionLogStatus;
 use App\Enums\Auth\Role;
+use App\Enums\Models\Admin\ActionLogStatus;
 use App\Filament\Components\Columns\BelongsToColumn;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Infolist\TextEntry;
@@ -134,8 +134,6 @@ class ActionLog extends BaseResource
      *
      * @param  Table  $table
      * @return Table
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function table(Table $table): Table
     {
@@ -149,8 +147,7 @@ class ActionLog extends BaseResource
                     ->label(__('filament.fields.action_log.name'))
                     ->searchable(),
 
-                BelongsToColumn::make(ActionLogModel::RELATION_USER.'.'.UserModel::ATTRIBUTE_NAME)
-                    ->resource(User::class),
+                BelongsToColumn::make(ActionLogModel::RELATION_USER, User::class),
 
                 TextColumn::make(ActionLogModel::ATTRIBUTE_TARGET)
                     ->label(__('filament.fields.action_log.target'))
@@ -243,8 +240,6 @@ class ActionLog extends BaseResource
      * Get the actions available for the resource.
      *
      * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getActions(): array
     {
@@ -259,8 +254,6 @@ class ActionLog extends BaseResource
      *
      * @param  array|null  $actionsIncludedInGroup
      * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getBulkActions(?array $actionsIncludedInGroup = []): array
     {
@@ -274,8 +267,6 @@ class ActionLog extends BaseResource
      * Get the table actions available for the resource.
      *
      * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getTableActions(): array
     {

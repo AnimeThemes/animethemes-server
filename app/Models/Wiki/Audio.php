@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models\Wiki;
 
+use App\Concerns\Models\Reportable;
 use App\Contracts\Models\Streamable;
 use App\Events\Wiki\Audio\AudioCreated;
 use App\Events\Wiki\Audio\AudioDeleted;
@@ -34,6 +35,7 @@ use Illuminate\Support\Collection;
 class Audio extends BaseModel implements Streamable, Viewable
 {
     use InteractsWithViews;
+    use Reportable;
 
     final public const TABLE = 'audios';
 

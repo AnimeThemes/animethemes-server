@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models\Wiki;
 
+use App\Concerns\Models\Reportable;
 use App\Events\Wiki\Artist\ArtistCreated;
 use App\Events\Wiki\Artist\ArtistDeleted;
 use App\Events\Wiki\Artist\ArtistRestored;
@@ -39,6 +40,7 @@ use Illuminate\Support\Collection;
  */
 class Artist extends BaseModel
 {
+    use Reportable;
     use Searchable;
 
     final public const TABLE = 'artists';

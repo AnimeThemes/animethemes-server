@@ -150,18 +150,14 @@ class ExternalEntry extends BaseResource
      *
      * @param  Table  $table
      * @return Table
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function table(Table $table): Table
     {
         return parent::table($table)
             ->columns([
-                BelongsToColumn::make(ExternalEntryModel::RELATION_PROFILE.'.'.ExternalProfile::ATTRIBUTE_NAME)
-                    ->resource(ExternalProfileResource::class),
+                BelongsToColumn::make(ExternalEntryModel::RELATION_PROFILE, ExternalProfileResource::class),
 
-                BelongsToColumn::make(ExternalEntryModel::RELATION_ANIME.'.'.AnimeModel::ATTRIBUTE_NAME)
-                    ->resource(Anime::class),
+                BelongsToColumn::make(ExternalEntryModel::RELATION_ANIME, Anime::class),
 
                 IconColumn::make(ExternalEntryModel::ATTRIBUTE_IS_FAVORITE)
                     ->label(__('filament.fields.external_entry.is_favorite.name'))
@@ -246,8 +242,6 @@ class ExternalEntry extends BaseResource
      * Get the filters available for the resource.
      *
      * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getFilters(): array
     {
@@ -261,8 +255,6 @@ class ExternalEntry extends BaseResource
      * Get the actions available for the resource.
      *
      * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getActions(): array
     {
@@ -277,8 +269,6 @@ class ExternalEntry extends BaseResource
      *
      * @param  array|null  $actionsIncludedInGroup
      * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getBulkActions(?array $actionsIncludedInGroup = []): array
     {
@@ -292,8 +282,6 @@ class ExternalEntry extends BaseResource
      * Get the table actions available for the resource.
      *
      * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getTableActions(): array
     {

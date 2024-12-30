@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Filament\Components\Columns;
 
+use App\Contracts\Models\Nameable;
 use App\Filament\Resources\BaseResource;
-use App\Models\BaseModel;
 use Filament\Support\Enums\FontWeight;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use RuntimeException;
 
 /**
  * Class BelongsToColumn.
@@ -17,46 +17,73 @@ use Illuminate\Support\Str;
 class BelongsToColumn extends TextColumn
 {
     protected ?BaseResource $resource = null;
+    protected bool $shouldUseModelName = false;
 
     /**
-     * This should reload after every method.
+     * Rename the parameter to make it more readable.
      *
-     * @return void
+     * @param  string  $relation
+     * @param  class-string<BaseResource>|null  $resource
+     * @param  bool|null  $shouldUseModelName
+     * @return static
      */
-    public function reload(): void
+    public static function make(string $relation, ?string $resource = null, ?bool $shouldUseModelName = false): static
     {
-        $relation = explode('.', $this->getName())[0];
+        if (!is_string($resource)) {
+            throw new RuntimeException('The resource must be specified.');
+        }
+
+        $static = app(static::class, ['name' => $relation]);
+        $static->resource = new $resource;
+        $static->shouldUseModelName = $shouldUseModelName;
+        $static->configure();
+
+        return $static;
+    }
+
+    /**
+     * Configure the column.
+     *
+     * @return static
+     */
+    public function configure(): static
+    {
+        parent::configure();
 
         $this->label($this->resource->getModelLabel());
-        $this->tooltip(fn (BelongsToColumn $column) => is_array($column->getState()) ? null : $column->getState());
         $this->weight(FontWeight::SemiBold);
         $this->html();
-        $this->url(function (BaseModel|Model $record) use ($relation) {
-            foreach (explode('.', $relation) as $element) {
-                $record = Arr::get($record, $element);
-                if ($record === null) return null;
-            }
+        $this->url(function (Model $record) {
+            $relation = $this->getName();
 
-            $this->formatStateUsing(function () use ($record) {
-                $name = $record->getName();
+            /** @var (Model&Nameable)|null $related */
+            $related = $record->$relation;
+
+            if ($related === null) return null;
+
+            $this->formatStateUsing(function () use ($related) {
+                $name = $this->shouldUseModelName
+                    ? $related->getName()
+                    : $this->resource->getRecordTitle($related);
+
                 $nameLimited = Str::limit($name, $this->getCharacterLimit() ?? 100);
                 return "<p style='color: rgb(64, 184, 166);'>{$nameLimited}</p>";
             });
 
-            return $this->resource::getUrl('view', ['record' => $record]);
+            return $this->resource::getUrl('view', ['record' => $related]);
         });
-    }
+        $this->tooltip(function (Model $record) {
+            $relation = $this->getName();
 
-    /**
-     * Set the filament resource for the relation.
-     *
-     * @param  class-string<BaseResource>  $resource
-     * @return static
-     */
-    public function resource(string $resource): static
-    {
-        $this->resource = new $resource;
-        $this->reload();
+            /** @var (Model&Nameable)|null $related */
+            $related = $record->$relation;
+
+            if ($related === null) return null;
+
+            return $this->shouldUseModelName
+                ? $related->getName()
+                : $this->resource->getRecordTitle($related);
+        });
 
         return $this;
     }

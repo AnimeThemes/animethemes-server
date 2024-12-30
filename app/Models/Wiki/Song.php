@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models\Wiki;
 
+use App\Concerns\Models\Reportable;
 use App\Events\Wiki\Song\SongCreated;
 use App\Events\Wiki\Song\SongDeleted;
 use App\Events\Wiki\Song\SongDeleting;
@@ -34,6 +35,7 @@ use Illuminate\Support\Collection;
  */
 class Song extends BaseModel
 {
+    use Reportable;
     use Searchable;
 
     final public const TABLE = 'songs';

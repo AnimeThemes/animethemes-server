@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models\Wiki\Anime;
 
+use App\Concerns\Models\Reportable;
 use App\Enums\Models\Wiki\ThemeType;
 use App\Events\Wiki\Anime\Theme\ThemeCreated;
 use App\Events\Wiki\Anime\Theme\ThemeDeleted;
@@ -42,6 +43,7 @@ use Illuminate\Support\Str;
  */
 class AnimeTheme extends BaseModel
 {
+    use Reportable;
     use Searchable;
 
     final public const TABLE = 'anime_themes';

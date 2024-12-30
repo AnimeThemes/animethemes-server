@@ -153,8 +153,6 @@ class DiscordThread extends BaseResource
      *
      * @param  Table  $table
      * @return Table
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function table(Table $table): Table
     {
@@ -168,8 +166,7 @@ class DiscordThread extends BaseResource
                     ->copyableWithMessage()
                     ->searchable(),
 
-                BelongsToColumn::make(DiscordThreadModel::RELATION_ANIME.'.'.Anime::ATTRIBUTE_NAME)
-                    ->resource(AnimeResource::class),
+                BelongsToColumn::make(DiscordThreadModel::RELATION_ANIME, AnimeResource::class),
             ])
             ->defaultSort(BaseModel::CREATED_AT, 'desc');
     }
@@ -225,8 +222,6 @@ class DiscordThread extends BaseResource
      * Get the filters available for the resource.
      *
      * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getFilters(): array
     {
@@ -240,8 +235,6 @@ class DiscordThread extends BaseResource
      * Get the actions available for the resource.
      *
      * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getActions(): array
     {
@@ -256,8 +249,6 @@ class DiscordThread extends BaseResource
      *
      * @param  array|null  $actionsIncludedInGroup
      * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getBulkActions(?array $actionsIncludedInGroup = []): array
     {
@@ -271,8 +262,6 @@ class DiscordThread extends BaseResource
      * Get the table actions available for the resource.
      *
      * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getTableActions(): array
     {

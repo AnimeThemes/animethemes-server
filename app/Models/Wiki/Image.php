@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models\Wiki;
 
+use App\Concerns\Models\Reportable;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Events\Wiki\Image\ImageCreated;
 use App\Events\Wiki\Image\ImageDeleted;
@@ -44,6 +45,8 @@ use Illuminate\Support\Facades\Storage;
  */
 class Image extends BaseModel
 {
+    use Reportable;
+
     final public const TABLE = 'images';
 
     final public const ATTRIBUTE_FACET = 'facet';

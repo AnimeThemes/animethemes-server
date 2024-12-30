@@ -27,8 +27,6 @@ class RoleUserRelationManager extends RoleRelationManager
      *
      * @param  Table  $table
      * @return Table
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public function table(Table $table): Table
     {
@@ -57,8 +55,6 @@ class RoleUserRelationManager extends RoleRelationManager
      * Get the actions available for the relation.
      *
      * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getActions(): array
     {
@@ -75,8 +71,6 @@ class RoleUserRelationManager extends RoleRelationManager
      *
      * @param  array|null  $actionsIncludedInGroup
      * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getBulkActions(?array $actionsIncludedInGroup = []): array
     {
@@ -90,8 +84,6 @@ class RoleUserRelationManager extends RoleRelationManager
      * Get the header actions available for the relation. These are merged with the table actions of the resources.
      *
      * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getHeaderActions(): array
     {

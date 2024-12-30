@@ -7,7 +7,6 @@ namespace App\Filament\Resources\Document;
 use App\Enums\Http\Api\Filter\ComparisonOperator;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\Select;
-use App\Filament\Components\Fields\Slug;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Document\Page\Pages\CreatePage;
@@ -141,7 +140,7 @@ class Page extends BaseResource
                     ->live(true)
                     ->afterStateUpdated(fn (Set $set, Get $get) => static::setSlug($set, $get)),
 
-                Slug::make(PageModel::ATTRIBUTE_SLUG)
+                TextInput::make(PageModel::ATTRIBUTE_SLUG)
                     ->label(__('filament.fields.page.slug.name'))
                     ->helperText(__('filament.fields.page.slug.help'))
                     ->regex('/^[\pL\pM\pN\/_-]+$/u'),
@@ -152,7 +151,6 @@ class Page extends BaseResource
                     ->required()
                     ->maxLength(16777215)
                     ->rules(['required', 'max:16777215'])
-                    ->formatStateUsing(fn ($livewire) => PageModel::find($livewire->getRecord()?->getKey())?->body)
                     ->columnSpan(2),
             ])
             ->columns(2);
@@ -163,8 +161,6 @@ class Page extends BaseResource
      *
      * @param  Table  $table
      * @return Table
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function table(Table $table): Table
     {
@@ -291,8 +287,6 @@ class Page extends BaseResource
      * Get the filters available for the resource.
      *
      * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getFilters(): array
     {
@@ -311,8 +305,6 @@ class Page extends BaseResource
      * Get the actions available for the resource.
      *
      * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getActions(): array
     {
@@ -327,8 +319,6 @@ class Page extends BaseResource
      *
      * @param  array|null  $actionsIncludedInGroup
      * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getBulkActions(?array $actionsIncludedInGroup = []): array
     {
@@ -342,8 +332,6 @@ class Page extends BaseResource
      * Get the table actions available for the resource.
      *
      * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getTableActions(): array
     {

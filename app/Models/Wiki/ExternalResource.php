@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models\Wiki;
 
+use App\Concerns\Models\Reportable;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Events\Wiki\ExternalResource\ExternalResourceCreated;
 use App\Events\Wiki\ExternalResource\ExternalResourceDeleted;
@@ -38,6 +39,8 @@ use Illuminate\Support\Collection;
  */
 class ExternalResource extends BaseModel
 {
+    use Reportable;
+
     final public const TABLE = 'resources';
 
     final public const ATTRIBUTE_EXTERNAL_ID = 'external_id';

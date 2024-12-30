@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models\Document;
 
+use App\Concerns\Models\Reportable;
 use App\Events\Document\Page\PageCreated;
 use App\Events\Document\Page\PageDeleted;
 use App\Events\Document\Page\PageRestored;
@@ -23,6 +24,8 @@ use Database\Factories\Document\PageFactory;
  */
 class Page extends BaseModel
 {
+    use Reportable;
+
     final public const TABLE = 'pages';
 
     final public const ATTRIBUTE_BODY = 'body';

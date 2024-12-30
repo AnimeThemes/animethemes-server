@@ -24,11 +24,7 @@ trait CanCreateAnimeSynonym
      */
     public function createAnimeSynonym(?string $text, int $type, Anime $anime): void
     {
-        if (
-            $text === null
-            || empty($text)
-            || ($type === AnimeSynonymType::OTHER->value && $text === $anime->getName())
-        ) {
+        if (blank($text) || ($type === AnimeSynonymType::OTHER->value && $text === $anime->getName())) {
             return;
         }
 

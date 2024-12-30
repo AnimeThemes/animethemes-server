@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models\Wiki\Anime\Theme;
 
+use App\Concerns\Models\Reportable;
 use App\Events\Wiki\Anime\Theme\Entry\EntryCreated;
 use App\Events\Wiki\Anime\Theme\Entry\EntryDeleted;
 use App\Events\Wiki\Anime\Theme\Entry\EntryDeleting;
@@ -42,6 +43,7 @@ use Znck\Eloquent\Relations\BelongsToThrough;
  */
 class AnimeThemeEntry extends BaseModel
 {
+    use Reportable;
     use Searchable;
     use \Znck\Eloquent\Traits\BelongsToThrough;
 

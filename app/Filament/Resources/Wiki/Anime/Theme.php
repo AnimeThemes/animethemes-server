@@ -297,15 +297,12 @@ class Theme extends BaseResource
      *
      * @param  Table  $table
      * @return Table
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function table(Table $table): Table
     {
         return parent::table($table)
             ->columns([
-                BelongsToColumn::make(ThemeModel::RELATION_ANIME . '.' . AnimeModel::ATTRIBUTE_NAME)
-                    ->resource(AnimeResource::class)
+                BelongsToColumn::make(ThemeModel::RELATION_ANIME, AnimeResource::class)
                     ->hiddenOn(ThemeAnimeRelationManager::class),
 
                 TextColumn::make(ThemeModel::ATTRIBUTE_ID)
@@ -322,11 +319,9 @@ class Theme extends BaseResource
                     ->label(__('filament.fields.anime_theme.slug.name'))
                     ->formatStateUsing(fn ($state, $record) => $record->getName()),
 
-                BelongsToColumn::make(ThemeModel::RELATION_GROUP . '.' . Group::ATTRIBUTE_NAME)
-                    ->resource(GroupResource::class),
+                BelongsToColumn::make(ThemeModel::RELATION_GROUP, GroupResource::class),
 
-                BelongsToColumn::make(ThemeModel::RELATION_SONG . '.' . Song::ATTRIBUTE_TITLE)
-                    ->resource(SongResource::class)
+                BelongsToColumn::make(ThemeModel::RELATION_SONG, SongResource::class)
                     ->hiddenOn(ThemeSongRelationManager::class)
             ])
             ->searchable();
@@ -460,8 +455,6 @@ class Theme extends BaseResource
      * Get the filters available for the resource.
      *
      * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getFilters(): array
     {
@@ -482,8 +475,6 @@ class Theme extends BaseResource
      * Get the actions available for the resource.
      *
      * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getActions(): array
     {
@@ -498,8 +489,6 @@ class Theme extends BaseResource
      *
      * @param  array|null  $actionsIncludedInGroup
      * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getBulkActions(?array $actionsIncludedInGroup = []): array
     {
@@ -513,8 +502,6 @@ class Theme extends BaseResource
      * Get the table actions available for the resource.
      *
      * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getTableActions(): array
     {

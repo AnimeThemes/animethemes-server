@@ -38,8 +38,6 @@ trait AssignHashidsActionTrait
      *
      * @param  BaseModel  $model
      * @return void
-     *
-     * @noinspection PhpUnusedParameterInspection
      */
     public function handle(BaseModel $model): void
     {

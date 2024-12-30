@@ -47,8 +47,6 @@ class SongArtistRelationManager extends SongRelationManager
      *
      * @param  Table  $table
      * @return Table
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public function table(Table $table): Table
     {
@@ -77,8 +75,6 @@ class SongArtistRelationManager extends SongRelationManager
      * Get the actions available for the relation.
      *
      * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getActions(): array
     {
@@ -93,8 +89,6 @@ class SongArtistRelationManager extends SongRelationManager
      *
      * @param  array|null  $actionsIncludedInGroup
      * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getBulkActions(?array $actionsIncludedInGroup = []): array
     {
@@ -108,8 +102,6 @@ class SongArtistRelationManager extends SongRelationManager
      * Get the header actions available for the relation. These are merged with the table actions of the resources.
      *
      * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getHeaderActions(): array
     {

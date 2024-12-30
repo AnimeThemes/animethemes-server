@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models\Wiki;
 
+use App\Concerns\Models\Reportable;
 use App\Events\Wiki\Studio\StudioCreated;
 use App\Events\Wiki\Studio\StudioDeleted;
 use App\Events\Wiki\Studio\StudioRestored;
@@ -33,6 +34,7 @@ use Illuminate\Support\Collection;
  */
 class Studio extends BaseModel
 {
+    use Reportable;
     use Searchable;
 
     final public const TABLE = 'studios';
