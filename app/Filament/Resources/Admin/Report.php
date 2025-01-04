@@ -134,7 +134,6 @@ class Report extends BaseResource
                 TextColumn::make(ReportModel::ATTRIBUTE_STATUS)
                     ->label(__('filament.fields.report.status'))
                     ->formatStateUsing(fn (ApprovableStatus $state) => $state->localize())
-                    ->color(fn (ApprovableStatus $state) => $state->color())
                     ->badge(),
 
                 BelongsToColumn::make(ReportModel::RELATION_USER, UserResource::class),
@@ -168,7 +167,6 @@ class Report extends BaseResource
                         TextEntry::make(ReportModel::ATTRIBUTE_STATUS)
                             ->label(__('filament.fields.report.status'))
                             ->formatStateUsing(fn (ApprovableStatus $state) => $state->localize())
-                            ->color(fn (ApprovableStatus $state) => $state->color())
                             ->badge(),
 
                         TextEntry::make(ReportModel::RELATION_USER)

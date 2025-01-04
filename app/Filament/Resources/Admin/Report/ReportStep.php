@@ -141,7 +141,6 @@ class ReportStep extends BaseResource
                 TextColumn::make(ReportStepModel::ATTRIBUTE_STATUS)
                     ->label(__('filament.fields.report.status'))
                     ->formatStateUsing(fn (ApprovableStatus $state) => $state->localize())
-                    ->color(fn (ApprovableStatus $state) => $state->color())
                     ->badge(),
 
                 TextColumn::make(ReportStepModel::ATTRIBUTE_FINISHED_AT)
@@ -177,7 +176,6 @@ class ReportStep extends BaseResource
                         TextEntry::make(ReportStepModel::ATTRIBUTE_STATUS)
                             ->label(__('filament.fields.report.status'))
                             ->formatStateUsing(fn (ApprovableStatus $state) => $state->localize())
-                            ->color(fn (ApprovableStatus $state) => $state->color())
                             ->badge(),
 
                         TextEntry::make(ReportStepModel::ATTRIBUTE_FINISHED_AT)
