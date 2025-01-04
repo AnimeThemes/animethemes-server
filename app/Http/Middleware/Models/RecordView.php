@@ -56,7 +56,7 @@ class RecordView
     {
         if (Feature::for(null)->active(FeatureConstants::ALLOW_VIEW_RECORDING)) {
             views($this->model)->cooldown(now()->addMinutes(5))->record();
-            defer(fn () => ViewAggregate::query()->whereMorphedTo('viewAggregate', $this->model)->increment(ViewAggregate::ATTRIBUTE_VALUE));
+            defer(fn () => ViewAggregate::query()->whereMorphedTo(ViewAggregate::ATTRIBUTE_VIEWABLE, $this->model)->increment(ViewAggregate::ATTRIBUTE_VALUE));
         }
     }
 }
