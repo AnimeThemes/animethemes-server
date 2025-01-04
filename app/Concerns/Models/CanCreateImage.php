@@ -8,7 +8,6 @@ use App\Contracts\Models\HasImages;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Models\BaseModel;
 use App\Models\Wiki\Image;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Facades\Config;

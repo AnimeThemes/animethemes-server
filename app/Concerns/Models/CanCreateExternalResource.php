@@ -8,7 +8,6 @@ use App\Contracts\Models\HasResources;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\BaseModel;
 use App\Models\Wiki\ExternalResource;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Facades\Log;
 
 /**
@@ -28,6 +27,7 @@ trait CanCreateExternalResource
      */
     public function createResource(string $url, ResourceSite $site, (BaseModel&HasResources)|null $model = null): ExternalResource
     {
+        $url = $this->ensureHttpsUrl($url);
         $id = $site::parseIdFromLink($url);
 
         if ($model instanceof BaseModel) {
@@ -76,5 +76,16 @@ trait CanCreateExternalResource
             Log::info("Attaching Resource {$resource->getName()} to {$this->privateLabel($model)} {$model->getName()}");
             $model->resources()->attach($resource);
         }
+    }
+
+    /**
+     * Ensure the URL uses HTTPS.
+     *
+     * @param  string  $url
+     * @return string
+     */
+    protected function ensureHttpsUrl(string $url): string
+    {
+        return preg_replace("/^http:/i", "https:", $url);
     }
 }
