@@ -180,18 +180,19 @@ class Image extends BaseResource
             ->schema([
                 Section::make(static::getRecordTitle($infolist->getRecord()))
                     ->schema([
-                        ImageEntry::make(ImageModel::ATTRIBUTE_PATH)
-                            ->label(__('filament.fields.image.image.name'))
-                            ->disk(Config::get('image.disk')),
+                        TextEntry::make(ImageModel::ATTRIBUTE_ID)
+                            ->label(__('filament.fields.base.id')),
 
                         TextEntry::make(ImageModel::ATTRIBUTE_FACET)
                             ->label(__('filament.fields.image.facet.name'))
                             ->formatStateUsing(fn ($state) => $state->localize()),
 
-                        TextEntry::make(ImageModel::ATTRIBUTE_ID)
-                            ->label(__('filament.fields.base.id')),
+                        ImageEntry::make(ImageModel::ATTRIBUTE_PATH)
+                            ->label(__('filament.fields.image.image.name'))
+                            ->disk(Config::get('image.disk'))
+                            ->columnSpanFull(),
                     ])
-                    ->columns(3),
+                    ->columns(2),
 
                 Section::make(__('filament.fields.base.timestamps'))
                     ->schema(parent::timestamps())

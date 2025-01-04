@@ -155,8 +155,8 @@ class Anime extends BaseResource
                     ->label(__('filament.fields.anime.name.name'))
                     ->helperText(__('filament.fields.anime.name.help'))
                     ->required()
-                    ->maxLength(192)
-                    ->rules(['required', 'max:192'])
+                    ->maxLength(255)
+                    ->rules(['required', 'max:255'])
                     ->live(true)
                     ->afterStateUpdated(fn (Set $set, ?string $state) => $set(AnimeModel::ATTRIBUTE_SLUG, Str::slug($state, '_'))),
 

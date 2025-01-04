@@ -140,8 +140,8 @@ class Synonym extends BaseResource
                     ->label(__('filament.fields.anime_synonym.text.name'))
                     ->helperText(__('filament.fields.anime_synonym.text.help'))
                     ->required()
-                    ->maxLength(192)
-                    ->rules(['required', 'max:192']),
+                    ->maxLength(255)
+                    ->rules(['required', 'max:255']),
             ])
             ->columns(1);
     }
@@ -168,7 +168,7 @@ class Synonym extends BaseResource
 
                 TextColumn::make(SynonymModel::ATTRIBUTE_TEXT)
                     ->label(__('filament.fields.anime_synonym.text.name'))
-                    ->limit(70)
+                    ->limit(50)
                     ->tooltip(fn (TextColumn $column) => $column->getState()),
             ])
             ->searchable();

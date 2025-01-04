@@ -46,7 +46,12 @@ class AppServiceProvider extends ServiceProvider
         EnsureFeaturesAreActive::whenInactive(fn (Request $request, array $features) => new Response(status: 403));
     }
 
-    public function register()
+    /**
+     * Register any application services.
+     *
+     * @return void
+     */
+    public function register(): void
     {
         $this->app->singleton(RecordView::class);
     }
