@@ -4,16 +4,14 @@ declare(strict_types=1);
 
 namespace App\Concerns\Filament\Actions\Models\Wiki;
 
+use App\Actions\Models\Wiki\AttachResourceAction;
+use App\Contracts\Models\HasResources;
 use App\Enums\Models\Wiki\ResourceSite;
-use App\Models\Wiki\Anime;
-use App\Models\Wiki\Artist;
+use App\Models\BaseModel;
 use App\Models\Wiki\ExternalResource;
-use App\Models\Wiki\Song;
-use App\Models\Wiki\Studio;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Support\Enums\MaxWidth;
-use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Support\Str;
 
 /**
@@ -21,6 +19,11 @@ use Illuminate\Support\Str;
  */
 trait AttachResourceActionTrait
 {
+    /**
+     * The sites available for the action.
+     *
+     * @var ResourceSite[]
+     */
     protected array $sites = [];
 
     /**
@@ -38,6 +41,8 @@ trait AttachResourceActionTrait
         $this->modalWidth(MaxWidth::FourExtraLarge);
 
         $this->authorize('create', ExternalResource::class);
+
+        $this->action(fn (BaseModel&HasResources $record, array $data, AttachResourceAction $attachResource) => $attachResource->handle($record, $data, $this->sites));
     }
 
     /**
@@ -51,20 +56,25 @@ trait AttachResourceActionTrait
         $fields = [];
         $model = $this->getRecord();
 
+        if (!($model instanceof HasResources)) return $form;
+
+        $resources = $model->resources()
+            ->get([ExternalResource::ATTRIBUTE_SITE])
+            ->pluck(ExternalResource::ATTRIBUTE_SITE)
+            ->keyBy(fn (ResourceSite $site) => $site->value)
+            ->keys();
+
         foreach ($this->sites as $resourceSite) {
-            if ($model instanceof Anime || $model instanceof Artist || $model instanceof Song || $model instanceof Studio) {
-                $resources = $model->resources();
-                if ($resources->where(ExternalResource::ATTRIBUTE_SITE, $resourceSite->value)->exists()) continue;
-            }
+            if ($resources->contains($resourceSite->value)) continue;
 
             $resourceSiteLower = Str::lower($resourceSite->name);
 
             $fields[] = TextInput::make($resourceSite->name)
-                            ->label($resourceSite->localize())
-                            ->helperText(__("filament.actions.models.wiki.attach_resource.fields.{$resourceSiteLower}.help"))
-                            ->url()
-                            ->maxLength(192)
-                            ->rules(['max:192', $this->getFormatRule($resourceSite)]);
+                ->label($resourceSite->localize())
+                ->helperText(__("filament.actions.models.wiki.attach_resource.fields.{$resourceSiteLower}.help"))
+                ->url()
+                ->maxLength(192)
+                ->rules(['max:192', $resourceSite->getFormatRule($model)]);
         }
 
         return $form
@@ -83,12 +93,4 @@ trait AttachResourceActionTrait
 
         return $this;
     }
-
-    /**
-     * Get the format validation rule.
-     *
-     * @param  ResourceSite  $site
-     * @return ValidationRule
-     */
-    abstract protected function getFormatRule(ResourceSite $site): ValidationRule;
 }

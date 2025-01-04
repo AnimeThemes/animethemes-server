@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace App\Enums\Models\Admin;
 
 use App\Concerns\Enums\LocalizesName;
+use Filament\Support\Contracts\HasColor;
 
 /**
  * Enum ApprovableStatus.
  */
-enum ApprovableStatus: int
+enum ApprovableStatus: int implements HasColor
 {
     use LocalizesName;
 
@@ -23,7 +24,7 @@ enum ApprovableStatus: int
      *
      * @return string
      */
-    public function color(): string
+    public function getColor(): string
     {
         return match ($this) {
             ApprovableStatus::PENDING => 'warning',

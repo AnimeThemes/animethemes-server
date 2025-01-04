@@ -142,7 +142,7 @@ class BackfillAnimeAction extends BackfillWikiAction
         if (!$this->toBackfill[self::SYNONYMS]) return;
 
         foreach ($api->getSynonyms() as $type => $text) {
-            $this->createAnimeSynonym($text, $type, $this->getModel()); 
+            $this->createAnimeSynonym($text, $type, $this->getModel());
         }
 
         if ($this->getModel()->animesynonyms()->exists()) {

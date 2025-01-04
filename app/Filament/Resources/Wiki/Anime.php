@@ -155,8 +155,8 @@ class Anime extends BaseResource
                     ->label(__('filament.fields.anime.name.name'))
                     ->helperText(__('filament.fields.anime.name.help'))
                     ->required()
-                    ->maxLength(192)
-                    ->rules(['required', 'max:192'])
+                    ->maxLength(255)
+                    ->rules(['required', 'max:255'])
                     ->live(true)
                     ->afterStateUpdated(fn (Set $set, ?string $state) => $set(AnimeModel::ATTRIBUTE_SLUG, Str::slug($state, '_'))),
 
@@ -228,12 +228,12 @@ class Anime extends BaseResource
 
                 TextColumn::make(AnimeModel::ATTRIBUTE_SEASON)
                     ->label(__('filament.fields.anime.season.name'))
-                    ->formatStateUsing(fn ($state) => $state->localizeStyled())
+                    ->formatStateUsing(fn (AnimeSeason $state) => $state->localizeStyled())
                     ->html(),
 
                 TextColumn::make(AnimeModel::ATTRIBUTE_MEDIA_FORMAT)
                     ->label(__('filament.fields.anime.media_format.name'))
-                    ->formatStateUsing(fn ($state) => $state->localize()),
+                    ->formatStateUsing(fn (AnimeMediaFormat $state) => $state->localize()),
 
                 TextColumn::make(AnimeModel::ATTRIBUTE_SYNOPSIS)
                     ->label(__('filament.fields.anime.synopsis.name'))
@@ -276,12 +276,12 @@ class Anime extends BaseResource
 
                         TextEntry::make(AnimeModel::ATTRIBUTE_SEASON)
                             ->label(__('filament.fields.anime.season.name'))
-                            ->formatStateUsing(fn ($state) => $state->localizeStyled())
+                            ->formatStateUsing(fn (AnimeSeason $state) => $state->localizeStyled())
                             ->html(),
 
                         TextEntry::make(AnimeModel::ATTRIBUTE_MEDIA_FORMAT)
                             ->label(__('filament.fields.anime.media_format.name'))
-                            ->formatStateUsing(fn ($state) => $state->localize()),
+                            ->formatStateUsing(fn (AnimeMediaFormat $state) => $state->localize()),
 
                         TextEntry::make(AnimeModel::ATTRIBUTE_SYNOPSIS)
                             ->label(__('filament.fields.anime.synopsis.name'))

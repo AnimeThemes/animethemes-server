@@ -192,7 +192,7 @@ class Playlist extends BaseResource
 
                 TextColumn::make(PlaylistModel::ATTRIBUTE_VISIBILITY)
                     ->label(__('filament.fields.playlist.visibility.name'))
-                    ->formatStateUsing(fn ($state) => $state->localize()),
+                    ->formatStateUsing(fn (PlaylistVisibility $state) => $state->localize()),
 
                 TextColumn::make(PlaylistModel::ATTRIBUTE_HASHID)
                     ->label(__('filament.fields.playlist.hashid.name'))
@@ -236,7 +236,7 @@ class Playlist extends BaseResource
 
                         TextEntry::make(PlaylistModel::ATTRIBUTE_VISIBILITY)
                             ->label(__('filament.fields.playlist.visibility.name'))
-                            ->formatStateUsing(fn ($state) => $state->localize()),
+                            ->formatStateUsing(fn (PlaylistVisibility $state) => $state->localize()),
 
                         TextEntry::make(PlaylistModel::ATTRIBUTE_HASHID)
                             ->label(__('filament.fields.playlist.hashid.name'))

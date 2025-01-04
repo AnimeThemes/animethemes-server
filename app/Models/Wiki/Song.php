@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models\Wiki;
 
 use App\Concerns\Models\Reportable;
+use App\Contracts\Models\HasResources;
 use App\Events\Wiki\Song\SongCreated;
 use App\Events\Wiki\Song\SongDeleted;
 use App\Events\Wiki\Song\SongDeleting;
@@ -33,7 +34,7 @@ use Illuminate\Support\Collection;
  *
  * @method static SongFactory factory(...$parameters)
  */
-class Song extends BaseModel
+class Song extends BaseModel implements HasResources
 {
     use Reportable;
     use Searchable;

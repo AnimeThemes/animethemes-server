@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace App\Enums\Models\Admin;
 
 use App\Concerns\Enums\LocalizesName;
+use Filament\Support\Contracts\HasColor;
 
 /**
  * Enum ActionLogStatus.
  */
-enum ActionLogStatus: int
+enum ActionLogStatus: int implements HasColor
 {
     use LocalizesName;
 
@@ -22,7 +23,7 @@ enum ActionLogStatus: int
      *
      * @return string
      */
-    public function color(): string
+    public function getColor(): string
     {
         return match ($this) {
             ActionLogStatus::RUNNING => 'primary',

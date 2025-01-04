@@ -5,12 +5,10 @@ declare(strict_types=1);
 namespace App\Concerns\Filament\Actions\Models\Wiki;
 
 use App\Actions\Models\Wiki\AttachImageAction as AttachImageActionAction;
+use App\Contracts\Models\HasImages;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Models\BaseModel;
-use App\Models\Wiki\Anime;
-use App\Models\Wiki\Artist;
 use App\Models\Wiki\Image;
-use App\Models\Wiki\Studio;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Form;
 
@@ -38,7 +36,7 @@ trait AttachImageActionTrait
 
         $this->authorize('create', Image::class);
 
-        $this->action(fn (BaseModel $record, array $data) => new AttachImageActionAction($record, $data, $this->facets)->handle());
+        $this->action(fn (BaseModel&HasImages $record, array $data, AttachImageActionAction $attachImage) => $attachImage->handle($record, $data, $this->facets));
     }
 
     /**
@@ -52,20 +50,25 @@ trait AttachImageActionTrait
         $fields = [];
         $model = $form->getRecord();
 
-        if ($model instanceof Anime || $model instanceof Artist || $model instanceof Studio) {
-            foreach ($this->facets as $facet) {
-                $images = $model->images();
-                if ($images->where(Image::ATTRIBUTE_FACET, $facet->value)->exists()) continue;
+        if (!($model instanceof HasImages)) return $form;
 
-                $fields[] = FileUpload::make($facet->name)
-                    ->label($facet->localize())
-                    ->helperText(__('filament.actions.models.wiki.attach_image.help'))
-                    ->imageCropAspectRatio('2:3')
-                    ->image()
-                    ->imageEditor()
-                    ->imageEditorAspectRatios([null, '2:3'])
-                    ->storeFiles(false);
-            }
+        $images = $model->images()
+            ->get([Image::ATTRIBUTE_FACET])
+            ->pluck(Image::ATTRIBUTE_FACET)
+            ->keyBy(fn (ImageFacet $facet) => $facet->value)
+            ->keys();
+
+        foreach ($this->facets as $facet) {
+            if ($images->contains($facet->value)) continue;
+
+            $fields[] = FileUpload::make($facet->name)
+                ->label($facet->localize())
+                ->helperText(__('filament.actions.models.wiki.attach_image.help'))
+                ->imageCropAspectRatio('2:3')
+                ->image()
+                ->imageEditor()
+                ->imageEditorAspectRatios([null, '2:3'])
+                ->storeFiles(false);
         }
 
         return $form

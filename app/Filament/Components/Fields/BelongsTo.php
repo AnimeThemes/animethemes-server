@@ -90,6 +90,7 @@ class BelongsTo extends ComponentsSelect
         if (in_array(Searchable::class, class_uses_recursive($model))) {
             return $this
                 ->getSearchResultsUsing(function (string $search) use ($model) {
+                    /** @phpstan-ignore-next-line */
                     return $model::search($search)
                         ->take(25)
                         ->get()

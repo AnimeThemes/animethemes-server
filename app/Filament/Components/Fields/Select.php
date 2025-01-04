@@ -31,6 +31,7 @@ class Select extends ComponentsSelect
                 ->searchable()
                 ->getOptionLabelUsing(fn ($state) => BelongsTo::getSearchLabelWithBlade($model::find($state)))
                 ->getSearchResultsUsing(function (string $search) use ($livewire, $model, $loadRelation) {
+                    /** @phpstan-ignore-next-line */
                     return $model::search($search)
                         ->query(function (Builder $query) use ($livewire) {
 

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models\Wiki;
 
 use App\Concerns\Models\Reportable;
+use App\Concerns\Models\Service\AggregatesView;
 use App\Contracts\Models\Streamable;
 use App\Enums\Models\List\PlaylistVisibility;
 use App\Enums\Models\Wiki\VideoOverlap;
@@ -60,6 +61,7 @@ use Illuminate\Support\Collection;
  */
 class Video extends BaseModel implements Streamable, Viewable
 {
+    use AggregatesView;
     use Reportable;
     use Searchable;
     use InteractsWithViews;

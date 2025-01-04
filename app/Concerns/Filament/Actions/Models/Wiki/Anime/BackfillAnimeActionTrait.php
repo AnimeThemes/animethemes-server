@@ -110,6 +110,13 @@ trait BackfillAnimeActionTrait
     {
         $anime = $this->getRecord();
 
+        if (!($anime instanceof Anime)) return $form;
+
+        $anime = $anime->load([Anime::RELATION_RESOURCES, Anime::RELATION_IMAGES, Anime::RELATION_STUDIOS, Anime::RELATION_SYNONYMS]);
+
+        $resources = $anime->resources->pluck(ExternalResource::ATTRIBUTE_SITE)->keyBy(fn (ResourceSite $site) => $site->value)->keys();
+        $images = $anime->images->pluck(Image::ATTRIBUTE_FACET)->keyBy(fn (ImageFacet $facet) => $facet->value)->keys();
+
         return $form
             ->schema([
                 Section::make(__('filament.actions.anime.backfill.fields.resources.name'))
@@ -117,37 +124,37 @@ trait BackfillAnimeActionTrait
                         Checkbox::make(self::BACKFILL_KITSU_RESOURCE)
                             ->label(__('filament.actions.anime.backfill.fields.resources.kitsu.name'))
                             ->helperText(__('filament.actions.anime.backfill.fields.resources.kitsu.help'))
-                            ->default(fn () => $anime instanceof Anime && $anime->resources()->where(ExternalResource::ATTRIBUTE_SITE, ResourceSite::KITSU->value)->doesntExist()),
+                            ->default(fn () => $resources->doesntContain(ResourceSite::KITSU->value)),
 
                         Checkbox::make(self::BACKFILL_ANILIST_RESOURCE)
                             ->label(__('filament.actions.anime.backfill.fields.resources.anilist.name'))
                             ->helperText(__('filament.actions.anime.backfill.fields.resources.anilist.help'))
-                            ->default(fn () => $anime instanceof Anime && $anime->resources()->where(ExternalResource::ATTRIBUTE_SITE, ResourceSite::ANILIST->value)->doesntExist()),
+                            ->default(fn () => $resources->doesntContain(ResourceSite::ANILIST->value)),
 
                         Checkbox::make(self::BACKFILL_MAL_RESOURCE)
                             ->label(__('filament.actions.anime.backfill.fields.resources.mal.name'))
                             ->helperText(__('filament.actions.anime.backfill.fields.resources.mal.help'))
-                            ->default(fn () => $anime instanceof Anime && $anime->resources()->where(ExternalResource::ATTRIBUTE_SITE, ResourceSite::MAL->value)->doesntExist()),
+                            ->default(fn () => $resources->doesntContain(ResourceSite::MAL->value)),
 
                         Checkbox::make(self::BACKFILL_ANIDB_RESOURCE)
                             ->label(__('filament.actions.anime.backfill.fields.resources.anidb.name'))
                             ->helperText(__('filament.actions.anime.backfill.fields.resources.anidb.help'))
-                            ->default(fn () => $anime instanceof Anime && $anime->resources()->where(ExternalResource::ATTRIBUTE_SITE, ResourceSite::ANIDB->value)->doesntExist()),
+                            ->default(fn () => $resources->doesntContain(ResourceSite::ANIDB->value)),
 
                         Checkbox::make(self::BACKFILL_ANN_RESOURCE)
                             ->label(__('filament.actions.anime.backfill.fields.resources.ann.name'))
                             ->helperText(__('filament.actions.anime.backfill.fields.resources.ann.help'))
-                            ->default(fn () => $anime instanceof Anime && $anime->resources()->where(ExternalResource::ATTRIBUTE_SITE, ResourceSite::ANN->value)->doesntExist()),
+                            ->default(fn () => $resources->doesntContain(ResourceSite::ANN->value)),
 
                         Checkbox::make(self::BACKFILL_ANIME_PLANET_RESOURCE)
                             ->label(__('filament.actions.anime.backfill.fields.resources.anime_planet.name'))
                             ->helperText(__('filament.actions.anime.backfill.fields.resources.anime_planet.help'))
-                            ->default(fn () => $anime instanceof Anime && $anime->resources()->where(ExternalResource::ATTRIBUTE_SITE, ResourceSite::ANIME_PLANET->value)->doesntExist()),
+                            ->default(fn () => $resources->doesntContain(ResourceSite::ANIME_PLANET->value)),
 
                         Checkbox::make(self::BACKFILL_OTHER_RESOURCES)
                             ->label(__('filament.actions.anime.backfill.fields.resources.external_links.name'))
                             ->helperText(__('filament.actions.anime.backfill.fields.resources.external_links.help'))
-                            ->default(fn () => $anime instanceof Anime),
+                            ->default(true),
                     ]),
 
                 Section::make(__('filament.actions.anime.backfill.fields.images.name'))
@@ -155,12 +162,12 @@ trait BackfillAnimeActionTrait
                         Checkbox::make(self::BACKFILL_LARGE_COVER)
                             ->label(__('filament.actions.anime.backfill.fields.images.large_cover.name'))
                             ->helperText(__('filament.actions.anime.backfill.fields.images.large_cover.help'))
-                            ->default(fn () => $anime instanceof Anime && $anime->images()->where(Image::ATTRIBUTE_FACET, ImageFacet::COVER_LARGE->value)->doesntExist()),
+                            ->default(fn () => $images->doesntContain(ImageFacet::COVER_LARGE->value)),
 
                         Checkbox::make(self::BACKFILL_SMALL_COVER)
                             ->label(__('filament.actions.anime.backfill.fields.images.small_cover.name'))
                             ->helperText(__('filament.actions.anime.backfill.fields.images.small_cover.help'))
-                            ->default(fn () => $anime instanceof Anime && $anime->images()->where(Image::ATTRIBUTE_FACET, ImageFacet::COVER_SMALL->value)->doesntExist()),
+                            ->default(fn () => $images->doesntContain(ImageFacet::COVER_SMALL->value)),
                     ]),
 
                 Section::make(__('filament.actions.anime.backfill.fields.studios.name'))
@@ -168,7 +175,7 @@ trait BackfillAnimeActionTrait
                         Checkbox::make(self::BACKFILL_STUDIOS)
                             ->label(__('filament.actions.anime.backfill.fields.studios.anime.name'))
                             ->helperText(__('filament.actions.anime.backfill.fields.studios.anime.help'))
-                            ->default(fn () => $anime instanceof Anime && $anime->studios()->doesntExist()),
+                            ->default(fn () => $anime->studios->isEmpty()),
                     ]),
 
                 Section::make(__('filament.actions.anime.backfill.fields.synonyms.name'))
@@ -176,7 +183,7 @@ trait BackfillAnimeActionTrait
                         Checkbox::make(self::BACKFILL_SYNONYMS)
                             ->label(__('filament.actions.anime.backfill.fields.synonyms.name'))
                             ->helperText(__('filament.actions.anime.backfill.fields.synonyms.help'))
-                            ->default(fn () => $anime instanceof Anime && $anime->animesynonyms()->count() === 0),
+                            ->default(fn () => $anime->animesynonyms->isEmpty()),
                     ]),
             ]);
     }

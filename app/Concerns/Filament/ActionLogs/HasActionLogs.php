@@ -47,6 +47,7 @@ trait HasActionLogs
         }
 
         // $record must be specified if in context of bulk action
+        /** @phpstan-ignore-next-line */
         $this->recordLog = $record ?? $this->getRecord();
 
         $actionLog = ActionLog::modelActioned(

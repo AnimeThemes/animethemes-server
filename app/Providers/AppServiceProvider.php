@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Http\Middleware\Models\RecordView;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -43,5 +44,15 @@ class AppServiceProvider extends ServiceProvider
         });
 
         EnsureFeaturesAreActive::whenInactive(fn (Request $request, array $features) => new Response(status: 403));
+    }
+
+    /**
+     * Register any application services.
+     *
+     * @return void
+     */
+    public function register(): void
+    {
+        $this->app->singleton(RecordView::class);
     }
 }

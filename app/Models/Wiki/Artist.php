@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Models\Wiki;
 
 use App\Concerns\Models\Reportable;
+use App\Contracts\Models\HasImages;
+use App\Contracts\Models\HasResources;
 use App\Events\Wiki\Artist\ArtistCreated;
 use App\Events\Wiki\Artist\ArtistDeleted;
 use App\Events\Wiki\Artist\ArtistRestored;
@@ -38,7 +40,7 @@ use Illuminate\Support\Collection;
  *
  * @method static ArtistFactory factory(...$parameters)
  */
-class Artist extends BaseModel
+class Artist extends BaseModel implements HasResources, HasImages
 {
     use Reportable;
     use Searchable;

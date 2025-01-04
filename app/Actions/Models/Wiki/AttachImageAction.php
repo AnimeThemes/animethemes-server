@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Actions\Models\Wiki;
 
 use App\Concerns\Models\CanCreateImage;
+use App\Contracts\Models\HasImages;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Models\BaseModel;
 use Illuminate\Support\Arr;
@@ -17,29 +18,21 @@ class AttachImageAction
     use CanCreateImage;
 
     /**
-     * Create a new action instance.
-     *
-     * @param  BaseModel  $model
-     * @param  array  $fields
-     * @param  ImageFacet[]  $facets
-     */
-    public function __construct(protected BaseModel $model, protected array $fields, protected array $facets)
-    {
-    }
-
-    /**
      * Perform the action on the given models.
      *
+     * @param  BaseModel&HasImages  $model
+     * @param  array  $fields
+     * @param  ImageFacet[]  $facets
      * @return void
      */
-    public function handle(): void
+    public function handle(BaseModel&HasImages $model, array $fields, array $facets): void
     {
-        foreach ($this->facets as $facet) {
-            $image = Arr::get($this->fields, $facet->name);
+        foreach ($facets as $facet) {
+            $image = Arr::get($fields, $facet->name);
 
             if (empty($image)) continue;
 
-            $this->createImageFromFile($image, $facet, $this->model);
+            $this->createImageFromFile($image, $facet, $model);
         }
     }
 }

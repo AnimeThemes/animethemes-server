@@ -310,14 +310,14 @@ class Theme extends BaseResource
 
                 TextColumn::make(ThemeModel::ATTRIBUTE_TYPE)
                     ->label(__('filament.fields.anime_theme.type.name'))
-                    ->formatStateUsing(fn ($state) => $state->localize()),
+                    ->formatStateUsing(fn (ThemeType $state) => $state->localize()),
 
                 TextColumn::make(ThemeModel::ATTRIBUTE_SEQUENCE)
                     ->label(__('filament.fields.anime_theme.sequence.name')),
 
                 TextColumn::make(ThemeModel::ATTRIBUTE_SLUG)
                     ->label(__('filament.fields.anime_theme.slug.name'))
-                    ->formatStateUsing(fn ($state, $record) => $record->getName()),
+                    ->formatStateUsing(fn ($record) => $record->getName()),
 
                 BelongsToColumn::make(ThemeModel::RELATION_GROUP, GroupResource::class),
 
@@ -350,7 +350,7 @@ class Theme extends BaseResource
 
                         TextEntry::make(ThemeModel::ATTRIBUTE_TYPE)
                             ->label(__('filament.fields.anime_theme.type.name'))
-                            ->formatStateUsing(fn ($state) => $state->localize()),
+                            ->formatStateUsing(fn (ThemeType $state) => $state->localize()),
 
                         TextEntry::make(ThemeModel::ATTRIBUTE_SEQUENCE)
                             ->label(__('filament.fields.anime_theme.sequence.name')),

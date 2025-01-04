@@ -156,7 +156,6 @@ class ActionLog extends BaseResource
                 TextColumn::make(ActionLogModel::ATTRIBUTE_STATUS)
                     ->label(__('filament.fields.action_log.status'))
                     ->formatStateUsing(fn (ActionLogStatus $state) => $state->localize())
-                    ->color(fn (ActionLogStatus $state) => $state->color())
                     ->badge(),
 
                 TextColumn::make(BaseModel::ATTRIBUTE_CREATED_AT)
@@ -196,7 +195,6 @@ class ActionLog extends BaseResource
                 TextEntry::make(ActionLogModel::ATTRIBUTE_STATUS)
                     ->label(__('filament.fields.action_log.status'))
                     ->formatStateUsing(fn (ActionLogStatus $state) => $state->localize())
-                    ->color(fn (ActionLogStatus $state) => $state->color())
                     ->badge(),
 
                 TextEntry::make(BaseModel::ATTRIBUTE_CREATED_AT)
