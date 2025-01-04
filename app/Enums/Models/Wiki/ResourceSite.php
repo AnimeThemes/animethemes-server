@@ -5,16 +5,23 @@ declare(strict_types=1);
 namespace App\Enums\Models\Wiki;
 
 use App\Concerns\Enums\LocalizesName;
+use App\Contracts\Models\HasResources;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Song;
 use App\Models\Wiki\Studio;
+use App\Rules\Wiki\Resource\AnimeResourceLinkFormatRule;
+use App\Rules\Wiki\Resource\ArtistResourceLinkFormatRule;
+use App\Rules\Wiki\Resource\SongResourceLinkFormatRule;
+use App\Rules\Wiki\Resource\StudioResourceLinkFormatRule;
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+use RuntimeException;
 
 /**
  * Enum ResourceSite.
@@ -195,6 +202,25 @@ enum ResourceSite: int
         }
 
         return null;
+    }
+
+    /**
+     * Get the format rule for the model.
+     *
+     * @param  Model&HasResources  $model
+     * @return ValidationRule
+     *
+     * @throws RuntimeException
+     */
+    public function getFormatRule(Model&HasResources $model): ValidationRule
+    {
+        return match (true) {
+            $model instanceof Anime => new AnimeResourceLinkFormatRule($this),
+            $model instanceof Artist => new ArtistResourceLinkFormatRule($this),
+            $model instanceof Song => new SongResourceLinkFormatRule($this),
+            $model instanceof Studio => new StudioResourceLinkFormatRule($this),
+            default => throw new RuntimeException('The model does not have a resource link format rule.'),
+        };
     }
 
     /**

@@ -55,9 +55,9 @@ class BackfillSongAction extends BackfillAction
             DB::beginTransaction();
 
             // Attach other resources
-            $attachResourceAction = new AttachResourceAction($this->getModel(), $this->fields, $this->sites);
+            $attachResourceAction = new AttachResourceAction();
 
-            $attachResourceAction->handle();
+            $attachResourceAction->handle($this->getModel(), $this->fields, $this->sites);
 
             // Request to lnk.to site
             $response = Http::get($this->lnkto);

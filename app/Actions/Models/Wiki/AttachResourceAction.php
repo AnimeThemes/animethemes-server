@@ -18,29 +18,21 @@ class AttachResourceAction
     use CanCreateExternalResource;
 
     /**
-     * Create a new action instance.
+     * Handle the action.
      *
      * @param  BaseModel&HasResources  $model
      * @param  array  $fields
      * @param  ResourceSite[]  $sites
-     */
-    public function __construct(protected BaseModel&HasResources $model, protected array $fields, protected array $sites)
-    {
-    }
-
-    /**
-     * Handle the action.
-     *
      * @return void
      */
-    public function handle(): void
+    public function handle(BaseModel&HasResources $model,array $fields, array $sites): void
     {
-        foreach ($this->sites as $resourceSite) {
-            $link = Arr::get($this->fields, $resourceSite->name);
+        foreach ($sites as $resourceSite) {
+            $link = Arr::get($fields, $resourceSite->name);
 
             if (empty($link)) continue;
 
-            $this->createResource($link, $resourceSite, $this->model);
+            $this->createResource($link, $resourceSite, $model);
         }
     }
 }
