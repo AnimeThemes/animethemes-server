@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Actions\Models\Wiki;
 
 use App\Concerns\Models\CanCreateImage;
+use App\Contracts\Models\HasImages;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Models\BaseModel;
 use Illuminate\Support\Arr;
@@ -19,11 +20,11 @@ class AttachImageAction
     /**
      * Create a new action instance.
      *
-     * @param  BaseModel  $model
+     * @param  BaseModel&HasImages  $model
      * @param  array  $fields
      * @param  ImageFacet[]  $facets
      */
-    public function __construct(protected BaseModel $model, protected array $fields, protected array $facets)
+    public function __construct(protected BaseModel&HasImages $model, protected array $fields, protected array $facets)
     {
     }
 

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Concerns\Models;
 
+use App\Contracts\Models\HasResources;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\BaseModel;
 use App\Models\Wiki\ExternalResource;
@@ -22,10 +23,10 @@ trait CanCreateExternalResource
      *
      * @param  string  $url
      * @param  ResourceSite  $site
-     * @param  BaseModel|null  $model
+     * @param  (BaseModel&HasResources)|null  $model
      * @return ExternalResource
      */
-    public function createResource(string $url, ResourceSite $site, ?BaseModel $model = null): ExternalResource
+    public function createResource(string $url, ResourceSite $site, (BaseModel&HasResources)|null $model = null): ExternalResource
     {
         $id = $site::parseIdFromLink($url);
 
@@ -66,18 +67,14 @@ trait CanCreateExternalResource
      * Try attach the resource.
      *
      * @param  ExternalResource  $resource
-     * @param  BaseModel|null  $model
+     * @param  (BaseModel&HasResources)|null  $model
      * @return void
      */
-    protected function attachResource(ExternalResource $resource, ?BaseModel $model): void
+    protected function attachResource(ExternalResource $resource, (BaseModel&HasResources)|null $model): void
     {
         if ($model !== null) {
-            $resources = $model->resources();
-
-            if ($resources instanceof BelongsToMany) {
-                Log::info("Attaching Resource {$resource->getName()} to {$this->privateLabel($model)} {$model->getName()}");
-                $resources->attach($resource);
-            }
+            Log::info("Attaching Resource {$resource->getName()} to {$this->privateLabel($model)} {$model->getName()}");
+            $model->resources()->attach($resource);
         }
     }
 }

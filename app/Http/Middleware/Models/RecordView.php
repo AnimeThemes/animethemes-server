@@ -8,6 +8,7 @@ use App\Constants\FeatureConstants;
 use App\Models\Service\ViewAggregate;
 use Closure;
 use CyrildeWit\EloquentViewable\Contracts\Viewable;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Laravel\Pennant\Feature;
 use RuntimeException;
@@ -21,7 +22,7 @@ class RecordView
     /**
      * The viewable model
      *
-     * @var Viewable|null
+     * @var (Viewable&Model)|null
      */
     public $model = null;
 

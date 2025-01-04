@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Concerns\Filament\Actions\Models\Wiki;
 
 use App\Actions\Models\Wiki\AttachImageAction as AttachImageActionAction;
+use App\Contracts\Models\HasImages;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Models\BaseModel;
 use App\Models\Wiki\Anime;
@@ -38,7 +39,7 @@ trait AttachImageActionTrait
 
         $this->authorize('create', Image::class);
 
-        $this->action(fn (BaseModel $record, array $data) => new AttachImageActionAction($record, $data, $this->facets)->handle());
+        $this->action(fn (BaseModel&HasImages $record, array $data) => new AttachImageActionAction($record, $data, $this->facets)->handle());
     }
 
     /**

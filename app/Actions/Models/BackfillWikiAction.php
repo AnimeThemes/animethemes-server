@@ -8,6 +8,8 @@ use App\Actions\ActionResult;
 use App\Actions\Models\Wiki\ApiAction;
 use App\Concerns\Models\CanCreateExternalResource;
 use App\Concerns\Models\CanCreateImage;
+use App\Contracts\Models\HasImages;
+use App\Contracts\Models\HasResources;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\BaseModel;
@@ -128,7 +130,7 @@ abstract class BackfillWikiAction
     /**
      * Get the model for the action.
      *
-     * @return BaseModel
+     * @return BaseModel&HasResources&HasImages
      */
     abstract protected function getModel(): BaseModel;
 

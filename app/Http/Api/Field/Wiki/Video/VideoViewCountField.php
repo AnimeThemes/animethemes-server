@@ -55,7 +55,7 @@ class VideoViewCountField extends AggregateField
      */
     public function render(Model $model): mixed
     {
-        return (int) $model->getAttribute('view_aggregate_sum_value') ?? 0;
+        return (int) $model->getAttribute('view_aggregate_sum_value');
     }
 
     /**

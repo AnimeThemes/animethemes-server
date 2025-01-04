@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Actions\Models\Wiki;
 
 use App\Concerns\Models\CanCreateExternalResource;
+use App\Contracts\Models\HasResources;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\BaseModel;
 use Illuminate\Support\Arr;
@@ -19,11 +20,11 @@ class AttachResourceAction
     /**
      * Create a new action instance.
      *
-     * @param  BaseModel  $model
+     * @param  BaseModel&HasResources  $model
      * @param  array  $fields
      * @param  ResourceSite[]  $sites
      */
-    public function __construct(protected BaseModel $model, protected array $fields, protected array $sites)
+    public function __construct(protected BaseModel&HasResources $model, protected array $fields, protected array $sites)
     {
     }
 

@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Models\Wiki;
 
 use App\Concerns\Models\Reportable;
+use App\Contracts\Models\HasImages;
+use App\Contracts\Models\HasResources;
 use App\Events\Wiki\Studio\StudioCreated;
 use App\Events\Wiki\Studio\StudioDeleted;
 use App\Events\Wiki\Studio\StudioRestored;
@@ -32,7 +34,7 @@ use Illuminate\Support\Collection;
  *
  * @method static StudioFactory factory(...$parameters)
  */
-class Studio extends BaseModel
+class Studio extends BaseModel implements HasResources, HasImages
 {
     use Reportable;
     use Searchable;

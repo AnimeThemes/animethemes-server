@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models\List;
 
 use App\Contracts\Models\HasHashids;
+use App\Contracts\Models\HasImages;
 use App\Enums\Models\List\PlaylistVisibility;
 use App\Events\List\Playlist\PlaylistCreated;
 use App\Events\List\Playlist\PlaylistDeleted;
@@ -43,7 +44,7 @@ use Illuminate\Support\Collection;
  *
  * @method static PlaylistFactory factory(...$parameters)
  */
-class Playlist extends BaseModel implements HasHashids, Viewable
+class Playlist extends BaseModel implements HasHashids, Viewable, HasImages
 {
     use Searchable;
     use InteractsWithViews;

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Concerns\Models;
 
+use App\Contracts\Models\HasImages;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Models\BaseModel;
 use App\Models\Wiki\Image;
@@ -28,12 +29,12 @@ trait CanCreateImage
      *
      * @param  string  $url
      * @param  ImageFacet  $facet
-     * @param  BaseModel|null  $model
+     * @param  (BaseModel&HasImages)|null  $model
      * @return Image
      *
      * @throws RequestException
      */
-    public function createImageFromUrl(string $url, ImageFacet $facet, ?BaseModel $model = null): Image
+    public function createImageFromUrl(string $url, ImageFacet $facet, (BaseModel&HasImages)|null $model = null): Image
     {
         $imageResponse = Http::get($url)->throw();
 
@@ -63,10 +64,10 @@ trait CanCreateImage
      *
      * @param  mixed  $image
      * @param  ImageFacet  $facet
-     * @param  BaseModel|null  $model
+     * @param  (BaseModel&HasImages)|null  $model
      * @return Image
      */
-    public function createImageFromFile(mixed $image, ImageFacet $facet, ?BaseModel $model = null): Image
+    public function createImageFromFile(mixed $image, ImageFacet $facet, (BaseModel&HasImages)|null $model = null): Image
     {
         /** @var \Illuminate\Filesystem\FilesystemAdapter $fs */
         $fs = Storage::disk(Config::get('image.disk'));
@@ -89,10 +90,10 @@ trait CanCreateImage
      * Path to storage image in filesystem.
      *
      * @param  ImageFacet  $facet
-     * @param  BaseModel|null  $model
+     * @param  (BaseModel&HasImages)|null  $model
      * @return string
      */
-    protected function path(ImageFacet $facet, ?BaseModel $model): string
+    protected function path(ImageFacet $facet, (BaseModel&HasImages)|null $model): string
     {
         $path = Str::of('');
 
@@ -111,18 +112,14 @@ trait CanCreateImage
      * Try attach the image.
      *
      * @param  Image  $image
-     * @param  BaseModel|null  $model
+     * @param  (BaseModel&HasImages)|null  $model
      * @return void
      */
-    protected function attachImage(Image $image, ?BaseModel $model): void
+    protected function attachImage(Image $image, (BaseModel&HasImages)|null $model): void
     {
         if ($model !== null) {
-            $images = $model->images();
-
-            if ($images instanceof BelongsToMany) {
-                Log::info("Attaching Image {$image->getName()} to {$this->privateLabel($model)} {$model->getName()}");
-                $images->attach($image);
-            }
+            Log::info("Attaching Image {$image->getName()} to {$this->privateLabel($model)} {$model->getName()}");
+            $model->images()->attach($image);
         }
     }
 }

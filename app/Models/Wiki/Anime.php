@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Models\Wiki;
 
 use App\Concerns\Models\Reportable;
+use App\Contracts\Models\HasImages;
+use App\Contracts\Models\HasResources;
 use App\Enums\Models\Wiki\AnimeMediaFormat;
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Events\Wiki\Anime\AnimeCreated;
@@ -54,7 +56,7 @@ use Illuminate\Support\Collection;
  *
  * @method static AnimeFactory factory(...$parameters)
  */
-class Anime extends BaseModel
+class Anime extends BaseModel implements HasResources, HasImages
 {
     use Reportable;
     use Searchable;
