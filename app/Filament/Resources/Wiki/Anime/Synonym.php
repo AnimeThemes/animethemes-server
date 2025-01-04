@@ -164,7 +164,7 @@ class Synonym extends BaseResource
 
                 TextColumn::make(SynonymModel::ATTRIBUTE_TYPE)
                     ->label(__('filament.fields.anime_synonym.type.name'))
-                    ->formatStateUsing(fn ($state) => $state->localize()),
+                    ->formatStateUsing(fn (AnimeSynonymType $state) => $state->localize()),
 
                 TextColumn::make(SynonymModel::ATTRIBUTE_TEXT)
                     ->label(__('filament.fields.anime_synonym.text.name'))
@@ -197,7 +197,7 @@ class Synonym extends BaseResource
 
                         TextEntry::make(SynonymModel::ATTRIBUTE_TYPE)
                             ->label(__('filament.fields.anime_synonym.type.name'))
-                            ->formatStateUsing(fn ($state) => $state->localize()),
+                            ->formatStateUsing(fn (AnimeSynonymType $state) => $state->localize()),
 
                         TextEntry::make(SynonymModel::ATTRIBUTE_TEXT)
                             ->label(__('filament.fields.anime_synonym.text.name')),

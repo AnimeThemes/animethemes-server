@@ -228,12 +228,12 @@ class Anime extends BaseResource
 
                 TextColumn::make(AnimeModel::ATTRIBUTE_SEASON)
                     ->label(__('filament.fields.anime.season.name'))
-                    ->formatStateUsing(fn ($state) => $state->localizeStyled())
+                    ->formatStateUsing(fn (AnimeSeason $state) => $state->localizeStyled())
                     ->html(),
 
                 TextColumn::make(AnimeModel::ATTRIBUTE_MEDIA_FORMAT)
                     ->label(__('filament.fields.anime.media_format.name'))
-                    ->formatStateUsing(fn ($state) => $state->localize()),
+                    ->formatStateUsing(fn (AnimeMediaFormat $state) => $state->localize()),
 
                 TextColumn::make(AnimeModel::ATTRIBUTE_SYNOPSIS)
                     ->label(__('filament.fields.anime.synopsis.name'))
@@ -276,12 +276,12 @@ class Anime extends BaseResource
 
                         TextEntry::make(AnimeModel::ATTRIBUTE_SEASON)
                             ->label(__('filament.fields.anime.season.name'))
-                            ->formatStateUsing(fn ($state) => $state->localizeStyled())
+                            ->formatStateUsing(fn (AnimeSeason $state) => $state->localizeStyled())
                             ->html(),
 
                         TextEntry::make(AnimeModel::ATTRIBUTE_MEDIA_FORMAT)
                             ->label(__('filament.fields.anime.media_format.name'))
-                            ->formatStateUsing(fn ($state) => $state->localize()),
+                            ->formatStateUsing(fn (AnimeMediaFormat $state) => $state->localize()),
 
                         TextEntry::make(AnimeModel::ATTRIBUTE_SYNOPSIS)
                             ->label(__('filament.fields.anime.synopsis.name'))

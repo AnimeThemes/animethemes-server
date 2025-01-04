@@ -170,7 +170,7 @@ class ExternalResource extends BaseResource
 
                 TextColumn::make(ExternalResourceModel::ATTRIBUTE_SITE)
                     ->label(__('filament.fields.external_resource.site.name'))
-                    ->formatStateUsing(fn ($state) => $state->localize()),
+                    ->formatStateUsing(fn (ResourceSite $state) => $state->localize()),
 
                 TextColumn::make(ExternalResourceModel::ATTRIBUTE_LINK)
                     ->label(__('filament.fields.external_resource.link.name'))
@@ -202,7 +202,7 @@ class ExternalResource extends BaseResource
                     ->schema([
                         TextEntry::make(ExternalResourceModel::ATTRIBUTE_SITE)
                             ->label(__('filament.fields.external_resource.site.name'))
-                            ->formatStateUsing(fn ($state) => $state->localize()),
+                            ->formatStateUsing(fn (ResourceSite $state) => $state->localize()),
 
                         TextEntry::make(ExternalResourceModel::ATTRIBUTE_LINK)
                             ->label(__('filament.fields.external_resource.link.name'))

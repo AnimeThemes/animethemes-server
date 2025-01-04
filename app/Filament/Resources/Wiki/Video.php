@@ -221,11 +221,11 @@ class Video extends BaseResource
 
                 TextColumn::make(VideoModel::ATTRIBUTE_OVERLAP)
                     ->label(__('filament.fields.video.overlap.name'))
-                    ->formatStateUsing(fn ($state) => $state->localize()),
+                    ->formatStateUsing(fn (VideoOverlap $state) => $state->localize()),
 
                 TextColumn::make(VideoModel::ATTRIBUTE_SOURCE)
                     ->label(__('filament.fields.video.source.name'))
-                    ->formatStateUsing(fn ($state) => $state->localize()),
+                    ->formatStateUsing(fn (VideoSource $state) => $state->localize()),
 
                 TextColumn::make(VideoModel::RELATION_AUDIO . '.' . AudioModel::ATTRIBUTE_FILENAME)
                     ->label(__('filament.resources.singularLabel.audio'))
@@ -257,11 +257,11 @@ class Video extends BaseResource
 
                         TextEntry::make(VideoModel::ATTRIBUTE_OVERLAP)
                             ->label(__('filament.fields.video.overlap.name'))
-                            ->formatStateUsing(fn ($state) => $state->localize()),
+                            ->formatStateUsing(fn (VideoOverlap $state) => $state->localize()),
 
                         TextEntry::make(VideoModel::ATTRIBUTE_SOURCE)
                             ->label(__('filament.fields.video.source.name'))
-                            ->formatStateUsing(fn ($state) => $state->localize()),
+                            ->formatStateUsing(fn (VideoSource $state) => $state->localize()),
 
                         IconEntry::make(VideoModel::ATTRIBUTE_NC)
                             ->label(__('filament.fields.video.nc.name'))

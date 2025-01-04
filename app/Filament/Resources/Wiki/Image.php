@@ -151,7 +151,7 @@ class Image extends BaseResource
 
                 TextColumn::make(ImageModel::ATTRIBUTE_FACET)
                     ->label(__('filament.fields.image.facet.name'))
-                    ->formatStateUsing(fn ($state) => $state->localize()),
+                    ->formatStateUsing(fn (ImageFacet $state) => $state->localize()),
 
                 ImageColumn::make(ImageModel::ATTRIBUTE_PATH)
                     ->label(__('filament.fields.image.image.name'))
@@ -185,7 +185,7 @@ class Image extends BaseResource
 
                         TextEntry::make(ImageModel::ATTRIBUTE_FACET)
                             ->label(__('filament.fields.image.facet.name'))
-                            ->formatStateUsing(fn ($state) => $state->localize()),
+                            ->formatStateUsing(fn (ImageFacet $state) => $state->localize()),
 
                         ImageEntry::make(ImageModel::ATTRIBUTE_PATH)
                             ->label(__('filament.fields.image.image.name'))
