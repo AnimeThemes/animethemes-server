@@ -6,10 +6,13 @@ namespace Tests\Feature\Events\Pivot\Wiki;
 
 use App\Events\Pivot\Wiki\AnimeThemeEntryVideo\AnimeThemeEntryVideoCreated;
 use App\Events\Pivot\Wiki\AnimeThemeEntryVideo\AnimeThemeEntryVideoDeleted;
+use App\Models\List\Playlist;
+use App\Models\List\Playlist\PlaylistTrack;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
+use App\Pivots\Wiki\AnimeThemeEntryVideo;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
@@ -51,5 +54,68 @@ class AnimeThemeEntryVideoTest extends TestCase
         $video->animethemeentries()->detach($entry);
 
         Event::assertDispatched(AnimeThemeEntryVideoDeleted::class);
+    }
+
+    /**
+     * When a Video is attached to an AnimeThemeEntry, the playlist tracks should be updated.
+     *
+     * @return void
+     */
+    public function testAnimeThemeEntryVideoCreatedEventUpdatePlaylistTracks(): void
+    {
+        $video = Video::factory()->createOne();
+        $entry = AnimeThemeEntry::factory()->createOne();
+
+        AnimeThemeEntryVideo::factory()
+            ->for($video)
+            ->for($entry)
+            ->createOne();
+
+        $track = PlaylistTrack::factory()
+            ->for(Playlist::factory())
+            ->for($video)
+            ->createOne();
+
+        Event::assertDispatched(AnimeThemeEntryVideoCreated::class, function (AnimeThemeEntryVideoCreated $event) use ($entry, $track) {
+            $event->updatePlaylistTracks();
+
+            return $track->animethemeentry()->is($entry);
+        });
+    }
+
+    /**
+     * When a Video is detached from an AnimeThemeEntry, the playlist tracks should be updated.
+     *
+     * @return void
+     */
+    public function testAnimeThemeEntryVideoDeletedEventUpdatePlaylistTracks(): void
+    {
+        $video = Video::factory()->createOne();
+        $entry = AnimeThemeEntry::factory()->createOne();
+        $entry2 = AnimeThemeEntry::factory()->createOne();
+
+        $track = PlaylistTrack::factory()
+            ->for(Playlist::factory())
+            ->for($video)
+            ->for($entry)
+            ->createOne();
+
+        $entryVideo = AnimeThemeEntryVideo::factory()
+            ->for($video)
+            ->for($entry)
+            ->createOne();
+
+        AnimeThemeEntry::factory()
+            ->for($video)
+            ->for($entry2)
+            ->createOne();
+
+        $entryVideo->delete();
+
+        Event::assertDispatched(AnimeThemeEntryVideoDeleted::class, function (AnimeThemeEntryVideoDeleted $event) use ($entry2, $track) {
+            $event->updatePlaylistTracks();
+
+            return $track->animethemeentry()->is($entry2);
+        });
     }
 }

@@ -21,7 +21,7 @@ abstract class BaseExternalEntryAction
     /**
      * Create a new action instance.
      *
-     * @param  ExternalProfile|array  $profileParameters
+     * @param  ExternalProfile|array  $profile
      */
     public function __construct(protected ExternalProfile|array $profile)
     {
