@@ -6,6 +6,7 @@ namespace App\Actions\Models\List\ExternalProfile\ExternalEntry;
 
 use App\Enums\Models\List\ExternalProfileSite;
 use App\Enums\Models\Wiki\ResourceSite;
+use App\Models\List\ExternalProfile;
 use Illuminate\Support\Arr;
 
 /**
@@ -20,9 +21,9 @@ abstract class BaseExternalEntryAction
     /**
      * Create a new action instance.
      *
-     * @param  array  $profileParameters
+     * @param  ExternalProfile|array  $profileParameters
      */
-    public function __construct(protected array $profileParameters)
+    public function __construct(protected ExternalProfile|array $profile)
     {
     }
 
@@ -33,7 +34,12 @@ abstract class BaseExternalEntryAction
      */
     public function getProfileSite(): ExternalProfileSite
     {
-        return ExternalProfileSite::fromLocalizedName(Arr::get($this->profileParameters, 'site'));
+        if ($this->profile instanceof ExternalProfile) {
+            return $this->profile->site;
+        }
+
+        // TODO: change 'site' to a constant variable in API.
+        return ExternalProfileSite::fromLocalizedName(Arr::get($this->profile, 'site'));
     }
 
     /**
@@ -53,7 +59,12 @@ abstract class BaseExternalEntryAction
      */
     public function getUsername(): string
     {
-        return Arr::get($this->profileParameters, 'name');
+        if ($this->profile instanceof ExternalProfile) {
+            return $this->profile->name;
+        }
+
+        // TODO: change 'name' to a constant variable in API.
+        return Arr::get($this->profile, 'name');
     }
 
     /**

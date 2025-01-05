@@ -14,11 +14,24 @@ use Illuminate\Support\Facades\Crypt;
  */
 abstract class BaseExternalEntryTokenAction
 {
+    /**
+     * The response of the external API.
+     *
+     * @var array|null $response
+     */
     protected ?array $response = null;
+
+    /**
+     * The id of the external user.
+     *
+     * @var int|null $userId
+     */
     protected ?int $userId = null;
 
     /**
      * Create a new action instance.
+     *
+     * @param  ExternalToken  $token
      */
     public function __construct(protected ExternalToken $token)
     {
@@ -49,10 +62,7 @@ abstract class BaseExternalEntryTokenAction
      *
      * @return string|null
      */
-    public function getUsername(): ?string
-    {
-        return null;
-    }
+    abstract public function getUsername(): ?string;
 
     /**
      * Get the entries of the response.

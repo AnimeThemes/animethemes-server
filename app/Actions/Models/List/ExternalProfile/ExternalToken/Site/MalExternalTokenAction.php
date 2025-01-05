@@ -35,8 +35,6 @@ class MalExternalTokenAction extends BaseExternalTokenAction
 
         $codeVerifier = Cache::get("mal-external-token-request-{$state}");
 
-        Cache::forget("mal-external-token-request-{$state}");
-
         try {
             $response = Http::asForm()
                 ->post('https://myanimelist.net/v1/oauth2/token', [
@@ -65,6 +63,8 @@ class MalExternalTokenAction extends BaseExternalTokenAction
             Log::error($e->getMessage());
 
             throw $e;
+        } finally {
+            Cache::forget("mal-external-token-request-{$state}");
         }
     }
 }

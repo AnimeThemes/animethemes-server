@@ -18,6 +18,11 @@ use Illuminate\Support\Facades\Log;
  */
 class MalExternalEntryTokenAction extends BaseExternalEntryTokenAction
 {
+    /**
+     * The response of the user endpoint in external API.
+     *
+     * @var array|null $userResponse
+     */
     protected ?array $userResponse = null;
 
     /**

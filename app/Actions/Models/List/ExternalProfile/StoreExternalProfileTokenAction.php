@@ -16,6 +16,7 @@ use Exception;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
+use RuntimeException;
 
 /**
  * Class StoreExternalProfileTokenAction.
@@ -25,7 +26,7 @@ class StoreExternalProfileTokenAction
     protected Collection $resources;
 
     /**
-     * Find or store external profile given determined external token.
+     * Get the first record or store external profile given determined external token.
      *
      * @param  ExternalToken  $token
      * @param  array  $parameters
@@ -33,20 +34,16 @@ class StoreExternalProfileTokenAction
      *
      * @throws Exception
      */
-    public function findOrCreate(ExternalToken $token, array $parameters): ?ExternalProfile
+    public function firstOrCreate(ExternalToken $token, array $parameters): ?ExternalProfile
     {
         try {
             $site = ExternalProfileSite::fromLocalizedName(Arr::get($parameters, 'site'));
 
-            $action = $this->getActionClass($site, $token);
-
-            if ($action === null) {
-                return null;
-            }
+            $action = static::getActionClass($site, $token);
 
             $userId = $action->getUserId();
 
-            $profile = $this->findForUserIdOrCreate($userId, $site, $action, $parameters);
+            $profile = $this->firstForUserIdOrCreate($userId, $site, $action, $parameters);
 
             return $profile;
 
@@ -58,7 +55,7 @@ class StoreExternalProfileTokenAction
     }
 
     /**
-     * Find or create the profile for a userId and site.
+     * Get the first record or create the profile for a userId and site.
      *
      * @param  int  $userId
      * @param  ExternalProfileSite  $site
@@ -66,7 +63,7 @@ class StoreExternalProfileTokenAction
      * @param  array  $parameters
      * @return ExternalProfile
      */
-    protected function findForUserIdOrCreate(int $userId, ExternalProfileSite $site, BaseExternalEntryTokenAction $action, array $parameters): ExternalProfile
+    protected function firstForUserIdOrCreate(int $userId, ExternalProfileSite $site, BaseExternalEntryTokenAction $action, array $parameters): ExternalProfile
     {
         $claimedProfile = ExternalProfile::query()
             ->where(ExternalProfile::ATTRIBUTE_EXTERNAL_USER_ID, $userId)
@@ -113,14 +110,16 @@ class StoreExternalProfileTokenAction
      *
      * @param  ExternalProfileSite  $site
      * @param  ExternalToken  $token
-     * @return BaseExternalEntryTokenAction|null
+     * @return BaseExternalEntryTokenAction
+     *
+     * @throws RuntimeException
      */
-    protected function getActionClass(ExternalProfileSite $site, ExternalToken $token): ?BaseExternalEntryTokenAction
+    public static function getActionClass(ExternalProfileSite $site, ExternalToken $token): BaseExternalEntryTokenAction
     {
         return match ($site) {
             ExternalProfileSite::ANILIST => new AnilistExternalEntryTokenAction($token),
             ExternalProfileSite::MAL => new MalExternalEntryTokenAction($token),
-            default => null,
+            default => throw new RuntimeException("External entry token action not configured for site {$site->localize()}"),
         };
     }
 }
