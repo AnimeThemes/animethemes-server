@@ -6,6 +6,7 @@ namespace App\Models\Wiki\Video;
 
 use App\Events\Wiki\Video\Script\VideoScriptCreated;
 use App\Events\Wiki\Video\Script\VideoScriptDeleted;
+use App\Events\Wiki\Video\Script\VideoScriptForceDeleting;
 use App\Events\Wiki\Video\Script\VideoScriptRestored;
 use App\Events\Wiki\Video\Script\VideoScriptUpdated;
 use App\Models\BaseModel;
@@ -53,6 +54,7 @@ class VideoScript extends BaseModel
     protected $dispatchesEvents = [
         'created' => VideoScriptCreated::class,
         'deleted' => VideoScriptDeleted::class,
+        'forceDeleting' => VideoScriptForceDeleting::class,
         'restored' => VideoScriptRestored::class,
         'updated' => VideoScriptUpdated::class,
     ];

@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Models\Wiki;
 
+use App\Constants\Config\VideoConstants;
 use App\Enums\Models\List\PlaylistVisibility;
 use App\Enums\Models\Wiki\VideoOverlap;
 use App\Enums\Models\Wiki\VideoSource;
+use App\Events\Wiki\Video\VideoForceDeleting;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
 use App\Models\Wiki\Anime;
@@ -23,7 +25,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Http\Testing\File;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Storage;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
 
@@ -454,5 +460,47 @@ class VideoTest extends TestCase
                 ],
             ],
         ];
+    }
+
+    /**
+     * The video shall not be deleted from storage when the Video is deleted.
+     *
+     * @return void
+     */
+    public function testVideoStorageDeletion(): void
+    {
+        $fs = Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
+        $file = File::fake()->create($this->faker->word().'.webm', $this->faker->randomDigitNotNull());
+        $fsFile = $fs->putFile('', $file);
+
+        $video = Video::factory()->createOne([
+            Video::ATTRIBUTE_PATH => $fsFile,
+        ]);
+
+        $video->delete();
+
+        static::assertTrue($fs->exists($video->path));
+    }
+
+    /**
+     * The video shall be deleted from storage when the Video is force deleted.
+     *
+     * @return void
+     */
+    public function testVideoStorageForceDeletion(): void
+    {
+        Event::fakeExcept(VideoForceDeleting::class);
+
+        $fs = Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
+        $file = File::fake()->create($this->faker->word().'.webm', $this->faker->randomDigitNotNull());
+        $fsFile = $fs->putFile('', $file);
+
+        $video = Video::factory()->createOne([
+            Video::ATTRIBUTE_PATH => $fsFile,
+        ]);
+
+        $video->forceDelete();
+
+        static::assertFalse($fs->exists($video->path));
     }
 }

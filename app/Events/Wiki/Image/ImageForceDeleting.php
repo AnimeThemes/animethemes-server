@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Events\Wiki\Image;
 
+use App\Contracts\Events\RemoveFromStorageEvent;
 use App\Events\BaseEvent;
 use App\Models\Wiki\Image;
-use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
 
@@ -15,10 +15,8 @@ use Illuminate\Support\Facades\Storage;
  *
  * @extends BaseEvent<Image>
  */
-class ImageForceDeleting extends BaseEvent
+class ImageForceDeleting extends BaseEvent implements RemoveFromStorageEvent
 {
-    use Dispatchable;
-
     /**
      * Create a new event instance.
      *
@@ -27,7 +25,6 @@ class ImageForceDeleting extends BaseEvent
     public function __construct(Image $image)
     {
         parent::__construct($image);
-        $this->removeFromStorage();
     }
 
     /**
@@ -45,7 +42,7 @@ class ImageForceDeleting extends BaseEvent
      *
      * @return void
      */
-    protected function removeFromStorage(): void
+    public function removeFromStorage(): void
     {
         Storage::disk(Config::get('image.disk'))->delete($this->getModel()->path);
     }

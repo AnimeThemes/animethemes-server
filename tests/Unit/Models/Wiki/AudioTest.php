@@ -4,12 +4,18 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Models\Wiki;
 
+use App\Constants\Config\AudioConstants;
+use App\Events\Wiki\Audio\AudioForceDeleting;
 use App\Models\Wiki\Audio;
 use App\Models\Wiki\Video;
 use CyrildeWit\EloquentViewable\View;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Http\Testing\File;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 /**
@@ -75,5 +81,47 @@ class AudioTest extends TestCase
         static::assertInstanceOf(MorphMany::class, $audio->views());
         static::assertEquals(1, $audio->views()->count());
         static::assertInstanceOf(View::class, $audio->views()->first());
+    }
+
+    /**
+     * The audio shall not be deleted from storage when the Audio is deleted.
+     *
+     * @return void
+     */
+    public function testAudioStorageDeletion(): void
+    {
+        $fs = Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
+        $file = File::fake()->create($this->faker->word().'.ogg', $this->faker->randomDigitNotNull());
+        $fsFile = $fs->putFile('', $file);
+
+        $audio = Audio::factory()->createOne([
+            Audio::ATTRIBUTE_PATH => $fsFile,
+        ]);
+
+        $audio->delete();
+
+        static::assertTrue($fs->exists($audio->path));
+    }
+
+    /**
+     * The audio shall be deleted from storage when the Audio is force deleted.
+     *
+     * @return void
+     */
+    public function testAudioStorageForceDeletion(): void
+    {
+        Event::fakeExcept(AudioForceDeleting::class);
+
+        $fs = Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
+        $file = File::fake()->create($this->faker->word().'.ogg', $this->faker->randomDigitNotNull());
+        $fsFile = $fs->putFile('', $file);
+
+        $audio = Audio::factory()->createOne([
+            Audio::ATTRIBUTE_PATH => $fsFile,
+        ]);
+
+        $audio->forceDelete();
+
+        static::assertFalse($fs->exists($audio->path));
     }
 }

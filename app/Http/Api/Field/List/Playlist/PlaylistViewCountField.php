@@ -11,6 +11,7 @@ use App\Http\Api\Filter\Filter;
 use App\Http\Api\Filter\IntFilter;
 use App\Http\Api\Schema\Schema;
 use App\Http\Api\Sort\Sort;
+use App\Models\List\Playlist;
 use App\Models\Service\ViewAggregate;
 use Illuminate\Database\Eloquent\Model;
 
@@ -26,7 +27,7 @@ class PlaylistViewCountField extends AggregateField
      */
     public function __construct(Schema $schema)
     {
-        parent::__construct($schema, 'viewAggregate', AggregateFunction::SUM, ViewAggregate::ATTRIBUTE_VALUE);
+        parent::__construct($schema, Playlist::RELATION_VIEW_AGGREGATE, AggregateFunction::SUM, ViewAggregate::ATTRIBUTE_VALUE);
     }
 
     /**
@@ -36,7 +37,7 @@ class PlaylistViewCountField extends AggregateField
      */
     public function getFilter(): Filter
     {
-        return new IntFilter(key: $this->alias(), column: 'value', qualifyColumn: QualifyColumn::YES);
+        return new IntFilter(key: $this->alias(), column: ViewAggregate::ATTRIBUTE_VALUE, qualifyColumn: QualifyColumn::YES);
     }
 
     /**

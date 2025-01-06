@@ -12,6 +12,7 @@ use App\Enums\Models\Wiki\VideoOverlap;
 use App\Enums\Models\Wiki\VideoSource;
 use App\Events\Wiki\Video\VideoCreated;
 use App\Events\Wiki\Video\VideoDeleted;
+use App\Events\Wiki\Video\VideoForceDeleting;
 use App\Events\Wiki\Video\VideoRestored;
 use App\Events\Wiki\Video\VideoUpdated;
 use App\Http\Resources\Pivot\Wiki\Resource\AnimeThemeEntryVideoResource;
@@ -127,6 +128,7 @@ class Video extends BaseModel implements Streamable, Viewable
     protected $dispatchesEvents = [
         'created' => VideoCreated::class,
         'deleted' => VideoDeleted::class,
+        'forceDeleting' => VideoForceDeleting::class,
         'restored' => VideoRestored::class,
         'updated' => VideoUpdated::class,
     ];
