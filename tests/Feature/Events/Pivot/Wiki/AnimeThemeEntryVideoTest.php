@@ -12,7 +12,6 @@ use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
-use App\Pivots\Wiki\AnimeThemeEntryVideo;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
@@ -64,12 +63,11 @@ class AnimeThemeEntryVideoTest extends TestCase
     public function testAnimeThemeEntryVideoCreatedEventUpdatePlaylistTracks(): void
     {
         $video = Video::factory()->createOne();
-        $entry = AnimeThemeEntry::factory()->createOne();
-
-        AnimeThemeEntryVideo::factory()
-            ->for($video)
-            ->for($entry)
+        $entry = AnimeThemeEntry::factory()
+            ->for(AnimeTheme::factory()->for(Anime::factory()))
             ->createOne();
+
+        $video->animethemeentries()->attach($entry);
 
         $track = PlaylistTrack::factory()
             ->for(Playlist::factory())
@@ -91,8 +89,16 @@ class AnimeThemeEntryVideoTest extends TestCase
     public function testAnimeThemeEntryVideoDeletedEventUpdatePlaylistTracks(): void
     {
         $video = Video::factory()->createOne();
-        $entry = AnimeThemeEntry::factory()->createOne();
-        $entry2 = AnimeThemeEntry::factory()->createOne();
+
+        $entry = AnimeThemeEntry::factory()
+            ->for(AnimeTheme::factory()->for(Anime::factory()))
+            ->createOne();
+
+        $entry2 = AnimeThemeEntry::factory()
+            ->for(AnimeTheme::factory()->for(Anime::factory()))
+            ->createOne();
+
+        $video->animethemeentries()->attach($entry);
 
         $track = PlaylistTrack::factory()
             ->for(Playlist::factory())
@@ -100,17 +106,8 @@ class AnimeThemeEntryVideoTest extends TestCase
             ->for($entry)
             ->createOne();
 
-        $entryVideo = AnimeThemeEntryVideo::factory()
-            ->for($video)
-            ->for($entry)
-            ->createOne();
-
-        AnimeThemeEntry::factory()
-            ->for($video)
-            ->for($entry2)
-            ->createOne();
-
-        $entryVideo->delete();
+        $video->animethemeentries()->attach($entry2);
+        $video->animethemeentries()->detach($entry);
 
         Event::assertDispatched(AnimeThemeEntryVideoDeleted::class, function (AnimeThemeEntryVideoDeleted $event) use ($entry2, $track) {
             $event->updatePlaylistTracks();
