@@ -8,6 +8,7 @@ use App\Enums\Auth\Role;
 use App\Enums\Models\Admin\ActionLogStatus;
 use App\Filament\Components\Columns\BelongsToColumn;
 use App\Filament\Components\Columns\TextColumn;
+use App\Filament\Components\Infolist\BelongsToEntry;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\Admin\ActionLog\Pages\ManageActionLogs;
 use App\Filament\Resources\Auth\User;
@@ -184,9 +185,7 @@ class ActionLog extends BaseResource
                     ->label(__('filament.fields.action_log.name'))
                     ->formatStateUsing(fn ($state) => ucfirst($state)),
 
-                TextEntry::make(ActionLogModel::ATTRIBUTE_USER)
-                    ->label(__('filament.resources.singularLabel.user'))
-                    ->urlToRelated(User::class, ActionLogModel::RELATION_USER, true),
+                BelongsToEntry::make(ActionLogModel::RELATION_USER, User::class),
 
                 TextEntry::make(ActionLogModel::ATTRIBUTE_TARGET)
                     ->label(__('filament.fields.action_log.target'))

@@ -10,6 +10,7 @@ use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\Slug;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\BaseResource;
+use App\Filament\Resources\Wiki\Anime\Theme\Pages\ViewTheme;
 use App\Filament\Resources\Wiki\Artist\Pages\CreateArtist;
 use App\Filament\Resources\Wiki\Artist\Pages\EditArtist;
 use App\Filament\Resources\Wiki\Artist\Pages\ListArtists;
@@ -216,11 +217,20 @@ class Artist extends BaseResource
 
                         TextEntry::make(ArtistModel::ATTRIBUTE_SLUG)
                             ->label(__('filament.fields.artist.slug.name')),
+
+                        TextEntry::make('artistsong' . '.' . ArtistSong::ATTRIBUTE_AS)
+                            ->label(__('filament.fields.artist.songs.as.name'))
+                            ->visible(fn (TextEntry $component) => $component->getLivewire() instanceof ViewTheme),
+
+                        TextEntry::make('artistsong' . '.' . ArtistSong::ATTRIBUTE_ALIAS)
+                            ->label(__('filament.fields.artist.songs.alias.name'))
+                            ->visible(fn (TextEntry $component) => $component->getLivewire() instanceof ViewTheme),
                     ])
-                    ->columns(3),
+                    ->columns(5),
 
                 Section::make(__('filament.fields.base.timestamps'))
                     ->schema(parent::timestamps())
+                    ->visible(fn (Section $component) => $component->getLivewire() instanceof ViewArtist)
                     ->columns(3),
             ]);
     }

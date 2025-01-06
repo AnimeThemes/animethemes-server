@@ -7,6 +7,7 @@ namespace App\Filament\Resources\Admin;
 use App\Enums\Models\Admin\ApprovableStatus;
 use App\Filament\Components\Columns\BelongsToColumn;
 use App\Filament\Components\Columns\TextColumn;
+use App\Filament\Components\Infolist\BelongsToEntry;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Admin\Report\Pages\ListReports;
@@ -14,7 +15,6 @@ use App\Filament\Resources\Admin\Report\Pages\ViewReport;
 use App\Filament\Resources\Admin\Report\RelationManagers\StepReportRelationManager;
 use App\Filament\Resources\Auth\User as UserResource;
 use App\Models\Admin\Report as ReportModel;
-use App\Models\Auth\User;
 use Filament\Forms\Form;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Infolist;
@@ -169,11 +169,9 @@ class Report extends BaseResource
                             ->formatStateUsing(fn (ApprovableStatus $state) => $state->localize())
                             ->badge(),
 
-                        TextEntry::make(ReportModel::RELATION_USER)
-                            ->urlToRelated(UserResource::class, ReportModel::RELATION_USER, true),
+                        BelongsToEntry::make(ReportModel::RELATION_USER, UserResource::class),
 
-                        TextEntry::make(ReportModel::RELATION_MODERATOR)
-                            ->urlToRelated(UserResource::class, ReportModel::RELATION_MODERATOR, true)
+                        BelongsToEntry::make(ReportModel::RELATION_MODERATOR, UserResource::class)
                             ->label(__('filament.fields.report.moderator')),
 
                         TextEntry::make(ReportModel::ATTRIBUTE_FINISHED_AT)

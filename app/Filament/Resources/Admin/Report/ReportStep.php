@@ -9,6 +9,7 @@ use App\Enums\Models\Admin\ApprovableStatus;
 use App\Enums\Models\Admin\ReportActionType;
 use App\Filament\Components\Columns\BelongsToColumn;
 use App\Filament\Components\Columns\TextColumn;
+use App\Filament\Components\Infolist\BelongsToEntry;
 use App\Filament\Components\Infolist\KeyValueThreeEntry;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\Admin\Report as ReportResource;
@@ -182,9 +183,8 @@ class ReportStep extends BaseResource
                             ->label(__('filament.fields.report.finished_at'))
                             ->dateTime(),
 
-                        TextEntry::make(ReportStepModel::ATTRIBUTE_REPORT)
-                            ->label(__('filament.resources.singularLabel.report'))
-                            ->urlToRelated(ReportResource::class, ReportStepModel::RELATION_REPORT),
+                        BelongsToEntry::make(ReportStepModel::RELATION_REPORT, ReportResource::class)
+                            ->label(__('filament.resources.singularLabel.report')),
 
                         KeyValueThreeEntry::make(ReportStepModel::ATTRIBUTE_FIELDS)
                             ->label(__('filament.fields.report_step.fields.name'))

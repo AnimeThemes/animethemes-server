@@ -6,9 +6,6 @@ namespace App\Actions\Models\List\ExternalProfile;
 
 use App\Actions\Models\List\ExternalProfile\ExternalEntry\BaseExternalEntryAction;
 use App\Actions\Models\List\ExternalProfile\ExternalEntry\BaseExternalEntryTokenAction;
-use App\Actions\Models\List\ExternalProfile\ExternalEntry\Username\AnilistExternalEntryAction;
-use App\Actions\Models\List\ExternalProfile\ExternalEntry\Token\AnilistExternalEntryTokenAction;
-use App\Actions\Models\List\ExternalProfile\ExternalEntry\Token\MalExternalEntryTokenAction;
 use App\Enums\Models\List\ExternalProfileSite;
 use App\Models\List\External\ExternalEntry;
 use App\Models\List\ExternalProfile;
@@ -20,6 +17,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use RuntimeException;
 
 /**
  * Class SyncExternalProfileAction.
@@ -84,29 +82,26 @@ class SyncExternalProfileAction
      * Get the mapping for the entries token class.
      *
      * @param  ExternalProfile  $profile
-     * @return BaseExternalEntryTokenAction|null
+     * @return BaseExternalEntryTokenAction
+     *
+     * @throws RuntimeException
      */
-    protected function getClaimedActionClass(ExternalProfile $profile): ?BaseExternalEntryTokenAction
+    protected function getClaimedActionClass(ExternalProfile $profile): BaseExternalEntryTokenAction
     {
-        return match ($profile->site) {
-            ExternalProfileSite::ANILIST => new AnilistExternalEntryTokenAction($profile->externaltoken),
-            ExternalProfileSite::MAL => new MalExternalEntryTokenAction($profile->externaltoken),
-            default => null,
-        };
+        return StoreExternalProfileTokenAction::getActionClass($profile->site, $profile->externaltoken);
     }
 
     /**
      * Get the mapping for the entries class.
      *
      * @param  ExternalProfile  $profile
-     * @return BaseExternalEntryAction|null
+     * @return BaseExternalEntryAction
+     *
+     * @throws RuntimeException
      */
-    protected function getUnclaimedActionClass(ExternalProfile $profile): ?BaseExternalEntryAction
+    protected function getUnclaimedActionClass(ExternalProfile $profile): BaseExternalEntryAction
     {
-        return match ($profile->site) {
-            ExternalProfileSite::ANILIST => new AnilistExternalEntryAction($profile->toArray()),
-            default => null,
-        };
+        return StoreExternalProfileUsernameAction::getActionClass($profile->site, $profile);
     }
 
     /**

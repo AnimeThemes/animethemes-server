@@ -16,7 +16,6 @@ use App\Models\Wiki\Video\VideoScript;
 use App\Rules\Storage\StorageFileDirectoryExistsRule;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;

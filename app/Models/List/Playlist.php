@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models\List;
 
+use App\Concerns\Models\Service\AggregatesView;
 use App\Contracts\Models\HasHashids;
 use App\Contracts\Models\HasImages;
 use App\Enums\Models\List\PlaylistVisibility;
@@ -46,6 +47,7 @@ use Illuminate\Support\Collection;
  */
 class Playlist extends BaseModel implements HasHashids, Viewable, HasImages
 {
+    use AggregatesView;
     use Searchable;
     use InteractsWithViews;
 

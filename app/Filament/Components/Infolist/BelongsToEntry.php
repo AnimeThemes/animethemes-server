@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-namespace App\Filament\Components\Columns;
+namespace App\Filament\Components\Infolist;
 
 use App\Contracts\Models\Nameable;
 use App\Filament\Resources\BaseResource;
+use App\Models\BaseModel;
 use Filament\Support\Enums\FontWeight;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str;
 use InvalidArgumentException;
 
 /**
- * Class BelongsToColumn.
+ * Class BelongsToEntry.
  */
-class BelongsToColumn extends TextColumn
+class BelongsToEntry extends TextEntry
 {
     protected BaseResource $resource;
     protected bool $shouldUseModelName = false;
@@ -52,13 +52,12 @@ class BelongsToColumn extends TextColumn
      */
     public function configure(): static
     {
-        parent::configure();
-
         return $this
+            ->placeholder('-')
             ->label($this->resource->getModelLabel())
             ->weight(FontWeight::SemiBold)
             ->html()
-            ->url(function (Model $record) {
+            ->url(function (BaseModel|Model $record) {
                 $relation = $this->getName();
 
                 /** @var (Model&Nameable)|null $related */
@@ -71,8 +70,7 @@ class BelongsToColumn extends TextColumn
                         ? $related->getName()
                         : $this->resource->getRecordTitle($related);
 
-                    $nameLimited = Str::limit($name, $this->getCharacterLimit() ?? 100);
-                    return "<p style='color: rgb(64, 184, 166);'>{$nameLimited}</p>";
+                    return "<p style='color: rgb(64, 184, 166);'>{$name}</p>";
                 });
 
                 return $this->resource::getUrl('view', ['record' => $related]);

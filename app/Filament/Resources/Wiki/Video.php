@@ -16,6 +16,7 @@ use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\Select;
 use App\Filament\Components\Filters\CheckboxFilter;
 use App\Filament\Components\Filters\NumberFilter;
+use App\Filament\Components\Infolist\BelongsToEntry;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Video\Pages\EditVideo;
@@ -227,10 +228,6 @@ class Video extends BaseResource
                     ->label(__('filament.fields.video.source.name'))
                     ->formatStateUsing(fn (VideoSource $state) => $state->localize()),
 
-                TextColumn::make(VideoModel::RELATION_AUDIO . '.' . AudioModel::ATTRIBUTE_FILENAME)
-                    ->label(__('filament.resources.singularLabel.audio'))
-                    ->visibleOn(['create', 'edit']),
-
                 TextColumn::make(VideoModel::ATTRIBUTE_FILENAME)
                     ->label(__('filament.fields.video.filename.name'))
                     ->copyableWithMessage(),
@@ -279,9 +276,7 @@ class Video extends BaseResource
                             ->label(__('filament.fields.video.uncen.name'))
                             ->boolean(),
 
-                        TextEntry::make(VideoModel::RELATION_AUDIO.'.'.AudioModel::ATTRIBUTE_FILENAME)
-                            ->label(__('filament.resources.singularLabel.audio'))
-                            ->urlToRelated(Audio::class, VideoModel::RELATION_AUDIO),
+                        BelongsToEntry::make(VideoModel::RELATION_AUDIO, Audio::class),
                     ])
                     ->columns(3),
 

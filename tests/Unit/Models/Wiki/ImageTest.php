@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit\Models\Wiki;
 
 use App\Enums\Models\Wiki\ImageFacet;
-use App\Events\Wiki\Image\ImageDeleting;
+use App\Events\Wiki\Image\ImageForceDeleting;
 use App\Models\List\Playlist;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Artist;
@@ -173,7 +173,7 @@ class ImageTest extends TestCase
      */
     public function testImageStorageForceDeletion(): void
     {
-        Event::fakeExcept(ImageDeleting::class);
+        Event::fakeExcept(ImageForceDeleting::class);
 
         $fs = Storage::fake(Config::get('image.disk'));
         $file = File::fake()->image($this->faker->word().'.jpg');

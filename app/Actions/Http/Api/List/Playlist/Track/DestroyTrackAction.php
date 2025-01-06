@@ -32,6 +32,10 @@ class DestroyTrackAction
         try {
             DB::beginTransaction();
 
+            // Lock tracks to prevent race conditions.
+            $playlist->tracks()->getQuery()->lockForUpdate()->get();
+            $playlist->query()->lockForUpdate()->first();
+
             $removeAction = new RemoveTrackAction();
 
             $removeAction->remove($playlist, $track);

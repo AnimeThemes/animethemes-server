@@ -12,6 +12,8 @@ use Illuminate\Database\Eloquent\Relations\MorphOne;
  */
 trait AggregatesView
 {
+    final public const RELATION_VIEW_AGGREGATE = 'viewAggregate';
+
     /**
      * Get the views count of the model.
      *

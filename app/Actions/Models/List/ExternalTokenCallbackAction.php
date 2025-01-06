@@ -10,11 +10,11 @@ use App\Actions\Models\List\ExternalProfile\ExternalToken\Site\MalExternalTokenA
 use App\Actions\Models\List\ExternalProfile\StoreExternalProfileTokenAction;
 use App\Enums\Models\List\ExternalProfileSite;
 use App\Models\List\ExternalProfile;
-use Error;
 use Exception;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use RuntimeException;
 
 /**
  * Class ExternalTokenCallbackAction.
@@ -39,19 +39,11 @@ class ExternalTokenCallbackAction
 
             $action = $this->getActionClass($profileSite);
 
-            if ($action === null) {
-                throw new Error("Action not found for site {$profileSite->localize()}", 404);
-            }
-
             $externalToken = $action->store($parameters);
-
-            if ($externalToken === null) {
-                throw new Error('Invalid Code', 400);
-            }
 
             $profileAction = new StoreExternalProfileTokenAction();
 
-            $profile = $profileAction->findOrCreate($externalToken, $parameters);
+            $profile = $profileAction->firstOrCreate($externalToken, $parameters);
 
             $externalToken->externalprofile()->associate($profile);
 
@@ -71,14 +63,16 @@ class ExternalTokenCallbackAction
      * Get the mapping for the token class.
      *
      * @param  ExternalProfileSite  $site
-     * @return BaseExternalTokenAction|null
+     * @return BaseExternalTokenAction
+     *
+     * @throws RuntimeException
      */
-    protected function getActionClass(ExternalProfileSite $site): ?BaseExternalTokenAction
+    protected function getActionClass(ExternalProfileSite $site): BaseExternalTokenAction
     {
         return match ($site) {
             ExternalProfileSite::ANILIST => new AnilistExternalTokenAction(),
             ExternalProfileSite::MAL => new MalExternalTokenAction(),
-            default => null,
+            default => throw new RuntimeException("External token action not configured for site {$site->localize()}"),
         };
     }
 }

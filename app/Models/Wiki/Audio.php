@@ -9,6 +9,7 @@ use App\Concerns\Models\Service\AggregatesView;
 use App\Contracts\Models\Streamable;
 use App\Events\Wiki\Audio\AudioCreated;
 use App\Events\Wiki\Audio\AudioDeleted;
+use App\Events\Wiki\Audio\AudioForceDeleting;
 use App\Events\Wiki\Audio\AudioRestored;
 use App\Events\Wiki\Audio\AudioUpdated;
 use App\Models\BaseModel;
@@ -75,6 +76,7 @@ class Audio extends BaseModel implements Streamable, Viewable
     protected $dispatchesEvents = [
         'created' => AudioCreated::class,
         'deleted' => AudioDeleted::class,
+        'forceDeleting' => AudioForceDeleting::class,
         'restored' => AudioRestored::class,
         'updated' => AudioUpdated::class,
     ];

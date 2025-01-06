@@ -7,6 +7,7 @@ namespace App\Actions\Storage\Wiki\Image;
 use App\Actions\Storage\Base\MoveAction;
 use App\Constants\Config\ImageConstants;
 use App\Models\Wiki\Image;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
 
 /**
@@ -34,7 +35,7 @@ class MoveImageAction extends MoveAction
      */
     public function disks(): array
     {
-        return [Config::get(ImageConstants::DISKS_QUALIFIED)];
+        return Arr::wrap(Config::get(ImageConstants::DISKS_QUALIFIED));
     }
 
     /**

@@ -45,6 +45,10 @@ class StoreTrackAction
         try {
             DB::beginTransaction();
 
+            // Lock tracks to prevent race conditions.
+            $playlist->tracks()->getQuery()->lockForUpdate()->get();
+            $playlist->query()->lockForUpdate()->first();
+
             $storeAction = new StoreAction();
 
             /** @var PlaylistTrack $track */

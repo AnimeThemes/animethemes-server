@@ -8,6 +8,7 @@ use App\Actions\Discord\DiscordThreadAction;
 use App\Filament\Components\Columns\BelongsToColumn;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\BelongsTo;
+use App\Filament\Components\Infolist\BelongsToEntry;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Discord\DiscordThread\Pages\CreateDiscordThread;
@@ -191,9 +192,7 @@ class DiscordThread extends BaseResource
                         TextEntry::make(DiscordThreadModel::ATTRIBUTE_NAME)
                             ->label(__('filament.fields.discord_thread.name.name')),
 
-                        TextEntry::make(DiscordThreadModel::RELATION_ANIME.'.'.Anime::ATTRIBUTE_NAME)
-                            ->label(__('filament.resources.singularLabel.anime'))
-                            ->urlToRelated(AnimeResource::class, DiscordThreadModel::RELATION_ANIME),
+                        BelongsToEntry::make(DiscordThreadModel::RELATION_ANIME, AnimeResource::class),
                     ])
                     ->columns(3),
             ]);

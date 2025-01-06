@@ -11,6 +11,7 @@ use App\Filament\Components\Fields\Select;
 use App\Filament\Components\Filters\CheckboxFilter;
 use App\Filament\Components\Filters\NumberFilter;
 use App\Filament\Components\Filters\TextFilter;
+use App\Filament\Components\Infolist\BelongsToEntry;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Anime as AnimeResource;
@@ -21,7 +22,6 @@ use App\Filament\Resources\Wiki\Anime\Theme\Entry\Pages\ListEntries;
 use App\Filament\Resources\Wiki\Anime\Theme\Entry\Pages\ViewEntry;
 use App\Filament\Resources\Wiki\Anime\Theme\Entry\RelationManagers\VideoEntryRelationManager;
 use App\Filament\Resources\Wiki\Anime\Theme\RelationManagers\EntryThemeRelationManager;
-use App\Models\Wiki\Anime as AnimeModel;
 use App\Models\Wiki\Anime\AnimeTheme as ThemeModel;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry as EntryModel;
 use Filament\Forms\Components\Checkbox;
@@ -254,13 +254,9 @@ class Entry extends BaseResource
             ->schema([
                 Section::make(static::getRecordTitle($infolist->getRecord()))
                     ->schema([
-                        TextEntry::make(EntryModel::RELATION_ANIME.'.'.AnimeModel::ATTRIBUTE_NAME)
-                            ->label(__('filament.resources.singularLabel.anime'))
-                            ->urlToRelated(AnimeResource::class, EntryModel::RELATION_ANIME),
+                        BelongsToEntry::make(EntryModel::RELATION_ANIME_SHALLOW, AnimeResource::class),
 
-                        TextEntry::make(EntryModel::ATTRIBUTE_THEME)
-                            ->label(__('filament.resources.singularLabel.anime_theme'))
-                            ->urlToRelated(ThemeResource::class, EntryModel::RELATION_THEME, true),
+                        BelongsToEntry::make(EntryModel::RELATION_THEME, ThemeResource::class, true),
 
                         TextEntry::make(EntryModel::ATTRIBUTE_ID)
                             ->label(__('filament.fields.base.id')),

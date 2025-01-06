@@ -10,6 +10,7 @@ use App\Http\Api\Filter\IntFilter;
 use App\Http\Api\Schema\Schema;
 use App\Http\Api\Sort\Sort;
 use App\Models\Service\ViewAggregate;
+use App\Models\Wiki\Video;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -24,7 +25,7 @@ class VideoViewCountField extends AggregateField
      */
     public function __construct(Schema $schema)
     {
-        parent::__construct($schema, 'viewAggregate', AggregateFunction::SUM, ViewAggregate::ATTRIBUTE_VALUE);
+        parent::__construct($schema, Video::RELATION_VIEW_AGGREGATE, AggregateFunction::SUM, ViewAggregate::ATTRIBUTE_VALUE);
     }
 
     /**
@@ -34,7 +35,7 @@ class VideoViewCountField extends AggregateField
      */
     public function getFilter(): Filter
     {
-        return new IntFilter(key: $this->alias(), column: 'value', qualifyColumn: QualifyColumn::YES);
+        return new IntFilter(key: $this->alias(), column: ViewAggregate::ATTRIBUTE_VALUE, qualifyColumn: QualifyColumn::YES);
     }
 
     /**

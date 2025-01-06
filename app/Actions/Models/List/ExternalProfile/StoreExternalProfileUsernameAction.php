@@ -10,12 +10,12 @@ use App\Actions\Models\List\ExternalProfile\ExternalEntry\Username\AnilistExtern
 use App\Enums\Models\List\ExternalProfileSite;
 use App\Enums\Models\List\ExternalProfileVisibility;
 use App\Models\List\ExternalProfile;
-use Error;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use RuntimeException;
 
 /**
  * Class StoreExternalProfileUsernameAction.
@@ -23,7 +23,7 @@ use Illuminate\Support\Facades\Log;
 class StoreExternalProfileUsernameAction
 {
     /**
-     * Find or store an external profile and its entries given determined username.
+     * Get the first record or store an external profile and its entries given determined username.
      *
      * @param  Builder  $builder
      * @param  array  $profileParameters
@@ -31,9 +31,11 @@ class StoreExternalProfileUsernameAction
      *
      * @throws Exception
      */
-    public function findOrCreate(Builder $builder, array $profileParameters): ExternalProfile
+    public function firstOrCreate(Builder $builder, array $profileParameters): ExternalProfile
     {
         try {
+            DB::beginTransaction();
+
             $profileSite = ExternalProfileSite::fromLocalizedName(Arr::get($profileParameters, 'site'));
 
             $findProfile = ExternalProfile::query()
@@ -42,16 +44,11 @@ class StoreExternalProfileUsernameAction
                 ->first();
 
             if ($findProfile instanceof ExternalProfile) {
+                DB::rollBack();
                 return $findProfile;
             }
 
-            DB::beginTransaction();
-
-            $action = $this->getActionClass($profileSite, $profileParameters);
-
-            if ($action === null) {
-                throw new Error("Action not found for site {$profileSite->localize()}", 404);
-            }
+            $action = static::getActionClass($profileSite, $profileParameters);
 
             $storeAction = new StoreAction();
 
@@ -79,14 +76,16 @@ class StoreExternalProfileUsernameAction
      * Get the mapping for the entries class.
      *
      * @param  ExternalProfileSite  $site
-     * @param  array  $profileParameters
-     * @return BaseExternalEntryAction|null
+     * @param  ExternalProfile|array  $profile
+     * @return BaseExternalEntryAction
+     *
+     * @throws RuntimeException
      */
-    protected function getActionClass(ExternalProfileSite $site, array $profileParameters): ?BaseExternalEntryAction
+    public static function getActionClass(ExternalProfileSite $site, ExternalProfile|array $profile): BaseExternalEntryAction
     {
         return match ($site) {
-            ExternalProfileSite::ANILIST => new AnilistExternalEntryAction($profileParameters),
-            default => null,
+            ExternalProfileSite::ANILIST => new AnilistExternalEntryAction($profile),
+            default => throw new RuntimeException("External entry action not configured for site {$site->localize()}"),
         };
     }
 }

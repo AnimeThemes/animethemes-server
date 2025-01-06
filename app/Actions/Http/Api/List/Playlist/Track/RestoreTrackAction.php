@@ -32,6 +32,10 @@ class RestoreTrackAction
         try {
             DB::beginTransaction();
 
+            // Lock tracks to prevent race conditions.
+            $playlist->tracks()->getQuery()->lockForUpdate()->get();
+            $playlist->query()->lockForUpdate()->first();
+
             $restoreAction = new RestoreAction();
 
             $restoreAction->restore($track);
