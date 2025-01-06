@@ -9,6 +9,7 @@ use App\Filament\Components\Columns\BelongsToColumn;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\BelongsTo;
 use App\Filament\Components\Fields\Select;
+use App\Filament\Components\Infolist\BelongsToEntry;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\Admin\FeaturedTheme\Pages\CreateFeaturedTheme;
 use App\Filament\Resources\Admin\FeaturedTheme\Pages\EditFeaturedTheme;
@@ -19,8 +20,6 @@ use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Anime\Theme\Entry as EntryResource;
 use App\Filament\Resources\Wiki\Video as VideoResource;
 use App\Models\Admin\FeaturedTheme as FeaturedThemeModel;
-use App\Models\Auth\User;
-use App\Models\Wiki\Anime\Theme\AnimeThemeEntry as EntryModel;
 use App\Models\Wiki\Video;
 use App\Pivots\Wiki\AnimeThemeEntryVideo;
 use App\Rules\Admin\StartDateBeforeEndDateRule;
@@ -245,17 +244,11 @@ class FeaturedTheme extends BaseResource
                             ->label(__('filament.fields.featured_theme.end_at'))
                             ->date(),
 
-                        TextEntry::make(FeaturedThemeModel::RELATION_VIDEO.'.'.Video::ATTRIBUTE_FILENAME)
-                            ->label(__('filament.resources.singularLabel.video'))
-                            ->urlToRelated(VideoResource::class, FeaturedThemeModel::RELATION_VIDEO),
+                        BelongsToEntry::make(FeaturedThemeModel::RELATION_VIDEO, VideoResource::class),
 
-                        TextEntry::make(FeaturedThemeModel::RELATION_ENTRY)
-                            ->label(__('filament.resources.singularLabel.anime_theme_entry'))
-                            ->urlToRelated(EntryResource::class, FeaturedThemeModel::RELATION_ENTRY, true),
+                        BelongsToEntry::make(FeaturedThemeModel::RELATION_ENTRY, EntryResource::class),
 
-                        TextEntry::make(FeaturedThemeModel::RELATION_USER.'.'.User::ATTRIBUTE_NAME)
-                            ->label(__('filament.resources.singularLabel.user'))
-                            ->urlToRelated(UserResource::class, FeaturedThemeModel::RELATION_USER),
+                        BelongsToEntry::make(FeaturedThemeModel::RELATION_USER, UserResource::class),
                     ])
                     ->columns(3),
 

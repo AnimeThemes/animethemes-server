@@ -9,6 +9,7 @@ use App\Filament\Components\Columns\BelongsToColumn;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\BelongsTo;
 use App\Filament\Components\Fields\Select;
+use App\Filament\Components\Infolist\BelongsToEntry;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\List\Playlist as PlaylistResource;
@@ -19,7 +20,6 @@ use App\Filament\Resources\List\Playlist\Track\Pages\ListTracks;
 use App\Filament\Resources\List\Playlist\Track\Pages\ViewTrack;
 use App\Filament\Resources\Wiki\Anime\Theme\Entry;
 use App\Filament\Resources\Wiki\Video as VideoResource;
-use App\Models\List\Playlist as PlaylistModel;
 use App\Models\List\Playlist\PlaylistTrack as TrackModel;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video as VideoModel;
@@ -236,9 +236,7 @@ class Track extends BaseResource
             ->schema([
                 Section::make(static::getRecordTitle($infolist->getRecord()))
                     ->schema([
-                        TextEntry::make(TrackModel::RELATION_PLAYLIST . '.' . PlaylistModel::ATTRIBUTE_NAME)
-                            ->label(__('filament.resources.singularLabel.playlist'))
-                            ->urlToRelated(PlaylistResource::class, TrackModel::RELATION_PLAYLIST),
+                        BelongsToEntry::make(TrackModel::RELATION_PLAYLIST, PlaylistResource::class),
 
                         TextEntry::make(TrackModel::ATTRIBUTE_HASHID)
                             ->label(__('filament.fields.playlist_track.hashid.name')),
@@ -246,21 +244,15 @@ class Track extends BaseResource
                         TextEntry::make(TrackModel::ATTRIBUTE_ID)
                             ->label(__('filament.fields.base.id')),
 
-                        TextEntry::make(TrackModel::RELATION_ENTRY)
-                            ->label(__('filament.resources.singularLabel.anime_theme_entry'))
-                            ->urlToRelated(Entry::class, TrackModel::RELATION_ENTRY, true),
+                        BelongsToEntry::make(TrackModel::RELATION_ENTRY, Entry::class),
 
-                        TextEntry::make(TrackModel::RELATION_VIDEO . '.' . VideoModel::ATTRIBUTE_FILENAME)
-                            ->label(__('filament.resources.singularLabel.video'))
-                            ->urlToRelated(VideoResource::class, TrackModel::RELATION_VIDEO),
+                        BelongsToEntry::make(TrackModel::RELATION_VIDEO, VideoResource::class),
 
-                        TextEntry::make(TrackModel::RELATION_PREVIOUS . '.' . TrackModel::RELATION_VIDEO . '.' . VideoModel::ATTRIBUTE_FILENAME)
-                            ->label(__('filament.fields.playlist_track.previous.name'))
-                            ->urlToRelated(Track::class, TrackModel::RELATION_PREVIOUS),
+                        BelongsToEntry::make(TrackModel::RELATION_PREVIOUS, Track::class)
+                            ->label(__('filament.fields.playlist_track.previous.name')),
 
-                        TextEntry::make(TrackModel::RELATION_NEXT . '.' . TrackModel::RELATION_VIDEO . '.' . VideoModel::ATTRIBUTE_FILENAME)
-                            ->label(__('filament.fields.playlist_track.next.name'))
-                            ->urlToRelated(Track::class, TrackModel::RELATION_NEXT),
+                        BelongsToEntry::make(TrackModel::RELATION_NEXT, Track::class)
+                            ->label(__('filament.fields.playlist_track.next.name')),
                     ])
                     ->columns(3),
 

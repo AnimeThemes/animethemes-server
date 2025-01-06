@@ -10,6 +10,7 @@ use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\BelongsTo;
 use App\Filament\Components\Fields\Select;
 use App\Filament\Components\Filters\NumberFilter;
+use App\Filament\Components\Infolist\BelongsToEntry;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\RelationManagers\Wiki\Anime\ThemeRelationManager;
 use App\Filament\Resources\BaseResource;
@@ -25,7 +26,6 @@ use App\Filament\Resources\Wiki\Artist as ArtistResource;
 use App\Filament\Resources\Wiki\Group as GroupResource;
 use App\Filament\Resources\Wiki\Song as SongResource;
 use App\Filament\Resources\Wiki\Song\RelationManagers\ThemeSongRelationManager;
-use App\Models\Wiki\Anime as AnimeModel;
 use App\Models\Wiki\Anime\AnimeTheme as ThemeModel;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Group;
@@ -220,7 +220,7 @@ class Theme extends BaseResource
                                         }
                                     }),
 
-                                Repeater::make(ThemeModel::RELATION_SONG . '.' . Song::RELATION_ARTISTS)
+                                Repeater::make(ThemeModel::RELATION_ARTISTS)
                                     ->label(__('filament.resources.label.artists'))
                                     ->addActionLabel(__('filament.buttons.add').' '.__('filament.resources.singularLabel.artist'))
                                     ->hidden(fn (Get $get) => $get(ThemeModel::ATTRIBUTE_SONG) === null)
@@ -344,9 +344,7 @@ class Theme extends BaseResource
                         TextEntry::make(ThemeModel::ATTRIBUTE_ID)
                             ->label(__('filament.fields.base.id')),
 
-                        TextEntry::make(ThemeModel::RELATION_ANIME . '.' . AnimeModel::ATTRIBUTE_NAME)
-                            ->label(__('filament.resources.singularLabel.anime'))
-                            ->urlToRelated(AnimeResource::class, ThemeModel::RELATION_ANIME),
+                        BelongsToEntry::make(ThemeModel::RELATION_ANIME, AnimeResource::class),
 
                         TextEntry::make(ThemeModel::ATTRIBUTE_TYPE)
                             ->label(__('filament.fields.anime_theme.type.name'))
@@ -359,36 +357,20 @@ class Theme extends BaseResource
                             ->label(__('filament.fields.anime_theme.slug.name'))
                             ->formatStateUsing(fn ($state) => ThemeModel::withTrashed()->find(intval($state))->getName()),
 
-                        TextEntry::make(ThemeModel::RELATION_GROUP . '.' . Group::ATTRIBUTE_NAME)
-                            ->label(__('filament.resources.singularLabel.group'))
-                            ->urlToRelated(GroupResource::class, ThemeModel::RELATION_GROUP),
+                        BelongsToEntry::make(ThemeModel::RELATION_GROUP, GroupResource::class)
+                            ->label(__('filament.resources.singularLabel.group')),
 
-                        TextEntry::make(ThemeModel::RELATION_SONG . '.' . Song::ATTRIBUTE_TITLE)
-                            ->label(__('filament.resources.singularLabel.song'))
-                            ->urlToRelated(SongResource::class, ThemeModel::RELATION_SONG),
+                        BelongsToEntry::make(ThemeModel::RELATION_SONG, SongResource::class)
+                            ->label(__('filament.resources.singularLabel.song')),
                     ])
                     ->columns(3),
 
                 Section::make(__('filament.resources.singularLabel.song'))
-                    ->relationship(ThemeModel::RELATION_SONG)
                     ->schema([
-                        RepeatableEntry::make(__('filament.resources.label.artists'))
-                            ->schema([
-                                TextEntry::make(Artist::ATTRIBUTE_ID)
-                                    ->label(__('filament.fields.base.id')),
-
-                                TextEntry::make(Artist::ATTRIBUTE_NAME)
-                                    ->label(__('filament.fields.artist.name.name'))
-                                    ->urlToRelated(ArtistResource::class, '')
-                                    ->formatStateUsing(fn ($state) => "<p style='color: rgb(64, 184, 166);'>{$state}</p>"),
-
-                                TextEntry::make(Artist::ATTRIBUTE_SLUG)
-                                    ->label(__('filament.fields.artist.slug.name')),
-
-                                TextEntry::make('artistsong' . '.' . ArtistSong::ATTRIBUTE_AS)
-                                    ->label(__('filament.fields.artist.songs.as.name')),
-                            ])
-                            ->columns(4),
+                        RepeatableEntry::make(ThemeModel::RELATION_ARTISTS)
+                            ->label('')
+                            ->schema(ArtistResource::infolist($infolist)->getComponents())
+                            ->columnSpanFull(),
                     ]),
 
                 Section::make(__('filament.fields.base.timestamps'))

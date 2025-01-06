@@ -10,6 +10,7 @@ use App\Filament\Components\Columns\BelongsToColumn;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\BelongsTo;
 use App\Filament\Components\Fields\Select;
+use App\Filament\Components\Infolist\BelongsToEntry;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\Auth\User as UserResource;
 use App\Filament\Resources\BaseResource;
@@ -20,9 +21,7 @@ use App\Filament\Resources\List\Playlist\Pages\ViewPlaylist;
 use App\Filament\Resources\List\Playlist\RelationManagers\ImagePlaylistRelationManager;
 use App\Filament\Resources\List\Playlist\RelationManagers\TrackPlaylistRelationManager;
 use App\Filament\Resources\List\Playlist\Track;
-use App\Models\Auth\User;
 use App\Models\List\Playlist as PlaylistModel;
-use App\Models\List\Playlist\PlaylistTrack;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
@@ -225,9 +224,7 @@ class Playlist extends BaseResource
             ->schema([
                 Section::make(static::getRecordTitle($infolist->getRecord()))
                     ->schema([
-                        TextEntry::make(PlaylistModel::ATTRIBUTE_USER)
-                            ->label(__('filament.resources.singularLabel.user'))
-                            ->urlToRelated(UserResource::class, PlaylistModel::RELATION_USER),
+                        BelongsToEntry::make(PlaylistModel::RELATION_USER, UserResource::class),
 
                         TextEntry::make(PlaylistModel::ATTRIBUTE_NAME)
                             ->label(__('filament.fields.playlist.name.name'))
@@ -242,13 +239,11 @@ class Playlist extends BaseResource
                             ->label(__('filament.fields.playlist.hashid.name'))
                             ->copyableWithMessage(),
 
-                        TextEntry::make(PlaylistModel::ATTRIBUTE_FIRST)
-                            ->label(__('filament.fields.playlist.first.name'))
-                            ->urlToRelated(Track::class, PlaylistModel::RELATION_FIRST),
+                        BelongsToEntry::make(PlaylistModel::RELATION_FIRST, Track::class)
+                            ->label(__('filament.fields.playlist.first.name')),
 
-                        TextEntry::make(PlaylistModel::ATTRIBUTE_LAST)
-                            ->label(__('filament.fields.playlist.last.name'))
-                            ->urlToRelated(Track::class, PlaylistModel::RELATION_LAST),
+                        BelongsToEntry::make(PlaylistModel::RELATION_LAST, Track::class)
+                            ->label(__('filament.fields.playlist.last.name')),
 
                         TextEntry::make(PlaylistModel::ATTRIBUTE_ID)
                             ->label(__('filament.fields.base.id')),

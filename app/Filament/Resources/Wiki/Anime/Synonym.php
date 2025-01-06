@@ -9,6 +9,7 @@ use App\Filament\Components\Columns\BelongsToColumn;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\BelongsTo;
 use App\Filament\Components\Fields\Select;
+use App\Filament\Components\Infolist\BelongsToEntry;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\RelationManagers\Wiki\Anime\SynonymRelationManager;
 use App\Filament\Resources\BaseResource;
@@ -18,7 +19,6 @@ use App\Filament\Resources\Wiki\Anime\Synonym\Pages\CreateSynonym;
 use App\Filament\Resources\Wiki\Anime\Synonym\Pages\EditSynonym;
 use App\Filament\Resources\Wiki\Anime\Synonym\Pages\ListSynonyms;
 use App\Filament\Resources\Wiki\Anime\Synonym\Pages\ViewSynonym;
-use App\Models\Wiki\Anime as AnimeModel;
 use App\Models\Wiki\Anime\AnimeSynonym as SynonymModel;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
@@ -191,17 +191,17 @@ class Synonym extends BaseResource
                         TextEntry::make(SynonymModel::ATTRIBUTE_ID)
                             ->label(__('filament.fields.base.id')),
 
-                        TextEntry::make(SynonymModel::RELATION_ANIME.'.'.AnimeModel::ATTRIBUTE_NAME)
-                            ->label(__('filament.resources.singularLabel.anime'))
-                            ->urlToRelated(AnimeResource::class, SynonymModel::RELATION_ANIME),
+                        BelongsToEntry::make(SynonymModel::RELATION_ANIME, AnimeResource::class),
 
                         TextEntry::make(SynonymModel::ATTRIBUTE_TYPE)
                             ->label(__('filament.fields.anime_synonym.type.name'))
                             ->formatStateUsing(fn (AnimeSynonymType $state) => $state->localize()),
 
                         TextEntry::make(SynonymModel::ATTRIBUTE_TEXT)
-                            ->label(__('filament.fields.anime_synonym.text.name')),
-                    ]),
+                            ->label(__('filament.fields.anime_synonym.text.name'))
+                            ->columnSpanFull(),
+                    ])
+                    ->columns(3),
 
                 Section::make(__('filament.fields.base.timestamps'))
                     ->schema(parent::timestamps())
