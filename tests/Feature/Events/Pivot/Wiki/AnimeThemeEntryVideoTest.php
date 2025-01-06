@@ -77,7 +77,7 @@ class AnimeThemeEntryVideoTest extends TestCase
         Event::assertDispatched(AnimeThemeEntryVideoCreated::class, function (AnimeThemeEntryVideoCreated $event) use ($entry, $track) {
             $event->updatePlaylistTracks();
 
-            return $track->animethemeentry()->is($entry);
+            return $track->refresh()->animethemeentry()->is($entry);
         });
     }
 
@@ -112,7 +112,7 @@ class AnimeThemeEntryVideoTest extends TestCase
         Event::assertDispatched(AnimeThemeEntryVideoDeleted::class, function (AnimeThemeEntryVideoDeleted $event) use ($entry2, $track) {
             $event->updatePlaylistTracks();
 
-            return $track->animethemeentry()->is($entry2);
+            return $track->refresh()->animethemeentry()->is($entry2);
         });
     }
 }

@@ -230,7 +230,7 @@ class Artist extends BaseResource
 
                 Section::make(__('filament.fields.base.timestamps'))
                     ->schema(parent::timestamps())
-                    ->visible(fn (Section $component) => $component->getLivewire() instanceof self)
+                    ->visible(fn (Section $component) => $component->getLivewire() instanceof ViewArtist)
                     ->columns(3),
             ]);
     }

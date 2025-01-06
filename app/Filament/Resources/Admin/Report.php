@@ -169,7 +169,7 @@ class Report extends BaseResource
                             ->formatStateUsing(fn (ApprovableStatus $state) => $state->localize())
                             ->badge(),
 
-                        TextEntry::make(ReportModel::RELATION_USER, UserResource::class),
+                        BelongsToEntry::make(ReportModel::RELATION_USER, UserResource::class),
 
                         BelongsToEntry::make(ReportModel::RELATION_MODERATOR, UserResource::class)
                             ->label(__('filament.fields.report.moderator')),
