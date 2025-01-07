@@ -126,11 +126,6 @@ class ArtistPolicy extends BasePolicy
      */
     public function attachArtist(User $user, Artist $artist, Artist $artist2): bool
     {
-        if ($artist->is($artist2)) {
-            // An artist cannot be a member/group of themselves
-            return false;
-        }
-
         $attached = ArtistMember::query()
             ->where(ArtistMember::ATTRIBUTE_ARTIST, $artist->getKey())
             ->where(ArtistMember::ATTRIBUTE_MEMBER, $artist2->getKey())
