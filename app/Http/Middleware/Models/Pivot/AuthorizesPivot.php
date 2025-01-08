@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Middleware\Models;
+namespace App\Http\Middleware\Models\Pivot;
 
 use App\Models\Auth\User;
 use Closure;

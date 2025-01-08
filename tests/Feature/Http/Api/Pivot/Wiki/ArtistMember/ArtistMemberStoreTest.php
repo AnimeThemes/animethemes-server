@@ -94,8 +94,8 @@ class ArtistMemberStoreTest extends TestCase
         $response = $this->post(route('api.artistmember.store', ['artist' => $artist, 'member' => $artist] + $parameters));
 
         $response->assertJsonValidationErrors([
-            ArtistMember::ATTRIBUTE_ARTIST,
-            ArtistMember::ATTRIBUTE_MEMBER,
+            ArtistMember::RELATION_ARTIST,
+            ArtistMember::RELATION_MEMBER,
         ]);
     }
 }
