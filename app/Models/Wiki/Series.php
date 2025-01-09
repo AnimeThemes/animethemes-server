@@ -14,6 +14,7 @@ use App\Models\BaseModel;
 use App\Pivots\Wiki\AnimeSeries;
 use Database\Factories\Wiki\SeriesFactory;
 use Elastic\ScoutDriverPlus\Searchable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Collection;
 
@@ -39,6 +40,7 @@ class Series extends BaseModel
     final public const ATTRIBUTE_SLUG = 'slug';
 
     final public const RELATION_ANIME = 'anime';
+    final public const RELATION_ANIME_SYNONYMS = 'anime.animesynonyms';
 
     /**
      * The attributes that are mass assignable.
@@ -77,6 +79,32 @@ class Series extends BaseModel
      * @var string
      */
     protected $primaryKey = Series::ATTRIBUTE_ID;
+
+    /**
+     * Modify the query used to retrieve models when making all of the models searchable.
+     *
+     * @param  Builder  $query
+     * @return Builder
+     */
+    protected function makeAllSearchableUsing(Builder $query): Builder
+    {
+        return $query->with(Series::RELATION_ANIME_SYNONYMS);
+    }
+
+    /**
+     * Get the indexable data array for the model.
+     *
+     * @return array
+     */
+    public function toSearchableArray(): array
+    {
+        $array = $this->toArray();
+        $array['anime'] = $this->anime->map(
+            fn (Anime $anime) => $anime->toSearchableArray()
+        )->toArray();
+
+        return $array;
+    }
 
     /**
      * Get the route key for the model.
