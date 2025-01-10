@@ -37,7 +37,7 @@ trait CanCreateExternalResource
                 $url = $site->formatResourceLink($model::class, intval($matches[2]), $matches[2], $matches[1]);
             }
 
-            if ($id !== null) {
+            if ($id !== null && !$site->usesIdInLink()) {
                 $url = $site->formatResourceLink($model::class, intval($id), $id);
             }
         }
