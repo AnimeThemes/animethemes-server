@@ -6,7 +6,6 @@ namespace App\Filament\BulkActions\Models\Wiki\Video;
 
 use App\Actions\Discord\DiscordVideoNotificationAction as DiscordVideoNotificationActionAction;
 use App\Enums\Actions\Models\Wiki\Video\NotificationType;
-use App\Enums\Actions\Models\Wiki\Video\ShouldForceThread;
 use App\Filament\BulkActions\BaseBulkAction;
 use App\Filament\Components\Fields\Select;
 use App\Models\Discord\DiscordThread;
@@ -70,14 +69,6 @@ class VideoDiscordNotificationBulkAction extends BaseBulkAction
                     ->default(NotificationType::ADDED->value)
                     ->required()
                     ->rules(['required', new Enum(NotificationType::class)]),
-
-                Select::make(ShouldForceThread::getFieldKey())
-                    ->label(__('filament.bulk_actions.discord.notification.should_force.name'))
-                    ->helperText(__('filament.bulk_actions.discord.notification.should_force.help'))
-                    ->options(ShouldForceThread::asSelectArray())
-                    ->default(ShouldForceThread::NO->value)
-                    ->required()
-                    ->rules(['required', new Enum(ShouldForceThread::class)]),
             ]);
     }
 }

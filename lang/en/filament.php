@@ -441,10 +441,6 @@ return [
             'notification' => [
                 'icon' => 'heroicon-o-bell',
                 'name' => 'Create Discord Notification',
-                'should_force' => [
-                    'help' => 'If yes, the thread will be created if it does not exist',
-                    'name' => 'Should force thread?',
-                ],
                 'should_send' => [
                     'help' => 'If yes, the notification will be created.',
                     'name' => 'Should send notification?',

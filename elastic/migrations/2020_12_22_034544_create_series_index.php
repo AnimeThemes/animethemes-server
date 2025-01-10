@@ -34,6 +34,61 @@ final class CreateSeriesIndex implements MigrationInterface
                 ],
             ]);
             $mapping->date('updated_at');
+            $mapping->nested('anime', [
+                'properties' => [
+                    'anime_id' => [
+                        'type' => 'long',
+                    ],
+                    'created_at' => [
+                        'type' => 'date',
+                    ],
+                    'name' => [
+                        'type' => 'text',
+                        'copy_to' => ['anime_slug'],
+                    ],
+                    'season' => [
+                        'type' => 'long',
+                    ],
+                    'slug' => [
+                        'type' => 'text',
+                    ],
+                    'synonyms' => [
+                        'type' => 'nested',
+                        'properties' => [
+                            'anime_id' => [
+                                'type' => 'long',
+                            ],
+                            'created_at' => [
+                                'type' => 'date',
+                            ],
+                            'synonym_id' => [
+                                'type' => 'long',
+                            ],
+                            'text' => [
+                                'type' => 'text',
+                                'copy_to' => ['synonym_slug'],
+                            ],
+                            'type' => [
+                                'type' => 'long',
+                            ],
+                            'updated_at' => [
+                                'type' => 'date',
+                            ],
+                        ],
+                    ],
+                    'synopsis' => [
+                        'type' => 'text',
+                    ],
+                    'updated_at' => [
+                        'type' => 'date',
+                    ],
+                    'year' => [
+                        'type' => 'long',
+                    ],
+                ]
+            ]);
+            $mapping->text('anime_slug');
+            $mapping->text('synonym_slug');
         });
     }
 

@@ -8,7 +8,7 @@ use App\Contracts\Http\Api\InteractsWithSchema;
 use App\Http\Api\Schema\Schema;
 use App\Http\Controllers\Controller;
 use App\Http\Middleware\Auth\Authenticate;
-use App\Http\Middleware\Models\AuthorizesPivot;
+use App\Http\Middleware\Models\Pivot\AuthorizesPivot;
 use Illuminate\Support\Str;
 
 /**

@@ -292,12 +292,12 @@ enum ResourceSite: int
      * Get the URL of the site for resources by determined model.
      *
      * @param  class-string  $modelClass
-     * @param  int  $id
+     * @param  int|null  $id
      * @param  string|null  $slug
      * @param  string|null  $type
      * @return string|null
      */
-    public function formatResourceLink(string $modelClass, int $id, ?string $slug = null, ?string $type = null): ?string
+    public function formatResourceLink(string $modelClass, ?int $id = null, ?string $slug = null, ?string $type = null): ?string
     {
         if ($modelClass === Anime::class) {
             return match ($this) {
@@ -360,6 +360,19 @@ enum ResourceSite: int
         }
 
         return null;
+    }
+
+    /**
+     * Determine whether the resource uses external id in the url.
+     *
+     * @return bool
+     */
+    public function usesIdInLink(): bool
+    {
+        return match ($this) {
+            ResourceSite::ANIME_PLANET => false,
+            default => true,
+        };
     }
 
     /**
