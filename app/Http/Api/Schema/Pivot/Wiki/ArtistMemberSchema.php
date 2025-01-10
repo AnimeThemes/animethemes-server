@@ -8,10 +8,8 @@ use App\Http\Api\Field\Base\CreatedAtField;
 use App\Http\Api\Field\Base\UpdatedAtField;
 use App\Http\Api\Field\Field;
 use App\Http\Api\Field\Pivot\Wiki\ArtistMember\ArtistMemberAliasField;
-use App\Http\Api\Field\Pivot\Wiki\ArtistMember\ArtistMemberArtistField;
 use App\Http\Api\Field\Pivot\Wiki\ArtistMember\ArtistMemberArtistIdField;
 use App\Http\Api\Field\Pivot\Wiki\ArtistMember\ArtistMemberAsField;
-use App\Http\Api\Field\Pivot\Wiki\ArtistMember\ArtistMemberMemberField;
 use App\Http\Api\Field\Pivot\Wiki\ArtistMember\ArtistMemberMemberIdField;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\EloquentSchema;
@@ -63,8 +61,6 @@ class ArtistMemberSchema extends EloquentSchema
             new ArtistMemberMemberIdField($this),
             new ArtistMemberAliasField($this),
             new ArtistMemberAsField($this),
-            new ArtistMemberArtistField($this),
-            new ArtistMemberMemberField($this),
         ];
     }
 }

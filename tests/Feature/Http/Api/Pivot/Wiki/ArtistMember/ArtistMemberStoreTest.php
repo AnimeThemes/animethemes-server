@@ -75,27 +75,4 @@ class ArtistMemberStoreTest extends TestCase
         $response->assertCreated();
         static::assertDatabaseCount(ArtistMember::class, 1);
     }
-
-    /**
-     * The Artist Member Store Endpoint shall prohibit artist_id & member_id being the same.
-     *
-     * @return void
-     */
-    public function testArtistNotMemberOfThemselves(): void
-    {
-        $artist = Artist::factory()->createOne();
-
-        $parameters = ArtistMember::factory()->raw();
-
-        $user = User::factory()->withPermissions(CrudPermission::CREATE->format(Artist::class))->createOne();
-
-        Sanctum::actingAs($user);
-
-        $response = $this->post(route('api.artistmember.store', ['artist' => $artist, 'member' => $artist] + $parameters));
-
-        $response->assertJsonValidationErrors([
-            ArtistMember::RELATION_ARTIST,
-            ArtistMember::RELATION_MEMBER,
-        ]);
-    }
 }
