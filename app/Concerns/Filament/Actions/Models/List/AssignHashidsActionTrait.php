@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Concerns\Filament\Actions\Models;
+namespace App\Concerns\Filament\Actions\Models\List;
 
 use App\Actions\Models\AssignHashidsAction as AssignHashids;
 use App\Contracts\Models\HasHashids;
@@ -26,7 +26,7 @@ trait AssignHashidsActionTrait
     {
         parent::setUp();
 
-        $this->label(__('filament.actions.models.assign_hashids.name'));
+        $this->label(__('filament.actions.models.list.assign_hashids.name'));
 
         $this->authorize('update', Playlist::class);
 

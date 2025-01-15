@@ -8,6 +8,7 @@ use App\Contracts\Models\HasResources;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\BaseModel;
 use App\Models\Wiki\ExternalResource;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Log;
 
 /**
@@ -28,7 +29,7 @@ trait CanCreateExternalResource
     public function createResource(string $url, ResourceSite $site, (BaseModel&HasResources)|null $model = null): ExternalResource
     {
         $url = $this->ensureHttpsUrl($url);
-        $id = $site::parseIdFromLink($url);
+        $id = ResourceSite::parseIdFromLink($url);
 
         if ($model instanceof BaseModel) {
             $urlPattern = $site->getUrlCaptureGroups($model);
@@ -37,15 +38,17 @@ trait CanCreateExternalResource
                 $url = $site->formatResourceLink($model::class, intval($matches[2]), $matches[2], $matches[1]);
             }
 
-            if ($id !== null && !$site->usesIdInLink()) {
+            if ($id !== null && $site->usesIdInLink()) {
                 $url = $site->formatResourceLink($model::class, intval($id), $id);
             }
         }
 
         $resource = ExternalResource::query()
             ->where(ExternalResource::ATTRIBUTE_SITE, $site->value)
-            ->where(ExternalResource::ATTRIBUTE_LINK, $url)
-            ->orWhere(ExternalResource::ATTRIBUTE_LINK, $url . '/')
+            ->where(function (Builder $query) use ($url) {
+                return $query->where(ExternalResource::ATTRIBUTE_LINK, $url)
+                    ->orWhere(ExternalResource::ATTRIBUTE_LINK, $url . '/');
+            })
             ->first();
 
         if ($resource === null) {

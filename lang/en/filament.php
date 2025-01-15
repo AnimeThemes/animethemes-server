@@ -192,15 +192,18 @@ return [
             ],
         ],
         'models' => [
-            'assign_hashids' => [
-                'name' => 'Assign Hashids',
-                'confirmButtonText' => 'Assign',
-            ],
             'list' => [
+                'assign_hashids' => [
+                    'name' => 'Assign Hashids',
+                    'confirmButtonText' => 'Assign',
+                ],
                 'external_profile' => [
                     'create' => [
                         'name' => 'Create External Profile',
                     ],
+                ],
+                'fix_playlist' => [
+                    'name' => 'Fix Playlist Cycles',
                 ],
             ],
             'wiki' => [

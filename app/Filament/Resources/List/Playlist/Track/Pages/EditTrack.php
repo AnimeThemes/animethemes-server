@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\List\Playlist\Track\Pages;
 
-use App\Filament\HeaderActions\Models\AssignHashidsHeaderAction;
+use App\Filament\HeaderActions\Models\List\AssignHashidsHeaderAction;
 use App\Filament\Resources\List\Playlist\Track;
 use App\Filament\Resources\Base\BaseEditResource;
 use App\Models\List\Playlist\PlaylistTrack;
