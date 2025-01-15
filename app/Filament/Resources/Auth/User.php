@@ -166,6 +166,7 @@ class User extends BaseResource
 
                 TextColumn::make(UserModel::ATTRIBUTE_EMAIL)
                     ->label(__('filament.fields.user.email'))
+                    ->searchable(isIndividual: true)
                     ->icon('heroicon-m-envelope'),
             ]);
     }
