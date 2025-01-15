@@ -26,7 +26,7 @@ class FixPlaylistAction
     public function handle(Playlist $playlist, mixed $context = null): int
     {
         // Fetch all tracks in the playlist and index them by track_id
-        $messages[] = "Fetching tracks for playlist ID: {$playlist->getKey()}...";
+        $this->sendMessage("Fetching tracks for playlist ID: {$playlist->getKey()}...", $context, 'info');
 
         /** @var Collection<int, PlaylistTrack> $tracks */
         $tracks = PlaylistTrack::where(PlaylistTrack::ATTRIBUTE_PLAYLIST, $playlist->getKey())
@@ -35,7 +35,6 @@ class FixPlaylistAction
             ->keyBy(PlaylistTrack::ATTRIBUTE_ID);
 
         // Find the playlist and get the first_id
-        $messages[] =
         $this->sendMessage("Fetching playlist details...", $context, 'info');
 
         $first_id = $playlist->first_id;
@@ -128,8 +127,8 @@ class FixPlaylistAction
 
         $translatedType = match (true) {
             $context === 'log' => match ($type) {
-                'info' => 'info',
                 'warn' => 'warning',
+                default => $type,
             },
             default => $type,
         };
@@ -137,6 +136,7 @@ class FixPlaylistAction
         match (true) {
             $context instanceof Command => $context->$translatedType($message),
             $context === 'log' => Log::$translatedType($message),
+            default => null,
         };
     }
 }

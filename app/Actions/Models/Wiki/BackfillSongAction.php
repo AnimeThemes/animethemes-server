@@ -30,8 +30,6 @@ class BackfillSongAction extends BackfillAction
      *
      * @param  Song  $song
      * @param  string  $lnkto
-     * @param  array|null  $fields
-     * @param  ResourceSite[]|null  $sites
      */
     public function __construct(
         Song $song,
