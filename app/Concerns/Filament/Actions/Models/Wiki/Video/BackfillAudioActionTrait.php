@@ -44,7 +44,7 @@ trait BackfillAudioActionTrait
 
         $this->label(__('filament.actions.video.backfill.name'));
 
-        $this->icon('heroicon-o-speaker-wave');
+        $this->icon(__('filament-icons.actions.video.backfill'));
 
         $this->authorize('create', Audio::class);
 

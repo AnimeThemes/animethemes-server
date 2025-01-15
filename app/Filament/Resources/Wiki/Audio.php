@@ -82,7 +82,7 @@ class Audio extends BaseResource
      */
     public static function getNavigationIcon(): string
     {
-        return __('filament.resources.icon.audios');
+        return __('filament-icons.resources.audios');
     }
 
     /**

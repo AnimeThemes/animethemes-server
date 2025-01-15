@@ -23,7 +23,7 @@ abstract class PruneTableAction extends StorageTableAction
     {
         parent::setUp();
 
-        $this->icon(__('filament.table_actions.base.prune.icon'));
+        $this->icon(__('filament-icons.table_actions.base.prune'));
     }
 
     /**

@@ -88,7 +88,7 @@ class Playlist extends BaseResource
      */
     public static function getNavigationIcon(): string
     {
-        return __('filament.resources.icon.playlists');
+        return __('filament-icons.resources.playlists');
     }
 
     /**

@@ -24,7 +24,7 @@ trait DeleteActionTrait
 
         $this->color('danger');
 
-        $this->icon('heroicon-m-trash');
+        $this->icon(__('filament-icons.actions.base.delete'));
     }
 
     /**

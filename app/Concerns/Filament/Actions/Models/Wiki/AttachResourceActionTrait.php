@@ -36,7 +36,7 @@ trait AttachResourceActionTrait
         parent::setUp();
 
         $this->label(__('filament.actions.models.wiki.attach_resource.name'));
-        $this->icon('heroicon-o-queue-list');
+        $this->icon(__('filament-icons.actions.models.wiki.attach_resource'));
 
         $this->modalWidth(MaxWidth::FourExtraLarge);
 

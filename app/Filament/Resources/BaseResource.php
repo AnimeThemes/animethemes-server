@@ -158,7 +158,7 @@ abstract class BaseResource extends Resource
 
                 ForceDeleteAction::make(),
             ])
-                ->icon('heroicon-o-trash')
+                ->icon(__('filament-icons.actions.base.group_delete'))
                 ->color('danger'),
 
             RestoreAction::make(),

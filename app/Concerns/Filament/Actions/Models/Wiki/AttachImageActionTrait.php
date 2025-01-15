@@ -32,7 +32,7 @@ trait AttachImageActionTrait
         parent::setUp();
 
         $this->label(__('filament.actions.models.wiki.attach_image.name'));
-        $this->icon('heroicon-o-photo');
+        $this->icon(__('filament-icons.actions.models.wiki.attach_image'));
 
         $this->authorize('create', Image::class);
 

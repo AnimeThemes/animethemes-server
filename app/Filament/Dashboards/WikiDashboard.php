@@ -41,7 +41,7 @@ class WikiDashboard extends BaseDashboard
      */
     public static function getNavigationIcon(): string
     {
-        return __('filament.dashboards.icon.wiki');;
+        return __('filament-icons.dashboards.wiki');;
     }
 
     /**

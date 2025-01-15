@@ -35,7 +35,7 @@ abstract class BaseEditResource extends EditRecord
 
                 ForceDeleteHeaderAction::make(),
             ])
-                ->icon('heroicon-o-trash')
+                ->icon(__('filament-icons.actions.base.group_delete'))
                 ->color('danger'),
 
             RestoreHeaderAction::make(),

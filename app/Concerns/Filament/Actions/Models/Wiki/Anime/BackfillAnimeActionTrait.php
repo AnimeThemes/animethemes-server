@@ -54,7 +54,7 @@ trait BackfillAnimeActionTrait
         parent::setUp();
 
         $this->label(__('filament.actions.anime.backfill.name'));
-        $this->icon('heroicon-o-bars-4');
+        $this->icon(__('filament-icons.actions.anime.backfill'));
 
         $this->authorize('create', Anime::class);
 

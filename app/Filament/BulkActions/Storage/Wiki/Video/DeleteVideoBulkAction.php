@@ -24,7 +24,7 @@ class DeleteVideoBulkAction extends DeleteBulkAction
         parent::setUp();
 
         $this->label(__('filament.actions.video.delete.name'));
-        $this->icon(__('filament.actions.video.delete.icon'));
+        $this->icon(__('filament-icons.actions.base.delete'));
         $this->color('danger');
     }
 

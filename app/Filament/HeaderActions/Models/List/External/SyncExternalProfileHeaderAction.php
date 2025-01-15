@@ -23,7 +23,7 @@ class SyncExternalProfileHeaderAction extends BaseHeaderAction
         parent::setUp();
 
         $this->label(__('filament.actions.models.list.sync_profile.name'));
-        $this->icon('heroicon-o-arrow-path');
+        $this->icon(__('filament-icons.actions.models.list.sync_profile'));
 
         $this->authorize('update', $this->getRecord());
 

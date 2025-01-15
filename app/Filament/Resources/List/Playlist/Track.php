@@ -90,7 +90,7 @@ class Track extends BaseResource
      */
     public static function getNavigationIcon(): string
     {
-        return __('filament.resources.icon.playlist_tracks');
+        return __('filament-icons.resources.playlist_tracks');
     }
 
     /**

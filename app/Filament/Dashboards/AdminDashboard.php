@@ -54,7 +54,7 @@ class AdminDashboard extends BaseDashboard
      */
     public static function getNavigationIcon(): string
     {
-        return __('filament.dashboards.icon.admin');;
+        return __('filament-icons.dashboards.admin');;
     }
 
     /**

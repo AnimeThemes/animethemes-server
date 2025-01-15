@@ -51,7 +51,7 @@ class DeveloperDashboard extends BaseDashboard
      */
     public static function getNavigationIcon(): string
     {
-        return __('filament.dashboards.icon.dev');;
+        return __('filament-icons.dashboards.dev');;
     }
 
     /**

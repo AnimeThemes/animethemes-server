@@ -87,7 +87,7 @@ class ExternalEntry extends BaseResource
      */
     public static function getNavigationIcon(): string
     {
-        return __('filament.resources.icon.external_entries');
+        return __('filament-icons.resources.external_entries');
     }
 
     /**

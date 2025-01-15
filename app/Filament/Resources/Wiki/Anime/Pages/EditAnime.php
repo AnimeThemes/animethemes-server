@@ -52,7 +52,7 @@ class EditAnime extends BaseEditResource
 
                     AttachAnimeResourceHeaderAction::make('attach-anime-streaming-resource')
                         ->label(__('filament.actions.models.wiki.attach_streaming_resource.name'))
-                        ->icon('heroicon-o-tv')
+                        ->icon(__('filament-icons.actions.anime.attach_streaming_resource'))
                         ->sites($streamingResourceSites),
                 ]),
             ],

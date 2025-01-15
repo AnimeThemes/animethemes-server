@@ -88,7 +88,7 @@ class DiscordThread extends BaseResource
      */
     public static function getNavigationIcon(): string
     {
-        return __('filament.resources.icon.discord_thread');
+        return __('filament-icons.resources.discord_thread');
     }
 
     /**

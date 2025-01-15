@@ -81,7 +81,7 @@ class ReportStep extends BaseResource
      */
     public static function getNavigationIcon(): string
     {
-        return __('filament.resources.icon.report_steps');
+        return __('filament-icons.resources.report_steps');
     }
 
     /**

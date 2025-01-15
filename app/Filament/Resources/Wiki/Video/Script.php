@@ -80,7 +80,7 @@ class Script extends BaseResource
      */
     public static function getNavigationIcon(): string
     {
-        return __('filament.resources.icon.video_scripts');
+        return __('filament-icons.resources.video_scripts');
     }
 
     /**

@@ -85,7 +85,7 @@ class Song extends BaseResource
      */
     public static function getNavigationIcon(): string
     {
-        return __('filament.resources.icon.songs');
+        return __('filament-icons.resources.songs');
     }
 
     /**

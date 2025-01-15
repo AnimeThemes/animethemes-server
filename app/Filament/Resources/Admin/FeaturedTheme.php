@@ -92,7 +92,7 @@ class FeaturedTheme extends BaseResource
      */
     public static function getNavigationIcon(): string
     {
-        return __('filament.resources.icon.featured_themes');
+        return __('filament-icons.resources.featured_themes');
     }
 
     /**

@@ -88,7 +88,7 @@ class Studio extends BaseResource
      */
     public static function getNavigationIcon(): string
     {
-        return __('filament.resources.icon.studios');
+        return __('filament-icons.resources.studios');
     }
 
     /**

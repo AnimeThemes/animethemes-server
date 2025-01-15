@@ -86,7 +86,7 @@ class User extends BaseResource
      */
     public static function getNavigationIcon(): string
     {
-        return __('filament.resources.icon.users');
+        return __('filament-icons.resources.users');
     }
 
     /**
@@ -166,8 +166,8 @@ class User extends BaseResource
 
                 TextColumn::make(UserModel::ATTRIBUTE_EMAIL)
                     ->label(__('filament.fields.user.email'))
-                    ->searchable(isIndividual: true)
-                    ->icon('heroicon-m-envelope'),
+                    ->icon(__('filament-icons.fields.user.email'))
+                    ->searchable(isIndividual: true),
             ]);
     }
 
@@ -196,7 +196,7 @@ class User extends BaseResource
 
                         TextEntry::make(UserModel::ATTRIBUTE_EMAIL)
                             ->label(__('filament.fields.user.email'))
-                            ->icon('heroicon-m-envelope'),
+                            ->icon(__('filament-icons.fields.user.email')),
 
                         TextEntry::make(UserModel::ATTRIBUTE_ID)
                             ->label(__('filament.fields.base.id')),
