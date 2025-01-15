@@ -46,7 +46,7 @@ class PlaylistFixCommand extends BaseCommand
             return 0;
         }
 
-        return new FixPlaylistAction()->handle($playlist);
+        return new FixPlaylistAction()->handle($playlist, $this);
     }
 
     /**
