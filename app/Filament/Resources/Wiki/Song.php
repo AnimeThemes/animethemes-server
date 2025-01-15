@@ -197,7 +197,8 @@ class Song extends BaseResource
                         TextEntry::make(SongModel::ATTRIBUTE_TITLE)
                             ->label(__('filament.fields.song.title.name'))
                             ->copyableWithMessage(),
-                    ]),
+                    ])
+                    ->columns(2),
 
                 Section::make(__('filament.fields.base.timestamps'))
                     ->schema(parent::timestamps())
