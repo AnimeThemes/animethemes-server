@@ -58,6 +58,7 @@ class ListArtists extends BaseListResources
         $this->applyColumnSearchesToTableQuery($query);
 
         if (filled($search = $this->getTableSearch())) {
+            $search = preg_replace('/[^A-Za-z0-9 ]/', '', $search);
             $query->whereIn(ArtistModel::ATTRIBUTE_ID, ArtistModel::search($search)->take(25)->keys());
         }
 

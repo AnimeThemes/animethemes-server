@@ -59,6 +59,7 @@ class ListAnimes extends BaseListResources
         $this->applyColumnSearchesToTableQuery($query);
 
         if (filled($search = $this->getTableSearch())) {
+            $search = preg_replace('/[^A-Za-z0-9 ]/', '', $search);
             $query->whereIn(AnimeModel::ATTRIBUTE_ID, AnimeModel::search($search)->take(25)->keys());
         }
 

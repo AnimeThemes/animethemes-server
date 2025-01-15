@@ -17,6 +17,7 @@ use App\Filament\Tabs\Song\SongArtistTab;
 use App\Models\Wiki\Song as SongModel;
 use Filament\Resources\Components\Tab;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Str;
 
 /**
  * Class ListSongs.
@@ -53,6 +54,7 @@ class ListSongs extends BaseListResources
         $this->applyColumnSearchesToTableQuery($query);
 
         if (filled($search = $this->getTableSearch())) {
+            $search = preg_replace('/[^A-Za-z0-9 ]/', '', $search);
             $query->whereIn(SongModel::ATTRIBUTE_ID, SongModel::search($search)->take(25)->keys());
         }
 

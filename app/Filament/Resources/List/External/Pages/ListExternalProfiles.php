@@ -42,6 +42,7 @@ class ListExternalProfiles extends BaseListResources
         $this->applyColumnSearchesToTableQuery($query);
 
         if (filled($search = $this->getTableSearch())) {
+            $search = preg_replace('/[^A-Za-z0-9 ]/', '', $search);
             $query->whereIn(ExternalProfileModel::ATTRIBUTE_ID, ExternalProfileModel::search($search)->take(25)->keys());
         }
 
