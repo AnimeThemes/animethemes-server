@@ -17,7 +17,6 @@ use App\Filament\Tabs\Song\SongArtistTab;
 use App\Models\Wiki\Song as SongModel;
 use Filament\Resources\Components\Tab;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Str;
 
 /**
  * Class ListSongs.

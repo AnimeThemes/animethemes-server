@@ -205,6 +205,9 @@ return [
                 'fix_playlist' => [
                     'name' => 'Fix Playlist Cycles',
                 ],
+                'sync_profile' => [
+                    'name' => 'Sync External Profile',
+                ],
             ],
             'wiki' => [
                 'attach_resource' => [

@@ -26,6 +26,6 @@ class FixPlaylistHeaderAction extends BaseHeaderAction
 
         $this->authorize('update', $this->getRecord());
 
-        $this->action(fn (Playlist $record, FixPlaylistAction $action) => $action->handle($record));
+        $this->action(fn (Playlist $record, FixPlaylistAction $fix) => $fix->handle($record));
     }
 }
