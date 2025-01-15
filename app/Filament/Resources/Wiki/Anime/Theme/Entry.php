@@ -93,7 +93,7 @@ class Entry extends BaseResource
      */
     public static function getNavigationIcon(): string
     {
-        return __('filament.resources.icon.anime_theme_entries');
+        return __('filament-icons.resources.anime_theme_entries');
     }
 
     /**

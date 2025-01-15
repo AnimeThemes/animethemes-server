@@ -29,7 +29,7 @@ abstract class UploadTableAction extends StorageTableAction implements Interacts
     {
         parent::setUp();
 
-        $this->icon(__('filament.table_actions.base.upload.icon'));
+        $this->icon(__('filament-icons.table_actions.base.upload'));
     }
 
     /**

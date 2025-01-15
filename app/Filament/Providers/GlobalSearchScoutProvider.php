@@ -18,7 +18,7 @@ class GlobalSearchScoutProvider implements GlobalSearchProvider
 {
     /**
      * Get the results for the global search.
-     * 
+     *
      * @param  string  $query
      * @return GlobalSearchResults|null
      */
@@ -31,6 +31,7 @@ class GlobalSearchScoutProvider implements GlobalSearchProvider
                 continue;
             }
 
+            $query = preg_replace('/[^A-Za-z0-9 ]/', '', $query);
             $search = $resource::getModel()::search($query);
 
             $resourceResults = $search

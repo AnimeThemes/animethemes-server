@@ -30,14 +30,10 @@ class BackfillSongAction extends BackfillAction
      *
      * @param  Song  $song
      * @param  string  $lnkto
-     * @param  array|null  $fields
-     * @param  ResourceSite[]|null  $sites
      */
     public function __construct(
         Song $song,
         protected readonly string $lnkto,
-        protected readonly ?array $fields = [],
-        protected readonly ?array $sites = [],
     ) {
         parent::__construct($song);
     }
@@ -54,13 +50,9 @@ class BackfillSongAction extends BackfillAction
         try {
             DB::beginTransaction();
 
-            // Attach other resources
-            $attachResourceAction = new AttachResourceAction();
-
-            $attachResourceAction->handle($this->getModel(), $this->fields, $this->sites);
-
             // Request to lnk.to site
-            $response = Http::get($this->lnkto);
+            $response = Http::get($this->lnkto)
+                ->throw();
 
             $pattern = '/<a[^>]*class="[^"]*music-service-list__link[^"]*js-redirect[^"]*"[^>]*href="([^"]+)"[^>]*data-label="([^"]*)"[^>]*>/i';
 

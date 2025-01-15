@@ -31,7 +31,7 @@ abstract class DumpTableAction extends BaseTableAction
     {
         parent::setUp();
 
-        $this->icon(__('filament.table_actions.dump.dump.icon'));
+        $this->icon(__('filament-icons.table_actions.dump.dump'));
 
         $this->authorize('create', Dump::class);
     }

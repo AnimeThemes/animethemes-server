@@ -25,8 +25,8 @@ trait DiscordThreadActionTrait
     {
         parent::setUp();
 
-        $this->label(__('filament.actions.anime.discord.thread.name'));
-        $this->icon('heroicon-o-chat-bubble-left-right');
+        $this->label(__('filament.actions.anime.discord_thread.name'));
+        $this->icon(__('filament-icons.actions.anime.discord_thread'));
 
         $this->authorize('create', DiscordThread::class);
 

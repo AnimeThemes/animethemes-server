@@ -92,7 +92,7 @@ class Artist extends BaseResource
      */
     public static function getNavigationIcon(): string
     {
-        return __('filament.resources.icon.artists');
+        return __('filament-icons.resources.artists');
     }
 
     /**

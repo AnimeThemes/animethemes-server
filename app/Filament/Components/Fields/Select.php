@@ -31,6 +31,7 @@ class Select extends ComponentsSelect
                 ->searchable()
                 ->getOptionLabelUsing(fn ($state) => BelongsTo::getSearchLabelWithBlade($model::find($state)))
                 ->getSearchResultsUsing(function (string $search) use ($livewire, $model, $loadRelation) {
+                    $search = preg_replace('/[^A-Za-z0-9 ]/', '', $search);
                     /** @phpstan-ignore-next-line */
                     return $model::search($search)
                         ->query(function (Builder $query) use ($livewire) {

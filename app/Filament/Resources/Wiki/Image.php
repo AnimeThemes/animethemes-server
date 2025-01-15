@@ -87,7 +87,7 @@ class Image extends BaseResource
      */
     public static function getNavigationIcon(): string
     {
-        return __('filament.resources.icon.images');
+        return __('filament-icons.resources.images');
     }
 
     /**

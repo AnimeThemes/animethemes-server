@@ -85,7 +85,7 @@ class ExternalProfile extends BaseResource
      */
     public static function getNavigationIcon(): string
     {
-        return __('filament.resources.icon.external_profiles');
+        return __('filament-icons.resources.external_profiles');
     }
 
     /**

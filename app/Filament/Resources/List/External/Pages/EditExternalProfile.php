@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\List\External\Pages;
 
+use App\Filament\HeaderActions\Models\List\External\SyncExternalProfileHeaderAction;
 use App\Filament\Resources\List\ExternalProfile;
 use App\Filament\Resources\Base\BaseEditResource;
+use Filament\Actions\ActionGroup;
 
 /**
  * Class EditExternalProfile.
@@ -23,9 +25,12 @@ class EditExternalProfile extends BaseEditResource
      */
     protected function getHeaderActions(): array
     {
-        return array_merge(
-            parent::getHeaderActions(),
-            [],
-        );
+        return [
+            ...parent::getHeaderActions(),
+
+            ActionGroup::make([
+                SyncExternalProfileHeaderAction::make('sync-profile'),
+            ]),
+        ];
     }
 }

@@ -88,7 +88,7 @@ class ExternalResource extends BaseResource
      */
     public static function getNavigationIcon(): string
     {
-        return __('filament.resources.icon.external_resources');
+        return __('filament-icons.resources.external_resources');
     }
 
     /**

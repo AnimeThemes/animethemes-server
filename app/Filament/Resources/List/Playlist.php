@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Resources\List;
 
 use App\Enums\Models\List\PlaylistVisibility;
-use App\Filament\Actions\Models\AssignHashidsAction;
+use App\Filament\Actions\Models\List\AssignHashidsAction;
 use App\Filament\Components\Columns\BelongsToColumn;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\BelongsTo;
@@ -88,7 +88,7 @@ class Playlist extends BaseResource
      */
     public static function getNavigationIcon(): string
     {
-        return __('filament.resources.icon.playlists');
+        return __('filament-icons.resources.playlists');
     }
 
     /**

@@ -90,6 +90,7 @@ class BelongsTo extends ComponentsSelect
         if (in_array(Searchable::class, class_uses_recursive($model))) {
             return $this
                 ->getSearchResultsUsing(function (string $search) use ($model) {
+                    $search = preg_replace('/[^A-Za-z0-9 ]/', '', $search);
                     /** @phpstan-ignore-next-line */
                     return $model::search($search)
                         ->take(25)

@@ -25,7 +25,7 @@ class AttachResourceAction
      * @param  ResourceSite[]  $sites
      * @return void
      */
-    public function handle(BaseModel&HasResources $model,array $fields, array $sites): void
+    public function handle(BaseModel&HasResources $model, array $fields, array $sites): void
     {
         foreach ($sites as $resourceSite) {
             $link = Arr::get($fields, $resourceSite->name);

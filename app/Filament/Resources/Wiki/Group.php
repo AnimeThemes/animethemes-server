@@ -78,7 +78,7 @@ class Group extends BaseResource
      */
     public static function getNavigationIcon(): string
     {
-        return __('filament.resources.icon.groups');
+        return __('filament-icons.resources.groups');
     }
 
     /**

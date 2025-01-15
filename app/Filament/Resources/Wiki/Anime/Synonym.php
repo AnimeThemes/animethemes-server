@@ -86,7 +86,7 @@ class Synonym extends BaseResource
      */
     public static function getNavigationIcon(): string
     {
-        return __('filament.resources.icon.anime_synonyms');
+        return __('filament-icons.resources.anime_synonyms');
     }
 
     /**

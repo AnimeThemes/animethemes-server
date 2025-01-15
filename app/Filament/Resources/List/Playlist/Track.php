@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\List\Playlist;
 
-use App\Filament\Actions\Models\AssignHashidsAction;
+use App\Filament\Actions\Models\List\AssignHashidsAction;
 use App\Filament\Components\Columns\BelongsToColumn;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\BelongsTo;
@@ -90,7 +90,7 @@ class Track extends BaseResource
      */
     public static function getNavigationIcon(): string
     {
-        return __('filament.resources.icon.playlist_tracks');
+        return __('filament-icons.resources.playlist_tracks');
     }
 
     /**

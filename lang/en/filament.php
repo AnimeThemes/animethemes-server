@@ -67,10 +67,8 @@ return [
                 ],
                 'name' => 'Backfill Anime',
             ],
-            'discord' => [
-                'thread' => [
-                    'name' => 'Create Discord Thread',
-                ],
+            'discord_thread' => [
+                'name' => 'Create Discord Thread',
             ],
         ],
         'audio' => [
@@ -93,7 +91,7 @@ return [
             'detach' => 'Detach',
             'edit' => 'Edit',
             'forcedelete' => 'Force Delete',
-            'moveAll' => 'Move All',
+            'move_all' => 'Move All',
             'restore' => 'Restore',
             'view' => 'View',
         ],
@@ -192,15 +190,21 @@ return [
             ],
         ],
         'models' => [
-            'assign_hashids' => [
-                'name' => 'Assign Hashids',
-                'confirmButtonText' => 'Assign',
-            ],
             'list' => [
+                'assign_hashids' => [
+                    'name' => 'Assign Hashids',
+                    'confirmButtonText' => 'Assign',
+                ],
                 'external_profile' => [
                     'create' => [
                         'name' => 'Create External Profile',
                     ],
+                ],
+                'fix_playlist' => [
+                    'name' => 'Fix Playlist Cycles',
+                ],
+                'sync_profile' => [
+                    'name' => 'Sync External Profile',
                 ],
             ],
             'wiki' => [
@@ -419,7 +423,6 @@ return [
             ],
             'delete' => [
                 'confirmText' => 'Remove Video from configured storage disks and from the database?',
-                'icon' => 'heroicon-m-trash',
                 'name' => 'Remove Video',
             ],
             'move' => [
@@ -439,7 +442,6 @@ return [
         ],
         'discord' => [
             'notification' => [
-                'icon' => 'heroicon-o-bell',
                 'name' => 'Create Discord Notification',
                 'should_send' => [
                     'help' => 'If yes, the notification will be created.',
@@ -456,11 +458,6 @@ return [
         'add' => 'Add',
     ],
     'dashboards' => [
-        'icon' => [
-            'admin' => 'heroicon-m-chart-bar',
-            'dev' => 'heroicon-m-code-bracket',
-            'wiki' => 'heroicon-m-chart-bar',
-        ],
         'label' => [
             'admin' => 'Admin',
             'dev' => 'Developer',
@@ -927,39 +924,6 @@ return [
             'list' => 'List',
             'wiki' => 'Wiki',
         ],
-        'icon' => [
-            'action_logs' => 'heroicon-o-rectangle-stack',
-            'anime_synonyms' => 'heroicon-o-globe-alt',
-            'anime_theme_entries' => 'heroicon-o-list-bullet',
-            'anime_themes' => 'heroicon-o-list-bullet',
-            'anime' => 'heroicon-o-tv',
-            'announcements' => 'heroicon-o-megaphone',
-            'artists' => 'heroicon-o-user-circle',
-            'audios' => 'heroicon-o-speaker-wave',
-            'discord_thread' => 'heroicon-o-chat-bubble-left-right',
-            'dumps' => 'heroicon-o-circle-stack',
-            'external_entries' => 'heroicon-o-list-bullet',
-            'external_profiles' => 'heroicon-o-list-bullet',
-            'external_resources' => 'heroicon-o-arrow-top-right-on-square',
-            'features' => 'heroicon-o-cog-6-tooth',
-            'featured_themes' => 'heroicon-o-calendar-days',
-            'groups' => 'heroicon-o-folder-open',
-            'images' => 'heroicon-o-photo',
-            'members' => '',
-            'pages' => 'heroicon-o-document-text',
-            'permissions' => 'heroicon-o-information-circle',
-            'playlist_tracks' => 'heroicon-o-play',
-            'playlists' => 'heroicon-o-play',
-            'reports' => 'heroicon-o-light-bulb',
-            'report_steps' => 'heroicon-o-light-bulb',
-            'roles' => 'heroicon-o-briefcase',
-            'series' => 'heroicon-o-folder',
-            'songs' => 'heroicon-o-musical-note',
-            'studios' => 'heroicon-o-building-office',
-            'users' => 'heroicon-o-users',
-            'video_scripts' => 'heroicon-o-document-text',
-            'videos' => 'heroicon-o-film',
-        ],
         'label' => [
             'action_logs' => 'Action Logs',
             'anime_synonyms' => 'Anime Synonyms',
@@ -1028,25 +992,12 @@ return [
         ],
     ],
     'table_actions' => [
-        'base' => [
-            'prune' => [
-                'icon' => 'heroicon-o-trash',
-            ],
-            'reconcile' => [
-                'icon' => 'heroicon-o-arrow-path',
-            ],
-            'upload' => [
-                'icon' => 'heroicon-o-arrow-up-tray',
-            ],
-        ],
         'discord_thread' => [
             'message' => [
                 'edit' => [
-                    'icon' => 'heroicon-o-pencil-square',
                     'name' => 'Edit Message',
                 ],
                 'send' => [
-                    'icon' => 'heroicon-o-chat-bubble-left',
                     'name' => 'Send Message',
                 ],
                 'channelId' => [
@@ -1117,11 +1068,6 @@ return [
                     'name' => 'URL',
                     'validation' => 'This is not a valid URL',
                 ],
-            ],
-        ],
-        'dump' => [
-            'dump' => [
-                'icon' => 'heroicon-o-circle-stack',
             ],
         ],
     ],

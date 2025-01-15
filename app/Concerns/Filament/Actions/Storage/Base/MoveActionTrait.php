@@ -26,7 +26,7 @@ trait MoveActionTrait
     {
         parent::setUp();
 
-        $this->icon('heroicon-o-arrow-long-right');
+        $this->icon(__('filament-icons.actions.storage.move'));
     }
 
     /**

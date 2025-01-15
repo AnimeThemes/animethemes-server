@@ -78,7 +78,7 @@ class Report extends BaseResource
      */
     public static function getNavigationIcon(): string
     {
-        return __('filament.resources.icon.reports');
+        return __('filament-icons.resources.reports');
     }
 
     /**

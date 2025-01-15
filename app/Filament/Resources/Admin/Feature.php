@@ -74,7 +74,7 @@ class Feature extends BaseResource
      */
     public static function getNavigationIcon(): string
     {
-        return __('filament.resources.icon.features');
+        return __('filament-icons.resources.features');
     }
 
     /**

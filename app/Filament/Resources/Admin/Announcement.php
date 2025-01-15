@@ -72,7 +72,7 @@ class Announcement extends BaseResource
      */
     public static function getNavigationIcon(): string
     {
-        return __('filament.resources.icon.announcements');
+        return __('filament-icons.resources.announcements');
     }
 
     /**

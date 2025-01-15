@@ -22,6 +22,6 @@ class TextColumn extends ColumnsTextColumn
         return $this
             ->copyable($condition)
             ->copyMessage(__('filament.actions.base.copied'))
-            ->icon('heroicon-o-clipboard');
+            ->icon(__('filament-icons.actions.base.copied'));
     }
 }

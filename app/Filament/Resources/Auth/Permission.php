@@ -81,7 +81,7 @@ class Permission extends BaseResource
      */
     public static function getNavigationIcon(): string
     {
-        return __('filament.resources.icon.permissions');
+        return __('filament-icons.resources.permissions');
     }
 
     /**

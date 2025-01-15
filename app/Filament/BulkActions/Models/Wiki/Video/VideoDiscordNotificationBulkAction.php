@@ -32,7 +32,7 @@ class VideoDiscordNotificationBulkAction extends BaseBulkAction
         $this->modalWidth(MaxWidth::Large);
 
         $this->label(__('filament.bulk_actions.discord.notification.name'));
-        $this->icon(__('filament.bulk_actions.discord.notification.icon'));
+        $this->icon(__('filament-icons.bulk_actions.discord.notification'));
 
         $this->authorize('create', DiscordThread::class);
     }

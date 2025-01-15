@@ -27,7 +27,7 @@ abstract class ReconcileStorageTableAction extends ReconcileTableAction implemen
     {
         parent::setUp();
 
-        $this->icon(__('filament.table_actions.base.reconcile.icon'));
+        $this->icon(__('filament-icons.table_actions.base.reconcile'));
     }
 
     /**

@@ -22,6 +22,6 @@ class EditHeaderAction extends DefaultEditAction
         parent::setUp();
 
         $this->label(__('filament.actions.base.edit'));
-        $this->icon('heroicon-o-pencil-square');
+        $this->icon(__('filament-icons.actions.base.edit'));
     }
 }

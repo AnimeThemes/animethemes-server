@@ -34,8 +34,8 @@ trait MoveAllActionTrait
     {
         parent::setUp();
 
-        $this->label(__('filament.actions.base.moveAll'));
-        $this->icon('heroicon-o-arrow-long-right');
+        $this->label(__('filament.actions.base.move_all'));
+        $this->icon(__('filament-icons.actions.base.move_all'));
 
         $this->authorize('create', [Audio::class, Video::class, VideoScript::class]);
 

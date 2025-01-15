@@ -80,7 +80,7 @@ class Series extends BaseResource
      */
     public static function getNavigationIcon(): string
     {
-        return __('filament.resources.icon.series');
+        return __('filament-icons.resources.series');
     }
 
     /**
