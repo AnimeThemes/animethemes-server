@@ -11,6 +11,8 @@ use App\Events\Wiki\Anime\Theme\ThemeDeleted;
 use App\Events\Wiki\Anime\Theme\ThemeDeleting;
 use App\Events\Wiki\Anime\Theme\ThemeRestored;
 use App\Events\Wiki\Anime\Theme\ThemeUpdated;
+use App\Http\Api\Schema\Schema;
+use App\Http\Api\Schema\Wiki\Anime\ThemeSchema;
 use App\Models\BaseModel;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
@@ -215,5 +217,15 @@ class AnimeTheme extends BaseModel
     public function animethemeentries(): HasMany
     {
         return $this->hasMany(AnimeThemeEntry::class, AnimeThemeEntry::ATTRIBUTE_THEME);
+    }
+
+    /**
+     * Get the schema for the model.
+     *
+     * @return Schema
+     */
+    public function getSchema(): Schema
+    {
+        return new ThemeSchema();
     }
 }

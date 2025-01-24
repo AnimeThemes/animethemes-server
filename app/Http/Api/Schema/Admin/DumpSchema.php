@@ -32,7 +32,7 @@ class DumpSchema extends EloquentSchema
      *
      * @return AllowedInclude[]
      */
-    public function allowedIncludes(): array
+    protected function finalAllowedIncludes(): array
     {
         return [];
     }

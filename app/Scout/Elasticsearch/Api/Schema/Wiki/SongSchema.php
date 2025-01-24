@@ -46,7 +46,7 @@ class SongSchema extends Schema
      *
      * @return AllowedInclude[]
      */
-    public function allowedIncludes(): array
+    protected function finalAllowedIncludes(): array
     {
         return [
             new AllowedInclude(new AnimeSchema(), Song::RELATION_ANIME),

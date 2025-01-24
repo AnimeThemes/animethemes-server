@@ -49,7 +49,7 @@ class ArtistSchema extends Schema
      *
      * @return AllowedInclude[]
      */
-    public function allowedIncludes(): array
+    protected function finalAllowedIncludes(): array
     {
         return [
             new AllowedInclude(new AnimeSchema(), Artist::RELATION_ANIME),

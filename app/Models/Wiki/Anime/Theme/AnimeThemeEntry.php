@@ -10,6 +10,8 @@ use App\Events\Wiki\Anime\Theme\Entry\EntryDeleted;
 use App\Events\Wiki\Anime\Theme\Entry\EntryDeleting;
 use App\Events\Wiki\Anime\Theme\Entry\EntryRestored;
 use App\Events\Wiki\Anime\Theme\Entry\EntryUpdated;
+use App\Http\Api\Schema\Schema;
+use App\Http\Api\Schema\Wiki\Anime\Theme\EntrySchema;
 use App\Http\Resources\Pivot\Wiki\Resource\AnimeThemeEntryVideoResource;
 use App\Models\BaseModel;
 use App\Models\Wiki\Anime;
@@ -222,5 +224,15 @@ class AnimeThemeEntry extends BaseModel
                 AnimeTheme::class => AnimeTheme::ATTRIBUTE_ID,
             ]
         );
+    }
+
+    /**
+     * Get the schema for the model.
+     *
+     * @return Schema
+     */
+    public function getSchema(): Schema
+    {
+        return new EntrySchema();
     }
 }

@@ -38,7 +38,7 @@ class RoleSchema extends EloquentSchema
      *
      * @return AllowedInclude[]
      */
-    public function allowedIncludes(): array
+    protected function finalAllowedIncludes(): array
     {
         return [
             new AllowedInclude(new PermissionSchema(), Role::RELATION_PERMISSIONS),

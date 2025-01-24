@@ -45,7 +45,7 @@ class FeaturedThemeSchema extends EloquentSchema
      *
      * @return AllowedInclude[]
      */
-    public function allowedIncludes(): array
+    protected function finalAllowedIncludes(): array
     {
         return [
             new AllowedInclude(new AnimeSchema(), FeaturedTheme::RELATION_ANIME),

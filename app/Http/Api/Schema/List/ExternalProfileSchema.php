@@ -43,7 +43,7 @@ class ExternalProfileSchema extends EloquentSchema implements SearchableSchema
      *
      * @return AllowedInclude[]
      */
-    public function allowedIncludes(): array
+    protected function finalAllowedIncludes(): array
     {
         return [
             new AllowedInclude(new AnimeSchema(), ExternalProfile::RELATION_ANIMES),

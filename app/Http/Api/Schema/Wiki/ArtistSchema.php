@@ -57,7 +57,7 @@ class ArtistSchema extends EloquentSchema implements InteractsWithPivots, Search
      *
      * @return AllowedInclude[]
      */
-    public function allowedIncludes(): array
+    protected function finalAllowedIncludes(): array
     {
         return [
             new AllowedInclude(new AnimeSchema(), Artist::RELATION_ANIME),

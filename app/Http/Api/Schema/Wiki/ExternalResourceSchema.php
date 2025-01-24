@@ -58,7 +58,7 @@ class ExternalResourceSchema extends EloquentSchema implements InteractsWithPivo
      *
      * @return AllowedInclude[]
      */
-    public function allowedIncludes(): array
+    protected function finalAllowedIncludes(): array
     {
         return [
             new AllowedInclude(new AnimeSchema(), ExternalResource::RELATION_ANIME),

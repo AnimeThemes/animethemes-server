@@ -7,6 +7,7 @@ namespace App\Http\Api\Parser;
 use App\Http\Api\Criteria\Include\Criteria;
 use App\Http\Api\Criteria\Include\ResourceCriteria;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
 /**
@@ -61,6 +62,8 @@ class IncludeParser extends Parser
     {
         $paths = Str::of($includeParam)->lower()->explode(',');
 
+        $paths = self::createIntermediatePaths($paths);
+
         return new Criteria($paths);
     }
 
@@ -75,6 +78,29 @@ class IncludeParser extends Parser
     {
         $paths = Str::of($includeParam)->lower()->explode(',');
 
+        $paths = self::createIntermediatePaths($paths);
+
         return new ResourceCriteria(Str::lower($type), $paths);
+    }
+
+    /**
+     * Create the intermediate paths as if they were in the URL.
+     *
+     * @param  Collection<int, string>  $paths
+     * @return Collection<int, string>
+     */
+    protected static function createIntermediatePaths(Collection $paths): Collection
+    {
+        return $paths
+            ->flatMap(function (string $path) {
+                $pathParts = Str::of($path)->explode('.');
+
+                return $pathParts->map(
+                    fn (string $pathPart, int $index) => $pathParts
+                        ->slice(0, $index + 1)
+                        ->join('.'),
+                );
+            })
+            ->unique();
     }
 }

@@ -39,7 +39,7 @@ class MySchema extends EloquentSchema
      *
      * @return AllowedInclude[]
      */
-    public function allowedIncludes(): array
+    protected function finalAllowedIncludes(): array
     {
         return [
             new AllowedInclude(new ExternalProfileSchema(), User::RELATION_EXTERNAL_PROFILES),

@@ -38,7 +38,7 @@ class AudioSchema extends EloquentSchema
      *
      * @return AllowedInclude[]
      */
-    public function allowedIncludes(): array
+    protected function finalAllowedIncludes(): array
     {
         return [
             new AllowedInclude(new VideoSchema(), Audio::RELATION_VIDEOS),

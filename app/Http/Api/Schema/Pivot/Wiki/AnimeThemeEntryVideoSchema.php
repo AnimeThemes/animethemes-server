@@ -36,7 +36,7 @@ class AnimeThemeEntryVideoSchema extends EloquentSchema
      *
      * @return AllowedInclude[]
      */
-    public function allowedIncludes(): array
+    protected function finalAllowedIncludes(): array
     {
         return [
             new AllowedInclude(new EntrySchema(), AnimeThemeEntryVideo::RELATION_ENTRY),

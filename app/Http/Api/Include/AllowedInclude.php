@@ -17,8 +17,9 @@ readonly class AllowedInclude
      *
      * @param  SchemaInterface  $schema
      * @param  string  $path
+     * @param  bool|null  $allowIntermediate
      */
-    final public function __construct(protected SchemaInterface $schema, protected string $path)
+    final public function __construct(protected SchemaInterface $schema, protected string $path, protected ?bool $allowIntermediate = true)
     {
     }
 
@@ -40,6 +41,16 @@ readonly class AllowedInclude
     public function path(): string
     {
         return $this->path;
+    }
+
+    /**
+     * Determine whether the intermediate paths are allowed.
+     *
+     * @return bool
+     */
+    public function allowsIntermediate(): bool
+    {
+        return $this->allowIntermediate;
     }
 
     /**

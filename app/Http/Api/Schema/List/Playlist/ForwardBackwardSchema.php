@@ -39,7 +39,7 @@ class ForwardBackwardSchema extends EloquentSchema
      *
      * @return AllowedInclude[]
      */
-    public function allowedIncludes(): array
+    protected function finalAllowedIncludes(): array
     {
         return [
             new AllowedInclude(new ArtistSchema(), PlaylistTrack::RELATION_ARTISTS),

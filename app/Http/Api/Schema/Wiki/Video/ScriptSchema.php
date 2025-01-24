@@ -35,7 +35,7 @@ class ScriptSchema extends EloquentSchema
      *
      * @return AllowedInclude[]
      */
-    public function allowedIncludes(): array
+    protected function finalAllowedIncludes(): array
     {
         return [
             new AllowedInclude(new VideoSchema(), VideoScript::RELATION_VIDEO),

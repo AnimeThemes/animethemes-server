@@ -50,7 +50,7 @@ class PlaylistSchema extends EloquentSchema implements SearchableSchema
      *
      * @return AllowedInclude[]
      */
-    public function allowedIncludes(): array
+    protected function finalAllowedIncludes(): array
     {
         return [
             new AllowedInclude(new ImageSchema(), Playlist::RELATION_IMAGES),

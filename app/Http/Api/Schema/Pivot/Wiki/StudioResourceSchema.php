@@ -37,7 +37,7 @@ class StudioResourceSchema extends EloquentSchema
      *
      * @return AllowedInclude[]
      */
-    public function allowedIncludes(): array
+    protected function finalAllowedIncludes(): array
     {
         return [
             new AllowedInclude(new ExternalResourceSchema(), StudioResource::RELATION_RESOURCE),

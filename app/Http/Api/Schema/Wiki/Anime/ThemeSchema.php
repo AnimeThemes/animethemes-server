@@ -53,7 +53,7 @@ class ThemeSchema extends EloquentSchema implements SearchableSchema
      *
      * @return AllowedInclude[]
      */
-    public function allowedIncludes(): array
+    protected function finalAllowedIncludes(): array
     {
         return [
             new AllowedInclude(new AnimeSchema(), AnimeTheme::RELATION_ANIME),

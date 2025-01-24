@@ -57,7 +57,7 @@ class AnimeSchema extends Schema
      *
      * @return AllowedInclude[]
      */
-    public function allowedIncludes(): array
+    protected function finalAllowedIncludes(): array
     {
         return [
             new AllowedInclude(new ArtistSchema(), Anime::RELATION_ARTISTS),

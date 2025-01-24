@@ -49,7 +49,7 @@ class HasFilterTest extends TestCase
              *
              * @return AllowedInclude[]
              */
-            public function allowedIncludes(): array
+            protected function finalAllowedIncludes(): array
             {
                 return [];
             }
@@ -101,7 +101,7 @@ class HasFilterTest extends TestCase
              *
              * @return AllowedInclude[]
              */
-            public function allowedIncludes(): array
+            protected function finalAllowedIncludes(): array
             {
                 return [];
             }

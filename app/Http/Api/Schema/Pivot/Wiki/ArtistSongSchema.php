@@ -38,7 +38,7 @@ class ArtistSongSchema extends EloquentSchema
      *
      * @return AllowedInclude[]
      */
-    public function allowedIncludes(): array
+    protected function finalAllowedIncludes(): array
     {
         return [
             new AllowedInclude(new ArtistSchema(), ArtistSong::RELATION_ARTIST),
