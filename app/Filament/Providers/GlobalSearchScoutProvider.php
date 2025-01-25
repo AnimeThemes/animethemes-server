@@ -10,6 +10,7 @@ use Filament\GlobalSearch\Contracts\GlobalSearchProvider;
 use Filament\GlobalSearch\GlobalSearchResult;
 use Filament\GlobalSearch\GlobalSearchResults;
 use Elastic\ScoutDriverPlus\Searchable;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Class GlobalSearchScoutProvider.
@@ -32,12 +33,13 @@ class GlobalSearchScoutProvider implements GlobalSearchProvider
             }
 
             $query = preg_replace('/[^A-Za-z0-9 ]/', '', $query);
-            $search = $resource::getModel()::search($query);
+            $search = $resource::getModel()::search($query)
+                ->query(fn (Builder $query) => $query->with($resource::getEloquentQuery()->getEagerLoads()));
 
             $resourceResults = $search
                 ->get()
                 ->map(function (BaseModel $record) use ($resource): ?GlobalSearchResult {
-                    $url = $resource::getGlobalSearchResultUrl($record);
+                    $url = $resource::getUrl('view', ['record' => $record]);
 
                     if (blank($url)) {
                         return null;
