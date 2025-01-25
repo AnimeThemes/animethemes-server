@@ -46,16 +46,4 @@ abstract class AnimeResourceTab extends BaseTab
             $resourceQuery->where(ExternalResource::ATTRIBUTE_SITE, static::site()->value);
         });
     }
-
-    /**
-     * Get the badge for the tab.
-     *
-     * @return int
-     */
-    public function getBadge(): int
-    {
-        return Anime::query()->whereDoesntHave(Anime::RELATION_RESOURCES, function (Builder $resourceQuery) {
-            $resourceQuery->where(ExternalResource::ATTRIBUTE_SITE, static::site()->value);
-        })->count();
-    }
 }

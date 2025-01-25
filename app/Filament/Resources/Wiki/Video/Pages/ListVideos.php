@@ -8,9 +8,7 @@ use App\Concerns\Filament\HasTabs;
 use App\Filament\Resources\Base\BaseListResources;
 use App\Filament\Resources\Wiki\Video;
 use App\Filament\Tabs\Video\VideoAudioTab;
-use App\Filament\Tabs\Video\VideoResolutionTab;
 use App\Filament\Tabs\Video\VideoScriptTab;
-use App\Filament\Tabs\Video\VideoSourceTab;
 use App\Filament\Tabs\Video\VideoUnlinkedTab;
 use App\Models\Wiki\Video as VideoModel;
 use Filament\Resources\Components\Tab;
@@ -67,9 +65,7 @@ class ListVideos extends BaseListResources
     {
         return ['all' => Tab::make()] + $this->toArray([
             VideoAudioTab::class,
-            VideoResolutionTab::class,
             VideoScriptTab::class,
-            VideoSourceTab::class,
             VideoUnlinkedTab::class,
         ]);
     }

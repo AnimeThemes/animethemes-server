@@ -46,16 +46,4 @@ abstract class ArtistImageTab extends BaseTab
             $imageQuery->where(Image::ATTRIBUTE_FACET, static::facet()->value);
         });
     }
-
-    /**
-     * Get the badge for the tab.
-     *
-     * @return int
-     */
-    public function getBadge(): int
-    {
-        return Artist::query()->whereDoesntHave(Artist::RELATION_IMAGES, function (Builder $imageQuery) {
-            $imageQuery->where(Image::ATTRIBUTE_FACET, static::facet()->value);
-        })->count();
-    }
 }

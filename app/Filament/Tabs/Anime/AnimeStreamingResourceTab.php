@@ -70,20 +70,4 @@ class AnimeStreamingResourceTab extends BaseTab
             });
         });
     }
-
-    /**
-     * Get the badge for the tab.
-     *
-     * @return int
-     */
-    public function getBadge(): int
-    {
-        return Anime::query()->whereDoesntHave(Anime::RELATION_RESOURCES, function (Builder $resourceQuery) {
-            $resourceQuery->where(function (Builder $query) {
-                foreach (static::sites() as $site) {
-                    $query->orWhere(ExternalResource::ATTRIBUTE_SITE, $site->value);
-                }
-            });
-        })->count();
-    }
 }
