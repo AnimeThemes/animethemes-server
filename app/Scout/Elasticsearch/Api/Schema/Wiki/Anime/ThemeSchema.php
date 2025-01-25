@@ -22,6 +22,7 @@ use App\Scout\Elasticsearch\Api\Schema\Wiki\AnimeSchema;
 use App\Scout\Elasticsearch\Api\Schema\Wiki\ArtistSchema;
 use App\Scout\Elasticsearch\Api\Schema\Wiki\SongSchema;
 use App\Scout\Elasticsearch\Api\Schema\Wiki\VideoSchema;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class ThemeSchema.
@@ -106,5 +107,15 @@ class ThemeSchema extends Schema
                 new Sort(ThemeSchema::SORT_YEAR),
             ]
         );
+    }
+
+    /**
+     * Get the model of the schema.
+     *
+     * @return class-string<Model>
+     */
+    public function model(): string
+    {
+        return AnimeTheme::class;
     }
 }

@@ -160,7 +160,7 @@ abstract class Schema implements SchemaInterface
     protected function resolveOwnerModel(): string
     {
         if (method_exists($this, $modelMethod = 'model')) {
-           return $this->$modelMethod();
+            return $this->$modelMethod();
         }
 
         $model = Str::of(get_class($this))

@@ -15,6 +15,7 @@ use App\Scout\Elasticsearch\Api\Query\ElasticQuery;
 use App\Scout\Elasticsearch\Api\Query\Wiki\Anime\SynonymQuery;
 use App\Scout\Elasticsearch\Api\Schema\Schema;
 use App\Scout\Elasticsearch\Api\Schema\Wiki\AnimeSchema;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class SynonymSchema.
@@ -68,5 +69,15 @@ class SynonymSchema extends Schema
                 new SynonymTypeField($this),
             ],
         );
+    }
+
+    /**
+     * Get the model of the schema.
+     *
+     * @return class-string<Model>
+     */
+    public function model(): string
+    {
+        return AnimeSynonym::class;
     }
 }

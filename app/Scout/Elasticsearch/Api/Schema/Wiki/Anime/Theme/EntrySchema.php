@@ -20,6 +20,7 @@ use App\Scout\Elasticsearch\Api\Schema\Schema;
 use App\Scout\Elasticsearch\Api\Schema\Wiki\Anime\ThemeSchema;
 use App\Scout\Elasticsearch\Api\Schema\Wiki\AnimeSchema;
 use App\Scout\Elasticsearch\Api\Schema\Wiki\VideoSchema;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class EntrySchema.
@@ -78,5 +79,15 @@ class EntrySchema extends Schema
                 new EntryVersionField($this),
             ],
         );
+    }
+
+    /**
+     * Get the model of the schema.
+     *
+     * @return class-string<Model>
+     */
+    public function model(): string
+    {
+        return AnimeThemeEntry::class;
     }
 }
