@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace App\Concerns\Actions\Http\Api;
 
+use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Schema;
 use App\Http\Api\Scope\ScopeParser;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Support\Arr;
 use RuntimeException;
 
 /**
@@ -36,7 +38,13 @@ trait ConstrainsEagerLoads
             return $constrainedEagerLoads;
         }
 
-        foreach ($includeCriteria->getPaths() as $allowedIncludePath) {
+        // The intermediate paths created in the criteria class should not be
+        // included if the intermediate path is not an allowed include.
+        $validPaths = Arr::where($includeCriteria->getPaths()->toArray(), fn (string $path) => in_array($path, $schema->allowedIncludes()));
+
+        $paths = collect($validPaths);
+
+        foreach ($paths as $allowedIncludePath) {
             $relationSchema = $schema->relation($allowedIncludePath);
             if ($relationSchema === null) {
                 throw new RuntimeException("Unknown relation '$allowedIncludePath' for type '{$schema->type()}'.");
