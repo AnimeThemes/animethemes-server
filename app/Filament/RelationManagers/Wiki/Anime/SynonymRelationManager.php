@@ -9,6 +9,7 @@ use App\Filament\Resources\Wiki\Anime\Synonym as SynonymResource;
 use App\Models\Wiki\Anime\AnimeSynonym;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Class SynonymRelationManager.
@@ -38,6 +39,7 @@ abstract class SynonymRelationManager extends BaseRelationManager
     {
         return parent::table(
             $table
+                ->modifyQueryUsing(fn (Builder $query) => $query->with(SynonymResource::getEloquentQuery()->getEagerLoads()))
                 ->heading(SynonymResource::getPluralLabel())
                 ->modelLabel(SynonymResource::getLabel())
                 ->recordTitleAttribute(AnimeSynonym::ATTRIBUTE_TEXT)

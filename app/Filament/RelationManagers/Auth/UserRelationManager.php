@@ -9,6 +9,7 @@ use App\Filament\Resources\Auth\User as UserResource;
 use App\Models\Auth\User;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Class UserRelationManager.
@@ -38,6 +39,7 @@ abstract class UserRelationManager extends BaseRelationManager
     {
         return parent::table(
             $table
+                ->modifyQueryUsing(fn (Builder $query) => $query->with(UserResource::getEloquentQuery()->getEagerLoads()))
                 ->heading(UserResource::getPluralLabel())
                 ->modelLabel(UserResource::getLabel())
                 ->recordTitleAttribute(User::ATTRIBUTE_NAME)

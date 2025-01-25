@@ -10,6 +10,7 @@ use App\Models\Auth\Role;
 use Filament\Forms\Form;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Class RoleRelationManager.
@@ -39,6 +40,7 @@ abstract class RoleRelationManager extends BaseRelationManager
     {
         return parent::table(
             $table
+                ->modifyQueryUsing(fn (Builder $query) => $query->with(RoleResource::getEloquentQuery()->getEagerLoads()))
                 ->heading(RoleResource::getPluralLabel())
                 ->modelLabel(RoleResource::getLabel())
                 ->recordTitleAttribute(Role::ATTRIBUTE_NAME)

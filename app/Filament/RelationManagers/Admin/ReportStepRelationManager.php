@@ -9,6 +9,7 @@ use App\Filament\Resources\Admin\Report\ReportStep as ReportStepResource;
 use App\Models\Admin\Report\ReportStep;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Class ReportStepRelationManager.
@@ -38,6 +39,7 @@ abstract class ReportStepRelationManager extends BaseRelationManager
     {
         return parent::table(
             $table
+                ->modifyQueryUsing(fn (Builder $query) => $query->with(ReportStepResource::getEloquentQuery()->getEagerLoads()))
                 ->heading(ReportStepResource::getPluralLabel())
                 ->modelLabel(ReportStepResource::getLabel())
                 ->recordTitleAttribute(ReportStepResource::getRecordTitleAttribute())

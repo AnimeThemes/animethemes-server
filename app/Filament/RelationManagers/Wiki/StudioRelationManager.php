@@ -9,6 +9,7 @@ use App\Filament\Resources\Wiki\Studio as StudioResource;
 use App\Models\Wiki\Studio;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Class StudioRelationManager.
@@ -38,6 +39,7 @@ abstract class StudioRelationManager extends BaseRelationManager
     {
         return parent::table(
             $table
+                ->modifyQueryUsing(fn (Builder $query) => $query->with(StudioResource::getEloquentQuery()->getEagerLoads()))
                 ->heading(StudioResource::getPluralLabel())
                 ->modelLabel(StudioResource::getLabel())
                 ->recordTitleAttribute(Studio::ATTRIBUTE_NAME)

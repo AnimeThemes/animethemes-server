@@ -9,6 +9,7 @@ use App\Filament\Resources\Wiki\Artist as ArtistResource;
 use App\Models\Wiki\Artist;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Class ArtistRelationManager.
@@ -38,6 +39,7 @@ abstract class ArtistRelationManager extends BaseRelationManager
     {
         return parent::table(
             $table
+                ->modifyQueryUsing(fn (Builder $query) => $query->with(ArtistResource::getEloquentQuery()->getEagerLoads()))
                 ->heading(ArtistResource::getPluralLabel())
                 ->modelLabel(ArtistResource::getLabel())
                 ->recordTitleAttribute(Artist::ATTRIBUTE_NAME)

@@ -9,6 +9,7 @@ use App\Filament\Resources\Wiki\Anime\Theme\Entry as EntryResource;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Class EntryRelationManager.
@@ -38,6 +39,7 @@ abstract class EntryRelationManager extends BaseRelationManager
     {
         return parent::table(
             $table
+                ->modifyQueryUsing(fn (Builder $query) => $query->with(EntryResource::getEloquentQuery()->getEagerLoads()))
                 ->heading(EntryResource::getPluralLabel())
                 ->modelLabel(EntryResource::getLabel())
                 ->recordTitleAttribute(AnimeThemeEntry::ATTRIBUTE_VERSION)

@@ -9,6 +9,7 @@ use App\Filament\Resources\List\Playlist\Track as TrackResource;
 use App\Models\List\Playlist\PlaylistTrack;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Class TrackRelationManager.
@@ -38,6 +39,7 @@ abstract class TrackRelationManager extends BaseRelationManager
     {
         return parent::table(
             $table
+                ->modifyQueryUsing(fn (Builder $query) => $query->with(TrackResource::getEloquentQuery()->getEagerLoads()))
                 ->heading(TrackResource::getPluralLabel())
                 ->modelLabel(TrackResource::getLabel())
                 ->recordTitleAttribute(PlaylistTrack::ATTRIBUTE_HASHID)

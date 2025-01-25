@@ -9,6 +9,7 @@ use App\Filament\Resources\List\Playlist as PlaylistResource;
 use App\Models\List\Playlist;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Class PlaylistRelationManager.
@@ -38,6 +39,7 @@ abstract class PlaylistRelationManager extends BaseRelationManager
     {
         return parent::table(
             $table
+                ->modifyQueryUsing(fn (Builder $query) => $query->with(PlaylistResource::getEloquentQuery()->getEagerLoads()))
                 ->heading(PlaylistResource::getPluralLabel())
                 ->modelLabel(PlaylistResource::getLabel())
                 ->recordTitleAttribute(Playlist::ATTRIBUTE_NAME)

@@ -9,6 +9,7 @@ use App\Filament\Resources\Wiki\Song as SongResource;
 use App\Models\Wiki\Song;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Class SongRelationManager.
@@ -38,6 +39,7 @@ abstract class SongRelationManager extends BaseRelationManager
     {
         return parent::table(
             $table
+                ->modifyQueryUsing(fn (Builder $query) => $query->with(SongResource::getEloquentQuery()->getEagerLoads()))
                 ->heading(SongResource::getPluralLabel())
                 ->modelLabel(SongResource::getLabel())
                 ->recordTitleAttribute(Song::ATTRIBUTE_TITLE)
