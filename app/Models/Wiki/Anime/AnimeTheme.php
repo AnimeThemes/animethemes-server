@@ -163,7 +163,8 @@ class AnimeTheme extends BaseModel implements InteractsWithSchema
      */
     public function getName(): string
     {
-        $this->load(AnimeTheme::RELATION_GROUP);
+        $this->loadMissing(AnimeTheme::RELATION_GROUP);
+
         return Str::of($this->type->localize())
             ->append(strval($this->sequence ?? 1))
             ->append($this->group !== null ? '-'.$this->group->slug : '')

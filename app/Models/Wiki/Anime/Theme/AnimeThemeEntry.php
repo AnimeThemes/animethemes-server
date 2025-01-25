@@ -65,6 +65,7 @@ class AnimeThemeEntry extends BaseModel implements InteractsWithSchema
     final public const RELATION_SONG = 'animetheme.song';
     final public const RELATION_SYNONYMS = 'animetheme.anime.animesynonyms';
     final public const RELATION_THEME = 'animetheme';
+    final public const RELATION_THEME_GROUP = 'animetheme.group';
     final public const RELATION_VIDEOS = 'videos';
 
     /**
@@ -161,6 +162,12 @@ class AnimeThemeEntry extends BaseModel implements InteractsWithSchema
      */
     public function getName(): string
     {
+        $this->loadMissing([
+            AnimeThemeEntry::RELATION_ANIME,
+            AnimeThemeEntry::RELATION_THEME,
+            AnimeThemeEntry::RELATION_THEME_GROUP,
+        ]);
+
         return Str::of($this->anime->name)
             ->append(' ')
             ->append($this->animetheme->type->localize())

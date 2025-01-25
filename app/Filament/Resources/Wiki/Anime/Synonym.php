@@ -20,6 +20,7 @@ use App\Filament\Resources\Wiki\Anime\Synonym\Pages\EditSynonym;
 use App\Filament\Resources\Wiki\Anime\Synonym\Pages\ListSynonyms;
 use App\Filament\Resources\Wiki\Anime\Synonym\Pages\ViewSynonym;
 use App\Models\Wiki\Anime\AnimeSynonym as SynonymModel;
+use App\Models\Wiki\Anime\AnimeSynonym;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Infolists\Components\Section;
@@ -27,6 +28,7 @@ use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Validation\Rules\Enum;
 
 /**
@@ -111,6 +113,19 @@ class Synonym extends BaseResource
     public static function getRecordTitleAttribute(): string
     {
         return SynonymModel::ATTRIBUTE_TEXT;
+    }
+
+    /**
+     * Get the eloquent query for the resource.
+     *
+     * @return Builder
+     */
+    public static function getEloquentQuery(): Builder
+    {
+        $query = parent::getEloquentQuery();
+
+        // Necessary to prevent lazy loading when loading related resources
+        return $query->with([AnimeSynonym::RELATION_ANIME]);
     }
 
     /**

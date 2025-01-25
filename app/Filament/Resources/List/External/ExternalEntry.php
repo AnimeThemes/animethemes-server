@@ -28,6 +28,7 @@ use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Validation\Rules\Enum;
 
 /**
@@ -100,6 +101,22 @@ class ExternalEntry extends BaseResource
     public static function getRecordSlug(): string
     {
         return 'external-entries';
+    }
+
+    /**
+     * Get the eloquent query for the resource.
+     *
+     * @return Builder
+     */
+    public static function getEloquentQuery(): Builder
+    {
+        $query = parent::getEloquentQuery();
+
+        // Necessary to prevent lazy loading when loading related resources
+        return $query->with([
+            ExternalEntryModel::RELATION_PROFILE,
+            ExternalEntryModel::RELATION_ANIME,
+        ]);
     }
 
     /**

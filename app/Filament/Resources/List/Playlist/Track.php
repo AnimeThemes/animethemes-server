@@ -21,6 +21,7 @@ use App\Filament\Resources\List\Playlist\Track\Pages\ViewTrack;
 use App\Filament\Resources\Wiki\Anime\Theme\Entry;
 use App\Filament\Resources\Wiki\Video as VideoResource;
 use App\Models\List\Playlist\PlaylistTrack as TrackModel;
+use App\Models\List\Playlist\PlaylistTrack;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video as VideoModel;
 use App\Pivots\Wiki\AnimeThemeEntryVideo;
@@ -31,6 +32,7 @@ use Filament\Infolists\Components\Section;
 use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Validation\Rule;
 
 /**
@@ -115,6 +117,24 @@ class Track extends BaseResource
     public static function getRecordTitleAttribute(): string
     {
         return TrackModel::ATTRIBUTE_HASHID;
+    }
+
+    /**
+     * Get the eloquent query for the resource.
+     *
+     * @return Builder
+     */
+    public static function getEloquentQuery(): Builder
+    {
+        $query = parent::getEloquentQuery();
+
+        // Necessary to prevent lazy loading when loading related resources
+        return $query->with([
+            PlaylistTrack::RELATION_PLAYLIST,
+            PlaylistTrack::RELATION_VIDEO,
+            'animethemeentry.anime',
+            'animethemeentry.animetheme.group',
+        ]);
     }
 
     /**
