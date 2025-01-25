@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Filament\HeaderActions\Base;
 
 use Filament\Actions\EditAction as DefaultEditAction;
-use Filament\Support\Enums\IconSize;
 
 /**
  * Class EditHeaderAction.

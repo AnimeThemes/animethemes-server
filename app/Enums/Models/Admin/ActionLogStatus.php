@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Enums\Models\Admin;
 
 use App\Concerns\Enums\LocalizesName;
+use Filament\Support\Colors\Color;
 use Filament\Support\Contracts\HasColor;
 
 /**
@@ -21,12 +22,12 @@ enum ActionLogStatus: int implements HasColor
     /**
      * Get the filament color for the enum.
      *
-     * @return string
+     * @return string|array
      */
-    public function getColor(): string
+    public function getColor(): string|array
     {
         return match ($this) {
-            ActionLogStatus::RUNNING => 'primary',
+            ActionLogStatus::RUNNING => Color::Amber,
             ActionLogStatus::FAILED => 'danger',
             ActionLogStatus::FINISHED => 'success',
         };

@@ -8,6 +8,7 @@ use App\Concerns\Filament\ActionLogs\HasPivotActionLogs;
 use App\Filament\RelationManagers\BaseRelationManager;
 use App\Filament\Resources\Base\BaseManageResources;
 use Filament\Forms\Form;
+use Filament\Support\Enums\IconSize;
 use Filament\Tables\Actions\EditAction as DefaultEditAction;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
@@ -27,7 +28,8 @@ class EditAction extends DefaultEditAction
     {
         parent::setUp();
 
-        $this->label(__('filament.actions.base.edit'));
+        $this->label('');
+        $this->iconSize(IconSize::Medium);
 
         $this->form(fn (Form $form, BaseRelationManager|BaseManageResources $livewire) => [
             ...$livewire->form($form)->getComponents(),

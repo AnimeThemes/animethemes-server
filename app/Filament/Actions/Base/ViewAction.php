@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Actions\Base;
 
+use Filament\Support\Enums\IconSize;
 use Filament\Tables\Actions\ViewAction as DefaultViewAction;
 
 /**
@@ -20,6 +21,7 @@ class ViewAction extends DefaultViewAction
     {
         parent::setUp();
 
-        $this->label(__('filament.actions.base.view'));
+        $this->label('');
+        $this->iconSize(IconSize::Medium);
     }
 }

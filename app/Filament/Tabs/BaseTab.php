@@ -46,7 +46,7 @@ abstract class BaseTab extends Tab
     /**
      * Get the badge for the tab.
      *
-     * @return int
+     * @return mixed
      */
     public function count(): mixed
     {
