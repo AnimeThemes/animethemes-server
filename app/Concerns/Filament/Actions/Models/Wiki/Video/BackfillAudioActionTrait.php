@@ -29,10 +29,6 @@ trait BackfillAudioActionTrait
     use InteractsWithQueue;
     use Queueable;
 
-    final public const DERIVE_SOURCE_VIDEO = 'derive_source_video';
-    final public const OVERWRITE_AUDIO = 'overwrite_audio';
-    final public const REPLACE_RELATED_AUDIO = 'replace_related_audio';
-
     /**
      * Initial setup for the action.
      *
@@ -60,9 +56,9 @@ trait BackfillAudioActionTrait
      */
     public function handle(Video $video, array $data): void
     {
-        $deriveSourceVideo = DeriveSourceVideo::from(intval(Arr::get($data, self::DERIVE_SOURCE_VIDEO)));
-        $overwriteAudio = OverwriteAudio::from(intval(Arr::get($data, self::OVERWRITE_AUDIO)));
-        $replaceRelatedAudio = ReplaceRelatedAudio::from(intval(Arr::get($data, self::REPLACE_RELATED_AUDIO)));
+        $deriveSourceVideo = DeriveSourceVideo::from(intval(Arr::get($data, DeriveSourceVideo::getFieldKey())));
+        $overwriteAudio = OverwriteAudio::from(intval(Arr::get($data, OverwriteAudio::getFieldKey())));
+        $replaceRelatedAudio = ReplaceRelatedAudio::from(intval(Arr::get($data, ReplaceRelatedAudio::getFieldKey())));
 
         $action = new BackfillAudio($video, $deriveSourceVideo, $overwriteAudio, $replaceRelatedAudio);
 
@@ -96,21 +92,21 @@ trait BackfillAudioActionTrait
     {
         return $form
             ->schema([
-                Select::make(self::DERIVE_SOURCE_VIDEO)
+                Select::make(DeriveSourceVideo::getFieldKey())
                     ->label(__('filament.actions.video.backfill.fields.derive_source.name'))
                     ->helperText(__('filament.actions.video.backfill.fields.derive_source.help'))
                     ->options(DeriveSourceVideo::asSelectArray())
                     ->rules(['required', new Enum(DeriveSourceVideo::class)])
                     ->default(DeriveSourceVideo::YES->value),
 
-                Select::make(self::OVERWRITE_AUDIO)
+                Select::make(OverwriteAudio::getFieldKey())
                     ->label(__('filament.actions.video.backfill.fields.overwrite.name'))
                     ->helperText(__('filament.actions.video.backfill.fields.overwrite.help'))
                     ->options(OverwriteAudio::asSelectArray())
                     ->rules(['required', new Enum(OverwriteAudio::class)])
                     ->default(OverwriteAudio::NO->value),
 
-                Select::make(self::REPLACE_RELATED_AUDIO)
+                Select::make(ReplaceRelatedAudio::getFieldKey())
                     ->label(__('filament.actions.video.backfill.fields.replace_related.name'))
                     ->helperText(__('filament.actions.video.backfill.fields.replace_related.help'))
                     ->options(ReplaceRelatedAudio::asSelectArray())

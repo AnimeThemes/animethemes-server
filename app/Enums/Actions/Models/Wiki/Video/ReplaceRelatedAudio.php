@@ -15,4 +15,14 @@ enum ReplaceRelatedAudio: int
 
     case NO = 0;
     case YES = 1;
+
+    /**
+     * Get the field key to use in the admin panel.
+     *
+     * @return string
+     */
+    public static function getFieldKey(): string
+    {
+        return 'replace-related-audio';
+    }
 }

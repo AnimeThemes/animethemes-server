@@ -46,7 +46,7 @@ abstract class BaseBulkAction extends BulkAction
     /**
      * Handle the action.
      *
-     * @param  Collection<int, BaseModel>  $records
+     * @param  Collection  $records
      * @param  array  $fields
      * @return void
      */

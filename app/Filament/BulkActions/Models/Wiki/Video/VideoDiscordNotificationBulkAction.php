@@ -40,8 +40,9 @@ class VideoDiscordNotificationBulkAction extends BaseBulkAction
     /**
      * Handle the action.
      *
-     * @param  Collection  $videos
+     * @param  Collection<int, Video>  $videos
      * @param  array  $fields
+     * @return void
      */
     public function handle(Collection $videos, array $fields): void
     {

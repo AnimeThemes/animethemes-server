@@ -238,7 +238,7 @@ class Synonym extends BaseResource
     {
         return array_merge(
             [
-                SelectFilter::make(SynonymModel::ATTRIBUTE_TEXT)
+                SelectFilter::make(SynonymModel::ATTRIBUTE_TYPE)
                     ->label(__('filament.fields.anime_synonym.type.name'))
                     ->options(AnimeSynonymType::asSelectArray()),
             ],
