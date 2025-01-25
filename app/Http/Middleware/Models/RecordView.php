@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Http\Middleware\Models;
 
 use App\Constants\FeatureConstants;
-use App\Models\Service\ViewAggregate;
 use Closure;
 use CyrildeWit\EloquentViewable\Contracts\Viewable;
 use Illuminate\Database\Eloquent\Model;
@@ -56,7 +55,6 @@ class RecordView
     {
         if (Feature::for(null)->active(FeatureConstants::ALLOW_VIEW_RECORDING)) {
             views($this->model)->cooldown(now()->addMinutes(5))->record();
-            ViewAggregate::query()->whereMorphedTo(ViewAggregate::ATTRIBUTE_VIEWABLE, $this->model)->increment(ViewAggregate::ATTRIBUTE_VALUE);
         }
     }
 }
