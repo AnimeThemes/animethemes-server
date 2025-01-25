@@ -34,7 +34,10 @@ class AnnouncementSchema extends EloquentSchema
      */
     public function allowedIncludes(): array
     {
-        return [];
+        return array_merge(
+            $this->withIntermediatePaths([]),
+            []
+        );
     }
 
     /**

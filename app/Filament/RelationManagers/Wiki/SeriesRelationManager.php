@@ -9,6 +9,7 @@ use App\Filament\Resources\Wiki\Series as SeriesResource;
 use App\Models\Wiki\Series;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Class SeriesRelationManager.
@@ -38,6 +39,7 @@ abstract class SeriesRelationManager extends BaseRelationManager
     {
         return parent::table(
             $table
+                ->modifyQueryUsing(fn (Builder $query) => $query->with(SeriesResource::getEloquentQuery()->getEagerLoads()))
                 ->heading(SeriesResource::getPluralLabel())
                 ->modelLabel(SeriesResource::getLabel())
                 ->recordTitleAttribute(Series::ATTRIBUTE_NAME)

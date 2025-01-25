@@ -48,12 +48,15 @@ class SongSchema extends Schema
      */
     public function allowedIncludes(): array
     {
-        return [
-            new AllowedInclude(new AnimeSchema(), Song::RELATION_ANIME),
-            new AllowedInclude(new ArtistSchema(), Song::RELATION_ARTISTS),
-            new AllowedInclude(new GroupSchema(), Song::RELATION_THEME_GROUPS),
-            new AllowedInclude(new ThemeSchema(), Song::RELATION_ANIMETHEMES),
-        ];
+        return array_merge(
+            $this->withIntermediatePaths([
+                new AllowedInclude(new AnimeSchema(), Song::RELATION_ANIME),
+                new AllowedInclude(new ArtistSchema(), Song::RELATION_ARTISTS),
+                new AllowedInclude(new GroupSchema(), Song::RELATION_THEME_GROUPS),
+                new AllowedInclude(new ThemeSchema(), Song::RELATION_ANIMETHEMES),
+            ]),
+            []
+        );
     }
 
     /**

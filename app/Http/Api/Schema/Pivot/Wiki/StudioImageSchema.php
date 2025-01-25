@@ -38,10 +38,13 @@ class StudioImageSchema extends EloquentSchema
      */
     public function allowedIncludes(): array
     {
-        return [
-            new AllowedInclude(new ImageSchema(), StudioImage::RELATION_IMAGE),
-            new AllowedInclude(new StudioSchema(), StudioImage::RELATION_STUDIO),
-        ];
+        return array_merge(
+            $this->withIntermediatePaths([
+                new AllowedInclude(new ImageSchema(), StudioImage::RELATION_IMAGE),
+                new AllowedInclude(new StudioSchema(), StudioImage::RELATION_STUDIO),
+            ]),
+            []
+        );
     }
 
     /**

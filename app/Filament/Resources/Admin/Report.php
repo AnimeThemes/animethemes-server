@@ -20,6 +20,7 @@ use Filament\Infolists\Components\Section;
 use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Class Report.
@@ -103,6 +104,22 @@ class Report extends BaseResource
     public static function getRecordTitleAttribute(): string
     {
         return ReportModel::ATTRIBUTE_ID;
+    }
+
+    /**
+     * Get the eloquent query for the resource.
+     *
+     * @return Builder
+     */
+    public static function getEloquentQuery(): Builder
+    {
+        $query = parent::getEloquentQuery();
+
+        // Necessary to prevent lazy loading when loading related resources
+        return $query->with([
+            ReportModel::RELATION_USER,
+            ReportModel::RELATION_MODERATOR,
+        ]);
     }
 
     /**

@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace App\Filament\Providers;
 
-use App\Models\BaseModel;
+use App\Filament\Resources\BaseResource;
 use Filament\Facades\Filament;
 use Filament\GlobalSearch\Contracts\GlobalSearchProvider;
 use Filament\GlobalSearch\GlobalSearchResult;
 use Filament\GlobalSearch\GlobalSearchResults;
 use Elastic\ScoutDriverPlus\Searchable;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
+use Laravel\Scout\Builder as ScoutBuilder;
 
 /**
  * Class GlobalSearchScoutProvider.
@@ -27,17 +30,21 @@ class GlobalSearchScoutProvider implements GlobalSearchProvider
         $builder = GlobalSearchResults::make();
 
         foreach (Filament::getResources() as $resource) {
+            /** @var class-string<BaseResource> $resource*/
             if (!$resource::canGloballySearch() || !in_array(Searchable::class, class_uses_recursive($resource::getModel()))) {
                 continue;
             }
 
             $query = preg_replace('/[^A-Za-z0-9 ]/', '', $query);
-            $search = $resource::getModel()::search($query);
 
-            $resourceResults = $search
+            /** @var ScoutBuilder $scoutBuilder */
+            $scoutBuilder = $resource::getModel()::search($query);
+
+            $resourceResults = $scoutBuilder
+                ->query(fn (Builder $query) => $query->with($resource::getEloquentQuery()->getEagerLoads()))
                 ->get()
-                ->map(function (BaseModel $record) use ($resource): ?GlobalSearchResult {
-                    $url = $resource::getGlobalSearchResultUrl($record);
+                ->map(function (Model $record) use ($resource): ?GlobalSearchResult {
+                    $url = $resource::getUrl('view', ['record' => $record]);
 
                     if (blank($url)) {
                         return null;

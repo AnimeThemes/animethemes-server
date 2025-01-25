@@ -78,4 +78,11 @@ abstract class Schema implements SchemaInterface
         /** @phpstan-ignore-next-line */
         return $relationInclude?->schema();
     }
+
+    /**
+     * Get the allowed includes.
+     *
+     * @return AllowedInclude[]
+     */
+    abstract public function allowedIncludes(): array;
 }

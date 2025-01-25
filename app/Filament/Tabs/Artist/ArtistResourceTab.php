@@ -46,16 +46,4 @@ abstract class ArtistResourceTab extends BaseTab
             $resourceQuery->where(ExternalResource::ATTRIBUTE_SITE, static::site()->value);
         });
     }
-
-    /**
-     * Get the badge for the tab.
-     *
-     * @return int
-     */
-    public function getBadge(): int
-    {
-        return Artist::query()->whereDoesntHave(Artist::RELATION_RESOURCES, function (Builder $resourceQuery) {
-            $resourceQuery->where(ExternalResource::ATTRIBUTE_SITE, static::site()->value);
-        })->count();
-    }
 }

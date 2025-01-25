@@ -25,6 +25,7 @@ use App\Http\Api\Schema\Wiki\ImageSchema;
 use App\Http\Api\Schema\Wiki\VideoSchema;
 use App\Http\Resources\List\Playlist\Resource\TrackResource;
 use App\Models\List\Playlist\PlaylistTrack;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class TrackSchema.
@@ -48,17 +49,20 @@ class TrackSchema extends EloquentSchema
      */
     public function allowedIncludes(): array
     {
-        return [
-            new AllowedInclude(new ArtistSchema(), PlaylistTrack::RELATION_ARTISTS),
-            new AllowedInclude(new AudioSchema(), PlaylistTrack::RELATION_AUDIO),
-            new AllowedInclude(new EntrySchema(), PlaylistTrack::RELATION_ENTRY),
-            new AllowedInclude(new GroupSchema(), PlaylistTrack::RELATION_THEME_GROUP),
-            new AllowedInclude(new ImageSchema(), PlaylistTrack::RELATION_IMAGES),
-            new AllowedInclude(new PlaylistSchema(), PlaylistTrack::RELATION_PLAYLIST),
-            new AllowedInclude(new TrackSchema(), PlaylistTrack::RELATION_NEXT),
-            new AllowedInclude(new TrackSchema(), PlaylistTrack::RELATION_PREVIOUS),
-            new AllowedInclude(new VideoSchema(), PlaylistTrack::RELATION_VIDEO),
-        ];
+        return array_merge(
+            $this->withIntermediatePaths([
+                new AllowedInclude(new ArtistSchema(), PlaylistTrack::RELATION_ARTISTS),
+                new AllowedInclude(new AudioSchema(), PlaylistTrack::RELATION_AUDIO),
+                new AllowedInclude(new EntrySchema(), PlaylistTrack::RELATION_ENTRY),
+                new AllowedInclude(new GroupSchema(), PlaylistTrack::RELATION_THEME_GROUP),
+                new AllowedInclude(new ImageSchema(), PlaylistTrack::RELATION_IMAGES),
+                new AllowedInclude(new PlaylistSchema(), PlaylistTrack::RELATION_PLAYLIST),
+                new AllowedInclude(new TrackSchema(), PlaylistTrack::RELATION_NEXT),
+                new AllowedInclude(new TrackSchema(), PlaylistTrack::RELATION_PREVIOUS),
+                new AllowedInclude(new VideoSchema(), PlaylistTrack::RELATION_VIDEO),
+            ]),
+            []
+        );
     }
 
     /**
@@ -82,5 +86,15 @@ class TrackSchema extends EloquentSchema
                 new TrackVideoIdField($this),
             ],
         );
+    }
+
+    /**
+     * Get the model of the schema.
+     *
+     * @return Model
+     */
+    public function model(): Model
+    {
+        return new PlaylistTrack();
     }
 }

@@ -38,10 +38,13 @@ class ArtistImageSchema extends EloquentSchema
      */
     public function allowedIncludes(): array
     {
-        return [
-            new AllowedInclude(new ArtistSchema(), ArtistImage::RELATION_ARTIST),
-            new AllowedInclude(new ImageSchema(), ArtistImage::RELATION_IMAGE),
-        ];
+        return array_merge(
+            $this->withIntermediatePaths([
+                new AllowedInclude(new ArtistSchema(), ArtistImage::RELATION_ARTIST),
+                new AllowedInclude(new ImageSchema(), ArtistImage::RELATION_IMAGE),
+            ]),
+            []
+        );
     }
 
     /**

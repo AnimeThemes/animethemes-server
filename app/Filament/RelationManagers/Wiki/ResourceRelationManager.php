@@ -12,6 +12,7 @@ use Filament\Forms\Components\Component;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Class ResourceRelationManager.
@@ -55,6 +56,7 @@ abstract class ResourceRelationManager extends BaseRelationManager
     {
         return parent::table(
             $table
+                ->modifyQueryUsing(fn (Builder $query) => $query->with(ExternalResourceResource::getEloquentQuery()->getEagerLoads()))
                 ->heading(ExternalResourceResource::getPluralLabel())
                 ->modelLabel(ExternalResourceResource::getLabel())
                 ->recordTitleAttribute(ExternalResource::ATTRIBUTE_LINK)

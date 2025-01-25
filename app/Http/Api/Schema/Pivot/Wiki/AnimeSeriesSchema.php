@@ -38,10 +38,13 @@ class AnimeSeriesSchema extends EloquentSchema
      */
     public function allowedIncludes(): array
     {
-        return [
-            new AllowedInclude(new AnimeSchema(), AnimeSeries::RELATION_ANIME),
-            new AllowedInclude(new SeriesSchema(), AnimeSeries::RELATION_SERIES),
-        ];
+        return array_merge(
+            $this->withIntermediatePaths([
+                new AllowedInclude(new AnimeSchema(), AnimeSeries::RELATION_ANIME),
+                new AllowedInclude(new SeriesSchema(), AnimeSeries::RELATION_SERIES),
+            ]),
+            []
+        );
     }
 
     /**

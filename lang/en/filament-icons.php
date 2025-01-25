@@ -38,7 +38,7 @@ return [
         ],
     ],
     'dashboards' => [
-        'admin' => 'heroicon-m-chart-bar',
+        'admin' => 'heroicon-m-chart-bar-square',
         'dev' => 'heroicon-m-code-bracket',
         'wiki' => 'heroicon-m-chart-bar',
     ],
@@ -58,9 +58,9 @@ return [
         'audios' => 'heroicon-o-speaker-wave',
         'discord_thread' => 'heroicon-o-chat-bubble-left-right',
         'dumps' => 'heroicon-o-circle-stack',
-        'external_entries' => 'heroicon-o-list-bullet',
-        'external_profiles' => 'heroicon-o-list-bullet',
-        'external_resources' => 'heroicon-o-arrow-top-right-on-square',
+        'external_entries' => 'heroicon-o-queue-list',
+        'external_profiles' => 'heroicon-o-user',
+        'external_resources' => 'heroicon-o-link',
         'features' => 'heroicon-o-cog-6-tooth',
         'featured_themes' => 'heroicon-o-calendar-days',
         'groups' => 'heroicon-o-folder-open',
@@ -78,7 +78,7 @@ return [
         'studios' => 'heroicon-o-building-office',
         'users' => 'heroicon-o-users',
         'video_scripts' => 'heroicon-o-document-text',
-        'videos' => 'heroicon-o-film',
+        'videos' => 'heroicon-o-video-camera',
     ],
     'table_actions' => [
         'base' => [

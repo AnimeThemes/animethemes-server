@@ -5,12 +5,15 @@ declare(strict_types=1);
 namespace App\Models\Wiki\Anime;
 
 use App\Concerns\Models\Reportable;
+use App\Contracts\Http\Api\InteractsWithSchema;
 use App\Enums\Models\Wiki\ThemeType;
 use App\Events\Wiki\Anime\Theme\ThemeCreated;
 use App\Events\Wiki\Anime\Theme\ThemeDeleted;
 use App\Events\Wiki\Anime\Theme\ThemeDeleting;
 use App\Events\Wiki\Anime\Theme\ThemeRestored;
 use App\Events\Wiki\Anime\Theme\ThemeUpdated;
+use App\Http\Api\Schema\Schema;
+use App\Http\Api\Schema\Wiki\Anime\ThemeSchema;
 use App\Models\BaseModel;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
@@ -41,7 +44,7 @@ use Illuminate\Support\Str;
  *
  * @method static AnimeThemeFactory factory(...$parameters)
  */
-class AnimeTheme extends BaseModel
+class AnimeTheme extends BaseModel implements InteractsWithSchema
 {
     use Reportable;
     use Searchable;
@@ -160,7 +163,8 @@ class AnimeTheme extends BaseModel
      */
     public function getName(): string
     {
-        $this->load(AnimeTheme::RELATION_GROUP);
+        $this->loadMissing(AnimeTheme::RELATION_GROUP);
+
         return Str::of($this->type->localize())
             ->append(strval($this->sequence ?? 1))
             ->append($this->group !== null ? '-'.$this->group->slug : '')
@@ -215,5 +219,15 @@ class AnimeTheme extends BaseModel
     public function animethemeentries(): HasMany
     {
         return $this->hasMany(AnimeThemeEntry::class, AnimeThemeEntry::ATTRIBUTE_THEME);
+    }
+
+    /**
+     * Get the schema for the model.
+     *
+     * @return Schema
+     */
+    public function schema(): Schema
+    {
+        return new ThemeSchema();
     }
 }

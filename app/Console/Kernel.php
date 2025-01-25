@@ -120,7 +120,7 @@ class Kernel extends ConsoleKernel
             ->withoutOverlapping()
             ->runInBackground()
             ->storeOutput()
-            ->daily();
+            ->everyThreeHours();
 
         $schedule->command(UpdateDisposableDomainsCommand::class)
             ->withoutOverlapping()

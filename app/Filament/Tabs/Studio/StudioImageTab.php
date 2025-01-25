@@ -46,16 +46,4 @@ abstract class StudioImageTab extends BaseTab
             $imageQuery->where(Image::ATTRIBUTE_FACET, static::facet()->value);
         });
     }
-
-    /**
-     * Get the badge for the tab.
-     *
-     * @return int
-     */
-    public function getBadge(): int
-    {
-        return Studio::query()->whereDoesntHave(Studio::RELATION_IMAGES, function (Builder $imageQuery) {
-            $imageQuery->where(Image::ATTRIBUTE_FACET, static::facet()->value);
-        })->count();
-    }
 }

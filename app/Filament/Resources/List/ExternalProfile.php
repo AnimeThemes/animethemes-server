@@ -26,6 +26,7 @@ use Filament\Infolists\Components\Section;
 use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Validation\Rules\Enum;
 
 /**
@@ -110,6 +111,19 @@ class ExternalProfile extends BaseResource
     public static function getRecordTitleAttribute(): string
     {
         return ExternalProfileModel::ATTRIBUTE_NAME;
+    }
+
+    /**
+     * Get the eloquent query for the resource.
+     *
+     * @return Builder
+     */
+    public static function getEloquentQuery(): Builder
+    {
+        $query = parent::getEloquentQuery();
+
+        // Necessary to prevent lazy loading when loading related resources
+        return $query->with([ExternalProfileModel::RELATION_USER]);
     }
 
     /**

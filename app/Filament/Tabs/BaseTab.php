@@ -17,8 +17,6 @@ abstract class BaseTab extends Tab
      * Get the key for the tab.
      *
      * @return string
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     abstract static public function getKey(): string;
 
@@ -26,8 +24,6 @@ abstract class BaseTab extends Tab
      * Get the displayable name of the tab.
      *
      * @return string
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public function getLabel(): string
     {
@@ -50,13 +46,17 @@ abstract class BaseTab extends Tab
     /**
      * Get the badge for the tab.
      *
-     * @return int
+     * @return mixed
      */
-    public function getBadge(): int
+    public function count(): mixed
     {
-        return Cache::flexible("filament_badge_{$this->getKey()}", [15, 60], function () {
+        $count = Cache::flexible("filament_badge_{$this->getKey()}", [15, 60], function () {
             return $this->getBadge();
         });
+
+        $this->badge($count);
+
+        return $count;
     }
 
     /**
@@ -66,6 +66,10 @@ abstract class BaseTab extends Tab
      */
     public function shouldBeHidden(): bool
     {
-        return $this->getBadge() === 0;
+        if (is_int($count = $this->count())) {
+            return $count === 0;
+        }
+
+        return false;
     }
 }

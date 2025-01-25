@@ -5,11 +5,14 @@ declare(strict_types=1);
 namespace App\Models\Wiki\Anime\Theme;
 
 use App\Concerns\Models\Reportable;
+use App\Contracts\Http\Api\InteractsWithSchema;
 use App\Events\Wiki\Anime\Theme\Entry\EntryCreated;
 use App\Events\Wiki\Anime\Theme\Entry\EntryDeleted;
 use App\Events\Wiki\Anime\Theme\Entry\EntryDeleting;
 use App\Events\Wiki\Anime\Theme\Entry\EntryRestored;
 use App\Events\Wiki\Anime\Theme\Entry\EntryUpdated;
+use App\Http\Api\Schema\Schema;
+use App\Http\Api\Schema\Wiki\Anime\Theme\EntrySchema;
 use App\Http\Resources\Pivot\Wiki\Resource\AnimeThemeEntryVideoResource;
 use App\Models\BaseModel;
 use App\Models\Wiki\Anime;
@@ -41,7 +44,7 @@ use Znck\Eloquent\Relations\BelongsToThrough;
  *
  * @method static AnimeThemeEntryFactory factory(...$parameters)
  */
-class AnimeThemeEntry extends BaseModel
+class AnimeThemeEntry extends BaseModel implements InteractsWithSchema
 {
     use Reportable;
     use Searchable;
@@ -62,6 +65,7 @@ class AnimeThemeEntry extends BaseModel
     final public const RELATION_SONG = 'animetheme.song';
     final public const RELATION_SYNONYMS = 'animetheme.anime.animesynonyms';
     final public const RELATION_THEME = 'animetheme';
+    final public const RELATION_THEME_GROUP = 'animetheme.group';
     final public const RELATION_VIDEOS = 'videos';
 
     /**
@@ -158,6 +162,12 @@ class AnimeThemeEntry extends BaseModel
      */
     public function getName(): string
     {
+        $this->loadMissing([
+            AnimeThemeEntry::RELATION_ANIME,
+            AnimeThemeEntry::RELATION_THEME,
+            AnimeThemeEntry::RELATION_THEME_GROUP,
+        ]);
+
         return Str::of($this->anime->name)
             ->append(' ')
             ->append($this->animetheme->type->localize())
@@ -222,5 +232,15 @@ class AnimeThemeEntry extends BaseModel
                 AnimeTheme::class => AnimeTheme::ATTRIBUTE_ID,
             ]
         );
+    }
+
+    /**
+     * Get the schema for the model.
+     *
+     * @return Schema
+     */
+    public function schema(): Schema
+    {
+        return new EntrySchema();
     }
 }

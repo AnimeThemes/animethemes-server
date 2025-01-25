@@ -9,6 +9,7 @@ use App\Filament\Resources\List\ExternalProfile as ExternalProfileResource;
 use App\Models\List\ExternalProfile;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Class ExternalProfileRelationManager.
@@ -38,6 +39,7 @@ abstract class ExternalProfileRelationManager extends BaseRelationManager
     {
         return parent::table(
             $table
+                ->modifyQueryUsing(fn (Builder $query) => $query->with(ExternalProfileResource::getEloquentQuery()->getEagerLoads()))
                 ->heading(ExternalProfileResource::getPluralLabel())
                 ->modelLabel(ExternalProfileResource::getLabel())
                 ->recordTitleAttribute(ExternalProfile::ATTRIBUTE_NAME)

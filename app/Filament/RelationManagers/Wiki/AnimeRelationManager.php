@@ -9,6 +9,7 @@ use App\Filament\Resources\Wiki\Anime as AnimeResource;
 use App\Models\Wiki\Anime;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Class AnimeRelationManager.
@@ -38,6 +39,7 @@ abstract class AnimeRelationManager extends BaseRelationManager
     {
         return parent::table(
             $table
+                ->modifyQueryUsing(fn (Builder $query) => $query->with(AnimeResource::getEloquentQuery()->getEagerLoads()))
                 ->heading(AnimeResource::getPluralLabel())
                 ->modelLabel(AnimeResource::getLabel())
                 ->recordTitleAttribute(Anime::ATTRIBUTE_NAME)

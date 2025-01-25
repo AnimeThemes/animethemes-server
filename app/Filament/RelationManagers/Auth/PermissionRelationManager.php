@@ -9,6 +9,7 @@ use App\Filament\Resources\Auth\Permission as PermissionResource;
 use App\Models\Auth\Permission;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Class PermissionRelationManager.
@@ -38,6 +39,7 @@ abstract class PermissionRelationManager extends BaseRelationManager
     {
         return parent::table(
             $table
+            ->modifyQueryUsing(fn (Builder $query) => $query->with(PermissionResource::getEloquentQuery()->getEagerLoads()))
                 ->heading(PermissionResource::getPluralLabel())
                 ->modelLabel(PermissionResource::getLabel())
                 ->recordTitleAttribute(Permission::ATTRIBUTE_NAME)

@@ -49,11 +49,14 @@ class StudioSchema extends Schema
      */
     public function allowedIncludes(): array
     {
-        return [
-            new AllowedInclude(new AnimeSchema(), Studio::RELATION_ANIME),
-            new AllowedInclude(new ExternalResourceSchema(), Studio::RELATION_RESOURCES),
-            new AllowedInclude(new ImageSchema(), Studio::RELATION_IMAGES),
-        ];
+        return array_merge(
+            $this->withIntermediatePaths([
+                new AllowedInclude(new AnimeSchema(), Studio::RELATION_ANIME),
+                new AllowedInclude(new ExternalResourceSchema(), Studio::RELATION_RESOURCES),
+                new AllowedInclude(new ImageSchema(), Studio::RELATION_IMAGES),
+            ]),
+            []
+        );
     }
 
     /**

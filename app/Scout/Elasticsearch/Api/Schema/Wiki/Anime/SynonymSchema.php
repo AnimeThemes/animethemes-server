@@ -15,6 +15,7 @@ use App\Scout\Elasticsearch\Api\Query\ElasticQuery;
 use App\Scout\Elasticsearch\Api\Query\Wiki\Anime\SynonymQuery;
 use App\Scout\Elasticsearch\Api\Schema\Schema;
 use App\Scout\Elasticsearch\Api\Schema\Wiki\AnimeSchema;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class SynonymSchema.
@@ -48,9 +49,12 @@ class SynonymSchema extends Schema
      */
     public function allowedIncludes(): array
     {
-        return [
-            new AllowedInclude(new AnimeSchema(), AnimeSynonym::RELATION_ANIME),
-        ];
+        return array_merge(
+            $this->withIntermediatePaths([
+                new AllowedInclude(new AnimeSchema(), AnimeSynonym::RELATION_ANIME),
+            ]),
+            []
+        );
     }
 
     /**
@@ -68,5 +72,15 @@ class SynonymSchema extends Schema
                 new SynonymTypeField($this),
             ],
         );
+    }
+
+    /**
+     * Get the model of the schema.
+     *
+     * @return Model
+     */
+    public function model(): Model
+    {
+        return new AnimeSynonym();
     }
 }

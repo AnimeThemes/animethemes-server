@@ -63,6 +63,7 @@ class ActionLog extends Model implements Nameable, HasSubtitle
     final public const ATTRIBUTE_FINISHED_AT = 'finished_at';
 
     final public const RELATION_USER = 'user';
+    final public const RELATION_TARGET = 'target';
 
     /**
      * The attributes that are mass assignable.
@@ -159,6 +160,8 @@ class ActionLog extends Model implements Nameable, HasSubtitle
      */
     public function getName(): string
     {
+        $this->loadMissing(ActionLog::RELATION_TARGET);
+
         return Str::of($this->name)
             ->append(' - ')
             ->append($this->target()->getName())

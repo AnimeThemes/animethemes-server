@@ -18,6 +18,7 @@ use App\Http\Api\Schema\List\ExternalProfileSchema;
 use App\Http\Api\Schema\List\PlaylistSchema;
 use App\Http\Resources\Auth\User\Resource\MyResource;
 use App\Models\Auth\User;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class MySchema.
@@ -41,13 +42,16 @@ class MySchema extends EloquentSchema
      */
     public function allowedIncludes(): array
     {
-        return [
-            new AllowedInclude(new ExternalProfileSchema(), User::RELATION_EXTERNAL_PROFILES),
-            new AllowedInclude(new PermissionSchema(), User::RELATION_PERMISSIONS),
-            new AllowedInclude(new PlaylistSchema(), User::RELATION_PLAYLISTS),
-            new AllowedInclude(new RoleSchema(), User::RELATION_ROLES),
-            new AllowedInclude(new PermissionSchema(), User::RELATION_ROLES_PERMISSIONS),
-        ];
+        return array_merge(
+            $this->withIntermediatePaths([
+                new AllowedInclude(new ExternalProfileSchema(), User::RELATION_EXTERNAL_PROFILES),
+                new AllowedInclude(new PermissionSchema(), User::RELATION_PERMISSIONS),
+                new AllowedInclude(new PlaylistSchema(), User::RELATION_PLAYLISTS),
+                new AllowedInclude(new RoleSchema(), User::RELATION_ROLES),
+                new AllowedInclude(new PermissionSchema(), User::RELATION_ROLES_PERMISSIONS),
+            ]),
+            []
+        );
     }
 
     /**
@@ -67,5 +71,15 @@ class MySchema extends EloquentSchema
                 new UserTwoFactorConfirmedAtField($this),
             ],
         );
+    }
+
+    /**
+     * Resolve the owner model of the schema.
+     *
+     * @return Model
+     */
+    public function model(): Model
+    {
+        return new User();
     }
 }

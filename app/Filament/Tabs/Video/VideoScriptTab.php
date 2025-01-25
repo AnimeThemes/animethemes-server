@@ -48,17 +48,4 @@ class VideoScriptTab extends BaseTab
             ->whereDoesntHave(Video::RELATION_SCRIPT)
             ->where(Video::ATTRIBUTE_PATH, ComparisonOperator::NOTLIKE->value, 'misc%');
     }
-
-    /**
-     * Get the badge for the tab.
-     *
-     * @return int
-     */
-    public function getBadge(): int
-    {
-        return Video::query()
-            ->whereDoesntHave(Video::RELATION_SCRIPT)
-            ->where(Video::ATTRIBUTE_PATH, ComparisonOperator::NOTLIKE->value, 'misc%')
-            ->count();
-    }
 }

@@ -39,10 +39,13 @@ class StudioResourceSchema extends EloquentSchema
      */
     public function allowedIncludes(): array
     {
-        return [
-            new AllowedInclude(new ExternalResourceSchema(), StudioResource::RELATION_RESOURCE),
-            new AllowedInclude(new StudioSchema(), StudioResource::RELATION_STUDIO),
-        ];
+        return array_merge(
+            $this->withIntermediatePaths([
+                new AllowedInclude(new ExternalResourceSchema(), StudioResource::RELATION_RESOURCE),
+                new AllowedInclude(new StudioSchema(), StudioResource::RELATION_STUDIO),
+            ]),
+            []
+        );
     }
 
     /**

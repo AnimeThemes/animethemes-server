@@ -9,6 +9,7 @@ use App\Filament\Resources\Wiki\Anime\Theme as ThemeResource;
 use App\Models\Wiki\Anime\AnimeTheme;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Class ThemeRelationManager.
@@ -38,6 +39,7 @@ abstract class ThemeRelationManager extends BaseRelationManager
     {
         return parent::table(
             $table
+                ->modifyQueryUsing(fn (Builder $query) => $query->with(ThemeResource::getEloquentQuery()->getEagerLoads()))
                 ->heading(ThemeResource::getPluralLabel())
                 ->modelLabel(ThemeResource::getLabel())
                 ->recordTitle(fn ($record) => $record->getName())

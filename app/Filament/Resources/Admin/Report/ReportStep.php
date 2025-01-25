@@ -23,6 +23,7 @@ use Filament\Infolists\Components\KeyValueEntry;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Infolist;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Class ReportStep.
@@ -106,6 +107,21 @@ class ReportStep extends BaseResource
     public static function getRecordTitleAttribute(): string
     {
         return ReportStepModel::ATTRIBUTE_ID;
+    }
+
+    /**
+     * Get the eloquent query for the resource.
+     *
+     * @return Builder
+     */
+    public static function getEloquentQuery(): Builder
+    {
+        $query = parent::getEloquentQuery();
+
+        // Necessary to prevent lazy loading when loading related resources
+        return $query->with([
+            ReportStepModel::RELATION_REPORT,
+        ]);
     }
 
     /**

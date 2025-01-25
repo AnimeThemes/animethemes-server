@@ -9,6 +9,7 @@ use App\Filament\Resources\Wiki\Video as VideoResource;
 use App\Models\Wiki\Video;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Class VideoRelationManager.
@@ -38,6 +39,8 @@ abstract class VideoRelationManager extends BaseRelationManager
     {
         return parent::table(
             $table
+                ->modifyQueryUsing(fn (Builder $query) => $query->with(VideoResource::getEloquentQuery()->getEagerLoads()))
+                ->query(VideoResource::getEloquentQuery())
                 ->heading(VideoResource::getPluralLabel())
                 ->modelLabel(VideoResource::getLabel())
                 ->recordTitleAttribute(Video::ATTRIBUTE_FILENAME)

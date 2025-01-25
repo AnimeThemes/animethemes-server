@@ -9,6 +9,7 @@ use App\Filament\Resources\Wiki\Image as ImageResource;
 use App\Models\Wiki\Image;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Class ImageRelationManager.
@@ -38,6 +39,7 @@ abstract class ImageRelationManager extends BaseRelationManager
     {
         return parent::table(
             $table
+                ->modifyQueryUsing(fn (Builder $query) => $query->with(ImageResource::getEloquentQuery()->getEagerLoads()))
                 ->heading(ImageResource::getPluralLabel())
                 ->modelLabel(ImageResource::getLabel())
                 ->recordTitleAttribute(Image::ATTRIBUTE_PATH)

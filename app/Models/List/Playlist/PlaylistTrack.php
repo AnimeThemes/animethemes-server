@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace App\Models\List\Playlist;
 
+use App\Contracts\Http\Api\InteractsWithSchema;
 use App\Contracts\Models\HasHashids;
 use App\Events\List\Playlist\Track\TrackCreated;
 use App\Events\List\Playlist\Track\TrackDeleted;
 use App\Events\List\Playlist\Track\TrackRestored;
 use App\Events\List\Playlist\Track\TrackUpdated;
+use App\Http\Api\Schema\List\Playlist\TrackSchema;
+use App\Http\Api\Schema\Schema;
 use App\Models\BaseModel;
 use App\Models\List\Playlist;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
@@ -35,7 +38,7 @@ use Staudenmeir\LaravelAdjacencyList\Eloquent\HasRecursiveRelationships;
  *
  * @method static PlaylistTrackFactory factory(...$parameters)
  */
-class PlaylistTrack extends BaseModel implements HasHashids
+class PlaylistTrack extends BaseModel implements HasHashids, InteractsWithSchema
 {
     use HasRecursiveRelationships;
 
@@ -201,5 +204,15 @@ class PlaylistTrack extends BaseModel implements HasHashids
     public function video(): BelongsTo
     {
         return $this->belongsTo(Video::class, PlaylistTrack::ATTRIBUTE_VIDEO);
+    }
+
+    /**
+     * Get the schema for the model.
+     *
+     * @return Schema
+     */
+    public function schema(): Schema
+    {
+        return new TrackSchema();
     }
 }

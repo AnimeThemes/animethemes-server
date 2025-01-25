@@ -23,6 +23,7 @@ use Filament\Infolists\Components\TextEntry\TextEntrySize;
 use Filament\Infolists\Infolist;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Malzariey\FilamentDaterangepickerFilter\Filters\DateRangeFilter;
@@ -109,6 +110,22 @@ class ActionLog extends BaseResource
     public static function getRecordTitleAttribute(): string
     {
         return ActionLogModel::ATTRIBUTE_NAME;
+    }
+
+    /**
+     * Get the eloquent query for the resource.
+     *
+     * @return Builder
+     */
+    public static function getEloquentQuery(): Builder
+    {
+        $query = parent::getEloquentQuery();
+
+        // Necessary to prevent lazy loading when loading related resources
+        return $query->with([
+            ActionLogModel::RELATION_USER,
+            ActionLogModel::RELATION_TARGET,
+        ]);
     }
 
     /**

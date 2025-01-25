@@ -31,6 +31,7 @@ use Filament\Infolists\Components\Section;
 use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
 use Illuminate\Validation\Rule;
 use Malzariey\FilamentDaterangepickerFilter\Fields\DateRangePicker;
@@ -105,6 +106,24 @@ class FeaturedTheme extends BaseResource
     public static function getRecordSlug(): string
     {
         return 'featured-themes';
+    }
+
+    /**
+     * Get the eloquent query for the resource.
+     *
+     * @return Builder
+     */
+    public static function getEloquentQuery(): Builder
+    {
+        $query = parent::getEloquentQuery();
+
+        // Necessary to prevent lazy loading when loading related resources
+        return $query->with([
+            FeaturedThemeModel::RELATION_USER,
+            FeaturedThemeModel::RELATION_VIDEO,
+            'animethemeentry.anime',
+            'animethemeentry.animetheme.group',
+        ]);
     }
 
     /**

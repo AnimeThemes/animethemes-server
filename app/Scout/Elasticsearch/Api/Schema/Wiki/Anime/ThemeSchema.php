@@ -22,6 +22,7 @@ use App\Scout\Elasticsearch\Api\Schema\Wiki\AnimeSchema;
 use App\Scout\Elasticsearch\Api\Schema\Wiki\ArtistSchema;
 use App\Scout\Elasticsearch\Api\Schema\Wiki\SongSchema;
 use App\Scout\Elasticsearch\Api\Schema\Wiki\VideoSchema;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class ThemeSchema.
@@ -63,14 +64,17 @@ class ThemeSchema extends Schema
      */
     public function allowedIncludes(): array
     {
-        return [
-            new AllowedInclude(new AnimeSchema(), AnimeTheme::RELATION_ANIME),
-            new AllowedInclude(new ArtistSchema(), AnimeTheme::RELATION_ARTISTS),
-            new AllowedInclude(new EntrySchema(), AnimeTheme::RELATION_ENTRIES),
-            new AllowedInclude(new ImageSchema(), AnimeTheme::RELATION_IMAGES),
-            new AllowedInclude(new SongSchema(), AnimeTheme::RELATION_SONG),
-            new AllowedInclude(new VideoSchema(), AnimeTheme::RELATION_VIDEOS),
-        ];
+        return array_merge(
+            $this->withIntermediatePaths([
+                new AllowedInclude(new AnimeSchema(), AnimeTheme::RELATION_ANIME),
+                new AllowedInclude(new ArtistSchema(), AnimeTheme::RELATION_ARTISTS),
+                new AllowedInclude(new EntrySchema(), AnimeTheme::RELATION_ENTRIES),
+                new AllowedInclude(new ImageSchema(), AnimeTheme::RELATION_IMAGES),
+                new AllowedInclude(new SongSchema(), AnimeTheme::RELATION_SONG),
+                new AllowedInclude(new VideoSchema(), AnimeTheme::RELATION_VIDEOS),
+            ]),
+            []
+        );
     }
 
     /**
@@ -106,5 +110,15 @@ class ThemeSchema extends Schema
                 new Sort(ThemeSchema::SORT_YEAR),
             ]
         );
+    }
+
+    /**
+     * Get the model of the schema.
+     *
+     * @return Model
+     */
+    public function model(): Model
+    {
+        return new AnimeTheme();
     }
 }

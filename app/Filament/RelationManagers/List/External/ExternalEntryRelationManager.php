@@ -9,6 +9,7 @@ use App\Filament\Resources\List\External\ExternalEntry as ExternalEntryResource;
 use App\Models\List\External\ExternalEntry;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Class ExternalEntryRelationManager.
@@ -38,6 +39,7 @@ abstract class ExternalEntryRelationManager extends BaseRelationManager
     {
         return parent::table(
             $table
+                ->modifyQueryUsing(fn (Builder $query) => $query->with(ExternalEntryResource::getEloquentQuery()->getEagerLoads()))
                 ->heading(ExternalEntryResource::getPluralLabel())
                 ->modelLabel(ExternalEntryResource::getLabel())
                 ->recordTitleAttribute(ExternalEntry::ATTRIBUTE_ID)

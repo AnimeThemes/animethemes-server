@@ -9,6 +9,7 @@ use App\Filament\Resources\Wiki\Video\Script as ScriptResource;
 use App\Models\Wiki\Video\VideoScript;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Class ScriptRelationManager.
@@ -38,6 +39,7 @@ abstract class ScriptRelationManager extends BaseRelationManager
     {
         return parent::table(
             $table
+                ->modifyQueryUsing(fn (Builder $query) => $query->with(ScriptResource::getEloquentQuery()->getEagerLoads()))
                 ->heading(ScriptResource::getPluralLabel())
                 ->modelLabel(ScriptResource::getLabel())
                 ->recordTitleAttribute(VideoScript::ATTRIBUTE_PATH)

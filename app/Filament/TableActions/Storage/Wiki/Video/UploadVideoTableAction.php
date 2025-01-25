@@ -60,9 +60,6 @@ use Illuminate\Validation\Rules\File as FileRule;
  */
 class UploadVideoTableAction extends UploadTableAction
 {
-    final public const SHOULD_BACKFILL_AUDIO = 'should_backfill_audio';
-    final public const SHOULD_SEND_NOTIFICATION = 'should_send_notification';
-
     /**
      * Initial setup for the action.
      *
@@ -153,7 +150,7 @@ class UploadVideoTableAction extends UploadTableAction
                         Tab::make('audio')
                             ->label(__('filament.actions.video.backfill.name'))
                             ->schema([
-                                Select::make(self::SHOULD_BACKFILL_AUDIO)
+                                Select::make(ShouldBackfillAudio::getFieldKey())
                                     ->label(__('filament.actions.video.backfill.fields.should.name'))
                                     ->helperText(__('filament.actions.video.backfill.fields.should.help'))
                                     ->options(ShouldBackfillAudio::asSelectArray())
@@ -167,7 +164,7 @@ class UploadVideoTableAction extends UploadTableAction
                         Tab::make('discord')
                             ->label(__('filament.bulk_actions.discord.notification.name'))
                             ->schema([
-                                Select::make(self::SHOULD_SEND_NOTIFICATION)
+                                Select::make(ShouldSendNotification::getFieldKey())
                                     ->label(__('filament.bulk_actions.discord.notification.should_send.name'))
                                     ->helperText(__('filament.bulk_actions.discord.notification.should_send.help'))
                                     ->options(ShouldSendNotification::asSelectArray())
@@ -215,7 +212,7 @@ class UploadVideoTableAction extends UploadTableAction
 
         if ($path === null) {
             $video = Video::query()->firstWhere(Video::ATTRIBUTE_BASENAME, $file->getClientOriginalName());
-            $path = $video instanceof Video ? explode($video->filename, $video->path())[0] : null;
+            $path = $video instanceof Video ? Str::beforeLast($video->path(), '/') : '';
         }
 
         $attributes = [
@@ -239,8 +236,8 @@ class UploadVideoTableAction extends UploadTableAction
      */
     protected function afterUploaded(BaseModel $video, array $data): void
     {
-        $shouldBackfill = ShouldBackfillAudio::from(intval(Arr::get($data, self::SHOULD_BACKFILL_AUDIO)));
-        $shouldSendNot = ShouldSendNotification::from(intval(Arr::get($data, self::SHOULD_SEND_NOTIFICATION)));
+        $shouldBackfill = ShouldBackfillAudio::from(intval(Arr::get($data, ShouldBackfillAudio::getFieldKey())));
+        $shouldSendNot = ShouldSendNotification::from(intval(Arr::get($data, ShouldSendNotification::getFieldKey())));
 
         if ($shouldBackfill === ShouldBackfillAudio::YES) {
             $backfillAudioAction = new BackfillAudioAction('audio');

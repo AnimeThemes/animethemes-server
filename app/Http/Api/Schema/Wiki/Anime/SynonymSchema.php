@@ -15,6 +15,7 @@ use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Api\Schema\Wiki\AnimeSchema;
 use App\Http\Resources\Wiki\Anime\Resource\SynonymResource;
 use App\Models\Wiki\Anime\AnimeSynonym;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class SynonymSchema.
@@ -38,9 +39,12 @@ class SynonymSchema extends EloquentSchema implements SearchableSchema
      */
     public function allowedIncludes(): array
     {
-        return [
-            new AllowedInclude(new AnimeSchema(), AnimeSynonym::RELATION_ANIME),
-        ];
+        return array_merge(
+            $this->withIntermediatePaths([
+                new AllowedInclude(new AnimeSchema(), AnimeSynonym::RELATION_ANIME),
+            ]),
+            []
+        );
     }
 
     /**
@@ -59,5 +63,15 @@ class SynonymSchema extends EloquentSchema implements SearchableSchema
                 new SynonymAnimeIdField($this),
             ],
         );
+    }
+
+    /**
+     * Get the model of the schema.
+     *
+     * @return Model
+     */
+    public function model(): Model
+    {
+        return new AnimeSynonym();
     }
 }

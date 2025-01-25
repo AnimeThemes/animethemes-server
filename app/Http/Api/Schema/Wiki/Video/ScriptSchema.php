@@ -14,6 +14,7 @@ use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Api\Schema\Wiki\VideoSchema;
 use App\Http\Resources\Wiki\Video\Resource\ScriptResource;
 use App\Models\Wiki\Video\VideoScript;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class ScriptSchema.
@@ -37,9 +38,12 @@ class ScriptSchema extends EloquentSchema
      */
     public function allowedIncludes(): array
     {
-        return [
-            new AllowedInclude(new VideoSchema(), VideoScript::RELATION_VIDEO),
-        ];
+        return array_merge(
+            $this->withIntermediatePaths([
+                new AllowedInclude(new VideoSchema(), VideoScript::RELATION_VIDEO),
+            ]),
+            []
+        );
     }
 
     /**
@@ -58,5 +62,15 @@ class ScriptSchema extends EloquentSchema
                 new ScriptVideoIdField($this),
             ],
         );
+    }
+
+    /**
+     * Get the model of the schema.
+     *
+     * @return Model
+     */
+    public function model(): Model
+    {
+        return new VideoScript();
     }
 }

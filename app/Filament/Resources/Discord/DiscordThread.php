@@ -20,7 +20,6 @@ use App\Filament\TableActions\Models\Discord\DiscordEditMessageTableAction;
 use App\Filament\TableActions\Models\Discord\DiscordSendMessageTableAction;
 use App\Models\BaseModel;
 use App\Models\Discord\DiscordThread as DiscordThreadModel;
-use App\Models\Wiki\Anime;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Forms\Set;
@@ -29,6 +28,7 @@ use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
 
 /**
@@ -113,6 +113,19 @@ class DiscordThread extends BaseResource
     public static function getRecordSlug(): string
     {
         return 'discord-thread';
+    }
+
+     /**
+     * Get the eloquent query for the resource.
+     *
+     * @return Builder
+     */
+    public static function getEloquentQuery(): Builder
+    {
+        $query = parent::getEloquentQuery();
+
+        // Necessary to prevent lazy loading when loading related resources
+        return $query->with([DiscordThreadModel::RELATION_ANIME]);
     }
 
     /**

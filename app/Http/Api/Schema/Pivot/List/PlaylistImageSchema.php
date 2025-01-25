@@ -38,10 +38,13 @@ class PlaylistImageSchema extends EloquentSchema
      */
     public function allowedIncludes(): array
     {
-        return [
-            new AllowedInclude(new PlaylistSchema(), PlaylistImage::RELATION_PLAYLIST),
-            new AllowedInclude(new ImageSchema(), PlaylistImage::RELATION_IMAGE),
-        ];
+        return array_merge(
+            $this->withIntermediatePaths([
+                new AllowedInclude(new PlaylistSchema(), PlaylistImage::RELATION_PLAYLIST),
+                new AllowedInclude(new ImageSchema(), PlaylistImage::RELATION_IMAGE),
+            ]),
+            []
+        );
     }
 
     /**

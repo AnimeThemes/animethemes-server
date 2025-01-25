@@ -24,6 +24,7 @@ use App\Filament\Resources\Wiki\Anime\Theme\Entry\RelationManagers\VideoEntryRel
 use App\Filament\Resources\Wiki\Anime\Theme\RelationManagers\EntryThemeRelationManager;
 use App\Models\Wiki\Anime\AnimeTheme as ThemeModel;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry as EntryModel;
+use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
@@ -34,6 +35,7 @@ use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -135,6 +137,19 @@ class Entry extends BaseResource
     public static function getRecordSlug(): string
     {
         return 'anime-theme-entries';
+    }
+
+    /**
+     * Get the eloquent query for the resource.
+     *
+     * @return Builder
+     */
+    public static function getEloquentQuery(): Builder
+    {
+        $query = parent::getEloquentQuery();
+
+        // Necessary to prevent lazy loading when loading related resources
+        return $query->with([AnimeThemeEntry::RELATION_ANIME_SHALLOW, AnimeThemeEntry::RELATION_THEME]);
     }
 
     /**
