@@ -45,19 +45,22 @@ class FeaturedThemeSchema extends EloquentSchema
      *
      * @return AllowedInclude[]
      */
-    protected function finalAllowedIncludes(): array
+    public function allowedIncludes(): array
     {
-        return [
-            new AllowedInclude(new AnimeSchema(), FeaturedTheme::RELATION_ANIME),
-            new AllowedInclude(new ArtistSchema(), FeaturedTheme::RELATION_ARTISTS),
-            new AllowedInclude(new EntrySchema(), FeaturedTheme::RELATION_ENTRY),
-            new AllowedInclude(new GroupSchema(), FeaturedTheme::RELATION_GROUP),
-            new AllowedInclude(new ImageSchema(), FeaturedTheme::RELATION_IMAGES),
-            new AllowedInclude(new SongSchema(), FeaturedTheme::RELATION_SONG),
-            new AllowedInclude(new ThemeSchema(), FeaturedTheme::RELATION_THEME),
-            new AllowedInclude(new UserSchema(), FeaturedTheme::RELATION_USER),
-            new AllowedInclude(new VideoSchema(), FeaturedTheme::RELATION_VIDEO),
-        ];
+        return array_merge(
+            $this->withIntermediatePaths([
+                new AllowedInclude(new AnimeSchema(), FeaturedTheme::RELATION_ANIME),
+                new AllowedInclude(new ArtistSchema(), FeaturedTheme::RELATION_ARTISTS),
+                new AllowedInclude(new EntrySchema(), FeaturedTheme::RELATION_ENTRY),
+                new AllowedInclude(new GroupSchema(), FeaturedTheme::RELATION_GROUP),
+                new AllowedInclude(new ImageSchema(), FeaturedTheme::RELATION_IMAGES),
+                new AllowedInclude(new SongSchema(), FeaturedTheme::RELATION_SONG),
+                new AllowedInclude(new ThemeSchema(), FeaturedTheme::RELATION_THEME),
+                new AllowedInclude(new UserSchema(), FeaturedTheme::RELATION_USER),
+                new AllowedInclude(new VideoSchema(), FeaturedTheme::RELATION_VIDEO),
+            ]),
+            []
+        );
     }
 
     /**

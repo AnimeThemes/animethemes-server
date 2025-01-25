@@ -40,15 +40,18 @@ class ForwardBackwardSchema extends EloquentSchema
      *
      * @return AllowedInclude[]
      */
-    protected function finalAllowedIncludes(): array
+    public function allowedIncludes(): array
     {
-        return [
-            new AllowedInclude(new ArtistSchema(), PlaylistTrack::RELATION_ARTISTS),
-            new AllowedInclude(new AudioSchema(), PlaylistTrack::RELATION_AUDIO),
-            new AllowedInclude(new GroupSchema(), PlaylistTrack::RELATION_THEME_GROUP),
-            new AllowedInclude(new ImageSchema(), PlaylistTrack::RELATION_IMAGES),
-            new AllowedInclude(new VideoSchema(), PlaylistTrack::RELATION_VIDEO),
-        ];
+        return array_merge(
+            $this->withIntermediatePaths([
+                new AllowedInclude(new ArtistSchema(), PlaylistTrack::RELATION_ARTISTS),
+                new AllowedInclude(new AudioSchema(), PlaylistTrack::RELATION_AUDIO),
+                new AllowedInclude(new GroupSchema(), PlaylistTrack::RELATION_THEME_GROUP),
+                new AllowedInclude(new ImageSchema(), PlaylistTrack::RELATION_IMAGES),
+                new AllowedInclude(new VideoSchema(), PlaylistTrack::RELATION_VIDEO),
+            ]),
+            []
+        );
     }
 
     /**

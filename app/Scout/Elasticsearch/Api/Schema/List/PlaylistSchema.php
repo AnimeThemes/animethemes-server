@@ -49,15 +49,18 @@ class PlaylistSchema extends Schema
      *
      * @return AllowedInclude[]
      */
-    protected function finalAllowedIncludes(): array
+    public function allowedIncludes(): array
     {
-        return [
-            new AllowedInclude(new ImageSchema(), Playlist::RELATION_IMAGES),
-            new AllowedInclude(new TrackSchema(), Playlist::RELATION_FIRST),
-            new AllowedInclude(new TrackSchema(), Playlist::RELATION_LAST),
-            new AllowedInclude(new TrackSchema(), Playlist::RELATION_TRACKS),
-            new AllowedInclude(new UserSchema(), Playlist::RELATION_USER),
-        ];
+        return array_merge(
+            $this->withIntermediatePaths([
+                new AllowedInclude(new ImageSchema(), Playlist::RELATION_IMAGES),
+                new AllowedInclude(new TrackSchema(), Playlist::RELATION_FIRST),
+                new AllowedInclude(new TrackSchema(), Playlist::RELATION_LAST),
+                new AllowedInclude(new TrackSchema(), Playlist::RELATION_TRACKS),
+                new AllowedInclude(new UserSchema(), Playlist::RELATION_USER),
+            ]),
+            []
+        );
     }
 
     /**

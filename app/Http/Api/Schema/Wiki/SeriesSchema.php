@@ -35,18 +35,21 @@ class SeriesSchema extends EloquentSchema implements SearchableSchema
      *
      * @return AllowedInclude[]
      */
-    protected function finalAllowedIncludes(): array
+    public function allowedIncludes(): array
     {
-        return [
-            new AllowedInclude(new AnimeSchema(), Series::RELATION_ANIME),
+        return array_merge(
+            $this->withIntermediatePaths([
+                new AllowedInclude(new AnimeSchema(), Series::RELATION_ANIME),
 
-            // Undocumented paths needed for client builds
-            new AllowedInclude(new ImageSchema(), 'anime.images'),
-            new AllowedInclude(new VideoSchema(), 'anime.animethemes.animethemeentries.videos'),
-            new AllowedInclude(new GroupSchema(), 'anime.animethemes.group'),
-            new AllowedInclude(new SongSchema(), 'anime.animethemes.song'),
-            new AllowedInclude(new SynonymSchema(), 'anime.animesynonyms'),
-        ];
+                // Undocumented paths needed for client builds
+                new AllowedInclude(new ImageSchema(), 'anime.images'),
+                new AllowedInclude(new VideoSchema(), 'anime.animethemes.animethemeentries.videos'),
+                new AllowedInclude(new GroupSchema(), 'anime.animethemes.group'),
+                new AllowedInclude(new SongSchema(), 'anime.animethemes.song'),
+                new AllowedInclude(new SynonymSchema(), 'anime.animesynonyms'),
+            ]),
+            []
+        );
     }
 
     /**

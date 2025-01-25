@@ -42,13 +42,16 @@ class EntrySchema extends EloquentSchema implements SearchableSchema
      *
      * @return AllowedInclude[]
      */
-    protected function finalAllowedIncludes(): array
+    public function allowedIncludes(): array
     {
-        return [
-            new AllowedInclude(new AnimeSchema(), AnimeThemeEntry::RELATION_ANIME),
-            new AllowedInclude(new ThemeSchema(), AnimeThemeEntry::RELATION_THEME),
-            new AllowedInclude(new VideoSchema(), AnimeThemeEntry::RELATION_VIDEOS),
-        ];
+        return array_merge(
+            $this->withIntermediatePaths([
+                new AllowedInclude(new AnimeSchema(), AnimeThemeEntry::RELATION_ANIME),
+                new AllowedInclude(new ThemeSchema(), AnimeThemeEntry::RELATION_THEME),
+                new AllowedInclude(new VideoSchema(), AnimeThemeEntry::RELATION_VIDEOS),
+            ]),
+            []
+        );
     }
 
     /**

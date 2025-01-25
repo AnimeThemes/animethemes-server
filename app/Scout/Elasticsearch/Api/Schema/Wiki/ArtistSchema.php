@@ -49,18 +49,21 @@ class ArtistSchema extends Schema
      *
      * @return AllowedInclude[]
      */
-    protected function finalAllowedIncludes(): array
+    public function allowedIncludes(): array
     {
-        return [
-            new AllowedInclude(new AnimeSchema(), Artist::RELATION_ANIME),
-            new AllowedInclude(new ArtistSchema(), Artist::RELATION_GROUPS),
-            new AllowedInclude(new ArtistSchema(), Artist::RELATION_MEMBERS),
-            new AllowedInclude(new ExternalResourceSchema(), Artist::RELATION_RESOURCES),
-            new AllowedInclude(new GroupSchema(), Artist::RELATION_THEME_GROUPS),
-            new AllowedInclude(new ImageSchema(), Artist::RELATION_IMAGES),
-            new AllowedInclude(new SongSchema(), Artist::RELATION_SONGS),
-            new AllowedInclude(new ThemeSchema(), Artist::RELATION_ANIMETHEMES),
-        ];
+        return array_merge(
+            $this->withIntermediatePaths([
+                new AllowedInclude(new AnimeSchema(), Artist::RELATION_ANIME),
+                new AllowedInclude(new ArtistSchema(), Artist::RELATION_GROUPS),
+                new AllowedInclude(new ArtistSchema(), Artist::RELATION_MEMBERS),
+                new AllowedInclude(new ExternalResourceSchema(), Artist::RELATION_RESOURCES),
+                new AllowedInclude(new GroupSchema(), Artist::RELATION_THEME_GROUPS),
+                new AllowedInclude(new ImageSchema(), Artist::RELATION_IMAGES),
+                new AllowedInclude(new SongSchema(), Artist::RELATION_SONGS),
+                new AllowedInclude(new ThemeSchema(), Artist::RELATION_ANIMETHEMES),
+            ]),
+            []
+        );
     }
 
     /**

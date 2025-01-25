@@ -59,15 +59,18 @@ class VideoSchema extends Schema
      *
      * @return AllowedInclude[]
      */
-    protected function finalAllowedIncludes(): array
+    public function allowedIncludes(): array
     {
-        return [
-            new AllowedInclude(new AnimeSchema(), Video::RELATION_ANIME),
-            new AllowedInclude(new AudioSchema(), Video::RELATION_AUDIO),
-            new AllowedInclude(new EntrySchema(), Video::RELATION_ANIMETHEMEENTRIES),
-            new AllowedInclude(new GroupSchema(), Video::RELATION_GROUP),
-            new AllowedInclude(new ThemeSchema(), Video::RELATION_ANIMETHEME),
-        ];
+        return array_merge(
+            $this->withIntermediatePaths([
+                new AllowedInclude(new AnimeSchema(), Video::RELATION_ANIME),
+                new AllowedInclude(new AudioSchema(), Video::RELATION_AUDIO),
+                new AllowedInclude(new EntrySchema(), Video::RELATION_ANIMETHEMEENTRIES),
+                new AllowedInclude(new GroupSchema(), Video::RELATION_GROUP),
+                new AllowedInclude(new ThemeSchema(), Video::RELATION_ANIMETHEME),
+            ]),
+            []
+        );
     }
 
     /**

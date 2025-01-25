@@ -38,13 +38,16 @@ class GroupSchema extends EloquentSchema implements SearchableSchema
      *
      * @return AllowedInclude[]
      */
-    protected function finalAllowedIncludes(): array
+    public function allowedIncludes(): array
     {
-        return [
-            new AllowedInclude(new AnimeSchema(), Group::RELATION_ANIME),
-            new AllowedInclude(new ThemeSchema(), Group::RELATION_THEMES),
-            new AllowedInclude(new VideoSchema(), Group::RELATION_VIDEOS),
-        ];
+        return array_merge(
+            $this->withIntermediatePaths([
+                new AllowedInclude(new AnimeSchema(), Group::RELATION_ANIME),
+                new AllowedInclude(new ThemeSchema(), Group::RELATION_THEMES),
+                new AllowedInclude(new VideoSchema(), Group::RELATION_VIDEOS),
+            ]),
+            []
+        );
     }
 
     /**

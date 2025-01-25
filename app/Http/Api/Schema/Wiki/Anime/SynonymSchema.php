@@ -37,11 +37,14 @@ class SynonymSchema extends EloquentSchema implements SearchableSchema
      *
      * @return AllowedInclude[]
      */
-    protected function finalAllowedIncludes(): array
+    public function allowedIncludes(): array
     {
-        return [
-            new AllowedInclude(new AnimeSchema(), AnimeSynonym::RELATION_ANIME),
-        ];
+        return array_merge(
+            $this->withIntermediatePaths([
+                new AllowedInclude(new AnimeSchema(), AnimeSynonym::RELATION_ANIME),
+            ]),
+            []
+        );
     }
 
     /**

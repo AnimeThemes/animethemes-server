@@ -45,11 +45,14 @@ class SeriesSchema extends Schema
      *
      * @return AllowedInclude[]
      */
-    protected function finalAllowedIncludes(): array
+    public function allowedIncludes(): array
     {
-        return [
-            new AllowedInclude(new AnimeSchema(), Series::RELATION_ANIME),
-        ];
+        return array_merge(
+            $this->withIntermediatePaths([
+                new AllowedInclude(new AnimeSchema(), Series::RELATION_ANIME),
+            ]),
+            []
+        );
     }
 
     /**

@@ -35,9 +35,12 @@ class FeatureSchema extends EloquentSchema
      *
      * @return AllowedInclude[]
      */
-    protected function finalAllowedIncludes(): array
+    public function allowedIncludes(): array
     {
-        return [];
+        return array_merge(
+            $this->withIntermediatePaths([]),
+            []
+        );
     }
 
     /**

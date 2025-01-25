@@ -39,13 +39,16 @@ class ExternalEntrySchema extends EloquentSchema
      *
      * @return AllowedInclude[]
      */
-    protected function finalAllowedIncludes(): array
+    public function allowedIncludes(): array
     {
-        return [
-            new AllowedInclude(new AnimeSchema(), ExternalEntry::RELATION_ANIME),
-            new AllowedInclude(new ExternalProfileSchema(), ExternalEntry::RELATION_PROFILE),
-            new AllowedInclude(new UserSchema(), ExternalEntry::RELATION_USER),
-        ];
+        return array_merge(
+            $this->withIntermediatePaths([
+                new AllowedInclude(new AnimeSchema(), ExternalEntry::RELATION_ANIME),
+                new AllowedInclude(new ExternalProfileSchema(), ExternalEntry::RELATION_PROFILE),
+                new AllowedInclude(new UserSchema(), ExternalEntry::RELATION_USER),
+            ]),
+            []
+        );
     }
 
     /**

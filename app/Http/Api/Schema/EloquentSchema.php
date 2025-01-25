@@ -70,29 +70,30 @@ abstract class EloquentSchema extends Schema
     }
 
     /**
-     * Get the allowed includes by checking intermediate paths.
+     * Merge the allowed includes with intermediate paths.
      *
+     * @param  AllowedInclude[]  $allowedIncludesToMerge
      * @return AllowedInclude[]
      */
-    public function allowedIncludes(): array
+    protected function withIntermediatePaths(array $allowedIncludesToMerge = []): array
     {
         $allowedIncludes = collect();
 
-        foreach ($this->finalAllowedIncludes() as $finalAllowedInclude) {
-            if (!$finalAllowedInclude->allowsIntermediate()) {
-                // Skip to the whole path if it doesn't allow intermediate paths
-                $allowedIncludes->put($finalAllowedInclude->path(), $finalAllowedInclude);
+        foreach ($allowedIncludesToMerge as $allowedInclude) {
+            // When a path doesn't have intermediate paths
+            if ($allowedInclude->isDirectRelation()) {
+                $allowedIncludes->put($allowedInclude->path(), new AllowedInclude($allowedInclude->schema(), $allowedInclude->path()));
                 continue;
             }
 
             $appendPath = Str::of('');
-            foreach (explode('.', $finalAllowedInclude->path()) as $path) {
+            foreach (explode('.', $allowedInclude->path()) as $path) {
                 $appendPath = $appendPath->append(empty($appendPath->__toString()) ? '' : '.', $path);
 
                 $stringAppendPath = $appendPath->__toString();
 
                 $schema = null;
-                foreach ($this->finalAllowedIncludes() as $include) {
+                foreach ($allowedIncludesToMerge as $include) {
                     if ($include->path() === $stringAppendPath) {
                         $schema = $include->schema();
                         break;
@@ -141,11 +142,4 @@ abstract class EloquentSchema extends Schema
 
         return new $schema;
     }
-
-    /**
-     * Get the allowed includes.
-     *
-     * @return AllowedInclude[]
-     */
-    abstract protected function finalAllowedIncludes(): array;
 }

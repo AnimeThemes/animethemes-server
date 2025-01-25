@@ -17,8 +17,6 @@ use App\Http\Api\Field\Wiki\Anime\AnimeYearField;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\Auth\UserSchema;
 use App\Http\Api\Schema\EloquentSchema;
-use App\Http\Api\Schema\List\Playlist\TrackSchema;
-use App\Http\Api\Schema\List\PlaylistSchema;
 use App\Http\Api\Schema\Pivot\Wiki\AnimeResourceSchema;
 use App\Http\Api\Schema\Wiki\Anime\SynonymSchema;
 use App\Http\Api\Schema\Wiki\Anime\Theme\EntrySchema;
@@ -60,36 +58,39 @@ class AnimeSchema extends EloquentSchema implements InteractsWithPivots, Searcha
      *
      * @return AllowedInclude[]
      */
-    protected function finalAllowedIncludes(): array
+    public function allowedIncludes(): array
     {
-        return [
-            new AllowedInclude(new ArtistSchema(), Anime::RELATION_ARTISTS),
-            new AllowedInclude(new AudioSchema(), Anime::RELATION_AUDIO),
-            new AllowedInclude(new EntrySchema(), Anime::RELATION_ENTRIES),
-            new AllowedInclude(new ExternalResourceSchema(), Anime::RELATION_RESOURCES),
-            new AllowedInclude(new GroupSchema(), Anime::RELATION_GROUPS),
-            new AllowedInclude(new ImageSchema(), Anime::RELATION_IMAGES),
-            new AllowedInclude(new ScriptSchema(), Anime::RELATION_SCRIPTS),
-            new AllowedInclude(new SeriesSchema(), Anime::RELATION_SERIES),
-            new AllowedInclude(new SongSchema(), Anime::RELATION_SONG),
-            new AllowedInclude(new StudioSchema(), Anime::RELATION_STUDIOS),
-            new AllowedInclude(new SynonymSchema(), Anime::RELATION_SYNONYMS),
-            new AllowedInclude(new ThemeSchema(), Anime::RELATION_THEMES),
-            new AllowedInclude(new VideoSchema(), Anime::RELATION_VIDEOS),
+        return array_merge(
+            $this->withIntermediatePaths([
+                new AllowedInclude(new ArtistSchema(), Anime::RELATION_ARTISTS),
+                new AllowedInclude(new AudioSchema(), Anime::RELATION_AUDIO),
+                new AllowedInclude(new EntrySchema(), Anime::RELATION_ENTRIES),
+                new AllowedInclude(new ExternalResourceSchema(), Anime::RELATION_RESOURCES),
+                new AllowedInclude(new GroupSchema(), Anime::RELATION_GROUPS),
+                new AllowedInclude(new ImageSchema(), Anime::RELATION_IMAGES),
+                new AllowedInclude(new ScriptSchema(), Anime::RELATION_SCRIPTS),
+                new AllowedInclude(new SeriesSchema(), Anime::RELATION_SERIES),
+                new AllowedInclude(new SongSchema(), Anime::RELATION_SONG),
+                new AllowedInclude(new StudioSchema(), Anime::RELATION_STUDIOS),
+                new AllowedInclude(new SynonymSchema(), Anime::RELATION_SYNONYMS),
+                new AllowedInclude(new ThemeSchema(), Anime::RELATION_THEMES),
+                new AllowedInclude(new VideoSchema(), Anime::RELATION_VIDEOS),
 
-            // Undocumented paths needed for client builds
-            new AllowedInclude(new AnimeSchema(), 'animethemes.animethemeentries.videos.animethemeentries.animetheme.anime'),
-            new AllowedInclude(new ImageSchema(), 'animethemes.animethemeentries.videos.animethemeentries.animetheme.anime.images'),
-            new AllowedInclude(new VideoSchema(), 'animethemes.animethemeentries.videos.animethemeentries.animetheme.animethemeentries.videos'),
-            new AllowedInclude(new AudioSchema(), 'animethemes.animethemeentries.videos.animethemeentries.animetheme.animethemeentries.videos.audio'),
-            new AllowedInclude(new ArtistSchema(), 'animethemes.animethemeentries.videos.animethemeentries.animetheme.song.artists'),
-            new AllowedInclude(new GroupSchema(), 'animethemes.animethemeentries.videos.animethemeentries.animetheme.group'),
-            new AllowedInclude(new ExternalResourceSchema(), 'animethemes.animethemeentries.videos.animethemeentries.animetheme.song.resources'),
-            new AllowedInclude(new ExternalResourceSchema(), 'animethemes.song.resources'),
-            new AllowedInclude(new ImageSchema(), 'animethemes.song.artists.images'),
-            new AllowedInclude(new ImageSchema(), 'studios.images'),
-            new AllowedInclude(new UserSchema(), 'animethemes.animethemeentries.videos.tracks.playlist.user'),
-        ];
+                // Undocumented paths needed for client builds
+                new AllowedInclude(new AnimeSchema(), 'animethemes.animethemeentries.videos.animethemeentries.animetheme.anime'),
+                new AllowedInclude(new ImageSchema(), 'animethemes.animethemeentries.videos.animethemeentries.animetheme.anime.images'),
+                new AllowedInclude(new VideoSchema(), 'animethemes.animethemeentries.videos.animethemeentries.animetheme.animethemeentries.videos'),
+                new AllowedInclude(new AudioSchema(), 'animethemes.animethemeentries.videos.animethemeentries.animetheme.animethemeentries.videos.audio'),
+                new AllowedInclude(new ArtistSchema(), 'animethemes.animethemeentries.videos.animethemeentries.animetheme.song.artists'),
+                new AllowedInclude(new GroupSchema(), 'animethemes.animethemeentries.videos.animethemeentries.animetheme.group'),
+                new AllowedInclude(new ExternalResourceSchema(), 'animethemes.animethemeentries.videos.animethemeentries.animetheme.song.resources'),
+                new AllowedInclude(new ExternalResourceSchema(), 'animethemes.song.resources'),
+                new AllowedInclude(new ImageSchema(), 'animethemes.song.artists.images'),
+                new AllowedInclude(new ImageSchema(), 'studios.images'),
+                new AllowedInclude(new UserSchema(), 'animethemes.animethemeentries.videos.tracks.playlist.user'),
+            ]),
+            []
+        );
     }
 
     /**

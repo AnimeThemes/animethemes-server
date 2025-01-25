@@ -57,31 +57,34 @@ class ArtistSchema extends EloquentSchema implements InteractsWithPivots, Search
      *
      * @return AllowedInclude[]
      */
-    protected function finalAllowedIncludes(): array
+    public function allowedIncludes(): array
     {
-        return [
-            new AllowedInclude(new AnimeSchema(), Artist::RELATION_ANIME),
-            new AllowedInclude(new ArtistSchema(), Artist::RELATION_GROUPS),
-            new AllowedInclude(new ArtistSchema(), Artist::RELATION_MEMBERS),
-            new AllowedInclude(new ExternalResourceSchema(), Artist::RELATION_RESOURCES),
-            new AllowedInclude(new GroupSchema(), Artist::RELATION_THEME_GROUPS),
-            new AllowedInclude(new ImageSchema(), Artist::RELATION_IMAGES),
-            new AllowedInclude(new SongSchema(), Artist::RELATION_SONGS),
-            new AllowedInclude(new ThemeSchema(), Artist::RELATION_ANIMETHEMES),
+        return array_merge(
+            $this->withIntermediatePaths([
+                new AllowedInclude(new AnimeSchema(), Artist::RELATION_ANIME),
+                new AllowedInclude(new ArtistSchema(), Artist::RELATION_GROUPS),
+                new AllowedInclude(new ArtistSchema(), Artist::RELATION_MEMBERS),
+                new AllowedInclude(new ExternalResourceSchema(), Artist::RELATION_RESOURCES),
+                new AllowedInclude(new GroupSchema(), Artist::RELATION_THEME_GROUPS),
+                new AllowedInclude(new ImageSchema(), Artist::RELATION_IMAGES),
+                new AllowedInclude(new SongSchema(), Artist::RELATION_SONGS),
+                new AllowedInclude(new ThemeSchema(), Artist::RELATION_ANIMETHEMES),
 
-            // Undocumented paths needed for client builds
-            new AllowedInclude(new ArtistSchema(), 'groups.songs.artists'),
-            new AllowedInclude(new ImageSchema(), 'groups.songs.animethemes.anime.images'),
-            new AllowedInclude(new ExternalResourceSchema(), 'groups.songs.resources'),
-            new AllowedInclude(new ArtistSchema(), 'songs.artists'),
-            new AllowedInclude(new SongSchema(), 'songs.animethemes.song'),
-            new AllowedInclude(new ArtistSchema(), 'songs.animethemes.song.artists'),
-            new AllowedInclude(new ImageSchema(), 'songs.animethemes.anime.images'),
-            new AllowedInclude(new EntrySchema(), 'songs.animethemes.animethemeentries'),
-            new AllowedInclude(new VideoSchema(), 'songs.animethemes.animethemeentries.videos'),
-            new AllowedInclude(new AudioSchema(), 'songs.animethemes.animethemeentries.videos.audio'),
-            new AllowedInclude(new ExternalResourceSchema(), 'songs.resources'),
-        ];
+                // Undocumented paths needed for client builds
+                new AllowedInclude(new ArtistSchema(), 'groups.songs.artists'),
+                new AllowedInclude(new ImageSchema(), 'groups.songs.animethemes.anime.images'),
+                new AllowedInclude(new ExternalResourceSchema(), 'groups.songs.resources'),
+                new AllowedInclude(new ArtistSchema(), 'songs.artists'),
+                new AllowedInclude(new SongSchema(), 'songs.animethemes.song'),
+                new AllowedInclude(new ArtistSchema(), 'songs.animethemes.song.artists'),
+                new AllowedInclude(new ImageSchema(), 'songs.animethemes.anime.images'),
+                new AllowedInclude(new EntrySchema(), 'songs.animethemes.animethemeentries'),
+                new AllowedInclude(new VideoSchema(), 'songs.animethemes.animethemeentries.videos'),
+                new AllowedInclude(new AudioSchema(), 'songs.animethemes.animethemeentries.videos.audio'),
+                new AllowedInclude(new ExternalResourceSchema(), 'songs.resources'),
+            ]),
+            []
+        );
     }
 
     /**

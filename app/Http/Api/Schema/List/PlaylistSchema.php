@@ -50,24 +50,27 @@ class PlaylistSchema extends EloquentSchema implements SearchableSchema
      *
      * @return AllowedInclude[]
      */
-    protected function finalAllowedIncludes(): array
+    public function allowedIncludes(): array
     {
-        return [
-            new AllowedInclude(new ImageSchema(), Playlist::RELATION_IMAGES),
-            new AllowedInclude(new TrackSchema(), Playlist::RELATION_FIRST),
-            new AllowedInclude(new TrackSchema(), Playlist::RELATION_LAST),
-            new AllowedInclude(new TrackSchema(), Playlist::RELATION_TRACKS),
-            new AllowedInclude(new UserSchema(), Playlist::RELATION_USER),
+        return array_merge(
+            $this->withIntermediatePaths([
+                new AllowedInclude(new ImageSchema(), Playlist::RELATION_IMAGES),
+                new AllowedInclude(new TrackSchema(), Playlist::RELATION_FIRST),
+                new AllowedInclude(new TrackSchema(), Playlist::RELATION_LAST),
+                new AllowedInclude(new TrackSchema(), Playlist::RELATION_TRACKS),
+                new AllowedInclude(new UserSchema(), Playlist::RELATION_USER),
 
-            new AllowedInclude(new ArtistSchema(), 'tracks.animethemeentry.animetheme.song.artists'),
-            new AllowedInclude(new AudioSchema(), 'tracks.video.audio'),
-            new AllowedInclude(new EntrySchema(), 'tracks.animethemeentry'),
-            new AllowedInclude(new ImageSchema(), 'tracks.animethemeentry.animetheme.anime.images'),
-            new AllowedInclude(new VideoSchema(), 'tracks.video'),
-            new AllowedInclude(new GroupSchema(), 'tracks.animethemeentry.animetheme.group'),
-            new AllowedInclude(new TrackSchema(), 'tracks.previous'),
-            new AllowedInclude(new TrackSchema(), 'tracks.next'),
-        ];
+                new AllowedInclude(new ArtistSchema(), 'tracks.animethemeentry.animetheme.song.artists'),
+                new AllowedInclude(new AudioSchema(), 'tracks.video.audio'),
+                new AllowedInclude(new EntrySchema(), 'tracks.animethemeentry'),
+                new AllowedInclude(new ImageSchema(), 'tracks.animethemeentry.animetheme.anime.images'),
+                new AllowedInclude(new VideoSchema(), 'tracks.video'),
+                new AllowedInclude(new GroupSchema(), 'tracks.animethemeentry.animetheme.group'),
+                new AllowedInclude(new TrackSchema(), 'tracks.previous'),
+                new AllowedInclude(new TrackSchema(), 'tracks.next'),
+            ]),
+            []
+        );
     }
 
     /**

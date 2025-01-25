@@ -38,11 +38,14 @@ class AudioSchema extends EloquentSchema
      *
      * @return AllowedInclude[]
      */
-    protected function finalAllowedIncludes(): array
+    public function allowedIncludes(): array
     {
-        return [
-            new AllowedInclude(new VideoSchema(), Audio::RELATION_VIDEOS),
-        ];
+        return array_merge(
+            $this->withIntermediatePaths([
+                new AllowedInclude(new VideoSchema(), Audio::RELATION_VIDEOS),
+            ]),
+            []
+        );
     }
 
     /**

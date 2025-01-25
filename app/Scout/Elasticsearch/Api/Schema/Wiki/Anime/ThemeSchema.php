@@ -62,16 +62,19 @@ class ThemeSchema extends Schema
      *
      * @return AllowedInclude[]
      */
-    protected function finalAllowedIncludes(): array
+    public function allowedIncludes(): array
     {
-        return [
-            new AllowedInclude(new AnimeSchema(), AnimeTheme::RELATION_ANIME),
-            new AllowedInclude(new ArtistSchema(), AnimeTheme::RELATION_ARTISTS),
-            new AllowedInclude(new EntrySchema(), AnimeTheme::RELATION_ENTRIES),
-            new AllowedInclude(new ImageSchema(), AnimeTheme::RELATION_IMAGES),
-            new AllowedInclude(new SongSchema(), AnimeTheme::RELATION_SONG),
-            new AllowedInclude(new VideoSchema(), AnimeTheme::RELATION_VIDEOS),
-        ];
+        return array_merge(
+            $this->withIntermediatePaths([
+                new AllowedInclude(new AnimeSchema(), AnimeTheme::RELATION_ANIME),
+                new AllowedInclude(new ArtistSchema(), AnimeTheme::RELATION_ARTISTS),
+                new AllowedInclude(new EntrySchema(), AnimeTheme::RELATION_ENTRIES),
+                new AllowedInclude(new ImageSchema(), AnimeTheme::RELATION_IMAGES),
+                new AllowedInclude(new SongSchema(), AnimeTheme::RELATION_SONG),
+                new AllowedInclude(new VideoSchema(), AnimeTheme::RELATION_VIDEOS),
+            ]),
+            []
+        );
     }
 
     /**

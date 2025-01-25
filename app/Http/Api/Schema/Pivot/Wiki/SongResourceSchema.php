@@ -37,12 +37,15 @@ class SongResourceSchema extends EloquentSchema
      *
      * @return AllowedInclude[]
      */
-    protected function finalAllowedIncludes(): array
+    public function allowedIncludes(): array
     {
-        return [
-            new AllowedInclude(new SongSchema(), SongResource::RELATION_SONG),
-            new AllowedInclude(new ExternalResourceSchema(), SongResource::RELATION_RESOURCE),
-        ];
+        return array_merge(
+            $this->withIntermediatePaths([
+                new AllowedInclude(new SongSchema(), SongResource::RELATION_SONG),
+                new AllowedInclude(new ExternalResourceSchema(), SongResource::RELATION_RESOURCE),
+            ]),
+            []
+        );
     }
 
     /**

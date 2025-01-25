@@ -37,12 +37,15 @@ class AnimeResourceSchema extends EloquentSchema
      *
      * @return AllowedInclude[]
      */
-    protected function finalAllowedIncludes(): array
+    public function allowedIncludes(): array
     {
-        return [
-            new AllowedInclude(new AnimeSchema(), AnimeResource::RELATION_ANIME),
-            new AllowedInclude(new ExternalResourceSchema(), AnimeResource::RELATION_RESOURCE),
-        ];
+        return array_merge(
+            $this->withIntermediatePaths([
+                new AllowedInclude(new AnimeSchema(), AnimeResource::RELATION_ANIME),
+                new AllowedInclude(new ExternalResourceSchema(), AnimeResource::RELATION_RESOURCE),
+            ]),
+            []
+        );
     }
 
     /**
