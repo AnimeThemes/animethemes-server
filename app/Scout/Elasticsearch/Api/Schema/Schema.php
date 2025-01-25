@@ -15,6 +15,7 @@ use App\Scout\Elasticsearch\Api\Field\Base\DeletedAtField;
 use App\Scout\Elasticsearch\Api\Field\Base\UpdatedAtField;
 use App\Scout\Elasticsearch\Api\Field\Field;
 use App\Scout\Elasticsearch\Api\Query\ElasticQuery;
+use Illuminate\Database\Eloquent\Model;
 use RuntimeException;
 use Illuminate\Support\Str;
 
@@ -121,14 +122,7 @@ abstract class Schema implements SchemaInterface
      */
     protected function resolve(string $path): Schema
     {
-        $model = Str::of(get_class($this))
-            ->replace('Scout\\Elasticsearch\\Api\\Schema', 'Models')
-            ->remove('Schema')
-            ->__toString();
-
-        if (!class_exists($model)) {
-            return $this;
-        }
+        $model = $this->resolveOwnerModel();
 
         $classModel = new $model;
 
@@ -140,8 +134,8 @@ abstract class Schema implements SchemaInterface
             $classModel = $classModel->$path()->getRelated();
         }
 
-        if (method_exists($classModel, 'getSchema')) {
-            return $classModel->getSchema();
+        if (method_exists($classModel, 'schema')) {
+            return $classModel->schema();
         }
 
         $schema = Str::of(get_class($classModel))
@@ -154,6 +148,31 @@ abstract class Schema implements SchemaInterface
         }
 
         return new $schema;
+    }
+
+    /**
+     * Resolve the owner model of the schema.
+     *
+     * @return class-string<Model>
+     *
+     * @throws RuntimeException
+     */
+    protected function resolveOwnerModel(): string
+    {
+        if (method_exists($this, $modelMethod = 'model')) {
+           return $this->$modelMethod();
+        }
+
+        $model = Str::of(get_class($this))
+            ->replace('Http\\Api\\Schema', 'Models')
+            ->remove('Schema')
+            ->__toString();
+
+        if (!class_exists($model)) {
+            throw new RuntimeException("Model class '$model' does not exist.");
+        }
+
+        return $model;
     }
 
     /**
