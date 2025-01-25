@@ -18,6 +18,7 @@ use App\Http\Api\Schema\List\ExternalProfileSchema;
 use App\Http\Api\Schema\List\PlaylistSchema;
 use App\Http\Resources\Auth\User\Resource\MyResource;
 use App\Models\Auth\User;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class MySchema.
@@ -67,5 +68,15 @@ class MySchema extends EloquentSchema
                 new UserTwoFactorConfirmedAtField($this),
             ],
         );
+    }
+
+    /**
+     * Resolve the owner model of the schema.
+     *
+     * @return Model
+     */
+    public function model(): Model
+    {
+        return new User();
     }
 }

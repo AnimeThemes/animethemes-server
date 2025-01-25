@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Schema\List\Playlist;
 
-use App\Contracts\Http\Api\Schema\SchemaHasDifferentModelPath;
 use App\Http\Api\Field\Field;
 use App\Http\Api\Field\List\Playlist\Track\TrackEntryIdField;
 use App\Http\Api\Field\List\Playlist\Track\TrackHashidsField;
@@ -24,7 +23,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * Class ForwardBackwardSchema.
  */
-class ForwardBackwardSchema extends EloquentSchema implements SchemaHasDifferentModelPath
+class ForwardBackwardSchema extends EloquentSchema
 {
     /**
      * Get the type of the resource.
@@ -73,10 +72,10 @@ class ForwardBackwardSchema extends EloquentSchema implements SchemaHasDifferent
     /**
      * Get the model of the schema.
      *
-     * @return class-string<Model>
+     * @return Model
      */
-    public function model(): string
+    public function model(): Model
     {
-        return PlaylistTrack::class;
+        return new PlaylistTrack();
     }
 }

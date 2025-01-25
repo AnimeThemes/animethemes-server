@@ -112,10 +112,10 @@ class ThemeSchema extends Schema
     /**
      * Get the model of the schema.
      *
-     * @return class-string<Model>
+     * @return Model
      */
-    public function model(): string
+    public function model(): Model
     {
-        return AnimeTheme::class;
+        return new AnimeTheme();
     }
 }

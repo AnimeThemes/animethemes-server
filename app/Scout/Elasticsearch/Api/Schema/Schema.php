@@ -122,30 +122,24 @@ abstract class Schema implements SchemaInterface
      */
     protected function resolve(string $path): Schema
     {
-        $model = $this->resolveOwnerModel();
-
-        $classModel = new $model;
+        $model = $this->model();
 
         foreach (explode('.', $path) as $path) {
-            if (!method_exists($classModel, $path)) {
-                $classBasename = get_class($classModel);
+            if (!method_exists($model, $path)) {
+                $classBasename = get_class($model);
                 throw new RuntimeException("Relation '$path' does not exist on model '$classBasename'.");
             }
-            $classModel = $classModel->$path()->getRelated();
+            $model = $model->$path()->getRelated();
         }
 
-        if (method_exists($classModel, 'schema')) {
-            return $classModel->schema();
+        if (method_exists($model, 'schema')) {
+            return $model->schema();
         }
 
-        $schema = Str::of(get_class($classModel))
+        $schema = Str::of(get_class($model))
             ->replace('Models', 'Scout\\Elasticsearch\\Api\\Schema')
             ->append('Schema')
             ->__toString();
-
-        if (!class_exists($schema)) {
-            throw new RuntimeException("Schema class '$schema' does not exist.");
-        }
 
         return new $schema;
     }
@@ -153,26 +147,16 @@ abstract class Schema implements SchemaInterface
     /**
      * Resolve the owner model of the schema.
      *
-     * @return class-string<Model>
-     *
-     * @throws RuntimeException
+     * @return Model
      */
-    protected function resolveOwnerModel(): string
+    public function model(): Model
     {
-        if (method_exists($this, $modelMethod = 'model')) {
-            return $this->$modelMethod();
-        }
-
-        $model = Str::of(get_class($this))
-            ->replace('Http\\Api\\Schema', 'Models')
+        $modelClass = Str::of(get_class($this))
+            ->replace('Scout\\Elasticsearch\\Api\\Schema', 'Models')
             ->remove('Schema')
             ->__toString();
 
-        if (!class_exists($model)) {
-            throw new RuntimeException("Model class '$model' does not exist.");
-        }
-
-        return $model;
+        return new $modelClass;
     }
 
     /**

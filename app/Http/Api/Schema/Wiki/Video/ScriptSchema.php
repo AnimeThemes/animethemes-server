@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Schema\Wiki\Video;
 
-use App\Contracts\Http\Api\Schema\SchemaHasDifferentModelPath;
 use App\Http\Api\Field\Field;
 use App\Http\Api\Field\Wiki\Video\Script\ScriptIdField;
 use App\Http\Api\Field\Wiki\Video\Script\ScriptLinkField;
@@ -20,7 +19,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * Class ScriptSchema.
  */
-class ScriptSchema extends EloquentSchema implements SchemaHasDifferentModelPath
+class ScriptSchema extends EloquentSchema
 {
     /**
      * Get the type of the resource.
@@ -65,10 +64,10 @@ class ScriptSchema extends EloquentSchema implements SchemaHasDifferentModelPath
     /**
      * Get the model of the schema.
      *
-     * @return class-string<Model>
+     * @return Model
      */
-    public function model(): string
+    public function model(): Model
     {
-        return VideoScript::class;
+        return new VideoScript();
     }
 }

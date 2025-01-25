@@ -84,10 +84,10 @@ class EntrySchema extends Schema
     /**
      * Get the model of the schema.
      *
-     * @return class-string<Model>
+     * @return Model
      */
-    public function model(): string
+    public function model(): Model
     {
-        return AnimeThemeEntry::class;
+        return new AnimeThemeEntry();
     }
 }

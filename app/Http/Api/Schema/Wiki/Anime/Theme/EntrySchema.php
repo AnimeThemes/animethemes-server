@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Schema\Wiki\Anime\Theme;
 
-use App\Contracts\Http\Api\Schema\SchemaHasDifferentModelPath;
 use App\Contracts\Http\Api\Schema\SearchableSchema;
 use App\Http\Api\Field\Base\IdField;
 use App\Http\Api\Field\Field;
@@ -26,7 +25,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * Class EntrySchema.
  */
-class EntrySchema extends EloquentSchema implements SearchableSchema, SchemaHasDifferentModelPath
+class EntrySchema extends EloquentSchema implements SearchableSchema
 {
     /**
      * Get the type of the resource.
@@ -76,10 +75,10 @@ class EntrySchema extends EloquentSchema implements SearchableSchema, SchemaHasD
     /**
      * Get the model of the schema.
      *
-     * @return class-string<Model>
+     * @return Model
      */
-    public function model(): string
+    public function model(): Model
     {
-        return AnimeThemeEntry::class;
+        return new AnimeThemeEntry();
     }
 }

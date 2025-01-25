@@ -44,7 +44,7 @@ class SearchSchema extends Schema
      *
      * @return AllowedInclude[]
      */
-    protected function finalAllowedIncludes(): array
+    public function allowedIncludes(): array
     {
         return [
             new AllowedInclude(new AnimeSchema(), ''),

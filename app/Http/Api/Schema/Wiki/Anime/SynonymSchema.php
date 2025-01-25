@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Schema\Wiki\Anime;
 
-use App\Contracts\Http\Api\Schema\SchemaHasDifferentModelPath;
 use App\Contracts\Http\Api\Schema\SearchableSchema;
 use App\Http\Api\Field\Base\IdField;
 use App\Http\Api\Field\Field;
@@ -21,7 +20,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * Class SynonymSchema.
  */
-class SynonymSchema extends EloquentSchema implements SearchableSchema, SchemaHasDifferentModelPath
+class SynonymSchema extends EloquentSchema implements SearchableSchema
 {
     /**
      * Get the type of the resource.
@@ -66,10 +65,10 @@ class SynonymSchema extends EloquentSchema implements SearchableSchema, SchemaHa
     /**
      * Get the model of the schema.
      *
-     * @return class-string<Model>
+     * @return Model
      */
-    public function model(): string
+    public function model(): Model
     {
-        return AnimeSynonym::class;
+        return new AnimeSynonym();
     }
 }

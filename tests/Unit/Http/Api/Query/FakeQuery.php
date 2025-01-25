@@ -39,7 +39,7 @@ class FakeQuery extends Query
              *
              * @return AllowedInclude[]
              */
-            protected function finalAllowedIncludes(): array
+            public function allowedIncludes(): array
             {
                 return [];
             }
