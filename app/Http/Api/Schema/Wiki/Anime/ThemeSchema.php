@@ -27,6 +27,7 @@ use App\Http\Api\Schema\Wiki\VideoSchema;
 use App\Http\Api\Sort\Sort;
 use App\Http\Resources\Wiki\Anime\Resource\ThemeResource;
 use App\Models\Wiki\Anime\AnimeTheme;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class ThemeSchema.

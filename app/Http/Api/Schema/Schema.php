@@ -18,6 +18,7 @@ use App\Http\Api\Filter\TrashedFilter;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Sort\RandomSort;
 use App\Http\Api\Sort\Sort;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use RuntimeException;
