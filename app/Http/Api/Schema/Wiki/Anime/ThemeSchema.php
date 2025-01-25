@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Schema\Wiki\Anime;
 
+use App\Contracts\Http\Api\Schema\SchemaHasDifferentModelPath;
 use App\Contracts\Http\Api\Schema\SearchableSchema;
 use App\Http\Api\Field\Base\IdField;
 use App\Http\Api\Field\Field;
@@ -30,7 +31,7 @@ use App\Models\Wiki\Anime\AnimeTheme;
 /**
  * Class ThemeSchema.
  */
-class ThemeSchema extends EloquentSchema implements SearchableSchema
+class ThemeSchema extends EloquentSchema implements SearchableSchema, SchemaHasDifferentModelPath
 {
     final public const SORT_SEASON = 'anime.season';
 
@@ -105,5 +106,15 @@ class ThemeSchema extends EloquentSchema implements SearchableSchema
                 new Sort(ThemeSchema::SORT_YEAR),
             ]
         );
+    }
+
+    /**
+     * Get the model of the schema.
+     *
+     * @return class-string<Model>
+     */
+    public function model(): string
+    {
+        return AnimeTheme::class;
     }
 }

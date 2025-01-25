@@ -6,6 +6,8 @@ namespace App\Http\Api\Schema;
 
 use App\Contracts\Http\Api\Field\FilterableField;
 use App\Contracts\Http\Api\Field\SortableField;
+use App\Contracts\Http\Api\InteractsWithSchema;
+use App\Contracts\Http\Api\Schema\SchemaHasDifferentModelPath;
 use App\Contracts\Http\Api\Schema\SchemaInterface;
 use App\Http\Api\Field\Base\CreatedAtField;
 use App\Http\Api\Field\Base\DeletedAtField;
@@ -132,14 +134,7 @@ abstract class Schema implements SchemaInterface
      */
     protected function resolve(string $path): Schema
     {
-        $model = Str::of(get_class($this))
-            ->replace('Http\\Api\\Schema', 'Models')
-            ->remove('Schema')
-            ->__toString();
-
-        if (!class_exists($model)) {
-            return $this;
-        }
+        $model = $this->resolveOwnerModel();
 
         $classModel = new $model;
 
@@ -151,8 +146,8 @@ abstract class Schema implements SchemaInterface
             $classModel = $classModel->$path()->getRelated();
         }
 
-        if (method_exists($classModel, 'getSchema')) {
-            return $classModel->getSchema();
+        if ($classModel instanceof InteractsWithSchema) {
+            return $classModel->schema();
         }
 
         $schema = Str::of(get_class($classModel))
@@ -165,6 +160,31 @@ abstract class Schema implements SchemaInterface
         }
 
         return new $schema;
+    }
+
+    /**
+     * Resolve the owner model of the schema.
+     *
+     * @return class-string<Model>
+     *
+     * @throws RuntimeException
+     */
+    protected function resolveOwnerModel(): string
+    {
+        if ($this instanceof SchemaHasDifferentModelPath) {
+           return $this->model();
+        }
+
+        $model = Str::of(get_class($this))
+            ->replace('Http\\Api\\Schema', 'Models')
+            ->remove('Schema')
+            ->__toString();
+
+        if (!class_exists($model)) {
+            throw new RuntimeException("Model class '$model' does not exist.");
+        }
+
+        return $model;
     }
 
     /**

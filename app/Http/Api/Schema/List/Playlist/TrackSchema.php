@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Schema\List\Playlist;
 
+use App\Contracts\Http\Api\Schema\SchemaHasDifferentModelPath;
 use App\Http\Api\Field\Field;
 use App\Http\Api\Field\List\Playlist\Track\TrackEntryIdField;
 use App\Http\Api\Field\List\Playlist\Track\TrackHashidsField;
@@ -25,11 +26,12 @@ use App\Http\Api\Schema\Wiki\ImageSchema;
 use App\Http\Api\Schema\Wiki\VideoSchema;
 use App\Http\Resources\List\Playlist\Resource\TrackResource;
 use App\Models\List\Playlist\PlaylistTrack;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class TrackSchema.
  */
-class TrackSchema extends EloquentSchema
+class TrackSchema extends EloquentSchema implements SchemaHasDifferentModelPath
 {
     /**
      * Get the type of the resource.
@@ -82,5 +84,15 @@ class TrackSchema extends EloquentSchema
                 new TrackVideoIdField($this),
             ],
         );
+    }
+
+    /**
+     * Get the model of the schema.
+     *
+     * @return class-string<Model>
+     */
+    public function model(): string
+    {
+        return PlaylistTrack::class;
     }
 }

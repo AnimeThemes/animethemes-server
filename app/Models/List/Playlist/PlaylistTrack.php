@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models\List\Playlist;
 
+use App\Contracts\Http\Api\InteractsWithSchema;
 use App\Contracts\Models\HasHashids;
 use App\Events\List\Playlist\Track\TrackCreated;
 use App\Events\List\Playlist\Track\TrackDeleted;
@@ -37,7 +38,7 @@ use Staudenmeir\LaravelAdjacencyList\Eloquent\HasRecursiveRelationships;
  *
  * @method static PlaylistTrackFactory factory(...$parameters)
  */
-class PlaylistTrack extends BaseModel implements HasHashids
+class PlaylistTrack extends BaseModel implements HasHashids, InteractsWithSchema
 {
     use HasRecursiveRelationships;
 
@@ -210,7 +211,7 @@ class PlaylistTrack extends BaseModel implements HasHashids
      *
      * @return Schema
      */
-    public function getSchema(): Schema
+    public function schema(): Schema
     {
         return new TrackSchema();
     }

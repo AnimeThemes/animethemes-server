@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models\Wiki\Anime;
 
 use App\Concerns\Models\Reportable;
+use App\Contracts\Http\Api\InteractsWithSchema;
 use App\Enums\Models\Wiki\ThemeType;
 use App\Events\Wiki\Anime\Theme\ThemeCreated;
 use App\Events\Wiki\Anime\Theme\ThemeDeleted;
@@ -43,7 +44,7 @@ use Illuminate\Support\Str;
  *
  * @method static AnimeThemeFactory factory(...$parameters)
  */
-class AnimeTheme extends BaseModel
+class AnimeTheme extends BaseModel implements InteractsWithSchema
 {
     use Reportable;
     use Searchable;
@@ -224,7 +225,7 @@ class AnimeTheme extends BaseModel
      *
      * @return Schema
      */
-    public function getSchema(): Schema
+    public function schema(): Schema
     {
         return new ThemeSchema();
     }

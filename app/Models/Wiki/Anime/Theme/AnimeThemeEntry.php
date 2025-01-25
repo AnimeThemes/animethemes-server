@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models\Wiki\Anime\Theme;
 
 use App\Concerns\Models\Reportable;
+use App\Contracts\Http\Api\InteractsWithSchema;
 use App\Events\Wiki\Anime\Theme\Entry\EntryCreated;
 use App\Events\Wiki\Anime\Theme\Entry\EntryDeleted;
 use App\Events\Wiki\Anime\Theme\Entry\EntryDeleting;
@@ -43,7 +44,7 @@ use Znck\Eloquent\Relations\BelongsToThrough;
  *
  * @method static AnimeThemeEntryFactory factory(...$parameters)
  */
-class AnimeThemeEntry extends BaseModel
+class AnimeThemeEntry extends BaseModel implements InteractsWithSchema
 {
     use Reportable;
     use Searchable;
@@ -231,7 +232,7 @@ class AnimeThemeEntry extends BaseModel
      *
      * @return Schema
      */
-    public function getSchema(): Schema
+    public function schema(): Schema
     {
         return new EntrySchema();
     }

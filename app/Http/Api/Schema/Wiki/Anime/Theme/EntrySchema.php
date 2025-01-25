@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Schema\Wiki\Anime\Theme;
 
+use App\Contracts\Http\Api\Schema\SchemaHasDifferentModelPath;
 use App\Contracts\Http\Api\Schema\SearchableSchema;
 use App\Http\Api\Field\Base\IdField;
 use App\Http\Api\Field\Field;
@@ -20,11 +21,12 @@ use App\Http\Api\Schema\Wiki\AnimeSchema;
 use App\Http\Api\Schema\Wiki\VideoSchema;
 use App\Http\Resources\Wiki\Anime\Theme\Resource\EntryResource;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class EntrySchema.
  */
-class EntrySchema extends EloquentSchema implements SearchableSchema
+class EntrySchema extends EloquentSchema implements SearchableSchema, SchemaHasDifferentModelPath
 {
     /**
      * Get the type of the resource.
@@ -69,5 +71,15 @@ class EntrySchema extends EloquentSchema implements SearchableSchema
                 new EntryThemeIdField($this),
             ],
         );
+    }
+
+    /**
+     * Get the model of the schema.
+     *
+     * @return class-string<Model>
+     */
+    public function model(): string
+    {
+        return AnimeThemeEntry::class;
     }
 }

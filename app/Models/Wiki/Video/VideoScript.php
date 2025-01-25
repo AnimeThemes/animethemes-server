@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace App\Models\Wiki\Video;
 
+use App\Contracts\Http\Api\InteractsWithSchema;
 use App\Events\Wiki\Video\Script\VideoScriptCreated;
 use App\Events\Wiki\Video\Script\VideoScriptDeleted;
 use App\Events\Wiki\Video\Script\VideoScriptForceDeleting;
 use App\Events\Wiki\Video\Script\VideoScriptRestored;
 use App\Events\Wiki\Video\Script\VideoScriptUpdated;
+use App\Http\Api\Schema\Schema;
+use App\Http\Api\Schema\Wiki\Video\ScriptSchema;
 use App\Models\BaseModel;
 use App\Models\Wiki\Video;
 use Database\Factories\Wiki\Video\VideoScriptFactory;
@@ -24,7 +27,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *
  * @method static VideoScriptFactory factory(...$parameters)
  */
-class VideoScript extends BaseModel
+class VideoScript extends BaseModel implements InteractsWithSchema
 {
     final public const TABLE = 'video_scripts';
 
@@ -101,5 +104,15 @@ class VideoScript extends BaseModel
     public function video(): BelongsTo
     {
         return $this->belongsTo(Video::class, VideoScript::ATTRIBUTE_VIDEO);
+    }
+
+    /**
+     * Get the schema for the model.
+     *
+     * @return Schema
+     */
+    public function schema(): Schema
+    {
+        return new ScriptSchema();
     }
 }
