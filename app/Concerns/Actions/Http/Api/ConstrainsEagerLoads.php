@@ -38,13 +38,7 @@ trait ConstrainsEagerLoads
             return $constrainedEagerLoads;
         }
 
-        // The intermediate paths created in the criteria class should not be
-        // included if the intermediate path is not an allowed include.
-        $validPaths = Arr::where($includeCriteria->getPaths()->toArray(), fn (string $path) => in_array($path, $schema->allowedIncludes()));
-
-        $paths = collect($validPaths);
-
-        foreach ($paths as $allowedIncludePath) {
+        foreach ($includeCriteria->getPaths() as $allowedIncludePath) {
             $relationSchema = $schema->relation($allowedIncludePath);
             if ($relationSchema === null) {
                 throw new RuntimeException("Unknown relation '$allowedIncludePath' for type '{$schema->type()}'.");
