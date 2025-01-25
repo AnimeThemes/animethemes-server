@@ -82,7 +82,7 @@ abstract class EloquentSchema extends Schema
         foreach ($allowedIncludesToMerge as $allowedInclude) {
             // When a path doesn't have intermediate paths
             if ($allowedInclude->isDirectRelation()) {
-                $allowedIncludes->put($allowedInclude->path(), new AllowedInclude($allowedInclude->schema(), $allowedInclude->path()));
+                $allowedIncludes->put($allowedInclude->path(), $allowedInclude);
                 continue;
             }
 
