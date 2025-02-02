@@ -16,12 +16,12 @@ use App\Filament\Resources\Wiki\Artist\Pages\EditArtist;
 use App\Filament\Resources\Wiki\Artist\Pages\ListArtists;
 use App\Filament\Resources\Wiki\Artist\Pages\ViewArtist;
 use App\Filament\Resources\Wiki\Artist\RelationManagers\GroupArtistRelationManager;
+use App\Filament\Resources\Wiki\Artist\RelationManagers\GroupPerformanceArtistRelationManager;
 use App\Filament\Resources\Wiki\Artist\RelationManagers\ImageArtistRelationManager;
 use App\Filament\Resources\Wiki\Artist\RelationManagers\MemberArtistRelationManager;
+use App\Filament\Resources\Wiki\Artist\RelationManagers\PerformanceArtistRelationManager;
 use App\Filament\Resources\Wiki\Artist\RelationManagers\ResourceArtistRelationManager;
-use App\Filament\Resources\Wiki\Artist\RelationManagers\SongArtistRelationManager;
 use App\Filament\Resources\Wiki\ExternalResource\RelationManagers\ArtistResourceRelationManager;
-use App\Filament\Resources\Wiki\Song\RelationManagers\ArtistSongRelationManager;
 use App\Models\Wiki\Artist as ArtistModel;
 use App\Pivots\Wiki\ArtistResource;
 use App\Pivots\Wiki\ArtistSong;
@@ -185,11 +185,11 @@ class Artist extends BaseResource
 
                 TextColumn::make(ArtistSong::ATTRIBUTE_AS)
                     ->label(__('filament.fields.artist.songs.as.name'))
-                    ->visibleOn([ArtistSongRelationManager::class, MemberArtistRelationManager::class, GroupArtistRelationManager::class]),
+                    ->visibleOn([MemberArtistRelationManager::class, GroupArtistRelationManager::class]),
 
                 TextColumn::make(ArtistSong::ATTRIBUTE_ALIAS)
                     ->label(__('filament.fields.artist.songs.alias.name'))
-                    ->visibleOn([ArtistSongRelationManager::class, MemberArtistRelationManager::class, GroupArtistRelationManager::class]),
+                    ->visibleOn([MemberArtistRelationManager::class, GroupArtistRelationManager::class]),
             ])
             ->searchable();
     }
@@ -248,7 +248,8 @@ class Artist extends BaseResource
             RelationGroup::make(static::getLabel(),
                 array_merge(
                     [
-                        SongArtistRelationManager::class,
+                        PerformanceArtistRelationManager::class,
+                        GroupPerformanceArtistRelationManager::class,
                         ResourceArtistRelationManager::class,
                         MemberArtistRelationManager::class,
                         GroupArtistRelationManager::class,

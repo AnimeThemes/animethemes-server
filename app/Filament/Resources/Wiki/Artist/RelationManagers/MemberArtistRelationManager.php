@@ -107,9 +107,6 @@ class MemberArtistRelationManager extends ArtistRelationManager
      */
     public static function getHeaderActions(): array
     {
-        return array_merge(
-            parent::getHeaderActions(),
-            [],
-        );
+        return [];
     }
 }

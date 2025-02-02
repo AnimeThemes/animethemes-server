@@ -61,7 +61,10 @@ class BelongsToEntry extends TextEntry
                 $relation = $this->getName();
 
                 /** @var (Model&Nameable)|null $related */
-                $related = $record->$relation;
+                $related = $record;
+                foreach (explode('.', $relation) as $relationPart) {
+                    $related = $related->$relationPart;
+                }
 
                 if ($related === null) return null;
 

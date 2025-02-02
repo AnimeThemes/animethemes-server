@@ -2,42 +2,38 @@
 
 declare(strict_types=1);
 
-namespace App\Filament\Resources\Wiki;
+namespace App\Filament\Resources\Wiki\Song;
 
-use App\Filament\Actions\Models\Wiki\Song\AttachSongResourceAction;
+use App\Filament\Components\Columns\BelongsToColumn;
 use App\Filament\Components\Columns\TextColumn;
+use App\Filament\Components\Fields\BelongsTo;
+use App\Filament\Components\Infolist\BelongsToEntry;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\BaseResource;
-use App\Filament\Resources\Wiki\ExternalResource\RelationManagers\SongResourceRelationManager;
-use App\Filament\Resources\Wiki\Song\Pages\CreateSong;
-use App\Filament\Resources\Wiki\Song\Pages\EditSong;
-use App\Filament\Resources\Wiki\Song\Pages\ListSongs;
-use App\Filament\Resources\Wiki\Song\Pages\ViewSong;
-use App\Filament\Resources\Wiki\Song\RelationManagers\PerformanceSongRelationManager;
-use App\Filament\Resources\Wiki\Song\RelationManagers\ResourceSongRelationManager;
-use App\Filament\Resources\Wiki\Song\RelationManagers\ThemeSongRelationManager;
-use App\Models\Wiki\Song as SongModel;
-use App\Pivots\Wiki\ArtistSong;
-use App\Pivots\Wiki\SongResource;
+use App\Filament\Resources\Wiki\Artist as ArtistResource;
+use App\Filament\Resources\Wiki\Song\Membership\Pages\ListMemberships;
+use App\Filament\Resources\Wiki\Song\Membership\Pages\ViewMembership;
+use App\Models\Wiki\Artist;
+use App\Models\Wiki\Song\Membership as MembershipModel;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
-use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
- * Class Song.
+ * Class Membership.
  */
-class Song extends BaseResource
+class Membership extends BaseResource
 {
     /**
      * The model the resource corresponds to.
      *
      * @var string|null
      */
-    protected static ?string $model = SongModel::class;
+    protected static ?string $model = MembershipModel::class;
 
     /**
      * Get the displayable singular label of the resource.
@@ -48,7 +44,7 @@ class Song extends BaseResource
      */
     public static function getLabel(): string
     {
-        return __('filament.resources.singularLabel.song');
+        return __('filament.resources.singularLabel.membership');
     }
 
     /**
@@ -60,7 +56,7 @@ class Song extends BaseResource
      */
     public static function getPluralLabel(): string
     {
-        return __('filament.resources.label.songs');
+        return __('filament.resources.label.memberships');
     }
 
     /**
@@ -84,31 +80,7 @@ class Song extends BaseResource
      */
     public static function getNavigationIcon(): string
     {
-        return __('filament-icons.resources.songs');
-    }
-
-    /**
-     * Determine if the resource can globally search.
-     *
-     * @return bool
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    public static function canGloballySearch(): bool
-    {
-        return true;
-    }
-
-    /**
-     * Get the slug (URI key) for the resource.
-     *
-     * @return string
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    public static function getRecordSlug(): string
-    {
-        return 'songs';
+        return __('filament-icons.resources.memberships');
     }
 
     /**
@@ -120,7 +92,35 @@ class Song extends BaseResource
      */
     public static function getRecordTitleAttribute(): string
     {
-        return SongModel::ATTRIBUTE_TITLE;
+        return MembershipModel::ATTRIBUTE_ID;
+    }
+
+    /**
+     * Get the slug (URI key) for the resource.
+     *
+     * @return string
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public static function getRecordSlug(): string
+    {
+        return 'memberships';
+    }
+
+    /**
+     * Get the eloquent query for the resource.
+     *
+     * @return Builder
+     */
+    public static function getEloquentQuery(): Builder
+    {
+        $query = parent::getEloquentQuery();
+
+        // Necessary to prevent lazy loading when loading related resources
+        return $query->with([
+            MembershipModel::RELATION_ARTIST,
+            MembershipModel::RELATION_MEMBER,
+        ]);
     }
 
     /**
@@ -135,13 +135,24 @@ class Song extends BaseResource
     {
         return $form
             ->schema([
-                TextInput::make(SongModel::ATTRIBUTE_TITLE)
-                    ->label(__('filament.fields.song.title.name'))
-                    ->helperText(__('filament.fields.song.title.help'))
-                    ->required()
-                    ->maxLength(192)
-                    ->rules(['required', 'max:192']),
-            ]);
+                BelongsTo::make(MembershipModel::ATTRIBUTE_ARTIST)
+                    ->resource(ArtistResource::class)
+                    ->required(),
+
+                BelongsTo::make(MembershipModel::ATTRIBUTE_MEMBER)
+                    ->resource(ArtistResource::class)
+                    ->label(__('filament.fields.membership.member'))
+                    ->required(),
+
+                TextInput::make(MembershipModel::ATTRIBUTE_ALIAS)
+                    ->label(__('filament.fields.membership.alias.name'))
+                    ->helperText(__('filament.fields.membership.alias.help')),
+
+                TextInput::make(MembershipModel::ATTRIBUTE_AS)
+                    ->label(__('filament.fields.membership.as.name'))
+                    ->helperText(__('filament.fields.membership.as.help')),
+            ])
+            ->columns(2);
     }
 
     /**
@@ -154,22 +165,19 @@ class Song extends BaseResource
     {
         return parent::table($table)
             ->columns([
-                TextColumn::make(SongModel::ATTRIBUTE_ID)
+                TextColumn::make(MembershipModel::ATTRIBUTE_ID)
                     ->label(__('filament.fields.base.id')),
 
-                TextColumn::make(SongModel::ATTRIBUTE_TITLE)
-                    ->label(__('filament.fields.song.title.name'))
-                    ->copyableWithMessage(),
+                BelongsToColumn::make(MembershipModel::RELATION_ARTIST, ArtistResource::class),
 
-                TextColumn::make(SongResource::ATTRIBUTE_AS)
-                    ->label(__('filament.fields.song.resources.as.name'))
-                    ->visibleOn(SongResourceRelationManager::class),
+                BelongsToColumn::make(MembershipModel::RELATION_MEMBER, ArtistResource::class)
+                    ->label(__('filament.fields.membership.member')),
 
-                TextColumn::make(ArtistSong::ATTRIBUTE_AS)
-                    ->label(__('filament.fields.artist.songs.as.name')),
+                TextColumn::make(MembershipModel::ATTRIBUTE_ALIAS)
+                    ->label(__('filament.fields.membership.alias.name')),
 
-                TextColumn::make(ArtistSong::ATTRIBUTE_ALIAS)
-                    ->label(__('filament.fields.artist.songs.alias.name')),
+                TextColumn::make(MembershipModel::ATTRIBUTE_AS)
+                    ->label(__('filament.fields.membership.as.name')),
             ])
             ->searchable();
     }
@@ -188,14 +196,21 @@ class Song extends BaseResource
             ->schema([
                 Section::make(static::getRecordTitle($infolist->getRecord()))
                     ->schema([
-                        TextEntry::make(SongModel::ATTRIBUTE_ID)
+                        TextEntry::make(MembershipModel::ATTRIBUTE_ID)
                             ->label(__('filament.fields.base.id')),
 
-                        TextEntry::make(SongModel::ATTRIBUTE_TITLE)
-                            ->label(__('filament.fields.song.title.name'))
-                            ->copyableWithMessage(),
+                        BelongsToEntry::make(MembershipModel::RELATION_ARTIST, ArtistResource::class),
+
+                        BelongsToEntry::make(MembershipModel::RELATION_MEMBER, ArtistResource::class)
+                            ->label(__('filament.fields.membership.member')),
+
+                        TextEntry::make(MembershipModel::ATTRIBUTE_ALIAS)
+                            ->label(__('filament.fields.membership.alias.name')),
+
+                        TextEntry::make(MembershipModel::ATTRIBUTE_AS)
+                            ->label(__('filament.fields.membership.as.name')),
                     ])
-                    ->columns(2),
+                    ->columns(3),
 
                 Section::make(__('filament.fields.base.timestamps'))
                     ->schema(parent::timestamps())
@@ -215,11 +230,7 @@ class Song extends BaseResource
         return [
             RelationGroup::make(static::getLabel(),
                 array_merge(
-                    [
-                        PerformanceSongRelationManager::class,
-                        ThemeSongRelationManager::class,
-                        ResourceSongRelationManager::class,
-                    ],
+                    [],
                     parent::getBaseRelations(),
                 )
             ),
@@ -243,16 +254,14 @@ class Song extends BaseResource
      * Get the actions available for the resource.
      *
      * @return array
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getActions(): array
     {
         return array_merge(
             parent::getActions(),
-            [
-                ActionGroup::make([
-                    AttachSongResourceAction::make('attach-song-resource'),
-                ])
-            ],
+            [],
         );
     }
 
@@ -293,10 +302,8 @@ class Song extends BaseResource
     public static function getPages(): array
     {
         return [
-            'index' => ListSongs::route('/'),
-            'create' => CreateSong::route('/create'),
-            'view' => ViewSong::route('/{record:song_id}'),
-            'edit' => EditSong::route('/{record:song_id}/edit'),
+            'index' => ListMemberships::route('/'),
+            'view' => ViewMembership::route('/{record:membership_id}'),
         ];
     }
 }

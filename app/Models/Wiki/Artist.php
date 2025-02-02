@@ -16,6 +16,8 @@ use App\Http\Resources\Pivot\Wiki\Resource\ArtistMemberResource;
 use App\Http\Resources\Pivot\Wiki\Resource\ArtistResourceResource;
 use App\Http\Resources\Pivot\Wiki\Resource\ArtistSongResource;
 use App\Models\BaseModel;
+use App\Models\Wiki\Song\Membership;
+use App\Models\Wiki\Song\Performance;
 use App\Pivots\Wiki\ArtistImage;
 use App\Pivots\Wiki\ArtistMember;
 use App\Pivots\Wiki\ArtistResource;
@@ -24,6 +26,7 @@ use Database\Factories\Wiki\ArtistFactory;
 use Elastic\ScoutDriverPlus\Searchable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Collection;
 
 /**
@@ -54,8 +57,10 @@ class Artist extends BaseModel implements HasResources, HasImages
     final public const RELATION_ANIME = 'songs.animethemes.anime';
     final public const RELATION_ANIMETHEMES = 'songs.animethemes';
     final public const RELATION_GROUPS = 'groups';
+    final public const RELATION_GROUP_PERFORMANCES = 'groupperformances';
     final public const RELATION_IMAGES = 'images';
     final public const RELATION_MEMBERS = 'members';
+    final public const RELATION_PERFORMANCES = 'performances';
     final public const RELATION_RESOURCES = 'resources';
     final public const RELATION_SONGS = 'songs';
     final public const RELATION_THEME_GROUPS = 'songs.animethemes.group';
@@ -166,6 +171,30 @@ class Artist extends BaseModel implements HasResources, HasImages
             ->withPivot([ArtistSong::ATTRIBUTE_ALIAS, ArtistSong::ATTRIBUTE_AS])
             ->as(ArtistSongResource::$wrap)
             ->withTimestamps();
+    }
+
+    /**
+     * Get the performances of the artist.
+     *
+     * @return MorphMany
+     */
+    public function performances(): MorphMany
+    {
+        return $this->morphMany(Performance::class, Performance::RELATION_ARTIST);
+    }
+
+    public function groupperformances()
+    {
+        return $this->hasManyThrough(
+            Performance::class, Membership::class,
+            'member_id', 'artist_id'
+        )->select(['memberships.as', 'memberships.alias'])
+        ->where(Performance::ATTRIBUTE_ARTIST_TYPE, Membership::class);
+    }
+
+    public function memberships()
+    {
+        return $this->hasMany(Membership::class, Membership::ATTRIBUTE_MEMBER);
     }
 
     /**

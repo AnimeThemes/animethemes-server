@@ -15,6 +15,7 @@ use App\Http\Resources\Pivot\Wiki\Resource\ArtistSongResource;
 use App\Http\Resources\Pivot\Wiki\Resource\SongResourceResource;
 use App\Models\BaseModel;
 use App\Models\Wiki\Anime\AnimeTheme;
+use App\Models\Wiki\Song\Performance;
 use App\Pivots\Wiki\ArtistSong;
 use App\Pivots\Wiki\SongResource;
 use Database\Factories\Wiki\SongFactory;
@@ -28,6 +29,7 @@ use Illuminate\Support\Collection;
  *
  * @property Collection<int, AnimeTheme> $animethemes
  * @property Collection<int, Artist> $artists
+ * @property Collection<int, Performance> $performances
  * @property Collection<int, ExternalResource> $resources
  * @property int $song_id
  * @property string|null $title
@@ -47,6 +49,7 @@ class Song extends BaseModel implements HasResources
     final public const RELATION_ANIME = 'animethemes.anime';
     final public const RELATION_ANIMETHEMES = 'animethemes';
     final public const RELATION_ARTISTS = 'artists';
+    final public const RELATION_PERFORMANCES = 'performances';
     final public const RELATION_RESOURCES = 'resources';
     final public const RELATION_THEME_GROUPS = 'animethemes.group';
     final public const RELATION_VIDEOS = 'animethemes.animethemeentries.videos';
@@ -137,6 +140,16 @@ class Song extends BaseModel implements HasResources
             ->withPivot([ArtistSong::ATTRIBUTE_ALIAS, ArtistSong::ATTRIBUTE_AS])
             ->as(ArtistSongResource::$wrap)
             ->withTimestamps();
+    }
+
+    /**
+     * Get the performances of the song.
+     *
+     * @return HasMany<Performance, $this>
+     */
+    public function performances(): HasMany
+    {
+        return $this->hasMany(Performance::class, Performance::ATTRIBUTE_SONG);
     }
 
     /**

@@ -25,13 +25,12 @@ use App\Filament\Resources\Wiki\Anime\Theme\RelationManagers\EntryThemeRelationM
 use App\Filament\Resources\Wiki\Artist as ArtistResource;
 use App\Filament\Resources\Wiki\Group as GroupResource;
 use App\Filament\Resources\Wiki\Song as SongResource;
+use App\Filament\Resources\Wiki\Song\Performance as PerformanceResource;
 use App\Filament\Resources\Wiki\Song\RelationManagers\ThemeSongRelationManager;
 use App\Models\Wiki\Anime\AnimeTheme as ThemeModel;
 use App\Models\Wiki\Anime\AnimeTheme;
-use App\Models\Wiki\Artist;
 use App\Models\Wiki\Group;
 use App\Models\Wiki\Song;
-use App\Pivots\Wiki\ArtistSong;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\Tabs\Tab;
@@ -235,61 +234,7 @@ class Theme extends BaseResource
                                         }
                                     }),
 
-                                Repeater::make(ThemeModel::RELATION_ARTISTS)
-                                    ->label(__('filament.resources.label.artists'))
-                                    ->addActionLabel(__('filament.buttons.add').' '.__('filament.resources.singularLabel.artist'))
-                                    ->hidden(fn (Get $get) => $get(ThemeModel::ATTRIBUTE_SONG) === null)
-                                    ->live(true)
-                                    ->key('song.artists')
-                                    ->collapsible()
-                                    ->defaultItems(0)
-                                    ->schema([
-                                        BelongsTo::make(Artist::ATTRIBUTE_ID)
-                                            ->resource(ArtistResource::class)
-                                            ->showCreateOption()
-                                            ->required()
-                                            ->rules(['required']),
-
-                                        TextInput::make(ArtistSong::ATTRIBUTE_AS)
-                                            ->label(__('filament.fields.artist.songs.as.name'))
-                                            ->helperText(__('filament.fields.artist.songs.as.help')),
-
-                                        TextInput::make(ArtistSong::ATTRIBUTE_ALIAS)
-                                            ->label(__('filament.fields.artist.songs.alias.name'))
-                                            ->helperText(__('filament.fields.artist.songs.alias.help')),
-                                    ])
-                                    ->formatStateUsing(function (?array $state, Get $get) {
-                                        /** @var Song|null $song */
-                                        $song = Song::find($get(ThemeModel::ATTRIBUTE_SONG));
-
-                                        if (!$song) return $state;
-
-                                        $artists = [];
-                                        foreach ($song->artists()->get() as $artist) {
-                                            $artists[] = [
-                                                Artist::ATTRIBUTE_ID => $artist->getKey(),
-                                                ArtistSong::ATTRIBUTE_ALIAS => Arr::get($artist, 'artistsong.alias'),
-                                                ArtistSong::ATTRIBUTE_AS => Arr::get($artist, 'artistsong.as'),
-                                            ];
-                                        }
-
-                                        return $artists;
-                                    })
-                                    ->saveRelationshipsUsing(function (?array $state, Get $get) {
-                                        /** @var Song $song */
-                                        $song = Song::find($get(ThemeModel::ATTRIBUTE_SONG));
-
-                                        $artists = [];
-                                        foreach ($state as $artist) {
-                                            $artists[Arr::get($artist, Artist::ATTRIBUTE_ID)] = [
-                                                ArtistSong::ATTRIBUTE_ALIAS => Arr::get($artist, ArtistSong::ATTRIBUTE_ALIAS),
-                                                ArtistSong::ATTRIBUTE_AS => Arr::get($artist, ArtistSong::ATTRIBUTE_AS)
-                                            ];
-                                        }
-
-                                        $song->artists()->sync($artists);
-                                    })
-                                    ->columns(3),
+                                ...PerformanceResource::performancesFields(),
                             ]),
 
                         Tab::make('entries')

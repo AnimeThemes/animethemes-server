@@ -14,6 +14,7 @@ use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Api\Schema\Pivot\Wiki\ArtistSongSchema;
 use App\Http\Api\Schema\Pivot\Wiki\SongResourceSchema;
 use App\Http\Api\Schema\Wiki\Anime\ThemeSchema;
+use App\Http\Api\Schema\Wiki\Song\PerformanceSchema;
 use App\Http\Resources\Pivot\Wiki\Resource\ArtistSongResource;
 use App\Http\Resources\Pivot\Wiki\Resource\SongResourceResource;
 use App\Http\Resources\Wiki\Resource\SongResource;
@@ -60,6 +61,7 @@ class SongSchema extends EloquentSchema implements InteractsWithPivots, Searchab
                 new AllowedInclude(new ArtistSchema(), Song::RELATION_ARTISTS),
                 new AllowedInclude(new ExternalResourceSchema(), Song::RELATION_RESOURCES),
                 new AllowedInclude(new GroupSchema(), Song::RELATION_THEME_GROUPS),
+                new AllowedInclude(new PerformanceSchema(), Song::RELATION_PERFORMANCES),
                 new AllowedInclude(new ThemeSchema(), Song::RELATION_ANIMETHEMES),
             ]),
             []

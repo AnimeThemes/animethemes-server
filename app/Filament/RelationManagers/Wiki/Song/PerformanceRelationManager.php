@@ -2,45 +2,32 @@
 
 declare(strict_types=1);
 
-namespace App\Filament\Resources\Wiki\Artist\RelationManagers;
+namespace App\Filament\RelationManagers\Wiki\Song;
 
-use App\Filament\RelationManagers\Wiki\SongRelationManager;
-use App\Models\Wiki\Artist;
-use App\Models\Wiki\Song;
-use App\Pivots\Wiki\ArtistSong;
-use Filament\Forms\Components\Component;
-use Filament\Forms\Components\TextInput;
+use App\Filament\RelationManagers\BaseRelationManager;
+use App\Filament\Resources\Wiki\Song\Performance as PerformanceResource;
+use App\Models\Wiki\Song\Performance;
+use Filament\Forms\Form;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
- * Class SongArtistRelationManager.
+ * Class PerformanceRelationManager.
  */
-class SongArtistRelationManager extends SongRelationManager
+abstract class PerformanceRelationManager extends BaseRelationManager
 {
     /**
-     * Get the pivot fields of the relation.
+     * The form to the actions.
      *
-     * @return array<int, Component>
+     * @param  Form  $form
+     * @return Form
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
-    public function getPivotFields(): array
+    public function form(Form $form): Form
     {
-        return [
-            TextInput::make(ArtistSong::ATTRIBUTE_AS)
-                ->label(__('filament.fields.artist.songs.as.name'))
-                ->helperText(__('filament.fields.artist.songs.as.help')),
-
-            TextInput::make(ArtistSong::ATTRIBUTE_ALIAS)
-                ->label(__('filament.fields.artist.songs.alias.name'))
-                ->helperText(__('filament.fields.artist.songs.alias.help')),
-        ];
+        return PerformanceResource::form($form);
     }
-
-    /**
-     * The relationship the relation manager corresponds to.
-     *
-     * @var string
-     */
-    protected static string $relationship = Artist::RELATION_SONGS;
 
     /**
      * The index page of the resource.
@@ -52,7 +39,12 @@ class SongArtistRelationManager extends SongRelationManager
     {
         return parent::table(
             $table
-                ->inverseRelationship(Song::RELATION_ARTISTS)
+                ->modifyQueryUsing(fn (Builder $query) => $query->with(PerformanceResource::getEloquentQuery()->getEagerLoads()))
+                ->heading(PerformanceResource::getPluralLabel())
+                ->modelLabel(PerformanceResource::getLabel())
+                ->recordTitleAttribute(Performance::ATTRIBUTE_ID)
+                ->columns(PerformanceResource::table($table)->getColumns())
+                ->defaultSort(Performance::TABLE . '.' . Performance::ATTRIBUTE_ID, 'desc')
         );
     }
 
@@ -67,7 +59,7 @@ class SongArtistRelationManager extends SongRelationManager
     {
         return array_merge(
             [],
-            parent::getFilters(),
+            PerformanceResource::getFilters(),
         );
     }
 
@@ -80,7 +72,7 @@ class SongArtistRelationManager extends SongRelationManager
     {
         return array_merge(
             parent::getActions(),
-            [],
+            PerformanceResource::getActions(),
         );
     }
 
@@ -94,7 +86,7 @@ class SongArtistRelationManager extends SongRelationManager
     {
         return array_merge(
             parent::getBulkActions(),
-            [],
+            PerformanceResource::getBulkActions(),
         );
     }
 
@@ -107,7 +99,7 @@ class SongArtistRelationManager extends SongRelationManager
     {
         return array_merge(
             parent::getHeaderActions(),
-            [],
+            PerformanceResource::getTableActions(),
         );
     }
 }
