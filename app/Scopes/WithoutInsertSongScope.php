@@ -23,12 +23,12 @@ class WithoutInsertSongScope implements Scope
      * @param  Model  $model
      * @return void
      */
-    public function apply(Builder $builder, Model $model): Builder
+    public function apply(Builder $builder, Model $model): void
     {
         if (Filament::isServing()) {
-            return $builder;
+            return;
         }
 
-        return $builder->whereNot(AnimeTheme::ATTRIBUTE_TYPE, ThemeType::IS->value);
+        $builder->whereNot(AnimeTheme::ATTRIBUTE_TYPE, ThemeType::IS->value);
     }
 }
