@@ -15,4 +15,5 @@ enum ThemeType: int
 
     case OP = 0;
     case ED = 1;
+    case IS = 2;
 }

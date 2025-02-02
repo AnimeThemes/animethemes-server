@@ -114,6 +114,7 @@ return [
     ThemeType::class => [
         ThemeType::OP->name => 'OP',
         ThemeType::ED->name => 'ED',
+        ThemeType::IS->name => 'IS',
     ],
     VideoOverlap::class => [
         VideoOverlap::NONE->name => 'None',

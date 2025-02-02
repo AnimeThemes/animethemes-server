@@ -19,6 +19,7 @@ use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Group;
 use App\Models\Wiki\Song;
+use App\Scopes\WithoutInsertSongScope;
 use Database\Factories\Wiki\Anime\AnimeThemeFactory;
 use Elastic\ScoutDriverPlus\Searchable;
 use Illuminate\Database\Eloquent\Builder;
@@ -68,6 +69,18 @@ class AnimeTheme extends BaseModel implements InteractsWithSchema
     final public const RELATION_SONG = 'song';
     final public const RELATION_SYNONYMS = 'anime.animesynonyms';
     final public const RELATION_VIDEOS = 'animethemeentries.videos';
+
+    /**
+     * The "booting" method of the model.
+     *
+     * @return void
+     */
+    protected static function boot(): void
+    {
+        parent::boot();
+
+        static::addGlobalScope(new WithoutInsertSongScope);
+    }
 
     /**
      * The attributes that are mass assignable.

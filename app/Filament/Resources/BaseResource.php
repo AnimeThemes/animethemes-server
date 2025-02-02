@@ -16,6 +16,7 @@ use App\Filament\BulkActions\Base\RestoreBulkAction;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\RelationManagers\Base\ActionLogRelationManager;
 use App\Models\BaseModel;
+use App\Scopes\WithoutInsertSongScope;
 use Filament\Resources\Resource;
 use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Actions\BulkActionGroup;
@@ -213,6 +214,7 @@ abstract class BaseResource extends Resource
         return parent::getEloquentQuery()
             ->withoutGlobalScopes([
                 SoftDeletingScope::class,
+                WithoutInsertSongScope::class,
             ]);
     }
 

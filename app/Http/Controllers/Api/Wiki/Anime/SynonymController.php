@@ -46,11 +46,11 @@ class SynonymController extends BaseController
     {
         $query = new Query($request->validated());
 
-        $videos = $query->hasSearchCriteria()
+        $synonyms = $query->hasSearchCriteria()
             ? $action->search($query, $request->schema())
             : $action->index(AnimeSynonym::query(), $query, $request->schema());
 
-        return new SynonymCollection($videos, $query);
+        return new SynonymCollection($synonyms, $query);
     }
 
     /**
