@@ -19,7 +19,6 @@ use Filament\Infolists\Components\Section;
 use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Tables\Table;
-use Illuminate\Validation\Rule;
 
 /**
  * Class Group.
@@ -129,19 +128,7 @@ class Group extends BaseResource
                     ->helperText(__('filament.fields.group.slug.help'))
                     ->required()
                     ->maxLength(192)
-                    ->unique(GroupModel::class, GroupModel::ATTRIBUTE_SLUG, ignoreRecord: true)
-                    ->rules([
-                        fn ($record) => [
-                            'required',
-                            'max:192',
-                            'alpha_dash',
-                            $record !== null
-                                ? Rule::unique(GroupModel::class)
-                                    ->ignore($record->getKey(), GroupModel::ATTRIBUTE_ID)
-                                    ->__toString()
-                                : Rule::unique(GroupModel::class)->__toString(),
-                        ]
-                    ]),
+                    ->unique(GroupModel::class, GroupModel::ATTRIBUTE_SLUG, ignoreRecord: true),
             ])
             ->columns(1);
     }
