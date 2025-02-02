@@ -46,11 +46,11 @@ class EntryController extends BaseController
     {
         $query = new Query($request->validated());
 
-        $videos = $query->hasSearchCriteria()
+        $entries = $query->hasSearchCriteria()
             ? $action->search($query, $request->schema())
             : $action->index(AnimeThemeEntry::query(), $query, $request->schema());
 
-        return new EntryCollection($videos, $query);
+        return new EntryCollection($entries, $query);
     }
 
     /**

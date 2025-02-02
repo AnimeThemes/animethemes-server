@@ -46,11 +46,11 @@ class ThemeController extends BaseController
     {
         $query = new Query($request->validated());
 
-        $videos = $query->hasSearchCriteria()
+        $themes = $query->hasSearchCriteria()
             ? $action->search($query, $request->schema())
             : $action->index(AnimeTheme::query(), $query, $request->schema());
 
-        return new ThemeCollection($videos, $query);
+        return new ThemeCollection($themes, $query);
     }
 
     /**

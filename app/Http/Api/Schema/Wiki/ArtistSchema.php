@@ -72,7 +72,13 @@ class ArtistSchema extends EloquentSchema implements InteractsWithPivots, Search
 
                 // Undocumented paths needed for client builds
                 new AllowedInclude(new ArtistSchema(), 'groups.songs.artists'),
+                new AllowedInclude(new SongSchema(), 'groups.songs.animethemes.song'),
+                new AllowedInclude(new GroupSchema(), 'groups.songs.animethemes.group'),
+                new AllowedInclude(new ArtistSchema(), 'groups.songs.animethemes.song.artists'),
                 new AllowedInclude(new ImageSchema(), 'groups.songs.animethemes.anime.images'),
+                new AllowedInclude(new EntrySchema(), 'groups.songs.animethemes.animethemeentries'),
+                new AllowedInclude(new VideoSchema(), 'groups.songs.animethemes.animethemeentries.videos'),
+                new AllowedInclude(new AudioSchema(), 'groups.songs.animethemes.animethemeentries.videos.audio'),
                 new AllowedInclude(new ExternalResourceSchema(), 'groups.songs.resources'),
                 new AllowedInclude(new ArtistSchema(), 'songs.artists'),
                 new AllowedInclude(new SongSchema(), 'songs.animethemes.song'),
