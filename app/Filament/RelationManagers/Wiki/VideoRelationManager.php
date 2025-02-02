@@ -40,7 +40,6 @@ abstract class VideoRelationManager extends BaseRelationManager
         return parent::table(
             $table
                 ->modifyQueryUsing(fn (Builder $query) => $query->with(VideoResource::getEloquentQuery()->getEagerLoads()))
-                ->query(VideoResource::getEloquentQuery())
                 ->heading(VideoResource::getPluralLabel())
                 ->modelLabel(VideoResource::getLabel())
                 ->recordTitleAttribute(Video::ATTRIBUTE_FILENAME)
