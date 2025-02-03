@@ -6,6 +6,7 @@ namespace App\Models\Wiki\Anime\Theme;
 
 use App\Concerns\Models\Reportable;
 use App\Contracts\Http\Api\InteractsWithSchema;
+use App\Enums\Models\Wiki\ThemeType;
 use App\Events\Wiki\Anime\Theme\Entry\EntryCreated;
 use App\Events\Wiki\Anime\Theme\Entry\EntryDeleted;
 use App\Events\Wiki\Anime\Theme\Entry\EntryDeleting;
@@ -171,7 +172,7 @@ class AnimeThemeEntry extends BaseModel implements InteractsWithSchema
         return Str::of($this->anime->name)
             ->append(' ')
             ->append($this->animetheme->type->localize())
-            ->append(strval($this->animetheme->sequence ?? 1))
+            ->append($this->animetheme->type === ThemeType::IN ? '' : strval($this->sequence ?? 1))
             ->append(empty($this->version) ? '' : "v$this->version")
             ->append($this->animetheme->group !== null ? '-'.$this->animetheme->group->slug : '')
             ->__toString();

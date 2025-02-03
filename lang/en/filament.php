@@ -515,7 +515,7 @@ return [
                 'name' => 'Slug',
             ],
             'type' => [
-                'help' => 'Is this an OP or an ED?',
+                'help' => 'Is this an OP or an ED or an Insert Song?',
                 'name' => 'Type',
             ],
         ],
