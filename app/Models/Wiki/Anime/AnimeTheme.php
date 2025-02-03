@@ -179,7 +179,7 @@ class AnimeTheme extends BaseModel implements InteractsWithSchema
         $this->loadMissing(AnimeTheme::RELATION_GROUP);
 
         return Str::of($this->type->localize())
-            ->append($this->type === ThemeType::IS ? '' : strval($this->sequence ?? 1))
+            ->append($this->type === ThemeType::IN ? '' : strval($this->sequence ?? 1))
             ->append($this->group !== null ? '-'.$this->group->slug : '')
             ->__toString();
     }

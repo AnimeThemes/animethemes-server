@@ -29,6 +29,6 @@ class WithoutInsertSongScope implements Scope
             return;
         }
 
-        $builder->whereNot(AnimeTheme::ATTRIBUTE_TYPE, ThemeType::IS->value);
+        $builder->whereNot(AnimeTheme::ATTRIBUTE_TYPE, ThemeType::IN->value);
     }
 }
