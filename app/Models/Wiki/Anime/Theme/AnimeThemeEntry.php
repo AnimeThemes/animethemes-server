@@ -172,7 +172,7 @@ class AnimeThemeEntry extends BaseModel implements InteractsWithSchema
         return Str::of($this->anime->name)
             ->append(' ')
             ->append($this->animetheme->type->localize())
-            ->append($this->animetheme->type === ThemeType::IN ? '' : strval($this->sequence ?? 1))
+            ->append($this->animetheme->type === ThemeType::IN ? '' : strval($this->animetheme->sequence ?? 1))
             ->append(empty($this->version) ? '' : "v$this->version")
             ->append($this->animetheme->group !== null ? '-'.$this->animetheme->group->slug : '')
             ->__toString();

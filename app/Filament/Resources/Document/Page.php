@@ -152,7 +152,7 @@ class Page extends BaseResource
                     ->maxLength(16777215)
                     ->rules(['required', 'max:16777215'])
                     ->columnSpan(2)
-                    ->formatStateUsing(fn (PageModel $record) => $record->body),
+                    ->formatStateUsing(fn (?PageModel $record) => $record?->body),
             ])
             ->columns(2);
     }
