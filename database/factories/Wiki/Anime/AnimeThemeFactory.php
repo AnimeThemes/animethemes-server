@@ -33,7 +33,7 @@ class AnimeThemeFactory extends Factory
      */
     public function definition(): array
     {
-        $type = Arr::random(ThemeType::cases());
+        $type = Arr::random(Arr::except(ThemeType::cases(), ThemeType::IN));
 
         return [
             AnimeTheme::ATTRIBUTE_SEQUENCE => fake()->randomDigitNotNull(),
