@@ -20,6 +20,7 @@ use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Video;
 use App\Pivots\Wiki\AnimeThemeEntryVideo;
+use App\Scopes\WithoutInsertSongScope;
 use Database\Factories\Wiki\Anime\Theme\AnimeThemeEntryFactory;
 use Elastic\ScoutDriverPlus\Searchable;
 use Illuminate\Database\Eloquent\Builder;
@@ -169,12 +170,16 @@ class AnimeThemeEntry extends BaseModel implements InteractsWithSchema
             AnimeThemeEntry::RELATION_THEME_GROUP,
         ]);
 
+        $theme = $this->animetheme
+            ? $this->animetheme
+            : $this->animetheme()->withoutGlobalScope(WithoutInsertSongScope::class)->first();
+
         return Str::of($this->anime->name)
             ->append(' ')
-            ->append($this->animetheme->type->localize())
-            ->append($this->animetheme->type === ThemeType::IN ? '' : strval($this->animetheme->sequence ?? 1))
+            ->append($theme->type->localize())
+            ->append($theme->type === ThemeType::IN ? '' : strval($theme->sequence ?? 1))
             ->append(empty($this->version) ? '' : "v$this->version")
-            ->append($this->animetheme->group !== null ? '-'.$this->animetheme->group->slug : '')
+            ->append($theme->group !== null ? '-'.$theme->group->slug : '')
             ->__toString();
     }
 
