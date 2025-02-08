@@ -6,35 +6,36 @@ namespace App\Events;
 
 use App\Constants\Config\ServiceConstants;
 use App\Contracts\Events\DiscordMessageEvent;
+use App\Contracts\Models\Nameable;
 use App\Models\Auth\User;
-use App\Models\BaseModel;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 
 /**
  * Class BasePivotEvent.
  *
- * @template TModelRelated of \App\Models\BaseModel
- * @template TModelForeign of \App\Models\BaseModel
+ * @template TModelRelated of \Illuminate\Database\Eloquent\Model
+ * @template TModelForeign of \Illuminate\Database\Eloquent\Model
  */
 abstract class BasePivotEvent implements DiscordMessageEvent
 {
     /**
      * Create a new event instance.
      *
-     * @param  TModelRelated  $related
-     * @param  TModelForeign  $foreign
+     * @param  TModelRelated&Nameable  $related
+     * @param  TModelForeign&Nameable  $foreign
      */
-    public function __construct(protected BaseModel $related, protected BaseModel $foreign)
+    public function __construct(protected Model&Nameable $related, protected Model&Nameable $foreign)
     {
     }
 
     /**
      * Get the related model.
      *
-     * @return TModelRelated
+     * @return TModelRelated&Nameable
      */
-    public function getRelated(): BaseModel
+    public function getRelated(): Model&Nameable
     {
         return $this->related;
     }
@@ -42,9 +43,9 @@ abstract class BasePivotEvent implements DiscordMessageEvent
     /**
      * Get the foreign model.
      *
-     * @return TModelForeign
+     * @return TModelForeign&Nameable
      */
-    public function getForeign(): BaseModel
+    public function getForeign(): Model&Nameable
     {
         return $this->foreign;
     }

@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Config;
 /**
  * Class AdminUpdatedEvent.
  *
- * @template TModel of \App\Models\BaseModel
+ * @template TModel of \Illuminate\Database\Eloquent\Model
  *
  * @extends BaseUpdatedEvent<TModel>
  */

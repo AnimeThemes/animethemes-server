@@ -14,7 +14,7 @@ use NotificationChannels\Discord\DiscordMessage;
 /**
  * Class BaseCreatedEvent.
  *
- * @template TModel of \App\Models\BaseModel
+ * @template TModel of \Illuminate\Database\Eloquent\Model
  *
  * @extends BaseEvent<TModel>
  */

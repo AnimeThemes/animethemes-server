@@ -4,32 +4,33 @@ declare(strict_types=1);
 
 namespace App\Events;
 
+use App\Contracts\Models\Nameable;
 use App\Models\Auth\User;
-use App\Models\BaseModel;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 
 /**
  * Class BaseEvent.
  *
- * @template TModel of \App\Models\BaseModel
+ * @template TModel of \Illuminate\Database\Eloquent\Model
  */
 abstract class BaseEvent
 {
     /**
      * Create a new event instance.
      *
-     * @param  TModel  $model
+     * @param  TModel&Nameable  $model
      */
-    public function __construct(protected BaseModel $model)
+    public function __construct(protected Model&Nameable $model)
     {
     }
 
     /**
      * Get the model that has fired this event.
      *
-     * @return TModel
+     * @return TModel&Nameable
      */
-    abstract public function getModel(): BaseModel;
+    abstract public function getModel(): Model&Nameable;
 
     /**
      * Get the user that has fired this event.

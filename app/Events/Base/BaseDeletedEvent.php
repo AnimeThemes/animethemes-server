@@ -13,7 +13,7 @@ use NotificationChannels\Discord\DiscordMessage;
 /**
  * Class BaseDeletedEvent.
  *
- * @template TModel of \App\Models\BaseModel
+ * @template TModel of \Illuminate\Database\Eloquent\Model
  *
  * @extends BaseEvent<TModel>
  */

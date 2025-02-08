@@ -13,8 +13,8 @@ use NotificationChannels\Discord\DiscordMessage;
 /**
  * Class PivotUpdatedEvent.
  *
- * @template TModelRelated of \App\Models\BaseModel
- * @template TModelForeign of \App\Models\BaseModel
+ * @template TModelRelated of \Illuminate\Database\Eloquent\Model
+ * @template TModelForeign of \Illuminate\Database\Eloquent\Model
  *
  * @extends BasePivotEvent<TModelRelated, TModelForeign>
  */

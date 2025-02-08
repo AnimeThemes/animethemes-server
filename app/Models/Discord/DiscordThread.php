@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace App\Models\Discord;
 
+use App\Contracts\Models\HasSubtitle;
+use App\Contracts\Models\Nameable;
 use App\Events\Discord\DiscordThread\DiscordThreadDeleted;
 use App\Events\Discord\DiscordThread\DiscordThreadUpdated;
-use App\Models\BaseModel;
 use App\Models\Wiki\Anime;
 use Database\Factories\Discord\DiscordThreadFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
@@ -21,7 +23,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *
  * @method static DiscordThreadFactory factory(...$parameters)
  */
-class DiscordThread extends BaseModel
+class DiscordThread extends Model implements Nameable, HasSubtitle
 {
     final public const TABLE = 'discord_threads';
 
