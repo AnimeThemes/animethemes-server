@@ -30,6 +30,7 @@ use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
+use Malzariey\FilamentDaterangepickerFilter\Filters\DateRangeFilter;
 
 /**
  * Class DiscordThread.
@@ -237,10 +238,10 @@ class DiscordThread extends BaseResource
      */
     public static function getFilters(): array
     {
-        return array_merge(
-            [],
-            parent::getFilters(),
-        );
+        return [
+            DateRangeFilter::make(BaseModel::ATTRIBUTE_CREATED_AT)
+                ->label(__('filament.fields.base.created_at')),
+        ];
     }
 
     /**
