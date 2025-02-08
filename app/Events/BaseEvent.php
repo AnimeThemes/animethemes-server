@@ -17,12 +17,20 @@ use Illuminate\Support\Facades\Auth;
 abstract class BaseEvent
 {
     /**
+     * The user that fired this event.
+     *
+     * @var User|null
+     */
+    protected ?User $authenticatedUser;
+
+    /**
      * Create a new event instance.
      *
      * @param  TModel&Nameable  $model
      */
     public function __construct(protected Model&Nameable $model)
     {
+        $this->authenticatedUser = Auth::user();
     }
 
     /**
@@ -33,13 +41,13 @@ abstract class BaseEvent
     abstract public function getModel(): Model&Nameable;
 
     /**
-     * Get the user that has fired this event.
+     * Get the user that fired this event.
      *
      * @return User|null
      */
     protected function getAuthenticatedUser(): ?User
     {
-        return Auth::user();
+        return $this->authenticatedUser;
     }
 
     /**
