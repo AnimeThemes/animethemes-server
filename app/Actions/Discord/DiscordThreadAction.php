@@ -10,6 +10,7 @@ use Exception;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Class DiscordThreadAction.
@@ -56,6 +57,8 @@ class DiscordThreadAction
             return null;
 
         } catch (Exception $e) {
+            Log::error($e->getMessage());
+
             return $e;
         }
     }

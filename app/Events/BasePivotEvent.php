@@ -21,6 +21,13 @@ use Illuminate\Support\Facades\Config;
 abstract class BasePivotEvent implements DiscordMessageEvent
 {
     /**
+     * The user that fired this event.
+     *
+     * @var User|null
+     */
+    protected ?User $authenticatedUser;
+
+    /**
      * Create a new event instance.
      *
      * @param  TModelRelated&Nameable  $related
@@ -28,6 +35,7 @@ abstract class BasePivotEvent implements DiscordMessageEvent
      */
     public function __construct(protected Model&Nameable $related, protected Model&Nameable $foreign)
     {
+        $this->authenticatedUser = Auth::user();
     }
 
     /**
@@ -51,13 +59,13 @@ abstract class BasePivotEvent implements DiscordMessageEvent
     }
 
     /**
-     * Get the user that has fired this event.
+     * Get the user that fired this event.
      *
      * @return User|null
      */
     protected function getAuthenticatedUser(): ?User
     {
-        return Auth::user();
+        return $this->authenticatedUser;
     }
 
     /**
