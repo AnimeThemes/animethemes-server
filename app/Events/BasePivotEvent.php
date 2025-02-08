@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Config;
 abstract class BasePivotEvent implements DiscordMessageEvent
 {
     /**
-     * The user that has fired this event.
+     * The user that fired this event.
      *
      * @var User|null
      */
@@ -59,7 +59,7 @@ abstract class BasePivotEvent implements DiscordMessageEvent
     }
 
     /**
-     * Get the user that has fired this event.
+     * Get the user that fired this event.
      *
      * @return User|null
      */
