@@ -170,9 +170,13 @@ class AnimeThemeEntry extends BaseModel implements InteractsWithSchema
             AnimeThemeEntry::RELATION_THEME_GROUP,
         ]);
 
-        $theme = $this->animetheme
-            ? $this->animetheme
-            : $this->animetheme()->withoutGlobalScope(WithoutInsertSongScope::class)->first();
+        $theme = is_null($this->animetheme)
+            ? $this->animetheme()->withoutGlobalScope(WithoutInsertSongScope::class)->first()
+            : $this->animetheme;
+
+        if (is_null($theme)) {
+            return strval($this->getKey());
+        }
 
         return Str::of($this->anime->name)
             ->append(' ')
