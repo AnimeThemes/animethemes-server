@@ -39,10 +39,15 @@ class FeatureUpdated extends FeatureEvent
     {
         $feature = $this->getFeature();
 
-        return DiscordMessage::create('', [
-            'description' => "Feature '**{$feature->getName()}**' has been updated.",
-            'fields' => $this->getEmbedFields(),
-            'color' => EmbedColor::YELLOW->value,
-        ]);
+        $embed = array_merge(
+            [
+                'description' => "Feature '**{$feature->getName()}**' has been updated.",
+                'fields' => $this->getEmbedFields(),
+                'color' => EmbedColor::YELLOW->value,
+            ],
+            $this->getUserFooter(),
+        );
+
+        return DiscordMessage::create('', $embed);
     }
 }

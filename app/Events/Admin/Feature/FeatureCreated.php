@@ -26,9 +26,14 @@ class FeatureCreated extends FeatureEvent
     {
         $feature = $this->getFeature();
 
-        return DiscordMessage::create('', [
-            'description' => "Feature '**{$feature->getName()}**' has been created.",
-            'color' => EmbedColor::GREEN->value,
-        ]);
+        $embed = array_merge(
+            [
+                'description' => "Feature '**{$feature->getName()}**' has been created.",
+                'color' => EmbedColor::GREEN->value,
+            ],
+            $this->getUserFooter(),
+        );
+
+        return DiscordMessage::create('', $embed);
     }
 }

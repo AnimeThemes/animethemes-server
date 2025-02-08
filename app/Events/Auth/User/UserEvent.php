@@ -7,6 +7,7 @@ namespace App\Events\Auth\User;
 use App\Constants\Config\ServiceConstants;
 use App\Contracts\Events\DiscordMessageEvent;
 use App\Models\Auth\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 
 /**
@@ -32,6 +33,35 @@ abstract class UserEvent implements DiscordMessageEvent
     public function getUser(): User
     {
         return $this->user;
+    }
+
+    /**
+     * Get the user that has fired this event.
+     *
+     * @return User|null
+     */
+    protected function getAuthenticatedUser(): ?User
+    {
+        return Auth::user();
+    }
+
+    /**
+     * Get the user info for the footer.
+     *
+     * @return array
+     */
+    protected function getUserFooter(): array
+    {
+        if (is_null($this->getAuthenticatedUser())) {
+            return [];
+        }
+
+        return [
+            'footer' => [
+                'text' => $this->getAuthenticatedUser()->getName(),
+                'icon_url' => $this->getAuthenticatedUser()->getFilamentAvatarUrl(),
+            ]
+        ];
     }
 
     /**

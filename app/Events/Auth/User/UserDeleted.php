@@ -24,9 +24,14 @@ class UserDeleted extends UserEvent
     {
         $user = $this->getUser();
 
-        return DiscordMessage::create('', [
-            'description' => "User '**{$user->getName()}**' has been deleted.",
-            'color' => EmbedColor::RED->value,
-        ]);
+        $embed = array_merge(
+            [
+                'description' => "User '**{$user->getName()}**' has been deleted.",
+                'color' => EmbedColor::RED->value,
+            ],
+            $this->getUserFooter(),
+        );
+
+        return DiscordMessage::create('', $embed);
     }
 }

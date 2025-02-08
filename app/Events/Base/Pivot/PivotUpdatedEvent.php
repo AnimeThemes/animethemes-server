@@ -30,10 +30,15 @@ abstract class PivotUpdatedEvent extends BasePivotEvent
      */
     public function getDiscordMessage(): DiscordMessage
     {
-        return DiscordMessage::create('', [
-            'description' => $this->getDiscordMessageDescription(),
-            'fields' => $this->getEmbedFields(),
-            'color' => EmbedColor::YELLOW->value,
-        ]);
+        $embed = array_merge(
+            [
+                'description' => $this->getDiscordMessageDescription(),
+                'fields' => $this->getEmbedFields(),
+                'color' => EmbedColor::YELLOW->value,
+            ],
+            $this->getUserFooter(),
+        );
+
+        return DiscordMessage::create('', $embed);
     }
 }

@@ -39,10 +39,15 @@ class UserUpdated extends UserEvent
     {
         $user = $this->getUser();
 
-        return DiscordMessage::create('', [
-            'description' => "User '**{$user->getName()}**' has been updated.",
-            'fields' => $this->getEmbedFields(),
-            'color' => EmbedColor::YELLOW->value,
-        ]);
+        $embed = array_merge(
+            [
+                'description' => "User '**{$user->getName()}**' has been updated.",
+                'fields' => $this->getEmbedFields(),
+                'color' => EmbedColor::YELLOW->value,
+            ],
+            $this->getUserFooter(),
+        );
+
+        return DiscordMessage::create('', $embed);
     }
 }

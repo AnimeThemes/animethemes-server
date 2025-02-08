@@ -24,9 +24,14 @@ class FeatureDeleted extends FeatureEvent
     {
         $feature = $this->getFeature();
 
-        return DiscordMessage::create('', [
-            'description' => "Feature '**{$feature->getName()}**' has been deleted.",
-            'color' => EmbedColor::RED->value,
-        ]);
+        $embed = array_merge(
+            [
+                'description' => "Feature '**{$feature->getName()}**' has been deleted.",
+                'color' => EmbedColor::RED->value,
+            ],
+            $this->getUserFooter(),
+        );
+
+        return DiscordMessage::create('', $embed);
     }
 }

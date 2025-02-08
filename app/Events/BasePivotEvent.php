@@ -6,7 +6,9 @@ namespace App\Events;
 
 use App\Constants\Config\ServiceConstants;
 use App\Contracts\Events\DiscordMessageEvent;
+use App\Models\Auth\User;
 use App\Models\BaseModel;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 
 /**
@@ -45,6 +47,35 @@ abstract class BasePivotEvent implements DiscordMessageEvent
     public function getForeign(): BaseModel
     {
         return $this->foreign;
+    }
+
+    /**
+     * Get the user that has fired this event.
+     *
+     * @return User|null
+     */
+    protected function getAuthenticatedUser(): ?User
+    {
+        return Auth::user();
+    }
+
+    /**
+     * Get the user info for the footer.
+     *
+     * @return array
+     */
+    protected function getUserFooter(): array
+    {
+        if (is_null($this->getAuthenticatedUser())) {
+            return [];
+        }
+
+        return [
+            'footer' => [
+                'text' => $this->getAuthenticatedUser()->getName(),
+                'icon_url' => $this->getAuthenticatedUser()->getFilamentAvatarUrl(),
+            ]
+        ];
     }
 
     /**

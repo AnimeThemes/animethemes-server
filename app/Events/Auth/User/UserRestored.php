@@ -26,9 +26,14 @@ class UserRestored extends UserEvent
     {
         $user = $this->getUser();
 
-        return DiscordMessage::create('', [
-            'description' => "User '**{$user->getName()}**' has been restored.",
-            'color' => EmbedColor::GREEN->value,
-        ]);
+        $embed = array_merge(
+            [
+                'description' => "User '**{$user->getName()}**' has been restored.",
+                'color' => EmbedColor::GREEN->value,
+            ],
+            $this->getUserFooter(),
+        );
+
+        return DiscordMessage::create('', $embed);
     }
 }
