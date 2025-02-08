@@ -24,7 +24,6 @@ class DiscordThreadDeleted extends AdminDeletedEvent
     public function __construct(DiscordThread $thread)
     {
         parent::__construct($thread);
-        $thread->forceDelete();
         $this->deleteThread();
     }
 

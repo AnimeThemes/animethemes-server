@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-use App\Models\BaseModel;
 use App\Models\Discord\DiscordThread;
 use App\Models\Wiki\Anime;
 use Illuminate\Database\Migrations\Migration;
@@ -19,7 +18,6 @@ return new class extends Migration
         if (! Schema::hasTable(DiscordThread::TABLE)) {
             Schema::create(DiscordThread::TABLE, function (Blueprint $table) {
                 $table->timestamps(6);
-                $table->softDeletes(BaseModel::ATTRIBUTE_DELETED_AT, 6);
                 $table->string(DiscordThread::ATTRIBUTE_ID)->primary();
                 $table->string(DiscordThread::ATTRIBUTE_NAME);
 

@@ -14,7 +14,7 @@ use NotificationChannels\Discord\DiscordMessage;
 /**
  * Class BaseRestoredEvent.
  *
- * @template TModel of \App\Models\BaseModel
+ * @template TModel of \Illuminate\Database\Eloquent\Model
  *
  * @extends BaseEvent<TModel>
  */
@@ -30,10 +30,15 @@ abstract class BaseRestoredEvent extends BaseEvent implements DiscordMessageEven
      */
     public function getDiscordMessage(): DiscordMessage
     {
-        return DiscordMessage::create('', [
-            'description' => $this->getDiscordMessageDescription(),
-            'color' => EmbedColor::GREEN->value,
-        ]);
+        $embed = array_merge(
+            [
+                'description' => $this->getDiscordMessageDescription(),
+                'color' => EmbedColor::GREEN->value,
+            ],
+            $this->getUserFooter(),
+        );
+
+        return DiscordMessage::create('', $embed);
     }
 
     /**

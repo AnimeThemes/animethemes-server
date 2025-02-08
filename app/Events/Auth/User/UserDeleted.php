@@ -4,29 +4,43 @@ declare(strict_types=1);
 
 namespace App\Events\Auth\User;
 
-use App\Enums\Discord\EmbedColor;
-use Illuminate\Foundation\Events\Dispatchable;
-use NotificationChannels\Discord\DiscordMessage;
+use App\Events\Base\Admin\AdminDeletedEvent;
+use App\Models\Auth\User;
 
 /**
  * Class UserDeleted.
+ *
+ * @extends AdminDeletedEvent<User>
  */
-class UserDeleted extends UserEvent
+class UserDeleted extends AdminDeletedEvent
 {
-    use Dispatchable;
+    /**
+     * Create a new event instance.
+     *
+     * @param  User  $user
+     */
+    public function __construct(User $user)
+    {
+        parent::__construct($user);
+    }
 
     /**
-     * Get Discord message payload.
+     * Get the model that has fired this event.
      *
-     * @return DiscordMessage
+     * @return User
      */
-    public function getDiscordMessage(): DiscordMessage
+    public function getModel(): User
     {
-        $user = $this->getUser();
+        return $this->model;
+    }
 
-        return DiscordMessage::create('', [
-            'description' => "User '**{$user->getName()}**' has been deleted.",
-            'color' => EmbedColor::RED->value,
-        ]);
+    /**
+     * Get the description for the Discord message payload.
+     *
+     * @return string
+     */
+    protected function getDiscordMessageDescription(): string
+    {
+        return "User '**{$this->getModel()->getName()}**' has been deleted.";
     }
 }

@@ -13,8 +13,8 @@ use NotificationChannels\Discord\DiscordMessage;
 /**
  * Class PivotUpdatedEvent.
  *
- * @template TModelRelated of \App\Models\BaseModel
- * @template TModelForeign of \App\Models\BaseModel
+ * @template TModelRelated of \Illuminate\Database\Eloquent\Model
+ * @template TModelForeign of \Illuminate\Database\Eloquent\Model
  *
  * @extends BasePivotEvent<TModelRelated, TModelForeign>
  */
@@ -30,10 +30,15 @@ abstract class PivotUpdatedEvent extends BasePivotEvent
      */
     public function getDiscordMessage(): DiscordMessage
     {
-        return DiscordMessage::create('', [
-            'description' => $this->getDiscordMessageDescription(),
-            'fields' => $this->getEmbedFields(),
-            'color' => EmbedColor::YELLOW->value,
-        ]);
+        $embed = array_merge(
+            [
+                'description' => $this->getDiscordMessageDescription(),
+                'fields' => $this->getEmbedFields(),
+                'color' => EmbedColor::YELLOW->value,
+            ],
+            $this->getUserFooter(),
+        );
+
+        return DiscordMessage::create('', $embed);
     }
 }

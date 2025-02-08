@@ -13,8 +13,8 @@ use NotificationChannels\Discord\DiscordMessage;
 /**
  * Class PivotDeletedEvent.
  *
- * @template TModelRelated of \App\Models\BaseModel
- * @template TModelForeign of \App\Models\BaseModel
+ * @template TModelRelated of \Illuminate\Database\Eloquent\Model
+ * @template TModelForeign of \Illuminate\Database\Eloquent\Model
  *
  * @extends BasePivotEvent<TModelRelated, TModelForeign>
  */
@@ -30,9 +30,14 @@ abstract class PivotDeletedEvent extends BasePivotEvent
      */
     public function getDiscordMessage(): DiscordMessage
     {
-        return DiscordMessage::create('', [
-            'description' => $this->getDiscordMessageDescription(),
-            'color' => EmbedColor::RED->value,
-        ]);
+        $embed = array_merge(
+            [
+                'description' => $this->getDiscordMessageDescription(),
+                'color' => EmbedColor::RED->value,
+            ],
+            $this->getUserFooter(),
+        );
+
+        return DiscordMessage::create('', $embed);
     }
 }

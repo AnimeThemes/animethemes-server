@@ -4,25 +4,20 @@ declare(strict_types=1);
 
 namespace App\Events\Auth\User;
 
-use App\Concerns\Discord\HasAttributeUpdateEmbedFields;
-use App\Enums\Discord\EmbedColor;
+use App\Events\Base\Admin\AdminUpdatedEvent;
 use App\Models\Auth\User;
-use Illuminate\Foundation\Events\Dispatchable;
-use NotificationChannels\Discord\DiscordMessage;
 
 /**
  * Class UserUpdated.
+ *
+ * @extends AdminUpdatedEvent<User>
  */
-class UserUpdated extends UserEvent
+class UserUpdated extends AdminUpdatedEvent
 {
-    use Dispatchable;
-    use HasAttributeUpdateEmbedFields;
-
     /**
      * Create a new event instance.
      *
      * @param  User  $user
-     * @return void
      */
     public function __construct(User $user)
     {
@@ -31,18 +26,22 @@ class UserUpdated extends UserEvent
     }
 
     /**
-     * Get Discord message payload.
+     * Get the model that has fired this event.
      *
-     * @return DiscordMessage
+     * @return User
      */
-    public function getDiscordMessage(): DiscordMessage
+    public function getModel(): User
     {
-        $user = $this->getUser();
+        return $this->model;
+    }
 
-        return DiscordMessage::create('', [
-            'description' => "User '**{$user->getName()}**' has been updated.",
-            'fields' => $this->getEmbedFields(),
-            'color' => EmbedColor::YELLOW->value,
-        ]);
+    /**
+     * Get the description for the Discord message payload.
+     *
+     * @return string
+     */
+    protected function getDiscordMessageDescription(): string
+    {
+        return "User '**{$this->getModel()->getName()}**' has been updated.";
     }
 }

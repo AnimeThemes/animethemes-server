@@ -4,28 +4,60 @@ declare(strict_types=1);
 
 namespace App\Events;
 
-use App\Models\BaseModel;
+use App\Contracts\Models\Nameable;
+use App\Models\Auth\User;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Class BaseEvent.
  *
- * @template TModel of \App\Models\BaseModel
+ * @template TModel of \Illuminate\Database\Eloquent\Model
  */
 abstract class BaseEvent
 {
     /**
      * Create a new event instance.
      *
-     * @param  TModel  $model
+     * @param  TModel&Nameable  $model
      */
-    public function __construct(protected BaseModel $model)
+    public function __construct(protected Model&Nameable $model)
     {
     }
 
     /**
      * Get the model that has fired this event.
      *
-     * @return TModel
+     * @return TModel&Nameable
      */
-    abstract public function getModel(): BaseModel;
+    abstract public function getModel(): Model&Nameable;
+
+    /**
+     * Get the user that has fired this event.
+     *
+     * @return User|null
+     */
+    protected function getAuthenticatedUser(): ?User
+    {
+        return Auth::user();
+    }
+
+    /**
+     * Get the user info for the footer.
+     *
+     * @return array
+     */
+    protected function getUserFooter(): array
+    {
+        if (is_null($this->getAuthenticatedUser())) {
+            return [];
+        }
+
+        return [
+            'footer' => [
+                'text' => $this->getAuthenticatedUser()->getName(),
+                'icon_url' => $this->getAuthenticatedUser()->getFilamentAvatarUrl(),
+            ]
+        ];
+    }
 }

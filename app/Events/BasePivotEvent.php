@@ -6,33 +6,36 @@ namespace App\Events;
 
 use App\Constants\Config\ServiceConstants;
 use App\Contracts\Events\DiscordMessageEvent;
-use App\Models\BaseModel;
+use App\Contracts\Models\Nameable;
+use App\Models\Auth\User;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 
 /**
  * Class BasePivotEvent.
  *
- * @template TModelRelated of \App\Models\BaseModel
- * @template TModelForeign of \App\Models\BaseModel
+ * @template TModelRelated of \Illuminate\Database\Eloquent\Model
+ * @template TModelForeign of \Illuminate\Database\Eloquent\Model
  */
 abstract class BasePivotEvent implements DiscordMessageEvent
 {
     /**
      * Create a new event instance.
      *
-     * @param  TModelRelated  $related
-     * @param  TModelForeign  $foreign
+     * @param  TModelRelated&Nameable  $related
+     * @param  TModelForeign&Nameable  $foreign
      */
-    public function __construct(protected BaseModel $related, protected BaseModel $foreign)
+    public function __construct(protected Model&Nameable $related, protected Model&Nameable $foreign)
     {
     }
 
     /**
      * Get the related model.
      *
-     * @return TModelRelated
+     * @return TModelRelated&Nameable
      */
-    public function getRelated(): BaseModel
+    public function getRelated(): Model&Nameable
     {
         return $this->related;
     }
@@ -40,11 +43,40 @@ abstract class BasePivotEvent implements DiscordMessageEvent
     /**
      * Get the foreign model.
      *
-     * @return TModelForeign
+     * @return TModelForeign&Nameable
      */
-    public function getForeign(): BaseModel
+    public function getForeign(): Model&Nameable
     {
         return $this->foreign;
+    }
+
+    /**
+     * Get the user that has fired this event.
+     *
+     * @return User|null
+     */
+    protected function getAuthenticatedUser(): ?User
+    {
+        return Auth::user();
+    }
+
+    /**
+     * Get the user info for the footer.
+     *
+     * @return array
+     */
+    protected function getUserFooter(): array
+    {
+        if (is_null($this->getAuthenticatedUser())) {
+            return [];
+        }
+
+        return [
+            'footer' => [
+                'text' => $this->getAuthenticatedUser()->getName(),
+                'icon_url' => $this->getAuthenticatedUser()->getFilamentAvatarUrl(),
+            ]
+        ];
     }
 
     /**

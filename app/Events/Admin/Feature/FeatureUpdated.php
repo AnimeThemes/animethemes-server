@@ -4,25 +4,20 @@ declare(strict_types=1);
 
 namespace App\Events\Admin\Feature;
 
-use App\Concerns\Discord\HasAttributeUpdateEmbedFields;
-use App\Enums\Discord\EmbedColor;
+use App\Events\Base\Admin\AdminUpdatedEvent;
 use App\Models\Admin\Feature;
-use Illuminate\Foundation\Events\Dispatchable;
-use NotificationChannels\Discord\DiscordMessage;
 
 /**
  * Class FeatureUpdated.
+ *
+ * @extends AdminUpdatedEvent<Feature>
  */
-class FeatureUpdated extends FeatureEvent
+class FeatureUpdated extends AdminUpdatedEvent
 {
-    use Dispatchable;
-    use HasAttributeUpdateEmbedFields;
-
     /**
      * Create a new event instance.
      *
      * @param  Feature  $feature
-     * @return void
      */
     public function __construct(Feature $feature)
     {
@@ -31,18 +26,32 @@ class FeatureUpdated extends FeatureEvent
     }
 
     /**
-     * Get Discord message payload.
+     * Get the model that has fired this event.
      *
-     * @return DiscordMessage
+     * @return Feature
      */
-    public function getDiscordMessage(): DiscordMessage
+    public function getModel(): Feature
     {
-        $feature = $this->getFeature();
+        return $this->model;
+    }
 
-        return DiscordMessage::create('', [
-            'description' => "Feature '**{$feature->getName()}**' has been updated.",
-            'fields' => $this->getEmbedFields(),
-            'color' => EmbedColor::YELLOW->value,
-        ]);
+    /**
+     * Get the description for the Discord message payload.
+     *
+     * @return string
+     */
+    protected function getDiscordMessageDescription(): string
+    {
+        return "Feature '**{$this->getModel()->getName()}**' has been updated.";
+    }
+
+    /**
+     * Determine if the message should be sent.
+     *
+     * @return bool
+     */
+    public function shouldSendDiscordMessage(): bool
+    {
+        return $this->getModel()->isNullScope();
     }
 }

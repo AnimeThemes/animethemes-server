@@ -4,29 +4,53 @@ declare(strict_types=1);
 
 namespace App\Events\Admin\Feature;
 
-use App\Enums\Discord\EmbedColor;
-use Illuminate\Foundation\Events\Dispatchable;
-use NotificationChannels\Discord\DiscordMessage;
+use App\Events\Base\Admin\AdminDeletedEvent;
+use App\Models\Admin\Feature;
 
 /**
  * Class FeatureDeleted.
+ *
+ * @extends AdminDeletedEvent<Feature>
  */
-class FeatureDeleted extends FeatureEvent
+class FeatureDeleted extends AdminDeletedEvent
 {
-    use Dispatchable;
+    /**
+     * Create a new event instance.
+     *
+     * @param  Feature  $feature
+     */
+    public function __construct(Feature $feature)
+    {
+        parent::__construct($feature);
+    }
 
     /**
-     * Get Discord message payload.
+     * Get the model that has fired this event.
      *
-     * @return DiscordMessage
+     * @return Feature
      */
-    public function getDiscordMessage(): DiscordMessage
+    public function getModel(): Feature
     {
-        $feature = $this->getFeature();
+        return $this->model;
+    }
 
-        return DiscordMessage::create('', [
-            'description' => "Feature '**{$feature->getName()}**' has been deleted.",
-            'color' => EmbedColor::RED->value,
-        ]);
+    /**
+     * Get the description for the Discord message payload.
+     *
+     * @return string
+     */
+    protected function getDiscordMessageDescription(): string
+    {
+        return "Feature '**{$this->getModel()->getName()}**' has been deleted.";
+    }
+
+    /**
+     * Determine if the message should be sent.
+     *
+     * @return bool
+     */
+    public function shouldSendDiscordMessage(): bool
+    {
+        return $this->getModel()->isNullScope();
     }
 }

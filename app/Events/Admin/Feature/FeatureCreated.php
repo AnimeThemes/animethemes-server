@@ -4,31 +4,53 @@ declare(strict_types=1);
 
 namespace App\Events\Admin\Feature;
 
-use App\Enums\Discord\EmbedColor;
-use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Queue\SerializesModels;
-use NotificationChannels\Discord\DiscordMessage;
+use App\Events\Base\Admin\AdminCreatedEvent;
+use App\Models\Admin\Feature;
 
 /**
  * Class FeatureCreated.
+ *
+ * @extends AdminCreatedEvent<Feature>
  */
-class FeatureCreated extends FeatureEvent
+class FeatureCreated extends AdminCreatedEvent
 {
-    use Dispatchable;
-    use SerializesModels;
+    /**
+     * Create a new event instance.
+     *
+     * @param  Feature  $feature
+     */
+    public function __construct(Feature $feature)
+    {
+        parent::__construct($feature);
+    }
 
     /**
-     * Get Discord message payload.
+     * Get the model that has fired this event.
      *
-     * @return DiscordMessage
+     * @return Feature
      */
-    public function getDiscordMessage(): DiscordMessage
+    public function getModel(): Feature
     {
-        $feature = $this->getFeature();
+        return $this->model;
+    }
 
-        return DiscordMessage::create('', [
-            'description' => "Feature '**{$feature->getName()}**' has been created.",
-            'color' => EmbedColor::GREEN->value,
-        ]);
+    /**
+     * Get the description for the Discord message payload.
+     *
+     * @return string
+     */
+    protected function getDiscordMessageDescription(): string
+    {
+        return "Feature '**{$this->getModel()->getName()}**' has been created.";
+    }
+
+    /**
+     * Determine if the message should be sent.
+     *
+     * @return bool
+     */
+    public function shouldSendDiscordMessage(): bool
+    {
+        return $this->getModel()->isNullScope();
     }
 }
