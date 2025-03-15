@@ -13,11 +13,13 @@ use App\Http\Api\Field\Wiki\Artist\ArtistNameField;
 use App\Http\Api\Field\Wiki\Artist\ArtistSlugField;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\EloquentSchema;
+use App\Http\Api\Schema\Pivot\Wiki\ArtistImageSchema;
 use App\Http\Api\Schema\Pivot\Wiki\ArtistMemberSchema;
 use App\Http\Api\Schema\Pivot\Wiki\ArtistResourceSchema;
 use App\Http\Api\Schema\Pivot\Wiki\ArtistSongSchema;
 use App\Http\Api\Schema\Wiki\Anime\Theme\EntrySchema;
 use App\Http\Api\Schema\Wiki\Anime\ThemeSchema;
+use App\Http\Resources\Pivot\Wiki\Resource\ArtistImageResource;
 use App\Http\Resources\Pivot\Wiki\Resource\ArtistMemberResource;
 use App\Http\Resources\Pivot\Wiki\Resource\ArtistResourceResource;
 use App\Http\Resources\Pivot\Wiki\Resource\ArtistSongResource;
@@ -37,6 +39,7 @@ class ArtistSchema extends EloquentSchema implements InteractsWithPivots, Search
     public function allowedPivots(): array
     {
         return [
+            new AllowedInclude(new ArtistImageSchema(), ArtistImageResource::$wrap),
             new AllowedInclude(new ArtistMemberSchema(), ArtistMemberResource::$wrap),
             new AllowedInclude(new ArtistResourceSchema(), ArtistResourceResource::$wrap),
             new AllowedInclude(new ArtistSongSchema(), ArtistSongResource::$wrap),
