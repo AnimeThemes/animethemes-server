@@ -235,10 +235,6 @@ class Anime extends BaseResource
                     ->label(__('filament.fields.anime.media_format.name'))
                     ->formatStateUsing(fn (AnimeMediaFormat $state) => $state->localize()),
 
-                TextColumn::make(AnimeModel::ATTRIBUTE_SYNOPSIS)
-                    ->label(__('filament.fields.anime.synopsis.name'))
-                    ->hidden(),
-
                 TextColumn::make(AnimeResource::ATTRIBUTE_AS)
                     ->label(__('filament.fields.anime.resources.as.name'))
                     ->visibleOn(AnimeResourceRelationManager::class),

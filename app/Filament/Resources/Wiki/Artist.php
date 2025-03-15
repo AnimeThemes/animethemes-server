@@ -25,6 +25,7 @@ use App\Filament\Resources\Wiki\ExternalResource\RelationManagers\ArtistResource
 use App\Models\Wiki\Artist as ArtistModel;
 use App\Pivots\Wiki\ArtistResource;
 use App\Pivots\Wiki\ArtistSong;
+use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Forms\Set;
@@ -155,6 +156,13 @@ class Artist extends BaseResource
                 Slug::make(ArtistModel::ATTRIBUTE_SLUG)
                     ->label(__('filament.fields.artist.slug.name'))
                     ->helperText(__('filament.fields.artist.slug.help')),
+
+                MarkdownEditor::make(ArtistModel::ATTRIBUTE_INFORMATION)
+                    ->label(__('filament.fields.artist.information.name'))
+                    ->helperText(__('filament.fields.artist.information.help'))
+                    ->columnSpan(2)
+                    ->maxLength(65535)
+                    ->rules('max:65535'),
             ])
             ->columns(2);
     }
@@ -218,6 +226,11 @@ class Artist extends BaseResource
                         TextEntry::make(ArtistModel::ATTRIBUTE_SLUG)
                             ->label(__('filament.fields.artist.slug.name')),
 
+                        TextEntry::make(ArtistModel::ATTRIBUTE_INFORMATION)
+                            ->label(__('filament.fields.artist.information.name'))
+                            ->markdown()
+                            ->columnSpanFull(),
+
                         TextEntry::make('artistsong' . '.' . ArtistSong::ATTRIBUTE_AS)
                             ->label(__('filament.fields.artist.songs.as.name'))
                             ->visible(fn (TextEntry $component) => $component->getLivewire() instanceof ViewTheme),
@@ -226,7 +239,7 @@ class Artist extends BaseResource
                             ->label(__('filament.fields.artist.songs.alias.name'))
                             ->visible(fn (TextEntry $component) => $component->getLivewire() instanceof ViewTheme),
                     ])
-                    ->columns(5),
+                    ->columns(3),
 
                 Section::make(__('filament.fields.base.timestamps'))
                     ->schema(parent::timestamps())

@@ -35,6 +35,7 @@ use Illuminate\Support\Collection;
  * @property int $artist_id
  * @property Collection<int, Artist> $groups
  * @property Collection<int, Image> $images
+ * @property string|null $information
  * @property Collection<int, Artist> $members
  * @property string $name
  * @property Collection<int, ExternalResource> $resources
@@ -53,6 +54,7 @@ class Artist extends BaseModel implements HasResources, HasImages
     final public const ATTRIBUTE_ID = 'artist_id';
     final public const ATTRIBUTE_NAME = 'name';
     final public const ATTRIBUTE_SLUG = 'slug';
+    final public const ATTRIBUTE_INFORMATION = 'information';
 
     final public const RELATION_ANIME = 'songs.animethemes.anime';
     final public const RELATION_ANIMETHEMES = 'songs.animethemes';
@@ -73,6 +75,7 @@ class Artist extends BaseModel implements HasResources, HasImages
     protected $fillable = [
         Artist::ATTRIBUTE_NAME,
         Artist::ATTRIBUTE_SLUG,
+        Artist::ATTRIBUTE_INFORMATION,
     ];
 
     /**
