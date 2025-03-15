@@ -181,6 +181,7 @@ class Image extends BaseModel
         return $this->belongsToMany(Artist::class, ArtistImage::TABLE, Image::ATTRIBUTE_ID, Artist::ATTRIBUTE_ID)
             ->using(ArtistImage::class)
             ->as(ArtistImageResource::$wrap)
+            ->withPivot(ArtistImage::ATTRIBUTE_DEPTH)
             ->withTimestamps();
     }
 

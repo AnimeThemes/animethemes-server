@@ -7,6 +7,7 @@ namespace App\Filament\Resources\Wiki\Artist\RelationManagers;
 use App\Filament\RelationManagers\Wiki\ImageRelationManager;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Image;
+use App\Pivots\Wiki\ArtistImage;
 use Filament\Tables\Table;
 
 /**
@@ -32,6 +33,7 @@ class ImageArtistRelationManager extends ImageRelationManager
         return parent::table(
             $table
                 ->inverseRelationship(Image::RELATION_ARTISTS)
+                ->reorderable(ArtistImage::ATTRIBUTE_DEPTH)
         );
     }
 
