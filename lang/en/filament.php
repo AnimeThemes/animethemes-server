@@ -565,6 +565,10 @@ return [
                     'name' => 'As',
                 ],
             ],
+            'information' => [
+                'help' => 'A brief description of the Artist. For groups, can be used for unattached members.',
+                'name' => 'Information',
+            ],
             'members' => [
                 'alias' => [
                     'help' => 'Used in place of the Artist if the performance is using an alias.',

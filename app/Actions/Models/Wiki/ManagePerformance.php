@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Actions\Models\Wiki;
 
+use App\Models\BaseModel;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Song;
 use App\Models\Wiki\Song\Membership;
@@ -123,7 +124,7 @@ class ManagePerformance
 
                 if ($membershipData) {
                     $membership = Membership::query()->firstOrCreate($membershipData);
-                    $memberships[] = Arr::except($membership->attributesToArray(), [Membership::ATTRIBUTE_ID, Membership::CREATED_AT, Membership::UPDATED_AT]);
+                    $memberships[] = Arr::except($membership->attributesToArray(), [Membership::ATTRIBUTE_ID, Membership::CREATED_AT, Membership::UPDATED_AT, BaseModel::ATTRIBUTE_DELETED_AT]);
 
                     $data = [
                         ...Arr::except($performance, Performance::RELATION_MEMBERSHIP),

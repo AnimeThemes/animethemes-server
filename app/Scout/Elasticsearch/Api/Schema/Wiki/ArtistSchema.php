@@ -12,6 +12,7 @@ use App\Http\Resources\Wiki\Resource\ArtistResource;
 use App\Models\Wiki\Artist;
 use App\Scout\Elasticsearch\Api\Field\Base\IdField;
 use App\Scout\Elasticsearch\Api\Field\Field;
+use App\Scout\Elasticsearch\Api\Field\Wiki\Artist\ArtistInformationField;
 use App\Scout\Elasticsearch\Api\Field\Wiki\Artist\ArtistNameField;
 use App\Scout\Elasticsearch\Api\Field\Wiki\Artist\ArtistSlugField;
 use App\Scout\Elasticsearch\Api\Query\ElasticQuery;
@@ -79,6 +80,7 @@ class ArtistSchema extends Schema
                 new IdField($this, Artist::ATTRIBUTE_ID),
                 new ArtistNameField($this),
                 new ArtistSlugField($this),
+                new ArtistInformationField($this),
             ],
         );
     }

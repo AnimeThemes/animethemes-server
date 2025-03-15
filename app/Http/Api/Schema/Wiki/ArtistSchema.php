@@ -8,6 +8,7 @@ use App\Contracts\Http\Api\Schema\InteractsWithPivots;
 use App\Contracts\Http\Api\Schema\SearchableSchema;
 use App\Http\Api\Field\Base\IdField;
 use App\Http\Api\Field\Field;
+use App\Http\Api\Field\Wiki\Artist\ArtistInformationField;
 use App\Http\Api\Field\Wiki\Artist\ArtistNameField;
 use App\Http\Api\Field\Wiki\Artist\ArtistSlugField;
 use App\Http\Api\Include\AllowedInclude;
@@ -106,6 +107,7 @@ class ArtistSchema extends EloquentSchema implements InteractsWithPivots, Search
                 new IdField($this, Artist::ATTRIBUTE_ID),
                 new ArtistNameField($this),
                 new ArtistSlugField($this),
+                new ArtistInformationField($this),
             ],
         );
     }

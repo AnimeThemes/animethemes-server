@@ -33,6 +33,13 @@ final class CreateArtistIndex implements MigrationInterface
                     ],
                 ],
             ]);
+            $mapping->text('information', [
+                'fields' => [
+                    'keyword' => [
+                        'type' => 'keyword',
+                    ],
+                ],
+            ]);
             $mapping->nested('songs', [
                 'properties' => [
                     'created_at' => [
