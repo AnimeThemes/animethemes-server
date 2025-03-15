@@ -42,6 +42,7 @@ class ArtistFactory extends Factory
         return [
             Artist::ATTRIBUTE_SLUG => Str::slug($name, '_'),
             Artist::ATTRIBUTE_NAME => $name,
+            Artist::ATTRIBUTE_INFORMATION => fake()->text(),
         ];
     }
 
