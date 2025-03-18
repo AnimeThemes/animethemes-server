@@ -223,7 +223,7 @@ class Artist extends BaseModel implements HasResources, HasImages
     {
         return $this->belongsToMany(Artist::class, ArtistMember::TABLE, Artist::ATTRIBUTE_ID, 'member_id')
             ->using(ArtistMember::class)
-            ->withPivot([ArtistMember::ATTRIBUTE_ALIAS, ArtistMember::ATTRIBUTE_AS])
+            ->withPivot([ArtistMember::ATTRIBUTE_ALIAS, ArtistMember::ATTRIBUTE_AS, ArtistMember::ATTRIBUTE_DETAILS])
             ->as(ArtistMemberResource::$wrap)
             ->withTimestamps();
     }
@@ -237,7 +237,7 @@ class Artist extends BaseModel implements HasResources, HasImages
     {
         return $this->belongsToMany(Artist::class, ArtistMember::TABLE, 'member_id', Artist::ATTRIBUTE_ID)
             ->using(ArtistMember::class)
-            ->withPivot([ArtistMember::ATTRIBUTE_ALIAS, ArtistMember::ATTRIBUTE_AS])
+            ->withPivot([ArtistMember::ATTRIBUTE_ALIAS, ArtistMember::ATTRIBUTE_AS, ArtistMember::ATTRIBUTE_DETAILS])
             ->as(ArtistMemberResource::$wrap)
             ->withTimestamps();
     }
