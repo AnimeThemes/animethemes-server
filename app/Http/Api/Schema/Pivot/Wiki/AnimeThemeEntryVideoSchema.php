@@ -38,13 +38,10 @@ class AnimeThemeEntryVideoSchema extends EloquentSchema
      */
     public function allowedIncludes(): array
     {
-        return array_merge(
-            $this->withIntermediatePaths([
-                new AllowedInclude(new EntrySchema(), AnimeThemeEntryVideo::RELATION_ENTRY),
-                new AllowedInclude(new VideoSchema(), AnimeThemeEntryVideo::RELATION_VIDEO),
-            ]),
-            []
-        );
+        return $this->withIntermediatePaths([
+            new AllowedInclude(new EntrySchema(), AnimeThemeEntryVideo::RELATION_ENTRY),
+            new AllowedInclude(new VideoSchema(), AnimeThemeEntryVideo::RELATION_VIDEO),
+        ]);
     }
 
     /**

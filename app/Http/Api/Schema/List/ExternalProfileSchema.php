@@ -45,19 +45,16 @@ class ExternalProfileSchema extends EloquentSchema implements SearchableSchema
      */
     public function allowedIncludes(): array
     {
-        return array_merge(
-            $this->withIntermediatePaths([
-                new AllowedInclude(new AnimeSchema(), ExternalProfile::RELATION_ANIMES),
-                new AllowedInclude(new ExternalEntrySchema(), ExternalProfile::RELATION_EXTERNAL_ENTRIES),
-                new AllowedInclude(new UserSchema(), ExternalProfile::RELATION_USER),
+        return $this->withIntermediatePaths([
+            new AllowedInclude(new AnimeSchema(), ExternalProfile::RELATION_ANIMES),
+            new AllowedInclude(new ExternalEntrySchema(), ExternalProfile::RELATION_EXTERNAL_ENTRIES),
+            new AllowedInclude(new UserSchema(), ExternalProfile::RELATION_USER),
 
-                new AllowedInclude(new GroupSchema(), "externalentries.anime.animethemes.group"),
-                new AllowedInclude(new VideoSchema(), "externalentries.anime.animethemes.animethemeentries.videos"),
-                new AllowedInclude(new SongSchema(), "externalentries.anime.animethemes.song"),
-                new AllowedInclude(new ImageSchema(), "externalentries.anime.images"),
-            ]),
-            []
-        );
+            new AllowedInclude(new GroupSchema(), "externalentries.anime.animethemes.group"),
+            new AllowedInclude(new VideoSchema(), "externalentries.anime.animethemes.animethemeentries.videos"),
+            new AllowedInclude(new SongSchema(), "externalentries.anime.animethemes.song"),
+            new AllowedInclude(new ImageSchema(), "externalentries.anime.images"),
+        ]);
     }
 
     /**

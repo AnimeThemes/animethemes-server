@@ -40,12 +40,9 @@ class RoleSchema extends EloquentSchema
      */
     public function allowedIncludes(): array
     {
-        return array_merge(
-            $this->withIntermediatePaths([
-                new AllowedInclude(new PermissionSchema(), Role::RELATION_PERMISSIONS),
-            ]),
-            []
-        );
+        return $this->withIntermediatePaths([
+            new AllowedInclude(new PermissionSchema(), Role::RELATION_PERMISSIONS),
+        ]);
     }
 
     /**
