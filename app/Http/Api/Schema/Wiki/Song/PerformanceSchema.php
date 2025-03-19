@@ -40,12 +40,9 @@ class PerformanceSchema extends EloquentSchema implements SearchableSchema
      */
     public function allowedIncludes(): array
     {
-        return array_merge(
-            $this->withIntermediatePaths([
-                new AllowedInclude(new SongSchema(), Performance::RELATION_SONG),
-            ]),
-            []
-        );
+        return $this->withIntermediatePaths([
+            new AllowedInclude(new SongSchema(), Performance::RELATION_SONG),
+        ]);
     }
 
     /**

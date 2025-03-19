@@ -39,13 +39,10 @@ class SongResourceSchema extends EloquentSchema
      */
     public function allowedIncludes(): array
     {
-        return array_merge(
-            $this->withIntermediatePaths([
-                new AllowedInclude(new SongSchema(), SongResource::RELATION_SONG),
-                new AllowedInclude(new ExternalResourceSchema(), SongResource::RELATION_RESOURCE),
-            ]),
-            []
-        );
+        return $this->withIntermediatePaths([
+            new AllowedInclude(new SongSchema(), SongResource::RELATION_SONG),
+            new AllowedInclude(new ExternalResourceSchema(), SongResource::RELATION_RESOURCE),
+        ]);
     }
 
     /**

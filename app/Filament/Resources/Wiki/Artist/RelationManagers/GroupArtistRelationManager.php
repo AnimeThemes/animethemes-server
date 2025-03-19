@@ -31,6 +31,10 @@ class GroupArtistRelationManager extends ArtistRelationManager
             TextInput::make(ArtistMember::ATTRIBUTE_ALIAS)
                 ->label(__('filament.fields.artist.members.alias.name'))
                 ->helperText(__('filament.fields.artist.members.alias.help')),
+
+            TextInput::make(ArtistMember::ATTRIBUTE_NOTES)
+                ->label(__('filament.fields.artist.members.notes.name'))
+                ->helperText(__('filament.fields.artist.members.notes.help')),
         ];
     }
 

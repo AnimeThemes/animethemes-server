@@ -578,6 +578,10 @@ return [
                     'help' => 'Used alongside the Artist name if the performance is made as a character.',
                     'name' => 'As',
                 ],
+                'notes' => [
+                    'help' => 'Extra information for the Artist in the Group. Like the role in the group or participation range date.',
+                    'name' => 'Notes',
+                ],
             ],
             'name' => [
                 'help' => 'The display title of the Artist. By default, we will use the same title as MAL, but we will prefer "[Given Name] [Family name]". Ex: "Aimer", "Yui Horie", "Fear, and Loathing in Las Vegas".',

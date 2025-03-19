@@ -40,13 +40,10 @@ class ArtistSongSchema extends EloquentSchema
      */
     public function allowedIncludes(): array
     {
-        return array_merge(
-            $this->withIntermediatePaths([
-                new AllowedInclude(new ArtistSchema(), ArtistSong::RELATION_ARTIST),
-                new AllowedInclude(new SongSchema(), ArtistSong::RELATION_SONG),
-            ]),
-            []
-        );
+        return $this->withIntermediatePaths([
+            new AllowedInclude(new ArtistSchema(), ArtistSong::RELATION_ARTIST),
+            new AllowedInclude(new SongSchema(), ArtistSong::RELATION_SONG),
+        ]);
     }
 
     /**

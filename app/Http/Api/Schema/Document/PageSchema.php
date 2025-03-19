@@ -36,10 +36,7 @@ class PageSchema extends EloquentSchema
      */
     public function allowedIncludes(): array
     {
-        return array_merge(
-            $this->withIntermediatePaths([]),
-            []
-        );
+        return $this->withIntermediatePaths([]);
     }
 
     /**

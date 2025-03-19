@@ -38,13 +38,10 @@ class AnimeImageSchema extends EloquentSchema
      */
     public function allowedIncludes(): array
     {
-        return array_merge(
-            $this->withIntermediatePaths([
-                new AllowedInclude(new AnimeSchema(), AnimeImage::RELATION_ANIME),
-                new AllowedInclude(new ImageSchema(), AnimeImage::RELATION_IMAGE),
-            ]),
-            []
-        );
+        return $this->withIntermediatePaths([
+            new AllowedInclude(new AnimeSchema(), AnimeImage::RELATION_ANIME),
+            new AllowedInclude(new ImageSchema(), AnimeImage::RELATION_IMAGE),
+        ]);
     }
 
     /**

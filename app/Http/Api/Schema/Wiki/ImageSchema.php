@@ -52,14 +52,11 @@ class ImageSchema extends EloquentSchema implements InteractsWithPivots
      */
     public function allowedIncludes(): array
     {
-        return array_merge(
-            $this->withIntermediatePaths([
-                new AllowedInclude(new AnimeSchema(), Image::RELATION_ANIME),
-                new AllowedInclude(new ArtistSchema(), Image::RELATION_ARTISTS),
-                new AllowedInclude(new StudioSchema(), Image::RELATION_STUDIOS),
-            ]),
-            []
-        );
+        return $this->withIntermediatePaths([
+            new AllowedInclude(new AnimeSchema(), Image::RELATION_ANIME),
+            new AllowedInclude(new ArtistSchema(), Image::RELATION_ARTISTS),
+            new AllowedInclude(new StudioSchema(), Image::RELATION_STUDIOS),
+        ]);
     }
 
     /**
