@@ -32,9 +32,9 @@ class MemberArtistRelationManager extends ArtistRelationManager
                 ->label(__('filament.fields.artist.members.alias.name'))
                 ->helperText(__('filament.fields.artist.members.alias.help')),
 
-            TextInput::make(ArtistMember::ATTRIBUTE_DETAILS)
-                ->label(__('filament.fields.artist.members.details.name'))
-                ->helperText(__('filament.fields.artist.members.details.help')),
+            TextInput::make(ArtistMember::ATTRIBUTE_NOTES)
+                ->label(__('filament.fields.artist.members.notes.name'))
+                ->helperText(__('filament.fields.artist.members.notes.help')),
         ];
     }
 

@@ -200,8 +200,8 @@ class Artist extends BaseResource
                     ->label(__('filament.fields.artist.members.alias.name'))
                     ->visibleOn([MemberArtistRelationManager::class, GroupArtistRelationManager::class]),
 
-                TextColumn::make(ArtistMember::ATTRIBUTE_DETAILS)
-                    ->label(__('filament.fields.artist.members.details.name'))
+                TextColumn::make(ArtistMember::ATTRIBUTE_NOTES)
+                    ->label(__('filament.fields.artist.members.notes.name'))
                     ->visibleOn([MemberArtistRelationManager::class, GroupArtistRelationManager::class]),
             ])
             ->searchable();

@@ -578,9 +578,9 @@ return [
                     'help' => 'Used alongside the Artist name if the performance is made as a character.',
                     'name' => 'As',
                 ],
-                'details' => [
+                'notes' => [
                     'help' => 'Extra information for the Artist in the Group. Like the role in the group or participation range date.',
-                    'name' => 'Details',
+                    'name' => 'Notes',
                 ],
             ],
             'name' => [

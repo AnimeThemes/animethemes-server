@@ -23,7 +23,7 @@ class ArtistMemberDetailsField extends StringField implements CreatableField, Up
      */
     public function __construct(Schema $schema)
     {
-        parent::__construct($schema, ArtistMember::ATTRIBUTE_DETAILS);
+        parent::__construct($schema, ArtistMember::ATTRIBUTE_NOTES);
     }
 
     /**

@@ -28,9 +28,9 @@ return new class extends Migration
             });
         }
 
-        if (! Schema::hasColumn(ArtistMember::TABLE, ArtistMember::ATTRIBUTE_DETAILS)) {
+        if (! Schema::hasColumn(ArtistMember::TABLE, ArtistMember::ATTRIBUTE_NOTES)) {
             Schema::table(ArtistMember::TABLE, function (Blueprint $table) {
-                $table->string(ArtistMember::ATTRIBUTE_DETAILS)->nullable();
+                $table->string(ArtistMember::ATTRIBUTE_NOTES)->nullable();
             });
         }
     }
@@ -52,9 +52,9 @@ return new class extends Migration
             });
         }
 
-        if (Schema::hasColumn(ArtistMember::TABLE, ArtistMember::ATTRIBUTE_DETAILS)) {
+        if (Schema::hasColumn(ArtistMember::TABLE, ArtistMember::ATTRIBUTE_NOTES)) {
             Schema::table(ArtistMember::TABLE, function (Blueprint $table) {
-                $table->dropColumn(ArtistMember::ATTRIBUTE_DETAILS);
+                $table->dropColumn(ArtistMember::ATTRIBUTE_NOTES);
             });
         }
     }

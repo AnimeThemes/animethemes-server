@@ -35,7 +35,7 @@ class ArtistMemberFactory extends Factory
         return [
             ArtistMember::ATTRIBUTE_ALIAS => Str::random(),
             ArtistMember::ATTRIBUTE_AS => Str::random(),
-            ArtistMember::ATTRIBUTE_DETAILS => Str::random(),
+            ArtistMember::ATTRIBUTE_NOTES => Str::random(),
         ];
     }
 }
