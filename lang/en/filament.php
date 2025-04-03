@@ -283,12 +283,12 @@ return [
                 'attach_image' => [
                     'confirmButtonText' => 'Upload',
                     'help' => 'Use 2:3 ratio. Ex: 100x150, 400x600, 720x1080.',
-                    'name' => 'Attach Images',
-                ],
-                'upload_image' => [
-                    'name' => 'Upload Image',
+                    'name' => 'Upload & Attach',
                 ],
             ],
+        ],
+        'performances' => [
+            'manage_performances' => 'Manage Performances',
         ],
         'permission' => [
             'give_role' => [
@@ -562,6 +562,10 @@ return [
                     'name' => 'As',
                 ],
             ],
+            'information' => [
+                'help' => 'A brief description of the Artist. For groups, can be used for unattached members.',
+                'name' => 'Information',
+            ],
             'members' => [
                 'alias' => [
                     'help' => 'Used in place of the Artist if the performance is using an alias.',
@@ -570,6 +574,10 @@ return [
                 'as' => [
                     'help' => 'Used alongside the Artist name if the performance is made as a character.',
                     'name' => 'As',
+                ],
+                'notes' => [
+                    'help' => 'Extra information for the Artist in the Group. Like the role in the group or participation range date.',
+                    'name' => 'Notes',
                 ],
             ],
             'name' => [
@@ -720,6 +728,18 @@ return [
                 'name' => 'Path',
             ],
         ],
+        'membership' => [
+            'alias' => [
+                'help' => 'Used in place of the Artist if the performance is using an alias.',
+                'name' => 'Alias',
+            ],
+            'as' => [
+                'help' => 'Used alongside the Artist name if the performance is made as a character.',
+                'name' => 'As',
+            ],
+            'group' => 'Group',
+            'member' => 'Member',
+        ],
         'page' => [
             'body' => [
                 'help' => 'The content of the Page',
@@ -736,6 +756,20 @@ return [
             'slug' => [
                 'help' => 'Used as the URL Slug / Model Route Key. By default, this should be the Name lowercased and "_" replacing spaces',
                 'name' => 'Slug',
+            ],
+        ],
+        'performance' => [
+            'alias' => [
+                'help' => 'Used in place of the Artist if the performance is using an alias.',
+                'name' => 'Alias',
+            ],
+            'artist' => 'Artist',
+            'as' => [
+                'help' => 'Used alongside the Artist name if the performance is made as a character.',
+                'name' => 'As',
+            ],
+            'load_members' => [
+                'name' => 'Load Members',
             ],
         ],
         'permission' => [
@@ -941,9 +975,12 @@ return [
             'features' => 'Features',
             'featured_themes' => 'Featured Themes',
             'groups' => 'Groups',
+            'group_performances' => 'Group Performances',
             'images' => 'Images',
             'members' => 'Members',
+            'memberships' => 'Memberships',
             'pages' => 'Pages',
+            'performances' => 'Performances',
             'permissions' => 'Permissions',
             'playlist_tracks' => 'Playlist Tracks',
             'playlists' => 'Playlists',
@@ -974,9 +1011,12 @@ return [
             'feature' => 'Feature',
             'featured_theme' => 'Featured Theme',
             'group' => 'Group',
+            'group_performance' => 'Group Performance',
             'image' => 'Image',
             'member' => 'Member',
+            'membership' => 'Membership',
             'page' => 'Page',
+            'performance' => 'Performance',
             'permission' => 'Permission',
             'playlist_track' => 'Playlist Track',
             'playlist' => 'Playlist',

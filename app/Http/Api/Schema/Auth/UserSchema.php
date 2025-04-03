@@ -35,12 +35,9 @@ class UserSchema extends EloquentSchema
      */
     public function allowedIncludes(): array
     {
-        return array_merge(
-            $this->withIntermediatePaths([
-                new AllowedInclude(new PlaylistSchema(), User::RELATION_PLAYLISTS),
-            ]),
-            []
-        );
+        return $this->withIntermediatePaths([
+            new AllowedInclude(new PlaylistSchema(), User::RELATION_PLAYLISTS),
+        ]);
     }
 
     /**

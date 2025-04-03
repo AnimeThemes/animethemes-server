@@ -16,6 +16,8 @@ use App\Http\Resources\Pivot\Wiki\Resource\ArtistMemberResource;
 use App\Http\Resources\Pivot\Wiki\Resource\ArtistResourceResource;
 use App\Http\Resources\Pivot\Wiki\Resource\ArtistSongResource;
 use App\Models\BaseModel;
+use App\Models\Wiki\Song\Membership;
+use App\Models\Wiki\Song\Performance;
 use App\Pivots\Wiki\ArtistImage;
 use App\Pivots\Wiki\ArtistMember;
 use App\Pivots\Wiki\ArtistResource;
@@ -24,6 +26,7 @@ use Database\Factories\Wiki\ArtistFactory;
 use Elastic\ScoutDriverPlus\Searchable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Collection;
 
 /**
@@ -32,6 +35,7 @@ use Illuminate\Support\Collection;
  * @property int $artist_id
  * @property Collection<int, Artist> $groups
  * @property Collection<int, Image> $images
+ * @property string|null $information
  * @property Collection<int, Artist> $members
  * @property string $name
  * @property Collection<int, ExternalResource> $resources
@@ -50,12 +54,15 @@ class Artist extends BaseModel implements HasResources, HasImages
     final public const ATTRIBUTE_ID = 'artist_id';
     final public const ATTRIBUTE_NAME = 'name';
     final public const ATTRIBUTE_SLUG = 'slug';
+    final public const ATTRIBUTE_INFORMATION = 'information';
 
     final public const RELATION_ANIME = 'songs.animethemes.anime';
     final public const RELATION_ANIMETHEMES = 'songs.animethemes';
     final public const RELATION_GROUPS = 'groups';
+    final public const RELATION_GROUP_PERFORMANCES = 'groupperformances';
     final public const RELATION_IMAGES = 'images';
     final public const RELATION_MEMBERS = 'members';
+    final public const RELATION_PERFORMANCES = 'performances';
     final public const RELATION_RESOURCES = 'resources';
     final public const RELATION_SONGS = 'songs';
     final public const RELATION_THEME_GROUPS = 'songs.animethemes.group';
@@ -68,6 +75,7 @@ class Artist extends BaseModel implements HasResources, HasImages
     protected $fillable = [
         Artist::ATTRIBUTE_NAME,
         Artist::ATTRIBUTE_SLUG,
+        Artist::ATTRIBUTE_INFORMATION,
     ];
 
     /**
@@ -169,6 +177,30 @@ class Artist extends BaseModel implements HasResources, HasImages
     }
 
     /**
+     * Get the performances of the artist.
+     *
+     * @return MorphMany
+     */
+    public function performances(): MorphMany
+    {
+        return $this->morphMany(Performance::class, Performance::RELATION_ARTIST);
+    }
+
+    public function groupperformances()
+    {
+        return $this->hasManyThrough(
+            Performance::class, Membership::class,
+            'member_id', 'artist_id'
+        )->select(['memberships.as', 'memberships.alias'])
+        ->where(Performance::ATTRIBUTE_ARTIST_TYPE, Membership::class);
+    }
+
+    public function memberships()
+    {
+        return $this->hasMany(Membership::class, Membership::ATTRIBUTE_MEMBER);
+    }
+
+    /**
      * Get the resources for the artist.
      *
      * @return BelongsToMany<ExternalResource, $this>
@@ -191,7 +223,7 @@ class Artist extends BaseModel implements HasResources, HasImages
     {
         return $this->belongsToMany(Artist::class, ArtistMember::TABLE, Artist::ATTRIBUTE_ID, 'member_id')
             ->using(ArtistMember::class)
-            ->withPivot([ArtistMember::ATTRIBUTE_ALIAS, ArtistMember::ATTRIBUTE_AS])
+            ->withPivot([ArtistMember::ATTRIBUTE_ALIAS, ArtistMember::ATTRIBUTE_AS, ArtistMember::ATTRIBUTE_NOTES])
             ->as(ArtistMemberResource::$wrap)
             ->withTimestamps();
     }
@@ -205,7 +237,7 @@ class Artist extends BaseModel implements HasResources, HasImages
     {
         return $this->belongsToMany(Artist::class, ArtistMember::TABLE, 'member_id', Artist::ATTRIBUTE_ID)
             ->using(ArtistMember::class)
-            ->withPivot([ArtistMember::ATTRIBUTE_ALIAS, ArtistMember::ATTRIBUTE_AS])
+            ->withPivot([ArtistMember::ATTRIBUTE_ALIAS, ArtistMember::ATTRIBUTE_AS, ArtistMember::ATTRIBUTE_NOTES])
             ->as(ArtistMemberResource::$wrap)
             ->withTimestamps();
     }
@@ -219,6 +251,7 @@ class Artist extends BaseModel implements HasResources, HasImages
     {
         return $this->belongsToMany(Image::class, ArtistImage::TABLE, Artist::ATTRIBUTE_ID, Image::ATTRIBUTE_ID)
             ->using(ArtistImage::class)
+            ->withPivot(ArtistImage::ATTRIBUTE_DEPTH)
             ->as(ArtistImageResource::$wrap)
             ->withTimestamps();
     }

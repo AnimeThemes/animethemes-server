@@ -49,12 +49,9 @@ class SynonymSchema extends Schema
      */
     public function allowedIncludes(): array
     {
-        return array_merge(
-            $this->withIntermediatePaths([
-                new AllowedInclude(new AnimeSchema(), AnimeSynonym::RELATION_ANIME),
-            ]),
-            []
-        );
+        return $this->withIntermediatePaths([
+            new AllowedInclude(new AnimeSchema(), AnimeSynonym::RELATION_ANIME),
+        ]);
     }
 
     /**

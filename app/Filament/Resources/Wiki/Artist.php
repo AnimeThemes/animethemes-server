@@ -16,15 +16,17 @@ use App\Filament\Resources\Wiki\Artist\Pages\EditArtist;
 use App\Filament\Resources\Wiki\Artist\Pages\ListArtists;
 use App\Filament\Resources\Wiki\Artist\Pages\ViewArtist;
 use App\Filament\Resources\Wiki\Artist\RelationManagers\GroupArtistRelationManager;
+use App\Filament\Resources\Wiki\Artist\RelationManagers\GroupPerformanceArtistRelationManager;
 use App\Filament\Resources\Wiki\Artist\RelationManagers\ImageArtistRelationManager;
 use App\Filament\Resources\Wiki\Artist\RelationManagers\MemberArtistRelationManager;
+use App\Filament\Resources\Wiki\Artist\RelationManagers\PerformanceArtistRelationManager;
 use App\Filament\Resources\Wiki\Artist\RelationManagers\ResourceArtistRelationManager;
-use App\Filament\Resources\Wiki\Artist\RelationManagers\SongArtistRelationManager;
 use App\Filament\Resources\Wiki\ExternalResource\RelationManagers\ArtistResourceRelationManager;
-use App\Filament\Resources\Wiki\Song\RelationManagers\ArtistSongRelationManager;
 use App\Models\Wiki\Artist as ArtistModel;
+use App\Pivots\Wiki\ArtistMember;
 use App\Pivots\Wiki\ArtistResource;
 use App\Pivots\Wiki\ArtistSong;
+use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Forms\Set;
@@ -155,6 +157,13 @@ class Artist extends BaseResource
                 Slug::make(ArtistModel::ATTRIBUTE_SLUG)
                     ->label(__('filament.fields.artist.slug.name'))
                     ->helperText(__('filament.fields.artist.slug.help')),
+
+                MarkdownEditor::make(ArtistModel::ATTRIBUTE_INFORMATION)
+                    ->label(__('filament.fields.artist.information.name'))
+                    ->helperText(__('filament.fields.artist.information.help'))
+                    ->columnSpan(2)
+                    ->maxLength(65535)
+                    ->rules('max:65535'),
             ])
             ->columns(2);
     }
@@ -183,13 +192,17 @@ class Artist extends BaseResource
                     ->label(__('filament.fields.artist.resources.as.name'))
                     ->visibleOn(ArtistResourceRelationManager::class),
 
-                TextColumn::make(ArtistSong::ATTRIBUTE_AS)
-                    ->label(__('filament.fields.artist.songs.as.name'))
-                    ->visibleOn([ArtistSongRelationManager::class, MemberArtistRelationManager::class, GroupArtistRelationManager::class]),
+                TextColumn::make(ArtistMember::ATTRIBUTE_AS)
+                    ->label(__('filament.fields.artist.members.as.name'))
+                    ->visibleOn([MemberArtistRelationManager::class, GroupArtistRelationManager::class]),
 
-                TextColumn::make(ArtistSong::ATTRIBUTE_ALIAS)
-                    ->label(__('filament.fields.artist.songs.alias.name'))
-                    ->visibleOn([ArtistSongRelationManager::class, MemberArtistRelationManager::class, GroupArtistRelationManager::class]),
+                TextColumn::make(ArtistMember::ATTRIBUTE_ALIAS)
+                    ->label(__('filament.fields.artist.members.alias.name'))
+                    ->visibleOn([MemberArtistRelationManager::class, GroupArtistRelationManager::class]),
+
+                TextColumn::make(ArtistMember::ATTRIBUTE_NOTES)
+                    ->label(__('filament.fields.artist.members.notes.name'))
+                    ->visibleOn([MemberArtistRelationManager::class, GroupArtistRelationManager::class]),
             ])
             ->searchable();
     }
@@ -218,6 +231,11 @@ class Artist extends BaseResource
                         TextEntry::make(ArtistModel::ATTRIBUTE_SLUG)
                             ->label(__('filament.fields.artist.slug.name')),
 
+                        TextEntry::make(ArtistModel::ATTRIBUTE_INFORMATION)
+                            ->label(__('filament.fields.artist.information.name'))
+                            ->markdown()
+                            ->columnSpanFull(),
+
                         TextEntry::make('artistsong' . '.' . ArtistSong::ATTRIBUTE_AS)
                             ->label(__('filament.fields.artist.songs.as.name'))
                             ->visible(fn (TextEntry $component) => $component->getLivewire() instanceof ViewTheme),
@@ -226,7 +244,7 @@ class Artist extends BaseResource
                             ->label(__('filament.fields.artist.songs.alias.name'))
                             ->visible(fn (TextEntry $component) => $component->getLivewire() instanceof ViewTheme),
                     ])
-                    ->columns(5),
+                    ->columns(3),
 
                 Section::make(__('filament.fields.base.timestamps'))
                     ->schema(parent::timestamps())
@@ -248,7 +266,8 @@ class Artist extends BaseResource
             RelationGroup::make(static::getLabel(),
                 array_merge(
                     [
-                        SongArtistRelationManager::class,
+                        PerformanceArtistRelationManager::class,
+                        GroupPerformanceArtistRelationManager::class,
                         ResourceArtistRelationManager::class,
                         MemberArtistRelationManager::class,
                         GroupArtistRelationManager::class,

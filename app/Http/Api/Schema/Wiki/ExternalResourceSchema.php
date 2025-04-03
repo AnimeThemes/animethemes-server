@@ -60,15 +60,12 @@ class ExternalResourceSchema extends EloquentSchema implements InteractsWithPivo
      */
     public function allowedIncludes(): array
     {
-        return array_merge(
-            $this->withIntermediatePaths([
-                new AllowedInclude(new AnimeSchema(), ExternalResource::RELATION_ANIME),
-                new AllowedInclude(new ArtistSchema(), ExternalResource::RELATION_ARTISTS),
-                new AllowedInclude(new SongSchema(), ExternalResource::RELATION_SONGS),
-                new AllowedInclude(new StudioSchema(), ExternalResource::RELATION_STUDIOS),
-            ]),
-            []
-        );
+        return $this->withIntermediatePaths([
+            new AllowedInclude(new AnimeSchema(), ExternalResource::RELATION_ANIME),
+            new AllowedInclude(new ArtistSchema(), ExternalResource::RELATION_ARTISTS),
+            new AllowedInclude(new SongSchema(), ExternalResource::RELATION_SONGS),
+            new AllowedInclude(new StudioSchema(), ExternalResource::RELATION_STUDIOS),
+        ]);
     }
 
     /**

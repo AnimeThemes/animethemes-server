@@ -10,7 +10,6 @@ use App\Enums\Models\Wiki\ResourceSite;
 use App\Filament\Actions\Discord\DiscordThreadAction;
 use App\Filament\Actions\Models\Wiki\Anime\AttachAnimeResourceAction;
 use App\Filament\Actions\Models\Wiki\Anime\BackfillAnimeAction;
-use App\Filament\Actions\Models\Wiki\AttachImageAction;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\Select;
 use App\Filament\Components\Fields\Slug;
@@ -235,10 +234,6 @@ class Anime extends BaseResource
                     ->label(__('filament.fields.anime.media_format.name'))
                     ->formatStateUsing(fn (AnimeMediaFormat $state) => $state->localize()),
 
-                TextColumn::make(AnimeModel::ATTRIBUTE_SYNOPSIS)
-                    ->label(__('filament.fields.anime.synopsis.name'))
-                    ->hidden(),
-
                 TextColumn::make(AnimeResource::ATTRIBUTE_AS)
                     ->label(__('filament.fields.anime.resources.as.name'))
                     ->visibleOn(AnimeResourceRelationManager::class),
@@ -371,8 +366,6 @@ class Anime extends BaseResource
                     DiscordThreadAction::make('discord-thread'),
 
                     BackfillAnimeAction::make('backfill-anime'),
-
-                    AttachImageAction::make('attach-anime-image'),
 
                     AttachAnimeResourceAction::make('attach-anime-resource'),
 

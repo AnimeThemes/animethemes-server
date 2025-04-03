@@ -38,13 +38,10 @@ class AnimeStudioSchema extends EloquentSchema
      */
     public function allowedIncludes(): array
     {
-        return array_merge(
-            $this->withIntermediatePaths([
-                new AllowedInclude(new AnimeSchema(), AnimeStudio::RELATION_ANIME),
-                new AllowedInclude(new StudioSchema(), AnimeStudio::RELATION_STUDIO),
-            ]),
-            []
-        );
+        return $this->withIntermediatePaths([
+            new AllowedInclude(new AnimeSchema(), AnimeStudio::RELATION_ANIME),
+            new AllowedInclude(new StudioSchema(), AnimeStudio::RELATION_STUDIO),
+        ]);
     }
 
     /**

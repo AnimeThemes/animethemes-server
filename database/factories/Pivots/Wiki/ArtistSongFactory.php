@@ -33,6 +33,7 @@ class ArtistSongFactory extends Factory
     public function definition(): array
     {
         return [
+            ArtistSong::ATTRIBUTE_ALIAS => Str::random(),
             ArtistSong::ATTRIBUTE_AS => Str::random(),
         ];
     }

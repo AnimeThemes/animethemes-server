@@ -32,7 +32,7 @@ class ArtistImageFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            ArtistImage::ATTRIBUTE_DEPTH => fake()->randomDigitNotNull(),
         ];
     }
 }

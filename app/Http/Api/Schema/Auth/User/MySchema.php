@@ -42,16 +42,13 @@ class MySchema extends EloquentSchema
      */
     public function allowedIncludes(): array
     {
-        return array_merge(
-            $this->withIntermediatePaths([
-                new AllowedInclude(new ExternalProfileSchema(), User::RELATION_EXTERNAL_PROFILES),
-                new AllowedInclude(new PermissionSchema(), User::RELATION_PERMISSIONS),
-                new AllowedInclude(new PlaylistSchema(), User::RELATION_PLAYLISTS),
-                new AllowedInclude(new RoleSchema(), User::RELATION_ROLES),
-                new AllowedInclude(new PermissionSchema(), User::RELATION_ROLES_PERMISSIONS),
-            ]),
-            []
-        );
+        return $this->withIntermediatePaths([
+            new AllowedInclude(new ExternalProfileSchema(), User::RELATION_EXTERNAL_PROFILES),
+            new AllowedInclude(new PermissionSchema(), User::RELATION_PERMISSIONS),
+            new AllowedInclude(new PlaylistSchema(), User::RELATION_PLAYLISTS),
+            new AllowedInclude(new RoleSchema(), User::RELATION_ROLES),
+            new AllowedInclude(new PermissionSchema(), User::RELATION_ROLES_PERMISSIONS),
+        ]);
     }
 
     /**

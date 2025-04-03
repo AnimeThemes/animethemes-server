@@ -12,6 +12,7 @@ use App\Http\Resources\Wiki\Resource\ArtistResource;
 use App\Models\Wiki\Artist;
 use App\Scout\Elasticsearch\Api\Field\Base\IdField;
 use App\Scout\Elasticsearch\Api\Field\Field;
+use App\Scout\Elasticsearch\Api\Field\Wiki\Artist\ArtistInformationField;
 use App\Scout\Elasticsearch\Api\Field\Wiki\Artist\ArtistNameField;
 use App\Scout\Elasticsearch\Api\Field\Wiki\Artist\ArtistSlugField;
 use App\Scout\Elasticsearch\Api\Query\ElasticQuery;
@@ -51,19 +52,16 @@ class ArtistSchema extends Schema
      */
     public function allowedIncludes(): array
     {
-        return array_merge(
-            $this->withIntermediatePaths([
-                new AllowedInclude(new AnimeSchema(), Artist::RELATION_ANIME),
-                new AllowedInclude(new ArtistSchema(), Artist::RELATION_GROUPS),
-                new AllowedInclude(new ArtistSchema(), Artist::RELATION_MEMBERS),
-                new AllowedInclude(new ExternalResourceSchema(), Artist::RELATION_RESOURCES),
-                new AllowedInclude(new GroupSchema(), Artist::RELATION_THEME_GROUPS),
-                new AllowedInclude(new ImageSchema(), Artist::RELATION_IMAGES),
-                new AllowedInclude(new SongSchema(), Artist::RELATION_SONGS),
-                new AllowedInclude(new ThemeSchema(), Artist::RELATION_ANIMETHEMES),
-            ]),
-            []
-        );
+        return $this->withIntermediatePaths([
+            new AllowedInclude(new AnimeSchema(), Artist::RELATION_ANIME),
+            new AllowedInclude(new ArtistSchema(), Artist::RELATION_GROUPS),
+            new AllowedInclude(new ArtistSchema(), Artist::RELATION_MEMBERS),
+            new AllowedInclude(new ExternalResourceSchema(), Artist::RELATION_RESOURCES),
+            new AllowedInclude(new GroupSchema(), Artist::RELATION_THEME_GROUPS),
+            new AllowedInclude(new ImageSchema(), Artist::RELATION_IMAGES),
+            new AllowedInclude(new SongSchema(), Artist::RELATION_SONGS),
+            new AllowedInclude(new ThemeSchema(), Artist::RELATION_ANIMETHEMES),
+        ]);
     }
 
     /**
@@ -79,6 +77,7 @@ class ArtistSchema extends Schema
                 new IdField($this, Artist::ATTRIBUTE_ID),
                 new ArtistNameField($this),
                 new ArtistSlugField($this),
+                new ArtistInformationField($this),
             ],
         );
     }

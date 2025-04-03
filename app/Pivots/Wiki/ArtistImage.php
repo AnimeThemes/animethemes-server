@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *
  * @property Artist $artist
  * @property int $artist_id
+ * @property int|null $depth
  * @property Image $image
  * @property int $image_id
  *
@@ -28,6 +29,7 @@ class ArtistImage extends BasePivot
 
     final public const ATTRIBUTE_ARTIST = 'artist_id';
     final public const ATTRIBUTE_IMAGE = 'image_id';
+    final public const ATTRIBUTE_DEPTH = 'depth';
 
     final public const RELATION_ARTIST = 'artist';
     final public const RELATION_IMAGE = 'image';
@@ -60,6 +62,7 @@ class ArtistImage extends BasePivot
     protected $fillable = [
         ArtistImage::ATTRIBUTE_ARTIST,
         ArtistImage::ATTRIBUTE_IMAGE,
+        ArtistImage::ATTRIBUTE_DEPTH,
     ];
 
     /**

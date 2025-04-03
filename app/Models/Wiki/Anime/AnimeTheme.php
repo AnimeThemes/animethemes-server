@@ -66,6 +66,7 @@ class AnimeTheme extends BaseModel implements InteractsWithSchema
     final public const RELATION_ENTRIES = 'animethemeentries';
     final public const RELATION_GROUP = 'group';
     final public const RELATION_IMAGES = 'anime.images';
+    final public const RELATION_PERFORMANCES = 'song.performances';
     final public const RELATION_SONG = 'song';
     final public const RELATION_SYNONYMS = 'anime.animesynonyms';
     final public const RELATION_VIDEOS = 'animethemeentries.videos';

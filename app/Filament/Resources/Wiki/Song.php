@@ -8,13 +8,12 @@ use App\Filament\Actions\Models\Wiki\Song\AttachSongResourceAction;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\BaseResource;
-use App\Filament\Resources\Wiki\Artist\RelationManagers\SongArtistRelationManager;
 use App\Filament\Resources\Wiki\ExternalResource\RelationManagers\SongResourceRelationManager;
 use App\Filament\Resources\Wiki\Song\Pages\CreateSong;
 use App\Filament\Resources\Wiki\Song\Pages\EditSong;
 use App\Filament\Resources\Wiki\Song\Pages\ListSongs;
 use App\Filament\Resources\Wiki\Song\Pages\ViewSong;
-use App\Filament\Resources\Wiki\Song\RelationManagers\ArtistSongRelationManager;
+use App\Filament\Resources\Wiki\Song\RelationManagers\PerformanceSongRelationManager;
 use App\Filament\Resources\Wiki\Song\RelationManagers\ResourceSongRelationManager;
 use App\Filament\Resources\Wiki\Song\RelationManagers\ThemeSongRelationManager;
 use App\Models\Wiki\Song as SongModel;
@@ -167,12 +166,10 @@ class Song extends BaseResource
                     ->visibleOn(SongResourceRelationManager::class),
 
                 TextColumn::make(ArtistSong::ATTRIBUTE_AS)
-                    ->label(__('filament.fields.artist.songs.as.name'))
-                    ->visibleOn(SongArtistRelationManager::class),
+                    ->label(__('filament.fields.artist.songs.as.name')),
 
                 TextColumn::make(ArtistSong::ATTRIBUTE_ALIAS)
-                    ->label(__('filament.fields.artist.songs.alias.name'))
-                    ->visibleOn(SongArtistRelationManager::class),
+                    ->label(__('filament.fields.artist.songs.alias.name')),
             ])
             ->searchable();
     }
@@ -219,7 +216,7 @@ class Song extends BaseResource
             RelationGroup::make(static::getLabel(),
                 array_merge(
                     [
-                        ArtistSongRelationManager::class,
+                        PerformanceSongRelationManager::class,
                         ThemeSongRelationManager::class,
                         ResourceSongRelationManager::class,
                     ],

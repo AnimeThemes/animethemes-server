@@ -2,20 +2,20 @@
 
 declare(strict_types=1);
 
-namespace App\Filament\Resources\Wiki\Song\RelationManagers;
+namespace App\Filament\Resources\Wiki\Artist\RelationManagers;
 
-use App\Filament\RelationManagers\Wiki\ArtistRelationManager;
-use App\Models\Wiki\Song;
+use App\Filament\RelationManagers\Wiki\Song\PerformanceRelationManager;
 use App\Models\Wiki\Artist;
-use App\Pivots\Wiki\ArtistSong;
+use App\Models\Wiki\Song\Performance;
 use Filament\Forms\Components\Component;
+use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\TextInput;
 use Filament\Tables\Table;
 
 /**
- * Class ArtistSongRelationManager.
+ * Class PerformanceArtistRelationManager.
  */
-class ArtistSongRelationManager extends ArtistRelationManager
+class PerformanceArtistRelationManager extends PerformanceRelationManager
 {
     /**
      * Get the pivot fields of the relation.
@@ -25,13 +25,16 @@ class ArtistSongRelationManager extends ArtistRelationManager
     public function getPivotFields(): array
     {
         return [
-            TextInput::make(ArtistSong::ATTRIBUTE_AS)
-                ->label(__('filament.fields.artist.songs.as.name'))
-                ->helperText(__('filament.fields.artist.songs.as.help')),
+            Hidden::make(Performance::ATTRIBUTE_ARTIST_TYPE)
+                ->default(Artist::class),
 
-            TextInput::make(ArtistSong::ATTRIBUTE_ALIAS)
-                ->label(__('filament.fields.artist.songs.alias.name'))
-                ->helperText(__('filament.fields.artist.songs.alias.help')),
+            TextInput::make(Performance::ATTRIBUTE_AS)
+                ->label(__('filament.fields.performance.as.name'))
+                ->helperText(__('filament.fields.performance.as.help')),
+
+            TextInput::make(Performance::ATTRIBUTE_ALIAS)
+                ->label(__('filament.fields.performance.alias.name'))
+                ->helperText(__('filament.fields.performance.alias.help')),
         ];
     }
 
@@ -40,7 +43,7 @@ class ArtistSongRelationManager extends ArtistRelationManager
      *
      * @var string
      */
-    protected static string $relationship = Song::RELATION_ARTISTS;
+    protected static string $relationship = Artist::RELATION_PERFORMANCES;
 
     /**
      * The index page of the resource.
@@ -52,7 +55,7 @@ class ArtistSongRelationManager extends ArtistRelationManager
     {
         return parent::table(
             $table
-                ->inverseRelationship(Artist::RELATION_SONGS)
+                ->inverseRelationship(Performance::RELATION_SONG)
         );
     }
 

@@ -8,6 +8,7 @@ use App\Http\Api\Field\Base\CreatedAtField;
 use App\Http\Api\Field\Base\UpdatedAtField;
 use App\Http\Api\Field\Field;
 use App\Http\Api\Field\Pivot\Wiki\ArtistImage\ArtistImageArtistIdField;
+use App\Http\Api\Field\Pivot\Wiki\ArtistImage\ArtistImageDepthField;
 use App\Http\Api\Field\Pivot\Wiki\ArtistImage\ArtistImageImageIdField;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\EloquentSchema;
@@ -38,13 +39,10 @@ class ArtistImageSchema extends EloquentSchema
      */
     public function allowedIncludes(): array
     {
-        return array_merge(
-            $this->withIntermediatePaths([
-                new AllowedInclude(new ArtistSchema(), ArtistImage::RELATION_ARTIST),
-                new AllowedInclude(new ImageSchema(), ArtistImage::RELATION_IMAGE),
-            ]),
-            []
-        );
+        return $this->withIntermediatePaths([
+            new AllowedInclude(new ArtistSchema(), ArtistImage::RELATION_ARTIST),
+            new AllowedInclude(new ImageSchema(), ArtistImage::RELATION_IMAGE),
+        ]);
     }
 
     /**
@@ -61,6 +59,7 @@ class ArtistImageSchema extends EloquentSchema
             new UpdatedAtField($this),
             new ArtistImageArtistIdField($this),
             new ArtistImageImageIdField($this),
+            new ArtistImageDepthField($this),
         ];
     }
 }

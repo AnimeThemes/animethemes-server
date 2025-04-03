@@ -10,6 +10,7 @@ use App\Http\Api\Field\Field;
 use App\Http\Api\Field\Pivot\Wiki\ArtistMember\ArtistMemberAliasField;
 use App\Http\Api\Field\Pivot\Wiki\ArtistMember\ArtistMemberArtistIdField;
 use App\Http\Api\Field\Pivot\Wiki\ArtistMember\ArtistMemberAsField;
+use App\Http\Api\Field\Pivot\Wiki\ArtistMember\ArtistMemberDetailsField;
 use App\Http\Api\Field\Pivot\Wiki\ArtistMember\ArtistMemberMemberIdField;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\EloquentSchema;
@@ -39,13 +40,10 @@ class ArtistMemberSchema extends EloquentSchema
      */
     public function allowedIncludes(): array
     {
-        return array_merge(
-            $this->withIntermediatePaths([
-                new AllowedInclude(new ArtistSchema(), ArtistMember::RELATION_ARTIST),
-                new AllowedInclude(new ArtistSchema(), ArtistMember::RELATION_MEMBER),
-            ]),
-            []
-        );
+        return $this->withIntermediatePaths([
+            new AllowedInclude(new ArtistSchema(), ArtistMember::RELATION_ARTIST),
+            new AllowedInclude(new ArtistSchema(), ArtistMember::RELATION_MEMBER),
+        ]);
     }
 
     /**
@@ -64,6 +62,7 @@ class ArtistMemberSchema extends EloquentSchema
             new ArtistMemberMemberIdField($this),
             new ArtistMemberAliasField($this),
             new ArtistMemberAsField($this),
+            new ArtistMemberDetailsField($this),
         ];
     }
 }

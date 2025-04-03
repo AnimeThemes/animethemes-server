@@ -33,7 +33,9 @@ class ArtistMemberFactory extends Factory
     public function definition(): array
     {
         return [
+            ArtistMember::ATTRIBUTE_ALIAS => Str::random(),
             ArtistMember::ATTRIBUTE_AS => Str::random(),
+            ArtistMember::ATTRIBUTE_NOTES => Str::random(),
         ];
     }
 }
