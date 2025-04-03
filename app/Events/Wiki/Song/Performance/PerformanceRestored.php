@@ -4,16 +4,21 @@ declare(strict_types=1);
 
 namespace App\Events\Wiki\Song\Performance;
 
+use App\Contracts\Events\SyncArtistSongEvent;
 use App\Contracts\Events\UpdateRelatedIndicesEvent;
 use App\Events\Base\Wiki\WikiRestoredEvent;
+use App\Models\Wiki\Artist;
+use App\Models\Wiki\Song\Membership;
 use App\Models\Wiki\Song\Performance;
+use App\Pivots\Wiki\ArtistSong;
+use Exception;
 
 /**
  * Class PerformanceRestored.
  *
  * @extends WikiRestoredEvent<Performance>
  */
-class PerformanceRestored extends WikiRestoredEvent implements UpdateRelatedIndicesEvent
+class PerformanceRestored extends WikiRestoredEvent implements UpdateRelatedIndicesEvent, SyncArtistSongEvent
 {
     /**
      * Create a new event instance.
@@ -60,5 +65,30 @@ class PerformanceRestored extends WikiRestoredEvent implements UpdateRelatedIndi
         }
 
         $performance->artist->searchable();
+    }
+
+    /**
+     * Sync the performance with the artist song.
+     * Temporary function.
+     *
+     * @return void
+     */
+    public function syncArtistSong(): void
+    {
+        $performance = $this->getModel();
+        $song = $performance->song;
+
+        $artist = match ($performance->artist_type) {
+            Artist::class => $performance->artist,
+            Membership::class => $performance->artist->artist,
+            default => throw new Exception('Invalid artist type.'),
+        };
+
+        ArtistSong::withoutEvents(function () use ($artist, $song, $performance) {
+            $artist->songs()->syncWithPivotValues([$song->getKey()], [[
+                ArtistSong::ATTRIBUTE_ALIAS => $performance->alias,
+                ArtistSong::ATTRIBUTE_AS => $performance->as,
+            ]], false);
+        });
     }
 }

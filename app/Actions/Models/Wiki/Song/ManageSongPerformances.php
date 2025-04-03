@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Actions\Models\Wiki;
+namespace App\Actions\Models\Wiki\Song;
 
-use App\Models\BaseModel;
+use App\Events\Wiki\Song\Performance\PerformanceCreated;
+use App\Events\Wiki\Song\Performance\PerformanceUpdated;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Song;
 use App\Models\Wiki\Song\Membership;
@@ -16,9 +17,9 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 /**
- * Class ManagePerformance.
+ * Class ManageSongPerformances.
  */
-class ManagePerformance
+class ManageSongPerformances
 {
     protected Song $song;
     protected array $groups = [];
@@ -124,11 +125,12 @@ class ManagePerformance
 
                 if ($membershipData) {
                     $membership = Membership::query()->firstOrCreate($membershipData);
-                    $memberships[] = Arr::except($membership->attributesToArray(), [Membership::ATTRIBUTE_ID, Membership::CREATED_AT, Membership::UPDATED_AT, BaseModel::ATTRIBUTE_DELETED_AT]);
+                    $memberships[] = $membershipData;
 
                     $data = [
                         ...Arr::except($performance, Performance::RELATION_MEMBERSHIP),
                         Performance::ATTRIBUTE_SONG => $this->song->getKey(),
+                        Performance::ATTRIBUTE_ARTIST_TYPE => Membership::class,
                         Performance::ATTRIBUTE_ARTIST_ID => $membership->getKey(),
                     ];
                 }
@@ -136,9 +138,37 @@ class ManagePerformance
                 $performancesToCreate[] = $data;
             }
 
-            // TODO: This needs to be synced instead of force deleting and creating again.
-            Performance::withoutEvents(fn () => Performance::query()->where(Performance::ATTRIBUTE_SONG, $this->song->getKey())->forceDelete());
-            Performance::insert($performancesToCreate);
+            // Multiple queries because upsert does not dispatch an event.
+            foreach ($performancesToCreate as $performance) {
+                $model = Performance::query()->updateOrCreate($performance, [Performance::ATTRIBUTE_ALIAS, Performance::ATTRIBUTE_AS]);
+                // TODO: This is not dispatching eloquent events locally. Need test in prod.
+                //$event = $model->wasRecentlyCreated ? new PerformanceCreated($model) : new PerformanceUpdated($model);
+                //$event->syncArtistSong();
+            }
+
+            // Delete membership performances that are not in the new list.
+            Performance::query()
+                ->whereBelongsTo($this->song)
+                ->where(Performance::ATTRIBUTE_ARTIST_TYPE, Membership::class)
+                ->whereNotIn(
+                    Performance::ATTRIBUTE_ARTIST_ID,
+                    Arr::map(
+                        Arr::where($performancesToCreate, fn ($performance) => $performance[Performance::ATTRIBUTE_ARTIST_TYPE] === Membership::class),
+                        fn ($performanceMembership) => Arr::get($performanceMembership, Performance::ATTRIBUTE_ARTIST_ID)
+                    )
+                )->forceDelete();
+
+            // Delete solo performances that are not in the new list.
+            Performance::query()
+                ->whereBelongsTo($this->song)
+                ->where(Performance::ATTRIBUTE_ARTIST_TYPE, Artist::class)
+                ->whereNotIn(
+                    Performance::ATTRIBUTE_ARTIST_ID,
+                    Arr::map(
+                        Arr::where($performancesToCreate, fn ($performance) => $performance[Performance::ATTRIBUTE_ARTIST_TYPE] === Artist::class),
+                        fn ($solo) => Arr::get($solo, Performance::ATTRIBUTE_ARTIST_ID)
+                    )
+                )->forceDelete();
 
             // Update artist_member table to match memberships
             ArtistMember::query()->upsert(

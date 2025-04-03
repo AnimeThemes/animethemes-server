@@ -4,17 +4,23 @@ declare(strict_types=1);
 
 namespace App\Events\Wiki\Song\Performance;
 
+use App\Contracts\Events\SyncArtistSongEvent;
 use App\Contracts\Events\UpdateRelatedIndicesEvent;
 use App\Events\Base\Wiki\WikiDeletedEvent;
 use App\Filament\Resources\Wiki\Song\Performance as PerformanceFilament;
+use App\Models\Wiki\Artist;
+use App\Models\Wiki\Song\Membership;
 use App\Models\Wiki\Song\Performance;
+use App\Pivots\Wiki\ArtistSong;
+use Exception;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Class PerformanceDeleted.
  *
  * @extends WikiDeletedEvent<Performance>
  */
-class PerformanceDeleted extends WikiDeletedEvent implements UpdateRelatedIndicesEvent
+class PerformanceDeleted extends WikiDeletedEvent implements UpdateRelatedIndicesEvent, SyncArtistSongEvent
 {
     /**
      * Create a new event instance.
@@ -43,11 +49,15 @@ class PerformanceDeleted extends WikiDeletedEvent implements UpdateRelatedIndice
      */
     protected function getDiscordMessageDescription(): string
     {
-        if ($this->getModel()->isMembership()) {
-            return "Song '**{$this->getModel()->song->getName()}**' has been detached from Artist '**{$this->getModel()->artist->member->getName()}**' via Group '**{$this->getModel()->artist->artist->getName()}**'.";
+        $performance = $this->getModel();
+        $song = $performance->song;
+        $artist = $performance->artist;
+
+        if ($performance->isMembership()) {
+            return "Song '**{$song->getName()}**' has been detached from Artist '**{$artist->member->getName()}**' via Group '**{$artist->artist->getName()}**'.";
         }
 
-        return "Song '**{$this->getModel()->song->getName()}**' has been detached from Artist '**{$this->getModel()->artist->getName()}**'.";
+        return "Song '**{$song->getName()}**' has been detached from Artist '**{$artist->getName()}**'.";
     }
 
     /**
@@ -87,5 +97,31 @@ class PerformanceDeleted extends WikiDeletedEvent implements UpdateRelatedIndice
         }
 
         $performance->artist->searchable();
+    }
+
+    /**
+     * Sync the performance with the artist song.
+     * Temporary function.
+     *
+     * @return void
+     */
+    public function syncArtistSong(): void
+    {
+        $performance = $this->getModel();
+        $song = $performance->song;
+
+        $artist = match ($performance->artist_type) {
+            Artist::class => $performance->artist,
+            Membership::class => $performance->artist->artist,
+            default => throw new Exception('Invalid artist type.'),
+        };
+
+        ArtistSong::withoutEvents(function () use ($artist, $song) {
+            $deleted = ArtistSong::query()->where([
+                ArtistSong::ATTRIBUTE_ARTIST => $artist->getKey(),
+                ArtistSong::ATTRIBUTE_SONG => $song->getKey(),
+            ])->delete();
+            Log::info($deleted);
+        });
     }
 }
