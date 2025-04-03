@@ -141,7 +141,7 @@ class Performance extends BaseModel
     /**
      * Alias of artist().
      *
-     * @return  MorphTo
+     * @return MorphTo
      */
     public function membership(): MorphTo
     {

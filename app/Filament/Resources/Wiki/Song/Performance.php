@@ -155,6 +155,7 @@ class Performance extends BaseResource
                     ->resource(Song::class)
                     ->required()
                     ->hiddenOn([PerformanceSongRelationManager::class])
+                    ->disabledOn('edit')
                     ->columnSpanFull(),
 
                 ...static::performancesFields(),

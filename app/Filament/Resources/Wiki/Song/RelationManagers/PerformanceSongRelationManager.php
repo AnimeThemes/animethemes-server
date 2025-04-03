@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Wiki\Song\RelationManagers;
 
-use App\Actions\Models\Wiki\ManagePerformance;
+use App\Actions\Models\Wiki\Song\ManageSongPerformances;
 use App\Filament\RelationManagers\Wiki\Song\PerformanceRelationManager;
 use App\Filament\Resources\Wiki\Song\Performance as PerformanceResource;
 use App\Models\Wiki\Artist;
@@ -155,7 +155,7 @@ class PerformanceSongRelationManager extends PerformanceRelationManager
      */
     public static function saveArtists(Song $song, array $data): void
     {
-        $action = new ManagePerformance();
+        $action = new ManageSongPerformances();
 
         $action->forSong($song);
 
