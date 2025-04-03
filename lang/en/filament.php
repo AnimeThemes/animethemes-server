@@ -283,10 +283,7 @@ return [
                 'attach_image' => [
                     'confirmButtonText' => 'Upload',
                     'help' => 'Use 2:3 ratio. Ex: 100x150, 400x600, 720x1080.',
-                    'name' => 'Attach Images',
-                ],
-                'upload_image' => [
-                    'name' => 'Upload Image',
+                    'name' => 'Upload & Attach',
                 ],
             ],
         ],
@@ -770,6 +767,9 @@ return [
             'as' => [
                 'help' => 'Used alongside the Artist name if the performance is made as a character.',
                 'name' => 'As',
+            ],
+            'load_members' => [
+                'name' => 'Load Members',
             ],
         ],
         'permission' => [

@@ -26,6 +26,7 @@ use App\Filament\Resources\Wiki\Artist as ArtistResource;
 use App\Filament\Resources\Wiki\Group as GroupResource;
 use App\Filament\Resources\Wiki\Song as SongResource;
 use App\Filament\Resources\Wiki\Song\Performance as PerformanceResource;
+use App\Filament\Resources\Wiki\Song\RelationManagers\PerformanceSongRelationManager;
 use App\Filament\Resources\Wiki\Song\RelationManagers\ThemeSongRelationManager;
 use App\Models\Wiki\Anime\AnimeTheme as ThemeModel;
 use App\Models\Wiki\Anime\AnimeTheme;
@@ -227,11 +228,7 @@ class Theme extends BaseResource
                                         $song = Song::find($state);
 
                                         if (!$song) return;
-
-                                        foreach ($song->artists()->get() as $index => $artist) {
-                                            $set("song.artists.item{$index}.artist_id", $artist->getKey());
-                                            $set("song.artists.item{$index}.as", Arr::get($artist, 'artistsong.as'));
-                                        }
+                                        $set('performances', PerformanceSongRelationManager::formatArtists($song));
                                     }),
 
                                 ...PerformanceResource::performancesFields(),

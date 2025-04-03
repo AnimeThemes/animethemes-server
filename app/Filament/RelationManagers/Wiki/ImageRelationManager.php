@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\RelationManagers\Wiki;
 
+use App\Filament\Actions\Models\Wiki\AttachImageAction;
 use App\Filament\RelationManagers\BaseRelationManager;
 use App\Filament\Resources\Wiki\Image as ImageResource;
 use App\Models\Wiki\Image;
@@ -100,6 +101,7 @@ abstract class ImageRelationManager extends BaseRelationManager
         return array_merge(
             parent::getHeaderActions(),
             ImageResource::getTableActions(),
+            [AttachImageAction::make('attachimage')],
         );
     }
 

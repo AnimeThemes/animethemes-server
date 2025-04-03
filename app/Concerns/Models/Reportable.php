@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Concerns\Models;
 
+use App\Actions\Models\Admin\Report\ReportAction;
 use App\Models\Admin\Report;
 use App\Models\Admin\Report\ReportStep;
 use App\Models\BaseModel;
@@ -41,7 +42,7 @@ trait Reportable
                 return;
             }
 
-            Report::makeReport(ReportStep::makeForCreate($model::class, $model->attributesToArray()));
+            ReportAction::makeReport(ReportAction::makeForCreate($model::class, $model->attributesToArray()));
 
             return false;
         });
@@ -52,7 +53,7 @@ trait Reportable
                 return;
             }
 
-            Report::makeReport(ReportStep::makeForDelete($model));
+            ReportAction::makeReport(ReportAction::makeForDelete($model));
 
             return false;
         });
@@ -63,7 +64,7 @@ trait Reportable
                 return;
             }
 
-            Report::makeReport(ReportStep::makeForUpdate($model, $model->attributesToArray()));
+            ReportAction::makeReport(ReportAction::makeForUpdate($model, $model->attributesToArray()));
 
             return false;
         });
