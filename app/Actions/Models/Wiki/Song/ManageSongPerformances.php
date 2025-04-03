@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Actions\Models\Wiki\Song;
 
-use App\Events\Wiki\Song\Performance\PerformanceCreated;
-use App\Events\Wiki\Song\Performance\PerformanceUpdated;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Song;
 use App\Models\Wiki\Song\Membership;
@@ -140,14 +138,20 @@ class ManageSongPerformances
 
             // Multiple queries because upsert does not dispatch an event.
             foreach ($performancesToCreate as $performance) {
-                $model = Performance::query()->updateOrCreate($performance, [Performance::ATTRIBUTE_ALIAS, Performance::ATTRIBUTE_AS]);
-                // TODO: This is not dispatching eloquent events locally. Need test in prod.
+                $model = Performance::query()->updateOrCreate(
+                    Arr::only($performance, [Performance::ATTRIBUTE_SONG, Performance::ATTRIBUTE_ARTIST_TYPE, Performance::ATTRIBUTE_ARTIST_ID]),
+                    [
+                        Performance::ATTRIBUTE_ALIAS => Arr::get($performance, Performance::ATTRIBUTE_ALIAS),
+                        Performance::ATTRIBUTE_AS => Arr::get($performance, Performance::ATTRIBUTE_AS),
+                    ]
+                );
+                // Note: Working in prod. Saving this here for local tests. Same for deleted events.
                 //$event = $model->wasRecentlyCreated ? new PerformanceCreated($model) : new PerformanceUpdated($model);
                 //$event->syncArtistSong();
             }
 
             // Delete membership performances that are not in the new list.
-            Performance::query()
+            $to = Performance::query()
                 ->whereBelongsTo($this->song)
                 ->where(Performance::ATTRIBUTE_ARTIST_TYPE, Membership::class)
                 ->whereNotIn(
@@ -156,10 +160,15 @@ class ManageSongPerformances
                         Arr::where($performancesToCreate, fn ($performance) => $performance[Performance::ATTRIBUTE_ARTIST_TYPE] === Membership::class),
                         fn ($performanceMembership) => Arr::get($performanceMembership, Performance::ATTRIBUTE_ARTIST_ID)
                     )
-                )->forceDelete();
+                );
+
+            foreach ($to->get() as $performance) {
+                $performance->forceDelete();
+                //new PerformanceDeleted($performance)->syncArtistSong();
+            }
 
             // Delete solo performances that are not in the new list.
-            Performance::query()
+            $to2 = Performance::query()
                 ->whereBelongsTo($this->song)
                 ->where(Performance::ATTRIBUTE_ARTIST_TYPE, Artist::class)
                 ->whereNotIn(
@@ -168,7 +177,12 @@ class ManageSongPerformances
                         Arr::where($performancesToCreate, fn ($performance) => $performance[Performance::ATTRIBUTE_ARTIST_TYPE] === Artist::class),
                         fn ($solo) => Arr::get($solo, Performance::ATTRIBUTE_ARTIST_ID)
                     )
-                )->forceDelete();
+                );
+
+            foreach ($to2->get() as $performance) {
+                $performance->forceDelete();
+                //new PerformanceDeleted($performance)->syncArtistSong();
+            }
 
             // Update artist_member table to match memberships
             ArtistMember::query()->upsert(

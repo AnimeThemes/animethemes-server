@@ -94,10 +94,10 @@ class PerformanceCreated extends WikiCreatedEvent implements UpdateRelatedIndice
         };
 
         ArtistSong::withoutEvents(function () use ($artist, $song, $performance) {
-            $artist->songs()->syncWithPivotValues([$song->getKey()], [[
+            $artist->songs()->syncWithPivotValues([$song->getKey()], [
                 ArtistSong::ATTRIBUTE_ALIAS => $performance->alias,
                 ArtistSong::ATTRIBUTE_AS => $performance->as,
-            ]], false);
+            ], false);
         });
     }
 }

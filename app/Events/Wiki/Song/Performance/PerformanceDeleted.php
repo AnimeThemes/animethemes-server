@@ -13,7 +13,7 @@ use App\Models\Wiki\Song\Membership;
 use App\Models\Wiki\Song\Performance;
 use App\Pivots\Wiki\ArtistSong;
 use Exception;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Class PerformanceDeleted.
@@ -110,6 +110,15 @@ class PerformanceDeleted extends WikiDeletedEvent implements UpdateRelatedIndice
         $performance = $this->getModel();
         $song = $performance->song;
 
+        if (
+            $performance->artist_type === Membership::class
+            && Performance::query()
+                ->whereBelongsTo($song)
+                ->where(Performance::ATTRIBUTE_ARTIST_TYPE, Membership::class)
+                ->whereHas(Performance::RELATION_ARTIST, fn (Builder $query) => $query->where(Artist::ATTRIBUTE_ID, $performance->artist->artist->getKey()))
+                ->exists()
+        ) return;
+
         $artist = match ($performance->artist_type) {
             Artist::class => $performance->artist,
             Membership::class => $performance->artist->artist,
@@ -117,11 +126,10 @@ class PerformanceDeleted extends WikiDeletedEvent implements UpdateRelatedIndice
         };
 
         ArtistSong::withoutEvents(function () use ($artist, $song) {
-            $deleted = ArtistSong::query()->where([
+            ArtistSong::query()->where([
                 ArtistSong::ATTRIBUTE_ARTIST => $artist->getKey(),
                 ArtistSong::ATTRIBUTE_SONG => $song->getKey(),
             ])->delete();
-            Log::info($deleted);
         });
     }
 }
