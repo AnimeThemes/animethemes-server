@@ -771,6 +771,9 @@ return [
                 'help' => 'Used alongside the Artist name if the performance is made as a character.',
                 'name' => 'As',
             ],
+            'load_members' => [
+                'name' => 'Load Members',
+            ],
         ],
         'permission' => [
             'name' => 'Name',

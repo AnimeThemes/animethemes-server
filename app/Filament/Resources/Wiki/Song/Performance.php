@@ -22,16 +22,20 @@ use App\Models\Wiki\Artist;
 use App\Models\Wiki\Song as SongModel;
 use App\Models\Wiki\Song\Membership;
 use App\Models\Wiki\Song\Performance as PerformanceModel;
+use App\Pivots\Wiki\ArtistMember;
+use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
+use Filament\Forms\Set;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Support\Arr;
 
 /**
  * Class Performance.
@@ -389,7 +393,21 @@ class Performance extends BaseResource
                         ->resource(ArtistResource::class)
                         ->showCreateOption()
                         ->required()
-                        ->rules(['required']),
+                        ->rules(['required'])
+                        ->hintAction(
+                            Action::make('load')
+                                ->label(__('filament.fields.performance.load_members.name'))
+                                ->action(function (Get $get, Set $set) {
+                                    /** @var Artist $group */
+                                    $group = Artist::query()->find($get(Artist::ATTRIBUTE_ID));
+
+                                    $set('memberships', $group->members->map(fn (Artist $member) => [
+                                        Membership::ATTRIBUTE_MEMBER => $member->getKey(),
+                                        Membership::ATTRIBUTE_ALIAS => Arr::get($member->{$group->members()->getPivotAccessor()}, ArtistMember::ATTRIBUTE_ALIAS),
+                                        Membership::ATTRIBUTE_AS => Arr::get($member->{$group->members()->getPivotAccessor()}, ArtistMember::ATTRIBUTE_AS),
+                                    ])->toArray());
+                                })
+                        ),
 
                     TextInput::make(PerformanceModel::ATTRIBUTE_AS)
                         ->label(__('filament.fields.performance.as.name'))
