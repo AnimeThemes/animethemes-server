@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace App\Filament\Actions;
 
 use App\Concerns\Filament\ActionLogs\HasActionLogs;
+use App\Filament\RelationManagers\BaseRelationManager;
 use Filament\Support\Enums\MaxWidth;
 use Filament\Tables\Actions\Action;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class BaseAction.
@@ -39,5 +41,19 @@ abstract class BaseAction extends Action
         });
 
         $this->modalWidth(MaxWidth::FourExtraLarge);
+    }
+
+    /**
+     * Get the record given the context.
+     *
+     * @return Model|null
+     */
+    public function getRecord(): ?Model
+    {
+        $livewire = $this->getLivewire();
+
+        return $livewire instanceof BaseRelationManager
+            ? $livewire->getOwnerRecord()
+            : parent::getRecord();
     }
 }

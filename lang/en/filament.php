@@ -283,10 +283,7 @@ return [
                 'attach_image' => [
                     'confirmButtonText' => 'Upload',
                     'help' => 'Use 2:3 ratio. Ex: 100x150, 400x600, 720x1080.',
-                    'name' => 'Attach Images',
-                ],
-                'upload_image' => [
-                    'name' => 'Upload Image',
+                    'name' => 'Upload & Attach',
                 ],
             ],
         ],
