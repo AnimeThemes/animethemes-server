@@ -22,19 +22,15 @@ use App\Filament\Resources\Wiki\Video as VideoResource;
 use App\Models\Admin\FeaturedTheme as FeaturedThemeModel;
 use App\Models\Wiki\Video;
 use App\Pivots\Wiki\AnimeThemeEntryVideo;
-use App\Rules\Admin\StartDateBeforeEndDateRule;
-use Filament\Forms\Components\Hidden;
+use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
-use Filament\Forms\Set;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Carbon;
 use Illuminate\Validation\Rule;
-use Malzariey\FilamentDaterangepickerFilter\Fields\DateRangePicker;
 
 /**
  * Class FeaturedTheme.
@@ -136,31 +132,37 @@ class FeaturedTheme extends BaseResource
      */
     public static function form(Form $form): Form
     {
+        $allowedDateFormats = array_column(AllowedDateFormat::cases(), 'value');
+
         return $form
             ->schema([
-                DateRangePicker::make('date')
-                    ->label(__('filament.fields.featured_theme.date.name'))
-                    ->helperText(__('filament.fields.featured_theme.date.help'))
-                    ->timezone('UTC')
-                    ->displayFormat('MM/DD/YYYY')
-                    ->format(AllowedDateFormat::YMD->value)
-                    ->formatStateUsing(fn ($record) => $record !== null ? $record->start_at->format('m/d/Y') . ' - ' . $record->end_at->format('m/d/Y') : null)
+                DatePicker::make(FeaturedThemeModel::ATTRIBUTE_START_AT)
+                    ->label(__('filament.fields.featured_theme.start_at.name'))
+                    ->helperText(__('filament.fields.featured_theme.start_at.help'))
                     ->required()
                     ->rules([
                         'required',
-                        'string',
-                        'regex:/^\d{2}\/\d{2}\/\d{4} - \d{2}\/\d{2}\/\d{4}$/',
-                        new StartDateBeforeEndDateRule(),
-                    ])
-                    ->live(true)
-                    ->afterStateUpdated(function (string $state, Set $set) {
-                        $dates = explode(' - ', $state);
-                        $set(FeaturedThemeModel::ATTRIBUTE_START_AT, Carbon::createFromFormat('m/d/Y', $dates[0]));
-                        $set(FeaturedThemeModel::ATTRIBUTE_END_AT, Carbon::createFromFormat('m/d/Y', $dates[1]));
-                    }),
+                        str('date_format:')
+                            ->append(implode(',', $allowedDateFormats))
+                            ->__toString(),
+                        str('after:')
+                            ->append(FeaturedThemeModel::ATTRIBUTE_START_AT)
+                            ->__toString(),
+                    ]),
 
-                Hidden::make(FeaturedThemeModel::ATTRIBUTE_START_AT),
-                Hidden::make(FeaturedThemeModel::ATTRIBUTE_END_AT),
+                DatePicker::make(FeaturedThemeModel::ATTRIBUTE_END_AT)
+                    ->label(__('filament.fields.featured_theme.end_at.name'))
+                    ->helperText(__('filament.fields.featured_theme.end_at.help'))
+                    ->required()
+                    ->rules([
+                        'required',
+                        str('date_format:')
+                            ->append(implode(',', $allowedDateFormats))
+                            ->__toString(),
+                        str('after:')
+                            ->append(FeaturedThemeModel::ATTRIBUTE_START_AT)
+                            ->__toString(),
+                    ]),
 
                 BelongsTo::make(FeaturedThemeModel::ATTRIBUTE_ENTRY)
                     ->resource(EntryResource::class)
@@ -223,11 +225,11 @@ class FeaturedTheme extends BaseResource
                     ->label(__('filament.fields.base.id')),
 
                 TextColumn::make(FeaturedThemeModel::ATTRIBUTE_START_AT)
-                    ->label(__('filament.fields.featured_theme.start_at'))
+                    ->label(__('filament.fields.featured_theme.start_at.name'))
                     ->date(),
 
                 TextColumn::make(FeaturedThemeModel::ATTRIBUTE_END_AT)
-                    ->label(__('filament.fields.featured_theme.end_at'))
+                    ->label(__('filament.fields.featured_theme.end_at.name'))
                     ->date(),
 
                 BelongsToColumn::make(FeaturedThemeModel::RELATION_VIDEO, VideoResource::class),
@@ -256,11 +258,11 @@ class FeaturedTheme extends BaseResource
                             ->label(__('filament.fields.base.id')),
 
                         TextEntry::make(FeaturedThemeModel::ATTRIBUTE_START_AT)
-                            ->label(__('filament.fields.featured_theme.start_at'))
+                            ->label(__('filament.fields.featured_theme.start_at.name'))
                             ->date(),
 
                         TextEntry::make(FeaturedThemeModel::ATTRIBUTE_END_AT)
-                            ->label(__('filament.fields.featured_theme.end_at'))
+                            ->label(__('filament.fields.featured_theme.end_at.name'))
                             ->date(),
 
                         BelongsToEntry::make(FeaturedThemeModel::RELATION_VIDEO, VideoResource::class),
