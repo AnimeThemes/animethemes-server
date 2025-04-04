@@ -223,7 +223,7 @@ class Anime extends BaseModel implements HasResources, HasImages
     /**
      * Get the series the anime is included in.
      *
-     * @return BelongsToMany<Series, $this>
+     * @return BelongsToMany
      */
     public function series(): BelongsToMany
     {
@@ -246,7 +246,7 @@ class Anime extends BaseModel implements HasResources, HasImages
     /**
      * Get the resources for the anime.
      *
-     * @return BelongsToMany<ExternalResource, $this>
+     * @return BelongsToMany
      */
     public function resources(): BelongsToMany
     {
@@ -260,7 +260,7 @@ class Anime extends BaseModel implements HasResources, HasImages
     /**
      * Get the images for the anime.
      *
-     * @return BelongsToMany<Image, $this>
+     * @return BelongsToMany
      */
     public function images(): BelongsToMany
     {
@@ -273,7 +273,7 @@ class Anime extends BaseModel implements HasResources, HasImages
     /**
      * Get the studios that produced the anime.
      *
-     * @return BelongsToMany<Studio, $this>
+     * @return BelongsToMany
      */
     public function studios(): BelongsToMany
     {

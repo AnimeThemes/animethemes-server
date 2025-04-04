@@ -16,6 +16,8 @@ use App\Models\Wiki\Group;
 use App\Models\Wiki\Image;
 use App\Models\Wiki\Series;
 use App\Models\Wiki\Song;
+use App\Models\Wiki\Song\Membership;
+use App\Models\Wiki\Song\Performance;
 use App\Models\Wiki\Studio;
 use App\Models\Wiki\Video;
 use App\Models\Wiki\Video\VideoScript;
@@ -70,6 +72,8 @@ class DumpWikiAction extends DumpAction
             ExternalResource::TABLE,
             Group::TABLE,
             Image::TABLE,
+            Membership::TABLE,
+            Performance::TABLE,
             Series::TABLE,
             Song::TABLE,
             SongResource::TABLE,

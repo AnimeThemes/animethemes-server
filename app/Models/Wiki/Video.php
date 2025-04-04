@@ -350,7 +350,7 @@ class Video extends BaseModel implements Streamable, Viewable
     /**
      * Get the related entries.
      *
-     * @return BelongsToMany<AnimeThemeEntry, $this>
+     * @return BelongsToMany
      */
     public function animethemeentries(): BelongsToMany
     {

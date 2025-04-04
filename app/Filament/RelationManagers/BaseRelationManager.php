@@ -14,6 +14,7 @@ use Filament\Forms\Components\Component;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Arr;
 
@@ -47,30 +48,28 @@ abstract class BaseRelationManager extends RelationManager
     public function table(Table $table): Table
     {
         return $table
-            ->columns(array_merge(
-                $table->getColumns(),
-                [
-                    TextColumn::make(BasePivot::ATTRIBUTE_CREATED_AT)
-                        ->label(__('filament.fields.base.created_at'))
-                        ->hidden(fn ($livewire) => !($livewire->getRelationship() instanceof BelongsToMany))
-                        ->formatStateUsing(function ($record) {
-                            $pivot = current($record->getRelations());
-                            $createdAtField = Arr::get($pivot->getAttributes(), BasePivot::ATTRIBUTE_CREATED_AT);
-                            if (!$createdAtField) return '-';
-                            return new DateTime($createdAtField)->format('M j, Y H:i:s');
-                        }),
+            ->columns([
+                ...$table->getColumns(),
+                TextColumn::make(BasePivot::ATTRIBUTE_CREATED_AT)
+                    ->label(__('filament.fields.base.created_at'))
+                    ->hidden(fn ($livewire) => !($livewire->getRelationship() instanceof BelongsToMany))
+                    ->formatStateUsing(function (Model $record) {
+                        $pivot = current($record->getRelations());
+                        $createdAtField = Arr::get($pivot->getAttributes(), BasePivot::ATTRIBUTE_CREATED_AT);
+                        if (!$createdAtField) return '-';
+                        return new DateTime($createdAtField)->format('M j, Y H:i:s');
+                    }),
 
-                    TextColumn::make(BasePivot::ATTRIBUTE_UPDATED_AT)
-                        ->label(__('filament.fields.base.updated_at'))
-                        ->hidden(fn ($livewire) => !($livewire->getRelationship() instanceof BelongsToMany))
-                        ->formatStateUsing(function ($record) {
-                            $pivot = current($record->getRelations());
-                            $updatedAtField = Arr::get($pivot->getAttributes(), BasePivot::ATTRIBUTE_UPDATED_AT);
-                            if (!$updatedAtField) return '-';
-                            return new DateTime($updatedAtField)->format('M j, Y H:i:s');
-                        }),
-                ],
-            ))
+                TextColumn::make(BasePivot::ATTRIBUTE_UPDATED_AT)
+                    ->label(__('filament.fields.base.updated_at'))
+                    ->hidden(fn ($livewire) => !($livewire->getRelationship() instanceof BelongsToMany))
+                    ->formatStateUsing(function (Model $record) {
+                        $pivot = current($record->getRelations());
+                        $updatedAtField = Arr::get($pivot->getAttributes(), BasePivot::ATTRIBUTE_UPDATED_AT);
+                        if (!$updatedAtField) return '-';
+                        return new DateTime($updatedAtField)->format('M j, Y H:i:s');
+                    }),
+            ])
             ->filters(static::getFilters())
             ->filtersFormMaxHeight('400px')
             ->actions(static::getActions())

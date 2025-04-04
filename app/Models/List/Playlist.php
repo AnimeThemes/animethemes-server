@@ -208,7 +208,7 @@ class Playlist extends BaseModel implements HasHashids, Viewable, HasImages
     /**
      * Get the images for the playlist.
      *
-     * @return BelongsToMany<Image, $this>
+     * @return BelongsToMany
      */
     public function images(): BelongsToMany
     {
