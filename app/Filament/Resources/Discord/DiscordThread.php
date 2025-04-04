@@ -8,6 +8,7 @@ use App\Actions\Discord\DiscordThreadAction;
 use App\Filament\Components\Columns\BelongsToColumn;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\BelongsTo;
+use App\Filament\Components\Filters\DateFilter;
 use App\Filament\Components\Infolist\BelongsToEntry;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\BaseResource;
@@ -30,7 +31,6 @@ use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
-use Malzariey\FilamentDaterangepickerFilter\Filters\DateRangeFilter;
 
 /**
  * Class DiscordThread.
@@ -239,7 +239,7 @@ class DiscordThread extends BaseResource
     public static function getFilters(): array
     {
         return [
-            DateRangeFilter::make(BaseModel::ATTRIBUTE_CREATED_AT)
+            DateFilter::make(BaseModel::ATTRIBUTE_CREATED_AT)
                 ->label(__('filament.fields.base.created_at')),
         ];
     }

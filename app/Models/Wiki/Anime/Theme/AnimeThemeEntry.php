@@ -210,7 +210,7 @@ class AnimeThemeEntry extends BaseModel implements InteractsWithSchema
     /**
      * Get the videos linked in the theme entry.
      *
-     * @return BelongsToMany<Video, $this>
+     * @return BelongsToMany
      */
     public function videos(): BelongsToMany
     {

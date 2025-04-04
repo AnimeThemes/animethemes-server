@@ -191,6 +191,7 @@ class Track extends BaseResource
                     ->options(function (Get $get) {
                         return VideoModel::query()
                             ->whereHas(VideoModel::RELATION_ANIMETHEMEENTRIES, function ($query) use ($get) {
+                                /** @phpstan-ignore-next-line */
                                 $query->where(AnimeThemeEntry::TABLE . '.' . AnimeThemeEntry::ATTRIBUTE_ID, $get(TrackModel::ATTRIBUTE_ENTRY));
                             })
                             ->get()

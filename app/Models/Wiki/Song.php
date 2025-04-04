@@ -131,7 +131,7 @@ class Song extends BaseModel implements HasResources
     /**
      * Get the artists included in the performance.
      *
-     * @return BelongsToMany<Artist, $this>
+     * @return BelongsToMany
      */
     public function artists(): BelongsToMany
     {
@@ -155,7 +155,7 @@ class Song extends BaseModel implements HasResources
     /**
      * Get the resources for the song.
      *
-     * @return BelongsToMany<ExternalResource, $this>
+     * @return BelongsToMany
      */
     public function resources(): BelongsToMany
     {

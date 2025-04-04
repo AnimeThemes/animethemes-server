@@ -699,12 +699,14 @@ return [
             ],
         ],
         'featured_theme' => [
-            'date' => [
-                'help' => 'The range of days that the featured theme should remain.',
-                'name' => 'Date Range',
+            'end_at' => [
+                'help' => 'The datetime that the featured theme should stop being featured.',
+                'name' => 'End At',
             ],
-            'end_at' => 'End At',
-            'start_at' => 'Start At',
+            'start_at' => [
+                'help' => 'The datetime that the featured theme should start being featured.',
+                'name' => 'Start At',
+            ],
         ],
         'group' => [
             'name' => [

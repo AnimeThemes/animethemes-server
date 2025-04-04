@@ -8,6 +8,7 @@ use App\Enums\Auth\Role;
 use App\Enums\Models\Admin\ActionLogStatus;
 use App\Filament\Components\Columns\BelongsToColumn;
 use App\Filament\Components\Columns\TextColumn;
+use App\Filament\Components\Filters\DateFilter;
 use App\Filament\Components\Infolist\BelongsToEntry;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\Admin\ActionLog\Pages\ManageActionLogs;
@@ -242,10 +243,10 @@ class ActionLog extends BaseResource
                 ->label(__('filament.fields.action_log.status'))
                 ->options(ActionLogStatus::asSelectArray()),
 
-            DateRangeFilter::make(BaseModel::ATTRIBUTE_CREATED_AT)
+            DateFilter::make(BaseModel::ATTRIBUTE_CREATED_AT)
                 ->label(__('filament.fields.action_log.happened_at')),
 
-            DateRangeFilter::make(ActionLogModel::ATTRIBUTE_FINISHED_AT)
+            DateFilter::make(ActionLogModel::ATTRIBUTE_FINISHED_AT)
                 ->label(__('filament.fields.action_log.finished_at')),
         ];
     }
