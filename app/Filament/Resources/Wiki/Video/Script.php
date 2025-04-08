@@ -9,7 +9,6 @@ use App\Filament\Actions\Storage\Wiki\Video\Script\MoveScriptAction;
 use App\Filament\BulkActions\Storage\Wiki\Video\Script\DeleteScriptBulkAction;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Resources\BaseResource;
-use App\Filament\Resources\Wiki\Video\Script\Pages\EditScript;
 use App\Filament\Resources\Wiki\Video\Script\Pages\ListScripts;
 use App\Filament\Resources\Wiki\Video\Script\Pages\ViewScript;
 use App\Filament\TableActions\Repositories\Storage\Wiki\Video\Script\ReconcileScriptTableAction;
@@ -269,7 +268,6 @@ class Script extends BaseResource
         return [
             'index' => ListScripts::route('/'),
             'view' => ViewScript::route('/{record:script_id}'),
-            'edit' => EditScript::route('/{record:script_id}/edit'),
         ];
     }
 }

@@ -9,7 +9,6 @@ use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\Select;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\BaseResource;
-use App\Filament\Resources\Wiki\Image\Pages\EditImage;
 use App\Filament\Resources\Wiki\Image\Pages\ListImages;
 use App\Filament\Resources\Wiki\Image\Pages\ViewImage;
 use App\Filament\Resources\Wiki\Image\RelationManagers\AnimeImageRelationManager;
@@ -305,7 +304,6 @@ class Image extends BaseResource
         return [
             'index' => ListImages::route('/'),
             'view' => ViewImage::route('/{record:image_id}'),
-            'edit' => EditImage::route('/{record:image_id}/edit'),
         ];
     }
 }

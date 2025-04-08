@@ -11,8 +11,6 @@ use App\Filament\Components\Filters\CheckboxFilter;
 use App\Filament\Components\Filters\NumberFilter;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\BaseResource;
-use App\Filament\Resources\Auth\Role\Pages\CreateRole;
-use App\Filament\Resources\Auth\Role\Pages\EditRole;
 use App\Filament\Resources\Auth\Role\Pages\ListRoles;
 use App\Filament\Resources\Auth\Role\Pages\ViewRole;
 use App\Filament\Resources\Auth\Role\RelationManagers\PermissionRoleRelationManager;
@@ -319,9 +317,7 @@ class Role extends BaseResource
     {
         return [
             'index' => ListRoles::route('/'),
-            'create' => CreateRole::route('/create'),
             'view' => ViewRole::route('/{record:id}'),
-            'edit' => EditRole::route('/{record:id}/edit'),
         ];
     }
 }

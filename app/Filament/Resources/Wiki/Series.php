@@ -8,8 +8,6 @@ use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\Slug;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\BaseResource;
-use App\Filament\Resources\Wiki\Series\Pages\CreateSeries;
-use App\Filament\Resources\Wiki\Series\Pages\EditSeries;
 use App\Filament\Resources\Wiki\Series\Pages\ListSeries;
 use App\Filament\Resources\Wiki\Series\Pages\ViewSeries;
 use App\Filament\Resources\Wiki\Series\RelationManagers\AnimeSeriesRelationManager;
@@ -287,9 +285,7 @@ class Series extends BaseResource
     {
         return [
             'index' => ListSeries::route('/'),
-            'create' => CreateSeries::route('/create'),
             'view' => ViewSeries::route('/{record:series_id}'),
-            'edit' => EditSeries::route('/{record:series_id}/edit'),
         ];
     }
 }

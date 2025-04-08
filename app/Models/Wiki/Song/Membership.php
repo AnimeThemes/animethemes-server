@@ -11,6 +11,7 @@ use App\Events\Wiki\Song\Membership\MembershipRestored;
 use App\Events\Wiki\Song\Membership\MembershipUpdated;
 use App\Models\BaseModel;
 use App\Models\Wiki\Artist;
+use Database\Factories\Wiki\Song\MembershipFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
@@ -24,6 +25,8 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
  * @property Artist $artist
  * @property int $member_id
  * @property Artist $member
+ *
+ * @method static MembershipFactory factory(...$parameters)
  */
 class Membership extends BaseModel
 {

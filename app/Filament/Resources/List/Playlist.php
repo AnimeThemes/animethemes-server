@@ -14,8 +14,6 @@ use App\Filament\Components\Infolist\BelongsToEntry;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\Auth\User as UserResource;
 use App\Filament\Resources\BaseResource;
-use App\Filament\Resources\List\Playlist\Pages\CreatePlaylist;
-use App\Filament\Resources\List\Playlist\Pages\EditPlaylist;
 use App\Filament\Resources\List\Playlist\Pages\ListPlaylists;
 use App\Filament\Resources\List\Playlist\Pages\ViewPlaylist;
 use App\Filament\Resources\List\Playlist\RelationManagers\ImagePlaylistRelationManager;
@@ -370,9 +368,7 @@ class Playlist extends BaseResource
     {
         return [
             'index' => ListPlaylists::route('/'),
-            'create' => CreatePlaylist::route('/create'),
             'view' => ViewPlaylist::route('/{record:playlist_id}'),
-            'edit' => EditPlaylist::route('/{record:playlist_id}/edit'),
         ];
     }
 }

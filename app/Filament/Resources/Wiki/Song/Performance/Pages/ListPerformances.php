@@ -33,6 +33,7 @@ class ListPerformances extends BaseListResources
             [
                 Action::make('new performance')
                     ->form(fn ($form) => Performance::form($form)->getComponents())
+                    ->authorize('create', PerformanceModel::class)
                     ->action(function (array $data) {
                         $song = Song::find(Arr::get($data, PerformanceModel::ATTRIBUTE_SONG));
                         $performances = Arr::get($data, Song::RELATION_PERFORMANCES);

@@ -14,7 +14,6 @@ use App\Filament\Resources\Wiki\Artist as ArtistResource;
 use App\Filament\Resources\Wiki\Artist\RelationManagers\GroupPerformanceArtistRelationManager;
 use App\Filament\Resources\Wiki\Artist\RelationManagers\PerformanceArtistRelationManager;
 use App\Filament\Resources\Wiki\Song;
-use App\Filament\Resources\Wiki\Song\Performance\Pages\EditPerformance;
 use App\Filament\Resources\Wiki\Song\Performance\Pages\ListPerformances;
 use App\Filament\Resources\Wiki\Song\Performance\Pages\ViewPerformance;
 use App\Filament\Resources\Wiki\Song\RelationManagers\PerformanceSongRelationManager;
@@ -457,7 +456,6 @@ class Performance extends BaseResource
     {
         return [
             'index' => ListPerformances::route('/'),
-            'edit' => EditPerformance::route('/{record:performance_id}/edit'),
             'view' => ViewPerformance::route('/{record:performance_id}'),
         ];
     }

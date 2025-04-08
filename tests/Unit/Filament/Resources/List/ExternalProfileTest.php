@@ -6,6 +6,8 @@ namespace Tests\Unit\Filament\Resources\List;
 
 use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\SpecialPermission;
+use App\Filament\Actions\Base\EditAction;
+use App\Filament\HeaderActions\Base\CreateHeaderAction;
 use App\Filament\Resources\List\ExternalProfile;
 use App\Models\Auth\User;
 use App\Models\List\ExternalProfile as ExternalProfileModel;
@@ -55,6 +57,29 @@ class ExternalProfileTest extends BaseResourceTestCase
     }
 
     /**
+     * The view page of the resource shall be rendered.
+     *
+     * @return void
+     */
+    public function testRenderViewPage(): void
+    {
+        $user = User::factory()
+            ->withAdmin()
+            ->withPermissions(
+                SpecialPermission::VIEW_FILAMENT->value,
+                CrudPermission::VIEW->format(ExternalProfileModel::class)
+            )
+            ->createOne();
+
+        $this->actingAs($user);
+
+        $record = ExternalProfileModel::factory()->createOne();
+
+        $this->get(ExternalProfile::getUrl('view', ['record' => $record]))
+            ->assertSuccessful();
+    }
+
+    /**
      * The index page of the resource shall be rendered.
      *
      * @return void
@@ -81,11 +106,11 @@ class ExternalProfileTest extends BaseResourceTestCase
     }
 
     /**
-     * The create page of the resource shall be rendered.
+     * The create action of the resource shall be mounted.
      *
      * @return void
      */
-    public function testRenderCreatePage(): void
+    public function testMountCreateAction(): void
     {
         $user = User::factory()
             ->withAdmin()
@@ -97,16 +122,17 @@ class ExternalProfileTest extends BaseResourceTestCase
 
         $this->actingAs($user);
 
-        $this->get(ExternalProfile::getUrl('create'))
-            ->assertSuccessful();
+        Livewire::test(static::getIndexPage())
+            ->mountAction(CreateHeaderAction::class)
+            ->assertActionMounted(CreateHeaderAction::class);
     }
 
     /**
-     * The edit page of the resource shall be rendered.
+     * The create action of the resource shall be mounted.
      *
      * @return void
      */
-    public function testRenderEditPage(): void
+    public function testMountEditAction(): void
     {
         $user = User::factory()
             ->withAdmin()
@@ -120,30 +146,8 @@ class ExternalProfileTest extends BaseResourceTestCase
 
         $record = ExternalProfileModel::factory()->createOne();
 
-        $this->get(ExternalProfile::getUrl('edit', ['record' => $record]))
-            ->assertSuccessful();
-    }
-
-    /**
-     * The view page of the resource shall be rendered.
-     *
-     * @return void
-     */
-    public function testRenderViewPage(): void
-    {
-        $user = User::factory()
-            ->withAdmin()
-            ->withPermissions(
-                SpecialPermission::VIEW_FILAMENT->value,
-                CrudPermission::VIEW->format(ExternalProfileModel::class)
-            )
-            ->createOne();
-
-        $this->actingAs($user);
-
-        $record = ExternalProfileModel::factory()->createOne();
-
-        $this->get(ExternalProfile::getUrl('view', ['record' => $record]))
-            ->assertSuccessful();
+        Livewire::test(static::getIndexPage())
+            ->mountTableAction(EditAction::class, $record)
+            ->assertTableActionMounted(EditAction::class);
     }
 }

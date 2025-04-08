@@ -12,8 +12,6 @@ use App\Filament\Components\Fields\Slug;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\ExternalResource\RelationManagers\StudioResourceRelationManager;
-use App\Filament\Resources\Wiki\Studio\Pages\CreateStudio;
-use App\Filament\Resources\Wiki\Studio\Pages\EditStudio;
 use App\Filament\Resources\Wiki\Studio\Pages\ListStudios;
 use App\Filament\Resources\Wiki\Studio\Pages\ViewStudio;
 use App\Filament\Resources\Wiki\Studio\RelationManagers\AnimeStudioRelationManager;
@@ -296,9 +294,7 @@ class Studio extends BaseResource
     {
         return [
             'index' => ListStudios::route('/'),
-            'create' => CreateStudio::route('/create'),
             'view' => ViewStudio::route('/{record:studio_id}'),
-            'edit' => EditStudio::route('/{record:studio_id}/edit'),
         ];
     }
 }

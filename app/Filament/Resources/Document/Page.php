@@ -9,8 +9,6 @@ use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\Select;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\BaseResource;
-use App\Filament\Resources\Document\Page\Pages\CreatePage;
-use App\Filament\Resources\Document\Page\Pages\EditPage;
 use App\Filament\Resources\Document\Page\Pages\ListPages;
 use App\Filament\Resources\Document\Page\Pages\ViewPage;
 use App\Models\Document\Page as PageModel;
@@ -353,9 +351,7 @@ class Page extends BaseResource
     {
         return [
             'index' => ListPages::route('/'),
-            'create' => CreatePage::route('/create'),
             'view' => ViewPage::route('/{record:page_id}'),
-            'edit' => EditPage::route('/{record:page_id}/edit'),
         ];
     }
 }

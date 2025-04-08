@@ -14,8 +14,6 @@ use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\List\Playlist as PlaylistResource;
 use App\Filament\Resources\List\Playlist\RelationManagers\TrackPlaylistRelationManager;
-use App\Filament\Resources\List\Playlist\Track\Pages\CreateTrack;
-use App\Filament\Resources\List\Playlist\Track\Pages\EditTrack;
 use App\Filament\Resources\List\Playlist\Track\Pages\ListTracks;
 use App\Filament\Resources\List\Playlist\Track\Pages\ViewTrack;
 use App\Filament\Resources\Wiki\Anime\Theme\Entry;
@@ -371,9 +369,7 @@ class Track extends BaseResource
     {
         return [
             'index' => ListTracks::route('/'),
-            'create' => CreateTrack::route('/create'),
             'view' => ViewTrack::route('/{record:track_id}'),
-            'edit' => EditTrack::route('/{record:track_id}/edit'),
         ];
     }
 }

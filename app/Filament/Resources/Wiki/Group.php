@@ -7,8 +7,6 @@ namespace App\Filament\Resources\Wiki;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\BaseResource;
-use App\Filament\Resources\Wiki\Group\Pages\CreateGroup;
-use App\Filament\Resources\Wiki\Group\Pages\EditGroup;
 use App\Filament\Resources\Wiki\Group\Pages\ListGroups;
 use App\Filament\Resources\Wiki\Group\Pages\ViewGroup;
 use App\Filament\Resources\Wiki\Group\RelationManagers\ThemeGroupRelationManager;
@@ -273,9 +271,7 @@ class Group extends BaseResource
     {
         return [
             'index' => ListGroups::route('/'),
-            'create' => CreateGroup::route('/create'),
             'view' => ViewGroup::route('/{record:group_id}'),
-            'edit' => EditGroup::route('/{record:group_id}/edit'),
         ];
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\HeaderActions\Base;
 
+use App\Models\Admin\ActionLog;
 use Filament\Actions\CreateAction as DefaultCreateAction;
 
 /**
@@ -19,5 +20,6 @@ class CreateHeaderAction extends DefaultCreateAction
     protected function setUp(): void
     {
         parent::setUp();
+        $this->after(fn ($record) => ActionLog::modelCreated($record));
     }
 }

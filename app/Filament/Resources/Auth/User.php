@@ -11,8 +11,6 @@ use App\Filament\Actions\Models\Auth\User\RevokeRoleAction;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\BaseResource;
-use App\Filament\Resources\Auth\User\Pages\CreateUser;
-use App\Filament\Resources\Auth\User\Pages\EditUser;
 use App\Filament\Resources\Auth\User\Pages\ListUsers;
 use App\Filament\Resources\Auth\User\Pages\ViewUser;
 use App\Filament\Resources\Auth\User\RelationManagers\PermissionUserRelationManager;
@@ -305,9 +303,7 @@ class User extends BaseResource
     {
         return [
             'index' => ListUsers::route('/'),
-            'create' => CreateUser::route('/create'),
             'view' => ViewUser::route('/{record:id}'),
-            'edit' => EditUser::route('/{record:id}/edit'),
         ];
     }
 }

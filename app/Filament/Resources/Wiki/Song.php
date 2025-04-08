@@ -9,8 +9,6 @@ use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\ExternalResource\RelationManagers\SongResourceRelationManager;
-use App\Filament\Resources\Wiki\Song\Pages\CreateSong;
-use App\Filament\Resources\Wiki\Song\Pages\EditSong;
 use App\Filament\Resources\Wiki\Song\Pages\ListSongs;
 use App\Filament\Resources\Wiki\Song\Pages\ViewSong;
 use App\Filament\Resources\Wiki\Song\RelationManagers\PerformanceSongRelationManager;
@@ -294,9 +292,7 @@ class Song extends BaseResource
     {
         return [
             'index' => ListSongs::route('/'),
-            'create' => CreateSong::route('/create'),
             'view' => ViewSong::route('/{record:song_id}'),
-            'edit' => EditSong::route('/{record:song_id}/edit'),
         ];
     }
 }

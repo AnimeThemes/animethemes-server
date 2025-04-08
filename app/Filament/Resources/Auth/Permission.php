@@ -8,8 +8,6 @@ use App\Filament\Actions\Models\Auth\Permission\GiveRoleAction;
 use App\Filament\Actions\Models\Auth\Permission\RevokeRoleAction;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Infolist\TextEntry;
-use App\Filament\Resources\Auth\Permission\Pages\CreatePermission;
-use App\Filament\Resources\Auth\Permission\Pages\EditPermission;
 use App\Filament\Resources\Auth\Permission\Pages\ListPermissions;
 use App\Filament\Resources\Auth\Permission\Pages\ViewPermission;
 use App\Filament\Resources\Auth\Permission\RelationManagers\RolePermissionRelationManager;
@@ -270,9 +268,7 @@ class Permission extends BaseResource
     {
         return [
             'index' => ListPermissions::route('/'),
-            'create' => CreatePermission::route('/create'),
             'view' => ViewPermission::route('/{record:id}'),
-            'edit' => EditPermission::route('/{record:id}/edit'),
         ];
     }
 }

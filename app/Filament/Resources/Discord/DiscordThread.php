@@ -12,8 +12,6 @@ use App\Filament\Components\Filters\DateFilter;
 use App\Filament\Components\Infolist\BelongsToEntry;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\BaseResource;
-use App\Filament\Resources\Discord\DiscordThread\Pages\CreateDiscordThread;
-use App\Filament\Resources\Discord\DiscordThread\Pages\EditDiscordThread;
 use App\Filament\Resources\Discord\DiscordThread\Pages\ListDiscordThreads;
 use App\Filament\Resources\Discord\DiscordThread\Pages\ViewDiscordThread;
 use App\Filament\Resources\Wiki\Anime as AnimeResource;
@@ -301,9 +299,7 @@ class DiscordThread extends BaseResource
     {
         return [
             'index' => ListDiscordThreads::route('/'),
-            'create' => CreateDiscordThread::route('/create'),
             'view' => ViewDiscordThread::route('/{record:thread_id}'),
-            'edit' => EditDiscordThread::route('/{record:thread_id}/edit'),
         ];
     }
 }

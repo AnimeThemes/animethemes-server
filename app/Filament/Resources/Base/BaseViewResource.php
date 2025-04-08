@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Base;
 
+use App\Filament\HeaderActions\Base\DeleteHeaderAction;
 use App\Filament\HeaderActions\Base\EditHeaderAction;
+use App\Filament\HeaderActions\Base\ForceDeleteHeaderAction;
+use App\Filament\HeaderActions\Base\RestoreHeaderAction;
 use Awcodes\Recently\Concerns\HasRecentHistoryRecorder;
+use Filament\Actions\ActionGroup;
 use Filament\Resources\Pages\ViewRecord;
-use Illuminate\Support\Arr;
 
 /**
  * Class BaseViewResource.
@@ -25,21 +28,19 @@ class BaseViewResource extends ViewRecord
      */
     protected function getHeaderActions(): array
     {
-        $pages = static::$resource::getPages();
+        return [
+            EditHeaderAction::make(),
 
-        if (Arr::has($pages, 'edit')) {
-            $editPage = $pages['edit']->getPage();
-            $action = (new $editPage)->getHeaderActions();
-        } else {
-            $action = [];
-        }
+            ActionGroup::make([
+                DeleteHeaderAction::make()
+                    ->label(__('filament.actions.base.delete')),
 
-        return array_merge(
-            [
-                EditHeaderAction::make()
-                    ->visible(Arr::has($pages, 'edit')),
-            ],
-            $action,
-        );
+                ForceDeleteHeaderAction::make(),
+            ])
+                ->icon(__('filament-icons.actions.base.group_delete'))
+                ->color('danger'),
+
+            RestoreHeaderAction::make(),
+        ];
     }
 }

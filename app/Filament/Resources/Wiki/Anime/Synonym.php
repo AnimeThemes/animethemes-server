@@ -15,8 +15,6 @@ use App\Filament\RelationManagers\Wiki\Anime\SynonymRelationManager;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Anime as AnimeResource;
 use App\Filament\Resources\Wiki\Anime\RelationManagers\SynonymAnimeRelationManager;
-use App\Filament\Resources\Wiki\Anime\Synonym\Pages\CreateSynonym;
-use App\Filament\Resources\Wiki\Anime\Synonym\Pages\EditSynonym;
 use App\Filament\Resources\Wiki\Anime\Synonym\Pages\ListSynonyms;
 use App\Filament\Resources\Wiki\Anime\Synonym\Pages\ViewSynonym;
 use App\Models\Wiki\Anime\AnimeSynonym as SynonymModel;
@@ -312,9 +310,7 @@ class Synonym extends BaseResource
     {
         return [
             'index' => ListSynonyms::route('/'),
-            'create' => CreateSynonym::route('/create'),
             'view' => ViewSynonym::route('/{record:synonym_id}'),
-            'edit' => EditSynonym::route('/{record:synonym_id}/edit'),
         ];
     }
 }

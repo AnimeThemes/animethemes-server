@@ -6,6 +6,10 @@ namespace Tests\Unit\Filament\Resources\Wiki;
 
 use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\SpecialPermission;
+use App\Filament\Actions\Base\DeleteAction;
+use App\Filament\Actions\Base\EditAction;
+use App\Filament\Actions\Base\ForceDeleteAction;
+use App\Filament\Actions\Base\RestoreAction;
 use App\Filament\HeaderActions\Base\DeleteHeaderAction;
 use App\Filament\HeaderActions\Base\ForceDeleteHeaderAction;
 use App\Filament\HeaderActions\Base\RestoreHeaderAction;
@@ -70,48 +74,6 @@ class ExternalResourceTest extends BaseResourceTestCase
     }
 
     /**
-     * The create page of the resource shall be rendered.
-     *
-     * @return void
-     */
-    public function testRenderCreatePage(): void
-    {
-        $user = User::factory()
-            ->withPermissions(
-                SpecialPermission::VIEW_FILAMENT->value,
-                CrudPermission::CREATE->format(ExternalResourceModel::class)
-            )
-            ->createOne();
-
-        $this->actingAs($user);
-
-        $this->get(ExternalResource::getUrl('create'))
-            ->assertSuccessful();
-    }
-
-    /**
-     * The edit page of the resource shall be rendered.
-     *
-     * @return void
-     */
-    public function testRenderEditPage(): void
-    {
-        $user = User::factory()
-            ->withPermissions(
-                SpecialPermission::VIEW_FILAMENT->value,
-                CrudPermission::UPDATE->format(ExternalResourceModel::class)
-            )
-            ->createOne();
-
-        $this->actingAs($user);
-
-        $record = ExternalResourceModel::factory()->createOne();
-
-        $this->get(ExternalResource::getUrl('edit', ['record' => $record]))
-            ->assertSuccessful();
-    }
-
-    /**
      * The view page of the resource shall be rendered.
      *
      * @return void
@@ -134,14 +96,26 @@ class ExternalResourceTest extends BaseResourceTestCase
     }
 
     /**
-     * The user with no permissions cannot create a record.
+     * The create action of the resource shall be mounted.
      *
      * @return void
      */
-    public function testUserCannotCreateRecord(): void
+    public function testMountEditAction(): void
     {
-        $this->get(ExternalResource::getUrl('create'))
-            ->assertForbidden();
+        $user = User::factory()
+            ->withPermissions(
+                SpecialPermission::VIEW_FILAMENT->value,
+                CrudPermission::UPDATE->format(ExternalResourceModel::class)
+            )
+            ->createOne();
+
+        $this->actingAs($user);
+
+        $record = ExternalResourceModel::factory()->createOne();
+
+        Livewire::test(static::getIndexPage())
+            ->mountTableAction(EditAction::class, $record)
+            ->assertTableActionMounted(EditAction::class);
     }
 
     /**
@@ -153,8 +127,8 @@ class ExternalResourceTest extends BaseResourceTestCase
     {
         $record = ExternalResourceModel::factory()->createOne();
 
-        $this->get(ExternalResource::getUrl('edit', ['record' => $record]))
-            ->assertForbidden();
+        Livewire::test(static::getIndexPage())
+            ->assertTableActionHidden(EditAction::class, $record);
     }
 
     /**
@@ -168,6 +142,9 @@ class ExternalResourceTest extends BaseResourceTestCase
 
         Livewire::test(static::getViewPage(), ['record' => $record->getKey()])
             ->assertActionHidden(DeleteHeaderAction::class);
+
+        Livewire::test(static::getIndexPage())
+            ->assertTableActionHidden(DeleteAction::class, $record);
     }
 
     /**
@@ -183,6 +160,9 @@ class ExternalResourceTest extends BaseResourceTestCase
 
         Livewire::test(static::getViewPage(), ['record' => $record->getKey()])
             ->assertActionHidden(RestoreHeaderAction::class);
+
+        Livewire::test(static::getIndexPage())
+            ->assertTableActionHidden(RestoreAction::class, $record);
     }
 
     /**
@@ -196,5 +176,8 @@ class ExternalResourceTest extends BaseResourceTestCase
 
         Livewire::test(static::getViewPage(), ['record' => $record->getKey()])
             ->assertActionHidden(ForceDeleteHeaderAction::class);
+
+        Livewire::test(static::getIndexPage())
+            ->assertTableActionHidden(ForceDeleteAction::class, $record);
     }
 }

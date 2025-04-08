@@ -16,8 +16,6 @@ use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Anime as AnimeResource;
 use App\Filament\Resources\Wiki\Anime\Theme as ThemeResource;
-use App\Filament\Resources\Wiki\Anime\Theme\Entry\Pages\CreateEntry;
-use App\Filament\Resources\Wiki\Anime\Theme\Entry\Pages\EditEntry;
 use App\Filament\Resources\Wiki\Anime\Theme\Entry\Pages\ListEntries;
 use App\Filament\Resources\Wiki\Anime\Theme\Entry\Pages\ViewEntry;
 use App\Filament\Resources\Wiki\Anime\Theme\Entry\RelationManagers\VideoEntryRelationManager;
@@ -169,7 +167,7 @@ class Entry extends BaseResource
                     ->live(true)
                     ->required()
                     ->rules(['required'])
-                    ->visibleOn([CreateEntry::class, EditEntry::class])
+                    ->visibleOn(['create', 'edit'])
                     ->saveRelationshipsUsing(fn (EntryModel $record, $state) => $record->animetheme->anime()->associate(intval($state))->save()),
 
                 Select::make(EntryModel::ATTRIBUTE_THEME)
@@ -177,7 +175,7 @@ class Entry extends BaseResource
                     ->relationship(EntryModel::RELATION_THEME, ThemeModel::ATTRIBUTE_ID)
                     ->required()
                     ->rules(['required'])
-                    ->visibleOn([CreateEntry::class, EditEntry::class])
+                    ->visibleOn(['create', 'edit'])
                     ->options(function (Get $get) {
                         return ThemeModel::query()
                             ->where(ThemeModel::ATTRIBUTE_ANIME, $get(EntryModel::RELATION_THEME . '.' . ThemeModel::ATTRIBUTE_ANIME))
@@ -398,9 +396,7 @@ class Entry extends BaseResource
     {
         return [
             'index' => ListEntries::route('/'),
-            'create' => CreateEntry::route('/create'),
             'view' => ViewEntry::route('/{record:entry_id}'),
-            'edit' => EditEntry::route('/{record:entry_id}/edit'),
         ];
     }
 }

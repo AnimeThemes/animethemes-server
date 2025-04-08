@@ -17,8 +17,6 @@ use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Anime as AnimeResource;
 use App\Filament\Resources\Wiki\Anime\RelationManagers\ThemeAnimeRelationManager;
 use App\Filament\Resources\Wiki\Anime\Theme\Entry;
-use App\Filament\Resources\Wiki\Anime\Theme\Pages\CreateTheme;
-use App\Filament\Resources\Wiki\Anime\Theme\Pages\EditTheme;
 use App\Filament\Resources\Wiki\Anime\Theme\Pages\ListThemes;
 use App\Filament\Resources\Wiki\Anime\Theme\Pages\ViewTheme;
 use App\Filament\Resources\Wiki\Anime\Theme\RelationManagers\EntryThemeRelationManager;
@@ -236,7 +234,6 @@ class Theme extends BaseResource
 
                         Tab::make('entries')
                             ->label(__('filament.resources.label.anime_theme_entries'))
-                            ->hiddenOn(EditTheme::class)
                             ->schema([
                                 Repeater::make(ThemeModel::RELATION_ENTRIES)
                                     ->label(__('filament.resources.label.anime_theme_entries'))
@@ -461,9 +458,7 @@ class Theme extends BaseResource
     {
         return [
             'index' => ListThemes::route('/'),
-            'create' => CreateTheme::route('/create'),
             'view' => ViewTheme::route('/{record:theme_id}'),
-            'edit' => EditTheme::route('/{record:theme_id}/edit'),
         ];
     }
 }

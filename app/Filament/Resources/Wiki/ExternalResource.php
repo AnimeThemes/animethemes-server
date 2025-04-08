@@ -11,8 +11,6 @@ use App\Filament\Components\Filters\NumberFilter;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\RelationManagers\Wiki\ResourceRelationManager;
 use App\Filament\Resources\BaseResource;
-use App\Filament\Resources\Wiki\ExternalResource\Pages\CreateExternalResource;
-use App\Filament\Resources\Wiki\ExternalResource\Pages\EditExternalResource;
 use App\Filament\Resources\Wiki\ExternalResource\Pages\ListExternalResources;
 use App\Filament\Resources\Wiki\ExternalResource\Pages\ViewExternalResource;
 use App\Filament\Resources\Wiki\ExternalResource\RelationManagers\AnimeResourceRelationManager;
@@ -314,9 +312,7 @@ class ExternalResource extends BaseResource
     {
         return [
             'index' => ListExternalResources::route('/'),
-            'create' => CreateExternalResource::route('/create'),
             'view' => ViewExternalResource::route('/{record:resource_id}'),
-            'edit' => EditExternalResource::route('/{record:resource_id}/edit'),
         ];
     }
 }

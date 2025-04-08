@@ -19,7 +19,6 @@ use App\Filament\Components\Filters\NumberFilter;
 use App\Filament\Components\Infolist\BelongsToEntry;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\BaseResource;
-use App\Filament\Resources\Wiki\Video\Pages\EditVideo;
 use App\Filament\Resources\Wiki\Video\Pages\ListVideos;
 use App\Filament\Resources\Wiki\Video\Pages\ViewVideo;
 use App\Filament\Resources\Wiki\Video\RelationManagers\EntryVideoRelationManager;
@@ -453,7 +452,6 @@ class Video extends BaseResource
         return [
             'index' => ListVideos::route('/'),
             'view' => ViewVideo::route('/{record:video_id}'),
-            'edit' => EditVideo::route("/{record:video_id}/edit"),
         ];
     }
 }

@@ -11,7 +11,6 @@ use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Filters\NumberFilter;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\BaseResource;
-use App\Filament\Resources\Wiki\Audio\Pages\EditAudio;
 use App\Filament\Resources\Wiki\Audio\Pages\ListAudios;
 use App\Filament\Resources\Wiki\Audio\Pages\ViewAudio;
 use App\Filament\Resources\Wiki\Audio\RelationManagers\VideoAudioRelationManager;
@@ -291,7 +290,6 @@ class Audio extends BaseResource
         return [
             'index' => ListAudios::route('/'),
             'view' => ViewAudio::route('/{record:audio_id}'),
-            'edit' => EditAudio::route('/{record:audio_id}/edit'),
         ];
     }
 }

@@ -14,8 +14,6 @@ use App\Filament\Components\Infolist\BelongsToEntry;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\Auth\User;
 use App\Filament\Resources\BaseResource;
-use App\Filament\Resources\List\External\Pages\CreateExternalProfile;
-use App\Filament\Resources\List\External\Pages\EditExternalProfile;
 use App\Filament\Resources\List\External\Pages\ListExternalProfiles;
 use App\Filament\Resources\List\External\Pages\ViewExternalProfile;
 use App\Filament\Resources\List\External\RelationManagers\ExternalEntryExternalProfileRelationManager;
@@ -318,9 +316,7 @@ class ExternalProfile extends BaseResource
     {
         return [
             'index' => ListExternalProfiles::route('/'),
-            'create' => CreateExternalProfile::route('/create'),
             'view' => ViewExternalProfile::route('/{record:profile_id}'),
-            'edit' => EditExternalProfile::route('/{record:profile_id}/edit'),
         ];
     }
 }

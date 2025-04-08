@@ -6,6 +6,7 @@ namespace Tests\Unit\Filament\Resources\List\External;
 
 use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\SpecialPermission;
+use App\Filament\Actions\Base\EditAction;
 use App\Filament\Resources\List\External\ExternalEntry;
 use App\Models\Auth\User;
 use App\Models\List\External\ExternalEntry as ExternalEntryModel;
@@ -84,31 +85,6 @@ class ExternalEntryTest extends BaseResourceTestCase
     }
 
     /**
-     * The edit page of the resource shall be rendered.
-     *
-     * @return void
-     */
-    public function testRenderEditPage(): void
-    {
-        $user = User::factory()
-            ->withAdmin()
-            ->withPermissions(
-                SpecialPermission::VIEW_FILAMENT->value,
-                CrudPermission::UPDATE->format(ExternalEntryModel::class),
-            )
-            ->createOne();
-
-        $this->actingAs($user);
-
-        $profile = ExternalProfile::factory()->entries(3)->createOne();
-
-        $record = $profile->externalentries->first();
-
-        $this->get(ExternalEntry::getUrl('edit', ['record' => $record]))
-            ->assertSuccessful();
-    }
-
-    /**
      * The view page of the resource shall be rendered.
      *
      * @return void
@@ -132,5 +108,31 @@ class ExternalEntryTest extends BaseResourceTestCase
 
         $this->get(ExternalEntry::getUrl('view', ['record' => $record]))
             ->assertSuccessful();
+    }
+
+    /**
+     * The create action of the resource shall be mounted.
+     *
+     * @return void
+     */
+    public function testMountEditAction(): void
+    {
+        $user = User::factory()
+            ->withAdmin()
+            ->withPermissions(
+                SpecialPermission::VIEW_FILAMENT->value,
+                CrudPermission::UPDATE->format(ExternalEntryModel::class),
+            )
+            ->createOne();
+
+        $this->actingAs($user);
+
+        $profile = ExternalProfile::factory()->entries(3)->createOne();
+
+        $record = $profile->externalentries->first();
+
+        Livewire::test(static::getIndexPage())
+            ->mountTableAction(EditAction::class, $record)
+            ->assertTableActionMounted(EditAction::class);
     }
 }

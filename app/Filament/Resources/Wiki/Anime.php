@@ -16,8 +16,6 @@ use App\Filament\Components\Fields\Slug;
 use App\Filament\Components\Filters\NumberFilter;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\BaseResource;
-use App\Filament\Resources\Wiki\Anime\Pages\CreateAnime;
-use App\Filament\Resources\Wiki\Anime\Pages\EditAnime;
 use App\Filament\Resources\Wiki\Anime\Pages\ListAnimes;
 use App\Filament\Resources\Wiki\Anime\Pages\ViewAnime;
 use App\Filament\Resources\Wiki\Anime\RelationManagers\ImageAnimeRelationManager;
@@ -416,9 +414,7 @@ class Anime extends BaseResource
     {
         return [
             'index' => ListAnimes::route('/'),
-            'create' => CreateAnime::route('/create'),
             'view' => ViewAnime::route('/{record:anime_id}'),
-            'edit' => EditAnime::route('/{record:anime_id}/edit'),
         ];
     }
 }

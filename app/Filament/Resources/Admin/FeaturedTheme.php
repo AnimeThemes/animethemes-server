@@ -11,8 +11,6 @@ use App\Filament\Components\Fields\BelongsTo;
 use App\Filament\Components\Fields\Select;
 use App\Filament\Components\Infolist\BelongsToEntry;
 use App\Filament\Components\Infolist\TextEntry;
-use App\Filament\Resources\Admin\FeaturedTheme\Pages\CreateFeaturedTheme;
-use App\Filament\Resources\Admin\FeaturedTheme\Pages\EditFeaturedTheme;
 use App\Filament\Resources\Admin\FeaturedTheme\Pages\ListFeaturedThemes;
 use App\Filament\Resources\Admin\FeaturedTheme\Pages\ViewFeaturedTheme;
 use App\Filament\Resources\Auth\User as UserResource;
@@ -362,9 +360,7 @@ class FeaturedTheme extends BaseResource
     {
         return [
             'index' => ListFeaturedThemes::route('/'),
-            'create' => CreateFeaturedTheme::route('/create'),
             'view' => ViewFeaturedTheme::route('/{record:featured_theme_id}'),
-            'edit' => EditFeaturedTheme::route('/{record:featured_theme_id}/edit'),
         ];
     }
 }

@@ -11,8 +11,6 @@ use App\Filament\Components\Fields\Slug;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Anime\Theme\Pages\ViewTheme;
-use App\Filament\Resources\Wiki\Artist\Pages\CreateArtist;
-use App\Filament\Resources\Wiki\Artist\Pages\EditArtist;
 use App\Filament\Resources\Wiki\Artist\Pages\ListArtists;
 use App\Filament\Resources\Wiki\Artist\Pages\ViewArtist;
 use App\Filament\Resources\Wiki\Artist\RelationManagers\GroupArtistRelationManager;
@@ -350,9 +348,7 @@ class Artist extends BaseResource
     {
         return [
             'index' => ListArtists::route('/'),
-            'create' => CreateArtist::route('/create'),
             'view' => ViewArtist::route('/{record:artist_id}'),
-            'edit' => EditArtist::route('/{record:artist_id}/edit'),
         ];
     }
 }
