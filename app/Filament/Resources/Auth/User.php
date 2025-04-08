@@ -91,8 +91,6 @@ class User extends BaseResource
      * Get the slug (URI key) for the resource.
      *
      * @return string
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getRecordSlug(): string
     {
@@ -217,16 +215,13 @@ class User extends BaseResource
     public static function getRelations(): array
     {
         return [
-            RelationGroup::make(static::getLabel(),
-                array_merge(
-                    [
-                        RoleUserRelationManager::class,
-                        PermissionUserRelationManager::class,
-                        PlaylistUserRelationManager::class,
-                    ],
-                    parent::getBaseRelations(),
-                )
-            ),
+            RelationGroup::make(static::getLabel(), [
+                RoleUserRelationManager::class,
+                PermissionUserRelationManager::class,
+                PlaylistUserRelationManager::class,
+
+                ...parent::getBaseRelations(),
+            ]),
         ];
     }
 
@@ -249,20 +244,19 @@ class User extends BaseResource
      */
     public static function getActions(): array
     {
-        return array_merge(
-            parent::getActions(),
-            [
-                ActionGroup::make([
-                    GiveRoleAction::make('give-role'),
+        return [
+            ...parent::getActions(),
 
-                    RevokeRoleAction::make('revoke-role'),
+            ActionGroup::make([
+                GiveRoleAction::make('give-role'),
 
-                    GivePermissionAction::make('give-permission'),
+                RevokeRoleAction::make('revoke-role'),
 
-                    RevokePermissionAction::make('revoke-permission'),
-                ]),
-            ],
-        );
+                GivePermissionAction::make('give-permission'),
+
+                RevokePermissionAction::make('revoke-permission'),
+            ]),
+        ];
     }
 
     /**
@@ -273,10 +267,9 @@ class User extends BaseResource
      */
     public static function getBulkActions(?array $actionsIncludedInGroup = []): array
     {
-        return array_merge(
-            parent::getBulkActions(),
-            [],
-        );
+        return [
+            ...parent::getBulkActions(),
+        ];
     }
 
     /**
@@ -286,10 +279,9 @@ class User extends BaseResource
      */
     public static function getTableActions(): array
     {
-        return array_merge(
-            parent::getTableActions(),
-            [],
-        );
+        return [
+            ...parent::getTableActions(),
+        ];
     }
 
     /**

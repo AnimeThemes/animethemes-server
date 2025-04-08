@@ -86,8 +86,6 @@ class Permission extends BaseResource
      * Get the slug (URI key) for the resource.
      *
      * @return string
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getRecordSlug(): string
     {
@@ -188,14 +186,10 @@ class Permission extends BaseResource
     public static function getRelations(): array
     {
         return [
-            RelationGroup::make(static::getLabel(),
-                array_merge(
-                    [
-                        RolePermissionRelationManager::class,
-                        UserPermissionRelationManager::class,
-                    ],
-                )
-            ),
+            RelationGroup::make(static::getLabel(), [
+                RolePermissionRelationManager::class,
+                UserPermissionRelationManager::class,
+            ]),
         ];
     }
 
@@ -218,16 +212,15 @@ class Permission extends BaseResource
      */
     public static function getActions(): array
     {
-        return array_merge(
-            parent::getActions(),
-            [
-                ActionGroup::make([
-                    GiveRoleAction::make('give-role'),
+        return [
+            ...parent::getActions(),
 
-                    RevokeRoleAction::make('revoke-role'),
-                ]),
-            ],
-        );
+            ActionGroup::make([
+                GiveRoleAction::make('give-role'),
+
+                RevokeRoleAction::make('revoke-role'),
+            ]),
+        ];
     }
 
     /**
@@ -238,10 +231,9 @@ class Permission extends BaseResource
      */
     public static function getBulkActions(?array $actionsIncludedInGroup = []): array
     {
-        return array_merge(
-            parent::getBulkActions(),
-            [],
-        );
+        return [
+            ...parent::getBulkActions(),
+        ];
     }
 
     /**
@@ -251,10 +243,9 @@ class Permission extends BaseResource
      */
     public static function getTableActions(): array
     {
-        return array_merge(
-            parent::getTableActions(),
-            [],
-        );
+        return [
+            ...parent::getTableActions(),
+        ];
     }
 
     /**

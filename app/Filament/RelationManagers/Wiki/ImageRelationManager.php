@@ -58,10 +58,9 @@ abstract class ImageRelationManager extends BaseRelationManager
      */
     public static function getFilters(): array
     {
-        return array_merge(
-            [],
-            ImageResource::getFilters(),
-        );
+        return [
+            ...ImageResource::getFilters(),
+        ];
     }
 
     /**
@@ -71,10 +70,10 @@ abstract class ImageRelationManager extends BaseRelationManager
      */
     public static function getActions(): array
     {
-        return array_merge(
-            parent::getActions(),
-            ImageResource::getActions(),
-        );
+        return [
+            ...parent::getActions(),
+            ...ImageResource::getActions(),
+        ];
     }
 
     /**
@@ -85,24 +84,26 @@ abstract class ImageRelationManager extends BaseRelationManager
      */
     public static function getBulkActions(?array $actionsIncludedInGroup = []): array
     {
-        return array_merge(
-            parent::getBulkActions(),
-            ImageResource::getBulkActions(),
-        );
+        return [
+            ...parent::getBulkActions(),
+            ...ImageResource::getBulkActions(),
+        ];
     }
 
     /**
-     * Get the header actions available for the relation. These are merged with the table actions of the resources.
+     * Get the header actions available for the relation.
+     * These are merged with the table actions of the resources.
      *
      * @return array
      */
     public static function getHeaderActions(): array
     {
-        return array_merge(
-            parent::getHeaderActions(),
-            ImageResource::getTableActions(),
-            [AttachImageAction::make('attachimage')],
-        );
+        return [
+            ...parent::getHeaderActions(),
+            ...ImageResource::getTableActions(),
+
+            AttachImageAction::make('attachimage'),
+        ];
     }
 
     /**

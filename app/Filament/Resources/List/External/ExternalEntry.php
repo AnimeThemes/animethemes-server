@@ -94,8 +94,6 @@ class ExternalEntry extends BaseResource
      * Get the slug (URI key) for the resource.
      *
      * @return string
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getRecordSlug(): string
     {
@@ -239,13 +237,9 @@ class ExternalEntry extends BaseResource
     public static function getRelations(): array
     {
         return [
-            RelationGroup::make(
-                static::getLabel(),
-                array_merge(
-                    [],
-                    parent::getBaseRelations(),
-                )
-            ),
+            RelationGroup::make(static::getLabel(), [
+                ...parent::getBaseRelations(),
+            ]),
         ];
     }
 
@@ -256,10 +250,9 @@ class ExternalEntry extends BaseResource
      */
     public static function getFilters(): array
     {
-        return array_merge(
-            parent::getFilters(),
-            []
-        );
+        return [
+            ...parent::getFilters(),
+        ];
     }
 
     /**
@@ -269,10 +262,9 @@ class ExternalEntry extends BaseResource
      */
     public static function getActions(): array
     {
-        return array_merge(
-            parent::getActions(),
-            [],
-        );
+        return [
+            ...parent::getActions(),
+        ];
     }
 
     /**
@@ -283,10 +275,9 @@ class ExternalEntry extends BaseResource
      */
     public static function getBulkActions(?array $actionsIncludedInGroup = []): array
     {
-        return array_merge(
-            parent::getBulkActions(),
-            [],
-        );
+        return [
+            ...parent::getBulkActions(),
+        ];
     }
 
     /**
@@ -296,10 +287,9 @@ class ExternalEntry extends BaseResource
      */
     public static function getTableActions(): array
     {
-        return array_merge(
-            parent::getTableActions(),
-            [],
-        );
+        return [
+            ...parent::getTableActions(),
+        ];
     }
 
     /**

@@ -57,10 +57,9 @@ abstract class EntryRelationManager extends BaseRelationManager
      */
     public static function getFilters(): array
     {
-        return array_merge(
-            [],
+        return [
             EntryResource::getFilters(),
-        );
+        ];
     }
 
     /**
@@ -70,10 +69,10 @@ abstract class EntryRelationManager extends BaseRelationManager
      */
     public static function getActions(): array
     {
-        return array_merge(
-            parent::getActions(),
-            EntryResource::getActions(),
-        );
+        return [
+            ...parent::getActions(),
+            ...EntryResource::getActions(),
+        ];
     }
 
     /**
@@ -84,22 +83,23 @@ abstract class EntryRelationManager extends BaseRelationManager
      */
     public static function getBulkActions(?array $actionsIncludedInGroup = []): array
     {
-        return array_merge(
-            parent::getBulkActions(),
-            EntryResource::getBulkActions(),
-        );
+        return [
+            ...parent::getBulkActions(),
+            ...EntryResource::getBulkActions(),
+        ];
     }
 
     /**
-     * Get the header actions available for the relation. These are merged with the table actions of the resources.
+     * Get the header actions available for the relation.
+     * These are merged with the table actions of the resources.
      *
      * @return array
      */
     public static function getHeaderActions(): array
     {
-        return array_merge(
-            parent::getHeaderActions(),
-            EntryResource::getTableActions(),
-        );
+        return [
+            ...parent::getHeaderActions(),
+            ...EntryResource::getTableActions(),
+        ];
     }
 }

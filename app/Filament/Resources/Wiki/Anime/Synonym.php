@@ -93,8 +93,6 @@ class Synonym extends BaseResource
      * Get the slug (URI key) for the resource.
      *
      * @return string
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getRecordSlug(): string
     {
@@ -233,12 +231,9 @@ class Synonym extends BaseResource
     public static function getRelations(): array
     {
         return [
-            RelationGroup::make(static::getLabel(),
-                array_merge(
-                    [],
-                    parent::getBaseRelations(),
-                )
-            ),
+            RelationGroup::make(static::getLabel(),[
+                ...parent::getBaseRelations(),
+            ]),
         ];
     }
 
@@ -249,14 +244,13 @@ class Synonym extends BaseResource
      */
     public static function getFilters(): array
     {
-        return array_merge(
-            [
-                SelectFilter::make(SynonymModel::ATTRIBUTE_TYPE)
-                    ->label(__('filament.fields.anime_synonym.type.name'))
-                    ->options(AnimeSynonymType::asSelectArray()),
-            ],
-            parent::getFilters(),
-        );
+        return [
+            SelectFilter::make(SynonymModel::ATTRIBUTE_TYPE)
+                ->label(__('filament.fields.anime_synonym.type.name'))
+                ->options(AnimeSynonymType::asSelectArray()),
+
+            ...parent::getFilters(),
+        ];
     }
 
     /**
@@ -266,10 +260,9 @@ class Synonym extends BaseResource
      */
     public static function getActions(): array
     {
-        return array_merge(
-            parent::getActions(),
-            [],
-        );
+        return [
+            ...parent::getActions(),
+        ];
     }
 
     /**
@@ -280,10 +273,9 @@ class Synonym extends BaseResource
      */
     public static function getBulkActions(?array $actionsIncludedInGroup = []): array
     {
-        return array_merge(
-            parent::getBulkActions(),
-            [],
-        );
+        return [
+            ...parent::getBulkActions(),
+        ];
     }
 
     /**
@@ -293,10 +285,9 @@ class Synonym extends BaseResource
      */
     public static function getTableActions(): array
     {
-        return array_merge(
-            parent::getTableActions(),
-            [],
-        );
+        return [
+            ...parent::getTableActions(),
+        ];
     }
 
     /**

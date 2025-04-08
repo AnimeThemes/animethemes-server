@@ -88,8 +88,6 @@ class Audio extends BaseResource
      * Get the slug (URI key) for the resource.
      *
      * @return string
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getRecordSlug(): string
     {
@@ -188,14 +186,11 @@ class Audio extends BaseResource
     public static function getRelations(): array
     {
         return [
-            RelationGroup::make(static::getLabel(),
-                array_merge(
-                    [
-                        VideoAudioRelationManager::class,
-                    ],
-                    parent::getBaseRelations(),
-                )
-            ),
+            RelationGroup::make(static::getLabel(), [
+                VideoAudioRelationManager::class,
+
+                ...parent::getBaseRelations(),
+            ]),
         ];
     }
 
@@ -206,13 +201,12 @@ class Audio extends BaseResource
      */
     public static function getFilters(): array
     {
-        return array_merge(
-            [
-                NumberFilter::make(AudioModel::ATTRIBUTE_SIZE)
-                    ->label(__('filament.fields.audio.size.name')),
-            ],
-            parent::getFilters(),
-        );
+        return [
+            NumberFilter::make(AudioModel::ATTRIBUTE_SIZE)
+                ->label(__('filament.fields.audio.size.name')),
+
+            ...parent::getFilters(),
+        ];
     }
 
     /**
@@ -222,16 +216,15 @@ class Audio extends BaseResource
      */
     public static function getActions(): array
     {
-        return array_merge(
-            parent::getActions(),
-            [
-                ActionGroup::make([
-                    MoveAudioAction::make('move-audio'),
+        return [
+            ...parent::getActions(),
 
-                    DeleteAudioAction::make('delete-audio'),
-                ]),
-            ],
-        );
+            ActionGroup::make([
+                MoveAudioAction::make('move-audio'),
+
+                DeleteAudioAction::make('delete-audio'),
+            ]),
+        ];
     }
 
     /**
@@ -242,12 +235,11 @@ class Audio extends BaseResource
      */
     public static function getBulkActions(?array $actionsIncludedInGroup = []): array
     {
-        return array_merge(
-            parent::getBulkActions(),
-            [
-                DeleteAudioBulkAction::make('delete-audio'),
-            ],
-        );
+        return [
+            ...parent::getBulkActions(),
+
+            DeleteAudioBulkAction::make('delete-audio'),
+        ];
     }
 
     /**

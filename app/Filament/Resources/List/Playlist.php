@@ -94,8 +94,6 @@ class Playlist extends BaseResource
      * Get the slug (URI key) for the resource.
      *
      * @return string
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getRecordSlug(): string
     {
@@ -288,15 +286,12 @@ class Playlist extends BaseResource
     public static function getRelations(): array
     {
         return [
-            RelationGroup::make(static::getLabel(),
-                array_merge(
-                    [
-                        ImagePlaylistRelationManager::class,
-                        TrackPlaylistRelationManager::class,
-                    ],
-                    parent::getBaseRelations(),
-                )
-            ),
+            RelationGroup::make(static::getLabel(), [
+                ImagePlaylistRelationManager::class,
+                TrackPlaylistRelationManager::class,
+
+                ...parent::getBaseRelations(),
+            ]),
         ];
     }
 
@@ -307,10 +302,9 @@ class Playlist extends BaseResource
      */
     public static function getFilters(): array
     {
-        return array_merge(
-            parent::getFilters(),
-            []
-        );
+        return [
+            ...parent::getFilters(),
+        ];
     }
 
     /**
@@ -320,14 +314,13 @@ class Playlist extends BaseResource
      */
     public static function getActions(): array
     {
-        return array_merge(
-            parent::getActions(),
-            [
-                AssignHashidsAction::make('assign-hashids')
-                    ->setConnection('playlists')
-                    ->authorize('update', PlaylistModel::class),
-            ],
-        );
+        return [
+            ...parent::getActions(),
+
+            AssignHashidsAction::make('assign-hashids')
+                ->setConnection('playlists')
+                ->authorize('update', PlaylistModel::class),
+        ];
     }
 
     /**
@@ -338,10 +331,9 @@ class Playlist extends BaseResource
      */
     public static function getBulkActions(?array $actionsIncludedInGroup = []): array
     {
-        return array_merge(
-            parent::getBulkActions(),
-            [],
-        );
+        return [
+            ...parent::getBulkActions(),
+        ];
     }
 
     /**
@@ -351,10 +343,9 @@ class Playlist extends BaseResource
      */
     public static function getTableActions(): array
     {
-        return array_merge(
-            parent::getTableActions(),
-            [],
-        );
+        return [
+            ...parent::getTableActions(),
+        ];
     }
 
     /**

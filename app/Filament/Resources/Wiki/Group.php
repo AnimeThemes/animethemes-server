@@ -82,8 +82,6 @@ class Group extends BaseResource
      * Get the slug (URI key) for the resource.
      *
      * @return string
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getRecordSlug(): string
     {
@@ -196,14 +194,11 @@ class Group extends BaseResource
     public static function getRelations(): array
     {
         return [
-            RelationGroup::make(static::getLabel(),
-                array_merge(
-                    [
-                        ThemeGroupRelationManager::class,
-                    ],
-                    parent::getBaseRelations(),
-                )
-            ),
+            RelationGroup::make(static::getLabel(), [
+                ThemeGroupRelationManager::class,
+
+                ...parent::getBaseRelations(),
+            ]),
         ];
     }
 
@@ -214,10 +209,9 @@ class Group extends BaseResource
      */
     public static function getFilters(): array
     {
-        return array_merge(
-            [],
-            parent::getFilters(),
-        );
+        return [
+            ...parent::getFilters(),
+        ];
     }
 
     /**
@@ -227,10 +221,9 @@ class Group extends BaseResource
      */
     public static function getActions(): array
     {
-        return array_merge(
-            parent::getActions(),
-            [],
-        );
+        return [
+            ...parent::getActions(),
+        ];
     }
 
     /**
@@ -241,10 +234,9 @@ class Group extends BaseResource
      */
     public static function getBulkActions(?array $actionsIncludedInGroup = []): array
     {
-        return array_merge(
-            parent::getBulkActions(),
-            [],
-        );
+        return [
+            ...parent::getBulkActions(),
+        ];
     }
 
     /**
@@ -254,10 +246,9 @@ class Group extends BaseResource
      */
     public static function getTableActions(): array
     {
-        return array_merge(
-            parent::getTableActions(),
-            [],
-        );
+        return [
+            ...parent::getTableActions(),
+        ];
     }
 
     /**

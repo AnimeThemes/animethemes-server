@@ -57,10 +57,9 @@ abstract class ExternalProfileRelationManager extends BaseRelationManager
      */
     public static function getFilters(): array
     {
-        return array_merge(
-            [],
-            ExternalProfileResource::getFilters(),
-        );
+        return [
+            ...ExternalProfileResource::getFilters(),
+        ];
     }
 
     /**
@@ -70,10 +69,10 @@ abstract class ExternalProfileRelationManager extends BaseRelationManager
      */
     public static function getActions(): array
     {
-        return array_merge(
-            parent::getActions(),
-            ExternalProfileResource::getActions(),
-        );
+        return [
+            ...parent::getActions(),
+            ...ExternalProfileResource::getActions(),
+        ];
     }
 
     /**
@@ -84,22 +83,23 @@ abstract class ExternalProfileRelationManager extends BaseRelationManager
      */
     public static function getBulkActions(?array $actionsIncludedInGroup = []): array
     {
-        return array_merge(
-            parent::getBulkActions(),
-            ExternalProfileResource::getBulkActions(),
-        );
+        return [
+            ...parent::getBulkActions(),
+            ...ExternalProfileResource::getBulkActions(),
+        ];
     }
 
     /**
-     * Get the header actions available for the relation. These are merged with the table actions of the resources.
+     * Get the header actions available for the relation.
+     * These are merged with the table actions of the resources.
      *
      * @return array
      */
     public static function getHeaderActions(): array
     {
-        return array_merge(
-            parent::getHeaderActions(),
-            ExternalProfileResource::getTableActions(),
-        );
+        return [
+            ...parent::getHeaderActions(),
+            ...ExternalProfileResource::getTableActions(),
+        ];
     }
 }

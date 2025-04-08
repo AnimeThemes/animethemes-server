@@ -50,10 +50,9 @@ class PerformanceSongRelationManager extends PerformanceRelationManager
      */
     public static function getFilters(): array
     {
-        return array_merge(
-            [],
-            parent::getFilters(),
-        );
+        return [
+            ...parent::getFilters(),
+        ];
     }
 
     /**
@@ -63,10 +62,9 @@ class PerformanceSongRelationManager extends PerformanceRelationManager
      */
     public static function getActions(): array
     {
-        return array_merge(
-            parent::getActions(),
-            [],
-        );
+        return [
+            ...parent::getActions(),
+        ];
     }
 
     /**
@@ -77,27 +75,25 @@ class PerformanceSongRelationManager extends PerformanceRelationManager
      */
     public static function getBulkActions(?array $actionsIncludedInGroup = []): array
     {
-        return array_merge(
-            parent::getBulkActions(),
-            [],
-        );
+        return [
+            ...parent::getBulkActions(),
+        ];
     }
 
     /**
-     * Get the header actions available for the relation. These are merged with the table actions of the resources.
+     * Get the header actions available for the relation.
+     * These are merged with the table actions of the resources.
      *
      * @return array
      */
     public static function getHeaderActions(): array
     {
-        return array_merge(
-            [
-                Action::make('manage performances')
-                    ->label(__('filament.actions.performances.manage_performances'))
-                    ->action(fn ($livewire, $data) => static::saveArtists($livewire->getOwnerRecord(), $data[Song::RELATION_PERFORMANCES]))
-                    ->form(PerformanceResource::performancesFields()),
-            ],
-        );
+        return [
+            Action::make('manage performances')
+                ->label(__('filament.actions.performances.manage_performances'))
+                ->action(fn ($livewire, $data) => static::saveArtists($livewire->getOwnerRecord(), $data[Song::RELATION_PERFORMANCES]))
+                ->form(PerformanceResource::performancesFields()),
+        ];
     }
 
     /**

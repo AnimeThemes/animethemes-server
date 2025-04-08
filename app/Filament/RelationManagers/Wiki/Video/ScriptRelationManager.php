@@ -57,10 +57,9 @@ abstract class ScriptRelationManager extends BaseRelationManager
      */
     public static function getFilters(): array
     {
-        return array_merge(
-            [],
+        return [
             ScriptResource::getFilters(),
-        );
+        ];
     }
 
     /**
@@ -70,10 +69,10 @@ abstract class ScriptRelationManager extends BaseRelationManager
      */
     public static function getActions(): array
     {
-        return array_merge(
-            parent::getActions(),
-            ScriptResource::getActions(),
-        );
+        return [
+            ...parent::getActions(),
+            ...ScriptResource::getActions(),
+        ];
     }
 
     /**
@@ -84,23 +83,24 @@ abstract class ScriptRelationManager extends BaseRelationManager
      */
     public static function getBulkActions(?array $actionsIncludedInGroup = []): array
     {
-        return array_merge(
-            parent::getBulkActions(),
-            ScriptResource::getBulkActions(),
-        );
+        return [
+            ...parent::getBulkActions(),
+            ...ScriptResource::getBulkActions(),
+        ];
     }
 
     /**
-     * Get the header actions available for the relation. These are merged with the table actions of the resources.
+     * Get the header actions available for the relation.
+     * These are merged with the table actions of the resources.
      *
      * @return array
      */
     public static function getHeaderActions(): array
     {
-        return array_merge(
-            parent::getHeaderActions(),
-            ScriptResource::getTableActions(),
-        );
+        return [
+            ...parent::getHeaderActions(),
+            ...ScriptResource::getTableActions(),
+        ];
     }
 
     /**

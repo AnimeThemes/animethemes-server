@@ -57,10 +57,9 @@ abstract class ReportStepRelationManager extends BaseRelationManager
      */
     public static function getFilters(): array
     {
-        return array_merge(
-            [],
-            ReportStepResource::getFilters(),
-        );
+        return [
+            ...ReportStepResource::getFilters(),
+        ];
     }
 
     /**
@@ -70,10 +69,10 @@ abstract class ReportStepRelationManager extends BaseRelationManager
      */
     public static function getActions(): array
     {
-        return array_merge(
-            parent::getActions(),
-            ReportStepResource::getActions(),
-        );
+        return [
+            ...parent::getActions(),
+            ...ReportStepResource::getActions(),
+        ];
     }
 
     /**
@@ -84,22 +83,23 @@ abstract class ReportStepRelationManager extends BaseRelationManager
      */
     public static function getBulkActions(?array $actionsIncludedInGroup = []): array
     {
-        return array_merge(
-            parent::getBulkActions(),
-            ReportStepResource::getBulkActions(),
-        );
+        return [
+            ...parent::getBulkActions(),
+            ...ReportStepResource::getBulkActions(),
+        ];
     }
 
     /**
-     * Get the header actions available for the relation. These are merged with the table actions of the resources.
+     * Get the header actions available for the relation.
+     * These are merged with the table actions of the resources.
      *
      * @return array
      */
     public static function getHeaderActions(): array
     {
-        return array_merge(
-            parent::getHeaderActions(),
-            ReportStepResource::getTableActions(),
-        );
+        return [
+            ...parent::getHeaderActions(),
+            ...ReportStepResource::getTableActions(),
+        ];
     }
 }

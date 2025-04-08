@@ -111,8 +111,6 @@ class Artist extends BaseResource
      * Get the slug (URI key) for the resource.
      *
      * @return string
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getRecordSlug(): string
     {
@@ -262,19 +260,16 @@ class Artist extends BaseResource
     public static function getRelations(): array
     {
         return [
-            RelationGroup::make(static::getLabel(),
-                array_merge(
-                    [
-                        PerformanceArtistRelationManager::class,
-                        GroupPerformanceArtistRelationManager::class,
-                        ResourceArtistRelationManager::class,
-                        MemberArtistRelationManager::class,
-                        GroupArtistRelationManager::class,
-                        ImageArtistRelationManager::class,
-                    ],
-                    parent::getBaseRelations(),
-                )
-            ),
+            RelationGroup::make(static::getLabel(), [
+                PerformanceArtistRelationManager::class,
+                GroupPerformanceArtistRelationManager::class,
+                ResourceArtistRelationManager::class,
+                MemberArtistRelationManager::class,
+                GroupArtistRelationManager::class,
+                ImageArtistRelationManager::class,
+
+                ...parent::getBaseRelations(),
+            ]),
         ];
     }
 
@@ -285,10 +280,9 @@ class Artist extends BaseResource
      */
     public static function getFilters(): array
     {
-        return array_merge(
-            [],
-            parent::getFilters(),
-        );
+        return [
+            ...parent::getFilters(),
+        ];
     }
 
     /**
@@ -298,16 +292,15 @@ class Artist extends BaseResource
      */
     public static function getActions(): array
     {
-        return array_merge(
-            parent::getActions(),
-            [
-                ActionGroup::make([
-                    AttachImageAction::make('attach-artist-image'),
+        return [
+            ...parent::getActions(),
 
-                    AttachArtistResourceAction::make('attach-artist-resource'),
-                ])
-            ],
-        );
+            ActionGroup::make([
+                AttachImageAction::make('attach-artist-image'),
+
+                AttachArtistResourceAction::make('attach-artist-resource'),
+            ])
+        ];
     }
 
     /**
@@ -318,10 +311,9 @@ class Artist extends BaseResource
      */
     public static function getBulkActions(?array $actionsIncludedInGroup = []): array
     {
-        return array_merge(
-            parent::getBulkActions(),
-            [],
-        );
+        return [
+            ...parent::getBulkActions(),
+        ];
     }
 
     /**
@@ -331,10 +323,9 @@ class Artist extends BaseResource
      */
     public static function getTableActions(): array
     {
-        return array_merge(
-            parent::getTableActions(),
-            [],
-        );
+        return [
+            ...parent::getTableActions(),
+        ];
     }
 
     /**

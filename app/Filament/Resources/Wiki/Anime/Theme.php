@@ -138,8 +138,6 @@ class Theme extends BaseResource
      * Get the slug (URI key) for the resource.
      *
      * @return string
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getRecordSlug(): string
     {
@@ -376,14 +374,11 @@ class Theme extends BaseResource
     public static function getRelations(): array
     {
         return [
-            RelationGroup::make(static::getLabel(),
-                array_merge(
-                    [
-                        EntryThemeRelationManager::class,
-                    ],
-                    parent::getBaseRelations(),
-                )
-            ),
+            RelationGroup::make(static::getLabel(),[
+                EntryThemeRelationManager::class,
+
+                ...parent::getBaseRelations(),
+            ]),
         ];
     }
 
@@ -394,17 +389,16 @@ class Theme extends BaseResource
      */
     public static function getFilters(): array
     {
-        return array_merge(
-            [
-                SelectFilter::make(ThemeModel::ATTRIBUTE_TYPE)
-                    ->label(__('filament.fields.anime_theme.type.name'))
-                    ->options(ThemeType::asSelectArray()),
+        return [
+            SelectFilter::make(ThemeModel::ATTRIBUTE_TYPE)
+                ->label(__('filament.fields.anime_theme.type.name'))
+                ->options(ThemeType::asSelectArray()),
 
-                NumberFilter::make(ThemeModel::ATTRIBUTE_SEQUENCE)
-                    ->label(__('filament.fields.anime_theme.sequence.name')),
-            ],
-            parent::getFilters(),
-        );
+            NumberFilter::make(ThemeModel::ATTRIBUTE_SEQUENCE)
+                ->label(__('filament.fields.anime_theme.sequence.name')),
+
+            ...parent::getFilters(),
+        ];
     }
 
     /**
@@ -414,10 +408,9 @@ class Theme extends BaseResource
      */
     public static function getActions(): array
     {
-        return array_merge(
-            parent::getActions(),
-            [],
-        );
+        return [
+            ...parent::getActions(),
+        ];
     }
 
     /**
@@ -428,10 +421,9 @@ class Theme extends BaseResource
      */
     public static function getBulkActions(?array $actionsIncludedInGroup = []): array
     {
-        return array_merge(
-            parent::getBulkActions(),
-            [],
-        );
+        return [
+            ...parent::getBulkActions(),
+        ];
     }
 
     /**
@@ -441,10 +433,9 @@ class Theme extends BaseResource
      */
     public static function getTableActions(): array
     {
-        return array_merge(
-            parent::getTableActions(),
-            [],
-        );
+        return [
+            ...parent::getTableActions(),
+        ];
     }
 
     /**

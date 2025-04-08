@@ -48,16 +48,13 @@ class UploadScriptTableAction extends UploadTableAction
         $model = $this->getRecord();
 
         return $form
-            ->schema(
-                array_merge(
-                    parent::getForm($form)->getComponents(),
-                    [
-                        Hidden::make(Video::ATTRIBUTE_ID)
-                            ->label(__('filament.resources.singularLabel.video'))
-                            ->default(fn (BaseRelationManager|ListScripts $livewire) => $livewire instanceof BaseRelationManager ? $livewire->getOwnerRecord()->getKey() : null),
-                    ],
-                )
-            );
+            ->schema([
+                ...parent::getForm($form)->getComponents(),
+
+                Hidden::make(Video::ATTRIBUTE_ID)
+                    ->label(__('filament.resources.singularLabel.video'))
+                    ->default(fn (BaseRelationManager|ListScripts $livewire) => $livewire instanceof BaseRelationManager ? $livewire->getOwnerRecord()->getKey() : null),
+            ]);
     }
 
     /**

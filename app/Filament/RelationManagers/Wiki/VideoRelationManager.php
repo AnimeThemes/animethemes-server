@@ -57,10 +57,9 @@ abstract class VideoRelationManager extends BaseRelationManager
      */
     public static function getFilters(): array
     {
-        return array_merge(
-            [],
-            VideoResource::getFilters(),
-        );
+        return [
+            ...VideoResource::getFilters(),
+        ];
     }
 
     /**
@@ -70,10 +69,10 @@ abstract class VideoRelationManager extends BaseRelationManager
      */
     public static function getActions(): array
     {
-        return array_merge(
-            parent::getActions(),
-            VideoResource::getActions(),
-        );
+        return [
+            ...parent::getActions(),
+            ...VideoResource::getActions(),
+        ];
     }
 
     /**
@@ -84,23 +83,24 @@ abstract class VideoRelationManager extends BaseRelationManager
      */
     public static function getBulkActions(?array $actionsIncludedInGroup = []): array
     {
-        return array_merge(
-            parent::getBulkActions(),
-            VideoResource::getBulkActions(),
-        );
+        return [
+            ...parent::getBulkActions(),
+            ...VideoResource::getBulkActions(),
+        ];
     }
 
     /**
-     * Get the header actions available for the relation. These are merged with the table actions of the resources.
+     * Get the header actions available for the relation.
+     * These are merged with the table actions of the resources.
      *
      * @return array
      */
     public static function getHeaderActions(): array
     {
-        return array_merge(
-            parent::getHeaderActions(),
-            VideoResource::getTableActions(),
-        );
+        return [
+            ...parent::getHeaderActions(),
+            ...VideoResource::getTableActions(),
+        ];
     }
 
     /**

@@ -93,8 +93,6 @@ class Image extends BaseResource
      * Get the slug (URI key) for the resource.
      *
      * @return string
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getRecordSlug(): string
     {
@@ -209,17 +207,14 @@ class Image extends BaseResource
     public static function getRelations(): array
     {
         return [
-            RelationGroup::make(static::getLabel(),
-                array_merge(
-                    [
-                        AnimeImageRelationManager::class,
-                        ArtistImageRelationManager::class,
-                        PlaylistImageRelationManager::class,
-                        StudioImageRelationManager::class,
-                    ],
-                    parent::getBaseRelations(),
-                )
-            ),
+            RelationGroup::make(static::getLabel(), [
+                AnimeImageRelationManager::class,
+                ArtistImageRelationManager::class,
+                PlaylistImageRelationManager::class,
+                StudioImageRelationManager::class,
+
+                ...parent::getBaseRelations(),
+            ]),
         ];
     }
 
@@ -230,14 +225,13 @@ class Image extends BaseResource
      */
     public static function getFilters(): array
     {
-        return array_merge(
-            [
-                SelectFilter::make(ImageModel::ATTRIBUTE_FACET)
-                    ->label(__('filament.fields.image.facet.name'))
-                    ->options(ImageFacet::asSelectArray()),
-            ],
-            parent::getFilters(),
-        );
+        return [
+            SelectFilter::make(ImageModel::ATTRIBUTE_FACET)
+                ->label(__('filament.fields.image.facet.name'))
+                ->options(ImageFacet::asSelectArray()),
+
+            ...parent::getFilters(),
+        ];
     }
 
     /**
@@ -247,10 +241,9 @@ class Image extends BaseResource
      */
     public static function getActions(): array
     {
-        return array_merge(
-            parent::getActions(),
-            [],
-        );
+        return [
+            ...parent::getActions(),
+        ];
     }
 
     /**
@@ -261,10 +254,9 @@ class Image extends BaseResource
      */
     public static function getBulkActions(?array $actionsIncludedInGroup = []): array
     {
-        return array_merge(
-            parent::getBulkActions(),
-            [],
-        );
+        return [
+            ...parent::getBulkActions(),
+        ];
     }
 
     /**
@@ -274,12 +266,11 @@ class Image extends BaseResource
     */
     public static function getTableActions(): array
     {
-        return array_merge(
-            parent::getTableActions(),
-            [
-                UploadImageTableAction::make('upload-image'),
-            ]
-        );
+        return [
+            ...parent::getTableActions(),
+
+            UploadImageTableAction::make('upload-image'),
+        ];
     }
 
     /**

@@ -309,14 +309,11 @@ class Entry extends BaseResource
     public static function getRelations(): array
     {
         return [
-            RelationGroup::make(static::getLabel(),
-                array_merge(
-                    [
-                        VideoEntryRelationManager::class,
-                    ],
-                    parent::getBaseRelations(),
-                )
-            ),
+            RelationGroup::make(static::getLabel(), [
+                VideoEntryRelationManager::class,
+
+                ...parent::getBaseRelations(),
+            ]),
         ];
     }
 
@@ -327,22 +324,21 @@ class Entry extends BaseResource
      */
     public static function getFilters(): array
     {
-        return array_merge(
-            [
-                NumberFilter::make(EntryModel::ATTRIBUTE_VERSION)
-                    ->label(__('filament.fields.anime_theme_entry.version.name')),
+        return [
+            NumberFilter::make(EntryModel::ATTRIBUTE_VERSION)
+                ->label(__('filament.fields.anime_theme_entry.version.name')),
 
-                TextFilter::make(EntryModel::ATTRIBUTE_EPISODES)
-                    ->label(__('filament.fields.anime_theme_entry.episodes.name')),
+            TextFilter::make(EntryModel::ATTRIBUTE_EPISODES)
+                ->label(__('filament.fields.anime_theme_entry.episodes.name')),
 
-                CheckboxFilter::make(EntryModel::ATTRIBUTE_NSFW)
-                    ->label(__('filament.fields.anime_theme_entry.nsfw.name')),
+            CheckboxFilter::make(EntryModel::ATTRIBUTE_NSFW)
+                ->label(__('filament.fields.anime_theme_entry.nsfw.name')),
 
-                CheckboxFilter::make(EntryModel::ATTRIBUTE_SPOILER)
-                    ->label(__('filament.fields.anime_theme_entry.spoiler.name')),
-            ],
-            parent::getFilters(),
-        );
+            CheckboxFilter::make(EntryModel::ATTRIBUTE_SPOILER)
+                ->label(__('filament.fields.anime_theme_entry.spoiler.name')),
+
+            ...parent::getFilters(),
+        ];
     }
 
     /**
@@ -352,10 +348,9 @@ class Entry extends BaseResource
      */
     public static function getActions(): array
     {
-        return array_merge(
-            parent::getActions(),
-            [],
-        );
+        return [
+            ...parent::getActions(),
+        ];
     }
 
     /**
@@ -366,10 +361,9 @@ class Entry extends BaseResource
      */
     public static function getBulkActions(?array $actionsIncludedInGroup = []): array
     {
-        return array_merge(
-            parent::getBulkActions(),
-            [],
-        );
+        return [
+            ...parent::getBulkActions(),
+        ];
     }
 
     /**
@@ -379,10 +373,9 @@ class Entry extends BaseResource
      */
     public static function getTableActions(): array
     {
-        return array_merge(
-            parent::getTableActions(),
-            [],
-        );
+        return [
+            ...parent::getTableActions(),
+        ];
     }
 
     /**

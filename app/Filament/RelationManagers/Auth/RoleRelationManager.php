@@ -58,10 +58,9 @@ abstract class RoleRelationManager extends BaseRelationManager
      */
     public static function getFilters(): array
     {
-        return array_merge(
-            [],
-            RoleResource::getFilters(),
-        );
+        return [
+            ...RoleResource::getFilters(),
+        ];
     }
 
     /**
@@ -86,10 +85,10 @@ abstract class RoleRelationManager extends BaseRelationManager
      */
     public static function getBulkActions(?array $actionsIncludedInGroup = []): array
     {
-        return array_merge(
-            parent::getBulkActions(),
-            RoleResource::getBulkActions(),
-        );
+        return [
+            ...parent::getBulkActions(),
+            ...RoleResource::getBulkActions(),
+        ];
     }
 
     /**

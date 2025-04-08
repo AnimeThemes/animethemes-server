@@ -29,17 +29,15 @@ class ListPerformances extends BaseListResources
      */
     protected function getHeaderActions(): array
     {
-        return array_merge(
-            [
-                Action::make('new performance')
-                    ->form(fn ($form) => Performance::form($form)->getComponents())
-                    ->authorize('create', PerformanceModel::class)
-                    ->action(function (array $data) {
-                        $song = Song::find(Arr::get($data, PerformanceModel::ATTRIBUTE_SONG));
-                        $performances = Arr::get($data, Song::RELATION_PERFORMANCES);
-                        PerformanceSongRelationManager::saveArtists($song, $performances);
-                    }),
-            ],
-        );
+        return [
+            Action::make('new performance')
+                ->form(fn ($form) => Performance::form($form)->getComponents())
+                ->authorize('create', PerformanceModel::class)
+                ->action(function (array $data) {
+                    $song = Song::find(Arr::get($data, PerformanceModel::ATTRIBUTE_SONG));
+                    $performances = Arr::get($data, Song::RELATION_PERFORMANCES);
+                    PerformanceSongRelationManager::saveArtists($song, $performances);
+                }),
+        ];;
     }
 }

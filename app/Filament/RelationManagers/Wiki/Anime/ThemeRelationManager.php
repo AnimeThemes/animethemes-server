@@ -57,10 +57,9 @@ abstract class ThemeRelationManager extends BaseRelationManager
      */
     public static function getFilters(): array
     {
-        return array_merge(
-            [],
+        return [
             ThemeResource::getFilters(),
-        );
+        ];
     }
 
     /**
@@ -70,10 +69,10 @@ abstract class ThemeRelationManager extends BaseRelationManager
      */
     public static function getActions(): array
     {
-        return array_merge(
-            parent::getActions(),
-            ThemeResource::getActions(),
-        );
+        return [
+            ...parent::getActions(),
+            ...ThemeResource::getActions(),
+        ];
     }
 
     /**
@@ -84,22 +83,23 @@ abstract class ThemeRelationManager extends BaseRelationManager
      */
     public static function getBulkActions(?array $actionsIncludedInGroup = []): array
     {
-        return array_merge(
-            parent::getBulkActions(),
-            ThemeResource::getBulkActions(),
-        );
+        return [
+            ...parent::getBulkActions(),
+            ...ThemeResource::getBulkActions(),
+        ];
     }
 
     /**
-     * Get the header actions available for the relation. These are merged with the table actions of the resources.
+     * Get the header actions available for the relation.
+     * These are merged with the table actions of the resources.
      *
      * @return array
      */
     public static function getHeaderActions(): array
     {
-        return array_merge(
-            parent::getHeaderActions(),
-            ThemeResource::getTableActions(),
-        );
+        return [
+            ...parent::getHeaderActions(),
+            ...ThemeResource::getTableActions(),
+        ];
     }
 }

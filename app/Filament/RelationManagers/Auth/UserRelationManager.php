@@ -57,10 +57,9 @@ abstract class UserRelationManager extends BaseRelationManager
      */
     public static function getFilters(): array
     {
-        return array_merge(
-            [],
-            UserResource::getFilters(),
-        );
+        return [
+            ...UserResource::getFilters(),
+        ];
     }
 
     /**
@@ -70,10 +69,10 @@ abstract class UserRelationManager extends BaseRelationManager
      */
     public static function getActions(): array
     {
-        return array_merge(
-            parent::getActions(),
-            UserResource::getActions(),
-        );
+        return [
+            ...parent::getActions(),
+            ...UserResource::getActions(),
+        ];
     }
 
     /**
@@ -84,10 +83,10 @@ abstract class UserRelationManager extends BaseRelationManager
      */
     public static function getBulkActions(?array $actionsIncludedInGroup = []): array
     {
-        return array_merge(
-            parent::getBulkActions(),
-            UserResource::getBulkActions(),
-        );
+        return [
+            ...parent::getBulkActions(),
+            ...UserResource::getBulkActions(),
+        ];
     }
 
     /**

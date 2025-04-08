@@ -57,10 +57,9 @@ abstract class PlaylistRelationManager extends BaseRelationManager
      */
     public static function getFilters(): array
     {
-        return array_merge(
-            [],
-            PlaylistResource::getFilters(),
-        );
+        return [
+            ...PlaylistResource::getFilters(),
+        ];
     }
 
     /**
@@ -70,10 +69,10 @@ abstract class PlaylistRelationManager extends BaseRelationManager
      */
     public static function getActions(): array
     {
-        return array_merge(
-            parent::getActions(),
-            PlaylistResource::getActions(),
-        );
+        return [
+            ...parent::getActions(),
+            ...PlaylistResource::getActions(),
+        ];
     }
 
     /**
@@ -84,22 +83,23 @@ abstract class PlaylistRelationManager extends BaseRelationManager
      */
     public static function getBulkActions(?array $actionsIncludedInGroup = []): array
     {
-        return array_merge(
-            parent::getBulkActions(),
-            PlaylistResource::getBulkActions(),
-        );
+        return [
+            ...parent::getBulkActions(),
+            ...PlaylistResource::getBulkActions(),
+        ];
     }
 
     /**
-     * Get the header actions available for the relation. These are merged with the table actions of the resources.
+     * Get the header actions available for the relation.
+     * These are merged with the table actions of the resources.
      *
      * @return array
      */
     public static function getHeaderActions(): array
     {
-        return array_merge(
-            parent::getHeaderActions(),
-            PlaylistResource::getTableActions(),
-        );
+        return [
+            ...parent::getHeaderActions(),
+            ...PlaylistResource::getTableActions(),
+        ];
     }
 }

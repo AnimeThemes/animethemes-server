@@ -57,10 +57,9 @@ abstract class PermissionRelationManager extends BaseRelationManager
      */
     public static function getFilters(): array
     {
-        return array_merge(
-            [],
-            PermissionResource::getFilters(),
-        );
+        return [
+            ...PermissionResource::getFilters(),
+        ];
     }
 
     /**
@@ -83,10 +82,10 @@ abstract class PermissionRelationManager extends BaseRelationManager
      */
     public static function getBulkActions(?array $actionsIncludedInGroup = []): array
     {
-        return array_merge(
-            parent::getBulkActions(),
-            PermissionResource::getBulkActions(),
-        );
+        return [
+            ...parent::getBulkActions(),
+            ...PermissionResource::getBulkActions(),
+        ];
     }
 
     /**

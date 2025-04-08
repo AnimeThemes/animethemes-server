@@ -46,10 +46,9 @@ class GroupPerformanceArtistRelationManager extends PerformanceRelationManager
      */
     public static function getFilters(): array
     {
-        return array_merge(
-            [],
-            parent::getFilters(),
-        );
+        return [
+            ...parent::getFilters(),
+        ];
     }
 
     /**
@@ -74,7 +73,8 @@ class GroupPerformanceArtistRelationManager extends PerformanceRelationManager
     }
 
     /**
-     * Get the header actions available for the relation. These are merged with the table actions of the resources.
+     * Get the header actions available for the relation.
+     * These are merged with the table actions of the resources.
      *
      * @return array
      */

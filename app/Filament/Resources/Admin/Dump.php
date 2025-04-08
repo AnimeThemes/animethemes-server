@@ -84,8 +84,6 @@ class Dump extends BaseResource
      * Get the slug (URI key) for the resource.
      *
      * @return string
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getRecordSlug(): string
     {
@@ -183,10 +181,9 @@ class Dump extends BaseResource
      */
     public static function getFilters(): array
     {
-        return array_merge(
-            parent::getFilters(),
-            []
-        );
+        return [
+            ...parent::getFilters(),
+        ];
     }
 
     /**
@@ -196,10 +193,9 @@ class Dump extends BaseResource
      */
     public static function getActions(): array
     {
-        return array_merge(
-            parent::getActions(),
-            [],
-        );
+        return [
+            ...parent::getActions(),
+        ];
     }
 
     /**
@@ -210,10 +206,9 @@ class Dump extends BaseResource
      */
     public static function getBulkActions(?array $actionsIncludedInGroup = []): array
     {
-        return array_merge(
-            parent::getBulkActions(),
-            [],
-        );
+        return [
+            ...parent::getBulkActions(),
+        ];
     }
 
     /**

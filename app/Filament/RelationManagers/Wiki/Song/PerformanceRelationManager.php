@@ -57,10 +57,9 @@ abstract class PerformanceRelationManager extends BaseRelationManager
      */
     public static function getFilters(): array
     {
-        return array_merge(
-            [],
+        return [
             PerformanceResource::getFilters(),
-        );
+        ];
     }
 
     /**
@@ -70,10 +69,10 @@ abstract class PerformanceRelationManager extends BaseRelationManager
      */
     public static function getActions(): array
     {
-        return array_merge(
-            parent::getActions(),
-            PerformanceResource::getActions(),
-        );
+        return [
+            ...parent::getActions(),
+            ...PerformanceResource::getActions(),
+        ];
     }
 
     /**
@@ -84,22 +83,23 @@ abstract class PerformanceRelationManager extends BaseRelationManager
      */
     public static function getBulkActions(?array $actionsIncludedInGroup = []): array
     {
-        return array_merge(
-            parent::getBulkActions(),
-            PerformanceResource::getBulkActions(),
-        );
+        return [
+            ...parent::getBulkActions(),
+            ...PerformanceResource::getBulkActions(),
+        ];
     }
 
     /**
-     * Get the header actions available for the relation. These are merged with the table actions of the resources.
+     * Get the header actions available for the relation.
+     * These are merged with the table actions of the resources.
      *
      * @return array
      */
     public static function getHeaderActions(): array
     {
-        return array_merge(
-            parent::getHeaderActions(),
-            PerformanceResource::getTableActions(),
-        );
+        return [
+            ...parent::getHeaderActions(),
+            ...PerformanceResource::getTableActions(),
+        ];
     }
 }

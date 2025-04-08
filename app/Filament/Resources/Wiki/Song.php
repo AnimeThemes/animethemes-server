@@ -101,8 +101,6 @@ class Song extends BaseResource
      * Get the slug (URI key) for the resource.
      *
      * @return string
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getRecordSlug(): string
     {
@@ -211,16 +209,13 @@ class Song extends BaseResource
     public static function getRelations(): array
     {
         return [
-            RelationGroup::make(static::getLabel(),
-                array_merge(
-                    [
-                        PerformanceSongRelationManager::class,
-                        ThemeSongRelationManager::class,
-                        ResourceSongRelationManager::class,
-                    ],
-                    parent::getBaseRelations(),
-                )
-            ),
+            RelationGroup::make(static::getLabel(), [
+                PerformanceSongRelationManager::class,
+                ThemeSongRelationManager::class,
+                ResourceSongRelationManager::class,
+
+                ...parent::getBaseRelations(),
+            ]),
         ];
     }
 
@@ -231,10 +226,9 @@ class Song extends BaseResource
      */
     public static function getFilters(): array
     {
-        return array_merge(
-            [],
-            parent::getFilters(),
-        );
+        return [
+            ...parent::getFilters(),
+        ];
     }
 
     /**
@@ -244,14 +238,13 @@ class Song extends BaseResource
      */
     public static function getActions(): array
     {
-        return array_merge(
-            parent::getActions(),
-            [
-                ActionGroup::make([
-                    AttachSongResourceAction::make('attach-song-resource'),
-                ])
-            ],
-        );
+        return [
+            ...parent::getActions(),
+
+            ActionGroup::make([
+                AttachSongResourceAction::make('attach-song-resource'),
+            ])
+        ];
     }
 
     /**
@@ -262,10 +255,9 @@ class Song extends BaseResource
      */
     public static function getBulkActions(?array $actionsIncludedInGroup = []): array
     {
-        return array_merge(
-            parent::getBulkActions(),
-            [],
-        );
+        return [
+            ...parent::getBulkActions(),
+        ];
     }
 
     /**
@@ -275,10 +267,9 @@ class Song extends BaseResource
      */
     public static function getTableActions(): array
     {
-        return array_merge(
-            parent::getTableActions(),
-            [],
-        );
+        return [
+            ...parent::getTableActions(),
+        ];
     }
 
     /**
