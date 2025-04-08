@@ -7,6 +7,10 @@ namespace App\Filament\Actions\Base;
 use App\Concerns\Filament\ActionLogs\HasPivotActionLogs;
 use App\Filament\Components\Fields\Select;
 use App\Filament\RelationManagers\BaseRelationManager;
+use App\Models\Wiki\ExternalResource;
+use App\Models\Wiki\Image;
+use Filament\Facades\Filament;
+use Filament\Forms\Form;
 use Filament\Tables\Actions\AttachAction as DefaultAttachAction;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Facades\Auth;
@@ -51,10 +55,20 @@ class AttachAction extends DefaultAttachAction
             /** @var string */
             $model = $livewire->getTable()->getModel();
             $title = $livewire->getTable()->getRecordTitle(new $model);
-            return Select::make('recordId')
+
+            $select = Select::make('recordId')
                 ->label($title)
                 ->useScout($livewire, $model)
                 ->required();
+
+            if ($this->shouldShowCreateOption($model)) {
+                $select = $select
+                    ->createOptionForm(fn (Form $form) => Filament::getModelResource($model)::form($form)->getComponents())
+                    ->createOptionUsing(fn (array $data) => $model::query()->create($data)->getKey());
+            }
+
+            return $select;
+
         });
 
         $this->form(fn (AttachAction $action, BaseRelationManager $livewire): array => [
@@ -63,5 +77,16 @@ class AttachAction extends DefaultAttachAction
         ]);
 
         $this->after(fn ($livewire, $record) => $this->pivotActionLog('Attach', $livewire, $record));
+    }
+
+    /**
+     * Determine wheter the create option should be shown.
+     *
+     * @param  string  $model
+     * @return bool
+     */
+    private function shouldShowCreateOption(string $model): bool
+    {
+        return !($model === Image::class || $model === ExternalResource::class);
     }
 }

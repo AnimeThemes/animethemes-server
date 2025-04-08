@@ -58,13 +58,15 @@ class CreateAction extends DefaultCreateAction
                 return $user->hasRole(Role::ADMIN->value);
             }
 
+            if ($livewire->getRelationship() instanceof BelongsToMany) {
+                return false;
+            }
+
             $ownerRecord = $livewire->getOwnerRecord();
 
             $gate = Gate::getPolicyFor($ownerRecord);
 
-            $method = $livewire->getRelationship() instanceof BelongsToMany ? 'attachAny' : 'addAny';
-
-            $ability = Str::of($method)
+            $ability = Str::of('addAny')
                 ->append(Str::singular(class_basename($livewire->getTable()->getModel())))
                 ->__toString();
 
