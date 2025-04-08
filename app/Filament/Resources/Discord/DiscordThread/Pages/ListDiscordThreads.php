@@ -23,9 +23,8 @@ class ListDiscordThreads extends BaseListResources
      */
     protected function getHeaderActions(): array
     {
-        return array_merge(
-            parent::getHeaderActions(),
-            [],
-        );
+        return [
+            ...parent::getHeaderActions(),
+        ];
     }
 }

@@ -23,9 +23,8 @@ class ViewExternalEntry extends BaseViewResource
      */
     protected function getHeaderActions(): array
     {
-        return array_merge(
-            parent::getHeaderActions(),
-            [],
-        );
+        return [
+            ...parent::getHeaderActions(),
+        ];
     }
 }
