@@ -41,9 +41,6 @@ class CreateAction extends DefaultCreateAction
         $this->after(function ($livewire, $record) {
             if ($livewire instanceof BaseRelationManager) {
                 $relationship = $livewire->getRelationship();
-                if ($relationship instanceof BelongsToMany) {
-                    $this->pivotActionLog('Create and Attach', $livewire, $record);
-                }
 
                 if ($relationship instanceof HasMany) {
                     $this->associateActionLog('Create and Associate', $livewire, $record);
