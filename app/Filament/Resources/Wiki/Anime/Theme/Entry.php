@@ -167,7 +167,7 @@ class Entry extends BaseResource
                     ->live(true)
                     ->required()
                     ->rules(['required'])
-                    ->visibleOn(['create', 'edit'])
+                    ->visibleOn([ListEntries::class, ViewEntry::class])
                     ->saveRelationshipsUsing(fn (EntryModel $record, $state) => $record->animetheme->anime()->associate(intval($state))->save()),
 
                 Select::make(EntryModel::ATTRIBUTE_THEME)
@@ -175,7 +175,7 @@ class Entry extends BaseResource
                     ->relationship(EntryModel::RELATION_THEME, ThemeModel::ATTRIBUTE_ID)
                     ->required()
                     ->rules(['required'])
-                    ->visibleOn(['create', 'edit'])
+                    ->visibleOn([ListEntries::class, ViewEntry::class])
                     ->options(function (Get $get) {
                         return ThemeModel::query()
                             ->where(ThemeModel::ATTRIBUTE_ANIME, $get(EntryModel::RELATION_THEME . '.' . ThemeModel::ATTRIBUTE_ANIME))
