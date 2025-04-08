@@ -234,6 +234,7 @@ class Artist extends BaseResource
                         TextEntry::make(ArtistModel::ATTRIBUTE_INFORMATION)
                             ->label(__('filament.fields.artist.information.name'))
                             ->markdown()
+                            ->hidden(fn ($livewire) => $livewire instanceof ViewTheme)
                             ->columnSpanFull(),
 
                         TextEntry::make('artistsong' . '.' . ArtistSong::ATTRIBUTE_AS)
