@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Wiki\Song;
 
+use App\Enums\Http\Api\Filter\ComparisonOperator;
 use App\Filament\Components\Columns\BelongsToColumn;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\BelongsTo;
@@ -178,7 +179,11 @@ class Performance extends BaseResource
                     ->label(__('filament.fields.base.id')),
 
                 BelongsToColumn::make(PerformanceModel::RELATION_SONG, Song::class)
-                    ->hiddenOn([PerformanceSongRelationManager::class]),
+                    ->hiddenOn([PerformanceSongRelationManager::class])
+                    ->searchable(
+                        query: fn (Builder $query, string $search) => $query->whereRelation(PerformanceModel::RELATION_SONG, SongModel::ATTRIBUTE_TITLE, ComparisonOperator::LIKE->value, "%{$search}%"),
+                        isIndividual:true
+                    ),
 
                 TextColumn::make('member')
                     ->label(__('filament.fields.membership.member'))
@@ -221,8 +226,7 @@ class Performance extends BaseResource
 
                         return $record->as;
                     }),
-            ])
-            ->searchable();
+            ]);
     }
 
     /**

@@ -162,10 +162,12 @@ class Song extends BaseResource
                     ->visibleOn(SongResourceRelationManager::class),
 
                 TextColumn::make(ArtistSong::ATTRIBUTE_AS)
-                    ->label(__('filament.fields.artist.songs.as.name')),
+                    ->label(__('filament.fields.artist.songs.as.name'))
+                    ->hiddenOn(ListSongs::class),
 
                 TextColumn::make(ArtistSong::ATTRIBUTE_ALIAS)
-                    ->label(__('filament.fields.artist.songs.alias.name')),
+                    ->label(__('filament.fields.artist.songs.alias.name'))
+                    ->hiddenOn(ListSongs::class),
             ])
             ->searchable();
     }
