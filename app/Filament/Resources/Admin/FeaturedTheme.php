@@ -11,8 +11,6 @@ use App\Filament\Components\Fields\BelongsTo;
 use App\Filament\Components\Fields\Select;
 use App\Filament\Components\Infolist\BelongsToEntry;
 use App\Filament\Components\Infolist\TextEntry;
-use App\Filament\Resources\Admin\FeaturedTheme\Pages\CreateFeaturedTheme;
-use App\Filament\Resources\Admin\FeaturedTheme\Pages\EditFeaturedTheme;
 use App\Filament\Resources\Admin\FeaturedTheme\Pages\ListFeaturedThemes;
 use App\Filament\Resources\Admin\FeaturedTheme\Pages\ViewFeaturedTheme;
 use App\Filament\Resources\Auth\User as UserResource;
@@ -96,8 +94,6 @@ class FeaturedTheme extends BaseResource
      * Get the slug (URI key) for the resource.
      *
      * @return string
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getRecordSlug(): string
     {
@@ -289,12 +285,9 @@ class FeaturedTheme extends BaseResource
     public static function getRelations(): array
     {
         return [
-            RelationGroup::make(static::getLabel(),
-                array_merge(
-                    [],
-                    parent::getBaseRelations(),
-                )
-            ),
+            RelationGroup::make(static::getLabel(), [
+                ...parent::getBaseRelations(),
+            ]),
         ];
     }
 
@@ -305,10 +298,9 @@ class FeaturedTheme extends BaseResource
      */
     public static function getFilters(): array
     {
-        return array_merge(
-            parent::getFilters(),
-            []
-        );
+        return [
+            ...parent::getFilters(),
+        ];
     }
 
     /**
@@ -318,10 +310,9 @@ class FeaturedTheme extends BaseResource
      */
     public static function getActions(): array
     {
-        return array_merge(
-            parent::getActions(),
-            [],
-        );
+        return [
+            ...parent::getActions(),
+        ];
     }
 
     /**
@@ -332,10 +323,9 @@ class FeaturedTheme extends BaseResource
      */
     public static function getBulkActions(?array $actionsIncludedInGroup = []): array
     {
-        return array_merge(
-            parent::getBulkActions(),
-            [],
-        );
+        return [
+            ...parent::getBulkActions(),
+        ];
     }
 
     /**
@@ -345,10 +335,9 @@ class FeaturedTheme extends BaseResource
      */
     public static function getTableActions(): array
     {
-        return array_merge(
-            parent::getTableActions(),
-            [],
-        );
+        return [
+            ...parent::getTableActions(),
+        ];
     }
 
     /**
@@ -362,9 +351,7 @@ class FeaturedTheme extends BaseResource
     {
         return [
             'index' => ListFeaturedThemes::route('/'),
-            'create' => CreateFeaturedTheme::route('/create'),
             'view' => ViewFeaturedTheme::route('/{record:featured_theme_id}'),
-            'edit' => EditFeaturedTheme::route('/{record:featured_theme_id}/edit'),
         ];
     }
 }

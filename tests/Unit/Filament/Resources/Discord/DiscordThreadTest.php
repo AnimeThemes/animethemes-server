@@ -6,6 +6,9 @@ namespace Tests\Unit\Filament\Resources\Discord;
 
 use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\SpecialPermission;
+use App\Filament\Actions\Base\DeleteAction;
+use App\Filament\Actions\Base\EditAction;
+use App\Filament\HeaderActions\Base\CreateHeaderAction;
 use App\Filament\HeaderActions\Base\DeleteHeaderAction;
 use App\Filament\Resources\Discord\DiscordThread;
 use App\Models\Auth\User;
@@ -72,50 +75,6 @@ class DiscordThreadTest extends BaseResourceTestCase
     }
 
     /**
-     * The create page of the resource shall be rendered.
-     *
-     * @return void
-     */
-    public function testRenderCreatePage(): void
-    {
-        $user = User::factory()
-            ->withPermissions(
-                SpecialPermission::VIEW_FILAMENT->value,
-                CrudPermission::CREATE->format(DiscordThreadModel::class)
-            )
-            ->createOne();
-
-        $this->actingAs($user);
-
-        $this->get(DiscordThread::getUrl('create'))
-            ->assertSuccessful();
-    }
-
-    /**
-     * The edit page of the resource shall be rendered.
-     *
-     * @return void
-     */
-    public function testRenderEditPage(): void
-    {
-        $user = User::factory()
-            ->withPermissions(
-                SpecialPermission::VIEW_FILAMENT->value,
-                CrudPermission::UPDATE->format(DiscordThreadModel::class)
-            )
-            ->createOne();
-
-        $this->actingAs($user);
-
-        $record = DiscordThreadModel::factory()
-            ->for(Anime::factory())
-            ->createOne();
-
-        $this->get(DiscordThread::getUrl('edit', ['record' => $record]))
-            ->assertSuccessful();
-    }
-
-    /**
      * The view page of the resource shall be rendered.
      *
      * @return void
@@ -140,14 +99,60 @@ class DiscordThreadTest extends BaseResourceTestCase
     }
 
     /**
+     * The create action of the resource shall be mounted.
+     *
+     * @return void
+     */
+    public function testMountCreateAction(): void
+    {
+        $user = User::factory()
+            ->withPermissions(
+                SpecialPermission::VIEW_FILAMENT->value,
+                CrudPermission::CREATE->format(DiscordThreadModel::class)
+            )
+            ->createOne();
+
+        $this->actingAs($user);
+
+        Livewire::test(static::getIndexPage())
+            ->mountAction(CreateHeaderAction::class)
+            ->assertActionMounted(CreateHeaderAction::class);
+    }
+
+    /**
+     * The create action of the resource shall be mounted.
+     *
+     * @return void
+     */
+    public function testMountEditAction(): void
+    {
+        $user = User::factory()
+            ->withPermissions(
+                SpecialPermission::VIEW_FILAMENT->value,
+                CrudPermission::UPDATE->format(DiscordThreadModel::class)
+            )
+            ->createOne();
+
+        $this->actingAs($user);
+
+        $record = DiscordThreadModel::factory()
+            ->for(Anime::factory())
+            ->createOne();
+
+        Livewire::test(static::getIndexPage())
+            ->mountTableAction(EditAction::class, $record)
+            ->assertTableActionMounted(EditAction::class);
+    }
+
+    /**
      * The user with no permissions cannot create a record.
      *
      * @return void
      */
     public function testUserCannotCreateRecord(): void
     {
-        $this->get(DiscordThread::getUrl('create'))
-            ->assertForbidden();
+        Livewire::test(static::getIndexPage())
+            ->assertActionHidden(CreateHeaderAction::class);
     }
 
     /**
@@ -161,8 +166,8 @@ class DiscordThreadTest extends BaseResourceTestCase
             ->for(Anime::factory())
             ->createOne();
 
-        $this->get(DiscordThread::getUrl('edit', ['record' => $record]))
-            ->assertForbidden();
+        Livewire::test(static::getIndexPage())
+            ->assertTableActionHidden(EditAction::class, $record);
     }
 
     /**
@@ -178,5 +183,8 @@ class DiscordThreadTest extends BaseResourceTestCase
 
         Livewire::test(static::getViewPage(), ['record' => $record->getKey()])
             ->assertActionHidden(DeleteHeaderAction::class);
+
+        Livewire::test(static::getIndexPage())
+            ->assertTableActionHidden(DeleteAction::class, $record);
     }
 }

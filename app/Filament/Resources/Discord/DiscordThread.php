@@ -12,8 +12,6 @@ use App\Filament\Components\Filters\DateFilter;
 use App\Filament\Components\Infolist\BelongsToEntry;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\BaseResource;
-use App\Filament\Resources\Discord\DiscordThread\Pages\CreateDiscordThread;
-use App\Filament\Resources\Discord\DiscordThread\Pages\EditDiscordThread;
 use App\Filament\Resources\Discord\DiscordThread\Pages\ListDiscordThreads;
 use App\Filament\Resources\Discord\DiscordThread\Pages\ViewDiscordThread;
 use App\Filament\Resources\Wiki\Anime as AnimeResource;
@@ -108,8 +106,6 @@ class DiscordThread extends BaseResource
      * Get the slug (URI key) for the resource.
      *
      * @return string
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getRecordSlug(): string
     {
@@ -222,12 +218,9 @@ class DiscordThread extends BaseResource
     public static function getRelations(): array
     {
         return [
-            RelationGroup::make(static::getLabel(),
-                array_merge(
-                    [],
-                    parent::getBaseRelations(),
-                )
-            ),
+            RelationGroup::make(static::getLabel(), [
+                ...parent::getBaseRelations(),
+            ]),
         ];
     }
 
@@ -251,10 +244,9 @@ class DiscordThread extends BaseResource
      */
     public static function getActions(): array
     {
-        return array_merge(
-            parent::getActions(),
-            [],
-        );
+        return [
+            ...parent::getActions(),
+        ];
     }
 
     /**
@@ -265,10 +257,9 @@ class DiscordThread extends BaseResource
      */
     public static function getBulkActions(?array $actionsIncludedInGroup = []): array
     {
-        return array_merge(
-            parent::getBulkActions(),
-            [],
-        );
+        return [
+            ...parent::getBulkActions(),
+        ];
     }
 
     /**
@@ -278,16 +269,15 @@ class DiscordThread extends BaseResource
      */
     public static function getTableActions(): array
     {
-        return array_merge(
-            parent::getTableActions(),
-            [
-                ActionGroup::make([
-                    DiscordEditMessageTableAction::make('edit-message'),
+        return [
+            ...parent::getTableActions(),
 
-                    DiscordSendMessageTableAction::make('send-message'),
-                ]),
-            ],
-        );
+            ActionGroup::make([
+                DiscordEditMessageTableAction::make('edit-message'),
+
+                DiscordSendMessageTableAction::make('send-message'),
+            ]),
+        ];
     }
 
     /**
@@ -301,9 +291,7 @@ class DiscordThread extends BaseResource
     {
         return [
             'index' => ListDiscordThreads::route('/'),
-            'create' => CreateDiscordThread::route('/create'),
             'view' => ViewDiscordThread::route('/{record:thread_id}'),
-            'edit' => EditDiscordThread::route('/{record:thread_id}/edit'),
         ];
     }
 }

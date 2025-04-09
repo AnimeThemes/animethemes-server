@@ -45,10 +45,9 @@ class RoleUserRelationManager extends RoleRelationManager
      */
     public static function getFilters(): array
     {
-        return array_merge(
-            [],
-            parent::getFilters(),
-        );
+        return [
+            ...parent::getFilters(),
+        ];
     }
 
     /**
@@ -58,12 +57,11 @@ class RoleUserRelationManager extends RoleRelationManager
      */
     public static function getActions(): array
     {
-        return array_merge(
-            parent::getActions(),
-            [
-                EditAction::make(),
-            ],
-        );
+        return [
+            ...parent::getActions(),
+
+            EditAction::make(),
+        ];
     }
 
     /**
@@ -74,22 +72,21 @@ class RoleUserRelationManager extends RoleRelationManager
      */
     public static function getBulkActions(?array $actionsIncludedInGroup = []): array
     {
-        return array_merge(
-            parent::getBulkActions(),
-            [],
-        );
+        return [
+            ...parent::getBulkActions(),
+        ];
     }
 
     /**
-     * Get the header actions available for the relation. These are merged with the table actions of the resources.
+     * Get the header actions available for the relation.
+     * These are merged with the table actions of the resources.
      *
      * @return array
      */
     public static function getHeaderActions(): array
     {
-        return array_merge(
-            parent::getHeaderActions(),
-            [],
-        );
+        return [
+            ...parent::getHeaderActions(),
+        ];
     }
 }

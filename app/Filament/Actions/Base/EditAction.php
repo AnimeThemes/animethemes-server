@@ -6,6 +6,7 @@ namespace App\Filament\Actions\Base;
 
 use App\Concerns\Filament\ActionLogs\HasPivotActionLogs;
 use App\Filament\RelationManagers\BaseRelationManager;
+use App\Filament\Resources\Base\BaseListResources;
 use App\Filament\Resources\Base\BaseManageResources;
 use Filament\Forms\Form;
 use Filament\Support\Enums\IconSize;
@@ -31,7 +32,7 @@ class EditAction extends DefaultEditAction
         $this->label('');
         $this->iconSize(IconSize::Medium);
 
-        $this->form(fn (Form $form, BaseRelationManager|BaseManageResources $livewire) => [
+        $this->form(fn (Form $form, BaseRelationManager|BaseManageResources|BaseListResources $livewire) => [
             ...$livewire->form($form)->getComponents(),
             ...($livewire instanceof BaseRelationManager ? $livewire->getPivotFields() : []),
         ]);

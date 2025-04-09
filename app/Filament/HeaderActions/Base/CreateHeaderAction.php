@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Filament\HeaderActions\Base;
 
+use App\Models\Admin\ActionLog;
 use Filament\Actions\CreateAction as DefaultCreateAction;
+use Filament\Facades\Filament;
 
 /**
  * Class CreateHeaderAction.
@@ -19,5 +21,8 @@ class CreateHeaderAction extends DefaultCreateAction
     protected function setUp(): void
     {
         parent::setUp();
+
+        $this->successRedirectUrl(fn ($record) => Filament::getModelResource($record)::getUrl('view', ['record' => $record]));
+        $this->after(fn ($record) => ActionLog::modelCreated($record));
     }
 }

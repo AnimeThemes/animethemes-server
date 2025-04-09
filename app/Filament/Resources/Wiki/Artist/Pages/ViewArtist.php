@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Wiki\Artist\Pages;
 
+use App\Filament\HeaderActions\Models\Wiki\Artist\AttachArtistResourceHeaderAction;
 use App\Filament\Resources\Base\BaseViewResource;
 use App\Filament\Resources\Wiki\Artist;
+use Filament\Actions\ActionGroup;
 
 /**
  * Class ViewArtist.
@@ -23,9 +25,12 @@ class ViewArtist extends BaseViewResource
      */
     protected function getHeaderActions(): array
     {
-        return array_merge(
-            parent::getHeaderActions(),
-            [],
-        );
+        return [
+            ...parent::getHeaderActions(),
+
+            ActionGroup::make([
+                AttachArtistResourceHeaderAction::make('attach-artist-resource'),
+            ])
+        ];
     }
 }

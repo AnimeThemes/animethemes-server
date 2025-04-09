@@ -12,8 +12,6 @@ use App\Filament\Components\Fields\Slug;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\ExternalResource\RelationManagers\StudioResourceRelationManager;
-use App\Filament\Resources\Wiki\Studio\Pages\CreateStudio;
-use App\Filament\Resources\Wiki\Studio\Pages\EditStudio;
 use App\Filament\Resources\Wiki\Studio\Pages\ListStudios;
 use App\Filament\Resources\Wiki\Studio\Pages\ViewStudio;
 use App\Filament\Resources\Wiki\Studio\RelationManagers\AnimeStudioRelationManager;
@@ -95,8 +93,6 @@ class Studio extends BaseResource
      * Get the slug (URI key) for the resource.
      *
      * @return string
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getRecordSlug(): string
     {
@@ -211,16 +207,13 @@ class Studio extends BaseResource
     public static function getRelations(): array
     {
         return [
-            RelationGroup::make(static::getLabel(),
-                array_merge(
-                    [
-                        AnimeStudioRelationManager::class,
-                        ResourceStudioRelationManager::class,
-                        ImageStudioRelationManager::class,
-                    ],
-                    parent::getBaseRelations(),
-                )
-            ),
+            RelationGroup::make(static::getLabel(), [
+                AnimeStudioRelationManager::class,
+                ResourceStudioRelationManager::class,
+                ImageStudioRelationManager::class,
+
+                ...parent::getBaseRelations(),
+            ]),
         ];
     }
 
@@ -231,10 +224,9 @@ class Studio extends BaseResource
      */
     public static function getFilters(): array
     {
-        return array_merge(
-            [],
-            parent::getFilters(),
-        );
+        return [
+            ...parent::getFilters(),
+        ];
     }
 
     /**
@@ -244,18 +236,17 @@ class Studio extends BaseResource
      */
     public static function getActions(): array
     {
-        return array_merge(
-            parent::getActions(),
-            [
-                ActionGroup::make([
-                    BackfillStudioAction::make('backfill-studio'),
+        return [
+            ...parent::getActions(),
 
-                    AttachImageAction::make('attach-studio-image'),
+            ActionGroup::make([
+                BackfillStudioAction::make('backfill-studio'),
 
-                    AttachStudioResourceAction::make('attach-studio-resource'),
-                ])
-            ],
-        );
+                AttachImageAction::make('attach-studio-image'),
+
+                AttachStudioResourceAction::make('attach-studio-resource'),
+            ])
+        ];
     }
 
     /**
@@ -266,10 +257,9 @@ class Studio extends BaseResource
      */
     public static function getBulkActions(?array $actionsIncludedInGroup = []): array
     {
-        return array_merge(
-            parent::getBulkActions(),
-            [],
-        );
+        return [
+            ...parent::getBulkActions(),
+        ];
     }
 
     /**
@@ -279,10 +269,9 @@ class Studio extends BaseResource
      */
     public static function getTableActions(): array
     {
-        return array_merge(
-            parent::getTableActions(),
-            [],
-        );
+        return [
+            ...parent::getTableActions(),
+        ];
     }
 
     /**
@@ -296,9 +285,7 @@ class Studio extends BaseResource
     {
         return [
             'index' => ListStudios::route('/'),
-            'create' => CreateStudio::route('/create'),
             'view' => ViewStudio::route('/{record:studio_id}'),
-            'edit' => EditStudio::route('/{record:studio_id}/edit'),
         ];
     }
 }

@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Auth\Role\Pages;
 
+use App\Filament\HeaderActions\Models\Auth\Role\GivePermissionHeaderAction;
+use App\Filament\HeaderActions\Models\Auth\Role\RevokePermissionHeaderAction;
 use App\Filament\Resources\Base\BaseViewResource;
 use App\Filament\Resources\Auth\Role;
+use Filament\Actions\ActionGroup;
 
 /**
  * Class ViewRole.
@@ -23,9 +26,14 @@ class ViewRole extends BaseViewResource
      */
     protected function getHeaderActions(): array
     {
-        return array_merge(
-            parent::getHeaderActions(),
-            [],
-        );
+        return [
+            ...parent::getHeaderActions(),
+
+            ActionGroup::make([
+                GivePermissionHeaderAction::make('give-permission'),
+
+                RevokePermissionHeaderAction::make('revoke-permission'),
+            ]),
+        ];
     }
 }

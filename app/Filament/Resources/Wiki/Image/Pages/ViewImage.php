@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Wiki\Image\Pages;
 
+use App\Filament\HeaderActions\Storage\Wiki\Image\MoveImageHeaderAction;
 use App\Filament\Resources\Base\BaseViewResource;
 use App\Filament\Resources\Wiki\Image;
+use Filament\Actions\ActionGroup;
 
 /**
  * Class ViewImage.
@@ -23,9 +25,12 @@ class ViewImage extends BaseViewResource
      */
     protected function getHeaderActions(): array
     {
-        return array_merge(
-            parent::getHeaderActions(),
-            [],
-        );
+        return [
+            ...parent::getHeaderActions(),
+
+            ActionGroup::make([
+                MoveImageHeaderAction::make('move-image'),
+            ]),
+        ];
     }
 }

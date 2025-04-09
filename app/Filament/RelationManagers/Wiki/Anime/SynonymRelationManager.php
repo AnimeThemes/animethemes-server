@@ -57,10 +57,9 @@ abstract class SynonymRelationManager extends BaseRelationManager
      */
     public static function getFilters(): array
     {
-        return array_merge(
-            [],
-            SynonymResource::getFilters(),
-        );
+        return [
+            ...SynonymResource::getFilters(),
+        ];
     }
 
     /**
@@ -70,10 +69,10 @@ abstract class SynonymRelationManager extends BaseRelationManager
      */
     public static function getActions(): array
     {
-        return array_merge(
-            parent::getActions(),
-            SynonymResource::getActions(),
-        );
+        return [
+            ...parent::getActions(),
+            ...SynonymResource::getActions(),
+        ];
     }
 
     /**
@@ -84,22 +83,23 @@ abstract class SynonymRelationManager extends BaseRelationManager
      */
     public static function getBulkActions(?array $actionsIncludedInGroup = []): array
     {
-        return array_merge(
-            parent::getBulkActions(),
-            SynonymResource::getBulkActions(),
-        );
+        return [
+            ...parent::getBulkActions(),
+            ...SynonymResource::getBulkActions(),
+        ];
     }
 
     /**
-     * Get the header actions available for the relation. These are merged with the table actions of the resources.
+     * Get the header actions available for the relation.
+     * These are merged with the table actions of the resources.
      *
      * @return array
      */
     public static function getHeaderActions(): array
     {
-        return array_merge(
-            parent::getHeaderActions(),
-            SynonymResource::getTableActions(),
-        );
+        return [
+            ...parent::getHeaderActions(),
+            ...SynonymResource::getTableActions(),
+        ];
     }
 }

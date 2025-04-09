@@ -6,6 +6,8 @@ namespace Tests\Unit\Filament\Resources\List\Playlist;
 
 use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\SpecialPermission;
+use App\Filament\Actions\Base\EditAction;
+use App\Filament\HeaderActions\Base\CreateHeaderAction;
 use App\Filament\Resources\List\Playlist\Track;
 use App\Models\Auth\User;
 use App\Models\List\Playlist;
@@ -84,52 +86,6 @@ class TrackTest extends BaseResourceTestCase
     }
 
     /**
-     * The create page of the resource shall be rendered.
-     *
-     * @return void
-     */
-    public function testRenderCreatePage(): void
-    {
-        $user = User::factory()
-            ->withAdmin()
-            ->withPermissions(
-                SpecialPermission::VIEW_FILAMENT->value,
-                CrudPermission::CREATE->format(PlaylistTrackModel::class)
-            )
-            ->createOne();
-
-        $this->actingAs($user);
-
-        $this->get(Track::getUrl('create'))
-            ->assertSuccessful();
-    }
-
-    /**
-     * The edit page of the resource shall be rendered.
-     *
-     * @return void
-     */
-    public function testRenderEditPage(): void
-    {
-        $user = User::factory()
-            ->withAdmin()
-            ->withPermissions(
-                SpecialPermission::VIEW_FILAMENT->value,
-                CrudPermission::UPDATE->format(PlaylistTrackModel::class),
-            )
-            ->createOne();
-
-        $this->actingAs($user);
-
-        $playlist = Playlist::factory()->tracks(3)->create();
-
-        $record = $playlist->tracks->first();
-
-        $this->get(Track::getUrl('edit', ['record' => $record]))
-            ->assertSuccessful();
-    }
-
-    /**
      * The view page of the resource shall be rendered.
      *
      * @return void
@@ -152,5 +108,53 @@ class TrackTest extends BaseResourceTestCase
 
         $this->get(Track::getUrl('view', ['record' => $record]))
             ->assertSuccessful();
+    }
+
+    /**
+     * The create action of the resource shall be mounted.
+     *
+     * @return void
+     */
+    public function testMountCreateAction(): void
+    {
+        $user = User::factory()
+            ->withAdmin()
+            ->withPermissions(
+                SpecialPermission::VIEW_FILAMENT->value,
+                CrudPermission::CREATE->format(PlaylistTrackModel::class)
+            )
+            ->createOne();
+
+        $this->actingAs($user);
+
+        Livewire::test(static::getIndexPage())
+            ->mountAction(CreateHeaderAction::class)
+            ->assertActionMounted(CreateHeaderAction::class);
+    }
+
+    /**
+     * The create action of the resource shall be mounted.
+     *
+     * @return void
+     */
+    public function testMountEditAction(): void
+    {
+        $user = User::factory()
+            ->withAdmin()
+            ->withPermissions(
+                SpecialPermission::VIEW_FILAMENT->value,
+                CrudPermission::UPDATE->format(PlaylistTrackModel::class),
+            )
+            ->createOne();
+
+        $this->actingAs($user);
+
+        $playlist = Playlist::factory()->tracks(3)->create();
+
+        $record = $playlist->tracks->first();
+
+        Livewire::test(static::getIndexPage())
+            ->mountTableAction(EditAction::class, $record)
+            ->assertTableActionMounted(EditAction::class);
     }
 }

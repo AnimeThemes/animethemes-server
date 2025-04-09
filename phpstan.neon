@@ -29,3 +29,5 @@ parameters:
         - '#Call to an undefined method Database\\Factories.*::trashed\(\).#'
         - '#::mapWithKeys\(\) expects*non-empty-array<int\|string, string> given.#'
         - '#Access to an undefined property App\\Models\\Wiki\\Artist::\$pivot.#'
+        - '#Call to method assertActionMounted\(\) on an unknown class static.#'
+        - '#Call to method assertTableActionMounted\(\) on an unknown class static.#'

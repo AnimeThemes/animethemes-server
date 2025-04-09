@@ -6,6 +6,11 @@ namespace Tests\Unit\Filament\Resources\Wiki\Anime\Theme;
 
 use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\SpecialPermission;
+use App\Filament\Actions\Base\DeleteAction;
+use App\Filament\Actions\Base\EditAction;
+use App\Filament\Actions\Base\ForceDeleteAction;
+use App\Filament\Actions\Base\RestoreAction;
+use App\Filament\HeaderActions\Base\CreateHeaderAction;
 use App\Filament\HeaderActions\Base\DeleteHeaderAction;
 use App\Filament\HeaderActions\Base\ForceDeleteHeaderAction;
 use App\Filament\HeaderActions\Base\RestoreHeaderAction;
@@ -72,50 +77,6 @@ class EntryTest extends BaseResourceTestCase
     }
 
     /**
-     * The create page of the resource shall be rendered.
-     *
-     * @return void
-     */
-    public function testRenderCreatePage(): void
-    {
-        $user = User::factory()
-            ->withPermissions(
-                SpecialPermission::VIEW_FILAMENT->value,
-                CrudPermission::CREATE->format(AnimeThemeEntryModel::class)
-            )
-            ->createOne();
-
-        $this->actingAs($user);
-
-        $this->get(Entry::getUrl('create'))
-            ->assertSuccessful();
-    }
-
-    /**
-     * The edit page of the resource shall be rendered.
-     *
-     * @return void
-     */
-    public function testRenderEditPage(): void
-    {
-        $user = User::factory()
-            ->withPermissions(
-                SpecialPermission::VIEW_FILAMENT->value,
-                CrudPermission::UPDATE->format(AnimeThemeEntryModel::class)
-            )
-            ->createOne();
-
-        $this->actingAs($user);
-
-        $record = AnimeThemeEntryModel::factory()
-            ->forAnime()
-            ->createOne();
-
-        $this->get(Entry::getUrl('edit', ['record' => $record]))
-            ->assertSuccessful();
-    }
-
-    /**
      * The view page of the resource shall be rendered.
      *
      * @return void
@@ -140,14 +101,60 @@ class EntryTest extends BaseResourceTestCase
     }
 
     /**
+     * The create action of the resource shall be mounted.
+     *
+     * @return void
+     */
+    public function testMountCreateAction(): void
+    {
+        $user = User::factory()
+            ->withPermissions(
+                SpecialPermission::VIEW_FILAMENT->value,
+                CrudPermission::CREATE->format(AnimeThemeEntryModel::class)
+            )
+            ->createOne();
+
+        $this->actingAs($user);
+
+        Livewire::test(static::getIndexPage())
+            ->mountAction(CreateHeaderAction::class)
+            ->assertActionMounted(CreateHeaderAction::class);
+    }
+
+    /**
+     * The create action of the resource shall be mounted.
+     *
+     * @return void
+     */
+    public function testMountEditAction(): void
+    {
+        $user = User::factory()
+            ->withPermissions(
+                SpecialPermission::VIEW_FILAMENT->value,
+                CrudPermission::UPDATE->format(AnimeThemeEntryModel::class)
+            )
+            ->createOne();
+
+        $this->actingAs($user);
+
+        $record = AnimeThemeEntryModel::factory()
+            ->forAnime()
+            ->createOne();
+
+        Livewire::test(static::getIndexPage())
+            ->mountTableAction(EditAction::class, $record)
+            ->assertTableActionMounted(EditAction::class);
+    }
+
+    /**
      * The user with no permissions cannot create a record.
      *
      * @return void
      */
     public function testUserCannotCreateRecord(): void
     {
-        $this->get(Entry::getUrl('create'))
-            ->assertForbidden();
+        Livewire::test(static::getIndexPage())
+            ->assertActionHidden(CreateHeaderAction::class);
     }
 
     /**
@@ -161,8 +168,8 @@ class EntryTest extends BaseResourceTestCase
             ->forAnime()
             ->createOne();
 
-        $this->get(Entry::getUrl('edit', ['record' => $record]))
-            ->assertForbidden();
+        Livewire::test(static::getIndexPage())
+            ->assertTableActionHidden(EditAction::class, $record);
     }
 
     /**
@@ -178,6 +185,9 @@ class EntryTest extends BaseResourceTestCase
 
         Livewire::test(static::getViewPage(), ['record' => $record->getKey()])
             ->assertActionHidden(DeleteHeaderAction::class);
+
+        Livewire::test(static::getIndexPage())
+            ->assertTableActionHidden(DeleteAction::class, $record);
     }
 
     /**
@@ -195,6 +205,9 @@ class EntryTest extends BaseResourceTestCase
 
         Livewire::test(static::getViewPage(), ['record' => $record->getKey()])
             ->assertActionHidden(RestoreHeaderAction::class);
+
+        Livewire::test(static::getIndexPage())
+            ->assertTableActionHidden(RestoreAction::class, $record);
     }
 
     /**
@@ -210,5 +223,8 @@ class EntryTest extends BaseResourceTestCase
 
         Livewire::test(static::getViewPage(), ['record' => $record->getKey()])
             ->assertActionHidden(ForceDeleteHeaderAction::class);
+
+        Livewire::test(static::getIndexPage())
+            ->assertTableActionHidden(ForceDeleteAction::class, $record);
     }
 }

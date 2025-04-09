@@ -11,8 +11,6 @@ use App\Filament\Components\Fields\Slug;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Anime\Theme\Pages\ViewTheme;
-use App\Filament\Resources\Wiki\Artist\Pages\CreateArtist;
-use App\Filament\Resources\Wiki\Artist\Pages\EditArtist;
 use App\Filament\Resources\Wiki\Artist\Pages\ListArtists;
 use App\Filament\Resources\Wiki\Artist\Pages\ViewArtist;
 use App\Filament\Resources\Wiki\Artist\RelationManagers\GroupArtistRelationManager;
@@ -113,8 +111,6 @@ class Artist extends BaseResource
      * Get the slug (URI key) for the resource.
      *
      * @return string
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getRecordSlug(): string
     {
@@ -234,6 +230,7 @@ class Artist extends BaseResource
                         TextEntry::make(ArtistModel::ATTRIBUTE_INFORMATION)
                             ->label(__('filament.fields.artist.information.name'))
                             ->markdown()
+                            ->hidden(fn ($livewire) => $livewire instanceof ViewTheme)
                             ->columnSpanFull(),
 
                         TextEntry::make('artistsong' . '.' . ArtistSong::ATTRIBUTE_AS)
@@ -263,19 +260,16 @@ class Artist extends BaseResource
     public static function getRelations(): array
     {
         return [
-            RelationGroup::make(static::getLabel(),
-                array_merge(
-                    [
-                        PerformanceArtistRelationManager::class,
-                        GroupPerformanceArtistRelationManager::class,
-                        ResourceArtistRelationManager::class,
-                        MemberArtistRelationManager::class,
-                        GroupArtistRelationManager::class,
-                        ImageArtistRelationManager::class,
-                    ],
-                    parent::getBaseRelations(),
-                )
-            ),
+            RelationGroup::make(static::getLabel(), [
+                PerformanceArtistRelationManager::class,
+                GroupPerformanceArtistRelationManager::class,
+                ResourceArtistRelationManager::class,
+                MemberArtistRelationManager::class,
+                GroupArtistRelationManager::class,
+                ImageArtistRelationManager::class,
+
+                ...parent::getBaseRelations(),
+            ]),
         ];
     }
 
@@ -286,10 +280,9 @@ class Artist extends BaseResource
      */
     public static function getFilters(): array
     {
-        return array_merge(
-            [],
-            parent::getFilters(),
-        );
+        return [
+            ...parent::getFilters(),
+        ];
     }
 
     /**
@@ -299,16 +292,15 @@ class Artist extends BaseResource
      */
     public static function getActions(): array
     {
-        return array_merge(
-            parent::getActions(),
-            [
-                ActionGroup::make([
-                    AttachImageAction::make('attach-artist-image'),
+        return [
+            ...parent::getActions(),
 
-                    AttachArtistResourceAction::make('attach-artist-resource'),
-                ])
-            ],
-        );
+            ActionGroup::make([
+                AttachImageAction::make('attach-artist-image'),
+
+                AttachArtistResourceAction::make('attach-artist-resource'),
+            ])
+        ];
     }
 
     /**
@@ -319,10 +311,9 @@ class Artist extends BaseResource
      */
     public static function getBulkActions(?array $actionsIncludedInGroup = []): array
     {
-        return array_merge(
-            parent::getBulkActions(),
-            [],
-        );
+        return [
+            ...parent::getBulkActions(),
+        ];
     }
 
     /**
@@ -332,10 +323,9 @@ class Artist extends BaseResource
      */
     public static function getTableActions(): array
     {
-        return array_merge(
-            parent::getTableActions(),
-            [],
-        );
+        return [
+            ...parent::getTableActions(),
+        ];
     }
 
     /**
@@ -349,9 +339,7 @@ class Artist extends BaseResource
     {
         return [
             'index' => ListArtists::route('/'),
-            'create' => CreateArtist::route('/create'),
             'view' => ViewArtist::route('/{record:artist_id}'),
-            'edit' => EditArtist::route('/{record:artist_id}/edit'),
         ];
     }
 }

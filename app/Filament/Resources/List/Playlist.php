@@ -14,8 +14,6 @@ use App\Filament\Components\Infolist\BelongsToEntry;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\Auth\User as UserResource;
 use App\Filament\Resources\BaseResource;
-use App\Filament\Resources\List\Playlist\Pages\CreatePlaylist;
-use App\Filament\Resources\List\Playlist\Pages\EditPlaylist;
 use App\Filament\Resources\List\Playlist\Pages\ListPlaylists;
 use App\Filament\Resources\List\Playlist\Pages\ViewPlaylist;
 use App\Filament\Resources\List\Playlist\RelationManagers\ImagePlaylistRelationManager;
@@ -96,8 +94,6 @@ class Playlist extends BaseResource
      * Get the slug (URI key) for the resource.
      *
      * @return string
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getRecordSlug(): string
     {
@@ -290,15 +286,12 @@ class Playlist extends BaseResource
     public static function getRelations(): array
     {
         return [
-            RelationGroup::make(static::getLabel(),
-                array_merge(
-                    [
-                        ImagePlaylistRelationManager::class,
-                        TrackPlaylistRelationManager::class,
-                    ],
-                    parent::getBaseRelations(),
-                )
-            ),
+            RelationGroup::make(static::getLabel(), [
+                ImagePlaylistRelationManager::class,
+                TrackPlaylistRelationManager::class,
+
+                ...parent::getBaseRelations(),
+            ]),
         ];
     }
 
@@ -309,10 +302,9 @@ class Playlist extends BaseResource
      */
     public static function getFilters(): array
     {
-        return array_merge(
-            parent::getFilters(),
-            []
-        );
+        return [
+            ...parent::getFilters(),
+        ];
     }
 
     /**
@@ -322,14 +314,13 @@ class Playlist extends BaseResource
      */
     public static function getActions(): array
     {
-        return array_merge(
-            parent::getActions(),
-            [
-                AssignHashidsAction::make('assign-hashids')
-                    ->setConnection('playlists')
-                    ->authorize('update', PlaylistModel::class),
-            ],
-        );
+        return [
+            ...parent::getActions(),
+
+            AssignHashidsAction::make('assign-hashids')
+                ->setConnection('playlists')
+                ->authorize('update', PlaylistModel::class),
+        ];
     }
 
     /**
@@ -340,10 +331,9 @@ class Playlist extends BaseResource
      */
     public static function getBulkActions(?array $actionsIncludedInGroup = []): array
     {
-        return array_merge(
-            parent::getBulkActions(),
-            [],
-        );
+        return [
+            ...parent::getBulkActions(),
+        ];
     }
 
     /**
@@ -353,10 +343,9 @@ class Playlist extends BaseResource
      */
     public static function getTableActions(): array
     {
-        return array_merge(
-            parent::getTableActions(),
-            [],
-        );
+        return [
+            ...parent::getTableActions(),
+        ];
     }
 
     /**
@@ -370,9 +359,7 @@ class Playlist extends BaseResource
     {
         return [
             'index' => ListPlaylists::route('/'),
-            'create' => CreatePlaylist::route('/create'),
             'view' => ViewPlaylist::route('/{record:playlist_id}'),
-            'edit' => EditPlaylist::route('/{record:playlist_id}/edit'),
         ];
     }
 }

@@ -57,10 +57,9 @@ abstract class ArtistRelationManager extends BaseRelationManager
      */
     public static function getFilters(): array
     {
-        return array_merge(
-            [],
-            ArtistResource::getFilters(),
-        );
+        return [
+            ...ArtistResource::getFilters(),
+        ];
     }
 
     /**
@@ -70,10 +69,10 @@ abstract class ArtistRelationManager extends BaseRelationManager
      */
     public static function getActions(): array
     {
-        return array_merge(
-            parent::getActions(),
-            ArtistResource::getActions(),
-        );
+        return [
+            ...parent::getActions(),
+            ...ArtistResource::getActions(),
+        ];
     }
 
     /**
@@ -84,22 +83,23 @@ abstract class ArtistRelationManager extends BaseRelationManager
      */
     public static function getBulkActions(?array $actionsIncludedInGroup = []): array
     {
-        return array_merge(
-            parent::getBulkActions(),
-            ArtistResource::getBulkActions(),
-        );
+        return [
+            ...parent::getBulkActions(),
+            ...ArtistResource::getBulkActions(),
+        ];
     }
 
     /**
-     * Get the header actions available for the relation. These are merged with the table actions of the resources.
+     * Get the header actions available for the relation.
+     * These are merged with the table actions of the resources.
      *
      * @return array
      */
     public static function getHeaderActions(): array
     {
-        return array_merge(
-            parent::getHeaderActions(),
-            ArtistResource::getTableActions(),
-        );
+        return [
+            ...parent::getHeaderActions(),
+            ...ArtistResource::getTableActions(),
+        ];
     }
 }

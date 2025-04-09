@@ -4,13 +4,10 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Document;
 
-use App\Enums\Http\Api\Filter\ComparisonOperator;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\Select;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\BaseResource;
-use App\Filament\Resources\Document\Page\Pages\CreatePage;
-use App\Filament\Resources\Document\Page\Pages\EditPage;
 use App\Filament\Resources\Document\Page\Pages\ListPages;
 use App\Filament\Resources\Document\Page\Pages\ViewPage;
 use App\Models\Document\Page as PageModel;
@@ -22,10 +19,7 @@ use Filament\Forms\Set;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
-use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
 /**
@@ -92,8 +86,6 @@ class Page extends BaseResource
      * Get the slug (URI key) for the resource.
      *
      * @return string
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getRecordSlug(): string
     {
@@ -275,12 +267,9 @@ class Page extends BaseResource
     public static function getRelations(): array
     {
         return [
-            RelationGroup::make(static::getLabel(),
-                array_merge(
-                    [],
-                    parent::getBaseRelations(),
-                )
-            ),
+            RelationGroup::make(static::getLabel(),[
+                ...parent::getBaseRelations(),
+            ]),
         ];
     }
 
@@ -291,15 +280,9 @@ class Page extends BaseResource
      */
     public static function getFilters(): array
     {
-        return array_merge(
-            [
-                SelectFilter::make('section')
-                    ->label(__('filament.fields.page.section.name'))
-                    ->options(PageModel::getSections())
-                    ->modifyQueryUsing(fn (Builder $query, array $state) => $query->where(PageModel::ATTRIBUTE_SLUG, ComparisonOperator::LIKE->value, '%' . Arr::get($state, 'value') . '%')),
-            ],
-            parent::getFilters(),
-        );
+        return [
+            ...parent::getFilters(),
+        ];
     }
 
     /**
@@ -309,10 +292,9 @@ class Page extends BaseResource
      */
     public static function getActions(): array
     {
-        return array_merge(
-            parent::getActions(),
-            [],
-        );
+        return [
+            ...parent::getActions(),
+        ];
     }
 
     /**
@@ -323,10 +305,9 @@ class Page extends BaseResource
      */
     public static function getBulkActions(?array $actionsIncludedInGroup = []): array
     {
-        return array_merge(
-            parent::getBulkActions(),
-            [],
-        );
+        return [
+            ...parent::getBulkActions(),
+        ];
     }
 
     /**
@@ -336,10 +317,9 @@ class Page extends BaseResource
      */
     public static function getTableActions(): array
     {
-        return array_merge(
-            parent::getTableActions(),
-            [],
-        );
+        return [
+            ...parent::getTableActions(),
+        ];
     }
 
     /**
@@ -353,9 +333,7 @@ class Page extends BaseResource
     {
         return [
             'index' => ListPages::route('/'),
-            'create' => CreatePage::route('/create'),
             'view' => ViewPage::route('/{record:page_id}'),
-            'edit' => EditPage::route('/{record:page_id}/edit'),
         ];
     }
 }

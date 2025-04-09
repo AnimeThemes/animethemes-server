@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Wiki\Song;
 
+use App\Enums\Http\Api\Filter\ComparisonOperator;
 use App\Filament\Components\Columns\BelongsToColumn;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\BelongsTo;
@@ -14,7 +15,6 @@ use App\Filament\Resources\Wiki\Artist as ArtistResource;
 use App\Filament\Resources\Wiki\Artist\RelationManagers\GroupPerformanceArtistRelationManager;
 use App\Filament\Resources\Wiki\Artist\RelationManagers\PerformanceArtistRelationManager;
 use App\Filament\Resources\Wiki\Song;
-use App\Filament\Resources\Wiki\Song\Performance\Pages\EditPerformance;
 use App\Filament\Resources\Wiki\Song\Performance\Pages\ListPerformances;
 use App\Filament\Resources\Wiki\Song\Performance\Pages\ViewPerformance;
 use App\Filament\Resources\Wiki\Song\RelationManagers\PerformanceSongRelationManager;
@@ -113,8 +113,6 @@ class Performance extends BaseResource
      * Get the slug (URI key) for the resource.
      *
      * @return string
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getRecordSlug(): string
     {
@@ -181,7 +179,11 @@ class Performance extends BaseResource
                     ->label(__('filament.fields.base.id')),
 
                 BelongsToColumn::make(PerformanceModel::RELATION_SONG, Song::class)
-                    ->hiddenOn([PerformanceSongRelationManager::class]),
+                    ->hiddenOn([PerformanceSongRelationManager::class])
+                    ->searchable(
+                        query: fn (Builder $query, string $search) => $query->whereRelation(PerformanceModel::RELATION_SONG, SongModel::ATTRIBUTE_TITLE, ComparisonOperator::LIKE->value, "%{$search}%"),
+                        isIndividual:true
+                    ),
 
                 TextColumn::make('member')
                     ->label(__('filament.fields.membership.member'))
@@ -224,8 +226,7 @@ class Performance extends BaseResource
 
                         return $record->as;
                     }),
-            ])
-            ->searchable();
+            ]);
     }
 
     /**
@@ -292,12 +293,9 @@ class Performance extends BaseResource
     public static function getRelations(): array
     {
         return [
-            RelationGroup::make(static::getLabel(),
-                array_merge(
-                    [],
-                    parent::getBaseRelations(),
-                )
-            ),
+            RelationGroup::make(static::getLabel(), [
+                ...parent::getBaseRelations(),
+            ]),
         ];
     }
 
@@ -308,10 +306,9 @@ class Performance extends BaseResource
      */
     public static function getFilters(): array
     {
-        return array_merge(
-            [],
-            parent::getFilters(),
-        );
+        return [
+            ...parent::getFilters(),
+        ];
     }
 
     /**
@@ -323,10 +320,9 @@ class Performance extends BaseResource
      */
     public static function getActions(): array
     {
-        return array_merge(
-            parent::getActions(),
-            [],
-        );
+        return [
+            ...parent::getActions(),
+        ];
     }
 
     /**
@@ -337,10 +333,9 @@ class Performance extends BaseResource
      */
     public static function getBulkActions(?array $actionsIncludedInGroup = []): array
     {
-        return array_merge(
-            parent::getBulkActions(),
-            [],
-        );
+        return [
+            ...parent::getBulkActions(),
+        ];
     }
 
     /**
@@ -350,10 +345,9 @@ class Performance extends BaseResource
      */
     public static function getTableActions(): array
     {
-        return array_merge(
-            parent::getTableActions(),
-            [],
-        );
+        return [
+            ...parent::getTableActions(),
+        ];
     }
 
     /**
@@ -457,7 +451,6 @@ class Performance extends BaseResource
     {
         return [
             'index' => ListPerformances::route('/'),
-            'edit' => EditPerformance::route('/{record:performance_id}/edit'),
             'view' => ViewPerformance::route('/{record:performance_id}'),
         ];
     }

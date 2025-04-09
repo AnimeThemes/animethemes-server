@@ -14,8 +14,6 @@ use App\Filament\Components\Infolist\BelongsToEntry;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\Auth\User;
 use App\Filament\Resources\BaseResource;
-use App\Filament\Resources\List\External\Pages\CreateExternalProfile;
-use App\Filament\Resources\List\External\Pages\EditExternalProfile;
 use App\Filament\Resources\List\External\Pages\ListExternalProfiles;
 use App\Filament\Resources\List\External\Pages\ViewExternalProfile;
 use App\Filament\Resources\List\External\RelationManagers\ExternalEntryExternalProfileRelationManager;
@@ -93,8 +91,6 @@ class ExternalProfile extends BaseResource
      * Get the slug (URI key) for the resource.
      *
      * @return string
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getRecordSlug(): string
     {
@@ -242,15 +238,11 @@ class ExternalProfile extends BaseResource
     public static function getRelations(): array
     {
         return [
-            RelationGroup::make(
-                static::getLabel(),
-                array_merge(
-                    [
-                        ExternalEntryExternalProfileRelationManager::class,
-                    ],
-                    parent::getBaseRelations(),
-                )
-            ),
+            RelationGroup::make(static::getLabel(), [
+                ExternalEntryExternalProfileRelationManager::class,
+
+                ...parent::getBaseRelations(),
+            ]),
         ];
     }
 
@@ -261,10 +253,9 @@ class ExternalProfile extends BaseResource
      */
     public static function getFilters(): array
     {
-        return array_merge(
-            parent::getFilters(),
-            []
-        );
+        return [
+            ...parent::getFilters(),
+        ];
     }
 
     /**
@@ -274,10 +265,9 @@ class ExternalProfile extends BaseResource
      */
     public static function getActions(): array
     {
-        return array_merge(
-            parent::getActions(),
-            [],
-        );
+        return [
+            ...parent::getActions(),
+        ];
     }
 
     /**
@@ -288,10 +278,9 @@ class ExternalProfile extends BaseResource
      */
     public static function getBulkActions(?array $actionsIncludedInGroup = []): array
     {
-        return array_merge(
-            parent::getBulkActions(),
-            [],
-        );
+        return [
+            ...parent::getBulkActions(),
+        ];
     }
 
     /**
@@ -301,10 +290,9 @@ class ExternalProfile extends BaseResource
      */
     public static function getTableActions(): array
     {
-        return array_merge(
-            parent::getTableActions(),
-            [],
-        );
+        return [
+            ...parent::getTableActions(),
+        ];
     }
 
     /**
@@ -318,9 +306,7 @@ class ExternalProfile extends BaseResource
     {
         return [
             'index' => ListExternalProfiles::route('/'),
-            'create' => CreateExternalProfile::route('/create'),
             'view' => ViewExternalProfile::route('/{record:profile_id}'),
-            'edit' => EditExternalProfile::route('/{record:profile_id}/edit'),
         ];
     }
 }

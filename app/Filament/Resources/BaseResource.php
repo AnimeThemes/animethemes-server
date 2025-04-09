@@ -177,18 +177,13 @@ abstract class BaseResource extends Resource
     public static function getBulkActions(?array $actionsIncludedInGroup = []): array
     {
         return [
-            BulkActionGroup::make(
-                array_merge(
-                    [
-                        DeleteBulkAction::make(),
+            BulkActionGroup::make([
+                DeleteBulkAction::make(),
+                ForceDeleteBulkAction::make(),
+                RestoreBulkAction::make(),
 
-                        ForceDeleteBulkAction::make(),
-
-                        RestoreBulkAction::make(),
-                    ],
-                    $actionsIncludedInGroup,
-                )
-            ),
+                ...$actionsIncludedInGroup,
+            ]),
         ];
     }
 

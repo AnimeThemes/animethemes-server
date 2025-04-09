@@ -16,8 +16,6 @@ use App\Filament\Components\Fields\Slug;
 use App\Filament\Components\Filters\NumberFilter;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\BaseResource;
-use App\Filament\Resources\Wiki\Anime\Pages\CreateAnime;
-use App\Filament\Resources\Wiki\Anime\Pages\EditAnime;
 use App\Filament\Resources\Wiki\Anime\Pages\ListAnimes;
 use App\Filament\Resources\Wiki\Anime\Pages\ViewAnime;
 use App\Filament\Resources\Wiki\Anime\RelationManagers\ImageAnimeRelationManager;
@@ -130,8 +128,6 @@ class Anime extends BaseResource
      * Get the slug (URI key) for the resource.
      *
      * @return string
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getRecordSlug(): string
     {
@@ -301,19 +297,16 @@ class Anime extends BaseResource
     public static function getRelations(): array
     {
         return [
-            RelationGroup::make(static::getLabel(),
-                array_merge(
-                    [
-                        SynonymAnimeRelationManager::class,
-                        ThemeAnimeRelationManager::class,
-                        SeriesAnimeRelationManager::class,
-                        ResourceAnimeRelationManager::class,
-                        ImageAnimeRelationManager::class,
-                        StudioAnimeRelationManager::class,
-                    ],
-                    parent::getBaseRelations(),
-                )
-            ),
+            RelationGroup::make(static::getLabel(), [
+                SynonymAnimeRelationManager::class,
+                ThemeAnimeRelationManager::class,
+                SeriesAnimeRelationManager::class,
+                ResourceAnimeRelationManager::class,
+                ImageAnimeRelationManager::class,
+                StudioAnimeRelationManager::class,
+
+                ...parent::getBaseRelations(),
+            ]),
         ];
     }
 
@@ -324,21 +317,20 @@ class Anime extends BaseResource
      */
     public static function getFilters(): array
     {
-        return array_merge(
-            [
-                NumberFilter::make(AnimeModel::ATTRIBUTE_YEAR)
-                    ->label(__('filament.fields.anime.year.name')),
+        return [
+            NumberFilter::make(AnimeModel::ATTRIBUTE_YEAR)
+                ->label(__('filament.fields.anime.year.name')),
 
-                SelectFilter::make(AnimeModel::ATTRIBUTE_SEASON)
-                    ->label(__('filament.fields.anime.season.name'))
-                    ->options(AnimeSeason::asSelectArray()),
+            SelectFilter::make(AnimeModel::ATTRIBUTE_SEASON)
+                ->label(__('filament.fields.anime.season.name'))
+                ->options(AnimeSeason::asSelectArray()),
 
-                SelectFilter::make(AnimeModel::ATTRIBUTE_MEDIA_FORMAT)
-                    ->label(__('filament.fields.anime.media_format.name'))
-                    ->options(AnimeMediaFormat::asSelectArray()),
-            ],
-            parent::getFilters(),
-        );
+            SelectFilter::make(AnimeModel::ATTRIBUTE_MEDIA_FORMAT)
+                ->label(__('filament.fields.anime.media_format.name'))
+                ->options(AnimeMediaFormat::asSelectArray()),
+
+            ...parent::getFilters(),
+        ];
     }
 
     /**
@@ -359,23 +351,22 @@ class Anime extends BaseResource
             ResourceSite::AMAZON_PRIME_VIDEO,
         ];
 
-        return array_merge(
-            parent::getActions(),
-            [
-                ActionGroup::make([
-                    DiscordThreadAction::make('discord-thread'),
+        return [
+            ...parent::getActions(),
 
-                    BackfillAnimeAction::make('backfill-anime'),
+            ActionGroup::make([
+                DiscordThreadAction::make('discord-thread'),
 
-                    AttachAnimeResourceAction::make('attach-anime-resource'),
+                BackfillAnimeAction::make('backfill-anime'),
 
-                    AttachAnimeResourceAction::make('attach-anime-streaming-resource')
-                        ->label(__('filament.actions.models.wiki.attach_streaming_resource.name'))
-                        ->icon(__('filament-icons.actions.anime.attach_streaming_resource'))
-                        ->sites($streamingResourceSites),
-                ]),
-            ],
-        );
+                AttachAnimeResourceAction::make('attach-anime-resource'),
+
+                AttachAnimeResourceAction::make('attach-anime-streaming-resource')
+                    ->label(__('filament.actions.models.wiki.attach_streaming_resource.name'))
+                    ->icon(__('filament-icons.actions.anime.attach_streaming_resource'))
+                    ->sites($streamingResourceSites),
+            ]),
+        ];
     }
 
     /**
@@ -386,10 +377,9 @@ class Anime extends BaseResource
      */
     public static function getBulkActions(?array $actionsIncludedInGroup = []): array
     {
-        return array_merge(
-            parent::getBulkActions(),
-            [],
-        );
+        return [
+            ...parent::getBulkActions(),
+        ];
     }
 
     /**
@@ -399,10 +389,9 @@ class Anime extends BaseResource
      */
     public static function getTableActions(): array
     {
-        return array_merge(
-            parent::getTableActions(),
-            [],
-        );
+        return [
+            ...parent::getTableActions(),
+        ];
     }
 
     /**
@@ -416,9 +405,7 @@ class Anime extends BaseResource
     {
         return [
             'index' => ListAnimes::route('/'),
-            'create' => CreateAnime::route('/create'),
             'view' => ViewAnime::route('/{record:anime_id}'),
-            'edit' => EditAnime::route('/{record:anime_id}/edit'),
         ];
     }
 }

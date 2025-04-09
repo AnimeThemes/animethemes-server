@@ -11,8 +11,6 @@ use App\Filament\Components\Filters\NumberFilter;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\RelationManagers\Wiki\ResourceRelationManager;
 use App\Filament\Resources\BaseResource;
-use App\Filament\Resources\Wiki\ExternalResource\Pages\CreateExternalResource;
-use App\Filament\Resources\Wiki\ExternalResource\Pages\EditExternalResource;
 use App\Filament\Resources\Wiki\ExternalResource\Pages\ListExternalResources;
 use App\Filament\Resources\Wiki\ExternalResource\Pages\ViewExternalResource;
 use App\Filament\Resources\Wiki\ExternalResource\RelationManagers\AnimeResourceRelationManager;
@@ -95,8 +93,6 @@ class ExternalResource extends BaseResource
      * Get the slug (URI key) for the resource.
      *
      * @return string
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getRecordSlug(): string
     {
@@ -229,17 +225,14 @@ class ExternalResource extends BaseResource
     public static function getRelations(): array
     {
         return [
-            RelationGroup::make(static::getLabel(),
-                array_merge(
-                    [
-                        AnimeResourceRelationManager::class,
-                        ArtistResourceRelationManager::class,
-                        SongResourceRelationManager::class,
-                        StudioResourceRelationManager::class,
-                    ],
-                    parent::getBaseRelations(),
-                )
-            ),
+            RelationGroup::make(static::getLabel(), [
+                AnimeResourceRelationManager::class,
+                ArtistResourceRelationManager::class,
+                SongResourceRelationManager::class,
+                StudioResourceRelationManager::class,
+
+                ...parent::getBaseRelations(),
+            ]),
         ];
     }
 
@@ -250,17 +243,16 @@ class ExternalResource extends BaseResource
      */
     public static function getFilters(): array
     {
-        return array_merge(
-            [
-                SelectFilter::make(ExternalResourceModel::ATTRIBUTE_SITE)
-                    ->label(__('filament.fields.external_resource.site.name'))
-                    ->options(ResourceSite::asSelectArray()),
+        return [
+            SelectFilter::make(ExternalResourceModel::ATTRIBUTE_SITE)
+                ->label(__('filament.fields.external_resource.site.name'))
+                ->options(ResourceSite::asSelectArray()),
 
-                NumberFilter::make(ExternalResourceModel::ATTRIBUTE_EXTERNAL_ID)
-                    ->label(__('filament.fields.external_resource.external_id.name')),
-            ],
-            parent::getFilters(),
-        );
+            NumberFilter::make(ExternalResourceModel::ATTRIBUTE_EXTERNAL_ID)
+                ->label(__('filament.fields.external_resource.external_id.name')),
+
+            ...parent::getFilters(),
+        ];
     }
 
     /**
@@ -270,10 +262,9 @@ class ExternalResource extends BaseResource
      */
     public static function getActions(): array
     {
-        return array_merge(
-            parent::getActions(),
-            [],
-        );
+        return [
+            ...parent::getActions(),
+        ];
     }
 
     /**
@@ -284,10 +275,9 @@ class ExternalResource extends BaseResource
      */
     public static function getBulkActions(?array $actionsIncludedInGroup = []): array
     {
-        return array_merge(
-            parent::getBulkActions(),
-            [],
-        );
+        return [
+            ...parent::getBulkActions(),
+        ];
     }
 
     /**
@@ -297,10 +287,9 @@ class ExternalResource extends BaseResource
      */
     public static function getTableActions(): array
     {
-        return array_merge(
-            parent::getTableActions(),
-            [],
-        );
+        return [
+            ...parent::getTableActions(),
+        ];
     }
 
     /**
@@ -314,9 +303,7 @@ class ExternalResource extends BaseResource
     {
         return [
             'index' => ListExternalResources::route('/'),
-            'create' => CreateExternalResource::route('/create'),
             'view' => ViewExternalResource::route('/{record:resource_id}'),
-            'edit' => EditExternalResource::route('/{record:resource_id}/edit'),
         ];
     }
 }

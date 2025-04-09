@@ -19,7 +19,6 @@ use App\Filament\Components\Filters\NumberFilter;
 use App\Filament\Components\Infolist\BelongsToEntry;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\BaseResource;
-use App\Filament\Resources\Wiki\Video\Pages\EditVideo;
 use App\Filament\Resources\Wiki\Video\Pages\ListVideos;
 use App\Filament\Resources\Wiki\Video\Pages\ViewVideo;
 use App\Filament\Resources\Wiki\Video\RelationManagers\EntryVideoRelationManager;
@@ -106,8 +105,6 @@ class Video extends BaseResource
      * Get the slug (URI key) for the resource.
      *
      * @return string
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getRecordSlug(): string
     {
@@ -318,16 +315,13 @@ class Video extends BaseResource
     public static function getRelations(): array
     {
         return [
-            RelationGroup::make(static::getLabel(),
-                array_merge(
-                    [
-                        EntryVideoRelationManager::class,
-                        ScriptVideoRelationManager::class,
-                        TrackVideoRelationManager::class,
-                    ],
-                    parent::getBaseRelations(),
-                )
-            ),
+            RelationGroup::make(static::getLabel(), [
+                EntryVideoRelationManager::class,
+                ScriptVideoRelationManager::class,
+                TrackVideoRelationManager::class,
+
+                ...parent::getBaseRelations(),
+            ]),
         ];
     }
 
@@ -338,36 +332,35 @@ class Video extends BaseResource
      */
     public static function getFilters(): array
     {
-        return array_merge(
-            [
-                NumberFilter::make(VideoModel::ATTRIBUTE_RESOLUTION)
-                    ->label(__('filament.fields.video.resolution.name')),
+        return [
+            NumberFilter::make(VideoModel::ATTRIBUTE_RESOLUTION)
+                ->label(__('filament.fields.video.resolution.name')),
 
-                CheckboxFilter::make(VideoModel::ATTRIBUTE_NC)
-                    ->label(__('filament.fields.video.nc.name')),
+            CheckboxFilter::make(VideoModel::ATTRIBUTE_NC)
+                ->label(__('filament.fields.video.nc.name')),
 
-                CheckboxFilter::make(VideoModel::ATTRIBUTE_SUBBED)
-                    ->label(__('filament.fields.video.subbed.name')),
+            CheckboxFilter::make(VideoModel::ATTRIBUTE_SUBBED)
+                ->label(__('filament.fields.video.subbed.name')),
 
-                CheckboxFilter::make(VideoModel::ATTRIBUTE_LYRICS)
-                    ->label(__('filament.fields.video.lyrics.name')),
+            CheckboxFilter::make(VideoModel::ATTRIBUTE_LYRICS)
+                ->label(__('filament.fields.video.lyrics.name')),
 
-                CheckboxFilter::make(VideoModel::ATTRIBUTE_UNCEN)
-                    ->label(__('filament.fields.video.uncen.name')),
+            CheckboxFilter::make(VideoModel::ATTRIBUTE_UNCEN)
+                ->label(__('filament.fields.video.uncen.name')),
 
-                SelectFilter::make(VideoModel::ATTRIBUTE_OVERLAP)
-                    ->label(__('filament.fields.video.overlap.name'))
-                    ->options(VideoOverlap::asSelectArray()),
+            SelectFilter::make(VideoModel::ATTRIBUTE_OVERLAP)
+                ->label(__('filament.fields.video.overlap.name'))
+                ->options(VideoOverlap::asSelectArray()),
 
-                SelectFilter::make(VideoModel::ATTRIBUTE_SOURCE)
-                    ->label(__('filament.fields.video.source.name'))
-                    ->options(VideoSource::asSelectArray()),
+            SelectFilter::make(VideoModel::ATTRIBUTE_SOURCE)
+                ->label(__('filament.fields.video.source.name'))
+                ->options(VideoSource::asSelectArray()),
 
-                NumberFilter::make(VideoModel::ATTRIBUTE_SIZE)
-                    ->label(__('filament.fields.video.size.name')),
-            ],
-            parent::getFilters(),
-        );
+            NumberFilter::make(VideoModel::ATTRIBUTE_SIZE)
+                ->label(__('filament.fields.video.size.name')),
+
+            ...parent::getFilters(),
+        ];
     }
 
     /**
@@ -377,20 +370,19 @@ class Video extends BaseResource
      */
     public static function getActions(): array
     {
-        return array_merge(
-            parent::getActions(),
-            [
-                ActionGroup::make([
-                    BackfillAudioAction::make('backfill-audio'),
+        return [
+            ...parent::getActions(),
 
-                    MoveVideoAction::make('move-video'),
+            ActionGroup::make([
+                BackfillAudioAction::make('backfill-audio'),
 
-                    MoveAllAction::make('move-all'),
+                MoveVideoAction::make('move-video'),
 
-                    DeleteVideoAction::make('delete-video'),
-                ]),
-            ],
-        );
+                MoveAllAction::make('move-all'),
+
+                DeleteVideoAction::make('delete-video'),
+            ]),
+        ];
     }
 
     /**
@@ -403,14 +395,13 @@ class Video extends BaseResource
      */
     public static function getBulkActions(?array $actionsIncludedInGroup = []): array
     {
-        return array_merge(
-            parent::getBulkActions([
+        return [
+            ...parent::getBulkActions([
                 DeleteVideoBulkAction::make('delete-video')
             ]),
-            [
-                VideoDiscordNotificationBulkAction::make('discord-notification'),
-            ],
-        );
+
+            VideoDiscordNotificationBulkAction::make('discord-notification'),
+        ];
     }
 
     /**
@@ -453,7 +444,6 @@ class Video extends BaseResource
         return [
             'index' => ListVideos::route('/'),
             'view' => ViewVideo::route('/{record:video_id}'),
-            'edit' => EditVideo::route("/{record:video_id}/edit"),
         ];
     }
 }

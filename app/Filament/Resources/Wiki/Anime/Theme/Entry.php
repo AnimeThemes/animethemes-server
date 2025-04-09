@@ -16,8 +16,6 @@ use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Anime as AnimeResource;
 use App\Filament\Resources\Wiki\Anime\Theme as ThemeResource;
-use App\Filament\Resources\Wiki\Anime\Theme\Entry\Pages\CreateEntry;
-use App\Filament\Resources\Wiki\Anime\Theme\Entry\Pages\EditEntry;
 use App\Filament\Resources\Wiki\Anime\Theme\Entry\Pages\ListEntries;
 use App\Filament\Resources\Wiki\Anime\Theme\Entry\Pages\ViewEntry;
 use App\Filament\Resources\Wiki\Anime\Theme\Entry\RelationManagers\VideoEntryRelationManager;
@@ -169,7 +167,7 @@ class Entry extends BaseResource
                     ->live(true)
                     ->required()
                     ->rules(['required'])
-                    ->visibleOn([CreateEntry::class, EditEntry::class])
+                    ->visibleOn([ListEntries::class, ViewEntry::class])
                     ->saveRelationshipsUsing(fn (EntryModel $record, $state) => $record->animetheme->anime()->associate(intval($state))->save()),
 
                 Select::make(EntryModel::ATTRIBUTE_THEME)
@@ -177,7 +175,7 @@ class Entry extends BaseResource
                     ->relationship(EntryModel::RELATION_THEME, ThemeModel::ATTRIBUTE_ID)
                     ->required()
                     ->rules(['required'])
-                    ->visibleOn([CreateEntry::class, EditEntry::class])
+                    ->visibleOn([ListEntries::class, ViewEntry::class])
                     ->options(function (Get $get) {
                         return ThemeModel::query()
                             ->where(ThemeModel::ATTRIBUTE_ANIME, $get(EntryModel::RELATION_THEME . '.' . ThemeModel::ATTRIBUTE_ANIME))
@@ -311,14 +309,11 @@ class Entry extends BaseResource
     public static function getRelations(): array
     {
         return [
-            RelationGroup::make(static::getLabel(),
-                array_merge(
-                    [
-                        VideoEntryRelationManager::class,
-                    ],
-                    parent::getBaseRelations(),
-                )
-            ),
+            RelationGroup::make(static::getLabel(), [
+                VideoEntryRelationManager::class,
+
+                ...parent::getBaseRelations(),
+            ]),
         ];
     }
 
@@ -329,22 +324,21 @@ class Entry extends BaseResource
      */
     public static function getFilters(): array
     {
-        return array_merge(
-            [
-                NumberFilter::make(EntryModel::ATTRIBUTE_VERSION)
-                    ->label(__('filament.fields.anime_theme_entry.version.name')),
+        return [
+            NumberFilter::make(EntryModel::ATTRIBUTE_VERSION)
+                ->label(__('filament.fields.anime_theme_entry.version.name')),
 
-                TextFilter::make(EntryModel::ATTRIBUTE_EPISODES)
-                    ->label(__('filament.fields.anime_theme_entry.episodes.name')),
+            TextFilter::make(EntryModel::ATTRIBUTE_EPISODES)
+                ->label(__('filament.fields.anime_theme_entry.episodes.name')),
 
-                CheckboxFilter::make(EntryModel::ATTRIBUTE_NSFW)
-                    ->label(__('filament.fields.anime_theme_entry.nsfw.name')),
+            CheckboxFilter::make(EntryModel::ATTRIBUTE_NSFW)
+                ->label(__('filament.fields.anime_theme_entry.nsfw.name')),
 
-                CheckboxFilter::make(EntryModel::ATTRIBUTE_SPOILER)
-                    ->label(__('filament.fields.anime_theme_entry.spoiler.name')),
-            ],
-            parent::getFilters(),
-        );
+            CheckboxFilter::make(EntryModel::ATTRIBUTE_SPOILER)
+                ->label(__('filament.fields.anime_theme_entry.spoiler.name')),
+
+            ...parent::getFilters(),
+        ];
     }
 
     /**
@@ -354,10 +348,9 @@ class Entry extends BaseResource
      */
     public static function getActions(): array
     {
-        return array_merge(
-            parent::getActions(),
-            [],
-        );
+        return [
+            ...parent::getActions(),
+        ];
     }
 
     /**
@@ -368,10 +361,9 @@ class Entry extends BaseResource
      */
     public static function getBulkActions(?array $actionsIncludedInGroup = []): array
     {
-        return array_merge(
-            parent::getBulkActions(),
-            [],
-        );
+        return [
+            ...parent::getBulkActions(),
+        ];
     }
 
     /**
@@ -381,10 +373,9 @@ class Entry extends BaseResource
      */
     public static function getTableActions(): array
     {
-        return array_merge(
-            parent::getTableActions(),
-            [],
-        );
+        return [
+            ...parent::getTableActions(),
+        ];
     }
 
     /**
@@ -398,9 +389,7 @@ class Entry extends BaseResource
     {
         return [
             'index' => ListEntries::route('/'),
-            'create' => CreateEntry::route('/create'),
             'view' => ViewEntry::route('/{record:entry_id}'),
-            'edit' => EditEntry::route('/{record:entry_id}/edit'),
         ];
     }
 }

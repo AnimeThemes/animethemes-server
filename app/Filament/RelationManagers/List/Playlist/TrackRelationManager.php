@@ -57,10 +57,9 @@ abstract class TrackRelationManager extends BaseRelationManager
      */
     public static function getFilters(): array
     {
-        return array_merge(
-            [],
-            TrackResource::getFilters(),
-        );
+        return [
+            ...TrackResource::getFilters(),
+        ];
     }
 
     /**
@@ -70,10 +69,10 @@ abstract class TrackRelationManager extends BaseRelationManager
      */
     public static function getActions(): array
     {
-        return array_merge(
-            parent::getActions(),
-            TrackResource::getActions(),
-        );
+        return [
+            ...parent::getActions(),
+            ...TrackResource::getActions(),
+        ];
     }
 
     /**
@@ -84,22 +83,23 @@ abstract class TrackRelationManager extends BaseRelationManager
      */
     public static function getBulkActions(?array $actionsIncludedInGroup = []): array
     {
-        return array_merge(
-            parent::getBulkActions(),
-            TrackResource::getBulkActions(),
-        );
+        return [
+            ...parent::getBulkActions(),
+            ...TrackResource::getBulkActions(),
+        ];
     }
 
     /**
-     * Get the header actions available for the relation. These are merged with the table actions of the resources.
+     * Get the header actions available for the relation.
+     * These are merged with the table actions of the resources.
      *
      * @return array
      */
     public static function getHeaderActions(): array
     {
-        return array_merge(
-            parent::getHeaderActions(),
-            TrackResource::getTableActions(),
-        );
+        return [
+            ...parent::getHeaderActions(),
+            ...TrackResource::getTableActions(),
+        ];
     }
 }

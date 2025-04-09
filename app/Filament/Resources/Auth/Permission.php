@@ -8,8 +8,6 @@ use App\Filament\Actions\Models\Auth\Permission\GiveRoleAction;
 use App\Filament\Actions\Models\Auth\Permission\RevokeRoleAction;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Infolist\TextEntry;
-use App\Filament\Resources\Auth\Permission\Pages\CreatePermission;
-use App\Filament\Resources\Auth\Permission\Pages\EditPermission;
 use App\Filament\Resources\Auth\Permission\Pages\ListPermissions;
 use App\Filament\Resources\Auth\Permission\Pages\ViewPermission;
 use App\Filament\Resources\Auth\Permission\RelationManagers\RolePermissionRelationManager;
@@ -88,8 +86,6 @@ class Permission extends BaseResource
      * Get the slug (URI key) for the resource.
      *
      * @return string
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getRecordSlug(): string
     {
@@ -190,14 +186,10 @@ class Permission extends BaseResource
     public static function getRelations(): array
     {
         return [
-            RelationGroup::make(static::getLabel(),
-                array_merge(
-                    [
-                        RolePermissionRelationManager::class,
-                        UserPermissionRelationManager::class,
-                    ],
-                )
-            ),
+            RelationGroup::make(static::getLabel(), [
+                RolePermissionRelationManager::class,
+                UserPermissionRelationManager::class,
+            ]),
         ];
     }
 
@@ -220,16 +212,15 @@ class Permission extends BaseResource
      */
     public static function getActions(): array
     {
-        return array_merge(
-            parent::getActions(),
-            [
-                ActionGroup::make([
-                    GiveRoleAction::make('give-role'),
+        return [
+            ...parent::getActions(),
 
-                    RevokeRoleAction::make('revoke-role'),
-                ]),
-            ],
-        );
+            ActionGroup::make([
+                GiveRoleAction::make('give-role'),
+
+                RevokeRoleAction::make('revoke-role'),
+            ]),
+        ];
     }
 
     /**
@@ -240,10 +231,9 @@ class Permission extends BaseResource
      */
     public static function getBulkActions(?array $actionsIncludedInGroup = []): array
     {
-        return array_merge(
-            parent::getBulkActions(),
-            [],
-        );
+        return [
+            ...parent::getBulkActions(),
+        ];
     }
 
     /**
@@ -253,10 +243,9 @@ class Permission extends BaseResource
      */
     public static function getTableActions(): array
     {
-        return array_merge(
-            parent::getTableActions(),
-            [],
-        );
+        return [
+            ...parent::getTableActions(),
+        ];
     }
 
     /**
@@ -270,9 +259,7 @@ class Permission extends BaseResource
     {
         return [
             'index' => ListPermissions::route('/'),
-            'create' => CreatePermission::route('/create'),
             'view' => ViewPermission::route('/{record:id}'),
-            'edit' => EditPermission::route('/{record:id}/edit'),
         ];
     }
 }

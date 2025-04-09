@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\HeaderActions\Base;
 
+use App\Models\Admin\ActionLog;
 use Filament\Actions\EditAction as DefaultEditAction;
 
 /**
@@ -22,5 +23,6 @@ class EditHeaderAction extends DefaultEditAction
 
         $this->label(__('filament.actions.base.edit'));
         $this->icon(__('filament-icons.actions.base.edit'));
+        $this->after(fn ($record) => ActionLog::modelUpdated($record));
     }
 }

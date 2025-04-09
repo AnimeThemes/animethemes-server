@@ -9,7 +9,6 @@ use App\Filament\Actions\Storage\Wiki\Video\Script\MoveScriptAction;
 use App\Filament\BulkActions\Storage\Wiki\Video\Script\DeleteScriptBulkAction;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Resources\BaseResource;
-use App\Filament\Resources\Wiki\Video\Script\Pages\EditScript;
 use App\Filament\Resources\Wiki\Video\Script\Pages\ListScripts;
 use App\Filament\Resources\Wiki\Video\Script\Pages\ViewScript;
 use App\Filament\TableActions\Repositories\Storage\Wiki\Video\Script\ReconcileScriptTableAction;
@@ -87,8 +86,6 @@ class Script extends BaseResource
      * Get the slug (URI key) for the resource.
      *
      * @return string
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getRecordSlug(): string
     {
@@ -172,12 +169,9 @@ class Script extends BaseResource
     public static function getRelations(): array
     {
         return [
-            RelationGroup::make(static::getLabel(),
-                array_merge(
-                    [],
-                    parent::getBaseRelations(),
-                )
-            ),
+            RelationGroup::make(static::getLabel(), [
+                ...parent::getBaseRelations(),
+            ]),
         ];
     }
 
@@ -188,10 +182,9 @@ class Script extends BaseResource
      */
     public static function getFilters(): array
     {
-        return array_merge(
-            parent::getFilters(),
-            []
-        );
+        return [
+            ...parent::getFilters(),
+        ];
     }
 
     /**
@@ -201,16 +194,15 @@ class Script extends BaseResource
      */
     public static function getActions(): array
     {
-        return array_merge(
-            parent::getActions(),
-            [
-                ActionGroup::make([
-                    MoveScriptAction::make('move-script'),
+        return [
+            ...parent::getActions(),
 
-                    DeleteScriptAction::make('delete-script'),
-                ]),
-            ],
-        );
+            ActionGroup::make([
+                MoveScriptAction::make('move-script'),
+
+                DeleteScriptAction::make('delete-script'),
+            ]),
+        ];
     }
 
     /**
@@ -221,12 +213,11 @@ class Script extends BaseResource
      */
     public static function getBulkActions(?array $actionsIncludedInGroup = []): array
     {
-        return array_merge(
-            parent::getBulkActions(),
-            [
-                DeleteScriptBulkAction::make('delete-script'),
-            ],
-        );
+        return [
+            ...parent::getBulkActions(),
+
+            DeleteScriptBulkAction::make('delete-script'),
+        ];
     }
 
     /**
@@ -269,7 +260,6 @@ class Script extends BaseResource
         return [
             'index' => ListScripts::route('/'),
             'view' => ViewScript::route('/{record:script_id}'),
-            'edit' => EditScript::route('/{record:script_id}/edit'),
         ];
     }
 }

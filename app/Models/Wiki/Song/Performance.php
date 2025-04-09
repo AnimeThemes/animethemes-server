@@ -12,6 +12,7 @@ use App\Events\Wiki\Song\Performance\PerformanceUpdated;
 use App\Models\BaseModel;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Song;
+use Database\Factories\Wiki\Song\PerformanceFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
@@ -25,6 +26,8 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
  * @property int $artist_id
  * @property Artist|Membership $artist
  * @property Song $song
+ *
+ * @method static PerformanceFactory factory(...$parameters)
  */
 class Performance extends BaseModel
 {

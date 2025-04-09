@@ -11,8 +11,6 @@ use App\Filament\Components\Filters\CheckboxFilter;
 use App\Filament\Components\Filters\NumberFilter;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\BaseResource;
-use App\Filament\Resources\Auth\Role\Pages\CreateRole;
-use App\Filament\Resources\Auth\Role\Pages\EditRole;
 use App\Filament\Resources\Auth\Role\Pages\ListRoles;
 use App\Filament\Resources\Auth\Role\Pages\ViewRole;
 use App\Filament\Resources\Auth\Role\RelationManagers\PermissionRoleRelationManager;
@@ -96,8 +94,6 @@ class Role extends BaseResource
      * Get the slug (URI key) for the resource.
      *
      * @return string
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getRecordSlug(): string
     {
@@ -233,14 +229,10 @@ class Role extends BaseResource
     public static function getRelations(): array
     {
         return [
-            RelationGroup::make(static::getLabel(),
-                array_merge(
-                    [
-                        PermissionRoleRelationManager::class,
-                        UserRoleRelationManager::class,
-                    ],
-                )
-            ),
+            RelationGroup::make(static::getLabel(), [
+                PermissionRoleRelationManager::class,
+                UserRoleRelationManager::class,
+            ]),
         ];
     }
 
@@ -269,16 +261,15 @@ class Role extends BaseResource
      */
     public static function getActions(): array
     {
-        return array_merge(
-            parent::getActions(),
-            [
-                ActionGroup::make([
-                    GivePermissionAction::make('give-permission'),
+        return [
+            ...parent::getActions(),
 
-                    RevokePermissionAction::make('revoke-permission'),
-                ]),
-            ],
-        );
+            ActionGroup::make([
+                GivePermissionAction::make('give-permission'),
+
+                RevokePermissionAction::make('revoke-permission'),
+            ]),
+        ];
     }
 
     /**
@@ -289,10 +280,9 @@ class Role extends BaseResource
      */
     public static function getBulkActions(?array $actionsIncludedInGroup = []): array
     {
-        return array_merge(
-            parent::getBulkActions(),
-            [],
-        );
+        return [
+            ...parent::getBulkActions(),
+        ];
     }
 
     /**
@@ -302,10 +292,9 @@ class Role extends BaseResource
      */
     public static function getTableActions(): array
     {
-        return array_merge(
-            parent::getTableActions(),
-            [],
-        );
+        return [
+            ...parent::getTableActions(),
+        ];
     }
 
     /**
@@ -319,9 +308,7 @@ class Role extends BaseResource
     {
         return [
             'index' => ListRoles::route('/'),
-            'create' => CreateRole::route('/create'),
             'view' => ViewRole::route('/{record:id}'),
-            'edit' => EditRole::route('/{record:id}/edit'),
         ];
     }
 }

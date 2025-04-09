@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Wiki\Video\Script\Pages;
 
+use App\Filament\HeaderActions\Storage\Wiki\Video\Script\DeleteScriptHeaderAction;
+use App\Filament\HeaderActions\Storage\Wiki\Video\Script\MoveScriptHeaderAction;
 use App\Filament\Resources\Base\BaseViewResource;
 use App\Filament\Resources\Wiki\Video\Script;
+use Filament\Actions\ActionGroup;
 
 /**
  * Class ViewScript.
@@ -23,9 +26,14 @@ class ViewScript extends BaseViewResource
      */
     protected function getHeaderActions(): array
     {
-        return array_merge(
-            parent::getHeaderActions(),
-            [],
-        );
+        return [
+            ...parent::getHeaderActions(),
+
+            ActionGroup::make([
+                MoveScriptHeaderAction::make('move-script'),
+
+                DeleteScriptHeaderAction::make('delete-script'),
+            ]),
+        ];
     }
 }
