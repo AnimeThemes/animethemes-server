@@ -58,7 +58,7 @@ abstract class ScriptRelationManager extends BaseRelationManager
     public static function getFilters(): array
     {
         return [
-            ScriptResource::getFilters(),
+            ...ScriptResource::getFilters(),
         ];
     }
 

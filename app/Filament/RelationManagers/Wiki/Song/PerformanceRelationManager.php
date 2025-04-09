@@ -58,7 +58,7 @@ abstract class PerformanceRelationManager extends BaseRelationManager
     public static function getFilters(): array
     {
         return [
-            PerformanceResource::getFilters(),
+            ...PerformanceResource::getFilters(),
         ];
     }
 

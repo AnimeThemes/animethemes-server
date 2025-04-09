@@ -58,7 +58,7 @@ abstract class EntryRelationManager extends BaseRelationManager
     public static function getFilters(): array
     {
         return [
-            EntryResource::getFilters(),
+            ...EntryResource::getFilters(),
         ];
     }
 

@@ -58,7 +58,7 @@ abstract class ThemeRelationManager extends BaseRelationManager
     public static function getFilters(): array
     {
         return [
-            ThemeResource::getFilters(),
+            ...ThemeResource::getFilters(),
         ];
     }
 
