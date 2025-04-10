@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Filament\Resources\Wiki;
 
 use App\Filament\Actions\Models\Wiki\Artist\AttachArtistResourceAction;
-use App\Filament\Actions\Models\Wiki\AttachImageAction;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\Slug;
 use App\Filament\Components\Infolist\TextEntry;
@@ -296,8 +295,6 @@ class Artist extends BaseResource
             ...parent::getActions(),
 
             ActionGroup::make([
-                AttachImageAction::make('attach-artist-image'),
-
                 AttachArtistResourceAction::make('attach-artist-resource'),
             ])
         ];

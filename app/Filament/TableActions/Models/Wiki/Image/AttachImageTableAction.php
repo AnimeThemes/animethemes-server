@@ -2,21 +2,21 @@
 
 declare(strict_types=1);
 
-namespace App\Filament\Actions\Models\Wiki;
+namespace App\Filament\TableActions\Models\Wiki\Image;
 
 use App\Actions\Models\Wiki\AttachImageAction as AttachImageActionAction;
 use App\Contracts\Models\HasImages;
 use App\Enums\Models\Wiki\ImageFacet;
-use App\Filament\Actions\BaseAction;
-use App\Models\BaseModel;
+use App\Filament\RelationManagers\BaseRelationManager;
+use App\Filament\TableActions\BaseTableAction;
 use App\Models\Wiki\Image;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Form;
 
 /**
- * Class AttachImageAction.
+ * Class AttachImageTableAction.
  */
-class AttachImageAction extends BaseAction
+class AttachImageTableAction extends BaseTableAction
 {
     protected array $facets = [
         ImageFacet::COVER_SMALL,
@@ -37,7 +37,25 @@ class AttachImageAction extends BaseAction
 
         $this->authorize('create', Image::class);
 
-        $this->action(fn (BaseModel&HasImages $record, array $data, AttachImageActionAction $attachImage) => $attachImage->handle($record, $data, $this->facets));
+        $this->visible(fn ($livewire) => $livewire instanceof BaseRelationManager && $livewire->getOwnerRecord() instanceof HasImages);
+    }
+
+    /**
+     * Perform the action on the table.
+     *
+     * @param  array  $fields
+     * @return void
+     */
+    public function handle(array $fields): void
+    {
+        $action = new AttachImageActionAction();
+
+        /** @var BaseRelationManager $livewire */
+        $livewire = $this->getLivewire();
+
+        $model = $livewire->getOwnerRecord();
+
+        $action->handle($model, $fields, $this->facets);
     }
 
     /**
@@ -49,10 +67,6 @@ class AttachImageAction extends BaseAction
     public function getForm(Form $form): Form
     {
         $fields = [];
-
-        $model = $this->getRecord();
-
-        if (!($model instanceof HasImages)) return $form;
 
         foreach ($this->facets as $facet) {
             $fields[] = FileUpload::make($facet->name)
