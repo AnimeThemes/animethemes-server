@@ -9,6 +9,7 @@ use App\Contracts\Models\HasImages;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Filament\RelationManagers\BaseRelationManager;
 use App\Filament\TableActions\BaseTableAction;
+use App\Models\BaseModel;
 use App\Models\Wiki\Image;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Form;
@@ -53,6 +54,7 @@ class AttachImageTableAction extends BaseTableAction
         /** @var BaseRelationManager $livewire */
         $livewire = $this->getLivewire();
 
+        /** @var BaseModel&HasImages $model */
         $model = $livewire->getOwnerRecord();
 
         $action->handle($model, $fields, $this->facets);
