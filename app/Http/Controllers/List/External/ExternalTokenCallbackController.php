@@ -13,7 +13,6 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Str;
 use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
@@ -54,16 +53,8 @@ class ExternalTokenCallbackController extends Controller
 
         $profile = $action->store($validated);
 
-        $profile->startSyncEntriesJob();
+        $profile->startSyncJob();
 
-        // https://animethemes.moe/external/{mal|anilist}/{profile_name}
-        $clientUrl = Str::of(Config::get('wiki.external_profile'))
-            ->append('/')
-            ->append(Str::lower($profile->site->name))
-            ->append('/')
-            ->append($profile->getName())
-            ->__toString();
-
-        return Redirect::to($clientUrl);
+        return Redirect::to($profile->getClientUrl());
     }
 }

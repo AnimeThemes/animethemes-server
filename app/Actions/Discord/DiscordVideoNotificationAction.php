@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Actions\Discord;
 
-use App\Enums\Actions\Models\Wiki\Video\NotificationType;
+use App\Enums\Actions\Models\Wiki\Video\DiscordNotificationType;
 use App\Models\Wiki\Video;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Arr;
@@ -25,7 +25,7 @@ class DiscordVideoNotificationAction
      */
     public function handle(Collection $videos, array $fields): void
     {
-        $type = Arr::get($fields, NotificationType::getFieldKey());
+        $type = Arr::get($fields, DiscordNotificationType::getFieldKey());
 
         $newVideos = [];
 
