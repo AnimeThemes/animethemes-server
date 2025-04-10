@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Wiki;
 
-use App\Filament\Actions\Models\Wiki\AttachImageAction;
 use App\Filament\Actions\Models\Wiki\Studio\AttachStudioResourceAction;
 use App\Filament\Actions\Models\Wiki\Studio\BackfillStudioAction;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\Slug;
 use App\Filament\Components\Infolist\TextEntry;
+use App\Filament\Components\Infolist\TimestampSection;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\ExternalResource\RelationManagers\StudioResourceRelationManager;
 use App\Filament\Resources\Wiki\Studio\Pages\ListStudios;
@@ -191,9 +191,7 @@ class Studio extends BaseResource
                     ])
                     ->columns(3),
 
-                Section::make(__('filament.fields.base.timestamps'))
-                    ->schema(parent::timestamps())
-                    ->columns(3),
+                TimestampSection::make(),
             ]);
     }
 
@@ -241,8 +239,6 @@ class Studio extends BaseResource
 
             ActionGroup::make([
                 BackfillStudioAction::make('backfill-studio'),
-
-                AttachImageAction::make('attach-studio-image'),
 
                 AttachStudioResourceAction::make('attach-studio-resource'),
             ])

@@ -9,6 +9,7 @@ use App\Filament\Components\Columns\BelongsToColumn;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Infolist\BelongsToEntry;
 use App\Filament\Components\Infolist\TextEntry;
+use App\Filament\Components\Infolist\TimestampSection;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Admin\Report\Pages\ListReports;
 use App\Filament\Resources\Admin\Report\Pages\ViewReport;
@@ -199,9 +200,7 @@ class Report extends BaseResource
                     ])
                     ->columns(3),
 
-                Section::make(__('filament.fields.base.timestamps'))
-                    ->schema(parent::timestamps())
-                    ->columns(3),
+                TimestampSection::make(),
             ]);
     }
 

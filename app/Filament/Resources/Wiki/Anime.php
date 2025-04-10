@@ -15,6 +15,7 @@ use App\Filament\Components\Fields\Select;
 use App\Filament\Components\Fields\Slug;
 use App\Filament\Components\Filters\NumberFilter;
 use App\Filament\Components\Infolist\TextEntry;
+use App\Filament\Components\Infolist\TimestampSection;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Anime\Pages\ListAnimes;
 use App\Filament\Resources\Wiki\Anime\Pages\ViewAnime;
@@ -281,9 +282,7 @@ class Anime extends BaseResource
                     ])
                     ->columns(3),
 
-                Section::make(__('filament.fields.base.timestamps'))
-                    ->schema(parent::timestamps())
-                    ->columns(3),
+                TimestampSection::make(),
             ]);
     }
 

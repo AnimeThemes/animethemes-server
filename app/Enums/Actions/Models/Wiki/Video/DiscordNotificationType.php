@@ -7,9 +7,9 @@ namespace App\Enums\Actions\Models\Wiki\Video;
 use App\Concerns\Enums\LocalizesName;
 
 /**
- * Enum NotificationType.
+ * Enum DiscordNotificationType.
  */
-enum NotificationType: string
+enum DiscordNotificationType: string
 {
     use LocalizesName;
 
@@ -23,6 +23,6 @@ enum NotificationType: string
      */
     public static function getFieldKey(): string
     {
-        return 'notification-type';
+        return 'discord-notification-type';
     }
 }

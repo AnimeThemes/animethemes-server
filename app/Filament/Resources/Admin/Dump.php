@@ -6,6 +6,7 @@ namespace App\Filament\Resources\Admin;
 
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Infolist\TextEntry;
+use App\Filament\Components\Infolist\TimestampSection;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Admin\Dump\Pages\ManageDumps;
 use App\Filament\TableActions\Repositories\Storage\Admin\Dump\ReconcileDumpTableAction;
@@ -168,9 +169,7 @@ class Dump extends BaseResource
                     ])
                     ->columns(3),
 
-                Section::make(__('filament.fields.base.timestamps'))
-                    ->schema(parent::timestamps())
-                    ->columns(3),
+                TimestampSection::make(),
             ]);
     }
 

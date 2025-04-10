@@ -14,7 +14,6 @@ use App\Filament\BulkActions\Base\DeleteBulkAction;
 use App\Filament\BulkActions\Base\ForceDeleteBulkAction;
 use App\Filament\BulkActions\Base\RestoreBulkAction;
 use App\Filament\Components\Filters\DateFilter;
-use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\RelationManagers\Base\ActionLogRelationManager;
 use App\Models\BaseModel;
 use App\Scopes\WithoutInsertSongScope;
@@ -91,28 +90,6 @@ abstract class BaseResource extends Resource
             ->recordUrl(fn (Model $record): string => static::getUrl('view', ['record' => $record]))
             ->paginated([10, 25, 50, 100, 'all'])
             ->defaultPaginationPageOption(25);
-    }
-
-    /**
-     * The panel for timestamp fields.
-     *
-     * @return array
-     */
-    public static function timestamps(): array
-    {
-        return [
-            TextEntry::make(BaseModel::ATTRIBUTE_CREATED_AT)
-                ->label(__('filament.fields.base.created_at'))
-                ->dateTime(),
-
-            TextEntry::make(BaseModel::ATTRIBUTE_UPDATED_AT)
-                ->label(__('filament.fields.base.updated_at'))
-                ->dateTime(),
-
-            TextEntry::make(BaseModel::ATTRIBUTE_DELETED_AT)
-                ->label(__('filament.fields.base.deleted_at'))
-                ->dateTime(),
-        ];
     }
 
     /**

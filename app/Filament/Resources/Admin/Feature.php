@@ -7,6 +7,7 @@ namespace App\Filament\Resources\Admin;
 use App\Constants\FeatureConstants;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Infolist\TextEntry;
+use App\Filament\Components\Infolist\TimestampSection;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Admin\Feature\Pages\ManageFeatures;
 use App\Models\Admin\Feature as FeatureModel;
@@ -182,9 +183,7 @@ class Feature extends BaseResource
                     ])
                     ->columns(3),
 
-                Section::make(__('filament.fields.base.timestamps'))
-                    ->schema(parent::timestamps())
-                    ->columns(3),
+                TimestampSection::make(),
             ]);
     }
 

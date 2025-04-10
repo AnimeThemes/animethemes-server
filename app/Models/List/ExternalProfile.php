@@ -24,7 +24,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Date;
+use Illuminate\Support\Str;
 
 /**
  * Class ExternalProfile.
@@ -193,9 +195,25 @@ class ExternalProfile extends BaseModel
      *
      * @return void
      */
-    public function startSyncEntriesJob(): void
+    public function startSyncJob(): void
     {
         SyncExternalProfileJob::dispatch($this);
+    }
+
+    /**
+     * Get the client URL for the profile.
+     * https://animethemes.moe/external/{mal|anilist}/{profile_name}
+     *
+     * @return string
+     */
+    public function getClientUrl(): string
+    {
+        return Str::of(Config::get('wiki.external_profile'))
+            ->append('/')
+            ->append(Str::lower($this->site->name))
+            ->append('/')
+            ->append($this->getName())
+            ->__toString();
     }
 
     /**

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\BulkActions\Models\Wiki\Video;
 
 use App\Actions\Discord\DiscordVideoNotificationAction as DiscordVideoNotificationActionAction;
-use App\Enums\Actions\Models\Wiki\Video\NotificationType;
+use App\Enums\Actions\Models\Wiki\Video\DiscordNotificationType;
 use App\Filament\BulkActions\BaseBulkAction;
 use App\Filament\Components\Fields\Select;
 use App\Models\Discord\DiscordThread;
@@ -63,13 +63,13 @@ class VideoDiscordNotificationBulkAction extends BaseBulkAction
     {
         return $form
             ->schema([
-                Select::make(NotificationType::getFieldKey())
+                Select::make(DiscordNotificationType::getFieldKey())
                     ->label(__('filament.bulk_actions.discord.notification.type.name'))
                     ->helperText(__('filament.bulk_actions.discord.notification.type.help'))
-                    ->options(NotificationType::asSelectArray())
-                    ->default(NotificationType::ADDED->value)
+                    ->options(DiscordNotificationType::asSelectArray())
+                    ->default(DiscordNotificationType::ADDED->value)
                     ->required()
-                    ->rules(['required', new Enum(NotificationType::class)]),
+                    ->rules(['required', new Enum(DiscordNotificationType::class)]),
             ]);
     }
 }

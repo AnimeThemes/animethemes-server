@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Filament\Resources\Wiki;
 
 use App\Filament\Actions\Models\Wiki\Artist\AttachArtistResourceAction;
-use App\Filament\Actions\Models\Wiki\AttachImageAction;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\Slug;
 use App\Filament\Components\Infolist\TextEntry;
+use App\Filament\Components\Infolist\TimestampSection;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Anime\Theme\Pages\ViewTheme;
 use App\Filament\Resources\Wiki\Artist\Pages\ListArtists;
@@ -243,10 +243,8 @@ class Artist extends BaseResource
                     ])
                     ->columns(3),
 
-                Section::make(__('filament.fields.base.timestamps'))
-                    ->schema(parent::timestamps())
-                    ->visible(fn (Section $component) => $component->getLivewire() instanceof ViewArtist)
-                    ->columns(3),
+                TimestampSection::make()
+                    ->visible(fn (Section $component) => $component->getLivewire() instanceof ViewArtist),
             ]);
     }
 
@@ -296,8 +294,6 @@ class Artist extends BaseResource
             ...parent::getActions(),
 
             ActionGroup::make([
-                AttachImageAction::make('attach-artist-image'),
-
                 AttachArtistResourceAction::make('attach-artist-resource'),
             ])
         ];

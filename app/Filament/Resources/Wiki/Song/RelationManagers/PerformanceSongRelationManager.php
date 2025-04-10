@@ -162,8 +162,8 @@ class PerformanceSongRelationManager extends PerformanceRelationManager
             if (empty(Arr::get($artist, 'memberships'))) {
                 $action->addSingleArtist(
                     $groupOrArtist,
-                    Arr::get($artist, Performance::ATTRIBUTE_ALIAS),
-                    Arr::get($artist, Performance::ATTRIBUTE_AS),
+                    blank($alias = Arr::get($artist, Performance::ATTRIBUTE_ALIAS)) ? null : $alias,
+                    blank($as = Arr::get($artist, Performance::ATTRIBUTE_AS)) ? null : $as,
                 );
                 continue;
             }
@@ -172,16 +172,16 @@ class PerformanceSongRelationManager extends PerformanceRelationManager
 
             $action->addGroupData(
                 $group,
-                Arr::get($artist, Performance::ATTRIBUTE_ALIAS),
-                Arr::get($artist, Performance::ATTRIBUTE_AS),
+                blank($alias = Arr::get($artist, Performance::ATTRIBUTE_ALIAS)) ? null : $alias,
+                blank($as = Arr::get($artist, Performance::ATTRIBUTE_AS)) ? null : $as,
             );
 
             foreach (Arr::get($artist, 'memberships') as $membership) {
                 $action->addMembership(
                     $group,
                     Artist::query()->find(Arr::get($membership, Membership::ATTRIBUTE_MEMBER)),
-                    Arr::get($membership, Membership::ATTRIBUTE_ALIAS),
-                    Arr::get($membership, Membership::ATTRIBUTE_AS),
+                    blank($alias = Arr::get($membership, Membership::ATTRIBUTE_ALIAS)) ? null : $alias,
+                    blank($as = Arr::get($membership, Membership::ATTRIBUTE_AS)) ? null : $as,
                 );
             }
         }

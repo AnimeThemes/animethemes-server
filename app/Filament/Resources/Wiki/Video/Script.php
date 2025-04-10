@@ -8,6 +8,7 @@ use App\Filament\Actions\Storage\Wiki\Video\Script\DeleteScriptAction;
 use App\Filament\Actions\Storage\Wiki\Video\Script\MoveScriptAction;
 use App\Filament\BulkActions\Storage\Wiki\Video\Script\DeleteScriptBulkAction;
 use App\Filament\Components\Columns\TextColumn;
+use App\Filament\Components\Infolist\TimestampSection;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Video\Script\Pages\ListScripts;
 use App\Filament\Resources\Wiki\Video\Script\Pages\ViewScript;
@@ -154,8 +155,7 @@ class Script extends BaseResource
     {
         return $infolist
             ->schema([
-                Section::make(__('filament.fields.base.timestamps'))
-                    ->schema(parent::timestamps()),
+                TimestampSection::make(),
             ]);
     }
 

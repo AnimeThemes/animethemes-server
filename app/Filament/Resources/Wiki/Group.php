@@ -6,6 +6,7 @@ namespace App\Filament\Resources\Wiki;
 
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Infolist\TextEntry;
+use App\Filament\Components\Infolist\TimestampSection;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Group\Pages\ListGroups;
 use App\Filament\Resources\Wiki\Group\Pages\ViewGroup;
@@ -178,9 +179,7 @@ class Group extends BaseResource
                     ])
                     ->columns(3),
 
-                Section::make(__('filament.fields.base.timestamps'))
-                    ->schema(parent::timestamps())
-                    ->columns(3),
+                TimestampSection::make(),
             ]);
     }
 
