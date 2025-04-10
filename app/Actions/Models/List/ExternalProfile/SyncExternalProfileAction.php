@@ -68,13 +68,13 @@ class SyncExternalProfileAction
 
             $profile->update([ExternalProfile::ATTRIBUTE_SYNCED_AT => now()]);
 
+            DB::commit();
+
             $profile->user?->notifyNow(new UserNotification(
                 'External Profile Synced',
                 "Your external profile [{$profile->getName()}]({$profile->getClientUrl()}) has been synced.",
                 NotificationType::SYNCED_PROFILE,
             ));
-
-            DB::commit();
 
             return $profile;
         } catch (Exception $e) {
