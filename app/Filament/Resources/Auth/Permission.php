@@ -8,6 +8,7 @@ use App\Filament\Actions\Models\Auth\Permission\GiveRoleAction;
 use App\Filament\Actions\Models\Auth\Permission\RevokeRoleAction;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Infolist\TextEntry;
+use App\Filament\Components\Infolist\TimestampSection;
 use App\Filament\Resources\Auth\Permission\Pages\ListPermissions;
 use App\Filament\Resources\Auth\Permission\Pages\ViewPermission;
 use App\Filament\Resources\Auth\Permission\RelationManagers\RolePermissionRelationManager;
@@ -169,9 +170,7 @@ class Permission extends BaseResource
                             ->copyableWithMessage(),
                     ]),
 
-                Section::make(__('filament.fields.base.timestamps'))
-                    ->schema(parent::timestamps())
-                    ->columns(3),
+                TimestampSection::make(),
             ])
             ->columns(2);
     }

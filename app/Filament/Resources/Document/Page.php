@@ -7,6 +7,7 @@ namespace App\Filament\Resources\Document;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\Select;
 use App\Filament\Components\Infolist\TextEntry;
+use App\Filament\Components\Infolist\TimestampSection;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Document\Page\Pages\ListPages;
 use App\Filament\Resources\Document\Page\Pages\ViewPage;
@@ -229,9 +230,7 @@ class Page extends BaseResource
                     ])
                     ->columns(2),
 
-                Section::make(__('filament.fields.base.timestamps'))
-                    ->schema(parent::timestamps())
-                    ->columns(3),
+                TimestampSection::make(),
             ]);
     }
 

@@ -10,6 +10,7 @@ use App\Filament\BulkActions\Storage\Wiki\Audio\DeleteAudioBulkAction;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Filters\NumberFilter;
 use App\Filament\Components\Infolist\TextEntry;
+use App\Filament\Components\Infolist\TimestampSection;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Audio\Pages\ListAudios;
 use App\Filament\Resources\Wiki\Audio\Pages\ViewAudio;
@@ -170,9 +171,7 @@ class Audio extends BaseResource
                     ])
                     ->columns(3),
 
-                Section::make(__('filament.fields.base.timestamps'))
-                    ->schema(parent::timestamps())
-                    ->columns(3),
+                TimestampSection::make(),
             ]);
     }
 
