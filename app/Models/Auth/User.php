@@ -15,13 +15,18 @@ use App\Models\Admin\ActionLog;
 use App\Models\Admin\Report;
 use App\Models\List\Playlist;
 use App\Models\List\ExternalProfile;
+use App\Models\User\Notification;
+use App\Notifications\UserNotification;
 use Database\Factories\Auth\UserFactory;
+use Filament\Facades\Filament;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Models\Contracts\HasAvatar;
+use Filament\Notifications\DatabaseNotification as FilamentNotification;
 use Filament\Panel;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -61,7 +66,9 @@ class User extends Authenticatable implements MustVerifyEmail, Nameable, HasSubt
     use HasApiTokens;
     use HasFactory;
     use HasRoles;
-    use Notifiable;
+    use Notifiable {
+        notifications as traitNotifications;
+    }
     use SoftDeletes;
     use TwoFactorAuthenticatable;
 
@@ -80,6 +87,7 @@ class User extends Authenticatable implements MustVerifyEmail, Nameable, HasSubt
 
     final public const RELATION_EXTERNAL_PROFILES = 'externalprofiles';
     final public const RELATION_MANAGED_REPORTS = 'managedreports';
+    final public const RELATION_NOTIFICATIONS = 'notifications';
     final public const RELATION_PERMISSIONS = 'permissions';
     final public const RELATION_PLAYLISTS = 'playlists';
     final public const RELATION_REPORTS = 'reports';
@@ -271,5 +279,19 @@ class User extends Authenticatable implements MustVerifyEmail, Nameable, HasSubt
     public function actionlogs(): HasMany
     {
         return $this->hasMany(ActionLog::class, ActionLog::ATTRIBUTE_USER);
+    }
+
+    /**
+     * Get the entity's notifications.
+     *
+     * @return MorphMany<Notification, $this>
+     */
+    public function notifications(): MorphMany
+    {
+        if (Filament::isServing()) {
+            return $this->traitNotifications()->where(Notification::ATTRIBUTE_TYPE, FilamentNotification::class);
+        }
+
+        return $this->traitNotifications()->where(Notification::ATTRIBUTE_TYPE, UserNotification::class);
     }
 }

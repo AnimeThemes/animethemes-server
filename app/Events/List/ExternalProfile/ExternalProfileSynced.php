@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Events\List\ExternalProfile;
 
 use App\Contracts\Events\NotifiesUsersEvent;
-use App\Enums\NotificationType;
+use App\Enums\Models\User\NotificationType;
 use App\Models\List\ExternalProfile;
 use App\Notifications\UserNotification;
 use Illuminate\Foundation\Events\Dispatchable;

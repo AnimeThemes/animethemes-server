@@ -22,6 +22,7 @@ use App\Models\List\External\ExternalEntry;
 use App\Models\List\ExternalProfile;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
+use App\Models\User\Notification;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeSynonym;
 use App\Models\Wiki\Anime\AnimeTheme;
@@ -83,6 +84,9 @@ class AdminSeeder extends RoleSeeder
         $this->configureResource($role, ExternalProfile::class, $extendedCrudPermissions);
         $this->configureResource($role, Playlist::class, $extendedCrudPermissions);
         $this->configureResource($role, PlaylistTrack::class, $extendedCrudPermissions);
+
+        // User Resources
+        $this->configureResource($role, Notification::class, [CrudPermission::VIEW, CrudPermission::UPDATE]);
 
         // Wiki Resources
         $this->configureResource($role, Anime::class, $extendedCrudPermissions);

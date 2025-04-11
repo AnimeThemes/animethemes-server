@@ -21,6 +21,7 @@ use App\Models\List\External\ExternalEntry;
 use App\Models\List\ExternalProfile;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
+use App\Models\User\Notification;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeSynonym;
 use App\Models\Wiki\Anime\AnimeTheme;
@@ -76,6 +77,9 @@ class PermissionSeeder extends Seeder
         $this->registerResource(ExternalProfile::class, $extendedCrudPermissions);
         $this->registerResource(Playlist::class, $extendedCrudPermissions);
         $this->registerResource(PlaylistTrack::class, $extendedCrudPermissions);
+
+        // User Resources
+        $this->registerResource(Notification::class, [CrudPermission::VIEW, CrudPermission::UPDATE]);
 
         // Wiki Resources
         $this->registerResource(Anime::class, $extendedCrudPermissions);
