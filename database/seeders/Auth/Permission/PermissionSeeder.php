@@ -62,7 +62,6 @@ class PermissionSeeder extends Seeder
         $this->registerResource(Dump::class, $extendedCrudPermissions);
         $this->registerResource(Feature::class, CrudPermission::cases());
         $this->registerResource(FeaturedTheme::class, $extendedCrudPermissions);
-        $this->registerResource(Report::class, CrudPermission::cases());
 
         // Auth Resources
         $this->registerResource(Permission::class, [CrudPermission::VIEW]);
@@ -80,6 +79,7 @@ class PermissionSeeder extends Seeder
 
         // User Resources
         $this->registerResource(Notification::class, [CrudPermission::VIEW, CrudPermission::UPDATE]);
+        $this->registerResource(Report::class, CrudPermission::cases());
 
         // Wiki Resources
         $this->registerResource(Anime::class, $extendedCrudPermissions);

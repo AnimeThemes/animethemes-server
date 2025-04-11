@@ -69,7 +69,6 @@ class AdminSeeder extends RoleSeeder
         $this->configureResource($role, Dump::class, $extendedCrudPermissions);
         $this->configureResource($role, Feature::class, [CrudPermission::VIEW, CrudPermission::UPDATE]);
         $this->configureResource($role, FeaturedTheme::class, $extendedCrudPermissions);
-        $this->configureResource($role, Report::class, CrudPermission::cases());
 
         // Auth Resources
         $this->configureResource($role, Permission::class, [CrudPermission::VIEW]);
@@ -87,6 +86,7 @@ class AdminSeeder extends RoleSeeder
 
         // User Resources
         $this->configureResource($role, Notification::class, [CrudPermission::VIEW, CrudPermission::UPDATE]);
+        $this->configureResource($role, Report::class, CrudPermission::cases());
 
         // Wiki Resources
         $this->configureResource($role, Anime::class, $extendedCrudPermissions);

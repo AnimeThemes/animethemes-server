@@ -58,9 +58,6 @@ class WikiViewerRoleSeeder extends RoleSeeder
             ExtendedCrudPermission::cases(),
         );
 
-        // Admin Resources
-        $this->configureResource($role, Report::class, [CrudPermission::VIEW, CrudPermission::CREATE, CrudPermission::UPDATE]);
-
         // Discord Resources
         $this->configureResource($role, DiscordThread::class, [CrudPermission::VIEW]);
 
@@ -72,6 +69,7 @@ class WikiViewerRoleSeeder extends RoleSeeder
 
         // User Resources
         $this->configureResource($role, Notification::class, [CrudPermission::VIEW, CrudPermission::UPDATE]);
+        $this->configureResource($role, Report::class, [CrudPermission::VIEW, CrudPermission::CREATE, CrudPermission::UPDATE]);
 
         // Wiki Resources
         $this->configureResource($role, Anime::class, [CrudPermission::VIEW]);
