@@ -23,4 +23,6 @@ class Notification extends DatabaseNotification
     final public const ATTRIBUTE_NOTIFIABLE_ID = 'notifiable_id';
     final public const ATTRIBUTE_DATA = 'data';
     final public const ATTRIBUTE_READ_AT = 'read_at';
+
+    final public const RELATION_NOTIFIABLE = 'notifiable';
 }

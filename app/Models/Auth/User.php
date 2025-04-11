@@ -66,9 +66,7 @@ class User extends Authenticatable implements MustVerifyEmail, Nameable, HasSubt
     use HasApiTokens;
     use HasFactory;
     use HasRoles;
-    use Notifiable {
-        notifications as traitNotifications;
-    }
+    use Notifiable;
     use SoftDeletes;
     use TwoFactorAuthenticatable;
 
@@ -288,10 +286,12 @@ class User extends Authenticatable implements MustVerifyEmail, Nameable, HasSubt
      */
     public function notifications(): MorphMany
     {
+        $notifications = $this->morphMany(Notification::class, 'notifiable')->latest();
+
         if (Filament::isServing()) {
-            return $this->traitNotifications()->where(Notification::ATTRIBUTE_TYPE, FilamentNotification::class);
+            return $notifications->where(Notification::ATTRIBUTE_TYPE, FilamentNotification::class);
         }
 
-        return $this->traitNotifications()->where(Notification::ATTRIBUTE_TYPE, UserNotification::class);
+        return $notifications->where(Notification::ATTRIBUTE_TYPE, UserNotification::class);
     }
 }

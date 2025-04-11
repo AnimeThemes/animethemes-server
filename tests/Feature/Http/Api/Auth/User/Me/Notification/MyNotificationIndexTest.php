@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Api\Auth\User\Me\List\Notification;
+namespace Tests\Feature\Http\Api\Auth\User\Me\Notification;
 
 use App\Enums\Auth\CrudPermission;
 use App\Http\Api\Query\Query;
@@ -56,7 +56,7 @@ class MyNotificationIndexTest extends TestCase
     public function testOnlySeesOwnedNotifications(): void
     {
         Notification::factory()
-            ->user(User::factory()->createOne())
+            ->for(User::factory()->createOne(), Notification::RELATION_NOTIFIABLE)
             ->count($this->faker->randomDigitNotNull())
             ->create();
 
@@ -65,9 +65,10 @@ class MyNotificationIndexTest extends TestCase
         $notificationCount = $this->faker->randomDigitNotNull();
 
         $notifications = Notification::factory()
-            ->user($user)
+            ->for($user, Notification::RELATION_NOTIFIABLE)
             ->count($notificationCount)
-            ->create();
+            ->create()
+            ->sortBy(Notification::ATTRIBUTE_ID);
 
         Sanctum::actingAs($user);
 

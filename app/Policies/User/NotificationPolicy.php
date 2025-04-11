@@ -24,7 +24,7 @@ class NotificationPolicy extends BasePolicy
      */
     public function viewAny(?User $user): bool
     {
-        return true;
+        return $user === null || $user->can(CrudPermission::VIEW->format(Notification::class));
     }
 
     /**
