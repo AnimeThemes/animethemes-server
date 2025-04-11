@@ -7,12 +7,11 @@ namespace App\Actions\Models\List\ExternalProfile;
 use App\Actions\Models\List\ExternalProfile\ExternalEntry\BaseExternalEntryAction;
 use App\Actions\Models\List\ExternalProfile\ExternalEntry\BaseExternalEntryTokenAction;
 use App\Enums\Models\List\ExternalProfileSite;
-use App\Enums\NotificationType;
+use App\Events\List\ExternalProfile\ExternalProfileSynced;
 use App\Models\List\External\ExternalEntry;
 use App\Models\List\ExternalProfile;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\ExternalResource;
-use App\Notifications\UserNotification;
 use Exception;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
@@ -70,11 +69,7 @@ class SyncExternalProfileAction
 
             DB::commit();
 
-            $profile->user?->notifyNow(new UserNotification(
-                'External Profile Synced',
-                "Your external profile [{$profile->getName()}]({$profile->getClientUrl()}) has been synced.",
-                NotificationType::SYNCED_PROFILE,
-            ));
+            ExternalProfileSynced::dispatch($profile);
 
             return $profile;
         } catch (Exception $e) {
