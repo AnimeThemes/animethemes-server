@@ -12,7 +12,7 @@ use App\Events\Auth\User\UserDeleted;
 use App\Events\Auth\User\UserRestored;
 use App\Events\Auth\User\UserUpdated;
 use App\Models\Admin\ActionLog;
-use App\Models\Admin\Report;
+use App\Models\User\Report;
 use App\Models\List\Playlist;
 use App\Models\List\ExternalProfile;
 use App\Models\User\Notification;

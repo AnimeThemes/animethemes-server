@@ -2,22 +2,22 @@
 
 declare(strict_types=1);
 
-namespace App\Filament\Resources\Admin\Report;
+namespace App\Filament\Resources\User\Report;
 
 use App\Contracts\Models\Nameable;
-use App\Enums\Models\Admin\ApprovableStatus;
-use App\Enums\Models\Admin\ReportActionType;
+use App\Enums\Models\User\ApprovableStatus;
+use App\Enums\Models\User\ReportActionType;
 use App\Filament\Components\Columns\BelongsToColumn;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Infolist\BelongsToEntry;
 use App\Filament\Components\Infolist\KeyValueThreeEntry;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Components\Infolist\TimestampSection;
-use App\Filament\Resources\Admin\Report as ReportResource;
+use App\Filament\Resources\User\Report as ReportResource;
 use App\Filament\Resources\BaseResource;
-use App\Filament\Resources\Admin\Report\ReportStep\Pages\ListReportSteps;
-use App\Filament\Resources\Admin\Report\ReportStep\Pages\ViewReportStep;
-use App\Models\Admin\Report\ReportStep as ReportStepModel;
+use App\Filament\Resources\User\Report\ReportStep\Pages\ListReportSteps;
+use App\Filament\Resources\User\Report\ReportStep\Pages\ViewReportStep;
+use App\Models\User\Report\ReportStep as ReportStepModel;
 use Filament\Facades\Filament;
 use Filament\Forms\Form;
 use Filament\Infolists\Components\KeyValueEntry;
@@ -71,7 +71,7 @@ class ReportStep extends BaseResource
      */
     public static function getNavigationGroup(): string
     {
-        return __('filament.resources.group.admin');
+        return __('filament.resources.group.user');
     }
 
     /**

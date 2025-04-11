@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace App\Filament\Resources\Admin\Report\Pages;
+namespace App\Filament\Resources\User\Report\ReportStep\Pages;
 
-use App\Filament\Resources\Admin\Report;
-use App\Filament\Resources\Base\BaseListResources;
+use App\Filament\Resources\User\Report\ReportStep;
+use App\Filament\Resources\Base\BaseViewResource;
 
 /**
- * Class ListReports.
+ * Class ViewReportStep.
  */
-class ListReports extends BaseListResources
+class ViewReportStep extends BaseViewResource
 {
-    protected static string $resource = Report::class;
+    protected static string $resource = ReportStep::class;
 
     /**
      * Get the header actions available.

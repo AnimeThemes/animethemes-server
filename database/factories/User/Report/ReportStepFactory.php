@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Database\Factories\Admin\Report;
+namespace Database\Factories\User\Report;
 
-use App\Enums\Models\Admin\ApprovableStatus;
-use App\Enums\Models\Admin\ReportActionType;
-use App\Models\Admin\Report\ReportStep;
+use App\Enums\Models\User\ApprovableStatus;
+use App\Enums\Models\User\ReportActionType;
+use App\Models\User\Report\ReportStep;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Arr;
 

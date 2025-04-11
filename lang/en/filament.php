@@ -824,6 +824,7 @@ return [
             'finished_at' => 'Finished At',
             'moderator' => 'Moderator',
             'mod_notes' => 'Moderator Notes',
+            'notes' => 'Notes',
             'status' => 'Status',
             'target' => 'Target',
         ],
@@ -961,6 +962,7 @@ return [
             'discord' => 'Discord',
             'document' => 'Document',
             'list' => 'List',
+            'user' => 'User',
             'wiki' => 'Wiki',
         ],
         'label' => [

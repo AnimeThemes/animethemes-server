@@ -2,20 +2,20 @@
 
 declare(strict_types=1);
 
-namespace App\Filament\Resources\Admin;
+namespace App\Filament\Resources\User;
 
-use App\Enums\Models\Admin\ApprovableStatus;
+use App\Enums\Models\User\ApprovableStatus;
 use App\Filament\Components\Columns\BelongsToColumn;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Infolist\BelongsToEntry;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Components\Infolist\TimestampSection;
 use App\Filament\Resources\BaseResource;
-use App\Filament\Resources\Admin\Report\Pages\ListReports;
-use App\Filament\Resources\Admin\Report\Pages\ViewReport;
-use App\Filament\Resources\Admin\Report\RelationManagers\StepReportRelationManager;
+use App\Filament\Resources\User\Report\Pages\ListReports;
+use App\Filament\Resources\User\Report\Pages\ViewReport;
+use App\Filament\Resources\User\Report\RelationManagers\StepReportRelationManager;
 use App\Filament\Resources\Auth\User as UserResource;
-use App\Models\Admin\Report as ReportModel;
+use App\Models\User\Report as ReportModel;
 use Filament\Forms\Form;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Infolist;
@@ -68,7 +68,7 @@ class Report extends BaseResource
      */
     public static function getNavigationGroup(): string
     {
-        return __('filament.resources.group.admin');
+        return __('filament.resources.group.user');
     }
 
     /**

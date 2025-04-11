@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Models\Admin;
+namespace App\Models\User;
 
 use App\Contracts\Models\HasSubtitle;
 use App\Contracts\Models\Nameable;
-use App\Enums\Models\Admin\ApprovableStatus;
-use App\Models\Admin\Report\ReportStep;
+use App\Enums\Models\User\ApprovableStatus;
+use App\Models\User\Report\ReportStep;
 use App\Models\Auth\User;
-use Database\Factories\Admin\ReportFactory;
+use Database\Factories\User\ReportFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

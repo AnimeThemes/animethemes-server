@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Models\Admin;
+namespace Tests\Unit\Models\User;
 
-use App\Enums\Models\Admin\ApprovableStatus;
-use App\Models\Admin\Report;
-use App\Models\Admin\Report\ReportStep;
+use App\Enums\Models\User\ApprovableStatus;
+use App\Models\User\Report;
+use App\Models\User\Report\ReportStep;
 use App\Models\Auth\User;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;

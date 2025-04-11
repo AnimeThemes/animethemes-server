@@ -8,7 +8,7 @@ use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\ExtendedCrudPermission;
 use App\Enums\Auth\Role as RoleEnum;
 use App\Enums\Auth\SpecialPermission;
-use App\Models\Admin\Report;
+use App\Models\User\Report;
 use App\Models\Auth\Role;
 use App\Models\Discord\DiscordThread;
 use App\Models\Document\Page;

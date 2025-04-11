@@ -2,32 +2,24 @@
 
 declare(strict_types=1);
 
-namespace App\Filament\RelationManagers\Admin;
+namespace App\Filament\Resources\User\Report\RelationManagers;
 
-use App\Filament\RelationManagers\BaseRelationManager;
-use App\Filament\Resources\Admin\Report\ReportStep as ReportStepResource;
-use App\Models\Admin\Report\ReportStep;
-use Filament\Forms\Form;
+use App\Filament\RelationManagers\User\ReportStepRelationManager;
+use App\Models\User\Report;
+use App\Models\User\Report\ReportStep;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
 
 /**
- * Class ReportStepRelationManager.
+ * Class StepReportRelationManager.
  */
-abstract class ReportStepRelationManager extends BaseRelationManager
+class StepReportRelationManager extends ReportStepRelationManager
 {
     /**
-     * The form to the actions.
+     * The relationship the relation manager corresponds to.
      *
-     * @param  Form  $form
-     * @return Form
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
+     * @var string
      */
-    public function form(Form $form): Form
-    {
-        return ReportStepResource::form($form);
-    }
+    protected static string $relationship = Report::RELATION_STEPS;
 
     /**
      * The index page of the resource.
@@ -39,12 +31,7 @@ abstract class ReportStepRelationManager extends BaseRelationManager
     {
         return parent::table(
             $table
-                ->modifyQueryUsing(fn (Builder $query) => $query->with(ReportStepResource::getEloquentQuery()->getEagerLoads()))
-                ->heading(ReportStepResource::getPluralLabel())
-                ->modelLabel(ReportStepResource::getLabel())
-                ->recordTitleAttribute(ReportStepResource::getRecordTitleAttribute())
-                ->columns(ReportStepResource::table($table)->getColumns())
-                ->defaultSort(ReportStep::TABLE . '.' . ReportStep::ATTRIBUTE_ID, 'desc')
+                ->inverseRelationship(ReportStep::RELATION_REPORT)
         );
     }
 
@@ -58,7 +45,7 @@ abstract class ReportStepRelationManager extends BaseRelationManager
     public static function getFilters(): array
     {
         return [
-            ...ReportStepResource::getFilters(),
+            ...parent::getFilters(),
         ];
     }
 
@@ -71,7 +58,6 @@ abstract class ReportStepRelationManager extends BaseRelationManager
     {
         return [
             ...parent::getActions(),
-            ...ReportStepResource::getActions(),
         ];
     }
 
@@ -85,7 +71,6 @@ abstract class ReportStepRelationManager extends BaseRelationManager
     {
         return [
             ...parent::getBulkActions(),
-            ...ReportStepResource::getBulkActions(),
         ];
     }
 
@@ -99,7 +84,6 @@ abstract class ReportStepRelationManager extends BaseRelationManager
     {
         return [
             ...parent::getHeaderActions(),
-            ...ReportStepResource::getTableActions(),
         ];
     }
 }

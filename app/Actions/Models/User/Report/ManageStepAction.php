@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Actions\Models\Admin\Report;
+namespace App\Actions\Models\User\Report;
 
-use App\Enums\Models\Admin\ApprovableStatus;
-use App\Enums\Models\Admin\ReportActionType;
-use App\Models\Admin\Report\ReportStep;
+use App\Enums\Models\User\ApprovableStatus;
+use App\Enums\Models\User\ReportActionType;
+use App\Models\User\Report\ReportStep;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Support\Facades\Date;

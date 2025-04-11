@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Enums\Models\Admin;
+namespace App\Enums\Models\User;
 
 use App\Concerns\Enums\LocalizesName;
 

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Database\Factories\Admin;
+namespace Database\Factories\User;
 
-use App\Enums\Models\Admin\ApprovableStatus;
-use App\Models\Admin\Report;
+use App\Enums\Models\User\ApprovableStatus;
+use App\Models\User\Report;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Arr;
 

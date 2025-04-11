@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Models\Admin\Report;
+namespace Tests\Unit\Models\User\Report;
 
-use App\Enums\Models\Admin\ApprovableStatus;
-use App\Enums\Models\Admin\ReportActionType;
-use App\Models\Admin\Report;
-use App\Models\Admin\Report\ReportStep;
+use App\Enums\Models\User\ApprovableStatus;
+use App\Enums\Models\User\ReportActionType;
+use App\Models\User\Report;
+use App\Models\User\Report\ReportStep;
 use App\Models\Wiki\Anime;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Testing\WithFaker;

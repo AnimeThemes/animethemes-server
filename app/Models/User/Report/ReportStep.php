@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Models\Admin\Report;
+namespace App\Models\User\Report;
 
-use App\Enums\Models\Admin\ApprovableStatus;
-use App\Enums\Models\Admin\ReportActionType;
-use App\Models\Admin\Report;
-use Database\Factories\Admin\Report\ReportStepFactory;
+use App\Enums\Models\User\ApprovableStatus;
+use App\Enums\Models\User\ReportActionType;
+use App\Models\User\Report;
+use Database\Factories\User\Report\ReportStepFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;

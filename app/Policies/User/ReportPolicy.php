@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Policies\Admin;
+namespace App\Policies\User;
 
 use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\Role;
-use App\Models\Admin\Report;
+use App\Models\User\Report;
 use App\Models\Auth\User;
 use App\Models\BaseModel;
 use App\Policies\BasePolicy;
