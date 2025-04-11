@@ -6,8 +6,8 @@ namespace App\Http\Middleware\Models\Admin;
 
 use App\Constants\Config\ReportConstants;
 use App\Enums\Auth\SpecialPermission;
-use App\Enums\Models\Admin\ApprovableStatus;
-use App\Models\Admin\Report;
+use App\Enums\Models\User\ApprovableStatus;
+use App\Models\User\Report;
 use App\Models\Auth\User;
 use Closure;
 use Illuminate\Http\Request;

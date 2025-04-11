@@ -88,6 +88,8 @@ class AnilistExternalEntryTokenAction extends BaseExternalEntryTokenAction
      * Make the request to the external api.
      *
      * @return static
+     *
+     * @throws RequestException
      */
     protected function makeRequest(): static
     {

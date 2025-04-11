@@ -3,8 +3,8 @@
 declare(strict_types=1);
 
 use App\Enums\Models\Admin\ActionLogStatus;
-use App\Enums\Models\Admin\ApprovableStatus;
-use App\Enums\Models\Admin\ReportActionType;
+use App\Enums\Models\User\ApprovableStatus;
+use App\Enums\Models\User\ReportActionType;
 use App\Enums\Models\List\ExternalEntryWatchStatus;
 use App\Enums\Models\List\ExternalProfileSite;
 use App\Enums\Models\List\ExternalProfileVisibility;

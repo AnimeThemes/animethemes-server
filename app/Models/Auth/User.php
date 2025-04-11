@@ -12,16 +12,21 @@ use App\Events\Auth\User\UserDeleted;
 use App\Events\Auth\User\UserRestored;
 use App\Events\Auth\User\UserUpdated;
 use App\Models\Admin\ActionLog;
-use App\Models\Admin\Report;
+use App\Models\User\Report;
 use App\Models\List\Playlist;
 use App\Models\List\ExternalProfile;
+use App\Models\User\Notification;
+use App\Notifications\UserNotification;
 use Database\Factories\Auth\UserFactory;
+use Filament\Facades\Filament;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Models\Contracts\HasAvatar;
+use Filament\Notifications\DatabaseNotification as FilamentNotification;
 use Filament\Panel;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -80,6 +85,7 @@ class User extends Authenticatable implements MustVerifyEmail, Nameable, HasSubt
 
     final public const RELATION_EXTERNAL_PROFILES = 'externalprofiles';
     final public const RELATION_MANAGED_REPORTS = 'managedreports';
+    final public const RELATION_NOTIFICATIONS = 'notifications';
     final public const RELATION_PERMISSIONS = 'permissions';
     final public const RELATION_PLAYLISTS = 'playlists';
     final public const RELATION_REPORTS = 'reports';
@@ -271,5 +277,21 @@ class User extends Authenticatable implements MustVerifyEmail, Nameable, HasSubt
     public function actionlogs(): HasMany
     {
         return $this->hasMany(ActionLog::class, ActionLog::ATTRIBUTE_USER);
+    }
+
+    /**
+     * Get the entity's notifications.
+     *
+     * @return MorphMany<Notification, $this>
+     */
+    public function notifications(): MorphMany
+    {
+        $notifications = $this->morphMany(Notification::class, 'notifiable')->latest();
+
+        if (Filament::isServing()) {
+            return $notifications->where(Notification::ATTRIBUTE_TYPE, FilamentNotification::class);
+        }
+
+        return $notifications->where(Notification::ATTRIBUTE_TYPE, UserNotification::class);
     }
 }

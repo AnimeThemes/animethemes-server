@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Concerns\Models;
 
-use App\Actions\Models\Admin\Report\ReportAction;
-use App\Models\Admin\Report;
-use App\Models\Admin\Report\ReportStep;
+use App\Actions\Models\User\Report\ReportAction;
+use App\Models\User\Report;
+use App\Models\User\Report\ReportStep;
 use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Facades\Auth;

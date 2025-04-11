@@ -55,10 +55,6 @@ class MalExternalTokenAction extends BaseExternalTokenAction
                 throw new Error('Failed to get token');
             }
 
-            return ExternalToken::query()->create([
-                ExternalToken::ATTRIBUTE_ACCESS_TOKEN => Crypt::encrypt($token),
-                ExternalToken::ATTRIBUTE_REFRESH_TOKEN => Crypt::encrypt($refreshToken),
-            ]);
         } catch (Exception $e) {
             Log::error($e->getMessage());
 
@@ -66,5 +62,10 @@ class MalExternalTokenAction extends BaseExternalTokenAction
         } finally {
             Cache::forget("mal-external-token-request-{$state}");
         }
+
+        return ExternalToken::query()->create([
+            ExternalToken::ATTRIBUTE_ACCESS_TOKEN => Crypt::encrypt($token),
+            ExternalToken::ATTRIBUTE_REFRESH_TOKEN => Crypt::encrypt($refreshToken),
+        ]);
     }
 }

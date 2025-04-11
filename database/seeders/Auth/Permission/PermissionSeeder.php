@@ -11,7 +11,7 @@ use App\Models\Admin\Announcement;
 use App\Models\Admin\Dump;
 use App\Models\Admin\Feature;
 use App\Models\Admin\FeaturedTheme;
-use App\Models\Admin\Report;
+use App\Models\User\Report;
 use App\Models\Auth\Permission;
 use App\Models\Auth\Role;
 use App\Models\Auth\User;
@@ -21,6 +21,7 @@ use App\Models\List\External\ExternalEntry;
 use App\Models\List\ExternalProfile;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
+use App\Models\User\Notification;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeSynonym;
 use App\Models\Wiki\Anime\AnimeTheme;
@@ -61,7 +62,6 @@ class PermissionSeeder extends Seeder
         $this->registerResource(Dump::class, $extendedCrudPermissions);
         $this->registerResource(Feature::class, CrudPermission::cases());
         $this->registerResource(FeaturedTheme::class, $extendedCrudPermissions);
-        $this->registerResource(Report::class, CrudPermission::cases());
 
         // Auth Resources
         $this->registerResource(Permission::class, [CrudPermission::VIEW]);
@@ -76,6 +76,10 @@ class PermissionSeeder extends Seeder
         $this->registerResource(ExternalProfile::class, $extendedCrudPermissions);
         $this->registerResource(Playlist::class, $extendedCrudPermissions);
         $this->registerResource(PlaylistTrack::class, $extendedCrudPermissions);
+
+        // User Resources
+        $this->registerResource(Notification::class, [CrudPermission::VIEW, CrudPermission::UPDATE]);
+        $this->registerResource(Report::class, CrudPermission::cases());
 
         // Wiki Resources
         $this->registerResource(Anime::class, $extendedCrudPermissions);

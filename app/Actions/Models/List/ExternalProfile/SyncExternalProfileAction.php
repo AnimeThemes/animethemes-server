@@ -7,12 +7,11 @@ namespace App\Actions\Models\List\ExternalProfile;
 use App\Actions\Models\List\ExternalProfile\ExternalEntry\BaseExternalEntryAction;
 use App\Actions\Models\List\ExternalProfile\ExternalEntry\BaseExternalEntryTokenAction;
 use App\Enums\Models\List\ExternalProfileSite;
-use App\Enums\NotificationType;
+use App\Events\List\ExternalProfile\ExternalProfileSynced;
 use App\Models\List\External\ExternalEntry;
 use App\Models\List\ExternalProfile;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\ExternalResource;
-use App\Notifications\UserNotification;
 use Exception;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
@@ -47,7 +46,7 @@ class SyncExternalProfileAction
 
             $entries = $action->getEntries();
 
-            $this->preloadResources($profile->site, $entries);
+            $this->cacheResources($profile->site);
 
             $externalEntries = [];
             foreach ($entries as $entry) {
@@ -58,7 +57,7 @@ class SyncExternalProfileAction
                         ExternalEntry::ATTRIBUTE_SCORE => Arr::get($entry, ExternalEntry::ATTRIBUTE_SCORE),
                         ExternalEntry::ATTRIBUTE_IS_FAVORITE => Arr::get($entry, ExternalEntry::ATTRIBUTE_IS_FAVORITE),
                         ExternalEntry::ATTRIBUTE_WATCH_STATUS => Arr::get($entry, ExternalEntry::ATTRIBUTE_WATCH_STATUS),
-                        ExternalEntry::ATTRIBUTE_ANIME => $anime->getKey(),
+                        ExternalEntry::ATTRIBUTE_ANIME => $anime,
                         ExternalEntry::ATTRIBUTE_PROFILE => $profile->getKey(),
                     ];
                 }
@@ -70,11 +69,7 @@ class SyncExternalProfileAction
 
             DB::commit();
 
-            $profile->user?->notifyNow(new UserNotification(
-                'External Profile Synced',
-                "Your external profile [{$profile->getName()}]({$profile->getClientUrl()}) has been synced.",
-                NotificationType::SYNCED_PROFILE,
-            ));
+            ExternalProfileSynced::dispatch($profile);
 
             return $profile;
         } catch (Exception $e) {
@@ -113,21 +108,20 @@ class SyncExternalProfileAction
     }
 
     /**
-     * Preload the resources for performance proposals.
+     * Cache the resources for performance proposals.
      *
      * @param  ExternalProfileSite  $profileSite
-     * @param  array  $entries
      * @return void
      */
-    protected function preloadResources(ExternalProfileSite $profileSite, array $entries): void
+    protected function cacheResources(ExternalProfileSite $profileSite): void
     {
-        $this->resources = Cache::flexible("externalprofile_resources", [60, 300], function () use ($profileSite, $entries) {
+        $this->resources = Cache::flexible("resources_{$profileSite->getResourceSite()->localize()}", [60, 300], function () use ($profileSite) {
             return ExternalResource::query()
                 ->where(ExternalResource::ATTRIBUTE_SITE, $profileSite->getResourceSite()->value)
-                ->whereIn(ExternalResource::ATTRIBUTE_EXTERNAL_ID, Arr::pluck($entries, 'external_id'))
-                ->with(ExternalResource::RELATION_ANIME)
+                ->with([ExternalResource::RELATION_ANIME => fn ($query) => $query->select([Anime::TABLE.'.'.Anime::ATTRIBUTE_ID])])
+                ->whereHas(ExternalResource::RELATION_ANIME)
                 ->get()
-                ->mapWithKeys(fn (ExternalResource $resource) => [$resource->external_id => $resource->anime]);
+                ->mapWithKeys(fn (ExternalResource $resource) => [$resource->external_id => $resource->anime->map(fn (Anime $anime) => $anime->getKey())]);
         });
     }
 
@@ -135,10 +129,10 @@ class SyncExternalProfileAction
      * Get the animes by the external id.
      *
      * @param  int  $externalId
-     * @return Collection<int, Anime>
+     * @return Collection<int, int>
      */
     protected function getAnimesByExternalId(int $externalId): Collection
     {
-        return $this->resources[$externalId] ?? new Collection();
+        return $this->resources->get($externalId) ?? collect();
     }
 }
