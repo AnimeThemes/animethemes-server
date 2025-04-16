@@ -1,0 +1,5 @@
+type Dump {
+    id: Int! @rename(attribute: "dump_id")
+    path: String!
+    link: String!
+}

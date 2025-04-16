@@ -1,0 +1,10 @@
+type AnimeTheme {
+    id: Int! @rename(attribute: "theme_id")
+    anime_id: Int
+    type: ThemeType! @localizedEnum
+    sequence: Int
+    anime: Anime @belongsTo
+    animethemeentries: [AnimeThemeEntry] @hasMany
+    group: Group @belongsTo
+    song: Song @belongsTo
+}

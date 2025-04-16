@@ -1,0 +1,9 @@
+type Image {
+    id: Int! @rename(attribute: "image_id")
+    facet: ImageFacet! @localizedEnum
+    path: String!
+    link: String!
+    anime: [Anime] @belongsToMany
+    artists: [Artist] @belongsToMany
+    studios: [Studio] @belongsToMany
+}

@@ -1,0 +1,5 @@
+type User {
+    id: Int! @rename(attribute: "user_id")
+    name: String!
+    playlists: [Playlist] @hasMany
+}

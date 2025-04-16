@@ -1,0 +1,9 @@
+type Role {
+    id: Int! @rename(attribute: "role_id")
+    color: String!
+    name: String!
+    default: Boolean!
+    guard_name: String!
+    priority: Int!
+    permissions: [Permission] @belongsToMany
+}

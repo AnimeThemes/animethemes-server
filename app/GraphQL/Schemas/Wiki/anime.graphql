@@ -1,0 +1,15 @@
+type Anime {
+    id: Int! @rename(attribute: "anime_id")
+    media_format: AnimeMediaFormat @localizedEnum
+    name: String!
+    season: AnimeSeason @localizedEnum
+    slug: String!
+    synopsis: String
+    year: Int
+    animesynonyms: [AnimeSynonym] @hasMany
+    animethemes: [AnimeTheme] @hasMany
+    images: [Image] @belongsToMany
+    resources: [ExternalResource] @belongsToMany
+    series: [Series] @belongsToMany
+    studios: [Studio] @belongsToMany
+}

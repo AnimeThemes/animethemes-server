@@ -1,0 +1,8 @@
+type Membership {
+    id: Int! @rename(attribute: "membership_id")
+    group: Artist! @belongsTo(relation: "artist")
+    member: Artist! @belongsTo
+    alias: String
+    as: String
+    performances: [Performance] @morphMany
+}

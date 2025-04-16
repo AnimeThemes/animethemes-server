@@ -1,0 +1,9 @@
+type PlaylistTrack {
+    track_id: Int!
+    id: Int! @rename(attribute: "hashid")
+    animethemeentry: AnimeThemeEntry @belongsTo
+    next: PlaylistTrack @belongsTo
+    playlist: Playlist @belongsTo
+    previous: PlaylistTrack @belongsTo
+    video: Video @belongsTo
+}

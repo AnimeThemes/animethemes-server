@@ -1,0 +1,10 @@
+type Audio {
+    id: Int! @rename(attribute: "audio_id")
+    basename: String!
+    filename: String!
+    mimetype: String!
+    path: String!
+    size: Int!
+    link: String!
+    videos: [Video] @hasMany
+}

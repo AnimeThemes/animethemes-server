@@ -1,0 +1,29 @@
+type ExternalResource {
+    id: Int! @rename(attribute: "resource_id")
+    link: String!
+    site: ResourceSite! @localizedEnum
+    anime: [Anime] @belongsToMany
+    artist: [Artist] @belongsToMany
+    song: [Song] @belongsToMany
+    studio: [Studio] @belongsToMany
+    animeresource: AnimeResource
+    artistresource: ArtistResource
+    songresource: SongResource
+    studioresource: StudioResource
+}
+
+type AnimeResource {
+    as: String
+}
+
+type ArtistResource {
+    as: String
+}
+
+type SongResource {
+    as: String
+}
+
+type StudioResource {
+    as: String
+}

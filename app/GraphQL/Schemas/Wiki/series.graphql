@@ -1,0 +1,5 @@
+type Series {
+    name: String!
+    slug: String!
+    anime: [Anime] @belongsToMany
+}

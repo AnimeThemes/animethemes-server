@@ -1,0 +1,60 @@
+"A datetime string with format `Y-m-d H:i:s`, e.g. `2018-05-23 13:43:32`."
+scalar DateTime @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\DateTime")
+
+"Indicates what fields are available at the top level of a query operation."
+type Query {
+    "List multiple users."
+    users(
+      "Filters by name. Accepts SQL LIKE wildcards `%` and `_`."
+      name: String @where(operator: "like")
+    ): [User!]! @paginate(defaultCount: 10, model: "App\\Models\\Auth\\User")
+
+    animes(
+      season: AnimeSeason @eq
+      where: _ @whereConditions(columns: ["name", "season"])
+    ): [Anime!]! @paginate(defaultCount: 10)
+
+    artists(
+      name: String @eq
+    ): [Artist!]! @paginate(defaultCount: 10)
+
+    externalresources(
+      link: String @eq
+    ): [ExternalResource!]! @paginate(defaultCount: 10)
+
+    images(
+      path: String @where(operator: "like")
+    ): [Image!]! @paginate(defaultCount: 10)
+}
+
+#import Admin/*.graphql
+#import Auth/*.graphql
+#import Document/*.graphql
+#import List/*.graphql
+#import List/Playlist/*.graphql
+#import Wiki/*.graphql
+#import Wiki/Anime/*.graphql
+#import Wiki/Anime/AnimeTheme/*.graphql
+#import Wiki/Song/*.graphql
+#import Wiki/Video/*.graphql
+
+
+type User {
+    "Unique primary key."
+    id: ID!
+
+    "Non-unique name."
+    name: String!
+
+    "Unique email address."
+    email: String!
+
+    "When the email was verified."
+    email_verified_at: DateTime
+
+    "When the account was created."
+    created_at: DateTime!
+
+    "When the account was last updated."
+    updated_at: DateTime!
+}

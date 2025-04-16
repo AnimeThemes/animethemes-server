@@ -1,0 +1,10 @@
+type AnimeThemeEntry {
+    id: Int! @rename(attribute: "entry_id")
+    episodes: String
+    notes: String
+    nsfw: Boolean!
+    spoiler: Boolean!
+    version: Int
+    animetheme: AnimeTheme @belongsTo
+    videos: [Video] @belongsToMany
+}

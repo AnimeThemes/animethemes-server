@@ -1,0 +1,9 @@
+type Performance {
+    id: Int! @rename(attribute: "performance_id")
+    artist: PerformanceArtist! @morphTo
+    alias: String
+    as: String
+    song: Song @belongsTo
+}
+
+union PerformanceArtist = Artist | Membership

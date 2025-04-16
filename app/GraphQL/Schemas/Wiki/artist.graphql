@@ -1,0 +1,29 @@
+type Artist {
+    id: Int! @rename(attribute: "artist_id")
+    name: String!
+    slug: String!
+    information: String
+    groups: [Artist] @belongsToMany
+    images: [Image] @belongsToMany
+    members: [Artist] @belongsToMany
+    memberships: [Membership] @hasMany
+    performances: [Performance] @morphMany
+    resources: [ExternalResource] @belongsToMany
+    artistgroup: ArtistGroup
+    artistimage: ArtistImage
+    artistresource: ArtistResource
+}
+
+type ArtistGroup {
+    alias: String
+    as: String
+}
+
+type ArtistImage {
+    depth: Int
+}
+
+type ArtistMember {
+    alias: String
+    as: String
+}

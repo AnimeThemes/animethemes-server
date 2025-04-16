@@ -1,0 +1,8 @@
+type Studio {
+    id: Int! @rename(attribute: "studio_id")
+    name: String!
+    slug: String!
+    anime: [Anime] @belongsToMany
+    images: [Image] @belongsToMany
+    resources: [ExternalResource] @belongsToMany
+}

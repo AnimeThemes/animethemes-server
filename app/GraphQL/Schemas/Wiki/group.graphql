@@ -1,0 +1,5 @@
+type Group {
+    name: String!
+    slug: String!
+    animethemes: [AnimeTheme] @hasMany
+}

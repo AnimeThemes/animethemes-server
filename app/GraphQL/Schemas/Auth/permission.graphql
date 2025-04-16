@@ -1,0 +1,5 @@
+type Permission {
+    id: Int!
+    name: String!
+    guard_name: String!
+}

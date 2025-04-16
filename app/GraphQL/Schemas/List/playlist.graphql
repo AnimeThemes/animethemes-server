@@ -1,0 +1,12 @@
+type Playlist {
+    playlist_id: Int!
+    id: Int! @rename(attribute: "hashid")
+    name: String!
+    description: String
+    visibility: PlaylistVisibility! @localizedEnum
+    first: PlaylistTrack @belongsTo
+    images: [Image] @belongsToMany
+    last: PlaylistTrack @belongsTo
+    tracks: [PlaylistTrack] @hasMany
+    user: User @belongsTo
+}

@@ -1,0 +1,18 @@
+type Video {
+    id: Int! @rename(attribute: "video_id")
+    basename: String!
+    filename: String!
+    mimetype: String
+    nc: Boolean!
+    overlap: VideoOverlap @localizedEnum
+    path: String!
+    resolution: Int
+    size: Int
+    source: VideoSource @localizedEnum
+    subbed: Boolean!
+    uncen: Boolean!
+    tags: [String]
+    link: String!
+    animethemeentries: [AnimeThemeEntry] @belongsToMany
+    videoscript: VideoScript @hasOne
+}

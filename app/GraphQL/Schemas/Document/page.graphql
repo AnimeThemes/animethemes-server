@@ -1,0 +1,6 @@
+type Page {
+    id: Int! @rename(attribute: "page_id")
+    name: String!
+    slug: String!
+    body: String
+}
