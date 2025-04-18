@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use GraphQL\Error\DebugFlag;
+
 return [
     /*
     |--------------------------------------------------------------------------
@@ -18,7 +20,7 @@ return [
         /*
          * The URI the endpoint responds to, e.g. mydomain.com/graphql.
          */
-        'uri' => '/graphql',
+        'uri' => env('GRAPHQL_PATH'),
 
         /*
          * Lighthouse creates a named route for convenient URL generation and redirects.
@@ -52,8 +54,8 @@ return [
         /*
          * The `prefix`, `domain` and `where` configuration options are optional.
          */
-        // 'prefix' => '',
-        // 'domain' => '',
+         'prefix' => env('GRAPHQL_PREFIX', null),
+         'domain' => env('GRAPHQL_DOMAIN_NAME'),
         // 'where' => [],
     ],
 
@@ -215,8 +217,8 @@ return [
     */
 
     'security' => [
-        'max_query_complexity' => GraphQL\Validator\Rules\QueryComplexity::DISABLED,
-        'max_query_depth' => GraphQL\Validator\Rules\QueryDepth::DISABLED,
+        'max_query_complexity' => env('LIGHTHOUSE_MAX_QUERY_COMPLEXITY', 100),
+        'max_query_depth' => env('LIGHTHOUSE_MAX_QUERY_DEPTH', 10),
         'disable_introspection' => (bool) env('LIGHTHOUSE_SECURITY_DISABLE_INTROSPECTION', false)
             ? GraphQL\Validator\Rules\DisableIntrospection::ENABLED
             : GraphQL\Validator\Rules\DisableIntrospection::DISABLED,
@@ -243,7 +245,7 @@ return [
          * Limit the maximum amount of items that clients can request from paginated lists.
          * Setting this to `null` means the count is unrestricted.
          */
-        'max_count' => null,
+        'max_count' => 100,
     ],
 
     /*
@@ -274,7 +276,7 @@ return [
     |
     */
 
-    'debug' => env('LIGHTHOUSE_DEBUG', GraphQL\Error\DebugFlag::INCLUDE_DEBUG_MESSAGE | GraphQL\Error\DebugFlag::INCLUDE_TRACE),
+    'debug' => env('LIGHTHOUSE_DEBUG', env('APP_ENV') === 'local' ? DebugFlag::INCLUDE_DEBUG_MESSAGE | DebugFlag::INCLUDE_TRACE : DebugFlag::NONE),
 
     /*
     |--------------------------------------------------------------------------

@@ -4,9 +4,9 @@ type ExternalResource {
     link: String!
     site: ResourceSite! @localizedEnum
     anime: [Anime] @belongsToMany
-    artist: [Artist] @belongsToMany
-    song: [Song] @belongsToMany
-    studio: [Studio] @belongsToMany
+    artists: [Artist] @belongsToMany
+    songs: [Song] @belongsToMany
+    studios: [Studio] @belongsToMany
     animeresource: AnimeResource
     artistresource: ArtistResource
     songresource: SongResource
