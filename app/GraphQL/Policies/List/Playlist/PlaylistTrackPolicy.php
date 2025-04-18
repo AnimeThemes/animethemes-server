@@ -2,19 +2,17 @@
 
 declare(strict_types=1);
 
-namespace App\Policies\List\Playlist;
+namespace App\GraphQL\Policies\List\Playlist;
 
 use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\ExtendedCrudPermission;
-use App\Enums\Auth\Role as RoleEnum;
 use App\Enums\Models\List\PlaylistVisibility;
+use App\GraphQL\Mutations\List\Playlist\PlaylistTrackMutator;
+use App\GraphQL\Policies\BasePolicy;
 use App\Models\Auth\User;
-use App\Models\BaseModel;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
-use App\Policies\BasePolicy;
-use Filament\Facades\Filament;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
 
 /**
  * Class PlaylistTrackPolicy.
@@ -25,16 +23,13 @@ class PlaylistTrackPolicy extends BasePolicy
      * Determine whether the user can view any models.
      *
      * @param  User|null  $user
+     * @param  array|null  $injected
      * @return bool
      */
-    public function viewAny(?User $user): bool
+    public function viewAny(?User $user, ?array $injected = null): bool
     {
-        if (Filament::isServing()) {
-            return $user !== null && $user->hasRole(RoleEnum::ADMIN->value);
-        }
-
         /** @var Playlist|null $playlist */
-        $playlist = request()->route('playlist');
+        $playlist = Arr::get($injected, 'playlist');
 
         return $user !== null
             ? ($playlist?->user()->is($user) || PlaylistVisibility::PRIVATE !== $playlist?->visibility) && $user->can(CrudPermission::VIEW->format(PlaylistTrack::class))
@@ -45,19 +40,15 @@ class PlaylistTrackPolicy extends BasePolicy
      * Determine whether the user can view the model.
      *
      * @param  User|null  $user
-     * @param  PlaylistTrack  $track
+     * @param  array|null  $injected
      * @return bool
      *
      * @noinspection PhpUnusedParameterInspection
      */
-    public function view(?User $user, BaseModel|Model $track): bool
+    public function view(?User $user, ?array $injected = null): bool
     {
-        if (Filament::isServing()) {
-            return $user !== null && $user->hasRole(RoleEnum::ADMIN->value);
-        }
-
         /** @var Playlist|null $playlist */
-        $playlist = request()->route('playlist');
+        $playlist = Arr::get($injected, 'playlist');
 
         return $user !== null
             ? ($playlist?->user()->is($user) || PlaylistVisibility::PRIVATE !== $playlist?->visibility) && $user->can(CrudPermission::VIEW->format(PlaylistTrack::class))
@@ -68,16 +59,13 @@ class PlaylistTrackPolicy extends BasePolicy
      * Determine whether the user can create models.
      *
      * @param  User  $user
+     * @param  array|null  $injected
      * @return bool
      */
-    public function create(User $user): bool
+    public function create(User $user, ?array $injected = null): bool
     {
-        if (Filament::isServing()) {
-            return $user->hasRole(RoleEnum::ADMIN->value);
-        }
-
         /** @var Playlist|null $playlist */
-        $playlist = request()->route('playlist');
+        $playlist = Arr::get($injected, 'playlist');
 
         return $playlist?->user()->is($user);
     }
@@ -86,17 +74,15 @@ class PlaylistTrackPolicy extends BasePolicy
      * Determine whether the user can update the model.
      *
      * @param  User  $user
-     * @param  PlaylistTrack  $track
+     * @param  array  $injected
      * @return bool
      */
-    public function update(User $user, BaseModel|Model $track): bool
+    public function update(User $user, array $injected): bool
     {
-        if (Filament::isServing()) {
-            return $user->hasRole(RoleEnum::ADMIN->value);
-        }
-
         /** @var Playlist|null $playlist */
-        $playlist = request()->route('playlist');
+        $playlist = Arr::get($injected, 'playlist');
+        /** @var PlaylistTrack $track */
+        $track = Arr::get($injected, PlaylistTrackMutator::ROUTE_SLUG);
 
         return !$track->trashed() && $playlist?->user()->is($user) && $user->can(CrudPermission::UPDATE->format(PlaylistTrack::class));
     }
@@ -105,17 +91,15 @@ class PlaylistTrackPolicy extends BasePolicy
      * Determine whether the user can delete the model.
      *
      * @param  User  $user
-     * @param  PlaylistTrack  $track
+     * @param  array  $injected
      * @return bool
      */
-    public function delete(User $user, BaseModel|Model $track): bool
+    public function delete(User $user, array $injected): bool
     {
-        if (Filament::isServing()) {
-            return $user->hasRole(RoleEnum::ADMIN->value);
-        }
-
         /** @var Playlist|null $playlist */
-        $playlist = request()->route('playlist');
+        $playlist = Arr::get($injected, 'playlist');
+        /** @var PlaylistTrack $track */
+        $track = Arr::get($injected, PlaylistTrackMutator::ROUTE_SLUG);
 
         return !$track->trashed() && $playlist?->user()->is($user) && $user->can(CrudPermission::DELETE->format(PlaylistTrack::class));
     }
@@ -124,17 +108,15 @@ class PlaylistTrackPolicy extends BasePolicy
      * Determine whether the user can restore the model.
      *
      * @param  User  $user
-     * @param  PlaylistTrack  $track
+     * @param  array  $injected
      * @return bool
      */
-    public function restore(User $user, BaseModel|Model $track): bool
+    public function restore(User $user, array $injected): bool
     {
-        if (Filament::isServing()) {
-            return $user->hasRole(RoleEnum::ADMIN->value);
-        }
-
         /** @var Playlist|null $playlist */
-        $playlist = request()->route('playlist');
+        $playlist = Arr::get($injected, 'playlist');
+        /** @var PlaylistTrack $track */
+        $track = Arr::get($injected, PlaylistTrackMutator::ROUTE_SLUG);
 
         return $track->trashed() && $playlist?->user()->is($user) && $user->can(ExtendedCrudPermission::RESTORE->format(PlaylistTrack::class));
     }

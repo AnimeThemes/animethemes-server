@@ -1,5 +1,5 @@
 type Playlist {
-    id: Int! @rename(attribute: "hashid")
+    id: String! @rename(attribute: "hashid")
     name: String!
     description: String
     visibility: PlaylistVisibility! @localizedEnum

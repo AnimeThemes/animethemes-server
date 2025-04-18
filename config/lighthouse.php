@@ -42,6 +42,9 @@ return [
 
             Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
 
+            // GraphQL needs to have their own policies.
+            App\GraphQL\Middleware\GraphQLPolicy::class,
+
             // Logs every incoming GraphQL query.
             // Nuwave\Lighthouse\Http\Middleware\LogGraphQLQueries::class,
         ],

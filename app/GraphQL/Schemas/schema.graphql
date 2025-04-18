@@ -14,26 +14,38 @@ type Query {
       season: AnimeSeason @eq
       where: _ @whereConditions(columns: ["*"])
       whereHas: [WhereHasConditions!] @whereHasConditions(columns: ["*"])
-    ): [Anime!]! @softDeletes @paginate(defaultCount: 10)
+    ): [Anime!]!
+    @canModel(ability: "viewAny", injectArgs: true)
+    @softDeletes
+    @paginate(defaultCount: 10)
 
     artists(
       name: String @eq
-    ): [Artist!]! @paginate(defaultCount: 10)
+    ): [Artist!]!
+    @canModel(ability: "viewAny", injectArgs: true)
+    @paginate(defaultCount: 10)
 
     externalresources(
       site: ResourceSite @eq
       link: String @eq
-    ): [ExternalResource!]! @paginate(defaultCount: 10)
+    ): [ExternalResource!]!
+    @canModel(ability: "viewAny", injectArgs: true)
+    @paginate(defaultCount: 10)
 
     images(
       path: String @where(operator: "like")
-    ): [Image!]! @paginate(defaultCount: 10)
+    ): [Image!]!
+    @canModel(ability: "viewAny", injectArgs: true)
+    @paginate(defaultCount: 10)
 
     me: Me @auth
 
     playlists(
       name: String @eq
-    ): [Playlist!]! @paginate(defaultCount: 10) @builder(method: "App\\GraphQL\\Builders\\PlaylistBuilder@index")
+    ): [Playlist!]!
+    @canModel(ability: "viewAny", injectArgs: true)
+    @builder(method: "App\\GraphQL\\Builders\\PlaylistBuilder@index")
+    @paginate(defaultCount: 10)
 }
 
 type MessageResponse {
