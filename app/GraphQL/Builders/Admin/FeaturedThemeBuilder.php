@@ -32,4 +32,23 @@ class FeaturedThemeBuilder
         return $builder->whereNotNull(FeaturedTheme::ATTRIBUTE_START_AT)
             ->whereDate(FeaturedTheme::ATTRIBUTE_START_AT, ComparisonOperator::LTE->value, Date::now());
     }
+
+    /**
+     * Apply the query builder to the index query.
+     *
+     * @param  Builder  $builder
+     * @param  mixed  $value
+     * @param  mixed  $root
+     * @param  array  $args
+     * @param  GraphQLContext  $context
+     * @param  ResolveInfo  $resolveInfo
+     * @return Builder
+     */
+    public function current(Builder $builder, mixed $value, mixed $root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): Builder
+    {
+        return $builder->whereNotNull(FeaturedTheme::ATTRIBUTE_START_AT)
+            ->whereNotNull(FeaturedTheme::ATTRIBUTE_END_AT)
+            ->whereDate(FeaturedTheme::ATTRIBUTE_START_AT, ComparisonOperator::LTE->value, Date::now())
+            ->whereDate(FeaturedTheme::ATTRIBUTE_END_AT, ComparisonOperator::GT->value, Date::now());
+    }
 }

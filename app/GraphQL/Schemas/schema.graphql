@@ -25,6 +25,10 @@ type Query {
     @canModel(ability: "viewAny", injectArgs: true)
     @paginate(defaultCount: 10)
 
+    currentfeaturedtheme: FeaturedTheme @find
+    @canModel(ability: "viewAny", injectArgs: true)
+    @builder(method: "App\\GraphQL\\Builders\\Admin\\FeaturedThemeBuilder@current")
+
     externalresources(
       site: ResourceSite @eq
       link: String @eq
