@@ -44,7 +44,7 @@ type Query {
       name: String @eq
     ): [Playlist!]!
     @canModel(ability: "viewAny", injectArgs: true)
-    @builder(method: "App\\GraphQL\\Builders\\PlaylistBuilder@index")
+    @builder(method: "App\\GraphQL\\Builders\\List\\PlaylistBuilder@index")
     @paginate(defaultCount: 10)
 }
 

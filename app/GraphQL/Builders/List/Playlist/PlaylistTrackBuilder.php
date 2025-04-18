@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-namespace App\GraphQL\Builders;
+namespace App\GraphQL\Builders\List\Playlist;
 
-use App\Enums\Models\List\PlaylistVisibility;
 use App\Models\List\Playlist;
+use App\Models\List\Playlist\PlaylistTrack;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Arr;
 use Nuwave\Lighthouse\Execution\ResolveInfo;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 /**
- * Class PlaylistBuilder.
+ * Class PlaylistTrackBuilder.
  */
-class PlaylistBuilder
+class PlaylistTrackBuilder
 {
     /**
      * Apply the query builder to the index query.
@@ -29,11 +29,10 @@ class PlaylistBuilder
      */
     public function index(Builder $builder, mixed $value, mixed $root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): Builder
     {
-        $builder->where(Playlist::ATTRIBUTE_VISIBILITY, PlaylistVisibility::PUBLIC->value);
+        /** @var Playlist $playlist */
+        $playlist = Arr::get($args, 'playlist');
 
-        if ($user = Auth::user()) {
-            return $builder->orWhereBelongsTo($user, Playlist::RELATION_USER);
-        }
+        $builder->where(PlaylistTrack::ATTRIBUTE_PLAYLIST, $playlist->getKey());
 
         return $builder;
     }
