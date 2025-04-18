@@ -11,6 +11,7 @@ use App\Models\BaseModel;
 use Filament\Facades\Filament;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
 /**
@@ -145,5 +146,29 @@ abstract class BasePolicy
     public function restoreAny(User $user): bool
     {
         return $user->can(ExtendedCrudPermission::RESTORE->format(static::getModel()));
+    }
+
+    /**
+     * Resolve the model given the context.
+     *
+     * @param  Model|array  $args
+     * @param  string  $routeSlug
+     * @param  string|null $requestRoute
+     * @return Model|null
+     */
+    protected function resolveGraphqlModel(Model|array $args, string $routeSlug, ?string $requestRoute = null): ?Model
+    {
+        // GraphQL context.
+        if (is_array($args)) {
+            return Arr::get($args, $routeSlug);
+        }
+
+        // REST API context when it needs to retrieve a model within route.
+        if (is_string($requestRoute)) {
+            return request()->route($requestRoute);
+        }
+
+        // REST API context.
+        return $args;
     }
 }

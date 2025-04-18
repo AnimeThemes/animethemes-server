@@ -10,21 +10,41 @@ type Query {
     ): [User!]! @paginate(defaultCount: 10, model: "App\\Models\\Auth\\User")
 
     animes(
+      name: String @where
       season: AnimeSeason @eq
-      where: _ @whereConditions(columns: ["name", "season"])
-    ): [Anime!]! @paginate(defaultCount: 10)
+      where: _ @whereConditions(columns: ["*"])
+      whereHas: [WhereHasConditions!] @whereHasConditions(columns: ["*"])
+    ): [Anime!]! @softDeletes @paginate(defaultCount: 10)
 
     artists(
       name: String @eq
     ): [Artist!]! @paginate(defaultCount: 10)
 
     externalresources(
+      site: ResourceSite @eq
       link: String @eq
     ): [ExternalResource!]! @paginate(defaultCount: 10)
 
     images(
       path: String @where(operator: "like")
     ): [Image!]! @paginate(defaultCount: 10)
+
+    me: Me @auth
+
+    playlists(
+      name: String @eq
+    ): [Playlist!]! @paginate(defaultCount: 10) @builder(method: "App\\GraphQL\\Builders\\PlaylistBuilder@index")
+}
+
+type MessageResponse {
+    message: String
+}
+
+input WhereHasConditions {
+  relation: String!
+  where: [WhereConditions!]
+  AND: [WhereHasConditions!]
+  OR: [WhereHasConditions!]
 }
 
 #import Admin/*.graphql
@@ -37,24 +57,3 @@ type Query {
 #import Wiki/Anime/AnimeTheme/*.graphql
 #import Wiki/Song/*.graphql
 #import Wiki/Video/*.graphql
-
-
-type User {
-    "Unique primary key."
-    id: ID!
-
-    "Non-unique name."
-    name: String!
-
-    "Unique email address."
-    email: String!
-
-    "When the email was verified."
-    email_verified_at: DateTime
-
-    "When the account was created."
-    created_at: DateTime!
-
-    "When the account was last updated."
-    updated_at: DateTime!
-}

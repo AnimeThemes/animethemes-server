@@ -17,6 +17,8 @@ use App\Enums\Models\Wiki\ThemeType;
 use App\Enums\Models\Wiki\VideoOverlap;
 use App\Enums\Models\Wiki\VideoSource;
 use App\GraphQL\Types\EnumType;
+use App\Models\Auth\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
 use Nuwave\Lighthouse\Schema\TypeRegistry;
@@ -35,6 +37,10 @@ class GraphqlServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        if (app()->isLocal()) {
+            Auth::login(User::find(1));
+        }
+
         $this->bootModels();
         $this->bootEnums();
     }

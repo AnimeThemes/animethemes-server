@@ -8,6 +8,7 @@ use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\ExtendedCrudPermission;
 use App\Enums\Auth\Role as RoleEnum;
 use App\Enums\Models\List\PlaylistVisibility;
+use App\GraphQL\Mutations\List\PlaylistMutator;
 use App\Models\Auth\User;
 use App\Models\BaseModel;
 use App\Models\List\Playlist;
@@ -74,14 +75,17 @@ class PlaylistPolicy extends BasePolicy
      * Determine whether the user can update the model.
      *
      * @param  User  $user
-     * @param  Playlist  $playlist
+     * @param  Playlist|array  $playlist
      * @return bool
      */
-    public function update(User $user, BaseModel|Model $playlist): bool
+    public function update(User $user, BaseModel|Model|array $playlist): bool
     {
         if (Filament::isServing()) {
             return $user->hasRole(RoleEnum::ADMIN->value);
         }
+
+        /** @var Playlist $playlist */
+        $playlist = $this->resolveGraphqlModel($playlist, PlaylistMutator::ROUTE_SLUG);
 
         return !$playlist->trashed() && $playlist->user()->is($user) && $user->can(CrudPermission::UPDATE->format(Playlist::class));
     }
@@ -90,14 +94,17 @@ class PlaylistPolicy extends BasePolicy
      * Determine whether the user can delete the model.
      *
      * @param  User  $user
-     * @param  Playlist  $playlist
+     * @param  Playlist|array  $playlist
      * @return bool
      */
-    public function delete(User $user, BaseModel|Model $playlist): bool
+    public function delete(User $user, BaseModel|Model|array $playlist): bool
     {
         if (Filament::isServing()) {
             return $user->hasRole(RoleEnum::ADMIN->value);
         }
+
+        /** @var Playlist $playlist */
+        $playlist = $this->resolveGraphqlModel($playlist, PlaylistMutator::ROUTE_SLUG);
 
         return !$playlist->trashed() && $playlist->user()->is($user) && $user->can(CrudPermission::DELETE->format(Playlist::class));
     }
@@ -106,14 +113,17 @@ class PlaylistPolicy extends BasePolicy
      * Determine whether the user can restore the model.
      *
      * @param  User  $user
-     * @param  Playlist  $playlist
+     * @param  Playlist|array  $playlist
      * @return bool
      */
-    public function restore(User $user, BaseModel|Model $playlist): bool
+    public function restore(User $user, BaseModel|Model|array $playlist): bool
     {
         if (Filament::isServing()) {
             return $user->hasRole(RoleEnum::ADMIN->value);
         }
+
+        /** @var Playlist $playlist */
+        $playlist = $this->resolveGraphqlModel($playlist, PlaylistMutator::ROUTE_SLUG);
 
         return $playlist->trashed() && $playlist->user()->is($user) && $user->can(ExtendedCrudPermission::RESTORE->format(Playlist::class));
     }

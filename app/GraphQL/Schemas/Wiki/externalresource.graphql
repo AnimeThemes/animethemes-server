@@ -1,5 +1,6 @@
 type ExternalResource {
     id: Int! @rename(attribute: "resource_id")
+    external_id: Int
     link: String!
     site: ResourceSite! @localizedEnum
     anime: [Anime] @belongsToMany

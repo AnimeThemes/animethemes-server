@@ -1,5 +1,18 @@
 type User {
-    id: Int! @rename(attribute: "user_id")
+    id: Int!
     name: String!
     playlists: [Playlist] @hasMany
+}
+
+type Me {
+    id: Int
+    name: String!
+    email: String!
+    playlists: [Playlist] @hasMany
+}
+
+type Mutation {
+    login(email: String!, password: String!): Me! @field(resolver: "App\\GraphQL\\Resolvers\\AuthResolver@login")
+
+    logout: Me @guard @field(resolver: "App\\GraphQL\\Resolvers\\AuthResolver@logout")
 }

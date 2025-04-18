@@ -1,9 +1,55 @@
 type PlaylistTrack {
-    track_id: Int!
     id: Int! @rename(attribute: "hashid")
     animethemeentry: AnimeThemeEntry @belongsTo
     next: PlaylistTrack @belongsTo
     playlist: Playlist @belongsTo
     previous: PlaylistTrack @belongsTo
     video: Video @belongsTo
+}
+
+extend type Mutation @guard {
+    createPlaylistTrack(
+        entry_id: Int!
+        video_id: Int!
+        next: String
+        previous: String
+        playlist: String! @bind(class: "App\\Models\\List\\Playlist", column: "hashid")
+    ): PlaylistTrack!
+    @canModel(ability: "create")
+    @validator(class: "App\\GraphQL\\Validators\\Mutation\\List\\Playlist\\CreatePlaylistTrackValidator")
+    @field(resolver: "App\\GraphQL\\Mutations\\List\\Playlist\\PlaylistTrackMutator@store")
+
+
+    updatePlaylistTrack(
+        id: String! @bind(class: "App\\Models\\List\\Playlist\\PlaylistTrack", column: "hashid", with: ["playlist"])
+        entry_id: Int
+        video_id: Int
+        next: String
+        previous: String
+        playlist: String! @bind(class: "App\\Models\\List\\Playlist", column: "hashid")
+    ): PlaylistTrack!
+    @canModel(ability: "update", injectArgs: true)
+    @validator(class: "App\\GraphQL\\Validators\\Mutation\\List\\Playlist\\UpdatePlaylistTrackValidator")
+    @field(resolver: "App\\GraphQL\\Mutations\\List\\Playlist\\PlaylistTrackMutator@update")
+
+
+    deletePlaylistTrack(
+        id: String! @bind(class: "App\\Models\\List\\Playlist\\PlaylistTrack", column: "hashid", with: ["playlist"])
+    ): PlaylistTrack!
+    @canModel(ability: "delete", injectArgs: true)
+    @field(resolver: "App\\GraphQL\\Mutations\\List\\Playlist\\PlaylistTrackMutator@destroy")
+
+
+    restorePlaylistTrack(
+        id: String! @bind(class: "App\\Models\\List\\Playlist\\PlaylistTrack", column: "hashid", with: ["playlist"])
+    ): PlaylistTrack!
+    @canModel(ability: "restore", injectArgs: true)
+    @field(resolver: "App\\GraphQL\\Mutations\\List\\Playlist\\PlaylistTrackMutator@restore")
+
+
+    forceDeletePlaylistTrack(
+        id: String! @bind(class: "App\\Models\\List\\Playlist\\PlaylistTrack", column: "hashid", with: ["playlist"])
+    ): MessageResponse!
+    @canModel(ability: "forceDelete", injectArgs: true, model: "App\\Models\\List\\Playlist\\PlaylisTrack")
+    @field(resolver: "App\\GraphQL\\Mutations\\List\\Playlist\\PlaylistTrackMutator@forceDelete")
 }

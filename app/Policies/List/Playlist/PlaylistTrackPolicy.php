@@ -8,6 +8,7 @@ use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\ExtendedCrudPermission;
 use App\Enums\Auth\Role as RoleEnum;
 use App\Enums\Models\List\PlaylistVisibility;
+use App\GraphQL\Mutations\List\Playlist\PlaylistTrackMutator;
 use App\Models\Auth\User;
 use App\Models\BaseModel;
 use App\Models\List\Playlist;
@@ -15,6 +16,7 @@ use App\Models\List\Playlist\PlaylistTrack;
 use App\Policies\BasePolicy;
 use Filament\Facades\Filament;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
 
 /**
  * Class TrackPolicy.
@@ -86,17 +88,19 @@ class PlaylistTrackPolicy extends BasePolicy
      * Determine whether the user can update the model.
      *
      * @param  User  $user
-     * @param  PlaylistTrack  $track
+     * @param  PlaylistTrack|array  $track
      * @return bool
      */
-    public function update(User $user, BaseModel|Model $track): bool
+    public function update(User $user, BaseModel|Model|array $track): bool
     {
         if (Filament::isServing()) {
             return $user->hasRole(RoleEnum::ADMIN->value);
         }
 
         /** @var Playlist|null $playlist */
-        $playlist = request()->route('playlist');
+        $playlist = $this->resolveGraphqlModel($track, PlaylistTrack::RELATION_PLAYLIST, 'playlist');
+        /** @var PlaylistTrack $track */
+        $track = $this->resolveGraphqlModel($track, PlaylistTrackMutator::ROUTE_SLUG);
 
         return !$track->trashed() && $playlist?->user()->is($user) && $user->can(CrudPermission::UPDATE->format(PlaylistTrack::class));
     }
@@ -105,17 +109,19 @@ class PlaylistTrackPolicy extends BasePolicy
      * Determine whether the user can delete the model.
      *
      * @param  User  $user
-     * @param  PlaylistTrack  $track
+     * @param  PlaylistTrack|array  $track
      * @return bool
      */
-    public function delete(User $user, BaseModel|Model $track): bool
+    public function delete(User $user, BaseModel|Model|array $track): bool
     {
         if (Filament::isServing()) {
             return $user->hasRole(RoleEnum::ADMIN->value);
         }
 
         /** @var Playlist|null $playlist */
-        $playlist = request()->route('playlist');
+        $playlist = $this->resolveGraphqlModel($track, PlaylistTrack::RELATION_PLAYLIST, 'playlist');
+        /** @var PlaylistTrack $track */
+        $track = $this->resolveGraphqlModel($track, PlaylistTrackMutator::ROUTE_SLUG);
 
         return !$track->trashed() && $playlist?->user()->is($user) && $user->can(CrudPermission::DELETE->format(PlaylistTrack::class));
     }
@@ -124,17 +130,19 @@ class PlaylistTrackPolicy extends BasePolicy
      * Determine whether the user can restore the model.
      *
      * @param  User  $user
-     * @param  PlaylistTrack  $track
+     * @param  PlaylistTrack|array  $track
      * @return bool
      */
-    public function restore(User $user, BaseModel|Model $track): bool
+    public function restore(User $user, BaseModel|Model|array $track): bool
     {
         if (Filament::isServing()) {
             return $user->hasRole(RoleEnum::ADMIN->value);
         }
 
         /** @var Playlist|null $playlist */
-        $playlist = request()->route('playlist');
+        $playlist = $this->resolveGraphqlModel($track, PlaylistTrack::RELATION_PLAYLIST, 'playlist');
+        /** @var PlaylistTrack $track */
+        $track = $this->resolveGraphqlModel($track, PlaylistTrackMutator::ROUTE_SLUG);
 
         return $track->trashed() && $playlist?->user()->is($user) && $user->can(ExtendedCrudPermission::RESTORE->format(PlaylistTrack::class));
     }

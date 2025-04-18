@@ -41,6 +41,7 @@ class LocalizedEnumDirective extends BaseDirective implements FieldMiddleware
         $fieldValue->wrapResolver(
             fn (callable $resolver) => function ($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo) use ($resolver) {
 
+            /** @phpstan-ignore-next-line */
             $enum = $resolver($root, $args, $context, $resolveInfo);
 
             return $enum->localize();
