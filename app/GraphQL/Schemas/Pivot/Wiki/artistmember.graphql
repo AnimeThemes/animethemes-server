@@ -1,0 +1,7 @@
+type ArtistMember {
+    artist: Artist!
+    member: Artist!
+    alias: String
+    as: String
+    notes: String
+}

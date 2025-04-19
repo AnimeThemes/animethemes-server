@@ -1,0 +1,4 @@
+type AnimeStudio {
+    anime: Anime!
+    studio: Studio!
+}

@@ -1,0 +1,5 @@
+type StudioResource {
+    studio: Studio!
+    resource: ExternalResource!
+    as: String
+}

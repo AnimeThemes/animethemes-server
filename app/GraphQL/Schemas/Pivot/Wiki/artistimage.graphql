@@ -1,0 +1,5 @@
+type ArtistImage {
+    artist: Artist!
+    image: Image!
+    depth: Int
+}

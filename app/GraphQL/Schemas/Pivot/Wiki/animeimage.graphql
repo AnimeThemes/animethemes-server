@@ -1,0 +1,4 @@
+type AnimeImage {
+    anime: Anime!
+    image: Image!
+}

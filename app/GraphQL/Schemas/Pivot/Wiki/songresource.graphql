@@ -1,0 +1,5 @@
+type SongResource {
+    song: Song!
+    resource: ExternalResource!
+    as: String
+}

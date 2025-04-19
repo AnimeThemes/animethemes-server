@@ -1,0 +1,5 @@
+type AnimeResource {
+    anime: Anime!
+    resource: ExternalResource!
+    as: String
+}

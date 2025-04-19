@@ -1,0 +1,5 @@
+type ArtistResource {
+    artist: Artist!
+    resource: ExternalResource!
+    as: String
+}

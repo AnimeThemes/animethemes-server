@@ -1,0 +1,4 @@
+type AnimeSeries {
+    anime: Anime!
+    series: Series!
+}

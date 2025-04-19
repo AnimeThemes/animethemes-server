@@ -52,17 +52,24 @@ class GraphqlServiceProvider extends ServiceProvider
      */
     protected function bootModels(): void
     {
-        $modelBasePath = app_path('Models');
-        $modelNamespaces = ['App\\Models'];
+        $modelNamespaces = Config::get('lighthouse.namespaces.models', []);
 
-        foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($modelBasePath)) as $file) {
-            if ($file->isDir()) continue;
+        $modelsBasePaths = [
+            'App\\Models' => app_path('Models'),
+            'App\\Pivots' => app_path('Pivots'),
+        ];
 
-            if ($file->getExtension() !== 'php') continue;
+        foreach ($modelsBasePaths as $baseNamespace => $basePath) {
+            foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($basePath)) as $file) {
+                if ($file->isDir() || $file->getExtension() !== 'php') {
+                    continue;
+                }
 
-            $relativePath = str_replace($modelBasePath . DIRECTORY_SEPARATOR, '', $file->getPath());
-            if ($relativePath) {
-                $namespace = 'App\\Models\\' . str_replace('/', '\\', $relativePath);
+                $relativePath = str_replace($basePath . DIRECTORY_SEPARATOR, '', $file->getPath());
+                $relativeNamespace = $relativePath ? '\\' . str_replace(DIRECTORY_SEPARATOR, '\\', $relativePath) : '';
+
+                $namespace = $baseNamespace . $relativeNamespace;
+
                 if (!in_array($namespace, $modelNamespaces)) {
                     $modelNamespaces[] = $namespace;
                 }
