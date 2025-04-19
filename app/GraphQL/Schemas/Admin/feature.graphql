@@ -1,0 +1,7 @@
+type Feature {
+    id: Int! @rename(attribute: "feature_id")
+    name: String!
+    value: String!
+    created_at: DateTimeTz
+    updated_at: DateTimeTz
+}

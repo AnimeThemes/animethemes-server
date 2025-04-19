@@ -1,4 +1,6 @@
 type AnimeThemeEntryVideo {
     animethemeentry: AnimeThemeEntry!
     video: Video!
+    created_at: DateTimeTz
+    updated_at: DateTimeTz
 }

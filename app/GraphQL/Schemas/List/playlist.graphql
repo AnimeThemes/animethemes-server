@@ -3,6 +3,9 @@ type Playlist {
     name: String!
     description: String
     visibility: PlaylistVisibility! @localizedEnum
+    created_at: DateTimeTz
+    updated_at: DateTimeTz
+    deleted_at: DateTimeTz
     first: PlaylistTrack @belongsTo
     images: [Image] @belongsToMany
     last: PlaylistTrack @belongsTo

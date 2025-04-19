@@ -1,4 +1,7 @@
 type Announcement {
     id: Int! @rename(attribute: "announcement_id")
     content: String!
+    created_at: DateTimeTz
+    updated_at: DateTimeTz
+    deleted_at: DateTimeTz
 }

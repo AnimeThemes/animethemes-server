@@ -4,5 +4,8 @@ type Membership {
     member: Artist! @belongsTo
     alias: String
     as: String
+    created_at: DateTimeTz
+    updated_at: DateTimeTz
+    deleted_at: DateTimeTz
     performances: [Performance] @morphMany
 }

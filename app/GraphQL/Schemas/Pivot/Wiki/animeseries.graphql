@@ -1,4 +1,6 @@
 type AnimeSeries {
     anime: Anime!
     series: Series!
+    created_at: DateTimeTz
+    updated_at: DateTimeTz
 }

@@ -1,4 +1,6 @@
 type AnimeImage {
     anime: Anime!
     image: Image!
+    created_at: DateTimeTz
+    updated_at: DateTimeTz
 }

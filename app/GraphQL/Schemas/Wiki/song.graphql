@@ -1,6 +1,9 @@
 type Song {
     id: Int! @rename(attribute: "song_id")
     title: String
+    created_at: DateTimeTz
+    updated_at: DateTimeTz
+    deleted_at: DateTimeTz
     animethemes: [AnimeTheme] @hasMany
     performances: [Performance] @hasMany
     resources: [ExternalResource] @belongsToMany

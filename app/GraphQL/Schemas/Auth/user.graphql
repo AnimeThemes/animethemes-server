@@ -1,6 +1,9 @@
 type User {
     id: Int!
     name: String!
+    created_at: DateTimeTz
+    updated_at: DateTimeTz
+    deleted_at: DateTimeTz
     playlists: [Playlist] @hasMany
 }
 
@@ -8,6 +11,9 @@ type Me {
     id: Int
     name: String!
     email: String!
+    created_at: DateTimeTz
+    updated_at: DateTimeTz
+    deleted_at: DateTimeTz
     playlists: [Playlist] @hasMany
 }
 

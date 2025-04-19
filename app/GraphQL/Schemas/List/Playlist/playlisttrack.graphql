@@ -1,5 +1,8 @@
 type PlaylistTrack {
     id: String! @rename(attribute: "hashid")
+    created_at: DateTimeTz
+    updated_at: DateTimeTz
+    deleted_at: DateTimeTz
     animethemeentry: AnimeThemeEntry @belongsTo
     next: PlaylistTrack @belongsTo
     playlist: Playlist @belongsTo

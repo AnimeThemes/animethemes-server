@@ -3,6 +3,9 @@ type ExternalResource {
     external_id: Int
     link: String!
     site: ResourceSite! @localizedEnum
+    created_at: DateTimeTz
+    updated_at: DateTimeTz
+    deleted_at: DateTimeTz
     anime: [Anime] @belongsToMany
     artists: [Artist] @belongsToMany
     songs: [Song] @belongsToMany

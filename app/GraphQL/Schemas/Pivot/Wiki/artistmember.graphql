@@ -4,4 +4,6 @@ type ArtistMember {
     alias: String
     as: String
     notes: String
+    created_at: DateTimeTz
+    updated_at: DateTimeTz
 }

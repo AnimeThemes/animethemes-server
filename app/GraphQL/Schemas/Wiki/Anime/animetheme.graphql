@@ -3,6 +3,9 @@ type AnimeTheme {
     anime_id: Int
     type: ThemeType! @localizedEnum
     sequence: Int
+    created_at: DateTimeTz
+    updated_at: DateTimeTz
+    deleted_at: DateTimeTz
     anime: Anime @belongsTo
     animethemeentries: [AnimeThemeEntry] @hasMany
     group: Group @belongsTo

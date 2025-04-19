@@ -3,6 +3,9 @@ type Artist {
     name: String!
     slug: String!
     information: String
+    created_at: DateTimeTz
+    updated_at: DateTimeTz
+    deleted_at: DateTimeTz
     groups: [Artist] @belongsToMany
     images: [Image] @belongsToMany
     members: [Artist] @belongsToMany

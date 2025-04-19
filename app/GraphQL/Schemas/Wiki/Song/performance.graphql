@@ -3,6 +3,9 @@ type Performance {
     artist: PerformanceArtist! @morphTo
     alias: String
     as: String
+    created_at: DateTimeTz
+    updated_at: DateTimeTz
+    deleted_at: DateTimeTz
     song: Song @belongsTo
 }
 

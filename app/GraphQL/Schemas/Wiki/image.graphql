@@ -3,6 +3,9 @@ type Image {
     facet: ImageFacet! @localizedEnum
     path: String!
     link: String!
+    created_at: DateTimeTz
+    updated_at: DateTimeTz
+    deleted_at: DateTimeTz
     anime: [Anime] @belongsToMany
     artists: [Artist] @belongsToMany
     studios: [Studio] @belongsToMany

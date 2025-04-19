@@ -1,7 +1,10 @@
 type FeaturedTheme {
     id: Int! @rename(attribute: "featured_theme_id")
-    start_at: DateTime!
-    end_at: DateTime!
+    start_at: DateTimeTz!
+    end_at: DateTimeTz!
+    created_at: DateTimeTz
+    updated_at: DateTimeTz
+    deleted_at: DateTimeTz
     animethemeentry: AnimeThemeEntry @belongsTo
     user: User @belongsTo
     video: Video @belongsTo

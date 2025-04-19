@@ -6,6 +6,9 @@ type Anime {
     slug: String!
     synopsis: String
     year: Int
+    created_at: DateTimeTz
+    updated_at: DateTimeTz
+    deleted_at: DateTimeTz
     animesynonyms: [AnimeSynonym] @hasMany
     animethemes: [AnimeTheme] @hasMany
     images: [Image] @belongsToMany

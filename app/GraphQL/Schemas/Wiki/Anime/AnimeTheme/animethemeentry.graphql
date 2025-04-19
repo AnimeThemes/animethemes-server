@@ -5,6 +5,9 @@ type AnimeThemeEntry {
     nsfw: Boolean!
     spoiler: Boolean!
     version: Int
+    created_at: DateTimeTz
+    updated_at: DateTimeTz
+    deleted_at: DateTimeTz
     animetheme: AnimeTheme @belongsTo
     videos: [Video] @belongsToMany
 }

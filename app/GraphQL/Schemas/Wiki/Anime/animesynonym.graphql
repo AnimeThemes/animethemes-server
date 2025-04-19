@@ -2,5 +2,8 @@ type AnimeSynonym {
     id: Int! @rename(attribute: "synonym_id")
     name: String!
     type: AnimeSynonymType! @localizedEnum
+    created_at: DateTimeTz
+    updated_at: DateTimeTz
+    deleted_at: DateTimeTz
     anime: Anime @belongsTo
 }

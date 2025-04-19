@@ -2,6 +2,9 @@ type Studio {
     id: Int! @rename(attribute: "studio_id")
     name: String!
     slug: String!
+    created_at: DateTimeTz
+    updated_at: DateTimeTz
+    deleted_at: DateTimeTz
     anime: [Anime] @belongsToMany
     images: [Image] @belongsToMany
     resources: [ExternalResource] @belongsToMany

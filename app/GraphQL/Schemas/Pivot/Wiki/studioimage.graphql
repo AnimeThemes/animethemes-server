@@ -1,4 +1,6 @@
 type StudioImage {
     studio: Studio!
     image: Image!
+    created_at: DateTimeTz
+    updated_at: DateTimeTz
 }

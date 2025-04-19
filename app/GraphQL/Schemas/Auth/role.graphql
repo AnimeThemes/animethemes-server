@@ -5,5 +5,7 @@ type Role {
     default: Boolean!
     guard_name: String!
     priority: Int!
+    created_at: DateTimeTz
+    updated_at: DateTimeTz
     permissions: [Permission] @belongsToMany
 }

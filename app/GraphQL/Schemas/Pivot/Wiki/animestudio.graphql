@@ -1,4 +1,6 @@
 type AnimeStudio {
     anime: Anime!
     studio: Studio!
+    created_at: DateTimeTz
+    updated_at: DateTimeTz
 }

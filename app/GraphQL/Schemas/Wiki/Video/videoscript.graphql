@@ -2,5 +2,8 @@ type VideoScript {
     id: Int! @rename(attribute: "script_id")
     path: String!
     link: String!
+    created_at: DateTimeTz
+    updated_at: DateTimeTz
+    deleted_at: DateTimeTz
     video: Video @hasOne
 }

@@ -1,5 +1,8 @@
 type Group {
     name: String!
     slug: String!
+    created_at: DateTimeTz
+    updated_at: DateTimeTz
+    deleted_at: DateTimeTz
     animethemes: [AnimeTheme] @hasMany
 }

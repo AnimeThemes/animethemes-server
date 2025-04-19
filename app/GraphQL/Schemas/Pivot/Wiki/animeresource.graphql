@@ -2,4 +2,6 @@ type AnimeResource {
     anime: Anime!
     resource: ExternalResource!
     as: String
+    created_at: DateTimeTz
+    updated_at: DateTimeTz
 }

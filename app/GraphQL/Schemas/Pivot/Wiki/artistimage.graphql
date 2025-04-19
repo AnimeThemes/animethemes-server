@@ -2,4 +2,6 @@ type ArtistImage {
     artist: Artist!
     image: Image!
     depth: Int
+    created_at: DateTimeTz
+    updated_at: DateTimeTz
 }

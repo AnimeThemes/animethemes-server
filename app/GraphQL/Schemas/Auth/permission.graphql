@@ -2,4 +2,6 @@ type Permission {
     id: Int!
     name: String!
     guard_name: String!
+    created_at: DateTimeTz
+    updated_at: DateTimeTz
 }

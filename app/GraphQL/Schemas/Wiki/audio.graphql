@@ -6,5 +6,8 @@ type Audio {
     path: String!
     size: Int!
     link: String!
+    created_at: DateTimeTz
+    updated_at: DateTimeTz
+    deleted_at: DateTimeTz
     videos: [Video] @hasMany
 }
