@@ -3,6 +3,8 @@
 declare(strict_types=1);
 
 use GraphQL\Error\DebugFlag;
+use GraphQL\Validator\Rules\QueryComplexity;
+use GraphQL\Validator\Rules\QueryDepth;
 
 return [
     /*
@@ -54,8 +56,8 @@ return [
         /*
          * The `prefix`, `domain` and `where` configuration options are optional.
          */
-         'prefix' => env('GRAPHQL_PREFIX', null),
-         'domain' => env('GRAPHQL_DOMAIN_NAME'),
+        'prefix' => env('GRAPHQL_PREFIX', null),
+        'domain' => env('GRAPHQL_DOMAIN_NAME'),
         // 'where' => [],
     ],
 
@@ -217,8 +219,8 @@ return [
     */
 
     'security' => [
-        'max_query_complexity' => env('LIGHTHOUSE_MAX_QUERY_COMPLEXITY', 100),
-        'max_query_depth' => env('LIGHTHOUSE_MAX_QUERY_DEPTH', 10),
+        'max_query_complexity' => QueryComplexity::DISABLED,
+        'max_query_depth' => QueryDepth::DISABLED,
         'disable_introspection' => (bool) env('LIGHTHOUSE_SECURITY_DISABLE_INTROSPECTION', false)
             ? GraphQL\Validator\Rules\DisableIntrospection::ENABLED
             : GraphQL\Validator\Rules\DisableIntrospection::DISABLED,
@@ -239,7 +241,7 @@ return [
          * Allow clients to query paginated lists without specifying the amount of items.
          * Setting this to `null` means clients have to explicitly ask for the count.
          */
-        'default_count' => null,
+        'default_count' => 15,
 
         /*
          * Limit the maximum amount of items that clients can request from paginated lists.
@@ -276,7 +278,7 @@ return [
     |
     */
 
-    'debug' => env('LIGHTHOUSE_DEBUG', env('APP_ENV') === 'local' ? DebugFlag::INCLUDE_DEBUG_MESSAGE | DebugFlag::INCLUDE_TRACE : DebugFlag::NONE),
+    'debug' => (bool) env('LIGHTHOUSE_DEBUG', env('APP_ENV') === 'local' ? DebugFlag::INCLUDE_DEBUG_MESSAGE | DebugFlag::INCLUDE_TRACE : DebugFlag::NONE),
 
     /*
     |--------------------------------------------------------------------------

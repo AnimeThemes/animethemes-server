@@ -7,24 +7,4 @@ type ExternalResource {
     artists: [Artist] @belongsToMany
     songs: [Song] @belongsToMany
     studios: [Studio] @belongsToMany
-    animeresource: AnimeResource
-    artistresource: ArtistResource
-    songresource: SongResource
-    studioresource: StudioResource
-}
-
-type AnimeResource {
-    as: String
-}
-
-type ArtistResource {
-    as: String
-}
-
-type SongResource {
-    as: String
-}
-
-type StudioResource {
-    as: String
 }

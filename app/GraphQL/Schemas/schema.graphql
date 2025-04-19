@@ -10,7 +10,8 @@ type Query {
     ): [User!]! @paginate(defaultCount: 10, model: "App\\Models\\Auth\\User")
 
     animes(
-      name: String @where
+      search: String @search
+      name: String @where(operator: "like")
       season: AnimeSeason @eq
       where: _ @whereConditions(columns: ["*"])
       whereHas: [WhereHasConditions!] @whereHasConditions(columns: ["*"])
@@ -50,6 +51,19 @@ type Query {
     @canModel(ability: "viewAny", injectArgs: true)
     @builder(method: "App\\GraphQL\\Builders\\List\\PlaylistBuilder@index")
     @paginate(defaultCount: 10)
+
+    search(search: String @search, perPage: Int, page: Int): Search!
+}
+
+type Search {
+    anime: [Anime!]!
+    artists: [Artist!]!
+    animethemes: [AnimeTheme!]!
+    playlists: [Playlist!]!
+    series: [Series!]!
+    songs: [Song!]!
+    studios: [Studio!]!
+    videos: [Video!]!
 }
 
 type MessageResponse {

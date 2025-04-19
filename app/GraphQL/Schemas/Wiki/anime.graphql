@@ -10,6 +10,16 @@ type Anime {
     animethemes: [AnimeTheme] @hasMany
     images: [Image] @belongsToMany
     resources: [ExternalResource] @belongsToMany
-    series: [Series] @belongsToMany
+    series: [Series] @belongsToMany(type: CONNECTION)
     studios: [Studio] @belongsToMany
+}
+
+type SeriesEdge {
+    node: Series!
+    animeseries: AnimeSeries
+}
+
+type AnimeSeries {
+    created_at: DateTime
+    updated_at: DateTime
 }
