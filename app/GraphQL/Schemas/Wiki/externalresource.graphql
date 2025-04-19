@@ -6,8 +6,48 @@ type ExternalResource {
     created_at: DateTimeTz
     updated_at: DateTimeTz
     deleted_at: DateTimeTz
-    anime: [Anime] @belongsToMany
-    artists: [Artist] @belongsToMany
-    songs: [Song] @belongsToMany
-    studios: [Studio] @belongsToMany
+    anime: [Anime] @belongsToMany(type: CONNECTION, edgeType: ExternalResourceAnimeEdge)
+    artists: [Artist] @belongsToMany(type: CONNECTION, edgeType: ExternalResourceArtistEdge)
+    songs: [Song] @belongsToMany(type: CONNECTION, edgeType: ExternalResourceSongEdge)
+    studios: [Studio] @belongsToMany(type: CONNECTION, edgeType: ExternalResourceStudioEdge)
+}
+
+"Default edge to use in simple belongs to many relationships"
+type ExternalResourceEdge {
+    node: ExternalResource!
+    as: String @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+    created_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+    updated_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+}
+
+"External Resource has an extra pivot field"
+type ExternalResourceAnimeEdge {
+    node: Anime!
+    as: String @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+    created_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+    updated_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+}
+
+"External Resource has an extra pivot field"
+type ExternalResourceArtistEdge {
+    node: Artist!
+    as: String @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+    created_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+    updated_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+}
+
+"External Resource has an extra pivot field"
+type ExternalResourceSongEdge {
+    node: Song!
+    as: String @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+    created_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+    updated_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+}
+
+"External Resource has an extra pivot field"
+type ExternalResourceStudioEdge {
+    node: Studio!
+    as: String @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+    created_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+    updated_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
 }

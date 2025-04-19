@@ -6,26 +6,33 @@ type Artist {
     created_at: DateTimeTz
     updated_at: DateTimeTz
     deleted_at: DateTimeTz
-    groups: [Artist] @belongsToMany
-    images: [Image] @belongsToMany
-    members: [Artist] @belongsToMany
+    groups: [Artist] @belongsToMany(type: CONNECTION, edgeType: ArtistMemberEdge)
+    images: [Image] @belongsToMany(type: CONNECTION, edgeType: ArtistImageEdge)
+    members: [Artist] @belongsToMany(type: CONNECTION, edgeType: ArtistMemberEdge)
     memberships: [Membership] @hasMany
     performances: [Performance] @morphMany
-    resources: [ExternalResource] @belongsToMany
-    artistgroup: ArtistGroup
-    artistimage: ArtistImage
+    resources: [ExternalResource]! @belongsToMany(type: CONNECTION)
 }
 
-type ArtistGroup {
-    alias: String
-    as: String
+"Default edge to use in simple belongs to many relationships"
+type ArtistEdge {
+    node: Artist!
+    created_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+    updated_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
 }
 
-type ArtistImage {
-    depth: Int
+"Artist Member has extra pivots"
+type ArtistMemberEdge {
+    node: Artist!
+    alias: String @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+    as: String @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+    notes: String @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
 }
 
-type ArtistMember {
-    alias: String
-    as: String
+"Artist Image has an extra pivot that others image relationships don't"
+type ArtistImageEdge {
+    node: Image!
+    depth: Int @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+    created_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+    updated_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
 }

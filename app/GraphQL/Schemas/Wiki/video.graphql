@@ -16,6 +16,13 @@ type Video {
     created_at: DateTimeTz
     updated_at: DateTimeTz
     deleted_at: DateTimeTz
-    animethemeentries: [AnimeThemeEntry] @belongsToMany
+    animethemeentries: [AnimeThemeEntry] @belongsToMany(type: CONNECTION)
     videoscript: VideoScript @hasOne
+}
+
+"Default edge to use in simple belongs to many relationships"
+type VideoEdge {
+    node: Anime!
+    created_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+    updated_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
 }

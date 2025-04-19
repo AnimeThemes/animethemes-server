@@ -7,10 +7,16 @@ type Playlist {
     updated_at: DateTimeTz
     deleted_at: DateTimeTz
     first: PlaylistTrack @belongsTo
-    images: [Image] @belongsToMany
+    images: [Image] @belongsToMany(type: CONNECTION, edgeType: PlaylistImageEdge)
     last: PlaylistTrack @belongsTo
     tracks: [PlaylistTrack] @hasMany
     user: User @belongsTo
+}
+
+type PlaylistImageEdge {
+    node: Image!
+    created_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+    updated_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
 }
 
 extend type Mutation @guard {

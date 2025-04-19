@@ -1,8 +1,16 @@
 type Series {
+    id: Int! @rename(attribute: "series_id")
     name: String!
     slug: String!
     created_at: DateTimeTz
     updated_at: DateTimeTz
     deleted_at: DateTimeTz
-    anime: [Anime] @belongsToMany
+    anime: [Anime] @belongsToMany(type: CONNECTION)
+}
+
+"Default edge to use in simple belongs to many relationships"
+type SeriesEdge {
+    node: Series!
+    created_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+    updated_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
 }

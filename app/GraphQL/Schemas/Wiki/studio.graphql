@@ -5,7 +5,14 @@ type Studio {
     created_at: DateTimeTz
     updated_at: DateTimeTz
     deleted_at: DateTimeTz
-    anime: [Anime] @belongsToMany
-    images: [Image] @belongsToMany
-    resources: [ExternalResource] @belongsToMany
+    anime: [Anime] @belongsToMany(type: CONNECTION)
+    images: [Image] @belongsToMany(type: CONNECTION)
+    resources: [ExternalResource] @belongsToMany(type: CONNECTION)
+}
+
+"Default edge to use in simple belongs to many relationships"
+type StudioEdge {
+    node: Anime!
+    created_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+    updated_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
 }

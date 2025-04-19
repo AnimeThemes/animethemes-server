@@ -6,7 +6,22 @@ type Image {
     created_at: DateTimeTz
     updated_at: DateTimeTz
     deleted_at: DateTimeTz
-    anime: [Anime] @belongsToMany
-    artists: [Artist] @belongsToMany
-    studios: [Studio] @belongsToMany
+    anime: [Anime] @belongsToMany(type: CONNECTION)
+    artists: [Artist] @belongsToMany(type: CONNECTION, edgeType: ImageArtistEdge)
+    studios: [Studio] @belongsToMany(type: CONNECTION)
+}
+
+"Default edge to use in simple belongs to many relationships"
+type ImageEdge {
+    node: Image!
+    created_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+    updated_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+}
+
+"Image Artist has an extra pivot that others image relationships don't"
+type ImageArtistEdge {
+    node: Artist!
+    depth: Int @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+    created_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+    updated_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
 }

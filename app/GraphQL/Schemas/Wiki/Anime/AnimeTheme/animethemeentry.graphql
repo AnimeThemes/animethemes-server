@@ -9,5 +9,12 @@ type AnimeThemeEntry {
     updated_at: DateTimeTz
     deleted_at: DateTimeTz
     animetheme: AnimeTheme @belongsTo
-    videos: [Video] @belongsToMany
+    videos: [Video] @belongsToMany(type: CONNECTION)
+}
+
+"Default edge to use in simple belongs to many relationships"
+type AnimeThemeEntryEdge {
+    node: Anime!
+    created_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+    updated_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
 }

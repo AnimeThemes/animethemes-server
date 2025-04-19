@@ -11,10 +11,17 @@ type Anime {
     deleted_at: DateTimeTz
     animesynonyms: [AnimeSynonym] @hasMany
     animethemes: [AnimeTheme] @hasMany
-    images: [Image] @belongsToMany
-    resources: [ExternalResource] @belongsToMany
-    series: [Series] @belongsToMany(type: CONNECTION)
-    studios: [Studio] @belongsToMany
+    images: [Image]! @belongsToMany(type: CONNECTION)
+    resources: [ExternalResource]! @belongsToMany(type: CONNECTION)
+    series: [Series]! @belongsToMany(type: CONNECTION)
+    studios: [Studio]! @belongsToMany(type: CONNECTION)
+}
+
+"Default edge to use in simple belongs to many relationships"
+type AnimeEdge {
+    node: Anime!
+    created_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+    updated_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
 }
 
 type AnimeYear {
@@ -22,14 +29,4 @@ type AnimeYear {
     spring: [Anime]
     summer: [Anime]
     fall: [Anime]
-}
-
-type SeriesEdge {
-    node: Series!
-    animeseries: AnimeSeries
-}
-
-type AnimeSeries {
-    created_at: DateTime
-    updated_at: DateTime
 }

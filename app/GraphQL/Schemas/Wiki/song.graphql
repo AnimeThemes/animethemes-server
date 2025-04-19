@@ -6,5 +6,12 @@ type Song {
     deleted_at: DateTimeTz
     animethemes: [AnimeTheme] @hasMany
     performances: [Performance] @hasMany
-    resources: [ExternalResource] @belongsToMany
+    resources: ExternalResourceConnection! @belongsToMany(type: CONNECTION)
+}
+
+"Default edge to use in simple belongs to many relationships"
+type SongEdge {
+    node: Anime!
+    created_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+    updated_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
 }

@@ -7,5 +7,11 @@ type Role {
     priority: Int!
     created_at: DateTimeTz
     updated_at: DateTimeTz
-    permissions: [Permission] @belongsToMany
+    permissions: [Permission] @belongsToMany(type: CONNECTION, edgeType: RolePermissionEdge)
+}
+
+type RolePermissionEdge {
+    node: Permission!
+    created_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+    updated_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
 }
