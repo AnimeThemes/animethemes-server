@@ -20,6 +20,12 @@ type Query {
     @softDeletes
     @paginate(defaultCount: 10)
 
+    animeyear(year: Int!): AnimeYear
+    @canModel(ability: "viewAny", model: "App\\Models\\Wiki\\Anime", injectArgs: true)
+
+    animeyears: [Int!]!
+    @canModel(ability: "viewAny", model: "App\\Models\\Wiki\\Anime", injectArgs: true)
+
     artists(
       name: String @eq
     ): [Artist!]!

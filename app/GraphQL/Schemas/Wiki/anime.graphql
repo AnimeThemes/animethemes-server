@@ -14,6 +14,13 @@ type Anime {
     studios: [Studio] @belongsToMany
 }
 
+type AnimeYear {
+    winter: [Anime]
+    spring: [Anime]
+    summer: [Anime]
+    fall: [Anime]
+}
+
 type SeriesEdge {
     node: Series!
     animeseries: AnimeSeries

@@ -278,7 +278,7 @@ return [
     |
     */
 
-    'debug' => (bool) env('LIGHTHOUSE_DEBUG', env('APP_ENV') === 'local' ? DebugFlag::INCLUDE_DEBUG_MESSAGE | DebugFlag::INCLUDE_TRACE : DebugFlag::NONE),
+    'debug' => env('LIGHTHOUSE_DEBUG', env('APP_ENV') === 'local') ? DebugFlag::INCLUDE_DEBUG_MESSAGE | DebugFlag::INCLUDE_TRACE : DebugFlag::NONE,
 
     /*
     |--------------------------------------------------------------------------
