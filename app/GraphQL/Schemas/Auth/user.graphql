@@ -16,9 +16,3 @@ type Me {
     deleted_at: DateTimeTz
     playlists: [Playlist] @hasMany
 }
-
-type Mutation {
-    login(email: String!, password: String!): Me! @field(resolver: "App\\GraphQL\\Resolvers\\AuthResolver@login")
-
-    logout: Me @guard @field(resolver: "App\\GraphQL\\Resolvers\\AuthResolver@logout")
-}

@@ -1,0 +1,11 @@
+type ExternalEntry {
+    id: Int! @rename(attribute: "entry_id")
+    score: Float
+    is_favorite: Boolean!
+    watch_status: ExternalEntryWatchStatus! @localizedEnum
+    created_at: DateTimeTz
+    updated_at: DateTimeTz
+    deleted_at: DateTimeTz
+    anime: Anime @belongsTo
+    externalprofile: ExternalProfile @belongsTo
+}

@@ -1,0 +1,19 @@
+type ExternalProfile {
+    id: Int! @rename(attribute: "profile_id")
+    name: String!
+    site: ExternalProfileSite! @localizedEnum
+    visibility: ExternalProfileVisibility! @localizedEnum
+    created_at: DateTimeTz
+    updated_at: DateTimeTz
+    deleted_at: DateTimeTz
+    externalentries: [ExternalEntry] @hasMany
+    user: User @belongsTo
+}
+
+extend type Mutation @guard @middleware(class: "App\\Http\\Middleware\\Api\\EnabledOnlyOnLocalhost") @feature(name: "App\\Features\\AllowExternalProfileManagement") {
+    syncExternalProfile(
+        id: Int! @bind(class: "App\\Models\\List\\ExternalProfile", column: "profile_id")
+    ): MessageResponse!
+    @canModel(ability: "update", injectArgs: true, model: "App\\Models\\List\\ExternalProfile")
+    @field(resolver: "App\\GraphQL\\Mutations\\List\\ExternalProfileMutator@sync")
+}

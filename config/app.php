@@ -214,6 +214,7 @@ return [
         /*
          * Package Service Providers...
          */
+        Nuwave\Lighthouse\Pennant\PennantServiceProvider::class,
         Nuwave\Lighthouse\Scout\ScoutServiceProvider::class,
         Nuwave\Lighthouse\WhereConditions\WhereConditionsServiceProvider::class,
 
