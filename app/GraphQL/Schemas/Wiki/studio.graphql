@@ -12,7 +12,7 @@ type Studio {
 
 "Default edge to use in simple belongs to many relationships"
 type StudioEdge {
-    node: Anime!
+    node: Studio!
     created_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
     updated_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
 }

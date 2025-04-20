@@ -89,6 +89,7 @@ input WhereHasConditions {
 #import List/*.graphql
 #import List/External/*.graphql
 #import List/Playlist/*.graphql
+#import User/*.graphql
 #import Wiki/*.graphql
 #import Wiki/Anime/*.graphql
 #import Wiki/Anime/AnimeTheme/*.graphql

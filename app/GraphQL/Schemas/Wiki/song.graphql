@@ -11,7 +11,7 @@ type Song {
 
 "Default edge to use in simple belongs to many relationships"
 type SongEdge {
-    node: Anime!
+    node: Song!
     created_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
     updated_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
 }

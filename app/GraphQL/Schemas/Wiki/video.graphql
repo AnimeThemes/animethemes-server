@@ -11,8 +11,9 @@ type Video {
     source: VideoSource @localizedEnum
     subbed: Boolean!
     uncen: Boolean!
-    tags: [String]
+    tags: String @field(resolver: "App\\GraphQL\\Resolvers\\ImplodeArrayResolver@resolve")
     link: String!
+    views_count: Int! @with(relation: "viewAggregate") @field(resolver: "App\\GraphQL\\Resolvers\\ViewsCountResolver@resolve")
     created_at: DateTimeTz
     updated_at: DateTimeTz
     deleted_at: DateTimeTz
@@ -22,7 +23,7 @@ type Video {
 
 "Default edge to use in simple belongs to many relationships"
 type VideoEdge {
-    node: Anime!
+    node: Video!
     created_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
     updated_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
 }

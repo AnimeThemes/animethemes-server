@@ -1,0 +1,11 @@
+type Notification {
+    read_at: DateTimeTz
+    data: NotificationData!
+    user: User! @morphTo(relation: "notifiable")
+}
+
+type NotificationData {
+    title: String!
+    body: String!
+    image: String
+}

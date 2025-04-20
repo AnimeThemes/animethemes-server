@@ -6,6 +6,7 @@ type Audio {
     path: String!
     size: Int!
     link: String!
+    views_count: Int! @with(relation: "viewAggregate") @field(resolver: "App\\GraphQL\\Resolvers\\ViewsCountResolver@resolve")
     created_at: DateTimeTz
     updated_at: DateTimeTz
     deleted_at: DateTimeTz

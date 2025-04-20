@@ -14,7 +14,7 @@ type AnimeThemeEntry {
 
 "Default edge to use in simple belongs to many relationships"
 type AnimeThemeEntryEdge {
-    node: Anime!
+    node: AnimeThemeEntry!
     created_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
     updated_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
 }

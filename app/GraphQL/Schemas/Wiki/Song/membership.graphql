@@ -1,11 +1,11 @@
 type Membership {
     id: Int! @rename(attribute: "membership_id")
-    group: Artist! @belongsTo(relation: "artist")
-    member: Artist! @belongsTo
     alias: String
     as: String
     created_at: DateTimeTz
     updated_at: DateTimeTz
     deleted_at: DateTimeTz
+    group: Artist! @belongsTo(relation: "artist")
+    member: Artist! @belongsTo
     performances: [Performance] @morphMany
 }

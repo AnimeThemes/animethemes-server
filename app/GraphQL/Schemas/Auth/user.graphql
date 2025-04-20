@@ -11,8 +11,11 @@ type Me {
     id: Int
     name: String!
     email: String!
+    email_verified_at: DateTimeTz
+    two_factor_confirmed_at: DateTimeTz
     created_at: DateTimeTz
     updated_at: DateTimeTz
     deleted_at: DateTimeTz
+    notifications: [Notification] @morphMany
     playlists: [Playlist] @hasMany
 }
