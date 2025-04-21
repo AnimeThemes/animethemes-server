@@ -17,16 +17,17 @@ class ViewsCountResolver
     /**
      * Resolve views count field.
      *
-     * @param  HasAggregateViews  $model
+     * @param  HasAggregateViews  $viewable
      * @param  array  $args
      * @param  GraphQLContext  $context
      * @param  ResolveInfo  $resolveInfo
      * @return mixed
      */
-    public function resolve(HasAggregateViews $model, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): mixed
+    public function resolve(HasAggregateViews $viewable, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): mixed
     {
         /** @var ViewAggregate|null $view */
-        $view = $model->viewAggregate;
+        /** @phpstan-ignore-next-line */
+        $view = $viewable->viewAggregate;
 
         return (int) $view?->value;
     }

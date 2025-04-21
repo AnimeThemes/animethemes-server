@@ -92,7 +92,7 @@ input WhereHasConditions {
 #import User/*.graphql
 #import Wiki/*.graphql
 #import Wiki/Anime/*.graphql
-#import Wiki/Anime/AnimeTheme/*.graphql
+#import Wiki/Anime/Theme/*.graphql
 #import Wiki/Song/*.graphql
 #import Wiki/Video/*.graphql
 

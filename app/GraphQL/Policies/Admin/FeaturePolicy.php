@@ -18,7 +18,7 @@ class FeaturePolicy extends BasePolicy
      * Determine whether the user can view the model.
      *
      * @param  User|null  $user
-     * @param  Feature  $feature
+     * @param  array|null  $injected
      * @return bool
      */
     public function view(?User $user, ?array $injected = null): bool

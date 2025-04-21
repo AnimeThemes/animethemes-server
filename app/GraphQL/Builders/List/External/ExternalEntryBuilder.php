@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\GraphQL\Builders\List\ExternalProfile;
+namespace App\GraphQL\Builders\List\External;
 
 use App\Models\List\External\ExternalEntry;
 use App\Models\List\ExternalProfile;

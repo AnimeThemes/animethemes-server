@@ -8,14 +8,16 @@ use App\Models\Service\ViewAggregate;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 /**
- * interface HasAggregateViews.
+ * Interface HasAggregateViews.
+ *
+ * @property ViewAggregate|null $viewAggregate
  */
 interface HasAggregateViews
 {
     /**
      * Get the views count of the model.
      *
-     * @return MorphOne<ViewAggregate, $this>
+     * @return MorphOne
      */
     public function viewAggregate(): MorphOne;
 }

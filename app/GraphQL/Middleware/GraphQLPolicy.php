@@ -19,7 +19,6 @@ class GraphQLPolicy
      *
      * @param  Request  $request
      * @param  Closure(Request): mixed  $next
-     * @param  string  $modelKey
      * @return mixed
      */
     public function handle(Request $request, Closure $next): mixed
