@@ -42,11 +42,11 @@ use Filament\Infolists\Components\RepeatableEntry;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
+use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\Enum;
 
@@ -155,7 +155,11 @@ class Theme extends BaseResource
         $query = parent::getEloquentQuery();
 
         // Necessary to prevent lazy loading when loading related resources
-        return $query->with([AnimeTheme::RELATION_ANIME, AnimeTheme::RELATION_SONG, AnimeTheme::RELATION_GROUP]);
+        return $query->with([
+            AnimeTheme::RELATION_ANIME,
+            AnimeTheme::RELATION_SONG,
+            AnimeTheme::RELATION_GROUP
+        ]);
     }
 
     /**
@@ -395,6 +399,11 @@ class Theme extends BaseResource
 
             NumberFilter::make(ThemeModel::ATTRIBUTE_SEQUENCE)
                 ->label(__('filament.fields.anime_theme.sequence.name')),
+
+            Filter::make(ThemeType::IN->localize())
+                ->label(__('filament.filters.anime_theme.without_in'))
+                ->query(fn ($query) => $query->whereNot(ThemeModel::ATTRIBUTE_TYPE, ThemeType::IN->value))
+                ->default(true),
 
             ...parent::getFilters(),
         ];

@@ -958,6 +958,9 @@ return [
             'from' => 'From',
             'to' => 'To',
         ],
+        'anime_theme' => [
+            'without_in' => 'Without Insert Songs',
+        ],
     ],
     'resources' => [
         'group' => [
