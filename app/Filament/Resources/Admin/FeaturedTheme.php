@@ -136,30 +136,16 @@ class FeaturedTheme extends BaseResource
                 DatePicker::make(FeaturedThemeModel::ATTRIBUTE_START_AT)
                     ->label(__('filament.fields.featured_theme.start_at.name'))
                     ->helperText(__('filament.fields.featured_theme.start_at.help'))
+                    ->native(false)
                     ->required()
-                    ->rules([
-                        'required',
-                        str('date_format:')
-                            ->append(implode(',', $allowedDateFormats))
-                            ->__toString(),
-                        str('after:')
-                            ->append(FeaturedThemeModel::ATTRIBUTE_START_AT)
-                            ->__toString(),
-                    ]),
+                    ->before(FeaturedThemeModel::ATTRIBUTE_END_AT),
 
                 DatePicker::make(FeaturedThemeModel::ATTRIBUTE_END_AT)
                     ->label(__('filament.fields.featured_theme.end_at.name'))
                     ->helperText(__('filament.fields.featured_theme.end_at.help'))
+                    ->native(false)
                     ->required()
-                    ->rules([
-                        'required',
-                        str('date_format:')
-                            ->append(implode(',', $allowedDateFormats))
-                            ->__toString(),
-                        str('after:')
-                            ->append(FeaturedThemeModel::ATTRIBUTE_START_AT)
-                            ->__toString(),
-                    ]),
+                    ->after(FeaturedThemeModel::ATTRIBUTE_START_AT),
 
                 BelongsTo::make(FeaturedThemeModel::ATTRIBUTE_ENTRY)
                     ->resource(EntryResource::class)

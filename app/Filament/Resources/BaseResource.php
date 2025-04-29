@@ -81,7 +81,8 @@ abstract class BaseResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->defaultSort(static::getRecordRouteKeyName(), 'desc')
+            ->striped()
+            ->defaultSort(fn (Table $table) => $table->hasSearch() ? null : static::getRecordRouteKeyName(), fn (Table $table) => $table->hasSearch() ? null : 'desc')
             ->filters(static::getFilters())
             ->filtersFormMaxHeight('400px')
             ->actions(static::getActions())
@@ -89,7 +90,9 @@ abstract class BaseResource extends Resource
             ->headerActions(static::getTableActions())
             ->recordUrl(fn (Model $record): string => static::getUrl('view', ['record' => $record]))
             ->paginated([10, 25, 50, 100, 'all'])
-            ->defaultPaginationPageOption(25);
+            ->defaultPaginationPageOption(25)
+            ->extremePaginationLinks()
+            ->deferLoading(!app()->runningUnitTests());
     }
 
     /**

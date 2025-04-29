@@ -49,14 +49,7 @@ class ListSongs extends BaseListResources
      */
     protected function applySearchToTableQuery(Builder $query): Builder
     {
-        $this->applyColumnSearchesToTableQuery($query);
-
-        if (filled($search = $this->getTableSearch())) {
-            $search = preg_replace('/[^A-Za-z0-9 ]/', '', $search);
-            $query->whereIn(SongModel::ATTRIBUTE_ID, SongModel::search($search)->take(25)->keys());
-        }
-
-        return $query;
+        return $this->makeScout($query, SongModel::class);
     }
 
     /**

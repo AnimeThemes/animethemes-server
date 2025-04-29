@@ -735,11 +735,11 @@ return [
         ],
         'membership' => [
             'alias' => [
-                'help' => 'Used in place of the Artist if the performance is using an alias.',
+                'help' => 'Used in place of the Member if the performance is using an alias.',
                 'name' => 'Alias',
             ],
             'as' => [
-                'help' => 'Used alongside the Artist name if the performance is made as a character.',
+                'help' => 'Used alongside the Member name if the performance is made as a character.',
                 'name' => 'As',
             ],
             'group' => 'Group',
@@ -775,6 +775,10 @@ return [
             ],
             'load_members' => [
                 'name' => 'Load Members',
+            ],
+            'memberships' => [
+                'help' => 'When a group and its members are credited, you need to add the members (called memberships) that performed the song.',
+                'add' => 'Add Member',
             ],
         ],
         'permission' => [
@@ -953,6 +957,9 @@ return [
         'base' => [
             'from' => 'From',
             'to' => 'To',
+        ],
+        'anime_theme' => [
+            'without_in' => 'Without Insert Songs',
         ],
     ],
     'resources' => [

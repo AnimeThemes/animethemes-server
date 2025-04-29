@@ -35,7 +35,7 @@ class GlobalSearchScoutProvider implements GlobalSearchProvider
                 continue;
             }
 
-            $query = preg_replace('/[^A-Za-z0-9 ]/', '', $query);
+            $query = $this->escapeReservedChars($query);
 
             /** @var ScoutBuilder $scoutBuilder */
             $scoutBuilder = $resource::getModel()::search($query);
@@ -67,5 +67,26 @@ class GlobalSearchScoutProvider implements GlobalSearchProvider
         }
 
         return $builder;
+    }
+
+    /**
+     * Prepare the search query for Elasticsearch.
+     *
+     * @param  string  $search
+     * @return string
+     */
+    public function escapeReservedChars(string $search) : string
+    {
+        return preg_replace(
+            [
+                '_[<>]+_',
+                '_[-+=!(){}[\]^"~*?:\\/\\\\]|&(?=&)|\|(?=\|)_',
+            ],
+            [
+                '',
+                '\\\\$0',
+            ],
+            $search
+        );
     }
 }

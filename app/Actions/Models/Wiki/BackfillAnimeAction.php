@@ -13,6 +13,7 @@ use App\Actions\Models\Wiki\Anime\ApiAction\MalAnimeApiAction;
 use App\Concerns\Models\CanCreateAnimeSynonym;
 use App\Concerns\Models\CanCreateStudio;
 use App\Enums\Actions\ActionStatus;
+use App\Enums\Models\Wiki\AnimeSynonymType;
 use App\Models\Wiki\Anime;
 use Exception;
 use Illuminate\Support\Arr;
@@ -141,8 +142,15 @@ class BackfillAnimeAction extends BackfillWikiAction
     {
         if (!$this->toBackfill[self::SYNONYMS]) return;
 
+        $texts = [];
         foreach ($api->getSynonyms() as $type => $text) {
+            if ($type === AnimeSynonymType::OTHER->value && in_array($text, $texts, true)) {
+                Log::info("Skipping duplicate synonym '$text' for Anime {$this->getModel()->getName()}");
+                continue;
+            }
+
             $this->createAnimeSynonym($text, $type, $this->getModel());
+            $texts[] = $text;
         }
 
         if ($this->getModel()->animesynonyms()->exists()) {

@@ -412,6 +412,8 @@ class Performance extends BaseResource
 
                     Repeater::make('memberships')
                         ->label(__('filament.resources.label.memberships'))
+                        ->helperText(__('filament.fields.performance.memberships.help'))
+                        ->addActionLabel(__('filament.fields.performance.memberships.add'))
                         ->collapsible()
                         ->defaultItems(0)
                         ->columns(3)
@@ -420,6 +422,7 @@ class Performance extends BaseResource
                             BelongsTo::make(Membership::ATTRIBUTE_MEMBER)
                                 ->resource(ArtistResource::class)
                                 ->showCreateOption()
+                                ->label(__('filament.fields.membership.member'))
                                 ->required()
                                 ->rules(['required']),
 

@@ -38,13 +38,6 @@ class ListEntries extends BaseListResources
      */
     protected function applySearchToTableQuery(Builder $query): Builder
     {
-        $this->applyColumnSearchesToTableQuery($query);
-
-        if (filled($search = $this->getTableSearch())) {
-            $search = preg_replace('/[^A-Za-z0-9 ]/', '', $search);
-            $query->whereIn(AnimeThemeEntry::ATTRIBUTE_ID, AnimeThemeEntry::search($search)->take(25)->keys());
-        }
-
-        return $query;
+        return $this->makeScout($query, AnimeThemeEntry::class);
     }
 }
