@@ -160,6 +160,7 @@ class Role extends BaseResource
     public static function table(Table $table): Table
     {
         return parent::table($table)
+            ->defaultSort(RoleModel::ATTRIBUTE_PRIORITY, 'desc')
             ->columns([
                 TextColumn::make(RoleModel::ATTRIBUTE_ID)
                     ->label(__('filament.fields.base.id')),

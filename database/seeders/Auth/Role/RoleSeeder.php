@@ -24,12 +24,13 @@ class RoleSeeder extends Seeder
     public function run(): void
     {
         $this->call(AdminSeeder::class);
-        $this->call(EncoderRoleSeeder::class);
+        $this->call(ContentModeratorRoleSeeder::class);
+        $this->call(ContributorRoleSeeder::class);
         $this->call(DeveloperRoleSeeder::class);
-        $this->call(WikiEditorRoleSeeder::class);
-        $this->call(WikiViewerRoleSeeder::class);
-        $this->call(PlaylistUserRoleSeeder::class);
+        $this->call(EncoderRoleSeeder::class);
+        $this->call(PanelViewerRoleSeeder::class);
         $this->call(PatronRoleSeeder::class);
+        $this->call(VerifiedRoleSeeder::class);
     }
 
     /**

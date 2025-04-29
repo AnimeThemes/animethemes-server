@@ -754,10 +754,6 @@ return [
                 'help' => 'The display title of the Page',
                 'name' => 'Name',
             ],
-            'section' => [
-                'help' => 'The section of the Page',
-                'name' => 'Section',
-            ],
             'slug' => [
                 'help' => 'Used as the URL Slug / Model Route Key. By default, this should be the Name lowercased and "_" replacing spaces',
                 'name' => 'Slug',

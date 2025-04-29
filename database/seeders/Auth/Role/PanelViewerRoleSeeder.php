@@ -8,6 +8,7 @@ use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\ExtendedCrudPermission;
 use App\Enums\Auth\Role as RoleEnum;
 use App\Enums\Auth\SpecialPermission;
+use App\Models\User\Report;
 use App\Models\Auth\Role;
 use App\Models\Discord\DiscordThread;
 use App\Models\Document\Page;
@@ -34,9 +35,9 @@ use App\Models\Wiki\Video;
 use App\Models\Wiki\Video\VideoScript;
 
 /**
- * Class WikiEditorRoleSeeder.
+ * Class PanelViewerRoleSeeder.
  */
-class WikiEditorRoleSeeder extends RoleSeeder
+class PanelViewerRoleSeeder extends RoleSeeder
 {
     /**
      * Run the database seeds.
@@ -47,7 +48,7 @@ class WikiEditorRoleSeeder extends RoleSeeder
      */
     public function run(): void
     {
-        $roleEnum = RoleEnum::WIKI_EDITOR;
+        $roleEnum = RoleEnum::PANEL_VIEWER;
 
         /** @var Role $role */
         $role = Role::findOrCreate($roleEnum->value);
@@ -68,31 +69,25 @@ class WikiEditorRoleSeeder extends RoleSeeder
 
         // User Resources
         $this->configureResource($role, Notification::class, [CrudPermission::VIEW, CrudPermission::UPDATE]);
-
-        $extendedCrudPermissions = array_merge(
-            CrudPermission::cases(),
-            [
-                ExtendedCrudPermission::RESTORE,
-            ],
-        );
+        $this->configureResource($role, Report::class, [CrudPermission::VIEW, CrudPermission::CREATE, CrudPermission::UPDATE]);
 
         // Wiki Resources
-        $this->configureResource($role, Anime::class, $extendedCrudPermissions);
-        $this->configureResource($role, AnimeSynonym::class, $extendedCrudPermissions);
-        $this->configureResource($role, AnimeTheme::class, $extendedCrudPermissions);
-        $this->configureResource($role, AnimeThemeEntry::class, $extendedCrudPermissions);
-        $this->configureResource($role, Artist::class, $extendedCrudPermissions);
-        $this->configureResource($role, Audio::class, [CrudPermission::VIEW, CrudPermission::UPDATE]);
-        $this->configureResource($role, Group::class, $extendedCrudPermissions);
-        $this->configureResource($role, ExternalResource::class, $extendedCrudPermissions);
-        $this->configureResource($role, Image::class, $extendedCrudPermissions);
-        $this->configureResource($role, Membership::class, $extendedCrudPermissions);
-        $this->configureResource($role, Page::class, $extendedCrudPermissions);
-        $this->configureResource($role, Performance::class, $extendedCrudPermissions);
-        $this->configureResource($role, Series::class, $extendedCrudPermissions);
-        $this->configureResource($role, Song::class, $extendedCrudPermissions);
-        $this->configureResource($role, Studio::class, $extendedCrudPermissions);
-        $this->configureResource($role, Video::class, [CrudPermission::VIEW, CrudPermission::UPDATE]);
+        $this->configureResource($role, Anime::class, [CrudPermission::VIEW]);
+        $this->configureResource($role, AnimeSynonym::class, [CrudPermission::VIEW]);
+        $this->configureResource($role, AnimeTheme::class, [CrudPermission::VIEW]);
+        $this->configureResource($role, AnimeThemeEntry::class, [CrudPermission::VIEW]);
+        $this->configureResource($role, Artist::class, [CrudPermission::VIEW]);
+        $this->configureResource($role, Audio::class, [CrudPermission::VIEW]);
+        $this->configureResource($role, Group::class, [CrudPermission::VIEW]);
+        $this->configureResource($role, ExternalResource::class, [CrudPermission::VIEW]);
+        $this->configureResource($role, Image::class, [CrudPermission::VIEW]);
+        $this->configureResource($role, Membership::class, [CrudPermission::VIEW]);
+        $this->configureResource($role, Page::class, [CrudPermission::VIEW]);
+        $this->configureResource($role, Performance::class, [CrudPermission::VIEW]);
+        $this->configureResource($role, Series::class, [CrudPermission::VIEW]);
+        $this->configureResource($role, Song::class, [CrudPermission::VIEW]);
+        $this->configureResource($role, Studio::class, [CrudPermission::VIEW]);
+        $this->configureResource($role, Video::class, [CrudPermission::VIEW]);
         $this->configureResource($role, VideoScript::class, [CrudPermission::VIEW]);
 
         // Special Permissions
