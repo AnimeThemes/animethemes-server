@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Wiki\Anime\Theme;
 
+use App\Enums\Models\Wiki\ThemeType;
 use App\Filament\Components\Columns\BelongsToColumn;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\BelongsTo;
@@ -33,6 +34,7 @@ use Filament\Infolists\Components\Section;
 use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -335,6 +337,11 @@ class Entry extends BaseResource
 
             CheckboxFilter::make(EntryModel::ATTRIBUTE_SPOILER)
                 ->label(__('filament.fields.anime_theme_entry.spoiler.name')),
+
+            Filter::make(ThemeType::IN->localize())
+                ->label(__('filament.filters.anime_theme.without_in'))
+                ->query(fn (Builder $query) => $query->whereDoesntHaveRelation(AnimeThemeEntry::RELATION_THEME, ThemeModel::ATTRIBUTE_TYPE, ThemeType::IN->value))
+                ->default(true),
 
             ...parent::getFilters(),
         ];

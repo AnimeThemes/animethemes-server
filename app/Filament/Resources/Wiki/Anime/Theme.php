@@ -402,7 +402,7 @@ class Theme extends BaseResource
 
             Filter::make(ThemeType::IN->localize())
                 ->label(__('filament.filters.anime_theme.without_in'))
-                ->query(fn ($query) => $query->whereNot(ThemeModel::ATTRIBUTE_TYPE, ThemeType::IN->value))
+                ->query(fn (Builder $query) => $query->whereNot(ThemeModel::ATTRIBUTE_TYPE, ThemeType::IN->value))
                 ->default(true),
 
             ...parent::getFilters(),

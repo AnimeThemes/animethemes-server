@@ -149,7 +149,12 @@ class AnimeThemeEntry extends BaseModel implements InteractsWithSchema
     public function toSearchableArray(): array
     {
         $array = $this->toArray();
-        $array['theme'] = $this->animetheme->toSearchableArray();
+
+        $theme = is_null($this->animetheme)
+            ? $this->animetheme()->withoutGlobalScope(WithoutInsertSongScope::class)->first()
+            : $this->animetheme;
+
+        $array['theme'] = $theme->toSearchableArray();
 
         // Overwrite version with readable format "V{#}"
         $array['version'] = Str::of(empty($this->version) ? '1' : $this->version)->prepend('V')->__toString();
