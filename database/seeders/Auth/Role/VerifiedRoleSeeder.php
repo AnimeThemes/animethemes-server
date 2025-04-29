@@ -14,9 +14,9 @@ use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
 
 /**
- * Class PlaylistUserRoleSeeder.
+ * Class VerifiedRoleSeeder.
  */
-class PlaylistUserRoleSeeder extends RoleSeeder
+class VerifiedRoleSeeder extends RoleSeeder
 {
     /**
      * Run the database seeds.
@@ -27,7 +27,7 @@ class PlaylistUserRoleSeeder extends RoleSeeder
      */
     public function run(): void
     {
-        $roleEnum = RoleEnum::PLAYLIST_USER;
+        $roleEnum = RoleEnum::VERIFIED;
 
         /** @var Role $role */
         $role = Role::findOrCreate($roleEnum->value);
