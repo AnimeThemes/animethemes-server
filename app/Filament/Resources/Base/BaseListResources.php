@@ -6,6 +6,8 @@ namespace App\Filament\Resources\Base;
 
 use App\Filament\HeaderActions\Base\CreateHeaderAction;
 use Filament\Resources\Pages\ListRecords;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class BaseListResources.
@@ -24,5 +26,51 @@ abstract class BaseListResources extends ListRecords
         return [
             CreateHeaderAction::make(),
         ];
+    }
+
+    /**
+     * Using Laravel Scout to search.
+     *
+     * @param  Builder  $query
+     * @param  class-string<Model>  $modelClass
+     * @return Builder
+     */
+    protected function makeScout(Builder $query, string $modelClass): Builder
+    {
+        $this->applyColumnSearchesToTableQuery($query);
+
+        $model = new $modelClass;
+
+        if (filled($search = $this->getTableSearch())) {
+            $search = $this->escapeReservedChars($search);
+            $keys = $modelClass::search($search)->take(25)->keys();
+
+            $query
+                ->whereIn($model->getKeyName(), $keys)
+                ->orderByRaw("FIELD({$this->getResource()::getRecordRouteKeyName()}, " . $keys->implode(',') . ')');
+        }
+
+        return $query;
+    }
+
+    /**
+     * Prepare the search query for Elasticsearch.
+     *
+     * @param  string  $search
+     * @return string
+     */
+    public function escapeReservedChars(string $string) : string
+    {
+        return preg_replace(
+            [
+                '_[<>]+_',
+                '_[-+=!(){}[\]^"~*?:\\/\\\\]|&(?=&)|\|(?=\|)_',
+            ],
+            [
+                '',
+                '\\\\$0',
+            ],
+            $string
+        );
     }
 }

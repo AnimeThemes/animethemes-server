@@ -90,7 +90,7 @@ class BelongsTo extends ComponentsSelect
         if (in_array(Searchable::class, class_uses_recursive($model))) {
             return $this
                 ->getSearchResultsUsing(function (string $search) use ($model) {
-                    $search = preg_replace('/[^A-Za-z0-9 ]/', '', $search);
+                    $search = $this->escapeReservedChars($search);
                     /** @phpstan-ignore-next-line */
                     return $model::search($search)
                         ->take(25)
@@ -124,5 +124,26 @@ class BelongsTo extends ComponentsSelect
             ->with('subtitle', $model->getSubtitle())
             ->with('image', $model instanceof User ? $model->getFilamentAvatarUrl() : null)
             ->render();
+    }
+
+    /**
+     * Prepare the search query for Elasticsearch.
+     *
+     * @param  string  $search
+     * @return string
+     */
+    public function escapeReservedChars(string $string) : string
+    {
+        return preg_replace(
+            [
+                '_[<>]+_',
+                '_[-+=!(){}[\]^"~*?:\\/\\\\]|&(?=&)|\|(?=\|)_',
+            ],
+            [
+                '',
+                '\\\\$0',
+            ],
+            $string
+        );
     }
 }

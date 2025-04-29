@@ -31,7 +31,7 @@ class Select extends ComponentsSelect
                 ->searchable()
                 ->getOptionLabelUsing(fn ($state) => BelongsTo::getSearchLabelWithBlade($model::find($state)))
                 ->getSearchResultsUsing(function (string $search) use ($livewire, $model, $loadRelation) {
-                    $search = preg_replace('/[^A-Za-z0-9 ]/', '', $search);
+                    $search = $this->escapeReservedChars($search);
                     /** @phpstan-ignore-next-line */
                     return $model::search($search)
                         ->query(function (Builder $query) use ($livewire) {
@@ -53,5 +53,26 @@ class Select extends ComponentsSelect
         }
 
         return $this->searchable();
+    }
+
+    /**
+     * Prepare the search query for Elasticsearch.
+     *
+     * @param  string  $search
+     * @return string
+     */
+    public function escapeReservedChars(string $string) : string
+    {
+        return preg_replace(
+            [
+                '_[<>]+_',
+                '_[-+=!(){}[\]^"~*?:\\/\\\\]|&(?=&)|\|(?=\|)_',
+            ],
+            [
+                '',
+                '\\\\$0',
+            ],
+            $string
+        );
     }
 }
