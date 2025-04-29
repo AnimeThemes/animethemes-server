@@ -43,6 +43,7 @@ abstract class BaseListResources extends ListRecords
 
         if (filled($search = $this->getTableSearch())) {
             $search = $this->escapeReservedChars($search);
+            /** @phpstan-ignore-next-line */
             $keys = $modelClass::search($search)->take(25)->keys();
 
             $query
@@ -59,7 +60,7 @@ abstract class BaseListResources extends ListRecords
      * @param  string  $search
      * @return string
      */
-    public function escapeReservedChars(string $string) : string
+    public function escapeReservedChars(string $search) : string
     {
         return preg_replace(
             [
@@ -70,7 +71,7 @@ abstract class BaseListResources extends ListRecords
                 '',
                 '\\\\$0',
             ],
-            $string
+            $search
         );
     }
 }

@@ -75,7 +75,7 @@ class GlobalSearchScoutProvider implements GlobalSearchProvider
      * @param  string  $search
      * @return string
      */
-    public function escapeReservedChars(string $string) : string
+    public function escapeReservedChars(string $search) : string
     {
         return preg_replace(
             [
@@ -86,7 +86,7 @@ class GlobalSearchScoutProvider implements GlobalSearchProvider
                 '',
                 '\\\\$0',
             ],
-            $string
+            $search
         );
     }
 }

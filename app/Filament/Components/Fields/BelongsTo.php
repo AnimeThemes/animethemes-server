@@ -132,7 +132,7 @@ class BelongsTo extends ComponentsSelect
      * @param  string  $search
      * @return string
      */
-    public function escapeReservedChars(string $string) : string
+    public function escapeReservedChars(string $search) : string
     {
         return preg_replace(
             [
@@ -143,7 +143,7 @@ class BelongsTo extends ComponentsSelect
                 '',
                 '\\\\$0',
             ],
-            $string
+            $search
         );
     }
 }

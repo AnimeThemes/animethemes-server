@@ -92,7 +92,7 @@ abstract class BaseResource extends Resource
             ->paginated([10, 25, 50, 100, 'all'])
             ->defaultPaginationPageOption(25)
             ->extremePaginationLinks()
-            ->deferLoading();
+            ->deferLoading(!app()->runningUnitTests());
     }
 
     /**
