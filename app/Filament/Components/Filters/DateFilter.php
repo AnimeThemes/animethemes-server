@@ -52,9 +52,11 @@ class DateFilter extends Filter
                         ->schema([
                             DatePicker::make($this->getName().'_'.'from')
                                 ->label($this->fromLabel)
+                                ->native(false)
                                 ->required(),
                             DatePicker::make($this->getName().'_'.'to')
                                 ->label($this->toLabel)
+                                ->native(false)
                                 ->required(),
                         ]),
                 ])
