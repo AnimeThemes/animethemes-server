@@ -1,3 +1,4 @@
+"Represents the association between an anime and a series."
 type AnimeSeries {
     anime: Anime!
     series: Series!

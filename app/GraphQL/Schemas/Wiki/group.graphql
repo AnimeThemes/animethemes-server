@@ -1,5 +1,5 @@
 """
-A group type represents the group that accompanies a Theme.
+Represents the group that accompanies a Theme.
 
 For example, English Version is the group for english dubbed Theme.
 """

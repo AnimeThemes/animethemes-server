@@ -1,5 +1,5 @@
 """
-A membership type represents the link between an artist and a group related to the song credits.
+Represents the link between an artist and a group related to the song credits.
 
 For example, Sayuri Date is a member of Liella and has performed using the membership.
 """

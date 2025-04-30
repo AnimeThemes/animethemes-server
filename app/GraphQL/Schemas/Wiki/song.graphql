@@ -1,5 +1,5 @@
 """
-A song type represents the composition that accompanies an AnimeTheme.
+Represents the composition that accompanies an AnimeTheme.
 
 For example, Staple Stable is the song for the Bakemonogatari OP1 AnimeTheme.
 """
@@ -22,6 +22,8 @@ type Song {
 "Default edge to use in simple belongs to many relationships"
 type SongEdge {
     node: Song!
+    "The date that the resource was last modified"
     created_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+    "The date that the resource was deleted"
     updated_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
 }

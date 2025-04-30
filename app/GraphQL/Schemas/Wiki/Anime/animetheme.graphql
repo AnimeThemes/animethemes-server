@@ -1,5 +1,5 @@
 """
-An anime theme type represents an OP or ED sequence for an anime.
+Represents an OP or ED sequence for an anime.
 
 For example, the anime Bakemonogatari has five OP anime themes and one ED anime theme.
 """

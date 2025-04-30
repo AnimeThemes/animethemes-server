@@ -1,5 +1,5 @@
 """
-A feature type represents a feature flag that enable/disable site functionalities.
+Represents a feature flag that enable/disable site functionalities.
 
 For example, the 'allow_discord_notifications' feature enables/disables discord notifications for the configured bot.
 """

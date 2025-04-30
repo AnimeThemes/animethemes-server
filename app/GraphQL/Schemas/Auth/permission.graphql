@@ -1,5 +1,5 @@
 """
-A permission type represents an assignable label for users and roles that authorizes a particular action in AnimeThemes.
+Represents an assignable label for users and roles that authorizes a particular action in AnimeThemes.
 """
 type Permission {
     "The primary key of the resource"

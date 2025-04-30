@@ -1,3 +1,4 @@
+"Represents the association between a playlist and an image."
 type PlaylistImage {
     playlist: Playlist!
     image: Image!

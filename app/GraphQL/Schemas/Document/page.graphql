@@ -1,5 +1,5 @@
 """
-A page type represents a static markdown page used for guides and other documentation.
+Represents a static markdown page used for guides and other documentation.
 
 For example, the 'encoding/audio_normalization' page represents the documentation for audio normalization.
 """

@@ -1,3 +1,8 @@
+"""
+Represents an encoding script used to produce a video.
+
+For example, the 2009/Summer/Bakemonogatari-OP1.txt video script represents the encoding script of the Bakemonogatari-OP1.webm video.
+"""
 type VideoScript {
     "The primary key of the resource"
     id: Int! @rename(attribute: "script_id")

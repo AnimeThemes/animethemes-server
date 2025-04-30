@@ -1,6 +1,8 @@
+"Represents the association between an artist and an external resource."
 type ArtistResource {
     artist: Artist!
     resource: ExternalResource!
+    "Used to distinguish resources that map to the same artist"
     as: String
     "The date that the resource was created"
     created_at: DateTimeTz

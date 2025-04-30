@@ -1,3 +1,4 @@
+"Represents the association between an anime theme entry and a video."
 type AnimeThemeEntryVideo {
     animethemeentry: AnimeThemeEntry!
     video: Video!

@@ -20,21 +20,11 @@ type Query {
     @softDeletes
     @paginate(defaultCount: 10)
 
-    animeyear(year: Int!): AnimeYear
-    @canModel(ability: "viewAny", model: "App\\Models\\Wiki\\Anime", injectArgs: true)
-
-    animeyears: [Int!]!
-    @canModel(ability: "viewAny", model: "App\\Models\\Wiki\\Anime", injectArgs: true)
-
     artists(
       name: String @eq
     ): [Artist!]!
     @canModel(ability: "viewAny", injectArgs: true)
     @paginate(defaultCount: 10)
-
-    currentfeaturedtheme: FeaturedTheme @find
-    @canModel(ability: "viewAny", injectArgs: true)
-    @builder(method: "App\\GraphQL\\Builders\\Admin\\FeaturedThemeBuilder@current")
 
     externalresources(
       site: ResourceSite @eq
@@ -49,15 +39,7 @@ type Query {
     @canModel(ability: "viewAny", injectArgs: true)
     @paginate(defaultCount: 10)
 
-    me: Me @auth
-
-    playlists(
-      name: String @eq
-    ): [Playlist!]!
-    @canModel(ability: "viewAny", injectArgs: true)
-    @builder(method: "App\\GraphQL\\Builders\\List\\PlaylistBuilder@index")
-    @paginate(defaultCount: 10)
-
+    "The global search endpoint returns a listing of resources that match a given search term."
     search(search: String @search, perPage: Int, page: Int): Search!
 }
 

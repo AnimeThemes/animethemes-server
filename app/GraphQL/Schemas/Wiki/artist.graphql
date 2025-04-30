@@ -1,5 +1,5 @@
 """
-An artist type represents a musical performer of anime sequences.
+Represents a musical performer of anime sequences.
 
 For example, Chiwa Saitou is the musical performer of the Bakemonogatari OP1 theme, among many others.
 """
@@ -29,22 +29,30 @@ type Artist {
 "Default edge to use in simple belongs to many relationships"
 type ArtistEdge {
     node: Artist!
+    "The date that the resource was last modified"
     created_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+    "The date that the resource was deleted"
     updated_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
 }
 
 "Artist Member has extra pivots"
 type ArtistMemberEdge {
     node: Artist!
+    "Used to distinguish member by alias"
     alias: String @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+    "Used to distinguish member by character"
     as: String @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+    "Used to extra annotation, like member role"
     notes: String @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
 }
 
 "Artist Image has an extra pivot that others image relationships don't"
 type ArtistImageEdge {
     node: Image!
+    "Used to sort the artist images"
     depth: Int @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+    "The date that the resource was last modified"
     created_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+    "The date that the resource was deleted"
     updated_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
 }

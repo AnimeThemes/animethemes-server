@@ -1,5 +1,5 @@
 """
-The external entry type represents an anime entry on the external profile.
+Represents an anime entry on the external profile.
 
 For example, Hibike Euphonium! is marked as completed on the profile AnimeThemes.
 """

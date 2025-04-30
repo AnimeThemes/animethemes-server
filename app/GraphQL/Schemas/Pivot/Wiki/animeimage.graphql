@@ -1,3 +1,4 @@
+"Represents the association between an anime and an image."
 type AnimeImage {
     anime: Anime!
     image: Image!

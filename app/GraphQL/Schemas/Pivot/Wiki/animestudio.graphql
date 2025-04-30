@@ -1,3 +1,4 @@
+"Represents the association between an anime and a studio."
 type AnimeStudio {
     anime: Anime!
     studio: Studio!

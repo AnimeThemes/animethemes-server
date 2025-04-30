@@ -1,5 +1,5 @@
 """
-An anime type represents a production with at least one opening or ending sequence.
+Represents a production with at least one opening or ending sequence.
 
 For example, Bakemonogatari is an anime production with five opening sequences and one ending sequence."
 """
@@ -35,7 +35,9 @@ type Anime {
 "Default edge to use in simple belongs to many relationships"
 type AnimeEdge {
     node: Anime!
+    "The date that the resource was last modified"
     created_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+    "The date that the resource was deleted"
     updated_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
 }
 
@@ -44,4 +46,14 @@ type AnimeYear {
     spring: [Anime]
     summer: [Anime]
     fall: [Anime]
+}
+
+extend type Query {
+    "Returns a listing of anime resources for a given year grouped by season and ordered by name."
+    animeyear(year: Int!): AnimeYear
+    @canModel(ability: "viewAny", model: "App\\Models\\Wiki\\Anime", injectArgs: true)
+
+    "Returns a list of unique years from all anime resources."
+    animeyears: [Int!]!
+    @canModel(ability: "viewAny", model: "App\\Models\\Wiki\\Anime", injectArgs: true)
 }

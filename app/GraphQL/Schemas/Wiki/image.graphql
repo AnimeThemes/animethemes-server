@@ -1,5 +1,5 @@
 """
-An image type represents a visual component for another resource such as an anime or artist.
+Represents a visual component for another resource such as an anime or artist.
 
 For example, the Bakemonogatari anime has two images to represent small and large cover images.
 """
@@ -26,14 +26,19 @@ type Image {
 "Default edge to use in simple belongs to many relationships"
 type ImageEdge {
     node: Image!
+    "The date that the resource was last modified"
     created_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+    "The date that the resource was deleted"
     updated_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
 }
 
 "Image Artist has an extra pivot that others image relationships don't"
 type ImageArtistEdge {
     node: Artist!
+    "Used to sort the resource images"
     depth: Int @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+    "The date that the resource was last modified"
     created_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+    "The date that the resource was deleted"
     updated_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
 }

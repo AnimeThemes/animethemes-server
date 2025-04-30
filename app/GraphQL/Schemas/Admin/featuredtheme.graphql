@@ -1,5 +1,5 @@
 """
-A featured theme type represents a video to be featured on the homepage of the site for a specified amount of time.
+Represents a video to be featured on the homepage of the site for a specified amount of time.
 """
 type FeaturedTheme {
     "The primary key of the resource"
@@ -17,4 +17,13 @@ type FeaturedTheme {
     updated_at: DateTimeTz
     "The date that the resource was deleted"
     deleted_at: DateTimeTz
+}
+
+extend type Query {
+    """
+    The current featured theme query returns the first featured theme where the current date is between start_at and end_at dates.
+    """
+    currentfeaturedtheme: FeaturedTheme @find
+    @canModel(ability: "viewAny", injectArgs: true)
+    @builder(method: "App\\GraphQL\\Builders\\Admin\\FeaturedThemeBuilder@current")
 }

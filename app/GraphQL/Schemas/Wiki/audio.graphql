@@ -1,5 +1,5 @@
 """
-An audio type represents the audio track of a video.
+Represents the audio track of a video.
 
 For example, the audio Bakemonogatari-OP1.ogg represents the audio track of the Bakemonogatari-OP1.webm video.
 """

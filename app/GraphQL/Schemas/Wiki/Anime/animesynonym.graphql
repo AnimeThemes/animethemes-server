@@ -1,5 +1,5 @@
 """
-An anime synonym type represents an alternate title or common abbreviation for an anime.
+Represents an alternate title or common abbreviation for an anime.
 
 For example, the anime Bakemonogatari has the anime synonym "Monstory".
 """

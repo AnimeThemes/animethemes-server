@@ -1,6 +1,8 @@
+"Represents the association between an anime and an external resource."
 type AnimeResource {
     anime: Anime!
     resource: ExternalResource!
+    "Used to distinguish resources that map to the same anime"
     as: String
     "The date that the resource was created"
     created_at: DateTimeTz

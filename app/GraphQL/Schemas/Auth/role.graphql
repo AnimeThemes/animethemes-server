@@ -1,5 +1,5 @@
 """
-A role type represents an assignable label for users that provides a configured group of permissions.
+Represents an assignable label for users that provides a configured group of permissions.
 """
 type Role {
     "The primary key of the resource"
@@ -23,6 +23,8 @@ type Role {
 
 type RolePermissionEdge {
     node: Permission!
+    "The date that the resource was last modified"
     created_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+    "The date that the resource was deleted"
     updated_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
 }

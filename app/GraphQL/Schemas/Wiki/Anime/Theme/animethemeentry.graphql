@@ -1,5 +1,5 @@
 """
-An anime theme entry type represents a version of an anime theme.
+Represents a version of an anime theme.
 
 For example, the ED theme of the Bakemonogatari anime has three anime theme entries to represent three versions.
 """
@@ -29,6 +29,8 @@ type AnimeThemeEntry {
 "Default edge to use in simple belongs to many relationships"
 type AnimeThemeEntryEdge {
     node: AnimeThemeEntry!
+    "The date that the resource was last modified"
     created_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+    "The date that the resource was deleted"
     updated_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
 }

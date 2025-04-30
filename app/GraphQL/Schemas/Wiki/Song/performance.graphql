@@ -1,5 +1,5 @@
 """
-A performance type represents the link between a song and an artist or membership.
+Represents the link between a song and an artist or membership.
 
 For example, Liella has performed using memberships, with its members credited.
 """
@@ -22,4 +22,5 @@ type Performance {
     deleted_at: DateTimeTz
 }
 
+"Represents the resource type perfoming"
 union PerformanceArtist = Artist | Membership

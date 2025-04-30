@@ -1,5 +1,5 @@
 """
-A series type represents a collection of related anime.
+Represents a collection of related anime.
 
 For example, the Monogatari series is the collection of the Bakemonogatari anime and its related productions.
 """
@@ -22,6 +22,8 @@ type Series {
 "Default edge to use in simple belongs to many relationships"
 type SeriesEdge {
     node: Series!
+    "The date that the resource was last modified"
     created_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+    "The date that the resource was deleted"
     updated_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
 }

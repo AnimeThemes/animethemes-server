@@ -1,5 +1,5 @@
 """
-A playlist track type represents an entry in a playlist.
+Represents an entry in a playlist.
 
 For example, a "/r/anime's Best OPs and EDs of 2022" playlist may contain a track for the ParipiKoumei-OP1.webm video.
 """

@@ -1,5 +1,5 @@
 """
-A studio type represents a company that produces anime.
+Represents a company that produces anime.
 
 For example, Shaft is the studio that produced the anime Bakemonogatari.
 """
@@ -24,6 +24,8 @@ type Studio {
 "Default edge to use in simple belongs to many relationships"
 type StudioEdge {
     node: Studio!
+    "The date that the resource was last modified"
     created_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+    "The date that the resource was deleted"
     updated_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
 }

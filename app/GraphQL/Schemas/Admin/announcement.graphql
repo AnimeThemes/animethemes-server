@@ -1,6 +1,4 @@
-"""
-An announcement type represents a site-wide message to be broadcasted on the homepage.
-"""
+"Represents a site-wide message to be broadcasted on the homepage."
 type Announcement {
     "The primary key of the resource"
     id: Int! @rename(attribute: "announcement_id")

@@ -1,5 +1,5 @@
 """
-A video type represents a WebM of an anime theme.
+Represents a WebM of an anime theme.
 
 For example, the video Bakemonogatari-OP1.webm represents the WebM of the Bakemonogatari OP1 theme.
 """
@@ -49,6 +49,8 @@ type Video {
 "Default edge to use in simple belongs to many relationships"
 type VideoEdge {
     node: Video!
+    "The date that the resource was last modified"
     created_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+    "The date that the resource was deleted"
     updated_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
 }

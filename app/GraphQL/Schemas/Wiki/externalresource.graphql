@@ -1,5 +1,5 @@
 """
-An external resource type represents a site with supplementary information for another resource such as an anime or artist.
+Represents a site with supplementary information for another resource such as an anime or artist.
 
 For example, the Bakemonogatari anime has MyAnimeList, AniList and AniDB resources.
 """
@@ -27,39 +27,54 @@ type ExternalResource {
 "Default edge to use in simple belongs to many relationships"
 type ExternalResourceEdge {
     node: ExternalResource!
+    "Used to distinguish resources that map to the same resource"
     as: String @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+    "The date that the resource was last modified"
     created_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+    "The date that the resource was deleted"
     updated_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
 }
 
 "External Resource has an extra pivot field"
 type ExternalResourceAnimeEdge {
     node: Anime!
+    "Used to distinguish resources that map to the same anime"
     as: String @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+    "The date that the resource was last modified"
     created_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+    "The date that the resource was deleted"
     updated_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
 }
 
 "External Resource has an extra pivot field"
 type ExternalResourceArtistEdge {
     node: Artist!
+    "Used to distinguish resources that map to the same artist"
     as: String @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+    "The date that the resource was last modified"
     created_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+    "The date that the resource was deleted"
     updated_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
 }
 
 "External Resource has an extra pivot field"
 type ExternalResourceSongEdge {
     node: Song!
+    "Used to distinguish resources that map to the same song"
     as: String @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+    "The date that the resource was last modified"
     created_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+    "The date that the resource was deleted"
     updated_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
 }
 
 "External Resource has an extra pivot field"
 type ExternalResourceStudioEdge {
     node: Studio!
+    "Used to distinguish resources that map to the same studio"
     as: String @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+    "The date that the resource was last modified"
     created_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+    "The date that the resource was deleted"
     updated_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
 }

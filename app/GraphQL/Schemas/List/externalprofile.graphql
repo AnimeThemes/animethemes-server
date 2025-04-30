@@ -1,5 +1,5 @@
 """
-An external profile type represents a user profile on the external site like MAL.
+Represents a user profile on the external site like MAL.
 """
 type ExternalProfile {
     "The primary key of the resource"

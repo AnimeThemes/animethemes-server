@@ -1,3 +1,4 @@
+"Represents the association between a studio and an image."
 type StudioImage {
     studio: Studio!
     image: Image!

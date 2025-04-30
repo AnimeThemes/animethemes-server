@@ -1,6 +1,8 @@
+"Represents the association between a studio and an external resource."
 type StudioResource {
     studio: Studio!
     resource: ExternalResource!
+    "Used to distinguish resources that map to the same studio"
     as: String
     "The date that the resource was created"
     created_at: DateTimeTz
