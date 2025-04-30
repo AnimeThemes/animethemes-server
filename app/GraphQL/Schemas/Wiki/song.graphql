@@ -30,7 +30,9 @@ type SongEdge {
 
 extend type Query {
     "Returns a listing of song resources given fields."
-    songs: [Song!]!
+    songs(
+        title: String @eq
+    ): [Song!]!
     @canModel(ability: "viewAny", injectArgs: true)
     @softDeletes
     @paginate
