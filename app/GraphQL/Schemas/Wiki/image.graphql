@@ -1,0 +1,52 @@
+"""
+Represents a visual component for another resource such as an anime or artist.
+
+For example, the Bakemonogatari anime has two images to represent small and large cover images.
+"""
+type Image {
+    "The primary key of the resource"
+    id: Int! @rename(attribute: "image_id")
+    "The component that the resource is intended for"
+    facet: ImageFacet! @localizedEnum
+    "The path of the file in storage"
+    path: String!
+    "The URL to stream the file from storage"
+    link: String!
+    anime: [Anime] @belongsToMany(type: CONNECTION)
+    artists: [Artist] @belongsToMany(type: CONNECTION, edgeType: ImageArtistEdge)
+    studios: [Studio] @belongsToMany(type: CONNECTION)
+    "The date that the resource was created"
+    created_at: DateTimeTz
+    "The date that the resource was last modified"
+    updated_at: DateTimeTz
+    "The date that the resource was deleted"
+    deleted_at: DateTimeTz
+}
+
+"Default edge to use in simple belongs to many relationships"
+type ImageEdge {
+    node: Image!
+    "The date that the resource was last modified"
+    created_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+    "The date that the resource was deleted"
+    updated_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+}
+
+"Image Artist has an extra pivot that others image relationships don't"
+type ImageArtistEdge {
+    node: Artist!
+    "Used to sort the resource images"
+    depth: Int @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+    "The date that the resource was last modified"
+    created_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+    "The date that the resource was deleted"
+    updated_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+}
+
+extend type Query {
+    "Returns a listing of image resources given fields."
+    images: [Image!]!
+    @canModel(ability: "viewAny", injectArgs: true)
+    @softDeletes
+    @paginate
+}

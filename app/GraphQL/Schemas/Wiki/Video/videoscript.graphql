@@ -1,0 +1,28 @@
+"""
+Represents an encoding script used to produce a video.
+
+For example, the 2009/Summer/Bakemonogatari-OP1.txt video script represents the encoding script of the Bakemonogatari-OP1.webm video.
+"""
+type VideoScript {
+    "The primary key of the resource"
+    id: Int! @rename(attribute: "script_id")
+    "The path of the file in storage"
+    path: String!
+    "The URL to download the file from storage"
+    link: String!
+    video: Video @hasOne
+    "The date that the resource was created"
+    created_at: DateTimeTz
+    "The date that the resource was last modified"
+    updated_at: DateTimeTz
+    "The date that the resource was deleted"
+    deleted_at: DateTimeTz
+}
+
+extend type Query {
+    "Returns a listing of script resources given fields."
+    scripts: [VideoScript!]!
+    @canModel(ability: "viewAny", injectArgs: true)
+    @softDeletes
+    @paginate
+}

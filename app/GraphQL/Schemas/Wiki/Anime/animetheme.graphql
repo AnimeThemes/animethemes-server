@@ -1,0 +1,31 @@
+"""
+Represents an OP or ED sequence for an anime.
+
+For example, the anime Bakemonogatari has five OP anime themes and one ED anime theme.
+"""
+type AnimeTheme {
+    "The primary key of the resource"
+    id: Int! @rename(attribute: "theme_id")
+    "The type of the sequence"
+    type: ThemeType! @localizedEnum
+    "The numeric ordering of the theme"
+    sequence: Int
+    anime: Anime @belongsTo
+    animethemeentries: [AnimeThemeEntry] @hasMany
+    group: ThemeGroup @belongsTo
+    song: Song @belongsTo
+    "The date that the resource was created"
+    created_at: DateTimeTz
+    "The date that the resource was last modified"
+    updated_at: DateTimeTz
+    "The date that the resource was deleted"
+    deleted_at: DateTimeTz
+}
+
+extend type Query {
+    "Returns a listing of anime theme resources given fields."
+    animethemes: [AnimeTheme!]!
+    @canModel(ability: "viewAny", injectArgs: true)
+    @softDeletes
+    @paginate
+}

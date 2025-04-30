@@ -1,0 +1,39 @@
+"""
+Represents a company that produces anime.
+
+For example, Shaft is the studio that produced the anime Bakemonogatari.
+"""
+type Studio {
+    "The primary key of the resource"
+    id: Int! @rename(attribute: "studio_id")
+    "The primary title of the studio"
+    name: String!
+    "The URL slug & route key of the resource"
+    slug: String!
+    anime: [Anime] @belongsToMany(type: CONNECTION)
+    images: [Image] @belongsToMany(type: CONNECTION)
+    resources: [ExternalResource] @belongsToMany(type: CONNECTION)
+    "The date that the resource was created"
+    created_at: DateTimeTz
+    "The date that the resource was last modified"
+    updated_at: DateTimeTz
+    "The date that the resource was deleted"
+    deleted_at: DateTimeTz
+}
+
+"Default edge to use in simple belongs to many relationships"
+type StudioEdge {
+    node: Studio!
+    "The date that the resource was last modified"
+    created_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+    "The date that the resource was deleted"
+    updated_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+}
+
+extend type Query {
+    "Returns a listing of studio resources given fields."
+    studios: [Studio!]!
+    @canModel(ability: "viewAny", injectArgs: true)
+    @softDeletes
+    @paginate
+}

@@ -1,0 +1,99 @@
+"""
+Represents a list of ordered tracks intended for continuous playback.
+
+For example, a "/r/anime's Best OPs and EDs of 2022" playlist may contain a collection of tracks allowing the continuous playback of Best OP and ED nominations for the /r/anime Awards.
+"""
+type Playlist {
+    "The primary key of the resource"
+    id: String! @rename(attribute: "hashid")
+    "The title of the playlist"
+    name: String!
+    "The description of the playlist"
+    description: String
+    "The number of tracks belonging to the resource"
+    tracks_count: Int! @count(relation: "tracks")
+    "The existence of tracks belonging to the resource"
+    tracks_exists: Boolean! @with(relation: "tracks") @field(resolver: "App\\GraphQL\\Resolvers\\ExistsResolver@resolve")
+    "The state of who can see the playlist"
+    visibility: PlaylistVisibility! @localizedEnum
+    "The number of views recorded for the resource"
+    views_count: Int! @with(relation: "viewAggregate") @field(resolver: "App\\GraphQL\\Resolvers\\ViewsCountResolver@resolve")
+    first: PlaylistTrack @belongsTo
+    images: [Image] @belongsToMany(type: CONNECTION, edgeType: PlaylistImageEdge)
+    last: PlaylistTrack @belongsTo
+    tracks: [PlaylistTrack] @hasMany
+    user: User @belongsTo
+    "The date that the resource was created"
+    created_at: DateTimeTz
+    "The date that the resource was last modified"
+    updated_at: DateTimeTz
+    "The date that the resource was deleted"
+    deleted_at: DateTimeTz
+}
+
+type PlaylistImageEdge {
+    node: Image!
+    "The date that the resource was last modified"
+    created_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+    "The date that the resource was deleted"
+    updated_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+}
+
+extend type Query {
+    "Returns a playlist resource."
+    playlist(
+        id: String @bind(class: "App\\Models\\List\\Playlist", column: "hashid")
+    ): Playlist @first
+    @canModel(ability: "view", injectArgs: true)
+
+    "Returns a listing of playlist resources."
+    playlists(
+        name: String @eq
+    ): [Playlist!]!
+    @canModel(ability: "viewAny", injectArgs: true)
+    @builder(method: "App\\GraphQL\\Builders\\List\\PlaylistBuilder@index")
+    @paginate
+}
+
+extend type Mutation @guard {
+    createPlaylist(
+        name: String!
+        description: String
+        visibility: PlaylistVisibility!
+    ): Playlist!
+    @canModel(ability: "create")
+    @validator(class: "App\\GraphQL\\Validators\\Mutation\\List\\CreatePlaylistValidator")
+    @field(resolver: "App\\GraphQL\\Mutations\\List\\PlaylistMutator@store")
+
+
+    updatePlaylist(
+        id: String! @bind(class: "App\\Models\\List\\Playlist", column: "hashid")
+        name: String
+        description: String
+        visibility: PlaylistVisibility
+    ): Playlist!
+    @canModel(ability: "update", injectArgs: true)
+    @validator(class: "App\\GraphQL\\Validators\\Mutation\\List\\UpdatePlaylistValidator")
+    @field(resolver: "App\\GraphQL\\Mutations\\List\\PlaylistMutator@update")
+
+
+    deletePlaylist(
+        id: String! @bind(class: "App\\Models\\List\\Playlist", column: "hashid")
+    ): Playlist!
+    @canModel(ability: "delete", injectArgs: true)
+    @field(resolver: "App\\GraphQL\\Mutations\\List\\PlaylistMutator@destroy")
+
+
+    restorePlaylist(
+        id: String! @bind(class: "App\\Models\\List\\Playlist", column: "hashid")
+    ): Playlist!
+    @canModel(ability: "restore", injectArgs: true)
+    @field(resolver: "App\\GraphQL\\Mutations\\List\\PlaylistMutator@restore")
+
+
+    forceDeletePlaylist(
+        id: String! @bind(class: "App\\Models\\List\\Playlist", column: "hashid")
+    ): MessageResponse!
+    @canModel(ability: "forceDelete", injectArgs: true, model: "App\\Models\\List\\Playlist")
+    @field(resolver: "App\\GraphQL\\Mutations\\List\\PlaylistMutator@forceDelete")
+}

@@ -1,0 +1,21 @@
+"Represents a site-wide message to be broadcasted on the homepage."
+type Announcement {
+    "The primary key of the resource"
+    id: Int! @rename(attribute: "announcement_id")
+    "The announcement text"
+    content: String!
+    "The date that the resource was created"
+    created_at: DateTimeTz
+    "The date that the resource was last modified"
+    updated_at: DateTimeTz
+    "The date that the resource was deleted"
+    deleted_at: DateTimeTz
+}
+
+extend type Query {
+    "Returns a listing of announcement resources."
+    announcements: [Announcement!]!
+    @canModel(ability: "viewAny", injectArgs: true)
+    @softDeletes
+    @paginate
+}

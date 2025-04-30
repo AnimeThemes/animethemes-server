@@ -1,0 +1,11 @@
+"Represents the association between an song and an external resource."
+type SongResource {
+    song: Song!
+    resource: ExternalResource!
+    "Used to distinguish resources that map to the same song"
+    as: String
+    "The date that the resource was created"
+    created_at: DateTimeTz
+    "The date that the resource was last modified"
+    updated_at: DateTimeTz
+}

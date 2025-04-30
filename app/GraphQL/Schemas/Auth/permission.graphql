@@ -1,0 +1,15 @@
+"""
+Represents an assignable label for users and roles that authorizes a particular action in AnimeThemes.
+"""
+type Permission {
+    "The primary key of the resource"
+    id: Int!
+    "The label of the resource"
+    name: String!
+    "The authentication guard of the resource"
+    guard_name: String!
+    "The date that the resource was created"
+    created_at: DateTimeTz
+    "The date that the resource was last modified"
+    updated_at: DateTimeTz
+}

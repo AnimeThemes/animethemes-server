@@ -1,0 +1,72 @@
+"""
+Represents a production with at least one opening or ending sequence.
+
+For example, Bakemonogatari is an anime production with five opening sequences and one ending sequence."
+"""
+type Anime {
+    "The primary key of the resource"
+    id: Int! @rename(attribute: "anime_id")
+    "The media format of the anime"
+    media_format: AnimeMediaFormat @localizedEnum
+    "The primary title of the anime"
+    name: String!
+    "The premiere season of the anime"
+    season: AnimeSeason @localizedEnum
+    "The URL slug & route key of the resource"
+    slug: String!
+    "The brief summary of the anime"
+    synopsis: String
+    "The premiere year of the anime"
+    year: Int
+    animesynonyms: [AnimeSynonym] @hasMany
+    animethemes: [AnimeTheme] @hasMany
+    images: [Image]! @belongsToMany(type: CONNECTION)
+    resources: [ExternalResource]! @belongsToMany(type: CONNECTION)
+    series: [Series]! @belongsToMany(type: CONNECTION)
+    studios: [Studio]! @belongsToMany(type: CONNECTION)
+    "The date that the resource was created"
+    created_at: DateTimeTz
+    "The date that the resource was last modified"
+    updated_at: DateTimeTz
+    "The date that the resource was deleted"
+    deleted_at: DateTimeTz
+}
+
+"Default edge to use in simple belongs to many relationships"
+type AnimeEdge {
+    node: Anime!
+    "The date that the resource was last modified"
+    created_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+    "The date that the resource was deleted"
+    updated_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+}
+
+type AnimeYear {
+    winter: [Anime]
+    spring: [Anime]
+    summer: [Anime]
+    fall: [Anime]
+}
+
+extend type Query {
+    "Returns a listing of anime resources given fields."
+    animes(
+      search: String @search
+      name: String @where(operator: "like")
+      season: AnimeSeason @eq
+      where: _ @whereConditions(columns: ["name"])
+      whereHas: [WhereHasConditions!] @whereHasConditions(columns: ["*"])
+      hasResources: [WhereHasConditions!] @whereHasConditions(columns: ["site", "external_id"])
+    ): [Anime!]!
+    @canModel(ability: "viewAny", injectArgs: true)
+    @softDeletes
+    @paginate
+
+    "Returns a listing of anime resources for a given year grouped by season and ordered by name."
+    animeyear(year: Int!): AnimeYear
+    @canModel(ability: "viewAny", model: "App\\Models\\Wiki\\Anime", injectArgs: true)
+
+    "Returns a list of unique years from all anime resources."
+    animeyears: [Int!]!
+    @canModel(ability: "viewAny", model: "App\\Models\\Wiki\\Anime", injectArgs: true)
+}

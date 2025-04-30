@@ -6,6 +6,7 @@ namespace App\Models\Wiki;
 
 use App\Concerns\Models\Reportable;
 use App\Concerns\Models\Service\AggregatesView;
+use App\Contracts\Models\HasAggregateViews;
 use App\Contracts\Models\Streamable;
 use App\Enums\Models\List\PlaylistVisibility;
 use App\Enums\Models\Wiki\VideoOverlap;
@@ -60,7 +61,7 @@ use Illuminate\Support\Collection;
  *
  * @method static VideoFactory factory(...$parameters)
  */
-class Video extends BaseModel implements Streamable, Viewable
+class Video extends BaseModel implements Streamable, Viewable, HasAggregateViews
 {
     use AggregatesView;
     use Reportable;

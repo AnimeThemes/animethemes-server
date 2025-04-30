@@ -1,0 +1,85 @@
+"""
+Represents an entry in a playlist.
+
+For example, a "/r/anime's Best OPs and EDs of 2022" playlist may contain a track for the ParipiKoumei-OP1.webm video.
+"""
+type PlaylistTrack {
+    "The primary key of the resource"
+    id: String! @rename(attribute: "hashid")
+    animethemeentry: AnimeThemeEntry @belongsTo
+    next: PlaylistTrack @belongsTo
+    playlist: Playlist @belongsTo
+    previous: PlaylistTrack @belongsTo
+    video: Video @belongsTo
+    "The date that the resource was created"
+    created_at: DateTimeTz
+    "The date that the resource was last modified"
+    updated_at: DateTimeTz
+    "The date that the resource was deleted"
+    deleted_at: DateTimeTz
+}
+
+extend type Query {
+    "Returns a playlist track resource."
+    playlisttrack(
+        playlist: String! @bind(class: "App\\Models\\List\\Playlist", column: "hashid")
+        id: String! @bind(class: "App\\Models\\List\\Playlist\\PlaylistTrack", column: "hashid")
+    ): PlaylistTrack @first
+    @canModel(ability: "view", injectArgs: true)
+
+    "Returns a listing of tracks for the playlist."
+    playlisttracks: [PlaylistTrack!]!
+    @canModel(ability: "viewAny", injectArgs: true)
+    @builder(method: "App\\GraphQL\\Builders\\List\\Playlist\\PlaylistTrackBuilder@index")
+    @paginate
+}
+
+extend type Mutation @guard {
+    createPlaylistTrack(
+        entry_id: Int!
+        video_id: Int!
+        next: String
+        previous: String
+        playlist: String! @bind(class: "App\\Models\\List\\Playlist", column: "hashid")
+    ): PlaylistTrack!
+    @canModel(ability: "create", injectArgs: true)
+    @validator(class: "App\\GraphQL\\Validators\\Mutation\\List\\Playlist\\CreatePlaylistTrackValidator")
+    @field(resolver: "App\\GraphQL\\Mutations\\List\\Playlist\\PlaylistTrackMutator@store")
+
+
+    updatePlaylistTrack(
+        id: String! @bind(class: "App\\Models\\List\\Playlist\\PlaylistTrack", column: "hashid")
+        entry_id: Int
+        video_id: Int
+        next: String
+        previous: String
+        playlist: String! @bind(class: "App\\Models\\List\\Playlist", column: "hashid")
+    ): PlaylistTrack!
+    @canModel(ability: "update", injectArgs: true)
+    @validator(class: "App\\GraphQL\\Validators\\Mutation\\List\\Playlist\\UpdatePlaylistTrackValidator")
+    @field(resolver: "App\\GraphQL\\Mutations\\List\\Playlist\\PlaylistTrackMutator@update")
+
+
+    deletePlaylistTrack(
+        id: String! @bind(class: "App\\Models\\List\\Playlist\\PlaylistTrack", column: "hashid")
+        playlist: String! @bind(class: "App\\Models\\List\\Playlist", column: "hashid")
+    ): PlaylistTrack!
+    @canModel(ability: "delete", injectArgs: true)
+    @field(resolver: "App\\GraphQL\\Mutations\\List\\Playlist\\PlaylistTrackMutator@destroy")
+
+
+    restorePlaylistTrack(
+        id: String! @bind(class: "App\\Models\\List\\Playlist\\PlaylistTrack", column: "hashid")
+        playlist: String! @bind(class: "App\\Models\\List\\Playlist", column: "hashid")
+    ): PlaylistTrack!
+    @canModel(ability: "restore", injectArgs: true)
+    @field(resolver: "App\\GraphQL\\Mutations\\List\\Playlist\\PlaylistTrackMutator@restore")
+
+
+    forceDeletePlaylistTrack(
+        id: String! @bind(class: "App\\Models\\List\\Playlist\\PlaylistTrack", column: "hashid")
+        playlist: String! @bind(class: "App\\Models\\List\\Playlist", column: "hashid")
+    ): MessageResponse!
+    @canModel(ability: "forceDelete", injectArgs: true, model: "App\\Models\\List\\Playlist\\PlaylisTrack")
+    @field(resolver: "App\\GraphQL\\Mutations\\List\\Playlist\\PlaylistTrackMutator@forceDelete")
+}

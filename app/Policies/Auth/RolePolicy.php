@@ -24,7 +24,7 @@ class RolePolicy extends BasePolicy
      */
     public function viewAny(?User $user): bool
     {
-        return $user->can(CrudPermission::VIEW->format(Role::class));
+        return $user !== null && $user->can(CrudPermission::VIEW->format(Role::class));
     }
 
     /**
@@ -36,7 +36,7 @@ class RolePolicy extends BasePolicy
      */
     public function view(?User $user, Model $role): bool
     {
-        return $user->can(CrudPermission::VIEW->format(Role::class));
+        return $user !== null && $user->can(CrudPermission::VIEW->format(Role::class));
     }
 
     /**

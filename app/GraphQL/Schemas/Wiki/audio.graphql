@@ -1,0 +1,38 @@
+"""
+Represents the audio track of a video.
+
+For example, the audio Bakemonogatari-OP1.ogg represents the audio track of the Bakemonogatari-OP1.webm video.
+"""
+type Audio {
+    "The primary key of the resource"
+    id: Int! @rename(attribute: "audio_id")
+    "The basename of the file in storage"
+    basename: String!
+    "The filename of the file in storage"
+    filename: String!
+    "The media type of the file in storage"
+    mimetype: String!
+    "The path of the file in storage"
+    path: String!
+    "The size of the file in storage in Bytes"
+    size: Int!
+    "The URL to stream the file from storage"
+    link: String!
+    "The number of views recorded for the resource"
+    views_count: Int! @with(relation: "viewAggregate") @field(resolver: "App\\GraphQL\\Resolvers\\ViewsCountResolver@resolve")
+    videos: [Video] @hasMany
+    "The date that the resource was created"
+    created_at: DateTimeTz
+    "The date that the resource was last modified"
+    updated_at: DateTimeTz
+    "The date that the resource was deleted"
+    deleted_at: DateTimeTz
+}
+
+extend type Query {
+    "Returns a listing of audio resources given fields."
+    audios: [Audio!]!
+    @canModel(ability: "viewAny", injectArgs: true)
+    @softDeletes
+    @paginate
+}

@@ -1,0 +1,9 @@
+"Represents the association between a studio and an image."
+type StudioImage {
+    studio: Studio!
+    image: Image!
+    "The date that the resource was created"
+    created_at: DateTimeTz
+    "The date that the resource was last modified"
+    updated_at: DateTimeTz
+}

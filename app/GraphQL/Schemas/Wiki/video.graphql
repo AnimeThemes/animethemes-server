@@ -1,0 +1,64 @@
+"""
+Represents a WebM of an anime theme.
+
+For example, the video Bakemonogatari-OP1.webm represents the WebM of the Bakemonogatari OP1 theme.
+"""
+type Video {
+    "The primary key of the resource"
+    id: Int! @rename(attribute: "video_id")
+    "The basename of the file in storage"
+    basename: String!
+    "The filename of the file in storage"
+    filename: String!
+    "Does the video include subtitles of song lyrics?"
+    lyrics: Boolean!
+    "The media type of the file in storage"
+    mimetype: String
+    "Is the video creditless?"
+    nc: Boolean!
+    "The degree to which the sequence and episode content overlap"
+    overlap: VideoOverlap @localizedEnum
+    "The path of the file in storage"
+    path: String!
+    "The frame height of the file in storage"
+    resolution: Int
+    "The size of the file in storage in Bytes"
+    size: Int
+    "Where did this video come from?"
+    source: VideoSource @localizedEnum
+    "Does the video include subtitles of dialogue?"
+    subbed: Boolean!
+    "Is the video an uncensored version of a censored sequence?"
+    uncen: Boolean!
+    "The attributes used to distinguish the file within the context of a theme"
+    tags: String @field(resolver: "App\\GraphQL\\Resolvers\\ImplodeArrayResolver@resolve")
+    "The URL to stream the file from storage"
+    link: String!
+    "The number of views recorded for the resource"
+    views_count: Int! @with(relation: "viewAggregate") @field(resolver: "App\\GraphQL\\Resolvers\\ViewsCountResolver@resolve")
+    animethemeentries: [AnimeThemeEntry] @belongsToMany(type: CONNECTION)
+    videoscript: VideoScript @hasOne
+    "The date that the resource was created"
+    created_at: DateTimeTz
+    "The date that the resource was last modified"
+    updated_at: DateTimeTz
+    "The date that the resource was deleted"
+    deleted_at: DateTimeTz
+}
+
+"Default edge to use in simple belongs to many relationships"
+type VideoEdge {
+    node: Video!
+    "The date that the resource was last modified"
+    created_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+    "The date that the resource was deleted"
+    updated_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+}
+
+extend type Query {
+    "Returns a listing of video resources given fields."
+    videos: [Video!]!
+    @canModel(ability: "viewAny", injectArgs: true)
+    @softDeletes
+    @paginate
+}

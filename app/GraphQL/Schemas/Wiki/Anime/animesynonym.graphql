@@ -1,0 +1,28 @@
+"""
+Represents an alternate title or common abbreviation for an anime.
+
+For example, the anime Bakemonogatari has the anime synonym "Monstory".
+"""
+type AnimeSynonym {
+    "The primary key of the resource"
+    id: Int! @rename(attribute: "synonym_id")
+    "The alternate title or common abbreviations"
+    name: String!
+    "The type of the synonym"
+    type: AnimeSynonymType! @localizedEnum
+    anime: Anime @belongsTo
+    "The date that the resource was created"
+    created_at: DateTimeTz
+    "The date that the resource was last modified"
+    updated_at: DateTimeTz
+    "The date that the resource was deleted"
+    deleted_at: DateTimeTz
+}
+
+extend type Query {
+    "Returns a listing of anime synonym resources given fields."
+    animesynonyms: [AnimeSynonym!]!
+    @canModel(ability: "viewAny", injectArgs: true)
+    @softDeletes
+    @paginate
+}

@@ -1,0 +1,39 @@
+"""
+Represents the composition that accompanies an AnimeTheme.
+
+For example, Staple Stable is the song for the Bakemonogatari OP1 AnimeTheme.
+"""
+type Song {
+    "The primary key of the resource"
+    id: Int! @rename(attribute: "song_id")
+    "The name of the composition"
+    title: String
+    animethemes: [AnimeTheme] @hasMany
+    performances: [Performance] @hasMany
+    resources: ExternalResourceConnection! @belongsToMany(type: CONNECTION)
+    "The date that the resource was created"
+    created_at: DateTimeTz
+    "The date that the resource was last modified"
+    updated_at: DateTimeTz
+    "The date that the resource was deleted"
+    deleted_at: DateTimeTz
+}
+
+"Default edge to use in simple belongs to many relationships"
+type SongEdge {
+    node: Song!
+    "The date that the resource was last modified"
+    created_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+    "The date that the resource was deleted"
+    updated_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+}
+
+extend type Query {
+    "Returns a listing of song resources given fields."
+    songs(
+        title: String @eq
+    ): [Song!]!
+    @canModel(ability: "viewAny", injectArgs: true)
+    @softDeletes
+    @paginate
+}

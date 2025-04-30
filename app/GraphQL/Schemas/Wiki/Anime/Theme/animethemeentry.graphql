@@ -1,0 +1,44 @@
+"""
+Represents a version of an anime theme.
+
+For example, the ED theme of the Bakemonogatari anime has three anime theme entries to represent three versions.
+"""
+type AnimeThemeEntry {
+    "The primary key of the resource"
+    id: Int! @rename(attribute: "entry_id")
+    "The episodes that the theme is used for"
+    episodes: String
+    "Any additional information for this sequence"
+    notes: String
+    "Is not safe for work content included?"
+    nsfw: Boolean!
+    "Is content included that may spoil the viewer?"
+    spoiler: Boolean!
+    "The version number of the theme"
+    version: Int
+    animetheme: AnimeTheme @belongsTo
+    videos: [Video] @belongsToMany(type: CONNECTION)
+    "The date that the resource was created"
+    created_at: DateTimeTz
+    "The date that the resource was last modified"
+    updated_at: DateTimeTz
+    "The date that the resource was deleted"
+    deleted_at: DateTimeTz
+}
+
+"Default edge to use in simple belongs to many relationships"
+type AnimeThemeEntryEdge {
+    node: AnimeThemeEntry!
+    "The date that the resource was last modified"
+    created_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+    "The date that the resource was deleted"
+    updated_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+}
+
+extend type Query {
+    "Returns a listing of anime theme entry resources given fields."
+    animethemeentries: [AnimeThemeEntry!]!
+    @canModel(ability: "viewAny", injectArgs: true)
+    @softDeletes
+    @paginate
+}

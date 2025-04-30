@@ -1,0 +1,25 @@
+"""
+Represents a feature flag that enable/disable site functionalities.
+
+For example, the 'allow_discord_notifications' feature enables/disables discord notifications for the configured bot.
+"""
+type Feature {
+    "The primary key of the resource"
+    id: Int! @rename(attribute: "feature_id")
+    "The title of the resource"
+    name: String!
+    "The value of the resource"
+    value: String!
+    "The date that the resource was created"
+    created_at: DateTimeTz
+    "The date that the resource was last modified"
+    updated_at: DateTimeTz
+}
+
+extend type Query {
+    "Returns a listing of feature resources given fields."
+    features: [Feature!]!
+    @canModel(ability: "viewAny", injectArgs: true)
+    @builder(method: "App\\GraphQL\\Builders\\Admin\\FeatureBuilder@index")
+    @paginate
+}

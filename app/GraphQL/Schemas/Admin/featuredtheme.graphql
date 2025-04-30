@@ -1,0 +1,34 @@
+"""
+Represents a video to be featured on the homepage of the site for a specified amount of time.
+"""
+type FeaturedTheme {
+    "The primary key of the resource"
+    id: Int! @rename(attribute: "featured_theme_id")
+    "The start date of the resource"
+    start_at: DateTimeTz!
+    "The end date of the resource"
+    end_at: DateTimeTz!
+    animethemeentry: AnimeThemeEntry @belongsTo
+    user: User @belongsTo
+    video: Video @belongsTo
+    "The date that the resource was created"
+    created_at: DateTimeTz
+    "The date that the resource was last modified"
+    updated_at: DateTimeTz
+    "The date that the resource was deleted"
+    deleted_at: DateTimeTz
+}
+
+extend type Query {
+    "Returns the first featured theme where the current date is between start_at and end_at dates."
+    currentfeaturedtheme: FeaturedTheme @find
+    @canModel(ability: "viewAny", injectArgs: true)
+    @builder(method: "App\\GraphQL\\Builders\\Admin\\FeaturedThemeBuilder@current")
+
+    "Returns a listing of featured theme resources given fields."
+    featuredthemes: [FeaturedTheme!]!
+    @canModel(ability: "viewAny", injectArgs: true)
+    @builder(method: "App\\GraphQL\\Builders\\Admin\\FeaturedThemeBuilder@index")
+    @softDeletes
+    @paginate
+}
