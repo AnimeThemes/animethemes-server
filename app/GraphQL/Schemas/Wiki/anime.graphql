@@ -65,8 +65,10 @@ extend type Query {
     "Returns a listing of anime resources for a given year grouped by season and ordered by name."
     animeyear(year: Int!): AnimeYear
     @canModel(ability: "viewAny", model: "App\\Models\\Wiki\\Anime", injectArgs: true)
+    @field(resolver: "App\\GraphQL\\Queries\\AnimeYear")
 
     "Returns a list of unique years from all anime resources."
     animeyears: [Int!]!
     @canModel(ability: "viewAny", model: "App\\Models\\Wiki\\Anime", injectArgs: true)
+    @field(resolver: "App\\GraphQL\\Queries\\AnimeYears")
 }
