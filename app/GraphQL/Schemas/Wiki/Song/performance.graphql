@@ -22,7 +22,7 @@ type Performance {
     deleted_at: DateTimeTz
 }
 
-"Represents the resource type perfoming"
+"Represents the resource type performing"
 union PerformanceArtist = Artist | Membership
 
 extend type Query {
