@@ -1,8 +1,20 @@
+"""
+A group type represents the group that accompanies a Theme.
+
+For example, English Version is the group for english dubbed Theme.
+"""
 type Group {
+    "The primary key of the resource"
+    id: Int! @rename(attribute: "group_id")
+    "The name of the group"
     name: String!
+    "The slug of the group"
     slug: String!
-    created_at: DateTimeTz
-    updated_at: DateTimeTz
-    deleted_at: DateTimeTz
     animethemes: [AnimeTheme] @hasMany
+    "The date that the resource was created"
+    created_at: DateTimeTz
+    "The date that the resource was last modified"
+    updated_at: DateTimeTz
+    "The date that the resource was deleted"
+    deleted_at: DateTimeTz
 }

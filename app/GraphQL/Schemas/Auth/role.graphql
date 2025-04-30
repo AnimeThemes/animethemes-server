@@ -1,13 +1,24 @@
+"""
+A role type represents an assignable label for users that provides a configured group of permissions.
+"""
 type Role {
+    "The primary key of the resource"
     id: Int! @rename(attribute: "role_id")
+    "The hex representation of the color used to distinguish the resource"
     color: String!
+    "The label of the resource"
     name: String!
+    "Is the role assigned on account verification?"
     default: Boolean!
+    "The authentication guard of the resource"
     guard_name: String!
+    "The weight assigned to the resource, where higher values correspond to higher priority"
     priority: Int!
-    created_at: DateTimeTz
-    updated_at: DateTimeTz
     permissions: [Permission] @belongsToMany(type: CONNECTION, edgeType: RolePermissionEdge)
+    "The date that the resource was created"
+    created_at: DateTimeTz
+    "The date that the resource was last modified"
+    updated_at: DateTimeTz
 }
 
 type RolePermissionEdge {

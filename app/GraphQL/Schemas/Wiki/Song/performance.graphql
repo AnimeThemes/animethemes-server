@@ -1,12 +1,25 @@
+"""
+A performance type represents the link between a song and an artist or membership.
+
+For example, Liella has performed using memberships, with its members credited.
+"""
 type Performance {
+    "The primary key of the resource"
     id: Int! @rename(attribute: "performance_id")
-    artist: PerformanceArtist! @morphTo
-    alias: String
-    as: String
-    created_at: DateTimeTz
-    updated_at: DateTimeTz
-    deleted_at: DateTimeTz
+    "The song the artist is performing"
     song: Song @belongsTo
+    "The artist or membership performing"
+    artist: PerformanceArtist! @morphTo
+    "The alias the artist is using for this performance"
+    alias: String
+    "The character the artist is performing as"
+    as: String
+    "The date that the resource was created"
+    created_at: DateTimeTz
+    "The date that the resource was last modified"
+    updated_at: DateTimeTz
+    "The date that the resource was deleted"
+    deleted_at: DateTimeTz
 }
 
 union PerformanceArtist = Artist | Membership

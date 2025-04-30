@@ -1,11 +1,23 @@
+"""
+The external entry type represents an anime entry on the external profile.
+
+For example, Hibike Euphonium! is marked as completed on the profile AnimeThemes.
+"""
 type ExternalEntry {
+    "The primary key of the resource"
     id: Int! @rename(attribute: "entry_id")
+    "The score of the entry on the external site"
     score: Float
+    "The favorite state of the entry on the external site"
     is_favorite: Boolean!
+    "The watch status of the entry on the external site"
     watch_status: ExternalEntryWatchStatus! @localizedEnum
-    created_at: DateTimeTz
-    updated_at: DateTimeTz
-    deleted_at: DateTimeTz
     anime: Anime @belongsTo
     externalprofile: ExternalProfile @belongsTo
+    "The date that the resource was created"
+    created_at: DateTimeTz
+    "The date that the resource was last modified"
+    updated_at: DateTimeTz
+    "The date that the resource was deleted"
+    deleted_at: DateTimeTz
 }

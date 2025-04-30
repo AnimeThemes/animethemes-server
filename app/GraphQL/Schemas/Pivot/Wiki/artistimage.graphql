@@ -2,6 +2,8 @@ type ArtistImage {
     artist: Artist!
     image: Image!
     depth: Int
+    "The date that the resource was created"
     created_at: DateTimeTz
+    "The date that the resource was last modified"
     updated_at: DateTimeTz
 }

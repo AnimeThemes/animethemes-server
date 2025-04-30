@@ -1,14 +1,26 @@
+"""
+An image type represents a visual component for another resource such as an anime or artist.
+
+For example, the Bakemonogatari anime has two images to represent small and large cover images.
+"""
 type Image {
+    "The primary key of the resource"
     id: Int! @rename(attribute: "image_id")
+    "The component that the resource is intended for"
     facet: ImageFacet! @localizedEnum
+    "The path of the file in storage"
     path: String!
+    "The URL to stream the file from storage"
     link: String!
-    created_at: DateTimeTz
-    updated_at: DateTimeTz
-    deleted_at: DateTimeTz
     anime: [Anime] @belongsToMany(type: CONNECTION)
     artists: [Artist] @belongsToMany(type: CONNECTION, edgeType: ImageArtistEdge)
     studios: [Studio] @belongsToMany(type: CONNECTION)
+    "The date that the resource was created"
+    created_at: DateTimeTz
+    "The date that the resource was last modified"
+    updated_at: DateTimeTz
+    "The date that the resource was deleted"
+    deleted_at: DateTimeTz
 }
 
 "Default edge to use in simple belongs to many relationships"

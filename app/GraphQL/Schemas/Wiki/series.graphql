@@ -1,11 +1,22 @@
+"""
+A series type represents a collection of related anime.
+
+For example, the Monogatari series is the collection of the Bakemonogatari anime and its related productions.
+"""
 type Series {
+    "The primary key of the resource"
     id: Int! @rename(attribute: "series_id")
+    "The primary title of the series"
     name: String!
+    "The URL slug & route key of the resource"
     slug: String!
-    created_at: DateTimeTz
-    updated_at: DateTimeTz
-    deleted_at: DateTimeTz
     anime: [Anime] @belongsToMany(type: CONNECTION)
+    "The date that the resource was created"
+    created_at: DateTimeTz
+    "The date that the resource was last modified"
+    updated_at: DateTimeTz
+    "The date that the resource was deleted"
+    deleted_at: DateTimeTz
 }
 
 "Default edge to use in simple belongs to many relationships"

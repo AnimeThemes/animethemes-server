@@ -1,17 +1,29 @@
+"""
+An artist type represents a musical performer of anime sequences.
+
+For example, Chiwa Saitou is the musical performer of the Bakemonogatari OP1 theme, among many others.
+"""
 type Artist {
+    "The primary key of the resource"
     id: Int! @rename(attribute: "artist_id")
+    "The primary title of the artist"
     name: String!
+    "The URL slug & route key of the resource"
     slug: String!
+    "The brief information of the resource"
     information: String
-    created_at: DateTimeTz
-    updated_at: DateTimeTz
-    deleted_at: DateTimeTz
     groups: [Artist] @belongsToMany(type: CONNECTION, edgeType: ArtistMemberEdge)
     images: [Image] @belongsToMany(type: CONNECTION, edgeType: ArtistImageEdge)
     members: [Artist] @belongsToMany(type: CONNECTION, edgeType: ArtistMemberEdge)
     memberships: [Membership] @hasMany
     performances: [Performance] @morphMany
     resources: [ExternalResource]! @belongsToMany(type: CONNECTION)
+    "The date that the resource was created"
+    created_at: DateTimeTz
+    "The date that the resource was last modified"
+    updated_at: DateTimeTz
+    "The date that the resource was deleted"
+    deleted_at: DateTimeTz
 }
 
 "Default edge to use in simple belongs to many relationships"

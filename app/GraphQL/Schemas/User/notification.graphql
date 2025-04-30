@@ -1,11 +1,20 @@
+"""
+A notification type represents a notification that is sent to the user.
+"""
 type Notification {
+    "The date that the user read the notification"
     read_at: DateTimeTz
+    "The JSON data of the notification"
     data: NotificationData!
+    "The user the notification belongs to"
     user: User! @morphTo(relation: "notifiable")
 }
 
 type NotificationData {
+    "The title of the notification"
     title: String!
+    "The content of the notification"
     body: String!
+    "The image URL to display with the notification"
     image: String
 }

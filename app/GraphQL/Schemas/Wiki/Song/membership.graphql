@@ -1,11 +1,22 @@
+"""
+A membership type represents the link between an artist and a group related to the song credits.
+
+For example, Sayuri Date is a member of Liella and has performed using the membership.
+"""
 type Membership {
+    "The primary key of the resource"
     id: Int! @rename(attribute: "membership_id")
+    "The alias the artist is using for this membership"
     alias: String
+    "The character the artist is performing as"
     as: String
-    created_at: DateTimeTz
-    updated_at: DateTimeTz
-    deleted_at: DateTimeTz
     group: Artist! @belongsTo(relation: "artist")
     member: Artist! @belongsTo
     performances: [Performance] @morphMany
+    "The date that the resource was created"
+    created_at: DateTimeTz
+    "The date that the resource was last modified"
+    updated_at: DateTimeTz
+    "The date that the resource was deleted"
+    deleted_at: DateTimeTz
 }

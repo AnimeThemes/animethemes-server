@@ -1,10 +1,16 @@
+"""
+A user type represents an AnimeThemes account.
+"""
 type User {
-    id: Int!
+    "The username of the resource"
     name: String!
-    created_at: DateTimeTz
-    updated_at: DateTimeTz
-    deleted_at: DateTimeTz
     playlists: [Playlist] @hasMany
+    "The date that the resource was created"
+    created_at: DateTimeTz
+    "The date that the resource was last modified"
+    updated_at: DateTimeTz
+    "The date that the resource was deleted"
+    deleted_at: DateTimeTz
 }
 
 type Me {
@@ -13,9 +19,12 @@ type Me {
     email: String!
     email_verified_at: DateTimeTz
     two_factor_confirmed_at: DateTimeTz
-    created_at: DateTimeTz
-    updated_at: DateTimeTz
-    deleted_at: DateTimeTz
     notifications: [Notification] @morphMany
     playlists: [Playlist] @hasMany
+    "The date that the resource was created"
+    created_at: DateTimeTz
+    "The date that the resource was last modified"
+    updated_at: DateTimeTz
+    "The date that the resource was deleted"
+    deleted_at: DateTimeTz
 }

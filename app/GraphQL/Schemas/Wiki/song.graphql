@@ -1,12 +1,22 @@
+"""
+A song type represents the composition that accompanies an AnimeTheme.
+
+For example, Staple Stable is the song for the Bakemonogatari OP1 AnimeTheme.
+"""
 type Song {
+    "The primary key of the resource"
     id: Int! @rename(attribute: "song_id")
+    "The name of the composition"
     title: String
-    created_at: DateTimeTz
-    updated_at: DateTimeTz
-    deleted_at: DateTimeTz
     animethemes: [AnimeTheme] @hasMany
     performances: [Performance] @hasMany
     resources: ExternalResourceConnection! @belongsToMany(type: CONNECTION)
+    "The date that the resource was created"
+    created_at: DateTimeTz
+    "The date that the resource was last modified"
+    updated_at: DateTimeTz
+    "The date that the resource was deleted"
+    deleted_at: DateTimeTz
 }
 
 "Default edge to use in simple belongs to many relationships"

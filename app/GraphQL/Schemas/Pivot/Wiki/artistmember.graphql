@@ -4,6 +4,8 @@ type ArtistMember {
     alias: String
     as: String
     notes: String
+    "The date that the resource was created"
     created_at: DateTimeTz
+    "The date that the resource was last modified"
     updated_at: DateTimeTz
 }

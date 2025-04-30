@@ -1,19 +1,34 @@
+"""
+A playlist type represents a list of ordered tracks intended for continuous playback.
+
+For example, a "/r/anime's Best OPs and EDs of 2022" playlist may contain a collection of tracks allowing the continuous playback of Best OP and ED nominations for the /r/anime Awards.
+"""
 type Playlist {
+    "The primary key of the resource"
     id: String! @rename(attribute: "hashid")
+    "The title of the playlist"
     name: String!
+    "The description of the playlist"
     description: String
+    "The number of tracks belonging to the resource"
     tracks_count: Int! @with(relation: "tracks") @field(resolver: "App\\GraphQL\\Resolvers\\CountResolver@resolve")
+    "The existence of tracks belonging to the resource"
     tracks_exists: Boolean! @with(relation: "tracks") @field(resolver: "App\\GraphQL\\Resolvers\\ExistsResolver@resolve")
+    "The state of who can see the playlist"
     visibility: PlaylistVisibility! @localizedEnum
+    "The number of views recorded for the resource"
     views_count: Int! @with(relation: "viewAggregate") @field(resolver: "App\\GraphQL\\Resolvers\\ViewsCountResolver@resolve")
-    created_at: DateTimeTz
-    updated_at: DateTimeTz
-    deleted_at: DateTimeTz
     first: PlaylistTrack @belongsTo
     images: [Image] @belongsToMany(type: CONNECTION, edgeType: PlaylistImageEdge)
     last: PlaylistTrack @belongsTo
     tracks: [PlaylistTrack] @hasMany
     user: User @belongsTo
+    "The date that the resource was created"
+    created_at: DateTimeTz
+    "The date that the resource was last modified"
+    updated_at: DateTimeTz
+    "The date that the resource was deleted"
+    deleted_at: DateTimeTz
 }
 
 type PlaylistImageEdge {

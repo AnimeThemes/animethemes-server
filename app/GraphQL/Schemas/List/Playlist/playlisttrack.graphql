@@ -1,13 +1,22 @@
+"""
+A playlist track type represents an entry in a playlist.
+
+For example, a "/r/anime's Best OPs and EDs of 2022" playlist may contain a track for the ParipiKoumei-OP1.webm video.
+"""
 type PlaylistTrack {
+    "The primary key of the resource"
     id: String! @rename(attribute: "hashid")
-    created_at: DateTimeTz
-    updated_at: DateTimeTz
-    deleted_at: DateTimeTz
     animethemeentry: AnimeThemeEntry @belongsTo
     next: PlaylistTrack @belongsTo
     playlist: Playlist @belongsTo
     previous: PlaylistTrack @belongsTo
     video: Video @belongsTo
+    "The date that the resource was created"
+    created_at: DateTimeTz
+    "The date that the resource was last modified"
+    updated_at: DateTimeTz
+    "The date that the resource was deleted"
+    deleted_at: DateTimeTz
 }
 
 extend type Mutation @guard {

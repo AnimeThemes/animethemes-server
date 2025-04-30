@@ -1,13 +1,23 @@
+"""
+An external profile type represents a user profile on the external site like MAL.
+"""
 type ExternalProfile {
+    "The primary key of the resource"
     id: Int! @rename(attribute: "profile_id")
+    "The title of the profile"
     name: String!
+    "The site the profile belongs to"
     site: ExternalProfileSite! @localizedEnum
+    "The state of who can see the profile"
     visibility: ExternalProfileVisibility! @localizedEnum
-    created_at: DateTimeTz
-    updated_at: DateTimeTz
-    deleted_at: DateTimeTz
     externalentries: [ExternalEntry] @hasMany
     user: User @belongsTo
+    "The date that the resource was created"
+    created_at: DateTimeTz
+    "The date that the resource was last modified"
+    updated_at: DateTimeTz
+    "The date that the resource was deleted"
+    deleted_at: DateTimeTz
 }
 
 extend type Mutation @guard @middleware(class: "App\\Http\\Middleware\\Api\\EnabledOnlyOnLocalhost") @feature(name: "App\\Features\\AllowExternalProfileManagement") {

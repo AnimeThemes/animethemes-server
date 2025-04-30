@@ -1,9 +1,15 @@
 type VideoScript {
+    "The primary key of the resource"
     id: Int! @rename(attribute: "script_id")
+    "The path of the file in storage"
     path: String!
+    "The URL to download the file from storage"
     link: String!
-    created_at: DateTimeTz
-    updated_at: DateTimeTz
-    deleted_at: DateTimeTz
     video: Video @hasOne
+    "The date that the resource was created"
+    created_at: DateTimeTz
+    "The date that the resource was last modified"
+    updated_at: DateTimeTz
+    "The date that the resource was deleted"
+    deleted_at: DateTimeTz
 }

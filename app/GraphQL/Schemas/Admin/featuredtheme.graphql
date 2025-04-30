@@ -1,11 +1,20 @@
+"""
+A featured theme type represents a video to be featured on the homepage of the site for a specified amount of time.
+"""
 type FeaturedTheme {
+    "The primary key of the resource"
     id: Int! @rename(attribute: "featured_theme_id")
+    "The start date of the resource"
     start_at: DateTimeTz!
+    "The end date of the resource"
     end_at: DateTimeTz!
-    created_at: DateTimeTz
-    updated_at: DateTimeTz
-    deleted_at: DateTimeTz
     animethemeentry: AnimeThemeEntry @belongsTo
     user: User @belongsTo
     video: Video @belongsTo
+    "The date that the resource was created"
+    created_at: DateTimeTz
+    "The date that the resource was last modified"
+    updated_at: DateTimeTz
+    "The date that the resource was deleted"
+    deleted_at: DateTimeTz
 }

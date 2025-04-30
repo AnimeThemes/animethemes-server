@@ -2,6 +2,8 @@ type StudioResource {
     studio: Studio!
     resource: ExternalResource!
     as: String
+    "The date that the resource was created"
     created_at: DateTimeTz
+    "The date that the resource was last modified"
     updated_at: DateTimeTz
 }

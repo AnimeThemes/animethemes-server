@@ -1,15 +1,27 @@
+"""
+An external resource type represents a site with supplementary information for another resource such as an anime or artist.
+
+For example, the Bakemonogatari anime has MyAnimeList, AniList and AniDB resources.
+"""
 type ExternalResource {
+    "The primary key of the resource"
     id: Int! @rename(attribute: "resource_id")
+    "The primary key of the resource in the external site"
     external_id: Int
+    "The URL of the external site"
     link: String!
+    "The external site that the resource belongs to"
     site: ResourceSite! @localizedEnum
-    created_at: DateTimeTz
-    updated_at: DateTimeTz
-    deleted_at: DateTimeTz
     anime: [Anime] @belongsToMany(type: CONNECTION, edgeType: ExternalResourceAnimeEdge)
     artists: [Artist] @belongsToMany(type: CONNECTION, edgeType: ExternalResourceArtistEdge)
     songs: [Song] @belongsToMany(type: CONNECTION, edgeType: ExternalResourceSongEdge)
     studios: [Studio] @belongsToMany(type: CONNECTION, edgeType: ExternalResourceStudioEdge)
+    "The date that the resource was created"
+    created_at: DateTimeTz
+    "The date that the resource was last modified"
+    updated_at: DateTimeTz
+    "The date that the resource was deleted"
+    deleted_at: DateTimeTz
 }
 
 "Default edge to use in simple belongs to many relationships"
