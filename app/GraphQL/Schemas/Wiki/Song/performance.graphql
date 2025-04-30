@@ -24,3 +24,11 @@ type Performance {
 
 "Represents the resource type perfoming"
 union PerformanceArtist = Artist | Membership
+
+extend type Query {
+    "Returns a listing of performance resources given fields."
+    performances: [Performance!]!
+    @canModel(ability: "viewAny", injectArgs: true)
+    @softDeletes
+    @paginate
+}

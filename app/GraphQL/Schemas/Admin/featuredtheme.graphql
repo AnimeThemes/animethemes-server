@@ -20,10 +20,15 @@ type FeaturedTheme {
 }
 
 extend type Query {
-    """
-    The current featured theme query returns the first featured theme where the current date is between start_at and end_at dates.
-    """
+    "Returns the first featured theme where the current date is between start_at and end_at dates."
     currentfeaturedtheme: FeaturedTheme @find
     @canModel(ability: "viewAny", injectArgs: true)
     @builder(method: "App\\GraphQL\\Builders\\Admin\\FeaturedThemeBuilder@current")
+
+    "Returns a listing of featured theme resources given fields."
+    featuredthemes: [FeaturedTheme!]!
+    @canModel(ability: "viewAny", injectArgs: true)
+    @builder(method: "App\\GraphQL\\Builders\\Admin\\FeaturedThemeBuilder@index")
+    @softDeletes
+    @paginate
 }

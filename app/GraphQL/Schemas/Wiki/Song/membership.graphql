@@ -20,3 +20,11 @@ type Membership {
     "The date that the resource was deleted"
     deleted_at: DateTimeTz
 }
+
+extend type Query {
+    "Returns a listing of membership resources given fields."
+    memberships: [Membership!]!
+    @canModel(ability: "viewAny", injectArgs: true)
+    @softDeletes
+    @paginate
+}

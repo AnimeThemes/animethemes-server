@@ -1,6 +1,4 @@
-"""
-Represents a user profile on the external site like MAL.
-"""
+"Represents a user profile on the external site like MAL."
 type ExternalProfile {
     "The primary key of the resource"
     id: Int! @rename(attribute: "profile_id")
@@ -18,6 +16,22 @@ type ExternalProfile {
     updated_at: DateTimeTz
     "The date that the resource was deleted"
     deleted_at: DateTimeTz
+}
+
+extend type Query @middleware(class: "App\\Http\\Middleware\\Api\\EnabledOnlyOnLocalhost") {
+    "Returns an external profile resource."
+    externalprofile(
+        id: String @bind(class: "App\\Models\\List\\ExternalProfile")
+    ): Playlist @first
+    @canModel(ability: "view", injectArgs: true)
+
+    "Returns a listing of external profile resources."
+    externalprofiles(
+        name: String @eq
+    ): [Playlist!]!
+    @canModel(ability: "viewAny", injectArgs: true)
+    @builder(method: "App\\GraphQL\\Builders\\List\\ExternalProfileBuilder@index")
+    @paginate
 }
 
 extend type Mutation @guard @middleware(class: "App\\Http\\Middleware\\Api\\EnabledOnlyOnLocalhost") @feature(name: "App\\Features\\AllowExternalProfileManagement") {

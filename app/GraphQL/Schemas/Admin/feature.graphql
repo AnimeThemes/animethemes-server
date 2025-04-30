@@ -15,3 +15,11 @@ type Feature {
     "The date that the resource was last modified"
     updated_at: DateTimeTz
 }
+
+extend type Query {
+    "Returns a listing of feature resources given fields."
+    features: [Feature!]!
+    @canModel(ability: "viewAny", injectArgs: true)
+    @builder(method: "App\\GraphQL\\Builders\\Admin\\FeatureBuilder@index")
+    @paginate
+}

@@ -18,3 +18,11 @@ type AnimeSynonym {
     "The date that the resource was deleted"
     deleted_at: DateTimeTz
 }
+
+extend type Query {
+    "Returns a listing of anime synonym resources given fields."
+    animesynonyms: [AnimeSynonym!]!
+    @canModel(ability: "viewAny", injectArgs: true)
+    @softDeletes
+    @paginate
+}

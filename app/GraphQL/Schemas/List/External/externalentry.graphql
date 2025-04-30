@@ -21,3 +21,18 @@ type ExternalEntry {
     "The date that the resource was deleted"
     deleted_at: DateTimeTz
 }
+
+extend type Query {
+    "Returns an external entry resource."
+    externalentry(
+        profile: Int! @bind(class: "App\\Models\\List\\ExternalProfile")
+        id: Int! @bind(class: "App\\Models\\List\\External\\ExternalEntry")
+    ): ExternalEntry @first
+    @canModel(ability: "view", injectArgs: true)
+
+    "Returns a listing of entries for the profile."
+    externalentries: [ExternalEntry!]!
+    @canModel(ability: "viewAny", injectArgs: true)
+    @builder(method: "App\\GraphQL\\Builders\\List\\External\\ExternalEntryBuilder@index")
+    @paginate
+}

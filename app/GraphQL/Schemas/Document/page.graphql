@@ -19,3 +19,11 @@ type Page {
     "The date that the resource was deleted"
     deleted_at: DateTimeTz
 }
+
+extend type Query {
+    "Returns a listing of page resources given fields."
+    pages: [Page!]!
+    @canModel(ability: "viewAny", injectArgs: true)
+    @softDeletes
+    @paginate
+}

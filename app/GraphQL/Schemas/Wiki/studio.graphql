@@ -29,3 +29,11 @@ type StudioEdge {
     "The date that the resource was deleted"
     updated_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
 }
+
+extend type Query {
+    "Returns a listing of studio resources given fields."
+    studios: [Studio!]!
+    @canModel(ability: "viewAny", injectArgs: true)
+    @softDeletes
+    @paginate
+}

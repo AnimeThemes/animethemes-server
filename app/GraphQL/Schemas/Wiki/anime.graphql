@@ -49,6 +49,19 @@ type AnimeYear {
 }
 
 extend type Query {
+    "Returns a listing of anime resources given fields."
+    animes(
+      search: String @search
+      name: String @where(operator: "like")
+      season: AnimeSeason @eq
+      where: _ @whereConditions(columns: ["name"])
+      whereHas: [WhereHasConditions!] @whereHasConditions(columns: ["*"])
+      hasResources: [WhereHasConditions!] @whereHasConditions(columns: ["site", "external_id"])
+    ): [Anime!]!
+    @canModel(ability: "viewAny", injectArgs: true)
+    @softDeletes
+    @paginate
+
     "Returns a listing of anime resources for a given year grouped by season and ordered by name."
     animeyear(year: Int!): AnimeYear
     @canModel(ability: "viewAny", model: "App\\Models\\Wiki\\Anime", injectArgs: true)

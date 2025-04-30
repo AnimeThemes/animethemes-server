@@ -3,7 +3,7 @@ Represents the group that accompanies a Theme.
 
 For example, English Version is the group for english dubbed Theme.
 """
-type Group {
+type ThemeGroup @model(class: "App\\Models\\Wiki\\Group"){
     "The primary key of the resource"
     id: Int! @rename(attribute: "group_id")
     "The name of the group"
@@ -17,4 +17,12 @@ type Group {
     updated_at: DateTimeTz
     "The date that the resource was deleted"
     deleted_at: DateTimeTz
+}
+
+extend type Query {
+    "Returns a listing of theme groups resources given fields."
+    themegroups: [ThemeGroup!]!
+    @canModel(ability: "viewAny", injectArgs: true)
+    @softDeletes
+    @paginate
 }

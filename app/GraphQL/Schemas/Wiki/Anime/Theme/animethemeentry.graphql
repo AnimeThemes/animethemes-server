@@ -34,3 +34,11 @@ type AnimeThemeEntryEdge {
     "The date that the resource was deleted"
     updated_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
 }
+
+extend type Query {
+    "Returns a listing of anime theme entry resources given fields."
+    animethemeentries: [AnimeThemeEntry!]!
+    @canModel(ability: "viewAny", injectArgs: true)
+    @softDeletes
+    @paginate
+}

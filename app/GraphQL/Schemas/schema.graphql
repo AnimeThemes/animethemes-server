@@ -3,43 +3,7 @@ scalar DateTimeTz @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Da
 
 "Indicates what fields are available at the top level of a query operation."
 type Query {
-    "List multiple users."
-    users(
-      "Filters by name. Accepts SQL LIKE wildcards `%` and `_`."
-      name: String @where(operator: "like")
-    ): [User!]! @paginate(defaultCount: 10, model: "App\\Models\\Auth\\User")
-
-    animes(
-      search: String @search
-      name: String @where(operator: "like")
-      season: AnimeSeason @eq
-      where: _ @whereConditions(columns: ["*"])
-      whereHas: [WhereHasConditions!] @whereHasConditions(columns: ["*"])
-    ): [Anime!]!
-    @canModel(ability: "viewAny", injectArgs: true)
-    @softDeletes
-    @paginate(defaultCount: 10)
-
-    artists(
-      name: String @eq
-    ): [Artist!]!
-    @canModel(ability: "viewAny", injectArgs: true)
-    @paginate(defaultCount: 10)
-
-    externalresources(
-      site: ResourceSite @eq
-      link: String @eq
-    ): [ExternalResource!]!
-    @canModel(ability: "viewAny", injectArgs: true)
-    @paginate(defaultCount: 10)
-
-    images(
-      path: String @where(operator: "like")
-    ): [Image!]!
-    @canModel(ability: "viewAny", injectArgs: true)
-    @paginate(defaultCount: 10)
-
-    "The global search endpoint returns a listing of resources that match a given search term."
+    "Returns a listing of resources that match a given search term."
     search(search: String @search, perPage: Int, page: Int): Search!
 }
 

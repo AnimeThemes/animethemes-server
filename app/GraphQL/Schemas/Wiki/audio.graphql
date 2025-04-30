@@ -28,3 +28,11 @@ type Audio {
     "The date that the resource was deleted"
     deleted_at: DateTimeTz
 }
+
+extend type Query {
+    "Returns a listing of audio resources given fields."
+    audios: [Audio!]!
+    @canModel(ability: "viewAny", injectArgs: true)
+    @softDeletes
+    @paginate
+}

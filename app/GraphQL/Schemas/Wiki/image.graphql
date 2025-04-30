@@ -42,3 +42,11 @@ type ImageArtistEdge {
     "The date that the resource was deleted"
     updated_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
 }
+
+extend type Query {
+    "Returns a listing of image resources given fields."
+    images: [Image!]!
+    @canModel(ability: "viewAny", injectArgs: true)
+    @softDeletes
+    @paginate
+}

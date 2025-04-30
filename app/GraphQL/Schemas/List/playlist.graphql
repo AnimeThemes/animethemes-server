@@ -40,17 +40,19 @@ type PlaylistImageEdge {
 }
 
 extend type Query {
+    "Returns a playlist resource."
     playlist(
         id: String @bind(class: "App\\Models\\List\\Playlist", column: "hashid")
     ): Playlist @first
     @canModel(ability: "view", injectArgs: true)
 
+    "Returns a listing of playlist resources."
     playlists(
         name: String @eq
     ): [Playlist!]!
     @canModel(ability: "viewAny", injectArgs: true)
     @builder(method: "App\\GraphQL\\Builders\\List\\PlaylistBuilder@index")
-    @paginate(defaultCount: 15)
+    @paginate
 }
 
 extend type Mutation @guard {

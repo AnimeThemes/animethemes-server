@@ -12,7 +12,7 @@ type AnimeTheme {
     sequence: Int
     anime: Anime @belongsTo
     animethemeentries: [AnimeThemeEntry] @hasMany
-    group: Group @belongsTo
+    group: ThemeGroup @belongsTo
     song: Song @belongsTo
     "The date that the resource was created"
     created_at: DateTimeTz
@@ -20,4 +20,12 @@ type AnimeTheme {
     updated_at: DateTimeTz
     "The date that the resource was deleted"
     deleted_at: DateTimeTz
+}
+
+extend type Query {
+    "Returns a listing of anime theme resources given fields."
+    animethemes: [AnimeTheme!]!
+    @canModel(ability: "viewAny", injectArgs: true)
+    @softDeletes
+    @paginate
 }

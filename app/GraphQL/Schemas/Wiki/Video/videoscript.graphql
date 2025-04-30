@@ -18,3 +18,11 @@ type VideoScript {
     "The date that the resource was deleted"
     deleted_at: DateTimeTz
 }
+
+extend type Query {
+    "Returns a listing of script resources given fields."
+    scripts: [VideoScript!]!
+    @canModel(ability: "viewAny", injectArgs: true)
+    @softDeletes
+    @paginate
+}
