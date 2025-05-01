@@ -35,14 +35,14 @@ extend type Query {
     "Returns a listing of anime theme resources given fields."
     animethemes(
         type: [ThemeType] @in
-        sequence_lesser: Int @comparison(key: "sequence", operator: "LT")
-        sequence_greater: Int @comparison(key: "sequence", operator: "GT")
-        createdAt_lesser: DateTimeTz @comparison(key: "created_at", operator: "LT", date: true)
-        createdAt_greater: DateTimeTz @comparison(key: "created_at", operator: "GT", date: true)
-        updatedAt_lesser: DateTimeTz @comparison(key: "updated_at", operator: "LT", date: true)
-        updatedAt_greater: DateTimeTz @comparison(key: "updated_at", operator: "GT", date: true)
-        deletedAt_lesser: DateTimeTz @comparison(key: "deleted_at", operator: "LT", date: true)
-        deletedAt_greater: DateTimeTz @comparison(key: "deleted_at", operator: "GT", date: true)
+        sequence_lesser: Int @where(key: "sequence", operator: "<")
+        sequence_greater: Int @where(key: "sequence", operator: ">")
+        createdAt_lesser: DateTimeTz @where(key: "created_at", operator: "<")
+        createdAt_greater: DateTimeTz @where(key: "created_at", operator: ">")
+        updatedAt_lesser: DateTimeTz @where(key: "updated_at", operator: "<")
+        updatedAt_greater: DateTimeTz @where(key: "updated_at", operator: ">")
+        deletedAt_lesser: DateTimeTz @where(key: "deleted_at", operator: "<")
+        deletedAt_greater: DateTimeTz @where(key: "deleted_at", operator: ">")
         orderBy: _ @orderBy(columnsEnum: "AnimeThemeColumnsOrderable")
     ): [AnimeTheme!]!
     @canModel(ability: "viewAny", injectArgs: true)

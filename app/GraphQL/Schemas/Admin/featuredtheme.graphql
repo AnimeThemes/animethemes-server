@@ -34,16 +34,16 @@ extend type Query {
 
     "Returns a listing of featured theme resources given fields."
     featuredthemes(
-        startAt_lesser: DateTimeTz @comparison(key: "start_at", operator: "LT", date: true)
-        startAt_greater: DateTimeTz @comparison(key: "start_at", operator: "GT", date: true)
-        endAt_lesser: DateTimeTz @comparison(key: "end_at", operator: "LT", date: true)
-        endAt_greater: DateTimeTz @comparison(key: "end_at", operator: "GT", date: true)
-        createdAt_lesser: DateTimeTz @comparison(key: "created_at", operator: "LT", date: true)
-        createdAt_greater: DateTimeTz @comparison(key: "created_at", operator: "GT", date: true)
-        updatedAt_lesser: DateTimeTz @comparison(key: "updated_at", operator: "LT", date: true)
-        updatedAt_greater: DateTimeTz @comparison(key: "updated_at", operator: "GT", date: true)
-        deletedAt_lesser: DateTimeTz @comparison(key: "deleted_at", operator: "LT", date: true)
-        deletedAt_greater: DateTimeTz @comparison(key: "deleted_at", operator: "GT", date: true)
+        startAt_lesser: DateTimeTz @where(key: "start_at", operator: "<")
+        startAt_greater: DateTimeTz @where(key: "start_at", operator: ">")
+        endAt_lesser: DateTimeTz @where(key: "end_at", operator: "<")
+        endAt_greater: DateTimeTz @where(key: "end_at", operator: ">")
+        createdAt_lesser: DateTimeTz @where(key: "created_at", operator: "<")
+        createdAt_greater: DateTimeTz @where(key: "created_at", operator: ">")
+        updatedAt_lesser: DateTimeTz @where(key: "updated_at", operator: "<")
+        updatedAt_greater: DateTimeTz @where(key: "updated_at", operator: ">")
+        deletedAt_lesser: DateTimeTz @where(key: "deleted_at", operator: "<")
+        deletedAt_greater: DateTimeTz @where(key: "deleted_at", operator: ">")
         orderBy: _ @orderBy(columnsEnum: "FeaturedThemeColumnsOrderable")
     ): [FeaturedTheme!]!
     @canModel(ability: "viewAny", injectArgs: true)

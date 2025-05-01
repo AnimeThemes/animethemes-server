@@ -94,12 +94,12 @@ extend type Query {
     externalresources(
         externalId: Int @eq
         site: [ResourceSite] @in
-        createdAt_lesser: DateTimeTz @comparison(key: "created_at", operator: "LT", date: true)
-        createdAt_greater: DateTimeTz @comparison(key: "created_at", operator: "GT", date: true)
-        updatedAt_lesser: DateTimeTz @comparison(key: "updated_at", operator: "LT", date: true)
-        updatedAt_greater: DateTimeTz @comparison(key: "updated_at", operator: "GT", date: true)
-        deletedAt_lesser: DateTimeTz @comparison(key: "deleted_at", operator: "LT", date: true)
-        deletedAt_greater: DateTimeTz @comparison(key: "deleted_at", operator: "GT", date: true)
+        createdAt_lesser: DateTimeTz @where(key: "created_at", operator: "<")
+        createdAt_greater: DateTimeTz @where(key: "created_at", operator: ">")
+        updatedAt_lesser: DateTimeTz @where(key: "updated_at", operator: "<")
+        updatedAt_greater: DateTimeTz @where(key: "updated_at", operator: ">")
+        deletedAt_lesser: DateTimeTz @where(key: "deleted_at", operator: "<")
+        deletedAt_greater: DateTimeTz @where(key: "deleted_at", operator: ">")
         orderBy: _ @orderBy(columnsEnum: "ExternalResourceColumnsOrderable")
     ): [ExternalResource!]!
     @canModel(ability: "viewAny", injectArgs: true)
