@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Types;
 
+use App\GraphQL\Types\Definition\Hidden;
 use Exception;
 use GraphQL\Language\AST\EnumTypeDefinitionNode;
 use GraphQL\Type\Definition\Deprecated;
@@ -41,6 +42,9 @@ class EnumType extends BaseEnumType
 
         $enumDefinitions = [];
         foreach ($enumClass::cases() as $case) {
+            if ($this->hidden($reflection->getCase($case->name))) {
+                continue;
+            }
             $enumDefinitions[$case->name] = [
                 'value' => $case->value,
                 'description' => $this->extractDescription($reflection->getCase($case->name)),
@@ -92,7 +96,7 @@ class EnumType extends BaseEnumType
         }
 
         if (count($attributes) > 1) {
-            throw new \Exception(self::MULTIPLE_DESCRIPTIONS_DISALLOWED);
+            throw new Exception(self::MULTIPLE_DESCRIPTIONS_DISALLOWED);
         }
 
         $comment = $reflection->getDocComment();
@@ -120,5 +124,28 @@ class EnumType extends BaseEnumType
         }
 
         return null;
+    }
+
+    /**
+     * Determine whether the enum case should be hidden.
+     *
+     * @param  ReflectionClassConstant  $reflection
+     * @return bool
+     *
+     * @throws Exception
+     */
+    protected function hidden(ReflectionClassConstant $reflection): bool
+    {
+        $attributes = $reflection->getAttributes(Hidden::class);
+
+        if (count($attributes) === 1) {
+            return $attributes[0]->newInstance()->hidden;
+        }
+
+        if (count($attributes) > 1) {
+            throw new Exception(self::MULTIPLE_DESCRIPTIONS_DISALLOWED);
+        }
+
+        return false;
     }
 }

@@ -48,6 +48,23 @@ type AnimeYear {
     fall: [Anime]
 }
 
+enum AnimeColumnsOrderable {
+    ID @enum(value: "anime_id")
+    NAME
+    MEDIA_FORMAT
+    SEASON
+    SLUG
+    YEAR
+    CREATED_AT
+    UPDATED_AT
+    DELETED_AT
+}
+
+enum HasResources {
+    SITE
+    EXTERNAL_ID
+}
+
 extend type Query {
     "Returns a listing of anime resources given fields."
     animes(
@@ -59,17 +76,18 @@ extend type Query {
         year: Int @eq
         year_in: [Int] @in(key: "year")
         year_notin: [Int] @notIn(key: "year")
-        year_lesser: Int @comparison(key: "year", operator: "LT")
-        year_greater: Int @comparison(key: "year", operator: "GT")
+        year_lesser: Int @where(key: "year", operator: "<")
+        year_greater: Int @where(key: "year", operator: ">")
         where: _ @whereConditions(columns: ["name"])
         whereHas: [WhereHasConditions!] @whereHasConditions(columns: ["*"])
-        hasResources: [WhereHasConditions!] @whereHasConditions(columns: ["site", "external_id"])
-        createdAt_lesser: DateTimeTz @comparison(key: "created_at", operator: "LT", date: true)
-        createdAt_greater: DateTimeTz @comparison(key: "created_at", operator: "GT", date: true)
-        updatedAt_lesser: DateTimeTz @comparison(key: "updated_at", operator: "LT", date: true)
-        updatedAt_greater: DateTimeTz @comparison(key: "updated_at", operator: "GT", date: true)
-        deletedAt_lesser: DateTimeTz @comparison(key: "deleted_at", operator: "LT", date: true)
-        deletedAt_greater: DateTimeTz @comparison(key: "deleted_at", operator: "GT", date: true)
+        hasResources: [WhereHasConditions!] @whereHasConditions(columnsEnum: "HasResources")
+        createdAt_lesser: DateTimeTz @where(key: "created_at", operator: "<")
+        createdAt_greater: DateTimeTz @where(key: "created_at", operator: ">")
+        updatedAt_lesser: DateTimeTz @where(key: "updated_at", operator: "<")
+        updatedAt_greater: DateTimeTz @where(key: "updated_at", operator: ">")
+        deletedAt_lesser: DateTimeTz @where(key: "deleted_at", operator: "<")
+        deletedAt_greater: DateTimeTz @where(key: "deleted_at", operator: ">")
+        orderBy: _ @orderBy(columnsEnum: "AnimeColumnsOrderable")
     ): [Anime!]!
     @canModel(ability: "viewAny", injectArgs: true)
     @softDeletes
@@ -78,10 +96,10 @@ extend type Query {
     "Returns a listing of anime resources for a given year grouped by season and ordered by name."
     animeyear(year: Int!): AnimeYear
     @canModel(ability: "viewAny", model: "App\\Models\\Wiki\\Anime", injectArgs: true)
-    @field(resolver: "App\\GraphQL\\Queries\\AnimeYear")
+    @field(resolver: "App\\GraphQL\\Queries\\AnimeYear@year")
 
     "Returns a list of unique years from all anime resources."
     animeyears: [Int!]!
     @canModel(ability: "viewAny", model: "App\\Models\\Wiki\\Anime", injectArgs: true)
-    @field(resolver: "App\\GraphQL\\Queries\\AnimeYears")
+    @field(resolver: "App\\GraphQL\\Queries\\AnimeYear@years")
 }
