@@ -60,6 +60,11 @@ enum AnimeColumnsOrderable {
     DELETED_AT
 }
 
+enum HasResources {
+    SITE
+    EXTERNAL_ID
+}
+
 extend type Query {
     "Returns a listing of anime resources given fields."
     animes(
@@ -75,7 +80,7 @@ extend type Query {
         year_greater: Int @where(key: "year", operator: ">")
         where: _ @whereConditions(columns: ["name"])
         whereHas: [WhereHasConditions!] @whereHasConditions(columns: ["*"])
-        hasResources: [WhereHasConditions!] @whereHasConditions(columns: ["site", "external_id"])
+        hasResources: [WhereHasConditions!] @whereHasConditions(columnsEnum: "HasResources")
         createdAt_lesser: DateTimeTz @where(key: "created_at", operator: "<")
         createdAt_greater: DateTimeTz @where(key: "created_at", operator: ">")
         updatedAt_lesser: DateTimeTz @where(key: "updated_at", operator: "<")
