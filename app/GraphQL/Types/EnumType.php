@@ -96,7 +96,7 @@ class EnumType extends BaseEnumType
         }
 
         if (count($attributes) > 1) {
-            throw new \Exception(self::MULTIPLE_DESCRIPTIONS_DISALLOWED);
+            throw new Exception(self::MULTIPLE_DESCRIPTIONS_DISALLOWED);
         }
 
         $comment = $reflection->getDocComment();

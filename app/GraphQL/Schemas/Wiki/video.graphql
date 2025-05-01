@@ -55,6 +55,24 @@ type VideoEdge {
     updatedAt: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
 }
 
+enum VideoColumnsOrderable {
+    ID @enum(value: "video_id")
+    FILENAME
+    BASENAME
+    LYRICS
+    NC
+    OVERLAP
+    RESOLUTION
+    SIZE
+    SOURCE
+    SUBBED
+    TAGS
+    UNCEN
+    CREATED_AT
+    UPDATED_AT
+    DELETED_AT
+}
+
 extend type Query {
     "Returns a listing of video resources given fields."
     videos(
@@ -75,6 +93,7 @@ extend type Query {
         updatedAt_greater: DateTimeTz @comparison(key: "updated_at", operator: "GT", date: true)
         deletedAt_lesser: DateTimeTz @comparison(key: "deleted_at", operator: "LT", date: true)
         deletedAt_greater: DateTimeTz @comparison(key: "deleted_at", operator: "GT", date: true)
+        orderBy: _ @orderBy(columnsEnum: "VideoColumnsOrderable")
     ): [Video!]!
     @canModel(ability: "viewAny", injectArgs: true)
     @softDeletes

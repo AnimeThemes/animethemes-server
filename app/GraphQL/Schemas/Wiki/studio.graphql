@@ -30,6 +30,15 @@ type StudioEdge {
     updatedAt: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
 }
 
+enum StudioColumnsOrderable {
+    ID @enum(value: "studio_id")
+    NAME
+    SLUG
+    CREATED_AT
+    UPDATED_AT
+    DELETED_AT
+}
+
 extend type Query {
     "Returns a listing of studio resources given fields."
     studios(
@@ -39,6 +48,7 @@ extend type Query {
         updatedAt_greater: DateTimeTz @comparison(key: "updated_at", operator: "GT", date: true)
         deletedAt_lesser: DateTimeTz @comparison(key: "deleted_at", operator: "LT", date: true)
         deletedAt_greater: DateTimeTz @comparison(key: "deleted_at", operator: "GT", date: true)
+        orderBy: _ @orderBy(columnsEnum: "StudioColumnsOrderable")
     ): [Studio!]!
     @canModel(ability: "viewAny", injectArgs: true)
     @softDeletes

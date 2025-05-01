@@ -22,6 +22,15 @@ type AnimeTheme {
     deletedAt: DateTimeTz @rename(attribute: "deleted_at")
 }
 
+enum AnimeThemeColumnsOrderable {
+    ID @enum(value: "theme_id")
+    TYPE
+    SEQUENCE
+    CREATED_AT
+    UPDATED_AT
+    DELETED_AT
+}
+
 extend type Query {
     "Returns a listing of anime theme resources given fields."
     animethemes(
@@ -34,6 +43,7 @@ extend type Query {
         updatedAt_greater: DateTimeTz @comparison(key: "updated_at", operator: "GT", date: true)
         deletedAt_lesser: DateTimeTz @comparison(key: "deleted_at", operator: "LT", date: true)
         deletedAt_greater: DateTimeTz @comparison(key: "deleted_at", operator: "GT", date: true)
+        orderBy: _ @orderBy(columnsEnum: "AnimeThemeColumnsOrderable")
     ): [AnimeTheme!]!
     @canModel(ability: "viewAny", injectArgs: true)
     @softDeletes

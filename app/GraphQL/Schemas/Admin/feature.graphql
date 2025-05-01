@@ -16,6 +16,14 @@ type Feature {
     updatedAt: DateTimeTz @rename(attribute: "updated_at")
 }
 
+enum FeatureColumnsOrderable {
+    ID @enum(value: "feature_id")
+    NAME
+    VALUE
+    CREATED_AT
+    UPDATED_AT
+}
+
 extend type Query {
     "Returns a listing of feature resources given fields."
     features(
@@ -23,6 +31,7 @@ extend type Query {
         createdAt_greater: DateTimeTz @comparison(key: "created_at", operator: "GT", date: true)
         updatedAt_lesser: DateTimeTz @comparison(key: "updated_at", operator: "LT", date: true)
         updatedAt_greater: DateTimeTz @comparison(key: "updated_at", operator: "GT", date: true)
+        orderBy: _ @orderBy(columnsEnum: "FeatureColumnsOrderable")
     ): [Feature!]!
     @canModel(ability: "viewAny", injectArgs: true)
     @builder(method: "App\\GraphQL\\Builders\\Admin\\FeatureBuilder@index")

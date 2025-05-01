@@ -18,6 +18,16 @@ type ExternalProfile {
     deletedAt: DateTimeTz @rename(attribute: "deleted_at")
 }
 
+enum ExternalProfileColumnsOrderable {
+    ID @enum(value: "profile_id")
+    NAME
+    SITE
+    VISIBILITY
+    CREATED_AT
+    UPDATED_AT
+    DELETED_AT
+}
+
 extend type Query @middleware(class: "App\\Http\\Middleware\\Api\\EnabledOnlyOnLocalhost") {
     "Returns an external profile resource."
     externalprofile(
@@ -36,6 +46,7 @@ extend type Query @middleware(class: "App\\Http\\Middleware\\Api\\EnabledOnlyOnL
         updatedAt_greater: DateTimeTz @comparison(key: "updated_at", operator: "GT", date: true)
         deletedAt_lesser: DateTimeTz @comparison(key: "deleted_at", operator: "LT", date: true)
         deletedAt_greater: DateTimeTz @comparison(key: "deleted_at", operator: "GT", date: true)
+        orderBy: _ @orderBy(columnsEnum: "ExternalProfileColumnsOrderable")
     ): [ExternalProfile!]!
     @canModel(ability: "viewAny", injectArgs: true)
     @builder(method: "App\\GraphQL\\Builders\\List\\ExternalProfileBuilder@index")

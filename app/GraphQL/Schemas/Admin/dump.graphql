@@ -18,6 +18,15 @@ type Dump {
     deletedAt: DateTimeTz @rename(attribute: "deleted_at")
 }
 
+enum DumpColumnsOrderable {
+    ID @enum(value: "dump_id")
+    PATH
+    LINK
+    CREATED_AT
+    UPDATED_AT
+    DELETED_AT
+}
+
 extend type Query {
     "Returns a listing of dump resources given fields."
     dumps(
@@ -27,6 +36,7 @@ extend type Query {
         updatedAt_greater: DateTimeTz @comparison(key: "updated_at", operator: "GT", date: true)
         deletedAt_lesser: DateTimeTz @comparison(key: "deleted_at", operator: "LT", date: true)
         deletedAt_greater: DateTimeTz @comparison(key: "deleted_at", operator: "GT", date: true)
+        orderBy: _ @orderBy(columnsEnum: "DumpColumnsOrderable")
     ): [Dump!]!
     @canModel(ability: "viewAny", injectArgs: true)
     @softDeletes

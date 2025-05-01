@@ -20,6 +20,15 @@ type Page {
     deletedAt: DateTimeTz @rename(attribute: "deleted_at")
 }
 
+enum PageColumnsOrderable {
+    ID @enum(value: "page_id")
+    NAME
+    SLUG
+    CREATED_AT
+    UPDATED_AT
+    DELETED_AT
+}
+
 extend type Query {
     "Returns a listing of page resources given fields."
     pages(
@@ -29,6 +38,7 @@ extend type Query {
         updatedAt_greater: DateTimeTz @comparison(key: "updated_at", operator: "GT", date: true)
         deletedAt_lesser: DateTimeTz @comparison(key: "deleted_at", operator: "LT", date: true)
         deletedAt_greater: DateTimeTz @comparison(key: "deleted_at", operator: "GT", date: true)
+        orderBy: _ @orderBy(columnsEnum: "PageColumnsOrderable")
     ): [Page!]!
     @canModel(ability: "viewAny", injectArgs: true)
     @softDeletes

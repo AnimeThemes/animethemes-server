@@ -18,6 +18,6 @@ enum ThemeType: int
 
     case ED = 1;
 
-    #[Hidden(true)]
+    #[Hidden]
     case IN = 2;
 }

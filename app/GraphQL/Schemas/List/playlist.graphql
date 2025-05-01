@@ -39,6 +39,16 @@ type PlaylistImageEdge {
     updatedAt: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
 }
 
+enum PlaylistColumnsOrderable {
+    ID @enum(value: "playlist_id")
+    NAME
+    DESCRIPTION
+    VISIBILITY
+    CREATED_AT
+    UPDATED_AT
+    DELETED_AT
+}
+
 extend type Query {
     "Returns a playlist resource."
     playlist(
@@ -56,6 +66,7 @@ extend type Query {
         updatedAt_greater: DateTimeTz @comparison(key: "updated_at", operator: "GT", date: true)
         deletedAt_lesser: DateTimeTz @comparison(key: "deleted_at", operator: "LT", date: true)
         deletedAt_greater: DateTimeTz @comparison(key: "deleted_at", operator: "GT", date: true)
+        orderBy: _ @orderBy(columnsEnum: "PlaylistColumnsOrderable")
     ): [Playlist!]!
     @canModel(ability: "viewAny", injectArgs: true)
     @builder(method: "App\\GraphQL\\Builders\\List\\PlaylistBuilder@index")

@@ -10,6 +10,6 @@ use Attribute;
 class Hidden
 {
     public function __construct(
-        public bool $hidden = false,
+        public bool $hidden = true,
     ) {}
 }

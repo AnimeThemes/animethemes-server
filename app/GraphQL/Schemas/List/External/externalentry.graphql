@@ -22,6 +22,16 @@ type ExternalEntry {
     deletedAt: DateTimeTz @rename(attribute: "deleted_at")
 }
 
+enum ExternalEntryColumnsOrderable {
+    ID @enum(value: "entry_id")
+    SCORE
+    IS_FAVORITE
+    WATCH_STATUS
+    CREATED_AT
+    UPDATED_AT
+    DELETED_AT
+}
+
 extend type Query {
     "Returns an external entry resource."
     externalentry(
@@ -41,6 +51,7 @@ extend type Query {
         updatedAt_greater: DateTimeTz @comparison(key: "updated_at", operator: "GT", date: true)
         deletedAt_lesser: DateTimeTz @comparison(key: "deleted_at", operator: "LT", date: true)
         deletedAt_greater: DateTimeTz @comparison(key: "deleted_at", operator: "GT", date: true)
+        orderBy: _ @orderBy(columnsEnum: "ExternalEntryColumnsOrderable")
     ): [ExternalEntry!]!
     @canModel(ability: "viewAny", injectArgs: true)
     @builder(method: "App\\GraphQL\\Builders\\List\\External\\ExternalEntryBuilder@index")

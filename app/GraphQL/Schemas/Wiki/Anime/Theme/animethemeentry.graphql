@@ -35,6 +35,18 @@ type AnimeThemeEntryEdge {
     updatedAt: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
 }
 
+enum AnimeThemeEntryColumnsOrderable {
+    ID @enum(value: "entry_id")
+    EPISODES
+    NOTES
+    NSFW
+    SPOILER
+    VERSION
+    CREATED_AT
+    UPDATED_AT
+    DELETED_AT
+}
+
 extend type Query {
     "Returns a listing of anime theme entry resources given fields."
     animethemeentries(
@@ -48,6 +60,7 @@ extend type Query {
         updatedAt_greater: DateTimeTz @comparison(key: "updated_at", operator: "GT", date: true)
         deletedAt_lesser: DateTimeTz @comparison(key: "deleted_at", operator: "LT", date: true)
         deletedAt_greater: DateTimeTz @comparison(key: "deleted_at", operator: "GT", date: true)
+        orderBy: _ @orderBy(columnsEnum: "AnimeThemeEntryColumnsOrderable")
     ): [AnimeThemeEntry!]!
     @canModel(ability: "viewAny", injectArgs: true)
     @softDeletes
