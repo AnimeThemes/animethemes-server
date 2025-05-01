@@ -25,8 +25,8 @@ class ExistsResolver
      */
     public function resolve(Model $model, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): mixed
     {
-        // Field expected to be {relation}_exists
-        $relation = Str::remove('_exists', $resolveInfo->fieldName);
+        // Field expected to be {relation}Exists
+        $relation = Str::remove('Exists', $resolveInfo->fieldName);
 
         return $model->{$relation}->isNotEmpty();
     }

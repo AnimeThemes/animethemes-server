@@ -11,14 +11,19 @@ type Feature {
     "The value of the resource"
     value: String!
     "The date that the resource was created"
-    created_at: DateTimeTz
+    createdAt: DateTimeTz @rename(attribute: "created_at")
     "The date that the resource was last modified"
-    updated_at: DateTimeTz
+    updatedAt: DateTimeTz @rename(attribute: "updated_at")
 }
 
 extend type Query {
     "Returns a listing of feature resources given fields."
-    features: [Feature!]!
+    features(
+        createdAt_lesser: DateTimeTz @comparison(key: "created_at", operator: "LT", date: true)
+        createdAt_greater: DateTimeTz @comparison(key: "created_at", operator: "GT", date: true)
+        updatedAt_lesser: DateTimeTz @comparison(key: "updated_at", operator: "LT", date: true)
+        updatedAt_greater: DateTimeTz @comparison(key: "updated_at", operator: "GT", date: true)
+    ): [Feature!]!
     @canModel(ability: "viewAny", injectArgs: true)
     @builder(method: "App\\GraphQL\\Builders\\Admin\\FeatureBuilder@index")
     @paginate

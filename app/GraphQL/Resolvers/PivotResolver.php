@@ -7,6 +7,7 @@ namespace App\GraphQL\Resolvers;
 use GraphQL\Type\Definition\ResolveInfo;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 /**
@@ -30,6 +31,6 @@ class PivotResolver
 
         $pivot = current($model->getRelations());
 
-        return $pivot->{$resolveInfo->fieldName};
+        return $pivot->{Str::snake($resolveInfo->fieldName)};
     }
 }

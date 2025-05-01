@@ -12,26 +12,32 @@ type Song {
     performances: [Performance] @hasMany
     resources: ExternalResourceConnection! @belongsToMany(type: CONNECTION)
     "The date that the resource was created"
-    created_at: DateTimeTz
+    createdAt: DateTimeTz @rename(attribute: "created_at")
     "The date that the resource was last modified"
-    updated_at: DateTimeTz
+    updatedAt: DateTimeTz @rename(attribute: "updated_at")
     "The date that the resource was deleted"
-    deleted_at: DateTimeTz
+    deletedAt: DateTimeTz @rename(attribute: "deleted_at")
 }
 
 "Default edge to use in simple belongs to many relationships"
 type SongEdge {
     node: Song!
     "The date that the resource was last modified"
-    created_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+    createdAt: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
     "The date that the resource was deleted"
-    updated_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+    updatedAt: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
 }
 
 extend type Query {
     "Returns a listing of song resources given fields."
     songs(
         title: String @eq
+        createdAt_lesser: DateTimeTz @comparison(key: "created_at", operator: "LT", date: true)
+        createdAt_greater: DateTimeTz @comparison(key: "created_at", operator: "GT", date: true)
+        updatedAt_lesser: DateTimeTz @comparison(key: "updated_at", operator: "LT", date: true)
+        updatedAt_greater: DateTimeTz @comparison(key: "updated_at", operator: "GT", date: true)
+        deletedAt_lesser: DateTimeTz @comparison(key: "deleted_at", operator: "LT", date: true)
+        deletedAt_greater: DateTimeTz @comparison(key: "deleted_at", operator: "GT", date: true)
     ): [Song!]!
     @canModel(ability: "viewAny", injectArgs: true)
     @softDeletes

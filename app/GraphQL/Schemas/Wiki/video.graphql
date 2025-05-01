@@ -35,29 +35,47 @@ type Video {
     "The URL to stream the file from storage"
     link: String!
     "The number of views recorded for the resource"
-    views_count: Int! @with(relation: "viewAggregate") @field(resolver: "App\\GraphQL\\Resolvers\\ViewsCountResolver@resolve")
+    viewsCount: Int! @with(relation: "viewAggregate") @field(resolver: "App\\GraphQL\\Resolvers\\ViewsCountResolver@resolve")
     animethemeentries: [AnimeThemeEntry] @belongsToMany(type: CONNECTION)
     videoscript: VideoScript @hasOne
     "The date that the resource was created"
-    created_at: DateTimeTz
+    createdAt: DateTimeTz @rename(attribute: "created_at")
     "The date that the resource was last modified"
-    updated_at: DateTimeTz
+    updatedAt: DateTimeTz @rename(attribute: "updated_at")
     "The date that the resource was deleted"
-    deleted_at: DateTimeTz
+    deletedAt: DateTimeTz @rename(attribute: "deleted_at")
 }
 
 "Default edge to use in simple belongs to many relationships"
 type VideoEdge {
     node: Video!
     "The date that the resource was last modified"
-    created_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+    createdAt: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
     "The date that the resource was deleted"
-    updated_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+    updatedAt: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
 }
 
 extend type Query {
     "Returns a listing of video resources given fields."
-    videos: [Video!]!
+    videos(
+        isLyrics: Boolean @eq
+        isNc: Boolean @eq
+        isSubbed: Boolean @eq
+        isUncen: Boolean @eq
+        overlap: [VideoOverlap] @in
+        source: [VideoSource] @in
+        resolution_in: [Int] @in(key: "resolution")
+        resolution_lesser: Int @comparison(key: "resolution", operator: "LT")
+        resolution_greater: Int @comparison(key: "resolution", operator: "GT")
+        size_lesser: Int @comparison(key: "size", operator: "LT")
+        size_greater: Int @comparison(key: "size", operator: "GT")
+        createdAt_lesser: DateTimeTz @comparison(key: "created_at", operator: "LT", date: true)
+        createdAt_greater: DateTimeTz @comparison(key: "created_at", operator: "GT", date: true)
+        updatedAt_lesser: DateTimeTz @comparison(key: "updated_at", operator: "LT", date: true)
+        updatedAt_greater: DateTimeTz @comparison(key: "updated_at", operator: "GT", date: true)
+        deletedAt_lesser: DateTimeTz @comparison(key: "deleted_at", operator: "LT", date: true)
+        deletedAt_greater: DateTimeTz @comparison(key: "deleted_at", operator: "GT", date: true)
+    ): [Video!]!
     @canModel(ability: "viewAny", injectArgs: true)
     @softDeletes
     @paginate

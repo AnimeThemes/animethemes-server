@@ -4,11 +4,11 @@ type User {
     name: String!
     playlists: [Playlist] @hasMany
     "The date that the resource was created"
-    created_at: DateTimeTz
+    createdAt: DateTimeTz @rename(attribute: "created_at")
     "The date that the resource was last modified"
-    updated_at: DateTimeTz
+    updatedAt: DateTimeTz @rename(attribute: "updated_at")
     "The date that the resource was deleted"
-    deleted_at: DateTimeTz
+    deletedAt: DateTimeTz @rename(attribute: "deleted_at")
 }
 
 "Represents the currently authenticated user."
@@ -26,11 +26,11 @@ type Me {
     notifications: [Notification] @morphMany
     playlists: [Playlist] @hasMany
     "The date that the resource was created"
-    created_at: DateTimeTz
+    createdAt: DateTimeTz @rename(attribute: "created_at")
     "The date that the resource was last modified"
-    updated_at: DateTimeTz
+    updatedAt: DateTimeTz @rename(attribute: "updated_at")
     "The date that the resource was deleted"
-    deleted_at: DateTimeTz
+    deletedAt: DateTimeTz @rename(attribute: "deleted_at")
 }
 
 extend type Query {

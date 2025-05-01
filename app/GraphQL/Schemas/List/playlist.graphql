@@ -11,44 +11,51 @@ type Playlist {
     "The description of the playlist"
     description: String
     "The number of tracks belonging to the resource"
-    tracks_count: Int! @count(relation: "tracks")
+    tracksCount: Int! @count(relation: "tracks")
     "The existence of tracks belonging to the resource"
-    tracks_exists: Boolean! @with(relation: "tracks") @field(resolver: "App\\GraphQL\\Resolvers\\ExistsResolver@resolve")
+    tracksExists: Boolean! @with(relation: "tracks") @field(resolver: "App\\GraphQL\\Resolvers\\ExistsResolver@resolve")
     "The state of who can see the playlist"
     visibility: PlaylistVisibility! @localizedEnum
     "The number of views recorded for the resource"
-    views_count: Int! @with(relation: "viewAggregate") @field(resolver: "App\\GraphQL\\Resolvers\\ViewsCountResolver@resolve")
+    viewsCount: Int! @with(relation: "viewAggregate") @field(resolver: "App\\GraphQL\\Resolvers\\ViewsCountResolver@resolve")
     first: PlaylistTrack @belongsTo
     images: [Image] @belongsToMany(type: CONNECTION, edgeType: PlaylistImageEdge)
     last: PlaylistTrack @belongsTo
     tracks: [PlaylistTrack] @hasMany
     user: User @belongsTo
     "The date that the resource was created"
-    created_at: DateTimeTz
+    createdAt: DateTimeTz @rename(attribute: "created_at")
     "The date that the resource was last modified"
-    updated_at: DateTimeTz
+    updatedAt: DateTimeTz @rename(attribute: "updated_at")
     "The date that the resource was deleted"
-    deleted_at: DateTimeTz
+    deletedAt: DateTimeTz @rename(attribute: "deleted_at")
 }
 
 type PlaylistImageEdge {
     node: Image!
     "The date that the resource was last modified"
-    created_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+    createdAt: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
     "The date that the resource was deleted"
-    updated_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+    updatedAt: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
 }
 
 extend type Query {
     "Returns a playlist resource."
     playlist(
-        id: String @bind(class: "App\\Models\\List\\Playlist", column: "hashid")
+        id: String! @bind(class: "App\\Models\\List\\Playlist", column: "hashid")
     ): Playlist @first
     @canModel(ability: "view", injectArgs: true)
 
     "Returns a listing of playlist resources."
     playlists(
         name: String @eq
+        visibility: [PlaylistVisibility] @in
+        createdAt_lesser: DateTimeTz @comparison(key: "created_at", operator: "LT", date: true)
+        createdAt_greater: DateTimeTz @comparison(key: "created_at", operator: "GT", date: true)
+        updatedAt_lesser: DateTimeTz @comparison(key: "updated_at", operator: "LT", date: true)
+        updatedAt_greater: DateTimeTz @comparison(key: "updated_at", operator: "GT", date: true)
+        deletedAt_lesser: DateTimeTz @comparison(key: "deleted_at", operator: "LT", date: true)
+        deletedAt_greater: DateTimeTz @comparison(key: "deleted_at", operator: "GT", date: true)
     ): [Playlist!]!
     @canModel(ability: "viewAny", injectArgs: true)
     @builder(method: "App\\GraphQL\\Builders\\List\\PlaylistBuilder@index")

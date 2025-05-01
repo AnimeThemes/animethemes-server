@@ -11,20 +11,20 @@ type Role {
     "Is the role assigned on account verification?"
     default: Boolean!
     "The authentication guard of the resource"
-    guard_name: String!
+    guardName: String! @rename(attribute: "guard_name")
     "The weight assigned to the resource, where higher values correspond to higher priority"
     priority: Int!
     permissions: [Permission] @belongsToMany(type: CONNECTION, edgeType: RolePermissionEdge)
     "The date that the resource was created"
-    created_at: DateTimeTz
+    createdAt: DateTimeTz @rename(attribute: "created_at")
     "The date that the resource was last modified"
-    updated_at: DateTimeTz
+    updatedAt: DateTimeTz @rename(attribute: "updated_at")
 }
 
 type RolePermissionEdge {
     node: Permission!
     "The date that the resource was last modified"
-    created_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+    createdAt: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
     "The date that the resource was deleted"
-    updated_at: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+    updatedAt: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
 }

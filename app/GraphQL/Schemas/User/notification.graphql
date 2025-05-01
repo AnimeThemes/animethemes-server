@@ -1,7 +1,7 @@
 "Represents a notification that is sent to the user."
 type Notification {
     "The date that the user read the notification"
-    read_at: DateTimeTz
+    readAt: DateTimeTz @rename(attribute: "read_at")
     "The JSON data of the notification"
     data: NotificationData!
     "The user the notification belongs to"

@@ -7,9 +7,9 @@ type Permission {
     "The label of the resource"
     name: String!
     "The authentication guard of the resource"
-    guard_name: String!
+    guardName: String! @rename(attribute: "guard_name")
     "The date that the resource was created"
-    created_at: DateTimeTz
+    createdAt: DateTimeTz @rename(attribute: "created_at")
     "The date that the resource was last modified"
-    updated_at: DateTimeTz
+    updatedAt: DateTimeTz @rename(attribute: "updated_at")
 }
