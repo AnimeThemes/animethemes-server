@@ -1,22 +1,20 @@
-"""
-Represents a video to be featured on the homepage of the site for a specified amount of time.
-"""
+"Represents a video to be featured on the homepage of the site for a specified amount of time."
 type FeaturedTheme {
     "The primary key of the resource"
     id: Int! @rename(attribute: "featured_theme_id")
     "The start date of the resource"
-    start_at: DateTimeTz!
+    startAt: DateTimeTz! @rename(attribute: "start_at")
     "The end date of the resource"
-    end_at: DateTimeTz!
+    endAt: DateTimeTz! @rename(attribute: "end_at")
     animethemeentry: AnimeThemeEntry @belongsTo
     user: User @belongsTo
     video: Video @belongsTo
     "The date that the resource was created"
-    created_at: DateTimeTz
+    createdAt: DateTimeTz @rename(attribute: "created_at")
     "The date that the resource was last modified"
-    updated_at: DateTimeTz
+    updatedAt: DateTimeTz @rename(attribute: "updated_at")
     "The date that the resource was deleted"
-    deleted_at: DateTimeTz
+    deletedAt: DateTimeTz @rename(attribute: "deleted_at")
 }
 
 extend type Query {
@@ -26,7 +24,18 @@ extend type Query {
     @builder(method: "App\\GraphQL\\Builders\\Admin\\FeaturedThemeBuilder@current")
 
     "Returns a listing of featured theme resources given fields."
-    featuredthemes: [FeaturedTheme!]!
+    featuredthemes(
+        startAt_lesser: DateTimeTz @comparison(key: "start_at", operator: "LT", date: true)
+        startAt_greater: DateTimeTz @comparison(key: "start_at", operator: "GT", date: true)
+        endAt_lesser: DateTimeTz @comparison(key: "end_at", operator: "LT", date: true)
+        endAt_greater: DateTimeTz @comparison(key: "end_at", operator: "GT", date: true)
+        createdAt_lesser: DateTimeTz @comparison(key: "created_at", operator: "LT", date: true)
+        createdAt_greater: DateTimeTz @comparison(key: "created_at", operator: "GT", date: true)
+        updatedAt_lesser: DateTimeTz @comparison(key: "updated_at", operator: "LT", date: true)
+        updatedAt_greater: DateTimeTz @comparison(key: "updated_at", operator: "GT", date: true)
+        deletedAt_lesser: DateTimeTz @comparison(key: "deleted_at", operator: "LT", date: true)
+        deletedAt_greater: DateTimeTz @comparison(key: "deleted_at", operator: "GT", date: true)
+    ): [FeaturedTheme!]!
     @canModel(ability: "viewAny", injectArgs: true)
     @builder(method: "App\\GraphQL\\Builders\\Admin\\FeaturedThemeBuilder@index")
     @softDeletes

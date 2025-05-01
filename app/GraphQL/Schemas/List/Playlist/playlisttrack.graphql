@@ -12,11 +12,11 @@ type PlaylistTrack {
     previous: PlaylistTrack @belongsTo
     video: Video @belongsTo
     "The date that the resource was created"
-    created_at: DateTimeTz
+    createdAt: DateTimeTz @rename(attribute: "created_at")
     "The date that the resource was last modified"
-    updated_at: DateTimeTz
+    updatedAt: DateTimeTz @rename(attribute: "updated_at")
     "The date that the resource was deleted"
-    deleted_at: DateTimeTz
+    deletedAt: DateTimeTz @rename(attribute: "deleted_at")
 }
 
 extend type Query {
@@ -28,7 +28,14 @@ extend type Query {
     @canModel(ability: "view", injectArgs: true)
 
     "Returns a listing of tracks for the playlist."
-    playlisttracks: [PlaylistTrack!]!
+    playlisttracks(
+        createdAt_lesser: DateTimeTz @comparison(key: "created_at", operator: "LT", date: true)
+        createdAt_greater: DateTimeTz @comparison(key: "created_at", operator: "GT", date: true)
+        updatedAt_lesser: DateTimeTz @comparison(key: "updated_at", operator: "LT", date: true)
+        updatedAt_greater: DateTimeTz @comparison(key: "updated_at", operator: "GT", date: true)
+        deletedAt_lesser: DateTimeTz @comparison(key: "deleted_at", operator: "LT", date: true)
+        deletedAt_greater: DateTimeTz @comparison(key: "deleted_at", operator: "GT", date: true)
+    ): [PlaylistTrack!]!
     @canModel(ability: "viewAny", injectArgs: true)
     @builder(method: "App\\GraphQL\\Builders\\List\\Playlist\\PlaylistTrackBuilder@index")
     @paginate
