@@ -73,7 +73,6 @@ extend type Query {
         mediaFormat: [AnimeMediaFormat] @in(key: "media_format")
         season: [AnimeSeason] @in
         slug: String @eq
-        year: Int @eq
         year_in: [Int] @in(key: "year")
         year_notin: [Int] @notIn(key: "year")
         year_lesser: Int @where(key: "year", operator: "<")
