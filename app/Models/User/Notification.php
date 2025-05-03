@@ -17,6 +17,8 @@ class Notification extends DatabaseNotification
 {
     use HasFactory;
 
+    final public const TABLE = 'notifications';
+
     final public const ATTRIBUTE_ID = 'id';
     final public const ATTRIBUTE_TYPE = 'type';
     final public const ATTRIBUTE_NOTIFIABLE_TYPE = 'notifiable_type';

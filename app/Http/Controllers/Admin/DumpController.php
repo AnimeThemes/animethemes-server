@@ -15,6 +15,14 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 class DumpController extends Controller
 {
     /**
+     * Create a new controller instance.
+     */
+    public function __construct()
+    {
+        $this->authorizeResource(Dump::class, 'dump');
+    }
+
+    /**
      * Download dump.
      *
      * @param  Dump  $dump
