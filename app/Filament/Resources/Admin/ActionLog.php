@@ -20,6 +20,7 @@ use App\Models\BaseModel;
 use Filament\Facades\Filament;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Form;
+use Filament\Infolists\Components\KeyValueEntry;
 use Filament\Infolists\Components\TextEntry\TextEntrySize;
 use Filament\Infolists\Infolist;
 use Filament\Tables\Filters\SelectFilter;
@@ -27,7 +28,6 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
-use Malzariey\FilamentDaterangepickerFilter\Filters\DateRangeFilter;
 
 /**
  * Class ActionLog.
@@ -219,6 +219,11 @@ class ActionLog extends BaseResource
                 TextEntry::make(ActionLogModel::ATTRIBUTE_FINISHED_AT)
                     ->label(__('filament.fields.action_log.finished_at'))
                     ->dateTime(),
+
+                KeyValueEntry::make(ActionLogModel::ATTRIBUTE_FIELDS)
+                    ->label(__('filament.fields.action_log.fields'))
+                    ->columnSpanFull()
+                    ->hidden(fn ($state) => is_null($state)),
 
                 TextEntry::make(ActionLogModel::ATTRIBUTE_EXCEPTION)
                     ->label(__('filament.fields.action_log.exception'))

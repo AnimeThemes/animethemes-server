@@ -152,8 +152,8 @@ class UploadVideoTableAction extends UploadTableAction
 
                                         BelongsTo::make('encoder')
                                             ->resource(UserResource::class)
-                                            ->label('Encoder')
-                                            ->helperText('If none, the user will be set to the current user.')
+                                            ->label(__('filament.actions.storage.upload.fields.encoder.name'))
+                                            ->helperText(__('filament.actions.storage.upload.fields.encoder.help'))
                                             ->visible(Auth::user()->hasRole(Role::ADMIN->value))
                                             ->default(Auth::id()),
                                     ]),

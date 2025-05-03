@@ -36,7 +36,7 @@ class DiscordEmbedField implements Arrayable, JsonSerializable
         mixed $value,
         protected readonly bool $inline = false
     ) {
-        $this->value = $this->formatEmbedFieldValue($value);
+        $this->value = static::formatEmbedFieldValue($value);
     }
 
     /**
@@ -69,7 +69,7 @@ class DiscordEmbedField implements Arrayable, JsonSerializable
      * @param  mixed  $value
      * @return string
      */
-    protected function formatEmbedFieldValue(mixed $value): string
+    public static function formatEmbedFieldValue(mixed $value): string
     {
         // Use description for enums
         if (is_object($value) && enum_exists(get_class($value))) {

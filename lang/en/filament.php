@@ -346,6 +346,10 @@ return [
             'upload' => [
                 'confirmButtonText' => 'Upload',
                 'fields' => [
+                    'encoder' => [
+                        'help' => 'The user that encoded the video. Default is the authenticated user. This field is only visible for admins.',
+                        'name' => 'Encoder',
+                    ],
                     'file' => [
                         'help' => 'The file to upload. Files will be uploaded to each configured storage disk.',
                         'name' => 'File',
@@ -473,6 +477,7 @@ return [
             'target' => 'Target',
             'status' => 'Status',
             'happened_at' => 'Happened At',
+            'fields' => 'Fields',
             'finished_at' => 'Finished At',
             'exception' => 'Exception',
         ],

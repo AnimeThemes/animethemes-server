@@ -76,7 +76,7 @@ class AttachAction extends DefaultAttachAction
             ...$livewire->getPivotFields(),
         ]);
 
-        $this->after(fn ($livewire, $record) => $this->pivotActionLog('Attach', $livewire, $record));
+        $this->after(fn ($livewire, $record, $action) => $this->pivotActionLog('Attach', $livewire, $record, $action));
     }
 
     /**
