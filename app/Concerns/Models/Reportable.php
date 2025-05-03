@@ -32,41 +32,41 @@ trait Reportable
      *
      * @return void
      */
-    protected static function boot(): void
-    {
-        parent::boot();
+    // protected static function boot(): void
+    // {
+    //     parent::boot();
 
-        static::creating(function (BaseModel $model) {
+    //     static::creating(function (BaseModel $model) {
 
-            if (Gate::forUser(Auth::user())->check('create', $model)) {
-                return;
-            }
+    //         if (Gate::forUser(Auth::user())->check('create', $model)) {
+    //             return;
+    //         }
 
-            ReportAction::makeReport(ReportAction::makeForCreate($model::class, $model->attributesToArray()));
+    //         ReportAction::makeReport(ReportAction::makeForCreate($model::class, $model->attributesToArray()));
 
-            return false;
-        });
+    //         return false;
+    //     });
 
-        static::deleting(function (BaseModel $model) {
+    //     static::deleting(function (BaseModel $model) {
 
-            if (Gate::forUser(Auth::user())->check('delete', $model)) {
-                return;
-            }
+    //         if (Gate::forUser(Auth::user())->check('delete', $model)) {
+    //             return;
+    //         }
 
-            ReportAction::makeReport(ReportAction::makeForDelete($model));
+    //         ReportAction::makeReport(ReportAction::makeForDelete($model));
 
-            return false;
-        });
+    //         return false;
+    //     });
 
-        static::updating(function (BaseModel $model) {
+    //     static::updating(function (BaseModel $model) {
 
-            if (Gate::forUser(Auth::user())->check('update', $model)) {
-                return;
-            }
+    //         if (Gate::forUser(Auth::user())->check('update', $model)) {
+    //             return;
+    //         }
 
-            ReportAction::makeReport(ReportAction::makeForUpdate($model, $model->attributesToArray()));
+    //         ReportAction::makeReport(ReportAction::makeForUpdate($model, $model->attributesToArray()));
 
-            return false;
-        });
-    }
+    //         return false;
+    //     });
+    // }
 }

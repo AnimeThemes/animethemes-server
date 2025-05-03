@@ -151,7 +151,7 @@ class ManageSongPerformances
             }
 
             // Delete membership performances that are not in the new list.
-            $to = Performance::query()
+            $membershipPerformances = Performance::query()
                 ->whereBelongsTo($this->song)
                 ->where(Performance::ATTRIBUTE_ARTIST_TYPE, Membership::class)
                 ->whereNotIn(
@@ -162,13 +162,13 @@ class ManageSongPerformances
                     )
                 );
 
-            foreach ($to->get() as $performance) {
+            foreach ($membershipPerformances->get() as $performance) {
                 $performance->forceDelete();
                 //new PerformanceDeleted($performance)->syncArtistSong();
             }
 
             // Delete solo performances that are not in the new list.
-            $to2 = Performance::query()
+            $soloPerformances = Performance::query()
                 ->whereBelongsTo($this->song)
                 ->where(Performance::ATTRIBUTE_ARTIST_TYPE, Artist::class)
                 ->whereNotIn(
@@ -179,7 +179,7 @@ class ManageSongPerformances
                     )
                 );
 
-            foreach ($to2->get() as $performance) {
+            foreach ($soloPerformances->get() as $performance) {
                 $performance->forceDelete();
                 //new PerformanceDeleted($performance)->syncArtistSong();
             }

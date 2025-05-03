@@ -10,6 +10,8 @@ use App\Constants\Config\VideoConstants;
 use App\Contracts\Actions\Storage\StorageResults;
 use App\Enums\Models\Wiki\VideoOverlap;
 use App\Enums\Models\Wiki\VideoSource;
+use App\Models\Auth\User;
+use App\Models\User\Encode;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
 use App\Rules\Wiki\Submission\SubmissionRule;
@@ -35,13 +37,15 @@ class UploadVideoAction extends UploadAction
      * @param  array  $attributes
      * @param  AnimeThemeEntry|null  $entry
      * @param  UploadedFile|null  $script
+     * @param  User|null  $encoder
      */
     public function __construct(
         UploadedFile $file,
         string $path,
         protected array $attributes = [],
         protected ?AnimeThemeEntry $entry = null,
-        protected readonly ?UploadedFile $script = null
+        protected readonly ?UploadedFile $script = null,
+        protected ?User $encoder = null,
     ) {
         parent::__construct($file, $path);
     }
@@ -68,6 +72,8 @@ class UploadVideoAction extends UploadAction
             $this->attachEntry($video);
 
             $this->uploadScript($video);
+
+            $this->markEncode($video);
 
             DB::commit();
 
@@ -158,6 +164,27 @@ class UploadVideoAction extends UploadAction
             $scriptResult = $uploadScript->handle();
 
             $uploadScript->then($scriptResult);
+        }
+    }
+
+    /**
+     * Mark the encoder for the video.
+     *
+     * @param  Video  $video
+     * @return void
+     */
+    protected function markEncode(Video $video): void
+    {
+        if ($encoder = $this->encoder) {
+            // Delete any existing encodes if the video is being replaced.
+            Encode::query()
+                ->whereBelongsTo($video, Encode::RELATION_VIDEO)
+                ->delete();
+
+            Encode::query()->create([
+                Encode::ATTRIBUTE_USER => $encoder->getKey(),
+                Encode::ATTRIBUTE_VIDEO => $video->getKey(),
+            ]);
         }
     }
 

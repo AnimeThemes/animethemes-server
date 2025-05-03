@@ -21,9 +21,10 @@ trait HasPivotActionLogs
      * @param  string  $actionName
      * @param  BaseRelationManager $livewire
      * @param  Model  $record
+     * @param  mixed  $action
      * @return void
      */
-    public function pivotActionLog(string $actionName, BaseRelationManager $livewire, Model $record): void
+    public function pivotActionLog(string $actionName, BaseRelationManager $livewire, Model $record, mixed $action = null): void
     {
         $ownerRecord = $livewire->getOwnerRecord();
 
@@ -43,6 +44,7 @@ trait HasPivotActionLogs
                 $ownerRecord,
                 $record,
                 $pivot ?? $record,
+                $action
             );
         }
     }
