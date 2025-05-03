@@ -14,9 +14,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table(Performance::TABLE, function (Blueprint $table) {
-            $table->unique([Performance::ATTRIBUTE_SONG, Performance::ATTRIBUTE_ARTIST_TYPE, Performance::ATTRIBUTE_ARTIST_ID], 'unique_performance');
-        });
+        if (!Schema::hasIndex(Performance::TABLE, 'unique_performance')) {
+            Schema::table(Performance::TABLE, function (Blueprint $table) {
+                $table->unique([Performance::ATTRIBUTE_SONG, Performance::ATTRIBUTE_ARTIST_TYPE, Performance::ATTRIBUTE_ARTIST_ID], 'unique_performance');
+            });
+        }
     }
 
     /**

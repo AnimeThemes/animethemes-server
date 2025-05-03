@@ -8,15 +8,19 @@ use App\Actions\Storage\Wiki\Video\UploadVideoAction as UploadVideo;
 use App\Constants\Config\VideoConstants;
 use App\Enums\Actions\Models\Wiki\Video\ShouldBackfillAudio;
 use App\Enums\Actions\Models\Wiki\Video\ShouldSendNotification;
+use App\Enums\Auth\Role;
 use App\Enums\Models\Wiki\VideoOverlap;
 use App\Enums\Models\Wiki\VideoSource;
 use App\Filament\Actions\Models\Wiki\Video\BackfillAudioAction;
 use App\Filament\BulkActions\Models\Wiki\Video\VideoDiscordNotificationBulkAction;
+use App\Filament\Components\Fields\BelongsTo;
 use App\Filament\Components\Fields\Select;
 use App\Filament\RelationManagers\BaseRelationManager;
+use App\Filament\Resources\Auth\User as UserResource;
 use App\Filament\Resources\Wiki\Anime\Theme\Entry\RelationManagers\VideoEntryRelationManager;
 use App\Filament\Resources\Wiki\Video\Pages\ListVideos;
 use App\Filament\TableActions\Storage\Base\UploadTableAction;
+use App\Models\Auth\User;
 use App\Models\BaseModel;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
@@ -50,6 +54,7 @@ use Filament\Forms\Form;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\Enum;
@@ -144,6 +149,13 @@ class UploadVideoTableAction extends UploadTableAction
                                             ->nullable()
                                             ->rules(['nullable', FileRule::types('txt')->max(2 * 1024)])
                                             ->storeFiles(false),
+
+                                        BelongsTo::make('encoder')
+                                            ->resource(UserResource::class)
+                                            ->label('Encoder')
+                                            ->helperText('If none, the user will be set to the current user.')
+                                            ->visible(Auth::user()->hasRole(Role::ADMIN->value))
+                                            ->default(Auth::id()),
                                     ]),
                             ]),
 
@@ -199,6 +211,9 @@ class UploadVideoTableAction extends UploadTableAction
         /** @var UploadedFile|null $script */
         $script = Arr::get($fields, 'script');
 
+        /** @var User|null $encoder */
+        $encoder = User::query()->find(Arr::get($fields, 'encoder'));
+
         if ($path === null && $entry !== null) {
             $anime = $entry->animetheme->anime;
             $year = $anime->year;
@@ -224,7 +239,7 @@ class UploadVideoTableAction extends UploadTableAction
             Video::ATTRIBUTE_SOURCE => Arr::get($fields, Video::ATTRIBUTE_SOURCE),
         ];
 
-        return new UploadVideo($file, $path, $attributes, $entry, $script);
+        return new UploadVideo($file, $path, $attributes, $entry, $script, $encoder);
     }
 
     /**
