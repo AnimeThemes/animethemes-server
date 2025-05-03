@@ -146,14 +146,13 @@ class Synonym extends BaseResource
                     ->helperText(__('filament.fields.anime_synonym.type.help'))
                     ->options(AnimeSynonymType::asSelectArray())
                     ->required()
-                    ->rules(['required', new Enum(AnimeSynonymType::class)]),
+                    ->enum(AnimeSynonymType::class),
 
                 TextInput::make(SynonymModel::ATTRIBUTE_TEXT)
                     ->label(__('filament.fields.anime_synonym.text.name'))
                     ->helperText(__('filament.fields.anime_synonym.text.help'))
                     ->required()
-                    ->maxLength(255)
-                    ->rules(['required', 'max:255']),
+                    ->maxLength(255),
             ])
             ->columns(1);
     }

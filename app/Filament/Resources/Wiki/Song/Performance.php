@@ -386,7 +386,6 @@ class Performance extends BaseResource
                         ->resource(ArtistResource::class)
                         ->showCreateOption()
                         ->required()
-                        ->rules(['required'])
                         ->hintAction(
                             Action::make('load')
                                 ->label(__('filament.fields.performance.load_members.name'))
@@ -423,8 +422,7 @@ class Performance extends BaseResource
                                 ->resource(ArtistResource::class)
                                 ->showCreateOption()
                                 ->label(__('filament.fields.membership.member'))
-                                ->required()
-                                ->rules(['required']),
+                                ->required(),
 
                             TextInput::make(Membership::ATTRIBUTE_AS)
                                 ->label(__('filament.fields.membership.as.name'))

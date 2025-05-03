@@ -74,7 +74,7 @@ trait AttachResourceActionTrait
                 ->helperText(__("filament.actions.models.wiki.attach_resource.fields.{$resourceSiteLower}.help"))
                 ->url()
                 ->maxLength(192)
-                ->rules(['max:192', $resourceSite->getFormatRule($model)]);
+                ->rule($resourceSite->getFormatRule($model));
         }
 
         return $form

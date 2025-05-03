@@ -129,7 +129,7 @@ class ExternalResource extends BaseResource
                     ->helperText(__('filament.fields.external_resource.site.help'))
                     ->options(ResourceSite::asSelectArray())
                     ->required()
-                    ->rules(['required', new Enum(ResourceSite::class)]),
+                    ->enum(ResourceSite::class),
 
                 TextInput::make(ExternalResourceModel::ATTRIBUTE_LINK)
                     ->label(__('filament.fields.external_resource.link.name'))
@@ -146,8 +146,7 @@ class ExternalResource extends BaseResource
                 TextInput::make(ExternalResourceModel::ATTRIBUTE_EXTERNAL_ID)
                     ->label(__('filament.fields.external_resource.external_id.name'))
                     ->helperText(__('filament.fields.external_resource.external_id.help'))
-                    ->numeric()
-                    ->rules(['nullable', 'integer']),
+                    ->integer(),
             ])
             ->columns(1);
     }

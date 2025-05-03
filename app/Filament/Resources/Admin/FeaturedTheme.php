@@ -129,8 +129,6 @@ class FeaturedTheme extends BaseResource
      */
     public static function form(Form $form): Form
     {
-        $allowedDateFormats = array_column(AllowedDateFormat::cases(), 'value');
-
         return $form
             ->schema([
                 DatePicker::make(FeaturedThemeModel::ATTRIBUTE_START_AT)

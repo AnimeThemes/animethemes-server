@@ -129,7 +129,7 @@ class Image extends BaseResource
                     ->helperText(__('filament.fields.image.facet.help'))
                     ->options(ImageFacet::asSelectArray())
                     ->required()
-                    ->rules(['required', new Enum(ImageFacet::class)]),
+                    ->enum(ImageFacet::class),
             ]);
     }
 

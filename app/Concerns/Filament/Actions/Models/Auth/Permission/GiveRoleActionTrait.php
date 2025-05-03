@@ -66,8 +66,7 @@ trait GiveRoleActionTrait
                     ->label(__('filament.resources.singularLabel.role'))
                     ->searchable()
                     ->required()
-                    ->options($roles)
-                    ->rules('required'),
+                    ->options($roles),
             ]);
     }
 }

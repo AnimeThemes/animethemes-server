@@ -182,33 +182,31 @@ class Theme extends BaseResource
                                 BelongsTo::make(ThemeModel::ATTRIBUTE_ANIME)
                                     ->resource(AnimeResource::class)
                                     ->hiddenOn(ThemeRelationManager::class)
-                                    ->required()
-                                    ->rules(['required']),
+                                    ->required(),
 
                                 Select::make(ThemeModel::ATTRIBUTE_TYPE)
                                     ->label(__('filament.fields.anime_theme.type.name'))
                                     ->helperText(__('filament.fields.anime_theme.type.help'))
                                     ->options(ThemeType::asSelectArray())
                                     ->required()
+                                    ->enum(ThemeType::class)
                                     ->live(true)
-                                    ->afterStateUpdated(fn (Set $set, Get $get) => Theme::setThemeSlug($set, $get))
-                                    ->rules(['required', new Enum(ThemeType::class)]),
+                                    ->afterStateUpdated(fn (Set $set, Get $get) => Theme::setThemeSlug($set, $get)),
 
                                 TextInput::make(ThemeModel::ATTRIBUTE_SEQUENCE)
                                     ->label(__('filament.fields.anime_theme.sequence.name'))
                                     ->helperText(__('filament.fields.anime_theme.sequence.help'))
-                                    ->numeric()
+                                    ->integer()
                                     ->live(true)
-                                    ->afterStateUpdated(fn (Set $set, Get $get) => Theme::setThemeSlug($set, $get))
-                                    ->rules(['nullable', 'integer']),
+                                    ->afterStateUpdated(fn (Set $set, Get $get) => Theme::setThemeSlug($set, $get)),
 
                                 TextInput::make(ThemeModel::ATTRIBUTE_SLUG)
                                     ->label(__('filament.fields.anime_theme.slug.name'))
                                     ->helperText(__('filament.fields.anime_theme.slug.help'))
                                     ->required()
-                                    ->readOnly()
                                     ->maxLength(192)
-                                    ->rules(['required', 'max:192', 'alpha_dash']),
+                                    ->alphaDash()
+                                    ->readOnly(),
 
                                 BelongsTo::make(ThemeModel::ATTRIBUTE_GROUP)
                                     ->resource(GroupResource::class)

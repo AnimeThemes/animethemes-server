@@ -125,15 +125,13 @@ class User extends BaseResource
                 TextInput::make(UserModel::ATTRIBUTE_NAME)
                     ->label(__('filament.fields.user.name'))
                     ->required()
-                    ->maxLength(192)
-                    ->rules(['required', 'max:192']),
+                    ->maxLength(192),
 
                 TextInput::make(UserModel::ATTRIBUTE_EMAIL)
                     ->label(__('filament.fields.user.email'))
                     ->email()
                     ->required()
-                    ->maxLength(192)
-                    ->rules(['required', 'email', 'max:192']),
+                    ->maxLength(192),
             ])
             ->columns(1);
     }

@@ -101,7 +101,6 @@ class Announcement extends BaseResource
                 MarkdownEditor::make(AnnouncementModel::ATTRIBUTE_CONTENT)
                     ->label(__('filament.fields.announcement.content'))
                     ->required()
-                    ->rules(['required', 'max:65535'])
                     ->maxLength(65535),
             ])
             ->columns(1);

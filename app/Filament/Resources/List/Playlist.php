@@ -149,15 +149,14 @@ class Playlist extends BaseResource
                     ->label(__('filament.fields.playlist.name.name'))
                     ->helperText(__('filament.fields.playlist.name.help'))
                     ->required()
-                    ->maxLength(192)
-                    ->rules(['required', 'max:192']),
+                    ->maxLength(192),
 
                 Select::make(PlaylistModel::ATTRIBUTE_VISIBILITY)
                     ->label(__('filament.fields.playlist.visibility.name'))
                     ->helperText(__('filament.fields.playlist.visibility.help'))
                     ->options(PlaylistVisibility::asSelectArray())
                     ->required()
-                    ->rules(['required', new Enum(PlaylistVisibility::class)]),
+                    ->enum(PlaylistVisibility::class),
 
                 TextInput::make(PlaylistModel::ATTRIBUTE_HASHID)
                     ->label(__('filament.fields.playlist.hashid.name'))
@@ -175,9 +174,7 @@ class Playlist extends BaseResource
                 Textarea::make(PlaylistModel::ATTRIBUTE_DESCRIPTION)
                     ->label(__('filament.fields.playlist.description.name'))
                     ->helperText(__('filament.fields.playlist.description.help'))
-                    ->nullable()
                     ->maxLength(1000)
-                    ->rules(['nullable', 'max:1000'])
                     ->columnSpanFull(),
             ])
             ->columns(2);

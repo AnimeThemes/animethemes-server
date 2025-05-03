@@ -69,7 +69,7 @@ class VideoDiscordNotificationBulkAction extends BaseBulkAction
                     ->options(DiscordNotificationType::asSelectArray())
                     ->default(DiscordNotificationType::ADDED->value)
                     ->required()
-                    ->rules(['required', new Enum(DiscordNotificationType::class)]),
+                    ->enum(DiscordNotificationType::class),
             ]);
     }
 }

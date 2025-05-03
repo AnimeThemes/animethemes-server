@@ -128,7 +128,6 @@ class Studio extends BaseResource
                     ->helperText(__('filament.fields.studio.name.help'))
                     ->required()
                     ->maxLength(192)
-                    ->rules(['required', 'max:192'])
                     ->live(true)
                     ->afterStateUpdated(fn (Set $set, ?string $state) => $set(StudioModel::ATTRIBUTE_SLUG, Str::slug($state, '_'))),
 

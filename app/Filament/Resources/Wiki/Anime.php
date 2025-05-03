@@ -152,7 +152,6 @@ class Anime extends BaseResource
                     ->helperText(__('filament.fields.anime.name.help'))
                     ->required()
                     ->maxLength(255)
-                    ->rules(['required', 'max:255'])
                     ->live(true)
                     ->afterStateUpdated(fn (Set $set, ?string $state) => $set(AnimeModel::ATTRIBUTE_SLUG, Str::slug($state, '_'))),
 
@@ -163,9 +162,9 @@ class Anime extends BaseResource
                 TextInput::make(AnimeModel::ATTRIBUTE_YEAR)
                     ->label(__('filament.fields.anime.year.name'))
                     ->helperText(__('filament.fields.anime.year.help'))
-                    ->numeric()
                     ->required()
-                    ->rules(['required', 'digits:4', 'integer'])
+                    ->integer()
+                    ->length(4)
                     ->minValue(1960)
                     ->maxValue(intval(date('Y')) + 1),
 
@@ -173,24 +172,23 @@ class Anime extends BaseResource
                     ->label(__('filament.fields.anime.season.name'))
                     ->helperText(__('filament.fields.anime.season.help'))
                     ->options(AnimeSeason::asSelectArrayStyled())
-                    ->searchable()
-                    ->allowHtml()
                     ->required()
-                    ->rules(['required', new Enum(AnimeSeason::class)]),
+                    ->enum(AnimeSeason::class)
+                    ->searchable()
+                    ->allowHtml(),
 
                 Select::make(AnimeModel::ATTRIBUTE_MEDIA_FORMAT)
                     ->label(__('filament.fields.anime.media_format.name'))
                     ->helperText(__('filament.fields.anime.media_format.help'))
                     ->options(AnimeMediaFormat::asSelectArray())
                     ->required()
-                    ->rules(['required', new Enum(AnimeMediaFormat::class)]),
+                    ->enum(AnimeMediaFormat::class),
 
                 MarkdownEditor::make(AnimeModel::ATTRIBUTE_SYNOPSIS)
                     ->label(__('filament.fields.anime.synopsis.name'))
                     ->helperText(__('filament.fields.anime.synopsis.help'))
                     ->columnSpan(2)
-                    ->maxLength(65535)
-                    ->rules('max:65535'),
+                    ->maxLength(65535),
             ])
             ->columns(2);
     }

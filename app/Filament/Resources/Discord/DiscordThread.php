@@ -143,15 +143,13 @@ class DiscordThread extends BaseResource
                     ->disabledOn(['edit'])
                     ->formatStateUsing(fn ($state) => strval($state))
                     ->required()
-                    ->rules(['required'])
                     ->live()
                     ->afterStateUpdated(fn (Set $set, string $state) => $set(DiscordThreadModel::ATTRIBUTE_NAME, Arr::get(new DiscordThreadAction()->get($state), 'thread.name'))),
 
                 TextInput::make(DiscordThreadModel::ATTRIBUTE_NAME)
                     ->label(__('filament.fields.discord_thread.name.name'))
                     ->helperText(__('filament.fields.discord_thread.name.help'))
-                    ->required()
-                    ->rules(['required', 'string']),
+                    ->required(),
 
                 BelongsTo::make(DiscordThreadModel::ATTRIBUTE_ANIME)
                     ->resource(AnimeResource::class)

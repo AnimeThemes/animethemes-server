@@ -64,7 +64,9 @@ trait MoveAllActionTrait
                     ->label(__('filament.resources.singularLabel.video'))
                     ->helperText(__('filament.actions.storage.move.fields.path.help'))
                     ->required()
-                    ->rules(['required', 'string', 'doesnt_start_with:/', "ends_with:.webm", new StorageFileDirectoryExistsRule($videoFs)])
+                    ->doesntStartWith('/')
+                    ->endsWith('.webm')
+                    ->rule(new StorageFileDirectoryExistsRule($videoFs))
                     ->default($videoPath),
 
                 TextInput::make('audio')
@@ -72,7 +74,9 @@ trait MoveAllActionTrait
                     ->helperText(__('filament.actions.storage.move.fields.path.help'))
                     ->hidden($audioPath === null)
                     ->required($audioPath !== null)
-                    ->rules(['string', 'doesnt_start_with:/', "ends_with:.ogg", new StorageFileDirectoryExistsRule($audioFs)])
+                    ->doesntStartWith('/')
+                    ->endsWith('.ogg')
+                    ->rule(new StorageFileDirectoryExistsRule($audioFs))
                     ->default($audioPath),
 
                 TextInput::make('script')
@@ -80,7 +84,9 @@ trait MoveAllActionTrait
                     ->helperText(__('filament.actions.storage.move.fields.path.help'))
                     ->hidden($scriptPath === null)
                     ->required($scriptPath !== null)
-                    ->rules(['string', 'doesnt_start_with:/', "ends_with:.txt", new StorageFileDirectoryExistsRule($scriptFs)])
+                    ->doesntStartWith('/')
+                    ->endsWith('.txt')
+                    ->rule(new StorageFileDirectoryExistsRule($scriptFs))
                     ->default($scriptPath),
             ]);
     }

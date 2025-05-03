@@ -49,7 +49,9 @@ trait MoveActionTrait
                     ->label(__('filament.actions.storage.move.fields.path.name'))
                     ->helperText(__('filament.actions.storage.move.fields.path.help'))
                     ->required()
-                    ->rules(['required', 'string', 'doesnt_start_with:/', "ends_with:{$this->allowedFileExtension()}", new StorageFileDirectoryExistsRule($fs)])
+                    ->doesntStartWith('/')
+                    ->endsWith($this->allowedFileExtension())
+                    ->rule(new StorageFileDirectoryExistsRule($fs))
                     ->default($defaultPath),
             ]);
     }

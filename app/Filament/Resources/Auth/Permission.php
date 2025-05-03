@@ -121,7 +121,6 @@ class Permission extends BaseResource
                     ->label(__('filament.fields.permission.name'))
                     ->required()
                     ->maxLength(192)
-                    ->rules(['required', 'max:192'])
                     ->hiddenOn(['edit']),
             ])
             ->columns(1);

@@ -142,22 +142,21 @@ class ExternalProfile extends BaseResource
                     ->label(__('filament.fields.external_profile.name.name'))
                     ->helperText(__('filament.fields.external_profile.name.help'))
                     ->required()
-                    ->maxLength(192)
-                    ->rules(['required', 'max:192']),
+                    ->maxLength(192),
 
                 Select::make(ExternalProfileModel::ATTRIBUTE_SITE)
                     ->label(__('filament.fields.external_profile.site.name'))
                     ->helperText(__('filament.fields.external_profile.site.help'))
                     ->options(ExternalProfileSite::asSelectArray())
                     ->required()
-                    ->rules(['required', new Enum(ExternalProfileSite::class)]),
+                    ->enum(ExternalProfileSite::class),
 
                 Select::make(ExternalProfileModel::ATTRIBUTE_VISIBILITY)
                     ->label(__('filament.fields.external_profile.visibility.name'))
                     ->helperText(__('filament.fields.external_profile.visibility.help'))
                     ->options(ExternalProfileVisibility::asSelectArray())
                     ->required()
-                    ->rules(['required', new Enum(ExternalProfileVisibility::class)]),
+                    ->enum(ExternalProfileVisibility::class),
             ])
             ->columns(2);
     }

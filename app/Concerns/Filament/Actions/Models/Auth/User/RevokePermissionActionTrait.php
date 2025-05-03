@@ -66,8 +66,7 @@ trait RevokePermissionActionTrait
                     ->label(__('filament.resources.singularLabel.permission'))
                     ->searchable()
                     ->required()
-                    ->options($permissions)
-                    ->rules('required'),
+                    ->options($permissions),
             ]);
     }
 }
