@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Database\Factories\Admin;
 
-use App\Actions\Storage\Admin\Dump\DumpWikiAction;
 use App\Models\Admin\Dump;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Arr;
