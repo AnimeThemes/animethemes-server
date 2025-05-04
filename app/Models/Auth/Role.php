@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models\Auth;
 
+use App\Contracts\Models\Nameable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 use Spatie\Permission\Models\Role as BaseRole;
@@ -20,7 +21,7 @@ use Spatie\Permission\Models\Role as BaseRole;
  * @property int $priority
  * @property Carbon $updated_at
  */
-class Role extends BaseRole
+class Role extends BaseRole implements Nameable
 {
     final public const TABLE = 'roles';
 
@@ -47,5 +48,15 @@ class Role extends BaseRole
             Role::ATTRIBUTE_DEFAULT => 'boolean',
             Role::ATTRIBUTE_PRIORITY => 'int',
         ];
+    }
+
+    /**
+     * Get name.
+     *
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name;
     }
 }
