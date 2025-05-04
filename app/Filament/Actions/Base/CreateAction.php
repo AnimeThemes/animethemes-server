@@ -11,6 +11,7 @@ use App\Filament\RelationManagers\Wiki\ResourceRelationManager;
 use App\Models\Auth\User;
 use Filament\Forms\Form;
 use Filament\Tables\Actions\CreateAction as DefaultCreateAction;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Auth;
@@ -38,12 +39,12 @@ class CreateAction extends DefaultCreateAction
             ...$livewire->getPivotFields(),
         ]);
 
-        $this->after(function ($livewire, $record) {
+        $this->after(function ($livewire, Model $record, CreateAction $action) {
             if ($livewire instanceof BaseRelationManager) {
                 $relationship = $livewire->getRelationship();
 
                 if ($relationship instanceof HasMany) {
-                    $this->associateActionLog('Create and Associate', $livewire, $record);
+                    $this->associateActionLog('Create and Associate', $livewire, $record, $action);
                 }
             }
         });

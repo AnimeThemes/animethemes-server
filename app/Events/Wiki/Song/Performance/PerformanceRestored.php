@@ -70,6 +70,8 @@ class PerformanceRestored extends WikiRestoredEvent implements UpdateRelatedIndi
         if ($performance->isMembership()) {
             $performance->artist->artist->searchable();
             $performance->artist->member->searchable();
+
+            return;
         }
 
         $performance->artist->searchable();

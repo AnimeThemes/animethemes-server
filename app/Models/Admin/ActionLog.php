@@ -321,8 +321,6 @@ class ActionLog extends Model implements Nameable
      */
     public static function modelPivot(string $actionName, Model $related, Model $parent, Model $pivot, mixed $action = null): ActionLog
     {
-        $data = $action?->getFormData();
-
         return ActionLog::query()->create([
             ActionLog::ATTRIBUTE_BATCH_ID => Str::orderedUuid()->__toString(),
             ActionLog::ATTRIBUTE_USER => ActionLog::getUserId(),
@@ -333,7 +331,7 @@ class ActionLog extends Model implements Nameable
             ActionLog::ATTRIBUTE_TARGET_ID => $parent->getKey(),
             ActionLog::ATTRIBUTE_MODEL_TYPE => $pivot->getMorphClass(),
             ActionLog::ATTRIBUTE_MODEL_ID => $pivot->getKey(),
-            ActionLog::ATTRIBUTE_FIELDS => $data ? static::getFields($data) : static::getFields($pivot->getAttributes(), $pivot),
+            ActionLog::ATTRIBUTE_FIELDS => $action?->getFormData() ?? static::getFields($pivot->getAttributes(), $pivot),
             ActionLog::ATTRIBUTE_STATUS => ActionLogStatus::FINISHED->value,
             ActionLog::ATTRIBUTE_FINISHED_AT => Date::now(),
         ]);
@@ -342,24 +340,25 @@ class ActionLog extends Model implements Nameable
     /**
      * Register an action log for a model associated (HasMany).
      *
-     * @param  string  $action
+     * @param  string  $actionName
      * @param  Model  $related
      * @param  Model  $parent
+     * @param  mixed  $action
      * @return ActionLog
      */
-    public static function modelAssociated(string $action, Model $related, Model $parent): ActionLog
+    public static function modelAssociated(string $actionName, Model $related, Model $parent, mixed $action): ActionLog
     {
         return ActionLog::query()->create([
             ActionLog::ATTRIBUTE_BATCH_ID => Str::orderedUuid()->__toString(),
             ActionLog::ATTRIBUTE_USER => ActionLog::getUserId(),
-            ActionLog::ATTRIBUTE_NAME => $action,
+            ActionLog::ATTRIBUTE_NAME => $actionName,
             ActionLog::ATTRIBUTE_ACTIONABLE_TYPE => $related->getMorphClass(),
             ActionLog::ATTRIBUTE_ACTIONABLE_ID => $related->getKey(),
             ActionLog::ATTRIBUTE_TARGET_TYPE => $parent->getMorphClass(),
             ActionLog::ATTRIBUTE_TARGET_ID => $parent->getKey(),
             ActionLog::ATTRIBUTE_MODEL_TYPE => $related->getMorphClass(),
             ActionLog::ATTRIBUTE_MODEL_ID => $related->getKey(),
-            ActionLog::ATTRIBUTE_FIELDS => static::getFields($related->getAttributes(), $related),
+            ActionLog::ATTRIBUTE_FIELDS => $action->getFormData(),
             ActionLog::ATTRIBUTE_STATUS => ActionLogStatus::FINISHED->value,
             ActionLog::ATTRIBUTE_FINISHED_AT => Date::now(),
         ]);

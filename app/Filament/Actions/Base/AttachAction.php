@@ -7,6 +7,7 @@ namespace App\Filament\Actions\Base;
 use App\Concerns\Filament\ActionLogs\HasPivotActionLogs;
 use App\Filament\Components\Fields\Select;
 use App\Filament\RelationManagers\BaseRelationManager;
+use App\Models\Admin\ActionLog;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Image;
 use Filament\Facades\Filament;
@@ -64,7 +65,13 @@ class AttachAction extends DefaultAttachAction
             if ($this->shouldShowCreateOption($model)) {
                 $select = $select
                     ->createOptionForm(fn (Form $form) => Filament::getModelResource($model)::form($form)->getComponents())
-                    ->createOptionUsing(fn (array $data) => $model::query()->create($data)->getKey());
+                    ->createOptionUsing(function (array $data) use ($model) {
+                        $created = $model::query()->create($data);
+
+                        ActionLog::modelCreated($created);
+
+                        return $created->getKey();
+                    });
             }
 
             return $select;
