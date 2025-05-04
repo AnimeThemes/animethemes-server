@@ -97,6 +97,18 @@ class VideoScript extends BaseModel implements InteractsWithSchema
     }
 
     /**
+     * Get the eager loads needed to the subtitle.
+     *
+     * @return array
+     */
+    public static function getEagerLoadsForSubtitle(): array
+    {
+        return [
+            VideoScript::RELATION_VIDEO,
+        ];
+    }
+
+    /**
      * Get the video that owns the script.
      *
      * @return BelongsTo<Video, $this>

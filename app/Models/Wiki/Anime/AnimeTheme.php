@@ -196,6 +196,18 @@ class AnimeTheme extends BaseModel implements InteractsWithSchema
     }
 
     /**
+     * Get the eager loads needed to the subtitle.
+     *
+     * @return array
+     */
+    public static function getEagerLoadsForSubtitle(): array
+    {
+        return [
+            AnimeTheme::RELATION_ANIME,
+        ];
+    }
+
+    /**
      * Gets the anime that owns the theme.
      *
      * @return BelongsTo<Anime, $this>

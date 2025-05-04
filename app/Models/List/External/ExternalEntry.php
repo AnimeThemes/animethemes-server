@@ -119,6 +119,18 @@ class ExternalEntry extends BaseModel
     }
 
     /**
+     * Get the eager loads needed to the subtitle.
+     *
+     * @return array
+     */
+    public static function getEagerLoadsForSubtitle(): array
+    {
+        return [
+            ExternalEntry::RELATION_ANIME,
+        ];
+    }
+
+    /**
      * Get the route key for the model.
      *
      * @return string

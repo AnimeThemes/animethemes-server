@@ -110,6 +110,18 @@ class DiscordThread extends Model implements Nameable, HasSubtitle
     }
 
     /**
+     * Get the eager loads needed to the subtitle.
+     *
+     * @return array
+     */
+    public static function getEagerLoadsForSubtitle(): array
+    {
+        return [
+            DiscordThread::RELATION_ANIME,
+        ];
+    }
+
+    /**
      * Gets the anime that the thread uses.
      *
      * @return BelongsTo<Anime, $this>

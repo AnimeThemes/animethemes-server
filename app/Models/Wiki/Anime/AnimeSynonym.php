@@ -114,6 +114,18 @@ class AnimeSynonym extends BaseModel
     }
 
     /**
+     * Get the eager loads needed to the subtitle.
+     *
+     * @return array
+     */
+    public static function getEagerLoadsForSubtitle(): array
+    {
+        return [
+            AnimeSynonym::RELATION_ANIME,
+        ];
+    }
+
+    /**
      * Gets the anime that owns the synonym.
      *
      * @return BelongsTo<Anime, $this>

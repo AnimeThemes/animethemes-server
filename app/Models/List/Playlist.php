@@ -166,6 +166,18 @@ class Playlist extends BaseModel implements HasHashids, Viewable, HasImages
     }
 
     /**
+     * Get the eager loads needed to the subtitle.
+     *
+     * @return array
+     */
+    public static function getEagerLoadsForSubtitle(): array
+    {
+        return [
+            Playlist::RELATION_USER,
+        ];
+    }
+
+    /**
      * Determine if the model should be searchable.
      *
      * @return bool

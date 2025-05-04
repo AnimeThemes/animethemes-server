@@ -104,6 +104,18 @@ class ExternalToken extends BaseModel
     }
 
     /**
+     * Get the eager loads needed to the subtitle.
+     *
+     * @return array
+     */
+    public static function getEagerLoadsForSubtitle(): array
+    {
+        return [
+            ExternalToken::RELATION_PROFILE,
+        ];
+    }
+
+    /**
      * Get the route key for the model.
      *
      * @return string
