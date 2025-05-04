@@ -367,18 +367,12 @@ class Performance extends BaseResource
                 ->defaultItems(0)
                 ->columns(3)
                 ->columnSpanFull()
-                ->formatStateUsing(function ($livewire, Get $get, $state) {
-                    if ($livewire instanceof PerformanceSongRelationManager) {
-                        $song = $livewire->getOwnerRecord();
-                    } else {
-                        if ($songId = $get(PerformanceModel::ATTRIBUTE_SONG)) {
-                            $song = SongModel::find($songId);
-                        } else return $state;
-                    }
+                ->formatStateUsing(function ($livewire, Get $get) {
+                    /** @var SongModel|null $song */
+                    $song = $livewire instanceof PerformanceSongRelationManager
+                        ? $livewire->getOwnerRecord()
+                        : SongModel::find($get(PerformanceModel::ATTRIBUTE_SONG));
 
-                    if (!($song instanceof SongModel)) {
-                        return $state;
-                    }
                     return PerformanceSongRelationManager::formatArtists($song);
                 })
                 ->schema([
@@ -386,13 +380,20 @@ class Performance extends BaseResource
                         ->resource(ArtistResource::class)
                         ->showCreateOption()
                         ->required()
-                        ->rules(['required'])
                         ->hintAction(
                             Action::make('load')
                                 ->label(__('filament.fields.performance.load_members.name'))
                                 ->action(function (Get $get, Set $set) {
+                                    $artistId = $get(Artist::ATTRIBUTE_ID);
+                                    if ($artistId === null) {
+                                        $set('memberships', []);
+                                        return;
+                                    }
+
                                     /** @var Artist $group */
-                                    $group = Artist::query()->find($get(Artist::ATTRIBUTE_ID));
+                                    $group = Artist::query()
+                                        ->with([Artist::RELATION_MEMBERS])
+                                        ->find($artistId);
 
                                     $set('memberships', $group->members->map(fn (Artist $member) => [
                                         Membership::ATTRIBUTE_MEMBER => $member->getKey(),
@@ -423,8 +424,7 @@ class Performance extends BaseResource
                                 ->resource(ArtistResource::class)
                                 ->showCreateOption()
                                 ->label(__('filament.fields.membership.member'))
-                                ->required()
-                                ->rules(['required']),
+                                ->required(),
 
                             TextInput::make(Membership::ATTRIBUTE_AS)
                                 ->label(__('filament.fields.membership.as.name'))

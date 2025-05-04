@@ -55,8 +55,7 @@ trait DiscordThreadActionTrait
                     ->label(__('filament.actions.discord.thread.name'))
                     ->helperText(__('filament.actions.discord.thread.help'))
                     ->required()
-                    ->maxlength(100)
-                    ->rules(['required', 'max:100']),
+                    ->maxlength(100),
             ]);
     }
 }

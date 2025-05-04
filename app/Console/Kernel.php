@@ -5,8 +5,13 @@ declare(strict_types=1);
 namespace App\Console;
 
 use App\Console\Commands\Models\SyncViewAggregatesCommand;
+use App\Console\Commands\Storage\Admin\AdminDumpCommand;
+use App\Console\Commands\Storage\Admin\AuthDumpCommand;
+use App\Console\Commands\Storage\Admin\DiscordDumpCommand;
 use App\Console\Commands\Storage\Admin\DocumentDumpCommand;
 use App\Console\Commands\Storage\Admin\DumpPruneCommand;
+use App\Console\Commands\Storage\Admin\ListDumpCommand;
+use App\Console\Commands\Storage\Admin\UserDumpCommand;
 use App\Console\Commands\Storage\Admin\WikiDumpCommand;
 use App\Models\BaseModel;
 use BezhanSalleh\FilamentExceptions\Models\Exception;
@@ -44,7 +49,37 @@ class Kernel extends ConsoleKernel
             ->storeOutput()
             ->everyFifteenMinutes();
 
+        $schedule->command(AdminDumpCommand::class)
+            ->withoutOverlapping()
+            ->runInBackground()
+            ->storeOutput()
+            ->daily();
+
+        $schedule->command(AuthDumpCommand::class)
+            ->withoutOverlapping()
+            ->runInBackground()
+            ->storeOutput()
+            ->daily();
+
+        $schedule->command(DiscordDumpCommand::class)
+            ->withoutOverlapping()
+            ->runInBackground()
+            ->storeOutput()
+            ->daily();
+
         $schedule->command(DocumentDumpCommand::class)
+            ->withoutOverlapping()
+            ->runInBackground()
+            ->storeOutput()
+            ->daily();
+
+        $schedule->command(ListDumpCommand::class)
+            ->withoutOverlapping()
+            ->runInBackground()
+            ->storeOutput()
+            ->daily();
+
+        $schedule->command(UserDumpCommand::class)
             ->withoutOverlapping()
             ->runInBackground()
             ->storeOutput()

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models\Admin;
 
+use App\Actions\Storage\Admin\Dump\DumpDocumentAction;
+use App\Actions\Storage\Admin\Dump\DumpWikiAction;
 use App\Events\Admin\Dump\DumpCreated;
 use App\Events\Admin\Dump\DumpDeleted;
 use App\Events\Admin\Dump\DumpRestored;
@@ -81,5 +83,18 @@ class Dump extends BaseModel
     public function getSubtitle(): string
     {
         return $this->getName();
+    }
+
+    /**
+     * Get the available safe dumps.
+     *
+     * @return array
+     */
+    public static function safeDumps(): array
+    {
+        return [
+            DumpDocumentAction::FILENAME_PREFIX,
+            DumpWikiAction::FILENAME_PREFIX,
+        ];
     }
 }

@@ -40,7 +40,6 @@ use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
-use Illuminate\Validation\Rules\Enum;
 
 /**
  * Class Video.
@@ -139,44 +138,42 @@ class Video extends BaseResource
                 TextInput::make(VideoModel::ATTRIBUTE_RESOLUTION)
                     ->label(__('filament.fields.video.resolution.name'))
                     ->helperText(__('filament.fields.video.resolution.help'))
-                    ->numeric()
+                    ->integer()
                     ->minValue(360)
-                    ->maxValue(1080)
-                    ->nullable()
-                    ->rules(['nullable', 'integer']),
+                    ->maxValue(1080),
 
                 Checkbox::make(VideoModel::ATTRIBUTE_NC)
                     ->label(__('filament.fields.video.nc.name'))
                     ->helperText(__('filament.fields.video.nc.help'))
-                    ->rules(['nullable', 'boolean']),
+                    ->rules(['boolean']),
 
                 Checkbox::make(VideoModel::ATTRIBUTE_SUBBED)
                     ->label(__('filament.fields.video.subbed.name'))
                     ->helperText(__('filament.fields.video.subbed.help'))
-                    ->rules(['nullable', 'boolean']),
+                    ->rules(['boolean']),
 
                 Checkbox::make(VideoModel::ATTRIBUTE_LYRICS)
                     ->label(__('filament.fields.video.lyrics.name'))
                     ->helperText(__('filament.fields.video.lyrics.help'))
-                    ->rules(['nullable', 'boolean']),
+                    ->rules(['boolean']),
 
                 Checkbox::make(VideoModel::ATTRIBUTE_UNCEN)
                     ->label(__('filament.fields.video.uncen.name'))
                     ->helperText(__('filament.fields.video.uncen.help'))
-                    ->rules(['nullable', 'boolean']),
+                    ->rules(['boolean']),
 
                 Select::make(VideoModel::ATTRIBUTE_OVERLAP)
                     ->label(__('filament.fields.video.overlap.name'))
                     ->helperText(__('filament.fields.video.overlap.help'))
                     ->options(VideoOverlap::asSelectArray())
-                    ->rules(['nullable', new Enum(VideoOverlap::class)]),
+                    ->enum(VideoOverlap::class),
 
                 Select::make(VideoModel::ATTRIBUTE_SOURCE)
                     ->label(__('filament.fields.video.source.name'))
                     ->helperText(__('filament.fields.video.source.help'))
                     ->options(VideoSource::asSelectArray())
                     ->required()
-                    ->rules(['required', new Enum(VideoSource::class)]),
+                    ->enum(VideoSource::class),
 
                 Select::make(VideoModel::ATTRIBUTE_AUDIO)
                     ->label(__('filament.resources.singularLabel.audio'))

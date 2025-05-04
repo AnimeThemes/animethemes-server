@@ -19,7 +19,6 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\Rules\Enum;
 
 /**
  * Trait BackfillAudioActionTrait.
@@ -96,21 +95,24 @@ trait BackfillAudioActionTrait
                     ->label(__('filament.actions.video.backfill.fields.derive_source.name'))
                     ->helperText(__('filament.actions.video.backfill.fields.derive_source.help'))
                     ->options(DeriveSourceVideo::asSelectArray())
-                    ->rules(['required', new Enum(DeriveSourceVideo::class)])
+                    ->required()
+                    ->enum(DeriveSourceVideo::class)
                     ->default(DeriveSourceVideo::YES->value),
 
                 Select::make(OverwriteAudio::getFieldKey())
                     ->label(__('filament.actions.video.backfill.fields.overwrite.name'))
                     ->helperText(__('filament.actions.video.backfill.fields.overwrite.help'))
                     ->options(OverwriteAudio::asSelectArray())
-                    ->rules(['required', new Enum(OverwriteAudio::class)])
+                    ->required()
+                    ->enum(OverwriteAudio::class)
                     ->default(OverwriteAudio::NO->value),
 
                 Select::make(ReplaceRelatedAudio::getFieldKey())
                     ->label(__('filament.actions.video.backfill.fields.replace_related.name'))
                     ->helperText(__('filament.actions.video.backfill.fields.replace_related.help'))
                     ->options(ReplaceRelatedAudio::asSelectArray())
-                    ->rules(['required', new Enum(ReplaceRelatedAudio::class)])
+                    ->required()
+                    ->enum(ReplaceRelatedAudio::class)
                     ->default(ReplaceRelatedAudio::NO->value),
             ]);
     }

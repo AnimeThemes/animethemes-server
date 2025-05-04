@@ -67,6 +67,7 @@ class AnimeTheme extends BaseModel implements InteractsWithSchema
     final public const RELATION_GROUP = 'group';
     final public const RELATION_IMAGES = 'anime.images';
     final public const RELATION_PERFORMANCES = 'song.performances';
+    final public const RELATION_PERFORMANCES_ARTISTS = 'song.performances.artist';
     final public const RELATION_SONG = 'song';
     final public const RELATION_SYNONYMS = 'anime.animesynonyms';
     final public const RELATION_VIDEOS = 'animethemeentries.videos';
@@ -177,11 +178,21 @@ class AnimeTheme extends BaseModel implements InteractsWithSchema
      */
     public function getName(): string
     {
-        $this->loadMissing(AnimeTheme::RELATION_GROUP);
+        $this->loadMissing([
+            AnimeTheme::RELATION_SONG,
+            AnimeTheme::RELATION_GROUP,
+        ]);
 
-        return Str::of($this->type->localize())
+        $name = Str::of($this->type->localize());
+
+        if ($this->type === ThemeType::IN && $this->song !== null) {
+            $name = $name->append(" \"{$this->song->getName()}\" ");
+        }
+
+        return $name
             ->append($this->type === ThemeType::IN ? '' : strval($this->sequence ?? 1))
             ->append($this->group !== null ? '-'.$this->group->slug : '')
+            ->trim()
             ->__toString();
     }
 
@@ -193,6 +204,18 @@ class AnimeTheme extends BaseModel implements InteractsWithSchema
     public function getSubtitle(): string
     {
         return $this->anime->getName();
+    }
+
+    /**
+     * Get the eager loads needed to the subtitle.
+     *
+     * @return array
+     */
+    public static function getEagerLoadsForSubtitle(): array
+    {
+        return [
+            AnimeTheme::RELATION_ANIME,
+        ];
     }
 
     /**

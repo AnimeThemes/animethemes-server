@@ -145,7 +145,6 @@ class Artist extends BaseResource
                     ->label(__('filament.fields.artist.name.name'))
                     ->helperText(__('filament.fields.artist.name.help'))
                     ->required()
-                    ->rules(['required', 'max:192'])
                     ->maxLength(192)
                     ->live(true)
                     ->afterStateUpdated(fn (Set $set, ?string $state) => $set(ArtistModel::ATTRIBUTE_SLUG, Str::slug($state, '_'))),
@@ -158,8 +157,7 @@ class Artist extends BaseResource
                     ->label(__('filament.fields.artist.information.name'))
                     ->helperText(__('filament.fields.artist.information.help'))
                     ->columnSpan(2)
-                    ->maxLength(65535)
-                    ->rules('max:65535'),
+                    ->maxLength(65535),
             ])
             ->columns(2);
     }

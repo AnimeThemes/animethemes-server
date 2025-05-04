@@ -20,6 +20,8 @@ use Illuminate\Support\Facades\Request;
  */
 class View extends BaseView
 {
+    final public const TABLE = 'views';
+
     /**
      * Bootstrap the model.
      *

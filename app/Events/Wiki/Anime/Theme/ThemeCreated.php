@@ -74,7 +74,7 @@ class ThemeCreated extends WikiCreatedEvent implements UpdateRelatedIndicesEvent
 
     /**
      * Update the sequence attribute of the first theme when creating a new sequence theme.
-     * 
+     *
      * @return void
      */
     protected function updateFirstTheme(): void

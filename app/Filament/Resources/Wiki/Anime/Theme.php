@@ -29,8 +29,10 @@ use App\Filament\Resources\Wiki\Song\RelationManagers\PerformanceSongRelationMan
 use App\Filament\Resources\Wiki\Song\RelationManagers\ThemeSongRelationManager;
 use App\Models\Wiki\Anime\AnimeTheme as ThemeModel;
 use App\Models\Wiki\Anime\AnimeTheme;
+use App\Models\Wiki\Artist;
 use App\Models\Wiki\Group;
 use App\Models\Wiki\Song;
+use App\Models\Wiki\Song\Membership;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\Tabs\Tab;
@@ -47,8 +49,8 @@ use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Support\Str;
-use Illuminate\Validation\Rules\Enum;
 
 /**
  * Class Theme.
@@ -120,7 +122,7 @@ class Theme extends BaseResource
      */
     public static function getRecordTitle(?Model $record): ?string
     {
-        return $record instanceof ThemeModel ? $record->anime->getName() . ' ' . $record->slug : null;
+        return $record instanceof ThemeModel ? $record->getName() : null;
     }
 
     /**
@@ -155,10 +157,20 @@ class Theme extends BaseResource
         $query = parent::getEloquentQuery();
 
         // Necessary to prevent lazy loading when loading related resources
+        /** @phpstan-ignore-next-line */
         return $query->with([
             AnimeTheme::RELATION_ANIME,
+            AnimeTheme::RELATION_GROUP,
+            AnimeTheme::RELATION_ENTRIES,
+            AnimeTheme::RELATION_PERFORMANCES,
             AnimeTheme::RELATION_SONG,
-            AnimeTheme::RELATION_GROUP
+            'song.animethemes',
+            AnimeTheme::RELATION_PERFORMANCES_ARTISTS => function (MorphTo $morphTo) {
+                $morphTo->morphWith([
+                    Artist::class => [],
+                    Membership::class => [Membership::RELATION_ARTIST, Membership::RELATION_MEMBER]
+                ]);
+            },
         ]);
     }
 
@@ -182,33 +194,31 @@ class Theme extends BaseResource
                                 BelongsTo::make(ThemeModel::ATTRIBUTE_ANIME)
                                     ->resource(AnimeResource::class)
                                     ->hiddenOn(ThemeRelationManager::class)
-                                    ->required()
-                                    ->rules(['required']),
+                                    ->required(),
 
                                 Select::make(ThemeModel::ATTRIBUTE_TYPE)
                                     ->label(__('filament.fields.anime_theme.type.name'))
                                     ->helperText(__('filament.fields.anime_theme.type.help'))
                                     ->options(ThemeType::asSelectArray())
                                     ->required()
+                                    ->enum(ThemeType::class)
                                     ->live(true)
-                                    ->afterStateUpdated(fn (Set $set, Get $get) => Theme::setThemeSlug($set, $get))
-                                    ->rules(['required', new Enum(ThemeType::class)]),
+                                    ->afterStateUpdated(fn (Set $set, Get $get) => Theme::setThemeSlug($set, $get)),
 
                                 TextInput::make(ThemeModel::ATTRIBUTE_SEQUENCE)
                                     ->label(__('filament.fields.anime_theme.sequence.name'))
                                     ->helperText(__('filament.fields.anime_theme.sequence.help'))
-                                    ->numeric()
+                                    ->integer()
                                     ->live(true)
-                                    ->afterStateUpdated(fn (Set $set, Get $get) => Theme::setThemeSlug($set, $get))
-                                    ->rules(['nullable', 'integer']),
+                                    ->afterStateUpdated(fn (Set $set, Get $get) => Theme::setThemeSlug($set, $get)),
 
                                 TextInput::make(ThemeModel::ATTRIBUTE_SLUG)
                                     ->label(__('filament.fields.anime_theme.slug.name'))
                                     ->helperText(__('filament.fields.anime_theme.slug.help'))
                                     ->required()
-                                    ->readOnly()
                                     ->maxLength(192)
-                                    ->rules(['required', 'max:192', 'alpha_dash']),
+                                    ->alphaDash()
+                                    ->readOnly(),
 
                                 BelongsTo::make(ThemeModel::ATTRIBUTE_GROUP)
                                     ->resource(GroupResource::class)
@@ -227,8 +237,6 @@ class Theme extends BaseResource
                                     ->afterStateUpdated(function (Set $set, $state) {
                                         /** @var Song|null $song */
                                         $song = Song::find($state);
-
-                                        if (!$song) return;
                                         $set('performances', PerformanceSongRelationManager::formatArtists($song));
                                     }),
 
@@ -273,8 +281,7 @@ class Theme extends BaseResource
                     ->label(__('filament.fields.anime_theme.sequence.name')),
 
                 TextColumn::make(ThemeModel::ATTRIBUTE_SLUG)
-                    ->label(__('filament.fields.anime_theme.slug.name'))
-                    ->formatStateUsing(fn ($record) => $record->getName()),
+                    ->label(__('filament.fields.anime_theme.slug.name')),
 
                 BelongsToColumn::make(ThemeModel::RELATION_GROUP, GroupResource::class),
 
@@ -310,9 +317,8 @@ class Theme extends BaseResource
                         TextEntry::make(ThemeModel::ATTRIBUTE_SEQUENCE)
                             ->label(__('filament.fields.anime_theme.sequence.name')),
 
-                        TextEntry::make(ThemeModel::ATTRIBUTE_ID)
-                            ->label(__('filament.fields.anime_theme.slug.name'))
-                            ->formatStateUsing(fn ($state) => ThemeModel::withTrashed()->find(intval($state))->getName()),
+                        TextEntry::make(ThemeModel::ATTRIBUTE_SLUG)
+                            ->label(__('filament.fields.anime_theme.slug.name')),
 
                         BelongsToEntry::make(ThemeModel::RELATION_GROUP, GroupResource::class)
                             ->label(__('filament.resources.singularLabel.group')),

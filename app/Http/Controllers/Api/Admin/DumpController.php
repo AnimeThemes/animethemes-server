@@ -11,6 +11,7 @@ use App\Actions\Http\Api\RestoreAction;
 use App\Actions\Http\Api\ShowAction;
 use App\Actions\Http\Api\StoreAction;
 use App\Actions\Http\Api\UpdateAction;
+use App\Enums\Http\Api\Filter\ComparisonOperator;
 use App\Http\Api\Query\Query;
 use App\Http\Controllers\Api\BaseController;
 use App\Http\Requests\Api\IndexRequest;
@@ -46,7 +47,13 @@ class DumpController extends BaseController
     {
         $query = new Query($request->validated());
 
-        $dumps = $action->index(Dump::query(), $query, $request->schema());
+        $builder = Dump::query();
+
+        foreach (Dump::safeDumps() as $path) {
+            $builder->orWhere(Dump::ATTRIBUTE_PATH, ComparisonOperator::LIKE->value, $path.'%');
+        }
+
+        $dumps = $action->index($builder, $query, $request->schema());
 
         return new DumpCollection($dumps, $query);
     }

@@ -133,7 +133,6 @@ class Series extends BaseResource
                     ->helperText(__('filament.fields.series.name.help'))
                     ->required()
                     ->maxLength(192)
-                    ->rules(['required', 'max:192'])
                     ->live(true)
                     ->afterStateUpdated(fn (Set $set, ?string $state) => $set(SeriesModel::ATTRIBUTE_SLUG, Str::slug($state, '_'))),
 

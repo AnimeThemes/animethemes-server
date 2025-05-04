@@ -121,7 +121,6 @@ class Page extends BaseResource
                     ->helperText(__('filament.fields.page.name.help'))
                     ->required()
                     ->maxLength(192)
-                    ->rules(['required', 'max:192'])
                     ->live(true)
                     ->afterStateUpdated(fn (Set $set, Get $get) => static::setSlug($set, $get)),
 
@@ -135,7 +134,6 @@ class Page extends BaseResource
                     ->helperText(__('filament.fields.page.body.help'))
                     ->required()
                     ->maxLength(16777215)
-                    ->rules(['required', 'max:16777215'])
                     ->columnSpan(2)
                     ->formatStateUsing(fn (?PageModel $record) => $record?->body),
             ])

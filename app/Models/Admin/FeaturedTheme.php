@@ -132,6 +132,18 @@ class FeaturedTheme extends BaseModel
     }
 
     /**
+     * Get the eager loads needed to the subtitle.
+     *
+     * @return array
+     */
+    public static function getEagerLoadsForSubtitle(): array
+    {
+        return [
+            FeaturedTheme::RELATION_ENTRY,
+        ];
+    }
+
+    /**
      * Get the user that recommended the featured theme.
      *
      * @return BelongsTo<User, $this>

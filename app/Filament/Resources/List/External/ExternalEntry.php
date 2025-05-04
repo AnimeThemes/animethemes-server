@@ -29,7 +29,6 @@ use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Validation\Rules\Enum;
 
 /**
  * Class ExternalEntry.
@@ -132,13 +131,11 @@ class ExternalEntry extends BaseResource
                 BelongsTo::make(ExternalEntryModel::ATTRIBUTE_PROFILE)
                     ->resource(ExternalProfileResource::class)
                     ->required()
-                    ->rules(['required'])
                     ->hiddenOn([ExternalEntryExternalProfileRelationManager::class]),
 
                 BelongsTo::make(ExternalEntryModel::ATTRIBUTE_ANIME)
                     ->resource(Anime::class)
-                    ->required()
-                    ->rules(['required']),
+                    ->required(),
 
                 TextInput::make(ExternalEntryModel::ATTRIBUTE_SCORE)
                     ->label(__('filament.fields.external_entry.score.name'))
@@ -149,7 +146,8 @@ class ExternalEntry extends BaseResource
                     ->label(__('filament.fields.external_entry.watch_status.name'))
                     ->helperText(__('filament.fields.external_entry.watch_status.help'))
                     ->options(ExternalEntryWatchStatus::asSelectArray())
-                    ->rules([new Enum(ExternalEntryWatchStatus::class)]),
+                    ->required()
+                    ->enum(ExternalEntryWatchStatus::class),
 
                 Checkbox::make(ExternalEntryModel::ATTRIBUTE_IS_FAVORITE)
                     ->label(__('filament.fields.external_entry.is_favorite.name'))

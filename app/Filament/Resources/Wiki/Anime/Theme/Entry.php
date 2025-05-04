@@ -169,7 +169,6 @@ class Entry extends BaseResource
                     ->resource(AnimeResource::class, EntryModel::RELATION_ANIME_SHALLOW)
                     ->live(true)
                     ->required()
-                    ->rules(['required'])
                     ->visibleOn([ListEntries::class, ViewEntry::class])
                     ->saveRelationshipsUsing(fn (EntryModel $record, $state) => $record->animetheme->anime()->associate(intval($state))->save()),
 
@@ -177,7 +176,6 @@ class Entry extends BaseResource
                     ->label(__('filament.resources.singularLabel.anime_theme'))
                     ->relationship(EntryModel::RELATION_THEME, ThemeModel::ATTRIBUTE_ID)
                     ->required()
-                    ->rules(['required'])
                     ->visibleOn([ListEntries::class, ViewEntry::class])
                     ->options(function (Get $get) {
                         return ThemeModel::query()
@@ -190,30 +188,27 @@ class Entry extends BaseResource
                 TextInput::make(EntryModel::ATTRIBUTE_VERSION)
                     ->label(__('filament.fields.anime_theme_entry.version.name'))
                     ->helperText(__('filament.fields.anime_theme_entry.version.help'))
-                    ->numeric()
-                    ->rules(['nullable', 'integer']),
+                    ->integer(),
 
                 TextInput::make(EntryModel::ATTRIBUTE_EPISODES)
                     ->label(__('filament.fields.anime_theme_entry.episodes.name'))
                     ->helperText(__('filament.fields.anime_theme_entry.episodes.help'))
-                    ->maxLength(192)
-                    ->rules(['nullable', 'max:192']),
+                    ->maxLength(192),
 
                 Checkbox::make(EntryModel::ATTRIBUTE_NSFW)
                     ->label(__('filament.fields.anime_theme_entry.nsfw.name'))
                     ->helperText(__('filament.fields.anime_theme_entry.nsfw.help'))
-                    ->rules(['nullable', 'boolean']),
+                    ->rules(['boolean']),
 
                 Checkbox::make(EntryModel::ATTRIBUTE_SPOILER)
                     ->label(__('filament.fields.anime_theme_entry.spoiler.name'))
                     ->helperText(__('filament.fields.anime_theme_entry.spoiler.help'))
-                    ->rules(['nullable', 'boolean']),
+                    ->rules(['boolean']),
 
                 TextInput::make(EntryModel::ATTRIBUTE_NOTES)
                     ->label(__('filament.fields.anime_theme_entry.notes.name'))
                     ->helperText(__('filament.fields.anime_theme_entry.notes.help'))
-                    ->maxLength(192)
-                    ->rules(['nullable', 'max:192']),
+                    ->maxLength(192),
             ])
             ->columns(1);
     }

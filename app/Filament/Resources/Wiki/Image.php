@@ -28,7 +28,6 @@ use Filament\Tables\Columns\Layout\Stack;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Config;
-use Illuminate\Validation\Rules\Enum;
 
 /**
  * Class Image.
@@ -129,7 +128,7 @@ class Image extends BaseResource
                     ->helperText(__('filament.fields.image.facet.help'))
                     ->options(ImageFacet::asSelectArray())
                     ->required()
-                    ->rules(['required', new Enum(ImageFacet::class)]),
+                    ->enum(ImageFacet::class),
             ]);
     }
 

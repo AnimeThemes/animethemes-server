@@ -149,7 +149,6 @@ class Track extends BaseResource
                 BelongsTo::make(TrackModel::ATTRIBUTE_PLAYLIST)
                     ->resource(PlaylistResource::class)
                     ->required()
-                    ->rules(['required'])
                     ->hiddenOn([TrackPlaylistRelationManager::class]),
 
                 BelongsTo::make(TrackModel::ATTRIBUTE_ENTRY)

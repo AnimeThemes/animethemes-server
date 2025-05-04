@@ -112,6 +112,18 @@ class Performance extends BaseModel
     }
 
     /**
+     * Get the eager loads needed to the subtitle.
+     *
+     * @return array
+     */
+    public static function getEagerLoadsForSubtitle(): array
+    {
+        return [
+            Performance::RELATION_SONG,
+        ];
+    }
+
+    /**
      * Determine if the performance is a membership.
      *
      * @return bool

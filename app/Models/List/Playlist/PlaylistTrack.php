@@ -151,9 +151,20 @@ class PlaylistTrack extends BaseModel implements HasHashids, InteractsWithSchema
                 ->append(' - ');
         }
 
-        $subtitle = $subtitle->append($this->playlist->getName());
+        return $subtitle->append($this->playlist->getName())->__toString();
+    }
 
-        return $subtitle->__toString();
+    /**
+     * Get the eager loads needed to the subtitle.
+     *
+     * @return array
+     */
+    public static function getEagerLoadsForSubtitle(): array
+    {
+        return [
+            PlaylistTrack::RELATION_PLAYLIST,
+            'playlist.user',
+        ];
     }
 
     /**

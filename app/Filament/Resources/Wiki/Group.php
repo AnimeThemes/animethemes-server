@@ -117,8 +117,7 @@ class Group extends BaseResource
                     ->label(__('filament.fields.group.name.name'))
                     ->helperText(__('filament.fields.group.name.help'))
                     ->required()
-                    ->maxLength(192)
-                    ->rules(['required', 'max:192']),
+                    ->maxLength(192),
 
                 TextInput::make(GroupModel::ATTRIBUTE_SLUG)
                     ->label(__('filament.fields.group.slug.name'))

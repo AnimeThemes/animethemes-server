@@ -47,7 +47,7 @@ class MembershipDeleted extends WikiDeletedEvent implements UpdateRelatedIndices
      */
     protected function getDiscordMessageDescription(): string
     {
-        return "Membership: Member '**{$this->getModel()->member->getName()}**' of Group '**{$this->getModel()->artist->getName()}**' has been deleted.";
+        return "Membership '**{$this->getModel()->member->getName()}**' of Group '**{$this->getModel()->artist->getName()}**' has been deleted.";
     }
 
     /**

@@ -136,8 +136,7 @@ class Song extends BaseResource
                     ->label(__('filament.fields.song.title.name'))
                     ->helperText(__('filament.fields.song.title.help'))
                     ->required()
-                    ->maxLength(192)
-                    ->rules(['required', 'max:192']),
+                    ->maxLength(192),
             ]);
     }
 

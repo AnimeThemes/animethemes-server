@@ -57,7 +57,6 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
-use Illuminate\Validation\Rules\Enum;
 use Illuminate\Validation\Rules\File as FileRule;
 
 /**
@@ -106,39 +105,39 @@ class UploadVideoTableAction extends UploadTableAction
                                             ->label(__('filament.fields.video.nc.name'))
                                             ->helperText(__('filament.fields.video.nc.help'))
                                             ->nullable()
-                                            ->rules(['nullable', 'boolean']),
+                                            ->rules(['boolean']),
 
                                         Checkbox::make(Video::ATTRIBUTE_SUBBED)
                                             ->label(__('filament.fields.video.subbed.name'))
                                             ->helperText(__('filament.fields.video.subbed.help'))
                                             ->nullable()
-                                            ->rules(['nullable', 'boolean']),
+                                            ->rules(['boolean']),
 
                                         Checkbox::make(Video::ATTRIBUTE_LYRICS)
                                             ->label(__('filament.fields.video.lyrics.name'))
                                             ->helperText(__('filament.fields.video.lyrics.help'))
                                             ->nullable()
-                                            ->rules(['nullable', 'boolean']),
+                                            ->rules(['boolean']),
 
                                         Checkbox::make(Video::ATTRIBUTE_UNCEN)
                                             ->label(__('filament.fields.video.uncen.name'))
                                             ->helperText(__('filament.fields.video.uncen.help'))
                                             ->nullable()
-                                            ->rules(['nullable', 'boolean']),
+                                            ->rules(['boolean']),
 
                                         Select::make(Video::ATTRIBUTE_OVERLAP)
                                             ->label(__('filament.fields.video.overlap.name'))
                                             ->helperText(__('filament.fields.video.overlap.help'))
                                             ->options(VideoOverlap::asSelectArray())
                                             ->required()
-                                            ->rules(['required', new Enum(VideoOverlap::class)]),
+                                            ->enum(VideoOverlap::class),
 
                                         Select::make(Video::ATTRIBUTE_SOURCE)
                                             ->label(__('filament.fields.video.source.name'))
                                             ->helperText(__('filament.fields.video.source.help'))
                                             ->options(VideoSource::asSelectArray())
                                             ->required()
-                                            ->rules(['required', new Enum(VideoSource::class)]),
+                                            ->enum(VideoSource::class),
                                     ]),
 
                                 Section::make(__('filament.resources.singularLabel.video_script'))
@@ -146,8 +145,7 @@ class UploadVideoTableAction extends UploadTableAction
                                         FileUpload::make('script')
                                             ->label(__('filament.resources.singularLabel.video_script'))
                                             ->helperText(__('filament.actions.storage.upload.fields.file.help'))
-                                            ->nullable()
-                                            ->rules(['nullable', FileRule::types('txt')->max(2 * 1024)])
+                                            ->rule(FileRule::types('txt')->max(2 * 1024))
                                             ->storeFiles(false),
 
                                         BelongsTo::make('encoder')
@@ -167,7 +165,7 @@ class UploadVideoTableAction extends UploadTableAction
                                     ->helperText(__('filament.actions.video.backfill.fields.should.help'))
                                     ->options(ShouldBackfillAudio::asSelectArray())
                                     ->required()
-                                    ->rules(['required', new Enum(ShouldBackfillAudio::class)])
+                                    ->enum(ShouldBackfillAudio::class)
                                     ->default(ShouldBackfillAudio::YES->value),
 
                                 ...BackfillAudioAction::make()->getForm($form)->getComponents(),
@@ -181,7 +179,7 @@ class UploadVideoTableAction extends UploadTableAction
                                     ->helperText(__('filament.bulk_actions.discord.notification.should_send.help'))
                                     ->options(ShouldSendNotification::asSelectArray())
                                     ->required()
-                                    ->rules(['required', new Enum(ShouldSendNotification::class)])
+                                    ->enum(ShouldSendNotification::class)
                                     ->default(ShouldSendNotification::YES->value),
 
                                 ...VideoDiscordNotificationBulkAction::make()->getForm($form)->getComponents(),

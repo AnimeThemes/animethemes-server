@@ -64,8 +64,7 @@ class DiscordSendMessageTableAction extends BaseTableAction
                 TextInput::make(DiscordMessage::ATTRIBUTE_CHANNEL_ID)
                     ->label(__('filament.table_actions.discord_thread.message.channelId.name'))
                     ->helperText(__('filament.table_actions.discord_thread.message.channelId.help'))
-                    ->required()
-                    ->rules(['required', 'string']),
+                    ->required(),
 
                 RichEditor::make(DiscordMessage::ATTRIBUTE_CONTENT)
                     ->label(__('filament.table_actions.discord_thread.message.content.name'))
@@ -85,8 +84,7 @@ class DiscordSendMessageTableAction extends BaseTableAction
                         RichEditor::make(DiscordEmbed::ATTRIBUTE_DESCRIPTION)
                             ->label(__('filament.table_actions.discord_thread.message.embeds.body.description.name'))
                             ->helperText(__('filament.table_actions.discord_thread.message.embeds.body.description.help'))
-                            ->required()
-                            ->rules(['required', 'string']),
+                            ->required(),
 
                         ColorPicker::make(DiscordEmbed::ATTRIBUTE_COLOR)
                             ->label(__('filament.table_actions.discord_thread.message.embeds.body.color.name'))
@@ -109,14 +107,12 @@ class DiscordSendMessageTableAction extends BaseTableAction
                                 TextInput::make(DiscordEmbed::ATTRIBUTE_FIELDS_NAME)
                                     ->label(__('filament.table_actions.discord_thread.message.embeds.body.fields.name.name'))
                                     ->helperText(__('filament.table_actions.discord_thread.message.embeds.body.fields.name.help'))
-                                    ->required()
-                                    ->rules(['required', 'string']),
+                                    ->required(),
 
                                 TextInput::make(DiscordEmbed::ATTRIBUTE_FIELDS_VALUE)
                                     ->label(__('filament.table_actions.discord_thread.message.embeds.body.fields.value.name'))
                                     ->helperText(__('filament.table_actions.discord_thread.message.embeds.body.fields.value.help'))
-                                    ->required()
-                                    ->rules(['required', 'string']),
+                                    ->required(),
 
                                 Checkbox::make(DiscordEmbed::ATTRIBUTE_FIELDS_INLINE)
                                     ->label(__('filament.table_actions.discord_thread.message.embeds.body.fields.inline.name'))
@@ -134,8 +130,7 @@ class DiscordSendMessageTableAction extends BaseTableAction
                         TextInput::make(DiscordMessage::ATTRIBUTE_URL)
                             ->label(__('filament.table_actions.discord_thread.message.images.body.url.name'))
                             ->helperText(__('filament.table_actions.discord_thread.message.images.body.url.help'))
-                            ->required()
-                            ->rules(['required', 'string']),
+                            ->required(),
                     ]),
             ]);
     }

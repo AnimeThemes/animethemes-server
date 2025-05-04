@@ -10,6 +10,7 @@ use App\Filament\Components\Columns\BelongsToColumn;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Filters\DateFilter;
 use App\Filament\Components\Infolist\BelongsToEntry;
+use App\Filament\Components\Infolist\KeyValueThreeEntry;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\Admin\ActionLog\Pages\ManageActionLogs;
 use App\Filament\Resources\Auth\User;
@@ -18,9 +19,11 @@ use App\Models\Admin\ActionLog as ActionLogModel;
 use App\Models\Auth\User as UserModel;
 use App\Models\BaseModel;
 use Filament\Facades\Filament;
+use Filament\Forms\Components\KeyValue;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Form;
 use Filament\Infolists\Components\KeyValueEntry;
+use Filament\Infolists\Components\RepeatableEntry;
 use Filament\Infolists\Components\TextEntry\TextEntrySize;
 use Filament\Infolists\Infolist;
 use Filament\Tables\Filters\SelectFilter;
@@ -139,6 +142,13 @@ class ActionLog extends BaseResource
     {
         return $form
             ->schema([
+                KeyValue::make(ActionLogModel::ATTRIBUTE_FIELDS)
+                    ->label(__('filament.fields.action_log.fields.name'))
+                    ->keyLabel(__('filament.fields.action_log.fields.keys'))
+                    ->valueLabel(__('filament.fields.action_log.fields.values'))
+                    ->columnSpanFull()
+                    ->hidden(fn ($state) => is_null($state)),
+
                 Textarea::make(ActionLogModel::ATTRIBUTE_EXCEPTION)
                     ->label(__('filament.fields.action_log.exception'))
                     ->disabled()
@@ -221,7 +231,9 @@ class ActionLog extends BaseResource
                     ->dateTime(),
 
                 KeyValueEntry::make(ActionLogModel::ATTRIBUTE_FIELDS)
-                    ->label(__('filament.fields.action_log.fields'))
+                    ->label(__('filament.fields.action_log.fields.name'))
+                    ->keyLabel(__('filament.fields.action_log.fields.keys'))
+                    ->valueLabel(__('filament.fields.action_log.fields.values'))
                     ->columnSpanFull()
                     ->hidden(fn ($state) => is_null($state)),
 
@@ -229,7 +241,8 @@ class ActionLog extends BaseResource
                     ->label(__('filament.fields.action_log.exception'))
                     ->columnSpanFull()
                     ->size(TextEntrySize::Large),
-            ])->columns(3);
+            ])
+            ->columns(3);
     }
 
     /**

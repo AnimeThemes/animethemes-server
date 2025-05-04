@@ -127,8 +127,7 @@ abstract class DumpTableAction extends BaseTableAction
                 TextInput::make('default-character-set')
                     ->label(__('filament.actions.dump.dump.fields.mysql.default_character_set.name'))
                     ->helperText(__('filament.actions.dump.dump.fields.mysql.default_character_set.help'))
-                    ->nullable()
-                    ->rules(['nullable', 'string', 'max:192']),
+                    ->maxLength(192),
 
                 Select::make('set-gtid-purged')
                     ->label(__('filament.actions.dump.dump.fields.mysql.set_gtid_purged.name'))
@@ -138,8 +137,7 @@ abstract class DumpTableAction extends BaseTableAction
                         'ON' => __('filament.actions.dump.dump.fields.mysql.set_gtid_purged.options.on'),
                         'AUTO' => __('filament.actions.dump.dump.fields.mysql.set_gtid_purged.options.auto'),
                     ])
-                    ->nullable()
-                    ->rules(['nullable', Rule::in(['OFF', 'ON', 'AUTO'])->__toString()]),
+                    ->rule(Rule::in(['OFF', 'ON', 'AUTO'])->__toString()),
 
                 Checkbox::make('no-create-info')
                     ->label(__('filament.actions.dump.dump.fields.mysql.no_create_info.name'))

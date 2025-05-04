@@ -119,7 +119,6 @@ class Dump extends BaseResource
                     ->label(__('filament.fields.dump.path'))
                     ->required()
                     ->maxLength(192)
-                    ->rules(['required', 'max:192'])
                     ->hiddenOn(['create', 'edit']),
             ])
             ->columns(1);

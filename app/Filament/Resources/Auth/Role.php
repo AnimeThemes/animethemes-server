@@ -128,13 +128,12 @@ class Role extends BaseResource
                 TextInput::make(RoleModel::ATTRIBUTE_NAME)
                     ->label(__('filament.fields.role.name'))
                     ->required()
-                    ->maxLength(192)
-                    ->rules(['required', 'max:192']),
+                    ->maxLength(192),
 
                 Checkbox::make(RoleModel::ATTRIBUTE_DEFAULT)
                     ->label(__('filament.fields.role.default.name'))
                     ->helperText(__('filament.fields.role.default.help'))
-                    ->rules(['nullable', 'boolean']),
+                    ->rules(['boolean']),
 
                 ColorPicker::make(RoleModel::ATTRIBUTE_COLOR)
                     ->label(__('filament.fields.role.color.name'))
@@ -143,10 +142,8 @@ class Role extends BaseResource
                 TextInput::make(RoleModel::ATTRIBUTE_PRIORITY)
                     ->label(__('filament.fields.role.priority.name'))
                     ->helperText(__('filament.fields.role.priority.help'))
-                    ->numeric()
-                    ->minValue(1)
-                    ->nullable()
-                    ->rules(['nullable', 'integer', 'min:1']),
+                    ->integer()
+                    ->minValue(1),
             ])
             ->columns(1);
     }

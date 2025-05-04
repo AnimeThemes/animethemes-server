@@ -91,7 +91,7 @@ class PerformanceSongRelationManager extends PerformanceRelationManager
         return [
             Action::make('manage performances')
                 ->label(__('filament.actions.performances.manage_performances'))
-                ->action(fn ($livewire, $data) => static::saveArtists($livewire->getOwnerRecord(), $data[Song::RELATION_PERFORMANCES]))
+                ->action(fn ($livewire, $data) => static::saveArtists($livewire->getOwnerRecord(), Arr::get($data, Song::RELATION_PERFORMANCES)))
                 ->form(PerformanceResource::performancesFields()),
         ];
     }
@@ -99,11 +99,17 @@ class PerformanceSongRelationManager extends PerformanceRelationManager
     /**
      * Format artists to the action.
      *
-     * @param  Song  $song
+     * @param  Song|null  $song
      * @return array
      */
-    public static function formatArtists(Song $song): array
+    public static function formatArtists(?Song $song = null): array
     {
+        if (!($song instanceof Song)) {
+            return [];
+        }
+
+        $song->load(Song::RELATION_PERFORMANCE_ARTISTS);
+
         $performances = $song->performances;
 
         $artists = [];
@@ -145,12 +151,16 @@ class PerformanceSongRelationManager extends PerformanceRelationManager
     /**
      * Save the artists to the action.
      *
-     * @param  Song  $song
-     * @param  array  $data
+     * @param  Song|null  $song
+     * @param  array|null  $data
      * @return void
      */
-    public static function saveArtists(Song $song, array $data): void
+    public static function saveArtists(?Song $song = null, ?array $data = []): void
     {
+        if (!($song instanceof Song) || empty($data)) {
+            return;
+        }
+
         $action = new ManageSongPerformances();
 
         $action->forSong($song);

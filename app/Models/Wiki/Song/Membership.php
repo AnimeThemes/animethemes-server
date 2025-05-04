@@ -108,6 +108,19 @@ class Membership extends BaseModel
     }
 
     /**
+     * Get the eager loads needed to the subtitle.
+     *
+     * @return array
+     */
+    public static function getEagerLoadsForSubtitle(): array
+    {
+        return [
+            Membership::RELATION_ARTIST,
+            Membership::RELATION_MEMBER,
+        ];
+    }
+
+    /**
      * Get the artist that owns the membership.
      *
      * @return BelongsTo<Artist, $this>

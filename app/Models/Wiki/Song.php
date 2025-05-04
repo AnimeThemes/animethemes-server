@@ -50,6 +50,7 @@ class Song extends BaseModel implements HasResources
     final public const RELATION_ANIMETHEMES = 'animethemes';
     final public const RELATION_ARTISTS = 'artists';
     final public const RELATION_PERFORMANCES = 'performances';
+    final public const RELATION_PERFORMANCE_ARTISTS = 'performances.artist';
     final public const RELATION_RESOURCES = 'resources';
     final public const RELATION_THEME_GROUPS = 'animethemes.group';
     final public const RELATION_VIDEOS = 'animethemes.animethemeentries.videos';
@@ -116,6 +117,18 @@ class Song extends BaseModel implements HasResources
         return $this->animethemes()->count() !== 0 && $this->animethemes->first()->anime !== null
             ? "{$this->animethemes->first()->anime->getName()} {$this->animethemes->first()->slug}"
             : $this->getName();
+    }
+
+    /**
+     * Get the eager loads needed to the subtitle.
+     *
+     * @return array
+     */
+    public static function getEagerLoadsForSubtitle(): array
+    {
+        return [
+            Song::RELATION_ANIME,
+        ];
     }
 
     /**

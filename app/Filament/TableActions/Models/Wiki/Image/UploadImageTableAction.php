@@ -13,7 +13,6 @@ use App\Models\Wiki\Image;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Form;
 use Illuminate\Support\Arr;
-use Illuminate\Validation\Rules\Enum;
 
 /**
  * Class UploadImageTableAction.
@@ -79,7 +78,7 @@ class UploadImageTableAction extends BaseTableAction
                     ->helperText(__('filament.fields.image.facet.help'))
                     ->options($options)
                     ->required()
-                    ->rules(['required', new Enum(ImageFacet::class)]),
+                    ->enum(ImageFacet::class),
 
                 FileUpload::make(Image::ATTRIBUTE_PATH)
                     ->label(__('filament.fields.image.image.name'))

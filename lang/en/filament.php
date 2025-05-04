@@ -477,7 +477,11 @@ return [
             'target' => 'Target',
             'status' => 'Status',
             'happened_at' => 'Happened At',
-            'fields' => 'Fields',
+            'fields' => [
+                'name' => 'Fields',
+                'keys' => 'Fields',
+                'values' => 'Values',
+            ],
             'finished_at' => 'Finished At',
             'exception' => 'Exception',
         ],

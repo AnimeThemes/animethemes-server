@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Models\Admin;
 
-use App\Contracts\Models\HasSubtitle;
 use App\Contracts\Models\Nameable;
 use App\Discord\DiscordEmbedField;
 use App\Enums\Models\Admin\ActionLogStatus;
@@ -40,7 +39,7 @@ use Throwable;
  * @property int $user_id
  * @property User $user
  */
-class ActionLog extends Model implements Nameable, HasSubtitle
+class ActionLog extends Model implements Nameable
 {
     final public const TABLE = 'action_logs';
 
@@ -174,16 +173,6 @@ class ActionLog extends Model implements Nameable, HasSubtitle
     }
 
     /**
-     * Get subtitle.
-     *
-     * @return string
-     */
-    public function getSubtitle(): string
-    {
-        return $this->name;
-    }
-
-    /**
      * Get the actionable.
      *
      * @return MorphTo
@@ -243,7 +232,7 @@ class ActionLog extends Model implements Nameable, HasSubtitle
             ActionLog::ATTRIBUTE_TARGET_ID => $model->getKey(),
             ActionLog::ATTRIBUTE_MODEL_TYPE => $model->getMorphClass(),
             ActionLog::ATTRIBUTE_MODEL_ID => $model->getKey(),
-            ActionLog::ATTRIBUTE_FIELDS => static::getFields($model, $model->getAttributes()),
+            ActionLog::ATTRIBUTE_FIELDS => static::getFields($model->getAttributes(), $model),
             ActionLog::ATTRIBUTE_STATUS => ActionLogStatus::FINISHED->value,
             ActionLog::ATTRIBUTE_FINISHED_AT => Date::now(),
         ]);
@@ -267,7 +256,7 @@ class ActionLog extends Model implements Nameable, HasSubtitle
             ActionLog::ATTRIBUTE_TARGET_ID => $model->getKey(),
             ActionLog::ATTRIBUTE_MODEL_TYPE => $model->getMorphClass(),
             ActionLog::ATTRIBUTE_MODEL_ID => $model->getKey(),
-            ActionLog::ATTRIBUTE_FIELDS => static::getFields($model, $model->getChanges()),
+            ActionLog::ATTRIBUTE_FIELDS => static::getFields($model->getChanges(), $model),
             ActionLog::ATTRIBUTE_STATUS => ActionLogStatus::FINISHED->value,
             ActionLog::ATTRIBUTE_FINISHED_AT => Date::now(),
         ]);
@@ -314,7 +303,7 @@ class ActionLog extends Model implements Nameable, HasSubtitle
             ActionLog::ATTRIBUTE_TARGET_ID => $model->getKey(),
             ActionLog::ATTRIBUTE_MODEL_TYPE => $model->getMorphClass(),
             ActionLog::ATTRIBUTE_MODEL_ID => $model->getKey(),
-            ActionLog::ATTRIBUTE_FIELDS => static::getFields($model, $model->getAttributes()),
+            ActionLog::ATTRIBUTE_FIELDS => static::getFields($model->getAttributes(), $model),
             ActionLog::ATTRIBUTE_STATUS => ActionLogStatus::FINISHED->value,
             ActionLog::ATTRIBUTE_FINISHED_AT => Date::now(),
         ]);
@@ -332,6 +321,8 @@ class ActionLog extends Model implements Nameable, HasSubtitle
      */
     public static function modelPivot(string $actionName, Model $related, Model $parent, Model $pivot, mixed $action = null): ActionLog
     {
+        $data = $action?->getFormData();
+
         return ActionLog::query()->create([
             ActionLog::ATTRIBUTE_BATCH_ID => Str::orderedUuid()->__toString(),
             ActionLog::ATTRIBUTE_USER => ActionLog::getUserId(),
@@ -342,7 +333,7 @@ class ActionLog extends Model implements Nameable, HasSubtitle
             ActionLog::ATTRIBUTE_TARGET_ID => $parent->getKey(),
             ActionLog::ATTRIBUTE_MODEL_TYPE => $pivot->getMorphClass(),
             ActionLog::ATTRIBUTE_MODEL_ID => $pivot->getKey(),
-            ActionLog::ATTRIBUTE_FIELDS => $action?->getFormData() ?? static::getFields($pivot, $pivot->getAttributes()),
+            ActionLog::ATTRIBUTE_FIELDS => $data ? static::getFields($data) : static::getFields($pivot->getAttributes(), $pivot),
             ActionLog::ATTRIBUTE_STATUS => ActionLogStatus::FINISHED->value,
             ActionLog::ATTRIBUTE_FINISHED_AT => Date::now(),
         ]);
@@ -368,7 +359,7 @@ class ActionLog extends Model implements Nameable, HasSubtitle
             ActionLog::ATTRIBUTE_TARGET_ID => $parent->getKey(),
             ActionLog::ATTRIBUTE_MODEL_TYPE => $related->getMorphClass(),
             ActionLog::ATTRIBUTE_MODEL_ID => $related->getKey(),
-            ActionLog::ATTRIBUTE_FIELDS => static::getFields($related, $related->getAttributes()),
+            ActionLog::ATTRIBUTE_FIELDS => static::getFields($related->getAttributes(), $related),
             ActionLog::ATTRIBUTE_STATUS => ActionLogStatus::FINISHED->value,
             ActionLog::ATTRIBUTE_FINISHED_AT => Date::now(),
         ]);
@@ -394,7 +385,7 @@ class ActionLog extends Model implements Nameable, HasSubtitle
             ActionLog::ATTRIBUTE_TARGET_ID => $model->getKey(),
             ActionLog::ATTRIBUTE_MODEL_TYPE => $model->getMorphClass(),
             ActionLog::ATTRIBUTE_MODEL_ID => $model->getKey(),
-            ActionLog::ATTRIBUTE_FIELDS => $action->getFormData(),
+            ActionLog::ATTRIBUTE_FIELDS => static::getFields($action->getFormData()),
             ActionLog::ATTRIBUTE_STATUS => ActionLogStatus::RUNNING->value,
         ]);
     }
@@ -495,22 +486,26 @@ class ActionLog extends Model implements Nameable, HasSubtitle
     /**
      * Format the fields to store.
      *
-     * @param  Model  $model
      * @param  array  $fields
+     * @param  Model|null  $model
      * @return array
      */
-    protected static function getFields(Model $model, array $fields): array
+    protected static function getFields(array $fields, ?Model $model = null): array
     {
         return collect($fields)
-            ->forget($model->getCreatedAtColumn())
-            ->forget($model->getUpdatedAtColumn())
+            ->forget(Model::CREATED_AT)
+            ->forget(Model::UPDATED_AT)
             ->forget(BaseModel::ATTRIBUTE_DELETED_AT)
             ->map(function ($value, $key) use ($model) {
-                if (in_array($key, $model->getHidden())) {
-                    return DiscordEmbedField::DEFAULT_FIELD_VALUE;
+                if ($model instanceof Model) {
+                    if (in_array($key, $model->getHidden())) {
+                        return DiscordEmbedField::DEFAULT_FIELD_VALUE;
+                    }
+
+                    return DiscordEmbedField::formatEmbedFieldValue($model->getAttribute($key));
                 }
 
-                return DiscordEmbedField::formatEmbedFieldValue($model->getAttribute($key));
+                return DiscordEmbedField::formatEmbedFieldValue($value);
             })
             ->toArray();
     }

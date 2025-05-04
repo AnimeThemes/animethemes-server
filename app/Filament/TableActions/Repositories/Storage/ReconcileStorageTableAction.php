@@ -69,7 +69,8 @@ abstract class ReconcileStorageTableAction extends ReconcileTableAction implemen
                 TextInput::make('path')
                     ->label(__('filament.actions.repositories.storage.fields.path.name'))
                     ->required()
-                    ->rules(['required', 'string', 'doesnt_start_with:/', new StorageDirectoryExistsRule($fs)])
+                    ->doesntStartWith('/')
+                    ->rule(new StorageDirectoryExistsRule($fs))
                     ->helperText(__('filament.actions.repositories.storage.fields.path.help')),
             ]);
     }

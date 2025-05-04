@@ -117,15 +117,13 @@ class Feature extends BaseResource
                     ->helperText(__('filament.fields.feature.key.help'))
                     ->readOnly()
                     ->required()
-                    ->maxLength(192)
-                    ->rules(['required', 'max:192']),
+                    ->maxLength(192),
 
                 TextInput::make(FeatureModel::ATTRIBUTE_VALUE)
                     ->label(__('filament.fields.feature.value.name'))
                     ->helperText(__('filament.fields.feature.value.help'))
                     ->required()
-                    ->maxLength(192)
-                    ->rules(['required', 'max:192']),
+                    ->maxLength(192),
             ])
             ->columns(1);
     }

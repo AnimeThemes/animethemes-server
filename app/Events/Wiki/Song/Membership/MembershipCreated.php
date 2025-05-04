@@ -42,7 +42,7 @@ class MembershipCreated extends WikiCreatedEvent implements UpdateRelatedIndices
      */
     protected function getDiscordMessageDescription(): string
     {
-        return "Membership: Member '**{$this->getModel()->member->getName()}**' of Group '**{$this->getModel()->artist->getName()}**' has been created.";
+        return "Membership '**{$this->getModel()->member->getName()}**' of Group '**{$this->getModel()->artist->getName()}**' has been created.";
     }
 
     /**
