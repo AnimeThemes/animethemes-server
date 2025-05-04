@@ -368,6 +368,7 @@ class Performance extends BaseResource
                 ->columns(3)
                 ->columnSpanFull()
                 ->formatStateUsing(function ($livewire, Get $get) {
+                    /** @var SongModel|null $song */
                     $song = $livewire instanceof PerformanceSongRelationManager
                         ? $livewire->getOwnerRecord()
                         : SongModel::find($get(PerformanceModel::ATTRIBUTE_SONG));

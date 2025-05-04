@@ -157,6 +157,7 @@ class Theme extends BaseResource
         $query = parent::getEloquentQuery();
 
         // Necessary to prevent lazy loading when loading related resources
+        /** @phpstan-ignore-next-line */
         return $query->with([
             AnimeTheme::RELATION_ANIME,
             AnimeTheme::RELATION_GROUP,

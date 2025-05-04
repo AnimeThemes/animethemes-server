@@ -13,7 +13,6 @@ use App\Models\Wiki\Image;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Form;
 use Illuminate\Support\Arr;
-use Illuminate\Validation\Rules\Enum;
 
 /**
  * Class UploadImageTableAction.

@@ -28,7 +28,6 @@ use Filament\Tables\Columns\Layout\Stack;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Config;
-use Illuminate\Validation\Rules\Enum;
 
 /**
  * Class Image.
