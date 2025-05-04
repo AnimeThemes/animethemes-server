@@ -19,6 +19,7 @@ use App\Models\Admin\ActionLog as ActionLogModel;
 use App\Models\Auth\User as UserModel;
 use App\Models\BaseModel;
 use Filament\Facades\Filament;
+use Filament\Forms\Components\KeyValue;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Form;
 use Filament\Infolists\Components\KeyValueEntry;
@@ -141,6 +142,13 @@ class ActionLog extends BaseResource
     {
         return $form
             ->schema([
+                KeyValue::make(ActionLogModel::ATTRIBUTE_FIELDS)
+                    ->label(__('filament.fields.action_log.fields.name'))
+                    ->keyLabel(__('filament.fields.action_log.fields.keys'))
+                    ->valueLabel(__('filament.fields.action_log.fields.values'))
+                    ->columnSpanFull()
+                    ->hidden(fn ($state) => is_null($state)),
+
                 Textarea::make(ActionLogModel::ATTRIBUTE_EXCEPTION)
                     ->label(__('filament.fields.action_log.exception'))
                     ->disabled()
@@ -223,9 +231,9 @@ class ActionLog extends BaseResource
                     ->dateTime(),
 
                 KeyValueEntry::make(ActionLogModel::ATTRIBUTE_FIELDS)
-                    ->label(__('filament.fields.action_log.fields'))
-                    ->keyLabel('Fields')
-                    ->valueLabel('Values')
+                    ->label(__('filament.fields.action_log.fields.name'))
+                    ->keyLabel(__('filament.fields.action_log.fields.keys'))
+                    ->valueLabel(__('filament.fields.action_log.fields.values'))
                     ->columnSpanFull()
                     ->hidden(fn ($state) => is_null($state)),
 
