@@ -142,6 +142,7 @@ class ActionLog extends BaseResource
     {
         return $form
             ->schema([
+                // TODO: JSON values are not being displayed
                 KeyValue::make(ActionLogModel::ATTRIBUTE_FIELDS)
                     ->label(__('filament.fields.action_log.fields.name'))
                     ->keyLabel(__('filament.fields.action_log.fields.keys'))

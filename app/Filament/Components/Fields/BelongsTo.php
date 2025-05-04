@@ -6,6 +6,7 @@ namespace App\Filament\Components\Fields;
 
 use App\Enums\Http\Api\Filter\ComparisonOperator;
 use App\Filament\Resources\BaseResource;
+use App\Models\Admin\ActionLog;
 use App\Models\Auth\User;
 use App\Models\BaseModel;
 use Filament\Forms\Components\Select as ComponentsSelect;
@@ -40,8 +41,14 @@ class BelongsTo extends ComponentsSelect
             $this->tryScout($model);
 
             if ($this->showCreateOption) {
-                $this->createOptionForm(fn (Form $form) => $resource::form($form)->getComponents());
-                $this->createOptionUsing(fn (array $data) => $model::query()->create($data)->getKey());
+                $this->createOptionForm(fn (Form $form) => $resource::form($form)->getComponents())
+                    ->createOptionUsing(function (array $data) use ($model) {
+                        $created = $model::query()->create($data);
+
+                        ActionLog::modelCreated($created);
+
+                        return $created->getKey();
+                    });
             }
         }
     }

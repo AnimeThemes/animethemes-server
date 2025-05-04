@@ -70,6 +70,8 @@ class PerformanceCreated extends WikiCreatedEvent implements UpdateRelatedIndice
         if ($performance->isMembership()) {
             $performance->artist->artist->searchable();
             $performance->artist->member->searchable();
+
+            return;
         }
 
         $performance->artist->searchable();

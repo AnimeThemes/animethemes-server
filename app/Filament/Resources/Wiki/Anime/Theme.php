@@ -122,7 +122,7 @@ class Theme extends BaseResource
      */
     public static function getRecordTitle(?Model $record): ?string
     {
-        return $record instanceof ThemeModel ? $record->getName() : null;
+        return $record instanceof ThemeModel ? $record->anime->getName().' '.$record->getName() : null;
     }
 
     /**
