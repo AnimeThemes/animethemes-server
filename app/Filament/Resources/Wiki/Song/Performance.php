@@ -367,18 +367,11 @@ class Performance extends BaseResource
                 ->defaultItems(0)
                 ->columns(3)
                 ->columnSpanFull()
-                ->formatStateUsing(function ($livewire, Get $get, $state) {
-                    if ($livewire instanceof PerformanceSongRelationManager) {
-                        $song = $livewire->getOwnerRecord();
-                    } else {
-                        if ($songId = $get(PerformanceModel::ATTRIBUTE_SONG)) {
-                            $song = SongModel::find($songId);
-                        } else return $state;
-                    }
+                ->formatStateUsing(function ($livewire, Get $get) {
+                    $song = $livewire instanceof PerformanceSongRelationManager
+                        ? $livewire->getOwnerRecord()
+                        : SongModel::find($get(PerformanceModel::ATTRIBUTE_SONG));
 
-                    if (!($song instanceof SongModel)) {
-                        return $state;
-                    }
                     return PerformanceSongRelationManager::formatArtists($song);
                 })
                 ->schema([
@@ -390,8 +383,16 @@ class Performance extends BaseResource
                             Action::make('load')
                                 ->label(__('filament.fields.performance.load_members.name'))
                                 ->action(function (Get $get, Set $set) {
+                                    $artistId = $get(Artist::ATTRIBUTE_ID);
+                                    if ($artistId === null) {
+                                        $set('memberships', []);
+                                        return;
+                                    }
+
                                     /** @var Artist $group */
-                                    $group = Artist::query()->find($get(Artist::ATTRIBUTE_ID));
+                                    $group = Artist::query()
+                                        ->with([Artist::RELATION_MEMBERS])
+                                        ->find($artistId);
 
                                     $set('memberships', $group->members->map(fn (Artist $member) => [
                                         Membership::ATTRIBUTE_MEMBER => $member->getKey(),

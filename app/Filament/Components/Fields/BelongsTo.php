@@ -10,6 +10,7 @@ use App\Models\Auth\User;
 use App\Models\BaseModel;
 use Filament\Forms\Components\Select as ComponentsSelect;
 use Filament\Forms\Form;
+use Illuminate\Database\Eloquent\Builder;
 use Laravel\Scout\Searchable;
 
 /**
@@ -49,7 +50,7 @@ class BelongsTo extends ComponentsSelect
      * Set the filament resource for the relation. Relation should be set if BelongsToThrough.
      *
      * @param  class-string<BaseResource>  $resource
-     * @param string|null $relation
+     * @param  string|null  $relation
      * @return static
      */
     public function resource(string $resource, ?string $relation = ''): static
@@ -65,9 +66,10 @@ class BelongsTo extends ComponentsSelect
      * Determine if the create option is available. The resource is required for this.
      *
      * @param  bool  $condition
+     * @param  array|null  $eagerLoads
      * @return static
      */
-    public function showCreateOption(bool $condition = true): static
+    public function showCreateOption(bool $condition = true, ?array $eagerLoads = []): static
     {
         $this->showCreateOption = $condition;
         $this->reload();
@@ -87,12 +89,17 @@ class BelongsTo extends ComponentsSelect
         $this->searchable();
         $this->getOptionLabelUsing(fn ($state) => static::getSearchLabelWithBlade($model::find($state)));
 
+        $eagerLoads = method_exists($model, 'getEagerLoadsForSubtitle')
+            ? $model::getEagerLoadsForSubtitle()
+            : [];
+
         if (in_array(Searchable::class, class_uses_recursive($model))) {
             return $this
-                ->getSearchResultsUsing(function (string $search) use ($model) {
+                ->getSearchResultsUsing(function (string $search) use ($model, $eagerLoads) {
                     $search = $this->escapeReservedChars($search);
                     /** @phpstan-ignore-next-line */
                     return $model::search($search)
+                        ->query(fn (Builder $query) => $query->with($eagerLoads))
                         ->take(25)
                         ->get()
                         ->mapWithKeys(fn (BaseModel $model) => [$model->getKey() => static::getSearchLabelWithBlade($model)])
@@ -101,9 +108,10 @@ class BelongsTo extends ComponentsSelect
         }
 
         return $this
-            ->getSearchResultsUsing(function (string $search) use ($model) {
+            ->getSearchResultsUsing(function (string $search) use ($model, $eagerLoads) {
                 return $model::query()
                     ->where($this->resource->getRecordTitleAttribute(), ComparisonOperator::LIKE->value, "%$search%")
+                    ->with($eagerLoads)
                     ->take(25)
                     ->get()
                     ->mapWithKeys(fn (BaseModel|User $model) => [$model->getKey() => static::getSearchLabelWithBlade($model)])

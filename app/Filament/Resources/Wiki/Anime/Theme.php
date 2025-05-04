@@ -29,8 +29,10 @@ use App\Filament\Resources\Wiki\Song\RelationManagers\PerformanceSongRelationMan
 use App\Filament\Resources\Wiki\Song\RelationManagers\ThemeSongRelationManager;
 use App\Models\Wiki\Anime\AnimeTheme as ThemeModel;
 use App\Models\Wiki\Anime\AnimeTheme;
+use App\Models\Wiki\Artist;
 use App\Models\Wiki\Group;
 use App\Models\Wiki\Song;
+use App\Models\Wiki\Song\Membership;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\Tabs\Tab;
@@ -47,8 +49,8 @@ use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Support\Str;
-use Illuminate\Validation\Rules\Enum;
 
 /**
  * Class Theme.
@@ -157,8 +159,17 @@ class Theme extends BaseResource
         // Necessary to prevent lazy loading when loading related resources
         return $query->with([
             AnimeTheme::RELATION_ANIME,
+            AnimeTheme::RELATION_GROUP,
+            AnimeTheme::RELATION_ENTRIES,
             AnimeTheme::RELATION_SONG,
-            AnimeTheme::RELATION_GROUP
+            'song.animethemes',
+            'song.performances',
+            'song.performances.artist' => function (MorphTo $morphTo) {
+                $morphTo->morphWith([
+                    Artist::class => [],
+                    Membership::class => [Membership::RELATION_ARTIST, Membership::RELATION_MEMBER]
+                ]);
+            },
         ]);
     }
 
@@ -225,8 +236,6 @@ class Theme extends BaseResource
                                     ->afterStateUpdated(function (Set $set, $state) {
                                         /** @var Song|null $song */
                                         $song = Song::find($state);
-
-                                        if (!$song) return;
                                         $set('performances', PerformanceSongRelationManager::formatArtists($song));
                                     }),
 

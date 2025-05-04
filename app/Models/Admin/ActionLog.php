@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Models\Admin;
 
-use App\Contracts\Models\HasSubtitle;
 use App\Contracts\Models\Nameable;
 use App\Discord\DiscordEmbedField;
 use App\Enums\Models\Admin\ActionLogStatus;
@@ -40,7 +39,7 @@ use Throwable;
  * @property int $user_id
  * @property User $user
  */
-class ActionLog extends Model implements Nameable, HasSubtitle
+class ActionLog extends Model implements Nameable
 {
     final public const TABLE = 'action_logs';
 
@@ -171,16 +170,6 @@ class ActionLog extends Model implements Nameable, HasSubtitle
             ->append(' - ')
             ->append($this->target()->getName())
             ->__toString();
-    }
-
-    /**
-     * Get subtitle.
-     *
-     * @return string
-     */
-    public function getSubtitle(): string
-    {
-        return $this->name;
     }
 
     /**
