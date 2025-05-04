@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Database\Factories\Admin;
 
+use App\Actions\Storage\Admin\Dump\DumpWikiAction;
 use App\Models\Admin\Dump;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
 /**
@@ -32,8 +34,10 @@ class DumpFactory extends Factory
      */
     public function definition(): array
     {
+        $prefix = Arr::random(Dump::safeDumps());
+
         return [
-            Dump::ATTRIBUTE_PATH => Str::random(),
+            Dump::ATTRIBUTE_PATH => $prefix.Str::random(),
         ];
     }
 }
