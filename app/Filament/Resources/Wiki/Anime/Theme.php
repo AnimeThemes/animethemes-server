@@ -122,7 +122,7 @@ class Theme extends BaseResource
      */
     public static function getRecordTitle(?Model $record): ?string
     {
-        return $record instanceof ThemeModel ? $record->anime->getName() . ' ' . $record->slug : null;
+        return $record instanceof ThemeModel ? $record->getName() : null;
     }
 
     /**
@@ -162,10 +162,10 @@ class Theme extends BaseResource
             AnimeTheme::RELATION_ANIME,
             AnimeTheme::RELATION_GROUP,
             AnimeTheme::RELATION_ENTRIES,
+            AnimeTheme::RELATION_PERFORMANCES,
             AnimeTheme::RELATION_SONG,
             'song.animethemes',
-            'song.performances',
-            'song.performances.artist' => function (MorphTo $morphTo) {
+            AnimeTheme::RELATION_PERFORMANCES_ARTISTS => function (MorphTo $morphTo) {
                 $morphTo->morphWith([
                     Artist::class => [],
                     Membership::class => [Membership::RELATION_ARTIST, Membership::RELATION_MEMBER]
@@ -281,8 +281,7 @@ class Theme extends BaseResource
                     ->label(__('filament.fields.anime_theme.sequence.name')),
 
                 TextColumn::make(ThemeModel::ATTRIBUTE_SLUG)
-                    ->label(__('filament.fields.anime_theme.slug.name'))
-                    ->formatStateUsing(fn ($record) => $record->getName()),
+                    ->label(__('filament.fields.anime_theme.slug.name')),
 
                 BelongsToColumn::make(ThemeModel::RELATION_GROUP, GroupResource::class),
 
@@ -318,9 +317,8 @@ class Theme extends BaseResource
                         TextEntry::make(ThemeModel::ATTRIBUTE_SEQUENCE)
                             ->label(__('filament.fields.anime_theme.sequence.name')),
 
-                        TextEntry::make(ThemeModel::ATTRIBUTE_ID)
-                            ->label(__('filament.fields.anime_theme.slug.name'))
-                            ->formatStateUsing(fn ($state) => ThemeModel::withTrashed()->find(intval($state))->getName()),
+                        TextEntry::make(ThemeModel::ATTRIBUTE_SLUG)
+                            ->label(__('filament.fields.anime_theme.slug.name')),
 
                         BelongsToEntry::make(ThemeModel::RELATION_GROUP, GroupResource::class)
                             ->label(__('filament.resources.singularLabel.group')),

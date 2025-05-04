@@ -12,6 +12,7 @@ use App\Models\Wiki\Song\Membership;
 use App\Models\Wiki\Song\Performance;
 use App\Pivots\Wiki\ArtistSong;
 use Exception;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 /**
  * Class PerformanceUpdated.
@@ -58,7 +59,14 @@ class PerformanceUpdated extends WikiUpdatedEvent implements UpdateRelatedIndice
      */
     public function updateRelatedIndices(): void
     {
-        $performance = $this->getModel()->load([Performance::RELATION_ARTIST]);
+        $performance = $this->getModel()->load([
+            Performance::RELATION_ARTIST => function (MorphTo $morphTo) {
+                $morphTo->morphWith([
+                    Artist::class => [],
+                    Membership::class => [Membership::RELATION_ARTIST, Membership::RELATION_MEMBER]
+                ]);
+            }
+        ]);
 
         if ($performance->isMembership()) {
             $performance->artist->artist->searchable();

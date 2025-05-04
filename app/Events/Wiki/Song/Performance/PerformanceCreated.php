@@ -52,7 +52,7 @@ class PerformanceCreated extends WikiCreatedEvent implements UpdateRelatedIndice
         $artist = $performance->artist;
 
         if ($this->getModel()->isMembership()) {
-            return "Song '**{$song->getName()}**' has been attached to Artist '**{$artist->member->getName()}**' via Group '**{$artist->artist->getName()}**'.";
+            return "Song '**{$song->getName()}**' has been attached to Artist '**{$artist->member->getName()}**' as member of '**{$artist->artist->getName()}**'.";
         }
 
         return "Song '**{$song->getName()}**' has been attached to Artist '**{$artist->getName()}**'.";
