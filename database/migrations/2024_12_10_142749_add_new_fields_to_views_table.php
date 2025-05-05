@@ -52,13 +52,13 @@ return new class extends Migration
 
         if (!$this->schema->hasColumn($this->table, 'referer')) {
             $this->schema->table($this->table, function (Blueprint $table) {
-                $table->string('referer')->nullable();
+                $table->text('referer')->nullable();
             });
         }
 
         if (!$this->schema->hasColumn($this->table, 'user_agent')) {
             $this->schema->table($this->table, function (Blueprint $table) {
-                $table->string('user_agent')->nullable();
+                $table->text('user_agent')->nullable();
             });
         }
     }

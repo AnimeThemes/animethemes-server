@@ -36,7 +36,7 @@ class DumpViewAction extends DumpAction
     /**
      * The temporary path for the database dump.
      * Note: The dumper library does not support writing to disk, so we have to write to the local filesystem first.
-     * Pattern: "animethemes-db-dump-admin-{milliseconds from epoch}.sql".
+     * Pattern: "animethemes-db-dump-view-{milliseconds from epoch}.sql".
      *
      * @return string
      */
