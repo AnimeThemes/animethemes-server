@@ -9,6 +9,7 @@ use App\Contracts\Actions\Storage\StorageAction;
 use App\Contracts\Actions\Storage\StorageResults;
 use App\Contracts\Storage\InteractsWithDisk;
 use Exception;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Storage;
 
@@ -42,7 +43,7 @@ abstract class PruneAction implements InteractsWithDisk, StorageAction
 
         foreach ($fs->allFiles() as $path) {
             $lastModified = Date::createFromTimestamp($fs->lastModified($path));
-            if ($lastModified->isBefore($pruneDate)) {
+            if ($lastModified->isBefore($pruneDate) && $this->shouldBePruned($path, $lastModified)) {
                 $result = $fs->delete($path);
 
                 $results[$path] = $result;
@@ -68,4 +69,13 @@ abstract class PruneAction implements InteractsWithDisk, StorageAction
 
         return null;
     }
+
+    /**
+     * Determine whether the file should be pruned.
+     *
+     * @param  string  $path
+     * @param  Carbon  $lastModified
+     * @return bool
+     */
+    abstract protected function shouldBePruned(string $path, Carbon $lastModified): bool;
 }

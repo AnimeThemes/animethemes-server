@@ -5,11 +5,6 @@ declare(strict_types=1);
 namespace App\Actions\Storage\Admin\Dump;
 
 use App\Concerns\Repositories\Admin\ReconcilesDumpRepositories;
-use App\Models\Admin\ActionLog;
-use App\Models\Admin\Announcement;
-use App\Models\Admin\Dump;
-use App\Models\Admin\Feature;
-use App\Models\Admin\FeaturedTheme;
 use App\Models\Service\View;
 use App\Models\Service\ViewAggregate;
 use Illuminate\Support\Facades\Date;
@@ -17,13 +12,13 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 /**
- * Class DumpAdminAction.
+ * Class DumpViewAction.
  */
-class DumpAdminAction extends DumpAction
+class DumpViewAction extends DumpAction
 {
     use ReconcilesDumpRepositories;
 
-    final public const FILENAME_PREFIX = 'animethemes-db-dump-admin-';
+    final public const FILENAME_PREFIX = 'animethemes-db-dump-view-';
 
     /**
      * The list of tables to include in the dump.
@@ -33,12 +28,8 @@ class DumpAdminAction extends DumpAction
     protected function allowedTables(): array
     {
         return [
-            'action_events', // Nova events
-            ActionLog::TABLE,
-            Announcement::TABLE,
-            Dump::TABLE,
-            Feature::TABLE,
-            FeaturedTheme::TABLE,
+            ViewAggregate::TABLE,
+            View::TABLE,
         ];
     }
 
@@ -54,7 +45,7 @@ class DumpAdminAction extends DumpAction
         $filesystem = Storage::disk('local');
 
         return Str::of($filesystem->path(''))
-            ->append(DumpAdminAction::FILENAME_PREFIX)
+            ->append(DumpViewAction::FILENAME_PREFIX)
             ->append(strval(Date::now()->valueOf()))
             ->append('.sql')
             ->__toString();
