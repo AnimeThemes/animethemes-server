@@ -53,7 +53,7 @@ class RecordView
      */
     public function terminate(Request $request, Response $response): void
     {
-        if (Feature::for(null)->active(FeatureConstants::ALLOW_VIEW_RECORDING)) {
+        if (Feature::for(null)->active(FeatureConstants::ALLOW_VIEW_RECORDING) && $this->model instanceof Viewable) {
             views($this->model)->cooldown(now()->addMinutes(5))->record();
         }
     }
