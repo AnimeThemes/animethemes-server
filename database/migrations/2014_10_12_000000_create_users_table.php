@@ -24,23 +24,21 @@ return new class extends Migration
                 $table->string(User::ATTRIBUTE_EMAIL)->unique();
                 $table->timestamp(User::ATTRIBUTE_EMAIL_VERIFIED_AT)->nullable();
                 $table->string(User::ATTRIBUTE_PASSWORD);
-                $table->rememberToken();
-                $table->timestamps(6);
-                $table->softDeletes(User::ATTRIBUTE_DELETED_AT, 6);
 
                 $table->text('two_factor_secret')
-                    ->after('password')
                     ->nullable();
 
                 $table->text('two_factor_recovery_codes')
-                    ->after('two_factor_secret')
                     ->nullable();
 
                 if (Fortify::confirmsTwoFactorAuthentication()) {
                     $table->timestamp('two_factor_confirmed_at')
-                        ->after('two_factor_recovery_codes')
                         ->nullable();
                 }
+
+                $table->rememberToken();
+                $table->timestamps(6);
+                $table->softDeletes(User::ATTRIBUTE_DELETED_AT, 6);
 
                 $table->unique(User::ATTRIBUTE_NAME);
             });

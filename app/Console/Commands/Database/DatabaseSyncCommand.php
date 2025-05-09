@@ -1,0 +1,86 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Console\Commands\Database;
+
+use App\Console\Commands\BaseCommand;
+use Database\Seeders\Admin\Feature\FeatureSeeder;
+use Database\Seeders\Auth\Permission\PermissionSeeder;
+use Database\Seeders\Auth\Role\RoleSeeder;
+use Database\Seeders\Scout\ImportModelsSeeder;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Validator as ValidatorFacade;
+
+/**
+ * Class DatabaseSyncCommand.
+ */
+class DatabaseSyncCommand extends BaseCommand
+{
+    /**
+     * The name and signature of the console command.
+     *
+     * @var string
+     */
+    protected $signature = 'db:sync';
+
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Sync the local database with the latest dumps';
+
+    /**
+     * Execute the console command.
+     *
+     * @return int
+     */
+    public function handle(): int
+    {
+        $database = Schema::getConnection()->getDatabaseName();
+
+        Schema::dropDatabaseIfExists($database);
+        Schema::createDatabase($database);
+        DB::statement("USE {$database}");
+
+        $this->info('Importing wiki dump');
+        $wiki = Http::get('https://dump.animethemes.moe/latest/wiki')->body();
+        DB::unprepared($wiki);
+
+        $this->info('Importing document dump');
+        $document = Http::get('https://dump.animethemes.moe/latest/document')->body();
+        DB::unprepared($document);
+
+        $this->info('Migrating database');
+        Artisan::call('migrate');
+
+        $this->info('Seeding permissions');
+        Artisan::call('db:seed', ['class' => PermissionSeeder::class]);
+
+        $this->info('Seeding roles');
+        Artisan::call('db:seed', ['class' => RoleSeeder::class]);
+
+        $this->info('Seeding features');
+        Artisan::call('db:seed', ['class' => FeatureSeeder::class]);
+
+        $this->info('Importing models for scout');
+        Artisan::call('db:seed', ['class' => ImportModelsSeeder::class]);
+
+        return 0;
+    }
+
+    /**
+     * Get the validator for options.
+     *
+     * @return Validator
+     */
+    protected function validator(): Validator
+    {
+        return ValidatorFacade::make();
+    }
+}

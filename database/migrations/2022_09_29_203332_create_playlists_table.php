@@ -38,12 +38,6 @@ return new class extends Migration
                 $table->unsignedBigInteger(Playlist::ATTRIBUTE_USER)->nullable();
                 $table->foreign(Playlist::ATTRIBUTE_USER)->references(User::ATTRIBUTE_ID)->on(User::TABLE)->cascadeOnDelete();
 
-                $table->unsignedBigInteger(Playlist::ATTRIBUTE_FIRST)->nullable();
-                $table->foreign(Playlist::ATTRIBUTE_FIRST)->references(PlaylistTrack::ATTRIBUTE_ID)->on(PlaylistTrack::TABLE)->nullOnDelete();
-
-                $table->unsignedBigInteger(Playlist::ATTRIBUTE_LAST)->nullable();
-                $table->foreign(Playlist::ATTRIBUTE_LAST)->references(PlaylistTrack::ATTRIBUTE_ID)->on(PlaylistTrack::TABLE)->nullOnDelete();
-
                 $table->text(Playlist::ATTRIBUTE_DESCRIPTION)->nullable();
             });
         }
