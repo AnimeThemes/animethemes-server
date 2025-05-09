@@ -19,7 +19,7 @@ return new class extends Migration
             Schema::create(ActionLog::TABLE, function (Blueprint $table) {
                 $table->bigIncrements(ActionLog::ATTRIBUTE_ID);
                 $table->string(ActionLog::ATTRIBUTE_BATCH_ID);
-                
+
                 $table->unsignedBigInteger(ActionLog::ATTRIBUTE_USER);
                 $table->foreign(ActionLog::ATTRIBUTE_USER)->references(User::ATTRIBUTE_ID)->on(User::TABLE)->cascadeOnDelete();
 
@@ -29,6 +29,7 @@ return new class extends Migration
                 $table->string(ActionLog::ATTRIBUTE_MODEL_TYPE);
                 $table->uuid(ActionLog::ATTRIBUTE_MODEL_ID)->nullable();
                 $table->integer(ActionLog::ATTRIBUTE_STATUS)->nullable();
+                $table->json(ActionLog::ATTRIBUTE_FIELDS)->nullable();
                 $table->text(ActionLog::ATTRIBUTE_EXCEPTION)->nullable();
                 $table->timestamps(6);
                 $table->timestamp(ActionLog::ATTRIBUTE_FINISHED_AT, 6)->nullable();

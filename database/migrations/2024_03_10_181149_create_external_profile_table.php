@@ -28,6 +28,9 @@ return new class extends Migration
 
                 $table->unsignedBigInteger(ExternalProfile::ATTRIBUTE_USER)->nullable();
                 $table->foreign(ExternalProfile::ATTRIBUTE_USER)->references(User::ATTRIBUTE_ID)->on(User::TABLE)->cascadeOnDelete();
+
+                $table->timestamp(ExternalProfile::ATTRIBUTE_SYNCED_AT, 6)->nullable();
+                $table->integer(ExternalProfile::ATTRIBUTE_EXTERNAL_USER_ID)->nullable();
             });
         }
     }

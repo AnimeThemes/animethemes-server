@@ -30,6 +30,8 @@ return new class extends Migration
                 $table->string(Performance::ATTRIBUTE_AS)->nullable();
                 $table->timestamps(6);
                 $table->softDeletes(Performance::ATTRIBUTE_DELETED_AT, 6);
+
+                $table->unique([Performance::ATTRIBUTE_SONG, Performance::ATTRIBUTE_ARTIST_TYPE, Performance::ATTRIBUTE_ARTIST_ID], 'unique_performance');
             });
         }
 

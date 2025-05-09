@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Enums\Models\Wiki\AnimeMediaFormat;
 use App\Models\BaseModel;
 use App\Models\Wiki\Anime;
 use Illuminate\Database\Migrations\Migration;
@@ -26,6 +27,7 @@ return new class extends Migration
                 $table->string(Anime::ATTRIBUTE_NAME);
                 $table->integer(Anime::ATTRIBUTE_YEAR)->nullable();
                 $table->integer(Anime::ATTRIBUTE_SEASON)->nullable();
+                $table->integer(Anime::ATTRIBUTE_MEDIA_FORMAT)->default(AnimeMediaFormat::UNKNOWN->value);
                 $table->text(Anime::ATTRIBUTE_SYNOPSIS)->nullable();
             });
         }

@@ -6,6 +6,7 @@ use App\Contracts\Models\HasHashids;
 use App\Models\Auth\User;
 use App\Models\BaseModel;
 use App\Models\List\Playlist;
+use App\Models\List\Playlist\PlaylistTrack;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\MySqlConnection;
 use Illuminate\Database\Schema\Blueprint;
@@ -36,6 +37,14 @@ return new class extends Migration
 
                 $table->unsignedBigInteger(Playlist::ATTRIBUTE_USER)->nullable();
                 $table->foreign(Playlist::ATTRIBUTE_USER)->references(User::ATTRIBUTE_ID)->on(User::TABLE)->cascadeOnDelete();
+
+                $table->unsignedBigInteger(Playlist::ATTRIBUTE_FIRST)->nullable();
+                $table->foreign(Playlist::ATTRIBUTE_FIRST)->references(PlaylistTrack::ATTRIBUTE_ID)->on(PlaylistTrack::TABLE)->nullOnDelete();
+
+                $table->unsignedBigInteger(Playlist::ATTRIBUTE_LAST)->nullable();
+                $table->foreign(Playlist::ATTRIBUTE_LAST)->references(PlaylistTrack::ATTRIBUTE_ID)->on(PlaylistTrack::TABLE)->nullOnDelete();
+
+                $table->text(Playlist::ATTRIBUTE_DESCRIPTION)->nullable();
             });
         }
     }
