@@ -6,7 +6,8 @@ namespace App\Actions\Models\Wiki;
 
 use App\Actions\ActionResult;
 use App\Actions\Models\BackfillWikiAction;
-use App\Actions\Models\Wiki\Studio\ApiAction\MalStudioApiAction;
+use App\Actions\Models\Wiki\Studio\ExternalApi\MalStudioExternalApiAction;
+use App\Contracts\Actions\Models\Wiki\BackfillImages;
 use App\Enums\Actions\ActionStatus;
 use App\Models\Wiki\Studio;
 use Exception;
@@ -36,13 +37,11 @@ class BackfillStudioAction extends BackfillWikiAction
      */
     public function handle(): ActionResult
     {
-        foreach ($this->getApis() as $api) {
+        foreach ($this->getExternalApiActions() as $api) {
             try {
                 DB::beginTransaction();
 
-                if (
-                    count($this->toBackfill[self::IMAGES]) === 0
-                ) {
+                if (count($this->toBackfill[self::IMAGES]) === 0) {
                     // Don't make other requests if everything is backfilled
                     Log::info("Backfill action finished for Studio {$this->getModel()->getName()}");
                     DB::rollBack();
@@ -51,7 +50,9 @@ class BackfillStudioAction extends BackfillWikiAction
 
                 $response = $api->handle($this->getModel()->resources());
 
-                $this->forImages($response);
+                if ($api instanceof BackfillImages) {
+                    $this->forImages($response);
+                }
 
                 DB::commit();
             } catch (Exception $e) {
@@ -67,14 +68,14 @@ class BackfillStudioAction extends BackfillWikiAction
     }
 
     /**
-     * Get the api actions available for the backfill action.
+     * Get the external API actions available for the backfill action.
      *
-     * @return array<ApiAction>
+     * @return array
      */
-    protected function getApis(): array
+    protected function getExternalApiActions(): array
     {
         return [
-            new MalStudioApiAction(),
+            new MalStudioExternalApiAction(),
         ];
     }
 

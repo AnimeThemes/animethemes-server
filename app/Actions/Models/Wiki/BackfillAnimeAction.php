@@ -6,12 +6,15 @@ namespace App\Actions\Models\Wiki;
 
 use App\Actions\ActionResult;
 use App\Actions\Models\BackfillWikiAction;
-use App\Actions\Models\Wiki\Anime\ApiAction\AnilistAnimeApiAction;
-use App\Actions\Models\Wiki\Anime\ApiAction\JikanAnimeApiAction;
-use App\Actions\Models\Wiki\Anime\ApiAction\LivechartAnimeApiAction;
-use App\Actions\Models\Wiki\Anime\ApiAction\MalAnimeApiAction;
+use App\Actions\Models\Wiki\Anime\ExternalApi\AnilistAnimeExternalApiAction;
+use App\Actions\Models\Wiki\Anime\ExternalApi\LivechartAnimeExternalApiAction;
+use App\Actions\Models\Wiki\Anime\ExternalApi\MalAnimeExternalApiAction;
 use App\Concerns\Models\CanCreateAnimeSynonym;
 use App\Concerns\Models\CanCreateStudio;
+use App\Contracts\Actions\Models\Wiki\BackfillImages;
+use App\Contracts\Actions\Models\Wiki\BackfillResources;
+use App\Contracts\Actions\Models\Wiki\BackfillStudios;
+use App\Contracts\Actions\Models\Wiki\BackfillSynonyms;
 use App\Enums\Actions\ActionStatus;
 use App\Enums\Models\Wiki\AnimeSynonymType;
 use App\Models\Wiki\Anime;
@@ -50,7 +53,7 @@ class BackfillAnimeAction extends BackfillWikiAction
     public function handle(): ActionResult
     {
         try {
-            foreach ($this->getApis() as $api) {
+            foreach ($this->getExternalApiActions() as $api) {
                 DB::beginTransaction();
 
                 if (
@@ -67,10 +70,21 @@ class BackfillAnimeAction extends BackfillWikiAction
 
                 $response = $api->handle($this->getModel()->resources());
 
-                $this->forResources($response);
-                $this->forImages($response);
-                $this->forStudios($response);
-                $this->forSynonyms($response);
+                if ($api instanceof BackfillResources) {
+                    $this->forResources($response);
+                }
+
+                if ($api instanceof BackfillImages) {
+                    $this->forImages($response);
+                }
+
+                if ($api instanceof BackfillStudios) {
+                    $this->forStudios($response);
+                }
+
+                if ($api instanceof BackfillSynonyms) {
+                    $this->forSynonyms($response);
+                }
 
                 DB::commit();
             }
@@ -78,33 +92,35 @@ class BackfillAnimeAction extends BackfillWikiAction
             Log::error($e->getMessage());
 
             DB::rollBack();
+
+            throw $e;
         }
 
         return new ActionResult(ActionStatus::PASSED);
     }
 
     /**
-     * Get the api actions available for the backfill action.
+     * Get the external API actions available for the backfill action.
      *
-     * @return array<ApiAction>
+     * @return array
      */
-    protected function getApis(): array
+    protected function getExternalApiActions(): array
     {
         return [
-            new LivechartAnimeApiAction(),
-            new AnilistAnimeApiAction(),
-            new MalAnimeApiAction(),
-            //new JikanAnimeApiAction(),
+            new LivechartAnimeExternalApiAction(),
+            new AnilistAnimeExternalApiAction(),
+            new MalAnimeExternalApiAction(),
+            //new JikanAnimeExternalApiAction(),
         ];
     }
 
     /**
      * Create the studios given the response.
      *
-     * @param  ApiAction  $response
+     * @param  ExternalApiAction&BackfillStudios  $response
      * @return void
      */
-    protected function forStudios(ApiAction $response): void
+    protected function forStudios(ExternalApiAction&BackfillStudios $response): void
     {
         $studios = $response->getStudios();
 
@@ -135,10 +151,10 @@ class BackfillAnimeAction extends BackfillWikiAction
     /**
      * Create the synonyms given the response.
      *
-     * @param  ApiAction  $api
+     * @param  ExternalApiAction&BackfillSynonyms  $api
      * @return void
      */
-    protected function forSynonyms(ApiAction $api): void
+    protected function forSynonyms(ExternalApiAction&BackfillSynonyms $api): void
     {
         if (!$this->toBackfill[self::SYNONYMS]) return;
 

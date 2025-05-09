@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Actions\Models;
 
 use App\Actions\ActionResult;
-use App\Actions\Models\Wiki\ApiAction;
+use App\Actions\Models\Wiki\ExternalApiAction;
 use App\Concerns\Models\CanCreateExternalResource;
 use App\Concerns\Models\CanCreateImage;
 use App\Contracts\Models\HasImages;
@@ -47,19 +47,19 @@ abstract class BackfillWikiAction
     abstract public function handle(): ActionResult;
 
     /**
-     * Get the api actions available for the backfill action.
+     * Get the external API actions available for the backfill action.
      *
-     * @return array
+     * @return array<ExternalApiAction>
      */
-    abstract protected function getApis(): array;
+    abstract protected function getExternalApiActions(): array;
 
     /**
      * Create the resources given the response.
      *
-     * @param  ApiAction  $api
+     * @param  ExternalApiAction  $api
      * @return void
      */
-    protected function forResources(ApiAction $api): void
+    protected function forResources(ExternalApiAction $api): void
     {
         $toBackfill = $this->toBackfill[self::RESOURCES];
 
@@ -85,10 +85,10 @@ abstract class BackfillWikiAction
     /**
      * Create the images given the response.
      *
-     * @param  ApiAction  $api
+     * @param  ExternalApiAction  $api
      * @return void
      */
-    protected function forImages(ApiAction $api): void
+    protected function forImages(ExternalApiAction $api): void
     {
         $toBackfill = $this->toBackfill[self::IMAGES];
 

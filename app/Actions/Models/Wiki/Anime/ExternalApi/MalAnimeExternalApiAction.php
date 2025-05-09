@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Actions\Models\Wiki\Anime\ApiAction;
+namespace App\Actions\Models\Wiki\Anime\ExternalApi;
 
-use App\Actions\Models\Wiki\ApiAction;
+use App\Actions\Models\Wiki\ExternalApiAction;
+use App\Contracts\Actions\Models\Wiki\BackfillStudios;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\ExternalResource;
@@ -14,9 +15,9 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
 
 /**
- * Class MalAnimeApiAction.
+ * Class MalAnimeExternalApiAction.
  */
-class MalAnimeApiAction extends ApiAction
+class MalAnimeExternalApiAction extends ExternalApiAction implements BackfillStudios
 {
     /**
      * Get the site to backfill.
@@ -53,29 +54,9 @@ class MalAnimeApiAction extends ApiAction
     }
 
     /**
-     * Get the mapping for the resources.
-     *
-     * @return array<int, string>
-     */
-    protected function getResourcesMapping(): array
-    {
-        return [];
-    }
-
-    /**
-     * Get the mapping for the images.
-     *
-     * @return array<int, string>
-     */
-    protected function getImagesMapping(): array
-    {
-        return [];
-    }
-
-    /**
      * Get the mapped studios.
      *
-     * @return array<int, string>
+     * @return array
      */
     public function getStudios(): array
     {

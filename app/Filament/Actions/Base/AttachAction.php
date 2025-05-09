@@ -75,7 +75,6 @@ class AttachAction extends DefaultAttachAction
             }
 
             return $select;
-
         });
 
         $this->form(fn (AttachAction $action, BaseRelationManager $livewire): array => [
@@ -87,7 +86,7 @@ class AttachAction extends DefaultAttachAction
     }
 
     /**
-     * Determine wheter the create option should be shown.
+     * Determine whether the create option should be shown.
      *
      * @param  string  $model
      * @return bool

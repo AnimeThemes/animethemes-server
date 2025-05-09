@@ -2,9 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Actions\Models\Wiki\Anime\ApiAction;
+namespace App\Actions\Models\Wiki\Anime\ExternalApi;
 
-use App\Actions\Models\Wiki\ApiAction;
+use App\Actions\Models\Wiki\ExternalApiAction;
+use App\Contracts\Actions\Models\Wiki\BackfillImages;
+use App\Contracts\Actions\Models\Wiki\BackfillResources;
+use App\Contracts\Actions\Models\Wiki\BackfillSynonyms;
 use App\Enums\Models\Wiki\AnimeSynonymType;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Enums\Models\Wiki\ResourceSite;
@@ -15,9 +18,9 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
 
 /**
- * Class AnilistAnimeApiAction.
+ * Class AnilistAnimeExternalApiAction.
  */
-class AnilistAnimeApiAction extends ApiAction
+class AnilistAnimeExternalApiAction extends ExternalApiAction implements BackfillImages, BackfillResources, BackfillSynonyms
 {
     /**
      * Get the site to backfill.
@@ -109,29 +112,11 @@ class AnilistAnimeApiAction extends ApiAction
     }
 
     /**
-     * Get the mapped synonyms.
-     *
-     * @return array<int|string, string>
-     */
-    public function getSynonyms(): array
-    {
-        $synonyms = [];
-
-        if ($this->response) {
-            foreach ($this->getSynonymsMapping() as $type => $key) {
-                $synonyms[$type] = Arr::get($this->response, $key);
-            }
-        }
-
-        return $synonyms;
-    }
-
-    /**
      * Get the available sites to backfill.
      *
      * @return array
      */
-    protected function getResourcesMapping(): array
+    public function getResourcesMapping(): array
     {
         return [
             ResourceSite::X->value => 'Twitter',
@@ -150,7 +135,7 @@ class AnilistAnimeApiAction extends ApiAction
      *
      * @return array<int, string>
      */
-    protected function getImagesMapping(): array
+    public function getImagesMapping(): array
     {
         return [
             ImageFacet::COVER_SMALL->value => 'data.Media.coverImage.medium',
@@ -163,7 +148,7 @@ class AnilistAnimeApiAction extends ApiAction
      *
      * @return array<int, string>
      */
-    protected function getSynonymsMapping(): array
+    public function getSynonymsMapping(): array
     {
         return [
             AnimeSynonymType::ENGLISH->value => 'data.Media.title.english',

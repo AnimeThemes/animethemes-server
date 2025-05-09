@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Actions\Models\Wiki\Anime\ApiAction;
+namespace App\Actions\Models\Wiki\Anime\ExternalApi;
 
-use App\Actions\Models\Wiki\ApiAction;
+use App\Actions\Models\Wiki\ExternalApiAction;
+use App\Contracts\Actions\Models\Wiki\BackfillResources;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\ExternalResource;
@@ -13,9 +14,9 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
 
 /**
- * Class JikanAnimeApiAction.
+ * Class JikanAnimeExternalApiAction.
  */
-class JikanAnimeApiAction extends ApiAction
+class JikanAnimeExternalApiAction extends ExternalApiAction implements BackfillResources
 {
     /**
      * Get the site to backfill.
@@ -82,22 +83,12 @@ class JikanAnimeApiAction extends ApiAction
      *
      * @return array
      */
-    protected function getResourcesMapping(): array
+    public function getResourcesMapping(): array
     {
         return [
             ResourceSite::ANIDB->value => 'AniDB',
             ResourceSite::ANN->value => 'ANN',
             ResourceSite::OFFICIAL_SITE->value => 'Official Site',
         ];
-    }
-
-    /**
-     * Get the mapping for the images.
-     *
-     * @return array<int, string>
-     */
-    protected function getImagesMapping(): array
-    {
-        return [];
     }
 }
