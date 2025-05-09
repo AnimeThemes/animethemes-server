@@ -36,7 +36,7 @@ class DiscordEditMessageTableAction extends BaseTableAction
         $this->label(__('filament.table_actions.discord_thread.message.edit.name'));
         $this->icon(__('filament-icons.table_actions.discord_thread.message.edit'));
 
-        $this->authorize('forcedeleteany', DiscordThread::class);
+        $this->authorize('deleteany', DiscordThread::class);
     }
 
     /**

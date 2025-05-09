@@ -33,7 +33,7 @@ class DiscordSendMessageTableAction extends BaseTableAction
         $this->label(__('filament.table_actions.discord_thread.message.send.name'));
         $this->icon(__('filament-icons.table_actions.discord_thread.message.send'));
 
-        $this->authorize('forcedeleteany', DiscordThread::class);
+        $this->authorize('deleteany', DiscordThread::class);
     }
 
     /**
