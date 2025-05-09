@@ -638,6 +638,7 @@ return [
             ],
         ],
         'base' => [
+            'attached_at' => 'Attached At',
             'created_at' => 'Created At',
             'deleted_at' => 'Deleted At',
             'file_properties' => 'File Properties',

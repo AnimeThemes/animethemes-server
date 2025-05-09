@@ -51,7 +51,7 @@ abstract class BaseRelationManager extends RelationManager
             ->columns([
                 ...$table->getColumns(),
                 TextColumn::make(BasePivot::ATTRIBUTE_CREATED_AT)
-                    ->label(__('filament.fields.base.created_at'))
+                    ->label(__('filament.fields.base.attached_at'))
                     ->hidden(fn ($livewire) => !($livewire->getRelationship() instanceof BelongsToMany))
                     ->formatStateUsing(function (Model $record) {
                         $pivot = current($record->getRelations());
