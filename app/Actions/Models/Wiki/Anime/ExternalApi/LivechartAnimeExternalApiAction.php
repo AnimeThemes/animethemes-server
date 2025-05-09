@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Actions\Models\Wiki\Anime\ApiAction;
+namespace App\Actions\Models\Wiki\Anime\ExternalApi;
 
-use App\Actions\Models\Wiki\ApiAction;
+use App\Actions\Models\Wiki\ExternalApiAction;
+use App\Contracts\Actions\Models\Wiki\BackfillResources;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\ExternalResource;
@@ -12,9 +13,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Facades\Http;
 
 /**
- * Class LivechartAnimeApiAction.
+ * Class LivechartAnimeExternalApiAction.
  */
-class LivechartAnimeApiAction extends ApiAction
+class LivechartAnimeExternalApiAction extends ExternalApiAction implements BackfillResources
 {
     /**
      * Get the site to backfill.
@@ -55,7 +56,7 @@ class LivechartAnimeApiAction extends ApiAction
      *
      * @return array<int, string>
      */
-    protected function getResourcesMapping(): array
+    public function getResourcesMapping(): array
     {
         return [
             ResourceSite::ANIDB->value => 'anidb_url',
@@ -67,15 +68,5 @@ class LivechartAnimeApiAction extends ApiAction
             ResourceSite::OFFICIAL_SITE->value => 'website_url',
             ResourceSite::X->value => 'twitter_url',
         ];
-    }
-
-    /**
-     * Get the mapping for the images.
-     *
-     * @return array<int, string>
-     */
-    protected function getImagesMapping(): array
-    {
-        return [];
     }
 }

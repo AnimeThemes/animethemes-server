@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Models\Auth\Role;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -49,6 +50,9 @@ return new class extends Migration
             }
             $table->string('name');       // For MyISAM use string('name', 225); // (or 166 for InnoDB with Redundant/Compact row format)
             $table->string('guard_name'); // For MyISAM use string('guard_name', 25);
+            $table->boolean(Role::ATTRIBUTE_DEFAULT)->default(false);
+            $table->string(Role::ATTRIBUTE_COLOR)->nullable();
+            $table->integer(Role::ATTRIBUTE_PRIORITY)->nullable();
             $table->timestamps();
             if ($teams || config('permission.testing')) {
                 $table->unique([$columnNames['team_foreign_key'], 'name', 'guard_name']);

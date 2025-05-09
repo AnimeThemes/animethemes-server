@@ -71,9 +71,6 @@ class BackfillSongAction extends BackfillAction
             }
 
             DB::commit();
-
-            return new ActionResult(ActionStatus::PASSED);
-
         } catch (Exception $e) {
             Log::error($e->getMessage());
 
@@ -81,6 +78,8 @@ class BackfillSongAction extends BackfillAction
 
             throw $e;
         }
+
+        return new ActionResult(ActionStatus::PASSED);
     }
 
     /**

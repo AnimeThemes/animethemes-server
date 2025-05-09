@@ -6,6 +6,7 @@ use App\Contracts\Models\HasHashids;
 use App\Models\BaseModel;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
+use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\MySqlConnection;
@@ -35,6 +36,9 @@ return new class extends Migration
 
                 $table->unsignedBigInteger(PlaylistTrack::ATTRIBUTE_PLAYLIST);
                 $table->foreign(PlaylistTrack::ATTRIBUTE_PLAYLIST)->references(Playlist::ATTRIBUTE_ID)->on(Playlist::TABLE)->cascadeOnDelete();
+
+                $table->unsignedBigInteger(PlaylistTrack::ATTRIBUTE_ENTRY)->nullable();
+                $table->foreign(PlaylistTrack::ATTRIBUTE_ENTRY)->references(AnimeThemeEntry::ATTRIBUTE_ID)->on(AnimeThemeEntry::TABLE)->nullOnDelete();
 
                 $table->unsignedBigInteger(PlaylistTrack::ATTRIBUTE_VIDEO)->nullable();
                 $table->foreign(PlaylistTrack::ATTRIBUTE_VIDEO)->references(Video::ATTRIBUTE_ID)->on(Video::TABLE)->nullOnDelete();

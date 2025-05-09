@@ -4,14 +4,17 @@ declare(strict_types=1);
 
 namespace App\Actions\Models\Wiki;
 
+use App\Contracts\Actions\Models\Wiki\BackfillImages;
+use App\Contracts\Actions\Models\Wiki\BackfillResources;
+use App\Contracts\Actions\Models\Wiki\BackfillSynonyms;
 use App\Enums\Models\Wiki\ResourceSite;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Arr;
 
 /**
- * Class ApiAction.
+ * Class ExternalApiAction.
  */
-abstract class ApiAction
+abstract class ExternalApiAction
 {
     /**
      * The response of the request.
@@ -26,14 +29,6 @@ abstract class ApiAction
      * @return ResourceSite
      */
     abstract public function getSite(): ResourceSite;
-
-    /**
-     * Create a new action instance.
-     *
-     */
-    public function __construct()
-    {
-    }
 
     /**
      * Set the response after the request.
@@ -52,7 +47,7 @@ abstract class ApiAction
     {
         $resources = [];
 
-        if ($this->response) {
+        if ($this instanceof BackfillResources && $this->response) {
             foreach ($this->getResourcesMapping() as $site => $key) {
                 if (Arr::get($this->response, $key) !== null) {
                     $resources[$site] = Arr::get($this->response, $key);
@@ -72,7 +67,7 @@ abstract class ApiAction
     {
         $images = [];
 
-        if ($this->response) {
+        if ($this instanceof BackfillImages && $this->response) {
             foreach ($this->getImagesMapping() as $facet => $key) {
                 if (Arr::get($this->response, $key) !== null) {
                     $images[$facet] = Arr::get($this->response, $key);
@@ -84,36 +79,20 @@ abstract class ApiAction
     }
 
     /**
-     * Get the mapped studios.
-     *
-     * @return array
-     */
-    public function getStudios(): array
-    {
-        return [];
-    }
-
-    /**
      * Get the mapped synonyms.
      *
-     * @return array
+     * @return array<int|string, string>
      */
     public function getSynonyms(): array
     {
-        return [];
+        $synonyms = [];
+
+        if ($this instanceof BackfillSynonyms && $this->response) {
+            foreach ($this->getSynonymsMapping() as $type => $key) {
+                $synonyms[$type] = Arr::get($this->response, $key);
+            }
+        }
+
+        return $synonyms;
     }
-
-    /**
-     * Get the mapping for the resources.
-     *
-     * @return array<int, string>
-     */
-    abstract protected function getResourcesMapping(): array;
-
-    /**
-     * Get the mapping for the images.
-     *
-     * @return array<int, string>
-     */
-    abstract protected function getImagesMapping(): array;
 }

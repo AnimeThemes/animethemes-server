@@ -63,7 +63,6 @@ class FilamentPanelProvider extends PanelProvider
             ->readOnlyRelationManagersOnResourceViewPagesByDefault(false)
             ->databaseNotifications()
             ->sidebarCollapsibleOnDesktop()
-            ->profile()
             ->colors([
                 'primary' => Color::Violet,
             ])

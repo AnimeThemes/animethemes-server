@@ -26,6 +26,7 @@ return new class extends Migration
                 $table->unsignedBigInteger(ArtistImage::ATTRIBUTE_IMAGE);
                 $table->foreign(ArtistImage::ATTRIBUTE_IMAGE)->references(Image::ATTRIBUTE_ID)->on(Image::TABLE)->cascadeOnDelete();
                 $table->primary([ArtistImage::ATTRIBUTE_ARTIST, ArtistImage::ATTRIBUTE_IMAGE]);
+                $table->integer(ArtistImage::ATTRIBUTE_DEPTH)->nullable();
             });
         }
     }

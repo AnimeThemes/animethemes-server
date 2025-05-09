@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Actions\Models\Wiki\Studio\ApiAction;
+namespace App\Actions\Models\Wiki\Studio\ExternalApi;
 
-use App\Actions\Models\Wiki\ApiAction;
+use App\Actions\Models\Wiki\ExternalApiAction;
+use App\Contracts\Actions\Models\Wiki\BackfillImages;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Wiki\ExternalResource;
@@ -12,9 +13,9 @@ use App\Models\Wiki\Studio;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
- * Class MalStudioApiAction.
+ * Class MalStudioExternalApiAction.
  */
-class MalStudioApiAction extends ApiAction
+class MalStudioExternalApiAction extends ExternalApiAction implements BackfillImages
 {
     /**
      * Get the site to backfill.
@@ -48,21 +49,11 @@ class MalStudioApiAction extends ApiAction
     }
 
     /**
-     * Get the mapping for the resources.
-     *
-     * @return array<int, string>
-     */
-    protected function getResourcesMapping(): array
-    {
-        return [];
-    }
-
-    /**
      * Get the mapping for the images.
      *
      * @return array<int, string>
      */
-    protected function getImagesMapping(): array
+    public function getImagesMapping(): array
     {
         return [
             ImageFacet::COVER_LARGE->value => 'images.large',

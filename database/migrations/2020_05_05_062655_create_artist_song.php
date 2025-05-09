@@ -27,6 +27,7 @@ return new class extends Migration
                 $table->foreign(ArtistSong::ATTRIBUTE_SONG)->references(Song::ATTRIBUTE_ID)->on(Song::TABLE)->cascadeOnDelete();
                 $table->primary([ArtistSong::ATTRIBUTE_ARTIST, ArtistSong::ATTRIBUTE_SONG]);
                 $table->string(ArtistSong::ATTRIBUTE_AS)->nullable();
+                $table->string(ArtistSong::ATTRIBUTE_ALIAS)->nullable();
             });
         }
     }

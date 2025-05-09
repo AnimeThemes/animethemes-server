@@ -6,6 +6,7 @@ use App\Models\Auth\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Laravel\Fortify\Fortify;
 
 return new class extends Migration
 {
@@ -23,9 +24,23 @@ return new class extends Migration
                 $table->string(User::ATTRIBUTE_EMAIL)->unique();
                 $table->timestamp(User::ATTRIBUTE_EMAIL_VERIFIED_AT)->nullable();
                 $table->string(User::ATTRIBUTE_PASSWORD);
+
+                $table->text('two_factor_secret')
+                    ->nullable();
+
+                $table->text('two_factor_recovery_codes')
+                    ->nullable();
+
+                if (Fortify::confirmsTwoFactorAuthentication()) {
+                    $table->timestamp('two_factor_confirmed_at')
+                        ->nullable();
+                }
+
                 $table->rememberToken();
                 $table->timestamps(6);
                 $table->softDeletes(User::ATTRIBUTE_DELETED_AT, 6);
+
+                $table->unique(User::ATTRIBUTE_NAME);
             });
         }
     }

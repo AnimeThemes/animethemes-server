@@ -23,7 +23,7 @@ return new class extends Migration
                 $table->foreign(Encode::ATTRIBUTE_USER)->references(User::ATTRIBUTE_ID)->on(User::TABLE)->cascadeOnDelete();
                 $table->unsignedBigInteger(Encode::ATTRIBUTE_VIDEO);
                 $table->foreign(Encode::ATTRIBUTE_VIDEO)->references(Video::ATTRIBUTE_ID)->on(Video::TABLE)->cascadeOnDelete();
-                $table->timestamps();
+                $table->timestamps(6);
             });
         }
     }

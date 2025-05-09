@@ -24,6 +24,7 @@ return new class extends Migration
                 $table->softDeletes(BaseModel::ATTRIBUTE_DELETED_AT, 6);
                 $table->string(Artist::ATTRIBUTE_SLUG);
                 $table->string(Artist::ATTRIBUTE_NAME);
+                $table->text(Artist::ATTRIBUTE_INFORMATION)->nullable();
             });
         }
     }

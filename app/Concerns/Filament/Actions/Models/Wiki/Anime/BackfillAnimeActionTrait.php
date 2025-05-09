@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Concerns\Filament\Actions\Models\Wiki\Anime;
 
-use App\Actions\Models\Wiki\BackfillAnimeAction as BackfillAnimeActionAction;
+use App\Actions\Models\Wiki\BackfillAnimeAction;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\Wiki\Anime;
@@ -14,9 +14,12 @@ use Exception;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Form;
+use Filament\Notifications\Actions\Action as NotificationAction;
+use Filament\Notifications\Notification;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Sleep;
 
 /**
@@ -27,10 +30,10 @@ trait BackfillAnimeActionTrait
     use InteractsWithQueue;
     use Queueable;
 
-    final public const RESOURCES = BackfillAnimeActionAction::RESOURCES;
-    final public const IMAGES = BackfillAnimeActionAction::IMAGES;
-    final public const STUDIOS = BackfillAnimeActionAction::STUDIOS;
-    final public const SYNONYMS = BackfillAnimeActionAction::SYNONYMS;
+    final public const RESOURCES = BackfillAnimeAction::RESOURCES;
+    final public const IMAGES = BackfillAnimeAction::IMAGES;
+    final public const STUDIOS = BackfillAnimeAction::STUDIOS;
+    final public const SYNONYMS = BackfillAnimeAction::SYNONYMS;
 
     final public const BACKFILL_ANIDB_RESOURCE = 'backfill_anidb_resource';
     final public const BACKFILL_ANILIST_RESOURCE = 'backfill_anilist_resource';
@@ -75,21 +78,22 @@ trait BackfillAnimeActionTrait
             return;
         }
 
-        $action = new BackfillAnimeActionAction($anime, $this->getToBackfill($fields));
+        $action = new BackfillAnimeAction($anime, $this->getToBackfill($fields));
 
         try {
             $result = $action->handle();
-            // if ($result->hasFailed()) {
-            //     Notification::make()
-            //         ->body($result->getMessage())
-            //         ->warning()
-            //         ->actions([
-            //             NotificationAction::make('mark-as-read')
-            //                 ->button()
-            //                 ->markAsRead(),
-            //         ])
-            //         ->sendToDatabase(Auth::user());
-            // }
+
+            if ($result->hasFailed()) {
+                Notification::make()
+                    ->body($result->getMessage())
+                    ->warning()
+                    ->actions([
+                        NotificationAction::make('mark-as-read')
+                            ->button()
+                            ->markAsRead(),
+                    ])
+                    ->sendToDatabase(Auth::user());
+            }
         } catch (Exception $e) {
             $this->failedLog($e);
         } finally {

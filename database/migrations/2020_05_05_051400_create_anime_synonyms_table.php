@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Enums\Models\Wiki\AnimeSynonymType;
 use App\Models\BaseModel;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeSynonym;
@@ -24,6 +25,7 @@ return new class extends Migration
                 $table->timestamps(6);
                 $table->softDeletes(BaseModel::ATTRIBUTE_DELETED_AT, 6);
                 $table->string(AnimeSynonym::ATTRIBUTE_TEXT)->nullable();
+                $table->integer(AnimeSynonym::ATTRIBUTE_TYPE)->default(AnimeSynonymType::OTHER->value);
 
                 $table->unsignedBigInteger(AnimeSynonym::ATTRIBUTE_ANIME);
                 $table->foreign(AnimeSynonym::ATTRIBUTE_ANIME)->references(Anime::ATTRIBUTE_ID)->on(Anime::TABLE)->cascadeOnDelete();

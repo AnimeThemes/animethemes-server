@@ -32,7 +32,12 @@ class AppServiceProvider extends ServiceProvider
         Model::handleLazyLoadingViolationUsing(function (Model $model, string $relation) {
             $class = get_class($model);
 
-            Log::error("Attempted to lazy load '$relation' on model '$class'");
+            Log::error("Attempted to lazy load '$relation' on model '$class'.", [
+                'method' => request()->method(),
+                'full-url' => request()->fullUrl(),
+                'ip' => request()->ip(),
+                'headers' => request()->headers->all(),
+            ]);
         });
 
         Model::preventsAccessingMissingAttributes();
@@ -40,7 +45,12 @@ class AppServiceProvider extends ServiceProvider
         Model::handleMissingAttributeViolationUsing(function (Model $model, string $key) {
             $class = get_class($model);
 
-            Log::error("Attribute '$key' does not exist or was not retrieved for model '$class'");
+            Log::error("Attribute '$key' does not exist or was not retrieved for model '$class'", [
+                'method' => request()->method(),
+                'full-url' => request()->fullUrl(),
+                'ip' => request()->ip(),
+                'headers' => request()->headers->all(),
+            ]);
         });
 
         EnsureFeaturesAreActive::whenInactive(fn (Request $request, array $features) => new Response(status: 403));
