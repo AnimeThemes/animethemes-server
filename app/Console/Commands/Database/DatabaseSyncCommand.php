@@ -42,6 +42,11 @@ class DatabaseSyncCommand extends BaseCommand
      */
     public function handle(): int
     {
+        if (app()->isProduction()) {
+            $this->error('Command not allowed in production.');
+            return 1;
+        }
+
         $database = Schema::getConnection()->getDatabaseName();
 
         Schema::dropDatabaseIfExists($database);
