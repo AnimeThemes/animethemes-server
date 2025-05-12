@@ -13,6 +13,7 @@ use App\Models\BaseModel;
 use App\Models\Wiki\Image;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Form;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Class AttachImageTableAction.
@@ -36,9 +37,13 @@ class AttachImageTableAction extends BaseTableAction
         $this->label(__('filament.actions.models.wiki.attach_image.name'));
         $this->icon(__('filament-icons.actions.models.wiki.attach_image'));
 
-        $this->authorize('create', Image::class);
+        $this->visible(function ($livewire) {
+            if (Auth::user()->cannot('create', Image::class)) {
+                return false;
+            }
 
-        $this->visible(fn ($livewire) => $livewire instanceof BaseRelationManager && $livewire->getOwnerRecord() instanceof HasImages);
+            return $livewire instanceof BaseRelationManager && $livewire->getOwnerRecord() instanceof HasImages;
+        });
     }
 
     /**

@@ -13,6 +13,7 @@ use App\Models\Wiki\Image;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Form;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Class UploadImageTableAction.
@@ -39,8 +40,13 @@ class UploadImageTableAction extends BaseTableAction
             ImageFacet::DOCUMENT,
         ]);
 
-        $this->authorize('create', Image::class);
-        $this->visible(fn ($livewire) => $livewire instanceof BaseListResources);
+        $this->visible(function ($livewire) {
+            if (Auth::user()->cannot('create', Image::class)) {
+                return false;
+            }
+
+            return $livewire instanceof BaseListResources;
+        });
     }
 
     /**

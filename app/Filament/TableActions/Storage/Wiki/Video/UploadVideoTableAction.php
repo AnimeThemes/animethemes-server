@@ -75,7 +75,7 @@ class UploadVideoTableAction extends UploadTableAction
 
         $this->label(__('filament.actions.video.upload.name'));
 
-        $this->authorize('create', Video::class);
+        $this->visible(Auth::user()->can('create', Video::class));
     }
 
     /**

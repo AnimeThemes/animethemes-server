@@ -24,6 +24,7 @@ use App\Rules\Wiki\Submission\Format\FormatNameFormatRule;
 use App\Rules\Wiki\Submission\Format\TotalStreamsFormatRule;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Validation\Rules\File as FileRule;
 
@@ -43,7 +44,7 @@ class UploadAudioTableAction extends UploadTableAction
 
         $this->label(__('filament.actions.audio.upload.name'));
 
-        $this->authorize('create', Audio::class);
+        $this->visible(Auth::user()->can('create', Audio::class));
     }
 
     /**

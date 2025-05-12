@@ -18,6 +18,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Forms\Set;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Class DiscordEditMessageTableAction.
@@ -36,7 +37,7 @@ class DiscordEditMessageTableAction extends BaseTableAction
         $this->label(__('filament.table_actions.discord_thread.message.edit.name'));
         $this->icon(__('filament-icons.table_actions.discord_thread.message.edit'));
 
-        $this->authorize('deleteany', DiscordThread::class);
+        $this->visible(Auth::user()->can('deleteany', DiscordThread::class));
     }
 
     /**

@@ -8,6 +8,7 @@ use App\Concerns\Repositories\Wiki\ReconcilesAudioRepositories;
 use App\Constants\Config\AudioConstants;
 use App\Filament\TableActions\Repositories\Storage\ReconcileStorageTableAction;
 use App\Models\Wiki\Audio;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 
 /**
@@ -28,7 +29,7 @@ class ReconcileAudioTableAction extends ReconcileStorageTableAction
 
         $this->label(__('filament.actions.repositories.name', ['label' => __('filament.resources.label.audios')]));
 
-        $this->authorize('create', Audio::class);
+        $this->visible(Auth::user()->can('create', Audio::class));
     }
 
     /**
