@@ -1,0 +1,59 @@
+"""
+Represents an anime entry on the external profile.
+
+For example, Hibike Euphonium! is marked as completed on the profile AnimeThemes.
+"""
+type ExternalEntry {
+    "The primary key of the resource"
+    id: Int! @rename(attribute: "entry_id")
+    "The score of the entry on the external site"
+    score: Float
+    "The favorite state of the entry on the external site"
+    isFavorite: Boolean! @rename(attribute: "is_favorite")
+    "The watch status of the entry on the external site"
+    watchStatus: ExternalEntryWatchStatus! @rename(attribute: "watch_status") @localizedEnum
+    anime: Anime @belongsTo
+    externalprofile: ExternalProfile @belongsTo
+    "The date that the resource was created"
+    createdAt: DateTimeTz @rename(attribute: "created_at")
+    "The date that the resource was last modified"
+    updatedAt: DateTimeTz @rename(attribute: "updated_at")
+    "The date that the resource was deleted"
+    deletedAt: DateTimeTz @rename(attribute: "deleted_at")
+}
+
+enum ExternalEntryColumnsOrderable {
+    ID @enum(value: "entry_id")
+    SCORE
+    IS_FAVORITE
+    WATCH_STATUS
+    CREATED_AT
+    UPDATED_AT
+    DELETED_AT
+}
+
+extend type Query {
+    "Returns an external entry resource."
+    externalentry(
+        profile: Int! @bind(class: "App\\Models\\List\\ExternalProfile")
+        id: Int! @bind(class: "App\\Models\\List\\External\\ExternalEntry")
+    ): ExternalEntry @first
+    @canModel(ability: "view", injectArgs: true)
+
+    "Returns a listing of entries for the profile."
+    externalentries(
+        score_lesser: Int @where(key: "score", operator: "<")
+        score_greater: Int @where(key: "score", operator: ">")
+        watchStatus: [ExternalEntryWatchStatus] @in(key: "watch_status")
+        createdAt_lesser: DateTimeTz @where(key: "created_at", operator: "<")
+        createdAt_greater: DateTimeTz @where(key: "created_at", operator: ">")
+        updatedAt_lesser: DateTimeTz @where(key: "updated_at", operator: "<")
+        updatedAt_greater: DateTimeTz @where(key: "updated_at", operator: ">")
+        deletedAt_lesser: DateTimeTz @where(key: "deleted_at", operator: "<")
+        deletedAt_greater: DateTimeTz @where(key: "deleted_at", operator: ">")
+        orderBy: _ @orderBy(columnsEnum: "ExternalEntryColumnsOrderable")
+    ): [ExternalEntry!]!
+    @canModel(ability: "viewAny", injectArgs: true)
+    @builder(method: "App\\GraphQL\\Builders\\List\\External\\ExternalEntryBuilder@index")
+    @paginate
+}

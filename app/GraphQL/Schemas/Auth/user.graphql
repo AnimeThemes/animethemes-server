@@ -1,0 +1,39 @@
+"Represents an AnimeThemes account."
+type User {
+    "The username of the resource"
+    name: String!
+    playlists: [Playlist] @hasMany
+    "The date that the resource was created"
+    createdAt: DateTimeTz @rename(attribute: "created_at")
+    "The date that the resource was last modified"
+    updatedAt: DateTimeTz @rename(attribute: "updated_at")
+    "The date that the resource was deleted"
+    deletedAt: DateTimeTz @rename(attribute: "deleted_at")
+}
+
+"Represents the currently authenticated user."
+type Me {
+    "The primary key of the resource"
+    id: Int
+    "The username of the resource"
+    name: String!
+    "The email of the user"
+    email: String!
+    "The date the user verified their email"
+    email_verified_at: DateTimeTz
+    "The date the user confirmed their two-factor authentication"
+    two_factor_confirmed_at: DateTimeTz
+    notifications: [Notification] @morphMany
+    playlists: [Playlist] @hasMany
+    "The date that the resource was created"
+    createdAt: DateTimeTz @rename(attribute: "created_at")
+    "The date that the resource was last modified"
+    updatedAt: DateTimeTz @rename(attribute: "updated_at")
+    "The date that the resource was deleted"
+    deletedAt: DateTimeTz @rename(attribute: "deleted_at")
+}
+
+extend type Query {
+    "Returns the data of the currently authenticated user."
+    me: Me @auth
+}

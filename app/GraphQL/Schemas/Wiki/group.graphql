@@ -1,0 +1,46 @@
+"""
+Represents the group that accompanies a Theme.
+
+For example, English Version is the group for english dubbed Theme.
+"""
+type ThemeGroup @model(class: "App\\Models\\Wiki\\Group") {
+    "The primary key of the resource"
+    id: Int! @rename(attribute: "group_id")
+    "The name of the group"
+    name: String!
+    "The slug of the group"
+    slug: String!
+    animethemes: [AnimeTheme] @hasMany
+    "The date that the resource was created"
+    createdAt: DateTimeTz @rename(attribute: "created_at")
+    "The date that the resource was last modified"
+    updatedAt: DateTimeTz @rename(attribute: "updated_at")
+    "The date that the resource was deleted"
+    deletedAt: DateTimeTz @rename(attribute: "deleted_at")
+}
+
+enum ThemeGroupColumnsOrderable {
+    ID @enum(value: "group_id")
+    NAME
+    SLUG
+    CREATED_AT
+    UPDATED_AT
+    DELETED_AT
+}
+
+extend type Query {
+    "Returns a listing of theme groups resources given fields."
+    themegroups(
+        createdAt_lesser: DateTimeTz @where(key: "created_at", operator: "<")
+        createdAt_greater: DateTimeTz @where(key: "created_at", operator: ">")
+        updatedAt_lesser: DateTimeTz @where(key: "updated_at", operator: "<")
+        updatedAt_greater: DateTimeTz @where(key: "updated_at", operator: ">")
+        deletedAt_lesser: DateTimeTz @where(key: "deleted_at", operator: "<")
+        deletedAt_greater: DateTimeTz @where(key: "deleted_at", operator: ">")
+        orderBy: _ @orderBy(columnsEnum: "ThemeGroupColumnsOrderable")
+    ): [ThemeGroup!]!
+
+    @canModel(ability: "viewAny", injectArgs: true)
+    @softDeletes
+    @paginate
+}

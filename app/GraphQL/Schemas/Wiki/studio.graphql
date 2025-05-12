@@ -1,0 +1,56 @@
+"""
+Represents a company that produces anime.
+
+For example, Shaft is the studio that produced the anime Bakemonogatari.
+"""
+type Studio {
+    "The primary key of the resource"
+    id: Int! @rename(attribute: "studio_id")
+    "The primary title of the studio"
+    name: String!
+    "The URL slug & route key of the resource"
+    slug: String!
+    anime: [Anime] @belongsToMany(type: CONNECTION)
+    images: [Image] @belongsToMany(type: CONNECTION)
+    resources: [ExternalResource] @belongsToMany(type: CONNECTION)
+    "The date that the resource was created"
+    createdAt: DateTimeTz @rename(attribute: "created_at")
+    "The date that the resource was last modified"
+    updatedAt: DateTimeTz @rename(attribute: "updated_at")
+    "The date that the resource was deleted"
+    deletedAt: DateTimeTz @rename(attribute: "deleted_at")
+}
+
+"Default edge to use in simple belongs to many relationships"
+type StudioEdge {
+    node: Studio!
+    "The date that the resource was last modified"
+    createdAt: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+    "The date that the resource was deleted"
+    updatedAt: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+}
+
+enum StudioColumnsOrderable {
+    ID @enum(value: "studio_id")
+    NAME
+    SLUG
+    CREATED_AT
+    UPDATED_AT
+    DELETED_AT
+}
+
+extend type Query {
+    "Returns a listing of studio resources given fields."
+    studios(
+        createdAt_lesser: DateTimeTz @where(key: "created_at", operator: "<")
+        createdAt_greater: DateTimeTz @where(key: "created_at", operator: ">")
+        updatedAt_lesser: DateTimeTz @where(key: "updated_at", operator: "<")
+        updatedAt_greater: DateTimeTz @where(key: "updated_at", operator: ">")
+        deletedAt_lesser: DateTimeTz @where(key: "deleted_at", operator: "<")
+        deletedAt_greater: DateTimeTz @where(key: "deleted_at", operator: ">")
+        orderBy: _ @orderBy(columnsEnum: "StudioColumnsOrderable")
+    ): [Studio!]!
+    @canModel(ability: "viewAny", injectArgs: true)
+    @softDeletes
+    @paginate
+}

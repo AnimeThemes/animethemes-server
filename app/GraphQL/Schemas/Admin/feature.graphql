@@ -1,0 +1,39 @@
+"""
+Represents a feature flag that enable/disable site functionalities.
+
+For example, the 'allow_discord_notifications' feature enables/disables discord notifications for the configured bot.
+"""
+type Feature {
+    "The primary key of the resource"
+    id: Int! @rename(attribute: "feature_id")
+    "The title of the resource"
+    name: String!
+    "The value of the resource"
+    value: String!
+    "The date that the resource was created"
+    createdAt: DateTimeTz @rename(attribute: "created_at")
+    "The date that the resource was last modified"
+    updatedAt: DateTimeTz @rename(attribute: "updated_at")
+}
+
+enum FeatureColumnsOrderable {
+    ID @enum(value: "feature_id")
+    NAME
+    VALUE
+    CREATED_AT
+    UPDATED_AT
+}
+
+extend type Query {
+    "Returns a listing of feature resources given fields."
+    features(
+        createdAt_lesser: DateTimeTz @where(key: "created_at", operator: "<")
+        createdAt_greater: DateTimeTz @where(key: "created_at", operator: ">")
+        updatedAt_lesser: DateTimeTz @where(key: "updated_at", operator: "<")
+        updatedAt_greater: DateTimeTz @where(key: "updated_at", operator: ">")
+        orderBy: _ @orderBy(columnsEnum: "FeatureColumnsOrderable")
+    ): [Feature!]!
+    @canModel(ability: "viewAny", injectArgs: true)
+    @builder(method: "App\\GraphQL\\Builders\\Admin\\FeatureBuilder@index")
+    @paginate
+}

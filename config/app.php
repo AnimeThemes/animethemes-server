@@ -214,6 +214,9 @@ return [
         /*
          * Package Service Providers...
          */
+        Nuwave\Lighthouse\Pennant\PennantServiceProvider::class,
+        Nuwave\Lighthouse\Scout\ScoutServiceProvider::class,
+        Nuwave\Lighthouse\WhereConditions\WhereConditionsServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -223,6 +226,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\FilamentPanelProvider::class,
         App\Providers\FortifyServiceProvider::class,
+        App\Providers\GraphqlServiceProvider::class,
         App\Providers\HorizonServiceProvider::class,
         App\Providers\PulseServiceProvider::class,
         App\Providers\RouteServiceProvider::class,

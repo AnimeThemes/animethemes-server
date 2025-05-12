@@ -1,0 +1,62 @@
+"Represents a user profile on the external site like MAL."
+type ExternalProfile {
+    "The primary key of the resource"
+    id: Int! @rename(attribute: "profile_id")
+    "The title of the profile"
+    name: String!
+    "The site the profile belongs to"
+    site: ExternalProfileSite! @localizedEnum
+    "The state of who can see the profile"
+    visibility: ExternalProfileVisibility! @localizedEnum
+    externalentries: [ExternalEntry] @hasMany
+    user: User @belongsTo
+    "The date that the resource was created"
+    createdAt: DateTimeTz @rename(attribute: "created_at")
+    "The date that the resource was last modified"
+    updatedAt: DateTimeTz @rename(attribute: "updated_at")
+    "The date that the resource was deleted"
+    deletedAt: DateTimeTz @rename(attribute: "deleted_at")
+}
+
+enum ExternalProfileColumnsOrderable {
+    ID @enum(value: "profile_id")
+    NAME
+    SITE
+    VISIBILITY
+    CREATED_AT
+    UPDATED_AT
+    DELETED_AT
+}
+
+extend type Query @middleware(class: "App\\Http\\Middleware\\Api\\EnabledOnlyOnLocalhost") {
+    "Returns an external profile resource."
+    externalprofile(
+        id: String! @bind(class: "App\\Models\\List\\ExternalProfile")
+    ): ExternalProfile @first
+    @canModel(ability: "view", injectArgs: true)
+
+    "Returns a listing of external profile resources."
+    externalprofiles(
+        name: String @eq
+        site: [ExternalProfileSite] @in
+        visibility: [ExternalProfileVisibility] @in
+        createdAt_lesser: DateTimeTz @where(key: "created_at", operator: "<")
+        createdAt_greater: DateTimeTz @where(key: "created_at", operator: ">")
+        updatedAt_lesser: DateTimeTz @where(key: "updated_at", operator: "<")
+        updatedAt_greater: DateTimeTz @where(key: "updated_at", operator: ">")
+        deletedAt_lesser: DateTimeTz @where(key: "deleted_at", operator: "<")
+        deletedAt_greater: DateTimeTz @where(key: "deleted_at", operator: ">")
+        orderBy: _ @orderBy(columnsEnum: "ExternalProfileColumnsOrderable")
+    ): [ExternalProfile!]!
+    @canModel(ability: "viewAny", injectArgs: true)
+    @builder(method: "App\\GraphQL\\Builders\\List\\ExternalProfileBuilder@index")
+    @paginate
+}
+
+extend type Mutation @guard @middleware(class: "App\\Http\\Middleware\\Api\\EnabledOnlyOnLocalhost") @feature(name: "App\\Features\\AllowExternalProfileManagement") {
+    syncExternalProfile(
+        id: Int! @bind(class: "App\\Models\\List\\ExternalProfile", column: "profile_id")
+    ): MessageResponse!
+    @canModel(ability: "update", injectArgs: true, model: "App\\Models\\List\\ExternalProfile")
+    @field(resolver: "App\\GraphQL\\Mutations\\List\\ExternalProfileMutator@sync")
+}

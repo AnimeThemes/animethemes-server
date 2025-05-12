@@ -1,0 +1,11 @@
+"Represents the association between an artist and an image."
+type ArtistImage {
+    artist: Artist!
+    image: Image!
+    "Used to sort the artist images"
+    depth: Int
+    "The date that the resource was created"
+    createdAt: DateTimeTz @rename(attribute: "created_at")
+    "The date that the resource was last modified"
+    updatedAt: DateTimeTz @rename(attribute: "updated_at")
+}

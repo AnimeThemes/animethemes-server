@@ -1,0 +1,45 @@
+"""
+Represents an encoding script used to produce a video.
+
+For example, the 2009/Summer/Bakemonogatari-OP1.txt video script represents the encoding script of the Bakemonogatari-OP1.webm video.
+"""
+type VideoScript {
+    "The primary key of the resource"
+    id: Int! @rename(attribute: "script_id")
+    "The path of the file in storage"
+    path: String!
+    "The URL to download the file from storage"
+    link: String!
+    video: Video @hasOne
+    "The date that the resource was created"
+    createdAt: DateTimeTz @rename(attribute: "created_at")
+    "The date that the resource was last modified"
+    updatedAt: DateTimeTz @rename(attribute: "updated_at")
+    "The date that the resource was deleted"
+    deletedAt: DateTimeTz @rename(attribute: "deleted_at")
+}
+
+enum VideoScriptColumnsOrderable {
+    ID @enum(value: "script_id")
+    PATH
+    LINK
+    CREATED_AT
+    UPDATED_AT
+    DELETED_AT
+}
+
+extend type Query {
+    "Returns a listing of script resources given fields."
+    scripts(
+        createdAt_lesser: DateTimeTz @where(key: "created_at", operator: "<")
+        createdAt_greater: DateTimeTz @where(key: "created_at", operator: ">")
+        updatedAt_lesser: DateTimeTz @where(key: "updated_at", operator: "<")
+        updatedAt_greater: DateTimeTz @where(key: "updated_at", operator: ">")
+        deletedAt_lesser: DateTimeTz @where(key: "deleted_at", operator: "<")
+        deletedAt_greater: DateTimeTz @where(key: "deleted_at", operator: ">")
+        orderBy: _ @orderBy(columnsEnum: "VideoScriptColumnsOrderable")
+    ): [VideoScript!]!
+    @canModel(ability: "viewAny", injectArgs: true)
+    @softDeletes
+    @paginate
+}

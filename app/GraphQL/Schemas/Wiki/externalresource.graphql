@@ -1,0 +1,108 @@
+"""
+Represents a site with supplementary information for another resource such as an anime or artist.
+
+For example, the Bakemonogatari anime has MyAnimeList, AniList and AniDB resources.
+"""
+type ExternalResource {
+    "The primary key of the resource"
+    id: Int! @rename(attribute: "resource_id")
+    "The primary key of the resource in the external site"
+    externalId: Int @rename(attribute: "external_id")
+    "The URL of the external site"
+    link: String!
+    "The external site that the resource belongs to"
+    site: ResourceSite! @localizedEnum
+    anime: [Anime] @belongsToMany(type: CONNECTION, edgeType: ExternalResourceAnimeEdge)
+    artists: [Artist] @belongsToMany(type: CONNECTION, edgeType: ExternalResourceArtistEdge)
+    songs: [Song] @belongsToMany(type: CONNECTION, edgeType: ExternalResourceSongEdge)
+    studios: [Studio] @belongsToMany(type: CONNECTION, edgeType: ExternalResourceStudioEdge)
+    "The date that the resource was created"
+    createdAt: DateTimeTz @rename(attribute: "created_at")
+    "The date that the resource was last modified"
+    updatedAt: DateTimeTz @rename(attribute: "updated_at")
+    "The date that the resource was deleted"
+    deletedAt: DateTimeTz @rename(attribute: "deleted_at")
+}
+
+"Default edge to use in simple belongs to many relationships"
+type ExternalResourceEdge {
+    node: ExternalResource!
+    "Used to distinguish resources that map to the same resource"
+    as: String @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+    "The date that the resource was last modified"
+    createdAt: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+    "The date that the resource was deleted"
+    updatedAt: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+}
+
+"External Resource has an extra pivot field"
+type ExternalResourceAnimeEdge {
+    node: Anime!
+    "Used to distinguish resources that map to the same anime"
+    as: String @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+    "The date that the resource was last modified"
+    createdAt: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+    "The date that the resource was deleted"
+    updatedAt: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+}
+
+"External Resource has an extra pivot field"
+type ExternalResourceArtistEdge {
+    node: Artist!
+    "Used to distinguish resources that map to the same artist"
+    as: String @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+    "The date that the resource was last modified"
+    createdAt: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+    "The date that the resource was deleted"
+    updatedAt: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+}
+
+"External Resource has an extra pivot field"
+type ExternalResourceSongEdge {
+    node: Song!
+    "Used to distinguish resources that map to the same song"
+    as: String @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+    "The date that the resource was last modified"
+    createdAt: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+    "The date that the resource was deleted"
+    updatedAt: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+}
+
+"External Resource has an extra pivot field"
+type ExternalResourceStudioEdge {
+    node: Studio!
+    "Used to distinguish resources that map to the same studio"
+    as: String @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+    "The date that the resource was last modified"
+    createdAt: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+    "The date that the resource was deleted"
+    updatedAt: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
+}
+
+enum ExternalResourceColumnsOrderable {
+    ID @enum(value: "resource_id")
+    SITE
+    EXTERNAL_ID
+    LINK
+    CREATED_AT
+    UPDATED_AT
+    DELETED_AT
+}
+
+extend type Query {
+    "Returns a listing of resources given fields."
+    externalresources(
+        externalId: Int @eq
+        site: [ResourceSite] @in
+        createdAt_lesser: DateTimeTz @where(key: "created_at", operator: "<")
+        createdAt_greater: DateTimeTz @where(key: "created_at", operator: ">")
+        updatedAt_lesser: DateTimeTz @where(key: "updated_at", operator: "<")
+        updatedAt_greater: DateTimeTz @where(key: "updated_at", operator: ">")
+        deletedAt_lesser: DateTimeTz @where(key: "deleted_at", operator: "<")
+        deletedAt_greater: DateTimeTz @where(key: "deleted_at", operator: ">")
+        orderBy: _ @orderBy(columnsEnum: "ExternalResourceColumnsOrderable")
+    ): [ExternalResource!]!
+    @canModel(ability: "viewAny", injectArgs: true)
+    @softDeletes
+    @paginate
+}

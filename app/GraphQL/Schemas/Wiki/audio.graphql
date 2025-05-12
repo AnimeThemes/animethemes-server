@@ -1,0 +1,58 @@
+"""
+Represents the audio track of a video.
+
+For example, the audio Bakemonogatari-OP1.ogg represents the audio track of the Bakemonogatari-OP1.webm video.
+"""
+type Audio {
+    "The primary key of the resource"
+    id: Int! @rename(attribute: "audio_id")
+    "The basename of the file in storage"
+    basename: String!
+    "The filename of the file in storage"
+    filename: String!
+    "The media type of the file in storage"
+    mimetype: String!
+    "The path of the file in storage"
+    path: String!
+    "The size of the file in storage in Bytes"
+    size: Int!
+    "The URL to stream the file from storage"
+    link: String!
+    "The number of views recorded for the resource"
+    viewsCount: Int! @with(relation: "viewAggregate") @field(resolver: "App\\GraphQL\\Resolvers\\ViewsCountResolver@resolve")
+    videos: [Video] @hasMany
+    "The date that the resource was created"
+    createdAt: DateTimeTz @rename(attribute: "created_at")
+    "The date that the resource was last modified"
+    updatedAt: DateTimeTz @rename(attribute: "updated_at")
+    "The date that the resource was deleted"
+    deletedAt: DateTimeTz @rename(attribute: "deleted_at")
+}
+
+enum AudioColumnsOrderable {
+    ID @enum(value: "audio_id")
+    FILENAME
+    BASENAME
+    SIZE
+    CREATED_AT
+    UPDATED_AT
+    DELETED_AT
+}
+
+extend type Query {
+    "Returns a listing of audio resources given fields."
+    audios(
+        size_lesser: Int @where(key: "size", operator: "<")
+        size_greater: Int @where(key: "size", operator: ">")
+        createdAt_lesser: DateTimeTz @where(key: "created_at", operator: "<")
+        createdAt_greater: DateTimeTz @where(key: "created_at", operator: ">")
+        updatedAt_lesser: DateTimeTz @where(key: "updated_at", operator: "<")
+        updatedAt_greater: DateTimeTz @where(key: "updated_at", operator: ">")
+        deletedAt_lesser: DateTimeTz @where(key: "deleted_at", operator: "<")
+        deletedAt_greater: DateTimeTz @where(key: "deleted_at", operator: ">")
+        orderBy: _ @orderBy(columnsEnum: "AudioColumnsOrderable")
+    ): [Audio!]!
+    @canModel(ability: "viewAny", injectArgs: true)
+    @softDeletes
+    @paginate
+}

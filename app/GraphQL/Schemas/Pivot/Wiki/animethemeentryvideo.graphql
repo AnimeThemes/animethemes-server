@@ -1,0 +1,9 @@
+"Represents the association between an anime theme entry and a video."
+type AnimeThemeEntryVideo {
+    animethemeentry: AnimeThemeEntry!
+    video: Video!
+    "The date that the resource was created"
+    createdAt: DateTimeTz @rename(attribute: "created_at")
+    "The date that the resource was last modified"
+    updatedAt: DateTimeTz @rename(attribute: "updated_at")
+}

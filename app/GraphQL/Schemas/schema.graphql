@@ -1,0 +1,47 @@
+"A datetime and timezone string in ISO 8601 format `Y-m-dTH:i:sP`, e.g. `2020-04-20T13:53:12+02:00`."
+scalar DateTimeTz @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\DateTimeTz")
+
+"Indicates what fields are available at the top level of a query operation."
+type Query @middleware(class: "App\\GraphQL\\Middleware\\MaxCount") {
+    "Returns a listing of resources that match a given search term."
+    search(search: String @search, perPage: Int, page: Int): Search!
+    @field(resolver: "App\\GraphQL\\Queries\\Search")
+}
+
+type Search {
+    anime: [Anime!]!
+    artists: [Artist!]!
+    animethemes: [AnimeTheme!]!
+    playlists: [Playlist!]!
+    series: [Series!]!
+    songs: [Song!]!
+    studios: [Studio!]!
+    videos: [Video!]!
+}
+
+type MessageResponse {
+    message: String
+}
+
+input WhereHasConditions {
+  relation: String!
+  where: [WhereConditions!]
+  AND: [WhereHasConditions!]
+  OR: [WhereHasConditions!]
+}
+
+#import Admin/*.graphql
+#import Auth/*.graphql
+#import Document/*.graphql
+#import List/*.graphql
+#import List/External/*.graphql
+#import List/Playlist/*.graphql
+#import User/*.graphql
+#import Wiki/*.graphql
+#import Wiki/Anime/*.graphql
+#import Wiki/Anime/Theme/*.graphql
+#import Wiki/Song/*.graphql
+#import Wiki/Video/*.graphql
+
+#import Pivot/List/*.graphql
+#import Pivot/Wiki/*.graphql

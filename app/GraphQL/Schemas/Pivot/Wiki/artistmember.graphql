@@ -1,0 +1,15 @@
+"Represents the association of an artist and a group/unit."
+type ArtistMember {
+    artist: Artist!
+    member: Artist!
+    "Used to distinguish member by alias"
+    alias: String
+    "Used to distinguish member by character"
+    as: String
+    "Used to extra annotation, like member role"
+    notes: String
+    "The date that the resource was created"
+    createdAt: DateTimeTz @rename(attribute: "created_at")
+    "The date that the resource was last modified"
+    updatedAt: DateTimeTz @rename(attribute: "updated_at")
+}

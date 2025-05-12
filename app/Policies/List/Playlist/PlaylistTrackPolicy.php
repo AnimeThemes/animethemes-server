@@ -17,7 +17,7 @@ use Filament\Facades\Filament;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class TrackPolicy.
+ * Class PlaylistTrackPolicy.
  */
 class PlaylistTrackPolicy extends BasePolicy
 {

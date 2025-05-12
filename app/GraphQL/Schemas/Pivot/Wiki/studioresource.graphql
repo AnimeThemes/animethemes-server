@@ -1,0 +1,11 @@
+"Represents the association between a studio and an external resource."
+type StudioResource {
+    studio: Studio!
+    resource: ExternalResource!
+    "Used to distinguish resources that map to the same studio"
+    as: String
+    "The date that the resource was created"
+    createdAt: DateTimeTz @rename(attribute: "created_at")
+    "The date that the resource was last modified"
+    updatedAt: DateTimeTz @rename(attribute: "updated_at")
+}

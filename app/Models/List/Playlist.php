@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models\List;
 
 use App\Concerns\Models\Service\AggregatesView;
+use App\Contracts\Models\HasAggregateViews;
 use App\Contracts\Models\HasHashids;
 use App\Contracts\Models\HasImages;
 use App\Enums\Models\List\PlaylistVisibility;
@@ -45,7 +46,7 @@ use Illuminate\Support\Collection;
  *
  * @method static PlaylistFactory factory(...$parameters)
  */
-class Playlist extends BaseModel implements HasHashids, Viewable, HasImages
+class Playlist extends BaseModel implements HasHashids, Viewable, HasImages, HasAggregateViews
 {
     use AggregatesView;
     use Searchable;

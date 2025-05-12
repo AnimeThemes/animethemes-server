@@ -13,6 +13,8 @@ enum SpecialPermission: string
 
     case BYPASS_FEATURE_FLAGS = 'bypass feature flags';
 
+    case BYPASS_GRAPHQL_RATE_LIMITER = 'bypass graphql rate limiter';
+
     case VIEW_FILAMENT = 'view filament';
 
     case VIEW_HORIZON = 'view horizon';

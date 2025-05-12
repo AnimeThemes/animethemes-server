@@ -1,0 +1,19 @@
+"Represents a notification that is sent to the user."
+type Notification {
+    "The date that the user read the notification"
+    readAt: DateTimeTz @rename(attribute: "read_at")
+    "The JSON data of the notification"
+    data: NotificationData!
+    "The user the notification belongs to"
+    user: User! @morphTo(relation: "notifiable")
+}
+
+"Represents the JSON data of the notification"
+type NotificationData {
+    "The title of the notification"
+    title: String!
+    "The content of the notification"
+    body: String!
+    "The image URL to display with the notification"
+    image: String
+}

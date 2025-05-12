@@ -6,6 +6,7 @@ namespace App\Models\Wiki;
 
 use App\Concerns\Models\Reportable;
 use App\Concerns\Models\Service\AggregatesView;
+use App\Contracts\Models\HasAggregateViews;
 use App\Contracts\Models\Streamable;
 use App\Events\Wiki\Audio\AudioCreated;
 use App\Events\Wiki\Audio\AudioDeleted;
@@ -34,7 +35,7 @@ use Illuminate\Support\Collection;
  *
  * @method static AudioFactory factory(...$parameters)
  */
-class Audio extends BaseModel implements Streamable, Viewable
+class Audio extends BaseModel implements Streamable, Viewable, HasAggregateViews
 {
     use AggregatesView;
     use InteractsWithViews;
