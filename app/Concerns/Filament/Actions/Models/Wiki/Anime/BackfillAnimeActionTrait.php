@@ -20,7 +20,6 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Sleep;
 
 /**
  * Trait BackfillAnimeActionTrait.
@@ -96,9 +95,6 @@ trait BackfillAnimeActionTrait
             }
         } catch (Exception $e) {
             $this->failedLog($e);
-        } finally {
-            // Try not to upset third-party APIs
-            Sleep::for(rand(3, 5))->second();
         }
     }
 
