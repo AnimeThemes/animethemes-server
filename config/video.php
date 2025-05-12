@@ -40,6 +40,19 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Video Rate Limiter
+    |--------------------------------------------------------------------------
+    |
+    | This value represents the number of requests permitted to stream video per minute.
+    | If set to a value less than or equal to zero, the limiter shall be unlimited.
+    | If set to a value greater than 0, the limiter shall restrict by that value.
+    |
+    */
+
+    'rate_limiter' => (int) env('VIDEO_RATE_LIMITER', -1),
+
+    /*
+    |--------------------------------------------------------------------------
     | Video Streaming
     |--------------------------------------------------------------------------
     |

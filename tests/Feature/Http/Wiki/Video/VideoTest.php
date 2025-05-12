@@ -8,13 +8,17 @@ use App\Constants\Config\VideoConstants;
 use App\Constants\FeatureConstants;
 use App\Enums\Auth\SpecialPermission;
 use App\Enums\Http\StreamingMethod;
+use App\Events\Wiki\Video\VideoThrottled;
 use App\Features\AllowVideoStreams;
+use App\Jobs\SendDiscordNotificationJob;
 use App\Models\Auth\User;
 use App\Models\Wiki\Video;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Pennant\Feature;
 use Laravel\Sanctum\Sanctum;
@@ -206,5 +210,101 @@ class VideoTest extends TestCase
         $response = $this->get(route('video.show', ['video' => $video]));
 
         $response->assertHeader('X-Accel-Redirect');
+    }
+
+    /**
+     * If the video rate limit is less than or equal to zero, videos shall not be throttled.
+     *
+     * @return void
+     */
+    public function testNotThrottled(): void
+    {
+        Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
+
+        Feature::activate(AllowVideoStreams::class);
+        Config::set(VideoConstants::STREAMING_METHOD_QUALIFIED, Arr::random(StreamingMethod::cases())->value);
+        Config::set(VideoConstants::RATE_LIMITER_QUALIFIED, -1);
+
+        $video = Video::factory()->createOne();
+
+        $response = $this->get(route('video.show', ['video' => $video]));
+
+        $response->assertHeaderMissing('X-RateLimit-Limit');
+        $response->assertHeaderMissing('X-RateLimit-Remaining');
+    }
+
+    /**
+     * If the video rate limit is greater than or equal to zero, videos shall be throttled.
+     *
+     * @return void
+     */
+    public function testRateLimited(): void
+    {
+        Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
+
+        Feature::activate(AllowVideoStreams::class);
+        Config::set(VideoConstants::STREAMING_METHOD_QUALIFIED, Arr::random(StreamingMethod::cases())->value);
+        Config::set(VideoConstants::RATE_LIMITER_QUALIFIED, $this->faker->randomDigitNotNull());
+
+        $video = Video::factory()->createOne();
+
+        $response = $this->get(route('video.show', ['video' => $video]));
+
+        $response->assertHeader('X-RateLimit-Limit');
+        $response->assertHeader('X-RateLimit-Remaining');
+    }
+
+    /**
+     * If the video rate limit attempt is exceeded, a VideoThrottled event shall be dispatched.
+     *
+     * @return void
+     */
+    public function testThrottledEvent(): void
+    {
+        $limit = $this->faker->randomDigitNotNull();
+
+        Event::fake();
+
+        Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
+
+        Feature::activate(AllowVideoStreams::class);
+        Config::set(VideoConstants::STREAMING_METHOD_QUALIFIED, Arr::random(StreamingMethod::cases())->value);
+        Config::set(VideoConstants::RATE_LIMITER_QUALIFIED, $limit);
+
+        $video = Video::factory()->createOne();
+
+        Collection::times($limit + 1, function () use ($video) {
+            $this->get(route('video.show', ['video' => $video]));
+        });
+
+        Event::assertDispatched(VideoThrottled::class);
+    }
+
+    /**
+     * If the video rate limit attempt is exceeded, a SendDiscordNotification job shall be dispatched.
+     *
+     * @return void
+     */
+    public function testThrottledNotification(): void
+    {
+        $limit = $this->faker->randomDigitNotNull();
+
+        Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
+
+        Bus::fake(SendDiscordNotificationJob::class);
+
+        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
+        Feature::activate(AllowVideoStreams::class);
+        Config::set(VideoConstants::STREAMING_METHOD_QUALIFIED, Arr::random(StreamingMethod::cases())->value);
+        Config::set(VideoConstants::RATE_LIMITER_QUALIFIED, $limit);
+        Event::fakeExcept(VideoThrottled::class);
+
+        $video = Video::factory()->createOne();
+
+        Collection::times($limit + 1, function () use ($video) {
+            $this->get(route('video.show', ['video' => $video]));
+        });
+
+        Bus::assertDispatched(SendDiscordNotificationJob::class);
     }
 }
