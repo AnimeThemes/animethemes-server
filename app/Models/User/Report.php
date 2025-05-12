@@ -81,18 +81,6 @@ class Report extends Model implements Nameable, HasSubtitle
     protected $primaryKey = Report::ATTRIBUTE_ID;
 
     /**
-     * Get the route key for the model.
-     *
-     * @return string
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    public function getRouteKeyName(): string
-    {
-        return Report::ATTRIBUTE_ID;
-    }
-
-    /**
      * Get name.
      *
      * @return string

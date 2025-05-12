@@ -89,18 +89,6 @@ class ReportStep extends Model
     protected $primaryKey = ReportStep::ATTRIBUTE_ID;
 
     /**
-     * Get the route key for the model.
-     *
-     * @return string
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    public function getRouteKeyName(): string
-    {
-        return ReportStep::ATTRIBUTE_ID;
-    }
-
-    /**
      * Get name.
      *
      * @return string

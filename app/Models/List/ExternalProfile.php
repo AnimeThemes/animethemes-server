@@ -151,18 +151,6 @@ class ExternalProfile extends BaseModel
     }
 
     /**
-     * Get the route key for the model.
-     *
-     * @return string
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    public function getRouteKeyName(): string
-    {
-        return ExternalProfile::ATTRIBUTE_ID;
-    }
-
-    /**
      * Only get the attributes as an array to prevent recursive toArray() calls.
      *
      * @return array

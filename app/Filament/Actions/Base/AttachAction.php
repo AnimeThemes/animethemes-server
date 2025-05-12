@@ -53,7 +53,6 @@ class AttachAction extends DefaultAttachAction
         });
 
         $this->recordSelect(function (BaseRelationManager $livewire) {
-            /** @var string */
             $model = $livewire->getTable()->getModel();
             $title = $livewire->getTable()->getRecordTitle(new $model);
 
