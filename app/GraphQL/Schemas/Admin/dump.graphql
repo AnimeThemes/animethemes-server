@@ -39,6 +39,7 @@ extend type Query {
         orderBy: _ @orderBy(columnsEnum: "DumpColumnsOrderable")
     ): [Dump!]!
     @canModel(ability: "viewAny", injectArgs: true)
+    @builder(method: "App\\GraphQL\\Builders\\Admin\\DumpBuilder@index")
     @softDeletes
     @paginate
 }
