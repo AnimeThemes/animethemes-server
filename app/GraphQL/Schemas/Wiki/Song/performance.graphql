@@ -9,7 +9,7 @@ type Performance {
     "The song the artist is performing"
     song: Song @belongsTo
     "The artist or membership performing"
-    artist: PerformanceArtist! @morphTo
+    artist: PerformanceArtistUnion! @morphTo
     "The alias the artist is using for this performance"
     alias: String
     "The character the artist is performing as"
@@ -23,7 +23,7 @@ type Performance {
 }
 
 "Represents the resource type performing"
-union PerformanceArtist = Artist | Membership
+union PerformanceArtistUnion = Artist | Membership
 
 enum PerformanceColumnsOrderable {
     ID @enum(value: "performance_id")
