@@ -163,7 +163,8 @@ abstract class BaseResource extends Resource
                 RestoreBulkAction::make(),
 
                 ...$actionsIncludedInGroup,
-            ]),
+            ])
+                ->authorize('forcedeleteany', static::getModel()),
         ];
     }
 
