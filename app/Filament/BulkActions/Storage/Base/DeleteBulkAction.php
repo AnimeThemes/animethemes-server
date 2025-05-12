@@ -21,8 +21,6 @@ abstract class DeleteBulkAction extends StorageBulkAction
     protected function setUp(): void
     {
         parent::setUp();
-
-        $this->authorize('forcedeleteany');
     }
 
     /**

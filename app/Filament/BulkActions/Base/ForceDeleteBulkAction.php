@@ -6,6 +6,7 @@ namespace App\Filament\BulkActions\Base;
 
 use App\Concerns\Filament\ActionLogs\HasActionLogs;
 use Filament\Tables\Actions\ForceDeleteBulkAction as DefaultForceDeleteBulkAction;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Class ForceDeleteBulkAction.
@@ -25,8 +26,6 @@ class ForceDeleteBulkAction extends DefaultForceDeleteBulkAction
 
         $this->label(__('filament.bulk_actions.base.forcedelete'));
 
-        $this->hidden(false);
-
-        $this->authorize('forcedeleteany');
+        $this->visible(Auth::user()->can('forcedeleteany'));
     }
 }

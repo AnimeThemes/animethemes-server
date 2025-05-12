@@ -13,6 +13,7 @@ use App\Models\Wiki\Video;
 use Filament\Forms\Form;
 use Filament\Support\Enums\MaxWidth;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Class VideoDiscordNotificationBulkAction.
@@ -33,7 +34,7 @@ class VideoDiscordNotificationBulkAction extends BaseBulkAction
         $this->label(__('filament.bulk_actions.discord.notification.name'));
         $this->icon(__('filament-icons.bulk_actions.discord.notification'));
 
-        $this->authorize('create', DiscordThread::class);
+        $this->visible(Auth::user()->can('create', DiscordThread::class));
     }
 
     /**

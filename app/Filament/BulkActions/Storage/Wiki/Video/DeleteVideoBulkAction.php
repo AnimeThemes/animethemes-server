@@ -8,6 +8,7 @@ use App\Actions\Storage\Wiki\Video\DeleteVideoAction as DeleteVideo;
 use App\Filament\BulkActions\Storage\Base\DeleteBulkAction;
 use App\Models\BaseModel;
 use App\Models\Wiki\Video;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Class DeleteVideoBulkAction.
@@ -26,6 +27,8 @@ class DeleteVideoBulkAction extends DeleteBulkAction
         $this->label(__('filament.actions.video.delete.name'));
         $this->icon(__('filament-icons.actions.base.delete'));
         $this->color('danger');
+
+        $this->visible(Auth::user()->can('forcedeleteany', Video::class));
     }
 
     /**
