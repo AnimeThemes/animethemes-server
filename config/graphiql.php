@@ -62,5 +62,5 @@ return [
     |
     */
 
-    'enabled' => env('GRAPHIQL_ENABLED', true),
+    'enabled' => (bool) env('GRAPHIQL_ENABLED', true),
 ];
