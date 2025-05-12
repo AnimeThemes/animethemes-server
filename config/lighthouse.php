@@ -37,6 +37,9 @@ return [
             // Rate limiting GraphQL to prevent abuse.
             'throttle:graphql',
 
+            // GraphQL is enabled for localhost requests.
+            App\Http\Middleware\Api\EnabledOnlyOnLocalhost::class,
+
             // Ensures the request is not vulnerable to cross-site request forgery.
             Nuwave\Lighthouse\Http\Middleware\EnsureXHR::class,
 
