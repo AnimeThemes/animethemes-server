@@ -43,6 +43,6 @@ class PruneDumpAction extends PruneAction
             return true;
         }
 
-        return $lastModified->isBefore(Date::now()->subMonth());
+        return $lastModified->isBefore(Date::now()->subWeeks(3));
     }
 }
