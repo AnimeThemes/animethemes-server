@@ -86,6 +86,6 @@ class DatabaseSyncCommand extends BaseCommand
      */
     protected function validator(): Validator
     {
-        return ValidatorFacade::make();
+        return ValidatorFacade::make($this->options(), []);
     }
 }

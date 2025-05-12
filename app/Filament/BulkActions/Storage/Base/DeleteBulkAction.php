@@ -14,18 +14,6 @@ use App\Models\BaseModel;
 abstract class DeleteBulkAction extends StorageBulkAction
 {
     /**
-     * Initial setup for the action.
-     *
-     * @return void
-     */
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->authorize('forcedeleteany');
-    }
-
-    /**
      * Get the underlying storage action.
      *
      * @param  BaseModel  $model

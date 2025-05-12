@@ -4,10 +4,6 @@ declare(strict_types=1);
 
 namespace App\Models\List\External;
 
-use App\Events\List\ExternalProfile\ExternalToken\ExternalTokenCreated;
-use App\Events\List\ExternalProfile\ExternalToken\ExternalTokenDeleted;
-use App\Events\List\ExternalProfile\ExternalToken\ExternalTokenRestored;
-use App\Events\List\ExternalProfile\ExternalToken\ExternalTokenUpdated;
 use App\Models\Auth\User;
 use App\Models\BaseModel;
 use App\Models\List\ExternalProfile;
@@ -56,17 +52,13 @@ class ExternalToken extends BaseModel
     ];
 
     /**
-     * The event map for the model.
+     * The attributes that should be hidden for serialization.
      *
-     * Allows for object-based events for native Eloquent events.
-     *
-     * @var array
+     * @var list<string>
      */
-    protected $dispatchesEvents = [
-        'created' => ExternalTokenCreated::class,
-        'deleted' => ExternalTokenDeleted::class,
-        'restored' => ExternalTokenRestored::class,
-        'updated' => ExternalTokenUpdated::class,
+    protected $hidden = [
+        ExternalToken::ATTRIBUTE_ACCESS_TOKEN,
+        ExternalToken::ATTRIBUTE_REFRESH_TOKEN,
     ];
 
     /**
@@ -113,18 +105,6 @@ class ExternalToken extends BaseModel
         return [
             ExternalToken::RELATION_PROFILE,
         ];
-    }
-
-    /**
-     * Get the route key for the model.
-     *
-     * @return string
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    public function getRouteKeyName(): string
-    {
-        return ExternalToken::ATTRIBUTE_ID;
     }
 
     /**

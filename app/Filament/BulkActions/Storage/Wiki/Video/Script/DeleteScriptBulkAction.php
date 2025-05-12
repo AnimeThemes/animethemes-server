@@ -8,6 +8,7 @@ use App\Actions\Storage\Wiki\Video\Script\DeleteScriptAction as DeleteScript;
 use App\Filament\BulkActions\Storage\Base\DeleteBulkAction;
 use App\Models\BaseModel;
 use App\Models\Wiki\Video\VideoScript;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Class DeleteScriptBulkAction.
@@ -24,6 +25,8 @@ class DeleteScriptBulkAction extends DeleteBulkAction
         parent::setUp();
 
         $this->label(__('filament.actions.video_script.delete.name'));
+
+        $this->visible(Auth::user()->can('forcedeleteany', VideoScript::class));
     }
 
     /**

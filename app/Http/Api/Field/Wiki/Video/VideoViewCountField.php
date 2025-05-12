@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Api\Field\Wiki\Video;
 
 use App\Enums\Http\Api\Field\AggregateFunction;

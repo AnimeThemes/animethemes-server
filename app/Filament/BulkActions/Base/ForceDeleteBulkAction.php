@@ -26,7 +26,5 @@ class ForceDeleteBulkAction extends DefaultForceDeleteBulkAction
         $this->label(__('filament.bulk_actions.base.forcedelete'));
 
         $this->hidden(false);
-
-        $this->authorize('forcedeleteany');
     }
 }

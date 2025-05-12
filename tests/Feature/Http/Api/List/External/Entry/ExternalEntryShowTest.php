@@ -6,7 +6,6 @@ namespace Tests\Feature\Http\Api\List\External\Entry;
 
 use App\Enums\Auth\CrudPermission;
 use App\Enums\Models\List\ExternalProfileVisibility;
-use App\Events\List\ExternalProfile\ExternalEntry\ExternalEntryCreated;
 use App\Events\List\ExternalProfile\ExternalProfileCreated;
 use App\Http\Api\Field\Field;
 use App\Http\Api\Include\AllowedInclude;
@@ -32,14 +31,24 @@ class ExternalEntryShowTest extends TestCase
     use WithFaker;
 
     /**
+     * Setup the test environment.
+     *
+     * @return void
+     */
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        Event::fakeExcept(ExternalProfileCreated::class);
+    }
+
+    /**
      * The External Entry Show Endpoint shall forbid a private profile from being publicly viewed.
      *
      * @return void
      */
     public function testPrivateExternalEntryCannotBePubliclyViewed(): void
     {
-        Event::fakeExcept([ExternalProfileCreated::class, ExternalEntryCreated::class]);
-
         $profile = ExternalProfile::factory()
             ->for(User::factory())
             ->createOne([
@@ -62,8 +71,6 @@ class ExternalEntryShowTest extends TestCase
      */
     public function testPrivateExternalEntryCannotBePubliclyViewedIfNotOwned(): void
     {
-        Event::fakeExcept([ExternalProfileCreated::class, ExternalEntryCreated::class]);
-
         $profile = ExternalProfile::factory()
             ->for(User::factory())
             ->createOne([
@@ -90,8 +97,6 @@ class ExternalEntryShowTest extends TestCase
      */
     public function testPrivateExternalEntryCanBeViewedByOwner(): void
     {
-        Event::fakeExcept([ExternalProfileCreated::class, ExternalEntryCreated::class]);
-
         $user = User::factory()->withPermissions(CrudPermission::VIEW->format(ExternalEntry::class))->createOne();
 
         $profile = ExternalProfile::factory()
@@ -118,8 +123,6 @@ class ExternalEntryShowTest extends TestCase
      */
     public function testPublicExternalEntryCanBeViewed(): void
     {
-        Event::fakeExcept([ExternalProfileCreated::class, ExternalEntryCreated::class]);
-
         $profile = ExternalProfile::factory()
             ->for(User::factory())
             ->createOne([
@@ -142,8 +145,6 @@ class ExternalEntryShowTest extends TestCase
      */
     public function testScoped(): void
     {
-        Event::fakeExcept([ExternalProfileCreated::class, ExternalEntryCreated::class]);
-
         $user = User::factory()->withPermissions(CrudPermission::VIEW->format(ExternalEntry::class))->createOne();
 
         $profile = ExternalProfile::factory()
@@ -169,8 +170,6 @@ class ExternalEntryShowTest extends TestCase
      */
     public function testDefault(): void
     {
-        Event::fakeExcept([ExternalProfileCreated::class, ExternalEntryCreated::class]);
-
         $profile = ExternalProfile::factory()
             ->createOne([
                 ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PUBLIC->value,
@@ -203,8 +202,6 @@ class ExternalEntryShowTest extends TestCase
      */
     public function testSoftDelete(): void
     {
-        Event::fakeExcept([ExternalProfileCreated::class, ExternalEntryCreated::class]);
-
         $profile = ExternalProfile::factory()
             ->createOne([
                 ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PUBLIC->value,
@@ -238,8 +235,6 @@ class ExternalEntryShowTest extends TestCase
      */
     public function testAllowedIncludePaths(): void
     {
-        Event::fakeExcept([ExternalProfileCreated::class, ExternalEntryCreated::class]);
-
         $schema = new ExternalEntrySchema();
 
         $allowedIncludes = collect($schema->allowedIncludes());
@@ -285,8 +280,6 @@ class ExternalEntryShowTest extends TestCase
      */
     public function testSparseFieldsets(): void
     {
-        Event::fakeExcept([ExternalProfileCreated::class, ExternalEntryCreated::class]);
-
         $schema = new ExternalEntrySchema();
 
         $fields = collect($schema->fields());

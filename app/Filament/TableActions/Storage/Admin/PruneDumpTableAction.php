@@ -8,6 +8,7 @@ use App\Actions\Storage\Admin\Dump\PruneDumpAction as PruneDump;
 use App\Filament\TableActions\Storage\Base\PruneTableAction;
 use App\Models\Admin\Dump;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Class PruneDumpTableAction.
@@ -25,7 +26,7 @@ class PruneDumpTableAction extends PruneTableAction
 
         $this->label(__('filament.actions.dump.prune.name'));
 
-        $this->authorize('forcedeleteany', Dump::class);
+        $this->visible(Auth::user()->can('forcedeleteany', Dump::class));
     }
 
     /**

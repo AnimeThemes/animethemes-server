@@ -25,8 +25,6 @@ class RestoreBulkAction extends DefaultRestoreBulkAction
 
         $this->label(__('filament.bulk_actions.base.restore'));
 
-        $this->authorize('forcedeleteany');
-
         $this->after(function (RestoreBulkAction $action) {
             foreach ($this->getRecords() as $record) {
                 $this->createActionLog($action, $record);

@@ -25,8 +25,6 @@ class DeleteBulkAction extends DefaultDeleteBulkAction
 
         $this->label(__('filament.bulk_actions.base.delete'));
 
-        $this->authorize('forcedeleteany');
-
         $this->after(function (DeleteBulkAction $action) {
             foreach ($this->getRecords() as $record) {
                 $this->createActionLog($action, $record);

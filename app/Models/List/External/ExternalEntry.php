@@ -5,10 +5,6 @@ declare(strict_types=1);
 namespace App\Models\List\External;
 
 use App\Enums\Models\List\ExternalEntryWatchStatus;
-use App\Events\List\ExternalProfile\ExternalEntry\ExternalEntryCreated;
-use App\Events\List\ExternalProfile\ExternalEntry\ExternalEntryDeleted;
-use App\Events\List\ExternalProfile\ExternalEntry\ExternalEntryRestored;
-use App\Events\List\ExternalProfile\ExternalEntry\ExternalEntryUpdated;
 use App\Models\BaseModel;
 use App\Models\List\ExternalProfile;
 use App\Models\Wiki\Anime;
@@ -55,20 +51,6 @@ class ExternalEntry extends BaseModel
         ExternalEntry::ATTRIBUTE_IS_FAVORITE,
         ExternalEntry::ATTRIBUTE_SCORE,
         ExternalEntry::ATTRIBUTE_WATCH_STATUS,
-    ];
-
-    /**
-     * The event map for the model.
-     *
-     * Allows for object-based events for native Eloquent events.
-     *
-     * @var array
-     */
-    protected $dispatchesEvents = [
-        'created' => ExternalEntryCreated::class,
-        'deleted' => ExternalEntryDeleted::class,
-        'restored' => ExternalEntryRestored::class,
-        'updated' => ExternalEntryUpdated::class,
     ];
 
     /**
@@ -128,18 +110,6 @@ class ExternalEntry extends BaseModel
         return [
             ExternalEntry::RELATION_ANIME,
         ];
-    }
-
-    /**
-     * Get the route key for the model.
-     *
-     * @return string
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    public function getRouteKeyName(): string
-    {
-        return ExternalEntry::ATTRIBUTE_ID;
     }
 
     /**

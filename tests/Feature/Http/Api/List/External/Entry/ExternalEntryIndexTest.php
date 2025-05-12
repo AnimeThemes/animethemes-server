@@ -48,14 +48,24 @@ class ExternalEntryIndexTest extends TestCase
     use WithFaker;
 
     /**
+     * Setup the test environment.
+     *
+     * @return void
+     */
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        Event::fakeExcept(ExternalProfileCreated::class);
+    }
+
+    /**
      * The External Entry Index Endpoint shall forbid a private profile from being publicly viewed.
      *
      * @return void
      */
     public function testPrivateExternalEntryCannotBePubliclyViewed(): void
     {
-        Event::fakeExcept(ExternalProfileCreated::class);
-
         $profile = ExternalProfile::factory()
             ->for(User::factory())
             ->entries($this->faker->numberBetween(2, 9))
@@ -75,8 +85,6 @@ class ExternalEntryIndexTest extends TestCase
      */
     public function testPrivateExternalEntryCannotBePubliclyViewedIfNotOwned(): void
     {
-        Event::fakeExcept(ExternalProfileCreated::class);
-
         $profile = ExternalProfile::factory()
             ->for(User::factory())
             ->entries($this->faker->numberBetween(2, 9))
@@ -100,8 +108,6 @@ class ExternalEntryIndexTest extends TestCase
      */
     public function testPrivateExternalEntryCanBeViewedByOwner(): void
     {
-        Event::fakeExcept(ExternalProfileCreated::class);
-
         $user = User::factory()->withPermissions(CrudPermission::VIEW->format(ExternalEntry::class))->createOne();
 
         $profile = ExternalProfile::factory()
@@ -125,8 +131,6 @@ class ExternalEntryIndexTest extends TestCase
      */
     public function testPublicExternalEntryCanBeViewed(): void
     {
-        Event::fakeExcept(ExternalProfileCreated::class);
-
         $profile = ExternalProfile::factory()
             ->for(User::factory())
             ->entries($this->faker->numberBetween(2, 9))
@@ -146,8 +150,6 @@ class ExternalEntryIndexTest extends TestCase
      */
     public function testDefault(): void
     {
-        Event::fakeExcept(ExternalProfileCreated::class);
-
         $entryCount = $this->faker->randomDigitNotNull();
 
         $profile = ExternalProfile::factory()
@@ -188,8 +190,6 @@ class ExternalEntryIndexTest extends TestCase
      */
     public function testPaginated(): void
     {
-        Event::fakeExcept(ExternalProfileCreated::class);
-
         $profile = ExternalProfile::factory()
             ->has(ExternalEntry::factory()->count($this->faker->randomDigitNotNull()), ExternalProfile::RELATION_EXTERNAL_ENTRIES)
             ->createOne([
@@ -212,8 +212,6 @@ class ExternalEntryIndexTest extends TestCase
      */
     public function testAllowedIncludePaths(): void
     {
-        Event::fakeExcept(ExternalProfileCreated::class);
-
         $schema = new ExternalEntrySchema();
 
         $allowedIncludes = collect($schema->allowedIncludes());
@@ -263,8 +261,6 @@ class ExternalEntryIndexTest extends TestCase
      */
     public function testSparseFieldsets(): void
     {
-        Event::fakeExcept(ExternalProfileCreated::class);
-
         $schema = new ExternalEntrySchema();
 
         $fields = collect($schema->fields());
@@ -304,8 +300,6 @@ class ExternalEntryIndexTest extends TestCase
      */
     public function testSorts(): void
     {
-        Event::fakeExcept(ExternalProfileCreated::class);
-
         $schema = new ExternalEntrySchema();
 
         /** @var Sort $sort */
@@ -349,8 +343,6 @@ class ExternalEntryIndexTest extends TestCase
      */
     public function testCreatedAtFilter(): void
     {
-        Event::fakeExcept(ExternalProfileCreated::class);
-
         $createdFilter = $this->faker->date();
         $excludedDate = $this->faker->date();
 
@@ -407,8 +399,6 @@ class ExternalEntryIndexTest extends TestCase
      */
     public function testUpdatedAtFilter(): void
     {
-        Event::fakeExcept(ExternalProfileCreated::class);
-
         $updatedFilter = $this->faker->date();
         $excludedDate = $this->faker->date();
 
@@ -465,8 +455,6 @@ class ExternalEntryIndexTest extends TestCase
      */
     public function testWithoutTrashedFilter(): void
     {
-        Event::fakeExcept(ExternalProfileCreated::class);
-
         $parameters = [
             FilterParser::param() => [
                 TrashedCriteria::PARAM_VALUE => TrashedStatus::WITHOUT->value,
@@ -510,8 +498,6 @@ class ExternalEntryIndexTest extends TestCase
      */
     public function testWithTrashedFilter(): void
     {
-        Event::fakeExcept(ExternalProfileCreated::class);
-
         $parameters = [
             FilterParser::param() => [
                 TrashedCriteria::PARAM_VALUE => TrashedStatus::WITH->value,
@@ -555,8 +541,6 @@ class ExternalEntryIndexTest extends TestCase
      */
     public function testOnlyTrashedFilter(): void
     {
-        Event::fakeExcept(ExternalProfileCreated::class);
-
         $parameters = [
             FilterParser::param() => [
                 TrashedCriteria::PARAM_VALUE => TrashedStatus::ONLY->value,
@@ -600,8 +584,6 @@ class ExternalEntryIndexTest extends TestCase
      */
     public function testDeletedAtFilter(): void
     {
-        Event::fakeExcept(ExternalProfileCreated::class);
-
         $deletedFilter = $this->faker->date();
         $excludedDate = $this->faker->date();
 

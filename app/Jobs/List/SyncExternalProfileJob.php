@@ -6,7 +6,7 @@ namespace App\Jobs\List;
 
 use App\Actions\Models\List\ExternalProfile\SyncExternalProfileAction;
 use App\Features\AllowExternalProfileManagement;
-use App\Jobs\Middleware\RateLimited;
+use App\Jobs\Middleware\ExternalProfileSiteRateLimited;
 use App\Models\List\ExternalProfile;
 use DateTime;
 use Illuminate\Bus\Queueable;
@@ -30,7 +30,7 @@ class SyncExternalProfileJob implements ShouldQueue
      * @param  ExternalProfile  $profile
      * @return void
      */
-    public function __construct(protected readonly ExternalProfile $profile)
+    public function __construct(public readonly ExternalProfile $profile)
     {
         $this->onQueue("sync-external-profile-{$profile->site->name}");
     }
@@ -56,7 +56,7 @@ class SyncExternalProfileJob implements ShouldQueue
      */
     public function middleware(): array
     {
-        return [new RateLimited()];
+        return [new ExternalProfileSiteRateLimited()];
     }
 
     /**

@@ -15,6 +15,7 @@ use Filament\Forms\Components\Hidden;
 use Filament\Forms\Form;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Validation\Rules\File as FileRule;
 
@@ -34,7 +35,7 @@ class UploadScriptTableAction extends UploadTableAction
 
         $this->label(__('filament.actions.video_script.upload.name'));
 
-        $this->authorize('create', VideoScript::class);
+        $this->visible(Auth::user()->can('create', VideoScript::class));
     }
 
     /**

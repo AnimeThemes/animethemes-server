@@ -29,6 +29,7 @@ use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
 /**
@@ -187,7 +188,8 @@ class FeaturedTheme extends BaseResource
                     }),
 
                 BelongsTo::make(FeaturedThemeModel::ATTRIBUTE_USER)
-                    ->resource(UserResource::class),
+                    ->resource(UserResource::class)
+                    ->default(Auth::id()),
             ])
             ->columns(1);
     }

@@ -39,7 +39,7 @@ abstract class PermissionRelationManager extends BaseRelationManager
     {
         return parent::table(
             $table
-            ->modifyQueryUsing(fn (Builder $query) => $query->with(PermissionResource::getEloquentQuery()->getEagerLoads()))
+                ->modifyQueryUsing(fn (Builder $query) => $query->with(PermissionResource::getEloquentQuery()->getEagerLoads()))
                 ->heading(PermissionResource::getPluralLabel())
                 ->modelLabel(PermissionResource::getLabel())
                 ->recordTitleAttribute(Permission::ATTRIBUTE_NAME)
