@@ -161,6 +161,16 @@ class ExternalProfile extends BaseModel
     }
 
     /**
+     * Get the index name for the model when searching.
+     *
+     * @return string
+     */
+    public function searchableAs(): string
+    {
+        return 'profiles';
+    }
+
+    /**
      * Determine if the model should be searchable.
      *
      * @return bool

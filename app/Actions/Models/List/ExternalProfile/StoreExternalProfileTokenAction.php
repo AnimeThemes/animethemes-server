@@ -30,11 +30,11 @@ class StoreExternalProfileTokenAction
      *
      * @param  ExternalToken  $token
      * @param  array  $parameters
-     * @return ExternalProfile|null
+     * @return ExternalProfile
      *
      * @throws Exception
      */
-    public function firstOrCreate(ExternalToken $token, array $parameters): ?ExternalProfile
+    public function firstOrCreate(ExternalToken $token, array $parameters): ExternalProfile
     {
         try {
             $site = ExternalProfileSite::fromLocalizedName(Arr::get($parameters, 'site'));
