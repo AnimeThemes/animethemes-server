@@ -4,12 +4,9 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Policies\List\External;
 
-use App\Enums\Auth\CrudPermission;
-use App\Enums\Auth\ExtendedCrudPermission;
 use App\Enums\Models\List\ExternalProfileVisibility;
 use App\GraphQL\Policies\BasePolicy;
 use App\Models\Auth\User;
-use App\Models\List\External\ExternalEntry;
 use App\Models\List\ExternalProfile;
 use Illuminate\Support\Arr;
 
@@ -31,7 +28,7 @@ class ExternalEntryPolicy extends BasePolicy
         $profile = Arr::get($injected, 'profile');
 
         return $user !== null
-            ? ($profile?->user()->is($user) || ExternalProfileVisibility::PRIVATE !== $profile?->visibility) && $user->can(CrudPermission::VIEW->format(ExternalEntry::class))
+            ? ($profile?->user()->is($user) || ExternalProfileVisibility::PRIVATE !== $profile?->visibility) && parent::viewAny($user, $injected)
             : ExternalProfileVisibility::PRIVATE !== $profile?->visibility;
     }
 
@@ -40,17 +37,16 @@ class ExternalEntryPolicy extends BasePolicy
      *
      * @param  User|null  $user
      * @param  array|null  $injected
+     * @param  string|null  $keyName
      * @return bool
-     *
-     * @noinspection PhpUnusedParameterInspection
      */
-    public function view(?User $user, ?array $injected = null): bool
+    public function view(?User $user, ?array $injected = null, ?string $keyName = 'id'): bool
     {
         /** @var ExternalProfile|null $profile */
         $profile = Arr::get($injected, 'profile');
 
         return $user !== null
-            ? ($profile?->user()->is($user) || ExternalProfileVisibility::PRIVATE !== $profile?->visibility) && $user->can(CrudPermission::VIEW->format(ExternalEntry::class))
+            ? ($profile?->user()->is($user) || ExternalProfileVisibility::PRIVATE !== $profile?->visibility) && parent::view($user, $injected, $keyName)
             : ExternalProfileVisibility::PRIVATE !== $profile?->visibility;
     }
 
@@ -66,7 +62,7 @@ class ExternalEntryPolicy extends BasePolicy
         /** @var ExternalProfile|null $profile */
         $profile = Arr::get($injected, 'profile');
 
-        return $profile?->user()->is($user);
+        return $profile?->user()->is($user) && parent::create($user, $injected);
     }
 
     /**
@@ -74,16 +70,15 @@ class ExternalEntryPolicy extends BasePolicy
      *
      * @param  User  $user
      * @param  array  $injected
+     * @param  string|null  $keyName
      * @return bool
      */
-    public function update(User $user, array $injected): bool
+    public function update(User $user, array $injected, ?string $keyName = 'id'): bool
     {
         /** @var ExternalProfile|null $profile */
         $profile = Arr::get($injected, 'profile');
-        /** @var ExternalEntry $entry */
-        $entry = Arr::get($injected, 'id');
 
-        return !$entry->trashed() && $profile?->user()->is($user) && $user->can(CrudPermission::UPDATE->format(ExternalEntry::class));
+        return $profile?->user()->is($user) && parent::update($user, $injected, $keyName);
     }
 
     /**
@@ -91,32 +86,14 @@ class ExternalEntryPolicy extends BasePolicy
      *
      * @param  User  $user
      * @param  array  $injected
+     * @param  string|null  $keyName
      * @return bool
      */
-    public function delete(User $user, array $injected): bool
+    public function delete(User $user, array $injected, ?string $keyName = 'id'): bool
     {
         /** @var ExternalProfile|null $profile */
         $profile = Arr::get($injected, 'profile');
-        /** @var ExternalEntry $entry */
-        $entry = Arr::get($injected, 'id');
 
-        return !$entry->trashed() && $profile?->user()->is($user) && $user->can(CrudPermission::DELETE->format(ExternalEntry::class));
-    }
-
-    /**
-     * Determine whether the user can restore the model.
-     *
-     * @param  User  $user
-     * @param  array  $injected
-     * @return bool
-     */
-    public function restore(User $user, array $injected): bool
-    {
-        /** @var ExternalProfile|null $profile */
-        $profile = Arr::get($injected, 'profile');
-        /** @var ExternalEntry $entry */
-        $entry = Arr::get($injected, 'id');
-
-        return $entry->trashed() && $profile?->user()->is($user) && $user->can(ExtendedCrudPermission::RESTORE->format(ExternalEntry::class));
+        return $profile?->user()->is($user) && parent::delete($user, $injected, $keyName);
     }
 }

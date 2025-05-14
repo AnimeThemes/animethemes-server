@@ -118,23 +118,4 @@ class ExternalEntryPolicy extends BasePolicy
 
         return parent::delete($user, $entry) && $profile?->user()->is($user);
     }
-
-    /**
-     * Determine whether the user can restore the model.
-     *
-     * @param  User  $user
-     * @param  ExternalEntry  $entry
-     * @return bool
-     */
-    public function restore(User $user, BaseModel|Model $entry): bool
-    {
-        if (Filament::isServing()) {
-            return $user->hasRole(Role::ADMIN->value);
-        }
-
-        /** @var ExternalProfile|null $profile */
-        $profile = request()->route('externalprofile');
-
-        return parent::restore($user, $entry) && $profile?->user()->is($user);
-    }
 }

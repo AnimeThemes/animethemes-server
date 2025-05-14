@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Actions\Models\List\ExternalProfile\ExternalEntry;
 
-use App\Enums\Models\List\ExternalProfileSite;
-use App\Enums\Models\Wiki\ResourceSite;
 use App\Models\List\ExternalProfile;
 use Illuminate\Support\Arr;
 
@@ -28,31 +26,6 @@ abstract class BaseExternalEntryAction
     }
 
     /**
-     * Get the profile site.
-     *
-     * @return ExternalProfileSite
-     */
-    public function getProfileSite(): ExternalProfileSite
-    {
-        if ($this->profile instanceof ExternalProfile) {
-            return $this->profile->site;
-        }
-
-        // TODO: change 'site' to a constant variable in API.
-        return ExternalProfileSite::fromLocalizedName(Arr::get($this->profile, 'site'));
-    }
-
-    /**
-     * Get the resource site of the profile site.
-     *
-     * @return ResourceSite
-     */
-    protected function getResourceSite(): ResourceSite
-    {
-        return $this->getProfileSite()->getResourceSite();
-    }
-
-    /**
      * Get the username of the profile.
      *
      * @return string
@@ -63,8 +36,7 @@ abstract class BaseExternalEntryAction
             return $this->profile->name;
         }
 
-        // TODO: change 'name' to a constant variable in API.
-        return Arr::get($this->profile, 'name');
+        return Arr::get($this->profile, ExternalProfile::ATTRIBUTE_NAME);
     }
 
     /**

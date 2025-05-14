@@ -33,13 +33,17 @@ class StoreExternalProfileUsernameAction
      */
     public function firstOrCreate(Builder $builder, array $profileParameters): ExternalProfile
     {
+        $name = Arr::get($profileParameters, ExternalProfile::ATTRIBUTE_NAME);
+        $siteLocalized = Arr::get($profileParameters, ExternalProfile::ATTRIBUTE_SITE);
+        $visibilityLocalized = Arr::get($profileParameters, ExternalProfile::ATTRIBUTE_VISIBILITY);
+
         try {
             DB::beginTransaction();
 
-            $profileSite = ExternalProfileSite::fromLocalizedName(Arr::get($profileParameters, 'site'));
+            $profileSite = ExternalProfileSite::fromLocalizedName($siteLocalized);
 
             $findProfile = ExternalProfile::query()
-                ->where(ExternalProfile::ATTRIBUTE_NAME, Arr::get($profileParameters, 'name'))
+                ->where(ExternalProfile::ATTRIBUTE_NAME, $name)
                 ->where(ExternalProfile::ATTRIBUTE_SITE, $profileSite->value)
                 ->first();
 
@@ -55,9 +59,9 @@ class StoreExternalProfileUsernameAction
             /** @var ExternalProfile $profile */
             $profile = $storeAction->store($builder, [
                 ExternalProfile::ATTRIBUTE_EXTERNAL_USER_ID => $action->getId(),
-                ExternalProfile::ATTRIBUTE_NAME => Arr::get($profileParameters, ExternalProfile::ATTRIBUTE_NAME),
+                ExternalProfile::ATTRIBUTE_NAME => $name,
                 ExternalProfile::ATTRIBUTE_SITE => $profileSite->value,
-                ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::fromLocalizedName(Arr::get($profileParameters, ExternalProfile::ATTRIBUTE_VISIBILITY))->value,
+                ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::fromLocalizedName($visibilityLocalized)->value,
             ]);
 
             DB::commit();

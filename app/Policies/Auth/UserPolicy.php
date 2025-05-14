@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Policies\Auth;
 
-use App\Enums\Auth\CrudPermission;
-use App\Enums\Auth\ExtendedCrudPermission;
 use App\Enums\Auth\Role as RoleEnum;
 use App\Models\Auth\User;
 use App\Policies\BasePolicy;
@@ -24,7 +22,7 @@ class UserPolicy extends BasePolicy
      */
     public function viewAny(?User $user): bool
     {
-        return $user !== null && $user->can(CrudPermission::VIEW->format(User::class));
+        return $user !== null && parent::viewAny($user);
     }
 
     /**
@@ -33,54 +31,10 @@ class UserPolicy extends BasePolicy
      * @param  User|null  $user
      * @param  User  $userModel
      * @return bool
-     *
-     * @noinspection PhpUnusedParameterInspection
      */
     public function view(?User $user, Model $userModel): bool
     {
-        return $user !== null && $user->can(CrudPermission::VIEW->format(User::class));
-    }
-
-    /**
-     * Determine whether the user can update the model.
-     *
-     * @param  User  $user
-     * @param  User  $userModel
-     * @return bool
-     *
-     * @noinspection PhpUnusedParameterInspection
-     */
-    public function update(User $user, Model $userModel): bool
-    {
-        return $user->can(CrudPermission::UPDATE->format(User::class));
-    }
-
-    /**
-     * Determine whether the user can delete the model.
-     *
-     * @param  User  $user
-     * @param  User  $userModel
-     * @return bool
-     *
-     * @noinspection PhpUnusedParameterInspection
-     */
-    public function delete(User $user, Model $userModel): bool
-    {
-        return $user->can(CrudPermission::DELETE->format(User::class));
-    }
-
-    /**
-     * Determine whether the user can restore the model.
-     *
-     * @param  User  $user
-     * @param  User  $userModel
-     * @return bool
-     *
-     * @noinspection PhpUnusedParameterInspection
-     */
-    public function restore(User $user, Model $userModel): bool
-    {
-        return $user->can(ExtendedCrudPermission::RESTORE->format(User::class));
+        return $user !== null && parent::view($user, $userModel);
     }
 
     /**

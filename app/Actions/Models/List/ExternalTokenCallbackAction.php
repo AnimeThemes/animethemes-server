@@ -36,7 +36,7 @@ class ExternalTokenCallbackAction
         try {
             DB::beginTransaction();
 
-            $site = Arr::get($parameters, 'site');
+            $site = Arr::get($parameters, ExternalProfile::ATTRIBUTE_SITE);
             $profileSite = ExternalProfileSite::fromLocalizedName($site);
 
             $action = $this->getActionClass($profileSite);

@@ -37,7 +37,7 @@ class StoreExternalProfileTokenAction
     public function firstOrCreate(ExternalToken $token, array $parameters): ExternalProfile
     {
         try {
-            $site = ExternalProfileSite::fromLocalizedName(Arr::get($parameters, 'site'));
+            $site = ExternalProfileSite::fromLocalizedName(Arr::get($parameters, ExternalProfile::ATTRIBUTE_SITE));
 
             $action = static::getActionClass($site, $token);
 

@@ -13,7 +13,6 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Str;
 use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
@@ -45,12 +44,7 @@ class ExternalTokenAuthController extends Controller
      */
     public function index(Request $request): RedirectResponse|JsonResponse
     {
-        $validated = array_merge(
-            $request->all(),
-            [ExternalProfile::ATTRIBUTE_USER => Auth::id()]
-        );
-
-        $site = Arr::get($validated, ExternalProfile::ATTRIBUTE_SITE);
+        $site = Arr::get($request->all(), ExternalProfile::ATTRIBUTE_SITE);
         $profileSite = ExternalProfileSite::fromLocalizedName($site);
 
         if ($profileSite instanceof ExternalProfileSite) {

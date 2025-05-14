@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Policies\Auth;
 
-use App\Enums\Auth\CrudPermission;
-use App\Enums\Auth\ExtendedCrudPermission;
 use App\Models\Auth\Permission;
 use App\Models\Auth\User;
 use App\Policies\BasePolicy;
@@ -24,7 +22,7 @@ class PermissionPolicy extends BasePolicy
      */
     public function viewAny(?User $user): bool
     {
-        return $user !== null && $user->can(CrudPermission::VIEW->format(Permission::class));
+        return $user !== null && parent::viewAny($user);
     }
 
     /**
@@ -33,54 +31,10 @@ class PermissionPolicy extends BasePolicy
      * @param  User|null  $user
      * @param  Permission  $permission
      * @return bool
-     *
-     * @noinspection PhpUnusedParameterInspection
      */
     public function view(?User $user, Model $permission): bool
     {
-        return $user !== null && $user->can(CrudPermission::VIEW->format(Permission::class));
-    }
-
-    /**
-     * Determine whether the user can update the model.
-     *
-     * @param  User  $user
-     * @param  Permission  $permission
-     * @return bool
-     *
-     * @noinspection PhpUnusedParameterInspection
-     */
-    public function update(User $user, Model $permission): bool
-    {
-        return $user->can(CrudPermission::UPDATE->format(Permission::class));
-    }
-
-    /**
-     * Determine whether the user can delete the model.
-     *
-     * @param  User  $user
-     * @param  Permission  $permission
-     * @return bool
-     *
-     * @noinspection PhpUnusedParameterInspection
-     */
-    public function delete(User $user, Model $permission): bool
-    {
-        return $user->can(CrudPermission::DELETE->format(Permission::class));
-    }
-
-    /**
-     * Determine whether the user can restore the model.
-     *
-     * @param  User  $user
-     * @param  Permission  $permission
-     * @return bool
-     *
-     * @noinspection PhpUnusedParameterInspection
-     */
-    public function restore(User $user, Model $permission): bool
-    {
-        return $user->can(ExtendedCrudPermission::RESTORE->format(Permission::class));
+        return $user !== null && parent::view($user, $permission);
     }
 
     /**

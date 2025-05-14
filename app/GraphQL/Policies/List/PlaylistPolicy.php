@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Policies\List;
 
-use App\Enums\Auth\CrudPermission;
-use App\Enums\Auth\ExtendedCrudPermission;
 use App\Enums\Models\List\PlaylistVisibility;
 use App\GraphQL\Mutations\List\PlaylistMutator;
 use App\GraphQL\Policies\BasePolicy;
@@ -19,44 +17,21 @@ use Illuminate\Support\Arr;
 class PlaylistPolicy extends BasePolicy
 {
     /**
-     * Determine whether the user can view any models.
-     *
-     * @param  User|null  $user
-     * @param  array|null  $injected
-     * @return bool
-     */
-    public function viewAny(?User $user, ?array $injected = null): bool
-    {
-        return $user === null || $user->can(CrudPermission::VIEW->format(Playlist::class));
-    }
-
-    /**
      * Determine whether the user can view the model.
      *
      * @param  User|null  $user
      * @param  array|null  $injected
+     * @param  string|null  $keyName
      * @return bool
      */
-    public function view(?User $user, ?array $injected = null): bool
+    public function view(?User $user, ?array $injected = null, ?string $keyName = 'id'): bool
     {
         /** @var Playlist $playlist */
         $playlist = Arr::get($injected, PlaylistMutator::ROUTE_SLUG);
 
         return $user !== null
-            ? ($playlist->user()->is($user) || PlaylistVisibility::PRIVATE !== $playlist->visibility) && $user->can(CrudPermission::VIEW->format(Playlist::class))
+            ? ($playlist->user()->is($user) || PlaylistVisibility::PRIVATE !== $playlist->visibility) && parent::view($user, $injected, $keyName)
             : PlaylistVisibility::PRIVATE !== $playlist->visibility;
-    }
-
-    /**
-     * Determine whether the user can create models.
-     *
-     * @param  User  $user
-     * @param  array|null  $injected
-     * @return bool
-     */
-    public function create(User $user, ?array $injected = null): bool
-    {
-        return $user->can(CrudPermission::CREATE->format(Playlist::class));
     }
 
     /**
@@ -64,14 +39,15 @@ class PlaylistPolicy extends BasePolicy
      *
      * @param  User  $user
      * @param  array  $injected
+     * @param  string|null  $keyName
      * @return bool
      */
-    public function update(User $user, array $injected): bool
+    public function update(User $user, array $injected, ?string $keyName = 'id'): bool
     {
         /** @var Playlist $playlist */
         $playlist = Arr::get($injected, PlaylistMutator::ROUTE_SLUG);
 
-        return !$playlist->trashed() && $playlist->user()->is($user) && $user->can(CrudPermission::UPDATE->format(Playlist::class));
+        return $playlist->user()->is($user) && parent::update($user, $injected, $keyName);
     }
 
     /**
@@ -79,14 +55,15 @@ class PlaylistPolicy extends BasePolicy
      *
      * @param  User  $user
      * @param  array  $injected
+     * @param  string|null  $keyName
      * @return bool
      */
-    public function delete(User $user, array $injected): bool
+    public function delete(User $user, array $injected, ?string $keyName = 'id'): bool
     {
         /** @var Playlist $playlist */
         $playlist = Arr::get($injected, PlaylistMutator::ROUTE_SLUG);
 
-        return !$playlist->trashed() && $playlist->user()->is($user) && $user->can(CrudPermission::DELETE->format(Playlist::class));
+        return $playlist->user()->is($user) && parent::delete($user, $injected, $keyName);
     }
 
     /**
@@ -94,13 +71,14 @@ class PlaylistPolicy extends BasePolicy
      *
      * @param  User  $user
      * @param  array  $injected
+     * @param  string|null  $keyName
      * @return bool
      */
-    public function restore(User $user, array $injected): bool
+    public function restore(User $user, array $injected, ?string $keyName = 'id'): bool
     {
         /** @var Playlist $playlist */
         $playlist = Arr::get($injected, PlaylistMutator::ROUTE_SLUG);
 
-        return $playlist->trashed() && $playlist->user()->is($user) && $user->can(ExtendedCrudPermission::RESTORE->format(Playlist::class));
+        return $playlist->user()->is($user) && parent::restore($user, $injected, $keyName);
     }
 }

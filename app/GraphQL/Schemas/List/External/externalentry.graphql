@@ -18,8 +18,6 @@ type ExternalEntry {
     createdAt: DateTimeTz @rename(attribute: "created_at")
     "The date that the resource was last modified"
     updatedAt: DateTimeTz @rename(attribute: "updated_at")
-    "The date that the resource was deleted"
-    deletedAt: DateTimeTz @rename(attribute: "deleted_at")
 }
 
 enum ExternalEntryColumnsOrderable {
@@ -29,7 +27,6 @@ enum ExternalEntryColumnsOrderable {
     WATCH_STATUS
     CREATED_AT
     UPDATED_AT
-    DELETED_AT
 }
 
 extend type Query {
@@ -49,8 +46,6 @@ extend type Query {
         createdAt_greater: DateTimeTz @where(key: "created_at", operator: ">")
         updatedAt_lesser: DateTimeTz @where(key: "updated_at", operator: "<")
         updatedAt_greater: DateTimeTz @where(key: "updated_at", operator: ">")
-        deletedAt_lesser: DateTimeTz @where(key: "deleted_at", operator: "<")
-        deletedAt_greater: DateTimeTz @where(key: "deleted_at", operator: ">")
         orderBy: _ @orderBy(columnsEnum: "ExternalEntryColumnsOrderable")
     ): [ExternalEntry!]!
     @canModel(ability: "viewAny", injectArgs: true)

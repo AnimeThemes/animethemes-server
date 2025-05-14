@@ -48,20 +48,4 @@ class ExternalTokenPolicy extends BasePolicy
 
         return parent::delete($user, $externaltoken) && $user->getKey() === $externaltoken->user->getKey();
     }
-
-    /**
-     * Determine whether the user can restore the model.
-     *
-     * @param  User  $user
-     * @param  ExternalToken  $externaltoken
-     * @return bool
-     */
-    public function restore(User $user, BaseModel|Model $externaltoken): bool
-    {
-        if (Filament::isServing()) {
-            return $user->hasRole(RoleEnum::ADMIN->value);
-        }
-
-        return parent::restore($user, $externaltoken) && $user->getKey() === $externaltoken->user->getKey();
-    }
 }

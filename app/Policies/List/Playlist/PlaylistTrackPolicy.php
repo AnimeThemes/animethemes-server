@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Policies\List\Playlist;
 
-use App\Enums\Auth\CrudPermission;
-use App\Enums\Auth\ExtendedCrudPermission;
 use App\Enums\Auth\Role as RoleEnum;
 use App\Enums\Models\List\PlaylistVisibility;
 use App\Models\Auth\User;
@@ -37,7 +35,7 @@ class PlaylistTrackPolicy extends BasePolicy
         $playlist = request()->route('playlist');
 
         return $user !== null
-            ? ($playlist?->user()->is($user) || PlaylistVisibility::PRIVATE !== $playlist?->visibility) && $user->can(CrudPermission::VIEW->format(PlaylistTrack::class))
+            ? ($playlist?->user()->is($user) || PlaylistVisibility::PRIVATE !== $playlist?->visibility) && parent::viewAny($user)
             : PlaylistVisibility::PRIVATE !== $playlist?->visibility;
     }
 
@@ -60,7 +58,7 @@ class PlaylistTrackPolicy extends BasePolicy
         $playlist = request()->route('playlist');
 
         return $user !== null
-            ? ($playlist?->user()->is($user) || PlaylistVisibility::PRIVATE !== $playlist?->visibility) && $user->can(CrudPermission::VIEW->format(PlaylistTrack::class))
+            ? ($playlist?->user()->is($user) || PlaylistVisibility::PRIVATE !== $playlist?->visibility) && parent::view($user, $track)
             : PlaylistVisibility::PRIVATE !== $playlist?->visibility;
     }
 
@@ -79,7 +77,7 @@ class PlaylistTrackPolicy extends BasePolicy
         /** @var Playlist|null $playlist */
         $playlist = request()->route('playlist');
 
-        return $playlist?->user()->is($user);
+        return $playlist?->user()->is($user) && parent::create($user);
     }
 
     /**
@@ -98,7 +96,7 @@ class PlaylistTrackPolicy extends BasePolicy
         /** @var Playlist|null $playlist */
         $playlist = request()->route('playlist');
 
-        return !$track->trashed() && $playlist?->user()->is($user) && $user->can(CrudPermission::UPDATE->format(PlaylistTrack::class));
+        return $playlist?->user()->is($user) && parent::update($user, $track);
     }
 
     /**
@@ -117,7 +115,7 @@ class PlaylistTrackPolicy extends BasePolicy
         /** @var Playlist|null $playlist */
         $playlist = request()->route('playlist');
 
-        return !$track->trashed() && $playlist?->user()->is($user) && $user->can(CrudPermission::DELETE->format(PlaylistTrack::class));
+        return $playlist?->user()->is($user) && parent::delete($user, $track);
     }
 
     /**
@@ -136,6 +134,6 @@ class PlaylistTrackPolicy extends BasePolicy
         /** @var Playlist|null $playlist */
         $playlist = request()->route('playlist');
 
-        return $track->trashed() && $playlist?->user()->is($user) && $user->can(ExtendedCrudPermission::RESTORE->format(PlaylistTrack::class));
+        return $playlist?->user()->is($user) && parent::restore($user, $track);
     }
 }

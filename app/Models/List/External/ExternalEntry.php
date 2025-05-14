@@ -4,11 +4,15 @@ declare(strict_types=1);
 
 namespace App\Models\List\External;
 
+use App\Concerns\Filament\ActionLogs\ModelHasActionLogs;
+use App\Contracts\Models\HasSubtitle;
+use App\Contracts\Models\Nameable;
 use App\Enums\Models\List\ExternalEntryWatchStatus;
-use App\Models\BaseModel;
 use App\Models\List\ExternalProfile;
 use App\Models\Wiki\Anime;
 use Database\Factories\List\External\ExternalEntryFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
@@ -25,8 +29,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *
  * @method static ExternalEntryFactory factory(...$parameters)
  */
-class ExternalEntry extends BaseModel
+class ExternalEntry extends Model implements Nameable, HasSubtitle
 {
+    use ModelHasActionLogs;
+    use HasFactory;
+
     final public const TABLE = 'external_entries';
 
     final public const ATTRIBUTE_ID = 'entry_id';
@@ -109,6 +116,20 @@ class ExternalEntry extends BaseModel
     {
         return [
             ExternalEntry::RELATION_ANIME,
+        ];
+    }
+
+    /**
+     * Get the fields to perform an update.
+     *
+     * @return array
+     */
+    public static function fieldsForUpdate(): array
+    {
+        return [
+            ExternalEntry::ATTRIBUTE_IS_FAVORITE,
+            ExternalEntry::ATTRIBUTE_SCORE,
+            ExternalEntry::ATTRIBUTE_WATCH_STATUS,
         ];
     }
 

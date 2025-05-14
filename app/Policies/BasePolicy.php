@@ -48,7 +48,7 @@ abstract class BasePolicy
             return $user !== null && $user->can(CrudPermission::VIEW->format(static::getModel()));
         }
 
-        return true;
+        return $user === null || $user->can(CrudPermission::VIEW->format(static::getModel()));
     }
 
     /**
@@ -64,7 +64,7 @@ abstract class BasePolicy
             return $user !== null && $user->can(CrudPermission::VIEW->format(static::getModel()));
         }
 
-        return true;
+        return $user === null || $user->can(CrudPermission::VIEW->format(static::getModel()));
     }
 
     /**
@@ -87,7 +87,11 @@ abstract class BasePolicy
      */
     public function update(User $user, BaseModel|Model $model): bool
     {
-        return (!($model instanceof BaseModel) || !$model->trashed()) && $user->can(CrudPermission::UPDATE->format(static::getModel()));
+        $trashed = method_exists($model, 'trashed')
+            ? $model->trashed()
+            : false;
+
+        return !$trashed && $user->can(CrudPermission::UPDATE->format(static::getModel()));
     }
 
     /**
@@ -99,7 +103,11 @@ abstract class BasePolicy
      */
     public function delete(User $user, BaseModel|Model $model): bool
     {
-        return (!($model instanceof BaseModel) || !$model->trashed()) && $user->can(CrudPermission::DELETE->format(static::getModel()));
+        $trashed = method_exists($model, 'trashed')
+            ? $model->trashed()
+            : false;
+
+        return !$trashed && $user->can(CrudPermission::DELETE->format(static::getModel()));
     }
 
     /**
@@ -133,7 +141,11 @@ abstract class BasePolicy
      */
     public function restore(User $user, BaseModel|Model $model): bool
     {
-        return (!($model instanceof BaseModel) || $model->trashed()) && $user->can(ExtendedCrudPermission::RESTORE->format(static::getModel()));
+        $trashed = method_exists($model, 'trashed')
+            ? $model->trashed()
+            : false;
+
+        return $trashed && $user->can(ExtendedCrudPermission::RESTORE->format(static::getModel()));
     }
 
     /**
