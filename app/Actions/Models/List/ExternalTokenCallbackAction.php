@@ -9,9 +9,11 @@ use App\Actions\Models\List\ExternalProfile\ExternalToken\Site\AnilistExternalTo
 use App\Actions\Models\List\ExternalProfile\ExternalToken\Site\MalExternalTokenAction;
 use App\Actions\Models\List\ExternalProfile\StoreExternalProfileTokenAction;
 use App\Enums\Models\List\ExternalProfileSite;
+use App\Models\List\External\ExternalToken;
 use App\Models\List\ExternalProfile;
 use Exception;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use RuntimeException;
@@ -39,13 +41,20 @@ class ExternalTokenCallbackAction
 
             $action = $this->getActionClass($profileSite);
 
-            $externalToken = $action->store($parameters);
+            $externalToken = ExternalToken::query()
+                ->whereRelation(ExternalToken::RELATION_PROFILE, ExternalProfile::ATTRIBUTE_USER, Auth::id())
+                ->whereRelation(ExternalToken::RELATION_PROFILE, ExternalProfile::ATTRIBUTE_SITE, $profileSite->value)
+                ->first();
+
+            if (! $externalToken instanceof ExternalToken) {
+                $externalToken = $action->store($parameters);
+            }
 
             $profileAction = new StoreExternalProfileTokenAction();
 
             $profile = $profileAction->firstOrCreate($externalToken, $parameters);
 
-            $externalToken->externalprofile()->associate($profile);
+            $profile->externaltoken()->save($externalToken);
 
             DB::commit();
 
