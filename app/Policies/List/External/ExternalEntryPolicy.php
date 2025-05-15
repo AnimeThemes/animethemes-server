@@ -35,9 +35,12 @@ class ExternalEntryPolicy extends BasePolicy
         /** @var ExternalProfile|null $profile */
         $profile = request()->route('externalprofile');
 
-        return $user !== null
-            ? ($profile?->user()->is($user) || ExternalProfileVisibility::PRIVATE !== $profile?->visibility) && $user->can(CrudPermission::VIEW->format(ExternalEntry::class))
-            : ExternalProfileVisibility::PRIVATE !== $profile?->visibility;
+        if ($user !== null) {
+            return ($profile?->user()->is($user) || ExternalProfileVisibility::PRIVATE !== $profile?->visibility)
+                && $user->can(CrudPermission::VIEW->format(ExternalEntry::class));
+        }
+
+        return ExternalProfileVisibility::PRIVATE !== $profile?->visibility;
     }
 
     /**
@@ -58,9 +61,12 @@ class ExternalEntryPolicy extends BasePolicy
         /** @var ExternalProfile|null $profile */
         $profile = request()->route('externalprofile');
 
-        return $user !== null
-            ? ($profile?->user()->is($user) || ExternalProfileVisibility::PRIVATE !== $profile?->visibility) && $user->can(CrudPermission::VIEW->format(ExternalEntry::class))
-            : ExternalProfileVisibility::PRIVATE !== $profile?->visibility;
+        if ($user !== null) {
+            return ($profile?->user()->is($user) || ExternalProfileVisibility::PRIVATE !== $profile?->visibility)
+                && $user->can(CrudPermission::VIEW->format(ExternalEntry::class));
+        }
+
+        return ExternalProfileVisibility::PRIVATE !== $profile?->visibility;
     }
 
     /**

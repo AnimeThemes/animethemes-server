@@ -33,7 +33,7 @@ class PlaylistPolicy extends BasePolicy
             return $user !== null && $user->hasRole(RoleEnum::ADMIN->value);
         }
 
-        return parent::viewAny($user);
+        return $user->can(CrudPermission::VIEW->format(Playlist::class));
     }
 
     /**
@@ -49,9 +49,12 @@ class PlaylistPolicy extends BasePolicy
             return $user !== null && $user->hasRole(RoleEnum::ADMIN->value);
         }
 
-        return $user !== null
-            ? ($playlist->user()->is($user) || PlaylistVisibility::PRIVATE !== $playlist->visibility) && parent::view($user, $playlist)
-            : PlaylistVisibility::PRIVATE !== $playlist->visibility;
+        if ($user !== null) {
+            return ($playlist->user()->is($user) || PlaylistVisibility::PRIVATE !== $playlist->visibility)
+                && $user->can(CrudPermission::VIEW->format(Playlist::class));
+        }
+
+        return PlaylistVisibility::PRIVATE !== $playlist->visibility;
     }
 
     /**

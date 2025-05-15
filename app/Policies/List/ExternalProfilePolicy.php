@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Policies\List;
 
+use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\Role;
 use App\Enums\Models\List\ExternalProfileVisibility;
 use App\Models\Auth\User;
@@ -30,7 +31,7 @@ class ExternalProfilePolicy extends BasePolicy
             return $user !== null && $user->hasRole(Role::ADMIN->value);
         }
 
-        return parent::viewAny($user);
+        return $user->can(CrudPermission::VIEW->format(ExternalProfile::class));
     }
 
     /**
@@ -46,9 +47,12 @@ class ExternalProfilePolicy extends BasePolicy
             return $user !== null && $user->hasRole(Role::ADMIN->value);
         }
 
-        return $user !== null
-            ? ($profile->user()->is($user) || ExternalProfileVisibility::PRIVATE !== $profile->visibility) && parent::view($user, $profile)
-            : ExternalProfileVisibility::PRIVATE !== $profile->visibility;
+        if ($user !== null) {
+            return ($profile->user()->is($user) || ExternalProfileVisibility::PRIVATE !== $profile->visibility)
+                && $user->can(CrudPermission::VIEW->format(ExternalProfile::class));
+        }
+
+        return ExternalProfileVisibility::PRIVATE !== $profile->visibility;
     }
 
     /**

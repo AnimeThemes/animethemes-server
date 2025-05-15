@@ -48,7 +48,7 @@ abstract class BasePolicy
             return $user !== null && $user->can(CrudPermission::VIEW->format(static::getModel()));
         }
 
-        return ($user === null || $user->can(CrudPermission::VIEW->format(static::getModel())));
+        return true;
     }
 
     /**
@@ -64,7 +64,7 @@ abstract class BasePolicy
             return $user !== null && $user->can(CrudPermission::VIEW->format(static::getModel()));
         }
 
-        return ($user === null || $user->can(CrudPermission::VIEW->format(static::getModel())));
+        return true;
     }
 
     /**
