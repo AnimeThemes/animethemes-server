@@ -59,10 +59,7 @@ class ExternalEntryPolicy extends BasePolicy
      */
     public function create(User $user, ?array $injected = null): bool
     {
-        /** @var ExternalProfile|null $profile */
-        $profile = Arr::get($injected, 'profile');
-
-        return $profile?->user()->is($user) && parent::create($user, $injected);
+        return false;
     }
 
     /**
@@ -75,10 +72,7 @@ class ExternalEntryPolicy extends BasePolicy
      */
     public function update(User $user, array $injected, ?string $keyName = 'id'): bool
     {
-        /** @var ExternalProfile|null $profile */
-        $profile = Arr::get($injected, 'profile');
-
-        return $profile?->user()->is($user) && parent::update($user, $injected, $keyName);
+        return false;
     }
 
     /**
@@ -91,9 +85,6 @@ class ExternalEntryPolicy extends BasePolicy
      */
     public function delete(User $user, array $injected, ?string $keyName = 'id'): bool
     {
-        /** @var ExternalProfile|null $profile */
-        $profile = Arr::get($injected, 'profile');
-
-        return $profile?->user()->is($user) && parent::delete($user, $injected, $keyName);
+        return false;
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Policies\Auth;
 
+use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\Role as RoleEnum;
 use App\Models\Auth\User;
 use App\Policies\BasePolicy;
@@ -22,7 +23,7 @@ class UserPolicy extends BasePolicy
      */
     public function viewAny(?User $user): bool
     {
-        return $user !== null && parent::viewAny($user);
+        return $user !== null && $user->can(CrudPermission::VIEW->format(User::class));
     }
 
     /**
@@ -34,7 +35,7 @@ class UserPolicy extends BasePolicy
      */
     public function view(?User $user, Model $userModel): bool
     {
-        return $user !== null && parent::view($user, $userModel);
+        return $user !== null && $user->can(CrudPermission::VIEW->format(User::class));
     }
 
     /**

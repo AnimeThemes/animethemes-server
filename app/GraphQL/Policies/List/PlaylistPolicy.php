@@ -24,10 +24,10 @@ class PlaylistPolicy extends BasePolicy
      * @param  string|null  $keyName
      * @return bool
      */
-    public function view(?User $user, ?array $injected = null, ?string $keyName = 'id'): bool
+    public function view(?User $user, ?array $injected = null, ?string $keyName = PlaylistMutator::ROUTE_SLUG): bool
     {
         /** @var Playlist $playlist */
-        $playlist = Arr::get($injected, PlaylistMutator::ROUTE_SLUG);
+        $playlist = Arr::get($injected, $keyName);
 
         return $user !== null
             ? ($playlist->user()->is($user) || PlaylistVisibility::PRIVATE !== $playlist->visibility) && parent::view($user, $injected, $keyName)
@@ -42,10 +42,10 @@ class PlaylistPolicy extends BasePolicy
      * @param  string|null  $keyName
      * @return bool
      */
-    public function update(User $user, array $injected, ?string $keyName = 'id'): bool
+    public function update(User $user, array $injected, ?string $keyName = PlaylistMutator::ROUTE_SLUG): bool
     {
         /** @var Playlist $playlist */
-        $playlist = Arr::get($injected, PlaylistMutator::ROUTE_SLUG);
+        $playlist = Arr::get($injected, $keyName);
 
         return $playlist->user()->is($user) && parent::update($user, $injected, $keyName);
     }
@@ -58,10 +58,10 @@ class PlaylistPolicy extends BasePolicy
      * @param  string|null  $keyName
      * @return bool
      */
-    public function delete(User $user, array $injected, ?string $keyName = 'id'): bool
+    public function delete(User $user, array $injected, ?string $keyName = PlaylistMutator::ROUTE_SLUG): bool
     {
         /** @var Playlist $playlist */
-        $playlist = Arr::get($injected, PlaylistMutator::ROUTE_SLUG);
+        $playlist = Arr::get($injected, $keyName);
 
         return $playlist->user()->is($user) && parent::delete($user, $injected, $keyName);
     }
@@ -74,10 +74,10 @@ class PlaylistPolicy extends BasePolicy
      * @param  string|null  $keyName
      * @return bool
      */
-    public function restore(User $user, array $injected, ?string $keyName = 'id'): bool
+    public function restore(User $user, array $injected, ?string $keyName = PlaylistMutator::ROUTE_SLUG): bool
     {
         /** @var Playlist $playlist */
-        $playlist = Arr::get($injected, PlaylistMutator::ROUTE_SLUG);
+        $playlist = Arr::get($injected, $keyName);
 
         return $playlist->user()->is($user) && parent::restore($user, $injected, $keyName);
     }
