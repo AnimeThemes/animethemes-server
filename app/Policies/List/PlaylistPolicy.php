@@ -33,7 +33,7 @@ class PlaylistPolicy extends BasePolicy
             return $user !== null && $user->hasRole(RoleEnum::ADMIN->value);
         }
 
-        return $user->can(CrudPermission::VIEW->format(Playlist::class));
+        return $user === null || $user->can(CrudPermission::VIEW->format(Playlist::class));
     }
 
     /**

@@ -31,7 +31,7 @@ class ExternalProfilePolicy extends BasePolicy
             return $user !== null && $user->hasRole(Role::ADMIN->value);
         }
 
-        return $user->can(CrudPermission::VIEW->format(ExternalProfile::class));
+        return $user === null || $user->can(CrudPermission::VIEW->format(ExternalProfile::class));
     }
 
     /**
