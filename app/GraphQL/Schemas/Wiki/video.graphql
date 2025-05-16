@@ -78,6 +78,7 @@ enum VideoColumnsOrderable {
 extend type Query {
     "Returns a listing of video resources given fields."
     videos(
+        filename: String @eq
         isLyrics: Boolean @eq
         isNc: Boolean @eq
         isSubbed: Boolean @eq

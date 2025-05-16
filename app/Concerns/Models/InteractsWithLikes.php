@@ -9,9 +9,9 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Facades\Auth;
 
 /**
- * Trait Likeable.
+ * Trait InteractsWithLikes.
  */
-trait Likeable
+trait InteractsWithLikes
 {
     /**
      * Mark the model as liked for the current authenticated user.

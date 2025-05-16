@@ -8,9 +8,9 @@ use App\Models\Aggregate\LikeAggregate;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 /**
- * Trait AggregatesLikes.
+ * Trait AggregatesLike.
  */
-trait AggregatesLikes
+trait AggregatesLike
 {
     final public const RELATION_LIKE_AGGREGATE = 'likeAggregate';
 

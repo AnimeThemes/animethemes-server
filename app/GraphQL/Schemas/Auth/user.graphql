@@ -25,6 +25,8 @@ type Me {
     two_factor_confirmed_at: DateTimeTz
     notifications: [Notification] @morphMany
     playlists: [Playlist] @hasMany
+    likedplaylists: [Playlist] @belongsToMany(type: CONNECTION)
+    likedvideos: [Video] @belongsToMany(type: CONNECTION)
     "The date that the resource was created"
     createdAt: DateTimeTz @rename(attribute: "created_at")
     "The date that the resource was last modified"

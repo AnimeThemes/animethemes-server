@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models\Aggregate;
 
-use App\Concerns\Models\Likeable;
+use App\Contracts\Models\Likeable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
