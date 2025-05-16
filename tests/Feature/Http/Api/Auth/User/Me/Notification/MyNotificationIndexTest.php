@@ -9,6 +9,7 @@ use App\Http\Api\Query\Query;
 use App\Http\Resources\User\Collection\NotificationCollection;
 use App\Models\Auth\User;
 use App\Models\User\Notification;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\WithFaker;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
@@ -56,7 +57,7 @@ class MyNotificationIndexTest extends TestCase
     public function testOnlySeesOwnedNotifications(): void
     {
         Notification::factory()
-            ->for(User::factory()->createOne(), Notification::RELATION_NOTIFIABLE)
+            ->for(User::factory(), Notification::RELATION_NOTIFIABLE)
             ->count($this->faker->randomDigitNotNull())
             ->create();
 
@@ -68,7 +69,7 @@ class MyNotificationIndexTest extends TestCase
             ->for($user, Notification::RELATION_NOTIFIABLE)
             ->count($notificationCount)
             ->create()
-            ->sortBy(Notification::ATTRIBUTE_ID);
+            ->sortBy(Model::CREATED_AT);
 
         Sanctum::actingAs($user);
 
