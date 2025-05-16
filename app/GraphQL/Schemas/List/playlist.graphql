@@ -82,7 +82,7 @@ extend type Mutation @guard {
         visibility: PlaylistVisibility!
     ): Playlist!
     @canModel(ability: "create")
-    @validator(class: "App\\GraphQL\\Validators\\Mutation\\List\\CreatePlaylistValidator")
+    @validator(class: "App\\GraphQL\\Validators\\Mutation\\List\\Playlist\\CreatePlaylistValidator")
     @field(resolver: "App\\GraphQL\\Mutations\\List\\PlaylistMutator@store")
 
 
@@ -93,7 +93,7 @@ extend type Mutation @guard {
         visibility: PlaylistVisibility
     ): Playlist!
     @canModel(ability: "update", injectArgs: true)
-    @validator(class: "App\\GraphQL\\Validators\\Mutation\\List\\UpdatePlaylistValidator")
+    @validator(class: "App\\GraphQL\\Validators\\Mutation\\List\\Playlist\\UpdatePlaylistValidator")
     @field(resolver: "App\\GraphQL\\Mutations\\List\\PlaylistMutator@update")
 
 
