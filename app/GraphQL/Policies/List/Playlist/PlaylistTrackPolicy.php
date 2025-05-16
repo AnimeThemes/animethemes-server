@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Policies\List\Playlist;
 
+use App\Enums\Auth\CrudPermission;
 use App\Enums\Models\List\PlaylistVisibility;
 use App\GraphQL\Mutations\List\Playlist\PlaylistTrackMutator;
 use App\GraphQL\Policies\BasePolicy;
@@ -29,9 +30,12 @@ class PlaylistTrackPolicy extends BasePolicy
         /** @var Playlist|null $playlist */
         $playlist = Arr::get($injected, 'playlist');
 
-        return $user !== null
-            ? ($playlist?->user()->is($user) || PlaylistVisibility::PRIVATE !== $playlist?->visibility) && parent::viewAny($user, $injected)
-            : PlaylistVisibility::PRIVATE !== $playlist?->visibility;
+        if ($user !== null) {
+            return ($playlist?->user()->is($user) || PlaylistVisibility::PRIVATE !== $playlist?->visibility)
+                && $user->can(CrudPermission::VIEW->format(PlaylistTrack::class));
+        }
+
+        return PlaylistVisibility::PRIVATE !== $playlist?->visibility;
     }
 
     /**
@@ -41,17 +45,18 @@ class PlaylistTrackPolicy extends BasePolicy
      * @param  array|null  $injected
      * @param  string|null  $keyName
      * @return bool
-     *
-     * @noinspection PhpUnusedParameterInspection
      */
     public function view(?User $user, ?array $injected = null, ?string $keyName = 'id'): bool
     {
         /** @var Playlist|null $playlist */
         $playlist = Arr::get($injected, 'playlist');
 
-        return $user !== null
-            ? ($playlist?->user()->is($user) || PlaylistVisibility::PRIVATE !== $playlist?->visibility) && parent::view($user, $injected, $keyName)
-            : PlaylistVisibility::PRIVATE !== $playlist?->visibility;
+        if ($user !== null) {
+            return ($playlist?->user()->is($user) || PlaylistVisibility::PRIVATE !== $playlist?->visibility)
+                && $user->can(CrudPermission::VIEW->format(PlaylistTrack::class));
+        }
+
+        return PlaylistVisibility::PRIVATE !== $playlist?->visibility;
     }
 
     /**

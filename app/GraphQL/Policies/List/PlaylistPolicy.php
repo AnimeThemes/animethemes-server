@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Policies\List;
 
+use App\Enums\Auth\CrudPermission;
 use App\Enums\Models\List\PlaylistVisibility;
 use App\GraphQL\Mutations\List\PlaylistMutator;
 use App\GraphQL\Policies\BasePolicy;
@@ -29,9 +30,12 @@ class PlaylistPolicy extends BasePolicy
         /** @var Playlist $playlist */
         $playlist = Arr::get($injected, $keyName);
 
-        return $user !== null
-            ? ($playlist->user()->is($user) || PlaylistVisibility::PRIVATE !== $playlist->visibility) && parent::view($user, $injected, $keyName)
-            : PlaylistVisibility::PRIVATE !== $playlist->visibility;
+        if ($user !== null) {
+            return ($playlist->user()->is($user) || PlaylistVisibility::PRIVATE !== $playlist->visibility)
+                && $user->can(CrudPermission::VIEW->format(Playlist::class));
+        }
+
+        return PlaylistVisibility::PRIVATE !== $playlist->visibility;
     }
 
     /**

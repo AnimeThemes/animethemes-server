@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Policies\List\External;
 
+use App\Enums\Auth\CrudPermission;
 use App\Enums\Models\List\ExternalProfileVisibility;
 use App\GraphQL\Policies\BasePolicy;
 use App\Models\Auth\User;
+use App\Models\List\External\ExternalEntry;
 use App\Models\List\ExternalProfile;
 use Illuminate\Support\Arr;
 
@@ -27,9 +29,12 @@ class ExternalEntryPolicy extends BasePolicy
         /** @var ExternalProfile|null $profile */
         $profile = Arr::get($injected, 'profile');
 
-        return $user !== null
-            ? ($profile?->user()->is($user) || ExternalProfileVisibility::PRIVATE !== $profile?->visibility) && parent::viewAny($user, $injected)
-            : ExternalProfileVisibility::PRIVATE !== $profile?->visibility;
+        if ($user !== null) {
+            return ($profile?->user()->is($user) || ExternalProfileVisibility::PRIVATE !== $profile?->visibility)
+                && $user->can(CrudPermission::VIEW->format(ExternalEntry::class));
+        }
+
+        return ExternalProfileVisibility::PRIVATE !== $profile?->visibility;
     }
 
     /**
@@ -45,9 +50,12 @@ class ExternalEntryPolicy extends BasePolicy
         /** @var ExternalProfile|null $profile */
         $profile = Arr::get($injected, 'profile');
 
-        return $user !== null
-            ? ($profile?->user()->is($user) || ExternalProfileVisibility::PRIVATE !== $profile?->visibility) && parent::view($user, $injected, $keyName)
-            : ExternalProfileVisibility::PRIVATE !== $profile?->visibility;
+        if ($user !== null) {
+            return ($profile?->user()->is($user) || ExternalProfileVisibility::PRIVATE !== $profile?->visibility)
+                && $user->can(CrudPermission::VIEW->format(ExternalEntry::class));
+        }
+
+        return ExternalProfileVisibility::PRIVATE !== $profile?->visibility;
     }
 
     /**

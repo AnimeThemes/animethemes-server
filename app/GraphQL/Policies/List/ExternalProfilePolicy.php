@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Policies\List;
 
+use App\Enums\Auth\CrudPermission;
 use App\Enums\Models\List\ExternalProfileVisibility;
 use App\GraphQL\Mutations\List\ExternalProfileMutator;
 use App\GraphQL\Policies\BasePolicy;
@@ -29,9 +30,12 @@ class ExternalProfilePolicy extends BasePolicy
         /** @var ExternalProfile $profile */
         $profile = Arr::get($injected, $keyName);
 
-        return $user !== null
-            ? ($profile->user()->is($user) || ExternalProfileVisibility::PRIVATE !== $profile->visibility) && parent::view($user, $injected, $keyName)
-            : ExternalProfileVisibility::PRIVATE !== $profile->visibility;
+        if ($user !== null) {
+            return ($profile->user()->is($user) || ExternalProfileVisibility::PRIVATE !== $profile->visibility)
+                && $user->can(CrudPermission::VIEW->format(ExternalProfile::class));
+        }
+
+        return ExternalProfileVisibility::PRIVATE !== $profile->visibility;
     }
 
     /**
