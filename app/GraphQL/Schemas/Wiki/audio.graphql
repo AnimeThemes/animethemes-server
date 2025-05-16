@@ -50,7 +50,11 @@ extend type Query {
         updatedAt_greater: DateTimeTz @where(key: "updated_at", operator: ">")
         deletedAt_lesser: DateTimeTz @where(key: "deleted_at", operator: "<")
         deletedAt_greater: DateTimeTz @where(key: "deleted_at", operator: ">")
-        orderBy: _ @orderBy(columnsEnum: "AudioColumnsOrderable")
+        orderBy: _ @orderBy(columnsEnum: "AudioColumnsOrderable",
+            relations: [
+                {relation: "viewAggregate", columns: ["value"]}
+            ]
+        )
     ): [Audio!]!
     @canModel(ability: "viewAny", injectArgs: true)
     @softDeletes

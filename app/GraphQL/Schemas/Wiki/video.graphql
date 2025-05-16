@@ -96,7 +96,12 @@ extend type Query {
         updatedAt_greater: DateTimeTz @where(key: "updated_at", operator: ">")
         deletedAt_lesser: DateTimeTz @where(key: "deleted_at", operator: "<")
         deletedAt_greater: DateTimeTz @where(key: "deleted_at", operator: ">")
-        orderBy: _ @orderBy(columnsEnum: "VideoColumnsOrderable")
+        orderBy: _ @orderBy(columnsEnum: "VideoColumnsOrderable",
+            relations: [
+                {relation: "likeAggregate", columns: ["value"]},
+                {relation: "viewAggregate", columns: ["value"]}
+            ]
+        )
     ): [Video!]!
     @canModel(ability: "viewAny", injectArgs: true)
     @softDeletes
