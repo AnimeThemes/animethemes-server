@@ -28,9 +28,11 @@ class DumpBuilder
      */
     public function index(Builder $builder, mixed $value, mixed $root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): Builder
     {
-        foreach (Dump::safeDumps() as $path) {
-            $builder->orWhere(Dump::ATTRIBUTE_PATH, ComparisonOperator::LIKE->value, $path.'%');
-        }
+        $builder->where(function (Builder $query) {
+            foreach (Dump::safeDumps() as $path) {
+                $query->orWhere(Dump::ATTRIBUTE_PATH, ComparisonOperator::LIKE->value, $path.'%');
+            }
+        });
 
         return $builder;
     }

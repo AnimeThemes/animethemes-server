@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Policies\List;
 
 use App\Enums\Auth\CrudPermission;
-use App\Enums\Auth\ExtendedCrudPermission;
 use App\Enums\Auth\Role;
 use App\Enums\Models\List\ExternalProfileVisibility;
 use App\Models\Auth\User;
@@ -48,9 +47,12 @@ class ExternalProfilePolicy extends BasePolicy
             return $user !== null && $user->hasRole(Role::ADMIN->value);
         }
 
-        return $user !== null
-            ? ($profile->user()->is($user) || ExternalProfileVisibility::PRIVATE !== $profile->visibility) && $user->can(CrudPermission::VIEW->format(ExternalProfile::class))
-            : ExternalProfileVisibility::PRIVATE !== $profile->visibility;
+        if ($user !== null) {
+            return ($profile->user()->is($user) || ExternalProfileVisibility::PRIVATE !== $profile->visibility)
+                && $user->can(CrudPermission::VIEW->format(ExternalProfile::class));
+        }
+
+        return ExternalProfileVisibility::PRIVATE !== $profile->visibility;
     }
 
     /**
@@ -65,7 +67,7 @@ class ExternalProfilePolicy extends BasePolicy
             return $user->hasRole(Role::ADMIN->value);
         }
 
-        return $user->can(CrudPermission::CREATE->format(ExternalProfile::class));
+        return parent::create($user);
     }
 
     /**
@@ -81,7 +83,7 @@ class ExternalProfilePolicy extends BasePolicy
             return $user->hasRole(Role::ADMIN->value);
         }
 
-        return !$profile->trashed() && $profile->user()->is($user) && $user->can(CrudPermission::UPDATE->format(ExternalProfile::class));
+        return $profile->user()->is($user) && parent::update($user, $profile);
     }
 
     /**
@@ -97,7 +99,7 @@ class ExternalProfilePolicy extends BasePolicy
             return $user->hasRole(Role::ADMIN->value);
         }
 
-        return !$profile->trashed() && $profile->user()->is($user) && $user->can(CrudPermission::DELETE->format(ExternalProfile::class));
+        return $profile->user()->is($user) && parent::delete($user, $profile);
     }
 
     /**
@@ -113,7 +115,7 @@ class ExternalProfilePolicy extends BasePolicy
             return $user->hasRole(Role::ADMIN->value);
         }
 
-        return $profile->trashed() && $profile->user()->is($user) && $user->can(ExtendedCrudPermission::RESTORE->format(ExternalProfile::class));
+        return$profile->user()->is($user) && parent::restore($user, $profile);
     }
 
     /**

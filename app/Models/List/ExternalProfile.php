@@ -187,7 +187,7 @@ class ExternalProfile extends BaseModel
      */
     public function isClaimed(): bool
     {
-        return $this->user()->exists() || $this->externaltoken()->exists();
+        return (bool) $this->user_id;
     }
 
     /**

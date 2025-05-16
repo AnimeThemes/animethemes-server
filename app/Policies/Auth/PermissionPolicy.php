@@ -33,8 +33,6 @@ class PermissionPolicy extends BasePolicy
      * @param  User|null  $user
      * @param  Permission  $permission
      * @return bool
-     *
-     * @noinspection PhpUnusedParameterInspection
      */
     public function view(?User $user, Model $permission): bool
     {
@@ -47,8 +45,6 @@ class PermissionPolicy extends BasePolicy
      * @param  User  $user
      * @param  Permission  $permission
      * @return bool
-     *
-     * @noinspection PhpUnusedParameterInspection
      */
     public function update(User $user, Model $permission): bool
     {
@@ -61,8 +57,6 @@ class PermissionPolicy extends BasePolicy
      * @param  User  $user
      * @param  Permission  $permission
      * @return bool
-     *
-     * @noinspection PhpUnusedParameterInspection
      */
     public function delete(User $user, Model $permission): bool
     {
@@ -75,8 +69,6 @@ class PermissionPolicy extends BasePolicy
      * @param  User  $user
      * @param  Permission  $permission
      * @return bool
-     *
-     * @noinspection PhpUnusedParameterInspection
      */
     public function restore(User $user, Model $permission): bool
     {

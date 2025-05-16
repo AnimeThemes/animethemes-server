@@ -36,17 +36,17 @@ class ReportPolicy extends BasePolicy
      * Determine whether the user can view the model.
      *
      * @param  User|null  $user
-     * @param  Report  $submission
+     * @param  Report  $report
      * @return bool
      */
-    public function view(?User $user, BaseModel|Model $submission): bool
+    public function view(?User $user, BaseModel|Model $report): bool
     {
         if ($user !== null && $user->hasRole(Role::ADMIN->value)) {
             return true;
         }
 
         return $user !== null
-            ? $submission->user()->is($user) && $user->can(CrudPermission::VIEW->format(static::getModel()))
+            ? $report->user()->is($user) && $user->can(CrudPermission::VIEW->format(static::getModel()))
             : false;
     }
 
@@ -54,26 +54,26 @@ class ReportPolicy extends BasePolicy
      * Determine whether the user can update the model.
      *
      * @param  User  $user
-     * @param  Report  $submission
+     * @param  Report  $report
      * @return bool
      */
-    public function update(User $user, BaseModel|Model $submission): bool
+    public function update(User $user, BaseModel|Model $report): bool
     {
         if ($user->hasRole(Role::ADMIN->value)) {
             return true;
         }
 
-        return $submission->user()->is($user) && $user->can(CrudPermission::UPDATE->format(static::getModel()));
+        return $report->user()->is($user) && $user->can(CrudPermission::UPDATE->format(static::getModel()));
     }
 
     /**
      * Determine whether the user can delete the model.
      *
      * @param  User  $user
-     * @param  Report  $submission
+     * @param  Report  $report
      * @return bool
      */
-    public function delete(User $user, BaseModel|Model $submission): bool
+    public function delete(User $user, BaseModel|Model $report): bool
     {
         return $user->hasRole(Role::ADMIN->value);
     }

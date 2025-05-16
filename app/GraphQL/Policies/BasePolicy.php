@@ -9,6 +9,7 @@ use App\Enums\Auth\ExtendedCrudPermission;
 use App\Models\Auth\User;
 use App\Models\BaseModel;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
@@ -44,7 +45,7 @@ abstract class BasePolicy
      */
     public function viewAny(?User $user, ?array $injected = null): bool
     {
-        return true;
+        return $user === null || $user->can(CrudPermission::VIEW->format(static::getModel()));
     }
 
     /**
@@ -52,11 +53,12 @@ abstract class BasePolicy
      *
      * @param  User|null  $user
      * @param  array|null  $injected
+     * @param  string|null  $keyName
      * @return bool
      */
-    public function view(?User $user, ?array $injected = null): bool
+    public function view(?User $user, ?array $injected = null, ?string $keyName = 'id'): bool
     {
-        return true;
+        return $user === null || $user->can(CrudPermission::VIEW->format(static::getModel()));
     }
 
     /**
@@ -76,14 +78,19 @@ abstract class BasePolicy
      *
      * @param  User  $user
      * @param  array  $injected
+     * @param  string|null  $keyName
      * @return bool
      */
-    public function update(User $user, array $injected): bool
+    public function update(User $user, array $injected, ?string $keyName = 'id'): bool
     {
-        /** @var BaseModel $model */
-        $model = Arr::get($injected, 'id');
+        /** @var BaseModel|Model $model */
+        $model = Arr::get($injected, $keyName);
 
-        return (!($model instanceof BaseModel) || !$model->trashed()) && $user->can(CrudPermission::UPDATE->format(static::getModel()));
+        $trashed = method_exists($model, 'trashed')
+            ? $model->trashed()
+            : false;
+
+        return !$trashed && $user->can(CrudPermission::UPDATE->format(static::getModel()));
     }
 
     /**
@@ -91,14 +98,19 @@ abstract class BasePolicy
      *
      * @param  User  $user
      * @param  array  $injected
+     * @param  string|null  $keyName
      * @return bool
      */
-    public function delete(User $user, array $injected): bool
+    public function delete(User $user, array $injected, ?string $keyName = 'id'): bool
     {
-        /** @var BaseModel $model */
-        $model = Arr::get($injected, 'id');
+        /** @var BaseModel|Model $model */
+        $model = Arr::get($injected, $keyName);
 
-        return (!($model instanceof BaseModel) || !$model->trashed()) && $user->can(CrudPermission::DELETE->format(static::getModel()));
+        $trashed = method_exists($model, 'trashed')
+            ? $model->trashed()
+            : false;
+
+        return !$trashed && $user->can(CrudPermission::DELETE->format(static::getModel()));
     }
 
     /**
@@ -128,14 +140,19 @@ abstract class BasePolicy
      *
      * @param  User  $user
      * @param  array  $injected
+     * @param  string|null  $keyName
      * @return bool
      */
-    public function restore(User $user, array $injected): bool
+    public function restore(User $user, array $injected, ?string $keyName = 'id'): bool
     {
-        /** @var BaseModel $model */
-        $model = Arr::get($injected, 'id');
+        /** @var BaseModel|Model $model */
+        $model = Arr::get($injected, $keyName);
 
-        return (!($model instanceof BaseModel) || $model->trashed()) && $user->can(ExtendedCrudPermission::RESTORE->format(static::getModel()));
+        $trashed = method_exists($model, 'trashed')
+            ? $model->trashed()
+            : false;
+
+        return $trashed && $user->can(ExtendedCrudPermission::RESTORE->format(static::getModel()));
     }
 
     /**

@@ -19,13 +19,14 @@ class FeaturePolicy extends BasePolicy
      *
      * @param  User|null  $user
      * @param  array|null  $injected
+     * @param  string|null  $keyName
      * @return bool
      */
-    public function view(?User $user, ?array $injected = null): bool
+    public function view(?User $user, ?array $injected = null, ?string $keyName = 'id'): bool
     {
         /** @var Feature $feature */
-        $feature = Arr::get($injected, 'id');
+        $feature = Arr::get($injected, $keyName);
 
-        return $feature->isNullScope();
+        return $feature->isNullScope() && parent::view($user, $injected, $keyName);
     }
 }

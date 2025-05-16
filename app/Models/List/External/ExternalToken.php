@@ -4,10 +4,14 @@ declare(strict_types=1);
 
 namespace App\Models\List\External;
 
+use App\Concerns\Filament\ActionLogs\ModelHasActionLogs;
+use App\Contracts\Models\HasSubtitle;
+use App\Contracts\Models\Nameable;
 use App\Models\Auth\User;
-use App\Models\BaseModel;
 use App\Models\List\ExternalProfile;
 use Database\Factories\List\External\ExternalTokenFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Znck\Eloquent\Relations\BelongsToThrough;
 use Znck\Eloquent\Traits\BelongsToThrough as TraitsBelongsToThrough;
@@ -25,8 +29,10 @@ use Znck\Eloquent\Traits\BelongsToThrough as TraitsBelongsToThrough;
  *
  * @method static ExternalTokenFactory factory(...$parameters)
  */
-class ExternalToken extends BaseModel
+class ExternalToken extends Model implements Nameable, HasSubtitle
 {
+    use HasFactory;
+    use ModelHasActionLogs;
     use TraitsBelongsToThrough;
 
     final public const TABLE = 'external_tokens';

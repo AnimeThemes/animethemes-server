@@ -196,39 +196,6 @@ class ExternalEntryShowTest extends TestCase
     }
 
     /**
-     * The External Entry Show Endpoint shall return an External Entry Resource for soft deleted profile entrys.
-     *
-     * @return void
-     */
-    public function testSoftDelete(): void
-    {
-        $profile = ExternalProfile::factory()
-            ->createOne([
-                ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PUBLIC->value,
-            ]);
-
-        $entry = ExternalEntry::factory()
-            ->trashed()
-            ->for($profile)
-            ->createOne();
-
-        $response = $this->get(route('api.externalprofile.externalentry.show', ['externalprofile' => $profile, 'externalentry' => $entry]));
-
-        $entry->unsetRelations();
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new ExternalEntryResource($entry, new Query())
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
      * The External Entry Show Endpoint shall allow inclusion of related resources.
      *
      * @return void

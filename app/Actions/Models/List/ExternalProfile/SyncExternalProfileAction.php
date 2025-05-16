@@ -18,7 +18,6 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use RuntimeException;
 
 /**
  * Class SyncExternalProfileAction.
@@ -63,7 +62,17 @@ class SyncExternalProfileAction
                 }
             }
 
-            ExternalEntry::upsert($externalEntries, [ExternalEntry::ATTRIBUTE_ANIME, ExternalEntry::ATTRIBUTE_PROFILE]);
+            ExternalEntry::query()
+                ->upsert(
+                    $externalEntries,
+                    [ExternalEntry::ATTRIBUTE_ANIME, ExternalEntry::ATTRIBUTE_PROFILE],
+                    ExternalEntry::fieldsForUpdate(),
+                );
+
+            ExternalEntry::query()
+                ->where(ExternalEntry::ATTRIBUTE_PROFILE, $profile->getKey())
+                ->whereNotIn(ExternalEntry::ATTRIBUTE_ANIME, Arr::map($externalEntries, fn ($value) => $value[ExternalEntry::ATTRIBUTE_ANIME]))
+                ->delete();
 
             $profile->update([ExternalProfile::ATTRIBUTE_SYNCED_AT => now()]);
 
@@ -86,8 +95,6 @@ class SyncExternalProfileAction
      *
      * @param  ExternalProfile  $profile
      * @return BaseExternalEntryTokenAction
-     *
-     * @throws RuntimeException
      */
     protected function getClaimedActionClass(ExternalProfile $profile): BaseExternalEntryTokenAction
     {
@@ -99,8 +106,6 @@ class SyncExternalProfileAction
      *
      * @param  ExternalProfile  $profile
      * @return BaseExternalEntryAction
-     *
-     * @throws RuntimeException
      */
     protected function getUnclaimedActionClass(ExternalProfile $profile): BaseExternalEntryAction
     {
@@ -115,7 +120,7 @@ class SyncExternalProfileAction
      */
     protected function cacheResources(ExternalProfileSite $profileSite): void
     {
-        $this->resources = Cache::flexible("resources_{$profileSite->getResourceSite()->localize()}", [60, 300], function () use ($profileSite) {
+        $this->resources = Cache::flexible("resources_{$profileSite->name}", [60, 300], function () use ($profileSite) {
             return ExternalResource::query()
                 ->where(ExternalResource::ATTRIBUTE_SITE, $profileSite->getResourceSite()->value)
                 ->with([ExternalResource::RELATION_ANIME => fn ($query) => $query->select([Anime::TABLE.'.'.Anime::ATTRIBUTE_ID])])

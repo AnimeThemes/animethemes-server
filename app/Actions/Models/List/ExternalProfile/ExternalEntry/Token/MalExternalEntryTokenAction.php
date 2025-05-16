@@ -124,8 +124,6 @@ class MalExternalEntryTokenAction extends BaseExternalEntryTokenAction
                 ->throw()
                 ->json();
 
-            var_dump($this->response);
-
             return $this;
         } catch (RequestException $e) {
             Log::error($e->getMessage());

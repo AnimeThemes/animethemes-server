@@ -21,6 +21,7 @@ use App\Http\Requests\Api\UpdateRequest;
 use App\Http\Resources\Admin\Collection\DumpCollection;
 use App\Http\Resources\Admin\Resource\DumpResource;
 use App\Models\Admin\Dump;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 
 /**
@@ -49,9 +50,11 @@ class DumpController extends BaseController
 
         $builder = Dump::query();
 
-        foreach (Dump::safeDumps() as $path) {
-            $builder->orWhere(Dump::ATTRIBUTE_PATH, ComparisonOperator::LIKE->value, $path.'%');
-        }
+        $builder->where(function (Builder $query) {
+            foreach (Dump::safeDumps() as $path) {
+                $query->orWhere(Dump::ATTRIBUTE_PATH, ComparisonOperator::LIKE->value, $path.'%');
+            }
+        });
 
         $dumps = $action->index($builder, $query, $request->schema());
 

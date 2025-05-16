@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Policies\Auth;
 
 use App\Enums\Auth\CrudPermission;
-use App\Enums\Auth\ExtendedCrudPermission;
 use App\Models\Auth\Role;
 use App\Models\Auth\User;
 use App\Policies\BasePolicy;
@@ -37,48 +36,6 @@ class RolePolicy extends BasePolicy
     public function view(?User $user, Model $role): bool
     {
         return $user !== null && $user->can(CrudPermission::VIEW->format(Role::class));
-    }
-
-    /**
-     * Determine whether the user can update the model.
-     *
-     * @param  User  $user
-     * @param  Role  $role
-     * @return bool
-     *
-     * @noinspection PhpUnusedParameterInspection
-     */
-    public function update(User $user, Model $role): bool
-    {
-        return $user->can(CrudPermission::UPDATE->format(Role::class));
-    }
-
-    /**
-     * Determine whether the user can delete the model.
-     *
-     * @param  User  $user
-     * @param  Role  $role
-     * @return bool
-     *
-     * @noinspection PhpUnusedParameterInspection
-     */
-    public function delete(User $user, Model $role): bool
-    {
-        return $user->can(CrudPermission::DELETE->format(Role::class));
-    }
-
-    /**
-     * Determine whether the user can restore the model.
-     *
-     * @param  User  $user
-     * @param  Role  $role
-     * @return bool
-     *
-     * @noinspection PhpUnusedParameterInspection
-     */
-    public function restore(User $user, Model $role): bool
-    {
-        return $user->can(ExtendedCrudPermission::RESTORE->format(Role::class));
     }
 
     /**

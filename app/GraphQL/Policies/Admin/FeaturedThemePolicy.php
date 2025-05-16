@@ -20,13 +20,14 @@ class FeaturedThemePolicy extends BasePolicy
      *
      * @param  User|null  $user
      * @param  array|null  $injected
+     * @param  string|null  $keyName
      * @return bool
      */
-    public function view(?User $user, ?array $injected = null): bool
+    public function view(?User $user, ?array $injected = null, ?string $keyName = 'id'): bool
     {
         /** @var FeaturedTheme $featuredtheme */
-        $featuredtheme = Arr::get($injected, 'id');
+        $featuredtheme = Arr::get($injected, $keyName);
 
-        return $featuredtheme->start_at->isBefore(Date::now());
+        return $featuredtheme->start_at->isBefore(Date::now()) && parent::view($user, $injected, $keyName);
     }
 }

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Policies\List;
 
 use App\Enums\Auth\CrudPermission;
-use App\Enums\Auth\ExtendedCrudPermission;
 use App\Enums\Auth\Role as RoleEnum;
 use App\Enums\Models\List\PlaylistVisibility;
 use App\Models\Auth\User;
@@ -50,9 +49,12 @@ class PlaylistPolicy extends BasePolicy
             return $user !== null && $user->hasRole(RoleEnum::ADMIN->value);
         }
 
-        return $user !== null
-            ? ($playlist->user()->is($user) || PlaylistVisibility::PRIVATE !== $playlist->visibility) && $user->can(CrudPermission::VIEW->format(Playlist::class))
-            : PlaylistVisibility::PRIVATE !== $playlist->visibility;
+        if ($user !== null) {
+            return ($playlist->user()->is($user) || PlaylistVisibility::PRIVATE !== $playlist->visibility)
+                && $user->can(CrudPermission::VIEW->format(Playlist::class));
+        }
+
+        return PlaylistVisibility::PRIVATE !== $playlist->visibility;
     }
 
     /**
@@ -67,7 +69,7 @@ class PlaylistPolicy extends BasePolicy
             return $user->hasRole(RoleEnum::ADMIN->value);
         }
 
-        return $user->can(CrudPermission::CREATE->format(Playlist::class));
+        return parent::create($user);
     }
 
     /**
@@ -83,7 +85,7 @@ class PlaylistPolicy extends BasePolicy
             return $user->hasRole(RoleEnum::ADMIN->value);
         }
 
-        return !$playlist->trashed() && $playlist->user()->is($user) && $user->can(CrudPermission::UPDATE->format(Playlist::class));
+        return parent::update($user, $playlist) && $playlist->user()->is($user);
     }
 
     /**
@@ -99,7 +101,7 @@ class PlaylistPolicy extends BasePolicy
             return $user->hasRole(RoleEnum::ADMIN->value);
         }
 
-        return !$playlist->trashed() && $playlist->user()->is($user) && $user->can(CrudPermission::DELETE->format(Playlist::class));
+        return parent::delete($user, $playlist) && $playlist->user()->is($user);
     }
 
     /**
@@ -115,7 +117,7 @@ class PlaylistPolicy extends BasePolicy
             return $user->hasRole(RoleEnum::ADMIN->value);
         }
 
-        return $playlist->trashed() && $playlist->user()->is($user) && $user->can(ExtendedCrudPermission::RESTORE->format(Playlist::class));
+        return parent::restore($user, $playlist) && $playlist->trashed() && $playlist->user()->is($user);
     }
 
     /**

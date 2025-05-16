@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-use App\Models\BaseModel;
 use App\Models\List\External\ExternalEntry;
 use App\Models\List\ExternalProfile;
 use App\Models\Wiki\Anime;
@@ -20,7 +19,6 @@ return new class extends Migration
         if (! Schema::hasTable(ExternalEntry::TABLE)) {
             Schema::create(ExternalEntry::TABLE, function (Blueprint $table) {
                 $table->timestamps(6);
-                $table->softDeletes(BaseModel::ATTRIBUTE_DELETED_AT, 6);
                 $table->id(ExternalEntry::ATTRIBUTE_ID);
                 $table->float(ExternalEntry::ATTRIBUTE_SCORE)->nullable();
                 $table->integer(ExternalEntry::ATTRIBUTE_WATCH_STATUS);

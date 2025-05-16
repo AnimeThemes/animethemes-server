@@ -52,8 +52,9 @@ class DumpTest extends TestCase
         Feature::activate(AllowDumpDownloading::class, $this->faker->boolean());
 
         $fs = Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));
-        $file = File::fake()->create(Dump::factory()->makeOne()->path.'.sql');
-        $fsFile = $fs->putFile('', $file);
+        $filename = Dump::factory()->makeOne()->path.'.sql';
+        $file = File::fake()->create($filename);
+        $fsFile = $fs->putFileAs('', $file, $filename);
 
         $dump = Dump::factory()->createOne([
             Dump::ATTRIBUTE_PATH => $fsFile,
@@ -94,8 +95,9 @@ class DumpTest extends TestCase
         Feature::activate(AllowDumpDownloading::class);
 
         $fs = Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));
-        $file = File::fake()->create(Dump::factory()->makeOne()->path.'.sql');
-        $fsFile = $fs->putFile('', $file);
+        $filename = Dump::factory()->makeOne()->path.'.sql';
+        $file = File::fake()->create($filename);
+        $fsFile = $fs->putFileAs('', $file, $filename);
 
         $dump = Dump::factory()->createOne([
             Dump::ATTRIBUTE_PATH => $fsFile,
