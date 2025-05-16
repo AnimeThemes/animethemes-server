@@ -15,7 +15,9 @@ use App\Models\Admin\ActionLog;
 use App\Models\User\Report;
 use App\Models\List\Playlist;
 use App\Models\List\ExternalProfile;
+use App\Models\User\Like;
 use App\Models\User\Notification;
+use App\Models\Wiki\Video;
 use App\Notifications\UserNotification;
 use Database\Factories\Auth\UserFactory;
 use Filament\Facades\Filament;
@@ -25,8 +27,10 @@ use Filament\Notifications\DatabaseNotification as FilamentNotification;
 use Filament\Panel;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -247,6 +251,44 @@ class User extends Authenticatable implements MustVerifyEmail, Nameable, HasSubt
     public function externalprofiles(): HasMany
     {
         return $this->hasMany(ExternalProfile::class, ExternalProfile::ATTRIBUTE_USER);
+    }
+
+    /**
+     * Get the liked playlists of the user.
+     *
+     * @return BelongsToMany<Playlist, $this>
+     */
+    public function likedplaylists(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            Playlist::class,
+            Like::TABLE,
+            Like::ATTRIBUTE_USER,
+            Like::ATTRIBUTE_LIKEABLE_ID,
+            null,
+            Playlist::ATTRIBUTE_ID
+        )
+            ->wherePivot(Like::ATTRIBUTE_LIKEABLE_TYPE, Playlist::class)
+            ->withTimestamps();
+    }
+
+    /**
+     * Get the liked videos of the user.
+     *
+     * @return BelongsToMany<Video, $this>
+     */
+    public function likedvideos(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            Video::class,
+            Like::TABLE,
+            Like::ATTRIBUTE_USER,
+            Like::ATTRIBUTE_LIKEABLE_ID,
+            null,
+            Video::ATTRIBUTE_ID
+        )
+            ->wherePivot(Like::ATTRIBUTE_LIKEABLE_TYPE, Video::class)
+            ->withTimestamps();
     }
 
     /**

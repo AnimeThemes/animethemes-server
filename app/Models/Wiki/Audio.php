@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Models\Wiki;
 
 use App\Concerns\Models\Reportable;
-use App\Concerns\Models\Service\AggregatesView;
+use App\Concerns\Models\Aggregate\AggregatesView;
 use App\Contracts\Models\HasAggregateViews;
 use App\Contracts\Models\Streamable;
 use App\Events\Wiki\Audio\AudioCreated;

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\GraphQL\Resolvers;
 
 use App\Contracts\Models\HasAggregateViews;
-use App\Models\Service\ViewAggregate;
+use App\Models\Aggregate\ViewAggregate;
 use GraphQL\Type\Definition\ResolveInfo;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\GraphQL\Validators\Mutation\List;
+namespace App\GraphQL\Validators\Mutation\List\Playlist;
 
 use App\Enums\Models\List\PlaylistVisibility;
 use App\Models\List\Playlist;

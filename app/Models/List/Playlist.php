@@ -4,10 +4,14 @@ declare(strict_types=1);
 
 namespace App\Models\List;
 
-use App\Concerns\Models\Service\AggregatesView;
+use App\Concerns\Models\Aggregate\AggregatesLike;
+use App\Concerns\Models\Aggregate\AggregatesView;
+use App\Concerns\Models\InteractsWithLikes;
+use App\Contracts\Models\HasAggregateLikes;
 use App\Contracts\Models\HasAggregateViews;
 use App\Contracts\Models\HasHashids;
 use App\Contracts\Models\HasImages;
+use App\Contracts\Models\Likeable;
 use App\Enums\Models\List\PlaylistVisibility;
 use App\Events\List\Playlist\PlaylistCreated;
 use App\Events\List\Playlist\PlaylistDeleted;
@@ -46,9 +50,11 @@ use Illuminate\Support\Collection;
  *
  * @method static PlaylistFactory factory(...$parameters)
  */
-class Playlist extends BaseModel implements HasHashids, Viewable, HasImages, HasAggregateViews
+class Playlist extends BaseModel implements HasHashids, Likeable, Viewable, HasImages, HasAggregateLikes, HasAggregateViews
 {
+    use AggregatesLike;
     use AggregatesView;
+    use InteractsWithLikes;
     use Searchable;
     use InteractsWithViews;
 

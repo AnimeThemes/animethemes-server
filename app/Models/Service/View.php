@@ -23,13 +23,13 @@ class View extends BaseView
     final public const TABLE = 'views';
 
     /**
-     * Bootstrap the model.
+     * Perform any actions required after the model boots.
      *
      * @return void
      */
-    protected static function boot(): void
+    protected static function booted(): void
     {
-        parent::boot();
+        parent::booted();
 
         static::creating(function (View $view) {
             $view->user_agent = Request::userAgent();

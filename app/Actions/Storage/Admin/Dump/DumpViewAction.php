@@ -6,7 +6,7 @@ namespace App\Actions\Storage\Admin\Dump;
 
 use App\Concerns\Repositories\Admin\ReconcilesDumpRepositories;
 use App\Models\Service\View;
-use App\Models\Service\ViewAggregate;
+use App\Models\Aggregate\ViewAggregate;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Contracts\Models;
 
-use App\Models\Service\ViewAggregate;
+use App\Models\Aggregate\ViewAggregate;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 /**

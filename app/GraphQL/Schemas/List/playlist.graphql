@@ -16,6 +16,8 @@ type Playlist {
     tracksExists: Boolean! @with(relation: "tracks") @field(resolver: "App\\GraphQL\\Resolvers\\ExistsResolver@resolve")
     "The state of who can see the playlist"
     visibility: PlaylistVisibility! @localizedEnum
+    "The number of likes recorded for the resource"
+    likesCount: Int! @with(relation: "likeAggregate") @field(resolver: "App\\GraphQL\\Resolvers\\LikesCountResolver@resolve")
     "The number of views recorded for the resource"
     viewsCount: Int! @with(relation: "viewAggregate") @field(resolver: "App\\GraphQL\\Resolvers\\ViewsCountResolver@resolve")
     first: PlaylistTrack @belongsTo
@@ -66,7 +68,12 @@ extend type Query {
         updatedAt_greater: DateTimeTz @where(key: "updated_at", operator: ">")
         deletedAt_lesser: DateTimeTz @where(key: "deleted_at", operator: "<")
         deletedAt_greater: DateTimeTz @where(key: "deleted_at", operator: ">")
-        orderBy: _ @orderBy(columnsEnum: "PlaylistColumnsOrderable")
+        orderBy: _ @orderBy(columnsEnum: "PlaylistColumnsOrderable",
+            relations: [
+                {relation: "likeAggregate", columns: ["value"]},
+                {relation: "viewAggregate", columns: ["value"]}
+            ]
+        )
     ): [Playlist!]!
     @canModel(ability: "viewAny", injectArgs: true)
     @builder(method: "App\\GraphQL\\Builders\\List\\PlaylistBuilder@index")
@@ -80,7 +87,7 @@ extend type Mutation @guard {
         visibility: PlaylistVisibility!
     ): Playlist!
     @canModel(ability: "create")
-    @validator(class: "App\\GraphQL\\Validators\\Mutation\\List\\CreatePlaylistValidator")
+    @validator(class: "App\\GraphQL\\Validators\\Mutation\\List\\Playlist\\CreatePlaylistValidator")
     @field(resolver: "App\\GraphQL\\Mutations\\List\\PlaylistMutator@store")
 
 
@@ -91,7 +98,7 @@ extend type Mutation @guard {
         visibility: PlaylistVisibility
     ): Playlist!
     @canModel(ability: "update", injectArgs: true)
-    @validator(class: "App\\GraphQL\\Validators\\Mutation\\List\\UpdatePlaylistValidator")
+    @validator(class: "App\\GraphQL\\Validators\\Mutation\\List\\Playlist\\UpdatePlaylistValidator")
     @field(resolver: "App\\GraphQL\\Mutations\\List\\PlaylistMutator@update")
 
 

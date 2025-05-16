@@ -4,9 +4,13 @@ declare(strict_types=1);
 
 namespace App\Models\Wiki;
 
+use App\Concerns\Models\Aggregate\AggregatesLike;
 use App\Concerns\Models\Reportable;
-use App\Concerns\Models\Service\AggregatesView;
+use App\Concerns\Models\Aggregate\AggregatesView;
+use App\Concerns\Models\InteractsWithLikes;
+use App\Contracts\Models\HasAggregateLikes;
 use App\Contracts\Models\HasAggregateViews;
+use App\Contracts\Models\Likeable;
 use App\Contracts\Models\Streamable;
 use App\Enums\Models\List\PlaylistVisibility;
 use App\Enums\Models\Wiki\VideoOverlap;
@@ -62,9 +66,11 @@ use Illuminate\Support\Collection;
  *
  * @method static VideoFactory factory(...$parameters)
  */
-class Video extends BaseModel implements Streamable, Viewable, HasAggregateViews
+class Video extends BaseModel implements Streamable, Likeable, Viewable, HasAggregateLikes, HasAggregateViews
 {
+    use AggregatesLike;
     use AggregatesView;
+    use InteractsWithLikes;
     use Reportable;
     use Searchable;
     use InteractsWithViews;

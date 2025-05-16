@@ -58,7 +58,7 @@ extend type Mutation @guard {
         playlist: String! @bind(class: "App\\Models\\List\\Playlist", column: "hashid")
     ): PlaylistTrack!
     @canModel(ability: "create", injectArgs: true)
-    @validator(class: "App\\GraphQL\\Validators\\Mutation\\List\\Playlist\\CreatePlaylistTrackValidator")
+    @validator(class: "App\\GraphQL\\Validators\\Mutation\\List\\Playlist\\Track\\CreatePlaylistTrackValidator")
     @field(resolver: "App\\GraphQL\\Mutations\\List\\Playlist\\PlaylistTrackMutator@store")
 
 
@@ -71,7 +71,7 @@ extend type Mutation @guard {
         playlist: String! @bind(class: "App\\Models\\List\\Playlist", column: "hashid")
     ): PlaylistTrack!
     @canModel(ability: "update", injectArgs: true)
-    @validator(class: "App\\GraphQL\\Validators\\Mutation\\List\\Playlist\\UpdatePlaylistTrackValidator")
+    @validator(class: "App\\GraphQL\\Validators\\Mutation\\List\\Playlist\\Track\\UpdatePlaylistTrackValidator")
     @field(resolver: "App\\GraphQL\\Mutations\\List\\Playlist\\PlaylistTrackMutator@update")
 
 

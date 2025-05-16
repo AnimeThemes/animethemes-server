@@ -34,6 +34,8 @@ type Video {
     tags: String @field(resolver: "App\\GraphQL\\Resolvers\\ImplodeArrayResolver@resolve")
     "The URL to stream the file from storage"
     link: String!
+    "The number of likes recorded for the resource"
+    likesCount: Int! @with(relation: "likeAggregate") @field(resolver: "App\\GraphQL\\Resolvers\\LikesCountResolver@resolve")
     "The number of views recorded for the resource"
     viewsCount: Int! @with(relation: "viewAggregate") @field(resolver: "App\\GraphQL\\Resolvers\\ViewsCountResolver@resolve")
     animethemeentries: [AnimeThemeEntry] @belongsToMany(type: CONNECTION)
@@ -76,6 +78,7 @@ enum VideoColumnsOrderable {
 extend type Query {
     "Returns a listing of video resources given fields."
     videos(
+        filename: String @eq
         isLyrics: Boolean @eq
         isNc: Boolean @eq
         isSubbed: Boolean @eq
@@ -93,7 +96,12 @@ extend type Query {
         updatedAt_greater: DateTimeTz @where(key: "updated_at", operator: ">")
         deletedAt_lesser: DateTimeTz @where(key: "deleted_at", operator: "<")
         deletedAt_greater: DateTimeTz @where(key: "deleted_at", operator: ">")
-        orderBy: _ @orderBy(columnsEnum: "VideoColumnsOrderable")
+        orderBy: _ @orderBy(columnsEnum: "VideoColumnsOrderable",
+            relations: [
+                {relation: "likeAggregate", columns: ["value"]},
+                {relation: "viewAggregate", columns: ["value"]}
+            ]
+        )
     ): [Video!]!
     @canModel(ability: "viewAny", injectArgs: true)
     @softDeletes
