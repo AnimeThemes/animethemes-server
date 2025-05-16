@@ -1,0 +1,5 @@
+"Represents a like of a user."
+type Like {
+    "The user that liked the resource"
+    user: User @belongsTo
+}

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Models\Service;
+namespace App\Models\Aggregate;
 
 use CyrildeWit\EloquentViewable\Contracts\Viewable;
 use Illuminate\Database\Eloquent\Model;

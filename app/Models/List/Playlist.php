@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace App\Models\List;
 
-use App\Concerns\Models\Service\AggregatesView;
+use App\Concerns\Models\Aggregate\AggregatesLikes;
+use App\Concerns\Models\Likeable;
+use App\Concerns\Models\Aggregate\AggregatesView;
+use App\Contracts\Models\HasAggregateLikes;
 use App\Contracts\Models\HasAggregateViews;
 use App\Contracts\Models\HasHashids;
 use App\Contracts\Models\HasImages;
@@ -46,9 +49,11 @@ use Illuminate\Support\Collection;
  *
  * @method static PlaylistFactory factory(...$parameters)
  */
-class Playlist extends BaseModel implements HasHashids, Viewable, HasImages, HasAggregateViews
+class Playlist extends BaseModel implements HasHashids, Viewable, HasImages, HasAggregateViews, HasAggregateLikes
 {
+    use AggregatesLikes;
     use AggregatesView;
+    use Likeable;
     use Searchable;
     use InteractsWithViews;
 

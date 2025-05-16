@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Concerns\Models\Service;
+namespace App\Concerns\Models\Aggregate;
 
-use App\Models\Service\ViewAggregate;
+use App\Models\Aggregate\ViewAggregate;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 /**

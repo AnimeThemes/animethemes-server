@@ -10,8 +10,6 @@ use App\Models\Admin\Announcement;
 use App\Models\Admin\Dump;
 use App\Models\Admin\Feature;
 use App\Models\Admin\FeaturedTheme;
-use App\Models\Service\View;
-use App\Models\Service\ViewAggregate;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;

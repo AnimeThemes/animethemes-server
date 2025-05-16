@@ -12,7 +12,7 @@ use App\Http\Api\Filter\IntFilter;
 use App\Http\Api\Schema\Schema;
 use App\Http\Api\Sort\Sort;
 use App\Models\List\Playlist;
-use App\Models\Service\ViewAggregate;
+use App\Models\Aggregate\ViewAggregate;
 use Illuminate\Database\Eloquent\Model;
 
 /**

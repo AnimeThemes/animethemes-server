@@ -4,29 +4,29 @@ declare(strict_types=1);
 
 namespace App\Console\Commands\Models;
 
-use App\Actions\Models\Aggregate\SyncViewAggregatesAction;
+use App\Actions\Models\Aggregate\SyncLikeAggregatesAction;
 use App\Console\Commands\BaseCommand;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Support\Facades\Validator as ValidatorFacade;
 
 /**
- * Class SyncViewAggregatesCommand.
+ * Class SyncLikeAggregatesCommand.
  */
-class SyncViewAggregatesCommand extends BaseCommand
+class SyncLikeAggregatesCommand extends BaseCommand
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'view:sync-aggregates';
+    protected $signature = 'like:sync-aggregates';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Synchronizes views in the aggregates table';
+    protected $description = 'Synchronizes likes in the aggregates table';
 
     /**
      * Execute the console command.
@@ -35,7 +35,7 @@ class SyncViewAggregatesCommand extends BaseCommand
      */
     public function handle(): int
     {
-        $action = new SyncViewAggregatesAction();
+        $action = new SyncLikeAggregatesAction();
 
         $result = $action->handle();
 

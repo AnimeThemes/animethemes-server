@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Actions\Models\Service;
+namespace App\Actions\Models\Aggregate;
 
 use App\Actions\ActionResult;
 use App\Enums\Actions\ActionStatus;

@@ -34,6 +34,8 @@ type Video {
     tags: String @field(resolver: "App\\GraphQL\\Resolvers\\ImplodeArrayResolver@resolve")
     "The URL to stream the file from storage"
     link: String!
+    "The number of likes recorded for the resource"
+    likesCount: Int! @with(relation: "likeAggregate") @field(resolver: "App\\GraphQL\\Resolvers\\LikesCountResolver@resolve")
     "The number of views recorded for the resource"
     viewsCount: Int! @with(relation: "viewAggregate") @field(resolver: "App\\GraphQL\\Resolvers\\ViewsCountResolver@resolve")
     animethemeentries: [AnimeThemeEntry] @belongsToMany(type: CONNECTION)
