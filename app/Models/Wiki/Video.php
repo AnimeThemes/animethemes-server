@@ -400,12 +400,12 @@ class Video extends BaseModel implements Streamable, Likeable, Viewable, HasAggr
     }
 
     /**
-     * Get the encode that the video owns.
+     * Get the encodes of the video.
      *
-     * @return HasOne<Encode, $this>
+     * @return HasMany<Encode, $this>
      */
-    public function encode(): HasOne
+    public function encodes(): HasMany
     {
-        return $this->hasOne(Encode::class, Encode::ATTRIBUTE_VIDEO);
+        return $this->hasMany(Encode::class, Encode::ATTRIBUTE_VIDEO);
     }
 }

@@ -16,7 +16,7 @@ return new class extends Migration
     {
         if (! Schema::hasColumn(Encode::TABLE, Encode::ATTRIBUTE_TYPE)) {
             Schema::table(Encode::TABLE, function (Blueprint $table) {
-                $table->integer(Encode::ATTRIBUTE_TYPE);
+                $table->integer(Encode::ATTRIBUTE_TYPE)->after(Encode::ATTRIBUTE_VIDEO);
             });
         }
     }

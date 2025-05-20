@@ -152,7 +152,7 @@ class UploadVideoTableAction extends UploadTableAction
                                             ->resource(UserResource::class)
                                             ->label(__('filament.actions.storage.upload.fields.encoder.name'))
                                             ->helperText(__('filament.actions.storage.upload.fields.encoder.help'))
-                                            ->visible(Auth::user()->hasRole(Role::ADMIN->value))
+                                            ->withSubtitle(false)
                                             ->default(Auth::id()),
                                     ]),
                             ]),
