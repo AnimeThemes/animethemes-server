@@ -180,6 +180,7 @@ class UploadVideoAction extends UploadAction
             // Mark any existing encodes as old if the video is being replaced.
             Encode::query()
                 ->whereBelongsTo($video, Encode::RELATION_VIDEO)
+                ->where(Encode::ATTRIBUTE_TYPE, EncodeType::CURRENT->value)
                 ->update([Encode::ATTRIBUTE_TYPE => EncodeType::OLD->value]);
 
             Encode::query()->create([
