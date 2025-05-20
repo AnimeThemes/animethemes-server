@@ -22,6 +22,7 @@ class BelongsTo extends ComponentsSelect
     protected string $relation = '';
     protected ?BaseResource $resource = null;
     protected bool $showCreateOption = false;
+    protected bool $withSubtitle = true;
 
     /**
      * This should reload after every method.
@@ -85,6 +86,19 @@ class BelongsTo extends ComponentsSelect
     }
 
     /**
+     * Determine if the subtitle should be shown.
+     *
+     * @param  bool  $condition
+     * @return static
+     */
+    public function withSubtitle(bool $condition = true): static
+    {
+        $this->withSubtitle = $condition;
+
+        return $this;
+    }
+
+    /**
      * Make the field searchable and use laravel scout if available.
      *
      * @param  class-string<BaseModel>  $model
@@ -94,7 +108,7 @@ class BelongsTo extends ComponentsSelect
     {
         $this->allowHtml();
         $this->searchable();
-        $this->getOptionLabelUsing(fn ($state) => static::getSearchLabelWithBlade($model::find($state)));
+        $this->getOptionLabelUsing(fn ($state) => static::getSearchLabelWithBlade($model::find($state), $this->withSubtitle));
 
         $eagerLoads = method_exists($model, 'getEagerLoadsForSubtitle')
             ? $model::getEagerLoadsForSubtitle()
@@ -109,7 +123,7 @@ class BelongsTo extends ComponentsSelect
                         ->query(fn (Builder $query) => $query->with($eagerLoads))
                         ->take(25)
                         ->get()
-                        ->mapWithKeys(fn (BaseModel $model) => [$model->getKey() => static::getSearchLabelWithBlade($model)])
+                        ->mapWithKeys(fn (BaseModel $model) => [$model->getKey() => static::getSearchLabelWithBlade($model, $this->withSubtitle)])
                         ->toArray();
                 });
         }
@@ -121,7 +135,7 @@ class BelongsTo extends ComponentsSelect
                     ->with($eagerLoads)
                     ->take(25)
                     ->get()
-                    ->mapWithKeys(fn (BaseModel|User $model) => [$model->getKey() => static::getSearchLabelWithBlade($model)])
+                    ->mapWithKeys(fn (BaseModel|User $model) => [$model->getKey() => static::getSearchLabelWithBlade($model, $this->withSubtitle)])
                     ->toArray();
             });
     }
@@ -130,13 +144,14 @@ class BelongsTo extends ComponentsSelect
      * Use the blade to make the results.
      *
      * @param  BaseModel|User  $model
+     * @param  bool  $withSubtitle
      * @return string
      */
-    public static function getSearchLabelWithBlade(BaseModel|User $model): string
+    public static function getSearchLabelWithBlade(BaseModel|User $model, bool $withSubtitle = true): string
     {
         return view('filament.components.select')
             ->with('name', $model->getName())
-            ->with('subtitle', $model->getSubtitle())
+            ->with('subtitle', $withSubtitle ? $model->getSubtitle() : null)
             ->with('image', $model instanceof User ? $model->getFilamentAvatarUrl() : null)
             ->render();
     }

@@ -8,6 +8,7 @@ use App\Actions\Storage\Base\UploadAction;
 use App\Actions\Storage\Wiki\Video\Script\UploadScriptAction;
 use App\Constants\Config\VideoConstants;
 use App\Contracts\Actions\Storage\StorageResults;
+use App\Enums\Models\User\EncodeType;
 use App\Enums\Models\Wiki\VideoOverlap;
 use App\Enums\Models\Wiki\VideoSource;
 use App\Models\Auth\User;
@@ -176,12 +177,14 @@ class UploadVideoAction extends UploadAction
     protected function markEncode(Video $video): void
     {
         if ($encoder = $this->encoder) {
-            // Delete any existing encodes if the video is being replaced.
+            // Mark any existing encodes as old if the video is being replaced.
             Encode::query()
                 ->whereBelongsTo($video, Encode::RELATION_VIDEO)
-                ->delete();
+                ->where(Encode::ATTRIBUTE_TYPE, EncodeType::CURRENT->value)
+                ->update([Encode::ATTRIBUTE_TYPE => EncodeType::OLD->value]);
 
             Encode::query()->create([
+                Encode::ATTRIBUTE_TYPE => EncodeType::CURRENT->value,
                 Encode::ATTRIBUTE_USER => $encoder->getKey(),
                 Encode::ATTRIBUTE_VIDEO => $video->getKey(),
             ]);

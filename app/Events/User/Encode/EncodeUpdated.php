@@ -6,6 +6,7 @@ namespace App\Events\User\Encode;
 
 use App\Actions\Models\List\Playlist\RemoveTrackAction;
 use App\Contracts\Events\ManagesTrackEvent;
+use App\Enums\Models\User\EncodeType;
 use App\Events\BaseEvent;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
@@ -14,11 +15,11 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
 /**
- * Class EncodeDeleted.
+ * Class EncodeUpdated.
  *
  * @extends BaseEvent<Encode>
  */
-class EncodeDeleted extends BaseEvent implements ManagesTrackEvent
+class EncodeUpdated extends BaseEvent implements ManagesTrackEvent
 {
     use Dispatchable;
     use SerializesModels;
@@ -50,16 +51,21 @@ class EncodeDeleted extends BaseEvent implements ManagesTrackEvent
      */
     public function manageTrack(): void
     {
-        $track = PlaylistTrack::query()
-            ->with([PlaylistTrack::RELATION_PLAYLIST, PlaylistTrack::RELATION_VIDEO])
-            ->whereRelation(PlaylistTrack::RELATION_PLAYLIST, Playlist::ATTRIBUTE_NAME, 'Encodes')
-            ->whereBelongsTo($this->getModel()->video, PlaylistTrack::RELATION_VIDEO)
-            ->first();
+        if (
+            $this->getModel()->wasChanged(Encode::ATTRIBUTE_TYPE) &&
+            $this->getModel()->getAttribute(Encode::ATTRIBUTE_TYPE) === EncodeType::OLD->value
+        ) {
+            $track = PlaylistTrack::query()
+                ->with([PlaylistTrack::RELATION_PLAYLIST, PlaylistTrack::RELATION_VIDEO])
+                ->whereRelation(PlaylistTrack::RELATION_PLAYLIST, Playlist::ATTRIBUTE_NAME, 'Encodes')
+                ->whereBelongsTo($this->getModel()->video, PlaylistTrack::RELATION_VIDEO)
+                ->first();
 
-        if ($track instanceof PlaylistTrack) {
-            $removeAction = new RemoveTrackAction();
+            if ($track instanceof PlaylistTrack) {
+                $removeAction = new RemoveTrackAction();
 
-            $removeAction->remove($track->playlist, $track);
+                $removeAction->remove($track->playlist, $track);
+            }
         }
     }
 }

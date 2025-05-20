@@ -347,7 +347,7 @@ return [
                 'confirmButtonText' => 'Upload',
                 'fields' => [
                     'encoder' => [
-                        'help' => 'The user that encoded the video. Default is the authenticated user. This field is only visible for admins.',
+                        'help' => 'The user that encoded the video. Default is the authenticated user.',
                         'name' => 'Encoder',
                     ],
                     'file' => [

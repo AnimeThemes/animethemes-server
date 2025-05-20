@@ -149,6 +149,7 @@ class FeaturedTheme extends BaseResource
                 BelongsTo::make(FeaturedThemeModel::ATTRIBUTE_ENTRY)
                     ->resource(EntryResource::class)
                     ->live(true)
+                    ->required()
                     ->rules([
                         fn (Get $get) => function () use ($get) {
                             return [
@@ -165,6 +166,7 @@ class FeaturedTheme extends BaseResource
                 Select::make(FeaturedThemeModel::ATTRIBUTE_VIDEO)
                     ->label(__('filament.resources.singularLabel.video'))
                     ->relationship(FeaturedThemeModel::RELATION_VIDEO, Video::ATTRIBUTE_FILENAME)
+                    ->required()
                     ->rules([
                         fn (Get $get) => function () use ($get) {
                             return [

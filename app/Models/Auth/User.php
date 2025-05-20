@@ -178,7 +178,7 @@ class User extends Authenticatable implements MustVerifyEmail, Nameable, HasSubt
      */
     public function getSubtitle(): string
     {
-        return $this->email;
+        return strval($this->getKey());
     }
 
     /**
