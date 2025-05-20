@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace App\Models\User;
 
 use App\Contracts\Models\Nameable;
+use App\Enums\Models\User\EncodeType;
 use App\Events\User\Encode\EncodeCreated;
-use App\Events\User\Encode\EncodeDeleted;
+use App\Events\User\Encode\EncodeUpdated;
 use App\Models\Auth\User;
 use App\Models\Wiki\Video;
 use Illuminate\Database\Eloquent\Model;
@@ -16,6 +17,7 @@ use Illuminate\Support\Str;
 /**
  * Class Encode.
  *
+ * @property EncodeType $type
  * @property User $user
  * @property int $user_id
  * @property Video $video
@@ -26,6 +28,7 @@ class Encode extends Model implements Nameable
     final public const TABLE = 'encodes';
 
     final public const ATTRIBUTE_ID = 'encode_id';
+    final public const ATTRIBUTE_TYPE = 'type';
     final public const ATTRIBUTE_USER = 'user_id';
     final public const ATTRIBUTE_VIDEO = 'video_id';
 
@@ -55,7 +58,7 @@ class Encode extends Model implements Nameable
      */
     protected $dispatchesEvents = [
         'created' => EncodeCreated::class,
-        'deleted' => EncodeDeleted::class,
+        'updated' => EncodeUpdated::class,
     ];
 
     /**
@@ -64,9 +67,22 @@ class Encode extends Model implements Nameable
      * @var list<string>
      */
     protected $fillable = [
+        Encode::ATTRIBUTE_TYPE,
         Encode::ATTRIBUTE_USER,
         Encode::ATTRIBUTE_VIDEO,
     ];
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            Encode::ATTRIBUTE_TYPE => EncodeType::class,
+        ];
+    }
 
     /**
      * Get name.

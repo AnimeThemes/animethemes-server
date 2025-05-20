@@ -185,7 +185,6 @@ class UploadVideoTableAction extends UploadTableAction
                                 ...VideoDiscordNotificationBulkAction::make()->getForm($form)->getComponents(),
                             ]),
                     ])
-
             ]);
     }
 
