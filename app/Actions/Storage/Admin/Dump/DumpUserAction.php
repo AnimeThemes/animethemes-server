@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace App\Actions\Storage\Admin\Dump;
 
 use App\Concerns\Repositories\Admin\ReconcilesDumpRepositories;
+use App\Models\Aggregate\LikeAggregate;
 use App\Models\User\Encode;
+use App\Models\User\Like;
 use App\Models\User\Notification;
 use App\Models\User\Report;
 use App\Models\User\Report\ReportStep;
@@ -31,6 +33,8 @@ class DumpUserAction extends DumpAction
     {
         return [
             Encode::TABLE,
+            Like::TABLE,
+            LikeAggregate::TABLE,
             Notification::TABLE,
             Report::TABLE,
             ReportStep::TABLE,

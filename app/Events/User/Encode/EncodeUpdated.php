@@ -53,7 +53,7 @@ class EncodeUpdated extends BaseEvent implements ManagesTrackEvent
     {
         if (
             $this->getModel()->wasChanged(Encode::ATTRIBUTE_TYPE) &&
-            $this->getModel()->getAttribute(Encode::ATTRIBUTE_TYPE) === EncodeType::OLD->value
+            $this->getModel()->getAttribute(Encode::ATTRIBUTE_TYPE) === EncodeType::OLD
         ) {
             $track = PlaylistTrack::query()
                 ->with([PlaylistTrack::RELATION_PLAYLIST, PlaylistTrack::RELATION_VIDEO])
