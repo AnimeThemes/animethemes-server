@@ -37,6 +37,7 @@ use Illuminate\Support\Collection;
  * @property Collection<int, Image> $images
  * @property string|null $information
  * @property Collection<int, Artist> $members
+ * @property Collection<int, Membership> $memberships
  * @property string $name
  * @property Collection<int, ExternalResource> $resources
  * @property string $slug
@@ -62,6 +63,7 @@ class Artist extends BaseModel implements HasResources, HasImages
     final public const RELATION_GROUP_PERFORMANCES = 'groupperformances';
     final public const RELATION_IMAGES = 'images';
     final public const RELATION_MEMBERS = 'members';
+    final public const RELATION_MEMBERSHIPS = 'memberships';
     final public const RELATION_PERFORMANCES = 'performances';
     final public const RELATION_RESOURCES = 'resources';
     final public const RELATION_SONGS = 'songs';

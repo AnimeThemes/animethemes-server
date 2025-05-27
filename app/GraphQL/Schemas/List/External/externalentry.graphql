@@ -1,25 +1,3 @@
-"""
-Represents an anime entry on the external profile.
-
-For example, Hibike Euphonium! is marked as completed on the profile AnimeThemes.
-"""
-type ExternalEntry {
-    "The primary key of the resource"
-    id: Int! @rename(attribute: "entry_id")
-    "The score of the entry on the external site"
-    score: Float
-    "The favorite state of the entry on the external site"
-    isFavorite: Boolean! @rename(attribute: "is_favorite")
-    "The watch status of the entry on the external site"
-    watchStatus: ExternalEntryWatchStatus! @rename(attribute: "watch_status") @localizedEnum
-    anime: Anime @belongsTo
-    externalprofile: ExternalProfile @belongsTo
-    "The date that the resource was created"
-    createdAt: DateTimeTz @rename(attribute: "created_at")
-    "The date that the resource was last modified"
-    updatedAt: DateTimeTz @rename(attribute: "updated_at")
-}
-
 enum ExternalEntryColumnsOrderable {
     ID @enum(value: "entry_id")
     SCORE

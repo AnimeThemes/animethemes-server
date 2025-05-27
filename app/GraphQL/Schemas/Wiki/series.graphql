@@ -1,24 +1,3 @@
-"""
-Represents a collection of related anime.
-
-For example, the Monogatari series is the collection of the Bakemonogatari anime and its related productions.
-"""
-type Series {
-    "The primary key of the resource"
-    id: Int! @rename(attribute: "series_id")
-    "The primary title of the series"
-    name: String!
-    "The URL slug & route key of the resource"
-    slug: String!
-    anime: [Anime] @belongsToMany(type: CONNECTION)
-    "The date that the resource was created"
-    createdAt: DateTimeTz @rename(attribute: "created_at")
-    "The date that the resource was last modified"
-    updatedAt: DateTimeTz @rename(attribute: "updated_at")
-    "The date that the resource was deleted"
-    deletedAt: DateTimeTz @rename(attribute: "deleted_at")
-}
-
 "Default edge to use in simple belongs to many relationships"
 type SeriesEdge {
     node: Series!

@@ -1,22 +1,3 @@
-"Represents a video to be featured on the homepage of the site for a specified amount of time."
-type FeaturedTheme {
-    "The primary key of the resource"
-    id: Int! @rename(attribute: "featured_theme_id")
-    "The start date of the resource"
-    startAt: DateTimeTz! @rename(attribute: "start_at")
-    "The end date of the resource"
-    endAt: DateTimeTz! @rename(attribute: "end_at")
-    animethemeentry: AnimeThemeEntry @belongsTo
-    user: User @belongsTo
-    video: Video @belongsTo
-    "The date that the resource was created"
-    createdAt: DateTimeTz @rename(attribute: "created_at")
-    "The date that the resource was last modified"
-    updatedAt: DateTimeTz @rename(attribute: "updated_at")
-    "The date that the resource was deleted"
-    deletedAt: DateTimeTz @rename(attribute: "deleted_at")
-}
-
 enum FeaturedThemeColumnsOrderable {
     ID @enum(value: "featured_theme_id")
     START_AT

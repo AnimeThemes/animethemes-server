@@ -1,17 +1,3 @@
-"Represents a site-wide message to be broadcasted on the homepage."
-type Announcement {
-    "The primary key of the resource"
-    id: Int! @rename(attribute: "announcement_id")
-    "The announcement text"
-    content: String!
-    "The date that the resource was created"
-    createdAt: DateTimeTz @rename(attribute: "created_at")
-    "The date that the resource was last modified"
-    updatedAt: DateTimeTz @rename(attribute: "updated_at")
-    "The date that the resource was deleted"
-    deletedAt: DateTimeTz @rename(attribute: "deleted_at")
-}
-
 enum AnnouncementColumnsOrderable {
     ID @enum(value: "announcement_id")
     CONTENT

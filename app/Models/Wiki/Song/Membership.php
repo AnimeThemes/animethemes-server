@@ -14,6 +14,7 @@ use App\Models\Wiki\Artist;
 use Database\Factories\Wiki\Song\MembershipFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Support\Collection;
 
 /**
  * Class Membership.
@@ -25,6 +26,7 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
  * @property Artist $artist
  * @property int $member_id
  * @property Artist $member
+ * @property Collection<int, Performance> $performances
  *
  * @method static MembershipFactory factory(...$parameters)
  */
@@ -40,6 +42,7 @@ class Membership extends BaseModel
 
     final public const RELATION_ARTIST = 'artist';
     final public const RELATION_MEMBER = 'member';
+    final public const RELATION_PERFORMANCES = 'performances';
 
     /**
      * The attributes that are mass assignable.

@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Process;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Sleep;
+use Nuwave\Lighthouse\Testing\MakesGraphQLRequests;
+use Nuwave\Lighthouse\Testing\RefreshesSchemaCache;
 
 /**
  * Class TestCase.
@@ -21,6 +23,8 @@ abstract class TestCase extends BaseTestCase
 {
     use CreatesApplication;
     use LazilyRefreshDatabase;
+    use MakesGraphQLRequests;
+    use RefreshesSchemaCache;
 
     /**
      * Setup the test environment.
