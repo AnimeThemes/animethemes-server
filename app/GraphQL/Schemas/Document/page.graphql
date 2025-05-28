@@ -1,25 +1,3 @@
-"""
-Represents a static markdown page used for guides and other documentation.
-
-For example, the 'encoding/audio_normalization' page represents the documentation for audio normalization.
-"""
-type Page {
-    "The primary key of the resource"
-    id: Int! @rename(attribute: "page_id")
-    "The primary title of the page"
-    name: String!
-    "The URL slug & route key of the resource"
-    slug: String!
-    "The body content of the resource"
-    body: String
-    "The date that the resource was created"
-    createdAt: DateTimeTz @rename(attribute: "created_at")
-    "The date that the resource was last modified"
-    updatedAt: DateTimeTz @rename(attribute: "updated_at")
-    "The date that the resource was deleted"
-    deletedAt: DateTimeTz @rename(attribute: "deleted_at")
-}
-
 enum PageColumnsOrderable {
     ID @enum(value: "page_id")
     NAME

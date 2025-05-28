@@ -1,53 +1,3 @@
-"""
-Represents a WebM of an anime theme.
-
-For example, the video Bakemonogatari-OP1.webm represents the WebM of the Bakemonogatari OP1 theme.
-"""
-type Video {
-    "The primary key of the resource"
-    id: Int! @rename(attribute: "video_id")
-    "The basename of the file in storage"
-    basename: String!
-    "The filename of the file in storage"
-    filename: String!
-    "Does the video include subtitles of song lyrics?"
-    lyrics: Boolean!
-    "The media type of the file in storage"
-    mimetype: String
-    "Is the video creditless?"
-    nc: Boolean!
-    "The degree to which the sequence and episode content overlap"
-    overlap: VideoOverlap @localizedEnum
-    "The path of the file in storage"
-    path: String!
-    "The frame height of the file in storage"
-    resolution: Int
-    "The size of the file in storage in Bytes"
-    size: Int
-    "Where did this video come from?"
-    source: VideoSource @localizedEnum
-    "Does the video include subtitles of dialogue?"
-    subbed: Boolean!
-    "Is the video an uncensored version of a censored sequence?"
-    uncen: Boolean!
-    "The attributes used to distinguish the file within the context of a theme"
-    tags: String @field(resolver: "App\\GraphQL\\Resolvers\\ImplodeArrayResolver@resolve")
-    "The URL to stream the file from storage"
-    link: String!
-    "The number of likes recorded for the resource"
-    likesCount: Int! @with(relation: "likeAggregate") @field(resolver: "App\\GraphQL\\Resolvers\\LikesCountResolver@resolve")
-    "The number of views recorded for the resource"
-    viewsCount: Int! @with(relation: "viewAggregate") @field(resolver: "App\\GraphQL\\Resolvers\\ViewsCountResolver@resolve")
-    animethemeentries: [AnimeThemeEntry] @belongsToMany(type: CONNECTION)
-    videoscript: VideoScript @hasOne
-    "The date that the resource was created"
-    createdAt: DateTimeTz @rename(attribute: "created_at")
-    "The date that the resource was last modified"
-    updatedAt: DateTimeTz @rename(attribute: "updated_at")
-    "The date that the resource was deleted"
-    deletedAt: DateTimeTz @rename(attribute: "deleted_at")
-}
-
 "Default edge to use in simple belongs to many relationships"
 type VideoEdge {
     node: Video!
@@ -78,6 +28,7 @@ enum VideoColumnsOrderable {
 extend type Query {
     "Returns a listing of video resources given fields."
     videos(
+        id: Int @eq(key: "video_id")
         filename: String @eq
         isLyrics: Boolean @eq
         isNc: Boolean @eq

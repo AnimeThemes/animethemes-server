@@ -1,24 +1,3 @@
-"""
-Represents the group that accompanies a Theme.
-
-For example, English Version is the group for english dubbed Theme.
-"""
-type ThemeGroup @model(class: "App\\Models\\Wiki\\Group") {
-    "The primary key of the resource"
-    id: Int! @rename(attribute: "group_id")
-    "The name of the group"
-    name: String!
-    "The slug of the group"
-    slug: String!
-    animethemes: [AnimeTheme] @hasMany
-    "The date that the resource was created"
-    createdAt: DateTimeTz @rename(attribute: "created_at")
-    "The date that the resource was last modified"
-    updatedAt: DateTimeTz @rename(attribute: "updated_at")
-    "The date that the resource was deleted"
-    deletedAt: DateTimeTz @rename(attribute: "deleted_at")
-}
-
 enum ThemeGroupColumnsOrderable {
     ID @enum(value: "group_id")
     NAME

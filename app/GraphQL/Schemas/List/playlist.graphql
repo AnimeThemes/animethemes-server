@@ -1,38 +1,3 @@
-"""
-Represents a list of ordered tracks intended for continuous playback.
-
-For example, a "/r/anime's Best OPs and EDs of 2022" playlist may contain a collection of tracks allowing the continuous playback of Best OP and ED nominations for the /r/anime Awards.
-"""
-type Playlist {
-    "The primary key of the resource"
-    id: String! @rename(attribute: "hashid")
-    "The title of the playlist"
-    name: String!
-    "The description of the playlist"
-    description: String
-    "The number of tracks belonging to the resource"
-    tracksCount: Int! @count(relation: "tracks")
-    "The existence of tracks belonging to the resource"
-    tracksExists: Boolean! @with(relation: "tracks") @field(resolver: "App\\GraphQL\\Resolvers\\ExistsResolver@resolve")
-    "The state of who can see the playlist"
-    visibility: PlaylistVisibility! @localizedEnum
-    "The number of likes recorded for the resource"
-    likesCount: Int! @with(relation: "likeAggregate") @field(resolver: "App\\GraphQL\\Resolvers\\LikesCountResolver@resolve")
-    "The number of views recorded for the resource"
-    viewsCount: Int! @with(relation: "viewAggregate") @field(resolver: "App\\GraphQL\\Resolvers\\ViewsCountResolver@resolve")
-    first: PlaylistTrack @belongsTo
-    images: [Image] @belongsToMany(type: CONNECTION, edgeType: PlaylistImageEdge)
-    last: PlaylistTrack @belongsTo
-    tracks: [PlaylistTrack] @hasMany
-    user: User @belongsTo
-    "The date that the resource was created"
-    createdAt: DateTimeTz @rename(attribute: "created_at")
-    "The date that the resource was last modified"
-    updatedAt: DateTimeTz @rename(attribute: "updated_at")
-    "The date that the resource was deleted"
-    deletedAt: DateTimeTz @rename(attribute: "deleted_at")
-}
-
 type PlaylistImageEdge {
     node: Image!
     "The date that the resource was last modified"

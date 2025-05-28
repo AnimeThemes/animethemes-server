@@ -1,31 +1,3 @@
-"""
-Represents a musical performer of anime sequences.
-
-For example, Chiwa Saitou is the musical performer of the Bakemonogatari OP1 theme, among many others.
-"""
-type Artist {
-    "The primary key of the resource"
-    id: Int! @rename(attribute: "artist_id")
-    "The primary title of the artist"
-    name: String!
-    "The URL slug & route key of the resource"
-    slug: String!
-    "The brief information of the resource"
-    information: String
-    groups: [Artist] @belongsToMany(type: CONNECTION, edgeType: ArtistMemberEdge)
-    images: [Image] @belongsToMany(type: CONNECTION, edgeType: ArtistImageEdge)
-    members: [Artist] @belongsToMany(type: CONNECTION, edgeType: ArtistMemberEdge)
-    memberships: [Membership] @hasMany
-    performances: [Performance] @morphMany
-    resources: [ExternalResource]! @belongsToMany(type: CONNECTION)
-    "The date that the resource was created"
-    createdAt: DateTimeTz @rename(attribute: "created_at")
-    "The date that the resource was last modified"
-    updatedAt: DateTimeTz @rename(attribute: "updated_at")
-    "The date that the resource was deleted"
-    deletedAt: DateTimeTz @rename(attribute: "deleted_at")
-}
-
 "Default edge to use in simple belongs to many relationships"
 type ArtistEdge {
     node: Artist!

@@ -8,17 +8,6 @@ type Query @middleware(class: "App\\GraphQL\\Middleware\\MaxCount") {
     @field(resolver: "App\\GraphQL\\Queries\\Search")
 }
 
-type Search {
-    anime: [Anime!]!
-    artists: [Artist!]!
-    animethemes: [AnimeTheme!]!
-    playlists: [Playlist!]!
-    series: [Series!]!
-    songs: [Song!]!
-    studios: [Studio!]!
-    videos: [Video!]!
-}
-
 type MessageResponse {
     message: String
 }
@@ -42,6 +31,3 @@ input WhereHasConditions {
 #import Wiki/Anime/Theme/*.graphql
 #import Wiki/Song/*.graphql
 #import Wiki/Video/*.graphql
-
-#import Pivot/List/*.graphql
-#import Pivot/Wiki/*.graphql

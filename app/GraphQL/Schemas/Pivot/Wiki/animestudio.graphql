@@ -1,9 +1,0 @@
-"Represents the association between an anime and a studio."
-type AnimeStudio {
-    anime: Anime!
-    studio: Studio!
-    "The date that the resource was created"
-    createdAt: DateTimeTz @rename(attribute: "created_at")
-    "The date that the resource was last modified"
-    updatedAt: DateTimeTz @rename(attribute: "updated_at")
-}

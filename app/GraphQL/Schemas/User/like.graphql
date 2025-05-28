@@ -1,11 +1,3 @@
-"Represents a like of a user."
-type Like {
-    "The user that liked the resource"
-    user: User @belongsTo
-    "The model that was liked"
-    liked: Liked @morphTo
-}
-
 extend type Mutation @guard {
     like(
         playlist: String @bind(class: "App\\Models\\List\\Playlist", column: "hashid")
@@ -23,5 +15,3 @@ extend type Mutation @guard {
     @validator(class: "App\\GraphQL\\Validators\\Mutation\\User\\Like\\DeleteLikeValidator")
     @field(resolver: "App\\GraphQL\\Mutations\\User\\LikeMutator@destroy")
 }
-
-union Liked = Playlist | Video
