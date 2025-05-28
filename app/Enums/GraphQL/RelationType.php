@@ -25,7 +25,7 @@ enum RelationType
     public function getDirective(array $parameters): string
     {
         $args = collect($parameters)
-            ->filter(fn ($value) => !is_null($value) && $value !== '')
+            ->filter(fn ($value) => filled($value))
             ->map(fn ($value, $key) => "$key: $value")
             ->values()
             ->implode(', ');

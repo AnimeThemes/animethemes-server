@@ -31,6 +31,3 @@ input WhereHasConditions {
 #import Wiki/Anime/Theme/*.graphql
 #import Wiki/Song/*.graphql
 #import Wiki/Video/*.graphql
-
-#import Pivot/List/*.graphql
-#import Pivot/Wiki/*.graphql

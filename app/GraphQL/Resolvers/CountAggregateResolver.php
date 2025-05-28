@@ -63,6 +63,6 @@ class CountAggregateResolver
         /** @var Model|null $aggregate */
         $aggregate = $aggregatable->{$relation};
 
-        return (int) $aggregate?->value;
+        return (int) $aggregate?->getAttribute('value');
     }
 }
