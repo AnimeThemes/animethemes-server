@@ -18,17 +18,17 @@ trait ResolvesDirectives
     public function resolveDirectives(array $directives): string
     {
         return collect($directives)
-        ->map(function ($args, $directive) {
-            if (is_array($args) && filled($args)) {
-                $argsString = collect($args)
-                    ->map(fn ($value, $key) => sprintf('%s: %s', $key, json_encode($value)))
-                    ->implode(', ');
+            ->map(function ($args, $directive) {
+                if (is_array($args) && filled($args)) {
+                    $argsString = collect($args)
+                        ->map(fn ($value, $key) => sprintf('%s: %s', $key, json_encode($value)))
+                        ->implode(', ');
 
-                return sprintf('@%s(%s)', $directive, $argsString);
-            }
+                    return sprintf('@%s(%s)', $directive, $argsString);
+                }
 
-            return "@{$directive}";
-        })
-        ->implode(' ');
+                return "@{$directive}";
+            })
+            ->implode(' ');
     }
 }
