@@ -48,7 +48,7 @@ abstract class EnumField extends Field
     public function directives(): array
     {
         return [
-            '@localizedEnum',
+            'localizedEnum' => [],
         ];
     }
 

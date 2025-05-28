@@ -14,6 +14,16 @@ use GraphQL\Type\Definition\Type;
 class LikedUnion extends BaseUnion
 {
     /**
+     * The name of the union type.
+     *
+     * @return string
+     */
+    public function name(): string
+    {
+        return 'Liked';
+    }
+
+    /**
      * The description of the union type.
      *
      * @return string
@@ -26,7 +36,7 @@ class LikedUnion extends BaseUnion
     /**
      * The types that this union can resolve to.
      *
-     * @return array<Type>
+     * @return array<int, Type>
      */
     public function types(): array
     {

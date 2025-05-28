@@ -22,7 +22,7 @@ class ImplodeArrayResolver
      * @param  ResolveInfo  $resolveInfo
      * @return mixed
      */
-    public function resolve(Model $model, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): mixed
+    public function __invoke(Model $model, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): mixed
     {
         return implode('', $model->getAttribute($resolveInfo->fieldName));
     }

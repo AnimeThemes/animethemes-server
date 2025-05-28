@@ -10,6 +10,7 @@ use App\GraphQL\Definition\Fields\Base\IdField;
 use App\GraphQL\Definition\Fields\Base\UpdatedAtField;
 use App\GraphQL\Definition\Fields\Wiki\Video\VideoBasenameField;
 use App\GraphQL\Definition\Fields\Wiki\Video\VideoFilenameField;
+use App\GraphQL\Definition\Fields\Wiki\Video\VideoLikesCountField;
 use App\GraphQL\Definition\Fields\Wiki\Video\VideoLinkField;
 use App\GraphQL\Definition\Fields\Wiki\Video\VideoLyricsField;
 use App\GraphQL\Definition\Fields\Wiki\Video\VideoMimetypeField;
@@ -20,7 +21,9 @@ use App\GraphQL\Definition\Fields\Wiki\Video\VideoResolutionField;
 use App\GraphQL\Definition\Fields\Wiki\Video\VideoSizeField;
 use App\GraphQL\Definition\Fields\Wiki\Video\VideoSourceField;
 use App\GraphQL\Definition\Fields\Wiki\Video\VideoSubbedField;
+use App\GraphQL\Definition\Fields\Wiki\Video\VideoTagsField;
 use App\GraphQL\Definition\Fields\Wiki\Video\VideoUncenField;
+use App\GraphQL\Definition\Fields\Wiki\Video\VideoViewsCountField;
 use App\GraphQL\Definition\Relations\BelongsToManyRelation;
 use App\GraphQL\Definition\Relations\HasOneRelation;
 use App\GraphQL\Definition\Relations\Relation;
@@ -78,7 +81,10 @@ class VideoType extends BaseType
             new VideoSourceField(),
             new VideoSubbedField(),
             new VideoUncenField(),
+            new VideoTagsField(),
             new VideoLinkField(),
+            new VideoLikesCountField(),
+            new VideoViewsCountField(),
             new CreatedAtField(),
             new UpdatedAtField(),
             new DeletedAtField(),

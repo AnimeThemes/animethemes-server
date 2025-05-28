@@ -9,7 +9,11 @@ use App\GraphQL\Definition\Fields\Base\DeletedAtField;
 use App\GraphQL\Definition\Fields\Base\UpdatedAtField;
 use App\GraphQL\Definition\Fields\List\Playlist\PlaylistDescriptionField;
 use App\GraphQL\Definition\Fields\List\Playlist\PlaylistIdField;
+use App\GraphQL\Definition\Fields\List\Playlist\PlaylistLikesCountField;
 use App\GraphQL\Definition\Fields\List\Playlist\PlaylistNameField;
+use App\GraphQL\Definition\Fields\List\Playlist\PlaylistTracksCountField;
+use App\GraphQL\Definition\Fields\List\Playlist\PlaylistTracksExistsField;
+use App\GraphQL\Definition\Fields\List\Playlist\PlaylistViewsCountField;
 use App\GraphQL\Definition\Fields\List\Playlist\PlaylistVisibilityField;
 use App\GraphQL\Definition\Relations\BelongsToManyRelation;
 use App\GraphQL\Definition\Relations\BelongsToRelation;
@@ -64,6 +68,10 @@ class PlaylistType extends BaseType
             new PlaylistNameField(),
             new PlaylistDescriptionField(),
             new PlaylistVisibilityField(),
+            new PlaylistTracksCountField(),
+            new PlaylistTracksExistsField(),
+            new PlaylistLikesCountField(),
+            new PlaylistViewsCountField(),
             new CreatedAtField(),
             new UpdatedAtField(),
             new DeletedAtField(),

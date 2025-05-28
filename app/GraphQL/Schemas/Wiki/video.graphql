@@ -1,12 +1,3 @@
-type Video {
-    "The attributes used to distinguish the file within the context of a theme"
-    tags: String @field(resolver: "App\\GraphQL\\Resolvers\\ImplodeArrayResolver@resolve")
-    "The number of likes recorded for the resource"
-    likesCount: Int! @with(relation: "likeAggregate") @field(resolver: "App\\GraphQL\\Resolvers\\LikesCountResolver@resolve")
-    "The number of views recorded for the resource"
-    viewsCount: Int! @with(relation: "viewAggregate") @field(resolver: "App\\GraphQL\\Resolvers\\ViewsCountResolver@resolve")
-}
-
 "Default edge to use in simple belongs to many relationships"
 type VideoEdge {
     node: Video!
@@ -37,6 +28,7 @@ enum VideoColumnsOrderable {
 extend type Query {
     "Returns a listing of video resources given fields."
     videos(
+        id: Int @eq(key: "video_id")
         filename: String @eq
         isLyrics: Boolean @eq
         isNc: Boolean @eq

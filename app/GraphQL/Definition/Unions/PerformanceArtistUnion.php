@@ -26,7 +26,7 @@ class PerformanceArtistUnion extends BaseUnion
     /**
      * The types that this union can resolve to.
      *
-     * @return array<Type>
+     * @return array<int, Type>
      */
     public function types(): array
     {

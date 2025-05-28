@@ -14,6 +14,7 @@ use App\GraphQL\Definition\Fields\Wiki\Audio\AudioLinkField;
 use App\GraphQL\Definition\Fields\Wiki\Audio\AudioMimetypeField;
 use App\GraphQL\Definition\Fields\Wiki\Audio\AudioPathField;
 use App\GraphQL\Definition\Fields\Wiki\Audio\AudioSizeField;
+use App\GraphQL\Definition\Fields\Wiki\Audio\AudioViewsCountField;
 use App\GraphQL\Definition\Relations\HasManyRelation;
 use App\GraphQL\Definition\Relations\Relation;
 use App\GraphQL\Definition\Types\BaseType;
@@ -61,6 +62,7 @@ class AudioType extends BaseType
             new AudioSizeField(),
             new AudioPathField(),
             new AudioLinkField(),
+            new AudioViewsCountField(),
             new CreatedAtField(),
             new UpdatedAtField(),
             new DeletedAtField(),

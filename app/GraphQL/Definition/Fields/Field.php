@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Fields;
 
+use App\Concerns\GraphQL\ResolvesDirectives;
 use GraphQL\Type\Definition\Type;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
@@ -13,6 +14,8 @@ use Illuminate\Support\Str;
  */
 abstract class Field
 {
+    use ResolvesDirectives;
+
     /**
      * Create a new Field instance.
      *
@@ -105,7 +108,7 @@ abstract class Field
         }
 
         if (filled($this->directives())) {
-            $string = $string->append(' '.implode(' ', $this->directives()));
+            $string = $string->append(' '.$this->resolveDirectives($this->directives()));
         }
 
         return $string->__toString();
