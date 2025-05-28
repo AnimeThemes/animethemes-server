@@ -7,13 +7,6 @@ type AnimeEdge {
     updatedAt: DateTimeTz @field(resolver: "App\\GraphQL\\Resolvers\\PivotResolver@resolve")
 }
 
-type AnimeYear {
-    winter: [Anime]
-    spring: [Anime]
-    summer: [Anime]
-    fall: [Anime]
-}
-
 enum AnimeColumnsOrderable {
     ID @enum(value: "anime_id")
     NAME
