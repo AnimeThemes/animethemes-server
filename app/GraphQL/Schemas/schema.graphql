@@ -8,17 +8,6 @@ type Query @middleware(class: "App\\GraphQL\\Middleware\\MaxCount") {
     @field(resolver: "App\\GraphQL\\Queries\\Search")
 }
 
-type Search {
-    anime: [Anime!]!
-    artists: [Artist!]!
-    animethemes: [AnimeTheme!]!
-    playlists: [Playlist!]!
-    series: [Series!]!
-    songs: [Song!]!
-    studios: [Studio!]!
-    videos: [Video!]!
-}
-
 type MessageResponse {
     message: String
 }
