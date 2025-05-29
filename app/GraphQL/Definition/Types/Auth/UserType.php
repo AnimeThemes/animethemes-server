@@ -10,14 +10,14 @@ use App\GraphQL\Definition\Fields\Base\IdField;
 use App\GraphQL\Definition\Fields\Base\UpdatedAtField;
 use App\GraphQL\Definition\Relations\HasManyRelation;
 use App\GraphQL\Definition\Relations\Relation;
-use App\GraphQL\Definition\Types\BaseType;
+use App\GraphQL\Definition\Types\EloquentType;
 use App\GraphQL\Definition\Types\List\PlaylistType;
 use App\Models\Auth\User;
 
 /**
  * Class UserType.
  */
-class UserType extends BaseType
+class UserType extends EloquentType
 {
     /**
      * The description of the type.

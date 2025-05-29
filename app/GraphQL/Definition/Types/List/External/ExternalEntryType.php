@@ -12,7 +12,7 @@ use App\GraphQL\Definition\Fields\List\ExternalProfile\ExternalEntry\ExternalEnt
 use App\GraphQL\Definition\Fields\List\ExternalProfile\ExternalEntry\ExternalEntryWatchStatusField;
 use App\GraphQL\Definition\Relations\BelongsToRelation;
 use App\GraphQL\Definition\Relations\Relation;
-use App\GraphQL\Definition\Types\BaseType;
+use App\GraphQL\Definition\Types\EloquentType;
 use App\GraphQL\Definition\Types\List\ExternalProfileType;
 use App\GraphQL\Definition\Types\Wiki\AnimeType;
 use App\Models\List\External\ExternalEntry;
@@ -20,7 +20,7 @@ use App\Models\List\External\ExternalEntry;
 /**
  * Class ExternalEntryType.
  */
-class ExternalEntryType extends BaseType
+class ExternalEntryType extends EloquentType
 {
     /**
      * The description of the type.

@@ -17,13 +17,13 @@ use App\GraphQL\Definition\Fields\Wiki\Audio\AudioSizeField;
 use App\GraphQL\Definition\Fields\Wiki\Audio\AudioViewsCountField;
 use App\GraphQL\Definition\Relations\HasManyRelation;
 use App\GraphQL\Definition\Relations\Relation;
-use App\GraphQL\Definition\Types\BaseType;
+use App\GraphQL\Definition\Types\EloquentType;
 use App\Models\Wiki\Audio;
 
 /**
  * Class AudioType.
  */
-class AudioType extends BaseType
+class AudioType extends EloquentType
 {
     /**
      * The description of the type.

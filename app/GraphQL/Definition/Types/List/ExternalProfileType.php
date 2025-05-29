@@ -15,14 +15,14 @@ use App\GraphQL\Definition\Relations\BelongsToRelation;
 use App\GraphQL\Definition\Relations\HasManyRelation;
 use App\GraphQL\Definition\Relations\Relation;
 use App\GraphQL\Definition\Types\Auth\UserType;
-use App\GraphQL\Definition\Types\BaseType;
+use App\GraphQL\Definition\Types\EloquentType;
 use App\GraphQL\Definition\Types\List\External\ExternalEntryType;
 use App\Models\List\ExternalProfile;
 
 /**
  * Class ExternalProfileType.
  */
-class ExternalProfileType extends BaseType
+class ExternalProfileType extends EloquentType
 {
     /**
      * The description of the type.

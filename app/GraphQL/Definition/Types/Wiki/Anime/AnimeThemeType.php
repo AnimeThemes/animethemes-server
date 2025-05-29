@@ -8,13 +8,13 @@ use App\GraphQL\Definition\Fields\Base\CreatedAtField;
 use App\GraphQL\Definition\Fields\Base\DeletedAtField;
 use App\GraphQL\Definition\Fields\Base\IdField;
 use App\GraphQL\Definition\Fields\Base\UpdatedAtField;
-use App\GraphQL\Definition\Fields\Wiki\Anime\AnimeTheme\AnimeThemeSequenceField;
-use App\GraphQL\Definition\Fields\Wiki\Anime\AnimeTheme\AnimeThemeTypeField;
+use App\GraphQL\Definition\Fields\Wiki\Anime\Theme\AnimeThemeSequenceField;
+use App\GraphQL\Definition\Fields\Wiki\Anime\Theme\AnimeThemeTypeField;
 use App\GraphQL\Definition\Relations\BelongsToRelation;
 use App\GraphQL\Definition\Relations\HasManyRelation;
 use App\GraphQL\Definition\Relations\Relation;
-use App\GraphQL\Definition\Types\BaseType;
-use App\GraphQL\Definition\Types\Wiki\Anime\AnimeTheme\AnimeThemeEntryType;
+use App\GraphQL\Definition\Types\EloquentType;
+use App\GraphQL\Definition\Types\Wiki\Anime\Theme\AnimeThemeEntryType;
 use App\GraphQL\Definition\Types\Wiki\AnimeType;
 use App\GraphQL\Definition\Types\Wiki\SongType;
 use App\GraphQL\Definition\Types\Wiki\ThemeGroupType;
@@ -23,7 +23,7 @@ use App\Models\Wiki\Anime\AnimeTheme;
 /**
  * Class AnimeThemeType.
  */
-class AnimeThemeType extends BaseType
+class AnimeThemeType extends EloquentType
 {
     /**
      * The description of the type.

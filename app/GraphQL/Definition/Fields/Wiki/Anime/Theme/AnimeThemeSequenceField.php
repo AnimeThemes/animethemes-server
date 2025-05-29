@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\GraphQL\Definition\Fields\Wiki\Anime\AnimeTheme;
+namespace App\GraphQL\Definition\Fields\Wiki\Anime\Theme;
 
 use App\GraphQL\Definition\Fields\IntField;
 use App\Models\Wiki\Anime\AnimeTheme;

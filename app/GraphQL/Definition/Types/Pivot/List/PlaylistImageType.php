@@ -8,15 +8,15 @@ use App\GraphQL\Definition\Fields\Base\CreatedAtField;
 use App\GraphQL\Definition\Fields\Base\UpdatedAtField;
 use App\GraphQL\Definition\Relations\BelongsToRelation;
 use App\GraphQL\Definition\Relations\Relation;
-use App\GraphQL\Definition\Types\BaseType;
 use App\GraphQL\Definition\Types\List\PlaylistType;
+use App\GraphQL\Definition\Types\Pivot\PivotType;
 use App\GraphQL\Definition\Types\Wiki\ImageType;
 use App\Pivots\List\PlaylistImage;
 
 /**
  * Class PlaylistImageType.
  */
-class PlaylistImageType extends BaseType
+class PlaylistImageType extends PivotType
 {
     /**
      * The description of the type.

@@ -9,7 +9,7 @@ use App\GraphQL\Definition\Fields\Base\UpdatedAtField;
 use App\GraphQL\Definition\Fields\Pivot\Wiki\ArtistImage\ArtistImageDepthField;
 use App\GraphQL\Definition\Relations\BelongsToRelation;
 use App\GraphQL\Definition\Relations\Relation;
-use App\GraphQL\Definition\Types\BaseType;
+use App\GraphQL\Definition\Types\Pivot\PivotType;
 use App\GraphQL\Definition\Types\Wiki\ArtistType;
 use App\GraphQL\Definition\Types\Wiki\ImageType;
 use App\Pivots\Wiki\ArtistImage;
@@ -17,7 +17,7 @@ use App\Pivots\Wiki\ArtistImage;
 /**
  * Class ArtistImageType.
  */
-class ArtistImageType extends BaseType
+class ArtistImageType extends PivotType
 {
     /**
      * The description of the type.

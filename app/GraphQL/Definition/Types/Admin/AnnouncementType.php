@@ -9,13 +9,13 @@ use App\GraphQL\Definition\Fields\Base\CreatedAtField;
 use App\GraphQL\Definition\Fields\Base\DeletedAtField;
 use App\GraphQL\Definition\Fields\Base\IdField;
 use App\GraphQL\Definition\Fields\Base\UpdatedAtField;
-use App\GraphQL\Definition\Types\BaseType;
+use App\GraphQL\Definition\Types\EloquentType;
 use App\Models\Admin\Announcement;
 
 /**
  * Class AnnouncementType.
  */
-class AnnouncementType extends BaseType
+class AnnouncementType extends EloquentType
 {
     /**
      * The description of the type.

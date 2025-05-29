@@ -15,16 +15,17 @@ use App\GraphQL\Definition\Relations\BelongsToManyRelation;
 use App\GraphQL\Definition\Relations\HasManyRelation;
 use App\GraphQL\Definition\Relations\MorphManyRelation;
 use App\GraphQL\Definition\Relations\Relation;
-use App\GraphQL\Definition\Types\BaseType;
+use App\GraphQL\Definition\Types\EloquentType;
 use App\GraphQL\Definition\Types\List\PlaylistType;
 use App\GraphQL\Definition\Types\User\NotificationType;
 use App\GraphQL\Definition\Types\Wiki\VideoType;
 use App\Models\Auth\User;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class MeType.
  */
-class MeType extends BaseType
+class MeType extends EloquentType
 {
     /**
      * The description of the type.
@@ -67,5 +68,15 @@ class MeType extends BaseType
             new CreatedAtField(),
             new UpdatedAtField(),
         ];
+    }
+
+    /**
+     * Get the model string representation for the type.
+     *
+     * @return class-string<Model>
+     */
+    public function model(): string
+    {
+        return User::class;
     }
 }

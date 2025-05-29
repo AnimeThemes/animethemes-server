@@ -12,7 +12,7 @@ use App\GraphQL\Definition\Fields\Wiki\Song\SongTitleField;
 use App\GraphQL\Definition\Relations\BelongsToManyRelation;
 use App\GraphQL\Definition\Relations\HasManyRelation;
 use App\GraphQL\Definition\Relations\Relation;
-use App\GraphQL\Definition\Types\BaseType;
+use App\GraphQL\Definition\Types\EloquentType;
 use App\GraphQL\Definition\Types\Wiki\Anime\AnimeThemeType;
 use App\GraphQL\Definition\Types\Wiki\Song\PerformanceType;
 use App\Models\Wiki\Song;
@@ -20,7 +20,7 @@ use App\Models\Wiki\Song;
 /**
  * Class SongType.
  */
-class SongType extends BaseType
+class SongType extends EloquentType
 {
     /**
      * The description of the type.

@@ -13,13 +13,13 @@ use App\GraphQL\Definition\Fields\Wiki\Image\ImageLinkField;
 use App\GraphQL\Definition\Fields\Wiki\Image\ImagePathField;
 use App\GraphQL\Definition\Relations\BelongsToManyRelation;
 use App\GraphQL\Definition\Relations\Relation;
-use App\GraphQL\Definition\Types\BaseType;
+use App\GraphQL\Definition\Types\EloquentType;
 use App\Models\Wiki\Image;
 
 /**
  * Class ImageType.
  */
-class ImageType extends BaseType
+class ImageType extends EloquentType
 {
     /**
      * The description of the type.

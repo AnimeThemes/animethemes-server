@@ -9,13 +9,13 @@ use App\GraphQL\Definition\Fields\Admin\Feature\FeatureValueField;
 use App\GraphQL\Definition\Fields\Base\CreatedAtField;
 use App\GraphQL\Definition\Fields\Base\IdField;
 use App\GraphQL\Definition\Fields\Base\UpdatedAtField;
-use App\GraphQL\Definition\Types\BaseType;
+use App\GraphQL\Definition\Types\EloquentType;
 use App\Models\Admin\Feature;
 
 /**
  * Class FeatureType.
  */
-class FeatureType extends BaseType
+class FeatureType extends EloquentType
 {
     /**
      * The description of the type.

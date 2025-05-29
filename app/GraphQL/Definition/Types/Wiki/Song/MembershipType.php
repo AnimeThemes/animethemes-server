@@ -13,14 +13,14 @@ use App\GraphQL\Definition\Fields\Wiki\Song\Membership\MembershipAsField;
 use App\GraphQL\Definition\Relations\BelongsToRelation;
 use App\GraphQL\Definition\Relations\MorphManyRelation;
 use App\GraphQL\Definition\Relations\Relation;
-use App\GraphQL\Definition\Types\BaseType;
+use App\GraphQL\Definition\Types\EloquentType;
 use App\GraphQL\Definition\Types\Wiki\ArtistType;
 use App\Models\Wiki\Song\Membership;
 
 /**
  * Class MembershipType.
  */
-class MembershipType extends BaseType
+class MembershipType extends EloquentType
 {
     /**
      * The description of the type.

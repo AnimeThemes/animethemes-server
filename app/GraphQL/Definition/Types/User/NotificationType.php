@@ -9,13 +9,13 @@ use App\GraphQL\Definition\Fields\User\Notification\NotificationReadAtField;
 use App\GraphQL\Definition\Relations\MorphToRelation;
 use App\GraphQL\Definition\Relations\Relation;
 use App\GraphQL\Definition\Types\Auth\UserType;
-use App\GraphQL\Definition\Types\BaseType;
+use App\GraphQL\Definition\Types\EloquentType;
 use App\Models\User\Notification;
 
 /**
  * Class NotificationType.
  */
-class NotificationType extends BaseType
+class NotificationType extends EloquentType
 {
     /**
      * The description of the type.

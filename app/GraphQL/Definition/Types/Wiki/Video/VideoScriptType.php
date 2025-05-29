@@ -12,14 +12,14 @@ use App\GraphQL\Definition\Fields\Wiki\Video\VideoScript\VideoScriptLinkField;
 use App\GraphQL\Definition\Fields\Wiki\Video\VideoScript\VideoScriptPathField;
 use App\GraphQL\Definition\Relations\HasOneRelation;
 use App\GraphQL\Definition\Relations\Relation;
-use App\GraphQL\Definition\Types\BaseType;
+use App\GraphQL\Definition\Types\EloquentType;
 use App\GraphQL\Definition\Types\Wiki\VideoType;
 use App\Models\Wiki\Video\VideoScript;
 
 /**
  * Class VideoScriptType.
  */
-class VideoScriptType extends BaseType
+class VideoScriptType extends EloquentType
 {
     /**
      * The description of the type.

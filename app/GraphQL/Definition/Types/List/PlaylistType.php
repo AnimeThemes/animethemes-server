@@ -20,7 +20,7 @@ use App\GraphQL\Definition\Relations\BelongsToRelation;
 use App\GraphQL\Definition\Relations\HasManyRelation;
 use App\GraphQL\Definition\Relations\Relation;
 use App\GraphQL\Definition\Types\Auth\UserType;
-use App\GraphQL\Definition\Types\BaseType;
+use App\GraphQL\Definition\Types\EloquentType;
 use App\GraphQL\Definition\Types\List\Playlist\PlaylistTrackType;
 use App\GraphQL\Definition\Types\Wiki\ImageType;
 use App\Models\List\Playlist;
@@ -28,7 +28,7 @@ use App\Models\List\Playlist;
 /**
  * Class PlaylistType.
  */
-class PlaylistType extends BaseType
+class PlaylistType extends EloquentType
 {
     /**
      * The description of the type.

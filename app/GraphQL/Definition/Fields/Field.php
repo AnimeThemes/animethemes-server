@@ -41,6 +41,16 @@ abstract class Field
     }
 
     /**
+     * Get the column of the field.
+     *
+     * @return string
+     */
+    public function getColumn(): string
+    {
+        return $this->column;
+    }
+
+    /**
      * The description of the field.
      *
      * @return string

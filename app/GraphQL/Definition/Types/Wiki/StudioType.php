@@ -12,13 +12,13 @@ use App\GraphQL\Definition\Fields\Wiki\Studio\StudioNameField;
 use App\GraphQL\Definition\Fields\Wiki\Studio\StudioSlugField;
 use App\GraphQL\Definition\Relations\BelongsToManyRelation;
 use App\GraphQL\Definition\Relations\Relation;
-use App\GraphQL\Definition\Types\BaseType;
+use App\GraphQL\Definition\Types\EloquentType;
 use App\Models\Wiki\Studio;
 
 /**
  * Class StudioType.
  */
-class StudioType extends BaseType
+class StudioType extends EloquentType
 {
     /**
      * The description of the type.

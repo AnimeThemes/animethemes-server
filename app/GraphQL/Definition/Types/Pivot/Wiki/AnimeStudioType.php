@@ -8,7 +8,7 @@ use App\GraphQL\Definition\Fields\Base\CreatedAtField;
 use App\GraphQL\Definition\Fields\Base\UpdatedAtField;
 use App\GraphQL\Definition\Relations\BelongsToRelation;
 use App\GraphQL\Definition\Relations\Relation;
-use App\GraphQL\Definition\Types\BaseType;
+use App\GraphQL\Definition\Types\Pivot\PivotType;
 use App\GraphQL\Definition\Types\Wiki\AnimeType;
 use App\GraphQL\Definition\Types\Wiki\StudioType;
 use App\Pivots\Wiki\AnimeStudio;
@@ -16,7 +16,7 @@ use App\Pivots\Wiki\AnimeStudio;
 /**
  * Class AnimeStudioType.
  */
-class AnimeStudioType extends BaseType
+class AnimeStudioType extends PivotType
 {
     /**
      * The description of the type.
