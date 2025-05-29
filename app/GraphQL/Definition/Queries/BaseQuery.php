@@ -7,10 +7,8 @@ namespace App\GraphQL\Definition\Queries;
 use App\Concerns\GraphQL\ResolvesDirectives;
 use App\Contracts\GraphQL\FilterableField;
 use App\GraphQL\Definition\Fields\Field;
-use App\GraphQL\Definition\Queries\Wiki\Anime\AnimeYearsQuery;
 use App\GraphQL\Definition\Types\BaseType;
 use GraphQL\Type\Definition\Type;
-use Illuminate\Support\Facades\Log;
 
 /**
  * Class BaseQuery.
@@ -43,14 +41,6 @@ abstract class BaseQuery
         $argumentsString = filled($this->arguments())
             ? '('.implode("\n                ", $this->arguments()).')'
             : '';
-
-        if ($this instanceof AnimeYearsQuery) {
-            Log::info("
-            \"\"\"{$this->description()}\"\"\"
-            {$this->name}{$argumentsString}: {$this->getType()->toString()} {$directives}
-            ");
-        }
-
 
         return "
             \"\"\"{$this->description()}\"\"\"
