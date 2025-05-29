@@ -111,7 +111,7 @@ abstract class BaseType extends ObjectType
     /**
      * The directives of the type.
      *
-     * @return array
+     * @return array<string, array>
      */
     public function directives(): array
     {

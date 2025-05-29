@@ -49,6 +49,7 @@ class GraphqlServiceProvider extends ServiceProvider
         $typeRegistry->register(new DateTimeTz());
 
         $this->bootTypes();
+        $this->bootQueries();
     }
 
     /**
@@ -108,7 +109,7 @@ class GraphqlServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register the types that was made programmatically.
+     * Register the types that were made programmatically.
      *
      * @return void
      */
@@ -146,6 +147,56 @@ class GraphqlServiceProvider extends ServiceProvider
                     BuildSchemaString::class,
                     fn (): string => $class->mount()
                 );
+            }
+        }
+    }
+
+    /**
+     * Register the queries that were made programmatically.
+     *
+     * @return void
+     */
+    protected function bootQueries(): void
+    {
+        $dispatcher = app(Dispatcher::class);
+
+        $paths = [
+            app_path('GraphQL/Definition/Queries'),
+        ];
+
+        $queries = [];
+
+        foreach ($paths as $path) {
+            $files = File::allFiles($path);
+
+            foreach ($files as $file) {
+                $relativePath = Str::after($file->getPathname(), app_path() . DIRECTORY_SEPARATOR);
+                $class = str_replace(['/', '.php'], ['\\', ''], $relativePath);
+                $fullClass = 'App\\' . $class;
+
+                if (!class_exists($fullClass)) {
+                    continue;
+                }
+
+                $reflection = new ReflectionClass($fullClass);
+
+                if (!$reflection->isInstantiable()) {
+                    continue;
+                }
+
+                /** @var BaseType|BaseUnion $class */
+                $class = new $fullClass;
+
+                $dispatcher->listen(
+                    BuildSchemaString::class,
+                    fn (): string => "
+                        extend type Query {
+                            {$class->mount()}
+                        }
+                    "
+                );
+
+                $queries[] = $class->mount();
             }
         }
     }

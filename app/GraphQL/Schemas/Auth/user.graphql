@@ -1,4 +1,0 @@
-extend type Query {
-    "Returns the data of the currently authenticated user."
-    me: Me @auth
-}

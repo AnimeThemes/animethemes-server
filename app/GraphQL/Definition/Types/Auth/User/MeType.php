@@ -71,6 +71,22 @@ class MeType extends EloquentType
     }
 
     /**
+     * The directives of the type.
+     *
+     * @return array<string, array>
+     */
+    public function directives(): array
+    {
+        return [
+            ...parent::directives(),
+
+            'model' => [
+                'class' => $this->model(),
+            ],
+        ];
+    }
+
+    /**
      * Get the model string representation for the type.
      *
      * @return class-string<Model>

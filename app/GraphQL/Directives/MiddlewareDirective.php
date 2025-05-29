@@ -22,7 +22,7 @@ class MiddlewareDirective extends BaseDirective implements TypeMiddleware
     public static function definition(): string
     {
         return /** @lang GraphQL */ <<<'GRAPHQL'
-        directive @middleware(class: String!) on OBJECT
+        directive @middleware(class: String!) on OBJECT | ARGUMENT_DEFINITION
         GRAPHQL;
     }
 

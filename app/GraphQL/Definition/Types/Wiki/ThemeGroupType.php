@@ -15,6 +15,7 @@ use App\GraphQL\Definition\Relations\Relation;
 use App\GraphQL\Definition\Types\EloquentType;
 use App\GraphQL\Definition\Types\Wiki\Anime\AnimeThemeType;
 use App\Models\Wiki\Group;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class ThemeGroupType.
@@ -46,7 +47,7 @@ class ThemeGroupType extends EloquentType
     /**
      * The directives of the type.
      *
-     * @return array
+     * @return array<string, array>
      */
     public function directives(): array
     {
