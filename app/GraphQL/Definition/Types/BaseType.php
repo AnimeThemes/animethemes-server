@@ -62,7 +62,7 @@ abstract class BaseType extends ObjectType
             ->append($relations)
             ->toString();
 
-        $directives = filled($this->directives()) ? $this->resolveDirectives($this->directives()) : '';
+        $directives = $this->resolveDirectives($this->directives());
 
         return "
             \"\"\"{$this->description()}\"\"\"

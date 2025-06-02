@@ -8,9 +8,9 @@ use Closure;
 use Illuminate\Http\Request;
 
 /**
- * Class GraphqlLocalhost.
+ * Class GraphQLLocalhost.
  */
-class GraphqlLocalhost
+class GraphQLLocalhost
 {
     /**
      * Handle an incoming request.

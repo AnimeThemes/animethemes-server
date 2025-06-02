@@ -23,13 +23,13 @@ abstract class Filter
     /**
      * Get the arguments available for a field.
      *
-     * @return string
+     * @return array
      */
-    public function toString(): string
+    public function toArray(): array
     {
         return collect($this->directives())
             ->map(fn (FilterDirective $directive) => $directive->toString())
-            ->implode("\n                ");
+            ->toArray();
     }
 
     /**

@@ -32,9 +32,9 @@ use RecursiveIteratorIterator;
 use ReflectionClass;
 
 /**
- * Class GraphqlServiceProvider.
+ * Class GraphQLServiceProvider.
  */
-class GraphqlServiceProvider extends ServiceProvider
+class GraphQLServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap any application services.

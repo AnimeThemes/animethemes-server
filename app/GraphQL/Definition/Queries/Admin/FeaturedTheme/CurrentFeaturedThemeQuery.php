@@ -26,7 +26,7 @@ class CurrentFeaturedThemeQuery extends BaseQuery
      */
     public function description(): string
     {
-        return 'Returns the first featured theme where the current date is between start_at and end_at dates..';
+        return 'Returns the first featured theme where the current date is between start_at and end_at dates.';
     }
 
     /**

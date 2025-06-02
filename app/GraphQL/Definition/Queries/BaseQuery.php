@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Queries;
 
+use App\Concerns\GraphQL\ResolvesArguments;
 use App\Concerns\GraphQL\ResolvesDirectives;
-use App\Contracts\GraphQL\FilterableField;
-use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Definition\Types\BaseType;
 use GraphQL\Type\Definition\Type;
 
@@ -15,6 +14,7 @@ use GraphQL\Type\Definition\Type;
  */
 abstract class BaseQuery
 {
+    use ResolvesArguments;
     use ResolvesDirectives;
 
     /**
@@ -36,11 +36,9 @@ abstract class BaseQuery
      */
     public function mount(): string
     {
-        $directives = filled($this->directives()) ? $this->resolveDirectives($this->directives()) : '';
+        $directives = $this->resolveDirectives($this->directives());
 
-        $argumentsString = filled($this->arguments())
-            ? '('.implode("\n                ", $this->arguments()).')'
-            : '';
+        $argumentsString = $this->buildArguments($this->arguments());
 
         return "
             \"\"\"{$this->description()}\"\"\"
@@ -74,19 +72,14 @@ abstract class BaseQuery
      */
     public function arguments(): array
     {
+        $arguments = [];
         $baseType = $this->baseType();
 
         if ($baseType instanceof BaseType && filled($baseType->fields())) {
-            return collect($baseType->fields())
-                ->map(function (Field $field) {
-                    if ($field instanceof FilterableField) {
-                        return $field->getFilter()->toString();
-                    }
-                })
-                ->toArray();
+            $arguments[] = $this->resolveFilterArguments($baseType->fields());
         }
 
-        return [];
+        return $arguments;
     }
 
     /**
