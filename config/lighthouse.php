@@ -38,7 +38,13 @@ return [
             'throttle:graphql',
 
             // GraphQL is enabled for localhost requests.
-            App\GraphQL\Middleware\GraphqlLocalhost::class,
+            App\GraphQL\Middleware\GraphQLLocalhost::class,
+
+            // GraphQL needs to have their own policies.
+            App\GraphQL\Middleware\GraphQLPolicy::class,
+
+            // Allow client to get full database.
+            App\GraphQL\Middleware\MaxCount::class,
 
             // Ensures the request is not vulnerable to cross-site request forgery.
             Nuwave\Lighthouse\Http\Middleware\EnsureXHR::class,
@@ -50,8 +56,8 @@ return [
             // middleware, this delegates auth and permission checks to the field level.
             Nuwave\Lighthouse\Http\Middleware\AttemptAuthentication::class,
 
-            // GraphQL needs to have their own policies.
-            App\GraphQL\Middleware\GraphQLPolicy::class,
+            // Logs GraphQL Requests.
+            App\Http\Middleware\LogRequest::class,
 
             // Logs every incoming GraphQL query.
             // Nuwave\Lighthouse\Http\Middleware\LogGraphQLQueries::class,

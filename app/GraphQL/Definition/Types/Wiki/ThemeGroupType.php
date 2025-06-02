@@ -12,14 +12,15 @@ use App\GraphQL\Definition\Fields\Wiki\ThemeGroup\ThemeGroupNameField;
 use App\GraphQL\Definition\Fields\Wiki\ThemeGroup\ThemeGroupSlugField;
 use App\GraphQL\Definition\Relations\HasManyRelation;
 use App\GraphQL\Definition\Relations\Relation;
-use App\GraphQL\Definition\Types\BaseType;
+use App\GraphQL\Definition\Types\EloquentType;
 use App\GraphQL\Definition\Types\Wiki\Anime\AnimeThemeType;
 use App\Models\Wiki\Group;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class ThemeGroupType.
  */
-class ThemeGroupType extends BaseType
+class ThemeGroupType extends EloquentType
 {
     /**
      * The description of the type.
@@ -46,7 +47,7 @@ class ThemeGroupType extends BaseType
     /**
      * The directives of the type.
      *
-     * @return array
+     * @return array<string, array>
      */
     public function directives(): array
     {
@@ -72,5 +73,15 @@ class ThemeGroupType extends BaseType
             new UpdatedAtField(),
             new DeletedAtField(),
         ];
+    }
+
+    /**
+     * Get the model string representation for the type.
+     *
+     * @return class-string<Model>
+     */
+    public function model(): string
+    {
+        return Group::class;
     }
 }

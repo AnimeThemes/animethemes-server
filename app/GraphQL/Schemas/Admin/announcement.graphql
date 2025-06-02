@@ -5,19 +5,3 @@ enum AnnouncementColumnsOrderable {
     UPDATED_AT
     DELETED_AT
 }
-
-extend type Query {
-    "Returns a listing of announcement resources."
-    announcements(
-        createdAt_lesser: DateTimeTz @where(key: "created_at", operator: "<")
-        createdAt_greater: DateTimeTz @where(key: "created_at", operator: ">")
-        updatedAt_lesser: DateTimeTz @where(key: "updated_at", operator: "<")
-        updatedAt_greater: DateTimeTz @where(key: "updated_at", operator: ">")
-        deletedAt_lesser: DateTimeTz @where(key: "deleted_at", operator: "<")
-        deletedAt_greater: DateTimeTz @where(key: "deleted_at", operator: ">")
-        orderBy: _ @orderBy(columnsEnum: "AnnouncementColumnsOrderable")
-    ): [Announcement!]!
-    @canModel(ability: "viewAny", injectArgs: true)
-    @softDeletes
-    @paginate
-}

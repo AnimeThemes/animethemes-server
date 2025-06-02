@@ -9,13 +9,13 @@ use App\GraphQL\Definition\Fields\Auth\Permission\PermissionNameField;
 use App\GraphQL\Definition\Fields\Base\CreatedAtField;
 use App\GraphQL\Definition\Fields\Base\IdField;
 use App\GraphQL\Definition\Fields\Base\UpdatedAtField;
-use App\GraphQL\Definition\Types\BaseType;
+use App\GraphQL\Definition\Types\EloquentType;
 use App\Models\Auth\Permission;
 
 /**
  * Class PermissionType.
  */
-class PermissionType extends BaseType
+class PermissionType extends EloquentType
 {
     /**
      * The description of the type.

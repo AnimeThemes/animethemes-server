@@ -14,7 +14,7 @@ use App\GraphQL\Definition\Fields\Wiki\Song\Performance\PerformanceAsField;
 use App\GraphQL\Definition\Relations\BelongsToRelation;
 use App\GraphQL\Definition\Relations\MorphToRelation;
 use App\GraphQL\Definition\Relations\Relation;
-use App\GraphQL\Definition\Types\BaseType;
+use App\GraphQL\Definition\Types\EloquentType;
 use App\GraphQL\Definition\Types\Wiki\SongType;
 use App\GraphQL\Definition\Unions\PerformanceArtistUnion;
 use App\Models\Wiki\Song\Performance;
@@ -22,7 +22,7 @@ use App\Models\Wiki\Song\Performance;
 /**
  * Class PerformanceType.
  */
-class PerformanceType extends BaseType
+class PerformanceType extends EloquentType
 {
     /**
      * The description of the type.

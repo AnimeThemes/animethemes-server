@@ -7,21 +7,8 @@ enum PerformanceColumnsOrderable {
     DELETED_AT
 }
 
-extend type Query {
-    "Returns a listing of performance resources given fields."
-    performances(
-        alias: String @eq
-        as: String @eq
-        hasSong: [WhereHasConditions!] @whereHasConditions(relation: "song", columns: ["title"])
-        createdAt_lesser: DateTimeTz @where(key: "created_at", operator: "<")
-        createdAt_greater: DateTimeTz @where(key: "created_at", operator: ">")
-        updatedAt_lesser: DateTimeTz @where(key: "updated_at", operator: "<")
-        updatedAt_greater: DateTimeTz @where(key: "updated_at", operator: ">")
-        deletedAt_lesser: DateTimeTz @where(key: "deleted_at", operator: "<")
-        deletedAt_greater: DateTimeTz @where(key: "deleted_at", operator: ">")
-        orderBy: _ @orderBy(columnsEnum: "PerformanceColumnsOrderable")
-    ): [Performance!]!
-    @canModel(ability: "viewAny", injectArgs: true)
-    @softDeletes
-    @paginate
-}
+# extend type Query {
+#     performances(
+#         hasSong: [WhereHasConditions!] @whereHasConditions(relation: "song", columns: ["title"])
+#     ): [Performance!]!
+# }

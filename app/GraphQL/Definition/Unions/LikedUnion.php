@@ -30,7 +30,7 @@ class LikedUnion extends BaseUnion
      */
     public function description(): string
     {
-        return 'Represents the resource type performing';
+        return 'Represents the resources that can be liked';
     }
 
     /**

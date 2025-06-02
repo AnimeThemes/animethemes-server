@@ -9,7 +9,7 @@ use App\GraphQL\Definition\Fields\Base\UpdatedAtField;
 use App\GraphQL\Definition\Relations\BelongsToRelation;
 use App\GraphQL\Definition\Relations\Relation;
 use App\GraphQL\Definition\Types\BaseType;
-use App\GraphQL\Definition\Types\Wiki\Anime\AnimeTheme\AnimeThemeEntryType;
+use App\GraphQL\Definition\Types\Wiki\Anime\Theme\AnimeThemeEntryType;
 use App\GraphQL\Definition\Types\Wiki\VideoType;
 use App\Pivots\Wiki\AnimeThemeEntryVideo;
 

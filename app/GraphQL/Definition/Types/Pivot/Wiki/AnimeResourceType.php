@@ -9,7 +9,7 @@ use App\GraphQL\Definition\Fields\Base\UpdatedAtField;
 use App\GraphQL\Definition\Fields\Pivot\Wiki\AnimeResource\AnimeResourceAsField;
 use App\GraphQL\Definition\Relations\BelongsToRelation;
 use App\GraphQL\Definition\Relations\Relation;
-use App\GraphQL\Definition\Types\BaseType;
+use App\GraphQL\Definition\Types\Pivot\PivotType;
 use App\GraphQL\Definition\Types\Wiki\AnimeType;
 use App\GraphQL\Definition\Types\Wiki\ExternalResourceType;
 use App\Pivots\Wiki\AnimeResource;
@@ -17,7 +17,7 @@ use App\Pivots\Wiki\AnimeResource;
 /**
  * Class AnimeResourceType.
  */
-class AnimeResourceType extends BaseType
+class AnimeResourceType extends PivotType
 {
     /**
      * The description of the type.

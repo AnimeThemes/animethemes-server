@@ -13,13 +13,13 @@ use App\GraphQL\Definition\Fields\Wiki\ExternalResource\ExternalResourceLinkFiel
 use App\GraphQL\Definition\Fields\Wiki\ExternalResource\ExternalResourceSiteField;
 use App\GraphQL\Definition\Relations\BelongsToManyRelation;
 use App\GraphQL\Definition\Relations\Relation;
-use App\GraphQL\Definition\Types\BaseType;
+use App\GraphQL\Definition\Types\EloquentType;
 use App\Models\Wiki\ExternalResource;
 
 /**
  * Class ExternalResourceType.
  */
-class ExternalResourceType extends BaseType
+class ExternalResourceType extends EloquentType
 {
     /**
      * The description of the type.

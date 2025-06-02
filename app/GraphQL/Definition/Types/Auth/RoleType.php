@@ -14,13 +14,13 @@ use App\GraphQL\Definition\Fields\Base\IdField;
 use App\GraphQL\Definition\Fields\Base\UpdatedAtField;
 use App\GraphQL\Definition\Relations\BelongsToManyRelation;
 use App\GraphQL\Definition\Relations\Relation;
-use App\GraphQL\Definition\Types\BaseType;
+use App\GraphQL\Definition\Types\EloquentType;
 use App\Models\Auth\Role;
 
 /**
  * Class RoleType.
  */
-class RoleType extends BaseType
+class RoleType extends EloquentType
 {
     /**
      * The description of the type.

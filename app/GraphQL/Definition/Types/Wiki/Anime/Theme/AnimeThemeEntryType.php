@@ -2,21 +2,21 @@
 
 declare(strict_types=1);
 
-namespace App\GraphQL\Definition\Types\Wiki\Anime\AnimeTheme;
+namespace App\GraphQL\Definition\Types\Wiki\Anime\Theme;
 
 use App\GraphQL\Definition\Fields\Base\CreatedAtField;
 use App\GraphQL\Definition\Fields\Base\DeletedAtField;
 use App\GraphQL\Definition\Fields\Base\IdField;
 use App\GraphQL\Definition\Fields\Base\UpdatedAtField;
-use App\GraphQL\Definition\Fields\Wiki\Anime\AnimeTheme\AnimeThemeEntry\AnimeThemeEntryEpisodesField;
-use App\GraphQL\Definition\Fields\Wiki\Anime\AnimeTheme\AnimeThemeEntry\AnimeThemeEntryNotesField;
-use App\GraphQL\Definition\Fields\Wiki\Anime\AnimeTheme\AnimeThemeEntry\AnimeThemeEntryNsfwField;
-use App\GraphQL\Definition\Fields\Wiki\Anime\AnimeTheme\AnimeThemeEntry\AnimeThemeEntrySpoilerField;
-use App\GraphQL\Definition\Fields\Wiki\Anime\AnimeTheme\AnimeThemeEntry\AnimeThemeEntryVersionField;
+use App\GraphQL\Definition\Fields\Wiki\Anime\Theme\Entry\AnimeThemeEntryEpisodesField;
+use App\GraphQL\Definition\Fields\Wiki\Anime\Theme\Entry\AnimeThemeEntryNotesField;
+use App\GraphQL\Definition\Fields\Wiki\Anime\Theme\Entry\AnimeThemeEntryNsfwField;
+use App\GraphQL\Definition\Fields\Wiki\Anime\Theme\Entry\AnimeThemeEntrySpoilerField;
+use App\GraphQL\Definition\Fields\Wiki\Anime\Theme\Entry\AnimeThemeEntryVersionField;
 use App\GraphQL\Definition\Relations\BelongsToManyRelation;
 use App\GraphQL\Definition\Relations\BelongsToRelation;
 use App\GraphQL\Definition\Relations\Relation;
-use App\GraphQL\Definition\Types\BaseType;
+use App\GraphQL\Definition\Types\EloquentType;
 use App\GraphQL\Definition\Types\Wiki\Anime\AnimeThemeType;
 use App\GraphQL\Definition\Types\Wiki\VideoType;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
@@ -24,7 +24,7 @@ use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 /**
  * Class AnimeThemeEntryType.
  */
-class AnimeThemeEntryType extends BaseType
+class AnimeThemeEntryType extends EloquentType
 {
     /**
      * The description of the type.

@@ -17,7 +17,7 @@ use App\GraphQL\Definition\Fields\Wiki\Anime\AnimeYearField;
 use App\GraphQL\Definition\Relations\BelongsToManyRelation;
 use App\GraphQL\Definition\Relations\HasManyRelation;
 use App\GraphQL\Definition\Relations\Relation;
-use App\GraphQL\Definition\Types\BaseType;
+use App\GraphQL\Definition\Types\EloquentType;
 use App\GraphQL\Definition\Types\Wiki\Anime\AnimeSynonymType;
 use App\GraphQL\Definition\Types\Wiki\Anime\AnimeThemeType;
 use App\Models\Wiki\Anime;
@@ -25,7 +25,7 @@ use App\Models\Wiki\Anime;
 /**
  * Class AnimeType.
  */
-class AnimeType extends BaseType
+class AnimeType extends EloquentType
 {
     /**
      * The description of the type.

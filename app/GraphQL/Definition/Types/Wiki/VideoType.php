@@ -27,15 +27,15 @@ use App\GraphQL\Definition\Fields\Wiki\Video\VideoViewsCountField;
 use App\GraphQL\Definition\Relations\BelongsToManyRelation;
 use App\GraphQL\Definition\Relations\HasOneRelation;
 use App\GraphQL\Definition\Relations\Relation;
-use App\GraphQL\Definition\Types\BaseType;
-use App\GraphQL\Definition\Types\Wiki\Anime\AnimeTheme\AnimeThemeEntryType;
+use App\GraphQL\Definition\Types\EloquentType;
+use App\GraphQL\Definition\Types\Wiki\Anime\Theme\AnimeThemeEntryType;
 use App\GraphQL\Definition\Types\Wiki\Video\VideoScriptType;
 use App\Models\Wiki\Video;
 
 /**
  * Class VideoType.
  */
-class VideoType extends BaseType
+class VideoType extends EloquentType
 {
     /**
      * The description of the type.

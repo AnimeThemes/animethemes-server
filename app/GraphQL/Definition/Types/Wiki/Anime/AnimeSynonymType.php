@@ -12,14 +12,14 @@ use App\GraphQL\Definition\Fields\Wiki\Anime\AnimeSynonym\AnimeSynonymTextField;
 use App\GraphQL\Definition\Fields\Wiki\Anime\AnimeSynonym\AnimeSynonymTypeField;
 use App\GraphQL\Definition\Relations\BelongsToRelation;
 use App\GraphQL\Definition\Relations\Relation;
-use App\GraphQL\Definition\Types\BaseType;
+use App\GraphQL\Definition\Types\EloquentType;
 use App\GraphQL\Definition\Types\Wiki\AnimeType;
 use App\Models\Wiki\Anime\AnimeSynonym;
 
 /**
  * Class AnimeSynonymType.
  */
-class AnimeSynonymType extends BaseType
+class AnimeSynonymType extends EloquentType
 {
     /**
      * The description of the type.

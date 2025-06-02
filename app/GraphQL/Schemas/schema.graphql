@@ -2,7 +2,7 @@
 scalar DateTimeTz @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\DateTimeTz")
 
 "Indicates what fields are available at the top level of a query operation."
-type Query @middleware(class: "App\\GraphQL\\Middleware\\MaxCount") {
+type Query {
     "Returns a listing of resources that match a given search term."
     search(search: String @search, perPage: Int, page: Int): Search!
     @field(resolver: "App\\GraphQL\\Queries\\Search")

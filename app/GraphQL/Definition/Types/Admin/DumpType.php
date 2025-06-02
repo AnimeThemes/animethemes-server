@@ -10,13 +10,13 @@ use App\GraphQL\Definition\Fields\Base\CreatedAtField;
 use App\GraphQL\Definition\Fields\Base\DeletedAtField;
 use App\GraphQL\Definition\Fields\Base\IdField;
 use App\GraphQL\Definition\Fields\Base\UpdatedAtField;
-use App\GraphQL\Definition\Types\BaseType;
+use App\GraphQL\Definition\Types\EloquentType;
 use App\Models\Admin\Dump;
 
 /**
  * Class DumpType.
  */
-class DumpType extends BaseType
+class DumpType extends EloquentType
 {
     /**
      * The description of the type.

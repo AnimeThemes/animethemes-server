@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Fields;
 
+use App\Contracts\GraphQL\FilterableField;
+use App\GraphQL\Definition\Filters\EnumFilter;
+use App\GraphQL\Definition\Filters\Filter;
 use GraphQL\Type\Definition\Type;
 use Illuminate\Support\Arr;
 use Nuwave\Lighthouse\Schema\TypeRegistry;
@@ -11,7 +14,7 @@ use Nuwave\Lighthouse\Schema\TypeRegistry;
 /**
  * Class EnumField.
  */
-abstract class EnumField extends Field
+abstract class EnumField extends Field implements FilterableField
 {
     /**
      * Create a new field instance.
@@ -61,5 +64,15 @@ abstract class EnumField extends Field
     public function resolve(mixed $root): mixed
     {
         return Arr::get($root, $this->column)?->localize();
+    }
+
+    /**
+     * Get the filter for this field.
+     *
+     * @return Filter
+     */
+    public function getFilter(): Filter
+    {
+        return new EnumFilter($this);
     }
 }

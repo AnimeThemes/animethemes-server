@@ -11,13 +11,13 @@ use App\GraphQL\Definition\Fields\Base\UpdatedAtField;
 use App\GraphQL\Definition\Fields\Document\Page\PageBodyField;
 use App\GraphQL\Definition\Fields\Document\Page\PageNameField;
 use App\GraphQL\Definition\Fields\Document\Page\PageSlugField;
-use App\GraphQL\Definition\Types\BaseType;
+use App\GraphQL\Definition\Types\EloquentType;
 use App\Models\Document\Page;
 
 /**
  * Class PageType.
  */
-class PageType extends BaseType
+class PageType extends EloquentType
 {
     /**
      * The description of the type.

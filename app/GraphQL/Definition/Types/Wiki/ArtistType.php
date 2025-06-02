@@ -15,7 +15,7 @@ use App\GraphQL\Definition\Relations\BelongsToManyRelation;
 use App\GraphQL\Definition\Relations\HasManyRelation;
 use App\GraphQL\Definition\Relations\MorphManyRelation;
 use App\GraphQL\Definition\Relations\Relation;
-use App\GraphQL\Definition\Types\BaseType;
+use App\GraphQL\Definition\Types\EloquentType;
 use App\GraphQL\Definition\Types\Wiki\Song\MembershipType;
 use App\GraphQL\Definition\Types\Wiki\Song\PerformanceType;
 use App\Models\Wiki\Artist;
@@ -23,7 +23,7 @@ use App\Models\Wiki\Artist;
 /**
  * Class ArtistType.
  */
-class ArtistType extends BaseType
+class ArtistType extends EloquentType
 {
     /**
      * The description of the type.

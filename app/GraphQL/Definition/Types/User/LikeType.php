@@ -9,14 +9,14 @@ use App\GraphQL\Definition\Relations\BelongsToRelation;
 use App\GraphQL\Definition\Relations\MorphToRelation;
 use App\GraphQL\Definition\Relations\Relation;
 use App\GraphQL\Definition\Types\Auth\UserType;
-use App\GraphQL\Definition\Types\BaseType;
+use App\GraphQL\Definition\Types\EloquentType;
 use App\GraphQL\Definition\Unions\LikedUnion;
 use App\Models\User\Like;
 
 /**
  * Class LikeType.
  */
-class LikeType extends BaseType
+class LikeType extends EloquentType
 {
     /**
      * The description of the type.

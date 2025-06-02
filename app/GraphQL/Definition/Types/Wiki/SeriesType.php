@@ -12,13 +12,13 @@ use App\GraphQL\Definition\Fields\Wiki\Series\SeriesNameField;
 use App\GraphQL\Definition\Fields\Wiki\Series\SeriesSlugField;
 use App\GraphQL\Definition\Relations\BelongsToManyRelation;
 use App\GraphQL\Definition\Relations\Relation;
-use App\GraphQL\Definition\Types\BaseType;
+use App\GraphQL\Definition\Types\EloquentType;
 use App\Models\Wiki\Series;
 
 /**
  * Class SeriesType.
  */
-class SeriesType extends BaseType
+class SeriesType extends EloquentType
 {
     /**
      * The description of the type.
