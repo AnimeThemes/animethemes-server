@@ -40,6 +40,12 @@ return [
             // GraphQL is enabled for localhost requests.
             App\GraphQL\Middleware\GraphQLLocalhost::class,
 
+            // GraphQL needs to have their own policies.
+            App\GraphQL\Middleware\GraphQLPolicy::class,
+
+            // Allow client to get full database.
+            App\GraphQL\Middleware\MaxCount::class,
+
             // Ensures the request is not vulnerable to cross-site request forgery.
             Nuwave\Lighthouse\Http\Middleware\EnsureXHR::class,
 
@@ -49,9 +55,6 @@ return [
             // Logs in a user if they are authenticated. In contrast to Laravel's 'auth'
             // middleware, this delegates auth and permission checks to the field level.
             Nuwave\Lighthouse\Http\Middleware\AttemptAuthentication::class,
-
-            // GraphQL needs to have their own policies.
-            App\GraphQL\Middleware\GraphQLPolicy::class,
 
             // Logs GraphQL Requests.
             App\Http\Middleware\LogRequest::class,
