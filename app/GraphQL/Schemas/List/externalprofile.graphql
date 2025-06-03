@@ -8,18 +8,21 @@ enum ExternalProfileColumnsOrderable {
     DELETED_AT
 }
 
-# extend type Query @middleware(class: "App\\Http\\Middleware\\Api\\EnabledOnlyOnLocalhost") {
+# extend type Query  {
 #     "Returns an external profile resource."
 #     externalprofile(
 #         id: String! @bind(class: "App\\Models\\List\\ExternalProfile")
 #     ): ExternalProfile @first
+#     @middleware(class: "App\\Http\\Middleware\\Api\\EnabledOnlyOnLocalhost")
 #     @canModel(ability: "view", injectArgs: true)
 # }
 
-extend type Mutation @guard @middleware(class: "App\\Http\\Middleware\\Api\\EnabledOnlyOnLocalhost") @feature(name: "App\\Features\\AllowExternalProfileManagement") {
+extend type Mutation @guard {
     syncExternalProfile(
         id: Int! @bind(class: "App\\Models\\List\\ExternalProfile", column: "profile_id")
     ): MessageResponse!
+    @middleware(class: "App\\Http\\Middleware\\Api\\EnabledOnlyOnLocalhost")
+    @feature(name: "App\\Features\\AllowExternalProfileManagement")
     @canModel(ability: "update", injectArgs: true, model: "App\\Models\\List\\ExternalProfile")
     @field(resolver: "App\\GraphQL\\Mutations\\List\\ExternalProfileMutator@sync")
 }
