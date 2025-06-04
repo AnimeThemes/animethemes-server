@@ -19,24 +19,35 @@ enum RelationType
     /**
      * Get the directive of the relation type.
      *
-     * @param  array  $parameters
-     * @return string
+     * @param  array<string, mixed>  $parameters
+     * @return array<string, array>
      */
-    public function getDirective(array $parameters): string
+    public function getDirective(array $parameters): array
     {
-        $args = collect($parameters)
-            ->filter(fn ($value) => filled($value))
-            ->map(fn ($value, $key) => "$key: $value")
-            ->values()
-            ->implode(', ');
+        $parameters = array_filter($parameters, fn ($value) => filled($value));
 
         return match ($this) {
-            RelationType::BELONGS_TO => "@belongsTo($args)",
-            RelationType::BELONGS_TO_MANY => "@belongsToMany(type: CONNECTION, $args)",
-            RelationType::HAS_MANY => "@hasMany($args)",
-            RelationType::HAS_ONE => "@hasOne($args)",
-            RelationType::MORPH_MANY => "@morphMany($args)",
-            RelationType::MORPH_TO => "@morphTo($args)",
+            RelationType::BELONGS_TO => [
+                'belongsTo' => $parameters,
+            ],
+            RelationType::BELONGS_TO_MANY => [
+                'belongsToMany' => [
+                    'type' => 'CONNECTION',
+                    ...$parameters,
+                ],
+            ],
+            RelationType::HAS_MANY => [
+                'hasMany' => $parameters,
+            ],
+            RelationType::HAS_ONE => [
+                'hasOne' => $parameters,
+            ],
+            RelationType::MORPH_MANY => [
+                'morphMany' => $parameters,
+            ],
+            RelationType::MORPH_TO => [
+                'morphTo' => $parameters,
+            ],
         };
     }
 }

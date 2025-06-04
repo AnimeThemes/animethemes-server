@@ -10,16 +10,16 @@ namespace App\Concerns\GraphQL;
 trait ResolvesDirectives
 {
     /**
-     * Resolve the directives into a string format for GraphQL.
+     * Convert the array of directives into a string format for GraphQL.
      *
-     * @param  array  $directives
+     * @param  array<string, array>  $directives
      * @return string
      */
     public function resolveDirectives(array $directives): string
     {
         return collect($directives)
             ->map(function ($args, $directive) {
-                if (is_array($args) && filled($args)) {
+                if (filled($args)) {
                     $argsString = collect($args)
                         ->map(fn ($value, $key) => sprintf('%s: %s', $key, json_encode($value)))
                         ->implode(', ');

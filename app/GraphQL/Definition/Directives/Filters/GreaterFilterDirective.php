@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\GraphQL\Definition\Filters\Directives;
+namespace App\GraphQL\Definition\Directives\Filters;
 
 use Illuminate\Support\Str;
 
 /**
- * Class EqFilterDirective.
+ * Class GreaterFilterDirective.
  */
-class EqFilterDirective extends FilterDirective
+class GreaterFilterDirective extends FilterDirective
 {
     /**
      * Create the argument for the directive.
@@ -18,10 +18,10 @@ class EqFilterDirective extends FilterDirective
      */
     public function toString(): string
     {
-        return Str::of($this->field->getName())
+        return Str::of($this->field->getName().'_greater')
             ->append(': ')
             ->append($this->type->toString())
-            ->append(" @eq(key: \"{$this->field->getColumn()}\")")
+            ->append(" @where(operator: \">\", key: \"{$this->field->getColumn()}\")")
             ->toString();
     }
 }

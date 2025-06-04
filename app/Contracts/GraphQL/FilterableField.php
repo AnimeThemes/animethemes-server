@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Contracts\GraphQL;
 
-use App\GraphQL\Definition\Filters\Filter;
+use App\GraphQL\Definition\Directives\Filters\FilterDirective;
 
 /**
  * Interface FilterableField.
@@ -12,9 +12,9 @@ use App\GraphQL\Definition\Filters\Filter;
 interface FilterableField
 {
     /**
-     * Get the filter for this field.
+     * The directives available for this field.
      *
-     * @return Filter
+     * @return array<int, FilterDirective>
      */
-    public function getFilter(): Filter;
+    public function filterDirectives(): array;
 }

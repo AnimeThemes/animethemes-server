@@ -6,6 +6,7 @@ namespace App\Concerns\GraphQL;
 
 use App\Contracts\GraphQL\FilterableField;
 use App\GraphQL\Definition\Fields\Field;
+use App\GraphQL\Definition\Directives\Filters\FilterDirective;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
@@ -24,7 +25,7 @@ trait ResolvesArguments
     {
         if (filled($arguments)) {
             return Str::of('(')
-                ->append(implode("\n                ", Arr::flatten($arguments)))
+                ->append(implode("\n", Arr::flatten($arguments)))
                 ->append(')')
                 ->toString();
         }
@@ -43,7 +44,9 @@ trait ResolvesArguments
         return collect($fields)
             ->map(function (Field $field) {
                 if ($field instanceof FilterableField) {
-                    return $field->getFilter()->toArray();
+                    return collect($field->filterDirectives())
+                        ->map(fn (FilterDirective $directive) => $directive->toString())
+                        ->toArray();
                 }
             })
             ->flatten()

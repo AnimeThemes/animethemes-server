@@ -5,16 +5,16 @@ declare(strict_types=1);
 namespace App\GraphQL\Directives;
 
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Str;
+use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
 use Nuwave\Lighthouse\Schema\Directives\BaseDirective;
 use Nuwave\Lighthouse\Schema\Values\FieldValue;
-use Nuwave\Lighthouse\Schema\Values\TypeValue;
 use Nuwave\Lighthouse\Support\Contracts\FieldMiddleware;
-use Nuwave\Lighthouse\Support\Contracts\TypeMiddleware;
 
 /**
- * Class MiddlewareDirective.
+ * Class FeatureEnabledDirective.
  */
-class MiddlewareDirective extends BaseDirective implements FieldMiddleware, TypeMiddleware
+class FeatureEnabledDirective extends BaseDirective implements FieldMiddleware
 {
     /**
      * Define the directive.
@@ -24,7 +24,7 @@ class MiddlewareDirective extends BaseDirective implements FieldMiddleware, Type
     public static function definition(): string
     {
         return /** @lang GraphQL */ <<<'GRAPHQL'
-        directive @middleware(class: String!) on OBJECT | FIELD_DEFINITION
+        directive @featureEnabled(class: String!) on FIELD_DEFINITION
         GRAPHQL;
     }
 
@@ -38,19 +38,11 @@ class MiddlewareDirective extends BaseDirective implements FieldMiddleware, Type
     {
         $class = $this->directiveArgValue('class');
 
-        App::make($class)->handle(request(), fn () => null);
-    }
+        $isExternalProfileManagementAllowed = Str::of(EnsureFeaturesAreActive::class)
+            ->append(':')
+            ->append($class)
+            ->__toString();
 
-    /**
-     * Handle a type AST as it is converted to an executable type.
-     *
-     * @param  TypeValue  $value
-     * @return void
-     */
-    public function handleNode(TypeValue $value): void
-    {
-        $class = $this->directiveArgValue('class');
-
-        App::make($class)->handle(request(), fn () => null);
+        App::make($isExternalProfileManagementAllowed)->handle(request(), fn () => null);
     }
 }

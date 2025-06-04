@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace App\GraphQL\Definition\Fields;
 
 use App\Contracts\GraphQL\FilterableField;
-use App\GraphQL\Definition\Filters\DateTimeTzFilter;
-use App\GraphQL\Definition\Filters\Filter;
+use App\GraphQL\Definition\Directives\Filters\FilterDirective;
+use App\GraphQL\Definition\Directives\Filters\GreaterFilterDirective;
+use App\GraphQL\Definition\Directives\Filters\LesserFilterDirective;
 use GraphQL\Type\Definition\Type;
 use Nuwave\Lighthouse\Schema\TypeRegistry;
 
@@ -26,12 +27,15 @@ abstract class DateTimeTzField extends Field implements FilterableField
     }
 
     /**
-     * Get the filter for this field.
+     * The directives available for this filter.
      *
-     * @return Filter
+     * @return array<int, FilterDirective>
      */
-    public function getFilter(): Filter
+    public function filterDirectives(): array
     {
-        return new DateTimeTzFilter($this);
+        return [
+            new LesserFilterDirective($this, $this->type()),
+            new GreaterFilterDirective($this, $this->type()),
+        ];
     }
 }

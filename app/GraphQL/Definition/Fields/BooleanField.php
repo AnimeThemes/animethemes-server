@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\GraphQL\Definition\Fields;
 
 use App\Contracts\GraphQL\FilterableField;
-use App\GraphQL\Definition\Filters\BooleanFilter;
-use App\GraphQL\Definition\Filters\Filter;
+use App\GraphQL\Definition\Directives\Filters\EqFilterDirective;
+use App\GraphQL\Definition\Directives\Filters\FilterDirective;
 use GraphQL\Type\Definition\Type;
 
 /**
@@ -25,12 +25,14 @@ abstract class BooleanField extends Field implements FilterableField
     }
 
     /**
-     * Get the filter for this field.
+     * The directives available for this filter.
      *
-     * @return Filter
+     * @return array<int, FilterDirective>
      */
-    public function getFilter(): Filter
+    public function filterDirectives(): array
     {
-        return new BooleanFilter($this);
+        return [
+            new EqFilterDirective($this, $this->type()),
+        ];
     }
 }
