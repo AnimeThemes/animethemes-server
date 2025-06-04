@@ -17,7 +17,7 @@ class AnimeThemeSequenceField extends IntField
      */
     public function __construct()
     {
-        parent::__construct(AnimeTheme::ATTRIBUTE_TYPE);
+        parent::__construct(AnimeTheme::ATTRIBUTE_SEQUENCE);
     }
 
     /**

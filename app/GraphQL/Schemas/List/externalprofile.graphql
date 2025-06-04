@@ -22,7 +22,7 @@ extend type Mutation @guard {
         id: Int! @bind(class: "App\\Models\\List\\ExternalProfile", column: "profile_id")
     ): MessageResponse!
     @middleware(class: "App\\Http\\Middleware\\Api\\EnabledOnlyOnLocalhost")
-    @feature(name: "App\\Features\\AllowExternalProfileManagement")
+    @featureEnabled(name: "App\\Features\\AllowExternalProfileManagement")
     @canModel(ability: "update", injectArgs: true, model: "App\\Models\\List\\ExternalProfile")
     @field(resolver: "App\\GraphQL\\Mutations\\List\\ExternalProfileMutator@sync")
 }
