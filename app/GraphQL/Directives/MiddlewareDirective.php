@@ -6,13 +6,15 @@ namespace App\GraphQL\Directives;
 
 use Illuminate\Support\Facades\App;
 use Nuwave\Lighthouse\Schema\Directives\BaseDirective;
+use Nuwave\Lighthouse\Schema\Values\FieldValue;
 use Nuwave\Lighthouse\Schema\Values\TypeValue;
+use Nuwave\Lighthouse\Support\Contracts\FieldMiddleware;
 use Nuwave\Lighthouse\Support\Contracts\TypeMiddleware;
 
 /**
  * Class MiddlewareDirective.
  */
-class MiddlewareDirective extends BaseDirective implements TypeMiddleware
+class MiddlewareDirective extends BaseDirective implements FieldMiddleware, TypeMiddleware
 {
     /**
      * Define the directive.
@@ -24,6 +26,19 @@ class MiddlewareDirective extends BaseDirective implements TypeMiddleware
         return /** @lang GraphQL */ <<<'GRAPHQL'
         directive @middleware(class: String!) on OBJECT | ARGUMENT_DEFINITION
         GRAPHQL;
+    }
+
+    /**
+     * Wrap around the final field resolver.
+     *
+     * @param  FieldValue  $fieldValue
+     * @return void
+    */
+    public function handleField(FieldValue $fieldValue): void
+    {
+        $class = $this->directiveArgValue('class');
+
+        App::make($class)->handle(request(), fn () => null);
     }
 
     /**
