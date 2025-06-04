@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Directives;
 
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Str;
+use App\Constants\FeatureConstants;
+use App\Models\Admin\Feature as FeatureModel;
 use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
 use Nuwave\Lighthouse\Schema\Directives\BaseDirective;
 use Nuwave\Lighthouse\Schema\Values\FieldValue;
@@ -36,13 +36,19 @@ class FeatureEnabledDirective extends BaseDirective implements FieldMiddleware
     */
     public function handleField(FieldValue $fieldValue): void
     {
-        $class = $this->directiveArgValue('class');
+        $feature = $this->directiveArgValue('class');
 
-        $isExternalProfileManagementAllowed = Str::of(EnsureFeaturesAreActive::class)
-            ->append(':')
-            ->append($class)
-            ->__toString();
+        if (
+            FeatureModel::query()
+                ->where(FeatureModel::ATTRIBUTE_NAME, $feature)
+                ->where(FeatureModel::ATTRIBUTE_SCOPE, FeatureConstants::NULL_SCOPE)
+                ->doesntExist()
+        ) {
+            return;
+        }
 
-        App::make($isExternalProfileManagementAllowed)->handle(request(), fn () => null);
+        $middleware = new EnsureFeaturesAreActive([$feature]);
+
+        $middleware->handle(request(), fn () => null);
     }
 }
