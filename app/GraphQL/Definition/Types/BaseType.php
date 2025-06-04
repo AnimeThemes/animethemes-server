@@ -48,17 +48,17 @@ abstract class BaseType extends ObjectType
                 return Str::of('"')
                     ->append($field->description())
                     ->append('"')
-                    ->append("\n                ")
+                    ->append("\n")
                     ->append($field->toString());
             })
-            ->implode("\n                ");
+            ->implode("\n");
 
         $relations = collect($this->relations())
             ->map(fn (Relation $relation) => $relation->toString())
-            ->implode("\n                ");
+            ->implode("\n");
 
         $allFields = Str::of($fields)
-            ->append("\n                ")
+            ->append("\n")
             ->append($relations)
             ->toString();
 

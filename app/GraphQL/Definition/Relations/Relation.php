@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Relations;
 
+use App\Concerns\GraphQL\ResolvesDirectives;
 use App\Enums\GraphQL\RelationType;
 use GraphQL\Type\Definition\Type;
 use Illuminate\Support\Str;
@@ -13,6 +14,8 @@ use Illuminate\Support\Str;
  */
 abstract class Relation
 {
+    use ResolvesDirectives;
+
     /**
      * @param  Type  $type
      * @param  string  $relationName
@@ -36,11 +39,18 @@ abstract class Relation
      */
     public function toString(): string
     {
+        $directives = $this->resolveDirectives(
+            $this->relation()->getDirective([
+                'relation' => $this->relationName,
+                'edgeType' => $this->edgeType,
+            ])
+        );
+
         return Str::of($this->field ?? $this->relationName)
             ->append(': ')
             ->append($this->type()->toString())
             ->append(' ')
-            ->append($this->relation()->getDirective(['relation' => $this->relationName, 'edgeType' => $this->edgeType]))
+            ->append($directives)
             ->toString();
     }
 

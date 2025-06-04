@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\GraphQL\Definition\Filters\Directives;
+namespace App\GraphQL\Definition\Directives\Filters;
 
 use Illuminate\Support\Str;
 
 /**
- * Class LikeFilterDirective.
+ * Class LesserFilterDirective.
  */
-class LikeFilterDirective extends FilterDirective
+class LesserFilterDirective extends FilterDirective
 {
     /**
      * Create the argument for the directive.
@@ -18,10 +18,10 @@ class LikeFilterDirective extends FilterDirective
      */
     public function toString(): string
     {
-        return Str::of($this->field->getName().'_like')
+        return Str::of($this->field->getName().'_lesser')
             ->append(': ')
             ->append($this->type->toString())
-            ->append(" @where(operator: \"like\", key: \"{$this->field->getColumn()}\")")
+            ->append(" @where(operator: \"<\", key: \"{$this->field->getColumn()}\")")
             ->toString();
     }
 }

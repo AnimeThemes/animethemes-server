@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\GraphQL\Definition\Filters\Directives;
+namespace App\GraphQL\Definition\Directives\Filters;
 
 use GraphQL\Type\Definition\Type;
 use Illuminate\Support\Str;
