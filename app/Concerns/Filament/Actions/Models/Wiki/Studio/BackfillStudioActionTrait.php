@@ -101,7 +101,7 @@ trait BackfillStudioActionTrait
                         Checkbox::make(self::BACKFILL_LARGE_COVER)
                             ->label(__('filament.actions.studio.backfill.fields.images.large_cover.name'))
                             ->helperText(__('filament.actions.studio.backfill.fields.images.large_cover.help'))
-                            ->default(fn () => $studio instanceof Studio && $studio->images()->where(Image::ATTRIBUTE_FACET, ImageFacet::COVER_LARGE->value)->doesntExist()),
+                            ->default(fn () => $studio instanceof Studio && $studio->images()->where(Image::ATTRIBUTE_FACET, ImageFacet::LARGE_COVER->value)->doesntExist()),
                     ]),
             ]);
     }
@@ -134,7 +134,7 @@ trait BackfillStudioActionTrait
     protected function getImagesMapping(): array
     {
         return [
-            self::BACKFILL_LARGE_COVER => [ImageFacet::COVER_LARGE],
+            self::BACKFILL_LARGE_COVER => [ImageFacet::LARGE_COVER],
         ];
     }
 }

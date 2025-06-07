@@ -56,7 +56,7 @@ class MalStudioExternalApiAction extends ExternalApiAction implements BackfillIm
     public function getImagesMapping(): array
     {
         return [
-            ImageFacet::COVER_LARGE->value => 'images.large',
+            ImageFacet::LARGE_COVER->value => 'images.large',
         ];
     }
 }

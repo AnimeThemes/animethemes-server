@@ -8,6 +8,7 @@ use App\Enums\Models\Wiki\AnimeSynonymType;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeSynonym;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 /**
  * Trait CanCreateAnimeSynonym.
@@ -24,7 +25,10 @@ trait CanCreateAnimeSynonym
      */
     public function createAnimeSynonym(?string $text, int $type, Anime $anime): void
     {
-        if (blank($text) || ($type === AnimeSynonymType::OTHER->value && $text === $anime->getName())) {
+        if (
+            blank($text)
+            || ($type === AnimeSynonymType::OTHER->value && Str::is($text, $anime->getName(), true))
+        ) {
             return;
         }
 

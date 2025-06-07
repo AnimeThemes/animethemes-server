@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace App\Filament\Tabs\Anime\Image;
+namespace App\Filament\Tabs\Studio\Image;
 
 use App\Enums\Models\Wiki\ImageFacet;
-use App\Filament\Tabs\Anime\AnimeImageTab;
+use App\Filament\Tabs\Studio\StudioImageTab;
 
 /**
- * Class AnimeCoverSmallTab.
+ * Class StudioSmallCoverTab.
  */
-class AnimeCoverSmallTab extends AnimeImageTab
+class StudioSmallCoverTab extends StudioImageTab
 {
     /**
      * Get the key for the tab.
@@ -19,7 +19,7 @@ class AnimeCoverSmallTab extends AnimeImageTab
      */
     public static function getKey(): string
     {
-        return 'anime-cover-small-tab';
+        return 'studio-small-cover-tab';
     }
 
     /**
@@ -29,6 +29,6 @@ class AnimeCoverSmallTab extends AnimeImageTab
      */
     protected static function facet(): ImageFacet
     {
-        return ImageFacet::COVER_SMALL;
+        return ImageFacet::SMALL_COVER;
     }
 }

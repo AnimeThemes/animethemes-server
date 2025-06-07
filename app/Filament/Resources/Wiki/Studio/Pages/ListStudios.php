@@ -7,8 +7,8 @@ namespace App\Filament\Resources\Wiki\Studio\Pages;
 use App\Concerns\Filament\HasTabs;
 use App\Filament\Resources\Base\BaseListResources;
 use App\Filament\Resources\Wiki\Studio;
-use App\Filament\Tabs\Studio\Image\StudioCoverLargeTab;
-use App\Filament\Tabs\Studio\Image\StudioCoverSmallTab;
+use App\Filament\Tabs\Studio\Image\StudioLargeCoverTab;
+use App\Filament\Tabs\Studio\Image\StudioSmallCoverTab;
 use App\Filament\Tabs\Studio\Resource\StudioAnidbResourceTab;
 use App\Filament\Tabs\Studio\Resource\StudioAnilistResourceTab;
 use App\Filament\Tabs\Studio\Resource\StudioAnimePlanetResourceTab;
@@ -61,8 +61,8 @@ class ListStudios extends BaseListResources
     public function getTabs(): array
     {
         return ['all' => Tab::make()] + $this->toArray([
-            StudioCoverLargeTab::class,
-            StudioCoverSmallTab::class,
+            StudioLargeCoverTab::class,
+            StudioSmallCoverTab::class,
             StudioAnidbResourceTab::class,
             StudioAnilistResourceTab::class,
             StudioAnimePlanetResourceTab::class,

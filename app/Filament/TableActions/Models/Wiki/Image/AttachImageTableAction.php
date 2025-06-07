@@ -21,8 +21,8 @@ use Illuminate\Support\Facades\Auth;
 class AttachImageTableAction extends BaseTableAction
 {
     protected array $facets = [
-        ImageFacet::COVER_SMALL,
-        ImageFacet::COVER_LARGE,
+        ImageFacet::SMALL_COVER,
+        ImageFacet::LARGE_COVER,
     ];
 
     /**

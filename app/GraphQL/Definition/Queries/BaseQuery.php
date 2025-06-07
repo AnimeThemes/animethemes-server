@@ -38,11 +38,11 @@ abstract class BaseQuery
     {
         $directives = $this->resolveDirectives($this->directives());
 
-        $argumentsString = $this->buildArguments($this->arguments());
+        $arguments = $this->buildArguments($this->arguments());
 
         return "
             \"\"\"{$this->description()}\"\"\"
-            {$this->name}{$argumentsString}: {$this->getType()->toString()} {$directives}
+            {$this->name}{$arguments}: {$this->getType()->toString()} {$directives}
         ";
     }
 

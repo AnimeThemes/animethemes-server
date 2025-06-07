@@ -8,9 +8,9 @@ use App\Enums\Models\Wiki\ImageFacet;
 use App\Filament\Tabs\Artist\ArtistImageTab;
 
 /**
- * Class ArtistCoverLargeTab.
+ * Class ArtistLargeCoverTab.
  */
-class ArtistCoverLargeTab extends ArtistImageTab
+class ArtistLargeCoverTab extends ArtistImageTab
 {
     /**
      * Get the key for the tab.
@@ -19,7 +19,7 @@ class ArtistCoverLargeTab extends ArtistImageTab
      */
     public static function getKey(): string
     {
-        return 'artist-cover-large-tab';
+        return 'artist-large-cover-tab';
     }
 
     /**
@@ -29,6 +29,6 @@ class ArtistCoverLargeTab extends ArtistImageTab
      */
     protected static function facet(): ImageFacet
     {
-        return ImageFacet::COVER_LARGE;
+        return ImageFacet::LARGE_COVER;
     }
 }
