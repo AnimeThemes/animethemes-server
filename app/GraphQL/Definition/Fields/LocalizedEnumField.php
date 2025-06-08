@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Fields;
 
+use GraphQL\Type\Definition\Type;
 use Illuminate\Support\Arr;
 
 /**
  * Class LocalizedEnumField.
  */
-class LocalizedEnumField extends StringField
+class LocalizedEnumField extends Field
 {
     /**
      * Create a new field instance.
@@ -30,6 +31,16 @@ class LocalizedEnumField extends StringField
     public function description(): string
     {
         return "The formatted string value of the {$this->field->getName()} field";
+    }
+
+    /**
+     * The type returned by the field.
+     *
+     * @return Type
+     */
+    protected function type(): Type
+    {
+        return Type::string();
     }
 
     /**
