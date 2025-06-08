@@ -26,10 +26,10 @@ abstract class EnumField extends Field implements FilterableField
      * @param  bool  $nullable
      */
     public function __construct(
-        protected string $column,
-        protected string $enum,
-        protected ?string $name = null,
-        protected bool $nullable = true,
+        public string $column,
+        public string $enum,
+        public ?string $name = null,
+        public bool $nullable = true,
     ) {
         parent::__construct($column, $name, $nullable);
     }
@@ -52,7 +52,7 @@ abstract class EnumField extends Field implements FilterableField
     public function directives(): array
     {
         return [
-            'localizedEnum' => [],
+            'enumField' => [],
         ];
     }
 
@@ -64,7 +64,7 @@ abstract class EnumField extends Field implements FilterableField
      */
     public function resolve(mixed $root): mixed
     {
-        return Arr::get($root, $this->column)?->localize();
+        return Arr::get($root, $this->column)?->name;
     }
 
     /**

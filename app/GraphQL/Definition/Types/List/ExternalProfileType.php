@@ -11,6 +11,7 @@ use App\GraphQL\Definition\Fields\Base\UpdatedAtField;
 use App\GraphQL\Definition\Fields\List\ExternalProfile\ExternalProfileNameField;
 use App\GraphQL\Definition\Fields\List\ExternalProfile\ExternalProfileSiteField;
 use App\GraphQL\Definition\Fields\List\ExternalProfile\ExternalProfileVisibilityField;
+use App\GraphQL\Definition\Fields\LocalizedEnumField;
 use App\GraphQL\Definition\Relations\BelongsToRelation;
 use App\GraphQL\Definition\Relations\HasManyRelation;
 use App\GraphQL\Definition\Relations\Relation;
@@ -58,7 +59,9 @@ class ExternalProfileType extends EloquentType
             new IdField(ExternalProfile::ATTRIBUTE_ID),
             new ExternalProfileNameField(),
             new ExternalProfileSiteField(),
+            new LocalizedEnumField(new ExternalProfileSiteField()),
             new ExternalProfileVisibilityField(),
+            new LocalizedEnumField(new ExternalProfileVisibilityField()),
             new CreatedAtField(),
             new UpdatedAtField(),
             new DeletedAtField(),

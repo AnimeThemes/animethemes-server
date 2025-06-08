@@ -10,6 +10,7 @@ use App\GraphQL\Definition\Fields\Base\UpdatedAtField;
 use App\GraphQL\Definition\Fields\List\ExternalProfile\ExternalEntry\ExternalEntryIsFavoriteField;
 use App\GraphQL\Definition\Fields\List\ExternalProfile\ExternalEntry\ExternalEntryScoreField;
 use App\GraphQL\Definition\Fields\List\ExternalProfile\ExternalEntry\ExternalEntryWatchStatusField;
+use App\GraphQL\Definition\Fields\LocalizedEnumField;
 use App\GraphQL\Definition\Relations\BelongsToRelation;
 use App\GraphQL\Definition\Relations\Relation;
 use App\GraphQL\Definition\Types\EloquentType;
@@ -57,6 +58,7 @@ class ExternalEntryType extends EloquentType
             new ExternalEntryScoreField(),
             new ExternalEntryIsFavoriteField(),
             new ExternalEntryWatchStatusField(),
+            new LocalizedEnumField(new ExternalEntryWatchStatusField()),
             new CreatedAtField(),
             new UpdatedAtField(),
         ];

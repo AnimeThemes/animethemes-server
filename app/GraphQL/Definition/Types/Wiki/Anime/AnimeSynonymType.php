@@ -8,6 +8,7 @@ use App\GraphQL\Definition\Fields\Base\CreatedAtField;
 use App\GraphQL\Definition\Fields\Base\DeletedAtField;
 use App\GraphQL\Definition\Fields\Base\IdField;
 use App\GraphQL\Definition\Fields\Base\UpdatedAtField;
+use App\GraphQL\Definition\Fields\LocalizedEnumField;
 use App\GraphQL\Definition\Fields\Wiki\Anime\AnimeSynonym\AnimeSynonymTextField;
 use App\GraphQL\Definition\Fields\Wiki\Anime\AnimeSynonym\AnimeSynonymTypeField;
 use App\GraphQL\Definition\Relations\BelongsToRelation;
@@ -54,6 +55,7 @@ class AnimeSynonymType extends EloquentType
             new IdField(AnimeSynonym::ATTRIBUTE_ID),
             new AnimeSynonymTextField(),
             new AnimeSynonymTypeField(),
+            new LocalizedEnumField(new AnimeSynonymTypeField()),
             new CreatedAtField(),
             new UpdatedAtField(),
             new DeletedAtField(),

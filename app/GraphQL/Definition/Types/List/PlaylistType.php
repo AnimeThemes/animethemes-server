@@ -15,6 +15,7 @@ use App\GraphQL\Definition\Fields\List\Playlist\PlaylistTracksCountField;
 use App\GraphQL\Definition\Fields\List\Playlist\PlaylistTracksExistsField;
 use App\GraphQL\Definition\Fields\List\Playlist\PlaylistViewsCountField;
 use App\GraphQL\Definition\Fields\List\Playlist\PlaylistVisibilityField;
+use App\GraphQL\Definition\Fields\LocalizedEnumField;
 use App\GraphQL\Definition\Relations\BelongsToManyRelation;
 use App\GraphQL\Definition\Relations\BelongsToRelation;
 use App\GraphQL\Definition\Relations\HasManyRelation;
@@ -68,6 +69,7 @@ class PlaylistType extends EloquentType
             new PlaylistNameField(),
             new PlaylistDescriptionField(),
             new PlaylistVisibilityField(),
+            new LocalizedEnumField(new PlaylistVisibilityField()),
             new PlaylistTracksCountField(),
             new PlaylistTracksExistsField(),
             new PlaylistLikesCountField(),

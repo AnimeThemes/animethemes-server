@@ -8,6 +8,7 @@ use App\GraphQL\Definition\Fields\Base\CreatedAtField;
 use App\GraphQL\Definition\Fields\Base\DeletedAtField;
 use App\GraphQL\Definition\Fields\Base\IdField;
 use App\GraphQL\Definition\Fields\Base\UpdatedAtField;
+use App\GraphQL\Definition\Fields\LocalizedEnumField;
 use App\GraphQL\Definition\Fields\Wiki\ExternalResource\ExternalResourceExternalIdField;
 use App\GraphQL\Definition\Fields\Wiki\ExternalResource\ExternalResourceLinkField;
 use App\GraphQL\Definition\Fields\Wiki\ExternalResource\ExternalResourceSiteField;
@@ -58,6 +59,7 @@ class ExternalResourceType extends EloquentType
             new ExternalResourceExternalIdField(),
             new ExternalResourceLinkField(),
             new ExternalResourceSiteField(),
+            new LocalizedEnumField(new ExternalResourceSiteField()),
             new CreatedAtField(),
             new UpdatedAtField(),
             new DeletedAtField(),

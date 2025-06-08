@@ -8,6 +8,7 @@ use App\GraphQL\Definition\Fields\Base\CreatedAtField;
 use App\GraphQL\Definition\Fields\Base\DeletedAtField;
 use App\GraphQL\Definition\Fields\Base\IdField;
 use App\GraphQL\Definition\Fields\Base\UpdatedAtField;
+use App\GraphQL\Definition\Fields\LocalizedEnumField;
 use App\GraphQL\Definition\Fields\Wiki\Video\VideoBasenameField;
 use App\GraphQL\Definition\Fields\Wiki\Video\VideoFilenameField;
 use App\GraphQL\Definition\Fields\Wiki\Video\VideoLikesCountField;
@@ -75,10 +76,12 @@ class VideoType extends EloquentType
             new VideoMimetypeField(),
             new VideoNcField(),
             new VideoOverlapField(),
+            new LocalizedEnumField(new VideoOverlapField()),
             new VideoPathField(),
             new VideoResolutionField(),
             new VideoSizeField(),
             new VideoSourceField(),
+            new LocalizedEnumField(new VideoSourceField()),
             new VideoSubbedField(),
             new VideoUncenField(),
             new VideoTagsField(),

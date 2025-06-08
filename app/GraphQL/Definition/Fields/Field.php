@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Fields;
 
+use App\Concerns\GraphQL\ResolvesArguments;
 use App\Concerns\GraphQL\ResolvesDirectives;
+use App\Contracts\GraphQL\HasArgumentsField;
 use GraphQL\Type\Definition\Type;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
@@ -14,6 +16,7 @@ use Illuminate\Support\Str;
  */
 abstract class Field
 {
+    use ResolvesArguments;
     use ResolvesDirectives;
 
     /**
@@ -109,11 +112,16 @@ abstract class Field
      */
     public function toString(): String
     {
-        $string = Str::of($this->getName())
-            ->append(': ')
+        $string = Str::of($this->getName());
+
+        if ($this instanceof HasArgumentsField) {
+            $string = $string->append($this->buildArguments($this->arguments()));
+        }
+
+        $string = $string->append(': ')
             ->append($this->getType()->toString());
 
-        if ($this->getName() !== $this->column) {
+        if ($this->shouldRename()) {
             $string = $string->append(" @rename(attribute: {$this->column})");
         }
 
@@ -122,5 +130,19 @@ abstract class Field
         }
 
         return $string->__toString();
+    }
+
+    /**
+     * Determine if the field is different from the column.
+     *
+     * @return bool
+     */
+    public function shouldRename(): bool
+    {
+        if (Arr::has($this->directives(), 'field')) {
+            return false;
+        }
+
+        return $this->getName() !== $this->column;
     }
 }

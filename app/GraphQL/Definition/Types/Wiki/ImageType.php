@@ -8,6 +8,7 @@ use App\GraphQL\Definition\Fields\Base\CreatedAtField;
 use App\GraphQL\Definition\Fields\Base\DeletedAtField;
 use App\GraphQL\Definition\Fields\Base\IdField;
 use App\GraphQL\Definition\Fields\Base\UpdatedAtField;
+use App\GraphQL\Definition\Fields\LocalizedEnumField;
 use App\GraphQL\Definition\Fields\Wiki\Image\ImageFacetField;
 use App\GraphQL\Definition\Fields\Wiki\Image\ImageLinkField;
 use App\GraphQL\Definition\Fields\Wiki\Image\ImagePathField;
@@ -55,6 +56,7 @@ class ImageType extends EloquentType
         return [
             new IdField(Image::ATTRIBUTE_ID),
             new ImageFacetField(),
+            new LocalizedEnumField(new ImageFacetField()),
             new ImagePathField(),
             new ImageLinkField(),
             new CreatedAtField(),
