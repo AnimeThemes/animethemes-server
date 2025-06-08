@@ -8,8 +8,8 @@ use App\Concerns\Filament\HasTabs;
 use App\Filament\Resources\Base\BaseListResources;
 use App\Filament\Resources\Wiki\Anime;
 use App\Filament\Tabs\Anime\AnimeStreamingResourceTab;
-use App\Filament\Tabs\Anime\Image\AnimeCoverLargeTab;
-use App\Filament\Tabs\Anime\Image\AnimeCoverSmallTab;
+use App\Filament\Tabs\Anime\Image\AnimeLargeCoverTab;
+use App\Filament\Tabs\Anime\Image\AnimeSmallCoverTab;
 use App\Filament\Tabs\Anime\Resource\AnimeAnidbResourceTab;
 use App\Filament\Tabs\Anime\Resource\AnimeAnilistResourceTab;
 use App\Filament\Tabs\Anime\Resource\AnimeAnnResourceTab;
@@ -66,8 +66,8 @@ class ListAnimes extends BaseListResources
     public function getTabs(): array
     {
         return ['all' => Tab::make()] + $this->toArray([
-            AnimeCoverLargeTab::class,
-            AnimeCoverSmallTab::class,
+            AnimeLargeCoverTab::class,
+            AnimeSmallCoverTab::class,
             AnimeAnidbResourceTab::class,
             AnimeAnilistResourceTab::class,
             AnimeAnnResourceTab::class,

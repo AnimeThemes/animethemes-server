@@ -11,9 +11,9 @@ use Nuwave\Lighthouse\Support\Contracts\FieldMiddleware;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 /**
- * Class LocalizedEnumDirective.
+ * Class EnumFieldDirective.
  */
-class LocalizedEnumDirective extends BaseDirective implements FieldMiddleware
+class EnumFieldDirective extends BaseDirective implements FieldMiddleware
 {
     /**
      * Define the directive.
@@ -26,7 +26,7 @@ class LocalizedEnumDirective extends BaseDirective implements FieldMiddleware
         """
         Translate the enum value.
         """
-        directive @localizedEnum on FIELD_DEFINITION
+        directive @enumField(localize: Boolean) on FIELD_DEFINITION
         GRAPHQL;
     }
 
@@ -44,7 +44,11 @@ class LocalizedEnumDirective extends BaseDirective implements FieldMiddleware
             /** @phpstan-ignore-next-line */
             $enum = $resolver($root, $args, $context, $resolveInfo);
 
-            return $enum->localize();
+            if ($this->directiveArgValue('localize')) {
+                return $enum?->localize();
+            }
+
+            return $enum?->name;
         });
     }
 }

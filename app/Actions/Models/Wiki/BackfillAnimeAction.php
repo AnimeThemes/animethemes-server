@@ -160,7 +160,7 @@ class BackfillAnimeAction extends BackfillWikiAction
 
         $texts = [];
         foreach ($api->getSynonyms() as $type => $text) {
-            if ($type === AnimeSynonymType::OTHER->value && in_array($text, $texts, true)) {
+            if ($type === AnimeSynonymType::OTHER->value && in_array($text, $texts)) {
                 Log::info("Skipping duplicate synonym '$text' for Anime {$this->getModel()->getName()}");
                 continue;
             }

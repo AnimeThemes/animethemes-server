@@ -37,9 +37,6 @@ return [
             // Rate limiting GraphQL to prevent abuse.
             'throttle:graphql',
 
-            // GraphQL is enabled for localhost requests.
-            App\GraphQL\Middleware\GraphQLLocalhost::class,
-
             // GraphQL needs to have their own policies.
             App\GraphQL\Middleware\GraphQLPolicy::class,
 
@@ -57,10 +54,10 @@ return [
             Nuwave\Lighthouse\Http\Middleware\AttemptAuthentication::class,
 
             // Logs GraphQL Requests.
-            App\Http\Middleware\LogRequest::class,
+            App\GraphQL\Middleware\LogGraphQLRequest::class,
 
             // Logs every incoming GraphQL query.
-            // Nuwave\Lighthouse\Http\Middleware\LogGraphQLQueries::class,
+            //Nuwave\Lighthouse\Http\Middleware\LogGraphQLQueries::class,
         ],
 
         /*

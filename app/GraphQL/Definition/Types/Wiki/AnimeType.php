@@ -8,6 +8,7 @@ use App\GraphQL\Definition\Fields\Base\CreatedAtField;
 use App\GraphQL\Definition\Fields\Base\DeletedAtField;
 use App\GraphQL\Definition\Fields\Base\IdField;
 use App\GraphQL\Definition\Fields\Base\UpdatedAtField;
+use App\GraphQL\Definition\Fields\LocalizedEnumField;
 use App\GraphQL\Definition\Fields\Wiki\Anime\AnimeMediaFormatField;
 use App\GraphQL\Definition\Fields\Wiki\Anime\AnimeNameField;
 use App\GraphQL\Definition\Fields\Wiki\Anime\AnimeSeasonField;
@@ -65,7 +66,9 @@ class AnimeType extends EloquentType
             new IdField(Anime::ATTRIBUTE_ID),
             new AnimeNameField(),
             new AnimeMediaFormatField(),
+            new LocalizedEnumField(new AnimeMediaFormatField()),
             new AnimeSeasonField(),
+            new LocalizedEnumField(new AnimeSeasonField()),
             new AnimeSlugField(),
             new AnimeSynopsisField(),
             new AnimeYearField(),

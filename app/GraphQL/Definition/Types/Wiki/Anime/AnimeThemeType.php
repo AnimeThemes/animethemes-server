@@ -8,6 +8,7 @@ use App\GraphQL\Definition\Fields\Base\CreatedAtField;
 use App\GraphQL\Definition\Fields\Base\DeletedAtField;
 use App\GraphQL\Definition\Fields\Base\IdField;
 use App\GraphQL\Definition\Fields\Base\UpdatedAtField;
+use App\GraphQL\Definition\Fields\LocalizedEnumField;
 use App\GraphQL\Definition\Fields\Wiki\Anime\Theme\AnimeThemeSequenceField;
 use App\GraphQL\Definition\Fields\Wiki\Anime\Theme\AnimeThemeTypeField;
 use App\GraphQL\Definition\Relations\BelongsToRelation;
@@ -60,6 +61,7 @@ class AnimeThemeType extends EloquentType
         return [
             new IdField(AnimeTheme::ATTRIBUTE_ID),
             new AnimeThemeTypeField(),
+            new LocalizedEnumField(new AnimeThemeTypeField()),
             new AnimeThemeSequenceField(),
             new CreatedAtField(),
             new UpdatedAtField(),

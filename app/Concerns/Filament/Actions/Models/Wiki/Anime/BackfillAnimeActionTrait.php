@@ -162,12 +162,12 @@ trait BackfillAnimeActionTrait
                         Checkbox::make(self::BACKFILL_LARGE_COVER)
                             ->label(__('filament.actions.anime.backfill.fields.images.large_cover.name'))
                             ->helperText(__('filament.actions.anime.backfill.fields.images.large_cover.help'))
-                            ->default(fn () => $images->doesntContain(ImageFacet::COVER_LARGE->value)),
+                            ->default(fn () => $images->doesntContain(ImageFacet::LARGE_COVER->value)),
 
                         Checkbox::make(self::BACKFILL_SMALL_COVER)
                             ->label(__('filament.actions.anime.backfill.fields.images.small_cover.name'))
                             ->helperText(__('filament.actions.anime.backfill.fields.images.small_cover.help'))
-                            ->default(fn () => $images->doesntContain(ImageFacet::COVER_SMALL->value)),
+                            ->default(fn () => $images->doesntContain(ImageFacet::SMALL_COVER->value)),
                     ]),
 
                 Section::make(__('filament.actions.anime.backfill.fields.studios.name'))
@@ -247,8 +247,8 @@ trait BackfillAnimeActionTrait
     protected function getImagesMapping(): array
     {
         return [
-            self::BACKFILL_LARGE_COVER => [ImageFacet::COVER_LARGE],
-            self::BACKFILL_SMALL_COVER => [ImageFacet::COVER_SMALL],
+            self::BACKFILL_LARGE_COVER => [ImageFacet::LARGE_COVER],
+            self::BACKFILL_SMALL_COVER => [ImageFacet::SMALL_COVER],
         ];
     }
 }

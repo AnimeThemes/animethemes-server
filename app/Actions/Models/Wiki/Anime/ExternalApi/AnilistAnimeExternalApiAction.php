@@ -138,8 +138,8 @@ class AnilistAnimeExternalApiAction extends ExternalApiAction implements Backfil
     public function getImagesMapping(): array
     {
         return [
-            ImageFacet::COVER_SMALL->value => 'data.Media.coverImage.medium',
-            ImageFacet::COVER_LARGE->value => 'data.Media.coverImage.extraLarge',
+            ImageFacet::SMALL_COVER->value => 'data.Media.coverImage.medium',
+            ImageFacet::LARGE_COVER->value => 'data.Media.coverImage.extraLarge',
         ];
     }
 

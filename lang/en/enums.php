@@ -69,8 +69,8 @@ return [
         ExternalProfileVisibility::PRIVATE->name => 'Private',
     ],
     ImageFacet::class => [
-        ImageFacet::COVER_SMALL->name => 'Small Cover',
-        ImageFacet::COVER_LARGE->name => 'Large Cover',
+        ImageFacet::SMALL_COVER->name => 'Small Cover',
+        ImageFacet::LARGE_COVER->name => 'Large Cover',
         ImageFacet::GRILL->name => 'Grill',
         ImageFacet::DOCUMENT->name => 'Document',
         ImageFacet::AVATAR->name => 'Avatar',
