@@ -49,6 +49,10 @@ class StoreExternalProfileUsernameAction
 
             if ($findProfile instanceof ExternalProfile) {
                 DB::rollBack();
+                if ($findProfile->isClaimed()) {
+                    throw new Exception("The external profile '{$findProfile->getName()}' is already claimed.");
+                }
+
                 return $findProfile;
             }
 

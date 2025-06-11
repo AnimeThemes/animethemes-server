@@ -39,6 +39,7 @@ class SyncExternalProfileAction
         try {
             DB::beginTransaction();
 
+            // A claimed profile will be synced using its external token.
             $action = $profile->isClaimed()
                 ? $this->getClaimedActionClass($profile)
                 : $this->getUnclaimedActionClass($profile);
@@ -62,6 +63,7 @@ class SyncExternalProfileAction
                 }
             }
 
+            // Insert the external entries or update its status filtering by anime id.
             ExternalEntry::query()
                 ->upsert(
                     $externalEntries,
@@ -69,6 +71,7 @@ class SyncExternalProfileAction
                     ExternalEntry::fieldsForUpdate(),
                 );
 
+            // An external entry that is not in the external list anymore should be removed.
             ExternalEntry::query()
                 ->where(ExternalEntry::ATTRIBUTE_PROFILE, $profile->getKey())
                 ->whereNotIn(ExternalEntry::ATTRIBUTE_ANIME, Arr::map($externalEntries, fn ($value) => $value[ExternalEntry::ATTRIBUTE_ANIME]))
@@ -120,6 +123,7 @@ class SyncExternalProfileAction
      */
     protected function cacheResources(ExternalProfileSite $profileSite): void
     {
+        // External resources are only added by mods so it doesn't change too often.
         $this->resources = Cache::flexible("resources_{$profileSite->name}", [60, 300], function () use ($profileSite) {
             return ExternalResource::query()
                 ->where(ExternalResource::ATTRIBUTE_SITE, $profileSite->getResourceSite()->value)
