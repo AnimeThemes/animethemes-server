@@ -50,47 +50,47 @@ class Kernel extends ConsoleKernel
             ->storeOutput()
             ->everyFifteenMinutes();
 
-        $schedule->command(AdminDumpCommand::class)
-            ->withoutOverlapping()
-            ->runInBackground()
-            ->storeOutput()
-            ->weeklyOn(Schedule::MONDAY);
-
-        $schedule->command(AuthDumpCommand::class)
-            ->withoutOverlapping()
-            ->runInBackground()
-            ->storeOutput()
-            ->weeklyOn(Schedule::MONDAY);
-
-        $schedule->command(DiscordDumpCommand::class)
-            ->withoutOverlapping()
-            ->runInBackground()
-            ->storeOutput()
-            ->weeklyOn(Schedule::MONDAY);
-
         $schedule->command(DocumentDumpCommand::class)
             ->withoutOverlapping()
             ->runInBackground()
             ->storeOutput()
             ->daily();
 
+        $schedule->command(WikiDumpCommand::class)
+            ->withoutOverlapping()
+            ->runInBackground()
+            ->storeOutput()
+            ->dailyAt('00:02');
+
+        $schedule->command(AdminDumpCommand::class)
+            ->withoutOverlapping()
+            ->runInBackground()
+            ->storeOutput()
+            ->weeklyOn(Schedule::MONDAY, '00:04');
+
+        $schedule->command(AuthDumpCommand::class)
+            ->withoutOverlapping()
+            ->runInBackground()
+            ->storeOutput()
+            ->weeklyOn(Schedule::MONDAY, '00:06');
+
+        $schedule->command(DiscordDumpCommand::class)
+            ->withoutOverlapping()
+            ->runInBackground()
+            ->storeOutput()
+            ->weeklyOn(Schedule::MONDAY, '00:08');
+
         $schedule->command(ListDumpCommand::class)
             ->withoutOverlapping()
             ->runInBackground()
             ->storeOutput()
-            ->weeklyOn(Schedule::MONDAY);
+            ->weeklyOn(Schedule::MONDAY, '00:10');
 
         $schedule->command(UserDumpCommand::class)
             ->withoutOverlapping()
             ->runInBackground()
             ->storeOutput()
-            ->weeklyOn(Schedule::MONDAY);
-
-        $schedule->command(WikiDumpCommand::class)
-            ->withoutOverlapping()
-            ->runInBackground()
-            ->storeOutput()
-            ->daily();
+            ->weeklyOn(Schedule::MONDAY, '00:12');
 
         $schedule->command(DumpPruneCommand::class)
             ->withoutOverlapping()

@@ -47,8 +47,8 @@ class FeatureEnabledDirective extends BaseDirective implements FieldMiddleware
             return;
         }
 
-        $middleware = new EnsureFeaturesAreActive([$feature]);
+        $middleware = new EnsureFeaturesAreActive();
 
-        $middleware->handle(request(), fn () => null);
+        $middleware->handle(request(), fn () => null, $feature);
     }
 }

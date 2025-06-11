@@ -39,15 +39,13 @@ class ExternalTokenCallbackAction
             $site = Arr::get($parameters, ExternalProfile::ATTRIBUTE_SITE);
             $profileSite = ExternalProfileSite::fromLocalizedName($site);
 
-            $action = $this->getActionClass($profileSite);
-
             $externalToken = ExternalToken::query()
                 ->whereRelation(ExternalToken::RELATION_PROFILE, ExternalProfile::ATTRIBUTE_USER, Auth::id())
                 ->whereRelation(ExternalToken::RELATION_PROFILE, ExternalProfile::ATTRIBUTE_SITE, $profileSite->value)
                 ->first();
 
             if (! $externalToken instanceof ExternalToken) {
-                $externalToken = $action->store($parameters);
+                $externalToken = $this->getActionClass($profileSite)->store($parameters);
             }
 
             $profileAction = new StoreExternalProfileTokenAction();

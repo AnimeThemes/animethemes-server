@@ -6,6 +6,7 @@ namespace App\GraphQL\Policies;
 
 use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\ExtendedCrudPermission;
+use App\Enums\Auth\SpecialPermission;
 use App\Models\Auth\User;
 use App\Models\BaseModel;
 use Illuminate\Auth\Access\HandlesAuthorization;
@@ -34,6 +35,22 @@ abstract class BasePolicy
             ->replace('GraphQL\\Policies', 'Models')
             ->remove('Policy')
             ->__toString();
+    }
+
+    /**
+     * Perform pre-authorization checks.
+     *
+     * @param  User  $user
+     * @param  string  $ability
+     * @return bool|null
+     */
+    public function before(User $user, string $ability): ?bool
+    {
+        if ($user->can(SpecialPermission::BYPASS_AUTHORIZATION->value)) {
+            return true;
+        }
+
+        return null;
     }
 
     /**

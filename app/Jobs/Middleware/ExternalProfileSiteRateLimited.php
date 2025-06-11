@@ -60,15 +60,15 @@ class ExternalProfileSiteRateLimited
     {
         // Note: Full use is not allowed because of admin.
         return [
-            ExternalProfileSite::ANILIST->value => [ // AniList rate limit is 30/min
+            ExternalProfileSite::ANILIST->value => [ // AniList rate limiting is 30/min
                 'key' => ExternalProfileSite::ANILIST->name,
-                'allow' => 25,
-                'every' => 60,
+                'allow' => 1,
+                'every' => 3,
             ],
-            ExternalProfileSite::MAL->value => [ // MAL rate limit is 90/min
+            ExternalProfileSite::MAL->value => [ // MAL rate limiting is 90/min
                 'key' => ExternalProfileSite::MAL->name,
-                'allow' => 80,
-                'every' => 60,
+                'allow' => 1,
+                'every' => 1,
             ],
         ];
     }
