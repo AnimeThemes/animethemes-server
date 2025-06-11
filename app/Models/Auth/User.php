@@ -217,7 +217,8 @@ class User extends Authenticatable implements MustVerifyEmail, Nameable, HasSubt
      */
     public function canAccessPanel(Panel $panel): bool
     {
-        return $this->hasVerifiedEmail() && $this->hasAnyPermission(SpecialPermission::VIEW_FILAMENT->value);
+        return ($this->hasVerifiedEmail() && $this->hasAnyPermission(SpecialPermission::VIEW_FILAMENT->value))
+            || $this->hasAnyPermission(SpecialPermission::BYPASS_AUTHORIZATION->value);
     }
 
     /**

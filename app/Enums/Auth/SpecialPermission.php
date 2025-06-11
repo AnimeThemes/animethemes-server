@@ -11,6 +11,8 @@ enum SpecialPermission: string
 {
     case BYPASS_API_RATE_LIMITER = 'bypass api rate limiter';
 
+    case BYPASS_AUTHORIZATION = 'bypass authorization';
+
     case BYPASS_FEATURE_FLAGS = 'bypass feature flags';
 
     case BYPASS_GRAPHQL_RATE_LIMITER = 'bypass graphql rate limiter';
