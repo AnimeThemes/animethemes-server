@@ -7,7 +7,6 @@ namespace App\GraphQL\Definition\Queries\List;
 use App\GraphQL\Builders\List\PlaylistBuilder;
 use App\GraphQL\Definition\Queries\EloquentQuery;
 use App\GraphQL\Definition\Types\List\PlaylistType;
-use GraphQL\Type\Definition\Type;
 
 /**
  * Class PlaylistsQuery.
@@ -69,9 +68,9 @@ class PlaylistsQuery extends EloquentQuery
     /**
      * The base return type of the query.
      *
-     * @return Type
+     * @return PlaylistType
      */
-    public function baseType(): Type
+    public function baseType(): PlaylistType
     {
         return new PlaylistType();
     }

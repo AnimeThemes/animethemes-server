@@ -8,7 +8,6 @@ use App\GraphQL\Definition\Queries\BaseQuery;
 use App\GraphQL\Definition\Types\Wiki\Anime\AnimeYearType;
 use App\GraphQL\Queries\AnimeYear;
 use App\Models\Wiki\Anime;
-use GraphQL\Type\Definition\Type;
 
 /**
  * Class AnimeYearQuery.
@@ -67,9 +66,9 @@ class AnimeYearQuery extends BaseQuery
     /**
      * The base return type of the query.
      *
-     * @return Type
+     * @return AnimeYearType
      */
-    public function baseType(): Type
+    public function baseType(): AnimeYearType
     {
         return new AnimeYearType();
     }

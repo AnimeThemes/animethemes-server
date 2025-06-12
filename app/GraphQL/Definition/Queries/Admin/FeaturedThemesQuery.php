@@ -7,7 +7,6 @@ namespace App\GraphQL\Definition\Queries\Admin;
 use App\GraphQL\Builders\Admin\FeaturedThemeBuilder;
 use App\GraphQL\Definition\Queries\EloquentQuery;
 use App\GraphQL\Definition\Types\Admin\FeaturedThemeType;
-use GraphQL\Type\Definition\Type;
 
 /**
  * Class FeaturedThemesQuery.
@@ -62,9 +61,9 @@ class FeaturedThemesQuery extends EloquentQuery
     /**
      * The base return type of the query.
      *
-     * @return Type
+     * @return FeaturedThemeType
      */
-    public function baseType(): Type
+    public function baseType(): FeaturedThemeType
     {
         return new FeaturedThemeType();
     }

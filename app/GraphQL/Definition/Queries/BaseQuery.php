@@ -6,6 +6,7 @@ namespace App\GraphQL\Definition\Queries;
 
 use App\Concerns\GraphQL\ResolvesArguments;
 use App\Concerns\GraphQL\ResolvesDirectives;
+use App\Contracts\GraphQL\HasFields;
 use App\GraphQL\Definition\Types\BaseType;
 use GraphQL\Type\Definition\Type;
 
@@ -75,7 +76,7 @@ abstract class BaseQuery
         $arguments = [];
         $baseType = $this->baseType();
 
-        if ($baseType instanceof BaseType && filled($baseType->fields())) {
+        if ($baseType instanceof BaseType && $baseType instanceof HasFields) {
             $arguments[] = $this->resolveFilterArguments($baseType->fields());
         }
 
@@ -110,4 +111,14 @@ abstract class BaseQuery
      * @return Type
      */
     abstract public function baseType(): Type;
+
+    /**
+     * Get the name of the query.
+     *
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name;
+    }
 }

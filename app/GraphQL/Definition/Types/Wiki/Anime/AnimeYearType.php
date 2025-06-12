@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Types\Wiki\Anime;
 
+use App\Contracts\GraphQL\HasFields;
+use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Definition\Fields\Wiki\Anime\AnimeYear\AnimeYearFallField;
 use App\GraphQL\Definition\Fields\Wiki\Anime\AnimeYear\AnimeYearSpringField;
 use App\GraphQL\Definition\Fields\Wiki\Anime\AnimeYear\AnimeYearSummerField;
@@ -13,7 +15,7 @@ use App\GraphQL\Definition\Types\BaseType;
 /**
  * Class AnimeYearType.
  */
-class AnimeYearType extends BaseType
+class AnimeYearType extends BaseType implements HasFields
 {
     /**
      * The description of the type.
@@ -28,7 +30,7 @@ class AnimeYearType extends BaseType
     /**
      * The fields of the type.
      *
-     * @return array
+     * @return array<int, Field>
      */
     public function fields(): array
     {

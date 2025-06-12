@@ -7,7 +7,6 @@ namespace App\GraphQL\Definition\Queries\Admin\FeaturedTheme;
 use App\GraphQL\Builders\Admin\FeaturedThemeBuilder;
 use App\GraphQL\Definition\Queries\BaseQuery;
 use App\GraphQL\Definition\Types\Admin\FeaturedThemeType;
-use GraphQL\Type\Definition\Type;
 
 /**
  * Class CurrentFeaturedThemeQuery.
@@ -60,9 +59,9 @@ class CurrentFeaturedThemeQuery extends BaseQuery
     /**
      * The base return type of the query.
      *
-     * @return Type
+     * @return FeaturedThemeType
      */
-    public function baseType(): Type
+    public function baseType(): FeaturedThemeType
     {
         return new FeaturedThemeType();
     }

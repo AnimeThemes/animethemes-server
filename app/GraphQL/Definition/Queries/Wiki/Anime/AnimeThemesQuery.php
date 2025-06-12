@@ -6,7 +6,6 @@ namespace App\GraphQL\Definition\Queries\Wiki\Anime;
 
 use App\GraphQL\Definition\Queries\EloquentQuery;
 use App\GraphQL\Definition\Types\Wiki\Anime\AnimeThemeType;
-use GraphQL\Type\Definition\Type;
 
 /**
  * Class AnimeThemesQuery.
@@ -47,9 +46,9 @@ class AnimeThemesQuery extends EloquentQuery
     /**
      * The base return type of the query.
      *
-     * @return Type
+     * @return AnimeThemeType
      */
-    public function baseType(): Type
+    public function baseType(): AnimeThemeType
     {
         return new AnimeThemeType();
     }

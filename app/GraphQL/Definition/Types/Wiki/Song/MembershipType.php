@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Types\Wiki\Song;
 
+use App\Contracts\GraphQL\HasFields;
+use App\Contracts\GraphQL\HasRelations;
 use App\GraphQL\Definition\Fields\Base\CreatedAtField;
 use App\GraphQL\Definition\Fields\Base\DeletedAtField;
 use App\GraphQL\Definition\Fields\Base\IdField;
 use App\GraphQL\Definition\Fields\Base\UpdatedAtField;
+use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Definition\Fields\Wiki\Song\Membership\MembershipAliasField;
 use App\GraphQL\Definition\Fields\Wiki\Song\Membership\MembershipAsField;
 use App\GraphQL\Definition\Relations\BelongsToRelation;
@@ -20,7 +23,7 @@ use App\Models\Wiki\Song\Membership;
 /**
  * Class MembershipType.
  */
-class MembershipType extends EloquentType
+class MembershipType extends EloquentType implements HasFields, HasRelations
 {
     /**
      * The description of the type.
@@ -49,7 +52,7 @@ class MembershipType extends EloquentType
     /**
      * The fields of the type.
      *
-     * @return array
+     * @return array<int, Field>
      */
     public function fields(): array
     {

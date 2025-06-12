@@ -6,7 +6,6 @@ namespace App\GraphQL\Definition\Queries\Admin;
 
 use App\GraphQL\Definition\Queries\EloquentQuery;
 use App\GraphQL\Definition\Types\Admin\AnnouncementType;
-use GraphQL\Type\Definition\Type;
 
 /**
  * Class AnnouncementsQuery.
@@ -45,9 +44,9 @@ class AnnouncementsQuery extends EloquentQuery
     /**
      * The base return type of the query.
      *
-     * @return Type
+     * @return AnnouncementType
      */
-    public function baseType(): Type
+    public function baseType(): AnnouncementType
     {
         return new AnnouncementType();
     }

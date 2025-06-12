@@ -6,7 +6,6 @@ namespace App\GraphQL\Definition\Queries\Wiki;
 
 use App\GraphQL\Definition\Queries\EloquentQuery;
 use App\GraphQL\Definition\Types\Wiki\ExternalResourceType;
-use GraphQL\Type\Definition\Type;
 
 /**
  * Class ExternalResourcesQuery.
@@ -45,9 +44,9 @@ class ExternalResourcesQuery extends EloquentQuery
     /**
      * The base return type of the query.
      *
-     * @return Type
+     * @return ExternalResourceType
      */
-    public function baseType(): Type
+    public function baseType(): ExternalResourceType
     {
         return new ExternalResourceType();
     }

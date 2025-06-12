@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Types\Auth\User;
 
+use App\Contracts\GraphQL\HasDirectives;
+use App\Contracts\GraphQL\HasFields;
+use App\Contracts\GraphQL\HasRelations;
 use App\GraphQL\Definition\Fields\Auth\User\UserEmailField;
 use App\GraphQL\Definition\Fields\Auth\User\UserEmailVerifiedAtField;
 use App\GraphQL\Definition\Fields\Auth\User\UserNameField;
@@ -11,6 +14,7 @@ use App\GraphQL\Definition\Fields\Auth\User\UserTwoFactorConfirmedAtField;
 use App\GraphQL\Definition\Fields\Base\CreatedAtField;
 use App\GraphQL\Definition\Fields\Base\IdField;
 use App\GraphQL\Definition\Fields\Base\UpdatedAtField;
+use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Definition\Relations\BelongsToManyRelation;
 use App\GraphQL\Definition\Relations\HasManyRelation;
 use App\GraphQL\Definition\Relations\MorphManyRelation;
@@ -25,7 +29,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * Class MeType.
  */
-class MeType extends EloquentType
+class MeType extends EloquentType implements HasDirectives, HasFields, HasRelations
 {
     /**
      * The description of the type.
@@ -55,7 +59,7 @@ class MeType extends EloquentType
     /**
      * The fields of the type.
      *
-     * @return array
+     * @return array<int, Field>
      */
     public function fields(): array
     {
@@ -78,8 +82,6 @@ class MeType extends EloquentType
     public function directives(): array
     {
         return [
-            ...parent::directives(),
-
             'model' => [
                 'class' => $this->model(),
             ],

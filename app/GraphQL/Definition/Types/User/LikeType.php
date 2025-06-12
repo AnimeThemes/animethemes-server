@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Types\User;
 
-
+use App\Contracts\GraphQL\HasRelations;
 use App\GraphQL\Definition\Relations\BelongsToRelation;
 use App\GraphQL\Definition\Relations\MorphToRelation;
 use App\GraphQL\Definition\Relations\Relation;
@@ -16,7 +16,7 @@ use App\Models\User\Like;
 /**
  * Class LikeType.
  */
-class LikeType extends EloquentType
+class LikeType extends EloquentType implements HasRelations
 {
     /**
      * The description of the type.
@@ -39,15 +39,5 @@ class LikeType extends EloquentType
             new BelongsToRelation(new UserType(), Like::RELATION_USER),
             new MorphToRelation(new LikedUnion(), Like::RELATION_LIKEABLE, 'liked'),
         ];
-    }
-
-    /**
-     * The fields of the type.
-     *
-     * @return array
-     */
-    public function fields(): array
-    {
-        return [];
     }
 }

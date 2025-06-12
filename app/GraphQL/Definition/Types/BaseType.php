@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace App\GraphQL\Definition\Types;
 
 use App\Concerns\GraphQL\ResolvesDirectives;
+use App\Contracts\GraphQL\HasDirectives;
+use App\Contracts\GraphQL\HasFields;
+use App\Contracts\GraphQL\HasRelations;
 use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Definition\Relations\Relation;
 use GraphQL\Type\Definition\ObjectType;
@@ -19,15 +22,18 @@ abstract class BaseType extends ObjectType
 
     public function __construct()
     {
-        $fields = collect($this->fields())
-            ->mapWithKeys(fn (Field $field) => [
-                $field->getName() => [
-                    'description' => $field->description(),
-                    'type' => $field->getType(),
-                    'resolve' => fn ($root) => $field->resolve($root),
-                ]
-            ])
-            ->toArray();
+        $fields = [];
+        if ($this instanceof HasFields) {
+            $fields[] = collect($this->fields())
+                ->mapWithKeys(fn (Field $field) => [
+                    $field->getName() => [
+                        'description' => $field->description(),
+                        'type' => $field->getType(),
+                        'resolve' => fn ($root) => $field->resolve($root),
+                    ]
+                ])
+                ->toArray();
+        }
 
         parent::__construct([
             'name' => $this->getName(),
@@ -43,31 +49,36 @@ abstract class BaseType extends ObjectType
      */
     public function mount(): string
     {
-        $fields = collect($this->fields())
-            ->map(function (Field $field) {
-                return Str::of('"')
-                    ->append($field->description())
-                    ->append('"')
-                    ->append("\n")
-                    ->append($field->toString());
-            })
-            ->implode("\n");
+        $fields = [];
+        if ($this instanceof HasFields) {
+            $fields[] = collect($this->fields())
+                ->map(function (Field $field) {
+                    return Str::of('"')
+                        ->append($field->description())
+                        ->append('"')
+                        ->append("\n")
+                        ->append($field->toString());
+                })
+                ->toArray();
+        }
 
-        $relations = collect($this->relations())
-            ->map(fn (Relation $relation) => $relation->toString())
-            ->implode("\n");
+        if ($this instanceof HasRelations) {
+            $fields[] = collect($this->relations())
+                ->map(fn (Relation $relation) => $relation->toString())
+                ->toArray();
+        }
 
-        $allFields = Str::of($fields)
-            ->append("\n")
-            ->append($relations)
-            ->toString();
+        $fieldsString = implode("\n", $fields);
 
-        $directives = $this->resolveDirectives($this->directives());
+        $directives = '';
+        if ($this instanceof HasDirectives) {
+            $directives = $this->resolveDirectives($this->directives());
+        }
 
         return "
             \"\"\"{$this->description()}\"\"\"
             type {$this->getName()} {$directives}{
-                $allFields
+                $fieldsString
             }
         ";
     }
@@ -90,31 +101,4 @@ abstract class BaseType extends ObjectType
      * @return string
      */
     abstract public function getDescription(): string;
-
-    /**
-     * The fields of the type.
-     *
-     * @return array
-     */
-    abstract public function fields(): array;
-
-    /**
-     * The relations of the type.
-     *
-     * @return array<int, Relation>
-     */
-    public function relations(): array
-    {
-        return [];
-    }
-
-    /**
-     * The directives of the type.
-     *
-     * @return array<string, array>
-     */
-    public function directives(): array
-    {
-        return [];
-    }
 }

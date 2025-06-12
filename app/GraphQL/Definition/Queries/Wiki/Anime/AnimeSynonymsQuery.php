@@ -6,7 +6,6 @@ namespace App\GraphQL\Definition\Queries\Wiki\Anime;
 
 use App\GraphQL\Definition\Queries\EloquentQuery;
 use App\GraphQL\Definition\Types\Wiki\Anime\AnimeSynonymType;
-use GraphQL\Type\Definition\Type;
 
 /**
  * Class AnimeSynonymsQuery.
@@ -45,9 +44,9 @@ class AnimeSynonymsQuery extends EloquentQuery
     /**
      * The base return type of the query.
      *
-     * @return Type
+     * @return AnimeSynonymType
      */
-    public function baseType(): Type
+    public function baseType(): AnimeSynonymType
     {
         return new AnimeSynonymType();
     }
