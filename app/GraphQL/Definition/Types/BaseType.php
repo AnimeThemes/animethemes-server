@@ -11,6 +11,7 @@ use App\Contracts\GraphQL\HasRelations;
 use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Definition\Relations\Relation;
 use GraphQL\Type\Definition\ObjectType;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
 /**
@@ -38,7 +39,7 @@ abstract class BaseType extends ObjectType
         parent::__construct([
             'name' => $this->getName(),
             'description' => $this->getDescription(),
-            'fields' => $fields,
+            'fields' => Arr::flatten($fields),
         ]);
     }
 
@@ -51,24 +52,21 @@ abstract class BaseType extends ObjectType
     {
         $fields = [];
         if ($this instanceof HasFields) {
-            $fields[] = collect($this->fields())
-                ->map(function (Field $field) {
-                    return Str::of('"')
-                        ->append($field->description())
-                        ->append('"')
-                        ->append("\n")
-                        ->append($field->toString());
-                })
-                ->toArray();
+            $fields[] = Arr::map($this->fields(), function (Field $field) {
+                return Str::of('"')
+                    ->append($field->description())
+                    ->append('"')
+                    ->append("\n")
+                    ->append($field->toString())
+                    ->__toString();
+            });
         }
 
         if ($this instanceof HasRelations) {
-            $fields[] = collect($this->relations())
-                ->map(fn (Relation $relation) => $relation->toString())
-                ->toArray();
+            $fields[] = Arr::map($this->relations(), fn (Relation $relation) => $relation->toString());
         }
 
-        $fieldsString = implode("\n", $fields);
+        $fieldsString = implode("\n", Arr::flatten($fields));
 
         $directives = '';
         if ($this instanceof HasDirectives) {

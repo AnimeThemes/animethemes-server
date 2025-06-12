@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Types\Wiki\Anime\Theme;
 
+use App\Contracts\GraphQL\HasFields;
 use App\GraphQL\Definition\Fields\Base\CreatedAtField;
 use App\GraphQL\Definition\Fields\Base\DeletedAtField;
 use App\GraphQL\Definition\Fields\Base\IdField;
@@ -25,7 +26,7 @@ use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 /**
  * Class AnimeThemeEntryType.
  */
-class AnimeThemeEntryType extends EloquentType
+class AnimeThemeEntryType extends EloquentType implements HasFields
 {
     /**
      * The description of the type.
