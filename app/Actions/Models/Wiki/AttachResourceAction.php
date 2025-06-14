@@ -22,7 +22,7 @@ class AttachResourceAction
      *
      * @param  BaseModel&HasResources  $model
      * @param  array  $fields
-     * @param  ResourceSite[]  $sites
+     * @param  array<int, ResourceSite>  $sites
      * @return void
      */
     public function handle(BaseModel&HasResources $model, array $fields, array $sites): void

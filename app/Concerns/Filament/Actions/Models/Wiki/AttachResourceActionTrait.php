@@ -22,7 +22,7 @@ trait AttachResourceActionTrait
     /**
      * The sites available for the action.
      *
-     * @var ResourceSite[]
+     * @var array<int, ResourceSite>
      */
     protected array $sites = [];
 
@@ -84,7 +84,7 @@ trait AttachResourceActionTrait
     /**
      * Get the sites available for the action.
      *
-     * @param  ResourceSite[]  $sites
+     * @param  array<int, ResourceSite>  $sites
      * @return static
      */
     public function sites($sites): static

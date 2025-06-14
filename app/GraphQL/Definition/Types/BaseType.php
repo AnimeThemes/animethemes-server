@@ -13,6 +13,7 @@ use App\GraphQL\Definition\Relations\Relation;
 use GraphQL\Type\Definition\ObjectType;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use RuntimeException;
 
 /**
  * Class BaseType.
@@ -47,6 +48,8 @@ abstract class BaseType extends ObjectType
      * Mount the type definition string.
      *
      * @return string
+     *
+     * @throws RuntimeException
      */
     public function mount(): string
     {
@@ -64,6 +67,10 @@ abstract class BaseType extends ObjectType
 
         if ($this instanceof HasRelations) {
             $fields[] = Arr::map($this->relations(), fn (Relation $relation) => $relation->toString());
+        }
+
+        if (blank($fields)) {
+            throw new RuntimeException("There are no fields for the type {$this->getName()}.");
         }
 
         $fieldsString = implode("\n", Arr::flatten($fields));
