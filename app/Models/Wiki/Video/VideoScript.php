@@ -21,6 +21,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * Class VideoScript.
  *
  * @property int $script_id
+ * @property string $link
  * @property string $path
  * @property Video $video
  * @property int $video_id
@@ -32,6 +33,7 @@ class VideoScript extends BaseModel implements InteractsWithSchema
     final public const TABLE = 'video_scripts';
 
     final public const ATTRIBUTE_ID = 'script_id';
+    final public const ATTRIBUTE_LINK = 'link';
     final public const ATTRIBUTE_PATH = 'path';
     final public const ATTRIBUTE_VIDEO = 'video_id';
 
@@ -75,6 +77,25 @@ class VideoScript extends BaseModel implements InteractsWithSchema
      * @var string
      */
     protected $primaryKey = VideoScript::ATTRIBUTE_ID;
+
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var list<string>
+     */
+    protected $appends = [
+        VideoScript::ATTRIBUTE_LINK,
+    ];
+
+    /**
+     * The link of the video script.
+     *
+     * @return string
+     */
+    public function getLinkAttribute(): string
+    {
+        return route('videoscript.show', $this);
+    }
 
     /**
      * Get name.
