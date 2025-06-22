@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Types\Wiki\Anime\Theme;
 
+use App\Contracts\GraphQL\HasFields;
 use App\GraphQL\Definition\Fields\Base\CreatedAtField;
 use App\GraphQL\Definition\Fields\Base\DeletedAtField;
 use App\GraphQL\Definition\Fields\Base\IdField;
 use App\GraphQL\Definition\Fields\Base\UpdatedAtField;
+use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Definition\Fields\Wiki\Anime\Theme\Entry\AnimeThemeEntryEpisodesField;
 use App\GraphQL\Definition\Fields\Wiki\Anime\Theme\Entry\AnimeThemeEntryNotesField;
 use App\GraphQL\Definition\Fields\Wiki\Anime\Theme\Entry\AnimeThemeEntryNsfwField;
@@ -24,7 +26,7 @@ use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 /**
  * Class AnimeThemeEntryType.
  */
-class AnimeThemeEntryType extends EloquentType
+class AnimeThemeEntryType extends EloquentType implements HasFields
 {
     /**
      * The description of the type.
@@ -52,7 +54,7 @@ class AnimeThemeEntryType extends EloquentType
     /**
      * The fields of the type.
      *
-     * @return array
+     * @return array<int, Field>
      */
     public function fields(): array
     {

@@ -6,7 +6,6 @@ namespace App\GraphQL\Definition\Queries\Wiki;
 
 use App\GraphQL\Definition\Queries\EloquentQuery;
 use App\GraphQL\Definition\Types\Wiki\VideoType;
-use GraphQL\Type\Definition\Type;
 
 /**
  * Class VideosQuery.
@@ -52,9 +51,9 @@ class VideosQuery extends EloquentQuery
     /**
      * The base return type of the query.
      *
-     * @return Type
+     * @return VideoType
      */
-    public function baseType(): Type
+    public function baseType(): VideoType
     {
         return new VideoType();
     }

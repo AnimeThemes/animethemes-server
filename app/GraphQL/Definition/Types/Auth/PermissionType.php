@@ -4,18 +4,20 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Types\Auth;
 
+use App\Contracts\GraphQL\HasFields;
 use App\GraphQL\Definition\Fields\Auth\Permission\PermissionGuardNameField;
 use App\GraphQL\Definition\Fields\Auth\Permission\PermissionNameField;
 use App\GraphQL\Definition\Fields\Base\CreatedAtField;
 use App\GraphQL\Definition\Fields\Base\IdField;
 use App\GraphQL\Definition\Fields\Base\UpdatedAtField;
+use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Definition\Types\EloquentType;
 use App\Models\Auth\Permission;
 
 /**
  * Class PermissionType.
  */
-class PermissionType extends EloquentType
+class PermissionType extends EloquentType implements HasFields
 {
     /**
      * The description of the type.
@@ -30,7 +32,7 @@ class PermissionType extends EloquentType
     /**
      * The fields of the type.
      *
-     * @return array
+     * @return array<int, Field>
      */
     public function fields(): array
     {

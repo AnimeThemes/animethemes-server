@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Types\Admin;
 
+use App\Contracts\GraphQL\HasFields;
+use App\Contracts\GraphQL\HasRelations;
 use App\GraphQL\Definition\Fields\Admin\FeaturedTheme\FeaturedThemeEndAtField;
 use App\GraphQL\Definition\Fields\Admin\FeaturedTheme\FeaturedThemeStartAtField;
 use App\GraphQL\Definition\Fields\Base\CreatedAtField;
 use App\GraphQL\Definition\Fields\Base\DeletedAtField;
 use App\GraphQL\Definition\Fields\Base\IdField;
 use App\GraphQL\Definition\Fields\Base\UpdatedAtField;
+use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Definition\Relations\BelongsToRelation;
 use App\GraphQL\Definition\Relations\Relation;
 use App\GraphQL\Definition\Types\Auth\UserType;
@@ -21,7 +24,7 @@ use App\Models\Admin\FeaturedTheme;
 /**
  * Class FeaturedThemeType.
  */
-class FeaturedThemeType extends EloquentType
+class FeaturedThemeType extends EloquentType implements HasFields, HasRelations
 {
     /**
      * The description of the type.
@@ -50,7 +53,7 @@ class FeaturedThemeType extends EloquentType
     /**
      * The fields of the type.
      *
-     * @return array
+     * @return array<int, Field>
      */
     public function fields(): array
     {

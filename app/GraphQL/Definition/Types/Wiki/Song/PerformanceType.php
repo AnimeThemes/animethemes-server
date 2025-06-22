@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Types\Wiki\Song;
 
+use App\Contracts\GraphQL\HasFields;
+use App\Contracts\GraphQL\HasRelations;
 use App\GraphQL\Definition\Fields\Base\CreatedAtField;
 use App\GraphQL\Definition\Fields\Base\DeletedAtField;
 use App\GraphQL\Definition\Fields\Base\IdField;
@@ -22,7 +24,7 @@ use App\Models\Wiki\Song\Performance;
 /**
  * Class PerformanceType.
  */
-class PerformanceType extends EloquentType
+class PerformanceType extends EloquentType implements HasFields, HasRelations
 {
     /**
      * The description of the type.

@@ -6,7 +6,6 @@ namespace App\GraphQL\Definition\Queries\Wiki;
 
 use App\GraphQL\Definition\Queries\EloquentQuery;
 use App\GraphQL\Definition\Types\Wiki\AudioType;
-use GraphQL\Type\Definition\Type;
 
 /**
  * Class AudiosQuery.
@@ -49,9 +48,9 @@ class AudiosQuery extends EloquentQuery
     /**
      * The base return type of the query.
      *
-     * @return Type
+     * @return AudioType
      */
-    public function baseType(): Type
+    public function baseType(): AudioType
     {
         return new AudioType();
     }

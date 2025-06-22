@@ -6,7 +6,6 @@ namespace App\GraphQL\Definition\Queries\Auth\User;
 
 use App\GraphQL\Definition\Queries\BaseQuery;
 use App\GraphQL\Definition\Types\Auth\User\MeType;
-use GraphQL\Type\Definition\Type;
 
 /**
  * Class MeQuery.
@@ -53,9 +52,9 @@ class MeQuery extends BaseQuery
     /**
      * The base return type of the query.
      *
-     * @return Type
+     * @return MeType
      */
-    public function baseType(): Type
+    public function baseType(): MeType
     {
         return new MeType();
     }

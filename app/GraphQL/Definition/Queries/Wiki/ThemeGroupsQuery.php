@@ -6,7 +6,6 @@ namespace App\GraphQL\Definition\Queries\Wiki;
 
 use App\GraphQL\Definition\Queries\EloquentQuery;
 use App\GraphQL\Definition\Types\Wiki\ThemeGroupType;
-use GraphQL\Type\Definition\Type;
 
 /**
  * Class ThemeGroupsQuery.
@@ -45,9 +44,9 @@ class ThemeGroupsQuery extends EloquentQuery
     /**
      * The base return type of the query.
      *
-     * @return Type
+     * @return ThemeGroupType
      */
-    public function baseType(): Type
+    public function baseType(): ThemeGroupType
     {
         return new ThemeGroupType();
     }

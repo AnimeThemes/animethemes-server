@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Types\List\Playlist;
 
+use App\Contracts\GraphQL\HasFields;
+use App\Contracts\GraphQL\HasRelations;
 use App\GraphQL\Definition\Fields\Base\CreatedAtField;
 use App\GraphQL\Definition\Fields\Base\DeletedAtField;
 use App\GraphQL\Definition\Fields\Base\UpdatedAtField;
+use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Definition\Fields\List\Playlist\PlaylistTrack\PlaylistTrackIdField;
 use App\GraphQL\Definition\Relations\BelongsToRelation;
 use App\GraphQL\Definition\Relations\Relation;
@@ -19,7 +22,7 @@ use App\Models\List\Playlist\PlaylistTrack;
 /**
  * Class PlaylistTrackType.
  */
-class PlaylistTrackType extends EloquentType
+class PlaylistTrackType extends EloquentType implements HasFields, HasRelations
 {
     /**
      * The description of the type.
@@ -50,7 +53,7 @@ class PlaylistTrackType extends EloquentType
     /**
      * The fields of the type.
      *
-     * @return array
+     * @return array<int, Field>
      */
     public function fields(): array
     {

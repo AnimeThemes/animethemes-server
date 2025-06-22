@@ -4,10 +4,14 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Types\Wiki;
 
+use App\Contracts\GraphQL\HasDirectives;
+use App\Contracts\GraphQL\HasFields;
+use App\Contracts\GraphQL\HasRelations;
 use App\GraphQL\Definition\Fields\Base\CreatedAtField;
 use App\GraphQL\Definition\Fields\Base\DeletedAtField;
 use App\GraphQL\Definition\Fields\Base\IdField;
 use App\GraphQL\Definition\Fields\Base\UpdatedAtField;
+use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Definition\Fields\Wiki\ThemeGroup\ThemeGroupNameField;
 use App\GraphQL\Definition\Fields\Wiki\ThemeGroup\ThemeGroupSlugField;
 use App\GraphQL\Definition\Relations\HasManyRelation;
@@ -20,7 +24,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * Class ThemeGroupType.
  */
-class ThemeGroupType extends EloquentType
+class ThemeGroupType extends EloquentType implements HasDirectives, HasFields, HasRelations
 {
     /**
      * The description of the type.
@@ -61,7 +65,7 @@ class ThemeGroupType extends EloquentType
     /**
      * The fields of the type.
      *
-     * @return array
+     * @return array<int, Field>
      */
     public function fields(): array
     {

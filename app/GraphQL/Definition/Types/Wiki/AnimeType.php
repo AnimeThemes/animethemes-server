@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Types\Wiki;
 
+use App\Contracts\GraphQL\HasFields;
+use App\Contracts\GraphQL\HasRelations;
 use App\GraphQL\Definition\Fields\Base\CreatedAtField;
 use App\GraphQL\Definition\Fields\Base\DeletedAtField;
 use App\GraphQL\Definition\Fields\Base\IdField;
 use App\GraphQL\Definition\Fields\Base\UpdatedAtField;
+use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Definition\Fields\LocalizedEnumField;
 use App\GraphQL\Definition\Fields\Wiki\Anime\AnimeMediaFormatField;
 use App\GraphQL\Definition\Fields\Wiki\Anime\AnimeNameField;
@@ -26,7 +29,7 @@ use App\Models\Wiki\Anime;
 /**
  * Class AnimeType.
  */
-class AnimeType extends EloquentType
+class AnimeType extends EloquentType implements HasFields, HasRelations
 {
     /**
      * The description of the type.
@@ -58,7 +61,7 @@ class AnimeType extends EloquentType
     /**
      * The fields of the type.
      *
-     * @return array
+     * @return array<int, Field>
      */
     public function fields(): array
     {

@@ -7,7 +7,6 @@ namespace App\GraphQL\Definition\Queries\Admin;
 use App\GraphQL\Builders\Admin\DumpBuilder;
 use App\GraphQL\Definition\Queries\EloquentQuery;
 use App\GraphQL\Definition\Types\Admin\DumpType;
-use GraphQL\Type\Definition\Type;
 
 /**
  * Class DumpsQuery.
@@ -62,9 +61,9 @@ class DumpsQuery extends EloquentQuery
     /**
      * The base return type of the query.
      *
-     * @return Type
+     * @return DumpType
      */
-    public function baseType(): Type
+    public function baseType(): DumpType
     {
         return new DumpType();
     }

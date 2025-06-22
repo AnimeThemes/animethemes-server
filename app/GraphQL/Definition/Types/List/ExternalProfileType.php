@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Types\List;
 
+use App\Contracts\GraphQL\HasFields;
+use App\Contracts\GraphQL\HasRelations;
 use App\GraphQL\Definition\Fields\Base\CreatedAtField;
 use App\GraphQL\Definition\Fields\Base\DeletedAtField;
 use App\GraphQL\Definition\Fields\Base\IdField;
 use App\GraphQL\Definition\Fields\Base\UpdatedAtField;
+use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Definition\Fields\List\ExternalProfile\ExternalProfileNameField;
 use App\GraphQL\Definition\Fields\List\ExternalProfile\ExternalProfileSiteField;
 use App\GraphQL\Definition\Fields\List\ExternalProfile\ExternalProfileVisibilityField;
@@ -23,7 +26,7 @@ use App\Models\List\ExternalProfile;
 /**
  * Class ExternalProfileType.
  */
-class ExternalProfileType extends EloquentType
+class ExternalProfileType extends EloquentType implements HasFields, HasRelations
 {
     /**
      * The description of the type.
@@ -51,7 +54,7 @@ class ExternalProfileType extends EloquentType
     /**
      * The fields of the type.
      *
-     * @return array
+     * @return array<int, Field>
      */
     public function fields(): array
     {

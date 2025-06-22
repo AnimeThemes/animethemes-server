@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Types;
 
+use App\Contracts\GraphQL\HasFields;
 use App\GraphQL\Definition\Fields\Search\SearchAnimeField;
 use App\GraphQL\Definition\Fields\Search\SearchAnimeThemesField;
 use App\GraphQL\Definition\Fields\Search\SearchArtistsField;
@@ -17,7 +18,7 @@ use App\GraphQL\Definition\Types\BaseType;
 /**
  * Class SearchType.
  */
-class SearchType extends BaseType
+class SearchType extends BaseType implements HasFields
 {
     /**
      * The description of the type.

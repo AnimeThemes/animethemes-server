@@ -6,7 +6,6 @@ namespace App\GraphQL\Definition\Queries\Wiki;
 
 use App\GraphQL\Definition\Queries\EloquentQuery;
 use App\GraphQL\Definition\Types\Wiki\ImageType;
-use GraphQL\Type\Definition\Type;
 
 /**
  * Class ImagesQuery.
@@ -45,9 +44,9 @@ class ImagesQuery extends EloquentQuery
     /**
      * The base return type of the query.
      *
-     * @return Type
+     * @return ImageType
      */
-    public function baseType(): Type
+    public function baseType(): ImageType
     {
         return new ImageType();
     }

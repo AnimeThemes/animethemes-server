@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Types\Pivot\Wiki;
 
+use App\Contracts\GraphQL\HasFields;
+use App\Contracts\GraphQL\HasRelations;
 use App\GraphQL\Definition\Fields\Base\CreatedAtField;
 use App\GraphQL\Definition\Fields\Base\UpdatedAtField;
+use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Definition\Fields\Pivot\Wiki\ArtistMember\ArtistMemberAliasField;
 use App\GraphQL\Definition\Fields\Pivot\Wiki\ArtistMember\ArtistMemberAsField;
 use App\GraphQL\Definition\Fields\Pivot\Wiki\ArtistMember\ArtistMemberNotesField;
@@ -18,7 +21,7 @@ use App\Pivots\Wiki\ArtistMember;
 /**
  * Class ArtistMemberType.
  */
-class ArtistMemberType extends PivotType
+class ArtistMemberType extends PivotType implements HasFields, HasRelations
 {
     /**
      * The description of the type.
@@ -46,7 +49,7 @@ class ArtistMemberType extends PivotType
     /**
      * The fields of the type.
      *
-     * @return array
+     * @return array<int, Field>
      */
     public function fields(): array
     {

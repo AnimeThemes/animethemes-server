@@ -227,7 +227,7 @@ enum ResourceSite: int
      * Get the resource sites available for determined model.
      *
      * @param  class-string|null  $modelClass
-     * @return ResourceSite[]
+     * @return array<int, ResourceSite>
      */
     public static function getForModel(?string $modelClass): array
     {
