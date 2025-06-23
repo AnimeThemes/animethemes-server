@@ -147,7 +147,7 @@ class PlaylistTest extends BaseResourceTestCase
         $record = PlaylistModel::factory()->createOne();
 
         Livewire::test(static::getIndexPage())
-            ->mountTableAction(EditAction::class, $record)
-            ->assertTableActionMounted(EditAction::class);
+            ->mountAction(EditAction::class, ['record' => $record])
+            ->assertActionMounted(EditAction::class);
     }
 }

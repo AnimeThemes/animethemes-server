@@ -154,7 +154,7 @@ class TrackTest extends BaseResourceTestCase
         $record = $playlist->tracks->first();
 
         Livewire::test(static::getIndexPage())
-            ->mountTableAction(EditAction::class, $record)
-            ->assertTableActionMounted(EditAction::class);
+            ->mountAction(EditAction::class, ['record' => $record])
+            ->assertActionMounted(EditAction::class);
     }
 }

@@ -147,7 +147,7 @@ class ExternalProfileTest extends BaseResourceTestCase
         $record = ExternalProfileModel::factory()->createOne();
 
         Livewire::test(static::getIndexPage())
-            ->mountTableAction(EditAction::class, $record)
-            ->assertTableActionMounted(EditAction::class);
+            ->mountAction(EditAction::class, ['record' => $record])
+            ->assertActionMounted(EditAction::class);
     }
 }

@@ -133,8 +133,8 @@ class StudioTest extends BaseResourceTestCase
         $record = StudioModel::factory()->createOne();
 
         Livewire::test(static::getIndexPage())
-            ->mountTableAction(EditAction::class, $record)
-            ->assertTableActionMounted(EditAction::class);
+            ->mountAction(EditAction::class, ['record' => $record])
+            ->assertActionMounted(EditAction::class);
     }
 
     /**
@@ -158,7 +158,7 @@ class StudioTest extends BaseResourceTestCase
         $record = StudioModel::factory()->createOne();
 
         Livewire::test(static::getIndexPage())
-            ->assertTableActionHidden(EditAction::class, $record);
+            ->assertActionHidden(EditAction::class, ['record' => $record]);
     }
 
     /**
@@ -174,7 +174,7 @@ class StudioTest extends BaseResourceTestCase
             ->assertActionHidden(DeleteAction::class);
 
         Livewire::test(static::getIndexPage())
-            ->assertTableActionHidden(DeleteAction::class, $record);
+            ->assertActionHidden(DeleteAction::class, ['record' => $record]);
     }
 
     /**
@@ -192,7 +192,7 @@ class StudioTest extends BaseResourceTestCase
             ->assertActionHidden(RestoreAction::class);
 
         Livewire::test(static::getIndexPage())
-            ->assertTableActionHidden(RestoreAction::class, $record);
+            ->assertActionHidden(RestoreAction::class, ['record' => $record]);
     }
 
     /**
@@ -208,6 +208,6 @@ class StudioTest extends BaseResourceTestCase
             ->assertActionHidden(ForceDeleteAction::class);
 
         Livewire::test(static::getIndexPage())
-            ->assertTableActionHidden(ForceDeleteAction::class, $record);
+            ->assertActionHidden(ForceDeleteAction::class, ['record' => $record]);
     }
 }
