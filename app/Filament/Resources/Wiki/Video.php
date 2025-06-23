@@ -4,12 +4,17 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Wiki;
 
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Section;
+use Filament\Actions\ActionGroup;
 use App\Enums\Models\Wiki\VideoOverlap;
 use App\Enums\Models\Wiki\VideoSource;
 use App\Filament\Actions\Models\Wiki\Video\BackfillAudioAction;
 use App\Filament\Actions\Storage\MoveAllAction;
+use App\Filament\Actions\Repositories\Storage\Wiki\Video\ReconcileVideoAction;
 use App\Filament\Actions\Storage\Wiki\Video\DeleteVideoAction;
 use App\Filament\Actions\Storage\Wiki\Video\MoveVideoAction;
+use App\Filament\Actions\Storage\Wiki\Video\UploadVideoAction;
 use App\Filament\BulkActions\Models\Wiki\Video\VideoDiscordNotificationBulkAction;
 use App\Filament\BulkActions\Storage\Wiki\Video\DeleteVideoBulkAction;
 use App\Filament\Components\Columns\TextColumn;
@@ -25,21 +30,17 @@ use App\Filament\Resources\Wiki\Video\Pages\ViewVideo;
 use App\Filament\Resources\Wiki\Video\RelationManagers\EntryVideoRelationManager;
 use App\Filament\Resources\Wiki\Video\RelationManagers\ScriptVideoRelationManager;
 use App\Filament\Resources\Wiki\Video\RelationManagers\TrackVideoRelationManager;
-use App\Filament\TableActions\Repositories\Storage\Wiki\Video\ReconcileVideoTableAction;
-use App\Filament\TableActions\Storage\Wiki\Video\UploadVideoTableAction;
+
 use App\Models\Wiki\Audio as AudioModel;
 use App\Models\Wiki\Video as VideoModel;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
 use Filament\Infolists\Components\IconEntry;
-use Filament\Infolists\Components\Section;
-use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
-use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Video.
@@ -49,7 +50,7 @@ class Video extends BaseResource
     /**
      * The model the resource corresponds to.
      *
-     * @var string|null
+     * @var class-string<Model>|null
      */
     protected static ?string $model = VideoModel::class;
 
@@ -126,15 +127,15 @@ class Video extends BaseResource
     /**
      * The form to the actions.
      *
-     * @param  Form  $form
-     * @return Form
+     * @param  Schema  $schema
+     * @return Schema
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 TextInput::make(VideoModel::ATTRIBUTE_RESOLUTION)
                     ->label(__('filament.fields.video.resolution.name'))
                     ->helperText(__('filament.fields.video.resolution.help'))
@@ -233,16 +234,16 @@ class Video extends BaseResource
     /**
      * Get the infolist available for the resource.
      *
-     * @param  Infolist  $infolist
-     * @return Infolist
+     * @param  Schema  $schema
+     * @return Schema
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function infolist(Infolist $infolist): Infolist
+    public static function infolist(Schema $schema): Schema
     {
-        return $infolist
-            ->schema([
-                Section::make(static::getRecordTitle($infolist->getRecord()))
+        return $schema
+            ->components([
+                Section::make(static::getRecordTitle($schema->getRecord()))
                     ->schema([
                         TextEntry::make(VideoModel::ATTRIBUTE_ID)
                             ->label(__('filament.fields.base.id')),
@@ -364,10 +365,10 @@ class Video extends BaseResource
      *
      * @return array
      */
-    public static function getActions(): array
+    public static function getRecordActions(): array
     {
         return [
-            ...parent::getActions(),
+            ...parent::getRecordActions(),
 
             ActionGroup::make([
                 BackfillAudioAction::make('backfill-audio'),
@@ -411,9 +412,9 @@ class Video extends BaseResource
     {
         return [
             ActionGroup::make([
-                UploadVideoTableAction::make('upload-video'),
+                UploadVideoAction::make('upload-video'),
 
-                ReconcileVideoTableAction::make('reconcile-video'),
+                ReconcileVideoAction::make('reconcile-video'),
             ]),
         ];
     }

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\List;
 
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Section;
 use App\Enums\Models\List\PlaylistVisibility;
 use App\Filament\Actions\Models\List\AssignHashidsAction;
 use App\Filament\Components\Columns\BelongsToColumn;
@@ -23,12 +25,10 @@ use App\Filament\Resources\List\Playlist\Track;
 use App\Models\List\Playlist as PlaylistModel;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
-use Filament\Infolists\Components\Section;
-use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Playlist.
@@ -38,7 +38,7 @@ class Playlist extends BaseResource
     /**
      * The model the resource corresponds to.
      *
-     * @var string|null
+     * @var class-string<Model>|null
      */
     protected static ?string $model = PlaylistModel::class;
 
@@ -132,15 +132,15 @@ class Playlist extends BaseResource
     /**
      * The form to the actions.
      *
-     * @param  Form  $form
-     * @return Form
+     * @param  Schema  $schema
+     * @return Schema
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 BelongsTo::make(PlaylistModel::ATTRIBUTE_USER)
                     ->resource(UserResource::class),
 
@@ -225,16 +225,16 @@ class Playlist extends BaseResource
     /**
      * Get the infolist available for the resource.
      *
-     * @param  Infolist  $infolist
-     * @return Infolist
+     * @param  Schema  $schema
+     * @return Schema
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function infolist(Infolist $infolist): Infolist
+    public static function infolist(Schema $schema): Schema
     {
-        return $infolist
-            ->schema([
-                Section::make(static::getRecordTitle($infolist->getRecord()))
+        return $schema
+            ->components([
+                Section::make(static::getRecordTitle($schema->getRecord()))
                     ->schema([
                         BelongsToEntry::make(PlaylistModel::RELATION_USER, UserResource::class),
 
@@ -308,10 +308,10 @@ class Playlist extends BaseResource
      *
      * @return array
      */
-    public static function getActions(): array
+    public static function getRecordActions(): array
     {
         return [
-            ...parent::getActions(),
+            ...parent::getRecordActions(),
 
             AssignHashidsAction::make('assign-hashids')
                 ->setConnection('playlists')

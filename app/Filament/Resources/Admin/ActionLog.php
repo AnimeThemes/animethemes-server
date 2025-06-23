@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Admin;
 
+use Filament\Schemas\Schema;
 use App\Enums\Auth\Role;
 use App\Enums\Models\Admin\ActionLogStatus;
 use App\Filament\Components\Columns\BelongsToColumn;
@@ -21,11 +22,8 @@ use App\Models\BaseModel;
 use Filament\Facades\Filament;
 use Filament\Forms\Components\KeyValue;
 use Filament\Forms\Components\Textarea;
-use Filament\Forms\Form;
 use Filament\Infolists\Components\KeyValueEntry;
-use Filament\Infolists\Components\RepeatableEntry;
-use Filament\Infolists\Components\TextEntry\TextEntrySize;
-use Filament\Infolists\Infolist;
+use Filament\Support\Enums\TextSize;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -40,7 +38,7 @@ class ActionLog extends BaseResource
     /**
      * The model the resource corresponds to.
      *
-     * @var string|null
+     * @var class-string<Model>|null
      */
     protected static ?string $model = ActionLogModel::class;
 
@@ -133,15 +131,15 @@ class ActionLog extends BaseResource
     /**
      * The form to the actions.
      *
-     * @param  Form  $form
-     * @return Form
+     * @param  Schema  $schema
+     * @return Schema
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 // TODO: JSON values are not being displayed
                 KeyValue::make(ActionLogModel::ATTRIBUTE_FIELDS)
                     ->label(__('filament.fields.action_log.fields.name'))
@@ -199,15 +197,15 @@ class ActionLog extends BaseResource
     /**
      * Get the infolist available for the resource.
      *
-     * @param  Infolist  $infolist
-     * @return Infolist
+     * @param  Schema  $schema
+     * @return Schema
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function infolist(Infolist $infolist): Infolist
+    public static function infolist(Schema $schema): Schema
     {
-        return $infolist
-            ->schema([
+        return $schema
+            ->components([
                 TextEntry::make(ActionLogModel::ATTRIBUTE_NAME)
                     ->label(__('filament.fields.action_log.name'))
                     ->formatStateUsing(fn ($state) => ucfirst($state)),
@@ -241,7 +239,7 @@ class ActionLog extends BaseResource
                 TextEntry::make(ActionLogModel::ATTRIBUTE_EXCEPTION)
                     ->label(__('filament.fields.action_log.exception'))
                     ->columnSpanFull()
-                    ->size(TextEntrySize::Large),
+                    ->size(TextSize::Large),
             ])
             ->columns(3);
     }
@@ -273,10 +271,10 @@ class ActionLog extends BaseResource
      *
      * @return array
      */
-    public static function getActions(): array
+    public static function getRecordActions(): array
     {
         return [
-            ...parent::getActions(),
+            ...parent::getRecordActions(),
         ];
     }
 

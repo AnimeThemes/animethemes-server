@@ -10,7 +10,7 @@ use App\Filament\Actions\Base\DeleteAction;
 use App\Filament\Actions\Base\EditAction;
 use App\Filament\Actions\Base\ForceDeleteAction;
 use App\Filament\Actions\Base\RestoreAction;
-use App\Filament\HeaderActions\Base\CreateHeaderAction;
+use App\Filament\Actions\Base\CreateAction;
 use App\Filament\Resources\Admin\Announcement;
 use App\Models\Admin\Announcement as AnnouncementModel;
 use App\Models\Auth\User;
@@ -67,7 +67,7 @@ class AnnouncementTest extends BaseResourceTestCase
     public function testUserCannotCreateRecord(): void
     {
         Livewire::test(static::getIndexPage())
-            ->assertActionHidden(CreateHeaderAction::class);
+            ->assertActionHidden(CreateAction::class);
     }
 
     /**

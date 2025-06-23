@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Wiki\Video\Pages;
 
-use App\Filament\HeaderActions\Models\Wiki\Video\BackfillAudioHeaderAction;
-use App\Filament\HeaderActions\Storage\MoveAllHeaderAction;
-use App\Filament\HeaderActions\Storage\Wiki\Video\DeleteVideoHeaderAction;
-use App\Filament\HeaderActions\Storage\Wiki\Video\MoveVideoHeaderAction;
+use App\Filament\Actions\Models\Wiki\Video\BackfillAudioAction;
+use App\Filament\Actions\Storage\MoveAllAction;
+use App\Filament\Actions\Storage\Wiki\Video\DeleteVideoAction;
+use App\Filament\Actions\Storage\Wiki\Video\MoveVideoAction;
 use App\Filament\Resources\Base\BaseViewResource;
 use App\Filament\Resources\Wiki\Video;
 use Filament\Actions\ActionGroup;
@@ -32,13 +32,13 @@ class ViewVideo extends BaseViewResource
             ...parent::getHeaderActions(),
 
             ActionGroup::make([
-                BackfillAudioHeaderAction::make('backfill-audio'),
+                BackfillAudioAction::make('backfill-audio'),
 
-                MoveVideoHeaderAction::make('move-video'),
+                MoveVideoAction::make('move-video'),
 
-                MoveAllHeaderAction::make('move-all'),
+                MoveAllAction::make('move-all'),
 
-                DeleteVideoHeaderAction::make('delete-video'),
+                DeleteVideoAction::make('delete-video'),
             ]),
         ];
     }

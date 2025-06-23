@@ -5,14 +5,12 @@ declare(strict_types=1);
 namespace App\Filament\Actions;
 
 use App\Concerns\Filament\ActionLogs\HasActionLogs;
-use Filament\Support\Enums\MaxWidth;
-use Filament\Tables\Actions\Action;
+use App\Filament\RelationManagers\BaseRelationManager;
+use Filament\Actions\Action;
+use Filament\Support\Enums\Width;
 
 /**
  * Class BaseAction.
- *
- * Actions are row actions.
- * They are present in the rows of the table.
  */
 abstract class BaseAction extends Action
 {
@@ -28,16 +26,24 @@ abstract class BaseAction extends Action
         parent::setUp();
 
         $this->requiresConfirmation();
-        $this->failure();
 
-        $this->before(function (BaseAction $action) {
-            $this->createActionLog($action);
+        $this->before(function (BaseAction $action, $livewire) {
+            if ($livewire instanceof BaseRelationManager) {
+                $this->createActionLog($action, $livewire->getOwnerRecord());
+                $livewire->dispatch('updateAllRelationManager');
+            } else {
+                $this->createActionLog($action);
+            }
         });
 
-        $this->after(function () {
+        $this->after(function ($livewire) {
             $this->finishedLog();
+
+            if ($livewire instanceof BaseRelationManager) {
+                $livewire->dispatch('updateAllRelationManager');
+            }
         });
 
-        $this->modalWidth(MaxWidth::FourExtraLarge);
+        $this->modalWidth(Width::FourExtraLarge);
     }
 }

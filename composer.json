@@ -24,14 +24,13 @@
         "ext-gd": "*",
         "ext-intl": "*",
         "ext-pdo": "*",
-        "awcodes/recently": "^1.0.6",
+        "awcodes/recently": "^2.0.0-beta.1",
         "babenkoivan/elastic-migrations": "^3.4.1",
         "babenkoivan/elastic-scout-driver-plus": "^4.8",
         "bepsvpt/secure-headers": "^7.5",
-        "bezhansalleh/filament-exceptions": "^2.1.2",
         "cyrildewit/eloquent-viewable": "^7.0.6",
         "fakerphp/faker": "^1.24.1",
-        "filament/filament": "^3.3.28",
+        "filament/filament": "^4.0",
         "flowframe/laravel-trend": ">=0.4",
         "guzzlehttp/guzzle": "^7.9.3",
         "larastan/larastan": "^3.5.0",
@@ -45,7 +44,6 @@
         "laravel/scout": "^10.15.0",
         "laravel/tinker": "^2.10.1",
         "league/flysystem-aws-s3-v3": "^3.29",
-        "leandrocfe/filament-apex-charts": "^3.2.0",
         "mll-lab/graphql-php-scalars": "^6.4",
         "mll-lab/laravel-graphiql": "^3.3.4",
         "nuwave/lighthouse": "^6.60.0",
@@ -61,6 +59,7 @@
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.15.4",
         "brianium/paratest": "^7.8.4",
+        "filament/upgrade": "~4.0",
         "laravel/pint": "^1.22.1",
         "laravel/sail": "^1.43.1",
         "mockery/mockery": "^1.6.12",
@@ -98,7 +97,7 @@
             "Tests\\": "tests/"
         }
     },
-    "minimum-stability": "stable",
+    "minimum-stability": "beta",
     "prefer-stable": true,
     "scripts": {
         "post-autoload-dump": [

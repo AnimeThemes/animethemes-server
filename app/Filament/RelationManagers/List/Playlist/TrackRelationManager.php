@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Filament\RelationManagers\List\Playlist;
 
+use Filament\Schemas\Schema;
 use App\Filament\RelationManagers\BaseRelationManager;
 use App\Filament\Resources\List\Playlist\Track as TrackResource;
 use App\Models\List\Playlist\PlaylistTrack;
-use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -19,14 +19,14 @@ abstract class TrackRelationManager extends BaseRelationManager
     /**
      * The form to the actions.
      *
-     * @param  Form  $form
-     * @return Form
+     * @param  Schema  $schema
+     * @return Schema
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return TrackResource::form($form);
+        return TrackResource::form($schema);
     }
 
     /**
@@ -67,11 +67,11 @@ abstract class TrackRelationManager extends BaseRelationManager
      *
      * @return array
      */
-    public static function getActions(): array
+    public static function getRecordActions(): array
     {
         return [
-            ...parent::getActions(),
-            ...TrackResource::getActions(),
+            ...parent::getRecordActions(),
+            ...TrackResource::getRecordActions(),
         ];
     }
 

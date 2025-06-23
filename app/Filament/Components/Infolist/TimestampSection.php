@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Filament\Components\Infolist;
 
+use Filament\Schemas\Components\Section;
 use App\Models\BaseModel;
-use Filament\Infolists\Components\Section;
 
 /**
  * Class TimestampSection.
@@ -15,7 +15,7 @@ class TimestampSection
     /**
      * Create a section for displaying timestamps.
      *
-     * @return Section
+     * @return \Filament\Schemas\Components\Section
      */
     public static function make(): Section
     {

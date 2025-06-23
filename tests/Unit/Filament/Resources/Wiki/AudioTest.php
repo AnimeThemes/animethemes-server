@@ -10,9 +10,6 @@ use App\Filament\Actions\Base\DeleteAction;
 use App\Filament\Actions\Base\EditAction;
 use App\Filament\Actions\Base\ForceDeleteAction;
 use App\Filament\Actions\Base\RestoreAction;
-use App\Filament\HeaderActions\Base\DeleteHeaderAction;
-use App\Filament\HeaderActions\Base\ForceDeleteHeaderAction;
-use App\Filament\HeaderActions\Base\RestoreHeaderAction;
 use App\Filament\Resources\Wiki\Audio;
 use App\Models\Auth\User;
 use App\Models\Wiki\Audio as AudioModel;
@@ -141,7 +138,7 @@ class AudioTest extends BaseResourceTestCase
         $record = AudioModel::factory()->createOne();
 
         Livewire::test(static::getViewPage(), ['record' => $record->getKey()])
-            ->assertActionHidden(DeleteHeaderAction::class);
+            ->assertActionHidden(DeleteAction::class);
 
         Livewire::test(static::getIndexPage())
             ->assertTableActionHidden(DeleteAction::class, $record);
@@ -159,7 +156,7 @@ class AudioTest extends BaseResourceTestCase
         $record->delete();
 
         Livewire::test(static::getViewPage(), ['record' => $record->getKey()])
-            ->assertActionHidden(RestoreHeaderAction::class);
+            ->assertActionHidden(RestoreAction::class);
 
         Livewire::test(static::getIndexPage())
             ->assertTableActionHidden(RestoreAction::class, $record);
@@ -175,7 +172,7 @@ class AudioTest extends BaseResourceTestCase
         $record = AudioModel::factory()->createOne();
 
         Livewire::test(static::getViewPage(), ['record' => $record->getKey()])
-            ->assertActionHidden(ForceDeleteHeaderAction::class);
+            ->assertActionHidden(ForceDeleteAction::class);
 
         Livewire::test(static::getIndexPage())
             ->assertTableActionHidden(ForceDeleteAction::class, $record);

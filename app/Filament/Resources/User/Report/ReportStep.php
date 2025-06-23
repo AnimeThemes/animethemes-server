@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\User\Report;
 
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Section;
 use App\Contracts\Models\Nameable;
 use App\Enums\Models\User\ApprovableStatus;
 use App\Enums\Models\User\ReportActionType;
@@ -19,12 +21,10 @@ use App\Filament\Resources\User\Report\ReportStep\Pages\ListReportSteps;
 use App\Filament\Resources\User\Report\ReportStep\Pages\ViewReportStep;
 use App\Models\User\Report\ReportStep as ReportStepModel;
 use Filament\Facades\Filament;
-use Filament\Forms\Form;
 use Filament\Infolists\Components\KeyValueEntry;
-use Filament\Infolists\Components\Section;
-use Filament\Infolists\Infolist;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class ReportStep.
@@ -34,7 +34,7 @@ class ReportStep extends BaseResource
     /**
      * The model the resource corresponds to.
      *
-     * @var string|null
+     * @var class-string<Model>|null
      */
     protected static ?string $model = ReportStepModel::class;
 
@@ -126,14 +126,14 @@ class ReportStep extends BaseResource
     /**
      * The form to the actions.
      *
-     * @param  Form  $form
-     * @return Form
+     * @param  Schema  $schema
+     * @return Schema
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form;
+        return $schema;
     }
 
     /**
@@ -170,16 +170,16 @@ class ReportStep extends BaseResource
     /**
      * Get the infolist available for the resource.
      *
-     * @param  Infolist  $infolist
-     * @return Infolist
+     * @param  Schema  $schema
+     * @return Schema
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function infolist(Infolist $infolist): Infolist
+    public static function infolist(Schema $schema): Schema
     {
-        return $infolist
-            ->schema([
-                Section::make(static::getRecordTitle($infolist->getRecord()))
+        return $schema
+            ->components([
+                Section::make(static::getRecordTitle($schema->getRecord()))
                     ->schema([
                         TextEntry::make(ReportStepModel::ATTRIBUTE_ID)
                             ->label(__('filament.fields.base.id')),
@@ -272,10 +272,10 @@ class ReportStep extends BaseResource
      *
      * @return array
      */
-    public static function getActions(): array
+    public static function getRecordActions(): array
     {
         return [
-            ...parent::getActions(),
+            ...parent::getRecordActions(),
         ];
     }
 

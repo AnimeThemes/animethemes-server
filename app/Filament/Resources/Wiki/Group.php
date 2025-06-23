@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Wiki;
 
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Section;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Components\Infolist\TimestampSection;
@@ -13,11 +15,9 @@ use App\Filament\Resources\Wiki\Group\Pages\ViewGroup;
 use App\Filament\Resources\Wiki\Group\RelationManagers\ThemeGroupRelationManager;
 use App\Models\Wiki\Group as GroupModel;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
-use Filament\Infolists\Components\Section;
-use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Group.
@@ -27,7 +27,7 @@ class Group extends BaseResource
     /**
      * The model the resource corresponds to.
      *
-     * @var string|null
+     * @var class-string<Model>|null
      */
     protected static ?string $model = GroupModel::class;
 
@@ -104,15 +104,15 @@ class Group extends BaseResource
     /**
      * The form to the actions.
      *
-     * @param  Form  $form
-     * @return Form
+     * @param  Schema  $schema
+     * @return Schema
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 TextInput::make(GroupModel::ATTRIBUTE_NAME)
                     ->label(__('filament.fields.group.name.name'))
                     ->helperText(__('filament.fields.group.name.help'))
@@ -124,7 +124,7 @@ class Group extends BaseResource
                     ->helperText(__('filament.fields.group.slug.help'))
                     ->required()
                     ->maxLength(192)
-                    ->unique(GroupModel::class, GroupModel::ATTRIBUTE_SLUG, ignoreRecord: true),
+                    ->unique(),
             ])
             ->columns(1);
     }
@@ -155,16 +155,16 @@ class Group extends BaseResource
     /**
      * Get the infolist available for the resource.
      *
-     * @param  Infolist  $infolist
-     * @return Infolist
+     * @param  Schema  $schema
+     * @return Schema
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function infolist(Infolist $infolist): Infolist
+    public static function infolist(Schema $schema): Schema
     {
-        return $infolist
-            ->schema([
-                Section::make(static::getRecordTitle($infolist->getRecord()))
+        return $schema
+            ->components([
+                Section::make(static::getRecordTitle($schema->getRecord()))
                     ->schema([
                         TextEntry::make(GroupModel::ATTRIBUTE_ID)
                             ->label(__('filament.fields.base.id')),
@@ -217,10 +217,10 @@ class Group extends BaseResource
      *
      * @return array
      */
-    public static function getActions(): array
+    public static function getRecordActions(): array
     {
         return [
-            ...parent::getActions(),
+            ...parent::getRecordActions(),
         ];
     }
 

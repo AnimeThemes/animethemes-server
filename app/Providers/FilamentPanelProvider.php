@@ -12,9 +12,13 @@ use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Infolists\Components\Entry;
 use Filament\Panel;
 use Filament\PanelProvider;
+use Filament\Schemas\Components\Section;
+use Filament\Support\Assets\Js;
 use Filament\Support\Colors\Color;
-use Filament\Support\Enums\MaxWidth;
+use Filament\Support\Enums\Width;
+use Filament\Support\Facades\FilamentAsset;
 use Filament\Tables\Columns\Column;
+use Filament\Tables\Table;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
@@ -23,13 +27,25 @@ use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Support\Facades\Config;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
-use Leandrocfe\FilamentApexCharts\FilamentApexChartsPlugin;
+//use Leandrocfe\FilamentApexCharts\FilamentApexChartsPlugin;
 
 /**
  * Class FilamentPanelProvider.
  */
 class FilamentPanelProvider extends PanelProvider
 {
+    /**
+     * Bootstrap any application services.
+     *
+     * @return void
+     */
+    public function boot(): void
+    {
+        FilamentAsset::register([
+            Js::make('slug', asset('js/app/slug.js'))->module(false)
+        ]);
+    }
+
     public function register(): void
     {
         parent::register();
@@ -42,6 +58,14 @@ class FilamentPanelProvider extends PanelProvider
 
         Entry::configureUsing(function (Entry $entry) {
             $entry->placeholder('-');
+        });
+
+        Section::configureUsing(function (Section $section) {
+            $section->columnSpanFull();
+        });
+
+        Table::configureUsing(function (Table $table) {
+            $table->deferFilters(false);
         });
     }
 
@@ -59,7 +83,7 @@ class FilamentPanelProvider extends PanelProvider
             ->darkModeBrandLogo(asset('img/gray-logo.svg'))
             ->brandLogoHeight('1.8rem')
             ->globalSearch(GlobalSearchScoutProvider::class)
-            ->maxContentWidth(MaxWidth::Full)
+            ->maxContentWidth(Width::Full)
             ->readOnlyRelationManagersOnResourceViewPagesByDefault(false)
             ->databaseNotifications()
             ->sidebarCollapsibleOnDesktop()
@@ -70,7 +94,7 @@ class FilamentPanelProvider extends PanelProvider
             ->discoverPages(in: app_path('Filament/Dashboards'), for: 'App\\Filament\\Dashboards')
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->plugins([
-                FilamentApexChartsPlugin::make(),
+                //FilamentApexChartsPlugin::make(),
                 RecentlyPlugin::make(),
             ])
             ->middleware([

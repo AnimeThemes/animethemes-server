@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Wiki\Artist\Pages;
 
-use App\Filament\HeaderActions\Models\Wiki\Artist\AttachArtistResourceHeaderAction;
+use App\Filament\Actions\Models\Wiki\Artist\AttachArtistResourceAction;
 use App\Filament\Resources\Base\BaseViewResource;
 use App\Filament\Resources\Wiki\Artist;
 use Filament\Actions\ActionGroup;
@@ -29,7 +29,7 @@ class ViewArtist extends BaseViewResource
             ...parent::getHeaderActions(),
 
             ActionGroup::make([
-                AttachArtistResourceHeaderAction::make('attach-artist-resource'),
+                AttachArtistResourceAction::make('attach-artist-resource'),
             ])
         ];
     }

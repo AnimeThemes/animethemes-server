@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Filament\TableActions;
 
+use Filament\Actions\Action;
+use Filament\Support\Enums\Width;
 use App\Concerns\Filament\ActionLogs\HasActionLogs;
 use App\Filament\RelationManagers\BaseRelationManager;
-use Filament\Support\Enums\MaxWidth;
-use Filament\Tables\Actions\Action;
 
 /**
  * Class BaseTableAction.
@@ -44,7 +44,7 @@ abstract class BaseTableAction extends Action
             }
         });
 
-        $this->modalWidth(MaxWidth::FourExtraLarge);
+        $this->modalWidth(Width::FourExtraLarge);
 
         $this->action(fn (array $data) => $this->handle($data));
     }

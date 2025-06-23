@@ -4,6 +4,12 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Wiki\Anime;
 
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Tabs;
+use Filament\Schemas\Components\Tabs\Tab;
+use Filament\Schemas\Components\Utilities\Set;
+use Filament\Schemas\Components\Utilities\Get;
+use Filament\Schemas\Components\Section;
 use App\Enums\Models\Wiki\ThemeType;
 use App\Filament\Components\Columns\BelongsToColumn;
 use App\Filament\Components\Columns\TextColumn;
@@ -34,15 +40,8 @@ use App\Models\Wiki\Group;
 use App\Models\Wiki\Song;
 use App\Models\Wiki\Song\Membership;
 use Filament\Forms\Components\Repeater;
-use Filament\Forms\Components\Tabs;
-use Filament\Forms\Components\Tabs\Tab;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
-use Filament\Forms\Get;
-use Filament\Forms\Set;
 use Filament\Infolists\Components\RepeatableEntry;
-use Filament\Infolists\Components\Section;
-use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
@@ -60,7 +59,7 @@ class Theme extends BaseResource
     /**
      * The model the resource corresponds to.
      *
-     * @var string|null
+     * @var class-string<Model>|null
      */
     protected static ?string $model = ThemeModel::class;
 
@@ -177,15 +176,15 @@ class Theme extends BaseResource
     /**
      * The form to the actions.
      *
-     * @param  Form  $form
-     * @return Form
+     * @param  Schema  $schema
+     * @return Schema
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 Tabs::make('Tabs')
                     ->tabs([
                         Tab::make('theme')
@@ -202,14 +201,16 @@ class Theme extends BaseResource
                                     ->options(ThemeType::asSelectArray())
                                     ->required()
                                     ->enum(ThemeType::class)
-                                    ->live(true)
+                                    ->live()
+                                    ->partiallyRenderComponentsAfterStateUpdated([ThemeModel::ATTRIBUTE_SLUG])
                                     ->afterStateUpdated(fn (Set $set, Get $get) => Theme::setThemeSlug($set, $get)),
 
                                 TextInput::make(ThemeModel::ATTRIBUTE_SEQUENCE)
                                     ->label(__('filament.fields.anime_theme.sequence.name'))
                                     ->helperText(__('filament.fields.anime_theme.sequence.help'))
                                     ->integer()
-                                    ->live(true)
+                                    ->live()
+                                    ->partiallyRenderComponentsAfterStateUpdated([ThemeModel::ATTRIBUTE_SLUG])
                                     ->afterStateUpdated(fn (Set $set, Get $get) => Theme::setThemeSlug($set, $get)),
 
                                 TextInput::make(ThemeModel::ATTRIBUTE_SLUG)
@@ -223,7 +224,8 @@ class Theme extends BaseResource
                                 BelongsTo::make(ThemeModel::ATTRIBUTE_GROUP)
                                     ->resource(GroupResource::class)
                                     ->showCreateOption()
-                                    ->live(true)
+                                    ->live()
+                                    ->partiallyRenderComponentsAfterStateUpdated([ThemeModel::ATTRIBUTE_SLUG])
                                     ->afterStateUpdated(fn (Set $set, Get $get) => Theme::setThemeSlug($set, $get)),
                             ]),
 
@@ -250,7 +252,7 @@ class Theme extends BaseResource
                                     ->label(__('filament.resources.label.anime_theme_entries'))
                                     ->addActionLabel(__('filament.buttons.add'))
                                     ->relationship()
-                                    ->schema(Entry::form($form)->getComponents()),
+                                    ->schema(Entry::form($schema)->getComponents()),
                             ]),
                     ])
             ])
@@ -294,16 +296,16 @@ class Theme extends BaseResource
     /**
      * Get the infolist available for the resource.
      *
-     * @param  Infolist  $infolist
-     * @return Infolist
+     * @param  Schema  $schema
+     * @return Schema
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function infolist(Infolist $infolist): Infolist
+    public static function infolist(Schema $schema): Schema
     {
-        return $infolist
-            ->schema([
-                Section::make(static::getRecordTitle($infolist->getRecord()))
+        return $schema
+            ->components([
+                Section::make(static::getRecordTitle($schema->getRecord()))
                     ->schema([
                         TextEntry::make(ThemeModel::ATTRIBUTE_ID)
                             ->label(__('filament.fields.base.id')),
@@ -332,7 +334,7 @@ class Theme extends BaseResource
                     ->schema([
                         RepeatableEntry::make(ThemeModel::RELATION_ARTISTS)
                             ->label('')
-                            ->schema(ArtistResource::infolist($infolist)->getComponents())
+                            ->schema(ArtistResource::infolist($schema)->getComponents())
                             ->columnSpanFull(),
                     ]),
 
@@ -343,8 +345,8 @@ class Theme extends BaseResource
     /**
      * Set the theme slug.
      *
-     * @param  Set  $set
-     * @param  Get  $get
+     * @param \Filament\Schemas\Components\Utilities\Set $set
+     * @param \Filament\Schemas\Components\Utilities\Get $get
      * @return void
      */
     protected static function setThemeSlug(Set $set, Get $get): void
@@ -353,7 +355,6 @@ class Theme extends BaseResource
         $type = $get(ThemeModel::ATTRIBUTE_TYPE);
 
         if (!empty($type) || $type !== null) {
-            $type = ThemeType::tryFrom(intval($type));
             $slug = $slug->append($type->name);
         }
 
@@ -420,10 +421,10 @@ class Theme extends BaseResource
      *
      * @return array
      */
-    public static function getActions(): array
+    public static function getRecordActions(): array
     {
         return [
-            ...parent::getActions(),
+            ...parent::getRecordActions(),
         ];
     }
 

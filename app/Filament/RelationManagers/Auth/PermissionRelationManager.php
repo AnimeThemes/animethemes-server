@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Filament\RelationManagers\Auth;
 
+use Filament\Schemas\Schema;
 use App\Filament\RelationManagers\BaseRelationManager;
 use App\Filament\Resources\Auth\Permission as PermissionResource;
 use App\Models\Auth\Permission;
-use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -19,14 +19,14 @@ abstract class PermissionRelationManager extends BaseRelationManager
     /**
      * The form to the actions.
      *
-     * @param  Form  $form
-     * @return Form
+     * @param  Schema  $schema
+     * @return Schema
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return PermissionResource::form($form);
+        return PermissionResource::form($schema);
     }
 
     /**
@@ -66,12 +66,10 @@ abstract class PermissionRelationManager extends BaseRelationManager
      * Get the actions available for the relation.
      *
      * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getActions(): array
+    public static function getRecordActions(): array
     {
-        return PermissionResource::getActions();
+        return PermissionResource::getRecordActions();
     }
 
     /**

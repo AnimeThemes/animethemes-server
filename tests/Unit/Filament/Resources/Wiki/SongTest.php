@@ -10,10 +10,7 @@ use App\Filament\Actions\Base\DeleteAction;
 use App\Filament\Actions\Base\EditAction;
 use App\Filament\Actions\Base\ForceDeleteAction;
 use App\Filament\Actions\Base\RestoreAction;
-use App\Filament\HeaderActions\Base\CreateHeaderAction;
-use App\Filament\HeaderActions\Base\DeleteHeaderAction;
-use App\Filament\HeaderActions\Base\ForceDeleteHeaderAction;
-use App\Filament\HeaderActions\Base\RestoreHeaderAction;
+use App\Filament\Actions\Base\CreateAction;
 use App\Filament\Resources\Wiki\Song;
 use App\Models\Auth\User;
 use App\Models\Wiki\Song as SongModel;
@@ -113,8 +110,8 @@ class SongTest extends BaseResourceTestCase
         $this->actingAs($user);
 
         Livewire::test(static::getIndexPage())
-            ->mountAction(CreateHeaderAction::class)
-            ->assertActionMounted(CreateHeaderAction::class);
+            ->mountAction(CreateAction::class)
+            ->assertActionMounted(CreateAction::class);
     }
 
     /**
@@ -148,7 +145,7 @@ class SongTest extends BaseResourceTestCase
     public function testUserCannotCreateRecord(): void
     {
         Livewire::test(static::getIndexPage())
-            ->assertActionHidden(CreateHeaderAction::class);
+            ->assertActionHidden(CreateAction::class);
     }
 
     /**
@@ -174,7 +171,7 @@ class SongTest extends BaseResourceTestCase
         $record = SongModel::factory()->createOne();
 
         Livewire::test(static::getViewPage(), ['record' => $record->getKey()])
-            ->assertActionHidden(DeleteHeaderAction::class);
+            ->assertActionHidden(DeleteAction::class);
 
         Livewire::test(static::getIndexPage())
             ->assertTableActionHidden(DeleteAction::class, $record);
@@ -192,7 +189,7 @@ class SongTest extends BaseResourceTestCase
         $record->delete();
 
         Livewire::test(static::getViewPage(), ['record' => $record->getKey()])
-            ->assertActionHidden(RestoreHeaderAction::class);
+            ->assertActionHidden(RestoreAction::class);
 
         Livewire::test(static::getIndexPage())
             ->assertTableActionHidden(RestoreAction::class, $record);
@@ -208,7 +205,7 @@ class SongTest extends BaseResourceTestCase
         $record = SongModel::factory()->createOne();
 
         Livewire::test(static::getViewPage(), ['record' => $record->getKey()])
-            ->assertActionHidden(ForceDeleteHeaderAction::class);
+            ->assertActionHidden(ForceDeleteAction::class);
 
         Livewire::test(static::getIndexPage())
             ->assertTableActionHidden(ForceDeleteAction::class, $record);
