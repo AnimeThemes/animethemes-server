@@ -206,7 +206,8 @@ class Playlist extends BaseResource
 
                 TextColumn::make(PlaylistModel::ATTRIBUTE_HASHID)
                     ->label(__('filament.fields.playlist.hashid.name'))
-                    ->copyableWithMessage(),
+                    ->copyableWithMessage()
+                    ->searchable(isIndividual: true),
 
                 BelongsToColumn::make(PlaylistModel::RELATION_FIRST, Track::class)
                     ->label(__('filament.fields.playlist.first.name')),
