@@ -38,7 +38,7 @@ abstract class BaseTab extends Tab
      */
     public function modifyQuery(Builder $query): Builder
     {
-        return Cache::flexible("filament_query_{$this->getKey()}", [15, 60], function () use ($query) {
+        return Cache::flexible("filament_query_{$this->getSlug()}", [15, 60], function () use ($query) {
             return $this->modifyQuery($query);
         });
     }
@@ -50,7 +50,7 @@ abstract class BaseTab extends Tab
      */
     public function count(): mixed
     {
-        $count = Cache::flexible("filament_badge_{$this->getKey()}", [15, 60], function () {
+        $count = Cache::flexible("filament_badge_{$this->getSlug()}", [15, 60], function () {
             return $this->getBadge();
         });
 
