@@ -90,11 +90,16 @@ class VideoScript extends BaseModel implements InteractsWithSchema
     /**
      * The link of the video script.
      *
-     * @return string
+     * @return string|null
      */
-    public function getLinkAttribute(): string
+    public function getLinkAttribute(): ?string
     {
-        return route('videoscript.show', $this);
+        // Necessary for 'make' factories.
+        if ($this->hasAttribute(VideoScript::ATTRIBUTE_ID)) {
+            return route('videoscript.show', $this);
+        }
+
+        return null;
     }
 
     /**
