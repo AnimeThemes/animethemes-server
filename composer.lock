@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d048a44dacc88782b067ce3d3c43e837",
+    "content-hash": "197717b9dc9ffc8814651f5ec442b62e",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -12229,46 +12229,6 @@
             "time": "2024-08-06T10:04:20+00:00"
         },
         {
-            "name": "filament/upgrade",
-            "version": "v4.0.0-beta8",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/filamentphp/upgrade.git",
-                "reference": "0f27d29790ae5124694ea796184fc2aec7940cd6"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/filamentphp/upgrade/zipball/0f27d29790ae5124694ea796184fc2aec7940cd6",
-                "reference": "0f27d29790ae5124694ea796184fc2aec7940cd6",
-                "shasum": ""
-            },
-            "require": {
-                "nunomaduro/termwind": "^2.0",
-                "php": "^8.2",
-                "rector/rector": "^2.0"
-            },
-            "bin": [
-                "bin/filament-v4"
-            ],
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Filament\\Upgrade\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "Upgrade Filament v3 code to Filament v4.",
-            "homepage": "https://github.com/filamentphp/filament",
-            "support": {
-                "issues": "https://github.com/filamentphp/filament/issues",
-                "source": "https://github.com/filamentphp/filament"
-            },
-            "time": "2025-06-15T21:55:22+00:00"
-        },
-        {
             "name": "filp/whoops",
             "version": "2.18.3",
             "source": {
@@ -13514,65 +13474,6 @@
                 }
             ],
             "time": "2025-04-30T15:16:02+00:00"
-        },
-        {
-            "name": "rector/rector",
-            "version": "2.0.18",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/rectorphp/rector.git",
-                "reference": "be3a452085b524a04056e3dfe72d861948711062"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/rectorphp/rector/zipball/be3a452085b524a04056e3dfe72d861948711062",
-                "reference": "be3a452085b524a04056e3dfe72d861948711062",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^7.4|^8.0",
-                "phpstan/phpstan": "^2.1.17"
-            },
-            "conflict": {
-                "rector/rector-doctrine": "*",
-                "rector/rector-downgrade-php": "*",
-                "rector/rector-phpunit": "*",
-                "rector/rector-symfony": "*"
-            },
-            "suggest": {
-                "ext-dom": "To manipulate phpunit.xml via the custom-rule command"
-            },
-            "bin": [
-                "bin/rector"
-            ],
-            "type": "library",
-            "autoload": {
-                "files": [
-                    "bootstrap.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "Instant Upgrade and Automated Refactoring of any PHP code",
-            "keywords": [
-                "automation",
-                "dev",
-                "migration",
-                "refactoring"
-            ],
-            "support": {
-                "issues": "https://github.com/rectorphp/rector/issues",
-                "source": "https://github.com/rectorphp/rector/tree/2.0.18"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/tomasvotruba",
-                    "type": "github"
-                }
-            ],
-            "time": "2025-06-11T11:19:37+00:00"
         },
         {
             "name": "sebastian/cli-parser",
