@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Discord;
 
+use Illuminate\Support\Arr;
+
 /**
  * Class DiscordEmbed.
  */
@@ -16,9 +18,6 @@ class DiscordEmbed
     final public const ATTRIBUTE_THUMBNAIL = 'thumbnail';
     final public const ATTRIBUTE_IMAGE = 'image';
     final public const ATTRIBUTE_FIELDS = 'fields';
-    final public const ATTRIBUTE_FIELDS_NAME = 'name';
-    final public const ATTRIBUTE_FIELDS_VALUE = 'value';
-    final public const ATTRIBUTE_FIELDS_INLINE = 'inline';
 
     protected string $type = 'rich';
     protected string $title = '';
@@ -27,6 +26,24 @@ class DiscordEmbed
     protected array $thumbnail = [];
     protected array $image = [];
     protected array $fields = [];
+
+    /**
+     * Create a new DiscordEmbed instance from an array.
+     *
+     * @param  array<string, mixed>  $array
+     * @return DiscordEmbed
+     */
+    public static function fromArray(array $array): DiscordEmbed
+    {
+        return new DiscordEmbed()
+            ->setType(Arr::get($array, self::ATTRIBUTE_TYPE) ?? 'rich')
+            ->setTitle(Arr::get($array, self::ATTRIBUTE_TITLE) ?? '')
+            ->setDescription(Arr::get($array, self::ATTRIBUTE_DESCRIPTION, ''))
+            ->setColor(Arr::get($array, self::ATTRIBUTE_COLOR) ?? 0)
+            ->setThumbnail(Arr::get($array, self::ATTRIBUTE_THUMBNAIL) ?? [])
+            ->setImage(Arr::get($array, self::ATTRIBUTE_IMAGE) ?? [])
+            ->setFields(Arr::map(Arr::get($array, self::ATTRIBUTE_FIELDS) ?? [], fn (array $fields) => DiscordEmbedField::fromArray($fields)));
+    }
 
     /**
      * Get the type of the embed.
@@ -91,7 +108,7 @@ class DiscordEmbed
     /**
      * Get the fields of the embed.
      *
-     * @return array
+     * @return array<int, DiscordEmbedField>
      */
     public function getFields(): array
     {
@@ -140,12 +157,12 @@ class DiscordEmbed
     /**
      * Set the color of the embed.
      *
-     * @param  int  $color
+     * @param  int|string  $color
      * @return static
      */
-    public function setColor(int $color): static
+    public function setColor(int|string $color): static
     {
-        $this->color = $color;
+        $this->color = is_string($color) ? hexdec($color) : $color;
 
         return $this;
     }
@@ -179,7 +196,7 @@ class DiscordEmbed
     /**
      * Set the fields of the embed.
      *
-     * @param  array  $fields
+     * @param  array<int, DiscordEmbedField>  $fields
      * @return static
      */
     public function setFields(array $fields): static
@@ -203,7 +220,7 @@ class DiscordEmbed
             'color' => $this->getColor(),
             'thumbnail' => $this->getThumbnail(),
             'image' => $this->getImage(),
-            'fields' => $this->getFields(),
+            'fields' => Arr::map($this->getFields(), fn (DiscordEmbedField $field) => $field->toArray(false)),
         ];
     }
 }

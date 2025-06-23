@@ -128,6 +128,17 @@ abstract class BasePolicy
     }
 
     /**
+     * Determine whether the user can delete any model.
+     *
+     * @param  User  $user
+     * @return bool
+     */
+    public function deleteAny(User $user): bool
+    {
+        return $user->can(CrudPermission::DELETE->format(static::getModel()));
+    }
+
+    /**
      * Determine whether the user can permanently delete the model.
      *
      * @param  User  $user

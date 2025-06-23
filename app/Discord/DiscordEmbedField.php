@@ -6,6 +6,7 @@ namespace App\Discord;
 
 use App\Enums\Http\Api\Filter\AllowedDateFormat;
 use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 use JsonSerializable;
@@ -16,13 +17,16 @@ use JsonSerializable;
 class DiscordEmbedField implements Arrayable, JsonSerializable
 {
     final public const DEFAULT_FIELD_VALUE = '-';
+    final public const ATTRIBUTE_NAME = 'name';
+    final public const ATTRIBUTE_VALUE = 'value';
+    final public const ATTRIBUTE_INLINE = 'inline';
 
     /**
-     * The value of the field.
+     * The formatted value of the field.
      *
      * @var string
      */
-    protected readonly string $value;
+    protected readonly string $formattedValue;
 
     /**
      * Create a new field instance.
@@ -33,22 +37,38 @@ class DiscordEmbedField implements Arrayable, JsonSerializable
      */
     final public function __construct(
         protected readonly string $name,
-        mixed $value,
+        protected readonly mixed $value,
         protected readonly bool $inline = false
     ) {
-        $this->value = static::formatEmbedFieldValue($value);
+        $this->formattedValue = static::formatEmbedFieldValue($value);
+    }
+
+    /**
+     * Create a new DiscordEmbedField instance from an array.
+     *
+     * @param  array<string, mixed>  $array
+     * @return static
+     */
+    public static function fromArray(array $array): static
+    {
+        return new static(
+            Arr::get($array, 'name'),
+            Arr::get($array, 'value'),
+            Arr::get($array, 'inline'),
+        );
     }
 
     /**
      * Get the instance as an array.
      *
+     * @param  bool  $formatted
      * @return array<string, mixed>
      */
-    public function toArray(): array
+    public function toArray(bool $formatted = true): array
     {
         return [
             'name' => $this->name,
-            'value' => $this->value,
+            'value' => $formatted ? $this->formattedValue : $this->value,
             'inline' => $this->inline,
         ];
     }
