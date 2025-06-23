@@ -137,7 +137,7 @@ class ImageTest extends BaseResourceTestCase
         $record = ImageModel::factory()->createOne();
 
         Livewire::test(static::getIndexPage())
-            ->assertActionHidden(EditAction::class, ['record' => $record]);
+            ->assertActionHidden(EditAction::class, ['record' => $record->getKey()]);
     }
 
     /**
@@ -153,7 +153,7 @@ class ImageTest extends BaseResourceTestCase
             ->assertActionHidden(DeleteAction::class);
 
         Livewire::test(static::getIndexPage())
-            ->assertActionHidden(DeleteAction::class, ['record' => $record]);
+            ->assertActionHidden(DeleteAction::class, ['record' => $record->getKey()]);
     }
 
     /**
@@ -171,7 +171,7 @@ class ImageTest extends BaseResourceTestCase
             ->assertActionHidden(RestoreAction::class);
 
         Livewire::test(static::getIndexPage())
-            ->assertActionHidden(RestoreAction::class, ['record' => $record]);
+            ->assertActionHidden(RestoreAction::class, ['record' => $record->getKey()]);
     }
 
     /**
@@ -187,6 +187,6 @@ class ImageTest extends BaseResourceTestCase
             ->assertActionHidden(ForceDeleteAction::class);
 
         Livewire::test(static::getIndexPage())
-            ->assertActionHidden(ForceDeleteAction::class, ['record' => $record]);
+            ->assertActionHidden(ForceDeleteAction::class, ['record' => $record->getKey()]);
     }
 }

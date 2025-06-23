@@ -167,7 +167,7 @@ class DiscordThreadTest extends BaseResourceTestCase
             ->createOne();
 
         Livewire::test(static::getIndexPage())
-            ->assertActionHidden(EditAction::class, ['record' => $record]);
+            ->assertActionHidden(EditAction::class, ['record' => $record->getKey()]);
     }
 
     /**
@@ -185,6 +185,6 @@ class DiscordThreadTest extends BaseResourceTestCase
             ->assertActionHidden(DeleteAction::class);
 
         Livewire::test(static::getIndexPage())
-            ->assertActionHidden(DeleteAction::class, ['record' => $record]);
+            ->assertActionHidden(DeleteAction::class, ['record' => $record->getKey()]);
     }
 }

@@ -24,7 +24,6 @@
         "ext-gd": "*",
         "ext-intl": "*",
         "ext-pdo": "*",
-        "awcodes/recently": "^2.0.0-beta.1",
         "babenkoivan/elastic-migrations": "^3.4.1",
         "babenkoivan/elastic-scout-driver-plus": "^4.8",
         "bepsvpt/secure-headers": "^7.5",
