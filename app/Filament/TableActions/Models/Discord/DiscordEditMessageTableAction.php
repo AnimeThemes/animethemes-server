@@ -6,6 +6,7 @@ namespace App\Filament\TableActions\Models\Discord;
 
 use App\Actions\Discord\DiscordMessageAction;
 use App\Discord\DiscordEmbed;
+use App\Discord\DiscordEmbedField;
 use App\Discord\DiscordMessage;
 use App\Filament\TableActions\BaseTableAction;
 use App\Models\Discord\DiscordThread;
@@ -13,7 +14,7 @@ use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\ColorPicker;
 use Filament\Forms\Components\Repeater;
-use Filament\Forms\Components\RichEditor;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Forms\Set;
@@ -86,27 +87,34 @@ class DiscordEditMessageTableAction extends BaseTableAction
 
                                 $message = new DiscordMessageAction()->get($state);
 
-                                $set(DiscordMessage::ATTRIBUTE_CONTENT, Arr::get($message, DiscordMessage::ATTRIBUTE_CONTENT));
+                                $set(DiscordMessage::ATTRIBUTE_CONTENT, $message->getContent());
 
-                                foreach (Arr::get($message, DiscordMessage::ATTRIBUTE_EMBEDS) ?? [] as $index => $embed) {
-                                    foreach ($embed as $key => $value) {
-                                        $set("embeds.item{$index}.{$key}", $key === DiscordEmbed::ATTRIBUTE_COLOR ? '#' . dechex($value) : $value);
+                                foreach ($message->getEmbeds() as $index => $embed) {
+                                    foreach ($embed->toArray() as $key => $value) {
+                                        if ($key === DiscordEmbed::ATTRIBUTE_COLOR) {
+                                            $value = '#'.dechex($value);
+                                        }
+                                        if ($key === DiscordEmbed::ATTRIBUTE_THUMBNAIL || $key === DiscordEmbed::ATTRIBUTE_IMAGE) {
+                                            $value = Arr::get($value, 'url');
+                                        }
+
+                                        $set("embeds.item{$index}.{$key}", $value);
                                     }
 
-                                    foreach (Arr::get($embed, DiscordEmbed::ATTRIBUTE_FIELDS) ?? [] as $fieldIndex => $field) {
-                                        foreach ($field as $key => $value) {
+                                    foreach ($embed->getFields() as $fieldIndex => $field) {
+                                        foreach ($field->toArray(false) as $key => $value) {
                                             $set("embeds.item{$index}.fields.{$fieldIndex}.{$key}", $value);
                                         }
                                     }
                                 }
 
-                                foreach (Arr::get($message, 'files') as $index => $file) {
+                                foreach ($message->getImages() as $index => $file) {
                                     $set("images.item{$index}.url", $file);
                                 }
                             })
                     ),
 
-                RichEditor::make(DiscordMessage::ATTRIBUTE_CONTENT)
+                Textarea::make(DiscordMessage::ATTRIBUTE_CONTENT)
                     ->label(__('filament.table_actions.discord_thread.message.content.name'))
                     ->helperText(__('filament.table_actions.discord_thread.message.content.help')),
 
@@ -122,7 +130,7 @@ class DiscordEditMessageTableAction extends BaseTableAction
                             ->label(__('filament.table_actions.discord_thread.message.embeds.body.title.name'))
                             ->helperText(__('filament.table_actions.discord_thread.message.embeds.body.title.help')),
 
-                        RichEditor::make(DiscordEmbed::ATTRIBUTE_DESCRIPTION)
+                        Textarea::make(DiscordEmbed::ATTRIBUTE_DESCRIPTION)
                             ->label(__('filament.table_actions.discord_thread.message.embeds.body.description.name'))
                             ->helperText(__('filament.table_actions.discord_thread.message.embeds.body.description.help'))
                             ->required(),
@@ -145,17 +153,17 @@ class DiscordEditMessageTableAction extends BaseTableAction
                             ->helperText(__('filament.table_actions.discord_thread.message.embeds.body.fields.title.help'))
                             ->collapsible()
                             ->schema([
-                                TextInput::make(DiscordEmbed::ATTRIBUTE_FIELDS_NAME)
+                                TextInput::make(DiscordEmbedField::ATTRIBUTE_NAME)
                                     ->label(__('filament.table_actions.discord_thread.message.embeds.body.fields.name.name'))
                                     ->helperText(__('filament.table_actions.discord_thread.message.embeds.body.fields.name.help'))
                                     ->required(),
 
-                                TextInput::make(DiscordEmbed::ATTRIBUTE_FIELDS_VALUE)
+                                TextInput::make(DiscordEmbedField::ATTRIBUTE_VALUE)
                                     ->label(__('filament.table_actions.discord_thread.message.embeds.body.fields.value.name'))
                                     ->helperText(__('filament.table_actions.discord_thread.message.embeds.body.fields.value.help'))
                                     ->required(),
 
-                                Checkbox::make(DiscordEmbed::ATTRIBUTE_FIELDS_INLINE)
+                                Checkbox::make(DiscordEmbedField::ATTRIBUTE_INLINE)
                                     ->label(__('filament.table_actions.discord_thread.message.embeds.body.fields.inline.name'))
                                     ->helperText(__('filament.table_actions.discord_thread.message.embeds.body.fields.inline.help')),
                             ]),

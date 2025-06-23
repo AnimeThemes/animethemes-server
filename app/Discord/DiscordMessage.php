@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Discord;
 
+use Illuminate\Support\Arr;
+
 /**
  * Class DiscordMessage.
  */
@@ -21,6 +23,22 @@ class DiscordMessage
     protected string $content = '';
     protected array $embeds = [];
     protected array $images = [];
+
+    /**
+     * Create a new DiscordMessage instance from an array.
+     *
+     * @param  array<string, mixed>  $array
+     * @return DiscordMessage
+     */
+    public static function fromArray(array $array): DiscordMessage
+    {
+        return new DiscordMessage()
+            ->setChannelId(Arr::get($array, self::ATTRIBUTE_CHANNEL_ID) ?? '0')
+            ->setId(Arr::get($array, self::ATTRIBUTE_ID) ?? '0')
+            ->setContent(Arr::get($array, self::ATTRIBUTE_CONTENT) ?? '')
+            ->setEmbeds(Arr::map(Arr::get($array, self::ATTRIBUTE_EMBEDS) ?? [], fn (array $embed) => DiscordEmbed::fromArray($embed)))
+            ->setImages(Arr::get($array, 'files') ?? Arr::get($array, self::ATTRIBUTE_IMAGES) ?? []);
+    }
 
     /**
      * Get the channelId of the message.
@@ -55,7 +73,7 @@ class DiscordMessage
     /**
      * Get the embeds of the message.
      *
-     * @return DiscordEmbed[]
+     * @return array<int, DiscordEmbed>
      */
     public function getEmbeds(): array
     {
@@ -88,7 +106,7 @@ class DiscordMessage
     /**
      * Set the embeds of the message.
      *
-     * @param  array  $embeds
+     * @param  array<int, DiscordEmbed>  $embeds
      * @return static
      */
     public function setEmbeds(array $embeds): static
@@ -130,7 +148,7 @@ class DiscordMessage
      * @param  string  $id
      * @return static
      */
-    public function setId(string $id): static
+    public function setId(string $id = '0'): static
     {
         $this->id = $id;
 
@@ -148,7 +166,7 @@ class DiscordMessage
             'channelId' => $this->getChannelId(),
             'id' => $this->getId(),
             'content' => $this->getContent(),
-            'embeds' => $this->getEmbeds(),
+            'embeds' => Arr::map($this->getEmbeds(), fn (DiscordEmbed $embed) => $embed->toArray()),
             'files' => $this->getImages(),
         ];
     }

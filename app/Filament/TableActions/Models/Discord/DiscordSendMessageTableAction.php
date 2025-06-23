@@ -6,13 +6,14 @@ namespace App\Filament\TableActions\Models\Discord;
 
 use App\Actions\Discord\DiscordMessageAction;
 use App\Discord\DiscordEmbed;
+use App\Discord\DiscordEmbedField;
 use App\Discord\DiscordMessage;
 use App\Filament\TableActions\BaseTableAction;
 use App\Models\Discord\DiscordThread;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\ColorPicker;;
 use Filament\Forms\Components\Repeater;
-use Filament\Forms\Components\RichEditor;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Illuminate\Support\Facades\Auth;
@@ -67,7 +68,7 @@ class DiscordSendMessageTableAction extends BaseTableAction
                     ->helperText(__('filament.table_actions.discord_thread.message.channelId.help'))
                     ->required(),
 
-                RichEditor::make(DiscordMessage::ATTRIBUTE_CONTENT)
+                Textarea::make(DiscordMessage::ATTRIBUTE_CONTENT)
                     ->label(__('filament.table_actions.discord_thread.message.content.name'))
                     ->helperText(__('filament.table_actions.discord_thread.message.content.help')),
 
@@ -82,7 +83,7 @@ class DiscordSendMessageTableAction extends BaseTableAction
                             ->label(__('filament.table_actions.discord_thread.message.embeds.body.title.name'))
                             ->helperText(__('filament.table_actions.discord_thread.message.embeds.body.title.help')),
 
-                        RichEditor::make(DiscordEmbed::ATTRIBUTE_DESCRIPTION)
+                        Textarea::make(DiscordEmbed::ATTRIBUTE_DESCRIPTION)
                             ->label(__('filament.table_actions.discord_thread.message.embeds.body.description.name'))
                             ->helperText(__('filament.table_actions.discord_thread.message.embeds.body.description.help'))
                             ->required(),
@@ -105,17 +106,17 @@ class DiscordSendMessageTableAction extends BaseTableAction
                             ->helperText(__('filament.table_actions.discord_thread.message.embeds.body.fields.title.help'))
                             ->collapsible()
                             ->schema([
-                                TextInput::make(DiscordEmbed::ATTRIBUTE_FIELDS_NAME)
+                                TextInput::make(DiscordEmbedField::ATTRIBUTE_NAME)
                                     ->label(__('filament.table_actions.discord_thread.message.embeds.body.fields.name.name'))
                                     ->helperText(__('filament.table_actions.discord_thread.message.embeds.body.fields.name.help'))
                                     ->required(),
 
-                                TextInput::make(DiscordEmbed::ATTRIBUTE_FIELDS_VALUE)
+                                TextInput::make(DiscordEmbedField::ATTRIBUTE_VALUE)
                                     ->label(__('filament.table_actions.discord_thread.message.embeds.body.fields.value.name'))
                                     ->helperText(__('filament.table_actions.discord_thread.message.embeds.body.fields.value.help'))
                                     ->required(),
 
-                                Checkbox::make(DiscordEmbed::ATTRIBUTE_FIELDS_INLINE)
+                                Checkbox::make(DiscordEmbedField::ATTRIBUTE_INLINE)
                                     ->label(__('filament.table_actions.discord_thread.message.embeds.body.fields.inline.name'))
                                     ->helperText(__('filament.table_actions.discord_thread.message.embeds.body.fields.inline.help')),
                             ]),
