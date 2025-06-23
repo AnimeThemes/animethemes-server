@@ -8,6 +8,7 @@ use App\Concerns\Filament\ActionLogs\HasActionLogs;
 use App\Filament\RelationManagers\BaseRelationManager;
 use Filament\Actions\Action;
 use Filament\Support\Enums\Width;
+use Illuminate\Support\Str;
 
 /**
  * Class BaseAction.
@@ -15,6 +16,16 @@ use Filament\Support\Enums\Width;
 abstract class BaseAction extends Action
 {
     use HasActionLogs;
+
+    /**
+     * A random string is generated so the action always has a name.
+     *
+     * @return string|null
+     */
+    public static function getDefaultName(): ?string
+    {
+        return Str::random();
+    }
 
     /**
      * Initial setup for the action.

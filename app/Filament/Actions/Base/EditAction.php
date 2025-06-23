@@ -34,13 +34,13 @@ class EditAction extends BaseEditAction
     {
         parent::setUp();
 
-        $this->schema(fn (Schema $schema, BaseRelationManager|BaseManageResources|BaseListResources $livewire) => [
+        $this->schema(fn (Schema $schema, BaseRelationManager|BaseManageResources|BaseListResources|BaseViewResource $livewire) => [
             ...$livewire->form($schema)->getComponents(),
             ...($livewire instanceof BaseRelationManager ? $livewire->getPivotFields() : []),
         ]);
 
         $this->after(function ($livewire, Model $record, EditAction $action) {
-            if ($livewire instanceof BaseListResources) {
+            if ($livewire instanceof BaseListResources || $livewire instanceof BaseViewResource) {
                 ActionLog::modelUpdated($record);
             }
 

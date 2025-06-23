@@ -132,7 +132,7 @@ class BelongsTo extends ComponentsSelect
 
         return $this
             ->getSearchResultsUsing(function (string $search) use ($model, $eagerLoads) {
-                $model::query()
+                return $model::query()
                     ->where($this->resource->getRecordTitleAttribute(), ComparisonOperator::LIKE->value, "%$search%")
                     ->with($eagerLoads)
                     ->take(25)
