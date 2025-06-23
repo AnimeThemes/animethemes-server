@@ -58,7 +58,7 @@ class UploadImageAction extends BaseAction
     public function handle(array $fields): void
     {
         $image = Arr::get($fields, Image::ATTRIBUTE_PATH);
-        $facet = ImageFacet::from(intval(Arr::get($fields, Image::ATTRIBUTE_FACET)));
+        $facet = Arr::get($fields, Image::ATTRIBUTE_FACET);
 
         $this->createImageFromFile($image, $facet);
     }

@@ -57,9 +57,9 @@ class BackfillAudioAction extends BaseAction implements ShouldQueue
      */
     public function handle(Video $video, array $data): void
     {
-        $deriveSourceVideo = DeriveSourceVideo::from(intval(Arr::get($data, DeriveSourceVideo::getFieldKey())));
-        $overwriteAudio = OverwriteAudio::from(intval(Arr::get($data, OverwriteAudio::getFieldKey())));
-        $replaceRelatedAudio = ReplaceRelatedAudio::from(intval(Arr::get($data, ReplaceRelatedAudio::getFieldKey())));
+        $deriveSourceVideo = Arr::get($data, DeriveSourceVideo::getFieldKey());
+        $overwriteAudio = Arr::get($data, OverwriteAudio::getFieldKey());
+        $replaceRelatedAudio = Arr::get($data, ReplaceRelatedAudio::getFieldKey());
 
         $action = new BackfillAudio($video, $deriveSourceVideo, $overwriteAudio, $replaceRelatedAudio);
 
@@ -99,7 +99,7 @@ class BackfillAudioAction extends BaseAction implements ShouldQueue
                     ->options(DeriveSourceVideo::asSelectArray())
                     ->required()
                     ->enum(DeriveSourceVideo::class)
-                    ->default(DeriveSourceVideo::YES->value),
+                    ->default(DeriveSourceVideo::YES),
 
                 Select::make(OverwriteAudio::getFieldKey())
                     ->label(__('filament.actions.video.backfill.fields.overwrite.name'))
@@ -107,7 +107,7 @@ class BackfillAudioAction extends BaseAction implements ShouldQueue
                     ->options(OverwriteAudio::asSelectArray())
                     ->required()
                     ->enum(OverwriteAudio::class)
-                    ->default(OverwriteAudio::NO->value),
+                    ->default(OverwriteAudio::NO),
 
                 Select::make(ReplaceRelatedAudio::getFieldKey())
                     ->label(__('filament.actions.video.backfill.fields.replace_related.name'))
@@ -115,7 +115,7 @@ class BackfillAudioAction extends BaseAction implements ShouldQueue
                     ->options(ReplaceRelatedAudio::asSelectArray())
                     ->required()
                     ->enum(ReplaceRelatedAudio::class)
-                    ->default(ReplaceRelatedAudio::NO->value),
+                    ->default(ReplaceRelatedAudio::NO),
             ]);
     }
 }

@@ -165,7 +165,7 @@ class UploadVideoAction extends UploadAction
                                     ->options(ShouldBackfillAudio::asSelectArray())
                                     ->required()
                                     ->enum(ShouldBackfillAudio::class)
-                                    ->default(ShouldBackfillAudio::YES->value),
+                                    ->default(ShouldBackfillAudio::YES),
 
                                 ...BackfillAudioAction::make()->getSchema($schema)->getComponents(),
                             ]),
@@ -179,7 +179,7 @@ class UploadVideoAction extends UploadAction
                                     ->options(ShouldSendNotification::asSelectArray())
                                     ->required()
                                     ->enum(ShouldSendNotification::class)
-                                    ->default(ShouldSendNotification::YES->value),
+                                    ->default(ShouldSendNotification::YES),
 
                                 ...VideoDiscordNotificationBulkAction::make()->getSchema($schema)->getComponents(),
                             ]),
@@ -248,8 +248,8 @@ class UploadVideoAction extends UploadAction
      */
     protected function afterUploaded(?Model $video, array $data): void
     {
-        $shouldBackfill = ShouldBackfillAudio::from(intval(Arr::get($data, ShouldBackfillAudio::getFieldKey())));
-        $shouldSendNot = ShouldSendNotification::from(intval(Arr::get($data, ShouldSendNotification::getFieldKey())));
+        $shouldBackfill = Arr::get($data, ShouldBackfillAudio::getFieldKey());
+        $shouldSendNot = Arr::get($data, ShouldSendNotification::getFieldKey());
 
         if ($shouldBackfill === ShouldBackfillAudio::YES) {
             $backfillAudioAction = new BackfillAudioAction('audio');

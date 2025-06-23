@@ -66,6 +66,8 @@ class FilamentPanelProvider extends PanelProvider
 
         Table::configureUsing(function (Table $table) {
             $table->deferFilters(false);
+            $table->deferColumnManager(false);
+            $table->reorderableColumns();
         });
     }
 
