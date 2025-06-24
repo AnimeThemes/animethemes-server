@@ -7,7 +7,7 @@ namespace App\Filament\Resources\Wiki\Song\RelationManagers;
 use Filament\Actions\Action;
 use App\Actions\Models\Wiki\Song\ManageSongPerformances;
 use App\Filament\RelationManagers\Wiki\Song\PerformanceRelationManager;
-use App\Filament\Resources\Wiki\Song\Performance as PerformanceResource;
+use App\Filament\Resources\Wiki\Song\Performance\Schemas\PerformanceForm;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Song;
 use App\Models\Wiki\Song\Membership;
@@ -92,7 +92,7 @@ class PerformanceSongRelationManager extends PerformanceRelationManager
             Action::make('manage performances')
                 ->label(__('filament.actions.performances.manage_performances'))
                 ->action(fn ($livewire, $data) => static::saveArtists($livewire->getOwnerRecord(), Arr::get($data, Song::RELATION_PERFORMANCES)))
-                ->schema(PerformanceResource::performancesFields()),
+                ->schema(PerformanceForm::performancesFields()),
         ];
     }
 

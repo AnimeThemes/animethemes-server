@@ -6,13 +6,9 @@ namespace App\Filament\Resources\Wiki\Song;
 
 use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Section;
-use Filament\Schemas\Components\Utilities\Get;
-use Filament\Actions\Action;
-use Filament\Schemas\Components\Utilities\Set;
 use App\Enums\Http\Api\Filter\ComparisonOperator;
 use App\Filament\Components\Columns\BelongsToColumn;
 use App\Filament\Components\Columns\TextColumn;
-use App\Filament\Components\Fields\BelongsTo;
 use App\Filament\Components\Infolist\BelongsToEntry;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Components\Infolist\TimestampSection;
@@ -23,20 +19,17 @@ use App\Filament\Resources\Wiki\Artist\RelationManagers\PerformanceArtistRelatio
 use App\Filament\Resources\Wiki\Song;
 use App\Filament\Resources\Wiki\Song\Performance\Pages\ListPerformances;
 use App\Filament\Resources\Wiki\Song\Performance\Pages\ViewPerformance;
+use App\Filament\Resources\Wiki\Song\Performance\Schemas\PerformanceForm;
 use App\Filament\Resources\Wiki\Song\RelationManagers\PerformanceSongRelationManager;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Song as SongModel;
 use App\Models\Wiki\Song\Membership;
 use App\Models\Wiki\Song\Performance as PerformanceModel;
-use App\Pivots\Wiki\ArtistMember;
-use Filament\Forms\Components\Repeater;
-use Filament\Forms\Components\TextInput;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
-use Illuminate\Support\Arr;
 
 /**
  * Class Performance.
@@ -152,18 +145,7 @@ class Performance extends BaseResource
      */
     public static function form(Schema $schema): Schema
     {
-        return $schema
-            ->components([
-                BelongsTo::make(PerformanceModel::ATTRIBUTE_SONG)
-                    ->resource(Song::class)
-                    ->required()
-                    ->hiddenOn([PerformanceSongRelationManager::class])
-                    ->disabledOn('edit')
-                    ->columnSpanFull(),
-
-                ...static::performancesFields(),
-            ])
-            ->columns(2);
+        return PerformanceForm::configure($schema);
     }
 
     /**
@@ -344,99 +326,6 @@ class Performance extends BaseResource
     {
         return [
             ...parent::getTableActions(),
-        ];
-    }
-
-    /**
-     * Get the performance fields to create a performance.
-     *
-     * @return array
-     */
-    public static function performancesFields(): array
-    {
-        return [
-            Repeater::make(SongModel::RELATION_PERFORMANCES)
-                ->label(__('filament.resources.label.artists'))
-                ->addActionLabel(__('filament.buttons.add').' '.__('filament.resources.singularLabel.artist'))
-                ->hiddenOn([PerformanceArtistRelationManager::class, GroupPerformanceArtistRelationManager::class])
-                ->live(true)
-                ->key('song.performances')
-                ->collapsible()
-                ->defaultItems(0)
-                ->columns(3)
-                ->columnSpanFull()
-                ->formatStateUsing(function ($livewire, Get $get) {
-                    /** @var SongModel|null $song */
-                    $song = $livewire instanceof PerformanceSongRelationManager
-                        ? $livewire->getOwnerRecord()
-                        : SongModel::find($get(PerformanceModel::ATTRIBUTE_SONG));
-
-                    return PerformanceSongRelationManager::formatArtists($song);
-                })
-                ->schema([
-                    BelongsTo::make(Artist::ATTRIBUTE_ID)
-                        ->resource(ArtistResource::class)
-                        ->showCreateOption()
-                        ->required()
-                        ->hintAction(
-                            Action::make('load')
-                                ->label(__('filament.fields.performance.load_members.name'))
-                                ->action(function (Get $get, Set $set) {
-                                    $artistId = $get(Artist::ATTRIBUTE_ID);
-                                    if ($artistId === null) {
-                                        $set('memberships', []);
-                                        return;
-                                    }
-
-                                    /** @var Artist $group */
-                                    $group = Artist::query()
-                                        ->with([Artist::RELATION_MEMBERS])
-                                        ->find($artistId);
-
-                                    $set('memberships', $group->members->map(fn (Artist $member) => [
-                                        Membership::ATTRIBUTE_MEMBER => $member->getKey(),
-                                        Membership::ATTRIBUTE_ALIAS => Arr::get($member->{$group->members()->getPivotAccessor()}, ArtistMember::ATTRIBUTE_ALIAS),
-                                        Membership::ATTRIBUTE_AS => Arr::get($member->{$group->members()->getPivotAccessor()}, ArtistMember::ATTRIBUTE_AS),
-                                    ])->toArray());
-                                })
-                        ),
-
-                    TextInput::make(PerformanceModel::ATTRIBUTE_AS)
-                        ->label(__('filament.fields.performance.as.name'))
-                        ->helperText(__('filament.fields.performance.as.help')),
-
-                    TextInput::make(PerformanceModel::ATTRIBUTE_ALIAS)
-                        ->label(__('filament.fields.performance.alias.name'))
-                        ->helperText(__('filament.fields.performance.alias.help')),
-
-                    Repeater::make('memberships')
-                        ->label(__('filament.resources.label.memberships'))
-                        ->helperText(__('filament.fields.performance.memberships.help'))
-                        ->addActionLabel(__('filament.fields.performance.memberships.add'))
-                        ->collapsible()
-                        ->defaultItems(0)
-                        ->columns(3)
-                        ->columnSpanFull()
-                        ->schema([
-                            BelongsTo::make(Membership::ATTRIBUTE_MEMBER)
-                                ->resource(ArtistResource::class)
-                                ->showCreateOption()
-                                ->label(__('filament.fields.membership.member'))
-                                ->required(),
-
-                            TextInput::make(Membership::ATTRIBUTE_AS)
-                                ->label(__('filament.fields.membership.as.name'))
-                                ->helperText(__('filament.fields.membership.as.help')),
-
-                            TextInput::make(Membership::ATTRIBUTE_ALIAS)
-                                ->label(__('filament.fields.membership.alias.name'))
-                                ->helperText(__('filament.fields.membership.alias.help')),
-                        ]),
-                ])
-                ->saveRelationshipsUsing(function (Get $get, ?array $state) {
-                    $song = SongModel::find($get(PerformanceModel::ATTRIBUTE_SONG));
-                    PerformanceSongRelationManager::saveArtists($song, $state);
-                })
         ];
     }
 

@@ -30,7 +30,7 @@ use App\Filament\Resources\Wiki\Anime\Theme\RelationManagers\EntryThemeRelationM
 use App\Filament\Resources\Wiki\Artist as ArtistResource;
 use App\Filament\Resources\Wiki\Group as GroupResource;
 use App\Filament\Resources\Wiki\Song as SongResource;
-use App\Filament\Resources\Wiki\Song\Performance as PerformanceResource;
+use App\Filament\Resources\Wiki\Song\Performance\Schemas\PerformanceForm;
 use App\Filament\Resources\Wiki\Song\RelationManagers\PerformanceSongRelationManager;
 use App\Filament\Resources\Wiki\Song\RelationManagers\ThemeSongRelationManager;
 use App\Models\Wiki\Anime\AnimeTheme as ThemeModel;
@@ -242,7 +242,7 @@ class Theme extends BaseResource
                                         $set('performances', PerformanceSongRelationManager::formatArtists($song));
                                     }),
 
-                                ...PerformanceResource::performancesFields(),
+                                ...PerformanceForm::performancesFields(),
                             ]),
 
                         Tab::make('entries')
@@ -345,8 +345,8 @@ class Theme extends BaseResource
     /**
      * Set the theme slug.
      *
-     * @param \Filament\Schemas\Components\Utilities\Set $set
-     * @param \Filament\Schemas\Components\Utilities\Get $get
+     * @param  Set  $set
+     * @param  Get  $get
      * @return void
      */
     protected static function setThemeSlug(Set $set, Get $get): void

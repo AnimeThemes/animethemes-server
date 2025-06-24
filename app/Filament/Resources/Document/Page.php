@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace App\Filament\Resources\Document;
 
 use Filament\Schemas\Schema;
-use Filament\Schemas\Components\Utilities\Set;
-use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Components\Section;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Infolist\TextEntry;
@@ -20,7 +18,6 @@ use Filament\Forms\Components\TextInput;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str;
 
 /**
  * Class Page.
@@ -121,8 +118,9 @@ class Page extends BaseResource
                     ->helperText(__('filament.fields.page.name.help'))
                     ->required()
                     ->maxLength(192)
-                    ->live(true)
-                    ->afterStateUpdated(fn (Set $set, Get $get) => static::setSlug($set, $get)),
+                    ->afterStateUpdatedJs(<<<'JS'
+                        $set('slug', slug($state ?? ''));
+                    JS),
 
                 TextInput::make(PageModel::ATTRIBUTE_SLUG)
                     ->label(__('filament.fields.page.slug.name'))
@@ -202,20 +200,6 @@ class Page extends BaseResource
 
                 TimestampSection::make(),
             ]);
-    }
-
-    /**
-     * Set the page slug.
-     *
-     * @param \Filament\Schemas\Components\Utilities\Set $set
-     * @param \Filament\Schemas\Components\Utilities\Get $get
-     * @return void
-     */
-    protected static function setSlug(Set $set, Get $get): void
-    {
-        $name = $get(PageModel::ATTRIBUTE_NAME);
-
-        $set(PageModel::ATTRIBUTE_SLUG, Str::slug($name, '_'));
     }
 
     /**

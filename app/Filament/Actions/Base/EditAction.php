@@ -34,6 +34,16 @@ class EditAction extends BaseEditAction
     {
         parent::setUp();
 
+        $this->label(function ($livewire) {
+            if ($livewire instanceof BaseListResources || $livewire instanceof BaseRelationManager) {
+                return '';
+            }
+
+            return null;
+        });
+
+        $this->iconSize(IconSize::Medium);
+
         $this->schema(fn (Schema $schema, BaseRelationManager|BaseManageResources|BaseListResources|BaseViewResource $livewire) => [
             ...$livewire->form($schema)->getComponents(),
             ...($livewire instanceof BaseRelationManager ? $livewire->getPivotFields() : []),

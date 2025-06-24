@@ -167,7 +167,7 @@ class UploadVideoAction extends UploadAction
                                     ->enum(ShouldBackfillAudio::class)
                                     ->default(ShouldBackfillAudio::YES),
 
-                                ...BackfillAudioAction::make()->getSchema($schema)->getComponents(),
+                                ...BackfillAudioAction::make('backfill-audio')->getSchema($schema)->getComponents(),
                             ]),
 
                         Tab::make('discord')
@@ -181,7 +181,7 @@ class UploadVideoAction extends UploadAction
                                     ->enum(ShouldSendNotification::class)
                                     ->default(ShouldSendNotification::YES),
 
-                                ...VideoDiscordNotificationBulkAction::make()->getSchema($schema)->getComponents(),
+                                ...VideoDiscordNotificationBulkAction::make('notification-bulk')->getSchema($schema)->getComponents(),
                             ]),
                     ])
             ]);
