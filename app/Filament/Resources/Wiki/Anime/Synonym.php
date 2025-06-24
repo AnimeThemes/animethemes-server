@@ -143,9 +143,8 @@ class Synonym extends BaseResource
                 Select::make(SynonymModel::ATTRIBUTE_TYPE)
                     ->label(__('filament.fields.anime_synonym.type.name'))
                     ->helperText(__('filament.fields.anime_synonym.type.help'))
-                    ->options(AnimeSynonymType::asSelectArray())
-                    ->required()
-                    ->enum(AnimeSynonymType::class),
+                    ->options(AnimeSynonymType::class)
+                    ->required(),
 
                 TextInput::make(SynonymModel::ATTRIBUTE_TEXT)
                     ->label(__('filament.fields.anime_synonym.text.name'))
@@ -244,7 +243,7 @@ class Synonym extends BaseResource
         return [
             SelectFilter::make(SynonymModel::ATTRIBUTE_TYPE)
                 ->label(__('filament.fields.anime_synonym.type.name'))
-                ->options(AnimeSynonymType::asSelectArray()),
+                ->options(AnimeSynonymType::class),
 
             ...parent::getFilters(),
         ];

@@ -14,6 +14,7 @@ use App\Rules\Wiki\Resource\AnimeResourceLinkFormatRule;
 use App\Rules\Wiki\Resource\ArtistResourceLinkFormatRule;
 use App\Rules\Wiki\Resource\SongResourceLinkFormatRule;
 use App\Rules\Wiki\Resource\StudioResourceLinkFormatRule;
+use Filament\Support\Contracts\HasLabel;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Client\RequestException;
@@ -26,7 +27,7 @@ use RuntimeException;
 /**
  * Enum ResourceSite.
  */
-enum ResourceSite: int
+enum ResourceSite: int implements HasLabel
 {
     use LocalizesName;
 

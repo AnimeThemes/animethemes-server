@@ -179,9 +179,8 @@ class Anime extends BaseResource
                 Select::make(AnimeModel::ATTRIBUTE_MEDIA_FORMAT)
                     ->label(__('filament.fields.anime.media_format.name'))
                     ->helperText(__('filament.fields.anime.media_format.help'))
-                    ->options(AnimeMediaFormat::asSelectArray())
-                    ->required()
-                    ->enum(AnimeMediaFormat::class),
+                    ->options(AnimeMediaFormat::class)
+                    ->required(),
 
                 MarkdownEditor::make(AnimeModel::ATTRIBUTE_SYNOPSIS)
                     ->label(__('filament.fields.anime.synopsis.name'))
@@ -319,11 +318,11 @@ class Anime extends BaseResource
 
             SelectFilter::make(AnimeModel::ATTRIBUTE_SEASON)
                 ->label(__('filament.fields.anime.season.name'))
-                ->options(AnimeSeason::asSelectArray()),
+                ->options(AnimeSeason::class),
 
             SelectFilter::make(AnimeModel::ATTRIBUTE_MEDIA_FORMAT)
                 ->label(__('filament.fields.anime.media_format.name'))
-                ->options(AnimeMediaFormat::asSelectArray()),
+                ->options(AnimeMediaFormat::class),
 
             ...parent::getFilters(),
         ];

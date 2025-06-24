@@ -96,25 +96,22 @@ class BackfillAudioAction extends BaseAction implements ShouldQueue
                 Select::make(DeriveSourceVideo::getFieldKey())
                     ->label(__('filament.actions.video.backfill.fields.derive_source.name'))
                     ->helperText(__('filament.actions.video.backfill.fields.derive_source.help'))
-                    ->options(DeriveSourceVideo::asSelectArray())
+                    ->options(DeriveSourceVideo::class)
                     ->required()
-                    ->enum(DeriveSourceVideo::class)
                     ->default(DeriveSourceVideo::YES),
 
                 Select::make(OverwriteAudio::getFieldKey())
                     ->label(__('filament.actions.video.backfill.fields.overwrite.name'))
                     ->helperText(__('filament.actions.video.backfill.fields.overwrite.help'))
-                    ->options(OverwriteAudio::asSelectArray())
+                    ->options(OverwriteAudio::class)
                     ->required()
-                    ->enum(OverwriteAudio::class)
                     ->default(OverwriteAudio::NO),
 
                 Select::make(ReplaceRelatedAudio::getFieldKey())
                     ->label(__('filament.actions.video.backfill.fields.replace_related.name'))
                     ->helperText(__('filament.actions.video.backfill.fields.replace_related.help'))
-                    ->options(ReplaceRelatedAudio::asSelectArray())
+                    ->options(ReplaceRelatedAudio::class)
                     ->required()
-                    ->enum(ReplaceRelatedAudio::class)
                     ->default(ReplaceRelatedAudio::NO),
             ]);
     }

@@ -66,10 +66,9 @@ class VideoDiscordNotificationBulkAction extends BaseBulkAction
                 Select::make(DiscordNotificationType::getFieldKey())
                     ->label(__('filament.bulk_actions.discord.notification.type.name'))
                     ->helperText(__('filament.bulk_actions.discord.notification.type.help'))
-                    ->options(DiscordNotificationType::asSelectArray())
+                    ->options(DiscordNotificationType::class)
                     ->default(DiscordNotificationType::ADDED)
-                    ->required()
-                    ->enum(DiscordNotificationType::class),
+                    ->required(),
             ]);
     }
 }

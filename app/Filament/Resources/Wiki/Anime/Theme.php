@@ -198,9 +198,8 @@ class Theme extends BaseResource
                                 Select::make(ThemeModel::ATTRIBUTE_TYPE)
                                     ->label(__('filament.fields.anime_theme.type.name'))
                                     ->helperText(__('filament.fields.anime_theme.type.help'))
-                                    ->options(ThemeType::asSelectArray())
+                                    ->options(ThemeType::class)
                                     ->required()
-                                    ->enum(ThemeType::class)
                                     ->live()
                                     ->partiallyRenderComponentsAfterStateUpdated([ThemeModel::ATTRIBUTE_SLUG])
                                     ->afterStateUpdated(fn (Set $set, Get $get) => Theme::setThemeSlug($set, $get)),
@@ -402,7 +401,7 @@ class Theme extends BaseResource
         return [
             SelectFilter::make(ThemeModel::ATTRIBUTE_TYPE)
                 ->label(__('filament.fields.anime_theme.type.name'))
-                ->options(ThemeType::asSelectArray()),
+                ->options(ThemeType::class),
 
             NumberFilter::make(ThemeModel::ATTRIBUTE_SEQUENCE)
                 ->label(__('filament.fields.anime_theme.sequence.name')),

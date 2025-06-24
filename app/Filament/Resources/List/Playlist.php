@@ -153,9 +153,8 @@ class Playlist extends BaseResource
                 Select::make(PlaylistModel::ATTRIBUTE_VISIBILITY)
                     ->label(__('filament.fields.playlist.visibility.name'))
                     ->helperText(__('filament.fields.playlist.visibility.help'))
-                    ->options(PlaylistVisibility::asSelectArray())
-                    ->required()
-                    ->enum(PlaylistVisibility::class),
+                    ->options(PlaylistVisibility::class)
+                    ->required(),
 
                 TextInput::make(PlaylistModel::ATTRIBUTE_HASHID)
                     ->label(__('filament.fields.playlist.hashid.name'))

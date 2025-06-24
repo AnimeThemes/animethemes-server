@@ -256,7 +256,7 @@ class ActionLog extends BaseResource
         return [
             SelectFilter::make(ActionLogModel::ATTRIBUTE_STATUS)
                 ->label(__('filament.fields.action_log.status'))
-                ->options(ActionLogStatus::asSelectArray()),
+                ->options(ActionLogStatus::class),
 
             DateFilter::make(BaseModel::ATTRIBUTE_CREATED_AT)
                 ->label(__('filament.fields.action_log.happened_at')),

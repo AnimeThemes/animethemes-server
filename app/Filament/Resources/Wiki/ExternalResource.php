@@ -126,9 +126,8 @@ class ExternalResource extends BaseResource
                 Select::make(ExternalResourceModel::ATTRIBUTE_SITE)
                     ->label(__('filament.fields.external_resource.site.name'))
                     ->helperText(__('filament.fields.external_resource.site.help'))
-                    ->options(ResourceSite::asSelectArray())
-                    ->required()
-                    ->enum(ResourceSite::class),
+                    ->options(ResourceSite::class)
+                    ->required(),
 
                 TextInput::make(ExternalResourceModel::ATTRIBUTE_LINK)
                     ->label(__('filament.fields.external_resource.link.name'))
@@ -244,7 +243,7 @@ class ExternalResource extends BaseResource
         return [
             SelectFilter::make(ExternalResourceModel::ATTRIBUTE_SITE)
                 ->label(__('filament.fields.external_resource.site.name'))
-                ->options(ResourceSite::asSelectArray()),
+                ->options(ResourceSite::class),
 
             NumberFilter::make(ExternalResourceModel::ATTRIBUTE_EXTERNAL_ID)
                 ->label(__('filament.fields.external_resource.external_id.name')),

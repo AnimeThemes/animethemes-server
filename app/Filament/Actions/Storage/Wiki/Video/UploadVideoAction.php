@@ -127,16 +127,14 @@ class UploadVideoAction extends UploadAction
                                         Select::make(Video::ATTRIBUTE_OVERLAP)
                                             ->label(__('filament.fields.video.overlap.name'))
                                             ->helperText(__('filament.fields.video.overlap.help'))
-                                            ->options(VideoOverlap::asSelectArray())
-                                            ->required()
-                                            ->enum(VideoOverlap::class),
+                                            ->options(VideoOverlap::class)
+                                            ->required(),
 
                                         Select::make(Video::ATTRIBUTE_SOURCE)
                                             ->label(__('filament.fields.video.source.name'))
                                             ->helperText(__('filament.fields.video.source.help'))
-                                            ->options(VideoSource::asSelectArray())
-                                            ->required()
-                                            ->enum(VideoSource::class),
+                                            ->options(VideoSource::class)
+                                            ->required(),
                                     ]),
 
                                 Section::make(__('filament.resources.singularLabel.video_script'))
@@ -162,9 +160,8 @@ class UploadVideoAction extends UploadAction
                                 Select::make(ShouldBackfillAudio::getFieldKey())
                                     ->label(__('filament.actions.video.backfill.fields.should.name'))
                                     ->helperText(__('filament.actions.video.backfill.fields.should.help'))
-                                    ->options(ShouldBackfillAudio::asSelectArray())
+                                    ->options(ShouldBackfillAudio::class)
                                     ->required()
-                                    ->enum(ShouldBackfillAudio::class)
                                     ->default(ShouldBackfillAudio::YES),
 
                                 ...BackfillAudioAction::make('backfill-audio')->getSchema($schema)->getComponents(),
@@ -176,9 +173,8 @@ class UploadVideoAction extends UploadAction
                                 Select::make(ShouldSendNotification::getFieldKey())
                                     ->label(__('filament.bulk_actions.discord.notification.should_send.name'))
                                     ->helperText(__('filament.bulk_actions.discord.notification.should_send.help'))
-                                    ->options(ShouldSendNotification::asSelectArray())
+                                    ->options(ShouldSendNotification::class)
                                     ->required()
-                                    ->enum(ShouldSendNotification::class)
                                     ->default(ShouldSendNotification::YES),
 
                                 ...VideoDiscordNotificationBulkAction::make('notification-bulk')->getSchema($schema)->getComponents(),

@@ -146,9 +146,8 @@ class ExternalEntry extends BaseResource
                 Select::make(ExternalEntryModel::ATTRIBUTE_WATCH_STATUS)
                     ->label(__('filament.fields.external_entry.watch_status.name'))
                     ->helperText(__('filament.fields.external_entry.watch_status.help'))
-                    ->options(ExternalEntryWatchStatus::asSelectArray())
-                    ->required()
-                    ->enum(ExternalEntryWatchStatus::class),
+                    ->options(ExternalEntryWatchStatus::class)
+                    ->required(),
 
                 Checkbox::make(ExternalEntryModel::ATTRIBUTE_IS_FAVORITE)
                     ->label(__('filament.fields.external_entry.is_favorite.name'))

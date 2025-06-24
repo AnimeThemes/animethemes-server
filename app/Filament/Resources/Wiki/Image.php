@@ -126,9 +126,8 @@ class Image extends BaseResource
                 Select::make(ImageModel::ATTRIBUTE_FACET)
                     ->label(__('filament.fields.image.facet.name'))
                     ->helperText(__('filament.fields.image.facet.help'))
-                    ->options(ImageFacet::asSelectArray())
-                    ->required()
-                    ->enum(ImageFacet::class),
+                    ->options(ImageFacet::class)
+                    ->required(),
             ]);
     }
 
@@ -226,7 +225,7 @@ class Image extends BaseResource
         return [
             SelectFilter::make(ImageModel::ATTRIBUTE_FACET)
                 ->label(__('filament.fields.image.facet.name'))
-                ->options(ImageFacet::asSelectArray()),
+                ->options(ImageFacet::class),
 
             ...parent::getFilters(),
         ];

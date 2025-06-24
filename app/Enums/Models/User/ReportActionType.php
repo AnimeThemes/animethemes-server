@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace App\Enums\Models\User;
 
 use App\Concerns\Enums\LocalizesName;
+use Filament\Support\Contracts\HasLabel;
 
 /**
  * Enum ReportActionType.
  */
-enum ReportActionType: int
+enum ReportActionType: int implements HasLabel
 {
     use LocalizesName;
 

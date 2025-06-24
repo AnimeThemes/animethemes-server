@@ -166,15 +166,13 @@ class Video extends BaseResource
                 Select::make(VideoModel::ATTRIBUTE_OVERLAP)
                     ->label(__('filament.fields.video.overlap.name'))
                     ->helperText(__('filament.fields.video.overlap.help'))
-                    ->options(VideoOverlap::asSelectArray())
-                    ->enum(VideoOverlap::class),
+                    ->options(VideoOverlap::class),
 
                 Select::make(VideoModel::ATTRIBUTE_SOURCE)
                     ->label(__('filament.fields.video.source.name'))
                     ->helperText(__('filament.fields.video.source.help'))
-                    ->options(VideoSource::asSelectArray())
-                    ->required()
-                    ->enum(VideoSource::class),
+                    ->options(VideoSource::class)
+                    ->required(),
 
                 Select::make(VideoModel::ATTRIBUTE_AUDIO)
                     ->label(__('filament.resources.singularLabel.audio'))
@@ -347,11 +345,11 @@ class Video extends BaseResource
 
             SelectFilter::make(VideoModel::ATTRIBUTE_OVERLAP)
                 ->label(__('filament.fields.video.overlap.name'))
-                ->options(VideoOverlap::asSelectArray()),
+                ->options(VideoOverlap::class),
 
             SelectFilter::make(VideoModel::ATTRIBUTE_SOURCE)
                 ->label(__('filament.fields.video.source.name'))
-                ->options(VideoSource::asSelectArray()),
+                ->options(VideoSource::class),
 
             NumberFilter::make(VideoModel::ATTRIBUTE_SIZE)
                 ->label(__('filament.fields.video.size.name')),

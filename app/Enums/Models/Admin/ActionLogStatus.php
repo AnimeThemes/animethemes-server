@@ -7,11 +7,12 @@ namespace App\Enums\Models\Admin;
 use App\Concerns\Enums\LocalizesName;
 use Filament\Support\Colors\Color;
 use Filament\Support\Contracts\HasColor;
+use Filament\Support\Contracts\HasLabel;
 
 /**
  * Enum ActionLogStatus.
  */
-enum ActionLogStatus: int implements HasColor
+enum ActionLogStatus: int implements HasColor, HasLabel
 {
     use LocalizesName;
 

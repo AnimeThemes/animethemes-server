@@ -146,16 +146,14 @@ class ExternalProfile extends BaseResource
                 Select::make(ExternalProfileModel::ATTRIBUTE_SITE)
                     ->label(__('filament.fields.external_profile.site.name'))
                     ->helperText(__('filament.fields.external_profile.site.help'))
-                    ->options(ExternalProfileSite::asSelectArray())
-                    ->required()
-                    ->enum(ExternalProfileSite::class),
+                    ->options(ExternalProfileSite::class)
+                    ->required(),
 
                 Select::make(ExternalProfileModel::ATTRIBUTE_VISIBILITY)
                     ->label(__('filament.fields.external_profile.visibility.name'))
                     ->helperText(__('filament.fields.external_profile.visibility.help'))
-                    ->options(ExternalProfileVisibility::asSelectArray())
-                    ->required()
-                    ->enum(ExternalProfileVisibility::class),
+                    ->options(ExternalProfileVisibility::class)
+                    ->required(),
             ])
             ->columns(2);
     }

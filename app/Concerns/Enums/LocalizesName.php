@@ -26,6 +26,16 @@ trait LocalizesName
     }
 
     /**
+     * Alias of localize() for backward compatibility.
+     *
+     * @return string|null
+     */
+    public function getLabel(): ?string
+    {
+        return $this->localize();
+    }
+
+    /**
      * Get the localized name for the derived translation key.
      *
      * @param  string|null  $locale
