@@ -15,11 +15,11 @@ use Illuminate\Support\Arr;
 class TextFilter extends Filter
 {
     /**
-     * Get the form for the filter.
+     * Get the schema components for the filter.
      *
      * @return array
      */
-    public function getFormSchema(): array
+    public function getSchemaComponents(): array
     {
         return [
             TextInput::make($this->getName())

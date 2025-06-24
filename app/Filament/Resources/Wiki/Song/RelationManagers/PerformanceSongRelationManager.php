@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Wiki\Song\RelationManagers;
 
+use Filament\Actions\Action;
 use App\Actions\Models\Wiki\Song\ManageSongPerformances;
 use App\Filament\RelationManagers\Wiki\Song\PerformanceRelationManager;
-use App\Filament\Resources\Wiki\Song\Performance as PerformanceResource;
+use App\Filament\Resources\Wiki\Song\Performance\Schemas\PerformanceForm;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Song;
 use App\Models\Wiki\Song\Membership;
 use App\Models\Wiki\Song\Performance;
-use Filament\Tables\Actions\Action;
 use Filament\Tables\Table;
 use Illuminate\Support\Arr;
 
@@ -60,10 +60,10 @@ class PerformanceSongRelationManager extends PerformanceRelationManager
      *
      * @return array
      */
-    public static function getActions(): array
+    public static function getRecordActions(): array
     {
         return [
-            ...parent::getActions(),
+            ...parent::getRecordActions(),
         ];
     }
 
@@ -92,7 +92,7 @@ class PerformanceSongRelationManager extends PerformanceRelationManager
             Action::make('manage performances')
                 ->label(__('filament.actions.performances.manage_performances'))
                 ->action(fn ($livewire, $data) => static::saveArtists($livewire->getOwnerRecord(), Arr::get($data, Song::RELATION_PERFORMANCES)))
-                ->form(PerformanceResource::performancesFields()),
+                ->schema(PerformanceForm::performancesFields()),
         ];
     }
 

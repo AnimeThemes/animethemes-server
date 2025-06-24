@@ -4,7 +4,12 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Wiki;
 
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Section;
+use Filament\Actions\ActionGroup;
+use App\Filament\Actions\Repositories\Storage\Wiki\Audio\ReconcileAudioAction;
 use App\Filament\Actions\Storage\Wiki\Audio\DeleteAudioAction;
+use App\Filament\Actions\Storage\Wiki\Audio\UploadAudioAction;
 use App\Filament\Actions\Storage\Wiki\Audio\MoveAudioAction;
 use App\Filament\BulkActions\Storage\Wiki\Audio\DeleteAudioBulkAction;
 use App\Filament\Components\Columns\TextColumn;
@@ -15,15 +20,11 @@ use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Audio\Pages\ListAudios;
 use App\Filament\Resources\Wiki\Audio\Pages\ViewAudio;
 use App\Filament\Resources\Wiki\Audio\RelationManagers\VideoAudioRelationManager;
-use App\Filament\TableActions\Repositories\Storage\Wiki\Audio\ReconcileAudioTableAction;
-use App\Filament\TableActions\Storage\Wiki\Audio\UploadAudioTableAction;
+
 use App\Models\Wiki\Audio as AudioModel;
-use Filament\Forms\Form;
-use Filament\Infolists\Components\Section;
-use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
-use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Audio.
@@ -33,7 +34,7 @@ class Audio extends BaseResource
     /**
      * The model the resource corresponds to.
      *
-     * @var string|null
+     * @var class-string<Model>|null
      */
     protected static ?string $model = AudioModel::class;
 
@@ -110,14 +111,14 @@ class Audio extends BaseResource
     /**
      * The form to the actions.
      *
-     * @param  Form  $form
-     * @return Form
+     * @param  Schema  $schema
+     * @return Schema
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form;
+        return $schema;
     }
 
     /**
@@ -143,15 +144,15 @@ class Audio extends BaseResource
     /**
      * Get the infolist available for the resource.
      *
-     * @param  Infolist  $infolist
-     * @return Infolist
+     * @param  Schema  $schema
+     * @return Schema
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function infolist(Infolist $infolist): Infolist
+    public static function infolist(Schema $schema): Schema
     {
-        return $infolist
-            ->schema([
+        return $schema
+            ->components([
                 Section::make(__('filament.fields.base.file_properties'))
                     ->schema([
                         TextEntry::make(AudioModel::ATTRIBUTE_BASENAME)
@@ -213,10 +214,10 @@ class Audio extends BaseResource
      *
      * @return array
      */
-    public static function getActions(): array
+    public static function getRecordActions(): array
     {
         return [
-            ...parent::getActions(),
+            ...parent::getRecordActions(),
 
             ActionGroup::make([
                 MoveAudioAction::make('move-audio'),
@@ -252,9 +253,9 @@ class Audio extends BaseResource
     {
         return [
             ActionGroup::make([
-                UploadAudioTableAction::make('upload-audio'),
+                UploadAudioAction::make('upload-audio'),
 
-                ReconcileAudioTableAction::make('reconcile-audio'),
+                ReconcileAudioAction::make('reconcile-audio'),
             ]),
         ];
     }

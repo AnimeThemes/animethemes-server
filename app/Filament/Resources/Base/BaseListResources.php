@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Base;
 
-use App\Filament\HeaderActions\Base\CreateHeaderAction;
+use App\Filament\Actions\Base\CreateAction;
 use Filament\Resources\Pages\ListRecords;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -24,7 +24,7 @@ abstract class BaseListResources extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            CreateHeaderAction::make(),
+            CreateAction::make(),
         ];
     }
 

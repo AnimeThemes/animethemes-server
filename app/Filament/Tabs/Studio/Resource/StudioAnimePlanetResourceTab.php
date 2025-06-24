@@ -13,11 +13,11 @@ use App\Filament\Tabs\Studio\StudioResourceTab;
 class StudioAnimePlanetResourceTab extends StudioResourceTab
 {
     /**
-     * Get the key for the tab.
+     * Get the slug for the tab.
      *
      * @return string
      */
-    public static function getKey(): string
+    public static function getSlug(): string
     {
         return 'studio-anime-planet-resource-tab';
     }

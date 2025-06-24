@@ -13,11 +13,11 @@ use App\Filament\Tabs\Studio\StudioImageTab;
 class StudioSmallCoverTab extends StudioImageTab
 {
     /**
-     * Get the key for the tab.
+     * Get the slug for the tab.
      *
      * @return string
      */
-    public static function getKey(): string
+    public static function getSlug(): string
     {
         return 'studio-small-cover-tab';
     }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\List\External\Pages;
 
-use App\Filament\HeaderActions\Models\List\External\SyncExternalProfileHeaderAction;
+use App\Filament\Actions\Models\List\External\SyncExternalProfileAction;
 use App\Filament\Resources\Base\BaseViewResource;
 use App\Filament\Resources\List\ExternalProfile;
 use Filament\Actions\ActionGroup;
@@ -29,7 +29,7 @@ class ViewExternalProfile extends BaseViewResource
             ...parent::getHeaderActions(),
 
             ActionGroup::make([
-                SyncExternalProfileHeaderAction::make('sync-profile'),
+                SyncExternalProfileAction::make('sync-profile'),
             ]),
         ];
     }

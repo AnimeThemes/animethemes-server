@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Filament\RelationManagers\User;
 
+use Filament\Schemas\Schema;
 use App\Filament\RelationManagers\BaseRelationManager;
 use App\Filament\Resources\User\Report\ReportStep as ReportStepResource;
 use App\Models\User\Report\ReportStep;
-use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -19,14 +19,14 @@ abstract class ReportStepRelationManager extends BaseRelationManager
     /**
      * The form to the actions.
      *
-     * @param  Form  $form
-     * @return Form
+     * @param  Schema  $schema
+     * @return Schema
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return ReportStepResource::form($form);
+        return ReportStepResource::form($schema);
     }
 
     /**
@@ -67,11 +67,11 @@ abstract class ReportStepRelationManager extends BaseRelationManager
      *
      * @return array
      */
-    public static function getActions(): array
+    public static function getRecordActions(): array
     {
         return [
-            ...parent::getActions(),
-            ...ReportStepResource::getActions(),
+            ...parent::getRecordActions(),
+            ...ReportStepResource::getRecordActions(),
         ];
     }
 

@@ -131,7 +131,7 @@ class ExternalEntryTest extends BaseResourceTestCase
         $record = $profile->externalentries->first();
 
         Livewire::test(static::getIndexPage())
-            ->mountTableAction(EditAction::class, $record)
-            ->assertTableActionMounted(EditAction::class);
+            ->mountAction(EditAction::class, ['record' => $record])
+            ->assertActionMounted(EditAction::class);
     }
 }

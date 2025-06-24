@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Wiki\Studio\Pages;
 
-use App\Filament\HeaderActions\Models\Wiki\Studio\AttachStudioResourceHeaderAction;
-use App\Filament\HeaderActions\Models\Wiki\Studio\BackfillStudioHeaderAction;
+use App\Filament\Actions\Models\Wiki\Studio\AttachStudioResourceAction;
+use App\Filament\Actions\Models\Wiki\Studio\BackfillStudioAction;
 use App\Filament\Resources\Base\BaseViewResource;
 use App\Filament\Resources\Wiki\Studio;
 use Filament\Actions\ActionGroup;
@@ -30,9 +30,9 @@ class ViewStudio extends BaseViewResource
             ...parent::getHeaderActions(),
 
             ActionGroup::make([
-                BackfillStudioHeaderAction::make('backfill-studio'),
+                BackfillStudioAction::make('backfill-studio'),
 
-                AttachStudioResourceHeaderAction::make('attach-studio-resource'),
+                AttachStudioResourceAction::make('attach-studio-resource'),
             ]),
         ];
     }

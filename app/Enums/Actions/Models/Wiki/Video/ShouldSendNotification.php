@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace App\Enums\Actions\Models\Wiki\Video;
 
 use App\Concerns\Enums\LocalizesName;
+use Filament\Support\Contracts\HasLabel;
 
 /**
  * Enum ShouldSendNotification.
  */
-enum ShouldSendNotification: int
+enum ShouldSendNotification: int implements HasLabel
 {
     use LocalizesName;
 

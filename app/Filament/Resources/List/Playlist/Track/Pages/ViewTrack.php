@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\List\Playlist\Track\Pages;
 
-use App\Filament\HeaderActions\Models\List\AssignHashidsHeaderAction;
+use App\Filament\Actions\Models\List\AssignHashidsAction;
 use App\Filament\Resources\Base\BaseViewResource;
 use App\Filament\Resources\List\Playlist\Track;
 use App\Models\List\Playlist\PlaylistTrack;
@@ -28,7 +28,7 @@ class ViewTrack extends BaseViewResource
         return [
             ...parent::getHeaderActions(),
 
-            AssignHashidsHeaderAction::make('assign-hashids')
+            AssignHashidsAction::make('assign-hashids')
                 ->setConnection('playlists')
                 ->authorize('update', PlaylistTrack::class),
         ];

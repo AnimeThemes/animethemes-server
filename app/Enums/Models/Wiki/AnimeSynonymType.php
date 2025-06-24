@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace App\Enums\Models\Wiki;
 
 use App\Concerns\Enums\LocalizesName;
+use Filament\Support\Contracts\HasLabel;
 
 /**
  * Enum AnimeSynonymType.
  */
-enum AnimeSynonymType: int
+enum AnimeSynonymType: int implements HasLabel
 {
     use LocalizesName;
 

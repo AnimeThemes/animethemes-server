@@ -4,14 +4,16 @@ declare(strict_types=1);
 
 namespace App\Filament\Components\Fields;
 
+use App\Contracts\Models\HasSubtitle;
+use App\Contracts\Models\Nameable;
+use Filament\Schemas\Schema;
 use App\Enums\Http\Api\Filter\ComparisonOperator;
 use App\Filament\Resources\BaseResource;
 use App\Models\Admin\ActionLog;
 use App\Models\Auth\User;
-use App\Models\BaseModel;
 use Filament\Forms\Components\Select as ComponentsSelect;
-use Filament\Forms\Form;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Searchable;
 
 /**
@@ -42,7 +44,7 @@ class BelongsTo extends ComponentsSelect
             $this->tryScout($model);
 
             if ($this->showCreateOption) {
-                $this->createOptionForm(fn (Form $form) => $resource::form($form)->getComponents())
+                $this->createOptionForm(fn (Schema $schema) => $resource::form($schema)->getComponents())
                     ->createOptionUsing(function (array $data) use ($model) {
                         $created = $model::query()->create($data);
 
@@ -101,14 +103,14 @@ class BelongsTo extends ComponentsSelect
     /**
      * Make the field searchable and use laravel scout if available.
      *
-     * @param  class-string<BaseModel>  $model
+     * @param  class-string<Model>  $model
      * @return static
      */
     protected function tryScout(string $model): static
     {
         $this->allowHtml();
         $this->searchable();
-        $this->getOptionLabelUsing(fn ($state) => static::getSearchLabelWithBlade($model::find($state), $this->withSubtitle));
+        $this->getOptionLabelUsing(fn ($state) => is_null($state) ? '' : static::getSearchLabelWithBlade($model::find($state), $this->withSubtitle));
 
         $eagerLoads = method_exists($model, 'getEagerLoadsForSubtitle')
             ? $model::getEagerLoadsForSubtitle()
@@ -124,7 +126,7 @@ class BelongsTo extends ComponentsSelect
                         ->query(fn (Builder $query) => $query->with($eagerLoads))
                         ->take(25)
                         ->get()
-                        ->mapWithKeys(fn (BaseModel $model) => [$model->getKey() => static::getSearchLabelWithBlade($model, $this->withSubtitle)])
+                        ->mapWithKeys(fn (Model $model) => [$model->getKey() => static::getSearchLabelWithBlade($model, $this->withSubtitle)])
                         ->toArray();
                 });
         }
@@ -136,7 +138,7 @@ class BelongsTo extends ComponentsSelect
                     ->with($eagerLoads)
                     ->take(25)
                     ->get()
-                    ->mapWithKeys(fn (BaseModel|User $model) => [$model->getKey() => static::getSearchLabelWithBlade($model, $this->withSubtitle)])
+                    ->mapWithKeys(fn ($model) => [$model->getKey() => static::getSearchLabelWithBlade($model, $this->withSubtitle)])
                     ->toArray();
             });
     }
@@ -144,11 +146,11 @@ class BelongsTo extends ComponentsSelect
     /**
      * Use the blade to make the results.
      *
-     * @param  BaseModel|User  $model
+     * @param  Model|User|Nameable|HasSubtitle  $model
      * @param  bool  $withSubtitle
      * @return string
      */
-    public static function getSearchLabelWithBlade(BaseModel|User $model, bool $withSubtitle = true): string
+    public static function getSearchLabelWithBlade($model, bool $withSubtitle = true): string
     {
         return view('filament.components.select')
             ->with('name', $model->getName())

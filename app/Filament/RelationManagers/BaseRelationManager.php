@@ -10,8 +10,8 @@ use App\Filament\BulkActions\Base\DetachBulkAction;
 use App\Filament\Components\Columns\TextColumn;
 use App\Pivots\BasePivot;
 use DateTime;
-use Filament\Forms\Components\Component;
 use Filament\Resources\RelationManagers\RelationManager;
+use Filament\Schemas\Components\Component;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
@@ -78,8 +78,8 @@ abstract class BaseRelationManager extends RelationManager
             ])
             ->filters(static::getFilters())
             ->filtersFormMaxHeight('400px')
-            ->actions(static::getActions())
-            ->bulkActions(static::getBulkActions())
+            ->recordActions(static::getRecordActions())
+            ->toolbarActions(static::getBulkActions())
             ->headerActions(static::getHeaderActions())
             ->paginated([5, 10, 25])
             ->defaultPaginationPageOption(10);
@@ -103,10 +103,8 @@ abstract class BaseRelationManager extends RelationManager
      * Get the actions available for the relation.
      *
      * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getActions(): array
+    public static function getRecordActions(): array
     {
         return [];
     }
