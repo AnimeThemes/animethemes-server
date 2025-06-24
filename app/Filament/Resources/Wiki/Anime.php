@@ -4,12 +4,16 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Wiki;
 
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Utilities\Set;
+use Filament\Schemas\Components\Section;
+use Filament\Actions\ActionGroup;
 use App\Enums\Models\Wiki\AnimeMediaFormat;
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Enums\Models\Wiki\ResourceSite;
-use App\Filament\Actions\Discord\DiscordThreadAction;
 use App\Filament\Actions\Models\Wiki\Anime\AttachAnimeResourceAction;
 use App\Filament\Actions\Models\Wiki\Anime\BackfillAnimeAction;
+use App\Filament\Actions\Models\Wiki\Anime\DiscordThreadAction;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\Select;
 use App\Filament\Components\Fields\Slug;
@@ -30,15 +34,10 @@ use App\Models\Wiki\Anime as AnimeModel;
 use App\Pivots\Wiki\AnimeResource;
 use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
-use Filament\Forms\Set;
-use Filament\Infolists\Components\Section;
-use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
-use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
-use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Anime.
@@ -48,7 +47,7 @@ class Anime extends BaseResource
     /**
      * The model the resource corresponds to.
      *
-     * @var string|null
+     * @var class-string<Model>|null
      */
     protected static ?string $model = AnimeModel::class;
 
@@ -137,22 +136,23 @@ class Anime extends BaseResource
     /**
      * The form to the actions.
      *
-     * @param  Form  $form
-     * @return Form
+     * @param  Schema  $schema
+     * @return Schema
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 TextInput::make(AnimeModel::ATTRIBUTE_NAME)
                     ->label(__('filament.fields.anime.name.name'))
                     ->helperText(__('filament.fields.anime.name.help'))
                     ->required()
                     ->maxLength(255)
-                    ->live(true)
-                    ->afterStateUpdated(fn (Set $set, ?string $state) => $set(AnimeModel::ATTRIBUTE_SLUG, Str::slug($state, '_'))),
+                    ->afterStateUpdatedJs(<<<'JS'
+                        $set('slug', slug($state ?? ''));
+                    JS),
 
                 Slug::make(AnimeModel::ATTRIBUTE_SLUG)
                     ->label(__('filament.fields.anime.slug.name'))
@@ -179,9 +179,8 @@ class Anime extends BaseResource
                 Select::make(AnimeModel::ATTRIBUTE_MEDIA_FORMAT)
                     ->label(__('filament.fields.anime.media_format.name'))
                     ->helperText(__('filament.fields.anime.media_format.help'))
-                    ->options(AnimeMediaFormat::asSelectArray())
-                    ->required()
-                    ->enum(AnimeMediaFormat::class),
+                    ->options(AnimeMediaFormat::class)
+                    ->required(),
 
                 MarkdownEditor::make(AnimeModel::ATTRIBUTE_SYNOPSIS)
                     ->label(__('filament.fields.anime.synopsis.name'))
@@ -238,16 +237,16 @@ class Anime extends BaseResource
     /**
      * Get the infolist available for the resource.
      *
-     * @param  Infolist  $infolist
-     * @return Infolist
+     * @param  Schema  $schema
+     * @return Schema
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function infolist(Infolist $infolist): Infolist
+    public static function infolist(Schema $schema): Schema
     {
-        return $infolist
-            ->schema([
-                Section::make(static::getRecordTitle($infolist->getRecord()))
+        return $schema
+            ->components([
+                Section::make(static::getRecordTitle($schema->getRecord()))
                     ->schema([
                         TextEntry::make(AnimeModel::ATTRIBUTE_ID)
                             ->label(__('filament.fields.base.id')),
@@ -319,11 +318,11 @@ class Anime extends BaseResource
 
             SelectFilter::make(AnimeModel::ATTRIBUTE_SEASON)
                 ->label(__('filament.fields.anime.season.name'))
-                ->options(AnimeSeason::asSelectArray()),
+                ->options(AnimeSeason::class),
 
             SelectFilter::make(AnimeModel::ATTRIBUTE_MEDIA_FORMAT)
                 ->label(__('filament.fields.anime.media_format.name'))
-                ->options(AnimeMediaFormat::asSelectArray()),
+                ->options(AnimeMediaFormat::class),
 
             ...parent::getFilters(),
         ];
@@ -333,10 +332,8 @@ class Anime extends BaseResource
      * Get the actions available for the resource.
      *
      * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getActions(): array
+    public static function getRecordActions(): array
     {
         $streamingResourceSites = [
             ResourceSite::CRUNCHYROLL,
@@ -348,7 +345,7 @@ class Anime extends BaseResource
         ];
 
         return [
-            ...parent::getActions(),
+            ...parent::getRecordActions(),
 
             ActionGroup::make([
                 DiscordThreadAction::make('discord-thread'),

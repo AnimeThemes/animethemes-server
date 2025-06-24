@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Filament\RelationManagers\Wiki;
 
+use Filament\Schemas\Schema;
 use App\Filament\RelationManagers\BaseRelationManager;
 use App\Filament\Resources\Wiki\Studio as StudioResource;
 use App\Models\Wiki\Studio;
-use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -19,14 +19,14 @@ abstract class StudioRelationManager extends BaseRelationManager
     /**
      * The form to the actions.
      *
-     * @param  Form  $form
-     * @return Form
+     * @param  Schema  $schema
+     * @return Schema
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return StudioResource::form($form);
+        return StudioResource::form($schema);
     }
 
     /**
@@ -67,11 +67,11 @@ abstract class StudioRelationManager extends BaseRelationManager
      *
      * @return array
      */
-    public static function getActions(): array
+    public static function getRecordActions(): array
     {
         return [
-            ...parent::getActions(),
-            ...StudioResource::getActions(),
+            ...parent::getRecordActions(),
+            ...StudioResource::getRecordActions(),
         ];
     }
 

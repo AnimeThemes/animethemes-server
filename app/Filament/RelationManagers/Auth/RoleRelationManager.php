@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Filament\RelationManagers\Auth;
 
+use Filament\Schemas\Schema;
+use Filament\Actions\ViewAction;
 use App\Filament\RelationManagers\BaseRelationManager;
 use App\Filament\Resources\Auth\Role as RoleResource;
 use App\Models\Auth\Role;
-use Filament\Forms\Form;
-use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -20,14 +20,14 @@ abstract class RoleRelationManager extends BaseRelationManager
     /**
      * The form to the actions.
      *
-     * @param  Form  $form
-     * @return Form
+     * @param  Schema  $schema
+     * @return Schema
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return RoleResource::form($form);
+        return RoleResource::form($schema);
     }
 
     /**
@@ -67,10 +67,8 @@ abstract class RoleRelationManager extends BaseRelationManager
      * Get the actions available for the relation.
      *
      * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getActions(): array
+    public static function getRecordActions(): array
     {
         return [
             ViewAction::make(),

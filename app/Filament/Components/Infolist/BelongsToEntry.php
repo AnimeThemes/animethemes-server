@@ -22,12 +22,12 @@ class BelongsToEntry extends TextEntry
     /**
      * Rename the parameter to make it more readable.
      *
-     * @param  string  $relation
+     * @param  string|null  $relation
      * @param  class-string<BaseResource>|null  $resource
      * @param  bool|null  $shouldUseModelName
      * @return static
      */
-    public static function make(string $relation, ?string $resource = null, ?bool $shouldUseModelName = false): static
+    public static function make(?string $relation = null, ?string $resource = null, ?bool $shouldUseModelName = false): static
     {
         if (! is_string($resource)) {
             throw new InvalidArgumentException('The resource must be specified.');

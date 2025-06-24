@@ -6,7 +6,7 @@ namespace App\Filament\Actions\Base;
 
 use App\Concerns\Filament\ActionLogs\HasPivotActionLogs;
 use App\Filament\RelationManagers\BaseRelationManager;
-use Filament\Tables\Actions\DetachAction as DefaultDetachAction;
+use Filament\Actions\DetachAction as BaseDetachAction;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -15,7 +15,7 @@ use Illuminate\Support\Str;
 /**
  * Class DetachAction.
  */
-class DetachAction extends DefaultDetachAction
+class DetachAction extends BaseDetachAction
 {
     use HasPivotActionLogs;
 

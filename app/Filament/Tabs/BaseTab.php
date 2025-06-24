@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Tabs;
 
-use Filament\Resources\Components\Tab;
+use Filament\Schemas\Components\Tabs\Tab;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Cache;
 
@@ -14,11 +14,11 @@ use Illuminate\Support\Facades\Cache;
 abstract class BaseTab extends Tab
 {
     /**
-     * Get the key for the tab.
+     * Get the slug for the tab.
      *
      * @return string
      */
-    abstract public static function getKey(): string;
+    abstract public static function getSlug(): string;
 
     /**
      * Get the displayable name of the tab.
@@ -38,7 +38,7 @@ abstract class BaseTab extends Tab
      */
     public function modifyQuery(Builder $query): Builder
     {
-        return Cache::flexible("filament_query_{$this->getKey()}", [15, 60], function () use ($query) {
+        return Cache::flexible("filament_query_{$this->getSlug()}", [15, 60], function () use ($query) {
             return $this->modifyQuery($query);
         });
     }
@@ -50,7 +50,7 @@ abstract class BaseTab extends Tab
      */
     public function count(): mixed
     {
-        $count = Cache::flexible("filament_badge_{$this->getKey()}", [15, 60], function () {
+        $count = Cache::flexible("filament_badge_{$this->getSlug()}", [15, 60], function () {
             return $this->getBadge();
         });
 

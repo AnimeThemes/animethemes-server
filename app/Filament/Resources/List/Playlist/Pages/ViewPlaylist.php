@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\List\Playlist\Pages;
 
-use App\Filament\HeaderActions\Models\List\AssignHashidsHeaderAction;
-use App\Filament\HeaderActions\Models\List\FixPlaylistHeaderAction;
+use App\Filament\Actions\Models\List\AssignHashidsAction;
+use App\Filament\Actions\Models\List\FixPlaylistAction;
 use App\Filament\Resources\Base\BaseViewResource;
 use App\Filament\Resources\List\Playlist;
 use App\Models\List\Playlist as PlaylistModel;
@@ -31,11 +31,11 @@ class ViewPlaylist extends BaseViewResource
             ...parent::getHeaderActions(),
 
             ActionGroup::make([
-                AssignHashidsHeaderAction::make('assign-hashids')
+                AssignHashidsAction::make('assign-hashids')
                     ->setConnection('playlists')
                     ->authorize('update', PlaylistModel::class),
 
-                FixPlaylistHeaderAction::make('fix-playlist'),
+                FixPlaylistAction::make('fix-playlist'),
             ]),
         ];
     }

@@ -4,6 +4,13 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Admin;
 
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Section;
+use Filament\Actions\ActionGroup;
+use App\Filament\Actions\Repositories\Storage\Admin\Dump\ReconcileDumpAction;
+use App\Filament\Actions\Storage\Admin\DumpDocumentAction;
+use App\Filament\Actions\Storage\Admin\DumpWikiAction;
+use App\Filament\Actions\Storage\Admin\PruneDumpAction;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Components\Infolist\TimestampSection;
@@ -16,10 +23,9 @@ use App\Filament\TableActions\Storage\Admin\PruneDumpTableAction;
 use App\Models\Admin\Dump as DumpModel;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
-use Filament\Infolists\Components\Section;
 use Filament\Infolists\Infolist;
-use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Dump.
@@ -29,7 +35,7 @@ class Dump extends BaseResource
     /**
      * The model the resource corresponds to.
      *
-     * @var string|null
+     * @var class-string<Model>|null
      */
     protected static ?string $model = DumpModel::class;
 
@@ -106,15 +112,15 @@ class Dump extends BaseResource
     /**
      * The form to the actions.
      *
-     * @param  Form  $form
-     * @return Form
+     * @param  Schema  $schema
+     * @return Schema
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 TextInput::make(DumpModel::ATTRIBUTE_PATH)
                     ->label(__('filament.fields.dump.path'))
                     ->required()
@@ -148,16 +154,16 @@ class Dump extends BaseResource
     /**
      * Get the infolist available for the resource.
      *
-     * @param  Infolist  $infolist
-     * @return Infolist
+     * @param  Schema  $schema
+     * @return Schema
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function infolist(Infolist $infolist): Infolist
+    public static function infolist(Schema $schema): Schema
     {
-        return $infolist
-            ->schema([
-                Section::make(static::getRecordTitle($infolist->getRecord()))
+        return $schema
+            ->components([
+                Section::make(static::getRecordTitle($schema->getRecord()))
                     ->schema([
                         TextEntry::make(DumpModel::ATTRIBUTE_ID)
                             ->label(__('filament.fields.base.id')),
@@ -189,10 +195,10 @@ class Dump extends BaseResource
      *
      * @return array
      */
-    public static function getActions(): array
+    public static function getRecordActions(): array
     {
         return [
-            ...parent::getActions(),
+            ...parent::getRecordActions(),
         ];
     }
 
@@ -220,13 +226,13 @@ class Dump extends BaseResource
     {
         return [
             ActionGroup::make([
-                DumpWikiTableAction::make('dump-wiki'),
+                DumpWikiAction::make('dump-wiki'),
 
-                DumpDocumentTableAction::make('dump-document'),
+                DumpDocumentAction::make('dump-document'),
 
-                PruneDumpTableAction::make('prune-dump'),
+                PruneDumpAction::make('prune-dump'),
 
-                ReconcileDumpTableAction::make('reconcile-dump'),
+                ReconcileDumpAction::make('reconcile-dump'),
             ]),
         ];
     }

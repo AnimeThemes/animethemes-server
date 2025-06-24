@@ -61,7 +61,7 @@ class DiscordVideoNotificationAction
 
         DiscordMessageAction::getHttp()
             ->post('/notification', [
-                'type' => $type,
+                'type' => $type->value,
                 'videos' => $newVideos,
             ])
             ->throw();

@@ -68,7 +68,7 @@ class DumpTest extends BaseResourceTestCase
         $record = DumpModel::factory()->createOne();
 
         Livewire::test(static::getIndexPage())
-            ->assertTableActionHidden(EditAction::class, $record);
+            ->assertActionHidden(EditAction::class, ['record' => $record->getKey()]);
     }
 
     /**
@@ -81,7 +81,7 @@ class DumpTest extends BaseResourceTestCase
         $record = DumpModel::factory()->createOne();
 
         Livewire::test(static::getIndexPage())
-            ->assertTableActionHidden(DeleteAction::class, $record);
+            ->assertActionHidden(DeleteAction::class, ['record' => $record->getKey()]);
     }
 
     /**
@@ -94,7 +94,7 @@ class DumpTest extends BaseResourceTestCase
         $record = DumpModel::factory()->createOne();
 
         Livewire::test(static::getIndexPage())
-            ->assertTableActionHidden(RestoreAction::class, $record);
+            ->assertActionHidden(RestoreAction::class, ['record' => $record->getKey()]);
     }
 
     /**
@@ -107,6 +107,6 @@ class DumpTest extends BaseResourceTestCase
         $record = DumpModel::factory()->createOne();
 
         Livewire::test(static::getIndexPage())
-            ->assertTableActionHidden(ForceDeleteAction::class, $record);
+            ->assertActionHidden(ForceDeleteAction::class, ['record' => $record->getKey()]);
     }
 }

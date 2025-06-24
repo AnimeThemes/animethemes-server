@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources;
 
+use Filament\Actions\ActionGroup;
+use Filament\Actions\BulkActionGroup;
+use Filament\Panel;
 use App\Filament\Actions\Base\DeleteAction;
 use App\Filament\Actions\Base\DetachAction;
 use App\Filament\Actions\Base\EditAction;
@@ -18,8 +21,6 @@ use App\Filament\RelationManagers\Base\ActionLogRelationManager;
 use App\Models\BaseModel;
 use App\Scopes\WithoutInsertSongScope;
 use Filament\Resources\Resource;
-use Filament\Tables\Actions\ActionGroup;
-use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -81,12 +82,11 @@ abstract class BaseResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->striped()
             ->defaultSort(fn (Table $table) => $table->hasSearch() ? null : static::getRecordRouteKeyName(), fn (Table $table) => $table->hasSearch() ? null : 'desc')
             ->filters(static::getFilters())
             ->filtersFormMaxHeight('400px')
-            ->actions(static::getActions())
-            ->bulkActions(static::getBulkActions())
+            ->recordActions(static::getRecordActions())
+            ->toolbarActions(static::getBulkActions())
             ->headerActions(static::getTableActions())
             ->recordUrl(fn (Model $record): string => static::getUrl('view', ['record' => $record]))
             ->paginated([10, 25, 50, 100, 'all'])
@@ -122,10 +122,8 @@ abstract class BaseResource extends Resource
      * Get the actions available for the resource.
      *
      * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getActions(): array
+    public static function getRecordActions(): array
     {
         return [
             ViewAction::make(),
@@ -158,13 +156,12 @@ abstract class BaseResource extends Resource
     {
         return [
             BulkActionGroup::make([
-                DeleteBulkAction::make(),
-                ForceDeleteBulkAction::make(),
-                RestoreBulkAction::make(),
+                DeleteBulkAction::make()->authorize('forcedeleteany', static::getModel()),
+                ForceDeleteBulkAction::make()->authorize('forcedeleteany', static::getModel()),
+                RestoreBulkAction::make()->authorize('forcedeleteany', static::getModel()),
 
                 ...$actionsIncludedInGroup,
-            ])
-                ->authorize('forcedeleteany', static::getModel()),
+            ]),
         ];
     }
 
@@ -215,7 +212,7 @@ abstract class BaseResource extends Resource
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getSlug(): string
+    public static function getSlug(?Panel $panel = null): string
     {
         return 'resources/'.static::getRecordSlug();
     }

@@ -16,7 +16,7 @@ use App\Console\Commands\Storage\Admin\ListDumpCommand;
 use App\Console\Commands\Storage\Admin\UserDumpCommand;
 use App\Console\Commands\Storage\Admin\WikiDumpCommand;
 use App\Models\BaseModel;
-use BezhanSalleh\FilamentExceptions\Models\Exception;
+//use BezhanSalleh\FilamentExceptions\Models\Exception;
 use Illuminate\Auth\Console\ClearResetsCommand;
 use Illuminate\Cache\Console\PruneStaleTagsCommand;
 use Illuminate\Console\Scheduling\Schedule;
@@ -141,11 +141,11 @@ class Kernel extends ConsoleKernel
             ->storeOutput()
             ->daily();
 
-        $schedule->command(PruneModelsCommand::class, ['--model' => [Exception::class]]) // Filament Exception Viewer Plugin
-            ->withoutOverlapping()
-            ->runInBackground()
-            ->storeOutput()
-            ->daily();
+        // $schedule->command(PruneModelsCommand::class, ['--model' => [Exception::class]]) // Filament Exception Viewer Plugin
+        //     ->withoutOverlapping()
+        //     ->runInBackground()
+        //     ->storeOutput()
+        //     ->daily();
 
         $schedule->command(PruneStaleTagsCommand::class)
             ->withoutOverlapping()

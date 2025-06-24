@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Wiki\Song\Pages;
 
-use App\Filament\HeaderActions\Models\Wiki\Song\AttachSongResourceHeaderAction;
+use App\Filament\Actions\Models\Wiki\Song\AttachSongResourceAction;
 use App\Filament\Resources\Base\BaseViewResource;
 use App\Filament\Resources\Wiki\Song;
 use Filament\Actions\ActionGroup;
@@ -29,7 +29,7 @@ class ViewSong extends BaseViewResource
             ...parent::getHeaderActions(),
 
             ActionGroup::make([
-                AttachSongResourceHeaderAction::make('attach-song-resource'),
+                AttachSongResourceAction::make('attach-song-resource'),
             ]),
         ];
     }

@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Auth\User\RelationManagers;
 
+use Filament\Actions\EditAction;
 use App\Filament\RelationManagers\Auth\RoleRelationManager;
 use App\Models\Auth\Role;
 use App\Models\Auth\User;
-use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Table;
 
 /**
@@ -55,10 +55,10 @@ class RoleUserRelationManager extends RoleRelationManager
      *
      * @return array
      */
-    public static function getActions(): array
+    public static function getRecordActions(): array
     {
         return [
-            ...parent::getActions(),
+            ...parent::getRecordActions(),
 
             EditAction::make(),
         ];

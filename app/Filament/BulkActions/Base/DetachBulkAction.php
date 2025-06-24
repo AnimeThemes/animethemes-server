@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace App\Filament\BulkActions\Base;
 
 use App\Concerns\Filament\ActionLogs\HasActionLogs;
-use Filament\Tables\Actions\DetachBulkAction as DefaultDetachBulkAction;
+use Illuminate\Support\Collection;
 
 /**
  * Class DetachBulkAction.
  */
-class DetachBulkAction extends DefaultDetachBulkAction
+class DetachBulkAction extends \Filament\Actions\DetachBulkAction
 {
     use HasActionLogs;
 
@@ -27,8 +27,8 @@ class DetachBulkAction extends DefaultDetachBulkAction
 
         $this->authorize('forcedeleteany');
 
-        $this->after(function (DetachBulkAction $action) {
-            foreach ($this->getRecords() as $record) {
+        $this->after(function (DetachBulkAction $action, Collection $records) {
+            foreach ($records as $record) {
                 $this->createActionLog($action, $record);
                 $this->finishedLog();
             }

@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace App\Filament\BulkActions\Base;
 
 use App\Concerns\Filament\ActionLogs\HasActionLogs;
-use Filament\Tables\Actions\DeleteBulkAction as DefaultDeleteBulkAction;
+use Illuminate\Support\Collection;
 
 /**
  * Class DeleteBulkAction.
  */
-class DeleteBulkAction extends DefaultDeleteBulkAction
+class DeleteBulkAction extends \Filament\Actions\DeleteBulkAction
 {
     use HasActionLogs;
 
@@ -25,8 +25,8 @@ class DeleteBulkAction extends DefaultDeleteBulkAction
 
         $this->label(__('filament.bulk_actions.base.delete'));
 
-        $this->after(function (DeleteBulkAction $action) {
-            foreach ($this->getRecords() as $record) {
+        $this->after(function (DeleteBulkAction $action, Collection $records) {
+            foreach ($records as $record) {
                 $this->createActionLog($action, $record);
                 $this->finishedLog();
             }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Wiki\Anime\Pages;
 
+use Filament\Schemas\Components\Tabs\Tab;
 use App\Concerns\Filament\HasTabs;
 use App\Filament\Resources\Base\BaseListResources;
 use App\Filament\Resources\Wiki\Anime;
@@ -21,7 +22,6 @@ use App\Filament\Tabs\Anime\Resource\AnimeXResourceTab;
 use App\Filament\Tabs\Anime\Resource\AnimeYoutubeResourceTab;
 use App\Filament\Tabs\Anime\Studio\AnimeStudioTab;
 use App\Models\Wiki\Anime as AnimeModel;
-use Filament\Resources\Components\Tab;
 use Illuminate\Database\Eloquent\Builder;
 
 /**

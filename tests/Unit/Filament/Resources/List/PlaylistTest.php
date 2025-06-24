@@ -7,7 +7,7 @@ namespace Tests\Unit\Filament\Resources\List;
 use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\SpecialPermission;
 use App\Filament\Actions\Base\EditAction;
-use App\Filament\HeaderActions\Base\CreateHeaderAction;
+use App\Filament\Actions\Base\CreateAction;
 use App\Filament\Resources\List\Playlist;
 use App\Models\Auth\User;
 use App\Models\List\Playlist as PlaylistModel;
@@ -123,8 +123,8 @@ class PlaylistTest extends BaseResourceTestCase
         $this->actingAs($user);
 
         Livewire::test(static::getIndexPage())
-            ->mountAction(CreateHeaderAction::class)
-            ->assertActionMounted(CreateHeaderAction::class);
+            ->mountAction(CreateAction::class)
+            ->assertActionMounted(CreateAction::class);
     }
 
     /**
@@ -147,7 +147,7 @@ class PlaylistTest extends BaseResourceTestCase
         $record = PlaylistModel::factory()->createOne();
 
         Livewire::test(static::getIndexPage())
-            ->mountTableAction(EditAction::class, $record)
-            ->assertTableActionMounted(EditAction::class);
+            ->mountAction(EditAction::class, ['record' => $record])
+            ->assertActionMounted(EditAction::class);
     }
 }

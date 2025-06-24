@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Filament\RelationManagers\Wiki;
 
+use Filament\Schemas\Schema;
+use App\Filament\Actions\Models\Wiki\Image\AttachImageAction;
 use App\Filament\RelationManagers\BaseRelationManager;
 use App\Filament\Resources\Wiki\Image as ImageResource;
-use App\Filament\TableActions\Models\Wiki\Image\AttachImageTableAction;
 use App\Models\Wiki\Image;
-use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -20,14 +20,14 @@ abstract class ImageRelationManager extends BaseRelationManager
     /**
      * The form to the actions.
      *
-     * @param  Form  $form
-     * @return Form
+     * @param  Schema  $schema
+     * @return Schema
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return ImageResource::form($form);
+        return ImageResource::form($schema);
     }
 
     /**
@@ -68,11 +68,11 @@ abstract class ImageRelationManager extends BaseRelationManager
      *
      * @return array
      */
-    public static function getActions(): array
+    public static function getRecordActions(): array
     {
         return [
-            ...parent::getActions(),
-            ...ImageResource::getActions(),
+            ...parent::getRecordActions(),
+            ...ImageResource::getRecordActions(),
         ];
     }
 
@@ -102,7 +102,7 @@ abstract class ImageRelationManager extends BaseRelationManager
             ...parent::getHeaderActions(),
             ...ImageResource::getTableActions(),
 
-            AttachImageTableAction::make('attachimage'),
+            AttachImageAction::make('attachimage'),
         ];
     }
 

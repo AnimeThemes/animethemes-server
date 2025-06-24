@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace App\Filament\Actions\Base;
 
 use App\Models\Admin\ActionLog;
-use Filament\Tables\Actions\DeleteAction as DefaultDeleteAction;
+use Filament\Actions\DeleteAction as BaseDeleteAction;
 
 /**
  * Class DeleteAction.
  */
-class DeleteAction extends DefaultDeleteAction
+class DeleteAction extends BaseDeleteAction
 {
     /**
      * Initial setup for the action.

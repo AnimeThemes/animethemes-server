@@ -22,7 +22,7 @@ class Slug extends TextInput
 
         $this->required();
         $this->maxLength(192);
-        $this->unique(ignoreRecord: true);
+        $this->unique();
         $this->alphaDash();
     }
 }
