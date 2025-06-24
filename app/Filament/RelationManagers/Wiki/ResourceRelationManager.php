@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace App\Filament\RelationManagers\Wiki;
 
+use Filament\Schemas\Schema;
 use App\Filament\RelationManagers\BaseRelationManager;
 use App\Filament\Resources\Wiki\ExternalResource as ExternalResourceResource;
 use App\Models\Wiki\ExternalResource;
 use App\Pivots\Wiki\AnimeResource;
-use Filament\Forms\Components\Component;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -22,7 +21,7 @@ abstract class ResourceRelationManager extends BaseRelationManager
     /**
      * Get the pivot fields of the relation.
      *
-     * @return array<int, Component>
+     * @return array<int, \Filament\Schemas\Components\Component>
      */
     public function getPivotFields(): array
     {
@@ -36,14 +35,14 @@ abstract class ResourceRelationManager extends BaseRelationManager
     /**
      * The form to the actions.
      *
-     * @param  Form  $form
-     * @return Form
+     * @param  Schema  $schema
+     * @return Schema
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return ExternalResourceResource::form($form);
+        return ExternalResourceResource::form($schema);
     }
 
     /**
@@ -84,11 +83,11 @@ abstract class ResourceRelationManager extends BaseRelationManager
      *
      * @return array
      */
-    public static function getActions(): array
+    public static function getRecordActions(): array
     {
         return [
-            ...parent::getActions(),
-            ...ExternalResourceResource::getActions(),
+            ...parent::getRecordActions(),
+            ...ExternalResourceResource::getRecordActions(),
         ];
     }
 

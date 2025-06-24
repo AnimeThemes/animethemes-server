@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Base;
 
-use App\Filament\HeaderActions\Base\CreateHeaderAction;
+use App\Filament\Actions\Base\CreateAction;
 use Filament\Resources\Pages\ManageRecords;
 
 /**
@@ -19,10 +19,10 @@ abstract class BaseManageResources extends ManageRecords
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    protected function getHeaderActions(): array
+    protected function getActions(): array
     {
         return [
-            CreateHeaderAction::make(),
+            CreateAction::make(),
         ];
     }
 }

@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Filament\Components\Filters;
 
+use Filament\Schemas\Components\Fieldset;
+use Filament\Schemas\Components\Grid;
 use App\Enums\Http\Api\Filter\ComparisonOperator;
-use Filament\Forms\Components\Fieldset;
-use Filament\Forms\Components\Grid;
-use Filament\Forms\Components\Section;
+use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\TextInput;
 use Filament\Tables\Filters\Filter;
 use Illuminate\Database\Eloquent\Builder;
@@ -19,11 +19,11 @@ use Illuminate\Support\Arr;
 class NumberFilter extends Filter
 {
     /**
-     * Get the form for the filter.
+     * Get the schema components for the filter.
      *
      * @return array
      */
-    public function getFormSchema(): array
+    public function getSchemaComponents(): array
     {
         return [
             Fieldset::make($this->getLabel())
@@ -36,7 +36,7 @@ class NumberFilter extends Filter
                             TextInput::make('from')
                                 ->label(__('filament.filters.base.from'))
                                 ->integer(),
-    
+
                             TextInput::make('to')
                                 ->label(__('filament.filters.base.to'))
                                 ->integer(),

@@ -10,7 +10,7 @@ use App\Enums\Auth\Role as RoleEnum;
 use App\Events\Base\BaseDeletedEvent;
 use App\Models\Auth\Role;
 use App\Models\Auth\User;
-use Filament\Notifications\Actions\Action as NotificationAction;
+use Filament\Actions\Action;
 use Filament\Notifications\Notification;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
@@ -64,11 +64,11 @@ abstract class WikiDeletedEvent extends BaseDeletedEvent implements FilamentNoti
             ->body($this->getNotificationMessage())
             ->warning()
             ->actions([
-                NotificationAction::make('view')
+                Action::make('view')
                     ->button()
                     ->url($this->getFilamentNotificationUrl()),
 
-                NotificationAction::make('mark-as-read')
+                Action::make('mark-as-read')
                     ->button()
                     ->markAsRead(),
             ]);

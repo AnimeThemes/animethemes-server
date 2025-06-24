@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace App\Filament\Actions\Base;
 
+use App\Filament\Resources\Base\BaseViewResource;
+use Filament\Actions\ViewAction as BaseViewAction;
 use Filament\Support\Enums\IconSize;
-use Filament\Tables\Actions\ViewAction as DefaultViewAction;
 
 /**
  * Class ViewAction.
  */
-class ViewAction extends DefaultViewAction
+class ViewAction extends BaseViewAction
 {
     /**
      * Initial setup for the action.
@@ -23,5 +24,6 @@ class ViewAction extends DefaultViewAction
 
         $this->label('');
         $this->iconSize(IconSize::Medium);
+        $this->hidden(fn ($livewire) => $livewire instanceof BaseViewResource);
     }
 }

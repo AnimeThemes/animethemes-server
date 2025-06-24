@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Admin;
 
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Utilities\Get;
+use Filament\Schemas\Components\Section;
 use App\Enums\Http\Api\Filter\AllowedDateFormat;
 use App\Filament\Components\Columns\BelongsToColumn;
 use App\Filament\Components\Columns\TextColumn;
@@ -22,13 +25,10 @@ use App\Models\Admin\FeaturedTheme as FeaturedThemeModel;
 use App\Models\Wiki\Video;
 use App\Pivots\Wiki\AnimeThemeEntryVideo;
 use Filament\Forms\Components\DatePicker;
-use Filament\Forms\Form;
-use Filament\Forms\Get;
-use Filament\Infolists\Components\Section;
-use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
@@ -40,7 +40,7 @@ class FeaturedTheme extends BaseResource
     /**
      * The model the resource corresponds to.
      *
-     * @var string|null
+     * @var class-string<Model>|null
      */
     protected static ?string $model = FeaturedThemeModel::class;
 
@@ -123,15 +123,15 @@ class FeaturedTheme extends BaseResource
     /**
      * The form to the actions.
      *
-     * @param  Form  $form
-     * @return Form
+     * @param  Schema  $schema
+     * @return Schema
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 DatePicker::make(FeaturedThemeModel::ATTRIBUTE_START_AT)
                     ->label(__('filament.fields.featured_theme.start_at.name'))
                     ->helperText(__('filament.fields.featured_theme.start_at.help'))
@@ -228,16 +228,16 @@ class FeaturedTheme extends BaseResource
     /**
      * Get the infolist available for the resource.
      *
-     * @param  Infolist  $infolist
-     * @return Infolist
+     * @param  Schema  $schema
+     * @return Schema
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function infolist(Infolist $infolist): Infolist
+    public static function infolist(Schema $schema): Schema
     {
-        return $infolist
-            ->schema([
-                Section::make(static::getRecordTitle($infolist->getRecord()))
+        return $schema
+            ->components([
+                Section::make(static::getRecordTitle($schema->getRecord()))
                     ->schema([
                         TextEntry::make(FeaturedThemeModel::ATTRIBUTE_ID)
                             ->label(__('filament.fields.base.id')),
@@ -295,10 +295,10 @@ class FeaturedTheme extends BaseResource
      *
      * @return array
      */
-    public static function getActions(): array
+    public static function getRecordActions(): array
     {
         return [
-            ...parent::getActions(),
+            ...parent::getRecordActions(),
         ];
     }
 

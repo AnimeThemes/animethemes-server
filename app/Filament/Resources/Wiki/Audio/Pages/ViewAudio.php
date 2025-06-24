@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Wiki\Audio\Pages;
 
-use App\Filament\HeaderActions\Storage\Wiki\Audio\DeleteAudioHeaderAction;
-use App\Filament\HeaderActions\Storage\Wiki\Audio\MoveAudioHeaderAction;
+use App\Filament\Actions\Storage\Wiki\Audio\DeleteAudioAction;
+use App\Filament\Actions\Storage\Wiki\Audio\MoveAudioAction;
 use App\Filament\Resources\Base\BaseViewResource;
 use App\Filament\Resources\Wiki\Audio;
 use Filament\Actions\ActionGroup;
@@ -30,9 +30,9 @@ class ViewAudio extends BaseViewResource
             ...parent::getHeaderActions(),
 
             ActionGroup::make([
-                MoveAudioHeaderAction::make('move-audio'),
+                MoveAudioAction::make('move-audio'),
 
-                DeleteAudioHeaderAction::make('delete-audio'),
+                DeleteAudioAction::make('delete-audio'),
             ]),
         ];
     }

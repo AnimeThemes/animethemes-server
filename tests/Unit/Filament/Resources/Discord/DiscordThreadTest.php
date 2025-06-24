@@ -8,8 +8,8 @@ use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\SpecialPermission;
 use App\Filament\Actions\Base\DeleteAction;
 use App\Filament\Actions\Base\EditAction;
-use App\Filament\HeaderActions\Base\CreateHeaderAction;
-use App\Filament\HeaderActions\Base\DeleteHeaderAction;
+use App\Filament\Actions\Base\CreateAction;
+
 use App\Filament\Resources\Discord\DiscordThread;
 use App\Models\Auth\User;
 use App\Models\Discord\DiscordThread as DiscordThreadModel;
@@ -115,8 +115,8 @@ class DiscordThreadTest extends BaseResourceTestCase
         $this->actingAs($user);
 
         Livewire::test(static::getIndexPage())
-            ->mountAction(CreateHeaderAction::class)
-            ->assertActionMounted(CreateHeaderAction::class);
+            ->mountAction(CreateAction::class)
+            ->assertActionMounted(CreateAction::class);
     }
 
     /**
@@ -140,8 +140,8 @@ class DiscordThreadTest extends BaseResourceTestCase
             ->createOne();
 
         Livewire::test(static::getIndexPage())
-            ->mountTableAction(EditAction::class, $record)
-            ->assertTableActionMounted(EditAction::class);
+            ->mountAction(EditAction::class, ['record' => $record])
+            ->assertActionMounted(EditAction::class);
     }
 
     /**
@@ -152,7 +152,7 @@ class DiscordThreadTest extends BaseResourceTestCase
     public function testUserCannotCreateRecord(): void
     {
         Livewire::test(static::getIndexPage())
-            ->assertActionHidden(CreateHeaderAction::class);
+            ->assertActionHidden(CreateAction::class);
     }
 
     /**
@@ -167,7 +167,7 @@ class DiscordThreadTest extends BaseResourceTestCase
             ->createOne();
 
         Livewire::test(static::getIndexPage())
-            ->assertTableActionHidden(EditAction::class, $record);
+            ->assertActionHidden(EditAction::class, ['record' => $record->getKey()]);
     }
 
     /**
@@ -182,9 +182,9 @@ class DiscordThreadTest extends BaseResourceTestCase
             ->createOne();
 
         Livewire::test(static::getViewPage(), ['record' => $record->getKey()])
-            ->assertActionHidden(DeleteHeaderAction::class);
+            ->assertActionHidden(DeleteAction::class);
 
         Livewire::test(static::getIndexPage())
-            ->assertTableActionHidden(DeleteAction::class, $record);
+            ->assertActionHidden(DeleteAction::class, ['record' => $record->getKey()]);
     }
 }

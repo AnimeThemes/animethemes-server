@@ -9,17 +9,18 @@ use App\Concerns\Filament\ActionLogs\HasPivotActionLogs;
 use App\Filament\RelationManagers\BaseRelationManager;
 use App\Filament\Resources\Base\BaseListResources;
 use App\Filament\Resources\Base\BaseManageResources;
+use App\Filament\Resources\Base\BaseViewResource;
 use App\Models\Admin\ActionLog;
-use Filament\Forms\Form;
+use Filament\Actions\EditAction as BaseEditAction;
+use Filament\Schemas\Schema;
 use Filament\Support\Enums\IconSize;
-use Filament\Tables\Actions\EditAction as DefaultEditAction;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
  * Class EditAction.
  */
-class EditAction extends DefaultEditAction
+class EditAction extends BaseEditAction
 {
     use HasActionLogs;
     use HasPivotActionLogs;
@@ -33,16 +34,23 @@ class EditAction extends DefaultEditAction
     {
         parent::setUp();
 
-        $this->label('');
+        $this->label(function ($livewire) {
+            if ($livewire instanceof BaseListResources || $livewire instanceof BaseRelationManager) {
+                return '';
+            }
+
+            return null;
+        });
+
         $this->iconSize(IconSize::Medium);
 
-        $this->form(fn (Form $form, BaseRelationManager|BaseManageResources|BaseListResources $livewire) => [
-            ...$livewire->form($form)->getComponents(),
+        $this->schema(fn (Schema $schema, BaseRelationManager|BaseManageResources|BaseListResources|BaseViewResource $livewire) => [
+            ...$livewire->form($schema)->getComponents(),
             ...($livewire instanceof BaseRelationManager ? $livewire->getPivotFields() : []),
         ]);
 
         $this->after(function ($livewire, Model $record, EditAction $action) {
-            if ($livewire instanceof BaseListResources) {
+            if ($livewire instanceof BaseListResources || $livewire instanceof BaseViewResource) {
                 ActionLog::modelUpdated($record);
             }
 

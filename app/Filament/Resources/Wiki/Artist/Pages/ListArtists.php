@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Wiki\Artist\Pages;
 
+use Filament\Schemas\Components\Tabs\Tab;
 use App\Concerns\Filament\HasTabs;
 use App\Filament\Resources\Base\BaseListResources;
 use App\Filament\Resources\Wiki\Artist;
@@ -20,7 +21,6 @@ use App\Filament\Tabs\Artist\Resource\ArtistXResourceTab;
 use App\Filament\Tabs\Artist\Resource\ArtistYoutubeResourceTab;
 use App\Filament\Tabs\Artist\Song\ArtistSongTab;
 use App\Models\Wiki\Artist as ArtistModel;
-use Filament\Resources\Components\Tab;
 use Illuminate\Database\Eloquent\Builder;
 
 /**

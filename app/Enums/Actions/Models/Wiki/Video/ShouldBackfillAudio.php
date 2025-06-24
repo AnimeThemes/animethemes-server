@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace App\Enums\Actions\Models\Wiki\Video;
 
 use App\Concerns\Enums\LocalizesName;
+use Filament\Support\Contracts\HasLabel;
 
 /**
  * Enum ShouldBackfillAudio.
  */
-enum ShouldBackfillAudio: int
+enum ShouldBackfillAudio: int implements HasLabel
 {
     use LocalizesName;
 

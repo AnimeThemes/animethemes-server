@@ -13,11 +13,11 @@ use App\Filament\Tabs\Anime\AnimeResourceTab;
 class AnimeXResourceTab extends AnimeResourceTab
 {
     /**
-     * Get the key for the tab.
+     * Get the slug for the tab.
      *
      * @return string
      */
-    public static function getKey(): string
+    public static function getSlug(): string
     {
         return 'anime-x-resource-tab';
     }

@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Wiki;
 
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Utilities\Set;
+use Filament\Schemas\Components\Section;
+use Filament\Actions\ActionGroup;
 use App\Filament\Actions\Models\Wiki\Artist\AttachArtistResourceAction;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\Slug;
@@ -26,14 +30,9 @@ use App\Pivots\Wiki\ArtistResource;
 use App\Pivots\Wiki\ArtistSong;
 use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
-use Filament\Forms\Set;
-use Filament\Infolists\Components\Section;
-use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
-use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Table;
-use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Artist.
@@ -43,7 +42,7 @@ class Artist extends BaseResource
     /**
      * The model the resource corresponds to.
      *
-     * @var string|null
+     * @var class-string<Model>|null
      */
     protected static ?string $model = ArtistModel::class;
 
@@ -132,22 +131,23 @@ class Artist extends BaseResource
     /**
      * The form to the actions.
      *
-     * @param  Form  $form
-     * @return Form
+     * @param  Schema  $schema
+     * @return Schema
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 TextInput::make(ArtistModel::ATTRIBUTE_NAME)
                     ->label(__('filament.fields.artist.name.name'))
                     ->helperText(__('filament.fields.artist.name.help'))
                     ->required()
                     ->maxLength(192)
-                    ->live(true)
-                    ->afterStateUpdated(fn (Set $set, ?string $state) => $set(ArtistModel::ATTRIBUTE_SLUG, Str::slug($state, '_'))),
+                    ->afterStateUpdatedJs(<<<'JS'
+                        $set('slug', slug($state ?? ''));
+                    JS),
 
                 Slug::make(ArtistModel::ATTRIBUTE_SLUG)
                     ->label(__('filament.fields.artist.slug.name'))
@@ -204,16 +204,16 @@ class Artist extends BaseResource
     /**
      * Get the infolist available for the resource.
      *
-     * @param  Infolist  $infolist
-     * @return Infolist
+     * @param  Schema  $schema
+     * @return Schema
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function infolist(Infolist $infolist): Infolist
+    public static function infolist(Schema $schema): Schema
     {
-        return $infolist
-            ->schema([
-                Section::make(static::getRecordTitle($infolist->getRecord()))
+        return $schema
+            ->components([
+                Section::make(static::getRecordTitle($schema->getRecord()))
                     ->schema([
                         TextEntry::make(ArtistModel::ATTRIBUTE_ID)
                             ->label(__('filament.fields.base.id')),
@@ -286,10 +286,10 @@ class Artist extends BaseResource
      *
      * @return array
      */
-    public static function getActions(): array
+    public static function getRecordActions(): array
     {
         return [
-            ...parent::getActions(),
+            ...parent::getRecordActions(),
 
             ActionGroup::make([
                 AttachArtistResourceAction::make('attach-artist-resource'),

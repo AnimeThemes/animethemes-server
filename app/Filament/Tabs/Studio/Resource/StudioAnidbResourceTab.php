@@ -13,11 +13,11 @@ use App\Filament\Tabs\Studio\StudioResourceTab;
 class StudioAnidbResourceTab extends StudioResourceTab
 {
     /**
-     * Get the key for the tab.
+     * Get the slug for the tab.
      *
      * @return string
      */
-    public static function getKey(): string
+    public static function getSlug(): string
     {
         return 'studio-anidb-resource-tab';
     }

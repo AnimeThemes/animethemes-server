@@ -6,6 +6,7 @@ namespace App\Enums\Models\List;
 
 use App\Concerns\Enums\LocalizesName;
 use App\Enums\Models\Wiki\ResourceSite;
+use Filament\Support\Contracts\HasLabel;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
@@ -13,7 +14,7 @@ use Illuminate\Support\Str;
 /**
  * Enum ExternalProfileSite.
  */
-enum ExternalProfileSite: int
+enum ExternalProfileSite: int implements HasLabel
 {
     use LocalizesName;
 

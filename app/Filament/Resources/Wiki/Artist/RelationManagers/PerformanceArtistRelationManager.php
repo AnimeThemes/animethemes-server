@@ -7,7 +7,6 @@ namespace App\Filament\Resources\Wiki\Artist\RelationManagers;
 use App\Filament\RelationManagers\Wiki\Song\PerformanceRelationManager;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Song\Performance;
-use Filament\Forms\Components\Component;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\TextInput;
 use Filament\Tables\Table;
@@ -20,7 +19,7 @@ class PerformanceArtistRelationManager extends PerformanceRelationManager
     /**
      * Get the pivot fields of the relation.
      *
-     * @return array<int, Component>
+     * @return array<int, \Filament\Schemas\Components\Component>
      */
     public function getPivotFields(): array
     {
@@ -78,10 +77,10 @@ class PerformanceArtistRelationManager extends PerformanceRelationManager
      *
      * @return array
      */
-    public static function getActions(): array
+    public static function getRecordActions(): array
     {
         return [
-            ...parent::getActions(),
+            ...parent::getRecordActions(),
         ];
     }
 

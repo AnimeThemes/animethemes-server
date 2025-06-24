@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace App\Enums\Actions\Models\Wiki\Video;
 
 use App\Concerns\Enums\LocalizesName;
+use Filament\Support\Contracts\HasLabel;
 
 /**
  * Enum OverwriteAudio.
  */
-enum OverwriteAudio: int
+enum OverwriteAudio: int implements HasLabel
 {
     use LocalizesName;
 

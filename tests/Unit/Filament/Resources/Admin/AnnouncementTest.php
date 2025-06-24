@@ -10,7 +10,7 @@ use App\Filament\Actions\Base\DeleteAction;
 use App\Filament\Actions\Base\EditAction;
 use App\Filament\Actions\Base\ForceDeleteAction;
 use App\Filament\Actions\Base\RestoreAction;
-use App\Filament\HeaderActions\Base\CreateHeaderAction;
+use App\Filament\Actions\Base\CreateAction;
 use App\Filament\Resources\Admin\Announcement;
 use App\Models\Admin\Announcement as AnnouncementModel;
 use App\Models\Auth\User;
@@ -67,7 +67,7 @@ class AnnouncementTest extends BaseResourceTestCase
     public function testUserCannotCreateRecord(): void
     {
         Livewire::test(static::getIndexPage())
-            ->assertActionHidden(CreateHeaderAction::class);
+            ->assertActionHidden(CreateAction::class);
     }
 
     /**
@@ -80,7 +80,7 @@ class AnnouncementTest extends BaseResourceTestCase
         $record = AnnouncementModel::factory()->createOne();
 
         Livewire::test(static::getIndexPage())
-            ->assertTableActionHidden(EditAction::class, $record);
+            ->assertActionHidden(EditAction::class, ['record' => $record->getKey()]);
     }
 
     /**
@@ -93,7 +93,7 @@ class AnnouncementTest extends BaseResourceTestCase
         $record = AnnouncementModel::factory()->createOne();
 
         Livewire::test(static::getIndexPage())
-            ->assertTableActionHidden(DeleteAction::class, $record);
+            ->assertActionHidden(DeleteAction::class, ['record' => $record->getKey()]);
     }
 
     /**
@@ -106,7 +106,7 @@ class AnnouncementTest extends BaseResourceTestCase
         $record = AnnouncementModel::factory()->createOne();
 
         Livewire::test(static::getIndexPage())
-            ->assertTableActionHidden(RestoreAction::class, $record);
+            ->assertActionHidden(RestoreAction::class, ['record' => $record->getKey()]);
     }
 
     /**
@@ -119,6 +119,6 @@ class AnnouncementTest extends BaseResourceTestCase
         $record = AnnouncementModel::factory()->createOne();
 
         Livewire::test(static::getIndexPage())
-            ->assertTableActionHidden(ForceDeleteAction::class, $record);
+            ->assertActionHidden(ForceDeleteAction::class, ['record' => $record->getKey()]);
     }
 }

@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace App\Filament\BulkActions\Base;
 
 use App\Concerns\Filament\ActionLogs\HasActionLogs;
-use Filament\Tables\Actions\RestoreBulkAction as DefaultRestoreBulkAction;
+use Illuminate\Support\Collection;
 
 /**
  * Class RestoreBulkAction.
  */
-class RestoreBulkAction extends DefaultRestoreBulkAction
+class RestoreBulkAction extends \Filament\Actions\RestoreBulkAction
 {
     use HasActionLogs;
 
@@ -25,8 +25,8 @@ class RestoreBulkAction extends DefaultRestoreBulkAction
 
         $this->label(__('filament.bulk_actions.base.restore'));
 
-        $this->after(function (RestoreBulkAction $action) {
-            foreach ($this->getRecords() as $record) {
+        $this->after(function (RestoreBulkAction $action, Collection $records) {
+            foreach ($records as $record) {
                 $this->createActionLog($action, $record);
                 $this->finishedLog();
             }

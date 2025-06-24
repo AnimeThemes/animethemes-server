@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Auth;
 
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Section;
+use Filament\Actions\ActionGroup;
 use App\Filament\Actions\Models\Auth\Permission\GiveRoleAction;
 use App\Filament\Actions\Models\Auth\Permission\RevokeRoleAction;
 use App\Filament\Components\Columns\TextColumn;
@@ -16,12 +19,9 @@ use App\Filament\Resources\Auth\Permission\RelationManagers\UserPermissionRelati
 use App\Filament\Resources\BaseResource;
 use App\Models\Auth\Permission as PermissionModel;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
-use Filament\Infolists\Components\Section;
-use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
-use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Permission.
@@ -31,7 +31,7 @@ class Permission extends BaseResource
     /**
      * The model the resource corresponds to.
      *
-     * @var string|null
+     * @var class-string<Model>|null
      */
     protected static ?string $model = PermissionModel::class;
 
@@ -108,15 +108,15 @@ class Permission extends BaseResource
     /**
      * The form to the actions.
      *
-     * @param  Form  $form
-     * @return Form
+     * @param  Schema  $schema
+     * @return Schema
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 TextInput::make(PermissionModel::ATTRIBUTE_NAME)
                     ->label(__('filament.fields.permission.name'))
                     ->required()
@@ -150,16 +150,16 @@ class Permission extends BaseResource
     /**
      * Get the infolist available for the resource.
      *
-     * @param  Infolist  $infolist
-     * @return Infolist
+     * @param  Schema  $schema
+     * @return Schema
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function infolist(Infolist $infolist): Infolist
+    public static function infolist(Schema $schema): Schema
     {
-        return $infolist
-            ->schema([
-                Section::make(static::getRecordTitle($infolist->getRecord()))
+        return $schema
+            ->components([
+                Section::make(static::getRecordTitle($schema->getRecord()))
                     ->schema([
                         TextEntry::make(PermissionModel::ATTRIBUTE_ID)
                             ->label(__('filament.fields.base.id')),
@@ -208,10 +208,10 @@ class Permission extends BaseResource
      *
      * @return array
      */
-    public static function getActions(): array
+    public static function getRecordActions(): array
     {
         return [
-            ...parent::getActions(),
+            ...parent::getRecordActions(),
 
             ActionGroup::make([
                 GiveRoleAction::make('give-role'),

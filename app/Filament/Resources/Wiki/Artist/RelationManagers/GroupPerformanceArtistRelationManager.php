@@ -56,7 +56,7 @@ class GroupPerformanceArtistRelationManager extends PerformanceRelationManager
      *
      * @return array
      */
-    public static function getActions(): array
+    public static function getRecordActions(): array
     {
         return [];
     }

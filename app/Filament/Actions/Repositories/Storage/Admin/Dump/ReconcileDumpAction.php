@@ -1,0 +1,58 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Filament\Actions\Repositories\Storage\Admin\Dump;
+
+use Filament\Schemas\Schema;
+use App\Concerns\Repositories\Admin\ReconcilesDumpRepositories;
+use App\Constants\Config\DumpConstants;
+use App\Filament\Actions\Repositories\Storage\ReconcileStorageAction;
+use App\Models\Admin\Dump;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
+
+/**
+ * Class ReconcileDumpAction.
+ */
+class ReconcileDumpAction extends ReconcileStorageAction
+{
+    use ReconcilesDumpRepositories;
+
+    /**
+     * Initial setup for the action.
+     *
+     * @return void
+     */
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->label(__('filament.actions.repositories.name', ['label' => __('filament.resources.label.dumps')]));
+
+        $this->visible(Auth::user()->can('create', Dump::class));
+    }
+
+    /**
+     * Get the fields available on the action.
+     *
+     * @param  Schema  $schema
+     * @return Schema
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    public function getSchema(Schema $schema): Schema
+    {
+        return $schema;
+    }
+
+    /**
+     * The name of the disk.
+     *
+     * @return string
+     */
+    public function disk(): string
+    {
+        return Config::get(DumpConstants::DISK_QUALIFIED);
+    }
+}

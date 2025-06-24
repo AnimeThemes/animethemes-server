@@ -7,7 +7,6 @@ namespace App\Filament\Resources\Wiki\Artist\RelationManagers;
 use App\Filament\RelationManagers\Wiki\ArtistRelationManager;
 use App\Models\Wiki\Artist;
 use App\Pivots\Wiki\ArtistMember;
-use Filament\Forms\Components\Component;
 use Filament\Forms\Components\TextInput;
 use Filament\Tables\Table;
 
@@ -19,7 +18,7 @@ class GroupArtistRelationManager extends ArtistRelationManager
     /**
      * Get the pivot fields of the relation.
      *
-     * @return array<int, Component>
+     * @return array<int, \Filament\Schemas\Components\Component>
      */
     public function getPivotFields(): array
     {
@@ -80,10 +79,10 @@ class GroupArtistRelationManager extends ArtistRelationManager
      *
      * @return array
      */
-    public static function getActions(): array
+    public static function getRecordActions(): array
     {
         return [
-            ...parent::getActions(),
+            ...parent::getRecordActions(),
         ];
     }
 

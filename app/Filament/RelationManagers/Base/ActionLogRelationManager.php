@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Filament\RelationManagers\Base;
 
+use Filament\Schemas\Schema;
 use App\Filament\Actions\Base\ViewAction;
 use App\Filament\RelationManagers\BaseRelationManager;
 use App\Filament\Resources\Admin\ActionLog;
 use App\Models\Admin\ActionLog as ActionLogModel;
-use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -37,9 +37,9 @@ class ActionLogRelationManager extends BaseRelationManager
             ->columns(ActionLog::table($table)->getColumns())
             ->paginationPageOptions([5, 10, 25])
             ->defaultPaginationPageOption(5)
-            ->actions([
+            ->recordActions([
                 ViewAction::make()
-                    ->form(fn (Form $form) => ActionLog::form($form)),
+                    ->schema(fn (Schema $schema) => ActionLog::form($schema)),
             ]);
     }
 

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Document;
 
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Section;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Components\Infolist\TimestampSection;
@@ -13,14 +15,9 @@ use App\Filament\Resources\Document\Page\Pages\ViewPage;
 use App\Models\Document\Page as PageModel;
 use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
-use Filament\Forms\Get;
-use Filament\Forms\Set;
-use Filament\Infolists\Components\Section;
-use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Tables\Table;
-use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Page.
@@ -30,7 +27,7 @@ class Page extends BaseResource
     /**
      * The model the resource corresponds to.
      *
-     * @var string|null
+     * @var class-string<Model>|null
      */
     protected static ?string $model = PageModel::class;
 
@@ -107,22 +104,23 @@ class Page extends BaseResource
     /**
      * The form to the actions.
      *
-     * @param  Form  $form
-     * @return Form
+     * @param  Schema  $schema
+     * @return Schema
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 TextInput::make(PageModel::ATTRIBUTE_NAME)
                     ->label(__('filament.fields.page.name.name'))
                     ->helperText(__('filament.fields.page.name.help'))
                     ->required()
                     ->maxLength(192)
-                    ->live(true)
-                    ->afterStateUpdated(fn (Set $set, Get $get) => static::setSlug($set, $get)),
+                    ->afterStateUpdatedJs(<<<'JS'
+                        $set('slug', slug($state ?? ''));
+                    JS),
 
                 TextInput::make(PageModel::ATTRIBUTE_SLUG)
                     ->label(__('filament.fields.page.slug.name'))
@@ -171,16 +169,16 @@ class Page extends BaseResource
     /**
      * Get the infolist available for the resource.
      *
-     * @param  Infolist  $infolist
-     * @return Infolist
+     * @param  Schema  $schema
+     * @return Schema
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function infolist(Infolist $infolist): Infolist
+    public static function infolist(Schema $schema): Schema
     {
-        return $infolist
-            ->schema([
-                Section::make(static::getRecordTitle($infolist->getRecord()))
+        return $schema
+            ->components([
+                Section::make(static::getRecordTitle($schema->getRecord()))
                     ->schema([
                         TextEntry::make(PageModel::ATTRIBUTE_ID)
                             ->label(__('filament.fields.base.id')),
@@ -202,20 +200,6 @@ class Page extends BaseResource
 
                 TimestampSection::make(),
             ]);
-    }
-
-    /**
-     * Set the page slug.
-     *
-     * @param  Set  $set
-     * @param  Get  $get
-     * @return void
-     */
-    protected static function setSlug(Set $set, Get $get): void
-    {
-        $name = $get(PageModel::ATTRIBUTE_NAME);
-
-        $set(PageModel::ATTRIBUTE_SLUG, Str::slug($name, '_'));
     }
 
     /**
@@ -251,10 +235,10 @@ class Page extends BaseResource
      *
      * @return array
      */
-    public static function getActions(): array
+    public static function getRecordActions(): array
     {
         return [
-            ...parent::getActions(),
+            ...parent::getRecordActions(),
         ];
     }
 

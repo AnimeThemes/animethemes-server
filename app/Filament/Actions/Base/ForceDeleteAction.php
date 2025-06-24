@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Filament\Actions\Base;
 
-use Filament\Tables\Actions\ForceDeleteAction as DefaultForceDeleteAction;
+use Filament\Actions\ForceDeleteAction as BaseForceDeleteAction;
 
 /**
  * Class ForceDeleteAction.
  */
-class ForceDeleteAction extends DefaultForceDeleteAction
+class ForceDeleteAction extends BaseForceDeleteAction
 {
     /**
      * Initial setup for the action.

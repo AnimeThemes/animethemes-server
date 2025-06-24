@@ -5,12 +5,11 @@ declare(strict_types=1);
 namespace App\Filament\BulkActions\Base;
 
 use App\Concerns\Filament\ActionLogs\HasActionLogs;
-use Filament\Tables\Actions\ForceDeleteBulkAction as DefaultForceDeleteBulkAction;
 
 /**
  * Class ForceDeleteBulkAction.
  */
-class ForceDeleteBulkAction extends DefaultForceDeleteBulkAction
+class ForceDeleteBulkAction extends \Filament\Actions\ForceDeleteBulkAction
 {
     use HasActionLogs;
 
