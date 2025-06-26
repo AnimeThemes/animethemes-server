@@ -13,18 +13,4 @@ use App\Filament\Resources\Wiki\Video\Script;
 class ListScripts extends BaseListResources
 {
     protected static string $resource = Script::class;
-
-    /**
-     * Get the header actions available.
-     *
-     * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    protected function getHeaderActions(): array
-    {
-        return [
-            ...parent::getHeaderActions(),
-        ];
-    }
 }

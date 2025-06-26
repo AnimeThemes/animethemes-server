@@ -13,18 +13,4 @@ use App\Filament\Resources\Base\BaseListResources;
 class ListReportSteps extends BaseListResources
 {
     protected static string $resource = ReportStep::class;
-
-    /**
-     * Get the header actions available.
-     *
-     * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    protected function getHeaderActions(): array
-    {
-        return [
-            ...parent::getHeaderActions(),
-        ];
-    }
 }

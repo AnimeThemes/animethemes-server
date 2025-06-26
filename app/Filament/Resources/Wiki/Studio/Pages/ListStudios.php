@@ -29,20 +29,6 @@ class ListStudios extends BaseListResources
     protected static string $resource = Studio::class;
 
     /**
-     * Get the header actions available.
-     *
-     * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    protected function getHeaderActions(): array
-    {
-        return [
-            ...parent::getHeaderActions(),
-        ];
-    }
-
-    /**
      * Using Laravel Scout to search.
      *
      * @param  Builder  $query
