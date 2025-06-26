@@ -13,18 +13,4 @@ use App\Filament\Resources\Base\BaseManageResources;
 class ManageAnnouncements extends BaseManageResources
 {
     protected static string $resource = Announcement::class;
-
-    /**
-     * Get the header actions available.
-     *
-     * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    protected function getHeaderActions(): array
-    {
-        return [
-            ...parent::getHeaderActions(),
-        ];
-    }
 }

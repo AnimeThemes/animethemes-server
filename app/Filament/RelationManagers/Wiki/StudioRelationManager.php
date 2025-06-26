@@ -71,7 +71,7 @@ abstract class StudioRelationManager extends BaseRelationManager
     {
         return [
             ...parent::getRecordActions(),
-            ...StudioResource::getRecordActions(),
+            ...StudioResource::getActions(),
         ];
     }
 

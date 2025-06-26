@@ -71,7 +71,7 @@ abstract class AnimeRelationManager extends BaseRelationManager
     {
         return [
             ...parent::getRecordActions(),
-            ...AnimeResource::getRecordActions(),
+            ...AnimeResource::getActions(),
         ];
     }
 

@@ -13,18 +13,4 @@ use App\Filament\Resources\List\Playlist\Track;
 class ListTracks extends BaseListResources
 {
     protected static string $resource = Track::class;
-
-    /**
-     * Get the header actions available.
-     *
-     * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    protected function getHeaderActions(): array
-    {
-        return [
-            ...parent::getHeaderActions(),
-        ];
-    }
 }

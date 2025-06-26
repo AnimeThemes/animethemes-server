@@ -71,7 +71,7 @@ abstract class PlaylistRelationManager extends BaseRelationManager
     {
         return [
             ...parent::getRecordActions(),
-            ...PlaylistResource::getRecordActions(),
+            ...PlaylistResource::getActions(),
         ];
     }
 

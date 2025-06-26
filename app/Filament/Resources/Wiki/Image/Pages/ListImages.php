@@ -20,20 +20,6 @@ class ListImages extends BaseListResources
     protected static string $resource = Image::class;
 
     /**
-     * Get the header actions available.
-     *
-     * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    protected function getHeaderActions(): array
-    {
-        return [
-            ...parent::getHeaderActions(),
-        ];
-    }
-
-    /**
      * Get the tabs available.
      *
      * @return array

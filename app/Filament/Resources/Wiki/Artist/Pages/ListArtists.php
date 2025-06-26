@@ -33,20 +33,6 @@ class ListArtists extends BaseListResources
     protected static string $resource = Artist::class;
 
     /**
-     * Get the header actions available.
-     *
-     * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    protected function getHeaderActions(): array
-    {
-        return [
-            ...parent::getHeaderActions(),
-        ];
-    }
-
-    /**
      * Using Laravel Scout to search.
      *
      * @param  Builder  $query

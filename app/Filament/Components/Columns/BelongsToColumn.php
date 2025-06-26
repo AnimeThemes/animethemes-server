@@ -57,7 +57,7 @@ class BelongsToColumn extends TextColumn
         return $this
             ->label($this->resource->getModelLabel())
             ->weight(FontWeight::SemiBold)
-            ->html()
+            ->color('related-link')
             ->url(function (Model $record) {
                 $relation = $this->getName();
 
@@ -75,7 +75,7 @@ class BelongsToColumn extends TextColumn
 
                     $nameLimited = Str::limit($name, $this->getCharacterLimit() ?? 100);
 
-                    return "<p style='color: rgb(64, 184, 166);'>{$nameLimited}</p>";
+                    return $nameLimited;
                 });
 
                 return $this->resource::getUrl('view', ['record' => $related]);

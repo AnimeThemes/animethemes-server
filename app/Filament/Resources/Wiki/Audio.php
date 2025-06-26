@@ -20,7 +20,6 @@ use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Audio\Pages\ListAudios;
 use App\Filament\Resources\Wiki\Audio\Pages\ViewAudio;
 use App\Filament\Resources\Wiki\Audio\RelationManagers\VideoAudioRelationManager;
-
 use App\Models\Wiki\Audio as AudioModel;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Tables\Table;
@@ -217,13 +216,9 @@ class Audio extends BaseResource
     public static function getRecordActions(): array
     {
         return [
-            ...parent::getRecordActions(),
+            MoveAudioAction::make('move-audio'),
 
-            ActionGroup::make([
-                MoveAudioAction::make('move-audio'),
-
-                DeleteAudioAction::make('delete-audio'),
-            ]),
+            DeleteAudioAction::make('delete-audio'),
         ];
     }
 

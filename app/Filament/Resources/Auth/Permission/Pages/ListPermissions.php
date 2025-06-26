@@ -13,18 +13,4 @@ use App\Filament\Resources\Base\BaseListResources;
 class ListPermissions extends BaseListResources
 {
     protected static string $resource = Permission::class;
-
-    /**
-     * Get the header actions available.
-     *
-     * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    protected function getHeaderActions(): array
-    {
-        return [
-            ...parent::getHeaderActions(),
-        ];
-    }
 }

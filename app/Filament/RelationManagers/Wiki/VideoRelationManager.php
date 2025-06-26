@@ -71,7 +71,7 @@ abstract class VideoRelationManager extends BaseRelationManager
     {
         return [
             ...parent::getRecordActions(),
-            ...VideoResource::getRecordActions(),
+            ...VideoResource::getActions(),
         ];
     }
 

@@ -13,18 +13,4 @@ use App\Filament\Resources\Discord\DiscordThread;
 class ViewDiscordThread extends BaseViewResource
 {
     protected static string $resource = DiscordThread::class;
-
-    /**
-     * Get the header actions available.
-     *
-     * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    protected function getHeaderActions(): array
-    {
-        return [
-            ...parent::getHeaderActions(),
-        ];
-    }
 }

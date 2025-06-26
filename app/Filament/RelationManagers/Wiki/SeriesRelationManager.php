@@ -71,7 +71,7 @@ abstract class SeriesRelationManager extends BaseRelationManager
     {
         return [
             ...parent::getRecordActions(),
-            ...SeriesResource::getRecordActions(),
+            ...SeriesResource::getActions(),
         ];
     }
 

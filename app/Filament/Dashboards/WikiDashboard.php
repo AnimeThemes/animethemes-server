@@ -18,6 +18,7 @@ class WikiDashboard extends BaseDashboard
     /**
      * Get the slug used to the dashboard route path.
      *
+     * @param  Panel|null  $panel
      * @return string
      */
     public static function getSlug(?Panel $panel = null): string
