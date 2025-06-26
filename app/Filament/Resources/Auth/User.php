@@ -6,7 +6,6 @@ namespace App\Filament\Resources\Auth;
 
 use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Section;
-use Filament\Actions\ActionGroup;
 use App\Filament\Actions\Models\Auth\User\GivePermissionAction;
 use App\Filament\Actions\Models\Auth\User\GiveRoleAction;
 use App\Filament\Actions\Models\Auth\User\RevokePermissionAction;
@@ -242,17 +241,13 @@ class User extends BaseResource
     public static function getRecordActions(): array
     {
         return [
-            ...parent::getRecordActions(),
+            GiveRoleAction::make('give-role'),
 
-            ActionGroup::make([
-                GiveRoleAction::make('give-role'),
+            RevokeRoleAction::make('revoke-role'),
 
-                RevokeRoleAction::make('revoke-role'),
+            GivePermissionAction::make('give-permission'),
 
-                GivePermissionAction::make('give-permission'),
-
-                RevokePermissionAction::make('revoke-permission'),
-            ]),
+            RevokePermissionAction::make('revoke-permission'),
         ];
     }
 

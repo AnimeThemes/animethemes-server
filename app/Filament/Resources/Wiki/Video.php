@@ -30,7 +30,6 @@ use App\Filament\Resources\Wiki\Video\Pages\ViewVideo;
 use App\Filament\Resources\Wiki\Video\RelationManagers\EntryVideoRelationManager;
 use App\Filament\Resources\Wiki\Video\RelationManagers\ScriptVideoRelationManager;
 use App\Filament\Resources\Wiki\Video\RelationManagers\TrackVideoRelationManager;
-
 use App\Models\Wiki\Audio as AudioModel;
 use App\Models\Wiki\Video as VideoModel;
 use Filament\Forms\Components\Checkbox;
@@ -366,17 +365,13 @@ class Video extends BaseResource
     public static function getRecordActions(): array
     {
         return [
-            ...parent::getRecordActions(),
+            BackfillAudioAction::make('backfill-audio'),
 
-            ActionGroup::make([
-                BackfillAudioAction::make('backfill-audio'),
+            MoveVideoAction::make('move-video'),
 
-                MoveVideoAction::make('move-video'),
+            MoveAllAction::make('move-all'),
 
-                MoveAllAction::make('move-all'),
-
-                DeleteVideoAction::make('delete-video'),
-            ]),
+            DeleteVideoAction::make('delete-video'),
         ];
     }
 

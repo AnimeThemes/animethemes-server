@@ -71,7 +71,7 @@ abstract class ExternalEntryRelationManager extends BaseRelationManager
     {
         return [
             ...parent::getRecordActions(),
-            ...ExternalEntryResource::getRecordActions(),
+            ...ExternalEntryResource::getActions(),
         ];
     }
 

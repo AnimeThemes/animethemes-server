@@ -13,16 +13,4 @@ use App\Filament\Resources\Base\BaseManageResources;
 class ManageDumps extends BaseManageResources
 {
     protected static string $resource = Dump::class;
-
-    /**
-     * Get the header actions available.
-     *
-     * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    protected function getHeaderActions(): array
-    {
-        return [];
-    }
 }

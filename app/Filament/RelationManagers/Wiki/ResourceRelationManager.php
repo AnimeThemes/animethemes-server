@@ -87,7 +87,7 @@ abstract class ResourceRelationManager extends BaseRelationManager
     {
         return [
             ...parent::getRecordActions(),
-            ...ExternalResourceResource::getRecordActions(),
+            ...ExternalResourceResource::getActions(),
         ];
     }
 

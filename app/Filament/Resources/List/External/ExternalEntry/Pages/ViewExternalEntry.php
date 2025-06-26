@@ -13,18 +13,4 @@ use App\Filament\Resources\List\External\ExternalEntry;
 class ViewExternalEntry extends BaseViewResource
 {
     protected static string $resource = ExternalEntry::class;
-
-    /**
-     * Get the header actions available.
-     *
-     * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    protected function getHeaderActions(): array
-    {
-        return [
-            ...parent::getHeaderActions(),
-        ];
-    }
 }

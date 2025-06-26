@@ -13,18 +13,4 @@ use App\Filament\Resources\Wiki\Anime\Theme\Entry;
 class ViewEntry extends BaseViewResource
 {
     protected static string $resource = Entry::class;
-
-    /**
-     * Get the header actions available.
-     *
-     * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    protected function getHeaderActions(): array
-    {
-        return [
-            ...parent::getHeaderActions(),
-        ];
-    }
 }

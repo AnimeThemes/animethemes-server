@@ -310,8 +310,6 @@ class Playlist extends BaseResource
     public static function getRecordActions(): array
     {
         return [
-            ...parent::getRecordActions(),
-
             AssignHashidsAction::make('assign-hashids')
                 ->setConnection('playlists')
                 ->authorize('update', PlaylistModel::class),

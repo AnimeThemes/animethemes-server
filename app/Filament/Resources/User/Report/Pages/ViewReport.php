@@ -13,18 +13,4 @@ use App\Filament\Resources\User\Report;
 class ViewReport extends BaseViewResource
 {
     protected static string $resource = Report::class;
-
-    /**
-     * Get the header actions available.
-     *
-     * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    protected function getHeaderActions(): array
-    {
-        return [
-            ...parent::getHeaderActions(),
-        ];
-    }
 }

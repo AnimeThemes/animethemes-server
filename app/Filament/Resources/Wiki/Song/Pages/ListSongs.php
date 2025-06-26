@@ -28,20 +28,6 @@ class ListSongs extends BaseListResources
     protected static string $resource = Song::class;
 
     /**
-     * Get the header actions available.
-     *
-     * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    protected function getHeaderActions(): array
-    {
-        return [
-            ...parent::getHeaderActions(),
-        ];
-    }
-
-    /**
      * Using Laravel Scout to search.
      *
      * @param  Builder  $query

@@ -71,7 +71,7 @@ abstract class ExternalProfileRelationManager extends BaseRelationManager
     {
         return [
             ...parent::getRecordActions(),
-            ...ExternalProfileResource::getRecordActions(),
+            ...ExternalProfileResource::getActions(),
         ];
     }
 

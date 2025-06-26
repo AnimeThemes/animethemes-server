@@ -15,7 +15,7 @@ class TimestampSection
     /**
      * Create a section for displaying timestamps.
      *
-     * @return \Filament\Schemas\Components\Section
+     * @return Section
      */
     public static function make(): Section
     {

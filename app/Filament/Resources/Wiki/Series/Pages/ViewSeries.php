@@ -13,18 +13,4 @@ use App\Filament\Resources\Wiki\Series;
 class ViewSeries extends BaseViewResource
 {
     protected static string $resource = Series::class;
-
-    /**
-     * Get the header actions available.
-     *
-     * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    protected function getHeaderActions(): array
-    {
-        return [
-            ...parent::getHeaderActions(),
-        ];
-    }
 }

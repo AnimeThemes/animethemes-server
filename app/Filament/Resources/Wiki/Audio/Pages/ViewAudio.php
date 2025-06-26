@@ -16,24 +16,4 @@ use Filament\Actions\ActionGroup;
 class ViewAudio extends BaseViewResource
 {
     protected static string $resource = Audio::class;
-
-    /**
-     * Get the header actions available.
-     *
-     * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    protected function getHeaderActions(): array
-    {
-        return [
-            ...parent::getHeaderActions(),
-
-            ActionGroup::make([
-                MoveAudioAction::make('move-audio'),
-
-                DeleteAudioAction::make('delete-audio'),
-            ]),
-        ];
-    }
 }

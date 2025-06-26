@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Resources\Wiki;
 
 use Filament\Schemas\Schema;
-use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Components\Section;
-use Filament\Actions\ActionGroup;
 use App\Enums\Models\Wiki\AnimeMediaFormat;
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Enums\Models\Wiki\ResourceSite;
@@ -345,20 +343,16 @@ class Anime extends BaseResource
         ];
 
         return [
-            ...parent::getRecordActions(),
+            DiscordThreadAction::make('discord-thread'),
 
-            ActionGroup::make([
-                DiscordThreadAction::make('discord-thread'),
+            BackfillAnimeAction::make('backfill-anime'),
 
-                BackfillAnimeAction::make('backfill-anime'),
+            AttachAnimeResourceAction::make('attach-anime-resource'),
 
-                AttachAnimeResourceAction::make('attach-anime-resource'),
-
-                AttachAnimeResourceAction::make('attach-anime-streaming-resource')
-                    ->label(__('filament.actions.models.wiki.attach_streaming_resource.name'))
-                    ->icon(__('filament-icons.actions.anime.attach_streaming_resource'))
-                    ->sites($streamingResourceSites),
-            ]),
+            AttachAnimeResourceAction::make('attach-anime-streaming-resource')
+                ->label(__('filament.actions.models.wiki.attach_streaming_resource.name'))
+                ->icon(__('filament-icons.actions.anime.attach_streaming_resource'))
+                ->sites($streamingResourceSites),
         ];
     }
 

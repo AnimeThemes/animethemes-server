@@ -13,18 +13,4 @@ use App\Filament\Resources\Wiki\Group;
 class ViewGroup extends BaseViewResource
 {
     protected static string $resource = Group::class;
-
-    /**
-     * Get the header actions available.
-     *
-     * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    protected function getHeaderActions(): array
-    {
-        return [
-            ...parent::getHeaderActions(),
-        ];
-    }
 }

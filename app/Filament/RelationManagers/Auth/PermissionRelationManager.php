@@ -69,7 +69,7 @@ abstract class PermissionRelationManager extends BaseRelationManager
      */
     public static function getRecordActions(): array
     {
-        return PermissionResource::getRecordActions();
+        return PermissionResource::getActions();
     }
 
     /**

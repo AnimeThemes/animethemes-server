@@ -13,18 +13,4 @@ use App\Filament\Resources\Wiki\ExternalResource;
 class ViewExternalResource extends BaseViewResource
 {
     protected static string $resource = ExternalResource::class;
-
-    /**
-     * Get the header actions available.
-     *
-     * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    protected function getHeaderActions(): array
-    {
-        return [
-            ...parent::getHeaderActions(),
-        ];
-    }
 }

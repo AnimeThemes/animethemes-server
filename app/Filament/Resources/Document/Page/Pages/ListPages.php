@@ -13,18 +13,4 @@ use App\Filament\Resources\Document\Page;
 class ListPages extends BaseListResources
 {
     protected static string $resource = Page::class;
-
-    /**
-     * Get the header actions available.
-     *
-     * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    protected function getHeaderActions(): array
-    {
-        return [
-            ...parent::getHeaderActions(),
-        ];
-    }
 }

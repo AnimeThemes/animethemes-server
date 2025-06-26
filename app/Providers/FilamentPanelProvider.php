@@ -91,6 +91,7 @@ class FilamentPanelProvider extends PanelProvider
             ->sidebarCollapsibleOnDesktop()
             ->colors([
                 'primary' => Color::Violet,
+                'related-link' => 'oklch(0.7335 0.1278 179.47)'
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Dashboards'), for: 'App\\Filament\\Dashboards')
