@@ -18,6 +18,7 @@ use App\Filament\BulkActions\Base\ForceDeleteBulkAction;
 use App\Filament\BulkActions\Base\RestoreBulkAction;
 use App\Filament\Components\Filters\DateFilter;
 use App\Filament\RelationManagers\Base\ActionLogRelationManager;
+use App\Filament\Resources\Base\BaseViewResource;
 use App\Models\BaseModel;
 use App\Scopes\WithoutInsertSongScope;
 use Filament\Resources\Resource;
@@ -85,7 +86,7 @@ abstract class BaseResource extends Resource
             ->defaultSort(fn (Table $table) => $table->hasSearch() ? null : static::getRecordRouteKeyName(), fn (Table $table) => $table->hasSearch() ? null : 'desc')
             ->filters(static::getFilters())
             ->filtersFormMaxHeight('400px')
-            ->recordActions(static::getRecordActions())
+            ->recordActions(static::getActions())
             ->toolbarActions(static::getBulkActions())
             ->headerActions(static::getTableActions())
             ->recordUrl(fn (Model $record): string => static::getUrl('view', ['record' => $record]))
@@ -123,10 +124,11 @@ abstract class BaseResource extends Resource
      *
      * @return array
      */
-    public static function getRecordActions(): array
+    public static function getActions(): array
     {
         return [
-            ViewAction::make(),
+            ViewAction::make()
+                ->hidden(fn ($livewire) => $livewire instanceof BaseViewResource),
 
             EditAction::make(),
 
@@ -136,12 +138,18 @@ abstract class BaseResource extends Resource
                 DeleteAction::make(),
 
                 ForceDeleteAction::make(),
-            ])
-                ->icon(__('filament-icons.actions.base.group_delete'))
-                ->color('danger'),
 
-            RestoreAction::make(),
+                RestoreAction::make(),
+
+                ActionGroup::make(static::getRecordActions())
+                    ->dropdown(false),
+            ]),
         ];
+    }
+
+    public static function getRecordActions(): array
+    {
+        return [];
     }
 
     /**

@@ -13,16 +13,4 @@ use App\Filament\Resources\Admin\Feature;
 class ManageFeatures extends BaseManageResources
 {
     protected static string $resource = Feature::class;
-
-    /**
-     * Get the header actions available.
-     *
-     * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    protected function getHeaderActions(): array
-    {
-        return [];
-    }
 }

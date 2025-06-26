@@ -13,18 +13,4 @@ use App\Filament\Resources\Auth\Permission;
 class ViewPermission extends BaseViewResource
 {
     protected static string $resource = Permission::class;
-
-    /**
-     * Get the header actions available.
-     *
-     * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    protected function getHeaderActions(): array
-    {
-        return [
-            ...parent::getHeaderActions(),
-        ];
-    }
 }

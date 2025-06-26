@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Resources\Wiki;
 
 use Filament\Schemas\Schema;
-use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Components\Section;
-use Filament\Actions\ActionGroup;
 use App\Filament\Actions\Models\Wiki\Artist\AttachArtistResourceAction;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\Slug;
@@ -289,11 +287,7 @@ class Artist extends BaseResource
     public static function getRecordActions(): array
     {
         return [
-            ...parent::getRecordActions(),
-
-            ActionGroup::make([
-                AttachArtistResourceAction::make('attach-artist-resource'),
-            ])
+            AttachArtistResourceAction::make('attach-artist-resource'),
         ];
     }
 

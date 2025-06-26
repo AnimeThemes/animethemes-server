@@ -194,13 +194,9 @@ class Script extends BaseResource
     public static function getRecordActions(): array
     {
         return [
-            ...parent::getRecordActions(),
+            MoveScriptAction::make('move-script'),
 
-            ActionGroup::make([
-                MoveScriptAction::make('move-script'),
-
-                DeleteScriptAction::make('delete-script'),
-            ]),
+            DeleteScriptAction::make('delete-script'),
         ];
     }
 

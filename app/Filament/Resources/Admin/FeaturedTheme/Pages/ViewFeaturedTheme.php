@@ -13,18 +13,4 @@ use App\Filament\Resources\Admin\FeaturedTheme;
 class ViewFeaturedTheme extends BaseViewResource
 {
     protected static string $resource = FeaturedTheme::class;
-
-    /**
-     * Get the header actions available.
-     *
-     * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    protected function getHeaderActions(): array
-    {
-        return [
-            ...parent::getHeaderActions(),
-        ];
-    }
 }

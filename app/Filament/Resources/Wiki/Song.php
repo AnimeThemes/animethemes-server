@@ -6,7 +6,6 @@ namespace App\Filament\Resources\Wiki;
 
 use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Section;
-use Filament\Actions\ActionGroup;
 use App\Filament\Actions\Models\Wiki\Song\AttachSongResourceAction;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Infolist\TextEntry;
@@ -239,11 +238,7 @@ class Song extends BaseResource
     public static function getRecordActions(): array
     {
         return [
-            ...parent::getRecordActions(),
-
-            ActionGroup::make([
-                AttachSongResourceAction::make('attach-song-resource'),
-            ])
+            AttachSongResourceAction::make('attach-song-resource'),
         ];
     }
 

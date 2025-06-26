@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Resources\Wiki;
 
 use Filament\Schemas\Schema;
-use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Components\Section;
-use Filament\Actions\ActionGroup;
 use App\Filament\Actions\Models\Wiki\Studio\AttachStudioResourceAction;
 use App\Filament\Actions\Models\Wiki\Studio\BackfillStudioAction;
 use App\Filament\Components\Columns\TextColumn;
@@ -234,13 +232,9 @@ class Studio extends BaseResource
     public static function getRecordActions(): array
     {
         return [
-            ...parent::getRecordActions(),
+            BackfillStudioAction::make('backfill-studio'),
 
-            ActionGroup::make([
-                BackfillStudioAction::make('backfill-studio'),
-
-                AttachStudioResourceAction::make('attach-studio-resource'),
-            ])
+            AttachStudioResourceAction::make('attach-studio-resource'),
         ];
     }
 

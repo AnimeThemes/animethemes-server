@@ -242,9 +242,7 @@ class DiscordThread extends BaseResource
      */
     public static function getRecordActions(): array
     {
-        return [
-            ...parent::getRecordActions(),
-        ];
+        return [];
     }
 
     /**
