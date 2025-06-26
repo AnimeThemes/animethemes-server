@@ -45,7 +45,7 @@
         "league/flysystem-aws-s3-v3": "^3.29",
         "mll-lab/graphql-php-scalars": "^6.4",
         "mll-lab/laravel-graphiql": "^3.3.4",
-        "nuwave/lighthouse": "^6.60.0",
+        "nuwave/lighthouse": "^6.61.0",
         "propaganistas/laravel-disposable-email": "^2.4.15",
         "spatie/db-dumper": "^3.8.0",
         "spatie/laravel-permission": "^6.20.0",
@@ -61,7 +61,7 @@
         "laravel/pint": "^1.22.1",
         "laravel/sail": "^1.43.1",
         "mockery/mockery": "^1.6.12",
-        "nunomaduro/collision": "^8.8.1",
+        "nunomaduro/collision": "^8.8.2",
         "phpunit/phpunit": "^11.5.24",
         "predis/predis": "^2.4.0",
         "spatie/laravel-ignition": "^2.9.1"
