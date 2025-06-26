@@ -62,7 +62,7 @@ abstract class StorageAction extends BaseAction
 
         $storageResults->toLog();
 
-        $action->then($storageResults);
+        $model ??= $action->then($storageResults);
 
         $actionResult = $storageResults->toActionResult();
 
@@ -74,7 +74,7 @@ abstract class StorageAction extends BaseAction
         $this->afterUploaded($model, $fields);
 
         $livewire = $this->getLivewire();
-        if ($livewire instanceof BaseRelationManager) {
+        if ($livewire instanceof BaseRelationManager && $model instanceof Model) {
             $relation = $livewire->getRelationship();
             $pivot = $model;
 
