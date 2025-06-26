@@ -71,7 +71,7 @@ abstract class UserRelationManager extends BaseRelationManager
     {
         return [
             ...parent::getRecordActions(),
-            ...UserResource::getRecordActions(),
+            ...UserResource::getActions(),
         ];
     }
 

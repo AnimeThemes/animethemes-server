@@ -71,7 +71,7 @@ abstract class TrackRelationManager extends BaseRelationManager
     {
         return [
             ...parent::getRecordActions(),
-            ...TrackResource::getRecordActions(),
+            ...TrackResource::getActions(),
         ];
     }
 

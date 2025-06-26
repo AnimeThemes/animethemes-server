@@ -72,7 +72,7 @@ abstract class ImageRelationManager extends BaseRelationManager
     {
         return [
             ...parent::getRecordActions(),
-            ...ImageResource::getRecordActions(),
+            ...ImageResource::getActions(),
         ];
     }
 

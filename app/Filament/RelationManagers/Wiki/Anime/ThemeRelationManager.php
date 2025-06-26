@@ -71,7 +71,7 @@ abstract class ThemeRelationManager extends BaseRelationManager
     {
         return [
             ...parent::getRecordActions(),
-            ...ThemeResource::getRecordActions(),
+            ...ThemeResource::getActions(),
         ];
     }
 

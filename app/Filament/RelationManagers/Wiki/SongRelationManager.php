@@ -71,7 +71,7 @@ abstract class SongRelationManager extends BaseRelationManager
     {
         return [
             ...parent::getRecordActions(),
-            ...SongResource::getRecordActions(),
+            ...SongResource::getActions(),
         ];
     }
 

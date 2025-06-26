@@ -71,7 +71,7 @@ abstract class PerformanceRelationManager extends BaseRelationManager
     {
         return [
             ...parent::getRecordActions(),
-            ...PerformanceResource::getRecordActions(),
+            ...PerformanceResource::getActions(),
         ];
     }
 

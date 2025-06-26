@@ -71,7 +71,7 @@ abstract class SynonymRelationManager extends BaseRelationManager
     {
         return [
             ...parent::getRecordActions(),
-            ...SynonymResource::getRecordActions(),
+            ...SynonymResource::getActions(),
         ];
     }
 

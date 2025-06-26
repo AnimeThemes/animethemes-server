@@ -71,7 +71,7 @@ abstract class ReportStepRelationManager extends BaseRelationManager
     {
         return [
             ...parent::getRecordActions(),
-            ...ReportStepResource::getRecordActions(),
+            ...ReportStepResource::getActions(),
         ];
     }
 

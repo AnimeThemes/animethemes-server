@@ -71,7 +71,7 @@ abstract class ScriptRelationManager extends BaseRelationManager
     {
         return [
             ...parent::getRecordActions(),
-            ...ScriptResource::getRecordActions(),
+            ...ScriptResource::getActions(),
         ];
     }
 

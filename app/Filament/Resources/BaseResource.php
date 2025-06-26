@@ -147,6 +147,11 @@ abstract class BaseResource extends Resource
         ];
     }
 
+    /**
+     * Get the record actions exclusive to the resource.
+     *
+     * @return array
+     */
     public static function getRecordActions(): array
     {
         return [];
