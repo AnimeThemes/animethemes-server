@@ -6,8 +6,8 @@ namespace App\Actions\Discord;
 
 use App\Enums\Actions\Models\Wiki\Video\DiscordNotificationType;
 use App\Models\Wiki\Video;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
 
