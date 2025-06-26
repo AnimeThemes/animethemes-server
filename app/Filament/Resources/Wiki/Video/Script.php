@@ -18,7 +18,6 @@ use App\Filament\Resources\Wiki\Video\Script\Pages\ListScripts;
 use App\Filament\Resources\Wiki\Video\Script\Pages\ViewScript;
 use App\Models\Wiki\Video\VideoScript as ScriptModel;
 use Filament\Forms\Components\TextInput;
-use Filament\Infolists\Components\Section;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;

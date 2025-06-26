@@ -15,6 +15,7 @@ abstract class BaseDashboard extends Dashboard
     /**
      * Get the route path for the dashboard.
      *
+     * @param  Panel  $panel
      * @return string
      */
     public static function getRoutePath(Panel $panel): string

@@ -53,10 +53,9 @@ class BelongsToEntry extends TextEntry
     public function configure(): static
     {
         return $this
-            ->placeholder('-')
             ->label($this->resource->getModelLabel())
             ->weight(FontWeight::SemiBold)
-            ->html()
+            ->color('related-link')
             ->url(function (BaseModel|Model $record) {
                 $relation = $this->getName();
 
@@ -73,7 +72,7 @@ class BelongsToEntry extends TextEntry
                         ? $related->getName()
                         : $this->resource->getRecordTitle($related);
 
-                    return "<p style='color: rgb(64, 184, 166);'>{$name}</p>";
+                    return $name;
                 });
 
                 return $this->resource::getUrl('view', ['record' => $related]);
