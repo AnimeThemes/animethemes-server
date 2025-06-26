@@ -11,6 +11,7 @@ use App\Filament\Actions\Base\DeleteAction;
 use App\Filament\Actions\Base\DetachAction;
 use App\Filament\Actions\Base\EditAction;
 use App\Filament\Actions\Base\ForceDeleteAction;
+use App\Filament\Actions\Base\ReplicateAction;
 use App\Filament\Actions\Base\RestoreAction;
 use App\Filament\Actions\Base\ViewAction;
 use App\Filament\BulkActions\Base\DeleteBulkAction;
@@ -140,6 +141,8 @@ abstract class BaseResource extends Resource
                 ForceDeleteAction::make(),
 
                 RestoreAction::make(),
+
+                ReplicateAction::make(),
 
                 ActionGroup::make(static::getRecordActions())
                     ->dropdown(false),
