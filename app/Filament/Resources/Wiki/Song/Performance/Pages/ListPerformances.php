@@ -33,9 +33,8 @@ class ListPerformances extends BaseListResources
                 ->schema(fn ($form) => Performance::form($form)->getComponents())
                 ->authorize('create', PerformanceModel::class)
                 ->action(function (array $data) {
-                    $song = Song::find(Arr::get($data, PerformanceModel::ATTRIBUTE_SONG));
                     $performances = Arr::get($data, Song::RELATION_PERFORMANCES);
-                    PerformanceSongRelationManager::saveArtists($song, $performances);
+                    PerformanceSongRelationManager::saveArtists(Arr::get($data, PerformanceModel::ATTRIBUTE_SONG), $performances);
                 }),
         ];
     }
