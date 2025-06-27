@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Filament\Dashboards;
 
-use Filament\Panel;
 use Filament\Pages\Dashboard;
+use Filament\Panel;
 
 /**
  * Class BaseDashboard.

@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Filament\RelationManagers\Wiki;
 
-use Filament\Schemas\Schema;
 use App\Filament\RelationManagers\BaseRelationManager;
 use App\Filament\Resources\Wiki\ExternalResource as ExternalResourceResource;
 use App\Models\Wiki\ExternalResource;
 use App\Pivots\Wiki\AnimeResource;
 use Filament\Forms\Components\TextInput;
+use Filament\Schemas\Schema;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 

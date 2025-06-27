@@ -6,8 +6,8 @@ namespace App\Filament\Actions\Models\Wiki;
 
 use App\Actions\Models\Wiki\AttachResourceAction as AttachResource;
 use App\Contracts\Models\HasResources;
-use App\Filament\Actions\BaseAction;
 use App\Enums\Models\Wiki\ResourceSite;
+use App\Filament\Actions\BaseAction;
 use App\Models\BaseModel;
 use App\Models\Wiki\ExternalResource;
 use Filament\Forms\Components\TextInput;
@@ -54,7 +54,9 @@ abstract class AttachResourceAction extends BaseAction
         $fields = [];
         $model = $this->getRecord();
 
-        if (!($model instanceof HasResources)) return $schema;
+        if (! ($model instanceof HasResources)) {
+            return $schema;
+        }
 
         $resources = $model->resources()
             ->get([ExternalResource::ATTRIBUTE_SITE])
@@ -63,7 +65,9 @@ abstract class AttachResourceAction extends BaseAction
             ->keys();
 
         foreach ($this->sites as $resourceSite) {
-            if ($resources->contains($resourceSite->value)) continue;
+            if ($resources->contains($resourceSite->value)) {
+                continue;
+            }
 
             $resourceSiteLower = Str::lower($resourceSite->name);
 

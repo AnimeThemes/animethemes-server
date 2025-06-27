@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Filament\RelationManagers\Wiki\Song;
 
-use Filament\Schemas\Schema;
 use App\Filament\RelationManagers\BaseRelationManager;
 use App\Filament\Resources\Wiki\Song\Performance as PerformanceResource;
 use App\Models\Wiki\Song\Performance;
+use Filament\Schemas\Schema;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 

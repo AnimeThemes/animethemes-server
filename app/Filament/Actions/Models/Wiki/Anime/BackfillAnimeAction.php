@@ -14,15 +14,14 @@ use App\Models\Wiki\Image;
 use Exception;
 use Filament\Actions\Action;
 use Filament\Forms\Components\Checkbox;
-use Filament\Schemas\Components\Section;
 use Filament\Notifications\Notification;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
-
 
 /**
  * Class BackfillAnimeAction.
@@ -77,6 +76,7 @@ class BackfillAnimeAction extends BaseAction implements ShouldQueue
     {
         if ($anime->resources()->doesntExist()) {
             $this->failedLog(__('filament.actions.anime.backfill.message.resource_required_failure'));
+
             return;
         }
 
@@ -113,7 +113,9 @@ class BackfillAnimeAction extends BaseAction implements ShouldQueue
     {
         $anime = $this->getRecord();
 
-        if (!($anime instanceof Anime)) return $schema;
+        if (! ($anime instanceof Anime)) {
+            return $schema;
+        }
 
         $anime = $anime->load([Anime::RELATION_RESOURCES, Anime::RELATION_IMAGES, Anime::RELATION_STUDIOS, Anime::RELATION_SYNONYMS]);
 

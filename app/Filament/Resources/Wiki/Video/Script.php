@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Wiki\Video;
 
-use Filament\Schemas\Schema;
-use Filament\Actions\ActionGroup;
 use App\Filament\Actions\Repositories\Storage\Wiki\Video\Script\ReconcileScriptAction;
 use App\Filament\Actions\Storage\Wiki\Video\Script\DeleteScriptAction;
 use App\Filament\Actions\Storage\Wiki\Video\Script\MoveScriptAction;
@@ -17,11 +15,12 @@ use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Video\Script\Pages\ListScripts;
 use App\Filament\Resources\Wiki\Video\Script\Pages\ViewScript;
 use App\Models\Wiki\Video\VideoScript as ScriptModel;
+use Filament\Actions\ActionGroup;
 use Filament\Forms\Components\TextInput;
-use Filament\Infolists\Components\Section;
 use Filament\Forms\Form;
 use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
+use Filament\Schemas\Schema;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 

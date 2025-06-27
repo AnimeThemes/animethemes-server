@@ -7,8 +7,8 @@ namespace App\Filament\Resources\Auth\Role\RelationManagers;
 use App\Filament\RelationManagers\Auth\UserRelationManager;
 use App\Models\Auth\Role;
 use App\Models\Auth\User;
-use Filament\Actions\ViewAction;
 use Filament\Actions\EditAction;
+use Filament\Actions\ViewAction;
 use Filament\Tables\Table;
 
 /**

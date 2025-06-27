@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Filament\RelationManagers\List;
 
-use Filament\Schemas\Schema;
 use App\Filament\RelationManagers\BaseRelationManager;
 use App\Filament\Resources\List\ExternalProfile as ExternalProfileResource;
 use App\Models\List\ExternalProfile;
+use Filament\Schemas\Schema;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 

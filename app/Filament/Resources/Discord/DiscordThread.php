@@ -4,10 +4,6 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Discord;
 
-use Filament\Schemas\Schema;
-use Filament\Schemas\Components\Utilities\Set;
-use Filament\Schemas\Components\Section;
-use Filament\Actions\ActionGroup;
 use App\Actions\Discord\DiscordThreadAction;
 use App\Filament\Actions\Models\Discord\DiscordEditMessageAction;
 use App\Filament\Actions\Models\Discord\DiscordSendMessageAction;
@@ -23,8 +19,12 @@ use App\Filament\Resources\Discord\DiscordThread\Pages\ViewDiscordThread;
 use App\Filament\Resources\Wiki\Anime as AnimeResource;
 use App\Models\BaseModel;
 use App\Models\Discord\DiscordThread as DiscordThreadModel;
+use Filament\Actions\ActionGroup;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\RelationManagers\RelationGroup;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Utilities\Set;
+use Filament\Schemas\Schema;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;

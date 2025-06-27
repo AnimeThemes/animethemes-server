@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Filament\Actions\Base;
 
-use Filament\Schemas\Schema;
 use App\Concerns\Filament\ActionLogs\HasPivotActionLogs;
 use App\Filament\Components\Fields\Select;
 use App\Filament\RelationManagers\BaseRelationManager;
@@ -13,6 +12,7 @@ use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Image;
 use Filament\Actions\AttachAction as BaseAttachAction;
 use Filament\Facades\Filament;
+use Filament\Schemas\Schema;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;

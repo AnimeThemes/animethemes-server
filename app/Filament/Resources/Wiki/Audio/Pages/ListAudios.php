@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Wiki\Audio\Pages;
 
-use Filament\Schemas\Components\Tabs\Tab;
 use App\Concerns\Filament\HasTabs;
 use App\Filament\Resources\Base\BaseListResources;
 use App\Filament\Resources\Wiki\Audio;
 use App\Filament\Tabs\Audio\AudioVideoTab;
+use Filament\Schemas\Components\Tabs\Tab;
 
 /**
  * Class ListAudios.
