@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Filament\Actions\Models\List;
+namespace App\Filament\Actions\Models\List\Playlist;
 
 use App\Actions\Models\List\Playlist\FixPlaylistAction as FixPlaylist;
 use App\Enums\Auth\Role;
