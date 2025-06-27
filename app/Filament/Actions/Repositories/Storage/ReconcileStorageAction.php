@@ -68,10 +68,10 @@ abstract class ReconcileStorageAction extends ReconcileAction implements Interac
             ->components([
                 TextInput::make('path')
                     ->label(__('filament.actions.repositories.storage.fields.path.name'))
+                    ->helperText(__('filament.actions.repositories.storage.fields.path.help'))
                     ->required()
                     ->doesntStartWith('/')
-                    ->rule(new StorageDirectoryExistsRule($fs))
-                    ->helperText(__('filament.actions.repositories.storage.fields.path.help')),
+                    ->rule(new StorageDirectoryExistsRule($fs)),
             ]);
     }
 }

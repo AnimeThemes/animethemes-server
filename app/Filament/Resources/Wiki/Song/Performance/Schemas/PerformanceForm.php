@@ -60,7 +60,7 @@ class PerformanceForm
         return [
             Repeater::make(SongModel::RELATION_PERFORMANCES)
                 ->label(__('filament.resources.label.artists'))
-                ->addActionLabel(__('filament.buttons.add').' '.__('filament.resources.singularLabel.artist'))
+                ->addActionLabel(__('filament.buttons.add', ['label' => __('filament.resources.singularLabel.artist')]))
                 ->hiddenOn([PerformanceArtistRelationManager::class, GroupPerformanceArtistRelationManager::class])
                 ->live(true)
                 ->key('song.performances')
@@ -116,7 +116,7 @@ class PerformanceForm
                     Repeater::make('memberships')
                         ->label(__('filament.resources.label.memberships'))
                         ->helperText(__('filament.fields.performance.memberships.help'))
-                        ->addActionLabel(__('filament.fields.performance.memberships.add'))
+                        ->addActionLabel(__('filament.buttons.add', ['label' => __('filament.resources.singularLabel.member')]))
                         ->collapsible()
                         ->defaultItems(0)
                         ->columns(3)
