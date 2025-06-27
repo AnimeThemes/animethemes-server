@@ -49,7 +49,7 @@ class DiscordMessageAction
     public function get(string $url): DiscordMessage
     {
         $message = Http::withHeaders(['x-api-key' => Config::get('services.discord.api_key')])
-            ->get(Config::get('services.discord.api_url') . '/message', [
+            ->get(Config::get('services.discord.api_url').'/message', [
                 'url' => $url,
             ])
             ->throw()
@@ -67,7 +67,7 @@ class DiscordMessageAction
     public function edit(DiscordMessage $message): void
     {
         Http::withHeaders(['x-api-key' => Config::get('services.discord.api_key')])
-            ->put(Config::get('services.discord.api_url') . '/message', [
+            ->put(Config::get('services.discord.api_url').'/message', [
                 $message->toArray(),
             ])
             ->throw();
@@ -82,7 +82,7 @@ class DiscordMessageAction
     public function send(DiscordMessage $message): void
     {
         Http::withHeaders(['x-api-key' => Config::get('services.discord.api_key')])
-            ->post(Config::get('services.discord.api_url') . '/message', [
+            ->post(Config::get('services.discord.api_url').'/message', [
                 'message' => $message->toArray(),
             ])
             ->throw();

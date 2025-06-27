@@ -78,8 +78,9 @@ class AnimeFactory extends Factory
                     ->has(
                         AnimeThemeEntry::factory()
                             ->count(fake()->numberBetween(1, 3))
-                            ->has(Video::factory()->count(fake()->numberBetween(1, 3))
-                                ->has(VideoScript::factory(), Video::RELATION_SCRIPT)
+                            ->has(
+                                Video::factory()->count(fake()->numberBetween(1, 3))
+                                    ->has(VideoScript::factory(), Video::RELATION_SCRIPT)
                             )
                     )
                     ->count(fake()->numberBetween(1, 3))

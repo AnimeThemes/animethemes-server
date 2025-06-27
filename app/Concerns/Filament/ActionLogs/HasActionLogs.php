@@ -98,7 +98,7 @@ trait HasActionLogs
      */
     public function finishedLog(): void
     {
-        if (!$this->isFailedLog()) {
+        if (! $this->isFailedLog()) {
             $this->actionLog->finished();
 
             // Filament notifications
@@ -125,6 +125,4 @@ trait HasActionLogs
     {
         return $this->actionLog->isFailed();
     }
-
-
 }

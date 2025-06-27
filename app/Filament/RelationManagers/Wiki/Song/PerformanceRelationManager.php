@@ -44,7 +44,7 @@ abstract class PerformanceRelationManager extends BaseRelationManager
                 ->modelLabel(PerformanceResource::getLabel())
                 ->recordTitleAttribute(Performance::ATTRIBUTE_ID)
                 ->columns(PerformanceResource::table($table)->getColumns())
-                ->defaultSort(Performance::TABLE . '.' . Performance::ATTRIBUTE_ID, 'desc')
+                ->defaultSort(Performance::TABLE.'.'.Performance::ATTRIBUTE_ID, 'desc')
         );
     }
 

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\User\Collection;
 
-use App\Http\Resources\User\Resource\NotificationResource;
 use App\Http\Resources\BaseCollection;
+use App\Http\Resources\User\Resource\NotificationResource;
 use App\Models\User\Notification;
 use Illuminate\Http\Request;
 

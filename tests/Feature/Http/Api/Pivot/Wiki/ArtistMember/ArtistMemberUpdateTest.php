@@ -21,7 +21,7 @@ class ArtistMemberUpdateTest extends TestCase
      *
      * @return void
      */
-    public function testProtected(): void
+    public function test_protected(): void
     {
         $artistMember = ArtistMember::factory()
             ->for(Artist::factory(), ArtistMember::RELATION_ARTIST)
@@ -40,7 +40,7 @@ class ArtistMemberUpdateTest extends TestCase
      *
      * @return void
      */
-    public function testForbidden(): void
+    public function test_forbidden(): void
     {
         $artistMember = ArtistMember::factory()
             ->for(Artist::factory(), ArtistMember::RELATION_ARTIST)
@@ -63,7 +63,7 @@ class ArtistMemberUpdateTest extends TestCase
      *
      * @return void
      */
-    public function testUpdate(): void
+    public function test_update(): void
     {
         $artistMember = ArtistMember::factory()
             ->for(Artist::factory(), ArtistMember::RELATION_ARTIST)

@@ -22,9 +22,7 @@ abstract class UploadAction implements InteractsWithDisks, StorageAction
      * @param  UploadedFile  $file
      * @param  string  $path
      */
-    public function __construct(protected readonly UploadedFile $file, protected readonly string $path)
-    {
-    }
+    public function __construct(protected readonly UploadedFile $file, protected readonly string $path) {}
 
     /**
      * Handle action.

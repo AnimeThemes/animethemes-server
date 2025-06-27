@@ -32,7 +32,7 @@ class PlaylistMutator
     {
         $parameters = [
             ...$args,
-            Playlist::ATTRIBUTE_USER => Auth::id()
+            Playlist::ATTRIBUTE_USER => Auth::id(),
         ];
 
         $action = new StoreAction();

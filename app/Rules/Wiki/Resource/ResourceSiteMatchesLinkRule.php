@@ -20,9 +20,7 @@ readonly class ResourceSiteMatchesLinkRule implements ValidationRule
      * @param  string  $link
      * @return void
      */
-    public function __construct(protected string $link)
-    {
-    }
+    public function __construct(protected string $link) {}
 
     /**
      * Run the validation rule.

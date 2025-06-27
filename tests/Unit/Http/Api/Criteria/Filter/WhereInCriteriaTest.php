@@ -27,7 +27,7 @@ class WhereInCriteriaTest extends TestCase
      *
      * @return void
      */
-    public function testField(): void
+    public function test_field(): void
     {
         $field = $this->faker->word();
 
@@ -41,7 +41,7 @@ class WhereInCriteriaTest extends TestCase
      *
      * @return void
      */
-    public function testComparisonOperator(): void
+    public function test_comparison_operator(): void
     {
         $operator = Arr::random(ComparisonOperator::cases());
 
@@ -62,7 +62,7 @@ class WhereInCriteriaTest extends TestCase
      *
      * @return void
      */
-    public function testDefaultLogicalOperator(): void
+    public function test_default_logical_operator(): void
     {
         $criteria = WhereInCriteria::make(new GlobalScope(), $this->faker->word(), $this->faker->word());
 
@@ -74,7 +74,7 @@ class WhereInCriteriaTest extends TestCase
      *
      * @return void
      */
-    public function testLogicalOperator(): void
+    public function test_logical_operator(): void
     {
         $operator = Arr::random(BinaryLogicalOperator::cases());
 
@@ -90,7 +90,7 @@ class WhereInCriteriaTest extends TestCase
      *
      * @return void
      */
-    public function testDefaultUnaryOperator(): void
+    public function test_default_unary_operator(): void
     {
         $criteria = WhereInCriteria::make(new GlobalScope(), $this->faker->word(), $this->faker->word());
 
@@ -102,7 +102,7 @@ class WhereInCriteriaTest extends TestCase
      *
      * @return void
      */
-    public function testUnaryOperator(): void
+    public function test_unary_operator(): void
     {
         $filterParam = Str::of($this->faker->word())
             ->append(Criteria::PARAM_SEPARATOR)

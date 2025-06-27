@@ -24,7 +24,7 @@ class TotalStreamsFormatTest extends TestCase
      *
      * @return void
      */
-    public function testFailsWhenCountIsNotExpected(): void
+    public function test_fails_when_count_is_not_expected(): void
     {
         $file = UploadedFile::fake()->create($this->faker->word().'.webm', $this->faker->randomDigitNotNull());
 
@@ -65,7 +65,7 @@ class TotalStreamsFormatTest extends TestCase
      *
      * @return void
      */
-    public function testPassesWhenCountIsExpected(): void
+    public function test_passes_when_count_is_expected(): void
     {
         $file = UploadedFile::fake()->create($this->faker->word().'.webm', $this->faker->randomDigitNotNull());
 

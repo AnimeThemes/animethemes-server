@@ -55,7 +55,7 @@ class Like extends Model implements Nameable
     protected $fillable = [
         Like::ATTRIBUTE_USER,
         Like::ATTRIBUTE_LIKEABLE_TYPE,
-        Like::ATTRIBUTE_LIKEABLE_ID
+        Like::ATTRIBUTE_LIKEABLE_ID,
     ];
 
     /**

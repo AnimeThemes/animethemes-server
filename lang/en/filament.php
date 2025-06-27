@@ -46,7 +46,7 @@ return [
                         ],
                         'external_links' => [
                             'help' => 'Use Anilist Resource to find other resources like Official Sites and Streamings',
-                            'name' => 'Backfill Other Resources'
+                            'name' => 'Backfill Other Resources',
                         ],
                         'name' => 'Backfill Resources',
                     ],
@@ -98,8 +98,8 @@ return [
         'discord' => [
             'thread' => [
                 'name' => 'Name',
-                'help' => 'The name of the thread to be created. Use the default name or a shorter synonym if it exceeds 100 characters.'
-            ]
+                'help' => 'The name of the thread to be created. Use the default name or a shorter synonym if it exceeds 100 characters.',
+            ],
         ],
         'dump' => [
             'dump' => [
@@ -493,7 +493,7 @@ return [
             'type' => [
                 'help' => 'The title type.',
                 'name' => 'Type',
-            ]
+            ],
         ],
         'anime_theme_entry' => [
             'episodes' => [
@@ -554,7 +554,7 @@ return [
             ],
             'media_format' => [
                 'help' => 'The Format of the Anime. By default, we will use the Type Field on the MAL page.',
-                'name' => 'Media Format'
+                'name' => 'Media Format',
             ],
             'resources' => [
                 'as' => [
@@ -885,9 +885,9 @@ return [
             'resources' => [
                 'as' => [
                     'help' => 'Used to distinguish resources that map to the same song.',
-                    'name' => 'As'
-                ]
-            ]
+                    'name' => 'As',
+                ],
+            ],
         ],
         'studio' => [
             'name' => [
@@ -1178,7 +1178,7 @@ return [
             ],
             'resources' => [
                 'name' => 'Without :site Resource',
-            ]
+            ],
         ],
         'studio' => [
             'images' => [

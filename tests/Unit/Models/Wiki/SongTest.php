@@ -28,7 +28,7 @@ class SongTest extends TestCase
      *
      * @return void
      */
-    public function testSearchableAs(): void
+    public function test_searchable_as(): void
     {
         $song = Song::factory()->createOne();
 
@@ -40,7 +40,7 @@ class SongTest extends TestCase
      *
      * @return void
      */
-    public function testToSearchableArray(): void
+    public function test_to_searchable_array(): void
     {
         $song = Song::factory()->createOne();
 
@@ -52,7 +52,7 @@ class SongTest extends TestCase
      *
      * @return void
      */
-    public function testNameable(): void
+    public function test_nameable(): void
     {
         $song = Song::factory()->createOne();
 
@@ -64,7 +64,7 @@ class SongTest extends TestCase
      *
      * @return void
      */
-    public function testHasSubtitle(): void
+    public function test_has_subtitle(): void
     {
         $song = Song::factory()
             ->has(AnimeTheme::factory()->for(Anime::factory()))
@@ -78,7 +78,7 @@ class SongTest extends TestCase
      *
      * @return void
      */
-    public function testThemes(): void
+    public function test_themes(): void
     {
         $themeCount = $this->faker->randomDigitNotNull();
 
@@ -96,7 +96,7 @@ class SongTest extends TestCase
      *
      * @return void
      */
-    public function testArtists(): void
+    public function test_artists(): void
     {
         $artistCount = $this->faker->randomDigitNotNull();
 
@@ -115,7 +115,7 @@ class SongTest extends TestCase
      *
      * @return void
      */
-    public function testExternalResources(): void
+    public function test_external_resources(): void
     {
         $resourceCount = $this->faker->randomDigitNotNull();
 

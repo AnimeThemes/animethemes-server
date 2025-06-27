@@ -19,7 +19,7 @@ use Symfony\Component\HttpFoundation\Response;
 class RecordView
 {
     /**
-     * The viewable model
+     * The viewable model.
      *
      * @var (Viewable&Model)|null
      */

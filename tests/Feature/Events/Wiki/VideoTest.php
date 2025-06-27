@@ -23,7 +23,7 @@ class VideoTest extends TestCase
      *
      * @return void
      */
-    public function testVideoCreatedEventDispatched(): void
+    public function test_video_created_event_dispatched(): void
     {
         Video::factory()->createOne();
 
@@ -35,7 +35,7 @@ class VideoTest extends TestCase
      *
      * @return void
      */
-    public function testVideoDeletedEventDispatched(): void
+    public function test_video_deleted_event_dispatched(): void
     {
         $video = Video::factory()->createOne();
 
@@ -49,7 +49,7 @@ class VideoTest extends TestCase
      *
      * @return void
      */
-    public function testVideoRestoredEventDispatched(): void
+    public function test_video_restored_event_dispatched(): void
     {
         $video = Video::factory()->createOne();
 
@@ -65,7 +65,7 @@ class VideoTest extends TestCase
      *
      * @return void
      */
-    public function testVideoRestoresQuietly(): void
+    public function test_video_restores_quietly(): void
     {
         $video = Video::factory()->createOne();
 
@@ -79,7 +79,7 @@ class VideoTest extends TestCase
      *
      * @return void
      */
-    public function testVideoUpdatedEventDispatched(): void
+    public function test_video_updated_event_dispatched(): void
     {
         $video = Video::factory()->createOne();
         $changes = Video::factory()->makeOne();
@@ -95,7 +95,7 @@ class VideoTest extends TestCase
      *
      * @return void
      */
-    public function testVideoUpdatedEventEmbedFields(): void
+    public function test_video_updated_event_embed_fields(): void
     {
         $video = Video::factory()->createOne();
         $changes = Video::factory()->makeOne();

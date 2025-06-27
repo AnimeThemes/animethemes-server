@@ -9,8 +9,8 @@ use App\Enums\Auth\Role;
 use App\Enums\Models\List\ExternalProfileVisibility;
 use App\Models\Auth\User;
 use App\Models\BaseModel;
-use App\Models\List\ExternalProfile;
 use App\Models\List\External\ExternalEntry;
+use App\Models\List\ExternalProfile;
 use App\Policies\BasePolicy;
 use Filament\Facades\Filament;
 use Illuminate\Database\Eloquent\Model;
@@ -36,11 +36,11 @@ class ExternalEntryPolicy extends BasePolicy
         $profile = request()->route('externalprofile');
 
         if ($user !== null) {
-            return ($profile?->user()->is($user) || ExternalProfileVisibility::PRIVATE !== $profile?->visibility)
+            return ($profile?->user()->is($user) || $profile?->visibility !== ExternalProfileVisibility::PRIVATE)
                 && $user->can(CrudPermission::VIEW->format(ExternalEntry::class));
         }
 
-        return ExternalProfileVisibility::PRIVATE !== $profile?->visibility;
+        return $profile?->visibility !== ExternalProfileVisibility::PRIVATE;
     }
 
     /**
@@ -62,11 +62,11 @@ class ExternalEntryPolicy extends BasePolicy
         $profile = request()->route('externalprofile');
 
         if ($user !== null) {
-            return ($profile?->user()->is($user) || ExternalProfileVisibility::PRIVATE !== $profile?->visibility)
+            return ($profile?->user()->is($user) || $profile?->visibility !== ExternalProfileVisibility::PRIVATE)
                 && $user->can(CrudPermission::VIEW->format(ExternalEntry::class));
         }
 
-        return ExternalProfileVisibility::PRIVATE !== $profile?->visibility;
+        return $profile?->visibility !== ExternalProfileVisibility::PRIVATE;
     }
 
     /**

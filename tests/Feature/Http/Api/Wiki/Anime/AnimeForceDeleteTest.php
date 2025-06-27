@@ -20,7 +20,7 @@ class AnimeForceDeleteTest extends TestCase
      *
      * @return void
      */
-    public function testAuthorized(): void
+    public function test_authorized(): void
     {
         $anime = Anime::factory()->createOne();
 
@@ -34,7 +34,7 @@ class AnimeForceDeleteTest extends TestCase
      *
      * @return void
      */
-    public function testForbidden(): void
+    public function test_forbidden(): void
     {
         $anime = Anime::factory()->createOne();
 
@@ -52,7 +52,7 @@ class AnimeForceDeleteTest extends TestCase
      *
      * @return void
      */
-    public function testDeleted(): void
+    public function test_deleted(): void
     {
         $anime = Anime::factory()->createOne();
 

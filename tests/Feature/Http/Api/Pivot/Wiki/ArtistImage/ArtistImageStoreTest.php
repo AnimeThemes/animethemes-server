@@ -22,7 +22,7 @@ class ArtistImageStoreTest extends TestCase
      *
      * @return void
      */
-    public function testProtected(): void
+    public function test_protected(): void
     {
         $artist = Artist::factory()->createOne();
         $image = Image::factory()->createOne();
@@ -37,7 +37,7 @@ class ArtistImageStoreTest extends TestCase
      *
      * @return void
      */
-    public function testForbidden(): void
+    public function test_forbidden(): void
     {
         $artist = Artist::factory()->createOne();
         $image = Image::factory()->createOne();
@@ -56,7 +56,7 @@ class ArtistImageStoreTest extends TestCase
      *
      * @return void
      */
-    public function testCreate(): void
+    public function test_create(): void
     {
         $artist = Artist::factory()->createOne();
         $image = Image::factory()->createOne();

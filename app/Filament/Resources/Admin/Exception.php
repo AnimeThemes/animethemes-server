@@ -79,7 +79,7 @@ class Exception extends ExceptionResource
             ])
             ->actions([
                 ViewAction::make('view')
-                    ->url(fn (ExceptionModel $record): string => ExceptionResource::getUrl('view', ['record' => $record]))
+                    ->url(fn (ExceptionModel $record): string => ExceptionResource::getUrl('view', ['record' => $record])),
             ])
             ->bulkActions([
                 BulkActionGroup::make([
@@ -98,6 +98,7 @@ class Exception extends ExceptionResource
     {
         /** @var User $user */
         $user = Filament::auth()->user();
+
         return $user->hasRole(Role::ADMIN->value);
     }
 
@@ -112,7 +113,7 @@ class Exception extends ExceptionResource
     {
         return [
             'index' => ListExceptions::route('/'),
-            'view' => ViewException::route('/{record}')
+            'view' => ViewException::route('/{record}'),
         ];
     }
 }

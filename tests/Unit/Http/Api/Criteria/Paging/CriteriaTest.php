@@ -24,7 +24,7 @@ class CriteriaTest extends TestCase
      *
      * @return void
      */
-    public function testDefaultSize(): void
+    public function test_default_size(): void
     {
         $resultSize = $this->faker->numberBetween(1, Criteria::MAX_RESULTS);
 
@@ -60,7 +60,7 @@ class CriteriaTest extends TestCase
      *
      * @return void
      */
-    public function testUpperBoundSize(): void
+    public function test_upper_bound_size(): void
     {
         $resultSize = Criteria::MAX_RESULTS + $this->faker->randomDigitNotNull();
 
@@ -96,7 +96,7 @@ class CriteriaTest extends TestCase
      *
      * @return void
      */
-    public function testLowerBoundSize(): void
+    public function test_lower_bound_size(): void
     {
         $resultSize = $this->faker->randomDigit() * -1;
 

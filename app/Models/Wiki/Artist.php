@@ -45,7 +45,7 @@ use Illuminate\Support\Collection;
  *
  * @method static ArtistFactory factory(...$parameters)
  */
-class Artist extends BaseModel implements HasResources, HasImages
+class Artist extends BaseModel implements HasImages, HasResources
 {
     use Reportable;
     use Searchable;
@@ -191,10 +191,12 @@ class Artist extends BaseModel implements HasResources, HasImages
     public function groupperformances()
     {
         return $this->hasManyThrough(
-            Performance::class, Membership::class,
-            'member_id', 'artist_id'
+            Performance::class,
+            Membership::class,
+            'member_id',
+            'artist_id'
         )->select(['memberships.as', 'memberships.alias'])
-        ->where(Performance::ATTRIBUTE_ARTIST_TYPE, Membership::class);
+            ->where(Performance::ATTRIBUTE_ARTIST_TYPE, Membership::class);
     }
 
     public function memberships()

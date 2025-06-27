@@ -18,7 +18,7 @@ use Exception;
  *
  * @extends WikiCreatedEvent<Performance>
  */
-class PerformanceCreated extends WikiCreatedEvent implements UpdateRelatedIndicesEvent, SyncArtistSongEvent
+class PerformanceCreated extends WikiCreatedEvent implements SyncArtistSongEvent, UpdateRelatedIndicesEvent
 {
     /**
      * Create a new event instance.

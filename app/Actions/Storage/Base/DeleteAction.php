@@ -23,9 +23,7 @@ abstract class DeleteAction implements InteractsWithDisks, StorageAction
      *
      * @param  TModel  $model
      */
-    public function __construct(protected BaseModel $model)
-    {
-    }
+    public function __construct(protected BaseModel $model) {}
 
     /**
      * Handle action.

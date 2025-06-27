@@ -18,7 +18,7 @@ abstract class BaseTab extends Tab
      *
      * @return string
      */
-    abstract static public function getKey(): string;
+    abstract public static function getKey(): string;
 
     /**
      * Get the displayable name of the tab.

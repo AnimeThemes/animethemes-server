@@ -47,7 +47,7 @@ trait CanCreateExternalResource
             ->where(ExternalResource::ATTRIBUTE_SITE, $site->value)
             ->where(function (Builder $query) use ($url) {
                 return $query->where(ExternalResource::ATTRIBUTE_LINK, $url)
-                    ->orWhere(ExternalResource::ATTRIBUTE_LINK, $url . '/');
+                    ->orWhere(ExternalResource::ATTRIBUTE_LINK, $url.'/');
             })
             ->first();
 
@@ -89,6 +89,6 @@ trait CanCreateExternalResource
      */
     protected function ensureHttpsUrl(string $url): string
     {
-        return preg_replace("/^http:/i", "https:", $url);
+        return preg_replace('/^http:/i', 'https:', $url);
     }
 }

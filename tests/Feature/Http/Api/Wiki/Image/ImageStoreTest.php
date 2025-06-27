@@ -29,7 +29,7 @@ class ImageStoreTest extends TestCase
      *
      * @return void
      */
-    public function testProtected(): void
+    public function test_protected(): void
     {
         $image = Image::factory()->makeOne();
 
@@ -43,7 +43,7 @@ class ImageStoreTest extends TestCase
      *
      * @return void
      */
-    public function testForbidden(): void
+    public function test_forbidden(): void
     {
         $image = Image::factory()->makeOne();
 
@@ -61,7 +61,7 @@ class ImageStoreTest extends TestCase
      *
      * @return void
      */
-    public function testRequiredFields(): void
+    public function test_required_fields(): void
     {
         $user = User::factory()->withPermissions(CrudPermission::CREATE->format(Image::class))->createOne();
 
@@ -79,7 +79,7 @@ class ImageStoreTest extends TestCase
      *
      * @return void
      */
-    public function testCreate(): void
+    public function test_create(): void
     {
         $fs = Storage::fake(Config::get('image.disk'));
 

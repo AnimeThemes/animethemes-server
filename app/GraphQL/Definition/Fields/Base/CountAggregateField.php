@@ -7,7 +7,6 @@ namespace App\GraphQL\Definition\Fields\Base;
 use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Resolvers\CountAggregateResolver;
 use GraphQL\Type\Definition\Type;
-use Illuminate\Support\Facades\Log;
 
 /**
  * Class CountAggregateField.

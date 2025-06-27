@@ -50,11 +50,11 @@ class PlaylistPolicy extends BasePolicy
         }
 
         if ($user !== null) {
-            return ($playlist->user()->is($user) || PlaylistVisibility::PRIVATE !== $playlist->visibility)
+            return ($playlist->user()->is($user) || $playlist->visibility !== PlaylistVisibility::PRIVATE)
                 && $user->can(CrudPermission::VIEW->format(Playlist::class));
         }
 
-        return PlaylistVisibility::PRIVATE !== $playlist->visibility;
+        return $playlist->visibility !== PlaylistVisibility::PRIVATE;
     }
 
     /**
@@ -161,7 +161,7 @@ class PlaylistPolicy extends BasePolicy
             ->where(PlaylistImage::ATTRIBUTE_IMAGE, $image->getKey())
             ->exists();
 
-        return !$attached
+        return ! $attached
             && $user->can(CrudPermission::CREATE->format(Playlist::class))
             && $user->can(CrudPermission::CREATE->format(Image::class));
     }

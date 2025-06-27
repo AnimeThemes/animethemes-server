@@ -35,7 +35,7 @@ class ImageTest extends TestCase
      *
      * @return void
      */
-    public function testCastsFacetToEnum(): void
+    public function test_casts_facet_to_enum(): void
     {
         $image = Image::factory()->createOne();
 
@@ -49,7 +49,7 @@ class ImageTest extends TestCase
      *
      * @return void
      */
-    public function testNameable(): void
+    public function test_nameable(): void
     {
         $image = Image::factory()->createOne();
 
@@ -61,7 +61,7 @@ class ImageTest extends TestCase
      *
      * @return void
      */
-    public function testHasSubtitle(): void
+    public function test_has_subtitle(): void
     {
         $image = Image::factory()->createOne();
 
@@ -73,7 +73,7 @@ class ImageTest extends TestCase
      *
      * @return void
      */
-    public function testAnime(): void
+    public function test_anime(): void
     {
         $animeCount = $this->faker->randomDigitNotNull();
 
@@ -92,7 +92,7 @@ class ImageTest extends TestCase
      *
      * @return void
      */
-    public function testArtists(): void
+    public function test_artists(): void
     {
         $artistCount = $this->faker->randomDigitNotNull();
 
@@ -111,7 +111,7 @@ class ImageTest extends TestCase
      *
      * @return void
      */
-    public function testStudios(): void
+    public function test_studios(): void
     {
         $studioCount = $this->faker->randomDigitNotNull();
 
@@ -130,7 +130,7 @@ class ImageTest extends TestCase
      *
      * @return void
      */
-    public function testPlaylists(): void
+    public function test_playlists(): void
     {
         $playlistCount = $this->faker->randomDigitNotNull();
 
@@ -148,7 +148,7 @@ class ImageTest extends TestCase
      *
      * @return void
      */
-    public function testImageStorageDeletion(): void
+    public function test_image_storage_deletion(): void
     {
         $fs = Storage::fake(Config::get('image.disk'));
         $file = File::fake()->image($this->faker->word().'.jpg');
@@ -171,7 +171,7 @@ class ImageTest extends TestCase
      *
      * @return void
      */
-    public function testImageStorageForceDeletion(): void
+    public function test_image_storage_force_deletion(): void
     {
         Event::fakeExcept(ImageForceDeleting::class);
 

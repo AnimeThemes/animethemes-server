@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Admin;
 
-use App\Enums\Http\Api\Filter\AllowedDateFormat;
 use App\Filament\Components\Columns\BelongsToColumn;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\BelongsTo;
@@ -159,8 +158,8 @@ class FeaturedTheme extends BaseResource
                                         Rule::exists(AnimeThemeEntryVideo::class, AnimeThemeEntryVideo::ATTRIBUTE_ENTRY)
                                             ->where(AnimeThemeEntryVideo::ATTRIBUTE_VIDEO, $get(FeaturedThemeModel::RELATION_VIDEO)),
                                     ]
-                            )];
-                        }
+                                )];
+                        },
                     ]),
 
                 Select::make(FeaturedThemeModel::ATTRIBUTE_VIDEO)
@@ -176,8 +175,8 @@ class FeaturedTheme extends BaseResource
                                         Rule::exists(AnimeThemeEntryVideo::class, AnimeThemeEntryVideo::ATTRIBUTE_VIDEO)
                                             ->where(AnimeThemeEntryVideo::ATTRIBUTE_ENTRY, $get(FeaturedThemeModel::RELATION_ENTRY)),
                                     ]
-                            )];
-                        }
+                                )];
+                        },
                     ])
                     ->options(function (Get $get) {
                         return Video::query()

@@ -23,7 +23,7 @@ class NotificationDataType extends BaseType implements HasFields
      */
     public function getDescription(): string
     {
-        return "Represents the JSON data of the notification";
+        return 'Represents the JSON data of the notification';
     }
 
     /**

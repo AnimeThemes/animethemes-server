@@ -119,11 +119,11 @@ trait ValidatesFilters
             }
         }
 
-        if (Clause::WHERE === $filter->clause()) {
+        if ($filter->clause() === Clause::WHERE) {
             $this->validateMultiValueFilterForWhereClause($validator, $schema, $filter);
         }
 
-        if (Clause::HAVING === $filter->clause()) {
+        if ($filter->clause() === Clause::HAVING) {
             $this->prohibitMultiValueFilterForHavingClause($validator, $schema, $filter);
         }
     }

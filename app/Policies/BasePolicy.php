@@ -108,7 +108,7 @@ abstract class BasePolicy
             ? $model->trashed()
             : false;
 
-        return (!$trashed && $user->can(CrudPermission::UPDATE->format(static::getModel())));
+        return ! $trashed && $user->can(CrudPermission::UPDATE->format(static::getModel()));
     }
 
     /**
@@ -124,7 +124,7 @@ abstract class BasePolicy
             ? $model->trashed()
             : false;
 
-        return (!$trashed && $user->can(CrudPermission::DELETE->format(static::getModel())));
+        return ! $trashed && $user->can(CrudPermission::DELETE->format(static::getModel()));
     }
 
     /**
@@ -173,7 +173,7 @@ abstract class BasePolicy
             ? $model->trashed()
             : false;
 
-        return ($trashed && $user->can(ExtendedCrudPermission::RESTORE->format(static::getModel())));
+        return $trashed && $user->can(ExtendedCrudPermission::RESTORE->format(static::getModel()));
     }
 
     /**

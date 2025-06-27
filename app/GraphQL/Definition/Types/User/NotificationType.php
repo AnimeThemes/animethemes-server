@@ -27,7 +27,7 @@ class NotificationType extends EloquentType implements HasFields, HasRelations
      */
     public function getDescription(): string
     {
-        return "Represents a notification that is sent to the user.";
+        return 'Represents a notification that is sent to the user.';
     }
 
     /**

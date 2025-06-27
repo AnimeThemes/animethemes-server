@@ -24,7 +24,7 @@ class AudioLoudnessIntegratedTargetStreamTest extends TestCase
      *
      * @return void
      */
-    public function testFailsWhenIntegratedTargetIsNotExpected(): void
+    public function test_fails_when_integrated_target_is_not_expected(): void
     {
         $file = UploadedFile::fake()->create($this->faker->word().'.webm', $this->faker->randomDigitNotNull());
 
@@ -65,7 +65,7 @@ class AudioLoudnessIntegratedTargetStreamTest extends TestCase
      *
      * @return void
      */
-    public function testPassesWhenIntegratedTargetIsNotExpected(): void
+    public function test_passes_when_integrated_target_is_not_expected(): void
     {
         $file = UploadedFile::fake()->create($this->faker->word().'.webm', $this->faker->randomDigitNotNull());
 

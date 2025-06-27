@@ -21,7 +21,7 @@ class SynonymRestoreTest extends TestCase
      *
      * @return void
      */
-    public function testProtected(): void
+    public function test_protected(): void
     {
         $synonym = AnimeSynonym::factory()
             ->trashed()
@@ -38,7 +38,7 @@ class SynonymRestoreTest extends TestCase
      *
      * @return void
      */
-    public function testForbidden(): void
+    public function test_forbidden(): void
     {
         $synonym = AnimeSynonym::factory()
             ->trashed()
@@ -59,7 +59,7 @@ class SynonymRestoreTest extends TestCase
      *
      * @return void
      */
-    public function testTrashed(): void
+    public function test_trashed(): void
     {
         $synonym = AnimeSynonym::factory()->for(Anime::factory())->createOne();
 
@@ -77,7 +77,7 @@ class SynonymRestoreTest extends TestCase
      *
      * @return void
      */
-    public function testRestored(): void
+    public function test_restored(): void
     {
         $synonym = AnimeSynonym::factory()
             ->trashed()

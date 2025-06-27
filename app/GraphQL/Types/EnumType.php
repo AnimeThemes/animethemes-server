@@ -16,7 +16,7 @@ use ReflectionClassConstant;
 use UnitEnum;
 
 /**
- * Class EnumType
+ * Class EnumType.
  */
 class EnumType extends BaseEnumType
 {
@@ -81,7 +81,7 @@ class EnumType extends BaseEnumType
         return end($parts);
     }
 
-     /**
+    /**
      * @param  ReflectionClassConstant|ReflectionClass<UnitEnum>  $reflection
      * @return string|null
      *

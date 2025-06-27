@@ -83,7 +83,7 @@ abstract class BasePivotEvent implements DiscordMessageEvent
             'footer' => [
                 'text' => $this->getAuthenticatedUser()->getName(),
                 'icon_url' => $this->getAuthenticatedUser()->getFilamentAvatarUrl(),
-            ]
+            ],
         ];
     }
 

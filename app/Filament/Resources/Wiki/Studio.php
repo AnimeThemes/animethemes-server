@@ -240,7 +240,7 @@ class Studio extends BaseResource
                 BackfillStudioAction::make('backfill-studio'),
 
                 AttachStudioResourceAction::make('attach-studio-resource'),
-            ])
+            ]),
         ];
     }
 

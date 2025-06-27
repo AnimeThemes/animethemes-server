@@ -20,7 +20,7 @@ class ScriptUpdateTest extends TestCase
      *
      * @return void
      */
-    public function testProtected(): void
+    public function test_protected(): void
     {
         $script = VideoScript::factory()->createOne();
 
@@ -36,7 +36,7 @@ class ScriptUpdateTest extends TestCase
      *
      * @return void
      */
-    public function testForbidden(): void
+    public function test_forbidden(): void
     {
         $script = VideoScript::factory()->createOne();
 
@@ -56,7 +56,7 @@ class ScriptUpdateTest extends TestCase
      *
      * @return void
      */
-    public function testTrashed(): void
+    public function test_trashed(): void
     {
         $script = VideoScript::factory()->trashed()->createOne();
 
@@ -76,7 +76,7 @@ class ScriptUpdateTest extends TestCase
      *
      * @return void
      */
-    public function testUpdate(): void
+    public function test_update(): void
     {
         $script = VideoScript::factory()->createOne();
 

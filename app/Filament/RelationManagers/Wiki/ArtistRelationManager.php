@@ -44,7 +44,7 @@ abstract class ArtistRelationManager extends BaseRelationManager
                 ->modelLabel(ArtistResource::getLabel())
                 ->recordTitleAttribute(Artist::ATTRIBUTE_NAME)
                 ->columns(ArtistResource::table($table)->getColumns())
-                ->defaultSort(Artist::TABLE . '.' . Artist::ATTRIBUTE_ID, 'desc')
+                ->defaultSort(Artist::TABLE.'.'.Artist::ATTRIBUTE_ID, 'desc')
         );
     }
 

@@ -9,6 +9,4 @@ use App\GraphQL\Policies\BasePolicy;
 /**
  * Class ExternalResourcePolicy.
  */
-class ExternalResourcePolicy extends BasePolicy
-{
-}
+class ExternalResourcePolicy extends BasePolicy {}

@@ -23,7 +23,7 @@ class VideoStoreTest extends TestCase
      *
      * @return void
      */
-    public function testProtected(): void
+    public function test_protected(): void
     {
         $video = Video::factory()->makeOne();
 
@@ -37,7 +37,7 @@ class VideoStoreTest extends TestCase
      *
      * @return void
      */
-    public function testForbidden(): void
+    public function test_forbidden(): void
     {
         $video = Video::factory()->makeOne();
 
@@ -55,7 +55,7 @@ class VideoStoreTest extends TestCase
      *
      * @return void
      */
-    public function testRequiredFields(): void
+    public function test_required_fields(): void
     {
         $user = User::factory()->withPermissions(CrudPermission::CREATE->format(Video::class))->createOne();
 
@@ -77,7 +77,7 @@ class VideoStoreTest extends TestCase
      *
      * @return void
      */
-    public function testCreate(): void
+    public function test_create(): void
     {
         $overlap = Arr::random(VideoOverlap::cases());
         $source = Arr::random(VideoSource::cases());

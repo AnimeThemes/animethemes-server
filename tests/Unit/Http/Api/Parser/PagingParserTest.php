@@ -24,12 +24,12 @@ class PagingParserTest extends TestCase
      *
      * @return void
      */
-    public function testParseLimitCriteriaByDefault(): void
+    public function test_parse_limit_criteria_by_default(): void
     {
         $parameters = [];
 
         $criteria = collect(PagingParser::parse($parameters))->first(function (Criteria $criteria) {
-            return PaginationStrategy::LIMIT === $criteria->getStrategy();
+            return $criteria->getStrategy() === PaginationStrategy::LIMIT;
         });
 
         static::assertInstanceOf(LimitCriteria::class, $criteria);
@@ -40,7 +40,7 @@ class PagingParserTest extends TestCase
      *
      * @return void
      */
-    public function testParseInvalidLimitCriteria(): void
+    public function test_parse_invalid_limit_criteria(): void
     {
         $limit = $this->faker->word();
 
@@ -51,7 +51,7 @@ class PagingParserTest extends TestCase
         ];
 
         $criteria = collect(PagingParser::parse($parameters))->first(function (Criteria $criteria) {
-            return PaginationStrategy::LIMIT === $criteria->getStrategy();
+            return $criteria->getStrategy() === PaginationStrategy::LIMIT;
         });
 
         static::assertTrue(
@@ -65,7 +65,7 @@ class PagingParserTest extends TestCase
      *
      * @return void
      */
-    public function testParseValidLimitCriteria(): void
+    public function test_parse_valid_limit_criteria(): void
     {
         $limit = $this->faker->numberBetween(1, Criteria::DEFAULT_SIZE);
 
@@ -76,7 +76,7 @@ class PagingParserTest extends TestCase
         ];
 
         $criteria = collect(PagingParser::parse($parameters))->first(function (Criteria $criteria) {
-            return PaginationStrategy::LIMIT === $criteria->getStrategy();
+            return $criteria->getStrategy() === PaginationStrategy::LIMIT;
         });
 
         static::assertTrue(
@@ -90,12 +90,12 @@ class PagingParserTest extends TestCase
      *
      * @return void
      */
-    public function testParseOffsetCriteriaByDefault(): void
+    public function test_parse_offset_criteria_by_default(): void
     {
         $parameters = [];
 
         $criteria = collect(PagingParser::parse($parameters))->first(function (Criteria $criteria) {
-            return PaginationStrategy::OFFSET === $criteria->getStrategy();
+            return $criteria->getStrategy() === PaginationStrategy::OFFSET;
         });
 
         static::assertInstanceOf(OffsetCriteria::class, $criteria);
@@ -106,7 +106,7 @@ class PagingParserTest extends TestCase
      *
      * @return void
      */
-    public function testParseInvalidOffsetCriteria(): void
+    public function test_parse_invalid_offset_criteria(): void
     {
         $size = $this->faker->word();
 
@@ -117,7 +117,7 @@ class PagingParserTest extends TestCase
         ];
 
         $criteria = collect(PagingParser::parse($parameters))->first(function (Criteria $criteria) {
-            return PaginationStrategy::OFFSET === $criteria->getStrategy();
+            return $criteria->getStrategy() === PaginationStrategy::OFFSET;
         });
 
         static::assertTrue(
@@ -131,7 +131,7 @@ class PagingParserTest extends TestCase
      *
      * @return void
      */
-    public function testParseValidOffsetCriteria(): void
+    public function test_parse_valid_offset_criteria(): void
     {
         $size = $this->faker->numberBetween(1, Criteria::MAX_RESULTS);
 
@@ -142,7 +142,7 @@ class PagingParserTest extends TestCase
         ];
 
         $criteria = collect(PagingParser::parse($parameters))->first(function (Criteria $criteria) {
-            return PaginationStrategy::OFFSET === $criteria->getStrategy();
+            return $criteria->getStrategy() === PaginationStrategy::OFFSET;
         });
 
         static::assertTrue(

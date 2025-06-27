@@ -21,7 +21,7 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
  *
  * @extends WikiDeletedEvent<Performance>
  */
-class PerformanceDeleted extends WikiDeletedEvent implements UpdateRelatedIndicesEvent, SyncArtistSongEvent
+class PerformanceDeleted extends WikiDeletedEvent implements SyncArtistSongEvent, UpdateRelatedIndicesEvent
 {
     /**
      * Create a new event instance.
@@ -94,9 +94,9 @@ class PerformanceDeleted extends WikiDeletedEvent implements UpdateRelatedIndice
             Performance::RELATION_ARTIST => function (MorphTo $morphTo) {
                 $morphTo->morphWith([
                     Artist::class => [],
-                    Membership::class => [Membership::RELATION_ARTIST, Membership::RELATION_MEMBER]
+                    Membership::class => [Membership::RELATION_ARTIST, Membership::RELATION_MEMBER],
                 ]);
-            }
+            },
         ]);
 
         if ($performance->isMembership()) {
@@ -127,7 +127,9 @@ class PerformanceDeleted extends WikiDeletedEvent implements UpdateRelatedIndice
                 ->where(Performance::ATTRIBUTE_ARTIST_TYPE, Membership::class)
                 ->whereHas(Performance::RELATION_ARTIST, fn (Builder $query) => $query->where(Artist::ATTRIBUTE_ID, $performance->artist->artist->getKey()))
                 ->exists()
-        ) return;
+        ) {
+            return;
+        }
 
         $artist = match ($performance->artist_type) {
             Artist::class => $performance->artist,

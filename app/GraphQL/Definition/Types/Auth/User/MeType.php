@@ -38,7 +38,7 @@ class MeType extends EloquentType implements HasDirectives, HasFields, HasRelati
      */
     public function getDescription(): string
     {
-        return "Represents the currently authenticated user.";
+        return 'Represents the currently authenticated user.';
     }
 
     /**

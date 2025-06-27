@@ -21,7 +21,7 @@ class FilterTest extends TestCase
      *
      * @return void
      */
-    public function testDefaultColumn(): void
+    public function test_default_column(): void
     {
         $filter = new class($this->faker->word()) extends Filter
         {

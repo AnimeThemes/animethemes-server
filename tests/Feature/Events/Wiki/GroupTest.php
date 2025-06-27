@@ -23,7 +23,7 @@ class GroupTest extends TestCase
      *
      * @return void
      */
-    public function testGroupCreatedEventDispatched(): void
+    public function test_group_created_event_dispatched(): void
     {
         Group::factory()->createOne();
 
@@ -35,7 +35,7 @@ class GroupTest extends TestCase
      *
      * @return void
      */
-    public function testGroupDeletedEventDispatched(): void
+    public function test_group_deleted_event_dispatched(): void
     {
         $group = Group::factory()->createOne();
 
@@ -49,7 +49,7 @@ class GroupTest extends TestCase
      *
      * @return void
      */
-    public function testGroupRestoredEventDispatched(): void
+    public function test_group_restored_event_dispatched(): void
     {
         $group = Group::factory()->createOne();
 
@@ -65,7 +65,7 @@ class GroupTest extends TestCase
      *
      * @return void
      */
-    public function testGroupRestoresQuietly(): void
+    public function test_group_restores_quietly(): void
     {
         $group = Group::factory()->createOne();
 
@@ -79,7 +79,7 @@ class GroupTest extends TestCase
      *
      * @return void
      */
-    public function testGroupUpdatedEventDispatched(): void
+    public function test_group_updated_event_dispatched(): void
     {
         $group = Group::factory()->createOne();
         $changes = Group::factory()->makeOne();
@@ -95,7 +95,7 @@ class GroupTest extends TestCase
      *
      * @return void
      */
-    public function testGroupUpdatedEventEmbedFields(): void
+    public function test_group_updated_event_embed_fields(): void
     {
         $group = Group::factory()->createOne();
         $changes = Group::factory()->makeOne();

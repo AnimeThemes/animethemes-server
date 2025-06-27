@@ -27,9 +27,7 @@ class VideoThrottled implements DiscordMessageEvent
      * @param  Video  $video
      * @param  string  $user
      */
-    public function __construct(protected Video $video, protected string $user)
-    {
-    }
+    public function __construct(protected Video $video, protected string $user) {}
 
     /**
      * Get Discord message payload.

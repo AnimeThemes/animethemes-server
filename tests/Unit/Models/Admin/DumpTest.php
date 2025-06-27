@@ -17,7 +17,7 @@ class DumpTest extends TestCase
      *
      * @return void
      */
-    public function testNameable(): void
+    public function test_nameable(): void
     {
         $dump = Dump::factory()->createOne();
 
@@ -29,7 +29,7 @@ class DumpTest extends TestCase
      *
      * @return void
      */
-    public function testHasSubtitle(): void
+    public function test_has_subtitle(): void
     {
         $dump = Dump::factory()->createOne();
 

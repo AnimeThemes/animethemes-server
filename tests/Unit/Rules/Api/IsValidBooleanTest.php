@@ -21,7 +21,7 @@ class IsValidBooleanTest extends TestCase
      *
      * @return void
      */
-    public function testPassesIfBoolean(): void
+    public function test_passes_if_boolean(): void
     {
         $attribute = $this->faker->word();
 
@@ -38,7 +38,7 @@ class IsValidBooleanTest extends TestCase
      *
      * @return void
      */
-    public function testPassesIfBooleanString(): void
+    public function test_passes_if_boolean_string(): void
     {
         $booleanString = $this->faker->boolean() ? 'true' : 'false';
 
@@ -57,7 +57,7 @@ class IsValidBooleanTest extends TestCase
      *
      * @return void
      */
-    public function testPassesIfBooleanInteger(): void
+    public function test_passes_if_boolean_integer(): void
     {
         $booleanInteger = $this->faker->boolean() ? 1 : 0;
 
@@ -76,7 +76,7 @@ class IsValidBooleanTest extends TestCase
      *
      * @return void
      */
-    public function testPassesIfBooleanCheckbox(): void
+    public function test_passes_if_boolean_checkbox(): void
     {
         $booleanCheckbox = $this->faker->boolean() ? 'on' : 'off';
 
@@ -95,7 +95,7 @@ class IsValidBooleanTest extends TestCase
      *
      * @return void
      */
-    public function testFailsIfString(): void
+    public function test_fails_if_string(): void
     {
         $attribute = $this->faker->word();
 
@@ -112,7 +112,7 @@ class IsValidBooleanTest extends TestCase
      *
      * @return void
      */
-    public function testFailsIfNumber(): void
+    public function test_fails_if_number(): void
     {
         $attribute = $this->faker->word();
 

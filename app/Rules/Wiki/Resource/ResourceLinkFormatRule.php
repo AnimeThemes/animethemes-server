@@ -43,9 +43,7 @@ class ResourceLinkFormatRule implements DataAwareRule, ValidationRule
      *
      * @param  ResourceSite|null  $site
      */
-    public function __construct(protected ?ResourceSite $site = null)
-    {
-    }
+    public function __construct(protected ?ResourceSite $site = null) {}
 
     /**
      * Resolve the site.

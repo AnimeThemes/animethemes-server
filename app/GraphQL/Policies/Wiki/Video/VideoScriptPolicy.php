@@ -9,6 +9,4 @@ use App\GraphQL\Policies\BasePolicy;
 /**
  * Class VideoScriptPolicy.
  */
-class VideoScriptPolicy extends BasePolicy
-{
-}
+class VideoScriptPolicy extends BasePolicy {}

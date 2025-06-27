@@ -28,7 +28,7 @@ class AnimeThemeEntryVideoType extends BaseType implements HasFields, HasRelatio
      */
     public function getDescription(): string
     {
-        return "Represents the association between an anime theme entry and a video.";
+        return 'Represents the association between an anime theme entry and a video.';
     }
 
     /**

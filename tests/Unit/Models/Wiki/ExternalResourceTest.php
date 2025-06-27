@@ -30,7 +30,7 @@ class ExternalResourceTest extends TestCase
      *
      * @return void
      */
-    public function testCastsSeasonToEnum(): void
+    public function test_casts_season_to_enum(): void
     {
         $resource = ExternalResource::factory()->createOne();
 
@@ -44,7 +44,7 @@ class ExternalResourceTest extends TestCase
      *
      * @return void
      */
-    public function testNameable(): void
+    public function test_nameable(): void
     {
         $resource = ExternalResource::factory()->createOne();
 
@@ -56,7 +56,7 @@ class ExternalResourceTest extends TestCase
      *
      * @return void
      */
-    public function testHasSubtitle(): void
+    public function test_has_subtitle(): void
     {
         $resource = ExternalResource::factory()->createOne();
 
@@ -68,7 +68,7 @@ class ExternalResourceTest extends TestCase
      *
      * @return void
      */
-    public function testAnime(): void
+    public function test_anime(): void
     {
         $animeCount = $this->faker->randomDigitNotNull();
 
@@ -87,7 +87,7 @@ class ExternalResourceTest extends TestCase
      *
      * @return void
      */
-    public function testArtists(): void
+    public function test_artists(): void
     {
         $artistCount = $this->faker->randomDigitNotNull();
 
@@ -104,7 +104,7 @@ class ExternalResourceTest extends TestCase
     /**
      * Resource shall have a many-to-many relationship with the type Song.
      */
-    public function testSong(): void
+    public function test_song(): void
     {
         $songCount = $this->faker->randomDigitNotNull();
 
@@ -123,7 +123,7 @@ class ExternalResourceTest extends TestCase
      *
      * @return void
      */
-    public function testStudio(): void
+    public function test_studio(): void
     {
         $studioCount = $this->faker->randomDigitNotNull();
 

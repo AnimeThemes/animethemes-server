@@ -49,9 +49,9 @@ class PerformanceDeleting extends BaseEvent implements UpdateRelatedIndicesEvent
             Performance::RELATION_ARTIST => function (MorphTo $morphTo) {
                 $morphTo->morphWith([
                     Artist::class => [],
-                    Membership::class => [Membership::RELATION_ARTIST, Membership::RELATION_MEMBER]
+                    Membership::class => [Membership::RELATION_ARTIST, Membership::RELATION_MEMBER],
                 ]);
-            }
+            },
         ]);
 
         if ($performance->isForceDeleting()) {

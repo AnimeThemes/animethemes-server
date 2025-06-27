@@ -14,7 +14,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if (!Schema::hasTable(LikeAggregate::TABLE)) {
+        if (! Schema::hasTable(LikeAggregate::TABLE)) {
             Schema::create(LikeAggregate::TABLE, function (Blueprint $table) {
                 $table->morphs(LikeAggregate::ATTRIBUTE_LIKEABLE);
                 $table->integer(LikeAggregate::ATTRIBUTE_VALUE)->default(0);

@@ -33,7 +33,7 @@ class StudioImageShowTest extends TestCase
      *
      * @return void
      */
-    public function testNotFound(): void
+    public function test_not_found(): void
     {
         $studio = Studio::factory()->createOne();
         $image = Image::factory()->createOne();
@@ -48,7 +48,7 @@ class StudioImageShowTest extends TestCase
      *
      * @return void
      */
-    public function testDefault(): void
+    public function test_default(): void
     {
         $studioImage = StudioImage::factory()
             ->for(Studio::factory())
@@ -76,7 +76,7 @@ class StudioImageShowTest extends TestCase
      *
      * @return void
      */
-    public function testAllowedIncludePaths(): void
+    public function test_allowed_include_paths(): void
     {
         $schema = new StudioImageSchema();
 
@@ -116,7 +116,7 @@ class StudioImageShowTest extends TestCase
      *
      * @return void
      */
-    public function testSparseFieldsets(): void
+    public function test_sparse_fieldsets(): void
     {
         $schema = new StudioImageSchema();
 
@@ -156,7 +156,7 @@ class StudioImageShowTest extends TestCase
      *
      * @return void
      */
-    public function testImagesByFacet(): void
+    public function test_images_by_facet(): void
     {
         $facetFilter = Arr::random(ImageFacet::cases());
 

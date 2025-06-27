@@ -74,6 +74,7 @@ trait BackfillAnimeActionTrait
     {
         if ($anime->resources()->doesntExist()) {
             $this->failedLog(__('filament.actions.anime.backfill.message.resource_required_failure'));
+
             return;
         }
 
@@ -110,7 +111,9 @@ trait BackfillAnimeActionTrait
     {
         $anime = $this->getRecord();
 
-        if (!($anime instanceof Anime)) return $form;
+        if (! ($anime instanceof Anime)) {
+            return $form;
+        }
 
         $anime = $anime->load([Anime::RELATION_RESOURCES, Anime::RELATION_IMAGES, Anime::RELATION_STUDIOS, Anime::RELATION_SYNONYMS]);
 

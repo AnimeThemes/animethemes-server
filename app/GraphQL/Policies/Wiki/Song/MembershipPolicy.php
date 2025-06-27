@@ -9,6 +9,4 @@ use App\GraphQL\Policies\BasePolicy;
 /**
  * Class MembershipPolicy.
  */
-class MembershipPolicy extends BasePolicy
-{
-}
+class MembershipPolicy extends BasePolicy {}

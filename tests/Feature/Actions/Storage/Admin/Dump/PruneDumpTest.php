@@ -31,7 +31,7 @@ class PruneDumpTest extends TestCase
      *
      * @throws Exception
      */
-    public function testNoResults(): void
+    public function test_no_results(): void
     {
         $fs = Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));
 
@@ -53,7 +53,7 @@ class PruneDumpTest extends TestCase
      *
      * @throws Exception
      */
-    public function testPruned(): void
+    public function test_pruned(): void
     {
         $fs = Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));
 
@@ -78,7 +78,7 @@ class PruneDumpTest extends TestCase
         $result = $pruneResults->toActionResult();
 
         static::assertEmpty($fs->allFiles());
-        static::assertTrue(ActionStatus::PASSED === $result->getStatus());
+        static::assertTrue($result->getStatus() === ActionStatus::PASSED);
 
         $dumps = Dump::withTrashed()->get();
         foreach ($dumps as $dump) {

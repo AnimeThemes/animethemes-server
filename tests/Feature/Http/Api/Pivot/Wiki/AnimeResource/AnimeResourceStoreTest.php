@@ -22,7 +22,7 @@ class AnimeResourceStoreTest extends TestCase
      *
      * @return void
      */
-    public function testProtected(): void
+    public function test_protected(): void
     {
         $anime = Anime::factory()->createOne();
         $resource = ExternalResource::factory()->createOne();
@@ -39,7 +39,7 @@ class AnimeResourceStoreTest extends TestCase
      *
      * @return void
      */
-    public function testForbidden(): void
+    public function test_forbidden(): void
     {
         $anime = Anime::factory()->createOne();
         $resource = ExternalResource::factory()->createOne();
@@ -60,7 +60,7 @@ class AnimeResourceStoreTest extends TestCase
      *
      * @return void
      */
-    public function testCreate(): void
+    public function test_create(): void
     {
         $anime = Anime::factory()->createOne();
         $resource = ExternalResource::factory()->createOne();

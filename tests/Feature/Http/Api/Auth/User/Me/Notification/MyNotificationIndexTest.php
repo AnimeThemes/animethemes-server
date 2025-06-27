@@ -26,7 +26,7 @@ class MyNotificationIndexTest extends TestCase
      *
      * @return void
      */
-    public function testProtected(): void
+    public function test_protected(): void
     {
         $response = $this->get(route('api.me.notification.index'));
 
@@ -38,7 +38,7 @@ class MyNotificationIndexTest extends TestCase
      *
      * @return void
      */
-    public function testForbiddenIfMissingPermission(): void
+    public function test_forbidden_if_missing_permission(): void
     {
         $user = User::factory()->createOne();
 
@@ -54,7 +54,7 @@ class MyNotificationIndexTest extends TestCase
      *
      * @return void
      */
-    public function testOnlySeesOwnedNotifications(): void
+    public function test_only_sees_owned_notifications(): void
     {
         Notification::factory()
             ->for(User::factory(), Notification::RELATION_NOTIFIABLE)

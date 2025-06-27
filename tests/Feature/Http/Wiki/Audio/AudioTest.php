@@ -34,7 +34,7 @@ class AudioTest extends TestCase
      *
      * @return void
      */
-    public function testAudioStreamingNotAllowedForbidden(): void
+    public function test_audio_streaming_not_allowed_forbidden(): void
     {
         Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
 
@@ -53,7 +53,7 @@ class AudioTest extends TestCase
      *
      * @return void
      */
-    public function testAudioStreamingPermittedForBypass(): void
+    public function test_audio_streaming_permitted_for_bypass(): void
     {
         Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
 
@@ -79,7 +79,7 @@ class AudioTest extends TestCase
      *
      * @return void
      */
-    public function testCannotStreamSoftDeletedAudio(): void
+    public function test_cannot_stream_soft_deleted_audio(): void
     {
         Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
 
@@ -97,7 +97,7 @@ class AudioTest extends TestCase
      *
      * @return void
      */
-    public function testViewRecordingNotAllowed(): void
+    public function test_view_recording_not_allowed(): void
     {
         Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
 
@@ -116,7 +116,7 @@ class AudioTest extends TestCase
      *
      * @return void
      */
-    public function testViewRecordingIsAllowed(): void
+    public function test_view_recording_is_allowed(): void
     {
         Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
 
@@ -135,7 +135,7 @@ class AudioTest extends TestCase
      *
      * @return void
      */
-    public function testViewRecordingCooldown(): void
+    public function test_view_recording_cooldown(): void
     {
         Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
 
@@ -156,7 +156,7 @@ class AudioTest extends TestCase
      *
      * @return void
      */
-    public function testInvalidStreamingMethodError(): void
+    public function test_invalid_streaming_method_error(): void
     {
         Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
 
@@ -175,7 +175,7 @@ class AudioTest extends TestCase
      *
      * @return void
      */
-    public function testStreamedThroughResponse(): void
+    public function test_streamed_through_response(): void
     {
         Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
 
@@ -194,7 +194,7 @@ class AudioTest extends TestCase
      *
      * @return void
      */
-    public function testStreamedThroughNginxRedirect(): void
+    public function test_streamed_through_nginx_redirect(): void
     {
         Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
 

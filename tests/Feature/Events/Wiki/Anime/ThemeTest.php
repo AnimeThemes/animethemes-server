@@ -24,7 +24,7 @@ class ThemeTest extends TestCase
      *
      * @return void
      */
-    public function testThemeCreatedEventDispatched(): void
+    public function test_theme_created_event_dispatched(): void
     {
         AnimeTheme::factory()
             ->for(Anime::factory())
@@ -38,7 +38,7 @@ class ThemeTest extends TestCase
      *
      * @return void
      */
-    public function testThemeDeletedEventDispatched(): void
+    public function test_theme_deleted_event_dispatched(): void
     {
         $theme = AnimeTheme::factory()
             ->for(Anime::factory())
@@ -54,7 +54,7 @@ class ThemeTest extends TestCase
      *
      * @return void
      */
-    public function testThemeRestoredEventDispatched(): void
+    public function test_theme_restored_event_dispatched(): void
     {
         $theme = AnimeTheme::factory()
             ->for(Anime::factory())
@@ -72,7 +72,7 @@ class ThemeTest extends TestCase
      *
      * @return void
      */
-    public function testThemeRestoresQuietly(): void
+    public function test_theme_restores_quietly(): void
     {
         $theme = AnimeTheme::factory()
             ->for(Anime::factory())
@@ -88,7 +88,7 @@ class ThemeTest extends TestCase
      *
      * @return void
      */
-    public function testThemeUpdatedEventDispatched(): void
+    public function test_theme_updated_event_dispatched(): void
     {
         $theme = AnimeTheme::factory()
             ->for(Anime::factory())
@@ -109,7 +109,7 @@ class ThemeTest extends TestCase
      *
      * @return void
      */
-    public function testThemeUpdatedEventEmbedFields(): void
+    public function test_theme_updated_event_embed_fields(): void
     {
         $theme = AnimeTheme::factory()
             ->for(Anime::factory())

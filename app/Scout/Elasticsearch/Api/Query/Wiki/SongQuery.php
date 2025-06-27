@@ -28,22 +28,22 @@ class SongQuery extends ElasticQuery
         $query = Query::bool()
             ->should(
                 new MatchPhraseQueryBuilder()
-                ->field('title')
-                ->query($criteria->getTerm())
+                    ->field('title')
+                    ->query($criteria->getTerm())
             )
             ->should(
                 new MatchQueryBuilder()
-                ->field('title')
-                ->query($criteria->getTerm())
-                ->operator('AND')
+                    ->field('title')
+                    ->query($criteria->getTerm())
+                    ->operator('AND')
             )
             ->should(
                 new MatchQueryBuilder()
-                ->field('title')
-                ->query($criteria->getTerm())
-                ->operator('AND')
-                ->lenient(true)
-                ->fuzziness('AUTO')
+                    ->field('title')
+                    ->query($criteria->getTerm())
+                    ->operator('AND')
+                    ->lenient(true)
+                    ->fuzziness('AUTO')
             )
             ->minimumShouldMatch(1);
 

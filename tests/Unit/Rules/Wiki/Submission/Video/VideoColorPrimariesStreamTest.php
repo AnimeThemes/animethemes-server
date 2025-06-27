@@ -27,7 +27,7 @@ class VideoColorPrimariesStreamTest extends TestCase
      *
      * @return void
      */
-    public function testFailsWhenColorPrimariesIsNotAccepted(): void
+    public function test_fails_when_color_primaries_is_not_accepted(): void
     {
         Feature::activate(FeatureConstants::VIDEO_COLOR_PRIMARIES_STREAM, 'bt709,smpte170m,bt470bg');
 
@@ -71,7 +71,7 @@ class VideoColorPrimariesStreamTest extends TestCase
      *
      * @return void
      */
-    public function testPassesWhenColorPrimariesIsAccepted(): void
+    public function test_passes_when_color_primaries_is_accepted(): void
     {
         Feature::activate(FeatureConstants::VIDEO_COLOR_PRIMARIES_STREAM, 'bt709,smpte170m,bt470bg');
 

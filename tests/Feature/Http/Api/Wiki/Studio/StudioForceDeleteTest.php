@@ -20,7 +20,7 @@ class StudioForceDeleteTest extends TestCase
      *
      * @return void
      */
-    public function testProtected(): void
+    public function test_protected(): void
     {
         $studio = Studio::factory()->createOne();
 
@@ -34,7 +34,7 @@ class StudioForceDeleteTest extends TestCase
      *
      * @return void
      */
-    public function testForbidden(): void
+    public function test_forbidden(): void
     {
         $studio = Studio::factory()->createOne();
 
@@ -52,7 +52,7 @@ class StudioForceDeleteTest extends TestCase
      *
      * @return void
      */
-    public function testDeleted(): void
+    public function test_deleted(): void
     {
         $studio = Studio::factory()->createOne();
 

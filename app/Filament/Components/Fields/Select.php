@@ -32,11 +32,11 @@ class Select extends ComponentsSelect
                 ->getOptionLabelUsing(fn ($state) => BelongsTo::getSearchLabelWithBlade($model::find($state)))
                 ->getSearchResultsUsing(function (string $search) use ($livewire, $model, $loadRelation) {
                     $search = $this->escapeReservedChars($search);
+
                     /** @phpstan-ignore-next-line */
                     return $model::search($search)
                         ->query(function (Builder $query) use ($livewire) {
-
-                            if (!($livewire instanceof BaseRelationManager)
+                            if (! ($livewire instanceof BaseRelationManager)
                                 ||($livewire->getTable()->allowsDuplicates())) {
                                 return;
                             }
@@ -61,7 +61,7 @@ class Select extends ComponentsSelect
      * @param  string  $search
      * @return string
      */
-    public function escapeReservedChars(string $search) : string
+    public function escapeReservedChars(string $search): string
     {
         return preg_replace(
             [

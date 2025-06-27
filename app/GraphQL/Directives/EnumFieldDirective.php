@@ -40,15 +40,15 @@ class EnumFieldDirective extends BaseDirective implements FieldMiddleware
     {
         $fieldValue->wrapResolver(
             fn (callable $resolver) => function ($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo) use ($resolver) {
+                /** @phpstan-ignore-next-line */
+                $enum = $resolver($root, $args, $context, $resolveInfo);
 
-            /** @phpstan-ignore-next-line */
-            $enum = $resolver($root, $args, $context, $resolveInfo);
+                if ($this->directiveArgValue('localize')) {
+                    return $enum?->localize();
+                }
 
-            if ($this->directiveArgValue('localize')) {
-                return $enum?->localize();
+                return $enum?->name;
             }
-
-            return $enum?->name;
-        });
+        );
     }
 }

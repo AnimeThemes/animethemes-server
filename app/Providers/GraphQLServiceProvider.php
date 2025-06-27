@@ -72,12 +72,12 @@ class GraphQLServiceProvider extends ServiceProvider
                     continue;
                 }
 
-                $relativePath = str_replace($basePath . DIRECTORY_SEPARATOR, '', $file->getPath());
-                $relativeNamespace = $relativePath ? '\\' . str_replace(DIRECTORY_SEPARATOR, '\\', $relativePath) : '';
+                $relativePath = str_replace($basePath.DIRECTORY_SEPARATOR, '', $file->getPath());
+                $relativeNamespace = $relativePath ? '\\'.str_replace(DIRECTORY_SEPARATOR, '\\', $relativePath) : '';
 
-                $namespace = $baseNamespace . $relativeNamespace;
+                $namespace = $baseNamespace.$relativeNamespace;
 
-                if (!in_array($namespace, $modelNamespaces)) {
+                if (! in_array($namespace, $modelNamespaces)) {
                     $modelNamespaces[] = $namespace;
                 }
             }
@@ -126,17 +126,17 @@ class GraphQLServiceProvider extends ServiceProvider
             $files = File::allFiles($path);
 
             foreach ($files as $file) {
-                $relativePath = Str::after($file->getPathname(), app_path() . DIRECTORY_SEPARATOR);
+                $relativePath = Str::after($file->getPathname(), app_path().DIRECTORY_SEPARATOR);
                 $class = str_replace(['/', '.php'], ['\\', ''], $relativePath);
-                $fullClass = 'App\\' . $class;
+                $fullClass = 'App\\'.$class;
 
-                if (!class_exists($fullClass)) {
+                if (! class_exists($fullClass)) {
                     continue;
                 }
 
                 $reflection = new ReflectionClass($fullClass);
 
-                if (!$reflection->isInstantiable()) {
+                if (! $reflection->isInstantiable()) {
                     continue;
                 }
 
@@ -170,17 +170,17 @@ class GraphQLServiceProvider extends ServiceProvider
             $files = File::allFiles($path);
 
             foreach ($files as $file) {
-                $relativePath = Str::after($file->getPathname(), app_path() . DIRECTORY_SEPARATOR);
+                $relativePath = Str::after($file->getPathname(), app_path().DIRECTORY_SEPARATOR);
                 $class = str_replace(['/', '.php'], ['\\', ''], $relativePath);
-                $fullClass = 'App\\' . $class;
+                $fullClass = 'App\\'.$class;
 
-                if (!class_exists($fullClass)) {
+                if (! class_exists($fullClass)) {
                     continue;
                 }
 
                 $reflection = new ReflectionClass($fullClass);
 
-                if (!$reflection->isInstantiable()) {
+                if (! $reflection->isInstantiable()) {
                     continue;
                 }
 

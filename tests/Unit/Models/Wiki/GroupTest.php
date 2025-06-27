@@ -23,7 +23,7 @@ class GroupTest extends TestCase
      *
      * @return void
      */
-    public function testNameable(): void
+    public function test_nameable(): void
     {
         $group = Group::factory()->createOne();
 
@@ -35,7 +35,7 @@ class GroupTest extends TestCase
      *
      * @return void
      */
-    public function testHasSubtitle(): void
+    public function test_has_subtitle(): void
     {
         $group = Group::factory()->createOne();
 
@@ -47,7 +47,7 @@ class GroupTest extends TestCase
      *
      * @return void
      */
-    public function testThemes(): void
+    public function test_themes(): void
     {
         $themeCount = $this->faker->randomDigitNotNull();
 

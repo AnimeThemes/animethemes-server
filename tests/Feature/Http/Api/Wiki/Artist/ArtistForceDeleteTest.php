@@ -20,7 +20,7 @@ class ArtistForceDeleteTest extends TestCase
      *
      * @return void
      */
-    public function testProtected(): void
+    public function test_protected(): void
     {
         $artist = Artist::factory()->createOne();
 
@@ -34,7 +34,7 @@ class ArtistForceDeleteTest extends TestCase
      *
      * @return void
      */
-    public function testForbidden(): void
+    public function test_forbidden(): void
     {
         $artist = Artist::factory()->createOne();
 
@@ -52,7 +52,7 @@ class ArtistForceDeleteTest extends TestCase
      *
      * @return void
      */
-    public function testDeleted(): void
+    public function test_deleted(): void
     {
         $artist = Artist::factory()->createOne();
 

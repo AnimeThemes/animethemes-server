@@ -26,7 +26,9 @@ class AudioLoudnessIntegratedTargetStreamRule extends SubmissionRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        if (Feature::for(null)->active(FeatureConstants::IGNORE_ALL_FILE_VALIDATIONS)) return;
+        if (Feature::for(null)->active(FeatureConstants::IGNORE_ALL_FILE_VALIDATIONS)) {
+            return;
+        }
 
         $loudness = $this->loudness();
 

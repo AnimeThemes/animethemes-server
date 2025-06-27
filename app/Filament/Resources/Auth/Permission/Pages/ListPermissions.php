@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Auth\Permission\Pages;
 
-use App\Filament\Resources\Base\BaseListResources;
 use App\Filament\Resources\Auth\Permission;
+use App\Filament\Resources\Base\BaseListResources;
 
 /**
  * Class ListPermissions.

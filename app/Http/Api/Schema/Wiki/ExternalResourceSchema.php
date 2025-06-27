@@ -39,7 +39,7 @@ class ExternalResourceSchema extends EloquentSchema implements InteractsWithPivo
             new AllowedInclude(new AnimeResourceSchema(), AnimeResourceResource::$wrap),
             new AllowedInclude(new ArtistResourceSchema(), ArtistResourceResource::$wrap),
             new AllowedInclude(new StudioResourceSchema(), StudioResourceResource::$wrap),
-            new AllowedInclude(new SongResourceSchema(), SongResourceResource::$wrap)
+            new AllowedInclude(new SongResourceSchema(), SongResourceResource::$wrap),
         ];
     }
 

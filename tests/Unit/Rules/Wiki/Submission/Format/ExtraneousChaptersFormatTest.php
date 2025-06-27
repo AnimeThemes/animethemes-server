@@ -24,7 +24,7 @@ class ExtraneousChaptersFormatTest extends TestCase
      *
      * @return void
      */
-    public function testFailsWhenChapterDataIsNotEmpty(): void
+    public function test_fails_when_chapter_data_is_not_empty(): void
     {
         $file = UploadedFile::fake()->create($this->faker->word().'.webm', $this->faker->randomDigitNotNull());
 
@@ -63,7 +63,7 @@ class ExtraneousChaptersFormatTest extends TestCase
      *
      * @return void
      */
-    public function testPassesWhenChapterDataIsEmpty(): void
+    public function test_passes_when_chapter_data_is_empty(): void
     {
         $file = UploadedFile::fake()->create($this->faker->word().'.webm', $this->faker->randomDigitNotNull());
 

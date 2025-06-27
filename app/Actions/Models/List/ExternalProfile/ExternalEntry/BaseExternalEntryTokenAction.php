@@ -8,7 +8,7 @@ use App\Models\List\External\ExternalToken;
 use Illuminate\Support\Facades\Crypt;
 
 /**
- * Class BaseExternalEntryTokenAction
+ * Class BaseExternalEntryTokenAction.
  *
  * This action will create the entries through the authentication method.
  */
@@ -17,14 +17,14 @@ abstract class BaseExternalEntryTokenAction
     /**
      * The response of the external API.
      *
-     * @var array|null $response
+     * @var array|null
      */
     protected ?array $response = null;
 
     /**
      * The id of the external user.
      *
-     * @var int|null $userId
+     * @var int|null
      */
     protected ?int $userId = null;
 
@@ -33,9 +33,7 @@ abstract class BaseExternalEntryTokenAction
      *
      * @param  ExternalToken  $token
      */
-    public function __construct(protected ExternalToken $token)
-    {
-    }
+    public function __construct(protected ExternalToken $token) {}
 
     /**
      * Get the id of the external user.

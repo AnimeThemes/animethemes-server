@@ -8,9 +8,9 @@ use App\Contracts\Http\Api\Schema\SearchableSchema;
 use App\Http\Api\Field\Base\IdField;
 use App\Http\Api\Field\Field;
 use App\Http\Api\Field\List\ExternalProfile\ExternalProfileNameField;
-use App\Http\Api\Field\List\ExternalProfile\ExternalProfileVisibilityField;
 use App\Http\Api\Field\List\ExternalProfile\ExternalProfileSiteField;
 use App\Http\Api\Field\List\ExternalProfile\ExternalProfileUserIdField;
+use App\Http\Api\Field\List\ExternalProfile\ExternalProfileVisibilityField;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\Auth\UserSchema;
 use App\Http\Api\Schema\EloquentSchema;
@@ -50,10 +50,10 @@ class ExternalProfileSchema extends EloquentSchema implements SearchableSchema
             new AllowedInclude(new ExternalEntrySchema(), ExternalProfile::RELATION_EXTERNAL_ENTRIES),
             new AllowedInclude(new UserSchema(), ExternalProfile::RELATION_USER),
 
-            new AllowedInclude(new GroupSchema(), "externalentries.anime.animethemes.group"),
-            new AllowedInclude(new VideoSchema(), "externalentries.anime.animethemes.animethemeentries.videos"),
-            new AllowedInclude(new SongSchema(), "externalentries.anime.animethemes.song"),
-            new AllowedInclude(new ImageSchema(), "externalentries.anime.images"),
+            new AllowedInclude(new GroupSchema(), 'externalentries.anime.animethemes.group'),
+            new AllowedInclude(new VideoSchema(), 'externalentries.anime.animethemes.animethemeentries.videos'),
+            new AllowedInclude(new SongSchema(), 'externalentries.anime.animethemes.song'),
+            new AllowedInclude(new ImageSchema(), 'externalentries.anime.images'),
         ]);
     }
 

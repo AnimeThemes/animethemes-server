@@ -22,7 +22,7 @@ class AnimeImageStoreTest extends TestCase
      *
      * @return void
      */
-    public function testProtected(): void
+    public function test_protected(): void
     {
         $anime = Anime::factory()->createOne();
         $image = Image::factory()->createOne();
@@ -37,7 +37,7 @@ class AnimeImageStoreTest extends TestCase
      *
      * @return void
      */
-    public function testForbidden(): void
+    public function test_forbidden(): void
     {
         $anime = Anime::factory()->createOne();
         $image = Image::factory()->createOne();
@@ -56,7 +56,7 @@ class AnimeImageStoreTest extends TestCase
      *
      * @return void
      */
-    public function testCreate(): void
+    public function test_create(): void
     {
         $anime = Anime::factory()->createOne();
         $image = Image::factory()->createOne();
@@ -64,7 +64,8 @@ class AnimeImageStoreTest extends TestCase
         $user = User::factory()
             ->withPermissions(
                 CrudPermission::CREATE->format(Anime::class),
-                CrudPermission::CREATE->format(Image::class))
+                CrudPermission::CREATE->format(Image::class)
+            )
             ->createOne();
 
         Sanctum::actingAs($user);

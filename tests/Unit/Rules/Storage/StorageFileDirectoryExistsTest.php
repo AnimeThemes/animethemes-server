@@ -24,7 +24,7 @@ class StorageFileDirectoryExistsTest extends TestCase
      *
      * @return void
      */
-    public function testPassesIfDirectoryExists(): void
+    public function test_passes_if_directory_exists(): void
     {
         /** @var FilesystemAdapter $fs */
         $fs = Storage::fake($this->faker->word());
@@ -48,7 +48,7 @@ class StorageFileDirectoryExistsTest extends TestCase
      *
      * @return void
      */
-    public function testFailsIfDirectoryDoesNotExist(): void
+    public function test_fails_if_directory_does_not_exist(): void
     {
         $fs = Storage::fake($this->faker->word());
 

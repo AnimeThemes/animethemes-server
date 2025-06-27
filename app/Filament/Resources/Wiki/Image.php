@@ -144,17 +144,17 @@ class Image extends BaseResource
             ->columns([
                 Stack::make([
                     TextColumn::make(ImageModel::ATTRIBUTE_ID)
-                    ->label(__('filament.fields.base.id')),
+                        ->label(__('filament.fields.base.id')),
 
-                TextColumn::make(ImageModel::ATTRIBUTE_FACET)
-                    ->label(__('filament.fields.image.facet.name'))
-                    ->formatStateUsing(fn (ImageFacet $state) => $state->localize()),
+                    TextColumn::make(ImageModel::ATTRIBUTE_FACET)
+                        ->label(__('filament.fields.image.facet.name'))
+                        ->formatStateUsing(fn (ImageFacet $state) => $state->localize()),
 
-                ImageColumn::make(ImageModel::ATTRIBUTE_PATH)
-                    ->label(__('filament.fields.image.image.name'))
-                    ->disk(Config::get('image.disk'))
-                    ->width(100)
-                    ->height(150),
+                    ImageColumn::make(ImageModel::ATTRIBUTE_PATH)
+                        ->label(__('filament.fields.image.image.name'))
+                        ->disk(Config::get('image.disk'))
+                        ->width(100)
+                        ->height(150),
                 ]),
             ])
             ->contentGrid([
@@ -258,10 +258,10 @@ class Image extends BaseResource
     }
 
     /**
-    * Get the table actions available for the resource.
-    *
-    * @return array
-    */
+     * Get the table actions available for the resource.
+     *
+     * @return array
+     */
     public static function getTableActions(): array
     {
         return [

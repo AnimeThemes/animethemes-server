@@ -13,8 +13,8 @@ use App\Http\Api\Parser\IncludeParser;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Pivot\Wiki\SongResourceSchema;
 use App\Http\Resources\Pivot\Wiki\Resource\SongResourceResource;
-use App\Models\Wiki\Song;
 use App\Models\Wiki\ExternalResource;
+use App\Models\Wiki\Song;
 use App\Pivots\Wiki\SongResource;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -33,7 +33,7 @@ class SongResourceShowTest extends TestCase
      *
      * @return void
      */
-    public function testNotFound(): void
+    public function test_not_found(): void
     {
         $song = Song::factory()->createOne();
         $resource = ExternalResource::factory()->createOne();
@@ -48,7 +48,7 @@ class SongResourceShowTest extends TestCase
      *
      * @return void
      */
-    public function testDefault(): void
+    public function test_default(): void
     {
         $songResource = SongResource::factory()
             ->for(Song::factory())
@@ -76,7 +76,7 @@ class SongResourceShowTest extends TestCase
      *
      * @return void
      */
-    public function testAllowedIncludePaths(): void
+    public function test_allowed_include_paths(): void
     {
         $schema = new SongResourceSchema();
 
@@ -116,7 +116,7 @@ class SongResourceShowTest extends TestCase
      *
      * @return void
      */
-    public function testSparseFieldsets(): void
+    public function test_sparse_fieldsets(): void
     {
         $schema = new SongResourceSchema();
 
@@ -156,7 +156,7 @@ class SongResourceShowTest extends TestCase
      *
      * @return void
      */
-    public function testResourcesBySite(): void
+    public function test_resources_by_site(): void
     {
         $siteFilter = Arr::random(ResourceSite::cases());
 

@@ -44,7 +44,7 @@ abstract class TrackRelationManager extends BaseRelationManager
                 ->modelLabel(TrackResource::getLabel())
                 ->recordTitleAttribute(PlaylistTrack::ATTRIBUTE_HASHID)
                 ->columns(TrackResource::table($table)->getColumns())
-                ->defaultSort(PlaylistTrack::TABLE . '.' . PlaylistTrack::ATTRIBUTE_ID, 'desc')
+                ->defaultSort(PlaylistTrack::TABLE.'.'.PlaylistTrack::ATTRIBUTE_ID, 'desc')
         );
     }
 

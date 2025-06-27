@@ -29,7 +29,7 @@ class FeaturedThemeStoreTest extends TestCase
      *
      * @return void
      */
-    public function testProtected(): void
+    public function test_protected(): void
     {
         $featuredTheme = FeaturedTheme::factory()->makeOne();
 
@@ -43,7 +43,7 @@ class FeaturedThemeStoreTest extends TestCase
      *
      * @return void
      */
-    public function testForbidden(): void
+    public function test_forbidden(): void
     {
         $featuredTheme = FeaturedTheme::factory()->makeOne();
 
@@ -61,7 +61,7 @@ class FeaturedThemeStoreTest extends TestCase
      *
      * @return void
      */
-    public function testRequiredFields(): void
+    public function test_required_fields(): void
     {
         $user = User::factory()->withPermissions(CrudPermission::CREATE->format(FeaturedTheme::class))->createOne();
 
@@ -80,7 +80,7 @@ class FeaturedThemeStoreTest extends TestCase
      *
      * @return void
      */
-    public function testStartAtBeforeEndDate(): void
+    public function test_start_at_before_end_date(): void
     {
         $parameters = FeaturedTheme::factory()->raw([
             FeaturedTheme::ATTRIBUTE_START_AT => $this->faker->dateTimeBetween('+1 day', '+1 year')->format(AllowedDateFormat::YMDHISU->value),
@@ -104,7 +104,7 @@ class FeaturedThemeStoreTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeThemeEntryVideoExists(): void
+    public function test_anime_theme_entry_video_exists(): void
     {
         $entry = AnimeThemeEntry::factory()
             ->for(AnimeTheme::factory()->for(Anime::factory()))
@@ -134,7 +134,7 @@ class FeaturedThemeStoreTest extends TestCase
      *
      * @return void
      */
-    public function testCreate(): void
+    public function test_create(): void
     {
         $entryVideo = AnimeThemeEntryVideo::factory()
             ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))

@@ -23,7 +23,7 @@ class AnnouncementTest extends TestCase
      *
      * @return void
      */
-    public function testAnnouncementCreatedEventDispatched(): void
+    public function test_announcement_created_event_dispatched(): void
     {
         Announcement::factory()->create();
 
@@ -35,7 +35,7 @@ class AnnouncementTest extends TestCase
      *
      * @return void
      */
-    public function testAnnouncementDeletedEventDispatched(): void
+    public function test_announcement_deleted_event_dispatched(): void
     {
         $announcement = Announcement::factory()->create();
 
@@ -49,7 +49,7 @@ class AnnouncementTest extends TestCase
      *
      * @return void
      */
-    public function testAnnouncementRestoredEventDispatched(): void
+    public function test_announcement_restored_event_dispatched(): void
     {
         $announcement = Announcement::factory()->createOne();
 
@@ -65,7 +65,7 @@ class AnnouncementTest extends TestCase
      *
      * @return void
      */
-    public function testAnnouncementRestoresQuietly(): void
+    public function test_announcement_restores_quietly(): void
     {
         $announcement = Announcement::factory()->createOne();
 
@@ -79,7 +79,7 @@ class AnnouncementTest extends TestCase
      *
      * @return void
      */
-    public function testAnnouncementUpdatedEventDispatched(): void
+    public function test_announcement_updated_event_dispatched(): void
     {
         $announcement = Announcement::factory()->createOne();
         $changes = Announcement::factory()->makeOne();
@@ -95,7 +95,7 @@ class AnnouncementTest extends TestCase
      *
      * @return void
      */
-    public function testAnnouncementUpdatedEventEmbedFields(): void
+    public function test_announcement_updated_event_embed_fields(): void
     {
         $announcement = Announcement::factory()->createOne();
         $changes = Announcement::factory()->makeOne();

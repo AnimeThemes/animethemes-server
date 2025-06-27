@@ -44,7 +44,7 @@ abstract class SongRelationManager extends BaseRelationManager
                 ->modelLabel(SongResource::getLabel())
                 ->recordTitleAttribute(Song::ATTRIBUTE_TITLE)
                 ->columns(SongResource::table($table)->getColumns())
-                ->defaultSort(Song::TABLE . '.' . Song::ATTRIBUTE_ID, 'desc')
+                ->defaultSort(Song::TABLE.'.'.Song::ATTRIBUTE_ID, 'desc')
         );
     }
 

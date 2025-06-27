@@ -45,6 +45,7 @@ class BackfillStudioAction extends BackfillWikiAction
                     // Don't make other requests if everything is backfilled
                     Log::info("Backfill action finished for Studio {$this->getModel()->getName()}");
                     DB::rollBack();
+
                     return new ActionResult(ActionStatus::SKIPPED);
                 }
 

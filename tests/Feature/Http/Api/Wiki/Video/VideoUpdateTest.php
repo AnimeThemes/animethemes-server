@@ -23,7 +23,7 @@ class VideoUpdateTest extends TestCase
      *
      * @return void
      */
-    public function testProtected(): void
+    public function test_protected(): void
     {
         $video = Video::factory()->createOne();
 
@@ -48,7 +48,7 @@ class VideoUpdateTest extends TestCase
      *
      * @return void
      */
-    public function testForbidden(): void
+    public function test_forbidden(): void
     {
         $video = Video::factory()->createOne();
 
@@ -77,7 +77,7 @@ class VideoUpdateTest extends TestCase
      *
      * @return void
      */
-    public function testTrashed(): void
+    public function test_trashed(): void
     {
         $video = Video::factory()->trashed()->createOne();
 
@@ -106,7 +106,7 @@ class VideoUpdateTest extends TestCase
      *
      * @return void
      */
-    public function testUpdate(): void
+    public function test_update(): void
     {
         $video = Video::factory()->createOne();
 

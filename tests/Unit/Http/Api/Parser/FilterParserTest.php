@@ -27,7 +27,7 @@ class FilterParserTest extends TestCase
      *
      * @return void
      */
-    public function testNoCriteriaByDefault(): void
+    public function test_no_criteria_by_default(): void
     {
         $parameters = [];
 
@@ -39,7 +39,7 @@ class FilterParserTest extends TestCase
      *
      * @return void
      */
-    public function testParseTrashedCriteria(): void
+    public function test_parse_trashed_criteria(): void
     {
         $parameters = [
             FilterParser::param() => [
@@ -57,7 +57,7 @@ class FilterParserTest extends TestCase
      *
      * @return void
      */
-    public function testParseWhereInCriteria(): void
+    public function test_parse_where_in_criteria(): void
     {
         $fields = collect($this->faker()->words());
 
@@ -77,7 +77,7 @@ class FilterParserTest extends TestCase
      *
      * @return void
      */
-    public function testParseHasCriteria(): void
+    public function test_parse_has_criteria(): void
     {
         $parameters = [
             FilterParser::param() => [
@@ -95,7 +95,7 @@ class FilterParserTest extends TestCase
      *
      * @return void
      */
-    public function testParseWhereCriteria(): void
+    public function test_parse_where_criteria(): void
     {
         $parameters = [
             FilterParser::param() => [
@@ -113,7 +113,7 @@ class FilterParserTest extends TestCase
      *
      * @return void
      */
-    public function testParseGlobalScope(): void
+    public function test_parse_global_scope(): void
     {
         $parameters = [
             FilterParser::param() => [
@@ -131,7 +131,7 @@ class FilterParserTest extends TestCase
      *
      * @return void
      */
-    public function testParseTypeScope(): void
+    public function test_parse_type_scope(): void
     {
         $type = Str::singular($this->faker->word());
 

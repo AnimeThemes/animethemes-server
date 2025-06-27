@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Pivots\Wiki;
 
-use App\Models\Wiki\Song;
 use App\Models\Wiki\ExternalResource;
+use App\Models\Wiki\Song;
 use App\Pivots\Wiki\SongResource;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Tests\TestCase;
@@ -20,7 +20,7 @@ class SongResourceTest extends TestCase
      *
      * @return void
      */
-    public function testSong(): void
+    public function test_song(): void
     {
         $songResource = SongResource::factory()
             ->for(Song::factory())
@@ -36,7 +36,7 @@ class SongResourceTest extends TestCase
      *
      * @return void
      */
-    public function testResource(): void
+    public function test_resource(): void
     {
         $songResource = SongResource::factory()
             ->for(Song::factory())

@@ -9,6 +9,4 @@ use App\GraphQL\Policies\BasePolicy;
 /**
  * Class AnimeThemePolicy.
  */
-class AnimeThemePolicy extends BasePolicy
-{
-}
+class AnimeThemePolicy extends BasePolicy {}

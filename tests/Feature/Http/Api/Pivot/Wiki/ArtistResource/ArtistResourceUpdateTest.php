@@ -22,7 +22,7 @@ class ArtistResourceUpdateTest extends TestCase
      *
      * @return void
      */
-    public function testProtected(): void
+    public function test_protected(): void
     {
         $artistResource = ArtistResource::factory()
             ->for(Artist::factory())
@@ -41,7 +41,7 @@ class ArtistResourceUpdateTest extends TestCase
      *
      * @return void
      */
-    public function testForbidden(): void
+    public function test_forbidden(): void
     {
         $artistResource = ArtistResource::factory()
             ->for(Artist::factory())
@@ -64,7 +64,7 @@ class ArtistResourceUpdateTest extends TestCase
      *
      * @return void
      */
-    public function testUpdate(): void
+    public function test_update(): void
     {
         $artistResource = ArtistResource::factory()
             ->for(Artist::factory())

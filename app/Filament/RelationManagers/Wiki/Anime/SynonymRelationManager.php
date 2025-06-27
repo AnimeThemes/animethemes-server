@@ -44,7 +44,7 @@ abstract class SynonymRelationManager extends BaseRelationManager
                 ->modelLabel(SynonymResource::getLabel())
                 ->recordTitleAttribute(AnimeSynonym::ATTRIBUTE_TEXT)
                 ->columns(SynonymResource::table($table)->getColumns())
-                ->defaultSort(AnimeSynonym::TABLE . '.' . AnimeSynonym::ATTRIBUTE_ID, 'desc')
+                ->defaultSort(AnimeSynonym::TABLE.'.'.AnimeSynonym::ATTRIBUTE_ID, 'desc')
         );
     }
 

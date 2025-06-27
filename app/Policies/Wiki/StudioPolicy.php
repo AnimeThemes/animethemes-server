@@ -46,7 +46,7 @@ class StudioPolicy extends BasePolicy
             ->where(AnimeStudio::ATTRIBUTE_ANIME, $anime->getKey())
             ->exists();
 
-        return !$attached
+        return ! $attached
             && $user->can(CrudPermission::CREATE->format(Studio::class))
             && $user->can(CrudPermission::CREATE->format(Anime::class));
     }
@@ -88,7 +88,7 @@ class StudioPolicy extends BasePolicy
             ->where(StudioResource::ATTRIBUTE_RESOURCE, $resource->getKey())
             ->exists();
 
-        return !$attached
+        return ! $attached
             && $user->can(CrudPermission::CREATE->format(Studio::class))
             && $user->can(CrudPermission::CREATE->format(ExternalResource::class));
     }
@@ -130,7 +130,7 @@ class StudioPolicy extends BasePolicy
             ->where(StudioImage::ATTRIBUTE_IMAGE, $image->getKey())
             ->exists();
 
-        return !$attached
+        return ! $attached
             && $user->can(CrudPermission::CREATE->format(Studio::class))
             && $user->can(CrudPermission::CREATE->format(Image::class));
     }

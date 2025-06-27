@@ -21,9 +21,7 @@ readonly class UploadResults implements StorageResults
      *
      * @param  array<string, string|false>  $uploads
      */
-    public function __construct(protected array $uploads = [])
-    {
-    }
+    public function __construct(protected array $uploads = []) {}
 
     /**
      * Write results to log.

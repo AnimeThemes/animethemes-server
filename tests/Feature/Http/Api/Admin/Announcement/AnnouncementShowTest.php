@@ -25,7 +25,7 @@ class AnnouncementShowTest extends TestCase
      *
      * @return void
      */
-    public function testDefault(): void
+    public function test_default(): void
     {
         $announcement = Announcement::factory()->create();
 
@@ -48,7 +48,7 @@ class AnnouncementShowTest extends TestCase
      *
      * @return void
      */
-    public function testSoftDelete(): void
+    public function test_soft_delete(): void
     {
         $announcement = Announcement::factory()->trashed()->createOne();
 
@@ -73,7 +73,7 @@ class AnnouncementShowTest extends TestCase
      *
      * @return void
      */
-    public function testSparseFieldsets(): void
+    public function test_sparse_fieldsets(): void
     {
         $schema = new AnnouncementSchema();
 

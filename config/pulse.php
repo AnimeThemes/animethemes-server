@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Laravel\Pulse\Http\Middleware\Authorize;
 use Laravel\Pulse\Pulse;
 use Laravel\Pulse\Recorders;
@@ -30,7 +32,7 @@ return [
     |
     */
 
-    'path' => env('FILAMENT_DOMAIN') ? env('PULSE_PATH', 'pulse') : env('FILAMENT_PATH') . '/pulse',
+    'path' => env('FILAMENT_DOMAIN') ? env('PULSE_PATH', 'pulse') : env('FILAMENT_PATH').'/pulse',
 
     /*
     |--------------------------------------------------------------------------

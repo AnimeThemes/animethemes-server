@@ -19,7 +19,7 @@ class HasManyRelation extends Relation
      */
     protected function type(): Type
     {
-        if (!$this->nullable) {
+        if (! $this->nullable) {
             return Type::nonNull(Type::listOf($this->type));
         }
 

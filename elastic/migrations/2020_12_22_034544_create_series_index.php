@@ -85,7 +85,7 @@ final class CreateSeriesIndex implements MigrationInterface
                     'year' => [
                         'type' => 'long',
                     ],
-                ]
+                ],
             ]);
             $mapping->text('anime_slug');
             $mapping->text('synonym_slug');

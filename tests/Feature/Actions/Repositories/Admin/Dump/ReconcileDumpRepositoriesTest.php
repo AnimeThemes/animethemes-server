@@ -33,7 +33,7 @@ class ReconcileDumpRepositoriesTest extends TestCase
      *
      * @throws Exception
      */
-    public function testNoResults(): void
+    public function test_no_results(): void
     {
         Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));
 
@@ -48,7 +48,7 @@ class ReconcileDumpRepositoriesTest extends TestCase
 
         $result = $action->reconcileRepositories($source, $destination);
 
-        static::assertTrue(ActionStatus::PASSED === $result->getStatus());
+        static::assertTrue($result->getStatus() === ActionStatus::PASSED);
         static::assertFalse($result->hasChanges());
         static::assertDatabaseCount(Dump::class, 0);
     }
@@ -60,7 +60,7 @@ class ReconcileDumpRepositoriesTest extends TestCase
      *
      * @throws Exception
      */
-    public function testCreated(): void
+    public function test_created(): void
     {
         Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));
 
@@ -79,7 +79,7 @@ class ReconcileDumpRepositoriesTest extends TestCase
 
         $result = $action->reconcileRepositories($source, $destination);
 
-        static::assertTrue(ActionStatus::PASSED === $result->getStatus());
+        static::assertTrue($result->getStatus() === ActionStatus::PASSED);
         static::assertTrue($result->hasChanges());
         static::assertCount($createdDumpCount, $result->getCreated());
         static::assertDatabaseCount(Dump::class, $createdDumpCount);
@@ -92,7 +92,7 @@ class ReconcileDumpRepositoriesTest extends TestCase
      *
      * @throws Exception
      */
-    public function testDeleted(): void
+    public function test_deleted(): void
     {
         Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));
 
@@ -111,7 +111,7 @@ class ReconcileDumpRepositoriesTest extends TestCase
 
         $result = $action->reconcileRepositories($source, $destination);
 
-        static::assertTrue(ActionStatus::PASSED === $result->getStatus());
+        static::assertTrue($result->getStatus() === ActionStatus::PASSED);
         static::assertTrue($result->hasChanges());
         static::assertCount($deletedDumpCount, $result->getDeleted());
 

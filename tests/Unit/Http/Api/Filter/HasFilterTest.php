@@ -28,7 +28,7 @@ class HasFilterTest extends TestCase
      *
      * @return void
      */
-    public function testShouldNotApplyIfNoAllowedPaths(): void
+    public function test_should_not_apply_if_no_allowed_paths(): void
     {
         $criteria = FakeCriteria::make(new GlobalScope(), HasCriteria::PARAM_VALUE, Str::random());
 
@@ -82,7 +82,7 @@ class HasFilterTest extends TestCase
      *
      * @return void
      */
-    public function testShouldApplyIfAllowedPaths(): void
+    public function test_should_apply_if_allowed_paths(): void
     {
         $schema = new class() extends Schema
         {

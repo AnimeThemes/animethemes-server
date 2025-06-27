@@ -42,7 +42,6 @@ class DiscordVideoNotificationAction
             $anime = $theme->anime;
 
             if ($anime->discordthread === null) {
-
                 $threadAction = new DiscordThreadAction();
 
                 $threadAction->handle($anime, ['name' => $anime->getName()]);
@@ -63,7 +62,7 @@ class DiscordVideoNotificationAction
         }
 
         Http::withHeaders(['x-api-key' => Config::get('services.discord.api_key')])
-            ->post(Config::get('services.discord.api_url') . '/notification', [
+            ->post(Config::get('services.discord.api_url').'/notification', [
                 'type' => $type,
                 'videos' => $newVideos,
             ])

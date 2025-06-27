@@ -20,7 +20,7 @@ class DumpUpdateTest extends TestCase
      *
      * @return void
      */
-    public function testProtected(): void
+    public function test_protected(): void
     {
         $dump = Dump::factory()->createOne();
 
@@ -36,7 +36,7 @@ class DumpUpdateTest extends TestCase
      *
      * @return void
      */
-    public function testForbidden(): void
+    public function test_forbidden(): void
     {
         $dump = Dump::factory()->createOne();
 
@@ -56,7 +56,7 @@ class DumpUpdateTest extends TestCase
      *
      * @return void
      */
-    public function testTrashed(): void
+    public function test_trashed(): void
     {
         $dump = Dump::factory()->trashed()->createOne();
 
@@ -76,7 +76,7 @@ class DumpUpdateTest extends TestCase
      *
      * @return void
      */
-    public function testUpdate(): void
+    public function test_update(): void
     {
         $dump = Dump::factory()->createOne();
 

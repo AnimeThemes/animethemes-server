@@ -48,7 +48,7 @@ class AnimeImageIndexTest extends TestCase
      *
      * @return void
      */
-    public function testDefault(): void
+    public function test_default(): void
     {
         Collection::times($this->faker->randomDigitNotNull(), function () {
             AnimeImage::factory()
@@ -78,7 +78,7 @@ class AnimeImageIndexTest extends TestCase
      *
      * @return void
      */
-    public function testPaginated(): void
+    public function test_paginated(): void
     {
         Collection::times($this->faker->randomDigitNotNull(), function () {
             AnimeImage::factory()
@@ -101,7 +101,7 @@ class AnimeImageIndexTest extends TestCase
      *
      * @return void
      */
-    public function testAllowedIncludePaths(): void
+    public function test_allowed_include_paths(): void
     {
         $schema = new AnimeImageSchema();
 
@@ -143,7 +143,7 @@ class AnimeImageIndexTest extends TestCase
      *
      * @return void
      */
-    public function testSparseFieldsets(): void
+    public function test_sparse_fieldsets(): void
     {
         $schema = new AnimeImageSchema();
 
@@ -185,7 +185,7 @@ class AnimeImageIndexTest extends TestCase
      *
      * @return void
      */
-    public function testSorts(): void
+    public function test_sorts(): void
     {
         $schema = new AnimeImageSchema();
 
@@ -229,7 +229,7 @@ class AnimeImageIndexTest extends TestCase
      *
      * @return void
      */
-    public function testCreatedAtFilter(): void
+    public function test_created_at_filter(): void
     {
         $createdFilter = $this->faker->date();
         $excludedDate = $this->faker->date();
@@ -282,7 +282,7 @@ class AnimeImageIndexTest extends TestCase
      *
      * @return void
      */
-    public function testUpdatedAtFilter(): void
+    public function test_updated_at_filter(): void
     {
         $updatedFilter = $this->faker->date();
         $excludedDate = $this->faker->date();
@@ -335,7 +335,7 @@ class AnimeImageIndexTest extends TestCase
      *
      * @return void
      */
-    public function testImagesByFacet(): void
+    public function test_images_by_facet(): void
     {
         $facetFilter = Arr::random(ImageFacet::cases());
 
@@ -360,7 +360,7 @@ class AnimeImageIndexTest extends TestCase
                 $query->where(Image::ATTRIBUTE_FACET, $facetFilter->value);
             },
         ])
-        ->get();
+            ->get();
 
         $response->assertJson(
             json_decode(
@@ -379,7 +379,7 @@ class AnimeImageIndexTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeByMediaFormat(): void
+    public function test_anime_by_media_format(): void
     {
         $mediaFormatFilter = Arr::random(AnimeMediaFormat::cases());
 
@@ -404,7 +404,7 @@ class AnimeImageIndexTest extends TestCase
                 $query->where(Anime::ATTRIBUTE_MEDIA_FORMAT, $mediaFormatFilter->value);
             },
         ])
-        ->get();
+            ->get();
 
         $response->assertJson(
             json_decode(
@@ -423,7 +423,7 @@ class AnimeImageIndexTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeBySeason(): void
+    public function test_anime_by_season(): void
     {
         $seasonFilter = Arr::random(AnimeSeason::cases());
 
@@ -448,7 +448,7 @@ class AnimeImageIndexTest extends TestCase
                 $query->where(Anime::ATTRIBUTE_SEASON, $seasonFilter->value);
             },
         ])
-        ->get();
+            ->get();
 
         $response->assertJson(
             json_decode(
@@ -467,7 +467,7 @@ class AnimeImageIndexTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeByYear(): void
+    public function test_anime_by_year(): void
     {
         $yearFilter = intval($this->faker->year());
         $excludedYear = $yearFilter + 1;
@@ -498,7 +498,7 @@ class AnimeImageIndexTest extends TestCase
                 $query->where(Anime::ATTRIBUTE_YEAR, $yearFilter);
             },
         ])
-        ->get();
+            ->get();
 
         $response->assertJson(
             json_decode(

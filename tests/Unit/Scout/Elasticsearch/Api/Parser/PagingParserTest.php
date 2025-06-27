@@ -24,7 +24,7 @@ class PagingParserTest extends TestCase
      *
      * @return void
      */
-    public function testLimitCriteria(): void
+    public function test_limit_criteria(): void
     {
         $criteria = new BaseLimitCriteria($this->faker->randomDigitNotNull());
 
@@ -36,7 +36,7 @@ class PagingParserTest extends TestCase
      *
      * @return void
      */
-    public function testOffsetCriteria(): void
+    public function test_offset_criteria(): void
     {
         $criteria = new BaseOffsetCriteria($this->faker->randomDigitNotNull());
 

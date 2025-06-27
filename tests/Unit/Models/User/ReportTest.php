@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Tests\Unit\Models\User;
 
 use App\Enums\Models\User\ApprovableStatus;
+use App\Models\Auth\User;
 use App\Models\User\Report;
 use App\Models\User\Report\ReportStep;
-use App\Models\Auth\User;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -26,7 +26,7 @@ class ReportTest extends TestCase
      *
      * @return void
      */
-    public function testNameable(): void
+    public function test_nameable(): void
     {
         $report = Report::factory()->createOne();
 
@@ -38,7 +38,7 @@ class ReportTest extends TestCase
      *
      * @return void
      */
-    public function testHasSubtitle(): void
+    public function test_has_subtitle(): void
     {
         $report = Report::factory()->createOne();
 
@@ -50,7 +50,7 @@ class ReportTest extends TestCase
      *
      * @return void
      */
-    public function testCastsFinishedAt(): void
+    public function test_casts_finished_at(): void
     {
         $report = Report::factory()->createOne([Report::ATTRIBUTE_FINISHED_AT => now()]);
 
@@ -62,7 +62,7 @@ class ReportTest extends TestCase
      *
      * @return void
      */
-    public function testCastsStatusToEnum(): void
+    public function test_casts_status_to_enum(): void
     {
         $report = Report::factory()->createOne();
 
@@ -74,7 +74,7 @@ class ReportTest extends TestCase
      *
      * @return void
      */
-    public function testSteps(): void
+    public function test_steps(): void
     {
         $stepsCount = $this->faker->randomDigitNotNull();
 
@@ -95,7 +95,7 @@ class ReportTest extends TestCase
      *
      * @return void
      */
-    public function testUser(): void
+    public function test_user(): void
     {
         $report = Report::factory()
             ->for(User::factory(), Report::RELATION_USER)
@@ -110,7 +110,7 @@ class ReportTest extends TestCase
      *
      * @return void
      */
-    public function testModerator(): void
+    public function test_moderator(): void
     {
         $report = Report::factory()
             ->for(User::factory(), Report::RELATION_MODERATOR)

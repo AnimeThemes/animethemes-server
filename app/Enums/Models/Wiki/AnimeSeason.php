@@ -28,10 +28,10 @@ enum AnimeSeason: int
     public function getColor(): string
     {
         return match ($this) {
-            static::WINTER => '153, 204, 255',
-            static::SPRING => '255, 192, 203',
-            static::SUMMER => '255, 153, 51',
-            static::FALL => '204, 102, 0',
+            self::WINTER => '153, 204, 255',
+            self::SPRING => '255, 192, 203',
+            self::SUMMER => '255, 153, 51',
+            self::FALL => '204, 102, 0',
         };
     }
 
@@ -43,10 +43,10 @@ enum AnimeSeason: int
     public function getEmoji(): string
     {
         return match ($this) {
-            static::WINTER => "\u{2744}",
-            static::SPRING => "\u{1F33C}",
-            static::SUMMER => "\u{2600}",
-            static::FALL => "\u{1F342}",
+            self::WINTER => "\u{2744}",
+            self::SPRING => "\u{1F33C}",
+            self::SUMMER => "\u{2600}",
+            self::FALL => "\u{1F342}",
         };
     }
 }

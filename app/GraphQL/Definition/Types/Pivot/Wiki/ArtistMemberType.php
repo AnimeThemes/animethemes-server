@@ -30,7 +30,7 @@ class ArtistMemberType extends PivotType implements HasFields, HasRelations
      */
     public function getDescription(): string
     {
-        return "Represents the association of an artist and a group/unit.";
+        return 'Represents the association of an artist and a group/unit.';
     }
 
     /**

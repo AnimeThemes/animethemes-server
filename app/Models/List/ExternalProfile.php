@@ -177,7 +177,7 @@ class ExternalProfile extends BaseModel
      */
     public function shouldBeSearchable(): bool
     {
-        return ExternalProfileVisibility::PUBLIC === $this->visibility;
+        return $this->visibility === ExternalProfileVisibility::PUBLIC;
     }
 
     /**
@@ -197,7 +197,7 @@ class ExternalProfile extends BaseModel
      */
     public function canBeSynced(): bool
     {
-        return !$this->synced_at || $this->synced_at->addHours(3)->isPast();
+        return ! $this->synced_at || $this->synced_at->addHours(3)->isPast();
     }
 
     /**
@@ -212,7 +212,7 @@ class ExternalProfile extends BaseModel
 
     /**
      * Get the client URL for the profile.
-     * https://animethemes.moe/external/{mal|anilist}/{profile_name}
+     * https://animethemes.moe/external/{mal|anilist}/{profile_name}.
      *
      * @return string
      */

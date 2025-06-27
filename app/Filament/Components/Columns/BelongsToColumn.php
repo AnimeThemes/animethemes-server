@@ -29,11 +29,11 @@ class BelongsToColumn extends TextColumn
      */
     public static function make(string $relation, ?string $resource = null, ?bool $shouldUseModelName = false): static
     {
-        if (!is_string($resource)) {
+        if (! is_string($resource)) {
             throw new InvalidArgumentException('The resource must be specified.');
         }
 
-        if (!(($resource = new $resource) instanceof BaseResource)) {
+        if (! (($resource = new $resource) instanceof BaseResource)) {
             throw new InvalidArgumentException('The resource must instanceof a BaseResource.');
         }
 
@@ -64,7 +64,9 @@ class BelongsToColumn extends TextColumn
                 /** @var (Model&Nameable)|null $related */
                 $related = $record->$relation;
 
-                if ($related === null) return null;
+                if ($related === null) {
+                    return null;
+                }
 
                 $this->formatStateUsing(function () use ($related) {
                     $name = $this->shouldUseModelName
@@ -72,6 +74,7 @@ class BelongsToColumn extends TextColumn
                         : $this->resource->getRecordTitle($related);
 
                     $nameLimited = Str::limit($name, $this->getCharacterLimit() ?? 100);
+
                     return "<p style='color: rgb(64, 184, 166);'>{$nameLimited}</p>";
                 });
 
@@ -83,7 +86,9 @@ class BelongsToColumn extends TextColumn
                 /** @var (Model&Nameable)|null $related */
                 $related = $record->$relation;
 
-                if ($related === null) return null;
+                if ($related === null) {
+                    return null;
+                }
 
                 return $this->shouldUseModelName
                     ? $related->getName()

@@ -24,7 +24,7 @@ class AnimeResourceTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeResourceCreatedEventDispatched(): void
+    public function test_anime_resource_created_event_dispatched(): void
     {
         $anime = Anime::factory()->createOne();
         $resource = ExternalResource::factory()->createOne();
@@ -39,7 +39,7 @@ class AnimeResourceTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeResourceDeletedEventDispatched(): void
+    public function test_anime_resource_deleted_event_dispatched(): void
     {
         $anime = Anime::factory()->createOne();
         $resource = ExternalResource::factory()->createOne();
@@ -55,7 +55,7 @@ class AnimeResourceTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeResourceUpdatedEventDispatched(): void
+    public function test_anime_resource_updated_event_dispatched(): void
     {
         $anime = Anime::factory()->createOne();
         $resource = ExternalResource::factory()->createOne();
@@ -81,7 +81,7 @@ class AnimeResourceTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeResourceUpdatedEventEmbedFields(): void
+    public function test_anime_resource_updated_event_embed_fields(): void
     {
         $anime = Anime::factory()->createOne();
         $resource = ExternalResource::factory()->createOne();

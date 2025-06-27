@@ -44,7 +44,7 @@ abstract class UserRelationManager extends BaseRelationManager
                 ->modelLabel(UserResource::getLabel())
                 ->recordTitleAttribute(User::ATTRIBUTE_NAME)
                 ->columns(UserResource::table($table)->getColumns())
-                ->defaultSort(User::TABLE . '.' . User::ATTRIBUTE_ID, 'desc')
+                ->defaultSort(User::TABLE.'.'.User::ATTRIBUTE_ID, 'desc')
         );
     }
 

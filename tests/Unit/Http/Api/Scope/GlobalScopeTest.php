@@ -22,7 +22,7 @@ class GlobalScopeTest extends TestCase
      *
      * @return void
      */
-    public function testGlobalScopeIsWithinScope(): void
+    public function test_global_scope_is_within_scope(): void
     {
         $scope = new GlobalScope();
 
@@ -36,7 +36,7 @@ class GlobalScopeTest extends TestCase
      *
      * @return void
      */
-    public function testTypeScopeIsWithinScope(): void
+    public function test_type_scope_is_within_scope(): void
     {
         $scope = new GlobalScope();
 
@@ -50,7 +50,7 @@ class GlobalScopeTest extends TestCase
      *
      * @return void
      */
-    public function testRelationScopeIsWithinScope(): void
+    public function test_relation_scope_is_within_scope(): void
     {
         $scope = new GlobalScope();
 

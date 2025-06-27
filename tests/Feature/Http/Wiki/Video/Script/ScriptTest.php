@@ -30,7 +30,7 @@ class ScriptTest extends TestCase
      *
      * @return void
      */
-    public function testScriptDownloadingNotAllowedForbidden(): void
+    public function test_script_downloading_not_allowed_forbidden(): void
     {
         Feature::deactivate(AllowScriptDownloading::class);
 
@@ -47,7 +47,7 @@ class ScriptTest extends TestCase
      *
      * @return void
      */
-    public function testVideoStreamingPermittedForBypass(): void
+    public function test_video_streaming_permitted_for_bypass(): void
     {
         Feature::activate(AllowScriptDownloading::class, $this->faker->boolean());
 
@@ -73,7 +73,7 @@ class ScriptTest extends TestCase
      *
      * @return void
      */
-    public function testCannotStreamSoftDeletedVideo(): void
+    public function test_cannot_stream_soft_deleted_video(): void
     {
         Feature::activate(AllowScriptDownloading::class);
 
@@ -89,7 +89,7 @@ class ScriptTest extends TestCase
      *
      * @return void
      */
-    public function testDownloadedThroughResponse(): void
+    public function test_downloaded_through_response(): void
     {
         Feature::activate(AllowScriptDownloading::class);
 

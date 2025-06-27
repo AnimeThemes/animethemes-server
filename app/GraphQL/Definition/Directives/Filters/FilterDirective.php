@@ -19,8 +19,7 @@ abstract class FilterDirective
     public function __construct(
         protected Field $field,
         protected Type $type,
-    ) {
-    }
+    ) {}
 
     /**
      * Create the argument for the directive.

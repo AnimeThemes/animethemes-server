@@ -22,7 +22,7 @@ class AnimeSeriesDestroyTest extends TestCase
      *
      * @return void
      */
-    public function testProtected(): void
+    public function test_protected(): void
     {
         $animeSeries = AnimeSeries::factory()
             ->for(Anime::factory())
@@ -39,7 +39,7 @@ class AnimeSeriesDestroyTest extends TestCase
      *
      * @return void
      */
-    public function testForbidden(): void
+    public function test_forbidden(): void
     {
         $animeSeries = AnimeSeries::factory()
             ->for(Anime::factory())
@@ -60,7 +60,7 @@ class AnimeSeriesDestroyTest extends TestCase
      *
      * @return void
      */
-    public function testNotFound(): void
+    public function test_not_found(): void
     {
         $anime = Anime::factory()->createOne();
         $series = Series::factory()->createOne();
@@ -84,7 +84,7 @@ class AnimeSeriesDestroyTest extends TestCase
      *
      * @return void
      */
-    public function testDeleted(): void
+    public function test_deleted(): void
     {
         $animeSeries = AnimeSeries::factory()
             ->for(Anime::factory())

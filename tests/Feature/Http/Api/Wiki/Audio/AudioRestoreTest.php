@@ -20,7 +20,7 @@ class AudioRestoreTest extends TestCase
      *
      * @return void
      */
-    public function testProtected(): void
+    public function test_protected(): void
     {
         $audio = Audio::factory()->trashed()->createOne();
 
@@ -34,7 +34,7 @@ class AudioRestoreTest extends TestCase
      *
      * @return void
      */
-    public function testForbidden(): void
+    public function test_forbidden(): void
     {
         $audio = Audio::factory()->trashed()->createOne();
 
@@ -52,7 +52,7 @@ class AudioRestoreTest extends TestCase
      *
      * @return void
      */
-    public function testTrashed(): void
+    public function test_trashed(): void
     {
         $audio = Audio::factory()->createOne();
 
@@ -70,7 +70,7 @@ class AudioRestoreTest extends TestCase
      *
      * @return void
      */
-    public function testRestored(): void
+    public function test_restored(): void
     {
         $audio = Audio::factory()->trashed()->createOne();
 

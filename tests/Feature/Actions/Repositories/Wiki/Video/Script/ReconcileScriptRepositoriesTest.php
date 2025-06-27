@@ -30,7 +30,7 @@ class ReconcileScriptRepositoriesTest extends TestCase
      *
      * @throws Exception
      */
-    public function testNoResults(): void
+    public function test_no_results(): void
     {
         $this->mock(ScriptSourceRepository::class, function (MockInterface $mock) {
             $mock->shouldReceive('get')->once()->andReturn(Collection::make());
@@ -43,7 +43,7 @@ class ReconcileScriptRepositoriesTest extends TestCase
 
         $result = $action->reconcileRepositories($source, $destination);
 
-        static::assertTrue(ActionStatus::PASSED === $result->getStatus());
+        static::assertTrue($result->getStatus() === ActionStatus::PASSED);
         static::assertFalse($result->hasChanges());
         static::assertDatabaseCount(VideoScript::class, 0);
     }
@@ -55,7 +55,7 @@ class ReconcileScriptRepositoriesTest extends TestCase
      *
      * @throws Exception
      */
-    public function testCreated(): void
+    public function test_created(): void
     {
         $createdScriptCount = $this->faker->numberBetween(2, 9);
 
@@ -72,7 +72,7 @@ class ReconcileScriptRepositoriesTest extends TestCase
 
         $result = $action->reconcileRepositories($source, $destination);
 
-        static::assertTrue(ActionStatus::PASSED === $result->getStatus());
+        static::assertTrue($result->getStatus() === ActionStatus::PASSED);
         static::assertTrue($result->hasChanges());
         static::assertCount($createdScriptCount, $result->getCreated());
         static::assertDatabaseCount(VideoScript::class, $createdScriptCount);
@@ -85,7 +85,7 @@ class ReconcileScriptRepositoriesTest extends TestCase
      *
      * @throws Exception
      */
-    public function testDeleted(): void
+    public function test_deleted(): void
     {
         $deletedScriptCount = $this->faker->numberBetween(2, 9);
 
@@ -102,7 +102,7 @@ class ReconcileScriptRepositoriesTest extends TestCase
 
         $result = $action->reconcileRepositories($source, $destination);
 
-        static::assertTrue(ActionStatus::PASSED === $result->getStatus());
+        static::assertTrue($result->getStatus() === ActionStatus::PASSED);
         static::assertTrue($result->hasChanges());
         static::assertCount($deletedScriptCount, $result->getDeleted());
 

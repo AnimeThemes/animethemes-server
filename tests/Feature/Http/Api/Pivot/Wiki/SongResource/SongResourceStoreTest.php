@@ -6,8 +6,8 @@ namespace Tests\Feature\Http\Api\Pivot\Wiki\SongResource;
 
 use App\Enums\Auth\CrudPermission;
 use App\Models\Auth\User;
-use App\Models\Wiki\Song;
 use App\Models\Wiki\ExternalResource;
+use App\Models\Wiki\Song;
 use App\Pivots\Wiki\SongResource;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
@@ -22,7 +22,7 @@ class SongResourceStoreTest extends TestCase
      *
      * @return void
      */
-    public function testProtected(): void
+    public function test_protected(): void
     {
         $song = Song::factory()->createOne();
         $resource = ExternalResource::factory()->createOne();
@@ -39,7 +39,7 @@ class SongResourceStoreTest extends TestCase
      *
      * @return void
      */
-    public function testForbidden(): void
+    public function test_forbidden(): void
     {
         $song = Song::factory()->createOne();
         $resource = ExternalResource::factory()->createOne();
@@ -60,7 +60,7 @@ class SongResourceStoreTest extends TestCase
      *
      * @return void
      */
-    public function testCreate(): void
+    public function test_create(): void
     {
         $song = Song::factory()->createOne();
         $resource = ExternalResource::factory()->createOne();

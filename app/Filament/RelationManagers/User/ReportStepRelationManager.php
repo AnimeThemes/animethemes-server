@@ -44,7 +44,7 @@ abstract class ReportStepRelationManager extends BaseRelationManager
                 ->modelLabel(ReportStepResource::getLabel())
                 ->recordTitleAttribute(ReportStepResource::getRecordTitleAttribute())
                 ->columns(ReportStepResource::table($table)->getColumns())
-                ->defaultSort(ReportStep::TABLE . '.' . ReportStep::ATTRIBUTE_ID, 'desc')
+                ->defaultSort(ReportStep::TABLE.'.'.ReportStep::ATTRIBUTE_ID, 'desc')
         );
     }
 

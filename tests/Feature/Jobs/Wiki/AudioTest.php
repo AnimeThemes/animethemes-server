@@ -26,7 +26,7 @@ class AudioTest extends TestCase
      *
      * @return void
      */
-    public function testAudioCreatedSendsDiscordNotification(): void
+    public function test_audio_created_sends_discord_notification(): void
     {
         Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
         Bus::fake(SendDiscordNotificationJob::class);
@@ -42,7 +42,7 @@ class AudioTest extends TestCase
      *
      * @return void
      */
-    public function testAudioDeletedSendsDiscordNotification(): void
+    public function test_audio_deleted_sends_discord_notification(): void
     {
         $audio = Audio::factory()->createOne();
 
@@ -60,7 +60,7 @@ class AudioTest extends TestCase
      *
      * @return void
      */
-    public function testAudioRestoredSendsDiscordNotification(): void
+    public function test_audio_restored_sends_discord_notification(): void
     {
         $audio = Audio::factory()->createOne();
 
@@ -78,7 +78,7 @@ class AudioTest extends TestCase
      *
      * @return void
      */
-    public function testAudioUpdatedSendsDiscordNotification(): void
+    public function test_audio_updated_sends_discord_notification(): void
     {
         $audio = Audio::factory()->createOne();
 

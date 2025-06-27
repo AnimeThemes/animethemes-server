@@ -45,7 +45,7 @@ class SongPolicy extends BasePolicy
             ->where(ArtistSong::ATTRIBUTE_ARTIST, $artist->getKey())
             ->exists();
 
-        return !$attached
+        return ! $attached
             && $user->can(CrudPermission::CREATE->format(Song::class))
             && $user->can(CrudPermission::CREATE->format(Artist::class));
     }
@@ -98,7 +98,7 @@ class SongPolicy extends BasePolicy
             ->where(SongResource::ATTRIBUTE_RESOURCE, $resource->getKey())
             ->exists();
 
-        return !$attached
+        return ! $attached
             && $user->can(CrudPermission::CREATE->format(Song::class))
             && $user->can(CrudPermission::CREATE->format(ExternalResource::class));
     }

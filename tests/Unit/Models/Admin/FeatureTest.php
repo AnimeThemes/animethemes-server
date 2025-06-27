@@ -20,7 +20,7 @@ class FeatureTest extends TestCase
      *
      * @return void
      */
-    public function testNameable(): void
+    public function test_nameable(): void
     {
         $feature = Feature::factory()->createOne();
 
@@ -32,7 +32,7 @@ class FeatureTest extends TestCase
      *
      * @return void
      */
-    public function testHasSubtitle(): void
+    public function test_has_subtitle(): void
     {
         $feature = Feature::factory()->createOne();
 
@@ -44,7 +44,7 @@ class FeatureTest extends TestCase
      *
      * @return void
      */
-    public function testNullableScope(): void
+    public function test_nullable_scope(): void
     {
         $feature = Feature::factory()->createOne();
 
@@ -56,7 +56,7 @@ class FeatureTest extends TestCase
      *
      * @return void
      */
-    public function testNonNullScope(): void
+    public function test_non_null_scope(): void
     {
         $feature = Feature::factory()->createOne([
             Feature::ATTRIBUTE_SCOPE => $this->faker->word(),

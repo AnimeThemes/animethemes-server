@@ -32,7 +32,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Log;
 use Tests\TestCase;
 
 /**
@@ -47,7 +46,7 @@ class AnimeShowTest extends TestCase
      *
      * @return void
      */
-    public function testDefault(): void
+    public function test_default(): void
     {
         $anime = Anime::factory()->create();
 
@@ -70,7 +69,7 @@ class AnimeShowTest extends TestCase
      *
      * @return void
      */
-    public function testSoftDelete(): void
+    public function test_soft_delete(): void
     {
         $anime = Anime::factory()->trashed()->createOne();
 
@@ -95,7 +94,7 @@ class AnimeShowTest extends TestCase
      *
      * @return void
      */
-    public function testAllowedIncludePaths(): void
+    public function test_allowed_include_paths(): void
     {
         $schema = new AnimeSchema();
 
@@ -130,7 +129,7 @@ class AnimeShowTest extends TestCase
      *
      * @return void
      */
-    public function testSparseFieldsets(): void
+    public function test_sparse_fieldsets(): void
     {
         $schema = new AnimeSchema();
 
@@ -165,7 +164,7 @@ class AnimeShowTest extends TestCase
      *
      * @return void
      */
-    public function testSynonymsByType(): void
+    public function test_synonyms_by_type(): void
     {
         $typeFilter = Arr::random(AnimeSynonymType::cases());
 
@@ -207,7 +206,7 @@ class AnimeShowTest extends TestCase
      *
      * @return void
      */
-    public function testThemesBySequence(): void
+    public function test_themes_by_sequence(): void
     {
         $sequenceFilter = $this->faker->randomDigitNotNull();
         $excludedSequence = $sequenceFilter + 1;
@@ -255,7 +254,7 @@ class AnimeShowTest extends TestCase
      *
      * @return void
      */
-    public function testThemesByType(): void
+    public function test_themes_by_type(): void
     {
         $typeFilter = Arr::random(ThemeType::cases());
 
@@ -297,7 +296,7 @@ class AnimeShowTest extends TestCase
      *
      * @return void
      */
-    public function testEntriesByNsfw(): void
+    public function test_entries_by_nsfw(): void
     {
         $nsfwFilter = $this->faker->boolean();
 
@@ -341,7 +340,7 @@ class AnimeShowTest extends TestCase
      *
      * @return void
      */
-    public function testEntriesBySpoiler(): void
+    public function test_entries_by_spoiler(): void
     {
         $spoilerFilter = $this->faker->boolean();
 
@@ -385,7 +384,7 @@ class AnimeShowTest extends TestCase
      *
      * @return void
      */
-    public function testEntriesByVersion(): void
+    public function test_entries_by_version(): void
     {
         $versionFilter = $this->faker->numberBetween(1, 3);
         $excludedVersion = $versionFilter + 1;
@@ -437,7 +436,7 @@ class AnimeShowTest extends TestCase
      *
      * @return void
      */
-    public function testResourcesBySite(): void
+    public function test_resources_by_site(): void
     {
         $siteFilter = Arr::random(ResourceSite::cases());
 
@@ -477,7 +476,7 @@ class AnimeShowTest extends TestCase
      *
      * @return void
      */
-    public function testImagesByFacet(): void
+    public function test_images_by_facet(): void
     {
         $facetFilter = Arr::random(ImageFacet::cases());
 
@@ -517,7 +516,7 @@ class AnimeShowTest extends TestCase
      *
      * @return void
      */
-    public function testVideosByLyrics(): void
+    public function test_videos_by_lyrics(): void
     {
         $lyricsFilter = $this->faker->boolean();
 
@@ -555,7 +554,7 @@ class AnimeShowTest extends TestCase
      *
      * @return void
      */
-    public function testVideosByNc(): void
+    public function test_videos_by_nc(): void
     {
         $ncFilter = $this->faker->boolean();
 
@@ -593,7 +592,7 @@ class AnimeShowTest extends TestCase
      *
      * @return void
      */
-    public function testVideosByOverlap(): void
+    public function test_videos_by_overlap(): void
     {
         $overlapFilter = Arr::random(VideoOverlap::cases());
 
@@ -631,7 +630,7 @@ class AnimeShowTest extends TestCase
      *
      * @return void
      */
-    public function testVideosByResolution(): void
+    public function test_videos_by_resolution(): void
     {
         $resolutionFilter = $this->faker->randomNumber();
         $excludedResolution = $resolutionFilter + 1;
@@ -687,7 +686,7 @@ class AnimeShowTest extends TestCase
      *
      * @return void
      */
-    public function testVideosBySource(): void
+    public function test_videos_by_source(): void
     {
         $sourceFilter = Arr::random(VideoSource::cases());
 
@@ -725,7 +724,7 @@ class AnimeShowTest extends TestCase
      *
      * @return void
      */
-    public function testVideosBySubbed(): void
+    public function test_videos_by_subbed(): void
     {
         $subbedFilter = $this->faker->boolean();
 
@@ -763,7 +762,7 @@ class AnimeShowTest extends TestCase
      *
      * @return void
      */
-    public function testVideosByUncen(): void
+    public function test_videos_by_uncen(): void
     {
         $uncenFilter = $this->faker->boolean();
 

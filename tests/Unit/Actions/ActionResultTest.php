@@ -19,7 +19,7 @@ class ActionResultTest extends TestCase
      *
      * @return void
      */
-    public function testHasFailed(): void
+    public function test_has_failed(): void
     {
         $result = new ActionResult(ActionStatus::FAILED);
 
@@ -31,13 +31,13 @@ class ActionResultTest extends TestCase
      *
      * @return void
      */
-    public function testHasNotFailed(): void
+    public function test_has_not_failed(): void
     {
         $status = null;
 
         while ($status === null) {
             $statusCandidate = Arr::random(ActionStatus::cases());
-            if (ActionStatus::FAILED !== $statusCandidate) {
+            if ($statusCandidate !== ActionStatus::FAILED) {
                 $status = $statusCandidate;
             }
         }

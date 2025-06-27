@@ -19,7 +19,7 @@ class HasOneRelation extends Relation
      */
     protected function type(): Type
     {
-        if (!$this->nullable) {
+        if (! $this->nullable) {
             return Type::nonNull($this->type);
         }
 

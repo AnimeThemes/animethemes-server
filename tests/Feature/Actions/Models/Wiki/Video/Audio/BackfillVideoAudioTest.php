@@ -35,7 +35,7 @@ class BackfillVideoAudioTest extends TestCase
      *
      * @throws Exception
      */
-    public function testSkipped(): void
+    public function test_skipped(): void
     {
         Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
         Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
@@ -48,7 +48,7 @@ class BackfillVideoAudioTest extends TestCase
 
         $result = $action->handle();
 
-        static::assertTrue(ActionStatus::SKIPPED === $result->getStatus());
+        static::assertTrue($result->getStatus() === ActionStatus::SKIPPED);
         static::assertDatabaseCount(Audio::class, 1);
         static::assertEmpty(Storage::disk(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED))->allFiles());
     }
@@ -60,7 +60,7 @@ class BackfillVideoAudioTest extends TestCase
      *
      * @throws Exception
      */
-    public function testFailedWhenNoEntries(): void
+    public function test_failed_when_no_entries(): void
     {
         Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
         Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
@@ -83,7 +83,7 @@ class BackfillVideoAudioTest extends TestCase
      *
      * @throws Exception
      */
-    public function testPassesSourceVideo(): void
+    public function test_passes_source_video(): void
     {
         Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
         Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
@@ -102,7 +102,7 @@ class BackfillVideoAudioTest extends TestCase
 
         $result = $action->handle();
 
-        static::assertTrue(ActionStatus::PASSED === $result->getStatus());
+        static::assertTrue($result->getStatus() === ActionStatus::PASSED);
         static::assertDatabaseCount(Audio::class, 1);
         static::assertTrue($video->audio()->exists());
         static::assertEmpty(Storage::disk(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED))->allFiles());
@@ -115,7 +115,7 @@ class BackfillVideoAudioTest extends TestCase
      *
      * @throws Exception
      */
-    public function testPassesWithHigherPrioritySource(): void
+    public function test_passes_with_higher_priority_source(): void
     {
         Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
         Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
@@ -139,7 +139,7 @@ class BackfillVideoAudioTest extends TestCase
 
         $result = $action->handle();
 
-        static::assertTrue(ActionStatus::PASSED === $result->getStatus());
+        static::assertTrue($result->getStatus() === ActionStatus::PASSED);
         static::assertDatabaseCount(Audio::class, 1);
         static::assertTrue($video->audio()->exists());
         static::assertEmpty(Storage::disk(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED))->allFiles());
@@ -152,7 +152,7 @@ class BackfillVideoAudioTest extends TestCase
      *
      * @throws Exception
      */
-    public function testPassesWithPrimaryVersionSource(): void
+    public function test_passes_with_primary_version_source(): void
     {
         Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
         Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
@@ -183,7 +183,7 @@ class BackfillVideoAudioTest extends TestCase
 
         $result = $action->handle();
 
-        static::assertTrue(ActionStatus::PASSED === $result->getStatus());
+        static::assertTrue($result->getStatus() === ActionStatus::PASSED);
         static::assertDatabaseCount(Audio::class, 2);
         static::assertTrue($video->audio()->is($sourceAudio));
         static::assertEmpty(Storage::disk(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED))->allFiles());

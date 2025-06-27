@@ -59,8 +59,8 @@ class BackfillAnimeAction extends BackfillWikiAction
                 if (
                     count($this->toBackfill[self::RESOURCES]) === 0
                     && count($this->toBackfill[self::IMAGES]) === 0
-                    && !$this->toBackfill[self::STUDIOS]
-                    && !$this->toBackfill[self::SYNONYMS]
+                    && ! $this->toBackfill[self::STUDIOS]
+                    && ! $this->toBackfill[self::SYNONYMS]
                 ) {
                     // Don't make other requests if everything is backfilled
                     Log::info("Backfill action finished for Anime {$this->getModel()->getName()}");
@@ -110,7 +110,7 @@ class BackfillAnimeAction extends BackfillWikiAction
             new LivechartAnimeExternalApiAction(),
             new AnilistAnimeExternalApiAction(),
             new MalAnimeExternalApiAction(),
-            //new JikanAnimeExternalApiAction(),
+            // new JikanAnimeExternalApiAction(),
         ];
     }
 
@@ -124,7 +124,9 @@ class BackfillAnimeAction extends BackfillWikiAction
     {
         $studios = $response->getStudios();
 
-        if (!$this->toBackfill[self::STUDIOS]) return;
+        if (! $this->toBackfill[self::STUDIOS]) {
+            return;
+        }
 
         foreach ($studios as $studio) {
             $id = Arr::get($studio, 'id');
@@ -156,7 +158,9 @@ class BackfillAnimeAction extends BackfillWikiAction
      */
     protected function forSynonyms(ExternalApiAction&BackfillSynonyms $api): void
     {
-        if (!$this->toBackfill[self::SYNONYMS]) return;
+        if (! $this->toBackfill[self::SYNONYMS]) {
+            return;
+        }
 
         $texts = [];
         foreach ($api->getSynonyms() as $type => $text) {

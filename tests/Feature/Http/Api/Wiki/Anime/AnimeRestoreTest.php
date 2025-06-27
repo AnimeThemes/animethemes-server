@@ -20,7 +20,7 @@ class AnimeRestoreTest extends TestCase
      *
      * @return void
      */
-    public function testProtected(): void
+    public function test_protected(): void
     {
         $anime = Anime::factory()->trashed()->createOne();
 
@@ -34,7 +34,7 @@ class AnimeRestoreTest extends TestCase
      *
      * @return void
      */
-    public function testForbidden(): void
+    public function test_forbidden(): void
     {
         $anime = Anime::factory()->trashed()->createOne();
 
@@ -52,7 +52,7 @@ class AnimeRestoreTest extends TestCase
      *
      * @return void
      */
-    public function testTrashed(): void
+    public function test_trashed(): void
     {
         $anime = Anime::factory()->createOne();
 
@@ -70,7 +70,7 @@ class AnimeRestoreTest extends TestCase
      *
      * @return void
      */
-    public function testRestored(): void
+    public function test_restored(): void
     {
         $anime = Anime::factory()->trashed()->createOne();
 

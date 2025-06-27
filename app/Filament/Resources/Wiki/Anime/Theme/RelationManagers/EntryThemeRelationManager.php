@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Filament\Resources\Wiki\Anime\Theme\RelationManagers;
 
 use App\Filament\RelationManagers\Wiki\Anime\Theme\EntryRelationManager;
-use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Anime\AnimeTheme;
+use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use Filament\Tables\Table;
 
 /**

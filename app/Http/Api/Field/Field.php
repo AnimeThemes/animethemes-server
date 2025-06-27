@@ -23,8 +23,7 @@ abstract class Field implements FieldInterface
         protected readonly Schema $schema,
         protected readonly string $key,
         protected readonly ?string $column = null
-    ) {
-    }
+    ) {}
 
     /**
      * Get the schema.

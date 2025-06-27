@@ -21,7 +21,7 @@ class FieldParserTest extends TestCase
      *
      * @return void
      */
-    public function testNoCriteriaByDefault(): void
+    public function test_no_criteria_by_default(): void
     {
         $parameters = [];
 
@@ -33,7 +33,7 @@ class FieldParserTest extends TestCase
      *
      * @return void
      */
-    public function testParseCriteria(): void
+    public function test_parse_criteria(): void
     {
         $fields = collect($this->faker()->words($this->faker->randomDigitNotNull()));
 
@@ -53,7 +53,7 @@ class FieldParserTest extends TestCase
      *
      * @return void
      */
-    public function testParseType(): void
+    public function test_parse_type(): void
     {
         $type = $this->faker->word();
 
@@ -75,7 +75,7 @@ class FieldParserTest extends TestCase
      *
      * @return void
      */
-    public function testParseFields(): void
+    public function test_parse_fields(): void
     {
         $fields = $this->faker()->words($this->faker->randomDigitNotNull());
 

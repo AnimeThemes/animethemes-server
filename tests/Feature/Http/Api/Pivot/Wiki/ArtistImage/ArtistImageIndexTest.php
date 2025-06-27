@@ -46,7 +46,7 @@ class ArtistImageIndexTest extends TestCase
      *
      * @return void
      */
-    public function testDefault(): void
+    public function test_default(): void
     {
         Collection::times($this->faker->randomDigitNotNull(), function () {
             ArtistImage::factory()
@@ -76,7 +76,7 @@ class ArtistImageIndexTest extends TestCase
      *
      * @return void
      */
-    public function testPaginated(): void
+    public function test_paginated(): void
     {
         Collection::times($this->faker->randomDigitNotNull(), function () {
             ArtistImage::factory()
@@ -99,7 +99,7 @@ class ArtistImageIndexTest extends TestCase
      *
      * @return void
      */
-    public function testAllowedIncludePaths(): void
+    public function test_allowed_include_paths(): void
     {
         $schema = new ArtistImageSchema();
 
@@ -141,7 +141,7 @@ class ArtistImageIndexTest extends TestCase
      *
      * @return void
      */
-    public function testSparseFieldsets(): void
+    public function test_sparse_fieldsets(): void
     {
         $schema = new ArtistImageSchema();
 
@@ -183,7 +183,7 @@ class ArtistImageIndexTest extends TestCase
      *
      * @return void
      */
-    public function testSorts(): void
+    public function test_sorts(): void
     {
         $schema = new ArtistImageSchema();
 
@@ -227,7 +227,7 @@ class ArtistImageIndexTest extends TestCase
      *
      * @return void
      */
-    public function testCreatedAtFilter(): void
+    public function test_created_at_filter(): void
     {
         $createdFilter = $this->faker->date();
         $excludedDate = $this->faker->date();
@@ -280,7 +280,7 @@ class ArtistImageIndexTest extends TestCase
      *
      * @return void
      */
-    public function testUpdatedAtFilter(): void
+    public function test_updated_at_filter(): void
     {
         $updatedFilter = $this->faker->date();
         $excludedDate = $this->faker->date();
@@ -333,7 +333,7 @@ class ArtistImageIndexTest extends TestCase
      *
      * @return void
      */
-    public function testImagesByFacet(): void
+    public function test_images_by_facet(): void
     {
         $facetFilter = Arr::random(ImageFacet::cases());
 

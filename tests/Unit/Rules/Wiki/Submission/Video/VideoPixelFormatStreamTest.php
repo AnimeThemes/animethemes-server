@@ -26,7 +26,7 @@ class VideoPixelFormatStreamTest extends TestCase
      *
      * @return void
      */
-    public function testFailsWhenCodecIsNotYuv420p(): void
+    public function test_fails_when_codec_is_not_yuv420p(): void
     {
         Feature::activate(FeatureConstants::VIDEO_PIXEL_FORMAT_STREAM, 'yuv420p');
 
@@ -70,7 +70,7 @@ class VideoPixelFormatStreamTest extends TestCase
      *
      * @return void
      */
-    public function testPassesWhenCodecIsVp9(): void
+    public function test_passes_when_codec_is_vp9(): void
     {
         Feature::activate(FeatureConstants::VIDEO_PIXEL_FORMAT_STREAM, 'yuv420p');
 

@@ -19,8 +19,8 @@ use App\Filament\Resources\List\Playlist\Track\Pages\ListTracks;
 use App\Filament\Resources\List\Playlist\Track\Pages\ViewTrack;
 use App\Filament\Resources\Wiki\Anime\Theme\Entry;
 use App\Filament\Resources\Wiki\Video as VideoResource;
-use App\Models\List\Playlist\PlaylistTrack as TrackModel;
 use App\Models\List\Playlist\PlaylistTrack;
+use App\Models\List\Playlist\PlaylistTrack as TrackModel;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video as VideoModel;
 use App\Pivots\Wiki\AnimeThemeEntryVideo;
@@ -158,14 +158,14 @@ class Track extends BaseResource
                         fn (Get $get) => function () use ($get) {
                             return [
                                 Rule::when(
-                                    !empty($get(TrackModel::RELATION_ENTRY)) && !empty($get(TrackModel::RELATION_VIDEO)),
+                                    ! empty($get(TrackModel::RELATION_ENTRY)) && ! empty($get(TrackModel::RELATION_VIDEO)),
                                     [
                                         Rule::exists(AnimeThemeEntryVideo::class, AnimeThemeEntryVideo::ATTRIBUTE_ENTRY)
                                             ->where(AnimeThemeEntryVideo::ATTRIBUTE_VIDEO, $get(TrackModel::RELATION_VIDEO)),
                                     ]
-                                )
+                                ),
                             ];
-                        }
+                        },
                     ]),
 
                 Select::make(TrackModel::ATTRIBUTE_VIDEO)
@@ -175,20 +175,20 @@ class Track extends BaseResource
                         fn (Get $get) => function () use ($get) {
                             return [
                                 Rule::when(
-                                    !empty($get(TrackModel::RELATION_ENTRY)) && !empty($get(TrackModel::RELATION_VIDEO)),
+                                    ! empty($get(TrackModel::RELATION_ENTRY)) && ! empty($get(TrackModel::RELATION_VIDEO)),
                                     [
                                         Rule::exists(AnimeThemeEntryVideo::class, AnimeThemeEntryVideo::ATTRIBUTE_VIDEO)
                                             ->where(AnimeThemeEntryVideo::ATTRIBUTE_ENTRY, $get(TrackModel::RELATION_ENTRY)),
                                     ]
-                                )
+                                ),
                             ];
-                        }
+                        },
                     ])
                     ->options(function (Get $get) {
                         return VideoModel::query()
                             ->whereHas(VideoModel::RELATION_ANIMETHEMEENTRIES, function ($query) use ($get) {
                                 /** @phpstan-ignore-next-line */
-                                $query->where(AnimeThemeEntry::TABLE . '.' . AnimeThemeEntry::ATTRIBUTE_ID, $get(TrackModel::ATTRIBUTE_ENTRY));
+                                $query->where(AnimeThemeEntry::TABLE.'.'.AnimeThemeEntry::ATTRIBUTE_ID, $get(TrackModel::ATTRIBUTE_ENTRY));
                             })
                             ->get()
                             ->mapWithKeys(fn (VideoModel $video) => [$video->getKey() => $video->getName()])

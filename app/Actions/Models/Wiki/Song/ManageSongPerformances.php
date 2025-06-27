@@ -68,7 +68,7 @@ class ManageSongPerformances
     {
         $this->groups[$group->getKey()] = [
             Performance::ATTRIBUTE_ALIAS => $alias,
-            Performance::ATTRIBUTE_AS => $as
+            Performance::ATTRIBUTE_AS => $as,
         ];
 
         return $this;
@@ -87,14 +87,14 @@ class ManageSongPerformances
     {
         $this->performances[] = [
             Performance::ATTRIBUTE_ARTIST_TYPE => Membership::class,
-            Performance::ATTRIBUTE_ALIAS => Arr::get($this->groups, "{$group->getKey()}." . Performance::ATTRIBUTE_ALIAS),
-            Performance::ATTRIBUTE_AS => Arr::get($this->groups, "{$group->getKey()}." . Performance::ATTRIBUTE_AS),
+            Performance::ATTRIBUTE_ALIAS => Arr::get($this->groups, "{$group->getKey()}.".Performance::ATTRIBUTE_ALIAS),
+            Performance::ATTRIBUTE_AS => Arr::get($this->groups, "{$group->getKey()}.".Performance::ATTRIBUTE_AS),
             Performance::RELATION_MEMBERSHIP => [
                 Membership::ATTRIBUTE_ARTIST => $group->getKey(),
                 Membership::ATTRIBUTE_MEMBER => $member->getKey(),
                 Membership::ATTRIBUTE_ALIAS => $alias,
                 Membership::ATTRIBUTE_AS => $as,
-            ]
+            ],
         ];
 
         return $this;
@@ -146,8 +146,8 @@ class ManageSongPerformances
                     ]
                 );
                 // Note: Working in prod. Saving this here for local tests. Same for deleted events.
-                //$event = $model->wasRecentlyCreated ? new PerformanceCreated($model) : new PerformanceUpdated($model);
-                //$event->syncArtistSong();
+                // $event = $model->wasRecentlyCreated ? new PerformanceCreated($model) : new PerformanceUpdated($model);
+                // $event->syncArtistSong();
             }
 
             // Delete membership performances that are not in the new list.
@@ -164,7 +164,7 @@ class ManageSongPerformances
 
             foreach ($membershipPerformances->get() as $performance) {
                 $performance->forceDelete();
-                //new PerformanceDeleted($performance)->syncArtistSong();
+                // new PerformanceDeleted($performance)->syncArtistSong();
             }
 
             // Delete solo performances that are not in the new list.
@@ -181,7 +181,7 @@ class ManageSongPerformances
 
             foreach ($soloPerformances->get() as $performance) {
                 $performance->forceDelete();
-                //new PerformanceDeleted($performance)->syncArtistSong();
+                // new PerformanceDeleted($performance)->syncArtistSong();
             }
 
             // Update artist_member table to match memberships

@@ -27,7 +27,7 @@ class ScriptReconcileTest extends TestCase
      *
      * @return void
      */
-    public function testNoResults(): void
+    public function test_no_results(): void
     {
         Storage::fake(Config::get(VideoConstants::SCRIPT_DISK_QUALIFIED));
 
@@ -45,7 +45,7 @@ class ScriptReconcileTest extends TestCase
      *
      * @return void
      */
-    public function testCreated(): void
+    public function test_created(): void
     {
         Storage::fake(Config::get(VideoConstants::SCRIPT_DISK_QUALIFIED));
 
@@ -67,7 +67,7 @@ class ScriptReconcileTest extends TestCase
      *
      * @return void
      */
-    public function testDeleted(): void
+    public function test_deleted(): void
     {
         Storage::fake(Config::get(VideoConstants::SCRIPT_DISK_QUALIFIED));
 

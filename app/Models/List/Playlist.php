@@ -50,13 +50,13 @@ use Illuminate\Support\Collection;
  *
  * @method static PlaylistFactory factory(...$parameters)
  */
-class Playlist extends BaseModel implements HasHashids, Likeable, Viewable, HasImages, HasAggregateLikes, HasAggregateViews
+class Playlist extends BaseModel implements HasAggregateLikes, HasAggregateViews, HasHashids, HasImages, Likeable, Viewable
 {
     use AggregatesLike;
     use AggregatesView;
     use InteractsWithLikes;
-    use Searchable;
     use InteractsWithViews;
+    use Searchable;
 
     final public const TABLE = 'playlists';
 
@@ -191,7 +191,7 @@ class Playlist extends BaseModel implements HasHashids, Likeable, Viewable, HasI
      */
     public function shouldBeSearchable(): bool
     {
-        return PlaylistVisibility::PUBLIC === $this->visibility;
+        return $this->visibility === PlaylistVisibility::PUBLIC;
     }
 
     /**

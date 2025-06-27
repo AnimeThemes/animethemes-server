@@ -34,7 +34,7 @@ class SongSchema extends EloquentSchema implements InteractsWithPivots, Searchab
     {
         return [
             new AllowedInclude(new ArtistSongSchema(), ArtistSongResource::$wrap),
-            new AllowedInclude(new SongResourceSchema(), SongResourceResource::$wrap)
+            new AllowedInclude(new SongResourceSchema(), SongResourceResource::$wrap),
         ];
     }
 

@@ -26,7 +26,7 @@ class VideoTest extends TestCase
      *
      * @return void
      */
-    public function testVideoCreatedSendsDiscordNotification(): void
+    public function test_video_created_sends_discord_notification(): void
     {
         Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
         Bus::fake(SendDiscordNotificationJob::class);
@@ -42,7 +42,7 @@ class VideoTest extends TestCase
      *
      * @return void
      */
-    public function testVideoDeletedSendsDiscordNotification(): void
+    public function test_video_deleted_sends_discord_notification(): void
     {
         $video = Video::factory()->createOne();
 
@@ -60,7 +60,7 @@ class VideoTest extends TestCase
      *
      * @return void
      */
-    public function testVideoRestoredSendsDiscordNotification(): void
+    public function test_video_restored_sends_discord_notification(): void
     {
         $video = Video::factory()->createOne();
 
@@ -78,7 +78,7 @@ class VideoTest extends TestCase
      *
      * @return void
      */
-    public function testVideoUpdatedSendsDiscordNotification(): void
+    public function test_video_updated_sends_discord_notification(): void
     {
         $video = Video::factory()->createOne();
 

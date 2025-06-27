@@ -9,6 +9,4 @@ use App\GraphQL\Policies\BasePolicy;
 /**
  * Class PerformancePolicy.
  */
-class PerformancePolicy extends BasePolicy
-{
-}
+class PerformancePolicy extends BasePolicy {}

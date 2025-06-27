@@ -104,7 +104,7 @@ class PerformanceSongRelationManager extends PerformanceRelationManager
      */
     public static function formatArtists(?Song $song = null): array
     {
-        if (!($song instanceof Song)) {
+        if (! ($song instanceof Song)) {
             return [];
         }
 
@@ -157,7 +157,7 @@ class PerformanceSongRelationManager extends PerformanceRelationManager
      */
     public static function saveArtists(?Song $song = null, ?array $data = []): void
     {
-        if (!($song instanceof Song) || empty($data)) {
+        if (! ($song instanceof Song) || empty($data)) {
             return;
         }
 

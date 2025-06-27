@@ -6,8 +6,8 @@ namespace App\Concerns\Filament\Actions\Storage\Wiki\Image;
 
 use App\Actions\Storage\Wiki\Image\MoveImageAction as MoveImage;
 use App\Constants\Config\ImageConstants;
-use App\Models\Wiki\Image;
 use App\Models\BaseModel;
+use App\Models\Wiki\Image;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\File;
@@ -77,6 +77,6 @@ trait MoveImageActionTrait
      */
     protected function allowedFileExtension(): string
     {
-        return '.' . File::extension($this->defaultPath());
+        return '.'.File::extension($this->defaultPath());
     }
 }

@@ -32,8 +32,8 @@ class DetachAction extends DefaultDetachAction
 
         $this->visible(function (mixed $livewire) {
             if (
-                !($livewire instanceof BaseRelationManager)
-                || !($livewire->getRelationship() instanceof BelongsToMany)
+                ! ($livewire instanceof BaseRelationManager)
+                || ! ($livewire->getRelationship() instanceof BelongsToMany)
             ) {
                 return false;
             }

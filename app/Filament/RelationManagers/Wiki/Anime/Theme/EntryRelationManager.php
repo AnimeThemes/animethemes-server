@@ -44,7 +44,7 @@ abstract class EntryRelationManager extends BaseRelationManager
                 ->modelLabel(EntryResource::getLabel())
                 ->recordTitleAttribute(AnimeThemeEntry::ATTRIBUTE_VERSION)
                 ->columns(EntryResource::table($table)->getColumns())
-                ->defaultSort(AnimeThemeEntry::TABLE . '.' . AnimeThemeEntry::ATTRIBUTE_ID, 'desc')
+                ->defaultSort(AnimeThemeEntry::TABLE.'.'.AnimeThemeEntry::ATTRIBUTE_ID, 'desc')
         );
     }
 

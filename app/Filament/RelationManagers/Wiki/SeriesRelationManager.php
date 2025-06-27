@@ -44,7 +44,7 @@ abstract class SeriesRelationManager extends BaseRelationManager
                 ->modelLabel(SeriesResource::getLabel())
                 ->recordTitleAttribute(Series::ATTRIBUTE_NAME)
                 ->columns(SeriesResource::table($table)->getColumns())
-                ->defaultSort(Series::TABLE . '.' . Series::ATTRIBUTE_ID, 'desc')
+                ->defaultSort(Series::TABLE.'.'.Series::ATTRIBUTE_ID, 'desc')
         );
     }
 

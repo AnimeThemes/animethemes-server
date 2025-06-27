@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\GraphQL\Definition\Unions;
 
 use App\GraphQL\Definition\Types\BaseType;
-use GraphQL\Type\Definition\UnionType;
 use GraphQL\Type\Definition\Type;
+use GraphQL\Type\Definition\UnionType;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 

@@ -27,7 +27,7 @@ class AnimeResourceTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeResourceCreatedSendsDiscordNotification(): void
+    public function test_anime_resource_created_sends_discord_notification(): void
     {
         $anime = Anime::factory()->createOne();
         $resource = ExternalResource::factory()->createOne();
@@ -46,7 +46,7 @@ class AnimeResourceTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeResourceDeletedSendsDiscordNotification(): void
+    public function test_anime_resource_deleted_sends_discord_notification(): void
     {
         $anime = Anime::factory()->createOne();
         $resource = ExternalResource::factory()->createOne();
@@ -67,7 +67,7 @@ class AnimeResourceTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeResourceUpdatedSendsDiscordNotification(): void
+    public function test_anime_resource_updated_sends_discord_notification(): void
     {
         $anime = Anime::factory()->createOne();
         $resource = ExternalResource::factory()->createOne();

@@ -30,7 +30,7 @@ class YearShowTest extends TestCase
      *
      * @return void
      */
-    public function testDefault(): void
+    public function test_default(): void
     {
         $year = intval($this->faker->year());
 
@@ -85,7 +85,7 @@ class YearShowTest extends TestCase
      *
      * @return void
      */
-    public function testAllowedIncludePaths(): void
+    public function test_allowed_include_paths(): void
     {
         $year = intval($this->faker->year());
 
@@ -156,7 +156,7 @@ class YearShowTest extends TestCase
      *
      * @return void
      */
-    public function testSparseFieldsets(): void
+    public function test_sparse_fieldsets(): void
     {
         $year = intval($this->faker->year());
 

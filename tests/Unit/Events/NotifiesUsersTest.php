@@ -19,7 +19,7 @@ class NotifiesUsersTest extends TestCase
      *
      * @return void
      */
-    public function testListening(): void
+    public function test_listening(): void
     {
         Event::assertListening(NotifiesUsersEvent::class, NotifiesUsers::class);
     }

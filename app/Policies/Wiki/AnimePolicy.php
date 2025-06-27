@@ -73,7 +73,7 @@ class AnimePolicy extends BasePolicy
             ->where(AnimeSeries::ATTRIBUTE_SERIES, $series->getKey())
             ->exists();
 
-        return !$attached
+        return ! $attached
             && $user->can(CrudPermission::CREATE->format(Anime::class))
             && $user->can(CrudPermission::CREATE->format(Series::class));
     }
@@ -115,7 +115,7 @@ class AnimePolicy extends BasePolicy
             ->where(AnimeResource::ATTRIBUTE_RESOURCE, $resource->getKey())
             ->exists();
 
-        return !$attached
+        return ! $attached
             && $user->can(CrudPermission::CREATE->format(Anime::class))
             && $user->can(CrudPermission::CREATE->format(ExternalResource::class));
     }
@@ -157,7 +157,7 @@ class AnimePolicy extends BasePolicy
             ->where(AnimeImage::ATTRIBUTE_IMAGE, $image->getKey())
             ->exists();
 
-        return !$attached
+        return ! $attached
             && $user->can(CrudPermission::CREATE->format(Anime::class))
             && $user->can(CrudPermission::CREATE->format(Image::class));
     }
@@ -199,7 +199,7 @@ class AnimePolicy extends BasePolicy
             ->where(AnimeStudio::ATTRIBUTE_STUDIO, $studio->getKey())
             ->exists();
 
-        return !$attached
+        return ! $attached
             && $user->can(CrudPermission::CREATE->format(Anime::class))
             && $user->can(CrudPermission::CREATE->format(Studio::class));
     }

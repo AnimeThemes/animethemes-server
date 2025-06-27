@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Filament\Resources\List\External\RelationManagers;
 
 use App\Filament\RelationManagers\List\External\ExternalEntryRelationManager;
-use App\Models\List\ExternalProfile;
 use App\Models\List\External\ExternalEntry;
+use App\Models\List\ExternalProfile;
 use Filament\Tables\Table;
 
 /**

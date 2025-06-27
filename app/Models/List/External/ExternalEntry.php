@@ -29,10 +29,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *
  * @method static ExternalEntryFactory factory(...$parameters)
  */
-class ExternalEntry extends Model implements Nameable, HasSubtitle
+class ExternalEntry extends Model implements HasSubtitle, Nameable
 {
-    use ModelHasActionLogs;
     use HasFactory;
+    use ModelHasActionLogs;
 
     final public const TABLE = 'external_entries';
 

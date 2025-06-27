@@ -30,8 +30,7 @@ abstract class Filter
         protected readonly ?string $column = null,
         protected readonly QualifyColumn $qualifyColumn = QualifyColumn::YES,
         protected readonly Clause $clause = Clause::WHERE
-    ) {
-    }
+    ) {}
 
     /**
      * Get filter key value.
@@ -60,7 +59,7 @@ abstract class Filter
      */
     public function shouldQualifyColumn(): bool
     {
-        return QualifyColumn::YES === $this->qualifyColumn;
+        return $this->qualifyColumn === QualifyColumn::YES;
     }
 
     /**

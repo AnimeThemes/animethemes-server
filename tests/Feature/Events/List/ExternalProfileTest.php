@@ -23,7 +23,7 @@ class ExternalProfileTest extends TestCase
      *
      * @return void
      */
-    public function testExternalProfileCreatedEventDispatched(): void
+    public function test_external_profile_created_event_dispatched(): void
     {
         ExternalProfile::factory()->createOne();
 
@@ -35,7 +35,7 @@ class ExternalProfileTest extends TestCase
      *
      * @return void
      */
-    public function testExternalProfileDeletedEventDispatched(): void
+    public function test_external_profile_deleted_event_dispatched(): void
     {
         $profile = ExternalProfile::factory()->createOne();
 
@@ -49,7 +49,7 @@ class ExternalProfileTest extends TestCase
      *
      * @return void
      */
-    public function testExternalProfileRestoredEventDispatched(): void
+    public function test_external_profile_restored_event_dispatched(): void
     {
         $profile = ExternalProfile::factory()->createOne();
 
@@ -65,7 +65,7 @@ class ExternalProfileTest extends TestCase
      *
      * @return void
      */
-    public function testExternalProfileRestoresQuietly(): void
+    public function test_external_profile_restores_quietly(): void
     {
         $profile = ExternalProfile::factory()->createOne();
 
@@ -79,7 +79,7 @@ class ExternalProfileTest extends TestCase
      *
      * @return void
      */
-    public function testExternalProfileUpdatedEventDispatched(): void
+    public function test_external_profile_updated_event_dispatched(): void
     {
         $profile = ExternalProfile::factory()->createOne();
         $changes = ExternalProfile::factory()->makeOne();
@@ -95,7 +95,7 @@ class ExternalProfileTest extends TestCase
      *
      * @return void
      */
-    public function testExternalProfileUpdatedEventEmbedFields(): void
+    public function test_external_profile_updated_event_embed_fields(): void
     {
         $profile = ExternalProfile::factory()->createOne();
         $changes = ExternalProfile::factory()->makeOne();

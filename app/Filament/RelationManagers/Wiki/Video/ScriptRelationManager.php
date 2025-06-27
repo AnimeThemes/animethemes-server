@@ -44,7 +44,7 @@ abstract class ScriptRelationManager extends BaseRelationManager
                 ->modelLabel(ScriptResource::getLabel())
                 ->recordTitleAttribute(VideoScript::ATTRIBUTE_PATH)
                 ->columns(ScriptResource::table($table)->getColumns())
-                ->defaultSort(VideoScript::TABLE . '.' . VideoScript::ATTRIBUTE_ID, 'desc')
+                ->defaultSort(VideoScript::TABLE.'.'.VideoScript::ATTRIBUTE_ID, 'desc')
         );
     }
 

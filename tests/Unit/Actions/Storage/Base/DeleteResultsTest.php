@@ -22,7 +22,7 @@ class DeleteResultsTest extends TestCase
      *
      * @return void
      */
-    public function testDefault(): void
+    public function test_default(): void
     {
         $video = Video::factory()->createOne();
 
@@ -38,7 +38,7 @@ class DeleteResultsTest extends TestCase
      *
      * @return void
      */
-    public function testFailed(): void
+    public function test_failed(): void
     {
         $video = Video::factory()->createOne();
 
@@ -64,7 +64,7 @@ class DeleteResultsTest extends TestCase
      *
      * @return void
      */
-    public function testPassed(): void
+    public function test_passed(): void
     {
         $video = Video::factory()->createOne();
 
@@ -78,6 +78,6 @@ class DeleteResultsTest extends TestCase
 
         $result = $deleteResults->toActionResult();
 
-        static::assertTrue(ActionStatus::PASSED === $result->getStatus());
+        static::assertTrue($result->getStatus() === ActionStatus::PASSED);
     }
 }

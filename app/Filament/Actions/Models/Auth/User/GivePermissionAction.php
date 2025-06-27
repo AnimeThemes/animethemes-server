@@ -6,6 +6,7 @@ namespace App\Filament\Actions\Models\Auth\User;
 
 use App\Concerns\Filament\Actions\Models\Auth\User\GivePermissionActionTrait;
 use App\Filament\Actions\BaseAction;
+
 /**
  * Class GivePermissionAction.
  */

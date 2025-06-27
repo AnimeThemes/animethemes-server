@@ -32,7 +32,7 @@ class SeriesChart extends BaseChartWidget
 
     /**
      * Chart options (series, labels, types, size, animations...)
-     * https://apexcharts.com/docs/options
+     * https://apexcharts.com/docs/options.
      *
      * @return array
      */

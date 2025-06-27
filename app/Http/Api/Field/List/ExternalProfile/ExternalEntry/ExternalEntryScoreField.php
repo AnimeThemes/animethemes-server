@@ -9,7 +9,6 @@ use App\Contracts\Http\Api\Field\UpdatableField;
 use App\Http\Api\Field\FloatField;
 use App\Http\Api\Schema\Schema;
 use App\Models\List\External\ExternalEntry;
-use App\Rules\ModerationRule;
 use Illuminate\Http\Request;
 
 /**

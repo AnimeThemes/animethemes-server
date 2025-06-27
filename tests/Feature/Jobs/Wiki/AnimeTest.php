@@ -26,7 +26,7 @@ class AnimeTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeCreatedSendsDiscordNotification(): void
+    public function test_anime_created_sends_discord_notification(): void
     {
         Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
         Bus::fake(SendDiscordNotificationJob::class);
@@ -42,7 +42,7 @@ class AnimeTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeDeletedSendsDiscordNotification(): void
+    public function test_anime_deleted_sends_discord_notification(): void
     {
         $anime = Anime::factory()->createOne();
 
@@ -60,7 +60,7 @@ class AnimeTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeRestoredSendsDiscordNotification(): void
+    public function test_anime_restored_sends_discord_notification(): void
     {
         $anime = Anime::factory()->createOne();
 
@@ -78,7 +78,7 @@ class AnimeTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeUpdatedSendsDiscordNotification(): void
+    public function test_anime_updated_sends_discord_notification(): void
     {
         $anime = Anime::factory()->createOne();
 

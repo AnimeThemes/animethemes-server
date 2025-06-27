@@ -60,7 +60,7 @@ class ThemeQuery extends ElasticQuery
                                 'boost' => 0.75,
                                 'should' => $this->createTextQuery('slug', $criteria->getTerm()),
                             ],
-                        ]
+                        ],
                     ],
                 ],
             ]);

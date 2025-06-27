@@ -112,7 +112,7 @@ class DiscordThread extends BaseResource
         return 'discord-thread';
     }
 
-     /**
+    /**
      * Get the eloquent query for the resource.
      *
      * @return Builder

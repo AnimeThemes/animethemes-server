@@ -62,7 +62,7 @@ abstract class EloquentQuery extends BaseQuery
             return $baseType->model();
         }
 
-        throw new Exception("The base return type must be an instance of EloquentType, " . get_class($baseType) . " given.");
+        throw new Exception('The base return type must be an instance of EloquentType, '.get_class($baseType).' given.');
     }
 
     /**

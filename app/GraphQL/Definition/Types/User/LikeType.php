@@ -25,7 +25,7 @@ class LikeType extends EloquentType implements HasRelations
      */
     public function getDescription(): string
     {
-        return "Represents a like of a user.";
+        return 'Represents a like of a user.';
     }
 
     /**

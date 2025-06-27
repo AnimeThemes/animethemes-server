@@ -26,7 +26,7 @@ class StudioTest extends TestCase
      *
      * @return void
      */
-    public function testStudioCreatedSendsDiscordNotification(): void
+    public function test_studio_created_sends_discord_notification(): void
     {
         Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
         Bus::fake(SendDiscordNotificationJob::class);
@@ -42,7 +42,7 @@ class StudioTest extends TestCase
      *
      * @return void
      */
-    public function testStudioDeletedSendsDiscordNotification(): void
+    public function test_studio_deleted_sends_discord_notification(): void
     {
         $studio = Studio::factory()->createOne();
 
@@ -60,7 +60,7 @@ class StudioTest extends TestCase
      *
      * @return void
      */
-    public function testStudioRestoredSendsDiscordNotification(): void
+    public function test_studio_restored_sends_discord_notification(): void
     {
         $studio = Studio::factory()->createOne();
 
@@ -78,7 +78,7 @@ class StudioTest extends TestCase
      *
      * @return void
      */
-    public function testStudioUpdatedSendsDiscordNotification(): void
+    public function test_studio_updated_sends_discord_notification(): void
     {
         $studio = Studio::factory()->createOne();
 

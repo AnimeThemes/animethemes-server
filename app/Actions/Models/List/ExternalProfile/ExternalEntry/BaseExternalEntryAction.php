@@ -21,9 +21,7 @@ abstract class BaseExternalEntryAction
      *
      * @param  ExternalProfile|array  $profile
      */
-    public function __construct(protected ExternalProfile|array $profile)
-    {
-    }
+    public function __construct(protected ExternalProfile|array $profile) {}
 
     /**
      * Get the username of the profile.

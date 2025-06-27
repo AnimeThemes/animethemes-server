@@ -27,8 +27,8 @@ use App\Filament\Resources\Wiki\Song as SongResource;
 use App\Filament\Resources\Wiki\Song\Performance as PerformanceResource;
 use App\Filament\Resources\Wiki\Song\RelationManagers\PerformanceSongRelationManager;
 use App\Filament\Resources\Wiki\Song\RelationManagers\ThemeSongRelationManager;
-use App\Models\Wiki\Anime\AnimeTheme as ThemeModel;
 use App\Models\Wiki\Anime\AnimeTheme;
+use App\Models\Wiki\Anime\AnimeTheme as ThemeModel;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Group;
 use App\Models\Wiki\Song;
@@ -115,7 +115,7 @@ class Theme extends BaseResource
     /**
      * Get the title for the resource.
      *
-     * @param Model|null $record
+     * @param  Model|null  $record
      * @return string|null
      *
      * @noinspection PhpMissingParentCallCommonInspection
@@ -168,7 +168,7 @@ class Theme extends BaseResource
             AnimeTheme::RELATION_PERFORMANCES_ARTISTS => function (MorphTo $morphTo) {
                 $morphTo->morphWith([
                     Artist::class => [],
-                    Membership::class => [Membership::RELATION_ARTIST, Membership::RELATION_MEMBER]
+                    Membership::class => [Membership::RELATION_ARTIST, Membership::RELATION_MEMBER],
                 ]);
             },
         ]);
@@ -252,7 +252,7 @@ class Theme extends BaseResource
                                     ->relationship()
                                     ->schema(Entry::form($form)->getComponents()),
                             ]),
-                    ])
+                    ]),
             ])
             ->columns(1);
     }
@@ -286,7 +286,7 @@ class Theme extends BaseResource
                 BelongsToColumn::make(ThemeModel::RELATION_GROUP, GroupResource::class),
 
                 BelongsToColumn::make(ThemeModel::RELATION_SONG, SongResource::class)
-                    ->hiddenOn(ThemeSongRelationManager::class)
+                    ->hiddenOn(ThemeSongRelationManager::class),
             ])
             ->searchable();
     }
@@ -352,7 +352,7 @@ class Theme extends BaseResource
         $slug = Str::of('');
         $type = $get(ThemeModel::ATTRIBUTE_TYPE);
 
-        if (!empty($type) || $type !== null) {
+        if (! empty($type) || $type !== null) {
             $type = ThemeType::tryFrom(intval($type));
             $slug = $slug->append($type->name);
         }
@@ -365,8 +365,8 @@ class Theme extends BaseResource
         if ($slug->isNotEmpty()) {
             $group = $get(ThemeModel::ATTRIBUTE_GROUP);
 
-            if (!empty($group)) {
-                $slug = $slug->append('-' . Group::find(intval($group))->slug);
+            if (! empty($group)) {
+                $slug = $slug->append('-'.Group::find(intval($group))->slug);
             }
         }
 
@@ -383,7 +383,7 @@ class Theme extends BaseResource
     public static function getRelations(): array
     {
         return [
-            RelationGroup::make(static::getLabel(),[
+            RelationGroup::make(static::getLabel(), [
                 EntryThemeRelationManager::class,
 
                 ...parent::getBaseRelations(),

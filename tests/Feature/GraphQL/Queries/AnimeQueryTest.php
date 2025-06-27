@@ -20,7 +20,7 @@ class AnimeQueryTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeYearsQuery(): void
+    public function test_anime_years_query(): void
     {
         $years = Anime::factory()
             ->count($this->faker->randomDigitNotNull())

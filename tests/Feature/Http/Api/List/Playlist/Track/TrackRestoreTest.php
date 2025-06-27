@@ -34,7 +34,7 @@ class TrackRestoreTest extends TestCase
      *
      * @return void
      */
-    public function testProtected(): void
+    public function test_protected(): void
     {
         Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
@@ -54,7 +54,7 @@ class TrackRestoreTest extends TestCase
      *
      * @return void
      */
-    public function testForbiddenIfMissingPermission(): void
+    public function test_forbidden_if_missing_permission(): void
     {
         Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
@@ -78,7 +78,7 @@ class TrackRestoreTest extends TestCase
      *
      * @return void
      */
-    public function testForbiddenIfNotOwnPlaylist(): void
+    public function test_forbidden_if_not_own_playlist(): void
     {
         Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
@@ -102,7 +102,7 @@ class TrackRestoreTest extends TestCase
      *
      * @return void
      */
-    public function testScoped(): void
+    public function test_scoped(): void
     {
         Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
@@ -133,7 +133,7 @@ class TrackRestoreTest extends TestCase
      *
      * @return void
      */
-    public function testTrashed(): void
+    public function test_trashed(): void
     {
         Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
@@ -158,7 +158,7 @@ class TrackRestoreTest extends TestCase
      *
      * @return void
      */
-    public function testForbiddenIfFlagDisabled(): void
+    public function test_forbidden_if_flag_disabled(): void
     {
         Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
@@ -193,7 +193,7 @@ class TrackRestoreTest extends TestCase
      *
      * @return void
      */
-    public function testRestored(): void
+    public function test_restored(): void
     {
         Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
@@ -202,7 +202,8 @@ class TrackRestoreTest extends TestCase
         $user = User::factory()
             ->withPermissions(
                 CrudPermission::DELETE->format(PlaylistTrack::class),
-                ExtendedCrudPermission::RESTORE->format(PlaylistTrack::class))
+                ExtendedCrudPermission::RESTORE->format(PlaylistTrack::class)
+            )
             ->createOne();
 
         $playlist = Playlist::factory()
@@ -238,7 +239,7 @@ class TrackRestoreTest extends TestCase
      *
      * @return void
      */
-    public function testRestoreFirst(): void
+    public function test_restore_first(): void
     {
         Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
@@ -291,7 +292,7 @@ class TrackRestoreTest extends TestCase
      *
      * @return void
      */
-    public function testRestoreLast(): void
+    public function test_restore_last(): void
     {
         Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
@@ -339,7 +340,7 @@ class TrackRestoreTest extends TestCase
      *
      * @return void
      */
-    public function testRestoreSecond(): void
+    public function test_restore_second(): void
     {
         Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
@@ -395,7 +396,7 @@ class TrackRestoreTest extends TestCase
      *
      * @return void
      */
-    public function testDeletePermittedForBypass(): void
+    public function test_delete_permitted_for_bypass(): void
     {
         Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
@@ -431,7 +432,7 @@ class TrackRestoreTest extends TestCase
      *
      * @return void
      */
-    public function testMaxTrackLimit(): void
+    public function test_max_track_limit(): void
     {
         Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
@@ -471,7 +472,7 @@ class TrackRestoreTest extends TestCase
      *
      * @return void
      */
-    public function testMaxTrackLimitPermittedForBypass(): void
+    public function test_max_track_limit_permitted_for_bypass(): void
     {
         Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 

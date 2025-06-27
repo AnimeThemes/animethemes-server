@@ -33,7 +33,7 @@ class FeaturedThemeType extends EloquentType implements HasFields, HasRelations
      */
     public function getDescription(): string
     {
-        return "Represents a video to be featured on the homepage of the site for a specified amount of time.";
+        return 'Represents a video to be featured on the homepage of the site for a specified amount of time.';
     }
 
     /**

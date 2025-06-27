@@ -7,8 +7,8 @@ namespace App\Models\User;
 use App\Contracts\Models\HasSubtitle;
 use App\Contracts\Models\Nameable;
 use App\Enums\Models\User\ApprovableStatus;
-use App\Models\User\Report\ReportStep;
 use App\Models\Auth\User;
+use App\Models\User\Report\ReportStep;
 use Database\Factories\User\ReportFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -34,7 +34,7 @@ use Illuminate\Support\Collection;
  * @method static Builder pending()
  * @method static ReportFactory factory(...$parameters)
  */
-class Report extends Model implements Nameable, HasSubtitle
+class Report extends Model implements HasSubtitle, Nameable
 {
     use HasFactory;
 

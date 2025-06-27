@@ -16,8 +16,8 @@ use App\Scout\Elasticsearch\Api\Field\Base\UpdatedAtField;
 use App\Scout\Elasticsearch\Api\Field\Field;
 use App\Scout\Elasticsearch\Api\Query\ElasticQuery;
 use Illuminate\Database\Eloquent\Model;
-use RuntimeException;
 use Illuminate\Support\Str;
+use RuntimeException;
 
 /**
  * Class Schema.
@@ -126,7 +126,7 @@ abstract class Schema implements SchemaInterface
         $model = $this->model();
 
         foreach (explode('.', $path) as $path) {
-            if (!method_exists($model, $path)) {
+            if (! method_exists($model, $path)) {
                 $classBasename = get_class($model);
                 throw new RuntimeException("Relation '$path' does not exist on model '$classBasename'.");
             }

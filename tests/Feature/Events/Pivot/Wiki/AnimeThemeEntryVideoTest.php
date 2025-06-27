@@ -25,7 +25,7 @@ class AnimeThemeEntryVideoTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeThemeEntryVideoCreatedEventDispatched(): void
+    public function test_anime_theme_entry_video_created_event_dispatched(): void
     {
         $video = Video::factory()->createOne();
         $entry = AnimeThemeEntry::factory()
@@ -42,7 +42,7 @@ class AnimeThemeEntryVideoTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeThemeEntryVideoDeletedEventDispatched(): void
+    public function test_anime_theme_entry_video_deleted_event_dispatched(): void
     {
         $video = Video::factory()->createOne();
         $entry = AnimeThemeEntry::factory()
@@ -60,7 +60,7 @@ class AnimeThemeEntryVideoTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeThemeEntryVideoCreatedEventUpdatePlaylistTracks(): void
+    public function test_anime_theme_entry_video_created_event_update_playlist_tracks(): void
     {
         $video = Video::factory()->createOne();
         $entry = AnimeThemeEntry::factory()
@@ -86,7 +86,7 @@ class AnimeThemeEntryVideoTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeThemeEntryVideoDeletedEventUpdatePlaylistTracks(): void
+    public function test_anime_theme_entry_video_deleted_event_update_playlist_tracks(): void
     {
         $video = Video::factory()->createOne();
 

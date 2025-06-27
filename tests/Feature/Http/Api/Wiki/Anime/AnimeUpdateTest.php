@@ -23,7 +23,7 @@ class AnimeUpdateTest extends TestCase
      *
      * @return void
      */
-    public function testProtected(): void
+    public function test_protected(): void
     {
         $anime = Anime::factory()->createOne();
 
@@ -45,7 +45,7 @@ class AnimeUpdateTest extends TestCase
      *
      * @return void
      */
-    public function testForbidden(): void
+    public function test_forbidden(): void
     {
         $anime = Anime::factory()->createOne();
 
@@ -71,7 +71,7 @@ class AnimeUpdateTest extends TestCase
      *
      * @return void
      */
-    public function testTrashed(): void
+    public function test_trashed(): void
     {
         $anime = Anime::factory()->trashed()->createOne();
 
@@ -97,7 +97,7 @@ class AnimeUpdateTest extends TestCase
      *
      * @return void
      */
-    public function testUpdate(): void
+    public function test_update(): void
     {
         $anime = Anime::factory()->createOne();
 

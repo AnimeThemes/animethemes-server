@@ -49,7 +49,7 @@ class KeyValueThreeEntry extends Entry
     /**
      * Set the label for the left column.
      *
-     * @param string|Closure|null $label
+     * @param  string|Closure|null  $label
      * @return static
      */
     public function leftLabel(string|Closure|null $label): static
@@ -62,7 +62,7 @@ class KeyValueThreeEntry extends Entry
     /**
      * Set the label for the middle column.
      *
-     * @param string|Closure|null $label
+     * @param  string|Closure|null  $label
      * @return static
      */
     public function middleLabel(string|Closure|null $label): static
@@ -75,7 +75,7 @@ class KeyValueThreeEntry extends Entry
     /**
      * Set the label for the right column.
      *
-     * @param string|Closure|null $label
+     * @param  string|Closure|null  $label
      * @return static
      */
     public function rightLabel(string|Closure|null $label): static

@@ -20,7 +20,7 @@ class SeriesUpdateTest extends TestCase
      *
      * @return void
      */
-    public function testProtected(): void
+    public function test_protected(): void
     {
         $series = Series::factory()->createOne();
 
@@ -36,7 +36,7 @@ class SeriesUpdateTest extends TestCase
      *
      * @return void
      */
-    public function testForbidden(): void
+    public function test_forbidden(): void
     {
         $series = Series::factory()->createOne();
 
@@ -56,7 +56,7 @@ class SeriesUpdateTest extends TestCase
      *
      * @return void
      */
-    public function testTrashed(): void
+    public function test_trashed(): void
     {
         $series = Series::factory()->trashed()->createOne();
 
@@ -76,7 +76,7 @@ class SeriesUpdateTest extends TestCase
      *
      * @return void
      */
-    public function testUpdate(): void
+    public function test_update(): void
     {
         $series = Series::factory()->createOne();
 

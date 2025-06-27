@@ -6,7 +6,6 @@ namespace App\Http\Resources\Wiki\Song\Resource;
 
 use App\Http\Api\Schema\Schema;
 use App\Http\Api\Schema\Wiki\Song\MembershipSchema;
-use App\Http\Api\Schema\Wiki\Song\PerformanceSchema;
 use App\Http\Resources\BaseResource;
 
 /**

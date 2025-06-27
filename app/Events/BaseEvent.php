@@ -65,7 +65,7 @@ abstract class BaseEvent
             'footer' => [
                 'text' => $this->getAuthenticatedUser()->getName(),
                 'icon_url' => $this->getAuthenticatedUser()->getFilamentAvatarUrl(),
-            ]
+            ],
         ];
     }
 }

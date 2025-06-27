@@ -19,7 +19,7 @@ trait HasPivotActionLogs
      * Create the pivot action log.
      *
      * @param  string  $actionName
-     * @param  BaseRelationManager $livewire
+     * @param  BaseRelationManager  $livewire
      * @param  Model  $record
      * @param  mixed  $action
      * @return void
@@ -53,7 +53,7 @@ trait HasPivotActionLogs
      * Create the associate action log.
      *
      * @param  string  $actionName
-     * @param  BaseRelationManager $livewire
+     * @param  BaseRelationManager  $livewire
      * @param  Model  $record
      * @param  mixed  $action
      * @return void

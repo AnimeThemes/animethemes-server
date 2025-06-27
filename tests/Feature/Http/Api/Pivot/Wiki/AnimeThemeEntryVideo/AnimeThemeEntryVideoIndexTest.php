@@ -49,7 +49,7 @@ class AnimeThemeEntryVideoIndexTest extends TestCase
      *
      * @return void
      */
-    public function testDefault(): void
+    public function test_default(): void
     {
         Collection::times($this->faker->randomDigitNotNull(), function () {
             AnimeThemeEntryVideo::factory()
@@ -79,7 +79,7 @@ class AnimeThemeEntryVideoIndexTest extends TestCase
      *
      * @return void
      */
-    public function testPaginated(): void
+    public function test_paginated(): void
     {
         Collection::times($this->faker->randomDigitNotNull(), function () {
             AnimeThemeEntryVideo::factory()
@@ -102,7 +102,7 @@ class AnimeThemeEntryVideoIndexTest extends TestCase
      *
      * @return void
      */
-    public function testAllowedIncludePaths(): void
+    public function test_allowed_include_paths(): void
     {
         $schema = new AnimeThemeEntryVideoSchema();
 
@@ -144,7 +144,7 @@ class AnimeThemeEntryVideoIndexTest extends TestCase
      *
      * @return void
      */
-    public function testSparseFieldsets(): void
+    public function test_sparse_fieldsets(): void
     {
         $schema = new AnimeThemeEntryVideoSchema();
 
@@ -186,7 +186,7 @@ class AnimeThemeEntryVideoIndexTest extends TestCase
      *
      * @return void
      */
-    public function testSorts(): void
+    public function test_sorts(): void
     {
         $schema = new AnimeThemeEntryVideoSchema();
 
@@ -230,7 +230,7 @@ class AnimeThemeEntryVideoIndexTest extends TestCase
      *
      * @return void
      */
-    public function testCreatedAtFilter(): void
+    public function test_created_at_filter(): void
     {
         $createdFilter = $this->faker->date();
         $excludedDate = $this->faker->date();
@@ -283,7 +283,7 @@ class AnimeThemeEntryVideoIndexTest extends TestCase
      *
      * @return void
      */
-    public function testUpdatedAtFilter(): void
+    public function test_updated_at_filter(): void
     {
         $updatedFilter = $this->faker->date();
         $excludedDate = $this->faker->date();
@@ -336,7 +336,7 @@ class AnimeThemeEntryVideoIndexTest extends TestCase
      *
      * @return void
      */
-    public function testEntriesByNsfw(): void
+    public function test_entries_by_nsfw(): void
     {
         $nsfwFilter = $this->faker->boolean();
 
@@ -361,7 +361,7 @@ class AnimeThemeEntryVideoIndexTest extends TestCase
                 $query->where(AnimeThemeEntry::ATTRIBUTE_NSFW, $nsfwFilter);
             },
         ])
-        ->get();
+            ->get();
 
         $response->assertJson(
             json_decode(
@@ -380,7 +380,7 @@ class AnimeThemeEntryVideoIndexTest extends TestCase
      *
      * @return void
      */
-    public function testEntriesBySpoiler(): void
+    public function test_entries_by_spoiler(): void
     {
         $spoilerFilter = $this->faker->boolean();
 
@@ -405,7 +405,7 @@ class AnimeThemeEntryVideoIndexTest extends TestCase
                 $query->where(AnimeThemeEntry::ATTRIBUTE_SPOILER, $spoilerFilter);
             },
         ])
-        ->get();
+            ->get();
 
         $response->assertJson(
             json_decode(
@@ -424,7 +424,7 @@ class AnimeThemeEntryVideoIndexTest extends TestCase
      *
      * @return void
      */
-    public function testEntriesByVersion(): void
+    public function test_entries_by_version(): void
     {
         $versionFilter = $this->faker->randomDigitNotNull();
 
@@ -449,7 +449,7 @@ class AnimeThemeEntryVideoIndexTest extends TestCase
                 $query->where(AnimeThemeEntry::ATTRIBUTE_VERSION, $versionFilter);
             },
         ])
-        ->get();
+            ->get();
 
         $response->assertJson(
             json_decode(
@@ -468,7 +468,7 @@ class AnimeThemeEntryVideoIndexTest extends TestCase
      *
      * @return void
      */
-    public function testVideosByLyrics(): void
+    public function test_videos_by_lyrics(): void
     {
         $lyricsFilter = $this->faker->boolean();
 
@@ -493,7 +493,7 @@ class AnimeThemeEntryVideoIndexTest extends TestCase
                 $query->where(Video::ATTRIBUTE_LYRICS, $lyricsFilter);
             },
         ])
-        ->get();
+            ->get();
 
         $response->assertJson(
             json_decode(
@@ -512,7 +512,7 @@ class AnimeThemeEntryVideoIndexTest extends TestCase
      *
      * @return void
      */
-    public function testVideosByNc(): void
+    public function test_videos_by_nc(): void
     {
         $ncFilter = $this->faker->boolean();
 
@@ -537,7 +537,7 @@ class AnimeThemeEntryVideoIndexTest extends TestCase
                 $query->where(Video::ATTRIBUTE_NC, $ncFilter);
             },
         ])
-        ->get();
+            ->get();
 
         $response->assertJson(
             json_decode(
@@ -556,7 +556,7 @@ class AnimeThemeEntryVideoIndexTest extends TestCase
      *
      * @return void
      */
-    public function testVideosByOverlap(): void
+    public function test_videos_by_overlap(): void
     {
         $overlapFilter = Arr::random(VideoOverlap::cases());
 
@@ -581,7 +581,7 @@ class AnimeThemeEntryVideoIndexTest extends TestCase
                 $query->where(Video::ATTRIBUTE_OVERLAP, $overlapFilter->value);
             },
         ])
-        ->get();
+            ->get();
 
         $response->assertJson(
             json_decode(
@@ -600,7 +600,7 @@ class AnimeThemeEntryVideoIndexTest extends TestCase
      *
      * @return void
      */
-    public function testVideosByResolution(): void
+    public function test_videos_by_resolution(): void
     {
         $resolutionFilter = $this->faker->randomNumber();
 
@@ -625,7 +625,7 @@ class AnimeThemeEntryVideoIndexTest extends TestCase
                 $query->where(Video::ATTRIBUTE_RESOLUTION, $resolutionFilter);
             },
         ])
-        ->get();
+            ->get();
 
         $response->assertJson(
             json_decode(
@@ -644,7 +644,7 @@ class AnimeThemeEntryVideoIndexTest extends TestCase
      *
      * @return void
      */
-    public function testVideosBySource(): void
+    public function test_videos_by_source(): void
     {
         $sourceFilter = Arr::random(VideoSource::cases());
 
@@ -669,7 +669,7 @@ class AnimeThemeEntryVideoIndexTest extends TestCase
                 $query->where(Video::ATTRIBUTE_SOURCE, $sourceFilter->value);
             },
         ])
-        ->get();
+            ->get();
 
         $response->assertJson(
             json_decode(
@@ -688,7 +688,7 @@ class AnimeThemeEntryVideoIndexTest extends TestCase
      *
      * @return void
      */
-    public function testVideosBySubbed(): void
+    public function test_videos_by_subbed(): void
     {
         $subbedFilter = $this->faker->boolean();
 
@@ -713,7 +713,7 @@ class AnimeThemeEntryVideoIndexTest extends TestCase
                 $query->where(Video::ATTRIBUTE_SUBBED, $subbedFilter);
             },
         ])
-        ->get();
+            ->get();
 
         $response->assertJson(
             json_decode(
@@ -732,7 +732,7 @@ class AnimeThemeEntryVideoIndexTest extends TestCase
      *
      * @return void
      */
-    public function testVideosByUncen(): void
+    public function test_videos_by_uncen(): void
     {
         $uncenFilter = $this->faker->boolean();
 
@@ -757,7 +757,7 @@ class AnimeThemeEntryVideoIndexTest extends TestCase
                 $query->where(Video::ATTRIBUTE_UNCEN, $uncenFilter);
             },
         ])
-        ->get();
+            ->get();
 
         $response->assertJson(
             json_decode(

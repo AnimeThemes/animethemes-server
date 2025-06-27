@@ -6,7 +6,6 @@ use App\Contracts\Models\HasHashids;
 use App\Models\Auth\User;
 use App\Models\BaseModel;
 use App\Models\List\Playlist;
-use App\Models\List\Playlist\PlaylistTrack;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\MySqlConnection;
 use Illuminate\Database\Schema\Blueprint;

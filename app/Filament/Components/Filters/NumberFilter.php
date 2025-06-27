@@ -7,7 +7,6 @@ namespace App\Filament\Components\Filters;
 use App\Enums\Http\Api\Filter\ComparisonOperator;
 use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\Grid;
-use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
 use Filament\Tables\Filters\Filter;
 use Illuminate\Database\Eloquent\Builder;
@@ -36,11 +35,11 @@ class NumberFilter extends Filter
                             TextInput::make('from')
                                 ->label(__('filament.filters.base.from'))
                                 ->integer(),
-    
+
                             TextInput::make('to')
                                 ->label(__('filament.filters.base.to'))
                                 ->integer(),
-                        ])
+                        ]),
                 ]),
         ];
     }

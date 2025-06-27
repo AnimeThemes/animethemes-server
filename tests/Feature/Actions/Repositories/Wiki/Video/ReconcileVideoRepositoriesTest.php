@@ -31,7 +31,7 @@ class ReconcileVideoRepositoriesTest extends TestCase
      *
      * @throws Exception
      */
-    public function testNoResults(): void
+    public function test_no_results(): void
     {
         $this->mock(VideoSourceRepository::class, function (MockInterface $mock) {
             $mock->shouldReceive('get')->once()->andReturn(Collection::make());
@@ -44,7 +44,7 @@ class ReconcileVideoRepositoriesTest extends TestCase
 
         $result = $action->reconcileRepositories($source, $destination);
 
-        static::assertTrue(ActionStatus::PASSED === $result->getStatus());
+        static::assertTrue($result->getStatus() === ActionStatus::PASSED);
         static::assertFalse($result->hasChanges());
         static::assertDatabaseCount(Video::class, 0);
     }
@@ -56,7 +56,7 @@ class ReconcileVideoRepositoriesTest extends TestCase
      *
      * @throws Exception
      */
-    public function testCreated(): void
+    public function test_created(): void
     {
         $createdVideoCount = $this->faker->numberBetween(2, 9);
 
@@ -73,7 +73,7 @@ class ReconcileVideoRepositoriesTest extends TestCase
 
         $result = $action->reconcileRepositories($source, $destination);
 
-        static::assertTrue(ActionStatus::PASSED === $result->getStatus());
+        static::assertTrue($result->getStatus() === ActionStatus::PASSED);
         static::assertTrue($result->hasChanges());
         static::assertCount($createdVideoCount, $result->getCreated());
         static::assertDatabaseCount(Video::class, $createdVideoCount);
@@ -86,7 +86,7 @@ class ReconcileVideoRepositoriesTest extends TestCase
      *
      * @throws Exception
      */
-    public function testDeleted(): void
+    public function test_deleted(): void
     {
         $deletedVideoCount = $this->faker->numberBetween(2, 9);
 
@@ -103,7 +103,7 @@ class ReconcileVideoRepositoriesTest extends TestCase
 
         $result = $action->reconcileRepositories($source, $destination);
 
-        static::assertTrue(ActionStatus::PASSED === $result->getStatus());
+        static::assertTrue($result->getStatus() === ActionStatus::PASSED);
         static::assertTrue($result->hasChanges());
         static::assertCount($deletedVideoCount, $result->getDeleted());
 
@@ -120,7 +120,7 @@ class ReconcileVideoRepositoriesTest extends TestCase
      *
      * @throws Exception
      */
-    public function testUpdated(): void
+    public function test_updated(): void
     {
         $updatedVideoCount = $this->faker->numberBetween(2, 9);
 
@@ -147,7 +147,7 @@ class ReconcileVideoRepositoriesTest extends TestCase
 
         $result = $action->reconcileRepositories($source, $destination);
 
-        static::assertTrue(ActionStatus::PASSED === $result->getStatus());
+        static::assertTrue($result->getStatus() === ActionStatus::PASSED);
         static::assertTrue($result->hasChanges());
         static::assertCount($updatedVideoCount, $result->getUpdated());
         static::assertDatabaseCount(Video::class, $updatedVideoCount);

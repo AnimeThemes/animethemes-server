@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Concerns\GraphQL;
 
 use App\Contracts\GraphQL\FilterableField;
-use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Definition\Directives\Filters\FilterDirective;
+use App\GraphQL\Definition\Fields\Field;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 

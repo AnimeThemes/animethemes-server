@@ -9,9 +9,9 @@ use App\Features\AllowExternalProfileManagement;
 use App\Http\Controllers\Controller;
 use App\Http\Middleware\Api\EnabledOnlyOnLocalhost;
 use App\Models\List\ExternalProfile;
-use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Str;
@@ -39,7 +39,7 @@ class ExternalTokenAuthController extends Controller
     /**
      * This will redirect the user to the appropriate auth service.
      *
-     * @param  Request $request
+     * @param  Request  $request
      * @return RedirectResponse|JsonResponse
      */
     public function index(Request $request): RedirectResponse|JsonResponse

@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
 
 /**
- * Trait MoveAllActionTrait
+ * Trait MoveAllActionTrait.
  */
 trait MoveAllActionTrait
 {

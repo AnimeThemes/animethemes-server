@@ -30,8 +30,7 @@ readonly class MoveResults implements StorageResults
         protected string $from,
         protected string $to,
         protected array $moves = []
-    ) {
-    }
+    ) {}
 
     /**
      * Write results to log.

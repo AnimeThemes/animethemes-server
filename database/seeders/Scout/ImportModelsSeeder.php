@@ -33,6 +33,7 @@ class ImportModelsSeeder extends Seeder
         $driver = Config::get('scout.driver');
         if (empty($driver)) {
             $this->command->info('No driver configured for Scout. Skipping models importing.');
+
             return;
         }
 

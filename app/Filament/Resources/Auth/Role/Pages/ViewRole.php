@@ -6,8 +6,8 @@ namespace App\Filament\Resources\Auth\Role\Pages;
 
 use App\Filament\HeaderActions\Models\Auth\Role\GivePermissionHeaderAction;
 use App\Filament\HeaderActions\Models\Auth\Role\RevokePermissionHeaderAction;
-use App\Filament\Resources\Base\BaseViewResource;
 use App\Filament\Resources\Auth\Role;
+use App\Filament\Resources\Base\BaseViewResource;
 use Filament\Actions\ActionGroup;
 
 /**

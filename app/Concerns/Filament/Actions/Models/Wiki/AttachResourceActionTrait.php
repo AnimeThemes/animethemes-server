@@ -56,7 +56,9 @@ trait AttachResourceActionTrait
         $fields = [];
         $model = $this->getRecord();
 
-        if (!($model instanceof HasResources)) return $form;
+        if (! ($model instanceof HasResources)) {
+            return $form;
+        }
 
         $resources = $model->resources()
             ->get([ExternalResource::ATTRIBUTE_SITE])
@@ -65,7 +67,9 @@ trait AttachResourceActionTrait
             ->keys();
 
         foreach ($this->sites as $resourceSite) {
-            if ($resources->contains($resourceSite->value)) continue;
+            if ($resources->contains($resourceSite->value)) {
+                continue;
+            }
 
             $resourceSiteLower = Str::lower($resourceSite->name);
 

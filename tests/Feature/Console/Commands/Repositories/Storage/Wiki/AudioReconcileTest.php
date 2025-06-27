@@ -24,7 +24,7 @@ class AudioReconcileTest extends TestCase
      *
      * @return void
      */
-    public function testNoResults(): void
+    public function test_no_results(): void
     {
         $this->mock(AudioRepository::class, function (MockInterface $mock) {
             $mock->shouldReceive('get')->once()->andReturn(Collection::make());
@@ -40,7 +40,7 @@ class AudioReconcileTest extends TestCase
      *
      * @return void
      */
-    public function testCreated(): void
+    public function test_created(): void
     {
         $createdAudioCount = $this->faker->numberBetween(2, 9);
 
@@ -60,7 +60,7 @@ class AudioReconcileTest extends TestCase
      *
      * @return void
      */
-    public function testDeleted(): void
+    public function test_deleted(): void
     {
         $deletedAudioCount = $this->faker->numberBetween(2, 9);
 
@@ -80,7 +80,7 @@ class AudioReconcileTest extends TestCase
      *
      * @return void
      */
-    public function testUpdated(): void
+    public function test_updated(): void
     {
         $updatedAudioCount = $this->faker->numberBetween(2, 9);
 

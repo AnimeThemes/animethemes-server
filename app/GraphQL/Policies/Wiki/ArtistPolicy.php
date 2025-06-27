@@ -9,6 +9,4 @@ use App\GraphQL\Policies\BasePolicy;
 /**
  * Class ArtistPolicy.
  */
-class ArtistPolicy extends BasePolicy
-{
-}
+class ArtistPolicy extends BasePolicy {}

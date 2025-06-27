@@ -26,7 +26,7 @@ class UploadAudioTest extends TestCase
      *
      * @return void
      */
-    public function testDefault(): void
+    public function test_default(): void
     {
         Config::set(AudioConstants::DISKS_QUALIFIED, []);
         Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
@@ -47,7 +47,7 @@ class UploadAudioTest extends TestCase
      *
      * @return void
      */
-    public function testPassed(): void
+    public function test_passed(): void
     {
         Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
         Config::set(AudioConstants::DISKS_QUALIFIED, [Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED)]);
@@ -60,7 +60,7 @@ class UploadAudioTest extends TestCase
 
         $result = $storageResults->toActionResult();
 
-        static::assertTrue(ActionStatus::PASSED === $result->getStatus());
+        static::assertTrue($result->getStatus() === ActionStatus::PASSED);
     }
 
     /**
@@ -68,7 +68,7 @@ class UploadAudioTest extends TestCase
      *
      * @return void
      */
-    public function testUploadedToDisk(): void
+    public function test_uploaded_to_disk(): void
     {
         Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
         Config::set(AudioConstants::DISKS_QUALIFIED, [Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED)]);
@@ -87,7 +87,7 @@ class UploadAudioTest extends TestCase
      *
      * @return void
      */
-    public function testCreatedAudio(): void
+    public function test_created_audio(): void
     {
         Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
         Config::set(AudioConstants::DISKS_QUALIFIED, [Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED)]);

@@ -13,8 +13,8 @@ use App\Filament\Components\Infolist\BelongsToEntry;
 use App\Filament\Components\Infolist\KeyValueThreeEntry;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Components\Infolist\TimestampSection;
-use App\Filament\Resources\User\Report as ReportResource;
 use App\Filament\Resources\BaseResource;
+use App\Filament\Resources\User\Report as ReportResource;
 use App\Filament\Resources\User\Report\ReportStep\Pages\ListReportSteps;
 use App\Filament\Resources\User\Report\ReportStep\Pages\ViewReportStep;
 use App\Models\User\Report\ReportStep as ReportStepModel;
@@ -217,7 +217,7 @@ class ReportStep extends BaseResource
                             ->valueLabel(__('filament.fields.report_step.fields.values'))
                             ->hidden(fn (?array $state, ReportStepModel $record) => is_null($state) || $record->action === ReportActionType::UPDATE)
                             ->columnSpanFull(),
-                        ])
+                    ])
                     ->columns(3),
 
                 TimestampSection::make(),
@@ -236,7 +236,7 @@ class ReportStep extends BaseResource
         $name = $record->actionable instanceof Nameable ? $record->actionable->getName() : $record->actionable_type;
 
         if ($state === ReportActionType::CREATE) {
-            return $record->action->localize() . ' ' . $name;
+            return $record->action->localize().' '.$name;
         }
 
         $actionableUrl = Filament::getUrl($record->actionable);
@@ -249,10 +249,10 @@ class ReportStep extends BaseResource
 
             $targetLink = "<a style='color: rgb(64, 184, 166);' href='{$targetUrl}'>{$targetName}</a>";
 
-            return $state->localize() . ' ' . $actionableLink . ' to ' . $targetLink . ' via ' . class_basename($record->pivot_class);
+            return $state->localize().' '.$actionableLink.' to '.$targetLink.' via '.class_basename($record->pivot_class);
         }
 
-        return $record->action->localize() . ' ' . $actionableLink;
+        return $record->action->localize().' '.$actionableLink;
     }
 
     /**

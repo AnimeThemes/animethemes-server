@@ -29,7 +29,7 @@ class ArtistResourceType extends PivotType implements HasFields, HasRelations
      */
     public function getDescription(): string
     {
-        return "Represents the association between an artist and an external resource.";
+        return 'Represents the association between an artist and an external resource.';
     }
 
     /**

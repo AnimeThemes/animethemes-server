@@ -9,6 +9,4 @@ use App\GraphQL\Policies\BasePolicy;
 /**
  * Class ImagePolicy.
  */
-class ImagePolicy extends BasePolicy
-{
-}
+class ImagePolicy extends BasePolicy {}

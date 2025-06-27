@@ -50,7 +50,7 @@ abstract class WikiDeletedEvent extends BaseDeletedEvent implements FilamentNoti
     {
         $model = $this->getModel();
 
-        return !$model->isForceDeleting();
+        return ! $model->isForceDeleting();
     }
 
     /**

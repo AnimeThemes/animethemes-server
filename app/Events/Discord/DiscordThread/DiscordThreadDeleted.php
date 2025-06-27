@@ -55,7 +55,7 @@ class DiscordThreadDeleted extends AdminDeletedEvent
     protected function deleteThread(): void
     {
         Http::withHeaders(['x-api-key' => Config::get('services.discord.api_key')])
-            ->delete(Config::get('services.discord.api_url') . '/thread', ['id' => $this->getModel()->getKey()])
+            ->delete(Config::get('services.discord.api_url').'/thread', ['id' => $this->getModel()->getKey()])
             ->throw();
     }
 }

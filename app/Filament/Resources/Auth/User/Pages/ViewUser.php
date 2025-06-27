@@ -8,8 +8,8 @@ use App\Filament\HeaderActions\Models\Auth\User\GivePermissionHeaderAction;
 use App\Filament\HeaderActions\Models\Auth\User\GiveRoleHeaderAction;
 use App\Filament\HeaderActions\Models\Auth\User\RevokePermissionHeaderAction;
 use App\Filament\HeaderActions\Models\Auth\User\RevokeRoleHeaderAction;
-use App\Filament\Resources\Base\BaseViewResource;
 use App\Filament\Resources\Auth\User;
+use App\Filament\Resources\Base\BaseViewResource;
 use Filament\Actions\ActionGroup;
 
 /**

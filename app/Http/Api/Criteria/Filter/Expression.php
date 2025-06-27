@@ -14,9 +14,7 @@ readonly class Expression
      *
      * @param  mixed  $value
      */
-    public function __construct(protected mixed $value)
-    {
-    }
+    public function __construct(protected mixed $value) {}
 
     /**
      * Get expression value.

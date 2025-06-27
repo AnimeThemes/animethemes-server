@@ -28,7 +28,7 @@ class CriteriaTest extends TestCase
      *
      * @return void
      */
-    public function testShouldNotFilterIfKeyMismatch(): void
+    public function test_should_not_filter_if_key_mismatch(): void
     {
         $expression = new Expression($this->faker->word());
         $comparisonOperator = Arr::random(ComparisonOperator::cases());
@@ -103,7 +103,7 @@ class CriteriaTest extends TestCase
      *
      * @return void
      */
-    public function testShouldFilterIfKeyMatch(): void
+    public function test_should_filter_if_key_match(): void
     {
         $key = $this->faker->word();
 
@@ -180,7 +180,7 @@ class CriteriaTest extends TestCase
      *
      * @return void
      */
-    public function testShouldNotFilterIfNotWithinScope(): void
+    public function test_should_not_filter_if_not_within_scope(): void
     {
         $key = $this->faker->word();
 
@@ -257,7 +257,7 @@ class CriteriaTest extends TestCase
      *
      * @return void
      */
-    public function testShouldFilterIfWithinScope(): void
+    public function test_should_filter_if_within_scope(): void
     {
         $key = $this->faker->word();
 

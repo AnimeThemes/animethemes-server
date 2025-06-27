@@ -27,16 +27,16 @@ class ExternalProfileMutator
         /** @var ExternalProfile $profile */
         $profile = Arr::pull($args, self::ROUTE_SLUG);
 
-        if (!$profile->canBeSynced()) {
+        if (! $profile->canBeSynced()) {
             return new JsonResponse([
-                'error' => 'This external profile cannot be synced at the moment.'
+                'error' => 'This external profile cannot be synced at the moment.',
             ], 403);
         }
 
         $profile->startSyncJob();
 
         return new JsonResponse([
-            'message' => 'Job dispatched.'
+            'message' => 'Job dispatched.',
         ], 201);
     }
 }

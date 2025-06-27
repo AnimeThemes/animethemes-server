@@ -7,6 +7,4 @@ namespace App\Contracts\Http\Api\Schema;
 /**
  * Interface SearchableSchema.
  */
-interface SearchableSchema
-{
-}
+interface SearchableSchema {}

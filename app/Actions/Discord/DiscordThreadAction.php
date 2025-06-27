@@ -42,7 +42,7 @@ class DiscordThreadAction
 
             $response = Http::withHeaders(['x-api-key' => Config::get('services.discord.api_key')])
                 ->acceptJson()
-                ->post(Config::get('services.discord.api_url') . '/thread', $animeArray)
+                ->post(Config::get('services.discord.api_url').'/thread', $animeArray)
                 ->throw()
                 ->json();
 
@@ -55,7 +55,6 @@ class DiscordThreadAction
             }
 
             return null;
-
         } catch (Exception $e) {
             Log::error($e->getMessage());
 
@@ -73,7 +72,7 @@ class DiscordThreadAction
     {
         return Http::withHeaders(['x-api-key' => Config::get('services.discord.api_key')])
             ->acceptJson()
-            ->get(Config::get('services.discord.api_url') . '/thread', ['id' => $id])
+            ->get(Config::get('services.discord.api_url').'/thread', ['id' => $id])
             ->throw()
             ->json();
     }

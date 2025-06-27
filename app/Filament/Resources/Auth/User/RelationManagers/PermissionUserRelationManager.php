@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Filament\Resources\Auth\User\RelationManagers;
 
 use App\Filament\RelationManagers\Auth\PermissionRelationManager;
-use App\Models\Auth\User;
 use App\Models\Auth\Permission;
+use App\Models\Auth\User;
 use Filament\Tables\Table;
 
 /**

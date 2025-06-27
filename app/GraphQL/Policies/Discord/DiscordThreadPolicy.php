@@ -9,6 +9,4 @@ use App\GraphQL\Policies\BasePolicy;
 /**
  * Class DiscordThreadPolicy.
  */
-class DiscordThreadPolicy extends BasePolicy
-{
-}
+class DiscordThreadPolicy extends BasePolicy {}

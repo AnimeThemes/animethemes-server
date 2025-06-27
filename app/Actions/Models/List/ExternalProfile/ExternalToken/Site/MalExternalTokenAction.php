@@ -54,7 +54,6 @@ class MalExternalTokenAction extends BaseExternalTokenAction
             if ($token === null) {
                 throw new Error('Failed to get token');
             }
-
         } catch (Exception $e) {
             Log::error($e->getMessage());
 

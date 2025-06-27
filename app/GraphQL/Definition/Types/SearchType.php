@@ -13,7 +13,6 @@ use App\GraphQL\Definition\Fields\Search\SearchSeriesField;
 use App\GraphQL\Definition\Fields\Search\SearchSongsField;
 use App\GraphQL\Definition\Fields\Search\SearchStudiosField;
 use App\GraphQL\Definition\Fields\Search\SearchVideosField;
-use App\GraphQL\Definition\Types\BaseType;
 
 /**
  * Class SearchType.
@@ -27,7 +26,7 @@ class SearchType extends BaseType implements HasFields
      */
     public function getDescription(): string
     {
-        return "Returns a listing of resources that match a given search term.";
+        return 'Returns a listing of resources that match a given search term.';
     }
 
     /**

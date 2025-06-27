@@ -29,8 +29,7 @@ abstract class Relation
         protected ?string $field = null,
         protected ?bool $nullable = true,
         protected ?string $edgeType = null,
-    ) {
-    }
+    ) {}
 
     /**
      * Get the field as a string representation.

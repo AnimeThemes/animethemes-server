@@ -7,8 +7,8 @@ namespace App\Actions\Models\List\Playlist;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 /**
@@ -35,7 +35,7 @@ class FixPlaylistAction
             ->keyBy(PlaylistTrack::ATTRIBUTE_ID);
 
         // Find the playlist and get the first_id
-        $this->sendMessage("Fetching playlist details...", $context, 'info');
+        $this->sendMessage('Fetching playlist details...', $context, 'info');
 
         $first_id = $playlist->first_id;
 
@@ -44,7 +44,7 @@ class FixPlaylistAction
         $visitedTracks = [];
 
         // Start at the first_id and follow the next_id chain
-        $this->sendMessage("Reconstructing the playlist order...", $context, 'info');
+        $this->sendMessage('Reconstructing the playlist order...', $context, 'info');
 
         $current_id = $first_id;
 
@@ -66,11 +66,11 @@ class FixPlaylistAction
 
         // Check if we have traversed all tracks; if not, some tracks are broken
         if (count($orderedTracks) != count($tracks)) {
-            $this->sendMessage("Detected broken tracks, attempting to add them to the end of the list...", $context, 'warn');
+            $this->sendMessage('Detected broken tracks, attempting to add them to the end of the list...', $context, 'warn');
 
             // Find all tracks that were not visited (potentially broken)
             $remainingTracks = $tracks->filter(function ($track) use ($visitedTracks) {
-                return !isset($visitedTracks[$track->track_id]);
+                return ! isset($visitedTracks[$track->track_id]);
             });
 
             // Add remaining tracks to the end, preserving the existing order as much as possible
@@ -80,7 +80,7 @@ class FixPlaylistAction
         }
 
         // Update the previous_id and next_id for all tracks in the correct order
-        $this->sendMessage("Updating track links (previous_id and next_id)...", $context, 'info');
+        $this->sendMessage('Updating track links (previous_id and next_id)...', $context, 'info');
         DB::transaction(function () use ($orderedTracks, $tracks, $playlist, $context) {
             $previous_id = null;
 
@@ -104,10 +104,11 @@ class FixPlaylistAction
             $playlist->last_id = $orderedTracks[count($orderedTracks) - 1];
             $playlist->save();
 
-            $this->sendMessage("Playlist first_id and last_id updated successfully.", $context, 'info');
+            $this->sendMessage('Playlist first_id and last_id updated successfully.', $context, 'info');
         });
 
-        $this->sendMessage("Playlist fixed successfully.", $context, 'info');
+        $this->sendMessage('Playlist fixed successfully.', $context, 'info');
+
         return 1;
     }
 

@@ -26,7 +26,7 @@ class UserTest extends TestCase
      *
      * @return void
      */
-    public function testTokens(): void
+    public function test_tokens(): void
     {
         $user = User::factory()->createOne();
 
@@ -42,7 +42,7 @@ class UserTest extends TestCase
      *
      * @return void
      */
-    public function testVerificationEmailNotification(): void
+    public function test_verification_email_notification(): void
     {
         $user = User::factory()->createOne();
 
@@ -56,7 +56,7 @@ class UserTest extends TestCase
      *
      * @return void
      */
-    public function testNameable(): void
+    public function test_nameable(): void
     {
         $user = User::factory()->createOne();
 
@@ -68,7 +68,7 @@ class UserTest extends TestCase
      *
      * @return void
      */
-    public function testHasSubtitle(): void
+    public function test_has_subtitle(): void
     {
         $user = User::factory()->createOne();
 
@@ -80,7 +80,7 @@ class UserTest extends TestCase
      *
      * @return void
      */
-    public function testPlaylists(): void
+    public function test_playlists(): void
     {
         $playlistCount = $this->faker->randomDigitNotNull();
 

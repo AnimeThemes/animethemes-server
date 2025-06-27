@@ -42,7 +42,7 @@ class AnimeThemeEntryPolicy extends BasePolicy
             ->where(AnimeThemeEntryVideo::ATTRIBUTE_VIDEO, $video->getKey())
             ->exists();
 
-        return !$attached
+        return ! $attached
             && $user->can(CrudPermission::CREATE->format(AnimeThemeEntry::class))
             && $user->can(CrudPermission::CREATE->format(Video::class));
     }

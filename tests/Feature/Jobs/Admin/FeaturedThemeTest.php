@@ -26,7 +26,7 @@ class FeaturedThemeTest extends TestCase
      *
      * @return void
      */
-    public function testFeaturedThemeCreatedSendsDiscordNotification(): void
+    public function test_featured_theme_created_sends_discord_notification(): void
     {
         Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
         Bus::fake(SendDiscordNotificationJob::class);
@@ -42,7 +42,7 @@ class FeaturedThemeTest extends TestCase
      *
      * @return void
      */
-    public function testFeaturedThemeDeletedSendsDiscordNotification(): void
+    public function test_featured_theme_deleted_sends_discord_notification(): void
     {
         $featuredTheme = FeaturedTheme::factory()->createOne();
 
@@ -60,7 +60,7 @@ class FeaturedThemeTest extends TestCase
      *
      * @return void
      */
-    public function testFeaturedThemeRestoredSendsDiscordNotification(): void
+    public function test_featured_theme_restored_sends_discord_notification(): void
     {
         $featuredTheme = FeaturedTheme::factory()->createOne();
 
@@ -78,7 +78,7 @@ class FeaturedThemeTest extends TestCase
      *
      * @return void
      */
-    public function testFeaturedThemeUpdatedSendsDiscordNotification(): void
+    public function test_featured_theme_updated_sends_discord_notification(): void
     {
         $featuredTheme = FeaturedTheme::factory()->createOne();
 

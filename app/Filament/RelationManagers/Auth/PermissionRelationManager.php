@@ -44,7 +44,7 @@ abstract class PermissionRelationManager extends BaseRelationManager
                 ->modelLabel(PermissionResource::getLabel())
                 ->recordTitleAttribute(Permission::ATTRIBUTE_NAME)
                 ->columns(PermissionResource::table($table)->getColumns())
-                ->defaultSort(Permission::TABLE . '.' . Permission::ATTRIBUTE_ID, 'desc')
+                ->defaultSort(Permission::TABLE.'.'.Permission::ATTRIBUTE_ID, 'desc')
         );
     }
 

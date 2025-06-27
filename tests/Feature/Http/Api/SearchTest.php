@@ -32,7 +32,7 @@ class SearchTest extends TestCase
      *
      * @return void
      */
-    public function testNoSearchTerm(): void
+    public function test_no_search_term(): void
     {
         $response = $this->get(route('api.search.show'));
 
@@ -44,7 +44,7 @@ class SearchTest extends TestCase
      *
      * @return void
      */
-    public function testSearchAttributes(): void
+    public function test_search_attributes(): void
     {
         $driver = Config::get('scout.driver');
         if (empty($driver)) {
@@ -78,7 +78,7 @@ class SearchTest extends TestCase
      *
      * @return void
      */
-    public function testSearchSparseFieldsets(): void
+    public function test_search_sparse_fieldsets(): void
     {
         $driver = Config::get('scout.driver');
         if (empty($driver)) {

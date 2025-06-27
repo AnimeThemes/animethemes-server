@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Filament\Resources\Wiki\Series\RelationManagers;
 
 use App\Filament\RelationManagers\Wiki\AnimeRelationManager;
-use App\Models\Wiki\Series;
 use App\Models\Wiki\Anime;
+use App\Models\Wiki\Series;
 use Filament\Tables\Table;
 
 /**

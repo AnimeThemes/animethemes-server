@@ -28,7 +28,7 @@ class ScriptTest extends TestCase
      *
      * @return void
      */
-    public function testNameable(): void
+    public function test_nameable(): void
     {
         $script = VideoScript::factory()->createOne();
 
@@ -40,7 +40,7 @@ class ScriptTest extends TestCase
      *
      * @return void
      */
-    public function testHasSubtitle(): void
+    public function test_has_subtitle(): void
     {
         $script = VideoScript::factory()
             ->for(Video::factory())
@@ -54,7 +54,7 @@ class ScriptTest extends TestCase
      *
      * @return void
      */
-    public function testVideo(): void
+    public function test_video(): void
     {
         $script = VideoScript::factory()
             ->for(Video::factory())
@@ -69,7 +69,7 @@ class ScriptTest extends TestCase
      *
      * @return void
      */
-    public function testScriptStorageDeletion(): void
+    public function test_script_storage_deletion(): void
     {
         $fs = Storage::fake(Config::get(VideoConstants::SCRIPT_DISK_QUALIFIED));
         $file = File::fake()->create($this->faker->word().'.ogg', $this->faker->randomDigitNotNull());
@@ -89,7 +89,7 @@ class ScriptTest extends TestCase
      *
      * @return void
      */
-    public function testScriptStorageForceDeletion(): void
+    public function test_script_storage_force_deletion(): void
     {
         Event::fakeExcept(VideoScriptForceDeleting::class);
 

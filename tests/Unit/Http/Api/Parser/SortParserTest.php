@@ -27,7 +27,7 @@ class SortParserTest extends TestCase
      *
      * @return void
      */
-    public function testNoCriteriaByDefault(): void
+    public function test_no_criteria_by_default(): void
     {
         $parameters = [];
 
@@ -39,7 +39,7 @@ class SortParserTest extends TestCase
      *
      * @return void
      */
-    public function testParseRandomCriteria(): void
+    public function test_parse_random_criteria(): void
     {
         $parameters = [
             SortParser::param() => RandomCriteria::PARAM_VALUE,
@@ -55,7 +55,7 @@ class SortParserTest extends TestCase
      *
      * @return void
      */
-    public function testParseRelationCriteria(): void
+    public function test_parse_relation_criteria(): void
     {
         $parameters = [
             SortParser::param() => collect($this->faker->words())->join('.'),
@@ -71,7 +71,7 @@ class SortParserTest extends TestCase
      *
      * @return void
      */
-    public function testParseFieldCriteria(): void
+    public function test_parse_field_criteria(): void
     {
         $parameters = [
             SortParser::param() => $this->faker->word(),
@@ -87,7 +87,7 @@ class SortParserTest extends TestCase
      *
      * @return void
      */
-    public function testParseCriteriaField(): void
+    public function test_parse_criteria_field(): void
     {
         $field = $this->faker->word();
 
@@ -105,7 +105,7 @@ class SortParserTest extends TestCase
      *
      * @return void
      */
-    public function testParseDefaultDirection(): void
+    public function test_parse_default_direction(): void
     {
         $parameters = [
             SortParser::param() => $this->faker->word(),
@@ -115,7 +115,7 @@ class SortParserTest extends TestCase
 
         static::assertTrue(
             $criteria instanceof FieldCriteria
-            && Direction::ASCENDING === $criteria->getDirection()
+            && $criteria->getDirection() === Direction::ASCENDING
         );
     }
 
@@ -124,7 +124,7 @@ class SortParserTest extends TestCase
      *
      * @return void
      */
-    public function testParseDescendingDirection(): void
+    public function test_parse_descending_direction(): void
     {
         $field = Str::of('-')->append($this->faker->word())->__toString();
 
@@ -136,7 +136,7 @@ class SortParserTest extends TestCase
 
         static::assertTrue(
             $criteria instanceof FieldCriteria
-            && Direction::DESCENDING === $criteria->getDirection()
+            && $criteria->getDirection() === Direction::DESCENDING
         );
     }
 
@@ -145,7 +145,7 @@ class SortParserTest extends TestCase
      *
      * @return void
      */
-    public function testParseGlobalScope(): void
+    public function test_parse_global_scope(): void
     {
         $parameters = [
             SortParser::param() => $this->faker->word(),
@@ -161,7 +161,7 @@ class SortParserTest extends TestCase
      *
      * @return void
      */
-    public function testParseTypeScope(): void
+    public function test_parse_type_scope(): void
     {
         $type = Str::singular($this->faker->word());
 

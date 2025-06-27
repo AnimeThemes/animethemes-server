@@ -6,8 +6,8 @@ namespace App\Filament\Tabs\Studio;
 
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Filament\Tabs\BaseTab;
-use App\Models\Wiki\Studio;
 use App\Models\Wiki\Image;
+use App\Models\Wiki\Studio;
 use Illuminate\Database\Eloquent\Builder;
 
 /**

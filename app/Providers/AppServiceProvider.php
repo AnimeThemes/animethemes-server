@@ -8,8 +8,8 @@ use App\Http\Middleware\Models\RecordView;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
 

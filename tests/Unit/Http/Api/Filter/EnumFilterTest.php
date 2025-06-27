@@ -24,7 +24,7 @@ class EnumFilterTest extends TestCase
      *
      * @return void
      */
-    public function testShouldNotApplyIfNoEnums(): void
+    public function test_should_not_apply_if_no_enums(): void
     {
         $filterField = $this->faker->word();
 
@@ -40,7 +40,7 @@ class EnumFilterTest extends TestCase
      *
      * @return void
      */
-    public function testShouldNotApplyIfAllEnums(): void
+    public function test_should_not_apply_if_all_enums(): void
     {
         $filterField = $this->faker->word();
 
@@ -60,7 +60,7 @@ class EnumFilterTest extends TestCase
      *
      * @return void
      */
-    public function testEnumKeyConvertedToValue(): void
+    public function test_enum_key_converted_to_value(): void
     {
         $filterField = $this->faker->word();
 

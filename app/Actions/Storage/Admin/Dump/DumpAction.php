@@ -39,9 +39,7 @@ abstract class DumpAction
      *
      * @param  array<string, mixed>  $options
      */
-    public function __construct(protected readonly array $options = [])
-    {
-    }
+    public function __construct(protected readonly array $options = []) {}
 
     /**
      * Handle action.

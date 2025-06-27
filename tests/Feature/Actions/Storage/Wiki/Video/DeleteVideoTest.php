@@ -29,7 +29,7 @@ class DeleteVideoTest extends TestCase
      *
      * @return void
      */
-    public function testDefault(): void
+    public function test_default(): void
     {
         Config::set(VideoConstants::DISKS_QUALIFIED, []);
         Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
@@ -50,7 +50,7 @@ class DeleteVideoTest extends TestCase
      *
      * @return void
      */
-    public function testPassed(): void
+    public function test_passed(): void
     {
         Config::set(VideoConstants::DISKS_QUALIFIED, [Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED)]);
         Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
@@ -70,7 +70,7 @@ class DeleteVideoTest extends TestCase
 
         $result = $storageResults->toActionResult();
 
-        static::assertTrue(ActionStatus::PASSED === $result->getStatus());
+        static::assertTrue($result->getStatus() === ActionStatus::PASSED);
     }
 
     /**
@@ -78,7 +78,7 @@ class DeleteVideoTest extends TestCase
      *
      * @return void
      */
-    public function testDeletedFromDisk(): void
+    public function test_deleted_from_disk(): void
     {
         Config::set(VideoConstants::DISKS_QUALIFIED, [Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED)]);
         Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
@@ -106,7 +106,7 @@ class DeleteVideoTest extends TestCase
      *
      * @throws Exception
      */
-    public function testVideoDeleted(): void
+    public function test_video_deleted(): void
     {
         Config::set(VideoConstants::DISKS_QUALIFIED, [Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED)]);
         Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));

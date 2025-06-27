@@ -7,8 +7,8 @@ namespace Tests\Feature\Events\Pivot\Wiki;
 use App\Events\Pivot\Wiki\SongResource\SongResourceCreated;
 use App\Events\Pivot\Wiki\SongResource\SongResourceDeleted;
 use App\Events\Pivot\Wiki\SongResource\SongResourceUpdated;
-use App\Models\Wiki\Song;
 use App\Models\Wiki\ExternalResource;
+use App\Models\Wiki\Song;
 use App\Pivots\Wiki\SongResource;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
@@ -24,7 +24,7 @@ class SongResourceTest extends TestCase
      *
      * @return void
      */
-    public function testSongResourceCreatedEventDispatched(): void
+    public function test_song_resource_created_event_dispatched(): void
     {
         $song = Song::factory()->createOne();
         $resource = ExternalResource::factory()->createOne();
@@ -39,7 +39,7 @@ class SongResourceTest extends TestCase
      *
      * @return void
      */
-    public function testSongResourceDeletedEventDispatched(): void
+    public function test_song_resource_deleted_event_dispatched(): void
     {
         $song = Song::factory()->createOne();
         $resource = ExternalResource::factory()->createOne();
@@ -55,7 +55,7 @@ class SongResourceTest extends TestCase
      *
      * @return void
      */
-    public function testSongResourceUpdatedEventDispatched(): void
+    public function test_song_resource_updated_event_dispatched(): void
     {
         $song = Song::factory()->createOne();
         $resource = ExternalResource::factory()->createOne();
@@ -81,7 +81,7 @@ class SongResourceTest extends TestCase
      *
      * @return void
      */
-    public function testSongResourceUpdatedEventEmbedFields(): void
+    public function test_song_resource_updated_event_embed_fields(): void
     {
         $song = Song::factory()->createOne();
         $resource = ExternalResource::factory()->createOne();

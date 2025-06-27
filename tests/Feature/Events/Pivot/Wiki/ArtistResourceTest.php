@@ -24,7 +24,7 @@ class ArtistResourceTest extends TestCase
      *
      * @return void
      */
-    public function testArtistResourceCreatedEventDispatched(): void
+    public function test_artist_resource_created_event_dispatched(): void
     {
         $artist = Artist::factory()->createOne();
         $resource = ExternalResource::factory()->createOne();
@@ -39,7 +39,7 @@ class ArtistResourceTest extends TestCase
      *
      * @return void
      */
-    public function testArtistResourceDeletedEventDispatched(): void
+    public function test_artist_resource_deleted_event_dispatched(): void
     {
         $artist = Artist::factory()->createOne();
         $resource = ExternalResource::factory()->createOne();
@@ -55,7 +55,7 @@ class ArtistResourceTest extends TestCase
      *
      * @return void
      */
-    public function testArtistResourceUpdatedEventDispatched(): void
+    public function test_artist_resource_updated_event_dispatched(): void
     {
         $artist = Artist::factory()->createOne();
         $resource = ExternalResource::factory()->createOne();
@@ -81,7 +81,7 @@ class ArtistResourceTest extends TestCase
      *
      * @return void
      */
-    public function testArtistResourceUpdatedEventEmbedFields(): void
+    public function test_artist_resource_updated_event_embed_fields(): void
     {
         $artist = Artist::factory()->createOne();
         $resource = ExternalResource::factory()->createOne();

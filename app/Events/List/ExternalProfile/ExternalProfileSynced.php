@@ -22,9 +22,7 @@ class ExternalProfileSynced implements NotifiesUsersEvent
      *
      * @param  ExternalProfile  $profile
      */
-    public function __construct(protected ExternalProfile $profile)
-    {
-    }
+    public function __construct(protected ExternalProfile $profile) {}
 
     /**
      * Notify the users.

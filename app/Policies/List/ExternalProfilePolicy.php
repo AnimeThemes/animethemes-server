@@ -48,11 +48,11 @@ class ExternalProfilePolicy extends BasePolicy
         }
 
         if ($user !== null) {
-            return ($profile->user()->is($user) || ExternalProfileVisibility::PRIVATE !== $profile->visibility)
+            return ($profile->user()->is($user) || $profile->visibility !== ExternalProfileVisibility::PRIVATE)
                 && $user->can(CrudPermission::VIEW->format(ExternalProfile::class));
         }
 
-        return ExternalProfileVisibility::PRIVATE !== $profile->visibility;
+        return $profile->visibility !== ExternalProfileVisibility::PRIVATE;
     }
 
     /**
@@ -115,7 +115,7 @@ class ExternalProfilePolicy extends BasePolicy
             return $user->hasRole(Role::ADMIN->value);
         }
 
-        return$profile->user()->is($user) && parent::restore($user, $profile);
+        return $profile->user()->is($user) && parent::restore($user, $profile);
     }
 
     /**

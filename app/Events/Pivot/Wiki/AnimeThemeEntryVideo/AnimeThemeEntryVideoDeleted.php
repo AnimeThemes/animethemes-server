@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\DB;
  *
  * @extends PivotDeletedEvent<AnimeThemeEntry, Video>
  */
-class AnimeThemeEntryVideoDeleted extends PivotDeletedEvent implements UpdateRelatedIndicesEvent, UpdatePlaylistTracksEvent
+class AnimeThemeEntryVideoDeleted extends PivotDeletedEvent implements UpdatePlaylistTracksEvent, UpdateRelatedIndicesEvent
 {
     /**
      * Create a new event instance.

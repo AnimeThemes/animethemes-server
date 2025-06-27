@@ -11,8 +11,8 @@ use App\Http\Api\Filter\Filter;
 use App\Http\Api\Filter\IntFilter;
 use App\Http\Api\Schema\Schema;
 use App\Http\Api\Sort\Sort;
-use App\Models\List\Playlist;
 use App\Models\Aggregate\ViewAggregate;
+use App\Models\List\Playlist;
 use Illuminate\Database\Eloquent\Model;
 
 /**

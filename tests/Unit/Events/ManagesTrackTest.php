@@ -19,7 +19,7 @@ class ManagesTrackTest extends TestCase
      *
      * @return void
      */
-    public function testListening(): void
+    public function test_listening(): void
     {
         Event::assertListening(ManagesTrackEvent::class, ManagesTrack::class);
     }

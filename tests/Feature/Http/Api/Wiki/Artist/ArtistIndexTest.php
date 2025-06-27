@@ -57,7 +57,7 @@ class ArtistIndexTest extends TestCase
      *
      * @return void
      */
-    public function testDefault(): void
+    public function test_default(): void
     {
         $artists = Artist::factory()->count($this->faker->randomDigitNotNull())->create();
 
@@ -80,7 +80,7 @@ class ArtistIndexTest extends TestCase
      *
      * @return void
      */
-    public function testPaginated(): void
+    public function test_paginated(): void
     {
         Artist::factory()->count($this->faker->randomDigitNotNull())->create();
 
@@ -98,7 +98,7 @@ class ArtistIndexTest extends TestCase
      *
      * @return void
      */
-    public function testAllowedIncludePaths(): void
+    public function test_allowed_include_paths(): void
     {
         $schema = new ArtistSchema();
 
@@ -137,7 +137,7 @@ class ArtistIndexTest extends TestCase
      *
      * @return void
      */
-    public function testSparseFieldsets(): void
+    public function test_sparse_fieldsets(): void
     {
         $schema = new ArtistSchema();
 
@@ -172,7 +172,7 @@ class ArtistIndexTest extends TestCase
      *
      * @return void
      */
-    public function testSorts(): void
+    public function test_sorts(): void
     {
         $schema = new ArtistSchema();
 
@@ -211,7 +211,7 @@ class ArtistIndexTest extends TestCase
      *
      * @return void
      */
-    public function testCreatedAtFilter(): void
+    public function test_created_at_filter(): void
     {
         $createdFilter = $this->faker->date();
         $excludedDate = $this->faker->date();
@@ -254,7 +254,7 @@ class ArtistIndexTest extends TestCase
      *
      * @return void
      */
-    public function testUpdatedAtFilter(): void
+    public function test_updated_at_filter(): void
     {
         $updatedFilter = $this->faker->date();
         $excludedDate = $this->faker->date();
@@ -297,7 +297,7 @@ class ArtistIndexTest extends TestCase
      *
      * @return void
      */
-    public function testWithoutTrashedFilter(): void
+    public function test_without_trashed_filter(): void
     {
         $parameters = [
             FilterParser::param() => [
@@ -333,7 +333,7 @@ class ArtistIndexTest extends TestCase
      *
      * @return void
      */
-    public function testWithTrashedFilter(): void
+    public function test_with_trashed_filter(): void
     {
         $parameters = [
             FilterParser::param() => [
@@ -369,7 +369,7 @@ class ArtistIndexTest extends TestCase
      *
      * @return void
      */
-    public function testOnlyTrashedFilter(): void
+    public function test_only_trashed_filter(): void
     {
         $parameters = [
             FilterParser::param() => [
@@ -405,7 +405,7 @@ class ArtistIndexTest extends TestCase
      *
      * @return void
      */
-    public function testDeletedAtFilter(): void
+    public function test_deleted_at_filter(): void
     {
         $deletedFilter = $this->faker->date();
         $excludedDate = $this->faker->date();
@@ -449,7 +449,7 @@ class ArtistIndexTest extends TestCase
      *
      * @return void
      */
-    public function testThemesBySequence(): void
+    public function test_themes_by_sequence(): void
     {
         $sequenceFilter = $this->faker->randomDigitNotNull();
         $excludedSequence = $sequenceFilter + 1;
@@ -483,7 +483,7 @@ class ArtistIndexTest extends TestCase
                 $query->where(AnimeTheme::ATTRIBUTE_SEQUENCE, $sequenceFilter);
             },
         ])
-        ->get();
+            ->get();
 
         $response = $this->get(route('api.artist.index', $parameters));
 
@@ -504,7 +504,7 @@ class ArtistIndexTest extends TestCase
      *
      * @return void
      */
-    public function testThemesByType(): void
+    public function test_themes_by_type(): void
     {
         $typeFilter = Arr::random(ThemeType::cases());
 
@@ -533,7 +533,7 @@ class ArtistIndexTest extends TestCase
                 $query->where(AnimeTheme::ATTRIBUTE_TYPE, $typeFilter->value);
             },
         ])
-        ->get();
+            ->get();
 
         $response = $this->get(route('api.artist.index', $parameters));
 
@@ -554,7 +554,7 @@ class ArtistIndexTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeByMediaFormat(): void
+    public function test_anime_by_media_format(): void
     {
         $mediaFormatFilter = Arr::random(AnimeMediaFormat::cases());
 
@@ -583,7 +583,7 @@ class ArtistIndexTest extends TestCase
                 $query->where(Anime::ATTRIBUTE_MEDIA_FORMAT, $mediaFormatFilter->value);
             },
         ])
-        ->get();
+            ->get();
 
         $response = $this->get(route('api.artist.index', $parameters));
 
@@ -604,7 +604,7 @@ class ArtistIndexTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeBySeason(): void
+    public function test_anime_by_season(): void
     {
         $seasonFilter = Arr::random(AnimeSeason::cases());
 
@@ -633,7 +633,7 @@ class ArtistIndexTest extends TestCase
                 $query->where(Anime::ATTRIBUTE_SEASON, $seasonFilter->value);
             },
         ])
-        ->get();
+            ->get();
 
         $response = $this->get(route('api.artist.index', $parameters));
 
@@ -654,7 +654,7 @@ class ArtistIndexTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeByYear(): void
+    public function test_anime_by_year(): void
     {
         $yearFilter = intval($this->faker->year());
         $excludedYear = $yearFilter + 1;
@@ -689,7 +689,7 @@ class ArtistIndexTest extends TestCase
                 $query->where(Anime::ATTRIBUTE_YEAR, $yearFilter);
             },
         ])
-        ->get();
+            ->get();
 
         $response = $this->get(route('api.artist.index', $parameters));
 
@@ -710,7 +710,7 @@ class ArtistIndexTest extends TestCase
      *
      * @return void
      */
-    public function testResourcesBySite(): void
+    public function test_resources_by_site(): void
     {
         $siteFilter = Arr::random(ResourceSite::cases());
 
@@ -731,7 +731,7 @@ class ArtistIndexTest extends TestCase
                 $query->where(ExternalResource::ATTRIBUTE_SITE, $siteFilter->value);
             },
         ])
-        ->get();
+            ->get();
 
         $response = $this->get(route('api.artist.index', $parameters));
 
@@ -752,7 +752,7 @@ class ArtistIndexTest extends TestCase
      *
      * @return void
      */
-    public function testImagesByFacet(): void
+    public function test_images_by_facet(): void
     {
         $facetFilter = Arr::random(ImageFacet::cases());
 
@@ -773,7 +773,7 @@ class ArtistIndexTest extends TestCase
                 $query->where(Image::ATTRIBUTE_FACET, $facetFilter->value);
             },
         ])
-        ->get();
+            ->get();
 
         $response = $this->get(route('api.artist.index', $parameters));
 
