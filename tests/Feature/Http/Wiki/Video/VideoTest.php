@@ -38,7 +38,7 @@ class VideoTest extends TestCase
      *
      * @return void
      */
-    public function test_video_streaming_not_allowed_forbidden(): void
+    public function testVideoStreamingNotAllowedForbidden(): void
     {
         Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
 
@@ -56,7 +56,7 @@ class VideoTest extends TestCase
      *
      * @return void
      */
-    public function test_cannot_stream_soft_deleted_video(): void
+    public function testCannotStreamSoftDeletedVideo(): void
     {
         Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
 
@@ -74,7 +74,7 @@ class VideoTest extends TestCase
      *
      * @return void
      */
-    public function test_view_recording_not_allowed(): void
+    public function testViewRecordingNotAllowed(): void
     {
         Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
 
@@ -94,7 +94,7 @@ class VideoTest extends TestCase
      *
      * @return void
      */
-    public function test_video_streaming_permitted_for_bypass(): void
+    public function testVideoStreamingPermittedForBypass(): void
     {
         Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
 
@@ -120,7 +120,7 @@ class VideoTest extends TestCase
      *
      * @return void
      */
-    public function test_view_recording_is_allowed(): void
+    public function testViewRecordingIsAllowed(): void
     {
         Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
 
@@ -139,7 +139,7 @@ class VideoTest extends TestCase
      *
      * @return void
      */
-    public function test_view_recording_cooldown(): void
+    public function testViewRecordingCooldown(): void
     {
         Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
 
@@ -160,7 +160,7 @@ class VideoTest extends TestCase
      *
      * @return void
      */
-    public function test_invalid_streaming_method_error(): void
+    public function testInvalidStreamingMethodError(): void
     {
         Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
 
@@ -179,7 +179,7 @@ class VideoTest extends TestCase
      *
      * @return void
      */
-    public function test_streamed_through_response(): void
+    public function testStreamedThroughResponse(): void
     {
         Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
 
@@ -198,7 +198,7 @@ class VideoTest extends TestCase
      *
      * @return void
      */
-    public function test_streamed_through_nginx_redirect(): void
+    public function testStreamedThroughNginxRedirect(): void
     {
         Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
 
@@ -217,7 +217,7 @@ class VideoTest extends TestCase
      *
      * @return void
      */
-    public function test_not_throttled(): void
+    public function testNotThrottled(): void
     {
         Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
 
@@ -238,7 +238,7 @@ class VideoTest extends TestCase
      *
      * @return void
      */
-    public function test_rate_limited(): void
+    public function testRateLimited(): void
     {
         Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
 
@@ -259,7 +259,7 @@ class VideoTest extends TestCase
      *
      * @return void
      */
-    public function test_throttled_event(): void
+    public function testThrottledEvent(): void
     {
         $limit = $this->faker->randomDigitNotNull();
 
@@ -285,7 +285,7 @@ class VideoTest extends TestCase
      *
      * @return void
      */
-    public function test_throttled_notification(): void
+    public function testThrottledNotification(): void
     {
         $limit = $this->faker->randomDigitNotNull();
 

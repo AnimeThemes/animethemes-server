@@ -20,7 +20,7 @@ class DumpStoreTest extends TestCase
      *
      * @return void
      */
-    public function test_protected(): void
+    public function testProtected(): void
     {
         $dump = Dump::factory()->makeOne();
 
@@ -34,7 +34,7 @@ class DumpStoreTest extends TestCase
      *
      * @return void
      */
-    public function test_forbidden(): void
+    public function testForbidden(): void
     {
         $dump = Dump::factory()->makeOne();
 
@@ -52,7 +52,7 @@ class DumpStoreTest extends TestCase
      *
      * @return void
      */
-    public function test_required_fields(): void
+    public function testRequiredFields(): void
     {
         $user = User::factory()->withPermissions(CrudPermission::CREATE->format(Dump::class))->createOne();
 
@@ -70,7 +70,7 @@ class DumpStoreTest extends TestCase
      *
      * @return void
      */
-    public function test_create(): void
+    public function testCreate(): void
     {
         $parameters = Dump::factory()->raw();
 

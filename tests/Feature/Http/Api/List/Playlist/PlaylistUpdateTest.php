@@ -34,7 +34,7 @@ class PlaylistUpdateTest extends TestCase
      *
      * @return void
      */
-    public function test_protected(): void
+    public function testProtected(): void
     {
         Event::fakeExcept(PlaylistCreated::class);
 
@@ -59,7 +59,7 @@ class PlaylistUpdateTest extends TestCase
      *
      * @return void
      */
-    public function test_forbidden_if_missing_permission(): void
+    public function testForbiddenIfMissingPermission(): void
     {
         Event::fakeExcept(PlaylistCreated::class);
 
@@ -88,7 +88,7 @@ class PlaylistUpdateTest extends TestCase
      *
      * @return void
      */
-    public function test_forbidden_if_not_own_playlist(): void
+    public function testForbiddenIfNotOwnPlaylist(): void
     {
         Event::fakeExcept(PlaylistCreated::class);
 
@@ -120,7 +120,7 @@ class PlaylistUpdateTest extends TestCase
      *
      * @return void
      */
-    public function test_forbidden_if_flag_disabled(): void
+    public function testForbiddenIfFlagDisabled(): void
     {
         Event::fakeExcept(PlaylistCreated::class);
 
@@ -153,7 +153,7 @@ class PlaylistUpdateTest extends TestCase
      *
      * @return void
      */
-    public function test_trashed(): void
+    public function testTrashed(): void
     {
         Event::fakeExcept(PlaylistCreated::class);
 
@@ -187,7 +187,7 @@ class PlaylistUpdateTest extends TestCase
      *
      * @return void
      */
-    public function test_update(): void
+    public function testUpdate(): void
     {
         Event::fakeExcept(PlaylistCreated::class);
 
@@ -221,7 +221,7 @@ class PlaylistUpdateTest extends TestCase
      *
      * @return void
      */
-    public function test_update_permitted_for_bypass(): void
+    public function testUpdatePermittedForBypass(): void
     {
         Event::fakeExcept(PlaylistCreated::class);
 
@@ -259,7 +259,7 @@ class PlaylistUpdateTest extends TestCase
      *
      * @return void
      */
-    public function test_updated_if_not_flagged_by_open_ai(): void
+    public function testUpdatedIfNotFlaggedByOpenAi(): void
     {
         Event::fakeExcept(PlaylistCreated::class);
 
@@ -303,7 +303,7 @@ class PlaylistUpdateTest extends TestCase
      *
      * @return void
      */
-    public function test_updated_if_open_ai_fails(): void
+    public function testUpdatedIfOpenAiFails(): void
     {
         Event::fakeExcept(PlaylistCreated::class);
 
@@ -341,7 +341,7 @@ class PlaylistUpdateTest extends TestCase
      *
      * @return void
      */
-    public function test_validation_error_when_flagged_by_open_ai(): void
+    public function testValidationErrorWhenFlaggedByOpenAi(): void
     {
         Event::fakeExcept(PlaylistCreated::class);
 

@@ -21,7 +21,7 @@ class ExternalResourceUpdateTest extends TestCase
      *
      * @return void
      */
-    public function test_protected(): void
+    public function testProtected(): void
     {
         $resource = ExternalResource::factory()->createOne();
 
@@ -40,7 +40,7 @@ class ExternalResourceUpdateTest extends TestCase
      *
      * @return void
      */
-    public function test_forbidden(): void
+    public function testForbidden(): void
     {
         $resource = ExternalResource::factory()->createOne();
 
@@ -63,7 +63,7 @@ class ExternalResourceUpdateTest extends TestCase
      *
      * @return void
      */
-    public function test_trashed(): void
+    public function testTrashed(): void
     {
         $resource = ExternalResource::factory()
             ->trashed()
@@ -90,7 +90,7 @@ class ExternalResourceUpdateTest extends TestCase
      *
      * @return void
      */
-    public function test_update(): void
+    public function testUpdate(): void
     {
         $resource = ExternalResource::factory()->createOne([
             ExternalResource::ATTRIBUTE_SITE => ResourceSite::OFFICIAL_SITE,

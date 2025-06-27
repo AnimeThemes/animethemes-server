@@ -19,7 +19,7 @@ class ArtistMemberTest extends TestCase
      *
      * @return void
      */
-    public function test_artist(): void
+    public function testArtist(): void
     {
         $artistMember = ArtistMember::factory()
             ->for(Artist::factory(), 'artist')
@@ -35,7 +35,7 @@ class ArtistMemberTest extends TestCase
      *
      * @return void
      */
-    public function test_member(): void
+    public function testMember(): void
     {
         $artistMember = ArtistMember::factory()
             ->for(Artist::factory(), 'artist')

@@ -22,7 +22,7 @@ class DiscordThreadTest extends TestCase
      *
      * @return void
      */
-    public function test_nameable(): void
+    public function testNameable(): void
     {
         $thread = DiscordThread::factory()
             ->for(Anime::factory())
@@ -36,7 +36,7 @@ class DiscordThreadTest extends TestCase
      *
      * @return void
      */
-    public function test_has_subtitle(): void
+    public function testHasSubtitle(): void
     {
         $thread = DiscordThread::factory()
             ->for(Anime::factory())
@@ -50,7 +50,7 @@ class DiscordThreadTest extends TestCase
      *
      * @return void
      */
-    public function test_anime(): void
+    public function testAnime(): void
     {
         $thread = DiscordThread::factory()
             ->for(Anime::factory())

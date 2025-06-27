@@ -21,7 +21,7 @@ class DelimitedTest extends TestCase
      *
      * @return void
      */
-    public function test_passes_if_all_values_pass(): void
+    public function testPassesIfAllValuesPass(): void
     {
         $attribute = $this->faker->word();
 
@@ -40,7 +40,7 @@ class DelimitedTest extends TestCase
      *
      * @return void
      */
-    public function test_fails_for_duplicate_values(): void
+    public function testFailsForDuplicateValues(): void
     {
         $attribute = $this->faker->word();
 
@@ -61,7 +61,7 @@ class DelimitedTest extends TestCase
      *
      * @return void
      */
-    public function test_fails_for_invalid_value(): void
+    public function testFailsForInvalidValue(): void
     {
         $attribute = $this->faker->word();
 
@@ -80,7 +80,7 @@ class DelimitedTest extends TestCase
      *
      * @return void
      */
-    public function test_validates_empty_values(): void
+    public function testValidatesEmptyValues(): void
     {
         $attribute = $this->faker->word();
 

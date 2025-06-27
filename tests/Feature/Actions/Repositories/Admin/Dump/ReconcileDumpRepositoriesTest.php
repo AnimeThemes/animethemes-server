@@ -33,7 +33,7 @@ class ReconcileDumpRepositoriesTest extends TestCase
      *
      * @throws Exception
      */
-    public function test_no_results(): void
+    public function testNoResults(): void
     {
         Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));
 
@@ -60,7 +60,7 @@ class ReconcileDumpRepositoriesTest extends TestCase
      *
      * @throws Exception
      */
-    public function test_created(): void
+    public function testCreated(): void
     {
         Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));
 
@@ -92,7 +92,7 @@ class ReconcileDumpRepositoriesTest extends TestCase
      *
      * @throws Exception
      */
-    public function test_deleted(): void
+    public function testDeleted(): void
     {
         Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));
 

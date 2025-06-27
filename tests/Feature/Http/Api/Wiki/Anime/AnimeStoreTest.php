@@ -23,7 +23,7 @@ class AnimeStoreTest extends TestCase
      *
      * @return void
      */
-    public function test_protected(): void
+    public function testProtected(): void
     {
         $anime = Anime::factory()->makeOne();
 
@@ -37,7 +37,7 @@ class AnimeStoreTest extends TestCase
      *
      * @return void
      */
-    public function test_forbidden(): void
+    public function testForbidden(): void
     {
         $anime = Anime::factory()->makeOne();
 
@@ -55,7 +55,7 @@ class AnimeStoreTest extends TestCase
      *
      * @return void
      */
-    public function test_required_fields(): void
+    public function testRequiredFields(): void
     {
         $user = User::factory()->withPermissions(CrudPermission::CREATE->format(Anime::class))->createOne();
 
@@ -77,7 +77,7 @@ class AnimeStoreTest extends TestCase
      *
      * @return void
      */
-    public function test_create(): void
+    public function testCreate(): void
     {
         $season = Arr::random(AnimeSeason::cases());
         $mediaFormat = Arr::random(AnimeMediaFormat::cases());

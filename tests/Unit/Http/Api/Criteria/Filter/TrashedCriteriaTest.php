@@ -21,7 +21,7 @@ class TrashedCriteriaTest extends TestCase
      *
      * @return void
      */
-    public function test_field(): void
+    public function testField(): void
     {
         $criteria = TrashedCriteria::make(new GlobalScope(), TrashedCriteria::PARAM_VALUE, $this->faker->word());
 

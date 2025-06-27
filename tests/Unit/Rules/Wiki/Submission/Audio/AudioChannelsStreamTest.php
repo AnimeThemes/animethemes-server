@@ -24,7 +24,7 @@ class AudioChannelsStreamTest extends TestCase
      *
      * @return void
      */
-    public function test_fails_when_channel_count_is_not_two(): void
+    public function testFailsWhenChannelCountIsNotTwo(): void
     {
         $file = UploadedFile::fake()->create($this->faker->word().'.webm', $this->faker->randomDigitNotNull());
 
@@ -66,7 +66,7 @@ class AudioChannelsStreamTest extends TestCase
      *
      * @return void
      */
-    public function test_passes_when_channel_count_is_two(): void
+    public function testPassesWhenChannelCountIsTwo(): void
     {
         $file = UploadedFile::fake()->create($this->faker->word().'.webm', $this->faker->randomDigitNotNull());
 

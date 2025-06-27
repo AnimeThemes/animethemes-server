@@ -19,7 +19,7 @@ class ActionResultTest extends TestCase
      *
      * @return void
      */
-    public function test_has_failed(): void
+    public function testHasFailed(): void
     {
         $result = new ActionResult(ActionStatus::FAILED);
 
@@ -31,7 +31,7 @@ class ActionResultTest extends TestCase
      *
      * @return void
      */
-    public function test_has_not_failed(): void
+    public function testHasNotFailed(): void
     {
         $status = null;
 

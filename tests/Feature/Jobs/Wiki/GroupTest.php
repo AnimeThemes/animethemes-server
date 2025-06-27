@@ -26,7 +26,7 @@ class GroupTest extends TestCase
      *
      * @return void
      */
-    public function test_group_created_sends_discord_notification(): void
+    public function testGroupCreatedSendsDiscordNotification(): void
     {
         Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
         Bus::fake(SendDiscordNotificationJob::class);
@@ -42,7 +42,7 @@ class GroupTest extends TestCase
      *
      * @return void
      */
-    public function test_group_deleted_sends_discord_notification(): void
+    public function testGroupDeletedSendsDiscordNotification(): void
     {
         $group = Group::factory()->createOne();
 
@@ -60,7 +60,7 @@ class GroupTest extends TestCase
      *
      * @return void
      */
-    public function test_group_restored_sends_discord_notification(): void
+    public function testGroupRestoredSendsDiscordNotification(): void
     {
         $group = Group::factory()->createOne();
 
@@ -78,7 +78,7 @@ class GroupTest extends TestCase
      *
      * @return void
      */
-    public function test_group_updated_sends_discord_notification(): void
+    public function testGroupUpdatedSendsDiscordNotification(): void
     {
         $group = Group::factory()->createOne();
 

@@ -20,7 +20,7 @@ class YearIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_default(): void
+    public function testDefault(): void
     {
         $anime = Anime::factory()
             ->count($this->faker->randomDigitNotNull())

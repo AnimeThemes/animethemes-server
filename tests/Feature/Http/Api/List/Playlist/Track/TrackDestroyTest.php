@@ -31,7 +31,7 @@ class TrackDestroyTest extends TestCase
      *
      * @return void
      */
-    public function test_protected(): void
+    public function testProtected(): void
     {
         Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
@@ -51,7 +51,7 @@ class TrackDestroyTest extends TestCase
      *
      * @return void
      */
-    public function test_forbidden_if_missing_permission(): void
+    public function testForbiddenIfMissingPermission(): void
     {
         Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
@@ -75,7 +75,7 @@ class TrackDestroyTest extends TestCase
      *
      * @return void
      */
-    public function test_forbidden_if_not_own_playlist(): void
+    public function testForbiddenIfNotOwnPlaylist(): void
     {
         Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
@@ -100,7 +100,7 @@ class TrackDestroyTest extends TestCase
      *
      * @return void
      */
-    public function test_forbidden_if_flag_disabled(): void
+    public function testForbiddenIfFlagDisabled(): void
     {
         Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
@@ -128,7 +128,7 @@ class TrackDestroyTest extends TestCase
      *
      * @return void
      */
-    public function test_scoped(): void
+    public function testScoped(): void
     {
         Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
@@ -159,7 +159,7 @@ class TrackDestroyTest extends TestCase
      *
      * @return void
      */
-    public function test_trashed(): void
+    public function testTrashed(): void
     {
         Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
@@ -184,7 +184,7 @@ class TrackDestroyTest extends TestCase
      *
      * @return void
      */
-    public function test_deleted(): void
+    public function testDeleted(): void
     {
         Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
@@ -224,7 +224,7 @@ class TrackDestroyTest extends TestCase
      *
      * @return void
      */
-    public function test_destroy_permitted_for_bypass(): void
+    public function testDestroyPermittedForBypass(): void
     {
         Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
@@ -257,7 +257,7 @@ class TrackDestroyTest extends TestCase
      *
      * @return void
      */
-    public function test_destroy_first(): void
+    public function testDestroyFirst(): void
     {
         Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
@@ -298,7 +298,7 @@ class TrackDestroyTest extends TestCase
      *
      * @return void
      */
-    public function test_destroy_last(): void
+    public function testDestroyLast(): void
     {
         Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
@@ -339,7 +339,7 @@ class TrackDestroyTest extends TestCase
      *
      * @return void
      */
-    public function test_destroy_second(): void
+    public function testDestroySecond(): void
     {
         Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 

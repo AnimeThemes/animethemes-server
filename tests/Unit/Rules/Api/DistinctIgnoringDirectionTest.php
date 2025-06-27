@@ -23,7 +23,7 @@ class DistinctIgnoringDirectionTest extends TestCase
      *
      * @return void
      */
-    public function test_fails_if_duplicate_sort(): void
+    public function testFailsIfDuplicateSort(): void
     {
         $key = $this->faker->word();
 
@@ -44,7 +44,7 @@ class DistinctIgnoringDirectionTest extends TestCase
      *
      * @return void
      */
-    public function test_fails_if_duplicate_sort_different_direction(): void
+    public function testFailsIfDuplicateSortDifferentDirection(): void
     {
         $key = $this->faker->word();
 
@@ -71,7 +71,7 @@ class DistinctIgnoringDirectionTest extends TestCase
      *
      * @return void
      */
-    public function test_passes_if_no_duplicates(): void
+    public function testPassesIfNoDuplicates(): void
     {
         $sorts = collect($this->faker->words($this->faker->randomDigitNotNull()))->unique();
 

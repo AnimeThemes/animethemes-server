@@ -30,7 +30,7 @@ class AudioTest extends TestCase
      *
      * @return void
      */
-    public function test_nameable(): void
+    public function testNameable(): void
     {
         $audio = Audio::factory()->createOne();
 
@@ -42,7 +42,7 @@ class AudioTest extends TestCase
      *
      * @return void
      */
-    public function test_has_subtitle(): void
+    public function testHasSubtitle(): void
     {
         $audio = Audio::factory()->createOne();
 
@@ -54,7 +54,7 @@ class AudioTest extends TestCase
      *
      * @return void
      */
-    public function test_videos(): void
+    public function testVideos(): void
     {
         $videoCount = $this->faker->randomDigitNotNull();
 
@@ -72,7 +72,7 @@ class AudioTest extends TestCase
      *
      * @return void
      */
-    public function test_views(): void
+    public function testViews(): void
     {
         $audio = Audio::factory()->createOne();
 
@@ -88,7 +88,7 @@ class AudioTest extends TestCase
      *
      * @return void
      */
-    public function test_audio_storage_deletion(): void
+    public function testAudioStorageDeletion(): void
     {
         $fs = Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
         $file = File::fake()->create($this->faker->word().'.ogg', $this->faker->randomDigitNotNull());
@@ -108,7 +108,7 @@ class AudioTest extends TestCase
      *
      * @return void
      */
-    public function test_audio_storage_force_deletion(): void
+    public function testAudioStorageForceDeletion(): void
     {
         Event::fakeExcept(AudioForceDeleting::class);
 

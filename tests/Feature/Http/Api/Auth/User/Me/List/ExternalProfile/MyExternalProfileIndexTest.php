@@ -25,7 +25,7 @@ class MyExternalProfileIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_protected(): void
+    public function testProtected(): void
     {
         $response = $this->get(route('api.me.externalprofile.index'));
 
@@ -37,7 +37,7 @@ class MyExternalProfileIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_forbidden_if_missing_permission(): void
+    public function testForbiddenIfMissingPermission(): void
     {
         $user = User::factory()->createOne();
 
@@ -53,7 +53,7 @@ class MyExternalProfileIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_only_sees_owned_profiles(): void
+    public function testOnlySeesOwnedProfiles(): void
     {
         ExternalProfile::factory()
             ->for(User::factory())

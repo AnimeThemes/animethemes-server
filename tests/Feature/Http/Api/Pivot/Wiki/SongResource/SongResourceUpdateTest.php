@@ -22,7 +22,7 @@ class SongResourceUpdateTest extends TestCase
      *
      * @return void
      */
-    public function test_protected(): void
+    public function testProtected(): void
     {
         $songResource = SongResource::factory()
             ->for(Song::factory())
@@ -41,7 +41,7 @@ class SongResourceUpdateTest extends TestCase
      *
      * @return void
      */
-    public function test_forbidden(): void
+    public function testForbidden(): void
     {
         $songResource = SongResource::factory()
             ->for(Song::factory())
@@ -64,7 +64,7 @@ class SongResourceUpdateTest extends TestCase
      *
      * @return void
      */
-    public function test_update(): void
+    public function testUpdate(): void
     {
         $songResource = SongResource::factory()
             ->for(Song::factory())

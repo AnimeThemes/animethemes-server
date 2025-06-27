@@ -47,7 +47,7 @@ class ExternalEntryShowTest extends TestCase
      *
      * @return void
      */
-    public function test_private_external_entry_cannot_be_publicly_viewed(): void
+    public function testPrivateExternalEntryCannotBePubliclyViewed(): void
     {
         $profile = ExternalProfile::factory()
             ->for(User::factory())
@@ -69,7 +69,7 @@ class ExternalEntryShowTest extends TestCase
      *
      * @return void
      */
-    public function test_private_external_entry_cannot_be_publicly_viewed_if_not_owned(): void
+    public function testPrivateExternalEntryCannotBePubliclyViewedIfNotOwned(): void
     {
         $profile = ExternalProfile::factory()
             ->for(User::factory())
@@ -95,7 +95,7 @@ class ExternalEntryShowTest extends TestCase
      *
      * @return void
      */
-    public function test_private_external_entry_can_be_viewed_by_owner(): void
+    public function testPrivateExternalEntryCanBeViewedByOwner(): void
     {
         $user = User::factory()->withPermissions(CrudPermission::VIEW->format(ExternalEntry::class))->createOne();
 
@@ -121,7 +121,7 @@ class ExternalEntryShowTest extends TestCase
      *
      * @return void
      */
-    public function test_public_external_entry_can_be_viewed(): void
+    public function testPublicExternalEntryCanBeViewed(): void
     {
         $profile = ExternalProfile::factory()
             ->for(User::factory())
@@ -143,7 +143,7 @@ class ExternalEntryShowTest extends TestCase
      *
      * @return void
      */
-    public function test_scoped(): void
+    public function testScoped(): void
     {
         $user = User::factory()->withPermissions(CrudPermission::VIEW->format(ExternalEntry::class))->createOne();
 
@@ -168,7 +168,7 @@ class ExternalEntryShowTest extends TestCase
      *
      * @return void
      */
-    public function test_default(): void
+    public function testDefault(): void
     {
         $profile = ExternalProfile::factory()
             ->createOne([
@@ -200,7 +200,7 @@ class ExternalEntryShowTest extends TestCase
      *
      * @return void
      */
-    public function test_allowed_include_paths(): void
+    public function testAllowedIncludePaths(): void
     {
         $schema = new ExternalEntrySchema();
 
@@ -245,7 +245,7 @@ class ExternalEntryShowTest extends TestCase
      *
      * @return void
      */
-    public function test_sparse_fieldsets(): void
+    public function testSparseFieldsets(): void
     {
         $schema = new ExternalEntrySchema();
 

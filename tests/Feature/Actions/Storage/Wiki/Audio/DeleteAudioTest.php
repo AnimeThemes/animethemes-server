@@ -29,7 +29,7 @@ class DeleteAudioTest extends TestCase
      *
      * @return void
      */
-    public function test_default(): void
+    public function testDefault(): void
     {
         Config::set(AudioConstants::DISKS_QUALIFIED, []);
         Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
@@ -50,7 +50,7 @@ class DeleteAudioTest extends TestCase
      *
      * @return void
      */
-    public function test_passed(): void
+    public function testPassed(): void
     {
         Config::set(AudioConstants::DISKS_QUALIFIED, [Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED)]);
         Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
@@ -78,7 +78,7 @@ class DeleteAudioTest extends TestCase
      *
      * @return void
      */
-    public function test_deleted_from_disk(): void
+    public function testDeletedFromDisk(): void
     {
         Config::set(AudioConstants::DISKS_QUALIFIED, [Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED)]);
         Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
@@ -106,7 +106,7 @@ class DeleteAudioTest extends TestCase
      *
      * @throws Exception
      */
-    public function test_audio_deleted(): void
+    public function testAudioDeleted(): void
     {
         Config::set(AudioConstants::DISKS_QUALIFIED, [Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED)]);
         Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));

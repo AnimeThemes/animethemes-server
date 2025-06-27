@@ -59,7 +59,7 @@ class ThemeIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_default(): void
+    public function testDefault(): void
     {
         AnimeTheme::factory()
             ->for(Anime::factory())
@@ -89,7 +89,7 @@ class ThemeIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_paginated(): void
+    public function testPaginated(): void
     {
         AnimeTheme::factory()
             ->for(Anime::factory())
@@ -110,7 +110,7 @@ class ThemeIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_allowed_include_paths(): void
+    public function testAllowedIncludePaths(): void
     {
         $schema = new ThemeSchema();
 
@@ -157,7 +157,7 @@ class ThemeIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_sparse_fieldsets(): void
+    public function testSparseFieldsets(): void
     {
         $schema = new ThemeSchema();
 
@@ -197,7 +197,7 @@ class ThemeIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_sorts(): void
+    public function testSorts(): void
     {
         $schema = new ThemeSchema();
 
@@ -239,7 +239,7 @@ class ThemeIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_created_at_filter(): void
+    public function testCreatedAtFilter(): void
     {
         $createdFilter = $this->faker->date();
         $excludedDate = $this->faker->date();
@@ -288,7 +288,7 @@ class ThemeIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_updated_at_filter(): void
+    public function testUpdatedAtFilter(): void
     {
         $updatedFilter = $this->faker->date();
         $excludedDate = $this->faker->date();
@@ -337,7 +337,7 @@ class ThemeIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_without_trashed_filter(): void
+    public function testWithoutTrashedFilter(): void
     {
         $parameters = [
             FilterParser::param() => [
@@ -380,7 +380,7 @@ class ThemeIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_with_trashed_filter(): void
+    public function testWithTrashedFilter(): void
     {
         $parameters = [
             FilterParser::param() => [
@@ -423,7 +423,7 @@ class ThemeIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_only_trashed_filter(): void
+    public function testOnlyTrashedFilter(): void
     {
         $parameters = [
             FilterParser::param() => [
@@ -466,7 +466,7 @@ class ThemeIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_deleted_at_filter(): void
+    public function testDeletedAtFilter(): void
     {
         $deletedFilter = $this->faker->date();
         $excludedDate = $this->faker->date();
@@ -516,7 +516,7 @@ class ThemeIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_sequence_filter(): void
+    public function testSequenceFilter(): void
     {
         $sequenceFilter = $this->faker->randomDigitNotNull();
         $excludedSequence = $sequenceFilter + 1;
@@ -557,7 +557,7 @@ class ThemeIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_type_filter(): void
+    public function testTypeFilter(): void
     {
         $typeFilter = Arr::random(ThemeType::cases());
 
@@ -593,7 +593,7 @@ class ThemeIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_anime_by_media_format(): void
+    public function testAnimeByMediaFormat(): void
     {
         $mediaFormatFilter = Arr::random(AnimeMediaFormat::cases());
 
@@ -635,7 +635,7 @@ class ThemeIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_anime_by_season(): void
+    public function testAnimeBySeason(): void
     {
         $seasonFilter = Arr::random(AnimeSeason::cases());
 
@@ -677,7 +677,7 @@ class ThemeIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_anime_by_year(): void
+    public function testAnimeByYear(): void
     {
         $yearFilter = intval($this->faker->year());
         $excludedYear = $yearFilter + 1;
@@ -725,7 +725,7 @@ class ThemeIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_images_by_facet(): void
+    public function testImagesByFacet(): void
     {
         $facetFilter = Arr::random(ImageFacet::cases());
 
@@ -770,7 +770,7 @@ class ThemeIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_entries_by_nsfw(): void
+    public function testEntriesByNsfw(): void
     {
         $nsfwFilter = $this->faker->boolean();
 
@@ -813,7 +813,7 @@ class ThemeIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_entries_by_spoiler(): void
+    public function testEntriesBySpoiler(): void
     {
         $spoilerFilter = $this->faker->boolean();
 
@@ -856,7 +856,7 @@ class ThemeIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_entries_by_version(): void
+    public function testEntriesByVersion(): void
     {
         $versionFilter = $this->faker->randomDigitNotNull();
         $excludedVersion = $versionFilter + 1;
@@ -907,7 +907,7 @@ class ThemeIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_videos_by_lyrics(): void
+    public function testVideosByLyrics(): void
     {
         $lyricsFilter = $this->faker->boolean();
 
@@ -954,7 +954,7 @@ class ThemeIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_videos_by_nc(): void
+    public function testVideosByNc(): void
     {
         $ncFilter = $this->faker->boolean();
 
@@ -1001,7 +1001,7 @@ class ThemeIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_videos_by_overlap(): void
+    public function testVideosByOverlap(): void
     {
         $overlapFilter = Arr::random(VideoOverlap::cases());
 
@@ -1048,7 +1048,7 @@ class ThemeIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_videos_by_resolution(): void
+    public function testVideosByResolution(): void
     {
         $resolutionFilter = $this->faker->randomNumber();
         $excludedResolution = $resolutionFilter + 1;
@@ -1103,7 +1103,7 @@ class ThemeIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_videos_by_source(): void
+    public function testVideosBySource(): void
     {
         $sourceFilter = Arr::random(VideoSource::cases());
 
@@ -1150,7 +1150,7 @@ class ThemeIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_videos_by_subbed(): void
+    public function testVideosBySubbed(): void
     {
         $subbedFilter = $this->faker->boolean();
 
@@ -1197,7 +1197,7 @@ class ThemeIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_videos_by_uncen(): void
+    public function testVideosByUncen(): void
     {
         $uncenFilter = $this->faker->boolean();
 

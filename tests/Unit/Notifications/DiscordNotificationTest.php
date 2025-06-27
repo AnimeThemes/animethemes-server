@@ -20,7 +20,7 @@ class DiscordNotificationTest extends TestCase
      *
      * @return void
      */
-    public function test_via_discord_message(): void
+    public function testViaDiscordMessage(): void
     {
         $message = DiscordMessage::create();
 
@@ -34,7 +34,7 @@ class DiscordNotificationTest extends TestCase
      *
      * @return void
      */
-    public function test_to_discord_message(): void
+    public function testToDiscordMessage(): void
     {
         $message = DiscordMessage::create();
 

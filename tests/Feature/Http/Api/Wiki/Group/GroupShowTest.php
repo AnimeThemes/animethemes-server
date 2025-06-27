@@ -37,7 +37,7 @@ class GroupShowTest extends TestCase
      *
      * @return void
      */
-    public function test_default(): void
+    public function testDefault(): void
     {
         $group = Group::factory()->create();
 
@@ -60,7 +60,7 @@ class GroupShowTest extends TestCase
      *
      * @return void
      */
-    public function test_soft_delete(): void
+    public function testSoftDelete(): void
     {
         $group = Group::factory()->trashed()->createOne();
 
@@ -85,7 +85,7 @@ class GroupShowTest extends TestCase
      *
      * @return void
      */
-    public function test_allowed_include_paths(): void
+    public function testAllowedIncludePaths(): void
     {
         $schema = new GroupSchema();
 
@@ -122,7 +122,7 @@ class GroupShowTest extends TestCase
      *
      * @return void
      */
-    public function test_sparse_fieldsets(): void
+    public function testSparseFieldsets(): void
     {
         $schema = new GroupSchema();
 
@@ -157,7 +157,7 @@ class GroupShowTest extends TestCase
      *
      * @return void
      */
-    public function test_themes_by_sequence(): void
+    public function testThemesBySequence(): void
     {
         $sequenceFilter = $this->faker->randomDigitNotNull();
         $excludedSequence = $sequenceFilter + 1;
@@ -206,7 +206,7 @@ class GroupShowTest extends TestCase
      *
      * @return void
      */
-    public function test_themes_by_type(): void
+    public function testThemesByType(): void
     {
         $typeFilter = Arr::random(ThemeType::cases());
 
@@ -246,7 +246,7 @@ class GroupShowTest extends TestCase
      *
      * @return void
      */
-    public function test_anime_by_media_format(): void
+    public function testAnimeByMediaFormat(): void
     {
         $mediaFormatFilter = Arr::random(AnimeMediaFormat::cases());
 
@@ -286,7 +286,7 @@ class GroupShowTest extends TestCase
      *
      * @return void
      */
-    public function test_anime_by_season(): void
+    public function testAnimeBySeason(): void
     {
         $seasonFilter = Arr::random(AnimeSeason::cases());
 
@@ -326,7 +326,7 @@ class GroupShowTest extends TestCase
      *
      * @return void
      */
-    public function test_anime_by_year(): void
+    public function testAnimeByYear(): void
     {
         $yearFilter = intval($this->faker->year());
         $excludedYear = $yearFilter + 1;

@@ -28,7 +28,7 @@ class EmailVerificationTest extends TestCase
      *
      * @return void
      */
-    public function test_assigns_default_roles(): void
+    public function testAssignsDefaultRoles(): void
     {
         Event::fakeExcept(Verified::class);
 

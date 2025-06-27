@@ -17,7 +17,7 @@ class PageTest extends TestCase
      *
      * @return void
      */
-    public function test_nameable(): void
+    public function testNameable(): void
     {
         $page = Page::factory()->createOne();
 
@@ -29,7 +29,7 @@ class PageTest extends TestCase
      *
      * @return void
      */
-    public function test_has_subtitle(): void
+    public function testHasSubtitle(): void
     {
         $page = Page::factory()->createOne();
 

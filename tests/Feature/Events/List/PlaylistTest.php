@@ -25,7 +25,7 @@ class PlaylistTest extends TestCase
      *
      * @return void
      */
-    public function test_playlist_created_event_dispatched(): void
+    public function testPlaylistCreatedEventDispatched(): void
     {
         Playlist::factory()->createOne();
 
@@ -37,7 +37,7 @@ class PlaylistTest extends TestCase
      *
      * @return void
      */
-    public function test_playlist_deleted_event_dispatched(): void
+    public function testPlaylistDeletedEventDispatched(): void
     {
         $playlist = Playlist::factory()->createOne();
 
@@ -51,7 +51,7 @@ class PlaylistTest extends TestCase
      *
      * @return void
      */
-    public function test_playlist_restored_event_dispatched(): void
+    public function testPlaylistRestoredEventDispatched(): void
     {
         $playlist = Playlist::factory()->createOne();
 
@@ -67,7 +67,7 @@ class PlaylistTest extends TestCase
      *
      * @return void
      */
-    public function test_playlist_restores_quietly(): void
+    public function testPlaylistRestoresQuietly(): void
     {
         $playlist = Playlist::factory()->createOne();
 
@@ -81,7 +81,7 @@ class PlaylistTest extends TestCase
      *
      * @return void
      */
-    public function test_playlist_updated_event_dispatched(): void
+    public function testPlaylistUpdatedEventDispatched(): void
     {
         $playlist = Playlist::factory()->createOne();
         $changes = Playlist::factory()->makeOne();
@@ -97,7 +97,7 @@ class PlaylistTest extends TestCase
      *
      * @return void
      */
-    public function test_playlist_updated_event_embed_fields(): void
+    public function testPlaylistUpdatedEventEmbedFields(): void
     {
         $playlist = Playlist::factory()->createOne();
         $changes = Playlist::factory()->makeOne();
@@ -117,7 +117,7 @@ class PlaylistTest extends TestCase
      *
      * @return void
      */
-    public function test_playlist_created_assigns_nullable_user_hashids(): void
+    public function testPlaylistCreatedAssignsNullableUserHashids(): void
     {
         Event::fakeExcept(PlaylistCreated::class);
 
@@ -131,7 +131,7 @@ class PlaylistTest extends TestCase
      *
      * @return void
      */
-    public function test_playlist_created_assigns_non_null_user_hashids(): void
+    public function testPlaylistCreatedAssignsNonNullUserHashids(): void
     {
         Event::fakeExcept(PlaylistCreated::class);
 

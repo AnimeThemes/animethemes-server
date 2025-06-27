@@ -24,7 +24,7 @@ class AudioCodecStreamTest extends TestCase
      *
      * @return void
      */
-    public function test_fails_when_codec_is_not_opus(): void
+    public function testFailsWhenCodecIsNotOpus(): void
     {
         $file = UploadedFile::fake()->create($this->faker->word().'.webm', $this->faker->randomDigitNotNull());
 
@@ -66,7 +66,7 @@ class AudioCodecStreamTest extends TestCase
      *
      * @return void
      */
-    public function test_passes_when_codec_is_opus(): void
+    public function testPassesWhenCodecIsOpus(): void
     {
         $file = UploadedFile::fake()->create($this->faker->word().'.webm', $this->faker->randomDigitNotNull());
 

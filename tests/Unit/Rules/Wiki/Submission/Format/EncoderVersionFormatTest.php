@@ -26,7 +26,7 @@ class EncoderVersionFormatTest extends TestCase
      *
      * @return void
      */
-    public function test_fails_when_encoder_version_is_older_than_required(): void
+    public function testFailsWhenEncoderVersionIsOlderThanRequired(): void
     {
         Feature::activate(FeatureConstants::REQUIRED_ENCODER_VERSION, 'Lavf59.27.100');
 
@@ -69,7 +69,7 @@ class EncoderVersionFormatTest extends TestCase
      *
      * @return void
      */
-    public function test_fails_when_encoder_version_is_up_to_date(): void
+    public function testFailsWhenEncoderVersionIsUpToDate(): void
     {
         Feature::activate(FeatureConstants::REQUIRED_ENCODER_VERSION, 'Lavf59.27.100');
 

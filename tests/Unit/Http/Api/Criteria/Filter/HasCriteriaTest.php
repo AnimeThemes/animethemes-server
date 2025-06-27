@@ -26,7 +26,7 @@ class HasCriteriaTest extends TestCase
      *
      * @return void
      */
-    public function test_field(): void
+    public function testField(): void
     {
         $criteria = HasCriteria::make(new GlobalScope(), HasCriteria::PARAM_VALUE, $this->faker->word());
 
@@ -38,7 +38,7 @@ class HasCriteriaTest extends TestCase
      *
      * @return void
      */
-    public function test_default_comparison_operator(): void
+    public function testDefaultComparisonOperator(): void
     {
         $criteria = HasCriteria::make(new GlobalScope(), HasCriteria::PARAM_VALUE, $this->faker->word());
 
@@ -50,7 +50,7 @@ class HasCriteriaTest extends TestCase
      *
      * @return void
      */
-    public function test_comparison_operator(): void
+    public function testComparisonOperator(): void
     {
         $operator = Arr::random(ComparisonOperator::cases());
 
@@ -66,7 +66,7 @@ class HasCriteriaTest extends TestCase
      *
      * @return void
      */
-    public function test_default_count(): void
+    public function testDefaultCount(): void
     {
         $criteria = HasCriteria::make(new GlobalScope(), HasCriteria::PARAM_VALUE, $this->faker->word());
 
@@ -78,7 +78,7 @@ class HasCriteriaTest extends TestCase
      *
      * @return void
      */
-    public function test_count(): void
+    public function testCount(): void
     {
         $count = $this->faker->randomDigitNotNull();
 
@@ -94,7 +94,7 @@ class HasCriteriaTest extends TestCase
      *
      * @return void
      */
-    public function test_default_logical_operator(): void
+    public function testDefaultLogicalOperator(): void
     {
         $criteria = HasCriteria::make(new GlobalScope(), $this->faker->word(), $this->faker->word());
 
@@ -106,7 +106,7 @@ class HasCriteriaTest extends TestCase
      *
      * @return void
      */
-    public function test_logical_operator(): void
+    public function testLogicalOperator(): void
     {
         $operator = Arr::random(BinaryLogicalOperator::cases());
 

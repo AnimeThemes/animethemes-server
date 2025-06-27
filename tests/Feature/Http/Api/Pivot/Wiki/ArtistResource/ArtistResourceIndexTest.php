@@ -46,7 +46,7 @@ class ArtistResourceIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_default(): void
+    public function testDefault(): void
     {
         Collection::times($this->faker->randomDigitNotNull(), function () {
             ArtistResource::factory()
@@ -76,7 +76,7 @@ class ArtistResourceIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_paginated(): void
+    public function testPaginated(): void
     {
         Collection::times($this->faker->randomDigitNotNull(), function () {
             ArtistResource::factory()
@@ -99,7 +99,7 @@ class ArtistResourceIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_allowed_include_paths(): void
+    public function testAllowedIncludePaths(): void
     {
         $schema = new ArtistResourceSchema();
 
@@ -141,7 +141,7 @@ class ArtistResourceIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_sparse_fieldsets(): void
+    public function testSparseFieldsets(): void
     {
         $schema = new ArtistResourceSchema();
 
@@ -183,7 +183,7 @@ class ArtistResourceIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_sorts(): void
+    public function testSorts(): void
     {
         $schema = new ArtistResourceSchema();
 
@@ -227,7 +227,7 @@ class ArtistResourceIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_created_at_filter(): void
+    public function testCreatedAtFilter(): void
     {
         $createdFilter = $this->faker->date();
         $excludedDate = $this->faker->date();
@@ -280,7 +280,7 @@ class ArtistResourceIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_updated_at_filter(): void
+    public function testUpdatedAtFilter(): void
     {
         $updatedFilter = $this->faker->date();
         $excludedDate = $this->faker->date();
@@ -333,7 +333,7 @@ class ArtistResourceIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_resources_by_site(): void
+    public function testResourcesBySite(): void
     {
         $siteFilter = Arr::random(ResourceSite::cases());
 

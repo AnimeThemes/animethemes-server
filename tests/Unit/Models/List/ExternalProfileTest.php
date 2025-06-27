@@ -29,7 +29,7 @@ class ExternalProfileTest extends TestCase
      *
      * @return void
      */
-    public function test_casts_site_to_enum(): void
+    public function testCastsSiteToEnum(): void
     {
         $profile = ExternalProfile::factory()->createOne();
 
@@ -43,7 +43,7 @@ class ExternalProfileTest extends TestCase
      *
      * @return void
      */
-    public function test_casts_visibility_to_enum(): void
+    public function testCastsVisibilityToEnum(): void
     {
         $profile = ExternalProfile::factory()->createOne();
 
@@ -57,7 +57,7 @@ class ExternalProfileTest extends TestCase
      *
      * @return void
      */
-    public function test_nameable(): void
+    public function testNameable(): void
     {
         $profile = ExternalProfile::factory()->createOne();
 
@@ -69,7 +69,7 @@ class ExternalProfileTest extends TestCase
      *
      * @return void
      */
-    public function test_has_subtitle(): void
+    public function testHasSubtitle(): void
     {
         $profile = ExternalProfile::factory()
             ->for(User::factory())
@@ -83,7 +83,7 @@ class ExternalProfileTest extends TestCase
      *
      * @return void
      */
-    public function test_searchable_if_public(): void
+    public function testSearchableIfPublic(): void
     {
         $profile = ExternalProfile::factory()
             ->createOne([
@@ -98,7 +98,7 @@ class ExternalProfileTest extends TestCase
      *
      * @return void
      */
-    public function test_not_searchable_if_not_public(): void
+    public function testNotSearchableIfNotPublic(): void
     {
         $visibility = null;
 
@@ -122,7 +122,7 @@ class ExternalProfileTest extends TestCase
      *
      * @return void
      */
-    public function test_claimed(): void
+    public function testClaimed(): void
     {
         $claimedProfile = ExternalProfile::factory()
             ->for(User::factory())
@@ -140,7 +140,7 @@ class ExternalProfileTest extends TestCase
      *
      * @return void
      */
-    public function test_user(): void
+    public function testUser(): void
     {
         $profile = ExternalProfile::factory()
             ->for(User::factory())
@@ -155,7 +155,7 @@ class ExternalProfileTest extends TestCase
      *
      * @return void
      */
-    public function test_external_token(): void
+    public function testExternalToken(): void
     {
         $profile = ExternalProfile::factory()
             ->has(ExternalToken::factory(), ExternalProfile::RELATION_EXTERNAL_TOKEN)
@@ -170,7 +170,7 @@ class ExternalProfileTest extends TestCase
      *
      * @return void
      */
-    public function test_external_entries(): void
+    public function testExternalEntries(): void
     {
         $entryCount = $this->faker->randomDigitNotNull();
 

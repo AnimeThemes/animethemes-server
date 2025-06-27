@@ -28,7 +28,7 @@ class ExternalProfileForceDeleteTest extends TestCase
      *
      * @return void
      */
-    public function test_authorized(): void
+    public function testAuthorized(): void
     {
         Event::fakeExcept(ExternalProfileCreated::class);
 
@@ -46,7 +46,7 @@ class ExternalProfileForceDeleteTest extends TestCase
      *
      * @return void
      */
-    public function test_forbidden_if_missing_permission(): void
+    public function testForbiddenIfMissingPermission(): void
     {
         Event::fakeExcept(ExternalProfileCreated::class);
 
@@ -69,7 +69,7 @@ class ExternalProfileForceDeleteTest extends TestCase
      *
      * @return void
      */
-    public function test_forbidden_if_flag_disabled(): void
+    public function testForbiddenIfFlagDisabled(): void
     {
         Event::fakeExcept(ExternalProfileCreated::class);
 
@@ -91,7 +91,7 @@ class ExternalProfileForceDeleteTest extends TestCase
      *
      * @return void
      */
-    public function test_deleted(): void
+    public function testDeleted(): void
     {
         Event::fakeExcept(ExternalProfileCreated::class);
 
@@ -115,7 +115,7 @@ class ExternalProfileForceDeleteTest extends TestCase
      *
      * @return void
      */
-    public function test_delete_permitted_for_bypass(): void
+    public function testDeletePermittedForBypass(): void
     {
         Event::fakeExcept(ExternalProfileCreated::class);
 

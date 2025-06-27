@@ -22,7 +22,7 @@ class ArtistResourceDestroyTest extends TestCase
      *
      * @return void
      */
-    public function test_protected(): void
+    public function testProtected(): void
     {
         $artistResource = ArtistResource::factory()
             ->for(Artist::factory())
@@ -39,7 +39,7 @@ class ArtistResourceDestroyTest extends TestCase
      *
      * @return void
      */
-    public function test_forbidden(): void
+    public function testForbidden(): void
     {
         $artistResource = ArtistResource::factory()
             ->for(Artist::factory())
@@ -60,7 +60,7 @@ class ArtistResourceDestroyTest extends TestCase
      *
      * @return void
      */
-    public function test_not_found(): void
+    public function testNotFound(): void
     {
         $artist = Artist::factory()->createOne();
         $resource = ExternalResource::factory()->createOne();
@@ -84,7 +84,7 @@ class ArtistResourceDestroyTest extends TestCase
      *
      * @return void
      */
-    public function test_deleted(): void
+    public function testDeleted(): void
     {
         $artistResource = ArtistResource::factory()
             ->for(Artist::factory())

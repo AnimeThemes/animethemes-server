@@ -21,7 +21,7 @@ class ThemeForceDeleteTest extends TestCase
      *
      * @return void
      */
-    public function test_protected(): void
+    public function testProtected(): void
     {
         $theme = AnimeTheme::factory()->for(Anime::factory())->createOne();
 
@@ -35,7 +35,7 @@ class ThemeForceDeleteTest extends TestCase
      *
      * @return void
      */
-    public function test_forbidden(): void
+    public function testForbidden(): void
     {
         $theme = AnimeTheme::factory()->for(Anime::factory())->createOne();
 
@@ -53,7 +53,7 @@ class ThemeForceDeleteTest extends TestCase
      *
      * @return void
      */
-    public function test_deleted(): void
+    public function testDeleted(): void
     {
         $theme = AnimeTheme::factory()->for(Anime::factory())->createOne();
 

@@ -45,7 +45,7 @@ class VideoTest extends TestCase
      *
      * @return void
      */
-    public function test_casts_overlap_to_enum(): void
+    public function testCastsOverlapToEnum(): void
     {
         $video = Video::factory()->createOne();
 
@@ -59,7 +59,7 @@ class VideoTest extends TestCase
      *
      * @return void
      */
-    public function test_casts_source_to_enum(): void
+    public function testCastsSourceToEnum(): void
     {
         $video = Video::factory()->createOne();
 
@@ -73,7 +73,7 @@ class VideoTest extends TestCase
      *
      * @return void
      */
-    public function test_searchable_as(): void
+    public function testSearchableAs(): void
     {
         $video = Video::factory()->createOne();
 
@@ -85,7 +85,7 @@ class VideoTest extends TestCase
      *
      * @return void
      */
-    public function test_to_searchable_array(): void
+    public function testToSearchableArray(): void
     {
         $video = Video::factory()->createOne();
 
@@ -97,7 +97,7 @@ class VideoTest extends TestCase
      *
      * @return void
      */
-    public function test_nameable(): void
+    public function testNameable(): void
     {
         $video = Video::factory()->createOne();
 
@@ -109,7 +109,7 @@ class VideoTest extends TestCase
      *
      * @return void
      */
-    public function test_has_subtitle(): void
+    public function testHasSubtitle(): void
     {
         $video = Video::factory()->createOne();
 
@@ -121,7 +121,7 @@ class VideoTest extends TestCase
      *
      * @return void
      */
-    public function test_views(): void
+    public function testViews(): void
     {
         $video = Video::factory()->createOne();
 
@@ -137,7 +137,7 @@ class VideoTest extends TestCase
      *
      * @return void
      */
-    public function test_appends_tags(): void
+    public function testAppendsTags(): void
     {
         $video = Video::factory()->createOne();
 
@@ -149,7 +149,7 @@ class VideoTest extends TestCase
      *
      * @return void
      */
-    public function test_nc_tag(): void
+    public function testNcTag(): void
     {
         $video = Video::factory()->createOne([
             Video::ATTRIBUTE_NC => true,
@@ -163,7 +163,7 @@ class VideoTest extends TestCase
      *
      * @return void
      */
-    public function test_no_nc_tag(): void
+    public function testNoNcTag(): void
     {
         $video = Video::factory()->createOne([
             Video::ATTRIBUTE_NC => false,
@@ -177,7 +177,7 @@ class VideoTest extends TestCase
      *
      * @return void
      */
-    public function test_dvd_tag(): void
+    public function testDvdTag(): void
     {
         $source = VideoSource::DVD;
 
@@ -193,7 +193,7 @@ class VideoTest extends TestCase
      *
      * @return void
      */
-    public function test_bd_tag(): void
+    public function testBdTag(): void
     {
         $source = VideoSource::BD;
 
@@ -209,7 +209,7 @@ class VideoTest extends TestCase
      *
      * @return void
      */
-    public function test_other_source_tag(): void
+    public function testOtherSourceTag(): void
     {
         $source = null;
         while ($source === null) {
@@ -231,7 +231,7 @@ class VideoTest extends TestCase
      *
      * @return void
      */
-    public function test_resolution_tag(): void
+    public function testResolutionTag(): void
     {
         $video = Video::factory()->createOne();
 
@@ -243,7 +243,7 @@ class VideoTest extends TestCase
      *
      * @return void
      */
-    public function test_no720_resolution_tag(): void
+    public function testNo720ResolutionTag(): void
     {
         $video = Video::factory()->createOne([
             Video::ATTRIBUTE_RESOLUTION => 720,
@@ -257,7 +257,7 @@ class VideoTest extends TestCase
      *
      * @return void
      */
-    public function test_subbed_tag(): void
+    public function testSubbedTag(): void
     {
         $video = Video::factory()->createOne([
             Video::ATTRIBUTE_SUBBED => true,
@@ -272,7 +272,7 @@ class VideoTest extends TestCase
      *
      * @return void
      */
-    public function test_lyrics_tag(): void
+    public function testLyricsTag(): void
     {
         $video = Video::factory()->createOne([
             Video::ATTRIBUTE_SUBBED => false,
@@ -291,7 +291,7 @@ class VideoTest extends TestCase
      * @return void
      */
     #[DataProvider('priorityProvider')]
-    public function test_source_priority(array $a, array $b): void
+    public function testSourcePriority(array $a, array $b): void
     {
         $first = Video::factory()->createOne($a);
 
@@ -305,7 +305,7 @@ class VideoTest extends TestCase
      *
      * @return void
      */
-    public function test_entries(): void
+    public function testEntries(): void
     {
         $entryCount = $this->faker->randomDigitNotNull();
 
@@ -324,7 +324,7 @@ class VideoTest extends TestCase
      *
      * @return void
      */
-    public function test_audio(): void
+    public function testAudio(): void
     {
         $video = Video::factory()
             ->for(Audio::factory())
@@ -339,7 +339,7 @@ class VideoTest extends TestCase
      *
      * @return void
      */
-    public function test_tracks_public(): void
+    public function testTracksPublic(): void
     {
         $trackCount = $this->faker->randomDigitNotNull();
 
@@ -358,7 +358,7 @@ class VideoTest extends TestCase
      *
      * @return void
      */
-    public function test_tracks_not_public(): void
+    public function testTracksNotPublic(): void
     {
         $trackCount = $this->faker->randomDigitNotNull();
 
@@ -377,7 +377,7 @@ class VideoTest extends TestCase
      *
      * @return void
      */
-    public function test_script(): void
+    public function testScript(): void
     {
         $video = Video::factory()
             ->has(VideoScript::factory(), Video::RELATION_SCRIPT)
@@ -467,7 +467,7 @@ class VideoTest extends TestCase
      *
      * @return void
      */
-    public function test_video_storage_deletion(): void
+    public function testVideoStorageDeletion(): void
     {
         $fs = Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
         $file = File::fake()->create($this->faker->word().'.webm', $this->faker->randomDigitNotNull());
@@ -487,7 +487,7 @@ class VideoTest extends TestCase
      *
      * @return void
      */
-    public function test_video_storage_force_deletion(): void
+    public function testVideoStorageForceDeletion(): void
     {
         Event::fakeExcept(VideoForceDeleting::class);
 

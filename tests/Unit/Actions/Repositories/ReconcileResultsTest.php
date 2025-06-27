@@ -19,7 +19,7 @@ class ReconcileResultsTest extends TestCase
      *
      * @return void
      */
-    public function test_default(): void
+    public function testDefault(): void
     {
         $reconcileResults = new class extends ReconcileResults
         {

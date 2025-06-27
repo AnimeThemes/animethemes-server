@@ -31,7 +31,7 @@ class PlaylistTest extends TestCase
      *
      * @return void
      */
-    public function test_casts_season_to_enum(): void
+    public function testCastsSeasonToEnum(): void
     {
         $playlist = Playlist::factory()->createOne();
 
@@ -45,7 +45,7 @@ class PlaylistTest extends TestCase
      *
      * @return void
      */
-    public function test_nameable(): void
+    public function testNameable(): void
     {
         $playlist = Playlist::factory()->createOne();
 
@@ -57,7 +57,7 @@ class PlaylistTest extends TestCase
      *
      * @return void
      */
-    public function test_has_subtitle(): void
+    public function testHasSubtitle(): void
     {
         $playlist = Playlist::factory()
             ->for(User::factory())
@@ -71,7 +71,7 @@ class PlaylistTest extends TestCase
      *
      * @return void
      */
-    public function test_searchable_if_public(): void
+    public function testSearchableIfPublic(): void
     {
         $playlist = Playlist::factory()
             ->createOne([
@@ -86,7 +86,7 @@ class PlaylistTest extends TestCase
      *
      * @return void
      */
-    public function test_not_searchable_if_not_public(): void
+    public function testNotSearchableIfNotPublic(): void
     {
         $visibility = null;
 
@@ -110,7 +110,7 @@ class PlaylistTest extends TestCase
      *
      * @return void
      */
-    public function test_hashids_nullable_user(): void
+    public function testHashidsNullableUser(): void
     {
         $playlist = Playlist::factory()->createOne();
 
@@ -123,7 +123,7 @@ class PlaylistTest extends TestCase
      *
      * @return void
      */
-    public function test_hashids_non_null_user(): void
+    public function testHashidsNonNullUser(): void
     {
         $user = User::factory()->createOne();
 
@@ -140,7 +140,7 @@ class PlaylistTest extends TestCase
      *
      * @return void
      */
-    public function test_views(): void
+    public function testViews(): void
     {
         $playlist = Playlist::factory()->createOne();
 
@@ -156,7 +156,7 @@ class PlaylistTest extends TestCase
      *
      * @return void
      */
-    public function test_user(): void
+    public function testUser(): void
     {
         $playlist = Playlist::factory()
             ->for(User::factory())
@@ -171,7 +171,7 @@ class PlaylistTest extends TestCase
      *
      * @return void
      */
-    public function test_first(): void
+    public function testFirst(): void
     {
         $playlist = Playlist::factory()
             ->createOne();
@@ -191,7 +191,7 @@ class PlaylistTest extends TestCase
      *
      * @return void
      */
-    public function test_last(): void
+    public function testLast(): void
     {
         $playlist = Playlist::factory()->createOne();
 
@@ -210,7 +210,7 @@ class PlaylistTest extends TestCase
      *
      * @return void
      */
-    public function test_images(): void
+    public function testImages(): void
     {
         $imageCount = $this->faker->randomDigitNotNull();
 
@@ -229,7 +229,7 @@ class PlaylistTest extends TestCase
      *
      * @return void
      */
-    public function test_tracks(): void
+    public function testTracks(): void
     {
         $trackCount = $this->faker->randomDigitNotNull();
 

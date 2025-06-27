@@ -25,7 +25,7 @@ class DiscordEmbedFieldTest extends TestCase
      *
      * @return void
      */
-    public function test_discord_embed_format_enum(): void
+    public function testDiscordEmbedFormatEnum(): void
     {
         $enum = Arr::random(LocalizedEnum::cases());
 
@@ -39,7 +39,7 @@ class DiscordEmbedFieldTest extends TestCase
      *
      * @return void
      */
-    public function test_discord_embed_format_date(): void
+    public function testDiscordEmbedFormatDate(): void
     {
         $date = Date::now()->subDays($this->faker->randomDigitNotNull());
 
@@ -53,7 +53,7 @@ class DiscordEmbedFieldTest extends TestCase
      *
      * @return void
      */
-    public function test_discord_embed_format_boolean(): void
+    public function testDiscordEmbedFormatBoolean(): void
     {
         $boolean = $this->faker->boolean();
 
@@ -67,7 +67,7 @@ class DiscordEmbedFieldTest extends TestCase
      *
      * @return void
      */
-    public function test_discord_embed_format_number(): void
+    public function testDiscordEmbedFormatNumber(): void
     {
         $number = $this->faker->randomNumber();
 
@@ -81,7 +81,7 @@ class DiscordEmbedFieldTest extends TestCase
      *
      * @return void
      */
-    public function test_discord_embed_format_float(): void
+    public function testDiscordEmbedFormatFloat(): void
     {
         $float = $this->faker->randomFloat();
 
@@ -95,7 +95,7 @@ class DiscordEmbedFieldTest extends TestCase
      *
      * @return void
      */
-    public function test_discord_embed_format_string(): void
+    public function testDiscordEmbedFormatString(): void
     {
         $string = $this->faker->word();
 
@@ -109,7 +109,7 @@ class DiscordEmbedFieldTest extends TestCase
      *
      * @return void
      */
-    public function test_discord_embed_format_empty_string(): void
+    public function testDiscordEmbedFormatEmptyString(): void
     {
         $field = new DiscordEmbedField($this->faker->word(), '');
 
@@ -121,7 +121,7 @@ class DiscordEmbedFieldTest extends TestCase
      *
      * @return void
      */
-    public function test_discord_embed_format_null(): void
+    public function testDiscordEmbedFormatNull(): void
     {
         $field = new DiscordEmbedField($this->faker->word(), null);
 
@@ -133,7 +133,7 @@ class DiscordEmbedFieldTest extends TestCase
      *
      * @return void
      */
-    public function test_discord_embed_format_array(): void
+    public function testDiscordEmbedFormatArray(): void
     {
         $field = new DiscordEmbedField($this->faker->word(), []);
 
@@ -145,7 +145,7 @@ class DiscordEmbedFieldTest extends TestCase
      *
      * @return void
      */
-    public function test_discord_embed_format_object(): void
+    public function testDiscordEmbedFormatObject(): void
     {
         $field = new DiscordEmbedField($this->faker->word(), new stdClass());
 

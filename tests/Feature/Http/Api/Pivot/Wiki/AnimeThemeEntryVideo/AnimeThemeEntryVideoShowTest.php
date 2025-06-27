@@ -36,7 +36,7 @@ class AnimeThemeEntryVideoShowTest extends TestCase
      *
      * @return void
      */
-    public function test_not_found(): void
+    public function testNotFound(): void
     {
         $entry = AnimeThemeEntry::factory()
             ->for(AnimeTheme::factory()->for(Anime::factory()))
@@ -54,7 +54,7 @@ class AnimeThemeEntryVideoShowTest extends TestCase
      *
      * @return void
      */
-    public function test_default(): void
+    public function testDefault(): void
     {
         $entryVideo = AnimeThemeEntryVideo::factory()
             ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
@@ -82,7 +82,7 @@ class AnimeThemeEntryVideoShowTest extends TestCase
      *
      * @return void
      */
-    public function test_allowed_include_paths(): void
+    public function testAllowedIncludePaths(): void
     {
         $schema = new AnimeThemeEntryVideoSchema();
 
@@ -122,7 +122,7 @@ class AnimeThemeEntryVideoShowTest extends TestCase
      *
      * @return void
      */
-    public function test_sparse_fieldsets(): void
+    public function testSparseFieldsets(): void
     {
         $schema = new AnimeThemeEntryVideoSchema();
 
@@ -162,7 +162,7 @@ class AnimeThemeEntryVideoShowTest extends TestCase
      *
      * @return void
      */
-    public function test_entry_by_nsfw(): void
+    public function testEntryByNsfw(): void
     {
         $nsfwFilter = $this->faker->boolean();
 
@@ -203,7 +203,7 @@ class AnimeThemeEntryVideoShowTest extends TestCase
      *
      * @return void
      */
-    public function test_entry_by_spoiler(): void
+    public function testEntryBySpoiler(): void
     {
         $spoilerFilter = $this->faker->boolean();
 
@@ -244,7 +244,7 @@ class AnimeThemeEntryVideoShowTest extends TestCase
      *
      * @return void
      */
-    public function test_entry_by_version(): void
+    public function testEntryByVersion(): void
     {
         $versionFilter = $this->faker->randomDigitNotNull();
 
@@ -285,7 +285,7 @@ class AnimeThemeEntryVideoShowTest extends TestCase
      *
      * @return void
      */
-    public function test_video_by_lyrics(): void
+    public function testVideoByLyrics(): void
     {
         $lyricsFilter = $this->faker->boolean();
 
@@ -326,7 +326,7 @@ class AnimeThemeEntryVideoShowTest extends TestCase
      *
      * @return void
      */
-    public function test_video_by_nc(): void
+    public function testVideoByNc(): void
     {
         $ncFilter = $this->faker->boolean();
 
@@ -367,7 +367,7 @@ class AnimeThemeEntryVideoShowTest extends TestCase
      *
      * @return void
      */
-    public function test_video_by_overlap(): void
+    public function testVideoByOverlap(): void
     {
         $overlapFilter = Arr::random(VideoOverlap::cases());
 
@@ -408,7 +408,7 @@ class AnimeThemeEntryVideoShowTest extends TestCase
      *
      * @return void
      */
-    public function test_video_by_resolution(): void
+    public function testVideoByResolution(): void
     {
         $resolutionFilter = $this->faker->randomNumber();
 
@@ -449,7 +449,7 @@ class AnimeThemeEntryVideoShowTest extends TestCase
      *
      * @return void
      */
-    public function test_video_by_source(): void
+    public function testVideoBySource(): void
     {
         $sourceFilter = Arr::random(VideoSource::cases());
 
@@ -490,7 +490,7 @@ class AnimeThemeEntryVideoShowTest extends TestCase
      *
      * @return void
      */
-    public function test_video_by_subbed(): void
+    public function testVideoBySubbed(): void
     {
         $subbedFilter = $this->faker->boolean();
 
@@ -531,7 +531,7 @@ class AnimeThemeEntryVideoShowTest extends TestCase
      *
      * @return void
      */
-    public function test_video_by_uncen(): void
+    public function testVideoByUncen(): void
     {
         $uncenFilter = $this->faker->boolean();
 

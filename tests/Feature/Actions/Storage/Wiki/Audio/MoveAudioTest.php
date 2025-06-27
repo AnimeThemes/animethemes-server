@@ -30,7 +30,7 @@ class MoveAudioTest extends TestCase
      *
      * @return void
      */
-    public function test_default(): void
+    public function testDefault(): void
     {
         Config::set(AudioConstants::DISKS_QUALIFIED, []);
         Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
@@ -51,7 +51,7 @@ class MoveAudioTest extends TestCase
      *
      * @return void
      */
-    public function test_passed(): void
+    public function testPassed(): void
     {
         /** @var FilesystemAdapter $fs */
         $fs = Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
@@ -82,7 +82,7 @@ class MoveAudioTest extends TestCase
      *
      * @return void
      */
-    public function test_moved_in_disk(): void
+    public function testMovedInDisk(): void
     {
         /** @var FilesystemAdapter $fs */
         $fs = Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
@@ -115,7 +115,7 @@ class MoveAudioTest extends TestCase
      *
      * @return void
      */
-    public function test_audio_updated(): void
+    public function testAudioUpdated(): void
     {
         /** @var FilesystemAdapter $fs */
         $fs = Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));

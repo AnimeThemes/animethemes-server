@@ -20,7 +20,7 @@ class StudioImageTest extends TestCase
      *
      * @return void
      */
-    public function test_studio(): void
+    public function testStudio(): void
     {
         $studioImage = StudioImage::factory()
             ->for(Studio::factory())
@@ -36,7 +36,7 @@ class StudioImageTest extends TestCase
      *
      * @return void
      */
-    public function test_image(): void
+    public function testImage(): void
     {
         $studioImage = StudioImage::factory()
             ->for(Studio::factory())

@@ -56,7 +56,7 @@ class VideoIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_default(): void
+    public function testDefault(): void
     {
         $videos = Video::factory()
             ->count($this->faker->randomDigitNotNull())
@@ -81,7 +81,7 @@ class VideoIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_paginated(): void
+    public function testPaginated(): void
     {
         Video::factory()
             ->count($this->faker->randomDigitNotNull())
@@ -101,7 +101,7 @@ class VideoIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_allowed_include_paths(): void
+    public function testAllowedIncludePaths(): void
     {
         $schema = new VideoSchema();
 
@@ -147,7 +147,7 @@ class VideoIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_sparse_fieldsets(): void
+    public function testSparseFieldsets(): void
     {
         $schema = new VideoSchema();
 
@@ -184,7 +184,7 @@ class VideoIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_sorts(): void
+    public function testSorts(): void
     {
         $schema = new VideoSchema();
 
@@ -225,7 +225,7 @@ class VideoIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_created_at_filter(): void
+    public function testCreatedAtFilter(): void
     {
         $createdFilter = $this->faker->date();
         $excludedDate = $this->faker->date();
@@ -268,7 +268,7 @@ class VideoIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_updated_at_filter(): void
+    public function testUpdatedAtFilter(): void
     {
         $updatedFilter = $this->faker->date();
         $excludedDate = $this->faker->date();
@@ -311,7 +311,7 @@ class VideoIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_without_trashed_filter(): void
+    public function testWithoutTrashedFilter(): void
     {
         $parameters = [
             FilterParser::param() => [
@@ -347,7 +347,7 @@ class VideoIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_with_trashed_filter(): void
+    public function testWithTrashedFilter(): void
     {
         $parameters = [
             FilterParser::param() => [
@@ -383,7 +383,7 @@ class VideoIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_only_trashed_filter(): void
+    public function testOnlyTrashedFilter(): void
     {
         $parameters = [
             FilterParser::param() => [
@@ -419,7 +419,7 @@ class VideoIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_deleted_at_filter(): void
+    public function testDeletedAtFilter(): void
     {
         $deletedFilter = $this->faker->date();
         $excludedDate = $this->faker->date();
@@ -463,7 +463,7 @@ class VideoIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_lyrics_filter(): void
+    public function testLyricsFilter(): void
     {
         $lyricsFilter = $this->faker->boolean();
 
@@ -498,7 +498,7 @@ class VideoIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_nc_filter(): void
+    public function testNcFilter(): void
     {
         $ncFilter = $this->faker->boolean();
 
@@ -533,7 +533,7 @@ class VideoIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_overlap_filter(): void
+    public function testOverlapFilter(): void
     {
         $overlapFilter = Arr::random(VideoOverlap::cases());
 
@@ -568,7 +568,7 @@ class VideoIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_resolution_filter(): void
+    public function testResolutionFilter(): void
     {
         $resolutionFilter = $this->faker->randomNumber();
         $excludedResolution = $resolutionFilter + 1;
@@ -608,7 +608,7 @@ class VideoIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_source_filter(): void
+    public function testSourceFilter(): void
     {
         $sourceFilter = Arr::random(VideoSource::cases());
 
@@ -643,7 +643,7 @@ class VideoIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_subbed_filter(): void
+    public function testSubbedFilter(): void
     {
         $subbedFilter = $this->faker->boolean();
 
@@ -678,7 +678,7 @@ class VideoIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_uncen_filter(): void
+    public function testUncenFilter(): void
     {
         $uncenFilter = $this->faker->boolean();
 
@@ -713,7 +713,7 @@ class VideoIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_entries_by_nsfw(): void
+    public function testEntriesByNsfw(): void
     {
         $nsfwFilter = $this->faker->boolean();
 
@@ -759,7 +759,7 @@ class VideoIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_entries_by_spoiler(): void
+    public function testEntriesBySpoiler(): void
     {
         $spoilerFilter = $this->faker->boolean();
 
@@ -805,7 +805,7 @@ class VideoIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_entries_by_version(): void
+    public function testEntriesByVersion(): void
     {
         $versionFilter = $this->faker->randomDigitNotNull();
         $excludedVersion = $versionFilter + 1;
@@ -856,7 +856,7 @@ class VideoIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_themes_by_sequence(): void
+    public function testThemesBySequence(): void
     {
         $sequenceFilter = $this->faker->randomDigitNotNull();
         $excludedSequence = $sequenceFilter + 1;
@@ -909,7 +909,7 @@ class VideoIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_themes_by_type(): void
+    public function testThemesByType(): void
     {
         $typeFilter = Arr::random(ThemeType::cases());
 
@@ -955,7 +955,7 @@ class VideoIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_anime_by_media_format(): void
+    public function testAnimeByMediaFormat(): void
     {
         $mediaFormatFilter = Arr::random(AnimeMediaFormat::cases());
 
@@ -1001,7 +1001,7 @@ class VideoIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_anime_by_season(): void
+    public function testAnimeBySeason(): void
     {
         $seasonFilter = Arr::random(AnimeSeason::cases());
 
@@ -1047,7 +1047,7 @@ class VideoIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_anime_by_year(): void
+    public function testAnimeByYear(): void
     {
         $yearFilter = intval($this->faker->year());
         $excludedYear = $yearFilter + 1;

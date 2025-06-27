@@ -20,7 +20,7 @@ class AnnouncementStoreTest extends TestCase
      *
      * @return void
      */
-    public function test_protected(): void
+    public function testProtected(): void
     {
         $announcement = Announcement::factory()->makeOne();
 
@@ -34,7 +34,7 @@ class AnnouncementStoreTest extends TestCase
      *
      * @return void
      */
-    public function test_forbidden(): void
+    public function testForbidden(): void
     {
         $announcement = Announcement::factory()->makeOne();
 
@@ -52,7 +52,7 @@ class AnnouncementStoreTest extends TestCase
      *
      * @return void
      */
-    public function test_required_fields(): void
+    public function testRequiredFields(): void
     {
         $user = User::factory()->withPermissions(CrudPermission::CREATE->format(Announcement::class))->createOne();
 
@@ -70,7 +70,7 @@ class AnnouncementStoreTest extends TestCase
      *
      * @return void
      */
-    public function test_create(): void
+    public function testCreate(): void
     {
         $parameters = Announcement::factory()->raw();
 

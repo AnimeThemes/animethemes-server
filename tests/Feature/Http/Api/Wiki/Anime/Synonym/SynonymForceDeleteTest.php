@@ -21,7 +21,7 @@ class SynonymForceDeleteTest extends TestCase
      *
      * @return void
      */
-    public function test_protected(): void
+    public function testProtected(): void
     {
         $synonym = AnimeSynonym::factory()->for(Anime::factory())->createOne();
 
@@ -35,7 +35,7 @@ class SynonymForceDeleteTest extends TestCase
      *
      * @return void
      */
-    public function test_forbidden(): void
+    public function testForbidden(): void
     {
         $synonym = AnimeSynonym::factory()->for(Anime::factory())->createOne();
 
@@ -53,7 +53,7 @@ class SynonymForceDeleteTest extends TestCase
      *
      * @return void
      */
-    public function test_deleted(): void
+    public function testDeleted(): void
     {
         $synonym = AnimeSynonym::factory()->for(Anime::factory())->createOne();
 

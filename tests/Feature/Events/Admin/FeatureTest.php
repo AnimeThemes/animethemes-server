@@ -22,7 +22,7 @@ class FeatureTest extends TestCase
      *
      * @return void
      */
-    public function test_feature_created_event_dispatched(): void
+    public function testFeatureCreatedEventDispatched(): void
     {
         Feature::factory()->create();
 
@@ -34,7 +34,7 @@ class FeatureTest extends TestCase
      *
      * @return void
      */
-    public function test_feature_deleted_event_dispatched(): void
+    public function testFeatureDeletedEventDispatched(): void
     {
         $feature = Feature::factory()->create();
 
@@ -48,7 +48,7 @@ class FeatureTest extends TestCase
      *
      * @return void
      */
-    public function test_feature_updated_event_dispatched(): void
+    public function testFeatureUpdatedEventDispatched(): void
     {
         $feature = Feature::factory()->createOne();
 
@@ -64,7 +64,7 @@ class FeatureTest extends TestCase
      *
      * @return void
      */
-    public function test_feature_updated_event_embed_fields(): void
+    public function testFeatureUpdatedEventEmbedFields(): void
     {
         $feature = Feature::factory()->createOne();
 

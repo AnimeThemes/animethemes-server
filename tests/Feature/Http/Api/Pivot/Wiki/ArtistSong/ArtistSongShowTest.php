@@ -29,7 +29,7 @@ class ArtistSongShowTest extends TestCase
      *
      * @return void
      */
-    public function test_not_found(): void
+    public function testNotFound(): void
     {
         $artist = Artist::factory()->createOne();
         $song = Song::factory()->createOne();
@@ -44,7 +44,7 @@ class ArtistSongShowTest extends TestCase
      *
      * @return void
      */
-    public function test_default(): void
+    public function testDefault(): void
     {
         $artistSong = ArtistSong::factory()
             ->for(Artist::factory())
@@ -72,7 +72,7 @@ class ArtistSongShowTest extends TestCase
      *
      * @return void
      */
-    public function test_allowed_include_paths(): void
+    public function testAllowedIncludePaths(): void
     {
         $schema = new ArtistSongSchema();
 
@@ -112,7 +112,7 @@ class ArtistSongShowTest extends TestCase
      *
      * @return void
      */
-    public function test_sparse_fieldsets(): void
+    public function testSparseFieldsets(): void
     {
         $schema = new ArtistSongSchema();
 

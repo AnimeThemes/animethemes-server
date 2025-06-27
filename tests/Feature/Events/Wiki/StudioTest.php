@@ -23,7 +23,7 @@ class StudioTest extends TestCase
      *
      * @return void
      */
-    public function test_studio_created_event_dispatched(): void
+    public function testStudioCreatedEventDispatched(): void
     {
         Studio::factory()->createOne();
 
@@ -35,7 +35,7 @@ class StudioTest extends TestCase
      *
      * @return void
      */
-    public function test_studio_deleted_event_dispatched(): void
+    public function testStudioDeletedEventDispatched(): void
     {
         $studio = Studio::factory()->createOne();
 
@@ -49,7 +49,7 @@ class StudioTest extends TestCase
      *
      * @return void
      */
-    public function test_studio_restored_event_dispatched(): void
+    public function testStudioRestoredEventDispatched(): void
     {
         $studio = Studio::factory()->createOne();
 
@@ -65,7 +65,7 @@ class StudioTest extends TestCase
      *
      * @return void
      */
-    public function test_studio_restores_quietly(): void
+    public function testStudioRestoresQuietly(): void
     {
         $studio = Studio::factory()->createOne();
 
@@ -79,7 +79,7 @@ class StudioTest extends TestCase
      *
      * @return void
      */
-    public function test_studio_updated_event_dispatched(): void
+    public function testStudioUpdatedEventDispatched(): void
     {
         $studio = Studio::factory()->createOne();
         $changes = Studio::factory()->makeOne();
@@ -95,7 +95,7 @@ class StudioTest extends TestCase
      *
      * @return void
      */
-    public function test_studio_updated_event_embed_fields(): void
+    public function testStudioUpdatedEventEmbedFields(): void
     {
         $studio = Studio::factory()->createOne();
         $changes = Studio::factory()->makeOne();

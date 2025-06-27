@@ -24,7 +24,7 @@ class WikiDumpTest extends TestCase
      *
      * @return void
      */
-    public function test_data_base_dump_output(): void
+    public function testDataBaseDumpOutput(): void
     {
         Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));
 
@@ -40,7 +40,7 @@ class WikiDumpTest extends TestCase
      *
      * @return void
      */
-    public function test_data_base_dump_file(): void
+    public function testDataBaseDumpFile(): void
     {
         $local = Storage::fake('local');
         $fs = Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));

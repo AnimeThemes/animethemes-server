@@ -20,7 +20,7 @@ class GroupDestroyTest extends TestCase
      *
      * @return void
      */
-    public function test_protected(): void
+    public function testProtected(): void
     {
         $group = Group::factory()->createOne();
 
@@ -34,7 +34,7 @@ class GroupDestroyTest extends TestCase
      *
      * @return void
      */
-    public function test_forbidden(): void
+    public function testForbidden(): void
     {
         $group = Group::factory()->createOne();
 
@@ -52,7 +52,7 @@ class GroupDestroyTest extends TestCase
      *
      * @return void
      */
-    public function test_trashed(): void
+    public function testTrashed(): void
     {
         $group = Group::factory()->trashed()->createOne();
 
@@ -70,7 +70,7 @@ class GroupDestroyTest extends TestCase
      *
      * @return void
      */
-    public function test_deleted(): void
+    public function testDeleted(): void
     {
         $group = Group::factory()->createOne();
 

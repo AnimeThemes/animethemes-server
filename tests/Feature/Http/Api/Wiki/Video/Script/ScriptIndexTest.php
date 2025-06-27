@@ -47,7 +47,7 @@ class ScriptIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_default(): void
+    public function testDefault(): void
     {
         $scripts = VideoScript::factory()
             ->count($this->faker->randomDigitNotNull())
@@ -72,7 +72,7 @@ class ScriptIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_paginated(): void
+    public function testPaginated(): void
     {
         VideoScript::factory()
             ->count($this->faker->randomDigitNotNull())
@@ -92,7 +92,7 @@ class ScriptIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_allowed_include_paths(): void
+    public function testAllowedIncludePaths(): void
     {
         $schema = new ScriptSchema();
 
@@ -132,7 +132,7 @@ class ScriptIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_sparse_fieldsets(): void
+    public function testSparseFieldsets(): void
     {
         $schema = new ScriptSchema();
 
@@ -169,7 +169,7 @@ class ScriptIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_sorts(): void
+    public function testSorts(): void
     {
         $schema = new ScriptSchema();
 
@@ -210,7 +210,7 @@ class ScriptIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_created_at_filter(): void
+    public function testCreatedAtFilter(): void
     {
         $createdFilter = $this->faker->date();
         $excludedDate = $this->faker->date();
@@ -253,7 +253,7 @@ class ScriptIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_updated_at_filter(): void
+    public function testUpdatedAtFilter(): void
     {
         $updatedFilter = $this->faker->date();
         $excludedDate = $this->faker->date();
@@ -296,7 +296,7 @@ class ScriptIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_without_trashed_filter(): void
+    public function testWithoutTrashedFilter(): void
     {
         $parameters = [
             FilterParser::param() => [
@@ -332,7 +332,7 @@ class ScriptIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_with_trashed_filter(): void
+    public function testWithTrashedFilter(): void
     {
         $parameters = [
             FilterParser::param() => [
@@ -368,7 +368,7 @@ class ScriptIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_only_trashed_filter(): void
+    public function testOnlyTrashedFilter(): void
     {
         $parameters = [
             FilterParser::param() => [
@@ -404,7 +404,7 @@ class ScriptIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_deleted_at_filter(): void
+    public function testDeletedAtFilter(): void
     {
         $deletedFilter = $this->faker->date();
         $excludedDate = $this->faker->date();
@@ -448,7 +448,7 @@ class ScriptIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_videos_by_lyrics(): void
+    public function testVideosByLyrics(): void
     {
         $lyricsFilter = $this->faker->boolean();
 
@@ -490,7 +490,7 @@ class ScriptIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_videos_by_nc(): void
+    public function testVideosByNc(): void
     {
         $ncFilter = $this->faker->boolean();
 
@@ -532,7 +532,7 @@ class ScriptIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_videos_by_overlap(): void
+    public function testVideosByOverlap(): void
     {
         $overlapFilter = Arr::random(VideoOverlap::cases());
 
@@ -574,7 +574,7 @@ class ScriptIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_videos_by_resolution(): void
+    public function testVideosByResolution(): void
     {
         $resolutionFilter = $this->faker->randomNumber();
         $excludedResolution = $resolutionFilter + 1;
@@ -621,7 +621,7 @@ class ScriptIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_videos_by_source(): void
+    public function testVideosBySource(): void
     {
         $sourceFilter = Arr::random(VideoSource::cases());
 
@@ -663,7 +663,7 @@ class ScriptIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_videos_by_subbed(): void
+    public function testVideosBySubbed(): void
     {
         $subbedFilter = $this->faker->boolean();
 
@@ -705,7 +705,7 @@ class ScriptIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_videos_by_uncen(): void
+    public function testVideosByUncen(): void
     {
         $uncenFilter = $this->faker->boolean();
 

@@ -22,7 +22,7 @@ class ArtistSongDestroyTest extends TestCase
      *
      * @return void
      */
-    public function test_protected(): void
+    public function testProtected(): void
     {
         $artistSong = ArtistSong::factory()
             ->for(Artist::factory())
@@ -39,7 +39,7 @@ class ArtistSongDestroyTest extends TestCase
      *
      * @return void
      */
-    public function test_forbidden(): void
+    public function testForbidden(): void
     {
         $artistSong = ArtistSong::factory()
             ->for(Artist::factory())
@@ -60,7 +60,7 @@ class ArtistSongDestroyTest extends TestCase
      *
      * @return void
      */
-    public function test_not_found(): void
+    public function testNotFound(): void
     {
         $artist = Artist::factory()->createOne();
         $song = Song::factory()->createOne();
@@ -84,7 +84,7 @@ class ArtistSongDestroyTest extends TestCase
      *
      * @return void
      */
-    public function test_deleted(): void
+    public function testDeleted(): void
     {
         $artistSong = ArtistSong::factory()
             ->for(Artist::factory())

@@ -26,7 +26,7 @@ class DumpTest extends TestCase
      *
      * @return void
      */
-    public function test_dump_created_sends_discord_notification(): void
+    public function testDumpCreatedSendsDiscordNotification(): void
     {
         Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
         Bus::fake(SendDiscordNotificationJob::class);
@@ -42,7 +42,7 @@ class DumpTest extends TestCase
      *
      * @return void
      */
-    public function test_dump_deleted_sends_discord_notification(): void
+    public function testDumpDeletedSendsDiscordNotification(): void
     {
         $dump = Dump::factory()->createOne();
 
@@ -60,7 +60,7 @@ class DumpTest extends TestCase
      *
      * @return void
      */
-    public function test_dump_restored_sends_discord_notification(): void
+    public function testDumpRestoredSendsDiscordNotification(): void
     {
         $dump = Dump::factory()->createOne();
 
@@ -78,7 +78,7 @@ class DumpTest extends TestCase
      *
      * @return void
      */
-    public function test_dump_updated_sends_discord_notification(): void
+    public function testDumpUpdatedSendsDiscordNotification(): void
     {
         $dump = Dump::factory()->createOne();
 

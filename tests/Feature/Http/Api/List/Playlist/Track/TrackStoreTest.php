@@ -37,7 +37,7 @@ class TrackStoreTest extends TestCase
      *
      * @return void
      */
-    public function test_protected(): void
+    public function testProtected(): void
     {
         Event::fakeExcept(PlaylistCreated::class);
 
@@ -66,7 +66,7 @@ class TrackStoreTest extends TestCase
      *
      * @return void
      */
-    public function test_forbidden_if_missing_permission(): void
+    public function testForbiddenIfMissingPermission(): void
     {
         Event::fakeExcept(PlaylistCreated::class);
 
@@ -99,7 +99,7 @@ class TrackStoreTest extends TestCase
      *
      * @return void
      */
-    public function test_forbidden_if_not_own_playlist(): void
+    public function testForbiddenIfNotOwnPlaylist(): void
     {
         Event::fakeExcept(PlaylistCreated::class);
 
@@ -135,7 +135,7 @@ class TrackStoreTest extends TestCase
      *
      * @return void
      */
-    public function test_forbidden_if_flag_disabled(): void
+    public function testForbiddenIfFlagDisabled(): void
     {
         Event::fakeExcept(PlaylistCreated::class);
 
@@ -170,7 +170,7 @@ class TrackStoreTest extends TestCase
      *
      * @return void
      */
-    public function test_required_fields(): void
+    public function testRequiredFields(): void
     {
         Event::fakeExcept(PlaylistCreated::class);
 
@@ -197,7 +197,7 @@ class TrackStoreTest extends TestCase
      *
      * @return void
      */
-    public function test_anime_theme_entry_video_exists(): void
+    public function testAnimeThemeEntryVideoExists(): void
     {
         Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
@@ -237,7 +237,7 @@ class TrackStoreTest extends TestCase
      *
      * @return void
      */
-    public function test_prohibits_next_and_previous(): void
+    public function testProhibitsNextAndPrevious(): void
     {
         Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
@@ -300,7 +300,7 @@ class TrackStoreTest extends TestCase
      *
      * @return void
      */
-    public function test_scope_next(): void
+    public function testScopeNext(): void
     {
         Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
@@ -350,7 +350,7 @@ class TrackStoreTest extends TestCase
      *
      * @return void
      */
-    public function test_scope_previous(): void
+    public function testScopePrevious(): void
     {
         Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
@@ -400,7 +400,7 @@ class TrackStoreTest extends TestCase
      *
      * @return void
      */
-    public function test_create(): void
+    public function testCreate(): void
     {
         Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
@@ -443,7 +443,7 @@ class TrackStoreTest extends TestCase
      *
      * @return void
      */
-    public function test_create_after_last_track(): void
+    public function testCreateAfterLastTrack(): void
     {
         Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
@@ -499,7 +499,7 @@ class TrackStoreTest extends TestCase
      *
      * @return void
      */
-    public function test_create_after_first_track(): void
+    public function testCreateAfterFirstTrack(): void
     {
         Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
@@ -556,7 +556,7 @@ class TrackStoreTest extends TestCase
      *
      * @return void
      */
-    public function test_create_before_last_track(): void
+    public function testCreateBeforeLastTrack(): void
     {
         Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
@@ -613,7 +613,7 @@ class TrackStoreTest extends TestCase
      *
      * @return void
      */
-    public function test_create_before_first_track(): void
+    public function testCreateBeforeFirstTrack(): void
     {
         Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
@@ -668,7 +668,7 @@ class TrackStoreTest extends TestCase
      *
      * @return void
      */
-    public function test_create_permitted_for_bypass(): void
+    public function testCreatePermittedForBypass(): void
     {
         Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
@@ -708,7 +708,7 @@ class TrackStoreTest extends TestCase
      *
      * @return void
      */
-    public function test_max_track_limit(): void
+    public function testMaxTrackLimit(): void
     {
         Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
@@ -748,7 +748,7 @@ class TrackStoreTest extends TestCase
      *
      * @return void
      */
-    public function test_max_track_limit_permitted_for_bypass(): void
+    public function testMaxTrackLimitPermittedForBypass(): void
     {
         Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 

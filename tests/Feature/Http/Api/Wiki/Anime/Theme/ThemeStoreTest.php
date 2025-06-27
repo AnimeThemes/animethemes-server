@@ -23,7 +23,7 @@ class ThemeStoreTest extends TestCase
      *
      * @return void
      */
-    public function test_protected(): void
+    public function testProtected(): void
     {
         $theme = AnimeTheme::factory()->for(Anime::factory())->makeOne();
 
@@ -37,7 +37,7 @@ class ThemeStoreTest extends TestCase
      *
      * @return void
      */
-    public function test_forbidden(): void
+    public function testForbidden(): void
     {
         $theme = AnimeTheme::factory()->for(Anime::factory())->makeOne();
 
@@ -55,7 +55,7 @@ class ThemeStoreTest extends TestCase
      *
      * @return void
      */
-    public function test_required_fields(): void
+    public function testRequiredFields(): void
     {
         $user = User::factory()->withPermissions(CrudPermission::CREATE->format(AnimeTheme::class))->createOne();
 
@@ -75,7 +75,7 @@ class ThemeStoreTest extends TestCase
      *
      * @return void
      */
-    public function test_create(): void
+    public function testCreate(): void
     {
         $anime = Anime::factory()->createOne();
 

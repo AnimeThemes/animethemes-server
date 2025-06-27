@@ -19,7 +19,7 @@ class ThrottleTest extends TestCase
      *
      * @return void
      */
-    public function test_forwarded_ip_rate_limited(): void
+    public function testForwardedIpRateLimited(): void
     {
         $response = $this->withHeader('x-forwarded-ip', fake()->ipv4())->get(route('api.anime.index'));
 
@@ -32,7 +32,7 @@ class ThrottleTest extends TestCase
      *
      * @return void
      */
-    public function test_client_no_forwarded_ip_not_rate_limited(): void
+    public function testClientNoForwardedIpNotRateLimited(): void
     {
         $response = $this->get(route('api.anime.index'));
 
@@ -45,7 +45,7 @@ class ThrottleTest extends TestCase
      *
      * @return void
      */
-    public function test_user_not_rate_limited(): void
+    public function testUserNotRateLimited(): void
     {
         $user = User::factory()->withPermissions(SpecialPermission::BYPASS_API_RATE_LIMITER->value)->createOne();
 

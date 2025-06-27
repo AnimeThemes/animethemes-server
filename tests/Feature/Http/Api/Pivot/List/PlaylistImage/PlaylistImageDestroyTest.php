@@ -30,7 +30,7 @@ class PlaylistImageDestroyTest extends TestCase
      *
      * @return void
      */
-    public function test_protected(): void
+    public function testProtected(): void
     {
         Event::fakeExcept(PlaylistCreated::class);
 
@@ -51,7 +51,7 @@ class PlaylistImageDestroyTest extends TestCase
      *
      * @return void
      */
-    public function test_forbidden_if_missing_permission(): void
+    public function testForbiddenIfMissingPermission(): void
     {
         Event::fakeExcept(PlaylistCreated::class);
 
@@ -76,7 +76,7 @@ class PlaylistImageDestroyTest extends TestCase
      *
      * @return void
      */
-    public function test_forbidden_if_not_own_playlist(): void
+    public function testForbiddenIfNotOwnPlaylist(): void
     {
         Event::fakeExcept(PlaylistCreated::class);
 
@@ -107,7 +107,7 @@ class PlaylistImageDestroyTest extends TestCase
      *
      * @return void
      */
-    public function test_forbidden_if_flag_disabled(): void
+    public function testForbiddenIfFlagDisabled(): void
     {
         Event::fakeExcept(PlaylistCreated::class);
 
@@ -137,7 +137,7 @@ class PlaylistImageDestroyTest extends TestCase
      *
      * @return void
      */
-    public function test_not_found(): void
+    public function testNotFound(): void
     {
         Event::fakeExcept(PlaylistCreated::class);
 
@@ -167,7 +167,7 @@ class PlaylistImageDestroyTest extends TestCase
      *
      * @return void
      */
-    public function test_deleted(): void
+    public function testDeleted(): void
     {
         Event::fakeExcept(PlaylistCreated::class);
 
@@ -199,7 +199,7 @@ class PlaylistImageDestroyTest extends TestCase
      *
      * @return void
      */
-    public function test_destroy_permitted_for_bypass(): void
+    public function testDestroyPermittedForBypass(): void
     {
         Event::fakeExcept(PlaylistCreated::class);
 

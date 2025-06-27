@@ -35,7 +35,7 @@ class BackfillVideoAudioTest extends TestCase
      *
      * @throws Exception
      */
-    public function test_skipped(): void
+    public function testSkipped(): void
     {
         Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
         Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
@@ -60,7 +60,7 @@ class BackfillVideoAudioTest extends TestCase
      *
      * @throws Exception
      */
-    public function test_failed_when_no_entries(): void
+    public function testFailedWhenNoEntries(): void
     {
         Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
         Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
@@ -83,7 +83,7 @@ class BackfillVideoAudioTest extends TestCase
      *
      * @throws Exception
      */
-    public function test_passes_source_video(): void
+    public function testPassesSourceVideo(): void
     {
         Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
         Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
@@ -115,7 +115,7 @@ class BackfillVideoAudioTest extends TestCase
      *
      * @throws Exception
      */
-    public function test_passes_with_higher_priority_source(): void
+    public function testPassesWithHigherPrioritySource(): void
     {
         Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
         Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
@@ -152,7 +152,7 @@ class BackfillVideoAudioTest extends TestCase
      *
      * @throws Exception
      */
-    public function test_passes_with_primary_version_source(): void
+    public function testPassesWithPrimaryVersionSource(): void
     {
         Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
         Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));

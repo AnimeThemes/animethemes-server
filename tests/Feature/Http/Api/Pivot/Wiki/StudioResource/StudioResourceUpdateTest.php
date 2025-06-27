@@ -22,7 +22,7 @@ class StudioResourceUpdateTest extends TestCase
      *
      * @return void
      */
-    public function test_protected(): void
+    public function testProtected(): void
     {
         $studioResource = StudioResource::factory()
             ->for(Studio::factory())
@@ -41,7 +41,7 @@ class StudioResourceUpdateTest extends TestCase
      *
      * @return void
      */
-    public function test_forbidden(): void
+    public function testForbidden(): void
     {
         $studioResource = StudioResource::factory()
             ->for(Studio::factory())
@@ -64,7 +64,7 @@ class StudioResourceUpdateTest extends TestCase
      *
      * @return void
      */
-    public function test_update(): void
+    public function testUpdate(): void
     {
         $studioResource = StudioResource::factory()
             ->for(Studio::factory())

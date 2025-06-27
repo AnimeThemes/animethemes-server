@@ -22,7 +22,7 @@ class AnimeResourceUpdateTest extends TestCase
      *
      * @return void
      */
-    public function test_protected(): void
+    public function testProtected(): void
     {
         $animeResource = AnimeResource::factory()
             ->for(Anime::factory())
@@ -41,7 +41,7 @@ class AnimeResourceUpdateTest extends TestCase
      *
      * @return void
      */
-    public function test_forbidden(): void
+    public function testForbidden(): void
     {
         $animeResource = AnimeResource::factory()
             ->for(Anime::factory())
@@ -64,7 +64,7 @@ class AnimeResourceUpdateTest extends TestCase
      *
      * @return void
      */
-    public function test_update(): void
+    public function testUpdate(): void
     {
         $animeResource = AnimeResource::factory()
             ->for(Anime::factory())

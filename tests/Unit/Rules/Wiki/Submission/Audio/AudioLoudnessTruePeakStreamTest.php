@@ -24,7 +24,7 @@ class AudioLoudnessTruePeakStreamTest extends TestCase
      *
      * @return void
      */
-    public function test_fails_when_true_peak_is_not_expected(): void
+    public function testFailsWhenTruePeakIsNotExpected(): void
     {
         $file = UploadedFile::fake()->create($this->faker->word().'.webm', $this->faker->randomDigitNotNull());
 
@@ -65,7 +65,7 @@ class AudioLoudnessTruePeakStreamTest extends TestCase
      *
      * @return void
      */
-    public function test_passes_when_true_peak_is_expected(): void
+    public function testPassesWhenTruePeakIsExpected(): void
     {
         $file = UploadedFile::fake()->create($this->faker->word().'.webm', $this->faker->randomDigitNotNull());
 

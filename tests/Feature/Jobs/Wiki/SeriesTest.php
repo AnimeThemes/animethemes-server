@@ -26,7 +26,7 @@ class SeriesTest extends TestCase
      *
      * @return void
      */
-    public function test_series_created_sends_discord_notification(): void
+    public function testSeriesCreatedSendsDiscordNotification(): void
     {
         Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
         Bus::fake(SendDiscordNotificationJob::class);
@@ -42,7 +42,7 @@ class SeriesTest extends TestCase
      *
      * @return void
      */
-    public function test_series_deleted_sends_discord_notification(): void
+    public function testSeriesDeletedSendsDiscordNotification(): void
     {
         $series = Series::factory()->createOne();
 
@@ -60,7 +60,7 @@ class SeriesTest extends TestCase
      *
      * @return void
      */
-    public function test_series_restored_sends_discord_notification(): void
+    public function testSeriesRestoredSendsDiscordNotification(): void
     {
         $series = Series::factory()->createOne();
 
@@ -78,7 +78,7 @@ class SeriesTest extends TestCase
      *
      * @return void
      */
-    public function test_series_updated_sends_discord_notification(): void
+    public function testSeriesUpdatedSendsDiscordNotification(): void
     {
         $series = Series::factory()->createOne();
 

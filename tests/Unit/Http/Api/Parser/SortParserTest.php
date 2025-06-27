@@ -27,7 +27,7 @@ class SortParserTest extends TestCase
      *
      * @return void
      */
-    public function test_no_criteria_by_default(): void
+    public function testNoCriteriaByDefault(): void
     {
         $parameters = [];
 
@@ -39,7 +39,7 @@ class SortParserTest extends TestCase
      *
      * @return void
      */
-    public function test_parse_random_criteria(): void
+    public function testParseRandomCriteria(): void
     {
         $parameters = [
             SortParser::param() => RandomCriteria::PARAM_VALUE,
@@ -55,7 +55,7 @@ class SortParserTest extends TestCase
      *
      * @return void
      */
-    public function test_parse_relation_criteria(): void
+    public function testParseRelationCriteria(): void
     {
         $parameters = [
             SortParser::param() => collect($this->faker->words())->join('.'),
@@ -71,7 +71,7 @@ class SortParserTest extends TestCase
      *
      * @return void
      */
-    public function test_parse_field_criteria(): void
+    public function testParseFieldCriteria(): void
     {
         $parameters = [
             SortParser::param() => $this->faker->word(),
@@ -87,7 +87,7 @@ class SortParserTest extends TestCase
      *
      * @return void
      */
-    public function test_parse_criteria_field(): void
+    public function testParseCriteriaField(): void
     {
         $field = $this->faker->word();
 
@@ -105,7 +105,7 @@ class SortParserTest extends TestCase
      *
      * @return void
      */
-    public function test_parse_default_direction(): void
+    public function testParseDefaultDirection(): void
     {
         $parameters = [
             SortParser::param() => $this->faker->word(),
@@ -124,7 +124,7 @@ class SortParserTest extends TestCase
      *
      * @return void
      */
-    public function test_parse_descending_direction(): void
+    public function testParseDescendingDirection(): void
     {
         $field = Str::of('-')->append($this->faker->word())->__toString();
 
@@ -145,7 +145,7 @@ class SortParserTest extends TestCase
      *
      * @return void
      */
-    public function test_parse_global_scope(): void
+    public function testParseGlobalScope(): void
     {
         $parameters = [
             SortParser::param() => $this->faker->word(),
@@ -161,7 +161,7 @@ class SortParserTest extends TestCase
      *
      * @return void
      */
-    public function test_parse_type_scope(): void
+    public function testParseTypeScope(): void
     {
         $type = Str::singular($this->faker->word());
 

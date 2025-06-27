@@ -23,7 +23,7 @@ class DumpTest extends TestCase
      *
      * @return void
      */
-    public function test_dump_created_event_dispatched(): void
+    public function testDumpCreatedEventDispatched(): void
     {
         Dump::factory()->create();
 
@@ -35,7 +35,7 @@ class DumpTest extends TestCase
      *
      * @return void
      */
-    public function test_dump_deleted_event_dispatched(): void
+    public function testDumpDeletedEventDispatched(): void
     {
         $dump = Dump::factory()->create();
 
@@ -49,7 +49,7 @@ class DumpTest extends TestCase
      *
      * @return void
      */
-    public function test_dump_restored_event_dispatched(): void
+    public function testDumpRestoredEventDispatched(): void
     {
         $dump = Dump::factory()->createOne();
 
@@ -65,7 +65,7 @@ class DumpTest extends TestCase
      *
      * @return void
      */
-    public function test_dump_restores_quietly(): void
+    public function testDumpRestoresQuietly(): void
     {
         $dump = Dump::factory()->createOne();
 
@@ -79,7 +79,7 @@ class DumpTest extends TestCase
      *
      * @return void
      */
-    public function test_dump_updated_event_dispatched(): void
+    public function testDumpUpdatedEventDispatched(): void
     {
         $dump = Dump::factory()->createOne();
         $changes = Dump::factory()->makeOne();
@@ -95,7 +95,7 @@ class DumpTest extends TestCase
      *
      * @return void
      */
-    public function test_dump_updated_event_embed_fields(): void
+    public function testDumpUpdatedEventEmbedFields(): void
     {
         $dump = Dump::factory()->createOne();
         $changes = Dump::factory()->makeOne();

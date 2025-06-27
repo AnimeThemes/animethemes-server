@@ -20,7 +20,7 @@ class PlaylistImageTest extends TestCase
      *
      * @return void
      */
-    public function test_playlist(): void
+    public function testPlaylist(): void
     {
         $playlistImage = PlaylistImage::factory()
             ->for(Playlist::factory())
@@ -36,7 +36,7 @@ class PlaylistImageTest extends TestCase
      *
      * @return void
      */
-    public function test_image(): void
+    public function testImage(): void
     {
         $playlistImage = PlaylistImage::factory()
             ->for(Playlist::factory())

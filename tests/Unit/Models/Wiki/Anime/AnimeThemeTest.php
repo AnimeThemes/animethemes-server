@@ -27,7 +27,7 @@ class AnimeThemeTest extends TestCase
      *
      * @return void
      */
-    public function test_casts_type_to_enum(): void
+    public function testCastsTypeToEnum(): void
     {
         $theme = AnimeTheme::factory()
             ->for(Anime::factory())
@@ -43,7 +43,7 @@ class AnimeThemeTest extends TestCase
      *
      * @return void
      */
-    public function test_searchable_as(): void
+    public function testSearchableAs(): void
     {
         $theme = AnimeTheme::factory()
             ->for(Anime::factory())
@@ -57,7 +57,7 @@ class AnimeThemeTest extends TestCase
      *
      * @return void
      */
-    public function test_to_searchable_array(): void
+    public function testToSearchableArray(): void
     {
         $theme = AnimeTheme::factory()
             ->for(Anime::factory())
@@ -71,7 +71,7 @@ class AnimeThemeTest extends TestCase
      *
      * @return void
      */
-    public function test_nameable(): void
+    public function testNameable(): void
     {
         $theme = AnimeTheme::factory()
             ->for(Anime::factory())
@@ -85,7 +85,7 @@ class AnimeThemeTest extends TestCase
      *
      * @return void
      */
-    public function test_has_subtitle(): void
+    public function testHasSubtitle(): void
     {
         $theme = AnimeTheme::factory()
             ->for(Anime::factory())
@@ -99,7 +99,7 @@ class AnimeThemeTest extends TestCase
      *
      * @return void
      */
-    public function test_anime(): void
+    public function testAnime(): void
     {
         $theme = AnimeTheme::factory()
             ->for(Anime::factory())
@@ -114,7 +114,7 @@ class AnimeThemeTest extends TestCase
      *
      * @return void
      */
-    public function test_group(): void
+    public function testGroup(): void
     {
         $theme = AnimeTheme::factory()
             ->for(Anime::factory())
@@ -130,7 +130,7 @@ class AnimeThemeTest extends TestCase
      *
      * @return void
      */
-    public function test_song(): void
+    public function testSong(): void
     {
         $theme = AnimeTheme::factory()
             ->for(Anime::factory())
@@ -146,7 +146,7 @@ class AnimeThemeTest extends TestCase
      *
      * @return void
      */
-    public function test_entries(): void
+    public function testEntries(): void
     {
         $entryCount = $this->faker->randomDigitNotNull();
 
@@ -165,7 +165,7 @@ class AnimeThemeTest extends TestCase
      *
      * @return void
      */
-    public function test_theme_creates_slug(): void
+    public function testThemeCreatesSlug(): void
     {
         $theme = AnimeTheme::factory()
             ->for(Anime::factory())

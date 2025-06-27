@@ -27,7 +27,7 @@ class StudioResourceTest extends TestCase
      *
      * @return void
      */
-    public function test_studio_resource_created_sends_discord_notification(): void
+    public function testStudioResourceCreatedSendsDiscordNotification(): void
     {
         $studio = Studio::factory()->createOne();
         $resource = ExternalResource::factory()->createOne();
@@ -46,7 +46,7 @@ class StudioResourceTest extends TestCase
      *
      * @return void
      */
-    public function test_studio_resource_deleted_sends_discord_notification(): void
+    public function testStudioResourceDeletedSendsDiscordNotification(): void
     {
         $studio = Studio::factory()->createOne();
         $resource = ExternalResource::factory()->createOne();
@@ -67,7 +67,7 @@ class StudioResourceTest extends TestCase
      *
      * @return void
      */
-    public function test_studio_resource_updated_sends_discord_notification(): void
+    public function testStudioResourceUpdatedSendsDiscordNotification(): void
     {
         $studio = Studio::factory()->createOne();
         $resource = ExternalResource::factory()->createOne();

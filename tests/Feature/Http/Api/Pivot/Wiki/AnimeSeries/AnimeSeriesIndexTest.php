@@ -47,7 +47,7 @@ class AnimeSeriesIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_default(): void
+    public function testDefault(): void
     {
         Collection::times($this->faker->randomDigitNotNull(), function () {
             AnimeSeries::factory()
@@ -77,7 +77,7 @@ class AnimeSeriesIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_paginated(): void
+    public function testPaginated(): void
     {
         Collection::times($this->faker->randomDigitNotNull(), function () {
             AnimeSeries::factory()
@@ -100,7 +100,7 @@ class AnimeSeriesIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_allowed_include_paths(): void
+    public function testAllowedIncludePaths(): void
     {
         $schema = new AnimeSeriesSchema();
 
@@ -142,7 +142,7 @@ class AnimeSeriesIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_sparse_fieldsets(): void
+    public function testSparseFieldsets(): void
     {
         $schema = new AnimeSeriesSchema();
 
@@ -184,7 +184,7 @@ class AnimeSeriesIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_sorts(): void
+    public function testSorts(): void
     {
         $schema = new AnimeSeriesSchema();
 
@@ -228,7 +228,7 @@ class AnimeSeriesIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_created_at_filter(): void
+    public function testCreatedAtFilter(): void
     {
         $createdFilter = $this->faker->date();
         $excludedDate = $this->faker->date();
@@ -281,7 +281,7 @@ class AnimeSeriesIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_updated_at_filter(): void
+    public function testUpdatedAtFilter(): void
     {
         $updatedFilter = $this->faker->date();
         $excludedDate = $this->faker->date();
@@ -334,7 +334,7 @@ class AnimeSeriesIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_anime_by_media_format(): void
+    public function testAnimeByMediaFormat(): void
     {
         $mediaFormatFilter = Arr::random(AnimeMediaFormat::cases());
 
@@ -378,7 +378,7 @@ class AnimeSeriesIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_anime_by_season(): void
+    public function testAnimeBySeason(): void
     {
         $seasonFilter = Arr::random(AnimeSeason::cases());
 
@@ -422,7 +422,7 @@ class AnimeSeriesIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_anime_by_year(): void
+    public function testAnimeByYear(): void
     {
         $yearFilter = intval($this->faker->year());
         $excludedYear = $yearFilter + 1;

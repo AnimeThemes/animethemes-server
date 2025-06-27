@@ -22,7 +22,7 @@ class MoveResultsTest extends TestCase
      *
      * @return void
      */
-    public function test_default(): void
+    public function testDefault(): void
     {
         $video = Video::factory()->createOne();
 
@@ -38,7 +38,7 @@ class MoveResultsTest extends TestCase
      *
      * @return void
      */
-    public function test_failed(): void
+    public function testFailed(): void
     {
         $video = Video::factory()->createOne();
 
@@ -64,7 +64,7 @@ class MoveResultsTest extends TestCase
      *
      * @return void
      */
-    public function test_passed(): void
+    public function testPassed(): void
     {
         $video = Video::factory()->createOne();
 

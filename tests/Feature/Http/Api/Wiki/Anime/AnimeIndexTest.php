@@ -62,7 +62,7 @@ class AnimeIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_default(): void
+    public function testDefault(): void
     {
         $anime = Anime::factory()->count($this->faker->numberBetween(1, 3))->create();
 
@@ -85,7 +85,7 @@ class AnimeIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_paginated(): void
+    public function testPaginated(): void
     {
         Anime::factory()->count($this->faker->randomDigitNotNull())->create();
 
@@ -103,7 +103,7 @@ class AnimeIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_allowed_include_paths(): void
+    public function testAllowedIncludePaths(): void
     {
         $schema = new AnimeSchema();
 
@@ -139,7 +139,7 @@ class AnimeIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_sparse_fieldsets(): void
+    public function testSparseFieldsets(): void
     {
         $schema = new AnimeSchema();
 
@@ -174,7 +174,7 @@ class AnimeIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_sorts(): void
+    public function testSorts(): void
     {
         $schema = new AnimeSchema();
 
@@ -213,7 +213,7 @@ class AnimeIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_season_filter(): void
+    public function testSeasonFilter(): void
     {
         $seasonFilter = Arr::random(AnimeSeason::cases());
 
@@ -245,7 +245,7 @@ class AnimeIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_media_format_filter(): void
+    public function testMediaFormatFilter(): void
     {
         $mediaFormatFilter = Arr::random(AnimeMediaFormat::cases());
 
@@ -277,7 +277,7 @@ class AnimeIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_year_filter(): void
+    public function testYearFilter(): void
     {
         $yearFilter = $this->faker->numberBetween(2000, 2002);
 
@@ -317,7 +317,7 @@ class AnimeIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_created_at_filter(): void
+    public function testCreatedAtFilter(): void
     {
         $createdFilter = $this->faker->date();
         $excludedDate = $this->faker->date();
@@ -360,7 +360,7 @@ class AnimeIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_updated_at_filter(): void
+    public function testUpdatedAtFilter(): void
     {
         $updatedFilter = $this->faker->date();
         $excludedDate = $this->faker->date();
@@ -403,7 +403,7 @@ class AnimeIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_without_trashed_filter(): void
+    public function testWithoutTrashedFilter(): void
     {
         $parameters = [
             FilterParser::param() => [
@@ -439,7 +439,7 @@ class AnimeIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_with_trashed_filter(): void
+    public function testWithTrashedFilter(): void
     {
         $parameters = [
             FilterParser::param() => [
@@ -475,7 +475,7 @@ class AnimeIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_only_trashed_filter(): void
+    public function testOnlyTrashedFilter(): void
     {
         $parameters = [
             FilterParser::param() => [
@@ -511,7 +511,7 @@ class AnimeIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_deleted_at_filter(): void
+    public function testDeletedAtFilter(): void
     {
         $deletedFilter = $this->faker->date();
         $excludedDate = $this->faker->date();
@@ -555,7 +555,7 @@ class AnimeIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_synonyms_by_type(): void
+    public function testSynonymsByType(): void
     {
         $typeFilter = Arr::random(AnimeSynonymType::cases());
 
@@ -599,7 +599,7 @@ class AnimeIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_themes_by_sequence(): void
+    public function testThemesBySequence(): void
     {
         $sequenceFilter = $this->faker->randomDigitNotNull();
         $excludedSequence = $sequenceFilter + 1;
@@ -649,7 +649,7 @@ class AnimeIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_themes_by_type(): void
+    public function testThemesByType(): void
     {
         $typeFilter = Arr::random(ThemeType::cases());
 
@@ -693,7 +693,7 @@ class AnimeIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_entries_by_nsfw(): void
+    public function testEntriesByNsfw(): void
     {
         $nsfwFilter = $this->faker->boolean();
 
@@ -739,7 +739,7 @@ class AnimeIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_entries_by_spoiler(): void
+    public function testEntriesBySpoiler(): void
     {
         $spoilerFilter = $this->faker->boolean();
 
@@ -785,7 +785,7 @@ class AnimeIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_entries_by_version(): void
+    public function testEntriesByVersion(): void
     {
         $versionFilter = $this->faker->numberBetween(1, 3);
         $excludedVersion = $versionFilter + 1;
@@ -839,7 +839,7 @@ class AnimeIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_resources_by_site(): void
+    public function testResourcesBySite(): void
     {
         $siteFilter = Arr::random(ResourceSite::cases());
 
@@ -881,7 +881,7 @@ class AnimeIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_images_by_facet(): void
+    public function testImagesByFacet(): void
     {
         $facetFilter = Arr::random(ImageFacet::cases());
 
@@ -923,7 +923,7 @@ class AnimeIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_videos_by_lyrics(): void
+    public function testVideosByLyrics(): void
     {
         $lyricsFilter = $this->faker->boolean();
 
@@ -962,7 +962,7 @@ class AnimeIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_videos_by_nc(): void
+    public function testVideosByNc(): void
     {
         $ncFilter = $this->faker->boolean();
 
@@ -1001,7 +1001,7 @@ class AnimeIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_videos_by_overlap(): void
+    public function testVideosByOverlap(): void
     {
         $overlapFilter = Arr::random(VideoOverlap::cases());
 
@@ -1040,7 +1040,7 @@ class AnimeIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_videos_by_resolution(): void
+    public function testVideosByResolution(): void
     {
         $resolutionFilter = $this->faker->randomNumber();
         $excludedResolution = $resolutionFilter + 1;
@@ -1098,7 +1098,7 @@ class AnimeIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_videos_by_source(): void
+    public function testVideosBySource(): void
     {
         $sourceFilter = Arr::random(VideoSource::cases());
 
@@ -1137,7 +1137,7 @@ class AnimeIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_videos_by_subbed(): void
+    public function testVideosBySubbed(): void
     {
         $subbedFilter = $this->faker->boolean();
 
@@ -1176,7 +1176,7 @@ class AnimeIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_videos_by_uncen(): void
+    public function testVideosByUncen(): void
     {
         $uncenFilter = $this->faker->boolean();
 

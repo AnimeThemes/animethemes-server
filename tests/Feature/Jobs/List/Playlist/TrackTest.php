@@ -28,7 +28,7 @@ class TrackTest extends TestCase
      *
      * @return void
      */
-    public function test_playlist_created_sends_discord_notification(): void
+    public function testPlaylistCreatedSendsDiscordNotification(): void
     {
         $playlist = Playlist::factory()->createOne();
 
@@ -48,7 +48,7 @@ class TrackTest extends TestCase
      *
      * @return void
      */
-    public function test_playlist_deleted_sends_discord_notification(): void
+    public function testPlaylistDeletedSendsDiscordNotification(): void
     {
         $playlist = Playlist::factory()->createOne();
 
@@ -70,7 +70,7 @@ class TrackTest extends TestCase
      *
      * @return void
      */
-    public function test_playlist_restored_sends_discord_notification(): void
+    public function testPlaylistRestoredSendsDiscordNotification(): void
     {
         $playlist = Playlist::factory()->createOne();
 
@@ -92,7 +92,7 @@ class TrackTest extends TestCase
      *
      * @return void
      */
-    public function test_playlist_updated_sends_discord_notification(): void
+    public function testPlaylistUpdatedSendsDiscordNotification(): void
     {
         $playlist = Playlist::factory()->createOne();
 

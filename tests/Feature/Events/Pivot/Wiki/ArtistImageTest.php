@@ -21,7 +21,7 @@ class ArtistImageTest extends TestCase
      *
      * @return void
      */
-    public function test_artist_image_created_event_dispatched(): void
+    public function testArtistImageCreatedEventDispatched(): void
     {
         $artist = Artist::factory()->createOne();
         $image = Image::factory()->createOne();
@@ -36,7 +36,7 @@ class ArtistImageTest extends TestCase
      *
      * @return void
      */
-    public function test_artist_image_deleted_event_dispatched(): void
+    public function testArtistImageDeletedEventDispatched(): void
     {
         $artist = Artist::factory()->createOne();
         $image = Image::factory()->createOne();

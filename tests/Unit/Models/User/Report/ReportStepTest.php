@@ -26,7 +26,7 @@ class ReportStepTest extends TestCase
      *
      * @return void
      */
-    public function test_nameable(): void
+    public function testNameable(): void
     {
         $step = ReportStep::factory()
             ->for(Report::factory())
@@ -40,7 +40,7 @@ class ReportStepTest extends TestCase
      *
      * @return void
      */
-    public function test_has_subtitle(): void
+    public function testHasSubtitle(): void
     {
         $step = ReportStep::factory()
             ->for(Report::factory())
@@ -54,7 +54,7 @@ class ReportStepTest extends TestCase
      *
      * @return void
      */
-    public function test_casts_action_to_enum(): void
+    public function testCastsActionToEnum(): void
     {
         $step = ReportStep::factory()
             ->for(Report::factory())
@@ -68,7 +68,7 @@ class ReportStepTest extends TestCase
      *
      * @return void
      */
-    public function test_casts_fields_to_array(): void
+    public function testCastsFieldsToArray(): void
     {
         $anime = Anime::factory()->makeOne();
 
@@ -84,7 +84,7 @@ class ReportStepTest extends TestCase
      *
      * @return void
      */
-    public function test_casts_finished_at(): void
+    public function testCastsFinishedAt(): void
     {
         $step = ReportStep::factory()
             ->for(Report::factory())
@@ -98,7 +98,7 @@ class ReportStepTest extends TestCase
      *
      * @return void
      */
-    public function test_casts_status_to_enum(): void
+    public function testCastsStatusToEnum(): void
     {
         $step = ReportStep::factory()
             ->for(Report::factory())
@@ -112,7 +112,7 @@ class ReportStepTest extends TestCase
      *
      * @return void
      */
-    public function test_report(): void
+    public function testReport(): void
     {
         $step = ReportStep::factory()
             ->for(Report::factory())

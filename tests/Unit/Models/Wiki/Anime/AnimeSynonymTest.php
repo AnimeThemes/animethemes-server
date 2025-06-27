@@ -23,7 +23,7 @@ class AnimeSynonymTest extends TestCase
      *
      * @return void
      */
-    public function test_casts_type_to_enum(): void
+    public function testCastsTypeToEnum(): void
     {
         $theme = AnimeSynonym::factory()
             ->for(Anime::factory())
@@ -39,7 +39,7 @@ class AnimeSynonymTest extends TestCase
      *
      * @return void
      */
-    public function test_searchable_as(): void
+    public function testSearchableAs(): void
     {
         $synonym = AnimeSynonym::factory()
             ->for(Anime::factory())
@@ -53,7 +53,7 @@ class AnimeSynonymTest extends TestCase
      *
      * @return void
      */
-    public function test_to_searchable_array(): void
+    public function testToSearchableArray(): void
     {
         $synonym = AnimeSynonym::factory()
             ->for(Anime::factory())
@@ -67,7 +67,7 @@ class AnimeSynonymTest extends TestCase
      *
      * @return void
      */
-    public function test_nameable(): void
+    public function testNameable(): void
     {
         $synonym = AnimeSynonym::factory()
             ->for(Anime::factory())
@@ -81,7 +81,7 @@ class AnimeSynonymTest extends TestCase
      *
      * @return void
      */
-    public function test_has_subtitle(): void
+    public function testHasSubtitle(): void
     {
         $synonym = AnimeSynonym::factory()
             ->for(Anime::factory())
@@ -95,7 +95,7 @@ class AnimeSynonymTest extends TestCase
      *
      * @return void
      */
-    public function test_anime(): void
+    public function testAnime(): void
     {
         $synonym = AnimeSynonym::factory()
             ->for(Anime::factory())

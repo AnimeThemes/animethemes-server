@@ -24,7 +24,7 @@ class StudioResourceTest extends TestCase
      *
      * @return void
      */
-    public function test_studio_resource_created_event_dispatched(): void
+    public function testStudioResourceCreatedEventDispatched(): void
     {
         $studio = Studio::factory()->createOne();
         $resource = ExternalResource::factory()->createOne();
@@ -39,7 +39,7 @@ class StudioResourceTest extends TestCase
      *
      * @return void
      */
-    public function test_studio_resource_deleted_event_dispatched(): void
+    public function testStudioResourceDeletedEventDispatched(): void
     {
         $studio = Studio::factory()->createOne();
         $resource = ExternalResource::factory()->createOne();
@@ -55,7 +55,7 @@ class StudioResourceTest extends TestCase
      *
      * @return void
      */
-    public function test_studio_resource_updated_event_dispatched(): void
+    public function testStudioResourceUpdatedEventDispatched(): void
     {
         $studio = Studio::factory()->createOne();
         $resource = ExternalResource::factory()->createOne();
@@ -81,7 +81,7 @@ class StudioResourceTest extends TestCase
      *
      * @return void
      */
-    public function test_studio_resource_updated_event_embed_fields(): void
+    public function testStudioResourceUpdatedEventEmbedFields(): void
     {
         $studio = Studio::factory()->createOne();
         $resource = ExternalResource::factory()->createOne();

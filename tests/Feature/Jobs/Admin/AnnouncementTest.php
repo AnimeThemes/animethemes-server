@@ -26,7 +26,7 @@ class AnnouncementTest extends TestCase
      *
      * @return void
      */
-    public function test_announcement_created_sends_discord_notification(): void
+    public function testAnnouncementCreatedSendsDiscordNotification(): void
     {
         Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
         Bus::fake(SendDiscordNotificationJob::class);
@@ -42,7 +42,7 @@ class AnnouncementTest extends TestCase
      *
      * @return void
      */
-    public function test_announcement_deleted_sends_discord_notification(): void
+    public function testAnnouncementDeletedSendsDiscordNotification(): void
     {
         $announcement = Announcement::factory()->createOne();
 
@@ -60,7 +60,7 @@ class AnnouncementTest extends TestCase
      *
      * @return void
      */
-    public function test_announcement_restored_sends_discord_notification(): void
+    public function testAnnouncementRestoredSendsDiscordNotification(): void
     {
         $announcement = Announcement::factory()->createOne();
 
@@ -78,7 +78,7 @@ class AnnouncementTest extends TestCase
      *
      * @return void
      */
-    public function test_announcement_updated_sends_discord_notification(): void
+    public function testAnnouncementUpdatedSendsDiscordNotification(): void
     {
         $announcement = Announcement::factory()->createOne();
 

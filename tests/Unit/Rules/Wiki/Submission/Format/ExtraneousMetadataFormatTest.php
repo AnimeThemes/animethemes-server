@@ -24,7 +24,7 @@ class ExtraneousMetadataFormatTest extends TestCase
      *
      * @return void
      */
-    public function test_fails_when_extraneous_metadata_is_present(): void
+    public function testFailsWhenExtraneousMetadataIsPresent(): void
     {
         $file = UploadedFile::fake()->create($this->faker->word().'.webm', $this->faker->randomDigitNotNull());
 
@@ -67,7 +67,7 @@ class ExtraneousMetadataFormatTest extends TestCase
      *
      * @return void
      */
-    public function test_passes_no_extraneous_metadata(): void
+    public function testPassesNoExtraneousMetadata(): void
     {
         $file = UploadedFile::fake()->create($this->faker->word().'.webm', $this->faker->randomDigitNotNull());
 

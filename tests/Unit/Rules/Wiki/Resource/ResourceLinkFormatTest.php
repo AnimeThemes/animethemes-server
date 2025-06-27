@@ -28,7 +28,7 @@ class ResourceLinkFormatTest extends TestCase
      *
      * @return void
      */
-    public function test_passes_for_no_site(): void
+    public function testPassesForNoSite(): void
     {
         $attribute = $this->faker->word();
 
@@ -45,7 +45,7 @@ class ResourceLinkFormatTest extends TestCase
      *
      * @return void
      */
-    public function test_passes_for_no_pattern(): void
+    public function testPassesForNoPattern(): void
     {
         $attribute = $this->faker->word();
 
@@ -62,7 +62,7 @@ class ResourceLinkFormatTest extends TestCase
      *
      * @return void
      */
-    public function test_passes_for_anime_resource(): void
+    public function testPassesForAnimeResource(): void
     {
         /** @var ResourceSite $site */
         $site = Arr::random([
@@ -93,7 +93,7 @@ class ResourceLinkFormatTest extends TestCase
      *
      * @return void
      */
-    public function test_passes_for_artist_resource(): void
+    public function testPassesForArtistResource(): void
     {
         /** @var ResourceSite $site */
         $site = Arr::random([
@@ -124,7 +124,7 @@ class ResourceLinkFormatTest extends TestCase
      *
      * @return void
      */
-    public function test_passes_for_song_resource(): void
+    public function testPassesForSongResource(): void
     {
         /** @var ResourceSite $site */
         $site = Arr::random([
@@ -152,7 +152,7 @@ class ResourceLinkFormatTest extends TestCase
      *
      * @return void
      */
-    public function test_passes_for_studio_resource(): void
+    public function testPassesForStudioResource(): void
     {
         /** @var ResourceSite $site */
         $site = Arr::random([
@@ -181,7 +181,7 @@ class ResourceLinkFormatTest extends TestCase
      *
      * @return void
      */
-    public function test_fails_for_trailing_slash(): void
+    public function testFailsForTrailingSlash(): void
     {
         // Resource sites that can be attached for all models.
         $site = Arr::random([

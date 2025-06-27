@@ -23,7 +23,7 @@ class UserTest extends TestCase
      *
      * @return void
      */
-    public function test_user_created_event_dispatched(): void
+    public function testUserCreatedEventDispatched(): void
     {
         User::factory()->createOne();
 
@@ -35,7 +35,7 @@ class UserTest extends TestCase
      *
      * @return void
      */
-    public function test_user_deleted_event_dispatched(): void
+    public function testUserDeletedEventDispatched(): void
     {
         $user = User::factory()->createOne();
 
@@ -49,7 +49,7 @@ class UserTest extends TestCase
      *
      * @return void
      */
-    public function test_user_restored_event_dispatched(): void
+    public function testUserRestoredEventDispatched(): void
     {
         $user = User::factory()->createOne();
 
@@ -65,7 +65,7 @@ class UserTest extends TestCase
      *
      * @return void
      */
-    public function test_user_restores_quietly(): void
+    public function testUserRestoresQuietly(): void
     {
         $user = User::factory()->createOne();
 
@@ -79,7 +79,7 @@ class UserTest extends TestCase
      *
      * @return void
      */
-    public function test_user_updated_event_dispatched(): void
+    public function testUserUpdatedEventDispatched(): void
     {
         $user = User::factory()->createOne();
         $changes = User::factory()->makeOne();
@@ -95,7 +95,7 @@ class UserTest extends TestCase
      *
      * @return void
      */
-    public function test_user_updated_event_embed_fields(): void
+    public function testUserUpdatedEventEmbedFields(): void
     {
         $user = User::factory()->createOne();
         $changes = User::factory()->makeOne();

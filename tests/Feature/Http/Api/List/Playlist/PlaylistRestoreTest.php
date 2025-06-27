@@ -30,7 +30,7 @@ class PlaylistRestoreTest extends TestCase
      *
      * @return void
      */
-    public function test_protected(): void
+    public function testProtected(): void
     {
         Event::fakeExcept(PlaylistCreated::class);
 
@@ -48,7 +48,7 @@ class PlaylistRestoreTest extends TestCase
      *
      * @return void
      */
-    public function test_forbidden_if_missing_permission(): void
+    public function testForbiddenIfMissingPermission(): void
     {
         Event::fakeExcept(PlaylistCreated::class);
 
@@ -70,7 +70,7 @@ class PlaylistRestoreTest extends TestCase
      *
      * @return void
      */
-    public function test_forbidden_if_not_own_playlist(): void
+    public function testForbiddenIfNotOwnPlaylist(): void
     {
         Event::fakeExcept(PlaylistCreated::class);
 
@@ -95,7 +95,7 @@ class PlaylistRestoreTest extends TestCase
      *
      * @return void
      */
-    public function test_forbidden_if_flag_disabled(): void
+    public function testForbiddenIfFlagDisabled(): void
     {
         Event::fakeExcept(PlaylistCreated::class);
 
@@ -120,7 +120,7 @@ class PlaylistRestoreTest extends TestCase
      *
      * @return void
      */
-    public function test_trashed(): void
+    public function testTrashed(): void
     {
         Event::fakeExcept(PlaylistCreated::class);
 
@@ -144,7 +144,7 @@ class PlaylistRestoreTest extends TestCase
      *
      * @return void
      */
-    public function test_restored(): void
+    public function testRestored(): void
     {
         Event::fakeExcept(PlaylistCreated::class);
 
@@ -171,7 +171,7 @@ class PlaylistRestoreTest extends TestCase
      *
      * @return void
      */
-    public function test_create_permitted_for_bypass(): void
+    public function testCreatePermittedForBypass(): void
     {
         Event::fakeExcept(PlaylistCreated::class);
 
@@ -202,7 +202,7 @@ class PlaylistRestoreTest extends TestCase
      *
      * @return void
      */
-    public function test_max_track_limit(): void
+    public function testMaxTrackLimit(): void
     {
         Event::fakeExcept(PlaylistCreated::class);
 
@@ -234,7 +234,7 @@ class PlaylistRestoreTest extends TestCase
      *
      * @return void
      */
-    public function test_max_track_limit_permitted_for_bypass(): void
+    public function testMaxTrackLimitPermittedForBypass(): void
     {
         Event::fakeExcept(PlaylistCreated::class);
 

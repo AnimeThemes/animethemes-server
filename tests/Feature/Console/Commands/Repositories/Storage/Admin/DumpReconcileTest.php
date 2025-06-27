@@ -27,7 +27,7 @@ class DumpReconcileTest extends TestCase
      *
      * @return void
      */
-    public function test_no_results(): void
+    public function testNoResults(): void
     {
         $this->mock(DumpRepository::class, function (MockInterface $mock) {
             $mock->shouldReceive('get')->once()->andReturn(Collection::make());
@@ -43,7 +43,7 @@ class DumpReconcileTest extends TestCase
      *
      * @return void
      */
-    public function test_created(): void
+    public function testCreated(): void
     {
         Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));
 
@@ -65,7 +65,7 @@ class DumpReconcileTest extends TestCase
      *
      * @return void
      */
-    public function test_deleted(): void
+    public function testDeleted(): void
     {
         Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));
 

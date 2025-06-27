@@ -26,7 +26,7 @@ class DumpPruneTest extends TestCase
      *
      * @return void
      */
-    public function test_no_results(): void
+    public function testNoResults(): void
     {
         Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));
 
@@ -40,7 +40,7 @@ class DumpPruneTest extends TestCase
      *
      * @return void
      */
-    public function test_deleted(): void
+    public function testDeleted(): void
     {
         Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));
 

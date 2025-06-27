@@ -27,7 +27,7 @@ class DeleteScriptTest extends TestCase
      *
      * @return void
      */
-    public function test_default(): void
+    public function testDefault(): void
     {
         Config::set(VideoConstants::SCRIPT_DISK_QUALIFIED, []);
         Storage::fake(Config::get(VideoConstants::SCRIPT_DISK_QUALIFIED));
@@ -48,7 +48,7 @@ class DeleteScriptTest extends TestCase
      *
      * @return void
      */
-    public function test_passed(): void
+    public function testPassed(): void
     {
         Storage::fake(Config::get(VideoConstants::SCRIPT_DISK_QUALIFIED));
 
@@ -72,7 +72,7 @@ class DeleteScriptTest extends TestCase
      *
      * @return void
      */
-    public function test_deleted_from_disk(): void
+    public function testDeletedFromDisk(): void
     {
         $fs = Storage::fake(Config::get(VideoConstants::SCRIPT_DISK_QUALIFIED));
 
@@ -96,7 +96,7 @@ class DeleteScriptTest extends TestCase
      *
      * @throws Exception
      */
-    public function test_video_deleted(): void
+    public function testVideoDeleted(): void
     {
         Storage::fake(Config::get(VideoConstants::SCRIPT_DISK_QUALIFIED));
 

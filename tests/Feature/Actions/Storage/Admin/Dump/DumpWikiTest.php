@@ -29,7 +29,7 @@ class DumpWikiTest extends TestCase
      *
      * @throws Exception
      */
-    public function test_data_base_dump_output(): void
+    public function testDataBaseDumpOutput(): void
     {
         $local = Storage::fake('local');
         $fs = Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));

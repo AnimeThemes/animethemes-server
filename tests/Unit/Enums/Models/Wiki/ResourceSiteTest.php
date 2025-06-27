@@ -25,7 +25,7 @@ class ResourceSiteTest extends TestCase
      *
      * @return void
      */
-    public function test_parse_id_from_anime_resource(): void
+    public function testParseIdFromAnimeResource(): void
     {
         $animeId = $this->faker->randomDigitNotNull();
 
@@ -48,7 +48,7 @@ class ResourceSiteTest extends TestCase
      *
      * @return void
      */
-    public function test_parse_id_from_studio_resource(): void
+    public function testParseIdFromStudioResource(): void
     {
         $studioId = $this->faker->randomDigitNotNull();
 
@@ -70,7 +70,7 @@ class ResourceSiteTest extends TestCase
      *
      * @return void
      */
-    public function test_fail_parse_anime_planet_id_from_studio_resource(): void
+    public function testFailParseAnimePlanetIdFromStudioResource(): void
     {
         $link = ResourceSite::ANIME_PLANET->formatResourceLink(
             Studio::class,
@@ -87,7 +87,7 @@ class ResourceSiteTest extends TestCase
      *
      * @return void
      */
-    public function test_fail_parse_anime_planet_id_from_anime_resource(): void
+    public function testFailParseAnimePlanetIdFromAnimeResource(): void
     {
         Http::fake([
             'https://www.anime-planet.com/anime/*' => Http::response([
@@ -110,7 +110,7 @@ class ResourceSiteTest extends TestCase
      *
      * @return void
      */
-    public function test_parse_anime_planet_id_from_anime_resource(): void
+    public function testParseAnimePlanetIdFromAnimeResource(): void
     {
         $id = $this->faker->randomDigitNotNull();
 
@@ -141,7 +141,7 @@ class ResourceSiteTest extends TestCase
      *
      * @return void
      */
-    public function test_parse_kitsu_id_for_id_from_anime_resource(): void
+    public function testParseKitsuIdForIdFromAnimeResource(): void
     {
         $id = $this->faker->randomDigitNotNull();
 
@@ -155,7 +155,7 @@ class ResourceSiteTest extends TestCase
      *
      * @return void
      */
-    public function test_parse_kitsu_id_for_slug_from_anime_resource(): void
+    public function testParseKitsuIdForSlugFromAnimeResource(): void
     {
         $id = $this->faker->randomDigitNotNull();
         $slug = $this->faker->slug();
