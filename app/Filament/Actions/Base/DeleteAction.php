@@ -29,6 +29,7 @@ class DeleteAction extends BaseDeleteAction
         $this->action(function (Model $record) {
             if ($record instanceof PlaylistTrack) {
                 new DestroyTrackAction()->destroy($record->playlist, $record);
+
                 return;
             }
 

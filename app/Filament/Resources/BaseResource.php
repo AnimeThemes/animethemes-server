@@ -16,7 +16,6 @@ use App\Filament\BulkActions\Base\ForceDeleteBulkAction;
 use App\Filament\BulkActions\Base\RestoreBulkAction;
 use App\Filament\Components\Filters\DateFilter;
 use App\Filament\RelationManagers\Base\ActionLogRelationManager;
-use App\Filament\Resources\Base\BaseViewResource;
 use App\Models\BaseModel;
 use App\Scopes\WithoutInsertSongScope;
 use Filament\Actions\ActionGroup;
