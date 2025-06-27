@@ -128,8 +128,7 @@ abstract class BaseResource extends Resource
     public static function getActions(): array
     {
         return [
-            ViewAction::make()
-                ->hidden(fn ($livewire) => $livewire instanceof BaseViewResource),
+            ViewAction::make(),
 
             EditAction::make(),
 
