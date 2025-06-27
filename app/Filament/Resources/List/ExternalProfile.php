@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\List;
 
-use Filament\Schemas\Schema;
-use Filament\Schemas\Components\Section;
 use App\Enums\Models\List\ExternalProfileSite;
 use App\Enums\Models\List\ExternalProfileVisibility;
 use App\Filament\Components\Columns\BelongsToColumn;
@@ -23,6 +21,8 @@ use App\Filament\Resources\List\External\RelationManagers\ExternalEntryExternalP
 use App\Models\List\ExternalProfile as ExternalProfileModel;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\RelationManagers\RelationGroup;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Schema;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;

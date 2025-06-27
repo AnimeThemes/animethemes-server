@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\User\Report;
 
-use Filament\Schemas\Schema;
-use Filament\Schemas\Components\Section;
 use App\Contracts\Models\Nameable;
 use App\Enums\Models\User\ApprovableStatus;
 use App\Enums\Models\User\ReportActionType;
@@ -22,6 +20,8 @@ use App\Filament\Resources\User\Report\ReportStep\Pages\ViewReportStep;
 use App\Models\User\Report\ReportStep as ReportStepModel;
 use Filament\Facades\Filament;
 use Filament\Infolists\Components\KeyValueEntry;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Schema;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;

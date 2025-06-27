@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Filament\Components\Infolist;
 
-use Filament\Schemas\Components\Section;
 use App\Models\BaseModel;
+use Filament\Schemas\Components\Section;
 
 /**
  * Class TimestampSection.

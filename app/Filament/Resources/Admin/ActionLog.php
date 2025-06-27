@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Admin;
 
-use Filament\Schemas\Schema;
 use App\Enums\Auth\Role;
 use App\Enums\Models\Admin\ActionLogStatus;
 use App\Filament\Components\Columns\BelongsToColumn;
@@ -22,8 +21,8 @@ use Filament\Facades\Filament;
 use Filament\Forms\Components\KeyValue;
 use Filament\Forms\Components\Textarea;
 use Filament\Infolists\Components\KeyValueEntry;
-use Filament\Infolists\Components\TextEntry\TextEntrySize;
 use Filament\Infolists\Infolist;
+use Filament\Schemas\Schema;
 use Filament\Support\Enums\TextSize;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;

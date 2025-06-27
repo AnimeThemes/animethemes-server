@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Wiki;
 
-use Filament\Schemas\Schema;
-use Filament\Schemas\Components\Section;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Filament\Actions\Models\Wiki\Image\UploadImageAction;
 use App\Filament\Components\Columns\TextColumn;
@@ -22,6 +20,8 @@ use App\Filament\Resources\Wiki\Image\RelationManagers\StudioImageRelationManage
 use App\Models\Wiki\Image as ImageModel;
 use Filament\Infolists\Components\ImageEntry;
 use Filament\Resources\RelationManagers\RelationGroup;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Schema;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\Layout\Stack;
 use Filament\Tables\Filters\SelectFilter;

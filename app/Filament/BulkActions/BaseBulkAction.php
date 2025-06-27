@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Filament\BulkActions;
 
+use App\Concerns\Filament\ActionLogs\HasActionLogs;
 use Filament\Actions\BulkAction;
 use Filament\Support\Enums\Width;
-use App\Concerns\Filament\ActionLogs\HasActionLogs;
 use Illuminate\Support\Collection;
 
 /**

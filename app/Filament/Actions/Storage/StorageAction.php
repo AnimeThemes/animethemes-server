@@ -43,9 +43,7 @@ abstract class StorageAction extends BaseAction
      * @param  array  $fields
      * @return void
      */
-    protected function afterUploaded(?Model $model, array $fields): void
-    {
-    }
+    protected function afterUploaded(?Model $model, array $fields): void {}
 
     /**
      * Perform the action on the given models.
@@ -68,6 +66,7 @@ abstract class StorageAction extends BaseAction
 
         if ($actionResult->hasFailed()) {
             $this->failedLog($actionResult->getMessage());
+
             return;
         }
 

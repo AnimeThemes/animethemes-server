@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Filament\RelationManagers\Auth;
 
-use Filament\Schemas\Schema;
-use Filament\Actions\ViewAction;
 use App\Filament\RelationManagers\BaseRelationManager;
 use App\Filament\Resources\Auth\Role as RoleResource;
 use App\Models\Auth\Role;
+use Filament\Actions\ViewAction;
+use Filament\Schemas\Schema;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 

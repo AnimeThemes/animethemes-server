@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Filament\Actions\Models\Wiki\Image;
 
-use Filament\Schemas\Schema;
 use App\Concerns\Models\CanCreateImage;
 use App\Enums\Models\Wiki\ImageFacet;
+use App\Filament\Actions\BaseAction;
 use App\Filament\Components\Fields\Select;
 use App\Filament\Resources\Base\BaseListResources;
-use App\Filament\Actions\BaseAction;
 use App\Models\Wiki\Image;
 use Filament\Forms\Components\FileUpload;
+use Filament\Schemas\Schema;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 

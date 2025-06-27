@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Wiki;
 
-use Filament\Schemas\Schema;
-use Filament\Schemas\Components\Utilities\Set;
-use Filament\Schemas\Components\Section;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\Slug;
 use App\Filament\Components\Infolist\TextEntry;
@@ -18,6 +15,8 @@ use App\Filament\Resources\Wiki\Series\RelationManagers\AnimeSeriesRelationManag
 use App\Models\Wiki\Series as SeriesModel;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\RelationManagers\RelationGroup;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Schema;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 

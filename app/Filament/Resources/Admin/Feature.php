@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Admin;
 
-use Filament\Schemas\Schema;
-use Filament\Schemas\Components\Section;
 use App\Constants\FeatureConstants;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Infolist\TextEntry;
@@ -14,6 +12,8 @@ use App\Filament\Resources\Admin\Feature\Pages\ManageFeatures;
 use App\Filament\Resources\BaseResource;
 use App\Models\Admin\Feature as FeatureModel;
 use Filament\Forms\Components\TextInput;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Schema;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
