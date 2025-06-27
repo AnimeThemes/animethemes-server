@@ -8,8 +8,6 @@ use App\Models\Discord\DiscordThread;
 use App\Models\Wiki\Anime;
 use Exception;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
 /**
@@ -40,9 +38,9 @@ class DiscordThreadAction
                 Arr::set($animeArray, "images.$key.facet", $anime->images->get($key)->facet->localize());
             }
 
-            $response = Http::withHeaders(['x-api-key' => Config::get('services.discord.api_key')])
+            $response = DiscordMessageAction::getHttp()
                 ->acceptJson()
-                ->post(Config::get('services.discord.api_url').'/thread', $animeArray)
+                ->post('/thread', $animeArray)
                 ->throw()
                 ->json();
 
