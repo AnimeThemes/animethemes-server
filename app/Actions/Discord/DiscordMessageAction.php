@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Actions\Discord;
 
 use App\Discord\DiscordMessage;
+use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
@@ -14,6 +15,17 @@ use Illuminate\Support\Facades\Http;
  */
 class DiscordMessageAction
 {
+    /**
+     * Get the HTTP client for Discord API.
+     *
+     * @return PendingRequest
+     */
+    public static function getHttp(): PendingRequest
+    {
+        return Http::withHeaders(['x-api-key' => Config::get('services.discord.api_key')])
+            ->baseUrl(Config::get('services.discord.api_url'));
+    }
+
     /**
      * Make the Discord message.
      *
@@ -48,8 +60,8 @@ class DiscordMessageAction
      */
     public function get(string $url): DiscordMessage
     {
-        $message = Http::withHeaders(['x-api-key' => Config::get('services.discord.api_key')])
-            ->get(Config::get('services.discord.api_url').'/message', [
+        $message = static::getHttp()
+            ->get('/message', [
                 'url' => $url,
             ])
             ->throw()
@@ -66,8 +78,8 @@ class DiscordMessageAction
      */
     public function edit(DiscordMessage $message): void
     {
-        Http::withHeaders(['x-api-key' => Config::get('services.discord.api_key')])
-            ->put(Config::get('services.discord.api_url').'/message', [
+        static::getHttp()
+            ->put('/message', [
                 $message->toArray(),
             ])
             ->throw();
@@ -81,8 +93,8 @@ class DiscordMessageAction
      */
     public function send(DiscordMessage $message): void
     {
-        Http::withHeaders(['x-api-key' => Config::get('services.discord.api_key')])
-            ->post(Config::get('services.discord.api_url').'/message', [
+        static::getHttp()
+            ->post('/message', [
                 'message' => $message->toArray(),
             ])
             ->throw();

@@ -70,9 +70,9 @@ class DiscordThreadAction
      */
     public function get(string $id): array
     {
-        return Http::withHeaders(['x-api-key' => Config::get('services.discord.api_key')])
+        return DiscordMessageAction::getHttp()
             ->acceptJson()
-            ->get(Config::get('services.discord.api_url').'/thread', ['id' => $id])
+            ->get('/thread', ['id' => $id])
             ->throw()
             ->json();
     }

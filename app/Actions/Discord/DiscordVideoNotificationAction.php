@@ -8,8 +8,6 @@ use App\Enums\Actions\Models\Wiki\Video\DiscordNotificationType;
 use App\Models\Wiki\Video;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Http;
 
 /**
  * Class DiscordVideoNotificationAction.
@@ -61,8 +59,8 @@ class DiscordVideoNotificationAction
             $newVideos[] = $videoArray;
         }
 
-        Http::withHeaders(['x-api-key' => Config::get('services.discord.api_key')])
-            ->post(Config::get('services.discord.api_url').'/notification', [
+        DiscordMessageAction::getHttp()
+            ->post('/notification', [
                 'type' => $type,
                 'videos' => $newVideos,
             ])
