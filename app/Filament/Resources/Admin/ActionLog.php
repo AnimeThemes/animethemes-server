@@ -6,6 +6,7 @@ namespace App\Filament\Resources\Admin;
 
 use App\Enums\Auth\Role;
 use App\Enums\Models\Admin\ActionLogStatus;
+use App\Filament\Actions\Base\ViewAction;
 use App\Filament\Components\Columns\BelongsToColumn;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Filters\DateFilter;
@@ -21,7 +22,6 @@ use Filament\Facades\Filament;
 use Filament\Forms\Components\KeyValue;
 use Filament\Forms\Components\Textarea;
 use Filament\Infolists\Components\KeyValueEntry;
-use Filament\Infolists\Infolist;
 use Filament\Schemas\Schema;
 use Filament\Support\Enums\TextSize;
 use Filament\Tables\Filters\SelectFilter;
@@ -271,9 +271,11 @@ class ActionLog extends BaseResource
      *
      * @return array
      */
-    public static function getRecordActions(): array
+    public static function getActions(): array
     {
-        return [];
+        return [
+            ViewAction::make(),
+        ];
     }
 
     /**
@@ -284,9 +286,7 @@ class ActionLog extends BaseResource
      */
     public static function getBulkActions(?array $actionsIncludedInGroup = []): array
     {
-        return [
-            ...parent::getBulkActions(),
-        ];
+        return [];
     }
 
     /**
@@ -296,9 +296,7 @@ class ActionLog extends BaseResource
      */
     public static function getTableActions(): array
     {
-        return [
-            ...parent::getTableActions(),
-        ];
+        return [];
     }
 
     /**

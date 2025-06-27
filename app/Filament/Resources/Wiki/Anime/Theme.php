@@ -249,7 +249,7 @@ class Theme extends BaseResource
                             ->schema([
                                 Repeater::make(ThemeModel::RELATION_ENTRIES)
                                     ->label(__('filament.resources.label.anime_theme_entries'))
-                                    ->addActionLabel(__('filament.buttons.add'))
+                                    ->addActionLabel(__('filament.buttons.add', ['label' => __('filament.resources.singularLabel.anime_theme_entry')]))
                                     ->relationship()
                                     ->schema(Entry::form($schema)->getComponents()),
                             ]),

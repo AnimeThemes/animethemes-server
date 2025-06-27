@@ -121,7 +121,7 @@ class DiscordEditMessageAction extends BaseAction
 
                 Repeater::make(DiscordMessage::ATTRIBUTE_EMBEDS)
                     ->label(__('filament.table_actions.discord_thread.message.embeds.name'))
-                    ->addActionLabel(__('filament.buttons.add'))
+                    ->addActionLabel(__('filament.buttons.add', ['label' => '']))
                     ->helperText(__('filament.table_actions.discord_thread.message.embeds.help'))
                     ->key(DiscordMessage::ATTRIBUTE_EMBEDS)
                     ->collapsible()
@@ -150,7 +150,7 @@ class DiscordEditMessageAction extends BaseAction
 
                         Repeater::make(DiscordEmbed::ATTRIBUTE_FIELDS)
                             ->label(__('filament.table_actions.discord_thread.message.embeds.body.fields.title.name'))
-                            ->addActionLabel(__('filament.buttons.add'))
+                            ->addActionLabel(__('filament.buttons.add', ['label' => '']))
                             ->helperText(__('filament.table_actions.discord_thread.message.embeds.body.fields.title.help'))
                             ->collapsible()
                             ->schema([
@@ -172,7 +172,7 @@ class DiscordEditMessageAction extends BaseAction
 
                 Repeater::make(DiscordMessage::ATTRIBUTE_IMAGES)
                     ->label(__('filament.table_actions.discord_thread.message.images.name'))
-                    ->addActionLabel(__('filament.buttons.add'))
+                    ->addActionLabel(__('filament.buttons.add', ['label' => '']))
                     ->helperText(__('filament.table_actions.discord_thread.message.images.help'))
                     ->key(DiscordMessage::ATTRIBUTE_IMAGES)
                     ->collapsible()

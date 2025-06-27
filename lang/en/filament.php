@@ -462,7 +462,7 @@ return [
         ],
     ],
     'buttons' => [
-        'add' => 'Add',
+        'add' => 'Add :label',
     ],
     'dashboards' => [
         'label' => [
@@ -784,7 +784,6 @@ return [
             ],
             'memberships' => [
                 'help' => 'When a group and its members are credited, you need to add the members (called memberships) that performed the song.',
-                'add' => 'Add Member',
             ],
         ],
         'permission' => [

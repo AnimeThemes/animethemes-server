@@ -10,6 +10,7 @@ use App\Filament\Resources\Wiki\Song\RelationManagers\PerformanceSongRelationMan
 use App\Models\Wiki\Song;
 use App\Models\Wiki\Song\Performance as PerformanceModel;
 use Filament\Actions\Action;
+use Filament\Schemas\Schema;
 use Illuminate\Support\Arr;
 
 /**
@@ -30,12 +31,11 @@ class ListPerformances extends BaseListResources
     {
         return [
             Action::make('new performance')
-                ->schema(fn ($form) => Performance::form($form)->getComponents())
+                ->schema(fn (Schema $schema) => Performance::form($schema)->getComponents())
                 ->authorize('create', PerformanceModel::class)
                 ->action(function (array $data) {
-                    $song = Song::find(Arr::get($data, PerformanceModel::ATTRIBUTE_SONG));
                     $performances = Arr::get($data, Song::RELATION_PERFORMANCES);
-                    PerformanceSongRelationManager::saveArtists($song, $performances);
+                    PerformanceSongRelationManager::saveArtists(Arr::get($data, PerformanceModel::ATTRIBUTE_SONG), $performances);
                 }),
         ];
     }
