@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources;
 
-use Filament\Actions\ActionGroup;
-use Filament\Actions\BulkActionGroup;
-use Filament\Panel;
 use App\Filament\Actions\Base\DeleteAction;
 use App\Filament\Actions\Base\DetachAction;
 use App\Filament\Actions\Base\EditAction;
@@ -22,6 +19,9 @@ use App\Filament\RelationManagers\Base\ActionLogRelationManager;
 use App\Filament\Resources\Base\BaseViewResource;
 use App\Models\BaseModel;
 use App\Scopes\WithoutInsertSongScope;
+use Filament\Actions\ActionGroup;
+use Filament\Actions\BulkActionGroup;
+use Filament\Panel;
 use Filament\Resources\Resource;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;

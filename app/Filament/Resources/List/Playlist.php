@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\List;
 
-use Filament\Schemas\Schema;
-use Filament\Schemas\Components\Section;
 use App\Enums\Models\List\PlaylistVisibility;
 use App\Filament\Actions\Models\List\AssignHashidsAction;
 use App\Filament\Components\Columns\BelongsToColumn;
@@ -26,6 +24,8 @@ use App\Models\List\Playlist as PlaylistModel;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\RelationManagers\RelationGroup;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Schema;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;

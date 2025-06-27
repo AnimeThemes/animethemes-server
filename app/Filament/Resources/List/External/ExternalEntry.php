@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\List\External;
 
-use Filament\Schemas\Schema;
-use Filament\Schemas\Components\Section;
 use App\Enums\Models\List\ExternalEntryWatchStatus;
 use App\Filament\Components\Columns\BelongsToColumn;
 use App\Filament\Components\Columns\TextColumn;
@@ -26,6 +24,8 @@ use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\TextInput;
 use Filament\Infolists\Components\IconEntry;
 use Filament\Resources\RelationManagers\RelationGroup;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Schema;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;

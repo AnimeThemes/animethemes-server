@@ -6,12 +6,12 @@ namespace App\Filament\Components\Fields;
 
 use App\Contracts\Models\HasSubtitle;
 use App\Contracts\Models\Nameable;
-use Filament\Schemas\Schema;
 use App\Enums\Http\Api\Filter\ComparisonOperator;
 use App\Filament\Resources\BaseResource;
 use App\Models\Admin\ActionLog;
 use App\Models\Auth\User;
 use Filament\Forms\Components\Select as ComponentsSelect;
+use Filament\Schemas\Schema;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Searchable;

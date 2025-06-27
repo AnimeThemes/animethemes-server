@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Wiki;
 
-use Filament\Schemas\Schema;
-use Filament\Schemas\Components\Section;
 use App\Filament\Actions\Models\Wiki\Artist\AttachArtistResourceAction;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\Slug;
@@ -29,6 +27,8 @@ use App\Pivots\Wiki\ArtistSong;
 use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\RelationManagers\RelationGroup;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Schema;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 

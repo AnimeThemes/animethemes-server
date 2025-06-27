@@ -12,15 +12,15 @@ use App\Models\Wiki\Studio;
 use Exception;
 use Filament\Actions\Action;
 use Filament\Forms\Components\Checkbox;
-use Filament\Schemas\Components\Section;
 use Filament\Notifications\Notification;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Sleep;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Sleep;
 
 /**
  * Class BackfillStudioAction.
@@ -61,6 +61,7 @@ class BackfillStudioAction extends BaseAction implements ShouldQueue
     {
         if ($studio->resources()->doesntExist()) {
             $this->failedLog(__('filament.actions.studio.backfill.message.resource_required_failure'));
+
             return;
         }
 

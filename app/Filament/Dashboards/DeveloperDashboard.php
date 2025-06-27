@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Filament\Dashboards;
 
-use Filament\Panel;
 use App\Enums\Auth\Role as RoleEnum;
-//use App\Filament\Widgets\Admin\ExceptionsTableWidget;
 use App\Models\Auth\User;
+// use App\Filament\Widgets\Admin\ExceptionsTableWidget;
 use Filament\Facades\Filament;
+use Filament\Panel;
 
 /**
  * Class DeveloperDashboard.
@@ -64,7 +64,7 @@ class DeveloperDashboard extends BaseDashboard
     public function getWidgets(): array
     {
         return [
-            //ExceptionsTableWidget::class,
+            // ExceptionsTableWidget::class,
         ];
     }
 }

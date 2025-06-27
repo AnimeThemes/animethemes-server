@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Admin;
 
-use Filament\Schemas\Schema;
-use Filament\Schemas\Components\Section;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Components\Infolist\TimestampSection;
@@ -13,6 +11,8 @@ use App\Filament\Resources\Admin\Announcement\Pages\ManageAnnouncements;
 use App\Filament\Resources\BaseResource;
 use App\Models\Admin\Announcement as AnnouncementModel;
 use Filament\Forms\Components\MarkdownEditor;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Schema;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 

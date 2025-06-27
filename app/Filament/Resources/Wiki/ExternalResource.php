@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Wiki;
 
-use Filament\Schemas\Schema;
-use Filament\Schemas\Components\Utilities\Set;
-use Filament\Schemas\Components\Section;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\Select;
@@ -25,6 +22,9 @@ use App\Models\Wiki\ExternalResource as ExternalResourceModel;
 use App\Pivots\Wiki\AnimeResource;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\RelationManagers\RelationGroup;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Utilities\Set;
+use Filament\Schemas\Schema;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;

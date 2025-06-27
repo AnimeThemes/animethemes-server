@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Filament\RelationManagers\List\External;
 
-use Filament\Schemas\Schema;
 use App\Filament\RelationManagers\BaseRelationManager;
 use App\Filament\Resources\List\External\ExternalEntry as ExternalEntryResource;
 use App\Models\List\External\ExternalEntry;
+use Filament\Schemas\Schema;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 

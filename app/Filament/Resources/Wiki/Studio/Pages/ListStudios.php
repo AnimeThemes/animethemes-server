@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Wiki\Studio\Pages;
 
-use Filament\Schemas\Components\Tabs\Tab;
 use App\Concerns\Filament\HasTabs;
 use App\Filament\Resources\Base\BaseListResources;
 use App\Filament\Resources\Wiki\Studio;
@@ -17,6 +16,7 @@ use App\Filament\Tabs\Studio\Resource\StudioAnnResourceTab;
 use App\Filament\Tabs\Studio\Resource\StudioMalResourceTab;
 use App\Filament\Tabs\Studio\StudioUnlinkedTab;
 use App\Models\Wiki\Studio as StudioModel;
+use Filament\Schemas\Components\Tabs\Tab;
 use Illuminate\Database\Eloquent\Builder;
 
 /**

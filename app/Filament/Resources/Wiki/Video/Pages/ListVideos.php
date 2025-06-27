@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Wiki\Video\Pages;
 
-use Filament\Schemas\Components\Tabs\Tab;
 use App\Concerns\Filament\HasTabs;
 use App\Filament\Resources\Base\BaseListResources;
 use App\Filament\Resources\Wiki\Video;
@@ -12,6 +11,7 @@ use App\Filament\Tabs\Video\VideoAudioTab;
 use App\Filament\Tabs\Video\VideoScriptTab;
 use App\Filament\Tabs\Video\VideoUnlinkedTab;
 use App\Models\Wiki\Video as VideoModel;
+use Filament\Schemas\Components\Tabs\Tab;
 use Illuminate\Database\Eloquent\Builder;
 
 /**

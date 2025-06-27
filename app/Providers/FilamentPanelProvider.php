@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Providers;
 
 use App\Filament\Providers\GlobalSearchScoutProvider;
-//use Awcodes\Recently\RecentlyPlugin;
+// use Awcodes\Recently\RecentlyPlugin;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -27,7 +27,7 @@ use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Support\Facades\Config;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
-//use Leandrocfe\FilamentApexCharts\FilamentApexChartsPlugin;
+// use Leandrocfe\FilamentApexCharts\FilamentApexChartsPlugin;
 
 /**
  * Class FilamentPanelProvider.
@@ -42,7 +42,7 @@ class FilamentPanelProvider extends PanelProvider
     public function boot(): void
     {
         FilamentAsset::register([
-            Js::make('slug', asset('js/app/slug.js'))->module(false)
+            Js::make('slug', asset('js/app/slug.js'))->module(false),
         ]);
     }
 
@@ -91,14 +91,14 @@ class FilamentPanelProvider extends PanelProvider
             ->sidebarCollapsibleOnDesktop()
             ->colors([
                 'primary' => Color::Violet,
-                'related-link' => 'oklch(0.7335 0.1278 179.47)'
+                'related-link' => 'oklch(0.7335 0.1278 179.47)',
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Dashboards'), for: 'App\\Filament\\Dashboards')
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->plugins([
-                //FilamentApexChartsPlugin::make(),
-                //RecentlyPlugin::make(),
+                // FilamentApexChartsPlugin::make(),
+                // RecentlyPlugin::make(),
             ])
             ->middleware([
                 EncryptCookies::class,

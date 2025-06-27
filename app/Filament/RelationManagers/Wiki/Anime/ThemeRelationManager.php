@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Filament\RelationManagers\Wiki\Anime;
 
-use Filament\Schemas\Schema;
 use App\Filament\RelationManagers\BaseRelationManager;
 use App\Filament\Resources\Wiki\Anime\Theme as ThemeResource;
 use App\Models\Wiki\Anime\AnimeTheme;
+use Filament\Schemas\Schema;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 

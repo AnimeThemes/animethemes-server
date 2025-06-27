@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Filament\Actions\Models\Discord;
 
-use Filament\Schemas\Schema;
 use App\Actions\Discord\DiscordMessageAction;
 use App\Discord\DiscordEmbed;
 use App\Discord\DiscordEmbedField;
@@ -16,6 +15,7 @@ use Filament\Forms\Components\ColorPicker;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use Filament\Schemas\Schema;
 use Illuminate\Support\Facades\Auth;
 
 /**

@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Filament\BulkActions\Models\Wiki\Video;
 
-use Filament\Support\Enums\Width;
-use Filament\Schemas\Schema;
 use App\Actions\Discord\DiscordVideoNotificationAction as DiscordVideoNotificationActionAction;
 use App\Enums\Actions\Models\Wiki\Video\DiscordNotificationType;
 use App\Filament\BulkActions\BaseBulkAction;
 use App\Filament\Components\Fields\Select;
 use App\Models\Discord\DiscordThread;
 use App\Models\Wiki\Video;
+use Filament\Schemas\Schema;
+use Filament\Support\Enums\Width;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 

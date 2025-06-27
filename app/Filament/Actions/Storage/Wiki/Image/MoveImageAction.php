@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\File;
  */
 class MoveImageAction extends MoveAction
 {
-        /**
+    /**
      * Initial setup for the action.
      *
      * @return void
@@ -78,6 +78,6 @@ class MoveImageAction extends MoveAction
      */
     protected function allowedFileExtension(): string
     {
-        return '.' . File::extension($this->defaultPath());
+        return '.'.File::extension($this->defaultPath());
     }
 }

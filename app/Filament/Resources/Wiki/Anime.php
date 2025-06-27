@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Wiki;
 
-use Filament\Schemas\Schema;
-use Filament\Schemas\Components\Section;
 use App\Enums\Models\Wiki\AnimeMediaFormat;
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Enums\Models\Wiki\ResourceSite;
@@ -33,6 +31,8 @@ use App\Pivots\Wiki\AnimeResource;
 use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\RelationManagers\RelationGroup;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Schema;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;

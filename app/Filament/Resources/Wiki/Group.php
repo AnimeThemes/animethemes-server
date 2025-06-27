@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Wiki;
 
-use Filament\Schemas\Schema;
-use Filament\Schemas\Components\Section;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Components\Infolist\TimestampSection;
@@ -16,6 +14,8 @@ use App\Filament\Resources\Wiki\Group\RelationManagers\ThemeGroupRelationManager
 use App\Models\Wiki\Group as GroupModel;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\RelationManagers\RelationGroup;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Schema;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 

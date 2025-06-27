@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Wiki\Anime\Theme;
 
-use Filament\Schemas\Schema;
-use Filament\Schemas\Components\Utilities\Get;
-use Filament\Schemas\Components\Section;
 use App\Enums\Models\Wiki\ThemeType;
 use App\Filament\Components\Columns\BelongsToColumn;
 use App\Filament\Components\Columns\TextColumn;
@@ -32,6 +29,9 @@ use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\TextInput;
 use Filament\Infolists\Components\IconEntry;
 use Filament\Resources\RelationManagers\RelationGroup;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Utilities\Get;
+use Filament\Schemas\Schema;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;

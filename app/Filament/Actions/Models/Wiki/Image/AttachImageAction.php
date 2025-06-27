@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace App\Filament\Actions\Models\Wiki\Image;
 
-use Filament\Schemas\Schema;
 use App\Actions\Models\Wiki\AttachImageAction as AttachImageActionAction;
 use App\Contracts\Models\HasImages;
 use App\Enums\Models\Wiki\ImageFacet;
-use App\Filament\RelationManagers\BaseRelationManager;
 use App\Filament\Actions\BaseAction;
+use App\Filament\RelationManagers\BaseRelationManager;
 use App\Models\BaseModel;
 use App\Models\Wiki\Image;
 use Filament\Forms\Components\FileUpload;
+use Filament\Schemas\Schema;
 use Illuminate\Support\Facades\Auth;
 
 /**

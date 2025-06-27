@@ -8,7 +8,6 @@ use App\Actions\Storage\Wiki\Video\Script\MoveScriptAction as MoveScript;
 use App\Constants\Config\VideoConstants;
 use App\Filament\Actions\Storage\Base\MoveAction;
 use App\Models\Wiki\Video\VideoScript;
-use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;

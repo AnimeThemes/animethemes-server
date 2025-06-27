@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\User;
 
-use Filament\Schemas\Schema;
-use Filament\Schemas\Components\Section;
 use App\Enums\Models\User\ApprovableStatus;
 use App\Filament\Components\Columns\BelongsToColumn;
 use App\Filament\Components\Columns\TextColumn;
@@ -19,6 +17,8 @@ use App\Filament\Resources\User\Report\Pages\ViewReport;
 use App\Filament\Resources\User\Report\RelationManagers\StepReportRelationManager;
 use App\Models\User\Report as ReportModel;
 use Filament\Resources\RelationManagers\RelationGroup;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Schema;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;

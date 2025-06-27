@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Filament\RelationManagers\Wiki;
 
-use Filament\Schemas\Schema;
 use App\Filament\RelationManagers\BaseRelationManager;
 use App\Filament\Resources\Wiki\Studio as StudioResource;
 use App\Models\Wiki\Studio;
+use Filament\Schemas\Schema;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 

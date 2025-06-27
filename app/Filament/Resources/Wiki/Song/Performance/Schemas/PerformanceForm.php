@@ -88,6 +88,7 @@ class PerformanceForm
                                     $artistId = $get(Artist::ATTRIBUTE_ID);
                                     if ($artistId === null) {
                                         $set('memberships', []);
+
                                         return;
                                     }
 
@@ -139,7 +140,7 @@ class PerformanceForm
                 ->saveRelationshipsUsing(function (Get $get, ?array $state) {
                     $song = SongModel::find($get(Performance::ATTRIBUTE_SONG));
                     PerformanceSongRelationManager::saveArtists($song, $state);
-                })
+                }),
         ];
     }
 }

@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Auth;
 
-use Filament\Schemas\Schema;
-use Filament\Schemas\Components\Section;
 use App\Filament\Actions\Models\Auth\Permission\GiveRoleAction;
 use App\Filament\Actions\Models\Auth\Permission\RevokeRoleAction;
 use App\Filament\Components\Columns\TextColumn;
@@ -19,6 +17,8 @@ use App\Filament\Resources\BaseResource;
 use App\Models\Auth\Permission as PermissionModel;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\RelationManagers\RelationGroup;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Schema;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 
