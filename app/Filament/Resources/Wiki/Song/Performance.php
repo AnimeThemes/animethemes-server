@@ -135,7 +135,7 @@ class Performance extends BaseResource
             PerformanceModel::RELATION_ARTIST => function (MorphTo $morphTo) {
                 $morphTo->morphWith([
                     Artist::class => [],
-                    Membership::class => [Membership::RELATION_ARTIST, Membership::RELATION_MEMBER]
+                    Membership::class => [Membership::RELATION_ARTIST, Membership::RELATION_MEMBER],
                 ]);
             },
             PerformanceModel::RELATION_SONG,
@@ -183,7 +183,7 @@ class Performance extends BaseResource
                     ->hiddenOn([PerformanceSongRelationManager::class])
                     ->searchable(
                         query: fn (Builder $query, string $search) => $query->whereRelation(PerformanceModel::RELATION_SONG, SongModel::ATTRIBUTE_TITLE, ComparisonOperator::LIKE->value, "%{$search}%"),
-                        isIndividual:true
+                        isIndividual: true
                     ),
 
                 TextColumn::make('member')
@@ -252,19 +252,19 @@ class Performance extends BaseResource
                         BelongsToEntry::make(PerformanceModel::RELATION_ARTIST, ArtistResource::class)
                             ->hidden(fn (PerformanceModel $record) => $record->artist instanceof Membership),
 
-                        BelongsToEntry::make(PerformanceModel::RELATION_ARTIST . '.' . Membership::RELATION_ARTIST, ArtistResource::class)
+                        BelongsToEntry::make(PerformanceModel::RELATION_ARTIST.'.'.Membership::RELATION_ARTIST, ArtistResource::class)
                             ->label(__('filament.fields.performance.artist'))
                             ->hidden(fn ($state) => is_null($state)),
 
-                        BelongsToEntry::make(PerformanceModel::RELATION_ARTIST . '.' . Membership::RELATION_MEMBER, ArtistResource::class, true)
+                        BelongsToEntry::make(PerformanceModel::RELATION_ARTIST.'.'.Membership::RELATION_MEMBER, ArtistResource::class, true)
                             ->label(__('filament.fields.membership.member'))
                             ->hidden(fn ($state) => is_null($state)),
 
-                        TextEntry::make(PerformanceModel::RELATION_ARTIST . '.' . Membership::ATTRIBUTE_ALIAS)
+                        TextEntry::make(PerformanceModel::RELATION_ARTIST.'.'.Membership::ATTRIBUTE_ALIAS)
                             ->label(__('filament.fields.membership.alias.name'))
                             ->visible(fn (PerformanceModel $record) => $record->artist instanceof Membership),
 
-                        TextEntry::make(PerformanceModel::RELATION_ARTIST . '.' . Membership::ATTRIBUTE_AS)
+                        TextEntry::make(PerformanceModel::RELATION_ARTIST.'.'.Membership::ATTRIBUTE_AS)
                             ->label(__('filament.fields.membership.as.name'))
                             ->visible(fn (PerformanceModel $record) => $record->artist instanceof Membership),
 
@@ -387,6 +387,7 @@ class Performance extends BaseResource
                                     $artistId = $get(Artist::ATTRIBUTE_ID);
                                     if ($artistId === null) {
                                         $set('memberships', []);
+
                                         return;
                                     }
 
@@ -438,7 +439,7 @@ class Performance extends BaseResource
                 ->saveRelationshipsUsing(function (Get $get, ?array $state) {
                     $song = SongModel::find($get(PerformanceModel::ATTRIBUTE_SONG));
                     PerformanceSongRelationManager::saveArtists($song, $state);
-                })
+                }),
         ];
     }
 

@@ -33,8 +33,8 @@ class GroupPerformanceArtistRelationManager extends PerformanceRelationManager
             $table
                 ->inverseRelationship(Performance::RELATION_SONG)
         )
-        ->heading(__('filament.resources.label.group_performances'))
-        ->modelLabel(__('filament.resources.singularLabel.group_performance'));
+            ->heading(__('filament.resources.label.group_performances'))
+            ->modelLabel(__('filament.resources.singularLabel.group_performance'));
     }
 
     /**

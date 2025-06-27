@@ -45,7 +45,7 @@ abstract class RoleRelationManager extends BaseRelationManager
                 ->modelLabel(RoleResource::getLabel())
                 ->recordTitleAttribute(Role::ATTRIBUTE_NAME)
                 ->columns(RoleResource::table($table)->getColumns())
-                ->defaultSort(Role::TABLE . '.' . Role::ATTRIBUTE_ID, 'desc')
+                ->defaultSort(Role::TABLE.'.'.Role::ATTRIBUTE_ID, 'desc')
         );
     }
 

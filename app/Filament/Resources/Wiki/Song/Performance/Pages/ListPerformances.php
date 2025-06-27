@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Wiki\Song\Performance\Pages;
 
-use App\Filament\HeaderActions\Base\CreateHeaderAction;
 use App\Filament\Resources\Base\BaseListResources;
 use App\Filament\Resources\Wiki\Song\Performance;
 use App\Filament\Resources\Wiki\Song\RelationManagers\PerformanceSongRelationManager;
@@ -38,6 +37,6 @@ class ListPerformances extends BaseListResources
                     $performances = Arr::get($data, Song::RELATION_PERFORMANCES);
                     PerformanceSongRelationManager::saveArtists($song, $performances);
                 }),
-        ];;
+        ];
     }
 }

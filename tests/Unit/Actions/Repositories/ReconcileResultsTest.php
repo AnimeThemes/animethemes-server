@@ -19,7 +19,7 @@ class ReconcileResultsTest extends TestCase
      *
      * @return void
      */
-    public function testDefault(): void
+    public function test_default(): void
     {
         $reconcileResults = new class extends ReconcileResults
         {
@@ -34,6 +34,6 @@ class ReconcileResultsTest extends TestCase
             }
         };
 
-        static::assertTrue(ActionStatus::PASSED === $reconcileResults->getStatus());
+        static::assertTrue($reconcileResults->getStatus() === ActionStatus::PASSED);
     }
 }

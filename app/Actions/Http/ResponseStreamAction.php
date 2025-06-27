@@ -15,7 +15,7 @@ abstract class ResponseStreamAction extends StreamAction
     /**
      * Stream the resource.
      *
-     * @param string $disposition
+     * @param  string  $disposition
      * @return StreamedResponse
      */
     public function stream(string $disposition = 'inline'): StreamedResponse

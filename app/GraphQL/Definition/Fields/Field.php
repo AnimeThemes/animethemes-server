@@ -30,8 +30,7 @@ abstract class Field
         protected string $column,
         protected ?string $name = null,
         protected bool $nullable = true,
-    ) {
-    }
+    ) {}
 
     /**
      * Get the name of the field.
@@ -70,7 +69,7 @@ abstract class Field
      */
     public function getType(): Type
     {
-        if (!$this->nullable) {
+        if (! $this->nullable) {
             return Type::nonNull($this->type());
         }
 
@@ -110,7 +109,7 @@ abstract class Field
      *
      * @return string
      */
-    public function toString(): String
+    public function toString(): string
     {
         $string = Str::of($this->getName());
 

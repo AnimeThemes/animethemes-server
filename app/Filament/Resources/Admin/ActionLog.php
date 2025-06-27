@@ -10,7 +10,6 @@ use App\Filament\Components\Columns\BelongsToColumn;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Filters\DateFilter;
 use App\Filament\Components\Infolist\BelongsToEntry;
-use App\Filament\Components\Infolist\KeyValueThreeEntry;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Resources\Admin\ActionLog\Pages\ManageActionLogs;
 use App\Filament\Resources\Auth\User;
@@ -23,7 +22,6 @@ use Filament\Forms\Components\KeyValue;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Form;
 use Filament\Infolists\Components\KeyValueEntry;
-use Filament\Infolists\Components\RepeatableEntry;
 use Filament\Infolists\Components\TextEntry\TextEntrySize;
 use Filament\Infolists\Infolist;
 use Filament\Tables\Filters\SelectFilter;
@@ -179,7 +177,7 @@ class ActionLog extends BaseResource
 
                 TextColumn::make(ActionLogModel::ATTRIBUTE_TARGET)
                     ->label(__('filament.fields.action_log.target'))
-                    ->formatStateUsing(fn ($state) => Str::headline(class_basename($state)) . ': ' . $state->getName()),
+                    ->formatStateUsing(fn ($state) => Str::headline(class_basename($state)).': '.$state->getName()),
 
                 TextColumn::make(ActionLogModel::ATTRIBUTE_STATUS)
                     ->label(__('filament.fields.action_log.status'))
@@ -216,7 +214,7 @@ class ActionLog extends BaseResource
 
                 TextEntry::make(ActionLogModel::ATTRIBUTE_TARGET)
                     ->label(__('filament.fields.action_log.target'))
-                    ->formatStateUsing(fn ($state) => class_basename($state) . ': ' . $state->getName()),
+                    ->formatStateUsing(fn ($state) => class_basename($state).': '.$state->getName()),
 
                 TextEntry::make(ActionLogModel::ATTRIBUTE_STATUS)
                     ->label(__('filament.fields.action_log.status'))
@@ -357,6 +355,7 @@ class ActionLog extends BaseResource
     {
         /** @var UserModel $user */
         $user = Filament::auth()->user();
+
         return $user->hasRole(Role::ADMIN->value);
     }
 

@@ -15,7 +15,7 @@ abstract class NginxStreamAction extends StreamAction
     /**
      * Stream the resource.
      *
-     * @param string $disposition
+     * @param  string  $disposition
      * @return Response
      */
     public function stream(string $disposition = 'inline'): Response

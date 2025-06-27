@@ -21,7 +21,7 @@ class PruneResultsTest extends TestCase
      *
      * @return void
      */
-    public function testDefault(): void
+    public function test_default(): void
     {
         $pruneResults = new PruneResults($this->faker->word());
 
@@ -35,7 +35,7 @@ class PruneResultsTest extends TestCase
      *
      * @return void
      */
-    public function testFailed(): void
+    public function test_failed(): void
     {
         $prunings = [];
 
@@ -59,7 +59,7 @@ class PruneResultsTest extends TestCase
      *
      * @return void
      */
-    public function testPassed(): void
+    public function test_passed(): void
     {
         $prunings = [];
 
@@ -71,6 +71,6 @@ class PruneResultsTest extends TestCase
 
         $result = $pruneResults->toActionResult();
 
-        static::assertTrue(ActionStatus::PASSED === $result->getStatus());
+        static::assertTrue($result->getStatus() === ActionStatus::PASSED);
     }
 }

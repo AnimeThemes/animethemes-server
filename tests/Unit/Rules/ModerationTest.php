@@ -26,7 +26,7 @@ class ModerationTest extends TestCase
      *
      * @return void
      */
-    public function testFailsIfUnknownModerationService(): void
+    public function test_fails_if_unknown_moderation_service(): void
     {
         static::expectException(RuntimeException::class);
 
@@ -47,7 +47,7 @@ class ModerationTest extends TestCase
      *
      * @return void
      */
-    public function testFailsIfFlaggedByOpenAI(): void
+    public function test_fails_if_flagged_by_open_ai(): void
     {
         Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI->value);
 
@@ -76,7 +76,7 @@ class ModerationTest extends TestCase
      *
      * @return void
      */
-    public function testPassesIfNotFlaggedByOpenAI(): void
+    public function test_passes_if_not_flagged_by_open_ai(): void
     {
         Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI->value);
 
@@ -105,7 +105,7 @@ class ModerationTest extends TestCase
      *
      * @return void
      */
-    public function testPassesIfOpenAIFails(): void
+    public function test_passes_if_open_ai_fails(): void
     {
         Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI->value);
 

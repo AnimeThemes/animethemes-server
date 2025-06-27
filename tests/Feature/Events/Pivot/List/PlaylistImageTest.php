@@ -21,7 +21,7 @@ class PlaylistImageTest extends TestCase
      *
      * @return void
      */
-    public function testPlaylistImageCreatedEventDispatched(): void
+    public function test_playlist_image_created_event_dispatched(): void
     {
         $playlist = Playlist::factory()->createOne();
         $image = Image::factory()->createOne();
@@ -36,7 +36,7 @@ class PlaylistImageTest extends TestCase
      *
      * @return void
      */
-    public function testPlaylistImageDeletedEventDispatched(): void
+    public function test_playlist_image_deleted_event_dispatched(): void
     {
         $playlist = Playlist::factory()->createOne();
         $image = Image::factory()->createOne();

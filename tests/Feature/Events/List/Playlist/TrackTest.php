@@ -25,7 +25,7 @@ class TrackTest extends TestCase
      *
      * @return void
      */
-    public function testTrackCreatedEventDispatched(): void
+    public function test_track_created_event_dispatched(): void
     {
         PlaylistTrack::factory()
             ->for(Playlist::factory())
@@ -39,7 +39,7 @@ class TrackTest extends TestCase
      *
      * @return void
      */
-    public function testTrackDeletedEventDispatched(): void
+    public function test_track_deleted_event_dispatched(): void
     {
         $track = PlaylistTrack::factory()
             ->for(Playlist::factory())
@@ -55,7 +55,7 @@ class TrackTest extends TestCase
      *
      * @return void
      */
-    public function testTrackRestoredEventDispatched(): void
+    public function test_track_restored_event_dispatched(): void
     {
         $track = PlaylistTrack::factory()
             ->for(Playlist::factory())
@@ -73,7 +73,7 @@ class TrackTest extends TestCase
      *
      * @return void
      */
-    public function testTrackRestoresQuietly(): void
+    public function test_track_restores_quietly(): void
     {
         $track = PlaylistTrack::factory()
             ->for(Playlist::factory())
@@ -89,7 +89,7 @@ class TrackTest extends TestCase
      *
      * @return void
      */
-    public function testTrackUpdatedEventDispatched(): void
+    public function test_track_updated_event_dispatched(): void
     {
         $track = PlaylistTrack::factory()
             ->for(Playlist::factory())
@@ -110,7 +110,7 @@ class TrackTest extends TestCase
      *
      * @return void
      */
-    public function testPlaylistUpdatedEventEmbedFields(): void
+    public function test_playlist_updated_event_embed_fields(): void
     {
         $track = PlaylistTrack::factory()
             ->for(Playlist::factory())
@@ -135,7 +135,7 @@ class TrackTest extends TestCase
      *
      * @return void
      */
-    public function testPlaylistCreatedAssignsHashids(): void
+    public function test_playlist_created_assigns_hashids(): void
     {
         Event::fakeExcept(TrackCreated::class);
 

@@ -20,9 +20,7 @@ class TotalStreamsFormatRule extends SubmissionRule
      *
      * @param  int  $expected
      */
-    public function __construct(protected readonly int $expected)
-    {
-    }
+    public function __construct(protected readonly int $expected) {}
 
     /**
      * Run the validation rule.
@@ -34,7 +32,9 @@ class TotalStreamsFormatRule extends SubmissionRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        if (Feature::for(null)->active(FeatureConstants::IGNORE_ALL_FILE_VALIDATIONS)) return;
+        if (Feature::for(null)->active(FeatureConstants::IGNORE_ALL_FILE_VALIDATIONS)) {
+            return;
+        }
 
         $streams = $this->streams();
 

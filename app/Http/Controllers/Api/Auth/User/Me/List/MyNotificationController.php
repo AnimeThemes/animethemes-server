@@ -6,8 +6,8 @@ namespace App\Http\Controllers\Api\Auth\User\Me\List;
 
 use App\Actions\Http\Api\IndexAction;
 use App\Http\Api\Query\Query;
-use App\Http\Api\Schema\User\NotificationSchema;
 use App\Http\Api\Schema\Schema;
+use App\Http\Api\Schema\User\NotificationSchema;
 use App\Http\Controllers\Api\BaseController;
 use App\Http\Middleware\Auth\Authenticate;
 use App\Http\Requests\Api\IndexRequest;

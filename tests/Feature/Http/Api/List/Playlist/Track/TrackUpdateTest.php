@@ -32,7 +32,7 @@ class TrackUpdateTest extends TestCase
      *
      * @return void
      */
-    public function testProtected(): void
+    public function test_protected(): void
     {
         Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
@@ -59,7 +59,7 @@ class TrackUpdateTest extends TestCase
      *
      * @return void
      */
-    public function testForbiddenIfMissingPermission(): void
+    public function test_forbidden_if_missing_permission(): void
     {
         Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
@@ -90,7 +90,7 @@ class TrackUpdateTest extends TestCase
      *
      * @return void
      */
-    public function testForbiddenIfNotOwnPlaylist(): void
+    public function test_forbidden_if_not_own_playlist(): void
     {
         Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
@@ -123,7 +123,7 @@ class TrackUpdateTest extends TestCase
      *
      * @return void
      */
-    public function testScoped(): void
+    public function test_scoped(): void
     {
         Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
@@ -159,7 +159,7 @@ class TrackUpdateTest extends TestCase
      *
      * @return void
      */
-    public function testScopePrevious(): void
+    public function test_scope_previous(): void
     {
         Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
@@ -201,7 +201,7 @@ class TrackUpdateTest extends TestCase
      *
      * @return void
      */
-    public function testPreviousIsNotSelf(): void
+    public function test_previous_is_not_self(): void
     {
         Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
@@ -239,7 +239,7 @@ class TrackUpdateTest extends TestCase
      *
      * @return void
      */
-    public function testScopeNext(): void
+    public function test_scope_next(): void
     {
         Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
@@ -281,7 +281,7 @@ class TrackUpdateTest extends TestCase
      *
      * @return void
      */
-    public function testNextIsNotSelf(): void
+    public function test_next_is_not_self(): void
     {
         Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
@@ -319,7 +319,7 @@ class TrackUpdateTest extends TestCase
      *
      * @return void
      */
-    public function testProhibitsNextAndPrevious(): void
+    public function test_prohibits_next_and_previous(): void
     {
         Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
@@ -368,7 +368,7 @@ class TrackUpdateTest extends TestCase
      *
      * @return void
      */
-    public function testForbiddenIfFlagDisabled(): void
+    public function test_forbidden_if_flag_disabled(): void
     {
         Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
@@ -403,7 +403,7 @@ class TrackUpdateTest extends TestCase
      *
      * @return void
      */
-    public function testTrashed(): void
+    public function test_trashed(): void
     {
         Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
@@ -449,7 +449,7 @@ class TrackUpdateTest extends TestCase
      *
      * @return void
      */
-    public function testUpdate(): void
+    public function test_update(): void
     {
         Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
@@ -484,7 +484,7 @@ class TrackUpdateTest extends TestCase
      *
      * @return void
      */
-    public function testInsertFirstAfterSecond(): void
+    public function test_insert_first_after_second(): void
     {
         Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
@@ -534,7 +534,7 @@ class TrackUpdateTest extends TestCase
      *
      * @return void
      */
-    public function testInsertFirstAfterThird(): void
+    public function test_insert_first_after_third(): void
     {
         Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
@@ -584,7 +584,7 @@ class TrackUpdateTest extends TestCase
      *
      * @return void
      */
-    public function testInsertFirstBeforeThird(): void
+    public function test_insert_first_before_third(): void
     {
         Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
@@ -634,7 +634,7 @@ class TrackUpdateTest extends TestCase
      *
      * @return void
      */
-    public function testInsertSecondAfterThird(): void
+    public function test_insert_second_after_third(): void
     {
         Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
@@ -684,7 +684,7 @@ class TrackUpdateTest extends TestCase
      *
      * @return void
      */
-    public function testInsertSecondBeforeFirst(): void
+    public function test_insert_second_before_first(): void
     {
         Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
@@ -734,7 +734,7 @@ class TrackUpdateTest extends TestCase
      *
      * @return void
      */
-    public function testInsertThirdAfterFirst(): void
+    public function test_insert_third_after_first(): void
     {
         Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
@@ -784,7 +784,7 @@ class TrackUpdateTest extends TestCase
      *
      * @return void
      */
-    public function testInsertThirdBeforeSecond(): void
+    public function test_insert_third_before_second(): void
     {
         Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
@@ -834,7 +834,7 @@ class TrackUpdateTest extends TestCase
      *
      * @return void
      */
-    public function testInsertThirdBeforeFirst(): void
+    public function test_insert_third_before_first(): void
     {
         Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
@@ -885,7 +885,7 @@ class TrackUpdateTest extends TestCase
      *
      * @return void
      */
-    public function testUpdatePermittedForBypass(): void
+    public function test_update_permitted_for_bypass(): void
     {
         Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 

@@ -34,7 +34,7 @@ use Illuminate\Support\Collection;
  *
  * @method static StudioFactory factory(...$parameters)
  */
-class Studio extends BaseModel implements HasResources, HasImages
+class Studio extends BaseModel implements HasImages, HasResources
 {
     use Reportable;
     use Searchable;

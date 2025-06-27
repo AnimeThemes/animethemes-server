@@ -27,7 +27,7 @@ class EnabledOnlyOnLocalhost
             $ip = $request->ip();
 
             if ($ip !== '127.0.0.1') {
-                abort(403, "Route only available for localhost");
+                abort(403, 'Route only available for localhost');
             }
         }
 

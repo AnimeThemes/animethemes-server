@@ -20,7 +20,7 @@ class ArtistSongTest extends TestCase
      *
      * @return void
      */
-    public function testArtist(): void
+    public function test_artist(): void
     {
         $artistSong = ArtistSong::factory()
             ->for(Artist::factory())
@@ -36,7 +36,7 @@ class ArtistSongTest extends TestCase
      *
      * @return void
      */
-    public function testSong(): void
+    public function test_song(): void
     {
         $artistSong = ArtistSong::factory()
             ->for(Artist::factory())

@@ -24,7 +24,7 @@ class AudioChannelLayoutStreamTest extends TestCase
      *
      * @return void
      */
-    public function testFailsWhenLayoutIsNotStereo(): void
+    public function test_fails_when_layout_is_not_stereo(): void
     {
         $file = UploadedFile::fake()->create($this->faker->word().'.webm', $this->faker->randomDigitNotNull());
 
@@ -66,7 +66,7 @@ class AudioChannelLayoutStreamTest extends TestCase
      *
      * @return void
      */
-    public function testPassesWhenLayoutIsStereo(): void
+    public function test_passes_when_layout_is_stereo(): void
     {
         $file = UploadedFile::fake()->create($this->faker->word().'.webm', $this->faker->randomDigitNotNull());
 

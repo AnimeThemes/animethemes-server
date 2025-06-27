@@ -27,7 +27,7 @@ use Illuminate\Support\Carbon;
  *
  * @method static FeatureFactory factory(...$parameters)
  */
-class Feature extends Model implements Nameable, HasSubtitle
+class Feature extends Model implements HasSubtitle, Nameable
 {
     use HasFactory;
 

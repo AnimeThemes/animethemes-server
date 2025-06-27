@@ -9,6 +9,4 @@ use App\GraphQL\Policies\BasePolicy;
 /**
  * Class DumpPolicy.
  */
-class DumpPolicy extends BasePolicy
-{
-}
+class DumpPolicy extends BasePolicy {}

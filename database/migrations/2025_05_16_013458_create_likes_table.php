@@ -15,7 +15,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if (!Schema::hasTable(Like::TABLE)) {
+        if (! Schema::hasTable(Like::TABLE)) {
             Schema::create(Like::TABLE, function (Blueprint $table) {
                 $table->id(Like::ATTRIBUTE_ID);
                 $table->unsignedBigInteger(Like::ATTRIBUTE_USER)->nullable();

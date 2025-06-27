@@ -18,9 +18,7 @@ readonly class AllowedInclude
      * @param  SchemaInterface  $schema
      * @param  string  $path
      */
-    final public function __construct(protected SchemaInterface $schema, protected string $path)
-    {
-    }
+    final public function __construct(protected SchemaInterface $schema, protected string $path) {}
 
     /**
      * Get the schema.

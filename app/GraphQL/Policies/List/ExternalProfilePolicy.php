@@ -31,11 +31,11 @@ class ExternalProfilePolicy extends BasePolicy
         $profile = Arr::get($injected, $keyName);
 
         if ($user !== null) {
-            return ($profile->user()->is($user) || ExternalProfileVisibility::PRIVATE !== $profile->visibility)
+            return ($profile->user()->is($user) || $profile->visibility !== ExternalProfileVisibility::PRIVATE)
                 && $user->can(CrudPermission::VIEW->format(ExternalProfile::class));
         }
 
-        return ExternalProfileVisibility::PRIVATE !== $profile->visibility;
+        return $profile->visibility !== ExternalProfileVisibility::PRIVATE;
     }
 
     /**
@@ -59,7 +59,7 @@ class ExternalProfilePolicy extends BasePolicy
      *
      * @param  User  $user
      * @param  array  $injected
-     * @param  string|null $keyName
+     * @param  string|null  $keyName
      * @return bool
      */
     public function delete(User $user, array $injected, ?string $keyName = ExternalProfileMutator::ROUTE_SLUG): bool
@@ -75,7 +75,7 @@ class ExternalProfilePolicy extends BasePolicy
      *
      * @param  User  $user
      * @param  array  $injected
-     * @param  string|null $keyName
+     * @param  string|null  $keyName
      * @return bool
      */
     public function restore(User $user, array $injected, ?string $keyName = ExternalProfileMutator::ROUTE_SLUG): bool

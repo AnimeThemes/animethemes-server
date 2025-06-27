@@ -124,7 +124,7 @@ abstract class EloquentSchema extends Schema
         $model = $this->model();
 
         foreach (explode('.', $path) as $path) {
-            if (!method_exists($model, $path)) {
+            if (! method_exists($model, $path)) {
                 $classBasename = get_class($model);
                 throw new RuntimeException("Relation '$path' does not exist on model '$classBasename'.");
             }

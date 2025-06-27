@@ -27,7 +27,7 @@ class VideoReconcileTest extends TestCase
      *
      * @return void
      */
-    public function testNoResults(): void
+    public function test_no_results(): void
     {
         Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
 
@@ -45,7 +45,7 @@ class VideoReconcileTest extends TestCase
      *
      * @return void
      */
-    public function testCreated(): void
+    public function test_created(): void
     {
         Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
 
@@ -67,7 +67,7 @@ class VideoReconcileTest extends TestCase
      *
      * @return void
      */
-    public function testDeleted(): void
+    public function test_deleted(): void
     {
         Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
 
@@ -89,7 +89,7 @@ class VideoReconcileTest extends TestCase
      *
      * @return void
      */
-    public function testUpdated(): void
+    public function test_updated(): void
     {
         Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
 

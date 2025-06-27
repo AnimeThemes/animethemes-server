@@ -28,7 +28,7 @@ class StudioImageType extends PivotType implements HasFields, HasRelations
      */
     public function getDescription(): string
     {
-        return "Represents the association between a studio and an image.";
+        return 'Represents the association between a studio and an image.';
     }
 
     /**

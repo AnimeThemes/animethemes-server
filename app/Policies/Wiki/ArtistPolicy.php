@@ -47,7 +47,7 @@ class ArtistPolicy extends BasePolicy
             ->where(ArtistSong::ATTRIBUTE_SONG, $song->getKey())
             ->exists();
 
-        return !$attached
+        return ! $attached
             && $user->can(CrudPermission::CREATE->format(Artist::class))
             && $user->can(CrudPermission::CREATE->format(Song::class));
     }
@@ -89,7 +89,7 @@ class ArtistPolicy extends BasePolicy
             ->where(ArtistResource::ATTRIBUTE_RESOURCE, $resource->getKey())
             ->exists();
 
-        return !$attached
+        return ! $attached
             && $user->can(CrudPermission::CREATE->format(Artist::class))
             && $user->can(CrudPermission::CREATE->format(ExternalResource::class));
     }
@@ -131,7 +131,7 @@ class ArtistPolicy extends BasePolicy
             ->where(ArtistMember::ATTRIBUTE_MEMBER, $artist2->getKey())
             ->exists();
 
-        return !$attached && $user->can(CrudPermission::CREATE->format(Artist::class));
+        return ! $attached && $user->can(CrudPermission::CREATE->format(Artist::class));
     }
 
     /**
@@ -171,7 +171,7 @@ class ArtistPolicy extends BasePolicy
             ->where(ArtistImage::ATTRIBUTE_IMAGE, $image->getKey())
             ->exists();
 
-        return !$attached
+        return ! $attached
             && $user->can(CrudPermission::CREATE->format(Artist::class))
             && $user->can(CrudPermission::CREATE->format(Image::class));
     }

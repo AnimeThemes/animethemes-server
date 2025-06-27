@@ -26,7 +26,7 @@ class AnnouncementType extends EloquentType implements HasFields
      */
     public function getDescription(): string
     {
-        return "Represents a site-wide message to be broadcasted on the homepage.";
+        return 'Represents a site-wide message to be broadcasted on the homepage.';
     }
 
     /**

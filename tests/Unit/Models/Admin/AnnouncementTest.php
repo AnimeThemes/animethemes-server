@@ -17,7 +17,7 @@ class AnnouncementTest extends TestCase
      *
      * @return void
      */
-    public function testNameable(): void
+    public function test_nameable(): void
     {
         $announcement = Announcement::factory()->createOne();
 
@@ -29,7 +29,7 @@ class AnnouncementTest extends TestCase
      *
      * @return void
      */
-    public function testHasSubtitle(): void
+    public function test_has_subtitle(): void
     {
         $announcement = Announcement::factory()->createOne();
 

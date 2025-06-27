@@ -7,7 +7,7 @@ declare(strict_types=1);
 return [
     'user_model' => App\Models\Auth\User::class,
     'max_items' => 20,
-    'width' => 'xl', 
+    'width' => 'xl',
     'global_search' => true,
     'menu' => true,
     'icon' => 'heroicon-o-arrow-uturn-left',

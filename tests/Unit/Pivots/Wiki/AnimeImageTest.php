@@ -20,7 +20,7 @@ class AnimeImageTest extends TestCase
      *
      * @return void
      */
-    public function testAnime(): void
+    public function test_anime(): void
     {
         $animeImage = AnimeImage::factory()
             ->for(Anime::factory())
@@ -36,7 +36,7 @@ class AnimeImageTest extends TestCase
      *
      * @return void
      */
-    public function testImage(): void
+    public function test_image(): void
     {
         $animeImage = AnimeImage::factory()
             ->for(Anime::factory())

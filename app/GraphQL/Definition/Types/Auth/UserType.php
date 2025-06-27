@@ -29,7 +29,7 @@ class UserType extends EloquentType implements HasFields, HasRelations
      */
     public function getDescription(): string
     {
-        return "Represents an AnimeThemes account.";
+        return 'Represents an AnimeThemes account.';
     }
 
     /**

@@ -25,7 +25,7 @@ class AnimeResourceLinkFormatTest extends TestCase
      *
      * @return void
      */
-    public function testFailsForNoPattern(): void
+    public function test_fails_for_no_pattern(): void
     {
         $attribute = $this->faker->word();
 
@@ -42,7 +42,7 @@ class AnimeResourceLinkFormatTest extends TestCase
      *
      * @return void
      */
-    public function testPassesForPattern(): void
+    public function test_passes_for_pattern(): void
     {
         /** @var ResourceSite $site */
         $site = Arr::random(ResourceSite::getForModel(Anime::class));
@@ -64,7 +64,7 @@ class AnimeResourceLinkFormatTest extends TestCase
      *
      * @return void
      */
-    public function testFailsForTrailingSlash(): void
+    public function test_fails_for_trailing_slash(): void
     {
         /** @var ResourceSite $site */
         $site = Arr::random(ResourceSite::getForModel(Anime::class));
@@ -90,7 +90,7 @@ class AnimeResourceLinkFormatTest extends TestCase
      *
      * @return void
      */
-    public function testFailsForTrailingSlug(): void
+    public function test_fails_for_trailing_slug(): void
     {
         /** @var ResourceSite $site */
         $site = Arr::random(ResourceSite::getForModel(Anime::class));
@@ -117,13 +117,13 @@ class AnimeResourceLinkFormatTest extends TestCase
      *
      * @return void
      */
-    public function testFailsForOtherResources(): void
-    { 
+    public function test_fails_for_other_resources(): void
+    {
         /** @var ResourceSite $site */
         $site = Arr::random(
             array_filter(
                 ResourceSite::cases(),
-                fn ($value) => !in_array($value, ResourceSite::getForModel(Anime::class))
+                fn ($value) => ! in_array($value, ResourceSite::getForModel(Anime::class))
             )
         );
 

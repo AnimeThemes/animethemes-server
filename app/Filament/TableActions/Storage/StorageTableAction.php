@@ -30,9 +30,7 @@ abstract class StorageTableAction extends BaseTableAction
      * @param  array  $fields
      * @return void
      */
-    protected function afterUploaded(BaseModel $model, array $fields): void
-    {
-    }
+    protected function afterUploaded(BaseModel $model, array $fields): void {}
 
     /**
      * Perform the action on the table.
@@ -54,6 +52,7 @@ abstract class StorageTableAction extends BaseTableAction
 
         if ($actionResult->hasFailed()) {
             $this->failedLog($actionResult->getMessage());
+
             return;
         }
 

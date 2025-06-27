@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models\Wiki;
 
-use App\Concerns\Models\Reportable;
 use App\Concerns\Models\Aggregate\AggregatesView;
+use App\Concerns\Models\Reportable;
 use App\Contracts\Models\HasAggregateViews;
 use App\Contracts\Models\Streamable;
 use App\Events\Wiki\Audio\AudioCreated;
@@ -34,7 +34,7 @@ use Illuminate\Support\Collection;
  *
  * @method static AudioFactory factory(...$parameters)
  */
-class Audio extends BaseModel implements Streamable, Viewable, HasAggregateViews
+class Audio extends BaseModel implements HasAggregateViews, Streamable, Viewable
 {
     use AggregatesView;
     use InteractsWithViews;

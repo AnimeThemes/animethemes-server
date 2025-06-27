@@ -9,12 +9,9 @@ use App\Http\Api\Field\Base\IdField;
 use App\Http\Api\Field\Field;
 use App\Http\Api\Field\Wiki\Group\GroupNameField;
 use App\Http\Api\Field\Wiki\Group\GroupSlugField;
-use App\Http\Api\Field\Wiki\Group\GroupVideoFilenameField;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\EloquentSchema;
 use App\Http\Api\Schema\Wiki\Anime\ThemeSchema;
-use App\Http\Api\Schema\Wiki\AnimeSchema;
-use App\Http\Api\Schema\Wiki\VideoSchema;
 use App\Http\Resources\Wiki\Resource\GroupResource;
 use App\Models\Wiki\Group;
 

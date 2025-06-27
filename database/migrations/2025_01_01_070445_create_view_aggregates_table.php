@@ -14,7 +14,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if (!Schema::hasTable(ViewAggregate::TABLE)) {
+        if (! Schema::hasTable(ViewAggregate::TABLE)) {
             Schema::create(ViewAggregate::TABLE, function (Blueprint $table) {
                 $table->morphs(ViewAggregate::ATTRIBUTE_VIEWABLE);
                 $table->integer(ViewAggregate::ATTRIBUTE_VALUE)->default(0);

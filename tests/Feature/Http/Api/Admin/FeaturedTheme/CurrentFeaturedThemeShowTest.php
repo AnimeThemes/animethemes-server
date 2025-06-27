@@ -36,7 +36,7 @@ class CurrentFeaturedThemeShowTest extends TestCase
      *
      * @return void
      */
-    public function testNotFoundIfNoFeaturedThemes(): void
+    public function test_not_found_if_no_featured_themes(): void
     {
         $response = $this->get(route('api.featuredtheme.current.show'));
 
@@ -48,7 +48,7 @@ class CurrentFeaturedThemeShowTest extends TestCase
      *
      * @return void
      */
-    public function testNotFoundIfThemeStartAtNull(): void
+    public function test_not_found_if_theme_start_at_null(): void
     {
         FeaturedTheme::factory()->create([
             FeaturedTheme::ATTRIBUTE_START_AT => null,
@@ -64,7 +64,7 @@ class CurrentFeaturedThemeShowTest extends TestCase
      *
      * @return void
      */
-    public function testNotFoundIfThemeEndAtNull(): void
+    public function test_not_found_if_theme_end_at_null(): void
     {
         FeaturedTheme::factory()->create([
             FeaturedTheme::ATTRIBUTE_END_AT => null,
@@ -80,7 +80,7 @@ class CurrentFeaturedThemeShowTest extends TestCase
      *
      * @return void
      */
-    public function testNotFoundIfThemeStartAtAfterNow(): void
+    public function test_not_found_if_theme_start_at_after_now(): void
     {
         FeaturedTheme::factory()->create([
             FeaturedTheme::ATTRIBUTE_START_AT => $this->faker->dateTimeBetween('+1 day', '+1 year'),
@@ -96,7 +96,7 @@ class CurrentFeaturedThemeShowTest extends TestCase
      *
      * @return void
      */
-    public function testNotFoundIfThemeEndAtBeforeNow(): void
+    public function test_not_found_if_theme_end_at_before_now(): void
     {
         FeaturedTheme::factory()->create([
             FeaturedTheme::ATTRIBUTE_END_AT => $this->faker->dateTimeBetween(),
@@ -112,7 +112,7 @@ class CurrentFeaturedThemeShowTest extends TestCase
      *
      * @return void
      */
-    public function testDefault(): void
+    public function test_default(): void
     {
         Collection::times($this->faker->randomDigitNotNull(), function () {
             FeaturedTheme::factory()->create([
@@ -159,7 +159,7 @@ class CurrentFeaturedThemeShowTest extends TestCase
      *
      * @return void
      */
-    public function testSoftDelete(): void
+    public function test_soft_delete(): void
     {
         FeaturedTheme::factory()->trashed()->create();
 
@@ -173,7 +173,7 @@ class CurrentFeaturedThemeShowTest extends TestCase
      *
      * @return void
      */
-    public function testAllowedIncludePaths(): void
+    public function test_allowed_include_paths(): void
     {
         $schema = new FeaturedThemeSchema();
 
@@ -219,7 +219,7 @@ class CurrentFeaturedThemeShowTest extends TestCase
      *
      * @return void
      */
-    public function testSparseFieldsets(): void
+    public function test_sparse_fieldsets(): void
     {
         $schema = new FeaturedThemeSchema();
 

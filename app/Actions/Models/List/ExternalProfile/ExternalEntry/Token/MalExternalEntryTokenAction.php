@@ -21,7 +21,7 @@ class MalExternalEntryTokenAction extends BaseExternalEntryTokenAction
     /**
      * The response of the user endpoint in external API.
      *
-     * @var array|null $userResponse
+     * @var array|null
      */
     protected ?array $userResponse = null;
 

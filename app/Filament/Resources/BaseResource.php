@@ -92,7 +92,7 @@ abstract class BaseResource extends Resource
             ->paginated([10, 25, 50, 100, 'all'])
             ->defaultPaginationPageOption(25)
             ->extremePaginationLinks()
-            ->deferLoading(!app()->runningUnitTests());
+            ->deferLoading(! app()->runningUnitTests());
     }
 
     /**
@@ -217,7 +217,7 @@ abstract class BaseResource extends Resource
      */
     public static function getSlug(): string
     {
-        return 'resources/' . static::getRecordSlug();
+        return 'resources/'.static::getRecordSlug();
     }
 
     /**

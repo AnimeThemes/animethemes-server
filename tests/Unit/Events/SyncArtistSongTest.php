@@ -19,7 +19,7 @@ class SyncArtistSongTest extends TestCase
      *
      * @return void
      */
-    public function testListening(): void
+    public function test_listening(): void
     {
         Event::assertListening(SyncArtistSongEvent::class, SyncArtistSong::class);
     }

@@ -30,7 +30,7 @@ class ViewTrack extends BaseViewResource
 
             AssignHashidsHeaderAction::make('assign-hashids')
                 ->setConnection('playlists')
-                ->authorize('update', PlaylistTrack::class)
+                ->authorize('update', PlaylistTrack::class),
         ];
     }
 }

@@ -18,7 +18,7 @@ use Illuminate\Validation\Rule;
 /**
  * Class ThemeGroupIdField.
  */
-class ThemeGroupIdField extends Field implements CreatableField, UpdatableField, SelectableField
+class ThemeGroupIdField extends Field implements CreatableField, SelectableField, UpdatableField
 {
     /**
      * Create a new field instance.

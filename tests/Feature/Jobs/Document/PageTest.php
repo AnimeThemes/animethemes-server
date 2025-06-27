@@ -26,7 +26,7 @@ class PageTest extends TestCase
      *
      * @return void
      */
-    public function testPageCreatedSendsDiscordNotification(): void
+    public function test_page_created_sends_discord_notification(): void
     {
         Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
         Bus::fake(SendDiscordNotificationJob::class);
@@ -42,7 +42,7 @@ class PageTest extends TestCase
      *
      * @return void
      */
-    public function testPageDeletedSendsDiscordNotification(): void
+    public function test_page_deleted_sends_discord_notification(): void
     {
         $page = Page::factory()->createOne();
 
@@ -60,7 +60,7 @@ class PageTest extends TestCase
      *
      * @return void
      */
-    public function testPageRestoredSendsDiscordNotification(): void
+    public function test_page_restored_sends_discord_notification(): void
     {
         $page = Page::factory()->createOne();
 
@@ -78,7 +78,7 @@ class PageTest extends TestCase
      *
      * @return void
      */
-    public function testPageUpdatedSendsDiscordNotification(): void
+    public function test_page_updated_sends_discord_notification(): void
     {
         $page = Page::factory()->createOne();
 

@@ -24,7 +24,7 @@ class EncoderNameFormatTest extends TestCase
      *
      * @return void
      */
-    public function testFailsWhenEncoderNameIsNotFFmpeg(): void
+    public function test_fails_when_encoder_name_is_not_f_fmpeg(): void
     {
         $file = UploadedFile::fake()->create($this->faker->word().'.webm', $this->faker->randomDigitNotNull());
 
@@ -65,7 +65,7 @@ class EncoderNameFormatTest extends TestCase
      *
      * @return void
      */
-    public function testPassesWhenEncoderNameIsFFmpeg(): void
+    public function test_passes_when_encoder_name_is_f_fmpeg(): void
     {
         $file = UploadedFile::fake()->create($this->faker->word().'.webm', $this->faker->randomDigitNotNull());
 

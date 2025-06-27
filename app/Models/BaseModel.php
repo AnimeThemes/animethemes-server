@@ -23,12 +23,11 @@ use Illuminate\Support\Str;
  * @property Carbon $created_at
  * @property Carbon $deleted_at
  * @property Carbon $updated_at
- *
  */
-abstract class BaseModel extends Model implements Nameable, HasSubtitle
+abstract class BaseModel extends Model implements HasSubtitle, Nameable
 {
-    use ModelHasActionLogs;
     use HasFactory;
+    use ModelHasActionLogs;
     use Prunable;
     use SoftDeletes;
 

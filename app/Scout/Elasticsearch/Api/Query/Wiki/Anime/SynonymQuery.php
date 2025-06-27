@@ -28,22 +28,22 @@ class SynonymQuery extends ElasticQuery
         $query = Query::bool()
             ->should(
                 new MatchPhraseQueryBuilder()
-                ->field('text')
-                ->query($criteria->getTerm())
+                    ->field('text')
+                    ->query($criteria->getTerm())
             )
             ->should(
                 new MatchQueryBuilder()
-                ->field('text')
-                ->query($criteria->getTerm())
-                ->operator('AND')
+                    ->field('text')
+                    ->query($criteria->getTerm())
+                    ->operator('AND')
             )
             ->should(
                 new MatchQueryBuilder()
-                ->field('text')
-                ->query($criteria->getTerm())
-                ->operator('AND')
-                ->lenient(true)
-                ->fuzziness('AUTO')
+                    ->field('text')
+                    ->query($criteria->getTerm())
+                    ->operator('AND')
+                    ->lenient(true)
+                    ->fuzziness('AUTO')
             )
             ->minimumShouldMatch(1);
 

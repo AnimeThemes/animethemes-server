@@ -35,7 +35,7 @@ class AnimeResourceShowTest extends TestCase
      *
      * @return void
      */
-    public function testNotFound(): void
+    public function test_not_found(): void
     {
         $anime = Anime::factory()->createOne();
         $resource = ExternalResource::factory()->createOne();
@@ -50,7 +50,7 @@ class AnimeResourceShowTest extends TestCase
      *
      * @return void
      */
-    public function testDefault(): void
+    public function test_default(): void
     {
         $animeResource = AnimeResource::factory()
             ->for(Anime::factory())
@@ -78,7 +78,7 @@ class AnimeResourceShowTest extends TestCase
      *
      * @return void
      */
-    public function testAllowedIncludePaths(): void
+    public function test_allowed_include_paths(): void
     {
         $schema = new AnimeResourceSchema();
 
@@ -118,7 +118,7 @@ class AnimeResourceShowTest extends TestCase
      *
      * @return void
      */
-    public function testSparseFieldsets(): void
+    public function test_sparse_fieldsets(): void
     {
         $schema = new AnimeResourceSchema();
 
@@ -158,7 +158,7 @@ class AnimeResourceShowTest extends TestCase
      *
      * @return void
      */
-    public function testResourcesBySite(): void
+    public function test_resources_by_site(): void
     {
         $siteFilter = Arr::random(ResourceSite::cases());
 
@@ -199,7 +199,7 @@ class AnimeResourceShowTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeByMediaFormat(): void
+    public function test_anime_by_media_format(): void
     {
         $mediaFormatFilter = Arr::random(AnimeMediaFormat::cases());
 
@@ -240,7 +240,7 @@ class AnimeResourceShowTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeBySeason(): void
+    public function test_anime_by_season(): void
     {
         $seasonFilter = Arr::random(AnimeSeason::cases());
 
@@ -281,7 +281,7 @@ class AnimeResourceShowTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeByYear(): void
+    public function test_anime_by_year(): void
     {
         $yearFilter = intval($this->faker->year());
         $excludedYear = $yearFilter + 1;

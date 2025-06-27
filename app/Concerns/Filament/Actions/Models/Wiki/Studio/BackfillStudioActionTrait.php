@@ -56,6 +56,7 @@ trait BackfillStudioActionTrait
     {
         if ($studio->resources()->doesntExist()) {
             $this->failedLog(__('filament.actions.studio.backfill.message.resource_required_failure'));
+
             return;
         }
 

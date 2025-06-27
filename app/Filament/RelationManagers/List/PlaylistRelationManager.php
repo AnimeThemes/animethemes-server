@@ -44,7 +44,7 @@ abstract class PlaylistRelationManager extends BaseRelationManager
                 ->modelLabel(PlaylistResource::getLabel())
                 ->recordTitleAttribute(Playlist::ATTRIBUTE_NAME)
                 ->columns(PlaylistResource::table($table)->getColumns())
-                ->defaultSort(Playlist::TABLE . '.' . Playlist::ATTRIBUTE_ID, 'desc')
+                ->defaultSort(Playlist::TABLE.'.'.Playlist::ATTRIBUTE_ID, 'desc')
         );
     }
 

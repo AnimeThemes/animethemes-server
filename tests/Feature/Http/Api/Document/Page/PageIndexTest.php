@@ -41,7 +41,7 @@ class PageIndexTest extends TestCase
      *
      * @return void
      */
-    public function testDefault(): void
+    public function test_default(): void
     {
         $pages = Page::factory()->count($this->faker->randomDigitNotNull())->create();
 
@@ -64,7 +64,7 @@ class PageIndexTest extends TestCase
      *
      * @return void
      */
-    public function testPaginated(): void
+    public function test_paginated(): void
     {
         Page::factory()->count($this->faker->randomDigitNotNull())->create();
 
@@ -82,7 +82,7 @@ class PageIndexTest extends TestCase
      *
      * @return void
      */
-    public function testSparseFieldsets(): void
+    public function test_sparse_fieldsets(): void
     {
         $schema = new PageSchema();
 
@@ -117,7 +117,7 @@ class PageIndexTest extends TestCase
      *
      * @return void
      */
-    public function testSorts(): void
+    public function test_sorts(): void
     {
         $schema = new PageSchema();
 
@@ -156,7 +156,7 @@ class PageIndexTest extends TestCase
      *
      * @return void
      */
-    public function testCreatedAtFilter(): void
+    public function test_created_at_filter(): void
     {
         $createdFilter = $this->faker->date();
         $excludedDate = $this->faker->date();
@@ -199,7 +199,7 @@ class PageIndexTest extends TestCase
      *
      * @return void
      */
-    public function testUpdatedAtFilter(): void
+    public function test_updated_at_filter(): void
     {
         $updatedFilter = $this->faker->date();
         $excludedDate = $this->faker->date();
@@ -242,7 +242,7 @@ class PageIndexTest extends TestCase
      *
      * @return void
      */
-    public function testWithoutTrashedFilter(): void
+    public function test_without_trashed_filter(): void
     {
         $parameters = [
             FilterParser::param() => [
@@ -278,7 +278,7 @@ class PageIndexTest extends TestCase
      *
      * @return void
      */
-    public function testWithTrashedFilter(): void
+    public function test_with_trashed_filter(): void
     {
         $parameters = [
             FilterParser::param() => [
@@ -314,7 +314,7 @@ class PageIndexTest extends TestCase
      *
      * @return void
      */
-    public function testOnlyTrashedFilter(): void
+    public function test_only_trashed_filter(): void
     {
         $parameters = [
             FilterParser::param() => [
@@ -350,7 +350,7 @@ class PageIndexTest extends TestCase
      *
      * @return void
      */
-    public function testDeletedAtFilter(): void
+    public function test_deleted_at_filter(): void
     {
         $deletedFilter = $this->faker->date();
         $excludedDate = $this->faker->date();

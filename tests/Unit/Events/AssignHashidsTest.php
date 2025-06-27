@@ -19,7 +19,7 @@ class AssignHashidsTest extends TestCase
      *
      * @return void
      */
-    public function testListening(): void
+    public function test_listening(): void
     {
         Event::assertListening(AssignHashidsEvent::class, AssignHashids::class);
     }

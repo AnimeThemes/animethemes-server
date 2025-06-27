@@ -45,7 +45,7 @@ abstract class ImageRelationManager extends BaseRelationManager
                 ->modelLabel(ImageResource::getLabel())
                 ->recordTitleAttribute(Image::ATTRIBUTE_PATH)
                 ->columns(ImageResource::table($table)->getColumns())
-                ->defaultSort(Image::TABLE . '.' . Image::ATTRIBUTE_ID, 'desc')
+                ->defaultSort(Image::TABLE.'.'.Image::ATTRIBUTE_ID, 'desc')
         );
     }
 

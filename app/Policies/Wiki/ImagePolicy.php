@@ -47,7 +47,7 @@ class ImagePolicy extends BasePolicy
             ->where(ArtistImage::ATTRIBUTE_ARTIST, $artist->getKey())
             ->exists();
 
-        return !$attached
+        return ! $attached
             && $user->can(CrudPermission::CREATE->format(Image::class))
             && $user->can(CrudPermission::CREATE->format(Artist::class));
     }
@@ -89,7 +89,7 @@ class ImagePolicy extends BasePolicy
             ->where(AnimeImage::ATTRIBUTE_ANIME, $anime->getKey())
             ->exists();
 
-        return !$attached
+        return ! $attached
             && $user->can(CrudPermission::CREATE->format(Image::class))
             && $user->can(CrudPermission::CREATE->format(Anime::class));
     }
@@ -131,7 +131,7 @@ class ImagePolicy extends BasePolicy
             ->where(StudioImage::ATTRIBUTE_STUDIO, $studio->getKey())
             ->exists();
 
-        return !$attached
+        return ! $attached
             && $user->can(CrudPermission::CREATE->format(Image::class))
             && $user->can(CrudPermission::CREATE->format(Studio::class));
     }

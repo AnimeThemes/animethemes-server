@@ -22,7 +22,7 @@ class TypeScopeTest extends TestCase
      *
      * @return void
      */
-    public function testGlobalScopeIsNotWithinScope(): void
+    public function test_global_scope_is_not_within_scope(): void
     {
         $scope = new TypeScope($this->faker->word());
 
@@ -36,7 +36,7 @@ class TypeScopeTest extends TestCase
      *
      * @return void
      */
-    public function testTypeScopeIsNotWithinScope(): void
+    public function test_type_scope_is_not_within_scope(): void
     {
         $scope = new TypeScope($this->faker->word());
 
@@ -50,7 +50,7 @@ class TypeScopeTest extends TestCase
      *
      * @return void
      */
-    public function testTypeScopeIsWithinScope(): void
+    public function test_type_scope_is_within_scope(): void
     {
         $type = $this->faker->word();
 
@@ -66,7 +66,7 @@ class TypeScopeTest extends TestCase
      *
      * @return void
      */
-    public function testRelationScopeIsNotWithinScope(): void
+    public function test_relation_scope_is_not_within_scope(): void
     {
         $scope = new TypeScope($this->faker->word());
 
@@ -80,7 +80,7 @@ class TypeScopeTest extends TestCase
      *
      * @return void
      */
-    public function testRelationScopeIsWithinScope(): void
+    public function test_relation_scope_is_within_scope(): void
     {
         $type = $this->faker->word();
 

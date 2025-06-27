@@ -22,7 +22,7 @@ class EntryRestoreTest extends TestCase
      *
      * @return void
      */
-    public function testProtected(): void
+    public function test_protected(): void
     {
         $entry = AnimeThemeEntry::factory()
             ->trashed()
@@ -39,7 +39,7 @@ class EntryRestoreTest extends TestCase
      *
      * @return void
      */
-    public function testForbidden(): void
+    public function test_forbidden(): void
     {
         $entry = AnimeThemeEntry::factory()
             ->trashed()
@@ -60,7 +60,7 @@ class EntryRestoreTest extends TestCase
      *
      * @return void
      */
-    public function testTrashed(): void
+    public function test_trashed(): void
     {
         $entry = AnimeThemeEntry::factory()
             ->for(AnimeTheme::factory()->for(Anime::factory()))
@@ -80,7 +80,7 @@ class EntryRestoreTest extends TestCase
      *
      * @return void
      */
-    public function testRestored(): void
+    public function test_restored(): void
     {
         $entry = AnimeThemeEntry::factory()
             ->trashed()

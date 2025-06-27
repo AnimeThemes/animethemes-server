@@ -6,6 +6,7 @@ namespace App\Console;
 
 use App\Console\Commands\Models\SyncLikeAggregatesCommand;
 use App\Console\Commands\Models\SyncViewAggregatesCommand;
+use App\Console\Commands\Repositories\Storage\Admin\DumpReconcileCommand;
 use App\Console\Commands\Storage\Admin\AdminDumpCommand;
 use App\Console\Commands\Storage\Admin\AuthDumpCommand;
 use App\Console\Commands\Storage\Admin\DiscordDumpCommand;
@@ -60,37 +61,43 @@ class Kernel extends ConsoleKernel
             ->withoutOverlapping()
             ->runInBackground()
             ->storeOutput()
-            ->dailyAt('00:02');
+            ->daily();
 
         $schedule->command(AdminDumpCommand::class)
             ->withoutOverlapping()
             ->runInBackground()
             ->storeOutput()
-            ->weeklyOn(Schedule::MONDAY, '00:04');
+            ->weeklyOn(Schedule::MONDAY);
 
         $schedule->command(AuthDumpCommand::class)
             ->withoutOverlapping()
             ->runInBackground()
             ->storeOutput()
-            ->weeklyOn(Schedule::MONDAY, '00:06');
+            ->weeklyOn(Schedule::MONDAY);
 
         $schedule->command(DiscordDumpCommand::class)
             ->withoutOverlapping()
             ->runInBackground()
             ->storeOutput()
-            ->weeklyOn(Schedule::MONDAY, '00:08');
+            ->weeklyOn(Schedule::MONDAY);
 
         $schedule->command(ListDumpCommand::class)
             ->withoutOverlapping()
             ->runInBackground()
             ->storeOutput()
-            ->weeklyOn(Schedule::MONDAY, '00:10');
+            ->weeklyOn(Schedule::MONDAY);
 
         $schedule->command(UserDumpCommand::class)
             ->withoutOverlapping()
             ->runInBackground()
             ->storeOutput()
-            ->weeklyOn(Schedule::MONDAY, '00:12');
+            ->weeklyOn(Schedule::MONDAY);
+
+        $schedule->command(DumpReconcileCommand::class)
+            ->withoutOverlapping()
+            ->runInBackground()
+            ->storeOutput()
+            ->dailyAt('00:10');
 
         $schedule->command(DumpPruneCommand::class)
             ->withoutOverlapping()

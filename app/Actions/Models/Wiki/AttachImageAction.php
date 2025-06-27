@@ -30,7 +30,9 @@ class AttachImageAction
         foreach ($facets as $facet) {
             $image = Arr::get($fields, $facet->name);
 
-            if (empty($image)) continue;
+            if (empty($image)) {
+                continue;
+            }
 
             $this->createImageFromFile($image, $facet, $model);
         }

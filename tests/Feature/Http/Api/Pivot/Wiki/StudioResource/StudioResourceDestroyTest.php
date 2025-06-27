@@ -22,7 +22,7 @@ class StudioResourceDestroyTest extends TestCase
      *
      * @return void
      */
-    public function testProtected(): void
+    public function test_protected(): void
     {
         $studioResource = StudioResource::factory()
             ->for(Studio::factory())
@@ -39,7 +39,7 @@ class StudioResourceDestroyTest extends TestCase
      *
      * @return void
      */
-    public function testForbidden(): void
+    public function test_forbidden(): void
     {
         $studioResource = StudioResource::factory()
             ->for(Studio::factory())
@@ -60,7 +60,7 @@ class StudioResourceDestroyTest extends TestCase
      *
      * @return void
      */
-    public function testNotFound(): void
+    public function test_not_found(): void
     {
         $studio = Studio::factory()->createOne();
         $resource = ExternalResource::factory()->createOne();
@@ -84,7 +84,7 @@ class StudioResourceDestroyTest extends TestCase
      *
      * @return void
      */
-    public function testDeleted(): void
+    public function test_deleted(): void
     {
         $studioResource = StudioResource::factory()
             ->for(Studio::factory())

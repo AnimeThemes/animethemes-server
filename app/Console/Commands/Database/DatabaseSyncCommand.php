@@ -44,6 +44,7 @@ class DatabaseSyncCommand extends BaseCommand
     {
         if (app()->isProduction()) {
             $this->error('Command not allowed in production.');
+
             return 1;
         }
 

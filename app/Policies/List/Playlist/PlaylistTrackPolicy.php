@@ -36,11 +36,11 @@ class PlaylistTrackPolicy extends BasePolicy
         $playlist = request()->route('playlist');
 
         if ($user !== null) {
-            return ($playlist?->user()->is($user) || PlaylistVisibility::PRIVATE !== $playlist?->visibility)
+            return ($playlist?->user()->is($user) || $playlist?->visibility !== PlaylistVisibility::PRIVATE)
                 && $user->can(CrudPermission::VIEW->format(PlaylistTrack::class));
         }
 
-        return PlaylistVisibility::PRIVATE !== $playlist?->visibility;
+        return $playlist?->visibility !== PlaylistVisibility::PRIVATE;
     }
 
     /**
@@ -62,10 +62,10 @@ class PlaylistTrackPolicy extends BasePolicy
         $playlist = request()->route('playlist');
 
         if ($user !== null) {
-            return ($playlist?->user()->is($user) || PlaylistVisibility::PRIVATE !== $playlist?->visibility) && $user->can(CrudPermission::VIEW->format(PlaylistTrack::class));
+            return ($playlist?->user()->is($user) || $playlist?->visibility !== PlaylistVisibility::PRIVATE) && $user->can(CrudPermission::VIEW->format(PlaylistTrack::class));
         }
 
-        return PlaylistVisibility::PRIVATE !== $playlist?->visibility;
+        return $playlist?->visibility !== PlaylistVisibility::PRIVATE;
     }
 
     /**

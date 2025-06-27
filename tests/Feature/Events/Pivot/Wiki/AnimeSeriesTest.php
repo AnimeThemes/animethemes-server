@@ -21,7 +21,7 @@ class AnimeSeriesTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeSeriesCreatedEventDispatched(): void
+    public function test_anime_series_created_event_dispatched(): void
     {
         $anime = Anime::factory()->createOne();
         $series = Series::factory()->createOne();
@@ -36,7 +36,7 @@ class AnimeSeriesTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeSeriesDeletedEventDispatched(): void
+    public function test_anime_series_deleted_event_dispatched(): void
     {
         $anime = Anime::factory()->createOne();
         $series = Series::factory()->createOne();

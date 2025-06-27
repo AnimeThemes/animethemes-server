@@ -47,7 +47,7 @@ class ScriptIndexTest extends TestCase
      *
      * @return void
      */
-    public function testDefault(): void
+    public function test_default(): void
     {
         $scripts = VideoScript::factory()
             ->count($this->faker->randomDigitNotNull())
@@ -72,7 +72,7 @@ class ScriptIndexTest extends TestCase
      *
      * @return void
      */
-    public function testPaginated(): void
+    public function test_paginated(): void
     {
         VideoScript::factory()
             ->count($this->faker->randomDigitNotNull())
@@ -92,7 +92,7 @@ class ScriptIndexTest extends TestCase
      *
      * @return void
      */
-    public function testAllowedIncludePaths(): void
+    public function test_allowed_include_paths(): void
     {
         $schema = new ScriptSchema();
 
@@ -132,7 +132,7 @@ class ScriptIndexTest extends TestCase
      *
      * @return void
      */
-    public function testSparseFieldsets(): void
+    public function test_sparse_fieldsets(): void
     {
         $schema = new ScriptSchema();
 
@@ -169,7 +169,7 @@ class ScriptIndexTest extends TestCase
      *
      * @return void
      */
-    public function testSorts(): void
+    public function test_sorts(): void
     {
         $schema = new ScriptSchema();
 
@@ -210,7 +210,7 @@ class ScriptIndexTest extends TestCase
      *
      * @return void
      */
-    public function testCreatedAtFilter(): void
+    public function test_created_at_filter(): void
     {
         $createdFilter = $this->faker->date();
         $excludedDate = $this->faker->date();
@@ -253,7 +253,7 @@ class ScriptIndexTest extends TestCase
      *
      * @return void
      */
-    public function testUpdatedAtFilter(): void
+    public function test_updated_at_filter(): void
     {
         $updatedFilter = $this->faker->date();
         $excludedDate = $this->faker->date();
@@ -296,7 +296,7 @@ class ScriptIndexTest extends TestCase
      *
      * @return void
      */
-    public function testWithoutTrashedFilter(): void
+    public function test_without_trashed_filter(): void
     {
         $parameters = [
             FilterParser::param() => [
@@ -332,7 +332,7 @@ class ScriptIndexTest extends TestCase
      *
      * @return void
      */
-    public function testWithTrashedFilter(): void
+    public function test_with_trashed_filter(): void
     {
         $parameters = [
             FilterParser::param() => [
@@ -368,7 +368,7 @@ class ScriptIndexTest extends TestCase
      *
      * @return void
      */
-    public function testOnlyTrashedFilter(): void
+    public function test_only_trashed_filter(): void
     {
         $parameters = [
             FilterParser::param() => [
@@ -404,7 +404,7 @@ class ScriptIndexTest extends TestCase
      *
      * @return void
      */
-    public function testDeletedAtFilter(): void
+    public function test_deleted_at_filter(): void
     {
         $deletedFilter = $this->faker->date();
         $excludedDate = $this->faker->date();
@@ -448,7 +448,7 @@ class ScriptIndexTest extends TestCase
      *
      * @return void
      */
-    public function testVideosByLyrics(): void
+    public function test_videos_by_lyrics(): void
     {
         $lyricsFilter = $this->faker->boolean();
 
@@ -469,7 +469,7 @@ class ScriptIndexTest extends TestCase
                 $query->where(Video::ATTRIBUTE_LYRICS, $lyricsFilter);
             },
         ])
-        ->get();
+            ->get();
 
         $response = $this->get(route('api.videoscript.index', $parameters));
 
@@ -490,7 +490,7 @@ class ScriptIndexTest extends TestCase
      *
      * @return void
      */
-    public function testVideosByNc(): void
+    public function test_videos_by_nc(): void
     {
         $ncFilter = $this->faker->boolean();
 
@@ -511,7 +511,7 @@ class ScriptIndexTest extends TestCase
                 $query->where(Video::ATTRIBUTE_NC, $ncFilter);
             },
         ])
-        ->get();
+            ->get();
 
         $response = $this->get(route('api.videoscript.index', $parameters));
 
@@ -532,7 +532,7 @@ class ScriptIndexTest extends TestCase
      *
      * @return void
      */
-    public function testVideosByOverlap(): void
+    public function test_videos_by_overlap(): void
     {
         $overlapFilter = Arr::random(VideoOverlap::cases());
 
@@ -553,7 +553,7 @@ class ScriptIndexTest extends TestCase
                 $query->where(Video::ATTRIBUTE_OVERLAP, $overlapFilter->value);
             },
         ])
-        ->get();
+            ->get();
 
         $response = $this->get(route('api.videoscript.index', $parameters));
 
@@ -574,7 +574,7 @@ class ScriptIndexTest extends TestCase
      *
      * @return void
      */
-    public function testVideosByResolution(): void
+    public function test_videos_by_resolution(): void
     {
         $resolutionFilter = $this->faker->randomNumber();
         $excludedResolution = $resolutionFilter + 1;
@@ -600,7 +600,7 @@ class ScriptIndexTest extends TestCase
                 $query->where(Video::ATTRIBUTE_RESOLUTION, $resolutionFilter);
             },
         ])
-        ->get();
+            ->get();
 
         $response = $this->get(route('api.videoscript.index', $parameters));
 
@@ -621,7 +621,7 @@ class ScriptIndexTest extends TestCase
      *
      * @return void
      */
-    public function testVideosBySource(): void
+    public function test_videos_by_source(): void
     {
         $sourceFilter = Arr::random(VideoSource::cases());
 
@@ -642,7 +642,7 @@ class ScriptIndexTest extends TestCase
                 $query->where(Video::ATTRIBUTE_SOURCE, $sourceFilter->value);
             },
         ])
-        ->get();
+            ->get();
 
         $response = $this->get(route('api.videoscript.index', $parameters));
 
@@ -663,7 +663,7 @@ class ScriptIndexTest extends TestCase
      *
      * @return void
      */
-    public function testVideosBySubbed(): void
+    public function test_videos_by_subbed(): void
     {
         $subbedFilter = $this->faker->boolean();
 
@@ -684,7 +684,7 @@ class ScriptIndexTest extends TestCase
                 $query->where(Video::ATTRIBUTE_SUBBED, $subbedFilter);
             },
         ])
-        ->get();
+            ->get();
 
         $response = $this->get(route('api.videoscript.index', $parameters));
 
@@ -705,7 +705,7 @@ class ScriptIndexTest extends TestCase
      *
      * @return void
      */
-    public function testVideosByUncen(): void
+    public function test_videos_by_uncen(): void
     {
         $uncenFilter = $this->faker->boolean();
 

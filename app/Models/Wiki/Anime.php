@@ -56,7 +56,7 @@ use Illuminate\Support\Collection;
  *
  * @method static AnimeFactory factory(...$parameters)
  */
-class Anime extends BaseModel implements HasResources, HasImages
+class Anime extends BaseModel implements HasImages, HasResources
 {
     use Reportable;
     use Searchable;
@@ -98,7 +98,7 @@ class Anime extends BaseModel implements HasResources, HasImages
         Anime::ATTRIBUTE_SLUG,
         Anime::ATTRIBUTE_SYNOPSIS,
         Anime::ATTRIBUTE_YEAR,
-        Anime::ATTRIBUTE_MEDIA_FORMAT
+        Anime::ATTRIBUTE_MEDIA_FORMAT,
     ];
 
     /**

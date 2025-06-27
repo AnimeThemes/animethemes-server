@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Filament\Resources\Wiki\ExternalResource\RelationManagers;
 
 use App\Filament\RelationManagers\Wiki\SongRelationManager;
-use App\Models\Wiki\Song;
 use App\Models\Wiki\ExternalResource;
+use App\Models\Wiki\Song;
 use Filament\Tables\Table;
 
 /**

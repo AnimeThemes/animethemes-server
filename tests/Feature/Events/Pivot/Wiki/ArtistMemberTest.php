@@ -23,7 +23,7 @@ class ArtistMemberTest extends TestCase
      *
      * @return void
      */
-    public function testArtistMemberCreatedEventDispatched(): void
+    public function test_artist_member_created_event_dispatched(): void
     {
         $artist = Artist::factory()->createOne();
         $member = Artist::factory()->createOne();
@@ -38,7 +38,7 @@ class ArtistMemberTest extends TestCase
      *
      * @return void
      */
-    public function testArtistMemberDeletedEventDispatched(): void
+    public function test_artist_member_deleted_event_dispatched(): void
     {
         $artist = Artist::factory()->createOne();
         $member = Artist::factory()->createOne();
@@ -54,7 +54,7 @@ class ArtistMemberTest extends TestCase
      *
      * @return void
      */
-    public function testArtistMemberUpdatedEventDispatched(): void
+    public function test_artist_member_updated_event_dispatched(): void
     {
         $artist = Artist::factory()->createOne();
         $member = Artist::factory()->createOne();
@@ -80,7 +80,7 @@ class ArtistMemberTest extends TestCase
      *
      * @return void
      */
-    public function testArtistMemberUpdatedEventEmbedFields(): void
+    public function test_artist_member_updated_event_embed_fields(): void
     {
         $artist = Artist::factory()->createOne();
         $member = Artist::factory()->createOne();

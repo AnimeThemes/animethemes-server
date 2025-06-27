@@ -55,7 +55,7 @@ class ThemeTest extends BaseResourceTestCase
      *
      * @return void
      */
-    public function testRenderIndexPage(): void
+    public function test_render_index_page(): void
     {
         $user = User::factory()
             ->withPermissions(
@@ -82,7 +82,7 @@ class ThemeTest extends BaseResourceTestCase
      *
      * @return void
      */
-    public function testRenderViewPage(): void
+    public function test_render_view_page(): void
     {
         $user = User::factory()
             ->withPermissions(
@@ -106,7 +106,7 @@ class ThemeTest extends BaseResourceTestCase
      *
      * @return void
      */
-    public function testMountCreateAction(): void
+    public function test_mount_create_action(): void
     {
         $user = User::factory()
             ->withPermissions(
@@ -127,7 +127,7 @@ class ThemeTest extends BaseResourceTestCase
      *
      * @return void
      */
-    public function testMountEditAction(): void
+    public function test_mount_edit_action(): void
     {
         $user = User::factory()
             ->withPermissions(
@@ -152,7 +152,7 @@ class ThemeTest extends BaseResourceTestCase
      *
      * @return void
      */
-    public function testUserCannotCreateRecord(): void
+    public function test_user_cannot_create_record(): void
     {
         Livewire::test(static::getIndexPage())
             ->assertActionHidden(CreateHeaderAction::class);
@@ -163,7 +163,7 @@ class ThemeTest extends BaseResourceTestCase
      *
      * @return void
      */
-    public function testUserCannotEditRecord(): void
+    public function test_user_cannot_edit_record(): void
     {
         $record = AnimeThemeModel::factory()
             ->for(Anime::factory())
@@ -178,7 +178,7 @@ class ThemeTest extends BaseResourceTestCase
      *
      * @return void
      */
-    public function testUserCannotDeleteRecord(): void
+    public function test_user_cannot_delete_record(): void
     {
         $record = AnimeThemeModel::factory()
             ->for(Anime::factory())
@@ -196,7 +196,7 @@ class ThemeTest extends BaseResourceTestCase
      *
      * @return void
      */
-    public function testUserCannotRestoreRecord(): void
+    public function test_user_cannot_restore_record(): void
     {
         $record = AnimeThemeModel::factory()
             ->for(Anime::factory())
@@ -216,7 +216,7 @@ class ThemeTest extends BaseResourceTestCase
      *
      * @return void
      */
-    public function testUserCannotForceDeleteRecord(): void
+    public function test_user_cannot_force_delete_record(): void
     {
         $record = AnimeThemeModel::factory()
             ->for(Anime::factory())

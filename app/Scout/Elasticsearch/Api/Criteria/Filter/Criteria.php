@@ -19,9 +19,7 @@ abstract class Criteria
      *
      * @param  BaseCriteria  $criteria
      */
-    public function __construct(protected readonly BaseCriteria $criteria)
-    {
-    }
+    public function __construct(protected readonly BaseCriteria $criteria) {}
 
     /**
      * Apply criteria to builder.

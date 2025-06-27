@@ -28,7 +28,7 @@ class AudioShowTest extends TestCase
      *
      * @return void
      */
-    public function testDefault(): void
+    public function test_default(): void
     {
         $audio = Audio::factory()->create();
 
@@ -51,7 +51,7 @@ class AudioShowTest extends TestCase
      *
      * @return void
      */
-    public function testSoftDelete(): void
+    public function test_soft_delete(): void
     {
         $audio = Audio::factory()->trashed()->createOne();
 
@@ -74,7 +74,7 @@ class AudioShowTest extends TestCase
      *
      * @return void
      */
-    public function testAllowedIncludePaths(): void
+    public function test_allowed_include_paths(): void
     {
         $schema = new AudioSchema();
 
@@ -111,7 +111,7 @@ class AudioShowTest extends TestCase
      *
      * @return void
      */
-    public function testSparseFieldsets(): void
+    public function test_sparse_fieldsets(): void
     {
         $schema = new AudioSchema();
 

@@ -34,8 +34,7 @@ abstract class Criteria
         protected readonly Predicate $predicate,
         protected readonly BinaryLogicalOperator $operator,
         protected readonly Scope $scope
-    ) {
-    }
+    ) {}
 
     /**
      * Get the scope of the criteria.

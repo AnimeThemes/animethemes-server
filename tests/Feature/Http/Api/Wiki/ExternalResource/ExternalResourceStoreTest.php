@@ -21,7 +21,7 @@ class ExternalResourceStoreTest extends TestCase
      *
      * @return void
      */
-    public function testProtected(): void
+    public function test_protected(): void
     {
         $resource = ExternalResource::factory()->makeOne();
 
@@ -35,7 +35,7 @@ class ExternalResourceStoreTest extends TestCase
      *
      * @return void
      */
-    public function testForbidden(): void
+    public function test_forbidden(): void
     {
         $resource = ExternalResource::factory()->makeOne();
 
@@ -53,7 +53,7 @@ class ExternalResourceStoreTest extends TestCase
      *
      * @return void
      */
-    public function testRequiredFields(): void
+    public function test_required_fields(): void
     {
         $user = User::factory()->withPermissions(CrudPermission::CREATE->format(ExternalResource::class))->createOne();
 
@@ -72,7 +72,7 @@ class ExternalResourceStoreTest extends TestCase
      *
      * @return void
      */
-    public function testCreate(): void
+    public function test_create(): void
     {
         $parameters = array_merge(
             ExternalResource::factory()->raw(),

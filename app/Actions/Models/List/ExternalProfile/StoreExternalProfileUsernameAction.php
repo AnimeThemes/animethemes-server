@@ -53,6 +53,7 @@ class StoreExternalProfileUsernameAction
                 }
 
                 DB::rollBack();
+
                 return $findProfile;
             }
 

@@ -18,8 +18,8 @@ use App\Filament\Resources\Wiki\Anime as AnimeResource;
 use App\Filament\Resources\Wiki\Anime\RelationManagers\SynonymAnimeRelationManager;
 use App\Filament\Resources\Wiki\Anime\Synonym\Pages\ListSynonyms;
 use App\Filament\Resources\Wiki\Anime\Synonym\Pages\ViewSynonym;
-use App\Models\Wiki\Anime\AnimeSynonym as SynonymModel;
 use App\Models\Wiki\Anime\AnimeSynonym;
+use App\Models\Wiki\Anime\AnimeSynonym as SynonymModel;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Infolists\Components\Section;
@@ -228,7 +228,7 @@ class Synonym extends BaseResource
     public static function getRelations(): array
     {
         return [
-            RelationGroup::make(static::getLabel(),[
+            RelationGroup::make(static::getLabel(), [
                 ...parent::getBaseRelations(),
             ]),
         ];

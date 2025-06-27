@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Events\Pivot\Wiki\SongResource;
 
 use App\Events\Base\Pivot\PivotUpdatedEvent;
-use App\Models\Wiki\Song;
 use App\Models\Wiki\ExternalResource;
+use App\Models\Wiki\Song;
 use App\Pivots\Wiki\SongResource;
 
 /**

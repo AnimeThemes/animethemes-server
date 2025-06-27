@@ -56,8 +56,8 @@ class CountAggregateResolver
             }
         }
 
-        if (is_null($relation) || !method_exists($aggregatable, $relation)) {
-            throw new InvalidArgumentException("Relation {$relation} does not exist on model " . get_class($aggregatable));
+        if (is_null($relation) || ! method_exists($aggregatable, $relation)) {
+            throw new InvalidArgumentException("Relation {$relation} does not exist on model ".get_class($aggregatable));
         }
 
         /** @var Model|null $aggregate */

@@ -9,6 +9,4 @@ use App\Policies\BasePolicy;
 /**
  * Class PagePolicy.
  */
-class PagePolicy extends BasePolicy
-{
-}
+class PagePolicy extends BasePolicy {}

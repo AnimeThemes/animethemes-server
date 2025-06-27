@@ -35,7 +35,7 @@ class ExternalProfileType extends EloquentType implements HasFields, HasRelation
      */
     public function getDescription(): string
     {
-        return "Represents a user profile on the external site like MAL.";
+        return 'Represents a user profile on the external site like MAL.';
     }
 
     /**

@@ -26,9 +26,9 @@ class ScopeParser
         if (Str::contains($scope, '.')) {
             return new RelationScope(
                 Str::of($scope)
-                ->explode('.')
-                ->map(fn (string $scopePart) => Str::singular($scopePart))
-                ->join('.')
+                    ->explode('.')
+                    ->map(fn (string $scopePart) => Str::singular($scopePart))
+                    ->join('.')
             );
         }
 

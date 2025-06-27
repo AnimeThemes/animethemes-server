@@ -29,7 +29,7 @@ use Znck\Eloquent\Traits\BelongsToThrough as TraitsBelongsToThrough;
  *
  * @method static ExternalTokenFactory factory(...$parameters)
  */
-class ExternalToken extends Model implements Nameable, HasSubtitle
+class ExternalToken extends Model implements HasSubtitle, Nameable
 {
     use HasFactory;
     use ModelHasActionLogs;

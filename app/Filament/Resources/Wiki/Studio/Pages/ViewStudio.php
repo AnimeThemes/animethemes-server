@@ -33,7 +33,7 @@ class ViewStudio extends BaseViewResource
                 BackfillStudioHeaderAction::make('backfill-studio'),
 
                 AttachStudioResourceHeaderAction::make('attach-studio-resource'),
-            ])
+            ]),
         ];
     }
 }

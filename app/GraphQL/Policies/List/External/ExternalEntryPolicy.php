@@ -30,11 +30,11 @@ class ExternalEntryPolicy extends BasePolicy
         $profile = Arr::get($injected, 'profile');
 
         if ($user !== null) {
-            return ($profile?->user()->is($user) || ExternalProfileVisibility::PRIVATE !== $profile?->visibility)
+            return ($profile?->user()->is($user) || $profile?->visibility !== ExternalProfileVisibility::PRIVATE)
                 && $user->can(CrudPermission::VIEW->format(ExternalEntry::class));
         }
 
-        return ExternalProfileVisibility::PRIVATE !== $profile?->visibility;
+        return $profile?->visibility !== ExternalProfileVisibility::PRIVATE;
     }
 
     /**
@@ -51,11 +51,11 @@ class ExternalEntryPolicy extends BasePolicy
         $profile = Arr::get($injected, 'profile');
 
         if ($user !== null) {
-            return ($profile?->user()->is($user) || ExternalProfileVisibility::PRIVATE !== $profile?->visibility)
+            return ($profile?->user()->is($user) || $profile?->visibility !== ExternalProfileVisibility::PRIVATE)
                 && $user->can(CrudPermission::VIEW->format(ExternalEntry::class));
         }
 
-        return ExternalProfileVisibility::PRIVATE !== $profile?->visibility;
+        return $profile?->visibility !== ExternalProfileVisibility::PRIVATE;
     }
 
     /**

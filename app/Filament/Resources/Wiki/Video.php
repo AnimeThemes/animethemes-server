@@ -393,7 +393,7 @@ class Video extends BaseResource
     {
         return [
             ...parent::getBulkActions([
-                DeleteVideoBulkAction::make('delete-video')
+                DeleteVideoBulkAction::make('delete-video'),
             ]),
 
             VideoDiscordNotificationBulkAction::make('discord-notification'),

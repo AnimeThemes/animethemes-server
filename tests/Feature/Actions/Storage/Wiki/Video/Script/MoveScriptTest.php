@@ -28,7 +28,7 @@ class MoveScriptTest extends TestCase
      *
      * @return void
      */
-    public function testDefault(): void
+    public function test_default(): void
     {
         Config::set(VideoConstants::SCRIPT_DISK_QUALIFIED, []);
         Storage::fake(Config::get(VideoConstants::SCRIPT_DISK_QUALIFIED));
@@ -49,7 +49,7 @@ class MoveScriptTest extends TestCase
      *
      * @return void
      */
-    public function testPassed(): void
+    public function test_passed(): void
     {
         /** @var FilesystemAdapter $fs */
         $fs = Storage::fake(Config::get(VideoConstants::SCRIPT_DISK_QUALIFIED));
@@ -68,7 +68,7 @@ class MoveScriptTest extends TestCase
 
         $result = $storageResults->toActionResult();
 
-        static::assertTrue(ActionStatus::PASSED === $result->getStatus());
+        static::assertTrue($result->getStatus() === ActionStatus::PASSED);
     }
 
     /**
@@ -76,7 +76,7 @@ class MoveScriptTest extends TestCase
      *
      * @return void
      */
-    public function testMovedInDisk(): void
+    public function test_moved_in_disk(): void
     {
         /** @var FilesystemAdapter $fs */
         $fs = Storage::fake(Config::get(VideoConstants::SCRIPT_DISK_QUALIFIED));
@@ -105,7 +105,7 @@ class MoveScriptTest extends TestCase
      *
      * @return void
      */
-    public function testScriptUpdated(): void
+    public function test_script_updated(): void
     {
         /** @var FilesystemAdapter $fs */
         $fs = Storage::fake(Config::get(VideoConstants::SCRIPT_DISK_QUALIFIED));

@@ -6,9 +6,9 @@ namespace App\Policies\User;
 
 use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\Role;
-use App\Models\User\Report;
 use App\Models\Auth\User;
 use App\Models\BaseModel;
+use App\Models\User\Report;
 use App\Policies\BasePolicy;
 use Illuminate\Database\Eloquent\Model;
 

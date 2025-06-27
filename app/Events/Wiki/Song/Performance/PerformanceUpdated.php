@@ -19,7 +19,7 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
  *
  * @extends WikiUpdatedEvent<Performance>
  */
-class PerformanceUpdated extends WikiUpdatedEvent implements UpdateRelatedIndicesEvent, SyncArtistSongEvent
+class PerformanceUpdated extends WikiUpdatedEvent implements SyncArtistSongEvent, UpdateRelatedIndicesEvent
 {
     /**
      * Create a new event instance.
@@ -63,9 +63,9 @@ class PerformanceUpdated extends WikiUpdatedEvent implements UpdateRelatedIndice
             Performance::RELATION_ARTIST => function (MorphTo $morphTo) {
                 $morphTo->morphWith([
                     Artist::class => [],
-                    Membership::class => [Membership::RELATION_ARTIST, Membership::RELATION_MEMBER]
+                    Membership::class => [Membership::RELATION_ARTIST, Membership::RELATION_MEMBER],
                 ]);
-            }
+            },
         ]);
 
         if ($performance->isMembership()) {

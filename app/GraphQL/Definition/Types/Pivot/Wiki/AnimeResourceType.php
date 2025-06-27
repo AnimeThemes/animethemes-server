@@ -29,7 +29,7 @@ class AnimeResourceType extends PivotType implements HasFields, HasRelations
      */
     public function getDescription(): string
     {
-        return "Represents the association between an anime and an external resource.";
+        return 'Represents the association between an anime and an external resource.';
     }
 
     /**

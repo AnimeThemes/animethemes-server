@@ -19,7 +19,7 @@ class UpdateRelatedIndicesTest extends TestCase
      *
      * @return void
      */
-    public function testListening(): void
+    public function test_listening(): void
     {
         Event::assertListening(UpdateRelatedIndicesEvent::class, UpdateRelatedIndices::class);
     }

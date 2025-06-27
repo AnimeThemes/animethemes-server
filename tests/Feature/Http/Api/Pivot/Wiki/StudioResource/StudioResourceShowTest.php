@@ -33,7 +33,7 @@ class StudioResourceShowTest extends TestCase
      *
      * @return void
      */
-    public function testNotFound(): void
+    public function test_not_found(): void
     {
         $studio = Studio::factory()->createOne();
         $resource = ExternalResource::factory()->createOne();
@@ -48,7 +48,7 @@ class StudioResourceShowTest extends TestCase
      *
      * @return void
      */
-    public function testDefault(): void
+    public function test_default(): void
     {
         $studioResource = StudioResource::factory()
             ->for(Studio::factory())
@@ -76,7 +76,7 @@ class StudioResourceShowTest extends TestCase
      *
      * @return void
      */
-    public function testAllowedIncludePaths(): void
+    public function test_allowed_include_paths(): void
     {
         $schema = new StudioResourceSchema();
 
@@ -116,7 +116,7 @@ class StudioResourceShowTest extends TestCase
      *
      * @return void
      */
-    public function testSparseFieldsets(): void
+    public function test_sparse_fieldsets(): void
     {
         $schema = new StudioResourceSchema();
 
@@ -156,7 +156,7 @@ class StudioResourceShowTest extends TestCase
      *
      * @return void
      */
-    public function testResourcesBySite(): void
+    public function test_resources_by_site(): void
     {
         $siteFilter = Arr::random(ResourceSite::cases());
 

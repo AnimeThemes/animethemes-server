@@ -32,7 +32,7 @@ class FilterParserTest extends TestCase
      *
      * @return void
      */
-    public function testWhereCriteria(): void
+    public function test_where_criteria(): void
     {
         $expression = new Expression($this->faker->word());
 
@@ -52,7 +52,7 @@ class FilterParserTest extends TestCase
      *
      * @return void
      */
-    public function testWhereInCriteria(): void
+    public function test_where_in_criteria(): void
     {
         $expression = new Expression($this->faker->word());
 
@@ -75,7 +75,7 @@ class FilterParserTest extends TestCase
      *
      * @return void
      */
-    public function testHasCriteria(): void
+    public function test_has_criteria(): void
     {
         $expression = new Expression($this->faker->word());
 
@@ -98,7 +98,7 @@ class FilterParserTest extends TestCase
      *
      * @return void
      */
-    public function testTrashedCriteria(): void
+    public function test_trashed_criteria(): void
     {
         $expression = new Expression($this->faker->word());
 

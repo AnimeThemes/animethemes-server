@@ -228,7 +228,7 @@ class Page extends BaseResource
     public static function getRelations(): array
     {
         return [
-            RelationGroup::make(static::getLabel(),[
+            RelationGroup::make(static::getLabel(), [
                 ...parent::getBaseRelations(),
             ]),
         ];

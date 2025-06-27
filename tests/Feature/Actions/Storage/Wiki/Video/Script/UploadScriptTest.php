@@ -27,7 +27,7 @@ class UploadScriptTest extends TestCase
      *
      * @return void
      */
-    public function testDefault(): void
+    public function test_default(): void
     {
         Config::set(VideoConstants::SCRIPT_DISK_QUALIFIED, []);
         Storage::fake(Config::get(VideoConstants::SCRIPT_DISK_QUALIFIED));
@@ -48,7 +48,7 @@ class UploadScriptTest extends TestCase
      *
      * @return void
      */
-    public function testPassed(): void
+    public function test_passed(): void
     {
         Storage::fake(Config::get(VideoConstants::SCRIPT_DISK_QUALIFIED));
 
@@ -60,7 +60,7 @@ class UploadScriptTest extends TestCase
 
         $result = $storageResults->toActionResult();
 
-        static::assertTrue(ActionStatus::PASSED === $result->getStatus());
+        static::assertTrue($result->getStatus() === ActionStatus::PASSED);
     }
 
     /**
@@ -68,7 +68,7 @@ class UploadScriptTest extends TestCase
      *
      * @return void
      */
-    public function testUploadedToDisk(): void
+    public function test_uploaded_to_disk(): void
     {
         $fs = Storage::fake(Config::get(VideoConstants::SCRIPT_DISK_QUALIFIED));
 
@@ -86,7 +86,7 @@ class UploadScriptTest extends TestCase
      *
      * @return void
      */
-    public function testCreatedVideo(): void
+    public function test_created_video(): void
     {
         Storage::fake(Config::get(VideoConstants::SCRIPT_DISK_QUALIFIED));
 
@@ -106,7 +106,7 @@ class UploadScriptTest extends TestCase
      *
      * @return void
      */
-    public function testAttachesVideo(): void
+    public function test_attaches_video(): void
     {
         Storage::fake(Config::get(VideoConstants::SCRIPT_DISK_QUALIFIED));
 

@@ -23,9 +23,7 @@ readonly class DeleteResults implements StorageResults
      * @param  BaseModel  $model
      * @param  array<string, bool>  $deletions
      */
-    public function __construct(protected BaseModel $model, protected array $deletions = [])
-    {
-    }
+    public function __construct(protected BaseModel $model, protected array $deletions = []) {}
 
     /**
      * Write results to log.

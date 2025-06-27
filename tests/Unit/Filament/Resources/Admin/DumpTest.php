@@ -38,7 +38,7 @@ class DumpTest extends BaseResourceTestCase
      *
      * @return void
      */
-    public function testRenderIndexPage(): void
+    public function test_render_index_page(): void
     {
         $user = User::factory()
             ->withPermissions(
@@ -63,7 +63,7 @@ class DumpTest extends BaseResourceTestCase
      *
      * @return void
      */
-    public function testUserCannotEditRecord(): void
+    public function test_user_cannot_edit_record(): void
     {
         $record = DumpModel::factory()->createOne();
 
@@ -76,7 +76,7 @@ class DumpTest extends BaseResourceTestCase
      *
      * @return void
      */
-    public function testUserCannotDeleteRecord(): void
+    public function test_user_cannot_delete_record(): void
     {
         $record = DumpModel::factory()->createOne();
 
@@ -89,7 +89,7 @@ class DumpTest extends BaseResourceTestCase
      *
      * @return void
      */
-    public function testUserCannotRestoreRecord(): void
+    public function test_user_cannot_restore_record(): void
     {
         $record = DumpModel::factory()->createOne();
 
@@ -102,7 +102,7 @@ class DumpTest extends BaseResourceTestCase
      *
      * @return void
      */
-    public function testUserCannotForceDeleteRecord(): void
+    public function test_user_cannot_force_delete_record(): void
     {
         $record = DumpModel::factory()->createOne();
 

@@ -29,7 +29,7 @@ class FeaturedThemeUpdateTest extends TestCase
      *
      * @return void
      */
-    public function testProtected(): void
+    public function test_protected(): void
     {
         $featuredTheme = FeaturedTheme::factory()->createOne();
 
@@ -45,7 +45,7 @@ class FeaturedThemeUpdateTest extends TestCase
      *
      * @return void
      */
-    public function testForbidden(): void
+    public function test_forbidden(): void
     {
         $featuredTheme = FeaturedTheme::factory()->createOne();
 
@@ -65,7 +65,7 @@ class FeaturedThemeUpdateTest extends TestCase
      *
      * @return void
      */
-    public function testTrashed(): void
+    public function test_trashed(): void
     {
         $featuredTheme = FeaturedTheme::factory()->trashed()->createOne();
 
@@ -85,7 +85,7 @@ class FeaturedThemeUpdateTest extends TestCase
      *
      * @return void
      */
-    public function testStartAtBeforeEndDate(): void
+    public function test_start_at_before_end_date(): void
     {
         $featuredTheme = FeaturedTheme::factory()->createOne();
 
@@ -111,7 +111,7 @@ class FeaturedThemeUpdateTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeThemeEntryVideoExists(): void
+    public function test_anime_theme_entry_video_exists(): void
     {
         $featuredTheme = FeaturedTheme::factory()->createOne();
 
@@ -143,7 +143,7 @@ class FeaturedThemeUpdateTest extends TestCase
      *
      * @return void
      */
-    public function testUpdate(): void
+    public function test_update(): void
     {
         $featuredTheme = FeaturedTheme::factory()->createOne();
 

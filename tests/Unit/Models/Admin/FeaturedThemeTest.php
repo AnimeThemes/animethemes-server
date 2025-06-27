@@ -24,7 +24,7 @@ class FeaturedThemeTest extends TestCase
      *
      * @return void
      */
-    public function testNameable(): void
+    public function test_nameable(): void
     {
         $featuredTheme = FeaturedTheme::factory()->createOne();
 
@@ -36,7 +36,7 @@ class FeaturedThemeTest extends TestCase
      *
      * @return void
      */
-    public function testHasSubtitle(): void
+    public function test_has_subtitle(): void
     {
         $featuredTheme = FeaturedTheme::factory()
             ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))
@@ -50,7 +50,7 @@ class FeaturedThemeTest extends TestCase
      *
      * @return void
      */
-    public function testCastsEndAt(): void
+    public function test_casts_end_at(): void
     {
         $featuredTheme = FeaturedTheme::factory()->createOne();
 
@@ -62,7 +62,7 @@ class FeaturedThemeTest extends TestCase
      *
      * @return void
      */
-    public function testCastsStartAt(): void
+    public function test_casts_start_at(): void
     {
         $featuredTheme = FeaturedTheme::factory()->createOne();
 
@@ -74,7 +74,7 @@ class FeaturedThemeTest extends TestCase
      *
      * @return void
      */
-    public function testUser(): void
+    public function test_user(): void
     {
         $featuredTheme = FeaturedTheme::factory()
             ->for(User::factory())
@@ -89,7 +89,7 @@ class FeaturedThemeTest extends TestCase
      *
      * @return void
      */
-    public function testVideo(): void
+    public function test_video(): void
     {
         $featuredTheme = FeaturedTheme::factory()
             ->for(Video::factory())
@@ -104,7 +104,7 @@ class FeaturedThemeTest extends TestCase
      *
      * @return void
      */
-    public function testEntry(): void
+    public function test_entry(): void
     {
         $featuredTheme = FeaturedTheme::factory()
             ->for(AnimeThemeEntry::factory()->for(AnimeTheme::factory()->for(Anime::factory())))

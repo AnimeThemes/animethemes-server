@@ -23,8 +23,7 @@ class Sort
         protected readonly string $key,
         protected readonly ?string $column = null,
         protected readonly QualifyColumn $qualifyColumn = QualifyColumn::YES
-    ) {
-    }
+    ) {}
 
     /**
      * Get sort key value.
@@ -53,7 +52,7 @@ class Sort
      */
     public function shouldQualifyColumn(): bool
     {
-        return QualifyColumn::YES === $this->qualifyColumn;
+        return $this->qualifyColumn === QualifyColumn::YES;
     }
 
     /**

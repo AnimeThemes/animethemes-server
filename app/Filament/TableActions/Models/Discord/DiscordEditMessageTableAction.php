@@ -27,10 +27,10 @@ use Illuminate\Support\Facades\Auth;
 class DiscordEditMessageTableAction extends BaseTableAction
 {
     /**
-    * Initial setup for the action.
-    *
-    * @return void
-    */
+     * Initial setup for the action.
+     *
+     * @return void
+     */
     protected function setUp(): void
     {
         parent::setUp();
@@ -76,10 +76,11 @@ class DiscordEditMessageTableAction extends BaseTableAction
                         Action::make('load')
                             ->label(__('filament.table_actions.discord_thread.message.url.action'))
                             ->action(function (Set $set, string $state, TextInput $component) {
-                                if (!preg_match($component->getRegexPattern(), $state)) {
+                                if (! preg_match($component->getRegexPattern(), $state)) {
                                     $component
                                         ->hint(__('filament.table_actions.discord_thread.message.url.validation'))
                                         ->hintColor('danger');
+
                                     return;
                                 }
 

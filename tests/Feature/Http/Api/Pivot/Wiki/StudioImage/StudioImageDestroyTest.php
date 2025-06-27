@@ -22,7 +22,7 @@ class StudioImageDestroyTest extends TestCase
      *
      * @return void
      */
-    public function testProtected(): void
+    public function test_protected(): void
     {
         $studioImage = StudioImage::factory()
             ->for(Studio::factory())
@@ -39,7 +39,7 @@ class StudioImageDestroyTest extends TestCase
      *
      * @return void
      */
-    public function testForbidden(): void
+    public function test_forbidden(): void
     {
         $studioImage = StudioImage::factory()
             ->for(Studio::factory())
@@ -60,7 +60,7 @@ class StudioImageDestroyTest extends TestCase
      *
      * @return void
      */
-    public function testNotFound(): void
+    public function test_not_found(): void
     {
         $studio = Studio::factory()->createOne();
         $image = Image::factory()->createOne();
@@ -84,7 +84,7 @@ class StudioImageDestroyTest extends TestCase
      *
      * @return void
      */
-    public function testDeleted(): void
+    public function test_deleted(): void
     {
         $studioImage = StudioImage::factory()
             ->for(Studio::factory())

@@ -9,8 +9,8 @@ use App\Events\Pivot\Wiki\SongResource\SongResourceCreated;
 use App\Events\Pivot\Wiki\SongResource\SongResourceDeleted;
 use App\Events\Pivot\Wiki\SongResource\SongResourceUpdated;
 use App\Jobs\SendDiscordNotificationJob;
-use App\Models\Wiki\Song;
 use App\Models\Wiki\ExternalResource;
+use App\Models\Wiki\Song;
 use App\Pivots\Wiki\SongResource;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Event;
@@ -27,7 +27,7 @@ class SongResourceTest extends TestCase
      *
      * @return void
      */
-    public function testSongResourceCreatedSendsDiscordNotification(): void
+    public function test_song_resource_created_sends_discord_notification(): void
     {
         $song = Song::factory()->createOne();
         $resource = ExternalResource::factory()->createOne();
@@ -46,7 +46,7 @@ class SongResourceTest extends TestCase
      *
      * @return void
      */
-    public function testSongResourceDeletedSendsDiscordNotification(): void
+    public function test_song_resource_deleted_sends_discord_notification(): void
     {
         $song = Song::factory()->createOne();
         $resource = ExternalResource::factory()->createOne();
@@ -67,7 +67,7 @@ class SongResourceTest extends TestCase
      *
      * @return void
      */
-    public function testSongResourceUpdatedSendsDiscordNotification(): void
+    public function test_song_resource_updated_sends_discord_notification(): void
     {
         $song = Song::factory()->createOne();
         $resource = ExternalResource::factory()->createOne();

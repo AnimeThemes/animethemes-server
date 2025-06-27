@@ -26,7 +26,7 @@ class ExternalResourceTest extends TestCase
      *
      * @return void
      */
-    public function testResourceCreatedSendsDiscordNotification(): void
+    public function test_resource_created_sends_discord_notification(): void
     {
         Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
         Bus::fake(SendDiscordNotificationJob::class);
@@ -42,7 +42,7 @@ class ExternalResourceTest extends TestCase
      *
      * @return void
      */
-    public function testResourceDeletedSendsDiscordNotification(): void
+    public function test_resource_deleted_sends_discord_notification(): void
     {
         $resource = ExternalResource::factory()->createOne();
 
@@ -60,7 +60,7 @@ class ExternalResourceTest extends TestCase
      *
      * @return void
      */
-    public function testResourceRestoredSendsDiscordNotification(): void
+    public function test_resource_restored_sends_discord_notification(): void
     {
         $resource = ExternalResource::factory()->createOne();
 
@@ -78,7 +78,7 @@ class ExternalResourceTest extends TestCase
      *
      * @return void
      */
-    public function testResourceUpdatedSendsDiscordNotification(): void
+    public function test_resource_updated_sends_discord_notification(): void
     {
         $resource = ExternalResource::factory()->createOne();
 

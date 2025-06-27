@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
 use App\Enums\Models\User\ApprovableStatus;
+use App\Models\Auth\User;
 use App\Models\User\Report;
 use App\Models\User\Report\ReportStep;
-use App\Models\Auth\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -33,7 +33,7 @@ return new class extends Migration
                 $table->longText(Report::ATTRIBUTE_MOD_NOTES)->nullable();
                 $table->timestamp(Report::ATTRIBUTE_FINISHED_AT, 6)->nullable();
 
-                $table->timestamps(6);;
+                $table->timestamps(6);
             });
         }
 

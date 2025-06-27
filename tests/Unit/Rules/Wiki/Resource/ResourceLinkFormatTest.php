@@ -28,7 +28,7 @@ class ResourceLinkFormatTest extends TestCase
      *
      * @return void
      */
-    public function testPassesForNoSite(): void
+    public function test_passes_for_no_site(): void
     {
         $attribute = $this->faker->word();
 
@@ -45,7 +45,7 @@ class ResourceLinkFormatTest extends TestCase
      *
      * @return void
      */
-    public function testPassesForNoPattern(): void
+    public function test_passes_for_no_pattern(): void
     {
         $attribute = $this->faker->word();
 
@@ -62,7 +62,7 @@ class ResourceLinkFormatTest extends TestCase
      *
      * @return void
      */
-    public function testPassesForAnimeResource(): void
+    public function test_passes_for_anime_resource(): void
     {
         /** @var ResourceSite $site */
         $site = Arr::random([
@@ -93,7 +93,7 @@ class ResourceLinkFormatTest extends TestCase
      *
      * @return void
      */
-    public function testPassesForArtistResource(): void
+    public function test_passes_for_artist_resource(): void
     {
         /** @var ResourceSite $site */
         $site = Arr::random([
@@ -104,7 +104,7 @@ class ResourceLinkFormatTest extends TestCase
             ResourceSite::ANN,
             ResourceSite::MAL,
             ResourceSite::SPOTIFY,
-            ResourceSite::YOUTUBE
+            ResourceSite::YOUTUBE,
         ]);
 
         $url = $site->formatResourceLink(Artist::class, $this->faker->randomDigitNotNull(), $this->faker->word());
@@ -121,10 +121,10 @@ class ResourceLinkFormatTest extends TestCase
 
     /**
      * The Resource Link Format Rule shall pass for song resources.
-     * 
+     *
      * @return void
      */
-    public function testPassesForSongResource(): void
+    public function test_passes_for_song_resource(): void
     {
         /** @var ResourceSite $site */
         $site = Arr::random([
@@ -152,7 +152,7 @@ class ResourceLinkFormatTest extends TestCase
      *
      * @return void
      */
-    public function testPassesForStudioResource(): void
+    public function test_passes_for_studio_resource(): void
     {
         /** @var ResourceSite $site */
         $site = Arr::random([
@@ -181,7 +181,7 @@ class ResourceLinkFormatTest extends TestCase
      *
      * @return void
      */
-    public function testFailsForTrailingSlash(): void
+    public function test_fails_for_trailing_slash(): void
     {
         // Resource sites that can be attached for all models.
         $site = Arr::random([

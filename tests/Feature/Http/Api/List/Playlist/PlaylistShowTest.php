@@ -39,7 +39,7 @@ class PlaylistShowTest extends TestCase
      *
      * @return void
      */
-    public function testPrivatePlaylistCannotBePubliclyViewed(): void
+    public function test_private_playlist_cannot_be_publicly_viewed(): void
     {
         Event::fakeExcept(PlaylistCreated::class);
 
@@ -59,7 +59,7 @@ class PlaylistShowTest extends TestCase
      *
      * @return void
      */
-    public function testPrivatePlaylistCannotBePubliclyIfNotOwned(): void
+    public function test_private_playlist_cannot_be_publicly_if_not_owned(): void
     {
         Event::fakeExcept(PlaylistCreated::class);
 
@@ -83,7 +83,7 @@ class PlaylistShowTest extends TestCase
      *
      * @return void
      */
-    public function testPrivatePlaylistCanBeViewedByOwner(): void
+    public function test_private_playlist_can_be_viewed_by_owner(): void
     {
         Event::fakeExcept(PlaylistCreated::class);
 
@@ -107,7 +107,7 @@ class PlaylistShowTest extends TestCase
      *
      * @return void
      */
-    public function testUnlistedPlaylistCanBeViewed(): void
+    public function test_unlisted_playlist_can_be_viewed(): void
     {
         Event::fakeExcept(PlaylistCreated::class);
 
@@ -127,7 +127,7 @@ class PlaylistShowTest extends TestCase
      *
      * @return void
      */
-    public function testPublicPlaylistCanBeViewed(): void
+    public function test_public_playlist_can_be_viewed(): void
     {
         Event::fakeExcept(PlaylistCreated::class);
 
@@ -147,7 +147,7 @@ class PlaylistShowTest extends TestCase
      *
      * @return void
      */
-    public function testDefault(): void
+    public function test_default(): void
     {
         Event::fakeExcept(PlaylistCreated::class);
 
@@ -175,7 +175,7 @@ class PlaylistShowTest extends TestCase
      *
      * @return void
      */
-    public function testSoftDelete(): void
+    public function test_soft_delete(): void
     {
         Event::fakeExcept(PlaylistCreated::class);
 
@@ -206,7 +206,7 @@ class PlaylistShowTest extends TestCase
      *
      * @return void
      */
-    public function testAllowedIncludePaths(): void
+    public function test_allowed_include_paths(): void
     {
         Event::fakeExcept(PlaylistCreated::class);
 
@@ -251,7 +251,7 @@ class PlaylistShowTest extends TestCase
      *
      * @return void
      */
-    public function testSparseFieldsets(): void
+    public function test_sparse_fieldsets(): void
     {
         Event::fakeExcept(PlaylistCreated::class);
 
@@ -291,7 +291,7 @@ class PlaylistShowTest extends TestCase
      *
      * @return void
      */
-    public function testImagesByFacet(): void
+    public function test_images_by_facet(): void
     {
         Event::fakeExcept(PlaylistCreated::class);
 

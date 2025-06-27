@@ -28,7 +28,7 @@ class ArtistMemberShowTest extends TestCase
      *
      * @return void
      */
-    public function testNotFound(): void
+    public function test_not_found(): void
     {
         $artist = Artist::factory()->createOne();
         $member = Artist::factory()->createOne();
@@ -43,7 +43,7 @@ class ArtistMemberShowTest extends TestCase
      *
      * @return void
      */
-    public function testDefault(): void
+    public function test_default(): void
     {
         $artistMember = ArtistMember::factory()
             ->for(Artist::factory(), ArtistMember::RELATION_ARTIST)
@@ -71,7 +71,7 @@ class ArtistMemberShowTest extends TestCase
      *
      * @return void
      */
-    public function testAllowedIncludePaths(): void
+    public function test_allowed_include_paths(): void
     {
         $schema = new ArtistMemberSchema();
 
@@ -111,7 +111,7 @@ class ArtistMemberShowTest extends TestCase
      *
      * @return void
      */
-    public function testSparseFieldsets(): void
+    public function test_sparse_fieldsets(): void
     {
         $schema = new ArtistMemberSchema();
 

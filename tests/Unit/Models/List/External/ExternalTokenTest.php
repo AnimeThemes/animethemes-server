@@ -21,7 +21,7 @@ class ExternalTokenTest extends TestCase
      *
      * @return void
      */
-    public function testNameable(): void
+    public function test_nameable(): void
     {
         $token = ExternalToken::factory()
             ->createOne();
@@ -34,7 +34,7 @@ class ExternalTokenTest extends TestCase
      *
      * @return void
      */
-    public function testHasSubtitle(): void
+    public function test_has_subtitle(): void
     {
         $token = ExternalToken::factory()
             ->for(ExternalProfile::factory())
@@ -48,7 +48,7 @@ class ExternalTokenTest extends TestCase
      *
      * @return void
      */
-    public function testProfile(): void
+    public function test_profile(): void
     {
         $token = ExternalToken::factory()
             ->for(ExternalProfile::factory())
@@ -63,7 +63,7 @@ class ExternalTokenTest extends TestCase
      *
      * @return void
      */
-    public function testUser(): void
+    public function test_user(): void
     {
         $token = ExternalToken::factory()
             ->for(ExternalProfile::factory()->for(User::factory()))

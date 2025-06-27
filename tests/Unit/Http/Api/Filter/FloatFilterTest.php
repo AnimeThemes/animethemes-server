@@ -22,7 +22,7 @@ class FloatFilterTest extends TestCase
      *
      * @return void
      */
-    public function testShouldNotApplyIfNoFloats(): void
+    public function test_should_not_apply_if_no_floats(): void
     {
         $filterField = $this->faker->word();
 
@@ -38,7 +38,7 @@ class FloatFilterTest extends TestCase
      *
      * @return void
      */
-    public function testConvertsValidatedFloats(): void
+    public function test_converts_validated_floats(): void
     {
         $filterField = $this->faker->word();
 

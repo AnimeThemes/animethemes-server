@@ -6,8 +6,8 @@ namespace App\Concerns\Filament\Actions\Storage\Wiki\Video\Script;
 
 use App\Actions\Storage\Wiki\Video\Script\MoveScriptAction as MoveScript;
 use App\Constants\Config\VideoConstants;
-use App\Models\Wiki\Video\VideoScript;
 use App\Models\BaseModel;
+use App\Models\Wiki\Video\VideoScript;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
 

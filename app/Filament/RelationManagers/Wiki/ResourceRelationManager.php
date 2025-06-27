@@ -61,7 +61,7 @@ abstract class ResourceRelationManager extends BaseRelationManager
                 ->modelLabel(ExternalResourceResource::getLabel())
                 ->recordTitleAttribute(ExternalResource::ATTRIBUTE_LINK)
                 ->columns(ExternalResourceResource::table($table)->getColumns())
-                ->defaultSort(ExternalResource::TABLE . '.' . ExternalResource::ATTRIBUTE_ID, 'desc')
+                ->defaultSort(ExternalResource::TABLE.'.'.ExternalResource::ATTRIBUTE_ID, 'desc')
         );
     }
 

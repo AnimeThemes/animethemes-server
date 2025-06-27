@@ -39,7 +39,7 @@ class AnnouncementTest extends BaseResourceTestCase
      *
      * @return void
      */
-    public function testRenderIndexPage(): void
+    public function test_render_index_page(): void
     {
         $user = User::factory()
             ->withPermissions(
@@ -64,7 +64,7 @@ class AnnouncementTest extends BaseResourceTestCase
      *
      * @return void
      */
-    public function testUserCannotCreateRecord(): void
+    public function test_user_cannot_create_record(): void
     {
         Livewire::test(static::getIndexPage())
             ->assertActionHidden(CreateHeaderAction::class);
@@ -75,7 +75,7 @@ class AnnouncementTest extends BaseResourceTestCase
      *
      * @return void
      */
-    public function testUserCannotEditRecord(): void
+    public function test_user_cannot_edit_record(): void
     {
         $record = AnnouncementModel::factory()->createOne();
 
@@ -88,7 +88,7 @@ class AnnouncementTest extends BaseResourceTestCase
      *
      * @return void
      */
-    public function testUserCannotDeleteRecord(): void
+    public function test_user_cannot_delete_record(): void
     {
         $record = AnnouncementModel::factory()->createOne();
 
@@ -101,7 +101,7 @@ class AnnouncementTest extends BaseResourceTestCase
      *
      * @return void
      */
-    public function testUserCannotRestoreRecord(): void
+    public function test_user_cannot_restore_record(): void
     {
         $record = AnnouncementModel::factory()->createOne();
 
@@ -114,7 +114,7 @@ class AnnouncementTest extends BaseResourceTestCase
      *
      * @return void
      */
-    public function testUserCannotForceDeleteRecord(): void
+    public function test_user_cannot_force_delete_record(): void
     {
         $record = AnnouncementModel::factory()->createOne();
 

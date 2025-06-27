@@ -18,7 +18,7 @@ class FallbackTest extends TestCase
      *
      * @return void
      */
-    public function testAbortJson(): void
+    public function test_abort_json(): void
     {
         $response = $this->get(route('api.anime.index').Str::random());
 

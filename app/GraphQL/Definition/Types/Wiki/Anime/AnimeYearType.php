@@ -24,7 +24,7 @@ class AnimeYearType extends BaseType implements HasFields
      */
     public function getDescription(): string
     {
-        return "The anime year response type, grouped by season.";
+        return 'The anime year response type, grouped by season.';
     }
 
     /**

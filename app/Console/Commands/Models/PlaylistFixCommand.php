@@ -41,8 +41,9 @@ class PlaylistFixCommand extends BaseCommand
         /** @var Playlist|null $playlist */
         $playlist = Playlist::find($playlistId);
 
-        if (!$playlist) {
+        if (! $playlist) {
             $this->error("Playlist with id $playlistId not found.");
+
             return 0;
         }
 

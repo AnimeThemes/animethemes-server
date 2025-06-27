@@ -30,7 +30,7 @@ class PlaylistImageStoreTest extends TestCase
      *
      * @return void
      */
-    public function testProtected(): void
+    public function test_protected(): void
     {
         Event::fakeExcept(PlaylistCreated::class);
 
@@ -49,7 +49,7 @@ class PlaylistImageStoreTest extends TestCase
      *
      * @return void
      */
-    public function testForbiddenIfMissingPermission(): void
+    public function test_forbidden_if_missing_permission(): void
     {
         Event::fakeExcept(PlaylistCreated::class);
 
@@ -73,7 +73,7 @@ class PlaylistImageStoreTest extends TestCase
      *
      * @return void
      */
-    public function testForbiddenIfFlagDisabled(): void
+    public function test_forbidden_if_flag_disabled(): void
     {
         Event::fakeExcept(PlaylistCreated::class);
 
@@ -101,7 +101,7 @@ class PlaylistImageStoreTest extends TestCase
      *
      * @return void
      */
-    public function testCreate(): void
+    public function test_create(): void
     {
         Event::fakeExcept(PlaylistCreated::class);
 
@@ -134,7 +134,7 @@ class PlaylistImageStoreTest extends TestCase
      *
      * @return void
      */
-    public function testCreatePermittedForBypass(): void
+    public function test_create_permitted_for_bypass(): void
     {
         Event::fakeExcept(PlaylistCreated::class);
 

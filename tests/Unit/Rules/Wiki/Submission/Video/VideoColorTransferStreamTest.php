@@ -27,7 +27,7 @@ class VideoColorTransferStreamTest extends TestCase
      *
      * @return void
      */
-    public function testFailsWhenColorTransferIsNotAccepted(): void
+    public function test_fails_when_color_transfer_is_not_accepted(): void
     {
         Feature::activate(FeatureConstants::VIDEO_COLOR_TRANSFER_STREAM, 'bt709,smpte170m,bt470bg');
 
@@ -71,7 +71,7 @@ class VideoColorTransferStreamTest extends TestCase
      *
      * @return void
      */
-    public function testPassesWhenColorTransferIsAccepted(): void
+    public function test_passes_when_color_transfer_is_accepted(): void
     {
         Feature::activate(FeatureConstants::VIDEO_COLOR_TRANSFER_STREAM, 'bt709,smpte170m,bt470bg');
 

@@ -25,8 +25,7 @@ abstract class Field implements FieldInterface
         protected readonly string $key,
         protected readonly ?string $searchField = null,
         protected readonly ?string $sortField = null
-    ) {
-    }
+    ) {}
 
     /**
      * Get the schema.

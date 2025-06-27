@@ -20,7 +20,7 @@ class ArtistDestroyTest extends TestCase
      *
      * @return void
      */
-    public function testProtected(): void
+    public function test_protected(): void
     {
         $artist = Artist::factory()->createOne();
 
@@ -34,7 +34,7 @@ class ArtistDestroyTest extends TestCase
      *
      * @return void
      */
-    public function testForbidden(): void
+    public function test_forbidden(): void
     {
         $artist = Artist::factory()->createOne();
 
@@ -52,7 +52,7 @@ class ArtistDestroyTest extends TestCase
      *
      * @return void
      */
-    public function testTrashed(): void
+    public function test_trashed(): void
     {
         $artist = Artist::factory()->trashed()->createOne();
 
@@ -70,7 +70,7 @@ class ArtistDestroyTest extends TestCase
      *
      * @return void
      */
-    public function testDeleted(): void
+    public function test_deleted(): void
     {
         $artist = Artist::factory()->createOne();
 

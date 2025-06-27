@@ -34,7 +34,7 @@ class AnimeSeriesShowTest extends TestCase
      *
      * @return void
      */
-    public function testNotFound(): void
+    public function test_not_found(): void
     {
         $anime = Anime::factory()->createOne();
         $series = Series::factory()->createOne();
@@ -49,7 +49,7 @@ class AnimeSeriesShowTest extends TestCase
      *
      * @return void
      */
-    public function testDefault(): void
+    public function test_default(): void
     {
         $animeSeries = AnimeSeries::factory()
             ->for(Anime::factory())
@@ -77,7 +77,7 @@ class AnimeSeriesShowTest extends TestCase
      *
      * @return void
      */
-    public function testAllowedIncludePaths(): void
+    public function test_allowed_include_paths(): void
     {
         $schema = new AnimeSeriesSchema();
 
@@ -117,7 +117,7 @@ class AnimeSeriesShowTest extends TestCase
      *
      * @return void
      */
-    public function testSparseFieldsets(): void
+    public function test_sparse_fieldsets(): void
     {
         $schema = new AnimeSeriesSchema();
 
@@ -157,7 +157,7 @@ class AnimeSeriesShowTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeByMediaFormat(): void
+    public function test_anime_by_media_format(): void
     {
         $mediaFormatFilter = Arr::random(AnimeMediaFormat::cases());
 
@@ -198,7 +198,7 @@ class AnimeSeriesShowTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeBySeason(): void
+    public function test_anime_by_season(): void
     {
         $seasonFilter = Arr::random(AnimeSeason::cases());
 
@@ -239,7 +239,7 @@ class AnimeSeriesShowTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeByYear(): void
+    public function test_anime_by_year(): void
     {
         $yearFilter = intval($this->faker->year());
         $excludedYear = $yearFilter + 1;

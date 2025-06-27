@@ -35,7 +35,7 @@ class AttachAction extends DefaultAttachAction
         parent::setUp();
 
         $this->visible(function (BaseRelationManager $livewire) {
-            if (!$livewire->getRelationship() instanceof BelongsToMany) {
+            if (! $livewire->getRelationship() instanceof BelongsToMany) {
                 return false;
             }
 
@@ -92,6 +92,6 @@ class AttachAction extends DefaultAttachAction
      */
     private function shouldShowCreateOption(string $model): bool
     {
-        return !($model === Image::class || $model === ExternalResource::class);
+        return ! ($model === Image::class || $model === ExternalResource::class);
     }
 }

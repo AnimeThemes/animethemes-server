@@ -25,7 +25,7 @@ class FeatureTest extends TestCase
      *
      * @return void
      */
-    public function testFeatureCreatedSendsDiscordNotification(): void
+    public function test_feature_created_sends_discord_notification(): void
     {
         Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
         Bus::fake(SendDiscordNotificationJob::class);
@@ -41,7 +41,7 @@ class FeatureTest extends TestCase
      *
      * @return void
      */
-    public function testFeatureDeletedSendsDiscordNotification(): void
+    public function test_feature_deleted_sends_discord_notification(): void
     {
         $feature = FeatureModel::factory()->createOne();
 
@@ -59,7 +59,7 @@ class FeatureTest extends TestCase
      *
      * @return void
      */
-    public function testFeatureUpdatedSendsDiscordNotification(): void
+    public function test_feature_updated_sends_discord_notification(): void
     {
         $feature = FeatureModel::factory()->createOne();
 

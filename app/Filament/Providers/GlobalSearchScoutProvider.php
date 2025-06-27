@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace App\Filament\Providers;
 
 use App\Filament\Resources\BaseResource;
+use Elastic\ScoutDriverPlus\Searchable;
 use Filament\Facades\Filament;
 use Filament\GlobalSearch\Contracts\GlobalSearchProvider;
 use Filament\GlobalSearch\GlobalSearchResult;
 use Filament\GlobalSearch\GlobalSearchResults;
-use Elastic\ScoutDriverPlus\Searchable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Builder as ScoutBuilder;
@@ -30,8 +30,8 @@ class GlobalSearchScoutProvider implements GlobalSearchProvider
         $builder = GlobalSearchResults::make();
 
         foreach (Filament::getResources() as $resource) {
-            /** @var class-string<BaseResource> $resource*/
-            if (!$resource::canGloballySearch() || !in_array(Searchable::class, class_uses_recursive($resource::getModel()))) {
+            /** @var class-string<BaseResource> $resource */
+            if (! $resource::canGloballySearch() || ! in_array(Searchable::class, class_uses_recursive($resource::getModel()))) {
                 continue;
             }
 
@@ -59,7 +59,7 @@ class GlobalSearchScoutProvider implements GlobalSearchProvider
                 })
                 ->filter();
 
-            if (!$resourceResults->count()) {
+            if (! $resourceResults->count()) {
                 continue;
             }
 
@@ -75,7 +75,7 @@ class GlobalSearchScoutProvider implements GlobalSearchProvider
      * @param  string  $search
      * @return string
      */
-    public function escapeReservedChars(string $search) : string
+    public function escapeReservedChars(string $search): string
     {
         return preg_replace(
             [

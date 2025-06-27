@@ -10,7 +10,6 @@ use App\Filament\Actions\Base\DeleteAction;
 use App\Filament\Actions\Base\EditAction;
 use App\Filament\Actions\Base\ForceDeleteAction;
 use App\Filament\Actions\Base\RestoreAction;
-use App\Filament\HeaderActions\Base\CreateHeaderAction;
 use App\Filament\HeaderActions\Base\DeleteHeaderAction;
 use App\Filament\HeaderActions\Base\ForceDeleteHeaderAction;
 use App\Filament\HeaderActions\Base\RestoreHeaderAction;
@@ -56,7 +55,7 @@ class PerformanceTest extends BaseResourceTestCase
      *
      * @return void
      */
-    public function testRenderIndexPage(): void
+    public function test_render_index_page(): void
     {
         $user = User::factory()
             ->withPermissions(
@@ -84,7 +83,7 @@ class PerformanceTest extends BaseResourceTestCase
      *
      * @return void
      */
-    public function testRenderViewPage(): void
+    public function test_render_view_page(): void
     {
         $user = User::factory()
             ->withPermissions(
@@ -109,7 +108,7 @@ class PerformanceTest extends BaseResourceTestCase
      *
      * @return void
      */
-    public function testMountCreateAction(): void
+    public function test_mount_create_action(): void
     {
         $user = User::factory()
             ->withPermissions(
@@ -130,7 +129,7 @@ class PerformanceTest extends BaseResourceTestCase
      *
      * @return void
      */
-    public function testMountEditAction(): void
+    public function test_mount_edit_action(): void
     {
         $user = User::factory()
             ->withPermissions(
@@ -156,7 +155,7 @@ class PerformanceTest extends BaseResourceTestCase
      *
      * @return void
      */
-    public function testUserCannotCreateRecord(): void
+    public function test_user_cannot_create_record(): void
     {
         Livewire::test(static::getIndexPage())
             ->assertActionHidden('new performance');
@@ -167,7 +166,7 @@ class PerformanceTest extends BaseResourceTestCase
      *
      * @return void
      */
-    public function testUserCannotEditRecord(): void
+    public function test_user_cannot_edit_record(): void
     {
         $record = PerformanceModel::factory()
             ->for(Song::factory())
@@ -183,7 +182,7 @@ class PerformanceTest extends BaseResourceTestCase
      *
      * @return void
      */
-    public function testUserCannotDeleteRecord(): void
+    public function test_user_cannot_delete_record(): void
     {
         $record = PerformanceModel::factory()
             ->for(Song::factory())
@@ -202,7 +201,7 @@ class PerformanceTest extends BaseResourceTestCase
      *
      * @return void
      */
-    public function testUserCannotRestoreRecord(): void
+    public function test_user_cannot_restore_record(): void
     {
         $record = PerformanceModel::factory()
             ->for(Song::factory())
@@ -223,7 +222,7 @@ class PerformanceTest extends BaseResourceTestCase
      *
      * @return void
      */
-    public function testUserCannotForceDeleteRecord(): void
+    public function test_user_cannot_force_delete_record(): void
     {
         $record = PerformanceModel::factory()
             ->for(Song::factory())

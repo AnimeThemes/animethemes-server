@@ -23,7 +23,7 @@ class PageTest extends TestCase
      *
      * @return void
      */
-    public function testPageCreatedEventDispatched(): void
+    public function test_page_created_event_dispatched(): void
     {
         Page::factory()->createOne();
 
@@ -35,7 +35,7 @@ class PageTest extends TestCase
      *
      * @return void
      */
-    public function testPageDeletedEventDispatched(): void
+    public function test_page_deleted_event_dispatched(): void
     {
         $page = Page::factory()->createOne();
 
@@ -49,7 +49,7 @@ class PageTest extends TestCase
      *
      * @return void
      */
-    public function testPageRestoredEventDispatched(): void
+    public function test_page_restored_event_dispatched(): void
     {
         $page = Page::factory()->createOne();
 
@@ -65,7 +65,7 @@ class PageTest extends TestCase
      *
      * @return void
      */
-    public function testPageRestoresQuietly(): void
+    public function test_page_restores_quietly(): void
     {
         $page = Page::factory()->createOne();
 
@@ -79,7 +79,7 @@ class PageTest extends TestCase
      *
      * @return void
      */
-    public function testPageUpdatedEventDispatched(): void
+    public function test_page_updated_event_dispatched(): void
     {
         $page = Page::factory()->createOne();
         $changes = Page::factory()->makeOne();
@@ -95,7 +95,7 @@ class PageTest extends TestCase
      *
      * @return void
      */
-    public function testPageUpdatedEventEmbedFields(): void
+    public function test_page_updated_event_embed_fields(): void
     {
         $page = Page::factory()->createOne();
         $changes = Page::factory()->makeOne();

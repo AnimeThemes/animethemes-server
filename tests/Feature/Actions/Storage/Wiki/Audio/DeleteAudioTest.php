@@ -29,7 +29,7 @@ class DeleteAudioTest extends TestCase
      *
      * @return void
      */
-    public function testDefault(): void
+    public function test_default(): void
     {
         Config::set(AudioConstants::DISKS_QUALIFIED, []);
         Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
@@ -50,7 +50,7 @@ class DeleteAudioTest extends TestCase
      *
      * @return void
      */
-    public function testPassed(): void
+    public function test_passed(): void
     {
         Config::set(AudioConstants::DISKS_QUALIFIED, [Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED)]);
         Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
@@ -70,7 +70,7 @@ class DeleteAudioTest extends TestCase
 
         $result = $storageResults->toActionResult();
 
-        static::assertTrue(ActionStatus::PASSED === $result->getStatus());
+        static::assertTrue($result->getStatus() === ActionStatus::PASSED);
     }
 
     /**
@@ -78,7 +78,7 @@ class DeleteAudioTest extends TestCase
      *
      * @return void
      */
-    public function testDeletedFromDisk(): void
+    public function test_deleted_from_disk(): void
     {
         Config::set(AudioConstants::DISKS_QUALIFIED, [Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED)]);
         Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));
@@ -106,7 +106,7 @@ class DeleteAudioTest extends TestCase
      *
      * @throws Exception
      */
-    public function testAudioDeleted(): void
+    public function test_audio_deleted(): void
     {
         Config::set(AudioConstants::DISKS_QUALIFIED, [Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED)]);
         Storage::fake(Config::get(AudioConstants::DEFAULT_DISK_QUALIFIED));

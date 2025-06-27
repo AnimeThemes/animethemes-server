@@ -78,7 +78,7 @@ abstract class ElasticQuery
     protected function createNestedQuery(string $nestedResource, array $nestedQueries): array
     {
         return array_map(
-            fn(array $nestedQuery) => [
+            fn (array $nestedQuery) => [
                 'nested' => [
                     'path' => $nestedResource,
                     'query' => $nestedQuery,

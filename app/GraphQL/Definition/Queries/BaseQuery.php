@@ -27,8 +27,7 @@ abstract class BaseQuery
         protected bool $nullable = false,
         protected bool $isList = true,
         protected bool $paginated = true,
-    ) {
-    }
+    ) {}
 
     /**
      * Mount the query and return its string representation.
@@ -90,7 +89,7 @@ abstract class BaseQuery
      */
     public function getType(): Type
     {
-        if (!$this->nullable) {
+        if (! $this->nullable) {
             if ($this->isList) {
                 return Type::listOf(Type::nonNull($this->baseType()));
             }

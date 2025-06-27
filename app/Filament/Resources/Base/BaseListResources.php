@@ -48,7 +48,7 @@ abstract class BaseListResources extends ListRecords
 
             $query
                 ->whereIn($model->getKeyName(), $keys)
-                ->orderByRaw("FIELD({$this->getResource()::getRecordRouteKeyName()}, " . $keys->implode(',') . ')');
+                ->orderByRaw("FIELD({$this->getResource()::getRecordRouteKeyName()}, ".$keys->implode(',').')');
         }
 
         return $query;
@@ -60,7 +60,7 @@ abstract class BaseListResources extends ListRecords
      * @param  string  $search
      * @return string
      */
-    public function escapeReservedChars(string $search) : string
+    public function escapeReservedChars(string $search): string
     {
         return preg_replace(
             [

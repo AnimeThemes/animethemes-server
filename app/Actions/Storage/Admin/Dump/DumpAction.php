@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Actions\Storage\Admin\Dump;
 
 use App\Actions\ActionResult;
-use App\Concerns\Repositories\ReconcilesRepositories;
 use App\Constants\Config\DumpConstants;
 use App\Enums\Actions\ActionStatus;
+use App\Models\Admin\Dump;
 use Exception;
 use Illuminate\Database\Connection;
 use Illuminate\Database\MySqlConnection;
@@ -32,16 +32,12 @@ use Spatie\DbDumper\Exceptions\CannotSetParameter;
  */
 abstract class DumpAction
 {
-    use ReconcilesRepositories;
-
     /**
      * Create a new action instance.
      *
      * @param  array<string, mixed>  $options
      */
-    public function __construct(protected readonly array $options = [])
-    {
-    }
+    public function __construct(protected readonly array $options = []) {}
 
     /**
      * Handle action.
@@ -72,7 +68,7 @@ abstract class DumpAction
             // Then, store dump file in intended location
             /** @var FilesystemAdapter $fs */
             $fs = Storage::disk(Config::get(DumpConstants::DISK_QUALIFIED));
-            $fs->putFileAs('', $dumpFile, File::basename($dumpFile));
+            $path = $fs->putFileAs('', $dumpFile, File::basename($dumpFile));
 
             // Finally, delete the temporary file
             File::delete($dumpFile);
@@ -83,9 +79,9 @@ abstract class DumpAction
             );
         }
 
-        $reconcileResults = $this->reconcileRepositories();
-
-        $reconcileResults->toLog();
+        Dump::query()->create([
+            Dump::ATTRIBUTE_PATH => $path,
+        ]);
 
         return new ActionResult(
             ActionStatus::PASSED,

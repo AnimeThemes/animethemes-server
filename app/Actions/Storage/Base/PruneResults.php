@@ -22,9 +22,7 @@ readonly class PruneResults implements StorageResults
      * @param  string  $fs
      * @param  array<string, bool>  $prunings
      */
-    public function __construct(protected string $fs, protected array $prunings = [])
-    {
-    }
+    public function __construct(protected string $fs, protected array $prunings = []) {}
 
     /**
      * Write results to log.

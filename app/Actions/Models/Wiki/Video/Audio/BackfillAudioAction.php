@@ -82,6 +82,7 @@ class BackfillAudioAction extends BackfillAction
 
             if ($this->relation()->getQuery()->doesntExist()) {
                 DB::rollBack();
+
                 return new ActionResult(
                     ActionStatus::FAILED,
                     "{$this->label()} '{$this->getModel()->getName()}' has no Audio after backfilling. Please review."
@@ -127,7 +128,7 @@ class BackfillAudioAction extends BackfillAction
      */
     protected function deriveSourceVideo(): bool
     {
-        return DeriveSourceVideo::YES === $this->deriveSourceVideo;
+        return $this->deriveSourceVideo === DeriveSourceVideo::YES;
     }
 
     /**
@@ -137,7 +138,7 @@ class BackfillAudioAction extends BackfillAction
      */
     protected function overwriteAudio(): bool
     {
-        return OverwriteAudio::YES === $this->overwriteAudio;
+        return $this->overwriteAudio === OverwriteAudio::YES;
     }
 
     /**
@@ -147,7 +148,7 @@ class BackfillAudioAction extends BackfillAction
      */
     protected function replaceRelatedAudio(): bool
     {
-        return ReplaceRelatedAudio::YES === $this->replaceRelatedAudio;
+        return $this->replaceRelatedAudio === ReplaceRelatedAudio::YES;
     }
 
     /**
@@ -200,7 +201,6 @@ class BackfillAudioAction extends BackfillAction
 
         // Finally, extract audio from the source video
         if ($audio === null || $this->overwriteAudio() || $this->replaceRelatedAudio()) {
-
             if ($this->replaceRelatedAudio()) {
                 $sourceVideo = $this->getModel();
             }
@@ -298,7 +298,7 @@ class BackfillAudioAction extends BackfillAction
                 '-y',
                 $audioPath,
             ])
-            ->throw();
+                ->throw();
 
             $uploadAudio = new UploadAudioAction(
                 new UploadedFile($audioPath, $audioBasename),

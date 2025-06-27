@@ -32,7 +32,7 @@ class UpdateUserProfileInformationTest extends TestCase
      *
      * @throws ValidationException
      */
-    public function testRequired(): void
+    public function test_required(): void
     {
         static::expectException(ValidationException::class);
 
@@ -50,7 +50,7 @@ class UpdateUserProfileInformationTest extends TestCase
      *
      * @throws ValidationException
      */
-    public function testUsernameAlphaDash(): void
+    public function test_username_alpha_dash(): void
     {
         static::expectException(ValidationException::class);
 
@@ -70,7 +70,7 @@ class UpdateUserProfileInformationTest extends TestCase
      *
      * @throws ValidationException
      */
-    public function testUsernameUnique(): void
+    public function test_username_unique(): void
     {
         static::expectException(ValidationException::class);
 
@@ -96,7 +96,7 @@ class UpdateUserProfileInformationTest extends TestCase
      *
      * @throws ValidationException
      */
-    public function testUpdateName(): void
+    public function test_update_name(): void
     {
         $name = $this->faker->unique()->word();
 
@@ -126,7 +126,7 @@ class UpdateUserProfileInformationTest extends TestCase
      *
      * @throws ValidationException
      */
-    public function testUpdateEmail(): void
+    public function test_update_email(): void
     {
         Notification::fake();
 
@@ -158,7 +158,7 @@ class UpdateUserProfileInformationTest extends TestCase
      *
      * @throws ValidationException
      */
-    public function testCreatedIfNotFlaggedByOpenAI(): void
+    public function test_created_if_not_flagged_by_open_ai(): void
     {
         Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI->value);
 
@@ -200,7 +200,7 @@ class UpdateUserProfileInformationTest extends TestCase
      *
      * @throws ValidationException
      */
-    public function testCreatedIfOpenAIFails(): void
+    public function test_created_if_open_ai_fails(): void
     {
         Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI->value);
 
@@ -236,7 +236,7 @@ class UpdateUserProfileInformationTest extends TestCase
      *
      * @throws ValidationException
      */
-    public function testValidationErrorWhenFlaggedByOpenAI(): void
+    public function test_validation_error_when_flagged_by_open_ai(): void
     {
         static::expectException(ValidationException::class);
 
@@ -272,7 +272,7 @@ class UpdateUserProfileInformationTest extends TestCase
      *
      * @throws ValidationException
      */
-    public function testDisposableEmail(): void
+    public function test_disposable_email(): void
     {
         static::expectException(ValidationException::class);
 
@@ -300,7 +300,7 @@ class UpdateUserProfileInformationTest extends TestCase
      *
      * @throws ValidationException
      */
-    public function testIndisposableEmail(): void
+    public function test_indisposable_email(): void
     {
         Notification::fake();
 
@@ -336,7 +336,7 @@ class UpdateUserProfileInformationTest extends TestCase
      *
      * @throws ValidationException
      */
-    public function testEmailUnique(): void
+    public function test_email_unique(): void
     {
         static::expectException(ValidationException::class);
 

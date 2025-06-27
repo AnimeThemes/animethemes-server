@@ -22,7 +22,7 @@ class RandomSoleTest extends TestCase
      *
      * @return void
      */
-    public function testFailsIfRandomIsNotSoleSort(): void
+    public function test_fails_if_random_is_not_sole_sort(): void
     {
         $sorts = $this->faker->words($this->faker->randomDigitNotNull());
 
@@ -43,7 +43,7 @@ class RandomSoleTest extends TestCase
      *
      * @return void
      */
-    public function testPassesIfRandomIsNotIncluded(): void
+    public function test_passes_if_random_is_not_included(): void
     {
         $sorts = $this->faker->words($this->faker->randomDigitNotNull());
 
@@ -62,7 +62,7 @@ class RandomSoleTest extends TestCase
      *
      * @return void
      */
-    public function testPassesIfRandomIsSoleSort(): void
+    public function test_passes_if_random_is_sole_sort(): void
     {
         $attribute = $this->faker->word();
 

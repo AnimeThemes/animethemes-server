@@ -44,7 +44,7 @@ abstract class StudioRelationManager extends BaseRelationManager
                 ->modelLabel(StudioResource::getLabel())
                 ->recordTitleAttribute(Studio::ATTRIBUTE_NAME)
                 ->columns(StudioResource::table($table)->getColumns())
-                ->defaultSort(Studio::TABLE . '.' . Studio::ATTRIBUTE_ID, 'desc')
+                ->defaultSort(Studio::TABLE.'.'.Studio::ATTRIBUTE_ID, 'desc')
         );
     }
 

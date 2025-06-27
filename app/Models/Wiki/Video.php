@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Models\Wiki;
 
 use App\Concerns\Models\Aggregate\AggregatesLike;
-use App\Concerns\Models\Reportable;
 use App\Concerns\Models\Aggregate\AggregatesView;
 use App\Concerns\Models\InteractsWithLikes;
+use App\Concerns\Models\Reportable;
 use App\Contracts\Models\HasAggregateLikes;
 use App\Contracts\Models\HasAggregateViews;
 use App\Contracts\Models\Likeable;
@@ -65,14 +65,14 @@ use Illuminate\Support\Collection;
  *
  * @method static VideoFactory factory(...$parameters)
  */
-class Video extends BaseModel implements Streamable, Likeable, Viewable, HasAggregateLikes, HasAggregateViews
+class Video extends BaseModel implements HasAggregateLikes, HasAggregateViews, Likeable, Streamable, Viewable
 {
     use AggregatesLike;
     use AggregatesView;
     use InteractsWithLikes;
+    use InteractsWithViews;
     use Reportable;
     use Searchable;
-    use InteractsWithViews;
 
     final public const TABLE = 'videos';
 
@@ -186,7 +186,7 @@ class Video extends BaseModel implements Streamable, Likeable, Viewable, HasAggr
         if ($this->nc) {
             $tags[] = 'NC';
         }
-        if (VideoSource::BD === $this->source || VideoSource::DVD === $this->source) {
+        if ($this->source === VideoSource::BD || $this->source === VideoSource::DVD) {
             $tags[] = $this->source->localize();
         }
         if (! empty($this->resolution) && $this->resolution !== 720) {
@@ -213,12 +213,12 @@ class Video extends BaseModel implements Streamable, Likeable, Viewable, HasAggr
         $priority = intval($this->source?->getPriority());
 
         // Videos that play over the episode will likely have compressed audio
-        if (VideoOverlap::OVER === $this->overlap) {
+        if ($this->overlap === VideoOverlap::OVER) {
             $priority -= 8;
         }
 
         // Videos that transition to or from the episode may have compressed audio
-        if (VideoOverlap::TRANS === $this->overlap) {
+        if ($this->overlap === VideoOverlap::TRANS) {
             $priority -= 5;
         }
 

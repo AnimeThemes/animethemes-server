@@ -29,7 +29,7 @@ class DumpWikiTest extends TestCase
      *
      * @throws Exception
      */
-    public function testDataBaseDumpOutput(): void
+    public function test_data_base_dump_output(): void
     {
         $local = Storage::fake('local');
         $fs = Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));
@@ -40,7 +40,7 @@ class DumpWikiTest extends TestCase
 
         $result = $action->handle();
 
-        static::assertTrue(ActionStatus::PASSED === $result->getStatus());
+        static::assertTrue($result->getStatus() === ActionStatus::PASSED);
         static::assertEmpty($local->allFiles());
         static::assertCount(1, $fs->allFiles());
         static::assertDatabaseCount(Dump::class, 1);

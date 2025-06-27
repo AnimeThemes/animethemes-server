@@ -3,12 +3,12 @@
 declare(strict_types=1);
 
 use App\Enums\Models\Admin\ActionLogStatus;
-use App\Enums\Models\User\ApprovableStatus;
-use App\Enums\Models\User\ReportActionType;
 use App\Enums\Models\List\ExternalEntryWatchStatus;
 use App\Enums\Models\List\ExternalProfileSite;
 use App\Enums\Models\List\ExternalProfileVisibility;
 use App\Enums\Models\List\PlaylistVisibility;
+use App\Enums\Models\User\ApprovableStatus;
+use App\Enums\Models\User\ReportActionType;
 use App\Enums\Models\Wiki\AnimeMediaFormat;
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Enums\Models\Wiki\AnimeSynonymType;
@@ -31,7 +31,7 @@ return [
         AnimeMediaFormat::OVA->name => 'OVA',
         AnimeMediaFormat::MOVIE->name => 'Movie',
         AnimeMediaFormat::SPECIAL->name => 'Special',
-        AnimeMediaFormat::ONA->name => 'ONA'
+        AnimeMediaFormat::ONA->name => 'ONA',
     ],
     AnimeSeason::class => [
         AnimeSeason::WINTER->name => 'Winter',

@@ -34,7 +34,7 @@ class ImageShowTest extends TestCase
      *
      * @return void
      */
-    public function testDefault(): void
+    public function test_default(): void
     {
         $image = Image::factory()->create();
 
@@ -57,7 +57,7 @@ class ImageShowTest extends TestCase
      *
      * @return void
      */
-    public function testSoftDelete(): void
+    public function test_soft_delete(): void
     {
         $image = Image::factory()->trashed()->createOne();
 
@@ -82,7 +82,7 @@ class ImageShowTest extends TestCase
      *
      * @return void
      */
-    public function testAllowedIncludePaths(): void
+    public function test_allowed_include_paths(): void
     {
         $schema = new ImageSchema();
 
@@ -120,7 +120,7 @@ class ImageShowTest extends TestCase
      *
      * @return void
      */
-    public function testSparseFieldsets(): void
+    public function test_sparse_fieldsets(): void
     {
         $schema = new ImageSchema();
 
@@ -155,7 +155,7 @@ class ImageShowTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeByMediaFormat(): void
+    public function test_anime_by_media_format(): void
     {
         $mediaFormatFilter = Arr::random(AnimeMediaFormat::cases());
 
@@ -195,7 +195,7 @@ class ImageShowTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeBySeason(): void
+    public function test_anime_by_season(): void
     {
         $seasonFilter = Arr::random(AnimeSeason::cases());
 
@@ -235,7 +235,7 @@ class ImageShowTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeByYear(): void
+    public function test_anime_by_year(): void
     {
         $yearFilter = intval($this->faker->year());
         $excludedYear = $yearFilter + 1;
@@ -250,10 +250,10 @@ class ImageShowTest extends TestCase
         $image = Image::factory()
             ->has(
                 Anime::factory()
-                ->count($this->faker->randomDigitNotNull())
-                ->state([
-                    Anime::ATTRIBUTE_YEAR => $this->faker->boolean() ? $yearFilter : $excludedYear,
-                ])
+                    ->count($this->faker->randomDigitNotNull())
+                    ->state([
+                        Anime::ATTRIBUTE_YEAR => $this->faker->boolean() ? $yearFilter : $excludedYear,
+                    ])
             )
             ->createOne();
 

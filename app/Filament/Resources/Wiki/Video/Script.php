@@ -17,7 +17,6 @@ use App\Filament\TableActions\Storage\Wiki\Video\Script\UploadScriptTableAction;
 use App\Models\Wiki\Video\VideoScript as ScriptModel;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
-use Filament\Infolists\Components\Section;
 use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Tables\Actions\ActionGroup;

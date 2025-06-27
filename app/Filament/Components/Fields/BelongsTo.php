@@ -35,7 +35,7 @@ class BelongsTo extends ComponentsSelect
             $model = $resource->getModel();
             $this->label($resource->getModelLabel());
 
-            if (!empty($this->relation)) {
+            if (! empty($this->relation)) {
                 $this->relationship($this->relation, $resource->getRecordTitleAttribute());
             }
 
@@ -118,6 +118,7 @@ class BelongsTo extends ComponentsSelect
             return $this
                 ->getSearchResultsUsing(function (string $search) use ($model, $eagerLoads) {
                     $search = $this->escapeReservedChars($search);
+
                     /** @phpstan-ignore-next-line */
                     return $model::search($search)
                         ->query(fn (Builder $query) => $query->with($eagerLoads))
@@ -162,7 +163,7 @@ class BelongsTo extends ComponentsSelect
      * @param  string  $search
      * @return string
      */
-    public function escapeReservedChars(string $search) : string
+    public function escapeReservedChars(string $search): string
     {
         return preg_replace(
             [

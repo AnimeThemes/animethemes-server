@@ -24,8 +24,8 @@ class VideoController extends Controller
     /**
      * Stream video through configured streaming method.
      *
-     * @param Video $video
-     * @param Request $request
+     * @param  Video  $video
+     * @param  Request  $request
      * @return Response
      */
     public function show(Video $video, Request $request): Response

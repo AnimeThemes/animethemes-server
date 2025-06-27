@@ -44,7 +44,7 @@ abstract class ThemeRelationManager extends BaseRelationManager
                 ->modelLabel(ThemeResource::getLabel())
                 ->recordTitle(fn ($record) => $record->getName())
                 ->columns(ThemeResource::table($table)->getColumns())
-                ->defaultSort(AnimeTheme::TABLE . '.' . AnimeTheme::ATTRIBUTE_ID, 'desc')
+                ->defaultSort(AnimeTheme::TABLE.'.'.AnimeTheme::ATTRIBUTE_ID, 'desc')
         );
     }
 

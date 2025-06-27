@@ -20,7 +20,7 @@ class SongDestroyTest extends TestCase
      *
      * @return void
      */
-    public function testProtected(): void
+    public function test_protected(): void
     {
         $song = Song::factory()->createOne();
 
@@ -34,7 +34,7 @@ class SongDestroyTest extends TestCase
      *
      * @return void
      */
-    public function testForbidden(): void
+    public function test_forbidden(): void
     {
         $song = Song::factory()->createOne();
 
@@ -52,7 +52,7 @@ class SongDestroyTest extends TestCase
      *
      * @return void
      */
-    public function testTrashed(): void
+    public function test_trashed(): void
     {
         $song = Song::factory()->trashed()->createOne();
 
@@ -70,7 +70,7 @@ class SongDestroyTest extends TestCase
      *
      * @return void
      */
-    public function testDeleted(): void
+    public function test_deleted(): void
     {
         $song = Song::factory()->createOne();
 

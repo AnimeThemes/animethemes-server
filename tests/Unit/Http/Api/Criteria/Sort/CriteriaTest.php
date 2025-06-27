@@ -25,7 +25,7 @@ class CriteriaTest extends TestCase
      *
      * @return void
      */
-    public function testShouldNotSortIfKeyMismatch(): void
+    public function test_should_not_sort_if_key_mismatch(): void
     {
         $criteria = new class(new GlobalScope(), $this->faker->word()) extends Criteria
         {
@@ -52,7 +52,7 @@ class CriteriaTest extends TestCase
      *
      * @return void
      */
-    public function testShouldSortIfKeyMatch(): void
+    public function test_should_sort_if_key_match(): void
     {
         $key = $this->faker->word();
 
@@ -81,7 +81,7 @@ class CriteriaTest extends TestCase
      *
      * @return void
      */
-    public function testShouldNotSortIfNotWithinScope(): void
+    public function test_should_not_sort_if_not_within_scope(): void
     {
         $key = $this->faker->word();
 
@@ -112,7 +112,7 @@ class CriteriaTest extends TestCase
      *
      * @return void
      */
-    public function testShouldSortIfWithinScope(): void
+    public function test_should_sort_if_within_scope(): void
     {
         $key = $this->faker->word();
 

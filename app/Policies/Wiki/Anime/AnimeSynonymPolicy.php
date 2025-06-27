@@ -9,6 +9,4 @@ use App\Policies\BasePolicy;
 /**
  * Class AnimeSynonymPolicy.
  */
-class AnimeSynonymPolicy extends BasePolicy
-{
-}
+class AnimeSynonymPolicy extends BasePolicy {}

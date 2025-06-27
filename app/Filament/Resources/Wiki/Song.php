@@ -243,7 +243,7 @@ class Song extends BaseResource
 
             ActionGroup::make([
                 AttachSongResourceAction::make('attach-song-resource'),
-            ])
+            ]),
         ];
     }
 

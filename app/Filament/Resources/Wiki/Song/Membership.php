@@ -14,7 +14,6 @@ use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Artist as ArtistResource;
 use App\Filament\Resources\Wiki\Song\Membership\Pages\ListMemberships;
 use App\Filament\Resources\Wiki\Song\Membership\Pages\ViewMembership;
-use App\Models\Wiki\Artist;
 use App\Models\Wiki\Song\Membership as MembershipModel;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;

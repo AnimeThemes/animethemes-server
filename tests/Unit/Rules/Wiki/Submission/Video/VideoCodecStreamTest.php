@@ -26,7 +26,7 @@ class VideoCodecStreamTest extends TestCase
      *
      * @return void
      */
-    public function testFailsWhenCodecIsNotVp9(): void
+    public function test_fails_when_codec_is_not_vp9(): void
     {
         Feature::activate(FeatureConstants::VIDEO_CODEC_STREAM, 'vp9');
 
@@ -70,7 +70,7 @@ class VideoCodecStreamTest extends TestCase
      *
      * @return void
      */
-    public function testPassesWhenCodecIsVp9(): void
+    public function test_passes_when_codec_is_vp9(): void
     {
         Feature::activate(FeatureConstants::VIDEO_CODEC_STREAM, 'vp9');
 

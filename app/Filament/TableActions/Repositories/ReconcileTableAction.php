@@ -25,8 +25,8 @@ abstract class ReconcileTableAction extends BaseTableAction
      */
     public function handle(array $fields): void
     {
-      $result = $this->reconcileRepositories($fields);
+        $result = $this->reconcileRepositories($fields);
 
-      $result->toLog();
+        $result->toLog();
     }
 }

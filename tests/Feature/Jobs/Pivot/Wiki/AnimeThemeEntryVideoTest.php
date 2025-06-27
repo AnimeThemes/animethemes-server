@@ -27,7 +27,7 @@ class AnimeThemeEntryVideoTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeThemeEntryVideoCreatedSendsDiscordNotification(): void
+    public function test_anime_theme_entry_video_created_sends_discord_notification(): void
     {
         $video = Video::factory()->createOne();
         $entry = AnimeThemeEntry::factory()
@@ -48,7 +48,7 @@ class AnimeThemeEntryVideoTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeThemeEntryVideoDeletedSendsDiscordNotification(): void
+    public function test_anime_theme_entry_video_deleted_sends_discord_notification(): void
     {
         $video = Video::factory()->createOne();
         $entry = AnimeThemeEntry::factory()

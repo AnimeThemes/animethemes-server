@@ -15,8 +15,8 @@ use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\List\External\ExternalEntrySchema;
 use App\Http\Resources\List\External\Resource\ExternalEntryResource;
 use App\Models\Auth\User;
-use App\Models\List\ExternalProfile;
 use App\Models\List\External\ExternalEntry;
+use App\Models\List\ExternalProfile;
 use App\Models\Wiki\Anime;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Event;
@@ -47,7 +47,7 @@ class ExternalEntryShowTest extends TestCase
      *
      * @return void
      */
-    public function testPrivateExternalEntryCannotBePubliclyViewed(): void
+    public function test_private_external_entry_cannot_be_publicly_viewed(): void
     {
         $profile = ExternalProfile::factory()
             ->for(User::factory())
@@ -69,7 +69,7 @@ class ExternalEntryShowTest extends TestCase
      *
      * @return void
      */
-    public function testPrivateExternalEntryCannotBePubliclyViewedIfNotOwned(): void
+    public function test_private_external_entry_cannot_be_publicly_viewed_if_not_owned(): void
     {
         $profile = ExternalProfile::factory()
             ->for(User::factory())
@@ -95,7 +95,7 @@ class ExternalEntryShowTest extends TestCase
      *
      * @return void
      */
-    public function testPrivateExternalEntryCanBeViewedByOwner(): void
+    public function test_private_external_entry_can_be_viewed_by_owner(): void
     {
         $user = User::factory()->withPermissions(CrudPermission::VIEW->format(ExternalEntry::class))->createOne();
 
@@ -121,7 +121,7 @@ class ExternalEntryShowTest extends TestCase
      *
      * @return void
      */
-    public function testPublicExternalEntryCanBeViewed(): void
+    public function test_public_external_entry_can_be_viewed(): void
     {
         $profile = ExternalProfile::factory()
             ->for(User::factory())
@@ -143,7 +143,7 @@ class ExternalEntryShowTest extends TestCase
      *
      * @return void
      */
-    public function testScoped(): void
+    public function test_scoped(): void
     {
         $user = User::factory()->withPermissions(CrudPermission::VIEW->format(ExternalEntry::class))->createOne();
 
@@ -168,7 +168,7 @@ class ExternalEntryShowTest extends TestCase
      *
      * @return void
      */
-    public function testDefault(): void
+    public function test_default(): void
     {
         $profile = ExternalProfile::factory()
             ->createOne([
@@ -200,7 +200,7 @@ class ExternalEntryShowTest extends TestCase
      *
      * @return void
      */
-    public function testAllowedIncludePaths(): void
+    public function test_allowed_include_paths(): void
     {
         $schema = new ExternalEntrySchema();
 
@@ -245,7 +245,7 @@ class ExternalEntryShowTest extends TestCase
      *
      * @return void
      */
-    public function testSparseFieldsets(): void
+    public function test_sparse_fieldsets(): void
     {
         $schema = new ExternalEntrySchema();
 

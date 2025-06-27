@@ -32,7 +32,7 @@ abstract class BaseType extends ObjectType
                         'description' => $field->description(),
                         'type' => $field->getType(),
                         'resolve' => fn ($root) => $field->resolve($root),
-                    ]
+                    ],
                 ])
                 ->toArray();
         }

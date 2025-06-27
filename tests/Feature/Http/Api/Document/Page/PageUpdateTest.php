@@ -20,7 +20,7 @@ class PageUpdateTest extends TestCase
      *
      * @return void
      */
-    public function testProtected(): void
+    public function test_protected(): void
     {
         $page = Page::factory()->createOne();
 
@@ -36,7 +36,7 @@ class PageUpdateTest extends TestCase
      *
      * @return void
      */
-    public function testForbidden(): void
+    public function test_forbidden(): void
     {
         $page = Page::factory()->createOne();
 
@@ -56,7 +56,7 @@ class PageUpdateTest extends TestCase
      *
      * @return void
      */
-    public function testTrashed(): void
+    public function test_trashed(): void
     {
         $page = Page::factory()->trashed()->createOne();
 
@@ -76,7 +76,7 @@ class PageUpdateTest extends TestCase
      *
      * @return void
      */
-    public function testUpdate(): void
+    public function test_update(): void
     {
         $page = Page::factory()->createOne();
 

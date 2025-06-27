@@ -42,7 +42,7 @@ class SeriesPolicy extends BasePolicy
             ->where(AnimeSeries::ATTRIBUTE_ANIME, $anime->getKey())
             ->exists();
 
-        return !$attached
+        return ! $attached
             && $user->can(CrudPermission::CREATE->format(Series::class))
             && $user->can(CrudPermission::CREATE->format(Anime::class));
     }

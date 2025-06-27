@@ -231,11 +231,11 @@ class Artist extends BaseResource
                             ->hidden(fn ($livewire) => $livewire instanceof ViewTheme)
                             ->columnSpanFull(),
 
-                        TextEntry::make('artistsong' . '.' . ArtistSong::ATTRIBUTE_AS)
+                        TextEntry::make('artistsong'.'.'.ArtistSong::ATTRIBUTE_AS)
                             ->label(__('filament.fields.artist.songs.as.name'))
                             ->visible(fn (TextEntry $component) => $component->getLivewire() instanceof ViewTheme),
 
-                        TextEntry::make('artistsong' . '.' . ArtistSong::ATTRIBUTE_ALIAS)
+                        TextEntry::make('artistsong'.'.'.ArtistSong::ATTRIBUTE_ALIAS)
                             ->label(__('filament.fields.artist.songs.alias.name'))
                             ->visible(fn (TextEntry $component) => $component->getLivewire() instanceof ViewTheme),
                     ])
@@ -293,7 +293,7 @@ class Artist extends BaseResource
 
             ActionGroup::make([
                 AttachArtistResourceAction::make('attach-artist-resource'),
-            ])
+            ]),
         ];
     }
 

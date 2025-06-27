@@ -22,7 +22,7 @@ use App\Policies\BasePolicy;
  */
 class ExternalResourcePolicy extends BasePolicy
 {
-     /**
+    /**
      * Determine whether the user can attach any anime to the resource.
      *
      * @param  User  $user
@@ -33,7 +33,7 @@ class ExternalResourcePolicy extends BasePolicy
         return $user->can(CrudPermission::CREATE->format(ExternalResource::class)) && $user->can(CrudPermission::CREATE->format(Anime::class));
     }
 
-     /**
+    /**
      * Determine whether the user can attach an anime to the resource.
      *
      * @param  User  $user
@@ -48,7 +48,7 @@ class ExternalResourcePolicy extends BasePolicy
             ->where(AnimeResource::ATTRIBUTE_ANIME, $anime->getKey())
             ->exists();
 
-        return !$attached
+        return ! $attached
             && $user->can(CrudPermission::CREATE->format(ExternalResource::class))
             && $user->can(CrudPermission::CREATE->format(Anime::class));
     }
@@ -90,9 +90,9 @@ class ExternalResourcePolicy extends BasePolicy
             ->where(ArtistResource::ATTRIBUTE_ARTIST, $artist->getKey())
             ->exists();
 
-            return !$attached
-            && $user->can(CrudPermission::CREATE->format(ExternalResource::class))
-            && $user->can(CrudPermission::CREATE->format(Artist::class));
+        return ! $attached
+        && $user->can(CrudPermission::CREATE->format(ExternalResource::class))
+        && $user->can(CrudPermission::CREATE->format(Artist::class));
     }
 
     /**
@@ -132,7 +132,7 @@ class ExternalResourcePolicy extends BasePolicy
             ->where(SongResource::ATTRIBUTE_SONG, $song->getKey())
             ->exists();
 
-        return !$attached
+        return ! $attached
             && $user->can(CrudPermission::CREATE->format(ExternalResource::class))
             && $user->can(CrudPermission::CREATE->format(Song::class));
     }
@@ -174,7 +174,7 @@ class ExternalResourcePolicy extends BasePolicy
             ->where(StudioResource::ATTRIBUTE_STUDIO, $studio->getKey())
             ->exists();
 
-        return !$attached
+        return ! $attached
             && $user->can(CrudPermission::CREATE->format(ExternalResource::class))
             && $user->can(CrudPermission::CREATE->format(Studio::class));
     }

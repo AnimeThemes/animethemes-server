@@ -19,7 +19,7 @@ class UpdatePlaylistTracksTest extends TestCase
      *
      * @return void
      */
-    public function testListening(): void
+    public function test_listening(): void
     {
         Event::assertListening(UpdatePlaylistTracksEvent::class, UpdatePlaylistTracks::class);
     }

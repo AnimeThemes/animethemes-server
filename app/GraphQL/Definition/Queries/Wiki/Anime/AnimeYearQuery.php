@@ -47,7 +47,7 @@ class AnimeYearQuery extends BaseQuery
 
             'field' => [
                 'resolver' => AnimeYear::class.'@year',
-            ]
+            ],
         ];
     }
 

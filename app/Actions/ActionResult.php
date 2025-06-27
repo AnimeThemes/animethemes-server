@@ -19,9 +19,7 @@ class ActionResult
      * @param  ActionStatus  $status
      * @param  string|null  $message
      */
-    public function __construct(protected readonly ActionStatus $status, protected readonly ?string $message = null)
-    {
-    }
+    public function __construct(protected readonly ActionStatus $status, protected readonly ?string $message = null) {}
 
     /**
      * Get the action result status.
@@ -50,7 +48,7 @@ class ActionResult
      */
     public function hasFailed(): bool
     {
-        return ActionStatus::FAILED === $this->status;
+        return $this->status === ActionStatus::FAILED;
     }
 
     /**

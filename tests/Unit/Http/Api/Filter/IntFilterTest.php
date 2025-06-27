@@ -22,7 +22,7 @@ class IntFilterTest extends TestCase
      *
      * @return void
      */
-    public function testShouldNotApplyIfNoIntegers(): void
+    public function test_should_not_apply_if_no_integers(): void
     {
         $filterField = $this->faker->word();
 
@@ -38,7 +38,7 @@ class IntFilterTest extends TestCase
      *
      * @return void
      */
-    public function testConvertsValidatedIntegers(): void
+    public function test_converts_validated_integers(): void
     {
         $filterField = $this->faker->word();
 

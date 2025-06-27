@@ -23,7 +23,7 @@ class ArtistTest extends TestCase
      *
      * @return void
      */
-    public function testArtistCreatedEventDispatched(): void
+    public function test_artist_created_event_dispatched(): void
     {
         Artist::factory()->createOne();
 
@@ -35,7 +35,7 @@ class ArtistTest extends TestCase
      *
      * @return void
      */
-    public function testArtistDeletedEventDispatched(): void
+    public function test_artist_deleted_event_dispatched(): void
     {
         $artist = Artist::factory()->createOne();
 
@@ -49,7 +49,7 @@ class ArtistTest extends TestCase
      *
      * @return void
      */
-    public function testArtistRestoredEventDispatched(): void
+    public function test_artist_restored_event_dispatched(): void
     {
         $artist = Artist::factory()->createOne();
 
@@ -65,7 +65,7 @@ class ArtistTest extends TestCase
      *
      * @return void
      */
-    public function testArtistRestoresQuietly(): void
+    public function test_artist_restores_quietly(): void
     {
         $artist = Artist::factory()->createOne();
 
@@ -79,7 +79,7 @@ class ArtistTest extends TestCase
      *
      * @return void
      */
-    public function testArtistUpdatedEventDispatched(): void
+    public function test_artist_updated_event_dispatched(): void
     {
         $artist = Artist::factory()->createOne();
         $changes = Artist::factory()->makeOne();
@@ -95,7 +95,7 @@ class ArtistTest extends TestCase
      *
      * @return void
      */
-    public function testArtistUpdatedEventEmbedFields(): void
+    public function test_artist_updated_event_embed_fields(): void
     {
         $artist = Artist::factory()->createOne();
         $changes = Artist::factory()->makeOne();

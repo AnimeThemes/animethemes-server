@@ -25,9 +25,7 @@ abstract class PruneAction implements InteractsWithDisk, StorageAction
      *
      * @param  int  $hours
      */
-    public function __construct(protected readonly int $hours = 72)
-    {
-    }
+    public function __construct(protected readonly int $hours = 72) {}
 
     /**
      * Handle action.

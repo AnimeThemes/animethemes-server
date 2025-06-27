@@ -46,7 +46,7 @@ class SubmissionTest extends TestCase
      *
      * @return void
      */
-    public function testRunsProcessesOnce(): void
+    public function test_runs_processes_once(): void
     {
         Feature::activate(FeatureConstants::REQUIRED_ENCODER_VERSION, 'Lavf59.27.100');
         Feature::activate(FeatureConstants::AUDIO_BITRATE_RESTRICTION);

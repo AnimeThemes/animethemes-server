@@ -37,7 +37,7 @@ class LatestWikiDumpTest extends TestCase
      *
      * @throws Exception
      */
-    public function testDumpDownloadingNotAllowedForbidden(): void
+    public function test_dump_downloading_not_allowed_forbidden(): void
     {
         Storage::fake('local');
         Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));
@@ -59,7 +59,7 @@ class LatestWikiDumpTest extends TestCase
      *
      * @return void
      */
-    public function testVideoStreamingPermittedForBypass(): void
+    public function test_video_streaming_permitted_for_bypass(): void
     {
         Storage::fake('local');
         $fs = Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));
@@ -104,7 +104,7 @@ class LatestWikiDumpTest extends TestCase
      *
      * @return void
      */
-    public function testNotFoundIfNoWikiDumps(): void
+    public function test_not_found_if_no_wiki_dumps(): void
     {
         Storage::fake('local');
         Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));
@@ -121,7 +121,7 @@ class LatestWikiDumpTest extends TestCase
      *
      * @return void
      */
-    public function testNotFoundIfDocumentDumpsExist(): void
+    public function test_not_found_if_document_dumps_exist(): void
     {
         Storage::fake('local');
         Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));
@@ -144,7 +144,7 @@ class LatestWikiDumpTest extends TestCase
      *
      * @return void
      */
-    public function testLatestWikiDumpDownloaded(): void
+    public function test_latest_wiki_dump_downloaded(): void
     {
         Storage::fake('local');
         $fs = Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));

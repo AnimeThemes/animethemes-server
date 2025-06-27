@@ -34,11 +34,13 @@ class LikeMutator
 
         if ($playlist instanceof Playlist) {
             $playlist->like();
+
             return $playlist;
         }
 
         if ($video instanceof Video) {
             $video->like();
+
             return $video;
         }
 
@@ -61,11 +63,13 @@ class LikeMutator
 
         if ($playlist instanceof Playlist) {
             $playlist->unlike();
+
             return $playlist;
         }
 
         if ($video instanceof Video) {
             $video->unlike();
+
             return $video;
         }
 

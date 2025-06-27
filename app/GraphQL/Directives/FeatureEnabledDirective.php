@@ -33,7 +33,7 @@ class FeatureEnabledDirective extends BaseDirective implements FieldMiddleware
      *
      * @param  FieldValue  $fieldValue
      * @return void
-    */
+     */
     public function handleField(FieldValue $fieldValue): void
     {
         $feature = $this->directiveArgValue('class');

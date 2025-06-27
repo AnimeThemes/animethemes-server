@@ -17,8 +17,8 @@ use App\Http\Requests\Api\StoreRequest;
 use App\Http\Requests\Api\UpdateRequest;
 use App\Http\Resources\Pivot\Wiki\Collection\SongResourceCollection;
 use App\Http\Resources\Pivot\Wiki\Resource\SongResourceResource;
-use App\Models\Wiki\Song;
 use App\Models\Wiki\ExternalResource;
+use App\Models\Wiki\Song;
 use App\Pivots\Wiki\SongResource;
 use Illuminate\Http\JsonResponse;
 

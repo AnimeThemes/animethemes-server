@@ -23,7 +23,7 @@ class AnimeTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeCreatedEventDispatched(): void
+    public function test_anime_created_event_dispatched(): void
     {
         Anime::factory()->createOne();
 
@@ -35,7 +35,7 @@ class AnimeTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeDeletedEventDispatched(): void
+    public function test_anime_deleted_event_dispatched(): void
     {
         $anime = Anime::factory()->createOne();
 
@@ -49,7 +49,7 @@ class AnimeTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeRestoredEventDispatched(): void
+    public function test_anime_restored_event_dispatched(): void
     {
         $anime = Anime::factory()->createOne();
 
@@ -65,7 +65,7 @@ class AnimeTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeRestoresQuietly(): void
+    public function test_anime_restores_quietly(): void
     {
         $anime = Anime::factory()->createOne();
 
@@ -79,7 +79,7 @@ class AnimeTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeUpdatedEventDispatched(): void
+    public function test_anime_updated_event_dispatched(): void
     {
         $anime = Anime::factory()->createOne();
         $changes = Anime::factory()->makeOne();
@@ -95,7 +95,7 @@ class AnimeTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeUpdatedEventEmbedFields(): void
+    public function test_anime_updated_event_embed_fields(): void
     {
         $anime = Anime::factory()->createOne();
         $changes = Anime::factory()->makeOne();

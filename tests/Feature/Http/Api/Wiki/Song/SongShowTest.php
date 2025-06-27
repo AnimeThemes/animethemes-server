@@ -38,7 +38,7 @@ class SongShowTest extends TestCase
      *
      * @return void
      */
-    public function testDefault(): void
+    public function test_default(): void
     {
         $song = Song::factory()->create();
 
@@ -61,7 +61,7 @@ class SongShowTest extends TestCase
      *
      * @return void
      */
-    public function testSoftDelete(): void
+    public function test_soft_delete(): void
     {
         $song = Song::factory()->trashed()->createOne();
 
@@ -86,7 +86,7 @@ class SongShowTest extends TestCase
      *
      * @return void
      */
-    public function testAllowedIncludePaths(): void
+    public function test_allowed_include_paths(): void
     {
         $schema = new SongSchema();
 
@@ -124,7 +124,7 @@ class SongShowTest extends TestCase
      *
      * @return void
      */
-    public function testSparseFieldsets(): void
+    public function test_sparse_fieldsets(): void
     {
         $schema = new SongSchema();
 
@@ -159,7 +159,7 @@ class SongShowTest extends TestCase
      *
      * @return void
      */
-    public function testThemesBySequence(): void
+    public function test_themes_by_sequence(): void
     {
         $sequenceFilter = $this->faker->randomDigitNotNull();
         $excludedSequence = $sequenceFilter + 1;
@@ -208,7 +208,7 @@ class SongShowTest extends TestCase
      *
      * @return void
      */
-    public function testThemesByType(): void
+    public function test_themes_by_type(): void
     {
         $typeFilter = Arr::random(ThemeType::cases());
 
@@ -248,7 +248,7 @@ class SongShowTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeByMediaFormat(): void
+    public function test_anime_by_media_format(): void
     {
         $mediaFormatFilter = Arr::random(AnimeMediaFormat::cases());
 
@@ -288,7 +288,7 @@ class SongShowTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeBySeason(): void
+    public function test_anime_by_season(): void
     {
         $seasonFilter = Arr::random(AnimeSeason::cases());
 
@@ -328,7 +328,7 @@ class SongShowTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeByYear(): void
+    public function test_anime_by_year(): void
     {
         $yearFilter = intval($this->faker->year());
         $excludedYear = $yearFilter + 1;

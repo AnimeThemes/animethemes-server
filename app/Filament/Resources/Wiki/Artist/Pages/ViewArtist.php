@@ -30,7 +30,7 @@ class ViewArtist extends BaseViewResource
 
             ActionGroup::make([
                 AttachArtistResourceHeaderAction::make('attach-artist-resource'),
-            ])
+            ]),
         ];
     }
 }

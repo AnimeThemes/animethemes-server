@@ -59,7 +59,7 @@ class DateFilter extends Filter
                                 ->native(false)
                                 ->required(),
                         ]),
-                ])
+                ]),
         ];
     }
 

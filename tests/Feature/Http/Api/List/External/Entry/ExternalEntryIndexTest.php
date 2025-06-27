@@ -26,8 +26,8 @@ use App\Http\Resources\List\External\Collection\ExternalEntryCollection;
 use App\Http\Resources\List\External\Resource\ExternalEntryResource;
 use App\Models\Auth\User;
 use App\Models\BaseModel;
-use App\Models\List\ExternalProfile;
 use App\Models\List\External\ExternalEntry;
+use App\Models\List\ExternalProfile;
 use App\Models\Wiki\Anime;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
@@ -62,7 +62,7 @@ class ExternalEntryIndexTest extends TestCase
      *
      * @return void
      */
-    public function testPrivateExternalEntryCannotBePubliclyViewed(): void
+    public function test_private_external_entry_cannot_be_publicly_viewed(): void
     {
         $profile = ExternalProfile::factory()
             ->for(User::factory())
@@ -81,7 +81,7 @@ class ExternalEntryIndexTest extends TestCase
      *
      * @return void
      */
-    public function testPrivateExternalEntryCannotBePubliclyViewedIfNotOwned(): void
+    public function test_private_external_entry_cannot_be_publicly_viewed_if_not_owned(): void
     {
         $profile = ExternalProfile::factory()
             ->for(User::factory())
@@ -104,7 +104,7 @@ class ExternalEntryIndexTest extends TestCase
      *
      * @return void
      */
-    public function testPrivateExternalEntryCanBeViewedByOwner(): void
+    public function test_private_external_entry_can_be_viewed_by_owner(): void
     {
         $user = User::factory()->withPermissions(CrudPermission::VIEW->format(ExternalEntry::class))->createOne();
 
@@ -127,7 +127,7 @@ class ExternalEntryIndexTest extends TestCase
      *
      * @return void
      */
-    public function testPublicExternalEntryCanBeViewed(): void
+    public function test_public_external_entry_can_be_viewed(): void
     {
         $profile = ExternalProfile::factory()
             ->for(User::factory())
@@ -146,7 +146,7 @@ class ExternalEntryIndexTest extends TestCase
      *
      * @return void
      */
-    public function testDefault(): void
+    public function test_default(): void
     {
         $entryCount = $this->faker->randomDigitNotNull();
 
@@ -186,7 +186,7 @@ class ExternalEntryIndexTest extends TestCase
      *
      * @return void
      */
-    public function testPaginated(): void
+    public function test_paginated(): void
     {
         $profile = ExternalProfile::factory()
             ->has(ExternalEntry::factory()->count($this->faker->randomDigitNotNull()), ExternalProfile::RELATION_EXTERNAL_ENTRIES)
@@ -208,7 +208,7 @@ class ExternalEntryIndexTest extends TestCase
      *
      * @return void
      */
-    public function testAllowedIncludePaths(): void
+    public function test_allowed_include_paths(): void
     {
         $schema = new ExternalEntrySchema();
 
@@ -257,7 +257,7 @@ class ExternalEntryIndexTest extends TestCase
      *
      * @return void
      */
-    public function testSparseFieldsets(): void
+    public function test_sparse_fieldsets(): void
     {
         $schema = new ExternalEntrySchema();
 
@@ -296,7 +296,7 @@ class ExternalEntryIndexTest extends TestCase
      *
      * @return void
      */
-    public function testSorts(): void
+    public function test_sorts(): void
     {
         $schema = new ExternalEntrySchema();
 
@@ -339,7 +339,7 @@ class ExternalEntryIndexTest extends TestCase
      *
      * @return void
      */
-    public function testCreatedAtFilter(): void
+    public function test_created_at_filter(): void
     {
         $createdFilter = $this->faker->date();
         $excludedDate = $this->faker->date();
@@ -395,7 +395,7 @@ class ExternalEntryIndexTest extends TestCase
      *
      * @return void
      */
-    public function testUpdatedAtFilter(): void
+    public function test_updated_at_filter(): void
     {
         $updatedFilter = $this->faker->date();
         $excludedDate = $this->faker->date();

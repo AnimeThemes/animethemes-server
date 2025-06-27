@@ -20,7 +20,7 @@ class ArtistStoreTest extends TestCase
      *
      * @return void
      */
-    public function testProtected(): void
+    public function test_protected(): void
     {
         $artist = Artist::factory()->makeOne();
 
@@ -34,7 +34,7 @@ class ArtistStoreTest extends TestCase
      *
      * @return void
      */
-    public function testForbidden(): void
+    public function test_forbidden(): void
     {
         $artist = Artist::factory()->makeOne();
 
@@ -52,7 +52,7 @@ class ArtistStoreTest extends TestCase
      *
      * @return void
      */
-    public function testRequiredFields(): void
+    public function test_required_fields(): void
     {
         $user = User::factory()->withPermissions(CrudPermission::CREATE->format(Artist::class))->createOne();
 
@@ -71,7 +71,7 @@ class ArtistStoreTest extends TestCase
      *
      * @return void
      */
-    public function testCreate(): void
+    public function test_create(): void
     {
         $parameters = Artist::factory()->raw();
 

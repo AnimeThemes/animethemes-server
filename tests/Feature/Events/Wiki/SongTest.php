@@ -23,7 +23,7 @@ class SongTest extends TestCase
      *
      * @return void
      */
-    public function testSongCreatedEventDispatched(): void
+    public function test_song_created_event_dispatched(): void
     {
         Song::factory()->createOne();
 
@@ -35,7 +35,7 @@ class SongTest extends TestCase
      *
      * @return void
      */
-    public function testSongDeletedEventDispatched(): void
+    public function test_song_deleted_event_dispatched(): void
     {
         $song = Song::factory()->createOne();
 
@@ -49,7 +49,7 @@ class SongTest extends TestCase
      *
      * @return void
      */
-    public function testSongRestoredEventDispatched(): void
+    public function test_song_restored_event_dispatched(): void
     {
         $song = Song::factory()->createOne();
 
@@ -65,7 +65,7 @@ class SongTest extends TestCase
      *
      * @return void
      */
-    public function testSongRestoresQuietly(): void
+    public function test_song_restores_quietly(): void
     {
         $song = Song::factory()->createOne();
 
@@ -79,7 +79,7 @@ class SongTest extends TestCase
      *
      * @return void
      */
-    public function testSongUpdatedEventDispatched(): void
+    public function test_song_updated_event_dispatched(): void
     {
         $song = Song::factory()->createOne();
         $changes = Song::factory()->makeOne();
@@ -95,7 +95,7 @@ class SongTest extends TestCase
      *
      * @return void
      */
-    public function testSongUpdatedEventEmbedFields(): void
+    public function test_song_updated_event_embed_fields(): void
     {
         $song = Song::factory()->createOne();
         $changes = Song::factory()->makeOne();

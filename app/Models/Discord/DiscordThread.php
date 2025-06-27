@@ -25,10 +25,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *
  * @method static DiscordThreadFactory factory(...$parameters)
  */
-class DiscordThread extends Model implements Nameable, HasSubtitle
+class DiscordThread extends Model implements HasSubtitle, Nameable
 {
-    use ModelHasActionLogs;
     use HasFactory;
+    use ModelHasActionLogs;
 
     final public const TABLE = 'discord_threads';
 

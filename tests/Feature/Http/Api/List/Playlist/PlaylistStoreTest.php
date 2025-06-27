@@ -33,7 +33,7 @@ class PlaylistStoreTest extends TestCase
      *
      * @return void
      */
-    public function testProtected(): void
+    public function test_protected(): void
     {
         Feature::activate(AllowPlaylistManagement::class);
 
@@ -49,7 +49,7 @@ class PlaylistStoreTest extends TestCase
      *
      * @return void
      */
-    public function testForbiddenIfMissingPermission(): void
+    public function test_forbidden_if_missing_permission(): void
     {
         Feature::activate(AllowPlaylistManagement::class);
 
@@ -70,7 +70,7 @@ class PlaylistStoreTest extends TestCase
      *
      * @return void
      */
-    public function testForbiddenIfFlagDisabled(): void
+    public function test_forbidden_if_flag_disabled(): void
     {
         Feature::deactivate(AllowPlaylistManagement::class);
 
@@ -95,7 +95,7 @@ class PlaylistStoreTest extends TestCase
      *
      * @return void
      */
-    public function testRequiredFields(): void
+    public function test_required_fields(): void
     {
         Feature::activate(AllowPlaylistManagement::class);
 
@@ -116,7 +116,7 @@ class PlaylistStoreTest extends TestCase
      *
      * @return void
      */
-    public function testCreate(): void
+    public function test_create(): void
     {
         Feature::activate(AllowPlaylistManagement::class);
 
@@ -144,7 +144,7 @@ class PlaylistStoreTest extends TestCase
      *
      * @return void
      */
-    public function testCreatePermittedForBypass(): void
+    public function test_create_permitted_for_bypass(): void
     {
         Feature::activate(AllowPlaylistManagement::class, $this->faker->boolean());
 
@@ -174,7 +174,7 @@ class PlaylistStoreTest extends TestCase
      *
      * @return void
      */
-    public function testMaxTrackLimit(): void
+    public function test_max_track_limit(): void
     {
         $playlistLimit = $this->faker->randomDigitNotNull();
 
@@ -206,7 +206,7 @@ class PlaylistStoreTest extends TestCase
      *
      * @return void
      */
-    public function testMaxTrackLimitPermittedForBypass(): void
+    public function test_max_track_limit_permitted_for_bypass(): void
     {
         $playlistLimit = $this->faker->randomDigitNotNull();
 
@@ -240,7 +240,7 @@ class PlaylistStoreTest extends TestCase
      *
      * @return void
      */
-    public function testCreatedIfNotFlaggedByOpenAI(): void
+    public function test_created_if_not_flagged_by_open_ai(): void
     {
         Feature::activate(AllowPlaylistManagement::class);
         Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI->value);
@@ -276,7 +276,7 @@ class PlaylistStoreTest extends TestCase
      *
      * @return void
      */
-    public function testCreatedIfOpenAIFails(): void
+    public function test_created_if_open_ai_fails(): void
     {
         Feature::activate(AllowPlaylistManagement::class);
         Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI->value);
@@ -306,7 +306,7 @@ class PlaylistStoreTest extends TestCase
      *
      * @return void
      */
-    public function testValidationErrorWhenFlaggedByOpenAI(): void
+    public function test_validation_error_when_flagged_by_open_ai(): void
     {
         Feature::activate(AllowPlaylistManagement::class);
         Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI->value);

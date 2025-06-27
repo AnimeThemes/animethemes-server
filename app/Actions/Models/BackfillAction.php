@@ -21,9 +21,7 @@ abstract class BackfillAction
      *
      * @param  TModel  $model
      */
-    public function __construct(protected BaseModel $model)
-    {
-    }
+    public function __construct(protected BaseModel $model) {}
 
     /**
      * Handle action.

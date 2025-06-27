@@ -24,7 +24,7 @@ class AudioSampleRateStreamTest extends TestCase
      *
      * @return void
      */
-    public function testFailsWhenSampleRateIsNotExpected(): void
+    public function test_fails_when_sample_rate_is_not_expected(): void
     {
         $file = UploadedFile::fake()->create($this->faker->word().'.webm', $this->faker->randomDigitNotNull());
 
@@ -66,7 +66,7 @@ class AudioSampleRateStreamTest extends TestCase
      *
      * @return void
      */
-    public function testPassesWhenSampleRateIsExpected(): void
+    public function test_passes_when_sample_rate_is_expected(): void
     {
         $file = UploadedFile::fake()->create($this->faker->word().'.webm', $this->faker->randomDigitNotNull());
 

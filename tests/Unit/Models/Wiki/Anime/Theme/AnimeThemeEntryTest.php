@@ -27,7 +27,7 @@ class AnimeThemeEntryTest extends TestCase
      *
      * @return void
      */
-    public function testSearchableAs(): void
+    public function test_searchable_as(): void
     {
         $entry = AnimeThemeEntry::factory()
             ->for(AnimeTheme::factory()->for(Anime::factory()))
@@ -41,7 +41,7 @@ class AnimeThemeEntryTest extends TestCase
      *
      * @return void
      */
-    public function testToSearchableArray(): void
+    public function test_to_searchable_array(): void
     {
         $entry = AnimeThemeEntry::factory()
             ->for(AnimeTheme::factory()->for(Anime::factory()))
@@ -55,7 +55,7 @@ class AnimeThemeEntryTest extends TestCase
      *
      * @return void
      */
-    public function testNameable(): void
+    public function test_nameable(): void
     {
         $entry = AnimeThemeEntry::factory()
             ->for(AnimeTheme::factory()->for(Anime::factory()))
@@ -69,7 +69,7 @@ class AnimeThemeEntryTest extends TestCase
      *
      * @return void
      */
-    public function testHasSubtitle(): void
+    public function test_has_subtitle(): void
     {
         $entry = AnimeThemeEntry::factory()
             ->for(AnimeTheme::factory()->for(Anime::factory()))
@@ -83,7 +83,7 @@ class AnimeThemeEntryTest extends TestCase
      *
      * @return void
      */
-    public function testTheme(): void
+    public function test_theme(): void
     {
         $entry = AnimeThemeEntry::factory()
             ->for(AnimeTheme::factory()->for(Anime::factory()))
@@ -98,7 +98,7 @@ class AnimeThemeEntryTest extends TestCase
      *
      * @return void
      */
-    public function testVideos(): void
+    public function test_videos(): void
     {
         $videoCount = $this->faker->randomDigitNotNull();
 
@@ -118,7 +118,7 @@ class AnimeThemeEntryTest extends TestCase
      *
      * @return void
      */
-    public function testAnime(): void
+    public function test_anime(): void
     {
         $entry = AnimeThemeEntry::factory()
             ->for(AnimeTheme::factory()->for(Anime::factory()))

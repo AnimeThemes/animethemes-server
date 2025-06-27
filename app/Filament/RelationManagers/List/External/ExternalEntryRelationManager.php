@@ -44,7 +44,7 @@ abstract class ExternalEntryRelationManager extends BaseRelationManager
                 ->modelLabel(ExternalEntryResource::getLabel())
                 ->recordTitleAttribute(ExternalEntry::ATTRIBUTE_ID)
                 ->columns(ExternalEntryResource::table($table)->getColumns())
-                ->defaultSort(ExternalEntry::TABLE . '.' . ExternalEntry::ATTRIBUTE_ID, 'desc')
+                ->defaultSort(ExternalEntry::TABLE.'.'.ExternalEntry::ATTRIBUTE_ID, 'desc')
         );
     }
 

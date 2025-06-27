@@ -24,14 +24,13 @@ class SyncLikeAggregatesAction
     public function handle(): ActionResult
     {
         try {
-            DB::statement("
+            DB::statement('
                 INSERT INTO like_aggregates (likeable_id, likeable_type, value)
                 SELECT likeable_id, likeable_type, COUNT(*) as value
                 FROM likes
                 GROUP BY likeable_type, likeable_id
                 ON DUPLICATE KEY UPDATE value = VALUES(value);
-            ");
-
+            ');
         } catch (Exception $e) {
             return new ActionResult(
                 ActionStatus::FAILED,

@@ -26,7 +26,7 @@ class DiscordThreadTest extends TestCase
      *
      * @return void
      */
-    public function testThreadDeletedSendsDiscordNotification(): void
+    public function test_thread_deleted_sends_discord_notification(): void
     {
         $thread = DiscordThread::factory()
             ->for(Anime::factory())
@@ -47,7 +47,7 @@ class DiscordThreadTest extends TestCase
      *
      * @return void
      */
-    public function testThreadUpdatedSendsDiscordNotification(): void
+    public function test_thread_updated_sends_discord_notification(): void
     {
         $thread = DiscordThread::factory()
             ->for(Anime::factory())

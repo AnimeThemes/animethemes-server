@@ -33,7 +33,7 @@ class ScriptShowTest extends TestCase
      *
      * @return void
      */
-    public function testDefault(): void
+    public function test_default(): void
     {
         $script = VideoScript::factory()->create();
 
@@ -56,7 +56,7 @@ class ScriptShowTest extends TestCase
      *
      * @return void
      */
-    public function testSoftDelete(): void
+    public function test_soft_delete(): void
     {
         $script = VideoScript::factory()->trashed()->createOne();
 
@@ -79,7 +79,7 @@ class ScriptShowTest extends TestCase
      *
      * @return void
      */
-    public function testAllowedIncludePaths(): void
+    public function test_allowed_include_paths(): void
     {
         $schema = new ScriptSchema();
 
@@ -116,7 +116,7 @@ class ScriptShowTest extends TestCase
      *
      * @return void
      */
-    public function testSparseFieldsets(): void
+    public function test_sparse_fieldsets(): void
     {
         $schema = new ScriptSchema();
 
@@ -151,7 +151,7 @@ class ScriptShowTest extends TestCase
      *
      * @return void
      */
-    public function testVideosByLyrics(): void
+    public function test_videos_by_lyrics(): void
     {
         $lyricsFilter = $this->faker->boolean();
 
@@ -191,7 +191,7 @@ class ScriptShowTest extends TestCase
      *
      * @return void
      */
-    public function testVideosByNc(): void
+    public function test_videos_by_nc(): void
     {
         $ncFilter = $this->faker->boolean();
 
@@ -231,7 +231,7 @@ class ScriptShowTest extends TestCase
      *
      * @return void
      */
-    public function testVideosByOverlap(): void
+    public function test_videos_by_overlap(): void
     {
         $overlapFilter = Arr::random(VideoOverlap::cases());
 
@@ -271,7 +271,7 @@ class ScriptShowTest extends TestCase
      *
      * @return void
      */
-    public function testVideosByResolution(): void
+    public function test_videos_by_resolution(): void
     {
         $resolutionFilter = $this->faker->randomNumber();
         $excludedResolution = $resolutionFilter + 1;
@@ -316,7 +316,7 @@ class ScriptShowTest extends TestCase
      *
      * @return void
      */
-    public function testVideosBySource(): void
+    public function test_videos_by_source(): void
     {
         $sourceFilter = Arr::random(VideoSource::cases());
 
@@ -356,7 +356,7 @@ class ScriptShowTest extends TestCase
      *
      * @return void
      */
-    public function testVideosBySubbed(): void
+    public function test_videos_by_subbed(): void
     {
         $subbedFilter = $this->faker->boolean();
 
@@ -396,7 +396,7 @@ class ScriptShowTest extends TestCase
      *
      * @return void
      */
-    public function testVideosByUncen(): void
+    public function test_videos_by_uncen(): void
     {
         $uncenFilter = $this->faker->boolean();
 

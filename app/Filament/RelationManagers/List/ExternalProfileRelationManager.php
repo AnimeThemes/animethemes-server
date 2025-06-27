@@ -44,7 +44,7 @@ abstract class ExternalProfileRelationManager extends BaseRelationManager
                 ->modelLabel(ExternalProfileResource::getLabel())
                 ->recordTitleAttribute(ExternalProfile::ATTRIBUTE_NAME)
                 ->columns(ExternalProfileResource::table($table)->getColumns())
-                ->defaultSort(ExternalProfile::TABLE . '.' . ExternalProfile::ATTRIBUTE_ID, 'desc')
+                ->defaultSort(ExternalProfile::TABLE.'.'.ExternalProfile::ATTRIBUTE_ID, 'desc')
         );
     }
 

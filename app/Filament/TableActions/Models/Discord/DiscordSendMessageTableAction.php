@@ -11,7 +11,7 @@ use App\Discord\DiscordMessage;
 use App\Filament\TableActions\BaseTableAction;
 use App\Models\Discord\DiscordThread;
 use Filament\Forms\Components\Checkbox;
-use Filament\Forms\Components\ColorPicker;;
+use Filament\Forms\Components\ColorPicker;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -24,10 +24,10 @@ use Illuminate\Support\Facades\Auth;
 class DiscordSendMessageTableAction extends BaseTableAction
 {
     /**
-    * Initial setup for the action.
-    *
-    * @return void
-    */
+     * Initial setup for the action.
+     *
+     * @return void
+     */
     protected function setUp(): void
     {
         parent::setUp();

@@ -9,8 +9,8 @@ use App\Models\Wiki\Anime;
 use App\Models\Wiki\Studio;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Str;
 use Tests\TestCase;
 
 /**
@@ -25,7 +25,7 @@ class ResourceSiteTest extends TestCase
      *
      * @return void
      */
-    public function testParseIdFromAnimeResource(): void
+    public function test_parse_id_from_anime_resource(): void
     {
         $animeId = $this->faker->randomDigitNotNull();
 
@@ -48,7 +48,7 @@ class ResourceSiteTest extends TestCase
      *
      * @return void
      */
-    public function testParseIdFromStudioResource(): void
+    public function test_parse_id_from_studio_resource(): void
     {
         $studioId = $this->faker->randomDigitNotNull();
 
@@ -70,9 +70,10 @@ class ResourceSiteTest extends TestCase
      *
      * @return void
      */
-    public function testFailParseAnimePlanetIdFromStudioResource(): void
+    public function test_fail_parse_anime_planet_id_from_studio_resource(): void
     {
-        $link = ResourceSite::ANIME_PLANET->formatResourceLink(Studio::class, 
+        $link = ResourceSite::ANIME_PLANET->formatResourceLink(
+            Studio::class,
             $this->faker->randomDigitNotNull(),
             $this->faker->slug()
         );
@@ -86,7 +87,7 @@ class ResourceSiteTest extends TestCase
      *
      * @return void
      */
-    public function testFailParseAnimePlanetIdFromAnimeResource(): void
+    public function test_fail_parse_anime_planet_id_from_anime_resource(): void
     {
         Http::fake([
             'https://www.anime-planet.com/anime/*' => Http::response([
@@ -94,7 +95,8 @@ class ResourceSiteTest extends TestCase
             ]),
         ]);
 
-        $link = ResourceSite::ANIME_PLANET->formatResourceLink(Anime::class, 
+        $link = ResourceSite::ANIME_PLANET->formatResourceLink(
+            Anime::class,
             $this->faker->randomDigitNotNull(),
             $this->faker->slug()
         );
@@ -108,7 +110,7 @@ class ResourceSiteTest extends TestCase
      *
      * @return void
      */
-    public function testParseAnimePlanetIdFromAnimeResource(): void
+    public function test_parse_anime_planet_id_from_anime_resource(): void
     {
         $id = $this->faker->randomDigitNotNull();
 
@@ -139,7 +141,7 @@ class ResourceSiteTest extends TestCase
      *
      * @return void
      */
-    public function testParseKitsuIdForIdFromAnimeResource(): void
+    public function test_parse_kitsu_id_for_id_from_anime_resource(): void
     {
         $id = $this->faker->randomDigitNotNull();
 
@@ -153,7 +155,7 @@ class ResourceSiteTest extends TestCase
      *
      * @return void
      */
-    public function testParseKitsuIdForSlugFromAnimeResource(): void
+    public function test_parse_kitsu_id_for_slug_from_anime_resource(): void
     {
         $id = $this->faker->randomDigitNotNull();
         $slug = $this->faker->slug();

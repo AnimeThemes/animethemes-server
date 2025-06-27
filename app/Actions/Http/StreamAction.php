@@ -18,14 +18,12 @@ abstract class StreamAction implements InteractsWithDisk
      *
      * @param  Streamable  $streamable
      */
-    public function __construct(protected readonly Streamable $streamable)
-    {
-    }
+    public function __construct(protected readonly Streamable $streamable) {}
 
     /**
      * Stream the resource.
      *
-     * @param string $disposition
+     * @param  string  $disposition
      * @return Response
      */
     abstract public function stream(string $disposition = 'inline'): Response;

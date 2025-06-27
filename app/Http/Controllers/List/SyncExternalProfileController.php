@@ -51,16 +51,16 @@ class SyncExternalProfileController extends Controller
      */
     public function store(ExternalProfile $externalProfile)
     {
-        if (!$externalProfile->canBeSynced()) {
+        if (! $externalProfile->canBeSynced()) {
             return new JsonResponse([
-                'error' => 'This external profile cannot be synced at the moment.'
+                'error' => 'This external profile cannot be synced at the moment.',
             ], 403);
         }
 
         $externalProfile->startSyncJob();
 
         return new JsonResponse([
-            'message' => 'Job dispatched.'
+            'message' => 'Job dispatched.',
         ], 201);
     }
 }

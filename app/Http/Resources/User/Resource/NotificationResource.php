@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\User\Resource;
 
-use App\Http\Api\Schema\User\NotificationSchema;
 use App\Http\Api\Schema\Schema;
+use App\Http\Api\Schema\User\NotificationSchema;
 use App\Http\Resources\BaseResource;
 
 /**

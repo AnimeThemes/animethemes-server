@@ -35,9 +35,7 @@ abstract class BackfillWikiAction
      * @param  BaseModel  $model
      * @param  array  $toBackfill
      */
-    public function __construct(protected BaseModel $model, protected array $toBackfill)
-    {
-    }
+    public function __construct(protected BaseModel $model, protected array $toBackfill) {}
 
     /**
      * Handle the action.
@@ -66,7 +64,7 @@ abstract class BackfillWikiAction
         foreach ($api->getResources() as $site => $url) {
             $site = ResourceSite::from($site);
 
-            if (!in_array($site, $toBackfill)) {
+            if (! in_array($site, $toBackfill)) {
                 Log::info("Resource {$site->localize()} should not be backfilled for {$this->label()} {$this->getModel()->getName()}");
                 continue;
             }
@@ -95,7 +93,7 @@ abstract class BackfillWikiAction
         foreach ($api->getImages() as $facet => $url) {
             $facet = ImageFacet::from($facet);
 
-            if (!in_array($facet, $toBackfill)) {
+            if (! in_array($facet, $toBackfill)) {
                 Log::info("Skipping {$facet->localize()} for {$this->label()} {$this->getModel()->getName()}");
                 continue;
             }
@@ -115,7 +113,7 @@ abstract class BackfillWikiAction
      * Remove element already backfilled.
      *
      * @param  mixed  $enum
-     * @param  string $scope
+     * @param  string  $scope
      * @return void
      */
     protected function backfilled(mixed $enum, string $scope): void

@@ -20,7 +20,7 @@ class SongStoreTest extends TestCase
      *
      * @return void
      */
-    public function testProtected(): void
+    public function test_protected(): void
     {
         $song = Song::factory()->makeOne();
 
@@ -34,7 +34,7 @@ class SongStoreTest extends TestCase
      *
      * @return void
      */
-    public function testForbidden(): void
+    public function test_forbidden(): void
     {
         $song = Song::factory()->makeOne();
 
@@ -52,7 +52,7 @@ class SongStoreTest extends TestCase
      *
      * @return void
      */
-    public function testCreate(): void
+    public function test_create(): void
     {
         $parameters = Song::factory()->raw();
 

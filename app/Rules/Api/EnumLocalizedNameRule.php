@@ -19,9 +19,7 @@ readonly class EnumLocalizedNameRule implements ValidationRule
      * @param  class-string  $enumClass
      * @return void
      */
-    public function __construct(protected string $enumClass)
-    {
-    }
+    public function __construct(protected string $enumClass) {}
 
     /**
      * Run the validation rule.

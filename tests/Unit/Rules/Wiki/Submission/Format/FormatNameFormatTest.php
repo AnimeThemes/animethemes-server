@@ -24,7 +24,7 @@ class FormatNameFormatTest extends TestCase
      *
      * @return void
      */
-    public function testFailsWhenFormatNameIsNotExpected(): void
+    public function test_fails_when_format_name_is_not_expected(): void
     {
         $file = UploadedFile::fake()->create($this->faker->word().'.webm', $this->faker->randomDigitNotNull());
 
@@ -63,7 +63,7 @@ class FormatNameFormatTest extends TestCase
      *
      * @return void
      */
-    public function testPassesWhenFormatNameIsExpected(): void
+    public function test_passes_when_format_name_is_expected(): void
     {
         $formatName = $this->faker->word();
 

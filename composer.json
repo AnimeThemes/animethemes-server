@@ -114,6 +114,8 @@
         ],
         "post-update-cmd": [
             "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
-        ]
+        ],
+        "lint": "pint",
+        "test:types": "./vendor/bin/phpstan analyse --memory-limit=-1"
     }
 }

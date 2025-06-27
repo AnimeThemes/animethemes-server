@@ -26,7 +26,7 @@ class AudioBitrateRestrictionFormatTest extends TestCase
      *
      * @return void
      */
-    public function testFailsWhenBitrateIsNotExpected(): void
+    public function test_fails_when_bitrate_is_not_expected(): void
     {
         Feature::activate(FeatureConstants::AUDIO_BITRATE_RESTRICTION);
 
@@ -67,7 +67,7 @@ class AudioBitrateRestrictionFormatTest extends TestCase
      *
      * @return void
      */
-    public function testPassesWhenBitrateIsExpected(): void
+    public function test_passes_when_bitrate_is_expected(): void
     {
         Feature::activate(FeatureConstants::AUDIO_BITRATE_RESTRICTION);
 

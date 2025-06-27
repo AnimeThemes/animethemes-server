@@ -24,7 +24,7 @@ class EnumLocalizedNameTest extends TestCase
      *
      * @return void
      */
-    public function testPassesIfEnumDescription(): void
+    public function test_passes_if_enum_description(): void
     {
         $enum = Arr::random(LocalizedEnum::cases());
 
@@ -43,7 +43,7 @@ class EnumLocalizedNameTest extends TestCase
      *
      * @return void
      */
-    public function testFailsIfEnumValue(): void
+    public function test_fails_if_enum_value(): void
     {
         $enum = Arr::random(LocalizedEnum::cases());
 
@@ -62,7 +62,7 @@ class EnumLocalizedNameTest extends TestCase
      *
      * @return void
      */
-    public function testFailsIfString(): void
+    public function test_fails_if_string(): void
     {
         $attribute = $this->faker->word();
 

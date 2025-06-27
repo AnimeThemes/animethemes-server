@@ -26,7 +26,7 @@ class InsertTrackBeforeTest extends TestCase
      *
      * @throws Exception
      */
-    public function testFirstTrack(): void
+    public function test_first_track(): void
     {
         $playlist = Playlist::factory()
             ->tracks($this->faker->numberBetween(2, 9))
@@ -58,7 +58,7 @@ class InsertTrackBeforeTest extends TestCase
      *
      * @throws Exception
      */
-    public function testLastTrack(): void
+    public function test_last_track(): void
     {
         $playlist = Playlist::factory()
             ->tracks($this->faker->numberBetween(2, 9))

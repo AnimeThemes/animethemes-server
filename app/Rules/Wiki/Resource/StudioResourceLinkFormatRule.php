@@ -21,9 +21,7 @@ readonly class StudioResourceLinkFormatRule implements ValidationRule
      *
      * @param  ResourceSite  $site
      */
-    public function __construct(protected ResourceSite $site)
-    {
-    }
+    public function __construct(protected ResourceSite $site) {}
 
     /**
      * Run the validation rule.

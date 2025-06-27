@@ -52,21 +52,27 @@ abstract class BaseRelationManager extends RelationManager
                 ...$table->getColumns(),
                 TextColumn::make(BasePivot::ATTRIBUTE_CREATED_AT)
                     ->label(__('filament.fields.base.attached_at'))
-                    ->hidden(fn ($livewire) => !($livewire->getRelationship() instanceof BelongsToMany))
+                    ->hidden(fn ($livewire) => ! ($livewire->getRelationship() instanceof BelongsToMany))
                     ->formatStateUsing(function (Model $record) {
                         $pivot = current($record->getRelations());
                         $createdAtField = Arr::get($pivot->getAttributes(), BasePivot::ATTRIBUTE_CREATED_AT);
-                        if (!$createdAtField) return '-';
+                        if (! $createdAtField) {
+                            return '-';
+                        }
+
                         return new DateTime($createdAtField)->format('M j, Y H:i:s');
                     }),
 
                 TextColumn::make(BasePivot::ATTRIBUTE_UPDATED_AT)
                     ->label(__('filament.fields.base.updated_at'))
-                    ->hidden(fn ($livewire) => !($livewire->getRelationship() instanceof BelongsToMany))
+                    ->hidden(fn ($livewire) => ! ($livewire->getRelationship() instanceof BelongsToMany))
                     ->formatStateUsing(function (Model $record) {
                         $pivot = current($record->getRelations());
                         $updatedAtField = Arr::get($pivot->getAttributes(), BasePivot::ATTRIBUTE_UPDATED_AT);
-                        if (!$updatedAtField) return '-';
+                        if (! $updatedAtField) {
+                            return '-';
+                        }
+
                         return new DateTime($updatedAtField)->format('M j, Y H:i:s');
                     }),
             ])

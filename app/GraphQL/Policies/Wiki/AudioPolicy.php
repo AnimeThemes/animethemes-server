@@ -9,6 +9,4 @@ use App\GraphQL\Policies\BasePolicy;
 /**
  * Class AudioPolicy.
  */
-class AudioPolicy extends BasePolicy
-{
-}
+class AudioPolicy extends BasePolicy {}

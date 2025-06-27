@@ -21,7 +21,7 @@ class AnimeImageTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeImageCreatedEventDispatched(): void
+    public function test_anime_image_created_event_dispatched(): void
     {
         $anime = Anime::factory()->createOne();
         $image = Image::factory()->createOne();
@@ -36,7 +36,7 @@ class AnimeImageTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeImageDeletedEventDispatched(): void
+    public function test_anime_image_deleted_event_dispatched(): void
     {
         $anime = Anime::factory()->createOne();
         $image = Image::factory()->createOne();

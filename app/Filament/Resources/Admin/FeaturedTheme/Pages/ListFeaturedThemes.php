@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Admin\FeaturedTheme\Pages;
 
-use App\Filament\Resources\Base\BaseListResources;
 use App\Filament\Resources\Admin\FeaturedTheme;
+use App\Filament\Resources\Base\BaseListResources;
 
 /**
  * Class ListFeaturedThemes.

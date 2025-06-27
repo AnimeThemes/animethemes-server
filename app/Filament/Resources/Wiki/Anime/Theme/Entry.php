@@ -23,8 +23,8 @@ use App\Filament\Resources\Wiki\Anime\Theme\Entry\Pages\ViewEntry;
 use App\Filament\Resources\Wiki\Anime\Theme\Entry\RelationManagers\VideoEntryRelationManager;
 use App\Filament\Resources\Wiki\Anime\Theme\RelationManagers\EntryThemeRelationManager;
 use App\Models\Wiki\Anime\AnimeTheme as ThemeModel;
-use App\Models\Wiki\Anime\Theme\AnimeThemeEntry as EntryModel;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
+use App\Models\Wiki\Anime\Theme\AnimeThemeEntry as EntryModel;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
@@ -102,7 +102,7 @@ class Entry extends BaseResource
     /**
      * Get the title for the resource.
      *
-     * @param Model|null $record
+     * @param  Model|null  $record
      * @return string|null
      *
      * @noinspection PhpMissingParentCallCommonInspection
@@ -165,7 +165,7 @@ class Entry extends BaseResource
     {
         return $form
             ->schema([
-                BelongsTo::make(EntryModel::RELATION_THEME . '.' . ThemeModel::ATTRIBUTE_ANIME)
+                BelongsTo::make(EntryModel::RELATION_THEME.'.'.ThemeModel::ATTRIBUTE_ANIME)
                     ->resource(AnimeResource::class, EntryModel::RELATION_ANIME_SHALLOW)
                     ->live(true)
                     ->required()
@@ -179,7 +179,7 @@ class Entry extends BaseResource
                     ->visibleOn([ListEntries::class, ViewEntry::class])
                     ->options(function (Get $get) {
                         return ThemeModel::query()
-                            ->where(ThemeModel::ATTRIBUTE_ANIME, $get(EntryModel::RELATION_THEME . '.' . ThemeModel::ATTRIBUTE_ANIME))
+                            ->where(ThemeModel::ATTRIBUTE_ANIME, $get(EntryModel::RELATION_THEME.'.'.ThemeModel::ATTRIBUTE_ANIME))
                             ->get()
                             ->mapWithKeys(fn (ThemeModel $theme) => [$theme->getKey() => $theme->getName()])
                             ->toArray();

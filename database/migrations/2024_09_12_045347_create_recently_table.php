@@ -14,15 +14,15 @@ return new class extends Migration
      */
     public function up()
     {
-        if (!Schema::hasTable('recent_entries')) {
+        if (! Schema::hasTable('recent_entries')) {
             Schema::create('recent_entries', function (Blueprint $table) {
                 $table->id();
-    
+
                 $table->foreignIdFor(Config::get('recently.user_model'));
                 $table->text('url');
                 $table->string('icon');
                 $table->string('title');
-    
+
                 $table->timestamps();
             });
         }

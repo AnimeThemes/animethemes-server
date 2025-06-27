@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 namespace App\Models\Auth;
 
-use App\Contracts\Models\Nameable;
 use App\Contracts\Models\HasSubtitle;
+use App\Contracts\Models\Nameable;
 use App\Enums\Auth\SpecialPermission;
 use App\Events\Auth\User\UserCreated;
 use App\Events\Auth\User\UserDeleted;
 use App\Events\Auth\User\UserRestored;
 use App\Events\Auth\User\UserUpdated;
 use App\Models\Admin\ActionLog;
-use App\Models\User\Report;
-use App\Models\List\Playlist;
 use App\Models\List\ExternalProfile;
+use App\Models\List\Playlist;
 use App\Models\User\Like;
 use App\Models\User\Notification;
+use App\Models\User\Report;
 use App\Models\Wiki\Video;
 use App\Notifications\UserNotification;
 use Database\Factories\Auth\UserFactory;
@@ -64,7 +64,7 @@ use Spatie\Permission\Traits\HasRoles;
  *
  * @method static UserFactory factory(...$parameters)
  */
-class User extends Authenticatable implements MustVerifyEmail, Nameable, HasSubtitle, FilamentUser, HasAvatar
+class User extends Authenticatable implements FilamentUser, HasAvatar, HasSubtitle, MustVerifyEmail, Nameable
 {
     use HasApiTokens;
     use HasFactory;

@@ -44,7 +44,7 @@ abstract class VideoRelationManager extends BaseRelationManager
                 ->modelLabel(VideoResource::getLabel())
                 ->recordTitleAttribute(Video::ATTRIBUTE_FILENAME)
                 ->columns(VideoResource::table($table)->getColumns())
-                ->defaultSort(Video::TABLE . '.' . Video::ATTRIBUTE_ID, 'desc')
+                ->defaultSort(Video::TABLE.'.'.Video::ATTRIBUTE_ID, 'desc')
         );
     }
 

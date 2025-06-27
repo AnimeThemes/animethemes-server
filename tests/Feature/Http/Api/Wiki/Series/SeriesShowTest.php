@@ -34,7 +34,7 @@ class SeriesShowTest extends TestCase
      *
      * @return void
      */
-    public function testDefault(): void
+    public function test_default(): void
     {
         $series = Series::factory()->create();
 
@@ -57,7 +57,7 @@ class SeriesShowTest extends TestCase
      *
      * @return void
      */
-    public function testSoftDelete(): void
+    public function test_soft_delete(): void
     {
         $series = Series::factory()->trashed()->createOne();
 
@@ -82,7 +82,7 @@ class SeriesShowTest extends TestCase
      *
      * @return void
      */
-    public function testAllowedIncludePaths(): void
+    public function test_allowed_include_paths(): void
     {
         $schema = new SeriesSchema();
 
@@ -119,7 +119,7 @@ class SeriesShowTest extends TestCase
      *
      * @return void
      */
-    public function testSparseFieldsets(): void
+    public function test_sparse_fieldsets(): void
     {
         $schema = new SeriesSchema();
 
@@ -154,7 +154,7 @@ class SeriesShowTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeByMediaFormat(): void
+    public function test_anime_by_media_format(): void
     {
         $mediaFormatFilter = Arr::random(AnimeMediaFormat::cases());
 
@@ -194,7 +194,7 @@ class SeriesShowTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeBySeason(): void
+    public function test_anime_by_season(): void
     {
         $seasonFilter = Arr::random(AnimeSeason::cases());
 
@@ -234,7 +234,7 @@ class SeriesShowTest extends TestCase
      *
      * @return void
      */
-    public function testAnimeByYear(): void
+    public function test_anime_by_year(): void
     {
         $yearFilter = $this->faker->numberBetween(2000, 2002);
 

@@ -21,9 +21,7 @@ readonly class StorageFileDirectoryExistsRule implements ValidationRule
      * @param  Filesystem  $fs
      * @return void
      */
-    public function __construct(protected Filesystem $fs)
-    {
-    }
+    public function __construct(protected Filesystem $fs) {}
 
     /**
      * Run the validation rule.

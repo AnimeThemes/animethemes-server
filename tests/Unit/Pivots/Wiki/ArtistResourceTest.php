@@ -20,7 +20,7 @@ class ArtistResourceTest extends TestCase
      *
      * @return void
      */
-    public function testArtist(): void
+    public function test_artist(): void
     {
         $artistResource = ArtistResource::factory()
             ->for(Artist::factory())
@@ -36,7 +36,7 @@ class ArtistResourceTest extends TestCase
      *
      * @return void
      */
-    public function testResource(): void
+    public function test_resource(): void
     {
         $artistResource = ArtistResource::factory()
             ->for(Artist::factory())

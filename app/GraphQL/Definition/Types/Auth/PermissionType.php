@@ -26,7 +26,7 @@ class PermissionType extends EloquentType implements HasFields
      */
     public function getDescription(): string
     {
-        return "Represents an assignable label for users and roles that authorizes a particular action in AnimeThemes.";
+        return 'Represents an assignable label for users and roles that authorizes a particular action in AnimeThemes.';
     }
 
     /**

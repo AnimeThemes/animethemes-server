@@ -19,9 +19,7 @@ abstract class Criteria
      * @param  Scope  $scope
      * @param  string  $field
      */
-    public function __construct(protected readonly Scope $scope, protected readonly string $field)
-    {
-    }
+    public function __construct(protected readonly Scope $scope, protected readonly string $field) {}
 
     /**
      * Get the scope of the criteria.

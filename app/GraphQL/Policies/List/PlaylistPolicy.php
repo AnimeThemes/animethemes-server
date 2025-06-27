@@ -31,11 +31,11 @@ class PlaylistPolicy extends BasePolicy
         $playlist = Arr::get($injected, $keyName);
 
         if ($user !== null) {
-            return ($playlist->user()->is($user) || PlaylistVisibility::PRIVATE !== $playlist->visibility)
+            return ($playlist->user()->is($user) || $playlist->visibility !== PlaylistVisibility::PRIVATE)
                 && $user->can(CrudPermission::VIEW->format(Playlist::class));
         }
 
-        return PlaylistVisibility::PRIVATE !== $playlist->visibility;
+        return $playlist->visibility !== PlaylistVisibility::PRIVATE;
     }
 
     /**

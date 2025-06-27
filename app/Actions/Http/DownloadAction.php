@@ -22,9 +22,7 @@ abstract class DownloadAction implements InteractsWithDisk
      *
      * @param  TModel  $model
      */
-    public function __construct(protected readonly BaseModel $model)
-    {
-    }
+    public function __construct(protected readonly BaseModel $model) {}
 
     /**
      * Download the resource.

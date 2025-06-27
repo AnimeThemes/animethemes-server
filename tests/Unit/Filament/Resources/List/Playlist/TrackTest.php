@@ -62,7 +62,7 @@ class TrackTest extends BaseResourceTestCase
      *
      * @return void
      */
-    public function testRenderIndexPage(): void
+    public function test_render_index_page(): void
     {
         $user = User::factory()
             ->withAdmin()
@@ -90,7 +90,7 @@ class TrackTest extends BaseResourceTestCase
      *
      * @return void
      */
-    public function testRenderViewPage(): void
+    public function test_render_view_page(): void
     {
         $user = User::factory()
             ->withAdmin()
@@ -115,7 +115,7 @@ class TrackTest extends BaseResourceTestCase
      *
      * @return void
      */
-    public function testMountCreateAction(): void
+    public function test_mount_create_action(): void
     {
         $user = User::factory()
             ->withAdmin()
@@ -137,7 +137,7 @@ class TrackTest extends BaseResourceTestCase
      *
      * @return void
      */
-    public function testMountEditAction(): void
+    public function test_mount_edit_action(): void
     {
         $user = User::factory()
             ->withAdmin()

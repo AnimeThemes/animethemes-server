@@ -53,6 +53,7 @@ class CreateAction extends DefaultCreateAction
             if ($livewire instanceof ResourceRelationManager) {
                 /** @var User $user */
                 $user = Auth::user();
+
                 return $user->hasRole(Role::ADMIN->value);
             }
 

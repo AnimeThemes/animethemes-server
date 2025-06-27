@@ -26,7 +26,7 @@ class PlaylistTest extends TestCase
      *
      * @return void
      */
-    public function testPlaylistCreatedSendsDiscordNotification(): void
+    public function test_playlist_created_sends_discord_notification(): void
     {
         Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
         Bus::fake(SendDiscordNotificationJob::class);
@@ -42,7 +42,7 @@ class PlaylistTest extends TestCase
      *
      * @return void
      */
-    public function testPlaylistDeletedSendsDiscordNotification(): void
+    public function test_playlist_deleted_sends_discord_notification(): void
     {
         $playlist = Playlist::factory()->createOne();
 
@@ -60,7 +60,7 @@ class PlaylistTest extends TestCase
      *
      * @return void
      */
-    public function testPlaylistRestoredSendsDiscordNotification(): void
+    public function test_playlist_restored_sends_discord_notification(): void
     {
         $playlist = Playlist::factory()->createOne();
 
@@ -78,7 +78,7 @@ class PlaylistTest extends TestCase
      *
      * @return void
      */
-    public function testPlaylistUpdatedSendsDiscordNotification(): void
+    public function test_playlist_updated_sends_discord_notification(): void
     {
         $playlist = Playlist::factory()->createOne();
 

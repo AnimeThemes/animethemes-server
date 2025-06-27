@@ -100,7 +100,9 @@ class AnilistAnimeExternalApiAction extends ExternalApiAction implements Backfil
 
                 foreach ($this->getResourcesMapping() as $site => $key) {
                     if ($siteAnilist === $key) {
-                        if (in_array($siteAnilist, ['Official Site', 'Twitter']) && !in_array($language, ['Japanese', null])) continue;
+                        if (in_array($siteAnilist, ['Official Site', 'Twitter']) && ! in_array($language, ['Japanese', null])) {
+                            continue;
+                        }
 
                         $resources[$site] = $url;
                     }

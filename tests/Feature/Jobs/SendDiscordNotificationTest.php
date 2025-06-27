@@ -26,7 +26,7 @@ class SendDiscordNotificationTest extends TestCase
      *
      * @return void
      */
-    public function testSendDiscordNotificationJobSendsNotification(): void
+    public function test_send_discord_notification_job_sends_notification(): void
     {
         Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
         Notification::fake();
@@ -81,7 +81,7 @@ class SendDiscordNotificationTest extends TestCase
      *
      * @return void
      */
-    public function testRateLimited(): void
+    public function test_rate_limited(): void
     {
         $event = new class implements DiscordMessageEvent
         {

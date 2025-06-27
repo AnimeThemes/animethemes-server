@@ -20,7 +20,7 @@ class ImageRestoreTest extends TestCase
      *
      * @return void
      */
-    public function testProtected(): void
+    public function test_protected(): void
     {
         $image = Image::factory()->trashed()->createOne();
 
@@ -34,7 +34,7 @@ class ImageRestoreTest extends TestCase
      *
      * @return void
      */
-    public function testForbidden(): void
+    public function test_forbidden(): void
     {
         $image = Image::factory()->trashed()->createOne();
 
@@ -52,7 +52,7 @@ class ImageRestoreTest extends TestCase
      *
      * @return void
      */
-    public function testTrashed(): void
+    public function test_trashed(): void
     {
         $image = Image::factory()->createOne();
 
@@ -70,7 +70,7 @@ class ImageRestoreTest extends TestCase
      *
      * @return void
      */
-    public function testRestored(): void
+    public function test_restored(): void
     {
         $image = Image::factory()->trashed()->createOne();
 

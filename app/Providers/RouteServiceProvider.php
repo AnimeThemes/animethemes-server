@@ -42,7 +42,7 @@ class RouteServiceProvider extends ServiceProvider
 
             // (If request is from client and no forwarded ip) or (the user logged in has permission to bypass API rate limiting)
             /** @phpstan-ignore-next-line */
-            if (($ip === '127.0.0.1' && !$forwardedIp) || ($user instanceof User && $user->can(SpecialPermission::BYPASS_GRAPHQL_RATE_LIMITER->value))) {
+            if (($ip === '127.0.0.1' && ! $forwardedIp) || ($user instanceof User && $user->can(SpecialPermission::BYPASS_GRAPHQL_RATE_LIMITER->value))) {
                 return Limit::none();
             }
 
@@ -61,7 +61,7 @@ class RouteServiceProvider extends ServiceProvider
 
             // (If request is from client and no forwarded ip) or (the user logged in has permission to bypass API rate limiting)
             /** @phpstan-ignore-next-line */
-            if (($ip === '127.0.0.1' && !$forwardedIp) || ($user instanceof User && $user->can(SpecialPermission::BYPASS_API_RATE_LIMITER->value))) {
+            if (($ip === '127.0.0.1' && ! $forwardedIp) || ($user instanceof User && $user->can(SpecialPermission::BYPASS_API_RATE_LIMITER->value))) {
                 return Limit::none();
             }
 

@@ -29,8 +29,8 @@ class SeriesQuery extends ElasticQuery
                     'queries' => [
                         [
                             'bool' => [
-                                'should' => $this->createTextQuery('name', $criteria->getTerm())
-                            ]
+                                'should' => $this->createTextQuery('name', $criteria->getTerm()),
+                            ],
                         ],
                         [
                             'bool' => [
@@ -38,11 +38,11 @@ class SeriesQuery extends ElasticQuery
                                 'should' => $this->createNestedQuery(
                                     'anime',
                                     $this->createNestedTextQuery('anime.synonyms', 'text', $criteria->getTerm())
-                                )
-                            ]
-                        ]
-                    ]
-                ]
+                                ),
+                            ],
+                        ],
+                    ],
+                ],
             ]);
 
         return Series::searchQuery($query);

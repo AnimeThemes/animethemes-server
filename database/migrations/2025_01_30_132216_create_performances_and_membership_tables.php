@@ -17,7 +17,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if (!Schema::hasTable(Performance::TABLE)) {
+        if (! Schema::hasTable(Performance::TABLE)) {
             Schema::create(Performance::TABLE, function (Blueprint $table) {
                 $table->id(Performance::ATTRIBUTE_ID);
 
@@ -35,7 +35,7 @@ return new class extends Migration
             });
         }
 
-        if (!Schema::hasTable(Membership::TABLE)) {
+        if (! Schema::hasTable(Membership::TABLE)) {
             Schema::create(Membership::TABLE, function (Blueprint $table) {
                 $table->id(Membership::ATTRIBUTE_ID);
 

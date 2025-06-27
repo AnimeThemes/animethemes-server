@@ -25,7 +25,7 @@ class PlaylistImageTest extends TestCase
      *
      * @return void
      */
-    public function testPlaylistImageCreatedSendsDiscordNotification(): void
+    public function test_playlist_image_created_sends_discord_notification(): void
     {
         $playlist = Playlist::factory()->createOne();
         $image = Image::factory()->createOne();
@@ -44,7 +44,7 @@ class PlaylistImageTest extends TestCase
      *
      * @return void
      */
-    public function testPlaylistImageDeletedSendsDiscordNotification(): void
+    public function test_playlist_image_deleted_sends_discord_notification(): void
     {
         $playlist = Playlist::factory()->createOne();
         $image = Image::factory()->createOne();

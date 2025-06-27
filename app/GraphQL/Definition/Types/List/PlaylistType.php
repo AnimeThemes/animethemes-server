@@ -56,7 +56,7 @@ class PlaylistType extends EloquentType implements HasFields, HasRelations
             new BelongsToRelation(new PlaylistTrackType(), Playlist::RELATION_LAST),
             new BelongsToRelation(new UserType(), Playlist::RELATION_USER),
             new HasManyRelation(new PlaylistTrackType(), Playlist::RELATION_TRACKS),
-            new BelongsToManyRelation(new ImageType(), Playlist::RELATION_IMAGES, edgeType: 'PlaylistImageEdge')
+            new BelongsToManyRelation(new ImageType(), Playlist::RELATION_IMAGES, edgeType: 'PlaylistImageEdge'),
         ];
     }
 

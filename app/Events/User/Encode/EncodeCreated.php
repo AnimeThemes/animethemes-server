@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Events\User\Encode;
 
-use App\Actions\Http\Api\List\Playlist\Track\StoreTrackAction;;
+use App\Actions\Http\Api\List\Playlist\Track\StoreTrackAction;
 use App\Contracts\Events\ManagesTrackEvent;
 use App\Enums\Models\List\PlaylistVisibility;
 use App\Events\BaseEvent;

@@ -9,6 +9,4 @@ use App\GraphQL\Policies\BasePolicy;
 /**
  * Class SeriesPolicy.
  */
-class SeriesPolicy extends BasePolicy
-{
-}
+class SeriesPolicy extends BasePolicy {}

@@ -33,7 +33,7 @@ class MiddlewareDirective extends BaseDirective implements FieldMiddleware, Type
      *
      * @param  FieldValue  $fieldValue
      * @return void
-    */
+     */
     public function handleField(FieldValue $fieldValue): void
     {
         $class = $this->directiveArgValue('class');

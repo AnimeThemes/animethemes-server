@@ -30,7 +30,7 @@ class ViewSong extends BaseViewResource
 
             ActionGroup::make([
                 AttachSongResourceHeaderAction::make('attach-song-resource'),
-            ])
+            ]),
         ];
     }
 }

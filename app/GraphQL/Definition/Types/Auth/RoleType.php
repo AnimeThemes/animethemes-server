@@ -32,7 +32,7 @@ class RoleType extends EloquentType implements HasFields, HasRelations
      */
     public function getDescription(): string
     {
-        return "Represents an assignable label for users that provides a configured group of permissions.";
+        return 'Represents an assignable label for users that provides a configured group of permissions.';
     }
 
     /**

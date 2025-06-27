@@ -20,7 +20,7 @@ class StudioResourceTest extends TestCase
      *
      * @return void
      */
-    public function testStudio(): void
+    public function test_studio(): void
     {
         $studioResource = StudioResource::factory()
             ->for(Studio::factory())
@@ -36,7 +36,7 @@ class StudioResourceTest extends TestCase
      *
      * @return void
      */
-    public function testResource(): void
+    public function test_resource(): void
     {
         $studioResource = StudioResource::factory()
             ->for(Studio::factory())

@@ -46,7 +46,6 @@ class StoreExternalProfileTokenAction
             $profile = $this->firstForUserIdOrCreate($userId, $site, $action, $parameters);
 
             return $profile;
-
         } catch (Exception $e) {
             Log::error($e->getMessage());
 
