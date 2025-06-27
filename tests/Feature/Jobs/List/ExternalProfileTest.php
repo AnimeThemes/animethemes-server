@@ -26,7 +26,7 @@ class ExternalProfileTest extends TestCase
      *
      * @return void
      */
-    public function test_external_profile_created_sends_discord_notification(): void
+    public function testExternalProfileCreatedSendsDiscordNotification(): void
     {
         Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
         Bus::fake(SendDiscordNotificationJob::class);
@@ -42,7 +42,7 @@ class ExternalProfileTest extends TestCase
      *
      * @return void
      */
-    public function test_external_profile_deleted_sends_discord_notification(): void
+    public function testExternalProfileDeletedSendsDiscordNotification(): void
     {
         $profile = ExternalProfile::factory()->createOne();
 
@@ -60,7 +60,7 @@ class ExternalProfileTest extends TestCase
      *
      * @return void
      */
-    public function test_external_profile_restored_sends_discord_notification(): void
+    public function testExternalProfileRestoredSendsDiscordNotification(): void
     {
         $profile = ExternalProfile::factory()->createOne();
 
@@ -78,7 +78,7 @@ class ExternalProfileTest extends TestCase
      *
      * @return void
      */
-    public function test_external_profile_updated_sends_discord_notification(): void
+    public function testExternalProfileUpdatedSendsDiscordNotification(): void
     {
         $profile = ExternalProfile::factory()->createOne();
 

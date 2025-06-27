@@ -21,7 +21,7 @@ class SynonymStoreTest extends TestCase
      *
      * @return void
      */
-    public function test_protected(): void
+    public function testProtected(): void
     {
         $synonym = AnimeSynonym::factory()->for(Anime::factory())->makeOne();
 
@@ -35,7 +35,7 @@ class SynonymStoreTest extends TestCase
      *
      * @return void
      */
-    public function test_forbidden(): void
+    public function testForbidden(): void
     {
         $synonym = AnimeSynonym::factory()->for(Anime::factory())->makeOne();
 
@@ -53,7 +53,7 @@ class SynonymStoreTest extends TestCase
      *
      * @return void
      */
-    public function test_required_fields(): void
+    public function testRequiredFields(): void
     {
         $user = User::factory()->withPermissions(CrudPermission::CREATE->format(AnimeSynonym::class))->createOne();
 
@@ -71,7 +71,7 @@ class SynonymStoreTest extends TestCase
      *
      * @return void
      */
-    public function test_create(): void
+    public function testCreate(): void
     {
         $anime = Anime::factory()->createOne();
 

@@ -21,7 +21,7 @@ class TrackTest extends TestCase
      *
      * @return void
      */
-    public function test_nameable(): void
+    public function testNameable(): void
     {
         $track = PlaylistTrack::factory()
             ->for(Playlist::factory())
@@ -35,7 +35,7 @@ class TrackTest extends TestCase
      *
      * @return void
      */
-    public function test_has_subtitle(): void
+    public function testHasSubtitle(): void
     {
         $track = PlaylistTrack::factory()
             ->for(Playlist::factory()->for(User::factory()))
@@ -49,7 +49,7 @@ class TrackTest extends TestCase
      *
      * @return void
      */
-    public function test_hashids(): void
+    public function testHashids(): void
     {
         $playlist = Playlist::factory()->createOne();
 
@@ -66,7 +66,7 @@ class TrackTest extends TestCase
      *
      * @return void
      */
-    public function test_playlist(): void
+    public function testPlaylist(): void
     {
         $track = PlaylistTrack::factory()
             ->for(Playlist::factory())
@@ -81,7 +81,7 @@ class TrackTest extends TestCase
      *
      * @return void
      */
-    public function test_previous(): void
+    public function testPrevious(): void
     {
         $playlist = Playlist::factory()->createOne();
 
@@ -104,7 +104,7 @@ class TrackTest extends TestCase
      *
      * @return void
      */
-    public function test_next(): void
+    public function testNext(): void
     {
         $playlist = Playlist::factory()->createOne();
 
@@ -127,7 +127,7 @@ class TrackTest extends TestCase
      *
      * @return void
      */
-    public function test_video(): void
+    public function testVideo(): void
     {
         $track = PlaylistTrack::factory()
             ->for(Playlist::factory())

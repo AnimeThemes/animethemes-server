@@ -22,7 +22,7 @@ class ArtistSongStoreTest extends TestCase
      *
      * @return void
      */
-    public function test_protected(): void
+    public function testProtected(): void
     {
         $artist = Artist::factory()->createOne();
         $song = Song::factory()->createOne();
@@ -39,7 +39,7 @@ class ArtistSongStoreTest extends TestCase
      *
      * @return void
      */
-    public function test_forbidden(): void
+    public function testForbidden(): void
     {
         $artist = Artist::factory()->createOne();
         $song = Song::factory()->createOne();
@@ -60,7 +60,7 @@ class ArtistSongStoreTest extends TestCase
      *
      * @return void
      */
-    public function test_create(): void
+    public function testCreate(): void
     {
         $artist = Artist::factory()->createOne();
         $song = Song::factory()->createOne();

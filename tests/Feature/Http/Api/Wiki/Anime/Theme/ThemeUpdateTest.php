@@ -23,7 +23,7 @@ class ThemeUpdateTest extends TestCase
      *
      * @return void
      */
-    public function test_protected(): void
+    public function testProtected(): void
     {
         $theme = AnimeTheme::factory()->for(Anime::factory())->createOne();
 
@@ -44,7 +44,7 @@ class ThemeUpdateTest extends TestCase
      *
      * @return void
      */
-    public function test_forbidden(): void
+    public function testForbidden(): void
     {
         $theme = AnimeTheme::factory()->for(Anime::factory())->createOne();
 
@@ -69,7 +69,7 @@ class ThemeUpdateTest extends TestCase
      *
      * @return void
      */
-    public function test_trashed(): void
+    public function testTrashed(): void
     {
         $theme = AnimeTheme::factory()
             ->trashed()
@@ -97,7 +97,7 @@ class ThemeUpdateTest extends TestCase
      *
      * @return void
      */
-    public function test_update(): void
+    public function testUpdate(): void
     {
         $theme = AnimeTheme::factory()->for(Anime::factory())->createOne();
 

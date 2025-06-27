@@ -24,7 +24,7 @@ class VideoIndexStreamTest extends TestCase
      *
      * @return void
      */
-    public function test_fails_when_index_is_not_expected(): void
+    public function testFailsWhenIndexIsNotExpected(): void
     {
         $file = UploadedFile::fake()->create($this->faker->word().'.webm', $this->faker->randomDigitNotNull());
 
@@ -66,7 +66,7 @@ class VideoIndexStreamTest extends TestCase
      *
      * @return void
      */
-    public function test_passes_when_index_is_expected(): void
+    public function testPassesWhenIndexIsExpected(): void
     {
         $file = UploadedFile::fake()->create($this->faker->word().'.webm', $this->faker->randomDigitNotNull());
 

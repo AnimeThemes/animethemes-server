@@ -27,7 +27,7 @@ class DateFilterTest extends TestCase
      *
      * @return void
      */
-    public function test_should_not_apply_if_no_dates(): void
+    public function testShouldNotApplyIfNoDates(): void
     {
         $filterField = $this->faker->word();
 
@@ -43,7 +43,7 @@ class DateFilterTest extends TestCase
      *
      * @return void
      */
-    public function test_should_not_apply_if_wrong_format(): void
+    public function testShouldNotApplyIfWrongFormat(): void
     {
         $filterField = $this->faker->word();
 
@@ -59,7 +59,7 @@ class DateFilterTest extends TestCase
      *
      * @return void
      */
-    public function test_should_apply_if_accepted_format(): void
+    public function testShouldApplyIfAcceptedFormat(): void
     {
         $filterField = $this->faker->word();
 
@@ -77,7 +77,7 @@ class DateFilterTest extends TestCase
      *
      * @return void
      */
-    public function test_converts_dates_to_canonical_format(): void
+    public function testConvertsDatesToCanonicalFormat(): void
     {
         $filterField = $this->faker->word();
 

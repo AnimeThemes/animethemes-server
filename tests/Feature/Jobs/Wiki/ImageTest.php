@@ -26,7 +26,7 @@ class ImageTest extends TestCase
      *
      * @return void
      */
-    public function test_image_created_sends_discord_notification(): void
+    public function testImageCreatedSendsDiscordNotification(): void
     {
         Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
         Bus::fake(SendDiscordNotificationJob::class);
@@ -42,7 +42,7 @@ class ImageTest extends TestCase
      *
      * @return void
      */
-    public function test_image_deleted_sends_discord_notification(): void
+    public function testImageDeletedSendsDiscordNotification(): void
     {
         $image = Image::factory()->createOne();
 
@@ -60,7 +60,7 @@ class ImageTest extends TestCase
      *
      * @return void
      */
-    public function test_image_restored_sends_discord_notification(): void
+    public function testImageRestoredSendsDiscordNotification(): void
     {
         $image = Image::factory()->createOne();
 
@@ -78,7 +78,7 @@ class ImageTest extends TestCase
      *
      * @return void
      */
-    public function test_image_updated_sends_discord_notification(): void
+    public function testImageUpdatedSendsDiscordNotification(): void
     {
         $image = Image::factory()->createOne();
 

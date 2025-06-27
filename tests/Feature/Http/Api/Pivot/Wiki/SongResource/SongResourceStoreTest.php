@@ -22,7 +22,7 @@ class SongResourceStoreTest extends TestCase
      *
      * @return void
      */
-    public function test_protected(): void
+    public function testProtected(): void
     {
         $song = Song::factory()->createOne();
         $resource = ExternalResource::factory()->createOne();
@@ -39,7 +39,7 @@ class SongResourceStoreTest extends TestCase
      *
      * @return void
      */
-    public function test_forbidden(): void
+    public function testForbidden(): void
     {
         $song = Song::factory()->createOne();
         $resource = ExternalResource::factory()->createOne();
@@ -60,7 +60,7 @@ class SongResourceStoreTest extends TestCase
      *
      * @return void
      */
-    public function test_create(): void
+    public function testCreate(): void
     {
         $song = Song::factory()->createOne();
         $resource = ExternalResource::factory()->createOne();

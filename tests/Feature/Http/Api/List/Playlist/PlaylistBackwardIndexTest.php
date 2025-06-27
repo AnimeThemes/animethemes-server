@@ -46,7 +46,7 @@ class PlaylistBackwardIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_private_playlist_cannot_be_publicly_viewed(): void
+    public function testPrivatePlaylistCannotBePubliclyViewed(): void
     {
         Event::fakeExcept(PlaylistCreated::class);
 
@@ -67,7 +67,7 @@ class PlaylistBackwardIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_private_playlist_track_cannot_be_publicly_viewed_if_not_owned(): void
+    public function testPrivatePlaylistTrackCannotBePubliclyViewedIfNotOwned(): void
     {
         Event::fakeExcept(PlaylistCreated::class);
 
@@ -92,7 +92,7 @@ class PlaylistBackwardIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_private_playlist_track_can_be_viewed_by_owner(): void
+    public function testPrivatePlaylistTrackCanBeViewedByOwner(): void
     {
         Event::fakeExcept(PlaylistCreated::class);
 
@@ -117,7 +117,7 @@ class PlaylistBackwardIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_unlisted_playlist_track_can_be_viewed(): void
+    public function testUnlistedPlaylistTrackCanBeViewed(): void
     {
         Event::fakeExcept(PlaylistCreated::class);
 
@@ -138,7 +138,7 @@ class PlaylistBackwardIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_public_playlist_track_can_be_viewed(): void
+    public function testPublicPlaylistTrackCanBeViewed(): void
     {
         Event::fakeExcept(PlaylistCreated::class);
 
@@ -159,7 +159,7 @@ class PlaylistBackwardIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_default(): void
+    public function testDefault(): void
     {
         Event::fakeExcept(PlaylistCreated::class);
 
@@ -201,7 +201,7 @@ class PlaylistBackwardIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_paginated(): void
+    public function testPaginated(): void
     {
         Event::fakeExcept(PlaylistCreated::class);
 
@@ -225,7 +225,7 @@ class PlaylistBackwardIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_allowed_include_paths(): void
+    public function testAllowedIncludePaths(): void
     {
         Event::fakeExcept(PlaylistCreated::class);
 
@@ -271,7 +271,7 @@ class PlaylistBackwardIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_sparse_fieldsets(): void
+    public function testSparseFieldsets(): void
     {
         Event::fakeExcept(PlaylistCreated::class);
 
@@ -312,7 +312,7 @@ class PlaylistBackwardIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_sorts(): void
+    public function testSorts(): void
     {
         Event::fakeExcept(PlaylistCreated::class);
 
@@ -346,7 +346,7 @@ class PlaylistBackwardIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_filters(): void
+    public function testFilters(): void
     {
         Event::fakeExcept(PlaylistCreated::class);
 

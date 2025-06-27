@@ -61,7 +61,7 @@ class ExternalProfileTest extends BaseResourceTestCase
      *
      * @return void
      */
-    public function test_render_view_page(): void
+    public function testRenderViewPage(): void
     {
         $user = User::factory()
             ->withAdmin()
@@ -84,7 +84,7 @@ class ExternalProfileTest extends BaseResourceTestCase
      *
      * @return void
      */
-    public function test_render_index_page(): void
+    public function testRenderIndexPage(): void
     {
         $user = User::factory()
             ->withAdmin()
@@ -110,7 +110,7 @@ class ExternalProfileTest extends BaseResourceTestCase
      *
      * @return void
      */
-    public function test_mount_create_action(): void
+    public function testMountCreateAction(): void
     {
         $user = User::factory()
             ->withAdmin()
@@ -132,7 +132,7 @@ class ExternalProfileTest extends BaseResourceTestCase
      *
      * @return void
      */
-    public function test_mount_edit_action(): void
+    public function testMountEditAction(): void
     {
         $user = User::factory()
             ->withAdmin()

@@ -35,7 +35,7 @@ class FeaturedThemeShowTest extends TestCase
      *
      * @return void
      */
-    public function test_forbidden_if_future_start_date(): void
+    public function testForbiddenIfFutureStartDate(): void
     {
         $featuredTheme = FeaturedTheme::factory()->create([
             FeaturedTheme::ATTRIBUTE_START_AT => $this->faker->dateTimeBetween('+1 day', '+1 year'),
@@ -51,7 +51,7 @@ class FeaturedThemeShowTest extends TestCase
      *
      * @return void
      */
-    public function test_default(): void
+    public function testDefault(): void
     {
         $featuredTheme = FeaturedTheme::factory()->create();
 
@@ -74,7 +74,7 @@ class FeaturedThemeShowTest extends TestCase
      *
      * @return void
      */
-    public function test_soft_delete(): void
+    public function testSoftDelete(): void
     {
         $featuredTheme = FeaturedTheme::factory()->trashed()->createOne();
 
@@ -99,7 +99,7 @@ class FeaturedThemeShowTest extends TestCase
      *
      * @return void
      */
-    public function test_allowed_include_paths(): void
+    public function testAllowedIncludePaths(): void
     {
         $schema = new FeaturedThemeSchema();
 
@@ -145,7 +145,7 @@ class FeaturedThemeShowTest extends TestCase
      *
      * @return void
      */
-    public function test_sparse_fieldsets(): void
+    public function testSparseFieldsets(): void
     {
         $schema = new FeaturedThemeSchema();
 

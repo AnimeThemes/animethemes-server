@@ -20,7 +20,7 @@ class StudioStoreTest extends TestCase
      *
      * @return void
      */
-    public function test_protected(): void
+    public function testProtected(): void
     {
         $studio = Studio::factory()->makeOne();
 
@@ -34,7 +34,7 @@ class StudioStoreTest extends TestCase
      *
      * @return void
      */
-    public function test_forbidden(): void
+    public function testForbidden(): void
     {
         $studio = Studio::factory()->makeOne();
 
@@ -52,7 +52,7 @@ class StudioStoreTest extends TestCase
      *
      * @return void
      */
-    public function test_required_fields(): void
+    public function testRequiredFields(): void
     {
         $user = User::factory()->withPermissions(CrudPermission::CREATE->format(Studio::class))->createOne();
 
@@ -71,7 +71,7 @@ class StudioStoreTest extends TestCase
      *
      * @return void
      */
-    public function test_create(): void
+    public function testCreate(): void
     {
         $parameters = Studio::factory()->raw();
 

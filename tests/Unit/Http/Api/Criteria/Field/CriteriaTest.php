@@ -21,7 +21,7 @@ class CriteriaTest extends TestCase
      *
      * @return void
      */
-    public function test_is_allowed_field(): void
+    public function testIsAllowedField(): void
     {
         $fields = collect($this->faker->words($this->faker->randomDigitNotNull()));
 
@@ -35,7 +35,7 @@ class CriteriaTest extends TestCase
      *
      * @return void
      */
-    public function test_is_not_allowed(): void
+    public function testIsNotAllowed(): void
     {
         $fields = collect($this->faker->words($this->faker->randomDigitNotNull()));
 

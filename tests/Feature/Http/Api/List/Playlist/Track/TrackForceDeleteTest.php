@@ -31,7 +31,7 @@ class TrackForceDeleteTest extends TestCase
      *
      * @return void
      */
-    public function test_authorized(): void
+    public function testAuthorized(): void
     {
         Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
@@ -51,7 +51,7 @@ class TrackForceDeleteTest extends TestCase
      *
      * @return void
      */
-    public function test_forbidden_if_missing_permission(): void
+    public function testForbiddenIfMissingPermission(): void
     {
         Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
@@ -75,7 +75,7 @@ class TrackForceDeleteTest extends TestCase
      *
      * @return void
      */
-    public function test_scoped(): void
+    public function testScoped(): void
     {
         Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
@@ -107,7 +107,7 @@ class TrackForceDeleteTest extends TestCase
      *
      * @return void
      */
-    public function test_forbidden_if_flag_disabled(): void
+    public function testForbiddenIfFlagDisabled(): void
     {
         Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
@@ -135,7 +135,7 @@ class TrackForceDeleteTest extends TestCase
      *
      * @return void
      */
-    public function test_deleted(): void
+    public function testDeleted(): void
     {
         Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
@@ -171,7 +171,7 @@ class TrackForceDeleteTest extends TestCase
      *
      * @return void
      */
-    public function test_delete_permitted_for_bypass(): void
+    public function testDeletePermittedForBypass(): void
     {
         Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
@@ -204,7 +204,7 @@ class TrackForceDeleteTest extends TestCase
      *
      * @return void
      */
-    public function test_force_delete_first(): void
+    public function testForceDeleteFirst(): void
     {
         Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
@@ -241,7 +241,7 @@ class TrackForceDeleteTest extends TestCase
      *
      * @return void
      */
-    public function test_force_delete_last(): void
+    public function testForceDeleteLast(): void
     {
         Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 
@@ -278,7 +278,7 @@ class TrackForceDeleteTest extends TestCase
      *
      * @return void
      */
-    public function test_force_delete_second(): void
+    public function testForceDeleteSecond(): void
     {
         Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
 

@@ -20,7 +20,7 @@ class ImageForceDeleteTest extends TestCase
      *
      * @return void
      */
-    public function test_protected(): void
+    public function testProtected(): void
     {
         $image = Image::factory()->createOne();
 
@@ -34,7 +34,7 @@ class ImageForceDeleteTest extends TestCase
      *
      * @return void
      */
-    public function test_forbidden(): void
+    public function testForbidden(): void
     {
         $image = Image::factory()->createOne();
 
@@ -52,7 +52,7 @@ class ImageForceDeleteTest extends TestCase
      *
      * @return void
      */
-    public function test_deleted(): void
+    public function testDeleted(): void
     {
         $image = Image::factory()->createOne();
 

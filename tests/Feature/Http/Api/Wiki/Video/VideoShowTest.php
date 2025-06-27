@@ -40,7 +40,7 @@ class VideoShowTest extends TestCase
      *
      * @return void
      */
-    public function test_default(): void
+    public function testDefault(): void
     {
         $video = Video::factory()->create();
 
@@ -63,7 +63,7 @@ class VideoShowTest extends TestCase
      *
      * @return void
      */
-    public function test_soft_delete(): void
+    public function testSoftDelete(): void
     {
         $video = Video::factory()->trashed()->createOne();
 
@@ -86,7 +86,7 @@ class VideoShowTest extends TestCase
      *
      * @return void
      */
-    public function test_allowed_include_paths(): void
+    public function testAllowedIncludePaths(): void
     {
         $schema = new VideoSchema();
 
@@ -129,7 +129,7 @@ class VideoShowTest extends TestCase
      *
      * @return void
      */
-    public function test_sparse_fieldsets(): void
+    public function testSparseFieldsets(): void
     {
         $schema = new VideoSchema();
 
@@ -164,7 +164,7 @@ class VideoShowTest extends TestCase
      *
      * @return void
      */
-    public function test_entries_by_nsfw(): void
+    public function testEntriesByNsfw(): void
     {
         $nsfwFilter = $this->faker->boolean();
 
@@ -208,7 +208,7 @@ class VideoShowTest extends TestCase
      *
      * @return void
      */
-    public function test_entries_by_spoiler(): void
+    public function testEntriesBySpoiler(): void
     {
         $spoilerFilter = $this->faker->boolean();
 
@@ -252,7 +252,7 @@ class VideoShowTest extends TestCase
      *
      * @return void
      */
-    public function test_entries_by_version(): void
+    public function testEntriesByVersion(): void
     {
         $versionFilter = $this->faker->randomDigitNotNull();
         $excludedVersion = $versionFilter + 1;
@@ -301,7 +301,7 @@ class VideoShowTest extends TestCase
      *
      * @return void
      */
-    public function test_themes_by_sequence(): void
+    public function testThemesBySequence(): void
     {
         $sequenceFilter = $this->faker->randomDigitNotNull();
         $excludedSequence = $sequenceFilter + 1;
@@ -352,7 +352,7 @@ class VideoShowTest extends TestCase
      *
      * @return void
      */
-    public function test_themes_by_type(): void
+    public function testThemesByType(): void
     {
         $typeFilter = Arr::random(ThemeType::cases());
 
@@ -396,7 +396,7 @@ class VideoShowTest extends TestCase
      *
      * @return void
      */
-    public function test_anime_by_media_format(): void
+    public function testAnimeByMediaFormat(): void
     {
         $mediaFormatFilter = Arr::random(AnimeMediaFormat::cases());
 
@@ -440,7 +440,7 @@ class VideoShowTest extends TestCase
      *
      * @return void
      */
-    public function test_anime_by_season(): void
+    public function testAnimeBySeason(): void
     {
         $seasonFilter = Arr::random(AnimeSeason::cases());
 
@@ -484,7 +484,7 @@ class VideoShowTest extends TestCase
      *
      * @return void
      */
-    public function test_anime_by_year(): void
+    public function testAnimeByYear(): void
     {
         $yearFilter = intval($this->faker->year());
         $excludedYear = $yearFilter + 1;

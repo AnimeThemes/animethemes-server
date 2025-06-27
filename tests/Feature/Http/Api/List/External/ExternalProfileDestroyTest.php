@@ -28,7 +28,7 @@ class ExternalProfileDestroyTest extends TestCase
      *
      * @return void
      */
-    public function test_protected(): void
+    public function testProtected(): void
     {
         Event::fakeExcept(ExternalProfileCreated::class);
 
@@ -46,7 +46,7 @@ class ExternalProfileDestroyTest extends TestCase
      *
      * @return void
      */
-    public function test_forbidden_if_missing_permission(): void
+    public function testForbiddenIfMissingPermission(): void
     {
         Event::fakeExcept(ExternalProfileCreated::class);
 
@@ -68,7 +68,7 @@ class ExternalProfileDestroyTest extends TestCase
      *
      * @return void
      */
-    public function test_forbidden_if_not_own_external_profile(): void
+    public function testForbiddenIfNotOwnExternalProfile(): void
     {
         Event::fakeExcept(ExternalProfileCreated::class);
 
@@ -93,7 +93,7 @@ class ExternalProfileDestroyTest extends TestCase
      *
      * @return void
      */
-    public function test_forbidden_if_flag_disabled(): void
+    public function testForbiddenIfFlagDisabled(): void
     {
         Event::fakeExcept(ExternalProfileCreated::class);
 
@@ -117,7 +117,7 @@ class ExternalProfileDestroyTest extends TestCase
      *
      * @return void
      */
-    public function test_trashed(): void
+    public function testTrashed(): void
     {
         Event::fakeExcept(ExternalProfileCreated::class);
 
@@ -142,7 +142,7 @@ class ExternalProfileDestroyTest extends TestCase
      *
      * @return void
      */
-    public function test_deleted(): void
+    public function testDeleted(): void
     {
         Event::fakeExcept(ExternalProfileCreated::class);
 
@@ -168,7 +168,7 @@ class ExternalProfileDestroyTest extends TestCase
      *
      * @return void
      */
-    public function test_destroy_permitted_for_bypass(): void
+    public function testDestroyPermittedForBypass(): void
     {
         Event::fakeExcept(ExternalProfileCreated::class);
 

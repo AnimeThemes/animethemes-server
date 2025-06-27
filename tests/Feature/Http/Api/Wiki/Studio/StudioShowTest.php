@@ -38,7 +38,7 @@ class StudioShowTest extends TestCase
      *
      * @return void
      */
-    public function test_default(): void
+    public function testDefault(): void
     {
         $studio = Studio::factory()->create();
 
@@ -61,7 +61,7 @@ class StudioShowTest extends TestCase
      *
      * @return void
      */
-    public function test_soft_delete(): void
+    public function testSoftDelete(): void
     {
         $studio = Studio::factory()->trashed()->createOne();
 
@@ -86,7 +86,7 @@ class StudioShowTest extends TestCase
      *
      * @return void
      */
-    public function test_allowed_include_paths(): void
+    public function testAllowedIncludePaths(): void
     {
         $schema = new StudioSchema();
 
@@ -123,7 +123,7 @@ class StudioShowTest extends TestCase
      *
      * @return void
      */
-    public function test_sparse_fieldsets(): void
+    public function testSparseFieldsets(): void
     {
         $schema = new StudioSchema();
 
@@ -158,7 +158,7 @@ class StudioShowTest extends TestCase
      *
      * @return void
      */
-    public function test_anime_by_media_format(): void
+    public function testAnimeByMediaFormat(): void
     {
         $mediaFormatFilter = Arr::random(AnimeMediaFormat::cases());
 
@@ -198,7 +198,7 @@ class StudioShowTest extends TestCase
      *
      * @return void
      */
-    public function test_anime_by_season(): void
+    public function testAnimeBySeason(): void
     {
         $seasonFilter = Arr::random(AnimeSeason::cases());
 
@@ -238,7 +238,7 @@ class StudioShowTest extends TestCase
      *
      * @return void
      */
-    public function test_anime_by_year(): void
+    public function testAnimeByYear(): void
     {
         $yearFilter = $this->faker->numberBetween(2000, 2002);
 
@@ -286,7 +286,7 @@ class StudioShowTest extends TestCase
      *
      * @return void
      */
-    public function test_resources_by_site(): void
+    public function testResourcesBySite(): void
     {
         $siteFilter = Arr::random(ResourceSite::cases());
 
@@ -326,7 +326,7 @@ class StudioShowTest extends TestCase
      *
      * @return void
      */
-    public function test_images_by_facet(): void
+    public function testImagesByFacet(): void
     {
         $facetFilter = Arr::random(ImageFacet::cases());
 

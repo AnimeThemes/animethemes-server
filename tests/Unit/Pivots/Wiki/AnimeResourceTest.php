@@ -20,7 +20,7 @@ class AnimeResourceTest extends TestCase
      *
      * @return void
      */
-    public function test_anime(): void
+    public function testAnime(): void
     {
         $animeResource = AnimeResource::factory()
             ->for(Anime::factory())
@@ -36,7 +36,7 @@ class AnimeResourceTest extends TestCase
      *
      * @return void
      */
-    public function test_resource(): void
+    public function testResource(): void
     {
         $animeResource = AnimeResource::factory()
             ->for(Anime::factory())

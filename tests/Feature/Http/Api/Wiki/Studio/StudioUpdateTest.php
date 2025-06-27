@@ -20,7 +20,7 @@ class StudioUpdateTest extends TestCase
      *
      * @return void
      */
-    public function test_protected(): void
+    public function testProtected(): void
     {
         $studio = Studio::factory()->createOne();
 
@@ -36,7 +36,7 @@ class StudioUpdateTest extends TestCase
      *
      * @return void
      */
-    public function test_forbidden(): void
+    public function testForbidden(): void
     {
         $studio = Studio::factory()->createOne();
 
@@ -56,7 +56,7 @@ class StudioUpdateTest extends TestCase
      *
      * @return void
      */
-    public function test_trashed(): void
+    public function testTrashed(): void
     {
         $studio = Studio::factory()->trashed()->createOne();
 
@@ -76,7 +76,7 @@ class StudioUpdateTest extends TestCase
      *
      * @return void
      */
-    public function test_update(): void
+    public function testUpdate(): void
     {
         $studio = Studio::factory()->createOne();
 

@@ -21,7 +21,7 @@ class StudioImageTest extends TestCase
      *
      * @return void
      */
-    public function test_studio_image_created_event_dispatched(): void
+    public function testStudioImageCreatedEventDispatched(): void
     {
         $studio = Studio::factory()->createOne();
         $image = Image::factory()->createOne();
@@ -36,7 +36,7 @@ class StudioImageTest extends TestCase
      *
      * @return void
      */
-    public function test_studio_image_deleted_event_dispatched(): void
+    public function testStudioImageDeletedEventDispatched(): void
     {
         $studio = Studio::factory()->createOne();
         $image = Image::factory()->createOne();

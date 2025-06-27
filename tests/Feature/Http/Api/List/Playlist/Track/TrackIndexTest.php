@@ -52,7 +52,7 @@ class TrackIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_private_playlist_track_cannot_be_publicly_viewed(): void
+    public function testPrivatePlaylistTrackCannotBePubliclyViewed(): void
     {
         Event::fakeExcept(PlaylistCreated::class);
 
@@ -73,7 +73,7 @@ class TrackIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_private_playlist_track_cannot_be_publicly_viewed_if_not_owned(): void
+    public function testPrivatePlaylistTrackCannotBePubliclyViewedIfNotOwned(): void
     {
         Event::fakeExcept(PlaylistCreated::class);
 
@@ -98,7 +98,7 @@ class TrackIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_private_playlist_track_can_be_viewed_by_owner(): void
+    public function testPrivatePlaylistTrackCanBeViewedByOwner(): void
     {
         Event::fakeExcept(PlaylistCreated::class);
 
@@ -123,7 +123,7 @@ class TrackIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_unlisted_playlist_track_can_be_viewed(): void
+    public function testUnlistedPlaylistTrackCanBeViewed(): void
     {
         Event::fakeExcept(PlaylistCreated::class);
 
@@ -144,7 +144,7 @@ class TrackIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_public_playlist_track_can_be_viewed(): void
+    public function testPublicPlaylistTrackCanBeViewed(): void
     {
         Event::fakeExcept(PlaylistCreated::class);
 
@@ -165,7 +165,7 @@ class TrackIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_default(): void
+    public function testDefault(): void
     {
         Event::fakeExcept(PlaylistCreated::class);
 
@@ -207,7 +207,7 @@ class TrackIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_paginated(): void
+    public function testPaginated(): void
     {
         Event::fakeExcept(PlaylistCreated::class);
 
@@ -231,7 +231,7 @@ class TrackIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_allowed_include_paths(): void
+    public function testAllowedIncludePaths(): void
     {
         Event::fakeExcept(PlaylistCreated::class);
 
@@ -284,7 +284,7 @@ class TrackIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_sparse_fieldsets(): void
+    public function testSparseFieldsets(): void
     {
         Event::fakeExcept(PlaylistCreated::class);
 
@@ -325,7 +325,7 @@ class TrackIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_sorts(): void
+    public function testSorts(): void
     {
         Event::fakeExcept(PlaylistCreated::class);
 
@@ -370,7 +370,7 @@ class TrackIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_created_at_filter(): void
+    public function testCreatedAtFilter(): void
     {
         Event::fakeExcept(PlaylistCreated::class);
 
@@ -428,7 +428,7 @@ class TrackIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_updated_at_filter(): void
+    public function testUpdatedAtFilter(): void
     {
         Event::fakeExcept(PlaylistCreated::class);
 
@@ -486,7 +486,7 @@ class TrackIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_without_trashed_filter(): void
+    public function testWithoutTrashedFilter(): void
     {
         Event::fakeExcept(PlaylistCreated::class);
 
@@ -531,7 +531,7 @@ class TrackIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_with_trashed_filter(): void
+    public function testWithTrashedFilter(): void
     {
         Event::fakeExcept(PlaylistCreated::class);
 
@@ -576,7 +576,7 @@ class TrackIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_only_trashed_filter(): void
+    public function testOnlyTrashedFilter(): void
     {
         Event::fakeExcept(PlaylistCreated::class);
 
@@ -621,7 +621,7 @@ class TrackIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_deleted_at_filter(): void
+    public function testDeletedAtFilter(): void
     {
         Event::fakeExcept(PlaylistCreated::class);
 

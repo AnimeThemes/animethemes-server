@@ -23,7 +23,7 @@ class AudioTest extends TestCase
      *
      * @return void
      */
-    public function test_audio_created_event_dispatched(): void
+    public function testAudioCreatedEventDispatched(): void
     {
         Audio::factory()->createOne();
 
@@ -35,7 +35,7 @@ class AudioTest extends TestCase
      *
      * @return void
      */
-    public function test_audio_deleted_event_dispatched(): void
+    public function testAudioDeletedEventDispatched(): void
     {
         $audio = Audio::factory()->createOne();
 
@@ -49,7 +49,7 @@ class AudioTest extends TestCase
      *
      * @return void
      */
-    public function test_audio_restored_event_dispatched(): void
+    public function testAudioRestoredEventDispatched(): void
     {
         $audio = Audio::factory()->createOne();
 
@@ -65,7 +65,7 @@ class AudioTest extends TestCase
      *
      * @return void
      */
-    public function test_audio_restores_quietly(): void
+    public function testAudioRestoresQuietly(): void
     {
         $audio = Audio::factory()->createOne();
 
@@ -79,7 +79,7 @@ class AudioTest extends TestCase
      *
      * @return void
      */
-    public function test_audio_updated_event_dispatched(): void
+    public function testAudioUpdatedEventDispatched(): void
     {
         $audio = Audio::factory()->createOne();
         $changes = Audio::factory()->makeOne();
@@ -95,7 +95,7 @@ class AudioTest extends TestCase
      *
      * @return void
      */
-    public function test_audio_updated_event_embed_fields(): void
+    public function testAudioUpdatedEventEmbedFields(): void
     {
         $audio = Audio::factory()->createOne();
         $changes = Audio::factory()->makeOne();

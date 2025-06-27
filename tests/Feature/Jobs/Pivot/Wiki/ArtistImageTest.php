@@ -25,7 +25,7 @@ class ArtistImageTest extends TestCase
      *
      * @return void
      */
-    public function test_artist_image_created_sends_discord_notification(): void
+    public function testArtistImageCreatedSendsDiscordNotification(): void
     {
         $artist = Artist::factory()->createOne();
         $image = Image::factory()->createOne();
@@ -44,7 +44,7 @@ class ArtistImageTest extends TestCase
      *
      * @return void
      */
-    public function test_artist_image_deleted_sends_discord_notification(): void
+    public function testArtistImageDeletedSendsDiscordNotification(): void
     {
         $artist = Artist::factory()->createOne();
         $image = Image::factory()->createOne();

@@ -25,7 +25,7 @@ class StudioImageTest extends TestCase
      *
      * @return void
      */
-    public function test_studio_image_created_sends_discord_notification(): void
+    public function testStudioImageCreatedSendsDiscordNotification(): void
     {
         $studio = Studio::factory()->createOne();
         $image = Image::factory()->createOne();
@@ -44,7 +44,7 @@ class StudioImageTest extends TestCase
      *
      * @return void
      */
-    public function test_studio_image_deleted_sends_discord_notification(): void
+    public function testStudioImageDeletedSendsDiscordNotification(): void
     {
         $studio = Studio::factory()->createOne();
         $image = Image::factory()->createOne();

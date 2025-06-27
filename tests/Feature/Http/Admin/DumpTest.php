@@ -30,7 +30,7 @@ class DumpTest extends TestCase
      *
      * @return void
      */
-    public function test_dump_downloading_not_allowed_forbidden(): void
+    public function testDumpDownloadingNotAllowedForbidden(): void
     {
         Feature::deactivate(AllowDumpDownloading::class);
 
@@ -47,7 +47,7 @@ class DumpTest extends TestCase
      *
      * @return void
      */
-    public function test_video_streaming_permitted_for_bypass(): void
+    public function testVideoStreamingPermittedForBypass(): void
     {
         Feature::activate(AllowDumpDownloading::class, $this->faker->boolean());
 
@@ -74,7 +74,7 @@ class DumpTest extends TestCase
      *
      * @return void
      */
-    public function test_cannot_download_soft_deleted_dump(): void
+    public function testCannotDownloadSoftDeletedDump(): void
     {
         Feature::activate(AllowDumpDownloading::class);
 
@@ -90,7 +90,7 @@ class DumpTest extends TestCase
      *
      * @return void
      */
-    public function test_downloaded_through_response(): void
+    public function testDownloadedThroughResponse(): void
     {
         Feature::activate(AllowDumpDownloading::class);
 

@@ -48,7 +48,7 @@ class ExternalProfileIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_default(): void
+    public function testDefault(): void
     {
         $publicCount = $this->faker->randomDigitNotNull();
 
@@ -83,7 +83,7 @@ class ExternalProfileIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_paginated(): void
+    public function testPaginated(): void
     {
         ExternalProfile::factory()
             ->count($this->faker->randomDigitNotNull())
@@ -103,7 +103,7 @@ class ExternalProfileIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_allowed_include_paths(): void
+    public function testAllowedIncludePaths(): void
     {
         $schema = new ExternalProfileSchema();
 
@@ -146,7 +146,7 @@ class ExternalProfileIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_sparse_fieldsets(): void
+    public function testSparseFieldsets(): void
     {
         $schema = new ExternalProfileSchema();
 
@@ -183,7 +183,7 @@ class ExternalProfileIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_sorts(): void
+    public function testSorts(): void
     {
         $schema = new ExternalProfileSchema();
 
@@ -226,7 +226,7 @@ class ExternalProfileIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_created_at_filter(): void
+    public function testCreatedAtFilter(): void
     {
         $createdFilter = $this->faker->date();
         $excludedDate = $this->faker->date();
@@ -273,7 +273,7 @@ class ExternalProfileIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_updated_at_filter(): void
+    public function testUpdatedAtFilter(): void
     {
         $updatedFilter = $this->faker->date();
         $excludedDate = $this->faker->date();
@@ -320,7 +320,7 @@ class ExternalProfileIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_without_trashed_filter(): void
+    public function testWithoutTrashedFilter(): void
     {
         $parameters = [
             FilterParser::param() => [
@@ -361,7 +361,7 @@ class ExternalProfileIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_with_trashed_filter(): void
+    public function testWithTrashedFilter(): void
     {
         $parameters = [
             FilterParser::param() => [
@@ -402,7 +402,7 @@ class ExternalProfileIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_only_trashed_filter(): void
+    public function testOnlyTrashedFilter(): void
     {
         $parameters = [
             FilterParser::param() => [
@@ -443,7 +443,7 @@ class ExternalProfileIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_deleted_at_filter(): void
+    public function testDeletedAtFilter(): void
     {
         $deletedFilter = $this->faker->date();
         $excludedDate = $this->faker->date();

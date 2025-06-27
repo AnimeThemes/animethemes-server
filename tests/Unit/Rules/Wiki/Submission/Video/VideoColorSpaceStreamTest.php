@@ -27,7 +27,7 @@ class VideoColorSpaceStreamTest extends TestCase
      *
      * @return void
      */
-    public function test_fails_when_color_space_is_not_accepted(): void
+    public function testFailsWhenColorSpaceIsNotAccepted(): void
     {
         Feature::activate(FeatureConstants::VIDEO_COLOR_SPACE_STREAM, 'bt709,smpte170m,bt470bg');
 
@@ -71,7 +71,7 @@ class VideoColorSpaceStreamTest extends TestCase
      *
      * @return void
      */
-    public function test_passes_when_color_space_is_accepted(): void
+    public function testPassesWhenColorSpaceIsAccepted(): void
     {
         Feature::activate(FeatureConstants::VIDEO_COLOR_SPACE_STREAM, 'bt709,smpte170m,bt470bg');
 

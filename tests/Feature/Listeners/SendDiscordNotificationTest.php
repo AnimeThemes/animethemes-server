@@ -25,7 +25,7 @@ class SendDiscordNotificationTest extends TestCase
      *
      * @return void
      */
-    public function test_discord_notifications_not_allowed(): void
+    public function testDiscordNotificationsNotAllowed(): void
     {
         Feature::deactivate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
         Bus::fake(SendDiscordNotificationJob::class);
@@ -78,7 +78,7 @@ class SendDiscordNotificationTest extends TestCase
      *
      * @return void
      */
-    public function test_discord_notifications_allowed(): void
+    public function testDiscordNotificationsAllowed(): void
     {
         Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
         Bus::fake(SendDiscordNotificationJob::class);

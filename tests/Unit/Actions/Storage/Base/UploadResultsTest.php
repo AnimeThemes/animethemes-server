@@ -21,7 +21,7 @@ class UploadResultsTest extends TestCase
      *
      * @return void
      */
-    public function test_default(): void
+    public function testDefault(): void
     {
         $uploadResults = new UploadResults();
 
@@ -35,7 +35,7 @@ class UploadResultsTest extends TestCase
      *
      * @return void
      */
-    public function test_failed(): void
+    public function testFailed(): void
     {
         $uploads = [];
 
@@ -59,7 +59,7 @@ class UploadResultsTest extends TestCase
      *
      * @return void
      */
-    public function test_passed(): void
+    public function testPassed(): void
     {
         $uploads = [];
 

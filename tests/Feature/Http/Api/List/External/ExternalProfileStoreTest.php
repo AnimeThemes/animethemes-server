@@ -33,7 +33,7 @@ class ExternalProfileStoreTest extends TestCase
      *
      * @return void
      */
-    public function test_protected(): void
+    public function testProtected(): void
     {
         Feature::activate(AllowExternalProfileManagement::class);
 
@@ -49,7 +49,7 @@ class ExternalProfileStoreTest extends TestCase
      *
      * @return void
      */
-    public function test_forbidden_if_missing_permission(): void
+    public function testForbiddenIfMissingPermission(): void
     {
         Feature::activate(AllowExternalProfileManagement::class);
 
@@ -70,7 +70,7 @@ class ExternalProfileStoreTest extends TestCase
      *
      * @return void
      */
-    public function test_forbidden_if_flag_disabled(): void
+    public function testForbiddenIfFlagDisabled(): void
     {
         Feature::deactivate(AllowExternalProfileManagement::class);
 
@@ -95,7 +95,7 @@ class ExternalProfileStoreTest extends TestCase
      *
      * @return void
      */
-    public function test_required_fields(): void
+    public function testRequiredFields(): void
     {
         Feature::activate(AllowExternalProfileManagement::class);
 
@@ -116,7 +116,7 @@ class ExternalProfileStoreTest extends TestCase
      *
      * @return void
      */
-    public function test_create(): void
+    public function testCreate(): void
     {
         Feature::activate(AllowExternalProfileManagement::class);
 
@@ -144,7 +144,7 @@ class ExternalProfileStoreTest extends TestCase
      *
      * @return void
      */
-    public function test_create_permitted_for_bypass(): void
+    public function testCreatePermittedForBypass(): void
     {
         Feature::activate(AllowExternalProfileManagement::class, $this->faker->boolean());
 
@@ -174,7 +174,7 @@ class ExternalProfileStoreTest extends TestCase
      *
      * @return void
      */
-    public function test_max_profile_limit(): void
+    public function testMaxProfileLimit(): void
     {
         $profileLimit = $this->faker->randomDigitNotNull();
 
@@ -206,7 +206,7 @@ class ExternalProfileStoreTest extends TestCase
      *
      * @return void
      */
-    public function test_max_profile_limit_permitted_for_bypass(): void
+    public function testMaxProfileLimitPermittedForBypass(): void
     {
         $profileLimit = $this->faker->randomDigitNotNull();
 
@@ -240,7 +240,7 @@ class ExternalProfileStoreTest extends TestCase
      *
      * @return void
      */
-    public function test_created_if_not_flagged_by_open_ai(): void
+    public function testCreatedIfNotFlaggedByOpenAi(): void
     {
         Feature::activate(AllowExternalProfileManagement::class);
         Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI->value);
@@ -276,7 +276,7 @@ class ExternalProfileStoreTest extends TestCase
      *
      * @return void
      */
-    public function test_created_if_open_ai_fails(): void
+    public function testCreatedIfOpenAiFails(): void
     {
         Feature::activate(AllowExternalProfileManagement::class);
         Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI->value);
@@ -306,7 +306,7 @@ class ExternalProfileStoreTest extends TestCase
      *
      * @return void
      */
-    public function test_validation_error_when_flagged_by_open_ai(): void
+    public function testValidationErrorWhenFlaggedByOpenAi(): void
     {
         Feature::activate(AllowExternalProfileManagement::class);
         Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI->value);

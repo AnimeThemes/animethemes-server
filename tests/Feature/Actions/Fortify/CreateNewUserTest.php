@@ -30,7 +30,7 @@ class CreateNewUserTest extends TestCase
      *
      * @throws ValidationException
      */
-    public function test_required(): void
+    public function testRequired(): void
     {
         static::expectException(ValidationException::class);
 
@@ -46,7 +46,7 @@ class CreateNewUserTest extends TestCase
      *
      * @throws ValidationException
      */
-    public function test_username_alpha_dash(): void
+    public function testUsernameAlphaDash(): void
     {
         static::expectException(ValidationException::class);
 
@@ -70,7 +70,7 @@ class CreateNewUserTest extends TestCase
      *
      * @throws ValidationException
      */
-    public function test_username_unique(): void
+    public function testUsernameUnique(): void
     {
         static::expectException(ValidationException::class);
 
@@ -100,7 +100,7 @@ class CreateNewUserTest extends TestCase
      *
      * @throws ValidationException
      */
-    public function test_created(): void
+    public function testCreated(): void
     {
         $action = new CreateNewUser();
 
@@ -124,7 +124,7 @@ class CreateNewUserTest extends TestCase
      *
      * @throws ValidationException
      */
-    public function test_created_if_not_flagged_by_open_ai(): void
+    public function testCreatedIfNotFlaggedByOpenAi(): void
     {
         Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI->value);
 
@@ -160,7 +160,7 @@ class CreateNewUserTest extends TestCase
      *
      * @throws ValidationException
      */
-    public function test_created_if_open_ai_fails(): void
+    public function testCreatedIfOpenAiFails(): void
     {
         Config::set(ValidationConstants::MODERATION_SERVICE_QUALIFIED, ModerationService::OPENAI->value);
 
@@ -190,7 +190,7 @@ class CreateNewUserTest extends TestCase
      *
      * @throws ValidationException
      */
-    public function test_validation_error_when_flagged_by_open_ai(): void
+    public function testValidationErrorWhenFlaggedByOpenAi(): void
     {
         static::expectException(ValidationException::class);
 
@@ -226,7 +226,7 @@ class CreateNewUserTest extends TestCase
      *
      * @throws ValidationException
      */
-    public function test_disposable_email(): void
+    public function testDisposableEmail(): void
     {
         static::expectException(ValidationException::class);
 
@@ -254,7 +254,7 @@ class CreateNewUserTest extends TestCase
      *
      * @throws ValidationException
      */
-    public function test_indisposable_email(): void
+    public function testIndisposableEmail(): void
     {
         $this->mock(Indisposable::class, function (MockInterface $mock) {
             $mock->shouldReceive('validate')->once()->andReturn(true);
@@ -282,7 +282,7 @@ class CreateNewUserTest extends TestCase
      *
      * @throws ValidationException
      */
-    public function test_email_unique(): void
+    public function testEmailUnique(): void
     {
         static::expectException(ValidationException::class);
 

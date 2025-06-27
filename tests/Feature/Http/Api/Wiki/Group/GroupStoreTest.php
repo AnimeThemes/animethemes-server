@@ -20,7 +20,7 @@ class GroupStoreTest extends TestCase
      *
      * @return void
      */
-    public function test_protected(): void
+    public function testProtected(): void
     {
         $group = Group::factory()->makeOne();
 
@@ -34,7 +34,7 @@ class GroupStoreTest extends TestCase
      *
      * @return void
      */
-    public function test_forbidden(): void
+    public function testForbidden(): void
     {
         $group = Group::factory()->makeOne();
 
@@ -52,7 +52,7 @@ class GroupStoreTest extends TestCase
      *
      * @return void
      */
-    public function test_create(): void
+    public function testCreate(): void
     {
         $parameters = Group::factory()->raw();
 

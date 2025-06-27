@@ -33,7 +33,7 @@ class ArtistImageShowTest extends TestCase
      *
      * @return void
      */
-    public function test_not_found(): void
+    public function testNotFound(): void
     {
         $artist = Artist::factory()->createOne();
         $image = Image::factory()->createOne();
@@ -48,7 +48,7 @@ class ArtistImageShowTest extends TestCase
      *
      * @return void
      */
-    public function test_default(): void
+    public function testDefault(): void
     {
         $artistImage = ArtistImage::factory()
             ->for(Artist::factory())
@@ -76,7 +76,7 @@ class ArtistImageShowTest extends TestCase
      *
      * @return void
      */
-    public function test_allowed_include_paths(): void
+    public function testAllowedIncludePaths(): void
     {
         $schema = new ArtistImageSchema();
 
@@ -116,7 +116,7 @@ class ArtistImageShowTest extends TestCase
      *
      * @return void
      */
-    public function test_sparse_fieldsets(): void
+    public function testSparseFieldsets(): void
     {
         $schema = new ArtistImageSchema();
 
@@ -156,7 +156,7 @@ class ArtistImageShowTest extends TestCase
      *
      * @return void
      */
-    public function test_images_by_facet(): void
+    public function testImagesByFacet(): void
     {
         $facetFilter = Arr::random(ImageFacet::cases());
 

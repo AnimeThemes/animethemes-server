@@ -21,7 +21,7 @@ class ExternalEntryTest extends TestCase
      *
      * @return void
      */
-    public function test_casts_watch_status_to_enum(): void
+    public function testCastsWatchStatusToEnum(): void
     {
         $entry = ExternalEntry::factory()
             ->for(ExternalProfile::factory())
@@ -37,7 +37,7 @@ class ExternalEntryTest extends TestCase
      *
      * @return void
      */
-    public function test_casts_is_favorite_to_bool(): void
+    public function testCastsIsFavoriteToBool(): void
     {
         $entry = ExternalEntry::factory()
             ->for(ExternalProfile::factory())
@@ -53,7 +53,7 @@ class ExternalEntryTest extends TestCase
      *
      * @return void
      */
-    public function test_nameable(): void
+    public function testNameable(): void
     {
         $entry = ExternalEntry::factory()
             ->for(ExternalProfile::factory())
@@ -67,7 +67,7 @@ class ExternalEntryTest extends TestCase
      *
      * @return void
      */
-    public function test_has_subtitle(): void
+    public function testHasSubtitle(): void
     {
         $entry = ExternalEntry::factory()
             ->for(ExternalProfile::factory())
@@ -82,7 +82,7 @@ class ExternalEntryTest extends TestCase
      *
      * @return void
      */
-    public function test_profile(): void
+    public function testProfile(): void
     {
         $entry = ExternalEntry::factory()
             ->for(ExternalProfile::factory())
@@ -97,7 +97,7 @@ class ExternalEntryTest extends TestCase
      *
      * @return void
      */
-    public function test_anime(): void
+    public function testAnime(): void
     {
         $entry = ExternalEntry::factory()
             ->for(ExternalProfile::factory())

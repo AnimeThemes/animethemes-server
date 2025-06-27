@@ -25,7 +25,7 @@ class DumpShowTest extends TestCase
      *
      * @return void
      */
-    public function test_default(): void
+    public function testDefault(): void
     {
         $dump = Dump::factory()->create();
 
@@ -48,7 +48,7 @@ class DumpShowTest extends TestCase
      *
      * @return void
      */
-    public function test_soft_delete(): void
+    public function testSoftDelete(): void
     {
         $dump = Dump::factory()->trashed()->createOne();
 
@@ -73,7 +73,7 @@ class DumpShowTest extends TestCase
      *
      * @return void
      */
-    public function test_sparse_fieldsets(): void
+    public function testSparseFieldsets(): void
     {
         $schema = new DumpSchema();
 

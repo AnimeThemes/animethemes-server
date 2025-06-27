@@ -20,7 +20,7 @@ class SongResourceTest extends TestCase
      *
      * @return void
      */
-    public function test_song(): void
+    public function testSong(): void
     {
         $songResource = SongResource::factory()
             ->for(Song::factory())
@@ -36,7 +36,7 @@ class SongResourceTest extends TestCase
      *
      * @return void
      */
-    public function test_resource(): void
+    public function testResource(): void
     {
         $songResource = SongResource::factory()
             ->for(Song::factory())

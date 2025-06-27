@@ -19,7 +19,7 @@ class RemoveFromStorageTest extends TestCase
      *
      * @return void
      */
-    public function test_listening(): void
+    public function testListening(): void
     {
         Event::assertListening(RemoveFromStorageEvent::class, RemoveFromStorage::class);
     }

@@ -24,7 +24,7 @@ class RemoveTrackTest extends TestCase
      *
      * @throws Exception
      */
-    public function test_remove_sole(): void
+    public function testRemoveSole(): void
     {
         $playlist = Playlist::factory()
             ->tracks(1)
@@ -50,7 +50,7 @@ class RemoveTrackTest extends TestCase
      *
      * @throws Exception
      */
-    public function test_remove_first(): void
+    public function testRemoveFirst(): void
     {
         $playlist = Playlist::factory()
             ->tracks($this->faker->numberBetween(3, 9))
@@ -78,7 +78,7 @@ class RemoveTrackTest extends TestCase
      *
      * @throws Exception
      */
-    public function test_remove_last(): void
+    public function testRemoveLast(): void
     {
         $playlist = Playlist::factory()
             ->tracks($this->faker->numberBetween(3, 9))
@@ -106,7 +106,7 @@ class RemoveTrackTest extends TestCase
      *
      * @throws Exception
      */
-    public function test_remove_second(): void
+    public function testRemoveSecond(): void
     {
         $playlist = Playlist::factory()
             ->tracks(3)

@@ -33,7 +33,7 @@ class SongResourceShowTest extends TestCase
      *
      * @return void
      */
-    public function test_not_found(): void
+    public function testNotFound(): void
     {
         $song = Song::factory()->createOne();
         $resource = ExternalResource::factory()->createOne();
@@ -48,7 +48,7 @@ class SongResourceShowTest extends TestCase
      *
      * @return void
      */
-    public function test_default(): void
+    public function testDefault(): void
     {
         $songResource = SongResource::factory()
             ->for(Song::factory())
@@ -76,7 +76,7 @@ class SongResourceShowTest extends TestCase
      *
      * @return void
      */
-    public function test_allowed_include_paths(): void
+    public function testAllowedIncludePaths(): void
     {
         $schema = new SongResourceSchema();
 
@@ -116,7 +116,7 @@ class SongResourceShowTest extends TestCase
      *
      * @return void
      */
-    public function test_sparse_fieldsets(): void
+    public function testSparseFieldsets(): void
     {
         $schema = new SongResourceSchema();
 
@@ -156,7 +156,7 @@ class SongResourceShowTest extends TestCase
      *
      * @return void
      */
-    public function test_resources_by_site(): void
+    public function testResourcesBySite(): void
     {
         $siteFilter = Arr::random(ResourceSite::cases());
 

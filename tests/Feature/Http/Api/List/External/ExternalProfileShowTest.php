@@ -34,7 +34,7 @@ class ExternalProfileShowTest extends TestCase
      *
      * @return void
      */
-    public function test_private_external_profile_cannot_be_publicly_viewed(): void
+    public function testPrivateExternalProfileCannotBePubliclyViewed(): void
     {
         Event::fakeExcept(ExternalProfileCreated::class);
 
@@ -54,7 +54,7 @@ class ExternalProfileShowTest extends TestCase
      *
      * @return void
      */
-    public function test_private_external_profile_cannot_be_publicly_if_not_owned(): void
+    public function testPrivateExternalProfileCannotBePubliclyIfNotOwned(): void
     {
         Event::fakeExcept(ExternalProfileCreated::class);
 
@@ -78,7 +78,7 @@ class ExternalProfileShowTest extends TestCase
      *
      * @return void
      */
-    public function test_private_external_profile_can_be_viewed_by_owner(): void
+    public function testPrivateExternalProfileCanBeViewedByOwner(): void
     {
         Event::fakeExcept(ExternalProfileCreated::class);
 
@@ -102,7 +102,7 @@ class ExternalProfileShowTest extends TestCase
      *
      * @return void
      */
-    public function test_public_external_profile_can_be_viewed(): void
+    public function testPublicExternalProfileCanBeViewed(): void
     {
         Event::fakeExcept(ExternalProfileCreated::class);
 
@@ -122,7 +122,7 @@ class ExternalProfileShowTest extends TestCase
      *
      * @return void
      */
-    public function test_default(): void
+    public function testDefault(): void
     {
         Event::fakeExcept(ExternalProfileCreated::class);
 
@@ -150,7 +150,7 @@ class ExternalProfileShowTest extends TestCase
      *
      * @return void
      */
-    public function test_soft_delete(): void
+    public function testSoftDelete(): void
     {
         Event::fakeExcept(ExternalProfileCreated::class);
 
@@ -181,7 +181,7 @@ class ExternalProfileShowTest extends TestCase
      *
      * @return void
      */
-    public function test_allowed_include_paths(): void
+    public function testAllowedIncludePaths(): void
     {
         Event::fakeExcept(ExternalProfileCreated::class);
 
@@ -223,7 +223,7 @@ class ExternalProfileShowTest extends TestCase
      *
      * @return void
      */
-    public function test_sparse_fieldsets(): void
+    public function testSparseFieldsets(): void
     {
         Event::fakeExcept(ExternalProfileCreated::class);
 

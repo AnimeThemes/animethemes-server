@@ -23,7 +23,7 @@ class InsertTrackTest extends TestCase
      *
      * @throws Exception
      */
-    public function test_first_track(): void
+    public function testFirstTrack(): void
     {
         $playlist = Playlist::factory()->createOne();
 
@@ -47,7 +47,7 @@ class InsertTrackTest extends TestCase
      *
      * @throws Exception
      */
-    public function test_second_track(): void
+    public function testSecondTrack(): void
     {
         $playlist = Playlist::factory()->createOne();
 
@@ -83,7 +83,7 @@ class InsertTrackTest extends TestCase
      *
      * @throws Exception
      */
-    public function test_third_track(): void
+    public function testThirdTrack(): void
     {
         $playlist = Playlist::factory()->createOne();
 

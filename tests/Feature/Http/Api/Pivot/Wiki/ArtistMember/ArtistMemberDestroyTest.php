@@ -21,7 +21,7 @@ class ArtistMemberDestroyTest extends TestCase
      *
      * @return void
      */
-    public function test_protected(): void
+    public function testProtected(): void
     {
         $artistMember = ArtistMember::factory()
             ->for(Artist::factory(), ArtistMember::RELATION_ARTIST)
@@ -38,7 +38,7 @@ class ArtistMemberDestroyTest extends TestCase
      *
      * @return void
      */
-    public function test_forbidden(): void
+    public function testForbidden(): void
     {
         $artistMember = ArtistMember::factory()
             ->for(Artist::factory(), ArtistMember::RELATION_ARTIST)
@@ -59,7 +59,7 @@ class ArtistMemberDestroyTest extends TestCase
      *
      * @return void
      */
-    public function test_not_found(): void
+    public function testNotFound(): void
     {
         $artist = Artist::factory()->createOne();
         $member = Artist::factory()->createOne();
@@ -78,7 +78,7 @@ class ArtistMemberDestroyTest extends TestCase
      *
      * @return void
      */
-    public function test_deleted(): void
+    public function testDeleted(): void
     {
         $artistMember = ArtistMember::factory()
             ->for(Artist::factory(), ArtistMember::RELATION_ARTIST)

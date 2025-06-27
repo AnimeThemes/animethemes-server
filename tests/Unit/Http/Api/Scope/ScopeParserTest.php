@@ -23,7 +23,7 @@ class ScopeParserTest extends TestCase
      *
      * @return void
      */
-    public function test_parse_global_scope(): void
+    public function testParseGlobalScope(): void
     {
         static::assertInstanceOf(GlobalScope::class, ScopeParser::parse(''));
     }
@@ -33,7 +33,7 @@ class ScopeParserTest extends TestCase
      *
      * @return void
      */
-    public function test_parse_type_scope(): void
+    public function testParseTypeScope(): void
     {
         static::assertInstanceOf(TypeScope::class, ScopeParser::parse($this->faker->word()));
     }
@@ -43,7 +43,7 @@ class ScopeParserTest extends TestCase
      *
      * @return void
      */
-    public function test_parse_relation_scope(): void
+    public function testParseRelationScope(): void
     {
         $relation = collect($this->faker->words())->join('.');
 

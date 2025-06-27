@@ -22,7 +22,7 @@ class AnimeResourceDestroyTest extends TestCase
      *
      * @return void
      */
-    public function test_protected(): void
+    public function testProtected(): void
     {
         $animeResource = AnimeResource::factory()
             ->for(Anime::factory())
@@ -39,7 +39,7 @@ class AnimeResourceDestroyTest extends TestCase
      *
      * @return void
      */
-    public function test_forbidden(): void
+    public function testForbidden(): void
     {
         $animeResource = AnimeResource::factory()
             ->for(Anime::factory())
@@ -60,7 +60,7 @@ class AnimeResourceDestroyTest extends TestCase
      *
      * @return void
      */
-    public function test_not_found(): void
+    public function testNotFound(): void
     {
         $anime = Anime::factory()->createOne();
         $resource = ExternalResource::factory()->createOne();
@@ -84,7 +84,7 @@ class AnimeResourceDestroyTest extends TestCase
      *
      * @return void
      */
-    public function test_deleted(): void
+    public function testDeleted(): void
     {
         $animeResource = AnimeResource::factory()
             ->for(Anime::factory())

@@ -23,7 +23,7 @@ class FeaturedThemeTest extends TestCase
      *
      * @return void
      */
-    public function test_featured_theme_created_event_dispatched(): void
+    public function testFeaturedThemeCreatedEventDispatched(): void
     {
         FeaturedTheme::factory()->create();
 
@@ -35,7 +35,7 @@ class FeaturedThemeTest extends TestCase
      *
      * @return void
      */
-    public function test_featured_theme_deleted_event_dispatched(): void
+    public function testFeaturedThemeDeletedEventDispatched(): void
     {
         $featuredTheme = FeaturedTheme::factory()->create();
 
@@ -49,7 +49,7 @@ class FeaturedThemeTest extends TestCase
      *
      * @return void
      */
-    public function test_featured_theme_restored_event_dispatched(): void
+    public function testFeaturedThemeRestoredEventDispatched(): void
     {
         $featuredTheme = FeaturedTheme::factory()->createOne();
 
@@ -65,7 +65,7 @@ class FeaturedThemeTest extends TestCase
      *
      * @return void
      */
-    public function test_featured_theme_restores_quietly(): void
+    public function testFeaturedThemeRestoresQuietly(): void
     {
         $featuredTheme = FeaturedTheme::factory()->createOne();
 
@@ -79,7 +79,7 @@ class FeaturedThemeTest extends TestCase
      *
      * @return void
      */
-    public function test_featured_theme_updated_event_dispatched(): void
+    public function testFeaturedThemeUpdatedEventDispatched(): void
     {
         $featuredTheme = FeaturedTheme::factory()->createOne();
         $changes = FeaturedTheme::factory()->makeOne();
@@ -95,7 +95,7 @@ class FeaturedThemeTest extends TestCase
      *
      * @return void
      */
-    public function test_featured_theme_updated_event_embed_fields(): void
+    public function testFeaturedThemeUpdatedEventEmbedFields(): void
     {
         $featuredTheme = FeaturedTheme::factory()->createOne();
         $changes = FeaturedTheme::factory()->makeOne();

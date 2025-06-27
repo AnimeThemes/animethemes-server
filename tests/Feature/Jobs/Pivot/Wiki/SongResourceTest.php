@@ -27,7 +27,7 @@ class SongResourceTest extends TestCase
      *
      * @return void
      */
-    public function test_song_resource_created_sends_discord_notification(): void
+    public function testSongResourceCreatedSendsDiscordNotification(): void
     {
         $song = Song::factory()->createOne();
         $resource = ExternalResource::factory()->createOne();
@@ -46,7 +46,7 @@ class SongResourceTest extends TestCase
      *
      * @return void
      */
-    public function test_song_resource_deleted_sends_discord_notification(): void
+    public function testSongResourceDeletedSendsDiscordNotification(): void
     {
         $song = Song::factory()->createOne();
         $resource = ExternalResource::factory()->createOne();
@@ -67,7 +67,7 @@ class SongResourceTest extends TestCase
      *
      * @return void
      */
-    public function test_song_resource_updated_sends_discord_notification(): void
+    public function testSongResourceUpdatedSendsDiscordNotification(): void
     {
         $song = Song::factory()->createOne();
         $resource = ExternalResource::factory()->createOne();

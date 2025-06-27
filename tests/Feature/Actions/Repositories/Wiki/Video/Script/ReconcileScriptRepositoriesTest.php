@@ -30,7 +30,7 @@ class ReconcileScriptRepositoriesTest extends TestCase
      *
      * @throws Exception
      */
-    public function test_no_results(): void
+    public function testNoResults(): void
     {
         $this->mock(ScriptSourceRepository::class, function (MockInterface $mock) {
             $mock->shouldReceive('get')->once()->andReturn(Collection::make());
@@ -55,7 +55,7 @@ class ReconcileScriptRepositoriesTest extends TestCase
      *
      * @throws Exception
      */
-    public function test_created(): void
+    public function testCreated(): void
     {
         $createdScriptCount = $this->faker->numberBetween(2, 9);
 
@@ -85,7 +85,7 @@ class ReconcileScriptRepositoriesTest extends TestCase
      *
      * @throws Exception
      */
-    public function test_deleted(): void
+    public function testDeleted(): void
     {
         $deletedScriptCount = $this->faker->numberBetween(2, 9);
 

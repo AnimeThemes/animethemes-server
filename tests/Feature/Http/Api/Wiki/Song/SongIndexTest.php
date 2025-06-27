@@ -52,7 +52,7 @@ class SongIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_default(): void
+    public function testDefault(): void
     {
         $songs = Song::factory()->count($this->faker->randomDigitNotNull())->create();
 
@@ -75,7 +75,7 @@ class SongIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_paginated(): void
+    public function testPaginated(): void
     {
         Song::factory()->count($this->faker->randomDigitNotNull())->create();
 
@@ -93,7 +93,7 @@ class SongIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_allowed_include_paths(): void
+    public function testAllowedIncludePaths(): void
     {
         $schema = new SongSchema();
 
@@ -134,7 +134,7 @@ class SongIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_sparse_fieldsets(): void
+    public function testSparseFieldsets(): void
     {
         $schema = new SongSchema();
 
@@ -169,7 +169,7 @@ class SongIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_sorts(): void
+    public function testSorts(): void
     {
         $schema = new SongSchema();
 
@@ -208,7 +208,7 @@ class SongIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_created_at_filter(): void
+    public function testCreatedAtFilter(): void
     {
         $createdFilter = $this->faker->date();
         $excludedDate = $this->faker->date();
@@ -251,7 +251,7 @@ class SongIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_updated_at_filter(): void
+    public function testUpdatedAtFilter(): void
     {
         $updatedFilter = $this->faker->date();
         $excludedDate = $this->faker->date();
@@ -294,7 +294,7 @@ class SongIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_without_trashed_filter(): void
+    public function testWithoutTrashedFilter(): void
     {
         $parameters = [
             FilterParser::param() => [
@@ -330,7 +330,7 @@ class SongIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_with_trashed_filter(): void
+    public function testWithTrashedFilter(): void
     {
         $parameters = [
             FilterParser::param() => [
@@ -366,7 +366,7 @@ class SongIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_only_trashed_filter(): void
+    public function testOnlyTrashedFilter(): void
     {
         $parameters = [
             FilterParser::param() => [
@@ -402,7 +402,7 @@ class SongIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_deleted_at_filter(): void
+    public function testDeletedAtFilter(): void
     {
         $deletedFilter = $this->faker->date();
         $excludedDate = $this->faker->date();
@@ -446,7 +446,7 @@ class SongIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_themes_by_sequence(): void
+    public function testThemesBySequence(): void
     {
         $sequenceFilter = $this->faker->randomDigitNotNull();
         $excludedSequence = $sequenceFilter + 1;
@@ -497,7 +497,7 @@ class SongIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_themes_by_type(): void
+    public function testThemesByType(): void
     {
         $typeFilter = Arr::random(ThemeType::cases());
 
@@ -539,7 +539,7 @@ class SongIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_anime_by_media_format(): void
+    public function testAnimeByMediaFormat(): void
     {
         $mediaFormatFilter = Arr::random(AnimeMediaFormat::cases());
 
@@ -581,7 +581,7 @@ class SongIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_anime_by_season(): void
+    public function testAnimeBySeason(): void
     {
         $seasonFilter = Arr::random(AnimeSeason::cases());
 
@@ -623,7 +623,7 @@ class SongIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_anime_by_year(): void
+    public function testAnimeByYear(): void
     {
         $yearFilter = intval($this->faker->year());
         $excludedYear = $yearFilter + 1;

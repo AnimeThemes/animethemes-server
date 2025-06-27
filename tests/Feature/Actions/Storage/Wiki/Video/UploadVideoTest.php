@@ -35,7 +35,7 @@ class UploadVideoTest extends TestCase
      *
      * @return void
      */
-    public function test_default(): void
+    public function testDefault(): void
     {
         Config::set(VideoConstants::DISKS_QUALIFIED, []);
         Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
@@ -56,7 +56,7 @@ class UploadVideoTest extends TestCase
      *
      * @return void
      */
-    public function test_passed(): void
+    public function testPassed(): void
     {
         Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
         Config::set(VideoConstants::DISKS_QUALIFIED, [Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED)]);
@@ -77,7 +77,7 @@ class UploadVideoTest extends TestCase
      *
      * @return void
      */
-    public function test_uploaded_to_disk(): void
+    public function testUploadedToDisk(): void
     {
         Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
         Config::set(VideoConstants::DISKS_QUALIFIED, [Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED)]);
@@ -98,7 +98,7 @@ class UploadVideoTest extends TestCase
      *
      * @throws Exception
      */
-    public function test_created_video(): void
+    public function testCreatedVideo(): void
     {
         Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
         Config::set(VideoConstants::DISKS_QUALIFIED, [Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED)]);
@@ -121,7 +121,7 @@ class UploadVideoTest extends TestCase
      *
      * @throws Exception
      */
-    public function test_sets_attributes(): void
+    public function testSetsAttributes(): void
     {
         Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
         Config::set(VideoConstants::DISKS_QUALIFIED, [Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED)]);
@@ -156,7 +156,7 @@ class UploadVideoTest extends TestCase
      *
      * @throws Exception
      */
-    public function test_attaches_entry(): void
+    public function testAttachesEntry(): void
     {
         Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
         Config::set(VideoConstants::DISKS_QUALIFIED, [Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED)]);
@@ -183,7 +183,7 @@ class UploadVideoTest extends TestCase
      *
      * @throws Exception
      */
-    public function test_associates_script(): void
+    public function testAssociatesScript(): void
     {
         Storage::fake(Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED));
         Config::set(VideoConstants::DISKS_QUALIFIED, [Config::get(VideoConstants::DEFAULT_DISK_QUALIFIED)]);

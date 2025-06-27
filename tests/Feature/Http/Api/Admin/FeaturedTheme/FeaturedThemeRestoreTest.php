@@ -20,7 +20,7 @@ class FeaturedThemeRestoreTest extends TestCase
      *
      * @return void
      */
-    public function test_protected(): void
+    public function testProtected(): void
     {
         $featuredTheme = FeaturedTheme::factory()->trashed()->createOne();
 
@@ -34,7 +34,7 @@ class FeaturedThemeRestoreTest extends TestCase
      *
      * @return void
      */
-    public function test_forbidden(): void
+    public function testForbidden(): void
     {
         $featuredTheme = FeaturedTheme::factory()->trashed()->createOne();
 
@@ -52,7 +52,7 @@ class FeaturedThemeRestoreTest extends TestCase
      *
      * @return void
      */
-    public function test_trashed(): void
+    public function testTrashed(): void
     {
         $featuredTheme = FeaturedTheme::factory()->createOne();
 
@@ -70,7 +70,7 @@ class FeaturedThemeRestoreTest extends TestCase
      *
      * @return void
      */
-    public function test_restored(): void
+    public function testRestored(): void
     {
         $featuredTheme = FeaturedTheme::factory()->trashed()->createOne();
 

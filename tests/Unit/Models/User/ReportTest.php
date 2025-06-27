@@ -26,7 +26,7 @@ class ReportTest extends TestCase
      *
      * @return void
      */
-    public function test_nameable(): void
+    public function testNameable(): void
     {
         $report = Report::factory()->createOne();
 
@@ -38,7 +38,7 @@ class ReportTest extends TestCase
      *
      * @return void
      */
-    public function test_has_subtitle(): void
+    public function testHasSubtitle(): void
     {
         $report = Report::factory()->createOne();
 
@@ -50,7 +50,7 @@ class ReportTest extends TestCase
      *
      * @return void
      */
-    public function test_casts_finished_at(): void
+    public function testCastsFinishedAt(): void
     {
         $report = Report::factory()->createOne([Report::ATTRIBUTE_FINISHED_AT => now()]);
 
@@ -62,7 +62,7 @@ class ReportTest extends TestCase
      *
      * @return void
      */
-    public function test_casts_status_to_enum(): void
+    public function testCastsStatusToEnum(): void
     {
         $report = Report::factory()->createOne();
 
@@ -74,7 +74,7 @@ class ReportTest extends TestCase
      *
      * @return void
      */
-    public function test_steps(): void
+    public function testSteps(): void
     {
         $stepsCount = $this->faker->randomDigitNotNull();
 
@@ -95,7 +95,7 @@ class ReportTest extends TestCase
      *
      * @return void
      */
-    public function test_user(): void
+    public function testUser(): void
     {
         $report = Report::factory()
             ->for(User::factory(), Report::RELATION_USER)
@@ -110,7 +110,7 @@ class ReportTest extends TestCase
      *
      * @return void
      */
-    public function test_moderator(): void
+    public function testModerator(): void
     {
         $report = Report::factory()
             ->for(User::factory(), Report::RELATION_MODERATOR)

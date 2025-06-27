@@ -21,7 +21,7 @@ class PruneResultsTest extends TestCase
      *
      * @return void
      */
-    public function test_default(): void
+    public function testDefault(): void
     {
         $pruneResults = new PruneResults($this->faker->word());
 
@@ -35,7 +35,7 @@ class PruneResultsTest extends TestCase
      *
      * @return void
      */
-    public function test_failed(): void
+    public function testFailed(): void
     {
         $prunings = [];
 
@@ -59,7 +59,7 @@ class PruneResultsTest extends TestCase
      *
      * @return void
      */
-    public function test_passed(): void
+    public function testPassed(): void
     {
         $prunings = [];
 

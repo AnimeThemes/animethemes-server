@@ -31,7 +31,7 @@ class PruneDumpTest extends TestCase
      *
      * @throws Exception
      */
-    public function test_no_results(): void
+    public function testNoResults(): void
     {
         $fs = Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));
 
@@ -53,7 +53,7 @@ class PruneDumpTest extends TestCase
      *
      * @throws Exception
      */
-    public function test_pruned(): void
+    public function testPruned(): void
     {
         $fs = Storage::fake(Config::get(DumpConstants::DISK_QUALIFIED));
 

@@ -25,7 +25,7 @@ class MyPlaylistIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_protected(): void
+    public function testProtected(): void
     {
         $response = $this->get(route('api.me.playlist.index'));
 
@@ -37,7 +37,7 @@ class MyPlaylistIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_forbidden_if_missing_permission(): void
+    public function testForbiddenIfMissingPermission(): void
     {
         $user = User::factory()->createOne();
 
@@ -53,7 +53,7 @@ class MyPlaylistIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_only_sees_owned_playlists(): void
+    public function testOnlySeesOwnedPlaylists(): void
     {
         Playlist::factory()
             ->for(User::factory())

@@ -22,7 +22,7 @@ class AnimeImageStoreTest extends TestCase
      *
      * @return void
      */
-    public function test_protected(): void
+    public function testProtected(): void
     {
         $anime = Anime::factory()->createOne();
         $image = Image::factory()->createOne();
@@ -37,7 +37,7 @@ class AnimeImageStoreTest extends TestCase
      *
      * @return void
      */
-    public function test_forbidden(): void
+    public function testForbidden(): void
     {
         $anime = Anime::factory()->createOne();
         $image = Image::factory()->createOne();
@@ -56,7 +56,7 @@ class AnimeImageStoreTest extends TestCase
      *
      * @return void
      */
-    public function test_create(): void
+    public function testCreate(): void
     {
         $anime = Anime::factory()->createOne();
         $image = Image::factory()->createOne();

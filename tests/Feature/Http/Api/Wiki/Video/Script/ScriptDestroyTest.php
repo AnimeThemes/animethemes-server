@@ -20,7 +20,7 @@ class ScriptDestroyTest extends TestCase
      *
      * @return void
      */
-    public function test_protected(): void
+    public function testProtected(): void
     {
         $script = VideoScript::factory()->createOne();
 
@@ -34,7 +34,7 @@ class ScriptDestroyTest extends TestCase
      *
      * @return void
      */
-    public function test_forbidden(): void
+    public function testForbidden(): void
     {
         $script = VideoScript::factory()->createOne();
 
@@ -52,7 +52,7 @@ class ScriptDestroyTest extends TestCase
      *
      * @return void
      */
-    public function test_trashed(): void
+    public function testTrashed(): void
     {
         $script = VideoScript::factory()->trashed()->createOne();
 
@@ -70,7 +70,7 @@ class ScriptDestroyTest extends TestCase
      *
      * @return void
      */
-    public function test_deleted(): void
+    public function testDeleted(): void
     {
         $script = VideoScript::factory()->createOne();
 

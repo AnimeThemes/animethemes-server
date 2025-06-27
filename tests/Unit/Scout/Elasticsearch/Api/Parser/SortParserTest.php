@@ -28,7 +28,7 @@ class SortParserTest extends TestCase
      *
      * @return void
      */
-    public function test_relation_criteria(): void
+    public function testRelationCriteria(): void
     {
         $direction = Arr::random(Direction::cases());
 
@@ -42,7 +42,7 @@ class SortParserTest extends TestCase
      *
      * @return void
      */
-    public function test_field_criteria(): void
+    public function testFieldCriteria(): void
     {
         $direction = Arr::random(Direction::cases());
 
@@ -56,7 +56,7 @@ class SortParserTest extends TestCase
      *
      * @return void
      */
-    public function test_random_criteria(): void
+    public function testRandomCriteria(): void
     {
         $criteria = new RandomCriteria(new GlobalScope());
 

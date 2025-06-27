@@ -23,7 +23,7 @@ class MyShowTest extends TestCase
      *
      * @return void
      */
-    public function test_protected(): void
+    public function testProtected(): void
     {
         $response = $this->get(route('api.me.show'));
 
@@ -35,7 +35,7 @@ class MyShowTest extends TestCase
      *
      * @return void
      */
-    public function test_default(): void
+    public function testDefault(): void
     {
         $user = User::factory()->createOne();
 

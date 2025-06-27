@@ -23,7 +23,7 @@ class RandomSortTest extends TestCase
      *
      * @return void
      */
-    public function test_format(): void
+    public function testFormat(): void
     {
         $sort = new RandomSort();
 

@@ -23,7 +23,7 @@ class ResourceSiteMatchesLinkTest extends TestCase
      *
      * @return void
      */
-    public function test_passes_if_site_matches_link(): void
+    public function testPassesIfSiteMatchesLink(): void
     {
         $site = null;
 
@@ -55,7 +55,7 @@ class ResourceSiteMatchesLinkTest extends TestCase
      *
      * @return void
      */
-    public function test_resource_site_domain_rule_official_passes(): void
+    public function testResourceSiteDomainRuleOfficialPasses(): void
     {
         $attribute = $this->faker->word();
 
@@ -72,7 +72,7 @@ class ResourceSiteMatchesLinkTest extends TestCase
      *
      * @return void
      */
-    public function test_resource_site_domain_rule_fails(): void
+    public function testResourceSiteDomainRuleFails(): void
     {
         $site = null;
 

@@ -20,7 +20,7 @@ class AnnouncementForceDeleteTest extends TestCase
      *
      * @return void
      */
-    public function test_protected(): void
+    public function testProtected(): void
     {
         $announcement = Announcement::factory()->createOne();
 
@@ -34,7 +34,7 @@ class AnnouncementForceDeleteTest extends TestCase
      *
      * @return void
      */
-    public function test_forbidden(): void
+    public function testForbidden(): void
     {
         $announcement = Announcement::factory()->createOne();
 
@@ -52,7 +52,7 @@ class AnnouncementForceDeleteTest extends TestCase
      *
      * @return void
      */
-    public function test_deleted(): void
+    public function testDeleted(): void
     {
         $announcement = Announcement::factory()->createOne();
 

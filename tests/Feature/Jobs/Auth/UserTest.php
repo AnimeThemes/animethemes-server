@@ -26,7 +26,7 @@ class UserTest extends TestCase
      *
      * @return void
      */
-    public function test_user_created_sends_discord_notification(): void
+    public function testUserCreatedSendsDiscordNotification(): void
     {
         Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
         Bus::fake(SendDiscordNotificationJob::class);
@@ -42,7 +42,7 @@ class UserTest extends TestCase
      *
      * @return void
      */
-    public function test_user_deleted_sends_discord_notification(): void
+    public function testUserDeletedSendsDiscordNotification(): void
     {
         $user = User::factory()->createOne();
 
@@ -60,7 +60,7 @@ class UserTest extends TestCase
      *
      * @return void
      */
-    public function test_user_restored_sends_discord_notification(): void
+    public function testUserRestoredSendsDiscordNotification(): void
     {
         $user = User::factory()->createOne();
 
@@ -78,7 +78,7 @@ class UserTest extends TestCase
      *
      * @return void
      */
-    public function test_user_updated_sends_discord_notification(): void
+    public function testUserUpdatedSendsDiscordNotification(): void
     {
         $user = User::factory()->createOne();
 

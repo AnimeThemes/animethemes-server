@@ -22,7 +22,7 @@ class IncludeParserTest extends TestCase
      *
      * @return void
      */
-    public function test_no_criteria_by_default(): void
+    public function testNoCriteriaByDefault(): void
     {
         $parameters = [];
 
@@ -34,7 +34,7 @@ class IncludeParserTest extends TestCase
      *
      * @return void
      */
-    public function test_parse_criteria(): void
+    public function testParseCriteria(): void
     {
         $fields = collect($this->faker()->words($this->faker->randomDigitNotNull()));
 
@@ -52,7 +52,7 @@ class IncludeParserTest extends TestCase
      *
      * @return void
      */
-    public function test_parse_criteria_paths(): void
+    public function testParseCriteriaPaths(): void
     {
         $fields = $this->faker()->words($this->faker->randomDigitNotNull());
 
@@ -70,7 +70,7 @@ class IncludeParserTest extends TestCase
      *
      * @return void
      */
-    public function test_parse_resource_criteria(): void
+    public function testParseResourceCriteria(): void
     {
         $fields = collect($this->faker()->words($this->faker->randomDigitNotNull()));
 
@@ -90,7 +90,7 @@ class IncludeParserTest extends TestCase
      *
      * @return void
      */
-    public function test_parse_resource_criteria_type(): void
+    public function testParseResourceCriteriaType(): void
     {
         $type = $this->faker->word();
 
@@ -115,7 +115,7 @@ class IncludeParserTest extends TestCase
      *
      * @return void
      */
-    public function test_parse_resource_criteria_paths(): void
+    public function testParseResourceCriteriaPaths(): void
     {
         $fields = $this->faker()->words($this->faker->randomDigitNotNull());
 

@@ -25,7 +25,7 @@ class ArtistResourceLinkFormatTest extends TestCase
      *
      * @return void
      */
-    public function test_fails_for_no_pattern(): void
+    public function testFailsForNoPattern(): void
     {
         $attribute = $this->faker->word();
 
@@ -42,7 +42,7 @@ class ArtistResourceLinkFormatTest extends TestCase
      *
      * @return void
      */
-    public function test_passes_for_pattern(): void
+    public function testPassesForPattern(): void
     {
         /** @var ResourceSite $site */
         $site = Arr::random(ResourceSite::getForModel(Artist::class));
@@ -64,7 +64,7 @@ class ArtistResourceLinkFormatTest extends TestCase
      *
      * @return void
      */
-    public function test_fails_for_trailing_slash(): void
+    public function testFailsForTrailingSlash(): void
     {
         /** @var ResourceSite $site */
         $site = Arr::random(ResourceSite::getForModel(Artist::class));
@@ -90,7 +90,7 @@ class ArtistResourceLinkFormatTest extends TestCase
      *
      * @return void
      */
-    public function test_fails_for_trailing_slug(): void
+    public function testFailsForTrailingSlug(): void
     {
         /** @var ResourceSite $site */
         $site = Arr::random(ResourceSite::getForModel(Artist::class));
@@ -117,7 +117,7 @@ class ArtistResourceLinkFormatTest extends TestCase
      *
      * @return void
      */
-    public function test_fails_for_other_resources(): void
+    public function testFailsForOtherResources(): void
     {
         /** @var ResourceSite $site */
         $site = Arr::random(

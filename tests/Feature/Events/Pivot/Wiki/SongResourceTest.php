@@ -24,7 +24,7 @@ class SongResourceTest extends TestCase
      *
      * @return void
      */
-    public function test_song_resource_created_event_dispatched(): void
+    public function testSongResourceCreatedEventDispatched(): void
     {
         $song = Song::factory()->createOne();
         $resource = ExternalResource::factory()->createOne();
@@ -39,7 +39,7 @@ class SongResourceTest extends TestCase
      *
      * @return void
      */
-    public function test_song_resource_deleted_event_dispatched(): void
+    public function testSongResourceDeletedEventDispatched(): void
     {
         $song = Song::factory()->createOne();
         $resource = ExternalResource::factory()->createOne();
@@ -55,7 +55,7 @@ class SongResourceTest extends TestCase
      *
      * @return void
      */
-    public function test_song_resource_updated_event_dispatched(): void
+    public function testSongResourceUpdatedEventDispatched(): void
     {
         $song = Song::factory()->createOne();
         $resource = ExternalResource::factory()->createOne();
@@ -81,7 +81,7 @@ class SongResourceTest extends TestCase
      *
      * @return void
      */
-    public function test_song_resource_updated_event_embed_fields(): void
+    public function testSongResourceUpdatedEventEmbedFields(): void
     {
         $song = Song::factory()->createOne();
         $resource = ExternalResource::factory()->createOne();

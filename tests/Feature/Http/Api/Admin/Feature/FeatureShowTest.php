@@ -25,7 +25,7 @@ class FeatureShowTest extends TestCase
      *
      * @return void
      */
-    public function test_default(): void
+    public function testDefault(): void
     {
         $feature = Feature::factory()->create();
 
@@ -48,7 +48,7 @@ class FeatureShowTest extends TestCase
      *
      * @return void
      */
-    public function test_non_null_forbidden(): void
+    public function testNonNullForbidden(): void
     {
         $feature = Feature::factory()->create([
             Feature::ATTRIBUTE_SCOPE => $this->faker->word(),
@@ -64,7 +64,7 @@ class FeatureShowTest extends TestCase
      *
      * @return void
      */
-    public function test_sparse_fieldsets(): void
+    public function testSparseFieldsets(): void
     {
         $schema = new FeatureSchema();
 

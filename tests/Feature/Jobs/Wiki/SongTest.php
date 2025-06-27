@@ -26,7 +26,7 @@ class SongTest extends TestCase
      *
      * @return void
      */
-    public function test_song_created_sends_discord_notification(): void
+    public function testSongCreatedSendsDiscordNotification(): void
     {
         Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
         Bus::fake(SendDiscordNotificationJob::class);
@@ -42,7 +42,7 @@ class SongTest extends TestCase
      *
      * @return void
      */
-    public function test_song_deleted_sends_discord_notification(): void
+    public function testSongDeletedSendsDiscordNotification(): void
     {
         $song = Song::factory()->createOne();
 
@@ -60,7 +60,7 @@ class SongTest extends TestCase
      *
      * @return void
      */
-    public function test_song_restored_sends_discord_notification(): void
+    public function testSongRestoredSendsDiscordNotification(): void
     {
         $song = Song::factory()->createOne();
 
@@ -78,7 +78,7 @@ class SongTest extends TestCase
      *
      * @return void
      */
-    public function test_song_updated_sends_discord_notification(): void
+    public function testSongUpdatedSendsDiscordNotification(): void
     {
         $song = Song::factory()->createOne();
 

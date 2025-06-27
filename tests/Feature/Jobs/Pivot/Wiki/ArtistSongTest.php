@@ -27,7 +27,7 @@ class ArtistSongTest extends TestCase
      *
      * @return void
      */
-    public function test_artist_song_created_sends_discord_notification(): void
+    public function testArtistSongCreatedSendsDiscordNotification(): void
     {
         $artist = Artist::factory()->createOne();
         $song = Song::factory()->createOne();
@@ -46,7 +46,7 @@ class ArtistSongTest extends TestCase
      *
      * @return void
      */
-    public function test_artist_song_deleted_sends_discord_notification(): void
+    public function testArtistSongDeletedSendsDiscordNotification(): void
     {
         $artist = Artist::factory()->createOne();
         $song = Song::factory()->createOne();
@@ -67,7 +67,7 @@ class ArtistSongTest extends TestCase
      *
      * @return void
      */
-    public function test_artist_song_updated_sends_discord_notification(): void
+    public function testArtistSongUpdatedSendsDiscordNotification(): void
     {
         $artist = Artist::factory()->createOne();
         $song = Song::factory()->createOne();

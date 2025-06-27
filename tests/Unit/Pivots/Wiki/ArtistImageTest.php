@@ -20,7 +20,7 @@ class ArtistImageTest extends TestCase
      *
      * @return void
      */
-    public function test_artist(): void
+    public function testArtist(): void
     {
         $artistImage = ArtistImage::factory()
             ->for(Artist::factory())
@@ -36,7 +36,7 @@ class ArtistImageTest extends TestCase
      *
      * @return void
      */
-    public function test_image(): void
+    public function testImage(): void
     {
         $artistImage = ArtistImage::factory()
             ->for(Artist::factory())

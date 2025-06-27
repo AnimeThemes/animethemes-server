@@ -40,7 +40,7 @@ class FeatureIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_default(): void
+    public function testDefault(): void
     {
         $features = Feature::factory()->count($this->faker->randomDigitNotNull())->create();
 
@@ -63,7 +63,7 @@ class FeatureIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_non_null_forbidden(): void
+    public function testNonNullForbidden(): void
     {
         $nullScopeCount = $this->faker->randomDigitNotNull();
 
@@ -98,7 +98,7 @@ class FeatureIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_paginated(): void
+    public function testPaginated(): void
     {
         Feature::factory()->count($this->faker->randomDigitNotNull())->create();
 
@@ -116,7 +116,7 @@ class FeatureIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_sparse_fieldsets(): void
+    public function testSparseFieldsets(): void
     {
         $schema = new FeatureSchema();
 
@@ -151,7 +151,7 @@ class FeatureIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_sorts(): void
+    public function testSorts(): void
     {
         $schema = new FeatureSchema();
 
@@ -190,7 +190,7 @@ class FeatureIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_created_at_filter(): void
+    public function testCreatedAtFilter(): void
     {
         $createdFilter = $this->faker->date();
         $excludedDate = $this->faker->date();
@@ -233,7 +233,7 @@ class FeatureIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_updated_at_filter(): void
+    public function testUpdatedAtFilter(): void
     {
         $updatedFilter = $this->faker->date();
         $excludedDate = $this->faker->date();
