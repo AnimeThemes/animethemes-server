@@ -6,6 +6,7 @@ namespace App\Filament\Resources\List;
 
 use App\Enums\Models\List\ExternalProfileSite;
 use App\Enums\Models\List\ExternalProfileVisibility;
+use App\Filament\Actions\Models\List\External\SyncExternalProfileAction;
 use App\Filament\Components\Columns\BelongsToColumn;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\BelongsTo;
@@ -260,7 +261,9 @@ class ExternalProfile extends BaseResource
      */
     public static function getRecordActions(): array
     {
-        return [];
+        return [
+            SyncExternalProfileAction::make('sync-profile'),
+        ];
     }
 
     /**

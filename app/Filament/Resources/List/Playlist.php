@@ -6,6 +6,7 @@ namespace App\Filament\Resources\List;
 
 use App\Enums\Models\List\PlaylistVisibility;
 use App\Filament\Actions\Models\List\AssignHashidsAction;
+use App\Filament\Actions\Models\List\Playlist\FixPlaylistAction;
 use App\Filament\Components\Columns\BelongsToColumn;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\BelongsTo;
@@ -313,6 +314,8 @@ class Playlist extends BaseResource
             AssignHashidsAction::make('assign-hashids')
                 ->setConnection('playlists')
                 ->authorize('update', PlaylistModel::class),
+
+            FixPlaylistAction::make('fix-playlist'),
         ];
     }
 
