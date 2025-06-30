@@ -16,9 +16,11 @@ use App\Models\Wiki\Series as SeriesModel;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Schema;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 /**
  * Class Series.
@@ -131,9 +133,12 @@ class Series extends BaseResource
                     ->helperText(__('filament.fields.series.name.help'))
                     ->required()
                     ->maxLength(192)
-                    ->afterStateUpdatedJs(<<<'JS'
-                        $set('slug', slug($state ?? ''));
-                    JS),
+                    ->live(true)
+                    ->partiallyRenderComponentsAfterStateUpdated([SeriesModel::ATTRIBUTE_SLUG])
+                    ->afterStateUpdated(fn (string $state, Set $set) => $set(SeriesModel::ATTRIBUTE_SLUG, Str::slug($state, '_'))),
+                // ->afterStateUpdatedJs(<<<'JS'
+                //     $set('slug', slug($state ?? ''));
+                // JS),
 
                 Slug::make(SeriesModel::ATTRIBUTE_SLUG)
                     ->label(__('filament.fields.series.slug.name'))
