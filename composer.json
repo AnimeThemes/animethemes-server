@@ -43,7 +43,7 @@
         "laravel/scout": "^10.15.0",
         "laravel/tinker": "^2.10.1",
         "league/flysystem-aws-s3-v3": "^3.29",
-        "mll-lab/graphql-php-scalars": "^6.4",
+        "mll-lab/graphql-php-scalars": "^6.4.1",
         "mll-lab/laravel-graphiql": "^3.3.4",
         "nuwave/lighthouse": "^6.61.0",
         "propaganistas/laravel-disposable-email": "^2.4.15",
@@ -51,8 +51,8 @@
         "spatie/laravel-permission": "^6.20.0",
         "staudenmeir/belongs-to-through": "^2.17",
         "staudenmeir/laravel-adjacency-list": "^1.25.1",
-        "symfony/http-client": "^6.4.19",
-        "symfony/mailgun-mailer": "^6.4.13",
+        "symfony/http-client": "^6.4.23",
+        "symfony/mailgun-mailer": "^6.4.23",
         "vinkla/hashids": "^13.0"
     },
     "require-dev": {
@@ -62,7 +62,7 @@
         "laravel/sail": "^1.43.1",
         "mockery/mockery": "^1.6.12",
         "nunomaduro/collision": "^8.8.2",
-        "phpunit/phpunit": "^11.5.24",
+        "phpunit/phpunit": "^11.5.25",
         "predis/predis": "^2.4.0",
         "spatie/laravel-ignition": "^2.9.1"
     },
