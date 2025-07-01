@@ -166,7 +166,7 @@ class PerformanceSongRelationManager extends PerformanceRelationManager
         $action->forSong($song);
 
         foreach ($data as $artist) {
-            $groupOrArtist = Arr::get($artist, Artist::ATTRIBUTE_ID);
+            $groupOrArtist = intval(Arr::get($artist, Artist::ATTRIBUTE_ID));
 
             if (empty(Arr::get($artist, 'memberships'))) {
                 $action->addSingleArtist(
