@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Concerns\Filament\ActionLogs;
 
 use App\Models\Admin\ActionLog;
+use Filament\Actions\Action;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Throwable;
@@ -35,20 +36,18 @@ trait HasActionLogs
     /**
      * Create an action log.
      *
-     * @param  mixed  $action
-     * @param  Model|null  $record
+     * @param  Action  $action
+     * @param  Model  $record
      * @param  bool  $shouldCreateNewBatchId
      * @return void
      */
-    public function createActionLog(mixed $action, ?Model $record = null, ?bool $shouldCreateNewBatchId = true): void
+    public function createActionLog(Action $action, Model $record, ?bool $shouldCreateNewBatchId = true): void
     {
         if ($shouldCreateNewBatchId) {
             $this->createBatchId();
         }
 
-        // $record must be specified if in context of bulk action
-        /** @phpstan-ignore-next-line */
-        $this->recordLog = $record ?? $this->getRecord();
+        $this->recordLog = $record;
 
         $actionLog = ActionLog::modelActioned(
             $this->batchId,
@@ -98,11 +97,13 @@ trait HasActionLogs
      */
     public function finishedLog(): void
     {
-        if (! $this->isFailedLog()) {
-            $this->actionLog->finished();
+        if ($actionLog = $this->actionLog) {
+            if (! $this->isFailedLog()) {
+                $actionLog->finished();
 
-            // Filament notifications
-            $this->success();
+                // Filament notifications
+                $this->success();
+            }
         }
     }
 

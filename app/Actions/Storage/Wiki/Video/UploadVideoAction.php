@@ -103,7 +103,7 @@ class UploadVideoAction extends UploadAction
             Video::ATTRIBUTE_FILENAME => File::name($this->file->getClientOriginalName()),
             Video::ATTRIBUTE_MIMETYPE => $this->file->getMimeType(),
             Video::ATTRIBUTE_PATH => $path,
-            Video::ATTRIBUTE_RESOLUTION => intval(Arr::get(SubmissionRule::$ffprobeData['streams'][0], 'height')),
+            Video::ATTRIBUTE_RESOLUTION => SubmissionRule::getResolution($this->file),
             Video::ATTRIBUTE_SIZE => $this->file->getSize(),
         ];
 
