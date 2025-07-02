@@ -10,11 +10,9 @@ use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
 use App\Models\Wiki\Image;
 use App\Pivots\List\PlaylistImage;
-use CyrildeWit\EloquentViewable\View;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 use Tests\TestCase;
@@ -133,22 +131,6 @@ class PlaylistTest extends TestCase
 
         static::assertEmpty(array_diff([$user->id, $playlist->playlist_id], $playlist->hashids()));
         static::assertEmpty(array_diff($playlist->hashids(), [$user->id, $playlist->playlist_id]));
-    }
-
-    /**
-     * Playlists shall have a one-to-many polymorphic relationship to View.
-     *
-     * @return void
-     */
-    public function testViews(): void
-    {
-        $playlist = Playlist::factory()->createOne();
-
-        views($playlist)->record();
-
-        static::assertInstanceOf(MorphMany::class, $playlist->views());
-        static::assertEquals(1, $playlist->views()->count());
-        static::assertInstanceOf(View::class, $playlist->views()->first());
     }
 
     /**

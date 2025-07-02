@@ -5,10 +5,8 @@ declare(strict_types=1);
 namespace App\Models\List;
 
 use App\Concerns\Models\Aggregate\AggregatesLike;
-use App\Concerns\Models\Aggregate\AggregatesView;
 use App\Concerns\Models\InteractsWithLikes;
 use App\Contracts\Models\HasAggregateLikes;
-use App\Contracts\Models\HasAggregateViews;
 use App\Contracts\Models\HasHashids;
 use App\Contracts\Models\HasImages;
 use App\Contracts\Models\Likeable;
@@ -23,8 +21,6 @@ use App\Models\BaseModel;
 use App\Models\List\Playlist\PlaylistTrack;
 use App\Models\Wiki\Image;
 use App\Pivots\List\PlaylistImage;
-use CyrildeWit\EloquentViewable\Contracts\Viewable;
-use CyrildeWit\EloquentViewable\InteractsWithViews;
 use Database\Factories\List\PlaylistFactory;
 use Elastic\ScoutDriverPlus\Searchable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -50,12 +46,10 @@ use Illuminate\Support\Collection;
  *
  * @method static PlaylistFactory factory(...$parameters)
  */
-class Playlist extends BaseModel implements HasAggregateLikes, HasAggregateViews, HasHashids, HasImages, Likeable, Viewable
+class Playlist extends BaseModel implements HasAggregateLikes, HasHashids, HasImages, Likeable
 {
     use AggregatesLike;
-    use AggregatesView;
     use InteractsWithLikes;
-    use InteractsWithViews;
     use Searchable;
 
     final public const TABLE = 'playlists';
