@@ -43,7 +43,7 @@ abstract class BaseAction extends Action
             if ($livewire instanceof BaseRelationManager) {
                 $this->createActionLog($action, $livewire->getOwnerRecord());
                 $livewire->dispatch('updateAllRelationManager');
-            } else if (($record = $this->getRecord()) instanceof Model) {
+            } elseif (($record = $this->getRecord()) instanceof Model) {
                 $this->createActionLog($action, $record);
             }
         });
