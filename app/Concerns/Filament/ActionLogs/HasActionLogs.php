@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Concerns\Filament\ActionLogs;
 
 use App\Models\Admin\ActionLog;
+use Filament\Actions\Action;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Throwable;
@@ -35,12 +36,12 @@ trait HasActionLogs
     /**
      * Create an action log.
      *
-     * @param  mixed  $action
+     * @param  Action  $action
      * @param  Model  $record
      * @param  bool  $shouldCreateNewBatchId
      * @return void
      */
-    public function createActionLog(mixed $action, Model $record, ?bool $shouldCreateNewBatchId = true): void
+    public function createActionLog(Action $action, Model $record, ?bool $shouldCreateNewBatchId = true): void
     {
         if ($shouldCreateNewBatchId) {
             $this->createBatchId();

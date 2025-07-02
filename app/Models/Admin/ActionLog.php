@@ -9,6 +9,7 @@ use App\Discord\DiscordEmbedField;
 use App\Enums\Models\Admin\ActionLogStatus;
 use App\Models\Auth\User;
 use App\Models\BaseModel;
+use Filament\Actions\Action;
 use Filament\Facades\Filament;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -316,10 +317,10 @@ class ActionLog extends Model implements Nameable
      * @param  Model  $related
      * @param  Model  $parent
      * @param  Model  $pivot
-     * @param  mixed  $action
+     * @param  Action|null  $action
      * @return ActionLog
      */
-    public static function modelPivot(string $actionName, Model $related, Model $parent, Model $pivot, mixed $action = null): ActionLog
+    public static function modelPivot(string $actionName, Model $related, Model $parent, Model $pivot, ?Action $action = null): ActionLog
     {
         return ActionLog::query()->create([
             ActionLog::ATTRIBUTE_BATCH_ID => Str::orderedUuid()->__toString(),
@@ -331,7 +332,7 @@ class ActionLog extends Model implements Nameable
             ActionLog::ATTRIBUTE_TARGET_ID => $parent->getKey(),
             ActionLog::ATTRIBUTE_MODEL_TYPE => $pivot->getMorphClass(),
             ActionLog::ATTRIBUTE_MODEL_ID => $pivot->getKey(),
-            ActionLog::ATTRIBUTE_FIELDS => $action?->getFormData() ?? static::getFields($pivot->getAttributes(), $pivot),
+            ActionLog::ATTRIBUTE_FIELDS => $action?->getData() ?? static::getFields($pivot->getAttributes(), $pivot),
             ActionLog::ATTRIBUTE_STATUS => ActionLogStatus::FINISHED->value,
             ActionLog::ATTRIBUTE_FINISHED_AT => Date::now(),
         ]);
@@ -343,10 +344,10 @@ class ActionLog extends Model implements Nameable
      * @param  string  $actionName
      * @param  Model  $related
      * @param  Model  $parent
-     * @param  mixed  $action
+     * @param  Action  $action
      * @return ActionLog
      */
-    public static function modelAssociated(string $actionName, Model $related, Model $parent, mixed $action): ActionLog
+    public static function modelAssociated(string $actionName, Model $related, Model $parent, Action $action): ActionLog
     {
         return ActionLog::query()->create([
             ActionLog::ATTRIBUTE_BATCH_ID => Str::orderedUuid()->__toString(),
@@ -358,7 +359,7 @@ class ActionLog extends Model implements Nameable
             ActionLog::ATTRIBUTE_TARGET_ID => $parent->getKey(),
             ActionLog::ATTRIBUTE_MODEL_TYPE => $related->getMorphClass(),
             ActionLog::ATTRIBUTE_MODEL_ID => $related->getKey(),
-            ActionLog::ATTRIBUTE_FIELDS => $action->getFormData(),
+            ActionLog::ATTRIBUTE_FIELDS => $action->getData(),
             ActionLog::ATTRIBUTE_STATUS => ActionLogStatus::FINISHED->value,
             ActionLog::ATTRIBUTE_FINISHED_AT => Date::now(),
         ]);
@@ -368,11 +369,11 @@ class ActionLog extends Model implements Nameable
      * Register an action log for when a model has an action executed.
      *
      * @param  string  $batchId
-     * @param  mixed  $action
+     * @param  Action  $action
      * @param  Model  $model
      * @return ActionLog
      */
-    public static function modelActioned(string $batchId, mixed $action, Model $model): ActionLog
+    public static function modelActioned(string $batchId, Action $action, Model $model): ActionLog
     {
         return ActionLog::query()->create([
             ActionLog::ATTRIBUTE_BATCH_ID => $batchId,
@@ -384,7 +385,7 @@ class ActionLog extends Model implements Nameable
             ActionLog::ATTRIBUTE_TARGET_ID => $model->getKey(),
             ActionLog::ATTRIBUTE_MODEL_TYPE => $model->getMorphClass(),
             ActionLog::ATTRIBUTE_MODEL_ID => $model->getKey(),
-            ActionLog::ATTRIBUTE_FIELDS => static::getFields($action->getFormData()),
+            ActionLog::ATTRIBUTE_FIELDS => static::getFields($action->getData()),
             ActionLog::ATTRIBUTE_STATUS => ActionLogStatus::RUNNING->value,
         ]);
     }
