@@ -8,6 +8,7 @@ use App\Concerns\Filament\ActionLogs\HasActionLogs;
 use App\Filament\RelationManagers\BaseRelationManager;
 use Filament\Actions\Action;
 use Filament\Support\Enums\Width;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
 /**
@@ -42,8 +43,8 @@ abstract class BaseAction extends Action
             if ($livewire instanceof BaseRelationManager) {
                 $this->createActionLog($action, $livewire->getOwnerRecord());
                 $livewire->dispatch('updateAllRelationManager');
-            } else {
-                $this->createActionLog($action);
+            } else if (($record = $this->getRecord()) instanceof Model) {
+                $this->createActionLog($action, $record);
             }
         });
 

@@ -69,7 +69,7 @@ abstract class SubmissionRule implements ValidationRule, ValidatorAwareRule
      * @param  UploadedFile  $file
      * @return array
      */
-    private static function getFFprobeData(UploadedFile $file): array
+    public static function getFFprobeData(UploadedFile $file): array
     {
         $command = static::formatFfprobeCommand($file);
 
