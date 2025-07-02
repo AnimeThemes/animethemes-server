@@ -146,7 +146,16 @@ class ActionLog extends BaseResource
                     ->keyLabel(__('filament.fields.action_log.fields.keys'))
                     ->valueLabel(__('filament.fields.action_log.fields.values'))
                     ->columnSpanFull()
-                    ->hidden(fn ($state) => is_null($state)),
+                    ->hidden(fn ($state) => is_null($state))
+                    ->formatStateUsing(function (?array $state) {
+                        return collect($state)->mapWithKeys(function ($value, $key) {
+                            if (is_array($value)) {
+                                $value = json_encode($value);
+                            }
+
+                            return [$key => blank($value) ? '-' : $value];
+                        })->toArray();
+                    }),
 
                 Textarea::make(ActionLogModel::ATTRIBUTE_EXCEPTION)
                     ->label(__('filament.fields.action_log.exception'))
@@ -234,7 +243,16 @@ class ActionLog extends BaseResource
                     ->keyLabel(__('filament.fields.action_log.fields.keys'))
                     ->valueLabel(__('filament.fields.action_log.fields.values'))
                     ->columnSpanFull()
-                    ->hidden(fn ($state) => is_null($state)),
+                    ->hidden(fn ($state) => is_null($state))
+                    ->formatStateUsing(function (?array $state) {
+                        return collect($state)->mapWithKeys(function ($value, $key) {
+                            if (is_array($value)) {
+                                $value = json_encode($value);
+                            }
+
+                            return [$key => blank($value) ? '-' : $value];
+                        })->toArray();
+                    }),
 
                 TextEntry::make(ActionLogModel::ATTRIBUTE_EXCEPTION)
                     ->label(__('filament.fields.action_log.exception'))

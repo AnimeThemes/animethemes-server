@@ -322,6 +322,8 @@ class ActionLog extends Model implements Nameable
      */
     public static function modelPivot(string $actionName, Model $related, Model $parent, Model $pivot, ?Action $action = null): ActionLog
     {
+        $data = $action?->getData();
+
         return ActionLog::query()->create([
             ActionLog::ATTRIBUTE_BATCH_ID => Str::orderedUuid()->__toString(),
             ActionLog::ATTRIBUTE_USER => ActionLog::getUserId(),
@@ -332,7 +334,7 @@ class ActionLog extends Model implements Nameable
             ActionLog::ATTRIBUTE_TARGET_ID => $parent->getKey(),
             ActionLog::ATTRIBUTE_MODEL_TYPE => $pivot->getMorphClass(),
             ActionLog::ATTRIBUTE_MODEL_ID => $pivot->getKey(),
-            ActionLog::ATTRIBUTE_FIELDS => $action?->getData() ?? static::getFields($pivot->getAttributes(), $pivot),
+            ActionLog::ATTRIBUTE_FIELDS => $data ? static::getFields($data) : static::getFields($pivot->getAttributes(), $pivot),
             ActionLog::ATTRIBUTE_STATUS => ActionLogStatus::FINISHED->value,
             ActionLog::ATTRIBUTE_FINISHED_AT => Date::now(),
         ]);
@@ -359,7 +361,7 @@ class ActionLog extends Model implements Nameable
             ActionLog::ATTRIBUTE_TARGET_ID => $parent->getKey(),
             ActionLog::ATTRIBUTE_MODEL_TYPE => $related->getMorphClass(),
             ActionLog::ATTRIBUTE_MODEL_ID => $related->getKey(),
-            ActionLog::ATTRIBUTE_FIELDS => $action->getData(),
+            ActionLog::ATTRIBUTE_FIELDS => static::getFields($action->getData()),
             ActionLog::ATTRIBUTE_STATUS => ActionLogStatus::FINISHED->value,
             ActionLog::ATTRIBUTE_FINISHED_AT => Date::now(),
         ]);
