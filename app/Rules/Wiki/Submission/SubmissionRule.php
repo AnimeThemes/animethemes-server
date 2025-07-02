@@ -22,7 +22,7 @@ abstract class SubmissionRule implements ValidationRule, ValidatorAwareRule
      *
      * @var array
      */
-    public static array $ffprobeData = [];
+    public array $ffprobeData = [];
 
     /**
      * The loudness stats of the input file as parsed by the ffmpeg audio filter.
@@ -48,10 +48,10 @@ abstract class SubmissionRule implements ValidationRule, ValidatorAwareRule
 
         $ffprobeData = Arr::get($validator->getData(), 'ffprobeData');
         if ($ffprobeData === null && $file !== null) {
-            $ffprobeData = $this->getFFprobeData($file);
+            $ffprobeData = static::getFFprobeData($file);
             $validator->setValue('ffprobeData', $ffprobeData);
         }
-        static::$ffprobeData = $ffprobeData;
+        $this->ffprobeData = $ffprobeData;
 
         $loudnessStats = Arr::get($validator->getData(), 'loudnessStats');
         if ($loudnessStats === null && $file !== null) {
@@ -69,7 +69,7 @@ abstract class SubmissionRule implements ValidationRule, ValidatorAwareRule
      * @param  UploadedFile  $file
      * @return array
      */
-    private function getFFprobeData(UploadedFile $file): array
+    private static function getFFprobeData(UploadedFile $file): array
     {
         $command = static::formatFfprobeCommand($file);
 
@@ -102,7 +102,7 @@ abstract class SubmissionRule implements ValidationRule, ValidatorAwareRule
      */
     protected function streams(): array
     {
-        return Arr::get(static::$ffprobeData, 'streams', []);
+        return Arr::get($this->ffprobeData, 'streams', []);
     }
 
     /**
@@ -112,7 +112,7 @@ abstract class SubmissionRule implements ValidationRule, ValidatorAwareRule
      */
     protected function format(): array
     {
-        return Arr::get(static::$ffprobeData, 'format', []);
+        return Arr::get($this->ffprobeData, 'format', []);
     }
 
     /**
@@ -122,7 +122,7 @@ abstract class SubmissionRule implements ValidationRule, ValidatorAwareRule
      */
     protected function chapters(): array
     {
-        return Arr::get(static::$ffprobeData, 'chapters', []);
+        return Arr::get($this->ffprobeData, 'chapters', []);
     }
 
     /**
@@ -158,6 +158,17 @@ abstract class SubmissionRule implements ValidationRule, ValidatorAwareRule
         $tags = Arr::get($audio, 'tags', []);
 
         return array_change_key_case($tags);
+    }
+
+    /**
+     * Get the resolution of the uploaded file.
+     *
+     * @param  UploadedFile  $file
+     * @return int
+     */
+    public static function getResolution(UploadedFile $file): int
+    {
+        return intval(Arr::get(static::getFFprobeData($file), 'streams.0.height', 0));
     }
 
     /**
