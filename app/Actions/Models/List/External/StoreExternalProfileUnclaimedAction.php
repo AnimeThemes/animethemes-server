@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Actions\Models\List\ExternalProfile;
+namespace App\Actions\Models\List\External;
 
 use App\Actions\Http\Api\StoreAction;
-use App\Actions\Models\List\ExternalProfile\ExternalEntry\BaseExternalEntryAction;
-use App\Actions\Models\List\ExternalProfile\ExternalEntry\Username\AnilistExternalEntryAction;
+use App\Actions\Models\List\External\Entry\BaseExternalEntryUnclaimedAction;
+use App\Actions\Models\List\External\Entry\Unclaimed\AnilistExternalEntryUnclaimedAction;
 use App\Enums\Models\List\ExternalProfileSite;
 use App\Enums\Models\List\ExternalProfileVisibility;
 use App\Models\List\ExternalProfile;
@@ -18,9 +18,9 @@ use Illuminate\Support\Facades\Log;
 use RuntimeException;
 
 /**
- * Class StoreExternalProfileUsernameAction.
+ * Class StoreExternalProfileUnclaimedAction.
  */
-class StoreExternalProfileUsernameAction
+class StoreExternalProfileUnclaimedAction
 {
     /**
      * Get the first record or store an external profile and its entries given determined username.
@@ -86,14 +86,14 @@ class StoreExternalProfileUsernameAction
      *
      * @param  ExternalProfileSite  $site
      * @param  ExternalProfile|array  $profile
-     * @return BaseExternalEntryAction
+     * @return BaseExternalEntryUnclaimedAction
      *
      * @throws RuntimeException
      */
-    public static function getActionClass(ExternalProfileSite $site, ExternalProfile|array $profile): BaseExternalEntryAction
+    public static function getActionClass(ExternalProfileSite $site, ExternalProfile|array $profile): BaseExternalEntryUnclaimedAction
     {
         return match ($site) {
-            ExternalProfileSite::ANILIST => new AnilistExternalEntryAction($profile),
+            ExternalProfileSite::ANILIST => new AnilistExternalEntryUnclaimedAction($profile),
             default => throw new RuntimeException("External entry action not configured for site {$site->localize()}"),
         };
     }

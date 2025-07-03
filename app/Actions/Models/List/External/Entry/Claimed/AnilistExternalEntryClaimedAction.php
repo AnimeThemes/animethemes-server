@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Actions\Models\List\ExternalProfile\ExternalEntry\Token;
+namespace App\Actions\Models\List\External\Entry\Claimed;
 
-use App\Actions\Models\List\ExternalProfile\ExternalEntry\BaseExternalEntryTokenAction;
+use App\Actions\Models\List\External\Entry\BaseExternalEntryClaimedAction;
 use App\Enums\Models\List\ExternalEntryWatchStatus;
 use App\Models\List\External\ExternalEntry;
 use App\Models\Wiki\ExternalResource;
@@ -14,25 +14,25 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
 /**
- * Class AnilistExternalEntryTokenAction.
+ * Class AnilistExternalEntryClaimedAction.
  */
-class AnilistExternalEntryTokenAction extends BaseExternalEntryTokenAction
+class AnilistExternalEntryClaimedAction extends BaseExternalEntryClaimedAction
 {
     /**
      * Get the entries of the response.
      *
-     * @return array
+     * @return array<int, array<string, mixed>>
      */
     public function getEntries(): array
     {
         $entries = [];
 
-        if ($this->response === null) {
+        if ($this->data === null) {
             $this->makeRequest();
         }
 
-        if ($response = $this->response) {
-            $lists = Arr::where(Arr::get($response, 'data.MediaListCollection.lists'), fn ($value) => $value['isCustomList'] === false);
+        if ($data = $this->data) {
+            $lists = Arr::where(Arr::get($data, 'MediaListCollection.lists'), fn ($value) => $value['isCustomList'] === false);
 
             foreach ($lists as $list) {
                 foreach (Arr::get($list, 'entries') as $entry) {
@@ -57,11 +57,11 @@ class AnilistExternalEntryTokenAction extends BaseExternalEntryTokenAction
      */
     public function getUsername(): ?string
     {
-        if ($this->response === null) {
+        if ($this->data === null) {
             $this->makeRequest();
         }
 
-        return Arr::get($this->response, 'data.Viewer.name');
+        return Arr::get($this->data, 'Viewer.name');
     }
 
     /**
@@ -87,11 +87,11 @@ class AnilistExternalEntryTokenAction extends BaseExternalEntryTokenAction
     /**
      * Make the request to the external api.
      *
-     * @return static
+     * @return void
      *
      * @throws RequestException
      */
-    protected function makeRequest(): static
+    protected function makeRequest(): void
     {
         try {
             $query = '
@@ -105,7 +105,6 @@ class AnilistExternalEntryTokenAction extends BaseExternalEntryTokenAction
                             status
                             isCustomList
                             entries {
-                                private
                                 status
                                 score
                                 media {
@@ -122,15 +121,13 @@ class AnilistExternalEntryTokenAction extends BaseExternalEntryTokenAction
                 'userId' => $this->getUserId(),
             ];
 
-            $this->response = Http::withToken($this->getToken())
+            $this->data = Http::withToken($this->getToken())
                 ->post('https://graphql.anilist.co', [
                     'query' => $query,
                     'variables' => $variables,
                 ])
                 ->throw()
-                ->json();
-
-            return $this;
+                ->json('data');
         } catch (RequestException $e) {
             Log::error($e->getMessage());
 

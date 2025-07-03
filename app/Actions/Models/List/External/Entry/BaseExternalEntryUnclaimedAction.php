@@ -2,19 +2,25 @@
 
 declare(strict_types=1);
 
-namespace App\Actions\Models\List\ExternalProfile\ExternalEntry;
+namespace App\Actions\Models\List\External\Entry;
 
 use App\Models\List\ExternalProfile;
+use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Arr;
 
 /**
- * Class BaseExternalEntryAction.
+ * Class BaseExternalEntryUnclaimedAction.
  *
  * This action will create the entries through the username method.
  */
-abstract class BaseExternalEntryAction
+abstract class BaseExternalEntryUnclaimedAction
 {
-    protected ?array $response = null;
+    /**
+     * The JSON response of the external API.
+     *
+     * @var array|null
+     */
+    protected ?array $data = null;
 
     /**
      * Create a new action instance.
@@ -47,14 +53,16 @@ abstract class BaseExternalEntryAction
     /**
      * Get the entries of the response.
      *
-     * @return array
+     * @return array<int, array<string, mixed>>
      */
     abstract public function getEntries(): array;
 
     /**
      * Make the request to the external api.
      *
-     * @return static
+     * @return void
+     *
+     * @throws RequestException
      */
-    abstract protected function makeRequest(): static;
+    abstract protected function makeRequest(): void;
 }

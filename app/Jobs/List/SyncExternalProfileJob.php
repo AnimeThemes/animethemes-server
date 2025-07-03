@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Jobs\List;
 
-use App\Actions\Models\List\ExternalProfile\SyncExternalProfileAction;
+use App\Actions\Models\List\External\SyncExternalProfileAction;
 use App\Features\AllowExternalProfileManagement;
 use App\Jobs\Middleware\ExternalProfileSiteRateLimited;
 use App\Models\List\ExternalProfile;
