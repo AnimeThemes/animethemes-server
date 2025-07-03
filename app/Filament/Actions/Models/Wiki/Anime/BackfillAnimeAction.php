@@ -7,6 +7,7 @@ namespace App\Filament\Actions\Models\Wiki\Anime;
 use App\Actions\Models\Wiki\BackfillAnimeAction as BackfillAnime;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Enums\Models\Wiki\ResourceSite;
+use App\Filament\Actions\Base\MarkAsReadAction;
 use App\Filament\Actions\BaseAction;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\ExternalResource;
@@ -92,9 +93,7 @@ class BackfillAnimeAction extends BaseAction implements ShouldQueue
                     ->body($result->getMessage())
                     ->warning()
                     ->actions([
-                        Action::make('mark-as-read')
-                            ->button()
-                            ->markAsRead(),
+                        MarkAsReadAction::make(),
                     ])
                     ->sendToDatabase(Auth::user());
             }

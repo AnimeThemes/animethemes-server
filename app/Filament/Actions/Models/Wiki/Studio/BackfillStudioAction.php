@@ -6,6 +6,7 @@ namespace App\Filament\Actions\Models\Wiki\Studio;
 
 use App\Actions\Models\Wiki\BackfillStudioAction as BackfillStudioActionAction;
 use App\Enums\Models\Wiki\ImageFacet;
+use App\Filament\Actions\Base\MarkAsReadAction;
 use App\Filament\Actions\BaseAction;
 use App\Models\Wiki\Image;
 use App\Models\Wiki\Studio;
@@ -76,9 +77,7 @@ class BackfillStudioAction extends BaseAction implements ShouldQueue
                     ->body($result->getMessage())
                     ->warning()
                     ->actions([
-                        Action::make('mark-as-read')
-                            ->button()
-                            ->markAsRead(),
+                        MarkAsReadAction::make(),
                     ])
                     ->sendToDatabase(Auth::user());
             }
