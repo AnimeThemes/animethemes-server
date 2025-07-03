@@ -24,6 +24,8 @@ class FixPlaylistAction extends BaseAction
     {
         parent::setUp();
 
+        $this->name('fix-playlist');
+
         $this->label(__('filament.actions.models.list.fix_playlist.name'));
 
         $this->authorize(Auth::user()->hasRole(Role::ADMIN->value));

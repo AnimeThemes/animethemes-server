@@ -24,6 +24,8 @@ class DeleteAudioBulkAction extends DeleteBulkAction
     {
         parent::setUp();
 
+        $this->name('remove-audio-bulk');
+
         $this->label(__('filament.actions.audio.delete.name'));
 
         $this->visible(Auth::user()->can('forcedeleteany', Audio::class));

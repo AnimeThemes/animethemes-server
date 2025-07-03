@@ -262,7 +262,7 @@ class ExternalProfile extends BaseResource
     public static function getRecordActions(): array
     {
         return [
-            SyncExternalProfileAction::make('sync-profile'),
+            SyncExternalProfileAction::make(),
         ];
     }
 

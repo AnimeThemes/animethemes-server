@@ -57,6 +57,8 @@ class BackfillAnimeAction extends BaseAction implements ShouldQueue
     {
         parent::setUp();
 
+        $this->name('backfill-anime');
+
         $this->label(__('filament.actions.anime.backfill.name'));
         $this->icon(__('filament-icons.actions.anime.backfill'));
 

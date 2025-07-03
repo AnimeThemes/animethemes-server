@@ -30,7 +30,7 @@ class ListPerformances extends BaseListResources
     protected function getHeaderActions(): array
     {
         return [
-            Action::make('new performance')
+            Action::make('new-performance')
                 ->schema(fn (Schema $schema) => Performance::form($schema)->getComponents())
                 ->authorize('create', PerformanceModel::class)
                 ->action(function (array $data) {

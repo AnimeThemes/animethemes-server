@@ -24,9 +24,10 @@ class DeleteVideoBulkAction extends DeleteBulkAction
     {
         parent::setUp();
 
+        $this->name('remove-video-bulk');
+
         $this->label(__('filament.actions.video.delete.name'));
         $this->icon(__('filament-icons.actions.base.delete'));
-        $this->color('danger');
 
         $this->visible(Auth::user()->can('forcedeleteany', Video::class));
     }

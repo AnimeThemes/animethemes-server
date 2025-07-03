@@ -35,6 +35,8 @@ class MoveAllAction extends BaseAction
     {
         parent::setUp();
 
+        $this->name('move-all');
+
         $this->label(__('filament.actions.base.move_all'));
         $this->icon(__('filament-icons.actions.base.move_all'));
 

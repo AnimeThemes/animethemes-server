@@ -313,7 +313,7 @@ class Track extends BaseResource
     public static function getRecordActions(): array
     {
         return [
-            AssignHashidsAction::make('assign-hashids')
+            AssignHashidsAction::make()
                 ->setConnection('playlists')
                 ->authorize('update', TrackModel::class),
         ];

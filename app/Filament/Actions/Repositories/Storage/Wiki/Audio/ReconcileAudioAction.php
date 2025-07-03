@@ -27,6 +27,8 @@ class ReconcileAudioAction extends ReconcileStorageAction
     {
         parent::setUp();
 
+        $this->name('reconcile-audio');
+
         $this->label(__('filament.actions.repositories.name', ['label' => __('filament.resources.label.audios')]));
 
         $this->visible(Auth::user()->can('create', Audio::class));

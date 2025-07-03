@@ -343,11 +343,11 @@ class Anime extends BaseResource
         ];
 
         return [
-            DiscordThreadAction::make('discord-thread'),
+            DiscordThreadAction::make(),
 
-            BackfillAnimeAction::make('backfill-anime'),
+            BackfillAnimeAction::make(),
 
-            AttachAnimeResourceAction::make('attach-anime-resource'),
+            AttachAnimeResourceAction::make(),
 
             AttachAnimeResourceAction::make('attach-anime-streaming-resource')
                 ->label(__('filament.actions.models.wiki.attach_streaming_resource.name'))

@@ -43,6 +43,8 @@ class UploadAudioAction extends UploadAction
     {
         parent::setUp();
 
+        $this->name('upload-audio');
+
         $this->label(__('filament.actions.audio.upload.name'));
 
         $this->visible(Auth::user()->can('create', Audio::class));

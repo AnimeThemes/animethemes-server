@@ -102,7 +102,7 @@ abstract class ImageRelationManager extends BaseRelationManager
             ...parent::getHeaderActions(),
             ...ImageResource::getTableActions(),
 
-            AttachImageAction::make('attachimage'),
+            AttachImageAction::make(),
         ];
     }
 

@@ -72,6 +72,8 @@ class UploadVideoAction extends UploadAction
     {
         parent::setUp();
 
+        $this->name('upload-video');
+
         $this->label(__('filament.actions.video.upload.name'));
 
         $this->visible(Auth::user()->can('create', Video::class));
@@ -164,7 +166,7 @@ class UploadVideoAction extends UploadAction
                                     ->required()
                                     ->default(ShouldBackfillAudio::YES),
 
-                                ...BackfillAudioAction::make('backfill-audio')->getSchema($schema)->getComponents(),
+                                ...BackfillAudioAction::make()->getSchema($schema)->getComponents(),
                             ]),
 
                         Tab::make('discord')
@@ -177,7 +179,7 @@ class UploadVideoAction extends UploadAction
                                     ->required()
                                     ->default(ShouldSendNotification::YES),
 
-                                ...VideoDiscordNotificationBulkAction::make('notification-bulk')->getSchema($schema)->getComponents(),
+                                ...VideoDiscordNotificationBulkAction::make()->getSchema($schema)->getComponents(),
                             ]),
                     ]),
             ]);

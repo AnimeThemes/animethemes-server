@@ -24,6 +24,8 @@ class SyncExternalProfileAction extends BaseAction
     {
         parent::setUp();
 
+        $this->name('sync-external-profile');
+
         $this->label(__('filament.actions.models.list.sync_profile.name'));
         $this->icon(__('filament-icons.actions.models.list.sync_profile'));
 

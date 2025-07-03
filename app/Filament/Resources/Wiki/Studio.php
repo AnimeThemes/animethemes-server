@@ -232,9 +232,9 @@ class Studio extends BaseResource
     public static function getRecordActions(): array
     {
         return [
-            BackfillStudioAction::make('backfill-studio'),
+            BackfillStudioAction::make(),
 
-            AttachStudioResourceAction::make('attach-studio-resource'),
+            AttachStudioResourceAction::make(),
         ];
     }
 

@@ -21,6 +21,8 @@ class AttachSongResourceAction extends AttachResourceAction
     {
         parent::setUp();
 
+        $this->name('attach-song-resource');
+
         $this->sites([
             ResourceSite::ANIDB,
             ResourceSite::SPOTIFY,

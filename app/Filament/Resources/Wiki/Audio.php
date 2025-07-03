@@ -216,9 +216,9 @@ class Audio extends BaseResource
     public static function getRecordActions(): array
     {
         return [
-            MoveAudioAction::make('move-audio'),
+            MoveAudioAction::make(),
 
-            DeleteAudioAction::make('delete-audio'),
+            DeleteAudioAction::make(),
         ];
     }
 
@@ -231,9 +231,9 @@ class Audio extends BaseResource
     public static function getBulkActions(?array $actionsIncludedInGroup = []): array
     {
         return [
-            ...parent::getBulkActions(),
-
-            DeleteAudioBulkAction::make('delete-audio'),
+            ...parent::getBulkActions([
+                DeleteAudioBulkAction::make(),
+            ]),
         ];
     }
 
@@ -248,9 +248,9 @@ class Audio extends BaseResource
     {
         return [
             ActionGroup::make([
-                UploadAudioAction::make('upload-audio'),
+                UploadAudioAction::make(),
 
-                ReconcileAudioAction::make('reconcile-audio'),
+                ReconcileAudioAction::make(),
             ]),
         ];
     }

@@ -34,6 +34,8 @@ class AttachImageAction extends BaseAction
     {
         parent::setUp();
 
+        $this->name('attach-image');
+
         $this->label(__('filament.actions.models.wiki.attach_image.name'));
         $this->icon(__('filament-icons.actions.models.wiki.attach_image'));
 

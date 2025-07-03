@@ -287,7 +287,7 @@ class Artist extends BaseResource
     public static function getRecordActions(): array
     {
         return [
-            AttachArtistResourceAction::make('attach-artist-resource'),
+            AttachArtistResourceAction::make(),
         ];
     }
 

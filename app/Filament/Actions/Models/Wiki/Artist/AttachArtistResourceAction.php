@@ -21,6 +21,8 @@ class AttachArtistResourceAction extends AttachResourceAction
     {
         parent::setUp();
 
+        $this->name('attach-artist-resource');
+
         $this->sites([
             ResourceSite::ANIDB,
             ResourceSite::ANILIST,

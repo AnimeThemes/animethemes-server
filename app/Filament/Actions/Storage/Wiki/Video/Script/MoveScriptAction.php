@@ -26,6 +26,8 @@ class MoveScriptAction extends MoveAction
     {
         parent::setUp();
 
+        $this->name('move-script');
+
         $this->label(__('filament.actions.video_script.move.name'));
 
         $this->authorize('create', VideoScript::class);

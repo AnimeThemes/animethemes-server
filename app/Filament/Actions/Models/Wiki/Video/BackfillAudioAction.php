@@ -39,6 +39,8 @@ class BackfillAudioAction extends BaseAction implements ShouldQueue
     {
         parent::setUp();
 
+        $this->name('backfill-audio');
+
         $this->label(__('filament.actions.video.backfill.name'));
 
         $this->icon(__('filament-icons.actions.video.backfill'));

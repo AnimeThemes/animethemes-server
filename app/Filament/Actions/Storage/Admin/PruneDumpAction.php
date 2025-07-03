@@ -25,6 +25,8 @@ class PruneDumpAction extends PruneAction
     {
         parent::setUp();
 
+        $this->name('prune-dump');
+
         $this->label(__('filament.actions.dump.prune.name'));
 
         $this->visible(Auth::user()->can('forcedeleteany', Dump::class));

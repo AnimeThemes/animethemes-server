@@ -21,6 +21,8 @@ class DumpWikiAction extends DumpAction
     {
         parent::setUp();
 
+        $this->name('dump-wiki');
+
         $this->label(__('filament.actions.dump.dump.name.wiki'));
     }
 

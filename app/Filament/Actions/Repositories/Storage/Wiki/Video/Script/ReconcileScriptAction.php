@@ -27,6 +27,8 @@ class ReconcileScriptAction extends ReconcileStorageAction
     {
         parent::setUp();
 
+        $this->name('reconcile-script');
+
         $this->label(__('filament.actions.repositories.name', ['label' => __('filament.resources.label.video_scripts')]));
 
         $this->visible(Auth::user()->can('create', VideoScript::class));

@@ -43,6 +43,8 @@ class BackfillStudioAction extends BaseAction implements ShouldQueue
     {
         parent::setUp();
 
+        $this->name('backfill-studio');
+
         $this->label(__('filament.actions.studio.backfill.name'));
 
         $this->authorize('update', Studio::class);

@@ -269,9 +269,9 @@ class DiscordThread extends BaseResource
             ...parent::getTableActions(),
 
             ActionGroup::make([
-                DiscordEditMessageAction::make('edit-message'),
+                DiscordEditMessageAction::make(),
 
-                DiscordSendMessageAction::make('send-message'),
+                DiscordSendMessageAction::make(),
             ]),
         ];
     }

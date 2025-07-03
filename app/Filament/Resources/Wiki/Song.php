@@ -238,7 +238,7 @@ class Song extends BaseResource
     public static function getRecordActions(): array
     {
         return [
-            AttachSongResourceAction::make('attach-song-resource'),
+            AttachSongResourceAction::make(),
         ];
     }
 

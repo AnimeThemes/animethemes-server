@@ -14,6 +14,20 @@ use App\Models\BaseModel;
 abstract class DeleteBulkAction extends StorageBulkAction
 {
     /**
+     * Initial setup for the action.
+     *
+     * @return void
+     */
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->color('danger');
+
+        $this->icon(__('filament-icons.actions.base.delete'));
+    }
+
+    /**
      * Get the underlying storage action.
      *
      * @param  BaseModel  $model

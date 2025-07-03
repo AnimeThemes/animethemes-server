@@ -34,6 +34,8 @@ class UploadScriptAction extends UploadAction
     {
         parent::setUp();
 
+        $this->name('upload-script');
+
         $this->label(__('filament.actions.video_script.upload.name'));
 
         $this->visible(Auth::user()->can('create', VideoScript::class));

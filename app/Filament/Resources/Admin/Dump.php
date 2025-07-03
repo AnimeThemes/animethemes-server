@@ -218,13 +218,13 @@ class Dump extends BaseResource
     {
         return [
             ActionGroup::make([
-                DumpWikiAction::make('dump-wiki'),
+                DumpWikiAction::make(),
 
-                DumpDocumentAction::make('dump-document'),
+                DumpDocumentAction::make(),
 
-                PruneDumpAction::make('prune-dump'),
+                PruneDumpAction::make(),
 
-                ReconcileDumpAction::make('reconcile-dump'),
+                ReconcileDumpAction::make(),
             ]),
         ];
     }

@@ -27,6 +27,8 @@ class RevokePermissionAction extends BaseAction
     {
         parent::setUp();
 
+        $this->name('user-revoke-permission');
+
         $this->label(__('filament.actions.user.revoke_permission.name'));
 
         $this->action(fn (User $record, array $data) => $this->handle($record, $data));
