@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Actions\Models\List\ExternalProfile;
+namespace App\Actions\Models\List\External;
 
 use App\Actions\Http\Api\StoreAction;
-use App\Actions\Models\List\ExternalProfile\ExternalEntry\BaseExternalEntryTokenAction;
-use App\Actions\Models\List\ExternalProfile\ExternalEntry\Token\AnilistExternalEntryTokenAction;
-use App\Actions\Models\List\ExternalProfile\ExternalEntry\Token\MalExternalEntryTokenAction;
+use App\Actions\Models\List\External\Entry\BaseExternalEntryClaimedAction;
+use App\Actions\Models\List\External\Entry\Claimed\AnilistExternalEntryClaimedAction;
+use App\Actions\Models\List\External\Entry\Claimed\MalExternalEntryClaimedAction;
 use App\Enums\Models\List\ExternalProfileSite;
 use App\Enums\Models\List\ExternalProfileVisibility;
 use App\Models\List\External\ExternalToken;
@@ -19,9 +19,9 @@ use Illuminate\Support\Facades\Log;
 use RuntimeException;
 
 /**
- * Class StoreExternalProfileTokenAction.
+ * Class StoreExternalProfileClaimedAction.
  */
-class StoreExternalProfileTokenAction
+class StoreExternalProfileClaimedAction
 {
     protected Collection $resources;
 
@@ -58,11 +58,11 @@ class StoreExternalProfileTokenAction
      *
      * @param  int  $userId
      * @param  ExternalProfileSite  $site
-     * @param  BaseExternalEntryTokenAction  $action
+     * @param  BaseExternalEntryClaimedAction  $action
      * @param  array  $parameters
      * @return ExternalProfile
      */
-    protected function firstForUserIdOrCreate(int $userId, ExternalProfileSite $site, BaseExternalEntryTokenAction $action, array $parameters): ExternalProfile
+    protected function firstForUserIdOrCreate(int $userId, ExternalProfileSite $site, BaseExternalEntryClaimedAction $action, array $parameters): ExternalProfile
     {
         $claimedProfile = ExternalProfile::query()
             ->where(ExternalProfile::ATTRIBUTE_EXTERNAL_USER_ID, $userId)
@@ -109,15 +109,15 @@ class StoreExternalProfileTokenAction
      *
      * @param  ExternalProfileSite  $site
      * @param  ExternalToken  $token
-     * @return BaseExternalEntryTokenAction
+     * @return BaseExternalEntryClaimedAction
      *
      * @throws RuntimeException
      */
-    public static function getActionClass(ExternalProfileSite $site, ExternalToken $token): BaseExternalEntryTokenAction
+    public static function getActionClass(ExternalProfileSite $site, ExternalToken $token): BaseExternalEntryClaimedAction
     {
         return match ($site) {
-            ExternalProfileSite::ANILIST => new AnilistExternalEntryTokenAction($token),
-            ExternalProfileSite::MAL => new MalExternalEntryTokenAction($token),
+            ExternalProfileSite::ANILIST => new AnilistExternalEntryClaimedAction($token),
+            ExternalProfileSite::MAL => new MalExternalEntryClaimedAction($token),
             default => throw new RuntimeException("External entry token action not configured for site {$site->localize()}"),
         };
     }

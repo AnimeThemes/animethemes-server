@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace App\Actions\Models\List\ExternalProfile\ExternalEntry;
+namespace App\Actions\Models\List\External\Entry;
 
 use App\Models\List\ExternalProfile;
 use Illuminate\Support\Arr;
 
 /**
- * Class BaseExternalEntryAction.
+ * Class BaseExternalEntryUnclaimedAction.
  *
  * This action will create the entries through the username method.
  */
-abstract class BaseExternalEntryAction
+abstract class BaseExternalEntryUnclaimedAction
 {
     protected ?array $response = null;
 

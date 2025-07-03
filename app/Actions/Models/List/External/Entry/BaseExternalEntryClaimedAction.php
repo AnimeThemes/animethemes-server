@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace App\Actions\Models\List\ExternalProfile\ExternalEntry;
+namespace App\Actions\Models\List\External\Entry;
 
 use App\Models\List\External\ExternalToken;
 use Illuminate\Support\Facades\Crypt;
 
 /**
- * Class BaseExternalEntryTokenAction.
+ * Class BaseExternalEntryClaimedAction.
  *
  * This action will create the entries through the authentication method.
  */
-abstract class BaseExternalEntryTokenAction
+abstract class BaseExternalEntryClaimedAction
 {
     /**
      * The response of the external API.

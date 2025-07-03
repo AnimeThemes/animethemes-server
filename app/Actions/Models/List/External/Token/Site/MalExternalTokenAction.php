@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Actions\Models\List\ExternalProfile\ExternalToken\Site;
+namespace App\Actions\Models\List\External\Token\Site;
 
-use App\Actions\Models\List\ExternalProfile\ExternalToken\BaseExternalTokenAction;
+use App\Actions\Models\List\External\Token\BaseExternalTokenAction;
 use App\Models\List\External\ExternalToken;
 use Error;
 use Exception;

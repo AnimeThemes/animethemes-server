@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Actions\Models\List\ExternalProfile\ExternalEntry\Token;
+namespace App\Actions\Models\List\External\Entry\Claimed;
 
-use App\Actions\Models\List\ExternalProfile\ExternalEntry\BaseExternalEntryTokenAction;
+use App\Actions\Models\List\External\Entry\BaseExternalEntryClaimedAction;
 use App\Enums\Models\List\ExternalEntryWatchStatus;
 use App\Models\List\External\ExternalEntry;
 use App\Models\Wiki\ExternalResource;
@@ -14,9 +14,9 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
 /**
- * Class AnilistExternalEntryTokenAction.
+ * Class AnilistExternalEntryClaimedAction.
  */
-class AnilistExternalEntryTokenAction extends BaseExternalEntryTokenAction
+class AnilistExternalEntryClaimedAction extends BaseExternalEntryClaimedAction
 {
     /**
      * Get the entries of the response.
@@ -105,7 +105,6 @@ class AnilistExternalEntryTokenAction extends BaseExternalEntryTokenAction
                             status
                             isCustomList
                             entries {
-                                private
                                 status
                                 score
                                 media {

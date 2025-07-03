@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Actions\Models\List;
 
-use App\Actions\Models\List\ExternalProfile\ExternalToken\BaseExternalTokenAction;
-use App\Actions\Models\List\ExternalProfile\ExternalToken\Site\AnilistExternalTokenAction;
-use App\Actions\Models\List\ExternalProfile\ExternalToken\Site\MalExternalTokenAction;
-use App\Actions\Models\List\ExternalProfile\StoreExternalProfileTokenAction;
+use App\Actions\Models\List\External\StoreExternalProfileClaimedAction;
+use App\Actions\Models\List\External\Token\BaseExternalTokenAction;
+use App\Actions\Models\List\External\Token\Site\AnilistExternalTokenAction;
+use App\Actions\Models\List\External\Token\Site\MalExternalTokenAction;
 use App\Enums\Models\List\ExternalProfileSite;
 use App\Models\List\External\ExternalToken;
 use App\Models\List\ExternalProfile;
@@ -48,7 +48,7 @@ class ExternalTokenCallbackAction
                 $externalToken = $this->getActionClass($profileSite)->store($parameters);
             }
 
-            $profileAction = new StoreExternalProfileTokenAction();
+            $profileAction = new StoreExternalProfileClaimedAction();
 
             $profile = $profileAction->firstOrCreate($externalToken, $parameters);
 

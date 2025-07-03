@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models\Wiki\Song;
 
+use App\Concerns\Models\Reportable;
 use App\Events\Wiki\Song\Performance\PerformanceCreated;
 use App\Events\Wiki\Song\Performance\PerformanceDeleted;
 use App\Events\Wiki\Song\Performance\PerformanceDeleting;
@@ -31,6 +32,8 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
  */
 class Performance extends BaseModel
 {
+    use Reportable;
+
     final public const TABLE = 'performances';
 
     final public const ATTRIBUTE_ID = 'performance_id';

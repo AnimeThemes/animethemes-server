@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\HeaderActions\Models\List\External;
 
-use App\Actions\Models\List\ExternalProfile\SyncExternalProfileAction;
+use App\Actions\Models\List\External\SyncExternalProfileAction;
 use App\Filament\HeaderActions\BaseHeaderAction;
 use App\Models\List\ExternalProfile;
 

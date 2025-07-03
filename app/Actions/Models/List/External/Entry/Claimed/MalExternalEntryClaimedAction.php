@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Actions\Models\List\ExternalProfile\ExternalEntry\Token;
+namespace App\Actions\Models\List\External\Entry\Claimed;
 
-use App\Actions\Models\List\ExternalProfile\ExternalEntry\BaseExternalEntryTokenAction;
+use App\Actions\Models\List\External\Entry\BaseExternalEntryClaimedAction;
 use App\Enums\Models\List\ExternalEntryWatchStatus;
 use App\Models\List\External\ExternalEntry;
 use App\Models\Wiki\ExternalResource;
@@ -14,9 +14,9 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
 /**
- * Class MalExternalEntryTokenAction.
+ * Class MalExternalEntryClaimedAction.
  */
-class MalExternalEntryTokenAction extends BaseExternalEntryTokenAction
+class MalExternalEntryClaimedAction extends BaseExternalEntryClaimedAction
 {
     /**
      * The response of the user endpoint in external API.

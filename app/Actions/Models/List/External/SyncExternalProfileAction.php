@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Actions\Models\List\ExternalProfile;
+namespace App\Actions\Models\List\External;
 
-use App\Actions\Models\List\ExternalProfile\ExternalEntry\BaseExternalEntryAction;
-use App\Actions\Models\List\ExternalProfile\ExternalEntry\BaseExternalEntryTokenAction;
+use App\Actions\Models\List\External\Entry\BaseExternalEntryClaimedAction;
+use App\Actions\Models\List\External\Entry\BaseExternalEntryUnclaimedAction;
 use App\Enums\Models\List\ExternalProfileSite;
 use App\Events\List\ExternalProfile\ExternalProfileSynced;
 use App\Models\List\External\ExternalEntry;
@@ -97,22 +97,22 @@ class SyncExternalProfileAction
      * Get the mapping for the entries token class.
      *
      * @param  ExternalProfile  $profile
-     * @return BaseExternalEntryTokenAction
+     * @return BaseExternalEntryClaimedAction
      */
-    protected function getClaimedActionClass(ExternalProfile $profile): BaseExternalEntryTokenAction
+    protected function getClaimedActionClass(ExternalProfile $profile): BaseExternalEntryClaimedAction
     {
-        return StoreExternalProfileTokenAction::getActionClass($profile->site, $profile->externaltoken);
+        return StoreExternalProfileClaimedAction::getActionClass($profile->site, $profile->externaltoken);
     }
 
     /**
      * Get the mapping for the entries class.
      *
      * @param  ExternalProfile  $profile
-     * @return BaseExternalEntryAction
+     * @return BaseExternalEntryUnclaimedAction
      */
-    protected function getUnclaimedActionClass(ExternalProfile $profile): BaseExternalEntryAction
+    protected function getUnclaimedActionClass(ExternalProfile $profile): BaseExternalEntryUnclaimedAction
     {
-        return StoreExternalProfileUsernameAction::getActionClass($profile->site, $profile);
+        return StoreExternalProfileUnclaimedAction::getActionClass($profile->site, $profile);
     }
 
     /**

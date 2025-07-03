@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Actions\Models\List\ExternalProfile\ExternalEntry\Username;
+namespace App\Actions\Models\List\External\Entry\Unclaimed;
 
-use App\Actions\Models\List\ExternalProfile\ExternalEntry\BaseExternalEntryAction;
+use App\Actions\Models\List\External\Entry\BaseExternalEntryUnclaimedAction;
 use App\Enums\Models\List\ExternalEntryWatchStatus;
 use App\Models\List\External\ExternalEntry;
 use App\Models\Wiki\ExternalResource;
@@ -14,9 +14,9 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
 /**
- * Class AnilistExternalEntryAction.
+ * Class AnilistExternalEntryUnclaimedAction.
  */
-class AnilistExternalEntryAction extends BaseExternalEntryAction
+class AnilistExternalEntryUnclaimedAction extends BaseExternalEntryUnclaimedAction
 {
     /**
      * Get the entries of the response.

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Actions\Models\List\ExternalProfile\ExternalToken;
+namespace App\Actions\Models\List\External\Token;
 
 use App\Models\List\External\ExternalToken;
 use Exception;
