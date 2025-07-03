@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Providers;
 
 use App\Filament\Providers\GlobalSearchScoutProvider;
+use Filament\Actions\ActionGroup;
 // use Awcodes\Recently\RecentlyPlugin;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -50,6 +51,10 @@ class FilamentPanelProvider extends PanelProvider
     public function register(): void
     {
         parent::register();
+
+        ActionGroup::configureUsing(function (ActionGroup $actionGroup) {
+            $actionGroup->dropdownPlacement('bottom-end');
+        });
 
         Column::configureUsing(function (Column $column) {
             $column->placeholder('-');
