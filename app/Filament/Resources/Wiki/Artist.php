@@ -28,11 +28,9 @@ use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Schemas\Components\Section;
-use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Schema;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str;
 
 /**
  * Class Artist.
@@ -145,12 +143,9 @@ class Artist extends BaseResource
                     ->helperText(__('filament.fields.artist.name.help'))
                     ->required()
                     ->maxLength(192)
-                    ->live(true)
-                    ->partiallyRenderComponentsAfterStateUpdated([ArtistModel::ATTRIBUTE_SLUG])
-                    ->afterStateUpdated(fn (string $state, Set $set) => $set(ArtistModel::ATTRIBUTE_SLUG, Str::slug($state, '_'))),
-                // ->afterStateUpdatedJs(<<<'JS'
-                //     $set('slug', slug($state ?? ''));
-                // JS),
+                    ->afterStateUpdatedJs(<<<'JS'
+                        $set('slug', slug($state ?? ''));
+                    JS),
 
                 Slug::make(ArtistModel::ATTRIBUTE_SLUG)
                     ->label(__('filament.fields.artist.slug.name'))
