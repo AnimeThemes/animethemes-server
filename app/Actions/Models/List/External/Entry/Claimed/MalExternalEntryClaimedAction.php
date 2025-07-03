@@ -19,29 +19,29 @@ use Illuminate\Support\Facades\Log;
 class MalExternalEntryClaimedAction extends BaseExternalEntryClaimedAction
 {
     /**
-     * The response of the user endpoint in external API.
+     * The JSON response of the user endpoint in external API.
      *
      * @var array|null
      */
-    protected ?array $userResponse = null;
+    protected ?array $userData = null;
 
     /**
      * Get the entries of the response.
      *
-     * @return array
+     * @return array<int, array<string, mixed>>
      */
     public function getEntries(): array
     {
         $entries = [];
 
-        if ($this->response === null) {
+        if ($this->data === null) {
             $this->makeRequest();
         }
 
-        if ($response = $this->response) {
-            foreach (Arr::get($response, 'data') as $data) {
-                $animeInfo = Arr::get($data, 'node');
-                $listStatus = Arr::get($data, 'list_status');
+        if ($data = $this->data) {
+            foreach ($data as $info) {
+                $animeInfo = Arr::get($info, 'node');
+                $listStatus = Arr::get($info, 'list_status');
 
                 $watchStatus = Arr::get($listStatus, 'is_rewatching')
                     ? 'rewatching'
@@ -66,11 +66,11 @@ class MalExternalEntryClaimedAction extends BaseExternalEntryClaimedAction
      */
     public function getUsername(): ?string
     {
-        if ($this->userResponse === null) {
+        if ($this->userData === null) {
             $this->makeUserRequest();
         }
 
-        return Arr::get($this->userResponse, 'name');
+        return Arr::get($this->userData, 'name');
     }
 
     /**
@@ -80,27 +80,27 @@ class MalExternalEntryClaimedAction extends BaseExternalEntryClaimedAction
      */
     public function getUserId(): ?int
     {
-        if ($this->response === null) {
+        if ($this->data === null) {
             $this->makeUserRequest();
         }
 
-        return Arr::get($this->userResponse, 'id');
+        return Arr::get($this->userData, 'id');
     }
 
     /**
      * Make the request to the user endpoint of the external api.
      *
-     * @return static
+     * @return void
+     *
+     * @throws RequestException
      */
-    protected function makeUserRequest(): static
+    protected function makeUserRequest(): void
     {
         try {
-            $this->userResponse = Http::withToken($this->getToken())
+            $this->userData = Http::withToken($this->getToken())
                 ->get('https://api.myanimelist.net/v2/users/@me')
                 ->throw()
                 ->json();
-
-            return $this;
         } catch (RequestException $e) {
             Log::error($e->getMessage());
 
@@ -111,20 +111,20 @@ class MalExternalEntryClaimedAction extends BaseExternalEntryClaimedAction
     /**
      * Make the request to the external api.
      *
-     * @return static
+     * @return void
+     *
+     * @throws RequestException
      */
-    protected function makeRequest(): static
+    protected function makeRequest(): void
     {
         try {
-            $this->response = Http::withToken($this->getToken())
+            $this->data = Http::withToken($this->getToken())
                 ->get('https://api.myanimelist.net/v2/users/@me/animelist', [
                     'fields' => 'list_status',
                     'limit' => '1000',
                 ])
                 ->throw()
-                ->json();
-
-            return $this;
+                ->json('data');
         } catch (RequestException $e) {
             Log::error($e->getMessage());
 

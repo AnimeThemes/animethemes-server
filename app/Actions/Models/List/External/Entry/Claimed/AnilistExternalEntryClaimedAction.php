@@ -21,18 +21,18 @@ class AnilistExternalEntryClaimedAction extends BaseExternalEntryClaimedAction
     /**
      * Get the entries of the response.
      *
-     * @return array
+     * @return array<int, array<string, mixed>>
      */
     public function getEntries(): array
     {
         $entries = [];
 
-        if ($this->response === null) {
+        if ($this->data === null) {
             $this->makeRequest();
         }
 
-        if ($response = $this->response) {
-            $lists = Arr::where(Arr::get($response, 'data.MediaListCollection.lists'), fn ($value) => $value['isCustomList'] === false);
+        if ($data = $this->data) {
+            $lists = Arr::where(Arr::get($data, 'MediaListCollection.lists'), fn ($value) => $value['isCustomList'] === false);
 
             foreach ($lists as $list) {
                 foreach (Arr::get($list, 'entries') as $entry) {
@@ -57,11 +57,11 @@ class AnilistExternalEntryClaimedAction extends BaseExternalEntryClaimedAction
      */
     public function getUsername(): ?string
     {
-        if ($this->response === null) {
+        if ($this->data === null) {
             $this->makeRequest();
         }
 
-        return Arr::get($this->response, 'data.Viewer.name');
+        return Arr::get($this->data, 'Viewer.name');
     }
 
     /**
@@ -87,11 +87,11 @@ class AnilistExternalEntryClaimedAction extends BaseExternalEntryClaimedAction
     /**
      * Make the request to the external api.
      *
-     * @return static
+     * @return void
      *
      * @throws RequestException
      */
-    protected function makeRequest(): static
+    protected function makeRequest(): void
     {
         try {
             $query = '
@@ -121,15 +121,13 @@ class AnilistExternalEntryClaimedAction extends BaseExternalEntryClaimedAction
                 'userId' => $this->getUserId(),
             ];
 
-            $this->response = Http::withToken($this->getToken())
+            $this->data = Http::withToken($this->getToken())
                 ->post('https://graphql.anilist.co', [
                     'query' => $query,
                     'variables' => $variables,
                 ])
                 ->throw()
-                ->json();
-
-            return $this;
+                ->json('data');
         } catch (RequestException $e) {
             Log::error($e->getMessage());
 
