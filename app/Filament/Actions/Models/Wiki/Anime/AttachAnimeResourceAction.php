@@ -31,8 +31,6 @@ class AttachAnimeResourceAction extends AttachResourceAction
     {
         parent::setUp();
 
-        $this->name('attach-anime-resource');
-
         $this->sites([
             ResourceSite::ANIDB,
             ResourceSite::ANILIST,
