@@ -91,7 +91,7 @@ class PerformanceSongRelationManager extends PerformanceRelationManager
         return [
             Action::make('manage-performances')
                 ->label(__('filament.actions.performances.manage_performances'))
-                ->action(fn ($livewire, array $data) => static::saveArtists($livewire->getOwnerRecord(), Arr::get($data, Song::RELATION_PERFORMANCES)))
+                ->action(fn (self $livewire, array $data) => static::saveArtists($livewire->getOwnerRecord(), Arr::get($data, Song::RELATION_PERFORMANCES)))
                 ->schema(PerformanceForm::performancesFields()),
         ];
     }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Wiki\Song\Performance\Schemas;
 
+use App\Filament\Actions\Models\Wiki\Song\Performance\LoadMembersAction;
 use App\Filament\Components\Fields\BelongsTo;
 use App\Filament\Resources\Wiki\Artist as ArtistResource;
 use App\Filament\Resources\Wiki\Artist\RelationManagers\GroupPerformanceArtistRelationManager;
@@ -14,14 +15,10 @@ use App\Models\Wiki\Artist;
 use App\Models\Wiki\Song as SongModel;
 use App\Models\Wiki\Song\Membership;
 use App\Models\Wiki\Song\Performance;
-use App\Pivots\Wiki\ArtistMember;
-use Filament\Actions\Action;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Utilities\Get;
-use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Schema;
-use Illuminate\Support\Arr;
 
 /**
  * Class PerformanceForm.
@@ -81,29 +78,7 @@ class PerformanceForm
                         ->resource(ArtistResource::class)
                         ->showCreateOption()
                         ->required()
-                        ->hintAction(
-                            Action::make('load')
-                                ->label(__('filament.fields.performance.load_members.name'))
-                                ->action(function (Get $get, Set $set) {
-                                    $artistId = $get(Artist::ATTRIBUTE_ID);
-                                    if ($artistId === null) {
-                                        $set('memberships', []);
-
-                                        return;
-                                    }
-
-                                    /** @var Artist $group */
-                                    $group = Artist::query()
-                                        ->with([Artist::RELATION_MEMBERS])
-                                        ->find($artistId);
-
-                                    $set('memberships', $group->members->map(fn (Artist $member) => [
-                                        Membership::ATTRIBUTE_MEMBER => $member->getKey(),
-                                        Membership::ATTRIBUTE_ALIAS => Arr::get($member->{$group->members()->getPivotAccessor()}, ArtistMember::ATTRIBUTE_ALIAS),
-                                        Membership::ATTRIBUTE_AS => Arr::get($member->{$group->members()->getPivotAccessor()}, ArtistMember::ATTRIBUTE_AS),
-                                    ])->toArray());
-                                })
-                        ),
+                        ->hintAction(LoadMembersAction::make()),
 
                     TextInput::make(Performance::ATTRIBUTE_AS)
                         ->label(__('filament.fields.performance.as.name'))
