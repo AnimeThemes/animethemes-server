@@ -53,7 +53,7 @@ enum AnimeSeason: int
     /**
      * Get the current season.
      *
-     * @return string
+     * @return AnimeSeason
      */
     public static function getCurrentSeason(): self
     {
