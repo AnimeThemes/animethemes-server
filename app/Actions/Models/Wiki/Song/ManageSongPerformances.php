@@ -49,8 +49,8 @@ class ManageSongPerformances
         $this->performances[] = [
             Performance::ATTRIBUTE_ARTIST_TYPE => Artist::class,
             Performance::ATTRIBUTE_ARTIST_ID => $artist,
-            Performance::ATTRIBUTE_ALIAS => filled(trim($alias)) ? $alias : null,
-            Performance::ATTRIBUTE_AS => filled(trim($as)) ? $as : null,
+            Performance::ATTRIBUTE_ALIAS => filled($alias) ? trim($alias) : null,
+            Performance::ATTRIBUTE_AS => filled($as) ? trim($as) : null,
         ];
 
         return $this;
@@ -67,8 +67,8 @@ class ManageSongPerformances
     public function addGroupData(int $group, ?string $alias = null, ?string $as = null): static
     {
         $this->groups[$group] = [
-            Performance::ATTRIBUTE_ALIAS => filled(trim($alias)) ? $alias : null,
-            Performance::ATTRIBUTE_AS => filled(trim($as)) ? $as : null,
+            Performance::ATTRIBUTE_ALIAS => filled($alias) ? trim($alias) : null,
+            Performance::ATTRIBUTE_AS => filled($as) ? trim($as) : null,
         ];
 
         return $this;
@@ -92,8 +92,8 @@ class ManageSongPerformances
             Performance::RELATION_MEMBERSHIP => [
                 Membership::ATTRIBUTE_ARTIST => $group,
                 Membership::ATTRIBUTE_MEMBER => $member,
-                Membership::ATTRIBUTE_ALIAS => filled(trim($alias)) ? $alias : null,
-                Membership::ATTRIBUTE_AS => filled(trim($as)) ? $as : null,
+                Membership::ATTRIBUTE_ALIAS => filled($alias) ? trim($alias) : null,
+                Membership::ATTRIBUTE_AS => filled($as) ? trim($as) : null,
             ],
         ];
 
