@@ -13,6 +13,16 @@ use App\Filament\Actions\Models\Wiki\AttachResourceAction;
 class AttachStudioResourceAction extends AttachResourceAction
 {
     /**
+     * The default name of the action.
+     *
+     * @return string|null
+     */
+    public static function getDefaultName(): ?string
+    {
+        return 'attach-studio-resource';
+    }
+
+    /**
      * Initial setup for the action.
      *
      * @return void

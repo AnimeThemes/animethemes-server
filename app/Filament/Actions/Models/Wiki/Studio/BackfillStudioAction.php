@@ -35,6 +35,16 @@ class BackfillStudioAction extends BaseAction implements ShouldQueue
     final public const BACKFILL_LARGE_COVER = 'backfill_large_cover';
 
     /**
+     * The default name of the action.
+     *
+     * @return string|null
+     */
+    public static function getDefaultName(): ?string
+    {
+        return 'backfill-studio';
+    }
+
+    /**
      * Initial setup for the action.
      *
      * @return void
@@ -42,8 +52,6 @@ class BackfillStudioAction extends BaseAction implements ShouldQueue
     protected function setUp(): void
     {
         parent::setUp();
-
-        $this->name('backfill-studio');
 
         $this->label(__('filament.actions.studio.backfill.name'));
 

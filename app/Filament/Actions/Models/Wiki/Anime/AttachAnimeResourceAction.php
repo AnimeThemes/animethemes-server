@@ -13,6 +13,16 @@ use App\Filament\Actions\Models\Wiki\AttachResourceAction;
 class AttachAnimeResourceAction extends AttachResourceAction
 {
     /**
+     * The default name of the action.
+     *
+     * @return string|null
+     */
+    public static function getDefaultName(): ?string
+    {
+        return 'attach-anime-resource';
+    }
+
+    /**
      * Initial setup for the action.
      *
      * @return void

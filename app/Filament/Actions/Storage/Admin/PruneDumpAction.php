@@ -17,6 +17,16 @@ use Illuminate\Support\Facades\Auth;
 class PruneDumpAction extends PruneAction
 {
     /**
+     * The default name of the action.
+     *
+     * @return string|null
+     */
+    public static function getDefaultName(): ?string
+    {
+        return 'prune-dump';
+    }
+
+    /**
      * Initial setup for the action.
      *
      * @return void
@@ -24,8 +34,6 @@ class PruneDumpAction extends PruneAction
     protected function setUp(): void
     {
         parent::setUp();
-
-        $this->name('prune-dump');
 
         $this->label(__('filament.actions.dump.prune.name'));
 

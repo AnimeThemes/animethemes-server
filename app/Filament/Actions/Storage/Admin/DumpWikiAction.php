@@ -13,6 +13,16 @@ use App\Actions\Storage\Admin\Dump\DumpWikiAction as DumpWikiDatabase;
 class DumpWikiAction extends DumpAction
 {
     /**
+     * The default name of the action.
+     *
+     * @return string|null
+     */
+    public static function getDefaultName(): ?string
+    {
+        return 'dump-wiki';
+    }
+
+    /**
      * Initial setup for the action.
      *
      * @return void
@@ -20,8 +30,6 @@ class DumpWikiAction extends DumpAction
     protected function setUp(): void
     {
         parent::setUp();
-
-        $this->name('dump-wiki');
 
         $this->label(__('filament.actions.dump.dump.name.wiki'));
     }

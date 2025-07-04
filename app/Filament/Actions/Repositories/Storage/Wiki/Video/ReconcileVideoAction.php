@@ -19,6 +19,16 @@ class ReconcileVideoAction extends ReconcileStorageAction
     use ReconcilesVideoRepositories;
 
     /**
+     * The default name of the action.
+     *
+     * @return string|null
+     */
+    public static function getDefaultName(): ?string
+    {
+        return 'reconcile-video';
+    }
+
+    /**
      * Initial setup for the action.
      *
      * @return void
@@ -26,8 +36,6 @@ class ReconcileVideoAction extends ReconcileStorageAction
     protected function setUp(): void
     {
         parent::setUp();
-
-        $this->name('reconcile-video');
 
         $this->label(__('filament.actions.repositories.name', ['label' => __('filament.resources.label.videos')]));
 

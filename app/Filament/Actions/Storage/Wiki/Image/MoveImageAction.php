@@ -19,6 +19,16 @@ use Illuminate\Support\Facades\File;
 class MoveImageAction extends MoveAction
 {
     /**
+     * The default name of the action.
+     *
+     * @return string|null
+     */
+    public static function getDefaultName(): ?string
+    {
+        return 'move-image';
+    }
+
+    /**
      * Initial setup for the action.
      *
      * @return void
@@ -26,8 +36,6 @@ class MoveImageAction extends MoveAction
     protected function setUp(): void
     {
         parent::setUp();
-
-        $this->name('move-image');
 
         $this->label(__('filament.actions.image.move.name'));
 

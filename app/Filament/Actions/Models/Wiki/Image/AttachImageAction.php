@@ -26,6 +26,16 @@ class AttachImageAction extends BaseAction
     ];
 
     /**
+     * The default name of the action.
+     *
+     * @return string|null
+     */
+    public static function getDefaultName(): ?string
+    {
+        return 'attach-image';
+    }
+
+    /**
      * Initial setup for the action.
      *
      * @return void
@@ -33,8 +43,6 @@ class AttachImageAction extends BaseAction
     protected function setUp(): void
     {
         parent::setUp();
-
-        $this->name('attach-image');
 
         $this->label(__('filament.actions.models.wiki.attach_image.name'));
         $this->icon(__('filament-icons.actions.models.wiki.attach_image'));

@@ -18,6 +18,16 @@ use Illuminate\Support\Facades\Config;
 class MoveScriptAction extends MoveAction
 {
     /**
+     * The default name of the action.
+     *
+     * @return string|null
+     */
+    public static function getDefaultName(): ?string
+    {
+        return 'move-script';
+    }
+
+    /**
      * Initial setup for the action.
      *
      * @return void
@@ -25,8 +35,6 @@ class MoveScriptAction extends MoveAction
     protected function setUp(): void
     {
         parent::setUp();
-
-        $this->name('move-script');
 
         $this->label(__('filament.actions.video_script.move.name'));
 

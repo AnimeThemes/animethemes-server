@@ -18,6 +18,16 @@ use Filament\Schemas\Schema;
 class DiscordThreadAction extends BaseAction
 {
     /**
+     * The default name of the action.
+     *
+     * @return string|null
+     */
+    public static function getDefaultName(): ?string
+    {
+        return 'discord-thread';
+    }
+
+    /**
      * Initial setup for the action.
      *
      * @return void
@@ -25,8 +35,6 @@ class DiscordThreadAction extends BaseAction
     protected function setUp(): void
     {
         parent::setUp();
-
-        $this->name('discord-thread');
 
         $this->label(__('filament.actions.anime.discord_thread.name'));
         $this->icon(__('filament-icons.actions.anime.discord_thread'));

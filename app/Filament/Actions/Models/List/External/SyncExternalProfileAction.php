@@ -16,6 +16,16 @@ use Illuminate\Support\Facades\Auth;
 class SyncExternalProfileAction extends BaseAction
 {
     /**
+     * The default name of the action.
+     *
+     * @return string|null
+     */
+    public static function getDefaultName(): ?string
+    {
+        return 'sync-external-profile';
+    }
+
+    /**
      * Initial setup for the action.
      *
      * @return void
@@ -23,8 +33,6 @@ class SyncExternalProfileAction extends BaseAction
     protected function setUp(): void
     {
         parent::setUp();
-
-        $this->name('sync-external-profile');
 
         $this->label(__('filament.actions.models.list.sync_profile.name'));
         $this->icon(__('filament-icons.actions.models.list.sync_profile'));

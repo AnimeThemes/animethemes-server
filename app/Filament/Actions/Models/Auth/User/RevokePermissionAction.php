@@ -19,6 +19,16 @@ class RevokePermissionAction extends BaseAction
     final public const FIELD_PERMISSION = 'permission';
 
     /**
+     * The default name of the action.
+     *
+     * @return string|null
+     */
+    public static function getDefaultName(): ?string
+    {
+        return 'user-revoke-permission';
+    }
+
+    /**
      * Initial setup for the action.
      *
      * @return void
@@ -26,8 +36,6 @@ class RevokePermissionAction extends BaseAction
     protected function setUp(): void
     {
         parent::setUp();
-
-        $this->name('user-revoke-permission');
 
         $this->label(__('filament.actions.user.revoke_permission.name'));
 

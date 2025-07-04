@@ -15,6 +15,16 @@ use Illuminate\Database\Eloquent\Model;
 class DeleteAudioAction extends DeleteAction
 {
     /**
+     * The default name of the action.
+     *
+     * @return string|null
+     */
+    public static function getDefaultName(): ?string
+    {
+        return 'delete-audio';
+    }
+
+    /**
      * Initial setup for the action.
      *
      * @return void
@@ -22,8 +32,6 @@ class DeleteAudioAction extends DeleteAction
     protected function setUp(): void
     {
         parent::setUp();
-
-        $this->name('delete-audio');
 
         $this->label(__('filament.actions.audio.delete.name'));
 

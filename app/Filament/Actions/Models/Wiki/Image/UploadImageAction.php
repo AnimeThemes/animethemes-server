@@ -25,6 +25,16 @@ class UploadImageAction extends BaseAction
     protected array $facets = [];
 
     /**
+     * The default name of the action.
+     *
+     * @return string|null
+     */
+    public static function getDefaultName(): ?string
+    {
+        return 'upload-image';
+    }
+
+    /**
      * Initial setup for the action.
      *
      * @return void
@@ -32,8 +42,6 @@ class UploadImageAction extends BaseAction
     protected function setUp(): void
     {
         parent::setUp();
-
-        $this->name('upload-image');
 
         $this->label(__('filament.actions.models.wiki.upload_image.name'));
 

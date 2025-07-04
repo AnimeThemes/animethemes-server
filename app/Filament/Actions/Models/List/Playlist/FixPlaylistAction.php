@@ -16,6 +16,16 @@ use Illuminate\Support\Facades\Auth;
 class FixPlaylistAction extends BaseAction
 {
     /**
+     * The default name of the action.
+     *
+     * @return string|null
+     */
+    public static function getDefaultName(): ?string
+    {
+        return 'fix-playlist';
+    }
+
+    /**
      * Initial setup for the action.
      *
      * @return void
@@ -23,8 +33,6 @@ class FixPlaylistAction extends BaseAction
     protected function setUp(): void
     {
         parent::setUp();
-
-        $this->name('fix-playlist');
 
         $this->label(__('filament.actions.models.list.fix_playlist.name'));
 

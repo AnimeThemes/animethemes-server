@@ -19,6 +19,16 @@ class GiveRoleAction extends BaseAction
     final public const FIELD_ROLE = 'role';
 
     /**
+     * The default name of the action.
+     *
+     * @return string|null
+     */
+    public static function getDefaultName(): ?string
+    {
+        return 'user-give-role';
+    }
+
+    /**
      * Initial setup for the action.
      *
      * @return void
@@ -26,8 +36,6 @@ class GiveRoleAction extends BaseAction
     protected function setUp(): void
     {
         parent::setUp();
-
-        $this->name('user-give-role');
 
         $this->label(__('filament.actions.user.give_role.name'));
 

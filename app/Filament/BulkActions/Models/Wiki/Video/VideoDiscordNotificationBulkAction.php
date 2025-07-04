@@ -21,6 +21,16 @@ use Illuminate\Support\Facades\Auth;
 class VideoDiscordNotificationBulkAction extends BaseBulkAction
 {
     /**
+     * The default name of the action.
+     *
+     * @return string|null
+     */
+    public static function getDefaultName(): ?string
+    {
+        return 'video-discord-notification-bulk';
+    }
+
+    /**
      * Initial setup for the action.
      *
      * @return void
@@ -30,8 +40,6 @@ class VideoDiscordNotificationBulkAction extends BaseBulkAction
         parent::setUp();
 
         $this->modalWidth(Width::Large);
-
-        $this->name('video-discord-notification-bulk');
 
         $this->label(__('filament.bulk_actions.discord.notification.name'));
         $this->icon(__('filament-icons.bulk_actions.discord.notification'));

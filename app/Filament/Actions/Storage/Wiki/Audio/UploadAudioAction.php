@@ -35,6 +35,16 @@ use Illuminate\Validation\Rules\File as FileRule;
 class UploadAudioAction extends UploadAction
 {
     /**
+     * The default name of the action.
+     *
+     * @return string|null
+     */
+    public static function getDefaultName(): ?string
+    {
+        return 'upload-audio';
+    }
+
+    /**
      * Initial setup for the action.
      *
      * @return void
@@ -42,8 +52,6 @@ class UploadAudioAction extends UploadAction
     protected function setUp(): void
     {
         parent::setUp();
-
-        $this->name('upload-audio');
 
         $this->label(__('filament.actions.audio.upload.name'));
 
