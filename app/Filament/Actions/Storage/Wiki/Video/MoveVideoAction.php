@@ -26,6 +26,8 @@ class MoveVideoAction extends MoveAction
     {
         parent::setUp();
 
+        $this->name('move-video');
+
         $this->label(__('filament.actions.video.move.name'));
 
         $this->authorize('create', Video::class);

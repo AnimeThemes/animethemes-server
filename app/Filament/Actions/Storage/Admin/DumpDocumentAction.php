@@ -21,6 +21,8 @@ class DumpDocumentAction extends DumpAction
     {
         parent::setUp();
 
+        $this->name('dump-document');
+
         $this->label(__('filament.actions.dump.dump.name.document'));
     }
 

@@ -27,6 +27,8 @@ class GiveRoleAction extends BaseAction
     {
         parent::setUp();
 
+        $this->name('permission-give-role');
+
         $this->label(__('filament.actions.permission.give_role.name'));
 
         $this->action(fn (Permission $record, array $data) => $this->handle($record, $data));

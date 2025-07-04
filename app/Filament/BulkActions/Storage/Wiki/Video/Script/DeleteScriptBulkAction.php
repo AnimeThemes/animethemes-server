@@ -24,6 +24,8 @@ class DeleteScriptBulkAction extends DeleteBulkAction
     {
         parent::setUp();
 
+        $this->name('remove-script-bulk');
+
         $this->label(__('filament.actions.video_script.delete.name'));
 
         $this->visible(Auth::user()->can('forcedeleteany', VideoScript::class));

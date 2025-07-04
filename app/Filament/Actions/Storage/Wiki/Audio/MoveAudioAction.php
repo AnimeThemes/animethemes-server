@@ -26,6 +26,8 @@ class MoveAudioAction extends MoveAction
     {
         parent::setUp();
 
+        $this->name('move-audio');
+
         $this->label(__('filament.actions.audio.move.name'));
 
         $this->authorize('create', Audio::class);

@@ -27,6 +27,8 @@ class MoveImageAction extends MoveAction
     {
         parent::setUp();
 
+        $this->name('move-image');
+
         $this->label(__('filament.actions.image.move.name'));
 
         $this->authorize('create', Image::class);

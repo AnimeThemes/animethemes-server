@@ -16,8 +16,6 @@ use App\Filament\Resources\BaseResource;
 use App\Models\Admin\Dump as DumpModel;
 use Filament\Actions\ActionGroup;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
-use Filament\Infolists\Infolist;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Tables\Table;
@@ -220,13 +218,13 @@ class Dump extends BaseResource
     {
         return [
             ActionGroup::make([
-                DumpWikiAction::make('dump-wiki'),
+                DumpWikiAction::make(),
 
-                DumpDocumentAction::make('dump-document'),
+                DumpDocumentAction::make(),
 
-                PruneDumpAction::make('prune-dump'),
+                PruneDumpAction::make(),
 
-                ReconcileDumpAction::make('reconcile-dump'),
+                ReconcileDumpAction::make(),
             ]),
         ];
     }

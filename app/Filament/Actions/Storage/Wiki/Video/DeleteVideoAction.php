@@ -23,6 +23,8 @@ class DeleteVideoAction extends DeleteAction
     {
         parent::setUp();
 
+        $this->name('delete-video');
+
         $this->label(__('filament.actions.video.delete.name'));
 
         $this->authorize('forcedelete', Video::class);

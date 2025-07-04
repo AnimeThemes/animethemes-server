@@ -8,12 +8,12 @@ use App\Actions\Models\Wiki\Video\Audio\BackfillAudioAction as BackfillAudio;
 use App\Enums\Actions\Models\Wiki\Video\DeriveSourceVideo;
 use App\Enums\Actions\Models\Wiki\Video\OverwriteAudio;
 use App\Enums\Actions\Models\Wiki\Video\ReplaceRelatedAudio;
+use App\Filament\Actions\Base\MarkAsReadAction;
 use App\Filament\Actions\BaseAction;
 use App\Filament\Components\Fields\Select;
 use App\Models\Wiki\Audio;
 use App\Models\Wiki\Video;
 use Exception;
-use Filament\Actions\Action;
 use Filament\Notifications\Notification;
 use Filament\Schemas\Schema;
 use Illuminate\Bus\Queueable;
@@ -38,6 +38,8 @@ class BackfillAudioAction extends BaseAction implements ShouldQueue
     protected function setUp(): void
     {
         parent::setUp();
+
+        $this->name('backfill-audio');
 
         $this->label(__('filament.actions.video.backfill.name'));
 
@@ -70,9 +72,7 @@ class BackfillAudioAction extends BaseAction implements ShouldQueue
                     ->body($result->getMessage())
                     ->warning()
                     ->actions([
-                        Action::make('mark-as-read')
-                            ->button()
-                            ->markAsRead(),
+                        MarkAsReadAction::make(),
                     ])
                     ->sendToDatabase(Auth::user());
             }

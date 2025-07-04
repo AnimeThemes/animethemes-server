@@ -365,13 +365,13 @@ class Video extends BaseResource
     public static function getRecordActions(): array
     {
         return [
-            BackfillAudioAction::make('backfill-audio'),
+            BackfillAudioAction::make(),
 
-            MoveVideoAction::make('move-video'),
+            MoveVideoAction::make(),
 
-            MoveAllAction::make('move-all'),
+            MoveAllAction::make(),
 
-            DeleteVideoAction::make('delete-video'),
+            DeleteVideoAction::make(),
         ];
     }
 
@@ -387,10 +387,10 @@ class Video extends BaseResource
     {
         return [
             ...parent::getBulkActions([
-                DeleteVideoBulkAction::make('delete-video'),
+                DeleteVideoBulkAction::make(),
             ]),
 
-            VideoDiscordNotificationBulkAction::make('discord-notification'),
+            VideoDiscordNotificationBulkAction::make(),
         ];
     }
 
@@ -405,9 +405,9 @@ class Video extends BaseResource
     {
         return [
             ActionGroup::make([
-                UploadVideoAction::make('upload-video'),
+                UploadVideoAction::make(),
 
-                ReconcileVideoAction::make('reconcile-video'),
+                ReconcileVideoAction::make(),
             ]),
         ];
     }

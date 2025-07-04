@@ -28,6 +28,8 @@ class ReconcileDumpAction extends ReconcileStorageAction
     {
         parent::setUp();
 
+        $this->name('reconcile-dump');
+
         $this->label(__('filament.actions.repositories.name', ['label' => __('filament.resources.label.dumps')]));
 
         $this->visible(Auth::user()->can('create', Dump::class));

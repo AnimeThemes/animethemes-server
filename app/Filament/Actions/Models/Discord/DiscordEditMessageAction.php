@@ -35,6 +35,8 @@ class DiscordEditMessageAction extends BaseAction
     {
         parent::setUp();
 
+        $this->name('discord-edit-message');
+
         $this->label(__('filament.table_actions.discord_thread.message.edit.name'));
         $this->icon(__('filament-icons.table_actions.discord_thread.message.edit'));
 

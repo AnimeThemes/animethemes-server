@@ -23,6 +23,8 @@ class DeleteScriptAction extends DeleteAction
     {
         parent::setUp();
 
+        $this->name('delete-script');
+
         $this->label(__('filament.actions.video_script.delete.name'));
 
         $this->authorize('delete', VideoScript::class);

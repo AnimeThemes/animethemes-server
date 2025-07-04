@@ -27,6 +27,8 @@ class AssignHashidsAction extends BaseAction
     {
         parent::setUp();
 
+        $this->name('assign-hashids');
+
         $this->label(__('filament.actions.models.list.assign_hashids.name'));
 
         $this->authorize('update', Playlist::class);

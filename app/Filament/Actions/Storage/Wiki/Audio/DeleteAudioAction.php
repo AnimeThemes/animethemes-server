@@ -23,6 +23,8 @@ class DeleteAudioAction extends DeleteAction
     {
         parent::setUp();
 
+        $this->name('delete-audio');
+
         $this->label(__('filament.actions.audio.delete.name'));
 
         $this->authorize('forcedelete', Audio::class);

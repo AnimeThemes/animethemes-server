@@ -27,6 +27,8 @@ class ReconcileVideoAction extends ReconcileStorageAction
     {
         parent::setUp();
 
+        $this->name('reconcile-video');
+
         $this->label(__('filament.actions.repositories.name', ['label' => __('filament.resources.label.videos')]));
 
         $this->visible(Auth::user()->can('create', Video::class));

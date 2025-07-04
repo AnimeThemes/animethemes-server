@@ -196,9 +196,9 @@ class Script extends BaseResource
     public static function getRecordActions(): array
     {
         return [
-            MoveScriptAction::make('move-script'),
+            MoveScriptAction::make(),
 
-            DeleteScriptAction::make('delete-script'),
+            DeleteScriptAction::make(),
         ];
     }
 
@@ -211,9 +211,9 @@ class Script extends BaseResource
     public static function getBulkActions(?array $actionsIncludedInGroup = []): array
     {
         return [
-            ...parent::getBulkActions(),
-
-            DeleteScriptBulkAction::make('delete-script'),
+            ...parent::getBulkActions([
+                DeleteScriptBulkAction::make(),
+            ]),
         ];
     }
 
@@ -228,9 +228,9 @@ class Script extends BaseResource
     {
         return [
             ActionGroup::make([
-                UploadScriptAction::make('upload-script'),
+                UploadScriptAction::make(),
 
-                ReconcileScriptAction::make('reconcile-script'),
+                ReconcileScriptAction::make(),
             ]),
         ];
     }

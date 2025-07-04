@@ -8,6 +8,7 @@ use App\Constants\Config\ServiceConstants;
 use App\Contracts\Events\FilamentNotificationEvent;
 use App\Enums\Auth\Role as RoleEnum;
 use App\Events\Base\BaseDeletedEvent;
+use App\Filament\Actions\Base\MarkAsReadAction;
 use App\Models\Auth\Role;
 use App\Models\Auth\User;
 use Filament\Actions\Action;
@@ -68,9 +69,7 @@ abstract class WikiDeletedEvent extends BaseDeletedEvent implements FilamentNoti
                     ->button()
                     ->url($this->getFilamentNotificationUrl()),
 
-                Action::make('mark-as-read')
-                    ->button()
-                    ->markAsRead(),
+                MarkAsReadAction::make(),
             ]);
     }
 

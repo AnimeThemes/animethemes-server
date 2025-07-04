@@ -33,6 +33,8 @@ class UploadImageAction extends BaseAction
     {
         parent::setUp();
 
+        $this->name('upload-image');
+
         $this->label(__('filament.actions.models.wiki.upload_image.name'));
 
         $this->facets([

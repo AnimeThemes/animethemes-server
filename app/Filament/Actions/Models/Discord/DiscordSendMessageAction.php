@@ -32,6 +32,8 @@ class DiscordSendMessageAction extends BaseAction
     {
         parent::setUp();
 
+        $this->name('discord-send-message');
+
         $this->label(__('filament.table_actions.discord_thread.message.send.name'));
         $this->icon(__('filament-icons.table_actions.discord_thread.message.send'));
 

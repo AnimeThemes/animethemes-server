@@ -258,9 +258,9 @@ class Role extends BaseResource
     public static function getRecordActions(): array
     {
         return [
-            GivePermissionAction::make('give-permission'),
+            GivePermissionAction::make(),
 
-            RevokePermissionAction::make('revoke-permission'),
+            RevokePermissionAction::make(),
         ];
     }
 

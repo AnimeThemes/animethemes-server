@@ -89,7 +89,7 @@ class PerformanceSongRelationManager extends PerformanceRelationManager
     public static function getHeaderActions(): array
     {
         return [
-            Action::make('manage performances')
+            Action::make('manage-performances')
                 ->label(__('filament.actions.performances.manage_performances'))
                 ->action(fn ($livewire, array $data) => static::saveArtists($livewire->getOwnerRecord(), Arr::get($data, Song::RELATION_PERFORMANCES)))
                 ->schema(PerformanceForm::performancesFields()),
@@ -171,8 +171,8 @@ class PerformanceSongRelationManager extends PerformanceRelationManager
             if (empty(Arr::get($artist, 'memberships'))) {
                 $action->addSingleArtist(
                     $groupOrArtist,
-                    blank($alias = Arr::get($artist, Performance::ATTRIBUTE_ALIAS)) ? null : $alias,
-                    blank($as = Arr::get($artist, Performance::ATTRIBUTE_AS)) ? null : $as,
+                    Arr::get($artist, Performance::ATTRIBUTE_ALIAS),
+                    Arr::get($artist, Performance::ATTRIBUTE_AS),
                 );
                 continue;
             }
@@ -181,16 +181,16 @@ class PerformanceSongRelationManager extends PerformanceRelationManager
 
             $action->addGroupData(
                 $group,
-                blank($alias = Arr::get($artist, Performance::ATTRIBUTE_ALIAS)) ? null : $alias,
-                blank($as = Arr::get($artist, Performance::ATTRIBUTE_AS)) ? null : $as,
+                Arr::get($artist, Performance::ATTRIBUTE_ALIAS),
+                Arr::get($artist, Performance::ATTRIBUTE_AS),
             );
 
             foreach (Arr::get($artist, 'memberships') as $membership) {
                 $action->addMembership(
                     $group,
                     Arr::get($membership, Membership::ATTRIBUTE_MEMBER),
-                    blank($alias = Arr::get($membership, Membership::ATTRIBUTE_ALIAS)) ? null : $alias,
-                    blank($as = Arr::get($membership, Membership::ATTRIBUTE_AS)) ? null : $as,
+                    Arr::get($membership, Membership::ATTRIBUTE_ALIAS),
+                    Arr::get($membership, Membership::ATTRIBUTE_AS),
                 );
             }
         }

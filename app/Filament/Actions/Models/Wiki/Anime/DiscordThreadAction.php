@@ -26,6 +26,8 @@ class DiscordThreadAction extends BaseAction
     {
         parent::setUp();
 
+        $this->name('discord-thread');
+
         $this->label(__('filament.actions.anime.discord_thread.name'));
         $this->icon(__('filament-icons.actions.anime.discord_thread'));
 

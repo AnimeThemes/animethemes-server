@@ -210,9 +210,9 @@ class Permission extends BaseResource
     public static function getRecordActions(): array
     {
         return [
-            GiveRoleAction::make('give-role'),
+            GiveRoleAction::make(),
 
-            RevokeRoleAction::make('revoke-role'),
+            RevokeRoleAction::make(),
         ];
     }
 

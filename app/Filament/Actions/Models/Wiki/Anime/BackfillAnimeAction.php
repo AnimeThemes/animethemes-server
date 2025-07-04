@@ -7,12 +7,12 @@ namespace App\Filament\Actions\Models\Wiki\Anime;
 use App\Actions\Models\Wiki\BackfillAnimeAction as BackfillAnime;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Enums\Models\Wiki\ResourceSite;
+use App\Filament\Actions\Base\MarkAsReadAction;
 use App\Filament\Actions\BaseAction;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Image;
 use Exception;
-use Filament\Actions\Action;
 use Filament\Forms\Components\Checkbox;
 use Filament\Notifications\Notification;
 use Filament\Schemas\Components\Section;
@@ -57,6 +57,8 @@ class BackfillAnimeAction extends BaseAction implements ShouldQueue
     {
         parent::setUp();
 
+        $this->name('backfill-anime');
+
         $this->label(__('filament.actions.anime.backfill.name'));
         $this->icon(__('filament-icons.actions.anime.backfill'));
 
@@ -90,9 +92,7 @@ class BackfillAnimeAction extends BaseAction implements ShouldQueue
                     ->body($result->getMessage())
                     ->warning()
                     ->actions([
-                        Action::make('mark-as-read')
-                            ->button()
-                            ->markAsRead(),
+                        MarkAsReadAction::make(),
                     ])
                     ->sendToDatabase(Auth::user());
             }

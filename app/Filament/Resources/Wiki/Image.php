@@ -264,7 +264,7 @@ class Image extends BaseResource
         return [
             ...parent::getTableActions(),
 
-            UploadImageAction::make('upload-image'),
+            UploadImageAction::make(),
         ];
     }
 

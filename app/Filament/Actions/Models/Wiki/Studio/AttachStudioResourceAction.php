@@ -21,6 +21,8 @@ class AttachStudioResourceAction extends AttachResourceAction
     {
         parent::setUp();
 
+        $this->name('attach-studio-resource');
+
         $this->sites([
             ResourceSite::ANIDB,
             ResourceSite::ANILIST,

@@ -241,13 +241,13 @@ class User extends BaseResource
     public static function getRecordActions(): array
     {
         return [
-            GiveRoleAction::make('give-role'),
+            GiveRoleAction::make(),
 
-            RevokeRoleAction::make('revoke-role'),
+            RevokeRoleAction::make(),
 
-            GivePermissionAction::make('give-permission'),
+            GivePermissionAction::make(),
 
-            RevokePermissionAction::make('revoke-permission'),
+            RevokePermissionAction::make(),
         ];
     }
 
