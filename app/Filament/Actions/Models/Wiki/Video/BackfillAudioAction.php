@@ -31,6 +31,16 @@ class BackfillAudioAction extends BaseAction implements ShouldQueue
     use Queueable;
 
     /**
+     * The default name of the action.
+     *
+     * @return string|null
+     */
+    public static function getDefaultName(): ?string
+    {
+        return 'backfill-audio';
+    }
+
+    /**
      * Initial setup for the action.
      *
      * @return void
@@ -38,8 +48,6 @@ class BackfillAudioAction extends BaseAction implements ShouldQueue
     protected function setUp(): void
     {
         parent::setUp();
-
-        $this->name('backfill-audio');
 
         $this->label(__('filament.actions.video.backfill.name'));
 

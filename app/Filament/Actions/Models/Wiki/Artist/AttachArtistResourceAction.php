@@ -13,6 +13,16 @@ use App\Filament\Actions\Models\Wiki\AttachResourceAction;
 class AttachArtistResourceAction extends AttachResourceAction
 {
     /**
+     * The default name of the action.
+     *
+     * @return string|null
+     */
+    public static function getDefaultName(): ?string
+    {
+        return 'attach-artist-resource';
+    }
+
+    /**
      * Initial setup for the action.
      *
      * @return void
@@ -20,8 +30,6 @@ class AttachArtistResourceAction extends AttachResourceAction
     protected function setUp(): void
     {
         parent::setUp();
-
-        $this->name('attach-artist-resource');
 
         $this->sites([
             ResourceSite::ANIDB,

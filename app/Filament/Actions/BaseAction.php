@@ -19,7 +19,7 @@ abstract class BaseAction extends Action
     use HasActionLogs;
 
     /**
-     * A random string is generated so the action always has a name.
+     * The default name of the action.
      *
      * @return string|null
      */

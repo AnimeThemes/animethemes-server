@@ -20,6 +20,16 @@ class ReconcileDumpAction extends ReconcileStorageAction
     use ReconcilesDumpRepositories;
 
     /**
+     * The default name of the action.
+     *
+     * @return string|null
+     */
+    public static function getDefaultName(): ?string
+    {
+        return 'reconcile-dump';
+    }
+
+    /**
      * Initial setup for the action.
      *
      * @return void
@@ -27,8 +37,6 @@ class ReconcileDumpAction extends ReconcileStorageAction
     protected function setUp(): void
     {
         parent::setUp();
-
-        $this->name('reconcile-dump');
 
         $this->label(__('filament.actions.repositories.name', ['label' => __('filament.resources.label.dumps')]));
 

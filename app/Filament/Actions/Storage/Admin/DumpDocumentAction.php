@@ -13,6 +13,16 @@ use App\Actions\Storage\Admin\Dump\DumpDocumentAction as DumpDocumentDatabase;
 class DumpDocumentAction extends DumpAction
 {
     /**
+     * The default name of the action.
+     *
+     * @return string|null
+     */
+    public static function getDefaultName(): ?string
+    {
+        return 'dump-document';
+    }
+
+    /**
      * Initial setup for the action.
      *
      * @return void
@@ -20,8 +30,6 @@ class DumpDocumentAction extends DumpAction
     protected function setUp(): void
     {
         parent::setUp();
-
-        $this->name('dump-document');
 
         $this->label(__('filament.actions.dump.dump.name.document'));
     }

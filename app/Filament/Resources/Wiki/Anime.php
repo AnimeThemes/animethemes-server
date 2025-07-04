@@ -162,6 +162,7 @@ class Anime extends BaseResource
                     ->required()
                     ->integer()
                     ->length(4)
+                    ->default(date('Y'))
                     ->minValue(1960)
                     ->maxValue(intval(date('Y')) + 1),
 
@@ -171,6 +172,7 @@ class Anime extends BaseResource
                     ->options(AnimeSeason::asSelectArrayStyled())
                     ->required()
                     ->enum(AnimeSeason::class)
+                    ->default(AnimeSeason::getCurrentSeason())
                     ->searchable()
                     ->allowHtml(),
 

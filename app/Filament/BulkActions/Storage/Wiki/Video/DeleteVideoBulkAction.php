@@ -16,6 +16,16 @@ use Illuminate\Support\Facades\Auth;
 class DeleteVideoBulkAction extends DeleteBulkAction
 {
     /**
+     * The default name of the action.
+     *
+     * @return string|null
+     */
+    public static function getDefaultName(): ?string
+    {
+        return 'remove-video-bulk';
+    }
+
+    /**
      * Initial setup for the action.
      *
      * @return void
@@ -23,8 +33,6 @@ class DeleteVideoBulkAction extends DeleteBulkAction
     protected function setUp(): void
     {
         parent::setUp();
-
-        $this->name('remove-video-bulk');
 
         $this->label(__('filament.actions.video.delete.name'));
         $this->icon(__('filament-icons.actions.base.delete'));

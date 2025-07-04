@@ -15,6 +15,16 @@ use Illuminate\Database\Eloquent\Model;
 class DeleteVideoAction extends DeleteAction
 {
     /**
+     * The default name of the action.
+     *
+     * @return string|null
+     */
+    public static function getDefaultName(): ?string
+    {
+        return 'delete-video';
+    }
+
+    /**
      * Initial setup for the action.
      *
      * @return void
@@ -22,8 +32,6 @@ class DeleteVideoAction extends DeleteAction
     protected function setUp(): void
     {
         parent::setUp();
-
-        $this->name('delete-video');
 
         $this->label(__('filament.actions.video.delete.name'));
 

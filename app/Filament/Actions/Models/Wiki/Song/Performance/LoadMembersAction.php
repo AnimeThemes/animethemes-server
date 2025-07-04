@@ -18,6 +18,16 @@ use Illuminate\Support\Arr;
 class LoadMembersAction extends Action
 {
     /**
+     * The default name of the action.
+     *
+     * @return string|null
+     */
+    public static function getDefaultName(): ?string
+    {
+        return 'load-members';
+    }
+
+    /**
      * Initial setup for the action.
      *
      * @return void
@@ -25,8 +35,6 @@ class LoadMembersAction extends Action
     protected function setUp(): void
     {
         parent::setUp();
-
-        $this->name('load-members');
 
         $this->label(__('filament.fields.performance.load_members.name'));
 

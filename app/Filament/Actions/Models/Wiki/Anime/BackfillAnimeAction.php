@@ -49,6 +49,16 @@ class BackfillAnimeAction extends BaseAction implements ShouldQueue
     final public const BACKFILL_SYNONYMS = 'backfill_synonyms';
 
     /**
+     * The default name of the action.
+     *
+     * @return string|null
+     */
+    public static function getDefaultName(): ?string
+    {
+        return 'backfill-anime';
+    }
+
+    /**
      * Initial setup for the action.
      *
      * @return void
@@ -56,8 +66,6 @@ class BackfillAnimeAction extends BaseAction implements ShouldQueue
     protected function setUp(): void
     {
         parent::setUp();
-
-        $this->name('backfill-anime');
 
         $this->label(__('filament.actions.anime.backfill.name'));
         $this->icon(__('filament-icons.actions.anime.backfill'));

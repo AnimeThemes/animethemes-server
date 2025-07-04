@@ -19,6 +19,16 @@ class GivePermissionAction extends BaseAction
     final public const FIELD_PERMISSION = 'permission';
 
     /**
+     * The default name of the action.
+     *
+     * @return string|null
+     */
+    public static function getDefaultName(): ?string
+    {
+        return 'user-give-permission';
+    }
+
+    /**
      * Initial setup for the action.
      *
      * @return void
@@ -26,8 +36,6 @@ class GivePermissionAction extends BaseAction
     protected function setUp(): void
     {
         parent::setUp();
-
-        $this->name('user-give-permission');
 
         $this->label(__('filament.actions.user.give_permission.name'));
 

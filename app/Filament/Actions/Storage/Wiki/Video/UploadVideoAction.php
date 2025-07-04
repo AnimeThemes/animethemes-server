@@ -64,6 +64,16 @@ use Illuminate\Validation\Rules\File as FileRule;
 class UploadVideoAction extends UploadAction
 {
     /**
+     * The default name of the action.
+     *
+     * @return string|null
+     */
+    public static function getDefaultName(): ?string
+    {
+        return 'upload-video';
+    }
+
+    /**
      * Initial setup for the action.
      *
      * @return void
@@ -71,8 +81,6 @@ class UploadVideoAction extends UploadAction
     protected function setUp(): void
     {
         parent::setUp();
-
-        $this->name('upload-video');
 
         $this->label(__('filament.actions.video.upload.name'));
 

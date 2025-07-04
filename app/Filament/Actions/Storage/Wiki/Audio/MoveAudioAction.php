@@ -18,6 +18,16 @@ use Illuminate\Support\Facades\Config;
 class MoveAudioAction extends MoveAction
 {
     /**
+     * The default name of the action.
+     *
+     * @return string|null
+     */
+    public static function getDefaultName(): ?string
+    {
+        return 'move-audio';
+    }
+
+    /**
      * Initial setup for the action.
      *
      * @return void
@@ -25,8 +35,6 @@ class MoveAudioAction extends MoveAction
     protected function setUp(): void
     {
         parent::setUp();
-
-        $this->name('move-audio');
 
         $this->label(__('filament.actions.audio.move.name'));
 

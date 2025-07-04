@@ -27,6 +27,16 @@ use Illuminate\Support\Facades\Auth;
 class DiscordEditMessageAction extends BaseAction
 {
     /**
+     * The default name of the action.
+     *
+     * @return string|null
+     */
+    public static function getDefaultName(): ?string
+    {
+        return 'discord-edit-message';
+    }
+
+    /**
      * Initial setup for the action.
      *
      * @return void
@@ -34,8 +44,6 @@ class DiscordEditMessageAction extends BaseAction
     protected function setUp(): void
     {
         parent::setUp();
-
-        $this->name('discord-edit-message');
 
         $this->label(__('filament.table_actions.discord_thread.message.edit.name'));
         $this->icon(__('filament-icons.table_actions.discord_thread.message.edit'));

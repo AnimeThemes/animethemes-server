@@ -16,6 +16,16 @@ use Illuminate\Support\Facades\Auth;
 class DeleteAudioBulkAction extends DeleteBulkAction
 {
     /**
+     * The default name of the action.
+     *
+     * @return string|null
+     */
+    public static function getDefaultName(): ?string
+    {
+        return 'remove-audio-bulk';
+    }
+
+    /**
      * Initial setup for the action.
      *
      * @return void
@@ -23,8 +33,6 @@ class DeleteAudioBulkAction extends DeleteBulkAction
     protected function setUp(): void
     {
         parent::setUp();
-
-        $this->name('remove-audio-bulk');
 
         $this->label(__('filament.actions.audio.delete.name'));
 

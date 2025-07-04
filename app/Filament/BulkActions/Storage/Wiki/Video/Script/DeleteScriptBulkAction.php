@@ -16,6 +16,16 @@ use Illuminate\Support\Facades\Auth;
 class DeleteScriptBulkAction extends DeleteBulkAction
 {
     /**
+     * The default name of the action.
+     *
+     * @return string|null
+     */
+    public static function getDefaultName(): ?string
+    {
+        return 'remove-script-bulk';
+    }
+
+    /**
      * Initial setup for the action.
      *
      * @return void
@@ -23,8 +33,6 @@ class DeleteScriptBulkAction extends DeleteBulkAction
     protected function setUp(): void
     {
         parent::setUp();
-
-        $this->name('remove-script-bulk');
 
         $this->label(__('filament.actions.video_script.delete.name'));
 

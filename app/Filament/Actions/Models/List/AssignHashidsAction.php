@@ -19,6 +19,16 @@ class AssignHashidsAction extends BaseAction
     protected ?string $connection = null;
 
     /**
+     * The default name of the action.
+     *
+     * @return string|null
+     */
+    public static function getDefaultName(): ?string
+    {
+        return 'assign-hashids';
+    }
+
+    /**
      * Initial setup for the action.
      *
      * @return void
@@ -26,8 +36,6 @@ class AssignHashidsAction extends BaseAction
     protected function setUp(): void
     {
         parent::setUp();
-
-        $this->name('assign-hashids');
 
         $this->label(__('filament.actions.models.list.assign_hashids.name'));
 

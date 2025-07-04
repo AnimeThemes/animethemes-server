@@ -27,6 +27,16 @@ use Illuminate\Support\Facades\Storage;
 class MoveAllAction extends BaseAction
 {
     /**
+     * The default name of the action.
+     *
+     * @return string|null
+     */
+    public static function getDefaultName(): ?string
+    {
+        return 'move-all';
+    }
+
+    /**
      * Initial setup for the action.
      *
      * @return void
@@ -34,8 +44,6 @@ class MoveAllAction extends BaseAction
     protected function setUp(): void
     {
         parent::setUp();
-
-        $this->name('move-all');
 
         $this->label(__('filament.actions.base.move_all'));
         $this->icon(__('filament-icons.actions.base.move_all'));
