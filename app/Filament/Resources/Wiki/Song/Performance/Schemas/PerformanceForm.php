@@ -112,7 +112,7 @@ class PerformanceForm
                                 ->helperText(__('filament.fields.membership.alias.help')),
                         ]),
                 ])
-                ->saveRelationshipsUsing(fn (Get $get, ?array $state) => PerformanceSongRelationManager::saveArtists($get(Performance::ATTRIBUTE_SONG), $state)),
+                ->saveRelationshipsUsing(fn (Get $get, ?array $state) => PerformanceSongRelationManager::saveArtists(intval($get(Performance::ATTRIBUTE_SONG)), $state)),
         ];
     }
 }
