@@ -57,6 +57,8 @@ class UploadImageAction extends BaseAction
 
             return $livewire instanceof BaseListResources;
         });
+
+        $this->action(fn (array $data) => $this->handle($data));
     }
 
     /**

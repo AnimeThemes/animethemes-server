@@ -54,6 +54,8 @@ class AttachImageAction extends BaseAction
 
             return $livewire instanceof BaseRelationManager && $livewire->getOwnerRecord() instanceof HasImages;
         });
+
+        $this->action(fn (array $data) => $this->handle($data));
     }
 
     /**
