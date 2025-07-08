@@ -14,6 +14,10 @@ class BaseViewResource extends ViewRecord
 {
     // use HasRecentHistoryRecorder;
 
+    protected $listeners = [
+        'updateAllRelationManager' => '$refresh',
+    ];
+
     /**
      * Get the header actions available.
      *

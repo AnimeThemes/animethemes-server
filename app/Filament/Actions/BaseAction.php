@@ -6,6 +6,7 @@ namespace App\Filament\Actions;
 
 use App\Concerns\Filament\ActionLogs\HasActionLogs;
 use App\Filament\RelationManagers\BaseRelationManager;
+use App\Filament\Resources\Base\BaseViewResource;
 use Filament\Actions\Action;
 use Filament\Support\Enums\Width;
 use Illuminate\Database\Eloquent\Model;
@@ -51,7 +52,7 @@ abstract class BaseAction extends Action
         $this->after(function ($livewire) {
             $this->finishedLog();
 
-            if ($livewire instanceof BaseRelationManager) {
+            if ($livewire instanceof BaseViewResource || $livewire instanceof BaseRelationManager) {
                 $livewire->dispatch('updateAllRelationManager');
             }
         });
