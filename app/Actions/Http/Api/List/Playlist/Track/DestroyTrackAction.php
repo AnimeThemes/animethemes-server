@@ -10,6 +10,7 @@ use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -33,20 +34,24 @@ class DestroyTrackAction
             DB::beginTransaction();
 
             // Lock tracks to prevent race conditions.
-            Playlist::query()->whereKey($playlist->getKey())->lockForUpdate()->first();
-            $playlist->tracks()->getQuery()->lockForUpdate()->count();
+            $model = Cache::lock('playlist-lock'.$playlist->getKey(), 10)->block(30, function () use ($playlist, $track) {
+                Playlist::query()->whereKey($playlist->getKey())->lockForUpdate()->first();
+                $playlist->tracks()->getQuery()->lockForUpdate()->count();
 
-            $removeAction = new RemoveTrackAction();
+                $removeAction = new RemoveTrackAction();
 
-            $removeAction->remove($playlist, $track);
+                $removeAction->remove($playlist, $track);
 
-            $destroyAction = new DestroyAction();
+                $destroyAction = new DestroyAction();
 
-            $destroyed = $destroyAction->destroy($track);
+                $destroyed = $destroyAction->destroy($track);
 
-            DB::commit();
+                DB::commit();
 
-            return $destroyed;
+                return $destroyed;
+            });
+
+            return $model;
         } catch (Exception $e) {
             Log::error($e->getMessage());
 
