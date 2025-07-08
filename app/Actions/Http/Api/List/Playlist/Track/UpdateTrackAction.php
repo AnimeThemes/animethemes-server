@@ -43,8 +43,8 @@ class UpdateTrackAction
             DB::beginTransaction();
 
             // Lock tracks to prevent race conditions.
-            $playlist->tracks()->getQuery()->lockForUpdate()->get();
-            $playlist->query()->lockForUpdate()->first();
+            Playlist::query()->whereKey($playlist->getKey())->lockForUpdate()->first();
+            $playlist->tracks()->getQuery()->lockForUpdate()->count();
 
             $updateAction = new UpdateAction();
 
