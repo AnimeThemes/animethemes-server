@@ -36,7 +36,7 @@ class JikanAnimeExternalApiAction extends ExternalApiAction implements BackfillR
      */
     public function handle(BelongsToMany $resources): static
     {
-        $resource = $resources->firstWhere(ExternalResource::ATTRIBUTE_SITE, ResourceSite::ANILIST->value);
+        $resource = $resources->firstWhere(ExternalResource::ATTRIBUTE_SITE, ResourceSite::MAL->value);
 
         if ($resource instanceof ExternalResource) {
             $id = $resource->external_id;
@@ -60,16 +60,19 @@ class JikanAnimeExternalApiAction extends ExternalApiAction implements BackfillR
     {
         $resources = [];
 
+        $reversed = array_flip($this->getResourcesMapping());
+
         if ($response = $this->response) {
             $links = Arr::get($response, 'data');
 
             foreach ($links as $link) {
-                $siteMal = Arr::get($link, 'site');
+                $siteMal = Arr::get($link, 'name');
                 $url = Arr::get($link, 'url');
 
                 foreach ($this->getResourcesMapping() as $site => $key) {
                     if ($siteMal === $key) {
-                        $resources[$site] = $url;
+                        $resourceSite = ResourceSite::from(Arr::get($reversed, $siteMal));
+                        $resources[$site] = $resourceSite->formatResourceLink(Anime::class, intval(ResourceSite::parseIdFromLink($url)));
                     }
                 }
             }
@@ -88,7 +91,6 @@ class JikanAnimeExternalApiAction extends ExternalApiAction implements BackfillR
         return [
             ResourceSite::ANIDB->value => 'AniDB',
             ResourceSite::ANN->value => 'ANN',
-            ResourceSite::OFFICIAL_SITE->value => 'Official Site',
         ];
     }
 }

@@ -7,6 +7,7 @@ namespace App\Actions\Models\Wiki;
 use App\Actions\ActionResult;
 use App\Actions\Models\BackfillWikiAction;
 use App\Actions\Models\Wiki\Anime\ExternalApi\AnilistAnimeExternalApiAction;
+use App\Actions\Models\Wiki\Anime\ExternalApi\JikanAnimeExternalApiAction;
 use App\Actions\Models\Wiki\Anime\ExternalApi\LivechartAnimeExternalApiAction;
 use App\Actions\Models\Wiki\Anime\ExternalApi\MalAnimeExternalApiAction;
 use App\Concerns\Models\CanCreateAnimeSynonym;
@@ -109,8 +110,8 @@ class BackfillAnimeAction extends BackfillWikiAction
         return [
             new LivechartAnimeExternalApiAction(),
             new AnilistAnimeExternalApiAction(),
+            new JikanAnimeExternalApiAction(),
             new MalAnimeExternalApiAction(),
-            // new JikanAnimeExternalApiAction(),
         ];
     }
 
