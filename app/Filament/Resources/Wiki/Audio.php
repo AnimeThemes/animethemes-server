@@ -247,9 +247,9 @@ class Audio extends BaseResource
     public static function getTableActions(): array
     {
         return [
-            ActionGroup::make([
-                UploadAudioAction::make(),
+            UploadAudioAction::make(),
 
+            ActionGroup::make([
                 ReconcileAudioAction::make(),
             ]),
         ];

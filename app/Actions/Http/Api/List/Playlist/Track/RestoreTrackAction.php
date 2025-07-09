@@ -10,7 +10,6 @@ use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -34,26 +33,22 @@ class RestoreTrackAction
             DB::beginTransaction();
 
             // Lock tracks to prevent race conditions.
-            $model = Cache::lock('playlist-lock'.$playlist->getKey(), 10)->block(30, function () use ($playlist, $track) {
-                Playlist::query()->whereKey($playlist->getKey())->lockForUpdate()->first();
-                $playlist->tracks()->getQuery()->lockForUpdate()->count();
+            Playlist::query()->whereKey($playlist->getKey())->lockForUpdate()->first();
+            $playlist->tracks()->getQuery()->lockForUpdate()->count();
 
-                $restoreAction = new RestoreAction();
+            $restoreAction = new RestoreAction();
 
-                $restoreAction->restore($track);
+            $restoreAction->restore($track);
 
-                $insertAction = new InsertTrackAction();
+            $insertAction = new InsertTrackAction();
 
-                $insertAction->insert($playlist, $track);
+            $insertAction->insert($playlist, $track);
 
-                $restored = $restoreAction->cleanup($track);
+            $restored = $restoreAction->cleanup($track);
 
-                DB::commit();
+            DB::commit();
 
-                return $restored;
-            });
-
-            return $model;
+            return $restored;
         } catch (Exception $e) {
             Log::error($e->getMessage());
 

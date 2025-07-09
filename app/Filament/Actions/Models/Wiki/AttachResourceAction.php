@@ -12,6 +12,7 @@ use App\Models\BaseModel;
 use App\Models\Wiki\ExternalResource;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 /**
@@ -38,7 +39,7 @@ abstract class AttachResourceAction extends BaseAction
         $this->label(__('filament.actions.models.wiki.attach_resource.name'));
         $this->icon(__('filament-icons.actions.models.wiki.attach_resource'));
 
-        $this->authorize('create', ExternalResource::class);
+        $this->visible(Auth::user()->can('create', ExternalResource::class));
 
         $this->action(fn (BaseModel&HasResources $record, array $data, AttachResource $attachResource) => $attachResource->handle($record, $data, $this->sites));
     }

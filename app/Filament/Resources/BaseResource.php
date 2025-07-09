@@ -170,9 +170,9 @@ abstract class BaseResource extends Resource
     {
         return [
             BulkActionGroup::make([
-                DeleteBulkAction::make()->authorize('forcedeleteany', static::getModel()),
-                ForceDeleteBulkAction::make()->authorize('forcedeleteany', static::getModel()),
-                RestoreBulkAction::make()->authorize('forcedeleteany', static::getModel()),
+                DeleteBulkAction::make(),
+                ForceDeleteBulkAction::make(),
+                RestoreBulkAction::make(),
 
                 ...$actionsIncludedInGroup,
             ]),

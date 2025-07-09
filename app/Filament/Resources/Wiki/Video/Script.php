@@ -227,9 +227,9 @@ class Script extends BaseResource
     public static function getTableActions(): array
     {
         return [
-            ActionGroup::make([
-                UploadScriptAction::make(),
+            UploadScriptAction::make(),
 
+            ActionGroup::make([
                 ReconcileScriptAction::make(),
             ]),
         ];

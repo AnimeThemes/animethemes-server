@@ -53,7 +53,7 @@ class BackfillAudioAction extends BaseAction implements ShouldQueue
 
         $this->icon(__('filament-icons.actions.video.backfill'));
 
-        $this->authorize('create', Audio::class);
+        $this->visible(Auth::user()->can('create', Audio::class));
 
         $this->action(fn (Video $record, array $data) => $this->handle($record, $data));
     }

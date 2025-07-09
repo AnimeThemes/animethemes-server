@@ -55,7 +55,7 @@ class BackfillStudioAction extends BaseAction implements ShouldQueue
 
         $this->label(__('filament.actions.studio.backfill.name'));
 
-        $this->authorize('update', Studio::class);
+        $this->visible(Auth::user()->can('update', Studio::class));
 
         $this->action(fn (Studio $record, array $data) => $this->handle($record, $data));
     }

@@ -10,6 +10,7 @@ use App\Filament\Actions\Storage\Base\MoveAction;
 use App\Models\Wiki\Audio;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 
 /**
@@ -38,7 +39,7 @@ class MoveAudioAction extends MoveAction
 
         $this->label(__('filament.actions.audio.move.name'));
 
-        $this->authorize('create', Audio::class);
+        $this->visible(Auth::user()->can('create', Audio::class));
     }
 
     /**
