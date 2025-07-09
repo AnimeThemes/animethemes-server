@@ -11,6 +11,7 @@ use App\Models\Wiki\Anime;
 use Exception;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Class DiscordThreadAction.
@@ -39,7 +40,7 @@ class DiscordThreadAction extends BaseAction
         $this->label(__('filament.actions.anime.discord_thread.name'));
         $this->icon(__('filament-icons.actions.anime.discord_thread'));
 
-        $this->authorize('create', DiscordThread::class);
+        $this->visible(Auth::user()->can('create', DiscordThread::class));
 
         $this->fillForm(fn (Anime $record): array => ['name' => $record->getName()]);
 

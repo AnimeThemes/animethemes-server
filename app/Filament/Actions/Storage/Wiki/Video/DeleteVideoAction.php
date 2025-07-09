@@ -8,6 +8,7 @@ use App\Actions\Storage\Wiki\Video\DeleteVideoAction as DeleteVideo;
 use App\Filament\Actions\Storage\Base\DeleteAction;
 use App\Models\Wiki\Video;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Class DeleteVideoAction.
@@ -35,7 +36,7 @@ class DeleteVideoAction extends DeleteAction
 
         $this->label(__('filament.actions.video.delete.name'));
 
-        $this->authorize('forcedelete', Video::class);
+        $this->visible(Auth::user()->can('forcedelete', Video::class));
     }
 
     /**

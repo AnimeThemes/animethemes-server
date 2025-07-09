@@ -6,6 +6,7 @@ namespace App\Filament\BulkActions\Base;
 
 use App\Concerns\Filament\ActionLogs\HasActionLogs;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Class DetachBulkAction.
@@ -25,7 +26,7 @@ class DetachBulkAction extends \Filament\Actions\DetachBulkAction
 
         $this->label(__('filament.bulk_actions.base.detach'));
 
-        $this->authorize('forcedeleteany');
+        $this->visible(fn ($model) => Auth::user()->can('forcedeleteany', $model));
 
         $this->after(function (DetachBulkAction $action, Collection $records) {
             foreach ($records as $record) {

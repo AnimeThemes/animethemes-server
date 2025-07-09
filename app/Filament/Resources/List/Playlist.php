@@ -30,6 +30,7 @@ use Filament\Schemas\Schema;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Class Playlist.
@@ -313,7 +314,7 @@ class Playlist extends BaseResource
         return [
             AssignHashidsAction::make()
                 ->setConnection('playlists')
-                ->authorize('update', PlaylistModel::class),
+                ->visible(Auth::user()->can('update', PlaylistModel::class)),
 
             FixPlaylistAction::make(),
         ];

@@ -8,6 +8,7 @@ use App\Actions\Storage\Wiki\Audio\DeleteAudioAction as DeleteAudio;
 use App\Filament\Actions\Storage\Base\DeleteAction;
 use App\Models\Wiki\Audio;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Class DeleteAudioAction.
@@ -35,7 +36,7 @@ class DeleteAudioAction extends DeleteAction
 
         $this->label(__('filament.actions.audio.delete.name'));
 
-        $this->authorize('forcedelete', Audio::class);
+        $this->visible(Auth::user()->can('forcedelete', Audio::class));
     }
 
     /**

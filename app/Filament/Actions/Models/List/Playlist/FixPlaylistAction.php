@@ -36,7 +36,7 @@ class FixPlaylistAction extends BaseAction
 
         $this->label(__('filament.actions.models.list.fix_playlist.name'));
 
-        $this->authorize(Auth::user()->hasRole(Role::ADMIN->value));
+        $this->visible(Auth::user()->hasRole(Role::ADMIN->value));
 
         $this->action(fn (Playlist $record, FixPlaylist $fix) => $fix->handle($record));
     }

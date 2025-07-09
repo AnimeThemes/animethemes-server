@@ -10,6 +10,7 @@ use App\Filament\Actions\BaseAction;
 use App\Models\BaseModel;
 use App\Models\List\Playlist;
 use Exception;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Class AssignHashidsAction.
@@ -39,7 +40,7 @@ class AssignHashidsAction extends BaseAction
 
         $this->label(__('filament.actions.models.list.assign_hashids.name'));
 
-        $this->authorize('update', Playlist::class);
+        $this->visible(Auth::user()->can('update', Playlist::class));
 
         $this->action(fn (BaseModel $record) => $this->handle($record));
     }

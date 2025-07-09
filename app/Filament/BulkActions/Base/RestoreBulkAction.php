@@ -6,6 +6,7 @@ namespace App\Filament\BulkActions\Base;
 
 use App\Concerns\Filament\ActionLogs\HasActionLogs;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Class RestoreBulkAction.
@@ -24,6 +25,8 @@ class RestoreBulkAction extends \Filament\Actions\RestoreBulkAction
         parent::setUp();
 
         $this->label(__('filament.bulk_actions.base.restore'));
+
+        $this->visible(fn ($model) => Auth::user()->can('restoreany', $model));
 
         $this->after(function (RestoreBulkAction $action, Collection $records) {
             foreach ($records as $record) {

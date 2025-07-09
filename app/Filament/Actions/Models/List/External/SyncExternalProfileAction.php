@@ -37,7 +37,7 @@ class SyncExternalProfileAction extends BaseAction
         $this->label(__('filament.actions.models.list.sync_profile.name'));
         $this->icon(__('filament-icons.actions.models.list.sync_profile'));
 
-        $this->authorize(Auth::user()->hasRole(Role::ADMIN->value));
+        $this->visible(Auth::user()->hasRole(Role::ADMIN->value));
 
         $this->action(fn (ExternalProfile $record, SyncExternalProfile $sync) => $sync->handle($record));
     }
