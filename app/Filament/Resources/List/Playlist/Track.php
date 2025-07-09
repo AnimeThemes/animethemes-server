@@ -32,7 +32,6 @@ use Filament\Schemas\Schema;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
 /**
@@ -315,8 +314,7 @@ class Track extends BaseResource
     {
         return [
             AssignHashidsAction::make()
-                ->setConnection('playlists')
-                ->visible(Auth::user()->can('update', TrackModel::class)),
+                ->setConnection('playlists'),
         ];
     }
 

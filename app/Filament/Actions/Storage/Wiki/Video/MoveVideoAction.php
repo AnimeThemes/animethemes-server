@@ -10,8 +10,8 @@ use App\Filament\Actions\Storage\Base\MoveAction;
 use App\Models\Wiki\Video;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Gate;
 
 /**
  * Class MoveVideoAction.
@@ -39,7 +39,7 @@ class MoveVideoAction extends MoveAction
 
         $this->label(__('filament.actions.video.move.name'));
 
-        $this->visible(Auth::user()->can('create', Video::class));
+        $this->visible(Gate::allows('create', Video::class));
     }
 
     /**

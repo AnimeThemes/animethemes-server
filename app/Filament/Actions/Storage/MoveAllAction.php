@@ -18,8 +18,8 @@ use App\Rules\Storage\StorageFileDirectoryExistsRule;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 
 /**
@@ -49,7 +49,7 @@ class MoveAllAction extends BaseAction
         $this->label(__('filament.actions.base.move_all'));
         $this->icon(__('filament-icons.actions.base.move_all'));
 
-        $this->visible(Auth::user()->can('create', [Audio::class, Video::class, VideoScript::class]));
+        $this->visible(Gate::allows('create', [Audio::class, Video::class, VideoScript::class]));
 
         $this->action(fn (array $data) => $this->handle($data));
     }

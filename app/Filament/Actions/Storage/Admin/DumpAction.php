@@ -14,8 +14,8 @@ use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
 use Illuminate\Database\MySqlConnection;
 use Illuminate\Database\PostgresConnection;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rule;
 
 /**
@@ -34,7 +34,7 @@ abstract class DumpAction extends BaseAction
 
         $this->icon(__('filament-icons.table_actions.dump.dump'));
 
-        $this->visible(Auth::user()->can('create', Dump::class));
+        $this->visible(Gate::allows('create', Dump::class));
     }
 
     /**

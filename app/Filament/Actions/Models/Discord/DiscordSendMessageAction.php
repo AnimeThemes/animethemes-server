@@ -16,7 +16,7 @@ use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 /**
  * Class DiscordSendMessageAction.
@@ -45,7 +45,7 @@ class DiscordSendMessageAction extends BaseAction
         $this->label(__('filament.table_actions.discord_thread.message.send.name'));
         $this->icon(__('filament-icons.table_actions.discord_thread.message.send'));
 
-        $this->visible(Auth::user()->can('deleteany', DiscordThread::class));
+        $this->visible(Gate::allows('deleteAny', DiscordThread::class));
     }
 
     /**

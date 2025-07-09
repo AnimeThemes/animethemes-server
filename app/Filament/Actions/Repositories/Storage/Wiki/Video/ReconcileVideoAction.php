@@ -8,8 +8,8 @@ use App\Concerns\Repositories\Wiki\ReconcilesVideoRepositories;
 use App\Constants\Config\VideoConstants;
 use App\Filament\Actions\Repositories\Storage\ReconcileStorageAction;
 use App\Models\Wiki\Video;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Gate;
 
 /**
  * Class ReconcileVideoAction.
@@ -39,7 +39,7 @@ class ReconcileVideoAction extends ReconcileStorageAction
 
         $this->label(__('filament.actions.repositories.name', ['label' => __('filament.resources.label.videos')]));
 
-        $this->visible(Auth::user()->can('create', Video::class));
+        $this->visible(Gate::allows('create', Video::class));
     }
 
     /**

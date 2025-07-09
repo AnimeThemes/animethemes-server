@@ -66,7 +66,7 @@ class CreateAction extends BaseCreateAction
 
         $this->visible(function ($livewire, $model) {
             if ($livewire instanceof BaseListResources) {
-                return $livewire->getResource()::canCreate() && Auth::user()->can('create', $model);
+                return $livewire->getResource()::canCreate() && Gate::allows('create', $model);
             }
 
             if ($livewire instanceof BaseRelationManager) {

@@ -9,7 +9,7 @@ use App\Filament\Actions\Storage\Base\PruneAction;
 use App\Models\Admin\Dump;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 /**
  * Class PruneDumpAction.
@@ -37,7 +37,7 @@ class PruneDumpAction extends PruneAction
 
         $this->label(__('filament.actions.dump.prune.name'));
 
-        $this->visible(Auth::user()->can('forcedeleteany', Dump::class));
+        $this->visible(Gate::allows('forceDeleteAny', Dump::class));
     }
 
     /**

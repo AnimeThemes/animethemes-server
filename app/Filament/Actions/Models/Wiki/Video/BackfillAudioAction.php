@@ -21,6 +21,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 /**
  * Class BackfillAudioAction.
@@ -53,7 +54,7 @@ class BackfillAudioAction extends BaseAction implements ShouldQueue
 
         $this->icon(__('filament-icons.actions.video.backfill'));
 
-        $this->visible(Auth::user()->can('create', Audio::class));
+        $this->visible(Gate::allows('create', Audio::class));
 
         $this->action(fn (Video $record, array $data) => $this->handle($record, $data));
     }

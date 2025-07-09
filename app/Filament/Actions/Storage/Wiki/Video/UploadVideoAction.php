@@ -55,6 +55,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\File as FileRule;
 
@@ -84,7 +85,7 @@ class UploadVideoAction extends UploadAction
 
         $this->label(__('filament.actions.video.upload.name'));
 
-        $this->visible(Auth::user()->can('create', Video::class));
+        $this->visible(Gate::allows('create', Video::class));
     }
 
     /**

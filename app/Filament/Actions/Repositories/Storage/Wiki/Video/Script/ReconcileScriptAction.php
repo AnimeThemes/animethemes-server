@@ -8,8 +8,8 @@ use App\Concerns\Repositories\Wiki\Video\ReconcilesScriptRepositories;
 use App\Constants\Config\VideoConstants;
 use App\Filament\Actions\Repositories\Storage\ReconcileStorageAction;
 use App\Models\Wiki\Video\VideoScript;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Gate;
 
 /**
  * Class ReconcileScriptAction.
@@ -39,7 +39,7 @@ class ReconcileScriptAction extends ReconcileStorageAction
 
         $this->label(__('filament.actions.repositories.name', ['label' => __('filament.resources.label.video_scripts')]));
 
-        $this->visible(Auth::user()->can('create', VideoScript::class));
+        $this->visible(Gate::allows('create', VideoScript::class));
     }
 
     /**

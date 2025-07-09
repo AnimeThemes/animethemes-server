@@ -5,13 +5,14 @@ declare(strict_types=1);
 namespace App\Filament\BulkActions\Base;
 
 use App\Concerns\Filament\ActionLogs\HasActionLogs;
+use Filament\Actions\RestoreBulkAction as BaseRestoreBulkAction;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 /**
  * Class RestoreBulkAction.
  */
-class RestoreBulkAction extends \Filament\Actions\RestoreBulkAction
+class RestoreBulkAction extends BaseRestoreBulkAction
 {
     use HasActionLogs;
 
@@ -26,7 +27,7 @@ class RestoreBulkAction extends \Filament\Actions\RestoreBulkAction
 
         $this->label(__('filament.bulk_actions.base.restore'));
 
-        $this->visible(fn ($model) => Auth::user()->can('restoreany', $model));
+        $this->visible(fn ($model) => Gate::allows('restoreAny', $model));
 
         $this->after(function (RestoreBulkAction $action, Collection $records) {
             foreach ($records as $record) {

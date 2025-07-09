@@ -9,8 +9,8 @@ use App\Constants\Config\DumpConstants;
 use App\Filament\Actions\Repositories\Storage\ReconcileStorageAction;
 use App\Models\Admin\Dump;
 use Filament\Schemas\Schema;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Gate;
 
 /**
  * Class ReconcileDumpAction.
@@ -40,7 +40,7 @@ class ReconcileDumpAction extends ReconcileStorageAction
 
         $this->label(__('filament.actions.repositories.name', ['label' => __('filament.resources.label.dumps')]));
 
-        $this->visible(Auth::user()->can('create', Dump::class));
+        $this->visible(Gate::allows('create', Dump::class));
     }
 
     /**

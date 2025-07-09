@@ -9,6 +9,7 @@ use Filament\Actions\ReplicateAction as BaseReplicateAction;
 use Filament\Facades\Filament;
 use Filament\Schemas\Schema;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Gate;
 
 /**
  * Class ReplicateAction.
@@ -23,6 +24,8 @@ class ReplicateAction extends BaseReplicateAction
     protected function setUp(): void
     {
         parent::setUp();
+
+        $this->visible(fn (string $model) => Gate::allows('create', $model));
 
         $this->schema(fn (Schema $schema, $livewire) => $livewire->form($schema)->getComponents());
 
