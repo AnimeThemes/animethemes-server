@@ -14,7 +14,6 @@ use App\Models\List\Playlist\PlaylistTrack;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -44,52 +43,48 @@ class UpdateTrackAction
             DB::beginTransaction();
 
             // Lock tracks to prevent race conditions.
-            $model = Cache::lock('playlist-lock'.$playlist->getKey(), 10)->block(30, function () use ($playlist, $track, $trackParameters, $nextHashid, $previousHashid) {
-                Playlist::query()->whereKey($playlist->getKey())->lockForUpdate()->first();
-                $playlist->tracks()->getQuery()->lockForUpdate()->count();
+            Playlist::query()->whereKey($playlist->getKey())->lockForUpdate()->first();
+            $playlist->tracks()->getQuery()->lockForUpdate()->count();
 
-                $updateAction = new UpdateAction();
+            $updateAction = new UpdateAction();
 
-                $updateAction->update($track, $trackParameters);
+            $updateAction->update($track, $trackParameters);
 
-                if (! empty($nextHashid) || ! empty($previousHashid)) {
-                    $removeAction = new RemoveTrackAction();
+            if (! empty($nextHashid) || ! empty($previousHashid)) {
+                $removeAction = new RemoveTrackAction();
 
-                    $removeAction->remove($playlist, $track);
-                }
+                $removeAction->remove($playlist, $track);
+            }
 
-                if (! empty($nextHashid) && empty($previousHashid)) {
-                    /** @var PlaylistTrack $next */
-                    $next = PlaylistTrack::query()
-                        ->with(PlaylistTrack::RELATION_PREVIOUS)
-                        ->where(PlaylistTrack::ATTRIBUTE_PLAYLIST, $playlist->getKey())
-                        ->where(HasHashids::ATTRIBUTE_HASHID, $nextHashid)
-                        ->firstOrFail();
+            if (! empty($nextHashid) && empty($previousHashid)) {
+                /** @var PlaylistTrack $next */
+                $next = PlaylistTrack::query()
+                    ->with(PlaylistTrack::RELATION_PREVIOUS)
+                    ->where(PlaylistTrack::ATTRIBUTE_PLAYLIST, $playlist->getKey())
+                    ->where(HasHashids::ATTRIBUTE_HASHID, $nextHashid)
+                    ->firstOrFail();
 
-                    $insertAction = new InsertTrackBeforeAction();
+                $insertAction = new InsertTrackBeforeAction();
 
-                    $insertAction->insertBefore($playlist, $track, $next);
-                }
+                $insertAction->insertBefore($playlist, $track, $next);
+            }
 
-                if (! empty($previousHashid) && empty($nextHashid)) {
-                    /** @var PlaylistTrack $previous */
-                    $previous = PlaylistTrack::query()
-                        ->with(PlaylistTrack::RELATION_NEXT)
-                        ->where(PlaylistTrack::ATTRIBUTE_PLAYLIST, $playlist->getKey())
-                        ->where(HasHashids::ATTRIBUTE_HASHID, $previousHashid)
-                        ->firstOrFail();
+            if (! empty($previousHashid) && empty($nextHashid)) {
+                /** @var PlaylistTrack $previous */
+                $previous = PlaylistTrack::query()
+                    ->with(PlaylistTrack::RELATION_NEXT)
+                    ->where(PlaylistTrack::ATTRIBUTE_PLAYLIST, $playlist->getKey())
+                    ->where(HasHashids::ATTRIBUTE_HASHID, $previousHashid)
+                    ->firstOrFail();
 
-                    $insertAction = new InsertTrackAfterAction();
+                $insertAction = new InsertTrackAfterAction();
 
-                    $insertAction->insertAfter($playlist, $track, $previous);
-                }
+                $insertAction->insertAfter($playlist, $track, $previous);
+            }
 
-                DB::commit();
+            DB::commit();
 
-                return $updateAction->cleanup($track);
-            });
-
-            return $model;
+            return $updateAction->cleanup($track);
         } catch (Exception $e) {
             Log::error($e->getMessage());
 
