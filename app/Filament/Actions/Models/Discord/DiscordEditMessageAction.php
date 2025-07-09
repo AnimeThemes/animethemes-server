@@ -19,7 +19,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Schema;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 /**
  * Class DiscordEditMessageAction.
@@ -48,7 +48,7 @@ class DiscordEditMessageAction extends BaseAction
         $this->label(__('filament.table_actions.discord_thread.message.edit.name'));
         $this->icon(__('filament-icons.table_actions.discord_thread.message.edit'));
 
-        $this->visible(Auth::user()->can('deleteany', DiscordThread::class));
+        $this->visible(Gate::allows('deleteAny', DiscordThread::class));
     }
 
     /**

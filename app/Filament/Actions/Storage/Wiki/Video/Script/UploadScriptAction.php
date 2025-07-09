@@ -16,8 +16,8 @@ use Filament\Schemas\Schema;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rules\File as FileRule;
 
 /**
@@ -46,7 +46,7 @@ class UploadScriptAction extends UploadAction
 
         $this->label(__('filament.actions.video_script.upload.name'));
 
-        $this->visible(Auth::user()->can('create', VideoScript::class));
+        $this->visible(Gate::allows('create', VideoScript::class));
     }
 
     /**

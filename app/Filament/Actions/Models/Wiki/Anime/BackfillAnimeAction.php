@@ -22,6 +22,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 /**
  * Class BackfillAnimeAction.
@@ -70,7 +71,7 @@ class BackfillAnimeAction extends BaseAction implements ShouldQueue
         $this->label(__('filament.actions.anime.backfill.name'));
         $this->icon(__('filament-icons.actions.anime.backfill'));
 
-        $this->visible(Auth::user()->can('create', Anime::class));
+        $this->visible(Gate::allows('create', Anime::class));
 
         $this->action(fn (Anime $record, array $data) => $this->handle($record, $data));
     }

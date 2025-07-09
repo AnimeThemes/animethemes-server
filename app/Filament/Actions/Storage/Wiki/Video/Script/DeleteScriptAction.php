@@ -8,7 +8,7 @@ use App\Actions\Storage\Wiki\Video\Script\DeleteScriptAction as DeleteScript;
 use App\Filament\Actions\Storage\Base\DeleteAction;
 use App\Models\Wiki\Video\VideoScript;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 /**
  * Class DeleteScriptAction.
@@ -36,7 +36,7 @@ class DeleteScriptAction extends DeleteAction
 
         $this->label(__('filament.actions.video_script.delete.name'));
 
-        $this->visible(Auth::user()->can('delete', VideoScript::class));
+        $this->visible(Gate::allows('delete', VideoScript::class));
     }
 
     /**

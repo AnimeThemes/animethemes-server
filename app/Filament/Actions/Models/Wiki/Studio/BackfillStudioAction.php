@@ -20,6 +20,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Sleep;
 
 /**
@@ -55,7 +56,7 @@ class BackfillStudioAction extends BaseAction implements ShouldQueue
 
         $this->label(__('filament.actions.studio.backfill.name'));
 
-        $this->visible(Auth::user()->can('update', Studio::class));
+        $this->visible(Gate::allows('create', Studio::class));
 
         $this->action(fn (Studio $record, array $data) => $this->handle($record, $data));
     }

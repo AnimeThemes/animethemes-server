@@ -10,9 +10,9 @@ use App\Filament\Actions\Storage\Base\MoveAction;
 use App\Models\Wiki\Image;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Gate;
 
 /**
  * Class MoveImageAction.
@@ -40,7 +40,7 @@ class MoveImageAction extends MoveAction
 
         $this->label(__('filament.actions.image.move.name'));
 
-        $this->visible(Auth::user()->can('create', Image::class));
+        $this->visible(Gate::allows('create', Image::class));
     }
 
     /**
