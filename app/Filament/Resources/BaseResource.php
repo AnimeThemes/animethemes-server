@@ -18,6 +18,7 @@ use App\Filament\Components\Filters\DateFilter;
 use App\Filament\RelationManagers\Base\ActionLogRelationManager;
 use App\Models\BaseModel;
 use App\Scopes\WithoutInsertSongScope;
+use Filament\Actions\Action;
 use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
 use Filament\Panel;
@@ -126,25 +127,31 @@ abstract class BaseResource extends Resource
      */
     public static function getActions(): array
     {
+        $exists = collect(static::getRecordActions())->contains(fn (Action $action) => $action->isVisible());
+
         return [
             ViewAction::make(),
 
             EditAction::make(),
 
-            ActionGroup::make([
-                DetachAction::make(),
+            ActionGroup::make(
+                array_merge(
+                    [
+                        DetachAction::make(),
 
-                DeleteAction::make(),
+                        DeleteAction::make(),
 
-                ForceDeleteAction::make(),
+                        ForceDeleteAction::make(),
 
-                RestoreAction::make(),
+                        RestoreAction::make(),
 
-                ReplicateAction::make(),
-
-                ActionGroup::make(static::getRecordActions())
-                    ->dropdown(false),
-            ]),
+                        ReplicateAction::make(),
+                    ],
+                    $exists
+                    ? [ActionGroup::make(static::getRecordActions())->dropdown(false)]
+                    : [],
+                )
+            ),
         ];
     }
 
