@@ -107,11 +107,15 @@ class Audio extends BaseModel implements HasAggregateViews, Streamable, Viewable
     /**
      * The link of the audio.
      *
-     * @return string
+     * @return string|null
      */
-    public function getLinkAttribute(): string
+    public function getLinkAttribute(): ?string
     {
-        return route('audio.show', $this);
+        if ($this->hasAttribute(Audio::ATTRIBUTE_BASENAME)) {
+            return route('audio.show', $this);
+        }
+
+        return null;
     }
 
     /**
