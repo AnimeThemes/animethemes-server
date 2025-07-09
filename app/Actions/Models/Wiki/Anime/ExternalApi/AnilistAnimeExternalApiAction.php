@@ -40,12 +40,18 @@ class AnilistAnimeExternalApiAction extends ExternalApiAction implements Backfil
      */
     public function handle(BelongsToMany $resources): static
     {
-        $resource = $resources->firstWhere(ExternalResource::ATTRIBUTE_SITE, ResourceSite::ANILIST->value);
+        $resource = $resources
+            ->where(ExternalResource::ATTRIBUTE_SITE, ResourceSite::ANILIST->value)
+            ->orWhere(ExternalResource::ATTRIBUTE_SITE, ResourceSite::MAL->value)
+            ->first();
 
         if ($resource instanceof ExternalResource) {
-            $query = '
-            query ($id: Int) {
-                Media (id: $id, type: ANIME) {
+            $idType = $resource->site === ResourceSite::ANILIST ? 'id' : 'idMal';
+
+            $query = "
+            query (\$id: Int) {
+                Media ({$idType}: \$id, type: ANIME) {
+                    id
                     title {
                         romaji
                         english
@@ -62,7 +68,7 @@ class AnilistAnimeExternalApiAction extends ExternalApiAction implements Backfil
                     }
                 }
             }
-            ';
+            ";
 
             $variables = [
                 'id' => $resource->external_id,
@@ -91,9 +97,10 @@ class AnilistAnimeExternalApiAction extends ExternalApiAction implements Backfil
         $resources = [];
 
         if ($response = $this->response) {
-            $links = Arr::get($response, 'data.Media.externalLinks');
+            $idAnilist = Arr::get($response, 'data.Media.id');
+            $resources[ResourceSite::ANILIST->value] = ResourceSite::ANILIST->formatResourceLink(Anime::class, $idAnilist);
 
-            foreach ($links as $link) {
+            foreach (Arr::get($response, 'data.Media.externalLinks') as $link) {
                 $url = Arr::get($link, 'url');
                 $siteAnilist = Arr::get($link, 'site');
                 $language = Arr::get($link, 'language');
