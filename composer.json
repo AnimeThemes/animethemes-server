@@ -35,7 +35,7 @@
         "larastan/larastan": "^3.5.0",
         "laravel-notification-channels/discord": "^1.7",
         "laravel/fortify": "^1.27.0",
-        "laravel/framework": "^12.20.0",
+        "laravel/framework": "12.19.3",
         "laravel/horizon": "^5.33.1",
         "laravel/pennant": "^1.17.1",
         "laravel/pulse": "^1.4.2",
