@@ -404,9 +404,9 @@ class Video extends BaseResource
     public static function getTableActions(): array
     {
         return [
-            ActionGroup::make([
-                UploadVideoAction::make(),
+            UploadVideoAction::make(),
 
+            ActionGroup::make([
                 ReconcileVideoAction::make(),
             ]),
         ];

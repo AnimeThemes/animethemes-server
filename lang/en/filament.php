@@ -1144,6 +1144,13 @@ return [
             'studios' => [
                 'name' => 'Without Studios',
             ],
+            'theme' => [
+                'entry' => [
+                    'video' => [
+                        'name' => 'Without Videos',
+                    ],
+                ],
+            ],
         ],
         'artist' => [
             'images' => [
