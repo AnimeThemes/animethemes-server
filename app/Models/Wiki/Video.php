@@ -167,11 +167,15 @@ class Video extends BaseModel implements HasAggregateLikes, HasAggregateViews, L
     /**
      * The link of the video.
      *
-     * @return string
+     * @return string|null
      */
-    public function getLinkAttribute(): string
+    public function getLinkAttribute(): ?string
     {
-        return route('video.show', $this);
+        if ($this->hasAttribute(Video::ATTRIBUTE_BASENAME)) {
+            return route('video.show', $this);
+        }
+
+        return null;
     }
 
     /**
