@@ -9,6 +9,7 @@ use App\Models\Wiki\Artist;
 use App\Models\Wiki\Song\Performance;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\TextInput;
+use Filament\Schemas\Components\Component;
 use Filament\Tables\Table;
 
 /**
@@ -17,11 +18,11 @@ use Filament\Tables\Table;
 class PerformanceArtistRelationManager extends PerformanceRelationManager
 {
     /**
-     * Get the pivot fields of the relation.
+     * Get the pivot components of the relation.
      *
-     * @return array<int, \Filament\Schemas\Components\Component>
+     * @return array<int, Component>
      */
-    public function getPivotFields(): array
+    public function getPivotComponents(): array
     {
         return [
             Hidden::make(Performance::ATTRIBUTE_ARTIST_TYPE)

@@ -4,9 +4,14 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Wiki\Song\RelationManagers;
 
+use App\Filament\Components\Columns\TextColumn;
 use App\Filament\RelationManagers\Wiki\ResourceRelationManager;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Song;
+use App\Pivots\Wiki\SongResource;
+use Filament\Forms\Components\TextInput;
+use Filament\Schemas\Components\Component;
+use Filament\Tables\Columns\Column;
 use Filament\Tables\Table;
 
 /**
@@ -20,6 +25,33 @@ class ResourceSongRelationManager extends ResourceRelationManager
      * @var string
      */
     protected static string $relationship = Song::RELATION_RESOURCES;
+
+    /**
+     * Get the pivot components of the relation.
+     *
+     * @return array<int, Component>
+     */
+    public function getPivotComponents(): array
+    {
+        return [
+            TextInput::make(SongResource::ATTRIBUTE_AS)
+                ->label(__('filament.fields.song.resources.as.name'))
+                ->helperText(__('filament.fields.song.resources.as.help')),
+        ];
+    }
+
+    /**
+     * Get the pivot columns of the relation.
+     *
+     * @return array<int, Column>
+     */
+    public function getPivotColumns(): array
+    {
+        return [
+            TextColumn::make(SongResource::ATTRIBUTE_AS)
+                ->label(__('filament.fields.song.resources.as.name')),
+        ];
+    }
 
     /**
      * The index page of the resource.

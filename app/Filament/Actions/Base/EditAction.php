@@ -46,7 +46,7 @@ class EditAction extends BaseEditAction
 
         $this->schema(fn (Schema $schema, BaseRelationManager|BaseManageResources|BaseListResources|BaseViewResource $livewire) => [
             ...$livewire->form($schema)->getComponents(),
-            ...($livewire instanceof BaseRelationManager ? $livewire->getPivotFields() : []),
+            ...($livewire instanceof BaseRelationManager ? $livewire->getPivotComponents() : []),
         ]);
 
         $this->after(function ($livewire, Model $record, EditAction $action) {

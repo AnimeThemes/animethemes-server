@@ -19,10 +19,7 @@ use App\Filament\Resources\Wiki\Artist\RelationManagers\ImageArtistRelationManag
 use App\Filament\Resources\Wiki\Artist\RelationManagers\MemberArtistRelationManager;
 use App\Filament\Resources\Wiki\Artist\RelationManagers\PerformanceArtistRelationManager;
 use App\Filament\Resources\Wiki\Artist\RelationManagers\ResourceArtistRelationManager;
-use App\Filament\Resources\Wiki\ExternalResource\RelationManagers\ArtistResourceRelationManager;
 use App\Models\Wiki\Artist as ArtistModel;
-use App\Pivots\Wiki\ArtistMember;
-use App\Pivots\Wiki\ArtistResource;
 use App\Pivots\Wiki\ArtistSong;
 use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Components\TextInput;
@@ -179,22 +176,6 @@ class Artist extends BaseResource
 
                 TextColumn::make(ArtistModel::ATTRIBUTE_SLUG)
                     ->label(__('filament.fields.artist.slug.name')),
-
-                TextColumn::make(ArtistResource::ATTRIBUTE_AS)
-                    ->label(__('filament.fields.artist.resources.as.name'))
-                    ->visibleOn(ArtistResourceRelationManager::class),
-
-                TextColumn::make(ArtistMember::ATTRIBUTE_AS)
-                    ->label(__('filament.fields.artist.members.as.name'))
-                    ->visibleOn([MemberArtistRelationManager::class, GroupArtistRelationManager::class]),
-
-                TextColumn::make(ArtistMember::ATTRIBUTE_ALIAS)
-                    ->label(__('filament.fields.artist.members.alias.name'))
-                    ->visibleOn([MemberArtistRelationManager::class, GroupArtistRelationManager::class]),
-
-                TextColumn::make(ArtistMember::ATTRIBUTE_NOTES)
-                    ->label(__('filament.fields.artist.members.notes.name'))
-                    ->visibleOn([MemberArtistRelationManager::class, GroupArtistRelationManager::class]),
             ])
             ->searchable();
     }

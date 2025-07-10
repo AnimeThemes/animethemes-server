@@ -9,15 +9,12 @@ use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Components\Infolist\TimestampSection;
 use App\Filament\Resources\BaseResource;
-use App\Filament\Resources\Wiki\ExternalResource\RelationManagers\SongResourceRelationManager;
 use App\Filament\Resources\Wiki\Song\Pages\ListSongs;
 use App\Filament\Resources\Wiki\Song\Pages\ViewSong;
 use App\Filament\Resources\Wiki\Song\RelationManagers\PerformanceSongRelationManager;
 use App\Filament\Resources\Wiki\Song\RelationManagers\ResourceSongRelationManager;
 use App\Filament\Resources\Wiki\Song\RelationManagers\ThemeSongRelationManager;
 use App\Models\Wiki\Song as SongModel;
-use App\Pivots\Wiki\ArtistSong;
-use App\Pivots\Wiki\SongResource;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Schemas\Components\Section;
@@ -155,18 +152,6 @@ class Song extends BaseResource
                 TextColumn::make(SongModel::ATTRIBUTE_TITLE)
                     ->label(__('filament.fields.song.title.name'))
                     ->copyableWithMessage(),
-
-                TextColumn::make(SongResource::ATTRIBUTE_AS)
-                    ->label(__('filament.fields.song.resources.as.name'))
-                    ->visibleOn(SongResourceRelationManager::class),
-
-                TextColumn::make(ArtistSong::ATTRIBUTE_AS)
-                    ->label(__('filament.fields.artist.songs.as.name'))
-                    ->hiddenOn(ListSongs::class),
-
-                TextColumn::make(ArtistSong::ATTRIBUTE_ALIAS)
-                    ->label(__('filament.fields.artist.songs.alias.name'))
-                    ->hiddenOn(ListSongs::class),
             ])
             ->searchable();
     }

@@ -8,8 +8,6 @@ use App\Filament\RelationManagers\BaseRelationManager;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\ExternalResource as ExternalResourceResource;
 use App\Models\Wiki\ExternalResource;
-use App\Pivots\Wiki\AnimeResource;
-use Filament\Forms\Components\TextInput;
 use Filament\Tables\Table;
 
 /**
@@ -23,20 +21,6 @@ abstract class ResourceRelationManager extends BaseRelationManager
      * @var class-string<BaseResource>|null
      */
     protected static ?string $relatedResource = ExternalResourceResource::class;
-
-    /**
-     * Get the pivot fields of the relation.
-     *
-     * @return array<int, \Filament\Schemas\Components\Component>
-     */
-    public function getPivotFields(): array
-    {
-        return [
-            TextInput::make(AnimeResource::ATTRIBUTE_AS)
-                ->label(__('filament.fields.anime.resources.as.name'))
-                ->helperText(__('filament.fields.anime.resources.as.help')),
-        ];
-    }
 
     /**
      * The index page of the resource.

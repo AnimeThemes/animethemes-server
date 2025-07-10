@@ -39,7 +39,7 @@ class CreateAction extends BaseCreateAction
 
         $this->schema(fn (Schema $schema, $livewire) => [
             ...$livewire->form($schema)->getComponents(),
-            ...($livewire instanceof BaseRelationManager ? $livewire->getPivotFields() : []),
+            ...($livewire instanceof BaseRelationManager ? $livewire->getPivotComponents() : []),
         ]);
 
         $this->successRedirectUrl(function (Model $record, $livewire) {

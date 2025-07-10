@@ -11,14 +11,12 @@ use App\Filament\Components\Fields\Slug;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Components\Infolist\TimestampSection;
 use App\Filament\Resources\BaseResource;
-use App\Filament\Resources\Wiki\ExternalResource\RelationManagers\StudioResourceRelationManager;
 use App\Filament\Resources\Wiki\Studio\Pages\ListStudios;
 use App\Filament\Resources\Wiki\Studio\Pages\ViewStudio;
 use App\Filament\Resources\Wiki\Studio\RelationManagers\AnimeStudioRelationManager;
 use App\Filament\Resources\Wiki\Studio\RelationManagers\ImageStudioRelationManager;
 use App\Filament\Resources\Wiki\Studio\RelationManagers\ResourceStudioRelationManager;
 use App\Models\Wiki\Studio as StudioModel;
-use App\Pivots\Wiki\StudioResource;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Schemas\Components\Section;
@@ -154,10 +152,6 @@ class Studio extends BaseResource
 
                 TextColumn::make(StudioModel::ATTRIBUTE_SLUG)
                     ->label(__('filament.fields.studio.slug.name')),
-
-                TextColumn::make(StudioResource::ATTRIBUTE_AS)
-                    ->label(__('filament.fields.studio.resources.as.name'))
-                    ->visibleOn(StudioResourceRelationManager::class),
             ])
             ->searchable();
     }

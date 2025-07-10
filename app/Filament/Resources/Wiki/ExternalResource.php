@@ -10,7 +10,6 @@ use App\Filament\Components\Fields\Select;
 use App\Filament\Components\Filters\NumberFilter;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Components\Infolist\TimestampSection;
-use App\Filament\RelationManagers\Wiki\ResourceRelationManager;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\ExternalResource\Pages\ListExternalResources;
 use App\Filament\Resources\Wiki\ExternalResource\Pages\ViewExternalResource;
@@ -19,7 +18,6 @@ use App\Filament\Resources\Wiki\ExternalResource\RelationManagers\ArtistResource
 use App\Filament\Resources\Wiki\ExternalResource\RelationManagers\SongResourceRelationManager;
 use App\Filament\Resources\Wiki\ExternalResource\RelationManagers\StudioResourceRelationManager;
 use App\Models\Wiki\ExternalResource as ExternalResourceModel;
-use App\Pivots\Wiki\AnimeResource;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Schemas\Components\Section;
@@ -174,10 +172,6 @@ class ExternalResource extends BaseResource
 
                 TextColumn::make(ExternalResourceModel::ATTRIBUTE_EXTERNAL_ID)
                     ->label(__('filament.fields.external_resource.external_id.name')),
-
-                TextColumn::make(AnimeResource::ATTRIBUTE_AS)
-                    ->label(__('filament.fields.anime.resources.as.name'))
-                    ->visibleOn(ResourceRelationManager::class),
             ]);
     }
 

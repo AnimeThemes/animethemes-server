@@ -25,9 +25,7 @@ use App\Filament\Resources\Wiki\Anime\RelationManagers\SeriesAnimeRelationManage
 use App\Filament\Resources\Wiki\Anime\RelationManagers\StudioAnimeRelationManager;
 use App\Filament\Resources\Wiki\Anime\RelationManagers\SynonymAnimeRelationManager;
 use App\Filament\Resources\Wiki\Anime\RelationManagers\ThemeAnimeRelationManager;
-use App\Filament\Resources\Wiki\ExternalResource\RelationManagers\AnimeResourceRelationManager;
 use App\Models\Wiki\Anime as AnimeModel;
-use App\Pivots\Wiki\AnimeResource;
 use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\RelationManagers\RelationGroup;
@@ -226,10 +224,6 @@ class Anime extends BaseResource
                 TextColumn::make(AnimeModel::ATTRIBUTE_MEDIA_FORMAT)
                     ->label(__('filament.fields.anime.media_format.name'))
                     ->formatStateUsing(fn (AnimeMediaFormat $state) => $state->localize()),
-
-                TextColumn::make(AnimeResource::ATTRIBUTE_AS)
-                    ->label(__('filament.fields.anime.resources.as.name'))
-                    ->visibleOn(AnimeResourceRelationManager::class),
             ])
             ->searchable();
     }

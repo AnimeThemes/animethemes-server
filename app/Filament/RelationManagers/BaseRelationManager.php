@@ -13,6 +13,7 @@ use App\Pivots\BasePivot;
 use DateTime;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Schemas\Components\Component;
+use Filament\Tables\Columns\Column;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -36,11 +37,21 @@ abstract class BaseRelationManager extends RelationManager
     protected static ?string $relatedResource = null;
 
     /**
-     * Get the pivot fields of the relation.
+     * Get the pivot components of the relation.
      *
      * @return array<int, Component>
      */
-    public function getPivotFields(): array
+    public function getPivotComponents(): array
+    {
+        return [];
+    }
+
+    /**
+     * Get the pivot columns of the relation.
+     *
+     * @return array<int, Column>
+     */
+    public function getPivotColumns(): array
     {
         return [];
     }
@@ -60,6 +71,9 @@ abstract class BaseRelationManager extends RelationManager
         return $table
             ->columns([
                 ...$table->getColumns(),
+
+                ...$this->getPivotColumns(),
+
                 TextColumn::make(BasePivot::ATTRIBUTE_CREATED_AT)
                     ->label(__('filament.fields.base.attached_at'))
                     ->hidden(fn ($livewire) => ! ($livewire->getRelationship() instanceof BelongsToMany))
