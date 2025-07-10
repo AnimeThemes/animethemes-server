@@ -5,12 +5,10 @@ declare(strict_types=1);
 namespace App\Filament\Actions\Base;
 
 use App\Concerns\Filament\ActionLogs\HasPivotActionLogs;
-use App\Enums\Auth\Role;
 use App\Filament\RelationManagers\BaseRelationManager;
 use App\Filament\RelationManagers\Wiki\ResourceRelationManager;
 use App\Filament\Resources\Base\BaseListResources;
 use App\Models\Admin\ActionLog;
-use App\Models\Auth\User;
 use Filament\Actions\CreateAction as BaseCreateAction;
 use Filament\Facades\Filament;
 use Filament\Schemas\Schema;
@@ -39,7 +37,7 @@ class CreateAction extends BaseCreateAction
 
         $this->schema(fn (Schema $schema, $livewire) => [
             ...$livewire->form($schema)->getComponents(),
-            ...($livewire instanceof BaseRelationManager ? $livewire->getPivotFields() : []),
+            ...($livewire instanceof BaseRelationManager ? $livewire->getPivotComponents() : []),
         ]);
 
         $this->successRedirectUrl(function (Model $record, $livewire) {
@@ -71,10 +69,11 @@ class CreateAction extends BaseCreateAction
 
             if ($livewire instanceof BaseRelationManager) {
                 if ($livewire instanceof ResourceRelationManager) {
-                    /** @var User $user */
-                    $user = Auth::user();
+                    return $livewire->canCreate();
+                }
 
-                    return $user->hasRole(Role::ADMIN->value);
+                if (! $livewire->canCreate()) {
+                    return false;
                 }
 
                 if ($livewire->getRelationship() instanceof BelongsToMany) {

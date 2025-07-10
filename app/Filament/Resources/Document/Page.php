@@ -38,7 +38,7 @@ class Page extends BaseResource
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getLabel(): string
+    public static function getModelLabel(): string
     {
         return __('filament.resources.singularLabel.page');
     }
@@ -50,7 +50,7 @@ class Page extends BaseResource
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getPluralLabel(): string
+    public static function getPluralModelLabel(): string
     {
         return __('filament.resources.label.pages');
     }
@@ -212,56 +212,9 @@ class Page extends BaseResource
     public static function getRelations(): array
     {
         return [
-            RelationGroup::make(static::getLabel(), [
+            RelationGroup::make(static::getModelLabel(), [
                 ...parent::getBaseRelations(),
             ]),
-        ];
-    }
-
-    /**
-     * Get the filters available for the resource.
-     *
-     * @return array
-     */
-    public static function getFilters(): array
-    {
-        return [
-            ...parent::getFilters(),
-        ];
-    }
-
-    /**
-     * Get the actions available for the resource.
-     *
-     * @return array
-     */
-    public static function getRecordActions(): array
-    {
-        return [];
-    }
-
-    /**
-     * Get the bulk actions available for the resource.
-     *
-     * @param  array|null  $actionsIncludedInGroup
-     * @return array
-     */
-    public static function getBulkActions(?array $actionsIncludedInGroup = []): array
-    {
-        return [
-            ...parent::getBulkActions(),
-        ];
-    }
-
-    /**
-     * Get the table actions available for the resource.
-     *
-     * @return array
-     */
-    public static function getTableActions(): array
-    {
-        return [
-            ...parent::getTableActions(),
         ];
     }
 

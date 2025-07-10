@@ -56,6 +56,7 @@ class BelongsToEntry extends TextEntry
             ->label($this->resource->getModelLabel())
             ->weight(FontWeight::SemiBold)
             ->color('related-link')
+            ->placeholder('-')
             ->url(function (BaseModel|Model $record) {
                 $relation = $this->getName();
 

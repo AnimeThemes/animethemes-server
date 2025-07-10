@@ -42,7 +42,7 @@ class Report extends BaseResource
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getLabel(): string
+    public static function getModelLabel(): string
     {
         return __('filament.resources.singularLabel.report');
     }
@@ -54,7 +54,7 @@ class Report extends BaseResource
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getPluralLabel(): string
+    public static function getPluralModelLabel(): string
     {
         return __('filament.resources.label.reports');
     }
@@ -217,41 +217,6 @@ class Report extends BaseResource
     }
 
     /**
-     * Get the actions available for the resource.
-     *
-     * @return array
-     */
-    public static function getRecordActions(): array
-    {
-        return [];
-    }
-
-    /**
-     * Get the bulk actions available for the resource.
-     *
-     * @param  array|null  $actionsIncludedInGroup
-     * @return array
-     */
-    public static function getBulkActions(?array $actionsIncludedInGroup = []): array
-    {
-        return [
-            ...parent::getBulkActions(),
-        ];
-    }
-
-    /**
-     * Get the table actions available for the resource.
-     *
-     * @return array
-     */
-    public static function getTableActions(): array
-    {
-        return [
-            ...parent::getTableActions(),
-        ];
-    }
-
-    /**
      * Get the relationships available for the resource.
      *
      * @return array
@@ -261,7 +226,7 @@ class Report extends BaseResource
     public static function getRelations(): array
     {
         return [
-            RelationGroup::make(static::getLabel(), [
+            RelationGroup::make(static::getModelLabel(), [
                 StepReportRelationManager::class,
             ]),
         ];

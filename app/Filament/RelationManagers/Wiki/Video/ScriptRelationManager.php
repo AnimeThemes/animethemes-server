@@ -5,11 +5,10 @@ declare(strict_types=1);
 namespace App\Filament\RelationManagers\Wiki\Video;
 
 use App\Filament\RelationManagers\BaseRelationManager;
+use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Video\Script as ScriptResource;
 use App\Models\Wiki\Video\VideoScript;
-use Filament\Schemas\Schema;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Class ScriptRelationManager.
@@ -17,17 +16,11 @@ use Illuminate\Database\Eloquent\Builder;
 abstract class ScriptRelationManager extends BaseRelationManager
 {
     /**
-     * The form to the actions.
+     * The resource of the relation manager.
      *
-     * @param  Schema  $schema
-     * @return Schema
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
+     * @var class-string<BaseResource>|null
      */
-    public function form(Schema $schema): Schema
-    {
-        return ScriptResource::form($schema);
-    }
+    protected static ?string $relatedResource = ScriptResource::class;
 
     /**
      * The index page of the resource.
@@ -39,68 +32,9 @@ abstract class ScriptRelationManager extends BaseRelationManager
     {
         return parent::table(
             $table
-                ->modifyQueryUsing(fn (Builder $query) => $query->with(ScriptResource::getEloquentQuery()->getEagerLoads()))
-                ->heading(ScriptResource::getPluralLabel())
-                ->modelLabel(ScriptResource::getLabel())
                 ->recordTitleAttribute(VideoScript::ATTRIBUTE_PATH)
-                ->columns(ScriptResource::table($table)->getColumns())
                 ->defaultSort(VideoScript::TABLE.'.'.VideoScript::ATTRIBUTE_ID, 'desc')
         );
-    }
-
-    /**
-     * Get the filters available for the relation.
-     *
-     * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    public static function getFilters(): array
-    {
-        return [
-            ...ScriptResource::getFilters(),
-        ];
-    }
-
-    /**
-     * Get the actions available for the relation.
-     *
-     * @return array
-     */
-    public static function getRecordActions(): array
-    {
-        return [
-            ...parent::getRecordActions(),
-            ...ScriptResource::getActions(),
-        ];
-    }
-
-    /**
-     * Get the bulk actions available for the relation.
-     *
-     * @param  array|null  $actionsIncludedInGroup
-     * @return array
-     */
-    public static function getBulkActions(?array $actionsIncludedInGroup = []): array
-    {
-        return [
-            ...parent::getBulkActions(),
-            ...ScriptResource::getBulkActions(),
-        ];
-    }
-
-    /**
-     * Get the header actions available for the relation.
-     * These are merged with the table actions of the resources.
-     *
-     * @return array
-     */
-    public static function getHeaderActions(): array
-    {
-        return [
-            ...parent::getHeaderActions(),
-            ...ScriptResource::getTableActions(),
-        ];
     }
 
     /**
@@ -108,7 +42,7 @@ abstract class ScriptRelationManager extends BaseRelationManager
      *
      * @return bool
      */
-    protected function canCreate(): bool
+    public function canCreate(): bool
     {
         return false;
     }

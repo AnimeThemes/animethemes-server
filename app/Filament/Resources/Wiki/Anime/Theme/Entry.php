@@ -57,7 +57,7 @@ class Entry extends BaseResource
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getLabel(): string
+    public static function getModelLabel(): string
     {
         return __('filament.resources.singularLabel.anime_theme_entry');
     }
@@ -69,7 +69,7 @@ class Entry extends BaseResource
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getPluralLabel(): string
+    public static function getPluralModelLabel(): string
     {
         return __('filament.resources.label.anime_theme_entries');
     }
@@ -245,7 +245,9 @@ class Entry extends BaseResource
                     ->boolean(),
 
                 TextColumn::make(EntryModel::ATTRIBUTE_NOTES)
-                    ->label(__('filament.fields.anime_theme_entry.notes.name')),
+                    ->label(__('filament.fields.anime_theme_entry.notes.name'))
+                    ->limit(50)
+                    ->tooltip(fn (TextColumn $column) => $column->getState()),
             ])
             ->searchable();
     }
@@ -268,14 +270,14 @@ class Entry extends BaseResource
 
                         BelongsToEntry::make(EntryModel::RELATION_THEME, ThemeResource::class, true),
 
-                        TextEntry::make(EntryModel::ATTRIBUTE_ID)
-                            ->label(__('filament.fields.base.id')),
-
                         TextEntry::make(EntryModel::ATTRIBUTE_VERSION)
                             ->label(__('filament.fields.anime_theme_entry.version.name')),
 
                         TextEntry::make(EntryModel::ATTRIBUTE_EPISODES)
                             ->label(__('filament.fields.anime_theme_entry.episodes.name')),
+
+                        TextEntry::make(EntryModel::ATTRIBUTE_ID)
+                            ->label(__('filament.fields.base.id')),
 
                         IconEntry::make(EntryModel::ATTRIBUTE_NSFW)
                             ->label(__('filament.fields.anime_theme_entry.nsfw.name'))
@@ -286,9 +288,10 @@ class Entry extends BaseResource
                             ->boolean(),
 
                         TextEntry::make(EntryModel::ATTRIBUTE_NOTES)
-                            ->label(__('filament.fields.anime_theme_entry.notes.name')),
+                            ->label(__('filament.fields.anime_theme_entry.notes.name'))
+                            ->columnSpanFull(),
                     ])
-                    ->columns(2),
+                    ->columns(4),
 
                 TimestampSection::make(),
             ]);
@@ -304,7 +307,7 @@ class Entry extends BaseResource
     public static function getRelations(): array
     {
         return [
-            RelationGroup::make(static::getLabel(), [
+            RelationGroup::make(static::getModelLabel(), [
                 VideoEntryRelationManager::class,
 
                 ...parent::getBaseRelations(),
@@ -338,41 +341,6 @@ class Entry extends BaseResource
                 ->default(true),
 
             ...parent::getFilters(),
-        ];
-    }
-
-    /**
-     * Get the actions available for the resource.
-     *
-     * @return array
-     */
-    public static function getRecordActions(): array
-    {
-        return [];
-    }
-
-    /**
-     * Get the bulk actions available for the resource.
-     *
-     * @param  array|null  $actionsIncludedInGroup
-     * @return array
-     */
-    public static function getBulkActions(?array $actionsIncludedInGroup = []): array
-    {
-        return [
-            ...parent::getBulkActions(),
-        ];
-    }
-
-    /**
-     * Get the table actions available for the resource.
-     *
-     * @return array
-     */
-    public static function getTableActions(): array
-    {
-        return [
-            ...parent::getTableActions(),
         ];
     }
 

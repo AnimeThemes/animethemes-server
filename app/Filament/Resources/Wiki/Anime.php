@@ -25,9 +25,7 @@ use App\Filament\Resources\Wiki\Anime\RelationManagers\SeriesAnimeRelationManage
 use App\Filament\Resources\Wiki\Anime\RelationManagers\StudioAnimeRelationManager;
 use App\Filament\Resources\Wiki\Anime\RelationManagers\SynonymAnimeRelationManager;
 use App\Filament\Resources\Wiki\Anime\RelationManagers\ThemeAnimeRelationManager;
-use App\Filament\Resources\Wiki\ExternalResource\RelationManagers\AnimeResourceRelationManager;
 use App\Models\Wiki\Anime as AnimeModel;
-use App\Pivots\Wiki\AnimeResource;
 use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\RelationManagers\RelationGroup;
@@ -56,7 +54,7 @@ class Anime extends BaseResource
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getLabel(): string
+    public static function getModelLabel(): string
     {
         return __('filament.resources.singularLabel.anime');
     }
@@ -68,7 +66,7 @@ class Anime extends BaseResource
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getPluralLabel(): string
+    public static function getPluralModelLabel(): string
     {
         return __('filament.resources.label.anime');
     }
@@ -226,10 +224,6 @@ class Anime extends BaseResource
                 TextColumn::make(AnimeModel::ATTRIBUTE_MEDIA_FORMAT)
                     ->label(__('filament.fields.anime.media_format.name'))
                     ->formatStateUsing(fn (AnimeMediaFormat $state) => $state->localize()),
-
-                TextColumn::make(AnimeResource::ATTRIBUTE_AS)
-                    ->label(__('filament.fields.anime.resources.as.name'))
-                    ->visibleOn(AnimeResourceRelationManager::class),
             ])
             ->searchable();
     }
@@ -292,7 +286,7 @@ class Anime extends BaseResource
     public static function getRelations(): array
     {
         return [
-            RelationGroup::make(static::getLabel(), [
+            RelationGroup::make(static::getModelLabel(), [
                 SynonymAnimeRelationManager::class,
                 ThemeAnimeRelationManager::class,
                 SeriesAnimeRelationManager::class,
@@ -355,31 +349,6 @@ class Anime extends BaseResource
                 ->label(__('filament.actions.models.wiki.attach_streaming_resource.name'))
                 ->icon(__('filament-icons.actions.anime.attach_streaming_resource'))
                 ->sites($streamingResourceSites),
-        ];
-    }
-
-    /**
-     * Get the bulk actions available for the resource.
-     *
-     * @param  array|null  $actionsIncludedInGroup
-     * @return array
-     */
-    public static function getBulkActions(?array $actionsIncludedInGroup = []): array
-    {
-        return [
-            ...parent::getBulkActions(),
-        ];
-    }
-
-    /**
-     * Get the table actions available for the resource.
-     *
-     * @return array
-     */
-    public static function getTableActions(): array
-    {
-        return [
-            ...parent::getTableActions(),
         ];
     }
 

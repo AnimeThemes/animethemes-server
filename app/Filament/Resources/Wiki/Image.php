@@ -48,7 +48,7 @@ class Image extends BaseResource
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getLabel(): string
+    public static function getModelLabel(): string
     {
         return __('filament.resources.singularLabel.image');
     }
@@ -60,7 +60,7 @@ class Image extends BaseResource
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getPluralLabel(): string
+    public static function getPluralModelLabel(): string
     {
         return __('filament.resources.label.images');
     }
@@ -204,7 +204,7 @@ class Image extends BaseResource
     public static function getRelations(): array
     {
         return [
-            RelationGroup::make(static::getLabel(), [
+            RelationGroup::make(static::getModelLabel(), [
                 AnimeImageRelationManager::class,
                 ArtistImageRelationManager::class,
                 PlaylistImageRelationManager::class,
@@ -228,29 +228,6 @@ class Image extends BaseResource
                 ->options(ImageFacet::class),
 
             ...parent::getFilters(),
-        ];
-    }
-
-    /**
-     * Get the actions available for the resource.
-     *
-     * @return array
-     */
-    public static function getRecordActions(): array
-    {
-        return [];
-    }
-
-    /**
-     * Get the bulk actions available for the resource.
-     *
-     * @param  array|null  $actionsIncludedInGroup
-     * @return array
-     */
-    public static function getBulkActions(?array $actionsIncludedInGroup = []): array
-    {
-        return [
-            ...parent::getBulkActions(),
         ];
     }
 

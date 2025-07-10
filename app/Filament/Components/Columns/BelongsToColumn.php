@@ -73,7 +73,7 @@ class BelongsToColumn extends TextColumn
                         ? $related->getName()
                         : $this->resource->getRecordTitle($related);
 
-                    $nameLimited = Str::limit($name, $this->getCharacterLimit() ?? 100);
+                    $nameLimited = Str::limit($name, $this->getCharacterLimit() ?? 50);
 
                     return $nameLimited;
                 });

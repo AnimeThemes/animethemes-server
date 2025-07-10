@@ -11,14 +11,12 @@ use App\Filament\Components\Fields\Slug;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Components\Infolist\TimestampSection;
 use App\Filament\Resources\BaseResource;
-use App\Filament\Resources\Wiki\ExternalResource\RelationManagers\StudioResourceRelationManager;
 use App\Filament\Resources\Wiki\Studio\Pages\ListStudios;
 use App\Filament\Resources\Wiki\Studio\Pages\ViewStudio;
 use App\Filament\Resources\Wiki\Studio\RelationManagers\AnimeStudioRelationManager;
 use App\Filament\Resources\Wiki\Studio\RelationManagers\ImageStudioRelationManager;
 use App\Filament\Resources\Wiki\Studio\RelationManagers\ResourceStudioRelationManager;
 use App\Models\Wiki\Studio as StudioModel;
-use App\Pivots\Wiki\StudioResource;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Schemas\Components\Section;
@@ -45,7 +43,7 @@ class Studio extends BaseResource
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getLabel(): string
+    public static function getModelLabel(): string
     {
         return __('filament.resources.singularLabel.studio');
     }
@@ -57,7 +55,7 @@ class Studio extends BaseResource
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getPluralLabel(): string
+    public static function getPluralModelLabel(): string
     {
         return __('filament.resources.label.studios');
     }
@@ -154,10 +152,6 @@ class Studio extends BaseResource
 
                 TextColumn::make(StudioModel::ATTRIBUTE_SLUG)
                     ->label(__('filament.fields.studio.slug.name')),
-
-                TextColumn::make(StudioResource::ATTRIBUTE_AS)
-                    ->label(__('filament.fields.studio.resources.as.name'))
-                    ->visibleOn(StudioResourceRelationManager::class),
             ])
             ->searchable();
     }
@@ -202,25 +196,13 @@ class Studio extends BaseResource
     public static function getRelations(): array
     {
         return [
-            RelationGroup::make(static::getLabel(), [
+            RelationGroup::make(static::getModelLabel(), [
                 AnimeStudioRelationManager::class,
                 ResourceStudioRelationManager::class,
                 ImageStudioRelationManager::class,
 
                 ...parent::getBaseRelations(),
             ]),
-        ];
-    }
-
-    /**
-     * Get the filters available for the resource.
-     *
-     * @return array
-     */
-    public static function getFilters(): array
-    {
-        return [
-            ...parent::getFilters(),
         ];
     }
 
@@ -235,31 +217,6 @@ class Studio extends BaseResource
             BackfillStudioAction::make(),
 
             AttachStudioResourceAction::make(),
-        ];
-    }
-
-    /**
-     * Get the bulk actions available for the resource.
-     *
-     * @param  array|null  $actionsIncludedInGroup
-     * @return array
-     */
-    public static function getBulkActions(?array $actionsIncludedInGroup = []): array
-    {
-        return [
-            ...parent::getBulkActions(),
-        ];
-    }
-
-    /**
-     * Get the table actions available for the resource.
-     *
-     * @return array
-     */
-    public static function getTableActions(): array
-    {
-        return [
-            ...parent::getTableActions(),
         ];
     }
 

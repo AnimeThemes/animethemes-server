@@ -78,7 +78,7 @@ class AttachAction extends BaseAttachAction
 
         $this->schema(fn (AttachAction $action, BaseRelationManager $livewire): array => [
             $action->getRecordSelect(),
-            ...$livewire->getPivotFields(),
+            ...$livewire->getPivotComponents(),
         ]);
 
         $this->after(fn ($livewire, $record, $action) => $this->pivotActionLog('Attach', $livewire, $record, $action));

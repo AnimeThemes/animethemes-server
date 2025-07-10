@@ -19,10 +19,7 @@ use App\Filament\Resources\Wiki\Artist\RelationManagers\ImageArtistRelationManag
 use App\Filament\Resources\Wiki\Artist\RelationManagers\MemberArtistRelationManager;
 use App\Filament\Resources\Wiki\Artist\RelationManagers\PerformanceArtistRelationManager;
 use App\Filament\Resources\Wiki\Artist\RelationManagers\ResourceArtistRelationManager;
-use App\Filament\Resources\Wiki\ExternalResource\RelationManagers\ArtistResourceRelationManager;
 use App\Models\Wiki\Artist as ArtistModel;
-use App\Pivots\Wiki\ArtistMember;
-use App\Pivots\Wiki\ArtistResource;
 use App\Pivots\Wiki\ArtistSong;
 use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Components\TextInput;
@@ -51,7 +48,7 @@ class Artist extends BaseResource
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getLabel(): string
+    public static function getModelLabel(): string
     {
         return __('filament.resources.singularLabel.artist');
     }
@@ -63,7 +60,7 @@ class Artist extends BaseResource
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getPluralLabel(): string
+    public static function getPluralModelLabel(): string
     {
         return __('filament.resources.label.artists');
     }
@@ -179,22 +176,6 @@ class Artist extends BaseResource
 
                 TextColumn::make(ArtistModel::ATTRIBUTE_SLUG)
                     ->label(__('filament.fields.artist.slug.name')),
-
-                TextColumn::make(ArtistResource::ATTRIBUTE_AS)
-                    ->label(__('filament.fields.artist.resources.as.name'))
-                    ->visibleOn(ArtistResourceRelationManager::class),
-
-                TextColumn::make(ArtistMember::ATTRIBUTE_AS)
-                    ->label(__('filament.fields.artist.members.as.name'))
-                    ->visibleOn([MemberArtistRelationManager::class, GroupArtistRelationManager::class]),
-
-                TextColumn::make(ArtistMember::ATTRIBUTE_ALIAS)
-                    ->label(__('filament.fields.artist.members.alias.name'))
-                    ->visibleOn([MemberArtistRelationManager::class, GroupArtistRelationManager::class]),
-
-                TextColumn::make(ArtistMember::ATTRIBUTE_NOTES)
-                    ->label(__('filament.fields.artist.members.notes.name'))
-                    ->visibleOn([MemberArtistRelationManager::class, GroupArtistRelationManager::class]),
             ])
             ->searchable();
     }
@@ -254,7 +235,7 @@ class Artist extends BaseResource
     public static function getRelations(): array
     {
         return [
-            RelationGroup::make(static::getLabel(), [
+            RelationGroup::make(static::getModelLabel(), [
                 PerformanceArtistRelationManager::class,
                 GroupPerformanceArtistRelationManager::class,
                 ResourceArtistRelationManager::class,
@@ -268,18 +249,6 @@ class Artist extends BaseResource
     }
 
     /**
-     * Get the filters available for the resource.
-     *
-     * @return array
-     */
-    public static function getFilters(): array
-    {
-        return [
-            ...parent::getFilters(),
-        ];
-    }
-
-    /**
      * Get the actions available for the resource.
      *
      * @return array
@@ -288,31 +257,6 @@ class Artist extends BaseResource
     {
         return [
             AttachArtistResourceAction::make(),
-        ];
-    }
-
-    /**
-     * Get the bulk actions available for the resource.
-     *
-     * @param  array|null  $actionsIncludedInGroup
-     * @return array
-     */
-    public static function getBulkActions(?array $actionsIncludedInGroup = []): array
-    {
-        return [
-            ...parent::getBulkActions(),
-        ];
-    }
-
-    /**
-     * Get the table actions available for the resource.
-     *
-     * @return array
-     */
-    public static function getTableActions(): array
-    {
-        return [
-            ...parent::getTableActions(),
         ];
     }
 

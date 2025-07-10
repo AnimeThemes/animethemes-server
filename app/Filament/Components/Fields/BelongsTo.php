@@ -21,7 +21,7 @@ use Laravel\Scout\Searchable;
  */
 class BelongsTo extends ComponentsSelect
 {
-    protected string $relation = '';
+    protected string $relation;
     protected ?BaseResource $resource = null;
     protected bool $showCreateOption = false;
     protected bool $withSubtitle = true;
@@ -37,7 +37,7 @@ class BelongsTo extends ComponentsSelect
             $model = $resource->getModel();
             $this->label($resource->getModelLabel());
 
-            if (! empty($this->relation)) {
+            if (filled($this->relation)) {
                 $this->relationship($this->relation, $resource->getRecordTitleAttribute());
             }
 

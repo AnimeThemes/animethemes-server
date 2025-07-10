@@ -10,7 +10,6 @@ use App\Filament\Components\Fields\Select;
 use App\Filament\Components\Filters\NumberFilter;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Components\Infolist\TimestampSection;
-use App\Filament\RelationManagers\Wiki\ResourceRelationManager;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\ExternalResource\Pages\ListExternalResources;
 use App\Filament\Resources\Wiki\ExternalResource\Pages\ViewExternalResource;
@@ -19,7 +18,6 @@ use App\Filament\Resources\Wiki\ExternalResource\RelationManagers\ArtistResource
 use App\Filament\Resources\Wiki\ExternalResource\RelationManagers\SongResourceRelationManager;
 use App\Filament\Resources\Wiki\ExternalResource\RelationManagers\StudioResourceRelationManager;
 use App\Models\Wiki\ExternalResource as ExternalResourceModel;
-use App\Pivots\Wiki\AnimeResource;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Schemas\Components\Section;
@@ -48,7 +46,7 @@ class ExternalResource extends BaseResource
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getLabel(): string
+    public static function getModelLabel(): string
     {
         return __('filament.resources.singularLabel.external_resource');
     }
@@ -60,7 +58,7 @@ class ExternalResource extends BaseResource
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getPluralLabel(): string
+    public static function getPluralModelLabel(): string
     {
         return __('filament.resources.label.external_resources');
     }
@@ -174,10 +172,6 @@ class ExternalResource extends BaseResource
 
                 TextColumn::make(ExternalResourceModel::ATTRIBUTE_EXTERNAL_ID)
                     ->label(__('filament.fields.external_resource.external_id.name')),
-
-                TextColumn::make(AnimeResource::ATTRIBUTE_AS)
-                    ->label(__('filament.fields.anime.resources.as.name'))
-                    ->visibleOn(ResourceRelationManager::class),
             ]);
     }
 
@@ -222,7 +216,7 @@ class ExternalResource extends BaseResource
     public static function getRelations(): array
     {
         return [
-            RelationGroup::make(static::getLabel(), [
+            RelationGroup::make(static::getModelLabel(), [
                 AnimeResourceRelationManager::class,
                 ArtistResourceRelationManager::class,
                 SongResourceRelationManager::class,
@@ -249,41 +243,6 @@ class ExternalResource extends BaseResource
                 ->label(__('filament.fields.external_resource.external_id.name')),
 
             ...parent::getFilters(),
-        ];
-    }
-
-    /**
-     * Get the actions available for the resource.
-     *
-     * @return array
-     */
-    public static function getRecordActions(): array
-    {
-        return [];
-    }
-
-    /**
-     * Get the bulk actions available for the resource.
-     *
-     * @param  array|null  $actionsIncludedInGroup
-     * @return array
-     */
-    public static function getBulkActions(?array $actionsIncludedInGroup = []): array
-    {
-        return [
-            ...parent::getBulkActions(),
-        ];
-    }
-
-    /**
-     * Get the table actions available for the resource.
-     *
-     * @return array
-     */
-    public static function getTableActions(): array
-    {
-        return [
-            ...parent::getTableActions(),
         ];
     }
 
