@@ -270,14 +270,14 @@ class Entry extends BaseResource
 
                         BelongsToEntry::make(EntryModel::RELATION_THEME, ThemeResource::class, true),
 
-                        TextEntry::make(EntryModel::ATTRIBUTE_ID)
-                            ->label(__('filament.fields.base.id')),
-
                         TextEntry::make(EntryModel::ATTRIBUTE_VERSION)
                             ->label(__('filament.fields.anime_theme_entry.version.name')),
 
                         TextEntry::make(EntryModel::ATTRIBUTE_EPISODES)
                             ->label(__('filament.fields.anime_theme_entry.episodes.name')),
+
+                        TextEntry::make(EntryModel::ATTRIBUTE_ID)
+                            ->label(__('filament.fields.base.id')),
 
                         IconEntry::make(EntryModel::ATTRIBUTE_NSFW)
                             ->label(__('filament.fields.anime_theme_entry.nsfw.name'))
@@ -288,9 +288,10 @@ class Entry extends BaseResource
                             ->boolean(),
 
                         TextEntry::make(EntryModel::ATTRIBUTE_NOTES)
-                            ->label(__('filament.fields.anime_theme_entry.notes.name')),
+                            ->label(__('filament.fields.anime_theme_entry.notes.name'))
+                            ->columnSpanFull(),
                     ])
-                    ->columns(2),
+                    ->columns(4),
 
                 TimestampSection::make(),
             ]);

@@ -287,11 +287,11 @@ class Video extends BaseResource
                         TextEntry::make(VideoModel::ATTRIBUTE_SIZE)
                             ->label(__('filament.fields.video.size.name')),
 
-                        TextEntry::make(VideoModel::ATTRIBUTE_MIMETYPE)
-                            ->label(__('filament.fields.video.mimetype.name')),
-
                         TextEntry::make(VideoModel::ATTRIBUTE_RESOLUTION)
                             ->label(__('filament.fields.video.resolution.name')),
+
+                        TextEntry::make(VideoModel::ATTRIBUTE_MIMETYPE)
+                            ->label(__('filament.fields.video.mimetype.name')),
                     ])
                     ->columns(3),
 
