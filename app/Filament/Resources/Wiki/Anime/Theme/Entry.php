@@ -245,7 +245,9 @@ class Entry extends BaseResource
                     ->boolean(),
 
                 TextColumn::make(EntryModel::ATTRIBUTE_NOTES)
-                    ->label(__('filament.fields.anime_theme_entry.notes.name')),
+                    ->label(__('filament.fields.anime_theme_entry.notes.name'))
+                    ->limit(50)
+                    ->tooltip(fn (TextColumn $column) => $column->getState()),
             ])
             ->searchable();
     }
