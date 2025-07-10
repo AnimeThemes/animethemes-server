@@ -250,16 +250,6 @@ class Synonym extends BaseResource
     }
 
     /**
-     * Get the actions available for the resource.
-     *
-     * @return array
-     */
-    public static function getRecordActions(): array
-    {
-        return [];
-    }
-
-    /**
      * Get the pages available for the resource.
      *
      * @return array
