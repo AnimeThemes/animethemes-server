@@ -5,11 +5,10 @@ declare(strict_types=1);
 namespace App\Filament\RelationManagers\User;
 
 use App\Filament\RelationManagers\BaseRelationManager;
+use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\User\Report\ReportStep as ReportStepResource;
 use App\Models\User\Report\ReportStep;
-use Filament\Schemas\Schema;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Class ReportStepRelationManager.
@@ -17,17 +16,11 @@ use Illuminate\Database\Eloquent\Builder;
 abstract class ReportStepRelationManager extends BaseRelationManager
 {
     /**
-     * The form to the actions.
+     * The resource of the relation manager.
      *
-     * @param  Schema  $schema
-     * @return Schema
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
+     * @var class-string<BaseResource>|null
      */
-    public function form(Schema $schema): Schema
-    {
-        return ReportStepResource::form($schema);
-    }
+    protected static ?string $relatedResource = ReportStepResource::class;
 
     /**
      * The index page of the resource.
@@ -39,27 +32,10 @@ abstract class ReportStepRelationManager extends BaseRelationManager
     {
         return parent::table(
             $table
-                ->modifyQueryUsing(fn (Builder $query) => $query->with(ReportStepResource::getEloquentQuery()->getEagerLoads()))
-                ->heading(ReportStepResource::getPluralLabel())
-                ->modelLabel(ReportStepResource::getLabel())
                 ->recordTitleAttribute(ReportStepResource::getRecordTitleAttribute())
                 ->columns(ReportStepResource::table($table)->getColumns())
                 ->defaultSort(ReportStep::TABLE.'.'.ReportStep::ATTRIBUTE_ID, 'desc')
         );
-    }
-
-    /**
-     * Get the filters available for the relation.
-     *
-     * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    public static function getFilters(): array
-    {
-        return [
-            ...ReportStepResource::getFilters(),
-        ];
     }
 
     /**

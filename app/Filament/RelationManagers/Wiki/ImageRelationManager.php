@@ -6,11 +6,10 @@ namespace App\Filament\RelationManagers\Wiki;
 
 use App\Filament\Actions\Models\Wiki\Image\AttachImageAction;
 use App\Filament\RelationManagers\BaseRelationManager;
+use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Image as ImageResource;
 use App\Models\Wiki\Image;
-use Filament\Schemas\Schema;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Class ImageRelationManager.
@@ -18,17 +17,11 @@ use Illuminate\Database\Eloquent\Builder;
 abstract class ImageRelationManager extends BaseRelationManager
 {
     /**
-     * The form to the actions.
+     * The resource of the relation manager.
      *
-     * @param  Schema  $schema
-     * @return Schema
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
+     * @var class-string<BaseResource>|null
      */
-    public function form(Schema $schema): Schema
-    {
-        return ImageResource::form($schema);
-    }
+    protected static ?string $relatedResource = ImageResource::class;
 
     /**
      * The index page of the resource.
@@ -40,27 +33,10 @@ abstract class ImageRelationManager extends BaseRelationManager
     {
         return parent::table(
             $table
-                ->modifyQueryUsing(fn (Builder $query) => $query->with(ImageResource::getEloquentQuery()->getEagerLoads()))
-                ->heading(ImageResource::getPluralLabel())
-                ->modelLabel(ImageResource::getLabel())
                 ->recordTitleAttribute(Image::ATTRIBUTE_PATH)
                 ->columns(ImageResource::table($table)->getColumns())
                 ->defaultSort(Image::TABLE.'.'.Image::ATTRIBUTE_ID, 'desc')
         );
-    }
-
-    /**
-     * Get the filters available for the relation.
-     *
-     * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    public static function getFilters(): array
-    {
-        return [
-            ...ImageResource::getFilters(),
-        ];
     }
 
     /**

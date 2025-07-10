@@ -48,7 +48,7 @@ class Synonym extends BaseResource
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getLabel(): string
+    public static function getModelLabel(): string
     {
         return __('filament.resources.singularLabel.anime_synonym');
     }
@@ -60,7 +60,7 @@ class Synonym extends BaseResource
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getPluralLabel(): string
+    public static function getPluralModelLabel(): string
     {
         return __('filament.resources.label.anime_synonyms');
     }
@@ -227,7 +227,7 @@ class Synonym extends BaseResource
     public static function getRelations(): array
     {
         return [
-            RelationGroup::make(static::getLabel(), [
+            RelationGroup::make(static::getModelLabel(), [
                 ...parent::getBaseRelations(),
             ]),
         ];

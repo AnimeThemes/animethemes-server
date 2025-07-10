@@ -37,20 +37,6 @@ class RoleUserRelationManager extends RoleRelationManager
     }
 
     /**
-     * Get the filters available for the relation.
-     *
-     * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    public static function getFilters(): array
-    {
-        return [
-            ...parent::getFilters(),
-        ];
-    }
-
-    /**
      * Get the actions available for the relation.
      *
      * @return array
@@ -61,32 +47,6 @@ class RoleUserRelationManager extends RoleRelationManager
             ...parent::getRecordActions(),
 
             EditAction::make(),
-        ];
-    }
-
-    /**
-     * Get the bulk actions available for the relation.
-     *
-     * @param  array|null  $actionsIncludedInGroup
-     * @return array
-     */
-    public static function getBulkActions(?array $actionsIncludedInGroup = []): array
-    {
-        return [
-            ...parent::getBulkActions(),
-        ];
-    }
-
-    /**
-     * Get the header actions available for the relation.
-     * These are merged with the table actions of the resources.
-     *
-     * @return array
-     */
-    public static function getHeaderActions(): array
-    {
-        return [
-            ...parent::getHeaderActions(),
         ];
     }
 }

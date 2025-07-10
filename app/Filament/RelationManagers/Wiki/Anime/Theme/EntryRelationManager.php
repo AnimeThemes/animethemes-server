@@ -5,11 +5,10 @@ declare(strict_types=1);
 namespace App\Filament\RelationManagers\Wiki\Anime\Theme;
 
 use App\Filament\RelationManagers\BaseRelationManager;
+use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Anime\Theme\Entry as EntryResource;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
-use Filament\Schemas\Schema;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Class EntryRelationManager.
@@ -17,17 +16,11 @@ use Illuminate\Database\Eloquent\Builder;
 abstract class EntryRelationManager extends BaseRelationManager
 {
     /**
-     * The form to the actions.
+     * The resource of the relation manager.
      *
-     * @param  Schema  $schema
-     * @return Schema
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
+     * @var class-string<BaseResource>|null
      */
-    public function form(Schema $schema): Schema
-    {
-        return EntryResource::form($schema);
-    }
+    protected static ?string $relatedResource = EntryResource::class;
 
     /**
      * The index page of the resource.
@@ -39,27 +32,10 @@ abstract class EntryRelationManager extends BaseRelationManager
     {
         return parent::table(
             $table
-                ->modifyQueryUsing(fn (Builder $query) => $query->with(EntryResource::getEloquentQuery()->getEagerLoads()))
-                ->heading(EntryResource::getPluralLabel())
-                ->modelLabel(EntryResource::getLabel())
                 ->recordTitleAttribute(AnimeThemeEntry::ATTRIBUTE_VERSION)
                 ->columns(EntryResource::table($table)->getColumns())
                 ->defaultSort(AnimeThemeEntry::TABLE.'.'.AnimeThemeEntry::ATTRIBUTE_ID, 'desc')
         );
-    }
-
-    /**
-     * Get the filters available for the relation.
-     *
-     * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    public static function getFilters(): array
-    {
-        return [
-            ...EntryResource::getFilters(),
-        ];
     }
 
     /**

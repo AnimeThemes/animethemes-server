@@ -44,7 +44,7 @@ class Audio extends BaseResource
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getLabel(): string
+    public static function getModelLabel(): string
     {
         return __('filament.resources.singularLabel.audio');
     }
@@ -56,7 +56,7 @@ class Audio extends BaseResource
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getPluralLabel(): string
+    public static function getPluralModelLabel(): string
     {
         return __('filament.resources.label.audios');
     }
@@ -185,7 +185,7 @@ class Audio extends BaseResource
     public static function getRelations(): array
     {
         return [
-            RelationGroup::make(static::getLabel(), [
+            RelationGroup::make(static::getModelLabel(), [
                 VideoAudioRelationManager::class,
 
                 ...parent::getBaseRelations(),

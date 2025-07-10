@@ -5,19 +5,25 @@ declare(strict_types=1);
 namespace App\Filament\RelationManagers\Wiki;
 
 use App\Filament\RelationManagers\BaseRelationManager;
+use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\ExternalResource as ExternalResourceResource;
 use App\Models\Wiki\ExternalResource;
 use App\Pivots\Wiki\AnimeResource;
 use Filament\Forms\Components\TextInput;
-use Filament\Schemas\Schema;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Class ResourceRelationManager.
  */
 abstract class ResourceRelationManager extends BaseRelationManager
 {
+    /**
+     * The resource of the relation manager.
+     *
+     * @var class-string<BaseResource>|null
+     */
+    protected static ?string $relatedResource = ExternalResourceResource::class;
+
     /**
      * Get the pivot fields of the relation.
      *
@@ -33,19 +39,6 @@ abstract class ResourceRelationManager extends BaseRelationManager
     }
 
     /**
-     * The form to the actions.
-     *
-     * @param  Schema  $schema
-     * @return Schema
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    public function form(Schema $schema): Schema
-    {
-        return ExternalResourceResource::form($schema);
-    }
-
-    /**
      * The index page of the resource.
      *
      * @param  Table  $table
@@ -55,27 +48,10 @@ abstract class ResourceRelationManager extends BaseRelationManager
     {
         return parent::table(
             $table
-                ->modifyQueryUsing(fn (Builder $query) => $query->with(ExternalResourceResource::getEloquentQuery()->getEagerLoads()))
-                ->heading(ExternalResourceResource::getPluralLabel())
-                ->modelLabel(ExternalResourceResource::getLabel())
                 ->recordTitleAttribute(ExternalResource::ATTRIBUTE_LINK)
                 ->columns(ExternalResourceResource::table($table)->getColumns())
                 ->defaultSort(ExternalResource::TABLE.'.'.ExternalResource::ATTRIBUTE_ID, 'desc')
         );
-    }
-
-    /**
-     * Get the filters available for the relation.
-     *
-     * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    public static function getFilters(): array
-    {
-        return [
-            ...ExternalResourceResource::getFilters(),
-        ];
     }
 
     /**

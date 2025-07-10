@@ -6,11 +6,10 @@ namespace App\Filament\RelationManagers\Auth;
 
 use App\Filament\RelationManagers\BaseRelationManager;
 use App\Filament\Resources\Auth\Role as RoleResource;
+use App\Filament\Resources\BaseResource;
 use App\Models\Auth\Role;
 use Filament\Actions\ViewAction;
-use Filament\Schemas\Schema;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Class RoleRelationManager.
@@ -18,17 +17,11 @@ use Illuminate\Database\Eloquent\Builder;
 abstract class RoleRelationManager extends BaseRelationManager
 {
     /**
-     * The form to the actions.
+     * The resource of the relation manager.
      *
-     * @param  Schema  $schema
-     * @return Schema
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
+     * @var class-string<BaseResource>|null
      */
-    public function form(Schema $schema): Schema
-    {
-        return RoleResource::form($schema);
-    }
+    protected static ?string $relatedResource = RoleResource::class;
 
     /**
      * The index page of the resource.
@@ -40,27 +33,10 @@ abstract class RoleRelationManager extends BaseRelationManager
     {
         return parent::table(
             $table
-                ->modifyQueryUsing(fn (Builder $query) => $query->with(RoleResource::getEloquentQuery()->getEagerLoads()))
-                ->heading(RoleResource::getPluralLabel())
-                ->modelLabel(RoleResource::getLabel())
                 ->recordTitleAttribute(Role::ATTRIBUTE_NAME)
                 ->columns(RoleResource::table($table)->getColumns())
                 ->defaultSort(Role::TABLE.'.'.Role::ATTRIBUTE_ID, 'desc')
         );
-    }
-
-    /**
-     * Get the filters available for the relation.
-     *
-     * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    public static function getFilters(): array
-    {
-        return [
-            ...RoleResource::getFilters(),
-        ];
     }
 
     /**

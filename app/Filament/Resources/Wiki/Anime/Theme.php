@@ -70,7 +70,7 @@ class Theme extends BaseResource
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getLabel(): string
+    public static function getModelLabel(): string
     {
         return __('filament.resources.singularLabel.anime_theme');
     }
@@ -82,7 +82,7 @@ class Theme extends BaseResource
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getPluralLabel(): string
+    public static function getPluralModelLabel(): string
     {
         return __('filament.resources.label.anime_themes');
     }
@@ -383,7 +383,7 @@ class Theme extends BaseResource
     public static function getRelations(): array
     {
         return [
-            RelationGroup::make(static::getLabel(), [
+            RelationGroup::make(static::getModelLabel(), [
                 EntryThemeRelationManager::class,
 
                 ...parent::getBaseRelations(),

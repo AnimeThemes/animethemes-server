@@ -50,7 +50,7 @@ class Playlist extends BaseResource
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getLabel(): string
+    public static function getModelLabel(): string
     {
         return __('filament.resources.singularLabel.playlist');
     }
@@ -62,7 +62,7 @@ class Playlist extends BaseResource
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getPluralLabel(): string
+    public static function getPluralModelLabel(): string
     {
         return __('filament.resources.label.playlists');
     }
@@ -282,7 +282,7 @@ class Playlist extends BaseResource
     public static function getRelations(): array
     {
         return [
-            RelationGroup::make(static::getLabel(), [
+            RelationGroup::make(static::getModelLabel(), [
                 ImagePlaylistRelationManager::class,
                 TrackPlaylistRelationManager::class,
 

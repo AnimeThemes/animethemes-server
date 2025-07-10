@@ -8,12 +8,13 @@ use App\Filament\Actions\Base\AttachAction;
 use App\Filament\Actions\Base\CreateAction;
 use App\Filament\BulkActions\Base\DetachBulkAction;
 use App\Filament\Components\Columns\TextColumn;
+use App\Filament\Resources\BaseResource;
 use App\Pivots\BasePivot;
 use DateTime;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Schemas\Components\Component;
-use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Arr;
@@ -26,6 +27,13 @@ abstract class BaseRelationManager extends RelationManager
     protected static bool $isLazy = false;
 
     protected $listeners = ['updateAllRelationManager' => '$refresh'];
+
+    /**
+     * The resource of the relation manager.
+     *
+     * @var class-string<BaseResource>|null
+     */
+    protected static ?string $relatedResource = null;
 
     /**
      * Get the pivot fields of the relation.
@@ -47,6 +55,8 @@ abstract class BaseRelationManager extends RelationManager
      */
     public function table(Table $table): Table
     {
+        $resource = static::$relatedResource;
+
         return $table
             ->columns([
                 ...$table->getColumns(),
@@ -76,6 +86,9 @@ abstract class BaseRelationManager extends RelationManager
                         return new DateTime($updatedAtField)->format('M j, Y H:i:s');
                     }),
             ])
+            ->modifyQueryUsing(fn (Builder $query) => $query->with($resource ? $resource::getEloquentQuery()->getEagerLoads() : []))
+            ->heading($resource ? $resource::getPluralModelLabel() : null)
+            ->modelLabel($resource ? $resource::getModelLabel() : null)
             ->filters(static::getFilters())
             ->filtersFormMaxHeight('400px')
             ->recordActions(static::getRecordActions())
@@ -94,9 +107,7 @@ abstract class BaseRelationManager extends RelationManager
      */
     public static function getFilters(): array
     {
-        return [
-            TrashedFilter::make(),
-        ];
+        return static::$relatedResource::getFilters();
     }
 
     /**

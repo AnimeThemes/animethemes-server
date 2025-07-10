@@ -56,7 +56,7 @@ class Anime extends BaseResource
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getLabel(): string
+    public static function getModelLabel(): string
     {
         return __('filament.resources.singularLabel.anime');
     }
@@ -68,7 +68,7 @@ class Anime extends BaseResource
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getPluralLabel(): string
+    public static function getPluralModelLabel(): string
     {
         return __('filament.resources.label.anime');
     }
@@ -292,7 +292,7 @@ class Anime extends BaseResource
     public static function getRelations(): array
     {
         return [
-            RelationGroup::make(static::getLabel(), [
+            RelationGroup::make(static::getModelLabel(), [
                 SynonymAnimeRelationManager::class,
                 ThemeAnimeRelationManager::class,
                 SeriesAnimeRelationManager::class,

@@ -42,45 +42,6 @@ class PerformanceSongRelationManager extends PerformanceRelationManager
     }
 
     /**
-     * Get the filters available for the relation.
-     *
-     * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    public static function getFilters(): array
-    {
-        return [
-            ...parent::getFilters(),
-        ];
-    }
-
-    /**
-     * Get the actions available for the relation.
-     *
-     * @return array
-     */
-    public static function getRecordActions(): array
-    {
-        return [
-            ...parent::getRecordActions(),
-        ];
-    }
-
-    /**
-     * Get the bulk actions available for the relation.
-     *
-     * @param  array|null  $actionsIncludedInGroup
-     * @return array
-     */
-    public static function getBulkActions(?array $actionsIncludedInGroup = []): array
-    {
-        return [
-            ...parent::getBulkActions(),
-        ];
-    }
-
-    /**
      * Get the header actions available for the relation.
      * These are merged with the table actions of the resources.
      *
@@ -188,7 +149,7 @@ class PerformanceSongRelationManager extends PerformanceRelationManager
             foreach (Arr::get($artist, 'memberships') as $membership) {
                 $action->addMembership(
                     $group,
-                    Arr::get($membership, Membership::ATTRIBUTE_MEMBER),
+                    intval(Arr::get($membership, Membership::ATTRIBUTE_MEMBER)),
                     Arr::get($membership, Membership::ATTRIBUTE_ALIAS),
                     Arr::get($membership, Membership::ATTRIBUTE_AS),
                 );

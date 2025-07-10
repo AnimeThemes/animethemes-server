@@ -5,11 +5,10 @@ declare(strict_types=1);
 namespace App\Filament\RelationManagers\Wiki;
 
 use App\Filament\RelationManagers\BaseRelationManager;
+use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Video as VideoResource;
 use App\Models\Wiki\Video;
-use Filament\Schemas\Schema;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Class VideoRelationManager.
@@ -17,17 +16,11 @@ use Illuminate\Database\Eloquent\Builder;
 abstract class VideoRelationManager extends BaseRelationManager
 {
     /**
-     * The form to the actions.
+     * The resource of the relation manager.
      *
-     * @param  Schema  $schema
-     * @return Schema
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
+     * @var class-string<BaseResource>|null
      */
-    public function form(Schema $schema): Schema
-    {
-        return VideoResource::form($schema);
-    }
+    protected static ?string $relatedResource = VideoResource::class;
 
     /**
      * The index page of the resource.
@@ -39,27 +32,10 @@ abstract class VideoRelationManager extends BaseRelationManager
     {
         return parent::table(
             $table
-                ->modifyQueryUsing(fn (Builder $query) => $query->with(VideoResource::getEloquentQuery()->getEagerLoads()))
-                ->heading(VideoResource::getPluralLabel())
-                ->modelLabel(VideoResource::getLabel())
                 ->recordTitleAttribute(Video::ATTRIBUTE_FILENAME)
                 ->columns(VideoResource::table($table)->getColumns())
                 ->defaultSort(Video::TABLE.'.'.Video::ATTRIBUTE_ID, 'desc')
         );
-    }
-
-    /**
-     * Get the filters available for the relation.
-     *
-     * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    public static function getFilters(): array
-    {
-        return [
-            ...VideoResource::getFilters(),
-        ];
     }
 
     /**

@@ -48,7 +48,7 @@ class ExternalResource extends BaseResource
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getLabel(): string
+    public static function getModelLabel(): string
     {
         return __('filament.resources.singularLabel.external_resource');
     }
@@ -60,7 +60,7 @@ class ExternalResource extends BaseResource
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getPluralLabel(): string
+    public static function getPluralModelLabel(): string
     {
         return __('filament.resources.label.external_resources');
     }
@@ -222,7 +222,7 @@ class ExternalResource extends BaseResource
     public static function getRelations(): array
     {
         return [
-            RelationGroup::make(static::getLabel(), [
+            RelationGroup::make(static::getModelLabel(), [
                 AnimeResourceRelationManager::class,
                 ArtistResourceRelationManager::class,
                 SongResourceRelationManager::class,

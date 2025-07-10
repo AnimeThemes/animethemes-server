@@ -10,7 +10,6 @@ use App\Filament\Resources\Admin\ActionLog;
 use App\Models\Admin\ActionLog as ActionLogModel;
 use Filament\Schemas\Schema;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Class ActionLogRelationManager.
@@ -30,7 +29,6 @@ class ActionLogRelationManager extends BaseRelationManager
     public function table(Table $table): Table
     {
         return parent::table($table)
-            ->modifyQueryUsing(fn (Builder $query) => $query->with(ActionLog::getEloquentQuery()->getEagerLoads()))
             ->defaultSort(ActionLogModel::ATTRIBUTE_ID, 'desc')
             ->heading(__('filament.resources.label.action_logs'))
             ->pluralModelLabel(__('filament.resources.label.action_logs'))

@@ -5,11 +5,10 @@ declare(strict_types=1);
 namespace App\Filament\RelationManagers\Wiki\Song;
 
 use App\Filament\RelationManagers\BaseRelationManager;
+use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Song\Performance as PerformanceResource;
 use App\Models\Wiki\Song\Performance;
-use Filament\Schemas\Schema;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Class PerformanceRelationManager.
@@ -17,17 +16,11 @@ use Illuminate\Database\Eloquent\Builder;
 abstract class PerformanceRelationManager extends BaseRelationManager
 {
     /**
-     * The form to the actions.
+     * The resource of the relation manager.
      *
-     * @param  Schema  $schema
-     * @return Schema
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
+     * @var class-string<BaseResource>|null
      */
-    public function form(Schema $schema): Schema
-    {
-        return PerformanceResource::form($schema);
-    }
+    protected static ?string $relatedResource = PerformanceResource::class;
 
     /**
      * The index page of the resource.
@@ -39,27 +32,10 @@ abstract class PerformanceRelationManager extends BaseRelationManager
     {
         return parent::table(
             $table
-                ->modifyQueryUsing(fn (Builder $query) => $query->with(PerformanceResource::getEloquentQuery()->getEagerLoads()))
-                ->heading(PerformanceResource::getPluralLabel())
-                ->modelLabel(PerformanceResource::getLabel())
                 ->recordTitleAttribute(Performance::ATTRIBUTE_ID)
                 ->columns(PerformanceResource::table($table)->getColumns())
                 ->defaultSort(Performance::TABLE.'.'.Performance::ATTRIBUTE_ID, 'desc')
         );
-    }
-
-    /**
-     * Get the filters available for the relation.
-     *
-     * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    public static function getFilters(): array
-    {
-        return [
-            ...PerformanceResource::getFilters(),
-        ];
     }
 
     /**

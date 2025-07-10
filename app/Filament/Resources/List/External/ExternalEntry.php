@@ -50,7 +50,7 @@ class ExternalEntry extends BaseResource
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getLabel(): string
+    public static function getModelLabel(): string
     {
         return __('filament.resources.singularLabel.external_entry');
     }
@@ -62,7 +62,7 @@ class ExternalEntry extends BaseResource
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getPluralLabel(): string
+    public static function getPluralModelLabel(): string
     {
         return __('filament.resources.label.external_entries');
     }
@@ -234,7 +234,7 @@ class ExternalEntry extends BaseResource
     public static function getRelations(): array
     {
         return [
-            RelationGroup::make(static::getLabel(), [
+            RelationGroup::make(static::getModelLabel(), [
                 ...parent::getBaseRelations(),
             ]),
         ];

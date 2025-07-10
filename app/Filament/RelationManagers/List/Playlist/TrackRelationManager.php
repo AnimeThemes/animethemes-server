@@ -5,11 +5,10 @@ declare(strict_types=1);
 namespace App\Filament\RelationManagers\List\Playlist;
 
 use App\Filament\RelationManagers\BaseRelationManager;
+use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\List\Playlist\Track as TrackResource;
 use App\Models\List\Playlist\PlaylistTrack;
-use Filament\Schemas\Schema;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Class TrackRelationManager.
@@ -17,17 +16,11 @@ use Illuminate\Database\Eloquent\Builder;
 abstract class TrackRelationManager extends BaseRelationManager
 {
     /**
-     * The form to the actions.
+     * The resource of the relation manager.
      *
-     * @param  Schema  $schema
-     * @return Schema
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
+     * @var class-string<BaseResource>|null
      */
-    public function form(Schema $schema): Schema
-    {
-        return TrackResource::form($schema);
-    }
+    protected static ?string $relatedResource = TrackResource::class;
 
     /**
      * The index page of the resource.
@@ -39,27 +32,10 @@ abstract class TrackRelationManager extends BaseRelationManager
     {
         return parent::table(
             $table
-                ->modifyQueryUsing(fn (Builder $query) => $query->with(TrackResource::getEloquentQuery()->getEagerLoads()))
-                ->heading(TrackResource::getPluralLabel())
-                ->modelLabel(TrackResource::getLabel())
                 ->recordTitleAttribute(PlaylistTrack::ATTRIBUTE_HASHID)
                 ->columns(TrackResource::table($table)->getColumns())
                 ->defaultSort(PlaylistTrack::TABLE.'.'.PlaylistTrack::ATTRIBUTE_ID, 'desc')
         );
-    }
-
-    /**
-     * Get the filters available for the relation.
-     *
-     * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    public static function getFilters(): array
-    {
-        return [
-            ...TrackResource::getFilters(),
-        ];
     }
 
     /**

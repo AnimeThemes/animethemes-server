@@ -46,43 +46,4 @@ class PlaylistUserRelationManager extends PlaylistRelationManager
     {
         return [];
     }
-
-    /**
-     * Get the actions available for the relation.
-     *
-     * @return array
-     */
-    public static function getRecordActions(): array
-    {
-        return [
-            ...parent::getRecordActions(),
-        ];
-    }
-
-    /**
-     * Get the bulk actions available for the relation.
-     *
-     * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    public static function getBulkActions(?array $actionsIncludedInGroup = []): array
-    {
-        return [
-            ...parent::getBulkActions(),
-        ];
-    }
-
-    /**
-     * Get the header actions available for the relation.
-     * These are merged with the table actions of the resources.
-     *
-     * @return array
-     */
-    public static function getHeaderActions(): array
-    {
-        return [
-            ...parent::getHeaderActions(),
-        ];
-    }
 }
