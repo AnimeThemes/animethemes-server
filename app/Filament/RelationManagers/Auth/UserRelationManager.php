@@ -33,36 +33,8 @@ abstract class UserRelationManager extends BaseRelationManager
         return parent::table(
             $table
                 ->recordTitleAttribute(User::ATTRIBUTE_NAME)
-                ->columns(UserResource::table($table)->getColumns())
                 ->defaultSort(User::TABLE.'.'.User::ATTRIBUTE_ID, 'desc')
         );
-    }
-
-    /**
-     * Get the actions available for the relation.
-     *
-     * @return array
-     */
-    public static function getRecordActions(): array
-    {
-        return [
-            ...parent::getRecordActions(),
-            ...UserResource::getActions(),
-        ];
-    }
-
-    /**
-     * Get the bulk actions available for the relation.
-     *
-     * @param  array|null  $actionsIncludedInGroup
-     * @return array
-     */
-    public static function getBulkActions(?array $actionsIncludedInGroup = []): array
-    {
-        return [
-            ...parent::getBulkActions(),
-            ...UserResource::getBulkActions(),
-        ];
     }
 
     /**

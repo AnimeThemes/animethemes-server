@@ -33,49 +33,7 @@ abstract class PerformanceRelationManager extends BaseRelationManager
         return parent::table(
             $table
                 ->recordTitleAttribute(Performance::ATTRIBUTE_ID)
-                ->columns(PerformanceResource::table($table)->getColumns())
                 ->defaultSort(Performance::TABLE.'.'.Performance::ATTRIBUTE_ID, 'desc')
         );
-    }
-
-    /**
-     * Get the actions available for the relation.
-     *
-     * @return array
-     */
-    public static function getRecordActions(): array
-    {
-        return [
-            ...parent::getRecordActions(),
-            ...PerformanceResource::getActions(),
-        ];
-    }
-
-    /**
-     * Get the bulk actions available for the relation.
-     *
-     * @param  array|null  $actionsIncludedInGroup
-     * @return array
-     */
-    public static function getBulkActions(?array $actionsIncludedInGroup = []): array
-    {
-        return [
-            ...parent::getBulkActions(),
-            ...PerformanceResource::getBulkActions(),
-        ];
-    }
-
-    /**
-     * Get the header actions available for the relation.
-     * These are merged with the table actions of the resources.
-     *
-     * @return array
-     */
-    public static function getHeaderActions(): array
-    {
-        return [
-            ...parent::getHeaderActions(),
-            ...PerformanceResource::getTableActions(),
-        ];
     }
 }

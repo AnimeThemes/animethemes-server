@@ -33,33 +33,8 @@ abstract class PermissionRelationManager extends BaseRelationManager
         return parent::table(
             $table
                 ->recordTitleAttribute(Permission::ATTRIBUTE_NAME)
-                ->columns(PermissionResource::table($table)->getColumns())
                 ->defaultSort(Permission::TABLE.'.'.Permission::ATTRIBUTE_ID, 'desc')
         );
-    }
-
-    /**
-     * Get the actions available for the relation.
-     *
-     * @return array
-     */
-    public static function getRecordActions(): array
-    {
-        return PermissionResource::getActions();
-    }
-
-    /**
-     * Get the bulk actions available for the relation.
-     *
-     * @param  array|null  $actionsIncludedInGroup
-     * @return array
-     */
-    public static function getBulkActions(?array $actionsIncludedInGroup = []): array
-    {
-        return [
-            ...parent::getBulkActions(),
-            ...PermissionResource::getBulkActions(),
-        ];
     }
 
     /**

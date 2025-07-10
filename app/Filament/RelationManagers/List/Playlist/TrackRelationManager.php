@@ -33,49 +33,7 @@ abstract class TrackRelationManager extends BaseRelationManager
         return parent::table(
             $table
                 ->recordTitleAttribute(PlaylistTrack::ATTRIBUTE_HASHID)
-                ->columns(TrackResource::table($table)->getColumns())
                 ->defaultSort(PlaylistTrack::TABLE.'.'.PlaylistTrack::ATTRIBUTE_ID, 'desc')
         );
-    }
-
-    /**
-     * Get the actions available for the relation.
-     *
-     * @return array
-     */
-    public static function getRecordActions(): array
-    {
-        return [
-            ...parent::getRecordActions(),
-            ...TrackResource::getActions(),
-        ];
-    }
-
-    /**
-     * Get the bulk actions available for the relation.
-     *
-     * @param  array|null  $actionsIncludedInGroup
-     * @return array
-     */
-    public static function getBulkActions(?array $actionsIncludedInGroup = []): array
-    {
-        return [
-            ...parent::getBulkActions(),
-            ...TrackResource::getBulkActions(),
-        ];
-    }
-
-    /**
-     * Get the header actions available for the relation.
-     * These are merged with the table actions of the resources.
-     *
-     * @return array
-     */
-    public static function getHeaderActions(): array
-    {
-        return [
-            ...parent::getHeaderActions(),
-            ...TrackResource::getTableActions(),
-        ];
     }
 }

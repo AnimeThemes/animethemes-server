@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace App\Filament\RelationManagers\Wiki;
 
+use App\Enums\Auth\Role;
 use App\Filament\RelationManagers\BaseRelationManager;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\ExternalResource as ExternalResourceResource;
 use App\Models\Wiki\ExternalResource;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Class ResourceRelationManager.
@@ -33,49 +35,17 @@ abstract class ResourceRelationManager extends BaseRelationManager
         return parent::table(
             $table
                 ->recordTitleAttribute(ExternalResource::ATTRIBUTE_LINK)
-                ->columns(ExternalResourceResource::table($table)->getColumns())
                 ->defaultSort(ExternalResource::TABLE.'.'.ExternalResource::ATTRIBUTE_ID, 'desc')
         );
     }
 
     /**
-     * Get the actions available for the relation.
+     * Determine whether the related model can be created.
      *
-     * @return array
+     * @return bool
      */
-    public static function getRecordActions(): array
+    public function canCreate(): bool
     {
-        return [
-            ...parent::getRecordActions(),
-            ...ExternalResourceResource::getActions(),
-        ];
-    }
-
-    /**
-     * Get the bulk actions available for the relation.
-     *
-     * @param  array|null  $actionsIncludedInGroup
-     * @return array
-     */
-    public static function getBulkActions(?array $actionsIncludedInGroup = []): array
-    {
-        return [
-            ...parent::getBulkActions(),
-            ...ExternalResourceResource::getBulkActions(),
-        ];
-    }
-
-    /**
-     * Get the header actions available for the relation.
-     * These are merged with the table actions of the resources.
-     *
-     * @return array
-     */
-    public static function getHeaderActions(): array
-    {
-        return [
-            ...parent::getHeaderActions(),
-            ...ExternalResourceResource::getTableActions(),
-        ];
+        return Auth::user()->hasRole(Role::ADMIN->value);
     }
 }

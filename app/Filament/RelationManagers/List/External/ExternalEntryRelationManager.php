@@ -33,49 +33,7 @@ abstract class ExternalEntryRelationManager extends BaseRelationManager
         return parent::table(
             $table
                 ->recordTitleAttribute(ExternalEntry::ATTRIBUTE_ID)
-                ->columns(ExternalEntryResource::table($table)->getColumns())
                 ->defaultSort(ExternalEntry::TABLE.'.'.ExternalEntry::ATTRIBUTE_ID, 'desc')
         );
-    }
-
-    /**
-     * Get the actions available for the relation.
-     *
-     * @return array
-     */
-    public static function getRecordActions(): array
-    {
-        return [
-            ...parent::getRecordActions(),
-            ...ExternalEntryResource::getActions(),
-        ];
-    }
-
-    /**
-     * Get the bulk actions available for the relation.
-     *
-     * @param  array|null  $actionsIncludedInGroup
-     * @return array
-     */
-    public static function getBulkActions(?array $actionsIncludedInGroup = []): array
-    {
-        return [
-            ...parent::getBulkActions(),
-            ...ExternalEntryResource::getBulkActions(),
-        ];
-    }
-
-    /**
-     * Get the header actions available for the relation.
-     * These are merged with the table actions of the resources.
-     *
-     * @return array
-     */
-    public static function getHeaderActions(): array
-    {
-        return [
-            ...parent::getHeaderActions(),
-            ...ExternalEntryResource::getTableActions(),
-        ];
     }
 }

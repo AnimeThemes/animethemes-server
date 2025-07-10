@@ -8,7 +8,6 @@ use App\Filament\RelationManagers\BaseRelationManager;
 use App\Filament\Resources\Auth\Role as RoleResource;
 use App\Filament\Resources\BaseResource;
 use App\Models\Auth\Role;
-use Filament\Actions\ViewAction;
 use Filament\Tables\Table;
 
 /**
@@ -34,35 +33,8 @@ abstract class RoleRelationManager extends BaseRelationManager
         return parent::table(
             $table
                 ->recordTitleAttribute(Role::ATTRIBUTE_NAME)
-                ->columns(RoleResource::table($table)->getColumns())
                 ->defaultSort(Role::TABLE.'.'.Role::ATTRIBUTE_ID, 'desc')
         );
-    }
-
-    /**
-     * Get the actions available for the relation.
-     *
-     * @return array
-     */
-    public static function getRecordActions(): array
-    {
-        return [
-            ViewAction::make(),
-        ];
-    }
-
-    /**
-     * Get the bulk actions available for the relation.
-     *
-     * @param  array|null  $actionsIncludedInGroup
-     * @return array
-     */
-    public static function getBulkActions(?array $actionsIncludedInGroup = []): array
-    {
-        return [
-            ...parent::getBulkActions(),
-            ...RoleResource::getBulkActions(),
-        ];
     }
 
     /**

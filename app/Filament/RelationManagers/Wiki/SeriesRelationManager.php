@@ -33,49 +33,7 @@ abstract class SeriesRelationManager extends BaseRelationManager
         return parent::table(
             $table
                 ->recordTitleAttribute(Series::ATTRIBUTE_NAME)
-                ->columns(SeriesResource::table($table)->getColumns())
                 ->defaultSort(Series::TABLE.'.'.Series::ATTRIBUTE_ID, 'desc')
         );
-    }
-
-    /**
-     * Get the actions available for the relation.
-     *
-     * @return array
-     */
-    public static function getRecordActions(): array
-    {
-        return [
-            ...parent::getRecordActions(),
-            ...SeriesResource::getActions(),
-        ];
-    }
-
-    /**
-     * Get the bulk actions available for the relation.
-     *
-     * @param  array|null  $actionsIncludedInGroup
-     * @return array
-     */
-    public static function getBulkActions(?array $actionsIncludedInGroup = []): array
-    {
-        return [
-            ...parent::getBulkActions(),
-            ...SeriesResource::getBulkActions(),
-        ];
-    }
-
-    /**
-     * Get the header actions available for the relation.
-     * These are merged with the table actions of the resources.
-     *
-     * @return array
-     */
-    public static function getHeaderActions(): array
-    {
-        return [
-            ...parent::getHeaderActions(),
-            ...SeriesResource::getTableActions(),
-        ];
     }
 }

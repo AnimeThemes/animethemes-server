@@ -33,49 +33,7 @@ abstract class ThemeRelationManager extends BaseRelationManager
         return parent::table(
             $table
                 ->recordTitle(fn ($record) => $record->getName())
-                ->columns(ThemeResource::table($table)->getColumns())
                 ->defaultSort(AnimeTheme::TABLE.'.'.AnimeTheme::ATTRIBUTE_ID, 'desc')
         );
-    }
-
-    /**
-     * Get the actions available for the relation.
-     *
-     * @return array
-     */
-    public static function getRecordActions(): array
-    {
-        return [
-            ...parent::getRecordActions(),
-            ...ThemeResource::getActions(),
-        ];
-    }
-
-    /**
-     * Get the bulk actions available for the relation.
-     *
-     * @param  array|null  $actionsIncludedInGroup
-     * @return array
-     */
-    public static function getBulkActions(?array $actionsIncludedInGroup = []): array
-    {
-        return [
-            ...parent::getBulkActions(),
-            ...ThemeResource::getBulkActions(),
-        ];
-    }
-
-    /**
-     * Get the header actions available for the relation.
-     * These are merged with the table actions of the resources.
-     *
-     * @return array
-     */
-    public static function getHeaderActions(): array
-    {
-        return [
-            ...parent::getHeaderActions(),
-            ...ThemeResource::getTableActions(),
-        ];
     }
 }

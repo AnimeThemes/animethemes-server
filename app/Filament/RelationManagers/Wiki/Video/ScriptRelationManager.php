@@ -33,50 +33,8 @@ abstract class ScriptRelationManager extends BaseRelationManager
         return parent::table(
             $table
                 ->recordTitleAttribute(VideoScript::ATTRIBUTE_PATH)
-                ->columns(ScriptResource::table($table)->getColumns())
                 ->defaultSort(VideoScript::TABLE.'.'.VideoScript::ATTRIBUTE_ID, 'desc')
         );
-    }
-
-    /**
-     * Get the actions available for the relation.
-     *
-     * @return array
-     */
-    public static function getRecordActions(): array
-    {
-        return [
-            ...parent::getRecordActions(),
-            ...ScriptResource::getActions(),
-        ];
-    }
-
-    /**
-     * Get the bulk actions available for the relation.
-     *
-     * @param  array|null  $actionsIncludedInGroup
-     * @return array
-     */
-    public static function getBulkActions(?array $actionsIncludedInGroup = []): array
-    {
-        return [
-            ...parent::getBulkActions(),
-            ...ScriptResource::getBulkActions(),
-        ];
-    }
-
-    /**
-     * Get the header actions available for the relation.
-     * These are merged with the table actions of the resources.
-     *
-     * @return array
-     */
-    public static function getHeaderActions(): array
-    {
-        return [
-            ...parent::getHeaderActions(),
-            ...ScriptResource::getTableActions(),
-        ];
     }
 
     /**
@@ -84,7 +42,7 @@ abstract class ScriptRelationManager extends BaseRelationManager
      *
      * @return bool
      */
-    protected function canCreate(): bool
+    public function canCreate(): bool
     {
         return false;
     }

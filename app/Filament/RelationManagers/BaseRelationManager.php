@@ -70,7 +70,7 @@ abstract class BaseRelationManager extends RelationManager
 
         return $table
             ->columns([
-                ...$table->getColumns(),
+                ...($resource ? $resource::table(Table::make($this))->getColumns() : []),
 
                 ...$this->getPivotColumns(),
 
@@ -131,7 +131,9 @@ abstract class BaseRelationManager extends RelationManager
      */
     public static function getRecordActions(): array
     {
-        return [];
+        return [
+            ...(static::$relatedResource ? static::$relatedResource::getActions() : []),
+        ];
     }
 
     /**
@@ -144,6 +146,8 @@ abstract class BaseRelationManager extends RelationManager
     public static function getBulkActions(?array $actionsIncludedInGroup = []): array
     {
         return [
+            ...(static::$relatedResource ? static::$relatedResource::getBulkActions() : []),
+
             DetachBulkAction::make(),
         ];
     }
@@ -161,6 +165,18 @@ abstract class BaseRelationManager extends RelationManager
             CreateAction::make(),
 
             AttachAction::make(),
+
+            ...(static::$relatedResource ? static::$relatedResource::getTableActions() : []),
         ];
+    }
+
+    /**
+     * Determine whether the related model can be created.
+     *
+     * @return bool
+     */
+    public function canCreate(): bool
+    {
+        return true;
     }
 }

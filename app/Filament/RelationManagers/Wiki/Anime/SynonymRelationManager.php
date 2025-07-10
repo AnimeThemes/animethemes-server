@@ -33,49 +33,7 @@ abstract class SynonymRelationManager extends BaseRelationManager
         return parent::table(
             $table
                 ->recordTitleAttribute(AnimeSynonym::ATTRIBUTE_TEXT)
-                ->columns(SynonymResource::table($table)->getColumns())
                 ->defaultSort(AnimeSynonym::TABLE.'.'.AnimeSynonym::ATTRIBUTE_ID, 'desc')
         );
-    }
-
-    /**
-     * Get the actions available for the relation.
-     *
-     * @return array
-     */
-    public static function getRecordActions(): array
-    {
-        return [
-            ...parent::getRecordActions(),
-            ...SynonymResource::getActions(),
-        ];
-    }
-
-    /**
-     * Get the bulk actions available for the relation.
-     *
-     * @param  array|null  $actionsIncludedInGroup
-     * @return array
-     */
-    public static function getBulkActions(?array $actionsIncludedInGroup = []): array
-    {
-        return [
-            ...parent::getBulkActions(),
-            ...SynonymResource::getBulkActions(),
-        ];
-    }
-
-    /**
-     * Get the header actions available for the relation.
-     * These are merged with the table actions of the resources.
-     *
-     * @return array
-     */
-    public static function getHeaderActions(): array
-    {
-        return [
-            ...parent::getHeaderActions(),
-            ...SynonymResource::getTableActions(),
-        ];
     }
 }

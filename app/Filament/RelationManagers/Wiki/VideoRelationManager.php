@@ -33,50 +33,8 @@ abstract class VideoRelationManager extends BaseRelationManager
         return parent::table(
             $table
                 ->recordTitleAttribute(Video::ATTRIBUTE_FILENAME)
-                ->columns(VideoResource::table($table)->getColumns())
                 ->defaultSort(Video::TABLE.'.'.Video::ATTRIBUTE_ID, 'desc')
         );
-    }
-
-    /**
-     * Get the actions available for the relation.
-     *
-     * @return array
-     */
-    public static function getRecordActions(): array
-    {
-        return [
-            ...parent::getRecordActions(),
-            ...VideoResource::getActions(),
-        ];
-    }
-
-    /**
-     * Get the bulk actions available for the relation.
-     *
-     * @param  array|null  $actionsIncludedInGroup
-     * @return array
-     */
-    public static function getBulkActions(?array $actionsIncludedInGroup = []): array
-    {
-        return [
-            ...parent::getBulkActions(),
-            ...VideoResource::getBulkActions(),
-        ];
-    }
-
-    /**
-     * Get the header actions available for the relation.
-     * These are merged with the table actions of the resources.
-     *
-     * @return array
-     */
-    public static function getHeaderActions(): array
-    {
-        return [
-            ...parent::getHeaderActions(),
-            ...VideoResource::getTableActions(),
-        ];
     }
 
     /**
@@ -84,7 +42,7 @@ abstract class VideoRelationManager extends BaseRelationManager
      *
      * @return bool
      */
-    protected function canCreate(): bool
+    public function canCreate(): bool
     {
         return false;
     }

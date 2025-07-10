@@ -34,36 +34,8 @@ abstract class ImageRelationManager extends BaseRelationManager
         return parent::table(
             $table
                 ->recordTitleAttribute(Image::ATTRIBUTE_PATH)
-                ->columns(ImageResource::table($table)->getColumns())
                 ->defaultSort(Image::TABLE.'.'.Image::ATTRIBUTE_ID, 'desc')
         );
-    }
-
-    /**
-     * Get the actions available for the relation.
-     *
-     * @return array
-     */
-    public static function getRecordActions(): array
-    {
-        return [
-            ...parent::getRecordActions(),
-            ...ImageResource::getActions(),
-        ];
-    }
-
-    /**
-     * Get the bulk actions available for the relation.
-     *
-     * @param  array|null  $actionsIncludedInGroup
-     * @return array
-     */
-    public static function getBulkActions(?array $actionsIncludedInGroup = []): array
-    {
-        return [
-            ...parent::getBulkActions(),
-            ...ImageResource::getBulkActions(),
-        ];
     }
 
     /**
@@ -76,7 +48,6 @@ abstract class ImageRelationManager extends BaseRelationManager
     {
         return [
             ...parent::getHeaderActions(),
-            ...ImageResource::getTableActions(),
 
             AttachImageAction::make(),
         ];
@@ -87,7 +58,7 @@ abstract class ImageRelationManager extends BaseRelationManager
      *
      * @return bool
      */
-    protected function canCreate(): bool
+    public function canCreate(): bool
     {
         return false;
     }
