@@ -177,18 +177,6 @@ class Script extends BaseResource
     }
 
     /**
-     * Get the filters available for the resource.
-     *
-     * @return array
-     */
-    public static function getFilters(): array
-    {
-        return [
-            ...parent::getFilters(),
-        ];
-    }
-
-    /**
      * Get the actions available for the resource.
      *
      * @return array

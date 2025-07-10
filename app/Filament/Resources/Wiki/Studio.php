@@ -207,18 +207,6 @@ class Studio extends BaseResource
     }
 
     /**
-     * Get the filters available for the resource.
-     *
-     * @return array
-     */
-    public static function getFilters(): array
-    {
-        return [
-            ...parent::getFilters(),
-        ];
-    }
-
-    /**
      * Get the actions available for the resource.
      *
      * @return array
@@ -229,31 +217,6 @@ class Studio extends BaseResource
             BackfillStudioAction::make(),
 
             AttachStudioResourceAction::make(),
-        ];
-    }
-
-    /**
-     * Get the bulk actions available for the resource.
-     *
-     * @param  array|null  $actionsIncludedInGroup
-     * @return array
-     */
-    public static function getBulkActions(?array $actionsIncludedInGroup = []): array
-    {
-        return [
-            ...parent::getBulkActions(),
-        ];
-    }
-
-    /**
-     * Get the table actions available for the resource.
-     *
-     * @return array
-     */
-    public static function getTableActions(): array
-    {
-        return [
-            ...parent::getTableActions(),
         ];
     }
 
