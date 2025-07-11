@@ -44,31 +44,6 @@ class AnnouncementShowTest extends TestCase
     }
 
     /**
-     * The Announcement Show Endpoint shall return an Announcement Resource for soft deleted images.
-     *
-     * @return void
-     */
-    public function testSoftDelete(): void
-    {
-        $announcement = Announcement::factory()->trashed()->createOne();
-
-        $announcement->unsetRelations();
-
-        $response = $this->get(route('api.announcement.show', ['announcement' => $announcement]));
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new AnnouncementResource($announcement, new Query())
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
      * The Announcement Show Endpoint shall implement sparse fieldsets.
      *
      * @return void

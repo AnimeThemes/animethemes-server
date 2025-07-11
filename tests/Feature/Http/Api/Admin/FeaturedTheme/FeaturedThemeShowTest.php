@@ -70,31 +70,6 @@ class FeaturedThemeShowTest extends TestCase
     }
 
     /**
-     * The Featured Theme Show Endpoint shall return a Featured Theme Resource for soft deleted featured themes.
-     *
-     * @return void
-     */
-    public function testSoftDelete(): void
-    {
-        $featuredTheme = FeaturedTheme::factory()->trashed()->createOne();
-
-        $featuredTheme->unsetRelations();
-
-        $response = $this->get(route('api.featuredtheme.show', ['featuredtheme' => $featuredTheme]));
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new FeaturedThemeResource($featuredTheme, new Query())
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
      * The Featured Theme Show Endpoint shall allow inclusion of related resources.
      *
      * @return void

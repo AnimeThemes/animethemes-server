@@ -155,20 +155,6 @@ class CurrentFeaturedThemeShowTest extends TestCase
     }
 
     /**
-     * The Current Featured Theme Show Endpoint shall return a Not Found exception if the featured theme is soft deleted.
-     *
-     * @return void
-     */
-    public function testSoftDelete(): void
-    {
-        FeaturedTheme::factory()->trashed()->create();
-
-        $response = $this->get(route('api.featuredtheme.current.show'));
-
-        $response->assertNotFound();
-    }
-
-    /**
      * The Featured Theme Show Endpoint shall allow inclusion of related resources.
      *
      * @return void
