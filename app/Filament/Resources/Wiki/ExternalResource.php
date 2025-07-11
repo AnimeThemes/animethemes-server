@@ -10,7 +10,6 @@ use App\Filament\Components\Fields\Select;
 use App\Filament\Components\Filters\NumberFilter;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Components\Infolist\TimestampSection;
-use App\Filament\RelationManagers\Wiki\ResourceRelationManager;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\ExternalResource\Pages\ListExternalResources;
 use App\Filament\Resources\Wiki\ExternalResource\Pages\ViewExternalResource;
@@ -19,15 +18,14 @@ use App\Filament\Resources\Wiki\ExternalResource\RelationManagers\ArtistResource
 use App\Filament\Resources\Wiki\ExternalResource\RelationManagers\SongResourceRelationManager;
 use App\Filament\Resources\Wiki\ExternalResource\RelationManagers\StudioResourceRelationManager;
 use App\Models\Wiki\ExternalResource as ExternalResourceModel;
-use App\Pivots\Wiki\AnimeResource;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
-use Filament\Forms\Set;
-use Filament\Infolists\Components\Section;
-use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Utilities\Set;
+use Filament\Schemas\Schema;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class ExternalResource.
@@ -37,7 +35,7 @@ class ExternalResource extends BaseResource
     /**
      * The model the resource corresponds to.
      *
-     * @var string|null
+     * @var class-string<Model>|null
      */
     protected static ?string $model = ExternalResourceModel::class;
 
@@ -48,7 +46,7 @@ class ExternalResource extends BaseResource
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getLabel(): string
+    public static function getModelLabel(): string
     {
         return __('filament.resources.singularLabel.external_resource');
     }
@@ -60,7 +58,7 @@ class ExternalResource extends BaseResource
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getPluralLabel(): string
+    public static function getPluralModelLabel(): string
     {
         return __('filament.resources.label.external_resources');
     }
@@ -114,27 +112,27 @@ class ExternalResource extends BaseResource
     /**
      * The form to the actions.
      *
-     * @param  Form  $form
-     * @return Form
+     * @param  Schema  $schema
+     * @return Schema
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 Select::make(ExternalResourceModel::ATTRIBUTE_SITE)
                     ->label(__('filament.fields.external_resource.site.name'))
                     ->helperText(__('filament.fields.external_resource.site.help'))
-                    ->options(ResourceSite::asSelectArray())
-                    ->required()
-                    ->enum(ResourceSite::class),
+                    ->options(ResourceSite::class)
+                    ->required(),
 
                 TextInput::make(ExternalResourceModel::ATTRIBUTE_LINK)
                     ->label(__('filament.fields.external_resource.link.name'))
                     ->helperText(__('filament.fields.external_resource.link.help'))
                     ->required()
                     ->live()
+                    ->partiallyRenderComponentsAfterStateUpdated([ExternalResourceModel::ATTRIBUTE_SITE, ExternalResourceModel::ATTRIBUTE_EXTERNAL_ID])
                     ->afterStateUpdated(function (Set $set, ?string $state) {
                         if ($state !== null) {
                             $set(ExternalResourceModel::ATTRIBUTE_SITE, ResourceSite::valueOf($state) ?? ResourceSite::OFFICIAL_SITE);
@@ -174,26 +172,22 @@ class ExternalResource extends BaseResource
 
                 TextColumn::make(ExternalResourceModel::ATTRIBUTE_EXTERNAL_ID)
                     ->label(__('filament.fields.external_resource.external_id.name')),
-
-                TextColumn::make(AnimeResource::ATTRIBUTE_AS)
-                    ->label(__('filament.fields.anime.resources.as.name'))
-                    ->visibleOn(ResourceRelationManager::class),
             ]);
     }
 
     /**
      * Get the infolist available for the resource.
      *
-     * @param  Infolist  $infolist
-     * @return Infolist
+     * @param  Schema  $schema
+     * @return Schema
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function infolist(Infolist $infolist): Infolist
+    public static function infolist(Schema $schema): Schema
     {
-        return $infolist
-            ->schema([
-                Section::make(static::getRecordTitle($infolist->getRecord()))
+        return $schema
+            ->components([
+                Section::make(static::getRecordTitle($schema->getRecord()))
                     ->schema([
                         TextEntry::make(ExternalResourceModel::ATTRIBUTE_SITE)
                             ->label(__('filament.fields.external_resource.site.name'))
@@ -222,7 +216,7 @@ class ExternalResource extends BaseResource
     public static function getRelations(): array
     {
         return [
-            RelationGroup::make(static::getLabel(), [
+            RelationGroup::make(static::getModelLabel(), [
                 AnimeResourceRelationManager::class,
                 ArtistResourceRelationManager::class,
                 SongResourceRelationManager::class,
@@ -243,49 +237,12 @@ class ExternalResource extends BaseResource
         return [
             SelectFilter::make(ExternalResourceModel::ATTRIBUTE_SITE)
                 ->label(__('filament.fields.external_resource.site.name'))
-                ->options(ResourceSite::asSelectArray()),
+                ->options(ResourceSite::class),
 
             NumberFilter::make(ExternalResourceModel::ATTRIBUTE_EXTERNAL_ID)
                 ->label(__('filament.fields.external_resource.external_id.name')),
 
             ...parent::getFilters(),
-        ];
-    }
-
-    /**
-     * Get the actions available for the resource.
-     *
-     * @return array
-     */
-    public static function getActions(): array
-    {
-        return [
-            ...parent::getActions(),
-        ];
-    }
-
-    /**
-     * Get the bulk actions available for the resource.
-     *
-     * @param  array|null  $actionsIncludedInGroup
-     * @return array
-     */
-    public static function getBulkActions(?array $actionsIncludedInGroup = []): array
-    {
-        return [
-            ...parent::getBulkActions(),
-        ];
-    }
-
-    /**
-     * Get the table actions available for the resource.
-     *
-     * @return array
-     */
-    public static function getTableActions(): array
-    {
-        return [
-            ...parent::getTableActions(),
         ];
     }
 

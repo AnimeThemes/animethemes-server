@@ -10,9 +10,9 @@ use App\Filament\RelationManagers\BaseRelationManager;
 use App\Models\Admin\ActionLog;
 use App\Models\Wiki\ExternalResource;
 use App\Models\Wiki\Image;
+use Filament\Actions\AttachAction as BaseAttachAction;
 use Filament\Facades\Filament;
-use Filament\Forms\Form;
-use Filament\Tables\Actions\AttachAction as DefaultAttachAction;
+use Filament\Schemas\Schema;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -21,7 +21,7 @@ use Illuminate\Support\Str;
 /**
  * Class AttachAction.
  */
-class AttachAction extends DefaultAttachAction
+class AttachAction extends BaseAttachAction
 {
     use HasPivotActionLogs;
 
@@ -63,7 +63,7 @@ class AttachAction extends DefaultAttachAction
 
             if ($this->shouldShowCreateOption($model)) {
                 $select = $select
-                    ->createOptionForm(fn (Form $form) => Filament::getModelResource($model)::form($form)->getComponents())
+                    ->createOptionForm(fn (Schema $schema) => Filament::getModelResource($model)::form($schema)->getComponents())
                     ->createOptionUsing(function (array $data) use ($model) {
                         $created = $model::query()->create($data);
 
@@ -76,9 +76,9 @@ class AttachAction extends DefaultAttachAction
             return $select;
         });
 
-        $this->form(fn (AttachAction $action, BaseRelationManager $livewire): array => [
+        $this->schema(fn (AttachAction $action, BaseRelationManager $livewire): array => [
             $action->getRecordSelect(),
-            ...$livewire->getPivotFields(),
+            ...$livewire->getPivotComponents(),
         ]);
 
         $this->after(fn ($livewire, $record, $action) => $this->pivotActionLog('Attach', $livewire, $record, $action));

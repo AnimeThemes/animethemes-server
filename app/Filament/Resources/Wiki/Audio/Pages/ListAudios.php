@@ -8,7 +8,7 @@ use App\Concerns\Filament\HasTabs;
 use App\Filament\Resources\Base\BaseListResources;
 use App\Filament\Resources\Wiki\Audio;
 use App\Filament\Tabs\Audio\AudioVideoTab;
-use Filament\Resources\Components\Tab;
+use Filament\Schemas\Components\Tabs\Tab;
 
 /**
  * Class ListAudios.
@@ -18,20 +18,6 @@ class ListAudios extends BaseListResources
     use HasTabs;
 
     protected static string $resource = Audio::class;
-
-    /**
-     * Get the header actions available.
-     *
-     * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    protected function getHeaderActions(): array
-    {
-        return [
-            ...parent::getHeaderActions(),
-        ];
-    }
 
     /**
      * Get the tabs available.

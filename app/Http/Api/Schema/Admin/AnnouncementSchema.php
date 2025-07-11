@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace App\Http\Api\Schema\Admin;
 
 use App\Http\Api\Field\Admin\Announcement\AnnouncementContentField;
+use App\Http\Api\Field\Base\CreatedAtField;
 use App\Http\Api\Field\Base\IdField;
+use App\Http\Api\Field\Base\UpdatedAtField;
 use App\Http\Api\Field\Field;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\EloquentSchema;
@@ -44,12 +46,11 @@ class AnnouncementSchema extends EloquentSchema
      */
     public function fields(): array
     {
-        return array_merge(
-            parent::fields(),
-            [
-                new IdField($this, Announcement::ATTRIBUTE_ID),
-                new AnnouncementContentField($this),
-            ],
-        );
+        return [
+            new CreatedAtField($this),
+            new UpdatedAtField($this),
+            new IdField($this, Announcement::ATTRIBUTE_ID),
+            new AnnouncementContentField($this),
+        ];
     }
 }

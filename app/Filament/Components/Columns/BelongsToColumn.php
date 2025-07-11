@@ -22,12 +22,12 @@ class BelongsToColumn extends TextColumn
     /**
      * Rename the parameter to make it more readable.
      *
-     * @param  string  $relation
+     * @param  string|null  $relation
      * @param  class-string<BaseResource>|null  $resource
      * @param  bool|null  $shouldUseModelName
      * @return static
      */
-    public static function make(string $relation, ?string $resource = null, ?bool $shouldUseModelName = false): static
+    public static function make(?string $relation = null, ?string $resource = null, ?bool $shouldUseModelName = false): static
     {
         if (! is_string($resource)) {
             throw new InvalidArgumentException('The resource must be specified.');
@@ -57,7 +57,7 @@ class BelongsToColumn extends TextColumn
         return $this
             ->label($this->resource->getModelLabel())
             ->weight(FontWeight::SemiBold)
-            ->html()
+            ->color('related-link')
             ->url(function (Model $record) {
                 $relation = $this->getName();
 
@@ -73,9 +73,9 @@ class BelongsToColumn extends TextColumn
                         ? $related->getName()
                         : $this->resource->getRecordTitle($related);
 
-                    $nameLimited = Str::limit($name, $this->getCharacterLimit() ?? 100);
+                    $nameLimited = Str::limit($name, $this->getCharacterLimit() ?? 50);
 
-                    return "<p style='color: rgb(64, 184, 166);'>{$nameLimited}</p>";
+                    return $nameLimited;
                 });
 
                 return $this->resource::getUrl('view', ['record' => $related]);

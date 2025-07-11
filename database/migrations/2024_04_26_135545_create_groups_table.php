@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Models\BaseModel;
+use App\Constants\ModelConstants;
 use App\Models\Wiki\Group;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -19,7 +19,7 @@ return new class extends Migration
             Schema::create(Group::TABLE, function (Blueprint $table) {
                 $table->id(Group::ATTRIBUTE_ID);
                 $table->timestamps(6);
-                $table->softDeletes(BaseModel::ATTRIBUTE_DELETED_AT, 6);
+                $table->softDeletes(ModelConstants::ATTRIBUTE_DELETED_AT, 6);
                 $table->string(Group::ATTRIBUTE_NAME);
                 $table->string(Group::ATTRIBUTE_SLUG);
             });

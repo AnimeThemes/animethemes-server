@@ -10,9 +10,6 @@ use App\Filament\Actions\Base\DeleteAction;
 use App\Filament\Actions\Base\EditAction;
 use App\Filament\Actions\Base\ForceDeleteAction;
 use App\Filament\Actions\Base\RestoreAction;
-use App\Filament\HeaderActions\Base\DeleteHeaderAction;
-use App\Filament\HeaderActions\Base\ForceDeleteHeaderAction;
-use App\Filament\HeaderActions\Base\RestoreHeaderAction;
 use App\Filament\Resources\Wiki\Song\Performance;
 use App\Models\Auth\User;
 use App\Models\Wiki\Artist;
@@ -146,8 +143,8 @@ class PerformanceTest extends BaseResourceTestCase
             ->createOne();
 
         Livewire::test(static::getIndexPage())
-            ->mountTableAction(EditAction::class, $record)
-            ->assertTableActionMounted(EditAction::class);
+            ->mountAction(EditAction::class, ['record' => $record])
+            ->assertActionMounted(EditAction::class);
     }
 
     /**
@@ -174,7 +171,7 @@ class PerformanceTest extends BaseResourceTestCase
             ->createOne();
 
         Livewire::test(static::getIndexPage())
-            ->assertTableActionHidden(EditAction::class, $record);
+            ->assertActionHidden(EditAction::class, ['record' => $record->getKey()]);
     }
 
     /**
@@ -190,10 +187,10 @@ class PerformanceTest extends BaseResourceTestCase
             ->createOne();
 
         Livewire::test(static::getViewPage(), ['record' => $record->getKey()])
-            ->assertActionHidden(DeleteHeaderAction::class);
+            ->assertActionHidden(DeleteAction::class);
 
         Livewire::test(static::getIndexPage())
-            ->assertTableActionHidden(DeleteAction::class, $record);
+            ->assertActionHidden(DeleteAction::class, ['record' => $record->getKey()]);
     }
 
     /**
@@ -211,10 +208,10 @@ class PerformanceTest extends BaseResourceTestCase
         $record->delete();
 
         Livewire::test(static::getViewPage(), ['record' => $record->getKey()])
-            ->assertActionHidden(RestoreHeaderAction::class);
+            ->assertActionHidden(RestoreAction::class);
 
         Livewire::test(static::getIndexPage())
-            ->assertTableActionHidden(RestoreAction::class, $record);
+            ->assertActionHidden(RestoreAction::class, ['record' => $record->getKey()]);
     }
 
     /**
@@ -230,9 +227,9 @@ class PerformanceTest extends BaseResourceTestCase
             ->createOne();
 
         Livewire::test(static::getViewPage(), ['record' => $record->getKey()])
-            ->assertActionHidden(ForceDeleteHeaderAction::class);
+            ->assertActionHidden(ForceDeleteAction::class);
 
         Livewire::test(static::getIndexPage())
-            ->assertTableActionHidden(ForceDeleteAction::class, $record);
+            ->assertActionHidden(ForceDeleteAction::class, ['record' => $record->getKey()]);
     }
 }

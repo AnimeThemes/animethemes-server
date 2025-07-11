@@ -21,13 +21,13 @@ use App\Filament\Resources\Wiki\Anime\Synonym\Pages\ViewSynonym;
 use App\Models\Wiki\Anime\AnimeSynonym;
 use App\Models\Wiki\Anime\AnimeSynonym as SynonymModel;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
-use Filament\Infolists\Components\Section;
-use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Schema;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Synonym.
@@ -37,7 +37,7 @@ class Synonym extends BaseResource
     /**
      * The model the resource corresponds to.
      *
-     * @var string|null
+     * @var class-string<Model>|null
      */
     protected static ?string $model = SynonymModel::class;
 
@@ -48,7 +48,7 @@ class Synonym extends BaseResource
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getLabel(): string
+    public static function getModelLabel(): string
     {
         return __('filament.resources.singularLabel.anime_synonym');
     }
@@ -60,7 +60,7 @@ class Synonym extends BaseResource
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getPluralLabel(): string
+    public static function getPluralModelLabel(): string
     {
         return __('filament.resources.label.anime_synonyms');
     }
@@ -127,15 +127,15 @@ class Synonym extends BaseResource
     /**
      * The form to the actions.
      *
-     * @param  Form  $form
-     * @return Form
+     * @param  Schema  $schema
+     * @return Schema
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 BelongsTo::make(SynonymModel::ATTRIBUTE_ANIME)
                     ->resource(AnimeResource::class)
                     ->hiddenOn(SynonymRelationManager::class),
@@ -143,9 +143,8 @@ class Synonym extends BaseResource
                 Select::make(SynonymModel::ATTRIBUTE_TYPE)
                     ->label(__('filament.fields.anime_synonym.type.name'))
                     ->helperText(__('filament.fields.anime_synonym.type.help'))
-                    ->options(AnimeSynonymType::asSelectArray())
-                    ->required()
-                    ->enum(AnimeSynonymType::class),
+                    ->options(AnimeSynonymType::class)
+                    ->required(),
 
                 TextInput::make(SynonymModel::ATTRIBUTE_TEXT)
                     ->label(__('filament.fields.anime_synonym.text.name'))
@@ -187,16 +186,16 @@ class Synonym extends BaseResource
     /**
      * Get the infolist available for the resource.
      *
-     * @param  Infolist  $infolist
-     * @return Infolist
+     * @param  Schema  $schema
+     * @return Schema
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function infolist(Infolist $infolist): Infolist
+    public static function infolist(Schema $schema): Schema
     {
-        return $infolist
-            ->schema([
-                Section::make(static::getRecordTitle($infolist->getRecord()))
+        return $schema
+            ->components([
+                Section::make(static::getRecordTitle($schema->getRecord()))
                     ->schema([
                         TextEntry::make(SynonymModel::ATTRIBUTE_ID)
                             ->label(__('filament.fields.base.id')),
@@ -228,7 +227,7 @@ class Synonym extends BaseResource
     public static function getRelations(): array
     {
         return [
-            RelationGroup::make(static::getLabel(), [
+            RelationGroup::make(static::getModelLabel(), [
                 ...parent::getBaseRelations(),
             ]),
         ];
@@ -244,46 +243,9 @@ class Synonym extends BaseResource
         return [
             SelectFilter::make(SynonymModel::ATTRIBUTE_TYPE)
                 ->label(__('filament.fields.anime_synonym.type.name'))
-                ->options(AnimeSynonymType::asSelectArray()),
+                ->options(AnimeSynonymType::class),
 
             ...parent::getFilters(),
-        ];
-    }
-
-    /**
-     * Get the actions available for the resource.
-     *
-     * @return array
-     */
-    public static function getActions(): array
-    {
-        return [
-            ...parent::getActions(),
-        ];
-    }
-
-    /**
-     * Get the bulk actions available for the resource.
-     *
-     * @param  array|null  $actionsIncludedInGroup
-     * @return array
-     */
-    public static function getBulkActions(?array $actionsIncludedInGroup = []): array
-    {
-        return [
-            ...parent::getBulkActions(),
-        ];
-    }
-
-    /**
-     * Get the table actions available for the resource.
-     *
-     * @return array
-     */
-    public static function getTableActions(): array
-    {
-        return [
-            ...parent::getTableActions(),
         ];
     }
 

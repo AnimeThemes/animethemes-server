@@ -7,7 +7,6 @@ namespace App\GraphQL\Definition\Types\List\Playlist;
 use App\Contracts\GraphQL\HasFields;
 use App\Contracts\GraphQL\HasRelations;
 use App\GraphQL\Definition\Fields\Base\CreatedAtField;
-use App\GraphQL\Definition\Fields\Base\DeletedAtField;
 use App\GraphQL\Definition\Fields\Base\UpdatedAtField;
 use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Definition\Fields\List\Playlist\PlaylistTrack\PlaylistTrackIdField;
@@ -61,7 +60,6 @@ class PlaylistTrackType extends EloquentType implements HasFields, HasRelations
             new PlaylistTrackIdField(),
             new CreatedAtField(),
             new UpdatedAtField(),
-            new DeletedAtField(),
         ];
     }
 }

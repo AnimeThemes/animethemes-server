@@ -6,8 +6,8 @@ namespace App\Actions\Discord;
 
 use App\Enums\Actions\Models\Wiki\Video\DiscordNotificationType;
 use App\Models\Wiki\Video;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 
 /**
  * Class DiscordVideoNotificationAction.
@@ -61,7 +61,7 @@ class DiscordVideoNotificationAction
 
         DiscordMessageAction::getHttp()
             ->post('/notification', [
-                'type' => $type,
+                'type' => $type->value,
                 'videos' => $newVideos,
             ])
             ->throw();

@@ -6,7 +6,9 @@ namespace App\Models\Wiki;
 
 use App\Concerns\Models\Aggregate\AggregatesView;
 use App\Concerns\Models\Reportable;
+use App\Concerns\Models\SoftDeletes;
 use App\Contracts\Models\HasAggregateViews;
+use App\Contracts\Models\SoftDeletable;
 use App\Contracts\Models\Streamable;
 use App\Events\Wiki\Audio\AudioCreated;
 use App\Events\Wiki\Audio\AudioDeleted;
@@ -17,6 +19,7 @@ use App\Models\BaseModel;
 use CyrildeWit\EloquentViewable\Contracts\Viewable;
 use CyrildeWit\EloquentViewable\InteractsWithViews;
 use Database\Factories\Wiki\AudioFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
 
@@ -34,11 +37,13 @@ use Illuminate\Support\Collection;
  *
  * @method static AudioFactory factory(...$parameters)
  */
-class Audio extends BaseModel implements HasAggregateViews, Streamable, Viewable
+class Audio extends BaseModel implements HasAggregateViews, SoftDeletable, Streamable, Viewable
 {
     use AggregatesView;
+    use HasFactory;
     use InteractsWithViews;
     use Reportable;
+    use SoftDeletes;
 
     final public const TABLE = 'audios';
 
@@ -107,11 +112,15 @@ class Audio extends BaseModel implements HasAggregateViews, Streamable, Viewable
     /**
      * The link of the audio.
      *
-     * @return string
+     * @return string|null
      */
-    public function getLinkAttribute(): string
+    public function getLinkAttribute(): ?string
     {
-        return route('audio.show', $this);
+        if ($this->hasAttribute(Audio::ATTRIBUTE_BASENAME)) {
+            return route('audio.show', $this);
+        }
+
+        return null;
     }
 
     /**

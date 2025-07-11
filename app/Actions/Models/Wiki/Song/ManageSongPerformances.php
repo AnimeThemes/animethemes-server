@@ -19,19 +19,19 @@ use Illuminate\Support\Facades\Log;
  */
 class ManageSongPerformances
 {
-    protected Song $song;
+    protected int $song;
     protected array $groups = [];
     protected array $performances = [];
 
     /**
      * Add the song of the performances.
      *
-     * @param  Song  $song
+     * @param  Song|int  $song
      * @return static
      */
-    public function forSong(Song $song): static
+    public function forSong(Song|int $song): static
     {
-        $this->song = $song;
+        $this->song = $song instanceof Song ? $song->getKey() : $song;
 
         return $this;
     }
@@ -39,18 +39,18 @@ class ManageSongPerformances
     /**
      * Add a single artist to the song performance.
      *
-     * @param  Artist  $artist
+     * @param  int  $artist
      * @param  string|null  $alias
      * @param  string|null  $as
      * @return static
      */
-    public function addSingleArtist(Artist $artist, ?string $alias = null, ?string $as = null): static
+    public function addSingleArtist(int $artist, ?string $alias = null, ?string $as = null): static
     {
         $this->performances[] = [
-            Performance::ATTRIBUTE_ARTIST_TYPE => $artist->getMorphClass(),
-            Performance::ATTRIBUTE_ARTIST_ID => $artist->getKey(),
-            Performance::ATTRIBUTE_ALIAS => $alias,
-            Performance::ATTRIBUTE_AS => $as,
+            Performance::ATTRIBUTE_ARTIST_TYPE => Artist::class,
+            Performance::ATTRIBUTE_ARTIST_ID => $artist,
+            Performance::ATTRIBUTE_ALIAS => filled($alias) ? trim($alias) : null,
+            Performance::ATTRIBUTE_AS => filled($as) ? trim($as) : null,
         ];
 
         return $this;
@@ -59,16 +59,16 @@ class ManageSongPerformances
     /**
      * Add a group data to the performance.
      *
-     * @param  Artist  $group
+     * @param  int  $group
      * @param  string|null  $alias
      * @param  string|null  $as
      * @return static
      */
-    public function addGroupData(Artist $group, ?string $alias = null, ?string $as = null): static
+    public function addGroupData(int $group, ?string $alias = null, ?string $as = null): static
     {
-        $this->groups[$group->getKey()] = [
-            Performance::ATTRIBUTE_ALIAS => $alias,
-            Performance::ATTRIBUTE_AS => $as,
+        $this->groups[$group] = [
+            Performance::ATTRIBUTE_ALIAS => filled($alias) ? trim($alias) : null,
+            Performance::ATTRIBUTE_AS => filled($as) ? trim($as) : null,
         ];
 
         return $this;
@@ -77,23 +77,23 @@ class ManageSongPerformances
     /**
      * Add a membership to the song.
      *
-     * @param  Artist  $group
-     * @param  Artist  $member
+     * @param  int  $group
+     * @param  int  $member
      * @param  string|null  $alias
      * @param  string|null  $as
      * @return static
      */
-    public function addMembership(Artist $group, Artist $member, ?string $alias = null, ?string $as = null): static
+    public function addMembership(int $group, int $member, ?string $alias = null, ?string $as = null): static
     {
         $this->performances[] = [
             Performance::ATTRIBUTE_ARTIST_TYPE => Membership::class,
-            Performance::ATTRIBUTE_ALIAS => Arr::get($this->groups, "{$group->getKey()}.".Performance::ATTRIBUTE_ALIAS),
-            Performance::ATTRIBUTE_AS => Arr::get($this->groups, "{$group->getKey()}.".Performance::ATTRIBUTE_AS),
+            Performance::ATTRIBUTE_ALIAS => Arr::get($this->groups, "{$group}.".Performance::ATTRIBUTE_ALIAS),
+            Performance::ATTRIBUTE_AS => Arr::get($this->groups, "{$group}.".Performance::ATTRIBUTE_AS),
             Performance::RELATION_MEMBERSHIP => [
-                Membership::ATTRIBUTE_ARTIST => $group->getKey(),
-                Membership::ATTRIBUTE_MEMBER => $member->getKey(),
-                Membership::ATTRIBUTE_ALIAS => $alias,
-                Membership::ATTRIBUTE_AS => $as,
+                Membership::ATTRIBUTE_ARTIST => $group,
+                Membership::ATTRIBUTE_MEMBER => $member,
+                Membership::ATTRIBUTE_ALIAS => filled($alias) ? trim($alias) : null,
+                Membership::ATTRIBUTE_AS => filled($as) ? trim($as) : null,
             ],
         ];
 
@@ -118,7 +118,7 @@ class ManageSongPerformances
 
                 $data = [
                     ...$performance,
-                    Performance::ATTRIBUTE_SONG => $this->song->getKey(),
+                    Performance::ATTRIBUTE_SONG => $this->song,
                 ];
 
                 if ($membershipData) {
@@ -127,7 +127,7 @@ class ManageSongPerformances
 
                     $data = [
                         ...Arr::except($performance, Performance::RELATION_MEMBERSHIP),
-                        Performance::ATTRIBUTE_SONG => $this->song->getKey(),
+                        Performance::ATTRIBUTE_SONG => $this->song,
                         Performance::ATTRIBUTE_ARTIST_TYPE => Membership::class,
                         Performance::ATTRIBUTE_ARTIST_ID => $membership->getKey(),
                     ];
@@ -152,7 +152,7 @@ class ManageSongPerformances
 
             // Delete membership performances that are not in the new list.
             $membershipPerformances = Performance::query()
-                ->whereBelongsTo($this->song)
+                ->where(Performance::ATTRIBUTE_SONG, $this->song)
                 ->where(Performance::ATTRIBUTE_ARTIST_TYPE, Membership::class)
                 ->whereNotIn(
                     Performance::ATTRIBUTE_ARTIST_ID,
@@ -169,7 +169,7 @@ class ManageSongPerformances
 
             // Delete solo performances that are not in the new list.
             $soloPerformances = Performance::query()
-                ->whereBelongsTo($this->song)
+                ->where(Performance::ATTRIBUTE_SONG, $this->song)
                 ->where(Performance::ATTRIBUTE_ARTIST_TYPE, Artist::class)
                 ->whereNotIn(
                     Performance::ATTRIBUTE_ARTIST_ID,

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Models\BaseModel;
+use App\Constants\ModelConstants;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeTheme;
 use App\Models\Wiki\Song;
@@ -23,7 +23,7 @@ return new class extends Migration
             Schema::create(AnimeTheme::TABLE, function (Blueprint $table) {
                 $table->id(AnimeTheme::ATTRIBUTE_ID);
                 $table->timestamps(6);
-                $table->softDeletes(BaseModel::ATTRIBUTE_DELETED_AT, 6);
+                $table->softDeletes(ModelConstants::ATTRIBUTE_DELETED_AT, 6);
                 $table->integer(AnimeTheme::ATTRIBUTE_TYPE)->nullable();
                 $table->integer(AnimeTheme::ATTRIBUTE_SEQUENCE)->nullable();
                 $table->string(AnimeTheme::ATTRIBUTE_SLUG);

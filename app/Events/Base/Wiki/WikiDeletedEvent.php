@@ -6,11 +6,13 @@ namespace App\Events\Base\Wiki;
 
 use App\Constants\Config\ServiceConstants;
 use App\Contracts\Events\FilamentNotificationEvent;
+use App\Contracts\Models\SoftDeletable;
 use App\Enums\Auth\Role as RoleEnum;
 use App\Events\Base\BaseDeletedEvent;
+use App\Filament\Actions\Base\MarkAsReadAction;
 use App\Models\Auth\Role;
 use App\Models\Auth\User;
-use Filament\Notifications\Actions\Action as NotificationAction;
+use Filament\Actions\Action;
 use Filament\Notifications\Notification;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
@@ -50,7 +52,11 @@ abstract class WikiDeletedEvent extends BaseDeletedEvent implements FilamentNoti
     {
         $model = $this->getModel();
 
-        return ! $model->isForceDeleting();
+        if ($model instanceof SoftDeletable) {
+            return ! $model->isForceDeleting();
+        }
+
+        return false;
     }
 
     /**
@@ -64,13 +70,11 @@ abstract class WikiDeletedEvent extends BaseDeletedEvent implements FilamentNoti
             ->body($this->getNotificationMessage())
             ->warning()
             ->actions([
-                NotificationAction::make('view')
+                Action::make('view')
                     ->button()
                     ->url($this->getFilamentNotificationUrl()),
 
-                NotificationAction::make('mark-as-read')
-                    ->button()
-                    ->markAsRead(),
+                MarkAsReadAction::make(),
             ]);
     }
 

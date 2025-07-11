@@ -8,9 +8,11 @@ use App\Concerns\Models\Aggregate\AggregatesLike;
 use App\Concerns\Models\Aggregate\AggregatesView;
 use App\Concerns\Models\InteractsWithLikes;
 use App\Concerns\Models\Reportable;
+use App\Concerns\Models\SoftDeletes;
 use App\Contracts\Models\HasAggregateLikes;
 use App\Contracts\Models\HasAggregateViews;
 use App\Contracts\Models\Likeable;
+use App\Contracts\Models\SoftDeletable;
 use App\Contracts\Models\Streamable;
 use App\Enums\Models\List\PlaylistVisibility;
 use App\Enums\Models\Wiki\VideoOverlap;
@@ -33,6 +35,7 @@ use CyrildeWit\EloquentViewable\InteractsWithViews;
 use Database\Factories\Wiki\VideoFactory;
 use Elastic\ScoutDriverPlus\Searchable;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -65,14 +68,16 @@ use Illuminate\Support\Collection;
  *
  * @method static VideoFactory factory(...$parameters)
  */
-class Video extends BaseModel implements HasAggregateLikes, HasAggregateViews, Likeable, Streamable, Viewable
+class Video extends BaseModel implements HasAggregateLikes, HasAggregateViews, Likeable, SoftDeletable, Streamable, Viewable
 {
     use AggregatesLike;
     use AggregatesView;
+    use HasFactory;
     use InteractsWithLikes;
     use InteractsWithViews;
     use Reportable;
     use Searchable;
+    use SoftDeletes;
 
     final public const TABLE = 'videos';
 
@@ -167,11 +172,15 @@ class Video extends BaseModel implements HasAggregateLikes, HasAggregateViews, L
     /**
      * The link of the video.
      *
-     * @return string
+     * @return string|null
      */
-    public function getLinkAttribute(): string
+    public function getLinkAttribute(): ?string
     {
-        return route('video.show', $this);
+        if ($this->hasAttribute(Video::ATTRIBUTE_BASENAME)) {
+            return route('video.show', $this);
+        }
+
+        return null;
     }
 
     /**

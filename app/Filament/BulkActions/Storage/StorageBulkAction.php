@@ -7,7 +7,7 @@ namespace App\Filament\BulkActions\Storage;
 use App\Contracts\Actions\Storage\StorageAction as BaseStorageAction;
 use App\Filament\BulkActions\BaseBulkAction;
 use App\Models\BaseModel;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Collection;
 
 /**
  * Class StorageBulkAction.

@@ -21,7 +21,7 @@ use App\Filament\Tabs\Anime\Resource\AnimeXResourceTab;
 use App\Filament\Tabs\Anime\Resource\AnimeYoutubeResourceTab;
 use App\Filament\Tabs\Anime\Studio\AnimeStudioTab;
 use App\Models\Wiki\Anime as AnimeModel;
-use Filament\Resources\Components\Tab;
+use Filament\Schemas\Components\Tabs\Tab;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
@@ -32,20 +32,6 @@ class ListAnimes extends BaseListResources
     use HasTabs;
 
     protected static string $resource = Anime::class;
-
-    /**
-     * Get the header actions available.
-     *
-     * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    protected function getHeaderActions(): array
-    {
-        return [
-            ...parent::getHeaderActions(),
-        ];
-    }
 
     /**
      * Using Laravel Scout to search.

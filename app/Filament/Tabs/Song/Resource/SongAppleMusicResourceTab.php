@@ -13,13 +13,11 @@ use App\Filament\Tabs\Song\SongResourceTab;
 class SongAppleMusicResourceTab extends SongResourceTab
 {
     /**
-     * Get the key for the tab.
+     * Get the slug for the tab.
      *
      * @return string
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getKey(): string
+    public static function getSlug(): string
     {
         return 'song-apple-music-resource-tab';
     }

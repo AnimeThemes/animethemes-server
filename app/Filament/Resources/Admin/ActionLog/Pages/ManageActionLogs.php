@@ -13,16 +13,4 @@ use App\Filament\Resources\Base\BaseManageResources;
 class ManageActionLogs extends BaseManageResources
 {
     protected static string $resource = ActionLog::class;
-
-    /**
-     * Get the header actions available.
-     *
-     * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    protected function getHeaderActions(): array
-    {
-        return [];
-    }
 }

@@ -7,9 +7,9 @@ namespace App\Filament\Providers;
 use App\Filament\Resources\BaseResource;
 use Elastic\ScoutDriverPlus\Searchable;
 use Filament\Facades\Filament;
-use Filament\GlobalSearch\Contracts\GlobalSearchProvider;
 use Filament\GlobalSearch\GlobalSearchResult;
 use Filament\GlobalSearch\GlobalSearchResults;
+use Filament\GlobalSearch\Providers\Contracts\GlobalSearchProvider;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Builder as ScoutBuilder;
@@ -38,6 +38,7 @@ class GlobalSearchScoutProvider implements GlobalSearchProvider
             $query = $this->escapeReservedChars($query);
 
             /** @var ScoutBuilder $scoutBuilder */
+            /** @phpstan-ignore-next-line */
             $scoutBuilder = $resource::getModel()::search($query);
 
             $resourceResults = $scoutBuilder

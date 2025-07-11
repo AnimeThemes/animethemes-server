@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace App\Filament\BulkActions\Base;
 
 use App\Concerns\Filament\ActionLogs\HasActionLogs;
-use Filament\Tables\Actions\DeleteBulkAction as DefaultDeleteBulkAction;
+use Filament\Actions\DeleteBulkAction as BaseDeleteBulkAction;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Gate;
 
 /**
  * Class DeleteBulkAction.
  */
-class DeleteBulkAction extends DefaultDeleteBulkAction
+class DeleteBulkAction extends BaseDeleteBulkAction
 {
     use HasActionLogs;
 
@@ -25,8 +27,10 @@ class DeleteBulkAction extends DefaultDeleteBulkAction
 
         $this->label(__('filament.bulk_actions.base.delete'));
 
-        $this->after(function (DeleteBulkAction $action) {
-            foreach ($this->getRecords() as $record) {
+        $this->visible(fn ($model) => Gate::allows('forceDeleteAny', $model));
+
+        $this->after(function (DeleteBulkAction $action, Collection $records) {
+            foreach ($records as $record) {
                 $this->createActionLog($action, $record);
                 $this->finishedLog();
             }

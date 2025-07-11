@@ -13,11 +13,11 @@ use App\Filament\Tabs\Artist\ArtistResourceTab;
 class ArtistAnnResourceTab extends ArtistResourceTab
 {
     /**
-     * Get the key for the tab.
+     * Get the slug for the tab.
      *
      * @return string
      */
-    public static function getKey(): string
+    public static function getSlug(): string
     {
         return 'artist-ann-resource-tab';
     }

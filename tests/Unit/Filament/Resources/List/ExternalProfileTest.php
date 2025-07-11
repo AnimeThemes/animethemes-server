@@ -6,8 +6,8 @@ namespace Tests\Unit\Filament\Resources\List;
 
 use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\SpecialPermission;
+use App\Filament\Actions\Base\CreateAction;
 use App\Filament\Actions\Base\EditAction;
-use App\Filament\HeaderActions\Base\CreateHeaderAction;
 use App\Filament\Resources\List\ExternalProfile;
 use App\Models\Auth\User;
 use App\Models\List\ExternalProfile as ExternalProfileModel;
@@ -123,8 +123,8 @@ class ExternalProfileTest extends BaseResourceTestCase
         $this->actingAs($user);
 
         Livewire::test(static::getIndexPage())
-            ->mountAction(CreateHeaderAction::class)
-            ->assertActionMounted(CreateHeaderAction::class);
+            ->mountAction(CreateAction::class)
+            ->assertActionMounted(CreateAction::class);
     }
 
     /**
@@ -147,7 +147,7 @@ class ExternalProfileTest extends BaseResourceTestCase
         $record = ExternalProfileModel::factory()->createOne();
 
         Livewire::test(static::getIndexPage())
-            ->mountTableAction(EditAction::class, $record)
-            ->assertTableActionMounted(EditAction::class);
+            ->mountAction(EditAction::class, ['record' => $record])
+            ->assertActionMounted(EditAction::class);
     }
 }

@@ -8,12 +8,14 @@ use App\Filament\Actions\Base\AttachAction;
 use App\Filament\Actions\Base\CreateAction;
 use App\Filament\BulkActions\Base\DetachBulkAction;
 use App\Filament\Components\Columns\TextColumn;
+use App\Filament\Resources\BaseResource;
 use App\Pivots\BasePivot;
 use DateTime;
-use Filament\Forms\Components\Component;
 use Filament\Resources\RelationManagers\RelationManager;
-use Filament\Tables\Filters\TrashedFilter;
+use Filament\Schemas\Components\Component;
+use Filament\Tables\Columns\Column;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Arr;
@@ -28,11 +30,28 @@ abstract class BaseRelationManager extends RelationManager
     protected $listeners = ['updateAllRelationManager' => '$refresh'];
 
     /**
-     * Get the pivot fields of the relation.
+     * The resource of the relation manager.
+     *
+     * @var class-string<BaseResource>|null
+     */
+    protected static ?string $relatedResource = null;
+
+    /**
+     * Get the pivot components of the relation.
      *
      * @return array<int, Component>
      */
-    public function getPivotFields(): array
+    public function getPivotComponents(): array
+    {
+        return [];
+    }
+
+    /**
+     * Get the pivot columns of the relation.
+     *
+     * @return array<int, Column>
+     */
+    public function getPivotColumns(): array
     {
         return [];
     }
@@ -47,9 +66,14 @@ abstract class BaseRelationManager extends RelationManager
      */
     public function table(Table $table): Table
     {
+        $resource = static::$relatedResource;
+
         return $table
             ->columns([
-                ...$table->getColumns(),
+                ...($resource ? $resource::table(Table::make($this))->getColumns() : []),
+
+                ...$this->getPivotColumns(),
+
                 TextColumn::make(BasePivot::ATTRIBUTE_CREATED_AT)
                     ->label(__('filament.fields.base.attached_at'))
                     ->hidden(fn ($livewire) => ! ($livewire->getRelationship() instanceof BelongsToMany))
@@ -76,10 +100,13 @@ abstract class BaseRelationManager extends RelationManager
                         return new DateTime($updatedAtField)->format('M j, Y H:i:s');
                     }),
             ])
+            ->modifyQueryUsing(fn (Builder $query) => $query->with($resource ? $resource::getEloquentQuery()->getEagerLoads() : []))
+            ->heading($resource ? $resource::getPluralModelLabel() : null)
+            ->modelLabel($resource ? $resource::getModelLabel() : null)
             ->filters(static::getFilters())
             ->filtersFormMaxHeight('400px')
-            ->actions(static::getActions())
-            ->bulkActions(static::getBulkActions())
+            ->recordActions(static::getRecordActions())
+            ->toolbarActions(static::getBulkActions())
             ->headerActions(static::getHeaderActions())
             ->paginated([5, 10, 25])
             ->defaultPaginationPageOption(10);
@@ -94,21 +121,19 @@ abstract class BaseRelationManager extends RelationManager
      */
     public static function getFilters(): array
     {
-        return [
-            TrashedFilter::make(),
-        ];
+        return static::$relatedResource::getFilters();
     }
 
     /**
      * Get the actions available for the relation.
      *
      * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getActions(): array
+    public static function getRecordActions(): array
     {
-        return [];
+        return [
+            ...(static::$relatedResource ? static::$relatedResource::getActions() : []),
+        ];
     }
 
     /**
@@ -121,6 +146,8 @@ abstract class BaseRelationManager extends RelationManager
     public static function getBulkActions(?array $actionsIncludedInGroup = []): array
     {
         return [
+            ...(static::$relatedResource ? static::$relatedResource::getBulkActions() : []),
+
             DetachBulkAction::make(),
         ];
     }
@@ -138,6 +165,18 @@ abstract class BaseRelationManager extends RelationManager
             CreateAction::make(),
 
             AttachAction::make(),
+
+            ...(static::$relatedResource ? static::$relatedResource::getTableActions() : []),
         ];
+    }
+
+    /**
+     * Determine whether the related model can be created.
+     *
+     * @return bool
+     */
+    public function canCreate(): bool
+    {
+        return true;
     }
 }

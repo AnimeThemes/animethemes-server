@@ -6,11 +6,12 @@ namespace App\Enums\Models\User;
 
 use App\Concerns\Enums\LocalizesName;
 use Filament\Support\Contracts\HasColor;
+use Filament\Support\Contracts\HasLabel;
 
 /**
  * Enum ApprovableStatus.
  */
-enum ApprovableStatus: int implements HasColor
+enum ApprovableStatus: int implements HasColor, HasLabel
 {
     use LocalizesName;
 

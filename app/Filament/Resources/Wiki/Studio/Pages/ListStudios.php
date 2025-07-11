@@ -16,7 +16,7 @@ use App\Filament\Tabs\Studio\Resource\StudioAnnResourceTab;
 use App\Filament\Tabs\Studio\Resource\StudioMalResourceTab;
 use App\Filament\Tabs\Studio\StudioUnlinkedTab;
 use App\Models\Wiki\Studio as StudioModel;
-use Filament\Resources\Components\Tab;
+use Filament\Schemas\Components\Tabs\Tab;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
@@ -27,20 +27,6 @@ class ListStudios extends BaseListResources
     use HasTabs;
 
     protected static string $resource = Studio::class;
-
-    /**
-     * Get the header actions available.
-     *
-     * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    protected function getHeaderActions(): array
-    {
-        return [
-            ...parent::getHeaderActions(),
-        ];
-    }
 
     /**
      * Using Laravel Scout to search.

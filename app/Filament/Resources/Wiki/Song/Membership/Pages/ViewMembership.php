@@ -13,18 +13,4 @@ use App\Filament\Resources\Wiki\Song\Membership;
 class ViewMembership extends BaseViewResource
 {
     protected static string $resource = Membership::class;
-
-    /**
-     * Get the header actions available.
-     *
-     * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    protected function getHeaderActions(): array
-    {
-        return [
-            ...parent::getHeaderActions(),
-        ];
-    }
 }

@@ -6,12 +6,12 @@ namespace App\Filament\Resources\Wiki\Song\RelationManagers;
 
 use App\Actions\Models\Wiki\Song\ManageSongPerformances;
 use App\Filament\RelationManagers\Wiki\Song\PerformanceRelationManager;
-use App\Filament\Resources\Wiki\Song\Performance as PerformanceResource;
+use App\Filament\Resources\Wiki\Song\Performance\Schemas\PerformanceForm;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Song;
 use App\Models\Wiki\Song\Membership;
 use App\Models\Wiki\Song\Performance;
-use Filament\Tables\Actions\Action;
+use Filament\Actions\Action;
 use Filament\Tables\Table;
 use Illuminate\Support\Arr;
 
@@ -42,45 +42,6 @@ class PerformanceSongRelationManager extends PerformanceRelationManager
     }
 
     /**
-     * Get the filters available for the relation.
-     *
-     * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    public static function getFilters(): array
-    {
-        return [
-            ...parent::getFilters(),
-        ];
-    }
-
-    /**
-     * Get the actions available for the relation.
-     *
-     * @return array
-     */
-    public static function getActions(): array
-    {
-        return [
-            ...parent::getActions(),
-        ];
-    }
-
-    /**
-     * Get the bulk actions available for the relation.
-     *
-     * @param  array|null  $actionsIncludedInGroup
-     * @return array
-     */
-    public static function getBulkActions(?array $actionsIncludedInGroup = []): array
-    {
-        return [
-            ...parent::getBulkActions(),
-        ];
-    }
-
-    /**
      * Get the header actions available for the relation.
      * These are merged with the table actions of the resources.
      *
@@ -89,10 +50,10 @@ class PerformanceSongRelationManager extends PerformanceRelationManager
     public static function getHeaderActions(): array
     {
         return [
-            Action::make('manage performances')
+            Action::make('manage-performances')
                 ->label(__('filament.actions.performances.manage_performances'))
-                ->action(fn ($livewire, $data) => static::saveArtists($livewire->getOwnerRecord(), Arr::get($data, Song::RELATION_PERFORMANCES)))
-                ->form(PerformanceResource::performancesFields()),
+                ->action(fn ($livewire, array $data) => static::saveArtists($livewire->getOwnerRecord(), Arr::get($data, Song::RELATION_PERFORMANCES)))
+                ->schema(PerformanceForm::performancesFields()),
         ];
     }
 
@@ -151,13 +112,13 @@ class PerformanceSongRelationManager extends PerformanceRelationManager
     /**
      * Save the artists to the action.
      *
-     * @param  Song|null  $song
+     * @param  Song|int|null  $song
      * @param  array|null  $data
      * @return void
      */
-    public static function saveArtists(?Song $song = null, ?array $data = []): void
+    public static function saveArtists(Song|int|null $song = null, ?array $data = []): void
     {
-        if (! ($song instanceof Song) || empty($data)) {
+        if (is_null($song) || empty($data)) {
             return;
         }
 
@@ -166,14 +127,13 @@ class PerformanceSongRelationManager extends PerformanceRelationManager
         $action->forSong($song);
 
         foreach ($data as $artist) {
-            $groupOrArtist = Arr::get($artist, Artist::ATTRIBUTE_ID);
-            $groupOrArtist = Artist::query()->find($groupOrArtist);
+            $groupOrArtist = intval(Arr::get($artist, Artist::ATTRIBUTE_ID));
 
             if (empty(Arr::get($artist, 'memberships'))) {
                 $action->addSingleArtist(
                     $groupOrArtist,
-                    blank($alias = Arr::get($artist, Performance::ATTRIBUTE_ALIAS)) ? null : $alias,
-                    blank($as = Arr::get($artist, Performance::ATTRIBUTE_AS)) ? null : $as,
+                    Arr::get($artist, Performance::ATTRIBUTE_ALIAS),
+                    Arr::get($artist, Performance::ATTRIBUTE_AS),
                 );
                 continue;
             }
@@ -182,16 +142,16 @@ class PerformanceSongRelationManager extends PerformanceRelationManager
 
             $action->addGroupData(
                 $group,
-                blank($alias = Arr::get($artist, Performance::ATTRIBUTE_ALIAS)) ? null : $alias,
-                blank($as = Arr::get($artist, Performance::ATTRIBUTE_AS)) ? null : $as,
+                Arr::get($artist, Performance::ATTRIBUTE_ALIAS),
+                Arr::get($artist, Performance::ATTRIBUTE_AS),
             );
 
             foreach (Arr::get($artist, 'memberships') as $membership) {
                 $action->addMembership(
                     $group,
-                    Artist::query()->find(Arr::get($membership, Membership::ATTRIBUTE_MEMBER)),
-                    blank($alias = Arr::get($membership, Membership::ATTRIBUTE_ALIAS)) ? null : $alias,
-                    blank($as = Arr::get($membership, Membership::ATTRIBUTE_AS)) ? null : $as,
+                    intval(Arr::get($membership, Membership::ATTRIBUTE_MEMBER)),
+                    Arr::get($membership, Membership::ATTRIBUTE_ALIAS),
+                    Arr::get($membership, Membership::ATTRIBUTE_AS),
                 );
             }
         }

@@ -7,9 +7,11 @@ namespace App\Filament\Resources\Wiki;
 use App\Enums\Models\Wiki\VideoOverlap;
 use App\Enums\Models\Wiki\VideoSource;
 use App\Filament\Actions\Models\Wiki\Video\BackfillAudioAction;
+use App\Filament\Actions\Repositories\Storage\Wiki\Video\ReconcileVideoAction;
 use App\Filament\Actions\Storage\MoveAllAction;
 use App\Filament\Actions\Storage\Wiki\Video\DeleteVideoAction;
 use App\Filament\Actions\Storage\Wiki\Video\MoveVideoAction;
+use App\Filament\Actions\Storage\Wiki\Video\UploadVideoAction;
 use App\Filament\BulkActions\Models\Wiki\Video\VideoDiscordNotificationBulkAction;
 use App\Filament\BulkActions\Storage\Wiki\Video\DeleteVideoBulkAction;
 use App\Filament\Components\Columns\TextColumn;
@@ -25,21 +27,19 @@ use App\Filament\Resources\Wiki\Video\Pages\ViewVideo;
 use App\Filament\Resources\Wiki\Video\RelationManagers\EntryVideoRelationManager;
 use App\Filament\Resources\Wiki\Video\RelationManagers\ScriptVideoRelationManager;
 use App\Filament\Resources\Wiki\Video\RelationManagers\TrackVideoRelationManager;
-use App\Filament\TableActions\Repositories\Storage\Wiki\Video\ReconcileVideoTableAction;
-use App\Filament\TableActions\Storage\Wiki\Video\UploadVideoTableAction;
 use App\Models\Wiki\Audio as AudioModel;
 use App\Models\Wiki\Video as VideoModel;
+use Filament\Actions\ActionGroup;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
 use Filament\Infolists\Components\IconEntry;
-use Filament\Infolists\Components\Section;
-use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
-use Filament\Tables\Actions\ActionGroup;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Schema;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Video.
@@ -49,7 +49,7 @@ class Video extends BaseResource
     /**
      * The model the resource corresponds to.
      *
-     * @var string|null
+     * @var class-string<Model>|null
      */
     protected static ?string $model = VideoModel::class;
 
@@ -60,7 +60,7 @@ class Video extends BaseResource
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getLabel(): string
+    public static function getModelLabel(): string
     {
         return __('filament.resources.singularLabel.video');
     }
@@ -72,7 +72,7 @@ class Video extends BaseResource
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getPluralLabel(): string
+    public static function getPluralModelLabel(): string
     {
         return __('filament.resources.label.videos');
     }
@@ -126,15 +126,15 @@ class Video extends BaseResource
     /**
      * The form to the actions.
      *
-     * @param  Form  $form
-     * @return Form
+     * @param  Schema  $schema
+     * @return Schema
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 TextInput::make(VideoModel::ATTRIBUTE_RESOLUTION)
                     ->label(__('filament.fields.video.resolution.name'))
                     ->helperText(__('filament.fields.video.resolution.help'))
@@ -165,15 +165,13 @@ class Video extends BaseResource
                 Select::make(VideoModel::ATTRIBUTE_OVERLAP)
                     ->label(__('filament.fields.video.overlap.name'))
                     ->helperText(__('filament.fields.video.overlap.help'))
-                    ->options(VideoOverlap::asSelectArray())
-                    ->enum(VideoOverlap::class),
+                    ->options(VideoOverlap::class),
 
                 Select::make(VideoModel::ATTRIBUTE_SOURCE)
                     ->label(__('filament.fields.video.source.name'))
                     ->helperText(__('filament.fields.video.source.help'))
-                    ->options(VideoSource::asSelectArray())
-                    ->required()
-                    ->enum(VideoSource::class),
+                    ->options(VideoSource::class)
+                    ->required(),
 
                 Select::make(VideoModel::ATTRIBUTE_AUDIO)
                     ->label(__('filament.resources.singularLabel.audio'))
@@ -233,16 +231,16 @@ class Video extends BaseResource
     /**
      * Get the infolist available for the resource.
      *
-     * @param  Infolist  $infolist
-     * @return Infolist
+     * @param  Schema  $schema
+     * @return Schema
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function infolist(Infolist $infolist): Infolist
+    public static function infolist(Schema $schema): Schema
     {
-        return $infolist
-            ->schema([
-                Section::make(static::getRecordTitle($infolist->getRecord()))
+        return $schema
+            ->components([
+                Section::make(static::getRecordTitle($schema->getRecord()))
                     ->schema([
                         TextEntry::make(VideoModel::ATTRIBUTE_ID)
                             ->label(__('filament.fields.base.id')),
@@ -289,11 +287,11 @@ class Video extends BaseResource
                         TextEntry::make(VideoModel::ATTRIBUTE_SIZE)
                             ->label(__('filament.fields.video.size.name')),
 
-                        TextEntry::make(VideoModel::ATTRIBUTE_MIMETYPE)
-                            ->label(__('filament.fields.video.mimetype.name')),
-
                         TextEntry::make(VideoModel::ATTRIBUTE_RESOLUTION)
                             ->label(__('filament.fields.video.resolution.name')),
+
+                        TextEntry::make(VideoModel::ATTRIBUTE_MIMETYPE)
+                            ->label(__('filament.fields.video.mimetype.name')),
                     ])
                     ->columns(3),
 
@@ -311,7 +309,7 @@ class Video extends BaseResource
     public static function getRelations(): array
     {
         return [
-            RelationGroup::make(static::getLabel(), [
+            RelationGroup::make(static::getModelLabel(), [
                 EntryVideoRelationManager::class,
                 ScriptVideoRelationManager::class,
                 TrackVideoRelationManager::class,
@@ -346,11 +344,11 @@ class Video extends BaseResource
 
             SelectFilter::make(VideoModel::ATTRIBUTE_OVERLAP)
                 ->label(__('filament.fields.video.overlap.name'))
-                ->options(VideoOverlap::asSelectArray()),
+                ->options(VideoOverlap::class),
 
             SelectFilter::make(VideoModel::ATTRIBUTE_SOURCE)
                 ->label(__('filament.fields.video.source.name'))
-                ->options(VideoSource::asSelectArray()),
+                ->options(VideoSource::class),
 
             NumberFilter::make(VideoModel::ATTRIBUTE_SIZE)
                 ->label(__('filament.fields.video.size.name')),
@@ -364,20 +362,16 @@ class Video extends BaseResource
      *
      * @return array
      */
-    public static function getActions(): array
+    public static function getRecordActions(): array
     {
         return [
-            ...parent::getActions(),
+            BackfillAudioAction::make(),
 
-            ActionGroup::make([
-                BackfillAudioAction::make('backfill-audio'),
+            MoveVideoAction::make(),
 
-                MoveVideoAction::make('move-video'),
+            MoveAllAction::make(),
 
-                MoveAllAction::make('move-all'),
-
-                DeleteVideoAction::make('delete-video'),
-            ]),
+            DeleteVideoAction::make(),
         ];
     }
 
@@ -393,10 +387,10 @@ class Video extends BaseResource
     {
         return [
             ...parent::getBulkActions([
-                DeleteVideoBulkAction::make('delete-video'),
+                DeleteVideoBulkAction::make(),
             ]),
 
-            VideoDiscordNotificationBulkAction::make('discord-notification'),
+            VideoDiscordNotificationBulkAction::make(),
         ];
     }
 
@@ -410,10 +404,10 @@ class Video extends BaseResource
     public static function getTableActions(): array
     {
         return [
-            ActionGroup::make([
-                UploadVideoTableAction::make('upload-video'),
+            UploadVideoAction::make(),
 
-                ReconcileVideoTableAction::make('reconcile-video'),
+            ActionGroup::make([
+                ReconcileVideoAction::make(),
             ]),
         ];
     }

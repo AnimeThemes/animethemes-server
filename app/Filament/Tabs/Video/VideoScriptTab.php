@@ -15,11 +15,11 @@ use Illuminate\Database\Eloquent\Builder;
 class VideoScriptTab extends BaseTab
 {
     /**
-     * Get the key for the tab.
+     * Get the slug for the tab.
      *
      * @return string
      */
-    public static function getKey(): string
+    public static function getSlug(): string
     {
         return 'video-script-tab';
     }

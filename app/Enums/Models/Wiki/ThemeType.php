@@ -6,11 +6,12 @@ namespace App\Enums\Models\Wiki;
 
 use App\Concerns\Enums\LocalizesName;
 use App\GraphQL\Types\Definition\Hidden;
+use Filament\Support\Contracts\HasLabel;
 
 /**
  * Enum ThemeType.
  */
-enum ThemeType: int
+enum ThemeType: int implements HasLabel
 {
     use LocalizesName;
 

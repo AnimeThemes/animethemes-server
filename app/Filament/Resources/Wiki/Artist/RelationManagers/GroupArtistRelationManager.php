@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Wiki\Artist\RelationManagers;
 
+use App\Filament\Components\Columns\TextColumn;
 use App\Filament\RelationManagers\Wiki\ArtistRelationManager;
 use App\Models\Wiki\Artist;
 use App\Pivots\Wiki\ArtistMember;
-use Filament\Forms\Components\Component;
 use Filament\Forms\Components\TextInput;
+use Filament\Tables\Columns\Column;
 use Filament\Tables\Table;
 
 /**
@@ -17,24 +18,43 @@ use Filament\Tables\Table;
 class GroupArtistRelationManager extends ArtistRelationManager
 {
     /**
-     * Get the pivot fields of the relation.
+     * Get the pivot components of the relation.
      *
-     * @return array<int, Component>
+     * @return array<int, \Filament\Schemas\Components\Component>
      */
-    public function getPivotFields(): array
+    public function getPivotComponents(): array
     {
         return [
             TextInput::make(ArtistMember::ATTRIBUTE_AS)
-                ->label(__('filament.fields.artist.members.as.name'))
-                ->helperText(__('filament.fields.artist.members.as.help')),
+                ->label(__('filament.fields.artist.groups.as.name'))
+                ->helperText(__('filament.fields.artist.groups.as.help')),
 
             TextInput::make(ArtistMember::ATTRIBUTE_ALIAS)
-                ->label(__('filament.fields.artist.members.alias.name'))
-                ->helperText(__('filament.fields.artist.members.alias.help')),
+                ->label(__('filament.fields.artist.groups.alias.name'))
+                ->helperText(__('filament.fields.artist.groups.alias.help')),
 
             TextInput::make(ArtistMember::ATTRIBUTE_NOTES)
-                ->label(__('filament.fields.artist.members.notes.name'))
-                ->helperText(__('filament.fields.artist.members.notes.help')),
+                ->label(__('filament.fields.artist.groups.notes.name'))
+                ->helperText(__('filament.fields.artist.groups.notes.help')),
+        ];
+    }
+
+    /**
+     * Get the pivot columns of the relation.
+     *
+     * @return array<int, Column>
+     */
+    public function getPivotColumns(): array
+    {
+        return [
+            TextColumn::make(ArtistMember::ATTRIBUTE_AS)
+                ->label(__('filament.fields.artist.groups.as.name')),
+
+            TextColumn::make(ArtistMember::ATTRIBUTE_ALIAS)
+                ->label(__('filament.fields.artist.groups.alias.name')),
+
+            TextColumn::make(ArtistMember::ATTRIBUTE_NOTES)
+                ->label(__('filament.fields.artist.groups.notes.name')),
         ];
     }
 
@@ -59,58 +79,5 @@ class GroupArtistRelationManager extends ArtistRelationManager
         )
             ->heading(__('filament.resources.label.groups'))
             ->modelLabel(__('filament.resources.singularLabel.group'));
-    }
-
-    /**
-     * Get the filters available for the relation.
-     *
-     * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    public static function getFilters(): array
-    {
-        return [
-            ...parent::getFilters(),
-        ];
-    }
-
-    /**
-     * Get the actions available for the relation.
-     *
-     * @return array
-     */
-    public static function getActions(): array
-    {
-        return [
-            ...parent::getActions(),
-        ];
-    }
-
-    /**
-     * Get the bulk actions available for the relation.
-     *
-     * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    public static function getBulkActions(?array $actionsIncludedInGroup = []): array
-    {
-        return [
-            ...parent::getBulkActions(),
-        ];
-    }
-
-    /**
-     * Get the header actions available for the relation.
-     * These are merged with the table actions of the resources.
-     *
-     * @return array
-     */
-    public static function getHeaderActions(): array
-    {
-        return [
-            ...parent::getHeaderActions(),
-        ];
     }
 }

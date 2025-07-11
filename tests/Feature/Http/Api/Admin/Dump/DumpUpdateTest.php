@@ -52,26 +52,6 @@ class DumpUpdateTest extends TestCase
     }
 
     /**
-     * The Dump Update Endpoint shall forbid users from updating a dump that is trashed.
-     *
-     * @return void
-     */
-    public function testTrashed(): void
-    {
-        $dump = Dump::factory()->trashed()->createOne();
-
-        $parameters = Dump::factory()->raw();
-
-        $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(Dump::class))->createOne();
-
-        Sanctum::actingAs($user);
-
-        $response = $this->put(route('api.dump.update', ['dump' => $dump] + $parameters));
-
-        $response->assertForbidden();
-    }
-
-    /**
      * The Dump Update Endpoint shall update a dump.
      *
      * @return void

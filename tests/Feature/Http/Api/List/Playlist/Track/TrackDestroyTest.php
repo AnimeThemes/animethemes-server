@@ -155,31 +155,6 @@ class TrackDestroyTest extends TestCase
     }
 
     /**
-     * The Track Destroy Endpoint shall forbid users from updating a track that is trashed.
-     *
-     * @return void
-     */
-    public function testTrashed(): void
-    {
-        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
-
-        Feature::activate(AllowPlaylistManagement::class);
-
-        $user = User::factory()->withPermissions(CrudPermission::DELETE->format(PlaylistTrack::class))->createOne();
-
-        $track = PlaylistTrack::factory()
-            ->trashed()
-            ->for(Playlist::factory()->for($user))
-            ->createOne();
-
-        Sanctum::actingAs($user);
-
-        $response = $this->delete(route('api.playlist.track.destroy', ['playlist' => $track->playlist, 'track' => $track]));
-
-        $response->assertNotFound();
-    }
-
-    /**
      * The Track Destroy Endpoint shall delete the sole track.
      *
      * @return void
@@ -206,16 +181,11 @@ class TrackDestroyTest extends TestCase
 
         $response->assertOk();
 
-        static::assertSoftDeleted($track);
-
         $playlist->refresh();
-        $track->refresh();
 
+        static::assertModelMissing($track);
         static::assertTrue($playlist->first()->doesntExist());
         static::assertTrue($playlist->last()->doesntExist());
-
-        static::assertTrue($track->previous()->doesntExist());
-        static::assertTrue($track->next()->doesntExist());
     }
 
     /**
@@ -279,17 +249,11 @@ class TrackDestroyTest extends TestCase
 
         $response->assertOk();
 
-        static::assertSoftDeleted($first);
-
         $playlist->refresh();
-        $first->refresh();
         $second->refresh();
 
+        static::assertModelMissing($first);
         static::assertTrue($playlist->first()->is($second));
-
-        static::assertTrue($first->previous()->doesntExist());
-        static::assertTrue($first->next()->doesntExist());
-
         static::assertTrue($second->previous()->doesntExist());
     }
 
@@ -320,17 +284,11 @@ class TrackDestroyTest extends TestCase
 
         $response->assertOk();
 
-        static::assertSoftDeleted($last);
-
         $playlist->refresh();
-        $last->refresh();
         $previous->refresh();
 
+        static::assertModelMissing($last);
         static::assertTrue($playlist->last()->is($previous));
-
-        static::assertTrue($last->previous()->doesntExist());
-        static::assertTrue($last->next()->doesntExist());
-
         static::assertTrue($previous->next()->doesntExist());
     }
 
@@ -362,21 +320,17 @@ class TrackDestroyTest extends TestCase
 
         $response->assertOk();
 
-        static::assertSoftDeleted($second);
-
         $playlist->refresh();
         $first->refresh();
-        $second->refresh();
         $third->refresh();
+
+        static::assertModelMissing($second);
 
         static::assertTrue($playlist->first()->is($first));
         static::assertTrue($playlist->last()->is($third));
 
         static::assertTrue($first->previous()->doesntExist());
         static::assertTrue($first->next()->is($third));
-
-        static::assertTrue($second->previous()->doesntExist());
-        static::assertTrue($second->next()->doesntExist());
 
         static::assertTrue($third->previous()->is($first));
         static::assertTrue($third->next()->doesntExist());

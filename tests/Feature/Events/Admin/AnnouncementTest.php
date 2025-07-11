@@ -6,7 +6,6 @@ namespace Tests\Feature\Events\Admin;
 
 use App\Events\Admin\Announcement\AnnouncementCreated;
 use App\Events\Admin\Announcement\AnnouncementDeleted;
-use App\Events\Admin\Announcement\AnnouncementRestored;
 use App\Events\Admin\Announcement\AnnouncementUpdated;
 use App\Models\Admin\Announcement;
 use Illuminate\Support\Arr;
@@ -42,36 +41,6 @@ class AnnouncementTest extends TestCase
         $announcement->delete();
 
         Event::assertDispatched(AnnouncementDeleted::class);
-    }
-
-    /**
-     * When an Announcement is restored, an AnnouncementRestored event shall be dispatched.
-     *
-     * @return void
-     */
-    public function testAnnouncementRestoredEventDispatched(): void
-    {
-        $announcement = Announcement::factory()->createOne();
-
-        $announcement->restore();
-
-        Event::assertDispatched(AnnouncementRestored::class);
-    }
-
-    /**
-     * When an Announcement is restored, an AnnouncementUpdated event shall not be dispatched.
-     * Note: This is a customization that overrides default framework behavior.
-     * An updated event is fired on restore.
-     *
-     * @return void
-     */
-    public function testAnnouncementRestoresQuietly(): void
-    {
-        $announcement = Announcement::factory()->createOne();
-
-        $announcement->restore();
-
-        Event::assertNotDispatched(AnnouncementUpdated::class);
     }
 
     /**

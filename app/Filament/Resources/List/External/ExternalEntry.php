@@ -22,11 +22,10 @@ use App\Filament\Resources\Wiki\Anime;
 use App\Models\List\External\ExternalEntry as ExternalEntryModel;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
 use Filament\Infolists\Components\IconEntry;
-use Filament\Infolists\Components\Section;
-use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Schema;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -40,7 +39,7 @@ class ExternalEntry extends BaseResource
     /**
      * The model the resource corresponds to.
      *
-     * @var string|null
+     * @var class-string<Model>|null
      */
     protected static ?string $model = ExternalEntryModel::class;
 
@@ -51,7 +50,7 @@ class ExternalEntry extends BaseResource
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getLabel(): string
+    public static function getModelLabel(): string
     {
         return __('filament.resources.singularLabel.external_entry');
     }
@@ -63,7 +62,7 @@ class ExternalEntry extends BaseResource
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getPluralLabel(): string
+    public static function getPluralModelLabel(): string
     {
         return __('filament.resources.label.external_entries');
     }
@@ -121,15 +120,15 @@ class ExternalEntry extends BaseResource
     /**
      * The form to the actions.
      *
-     * @param  Form  $form
-     * @return Form
+     * @param  Schema  $schema
+     * @return Schema
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 BelongsTo::make(ExternalEntryModel::ATTRIBUTE_PROFILE)
                     ->resource(ExternalProfileResource::class)
                     ->required()
@@ -147,9 +146,8 @@ class ExternalEntry extends BaseResource
                 Select::make(ExternalEntryModel::ATTRIBUTE_WATCH_STATUS)
                     ->label(__('filament.fields.external_entry.watch_status.name'))
                     ->helperText(__('filament.fields.external_entry.watch_status.help'))
-                    ->options(ExternalEntryWatchStatus::asSelectArray())
-                    ->required()
-                    ->enum(ExternalEntryWatchStatus::class),
+                    ->options(ExternalEntryWatchStatus::class)
+                    ->required(),
 
                 Checkbox::make(ExternalEntryModel::ATTRIBUTE_IS_FAVORITE)
                     ->label(__('filament.fields.external_entry.is_favorite.name'))
@@ -192,16 +190,16 @@ class ExternalEntry extends BaseResource
     /**
      * Get the infolist available for the resource.
      *
-     * @param  Infolist  $infolist
-     * @return Infolist
+     * @param  Schema  $schema
+     * @return Schema
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function infolist(Infolist $infolist): Infolist
+    public static function infolist(Schema $schema): Schema
     {
-        return $infolist
-            ->schema([
-                Section::make(static::getRecordTitle($infolist->getRecord()))
+        return $schema
+            ->components([
+                Section::make(static::getRecordTitle($schema->getRecord()))
                     ->schema([
                         BelongsToEntry::make(ExternalEntryModel::RELATION_PROFILE, ExternalProfileResource::class, true),
 
@@ -236,7 +234,7 @@ class ExternalEntry extends BaseResource
     public static function getRelations(): array
     {
         return [
-            RelationGroup::make(static::getLabel(), [
+            RelationGroup::make(static::getModelLabel(), [
                 ...parent::getBaseRelations(),
             ]),
         ];
@@ -255,43 +253,6 @@ class ExternalEntry extends BaseResource
 
             DateFilter::make(Model::UPDATED_AT)
                 ->label(__('filament.fields.base.updated_at')),
-        ];
-    }
-
-    /**
-     * Get the actions available for the resource.
-     *
-     * @return array
-     */
-    public static function getActions(): array
-    {
-        return [
-            ...parent::getActions(),
-        ];
-    }
-
-    /**
-     * Get the bulk actions available for the resource.
-     *
-     * @param  array|null  $actionsIncludedInGroup
-     * @return array
-     */
-    public static function getBulkActions(?array $actionsIncludedInGroup = []): array
-    {
-        return [
-            ...parent::getBulkActions(),
-        ];
-    }
-
-    /**
-     * Get the table actions available for the resource.
-     *
-     * @return array
-     */
-    public static function getTableActions(): array
-    {
-        return [
-            ...parent::getTableActions(),
         ];
     }
 

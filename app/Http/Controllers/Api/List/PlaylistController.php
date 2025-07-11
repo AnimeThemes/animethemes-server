@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api\List;
 
 use App\Actions\Http\Api\DestroyAction;
-use App\Actions\Http\Api\ForceDeleteAction;
 use App\Actions\Http\Api\IndexAction;
-use App\Actions\Http\Api\RestoreAction;
 use App\Actions\Http\Api\ShowAction;
 use App\Actions\Http\Api\StoreAction;
 use App\Actions\Http\Api\UpdateAction;
@@ -125,37 +123,9 @@ class PlaylistController extends BaseController
      *
      * @param  Playlist  $playlist
      * @param  DestroyAction  $action
-     * @return PlaylistResource
-     */
-    public function destroy(Playlist $playlist, DestroyAction $action): PlaylistResource
-    {
-        $deleted = $action->destroy($playlist);
-
-        return new PlaylistResource($deleted, new Query());
-    }
-
-    /**
-     * Restore the specified resource.
-     *
-     * @param  Playlist  $playlist
-     * @param  RestoreAction  $action
-     * @return PlaylistResource
-     */
-    public function restore(Playlist $playlist, RestoreAction $action): PlaylistResource
-    {
-        $restored = $action->restore($playlist);
-
-        return new PlaylistResource($restored, new Query());
-    }
-
-    /**
-     * Hard-delete the specified resource.
-     *
-     * @param  Playlist  $playlist
-     * @param  ForceDeleteAction  $action
      * @return JsonResponse
      */
-    public function forceDelete(Playlist $playlist, ForceDeleteAction $action): JsonResponse
+    public function destroy(Playlist $playlist, DestroyAction $action): JsonResponse
     {
         $message = $action->forceDelete($playlist);
 

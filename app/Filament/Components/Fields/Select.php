@@ -8,6 +8,7 @@ use App\Filament\RelationManagers\BaseRelationManager;
 use App\Models\BaseModel;
 use Filament\Forms\Components\Select as ComponentsSelect;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Searchable;
 
 /**
@@ -19,7 +20,7 @@ class Select extends ComponentsSelect
      * Use laravel scout to make fields searchable.
      *
      * @param  mixed  $livewire
-     * @param  class-string<BaseModel>  $model
+     * @param  class-string<Model>  $model
      * @param  string|null  $loadRelation
      * @return static
      */
@@ -29,7 +30,7 @@ class Select extends ComponentsSelect
             return $this
                 ->allowHtml()
                 ->searchable()
-                ->getOptionLabelUsing(fn ($state) => BelongsTo::getSearchLabelWithBlade($model::find($state)))
+                ->getOptionLabelUsing(fn ($state) => is_null($state) ? '' : BelongsTo::getSearchLabelWithBlade($model::find($state)))
                 ->getSearchResultsUsing(function (string $search) use ($livewire, $model, $loadRelation) {
                     $search = $this->escapeReservedChars($search);
 

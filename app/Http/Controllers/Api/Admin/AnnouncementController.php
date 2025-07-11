@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api\Admin;
 
 use App\Actions\Http\Api\DestroyAction;
-use App\Actions\Http\Api\ForceDeleteAction;
 use App\Actions\Http\Api\IndexAction;
-use App\Actions\Http\Api\RestoreAction;
 use App\Actions\Http\Api\ShowAction;
 use App\Actions\Http\Api\StoreAction;
 use App\Actions\Http\Api\UpdateAction;
@@ -102,37 +100,9 @@ class AnnouncementController extends BaseController
      *
      * @param  Announcement  $announcement
      * @param  DestroyAction  $action
-     * @return AnnouncementResource
-     */
-    public function destroy(Announcement $announcement, DestroyAction $action): AnnouncementResource
-    {
-        $deleted = $action->destroy($announcement);
-
-        return new AnnouncementResource($deleted, new Query());
-    }
-
-    /**
-     * Restore the specified resource.
-     *
-     * @param  Announcement  $announcement
-     * @param  RestoreAction  $action
-     * @return AnnouncementResource
-     */
-    public function restore(Announcement $announcement, RestoreAction $action): AnnouncementResource
-    {
-        $restored = $action->restore($announcement);
-
-        return new AnnouncementResource($restored, new Query());
-    }
-
-    /**
-     * Hard-delete the specified resource.
-     *
-     * @param  Announcement  $announcement
-     * @param  ForceDeleteAction  $action
      * @return JsonResponse
      */
-    public function forceDelete(Announcement $announcement, ForceDeleteAction $action): JsonResponse
+    public function destroy(Announcement $announcement, DestroyAction $action): JsonResponse
     {
         $message = $action->forceDelete($announcement);
 

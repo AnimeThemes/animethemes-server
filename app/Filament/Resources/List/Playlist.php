@@ -6,6 +6,7 @@ namespace App\Filament\Resources\List;
 
 use App\Enums\Models\List\PlaylistVisibility;
 use App\Filament\Actions\Models\List\AssignHashidsAction;
+use App\Filament\Actions\Models\List\Playlist\FixPlaylistAction;
 use App\Filament\Components\Columns\BelongsToColumn;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\BelongsTo;
@@ -23,12 +24,12 @@ use App\Filament\Resources\List\Playlist\Track;
 use App\Models\List\Playlist as PlaylistModel;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
-use Filament\Infolists\Components\Section;
-use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Schema;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Playlist.
@@ -38,7 +39,7 @@ class Playlist extends BaseResource
     /**
      * The model the resource corresponds to.
      *
-     * @var string|null
+     * @var class-string<Model>|null
      */
     protected static ?string $model = PlaylistModel::class;
 
@@ -49,7 +50,7 @@ class Playlist extends BaseResource
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getLabel(): string
+    public static function getModelLabel(): string
     {
         return __('filament.resources.singularLabel.playlist');
     }
@@ -61,7 +62,7 @@ class Playlist extends BaseResource
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getPluralLabel(): string
+    public static function getPluralModelLabel(): string
     {
         return __('filament.resources.label.playlists');
     }
@@ -132,15 +133,15 @@ class Playlist extends BaseResource
     /**
      * The form to the actions.
      *
-     * @param  Form  $form
-     * @return Form
+     * @param  Schema  $schema
+     * @return Schema
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 BelongsTo::make(PlaylistModel::ATTRIBUTE_USER)
                     ->resource(UserResource::class),
 
@@ -153,9 +154,8 @@ class Playlist extends BaseResource
                 Select::make(PlaylistModel::ATTRIBUTE_VISIBILITY)
                     ->label(__('filament.fields.playlist.visibility.name'))
                     ->helperText(__('filament.fields.playlist.visibility.help'))
-                    ->options(PlaylistVisibility::asSelectArray())
-                    ->required()
-                    ->enum(PlaylistVisibility::class),
+                    ->options(PlaylistVisibility::class)
+                    ->required(),
 
                 TextInput::make(PlaylistModel::ATTRIBUTE_HASHID)
                     ->label(__('filament.fields.playlist.hashid.name'))
@@ -225,16 +225,16 @@ class Playlist extends BaseResource
     /**
      * Get the infolist available for the resource.
      *
-     * @param  Infolist  $infolist
-     * @return Infolist
+     * @param  Schema  $schema
+     * @return Schema
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function infolist(Infolist $infolist): Infolist
+    public static function infolist(Schema $schema): Schema
     {
-        return $infolist
-            ->schema([
-                Section::make(static::getRecordTitle($infolist->getRecord()))
+        return $schema
+            ->components([
+                Section::make(static::getRecordTitle($schema->getRecord()))
                     ->schema([
                         BelongsToEntry::make(PlaylistModel::RELATION_USER, UserResource::class),
 
@@ -282,7 +282,7 @@ class Playlist extends BaseResource
     public static function getRelations(): array
     {
         return [
-            RelationGroup::make(static::getLabel(), [
+            RelationGroup::make(static::getModelLabel(), [
                 ImagePlaylistRelationManager::class,
                 TrackPlaylistRelationManager::class,
 
@@ -292,55 +292,17 @@ class Playlist extends BaseResource
     }
 
     /**
-     * Get the filters available for the resource.
-     *
-     * @return array
-     */
-    public static function getFilters(): array
-    {
-        return [
-            ...parent::getFilters(),
-        ];
-    }
-
-    /**
      * Get the actions available for the resource.
      *
      * @return array
      */
-    public static function getActions(): array
+    public static function getRecordActions(): array
     {
         return [
-            ...parent::getActions(),
+            AssignHashidsAction::make()
+                ->setConnection('playlists'),
 
-            AssignHashidsAction::make('assign-hashids')
-                ->setConnection('playlists')
-                ->authorize('update', PlaylistModel::class),
-        ];
-    }
-
-    /**
-     * Get the bulk actions available for the resource.
-     *
-     * @param  array|null  $actionsIncludedInGroup
-     * @return array
-     */
-    public static function getBulkActions(?array $actionsIncludedInGroup = []): array
-    {
-        return [
-            ...parent::getBulkActions(),
-        ];
-    }
-
-    /**
-     * Get the table actions available for the resource.
-     *
-     * @return array
-     */
-    public static function getTableActions(): array
-    {
-        return [
-            ...parent::getTableActions(),
+            FixPlaylistAction::make(),
         ];
     }
 

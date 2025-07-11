@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Models\Wiki;
 
 use App\Concerns\Models\Reportable;
+use App\Concerns\Models\SoftDeletes;
+use App\Contracts\Models\SoftDeletable;
 use App\Events\Wiki\Group\GroupCreated;
 use App\Events\Wiki\Group\GroupDeleted;
 use App\Events\Wiki\Group\GroupDeleting;
@@ -13,6 +15,7 @@ use App\Events\Wiki\Group\GroupUpdated;
 use App\Models\BaseModel;
 use App\Models\Wiki\Anime\AnimeTheme;
 use Database\Factories\Wiki\GroupFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
 
@@ -26,9 +29,11 @@ use Illuminate\Support\Collection;
  *
  * @method static GroupFactory factory(...$parameters)
  */
-class Group extends BaseModel
+class Group extends BaseModel implements SoftDeletable
 {
+    use HasFactory;
     use Reportable;
+    use SoftDeletes;
 
     final public const TABLE = 'groups';
 

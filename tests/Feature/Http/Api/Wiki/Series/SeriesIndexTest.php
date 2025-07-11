@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature\Http\Api\Wiki\Series;
 
 use App\Concerns\Actions\Http\Api\SortsModels;
+use App\Constants\ModelConstants;
 use App\Contracts\Http\Api\Field\SortableField;
 use App\Enums\Http\Api\Filter\TrashedStatus;
 use App\Enums\Http\Api\Sort\Direction;
@@ -404,7 +405,7 @@ class SeriesIndexTest extends TestCase
 
         $parameters = [
             FilterParser::param() => [
-                BaseModel::ATTRIBUTE_DELETED_AT => $deletedFilter,
+                ModelConstants::ATTRIBUTE_DELETED_AT => $deletedFilter,
                 TrashedCriteria::PARAM_VALUE => TrashedStatus::WITH->value,
             ],
             PagingParser::param() => [
@@ -420,7 +421,7 @@ class SeriesIndexTest extends TestCase
             Series::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
         });
 
-        $series = Series::withTrashed()->where(BaseModel::ATTRIBUTE_DELETED_AT, $deletedFilter)->get();
+        $series = Series::withTrashed()->where(ModelConstants::ATTRIBUTE_DELETED_AT, $deletedFilter)->get();
 
         $response = $this->get(route('api.series.index', $parameters));
 

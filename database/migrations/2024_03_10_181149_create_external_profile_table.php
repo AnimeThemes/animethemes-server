@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 use App\Enums\Models\List\ExternalProfileVisibility;
 use App\Models\Auth\User;
-use App\Models\BaseModel;
 use App\Models\List\ExternalProfile;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -20,7 +19,6 @@ return new class extends Migration
         if (! Schema::hasTable(ExternalProfile::TABLE)) {
             Schema::create(ExternalProfile::TABLE, function (Blueprint $table) {
                 $table->timestamps(6);
-                $table->softDeletes(BaseModel::ATTRIBUTE_DELETED_AT, 6);
                 $table->id(ExternalProfile::ATTRIBUTE_ID);
                 $table->string(ExternalProfile::ATTRIBUTE_NAME);
                 $table->integer(ExternalProfile::ATTRIBUTE_SITE);

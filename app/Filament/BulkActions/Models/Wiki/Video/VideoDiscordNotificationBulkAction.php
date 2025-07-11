@@ -10,16 +10,26 @@ use App\Filament\BulkActions\BaseBulkAction;
 use App\Filament\Components\Fields\Select;
 use App\Models\Discord\DiscordThread;
 use App\Models\Wiki\Video;
-use Filament\Forms\Form;
-use Filament\Support\Enums\MaxWidth;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Support\Facades\Auth;
+use Filament\Schemas\Schema;
+use Filament\Support\Enums\Width;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Gate;
 
 /**
  * Class VideoDiscordNotificationBulkAction.
  */
 class VideoDiscordNotificationBulkAction extends BaseBulkAction
 {
+    /**
+     * The default name of the action.
+     *
+     * @return string|null
+     */
+    public static function getDefaultName(): ?string
+    {
+        return 'video-discord-notification-bulk';
+    }
+
     /**
      * Initial setup for the action.
      *
@@ -29,12 +39,12 @@ class VideoDiscordNotificationBulkAction extends BaseBulkAction
     {
         parent::setUp();
 
-        $this->modalWidth(MaxWidth::Large);
+        $this->modalWidth(Width::Large);
 
         $this->label(__('filament.bulk_actions.discord.notification.name'));
         $this->icon(__('filament-icons.bulk_actions.discord.notification'));
 
-        $this->visible(Auth::user()->can('create', DiscordThread::class));
+        $this->visible(Gate::allows('create', DiscordThread::class));
     }
 
     /**
@@ -56,20 +66,19 @@ class VideoDiscordNotificationBulkAction extends BaseBulkAction
     /**
      * Get the form for the action.
      *
-     * @param  Form  $form
-     * @return Form
+     * @param  Schema  $schema
+     * @return Schema
      */
-    public function getForm(Form $form): ?Form
+    public function getSchema(Schema $schema): ?Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 Select::make(DiscordNotificationType::getFieldKey())
                     ->label(__('filament.bulk_actions.discord.notification.type.name'))
                     ->helperText(__('filament.bulk_actions.discord.notification.type.help'))
-                    ->options(DiscordNotificationType::asSelectArray())
-                    ->default(DiscordNotificationType::ADDED->value)
-                    ->required()
-                    ->enum(DiscordNotificationType::class),
+                    ->options(DiscordNotificationType::class)
+                    ->default(DiscordNotificationType::ADDED)
+                    ->required(),
             ]);
     }
 }

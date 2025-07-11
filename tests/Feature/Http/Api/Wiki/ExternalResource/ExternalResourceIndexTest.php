@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature\Http\Api\Wiki\ExternalResource;
 
 use App\Concerns\Actions\Http\Api\SortsModels;
+use App\Constants\ModelConstants;
 use App\Contracts\Http\Api\Field\SortableField;
 use App\Enums\Http\Api\Filter\TrashedStatus;
 use App\Enums\Http\Api\Sort\Direction;
@@ -410,7 +411,7 @@ class ExternalResourceIndexTest extends TestCase
 
         $parameters = [
             FilterParser::param() => [
-                BaseModel::ATTRIBUTE_DELETED_AT => $deletedFilter,
+                ModelConstants::ATTRIBUTE_DELETED_AT => $deletedFilter,
                 TrashedCriteria::PARAM_VALUE => TrashedStatus::WITH->value,
             ],
             PagingParser::param() => [
@@ -426,7 +427,7 @@ class ExternalResourceIndexTest extends TestCase
             ExternalResource::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
         });
 
-        $resource = ExternalResource::withTrashed()->where(BaseModel::ATTRIBUTE_DELETED_AT, $deletedFilter)->get();
+        $resource = ExternalResource::withTrashed()->where(ModelConstants::ATTRIBUTE_DELETED_AT, $deletedFilter)->get();
 
         $response = $this->get(route('api.resource.index', $parameters));
 

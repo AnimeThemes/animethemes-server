@@ -7,7 +7,6 @@ namespace Tests\Feature\Jobs\Admin;
 use App\Constants\FeatureConstants;
 use App\Events\Admin\Dump\DumpCreated;
 use App\Events\Admin\Dump\DumpDeleted;
-use App\Events\Admin\Dump\DumpRestored;
 use App\Events\Admin\Dump\DumpUpdated;
 use App\Jobs\SendDiscordNotificationJob;
 use App\Models\Admin\Dump;
@@ -51,24 +50,6 @@ class DumpTest extends TestCase
         Event::fakeExcept(DumpDeleted::class);
 
         $dump->delete();
-
-        Bus::assertDispatched(SendDiscordNotificationJob::class);
-    }
-
-    /**
-     * When a dump is restored, a SendDiscordNotification job shall be dispatched.
-     *
-     * @return void
-     */
-    public function testDumpRestoredSendsDiscordNotification(): void
-    {
-        $dump = Dump::factory()->createOne();
-
-        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
-        Bus::fake(SendDiscordNotificationJob::class);
-        Event::fakeExcept(DumpRestored::class);
-
-        $dump->restore();
 
         Bus::assertDispatched(SendDiscordNotificationJob::class);
     }

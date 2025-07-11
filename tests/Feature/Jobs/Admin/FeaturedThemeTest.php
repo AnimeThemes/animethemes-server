@@ -7,7 +7,6 @@ namespace Tests\Feature\Jobs\Admin;
 use App\Constants\FeatureConstants;
 use App\Events\Admin\FeaturedTheme\FeaturedThemeCreated;
 use App\Events\Admin\FeaturedTheme\FeaturedThemeDeleted;
-use App\Events\Admin\FeaturedTheme\FeaturedThemeRestored;
 use App\Events\Admin\FeaturedTheme\FeaturedThemeUpdated;
 use App\Jobs\SendDiscordNotificationJob;
 use App\Models\Admin\FeaturedTheme;
@@ -51,24 +50,6 @@ class FeaturedThemeTest extends TestCase
         Event::fakeExcept(FeaturedThemeDeleted::class);
 
         $featuredTheme->delete();
-
-        Bus::assertDispatched(SendDiscordNotificationJob::class);
-    }
-
-    /**
-     * When a featured theme is restored, a SendDiscordNotification job shall be dispatched.
-     *
-     * @return void
-     */
-    public function testFeaturedThemeRestoredSendsDiscordNotification(): void
-    {
-        $featuredTheme = FeaturedTheme::factory()->createOne();
-
-        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
-        Bus::fake(SendDiscordNotificationJob::class);
-        Event::fakeExcept(FeaturedThemeRestored::class);
-
-        $featuredTheme->restore();
 
         Bus::assertDispatched(SendDiscordNotificationJob::class);
     }

@@ -226,9 +226,9 @@ if (! function_exists('apiPivotResourceUri')) {
 }
 
 // Admin Routes
-apiResource('announcement', AnnouncementController::class);
-apiResource('dump', DumpController::class);
-apiResource('featuredtheme', FeaturedThemeController::class);
+Route::apiResource('announcement', AnnouncementController::class);
+Route::apiResource('dump', DumpController::class);
+Route::apiResource('featuredtheme', FeaturedThemeController::class);
 Route::get('current/featuredtheme', [CurrentFeaturedThemeController::class, 'show'])
     ->name('featuredtheme.current.show');
 Route::apiResource('feature', FeatureController::class)
@@ -248,27 +248,25 @@ apiResourceWhere('page', PageController::class, ['page' => '[\pL\pM\pN\/_-]+']);
 
 // List Routes
 // External Routes
-apiResource('externalprofile', ExternalProfileController::class);
-apiScopedResource('externalprofile.externalentry', ExternalEntryController::class);
+Route::apiResource('externalprofile', ExternalProfileController::class);
+Route::apiResource('externalprofile.externalentry', ExternalEntryController::class)
+    ->scoped();
 
 // Playlist Routes
-apiResource('playlist', PlaylistController::class);
-apiScopedResource('playlist.track', TrackController::class);
+Route::apiResource('playlist', PlaylistController::class);
+Route::apiResource('playlist.track', TrackController::class)
+    ->scoped();
 
 Route::get('playlist/{playlist}/forward', [PlaylistForwardController::class, 'index'])
-    ->withTrashed()
     ->name('playlist.forward');
 
 Route::get('playlist/{playlist}/track/{track}/forward', [TrackForwardController::class, 'index'])
-    ->withTrashed()
     ->name('playlist.track.forward');
 
 Route::get('playlist/{playlist}/backward', [PlaylistBackwardController::class, 'index'])
-    ->withTrashed()
     ->name('playlist.backward');
 
 Route::get('playlist/{playlist}/track/{track}/backward', [TrackBackwardController::class, 'index'])
-    ->withTrashed()
     ->name('playlist.track.backward');
 
 // Pivot Routes

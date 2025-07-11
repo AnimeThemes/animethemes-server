@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature\Http\Api\Document\Page;
 
 use App\Concerns\Actions\Http\Api\SortsModels;
+use App\Constants\ModelConstants;
 use App\Contracts\Http\Api\Field\SortableField;
 use App\Enums\Http\Api\Filter\TrashedStatus;
 use App\Enums\Http\Api\Sort\Direction;
@@ -357,7 +358,7 @@ class PageIndexTest extends TestCase
 
         $parameters = [
             FilterParser::param() => [
-                BaseModel::ATTRIBUTE_DELETED_AT => $deletedFilter,
+                ModelConstants::ATTRIBUTE_DELETED_AT => $deletedFilter,
                 TrashedCriteria::PARAM_VALUE => TrashedStatus::WITH->value,
             ],
             PagingParser::param() => [
@@ -373,7 +374,7 @@ class PageIndexTest extends TestCase
             Page::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
         });
 
-        $page = Page::withTrashed()->where(BaseModel::ATTRIBUTE_DELETED_AT, $deletedFilter)->get();
+        $page = Page::withTrashed()->where(ModelConstants::ATTRIBUTE_DELETED_AT, $deletedFilter)->get();
 
         $response = $this->get(route('api.page.index', $parameters));
 

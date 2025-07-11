@@ -49,4 +49,21 @@ enum AnimeSeason: int
             self::FALL => "\u{1F342}",
         };
     }
+
+    /**
+     * Get the current season.
+     *
+     * @return AnimeSeason
+     */
+    public static function getCurrentSeason(): self
+    {
+        $month = now()->month;
+
+        return match (true) {
+            $month >= 1 && $month <= 3 => self::WINTER,
+            $month >= 4 && $month <= 6 => self::SPRING,
+            $month >= 7 && $month <= 9 => self::SUMMER,
+            default => self::FALL,
+        };
+    }
 }

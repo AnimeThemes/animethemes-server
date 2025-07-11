@@ -20,7 +20,7 @@ use App\Filament\Tabs\Artist\Resource\ArtistXResourceTab;
 use App\Filament\Tabs\Artist\Resource\ArtistYoutubeResourceTab;
 use App\Filament\Tabs\Artist\Song\ArtistSongTab;
 use App\Models\Wiki\Artist as ArtistModel;
-use Filament\Resources\Components\Tab;
+use Filament\Schemas\Components\Tabs\Tab;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
@@ -31,20 +31,6 @@ class ListArtists extends BaseListResources
     use HasTabs;
 
     protected static string $resource = Artist::class;
-
-    /**
-     * Get the header actions available.
-     *
-     * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    protected function getHeaderActions(): array
-    {
-        return [
-            ...parent::getHeaderActions(),
-        ];
-    }
 
     /**
      * Using Laravel Scout to search.

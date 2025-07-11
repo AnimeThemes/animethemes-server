@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Resources\Wiki;
 
 use App\Enums\Models\Wiki\ImageFacet;
+use App\Filament\Actions\Models\Wiki\Image\UploadImageAction;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Fields\Select;
 use App\Filament\Components\Infolist\TextEntry;
@@ -16,17 +17,16 @@ use App\Filament\Resources\Wiki\Image\RelationManagers\AnimeImageRelationManager
 use App\Filament\Resources\Wiki\Image\RelationManagers\ArtistImageRelationManager;
 use App\Filament\Resources\Wiki\Image\RelationManagers\PlaylistImageRelationManager;
 use App\Filament\Resources\Wiki\Image\RelationManagers\StudioImageRelationManager;
-use App\Filament\TableActions\Models\Wiki\Image\UploadImageTableAction;
 use App\Models\Wiki\Image as ImageModel;
-use Filament\Forms\Form;
 use Filament\Infolists\Components\ImageEntry;
-use Filament\Infolists\Components\Section;
-use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Schema;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\Layout\Stack;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Config;
 
 /**
@@ -37,7 +37,7 @@ class Image extends BaseResource
     /**
      * The model the resource corresponds to.
      *
-     * @var string|null
+     * @var class-string<Model>|null
      */
     protected static ?string $model = ImageModel::class;
 
@@ -48,7 +48,7 @@ class Image extends BaseResource
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getLabel(): string
+    public static function getModelLabel(): string
     {
         return __('filament.resources.singularLabel.image');
     }
@@ -60,7 +60,7 @@ class Image extends BaseResource
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getPluralLabel(): string
+    public static function getPluralModelLabel(): string
     {
         return __('filament.resources.label.images');
     }
@@ -114,21 +114,20 @@ class Image extends BaseResource
     /**
      * The form to the actions.
      *
-     * @param  Form  $form
-     * @return Form
+     * @param  Schema  $schema
+     * @return Schema
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 Select::make(ImageModel::ATTRIBUTE_FACET)
                     ->label(__('filament.fields.image.facet.name'))
                     ->helperText(__('filament.fields.image.facet.help'))
-                    ->options(ImageFacet::asSelectArray())
-                    ->required()
-                    ->enum(ImageFacet::class),
+                    ->options(ImageFacet::class)
+                    ->required(),
             ]);
     }
 
@@ -166,16 +165,16 @@ class Image extends BaseResource
     /**
      * Get the infolist available for the resource.
      *
-     * @param  Infolist  $infolist
-     * @return Infolist
+     * @param  Schema  $schema
+     * @return Schema
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function infolist(Infolist $infolist): Infolist
+    public static function infolist(Schema $schema): Schema
     {
-        return $infolist
-            ->schema([
-                Section::make(static::getRecordTitle($infolist->getRecord()))
+        return $schema
+            ->components([
+                Section::make(static::getRecordTitle($schema->getRecord()))
                     ->schema([
                         TextEntry::make(ImageModel::ATTRIBUTE_ID)
                             ->label(__('filament.fields.base.id')),
@@ -205,7 +204,7 @@ class Image extends BaseResource
     public static function getRelations(): array
     {
         return [
-            RelationGroup::make(static::getLabel(), [
+            RelationGroup::make(static::getModelLabel(), [
                 AnimeImageRelationManager::class,
                 ArtistImageRelationManager::class,
                 PlaylistImageRelationManager::class,
@@ -226,34 +225,9 @@ class Image extends BaseResource
         return [
             SelectFilter::make(ImageModel::ATTRIBUTE_FACET)
                 ->label(__('filament.fields.image.facet.name'))
-                ->options(ImageFacet::asSelectArray()),
+                ->options(ImageFacet::class),
 
             ...parent::getFilters(),
-        ];
-    }
-
-    /**
-     * Get the actions available for the resource.
-     *
-     * @return array
-     */
-    public static function getActions(): array
-    {
-        return [
-            ...parent::getActions(),
-        ];
-    }
-
-    /**
-     * Get the bulk actions available for the resource.
-     *
-     * @param  array|null  $actionsIncludedInGroup
-     * @return array
-     */
-    public static function getBulkActions(?array $actionsIncludedInGroup = []): array
-    {
-        return [
-            ...parent::getBulkActions(),
         ];
     }
 
@@ -267,7 +241,7 @@ class Image extends BaseResource
         return [
             ...parent::getTableActions(),
 
-            UploadImageTableAction::make('upload-image'),
+            UploadImageAction::make(),
         ];
     }
 

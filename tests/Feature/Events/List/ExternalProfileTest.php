@@ -6,7 +6,6 @@ namespace Tests\Feature\Events\List;
 
 use App\Events\List\ExternalProfile\ExternalProfileCreated;
 use App\Events\List\ExternalProfile\ExternalProfileDeleted;
-use App\Events\List\ExternalProfile\ExternalProfileRestored;
 use App\Events\List\ExternalProfile\ExternalProfileUpdated;
 use App\Models\List\ExternalProfile;
 use Illuminate\Support\Arr;
@@ -42,36 +41,6 @@ class ExternalProfileTest extends TestCase
         $profile->delete();
 
         Event::assertDispatched(ExternalProfileDeleted::class);
-    }
-
-    /**
-     * When a profile is restored, a ExternalProfileRestored event shall be dispatched.
-     *
-     * @return void
-     */
-    public function testExternalProfileRestoredEventDispatched(): void
-    {
-        $profile = ExternalProfile::factory()->createOne();
-
-        $profile->restore();
-
-        Event::assertDispatched(ExternalProfileRestored::class);
-    }
-
-    /**
-     * When a profile is restored, a ExternalProfileUpdated event shall not be dispatched.
-     * Note: This is a customization that overrides default framework behavior.
-     * An updated event is fired on restore.
-     *
-     * @return void
-     */
-    public function testExternalProfileRestoresQuietly(): void
-    {
-        $profile = ExternalProfile::factory()->createOne();
-
-        $profile->restore();
-
-        Event::assertNotDispatched(ExternalProfileUpdated::class);
     }
 
     /**

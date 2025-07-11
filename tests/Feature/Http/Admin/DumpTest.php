@@ -70,22 +70,6 @@ class DumpTest extends TestCase
     }
 
     /**
-     * If the dump is soft-deleted, the user shall receive a not found exception.
-     *
-     * @return void
-     */
-    public function testCannotDownloadSoftDeletedDump(): void
-    {
-        Feature::activate(AllowDumpDownloading::class);
-
-        $dump = Dump::factory()->trashed()->createOne();
-
-        $response = $this->get(route('dump.show', ['dump' => $dump]));
-
-        $response->assertNotFound();
-    }
-
-    /**
      * If dump downloading is enabled, the dump is downloaded from storage through the response.
      *
      * @return void

@@ -46,6 +46,7 @@ class AnilistAnimeExternalApiAction extends ExternalApiAction implements Backfil
             $query = '
             query ($id: Int) {
                 Media (id: $id, type: ANIME) {
+                    id
                     title {
                         romaji
                         english
@@ -91,9 +92,7 @@ class AnilistAnimeExternalApiAction extends ExternalApiAction implements Backfil
         $resources = [];
 
         if ($response = $this->response) {
-            $links = Arr::get($response, 'data.Media.externalLinks');
-
-            foreach ($links as $link) {
+            foreach (Arr::get($response, 'data.Media.externalLinks') as $link) {
                 $url = Arr::get($link, 'url');
                 $siteAnilist = Arr::get($link, 'site');
                 $language = Arr::get($link, 'language');

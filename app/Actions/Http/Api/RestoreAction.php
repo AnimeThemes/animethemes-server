@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace App\Actions\Http\Api;
 
-use App\Models\BaseModel;
+use App\Contracts\Models\SoftDeletable;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class RestoreAction.
@@ -14,10 +15,10 @@ class RestoreAction
     /**
      * Restore model.
      *
-     * @param  BaseModel  $model
-     * @return BaseModel
+     * @param  Model&SoftDeletable  $model
+     * @return Model&SoftDeletable
      */
-    public function restore(BaseModel $model): BaseModel
+    public function restore(Model&SoftDeletable $model): Model&SoftDeletable
     {
         $model->restore();
 
@@ -27,10 +28,10 @@ class RestoreAction
     /**
      * Perform model cleanup for presentation.
      *
-     * @param  BaseModel  $model
-     * @return BaseModel
+     * @param  Model&SoftDeletable  $model
+     * @return Model&SoftDeletable
      */
-    public function cleanup(BaseModel $model): BaseModel
+    public function cleanup(Model&SoftDeletable $model): Model&SoftDeletable
     {
         // Scout will load relations to refresh related search indices.
         $model->unsetRelations();

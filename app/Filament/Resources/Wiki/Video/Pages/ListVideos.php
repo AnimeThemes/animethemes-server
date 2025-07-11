@@ -11,7 +11,7 @@ use App\Filament\Tabs\Video\VideoAudioTab;
 use App\Filament\Tabs\Video\VideoScriptTab;
 use App\Filament\Tabs\Video\VideoUnlinkedTab;
 use App\Models\Wiki\Video as VideoModel;
-use Filament\Resources\Components\Tab;
+use Filament\Schemas\Components\Tabs\Tab;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
@@ -22,20 +22,6 @@ class ListVideos extends BaseListResources
     use HasTabs;
 
     protected static string $resource = Video::class;
-
-    /**
-     * Get the header actions available.
-     *
-     * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    protected function getHeaderActions(): array
-    {
-        return [
-            ...parent::getHeaderActions(),
-        ];
-    }
 
     /**
      * Using Laravel Scout to search.

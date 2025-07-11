@@ -6,8 +6,8 @@ namespace Tests\Unit\Filament\Resources\List\Playlist;
 
 use App\Enums\Auth\CrudPermission;
 use App\Enums\Auth\SpecialPermission;
+use App\Filament\Actions\Base\CreateAction;
 use App\Filament\Actions\Base\EditAction;
-use App\Filament\HeaderActions\Base\CreateHeaderAction;
 use App\Filament\Resources\List\Playlist\Track;
 use App\Models\Auth\User;
 use App\Models\List\Playlist;
@@ -128,8 +128,8 @@ class TrackTest extends BaseResourceTestCase
         $this->actingAs($user);
 
         Livewire::test(static::getIndexPage())
-            ->mountAction(CreateHeaderAction::class)
-            ->assertActionMounted(CreateHeaderAction::class);
+            ->mountAction(CreateAction::class)
+            ->assertActionMounted(CreateAction::class);
     }
 
     /**
@@ -154,7 +154,7 @@ class TrackTest extends BaseResourceTestCase
         $record = $playlist->tracks->first();
 
         Livewire::test(static::getIndexPage())
-            ->mountTableAction(EditAction::class, $record)
-            ->assertTableActionMounted(EditAction::class);
+            ->mountAction(EditAction::class, ['record' => $record])
+            ->assertActionMounted(EditAction::class);
     }
 }

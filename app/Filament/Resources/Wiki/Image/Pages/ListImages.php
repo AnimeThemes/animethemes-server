@@ -8,7 +8,7 @@ use App\Concerns\Filament\HasTabs;
 use App\Filament\Resources\Base\BaseListResources;
 use App\Filament\Resources\Wiki\Image;
 use App\Filament\Tabs\Image\ImageUnlinkedTab;
-use Filament\Resources\Components\Tab;
+use Filament\Schemas\Components\Tabs\Tab;
 
 /**
  * Class ListImages.
@@ -18,20 +18,6 @@ class ListImages extends BaseListResources
     use HasTabs;
 
     protected static string $resource = Image::class;
-
-    /**
-     * Get the header actions available.
-     *
-     * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    protected function getHeaderActions(): array
-    {
-        return [
-            ...parent::getHeaderActions(),
-        ];
-    }
 
     /**
      * Get the tabs available.

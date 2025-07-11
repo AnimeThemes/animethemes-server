@@ -51,18 +51,4 @@ extend type Mutation @guard {
     ): Playlist!
     @canModel(ability: "delete", injectArgs: true)
     @field(resolver: "App\\GraphQL\\Mutations\\List\\PlaylistMutator@destroy")
-
-
-    restorePlaylist(
-        id: String! @bind(class: "App\\Models\\List\\Playlist", column: "hashid")
-    ): Playlist!
-    @canModel(ability: "restore", injectArgs: true)
-    @field(resolver: "App\\GraphQL\\Mutations\\List\\PlaylistMutator@restore")
-
-
-    forceDeletePlaylist(
-        id: String! @bind(class: "App\\Models\\List\\Playlist", column: "hashid")
-    ): MessageResponse!
-    @canModel(ability: "forceDelete", injectArgs: true, model: "App\\Models\\List\\Playlist")
-    @field(resolver: "App\\GraphQL\\Mutations\\List\\PlaylistMutator@forceDelete")
 }

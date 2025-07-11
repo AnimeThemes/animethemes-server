@@ -4,23 +4,25 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Wiki\Video;
 
+use App\Filament\Actions\Repositories\Storage\Wiki\Video\Script\ReconcileScriptAction;
 use App\Filament\Actions\Storage\Wiki\Video\Script\DeleteScriptAction;
 use App\Filament\Actions\Storage\Wiki\Video\Script\MoveScriptAction;
+use App\Filament\Actions\Storage\Wiki\Video\Script\UploadScriptAction;
 use App\Filament\BulkActions\Storage\Wiki\Video\Script\DeleteScriptBulkAction;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Infolist\TimestampSection;
 use App\Filament\Resources\BaseResource;
 use App\Filament\Resources\Wiki\Video\Script\Pages\ListScripts;
 use App\Filament\Resources\Wiki\Video\Script\Pages\ViewScript;
-use App\Filament\TableActions\Repositories\Storage\Wiki\Video\Script\ReconcileScriptTableAction;
-use App\Filament\TableActions\Storage\Wiki\Video\Script\UploadScriptTableAction;
 use App\Models\Wiki\Video\VideoScript as ScriptModel;
+use Filament\Actions\ActionGroup;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
-use Filament\Tables\Actions\ActionGroup;
+use Filament\Schemas\Schema;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Script.
@@ -30,7 +32,7 @@ class Script extends BaseResource
     /**
      * The model the resource corresponds to.
      *
-     * @var string|null
+     * @var class-string<Model>|null
      */
     protected static ?string $model = ScriptModel::class;
 
@@ -41,7 +43,7 @@ class Script extends BaseResource
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getLabel(): string
+    public static function getModelLabel(): string
     {
         return __('filament.resources.singularLabel.video_script');
     }
@@ -53,7 +55,7 @@ class Script extends BaseResource
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getPluralLabel(): string
+    public static function getPluralModelLabel(): string
     {
         return __('filament.resources.label.video_scripts');
     }
@@ -107,15 +109,15 @@ class Script extends BaseResource
     /**
      * The form to the actions.
      *
-     * @param  Form  $form
-     * @return Form
+     * @param  Schema  $schema
+     * @return Schema
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 TextInput::make(ScriptModel::ATTRIBUTE_PATH)
                     ->label(__('filament.fields.video_script.path'))
                     ->hiddenOn(['create', 'edit']),
@@ -145,15 +147,15 @@ class Script extends BaseResource
     /**
      * Get the infolist available for the resource.
      *
-     * @param  Infolist  $infolist
-     * @return Infolist
+     * @param  Schema  $schema
+     * @return Schema
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function infolist(Infolist $infolist): Infolist
+    public static function infolist(Schema $schema): Schema
     {
-        return $infolist
-            ->schema([
+        return $schema
+            ->components([
                 TimestampSection::make(),
             ]);
     }
@@ -168,21 +170,9 @@ class Script extends BaseResource
     public static function getRelations(): array
     {
         return [
-            RelationGroup::make(static::getLabel(), [
+            RelationGroup::make(static::getModelLabel(), [
                 ...parent::getBaseRelations(),
             ]),
-        ];
-    }
-
-    /**
-     * Get the filters available for the resource.
-     *
-     * @return array
-     */
-    public static function getFilters(): array
-    {
-        return [
-            ...parent::getFilters(),
         ];
     }
 
@@ -191,16 +181,12 @@ class Script extends BaseResource
      *
      * @return array
      */
-    public static function getActions(): array
+    public static function getRecordActions(): array
     {
         return [
-            ...parent::getActions(),
+            MoveScriptAction::make(),
 
-            ActionGroup::make([
-                MoveScriptAction::make('move-script'),
-
-                DeleteScriptAction::make('delete-script'),
-            ]),
+            DeleteScriptAction::make(),
         ];
     }
 
@@ -213,9 +199,9 @@ class Script extends BaseResource
     public static function getBulkActions(?array $actionsIncludedInGroup = []): array
     {
         return [
-            ...parent::getBulkActions(),
-
-            DeleteScriptBulkAction::make('delete-script'),
+            ...parent::getBulkActions([
+                DeleteScriptBulkAction::make(),
+            ]),
         ];
     }
 
@@ -229,10 +215,10 @@ class Script extends BaseResource
     public static function getTableActions(): array
     {
         return [
-            ActionGroup::make([
-                UploadScriptTableAction::make('upload-script'),
+            UploadScriptAction::make(),
 
-                ReconcileScriptTableAction::make('reconcile-script'),
+            ActionGroup::make([
+                ReconcileScriptAction::make(),
             ]),
         ];
     }

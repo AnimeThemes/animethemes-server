@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Models\BaseModel;
+use App\Constants\ModelConstants;
 use App\Models\Wiki\Video;
 use App\Models\Wiki\Video\VideoScript;
 use Illuminate\Database\Migrations\Migration;
@@ -22,7 +22,7 @@ return new class extends Migration
             Schema::create(VideoScript::TABLE, function (Blueprint $table) {
                 $table->id(VideoScript::ATTRIBUTE_ID);
                 $table->timestamps(6);
-                $table->softDeletes(BaseModel::ATTRIBUTE_DELETED_AT, 6);
+                $table->softDeletes(ModelConstants::ATTRIBUTE_DELETED_AT, 6);
                 $table->string(VideoScript::ATTRIBUTE_PATH);
 
                 $table->unsignedBigInteger(VideoScript::ATTRIBUTE_VIDEO)->nullable();

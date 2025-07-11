@@ -4,22 +4,22 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Admin;
 
+use App\Filament\Actions\Repositories\Storage\Admin\Dump\ReconcileDumpAction;
+use App\Filament\Actions\Storage\Admin\DumpDocumentAction;
+use App\Filament\Actions\Storage\Admin\DumpWikiAction;
+use App\Filament\Actions\Storage\Admin\PruneDumpAction;
 use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Components\Infolist\TextEntry;
 use App\Filament\Components\Infolist\TimestampSection;
 use App\Filament\Resources\Admin\Dump\Pages\ManageDumps;
 use App\Filament\Resources\BaseResource;
-use App\Filament\TableActions\Repositories\Storage\Admin\Dump\ReconcileDumpTableAction;
-use App\Filament\TableActions\Storage\Admin\DumpDocumentTableAction;
-use App\Filament\TableActions\Storage\Admin\DumpWikiTableAction;
-use App\Filament\TableActions\Storage\Admin\PruneDumpTableAction;
 use App\Models\Admin\Dump as DumpModel;
+use Filament\Actions\ActionGroup;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
-use Filament\Infolists\Components\Section;
-use Filament\Infolists\Infolist;
-use Filament\Tables\Actions\ActionGroup;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Schema;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Dump.
@@ -29,7 +29,7 @@ class Dump extends BaseResource
     /**
      * The model the resource corresponds to.
      *
-     * @var string|null
+     * @var class-string<Model>|null
      */
     protected static ?string $model = DumpModel::class;
 
@@ -40,7 +40,7 @@ class Dump extends BaseResource
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getLabel(): string
+    public static function getModelLabel(): string
     {
         return __('filament.resources.singularLabel.dump');
     }
@@ -52,7 +52,7 @@ class Dump extends BaseResource
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getPluralLabel(): string
+    public static function getPluralModelLabel(): string
     {
         return __('filament.resources.label.dumps');
     }
@@ -106,15 +106,15 @@ class Dump extends BaseResource
     /**
      * The form to the actions.
      *
-     * @param  Form  $form
-     * @return Form
+     * @param  Schema  $schema
+     * @return Schema
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 TextInput::make(DumpModel::ATTRIBUTE_PATH)
                     ->label(__('filament.fields.dump.path'))
                     ->required()
@@ -148,16 +148,16 @@ class Dump extends BaseResource
     /**
      * Get the infolist available for the resource.
      *
-     * @param  Infolist  $infolist
-     * @return Infolist
+     * @param  Schema  $schema
+     * @return Schema
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function infolist(Infolist $infolist): Infolist
+    public static function infolist(Schema $schema): Schema
     {
-        return $infolist
-            ->schema([
-                Section::make(static::getRecordTitle($infolist->getRecord()))
+        return $schema
+            ->components([
+                Section::make(static::getRecordTitle($schema->getRecord()))
                     ->schema([
                         TextEntry::make(DumpModel::ATTRIBUTE_ID)
                             ->label(__('filament.fields.base.id')),
@@ -173,43 +173,6 @@ class Dump extends BaseResource
     }
 
     /**
-     * Get the filters available for the resource.
-     *
-     * @return array
-     */
-    public static function getFilters(): array
-    {
-        return [
-            ...parent::getFilters(),
-        ];
-    }
-
-    /**
-     * Get the actions available for the resource.
-     *
-     * @return array
-     */
-    public static function getActions(): array
-    {
-        return [
-            ...parent::getActions(),
-        ];
-    }
-
-    /**
-     * Get the bulk actions available for the resource.
-     *
-     * @param  array|null  $actionsIncludedInGroup
-     * @return array
-     */
-    public static function getBulkActions(?array $actionsIncludedInGroup = []): array
-    {
-        return [
-            ...parent::getBulkActions(),
-        ];
-    }
-
-    /**
      * Get the table actions available for the resource.
      *
      * @return array
@@ -220,13 +183,13 @@ class Dump extends BaseResource
     {
         return [
             ActionGroup::make([
-                DumpWikiTableAction::make('dump-wiki'),
+                DumpWikiAction::make(),
 
-                DumpDocumentTableAction::make('dump-document'),
+                DumpDocumentAction::make(),
 
-                PruneDumpTableAction::make('prune-dump'),
+                PruneDumpAction::make(),
 
-                ReconcileDumpTableAction::make('reconcile-dump'),
+                ReconcileDumpAction::make(),
             ]),
         ];
     }

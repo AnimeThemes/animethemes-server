@@ -9,7 +9,6 @@ use App\Enums\Models\List\ExternalProfileSite;
 use App\Enums\Models\List\ExternalProfileVisibility;
 use App\Events\List\ExternalProfile\ExternalProfileCreated;
 use App\Events\List\ExternalProfile\ExternalProfileDeleted;
-use App\Events\List\ExternalProfile\ExternalProfileRestored;
 use App\Events\List\ExternalProfile\ExternalProfileUpdated;
 use App\Jobs\List\SyncExternalProfileJob;
 use App\Models\Auth\User;
@@ -19,6 +18,7 @@ use App\Models\List\External\ExternalToken;
 use Database\Factories\List\ExternalProfileFactory;
 use Elastic\ScoutDriverPlus\Searchable;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -46,6 +46,7 @@ use Illuminate\Support\Str;
  */
 class ExternalProfile extends BaseModel
 {
+    use HasFactory;
     use Searchable;
 
     final public const TABLE = 'external_profiles';
@@ -87,7 +88,6 @@ class ExternalProfile extends BaseModel
     protected $dispatchesEvents = [
         'created' => ExternalProfileCreated::class,
         'deleted' => ExternalProfileDeleted::class,
-        'restored' => ExternalProfileRestored::class,
         'updated' => ExternalProfileUpdated::class,
     ];
 

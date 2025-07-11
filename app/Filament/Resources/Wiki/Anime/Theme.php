@@ -24,7 +24,7 @@ use App\Filament\Resources\Wiki\Anime\Theme\RelationManagers\EntryThemeRelationM
 use App\Filament\Resources\Wiki\Artist as ArtistResource;
 use App\Filament\Resources\Wiki\Group as GroupResource;
 use App\Filament\Resources\Wiki\Song as SongResource;
-use App\Filament\Resources\Wiki\Song\Performance as PerformanceResource;
+use App\Filament\Resources\Wiki\Song\Performance\Schemas\PerformanceForm;
 use App\Filament\Resources\Wiki\Song\RelationManagers\PerformanceSongRelationManager;
 use App\Filament\Resources\Wiki\Song\RelationManagers\ThemeSongRelationManager;
 use App\Models\Wiki\Anime\AnimeTheme;
@@ -34,16 +34,15 @@ use App\Models\Wiki\Group;
 use App\Models\Wiki\Song;
 use App\Models\Wiki\Song\Membership;
 use Filament\Forms\Components\Repeater;
-use Filament\Forms\Components\Tabs;
-use Filament\Forms\Components\Tabs\Tab;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
-use Filament\Forms\Get;
-use Filament\Forms\Set;
 use Filament\Infolists\Components\RepeatableEntry;
-use Filament\Infolists\Components\Section;
-use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Tabs;
+use Filament\Schemas\Components\Tabs\Tab;
+use Filament\Schemas\Components\Utilities\Get;
+use Filament\Schemas\Components\Utilities\Set;
+use Filament\Schemas\Schema;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
@@ -60,7 +59,7 @@ class Theme extends BaseResource
     /**
      * The model the resource corresponds to.
      *
-     * @var string|null
+     * @var class-string<Model>|null
      */
     protected static ?string $model = ThemeModel::class;
 
@@ -71,7 +70,7 @@ class Theme extends BaseResource
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getLabel(): string
+    public static function getModelLabel(): string
     {
         return __('filament.resources.singularLabel.anime_theme');
     }
@@ -83,7 +82,7 @@ class Theme extends BaseResource
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getPluralLabel(): string
+    public static function getPluralModelLabel(): string
     {
         return __('filament.resources.label.anime_themes');
     }
@@ -177,15 +176,15 @@ class Theme extends BaseResource
     /**
      * The form to the actions.
      *
-     * @param  Form  $form
-     * @return Form
+     * @param  Schema  $schema
+     * @return Schema
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 Tabs::make('Tabs')
                     ->tabs([
                         Tab::make('theme')
@@ -199,17 +198,18 @@ class Theme extends BaseResource
                                 Select::make(ThemeModel::ATTRIBUTE_TYPE)
                                     ->label(__('filament.fields.anime_theme.type.name'))
                                     ->helperText(__('filament.fields.anime_theme.type.help'))
-                                    ->options(ThemeType::asSelectArray())
+                                    ->options(ThemeType::class)
                                     ->required()
-                                    ->enum(ThemeType::class)
-                                    ->live(true)
+                                    ->live()
+                                    ->partiallyRenderComponentsAfterStateUpdated([ThemeModel::ATTRIBUTE_SLUG])
                                     ->afterStateUpdated(fn (Set $set, Get $get) => Theme::setThemeSlug($set, $get)),
 
                                 TextInput::make(ThemeModel::ATTRIBUTE_SEQUENCE)
                                     ->label(__('filament.fields.anime_theme.sequence.name'))
                                     ->helperText(__('filament.fields.anime_theme.sequence.help'))
                                     ->integer()
-                                    ->live(true)
+                                    ->live()
+                                    ->partiallyRenderComponentsAfterStateUpdated([ThemeModel::ATTRIBUTE_SLUG])
                                     ->afterStateUpdated(fn (Set $set, Get $get) => Theme::setThemeSlug($set, $get)),
 
                                 TextInput::make(ThemeModel::ATTRIBUTE_SLUG)
@@ -223,7 +223,8 @@ class Theme extends BaseResource
                                 BelongsTo::make(ThemeModel::ATTRIBUTE_GROUP)
                                     ->resource(GroupResource::class)
                                     ->showCreateOption()
-                                    ->live(true)
+                                    ->live()
+                                    ->partiallyRenderComponentsAfterStateUpdated([ThemeModel::ATTRIBUTE_SLUG])
                                     ->afterStateUpdated(fn (Set $set, Get $get) => Theme::setThemeSlug($set, $get)),
                             ]),
 
@@ -240,7 +241,7 @@ class Theme extends BaseResource
                                         $set('performances', PerformanceSongRelationManager::formatArtists($song));
                                     }),
 
-                                ...PerformanceResource::performancesFields(),
+                                ...PerformanceForm::performancesFields(),
                             ]),
 
                         Tab::make('entries')
@@ -248,9 +249,9 @@ class Theme extends BaseResource
                             ->schema([
                                 Repeater::make(ThemeModel::RELATION_ENTRIES)
                                     ->label(__('filament.resources.label.anime_theme_entries'))
-                                    ->addActionLabel(__('filament.buttons.add'))
+                                    ->addActionLabel(__('filament.buttons.add', ['label' => __('filament.resources.singularLabel.anime_theme_entry')]))
                                     ->relationship()
-                                    ->schema(Entry::form($form)->getComponents()),
+                                    ->schema(Entry::form($schema)->getComponents()),
                             ]),
                     ]),
             ])
@@ -294,16 +295,16 @@ class Theme extends BaseResource
     /**
      * Get the infolist available for the resource.
      *
-     * @param  Infolist  $infolist
-     * @return Infolist
+     * @param  Schema  $schema
+     * @return Schema
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function infolist(Infolist $infolist): Infolist
+    public static function infolist(Schema $schema): Schema
     {
-        return $infolist
-            ->schema([
-                Section::make(static::getRecordTitle($infolist->getRecord()))
+        return $schema
+            ->components([
+                Section::make(static::getRecordTitle($schema->getRecord()))
                     ->schema([
                         TextEntry::make(ThemeModel::ATTRIBUTE_ID)
                             ->label(__('filament.fields.base.id')),
@@ -332,7 +333,7 @@ class Theme extends BaseResource
                     ->schema([
                         RepeatableEntry::make(ThemeModel::RELATION_ARTISTS)
                             ->label('')
-                            ->schema(ArtistResource::infolist($infolist)->getComponents())
+                            ->schema(ArtistResource::infolist($schema)->getComponents())
                             ->columnSpanFull(),
                     ]),
 
@@ -353,7 +354,6 @@ class Theme extends BaseResource
         $type = $get(ThemeModel::ATTRIBUTE_TYPE);
 
         if (! empty($type) || $type !== null) {
-            $type = ThemeType::tryFrom(intval($type));
             $slug = $slug->append($type->name);
         }
 
@@ -383,7 +383,7 @@ class Theme extends BaseResource
     public static function getRelations(): array
     {
         return [
-            RelationGroup::make(static::getLabel(), [
+            RelationGroup::make(static::getModelLabel(), [
                 EntryThemeRelationManager::class,
 
                 ...parent::getBaseRelations(),
@@ -401,7 +401,7 @@ class Theme extends BaseResource
         return [
             SelectFilter::make(ThemeModel::ATTRIBUTE_TYPE)
                 ->label(__('filament.fields.anime_theme.type.name'))
-                ->options(ThemeType::asSelectArray()),
+                ->options(ThemeType::class),
 
             NumberFilter::make(ThemeModel::ATTRIBUTE_SEQUENCE)
                 ->label(__('filament.fields.anime_theme.sequence.name')),
@@ -412,43 +412,6 @@ class Theme extends BaseResource
                 ->default(true),
 
             ...parent::getFilters(),
-        ];
-    }
-
-    /**
-     * Get the actions available for the resource.
-     *
-     * @return array
-     */
-    public static function getActions(): array
-    {
-        return [
-            ...parent::getActions(),
-        ];
-    }
-
-    /**
-     * Get the bulk actions available for the resource.
-     *
-     * @param  array|null  $actionsIncludedInGroup
-     * @return array
-     */
-    public static function getBulkActions(?array $actionsIncludedInGroup = []): array
-    {
-        return [
-            ...parent::getBulkActions(),
-        ];
-    }
-
-    /**
-     * Get the table actions available for the resource.
-     *
-     * @return array
-     */
-    public static function getTableActions(): array
-    {
-        return [
-            ...parent::getTableActions(),
         ];
     }
 

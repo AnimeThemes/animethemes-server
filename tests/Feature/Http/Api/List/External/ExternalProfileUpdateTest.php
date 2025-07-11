@@ -145,40 +145,6 @@ class ExternalProfileUpdateTest extends TestCase
     }
 
     /**
-     * The External Profile Update Endpoint shall forbid users from updating a profile that is trashed.
-     *
-     * @return void
-     */
-    public function testTrashed(): void
-    {
-        Event::fakeExcept(ExternalProfileCreated::class);
-
-        Feature::activate(AllowExternalProfileManagement::class);
-
-        $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(ExternalProfile::class))->createOne();
-
-        $profile = ExternalProfile::factory()
-            ->trashed()
-            ->for($user)
-            ->createOne();
-
-        $visibility = Arr::random(ExternalProfileVisibility::cases());
-
-        $parameters = array_merge(
-            ExternalProfile::factory()->raw(),
-            [
-                ExternalProfile::ATTRIBUTE_VISIBILITY => $visibility->localize(),
-            ],
-        );
-
-        Sanctum::actingAs($user);
-
-        $response = $this->put(route('api.externalprofile.update', ['externalprofile' => $profile] + $parameters));
-
-        $response->assertForbidden();
-    }
-
-    /**
      * The External Profile Update Endpoint shall update a profile.
      *
      * @return void

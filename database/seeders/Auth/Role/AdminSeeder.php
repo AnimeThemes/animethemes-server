@@ -66,10 +66,10 @@ class AdminSeeder extends RoleSeeder
         );
 
         // Admin Resources
-        $this->configureResource($role, Announcement::class, $extendedCrudPermissions);
-        $this->configureResource($role, Dump::class, $extendedCrudPermissions);
+        $this->configureResource($role, Announcement::class, CrudPermission::cases());
+        $this->configureResource($role, Dump::class, CrudPermission::cases());
         $this->configureResource($role, Feature::class, [CrudPermission::VIEW, CrudPermission::UPDATE]);
-        $this->configureResource($role, FeaturedTheme::class, $extendedCrudPermissions);
+        $this->configureResource($role, FeaturedTheme::class, CrudPermission::cases());
 
         // Auth Resources
         $this->configureResource($role, Permission::class, [CrudPermission::VIEW]);
@@ -81,9 +81,9 @@ class AdminSeeder extends RoleSeeder
 
         // List Resources
         $this->configureResource($role, ExternalEntry::class, CrudPermission::cases());
-        $this->configureResource($role, ExternalProfile::class, $extendedCrudPermissions);
-        $this->configureResource($role, Playlist::class, $extendedCrudPermissions);
-        $this->configureResource($role, PlaylistTrack::class, $extendedCrudPermissions);
+        $this->configureResource($role, ExternalProfile::class, CrudPermission::cases());
+        $this->configureResource($role, Playlist::class, CrudPermission::cases());
+        $this->configureResource($role, PlaylistTrack::class, CrudPermission::cases());
 
         // User Resources
         $this->configureResource($role, Like::class, [CrudPermission::VIEW, CrudPermission::CREATE, CrudPermission::DELETE]);

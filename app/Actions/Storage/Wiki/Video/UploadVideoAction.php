@@ -9,13 +9,12 @@ use App\Actions\Storage\Wiki\Video\Script\UploadScriptAction;
 use App\Constants\Config\VideoConstants;
 use App\Contracts\Actions\Storage\StorageResults;
 use App\Enums\Models\User\EncodeType;
-use App\Enums\Models\Wiki\VideoOverlap;
-use App\Enums\Models\Wiki\VideoSource;
 use App\Models\Auth\User;
 use App\Models\User\Encode;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
 use App\Rules\Wiki\Submission\SubmissionRule;
+use BackedEnum;
 use Exception;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Arr;
@@ -104,7 +103,7 @@ class UploadVideoAction extends UploadAction
             Video::ATTRIBUTE_FILENAME => File::name($this->file->getClientOriginalName()),
             Video::ATTRIBUTE_MIMETYPE => $this->file->getMimeType(),
             Video::ATTRIBUTE_PATH => $path,
-            Video::ATTRIBUTE_RESOLUTION => intval(Arr::get(SubmissionRule::$ffprobeData['streams'][0], 'height')),
+            Video::ATTRIBUTE_RESOLUTION => SubmissionRule::getResolution($this->file),
             Video::ATTRIBUTE_SIZE => $this->file->getSize(),
         ];
 
@@ -120,14 +119,13 @@ class UploadVideoAction extends UploadAction
         if (Arr::has($this->attributes, Video::ATTRIBUTE_UNCEN)) {
             $attributes[Video::ATTRIBUTE_UNCEN] = Arr::get($this->attributes, Video::ATTRIBUTE_UNCEN);
         }
-        if (Arr::has($this->attributes, Video::ATTRIBUTE_UNCEN)) {
-            $overlap = VideoOverlap::unstrictCoerce(Arr::get($this->attributes, Video::ATTRIBUTE_OVERLAP));
-            if ($overlap !== null) {
-                $attributes[Video::ATTRIBUTE_OVERLAP] = $overlap;
-            }
+        if (Arr::has($this->attributes, Video::ATTRIBUTE_OVERLAP)) {
+            $overlap = Arr::get($this->attributes, Video::ATTRIBUTE_OVERLAP);
+            $attributes[Video::ATTRIBUTE_OVERLAP] = $overlap instanceof BackedEnum ? $overlap->value : $overlap;
         }
         if (Arr::has($this->attributes, Video::ATTRIBUTE_SOURCE)) {
-            $attributes[Video::ATTRIBUTE_SOURCE] = VideoSource::unstrictCoerce(Arr::get($this->attributes, Video::ATTRIBUTE_SOURCE));
+            $source = Arr::get($this->attributes, Video::ATTRIBUTE_SOURCE);
+            $attributes[Video::ATTRIBUTE_SOURCE] = $source instanceof BackedEnum ? $source->value : $source;
         }
 
         return Video::updateOrCreate(

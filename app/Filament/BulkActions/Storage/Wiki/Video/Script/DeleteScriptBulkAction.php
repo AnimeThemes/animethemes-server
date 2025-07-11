@@ -8,13 +8,23 @@ use App\Actions\Storage\Wiki\Video\Script\DeleteScriptAction as DeleteScript;
 use App\Filament\BulkActions\Storage\Base\DeleteBulkAction;
 use App\Models\BaseModel;
 use App\Models\Wiki\Video\VideoScript;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 /**
  * Class DeleteScriptBulkAction.
  */
 class DeleteScriptBulkAction extends DeleteBulkAction
 {
+    /**
+     * The default name of the action.
+     *
+     * @return string|null
+     */
+    public static function getDefaultName(): ?string
+    {
+        return 'remove-script-bulk';
+    }
+
     /**
      * Initial setup for the action.
      *
@@ -26,7 +36,7 @@ class DeleteScriptBulkAction extends DeleteBulkAction
 
         $this->label(__('filament.actions.video_script.delete.name'));
 
-        $this->visible(Auth::user()->can('forcedeleteany', VideoScript::class));
+        $this->visible(Gate::allows('forceDeleteAny', VideoScript::class));
     }
 
     /**

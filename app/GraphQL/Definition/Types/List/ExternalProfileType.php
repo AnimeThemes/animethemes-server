@@ -7,7 +7,6 @@ namespace App\GraphQL\Definition\Types\List;
 use App\Contracts\GraphQL\HasFields;
 use App\Contracts\GraphQL\HasRelations;
 use App\GraphQL\Definition\Fields\Base\CreatedAtField;
-use App\GraphQL\Definition\Fields\Base\DeletedAtField;
 use App\GraphQL\Definition\Fields\Base\IdField;
 use App\GraphQL\Definition\Fields\Base\UpdatedAtField;
 use App\GraphQL\Definition\Fields\Field;
@@ -67,7 +66,6 @@ class ExternalProfileType extends EloquentType implements HasFields, HasRelation
             new LocalizedEnumField(new ExternalProfileVisibilityField()),
             new CreatedAtField(),
             new UpdatedAtField(),
-            new DeletedAtField(),
         ];
     }
 }

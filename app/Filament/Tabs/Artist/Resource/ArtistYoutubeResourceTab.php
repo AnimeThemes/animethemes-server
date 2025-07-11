@@ -13,11 +13,11 @@ use App\Filament\Tabs\Artist\ArtistResourceTab;
 class ArtistYoutubeResourceTab extends ArtistResourceTab
 {
     /**
-     * Get the key for the tab.
+     * Get the slug for the tab.
      *
      * @return string
      */
-    public static function getKey(): string
+    public static function getSlug(): string
     {
         return 'artist-youtube-resource-tab';
     }

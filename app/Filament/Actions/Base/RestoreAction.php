@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace App\Filament\Actions\Base;
 
 use App\Models\Admin\ActionLog;
-use Filament\Tables\Actions\RestoreAction as DefaultRestoreAction;
+use Filament\Actions\RestoreAction as BaseRestoreAction;
 
 /**
  * Class RestoreAction.
  */
-class RestoreAction extends DefaultRestoreAction
+class RestoreAction extends BaseRestoreAction
 {
     /**
      * Initial setup for the action.

@@ -6,8 +6,8 @@ namespace App\Filament\Components\Filters;
 
 use App\Enums\Http\Api\Filter\ComparisonOperator;
 use Filament\Forms\Components\DatePicker;
-use Filament\Forms\Components\Fieldset;
-use Filament\Forms\Components\Grid;
+use Filament\Schemas\Components\Fieldset;
+use Filament\Schemas\Components\Grid;
 use Filament\Tables\Filters\Filter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
@@ -36,11 +36,11 @@ class DateFilter extends Filter
     }
 
     /**
-     * Get the form for the filter.
+     * Get the schema components for the filter.
      *
      * @return array
      */
-    public function getFormSchema(): array
+    public function getSchemaComponents(): array
     {
         return [
             Fieldset::make($this->getLabel())

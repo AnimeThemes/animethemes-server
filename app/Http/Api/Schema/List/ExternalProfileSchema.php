@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace App\Http\Api\Schema\List;
 
 use App\Contracts\Http\Api\Schema\SearchableSchema;
+use App\Http\Api\Field\Base\CreatedAtField;
 use App\Http\Api\Field\Base\IdField;
+use App\Http\Api\Field\Base\UpdatedAtField;
 use App\Http\Api\Field\Field;
 use App\Http\Api\Field\List\ExternalProfile\ExternalProfileNameField;
 use App\Http\Api\Field\List\ExternalProfile\ExternalProfileSiteField;
@@ -64,15 +66,14 @@ class ExternalProfileSchema extends EloquentSchema implements SearchableSchema
      */
     public function fields(): array
     {
-        return array_merge(
-            parent::fields(),
-            [
-                new IdField($this, ExternalProfile::ATTRIBUTE_ID),
-                new ExternalProfileNameField($this),
-                new ExternalProfileSiteField($this),
-                new ExternalProfileVisibilityField($this),
-                new ExternalProfileUserIdField($this),
-            ],
-        );
+        return [
+            new CreatedAtField($this),
+            new UpdatedAtField($this),
+            new IdField($this, ExternalProfile::ATTRIBUTE_ID),
+            new ExternalProfileNameField($this),
+            new ExternalProfileSiteField($this),
+            new ExternalProfileVisibilityField($this),
+            new ExternalProfileUserIdField($this),
+        ];
     }
 }

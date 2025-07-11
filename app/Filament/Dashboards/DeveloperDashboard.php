@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace App\Filament\Dashboards;
 
 use App\Enums\Auth\Role as RoleEnum;
-use App\Filament\Widgets\Admin\ExceptionsTableWidget;
 use App\Models\Auth\User;
+// use App\Filament\Widgets\Admin\ExceptionsTableWidget;
 use Filament\Facades\Filament;
+use Filament\Panel;
 
 /**
  * Class DeveloperDashboard.
@@ -17,9 +18,10 @@ class DeveloperDashboard extends BaseDashboard
     /**
      * Get the slug used to the dashboard route path.
      *
+     * @param  Panel|null  $panel
      * @return string
      */
-    public static function getSlug(): string
+    public static function getSlug(?Panel $panel = null): string
     {
         return 'dev';
     }
@@ -62,7 +64,7 @@ class DeveloperDashboard extends BaseDashboard
     public function getWidgets(): array
     {
         return [
-            ExceptionsTableWidget::class,
+            // ExceptionsTableWidget::class,
         ];
     }
 }

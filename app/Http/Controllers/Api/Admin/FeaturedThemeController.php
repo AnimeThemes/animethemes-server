@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api\Admin;
 
 use App\Actions\Http\Api\DestroyAction;
-use App\Actions\Http\Api\ForceDeleteAction;
 use App\Actions\Http\Api\IndexAction;
-use App\Actions\Http\Api\RestoreAction;
 use App\Actions\Http\Api\ShowAction;
 use App\Actions\Http\Api\StoreAction;
 use App\Actions\Http\Api\UpdateAction;
@@ -108,37 +106,9 @@ class FeaturedThemeController extends BaseController
      *
      * @param  FeaturedTheme  $featuredtheme
      * @param  DestroyAction  $action
-     * @return FeaturedThemeResource
-     */
-    public function destroy(FeaturedTheme $featuredtheme, DestroyAction $action): FeaturedThemeResource
-    {
-        $deleted = $action->destroy($featuredtheme);
-
-        return new FeaturedThemeResource($deleted, new Query());
-    }
-
-    /**
-     * Restore the specified resource.
-     *
-     * @param  FeaturedTheme  $featuredtheme
-     * @param  RestoreAction  $action
-     * @return FeaturedThemeResource
-     */
-    public function restore(FeaturedTheme $featuredtheme, RestoreAction $action): FeaturedThemeResource
-    {
-        $restored = $action->restore($featuredtheme);
-
-        return new FeaturedThemeResource($restored, new Query());
-    }
-
-    /**
-     * Hard-delete the specified resource.
-     *
-     * @param  FeaturedTheme  $featuredtheme
-     * @param  ForceDeleteAction  $action
      * @return JsonResponse
      */
-    public function forceDelete(FeaturedTheme $featuredtheme, ForceDeleteAction $action): JsonResponse
+    public function destroy(FeaturedTheme $featuredtheme, DestroyAction $action): JsonResponse
     {
         $message = $action->forceDelete($featuredtheme);
 

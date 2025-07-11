@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources;
 
+use App\Constants\ModelConstants;
+use App\Contracts\Models\SoftDeletable;
 use App\Filament\Actions\Base\DeleteAction;
 use App\Filament\Actions\Base\DetachAction;
 use App\Filament\Actions\Base\EditAction;
 use App\Filament\Actions\Base\ForceDeleteAction;
+use App\Filament\Actions\Base\ReplicateAction;
 use App\Filament\Actions\Base\RestoreAction;
 use App\Filament\Actions\Base\ViewAction;
 use App\Filament\BulkActions\Base\DeleteBulkAction;
@@ -17,9 +20,11 @@ use App\Filament\Components\Filters\DateFilter;
 use App\Filament\RelationManagers\Base\ActionLogRelationManager;
 use App\Models\BaseModel;
 use App\Scopes\WithoutInsertSongScope;
+use Filament\Actions\Action;
+use Filament\Actions\ActionGroup;
+use Filament\Actions\BulkActionGroup;
+use Filament\Panel;
 use Filament\Resources\Resource;
-use Filament\Tables\Actions\ActionGroup;
-use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -81,12 +86,11 @@ abstract class BaseResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->striped()
             ->defaultSort(fn (Table $table) => $table->hasSearch() ? null : static::getRecordRouteKeyName(), fn (Table $table) => $table->hasSearch() ? null : 'desc')
             ->filters(static::getFilters())
             ->filtersFormMaxHeight('400px')
-            ->actions(static::getActions())
-            ->bulkActions(static::getBulkActions())
+            ->recordActions(static::getActions())
+            ->toolbarActions(static::getBulkActions())
             ->headerActions(static::getTableActions())
             ->recordUrl(fn (Model $record): string => static::getUrl('view', ['record' => $record]))
             ->paginated([10, 25, 50, 100, 'all'])
@@ -105,7 +109,8 @@ abstract class BaseResource extends Resource
     public static function getFilters(): array
     {
         return [
-            TrashedFilter::make(),
+            TrashedFilter::make()
+                ->visible(in_array(SoftDeletable::class, class_implements(static::getModel()))),
 
             DateFilter::make(BaseModel::ATTRIBUTE_CREATED_AT)
                 ->label(__('filament.fields.base.created_at')),
@@ -113,8 +118,9 @@ abstract class BaseResource extends Resource
             DateFilter::make(BaseModel::ATTRIBUTE_UPDATED_AT)
                 ->label(__('filament.fields.base.updated_at')),
 
-            DateFilter::make(BaseModel::ATTRIBUTE_DELETED_AT)
-                ->label(__('filament.fields.base.deleted_at')),
+            DateFilter::make(ModelConstants::ATTRIBUTE_DELETED_AT)
+                ->label(__('filament.fields.base.deleted_at'))
+                ->visible(in_array(SoftDeletable::class, class_implements(static::getModel()))),
         ];
     }
 
@@ -122,28 +128,45 @@ abstract class BaseResource extends Resource
      * Get the actions available for the resource.
      *
      * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
     public static function getActions(): array
     {
+        $exists = collect(static::getRecordActions())->contains(fn (Action $action) => $action->isVisible());
+
         return [
             ViewAction::make(),
 
             EditAction::make(),
 
-            ActionGroup::make([
-                DetachAction::make(),
+            ActionGroup::make(
+                array_merge(
+                    [
+                        DetachAction::make(),
 
-                DeleteAction::make(),
+                        DeleteAction::make(),
 
-                ForceDeleteAction::make(),
-            ])
-                ->icon(__('filament-icons.actions.base.group_delete'))
-                ->color('danger'),
+                        ForceDeleteAction::make(),
 
-            RestoreAction::make(),
+                        RestoreAction::make(),
+
+                        ReplicateAction::make(),
+                    ],
+                    $exists
+                    ? [ActionGroup::make(static::getRecordActions())->dropdown(false)]
+                    : [],
+                )
+            ),
         ];
+    }
+
+    /**
+     * Get the record actions exclusive to the resource.
+     *
+     * @return array
+     */
+    public static function getRecordActions(): array
+    {
+        return [];
     }
 
     /**
@@ -163,8 +186,7 @@ abstract class BaseResource extends Resource
                 RestoreBulkAction::make(),
 
                 ...$actionsIncludedInGroup,
-            ])
-                ->authorize('forcedeleteany', static::getModel()),
+            ]),
         ];
     }
 
@@ -215,7 +237,7 @@ abstract class BaseResource extends Resource
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getSlug(): string
+    public static function getSlug(?Panel $panel = null): string
     {
         return 'resources/'.static::getRecordSlug();
     }

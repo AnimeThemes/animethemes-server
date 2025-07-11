@@ -5,12 +5,15 @@ declare(strict_types=1);
 namespace App\Models\Document;
 
 use App\Concerns\Models\Reportable;
+use App\Concerns\Models\SoftDeletes;
+use App\Contracts\Models\SoftDeletable;
 use App\Events\Document\Page\PageCreated;
 use App\Events\Document\Page\PageDeleted;
 use App\Events\Document\Page\PageRestored;
 use App\Events\Document\Page\PageUpdated;
 use App\Models\BaseModel;
 use Database\Factories\Document\PageFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * Class Page.
@@ -22,9 +25,11 @@ use Database\Factories\Document\PageFactory;
  *
  * @method static PageFactory factory(...$parameters)
  */
-class Page extends BaseModel
+class Page extends BaseModel implements SoftDeletable
 {
+    use HasFactory;
     use Reportable;
+    use SoftDeletes;
 
     final public const TABLE = 'pages';
 

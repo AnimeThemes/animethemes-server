@@ -15,13 +15,11 @@ use Illuminate\Database\Eloquent\Builder;
 class ImageUnlinkedTab extends BaseTab
 {
     /**
-     * Get the key for the tab.
+     * Get the slug for the tab.
      *
      * @return string
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
      */
-    public static function getKey(): string
+    public static function getSlug(): string
     {
         return 'image-unlinked-tab';
     }

@@ -7,9 +7,9 @@ namespace App\Filament\Resources\Wiki\Artist\RelationManagers;
 use App\Filament\RelationManagers\Wiki\Song\PerformanceRelationManager;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Song\Performance;
-use Filament\Forms\Components\Component;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\TextInput;
+use Filament\Schemas\Components\Component;
 use Filament\Tables\Table;
 
 /**
@@ -18,11 +18,11 @@ use Filament\Tables\Table;
 class PerformanceArtistRelationManager extends PerformanceRelationManager
 {
     /**
-     * Get the pivot fields of the relation.
+     * Get the pivot components of the relation.
      *
      * @return array<int, Component>
      */
-    public function getPivotFields(): array
+    public function getPivotComponents(): array
     {
         return [
             Hidden::make(Performance::ATTRIBUTE_ARTIST_TYPE)
@@ -57,57 +57,5 @@ class PerformanceArtistRelationManager extends PerformanceRelationManager
             $table
                 ->inverseRelationship(Performance::RELATION_SONG)
         );
-    }
-
-    /**
-     * Get the filters available for the relation.
-     *
-     * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    public static function getFilters(): array
-    {
-        return [
-            ...parent::getFilters(),
-        ];
-    }
-
-    /**
-     * Get the actions available for the relation.
-     *
-     * @return array
-     */
-    public static function getActions(): array
-    {
-        return [
-            ...parent::getActions(),
-        ];
-    }
-
-    /**
-     * Get the bulk actions available for the relation.
-     *
-     * @param  array|null  $actionsIncludedInGroup
-     * @return array
-     */
-    public static function getBulkActions(?array $actionsIncludedInGroup = []): array
-    {
-        return [
-            ...parent::getBulkActions(),
-        ];
-    }
-
-    /**
-     * Get the header actions available for the relation.
-     * These are merged with the table actions of the resources.
-     *
-     * @return array
-     */
-    public static function getHeaderActions(): array
-    {
-        return [
-            ...parent::getHeaderActions(),
-        ];
     }
 }

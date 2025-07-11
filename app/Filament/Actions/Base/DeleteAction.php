@@ -4,13 +4,16 @@ declare(strict_types=1);
 
 namespace App\Filament\Actions\Base;
 
+use App\Actions\Http\Api\List\Playlist\Track\DestroyTrackAction;
 use App\Models\Admin\ActionLog;
-use Filament\Tables\Actions\DeleteAction as DefaultDeleteAction;
+use App\Models\List\Playlist\PlaylistTrack;
+use Filament\Actions\DeleteAction as BaseDeleteAction;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class DeleteAction.
  */
-class DeleteAction extends DefaultDeleteAction
+class DeleteAction extends BaseDeleteAction
 {
     /**
      * Initial setup for the action.
@@ -22,6 +25,16 @@ class DeleteAction extends DefaultDeleteAction
         parent::setUp();
 
         $this->label(__('filament.actions.base.delete'));
+
+        $this->action(function (Model $record) {
+            if ($record instanceof PlaylistTrack) {
+                new DestroyTrackAction()->destroy($record->playlist, $record);
+
+                return;
+            }
+
+            $record->delete();
+        });
 
         $this->after(function ($record) {
             ActionLog::modelDeleted($record);

@@ -8,7 +8,7 @@ use App\Concerns\Filament\HasTabs;
 use App\Filament\Resources\Base\BaseListResources;
 use App\Filament\Resources\Wiki\ExternalResource;
 use App\Filament\Tabs\ExternalResource\ExternalResourceUnlinkedTab;
-use Filament\Resources\Components\Tab;
+use Filament\Schemas\Components\Tabs\Tab;
 
 /**
  * Class ListExternalResources.

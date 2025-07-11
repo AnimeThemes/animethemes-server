@@ -230,7 +230,7 @@ return [
                             'help' => 'Ex: https://www.animenewsnetwork.com/encyclopedia/anime.php?id=18558',
                         ],
                         'kitsu' => [
-                            'help' => 'Ex: https://kitsu.io/anime/hibike-euphonium-2, https://kitsu.io/anime/11474',
+                            'help' => 'Ex: https://kitsu.app/anime/hibike-euphonium-2, https://kitsu.app/anime/11474',
                         ],
                         'livechart' => [
                             'help' => 'Ex: https://www.livechart.me/anime/11873',
@@ -462,7 +462,7 @@ return [
         ],
     ],
     'buttons' => [
-        'add' => 'Add',
+        'add' => 'Add :label',
     ],
     'dashboards' => [
         'label' => [
@@ -572,6 +572,10 @@ return [
                 'as' => [
                     'help' => 'Used alongside the Artist name if the performance is made as a character.',
                     'name' => 'As',
+                ],
+                'notes' => [
+                    'help' => 'Extra information for the Artist in the Group. Like the role in the group or participation range date.',
+                    'name' => 'Notes',
                 ],
             ],
             'information' => [
@@ -784,7 +788,6 @@ return [
             ],
             'memberships' => [
                 'help' => 'When a group and its members are credited, you need to add the members (called memberships) that performed the song.',
-                'add' => 'Add Member',
             ],
         ],
         'permission' => [
@@ -1144,6 +1147,13 @@ return [
             ],
             'studios' => [
                 'name' => 'Without Studios',
+            ],
+            'theme' => [
+                'entry' => [
+                    'video' => [
+                        'name' => 'Without Videos',
+                    ],
+                ],
             ],
         ],
         'artist' => [

@@ -44,31 +44,6 @@ class DumpShowTest extends TestCase
     }
 
     /**
-     * The Dump Show Endpoint shall return a Dump Resource for soft deleted images.
-     *
-     * @return void
-     */
-    public function testSoftDelete(): void
-    {
-        $dump = Dump::factory()->trashed()->createOne();
-
-        $dump->unsetRelations();
-
-        $response = $this->get(route('api.dump.show', ['dump' => $dump]));
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new DumpResource($dump, new Query())
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
      * The Dump Show Endpoint shall implement sparse fieldsets.
      *
      * @return void

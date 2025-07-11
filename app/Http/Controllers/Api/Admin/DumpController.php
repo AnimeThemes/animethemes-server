@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api\Admin;
 
 use App\Actions\Http\Api\DestroyAction;
-use App\Actions\Http\Api\ForceDeleteAction;
 use App\Actions\Http\Api\IndexAction;
-use App\Actions\Http\Api\RestoreAction;
 use App\Actions\Http\Api\ShowAction;
 use App\Actions\Http\Api\StoreAction;
 use App\Actions\Http\Api\UpdateAction;
@@ -112,37 +110,9 @@ class DumpController extends BaseController
      *
      * @param  Dump  $dump
      * @param  DestroyAction  $action
-     * @return DumpResource
-     */
-    public function destroy(Dump $dump, DestroyAction $action): DumpResource
-    {
-        $deleted = $action->destroy($dump);
-
-        return new DumpResource($deleted, new Query());
-    }
-
-    /**
-     * Restore the specified resource.
-     *
-     * @param  Dump  $dump
-     * @param  RestoreAction  $action
-     * @return DumpResource
-     */
-    public function restore(Dump $dump, RestoreAction $action): DumpResource
-    {
-        $restored = $action->restore($dump);
-
-        return new DumpResource($restored, new Query());
-    }
-
-    /**
-     * Hard-delete the specified resource.
-     *
-     * @param  Dump  $dump
-     * @param  ForceDeleteAction  $action
      * @return JsonResponse
      */
-    public function forceDelete(Dump $dump, ForceDeleteAction $action): JsonResponse
+    public function destroy(Dump $dump, DestroyAction $action): JsonResponse
     {
         $message = $action->forceDelete($dump);
 

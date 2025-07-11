@@ -15,7 +15,7 @@ use App\Filament\Tabs\Song\Resource\SongYoutubeMusicResourceTab;
 use App\Filament\Tabs\Song\Resource\SongYoutubeResourceTab;
 use App\Filament\Tabs\Song\SongArtistTab;
 use App\Models\Wiki\Song as SongModel;
-use Filament\Resources\Components\Tab;
+use Filament\Schemas\Components\Tabs\Tab;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
@@ -26,20 +26,6 @@ class ListSongs extends BaseListResources
     use HasTabs;
 
     protected static string $resource = Song::class;
-
-    /**
-     * Get the header actions available.
-     *
-     * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    protected function getHeaderActions(): array
-    {
-        return [
-            ...parent::getHeaderActions(),
-        ];
-    }
 
     /**
      * Using Laravel Scout to search.

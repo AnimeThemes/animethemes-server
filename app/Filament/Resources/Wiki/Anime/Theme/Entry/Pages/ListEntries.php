@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Wiki\Anime\Theme\Entry\Pages;
 
+use App\Concerns\Filament\HasTabs;
 use App\Filament\Resources\Base\BaseListResources;
 use App\Filament\Resources\Wiki\Anime\Theme\Entry;
+use App\Filament\Tabs\Anime\Theme\Entry\AnimeThemeEntryVideoTab;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
+use Filament\Schemas\Components\Tabs\Tab;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
@@ -14,21 +17,9 @@ use Illuminate\Database\Eloquent\Builder;
  */
 class ListEntries extends BaseListResources
 {
-    protected static string $resource = Entry::class;
+    use HasTabs;
 
-    /**
-     * Get the header actions available.
-     *
-     * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    protected function getHeaderActions(): array
-    {
-        return [
-            ...parent::getHeaderActions(),
-        ];
-    }
+    protected static string $resource = Entry::class;
 
     /**
      * Using Laravel Scout to search.
@@ -39,5 +30,17 @@ class ListEntries extends BaseListResources
     protected function applySearchToTableQuery(Builder $query): Builder
     {
         return $this->makeScout($query, AnimeThemeEntry::class);
+    }
+
+    /**
+     * Get the tabs available.
+     *
+     * @return array
+     */
+    public function getTabs(): array
+    {
+        return ['all' => Tab::make()] + $this->toArray([
+            AnimeThemeEntryVideoTab::class,
+        ]);
     }
 }

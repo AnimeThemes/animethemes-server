@@ -6,8 +6,6 @@ namespace App\Http\Controllers\Api\List\Playlist;
 
 use App\Actions\Http\Api\IndexAction;
 use App\Actions\Http\Api\List\Playlist\Track\DestroyTrackAction;
-use App\Actions\Http\Api\List\Playlist\Track\ForceDeleteTrackAction;
-use App\Actions\Http\Api\List\Playlist\Track\RestoreTrackAction;
 use App\Actions\Http\Api\List\Playlist\Track\StoreTrackAction;
 use App\Actions\Http\Api\List\Playlist\Track\UpdateTrackAction;
 use App\Actions\Http\Api\ShowAction;
@@ -129,47 +127,13 @@ class TrackController extends BaseController
      * @param  Playlist  $playlist
      * @param  PlaylistTrack  $track
      * @param  DestroyTrackAction  $action
-     * @return TrackResource
-     *
-     * @throws Exception
-     */
-    public function destroy(Playlist $playlist, PlaylistTrack $track, DestroyTrackAction $action): TrackResource
-    {
-        $deleted = $action->destroy($playlist, $track);
-
-        return new TrackResource($deleted, new Query());
-    }
-
-    /**
-     * Restore the specified resource.
-     *
-     * @param  Playlist  $playlist
-     * @param  PlaylistTrack  $track
-     * @param  RestoreTrackAction  $action
-     * @return TrackResource
-     *
-     * @throws Exception
-     */
-    public function restore(Playlist $playlist, PlaylistTrack $track, RestoreTrackAction $action): TrackResource
-    {
-        $restored = $action->restore($playlist, $track);
-
-        return new TrackResource($restored, new Query());
-    }
-
-    /**
-     * Hard-delete the specified resource.
-     *
-     * @param  Playlist  $playlist
-     * @param  PlaylistTrack  $track
-     * @param  ForceDeleteTrackAction  $action
      * @return JsonResponse
      *
      * @throws Exception
      */
-    public function forceDelete(Playlist $playlist, PlaylistTrack $track, ForceDeleteTrackAction $action): JsonResponse
+    public function destroy(Playlist $playlist, PlaylistTrack $track, DestroyTrackAction $action): JsonResponse
     {
-        $message = $action->forceDelete($playlist, $track);
+        $message = $action->destroy($playlist, $track);
 
         return new JsonResponse([
             'message' => $message,
