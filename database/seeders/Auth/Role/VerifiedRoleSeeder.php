@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Database\Seeders\Auth\Role;
 
 use App\Enums\Auth\CrudPermission;
-use App\Enums\Auth\ExtendedCrudPermission;
 use App\Enums\Auth\Role as RoleEnum;
 use App\Models\Auth\Role;
 use App\Models\List\External\ExternalEntry;
@@ -33,19 +32,14 @@ class VerifiedRoleSeeder extends RoleSeeder
         /** @var Role $role */
         $role = Role::findOrCreate($roleEnum->value);
 
-        $extendedCrudPermissions = array_merge(
-            CrudPermission::cases(),
-            ExtendedCrudPermission::cases(),
-        );
-
         // User Resources
         $this->configureResource($role, Like::class, [CrudPermission::VIEW, CrudPermission::CREATE, CrudPermission::DELETE]);
 
         // List Resources
         $this->configureResource($role, ExternalEntry::class, [CrudPermission::VIEW]);
-        $this->configureResource($role, ExternalProfile::class, $extendedCrudPermissions);
-        $this->configureResource($role, Playlist::class, $extendedCrudPermissions);
-        $this->configureResource($role, PlaylistTrack::class, $extendedCrudPermissions);
+        $this->configureResource($role, ExternalProfile::class, CrudPermission::cases());
+        $this->configureResource($role, Playlist::class, CrudPermission::cases());
+        $this->configureResource($role, PlaylistTrack::class, CrudPermission::cases());
 
         $role->color = $roleEnum->color();
         $role->priority = $roleEnum->priority();
