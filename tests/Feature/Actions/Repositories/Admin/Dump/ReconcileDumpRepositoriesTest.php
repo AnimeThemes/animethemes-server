@@ -114,7 +114,6 @@ class ReconcileDumpRepositoriesTest extends TestCase
         static::assertTrue($result->getStatus() === ActionStatus::PASSED);
         static::assertTrue($result->hasChanges());
         static::assertCount($deletedDumpCount, $result->getDeleted());
-
         static::assertEmpty(Dump::all());
     }
 }
