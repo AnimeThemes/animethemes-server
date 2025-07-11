@@ -6,7 +6,6 @@ namespace Tests\Feature\Events\Admin;
 
 use App\Events\Admin\FeaturedTheme\FeaturedThemeCreated;
 use App\Events\Admin\FeaturedTheme\FeaturedThemeDeleted;
-use App\Events\Admin\FeaturedTheme\FeaturedThemeRestored;
 use App\Events\Admin\FeaturedTheme\FeaturedThemeUpdated;
 use App\Models\Admin\FeaturedTheme;
 use Illuminate\Support\Arr;
@@ -42,36 +41,6 @@ class FeaturedThemeTest extends TestCase
         $featuredTheme->delete();
 
         Event::assertDispatched(FeaturedThemeDeleted::class);
-    }
-
-    /**
-     * When a Featured Theme is restored, a FeaturedThemeRestored event shall be dispatched.
-     *
-     * @return void
-     */
-    public function testFeaturedThemeRestoredEventDispatched(): void
-    {
-        $featuredTheme = FeaturedTheme::factory()->createOne();
-
-        $featuredTheme->restore();
-
-        Event::assertDispatched(FeaturedThemeRestored::class);
-    }
-
-    /**
-     * When a FeaturedTheme is restored, a FeaturedThemeUpdated event shall not be dispatched.
-     * Note: This is a customization that overrides default framework behavior.
-     * An updated event is fired on restore.
-     *
-     * @return void
-     */
-    public function testFeaturedThemeRestoresQuietly(): void
-    {
-        $featuredTheme = FeaturedTheme::factory()->createOne();
-
-        $featuredTheme->restore();
-
-        Event::assertNotDispatched(FeaturedThemeUpdated::class);
     }
 
     /**

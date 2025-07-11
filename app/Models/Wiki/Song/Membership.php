@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Models\Wiki\Song;
 
 use App\Concerns\Models\Reportable;
+use App\Concerns\Models\SoftDeletes;
+use App\Contracts\Models\SoftDeletable;
 use App\Events\Wiki\Song\Membership\MembershipCreated;
 use App\Events\Wiki\Song\Membership\MembershipDeleted;
 use App\Events\Wiki\Song\Membership\MembershipDeleting;
@@ -13,6 +15,7 @@ use App\Events\Wiki\Song\Membership\MembershipUpdated;
 use App\Models\BaseModel;
 use App\Models\Wiki\Artist;
 use Database\Factories\Wiki\Song\MembershipFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Collection;
@@ -31,9 +34,11 @@ use Illuminate\Support\Collection;
  *
  * @method static MembershipFactory factory(...$parameters)
  */
-class Membership extends BaseModel
+class Membership extends BaseModel implements SoftDeletable
 {
+    use HasFactory;
     use Reportable;
+    use SoftDeletes;
 
     final public const TABLE = 'memberships';
 

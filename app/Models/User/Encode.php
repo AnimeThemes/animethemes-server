@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace App\Models\User;
 
-use App\Contracts\Models\Nameable;
 use App\Enums\Models\User\EncodeType;
 use App\Events\User\Encode\EncodeCreated;
 use App\Events\User\Encode\EncodeUpdated;
 use App\Models\Auth\User;
+use App\Models\BaseModel;
 use App\Models\Wiki\Video;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Str;
 
@@ -23,7 +22,7 @@ use Illuminate\Support\Str;
  * @property Video $video
  * @property int $video_id
  */
-class Encode extends Model implements Nameable
+class Encode extends BaseModel
 {
     final public const TABLE = 'encodes';
 
@@ -95,6 +94,16 @@ class Encode extends Model implements Nameable
             ->append(' ')
             ->append($this->video->getName())
             ->toString();
+    }
+
+    /**
+     * Get subtitle.
+     *
+     * @return string
+     */
+    public function getSubtitle(): string
+    {
+        return '';
     }
 
     /**

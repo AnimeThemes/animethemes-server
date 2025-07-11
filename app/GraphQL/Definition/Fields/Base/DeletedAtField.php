@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Definition\Fields\Base;
 
+use App\Constants\ModelConstants;
 use App\GraphQL\Definition\Fields\DateTimeTzField;
-use App\Models\BaseModel;
 
 /**
  * Class DeletedAtField.
@@ -17,7 +17,7 @@ class DeletedAtField extends DateTimeTzField
      */
     public function __construct()
     {
-        parent::__construct(BaseModel::ATTRIBUTE_DELETED_AT);
+        parent::__construct(ModelConstants::ATTRIBUTE_DELETED_AT);
     }
 
     /**

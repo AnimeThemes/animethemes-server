@@ -6,6 +6,7 @@ namespace App\Events\Base\Wiki;
 
 use App\Constants\Config\ServiceConstants;
 use App\Contracts\Events\FilamentNotificationEvent;
+use App\Contracts\Models\SoftDeletable;
 use App\Enums\Auth\Role as RoleEnum;
 use App\Events\Base\BaseDeletedEvent;
 use App\Filament\Actions\Base\MarkAsReadAction;
@@ -51,7 +52,11 @@ abstract class WikiDeletedEvent extends BaseDeletedEvent implements FilamentNoti
     {
         $model = $this->getModel();
 
-        return ! $model->isForceDeleting();
+        if ($model instanceof SoftDeletable) {
+            return ! $model->isForceDeleting();
+        }
+
+        return false;
     }
 
     /**

@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Models\Wiki;
 
 use App\Concerns\Models\Reportable;
+use App\Concerns\Models\SoftDeletes;
+use App\Contracts\Models\SoftDeletable;
 use App\Events\Wiki\Series\SeriesCreated;
 use App\Events\Wiki\Series\SeriesDeleted;
 use App\Events\Wiki\Series\SeriesRestored;
@@ -15,6 +17,7 @@ use App\Pivots\Wiki\AnimeSeries;
 use Database\Factories\Wiki\SeriesFactory;
 use Elastic\ScoutDriverPlus\Searchable;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Collection;
 
@@ -28,10 +31,12 @@ use Illuminate\Support\Collection;
  *
  * @method static SeriesFactory factory(...$parameters)
  */
-class Series extends BaseModel
+class Series extends BaseModel implements SoftDeletable
 {
+    use HasFactory;
     use Reportable;
     use Searchable;
+    use SoftDeletes;
 
     final public const TABLE = 'series';
 

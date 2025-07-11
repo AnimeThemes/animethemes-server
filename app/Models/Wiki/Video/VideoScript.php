@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Models\Wiki\Video;
 
+use App\Concerns\Models\SoftDeletes;
 use App\Contracts\Http\Api\InteractsWithSchema;
+use App\Contracts\Models\SoftDeletable;
 use App\Events\Wiki\Video\Script\VideoScriptCreated;
 use App\Events\Wiki\Video\Script\VideoScriptDeleted;
 use App\Events\Wiki\Video\Script\VideoScriptForceDeleting;
@@ -15,6 +17,7 @@ use App\Http\Api\Schema\Wiki\Video\ScriptSchema;
 use App\Models\BaseModel;
 use App\Models\Wiki\Video;
 use Database\Factories\Wiki\Video\VideoScriptFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
@@ -28,8 +31,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *
  * @method static VideoScriptFactory factory(...$parameters)
  */
-class VideoScript extends BaseModel implements InteractsWithSchema
+class VideoScript extends BaseModel implements InteractsWithSchema, SoftDeletable
 {
+    use HasFactory;
+    use SoftDeletes;
+
     final public const TABLE = 'video_scripts';
 
     final public const ATTRIBUTE_ID = 'script_id';

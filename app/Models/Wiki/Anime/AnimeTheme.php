@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace App\Models\Wiki\Anime;
 
 use App\Concerns\Models\Reportable;
+use App\Concerns\Models\SoftDeletes;
 use App\Contracts\Http\Api\InteractsWithSchema;
+use App\Contracts\Models\SoftDeletable;
 use App\Enums\Models\Wiki\ThemeType;
 use App\Events\Wiki\Anime\Theme\ThemeCreated;
 use App\Events\Wiki\Anime\Theme\ThemeDeleted;
@@ -23,6 +25,7 @@ use App\Scopes\WithoutInsertSongScope;
 use Database\Factories\Wiki\Anime\AnimeThemeFactory;
 use Elastic\ScoutDriverPlus\Searchable;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
@@ -45,10 +48,12 @@ use Illuminate\Support\Str;
  *
  * @method static AnimeThemeFactory factory(...$parameters)
  */
-class AnimeTheme extends BaseModel implements InteractsWithSchema
+class AnimeTheme extends BaseModel implements InteractsWithSchema, SoftDeletable
 {
+    use HasFactory;
     use Reportable;
     use Searchable;
+    use SoftDeletes;
 
     final public const TABLE = 'anime_themes';
 

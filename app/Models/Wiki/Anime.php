@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace App\Models\Wiki;
 
 use App\Concerns\Models\Reportable;
+use App\Concerns\Models\SoftDeletes;
 use App\Contracts\Models\HasImages;
 use App\Contracts\Models\HasResources;
+use App\Contracts\Models\SoftDeletable;
 use App\Enums\Models\Wiki\AnimeMediaFormat;
 use App\Enums\Models\Wiki\AnimeSeason;
 use App\Events\Wiki\Anime\AnimeCreated;
@@ -30,6 +32,7 @@ use App\Pivots\Wiki\AnimeStudio;
 use Database\Factories\Wiki\AnimeFactory;
 use Elastic\ScoutDriverPlus\Searchable;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -56,10 +59,12 @@ use Illuminate\Support\Collection;
  *
  * @method static AnimeFactory factory(...$parameters)
  */
-class Anime extends BaseModel implements HasImages, HasResources
+class Anime extends BaseModel implements HasImages, HasResources, SoftDeletable
 {
+    use HasFactory;
     use Reportable;
     use Searchable;
+    use SoftDeletes;
 
     final public const TABLE = 'anime';
 

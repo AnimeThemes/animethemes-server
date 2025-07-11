@@ -10,6 +10,8 @@ use App\Http\Api\Schema\List\Playlist\TrackSchema;
 use App\Http\Api\Schema\Wiki\ImageSchema;
 use App\Http\Resources\List\Resource\PlaylistResource;
 use App\Models\List\Playlist;
+use App\Scout\Elasticsearch\Api\Field\Base\CreatedAtField;
+use App\Scout\Elasticsearch\Api\Field\Base\UpdatedAtField;
 use App\Scout\Elasticsearch\Api\Field\Field;
 use App\Scout\Elasticsearch\Api\Field\List\Playlist\PlaylistDescriptionField;
 use App\Scout\Elasticsearch\Api\Field\List\Playlist\PlaylistHashidsField;
@@ -67,14 +69,13 @@ class PlaylistSchema extends Schema
      */
     public function fields(): array
     {
-        return array_merge(
-            parent::fields(),
-            [
-                new PlaylistHashidsField($this),
-                new PlaylistNameField($this),
-                new PlaylistDescriptionField($this),
-                new PlaylistVisibilityField($this),
-            ],
-        );
+        return [
+            new CreatedAtField($this),
+            new UpdatedAtField($this),
+            new PlaylistHashidsField($this),
+            new PlaylistNameField($this),
+            new PlaylistDescriptionField($this),
+            new PlaylistVisibilityField($this),
+        ];
     }
 }

@@ -8,7 +8,6 @@ use App\Contracts\GraphQL\HasFields;
 use App\GraphQL\Definition\Fields\Admin\Dump\DumpLinkField;
 use App\GraphQL\Definition\Fields\Admin\Dump\DumpPathField;
 use App\GraphQL\Definition\Fields\Base\CreatedAtField;
-use App\GraphQL\Definition\Fields\Base\DeletedAtField;
 use App\GraphQL\Definition\Fields\Base\IdField;
 use App\GraphQL\Definition\Fields\Base\UpdatedAtField;
 use App\GraphQL\Definition\Fields\Field;
@@ -43,7 +42,6 @@ class DumpType extends EloquentType implements HasFields
             new DumpLinkField(),
             new CreatedAtField(),
             new UpdatedAtField(),
-            new DeletedAtField(),
         ];
     }
 }

@@ -98,7 +98,7 @@ class ReconcileDumpRepositoriesTest extends TestCase
 
         $deletedDumpCount = $this->faker->numberBetween(2, 9);
 
-        $dumps = Dump::factory()->count($deletedDumpCount)->create();
+        Dump::factory()->count($deletedDumpCount)->create();
 
         $this->mock(DumpSourceRepository::class, function (MockInterface $mock) {
             $mock->shouldReceive('get')->once()->andReturn(Collection::make());
@@ -114,10 +114,6 @@ class ReconcileDumpRepositoriesTest extends TestCase
         static::assertTrue($result->getStatus() === ActionStatus::PASSED);
         static::assertTrue($result->hasChanges());
         static::assertCount($deletedDumpCount, $result->getDeleted());
-
-        static::assertDatabaseCount(Dump::class, $deletedDumpCount);
-        foreach ($dumps as $dump) {
-            static::assertSoftDeleted($dump);
-        }
+        static::assertEmpty(Dump::all());
     }
 }

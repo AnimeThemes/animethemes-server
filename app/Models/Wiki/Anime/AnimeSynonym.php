@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Models\Wiki\Anime;
 
 use App\Concerns\Models\Reportable;
+use App\Concerns\Models\SoftDeletes;
+use App\Contracts\Models\SoftDeletable;
 use App\Enums\Models\Wiki\AnimeSynonymType;
 use App\Events\Wiki\Anime\Synonym\SynonymCreated;
 use App\Events\Wiki\Anime\Synonym\SynonymDeleted;
@@ -14,6 +16,7 @@ use App\Models\BaseModel;
 use App\Models\Wiki\Anime;
 use Database\Factories\Wiki\Anime\AnimeSynonymFactory;
 use Elastic\ScoutDriverPlus\Searchable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
@@ -27,10 +30,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *
  * @method static AnimeSynonymFactory factory(...$parameters)
  */
-class AnimeSynonym extends BaseModel
+class AnimeSynonym extends BaseModel implements SoftDeletable
 {
+    use HasFactory;
     use Reportable;
     use Searchable;
+    use SoftDeletes;
 
     final public const TABLE = 'anime_synonyms';
 

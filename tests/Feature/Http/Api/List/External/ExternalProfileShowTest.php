@@ -146,37 +146,6 @@ class ExternalProfileShowTest extends TestCase
     }
 
     /**
-     * The External Profile Show Endpoint shall return a External Profile Resource for soft deleted profiles.
-     *
-     * @return void
-     */
-    public function testSoftDelete(): void
-    {
-        Event::fakeExcept(ExternalProfileCreated::class);
-
-        $profile = ExternalProfile::factory()
-            ->trashed()
-            ->createOne([
-                ExternalProfile::ATTRIBUTE_VISIBILITY => ExternalProfileVisibility::PUBLIC->value,
-            ]);
-
-        $profile->unsetRelations();
-
-        $response = $this->get(route('api.externalprofile.show', ['externalprofile' => $profile]));
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new ExternalProfileResource($profile, new Query())
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
      * The External Profile Show Endpoint shall allow inclusion of related resources.
      *
      * @return void

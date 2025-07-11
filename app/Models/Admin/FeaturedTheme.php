@@ -7,13 +7,13 @@ namespace App\Models\Admin;
 use App\Enums\Http\Api\Filter\AllowedDateFormat;
 use App\Events\Admin\FeaturedTheme\FeaturedThemeCreated;
 use App\Events\Admin\FeaturedTheme\FeaturedThemeDeleted;
-use App\Events\Admin\FeaturedTheme\FeaturedThemeRestored;
 use App\Events\Admin\FeaturedTheme\FeaturedThemeUpdated;
 use App\Models\Auth\User;
 use App\Models\BaseModel;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
 use Database\Factories\Admin\FeaturedThemeFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
@@ -35,6 +35,8 @@ use Illuminate\Support\Str;
  */
 class FeaturedTheme extends BaseModel
 {
+    use HasFactory;
+
     final public const TABLE = 'featured_themes';
 
     final public const ATTRIBUTE_END_AT = 'end_at';
@@ -77,7 +79,6 @@ class FeaturedTheme extends BaseModel
     protected $dispatchesEvents = [
         'created' => FeaturedThemeCreated::class,
         'deleted' => FeaturedThemeDeleted::class,
-        'restored' => FeaturedThemeRestored::class,
         'updated' => FeaturedThemeUpdated::class,
     ];
 

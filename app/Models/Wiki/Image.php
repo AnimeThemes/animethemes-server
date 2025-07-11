@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Models\Wiki;
 
 use App\Concerns\Models\Reportable;
+use App\Concerns\Models\SoftDeletes;
+use App\Contracts\Models\SoftDeletable;
 use App\Enums\Models\Wiki\ImageFacet;
 use App\Events\Wiki\Image\ImageCreated;
 use App\Events\Wiki\Image\ImageDeleted;
@@ -23,6 +25,7 @@ use App\Pivots\Wiki\AnimeImage;
 use App\Pivots\Wiki\ArtistImage;
 use App\Pivots\Wiki\StudioImage;
 use Database\Factories\Wiki\ImageFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
@@ -44,9 +47,11 @@ use Illuminate\Support\Facades\Storage;
  *
  * @method static ImageFactory factory(...$parameters)
  */
-class Image extends BaseModel
+class Image extends BaseModel implements SoftDeletable
 {
+    use HasFactory;
     use Reportable;
+    use SoftDeletes;
 
     final public const TABLE = 'images';
 

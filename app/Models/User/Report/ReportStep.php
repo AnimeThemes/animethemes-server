@@ -6,6 +6,7 @@ namespace App\Models\User\Report;
 
 use App\Enums\Models\User\ApprovableStatus;
 use App\Enums\Models\User\ReportActionType;
+use App\Models\BaseModel;
 use App\Models\User\Report;
 use Database\Factories\User\Report\ReportStepFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -31,7 +32,7 @@ use Illuminate\Support\Carbon;
  *
  * @method static ReportStepFactory factory(...$parameters)
  */
-class ReportStep extends Model
+class ReportStep extends BaseModel
 {
     use HasFactory;
 

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Components\Infolist;
 
+use App\Constants\ModelConstants;
 use App\Models\BaseModel;
 use Filament\Schemas\Components\Section;
 
@@ -30,7 +31,7 @@ class TimestampSection
                     ->label(__('filament.fields.base.updated_at'))
                     ->dateTime(),
 
-                TextEntry::make(BaseModel::ATTRIBUTE_DELETED_AT)
+                TextEntry::make(ModelConstants::ATTRIBUTE_DELETED_AT)
                     ->label(__('filament.fields.base.deleted_at'))
                     ->dateTime(),
             ]);

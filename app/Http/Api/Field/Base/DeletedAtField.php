@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Field\Base;
 
+use App\Constants\ModelConstants;
 use App\Http\Api\Field\DateField;
 use App\Http\Api\Query\Query;
 use App\Http\Api\Schema\Schema;
-use App\Models\BaseModel;
 
 /**
  * Class DeletedAtField.
@@ -21,7 +21,7 @@ class DeletedAtField extends DateField
      */
     public function __construct(Schema $schema)
     {
-        parent::__construct($schema, BaseModel::ATTRIBUTE_DELETED_AT);
+        parent::__construct($schema, ModelConstants::ATTRIBUTE_DELETED_AT);
     }
 
     /**

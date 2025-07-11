@@ -61,26 +61,6 @@ class FeaturedThemeUpdateTest extends TestCase
     }
 
     /**
-     * The Featured Theme Update Endpoint shall forbid users from updating a featured theme that is trashed.
-     *
-     * @return void
-     */
-    public function testTrashed(): void
-    {
-        $featuredTheme = FeaturedTheme::factory()->trashed()->createOne();
-
-        $parameters = FeaturedTheme::factory()->raw();
-
-        $user = User::factory()->withPermissions(CrudPermission::UPDATE->format(FeaturedTheme::class))->createOne();
-
-        Sanctum::actingAs($user);
-
-        $response = $this->put(route('api.featuredtheme.update', ['featuredtheme' => $featuredTheme] + $parameters));
-
-        $response->assertForbidden();
-    }
-
-    /**
      * The Featured Update Store Endpoint shall require the start_at field to be before the end_at field and vice versa.
      *
      * @return void

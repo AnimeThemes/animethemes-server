@@ -5,14 +5,12 @@ declare(strict_types=1);
 namespace App\Models\Admin;
 
 use App\Constants\FeatureConstants;
-use App\Contracts\Models\HasSubtitle;
-use App\Contracts\Models\Nameable;
 use App\Events\Admin\Feature\FeatureCreated;
 use App\Events\Admin\Feature\FeatureDeleted;
 use App\Events\Admin\Feature\FeatureUpdated;
+use App\Models\BaseModel;
 use Database\Factories\Admin\FeatureFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 
 /**
@@ -27,7 +25,7 @@ use Illuminate\Support\Carbon;
  *
  * @method static FeatureFactory factory(...$parameters)
  */
-class Feature extends Model implements HasSubtitle, Nameable
+class Feature extends BaseModel
 {
     use HasFactory;
 

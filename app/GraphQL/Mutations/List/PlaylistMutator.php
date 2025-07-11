@@ -5,12 +5,9 @@ declare(strict_types=1);
 namespace App\GraphQL\Mutations\List;
 
 use App\Actions\Http\Api\DestroyAction;
-use App\Actions\Http\Api\ForceDeleteAction;
-use App\Actions\Http\Api\RestoreAction;
 use App\Actions\Http\Api\StoreAction;
 use App\Actions\Http\Api\UpdateAction;
 use App\Models\List\Playlist;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 
@@ -81,47 +78,5 @@ class PlaylistMutator
         $destroyed = $action->destroy($playlist);
 
         return $destroyed;
-    }
-
-    /**
-     * Restore the specified resource.
-     *
-     * @param  null  $_
-     * @param  array  $args
-     * @return Playlist
-     */
-    public function restore($_, array $args): Playlist
-    {
-        $hashId = Arr::get($args, self::ROUTE_SLUG);
-
-        $playlist = Playlist::withTrashed()->firstWhere(Playlist::ATTRIBUTE_HASHID, $hashId);
-
-        $action = new RestoreAction();
-
-        /** @var Playlist $restored */
-        $restored = $action->restore($playlist);
-
-        return $restored;
-    }
-
-    /**
-     * Hard-delete the specified resource.
-     *
-     * @param  null  $_
-     * @param  array  $args
-     * @return JsonResponse
-     */
-    public function forceDelete($_, array $args): JsonResponse
-    {
-        /** @var Playlist $playlist */
-        $playlist = Arr::get($args, self::ROUTE_SLUG);
-
-        $action = new ForceDeleteAction();
-
-        $message = $action->forceDelete($playlist);
-
-        return new JsonResponse([
-            'message' => $message,
-        ]);
     }
 }

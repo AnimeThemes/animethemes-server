@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Models\BaseModel;
+use App\Constants\ModelConstants;
 use App\Models\Wiki\Artist;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -21,7 +21,7 @@ return new class extends Migration
             Schema::create(Artist::TABLE, function (Blueprint $table) {
                 $table->id(Artist::ATTRIBUTE_ID);
                 $table->timestamps(6);
-                $table->softDeletes(BaseModel::ATTRIBUTE_DELETED_AT, 6);
+                $table->softDeletes(ModelConstants::ATTRIBUTE_DELETED_AT, 6);
                 $table->string(Artist::ATTRIBUTE_SLUG);
                 $table->string(Artist::ATTRIBUTE_NAME);
                 $table->text(Artist::ATTRIBUTE_INFORMATION)->nullable();

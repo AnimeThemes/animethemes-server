@@ -7,7 +7,6 @@ namespace Tests\Feature\Jobs\List\Playlist;
 use App\Constants\FeatureConstants;
 use App\Events\List\Playlist\Track\TrackCreated;
 use App\Events\List\Playlist\Track\TrackDeleted;
-use App\Events\List\Playlist\Track\TrackRestored;
 use App\Events\List\Playlist\Track\TrackUpdated;
 use App\Jobs\SendDiscordNotificationJob;
 use App\Models\List\Playlist;
@@ -61,28 +60,6 @@ class TrackTest extends TestCase
         Event::fakeExcept(TrackDeleted::class);
 
         $track->delete();
-
-        Bus::assertNotDispatched(SendDiscordNotificationJob::class);
-    }
-
-    /**
-     * When a track is restored, a SendDiscordNotification job shall not be dispatched.
-     *
-     * @return void
-     */
-    public function testPlaylistRestoredSendsDiscordNotification(): void
-    {
-        $playlist = Playlist::factory()->createOne();
-
-        $track = PlaylistTrack::factory()
-            ->for($playlist)
-            ->createOne();
-
-        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
-        Bus::fake(SendDiscordNotificationJob::class);
-        Event::fakeExcept(TrackRestored::class);
-
-        $track->restore();
 
         Bus::assertNotDispatched(SendDiscordNotificationJob::class);
     }

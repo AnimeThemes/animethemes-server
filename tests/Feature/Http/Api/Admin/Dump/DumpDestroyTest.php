@@ -48,24 +48,6 @@ class DumpDestroyTest extends TestCase
     }
 
     /**
-     * The Dump Destroy Endpoint shall forbid users from updating a dump that is trashed.
-     *
-     * @return void
-     */
-    public function testTrashed(): void
-    {
-        $dump = Dump::factory()->trashed()->createOne();
-
-        $user = User::factory()->withPermissions(CrudPermission::DELETE->format(Dump::class))->createOne();
-
-        Sanctum::actingAs($user);
-
-        $response = $this->delete(route('api.dump.destroy', ['dump' => $dump]));
-
-        $response->assertNotFound();
-    }
-
-    /**
      * The Dump Destroy Endpoint shall delete the dump.
      *
      * @return void
@@ -81,6 +63,6 @@ class DumpDestroyTest extends TestCase
         $response = $this->delete(route('api.dump.destroy', ['dump' => $dump]));
 
         $response->assertOk();
-        static::assertSoftDeleted($dump);
+        static::assertModelMissing($dump);
     }
 }

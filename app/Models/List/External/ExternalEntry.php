@@ -4,15 +4,12 @@ declare(strict_types=1);
 
 namespace App\Models\List\External;
 
-use App\Concerns\Filament\ActionLogs\ModelHasActionLogs;
-use App\Contracts\Models\HasSubtitle;
-use App\Contracts\Models\Nameable;
 use App\Enums\Models\List\ExternalEntryWatchStatus;
+use App\Models\BaseModel;
 use App\Models\List\ExternalProfile;
 use App\Models\Wiki\Anime;
 use Database\Factories\List\External\ExternalEntryFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
@@ -29,10 +26,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *
  * @method static ExternalEntryFactory factory(...$parameters)
  */
-class ExternalEntry extends Model implements HasSubtitle, Nameable
+class ExternalEntry extends BaseModel
 {
     use HasFactory;
-    use ModelHasActionLogs;
 
     final public const TABLE = 'external_entries';
 

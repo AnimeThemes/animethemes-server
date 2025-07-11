@@ -256,18 +256,6 @@ class ReportStep extends BaseResource
     }
 
     /**
-     * Get the filters available for the resource.
-     *
-     * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    public static function getFilters(): array
-    {
-        return [];
-    }
-
-    /**
      * Get the pages available for the resource.
      *
      * @return array

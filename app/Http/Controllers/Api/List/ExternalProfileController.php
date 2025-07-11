@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api\List;
 
 use App\Actions\Http\Api\DestroyAction;
-use App\Actions\Http\Api\ForceDeleteAction;
 use App\Actions\Http\Api\IndexAction;
-use App\Actions\Http\Api\RestoreAction;
 use App\Actions\Http\Api\ShowAction;
 use App\Actions\Http\Api\StoreAction;
 use App\Actions\Http\Api\UpdateAction;
@@ -132,37 +130,9 @@ class ExternalProfileController extends BaseController
      *
      * @param  ExternalProfile  $externalprofile
      * @param  DestroyAction  $action
-     * @return ExternalProfileResource
-     */
-    public function destroy(ExternalProfile $externalprofile, DestroyAction $action): ExternalProfileResource
-    {
-        $deleted = $action->destroy($externalprofile);
-
-        return new ExternalProfileResource($deleted, new Query());
-    }
-
-    /**
-     * Restore the specified resource.
-     *
-     * @param  ExternalProfile  $externalprofile
-     * @param  RestoreAction  $action
-     * @return ExternalProfileResource
-     */
-    public function restore(ExternalProfile $externalprofile, RestoreAction $action): ExternalProfileResource
-    {
-        $restored = $action->restore($externalprofile);
-
-        return new ExternalProfileResource($restored, new Query());
-    }
-
-    /**
-     * Hard-delete the specified resource.
-     *
-     * @param  ExternalProfile  $externalprofile
-     * @param  ForceDeleteAction  $action
      * @return JsonResponse
      */
-    public function forceDelete(ExternalProfile $externalprofile, ForceDeleteAction $action): JsonResponse
+    public function destroy(ExternalProfile $externalprofile, DestroyAction $action): JsonResponse
     {
         $message = $action->forceDelete($externalprofile);
 

@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Models\Wiki\Song;
 
 use App\Concerns\Models\Reportable;
+use App\Concerns\Models\SoftDeletes;
+use App\Contracts\Models\SoftDeletable;
 use App\Events\Wiki\Song\Performance\PerformanceCreated;
 use App\Events\Wiki\Song\Performance\PerformanceDeleted;
 use App\Events\Wiki\Song\Performance\PerformanceDeleting;
@@ -14,6 +16,7 @@ use App\Models\BaseModel;
 use App\Models\Wiki\Artist;
 use App\Models\Wiki\Song;
 use Database\Factories\Wiki\Song\PerformanceFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
@@ -30,9 +33,11 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
  *
  * @method static PerformanceFactory factory(...$parameters)
  */
-class Performance extends BaseModel
+class Performance extends BaseModel implements SoftDeletable
 {
+    use HasFactory;
     use Reportable;
+    use SoftDeletes;
 
     final public const TABLE = 'performances';
 

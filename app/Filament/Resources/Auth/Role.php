@@ -247,6 +247,8 @@ class Role extends BaseResource
 
             NumberFilter::make(RoleModel::ATTRIBUTE_PRIORITY)
                 ->label(__('filament.fields.role.priority.name')),
+
+            ...parent::getFilters(),
         ];
     }
 

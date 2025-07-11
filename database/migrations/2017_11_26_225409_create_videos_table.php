@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
+use App\Constants\ModelConstants;
 use App\Enums\Models\Wiki\VideoOverlap;
-use App\Models\BaseModel;
 use App\Models\Wiki\Video;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -22,7 +22,7 @@ return new class extends Migration
             Schema::create(Video::TABLE, function (Blueprint $table) {
                 $table->id(Video::ATTRIBUTE_ID);
                 $table->timestamps(6);
-                $table->softDeletes(BaseModel::ATTRIBUTE_DELETED_AT, 6);
+                $table->softDeletes(ModelConstants::ATTRIBUTE_DELETED_AT, 6);
                 $table->string(Video::ATTRIBUTE_BASENAME);
                 $table->string(Video::ATTRIBUTE_FILENAME);
                 $table->string(Video::ATTRIBUTE_PATH);

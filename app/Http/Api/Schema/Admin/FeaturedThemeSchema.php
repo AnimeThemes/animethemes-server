@@ -9,7 +9,9 @@ use App\Http\Api\Field\Admin\FeaturedTheme\FeaturedThemeEntryIdField;
 use App\Http\Api\Field\Admin\FeaturedTheme\FeaturedThemeStartAtField;
 use App\Http\Api\Field\Admin\FeaturedTheme\FeaturedThemeUserIdField;
 use App\Http\Api\Field\Admin\FeaturedTheme\FeaturedThemeVideoIdField;
+use App\Http\Api\Field\Base\CreatedAtField;
 use App\Http\Api\Field\Base\IdField;
+use App\Http\Api\Field\Base\UpdatedAtField;
 use App\Http\Api\Field\Field;
 use App\Http\Api\Include\AllowedInclude;
 use App\Http\Api\Schema\Auth\UserSchema;
@@ -67,16 +69,15 @@ class FeaturedThemeSchema extends EloquentSchema
      */
     public function fields(): array
     {
-        return array_merge(
-            parent::fields(),
-            [
-                new IdField($this, FeaturedTheme::ATTRIBUTE_ID),
-                new FeaturedThemeStartAtField($this),
-                new FeaturedThemeEndAtField($this),
-                new FeaturedThemeEntryIdField($this),
-                new FeaturedThemeUserIdField($this),
-                new FeaturedThemeVideoIdField($this),
-            ],
-        );
+        return [
+            new CreatedAtField($this),
+            new UpdatedAtField($this),
+            new IdField($this, FeaturedTheme::ATTRIBUTE_ID),
+            new FeaturedThemeStartAtField($this),
+            new FeaturedThemeEndAtField($this),
+            new FeaturedThemeEntryIdField($this),
+            new FeaturedThemeUserIdField($this),
+            new FeaturedThemeVideoIdField($this),
+        ];
     }
 }

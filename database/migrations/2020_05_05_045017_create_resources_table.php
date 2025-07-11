@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Models\BaseModel;
+use App\Constants\ModelConstants;
 use App\Models\Wiki\ExternalResource;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -21,7 +21,7 @@ return new class extends Migration
             Schema::create(ExternalResource::TABLE, function (Blueprint $table) {
                 $table->id(ExternalResource::ATTRIBUTE_ID);
                 $table->timestamps(6);
-                $table->softDeletes(BaseModel::ATTRIBUTE_DELETED_AT, 6);
+                $table->softDeletes(ModelConstants::ATTRIBUTE_DELETED_AT, 6);
                 $table->integer(ExternalResource::ATTRIBUTE_SITE)->nullable();
                 $table->string(ExternalResource::ATTRIBUTE_LINK)->nullable();
                 $table->integer(ExternalResource::ATTRIBUTE_EXTERNAL_ID)->nullable();

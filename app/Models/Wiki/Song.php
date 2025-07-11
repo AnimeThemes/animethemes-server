@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace App\Models\Wiki;
 
 use App\Concerns\Models\Reportable;
+use App\Concerns\Models\SoftDeletes;
 use App\Contracts\Models\HasResources;
+use App\Contracts\Models\SoftDeletable;
 use App\Events\Wiki\Song\SongCreated;
 use App\Events\Wiki\Song\SongDeleted;
 use App\Events\Wiki\Song\SongDeleting;
@@ -20,6 +22,7 @@ use App\Pivots\Wiki\ArtistSong;
 use App\Pivots\Wiki\SongResource;
 use Database\Factories\Wiki\SongFactory;
 use Elastic\ScoutDriverPlus\Searchable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
@@ -36,10 +39,12 @@ use Illuminate\Support\Collection;
  *
  * @method static SongFactory factory(...$parameters)
  */
-class Song extends BaseModel implements HasResources
+class Song extends BaseModel implements HasResources, SoftDeletable
 {
+    use HasFactory;
     use Reportable;
     use Searchable;
+    use SoftDeletes;
 
     final public const TABLE = 'songs';
 

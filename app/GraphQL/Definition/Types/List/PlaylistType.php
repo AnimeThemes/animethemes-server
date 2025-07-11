@@ -7,7 +7,6 @@ namespace App\GraphQL\Definition\Types\List;
 use App\Contracts\GraphQL\HasFields;
 use App\Contracts\GraphQL\HasRelations;
 use App\GraphQL\Definition\Fields\Base\CreatedAtField;
-use App\GraphQL\Definition\Fields\Base\DeletedAtField;
 use App\GraphQL\Definition\Fields\Base\UpdatedAtField;
 use App\GraphQL\Definition\Fields\Field;
 use App\GraphQL\Definition\Fields\List\Playlist\PlaylistDescriptionField;
@@ -77,7 +76,6 @@ class PlaylistType extends EloquentType implements HasFields, HasRelations
             new PlaylistLikesCountField(),
             new CreatedAtField(),
             new UpdatedAtField(),
-            new DeletedAtField(),
         ];
     }
 }

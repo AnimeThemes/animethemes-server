@@ -7,7 +7,6 @@ namespace Tests\Feature\Jobs\List;
 use App\Constants\FeatureConstants;
 use App\Events\List\ExternalProfile\ExternalProfileCreated;
 use App\Events\List\ExternalProfile\ExternalProfileDeleted;
-use App\Events\List\ExternalProfile\ExternalProfileRestored;
 use App\Events\List\ExternalProfile\ExternalProfileUpdated;
 use App\Jobs\SendDiscordNotificationJob;
 use App\Models\List\ExternalProfile;
@@ -51,24 +50,6 @@ class ExternalProfileTest extends TestCase
         Event::fakeExcept(ExternalProfileDeleted::class);
 
         $profile->delete();
-
-        Bus::assertNotDispatched(SendDiscordNotificationJob::class);
-    }
-
-    /**
-     * When a profile is restored, a SendDiscordNotification job shall not be dispatched.
-     *
-     * @return void
-     */
-    public function testExternalProfileRestoredSendsDiscordNotification(): void
-    {
-        $profile = ExternalProfile::factory()->createOne();
-
-        Feature::activate(FeatureConstants::ALLOW_DISCORD_NOTIFICATIONS);
-        Bus::fake(SendDiscordNotificationJob::class);
-        Event::fakeExcept(ExternalProfileRestored::class);
-
-        $profile->restore();
 
         Bus::assertNotDispatched(SendDiscordNotificationJob::class);
     }

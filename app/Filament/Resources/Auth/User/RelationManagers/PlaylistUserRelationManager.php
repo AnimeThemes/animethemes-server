@@ -34,16 +34,4 @@ class PlaylistUserRelationManager extends PlaylistRelationManager
                 ->inverseRelationship(Playlist::RELATION_USER)
         );
     }
-
-    /**
-     * Get the filters available for the relation.
-     *
-     * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    public static function getFilters(): array
-    {
-        return [];
-    }
 }

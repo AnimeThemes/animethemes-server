@@ -6,7 +6,6 @@ namespace Tests\Feature\Events\Admin;
 
 use App\Events\Admin\Dump\DumpCreated;
 use App\Events\Admin\Dump\DumpDeleted;
-use App\Events\Admin\Dump\DumpRestored;
 use App\Events\Admin\Dump\DumpUpdated;
 use App\Models\Admin\Dump;
 use Illuminate\Support\Arr;
@@ -42,36 +41,6 @@ class DumpTest extends TestCase
         $dump->delete();
 
         Event::assertDispatched(DumpDeleted::class);
-    }
-
-    /**
-     * When a Dump is restored, a DumpRestored event shall be dispatched.
-     *
-     * @return void
-     */
-    public function testDumpRestoredEventDispatched(): void
-    {
-        $dump = Dump::factory()->createOne();
-
-        $dump->restore();
-
-        Event::assertDispatched(DumpRestored::class);
-    }
-
-    /**
-     * When a Dump is restored, a DumpUpdated event shall not be dispatched.
-     * Note: This is a customization that overrides default framework behavior.
-     * An updated event is fired on restore.
-     *
-     * @return void
-     */
-    public function testDumpRestoresQuietly(): void
-    {
-        $dump = Dump::factory()->createOne();
-
-        $dump->restore();
-
-        Event::assertNotDispatched(DumpUpdated::class);
     }
 
     /**
