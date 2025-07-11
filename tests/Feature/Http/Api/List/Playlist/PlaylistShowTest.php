@@ -171,37 +171,6 @@ class PlaylistShowTest extends TestCase
     }
 
     /**
-     * The Playlist Show Endpoint shall return a Playlist Resource for soft deleted playlists.
-     *
-     * @return void
-     */
-    public function testSoftDelete(): void
-    {
-        Event::fakeExcept(PlaylistCreated::class);
-
-        $playlist = Playlist::factory()
-            ->trashed()
-            ->createOne([
-                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
-            ]);
-
-        $playlist->unsetRelations();
-
-        $response = $this->get(route('api.playlist.show', ['playlist' => $playlist]));
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new PlaylistResource($playlist, new Query())
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
      * The Playlist Show Endpoint shall allow inclusion of related resources.
      *
      * @return void

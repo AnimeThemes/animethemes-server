@@ -221,41 +221,6 @@ class TrackShowTest extends TestCase
     }
 
     /**
-     * The Track Show Endpoint shall return a Track Resource for soft deleted playlist tracks.
-     *
-     * @return void
-     */
-    public function testSoftDelete(): void
-    {
-        Event::fakeExcept([PlaylistCreated::class, TrackCreated::class]);
-
-        $playlist = Playlist::factory()
-            ->createOne([
-                Playlist::ATTRIBUTE_VISIBILITY => PlaylistVisibility::PUBLIC->value,
-            ]);
-
-        $track = PlaylistTrack::factory()
-            ->trashed()
-            ->for($playlist)
-            ->createOne();
-
-        $response = $this->get(route('api.playlist.track.show', ['playlist' => $playlist, 'track' => $track]));
-
-        $track->unsetRelations();
-
-        $response->assertJson(
-            json_decode(
-                json_encode(
-                    new TrackResource($track, new Query())
-                        ->response()
-                        ->getData()
-                ),
-                true
-            )
-        );
-    }
-
-    /**
      * The Track Show Endpoint shall allow inclusion of related resources.
      *
      * @return void

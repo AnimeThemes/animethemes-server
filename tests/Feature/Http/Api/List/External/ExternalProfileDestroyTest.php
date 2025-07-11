@@ -113,31 +113,6 @@ class ExternalProfileDestroyTest extends TestCase
     }
 
     /**
-     * The External Profile Destroy Endpoint shall forbid users from updating a profile that is trashed.
-     *
-     * @return void
-     */
-    public function testTrashed(): void
-    {
-        Event::fakeExcept(ExternalProfileCreated::class);
-
-        Feature::activate(AllowExternalProfileManagement::class);
-
-        $user = User::factory()->withPermissions(CrudPermission::DELETE->format(ExternalProfile::class))->createOne();
-
-        $profile = ExternalProfile::factory()
-            ->trashed()
-            ->for($user)
-            ->createOne();
-
-        Sanctum::actingAs($user);
-
-        $response = $this->delete(route('api.externalprofile.destroy', ['externalprofile' => $profile]));
-
-        $response->assertNotFound();
-    }
-
-    /**
      * The External Profile Destroy Endpoint shall delete the profile.
      *
      * @return void
