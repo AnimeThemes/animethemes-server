@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 use App\Models\Admin\FeaturedTheme;
 use App\Models\Auth\User;
-use App\Models\BaseModel;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
 use Illuminate\Database\Migrations\Migration;
@@ -22,7 +21,6 @@ return new class extends Migration
             Schema::create(FeaturedTheme::TABLE, function (Blueprint $table) {
                 $table->id(FeaturedTheme::ATTRIBUTE_ID);
                 $table->timestamps(6);
-                $table->softDeletes(BaseModel::ATTRIBUTE_DELETED_AT, 6);
                 $table->timestamp(FeaturedTheme::ATTRIBUTE_START_AT, 6)->nullable();
                 $table->timestamp(FeaturedTheme::ATTRIBUTE_END_AT, 6)->nullable();
 

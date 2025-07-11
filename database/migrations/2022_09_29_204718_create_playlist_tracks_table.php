@@ -3,7 +3,6 @@
 declare(strict_types=1);
 
 use App\Contracts\Models\HasHashids;
-use App\Models\BaseModel;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
@@ -27,7 +26,6 @@ return new class extends Migration
             Schema::create(PlaylistTrack::TABLE, function (Blueprint $table) {
                 $table->id(PlaylistTrack::ATTRIBUTE_ID);
                 $table->timestamps(6);
-                $table->softDeletes(BaseModel::ATTRIBUTE_DELETED_AT, 6);
                 $hashIdColumn = $table->string(HasHashids::ATTRIBUTE_HASHID)->nullable();
                 if (DB::connection() instanceof MySqlConnection) {
                     // Set collation to binary to be case-sensitive

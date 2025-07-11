@@ -5,13 +5,10 @@ declare(strict_types=1);
 namespace App\GraphQL\Mutations\List\Playlist;
 
 use App\Actions\Http\Api\List\Playlist\Track\DestroyTrackAction;
-use App\Actions\Http\Api\List\Playlist\Track\ForceDeleteTrackAction;
-use App\Actions\Http\Api\List\Playlist\Track\RestoreTrackAction;
 use App\Actions\Http\Api\List\Playlist\Track\StoreTrackAction;
 use App\Actions\Http\Api\List\Playlist\Track\UpdateTrackAction;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Arr;
 
 /**
@@ -79,46 +76,5 @@ class PlaylistTrackMutator
         $destroyed = $action->destroy($track->playlist, $track);
 
         return $destroyed;
-    }
-
-    /**
-     * Restore the specified resource.
-     *
-     * @param  null  $_
-     * @param  array  $args
-     * @return PlaylistTrack
-     */
-    public function restore($_, array $args): PlaylistTrack
-    {
-        /** @var PlaylistTrack $track */
-        $track = Arr::get($args, self::ROUTE_SLUG);
-
-        $action = new RestoreTrackAction();
-
-        /** @var PlaylistTrack $restored */
-        $restored = $action->restore($track->playlist, $track);
-
-        return $restored;
-    }
-
-    /**
-     * Hard-delete the specified resource.
-     *
-     * @param  null  $_
-     * @param  array  $args
-     * @return JsonResponse
-     */
-    public function forceDelete($_, array $args): JsonResponse
-    {
-        /** @var PlaylistTrack $track */
-        $track = Arr::get($args, self::ROUTE_SLUG);
-
-        $action = new ForceDeleteTrackAction();
-
-        $message = $action->forceDelete($track->playlist, $track);
-
-        return new JsonResponse([
-            'message' => $message,
-        ]);
     }
 }

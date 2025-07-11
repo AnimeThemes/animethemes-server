@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature\Http\Api\Wiki\Artist;
 
 use App\Concerns\Actions\Http\Api\SortsModels;
+use App\Constants\ModelConstants;
 use App\Contracts\Http\Api\Field\SortableField;
 use App\Enums\Http\Api\Filter\TrashedStatus;
 use App\Enums\Http\Api\Sort\Direction;
@@ -412,7 +413,7 @@ class ArtistIndexTest extends TestCase
 
         $parameters = [
             FilterParser::param() => [
-                BaseModel::ATTRIBUTE_DELETED_AT => $deletedFilter,
+                ModelConstants::ATTRIBUTE_DELETED_AT => $deletedFilter,
                 TrashedCriteria::PARAM_VALUE => TrashedStatus::WITH->value,
             ],
             PagingParser::param() => [
@@ -428,7 +429,7 @@ class ArtistIndexTest extends TestCase
             Artist::factory()->trashed()->count($this->faker->randomDigitNotNull())->create();
         });
 
-        $artist = Artist::withTrashed()->where(BaseModel::ATTRIBUTE_DELETED_AT, $deletedFilter)->get();
+        $artist = Artist::withTrashed()->where(ModelConstants::ATTRIBUTE_DELETED_AT, $deletedFilter)->get();
 
         $response = $this->get(route('api.artist.index', $parameters));
 

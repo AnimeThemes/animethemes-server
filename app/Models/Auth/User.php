@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 namespace App\Models\Auth;
 
+use App\Concerns\Models\SoftDeletes;
 use App\Contracts\Models\HasSubtitle;
 use App\Contracts\Models\Nameable;
+use App\Contracts\Models\SoftDeletable;
 use App\Enums\Auth\SpecialPermission;
+use App\Enums\Http\Api\Filter\ComparisonOperator;
 use App\Events\Auth\User\UserCreated;
 use App\Events\Auth\User\UserDeleted;
 use App\Events\Auth\User\UserRestored;
@@ -26,11 +29,11 @@ use Filament\Models\Contracts\HasAvatar;
 use Filament\Notifications\DatabaseNotification as FilamentNotification;
 use Filament\Panel;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
@@ -45,7 +48,6 @@ use Spatie\Permission\Traits\HasRoles;
  * Class User.
  *
  * @property Carbon $created_at
- * @property Carbon $deleted_at
  * @property string $email
  * @property Carbon|null $email_verified_at
  * @property Collection<int, ExternalProfile> $externalprofiles
@@ -64,7 +66,7 @@ use Spatie\Permission\Traits\HasRoles;
  *
  * @method static UserFactory factory(...$parameters)
  */
-class User extends Authenticatable implements FilamentUser, HasAvatar, HasSubtitle, MustVerifyEmail, Nameable
+class User extends Authenticatable implements FilamentUser, HasAvatar, HasSubtitle, MustVerifyEmail, Nameable, SoftDeletable
 {
     use HasApiTokens;
     use HasFactory;
@@ -76,7 +78,6 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasSubtit
     final public const TABLE = 'users';
 
     final public const ATTRIBUTE_EMAIL = 'email';
-    final public const ATTRIBUTE_DELETED_AT = 'deleted_at';
     final public const ATTRIBUTE_EMAIL_VERIFIED_AT = 'email_verified_at';
     final public const ATTRIBUTE_ID = 'id';
     final public const ATTRIBUTE_NAME = 'name';
@@ -178,35 +179,6 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasSubtit
     public function getSubtitle(): string
     {
         return strval($this->getKey());
-    }
-
-    /**
-     * Restore a soft-deleted model instance.
-     *
-     * @return bool|null
-     */
-    public function restore(): ?bool
-    {
-        // If the restoring event does not return false, we will proceed with this
-        // restore operation. Otherwise, we bail out so the developer will stop
-        // the restore totally. We will clear the deleted timestamp and save.
-        if ($this->fireModelEvent('restoring') === false) {
-            return false;
-        }
-
-        $this->{$this->getDeletedAtColumn()} = null;
-
-        // Once we have saved the model, we will fire the "restored" event so this
-        // developer will do anything they need to after a restore operation is
-        // totally finished. Then we will return the result of the save call.
-        $this->exists = true;
-
-        // Save quietly so that we do not fire an updated event on restore
-        $result = $this->saveQuietly();
-
-        $this->fireModelEvent('restored', false);
-
-        return $result;
     }
 
     /**
@@ -335,5 +307,19 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasSubtit
         }
 
         return $notifications->where(Notification::ATTRIBUTE_TYPE, UserNotification::class);
+    }
+
+    /**
+     * Get the prunable model query.
+     *
+     * @return Builder
+     */
+    public function prunable(): Builder
+    {
+        return static::onlyTrashed()->where(
+            self::ATTRIBUTE_DELETED_AT,
+            ComparisonOperator::LTE->value,
+            now()->subMonth()
+        );
     }
 }

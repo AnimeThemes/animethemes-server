@@ -6,10 +6,10 @@ namespace App\Models\Admin;
 
 use App\Events\Admin\Announcement\AnnouncementCreated;
 use App\Events\Admin\Announcement\AnnouncementDeleted;
-use App\Events\Admin\Announcement\AnnouncementRestored;
 use App\Events\Admin\Announcement\AnnouncementUpdated;
 use App\Models\BaseModel;
 use Database\Factories\Admin\AnnouncementFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * Class Announcement.
@@ -21,6 +21,8 @@ use Database\Factories\Admin\AnnouncementFactory;
  */
 class Announcement extends BaseModel
 {
+    use HasFactory;
+
     final public const TABLE = 'announcements';
 
     final public const ATTRIBUTE_CONTENT = 'content';
@@ -45,7 +47,6 @@ class Announcement extends BaseModel
     protected $dispatchesEvents = [
         'created' => AnnouncementCreated::class,
         'deleted' => AnnouncementDeleted::class,
-        'restored' => AnnouncementRestored::class,
         'updated' => AnnouncementUpdated::class,
     ];
 

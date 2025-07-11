@@ -103,22 +103,6 @@ class ExternalProfilePolicy extends BasePolicy
     }
 
     /**
-     * Determine whether the user can restore the model.
-     *
-     * @param  User  $user
-     * @param  ExternalProfile  $profile
-     * @return bool
-     */
-    public function restore(User $user, BaseModel|Model $profile): bool
-    {
-        if (Filament::isServing()) {
-            return $user->hasRole(Role::ADMIN->value);
-        }
-
-        return $profile->user()->is($user) && parent::restore($user, $profile);
-    }
-
-    /**
      * Determine whether the user can add a entry to the profile.
      *
      * @param  User  $user

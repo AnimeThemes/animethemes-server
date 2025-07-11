@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources;
 
+use App\Constants\ModelConstants;
+use App\Contracts\Models\SoftDeletable;
 use App\Filament\Actions\Base\DeleteAction;
 use App\Filament\Actions\Base\DetachAction;
 use App\Filament\Actions\Base\EditAction;
@@ -107,7 +109,8 @@ abstract class BaseResource extends Resource
     public static function getFilters(): array
     {
         return [
-            TrashedFilter::make(),
+            TrashedFilter::make()
+                ->visible(in_array(SoftDeletable::class, class_implements(static::getModel()))),
 
             DateFilter::make(BaseModel::ATTRIBUTE_CREATED_AT)
                 ->label(__('filament.fields.base.created_at')),
@@ -115,8 +118,9 @@ abstract class BaseResource extends Resource
             DateFilter::make(BaseModel::ATTRIBUTE_UPDATED_AT)
                 ->label(__('filament.fields.base.updated_at')),
 
-            DateFilter::make(BaseModel::ATTRIBUTE_DELETED_AT)
-                ->label(__('filament.fields.base.deleted_at')),
+            DateFilter::make(ModelConstants::ATTRIBUTE_DELETED_AT)
+                ->label(__('filament.fields.base.deleted_at'))
+                ->visible(in_array(SoftDeletable::class, class_implements(static::getModel()))),
         ];
     }
 

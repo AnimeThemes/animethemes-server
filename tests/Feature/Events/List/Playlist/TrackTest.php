@@ -7,7 +7,6 @@ namespace Tests\Feature\Events\List\Playlist;
 use App\Contracts\Models\HasHashids;
 use App\Events\List\Playlist\Track\TrackCreated;
 use App\Events\List\Playlist\Track\TrackDeleted;
-use App\Events\List\Playlist\Track\TrackRestored;
 use App\Events\List\Playlist\Track\TrackUpdated;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
@@ -48,40 +47,6 @@ class TrackTest extends TestCase
         $track->delete();
 
         Event::assertDispatched(TrackDeleted::class);
-    }
-
-    /**
-     * When a Playlist Track is restored, a TrackRestored event shall be dispatched.
-     *
-     * @return void
-     */
-    public function testTrackRestoredEventDispatched(): void
-    {
-        $track = PlaylistTrack::factory()
-            ->for(Playlist::factory())
-            ->createOne();
-
-        $track->restore();
-
-        Event::assertDispatched(TrackRestored::class);
-    }
-
-    /**
-     * When a Track is restored, a TrackUpdated event shall not be dispatched.
-     * Note: This is a customization that overrides default framework behavior.
-     * An updated event is fired on restore.
-     *
-     * @return void
-     */
-    public function testTrackRestoresQuietly(): void
-    {
-        $track = PlaylistTrack::factory()
-            ->for(Playlist::factory())
-            ->createOne();
-
-        $track->restore();
-
-        Event::assertNotDispatched(TrackUpdated::class);
     }
 
     /**

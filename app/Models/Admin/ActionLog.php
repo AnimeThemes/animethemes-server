@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models\Admin;
 
+use App\Constants\ModelConstants;
 use App\Contracts\Models\Nameable;
 use App\Discord\DiscordEmbedField;
 use App\Enums\Models\Admin\ActionLogStatus;
@@ -497,7 +498,7 @@ class ActionLog extends Model implements Nameable
         return collect($fields)
             ->forget(Model::CREATED_AT)
             ->forget(Model::UPDATED_AT)
-            ->forget(BaseModel::ATTRIBUTE_DELETED_AT)
+            ->forget(ModelConstants::ATTRIBUTE_DELETED_AT)
             ->map(function ($value, $key) use ($model) {
                 if ($model instanceof Model) {
                     if (in_array($key, $model->getHidden())) {

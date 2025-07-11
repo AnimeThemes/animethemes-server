@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace App\Models\Wiki\Anime\Theme;
 
 use App\Concerns\Models\Reportable;
+use App\Concerns\Models\SoftDeletes;
 use App\Contracts\Http\Api\InteractsWithSchema;
+use App\Contracts\Models\SoftDeletable;
 use App\Enums\Models\Wiki\ThemeType;
 use App\Events\Wiki\Anime\Theme\Entry\EntryCreated;
 use App\Events\Wiki\Anime\Theme\Entry\EntryDeleted;
@@ -24,11 +26,13 @@ use App\Scopes\WithoutInsertSongScope;
 use Database\Factories\Wiki\Anime\Theme\AnimeThemeEntryFactory;
 use Elastic\ScoutDriverPlus\Searchable;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Znck\Eloquent\Relations\BelongsToThrough;
+use Znck\Eloquent\Traits\BelongsToThrough as ZnckBelongsToThrough;
 
 /**
  * Class AnimeThemeEntry.
@@ -46,11 +50,13 @@ use Znck\Eloquent\Relations\BelongsToThrough;
  *
  * @method static AnimeThemeEntryFactory factory(...$parameters)
  */
-class AnimeThemeEntry extends BaseModel implements InteractsWithSchema
+class AnimeThemeEntry extends BaseModel implements InteractsWithSchema, SoftDeletable
 {
+    use HasFactory;
     use Reportable;
     use Searchable;
-    use \Znck\Eloquent\Traits\BelongsToThrough;
+    use SoftDeletes;
+    use ZnckBelongsToThrough;
 
     final public const TABLE = 'anime_theme_entries';
 

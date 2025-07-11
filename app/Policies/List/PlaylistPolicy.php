@@ -105,22 +105,6 @@ class PlaylistPolicy extends BasePolicy
     }
 
     /**
-     * Determine whether the user can restore the model.
-     *
-     * @param  User  $user
-     * @param  Playlist  $playlist
-     * @return bool
-     */
-    public function restore(User $user, BaseModel|Model $playlist): bool
-    {
-        if (Filament::isServing()) {
-            return $user->hasRole(RoleEnum::ADMIN->value);
-        }
-
-        return parent::restore($user, $playlist) && $playlist->trashed() && $playlist->user()->is($user);
-    }
-
-    /**
      * Determine whether the user can add a track to the playlist.
      *
      * @param  User  $user

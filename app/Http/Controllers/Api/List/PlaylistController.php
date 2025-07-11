@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api\List;
 
 use App\Actions\Http\Api\DestroyAction;
-use App\Actions\Http\Api\ForceDeleteAction;
 use App\Actions\Http\Api\IndexAction;
-use App\Actions\Http\Api\RestoreAction;
 use App\Actions\Http\Api\ShowAction;
 use App\Actions\Http\Api\StoreAction;
 use App\Actions\Http\Api\UpdateAction;
@@ -23,7 +21,6 @@ use App\Http\Requests\Api\UpdateRequest;
 use App\Http\Resources\List\Collection\PlaylistCollection;
 use App\Http\Resources\List\Resource\PlaylistResource;
 use App\Models\List\Playlist;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
@@ -132,35 +129,5 @@ class PlaylistController extends BaseController
         $deleted = $action->destroy($playlist);
 
         return new PlaylistResource($deleted, new Query());
-    }
-
-    /**
-     * Restore the specified resource.
-     *
-     * @param  Playlist  $playlist
-     * @param  RestoreAction  $action
-     * @return PlaylistResource
-     */
-    public function restore(Playlist $playlist, RestoreAction $action): PlaylistResource
-    {
-        $restored = $action->restore($playlist);
-
-        return new PlaylistResource($restored, new Query());
-    }
-
-    /**
-     * Hard-delete the specified resource.
-     *
-     * @param  Playlist  $playlist
-     * @param  ForceDeleteAction  $action
-     * @return JsonResponse
-     */
-    public function forceDelete(Playlist $playlist, ForceDeleteAction $action): JsonResponse
-    {
-        $message = $action->forceDelete($playlist);
-
-        return new JsonResponse([
-            'message' => $message,
-        ]);
     }
 }

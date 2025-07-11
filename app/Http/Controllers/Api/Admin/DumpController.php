@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api\Admin;
 
 use App\Actions\Http\Api\DestroyAction;
-use App\Actions\Http\Api\ForceDeleteAction;
 use App\Actions\Http\Api\IndexAction;
-use App\Actions\Http\Api\RestoreAction;
 use App\Actions\Http\Api\ShowAction;
 use App\Actions\Http\Api\StoreAction;
 use App\Actions\Http\Api\UpdateAction;
@@ -22,7 +20,6 @@ use App\Http\Resources\Admin\Collection\DumpCollection;
 use App\Http\Resources\Admin\Resource\DumpResource;
 use App\Models\Admin\Dump;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Http\JsonResponse;
 
 /**
  * Class DumpController.
@@ -119,35 +116,5 @@ class DumpController extends BaseController
         $deleted = $action->destroy($dump);
 
         return new DumpResource($deleted, new Query());
-    }
-
-    /**
-     * Restore the specified resource.
-     *
-     * @param  Dump  $dump
-     * @param  RestoreAction  $action
-     * @return DumpResource
-     */
-    public function restore(Dump $dump, RestoreAction $action): DumpResource
-    {
-        $restored = $action->restore($dump);
-
-        return new DumpResource($restored, new Query());
-    }
-
-    /**
-     * Hard-delete the specified resource.
-     *
-     * @param  Dump  $dump
-     * @param  ForceDeleteAction  $action
-     * @return JsonResponse
-     */
-    public function forceDelete(Dump $dump, ForceDeleteAction $action): JsonResponse
-    {
-        $message = $action->forceDelete($dump);
-
-        return new JsonResponse([
-            'message' => $message,
-        ]);
     }
 }

@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api\List;
 
 use App\Actions\Http\Api\DestroyAction;
-use App\Actions\Http\Api\ForceDeleteAction;
 use App\Actions\Http\Api\IndexAction;
-use App\Actions\Http\Api\RestoreAction;
 use App\Actions\Http\Api\ShowAction;
 use App\Actions\Http\Api\StoreAction;
 use App\Actions\Http\Api\UpdateAction;
@@ -24,7 +22,6 @@ use App\Http\Requests\Api\UpdateRequest;
 use App\Http\Resources\List\Collection\ExternalProfileCollection;
 use App\Http\Resources\List\Resource\ExternalProfileResource;
 use App\Models\List\ExternalProfile;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
@@ -139,35 +136,5 @@ class ExternalProfileController extends BaseController
         $deleted = $action->destroy($externalprofile);
 
         return new ExternalProfileResource($deleted, new Query());
-    }
-
-    /**
-     * Restore the specified resource.
-     *
-     * @param  ExternalProfile  $externalprofile
-     * @param  RestoreAction  $action
-     * @return ExternalProfileResource
-     */
-    public function restore(ExternalProfile $externalprofile, RestoreAction $action): ExternalProfileResource
-    {
-        $restored = $action->restore($externalprofile);
-
-        return new ExternalProfileResource($restored, new Query());
-    }
-
-    /**
-     * Hard-delete the specified resource.
-     *
-     * @param  ExternalProfile  $externalprofile
-     * @param  ForceDeleteAction  $action
-     * @return JsonResponse
-     */
-    public function forceDelete(ExternalProfile $externalprofile, ForceDeleteAction $action): JsonResponse
-    {
-        $message = $action->forceDelete($externalprofile);
-
-        return new JsonResponse([
-            'message' => $message,
-        ]);
     }
 }

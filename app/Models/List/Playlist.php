@@ -13,7 +13,6 @@ use App\Contracts\Models\Likeable;
 use App\Enums\Models\List\PlaylistVisibility;
 use App\Events\List\Playlist\PlaylistCreated;
 use App\Events\List\Playlist\PlaylistDeleted;
-use App\Events\List\Playlist\PlaylistRestored;
 use App\Events\List\Playlist\PlaylistUpdated;
 use App\Http\Resources\Pivot\List\Resource\PlaylistImageResource;
 use App\Models\Auth\User;
@@ -23,6 +22,7 @@ use App\Models\Wiki\Image;
 use App\Pivots\List\PlaylistImage;
 use Database\Factories\List\PlaylistFactory;
 use Elastic\ScoutDriverPlus\Searchable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -49,6 +49,7 @@ use Illuminate\Support\Collection;
 class Playlist extends BaseModel implements HasAggregateLikes, HasHashids, HasImages, Likeable
 {
     use AggregatesLike;
+    use HasFactory;
     use InteractsWithLikes;
     use Searchable;
 
@@ -91,7 +92,6 @@ class Playlist extends BaseModel implements HasAggregateLikes, HasHashids, HasIm
     protected $dispatchesEvents = [
         'created' => PlaylistCreated::class,
         'deleted' => PlaylistDeleted::class,
-        'restored' => PlaylistRestored::class,
         'updated' => PlaylistUpdated::class,
     ];
 

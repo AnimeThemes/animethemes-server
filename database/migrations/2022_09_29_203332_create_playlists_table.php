@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 use App\Contracts\Models\HasHashids;
 use App\Models\Auth\User;
-use App\Models\BaseModel;
 use App\Models\List\Playlist;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\MySqlConnection;
@@ -25,7 +24,6 @@ return new class extends Migration
             Schema::create(Playlist::TABLE, function (Blueprint $table) {
                 $table->id(Playlist::ATTRIBUTE_ID);
                 $table->timestamps(6);
-                $table->softDeletes(BaseModel::ATTRIBUTE_DELETED_AT, 6);
                 $hashIdColumn = $table->string(HasHashids::ATTRIBUTE_HASHID)->nullable();
                 if (DB::connection() instanceof MySqlConnection) {
                     // Set collation to binary to be case-sensitive

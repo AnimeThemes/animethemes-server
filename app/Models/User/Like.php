@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models\User;
 
-use App\Contracts\Models\Nameable;
 use App\Models\Auth\User;
+use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
@@ -19,7 +19,7 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
  * @property string $likeable_type
  * @property int $likeable_id
  */
-class Like extends Model implements Nameable
+class Like extends BaseModel
 {
     final public const TABLE = 'likes';
 
@@ -66,6 +66,16 @@ class Like extends Model implements Nameable
     public function getName(): string
     {
         return strval($this->getKey());
+    }
+
+    /**
+     * Get subtitle.
+     *
+     * @return string
+     */
+    public function getSubtitle(): string
+    {
+        return '';
     }
 
     /**

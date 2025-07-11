@@ -8,10 +8,10 @@ use App\Actions\Storage\Admin\Dump\DumpDocumentAction;
 use App\Actions\Storage\Admin\Dump\DumpWikiAction;
 use App\Events\Admin\Dump\DumpCreated;
 use App\Events\Admin\Dump\DumpDeleted;
-use App\Events\Admin\Dump\DumpRestored;
 use App\Events\Admin\Dump\DumpUpdated;
 use App\Models\BaseModel;
 use Database\Factories\Admin\DumpFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * Class Dump.
@@ -23,6 +23,8 @@ use Database\Factories\Admin\DumpFactory;
  */
 class Dump extends BaseModel
 {
+    use HasFactory;
+
     final public const TABLE = 'dumps';
 
     final public const ATTRIBUTE_ID = 'dump_id';
@@ -47,7 +49,6 @@ class Dump extends BaseModel
     protected $dispatchesEvents = [
         'created' => DumpCreated::class,
         'deleted' => DumpDeleted::class,
-        'restored' => DumpRestored::class,
         'updated' => DumpUpdated::class,
     ];
 

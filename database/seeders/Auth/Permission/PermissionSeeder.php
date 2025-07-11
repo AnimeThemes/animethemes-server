@@ -59,10 +59,10 @@ class PermissionSeeder extends Seeder
         );
 
         // Admin Resources
-        $this->registerResource(Announcement::class, $extendedCrudPermissions);
-        $this->registerResource(Dump::class, $extendedCrudPermissions);
+        $this->registerResource(Announcement::class, CrudPermission::cases());
+        $this->registerResource(Dump::class, CrudPermission::cases());
         $this->registerResource(Feature::class, CrudPermission::cases());
-        $this->registerResource(FeaturedTheme::class, $extendedCrudPermissions);
+        $this->registerResource(FeaturedTheme::class, CrudPermission::cases());
 
         // Auth Resources
         $this->registerResource(Permission::class, [CrudPermission::VIEW]);
@@ -74,9 +74,9 @@ class PermissionSeeder extends Seeder
 
         // List Resources
         $this->registerResource(ExternalEntry::class, CrudPermission::cases());
-        $this->registerResource(ExternalProfile::class, $extendedCrudPermissions);
-        $this->registerResource(Playlist::class, $extendedCrudPermissions);
-        $this->registerResource(PlaylistTrack::class, $extendedCrudPermissions);
+        $this->registerResource(ExternalProfile::class, CrudPermission::cases());
+        $this->registerResource(Playlist::class, CrudPermission::cases());
+        $this->registerResource(PlaylistTrack::class, CrudPermission::cases());
 
         // User Resources
         $this->registerResource(Like::class, [CrudPermission::VIEW, CrudPermission::CREATE, CrudPermission::DELETE]);

@@ -4,15 +4,13 @@ declare(strict_types=1);
 
 namespace App\Models\User;
 
-use App\Contracts\Models\HasSubtitle;
-use App\Contracts\Models\Nameable;
 use App\Enums\Models\User\ApprovableStatus;
 use App\Models\Auth\User;
+use App\Models\BaseModel;
 use App\Models\User\Report\ReportStep;
 use Database\Factories\User\ReportFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
@@ -34,7 +32,7 @@ use Illuminate\Support\Collection;
  * @method static Builder pending()
  * @method static ReportFactory factory(...$parameters)
  */
-class Report extends Model implements HasSubtitle, Nameable
+class Report extends BaseModel
 {
     use HasFactory;
 

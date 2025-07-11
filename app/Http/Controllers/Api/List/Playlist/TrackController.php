@@ -6,8 +6,6 @@ namespace App\Http\Controllers\Api\List\Playlist;
 
 use App\Actions\Http\Api\IndexAction;
 use App\Actions\Http\Api\List\Playlist\Track\DestroyTrackAction;
-use App\Actions\Http\Api\List\Playlist\Track\ForceDeleteTrackAction;
-use App\Actions\Http\Api\List\Playlist\Track\RestoreTrackAction;
 use App\Actions\Http\Api\List\Playlist\Track\StoreTrackAction;
 use App\Actions\Http\Api\List\Playlist\Track\UpdateTrackAction;
 use App\Actions\Http\Api\ShowAction;
@@ -24,7 +22,6 @@ use App\Http\Resources\List\Playlist\Resource\TrackResource;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
 use Exception;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Str;
 use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
 
@@ -138,41 +135,5 @@ class TrackController extends BaseController
         $deleted = $action->destroy($playlist, $track);
 
         return new TrackResource($deleted, new Query());
-    }
-
-    /**
-     * Restore the specified resource.
-     *
-     * @param  Playlist  $playlist
-     * @param  PlaylistTrack  $track
-     * @param  RestoreTrackAction  $action
-     * @return TrackResource
-     *
-     * @throws Exception
-     */
-    public function restore(Playlist $playlist, PlaylistTrack $track, RestoreTrackAction $action): TrackResource
-    {
-        $restored = $action->restore($playlist, $track);
-
-        return new TrackResource($restored, new Query());
-    }
-
-    /**
-     * Hard-delete the specified resource.
-     *
-     * @param  Playlist  $playlist
-     * @param  PlaylistTrack  $track
-     * @param  ForceDeleteTrackAction  $action
-     * @return JsonResponse
-     *
-     * @throws Exception
-     */
-    public function forceDelete(Playlist $playlist, PlaylistTrack $track, ForceDeleteTrackAction $action): JsonResponse
-    {
-        $message = $action->forceDelete($playlist, $track);
-
-        return new JsonResponse([
-            'message' => $message,
-        ]);
     }
 }

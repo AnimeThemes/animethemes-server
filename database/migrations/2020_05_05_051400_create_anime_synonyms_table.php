@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
+use App\Constants\ModelConstants;
 use App\Enums\Models\Wiki\AnimeSynonymType;
-use App\Models\BaseModel;
 use App\Models\Wiki\Anime;
 use App\Models\Wiki\Anime\AnimeSynonym;
 use Illuminate\Database\Migrations\Migration;
@@ -23,7 +23,7 @@ return new class extends Migration
             Schema::create(AnimeSynonym::TABLE, function (Blueprint $table) {
                 $table->id(AnimeSynonym::ATTRIBUTE_ID);
                 $table->timestamps(6);
-                $table->softDeletes(BaseModel::ATTRIBUTE_DELETED_AT, 6);
+                $table->softDeletes(ModelConstants::ATTRIBUTE_DELETED_AT, 6);
                 $table->string(AnimeSynonym::ATTRIBUTE_TEXT)->nullable();
                 $table->integer(AnimeSynonym::ATTRIBUTE_TYPE)->default(AnimeSynonymType::OTHER->value);
 

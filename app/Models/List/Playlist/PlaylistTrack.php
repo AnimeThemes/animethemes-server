@@ -8,7 +8,6 @@ use App\Contracts\Http\Api\InteractsWithSchema;
 use App\Contracts\Models\HasHashids;
 use App\Events\List\Playlist\Track\TrackCreated;
 use App\Events\List\Playlist\Track\TrackDeleted;
-use App\Events\List\Playlist\Track\TrackRestored;
 use App\Events\List\Playlist\Track\TrackUpdated;
 use App\Http\Api\Schema\List\Playlist\TrackSchema;
 use App\Http\Api\Schema\Schema;
@@ -17,6 +16,7 @@ use App\Models\List\Playlist;
 use App\Models\Wiki\Anime\Theme\AnimeThemeEntry;
 use App\Models\Wiki\Video;
 use Database\Factories\List\Playlist\PlaylistTrackFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Str;
 use Staudenmeir\LaravelAdjacencyList\Eloquent\HasRecursiveRelationships;
@@ -40,6 +40,7 @@ use Staudenmeir\LaravelAdjacencyList\Eloquent\HasRecursiveRelationships;
  */
 class PlaylistTrack extends BaseModel implements HasHashids, InteractsWithSchema
 {
+    use HasFactory;
     use HasRecursiveRelationships;
 
     final public const TABLE = 'playlist_tracks';
@@ -82,7 +83,6 @@ class PlaylistTrack extends BaseModel implements HasHashids, InteractsWithSchema
     protected $dispatchesEvents = [
         'created' => TrackCreated::class,
         'deleted' => TrackDeleted::class,
-        'restored' => TrackRestored::class,
         'updated' => TrackUpdated::class,
     ];
 

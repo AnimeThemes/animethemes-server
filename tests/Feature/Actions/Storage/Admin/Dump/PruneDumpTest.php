@@ -79,10 +79,6 @@ class PruneDumpTest extends TestCase
 
         static::assertEmpty($fs->allFiles());
         static::assertTrue($result->getStatus() === ActionStatus::PASSED);
-
-        $dumps = Dump::withTrashed()->get();
-        foreach ($dumps as $dump) {
-            static::assertSoftDeleted($dump);
-        }
+        static::assertEmpty(Dump::all());
     }
 }

@@ -7,7 +7,6 @@ namespace Tests\Feature\Events\List;
 use App\Contracts\Models\HasHashids;
 use App\Events\List\Playlist\PlaylistCreated;
 use App\Events\List\Playlist\PlaylistDeleted;
-use App\Events\List\Playlist\PlaylistRestored;
 use App\Events\List\Playlist\PlaylistUpdated;
 use App\Models\Auth\User;
 use App\Models\List\Playlist;
@@ -44,36 +43,6 @@ class PlaylistTest extends TestCase
         $playlist->delete();
 
         Event::assertDispatched(PlaylistDeleted::class);
-    }
-
-    /**
-     * When a Playlist is restored, a PlaylistRestored event shall be dispatched.
-     *
-     * @return void
-     */
-    public function testPlaylistRestoredEventDispatched(): void
-    {
-        $playlist = Playlist::factory()->createOne();
-
-        $playlist->restore();
-
-        Event::assertDispatched(PlaylistRestored::class);
-    }
-
-    /**
-     * When a Playlist is restored, a PlaylistUpdated event shall not be dispatched.
-     * Note: This is a customization that overrides default framework behavior.
-     * An updated event is fired on restore.
-     *
-     * @return void
-     */
-    public function testPlaylistRestoresQuietly(): void
-    {
-        $playlist = Playlist::factory()->createOne();
-
-        $playlist->restore();
-
-        Event::assertNotDispatched(PlaylistUpdated::class);
     }
 
     /**

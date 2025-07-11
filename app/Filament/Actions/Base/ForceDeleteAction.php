@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace App\Filament\Actions\Base;
 
-use App\Actions\Http\Api\List\Playlist\Track\ForceDeleteTrackAction;
-use App\Models\List\Playlist\PlaylistTrack;
+use App\Contracts\Models\SoftDeletable;
 use Filament\Actions\ForceDeleteAction as BaseForceDeleteAction;
-use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class ForceDeleteAction.
@@ -25,14 +23,6 @@ class ForceDeleteAction extends BaseForceDeleteAction
 
         $this->label(__('filament.actions.base.forcedelete'));
 
-        $this->action(function (Model $record) {
-            if ($record instanceof PlaylistTrack) {
-                return new ForceDeleteTrackAction()->forceDelete($record->playlist, $record);
-            }
-
-            $record->forceDelete();
-        });
-
-        $this->visible(true);
+        $this->visible(fn ($model) => in_array(SoftDeletable::class, class_implements($model)));
     }
 }

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Schema\List\Playlist;
 
+use App\Http\Api\Field\Base\CreatedAtField;
+use App\Http\Api\Field\Base\UpdatedAtField;
 use App\Http\Api\Field\Field;
 use App\Http\Api\Field\List\Playlist\Track\TrackEntryIdField;
 use App\Http\Api\Field\List\Playlist\Track\TrackHashidsField;
@@ -69,20 +71,19 @@ class TrackSchema extends EloquentSchema
      */
     public function fields(): array
     {
-        return array_merge(
-            parent::fields(),
-            [
-                new TrackIdField($this),
-                new TrackHashidsField($this),
-                new TrackNextIdField($this),
-                new TrackNextHashidsField($this),
-                new TrackPlaylistIdField($this),
-                new TrackPreviousIdField($this),
-                new TrackPreviousHashidsField($this),
-                new TrackEntryIdField($this),
-                new TrackVideoIdField($this),
-            ],
-        );
+        return [
+            new CreatedAtField($this),
+            new UpdatedAtField($this),
+            new TrackIdField($this),
+            new TrackHashidsField($this),
+            new TrackNextIdField($this),
+            new TrackNextHashidsField($this),
+            new TrackPlaylistIdField($this),
+            new TrackPreviousIdField($this),
+            new TrackPreviousHashidsField($this),
+            new TrackEntryIdField($this),
+            new TrackVideoIdField($this),
+        ];
     }
 
     /**

@@ -38,18 +38,6 @@ class UserRoleRelationManager extends UserRelationManager
     }
 
     /**
-     * Get the filters available for the relation.
-     *
-     * @return array
-     *
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    public static function getFilters(): array
-    {
-        return [];
-    }
-
-    /**
      * Get the actions available for the relation.
      *
      * @return array

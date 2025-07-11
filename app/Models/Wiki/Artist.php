@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace App\Models\Wiki;
 
 use App\Concerns\Models\Reportable;
+use App\Concerns\Models\SoftDeletes;
 use App\Contracts\Models\HasImages;
 use App\Contracts\Models\HasResources;
+use App\Contracts\Models\SoftDeletable;
 use App\Events\Wiki\Artist\ArtistCreated;
 use App\Events\Wiki\Artist\ArtistDeleted;
 use App\Events\Wiki\Artist\ArtistRestored;
@@ -25,6 +27,7 @@ use App\Pivots\Wiki\ArtistSong;
 use Database\Factories\Wiki\ArtistFactory;
 use Elastic\ScoutDriverPlus\Searchable;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Collection;
@@ -45,10 +48,12 @@ use Illuminate\Support\Collection;
  *
  * @method static ArtistFactory factory(...$parameters)
  */
-class Artist extends BaseModel implements HasImages, HasResources
+class Artist extends BaseModel implements HasImages, HasResources, SoftDeletable
 {
+    use HasFactory;
     use Reportable;
     use Searchable;
+    use SoftDeletes;
 
     final public const TABLE = 'artists';
 

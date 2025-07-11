@@ -9,7 +9,6 @@ use App\Contracts\GraphQL\HasRelations;
 use App\GraphQL\Definition\Fields\Admin\FeaturedTheme\FeaturedThemeEndAtField;
 use App\GraphQL\Definition\Fields\Admin\FeaturedTheme\FeaturedThemeStartAtField;
 use App\GraphQL\Definition\Fields\Base\CreatedAtField;
-use App\GraphQL\Definition\Fields\Base\DeletedAtField;
 use App\GraphQL\Definition\Fields\Base\IdField;
 use App\GraphQL\Definition\Fields\Base\UpdatedAtField;
 use App\GraphQL\Definition\Fields\Field;
@@ -63,7 +62,6 @@ class FeaturedThemeType extends EloquentType implements HasFields, HasRelations
             new FeaturedThemeEndAtField(),
             new CreatedAtField(),
             new UpdatedAtField(),
-            new DeletedAtField(),
         ];
     }
 }

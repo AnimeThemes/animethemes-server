@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Models\Wiki;
 
 use App\Concerns\Models\Reportable;
+use App\Concerns\Models\SoftDeletes;
+use App\Contracts\Models\SoftDeletable;
 use App\Enums\Models\Wiki\ResourceSite;
 use App\Events\Wiki\ExternalResource\ExternalResourceCreated;
 use App\Events\Wiki\ExternalResource\ExternalResourceDeleted;
@@ -20,6 +22,7 @@ use App\Pivots\Wiki\ArtistResource;
 use App\Pivots\Wiki\SongResource;
 use App\Pivots\Wiki\StudioResource;
 use Database\Factories\Wiki\ExternalResourceFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Collection;
 
@@ -37,9 +40,11 @@ use Illuminate\Support\Collection;
  *
  * @method static ExternalResourceFactory factory(...$parameters)
  */
-class ExternalResource extends BaseModel
+class ExternalResource extends BaseModel implements SoftDeletable
 {
+    use HasFactory;
     use Reportable;
+    use SoftDeletes;
 
     final public const TABLE = 'resources';
 
