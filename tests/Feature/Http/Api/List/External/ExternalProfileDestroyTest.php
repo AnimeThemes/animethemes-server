@@ -134,7 +134,7 @@ class ExternalProfileDestroyTest extends TestCase
         $response = $this->delete(route('api.externalprofile.destroy', ['externalprofile' => $profile]));
 
         $response->assertOk();
-        static::assertSoftDeleted($profile);
+        static::assertModelMissing($profile);
     }
 
     /**

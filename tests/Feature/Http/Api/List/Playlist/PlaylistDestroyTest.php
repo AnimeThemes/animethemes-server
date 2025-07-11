@@ -134,7 +134,7 @@ class PlaylistDestroyTest extends TestCase
         $response = $this->delete(route('api.playlist.destroy', ['playlist' => $playlist]));
 
         $response->assertOk();
-        static::assertSoftDeleted($playlist);
+        static::assertModelMissing($playlist);
     }
 
     /**

@@ -48,24 +48,6 @@ class AnnouncementDestroyTest extends TestCase
     }
 
     /**
-     * The Announcement Destroy Endpoint shall forbid users from updating an announcement that is trashed.
-     *
-     * @return void
-     */
-    public function testTrashed(): void
-    {
-        $announcement = Announcement::factory()->trashed()->createOne();
-
-        $user = User::factory()->withPermissions(CrudPermission::DELETE->format(Announcement::class))->createOne();
-
-        Sanctum::actingAs($user);
-
-        $response = $this->delete(route('api.announcement.destroy', ['announcement' => $announcement]));
-
-        $response->assertNotFound();
-    }
-
-    /**
      * The Announcement Destroy Endpoint shall delete the announcement.
      *
      * @return void
@@ -81,6 +63,6 @@ class AnnouncementDestroyTest extends TestCase
         $response = $this->delete(route('api.announcement.destroy', ['announcement' => $announcement]));
 
         $response->assertOk();
-        static::assertSoftDeleted($announcement);
+        static::assertModelMissing($announcement);
     }
 }
