@@ -18,6 +18,7 @@ use App\Http\Requests\Api\UpdateRequest;
 use App\Http\Resources\Admin\Collection\AnnouncementCollection;
 use App\Http\Resources\Admin\Resource\AnnouncementResource;
 use App\Models\Admin\Announcement;
+use Illuminate\Http\JsonResponse;
 
 /**
  * Class AnnouncementController.
@@ -99,12 +100,14 @@ class AnnouncementController extends BaseController
      *
      * @param  Announcement  $announcement
      * @param  DestroyAction  $action
-     * @return AnnouncementResource
+     * @return JsonResponse
      */
-    public function destroy(Announcement $announcement, DestroyAction $action): AnnouncementResource
+    public function destroy(Announcement $announcement, DestroyAction $action): JsonResponse
     {
-        $deleted = $action->destroy($announcement);
+        $message = $action->forceDelete($announcement);
 
-        return new AnnouncementResource($deleted, new Query());
+        return new JsonResponse([
+            'message' => $message,
+        ]);
     }
 }

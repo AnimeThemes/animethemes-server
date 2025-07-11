@@ -19,6 +19,7 @@ use App\Http\Requests\Api\UpdateRequest;
 use App\Http\Resources\Admin\Collection\FeaturedThemeCollection;
 use App\Http\Resources\Admin\Resource\FeaturedThemeResource;
 use App\Models\Admin\FeaturedTheme;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Date;
 
 /**
@@ -105,12 +106,14 @@ class FeaturedThemeController extends BaseController
      *
      * @param  FeaturedTheme  $featuredtheme
      * @param  DestroyAction  $action
-     * @return FeaturedThemeResource
+     * @return JsonResponse
      */
-    public function destroy(FeaturedTheme $featuredtheme, DestroyAction $action): FeaturedThemeResource
+    public function destroy(FeaturedTheme $featuredtheme, DestroyAction $action): JsonResponse
     {
-        $deleted = $action->destroy($featuredtheme);
+        $message = $action->forceDelete($featuredtheme);
 
-        return new FeaturedThemeResource($deleted, new Query());
+        return new JsonResponse([
+            'message' => $message,
+        ]);
     }
 }

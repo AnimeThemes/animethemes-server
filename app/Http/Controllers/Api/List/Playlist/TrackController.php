@@ -22,6 +22,7 @@ use App\Http\Resources\List\Playlist\Resource\TrackResource;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
 use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Str;
 use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
 
@@ -126,14 +127,16 @@ class TrackController extends BaseController
      * @param  Playlist  $playlist
      * @param  PlaylistTrack  $track
      * @param  DestroyTrackAction  $action
-     * @return TrackResource
+     * @return JsonResponse
      *
      * @throws Exception
      */
-    public function destroy(Playlist $playlist, PlaylistTrack $track, DestroyTrackAction $action): TrackResource
+    public function destroy(Playlist $playlist, PlaylistTrack $track, DestroyTrackAction $action): JsonResponse
     {
-        $deleted = $action->destroy($playlist, $track);
+        $message = $action->destroy($playlist, $track);
 
-        return new TrackResource($deleted, new Query());
+        return new JsonResponse([
+            'message' => $message,
+        ]);
     }
 }

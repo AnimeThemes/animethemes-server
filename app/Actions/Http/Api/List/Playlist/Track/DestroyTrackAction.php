@@ -9,9 +9,9 @@ use App\Actions\Models\List\Playlist\RemoveTrackAction;
 use App\Models\List\Playlist;
 use App\Models\List\Playlist\PlaylistTrack;
 use Exception;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 /**
  * Class DestroyTrackAction.
@@ -23,11 +23,11 @@ class DestroyTrackAction
      *
      * @param  Playlist  $playlist
      * @param  PlaylistTrack  $track
-     * @return Model
+     * @return string
      *
      * @throws Exception
      */
-    public function destroy(Playlist $playlist, PlaylistTrack $track): Model
+    public function destroy(Playlist $playlist, PlaylistTrack $track): string
     {
         try {
             DB::beginTransaction();
@@ -40,13 +40,19 @@ class DestroyTrackAction
 
             $removeAction->remove($playlist, $track);
 
+            $message = Str::of(Str::headline(class_basename($track)))
+                ->append(' \'')
+                ->append($track->getName())
+                ->append('\' was deleted.')
+                ->__toString();
+
             $destroyAction = new DestroyAction();
 
-            $destroyed = $destroyAction->destroy($track);
+            $destroyAction->forceDelete($track);
 
             DB::commit();
 
-            return $destroyed;
+            return $message;
         } catch (Exception $e) {
             Log::error($e->getMessage());
 

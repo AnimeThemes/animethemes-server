@@ -22,6 +22,7 @@ use App\Http\Requests\Api\UpdateRequest;
 use App\Http\Resources\List\Collection\ExternalProfileCollection;
 use App\Http\Resources\List\Resource\ExternalProfileResource;
 use App\Models\List\ExternalProfile;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
@@ -129,12 +130,14 @@ class ExternalProfileController extends BaseController
      *
      * @param  ExternalProfile  $externalprofile
      * @param  DestroyAction  $action
-     * @return ExternalProfileResource
+     * @return JsonResponse
      */
-    public function destroy(ExternalProfile $externalprofile, DestroyAction $action): ExternalProfileResource
+    public function destroy(ExternalProfile $externalprofile, DestroyAction $action): JsonResponse
     {
-        $deleted = $action->destroy($externalprofile);
+        $message = $action->forceDelete($externalprofile);
 
-        return new ExternalProfileResource($deleted, new Query());
+        return new JsonResponse([
+            'message' => $message,
+        ]);
     }
 }

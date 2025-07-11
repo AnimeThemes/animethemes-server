@@ -20,6 +20,7 @@ use App\Http\Resources\Admin\Collection\DumpCollection;
 use App\Http\Resources\Admin\Resource\DumpResource;
 use App\Models\Admin\Dump;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\JsonResponse;
 
 /**
  * Class DumpController.
@@ -109,12 +110,14 @@ class DumpController extends BaseController
      *
      * @param  Dump  $dump
      * @param  DestroyAction  $action
-     * @return DumpResource
+     * @return JsonResponse
      */
-    public function destroy(Dump $dump, DestroyAction $action): DumpResource
+    public function destroy(Dump $dump, DestroyAction $action): JsonResponse
     {
-        $deleted = $action->destroy($dump);
+        $message = $action->forceDelete($dump);
 
-        return new DumpResource($deleted, new Query());
+        return new JsonResponse([
+            'message' => $message,
+        ]);
     }
 }

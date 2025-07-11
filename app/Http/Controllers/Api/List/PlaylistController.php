@@ -21,6 +21,7 @@ use App\Http\Requests\Api\UpdateRequest;
 use App\Http\Resources\List\Collection\PlaylistCollection;
 use App\Http\Resources\List\Resource\PlaylistResource;
 use App\Models\List\Playlist;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
@@ -122,12 +123,14 @@ class PlaylistController extends BaseController
      *
      * @param  Playlist  $playlist
      * @param  DestroyAction  $action
-     * @return PlaylistResource
+     * @return JsonResponse
      */
-    public function destroy(Playlist $playlist, DestroyAction $action): PlaylistResource
+    public function destroy(Playlist $playlist, DestroyAction $action): JsonResponse
     {
-        $deleted = $action->destroy($playlist);
+        $message = $action->forceDelete($playlist);
 
-        return new PlaylistResource($deleted, new Query());
+        return new JsonResponse([
+            'message' => $message,
+        ]);
     }
 }
