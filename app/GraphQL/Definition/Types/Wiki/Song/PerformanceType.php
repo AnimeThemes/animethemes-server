@@ -39,7 +39,7 @@ class PerformanceType extends EloquentType implements HasFields, HasRelations
     /**
      * The relations of the type.
      *
-     * @return array<int, Relation>
+     * @return Relation[]
      */
     public function relations(): array
     {
@@ -52,7 +52,7 @@ class PerformanceType extends EloquentType implements HasFields, HasRelations
     /**
      * The fields of the type.
      *
-     * @return array<int, Field>
+     * @return Field[]
      */
     public function fields(): array
     {

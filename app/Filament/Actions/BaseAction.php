@@ -40,7 +40,7 @@ abstract class BaseAction extends Action
 
         $this->requiresConfirmation();
 
-        $this->before(function (BaseAction $action, $livewire) {
+        $this->before(function (BaseAction $action, mixed $livewire) {
             if ($livewire instanceof BaseRelationManager) {
                 $this->createActionLog($action, $livewire->getOwnerRecord());
                 $livewire->dispatch('updateAllRelationManager');
@@ -49,7 +49,7 @@ abstract class BaseAction extends Action
             }
         });
 
-        $this->after(function ($livewire) {
+        $this->after(function (mixed $livewire) {
             $this->finishedLog();
 
             if ($livewire instanceof BaseViewResource || $livewire instanceof BaseRelationManager) {

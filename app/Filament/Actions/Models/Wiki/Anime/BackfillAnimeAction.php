@@ -80,10 +80,10 @@ class BackfillAnimeAction extends BaseAction implements ShouldQueue
      * Perform the action on the given models.
      *
      * @param  Anime  $anime
-     * @param  array  $fields
+     * @param  array<string, mixed>  $data
      * @return void
      */
-    public function handle(Anime $anime, array $fields): void
+    public function handle(Anime $anime, array $data): void
     {
         if ($anime->resources()->doesntExist()) {
             $this->failedLog(__('filament.actions.anime.backfill.message.resource_required_failure'));
@@ -91,7 +91,7 @@ class BackfillAnimeAction extends BaseAction implements ShouldQueue
             return;
         }
 
-        $action = new BackfillAnime($anime, $this->getToBackfill($fields));
+        $action = new BackfillAnime($anime, $this->getToBackfill($data));
 
         try {
             $result = $action->handle();
@@ -205,8 +205,8 @@ class BackfillAnimeAction extends BaseAction implements ShouldQueue
     /**
      * Get what should be backfilled.
      *
-     * @param  array  $fields
-     * @return array
+     * @param  array<string, mixed>  $fields
+     * @return array<string, array<int, ResourceSite|ImageFacet>|bool>
      */
     protected function getToBackfill(array $fields): array
     {
@@ -235,7 +235,7 @@ class BackfillAnimeAction extends BaseAction implements ShouldQueue
     /**
      * Get the resources for mapping.
      *
-     * @return array
+     * @return array<string, array<int, ResourceSite>>
      */
     protected function getResourcesMapping(): array
     {
@@ -256,7 +256,7 @@ class BackfillAnimeAction extends BaseAction implements ShouldQueue
     /**
      * Get the images for mapping.
      *
-     * @return array
+     * @return array<string, array<int, ImageFacet>>
      */
     protected function getImagesMapping(): array
     {

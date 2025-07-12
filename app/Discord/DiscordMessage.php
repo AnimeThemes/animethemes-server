@@ -106,7 +106,7 @@ class DiscordMessage
     /**
      * Set the embeds of the message.
      *
-     * @param  array<int, DiscordEmbed>  $embeds
+     * @param  DiscordEmbed[]  $embeds
      * @return static
      */
     public function setEmbeds(array $embeds): static
@@ -158,7 +158,7 @@ class DiscordMessage
     /**
      * Convert the constructor to an array.
      *
-     * @return array
+     * @return array<string, mixed>
      */
     public function toArray(): array
     {

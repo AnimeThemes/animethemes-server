@@ -19,7 +19,7 @@ class DiscordThreadAction
      * Handle the action.
      *
      * @param  Anime  $anime
-     * @param  array  $fields
+     * @param  array<string, mixed>  $fields
      * @return Exception|null
      */
     public function handle(Anime $anime, array $fields): ?Exception

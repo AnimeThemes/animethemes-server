@@ -41,7 +41,7 @@ abstract class ExternalApiAction
     /**
      * Get the mapped resources.
      *
-     * @return array<int, string>
+     * @return string[]
      */
     public function getResources(): array
     {
@@ -61,7 +61,7 @@ abstract class ExternalApiAction
     /**
      * Get the mapped images.
      *
-     * @return array<int, string>
+     * @return string[]
      */
     public function getImages(): array
     {

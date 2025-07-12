@@ -300,7 +300,7 @@ class Entry extends BaseResource
     /**
      * Get the relationships available for the resource.
      *
-     * @return array
+     * @return array<int, RelationGroup|class-string<\Filament\Resources\RelationManagers\RelationManager>>
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
@@ -318,7 +318,7 @@ class Entry extends BaseResource
     /**
      * Get the filters available for the resource.
      *
-     * @return array
+     * @return array<int, \Filament\Tables\Filters\BaseFilter>
      */
     public static function getFilters(): array
     {
@@ -347,7 +347,7 @@ class Entry extends BaseResource
     /**
      * Get the pages available for the resource.
      *
-     * @return array
+     * @return array<string, \Filament\Resources\Pages\PageRegistration>
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */

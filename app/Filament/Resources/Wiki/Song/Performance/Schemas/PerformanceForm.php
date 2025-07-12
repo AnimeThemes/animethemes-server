@@ -50,7 +50,7 @@ class PerformanceForm
     /**
      * Get the performance fields to create a performance.
      *
-     * @return array
+     * @return array<int, \Filament\Schemas\Components\Component>
      */
     public static function performancesFields(): array
     {

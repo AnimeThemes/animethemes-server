@@ -40,7 +40,7 @@ class UserRoleRelationManager extends UserRelationManager
     /**
      * Get the actions available for the relation.
      *
-     * @return array
+     * @return array<int, \Filament\Actions\Action>
      */
     public static function getRecordActions(): array
     {

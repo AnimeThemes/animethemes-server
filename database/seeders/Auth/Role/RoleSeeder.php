@@ -55,7 +55,7 @@ class RoleSeeder extends Seeder
      * Configure role with abilities.
      *
      * @param  Role  $role
-     * @param  array<int, string>  $abilities
+     * @param  string[]  $abilities
      * @return void
      */
     protected function configureAbilities(Role $role, array $abilities): void

@@ -22,6 +22,7 @@ use Filament\Facades\Filament;
 use Filament\Forms\Components\KeyValue;
 use Filament\Forms\Components\Textarea;
 use Filament\Infolists\Components\KeyValueEntry;
+use Filament\Resources\Pages\PageRegistration;
 use Filament\Schemas\Schema;
 use Filament\Support\Enums\TextSize;
 use Filament\Tables\Filters\SelectFilter;
@@ -265,7 +266,7 @@ class ActionLog extends BaseResource
     /**
      * Get the filters available for the resource.
      *
-     * @return array
+     * @return array<int, \Filament\Tables\Filters\BaseFilter>
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
@@ -287,7 +288,7 @@ class ActionLog extends BaseResource
     /**
      * Get the actions available for the resource.
      *
-     * @return array
+     * @return array<int, \Filament\Actions\Action|\Filament\Actions\ActionGroup>
      */
     public static function getActions(): array
     {
@@ -299,8 +300,8 @@ class ActionLog extends BaseResource
     /**
      * Get the bulk actions available for the resource.
      *
-     * @param  array|null  $actionsIncludedInGroup
-     * @return array
+     * @param  array<int, \Filament\Actions\ActionGroup|\Filament\Actions\Action>|null  $actionsIncludedInGroup
+     * @return array<int, \Filament\Actions\ActionGroup|\Filament\Actions\Action>
      */
     public static function getBulkActions(?array $actionsIncludedInGroup = []): array
     {
@@ -310,7 +311,7 @@ class ActionLog extends BaseResource
     /**
      * Get the table actions available for the resource.
      *
-     * @return array
+     * @return array<int, \Filament\Actions\ActionGroup|\Filament\Actions\Action>
      */
     public static function getTableActions(): array
     {
@@ -376,7 +377,7 @@ class ActionLog extends BaseResource
     /**
      * Get the pages available for the resource.
      *
-     * @return array
+     * @return array<string, \Filament\Resources\Pages\PageRegistration>
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */

@@ -46,7 +46,7 @@ class RevokePermissionAction extends BaseAction
      * Perform the action on the given model.
      *
      * @param  Role  $role
-     * @param  array  $data
+     * @param  array<string, mixed>  $data
      * @return void
      */
     public function handle(Role $role, array $data): void

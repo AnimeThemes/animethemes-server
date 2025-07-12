@@ -29,7 +29,7 @@ abstract class DateTimeTzField extends Field implements FilterableField
     /**
      * The directives available for this filter.
      *
-     * @return array<int, FilterDirective>
+     * @return FilterDirective[]
      */
     public function filterDirectives(): array
     {

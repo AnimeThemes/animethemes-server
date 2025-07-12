@@ -36,8 +36,6 @@ class DeleteAction extends BaseDeleteAction
             $record->delete();
         });
 
-        $this->after(function ($record) {
-            ActionLog::modelDeleted($record);
-        });
+        $this->after(fn (Model $record) => ActionLog::modelDeleted($record));
     }
 }

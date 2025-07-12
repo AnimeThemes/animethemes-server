@@ -23,6 +23,6 @@ class ForceDeleteAction extends BaseForceDeleteAction
 
         $this->label(__('filament.actions.base.forcedelete'));
 
-        $this->visible(fn ($model) => in_array(SoftDeletable::class, class_implements($model)));
+        $this->visible(fn (string $model) => in_array(SoftDeletable::class, class_implements($model)));
     }
 }

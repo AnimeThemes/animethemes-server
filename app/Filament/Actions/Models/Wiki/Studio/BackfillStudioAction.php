@@ -65,10 +65,10 @@ class BackfillStudioAction extends BaseAction implements ShouldQueue
      * Perform the action on the given models.
      *
      * @param  Studio  $studio
-     * @param  array  $fields
+     * @param  array<string, mixed>  $data
      * @return void
      */
-    public function handle(Studio $studio, array $fields): void
+    public function handle(Studio $studio, array $data): void
     {
         if ($studio->resources()->doesntExist()) {
             $this->failedLog(__('filament.actions.studio.backfill.message.resource_required_failure'));
@@ -76,7 +76,7 @@ class BackfillStudioAction extends BaseAction implements ShouldQueue
             return;
         }
 
-        $action = new BackfillStudioActionAction($studio, $this->getToBackfill($fields));
+        $action = new BackfillStudioActionAction($studio, $this->getToBackfill($data));
 
         try {
             $result = $action->handle();
@@ -124,8 +124,8 @@ class BackfillStudioAction extends BaseAction implements ShouldQueue
     /**
      * Get what should be backfilled.
      *
-     * @param  array  $fields
-     * @return array
+     * @param  array<string, mixed>  $fields
+     * @return array<string, ImageFacet[]>
      */
     protected function getToBackfill(array $fields): array
     {
@@ -144,7 +144,7 @@ class BackfillStudioAction extends BaseAction implements ShouldQueue
     /**
      * Get the images for mapping.
      *
-     * @return array
+     * @return array<string, array<int, ImageFacet>>
      */
     protected function getImagesMapping(): array
     {

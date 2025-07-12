@@ -12,7 +12,7 @@ interface BackfillSynonyms
     /**
      * Get the mapping for the synonyms.
      *
-     * @return array<int, string>
+     * @return string[]
      */
     public function getSynonymsMapping(): array;
 }

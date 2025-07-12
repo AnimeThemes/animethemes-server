@@ -108,7 +108,7 @@ class DiscordEmbed
     /**
      * Get the fields of the embed.
      *
-     * @return array<int, DiscordEmbedField>
+     * @return DiscordEmbedField[]
      */
     public function getFields(): array
     {
@@ -196,7 +196,7 @@ class DiscordEmbed
     /**
      * Set the fields of the embed.
      *
-     * @param  array<int, DiscordEmbedField>  $fields
+     * @param  DiscordEmbedField[]  $fields
      * @return static
      */
     public function setFields(array $fields): static

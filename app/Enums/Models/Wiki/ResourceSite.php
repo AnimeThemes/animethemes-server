@@ -228,7 +228,7 @@ enum ResourceSite: int implements HasLabel
      * Get the resource sites available for determined model.
      *
      * @param  class-string|null  $modelClass
-     * @return array<int, ResourceSite>
+     * @return ResourceSite[]
      */
     public static function getForModel(?string $modelClass): array
     {

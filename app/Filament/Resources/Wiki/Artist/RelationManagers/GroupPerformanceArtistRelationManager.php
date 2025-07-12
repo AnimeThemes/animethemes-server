@@ -40,7 +40,7 @@ class GroupPerformanceArtistRelationManager extends PerformanceRelationManager
     /**
      * Get the actions available for the relation.
      *
-     * @return array
+     * @return array<int, \Filament\Actions\Action>
      */
     public static function getRecordActions(): array
     {
@@ -50,8 +50,8 @@ class GroupPerformanceArtistRelationManager extends PerformanceRelationManager
     /**
      * Get the bulk actions available for the relation.
      *
-     * @param  array|null  $actionsIncludedInGroup
-     * @return array
+     * @param  array<int, \Filament\Actions\ActionGroup|\Filament\Actions\Action>|null  $actionsIncludedInGroup
+     * @return array<int, \Filament\Actions\ActionGroup|\Filament\Actions\Action>
      */
     public static function getBulkActions(?array $actionsIncludedInGroup = []): array
     {
@@ -60,9 +60,8 @@ class GroupPerformanceArtistRelationManager extends PerformanceRelationManager
 
     /**
      * Get the header actions available for the relation.
-     * These are merged with the table actions of the resources.
      *
-     * @return array
+     * @return array<int, \Filament\Actions\Action>
      */
     public static function getHeaderActions(): array
     {

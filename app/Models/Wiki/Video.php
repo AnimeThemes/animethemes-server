@@ -62,7 +62,7 @@ use Illuminate\Support\Collection;
  * @property int $size
  * @property VideoSource|null $source
  * @property bool $subbed
- * @property string[] $tags
+ * @property array<int, string> $tags
  * @property bool $uncen
  * @property int $video_id
  *

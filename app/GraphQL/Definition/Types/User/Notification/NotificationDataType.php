@@ -29,7 +29,7 @@ class NotificationDataType extends BaseType implements HasFields
     /**
      * The fields of the type.
      *
-     * @return array<int, Field>
+     * @return Field[]
      */
     public function fields(): array
     {

@@ -6,7 +6,11 @@ namespace App\Filament\Actions\Base;
 
 use App\Concerns\Filament\ActionLogs\HasPivotActionLogs;
 use App\Filament\RelationManagers\BaseRelationManager;
+use App\Filament\Resources\Base\BaseListResources;
+use App\Filament\Resources\Base\BaseManageResources;
+use App\Filament\Resources\Base\BaseViewResource;
 use Filament\Actions\DetachAction as BaseDetachAction;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -30,11 +34,12 @@ class DetachAction extends BaseDetachAction
 
         $this->label(__('filament.actions.base.detach'));
 
-        $this->visible(function (mixed $livewire) {
-            if (
-                ! ($livewire instanceof BaseRelationManager)
-                || ! ($livewire->getRelationship() instanceof BelongsToMany)
-            ) {
+        $this->visible(function (BaseManageResources|BaseViewResource|BaseListResources|BaseRelationManager $livewire) {
+            if (! ($livewire instanceof BaseRelationManager)) {
+                return false;
+            }
+
+            if (! ($livewire->getRelationship() instanceof BelongsToMany)) {
                 return false;
             }
 
@@ -57,7 +62,7 @@ class DetachAction extends BaseDetachAction
                 : true;
         });
 
-        $this->after(function ($livewire, $record) {
+        $this->after(function (BaseRelationManager $livewire, Model $record) {
             $relationship = $livewire->getRelationship();
 
             if ($relationship instanceof BelongsToMany) {

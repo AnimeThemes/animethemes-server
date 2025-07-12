@@ -87,7 +87,7 @@ abstract class AttachResourceAction extends BaseAction
     /**
      * Get the sites available for the action.
      *
-     * @param  array<int, ResourceSite>  $sites
+     * @param  ResourceSite[]  $sites
      * @return static
      */
     public function sites($sites): static

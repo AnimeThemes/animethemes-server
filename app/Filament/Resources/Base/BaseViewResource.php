@@ -21,7 +21,7 @@ class BaseViewResource extends ViewRecord
     /**
      * Get the header actions available.
      *
-     * @return array
+     * @return array<int, \Filament\Actions\Action>
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */

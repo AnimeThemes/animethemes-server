@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Components\Filters;
 
 use Filament\Forms\Components\TextInput;
+use Filament\Schemas\Components\Component;
 use Filament\Tables\Filters\Filter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
@@ -17,7 +18,7 @@ class TextFilter extends Filter
     /**
      * Get the schema components for the filter.
      *
-     * @return array
+     * @return array<int, Component>
      */
     public function getSchemaComponents(): array
     {

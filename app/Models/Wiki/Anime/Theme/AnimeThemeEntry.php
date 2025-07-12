@@ -211,7 +211,7 @@ class AnimeThemeEntry extends BaseModel implements InteractsWithSchema, SoftDele
     /**
      * Get the eager loads needed to the subtitle.
      *
-     * @return array
+     * @return string[]
      */
     public static function getEagerLoadsForSubtitle(): array
     {

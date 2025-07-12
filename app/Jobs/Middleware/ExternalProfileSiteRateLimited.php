@@ -54,7 +54,7 @@ class ExternalProfileSiteRateLimited
     /**
      * Get the rate limit definition of the site.
      *
-     * @return array
+     * @return array<int, array<string, string|int>>
      */
     protected function definition(): array
     {

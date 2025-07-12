@@ -54,7 +54,7 @@ class LivechartAnimeExternalApiAction extends ExternalApiAction implements Backf
     /**
      * Get the mapping for the resources.
      *
-     * @return array<int, string>
+     * @return string[]
      */
     public function getResourcesMapping(): array
     {

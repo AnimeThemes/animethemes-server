@@ -38,7 +38,7 @@ class ExternalResourceType extends EloquentType implements HasFields, HasRelatio
     /**
      * The relations of the type.
      *
-     * @return array<int, Relation>
+     * @return Relation[]
      */
     public function relations(): array
     {
@@ -53,7 +53,7 @@ class ExternalResourceType extends EloquentType implements HasFields, HasRelatio
     /**
      * The fields of the type.
      *
-     * @return array<int, Field>
+     * @return Field[]
      */
     public function fields(): array
     {

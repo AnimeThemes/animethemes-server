@@ -106,7 +106,7 @@ class ExternalEntry extends BaseModel
     /**
      * Get the eager loads needed to the subtitle.
      *
-     * @return array
+     * @return string[]
      */
     public static function getEagerLoadsForSubtitle(): array
     {
@@ -118,7 +118,7 @@ class ExternalEntry extends BaseModel
     /**
      * Get the fields to perform an update.
      *
-     * @return array
+     * @return string[]
      */
     public static function fieldsForUpdate(): array
     {

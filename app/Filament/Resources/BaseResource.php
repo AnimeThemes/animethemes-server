@@ -102,7 +102,7 @@ abstract class BaseResource extends Resource
     /**
      * Get the filters available for the resource.
      *
-     * @return array
+     * @return array<int, \Filament\Tables\Filters\BaseFilter>
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
@@ -127,7 +127,7 @@ abstract class BaseResource extends Resource
     /**
      * Get the actions available for the resource.
      *
-     * @return array
+     * @return array<int, \Filament\Actions\Action|\Filament\Actions\ActionGroup>
      */
     public static function getActions(): array
     {
@@ -162,7 +162,7 @@ abstract class BaseResource extends Resource
     /**
      * Get the record actions exclusive to the resource.
      *
-     * @return array
+     * @return array<int, \Filament\Actions\Action>
      */
     public static function getRecordActions(): array
     {
@@ -172,8 +172,8 @@ abstract class BaseResource extends Resource
     /**
      * Get the bulk actions available for the resource.
      *
-     * @param  array|null  $actionsIncludedInGroup
-     * @return array
+     * @param  array<int, \Filament\Actions\ActionGroup|\Filament\Actions\Action>|null  $actionsIncludedInGroup
+     * @return array<int, \Filament\Actions\ActionGroup|\Filament\Actions\Action>
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
@@ -193,7 +193,7 @@ abstract class BaseResource extends Resource
     /**
      * Get the table actions available for the resource.
      *
-     * @return array
+     * @return array<int, ActionGroup|\Filament\Actions\Action>
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
@@ -219,7 +219,7 @@ abstract class BaseResource extends Resource
     /**
      * Get the base relationships available for all resources.
      *
-     * @return array
+     * @return array<int, \Filament\Resources\RelationManagers\RelationGroup|class-string<\Filament\Resources\RelationManagers\RelationManager>>
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */

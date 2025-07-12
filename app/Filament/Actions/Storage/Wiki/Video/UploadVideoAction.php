@@ -250,7 +250,7 @@ class UploadVideoAction extends UploadAction
      * Run this after the video is uploaded.
      *
      * @param  Video  $video
-     * @param  array  $data
+     * @param  array<string, mixed>  $data
      * @return void
      */
     protected function afterUploaded(?Model $video, array $data): void

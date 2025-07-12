@@ -131,7 +131,7 @@ class VideoScript extends BaseModel implements InteractsWithSchema, SoftDeletabl
     /**
      * Get the eager loads needed to the subtitle.
      *
-     * @return array
+     * @return string[]
      */
     public static function getEagerLoadsForSubtitle(): array
     {

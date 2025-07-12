@@ -54,7 +54,7 @@ class AnimeYearQuery extends BaseQuery
     /**
      * The arguments of the type.
      *
-     * @return array<int, string>
+     * @return string[]
      */
     public function arguments(): array
     {

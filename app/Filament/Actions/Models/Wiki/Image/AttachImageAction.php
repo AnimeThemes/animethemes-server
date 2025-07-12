@@ -61,10 +61,10 @@ class AttachImageAction extends BaseAction
     /**
      * Perform the action on the table.
      *
-     * @param  array  $fields
+     * @param  array<string, mixed>  $data
      * @return void
      */
-    public function handle(array $fields): void
+    public function handle(array $data): void
     {
         $action = new AttachImageActionAction();
 
@@ -74,7 +74,7 @@ class AttachImageAction extends BaseAction
         /** @var BaseModel&HasImages $model */
         $model = $livewire->getOwnerRecord();
 
-        $action->handle($model, $fields, $this->facets);
+        $action->handle($model, $data, $this->facets);
     }
 
     /**
