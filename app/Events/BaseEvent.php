@@ -53,7 +53,7 @@ abstract class BaseEvent
     /**
      * Get the user info for the footer.
      *
-     * @return array
+     * @return array<string, array<string, mixed>>
      */
     protected function getUserFooter(): array
     {

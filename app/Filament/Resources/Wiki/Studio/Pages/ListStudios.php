@@ -42,7 +42,7 @@ class ListStudios extends BaseListResources
     /**
      * Get the tabs available.
      *
-     * @return array
+     * @return array<string, Tab>
      */
     public function getTabs(): array
     {

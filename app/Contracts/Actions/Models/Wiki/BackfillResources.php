@@ -12,7 +12,7 @@ interface BackfillResources
     /**
      * Get the available sites to backfill.
      *
-     * @return array<int, string>
+     * @return string[]
      */
     public function getResourcesMapping(): array;
 }

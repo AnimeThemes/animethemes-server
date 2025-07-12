@@ -17,7 +17,7 @@ trait ValidatesParameters
      * Restrict the allowed types for the parameter.
      *
      * @param  string  $param
-     * @param  Arrayable<int, string>|string[]  $types
+     * @param  Arrayable<int, string>|array<int, string>  $types
      * @return array<string, array>
      */
     protected function restrictAllowedTypes(string $param, Arrayable|array $types): array
@@ -41,7 +41,7 @@ trait ValidatesParameters
      * Restrict the allowed values for the parameter.
      *
      * @param  string  $param
-     * @param  Arrayable<int, string>|string[]|string  $values
+     * @param  Arrayable<int, string>|array<int, string>|string  $values
      * @param  array  $customRules
      * @return array<string, array>
      */

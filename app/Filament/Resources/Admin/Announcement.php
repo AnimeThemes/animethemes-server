@@ -11,6 +11,7 @@ use App\Filament\Resources\Admin\Announcement\Pages\ManageAnnouncements;
 use App\Filament\Resources\BaseResource;
 use App\Models\Admin\Announcement as AnnouncementModel;
 use Filament\Forms\Components\MarkdownEditor;
+use Filament\Resources\Pages\PageRegistration;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Tables\Table;
@@ -159,7 +160,7 @@ class Announcement extends BaseResource
     /**
      * Get the pages available for the resource.
      *
-     * @return array
+     * @return array<string, PageRegistration>
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */

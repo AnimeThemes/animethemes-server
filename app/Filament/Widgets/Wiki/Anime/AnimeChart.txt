@@ -34,7 +34,7 @@ class AnimeChart extends BaseChartWidget
      * Chart options (series, labels, types, size, animations...)
      * https://apexcharts.com/docs/options.
      *
-     * @return array
+     * @return array<string, array>
      */
     protected function getOptions(): array
     {

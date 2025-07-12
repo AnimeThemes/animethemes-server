@@ -13,6 +13,7 @@ use App\Models\Wiki\Image;
 use Filament\Actions\AttachAction as BaseAttachAction;
 use Filament\Facades\Filament;
 use Filament\Schemas\Schema;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -81,13 +82,13 @@ class AttachAction extends BaseAttachAction
             ...$livewire->getPivotComponents(),
         ]);
 
-        $this->after(fn ($livewire, $record, $action) => $this->pivotActionLog('Attach', $livewire, $record, $action));
+        $this->after(fn (BaseRelationManager $livewire, Model $record, AttachAction $action) => $this->pivotActionLog('Attach', $livewire, $record, $action));
     }
 
     /**
      * Determine whether the create option should be shown.
      *
-     * @param  string  $model
+     * @param  class-string<Model>  $model
      * @return bool
      */
     private function shouldShowCreateOption(string $model): bool

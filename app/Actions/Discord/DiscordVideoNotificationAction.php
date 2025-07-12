@@ -18,7 +18,7 @@ class DiscordVideoNotificationAction
      * Handle the action.
      *
      * @param  Collection<int, Video>  $videos
-     * @param  array  $fields
+     * @param  array<string, mixed>  $fields
      * @return void
      */
     public function handle(Collection $videos, array $fields): void

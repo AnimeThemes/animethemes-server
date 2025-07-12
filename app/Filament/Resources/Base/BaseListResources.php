@@ -17,7 +17,7 @@ abstract class BaseListResources extends ListRecords
     /**
      * Get the header actions available.
      *
-     * @return array
+     * @return array<int, \Filament\Actions\Action>
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */

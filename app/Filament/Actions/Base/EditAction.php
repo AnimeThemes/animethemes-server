@@ -34,22 +34,22 @@ class EditAction extends BaseEditAction
     {
         parent::setUp();
 
-        $this->label(function ($livewire) {
-            if ($livewire instanceof BaseListResources || $livewire instanceof BaseRelationManager) {
-                return '';
+        $this->label(function (BaseListResources|BaseViewResource|BaseManageResources|BaseRelationManager $livewire) {
+            if ($livewire instanceof BaseViewResource || $livewire instanceof BaseManageResources) {
+                return null;
             }
 
-            return null;
+            return '';
         });
 
         $this->iconSize(IconSize::Medium);
 
-        $this->schema(fn (Schema $schema, BaseRelationManager|BaseManageResources|BaseListResources|BaseViewResource $livewire) => [
+        $this->schema(fn (Schema $schema, BaseListResources|BaseViewResource|BaseManageResources|BaseRelationManager $livewire) => [
             ...$livewire->form($schema)->getComponents(),
             ...($livewire instanceof BaseRelationManager ? $livewire->getPivotComponents() : []),
         ]);
 
-        $this->after(function ($livewire, Model $record, EditAction $action) {
+        $this->after(function (BaseListResources|BaseViewResource|BaseManageResources|BaseRelationManager $livewire, Model $record, EditAction $action) {
             if ($livewire instanceof BaseListResources || $livewire instanceof BaseViewResource) {
                 ActionLog::modelUpdated($record);
             }

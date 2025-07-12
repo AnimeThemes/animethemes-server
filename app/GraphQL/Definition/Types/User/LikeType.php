@@ -31,7 +31,7 @@ class LikeType extends EloquentType implements HasRelations
     /**
      * The relations of the type.
      *
-     * @return array<int, Relation>
+     * @return Relation[]
      */
     public function relations(): array
     {

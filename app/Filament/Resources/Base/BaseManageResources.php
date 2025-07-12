@@ -15,7 +15,7 @@ abstract class BaseManageResources extends ManageRecords
     /**
      * Get the header actions available.
      *
-     * @return array
+     * @return array<int, \Filament\Actions\Action>
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */

@@ -66,7 +66,7 @@ abstract class BaseUnion extends UnionType
     /**
      * The types that this union can resolve to.
      *
-     * @return array<int, Type>
+     * @return Type[]
      */
     abstract public function types(): array;
 }

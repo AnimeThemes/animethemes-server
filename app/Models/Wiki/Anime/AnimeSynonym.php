@@ -121,7 +121,7 @@ class AnimeSynonym extends BaseModel implements SoftDeletable
     /**
      * Get the eager loads needed to the subtitle.
      *
-     * @return array
+     * @return string[]
      */
     public static function getEagerLoadsForSubtitle(): array
     {

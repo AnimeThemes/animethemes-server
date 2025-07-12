@@ -14,7 +14,7 @@ interface HasRelations
     /**
      * The relations of the type.
      *
-     * @return array<int, Relation>
+     * @return Relation[]
      */
     public function relations(): array;
 }

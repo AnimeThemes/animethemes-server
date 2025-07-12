@@ -54,7 +54,7 @@ class JikanAnimeExternalApiAction extends ExternalApiAction implements BackfillR
     /**
      * Get the mapped resources.
      *
-     * @return array<int, string>
+     * @return string[]
      */
     public function getResources(): array
     {

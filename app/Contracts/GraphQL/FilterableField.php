@@ -14,7 +14,7 @@ interface FilterableField
     /**
      * The directives available for this field.
      *
-     * @return array<int, FilterDirective>
+     * @return FilterDirective[]
      */
     public function filterDirectives(): array;
 }

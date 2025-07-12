@@ -175,7 +175,7 @@ class Dump extends BaseResource
     /**
      * Get the table actions available for the resource.
      *
-     * @return array
+     * @return array<int, ActionGroup|\Filament\Actions\Action>
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
@@ -197,7 +197,7 @@ class Dump extends BaseResource
     /**
      * Get the pages available for the resource.
      *
-     * @return array
+     * @return array<string, \Filament\Resources\Pages\PageRegistration>
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */

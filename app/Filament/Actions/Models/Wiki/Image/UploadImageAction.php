@@ -64,13 +64,13 @@ class UploadImageAction extends BaseAction
     /**
      * Perform the action on the table.
      *
-     * @param  array  $fields
+     * @param  array<string, mixed>  $data
      * @return void
      */
-    public function handle(array $fields): void
+    public function handle(array $data): void
     {
-        $image = Arr::get($fields, Image::ATTRIBUTE_PATH);
-        $facet = Arr::get($fields, Image::ATTRIBUTE_FACET);
+        $image = Arr::get($data, Image::ATTRIBUTE_PATH);
+        $facet = Arr::get($data, Image::ATTRIBUTE_FACET);
 
         $this->createImageFromFile($image, $facet);
     }

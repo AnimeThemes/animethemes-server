@@ -189,7 +189,7 @@ class Studio extends BaseResource
     /**
      * Get the relationships available for the resource.
      *
-     * @return array
+     * @return array<int, RelationGroup|class-string<\Filament\Resources\RelationManagers\RelationManager>>
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
@@ -209,7 +209,7 @@ class Studio extends BaseResource
     /**
      * Get the actions available for the resource.
      *
-     * @return array
+     * @return array<int, \Filament\Actions\Action|\Filament\Actions\ActionGroup>
      */
     public static function getRecordActions(): array
     {
@@ -223,7 +223,7 @@ class Studio extends BaseResource
     /**
      * Get the pages available for the resource.
      *
-     * @return array
+     * @return array<string, \Filament\Resources\Pages\PageRegistration>
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */

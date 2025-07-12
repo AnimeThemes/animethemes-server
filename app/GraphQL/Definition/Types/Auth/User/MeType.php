@@ -44,7 +44,7 @@ class MeType extends EloquentType implements HasDirectives, HasFields, HasRelati
     /**
      * The relations of the type.
      *
-     * @return array<int, Relation>
+     * @return Relation[]
      */
     public function relations(): array
     {
@@ -59,7 +59,7 @@ class MeType extends EloquentType implements HasDirectives, HasFields, HasRelati
     /**
      * The fields of the type.
      *
-     * @return array<int, Field>
+     * @return Field[]
      */
     public function fields(): array
     {

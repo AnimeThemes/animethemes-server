@@ -6,6 +6,7 @@ namespace App\Filament\Actions\Base;
 
 use App\Models\Admin\ActionLog;
 use Filament\Actions\RestoreAction as BaseRestoreAction;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class RestoreAction.
@@ -23,8 +24,6 @@ class RestoreAction extends BaseRestoreAction
 
         $this->label(__('filament.actions.base.restore'));
 
-        $this->after(function ($record) {
-            ActionLog::modelRestored($record);
-        });
+        $this->after(fn (Model $record) => ActionLog::modelRestored($record));
     }
 }

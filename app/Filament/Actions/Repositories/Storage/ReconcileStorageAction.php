@@ -35,7 +35,7 @@ abstract class ReconcileStorageAction extends ReconcileAction implements Interac
      *
      * @param  RepositoryInterface  $sourceRepository
      * @param  RepositoryInterface  $destinationRepository
-     * @param  array  $data
+     * @param  array<string, mixed>  $data
      * @return void
      */
     protected function handleFilters(

@@ -36,8 +36,8 @@ trait ResolvesArguments
     /**
      * Resolve the fields into arguments that are used for filtering.
      *
-     * @param  array<int, Field>  $fields
-     * @return array<int, string>
+     * @param  Field[]  $fields
+     * @return string[]
      */
     public function resolveFilterArguments(array $fields): array
     {

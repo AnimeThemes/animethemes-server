@@ -43,10 +43,10 @@ class DeleteScriptBulkAction extends DeleteBulkAction
      * Get the underlying storage action.
      *
      * @param  VideoScript  $script
-     * @param  array  $fields
+     * @param  array<string, mixed>  $data
      * @return DeleteScript
      */
-    protected function storageAction(BaseModel $script, array $fields): DeleteScript
+    protected function storageAction(BaseModel $script, array $data): DeleteScript
     {
         return new DeleteScript($script);
     }

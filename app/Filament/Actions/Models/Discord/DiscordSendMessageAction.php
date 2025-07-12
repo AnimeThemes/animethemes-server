@@ -51,14 +51,14 @@ class DiscordSendMessageAction extends BaseAction
     /**
      * Perform the action on the table.
      *
-     * @param  array  $fields
+     * @param  array<string, mixed>  $data
      * @return void
      */
-    public function handle(array $fields): void
+    public function handle(array $data): void
     {
         $action = new DiscordMessageAction();
 
-        $message = $action->makeMessage($fields);
+        $message = $action->makeMessage($data);
 
         $action->send($message);
     }

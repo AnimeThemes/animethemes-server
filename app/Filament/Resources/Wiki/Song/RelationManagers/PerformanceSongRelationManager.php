@@ -43,9 +43,8 @@ class PerformanceSongRelationManager extends PerformanceRelationManager
 
     /**
      * Get the header actions available for the relation.
-     * These are merged with the table actions of the resources.
      *
-     * @return array
+     * @return array<int, Action>
      */
     public static function getHeaderActions(): array
     {
@@ -61,7 +60,7 @@ class PerformanceSongRelationManager extends PerformanceRelationManager
      * Format artists to the action.
      *
      * @param  Song|null  $song
-     * @return array
+     * @return array<int, array>
      */
     public static function formatArtists(?Song $song = null): array
     {

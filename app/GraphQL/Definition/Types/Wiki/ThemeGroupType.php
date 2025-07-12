@@ -39,7 +39,7 @@ class ThemeGroupType extends EloquentType implements HasDirectives, HasFields, H
     /**
      * The relations of the type.
      *
-     * @return array<int, Relation>
+     * @return Relation[]
      */
     public function relations(): array
     {
@@ -65,7 +65,7 @@ class ThemeGroupType extends EloquentType implements HasDirectives, HasFields, H
     /**
      * The fields of the type.
      *
-     * @return array<int, Field>
+     * @return Field[]
      */
     public function fields(): array
     {

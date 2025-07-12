@@ -27,7 +27,7 @@ class DeleteBulkAction extends BaseDeleteBulkAction
 
         $this->label(__('filament.bulk_actions.base.delete'));
 
-        $this->visible(fn ($model) => Gate::allows('forceDeleteAny', $model));
+        $this->visible(fn (string $model) => Gate::allows('forceDeleteAny', $model));
 
         $this->after(function (DeleteBulkAction $action, Collection $records) {
             foreach ($records as $record) {

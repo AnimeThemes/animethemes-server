@@ -6,6 +6,7 @@ namespace App\Concerns\Filament\ActionLogs;
 
 use App\Filament\RelationManagers\BaseRelationManager;
 use App\Models\Admin\ActionLog;
+use Filament\Actions\Action;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -21,10 +22,10 @@ trait HasPivotActionLogs
      * @param  string  $actionName
      * @param  BaseRelationManager  $livewire
      * @param  Model  $record
-     * @param  mixed  $action
+     * @param  Action|null  $action
      * @return void
      */
-    public function pivotActionLog(string $actionName, BaseRelationManager $livewire, Model $record, mixed $action = null): void
+    public function pivotActionLog(string $actionName, BaseRelationManager $livewire, Model $record, ?Action $action = null): void
     {
         $ownerRecord = $livewire->getOwnerRecord();
 
@@ -55,10 +56,10 @@ trait HasPivotActionLogs
      * @param  string  $actionName
      * @param  BaseRelationManager  $livewire
      * @param  Model  $record
-     * @param  mixed  $action
+     * @param  Action  $action
      * @return void
      */
-    public function associateActionLog(string $actionName, BaseRelationManager $livewire, Model $record, mixed $action): void
+    public function associateActionLog(string $actionName, BaseRelationManager $livewire, Model $record, Action $action): void
     {
         $ownerRecord = $livewire->getOwnerRecord();
 

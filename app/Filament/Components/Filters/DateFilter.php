@@ -6,6 +6,7 @@ namespace App\Filament\Components\Filters;
 
 use App\Enums\Http\Api\Filter\ComparisonOperator;
 use Filament\Forms\Components\DatePicker;
+use Filament\Schemas\Components\Component;
 use Filament\Schemas\Components\Fieldset;
 use Filament\Schemas\Components\Grid;
 use Filament\Tables\Filters\Filter;
@@ -38,7 +39,7 @@ class DateFilter extends Filter
     /**
      * Get the schema components for the filter.
      *
-     * @return array
+     * @return array<int, Component>
      */
     public function getSchemaComponents(): array
     {

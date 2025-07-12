@@ -12,7 +12,7 @@ interface BackfillImages
     /**
      * Get the mapping for the images.
      *
-     * @return array<int, string>
+     * @return string[]
      */
     public function getImagesMapping(): array;
 }

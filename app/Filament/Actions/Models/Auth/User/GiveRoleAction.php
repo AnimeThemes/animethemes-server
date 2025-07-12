@@ -46,7 +46,7 @@ class GiveRoleAction extends BaseAction
      * Perform the action on the given models.
      *
      * @param  User  $user
-     * @param  array  $data
+     * @param  array<string, mixed>  $data
      * @return void
      */
     public function handle(User $user, array $data): void

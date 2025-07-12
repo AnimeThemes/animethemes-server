@@ -22,7 +22,7 @@ class ListExternalResources extends BaseListResources
     /**
      * Get the header actions available.
      *
-     * @return array
+     * @return array<int, \Filament\Actions\Action>
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
@@ -34,7 +34,7 @@ class ListExternalResources extends BaseListResources
     /**
      * Get the tabs available.
      *
-     * @return array
+     * @return array<string, Tab>
      */
     public function getTabs(): array
     {

@@ -11,12 +11,12 @@ namespace App\Contracts\Models;
  */
 interface HasHashids
 {
-    final public const ATTRIBUTE_HASHID = 'hashid';
+    public const ATTRIBUTE_HASHID = 'hashid';
 
     /**
      * Get the numbers used to encode the model's hashids.
      *
-     * @return array<int, int>
+     * @return int[]
      */
     public function hashids(): array;
 }

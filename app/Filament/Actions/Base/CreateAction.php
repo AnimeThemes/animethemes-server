@@ -8,6 +8,7 @@ use App\Concerns\Filament\ActionLogs\HasPivotActionLogs;
 use App\Filament\RelationManagers\BaseRelationManager;
 use App\Filament\RelationManagers\Wiki\ResourceRelationManager;
 use App\Filament\Resources\Base\BaseListResources;
+use App\Filament\Resources\Base\BaseManageResources;
 use App\Models\Admin\ActionLog;
 use Filament\Actions\CreateAction as BaseCreateAction;
 use Filament\Facades\Filament;
@@ -35,12 +36,12 @@ class CreateAction extends BaseCreateAction
     {
         parent::setUp();
 
-        $this->schema(fn (Schema $schema, $livewire) => [
+        $this->schema(fn (Schema $schema, BaseManageResources|BaseListResources|BaseRelationManager $livewire) => [
             ...$livewire->form($schema)->getComponents(),
             ...($livewire instanceof BaseRelationManager ? $livewire->getPivotComponents() : []),
         ]);
 
-        $this->successRedirectUrl(function (Model $record, $livewire) {
+        $this->successRedirectUrl(function (Model $record, BaseManageResources|BaseListResources|BaseRelationManager $livewire) {
             if ($livewire instanceof BaseListResources) {
                 return Filament::getModelResource($record)::getUrl('view', ['record' => $record]);
             }
@@ -48,7 +49,7 @@ class CreateAction extends BaseCreateAction
             return null;
         });
 
-        $this->after(function ($livewire, Model $record, CreateAction $action) {
+        $this->after(function (BaseManageResources|BaseListResources|BaseRelationManager $livewire, Model $record, CreateAction $action) {
             if ($livewire instanceof BaseListResources) {
                 ActionLog::modelCreated($record);
             }
@@ -62,36 +63,34 @@ class CreateAction extends BaseCreateAction
             }
         });
 
-        $this->visible(function ($livewire, $model) {
-            if ($livewire instanceof BaseListResources) {
+        $this->visible(function (BaseManageResources|BaseListResources|BaseRelationManager $livewire, string $model) {
+            if ($livewire instanceof BaseListResources || $livewire instanceof BaseManageResources) {
                 return $livewire->getResource()::canCreate() && Gate::allows('create', $model);
             }
 
-            if ($livewire instanceof BaseRelationManager) {
-                if ($livewire instanceof ResourceRelationManager) {
-                    return $livewire->canCreate();
-                }
-
-                if (! $livewire->canCreate()) {
-                    return false;
-                }
-
-                if ($livewire->getRelationship() instanceof BelongsToMany) {
-                    return false;
-                }
-
-                $ownerRecord = $livewire->getOwnerRecord();
-
-                $gate = Gate::getPolicyFor($ownerRecord);
-
-                $ability = Str::of('addAny')
-                    ->append(Str::singular(class_basename($livewire->getTable()->getModel())))
-                    ->__toString();
-
-                return is_object($gate) & method_exists($gate, $ability)
-                    ? Gate::forUser(Auth::user())->any($ability, $ownerRecord)
-                    : true;
+            if ($livewire instanceof ResourceRelationManager) {
+                return $livewire->canCreate();
             }
+
+            if (! $livewire->canCreate()) {
+                return false;
+            }
+
+            if ($livewire->getRelationship() instanceof BelongsToMany) {
+                return false;
+            }
+
+            $ownerRecord = $livewire->getOwnerRecord();
+
+            $gate = Gate::getPolicyFor($ownerRecord);
+
+            $ability = Str::of('addAny')
+                ->append(Str::singular(class_basename($livewire->getTable()->getModel())))
+                ->__toString();
+
+            return is_object($gate) & method_exists($gate, $ability)
+                ? Gate::forUser(Auth::user())->any($ability, $ownerRecord)
+                : true;
         });
     }
 }

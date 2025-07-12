@@ -89,7 +89,7 @@ class Dump extends BaseModel
     /**
      * Get the available safe dumps.
      *
-     * @return array
+     * @return string[]
      */
     public static function safeDumps(): array
     {

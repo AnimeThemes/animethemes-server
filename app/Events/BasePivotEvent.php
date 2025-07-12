@@ -71,7 +71,7 @@ abstract class BasePivotEvent implements DiscordMessageEvent
     /**
      * Get the user info for the footer.
      *
-     * @return array
+     * @return array<string, array<string, mixed>>
      */
     protected function getUserFooter(): array
     {

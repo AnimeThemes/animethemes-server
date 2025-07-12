@@ -11,6 +11,7 @@ use App\Filament\Components\Columns\TextColumn;
 use App\Filament\Resources\BaseResource;
 use App\Pivots\BasePivot;
 use DateTime;
+use Filament\Actions\Action;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Schemas\Components\Component;
 use Filament\Tables\Columns\Column;
@@ -115,7 +116,7 @@ abstract class BaseRelationManager extends RelationManager
     /**
      * Get the filters available for the relation.
      *
-     * @return array
+     * @return array<int, \Filament\Tables\Filters\BaseFilter>
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
@@ -127,7 +128,7 @@ abstract class BaseRelationManager extends RelationManager
     /**
      * Get the actions available for the relation.
      *
-     * @return array
+     * @return array<int, Action>
      */
     public static function getRecordActions(): array
     {
@@ -139,7 +140,8 @@ abstract class BaseRelationManager extends RelationManager
     /**
      * Get the bulk actions available for the relation.
      *
-     * @return array
+     * @param  array<int, \Filament\Actions\ActionGroup|Action>|null  $actionsIncludedInGroup
+     * @return array<int, \Filament\Actions\ActionGroup|Action>
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
@@ -155,7 +157,7 @@ abstract class BaseRelationManager extends RelationManager
     /**
      * Get the header actions available for the relation. These are merged with the table actions of the resources.
      *
-     * @return array
+     * @return array<int, Action>
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */

@@ -28,7 +28,7 @@ class AnimeStreamingResourceTab extends BaseTab
     /**
      * The resources site.
      *
-     * @return array<int, ResourceSite>
+     * @return ResourceSite[]
      */
     protected static function sites(): array
     {

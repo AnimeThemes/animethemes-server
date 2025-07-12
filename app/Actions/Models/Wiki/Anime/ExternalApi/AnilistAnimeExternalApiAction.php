@@ -85,7 +85,7 @@ class AnilistAnimeExternalApiAction extends ExternalApiAction implements Backfil
     /**
      * Get the mapped resources.
      *
-     * @return array<int, string>
+     * @return string[]
      */
     public function getResources(): array
     {
@@ -134,7 +134,7 @@ class AnilistAnimeExternalApiAction extends ExternalApiAction implements Backfil
     /**
      * Get the mapping for the images.
      *
-     * @return array<int, string>
+     * @return string[]
      */
     public function getImagesMapping(): array
     {
@@ -147,7 +147,7 @@ class AnilistAnimeExternalApiAction extends ExternalApiAction implements Backfil
     /**
      * Get the mapping for the synonyms.
      *
-     * @return array<int, string>
+     * @return string[]
      */
     public function getSynonymsMapping(): array
     {

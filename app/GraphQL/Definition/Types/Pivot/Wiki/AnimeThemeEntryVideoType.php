@@ -34,7 +34,7 @@ class AnimeThemeEntryVideoType extends BaseType implements HasFields, HasRelatio
     /**
      * The relations of the type.
      *
-     * @return array<int, Relation>
+     * @return Relation[]
      */
     public function relations(): array
     {
@@ -47,7 +47,7 @@ class AnimeThemeEntryVideoType extends BaseType implements HasFields, HasRelatio
     /**
      * The fields of the type.
      *
-     * @return array<int, Field>
+     * @return Field[]
      */
     public function fields(): array
     {
