@@ -211,7 +211,7 @@ class Audio extends BaseResource
     /**
      * Get the actions available for the resource.
      *
-     * @return array<int, \Filament\Actions\Action|\Filament\Actions\ActionGroup>
+     * @return array<int, \Filament\Actions\Action|ActionGroup>
      */
     public static function getRecordActions(): array
     {
@@ -225,8 +225,8 @@ class Audio extends BaseResource
     /**
      * Get the bulk actions available for the resource.
      *
-     * @param  array<int, \Filament\Actions\ActionGroup|\Filament\Actions\Action>|null  $actionsIncludedInGroup
-     * @return array<int, \Filament\Actions\ActionGroup|\Filament\Actions\Action>
+     * @param  array<int, ActionGroup|\Filament\Actions\Action>|null  $actionsIncludedInGroup
+     * @return array<int, ActionGroup|\Filament\Actions\Action>
      */
     public static function getBulkActions(?array $actionsIncludedInGroup = []): array
     {

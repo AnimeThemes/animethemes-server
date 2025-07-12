@@ -238,7 +238,7 @@ class DiscordThread extends BaseResource
     /**
      * Get the table actions available for the resource.
      *
-     * @return array<int, \Filament\Actions\ActionGroup|\Filament\Actions\Action>
+     * @return array<int, ActionGroup|\Filament\Actions\Action>
      */
     public static function getTableActions(): array
     {

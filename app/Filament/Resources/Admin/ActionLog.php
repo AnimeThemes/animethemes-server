@@ -377,7 +377,7 @@ class ActionLog extends BaseResource
     /**
      * Get the pages available for the resource.
      *
-     * @return array<string, \Filament\Resources\Pages\PageRegistration>
+     * @return array<string, PageRegistration>
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */

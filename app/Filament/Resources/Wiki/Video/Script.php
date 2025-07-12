@@ -22,7 +22,6 @@ use Filament\Infolists\Infolist;
 use Filament\Resources\Pages\Page;
 use Filament\Resources\Pages\PageRegistration;
 use Filament\Resources\RelationManagers\RelationGroup;
-use Filament\Schemas\Components\Component;
 use Filament\Schemas\Schema;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
@@ -182,7 +181,7 @@ class Script extends BaseResource
     /**
      * Get the actions available for the resource.
      *
-     * @return array<int, \Filament\Actions\Action|\Filament\Actions\ActionGroup>
+     * @return array<int, \Filament\Actions\Action|ActionGroup>
      */
     public static function getRecordActions(): array
     {
@@ -196,8 +195,8 @@ class Script extends BaseResource
     /**
      * Get the bulk actions available for the resource.
      *
-     * @param  array<int, \Filament\Actions\ActionGroup|\Filament\Actions\Action>|null  $actionsIncludedInGroup
-     * @return array<int, \Filament\Actions\ActionGroup|\Filament\Actions\Action>
+     * @param  array<int, ActionGroup|\Filament\Actions\Action>|null  $actionsIncludedInGroup
+     * @return array<int, ActionGroup|\Filament\Actions\Action>
      */
     public static function getBulkActions(?array $actionsIncludedInGroup = []): array
     {
@@ -239,7 +238,7 @@ class Script extends BaseResource
     /**
      * Get the pages available for the resource.
      *
-     * @return array<string, \Filament\Resources\Pages\PageRegistration>
+     * @return array<string, PageRegistration>
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */

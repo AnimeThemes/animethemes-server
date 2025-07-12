@@ -44,7 +44,7 @@ class PerformanceSongRelationManager extends PerformanceRelationManager
     /**
      * Get the header actions available for the relation.
      *
-     * @return array<int, \Filament\Actions\Action>
+     * @return array<int, Action>
      */
     public static function getHeaderActions(): array
     {

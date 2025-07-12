@@ -127,7 +127,7 @@ abstract class BaseResource extends Resource
     /**
      * Get the actions available for the resource.
      *
-     * @return array<int, \Filament\Actions\Action|\Filament\Actions\ActionGroup>
+     * @return array<int, Action|ActionGroup>
      */
     public static function getActions(): array
     {
@@ -162,7 +162,7 @@ abstract class BaseResource extends Resource
     /**
      * Get the record actions exclusive to the resource.
      *
-     * @return array<int, \Filament\Actions\Action>
+     * @return array<int, Action>
      */
     public static function getRecordActions(): array
     {
@@ -172,8 +172,8 @@ abstract class BaseResource extends Resource
     /**
      * Get the bulk actions available for the resource.
      *
-     * @param  array<int, \Filament\Actions\ActionGroup|\Filament\Actions\Action>|null  $actionsIncludedInGroup
-     * @return array<int, \Filament\Actions\ActionGroup|\Filament\Actions\Action>
+     * @param  array<int, ActionGroup|Action>|null  $actionsIncludedInGroup
+     * @return array<int, ActionGroup|Action>
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
@@ -193,7 +193,7 @@ abstract class BaseResource extends Resource
     /**
      * Get the table actions available for the resource.
      *
-     * @return array<int, ActionGroup|\Filament\Actions\Action>
+     * @return array<int, ActionGroup|Action>
      *
      * @noinspection PhpMissingParentCallCommonInspection
      */
