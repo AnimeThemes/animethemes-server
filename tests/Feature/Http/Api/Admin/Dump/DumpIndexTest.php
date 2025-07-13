@@ -62,7 +62,7 @@ class DumpIndexTest extends TestCase
      *
      * @return void
      */
-    public function testSafe(): void
+    public function testUnsafe(): void
     {
         Dump::factory()
             ->unsafe()
