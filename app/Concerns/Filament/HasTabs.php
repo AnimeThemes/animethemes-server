@@ -17,7 +17,7 @@ trait HasTabs
      * @param  class-string<BaseTab>[]  $tabClasses
      * @return array
      */
-    public function toArray(array $tabClasses): array
+    public function toArray(array $tabClasses = []): array
     {
         $tabs = [];
 

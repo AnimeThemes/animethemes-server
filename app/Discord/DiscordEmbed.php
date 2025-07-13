@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace App\Discord;
 
+use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Arr;
 
 /**
  * Class DiscordEmbed.
  */
-class DiscordEmbed
+class DiscordEmbed implements Arrayable
 {
     final public const ATTRIBUTE_TYPE = 'type';
     final public const ATTRIBUTE_TITLE = 'title';

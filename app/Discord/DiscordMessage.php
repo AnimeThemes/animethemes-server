@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace App\Discord;
 
+use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Arr;
 
 /**
  * Class DiscordMessage.
  */
-class DiscordMessage
+class DiscordMessage implements Arrayable
 {
     final public const ATTRIBUTE_CHANNEL_ID = 'channelId';
     final public const ATTRIBUTE_ID = 'id';
